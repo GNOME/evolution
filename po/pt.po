@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-07-26 15:18+0000\n"
-"PO-Revision-Date: 2023-07-27 11:14+0100\n"
+"POT-Creation-Date: 2023-08-02 10:37+0000\n"
+"PO-Revision-Date: 2023-08-06 12:54+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -1421,7 +1421,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:29
 msgid "Always request Delivery Status Notification"
-msgstr ""
+msgstr "Solicitar sempre a notificação do estado da entrega"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:30
 #, fuzzy
@@ -2800,10 +2800,8 @@ msgid "Directory for saving mail component files."
 msgstr "Pasta onde guardar ficheiros componentes do correio eletrónico."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
-#, fuzzy
-#| msgid "Save Draft"
 msgid "Save format"
-msgstr "Guardar o rascunho"
+msgstr "Guardar formato"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
 #, fuzzy
@@ -4537,7 +4535,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1510
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1514
 #: ../src/e-util/e-accounts-window.c:1570
 #: ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1028 ../src/e-util/filter.ui.h:25
@@ -4718,7 +4716,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4039
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4256
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4257
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -5057,7 +5055,7 @@ msgstr "Adicionar _X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1526
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1530
 #: ../src/e-util/e-attachment-view.c:409 ../src/e-util/e-filter-rule.c:410
 #: ../src/e-util/e-mail-signature-manager.c:364
 #: ../src/e-util/e-name-selector-dialog.c:1032
@@ -8466,11 +8464,12 @@ msgstr "Hora de início incorreta"
 #: ../src/e-util/e-misc-utils.c:4151 ../src/e-util/e-misc-utils.c:4159
 #: ../src/e-util/e-misc-utils.c:4194 ../src/e-util/e-misc-utils.c:4207
 #: ../src/e-util/e-misc-utils.c:4221 ../src/mail/e-mail-autoconfig.c:1129
-#: ../src/mail/e-mail-display.c:2855 ../src/mail/e-mail-notes.c:930
-#: ../src/mail/e-mail-reader-utils.c:817 ../src/mail/em-composer-utils.c:4048
-#: ../src/mail/em-composer-utils.c:4071 ../src/mail/mail-send-recv.c:598
-#: ../src/mail/mail-send-recv.c:1493
+#: ../src/mail/e-mail-display.c:2892 ../src/mail/e-mail-notes.c:930
+#: ../src/mail/e-mail-reader.c:3577 ../src/mail/e-mail-reader-utils.c:817
+#: ../src/mail/em-composer-utils.c:4049 ../src/mail/em-composer-utils.c:4072
+#: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
+#: ../src/modules/mail/e-mail-attachment-handler.c:444
 #: ../src/plugins/face/face.c:175
 #: ../src/plugins/mail-to-task/mail-to-task.c:951 ../src/shell/e-shell.c:1258
 #: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:353
@@ -8741,66 +8740,66 @@ msgstr[1] "Falha ao eliminar participantes selecionados"
 msgid "Organizer address is not a valid user mail address"
 msgstr "O endereço eletrónico do organizador é um correio eletrónico inválido"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:699
+#: ../src/calendar/gui/e-comp-editor-page-general.c:703
 msgid "A_ttendees"
 msgstr "Par_ticipantes"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:701
+#: ../src/calendar/gui/e-comp-editor-page-general.c:705
 msgid "Toggles whether the Attendees are displayed"
 msgstr "Alterna se os participantes são ou não mostrados"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:710
+#: ../src/calendar/gui/e-comp-editor-page-general.c:714
 msgid "R_ole Field"
 msgstr "Campo _papel"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:712
+#: ../src/calendar/gui/e-comp-editor-page-general.c:716
 msgid "Toggles whether the Role field is displayed"
 msgstr "Alterna se o campo Papel é ou não mostrado"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:718
+#: ../src/calendar/gui/e-comp-editor-page-general.c:722
 msgid "_RSVP"
 msgstr "_Responder SFF"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:720
+#: ../src/calendar/gui/e-comp-editor-page-general.c:724
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Alterna se o campo Responder SFF é ou não mostrado"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:726
+#: ../src/calendar/gui/e-comp-editor-page-general.c:730
 msgid "_Status Field"
 msgstr "Campo e_stado"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:728
+#: ../src/calendar/gui/e-comp-editor-page-general.c:732
 msgid "Toggles whether the Status field is displayed"
 msgstr "Alterna se o campo Estado é ou não mostrado"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:734
+#: ../src/calendar/gui/e-comp-editor-page-general.c:738
 msgid "_Type Field"
 msgstr "Campo _tipo"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:736
+#: ../src/calendar/gui/e-comp-editor-page-general.c:740
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Alterna se o Tipo de participante é ou não mostrado"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1045
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1049
 msgid "An organizer is required."
 msgstr "É necessário um organizador."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1055
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1197
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1059
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1201
 msgid "At least one attendee is required."
 msgstr "É necessário pelo menos um participante."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1321
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1325
 msgid "Or_ganizer:"
 msgstr "Or_ganizador:"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1420
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1424
 msgid ""
 "Override color of the event. If not set, then color of the calendar is used."
 msgstr ""
 "Ignorar a cor do evento. Caso indefinido, a cor do calendário será usada."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1422
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1426
 msgid ""
 "Override color of the memo. If not set, then color of the memo list is used."
 msgstr ""
@@ -8808,19 +8807,19 @@ msgstr ""
 "será usada."
 
 #. E_SOURCE_EXTENSION_TASK_LIST
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1424
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1428
 msgid ""
 "Override color of the task. If not set, then color of the task list is used."
 msgstr ""
 "Ignorar a cor da tarefa. Caso indefinido, a cor da lista de tarefas será "
 "usada."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1435
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1439
 msgctxt "ECompEditor"
 msgid "Atte_ndees…"
 msgstr "Participa_ntes…"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1518
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1522
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2318
 #: ../src/calendar/gui/e-comp-editor.c:2259
 #: ../src/e-util/e-accounts-window.c:1752
@@ -9313,10 +9312,8 @@ msgid "Click here to open the URL"
 msgstr "Clique aqui para abrir o URL"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:362
-#, fuzzy
-#| msgid "Click here to open the URL"
 msgid "Click here to open map"
-msgstr "Clique aqui para abrir o URL"
+msgstr "Clique aqui para abrir o mapa"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:427
 msgctxt "ECompEditor"
@@ -9710,7 +9707,7 @@ msgid "None"
 msgstr "Nenhum"
 
 #: ../src/calendar/gui/e-day-view-time-item.c:893
-#: ../src/calendar/gui/e-timezone-entry.c:346
+#: ../src/calendar/gui/e-timezone-entry.c:504
 #: ../src/modules/calendar/e-calendar-preferences.c:420
 msgid "Select…"
 msgstr "Selecionar…"
@@ -10066,13 +10063,23 @@ msgid "Estimated duration"
 msgstr "Duração estimada"
 
 #. Translators: 'None' for a time zone, like 'No time zone being set'
-#: ../src/calendar/gui/e-timezone-entry.c:92
+#: ../src/calendar/gui/e-timezone-entry.c:94
+#: ../src/calendar/gui/e-timezone-entry.c:411
+#: ../src/calendar/gui/e-timezone-entry.c:586
 #: ../src/e-util/e-timezone-dialog.c:55
 msgctxt "timezone"
 msgid "None"
 msgstr "Nenhuma"
 
-#: ../src/calendar/gui/e-timezone-entry.c:357
+#. Put the "UTC" entry at the top of the combo's list.
+#: ../src/calendar/gui/e-timezone-entry.c:415
+#: ../src/e-util/e-timezone-dialog.c:270 ../src/e-util/e-timezone-dialog.c:510
+#: ../src/e-util/e-timezone-dialog.c:514 ../src/e-util/e-timezone-dialog.c:518
+#: ../src/e-util/e-timezone-dialog.c:1005
+msgid "UTC"
+msgstr "UTC"
+
+#: ../src/calendar/gui/e-timezone-entry.c:515
 msgid "Select Timezone"
 msgstr "Selecione o fuso horário"
 
@@ -10278,7 +10285,6 @@ msgstr "Contraproposta"
 #. subject line would be: "Accepted: Meeting Name".
 #: ../src/calendar/gui/itip-utils.c:1379
 #, c-format
-#| msgid "User: %s"
 msgctxt "Meeting"
 msgid "%s: %s"
 msgstr "%s: %s"
@@ -12564,22 +12570,28 @@ msgstr ""
 "Impossível encriptar a mensagem a enviar: nenhum certificado de encriptação "
 "para esta conta"
 
-#: ../src/composer/e-msg-composer.c:2016 ../src/composer/e-msg-composer.c:2693
+#: ../src/composer/e-msg-composer.c:2016 ../src/composer/e-msg-composer.c:2696
 msgid "Compose Message"
 msgstr "Escrever uma mensagem"
 
-#: ../src/composer/e-msg-composer.c:4888
+#: ../src/composer/e-msg-composer.c:4892
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "A ler conteúdo do texto…"
 
-#: ../src/composer/e-msg-composer.c:5702
+#: ../src/composer/e-msg-composer.c:4960
+#, fuzzy
+#| msgid "No encryption"
+msgid "Send _without encryption"
+msgstr "Sem encriptação"
+
+#: ../src/composer/e-msg-composer.c:5742
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Rever anexo antes de enviá-lo."
 msgstr[1] "Rever anexos antes de enviá-los."
 
-#: ../src/composer/e-msg-composer.c:5707
+#: ../src/composer/e-msg-composer.c:5747
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -12594,7 +12606,7 @@ msgstr[1] ""
 "%d anexos foram adicionados por uma aplicação externa. Certifique-se de que "
 "não contêm qualquer informação sensível antes de enviar a mensagem."
 
-#: ../src/composer/e-msg-composer.c:5840
+#: ../src/composer/e-msg-composer.c:5880
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "O compositor contém um corpo de mensagem que não é texto, pelo que não pode "
@@ -12925,15 +12937,20 @@ msgid "(no subject)"
 msgstr "(sem assunto)"
 
 #: ../src/em-format/e-mail-formatter-headers.c:150
-#: ../src/em-format/e-mail-formatter-headers.c:514
+#: ../src/em-format/e-mail-formatter-headers.c:520
 #: ../src/mail/e-mail-remote-content-popover.c:381
 msgid "Remote content download had been blocked for this message."
 msgstr "Bloqueada a transferência de conteúdo remoto desta mensagem."
 
+#: ../src/em-format/e-mail-formatter-headers.c:156
+#: ../src/em-format/e-mail-formatter-headers.c:526
+msgid "Import OpenPGP key provided in this message"
+msgstr "Importar a chave OpenPGP fornecida nesta mensagem"
+
 #. Translators: This message suggests to the recipients
 #. * that the sender of the mail is different from the one
 #. * listed in From field.
-#: ../src/em-format/e-mail-formatter-headers.c:359
+#: ../src/em-format/e-mail-formatter-headers.c:365
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Esta mensagem foi enviada por %s em nome de %s"
@@ -13206,7 +13223,7 @@ msgstr "Bcc"
 
 #: ../src/em-format/e-mail-formatter-utils.c:471
 #: ../src/em-format/e-mail-formatter-utils.c:726
-#: ../src/mail/e-mail-config-security-page.c:871
+#: ../src/mail/e-mail-config-security-page.c:929
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
 msgid "Security"
@@ -13246,11 +13263,11 @@ msgstr "encriptada parcialmente com S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:720
 msgid "Show parts not being secured"
-msgstr ""
+msgstr "Mostrar partes que não estão a ser protegidas"
 
 #: ../src/em-format/e-mail-formatter-utils.c:721
 msgid "Hide parts not being secured"
-msgstr ""
+msgstr "Ocultar partes que não estão a ser protegidas"
 
 #: ../src/em-format/e-mail-parser-application-mbox.c:125
 #, c-format
@@ -13519,6 +13536,7 @@ msgid "Attached message"
 msgstr "Mensagem anexa"
 
 #: ../src/e-util/e-attachment.c:2194 ../src/e-util/e-attachment.c:3248
+#: ../src/mail/em-utils.c:2307
 msgid "Operation was cancelled"
 msgstr "A operação foi cancelada"
 
@@ -13645,7 +13663,7 @@ msgstr "Guardar só ficheiros extraíd_os"
 msgid "Save extracted files and the original _archive"
 msgstr "Guardar ficheiros extraídos e o _arquivo original"
 
-#: ../src/e-util/e-attachment-view.c:355 ../src/mail/e-mail-display.c:2036
+#: ../src/e-util/e-attachment-view.c:355 ../src/mail/e-mail-display.c:2063
 msgid "Open With Other Application…"
 msgstr "Abrir com outra aplicação…"
 
@@ -13686,21 +13704,21 @@ msgstr "Recarregar"
 msgid "Reload attachment content"
 msgstr "Recarregar conteúdo do anexo"
 
-#: ../src/e-util/e-attachment-view.c:840 ../src/mail/e-mail-display.c:1990
+#: ../src/e-util/e-attachment-view.c:840 ../src/mail/e-mail-display.c:2017
 #, c-format
 msgid "Open With “%s”"
 msgstr "Abrir com “%s”"
 
-#: ../src/e-util/e-attachment-view.c:841 ../src/mail/e-mail-display.c:1991
+#: ../src/e-util/e-attachment-view.c:841 ../src/mail/e-mail-display.c:2018
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Abrir este anexo com %s"
 
-#: ../src/e-util/e-attachment-view.c:843 ../src/mail/e-mail-display.c:1993
+#: ../src/e-util/e-attachment-view.c:843 ../src/mail/e-mail-display.c:2020
 msgid "Open With Default Application"
 msgstr "Abrir com a aplicação predefinida"
 
-#: ../src/e-util/e-attachment-view.c:844 ../src/mail/e-mail-display.c:1994
+#: ../src/e-util/e-attachment-view.c:844 ../src/mail/e-mail-display.c:2021
 msgid "Open this attachment in default application"
 msgstr "Abrir este anexo na aplicação predefinida"
 
@@ -14175,9 +14193,9 @@ msgstr "Escolha cor personalizada"
 
 #: ../src/e-util/e-color-combo.c:476 ../src/e-util/e-html-editor.c:133
 #: ../src/mail/e-mail-account-tree-view.c:135
-#: ../src/mail/e-mail-config-security-page.c:547
-#: ../src/mail/e-mail-config-security-page.c:723
-#: ../src/mail/e-mail-reader.c:5071 ../src/mail/mail-config.ui.h:82
+#: ../src/mail/e-mail-config-security-page.c:549
+#: ../src/mail/e-mail-config-security-page.c:781
+#: ../src/mail/e-mail-reader.c:5112 ../src/mail/mail-config.ui.h:82
 msgid "Default"
 msgstr "Predefinição"
 
@@ -16787,7 +16805,7 @@ msgstr "Mostrar"
 msgid "Group name"
 msgstr "Nome do grupo"
 
-#: ../src/e-util/e-source-selector.c:3834 ../src/mail/e-mail-display.c:763
+#: ../src/e-util/e-source-selector.c:3834 ../src/mail/e-mail-display.c:764
 msgid "_Hide"
 msgstr "_Ocultar"
 
@@ -17182,13 +17200,6 @@ msgstr "Selecionar todos"
 #: ../src/e-util/e-text.c:2103
 msgid "Input Methods"
 msgstr "Métodos de introdução"
-
-#. Put the "UTC" entry at the top of the combo's list.
-#: ../src/e-util/e-timezone-dialog.c:270 ../src/e-util/e-timezone-dialog.c:510
-#: ../src/e-util/e-timezone-dialog.c:514 ../src/e-util/e-timezone-dialog.c:518
-#: ../src/e-util/e-timezone-dialog.c:1005
-msgid "UTC"
-msgstr "UTC"
 
 #: ../src/e-util/e-timezone-dialog.ui.h:1
 msgid "Select a Time Zone"
@@ -18145,12 +18156,12 @@ msgstr "Reencaminhar"
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
 #: ../src/mail/e-mail-browser.c:547 ../src/mail/e-mail-reader.c:2968
-#: ../src/mail/e-mail-reader.c:5321 ../src/mail/e-mail-reader.c:5346
+#: ../src/mail/e-mail-reader.c:5362 ../src/mail/e-mail-reader.c:5387
 #: ../src/modules/mail/e-mail-shell-view-private.c:1536
 msgid "Group Reply"
 msgstr "Responder ao grupo"
 
-#: ../src/mail/e-mail-browser.c:559 ../src/mail/e-mail-reader.c:5429
+#: ../src/mail/e-mail-browser.c:559 ../src/mail/e-mail-reader.c:5470
 #: ../src/mail/mail-dialogs.ui.h:9
 #: ../src/modules/mail/e-mail-shell-view-private.c:1548
 msgid "Reply"
@@ -18215,7 +18226,7 @@ msgid "Do Not Quote"
 msgstr "Não citar"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4386
+#: ../src/mail/em-composer-utils.c:4387
 msgid "Use global setting"
 msgstr "Utilizar predefinição global"
 
@@ -18247,12 +18258,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Idioma atribuído ao texto em Responder e Reencaminhar"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4355 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4356 ../src/mail/mail-config.ui.h:24
 msgid "Start _typing at the bottom"
 msgstr "Começar a escrever no _fundo ao responder"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4359 ../src/mail/mail-config.ui.h:25
+#: ../src/mail/em-composer-utils.c:4360 ../src/mail/mail-config.ui.h:25
 msgid "_Keep signature above the original message"
 msgstr "_Manter a assinatura acima da mensagem original nas respostas"
 
@@ -18491,11 +18502,11 @@ msgid "%s — %s"
 msgstr "%s — %s"
 
 #: ../src/mail/e-mail-config-security-page.c:402
-#: ../src/mail/e-mail-config-security-page.c:514
+#: ../src/mail/e-mail-config-security-page.c:516
 msgid "Use sender e-mail address"
 msgstr "Usar o endereço de e-mail do remetente"
 
-#: ../src/mail/e-mail-config-security-page.c:460
+#: ../src/mail/e-mail-config-security-page.c:462
 #: ../src/mail/em-folder-properties.c:1428 ../src/mail/mail-config.ui.h:36
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:650
@@ -18506,109 +18517,121 @@ msgstr "Usar o endereço de e-mail do remetente"
 msgid "General"
 msgstr "Geral"
 
-#: ../src/mail/e-mail-config-security-page.c:469
+#: ../src/mail/e-mail-config-security-page.c:471
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr ""
 "_Não assinar os pedidos de reunião (para compatibilidade com o Outlook)"
 
-#: ../src/mail/e-mail-config-security-page.c:492
+#: ../src/mail/e-mail-config-security-page.c:494
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr "Bastante Boa Privacidade (OpenPGP)"
 
-#: ../src/mail/e-mail-config-security-page.c:501
+#: ../src/mail/e-mail-config-security-page.c:503
 msgid "OpenPGP _Key ID:"
 msgstr "_ID OpenPGP:"
 
-#: ../src/mail/e-mail-config-security-page.c:534
+#: ../src/mail/e-mail-config-security-page.c:536
 msgid "Si_gning algorithm:"
 msgstr "Al_goritmo de assinatura:"
 
-#: ../src/mail/e-mail-config-security-page.c:550
-#: ../src/mail/e-mail-config-security-page.c:726
+#: ../src/mail/e-mail-config-security-page.c:552
+#: ../src/mail/e-mail-config-security-page.c:784
 #: ../src/mail/mail-config.ui.h:83
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../src/mail/e-mail-config-security-page.c:553
-#: ../src/mail/e-mail-config-security-page.c:729
+#: ../src/mail/e-mail-config-security-page.c:555
+#: ../src/mail/e-mail-config-security-page.c:787
 #: ../src/mail/mail-config.ui.h:84
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../src/mail/e-mail-config-security-page.c:556
-#: ../src/mail/e-mail-config-security-page.c:732
+#: ../src/mail/e-mail-config-security-page.c:558
+#: ../src/mail/e-mail-config-security-page.c:790
 #: ../src/mail/mail-config.ui.h:85
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../src/mail/e-mail-config-security-page.c:559
-#: ../src/mail/e-mail-config-security-page.c:735
+#: ../src/mail/e-mail-config-security-page.c:561
+#: ../src/mail/e-mail-config-security-page.c:793
 #: ../src/mail/mail-config.ui.h:86
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../src/mail/e-mail-config-security-page.c:575
+#: ../src/mail/e-mail-config-security-page.c:577
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "_Assinar sempre as mensagens enviadas ao utilizar esta conta"
 
-#: ../src/mail/e-mail-config-security-page.c:587
+#: ../src/mail/e-mail-config-security-page.c:589
 msgid "Always enc_rypt outgoing messages when using this account"
 msgstr "_Encriptar sempre as mensagens enviadas ao utilizar esta conta"
 
-#: ../src/mail/e-mail-config-security-page.c:599
+#: ../src/mail/e-mail-config-security-page.c:601
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Encriptar _sempre para o próprio ao enviar mensagens encriptadas"
 
-#: ../src/mail/e-mail-config-security-page.c:611
+#: ../src/mail/e-mail-config-security-page.c:613
+msgid "Ad_vanced Options"
+msgstr "Opções avançadas"
+
+#: ../src/mail/e-mail-config-security-page.c:643
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "_Confiar sempre nas chaves do meu chaveiro ao encriptar"
 
-#: ../src/mail/e-mail-config-security-page.c:623
+#: ../src/mail/e-mail-config-security-page.c:654
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr ""
 "Preferir assinatura/encriptação em linha para mensagens de texto simples"
 
-#: ../src/mail/e-mail-config-security-page.c:635
+#: ../src/mail/e-mail-config-security-page.c:665
 msgid "_Lookup keys for encryption in Web Key Directory (WKD)"
 msgstr ""
 "Chaves de pesquisa para encriptação no Diretório de Chaves da Web (WKD)"
 
-#: ../src/mail/e-mail-config-security-page.c:659
+#: ../src/mail/e-mail-config-security-page.c:676
+msgid "Send own _public key in outgoing mails"
+msgstr ""
+
+#: ../src/mail/e-mail-config-security-page.c:687
+msgid "Advertise encryption is pre_ferred"
+msgstr ""
+
+#: ../src/mail/e-mail-config-security-page.c:717
 msgid "Secure MIME (S/MIME)"
 msgstr "MIME seguro (S/MIME)"
 
-#: ../src/mail/e-mail-config-security-page.c:668
+#: ../src/mail/e-mail-config-security-page.c:726
 msgid "Sig_ning certificate:"
 msgstr "Certificado de assi_Natura:"
 
-#: ../src/mail/e-mail-config-security-page.c:692
-#: ../src/mail/e-mail-config-security-page.c:790
+#: ../src/mail/e-mail-config-security-page.c:750
+#: ../src/mail/e-mail-config-security-page.c:848
 msgid "Select"
 msgstr "Selecionar"
 
-#: ../src/mail/e-mail-config-security-page.c:701
-#: ../src/mail/e-mail-config-security-page.c:799
+#: ../src/mail/e-mail-config-security-page.c:759
+#: ../src/mail/e-mail-config-security-page.c:857
 #: ../src/shell/e-shell-window-actions.c:1028
 msgid "_Clear"
 msgstr "_Limpar"
 
-#: ../src/mail/e-mail-config-security-page.c:710
+#: ../src/mail/e-mail-config-security-page.c:768
 msgid "Signing _algorithm:"
 msgstr "_Algoritmo de assinatura:"
 
-#: ../src/mail/e-mail-config-security-page.c:751
+#: ../src/mail/e-mail-config-security-page.c:809
 msgid "Always sign outgoing messages when using this account"
 msgstr "Assinar sempre as mensagens enviadas ao utilizar esta conta"
 
-#: ../src/mail/e-mail-config-security-page.c:766
+#: ../src/mail/e-mail-config-security-page.c:824
 msgid "Encryption certificate:"
 msgstr "Certificado de encriptação:"
 
-#: ../src/mail/e-mail-config-security-page.c:808
+#: ../src/mail/e-mail-config-security-page.c:866
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "Encriptar sempre as mensagens enviadas ao utilizar esta conta"
 
-#: ../src/mail/e-mail-config-security-page.c:820
+#: ../src/mail/e-mail-config-security-page.c:878
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "Encriptar sempre para o próprio ao enviar mensagens encriptadas"
 
@@ -18697,55 +18720,55 @@ msgstr "Bem vindo"
 msgid "Account Editor"
 msgstr "Editor de contas"
 
-#: ../src/mail/e-mail-display.c:150
+#: ../src/mail/e-mail-display.c:151
 msgid "_Add to Address Book…"
 msgstr "_Adicionar ao livro de endereços…"
 
-#: ../src/mail/e-mail-display.c:157
+#: ../src/mail/e-mail-display.c:158
 msgid "_To This Address"
 msgstr "_Para este endereço"
 
-#: ../src/mail/e-mail-display.c:164
+#: ../src/mail/e-mail-display.c:165
 msgid "_From This Address"
 msgstr "_Deste endereço"
 
-#: ../src/mail/e-mail-display.c:171
+#: ../src/mail/e-mail-display.c:172
 msgid "Send _Reply To…"
 msgstr "Enviar _resposta para…"
 
-#: ../src/mail/e-mail-display.c:173
+#: ../src/mail/e-mail-display.c:174
 msgid "Send a reply message to this address"
 msgstr "Enviar uma mensagem de resposta para este endereço"
 
-#: ../src/mail/e-mail-display.c:180
+#: ../src/mail/e-mail-display.c:181
 msgid "Create Search _Folder"
 msgstr "Criar uma pasta de _procura"
 
-#: ../src/mail/e-mail-display.c:770
+#: ../src/mail/e-mail-display.c:771
 msgid "Hid_e All"
 msgstr "O_cultar todos"
 
-#: ../src/mail/e-mail-display.c:777
+#: ../src/mail/e-mail-display.c:778
 msgid "_View Inline"
 msgstr "_Ver embutido"
 
-#: ../src/mail/e-mail-display.c:784
+#: ../src/mail/e-mail-display.c:785
 msgid "Vie_w All Inline"
 msgstr "Ver todos e_mbutidos"
 
-#: ../src/mail/e-mail-display.c:791
+#: ../src/mail/e-mail-display.c:792
 msgid "_Zoom to 100%"
 msgstr "Ampliar a 100%"
 
-#: ../src/mail/e-mail-display.c:793
+#: ../src/mail/e-mail-display.c:794
 msgid "Zoom the image to its natural size"
 msgstr "Repor imagem no seu tamanho original"
 
-#: ../src/mail/e-mail-display.c:798
+#: ../src/mail/e-mail-display.c:799
 msgid "_Zoom to window"
 msgstr "Ajustar à janela"
 
-#: ../src/mail/e-mail-display.c:800
+#: ../src/mail/e-mail-display.c:801
 msgid "Zoom large images to not be wider than the window width"
 msgstr "Reduzir imagens grandes para caberem na largura da janela"
 
@@ -18997,7 +19020,7 @@ msgstr "Ignorar _sempre Responder a: para listas de correio."
 msgid "Failed to retrieve message:"
 msgstr "Falha ao obter a mensagem:"
 
-#: ../src/mail/e-mail-reader.c:2356 ../src/mail/e-mail-reader.c:3884
+#: ../src/mail/e-mail-reader.c:2356 ../src/mail/e-mail-reader.c:3925
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "A obter a mensagem “%s”"
@@ -19155,25 +19178,25 @@ msgstr "Seguimento…"
 msgid "Flag the selected messages for follow-up"
 msgstr "Marcar as mensagens selecionadas para dar seguimento"
 
-#: ../src/mail/e-mail-reader.c:2693 ../src/mail/e-mail-reader.c:5276
-#: ../src/mail/e-mail-reader.c:5297
-#: ../src/modules/mail/e-mail-attachment-handler.c:389
+#: ../src/mail/e-mail-reader.c:2693 ../src/mail/e-mail-reader.c:5317
+#: ../src/mail/e-mail-reader.c:5338
+#: ../src/modules/mail/e-mail-attachment-handler.c:460
 msgid "_Forward"
 msgstr "R_encaminhar"
 
-#: ../src/mail/e-mail-reader.c:2695 ../src/mail/e-mail-reader.c:5277
-#: ../src/mail/e-mail-reader.c:5298
-#: ../src/modules/mail/e-mail-attachment-handler.c:391
+#: ../src/mail/e-mail-reader.c:2695 ../src/mail/e-mail-reader.c:5318
+#: ../src/mail/e-mail-reader.c:5339
+#: ../src/modules/mail/e-mail-attachment-handler.c:462
 msgid "Forward the selected message to someone"
 msgstr "Reencaminhar a mensagem selecionada para alguém"
 
 #: ../src/mail/e-mail-reader.c:2700
-#: ../src/modules/mail/e-mail-attachment-handler.c:431
+#: ../src/modules/mail/e-mail-attachment-handler.c:502
 msgid "_Attached"
 msgstr "_Anexado"
 
 #: ../src/mail/e-mail-reader.c:2702 ../src/mail/e-mail-reader.c:2709
-#: ../src/modules/mail/e-mail-attachment-handler.c:433
+#: ../src/modules/mail/e-mail-attachment-handler.c:504
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Reencaminhar a mensagem selecionada como anexo para alguém"
 
@@ -19182,12 +19205,12 @@ msgid "Forward As _Attached"
 msgstr "Reencaminhar como _anexo"
 
 #: ../src/mail/e-mail-reader.c:2714
-#: ../src/modules/mail/e-mail-attachment-handler.c:438
+#: ../src/modules/mail/e-mail-attachment-handler.c:509
 msgid "_Inline"
 msgstr "_Embutida"
 
 #: ../src/mail/e-mail-reader.c:2716 ../src/mail/e-mail-reader.c:2723
-#: ../src/modules/mail/e-mail-attachment-handler.c:440
+#: ../src/modules/mail/e-mail-attachment-handler.c:511
 msgid "Forward the selected message in the body of a new message"
 msgstr "Reencaminhar a mensagem selecionada no corpo de uma nova mensagem"
 
@@ -19196,12 +19219,12 @@ msgid "Forward As _Inline"
 msgstr "Reencaminhar como _embutida"
 
 #: ../src/mail/e-mail-reader.c:2728
-#: ../src/modules/mail/e-mail-attachment-handler.c:445
+#: ../src/modules/mail/e-mail-attachment-handler.c:516
 msgid "_Quoted"
 msgstr "_Citada"
 
 #: ../src/mail/e-mail-reader.c:2730 ../src/mail/e-mail-reader.c:2737
-#: ../src/modules/mail/e-mail-attachment-handler.c:447
+#: ../src/modules/mail/e-mail-attachment-handler.c:518
 msgid "Forward the selected message quoted like a reply"
 msgstr "Reencaminhar a mensagem selecionada citada como uma resposta"
 
@@ -19308,12 +19331,12 @@ msgid "Mark the selected messages as not having been read"
 msgstr "Marcar as mensagens selecionadas como não lidas"
 
 #: ../src/mail/e-mail-reader.c:2835
-#: ../src/modules/mail/e-mail-attachment-handler.c:417
+#: ../src/modules/mail/e-mail-attachment-handler.c:488
 msgid "_Edit as New Message…"
 msgstr "_Editar como nova mensagem…"
 
 #: ../src/mail/e-mail-reader.c:2837
-#: ../src/modules/mail/e-mail-attachment-handler.c:419
+#: ../src/modules/mail/e-mail-attachment-handler.c:490
 msgid "Open the selected messages in the composer for editing"
 msgstr "Abrir as mensagens selecionadas no compositor para serem editadas"
 
@@ -19414,12 +19437,12 @@ msgid "Preview the message to be printed"
 msgstr "Antever a mensagem a ser impressa"
 
 #: ../src/mail/e-mail-reader.c:2933
-#: ../src/modules/mail/e-mail-attachment-handler.c:452
+#: ../src/modules/mail/e-mail-attachment-handler.c:523
 msgid "Re_direct"
 msgstr "Re_direcionar"
 
 #: ../src/mail/e-mail-reader.c:2935
-#: ../src/modules/mail/e-mail-attachment-handler.c:454
+#: ../src/modules/mail/e-mail-attachment-handler.c:525
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Redirecionar a mensagem selecionada para alguém"
 
@@ -19439,15 +19462,15 @@ msgstr "Remover mensagens du_plicadas"
 msgid "Checks selected messages for duplicates"
 msgstr "Verifica nas mensagens selecionadas a existência de duplicados"
 
-#: ../src/mail/e-mail-reader.c:2954 ../src/mail/em-composer-utils.c:4314
+#: ../src/mail/e-mail-reader.c:2954 ../src/mail/em-composer-utils.c:4315
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
-#: ../src/modules/mail/e-mail-attachment-handler.c:396
+#: ../src/modules/mail/e-mail-attachment-handler.c:467
 msgid "Reply to _All"
 msgstr "Responder _a todos"
 
 #: ../src/mail/e-mail-reader.c:2956
-#: ../src/modules/mail/e-mail-attachment-handler.c:398
+#: ../src/modules/mail/e-mail-attachment-handler.c:469
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr ""
 "Compor uma resposta para todos os destinatários da mensagem selecionada"
@@ -19460,29 +19483,29 @@ msgstr "Resposta alternativa…"
 msgid "Choose reply options for the selected message"
 msgstr "Escolher as opções de resposta para a mensagem selecionada"
 
-#: ../src/mail/e-mail-reader.c:2970 ../src/mail/e-mail-reader.c:5322
-#: ../src/mail/e-mail-reader.c:5347
+#: ../src/mail/e-mail-reader.c:2970 ../src/mail/e-mail-reader.c:5363
+#: ../src/mail/e-mail-reader.c:5388
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Responder para a lista de correio ou todos os destinatários"
 
-#: ../src/mail/e-mail-reader.c:2975 ../src/mail/em-composer-utils.c:4309
+#: ../src/mail/e-mail-reader.c:2975 ../src/mail/em-composer-utils.c:4310
 #: ../src/mail/mail.error.xml.h:26
-#: ../src/modules/mail/e-mail-attachment-handler.c:403
+#: ../src/modules/mail/e-mail-attachment-handler.c:474
 msgid "Reply to _List"
 msgstr "Responder à _lista"
 
 #: ../src/mail/e-mail-reader.c:2977
-#: ../src/modules/mail/e-mail-attachment-handler.c:405
+#: ../src/modules/mail/e-mail-attachment-handler.c:476
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Compor uma resposta para a lista de correio da mensagem selecionada"
 
 #: ../src/mail/e-mail-reader.c:2982
-#: ../src/modules/mail/e-mail-attachment-handler.c:410
+#: ../src/modules/mail/e-mail-attachment-handler.c:481
 msgid "_Reply to Sender"
 msgstr "_Responder ao remetente"
 
 #: ../src/mail/e-mail-reader.c:2984
-#: ../src/modules/mail/e-mail-attachment-handler.c:412
+#: ../src/modules/mail/e-mail-attachment-handler.c:483
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Compor uma resposta para o remetente da mensagem selecionada"
 
@@ -19543,7 +19566,7 @@ msgid "Ch_aracter Encoding"
 msgstr "Codificação de c_aracteres"
 
 #: ../src/mail/e-mail-reader.c:3068
-#: ../src/modules/mail/e-mail-attachment-handler.c:424
+#: ../src/modules/mail/e-mail-attachment-handler.c:495
 msgid "F_orward As"
 msgstr "_Reencaminhar como"
 
@@ -19647,20 +19670,20 @@ msgstr "_Cabeçalhos de todas as mensagens"
 msgid "Show messages with all email headers"
 msgstr "Mostrar as mensagens com todos os cabeçalhos de correio eletrónico"
 
-#: ../src/mail/e-mail-reader.c:3890
+#: ../src/mail/e-mail-reader.c:3931
 msgid "Retrieving message"
 msgstr "A obter mensagem"
 
-#: ../src/mail/e-mail-reader.c:5404 ../src/mail/filtertypes.xml.in.h:71
+#: ../src/mail/e-mail-reader.c:5445 ../src/mail/filtertypes.xml.in.h:71
 msgid "Delete"
 msgstr "Eliminar"
 
-#: ../src/mail/e-mail-reader.c:5416
+#: ../src/mail/e-mail-reader.c:5457
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1327
 msgid "Next"
 msgstr "Seguinte"
 
-#: ../src/mail/e-mail-reader.c:5420
+#: ../src/mail/e-mail-reader.c:5461
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
 msgid "Previous"
 msgstr "Anterior"
@@ -19904,63 +19927,63 @@ msgstr "Re: %s"
 msgid "an unknown sender"
 msgstr "um remetente desconhecido"
 
-#: ../src/mail/em-composer-utils.c:4254
+#: ../src/mail/em-composer-utils.c:4255
 msgid "Alternative Reply"
 msgstr "Resposta alternativa"
 
-#: ../src/mail/em-composer-utils.c:4257
+#: ../src/mail/em-composer-utils.c:4258
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Responder"
 
-#: ../src/mail/em-composer-utils.c:4275
+#: ../src/mail/em-composer-utils.c:4276
 msgid "Recipients:"
 msgstr "Destinatários:"
 
-#: ../src/mail/em-composer-utils.c:4304
+#: ../src/mail/em-composer-utils.c:4305
 msgid "Reply to _Sender"
 msgstr "_Responder ao remetente"
 
-#: ../src/mail/em-composer-utils.c:4327
+#: ../src/mail/em-composer-utils.c:4328
 msgid "Reply style:"
 msgstr "Estilo de resposta:"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4336
+#: ../src/mail/em-composer-utils.c:4337
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:253
 msgid "_Default"
 msgstr "_Predefinição"
 
-#: ../src/mail/em-composer-utils.c:4340
+#: ../src/mail/em-composer-utils.c:4341
 msgid "Attach_ment"
 msgstr "A_nexo"
 
-#: ../src/mail/em-composer-utils.c:4344
+#: ../src/mail/em-composer-utils.c:4345
 msgid "Inline (_Outlook style)"
 msgstr "Embutida (estilo _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4348
+#: ../src/mail/em-composer-utils.c:4349
 msgid "_Quote"
 msgstr "_Citar"
 
-#: ../src/mail/em-composer-utils.c:4352
+#: ../src/mail/em-composer-utils.c:4353
 msgid "Do _Not Quote"
 msgstr "Não c_itar"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4373
+#: ../src/mail/em-composer-utils.c:4374
 msgid "_Format message in"
 msgstr "_Formatar mensagem em HTML"
 
-#: ../src/mail/em-composer-utils.c:4395
+#: ../src/mail/em-composer-utils.c:4396
 msgid "Apply t_emplate"
 msgstr "Aplicar _modelo"
 
-#: ../src/mail/em-composer-utils.c:4408
+#: ../src/mail/em-composer-utils.c:4409
 msgid "Preserve original message S_ubject"
 msgstr "Manter o assunto original da mensagem"
 
-#: ../src/mail/em-composer-utils.c:4474
+#: ../src/mail/em-composer-utils.c:4475
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -19968,11 +19991,11 @@ msgstr[0] "um destinatário"
 msgstr[1] "%d destinatários"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4967
+#: ../src/mail/em-composer-utils.c:4969
 msgid "Posting destination"
 msgstr "Destino da publicação"
 
-#: ../src/mail/em-composer-utils.c:4972
+#: ../src/mail/em-composer-utils.c:4974
 msgid "Choose folders to post the message to."
 msgstr "Escolha as pastas onde publicar a mensagem."
 
@@ -20418,6 +20441,60 @@ msgstr ":"
 #: ../src/mail/em-utils.c:1952
 msgid "Deleting old messages"
 msgstr "A eliminar mensagens antigas"
+
+#: ../src/mail/em-utils.c:2141
+msgctxt "trust"
+msgid "_Unknown"
+msgstr "_Desconhecida"
+
+#: ../src/mail/em-utils.c:2142
+msgctxt "trust"
+msgid "_Never"
+msgstr "_Nunca"
+
+#: ../src/mail/em-utils.c:2143
+msgctxt "trust"
+msgid "_Marginal"
+msgstr "_Marginalmente"
+
+#: ../src/mail/em-utils.c:2144
+msgctxt "trust"
+msgid "_Full"
+msgstr "_Total"
+
+#: ../src/mail/em-utils.c:2145
+#, fuzzy
+#| msgctxt "CamelTrust"
+#| msgid "Ultimately"
+msgctxt "trust"
+msgid "_Ultimate"
+msgstr "Finalmente"
+
+#: ../src/mail/em-utils.c:2184
+#, c-format
+#| msgctxt "reply-attribution"
+#| msgid "Re: %s"
+msgid "Key ID: %s"
+msgstr "ID da chave: %s"
+
+#: ../src/mail/em-utils.c:2195
+#, c-format
+msgid "Fingerprint: %s"
+msgstr "Impressão digital: %s"
+
+#: ../src/mail/em-utils.c:2211
+#, c-format
+msgid "Created: %s"
+msgstr "Criada: %s"
+
+#: ../src/mail/em-utils.c:2243
+#, c-format
+msgid "User ID: %s"
+msgstr "ID do utilizador: %s"
+
+#: ../src/mail/em-utils.c:2264
+msgid "Set trust level for the key:"
+msgstr ""
 
 #: ../src/mail/em-vfolder-editor.c:102
 msgid "Search _Folders"
@@ -22445,6 +22522,20 @@ msgstr "A etiqueta com o nome \"{0}\" já existe"
 #: ../src/mail/mail.error.xml.h:223
 msgid "Choose a different name, please."
 msgstr "Escolha um nome diferente, por favor."
+
+#: ../src/mail/mail.error.xml.h:224
+msgid "Do you wish to import OpenPGP key?"
+msgstr "Deseja importar a chave OpenPGP?"
+
+#: ../src/mail/mail.error.xml.h:225
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1781
+msgid "_Import"
+msgstr "_Importar"
+
+#: ../src/mail/mail.error.xml.h:226
+msgid "Failed to import OpenPGP key"
+msgstr "Falha ao importar a chave OpenPGP"
 
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
@@ -26336,7 +26427,16 @@ msgstr "Funcionalidades Yahoo!"
 msgid "Add Ca_lendar and Tasks to this account"
 msgstr "Adicionar ca_lendário e tarefas a esta conta"
 
-#: ../src/modules/mail/e-mail-attachment-handler.c:644
+#: ../src/modules/mail/e-mail-attachment-handler.c:533
+#| msgid "Open PGP key"
+msgid "Import OpenP_GP key…"
+msgstr "Importar chave OpenP_GP…"
+
+#: ../src/modules/mail/e-mail-attachment-handler.c:535
+msgid "Import Pretty Good Privacy (OpenPGP) key"
+msgstr "Importar a chave OpenPGP (Pretty Good Privacy)"
+
+#: ../src/modules/mail/e-mail-attachment-handler.c:725
 #, c-format
 msgid "%d attached message"
 msgid_plural "%d attached messages"
@@ -27281,11 +27381,6 @@ msgstr "Importar fontes RSS"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1091
 msgid "Export RSS Feeds"
 msgstr "Exportar fontes RSS"
-
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1781
-msgid "_Import"
-msgstr "_Importar"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1094
 msgid "Export"
@@ -31041,14 +31136,6 @@ msgstr "Certificado importado"
 #~ msgid "Display \"text/calendar\" MIME parts in mail messages."
 #~ msgstr "Mostrar as secções MIME de \"texto/calendário\" nas mensagens."
 
-#~ msgctxt "CamelTrust"
-#~ msgid "_Never"
-#~ msgstr "_Nunca"
-
-#~ msgctxt "CamelTrust"
-#~ msgid "_Fully"
-#~ msgstr "_Total"
-
 #~ msgid "\"%s\" has an invalid format"
 #~ msgstr "\"%s\" tem um formato inválido"
 
@@ -33485,9 +33572,6 @@ msgstr "Certificado importado"
 
 #~ msgid "never"
 #~ msgstr "nunca"
-
-#~ msgid "Do you wish to overwrite it?"
-#~ msgstr "Deseja sobrepo-lo?"
 
 #~ msgid "File exists \"{0}\"."
 #~ msgstr "Já existe o ficheiro \"{0}\"."
