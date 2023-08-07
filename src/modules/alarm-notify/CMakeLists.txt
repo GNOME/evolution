@@ -1,7 +1,6 @@
 pkg_check_variable(edsuimoduledir libedataserverui-1.2 uimoduledir)
 
 set(extra_deps
-	evolution-calendar
 	evolution-util
 )
 set(sources
