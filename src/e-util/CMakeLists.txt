@@ -650,6 +650,7 @@ target_compile_options(evolution-util PUBLIC
 	${GEO_CFLAGS}
 	${GNOME_PLATFORM_CFLAGS}
 	${GSPELL_CFLAGS}
+	${LIBSECRET_CFLAGS}
 )
 
 target_include_directories(evolution-util PUBLIC
@@ -665,6 +666,7 @@ target_include_directories(evolution-util PUBLIC
 	${GEO_INCLUDE_DIRS}
 	${GNOME_PLATFORM_INCLUDE_DIRS}
 	${GSPELL_INCLUDE_DIRS}
+	${LIBSECRET_INCLUDE_DIRS}
 	${MARKDOWN_INCLUDE_DIRS}
 )
 
@@ -677,6 +679,7 @@ target_link_libraries(evolution-util
 	${GNOME_PLATFORM_LDFLAGS}
 	${GSPELL_LDFLAGS}
 	${ICONV_LIBS}
+	${LIBSECRET_LDFLAGS}
 	${MATH_LDFLAGS}
 	${MARKDOWN_LDFLAGS}
 )
