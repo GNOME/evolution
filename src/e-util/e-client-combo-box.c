@@ -372,7 +372,7 @@ e_client_combo_box_get_client (EClientComboBox *combo_box,
 
 	e_client_cache_get_client (
 		client_cache, source,
-		extension_name, 30, cancellable,
+		extension_name, (guint32) -1, cancellable,
 		client_combo_box_get_client_done_cb,
 		g_object_ref (simple));
 

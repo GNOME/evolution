@@ -4161,7 +4161,7 @@ start_calendar_server (ItipView *view,
 	client_cache = itip_view_get_client_cache (view);
 
 	e_client_cache_get_client (
-		client_cache, source, extension_name, 30,
+		client_cache, source, extension_name, (guint32) -1,
 		view->priv->cancellable, func, data);
 }
 

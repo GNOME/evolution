@@ -73,7 +73,7 @@ write_calendar (const gchar *uid,
 		EClientCache *client_cache;
 
 		client_cache = e_shell_get_client_cache (shell);
-		client = e_client_cache_get_client_sync (client_cache, source, E_SOURCE_EXTENSION_CALENDAR, 30, NULL, error);
+		client = e_client_cache_get_client_sync (client_cache, source, E_SOURCE_EXTENSION_CALENDAR, E_DEFAULT_WAIT_FOR_CONNECTED_SECONDS, NULL, error);
 
 		g_object_unref (source);
 	} else {

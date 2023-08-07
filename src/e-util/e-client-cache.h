@@ -44,6 +44,12 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_CLIENT_CACHE, EClientCacheClass))
 
+/* How long to wait for the connected state by default. Actual calls
+   to open the client can change the value as they wish, this is only
+   a constant, which can be used on places where it's expected to be
+   connected before starting the actual operation with the client. */
+#define E_DEFAULT_WAIT_FOR_CONNECTED_SECONDS 5
+
 G_BEGIN_DECLS
 
 typedef struct _EClientCache EClientCache;

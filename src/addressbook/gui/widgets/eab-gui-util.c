@@ -613,8 +613,7 @@ eab_transfer_contacts (ESourceRegistry *registry,
 	process->alert_sink = alert_sink;
 	process->delete_from_source = delete_from_source;
 
-	e_book_client_connect (
-		destination, 30, NULL, book_client_connect_cb, process);
+	e_book_client_connect (destination, (guint32) -1, NULL, book_client_connect_cb, process);
 }
 
 /*

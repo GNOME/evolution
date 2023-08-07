@@ -337,7 +337,7 @@ kcontact_load (GSList *files)
 	}
 
 	client_cache = e_shell_get_client_cache (shell);
-	client = e_client_cache_get_client_sync (client_cache, primary, E_SOURCE_EXTENSION_ADDRESS_BOOK, 15, NULL, &error);
+	client = e_client_cache_get_client_sync (client_cache, primary, E_SOURCE_EXTENSION_ADDRESS_BOOK, E_DEFAULT_WAIT_FOR_CONNECTED_SECONDS, NULL, &error);
 
 	if (!client) {
 		printf ("%s: Failed to open address book '%s': %s\n", G_STRFUNC, e_source_get_display_name (primary), error ? error->message : "Unknown error");

@@ -972,7 +972,7 @@ paste_recurring_component (ECalModel *model,
 
 	client_cache = e_cal_model_get_client_cache (model);
 	src_source = e_source_registry_ref_source (e_cal_model_get_registry (model), src_client_uid);
-	src_client = src_source ? e_client_cache_get_client_sync (client_cache, src_source, extension_name, 30, cancellable, error) : NULL;
+	src_client = src_source ? e_client_cache_get_client_sync (client_cache, src_source, extension_name, (guint32) -1, cancellable, error) : NULL;
 
 	success = src_client != NULL;
 
@@ -1080,7 +1080,7 @@ cal_view_paste_clipboard_thread (EAlertSinkThreadJobData *job_data,
 	g_free (display_name);
 	client_cache = e_cal_model_get_client_cache (model);
 
-	e_client = e_client_cache_get_client_sync (client_cache, source, extension_name, 30, cancellable, &local_error);
+	e_client = e_client_cache_get_client_sync (client_cache, source, extension_name, E_DEFAULT_WAIT_FOR_CONNECTED_SECONDS, cancellable, &local_error);
 	if (!e_client) {
 		e_util_propagate_open_source_job_error (job_data, extension_name, local_error, error);
 		goto out;

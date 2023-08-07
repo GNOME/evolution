@@ -507,12 +507,12 @@ cal_base_shell_sidebar_transfer_thread (EAlertSinkThreadJobData *job_data,
 	g_return_if_fail (titd->icomp != NULL);
 
 	source_client = e_client_selector_get_client_sync (
-		titd->selector, titd->source, FALSE, 30, cancellable, error);
+		titd->selector, titd->source, FALSE, (guint32) -1, cancellable, error);
 	if (!source_client)
 		return;
 
 	destination_client = e_client_selector_get_client_sync (
-		titd->selector, titd->destination, FALSE, 30, cancellable, error);
+		titd->selector, titd->destination, FALSE, E_DEFAULT_WAIT_FOR_CONNECTED_SECONDS, cancellable, error);
 	if (!destination_client) {
 		g_object_unref (source_client);
 		return;

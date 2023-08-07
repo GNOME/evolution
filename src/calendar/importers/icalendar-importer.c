@@ -529,7 +529,7 @@ ivcal_import (EImport *ei,
 
 	e_cal_client_connect (
 		g_datalist_get_data (&target->data, "primary-source"),
-		type, 30, ici->cancellable, ivcal_connect_cb, ici);
+		type, E_DEFAULT_WAIT_FOR_CONNECTED_SECONDS, ici->cancellable, ivcal_connect_cb, ici);
 }
 
 static void

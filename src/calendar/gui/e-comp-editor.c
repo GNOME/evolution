@@ -1135,7 +1135,7 @@ comp_editor_open_target_client_thread (EAlertSinkThreadJobData *job_data,
 	client_cache = e_shell_get_client_cache (e_comp_editor_get_shell (otc->comp_editor));
 
 	otc->client = e_client_cache_get_client_sync (client_cache, otc->source, otc->extension_name,
-		30, cancellable, error);
+		(guint32) -1, cancellable, error);
 
 	if (otc->client) {
 		/* Cache some properties which require remote calls */

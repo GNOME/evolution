@@ -999,7 +999,7 @@ csv_import (EImport *ei,
 
 	source = g_datalist_get_data (&target->data, "csv-source");
 
-	e_book_client_connect (source, 30, NULL, book_client_connect_cb, gci);
+	e_book_client_connect (source, E_DEFAULT_WAIT_FOR_CONNECTED_SECONDS, NULL, book_client_connect_cb, gci);
 }
 
 static void

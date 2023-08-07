@@ -139,8 +139,7 @@ mail_part_vcard_save_clicked_cb (EWebView *web_view,
 		vcard_part->priv->contacts,
 		(GCopyFunc) g_object_ref, NULL);
 
-	e_book_client_connect (
-		source, 30, NULL, client_connect_cb, contact_list);
+	e_book_client_connect (source, E_DEFAULT_WAIT_FOR_CONNECTED_SECONDS, NULL, client_connect_cb, contact_list);
 }
 
 static void

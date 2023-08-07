@@ -149,7 +149,8 @@ import_component_thread (EAlertSinkThreadJobData *job_data,
 
 	g_return_if_fail (icd != NULL);
 
-	e_client = e_util_open_client_sync (job_data, e_shell_get_client_cache (icd->shell), icd->extension_name, icd->source, 30, cancellable, error);
+	e_client = e_util_open_client_sync (job_data, e_shell_get_client_cache (icd->shell), icd->extension_name, icd->source,
+		E_DEFAULT_WAIT_FOR_CONNECTED_SECONDS, cancellable, error);
 	if (e_client)
 		client = E_CAL_CLIENT (e_client);
 

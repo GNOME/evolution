@@ -649,7 +649,7 @@ mail_ui_session_check_book_contains_sync (EMailUISession *ui_session,
 
 	client = e_client_cache_get_client_sync (
 		client_cache, source,
-		E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) 10,
+		E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
 		cancellable, error);
 
 	if (client != NULL) {

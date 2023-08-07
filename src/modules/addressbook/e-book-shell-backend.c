@@ -208,14 +208,14 @@ action_contact_new_cb (GtkAction *action,
 	if (strcmp (action_name, "contact-new") == 0)
 		e_client_cache_get_client (
 			client_cache, source,
-			E_SOURCE_EXTENSION_ADDRESS_BOOK, 30,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
 			NULL,
 			book_shell_backend_new_contact_cb,
 			g_object_ref (shell_window));
 	if (strcmp (action_name, "contact-new-list") == 0)
 		e_client_cache_get_client (
 			client_cache, source,
-			E_SOURCE_EXTENSION_ADDRESS_BOOK, 30,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
 			NULL,
 			book_shell_backend_new_contact_list_cb,
 			g_object_ref (shell_window));
