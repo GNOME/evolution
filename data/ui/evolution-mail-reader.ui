@@ -181,6 +181,10 @@
       <menuitem action='mail-popup-print'/>
       <menuitem action='mail-popup-remove-attachments'/>
       <menuitem action='mail-popup-remove-duplicates'/>
+      <separator/>
+      <menuitem action='mail-popup-copy'/>
+      <menuitem action='mail-popup-move'/>
+      <menuitem action='mail-popup-archive'/>
     </placeholder>
   </popup>
   <popup name='mail-preview-popup'>
@@ -199,6 +203,10 @@
     <menuitem action='mail-add-note'/>
     <menuitem action='mail-edit-note'/>
     <menuitem action='mail-delete-note'/>
+    <separator/>
+    <menuitem action='mail-popup-copy'/>
+    <menuitem action='mail-popup-move'/>
+    <menuitem action='mail-popup-archive'/>
     <separator/>
     <placeholder name='mail-message-popup-actions'/>
   </popup>
