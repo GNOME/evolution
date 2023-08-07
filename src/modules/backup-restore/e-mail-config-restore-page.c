@@ -143,6 +143,18 @@ mail_config_restore_page_finalize (GObject *object)
 		finalize (object);
 }
 
+static gboolean
+is_xz_available (void)
+{
+	gchar *path;
+
+	path = g_find_program_in_path ("xz");
+
+	g_free (path);
+
+	return path != NULL;
+}
+
 static void
 mail_config_restore_page_constructed (GObject *object)
 {
@@ -150,6 +162,7 @@ mail_config_restore_page_constructed (GObject *object)
 	GtkWidget *widget;
 	GtkWidget *container;
 	GtkWidget *main_box;
+	GtkFileFilter *filter, *backup_filter;
 	const gchar *text;
 
 	page = E_MAIL_CONFIG_RESTORE_PAGE (object);
@@ -189,6 +202,21 @@ mail_config_restore_page_constructed (GObject *object)
 		_("Choose a backup file to restore"),
 		GTK_FILE_CHOOSER_ACTION_OPEN);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (widget), TRUE);
+
+	backup_filter = gtk_file_filter_new ();
+	gtk_file_filter_add_pattern (backup_filter, "*.tar.gz");
+	if (is_xz_available ())
+		gtk_file_filter_add_pattern (backup_filter, "*.tar.xz");
+	gtk_file_filter_set_name (backup_filter, _("Backup Files"));
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (widget), backup_filter);
+
+	filter = gtk_file_filter_new ();
+	gtk_file_filter_add_pattern (filter, "*");
+	gtk_file_filter_set_name (filter, _("All Files (*)"));
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (widget), filter);
+
+	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (widget), backup_filter);
+
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	page->priv->file_chooser = widget;  /* not referenced */
 	gtk_widget_show (widget);
