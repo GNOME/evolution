@@ -540,6 +540,10 @@ e_calendar_reposition_timeout_cb (gpointer user_data)
 	gtk_widget_get_allocation (widget, &old_allocation);
 	new_x2 = old_allocation.width - 1;
 	new_y2 = old_allocation.height - 1;
+	if (new_x2 < cal->priv->calitem->min_month_width)
+		new_x2 = cal->priv->calitem->min_month_width;
+	if (new_y2 < cal->priv->calitem->min_month_height)
+		new_y2 = cal->priv->calitem->min_month_height;
 	if (old_x2 != new_x2 || old_y2 != new_y2)
 		gnome_canvas_set_scroll_region (
 			GNOME_CANVAS (cal),

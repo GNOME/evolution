@@ -760,6 +760,14 @@ cal_base_shell_sidebar_constructed (GObject *object)
 
 		container = cal_base_shell_sidebar->priv->paned;
 
+		widget = gtk_scrolled_window_new (NULL, NULL);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (widget), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
+		gtk_scrolled_window_set_overlay_scrolling (GTK_SCROLLED_WINDOW (widget), FALSE);
+		gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+		gtk_widget_show (widget);
+
+		container = widget;
+
 		widget = e_calendar_new ();
 		gtk_widget_set_margin_top (widget, 6);
 		gtk_widget_set_margin_start (widget, 6);
@@ -767,7 +775,7 @@ cal_base_shell_sidebar_constructed (GObject *object)
 		calitem = e_calendar_get_item (E_CALENDAR (widget));
 		e_calendar_item_set_days_start_week_sel (calitem, 9);
 		e_calendar_item_set_max_days_sel (calitem, 42);
-		gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+		gtk_container_add (GTK_CONTAINER (container), widget);
 		cal_base_shell_sidebar->priv->date_navigator = E_CALENDAR (widget);
 		gtk_widget_show (widget);
 

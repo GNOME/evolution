@@ -1299,10 +1299,10 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 		+ ((gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
 		? (calitem->cols - 1 - col) : col) * calitem->month_width - x;
 	month_w = item->x2 - item->x1 - xthickness * 2;
-	month_w = MIN (month_w, calitem->month_width);
+	month_w = MAX (MIN (month_w, calitem->month_width), calitem->min_month_width);
 	month_y = item->y1 + ythickness + row * calitem->month_height - y;
 	month_h = item->y2 - item->y1 - ythickness * 2;
-	month_h = MIN (month_h, calitem->month_height);
+	month_h = MAX (MIN (month_h, calitem->month_height), calitem->min_month_height);
 
 	/* Just return if the month is outside the given area. */
 	if (month_x >= width || month_x + calitem->month_width <= 0
