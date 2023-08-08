@@ -1113,19 +1113,23 @@ mail_display_attachment_inline_update_actions (EMailDisplay *display)
 
 	if (attachments && attachments->data && !attachments->next) {
 		EAttachment *attachment;
-		gchar *mime_type;
 		guint32 flags;
 
 		attachment = attachments->data;
-		mime_type = e_attachment_dup_mime_type (attachment);
 		can_show = e_attachment_get_can_show (attachment);
-		is_image = can_show && mime_type && g_ascii_strncasecmp (mime_type, "image/", 6) == 0;
+
+		if (can_show) {
+			gchar *mime_type;
+
+			mime_type = e_attachment_dup_mime_type (attachment);
+			is_image = mime_type && g_ascii_strncasecmp (mime_type, "image/", 6) == 0;
+
+			g_free (mime_type);
+		}
 
 		flags = GPOINTER_TO_UINT (g_hash_table_lookup (display->priv->attachment_flags, attachment));
 		shown = (flags & E_ATTACHMENT_FLAG_VISIBLE) != 0;
 		zoomed_to_100 = (flags & E_ATTACHMENT_FLAG_ZOOMED_TO_100) != 0;
-
-		g_free (mime_type);
 	}
 	g_list_free_full (attachments, g_object_unref);
 
@@ -1378,11 +1382,32 @@ mail_display_content_loaded_cb (EWebView *web_view,
 				gpointer user_data)
 {
 	EMailDisplay *mail_display;
+	GList *attachments, *link;
 	gchar *citation_color = NULL;
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (web_view));
 
 	mail_display = E_MAIL_DISPLAY (web_view);
+
+	attachments = e_attachment_store_get_attachments (mail_display->priv->attachment_store);
+
+	for (link = attachments; link; link = g_list_next (link)) {
+		EAttachment *attachment = link->data;
+
+		if (e_attachment_get_can_show (attachment)) {
+			gchar *mime_type;
+
+			mime_type = e_attachment_dup_mime_type (attachment);
+
+			if (mime_type && g_ascii_strncasecmp (mime_type, "image/", 6) == 0 &&
+			    !webkit_web_view_can_show_mime_type (WEBKIT_WEB_VIEW (web_view), mime_type))
+				e_attachment_set_can_show (attachment, FALSE);
+
+			g_free (mime_type);
+		}
+	}
+
+	g_list_free_full (attachments, g_object_unref);
 
 	initialize_web_view_colors (mail_display, iframe_id);
 

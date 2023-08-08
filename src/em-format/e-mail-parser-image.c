@@ -36,23 +36,7 @@ G_DEFINE_TYPE (
 	E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
-	"image/gif",
-	"image/jpeg",
-	"image/png",
-	"image/x-png",
-	"image/x-bmp",
-	"image/bmp",
-	"image/svg",
-	"image/x-cmu-raster",
-	"image/x-ico",
-	"image/x-portable-anymap",
-	"image/x-portable-bitmap",
-	"image/x-portable-graymap",
-	"image/x-portable-pixmap",
-	"image/x-xpixmap",
-	"image/jpg",
-	"image/pjpeg",
-	"image/webp",
+	"image/*",
 	NULL
 };
 
