@@ -580,6 +580,14 @@
     <_title>Do Not Exist</_title>
     <code>(not (system-flag "Attachments"))</code>
    </option>
+   <option value="contain-icalendar">
+    <_title>Contain iCalendar Data</_title>
+    <code>(user-flag "$has_cal")</code>
+   </option>
+   <option value="not-contain-icalendar">
+    <_title>Do Not Contain iCalendar Data</_title>
+    <code>(not (user-flag "$has_cal"))</code>
+   </option>
   </input>
  </part>
 
