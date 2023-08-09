@@ -1293,9 +1293,16 @@ comp_subject (ESourceRegistry *registry,
 
 static gchar *
 comp_content_type (ECalComponent *comp,
-                   ICalPropertyMethod method)
+                   ICalPropertyMethod method,
+		   gboolean include_name)
 {
 	const gchar *name;
+
+	if (!include_name) {
+		return g_strdup_printf (
+			"text/calendar; charset=utf-8; method=%s",
+			i_cal_property_method_to_string (method));
+	}
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_FREEBUSY)
 		name = "freebusy.ifb";
@@ -1303,7 +1310,7 @@ comp_content_type (ECalComponent *comp,
 		name = "calendar.ics";
 
 	return g_strdup_printf (
-		"text/calendar; name=\"%s\"; charset=utf-8; METHOD=%s",
+		"text/calendar; name=\"%s\"; charset=utf-8; method=%s",
 		name, i_cal_property_method_to_string (method));
 }
 
@@ -2292,28 +2299,31 @@ itip_send_component_composer_created_cb (GObject *source_object,
 
 	if (!ccd->without_ical_data) {
 		CamelMimePart *attachment;
-		const gchar *filename;
-		gchar *description;
-
-		filename = comp_filename (ccd->send_comps->data);
-		description = comp_description (ccd->send_comps->data, use_24hour_format);
 
 		attachment = camel_mime_part_new ();
 		camel_mime_part_set_content (
 			attachment, ccd->ical_string,
 			strlen (ccd->ical_string), ccd->content_type);
-		if (filename != NULL && *filename != '\0')
-			camel_mime_part_set_filename (attachment, filename);
-		if (description != NULL && *description != '\0')
-			camel_mime_part_set_description (attachment, description);
-		camel_mime_part_set_disposition (attachment, "inline");
-		if ((ccd->flags & E_ITIP_SEND_COMPONENT_FLAG_AS_ATTACHMENT) != 0)
-			e_msg_composer_attach (composer, attachment);
-		else
-			e_msg_composer_set_alternative_body (composer, attachment);
-		g_object_unref (attachment);
+		if ((ccd->flags & E_ITIP_SEND_COMPONENT_FLAG_AS_ATTACHMENT) != 0) {
+			const gchar *filename;
+			gchar *description;
 
-		g_free (description);
+			filename = comp_filename (ccd->send_comps->data);
+			description = comp_description (ccd->send_comps->data, use_24hour_format);
+
+			if (filename != NULL && *filename != '\0')
+				camel_mime_part_set_filename (attachment, filename);
+			if (description != NULL && *description != '\0')
+				camel_mime_part_set_description (attachment, description);
+
+			e_msg_composer_attach (composer, attachment);
+
+			g_free (description);
+		} else {
+			e_msg_composer_set_alternative_body (composer, attachment);
+		}
+
+		g_object_unref (attachment);
 	}
 
 	append_cal_attachments (composer, ccd->attachments_list);
@@ -2347,6 +2357,7 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	ICalTimezone *default_zone;
 	GString *html;
 	gchar *identity_uid, *identity_name = NULL, *identity_address = NULL;
+	gboolean as_attachment;
 
 	g_return_if_fail (isc != NULL);
 
@@ -2390,6 +2401,7 @@ itip_send_component_complete (ItipSendComponentData *isc)
 
 	cal_comp_util_write_to_html (html, isc->cal_client, isc->send_comps->data, default_zone, calendar_config_get_24_hour_format ());
 
+	as_attachment = calendar_config_get_itip_attach_components ();
 	top_level = comp_toplevel_with_zones (isc->method, isc->send_comps, isc->cal_client, isc->zones);
 
 	ccd = g_slice_new0 (CreateComposerData);
@@ -2400,14 +2412,11 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	ccd->subject = comp_subject (isc->registry, isc->method, isc->send_comps->data, FALSE);
 	ccd->html_body = g_string_free (html, FALSE);
 	ccd->ical_string = i_cal_component_as_ical_string (top_level);
-	ccd->content_type = comp_content_type (isc->send_comps->data, isc->method);
+	ccd->content_type = comp_content_type (isc->send_comps->data, isc->method, as_attachment);
 	ccd->attachments_list = isc->attachments_list;
 	ccd->send_comps = isc->send_comps;
 	ccd->show_only = isc->method == I_CAL_METHOD_PUBLISH && !isc->users;
-	ccd->flags = isc->flags;
-
-	if (calendar_config_get_itip_attach_components ())
-		ccd->flags |= E_ITIP_SEND_COMPONENT_FLAG_AS_ATTACHMENT;
+	ccd->flags = isc->flags | (as_attachment ? E_ITIP_SEND_COMPONENT_FLAG_AS_ATTACHMENT : 0);
 
 	isc->attachments_list = NULL;
 	isc->send_comps = NULL;
