@@ -2652,45 +2652,6 @@ cal_comp_util_write_to_html (GString *html_buffer,
 
 	g_string_append (html_buffer, "<table border=\"0\" cellspacing=\"5\">");
 
-	/* write icons for the categories */
-	string = g_string_new (NULL);
-	list = e_cal_component_get_categories_list (comp);
-	if (list != NULL) {
-		markup = g_markup_escape_text (_("Categories:"), -1);
-		g_string_append_printf (html_buffer, "<tr><th>%s</th><td>", markup);
-		g_free (markup);
-	}
-	for (iter = list; iter != NULL; iter = iter->next) {
-		const gchar *category = iter->data;
-		gchar *icon_file;
-
-		icon_file = e_categories_dup_icon_file_for (category);
-		if (icon_file && g_file_test (icon_file, G_FILE_TEST_EXISTS)) {
-			gchar *uri;
-
-			uri = g_filename_to_uri (icon_file, NULL, NULL);
-			g_string_append_printf (
-				html_buffer, "<img alt=\"%s\" src=\"evo-%s\">",
-				category, uri);
-			g_free (uri);
-		} else {
-			if (iter != list)
-				g_string_append_len (string, ", ", 2);
-
-			markup = g_markup_escape_text (category, -1);
-			g_string_append (string, markup);
-			g_free (markup);
-		}
-
-		g_free (icon_file);
-	}
-	if (string->len > 0)
-		g_string_append_printf (html_buffer, "%s", string->str);
-	if (list != NULL)
-		g_string_append (html_buffer, "</td></tr>");
-	g_slist_free_full (list, g_free);
-	g_string_free (string, TRUE);
-
 	/* write location */
 	location = e_cal_component_get_location (comp);
 	if (location && *location) {
@@ -2781,6 +2742,45 @@ cal_comp_util_write_to_html (GString *html_buffer,
 
 		g_object_unref (prop);
 	}
+
+	string = g_string_new (NULL);
+	list = e_cal_component_get_categories_list (comp);
+	if (list != NULL) {
+		markup = g_markup_escape_text (_("Categories:"), -1);
+		g_string_append_printf (html_buffer, "<tr><th>%s</th><td>", markup);
+		g_free (markup);
+	}
+	for (iter = list; iter != NULL; iter = iter->next) {
+		const gchar *category = iter->data;
+		gchar *icon_file;
+
+		if (iter != list)
+			g_string_append (string, ", ");
+
+		icon_file = e_categories_dup_icon_file_for (category);
+		if (icon_file && g_file_test (icon_file, G_FILE_TEST_EXISTS)) {
+			gchar *uri;
+
+			uri = g_filename_to_uri (icon_file, NULL, NULL);
+
+			g_string_append_printf (
+				string, "<img src=\"evo-%s\" width=\"16px\" height=\"16px\"> ",
+				uri);
+			g_free (uri);
+		}
+
+		markup = g_markup_escape_text (category, -1);
+		g_string_append (string, markup);
+		g_free (markup);
+
+		g_free (icon_file);
+	}
+	if (string->len > 0)
+		g_string_append_printf (html_buffer, "%s", string->str);
+	if (list != NULL)
+		g_string_append (html_buffer, "</td></tr>");
+	g_slist_free_full (list, g_free);
+	g_string_free (string, TRUE);
 
 	/* write priority */
 	priority = e_cal_component_get_priority (comp);
