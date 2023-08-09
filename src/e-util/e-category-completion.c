@@ -22,6 +22,7 @@
 #include <libedataserver/libedataserver.h>
 
 #include "e-misc-utils.h"
+#include "e-categories-config.h"
 #include "e-category-completion.h"
 
 #define E_CATEGORY_COMPLETION_GET_PRIVATE(obj) \
@@ -66,7 +67,6 @@ category_completion_build_model (GtkEntryCompletion *completion)
 	list = e_categories_dup_list ();
 	while (list != NULL) {
 		const gchar *category = list->data;
-		gchar *filename;
 		gchar *normalized;
 		gchar *casefolded;
 		GdkPixbuf *pixbuf = NULL;
@@ -79,10 +79,8 @@ category_completion_build_model (GtkEntryCompletion *completion)
 			continue;
 		}
 
-		filename = e_categories_dup_icon_file_for (category);
-		if (filename != NULL && *filename != '\0')
-			pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
-		g_free (filename);
+		if (!e_categories_config_get_icon_for (category, &pixbuf))
+			pixbuf = NULL;
 
 		normalized = g_utf8_normalize (
 			category, -1, G_NORMALIZE_DEFAULT);

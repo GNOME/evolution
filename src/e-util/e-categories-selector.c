@@ -21,6 +21,7 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include "e-categories-config.h"
 #include "e-categories-selector.h"
 
 #define E_CATEGORIES_SELECTOR_GET_PRIVATE(obj) \
@@ -75,7 +76,6 @@ categories_selector_build_model (ECategoriesSelector *selector)
 	list = e_categories_dup_list ();
 	for (iter = list; iter != NULL; iter = iter->next) {
 		const gchar *category_name = iter->data;
-		gchar *filename;
 		GdkPixbuf *pixbuf = NULL;
 		GtkTreeIter iter;
 		gboolean active;
@@ -88,10 +88,8 @@ categories_selector_build_model (ECategoriesSelector *selector)
 				selector->priv->selected_categories,
 				category_name) != NULL);
 
-		filename = e_categories_dup_icon_file_for (category_name);
-		if (filename != NULL)
-			pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
-		g_free (filename);
+		if (!e_categories_config_get_icon_for (category_name, &pixbuf))
+			pixbuf = NULL;
 
 		gtk_list_store_append (store, &iter);
 

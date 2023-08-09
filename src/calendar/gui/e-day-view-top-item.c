@@ -458,18 +458,11 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	/* draw categories icons */
 	categories_list = e_cal_component_get_categories_list (comp);
 	for (elem = categories_list; elem; elem = elem->next) {
-		gchar *category;
-		gchar *file;
-		GdkPixbuf *pixbuf;
+		const gchar *category;
+		GdkPixbuf *pixbuf = NULL;
 
 		category = (gchar *) elem->data;
-		file = e_categories_dup_icon_file_for (category);
-		if (!file)
-			continue;
-
-		pixbuf = gdk_pixbuf_new_from_file (file, NULL);
-		g_free (file);
-		if (pixbuf == NULL)
+		if (!e_categories_config_get_icon_for (category, &pixbuf))
 			continue;
 
 		if (icon_x <= max_icon_x) {
@@ -483,6 +476,11 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 				E_DAY_VIEW_ICON_HEIGHT);
 			cairo_fill (cr);
 			icon_x -= icon_x_inc;
+
+			g_clear_object (&pixbuf);
+		} else {
+			g_clear_object (&pixbuf);
+			break;
 		}
 	}
 

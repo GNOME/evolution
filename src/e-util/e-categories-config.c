@@ -28,6 +28,7 @@
 #include <glib/gi18n.h>
 
 #include "e-categories-dialog.h"
+#include "e-icon-factory.h"
 #include "e-misc-utils.h"
 
 static GHashTable *pixbufs_cache = NULL;
@@ -86,8 +87,18 @@ e_categories_config_get_icon_for (const gchar *category,
 	if (!icon_file) {
 		*pixbuf = NULL;
 	} else {
+		GdkPixbuf *icon;
+
 		/* load the icon in our list */
-		*pixbuf = gdk_pixbuf_new_from_file (icon_file, NULL);
+		icon = gdk_pixbuf_new_from_file (icon_file, NULL);
+
+		if (icon) {
+			/* ensure icon size */
+			*pixbuf = e_icon_factory_pixbuf_scale (icon, 16, 16);
+			g_object_unref (icon);
+		} else {
+			*pixbuf = NULL;
+		}
 	}
 	g_free (icon_file);
 
