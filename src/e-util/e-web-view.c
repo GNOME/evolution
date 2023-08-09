@@ -785,6 +785,7 @@ e_web_view_update_styles (EWebView *web_view,
 	gchar *style;
 	GtkStyleContext *style_context;
 	WebKitWebView *webkit_web_view;
+	gdouble bg_brightness, fg_brightness;
 
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (web_view));
 
@@ -813,6 +814,8 @@ e_web_view_update_styles (EWebView *web_view,
 		style,
 		web_view->priv->cancellable);
 
+	bg_brightness = e_utils_get_color_brightness (&color);
+
 	g_free (color_value);
 	g_free (style);
 
@@ -830,8 +833,51 @@ e_web_view_update_styles (EWebView *web_view,
 		style,
 		web_view->priv->cancellable);
 
+	fg_brightness = e_utils_get_color_brightness (&color);
+
 	g_free (color_value);
 	g_free (style);
+
+	/* assume darker background than text color means dark theme */
+	if (bg_brightness < fg_brightness) {
+		e_web_view_jsc_add_rule_into_style_sheet (webkit_web_view,
+			iframe_id,
+			"-e-web-view-style-sheet",
+			"button",
+			"color-scheme: dark;",
+			web_view->priv->cancellable);
+		e_web_view_jsc_add_rule_into_style_sheet (webkit_web_view,
+			iframe_id,
+			"-e-web-view-style-sheet",
+			".-evo-color-scheme-light",
+			"display: none;",
+			web_view->priv->cancellable);
+		e_web_view_jsc_add_rule_into_style_sheet (webkit_web_view,
+			iframe_id,
+			"-e-web-view-style-sheet",
+			".-evo-color-scheme-dark",
+			"display: initial;",
+			web_view->priv->cancellable);
+	} else {
+		e_web_view_jsc_add_rule_into_style_sheet (webkit_web_view,
+			iframe_id,
+			"-e-web-view-style-sheet",
+			"button",
+			"color-scheme: inherit;",
+			web_view->priv->cancellable);
+		e_web_view_jsc_add_rule_into_style_sheet (webkit_web_view,
+			iframe_id,
+			"-e-web-view-style-sheet",
+			".-evo-color-scheme-light",
+			"display: initial;",
+			web_view->priv->cancellable);
+		e_web_view_jsc_add_rule_into_style_sheet (webkit_web_view,
+			iframe_id,
+			"-e-web-view-style-sheet",
+			".-evo-color-scheme-dark",
+			"display: none;",
+			web_view->priv->cancellable);
+	}
 
 	e_web_view_jsc_add_rule_into_style_sheet (webkit_web_view,
 		iframe_id,

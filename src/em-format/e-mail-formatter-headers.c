@@ -617,11 +617,12 @@ emfe_headers_format (EMailFormatterExtension *extension,
 			buffer,
 			"<td valign=\"top\" width=\"18\" style=\"padding-left: 0px\">"
 			"<button type=\"button\" class=\"header-collapse\" id=\"__evo-collapse-headers-img\">"
-			"<img src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\"/>"
+			"<img src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\" class=\"-evo-color-scheme-light\"/>"
+			"<img src=\"gtk-stock://%s?size=%d&amp;color-scheme=dark\" width=\"%dpx\" height=\"%dpx\" class=\"-evo-color-scheme-dark\"/>"
 			"</button>"
 			"</td>",
-			is_collapsed ? "pan-end-symbolic" : "pan-down-symbolic",
-			GTK_ICON_SIZE_BUTTON, icon_width, icon_height);
+			is_collapsed ? "x-evolution-pan-end" : "x-evolution-pan-down", GTK_ICON_SIZE_BUTTON, icon_width, icon_height,
+			is_collapsed ? "x-evolution-pan-end" : "x-evolution-pan-down", GTK_ICON_SIZE_BUTTON, icon_width, icon_height);
 	}
 
 	g_string_append (buffer, "<td>");

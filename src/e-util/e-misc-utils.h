@@ -141,7 +141,7 @@ void		e_utils_get_theme_color_color	(GtkWidget *widget,
 void		e_utils_shade_color		(const GdkRGBA *a,
 						 GdkRGBA *b,
 						 gdouble mult);
-
+gdouble		e_utils_get_color_brightness	(const GdkRGBA *rgba);
 GdkRGBA		e_utils_get_text_color_for_background
 						(const GdkRGBA *bg_rgba);
 

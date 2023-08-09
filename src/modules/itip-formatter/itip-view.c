@@ -2103,8 +2103,8 @@ itip_view_write (gpointer itip_part_ptr,
 
 		text = _("Show description provided by the sender");
 		other_text = _("Hide description provided by the sender");
-		img = "pan-end-symbolic";
-		other_img = "pan-down-symbolic";
+		img = "x-evolution-pan-end";
+		other_img = "x-evolution-pan-down";
 
 		if (expand) {
 			#define SWAP(a,b) { const gchar *tmp = a; a = b; b = tmp; }
@@ -2121,11 +2121,13 @@ itip_view_write (gpointer itip_part_ptr,
 		e_util_markup_append_escaped (buffer,
 			"<span class=\"itip-view-alternative-html\" id=\"%p:spn\" value=\"itip-view-alternative-html-%p\" style=\"vertical-align:bottom;\">"
 			"<img id=\"itip-view-alternative-html-%p-img\" style=\"vertical-align:middle;\" width=\"%dpx\" height=\"%dpx\""
-			" src=\"gtk-stock://%s?size=%d\" othersrc=\"gtk-stock://%s?size=%d\" style=\"vertical-align:center;\">&nbsp;"
+			" src=\"gtk-stock://%s?size=%d\" othersrc=\"gtk-stock://%s?size=%d\" style=\"vertical-align:center;\" class=\"-evo-color-scheme-light\">"
+			"<img id=\"itip-view-alternative-html-%p-img-dark\" style=\"vertical-align:middle;\" width=\"%dpx\" height=\"%dpx\""
+			" src=\"gtk-stock://%s?size=%d&amp;color-scheme=dark\" othersrc=\"gtk-stock://%s?size=%d&amp;color-scheme=dark\" style=\"vertical-align:center;\" class=\"-evo-color-scheme-dark\">&nbsp;"
 			"<span id=\"itip-view-alternative-html-%p-spn\" othertext=\"%s\" style=\"vertical-align:center;\">%s</span></span><br>",
-			itip_part, itip_part, itip_part, icon_width, icon_height,
-			img, GTK_ICON_SIZE_MENU,
-			other_img, GTK_ICON_SIZE_MENU,
+			itip_part, itip_part,
+			itip_part, icon_width, icon_height, img, GTK_ICON_SIZE_MENU, other_img, GTK_ICON_SIZE_MENU, /* light color scheme image */
+			itip_part, icon_width, icon_height, img, GTK_ICON_SIZE_MENU, other_img, GTK_ICON_SIZE_MENU, /* dark color scheme image */
 			itip_part,
 			other_text, text);
 

@@ -831,6 +831,14 @@ if (this instanceof Window && this.document) {
 		Evo.initializeAndPostContentLoaded(this.document);
 }
 
+Evo.replaceImgSource = function(src, requireFirst, first, second)
+{
+	if (requireFirst)
+		return src.replace(second, first);
+
+	return src.replace(first, second);
+}
+
 Evo.vCardCollapseContactList = function(elem)
 {
 	if (elem && elem.id && elem.id != "" && elem.ownerDocument) {
@@ -844,7 +852,8 @@ Evo.vCardCollapseContactList = function(elem)
 
 			for (child = elem.firstElementChild; child; child = child.nextElementSibling) {
 				if (/*child instanceof HTMLImageElement*/ child.tagName == "IMG") {
-					child.src = list.hidden ? "gtk-stock://pan-end-symbolic" : "gtk-stock://pan-down-symbolic";
+					child.src = Evo.replaceImgSource(child.src, list.hidden,
+						"gtk-stock://x-evolution-pan-end", "gtk-stock://x-evolution-pan-down");
 				}
 			}
 		}
@@ -1057,8 +1066,12 @@ Evo.mailDisplayToggleHeadersVisibility = function(elem)
 	full_headers.style.setProperty("display", expanded ? "none" : "table");
 	short_headers.style.setProperty("display", expanded ? "table" : "none");
 
-	if (elem.firstElementChild && /* elem.firstElementChild instanceof HTMLImageElement */ elem.firstElementChild.tagName == "IMG") {
-		elem.firstElementChild.src = expanded ? "gtk-stock://pan-end-symbolic" : "gtk-stock://pan-down-symbolic";
+	var child;
+
+	for (child = elem.firstElementChild; child; child = child.nextElementSibling) {
+		if (/*child instanceof HTMLImageElement*/ child.tagName == "IMG")
+			child.src = Evo.replaceImgSource(child.src, expanded,
+				"gtk-stock://x-evolution-pan-end", "gtk-stock://x-evolution-pan-down");
 	}
 
 	window.webkit.messageHandlers.mailDisplayHeadersCollapsed.postMessage(expanded);
@@ -1095,7 +1108,8 @@ Evo.mailDisplayToggleAddressVisibility = function(elem)
 
 		full_addr.style.setProperty("display", expanded ? "none" : "inline");
 		ellipsis.style.setProperty("display", expanded ? "inline" : "none");
-		img.src = expanded ? "gtk-stock://pan-end-symbolic" : "gtk-stock://pan-down-symbolic";
+		img.src = Evo.replaceImgSource(img.src, expanded,
+			"gtk-stock://x-evolution-pan-end", "gtk-stock://x-evolution-pan-down");
 	}
 }
 
@@ -1882,6 +1896,12 @@ EvoItip.FlipAlternativeHTMLPart = function(iframe_id, element_value, img_id, spa
 		elem.hidden = !elem.hidden;
 	}
 	elem = Evo.FindElement(iframe_id, img_id);
+	if (elem) {
+		var tmp = elem.src;
+		elem.src = elem.getAttribute("othersrc");
+		elem.setAttribute("othersrc", tmp);
+	}
+	elem = Evo.FindElement(iframe_id, img_id + "-dark");
 	if (elem) {
 		var tmp = elem.src;
 		elem.src = elem.getAttribute("othersrc");

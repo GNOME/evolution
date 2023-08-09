@@ -77,6 +77,7 @@ process_stock_request_idle_cb (gpointer user_data)
 	GtkWidgetPath *path;
 	GtkIconSet *icon_set;
 	gssize size = GTK_ICON_SIZE_BUTTON;
+	gboolean dark_color_scheme = FALSE;
 	gchar *buffer = NULL, *mime_type = NULL;
 	gsize buff_len = 0;
 	GError *local_error = NULL;
@@ -105,6 +106,8 @@ process_stock_request_idle_cb (gpointer user_data)
 		value = g_hash_table_lookup (query, "size");
 		if (value)
 			size = atoi (value);
+		value = g_hash_table_lookup (query, "color-scheme");
+		dark_color_scheme = value && g_ascii_strcasecmp (value, "dark") == 0;
 
 		g_hash_table_destroy (query);
 	}
@@ -211,6 +214,53 @@ process_stock_request_idle_cb (gpointer user_data)
 
 			cairo_surface_destroy (surface);
 			g_free (data);
+		} else if (g_strcmp0 (g_uri_get_host (guri), "x-evolution-pan-down") == 0) {
+			#define PAN_SCHEME_LIGHT "#2e3436"
+			#define PAN_SCHEME_DARK "#d1cbc9"
+			#define PAN_PATH_DOWN "M 3.4393771,1.4543954 H 0.7935438 l 1.3229166,1.3229167 z"
+			#define PAN_PATH_END "M 1.4550021,3.4387704 V 0.7929371 l 1.3229167,1.3229166 z"
+			#define PAN_PATH_END_RTL "M 2.7779188,3.4387704 V 0.7929371 L 1.4550021,2.1158537 Z"
+			#define PAN_SVG(_path, _color) \
+				"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" \
+				"<svg viewBox=\"0 0 4.2333332 4.2333333\" width=\"16px\" height=\"16px\" xmlns=\"http://www.w3.org/2000/svg\">\n" \
+				"  <path d=\"" _path "\" fill=\"" _color "\"/>\n" \
+				"</svg>\n"
+
+			const gchar *svg;
+
+			if (dark_color_scheme)
+				svg = PAN_SVG (PAN_PATH_DOWN, PAN_SCHEME_DARK);
+			else
+				svg = PAN_SVG (PAN_PATH_DOWN, PAN_SCHEME_LIGHT);
+
+			mime_type = g_strdup ("image/svg+xml");
+			buff_len = strlen (svg);
+			buffer = g_strdup (svg);
+		} else if (g_strcmp0 (g_uri_get_host (guri), "x-evolution-pan-end") == 0) {
+			const gchar *svg;
+
+			if (dark_color_scheme) {
+				if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
+					svg = PAN_SVG (PAN_PATH_END_RTL, PAN_SCHEME_DARK);
+				else
+					svg = PAN_SVG (PAN_PATH_END, PAN_SCHEME_DARK);
+			} else {
+				if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
+					svg = PAN_SVG (PAN_PATH_END_RTL, PAN_SCHEME_LIGHT);
+				else
+					svg = PAN_SVG (PAN_PATH_END, PAN_SCHEME_LIGHT);
+			}
+
+			mime_type = g_strdup ("image/svg+xml");
+			buff_len = strlen (svg);
+			buffer = g_strdup (svg);
+
+			#undef PAN_COLOR_LIGHT
+			#undef PAN_COLOR_DARK
+			#undef PAN_PATH_DOWN
+			#undef PAN_PATH_END
+			#undef PAN_PATH_END_RTL
+			#undef PAN_SVG
 		}
 	}
 

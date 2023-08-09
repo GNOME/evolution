@@ -1700,6 +1700,21 @@ e_utils_shade_color (const GdkRGBA *a,
 	b->alpha = a->alpha;
 }
 
+gdouble
+e_utils_get_color_brightness (const GdkRGBA *rgba)
+{
+	gdouble brightness;
+
+	g_return_val_if_fail (rgba != NULL, 0.0);
+
+	brightness =
+		(0.2109 * 255.0 * rgba->red) +
+		(0.5870 * 255.0 * rgba->green) +
+		(0.1021 * 255.0 * rgba->blue);
+
+	return brightness;
+}
+
 GdkRGBA
 e_utils_get_text_color_for_background (const GdkRGBA *bg_rgba)
 {
@@ -1708,10 +1723,7 @@ e_utils_get_text_color_for_background (const GdkRGBA *bg_rgba)
 
 	g_return_val_if_fail (bg_rgba != NULL, text_rgba);
 
-	brightness =
-		(0.2109 * 255.0 * bg_rgba->red) +
-		(0.5870 * 255.0 * bg_rgba->green) +
-		(0.1021 * 255.0 * bg_rgba->blue);
+	brightness = e_utils_get_color_brightness (bg_rgba);
 
 	if (brightness <= 140.0) {
 		text_rgba.red = 1.0;

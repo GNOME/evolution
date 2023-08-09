@@ -621,7 +621,8 @@ render_contact_list_row (EABContactFormatter *formatter,
 			buffer,
 			"<td width=" IMAGE_COL_WIDTH " valign=\"top\" align=\"left\">"
 			"<button type=\"button\" id=\"%s\" class=\"header-collapse _evo_vcard_collapse_button\" style=\"display: inline-block;\">"
-			"<img src=\"gtk-stock://pan-down-symbolic\" />"
+			"<img src=\"gtk-stock://x-evolution-pan-down\" class=\"-evo-color-scheme-light\"/>"
+			"<img src=\"gtk-stock://x-evolution-pan-down?color-scheme=dark\" class=\"-evo-color-scheme-dark\"/>"
 			"</button>"
 			"</td><td width=\"100%%\" align=\"left\">%s",
 			e_destination_get_contact_uid (destination),
