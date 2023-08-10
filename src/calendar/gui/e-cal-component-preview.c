@@ -158,7 +158,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	g_string_append (buffer, HTML_HEADER);
 	g_string_append (buffer, "<body class=\"-e-web-view-background-color -e-web-view-text-color calpreview\">");
 
-	cal_comp_util_write_to_html (buffer, preview->priv->client, preview->priv->comp, preview->priv->timezone, preview->priv->use_24_hour_format);
+	cal_comp_util_write_to_html (buffer, preview->priv->client, preview->priv->comp, preview->priv->timezone, E_COMP_TO_HTML_FLAG_ALLOW_ICONS);
 
 	/* close document */
 	g_string_append (buffer, "</body></html>");

@@ -2399,7 +2399,7 @@ itip_send_component_complete (ItipSendComponentData *isc)
 
 	html = g_string_new ("");
 
-	cal_comp_util_write_to_html (html, isc->cal_client, isc->send_comps->data, default_zone, calendar_config_get_24_hour_format ());
+	cal_comp_util_write_to_html (html, isc->cal_client, isc->send_comps->data, default_zone, E_COMP_TO_HTML_FLAG_NONE);
 
 	as_attachment = calendar_config_get_itip_attach_components ();
 	top_level = comp_toplevel_with_zones (isc->method, isc->send_comps, isc->cal_client, isc->zones);
@@ -2700,7 +2700,7 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 		g_free (str);
 	}
 
-	cal_comp_util_write_to_html (html, cal_client, send_comp, default_zone, calendar_config_get_24_hour_format ());
+	cal_comp_util_write_to_html (html, cal_client, send_comp, default_zone, E_COMP_TO_HTML_FLAG_NONE);
 
 	ccd = g_slice_new0 (CreateComposerData);
 	ccd->identity_uid = identity_uid;

@@ -2621,7 +2621,7 @@ cal_comp_util_write_to_html (GString *html_buffer,
 			     ECalClient *client,
 			     ECalComponent *comp,
 			     ICalTimezone *default_zone,
-			     gboolean use_24_hour_format)
+			     ECompToHTMLFlags flags)
 {
 	ECalComponentText *text;
 	ECalComponentDateTime *dt;
@@ -2752,28 +2752,31 @@ cal_comp_util_write_to_html (GString *html_buffer,
 	}
 	for (iter = list; iter != NULL; iter = iter->next) {
 		const gchar *category = iter->data;
-		gchar *icon_file;
 
 		if (iter != list)
 			g_string_append (string, ", ");
 
-		icon_file = e_categories_dup_icon_file_for (category);
-		if (icon_file && g_file_test (icon_file, G_FILE_TEST_EXISTS)) {
-			gchar *uri;
+		if ((flags & E_COMP_TO_HTML_FLAG_ALLOW_ICONS) != 0) {
+			gchar *icon_file;
 
-			uri = g_filename_to_uri (icon_file, NULL, NULL);
+			icon_file = e_categories_dup_icon_file_for (category);
+			if (icon_file && g_file_test (icon_file, G_FILE_TEST_EXISTS)) {
+				gchar *uri;
 
-			g_string_append_printf (
-				string, "<img src=\"evo-%s\" width=\"16px\" height=\"16px\"> ",
-				uri);
-			g_free (uri);
+				uri = g_filename_to_uri (icon_file, NULL, NULL);
+
+				g_string_append_printf (
+					string, "<img src=\"evo-%s\" width=\"16px\" height=\"16px\"> ",
+					uri);
+				g_free (uri);
+			}
+
+			g_free (icon_file);
 		}
 
 		markup = g_markup_escape_text (category, -1);
 		g_string_append (string, markup);
 		g_free (markup);
-
-		g_free (icon_file);
 	}
 	if (string->len > 0)
 		g_string_append_printf (html_buffer, "%s", string->str);
