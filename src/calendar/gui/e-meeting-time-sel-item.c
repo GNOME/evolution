@@ -386,6 +386,7 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 	gchar *str;
 	gint hour, hour_x, hour_y;
 	PangoLayout *layout;
+	GdkRGBA rgba;
 	struct tm tm_time;
 
 	cairo_save (cr);
@@ -450,6 +451,9 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 		str = g_strconcat (buffer, " ", str, NULL);
 		g_free (tmp);
 	}
+
+	e_utils_get_theme_color (GTK_WIDGET (mts), "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &rgba);
+	gdk_cairo_set_source_rgba (cr, &rgba);
 
 	cairo_save (cr);
 
