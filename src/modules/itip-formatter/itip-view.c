@@ -2206,7 +2206,7 @@ itip_view_write (gpointer itip_part_ptr,
 		"</tr>\n");
 
 	/* RSVP area */
-	append_checkbox_table_row (buffer, CHECKBOX_RSVP, _("Send reply to sender"), TRUE);
+	append_checkbox_table_row (buffer, CHECKBOX_RSVP, _("Send reply to organizer"), TRUE);
 
         /* Comments */
 	g_string_append_printf (
