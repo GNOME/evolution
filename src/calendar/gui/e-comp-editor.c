@@ -77,6 +77,7 @@ struct _ECompEditorPrivate {
 	GtkWidget *restore_focus;
 
 	gulong target_backend_property_change_id;
+	gint last_duration;
 };
 
 enum {
@@ -1613,6 +1614,20 @@ ece_emit_times_changed_cb (ECompEditor *comp_editor)
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 
 	g_signal_emit (comp_editor, signals[TIMES_CHANGED], 0, NULL);
+
+	if (comp_editor->priv->dtstart_part && comp_editor->priv->dtend_part) {
+		ICalTime *dtstart, *dtend;
+
+		dtstart = e_comp_editor_property_part_datetime_get_value (E_COMP_EDITOR_PROPERTY_PART_DATETIME (comp_editor->priv->dtstart_part));
+		dtend = e_comp_editor_property_part_datetime_get_value (E_COMP_EDITOR_PROPERTY_PART_DATETIME (comp_editor->priv->dtend_part));
+
+		if (dtstart && i_cal_time_is_valid_time (dtstart) &&
+		    dtend && i_cal_time_is_valid_time (dtend))
+			comp_editor->priv->last_duration = i_cal_time_as_timet (dtend) - i_cal_time_as_timet (dtstart);
+
+		g_clear_object (&dtstart);
+		g_clear_object (&dtend);
+	}
 }
 
 static void
@@ -2604,6 +2619,7 @@ static void
 e_comp_editor_init (ECompEditor *comp_editor)
 {
 	comp_editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (comp_editor, E_TYPE_COMP_EDITOR, ECompEditorPrivate);
+	comp_editor->priv->last_duration = -1;
 }
 
 static void
@@ -3532,7 +3548,6 @@ ece_check_start_before_end (ECompEditor *comp_editor,
 			    ICalTime **pend_tt,
 			    gboolean adjust_end_time)
 {
-	ICalComponent *icomp;
 	ICalTime *start_tt, *end_tt, *end_tt_copy;
 	ICalTimezone *start_zone, *end_zone;
 	gint duration = -1;
@@ -3541,27 +3556,34 @@ ece_check_start_before_end (ECompEditor *comp_editor,
 	start_tt = *pstart_tt;
 	end_tt = *pend_tt;
 
+	if (comp_editor->priv->last_duration >= 0) {
+		duration = comp_editor->priv->last_duration;
+	} else {
+		ICalComponent *icomp;
 
-	icomp = e_comp_editor_get_component (comp_editor);
-	if (icomp &&
-	    e_cal_util_component_has_property (icomp, I_CAL_DTSTART_PROPERTY) &&
-	    (e_cal_util_component_has_property (icomp, I_CAL_DTEND_PROPERTY) ||
-	     e_cal_util_component_has_property (icomp, I_CAL_DUE_PROPERTY))) {
-		ICalTime *orig_start, *orig_end;
+		icomp = e_comp_editor_get_component (comp_editor);
 
-		orig_start = i_cal_component_get_dtstart (icomp);
-		if (e_cal_util_component_has_property (icomp, I_CAL_DTEND_PROPERTY))
-			orig_end = i_cal_component_get_dtend (icomp);
-		else
-			orig_end = i_cal_component_get_due (icomp);
+		if (icomp &&
+		    e_cal_util_component_has_property (icomp, I_CAL_DTSTART_PROPERTY) &&
+		    (e_cal_util_component_has_property (icomp, I_CAL_DTEND_PROPERTY) ||
+		     e_cal_util_component_has_property (icomp, I_CAL_DUE_PROPERTY))) {
+			ICalTime *orig_start, *orig_end;
 
-		if (orig_start && i_cal_time_is_valid_time (orig_start) &&
-		    orig_end && i_cal_time_is_valid_time (orig_end)) {
-			duration = i_cal_time_as_timet (orig_end) - i_cal_time_as_timet (orig_start);
+			orig_start = i_cal_component_get_dtstart (icomp);
+			if (e_cal_util_component_has_property (icomp, I_CAL_DTEND_PROPERTY))
+				orig_end = i_cal_component_get_dtend (icomp);
+			else
+				orig_end = i_cal_component_get_due (icomp);
+
+			if (orig_start && i_cal_time_is_valid_time (orig_start) &&
+			    orig_end && i_cal_time_is_valid_time (orig_end)) {
+				duration = i_cal_time_as_timet (orig_end) - i_cal_time_as_timet (orig_start);
+				comp_editor->priv->last_duration = duration;
+			}
+
+			g_clear_object (&orig_start);
+			g_clear_object (&orig_end);
 		}
-
-		g_clear_object (&orig_start);
-		g_clear_object (&orig_end);
 	}
 
 	start_zone = i_cal_time_get_timezone (start_tt);
@@ -3714,11 +3736,17 @@ e_comp_editor_ensure_start_before_end (ECompEditor *comp_editor,
 				end_tt = start_tt;
 				start_tt = NULL;
 				set_dtend = TRUE;
+
+				if (comp_editor->priv->last_duration >= 24 * 60 * 60)
+					i_cal_time_adjust (end_tt, comp_editor->priv->last_duration / (24 * 60 * 60), 0, 0, 0);
 			} else {
 				g_clear_object (&start_tt);
 				start_tt = end_tt;
 				end_tt = NULL;
 				set_dtstart = TRUE;
+
+				if (comp_editor->priv->last_duration >= 24 * 60 * 60)
+					i_cal_time_adjust (start_tt, -comp_editor->priv->last_duration / (24 * 60 * 60), 0, 0, 0);
 			}
 		}
 	} else {

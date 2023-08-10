@@ -806,10 +806,10 @@ ecepp_datetime_create_widgets (ECompEditorPropertyPart *property_part,
 
 	e_date_edit_set_date_format (date_edit, e_datetime_format_get_format ("calendar", "table",  DTFormatKindDate));
 
-	g_signal_connect_swapped (*out_edit_widget, "changed",
-		G_CALLBACK (ecepp_datetime_changed_cb), property_part);
-	g_signal_connect_swapped (*out_edit_widget, "notify::show-time",
-		G_CALLBACK (ecepp_datetime_changed_cb), property_part);
+	g_signal_connect_object (*out_edit_widget, "changed",
+		G_CALLBACK (ecepp_datetime_changed_cb), property_part, G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+	g_signal_connect_object (*out_edit_widget, "notify::show-time",
+		G_CALLBACK (ecepp_datetime_changed_cb), property_part, G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 }
 
 static void
