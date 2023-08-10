@@ -542,6 +542,27 @@ e_alert_bar_clear (EAlertBar *alert_bar)
 		alert_bar_response_close (alert);
 }
 
+gboolean
+e_alert_bar_remove_alert_by_tag (EAlertBar *alert_bar,
+				 const gchar *tag)
+{
+	GList *link;
+
+	g_return_val_if_fail (E_IS_ALERT_BAR (alert_bar), FALSE);
+	g_return_val_if_fail (tag != NULL, FALSE);
+
+	for (link = g_queue_peek_head_link (&alert_bar->priv->alerts); link; link = g_list_next (link)) {
+		EAlert *alert = link->data;
+
+		if (g_strcmp0 (tag, e_alert_get_tag (alert)) == 0) {
+			alert_bar_response_close (alert);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
 typedef struct {
 	gboolean found;
 	EAlert *looking_for;

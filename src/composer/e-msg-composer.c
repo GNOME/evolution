@@ -7016,6 +7016,7 @@ void
 e_msg_composer_check_autocrypt (EMsgComposer *composer,
 				CamelMimeMessage *original_message)
 {
+	EAlertBar *alert_bar;
 	gchar *from_email = NULL;
 	gchar *keyid = NULL;
 	gboolean send_public_key = FALSE;
@@ -7027,6 +7028,10 @@ e_msg_composer_check_autocrypt (EMsgComposer *composer,
 		g_return_if_fail (CAMEL_IS_MIME_MESSAGE (original_message));
 
 	e_msg_composer_remove_header (composer, "Autocrypt");
+
+	alert_bar = e_html_editor_get_alert_bar (e_msg_composer_get_editor (composer));
+	if (alert_bar)
+		e_alert_bar_remove_alert_by_tag (alert_bar, "mail-composer:info-autocrypt-header-too-large");
 
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN))) ||
 	    gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT)))) {
@@ -7094,7 +7099,13 @@ e_msg_composer_check_autocrypt (EMsgComposer *composer,
 			g_string_append (value, "; keydata=");
 			g_string_append (value, keydata);
 
-			e_msg_composer_add_header (composer, "Autocrypt", value->str);
+			/* Ignore headers above 10KB in size. See:
+			   https://autocrypt.org/level1.html#id74 */
+			if (value->len <= 10240)
+				e_msg_composer_add_header (composer, "Autocrypt", value->str);
+			else
+				e_alert_submit (E_ALERT_SINK (e_msg_composer_get_editor (composer)),
+					"mail-composer:info-autocrypt-header-too-large", from_email, NULL);
 
 			g_string_free (value, TRUE);
 		}

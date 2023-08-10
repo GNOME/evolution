@@ -158,4 +158,9 @@ Detailed error: {0}</_secondary>
    <_primary>Message Redirection</_primary>
    <_secondary>This message is a redirection, which allows you to change the recipients, subject and other message attributes, but not the contents of the message.</_secondary>
  </error>
+
+ <error id="info-autocrypt-header-too-large" type="info">
+   <_primary>Not adding OpenPGP public key into the mail.</_primary>
+   <_secondary>The OpenPGP public key for “{0}” is too large for the transfer.</_secondary>
+ </error>
 </error-list>

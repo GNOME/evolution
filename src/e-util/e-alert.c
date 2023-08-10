@@ -790,6 +790,14 @@ e_alert_new_array (const gchar *tag,
 	return g_object_new (E_TYPE_ALERT, "tag", tag, "args", args, NULL);
 }
 
+const gchar *
+e_alert_get_tag (EAlert *alert)
+{
+	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
+
+	return alert->priv->tag;
+}
+
 gint
 e_alert_get_default_response (EAlert *alert)
 {

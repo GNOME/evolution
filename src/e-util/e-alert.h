@@ -86,6 +86,7 @@ EAlert *	e_alert_new_valist		(const gchar *tag,
 						 va_list va);
 EAlert *	e_alert_new_array		(const gchar *tag,
 						 GPtrArray *args);
+const gchar *	e_alert_get_tag			(EAlert *alert);
 gint		e_alert_get_default_response	(EAlert *alert);
 void		e_alert_set_default_response	(EAlert *alert,
 						 gint response_id);

@@ -2476,3 +2476,21 @@ e_html_editor_clear_alerts (EHTMLEditor *editor)
 	if (editor->priv->alert_bar)
 		e_alert_bar_clear (E_ALERT_BAR (editor->priv->alert_bar));
 }
+
+/**
+ * e_html_editor_get_alert_bar:
+ * @editor: an #EHTMLEditor
+ *
+ * Returns an #EAlertBar used by the @editor.
+ *
+ * Returns: (transfer none) (nullable): an #EAlertBar used by the @editor
+ *
+ * Since: 3.50
+ **/
+EAlertBar *
+e_html_editor_get_alert_bar (EHTMLEditor *editor)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), NULL);
+
+	return editor->priv->alert_bar ? E_ALERT_BAR (editor->priv->alert_bar) : NULL;
+}

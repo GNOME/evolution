@@ -29,6 +29,7 @@
 #include <e-util/e-action-combo-box.h>
 #include <e-util/e-activity.h>
 #include <e-util/e-activity-bar.h>
+#include <e-util/e-alert-bar.h>
 #include <e-util/e-content-editor.h>
 #include <e-util/e-focus-tracker.h>
 
@@ -142,6 +143,7 @@ void		e_html_editor_remove_all_cid_parts
 CamelMimePart * e_html_editor_ref_cid_part	(EHTMLEditor *editor,
 						 const gchar *cid_uri);
 void		e_html_editor_clear_alerts	(EHTMLEditor *editor);
+EAlertBar *	e_html_editor_get_alert_bar	(EHTMLEditor *editor);
 EActionComboBox *
 		e_html_editor_util_new_mode_combobox
 						(void);
