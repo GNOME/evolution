@@ -1946,10 +1946,13 @@ itip_view_ref_parent_part (CamelMimeMessage *message,
 }
 
 static gchar *
-itip_view_dup_alternative_html (EMailPartItip *itip_part)
+itip_view_dup_alternative_html (EMailPartItip *itip_part,
+				gboolean *out_from_plain_text)
 {
 	CamelMimePart *parent_part;
 	gchar *html = NULL;
+
+	*out_from_plain_text = FALSE;
 
 	if (!itip_part->message)
 		return NULL;
@@ -2002,6 +2005,16 @@ itip_view_dup_alternative_html (EMailPartItip *itip_part)
 				if (content && *content)
 					html = camel_text_to_html (content, flags, 0);
 
+				*out_from_plain_text = TRUE;
+
+				if (html && !itip_html_is_empty (html)) {
+					gchar *tmp;
+
+					tmp = g_strconcat ("<body class=\"-e-web-view-background-color -e-web-view-text-color\">", html, "</body>", NULL);
+					g_free (html);
+					html = tmp;
+				}
+
 				g_free (content);
 			}
 		}
@@ -2030,7 +2043,7 @@ itip_view_write (gpointer itip_part_ptr,
 
 	g_clear_pointer (&itip_part->alternative_html, g_free);
 
-	itip_part->alternative_html = itip_view_dup_alternative_html (itip_part_ptr);
+	itip_part->alternative_html = itip_view_dup_alternative_html (itip_part_ptr, &itip_part->alternative_html_is_from_plain_text);
 
 	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_BUTTON, &icon_width, &icon_height)) {
 		icon_width = 16;
@@ -2165,6 +2178,7 @@ itip_view_write (gpointer itip_part_ptr,
 			uri,
 			e_mail_part_get_id (part),
 			e_mail_part_get_id (part),
+			itip_part->alternative_html_is_from_plain_text ? "" :
 			g_settings_get_boolean (settings, "preview-unset-html-colors") ? "x-e-unset-colors=\"1\"" : "style=\"background-color: #fff; color-scheme: light\"");
 
 		g_clear_object (&settings);

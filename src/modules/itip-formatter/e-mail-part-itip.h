@@ -60,6 +60,7 @@ struct _EMailPartItip {
 	CamelMimePart *itip_mime_part;
 	gchar *vcalendar;
 	gchar *alternative_html;
+	gboolean alternative_html_is_from_plain_text;
 
 	/* cancelled when freeing the puri */
 	GCancellable *cancellable;
