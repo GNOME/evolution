@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2023-02-28 12:04+0000\n"
-"PO-Revision-Date: 2023-02-28 18:36+0200\n"
+"POT-Creation-Date: 2023-08-10 09:02+0000\n"
+"PO-Revision-Date: 2023-08-11 22:15+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2731,8 +2731,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/credits.page:94
-#| msgid ""
-#| "<link href=\"https://wiki.gnome.org/DocumentationProject\">Website</link>"
 msgid ""
 "<link href=\"https://discourse.gnome.org/tag/documentation\">GNOME "
 "Discourse</link>"
@@ -6958,20 +6956,26 @@ msgstr "Відхилити:"
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:37
+#| msgid ""
+#| "Indicates you are unable to attend the meeting. The meeting is not "
+#| "entered into your calendar when you click OK, although your response is "
+#| "sent to the meeting host if you have selected the Send reply to sender "
+#| "option."
 msgid ""
 "Indicates you are unable to attend the meeting. The meeting is not entered "
 "into your calendar when you click OK, although your response is sent to the "
-"meeting host if you have selected the Send reply to sender option."
+"meeting host if you have selected the Send reply to organizer option."
 msgstr ""
 "Вказує на те, що ви не зможете взяти участь у засіданні. Запис засідання не "
 "буде додано до календаря після натискання кнопки «Гаразд», хоча вашу "
 "відповідь буде надіслано організатору засідання, якщо ви позначили пункт "
-"«Надіслати відповідь» у параметрах відправника."
+"«Надіслати відповідь організатору»."
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:39
-msgid "Send reply to sender:"
-msgstr "Надіслати відповідь відправнику:"
+#| msgid "Send reply to sender:"
+msgid "Send reply to organizer:"
+msgstr "Надіслати відповідь організатору:"
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:40
