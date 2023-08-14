@@ -100,7 +100,10 @@ action_task_forward_cb (GtkAction *action,
 
 	itip_send_component_with_model (e_task_table_get_model (task_table),
 		I_CAL_METHOD_PUBLISH, comp,
-		comp_data->client, NULL, NULL, NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT);
+		comp_data->client, NULL, NULL, NULL,
+		E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS |
+		E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT |
+		E_ITIP_SEND_COMPONENT_FLAG_AS_ATTACHMENT);
 
 	g_object_unref (comp);
 }
