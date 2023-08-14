@@ -48,67 +48,85 @@ GType e_appearance_settings_get_type (void);
 
 G_DEFINE_DYNAMIC_TYPE (EAppearanceSettings, e_appearance_settings, E_TYPE_EXTENSION)
 
-typedef struct _ToolbarIconSizeData {
+typedef struct _AppearanceData {
 	gint ref_count;
-	EToolbarIconSize current_value;
-	GtkWidget *radio_default;
-	GtkWidget *radio_small;
-	GtkWidget *radio_large;
-} ToolbarIconSizeData;
+
+	gulong toolbar_icon_size_handler_id;
+	EToolbarIconSize icon_size_value;
+	GtkWidget *icon_size_radio_default;
+	GtkWidget *icon_size_radio_small;
+	GtkWidget *icon_size_radio_large;
+
+	gulong prefer_symbolic_icons_handler_id;
+	EPreferSymbolicIcons symbolic_icons_value;
+	GtkWidget *symbolic_icons_radio_no;
+	GtkWidget *symbolic_icons_radio_yes;
+	GtkWidget *symbolic_icons_radio_auto;
+} AppearanceData;
+
+static AppearanceData *
+appearance_data_ref (AppearanceData *ad)
+{
+	g_atomic_int_inc (&ad->ref_count);
+
+	return ad;
+}
+
+static void
+appearance_data_unref (AppearanceData *ad)
+{
+	if (g_atomic_int_dec_and_test (&ad->ref_count)) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.shell");
+
+		if (ad->toolbar_icon_size_handler_id) {
+			g_signal_handler_disconnect (settings, ad->toolbar_icon_size_handler_id);
+			ad->toolbar_icon_size_handler_id = 0;
+		}
+
+		if (ad->prefer_symbolic_icons_handler_id) {
+			g_signal_handler_disconnect (settings, ad->prefer_symbolic_icons_handler_id);
+			ad->prefer_symbolic_icons_handler_id = 0;
+		}
+
+		g_clear_object (&settings);
+
+		g_free (ad);
+	}
+}
 
 static void
 e_appearance_settings_toolbar_icon_size_changed_cb (GSettings *settings,
 						    const gchar *key,
 						    gpointer user_data)
 {
-	ToolbarIconSizeData *tisd = user_data;
+	AppearanceData *ad = user_data;
 	EToolbarIconSize current_value;
 
-	g_return_if_fail (tisd != NULL);
+	g_return_if_fail (ad != NULL);
 
 	if (g_strcmp0 (key, "toolbar-icon-size") != 0)
 		return;
 
 	current_value = g_settings_get_enum (settings, "toolbar-icon-size");
 
-	if (tisd->current_value == current_value)
+	if (ad->icon_size_value == current_value)
 		return;
 
-	tisd->current_value = current_value;
+	ad->icon_size_value = current_value;
 
-	switch (tisd->current_value) {
+	switch (ad->icon_size_value) {
 	default:
 	case E_TOOLBAR_ICON_SIZE_DEFAULT:
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tisd->radio_default), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ad->icon_size_radio_default), TRUE);
 		break;
 	case E_TOOLBAR_ICON_SIZE_SMALL:
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tisd->radio_small), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ad->icon_size_radio_small), TRUE);
 		break;
 	case E_TOOLBAR_ICON_SIZE_LARGE:
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tisd->radio_large), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ad->icon_size_radio_large), TRUE);
 		break;
-	}
-}
-
-static ToolbarIconSizeData *
-toolbar_icon_size_data_ref (ToolbarIconSizeData *tisd)
-{
-	g_atomic_int_inc (&tisd->ref_count);
-
-	return tisd;
-}
-
-static void
-toolbar_icon_size_data_unref (ToolbarIconSizeData *tisd)
-{
-	if (g_atomic_int_dec_and_test (&tisd->ref_count)) {
-		GSettings *settings;
-
-		settings = e_util_ref_settings ("org.gnome.evolution.shell");
-		g_signal_handlers_disconnect_by_func (settings, G_CALLBACK (e_appearance_settings_toolbar_icon_size_changed_cb), tisd);
-		g_clear_object (&settings);
-
-		g_free (tisd);
 	}
 }
 
@@ -116,29 +134,93 @@ static void
 e_appearance_settings_toolbar_icon_size_toggled_cb (GtkWidget *radio_button,
 						    gpointer user_data)
 {
-	ToolbarIconSizeData *tisd = user_data;
+	AppearanceData *ad = user_data;
 	EToolbarIconSize new_value;
 	GSettings *settings;
 
-	g_return_if_fail (tisd != NULL);
-	g_return_if_fail (tisd->radio_default == radio_button ||
-			  tisd->radio_small == radio_button ||
-			  tisd->radio_large == radio_button);
+	g_return_if_fail (ad != NULL);
+	g_return_if_fail (ad->icon_size_radio_default == radio_button ||
+			  ad->icon_size_radio_small == radio_button ||
+			  ad->icon_size_radio_large == radio_button);
 
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radio_button)))
 		return;
 
-	new_value = radio_button == tisd->radio_small ? E_TOOLBAR_ICON_SIZE_SMALL :
-		radio_button == tisd->radio_large ? E_TOOLBAR_ICON_SIZE_LARGE :
+	new_value = radio_button == ad->icon_size_radio_small ? E_TOOLBAR_ICON_SIZE_SMALL :
+		radio_button == ad->icon_size_radio_large ? E_TOOLBAR_ICON_SIZE_LARGE :
 		E_TOOLBAR_ICON_SIZE_DEFAULT;
 
-	if (new_value == tisd->current_value)
+	if (new_value == ad->icon_size_value)
 		return;
 
-	tisd->current_value = new_value;
+	ad->icon_size_value = new_value;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.shell");
-	g_settings_set_enum (settings, "toolbar-icon-size", tisd->current_value);
+	g_settings_set_enum (settings, "toolbar-icon-size", ad->icon_size_value);
+	g_clear_object (&settings);
+}
+
+static void
+e_appearance_settings_prefer_symbolic_icons_changed_cb (GSettings *settings,
+							const gchar *key,
+							gpointer user_data)
+{
+	AppearanceData *ad = user_data;
+	EPreferSymbolicIcons current_value;
+
+	g_return_if_fail (ad != NULL);
+
+	if (g_strcmp0 (key, "prefer-symbolic-icons") != 0)
+		return;
+
+	current_value = g_settings_get_enum (settings, "prefer-symbolic-icons");
+
+	if (ad->symbolic_icons_value == current_value)
+		return;
+
+	ad->symbolic_icons_value = current_value;
+
+	switch (ad->symbolic_icons_value) {
+	default:
+	case E_PREFER_SYMBOLIC_ICONS_NO:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ad->symbolic_icons_radio_no), TRUE);
+		break;
+	case E_PREFER_SYMBOLIC_ICONS_YES:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ad->symbolic_icons_radio_yes), TRUE);
+		break;
+	case E_PREFER_SYMBOLIC_ICONS_AUTO:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ad->symbolic_icons_radio_auto), TRUE);
+		break;
+	}
+}
+
+static void
+e_appearance_settings_prefer_symbolic_icons_toggled_cb (GtkWidget *radio_button,
+							gpointer user_data)
+{
+	AppearanceData *ad = user_data;
+	EPreferSymbolicIcons new_value;
+	GSettings *settings;
+
+	g_return_if_fail (ad != NULL);
+	g_return_if_fail (ad->symbolic_icons_radio_no == radio_button ||
+			  ad->symbolic_icons_radio_yes == radio_button ||
+			  ad->symbolic_icons_radio_auto == radio_button);
+
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radio_button)))
+		return;
+
+	new_value = radio_button == ad->symbolic_icons_radio_no ? E_PREFER_SYMBOLIC_ICONS_NO :
+		radio_button == ad->symbolic_icons_radio_yes ? E_PREFER_SYMBOLIC_ICONS_YES :
+		E_PREFER_SYMBOLIC_ICONS_AUTO;
+
+	if (new_value == ad->symbolic_icons_value)
+		return;
+
+	ad->symbolic_icons_value = new_value;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	g_settings_set_enum (settings, "prefer-symbolic-icons", ad->symbolic_icons_value);
 	g_clear_object (&settings);
 }
 
@@ -148,9 +230,9 @@ e_appearance_settings_page_new (EPreferencesWindow *window)
 	PangoAttrList *bold;
 	PangoAttrList *italic;
 	GtkGrid *grid;
-	GtkWidget *widget, *main_radio;
+	GtkWidget *widget, *main_radio, *main_symbolic_icons_radio;
 	GSettings *settings;
-	ToolbarIconSizeData *tisd;
+	AppearanceData *ad;
 	gchar *filename;
 	gint row = 0;
 
@@ -235,8 +317,8 @@ e_appearance_settings_page_new (EPreferencesWindow *window)
 	gtk_grid_attach (grid, widget, 0, row, 2, 1);
 	row++;
 
-	tisd = g_new0 (ToolbarIconSizeData, 1);
-	tisd->ref_count = 1;
+	ad = g_new0 (AppearanceData, 1);
+	ad->ref_count = 1;
 
 	widget = gtk_label_new (_("Toolbar Icon Size"));
 	g_object_set (widget,
@@ -246,7 +328,19 @@ e_appearance_settings_page_new (EPreferencesWindow *window)
 		"margin-top", 12,
 		NULL);
 
-	gtk_grid_attach (grid, widget, 0, row, 2, 1);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
+
+	/* Translators: this is in a sense of "Look & Feel of the icons" */
+	widget = gtk_label_new (_("Icons Look"));
+	g_object_set (widget,
+		"halign", GTK_ALIGN_START,
+		"hexpand", FALSE,
+		"attributes", bold,
+		"margin-top", 12,
+		"margin-start", 24,
+		NULL);
+
+	gtk_grid_attach (grid, widget, 1, row, 1, 1);
 	row++;
 
 	/* Translators: This is for "Toolbar Icon Size: Default" */
@@ -257,9 +351,21 @@ e_appearance_settings_page_new (EPreferencesWindow *window)
 
 	main_radio = widget;
 
-	tisd->radio_default = widget;
+	ad->icon_size_radio_default = widget;
 
-	gtk_grid_attach (grid, widget, 0, row, 2, 1);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
+
+	/* Translators: This is for "Icons Look: Autodetect" */
+	widget = gtk_radio_button_new_with_mnemonic (NULL, _("Aut_odetect"));
+	g_object_set (widget,
+		"margin-start", 36,
+		NULL);
+
+	main_symbolic_icons_radio = widget;
+
+	ad->symbolic_icons_radio_auto = widget;
+
+	gtk_grid_attach (grid, widget, 1, row, 1, 1);
 	row++;
 
 	/* Translators: This is for "Toolbar Icon Size: Small" */
@@ -269,9 +375,20 @@ e_appearance_settings_page_new (EPreferencesWindow *window)
 		NULL);
 
 	gtk_radio_button_join_group (GTK_RADIO_BUTTON (widget), GTK_RADIO_BUTTON (main_radio));
-	tisd->radio_small = widget;
+	ad->icon_size_radio_small = widget;
 
-	gtk_grid_attach (grid, widget, 0, row, 2, 1);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
+
+	/* Translators: This is for "Icons Look: Prefer symbolic" */
+	widget = gtk_radio_button_new_with_mnemonic (NULL, _("_Prefer symbolic"));
+	g_object_set (widget,
+		"margin-start", 36,
+		NULL);
+
+	gtk_radio_button_join_group (GTK_RADIO_BUTTON (widget), GTK_RADIO_BUTTON (main_symbolic_icons_radio));
+	ad->symbolic_icons_radio_yes = widget;
+
+	gtk_grid_attach (grid, widget, 1, row, 1, 1);
 	row++;
 
 	/* Translators: This is for "Toolbar Icon Size: Large" */
@@ -281,43 +398,85 @@ e_appearance_settings_page_new (EPreferencesWindow *window)
 		NULL);
 
 	gtk_radio_button_join_group (GTK_RADIO_BUTTON (widget), GTK_RADIO_BUTTON (main_radio));
-	tisd->radio_large = widget;
+	ad->icon_size_radio_large = widget;
 
-	gtk_grid_attach (grid, widget, 0, row, 2, 1);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
+
+	/* Translators: This is for "Icons Look: Prefer regular" */
+	widget = gtk_radio_button_new_with_mnemonic (NULL, _("Prefer _regular"));
+	g_object_set (widget,
+		"margin-start", 36,
+		NULL);
+
+	gtk_radio_button_join_group (GTK_RADIO_BUTTON (widget), GTK_RADIO_BUTTON (main_symbolic_icons_radio));
+	ad->symbolic_icons_radio_no = widget;
+
+	gtk_grid_attach (grid, widget, 1, row, 1, 1);
 	row++;
 
-	g_signal_connect (settings, "changed::toolbar-icon-size",
-		G_CALLBACK (e_appearance_settings_toolbar_icon_size_changed_cb), tisd);
+	ad->toolbar_icon_size_handler_id = g_signal_connect (settings, "changed::toolbar-icon-size",
+		G_CALLBACK (e_appearance_settings_toolbar_icon_size_changed_cb), ad);
 
 	/* Read after the signal handler is connected */
-	tisd->current_value = g_settings_get_enum (settings, "toolbar-icon-size");
+	ad->icon_size_value = g_settings_get_enum (settings, "toolbar-icon-size");
 
-	switch (tisd->current_value) {
+	switch (ad->icon_size_value) {
 	default:
 	case E_TOOLBAR_ICON_SIZE_DEFAULT:
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tisd->radio_default), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ad->icon_size_radio_default), TRUE);
 		break;
 	case E_TOOLBAR_ICON_SIZE_SMALL:
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tisd->radio_small), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ad->icon_size_radio_small), TRUE);
 		break;
 	case E_TOOLBAR_ICON_SIZE_LARGE:
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tisd->radio_large), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ad->icon_size_radio_large), TRUE);
 		break;
 	}
 
-	g_signal_connect_data (tisd->radio_default, "toggled",
-		G_CALLBACK (e_appearance_settings_toolbar_icon_size_toggled_cb), toolbar_icon_size_data_ref (tisd),
-		(GClosureNotify) toolbar_icon_size_data_unref, G_CONNECT_DEFAULT);
+	g_signal_connect_data (ad->icon_size_radio_default, "toggled",
+		G_CALLBACK (e_appearance_settings_toolbar_icon_size_toggled_cb), appearance_data_ref (ad),
+		(GClosureNotify) appearance_data_unref, G_CONNECT_DEFAULT);
 
-	g_signal_connect_data (tisd->radio_small, "toggled",
-		G_CALLBACK (e_appearance_settings_toolbar_icon_size_toggled_cb), toolbar_icon_size_data_ref (tisd),
-		(GClosureNotify) toolbar_icon_size_data_unref, G_CONNECT_DEFAULT);
+	g_signal_connect_data (ad->icon_size_radio_small, "toggled",
+		G_CALLBACK (e_appearance_settings_toolbar_icon_size_toggled_cb), appearance_data_ref (ad),
+		(GClosureNotify) appearance_data_unref, G_CONNECT_DEFAULT);
 
-	g_signal_connect_data (tisd->radio_large, "toggled",
-		G_CALLBACK (e_appearance_settings_toolbar_icon_size_toggled_cb), toolbar_icon_size_data_ref (tisd),
-		(GClosureNotify) toolbar_icon_size_data_unref, G_CONNECT_DEFAULT);
+	g_signal_connect_data (ad->icon_size_radio_large, "toggled",
+		G_CALLBACK (e_appearance_settings_toolbar_icon_size_toggled_cb), appearance_data_ref (ad),
+		(GClosureNotify) appearance_data_unref, G_CONNECT_DEFAULT);
 
-	toolbar_icon_size_data_unref (tisd);
+	ad->prefer_symbolic_icons_handler_id = g_signal_connect (settings, "changed::prefer-symbolic-icons",
+		G_CALLBACK (e_appearance_settings_prefer_symbolic_icons_changed_cb), ad);
+
+	/* Read after the signal handler is connected */
+	ad->symbolic_icons_value = g_settings_get_enum (settings, "prefer-symbolic-icons");
+
+	switch (ad->symbolic_icons_value) {
+	default:
+	case E_PREFER_SYMBOLIC_ICONS_NO:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ad->symbolic_icons_radio_no), TRUE);
+		break;
+	case E_PREFER_SYMBOLIC_ICONS_YES:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ad->symbolic_icons_radio_yes), TRUE);
+		break;
+	case E_PREFER_SYMBOLIC_ICONS_AUTO:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ad->symbolic_icons_radio_auto), TRUE);
+		break;
+	}
+
+	g_signal_connect_data (ad->symbolic_icons_radio_no, "toggled",
+		G_CALLBACK (e_appearance_settings_prefer_symbolic_icons_toggled_cb), appearance_data_ref (ad),
+		(GClosureNotify) appearance_data_unref, G_CONNECT_DEFAULT);
+
+	g_signal_connect_data (ad->symbolic_icons_radio_yes, "toggled",
+		G_CALLBACK (e_appearance_settings_prefer_symbolic_icons_toggled_cb), appearance_data_ref (ad),
+		(GClosureNotify) appearance_data_unref, G_CONNECT_DEFAULT);
+
+	g_signal_connect_data (ad->symbolic_icons_radio_auto, "toggled",
+		G_CALLBACK (e_appearance_settings_prefer_symbolic_icons_toggled_cb), appearance_data_ref (ad),
+		(GClosureNotify) appearance_data_unref, G_CONNECT_DEFAULT);
+
+	appearance_data_unref (ad);
 
 	widget = gtk_label_new (_("Layout"));
 	g_object_set (widget,

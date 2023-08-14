@@ -5,6 +5,12 @@
     <value nick='small'   value='1'/>
     <value nick='large'   value='2'/>
   </enum>
+  <!-- Keep this synchronized with EPreferSymbolicIcons. -->
+  <enum id="org.gnome.evolution.shell.PreferSymbolicIcons">
+    <value nick='no'   value='0'/>
+    <value nick='yes'  value='1'/>
+    <value nick='auto' value='2'/>
+  </enum>
   <schema gettext-domain="evolution" id="org.gnome.evolution.shell" path="/org/gnome/evolution/shell/">
     <key name="skip-warning-dialog" type="b">
       <default>false</default>
@@ -160,6 +166,11 @@
       <default>false</default>
       <_summary>Whether the markdown editor show have live preview</_summary>
       <_description>When enabled, the markdown editor shows a preview beside the editing text and updates it as the user types.</_description>
+    </key>
+    <key name="prefer-symbolic-icons" enum="org.gnome.evolution.shell.PreferSymbolicIcons">
+      <default>'auto'</default>
+      <_summary>Whether to prefer symbolic icons</_summary>
+      <_description>Controls whether the application should prefer symbolic icons or not. The 'auto' value detects whether the icon theme is using symbolic icons. Note the symbolic icons cannot be used when the icon theme does not provide them. Similarly the color icons cannot be used, when they are not available.</_description>
     </key>
     <child name="window" schema="org.gnome.evolution.window"/>
   </schema>

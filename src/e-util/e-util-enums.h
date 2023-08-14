@@ -683,6 +683,12 @@ typedef enum {
 	E_TOOLBAR_ICON_SIZE_LARGE	= 2
 } EToolbarIconSize;
 
+typedef enum {
+	E_PREFER_SYMBOLIC_ICONS_NO	= 0,
+	E_PREFER_SYMBOLIC_ICONS_YES	= 1,
+	E_PREFER_SYMBOLIC_ICONS_AUTO	= 2
+} EPreferSymbolicIcons;
+
 G_END_DECLS
 
 #endif /* E_UTIL_ENUMS_H */
