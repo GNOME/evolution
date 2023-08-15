@@ -38,9 +38,10 @@
 #include <mail/em-utils.h>
 #include <mail/message-list.h>
 
+#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
-#include <calendar/gui/e-comp-editor.h>
-#include <calendar/gui/itip-utils.h>
+#include "calendar/gui/e-comp-editor.h"
+#include "calendar/gui/itip-utils.h"
 
 #include "libemail-engine/libemail-engine.h"
 
@@ -898,6 +899,7 @@ do_mail_to_event (AsyncData *data)
 		gint i;
 		ECalComponentDateTime *dt, *dt2;
 		ICalTime *tt, *tt2;
+		gchar *tzid = NULL;
 		struct _manage_comp *oldmc = NULL;
 
 		#define cache_backend_prop(prop) { \
@@ -916,13 +918,42 @@ do_mail_to_event (AsyncData *data)
 
 		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
-		/* set start day of the event as today, without time - easier than looking for a calendar's time zone */
-		tt = i_cal_time_new_today ();
-		tt2 = i_cal_time_clone (tt);
-		i_cal_time_adjust (tt2, 1, 0, 0, 0);
+		if (data->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
+			ICalTimezone *zone;
+			gint time_divisions, shorten_time;
 
-		dt = e_cal_component_datetime_new_take (tt, NULL);
-		dt2 = e_cal_component_datetime_new_take (tt2, NULL);
+			time_divisions = g_settings_get_int (settings, "time-divisions");
+			shorten_time = g_settings_get_int (settings, "shorten-time");
+			zone = calendar_config_get_icaltimezone ();
+
+			tt = i_cal_time_new_current_with_zone (zone);
+			i_cal_time_adjust (tt, 1, 0, 0, -i_cal_time_get_second (tt));
+			if ((i_cal_time_get_minute (tt) % time_divisions) != 0)
+				i_cal_time_adjust (tt, 0, 0, time_divisions - (i_cal_time_get_minute (tt) % time_divisions), 0);
+			tt2 = i_cal_time_clone (tt);
+			i_cal_time_adjust (tt2, 0, 0, time_divisions, 0);
+
+			if (shorten_time > 0 && shorten_time < time_divisions) {
+				if (g_settings_get_boolean (settings, "shorten-time-end"))
+					i_cal_time_adjust (tt2, 0, 0, -shorten_time, 0);
+				else
+					i_cal_time_adjust (tt, 0, 0, shorten_time, 0);
+			}
+
+			i_cal_time_normalize_inplace (tt);
+			i_cal_time_normalize_inplace (tt2);
+
+			if (zone)
+				tzid = g_strdup (i_cal_timezone_get_tzid (zone));
+		} else {
+			/* Memos and Tasks will start "today" */
+			tt = i_cal_time_new_today ();
+			tt2 = i_cal_time_clone (tt);
+			i_cal_time_adjust (tt2, 1, 0, 0, 0);
+		}
+
+		dt = e_cal_component_datetime_new_take (tt, g_strdup (tzid));
+		dt2 = e_cal_component_datetime_new_take (tt2, tzid);
 
 		for (i = 0; i < (uids ? uids->len : 0); i++) {
 			CamelMimeMessage *message;
