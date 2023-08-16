@@ -60,10 +60,13 @@ struct _ECompEditorPageScheduleClass {
 GType		e_comp_editor_page_schedule_get_type	(void) G_GNUC_CONST;
 ECompEditorPage *
 		e_comp_editor_page_schedule_new		(ECompEditor *editor,
-							 EMeetingStore *meeting_store);
+							 EMeetingStore *meeting_store,
+							 ENameSelector *name_selector);
 EMeetingStore *	e_comp_editor_page_schedule_get_store	(ECompEditorPageSchedule *page_schedule);
 EMeetingTimeSelector *
 		e_comp_editor_page_schedule_get_time_selector
+							(ECompEditorPageSchedule *page_schedule);
+ENameSelector *	e_comp_editor_page_schedule_get_name_selector
 							(ECompEditorPageSchedule *page_schedule);
 
 G_END_DECLS

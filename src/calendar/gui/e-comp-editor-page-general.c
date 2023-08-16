@@ -1926,6 +1926,14 @@ e_comp_editor_page_general_get_meeting_store (ECompEditorPageGeneral *page_gener
 	return page_general->priv->meeting_store;
 }
 
+ENameSelector *
+e_comp_editor_page_general_get_name_selector (ECompEditorPageGeneral *page_general)
+{
+	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general), NULL);
+
+	return e_meeting_list_view_get_name_selector (E_MEETING_LIST_VIEW (page_general->priv->attendees_list_view));
+}
+
 /* Element is a string, an email address; free with g_slist_free_full (slist, g_free); */
 GSList *
 e_comp_editor_page_general_get_added_attendees (ECompEditorPageGeneral *page_general)

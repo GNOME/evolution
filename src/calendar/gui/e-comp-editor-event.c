@@ -922,6 +922,7 @@ e_comp_editor_event_constructed (GObject *object)
 	ECompEditorPropertyPart *summary;
 	EFocusTracker *focus_tracker;
 	EMeetingStore *meeting_store;
+	ENameSelector *name_selector;
 	GtkWidget *widget;
 
 	G_OBJECT_CLASS (e_comp_editor_event_parent_class)->constructed (object);
@@ -936,6 +937,7 @@ e_comp_editor_event_constructed (GObject *object)
 	event_editor->priv->page_general = page;
 
 	meeting_store = e_comp_editor_page_general_get_meeting_store (E_COMP_EDITOR_PAGE_GENERAL (event_editor->priv->page_general));
+	name_selector = e_comp_editor_page_general_get_name_selector (E_COMP_EDITOR_PAGE_GENERAL (event_editor->priv->page_general));
 
 	part = e_comp_editor_property_part_summary_new (focus_tracker);
 	e_comp_editor_page_add_property_part (page, part, 0, 2, 3, 1);
@@ -1043,7 +1045,7 @@ e_comp_editor_event_constructed (GObject *object)
 	page = e_comp_editor_page_attachments_new (comp_editor);
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "Attachments"), page);
 
-	page = e_comp_editor_page_schedule_new (comp_editor, meeting_store);
+	page = e_comp_editor_page_schedule_new (comp_editor, meeting_store, name_selector);
 	e_binding_bind_property (
 		event_editor->priv->page_general, "show-attendees",
 		page, "visible",

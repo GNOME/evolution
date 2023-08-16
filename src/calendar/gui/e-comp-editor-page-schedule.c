@@ -28,11 +28,13 @@
 struct _ECompEditorPageSchedulePrivate {
 	EMeetingStore *store;
 	EMeetingTimeSelector *selector;
+	ENameSelector *name_selector;
 };
 
 enum {
 	PROP_0,
-	PROP_STORE
+	PROP_STORE,
+	PROP_NAME_SELECTOR
 };
 
 G_DEFINE_TYPE (ECompEditorPageSchedule, e_comp_editor_page_schedule, E_TYPE_COMP_EDITOR_PAGE)
@@ -416,6 +418,17 @@ e_comp_editor_page_schedule_set_store (ECompEditorPageSchedule *page_schedule,
 }
 
 static void
+e_comp_editor_page_schedule_set_name_selector (ECompEditorPageSchedule *page_schedule,
+					       ENameSelector *name_selector)
+{
+	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_SCHEDULE (page_schedule));
+	g_return_if_fail (E_IS_NAME_SELECTOR (name_selector));
+	g_return_if_fail (page_schedule->priv->name_selector == NULL);
+
+	page_schedule->priv->name_selector = g_object_ref (name_selector);
+}
+
+static void
 e_comp_editor_page_schedule_set_property (GObject *object,
 					  guint property_id,
 					  const GValue *value,
@@ -424,6 +437,12 @@ e_comp_editor_page_schedule_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_STORE:
 			e_comp_editor_page_schedule_set_store (
+				E_COMP_EDITOR_PAGE_SCHEDULE (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_NAME_SELECTOR:
+			e_comp_editor_page_schedule_set_name_selector (
 				E_COMP_EDITOR_PAGE_SCHEDULE (object),
 				g_value_get_object (value));
 			return;
@@ -443,6 +462,13 @@ e_comp_editor_page_schedule_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				e_comp_editor_page_schedule_get_store (
+				E_COMP_EDITOR_PAGE_SCHEDULE (object)));
+			return;
+
+		case PROP_NAME_SELECTOR:
+			g_value_set_object (
+				value,
+				e_comp_editor_page_schedule_get_name_selector (
 				E_COMP_EDITOR_PAGE_SCHEDULE (object)));
 			return;
 	}
@@ -539,6 +565,7 @@ e_comp_editor_page_schedule_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (page_schedule), widget, 0, 0, 1, 1);
 
 	page_schedule->priv->selector = E_MEETING_TIME_SELECTOR (widget);
+	e_meeting_list_view_set_name_selector (page_schedule->priv->selector->list_view, page_schedule->priv->name_selector);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
@@ -587,6 +614,7 @@ e_comp_editor_page_schedule_dispose (GObject *object)
 	}
 
 	g_clear_object (&page_schedule->priv->store);
+	g_clear_object (&page_schedule->priv->name_selector);
 
 	G_OBJECT_CLASS (e_comp_editor_page_schedule_parent_class)->dispose (object);
 }
@@ -629,17 +657,31 @@ e_comp_editor_page_schedule_class_init (ECompEditorPageScheduleClass *klass)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_NAME_SELECTOR,
+		g_param_spec_object (
+			"name-selector",
+			"Name Selector",
+			NULL,
+			E_TYPE_NAME_SELECTOR,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 ECompEditorPage *
 e_comp_editor_page_schedule_new (ECompEditor *editor,
-				 EMeetingStore *meeting_store)
+				 EMeetingStore *meeting_store,
+				 ENameSelector *name_selector)
 {
 	g_return_val_if_fail (E_IS_COMP_EDITOR (editor), NULL);
 
 	return g_object_new (E_TYPE_COMP_EDITOR_PAGE_SCHEDULE,
 		"editor", editor,
 		"store", meeting_store,
+		"name-selector", name_selector,
 		NULL);
 }
 
@@ -657,4 +699,12 @@ e_comp_editor_page_schedule_get_time_selector (ECompEditorPageSchedule *page_sch
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_SCHEDULE (page_schedule), NULL);
 
 	return page_schedule->priv->selector;
+}
+
+ENameSelector *
+e_comp_editor_page_schedule_get_name_selector (ECompEditorPageSchedule *page_schedule)
+{
+	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_SCHEDULE (page_schedule), NULL);
+
+	return page_schedule->priv->name_selector;
 }

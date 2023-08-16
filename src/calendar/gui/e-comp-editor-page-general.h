@@ -109,6 +109,8 @@ void		e_comp_editor_page_general_set_data_column_width
 void		e_comp_editor_page_general_update_view	(ECompEditorPageGeneral *page_general);
 EMeetingStore *	e_comp_editor_page_general_get_meeting_store
 							(ECompEditorPageGeneral *page_general);
+ENameSelector *	e_comp_editor_page_general_get_name_selector
+							(ECompEditorPageGeneral *page_general);
 GSList *	e_comp_editor_page_general_get_added_attendees
 							(ECompEditorPageGeneral *page_general);
 GSList *	e_comp_editor_page_general_get_removed_attendees
