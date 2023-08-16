@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-08-14 13:34+0000\n"
-"PO-Revision-Date: 2023-08-14 20:33+0300\n"
+"POT-Creation-Date: 2023-08-16 11:00+0000\n"
+"PO-Revision-Date: 2023-08-16 14:40+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3138,10 +3138,22 @@ msgstr ""
 "дуже простим текстовим редактором без правлення до вхідного тексту."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
+#| msgid "Move folder in folder tree."
+msgid "Show unread count in folder tree"
+msgstr "Показувати кількість непрочитаних в ієрархії тек"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
+#| msgid "Change sort order of the folders in the folder tree"
+msgid "Show unread count beside the folder name in the folder tree."
+msgstr ""
+"Показувати кількість непрочитаних повідомлень поряд із назвою теки в"
+" ієрархії тек."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
 msgid "(Deprecated) Default forward style"
 msgstr "(Застаріло) Типовий стиль пересилання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -3149,11 +3161,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «forward-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
 msgid "(Deprecated) Default reply style"
 msgstr "(Застаріло) Типовий стиль відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:337
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -3161,11 +3173,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «reply-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:338
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Застаріло) Список власних заголовків та їхній стан."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:337
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:339
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -3173,12 +3185,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «show-headers» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:338
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:340
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 "(Застаріло) Автоматично завантажувати зображення у листах HTML через HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:339
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:341
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -3186,7 +3198,7 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «image-loading-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:340
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:342
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -3194,7 +3206,7 @@ msgstr ""
 "(Застаріло) Запитує, чи закривати вікно листа, коли користувач пересилає або "
 "відповідає на показане лист у вікні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:341
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:343
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3202,12 +3214,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «browser-close-on-reply-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:342
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:344
 msgid "Prompt before send when attachment changed on the disk"
 msgstr ""
 "Запитувати, перш ніж надсилати долучення, до якого внесено зміни на диску"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:343
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:345
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
@@ -3840,12 +3852,12 @@ msgid ""
 "the symbolic icons cannot be used when the icon theme does not provide them. "
 "Similarly the color icons cannot be used, when they are not available."
 msgstr ""
-"Керує тим, чи слід програмі надавати перевагу символічним піктограмам."
-" Значення «auto» призводить до автоматичного виявлення того, чи у темі"
-" піктограм системи використано символічні піктограми. Зауважте, що"
-" символічні піктограми не можна використовувати, якщо у темі піктограм немає"
-" таких піктограм. Так само, кольорові піктограми не можна використовувати,"
-" якщо вони є недоступними."
+"Керує тим, чи слід програмі надавати перевагу символічним піктограмам. "
+"Значення «auto» призводить до автоматичного виявлення того, чи у темі "
+"піктограм системи використано символічні піктограми. Зауважте, що символічні "
+"піктограми не можна використовувати, якщо у темі піктограм немає таких "
+"піктограм. Так само, кольорові піктограми не можна використовувати, якщо "
+"вони є недоступними."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -4827,7 +4839,7 @@ msgid "_Home Page:"
 msgstr "_Домашня сторінка:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
-#: ../src/calendar/gui/e-comp-editor-event.c:934
+#: ../src/calendar/gui/e-comp-editor-event.c:935
 #: ../src/modules/itip-formatter/itip-view.c:2471
 msgid "_Calendar:"
 msgstr "_Календар:"
@@ -8410,7 +8422,7 @@ msgstr "Час початку — недійсний час"
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:444
 #: ../src/plugins/face/face.c:175
-#: ../src/plugins/mail-to-task/mail-to-task.c:951 ../src/shell/e-shell.c:1258
+#: ../src/plugins/mail-to-task/mail-to-task.c:982 ../src/shell/e-shell.c:1258
 #: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:353
 #, c-format
 msgid "Unknown error"
@@ -8486,58 +8498,58 @@ msgstr "К_онфіденційне"
 msgid "Classify as confidential"
 msgstr "Класифікувати як конфіденційне"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:947
+#: ../src/calendar/gui/e-comp-editor-event.c:949
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "По_чаток:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:952
+#: ../src/calendar/gui/e-comp-editor-event.c:954
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "Кіне_ць:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:962
+#: ../src/calendar/gui/e-comp-editor-event.c:964
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "Подія на весь _день"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1035
+#: ../src/calendar/gui/e-comp-editor-event.c:1037
 #: ../src/calendar/gui/e-comp-editor-memo.c:359
 #: ../src/calendar/gui/e-comp-editor-task.c:987
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Загальне"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1038
+#: ../src/calendar/gui/e-comp-editor-event.c:1040
 #: ../src/calendar/gui/e-comp-editor-task.c:1010
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Нагадування"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1041
+#: ../src/calendar/gui/e-comp-editor-event.c:1043
 #: ../src/calendar/gui/e-comp-editor-task.c:1014
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Повторення"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1044
+#: ../src/calendar/gui/e-comp-editor-event.c:1046
 #: ../src/calendar/gui/e-comp-editor-memo.c:362
 #: ../src/calendar/gui/e-comp-editor-task.c:1018
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "Долучення"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1052
+#: ../src/calendar/gui/e-comp-editor-event.c:1054
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "Розклад"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1087
+#: ../src/calendar/gui/e-comp-editor-event.c:1089
 #, c-format
 msgid "Meeting — %s"
 msgstr "Зібрання — %s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1088
+#: ../src/calendar/gui/e-comp-editor-event.c:1090
 #, c-format
 msgid "Appointment — %s"
 msgstr "Зустріч — %s"
@@ -9237,11 +9249,11 @@ msgstr "_Аргументи:"
 msgid "_Send To:"
 msgstr "_Надіслати:"
 
-#: ../src/calendar/gui/e-comp-editor-page-schedule.c:479
+#: ../src/calendar/gui/e-comp-editor-page-schedule.c:505
 msgid "_Schedule"
 msgstr "_Розклад"
 
-#: ../src/calendar/gui/e-comp-editor-page-schedule.c:481
+#: ../src/calendar/gui/e-comp-editor-page-schedule.c:507
 msgid "Query free / busy information for the attendees"
 msgstr "Запитати інформацію про зайнятість для учасників"
 
@@ -13954,22 +13966,22 @@ msgstr "Інше…"
 msgid "Cannot create a client object from extension name “%s”"
 msgstr "Неможливо створити клієнтський об'єкт з назвою розширення «%s»"
 
-#: ../src/e-util/e-client-selector.c:190 ../src/mail/em-folder-tree.c:1035
+#: ../src/e-util/e-client-selector.c:190 ../src/mail/em-folder-tree.c:1039
 msgctxt "Status"
 msgid "Offline"
 msgstr "Поза мережею"
 
-#: ../src/e-util/e-client-selector.c:193 ../src/mail/em-folder-tree.c:1038
+#: ../src/e-util/e-client-selector.c:193 ../src/mail/em-folder-tree.c:1042
 msgctxt "Status"
 msgid "Online"
 msgstr "У мережі"
 
-#: ../src/e-util/e-client-selector.c:196 ../src/mail/em-folder-tree.c:1041
+#: ../src/e-util/e-client-selector.c:196 ../src/mail/em-folder-tree.c:1045
 msgctxt "Status"
 msgid "Unreachable"
 msgstr "Недоступний"
 
-#: ../src/e-util/e-client-selector.c:199 ../src/mail/em-folder-tree.c:1044
+#: ../src/e-util/e-client-selector.c:199 ../src/mail/em-folder-tree.c:1048
 msgctxt "Status"
 msgid "Failed to connect"
 msgstr "Не вдалося з'єднатися"
@@ -20227,7 +20239,7 @@ msgstr "<клацніть, щоб вибрати теку>"
 msgid "Create a new folder"
 msgstr "Створити нову теку"
 
-#: ../src/mail/em-folder-tree.c:685
+#: ../src/mail/em-folder-tree.c:687
 msgid "Folder names cannot contain “/”"
 msgstr "Назви файлів не можуть містити «/»"
 
@@ -20249,37 +20261,37 @@ msgstr "Назви файлів не можуть містити «/»"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../src/mail/em-folder-tree.c:887
+#: ../src/mail/em-folder-tree.c:891
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1826
+#: ../src/mail/em-folder-tree.c:1865
 msgid "Mail Folder Tree"
 msgstr "Дерево поштових тек"
 
-#: ../src/mail/em-folder-tree.c:2376
+#: ../src/mail/em-folder-tree.c:2415
 #, c-format
 msgid "Moving folder %s"
 msgstr "Переміщення теки %s"
 
-#: ../src/mail/em-folder-tree.c:2379
+#: ../src/mail/em-folder-tree.c:2418
 #, c-format
 msgid "Copying folder %s"
 msgstr "Відкривання теки %s"
 
-#: ../src/mail/em-folder-tree.c:2386 ../src/mail/message-list.c:2655
+#: ../src/mail/em-folder-tree.c:2425 ../src/mail/message-list.c:2655
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Переміщення повідомлень у теку %s"
 
-#: ../src/mail/em-folder-tree.c:2390 ../src/mail/message-list.c:2657
+#: ../src/mail/em-folder-tree.c:2429 ../src/mail/message-list.c:2657
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копіювання повідомлень у теку %s"
 
-#: ../src/mail/em-folder-tree.c:2409
+#: ../src/mail/em-folder-tree.c:2448
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Не вдалося скинути повідомлення у сховище верхнього рівня"
@@ -25394,7 +25406,7 @@ msgstr "Сервер LDAP"
 msgid "Looking up LDAP server…"
 msgstr "Пошук сервера LDAP…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:285
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:287
 msgid "Look up in SRV records"
 msgstr "Шукати у записах SRV"
 
@@ -28451,30 +28463,30 @@ msgid "Notifies you when new mail messages arrive."
 msgstr "Сповіщати про отримання нової пошти."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
-#: ../src/plugins/mail-to-task/mail-to-task.c:199
+#: ../src/plugins/mail-to-task/mail-to-task.c:200
 #, c-format
 msgid "Created from a mail by %s"
 msgstr "Створено з повідомлення від %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:598
+#: ../src/plugins/mail-to-task/mail-to-task.c:599
 msgctxt "mail-to-task"
 msgid "_Cancel"
 msgstr "_Скасувати"
 
 #. Translators: Dialog button to Edit an existing event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:600
+#: ../src/plugins/mail-to-task/mail-to-task.c:601
 msgctxt "mail-to-task"
 msgid "_Edit"
 msgstr "_Редагувати"
 
 #. Translators: Dialog button to create a New event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:602
+#: ../src/plugins/mail-to-task/mail-to-task.c:603
 msgctxt "mail-to-task"
 msgid "_New"
 msgstr "_Створити"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:620
+#: ../src/plugins/mail-to-task/mail-to-task.c:621
 #, c-format
 msgid ""
 "Selected calendar contains event “%s” already. Would you like to edit the "
@@ -28483,7 +28495,7 @@ msgstr ""
 "Вибраний календар вже містить подію «%s». Ви бажаєте відредагувати стару "
 "подію?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:623
+#: ../src/plugins/mail-to-task/mail-to-task.c:624
 #, c-format
 msgid ""
 "Selected task list contains task “%s” already. Would you like to edit the "
@@ -28492,7 +28504,7 @@ msgstr ""
 "Вибраний список завдань вже містить завдань «%s». Ви бажаєте відредагувати "
 "старе завдання?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:626
+#: ../src/plugins/mail-to-task/mail-to-task.c:627
 #, c-format
 msgid ""
 "Selected memo list contains memo “%s” already. Would you like to edit the "
@@ -28502,7 +28514,7 @@ msgstr ""
 "стару примітку?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:646
+#: ../src/plugins/mail-to-task/mail-to-task.c:647
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
@@ -28516,7 +28528,7 @@ msgstr[2] "Вибрано %d листів для перетворення на �
 msgstr[3] "Вибрано %d лист для перетворення на подію. Додати його?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:653
+#: ../src/plugins/mail-to-task/mail-to-task.c:654
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
@@ -28530,7 +28542,7 @@ msgstr[2] "Вибрано %d листів для перетворення на �
 msgstr[3] "Вибрано %d лист для перетворення на завдання. Додати його?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:660
+#: ../src/plugins/mail-to-task/mail-to-task.c:661
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
@@ -28543,29 +28555,29 @@ msgstr[1] "Вибрано %d листа для перетворення на п�
 msgstr[2] "Вибрано %d листів для перетворення на примітки. Додати їх усіх?"
 msgstr[3] "Вибрано %d лист для перетворення на примітку. Додати його?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:681
+#: ../src/plugins/mail-to-task/mail-to-task.c:682
 msgid "Do you wish to continue converting remaining mails?"
 msgstr "Продовжити перетворення залишкових листів?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:763
+#: ../src/plugins/mail-to-task/mail-to-task.c:764
 msgid "[No Summary]"
 msgstr "[Немає зведення]"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:775
+#: ../src/plugins/mail-to-task/mail-to-task.c:776
 msgid "Invalid object returned from a server"
 msgstr "Сервер повернув неправильний об'єкт"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:829
+#: ../src/plugins/mail-to-task/mail-to-task.c:830
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "При обробці сталася помилка: %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:880
+#: ../src/plugins/mail-to-task/mail-to-task.c:881
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Не вдалося відкрити календар. %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:884
+#: ../src/plugins/mail-to-task/mail-to-task.c:885
 msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
@@ -28573,7 +28585,7 @@ msgstr ""
 "Вибраний календар — тільки для читання, тому там неможливо створити подію. "
 "Виберіть інший календар."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:887
+#: ../src/plugins/mail-to-task/mail-to-task.c:888
 msgid ""
 "Selected task list is read only, thus cannot create task there. Select other "
 "task list, please."
@@ -28581,7 +28593,7 @@ msgstr ""
 "Вибраний список завдань — тільки для читання, тому там неможливо створити "
 "завдання. Виберіть інший список завдань."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:890
+#: ../src/plugins/mail-to-task/mail-to-task.c:891
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
@@ -28589,40 +28601,40 @@ msgstr ""
 "Вибраний список приміток — тільки для читання, тому там неможливо створити "
 "примітки. Виберіть інший список приміток."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:951
+#: ../src/plugins/mail-to-task/mail-to-task.c:982
 #, c-format
 msgid "Cannot create component: %s"
 msgstr "Не вдалося створити компонент: %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1328
+#: ../src/plugins/mail-to-task/mail-to-task.c:1359
 msgid "Create an _Appointment"
 msgstr "Створити _зустріч"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1330
+#: ../src/plugins/mail-to-task/mail-to-task.c:1361
 msgid "Create a new event from the selected message"
 msgstr "Створити нову подію з виділеного повідомлення"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1335
+#: ../src/plugins/mail-to-task/mail-to-task.c:1366
 msgid "Create a Mem_o"
 msgstr "Створити при_мітку"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1337
+#: ../src/plugins/mail-to-task/mail-to-task.c:1368
 msgid "Create a new memo from the selected message"
 msgstr "Створити нову примітку з виділеного повідомлення"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1342
+#: ../src/plugins/mail-to-task/mail-to-task.c:1373
 msgid "Create a _Task"
 msgstr "Створити _завдання"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1344
+#: ../src/plugins/mail-to-task/mail-to-task.c:1375
 msgid "Create a new task from the selected message"
 msgstr "Створити нове завдання з виділеного повідомлення"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1352
+#: ../src/plugins/mail-to-task/mail-to-task.c:1383
 msgid "Create a _Meeting"
 msgstr "Створити з_устріч"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1354
+#: ../src/plugins/mail-to-task/mail-to-task.c:1385
 msgid "Create a new meeting from the selected message"
 msgstr "Створити нову зустріч з виділеного повідомлення"
 
