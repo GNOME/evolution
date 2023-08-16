@@ -409,7 +409,7 @@ proxy_editor_constructed (GObject *object)
 	editor->priv->http_host_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	g_signal_connect (
+	g_signal_connect_after (
 		widget, "focus-out-event",
 		G_CALLBACK (proxy_editor_focus_out_event_cb), editor);
 
@@ -421,7 +421,7 @@ proxy_editor_constructed (GObject *object)
 	editor->priv->http_port_spin_button = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	g_signal_connect (
+	g_signal_connect_after (
 		widget, "focus-out-event",
 		G_CALLBACK (proxy_editor_focus_out_event_cb), editor);
 
@@ -440,7 +440,7 @@ proxy_editor_constructed (GObject *object)
 	editor->priv->https_host_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	g_signal_connect (
+	g_signal_connect_after (
 		widget, "focus-out-event",
 		G_CALLBACK (proxy_editor_focus_out_event_cb), editor);
 
@@ -452,7 +452,7 @@ proxy_editor_constructed (GObject *object)
 	editor->priv->https_port_spin_button = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	g_signal_connect (
+	g_signal_connect_after (
 		widget, "focus-out-event",
 		G_CALLBACK (proxy_editor_focus_out_event_cb), editor);
 
@@ -471,7 +471,7 @@ proxy_editor_constructed (GObject *object)
 	editor->priv->socks_host_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	g_signal_connect (
+	g_signal_connect_after (
 		widget, "focus-out-event",
 		G_CALLBACK (proxy_editor_focus_out_event_cb), editor);
 
@@ -483,7 +483,7 @@ proxy_editor_constructed (GObject *object)
 	editor->priv->socks_port_spin_button = widget;
 	gtk_widget_show (widget);
 
-	g_signal_connect (
+	g_signal_connect_after (
 		widget, "focus-out-event",
 		G_CALLBACK (proxy_editor_focus_out_event_cb), editor);
 
@@ -502,7 +502,7 @@ proxy_editor_constructed (GObject *object)
 	editor->priv->ignore_hosts_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	g_signal_connect (
+	g_signal_connect_after (
 		widget, "focus-out-event",
 		G_CALLBACK (proxy_editor_focus_out_event_cb), editor);
 
@@ -547,7 +547,7 @@ proxy_editor_constructed (GObject *object)
 	editor->priv->autoconfig_url_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	g_signal_connect (
+	g_signal_connect_after (
 		widget, "focus-out-event",
 		G_CALLBACK (proxy_editor_focus_out_event_cb), editor);
 
@@ -582,10 +582,9 @@ proxy_editor_constructed (GObject *object)
 	proxy_editor_load (editor);
 
 	/* Connect to this signal after the initial load. */
-	g_signal_connect (
+	g_signal_connect_after (
 		editor->priv->method_combo_box, "changed",
 		G_CALLBACK (proxy_editor_combo_box_changed_cb), editor);
-
 }
 
 static void
