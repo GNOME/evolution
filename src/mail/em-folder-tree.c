@@ -90,6 +90,7 @@ struct _EMFolderTreePrivate {
 				 * else has set the cursor, otherwise
 				 * we need to set it when we set the
 				 * selection */
+	guint show_unread_count:1;
 
 	guint autoscroll_id;
 	guint autoexpand_id;
@@ -124,7 +125,8 @@ enum {
 	PROP_COPY_TARGET_LIST,
 	PROP_MODEL,
 	PROP_PASTE_TARGET_LIST,
-	PROP_SESSION
+	PROP_SESSION,
+	PROP_SHOW_UNREAD_COUNT
 };
 
 enum {
@@ -823,8 +825,10 @@ static void
 folder_tree_render_display_name (GtkTreeViewColumn *column,
                                  GtkCellRenderer *renderer,
                                  GtkTreeModel *model,
-                                 GtkTreeIter *iter)
+                                 GtkTreeIter *iter,
+				 gpointer user_data)
 {
+	EMFolderTree *self = user_data;
 	CamelService *service;
 	PangoWeight weight;
 	gboolean is_store, bold, subdirs_unread = FALSE;
@@ -862,7 +866,7 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 		display_name = camel_service_get_display_name (service);
 		g_object_set (renderer, "text", display_name, NULL);
 
-	} else if (!editable && unread > 0) {
+	} else if (!editable && unread > 0 && self->priv->show_unread_count) {
 		gchar *name_and_unread;
 
 		name_and_unread = g_strdup_printf (
@@ -1223,6 +1227,12 @@ folder_tree_set_property (GObject *object,
 				EM_FOLDER_TREE (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_SHOW_UNREAD_COUNT:
+			em_folder_tree_set_show_unread_count (
+				EM_FOLDER_TREE (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1267,6 +1277,13 @@ folder_tree_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				em_folder_tree_get_session (
+				EM_FOLDER_TREE (object)));
+			return;
+
+		case PROP_SHOW_UNREAD_COUNT:
+			g_value_set_boolean (
+				value,
+				em_folder_tree_get_show_unread_count (
 				EM_FOLDER_TREE (object)));
 			return;
 	}
@@ -1408,8 +1425,8 @@ folder_tree_constructed (GObject *object)
 	gtk_tree_view_column_add_attribute (
 		column, renderer, "foreground-rgba", COL_RGBA_FOREGROUND_RGBA);
 	gtk_tree_view_column_set_cell_data_func (
-		column, renderer, (GtkTreeCellDataFunc)
-		folder_tree_render_display_name, NULL, NULL);
+		column, renderer,
+		folder_tree_render_display_name, object, NULL);
 
 	g_signal_connect_swapped (
 		renderer, "edited",
@@ -1754,6 +1771,17 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_UNREAD_COUNT,
+		g_param_spec_boolean (
+			"show-unread-count",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
 	signals[FOLDER_SELECTED] = g_signal_new (
 		"folder-selected",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -1812,12 +1840,23 @@ static void
 em_folder_tree_init (EMFolderTree *folder_tree)
 {
 	GHashTable *select_uris_table;
+	GSettings *settings;
 	AtkObject *a11y;
 
 	select_uris_table = g_hash_table_new (g_str_hash, g_str_equal);
 
 	folder_tree->priv = EM_FOLDER_TREE_GET_PRIVATE (folder_tree);
 	folder_tree->priv->select_uris_table = select_uris_table;
+	folder_tree->priv->show_unread_count = TRUE;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	g_settings_bind (
+		settings, "show-folder-tree-unread-count",
+		folder_tree, "show-unread-count",
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
 
 	/* FIXME Gross hack. */
 	gtk_widget_set_can_focus (GTK_WIDGET (folder_tree), TRUE);
@@ -3922,4 +3961,29 @@ em_folder_tree_select_store_when_added (EMFolderTree *folder_tree,
 
 	g_free (folder_tree->priv->select_store_uid_when_added);
 	folder_tree->priv->select_store_uid_when_added = g_strdup (store_uid);
+}
+
+gboolean
+em_folder_tree_get_show_unread_count (EMFolderTree *folder_tree)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), FALSE);
+
+	return folder_tree->priv->show_unread_count;
+}
+
+void
+em_folder_tree_set_show_unread_count (EMFolderTree *folder_tree,
+				      gboolean show_unread_count)
+{
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
+
+	if ((folder_tree->priv->show_unread_count ? 1 : 0) == (show_unread_count ? 1 : 0))
+		return;
+
+	folder_tree->priv->show_unread_count = show_unread_count;
+
+	g_object_notify (G_OBJECT (folder_tree), "show-unread-count");
+
+	if (gtk_widget_get_realized (GTK_WIDGET (folder_tree)))
+		gtk_widget_queue_draw (GTK_WIDGET (folder_tree));
 }

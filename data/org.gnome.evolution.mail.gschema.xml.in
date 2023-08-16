@@ -937,6 +937,11 @@
       <_summary>Whether the markdown composer should sanitize input text also for the 'Markdown as Plain text' mode</_summary>
       <_description>Disabling the sanitization allows to use the Markdown editor as a very simple text editor without mangling the input text.</_description>
     </key>
+    <key name="show-folder-tree-unread-count" type="b">
+      <default>true</default>
+      <_summary>Show unread count in folder tree</_summary>
+      <_description>Show unread count beside the folder name in the folder tree.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

@@ -97,6 +97,11 @@ GtkWidget *	em_folder_tree_new_with_model	(EMailSession *session,
 EActivity *	em_folder_tree_new_activity	(EMFolderTree *folder_tree);
 EAlertSink *	em_folder_tree_get_alert_sink	(EMFolderTree *folder_tree);
 EMailSession *	em_folder_tree_get_session	(EMFolderTree *folder_tree);
+gboolean	em_folder_tree_get_show_unread_count
+						(EMFolderTree *folder_tree);
+void		em_folder_tree_set_show_unread_count
+						(EMFolderTree *folder_tree,
+						 gboolean show_unread_count);
 void		em_folder_tree_enable_drag_and_drop
 						(EMFolderTree *folder_tree);
 void		em_folder_tree_set_excluded	(EMFolderTree *folder_tree,
