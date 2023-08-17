@@ -942,6 +942,11 @@
       <_summary>Show unread count in folder tree</_summary>
       <_description>Show unread count beside the folder name in the folder tree.</_description>
     </key>
+    <key name="show-insecure-parts" type="b">
+      <default>false</default>
+      <_summary>Show insecure parts by default</_summary>
+      <_description>Set whether not signed/encrypted parts beside signed/encrypted parts should be shown after mail open. The default is to hide these possibly insecure parts.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

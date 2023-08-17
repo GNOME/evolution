@@ -699,6 +699,8 @@ e_mail_formatter_format_security_header (EMailFormatter *formatter,
 
 		if (tmp->len > 0) {
 			if (is_partial && context && context->mode == E_MAIL_FORMATTER_MODE_NORMAL) {
+				GSettings *settings;
+				gboolean show_parts;
 				gint icon_width, icon_height;
 				gchar *escaped;
 
@@ -711,14 +713,18 @@ e_mail_formatter_format_security_header (EMailFormatter *formatter,
 				g_string_assign (tmp, escaped);
 				g_free (escaped);
 
+				settings = e_util_ref_settings ("org.gnome.evolution.mail");
+				show_parts = g_settings_get_boolean (settings, "show-insecure-parts");
+				g_object_unref (settings);
+
 				e_util_markup_append_escaped (tmp,
 					"&nbsp;&nbsp;&nbsp; (<img src=\"gtk-stock://dialog-warning?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\"/>&nbsp;"
-					"<a class=\"manage-insecure-parts\" id=\"show:%s\" value=\"%s\" style=\"cursor:pointer;\">%s</a>"
-					"<a class=\"manage-insecure-parts\" id=\"hide:%s\" value=\"%s\" style=\"cursor:pointer;\" hidden>%s</a>"
+					"<a class=\"manage-insecure-parts\" id=\"show:%s\" value=\"%s\" style=\"cursor:pointer;\"%s>%s</a>"
+					"<a class=\"manage-insecure-parts\" id=\"hide:%s\" value=\"%s\" style=\"cursor:pointer;\"%s>%s</a>"
 					")",
 					GTK_ICON_SIZE_BUTTON, icon_width, icon_height,
-					part_id_prefix, part_id_prefix, _("Show parts not being secured"),
-					part_id_prefix, part_id_prefix, _("Hide parts not being secured"));
+					part_id_prefix, part_id_prefix, show_parts ? " hidden" : "", _("Show parts not being secured"),
+					part_id_prefix, part_id_prefix, show_parts ? "" : " hidden", _("Hide parts not being secured"));
 
 				flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML;
 			}

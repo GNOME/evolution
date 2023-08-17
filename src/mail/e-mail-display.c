@@ -1470,7 +1470,8 @@ mail_display_content_loaded_cb (EWebView *web_view,
 			g_clear_object (&part);
 		}
 
-		if (mail_display->priv->has_secured_parts) {
+		if (mail_display->priv->has_secured_parts &&
+		    mail_display->priv->skip_insecure_parts) {
 			GSList *link;
 
 			for (link = mail_display->priv->insecure_part_ids; link; link = g_slist_next (link)) {
@@ -2796,6 +2797,7 @@ e_mail_display_init (EMailDisplay *display)
 	GtkUIManager *ui_manager;
 	GtkActionGroup *actions;
 	GList *acts_list, *link;
+	GSettings *settings;
 
 	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
 
@@ -2805,7 +2807,10 @@ e_mail_display_init (EMailDisplay *display)
 	display->priv->attachment_inline_group = gtk_action_group_new ("e-mail-display-attachment-inline");
 	display->priv->attachment_accel_action_group = gtk_action_group_new ("e-mail-display-attachment-accel");
 	display->priv->attachment_accel_group = gtk_accel_group_new ();
-	display->priv->skip_insecure_parts = TRUE;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	display->priv->skip_insecure_parts = !g_settings_get_boolean (settings, "show-insecure-parts");
+	g_object_unref (settings);
 
 	gtk_action_group_add_actions (
 		display->priv->attachment_inline_group, attachment_inline_entries,
@@ -3118,6 +3123,7 @@ void
 e_mail_display_set_part_list (EMailDisplay *display,
                               EMailPartList *part_list)
 {
+	GSettings *settings;
 	GSList *insecure_part_ids = NULL;
 	gboolean has_secured_parts = FALSE;
 
@@ -3180,7 +3186,10 @@ e_mail_display_set_part_list (EMailDisplay *display,
 	g_slist_free_full (display->priv->insecure_part_ids, g_free);
 	display->priv->insecure_part_ids = insecure_part_ids;
 	display->priv->has_secured_parts = has_secured_parts;
-	display->priv->skip_insecure_parts = TRUE;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	display->priv->skip_insecure_parts = !g_settings_get_boolean (settings, "show-insecure-parts");
+	g_object_unref (settings);
 
 	g_object_notify (G_OBJECT (display), "part-list");
 }
