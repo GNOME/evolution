@@ -777,6 +777,7 @@ ecepp_datetime_create_widgets (ECompEditorPropertyPart *property_part,
 {
 	ECompEditorPropertyPartDatetimeClass *klass;
 	EDateEdit *date_edit;
+	const gchar *date_format;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (property_part));
 	g_return_if_fail (out_label_widget != NULL);
@@ -804,7 +805,10 @@ ecepp_datetime_create_widgets (ECompEditorPropertyPart *property_part,
 		ecepp_datetime_get_current_time_cb,
 		e_weak_ref_new (property_part), (GDestroyNotify) e_weak_ref_free);
 
-	e_date_edit_set_date_format (date_edit, e_datetime_format_get_format ("calendar", "table",  DTFormatKindDate));
+	date_format = e_datetime_format_get_format ("calendar", "table",  DTFormatKindDate);
+	/* the "%ad" is not a strftime format, thus avoid it, if included */
+	if (date_format && *date_format && !strstr (date_format, "%ad"))
+		e_date_edit_set_date_format (date_edit, date_format);
 
 	g_signal_connect_object (*out_edit_widget, "changed",
 		G_CALLBACK (ecepp_datetime_changed_cb), property_part, G_CONNECT_AFTER | G_CONNECT_SWAPPED);
