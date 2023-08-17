@@ -602,16 +602,23 @@ ecep_general_editor_flags_notify_cb (ECompEditor *comp_editor,
 				     GParamSpec *param,
 				     ECompEditorPageGeneral *page_general)
 {
-	gboolean is_new_component;
+	gboolean can_change_target;
 
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general));
 
-	is_new_component = (e_comp_editor_get_flags (comp_editor) & E_COMP_EDITOR_FLAG_IS_NEW) != 0;
+	can_change_target = (e_comp_editor_get_flags (comp_editor) & E_COMP_EDITOR_FLAG_IS_NEW) != 0 ||
+		!e_comp_editor_get_component (comp_editor);
+	if (!can_change_target) {
+		ICalComponent *icomp = e_comp_editor_get_component (comp_editor);
+
+		/* disallow move between targets only for events */
+		can_change_target = i_cal_component_isa (icomp) != I_CAL_VEVENT_COMPONENT;
+	}
 
 	/* Allow changing target client only for new components */
-	gtk_widget_set_sensitive (page_general->priv->source_combo_box, is_new_component);
-	e_source_combo_box_set_show_full_name (E_SOURCE_COMBO_BOX (page_general->priv->source_combo_box), !is_new_component);
+	gtk_widget_set_sensitive (page_general->priv->source_combo_box, can_change_target);
+	e_source_combo_box_set_show_full_name (E_SOURCE_COMBO_BOX (page_general->priv->source_combo_box), !can_change_target);
 }
 
 static gboolean
