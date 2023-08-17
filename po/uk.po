@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-08-16 11:00+0000\n"
-"PO-Revision-Date: 2023-08-16 14:40+0300\n"
+"POT-Creation-Date: 2023-08-17 06:55+0000\n"
+"PO-Revision-Date: 2023-08-17 17:27+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3138,22 +3138,35 @@ msgstr ""
 "дуже простим текстовим редактором без правлення до вхідного тексту."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
-#| msgid "Move folder in folder tree."
 msgid "Show unread count in folder tree"
 msgstr "Показувати кількість непрочитаних в ієрархії тек"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
-#| msgid "Change sort order of the folders in the folder tree"
 msgid "Show unread count beside the folder name in the folder tree."
 msgstr ""
-"Показувати кількість непрочитаних повідомлень поряд із назвою теки в"
-" ієрархії тек."
+"Показувати кількість непрочитаних повідомлень поряд із назвою теки в "
+"ієрархії тек."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
+#| msgid "Insert Face picture by default"
+msgid "Show insecure parts by default"
+msgstr "Типово показувати незахищені частини"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
+msgid ""
+"Set whether not signed/encrypted parts beside signed/encrypted parts should "
+"be shown after mail open. The default is to hide these possibly insecure "
+"parts."
+msgstr ""
+"Встановлює, чи слід показувати після відкриття повідомлення непідписані і"
+" незашифровані частини повідомлення разом із підписаними і захищеними"
+" частинами. Типово програма приховує ці ймовірно небезпечні частини."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
 msgid "(Deprecated) Default forward style"
 msgstr "(Застаріло) Типовий стиль пересилання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:337
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -3161,11 +3174,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «forward-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:338
 msgid "(Deprecated) Default reply style"
 msgstr "(Застаріло) Типовий стиль відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:337
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:339
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -3173,11 +3186,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «reply-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:338
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:340
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Застаріло) Список власних заголовків та їхній стан."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:339
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:341
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -3185,12 +3198,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «show-headers» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:340
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:342
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 "(Застаріло) Автоматично завантажувати зображення у листах HTML через HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:341
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:343
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -3198,7 +3211,7 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «image-loading-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:342
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:344
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -3206,7 +3219,7 @@ msgstr ""
 "(Застаріло) Запитує, чи закривати вікно листа, коли користувач пересилає або "
 "відповідає на показане лист у вікні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:343
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:345
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3214,12 +3227,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «browser-close-on-reply-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:344
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:346
 msgid "Prompt before send when attachment changed on the disk"
 msgstr ""
 "Запитувати, перш ніж надсилати долучення, до якого внесено зміни на диску"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:345
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:347
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
@@ -8415,7 +8428,7 @@ msgstr "Час початку — недійсний час"
 #: ../src/e-util/e-misc-utils.c:4163 ../src/e-util/e-misc-utils.c:4171
 #: ../src/e-util/e-misc-utils.c:4206 ../src/e-util/e-misc-utils.c:4219
 #: ../src/e-util/e-misc-utils.c:4233 ../src/mail/e-mail-autoconfig.c:1129
-#: ../src/mail/e-mail-display.c:2917 ../src/mail/e-mail-notes.c:930
+#: ../src/mail/e-mail-display.c:2922 ../src/mail/e-mail-notes.c:930
 #: ../src/mail/e-mail-reader.c:3577 ../src/mail/e-mail-reader-utils.c:817
 #: ../src/mail/em-composer-utils.c:4049 ../src/mail/em-composer-utils.c:4072
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
@@ -13197,7 +13210,7 @@ msgid "Bcc"
 msgstr "Прихована:"
 
 #: ../src/em-format/e-mail-formatter-utils.c:471
-#: ../src/em-format/e-mail-formatter-utils.c:726
+#: ../src/em-format/e-mail-formatter-utils.c:732
 #: ../src/mail/e-mail-config-security-page.c:929
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
@@ -13236,11 +13249,11 @@ msgstr "Зашифровано через S/MIME"
 msgid "partially S/MIME encrypted"
 msgstr "частково зашифровано за допомогою S/MIME"
 
-#: ../src/em-format/e-mail-formatter-utils.c:720
+#: ../src/em-format/e-mail-formatter-utils.c:726
 msgid "Show parts not being secured"
 msgstr "Показати частини, які не захищено"
 
-#: ../src/em-format/e-mail-formatter-utils.c:721
+#: ../src/em-format/e-mail-formatter-utils.c:727
 msgid "Hide parts not being secured"
 msgstr "Приховати частини, які не захищено"
 
@@ -13638,7 +13651,7 @@ msgstr "Зберегти _лише видобуті файли"
 msgid "Save extracted files and the original _archive"
 msgstr "Зберегти видобуті файли і початковий _архів"
 
-#: ../src/e-util/e-attachment-view.c:355 ../src/mail/e-mail-display.c:2088
+#: ../src/e-util/e-attachment-view.c:355 ../src/mail/e-mail-display.c:2089
 msgid "Open With Other Application…"
 msgstr "Відкрити за допомогою іншої програми…"
 
@@ -13679,21 +13692,21 @@ msgstr "П_ерезавантажити"
 msgid "Reload attachment content"
 msgstr "Перезавантажити вміст долучення"
 
-#: ../src/e-util/e-attachment-view.c:840 ../src/mail/e-mail-display.c:2042
+#: ../src/e-util/e-attachment-view.c:840 ../src/mail/e-mail-display.c:2043
 #, c-format
 msgid "Open With “%s”"
 msgstr "Відкрити у «%s»"
 
-#: ../src/e-util/e-attachment-view.c:841 ../src/mail/e-mail-display.c:2043
+#: ../src/e-util/e-attachment-view.c:841 ../src/mail/e-mail-display.c:2044
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Відкрити долучення в %s"
 
-#: ../src/e-util/e-attachment-view.c:843 ../src/mail/e-mail-display.c:2045
+#: ../src/e-util/e-attachment-view.c:843 ../src/mail/e-mail-display.c:2046
 msgid "Open With Default Application"
 msgstr "Відкрити за допомогою типової програми"
 
-#: ../src/e-util/e-attachment-view.c:844 ../src/mail/e-mail-display.c:2046
+#: ../src/e-util/e-attachment-view.c:844 ../src/mail/e-mail-display.c:2047
 msgid "Open this attachment in default application"
 msgstr "Відкрити це долучення у типовій програмі"
 
