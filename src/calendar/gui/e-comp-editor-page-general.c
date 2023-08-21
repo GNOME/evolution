@@ -612,11 +612,12 @@ ecep_general_editor_flags_notify_cb (ECompEditor *comp_editor,
 	if (!can_change_target) {
 		ICalComponent *icomp = e_comp_editor_get_component (comp_editor);
 
-		/* disallow move between targets only for events */
-		can_change_target = i_cal_component_isa (icomp) != I_CAL_VEVENT_COMPONENT;
+		/* disallow move between targets only for recurring events */
+		can_change_target = i_cal_component_isa (icomp) != I_CAL_VEVENT_COMPONENT ||
+			(!e_cal_util_component_is_instance (icomp) &&
+			 !e_cal_util_component_has_recurrences (icomp));
 	}
 
-	/* Allow changing target client only for new components */
 	gtk_widget_set_sensitive (page_general->priv->source_combo_box, can_change_target);
 	e_source_combo_box_set_show_full_name (E_SOURCE_COMBO_BOX (page_general->priv->source_combo_box), !can_change_target);
 }
