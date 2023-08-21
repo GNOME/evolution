@@ -92,15 +92,24 @@ e_cal_dialogs_cancel_component (GtkWindow *parent,
 			/* don't ask neither send notification to others on past events */
 			return FALSE;
 		}
-		id = "calendar:prompt-cancel-meeting";
+		if (organizer_is_user)
+			id = "calendar:prompt-cancel-meeting";
+		else
+			id = "calendar:prompt-cancel-meeting-attendee";
 		break;
 
 	case E_CAL_COMPONENT_TODO:
-		id = "calendar:prompt-cancel-task";
+		if (organizer_is_user)
+			id = "calendar:prompt-cancel-task";
+		else
+			id = "calendar:prompt-cancel-task-attendee";
 		break;
 
 	case E_CAL_COMPONENT_JOURNAL:
-		id = "calendar:prompt-cancel-memo";
+		if (organizer_is_user)
+			id = "calendar:prompt-cancel-memo";
+		else
+			id = "calendar:prompt-cancel-memo-attendee";
 		break;
 
 	default:

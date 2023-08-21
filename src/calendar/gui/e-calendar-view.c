@@ -244,16 +244,18 @@ calendar_view_delete_event (ECalendarView *cal_view,
 
 	if (do_delete) {
 		ECalOperationFlags op_flags = E_CAL_OPERATION_FLAG_NONE;
+		GtkWindow *parent_window;
+		gboolean organizer_is_user;
 		const gchar *uid;
 		gchar *rid;
 
 		rid = e_cal_component_get_recurid_as_string (comp);
+		organizer_is_user = itip_organizer_is_user (registry, comp, client);
+		parent_window = (GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view));
 
-		if (itip_has_any_attendees (comp) &&
-		    (itip_organizer_is_user (registry, comp, client) ||
-		     itip_sentby_is_user (registry, comp, client))) {
-			if (e_cal_dialogs_cancel_component ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)), client, comp,
-				is_retract, itip_organizer_is_user (registry, comp, client))) {
+		if (itip_has_any_attendees (comp) && (organizer_is_user ||
+		    itip_sentby_is_user (registry, comp, client))) {
+			if (e_cal_dialogs_cancel_component (parent_window, client, comp, is_retract, organizer_is_user)) {
 				if (only_occurrence && !e_cal_component_is_instance (comp)) {
 					ECalComponentRange *range;
 					ECalComponentDateTime *dtstart;
@@ -282,6 +284,10 @@ calendar_view_delete_event (ECalendarView *cal_view,
 			} else {
 				op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
 			}
+		} else if (e_cal_client_check_save_schedules (client) &&
+			   itip_attendee_is_user (registry, comp, client) &&
+			   !e_cal_dialogs_cancel_component (parent_window, client, comp, is_retract, organizer_is_user)) {
+			op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
 		}
 
 		uid = e_cal_component_get_uid (comp);
@@ -849,6 +855,7 @@ paste_clipboard_data_free (gpointer ptr)
 				ECalendarViewSelectionData *sel_data = link->data;
 				ECalComponent *comp;
 				ECalOperationFlags op_flags = E_CAL_OPERATION_FLAG_NONE;
+				gboolean organizer_is_user;
 				const gchar *uid;
 				GSList *found = NULL;
 
@@ -861,18 +868,21 @@ paste_clipboard_data_free (gpointer ptr)
 				pcd->copied_uids = g_slist_delete_link (pcd->copied_uids, found);
 
 				comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (sel_data->icalcomp));
+				organizer_is_user = itip_organizer_is_user (registry, comp, sel_data->client);
 
-				if (itip_has_any_attendees (comp) &&
-				    (itip_organizer_is_user (registry, comp, sel_data->client) ||
+				if (itip_has_any_attendees (comp) && (organizer_is_user ||
 				    itip_sentby_is_user (registry, comp, sel_data->client))) {
-					if (e_cal_dialogs_cancel_component ((GtkWindow *) pcd->top_level, sel_data->client, comp, FALSE,
-						itip_organizer_is_user (registry, comp, sel_data->client))) {
+					if (e_cal_dialogs_cancel_component ((GtkWindow *) pcd->top_level, sel_data->client, comp, FALSE, organizer_is_user)) {
 						itip_send_component_with_model (model, I_CAL_METHOD_CANCEL,
 							comp, sel_data->client, NULL, NULL, NULL,
 							E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT);
 					} else {
 						op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
 					}
+				} else if (e_cal_client_check_save_schedules (sel_data->client) &&
+					   itip_attendee_is_user (registry, comp, sel_data->client) &&
+					   !e_cal_dialogs_cancel_component ((GtkWindow *) pcd->top_level, sel_data->client, comp, FALSE, organizer_is_user)) {
+					op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
 				}
 
 				uid = e_cal_component_get_uid (comp);

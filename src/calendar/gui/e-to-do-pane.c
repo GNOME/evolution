@@ -2137,12 +2137,20 @@ etdp_delete_common (EToDoPane *to_do_pane,
 
 		registry = e_client_cache_ref_registry (to_do_pane->priv->client_cache);
 
-		if (itip_has_any_attendees (comp) &&
-		    (itip_organizer_is_user (registry, comp, client) ||
-		     itip_sentby_is_user (registry, comp, client))) {
-			if (!e_cal_dialogs_cancel_component ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (to_do_pane)), client, comp,
-				FALSE, itip_organizer_is_user (registry, comp, client))) {
-				op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
+		if (itip_has_any_attendees (comp)) {
+			gboolean organizer_is_user;
+
+			organizer_is_user = itip_organizer_is_user (registry, comp, client);
+
+			if (organizer_is_user ||
+			    itip_sentby_is_user (registry, comp, client) ||
+			    (e_cal_client_check_save_schedules (client) && itip_attendee_is_user (registry, comp, client))) {
+				GtkWindow *parent_window;
+
+				parent_window = (GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (to_do_pane));
+
+				if (!e_cal_dialogs_cancel_component (parent_window, client, comp, FALSE, organizer_is_user))
+					op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
 			}
 		}
 
