@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-08-17 06:55+0000\n"
-"PO-Revision-Date: 2023-08-17 17:27+0300\n"
+"POT-Creation-Date: 2023-08-21 12:50+0000\n"
+"PO-Revision-Date: 2023-08-21 23:03+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3148,7 +3148,6 @@ msgstr ""
 "ієрархії тек."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
-#| msgid "Insert Face picture by default"
 msgid "Show insecure parts by default"
 msgstr "Типово показувати незахищені частини"
 
@@ -3158,9 +3157,9 @@ msgid ""
 "be shown after mail open. The default is to hide these possibly insecure "
 "parts."
 msgstr ""
-"Встановлює, чи слід показувати після відкриття повідомлення непідписані і"
-" незашифровані частини повідомлення разом із підписаними і захищеними"
-" частинами. Типово програма приховує ці ймовірно небезпечні частини."
+"Встановлює, чи слід показувати після відкриття повідомлення непідписані і "
+"незашифровані частини повідомлення разом із підписаними і захищеними "
+"частинами. Типово програма приховує ці ймовірно небезпечні частини."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
 msgid "(Deprecated) Default forward style"
@@ -4406,7 +4405,7 @@ msgid "This address book will be removed permanently."
 msgstr "Цю адресну книгу буде остаточно вилучено."
 
 #: ../src/addressbook/addressbook.error.xml.h:10
-#: ../src/calendar/calendar.error.xml.h:7 ../src/e-util/e-system.error.xml.h:27
+#: ../src/calendar/calendar.error.xml.h:9 ../src/e-util/e-system.error.xml.h:27
 #: ../src/mail/mail.error.xml.h:69
 msgid "Do _Not Delete"
 msgstr "_Не вилучати"
@@ -4424,7 +4423,7 @@ msgstr ""
 "із сервера. Продовжити?"
 
 #: ../src/addressbook/addressbook.error.xml.h:13
-#: ../src/calendar/calendar.error.xml.h:65
+#: ../src/calendar/calendar.error.xml.h:70
 #: ../src/e-util/e-system.error.xml.h:28
 msgid "_Delete From Server"
 msgstr "_Вилучити із сервера"
@@ -4516,7 +4515,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1514
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1521
 #: ../src/e-util/e-accounts-window.c:1570
 #: ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1028 ../src/e-util/filter.ui.h:25
@@ -4661,8 +4660,8 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:806
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1852
-#: ../src/calendar/calendar.error.xml.h:181
-#: ../src/calendar/gui/e-cal-dialogs.c:686
+#: ../src/calendar/calendar.error.xml.h:186
+#: ../src/calendar/gui/e-cal-dialogs.c:695
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
 #: ../src/composer/e-composer-actions.c:242 ../src/e-util/e-activity-bar.c:370
 #: ../src/e-util/e-attachment-dialog.c:290
@@ -4776,7 +4775,7 @@ msgstr "Параметри"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3548
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
-#: ../src/calendar/calendar.error.xml.h:47
+#: ../src/calendar/calendar.error.xml.h:52
 #: ../src/calendar/gui/e-comp-editor.c:2319
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
@@ -4943,14 +4942,14 @@ msgstr "_Річниця:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1059
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1948
+#: ../src/calendar/gui/e-calendar-view.c:1958
 msgid "Anniversary"
 msgstr "Річниця"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1058
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1947
+#: ../src/calendar/gui/e-calendar-view.c:1957
 msgid "Birthday"
 msgstr "День народження"
 
@@ -5031,7 +5030,7 @@ msgstr "Add _X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1530
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1537
 #: ../src/e-util/e-attachment-view.c:409 ../src/e-util/e-filter-rule.c:410
 #: ../src/e-util/e-mail-signature-manager.c:364
 #: ../src/e-util/e-name-selector-dialog.c:1032
@@ -6499,19 +6498,35 @@ msgid "_Send Notice"
 msgstr "_Надіслати сповіщення"
 
 #: ../src/calendar/calendar.error.xml.h:5
-#: ../src/calendar/gui/e-cal-dialogs.c:500
+#| msgid "Would you like to send all the participants a cancellation notice?"
+msgid "Would you like to send the organizer a deletion notice?"
+msgstr "Надіслати організатору повідомлення про вилучення?"
+
+#: ../src/calendar/calendar.error.xml.h:6
+#| msgid ""
+#| "If you do not send a cancellation notice, the other participants may not "
+#| "know the memo has been deleted."
+msgid ""
+"If you do not send a deletion notice, the organizer may not know the meeting "
+"has been deleted."
+msgstr ""
+"Якщо ви не надішлете сповіщення про вилучення, організатора може не бути"
+" сповіщено про те, що зустріч вилучено."
+
+#: ../src/calendar/calendar.error.xml.h:7
+#: ../src/calendar/gui/e-cal-dialogs.c:509
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Вилучити цей запис зібрання?"
 
-#: ../src/calendar/calendar.error.xml.h:6
+#: ../src/calendar/calendar.error.xml.h:8
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "Усі відомості про це зібрання буде остаточно вилучено без можливості "
 "відновлення."
 
-#: ../src/calendar/calendar.error.xml.h:8
+#: ../src/calendar/calendar.error.xml.h:10
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the task has been deleted."
@@ -6519,21 +6534,32 @@ msgstr ""
 "Якщо ви не надішлете сповіщення про скасування, інші учасники можуть не "
 "знати, що завдання вилучено."
 
-#: ../src/calendar/calendar.error.xml.h:9
-#: ../src/calendar/gui/e-cal-dialogs.c:503
+#: ../src/calendar/calendar.error.xml.h:11
+#| msgid ""
+#| "If you do not send a cancellation notice, the other participants may not "
+#| "know the task has been deleted."
+msgid ""
+"If you do not send a deletion notice, the organizer may not know the task "
+"has been deleted."
+msgstr ""
+"Якщо ви не надішлете сповіщення про вилучення, організатора може не бути"
+" сповіщено про те, що завдання вилучено."
+
+#: ../src/calendar/calendar.error.xml.h:12
+#: ../src/calendar/gui/e-cal-dialogs.c:512
 #, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Вилучити це завдання?"
 
-#: ../src/calendar/calendar.error.xml.h:10
+#: ../src/calendar/calendar.error.xml.h:13
 msgid "All information on this task will be deleted and can not be restored."
 msgstr "Усі відомості про це завдання будуть остаточно вилучено."
 
-#: ../src/calendar/calendar.error.xml.h:11
+#: ../src/calendar/calendar.error.xml.h:14
 msgid "Would you like to send a cancellation notice for this memo?"
 msgstr "Надіслати сповіщення про скасування цієї примітки?"
 
-#: ../src/calendar/calendar.error.xml.h:12
+#: ../src/calendar/calendar.error.xml.h:15
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the memo has been deleted."
@@ -6541,136 +6567,152 @@ msgstr ""
 "Якщо ви не надішлете сповіщення про скасування, інші учасники можуть не "
 "знати, що примітку вилучено."
 
-#: ../src/calendar/calendar.error.xml.h:13
-#: ../src/calendar/gui/e-cal-dialogs.c:506
+#: ../src/calendar/calendar.error.xml.h:16
+#| msgid "Would you like to send a cancellation notice for this memo?"
+msgid "Would you like to send a deletion notice for this memo?"
+msgstr "Надіслати сповіщення про вилучення цієї примітки?"
+
+#: ../src/calendar/calendar.error.xml.h:17
+#| msgid ""
+#| "If you do not send a cancellation notice, the other participants may not "
+#| "know the memo has been deleted."
+msgid ""
+"If you do not send a deletion notice, the organizer may not know the memo "
+"has been deleted."
+msgstr ""
+"Якщо ви не надішлете сповіщення про вилучення, організатора може не бути"
+" сповіщено про те, що примітку вилучено."
+
+#: ../src/calendar/calendar.error.xml.h:18
+#: ../src/calendar/gui/e-cal-dialogs.c:515
 #, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "Вилучити цю примітку?"
 
-#: ../src/calendar/calendar.error.xml.h:14
+#: ../src/calendar/calendar.error.xml.h:19
 msgid "All information on this memo will be deleted and can not be restored."
 msgstr "Усі відомості про цю примітку будуть остаточно вилучено."
 
-#: ../src/calendar/calendar.error.xml.h:15
+#: ../src/calendar/calendar.error.xml.h:20
 msgid "Are you sure you want to delete the meeting titled “{0}”?"
 msgstr "Ви дійсно бажаєте вилучити цей запис зібрання із назвою «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:16
+#: ../src/calendar/calendar.error.xml.h:21
 msgid "Are you sure you want to delete the appointment titled “{0}”?"
 msgstr "Ви дійсно бажаєте вилучити цей запис зустрічі із назвою «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:17
+#: ../src/calendar/calendar.error.xml.h:22
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr "Усі відомості про цю зустріч будуть остаточно вилучено."
 
-#: ../src/calendar/calendar.error.xml.h:18
+#: ../src/calendar/calendar.error.xml.h:23
 msgid "Are you sure you want to delete this appointment?"
 msgstr "Вилучити цю зустріч?"
 
-#: ../src/calendar/calendar.error.xml.h:19
+#: ../src/calendar/calendar.error.xml.h:24
 msgid "Are you sure you want to delete the “{0}” task?"
 msgstr "Ви дійсно бажаєте вилучити запис завдання «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:20
+#: ../src/calendar/calendar.error.xml.h:25
 msgid "Are you sure you want to delete the memo “{0}”?"
 msgstr "Ви дійсно бажаєте вилучити примітку «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:21
+#: ../src/calendar/calendar.error.xml.h:26
 msgid "All information in this memo will be deleted and can not be restored."
 msgstr "Усі відомості з цієї примітки будуть остаточно вилучено."
 
-#: ../src/calendar/calendar.error.xml.h:22
+#: ../src/calendar/calendar.error.xml.h:27
 msgid "Are you sure you want to delete these {0} appointments?"
 msgstr "Вилучити ці {0} зустрічі?"
 
-#: ../src/calendar/calendar.error.xml.h:23
+#: ../src/calendar/calendar.error.xml.h:28
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr "Усі відомості про ці зустрічі будуть остаточно вилучено."
 
-#: ../src/calendar/calendar.error.xml.h:24
+#: ../src/calendar/calendar.error.xml.h:29
 msgid "Are you sure you want to delete these {0} tasks?"
 msgstr "Вилучити завдання ці {0} завдання?"
 
-#: ../src/calendar/calendar.error.xml.h:25
+#: ../src/calendar/calendar.error.xml.h:30
 msgid ""
 "All information on these tasks will be deleted and can not be restored."
 msgstr "Усі відомості про ці завдання будуть остаточно вилучено."
 
-#: ../src/calendar/calendar.error.xml.h:26
+#: ../src/calendar/calendar.error.xml.h:31
 msgid "Are you sure you want to delete these {0} memos?"
 msgstr "Вилучити завдання ці {0} примітки?"
 
-#: ../src/calendar/calendar.error.xml.h:27
+#: ../src/calendar/calendar.error.xml.h:32
 msgid ""
 "All information in these memos will be deleted and can not be restored."
 msgstr "Усі відомості про ці примітки будуть остаточно вилучено."
 
-#: ../src/calendar/calendar.error.xml.h:28
+#: ../src/calendar/calendar.error.xml.h:33
 msgid "Would you like to save your changes to this meeting?"
 msgstr "Зберегти зміни цієї зустрічі?"
 
-#: ../src/calendar/calendar.error.xml.h:29
+#: ../src/calendar/calendar.error.xml.h:34
 msgid "You have changed this meeting, but not yet saved it."
 msgstr "Зустріч змінено, але не зміни збережено."
 
-#: ../src/calendar/calendar.error.xml.h:30
+#: ../src/calendar/calendar.error.xml.h:35
 msgid "_Save Changes"
 msgstr "З_берегти зміни"
 
-#: ../src/calendar/calendar.error.xml.h:31
+#: ../src/calendar/calendar.error.xml.h:36
 #: ../src/composer/mail-composer.error.xml.h:15
 msgid "_Discard Changes"
 msgstr "_Відкинути зміни"
 
-#: ../src/calendar/calendar.error.xml.h:32
+#: ../src/calendar/calendar.error.xml.h:37
 msgid "Would you like to save your changes to this appointment?"
 msgstr "Зберегти зміни цієї зустрічі?"
 
-#: ../src/calendar/calendar.error.xml.h:33
+#: ../src/calendar/calendar.error.xml.h:38
 msgid "You have changed this appointment, but not yet saved it."
 msgstr "Ви внесли зміни у цю зустріч, але не зберегли їх."
 
-#: ../src/calendar/calendar.error.xml.h:34
+#: ../src/calendar/calendar.error.xml.h:39
 msgid "Would you like to save your changes to this task?"
 msgstr "Зберегти зміни завдання?"
 
-#: ../src/calendar/calendar.error.xml.h:35
+#: ../src/calendar/calendar.error.xml.h:40
 msgid "You have changed this task, but not yet saved it."
 msgstr "Ви внесли зміни у це завдання, але не зберегли їх."
 
-#: ../src/calendar/calendar.error.xml.h:36
+#: ../src/calendar/calendar.error.xml.h:41
 msgid "Would you like to save your changes to this memo?"
 msgstr "Зберегти зміни примітки?"
 
-#: ../src/calendar/calendar.error.xml.h:37
+#: ../src/calendar/calendar.error.xml.h:42
 msgid "You have made changes to this memo, but not yet saved them."
 msgstr "Ви внесли зміни у цю примітку, але не зберегли їх."
 
-#: ../src/calendar/calendar.error.xml.h:38
+#: ../src/calendar/calendar.error.xml.h:43
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Надіслати учасникам запрошення на зібрання?"
 
-#: ../src/calendar/calendar.error.xml.h:39
+#: ../src/calendar/calendar.error.xml.h:44
 msgid ""
 "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 "Усім учасникам буде надіслано запрошення ел.поштою, щоб надати їм можливість "
 "відповісти."
 
-#: ../src/calendar/calendar.error.xml.h:40
+#: ../src/calendar/calendar.error.xml.h:45
 #: ../src/composer/mail-composer.error.xml.h:40 ../src/mail/mail.error.xml.h:8
 #: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Надіслати"
 
-#: ../src/calendar/calendar.error.xml.h:41
+#: ../src/calendar/calendar.error.xml.h:46
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "Розіслати учасникам оновлену інформацію про зібрання?"
 
-#: ../src/calendar/calendar.error.xml.h:42
+#: ../src/calendar/calendar.error.xml.h:47
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -6678,11 +6720,11 @@ msgstr ""
 "Надсилання оновленої інформації дозволить іншим учасникам підтримувати "
 "власні календарі у поточному стані."
 
-#: ../src/calendar/calendar.error.xml.h:43
+#: ../src/calendar/calendar.error.xml.h:48
 msgid "Would you like to send this task to participants?"
 msgstr "Розіслати це завдання учасникам?"
 
-#: ../src/calendar/calendar.error.xml.h:44
+#: ../src/calendar/calendar.error.xml.h:49
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -6690,11 +6732,11 @@ msgstr ""
 "Запрошення будуть розіслані усім учасникам, щоб вони змогли прийняти це "
 "завдання."
 
-#: ../src/calendar/calendar.error.xml.h:45
+#: ../src/calendar/calendar.error.xml.h:50
 msgid "Download in progress. Do you want to save the task?"
 msgstr "Триває звантаження. Зберегти це завдання?"
 
-#: ../src/calendar/calendar.error.xml.h:46
+#: ../src/calendar/calendar.error.xml.h:51
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
@@ -6702,11 +6744,11 @@ msgstr ""
 "Деякі долучення ще звантажуються. Збереження завдання призведе до того, що "
 "її буде збережено без цих долучень."
 
-#: ../src/calendar/calendar.error.xml.h:48
+#: ../src/calendar/calendar.error.xml.h:53
 msgid "Download in progress. Do you want to save the appointment?"
 msgstr "Триває звантаження. Зберегти цю зустріч?"
 
-#: ../src/calendar/calendar.error.xml.h:49
+#: ../src/calendar/calendar.error.xml.h:54
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
@@ -6714,11 +6756,11 @@ msgstr ""
 "Деякі долучення ще звантажуються. Збереження зустрічі призведе до того, що "
 "її буде збережено без цих долучень."
 
-#: ../src/calendar/calendar.error.xml.h:50
+#: ../src/calendar/calendar.error.xml.h:55
 msgid "Would you like to send updated task information to participants?"
 msgstr "Розіслати учасникам оновлену інформацію про завдання?"
 
-#: ../src/calendar/calendar.error.xml.h:51
+#: ../src/calendar/calendar.error.xml.h:56
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -6726,11 +6768,11 @@ msgstr ""
 "Надсилання оновленої інформації дозволить іншим учасникам підтримувати "
 "власні списки завдань у поточному стані."
 
-#: ../src/calendar/calendar.error.xml.h:52
+#: ../src/calendar/calendar.error.xml.h:57
 msgid "Would you like to send this memo to participants?"
 msgstr "Надіслати цю примітку учасникам?"
 
-#: ../src/calendar/calendar.error.xml.h:53
+#: ../src/calendar/calendar.error.xml.h:58
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this memo."
@@ -6738,11 +6780,11 @@ msgstr ""
 "Запрошення будуть надіслані усім учасникам, щоб вони змогли прийняти цю "
 "примітку."
 
-#: ../src/calendar/calendar.error.xml.h:54
+#: ../src/calendar/calendar.error.xml.h:59
 msgid "Would you like to send updated memo information to participants?"
 msgstr "Надіслати учасникам оновлену інформацію про примітку?"
 
-#: ../src/calendar/calendar.error.xml.h:55
+#: ../src/calendar/calendar.error.xml.h:60
 msgid ""
 "Sending updated information allows other participants to keep their memo "
 "lists up to date."
@@ -6750,39 +6792,39 @@ msgstr ""
 "Надсилання оновленої інформації дозволить іншим учасникам підтримувати "
 "власні списки приміток у поточному стані."
 
-#: ../src/calendar/calendar.error.xml.h:56
+#: ../src/calendar/calendar.error.xml.h:61
 msgid "Editor could not be loaded."
 msgstr "Не вдалось завантажити редактор."
 
-#: ../src/calendar/calendar.error.xml.h:57
+#: ../src/calendar/calendar.error.xml.h:62
 msgid "Are you sure you want to delete calendar “{0}”?"
 msgstr "Ви дійсно бажаєте вилучити календар «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:58
+#: ../src/calendar/calendar.error.xml.h:63
 msgid "This calendar will be removed permanently."
 msgstr "Цей календар буде остаточно вилучено."
 
-#: ../src/calendar/calendar.error.xml.h:59
+#: ../src/calendar/calendar.error.xml.h:64
 msgid "Are you sure you want to delete task list “{0}”?"
 msgstr "Ви дійсно бажаєте вилучити список завдань «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:60
+#: ../src/calendar/calendar.error.xml.h:65
 msgid "This task list will be removed permanently."
 msgstr "Завдання буде остаточно вилучено."
 
-#: ../src/calendar/calendar.error.xml.h:61
+#: ../src/calendar/calendar.error.xml.h:66
 msgid "Are you sure you want to delete memo list “{0}”?"
 msgstr "Ви дійсно бажаєте вилучити список приміток «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:62
+#: ../src/calendar/calendar.error.xml.h:67
 msgid "This memo list will be removed permanently."
 msgstr "Примітку буде остаточно вилучено."
 
-#: ../src/calendar/calendar.error.xml.h:63
+#: ../src/calendar/calendar.error.xml.h:68
 msgid "Are you sure you want to delete remote calendar “{0}”?"
 msgstr "Ви дійсно бажаєте вилучити віддалений календар «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:64
+#: ../src/calendar/calendar.error.xml.h:69
 msgid ""
 "This will permanently remove the calendar “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -6790,11 +6832,11 @@ msgstr ""
 "Це призведе до безповоротного вилучення календаря «{0}» з сервера. Дійсно "
 "продовжити?"
 
-#: ../src/calendar/calendar.error.xml.h:66
+#: ../src/calendar/calendar.error.xml.h:71
 msgid "Are you sure you want to delete remote task list “{0}”?"
 msgstr "Ви дійсно бажаєте вилучити віддалений список завдань «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:67
+#: ../src/calendar/calendar.error.xml.h:72
 msgid ""
 "This will permanently remove the task list “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -6802,11 +6844,11 @@ msgstr ""
 "Це призведе до безповоротного вилучення списку завдань «{0}» з сервера. "
 "Хочете продовжити?"
 
-#: ../src/calendar/calendar.error.xml.h:68
+#: ../src/calendar/calendar.error.xml.h:73
 msgid "Are you sure you want to delete remote memo list “{0}”?"
 msgstr "Ви дійсно бажаєте вилучити віддалений список приміток «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:69
+#: ../src/calendar/calendar.error.xml.h:74
 msgid ""
 "This will permanently remove the memo list “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -6814,11 +6856,11 @@ msgstr ""
 "Це призведе до безповоротного вилучення списку приміток «{0}» з сервера. "
 "Дійсно продовжити?"
 
-#: ../src/calendar/calendar.error.xml.h:70
+#: ../src/calendar/calendar.error.xml.h:75
 msgid "Are you sure you want to save the appointment without a summary?"
 msgstr "Зберегти зустріч без зведення?"
 
-#: ../src/calendar/calendar.error.xml.h:71
+#: ../src/calendar/calendar.error.xml.h:76
 msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of "
 "what your appointment is about."
@@ -6826,11 +6868,11 @@ msgstr ""
 "Додавши змістовне зведення до зустрічі, буде простіше зрозуміти, чому "
 "присвячена зустріч."
 
-#: ../src/calendar/calendar.error.xml.h:72
+#: ../src/calendar/calendar.error.xml.h:77
 msgid "Are you sure you want to save the task without a summary?"
 msgstr "Зберегти завдання без зведення?"
 
-#: ../src/calendar/calendar.error.xml.h:73
+#: ../src/calendar/calendar.error.xml.h:78
 msgid ""
 "Adding a meaningful summary to your task will give you an idea of what your "
 "task is about."
@@ -6838,25 +6880,25 @@ msgstr ""
 "Додавши змістовне зведення до завдання, буде простіше зрозуміти, чому "
 "присвячене завдання."
 
-#: ../src/calendar/calendar.error.xml.h:74
+#: ../src/calendar/calendar.error.xml.h:79
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "Ви дійсно бажаєте зберегти примітку без зведення?"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:76
+#: ../src/calendar/calendar.error.xml.h:81
 msgid "Error loading calendar “{0}”"
 msgstr "Помилка завантаження календаря «{0}»"
 
-#: ../src/calendar/calendar.error.xml.h:77
+#: ../src/calendar/calendar.error.xml.h:82
 msgid "The calendar is not marked for offline usage."
 msgstr "Цей календар не відмічений для автономного використання."
 
-#: ../src/calendar/calendar.error.xml.h:78
+#: ../src/calendar/calendar.error.xml.h:83
 msgid "Cannot save event"
 msgstr "Не вдалося зберегти подію"
 
 #. Translators: {0} is the name of the calendar source
-#: ../src/calendar/calendar.error.xml.h:80
+#: ../src/calendar/calendar.error.xml.h:85
 msgid ""
 "“{0}” is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
@@ -6864,12 +6906,12 @@ msgstr ""
 "«{0}» є календарем з режимом лише для читання і не може бути змінений. Будь "
 "ласка, виберіть інший календар, який здатен записувати зустрічі."
 
-#: ../src/calendar/calendar.error.xml.h:81
+#: ../src/calendar/calendar.error.xml.h:86
 msgid "Cannot save task"
 msgstr "Неможливо зберегти завдання"
 
 #. Translators: {0} is the name of the calendar source
-#: ../src/calendar/calendar.error.xml.h:83
+#: ../src/calendar/calendar.error.xml.h:88
 msgid ""
 "“{0}” does not support assigned tasks, please select a different task list."
 msgstr ""
@@ -6877,237 +6919,237 @@ msgstr ""
 "завдань."
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:85
+#: ../src/calendar/calendar.error.xml.h:90
 msgid "Error loading task list “{0}”"
 msgstr "Помилка завантаження списку завдань «{0}»"
 
-#: ../src/calendar/calendar.error.xml.h:86
+#: ../src/calendar/calendar.error.xml.h:91
 msgid "The task list is not marked for offline usage."
 msgstr "Цей список завдань не позначений для автономного використання."
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:88
+#: ../src/calendar/calendar.error.xml.h:93
 msgid "Error loading memo list “{0}”"
 msgstr "Помилка завантаження списку приміток «{0}»"
 
-#: ../src/calendar/calendar.error.xml.h:89
+#: ../src/calendar/calendar.error.xml.h:94
 msgid "The memo list is not marked for offline usage."
 msgstr "Цей список приміток не позначений для автономного використання."
 
 #. Translators: {0} is the name of the calendar/memo list/task list.
-#: ../src/calendar/calendar.error.xml.h:91
+#: ../src/calendar/calendar.error.xml.h:96
 msgid "Failed to add timezone to “{0}”"
 msgstr "Не вдалося додати часовий пояс до «{0}»"
 
 #. The {0} is a calendar/memo list/task list name, which is useless here
-#: ../src/calendar/calendar.error.xml.h:93
+#: ../src/calendar/calendar.error.xml.h:98
 msgid "Failed to save attachments"
 msgstr "Не вдалося зберегти долучення"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:95
+#: ../src/calendar/calendar.error.xml.h:100
 msgid "Failed to open calendar “{0}”"
 msgstr "Не вдалося відкрити каленадр «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:97
+#: ../src/calendar/calendar.error.xml.h:102
 msgid "Failed to open memo list “{0}”"
 msgstr "Не вдалося відкрити список приміток «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:99
+#: ../src/calendar/calendar.error.xml.h:104
 msgid "Failed to open task list “{0}”"
 msgstr "Не вдалося відкрити список завдань «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:101
+#: ../src/calendar/calendar.error.xml.h:106
 msgid "Failed to create an event in the calendar “{0}”"
 msgstr "Не вдалося створити подію в календарі «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:103
+#: ../src/calendar/calendar.error.xml.h:108
 msgid "Failed to create a memo in the memo list “{0}”"
 msgstr "Не вдалося створити примітку в списку приміток «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:105
+#: ../src/calendar/calendar.error.xml.h:110
 msgid "Failed to create a task in the task list “{0}”"
 msgstr "Не вдалося створити завдання в списку завдань «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:107
+#: ../src/calendar/calendar.error.xml.h:112
 msgid "Failed to modify an event in the calendar “{0}”"
 msgstr "Не вдалося змінити подію в списку подій «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:109
+#: ../src/calendar/calendar.error.xml.h:114
 msgid "Failed to modify a memo in the memo list “{0}”"
 msgstr "Не вдалося змінити примітку в списку приміток «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:111
+#: ../src/calendar/calendar.error.xml.h:116
 msgid "Failed to modify a task in the task list “{0}”"
 msgstr "Не вдалося змінити завдання в списку завдань «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:113
+#: ../src/calendar/calendar.error.xml.h:118
 msgid "Failed to delete an event in the calendar “{0}”"
 msgstr "Не вдалося вилучити подію з календаря «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:115
+#: ../src/calendar/calendar.error.xml.h:120
 msgid "Failed to delete a memo in the memo list “{0}”"
 msgstr "Не вдалося вилучити примітку зі списку приміток «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:117
+#: ../src/calendar/calendar.error.xml.h:122
 msgid "Failed to delete a task in the task list “{0}”"
 msgstr "Не вдалося вилучити завдання зі списку завдань «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:119
+#: ../src/calendar/calendar.error.xml.h:124
 msgid "Failed to update an event in the calendar “{0}”"
 msgstr "Не вдалося оновити подію в календарі «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:121
+#: ../src/calendar/calendar.error.xml.h:126
 msgid "Failed to update a memo in the memo list “{0}”"
 msgstr "Не вдалося оновити примітку в списку приміток «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:123
+#: ../src/calendar/calendar.error.xml.h:128
 msgid "Failed to update a task in the task list “{0}”"
 msgstr "Не вдалося оновити завдання в списку завдань «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:125
+#: ../src/calendar/calendar.error.xml.h:130
 msgid "Failed to send an event to the calendar “{0}”"
 msgstr "Не вдалося надіслати подію в календар «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:127
+#: ../src/calendar/calendar.error.xml.h:132
 msgid "Failed to send a memo to the memo list “{0}”"
 msgstr "Не вдалося надіслати примітку в список приміток «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:129
+#: ../src/calendar/calendar.error.xml.h:134
 msgid "Failed to send a task to the task list “{0}”"
 msgstr "Не вдалося надіслати завдання в список завдань «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:131
+#: ../src/calendar/calendar.error.xml.h:136
 msgid "Error creating view for the calendar “{0}”"
 msgstr "Помилка створення огляду для календаря «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:133
+#: ../src/calendar/calendar.error.xml.h:138
 msgid "Error creating view for the task list “{0}”"
 msgstr "Помилка створення огляду для списку завдань «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:135
+#: ../src/calendar/calendar.error.xml.h:140
 msgid "Error creating view for the memo list “{0}”"
 msgstr "Помилка створення огляду для списку приміток «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:137
+#: ../src/calendar/calendar.error.xml.h:142
 msgid "Failed to copy an event into the calendar “{0}”"
 msgstr "Не вдалося скопіювати подію в календар «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:139
+#: ../src/calendar/calendar.error.xml.h:144
 msgid "Failed to copy a task into the task list “{0}”"
 msgstr "Не вдалося скопіювати подію в список завдань «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:141
+#: ../src/calendar/calendar.error.xml.h:146
 msgid "Failed to copy a memo into the memo list “{0}”"
 msgstr "Не вдалося скопіювати подію в список приміток «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:143
+#: ../src/calendar/calendar.error.xml.h:148
 msgid "Failed to move an event into the calendar “{0}”"
 msgstr "Не вдалося перемістити подію в календар «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:145
+#: ../src/calendar/calendar.error.xml.h:150
 msgid "Failed to move a task into the task list “{0}”"
 msgstr "Не вдалося перемістити подію в список завдань «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:147
+#: ../src/calendar/calendar.error.xml.h:152
 msgid "Failed to move a memo into the memo list “{0}”"
 msgstr "Не вдалося перемістити подію в список приміток «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:149
+#: ../src/calendar/calendar.error.xml.h:154
 msgid "Failed to get an event from the calendar “{0}”"
 msgstr "Не вдалося отримати подію з календаря «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:151
+#: ../src/calendar/calendar.error.xml.h:156
 msgid "Failed to get a task from the task list “{0}”"
 msgstr "Не вдалося отримати подію зі списку завдань «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:153
+#: ../src/calendar/calendar.error.xml.h:158
 msgid "Failed to get a memo from the memo list “{0}”"
 msgstr "Не вдалося отримати подію зі списку приміток «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:155
+#: ../src/calendar/calendar.error.xml.h:160
 msgid "Copying an event into the calendar “{0}”"
 msgstr "Копіювання події в календар «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:157
+#: ../src/calendar/calendar.error.xml.h:162
 msgid "Copying a task into the task list “{0}”"
 msgstr "Копіювання завдання в список завдань «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:159
+#: ../src/calendar/calendar.error.xml.h:164
 msgid "Copying a memo into the memo list “{0}”"
 msgstr "Копіювання примітки в список приміток «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:161
+#: ../src/calendar/calendar.error.xml.h:166
 msgid "Moving an event into the calendar “{0}”"
 msgstr "Перенесення події в календар «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:163
+#: ../src/calendar/calendar.error.xml.h:168
 msgid "Moving a task into the task list “{0}”"
 msgstr "Перенесення завдання в список завдань «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:165
+#: ../src/calendar/calendar.error.xml.h:170
 msgid "Moving a memo into the memo list “{0}”"
 msgstr "Перенесення примітки в список приміток «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:167
+#: ../src/calendar/calendar.error.xml.h:172
 msgid "Failed to refresh calendar “{0}”"
 msgstr "Не вдалося оновити календар «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:169
+#: ../src/calendar/calendar.error.xml.h:174
 msgid "Failed to refresh task list “{0}”"
 msgstr "Не вдалося оновити список завдань «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:171
+#: ../src/calendar/calendar.error.xml.h:176
 msgid "Failed to refresh memo list “{0}”"
 msgstr "Не вдалося оновити список приміток «{0}»"
 
-#: ../src/calendar/calendar.error.xml.h:172
+#: ../src/calendar/calendar.error.xml.h:177
 msgid "Failed to make an occurrence movable"
 msgstr "Не вдалося зробити цей екземпляр переміщуваним"
 
-#: ../src/calendar/calendar.error.xml.h:173
+#: ../src/calendar/calendar.error.xml.h:178
 msgid "Something has gone wrong when displaying the event"
 msgstr "Під час показу події сталася помилка"
 
-#: ../src/calendar/calendar.error.xml.h:174
+#: ../src/calendar/calendar.error.xml.h:179
 msgid ""
 "A WebKitWebProcess crashed when displaying the event. You can try again by "
 "moving to another event and back. If the issue persists, please file a bug "
@@ -7117,11 +7159,11 @@ msgstr ""
 "можете спробувати ще раз, перейшовши на іншу подію і назад. Якщо проблема не "
 "зникає, будь ласка, надішліть звіт про помилку в GNOME GitLab."
 
-#: ../src/calendar/calendar.error.xml.h:175
+#: ../src/calendar/calendar.error.xml.h:180
 msgid "Something has gone wrong when displaying the memo"
 msgstr "Під час показу примітки сталася помилка"
 
-#: ../src/calendar/calendar.error.xml.h:176
+#: ../src/calendar/calendar.error.xml.h:181
 msgid ""
 "A WebKitWebProcess crashed when displaying the memo. You can try again by "
 "moving to another memo and back. If the issue persists, please file a bug "
@@ -7131,11 +7173,11 @@ msgstr ""
 "можете спробувати ще раз, перейшовши на іншу нотатку і назад. Якщо проблема "
 "не зникає, будь ласка, надішліть звіт про помилку в GNOME GitLab."
 
-#: ../src/calendar/calendar.error.xml.h:177
+#: ../src/calendar/calendar.error.xml.h:182
 msgid "Something has gone wrong when displaying the task"
 msgstr "Під час показу завдання сталася помилка"
 
-#: ../src/calendar/calendar.error.xml.h:178
+#: ../src/calendar/calendar.error.xml.h:183
 msgid ""
 "A WebKitWebProcess crashed when displaying the task. You can try again by "
 "moving to another task and back. If the issue persists, please file a bug "
@@ -7145,11 +7187,11 @@ msgstr ""
 "можете спробувати ще раз, перейшовши на інше завдання і назад. Якщо проблема "
 "не зникає, будь ласка, надішліть звіт про помилку в GNOME GitLab."
 
-#: ../src/calendar/calendar.error.xml.h:179
+#: ../src/calendar/calendar.error.xml.h:184
 msgid "Do you want to detach event from the series?"
 msgstr "Хочете від'єднати подію від послідовності?"
 
-#: ../src/calendar/calendar.error.xml.h:180
+#: ../src/calendar/calendar.error.xml.h:185
 msgid ""
 "The event “{0}” will be detached from its series and saved as a new "
 "standalone event."
@@ -7157,7 +7199,7 @@ msgstr ""
 "Подію «{0}» буде від'єднано від її послідовності і збережено як нову окрему "
 "подію."
 
-#: ../src/calendar/calendar.error.xml.h:182
+#: ../src/calendar/calendar.error.xml.h:187
 msgid "_Detach and Create Copy"
 msgstr "В_ід'єднати і створити копію"
 
@@ -7817,183 +7859,183 @@ msgstr "Створення огляду для списку завдань «%s�
 msgid "Creating view for memo list “%s”"
 msgstr "Створення огляду для списку приміток «%s»"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:213 ../src/calendar/gui/e-cal-ops.c:2010
+#: ../src/calendar/gui/e-cal-dialogs.c:222 ../src/calendar/gui/e-cal-ops.c:2010
 msgid "Destination is read only"
 msgstr "Призначення доступне лише для читання"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:293
+#: ../src/calendar/gui/e-cal-dialogs.c:302
 #, c-format
 msgid "Copying events to the calendar “%s”"
 msgstr "Копіювання подій в календар «%s»"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:299
+#: ../src/calendar/gui/e-cal-dialogs.c:308
 #, c-format
 msgid "Copying memos to the memo list “%s”"
 msgstr "Копіювання приміток в список приміток «%s»"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:305
+#: ../src/calendar/gui/e-cal-dialogs.c:314
 #, c-format
 msgid "Copying tasks to the task list “%s”"
 msgstr "Копіювання завдань в список завдань «%s»"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:524
+#: ../src/calendar/gui/e-cal-dialogs.c:533
 msgid "_Delete this item from all other recipient’s mailboxes?"
 msgstr "_Видалити цей елемент з усіх інших поштових скриньок одержувача?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:527
+#: ../src/calendar/gui/e-cal-dialogs.c:536
 msgid "_Retract comment"
 msgstr "_Розгорнути коментар"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:684
+#: ../src/calendar/gui/e-cal-dialogs.c:693
 msgid "Select Date"
 msgstr "Вибір дати"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:685
+#: ../src/calendar/gui/e-cal-dialogs.c:694
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1334
 msgid "Select _Today"
 msgstr "Вибрати _сьогодні"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:704
+#: ../src/calendar/gui/e-cal-dialogs.c:713
 msgid "January"
 msgstr "Січень"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:705
+#: ../src/calendar/gui/e-cal-dialogs.c:714
 msgid "February"
 msgstr "Лютий"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:706
+#: ../src/calendar/gui/e-cal-dialogs.c:715
 msgid "March"
 msgstr "Березень"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:707
+#: ../src/calendar/gui/e-cal-dialogs.c:716
 msgid "April"
 msgstr "Квітень"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:708
+#: ../src/calendar/gui/e-cal-dialogs.c:717
 msgid "May"
 msgstr "Травень"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:709
+#: ../src/calendar/gui/e-cal-dialogs.c:718
 msgid "June"
 msgstr "Червень"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:710
+#: ../src/calendar/gui/e-cal-dialogs.c:719
 msgid "July"
 msgstr "Липень"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:711
+#: ../src/calendar/gui/e-cal-dialogs.c:720
 msgid "August"
 msgstr "Серпень"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:712
+#: ../src/calendar/gui/e-cal-dialogs.c:721
 msgid "September"
 msgstr "Вересень"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:713
+#: ../src/calendar/gui/e-cal-dialogs.c:722
 msgid "October"
 msgstr "Жовтень"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:714
+#: ../src/calendar/gui/e-cal-dialogs.c:723
 msgid "November"
 msgstr "Листопад"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:715
+#: ../src/calendar/gui/e-cal-dialogs.c:724
 msgid "December"
 msgstr "Грудень"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:878
+#: ../src/calendar/gui/e-cal-dialogs.c:887
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr "Ви змінюєте періодичну подію. Що ви бажаєте змінити?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:880
+#: ../src/calendar/gui/e-cal-dialogs.c:889
 #, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr "Ви доручаєте періодичну подію. Що саме ви бажаєте доручити?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:884
+#: ../src/calendar/gui/e-cal-dialogs.c:893
 #, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Ви змінюєте періодичне завдання. Що ви бажаєте змінити?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:888
+#: ../src/calendar/gui/e-cal-dialogs.c:897
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr "Ви змінюєте періодичну примітку. Що ви бажаєте змінити?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:915
+#: ../src/calendar/gui/e-cal-dialogs.c:924
 msgid "This Instance Only"
 msgstr "Лише цей екземпляр"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:919
+#: ../src/calendar/gui/e-cal-dialogs.c:928
 msgid "This and Prior Instances"
 msgstr "Цей та попередні екземпляри"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:925
+#: ../src/calendar/gui/e-cal-dialogs.c:934
 msgid "This and Future Instances"
 msgstr "Цей та наступні екземпляри"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:930
+#: ../src/calendar/gui/e-cal-dialogs.c:939
 msgid "All Instances"
 msgstr "Усі екземпляри"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1178
-#: ../src/calendar/gui/e-cal-dialogs.c:1260
+#: ../src/calendar/gui/e-cal-dialogs.c:1187
+#: ../src/calendar/gui/e-cal-dialogs.c:1269
 msgid "Send my reminders with this event"
 msgstr "Надіслати мої нагадування з цією подією"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1180
-#: ../src/calendar/gui/e-cal-dialogs.c:1262
+#: ../src/calendar/gui/e-cal-dialogs.c:1189
+#: ../src/calendar/gui/e-cal-dialogs.c:1271
 msgid "Notify new attendees _only"
 msgstr "Сповідати _лише нових учасників"
 
-#: ../src/calendar/gui/e-calendar-view.c:515
+#: ../src/calendar/gui/e-calendar-view.c:521
 msgid "Cut selected events to the clipboard"
 msgstr "Вирізати виділені події у буфер обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:521
+#: ../src/calendar/gui/e-calendar-view.c:527
 msgid "Copy selected events to the clipboard"
 msgstr "Копіювати виділені події у буфер обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:527
+#: ../src/calendar/gui/e-calendar-view.c:533
 msgid "Paste events from the clipboard"
 msgstr "Вставити події з буфера обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:533
+#: ../src/calendar/gui/e-calendar-view.c:539
 msgid "Delete selected events"
 msgstr "Вилучити вибрані події"
 
-#: ../src/calendar/gui/e-calendar-view.c:1035
+#: ../src/calendar/gui/e-calendar-view.c:1045
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "Вставлений текст не містить дійсних даних iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:1046
+#: ../src/calendar/gui/e-calendar-view.c:1056
 #: ../src/calendar/gui/e-cal-ops.c:1587
 msgid "Default calendar not found"
 msgstr "Типовий календар не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:1051
+#: ../src/calendar/gui/e-calendar-view.c:1061
 #: ../src/calendar/gui/e-cal-ops.c:1590
 msgid "Default memo list not found"
 msgstr "Типовий список приміток не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:1056
+#: ../src/calendar/gui/e-calendar-view.c:1066
 #: ../src/calendar/gui/e-cal-ops.c:1593
 msgid "Default task list not found"
 msgstr "Типовий список завдань не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:1163
+#: ../src/calendar/gui/e-calendar-view.c:1173
 msgid "No suitable component found"
 msgstr "Не знайдено належний модель"
 
-#: ../src/calendar/gui/e-calendar-view.c:1228
+#: ../src/calendar/gui/e-calendar-view.c:1238
 msgid "Pasting iCalendar data"
 msgstr "Вставлення даних iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:1285
-#: ../src/calendar/gui/e-calendar-view.c:1288
-#: ../src/calendar/gui/e-calendar-view.c:1291
-#: ../src/calendar/gui/e-calendar-view.c:1292
+#: ../src/calendar/gui/e-calendar-view.c:1295
+#: ../src/calendar/gui/e-calendar-view.c:1298
+#: ../src/calendar/gui/e-calendar-view.c:1301
+#: ../src/calendar/gui/e-calendar-view.c:1302
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -8002,14 +8044,14 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1287
+#: ../src/calendar/gui/e-calendar-view.c:1297
 #: ../src/calendar/gui/e-day-view.c:3271
 #: ../src/calendar/gui/e-day-view-top-item.c:855
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1298
+#: ../src/calendar/gui/e-calendar-view.c:1308
 msgid "%A %d %b %Y"
 msgstr "%A, %d %b %Y"
 
@@ -8019,16 +8061,16 @@ msgstr "%A, %d %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1300
+#: ../src/calendar/gui/e-calendar-view.c:1310
 #: ../src/calendar/gui/e-day-view.c:3255
 #: ../src/calendar/gui/e-day-view-top-item.c:851
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
 msgstr "%a, %d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1301
-#: ../src/calendar/gui/e-calendar-view.c:1303
-#: ../src/calendar/gui/e-calendar-view.c:1304
+#: ../src/calendar/gui/e-calendar-view.c:1311
+#: ../src/calendar/gui/e-calendar-view.c:1313
+#: ../src/calendar/gui/e-calendar-view.c:1314
 msgid "%a %d %b %Y"
 msgstr "%a, %d %b %Y"
 
@@ -8036,7 +8078,7 @@ msgstr "%a, %d %b %Y"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1967
+#: ../src/calendar/gui/e-calendar-view.c:1977
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -8190,15 +8232,15 @@ msgstr "Зміна примітки"
 msgid "Modifying a task"
 msgstr "Зміна завдання"
 
-#: ../src/calendar/gui/e-cal-ops.c:429 ../src/calendar/gui/e-to-do-pane.c:2153
+#: ../src/calendar/gui/e-cal-ops.c:429 ../src/calendar/gui/e-to-do-pane.c:2161
 msgid "Removing an event"
 msgstr "Вилучення події"
 
-#: ../src/calendar/gui/e-cal-ops.c:433 ../src/calendar/gui/e-to-do-pane.c:2157
+#: ../src/calendar/gui/e-cal-ops.c:433 ../src/calendar/gui/e-to-do-pane.c:2165
 msgid "Removing a memo"
 msgstr "Вилучення примітки"
 
-#: ../src/calendar/gui/e-cal-ops.c:437 ../src/calendar/gui/e-to-do-pane.c:2161
+#: ../src/calendar/gui/e-cal-ops.c:437 ../src/calendar/gui/e-to-do-pane.c:2169
 msgid "Removing a task"
 msgstr "Вилучення завдання"
 
@@ -8707,67 +8749,67 @@ msgstr[3] "Не вдалося вилучити вибраного учасни�
 msgid "Organizer address is not a valid user mail address"
 msgstr "Адреса організатора не є коректною поштовою адресою користувача"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:703
+#: ../src/calendar/gui/e-comp-editor-page-general.c:710
 msgid "A_ttendees"
 msgstr "_Учасники"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:705
+#: ../src/calendar/gui/e-comp-editor-page-general.c:712
 msgid "Toggles whether the Attendees are displayed"
 msgstr "Перемикнути, чи показувати учасників"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:714
+#: ../src/calendar/gui/e-comp-editor-page-general.c:721
 msgid "R_ole Field"
 msgstr "Поле «_Посада»"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:716
+#: ../src/calendar/gui/e-comp-editor-page-general.c:723
 msgid "Toggles whether the Role field is displayed"
 msgstr "Перемикнути показ поля «Посада»"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:722
+#: ../src/calendar/gui/e-comp-editor-page-general.c:729
 msgid "_RSVP"
 msgstr "Про_хання відповісти"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:724
+#: ../src/calendar/gui/e-comp-editor-page-general.c:731
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Перемикнути показ поля «Прохання відповісти»"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:730
+#: ../src/calendar/gui/e-comp-editor-page-general.c:737
 msgid "_Status Field"
 msgstr "поле _стану"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:732
+#: ../src/calendar/gui/e-comp-editor-page-general.c:739
 msgid "Toggles whether the Status field is displayed"
 msgstr "Перемикнути показ поля «Стан»"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:738
+#: ../src/calendar/gui/e-comp-editor-page-general.c:745
 msgid "_Type Field"
 msgstr "Поле _типу"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:740
+#: ../src/calendar/gui/e-comp-editor-page-general.c:747
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Перемикнути показ поля типу учасників"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1049
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1056
 msgid "An organizer is required."
 msgstr "Потрібно вказати організатора."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1059
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1201
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1066
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1208
 msgid "At least one attendee is required."
 msgstr "Потрібен хоча б один учасник."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1325
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1332
 msgid "Or_ganizer:"
 msgstr "Ор_ганізатор:"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1424
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1431
 msgid ""
 "Override color of the event. If not set, then color of the calendar is used."
 msgstr ""
 "Перевизначити колір події. Якщо не встановлено, то використовується колір "
 "календаря."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1426
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1433
 msgid ""
 "Override color of the memo. If not set, then color of the memo list is used."
 msgstr ""
@@ -8775,19 +8817,19 @@ msgstr ""
 "списку нотаток."
 
 #. E_SOURCE_EXTENSION_TASK_LIST
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1428
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1435
 msgid ""
 "Override color of the task. If not set, then color of the task list is used."
 msgstr ""
 "Перевизначити колір завдання. Якщо не встановлено, то використовується колір "
 "списку завдань."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1439
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1446
 msgctxt "ECompEditor"
 msgid "Atte_ndees…"
 msgstr "_Учасники…"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1522
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1529
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2318
 #: ../src/calendar/gui/e-comp-editor.c:2274
 #: ../src/e-util/e-accounts-window.c:1752
@@ -10076,49 +10118,49 @@ msgstr "Завтра"
 msgid "Tasks without Due date"
 msgstr "Завдання без терміну виконання"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2256
+#: ../src/calendar/gui/e-to-do-pane.c:2264
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
 msgid "New _Appointment…"
 msgstr "Створити з_устріч…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2264
+#: ../src/calendar/gui/e-to-do-pane.c:2272
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1495
 msgid "New _Meeting…"
 msgstr "С_творити зібрання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2272
+#: ../src/calendar/gui/e-to-do-pane.c:2280
 msgid "New _Task…"
 msgstr "Створити за_вдання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2280
+#: ../src/calendar/gui/e-to-do-pane.c:2288
 msgid "_New Assigned Task…"
 msgstr "С_творити пов'язане завдання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2293
+#: ../src/calendar/gui/e-to-do-pane.c:2301
 msgid "_Open…"
 msgstr "_Відкрити…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2308
+#: ../src/calendar/gui/e-to-do-pane.c:2316
 msgid "_Delete This Instance…"
 msgstr "Ви_лучити цей екземпляр…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2317
+#: ../src/calendar/gui/e-to-do-pane.c:2325
 msgid "Delete This and F_uture Occurrences…"
 msgstr "Вилучити цей і _майбутні екземпляри…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2326
+#: ../src/calendar/gui/e-to-do-pane.c:2334
 msgid "D_elete All Instances…"
 msgstr "Ви_лучити усі екземпляри…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2334
+#: ../src/calendar/gui/e-to-do-pane.c:2342
 msgid "_Delete…"
 msgstr "В_илучити…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2352
+#: ../src/calendar/gui/e-to-do-pane.c:2360
 msgid "_Show Tasks without Due date"
 msgstr "_Показувати завдання без терміну виконання"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2631
+#: ../src/calendar/gui/e-to-do-pane.c:2639
 msgid "To Do"
 msgstr "Зробити"
 
