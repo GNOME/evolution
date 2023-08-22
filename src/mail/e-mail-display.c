@@ -3144,13 +3144,13 @@ e_mail_display_set_part_list (EMailDisplay *display,
 
 	if (part_list) {
 		GQueue queue = G_QUEUE_INIT;
+		GHashTable *secured_message_ids;
 		GList *link;
 
 		e_mail_part_list_queue_parts (part_list, NULL, &queue);
 
-		for (link = g_queue_peek_head_link (&queue); link && !has_secured_parts; link = g_list_next (link)) {
-			has_secured_parts = e_mail_part_has_validity (link->data);
-		}
+		secured_message_ids = e_mail_formatter_utils_extract_secured_message_ids (g_queue_peek_head_link (&queue));
+		has_secured_parts = secured_message_ids != NULL;
 
 		if (has_secured_parts) {
 			gboolean has_encypted_part = FALSE;
@@ -3158,12 +3158,7 @@ e_mail_display_set_part_list (EMailDisplay *display,
 			for (link = g_queue_peek_head_link (&queue); link; link = g_list_next (link)) {
 				EMailPart *part = link->data;
 
-				if (!e_mail_part_get_id (part) ||
-				    !g_strcmp0 (e_mail_part_get_id (part), ".message") ||
-				    e_mail_part_id_has_suffix (part, ".secure_button") ||
-				    e_mail_part_id_has_suffix (part, ".rfc822") ||
-				    e_mail_part_id_has_suffix (part, ".rfc822.end") ||
-				    e_mail_part_id_has_suffix (part, ".headers"))
+				if (!e_mail_formatter_utils_consider_as_secured_part (part, secured_message_ids))
 					continue;
 
 				if (!e_mail_part_has_validity (part)) {
@@ -3181,6 +3176,8 @@ e_mail_display_set_part_list (EMailDisplay *display,
 
 		while (!g_queue_is_empty (&queue))
 			g_object_unref (g_queue_pop_head (&queue));
+
+		g_clear_pointer (&secured_message_ids, g_hash_table_destroy);
 	}
 
 	g_slist_free_full (display->priv->insecure_part_ids, g_free);

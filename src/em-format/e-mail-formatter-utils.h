@@ -60,6 +60,12 @@ void		e_mail_formatter_format_security_header
 						 GString *buffer,
 						 EMailPart *part,
 						 guint32 flags);
+GHashTable * /* const gchar *message_part_id ~> NULL */
+		e_mail_formatter_utils_extract_secured_message_ids
+						(GList *parts); /* EMailPart * */
+gboolean	e_mail_formatter_utils_consider_as_secured_part
+						(EMailPart *part,
+						 GHashTable *secured_message_ids);
 
 G_END_DECLS
 

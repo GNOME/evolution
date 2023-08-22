@@ -57,7 +57,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
 	const gchar *string;
-	gboolean skip_insecure_parts;
+	GHashTable *secured_message_ids = NULL;
 	gboolean has_encrypted_part = FALSE;
 
 	if (g_cancellable_is_cancelled (cancellable))
@@ -67,8 +67,6 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 
 	qf_context = (EMailFormatterQuoteContext *) context;
 	qf_context->qf_flags = qf->priv->flags;
-
-	skip_insecure_parts = (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_SKIP_INSECURE_PARTS) != 0;
 
 	if ((qf_context->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_NO_FORMATTING) != 0)
 		context->flags |= E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING;
@@ -81,19 +79,8 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 
 	head = g_queue_peek_head_link (&queue);
 
-	/* Skip insecure parts only if there is a part with a validity (aka a secure part) */
-	if (skip_insecure_parts) {
-		skip_insecure_parts = FALSE;
-
-		for (link = head; link && !skip_insecure_parts; link = g_list_next (link)) {
-			EMailPart *part = E_MAIL_PART (link->data);
-
-			if (part->is_hidden || e_mail_part_get_is_attachment (part))
-				continue;
-
-			skip_insecure_parts = e_mail_part_has_validity (part);
-		}
-	}
+	if ((qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_SKIP_INSECURE_PARTS) != 0)
+		secured_message_ids = e_mail_formatter_utils_extract_secured_message_ids (head);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = E_MAIL_PART (link->data);
@@ -115,14 +102,8 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 		if (e_mail_part_get_is_attachment (part))
 			continue;
 
-		if (skip_insecure_parts &&
-		    e_mail_part_get_id (part) &&
-		    g_strcmp0 (e_mail_part_get_id (part), ".message") != 0 &&
-		    !e_mail_part_id_has_suffix (part, ".secure_button") &&
-		    !e_mail_part_id_has_suffix (part, ".rfc822") &&
-		    !e_mail_part_id_has_suffix (part, ".rfc822.end") &&
-		    !e_mail_part_id_has_suffix (part, ".headers")) {
-
+		if (secured_message_ids &&
+		    e_mail_formatter_utils_consider_as_secured_part (part, secured_message_ids)) {
 			if (!e_mail_part_has_validity (part))
 				continue;
 
@@ -148,6 +129,8 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 
 	while (!g_queue_is_empty (&queue))
 		g_object_unref (g_queue_pop_head (&queue));
+
+	g_clear_pointer (&secured_message_ids, g_hash_table_destroy);
 
 	/* Before we were inserting the BR elements and the credits in front of
 	 * the actual HTML code of the message. But this was wrong as when WebKit

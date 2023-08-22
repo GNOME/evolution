@@ -438,7 +438,7 @@ e_mail_part_id_has_prefix (EMailPart *part,
 	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
 	g_return_val_if_fail (prefix != NULL, FALSE);
 
-	return g_str_has_prefix (part->priv->id, prefix);
+	return part->priv->id && g_str_has_prefix (part->priv->id, prefix);
 }
 
 gboolean
@@ -448,7 +448,7 @@ e_mail_part_id_has_suffix (EMailPart *part,
 	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
 	g_return_val_if_fail (suffix != NULL, FALSE);
 
-	return g_str_has_suffix (part->priv->id, suffix);
+	return part->priv->id && g_str_has_suffix (part->priv->id, suffix);
 }
 
 gboolean
@@ -458,7 +458,7 @@ e_mail_part_id_has_substr (EMailPart *part,
 	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
 	g_return_val_if_fail (substr != NULL, FALSE);
 
-	return (strstr (part->priv->id, substr) != NULL);
+	return part->priv->id && strstr (part->priv->id, substr) != NULL;
 }
 
 CamelMimePart *

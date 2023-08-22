@@ -742,3 +742,98 @@ e_mail_formatter_format_security_header (EMailFormatter *formatter,
 
 	g_free (part_id_prefix);
 }
+
+GHashTable *
+e_mail_formatter_utils_extract_secured_message_ids (GList *parts)
+{
+	GHashTable *secured_message_ids = NULL;
+	GSList *message_ids = NULL;
+	GList *link;
+
+	message_ids = g_slist_prepend (message_ids, (gpointer) ".message");
+
+	for (link = parts; link; link = g_list_next (link)) {
+		EMailPart *part = link->data;
+
+		if (!e_mail_part_get_id (part))
+			continue;
+
+		if (e_mail_part_id_has_suffix (part, ".rfc822")) {
+			message_ids = g_slist_prepend (message_ids, (gpointer) e_mail_part_get_id (part));
+			continue;
+		}
+
+		if (e_mail_part_id_has_suffix (part, ".rfc822.end")) {
+			g_warn_if_fail (message_ids != NULL);
+			if (message_ids)
+				message_ids = g_slist_remove (message_ids, message_ids->data);
+			continue;
+		}
+
+		if (part->is_hidden || e_mail_part_get_is_attachment (part))
+			continue;
+
+		if (e_mail_part_has_validity (part)) {
+			g_warn_if_fail (message_ids != NULL);
+
+			if (message_ids) {
+				if (!secured_message_ids)
+					secured_message_ids = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+				if (!g_hash_table_contains (secured_message_ids, message_ids->data))
+					g_hash_table_add (secured_message_ids, g_strdup ((const gchar *) message_ids->data));
+			}
+		}
+	}
+
+	g_slist_free (message_ids);
+
+	return secured_message_ids;
+}
+
+gboolean
+e_mail_formatter_utils_consider_as_secured_part (EMailPart *part,
+						 GHashTable *secured_message_ids)
+{
+	GHashTableIter iter;
+	gpointer key;
+	const gchar *id;
+
+	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
+
+	if (!secured_message_ids)
+		return FALSE;
+
+	id = e_mail_part_get_id (part);
+
+	if (!id || part->is_hidden || e_mail_part_get_is_attachment (part))
+		return FALSE;
+
+	if (g_strcmp0 (id, ".message") == 0 ||
+	    e_mail_part_id_has_suffix (part, ".rfc822") ||
+	    e_mail_part_id_has_suffix (part, ".rfc822.end") ||
+	    e_mail_part_id_has_suffix (part, ".secure_button") ||
+	    e_mail_part_id_has_suffix (part, ".headers"))
+		return FALSE;
+
+	if (g_hash_table_contains (secured_message_ids, id))
+		return TRUE;
+
+	g_hash_table_iter_init (&iter, secured_message_ids);
+
+	while (g_hash_table_iter_next (&iter, &key, NULL)) {
+		const gchar *message_id = key;
+
+		if (g_str_has_prefix (id, message_id)) {
+			const gchar *ptr;
+
+			ptr = id + strlen (message_id);
+
+			/* a part, which does not contain another RFC822 message */
+			if (!*ptr || !strstr (ptr, ".rfc822."))
+				return TRUE;
+		}
+	}
+
+	return FALSE;
+}
