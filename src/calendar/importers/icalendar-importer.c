@@ -85,12 +85,21 @@ static const gchar *import_type_strings[] = {
 static GtkWidget *ical_get_preview (ICalComponent *icomp);
 
 static gboolean
-is_icomp_usable (ICalComponent *icomp)
+is_icomp_usable (ICalComponent *icomp,
+		 const gchar *contents)
 {
 	ICalComponent *vevent, *vtodo;
 	gboolean usable;
 
 	if (!icomp || !i_cal_component_is_valid (icomp))
+		return FALSE;
+
+	/* components can be somewhere in the middle of a MIME message, thus check
+	   the `contents`, if provided, begins with expected iCalendar strings */
+	if (contents &&
+	    g_ascii_strncasecmp (contents, "BEGIN:VCALENDAR", strlen ("BEGIN:VCALENDAR")) != 0 &&
+	    g_ascii_strncasecmp (contents, "BEGIN:VEVENT", strlen ("BEGIN:VEVENT")) != 0 &&
+	    g_ascii_strncasecmp (contents, "BEGIN:VTODO", strlen ("BEGIN:VTODO")) != 0)
 		return FALSE;
 
 	vevent = i_cal_component_get_first_component (icomp, I_CAL_VEVENT_COMPONENT);
@@ -577,12 +586,13 @@ ical_supported (EImport *ei,
 		ICalComponent *icomp;
 
 		icomp = e_cal_util_parse_ics_string (contents);
-		g_free (contents);
 
 		if (icomp) {
-			ret = is_icomp_usable (icomp);
+			ret = is_icomp_usable (icomp, contents);
 			g_object_unref (icomp);
 		}
+
+		g_free (contents);
 	}
 	g_free (filename);
 
@@ -686,6 +696,31 @@ ical_importer_peek (void)
  * vCalendar importer functions.
  */
 
+static ICalComponent *
+load_vcalendar_content (const gchar *contents)
+{
+	icalcomponent *icalcomp = NULL;
+	VObject *vcal;
+
+	if (!contents || !*contents)
+		return NULL;
+
+	/* parse the file */
+	vcal = Parse_MIME (contents, strlen (contents));
+
+	if (vcal) {
+		icalcomp = icalvcal_convert (vcal);
+		cleanVObject (vcal);
+	}
+
+	if (icalcomp) {
+		return i_cal_object_construct (I_CAL_TYPE_COMPONENT, icalcomp,
+			(GDestroyNotify) icalcomponent_free, FALSE, NULL);
+	}
+
+	return NULL;
+}
+
 static gboolean
 vcal_supported (EImport *ei,
                 EImportTarget *target,
@@ -712,12 +747,11 @@ vcal_supported (EImport *ei,
 
 	contents = e_import_util_get_file_contents (filename, NULL);
 	if (contents) {
-		VObject *vcal;
 		ICalComponent *icomp;
 
 		icomp = e_cal_util_parse_ics_string (contents);
 
-		if (icomp && is_icomp_usable (icomp)) {
+		if (icomp && is_icomp_usable (icomp, contents)) {
 			/* If we can create proper iCalendar from the file, then
 			 * rather use ics importer, because it knows to read more
 			 * information than older version, the vCalendar. */
@@ -728,22 +762,9 @@ vcal_supported (EImport *ei,
 		} else {
 			g_clear_object (&icomp);
 
-			/* parse the file */
-			vcal = Parse_MIME (contents, strlen (contents));
-			g_free (contents);
-
-			if (vcal) {
-				icalcomponent *icalcomp;
-
-				icalcomp = icalvcal_convert (vcal);
-
-				if (icalcomp) {
-					icalcomponent_free (icalcomp);
-					ret = TRUE;
-				}
-
-				cleanVObject (vcal);
-			}
+			icomp = load_vcalendar_content (contents);
+			ret = is_icomp_usable (icomp, NULL);
+			g_clear_object (&icomp);
 		}
 	}
 	g_free (filename);
@@ -756,48 +777,14 @@ vcal_supported (EImport *ei,
 static ICalComponent *
 load_vcalendar_file (const gchar *filename)
 {
-	icalvcal_defaults defaults = { NULL };
-	icalcomponent *icalcomp = NULL;
+	ICalComponent *icomp;
 	gchar *contents;
-	gchar *default_alarm_filename;
-
-	default_alarm_filename = g_build_filename (
-		EVOLUTION_SOUNDDIR,
-		"default_alarm.wav",
-		NULL);
-	defaults.alarm_audio_url = g_filename_to_uri (
-		default_alarm_filename,
-		NULL, NULL);
-	g_free (default_alarm_filename);
-	defaults.alarm_audio_fmttype = (gchar *) "audio/x-wav";
-	defaults.alarm_description = (gchar *) _("Reminder!");
 
 	contents = e_import_util_get_file_contents (filename, NULL);
-	if (contents) {
-		VObject *vcal;
+	icomp = load_vcalendar_content (contents);
+	g_free (contents);
 
-		/* parse the file */
-		vcal = Parse_MIME (contents, strlen (contents));
-		g_free (contents);
-
-		if (vcal) {
-			icalcomp = icalvcal_convert_with_defaults (
-				vcal, &defaults);
-			cleanVObject (vcal);
-		}
-	}
-
-	if (icalcomp) {
-		ICalComponent *icomp;
-
-		icomp = i_cal_object_construct (I_CAL_TYPE_COMPONENT, icalcomp,
-                            (GDestroyNotify) icalcomponent_free,
-                            FALSE, NULL);
-
-		return icomp;
-	}
-
-	return NULL;
+	return icomp;
 }
 
 static void
@@ -1609,7 +1596,7 @@ ical_get_preview (ICalComponent *icomp)
 	ICalComponent *subcomp;
 	ICalTimezone *users_zone;
 
-	if (!icomp || !is_icomp_usable (icomp))
+	if (!icomp || !is_icomp_usable (icomp, NULL))
 		return NULL;
 
 	store = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, E_TYPE_CAL_COMPONENT);
