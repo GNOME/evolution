@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-08-08 07:52+0000\n"
-"PO-Revision-Date: 2023-08-09 00:35+1000\n"
+"POT-Creation-Date: 2023-08-21 20:04+0000\n"
+"PO-Revision-Date: 2023-08-22 07:51+1000\n"
 "Last-Translator: Ser82-png <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -3150,10 +3150,34 @@ msgstr ""
 "очень простого текстового редактора, не искажающего вводимый текст."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
+msgid "Show unread count in folder tree"
+msgstr "Показывать количество непрочитанных в дереве папок"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
+msgid "Show unread count beside the folder name in the folder tree."
+msgstr ""
+"Показывать количество непрочитанных сообщений рядом с названием папки в "
+"дереве папок."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
+msgid "Show insecure parts by default"
+msgstr "Показывать по умолчанию незащищённые части"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
+msgid ""
+"Set whether not signed/encrypted parts beside signed/encrypted parts should "
+"be shown after mail open. The default is to hide these possibly insecure "
+"parts."
+msgstr ""
+"Установите, должны ли после открытия почты отображаться неподписанные/"
+"зашифрованные части рядом с подписанными/зашифрованными. По умолчанию эти, "
+"возможно, небезопасные части скрыты."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
 msgid "(Deprecated) Default forward style"
 msgstr "(Устарело) Стиль пересылки по умолчанию"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:337
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -3161,11 +3185,11 @@ msgstr ""
 "Этот ключ устарел в версии 3.10 и больше не должен использоваться. "
 "Используйте вместо него «forward-style-name»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:338
 msgid "(Deprecated) Default reply style"
 msgstr "(Устарело) Стиль ответа по умолчанию"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:339
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -3173,11 +3197,11 @@ msgstr ""
 "Этот ключ устарел в версии 3.10 и больше не должен использоваться. "
 "Используйте вместо него «reply-style-name»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:340
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Устарело) Список дополнительных заголовков и включены ли они."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:337
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:341
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -3185,11 +3209,11 @@ msgstr ""
 "Этот ключ устарел в версии 3.10 и больше не должен использоваться. "
 "Используйте вместо него «show-headers»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:338
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:342
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Устарело) Загружать сообщения для сообщений в формате HTML по HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:339
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:343
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -3197,7 +3221,7 @@ msgstr ""
 "Этот ключ устарел в версии 3.10 и больше не должен использоваться. "
 "Используйте вместо него «image-loading-policy»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:340
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:344
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -3205,7 +3229,7 @@ msgstr ""
 "(Устарело) Спрашивать при закрытии окна сообщения, когда пользователь "
 "перенаправляет или отвечает на сообщение, которое отображается в окне"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:341
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:345
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3213,13 +3237,13 @@ msgstr ""
 "Этот ключ устарел в версии 3.10 и больше не должен использоваться. "
 "Используйте вместо него «browser-close-on-reply-policy»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:342
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:346
 msgid "Prompt before send when attachment changed on the disk"
 msgstr ""
 "Спрашивать, прежде чем отправлять вложение, в которое внесены изменения на "
 "диске"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:343
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:347
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
@@ -3405,7 +3429,7 @@ msgid ""
 msgstr ""
 "Прикрепляйте компоненты к почтовым сообщениям, таким как приглашения на "
 "собрания или ответы, вместо того, чтобы сохранять их в качестве альтернативы "
-"основному тексту."
+"основному тексту"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -3619,7 +3643,7 @@ msgid ""
 msgstr "Фильтр сжатия используется при сжатии вложенных директорий с autoar."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/main.c:433
+#: ../src/shell/main.c:467
 msgid "Start in offline mode"
 msgstr "Запуск в автономном режиме"
 
@@ -3833,6 +3857,24 @@ msgstr ""
 "Если включено, редактор markdown показывает предварительный просмотр рядом с "
 "редактируемым текстом и обновляет его по мере ввода пользователем."
 
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:50
+msgid "Whether to prefer symbolic icons"
+msgstr "Следует ли отдавать предпочтение символическим значкам"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:51
+msgid ""
+"Controls whether the application should prefer symbolic icons or not. The "
+"'auto' value detects whether the icon theme is using symbolic icons. Note "
+"the symbolic icons cannot be used when the icon theme does not provide them. "
+"Similarly the color icons cannot be used, when they are not available."
+msgstr ""
+"Управляет тем, следует ли программе отдавать предпочтение символическим "
+"значкам. Значение «auto» приводит к автоматическому определению того, "
+"используются ли символические значки в теме значков системы. Обратите "
+"внимание, что символические значки нельзя использовать, если тема значков их "
+"не предоставляет. Точно так же цветные значки нельзя использовать, если они "
+"недоступны."
+
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
 msgstr "Использовать только локальные спам-тесты."
@@ -3935,7 +3977,7 @@ msgstr "Редактор почты"
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:8
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1013
 #: ../src/e-util/e-collection-account-wizard.c:867
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:200
@@ -3989,8 +4031,8 @@ msgstr "Почта"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
 #: ../src/calendar/gui/e-memo-table.c:446 ../src/e-util/e-webdav-browser.c:523
 #: ../src/modules/calendar/e-cal-shell-content.c:1944
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:196
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:211
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:199
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:214
 #: ../src/modules/calendar/e-memo-shell-view.c:335
 msgid "Memos"
 msgstr "Заметки"
@@ -4002,8 +4044,8 @@ msgstr "Заметки"
 #: ../src/e-util/e-webdav-browser.c:524
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 #: ../src/modules/calendar/e-cal-shell-content.c:1904
-#: ../src/modules/calendar/e-task-shell-view-actions.c:220
-#: ../src/modules/calendar/e-task-shell-view-actions.c:235
+#: ../src/modules/calendar/e-task-shell-view-actions.c:223
+#: ../src/modules/calendar/e-task-shell-view-actions.c:238
 #: ../src/modules/calendar/e-task-shell-view.c:530
 msgid "Tasks"
 msgstr "Задачи"
@@ -4367,7 +4409,7 @@ msgid "This address book will be removed permanently."
 msgstr "Эта адресная книга будет безвозвратно удалена."
 
 #: ../src/addressbook/addressbook.error.xml.h:10
-#: ../src/calendar/calendar.error.xml.h:7 ../src/e-util/e-system.error.xml.h:27
+#: ../src/calendar/calendar.error.xml.h:9 ../src/e-util/e-system.error.xml.h:27
 #: ../src/mail/mail.error.xml.h:69
 msgid "Do _Not Delete"
 msgstr "_Не удалять"
@@ -4385,7 +4427,7 @@ msgstr ""
 "Действительно продолжить?"
 
 #: ../src/addressbook/addressbook.error.xml.h:13
-#: ../src/calendar/calendar.error.xml.h:65
+#: ../src/calendar/calendar.error.xml.h:70
 #: ../src/e-util/e-system.error.xml.h:28
 msgid "_Delete From Server"
 msgstr "_Удалить с сервера"
@@ -4476,7 +4518,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1514
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1522
 #: ../src/e-util/e-accounts-window.c:1570
 #: ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1028 ../src/e-util/filter.ui.h:25
@@ -4622,8 +4664,8 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:806
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1852
-#: ../src/calendar/calendar.error.xml.h:181
-#: ../src/calendar/gui/e-cal-dialogs.c:686
+#: ../src/calendar/calendar.error.xml.h:186
+#: ../src/calendar/gui/e-cal-dialogs.c:695
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
 #: ../src/composer/e-composer-actions.c:242 ../src/e-util/e-activity-bar.c:370
 #: ../src/e-util/e-attachment-dialog.c:290
@@ -4650,7 +4692,7 @@ msgstr ""
 #: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4039
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4085
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4257
@@ -4737,14 +4779,14 @@ msgstr "Параметры"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3548
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
-#: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2304
+#: ../src/calendar/calendar.error.xml.h:52
+#: ../src/calendar/gui/e-comp-editor.c:2319
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
-#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4039
+#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4085
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:865
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
@@ -4754,7 +4796,7 @@ msgid "_Save"
 msgstr "_Сохранить"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/e-util/e-misc-utils.c:3725
+#: ../src/e-util/e-misc-utils.c:3737
 msgid "Image"
 msgstr "Изображение"
 
@@ -4781,8 +4823,8 @@ msgstr "По_лное имя…"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:8
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1353
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1354
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "Эл. почта"
@@ -4813,8 +4855,8 @@ msgid "_Home Page:"
 msgstr "_Домашняя страница:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
-#: ../src/calendar/gui/e-comp-editor-event.c:934
-#: ../src/modules/itip-formatter/itip-view.c:2455
+#: ../src/calendar/gui/e-comp-editor-event.c:935
+#: ../src/modules/itip-formatter/itip-view.c:2471
 msgid "_Calendar:"
 msgstr "_Календарь:"
 
@@ -4902,16 +4944,16 @@ msgid "_Anniversary:"
 msgstr "_Годовщина:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1058
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1059
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1948
+#: ../src/calendar/gui/e-calendar-view.c:1958
 msgid "Anniversary"
 msgstr "Годовщина"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1057
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1058
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1947
+#: ../src/calendar/gui/e-calendar-view.c:1957
 msgid "Birthday"
 msgstr "День рождения"
 
@@ -4960,14 +5002,14 @@ msgstr "Домашний"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1026
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1027
 #: ../src/addressbook/gui/widgets/e-contact-map.c:432
 msgid "Work"
 msgstr "Рабочий"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:86
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1092
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1093
 #: ../src/calendar/gui/comp-util.c:1965
 msgid "Other"
 msgstr "Другой"
@@ -4992,7 +5034,7 @@ msgstr "До_бавить X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1530
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1538
 #: ../src/e-util/e-attachment-view.c:409 ../src/e-util/e-filter-rule.c:410
 #: ../src/e-util/e-mail-signature-manager.c:364
 #: ../src/e-util/e-name-selector-dialog.c:1032
@@ -5026,25 +5068,25 @@ msgid "Certificates"
 msgstr "Сертификаты"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:264
-#: ../src/calendar/gui/e-comp-editor.c:2236
+#: ../src/calendar/gui/e-comp-editor.c:2251
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "_Отменить"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
-#: ../src/calendar/gui/e-comp-editor.c:2238 ../src/e-util/e-focus-tracker.c:147
+#: ../src/calendar/gui/e-comp-editor.c:2253 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Отменить"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271
-#: ../src/calendar/gui/e-comp-editor.c:2243
+#: ../src/calendar/gui/e-comp-editor.c:2258
 #: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "_Вернуть"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
-#: ../src/calendar/gui/e-comp-editor.c:2245 ../src/e-util/e-focus-tracker.c:163
+#: ../src/calendar/gui/e-comp-editor.c:2260 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Вернуть"
@@ -5188,8 +5230,8 @@ msgid "Invalid contact."
 msgstr "Неверный контакт."
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5134
-#: ../src/calendar/gui/e-comp-editor.c:2201
-#: ../src/calendar/gui/e-comp-editor.c:2273
+#: ../src/calendar/gui/e-comp-editor.c:2216
+#: ../src/calendar/gui/e-comp-editor.c:2288
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../src/shell/e-shell-window-actions.c:1121
@@ -5221,7 +5263,7 @@ msgstr "_Справка"
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418
 #: ../src/shell/e-shell-content.c:643 ../src/shell/e-shell-content.c:749
-#: ../src/shell/main.c:279 ../src/smime/gui/certificate-manager.c:1278
+#: ../src/shell/main.c:313 ../src/smime/gui/certificate-manager.c:1278
 #: ../src/smime/gui/e-cert-selector.c:233 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "_ОК"
@@ -5457,7 +5499,7 @@ msgid "ends with"
 msgstr "заканчивается на"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:785
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:786
 msgid "Phone"
 msgstr "Телефон"
 
@@ -5465,7 +5507,7 @@ msgstr "Телефон"
 #: ../src/calendar/gui/caltypes.xml.in.h:15
 #: ../src/calendar/gui/memotypes.xml.in.h:13
 #: ../src/calendar/gui/tasktypes.xml.in.h:23
-#: ../src/e-util/e-categories-selector.c:324
+#: ../src/e-util/e-categories-selector.c:322
 msgid "Category"
 msgstr "Категория"
 
@@ -5504,8 +5546,8 @@ msgstr "Телефон содержит"
 #: ../src/calendar/gui/tasktypes.xml.in.h:38
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1490
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1890
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:807
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1036
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:810
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1039
 msgid "Any field contains"
 msgstr "Любое поле содержит"
 
@@ -5534,7 +5576,7 @@ msgid "Send a mail message to this address"
 msgstr "Отправить сообщение этому адресату"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:282
-#: ../src/e-util/e-misc-utils.c:4769
+#: ../src/e-util/e-misc-utils.c:4781
 #, c-format
 msgid "Click to mail %s"
 msgstr "Нажмите, чтобы написать письмо %s"
@@ -5552,20 +5594,20 @@ msgstr "Открыть карту"
 msgid "SIP"
 msgstr "SIP"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:689
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:690
 msgid "List Members:"
 msgstr "Список участников:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:783
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:784
 msgid "Fax"
 msgstr "Факс"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Псевдоним"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:6
 #: ../src/calendar/gui/e-memo-table.etspec.h:4
@@ -5574,128 +5616,128 @@ msgstr "Псевдоним"
 msgid "Categories"
 msgstr "Категории"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:936
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:936
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:937
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:937
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:938
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:938
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:939
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:939
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:940
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:940
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:941
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:941
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:942
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:942
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:943
 msgid "Matrix"
 msgstr "Матрица"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Компания"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
 msgid "Department"
 msgstr "Отдел"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1007
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Офис"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1007
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1008
 msgid "Profession"
 msgstr "Профессия"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1008
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1009
 msgid "Position"
 msgstr "Должность"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1009
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1010
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Менеджер"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1010
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1011
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Помощник"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1011
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
 msgid "Video Chat"
 msgstr "Видеочат"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1013
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1014
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Свободен/занят"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1016
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1056
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1082
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1017
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1057
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1083
 msgid "Address"
 msgstr "Адрес"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
 msgid "Home Page"
 msgstr "Домашняя страница"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1054
 msgid "Web Log"
 msgstr "Веб-журнал"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1059
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1060
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Супруг(а)"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1069
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1070
 msgid "Personal"
 msgstr "Личное"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1114
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1115
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Примечание"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1315
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1316
 msgid "List Members"
 msgstr "Участники списка"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1338
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1339
 msgid "Job Title"
 msgstr "Должность"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1379
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1380
 msgid "Home page"
 msgstr "Домашняя страничка"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1389
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1390
 msgid "Blog"
 msgstr "Блог"
 
@@ -5952,15 +5994,15 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Действительно удалить этот контакт (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1853
-#: ../src/calendar/gui/e-comp-editor.c:2194
+#: ../src/calendar/gui/e-comp-editor.c:2209
 #: ../src/e-util/e-accounts-window.c:1760 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857
 #: ../src/mail/e-mail-account-manager.c:739
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1368
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1640
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:697
-#: ../src/modules/calendar/e-task-shell-view-actions.c:851
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:700
+#: ../src/modules/calendar/e-task-shell-view-actions.c:854
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1638
 #: ../src/shell/e-shell-window-actions.c:965
 #: ../src/smime/gui/certificate-manager.c:1602 ../src/smime/gui/smime-ui.ui.h:8
@@ -6461,17 +6503,29 @@ msgid "_Send Notice"
 msgstr "_Отправить уведомление"
 
 #: ../src/calendar/calendar.error.xml.h:5
-#: ../src/calendar/gui/e-cal-dialogs.c:500
+msgid "Would you like to send the organizer a deletion notice?"
+msgstr "Вы хотите отправить организатору уведомление об удалении?"
+
+#: ../src/calendar/calendar.error.xml.h:6
+msgid ""
+"If you do not send a deletion notice, the organizer may not know the meeting "
+"has been deleted."
+msgstr ""
+"Если вы не отправите уведомление об удалении, то организатор может не "
+"узнать, что собрание было удалено."
+
+#: ../src/calendar/calendar.error.xml.h:7
+#: ../src/calendar/gui/e-cal-dialogs.c:509
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Действительно удалить это собрание?"
 
-#: ../src/calendar/calendar.error.xml.h:6
+#: ../src/calendar/calendar.error.xml.h:8
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr "Все сведения об этом собрании будут безвозвратно удалены."
 
-#: ../src/calendar/calendar.error.xml.h:8
+#: ../src/calendar/calendar.error.xml.h:10
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the task has been deleted."
@@ -6479,21 +6533,29 @@ msgstr ""
 "Если вы не отправите уведомление об отмене, другие участники могут не знать, "
 "что задание было удалено."
 
-#: ../src/calendar/calendar.error.xml.h:9
-#: ../src/calendar/gui/e-cal-dialogs.c:503
+#: ../src/calendar/calendar.error.xml.h:11
+msgid ""
+"If you do not send a deletion notice, the organizer may not know the task "
+"has been deleted."
+msgstr ""
+"Если вы не отправите уведомление об удалении, то организатор может не "
+"узнать, что задача была удалена."
+
+#: ../src/calendar/calendar.error.xml.h:12
+#: ../src/calendar/gui/e-cal-dialogs.c:512
 #, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Действительно удалить эту задачу?"
 
-#: ../src/calendar/calendar.error.xml.h:10
+#: ../src/calendar/calendar.error.xml.h:13
 msgid "All information on this task will be deleted and can not be restored."
 msgstr "Все сведения об этой задаче будут безвозвратно удалены."
 
-#: ../src/calendar/calendar.error.xml.h:11
+#: ../src/calendar/calendar.error.xml.h:14
 msgid "Would you like to send a cancellation notice for this memo?"
 msgstr "Вы хотите отправить уведомление об отмене этой заметки?"
 
-#: ../src/calendar/calendar.error.xml.h:12
+#: ../src/calendar/calendar.error.xml.h:15
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the memo has been deleted."
@@ -6501,134 +6563,146 @@ msgstr ""
 "Если вы не отправите уведомление об отмене, другие участники могут не "
 "узнать, что заметка была удалена."
 
-#: ../src/calendar/calendar.error.xml.h:13
-#: ../src/calendar/gui/e-cal-dialogs.c:506
+#: ../src/calendar/calendar.error.xml.h:16
+msgid "Would you like to send a deletion notice for this memo?"
+msgstr "Вы хотите отправить уведомление об удалении этой заметки?"
+
+#: ../src/calendar/calendar.error.xml.h:17
+msgid ""
+"If you do not send a deletion notice, the organizer may not know the memo "
+"has been deleted."
+msgstr ""
+"Если вы не отправите уведомление об удалении, то организатор может не "
+"узнать, что заметка была удалена."
+
+#: ../src/calendar/calendar.error.xml.h:18
+#: ../src/calendar/gui/e-cal-dialogs.c:515
 #, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "Действительно удалить эту заметку?"
 
-#: ../src/calendar/calendar.error.xml.h:14
+#: ../src/calendar/calendar.error.xml.h:19
 msgid "All information on this memo will be deleted and can not be restored."
 msgstr "Все информация об этой заметке будет безвозвратно удалена."
 
-#: ../src/calendar/calendar.error.xml.h:15
+#: ../src/calendar/calendar.error.xml.h:20
 msgid "Are you sure you want to delete the meeting titled “{0}”?"
 msgstr "Действительно удалить встречу «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:16
+#: ../src/calendar/calendar.error.xml.h:21
 msgid "Are you sure you want to delete the appointment titled “{0}”?"
 msgstr "Действительно удалить встречу «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:17
+#: ../src/calendar/calendar.error.xml.h:22
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr "Все сведения об этой встрече будут безвозвратно удалены."
 
-#: ../src/calendar/calendar.error.xml.h:18
+#: ../src/calendar/calendar.error.xml.h:23
 msgid "Are you sure you want to delete this appointment?"
 msgstr "Действительно удалить эту встречу?"
 
-#: ../src/calendar/calendar.error.xml.h:19
+#: ../src/calendar/calendar.error.xml.h:24
 msgid "Are you sure you want to delete the “{0}” task?"
 msgstr "Действительно удалить задачу «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:20
+#: ../src/calendar/calendar.error.xml.h:25
 msgid "Are you sure you want to delete the memo “{0}”?"
 msgstr "Действительно удалить заметку «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:21
+#: ../src/calendar/calendar.error.xml.h:26
 msgid "All information in this memo will be deleted and can not be restored."
 msgstr "Вся информация из этой заметки будет безвозвратно удалена."
 
-#: ../src/calendar/calendar.error.xml.h:22
+#: ../src/calendar/calendar.error.xml.h:27
 msgid "Are you sure you want to delete these {0} appointments?"
 msgstr "Действительно удалить (встреч: {0})?"
 
-#: ../src/calendar/calendar.error.xml.h:23
+#: ../src/calendar/calendar.error.xml.h:28
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr "Все сведения об этих встречах будут безвозвратно удалены."
 
-#: ../src/calendar/calendar.error.xml.h:24
+#: ../src/calendar/calendar.error.xml.h:29
 msgid "Are you sure you want to delete these {0} tasks?"
 msgstr "Действительно удалить (задач: {0})?"
 
-#: ../src/calendar/calendar.error.xml.h:25
+#: ../src/calendar/calendar.error.xml.h:30
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr "Вся информация об этих задачах будет безвозвратно удалена."
 
-#: ../src/calendar/calendar.error.xml.h:26
+#: ../src/calendar/calendar.error.xml.h:31
 msgid "Are you sure you want to delete these {0} memos?"
 msgstr "Действительно удалить (заметок: {0})?"
 
-#: ../src/calendar/calendar.error.xml.h:27
+#: ../src/calendar/calendar.error.xml.h:32
 msgid "All information in these memos will be deleted and can not be restored."
 msgstr "Вся информация из этих заметок будет безвозвратно удалена."
 
-#: ../src/calendar/calendar.error.xml.h:28
+#: ../src/calendar/calendar.error.xml.h:33
 msgid "Would you like to save your changes to this meeting?"
 msgstr "Сохранить изменения этого собрания?"
 
-#: ../src/calendar/calendar.error.xml.h:29
+#: ../src/calendar/calendar.error.xml.h:34
 msgid "You have changed this meeting, but not yet saved it."
 msgstr "Это собрание изменено, но не сохранено."
 
-#: ../src/calendar/calendar.error.xml.h:30
+#: ../src/calendar/calendar.error.xml.h:35
 msgid "_Save Changes"
 msgstr "_Сохранить изменения"
 
-#: ../src/calendar/calendar.error.xml.h:31
+#: ../src/calendar/calendar.error.xml.h:36
 #: ../src/composer/mail-composer.error.xml.h:15
 msgid "_Discard Changes"
 msgstr "_Отклонить изменения"
 
-#: ../src/calendar/calendar.error.xml.h:32
+#: ../src/calendar/calendar.error.xml.h:37
 msgid "Would you like to save your changes to this appointment?"
 msgstr "Сохранить изменения этой встречи?"
 
-#: ../src/calendar/calendar.error.xml.h:33
+#: ../src/calendar/calendar.error.xml.h:38
 msgid "You have changed this appointment, but not yet saved it."
 msgstr "Эта встреча была изменена, но не сохранена."
 
-#: ../src/calendar/calendar.error.xml.h:34
+#: ../src/calendar/calendar.error.xml.h:39
 msgid "Would you like to save your changes to this task?"
 msgstr "Сохранить изменения этой задачи?"
 
-#: ../src/calendar/calendar.error.xml.h:35
+#: ../src/calendar/calendar.error.xml.h:40
 msgid "You have changed this task, but not yet saved it."
 msgstr "Эта задача изменена, но не сохранена."
 
-#: ../src/calendar/calendar.error.xml.h:36
+#: ../src/calendar/calendar.error.xml.h:41
 msgid "Would you like to save your changes to this memo?"
 msgstr "Сохранить изменения этой заметки?"
 
-#: ../src/calendar/calendar.error.xml.h:37
+#: ../src/calendar/calendar.error.xml.h:42
 msgid "You have made changes to this memo, but not yet saved them."
 msgstr "Эта заметка изменена, но не сохранена."
 
-#: ../src/calendar/calendar.error.xml.h:38
+#: ../src/calendar/calendar.error.xml.h:43
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Разослать участникам приглашения на собрание?"
 
-#: ../src/calendar/calendar.error.xml.h:39
+#: ../src/calendar/calendar.error.xml.h:44
 msgid ""
 "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 "Сообщения будут разосланы по электронной почте всем участникам, чтобы дать "
 "им возможность ответить."
 
-#: ../src/calendar/calendar.error.xml.h:40
+#: ../src/calendar/calendar.error.xml.h:45
 #: ../src/composer/mail-composer.error.xml.h:40 ../src/mail/mail.error.xml.h:8
 #: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Отправить"
 
-#: ../src/calendar/calendar.error.xml.h:41
+#: ../src/calendar/calendar.error.xml.h:46
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "Разослать участникам обновлённую информацию о собрании?"
 
-#: ../src/calendar/calendar.error.xml.h:42
+#: ../src/calendar/calendar.error.xml.h:47
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -6636,11 +6710,11 @@ msgstr ""
 "Рассылка обновлённой информации позволит другим участникам поддерживать свои "
 "календари в актуальном состоянии."
 
-#: ../src/calendar/calendar.error.xml.h:43
+#: ../src/calendar/calendar.error.xml.h:48
 msgid "Would you like to send this task to participants?"
 msgstr "Разослать участникам эту задачу?"
 
-#: ../src/calendar/calendar.error.xml.h:44
+#: ../src/calendar/calendar.error.xml.h:49
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -6648,11 +6722,11 @@ msgstr ""
 "Приглашения будут разосланы по электронной почте всем участникам, чтобы они "
 "смогли принять эту задачу."
 
-#: ../src/calendar/calendar.error.xml.h:45
+#: ../src/calendar/calendar.error.xml.h:50
 msgid "Download in progress. Do you want to save the task?"
 msgstr "Идёт процесс загрузки. Сохранить эту задачу?"
 
-#: ../src/calendar/calendar.error.xml.h:46
+#: ../src/calendar/calendar.error.xml.h:51
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
@@ -6660,11 +6734,11 @@ msgstr ""
 "Несколько вложений ещё загружаются. Сохранение задачи приведёт к тому, что "
 "она будет сохранена без этих вложений."
 
-#: ../src/calendar/calendar.error.xml.h:48
+#: ../src/calendar/calendar.error.xml.h:53
 msgid "Download in progress. Do you want to save the appointment?"
 msgstr "Идёт загрузка. Действительно сохранить эту встречу?"
 
-#: ../src/calendar/calendar.error.xml.h:49
+#: ../src/calendar/calendar.error.xml.h:54
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
@@ -6672,11 +6746,11 @@ msgstr ""
 "Несколько вложений ещё загружаются. Сохранение встречи приведёт к тому, что "
 "она будет сохранена без этих вложений."
 
-#: ../src/calendar/calendar.error.xml.h:50
+#: ../src/calendar/calendar.error.xml.h:55
 msgid "Would you like to send updated task information to participants?"
 msgstr "Разослать участникам обновлённые сведения о задаче?"
 
-#: ../src/calendar/calendar.error.xml.h:51
+#: ../src/calendar/calendar.error.xml.h:56
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -6684,11 +6758,11 @@ msgstr ""
 "Отправка обновлений позволяет другим участникам поддерживать их список задач "
 "в текущем состоянии."
 
-#: ../src/calendar/calendar.error.xml.h:52
+#: ../src/calendar/calendar.error.xml.h:57
 msgid "Would you like to send this memo to participants?"
 msgstr "Вы действительно хотите отправить эту заметку всем участникам?"
 
-#: ../src/calendar/calendar.error.xml.h:53
+#: ../src/calendar/calendar.error.xml.h:58
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this memo."
@@ -6696,12 +6770,12 @@ msgstr ""
 "Приглашения будут отправлены всем участникам по электронной почте с "
 "разрешением принять эту заметку."
 
-#: ../src/calendar/calendar.error.xml.h:54
+#: ../src/calendar/calendar.error.xml.h:59
 msgid "Would you like to send updated memo information to participants?"
 msgstr ""
 "Вы действительно хотите отправить обновлённые сведения заметки участникам?"
 
-#: ../src/calendar/calendar.error.xml.h:55
+#: ../src/calendar/calendar.error.xml.h:60
 msgid ""
 "Sending updated information allows other participants to keep their memo "
 "lists up to date."
@@ -6709,39 +6783,39 @@ msgstr ""
 "Отправление обновлённых сведений, позволяет другим участникам содержать "
 "актуальные списки заметок."
 
-#: ../src/calendar/calendar.error.xml.h:56
+#: ../src/calendar/calendar.error.xml.h:61
 msgid "Editor could not be loaded."
 msgstr "Реактор не может быть загружен."
 
-#: ../src/calendar/calendar.error.xml.h:57
+#: ../src/calendar/calendar.error.xml.h:62
 msgid "Are you sure you want to delete calendar “{0}”?"
 msgstr "Действительно удалить календарь «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:58
+#: ../src/calendar/calendar.error.xml.h:63
 msgid "This calendar will be removed permanently."
 msgstr "Этот календарь будет безвозвратно удалён."
 
-#: ../src/calendar/calendar.error.xml.h:59
+#: ../src/calendar/calendar.error.xml.h:64
 msgid "Are you sure you want to delete task list “{0}”?"
 msgstr "Действительно удалить список задач «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:60
+#: ../src/calendar/calendar.error.xml.h:65
 msgid "This task list will be removed permanently."
 msgstr "Этот список задач будет безвозвратно удалён."
 
-#: ../src/calendar/calendar.error.xml.h:61
+#: ../src/calendar/calendar.error.xml.h:66
 msgid "Are you sure you want to delete memo list “{0}”?"
 msgstr "Действительно удалить список заметок «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:62
+#: ../src/calendar/calendar.error.xml.h:67
 msgid "This memo list will be removed permanently."
 msgstr "Этот список заметок безвозвратно удалён."
 
-#: ../src/calendar/calendar.error.xml.h:63
+#: ../src/calendar/calendar.error.xml.h:68
 msgid "Are you sure you want to delete remote calendar “{0}”?"
 msgstr "Действительно удалить подключённый удалённо календарь «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:64
+#: ../src/calendar/calendar.error.xml.h:69
 msgid ""
 "This will permanently remove the calendar “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -6749,11 +6823,11 @@ msgstr ""
 "Это приведёт к безвозвратному удалению календаря «{0}» с сервера. "
 "Действительно продолжить?"
 
-#: ../src/calendar/calendar.error.xml.h:66
+#: ../src/calendar/calendar.error.xml.h:71
 msgid "Are you sure you want to delete remote task list “{0}”?"
 msgstr "Действительно удалить подключённый удалённо список задач «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:67
+#: ../src/calendar/calendar.error.xml.h:72
 msgid ""
 "This will permanently remove the task list “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -6761,11 +6835,11 @@ msgstr ""
 "Это приведёт к безвозвратному удалению списка задач «{0}» с сервера. "
 "Действительно продолжить?"
 
-#: ../src/calendar/calendar.error.xml.h:68
+#: ../src/calendar/calendar.error.xml.h:73
 msgid "Are you sure you want to delete remote memo list “{0}”?"
 msgstr "Действительно удалить подключённый удалённо список заметок «{0}»?"
 
-#: ../src/calendar/calendar.error.xml.h:69
+#: ../src/calendar/calendar.error.xml.h:74
 msgid ""
 "This will permanently remove the memo list “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -6773,11 +6847,11 @@ msgstr ""
 "Это приведёт к безвозвратному удалению списка заметок «{0}» с сервера. "
 "Действительно продолжить?"
 
-#: ../src/calendar/calendar.error.xml.h:70
+#: ../src/calendar/calendar.error.xml.h:75
 msgid "Are you sure you want to save the appointment without a summary?"
 msgstr "Действительно сохранить встречу без сводки?"
 
-#: ../src/calendar/calendar.error.xml.h:71
+#: ../src/calendar/calendar.error.xml.h:76
 msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of "
 "what your appointment is about."
@@ -6785,11 +6859,11 @@ msgstr ""
 "Добавление информативной сводки о встрече позволит получателям понять, чему "
 "посвящена встреча."
 
-#: ../src/calendar/calendar.error.xml.h:72
+#: ../src/calendar/calendar.error.xml.h:77
 msgid "Are you sure you want to save the task without a summary?"
 msgstr "Действительно сохранить задачу без сводки?"
 
-#: ../src/calendar/calendar.error.xml.h:73
+#: ../src/calendar/calendar.error.xml.h:78
 msgid ""
 "Adding a meaningful summary to your task will give you an idea of what your "
 "task is about."
@@ -6797,25 +6871,25 @@ msgstr ""
 "Добавление информативной сводки о задаче позволит получателям понять, чему "
 "посвящена задача."
 
-#: ../src/calendar/calendar.error.xml.h:74
+#: ../src/calendar/calendar.error.xml.h:79
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "Действительно сохранить заметку без сводки?"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:76
+#: ../src/calendar/calendar.error.xml.h:81
 msgid "Error loading calendar “{0}”"
 msgstr "Не удалось подключить календарь «{0}»"
 
-#: ../src/calendar/calendar.error.xml.h:77
+#: ../src/calendar/calendar.error.xml.h:82
 msgid "The calendar is not marked for offline usage."
 msgstr "Этот календарь не отмечен для автономного использования."
 
-#: ../src/calendar/calendar.error.xml.h:78
+#: ../src/calendar/calendar.error.xml.h:83
 msgid "Cannot save event"
 msgstr "Не удалось сохранить событие"
 
 #. Translators: {0} is the name of the calendar source
-#: ../src/calendar/calendar.error.xml.h:80
+#: ../src/calendar/calendar.error.xml.h:85
 msgid ""
 "“{0}” is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
@@ -6823,248 +6897,248 @@ msgstr ""
 "«{0}» — это источник календаря, доступный только для чтения. Выберите другой "
 "календарь, который может принимать встречи."
 
-#: ../src/calendar/calendar.error.xml.h:81
+#: ../src/calendar/calendar.error.xml.h:86
 msgid "Cannot save task"
 msgstr "Не удалось сохранить задачу"
 
 #. Translators: {0} is the name of the calendar source
-#: ../src/calendar/calendar.error.xml.h:83
+#: ../src/calendar/calendar.error.xml.h:88
 msgid ""
 "“{0}” does not support assigned tasks, please select a different task list."
 msgstr "«{0}» не поддерживает назначение задач, выберите другой список задач."
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:85
+#: ../src/calendar/calendar.error.xml.h:90
 msgid "Error loading task list “{0}”"
 msgstr "Не удалось подключить список задач «{0}»"
 
-#: ../src/calendar/calendar.error.xml.h:86
+#: ../src/calendar/calendar.error.xml.h:91
 msgid "The task list is not marked for offline usage."
 msgstr "Этот список задач не отмечен для автономного использования."
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:88
+#: ../src/calendar/calendar.error.xml.h:93
 msgid "Error loading memo list “{0}”"
 msgstr "Не удалось подключить список заметок «{0}»"
 
-#: ../src/calendar/calendar.error.xml.h:89
+#: ../src/calendar/calendar.error.xml.h:94
 msgid "The memo list is not marked for offline usage."
 msgstr "Этот список заметок не отмечен для автономного использования."
 
 #. Translators: {0} is the name of the calendar/memo list/task list.
-#: ../src/calendar/calendar.error.xml.h:91
+#: ../src/calendar/calendar.error.xml.h:96
 msgid "Failed to add timezone to “{0}”"
 msgstr "Не удалось добавить часовой пояс к «{0}»"
 
 #. The {0} is a calendar/memo list/task list name, which is useless here
-#: ../src/calendar/calendar.error.xml.h:93
+#: ../src/calendar/calendar.error.xml.h:98
 msgid "Failed to save attachments"
 msgstr "Не удалось сохранить вложения"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:95
+#: ../src/calendar/calendar.error.xml.h:100
 msgid "Failed to open calendar “{0}”"
 msgstr "Не удалось подключить календарь «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:97
+#: ../src/calendar/calendar.error.xml.h:102
 msgid "Failed to open memo list “{0}”"
 msgstr "Не удалось подключить список заметок «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:99
+#: ../src/calendar/calendar.error.xml.h:104
 msgid "Failed to open task list “{0}”"
 msgstr "Не удалось подключить список задач «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:101
+#: ../src/calendar/calendar.error.xml.h:106
 msgid "Failed to create an event in the calendar “{0}”"
 msgstr "Не удалось создать событие в календаре «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:103
+#: ../src/calendar/calendar.error.xml.h:108
 msgid "Failed to create a memo in the memo list “{0}”"
 msgstr "Не удалось создать заметку в списке заметок «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:105
+#: ../src/calendar/calendar.error.xml.h:110
 msgid "Failed to create a task in the task list “{0}”"
 msgstr "Не удалось создать задачу в списке задач «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:107
+#: ../src/calendar/calendar.error.xml.h:112
 msgid "Failed to modify an event in the calendar “{0}”"
 msgstr "Не удалось изменить событие в календаре «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:109
+#: ../src/calendar/calendar.error.xml.h:114
 msgid "Failed to modify a memo in the memo list “{0}”"
 msgstr "Не удалось изменить заметку в списке заметок «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:111
+#: ../src/calendar/calendar.error.xml.h:116
 msgid "Failed to modify a task in the task list “{0}”"
 msgstr "Не удалось изменить задачу в списке задач «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:113
+#: ../src/calendar/calendar.error.xml.h:118
 msgid "Failed to delete an event in the calendar “{0}”"
 msgstr "Не удалось удалить событие в календаре «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:115
+#: ../src/calendar/calendar.error.xml.h:120
 msgid "Failed to delete a memo in the memo list “{0}”"
 msgstr "Не удалось удалить заметку в списке заметок «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:117
+#: ../src/calendar/calendar.error.xml.h:122
 msgid "Failed to delete a task in the task list “{0}”"
 msgstr "Не удалось удалить задачу в списке задач «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:119
+#: ../src/calendar/calendar.error.xml.h:124
 msgid "Failed to update an event in the calendar “{0}”"
 msgstr "Не удалось обновить событие в календаре «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:121
+#: ../src/calendar/calendar.error.xml.h:126
 msgid "Failed to update a memo in the memo list “{0}”"
 msgstr "Не удалось обновить заметку в списке заметок «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:123
+#: ../src/calendar/calendar.error.xml.h:128
 msgid "Failed to update a task in the task list “{0}”"
 msgstr "Не удалось обновить задачу в списке задач «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:125
+#: ../src/calendar/calendar.error.xml.h:130
 msgid "Failed to send an event to the calendar “{0}”"
 msgstr "Не удалось отправить событие в календарь «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:127
+#: ../src/calendar/calendar.error.xml.h:132
 msgid "Failed to send a memo to the memo list “{0}”"
 msgstr "Не удалось отправить заметку в список заметок «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:129
+#: ../src/calendar/calendar.error.xml.h:134
 msgid "Failed to send a task to the task list “{0}”"
 msgstr "Не удалось отправить задачу в список задач «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:131
+#: ../src/calendar/calendar.error.xml.h:136
 msgid "Error creating view for the calendar “{0}”"
 msgstr "Не удалось создать отображение для календаря «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:133
+#: ../src/calendar/calendar.error.xml.h:138
 msgid "Error creating view for the task list “{0}”"
 msgstr "Не удалось создать отображение для списка задач «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:135
+#: ../src/calendar/calendar.error.xml.h:140
 msgid "Error creating view for the memo list “{0}”"
 msgstr "Не удалось создать отображение для списка заметок «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:137
+#: ../src/calendar/calendar.error.xml.h:142
 msgid "Failed to copy an event into the calendar “{0}”"
 msgstr "Не удалось копировать событие в календарь «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:139
+#: ../src/calendar/calendar.error.xml.h:144
 msgid "Failed to copy a task into the task list “{0}”"
 msgstr "Не удалось копировать задачу в список задач «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:141
+#: ../src/calendar/calendar.error.xml.h:146
 msgid "Failed to copy a memo into the memo list “{0}”"
 msgstr "Не удалось копировать заметку в список заметок «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:143
+#: ../src/calendar/calendar.error.xml.h:148
 msgid "Failed to move an event into the calendar “{0}”"
 msgstr "Не удалось переместить событие в календарь «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:145
+#: ../src/calendar/calendar.error.xml.h:150
 msgid "Failed to move a task into the task list “{0}”"
 msgstr "Не удалось переместить задачу в список задач «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:147
+#: ../src/calendar/calendar.error.xml.h:152
 msgid "Failed to move a memo into the memo list “{0}”"
 msgstr "Не удалось переместить заметку в список заметок «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:149
+#: ../src/calendar/calendar.error.xml.h:154
 msgid "Failed to get an event from the calendar “{0}”"
 msgstr "Не удалось получить событие из календаря «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:151
+#: ../src/calendar/calendar.error.xml.h:156
 msgid "Failed to get a task from the task list “{0}”"
 msgstr "Не удалось получить задачу из списка задач «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:153
+#: ../src/calendar/calendar.error.xml.h:158
 msgid "Failed to get a memo from the memo list “{0}”"
 msgstr "Не удалось получить заметку из списка заметок «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:155
+#: ../src/calendar/calendar.error.xml.h:160
 msgid "Copying an event into the calendar “{0}”"
 msgstr "Копирование события в календарь «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:157
+#: ../src/calendar/calendar.error.xml.h:162
 msgid "Copying a task into the task list “{0}”"
 msgstr "Копирование задачи в список задач «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:159
+#: ../src/calendar/calendar.error.xml.h:164
 msgid "Copying a memo into the memo list “{0}”"
 msgstr "Копирование заметки в список заметок «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:161
+#: ../src/calendar/calendar.error.xml.h:166
 msgid "Moving an event into the calendar “{0}”"
 msgstr "Перемещение события в календарь «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:163
+#: ../src/calendar/calendar.error.xml.h:168
 msgid "Moving a task into the task list “{0}”"
 msgstr "Перемещение задачи в список задач «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:165
+#: ../src/calendar/calendar.error.xml.h:170
 msgid "Moving a memo into the memo list “{0}”"
 msgstr "Перемещение заметки в список заметок «{0}»"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:167
+#: ../src/calendar/calendar.error.xml.h:172
 msgid "Failed to refresh calendar “{0}”"
 msgstr "Не удалось обновить календарь «{0}»"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:169
+#: ../src/calendar/calendar.error.xml.h:174
 msgid "Failed to refresh task list “{0}”"
 msgstr "Не удалось обновить список задач «{0}»"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:171
+#: ../src/calendar/calendar.error.xml.h:176
 msgid "Failed to refresh memo list “{0}”"
 msgstr "Не удалось обновить список заметок «{0}»"
 
-#: ../src/calendar/calendar.error.xml.h:172
+#: ../src/calendar/calendar.error.xml.h:177
 msgid "Failed to make an occurrence movable"
 msgstr "Не удалось сделать вхождение перемещаемым"
 
-#: ../src/calendar/calendar.error.xml.h:173
+#: ../src/calendar/calendar.error.xml.h:178
 msgid "Something has gone wrong when displaying the event"
 msgstr "При отображении контакта произошла ошибка"
 
-#: ../src/calendar/calendar.error.xml.h:174
+#: ../src/calendar/calendar.error.xml.h:179
 msgid ""
 "A WebKitWebProcess crashed when displaying the event. You can try again by "
 "moving to another event and back. If the issue persists, please file a bug "
@@ -7074,11 +7148,11 @@ msgstr ""
 "перейдя к другому событию и обратно. Если проблема не устранена, отправьте "
 "отчёт об ошибке в GitLab GNOME."
 
-#: ../src/calendar/calendar.error.xml.h:175
+#: ../src/calendar/calendar.error.xml.h:180
 msgid "Something has gone wrong when displaying the memo"
 msgstr "При отображении заметки произошла ошибка"
 
-#: ../src/calendar/calendar.error.xml.h:176
+#: ../src/calendar/calendar.error.xml.h:181
 msgid ""
 "A WebKitWebProcess crashed when displaying the memo. You can try again by "
 "moving to another memo and back. If the issue persists, please file a bug "
@@ -7088,11 +7162,11 @@ msgstr ""
 "перейдя к другой заметке и обратно. Если проблема не устранена, отправьте "
 "отчёт об ошибке в GitLab GNOME."
 
-#: ../src/calendar/calendar.error.xml.h:177
+#: ../src/calendar/calendar.error.xml.h:182
 msgid "Something has gone wrong when displaying the task"
 msgstr "При отображении задачи произошла ошибка"
 
-#: ../src/calendar/calendar.error.xml.h:178
+#: ../src/calendar/calendar.error.xml.h:183
 msgid ""
 "A WebKitWebProcess crashed when displaying the task. You can try again by "
 "moving to another task and back. If the issue persists, please file a bug "
@@ -7102,11 +7176,11 @@ msgstr ""
 "перейдя к другой задаче и обратно. Если проблема не устранена, отправьте "
 "отчёт об ошибке в GitLab GNOME."
 
-#: ../src/calendar/calendar.error.xml.h:179
+#: ../src/calendar/calendar.error.xml.h:184
 msgid "Do you want to detach event from the series?"
 msgstr "Вы хотите отделить событие от серии?"
 
-#: ../src/calendar/calendar.error.xml.h:180
+#: ../src/calendar/calendar.error.xml.h:185
 msgid ""
 "The event “{0}” will be detached from its series and saved as a new "
 "standalone event."
@@ -7114,7 +7188,7 @@ msgstr ""
 "Событие «{0}» будет отделено от своей серии и сохранено как новое отдельное "
 "событие."
 
-#: ../src/calendar/calendar.error.xml.h:182
+#: ../src/calendar/calendar.error.xml.h:187
 msgid "_Detach and Create Copy"
 msgstr "_Отделить и создать копию"
 
@@ -7159,7 +7233,7 @@ msgid "Public"
 msgstr "Общее"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
-#: ../src/calendar/gui/comp-util.c:2802
+#: ../src/calendar/gui/comp-util.c:2805
 #: ../src/calendar/gui/e-cal-list-view.c:290
 #: ../src/calendar/gui/e-cal-model.c:303 ../src/calendar/gui/e-task-table.c:450
 #: ../src/calendar/gui/memotypes.xml.in.h:11
@@ -7167,7 +7241,7 @@ msgid "Private"
 msgstr "Личное"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
-#: ../src/calendar/gui/comp-util.c:2805
+#: ../src/calendar/gui/comp-util.c:2808
 #: ../src/calendar/gui/e-cal-list-view.c:291
 #: ../src/calendar/gui/e-cal-model.c:305 ../src/calendar/gui/e-task-table.c:451
 #: ../src/calendar/gui/memotypes.xml.in.h:12
@@ -7258,9 +7332,9 @@ msgstr "Сводка содержит"
 msgid "Description Contains"
 msgstr "Описание содержит"
 
-#: ../src/calendar/gui/comp-util.c:1616 ../src/calendar/gui/comp-util.c:2932
+#: ../src/calendar/gui/comp-util.c:1616 ../src/calendar/gui/comp-util.c:2935
 #: ../src/calendar/importers/icalendar-importer.c:1498
-#: ../src/modules/itip-formatter/itip-view.c:2866
+#: ../src/modules/itip-formatter/itip-view.c:2882
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -7327,7 +7401,7 @@ msgstr "Отменено"
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:7062
+#: ../src/modules/itip-formatter/itip-view.c:7078
 msgid "Accepted"
 msgstr "Принято"
 
@@ -7335,7 +7409,7 @@ msgstr "Принято"
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:7068
+#: ../src/modules/itip-formatter/itip-view.c:7084
 msgid "Declined"
 msgstr "Отклонено"
 
@@ -7351,7 +7425,7 @@ msgstr "Условно"
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:7071
+#: ../src/modules/itip-formatter/itip-view.c:7087
 msgid "Delegated"
 msgstr "Поручено"
 
@@ -7393,7 +7467,7 @@ msgstr "п.п."
 
 #: ../src/calendar/gui/comp-util.c:2124 ../src/calendar/gui/comp-util.c:2128
 #: ../src/calendar/gui/comp-util.c:2242
-#: ../src/calendar/gui/e-comp-editor.c:1314
+#: ../src/calendar/gui/e-comp-editor.c:1315
 msgid "No Summary"
 msgstr "Нет сводки"
 
@@ -7446,8 +7520,8 @@ msgid "Completed: %s"
 msgstr "Завершено: %s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
-#: ../src/e-util/e-misc-utils.c:4852 ../src/e-util/e-text.c:566
-#: ../src/e-util/e-web-view.c:4225
+#: ../src/e-util/e-misc-utils.c:4864 ../src/e-util/e-text.c:566
+#: ../src/e-util/e-web-view.c:4271
 msgid "…"
 msgstr "…"
 
@@ -7456,87 +7530,87 @@ msgstr "…"
 msgid "Untitled"
 msgstr "Неозаглавленное"
 
-#: ../src/calendar/gui/comp-util.c:2659
-#: ../src/modules/itip-formatter/itip-view.c:2073
-#: ../src/modules/itip-formatter/itip-view.c:2291
-msgid "Categories:"
-msgstr "Категории:"
-
-#: ../src/calendar/gui/comp-util.c:2697
+#: ../src/calendar/gui/comp-util.c:2658
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:258
-#: ../src/modules/itip-formatter/itip-view.c:2064
-#: ../src/modules/itip-formatter/itip-view.c:2264
+#: ../src/modules/itip-formatter/itip-view.c:2077
+#: ../src/modules/itip-formatter/itip-view.c:2280
 msgid "Location:"
 msgstr "Адрес:"
 
-#: ../src/calendar/gui/comp-util.c:2715
+#: ../src/calendar/gui/comp-util.c:2676
 msgid "Start Date:"
 msgstr "Дата начала:"
 
-#: ../src/calendar/gui/comp-util.c:2724
+#: ../src/calendar/gui/comp-util.c:2685
 msgid "End Date:"
 msgstr "Дата завершения:"
 
-#: ../src/calendar/gui/comp-util.c:2738
-#: ../src/modules/itip-formatter/itip-view.c:2068
-#: ../src/modules/itip-formatter/itip-view.c:2276
+#: ../src/calendar/gui/comp-util.c:2699
+#: ../src/modules/itip-formatter/itip-view.c:2081
+#: ../src/modules/itip-formatter/itip-view.c:2292
 msgid "Recurs:"
 msgstr "Повторяется:"
 
-#: ../src/calendar/gui/comp-util.c:2747
+#: ../src/calendar/gui/comp-util.c:2708
 msgid "Due Date:"
 msgstr "Дата выполнения:"
 
-#: ../src/calendar/gui/comp-util.c:2764
-#: ../src/modules/itip-formatter/itip-view.c:2070
-#: ../src/modules/itip-formatter/itip-view.c:2282
+#: ../src/calendar/gui/comp-util.c:2725
+#: ../src/modules/itip-formatter/itip-view.c:2083
+#: ../src/modules/itip-formatter/itip-view.c:2298
 msgid "Estimated duration:"
 msgstr "Предполагаемая продолжительность:"
 
-#: ../src/calendar/gui/comp-util.c:2780
-#: ../src/modules/itip-formatter/itip-view.c:2071
-#: ../src/modules/itip-formatter/itip-view.c:2285
+#: ../src/calendar/gui/comp-util.c:2741
+#: ../src/modules/itip-formatter/itip-view.c:2084
+#: ../src/modules/itip-formatter/itip-view.c:2301
 msgid "Status:"
 msgstr "Состояние:"
 
-#: ../src/calendar/gui/comp-util.c:2789 ../src/calendar/gui/e-task-table.c:475
+#: ../src/calendar/gui/comp-util.c:2749
+#: ../src/modules/itip-formatter/itip-view.c:2086
+#: ../src/modules/itip-formatter/itip-view.c:2307
+msgid "Categories:"
+msgstr "Категории:"
+
+#: ../src/calendar/gui/comp-util.c:2792 ../src/calendar/gui/e-task-table.c:475
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:343
 msgid "High"
 msgstr "Высокий"
 
-#: ../src/calendar/gui/comp-util.c:2791 ../src/calendar/gui/e-cal-model.c:1888
+#: ../src/calendar/gui/comp-util.c:2794 ../src/calendar/gui/e-cal-model.c:1888
 #: ../src/calendar/gui/e-task-table.c:476
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:342
 msgid "Normal"
 msgstr "Нормальный"
 
-#: ../src/calendar/gui/comp-util.c:2793 ../src/calendar/gui/e-task-table.c:477
+#: ../src/calendar/gui/comp-util.c:2796 ../src/calendar/gui/e-task-table.c:477
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:341
 msgid "Low"
 msgstr "Низкий"
 
-#: ../src/calendar/gui/comp-util.c:2795
+#: ../src/calendar/gui/comp-util.c:2798
 msgid "Priority:"
 msgstr "Приоритет:"
 
-#: ../src/calendar/gui/comp-util.c:2813
+#: ../src/calendar/gui/comp-util.c:2816
 msgid "Classification:"
 msgstr "Классификация:"
 
-#: ../src/calendar/gui/comp-util.c:2826
+#: ../src/calendar/gui/comp-util.c:2829
 msgid "Organizer:"
 msgstr "Организатор:"
 
-#: ../src/calendar/gui/comp-util.c:2868
-#: ../src/modules/itip-formatter/itip-view.c:2074
-#: ../src/modules/itip-formatter/itip-view.c:2294
+#: ../src/calendar/gui/comp-util.c:2871
+#: ../src/modules/itip-formatter/itip-view.c:2087
+#: ../src/modules/itip-formatter/itip-view.c:2310
 msgid "Attendees:"
 msgstr "Участники:"
 
-#: ../src/calendar/gui/comp-util.c:2992
+#: ../src/calendar/gui/comp-util.c:2995
 msgid "Web Page:"
 msgstr "Веб-страница:"
 
@@ -7772,183 +7846,183 @@ msgstr "Открывается список задач «%s»"
 msgid "Creating view for memo list “%s”"
 msgstr "Открывается список заметок «%s»"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:213 ../src/calendar/gui/e-cal-ops.c:2010
+#: ../src/calendar/gui/e-cal-dialogs.c:222 ../src/calendar/gui/e-cal-ops.c:2010
 msgid "Destination is read only"
 msgstr "Назначение доступно только для чтения"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:293
+#: ../src/calendar/gui/e-cal-dialogs.c:302
 #, c-format
 msgid "Copying events to the calendar “%s”"
 msgstr "Копирование событий в календарь «%s»"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:299
+#: ../src/calendar/gui/e-cal-dialogs.c:308
 #, c-format
 msgid "Copying memos to the memo list “%s”"
 msgstr "Копирование заметок в список заметок «%s»"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:305
+#: ../src/calendar/gui/e-cal-dialogs.c:314
 #, c-format
 msgid "Copying tasks to the task list “%s”"
 msgstr "Копирование задач в список задач «%s»"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:524
+#: ../src/calendar/gui/e-cal-dialogs.c:533
 msgid "_Delete this item from all other recipient’s mailboxes?"
 msgstr "_Удалить этот элемент из ящиков всех остальных получателей?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:527
+#: ../src/calendar/gui/e-cal-dialogs.c:536
 msgid "_Retract comment"
 msgstr "_Отменить комментарий"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:684
+#: ../src/calendar/gui/e-cal-dialogs.c:693
 msgid "Select Date"
 msgstr "Выделить дату"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:685
+#: ../src/calendar/gui/e-cal-dialogs.c:694
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1334
 msgid "Select _Today"
 msgstr "В_ыделить сегодняшний день"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:704
+#: ../src/calendar/gui/e-cal-dialogs.c:713
 msgid "January"
 msgstr "Январь"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:705
+#: ../src/calendar/gui/e-cal-dialogs.c:714
 msgid "February"
 msgstr "Февраль"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:706
+#: ../src/calendar/gui/e-cal-dialogs.c:715
 msgid "March"
 msgstr "Март"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:707
+#: ../src/calendar/gui/e-cal-dialogs.c:716
 msgid "April"
 msgstr "Апрель"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:708
+#: ../src/calendar/gui/e-cal-dialogs.c:717
 msgid "May"
 msgstr "Май"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:709
+#: ../src/calendar/gui/e-cal-dialogs.c:718
 msgid "June"
 msgstr "Июнь"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:710
+#: ../src/calendar/gui/e-cal-dialogs.c:719
 msgid "July"
 msgstr "Июль"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:711
+#: ../src/calendar/gui/e-cal-dialogs.c:720
 msgid "August"
 msgstr "Август"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:712
+#: ../src/calendar/gui/e-cal-dialogs.c:721
 msgid "September"
 msgstr "Сентябрь"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:713
+#: ../src/calendar/gui/e-cal-dialogs.c:722
 msgid "October"
 msgstr "Октябрь"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:714
+#: ../src/calendar/gui/e-cal-dialogs.c:723
 msgid "November"
 msgstr "Ноябрь"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:715
+#: ../src/calendar/gui/e-cal-dialogs.c:724
 msgid "December"
 msgstr "Декабрь"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:878
+#: ../src/calendar/gui/e-cal-dialogs.c:887
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr "Вы изменяете повторяющееся событие. Что именно вы хотите изменить?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:880
+#: ../src/calendar/gui/e-cal-dialogs.c:889
 #, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr "Вы поручаете повторяющееся событие, что именно вы хотите поручить?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:884
+#: ../src/calendar/gui/e-cal-dialogs.c:893
 #, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Вы изменяете повторяющуюся задачу. Что именно вы хотите изменить?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:888
+#: ../src/calendar/gui/e-cal-dialogs.c:897
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr "Вы изменяете повторяющуюся заметку. Что именно вы хотите изменить?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:915
+#: ../src/calendar/gui/e-cal-dialogs.c:924
 msgid "This Instance Only"
 msgstr "Только эту запись"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:919
+#: ../src/calendar/gui/e-cal-dialogs.c:928
 msgid "This and Prior Instances"
 msgstr "Эту и предыдущие записи"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:925
+#: ../src/calendar/gui/e-cal-dialogs.c:934
 msgid "This and Future Instances"
 msgstr "Эту и последующие записи"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:930
+#: ../src/calendar/gui/e-cal-dialogs.c:939
 msgid "All Instances"
 msgstr "Все записи"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1178
-#: ../src/calendar/gui/e-cal-dialogs.c:1260
+#: ../src/calendar/gui/e-cal-dialogs.c:1187
+#: ../src/calendar/gui/e-cal-dialogs.c:1269
 msgid "Send my reminders with this event"
 msgstr "Отправить мои напоминатели вместе с событием"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1180
-#: ../src/calendar/gui/e-cal-dialogs.c:1262
+#: ../src/calendar/gui/e-cal-dialogs.c:1189
+#: ../src/calendar/gui/e-cal-dialogs.c:1271
 msgid "Notify new attendees _only"
 msgstr "Уведомить _только новых участников"
 
-#: ../src/calendar/gui/e-calendar-view.c:515
+#: ../src/calendar/gui/e-calendar-view.c:521
 msgid "Cut selected events to the clipboard"
 msgstr "Вырезать выделенные события в буфер обмена"
 
-#: ../src/calendar/gui/e-calendar-view.c:521
+#: ../src/calendar/gui/e-calendar-view.c:527
 msgid "Copy selected events to the clipboard"
 msgstr "Копировать выделенные события в буфер обмена"
 
-#: ../src/calendar/gui/e-calendar-view.c:527
+#: ../src/calendar/gui/e-calendar-view.c:533
 msgid "Paste events from the clipboard"
 msgstr "Вставить события из буфера обмена"
 
-#: ../src/calendar/gui/e-calendar-view.c:533
+#: ../src/calendar/gui/e-calendar-view.c:539
 msgid "Delete selected events"
 msgstr "Удалить выделенные события"
 
-#: ../src/calendar/gui/e-calendar-view.c:1035
+#: ../src/calendar/gui/e-calendar-view.c:1045
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "Вставленный текст не содержит верных данных iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:1046
+#: ../src/calendar/gui/e-calendar-view.c:1056
 #: ../src/calendar/gui/e-cal-ops.c:1587
 msgid "Default calendar not found"
 msgstr "Календарь по умолчанию не найден"
 
-#: ../src/calendar/gui/e-calendar-view.c:1051
+#: ../src/calendar/gui/e-calendar-view.c:1061
 #: ../src/calendar/gui/e-cal-ops.c:1590
 msgid "Default memo list not found"
 msgstr "Список заметок по умолчанию не найден"
 
-#: ../src/calendar/gui/e-calendar-view.c:1056
+#: ../src/calendar/gui/e-calendar-view.c:1066
 #: ../src/calendar/gui/e-cal-ops.c:1593
 msgid "Default task list not found"
 msgstr "Список задач по умолчанию не найден"
 
-#: ../src/calendar/gui/e-calendar-view.c:1163
+#: ../src/calendar/gui/e-calendar-view.c:1173
 msgid "No suitable component found"
 msgstr "Подходящих компонентов не найдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:1228
+#: ../src/calendar/gui/e-calendar-view.c:1238
 msgid "Pasting iCalendar data"
 msgstr "Вставка данных iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:1285
-#: ../src/calendar/gui/e-calendar-view.c:1288
-#: ../src/calendar/gui/e-calendar-view.c:1291
-#: ../src/calendar/gui/e-calendar-view.c:1292
+#: ../src/calendar/gui/e-calendar-view.c:1295
+#: ../src/calendar/gui/e-calendar-view.c:1298
+#: ../src/calendar/gui/e-calendar-view.c:1301
+#: ../src/calendar/gui/e-calendar-view.c:1302
 msgid "%d %b %Y"
 msgstr "%d %b. %Y"
 
@@ -7957,14 +8031,14 @@ msgstr "%d %b. %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1287
+#: ../src/calendar/gui/e-calendar-view.c:1297
 #: ../src/calendar/gui/e-day-view.c:3271
-#: ../src/calendar/gui/e-day-view-top-item.c:857
+#: ../src/calendar/gui/e-day-view-top-item.c:855
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1298
+#: ../src/calendar/gui/e-calendar-view.c:1308
 msgid "%A %d %b %Y"
 msgstr "%A, %d %b. %Y"
 
@@ -7974,16 +8048,16 @@ msgstr "%A, %d %b. %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1300
+#: ../src/calendar/gui/e-calendar-view.c:1310
 #: ../src/calendar/gui/e-day-view.c:3255
-#: ../src/calendar/gui/e-day-view-top-item.c:853
+#: ../src/calendar/gui/e-day-view-top-item.c:851
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
 msgstr "%a, %d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1301
-#: ../src/calendar/gui/e-calendar-view.c:1303
-#: ../src/calendar/gui/e-calendar-view.c:1304
+#: ../src/calendar/gui/e-calendar-view.c:1311
+#: ../src/calendar/gui/e-calendar-view.c:1313
+#: ../src/calendar/gui/e-calendar-view.c:1314
 msgid "%a %d %b %Y"
 msgstr "%a, %d %b. %Y"
 
@@ -7991,7 +8065,7 @@ msgstr "%a, %d %b. %Y"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1967
+#: ../src/calendar/gui/e-calendar-view.c:1977
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -8061,8 +8135,8 @@ msgstr "Тип"
 #: ../src/calendar/gui/e-meeting-store.c:170
 #: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1291
 #: ../src/calendar/gui/print.c:1308 ../src/e-util/e-charset.c:49
-#: ../src/modules/itip-formatter/itip-view.c:3982
-#: ../src/modules/itip-formatter/itip-view.c:7074
+#: ../src/modules/itip-formatter/itip-view.c:3998
+#: ../src/modules/itip-formatter/itip-view.c:7090
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Неизвестно"
@@ -8144,15 +8218,15 @@ msgstr "Изменение заметки"
 msgid "Modifying a task"
 msgstr "Изменение задачи"
 
-#: ../src/calendar/gui/e-cal-ops.c:429 ../src/calendar/gui/e-to-do-pane.c:2153
+#: ../src/calendar/gui/e-cal-ops.c:429 ../src/calendar/gui/e-to-do-pane.c:2161
 msgid "Removing an event"
 msgstr "Удаление события"
 
-#: ../src/calendar/gui/e-cal-ops.c:433 ../src/calendar/gui/e-to-do-pane.c:2157
+#: ../src/calendar/gui/e-cal-ops.c:433 ../src/calendar/gui/e-to-do-pane.c:2165
 msgid "Removing a memo"
 msgstr "Удаление заметки"
 
-#: ../src/calendar/gui/e-cal-ops.c:437 ../src/calendar/gui/e-to-do-pane.c:2161
+#: ../src/calendar/gui/e-cal-ops.c:437 ../src/calendar/gui/e-to-do-pane.c:2169
 msgid "Removing a task"
 msgstr "Удаление задачи"
 
@@ -8366,20 +8440,20 @@ msgstr "Время начала не является допустимым вр�
 #: ../src/calendar/gui/e-comp-editor-event.c:566
 #: ../src/calendar/gui/e-comp-editor-event.c:582
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
-#: ../src/calendar/gui/e-comp-editor.c:345
+#: ../src/calendar/gui/e-comp-editor.c:346
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
-#: ../src/e-util/e-misc-utils.c:4151 ../src/e-util/e-misc-utils.c:4159
-#: ../src/e-util/e-misc-utils.c:4194 ../src/e-util/e-misc-utils.c:4207
-#: ../src/e-util/e-misc-utils.c:4221 ../src/mail/e-mail-autoconfig.c:1129
-#: ../src/mail/e-mail-display.c:2892 ../src/mail/e-mail-notes.c:930
+#: ../src/e-util/e-misc-utils.c:4163 ../src/e-util/e-misc-utils.c:4171
+#: ../src/e-util/e-misc-utils.c:4206 ../src/e-util/e-misc-utils.c:4219
+#: ../src/e-util/e-misc-utils.c:4233 ../src/mail/e-mail-autoconfig.c:1129
+#: ../src/mail/e-mail-display.c:2922 ../src/mail/e-mail-notes.c:930
 #: ../src/mail/e-mail-reader.c:3577 ../src/mail/e-mail-reader-utils.c:817
 #: ../src/mail/em-composer-utils.c:4049 ../src/mail/em-composer-utils.c:4072
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:444
 #: ../src/plugins/face/face.c:175
-#: ../src/plugins/mail-to-task/mail-to-task.c:951 ../src/shell/e-shell.c:1258
+#: ../src/plugins/mail-to-task/mail-to-task.c:982 ../src/shell/e-shell.c:1258
 #: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:353
 #, c-format
 msgid "Unknown error"
@@ -8455,58 +8529,58 @@ msgstr "_Конфиденциальное"
 msgid "Classify as confidential"
 msgstr "Классифицировать как конфиденциальное"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:947
+#: ../src/calendar/gui/e-comp-editor-event.c:949
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "_Время запуска:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:952
+#: ../src/calendar/gui/e-comp-editor-event.c:954
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "Время _завершения:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:962
+#: ../src/calendar/gui/e-comp-editor-event.c:964
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "Событие на весь _день"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1035
+#: ../src/calendar/gui/e-comp-editor-event.c:1037
 #: ../src/calendar/gui/e-comp-editor-memo.c:359
 #: ../src/calendar/gui/e-comp-editor-task.c:987
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Общие"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1038
+#: ../src/calendar/gui/e-comp-editor-event.c:1040
 #: ../src/calendar/gui/e-comp-editor-task.c:1010
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Напоминания"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1041
+#: ../src/calendar/gui/e-comp-editor-event.c:1043
 #: ../src/calendar/gui/e-comp-editor-task.c:1014
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Повторение"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1044
+#: ../src/calendar/gui/e-comp-editor-event.c:1046
 #: ../src/calendar/gui/e-comp-editor-memo.c:362
 #: ../src/calendar/gui/e-comp-editor-task.c:1018
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "Вложения"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1052
+#: ../src/calendar/gui/e-comp-editor-event.c:1054
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "Расписание"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1087
+#: ../src/calendar/gui/e-comp-editor-event.c:1089
 #, c-format
 msgid "Meeting — %s"
 msgstr "Собрание — %s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1088
+#: ../src/calendar/gui/e-comp-editor-event.c:1090
 #, c-format
 msgid "Appointment — %s"
 msgstr "Встреча — %s"
@@ -8652,66 +8726,66 @@ msgstr ""
 "Адрес организатора не является допустимым адресом электронной почты "
 "пользователя"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:703
+#: ../src/calendar/gui/e-comp-editor-page-general.c:711
 msgid "A_ttendees"
 msgstr "У_частники"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:705
+#: ../src/calendar/gui/e-comp-editor-page-general.c:713
 msgid "Toggles whether the Attendees are displayed"
 msgstr "Отображение участников"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:714
+#: ../src/calendar/gui/e-comp-editor-page-general.c:722
 msgid "R_ole Field"
 msgstr "Поле _должности"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:716
+#: ../src/calendar/gui/e-comp-editor-page-general.c:724
 msgid "Toggles whether the Role field is displayed"
 msgstr "Переключает отображение поля «Должность»"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:722
+#: ../src/calendar/gui/e-comp-editor-page-general.c:730
 msgid "_RSVP"
 msgstr "П_росьба ответить"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:724
+#: ../src/calendar/gui/e-comp-editor-page-general.c:732
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Переключает отображение поля «Просьба ответить»"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:730
+#: ../src/calendar/gui/e-comp-editor-page-general.c:738
 msgid "_Status Field"
 msgstr "Поле _состояния"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:732
+#: ../src/calendar/gui/e-comp-editor-page-general.c:740
 msgid "Toggles whether the Status field is displayed"
 msgstr "Переключает отображение поля «Состояние»"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:738
+#: ../src/calendar/gui/e-comp-editor-page-general.c:746
 msgid "_Type Field"
 msgstr "Поле _типа"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:740
+#: ../src/calendar/gui/e-comp-editor-page-general.c:748
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Переключает отображение поля «Тип участников»"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1049
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1057
 msgid "An organizer is required."
 msgstr "Требуется организатор."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1059
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1201
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1067
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1209
 msgid "At least one attendee is required."
 msgstr "Требуется как минимум один участник."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1325
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1333
 msgid "Or_ganizer:"
 msgstr "Ор_ганизатор:"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1424
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1432
 msgid ""
 "Override color of the event. If not set, then color of the calendar is used."
 msgstr ""
 "Переопределить цвет события. Если не задано, то использовать цвет календаря."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1426
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1434
 msgid ""
 "Override color of the memo. If not set, then color of the memo list is used."
 msgstr ""
@@ -8719,21 +8793,21 @@ msgstr ""
 "заметок."
 
 #. E_SOURCE_EXTENSION_TASK_LIST
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1428
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1436
 msgid ""
 "Override color of the task. If not set, then color of the task list is used."
 msgstr ""
 "Переопределить цвет задачи. Если не задано, то использовать цвет списка "
 "задач."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1439
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1447
 msgctxt "ECompEditor"
 msgid "Atte_ndees…"
 msgstr "_Участники…"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1522
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1530
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2318
-#: ../src/calendar/gui/e-comp-editor.c:2259
+#: ../src/calendar/gui/e-comp-editor.c:2274
 #: ../src/e-util/e-accounts-window.c:1752
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
@@ -9205,11 +9279,11 @@ msgstr "_Аргументы:"
 msgid "_Send To:"
 msgstr "Отправить:"
 
-#: ../src/calendar/gui/e-comp-editor-page-schedule.c:479
+#: ../src/calendar/gui/e-comp-editor-page-schedule.c:505
 msgid "_Schedule"
 msgstr "_Запланировать"
 
-#: ../src/calendar/gui/e-comp-editor-page-schedule.c:481
+#: ../src/calendar/gui/e-comp-editor-page-schedule.c:507
 msgid "Query free / busy information for the attendees"
 msgstr "Запросить информацию о занятости для участников"
 
@@ -9411,28 +9485,28 @@ msgstr "Назначенная задача — %s"
 msgid "Task — %s"
 msgstr "Задача — %s"
 
-#: ../src/calendar/gui/e-comp-editor.c:260
+#: ../src/calendar/gui/e-comp-editor.c:261
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:197
 msgid "attachment"
 msgstr "вложение"
 
-#: ../src/calendar/gui/e-comp-editor.c:618
+#: ../src/calendar/gui/e-comp-editor.c:619
 msgid "Sending notifications to attendees…"
 msgstr "Отправка уведомлений участникам…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1043
+#: ../src/calendar/gui/e-comp-editor.c:1044
 #: ../src/e-util/e-webdav-browser.c:1927
 msgid "Saving changes…"
 msgstr "Сохранение изменений…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1946
-#: ../src/calendar/gui/e-comp-editor.c:2311
+#: ../src/calendar/gui/e-comp-editor.c:1961
+#: ../src/calendar/gui/e-comp-editor.c:2326
 #: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-notes.c:1118
 msgid "Save and Close"
 msgstr "Сохранить и закрыть"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2173
+#: ../src/calendar/gui/e-comp-editor.c:2188
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1785
 #: ../src/e-util/e-html-editor-dialog.c:194
@@ -9450,128 +9524,128 @@ msgstr "Сохранить и закрыть"
 msgid "_Close"
 msgstr "_Закрыть"
 
-#: ../src/calendar/gui/e-comp-editor.c:2175
+#: ../src/calendar/gui/e-comp-editor.c:2190
 msgid "Close the current window"
 msgstr "Закрыть текущее окно"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2180 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2195 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:470 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:951
 msgid "_Copy"
 msgstr "_Копировать"
 
-#: ../src/calendar/gui/e-comp-editor.c:2182 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2197 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:472
-#: ../src/e-util/e-web-view.c:2078 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-web-view.c:2124 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:953
 msgid "Copy the selection"
 msgstr "Копировать выделение"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2187 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2202 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1133 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:958
 msgid "Cu_t"
 msgstr "В_ырезать"
 
-#: ../src/calendar/gui/e-comp-editor.c:2189 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2204 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2087
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2133
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "Вырезать выделение"
 
-#: ../src/calendar/gui/e-comp-editor.c:2196 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2211 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:967
 msgid "Delete the selection"
 msgstr "Удалить выделение"
 
-#: ../src/calendar/gui/e-comp-editor.c:2203
+#: ../src/calendar/gui/e-comp-editor.c:2218
 msgid "View help"
 msgstr "Показать справку"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2208 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2223 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1140 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:986
 msgid "_Paste"
 msgstr "_Вставить"
 
-#: ../src/calendar/gui/e-comp-editor.c:2210 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2225 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2096
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2142
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "Вставить из буфера обмена"
 
-#: ../src/calendar/gui/e-comp-editor.c:2215
+#: ../src/calendar/gui/e-comp-editor.c:2230
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2919
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1552
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1566
 msgid "_Print…"
 msgstr "_Печать…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2222 ../src/mail/e-mail-reader.c:2926
+#: ../src/calendar/gui/e-comp-editor.c:2237 ../src/mail/e-mail-reader.c:2926
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1559
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:838
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1067
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:841
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1070
 msgid "Pre_view…"
 msgstr "Предварительный _просмотр…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2229 ../src/e-util/e-focus-tracker.c:821
+#: ../src/calendar/gui/e-comp-editor.c:2244 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:487
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1063
 msgid "Select _All"
 msgstr "Выделить _всё"
 
-#: ../src/calendar/gui/e-comp-editor.c:2231 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2246 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1065
 msgid "Select all text"
 msgstr "Выделить весь текст"
 
-#: ../src/calendar/gui/e-comp-editor.c:2252
+#: ../src/calendar/gui/e-comp-editor.c:2267
 msgid "_Classification"
 msgstr "_Классификация"
 
-#: ../src/calendar/gui/e-comp-editor.c:2266
+#: ../src/calendar/gui/e-comp-editor.c:2281
 #: ../src/e-util/e-html-editor-actions.c:1177
 #: ../src/e-util/e-mail-signature-editor.c:348 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1123 ../src/shell/e-shell-window-actions.c:1114
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/calendar/gui/e-comp-editor.c:2280
+#: ../src/calendar/gui/e-comp-editor.c:2295
 #: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_Insert"
 msgstr "_Вставка"
 
-#: ../src/calendar/gui/e-comp-editor.c:2287
+#: ../src/calendar/gui/e-comp-editor.c:2302
 #: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Параметры"
 
-#: ../src/calendar/gui/e-comp-editor.c:2294
+#: ../src/calendar/gui/e-comp-editor.c:2309
 #: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1157
 #: ../src/smime/gui/certificate-manager.c:1592 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Вид"
 
-#: ../src/calendar/gui/e-comp-editor.c:2306
+#: ../src/calendar/gui/e-comp-editor.c:2321
 msgid "Save current changes"
 msgstr "Сохранить текущие изменения"
 
-#: ../src/calendar/gui/e-comp-editor.c:2313
+#: ../src/calendar/gui/e-comp-editor.c:2328
 msgid "Save current changes and close editor"
 msgstr "Сохранить текущие изменения и закрыть редактор"
 
-#: ../src/calendar/gui/e-comp-editor.c:2320
+#: ../src/calendar/gui/e-comp-editor.c:2335
 msgid "Show _toolbar"
 msgstr "Показывать _панель инструментов"
 
@@ -9582,7 +9656,7 @@ msgstr "Показывать _панель инструментов"
 #. * order but don't change the specifiers or add
 #. * anything.
 #: ../src/calendar/gui/e-day-view.c:3238
-#: ../src/calendar/gui/e-day-view-top-item.c:849
+#: ../src/calendar/gui/e-day-view-top-item.c:847
 #: ../src/calendar/gui/e-week-view-main-item.c:207
 #: ../src/calendar/gui/print.c:2143
 msgid "%A %d %B"
@@ -9890,7 +9964,7 @@ msgid "Paste memos from the clipboard"
 msgstr "Вставить заметки из буфера обмена"
 
 #: ../src/calendar/gui/e-memo-table.c:689
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:572
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:575
 msgid "Delete selected memos"
 msgstr "Удалить выделенные заметки"
 
@@ -9930,7 +10004,7 @@ msgid "Paste tasks from the clipboard"
 msgstr "Вставить задачи из буфера обмена"
 
 #: ../src/calendar/gui/e-task-table.c:873
-#: ../src/modules/calendar/e-task-shell-view-actions.c:698
+#: ../src/modules/calendar/e-task-shell-view-actions.c:701
 msgid "Delete selected tasks"
 msgstr "Удалить выбранные задачи"
 
@@ -10020,49 +10094,49 @@ msgstr "Завтра"
 msgid "Tasks without Due date"
 msgstr "Задачи без даты выполнения"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2256
+#: ../src/calendar/gui/e-to-do-pane.c:2264
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
 msgid "New _Appointment…"
 msgstr "Новое _мероприятие…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2264
+#: ../src/calendar/gui/e-to-do-pane.c:2272
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1495
 msgid "New _Meeting…"
 msgstr "Новая _встреча…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2272
+#: ../src/calendar/gui/e-to-do-pane.c:2280
 msgid "New _Task…"
 msgstr "Новая _задача…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2280
+#: ../src/calendar/gui/e-to-do-pane.c:2288
 msgid "_New Assigned Task…"
 msgstr "_Новое задание…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2293
+#: ../src/calendar/gui/e-to-do-pane.c:2301
 msgid "_Open…"
 msgstr "_Открыть…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2308
+#: ../src/calendar/gui/e-to-do-pane.c:2316
 msgid "_Delete This Instance…"
 msgstr "_Удалить эту запись…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2317
+#: ../src/calendar/gui/e-to-do-pane.c:2325
 msgid "Delete This and F_uture Occurrences…"
 msgstr "Удалить эту и последующие повторения…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2326
+#: ../src/calendar/gui/e-to-do-pane.c:2334
 msgid "D_elete All Instances…"
 msgstr "_Удалить все повторы…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2334
+#: ../src/calendar/gui/e-to-do-pane.c:2342
 msgid "_Delete…"
 msgstr "У_далите…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2352
+#: ../src/calendar/gui/e-to-do-pane.c:2360
 msgid "_Show Tasks without Due date"
 msgstr "_Показывать задачи без времени завершения"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2631
+#: ../src/calendar/gui/e-to-do-pane.c:2639
 msgid "To Do"
 msgstr "Дела"
 
@@ -10101,19 +10175,19 @@ msgstr "Организатор должен быть назначен."
 msgid "At least one attendee is necessary"
 msgstr "Необходим как минимум один участник"
 
-#: ../src/calendar/gui/itip-utils.c:1155 ../src/calendar/gui/itip-utils.c:1329
+#: ../src/calendar/gui/itip-utils.c:1155 ../src/calendar/gui/itip-utils.c:1336
 msgid "Event information"
 msgstr "Информация о событии"
 
-#: ../src/calendar/gui/itip-utils.c:1158 ../src/calendar/gui/itip-utils.c:1332
+#: ../src/calendar/gui/itip-utils.c:1158 ../src/calendar/gui/itip-utils.c:1339
 msgid "Task information"
 msgstr "Информация о задаче"
 
-#: ../src/calendar/gui/itip-utils.c:1161 ../src/calendar/gui/itip-utils.c:1335
+#: ../src/calendar/gui/itip-utils.c:1161 ../src/calendar/gui/itip-utils.c:1342
 msgid "Memo information"
 msgstr "Информация о заметке"
 
-#: ../src/calendar/gui/itip-utils.c:1164 ../src/calendar/gui/itip-utils.c:1353
+#: ../src/calendar/gui/itip-utils.c:1164 ../src/calendar/gui/itip-utils.c:1360
 msgid "Free/Busy information"
 msgstr "Информация о занятости"
 
@@ -10202,43 +10276,43 @@ msgctxt "Meeting"
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: ../src/calendar/gui/itip-utils.c:1350
+#: ../src/calendar/gui/itip-utils.c:1357
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Информация о занятости (%s в %s)"
 
-#: ../src/calendar/gui/itip-utils.c:1358
+#: ../src/calendar/gui/itip-utils.c:1365
 msgid "iCalendar information"
 msgstr "Информация iCalendar"
 
-#: ../src/calendar/gui/itip-utils.c:1387
+#: ../src/calendar/gui/itip-utils.c:1394
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr ""
 "Не удаётся зарезервировать ресурс, новое событие конфликтует с каким-то "
 "другим."
 
-#: ../src/calendar/gui/itip-utils.c:1392
+#: ../src/calendar/gui/itip-utils.c:1399
 msgid "Unable to book a resource, error: "
 msgstr "Не удаётся зарезервировать ресурс, ошибка: "
 
-#: ../src/calendar/gui/itip-utils.c:1586
+#: ../src/calendar/gui/itip-utils.c:1593
 msgid "You must be an attendee of the event."
 msgstr "Вы должны быть участником события."
 
-#: ../src/calendar/gui/itip-utils.c:2471
+#: ../src/calendar/gui/itip-utils.c:2480
 msgid "Sending an event"
 msgstr "Отправка события"
 
-#: ../src/calendar/gui/itip-utils.c:2475
+#: ../src/calendar/gui/itip-utils.c:2484
 msgid "Sending a memo"
 msgstr "Отправка заметки"
 
-#: ../src/calendar/gui/itip-utils.c:2479
+#: ../src/calendar/gui/itip-utils.c:2488
 msgid "Sending a task"
 msgstr "Отправка задачи"
 
-#: ../src/calendar/gui/itip-utils.c:2681
+#: ../src/calendar/gui/itip-utils.c:2690
 msgid "Original Appointment"
 msgstr "Первоначальная встреча"
 
@@ -10463,7 +10537,7 @@ msgstr "Создать календарь"
 #: ../src/calendar/importers/icalendar-importer.c:337
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:499
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:287
-#: ../src/modules/calendar/e-task-shell-view-actions.c:204
+#: ../src/modules/calendar/e-task-shell-view-actions.c:207
 msgid "New Task List"
 msgstr "Создать список задач"
 
@@ -12817,6 +12891,14 @@ msgstr ""
 "Это сообщение является перенаправлением, которое позволяет изменить "
 "получателей, тему и другие атрибуты сообщения, но не его содержимое."
 
+#: ../src/composer/mail-composer.error.xml.h:61
+msgid "Not adding OpenPGP public key into the mail."
+msgstr "Не добавляется открытый ключ OpenPGP в почту."
+
+#: ../src/composer/mail-composer.error.xml.h:62
+msgid "The OpenPGP public key for “{0}” is too large for the transfer."
+msgstr "Открытый ключ OpenPGP для «{0}» слишком большой для передачи."
+
 #: ../src/em-format/e-mail-formatter-attachment.c:317
 msgid "Toggle View Inline"
 msgstr "Переключить режим просмотра"
@@ -12867,11 +12949,11 @@ msgstr "Импортировать ключ OpenPGP, указанный в эт�
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Это письмо было отправлено %s от имени %s"
 
-#: ../src/em-format/e-mail-formatter-image.c:158
+#: ../src/em-format/e-mail-formatter-image.c:142
 msgid "Regular Image"
 msgstr "Обычное изображение"
 
-#: ../src/em-format/e-mail-formatter-image.c:159
+#: ../src/em-format/e-mail-formatter-image.c:143
 msgid "Display part as an image"
 msgstr "Показать часть в виде изображения"
 
@@ -13071,26 +13153,27 @@ msgstr "Просмотр сертификата"
 msgid "Import Certificate"
 msgstr "Импорт сертификата"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:320
+#. image
+#: ../src/em-format/e-mail-formatter-secure-button.c:321
 msgid "Details"
 msgstr "Подробности"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:412
+#: ../src/em-format/e-mail-formatter-secure-button.c:413
 msgid "Digital Signature"
 msgstr "Цифровая подпись"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:418
+#: ../src/em-format/e-mail-formatter-secure-button.c:419
 msgid "Signer:"
 msgid_plural "Signers:"
 msgstr[0] "Подписант:"
 msgstr[1] "Подписанты:"
 msgstr[2] "Подписанты:"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:429
+#: ../src/em-format/e-mail-formatter-secure-button.c:430
 msgid "Encryption"
 msgstr "Шифрование"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:434
+#: ../src/em-format/e-mail-formatter-secure-button.c:435
 msgid "Encrypted by:"
 msgstr "Зашифровано:"
 
@@ -13130,7 +13213,7 @@ msgid "Bcc"
 msgstr "Скрытая копия"
 
 #: ../src/em-format/e-mail-formatter-utils.c:471
-#: ../src/em-format/e-mail-formatter-utils.c:726
+#: ../src/em-format/e-mail-formatter-utils.c:732
 #: ../src/mail/e-mail-config-security-page.c:929
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
@@ -13169,11 +13252,11 @@ msgstr "С шифрованием S/MIME"
 msgid "partially S/MIME encrypted"
 msgstr "частично зашифровано S/MIME"
 
-#: ../src/em-format/e-mail-formatter-utils.c:720
+#: ../src/em-format/e-mail-formatter-utils.c:726
 msgid "Show parts not being secured"
 msgstr "Показать части, которые не защищены"
 
-#: ../src/em-format/e-mail-formatter-utils.c:721
+#: ../src/em-format/e-mail-formatter-utils.c:727
 msgid "Hide parts not being secured"
 msgstr "Скрыть части, которые не защищены"
 
@@ -13570,7 +13653,7 @@ msgstr "Сохранить _только извлечённые файлы"
 msgid "Save extracted files and the original _archive"
 msgstr "Сохранить извлечённые файлы и исходный _архив"
 
-#: ../src/e-util/e-attachment-view.c:355 ../src/mail/e-mail-display.c:2063
+#: ../src/e-util/e-attachment-view.c:355 ../src/mail/e-mail-display.c:2089
 msgid "Open With Other Application…"
 msgstr "Открыть с помощью другого приложения…"
 
@@ -13596,8 +13679,8 @@ msgstr "_Добавить вложение…"
 #: ../src/e-util/e-attachment-view.c:395
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1376
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:619
-#: ../src/modules/calendar/e-task-shell-view-actions.c:745
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:622
+#: ../src/modules/calendar/e-task-shell-view-actions.c:748
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1603
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1681
 msgid "_Properties"
@@ -13611,21 +13694,21 @@ msgstr "_Перезагрузить"
 msgid "Reload attachment content"
 msgstr "Перезагрузить содержимое вложения"
 
-#: ../src/e-util/e-attachment-view.c:840 ../src/mail/e-mail-display.c:2017
+#: ../src/e-util/e-attachment-view.c:840 ../src/mail/e-mail-display.c:2043
 #, c-format
 msgid "Open With “%s”"
 msgstr "Открыть с помощью «%s»"
 
-#: ../src/e-util/e-attachment-view.c:841 ../src/mail/e-mail-display.c:2018
+#: ../src/e-util/e-attachment-view.c:841 ../src/mail/e-mail-display.c:2044
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Открыть это вложение в %s"
 
-#: ../src/e-util/e-attachment-view.c:843 ../src/mail/e-mail-display.c:2020
+#: ../src/e-util/e-attachment-view.c:843 ../src/mail/e-mail-display.c:2046
 msgid "Open With Default Application"
 msgstr "Открыть с помощью приложения по умолчанию"
 
-#: ../src/e-util/e-attachment-view.c:844 ../src/mail/e-mail-display.c:2021
+#: ../src/e-util/e-attachment-view.c:844 ../src/mail/e-mail-display.c:2047
 msgid "Open this attachment in default application"
 msgstr "Открыть это вложение в приложении по умолчанию"
 
@@ -13730,11 +13813,11 @@ msgctxt "category"
 msgid "_Delete"
 msgstr "_Удалить"
 
-#: ../src/e-util/e-categories-selector.c:319
+#: ../src/e-util/e-categories-selector.c:317
 msgid "Icon"
 msgstr "Значок"
 
-#: ../src/e-util/e-category-completion.c:304
+#: ../src/e-util/e-category-completion.c:302
 #, c-format
 msgid "Create category “%s”"
 msgstr "Создать категорию «%s»"
@@ -13898,22 +13981,22 @@ msgstr "Другое…"
 msgid "Cannot create a client object from extension name “%s”"
 msgstr "Не удалось создать клиентский объект из расширения с именем «%s»"
 
-#: ../src/e-util/e-client-selector.c:190 ../src/mail/em-folder-tree.c:1035
+#: ../src/e-util/e-client-selector.c:190 ../src/mail/em-folder-tree.c:1039
 msgctxt "Status"
 msgid "Offline"
 msgstr "Автономно"
 
-#: ../src/e-util/e-client-selector.c:193 ../src/mail/em-folder-tree.c:1038
+#: ../src/e-util/e-client-selector.c:193 ../src/mail/em-folder-tree.c:1042
 msgctxt "Status"
 msgid "Online"
 msgstr "В сети"
 
-#: ../src/e-util/e-client-selector.c:196 ../src/mail/em-folder-tree.c:1041
+#: ../src/e-util/e-client-selector.c:196 ../src/mail/em-folder-tree.c:1045
 msgctxt "Status"
 msgid "Unreachable"
 msgstr "Недоступно"
 
-#: ../src/e-util/e-client-selector.c:199 ../src/mail/em-folder-tree.c:1044
+#: ../src/e-util/e-client-selector.c:199 ../src/mail/em-folder-tree.c:1048
 msgctxt "Status"
 msgid "Failed to connect"
 msgstr "Не удалось подключиться"
@@ -16099,8 +16182,8 @@ msgstr "_Записать"
 #: ../src/e-util/e-markdown-editor.c:2282
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1352
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:684
-#: ../src/modules/calendar/e-task-shell-view-actions.c:838
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:687
+#: ../src/modules/calendar/e-task-shell-view-actions.c:841
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1844
 msgid "_Preview"
 msgstr "_Предварительный просмотр"
@@ -16153,32 +16236,32 @@ msgstr "Не удалось открыть ссылку."
 msgid "Could not display help for Evolution."
 msgstr "Не удалось показать справку по Evolution."
 
-#: ../src/e-util/e-misc-utils.c:2606
+#: ../src/e-util/e-misc-utils.c:2618
 #, c-format
 msgid "Opening calendar “%s”"
 msgstr "Открытие календаря «%s»"
 
-#: ../src/e-util/e-misc-utils.c:2609
+#: ../src/e-util/e-misc-utils.c:2621
 #, c-format
 msgid "Opening memo list “%s”"
 msgstr "Открытие списка заметок «%s»"
 
-#: ../src/e-util/e-misc-utils.c:2612
+#: ../src/e-util/e-misc-utils.c:2624
 #, c-format
 msgid "Opening task list “%s”"
 msgstr "Открытие списка задач «%s»"
 
-#: ../src/e-util/e-misc-utils.c:2615
+#: ../src/e-util/e-misc-utils.c:2627
 #, c-format
 msgid "Opening address book “%s”"
 msgstr "Открытие адресной книги «%s»"
 
-#: ../src/e-util/e-misc-utils.c:3488
+#: ../src/e-util/e-misc-utils.c:3500
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_Не показывать больше это сообщение"
 
-#: ../src/e-util/e-misc-utils.c:4138
+#: ../src/e-util/e-misc-utils.c:4150
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -16186,27 +16269,27 @@ msgstr ""
 "Возможно, сервер адресной книги недоступен, имя сервера может быть введено "
 "неправильно или соединение с сетью отсутствует."
 
-#: ../src/e-util/e-misc-utils.c:4150
+#: ../src/e-util/e-misc-utils.c:4162
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Не удалось установить версию протокола в LDAPv3 (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4158
+#: ../src/e-util/e-misc-utils.c:4170
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "Не удалось установить параметр тайм-аута соединения (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4193
+#: ../src/e-util/e-misc-utils.c:4205
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Не удалось использовать STARTTLS (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4206
+#: ../src/e-util/e-misc-utils.c:4218
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Не удалось проверить подлинность на сервере LDAP (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4220
+#: ../src/e-util/e-misc-utils.c:4232
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -16222,7 +16305,7 @@ msgstr ""
 "\n"
 "Описание ошибки (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4231
+#: ../src/e-util/e-misc-utils.c:4243
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -16233,12 +16316,12 @@ msgstr ""
 "Выясните у системного администратора, какие базы поиска поддерживает этот "
 "сервер."
 
-#: ../src/e-util/e-misc-utils.c:4264
+#: ../src/e-util/e-misc-utils.c:4276
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution было скомпилировано без поддержки LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4587
+#: ../src/e-util/e-misc-utils.c:4599
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -16246,31 +16329,31 @@ msgstr "Неизвестно (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4596
+#: ../src/e-util/e-misc-utils.c:4608
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4774
+#: ../src/e-util/e-misc-utils.c:4786
 #, c-format
 msgid "Click to call %s"
 msgstr "Нажмите, чтобы позвонить %s"
 
-#: ../src/e-util/e-misc-utils.c:4776
+#: ../src/e-util/e-misc-utils.c:4788
 msgid "Click to hide/unhide addresses"
 msgstr "Нажмите, чтобы показать/скрыть адреса"
 
-#: ../src/e-util/e-misc-utils.c:4789
+#: ../src/e-util/e-misc-utils.c:4801
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Перейти к разделу %s в сообщении"
 
-#: ../src/e-util/e-misc-utils.c:4791
+#: ../src/e-util/e-misc-utils.c:4803
 msgid "Go to the beginning of the message"
 msgstr "Перейти к началу сообщения"
 
-#: ../src/e-util/e-misc-utils.c:4797
+#: ../src/e-util/e-misc-utils.c:4809
 #, c-format
 msgid "Click to open %s"
 msgstr "Нажмите, чтобы открыть %s"
@@ -16295,8 +16378,8 @@ msgstr "_Поиск:"
 #: ../src/e-util/e-name-selector-dialog.c:1321
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1466
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1852
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:783
-#: ../src/modules/calendar/e-task-shell-view-actions.c:956
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:786
+#: ../src/modules/calendar/e-task-shell-view-actions.c:959
 msgid "Any Category"
 msgstr "Любая категория"
 
@@ -17330,24 +17413,24 @@ msgstr "Поиск в _интернете…"
 msgid "Search the Web with the selected text"
 msgstr "Поиск в интернете по выбранному тексту"
 
-#: ../src/e-util/e-web-view.c:489 ../src/e-util/e-web-view.c:2100
+#: ../src/e-util/e-web-view.c:489 ../src/e-util/e-web-view.c:2146
 msgid "Select all text and images"
 msgstr "Выделить весь текст и изображения"
 
-#: ../src/e-util/e-web-view.c:3849
+#: ../src/e-util/e-web-view.c:3895
 msgid "Copying image to clipboard"
 msgstr "Копирование изображения в буфер обмена"
 
-#: ../src/e-util/e-web-view.c:4037
+#: ../src/e-util/e-web-view.c:4083
 msgid "Save Image"
 msgstr "Сохранить изображение"
 
-#: ../src/e-util/e-web-view.c:4074
+#: ../src/e-util/e-web-view.c:4120
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Сохранение изображения в «%s»"
 
-#: ../src/e-util/e-web-view.c:4229
+#: ../src/e-util/e-web-view.c:4275
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Не удалось получить URI «%s», загрузка приостановлена."
@@ -19878,7 +19961,7 @@ msgstr "Стиль ответа:"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
 #: ../src/mail/em-composer-utils.c:4337
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:253
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:347
 msgid "_Default"
 msgstr "По _умолчанию"
 
@@ -20102,7 +20185,7 @@ msgid "Label"
 msgstr "Метка"
 
 #: ../src/mail/em-folder-properties.c:1431
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:427
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:586
 msgid "Appearance"
 msgstr "Вид"
 
@@ -20132,7 +20215,7 @@ msgstr "<нажмите, чтобы выбрать папку>"
 msgid "Create a new folder"
 msgstr "Создать новую папку"
 
-#: ../src/mail/em-folder-tree.c:685
+#: ../src/mail/em-folder-tree.c:687
 msgid "Folder names cannot contain “/”"
 msgstr "Имена папок не могут содержать «/»"
 
@@ -20154,37 +20237,37 @@ msgstr "Имена папок не могут содержать «/»"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../src/mail/em-folder-tree.c:887
+#: ../src/mail/em-folder-tree.c:891
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1826
+#: ../src/mail/em-folder-tree.c:1865
 msgid "Mail Folder Tree"
 msgstr "Дерево почтовых папок"
 
-#: ../src/mail/em-folder-tree.c:2376
+#: ../src/mail/em-folder-tree.c:2415
 #, c-format
 msgid "Moving folder %s"
 msgstr "Перемещение папки %s"
 
-#: ../src/mail/em-folder-tree.c:2379
+#: ../src/mail/em-folder-tree.c:2418
 #, c-format
 msgid "Copying folder %s"
 msgstr "Копирование папки %s"
 
-#: ../src/mail/em-folder-tree.c:2386 ../src/mail/message-list.c:2655
+#: ../src/mail/em-folder-tree.c:2425 ../src/mail/message-list.c:2655
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Перемещение сообщений в папку %s"
 
-#: ../src/mail/em-folder-tree.c:2390 ../src/mail/message-list.c:2657
+#: ../src/mail/em-folder-tree.c:2429 ../src/mail/message-list.c:2657
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копирование сообщений в папку %s"
 
-#: ../src/mail/em-folder-tree.c:2409
+#: ../src/mail/em-folder-tree.c:2448
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Нельзя перетащить сообщение в хранилище верхнего уровня"
@@ -20628,7 +20711,6 @@ msgstr "К исполнению до"
 
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
-#| msgid "Pasting iCalendar data"
 msgid "Contain iCalendar Data"
 msgstr "Содержит данные iCalendar"
 
@@ -22747,7 +22829,7 @@ msgstr "Новая адресная книга"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:495
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:283
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:180
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:183
 msgid "New Memo List"
 msgstr "Создать список заметок"
 
@@ -22762,12 +22844,12 @@ msgid "Calendar Properties"
 msgstr "Свойства календаря"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:551
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:252
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:255
 msgid "Memo List Properties"
 msgstr "Свойства списка заметок"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:555
-#: ../src/modules/calendar/e-task-shell-view-actions.c:276
+#: ../src/modules/calendar/e-task-shell-view-actions.c:279
 msgid "Task List Properties"
 msgstr "Свойства списка задач"
 
@@ -22783,57 +22865,77 @@ msgstr ""
 "Просмотреть сервер WebDAV (CalDAV или CardDAV) и создать, отредактировать "
 "или удалить здесь адресные книги, календари, списки заметок или задач"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:175
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:257
 msgid "Title Bar Mode"
 msgstr "Режим панели заголовка"
 
 #. Translators: This is the GNOME project name; you probably do not want to translate it, apart of changing the mnemonic
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:186
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:268
 msgid "_GNOME"
 msgstr "_GNOME"
 
 #. Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:213
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:295
 msgid "_Standard"
 msgstr "_Стандарт"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:241
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:323
 msgid "Toolbar Icon Size"
 msgstr "Размер значков панели инструментов"
 
+#. Translators: this is in a sense of "Look & Feel of the icons"
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:334
+msgid "Icons Look"
+msgstr "Вид значков"
+
+#. Translators: This is for "Icons Look: Autodetect"
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:359
+msgid "Aut_odetect"
+msgstr "_Автоопределение"
+
 #. Translators: This is for "Toolbar Icon Size: Small"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:266
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:372
 msgid "Sm_all"
 msgstr "Ма_ленький"
 
+#. Translators: This is for "Icons Look: Prefer symbolic"
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:383
+msgid "_Prefer symbolic"
+msgstr "Отдавать предпочтение _символическим"
+
 #. Translators: This is for "Toolbar Icon Size: Large"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:278
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:395
 msgid "_Large"
 msgstr "_Большой"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:322
+#. Translators: This is for "Icons Look: Prefer regular"
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:406
+msgid "Prefer _regular"
+msgstr "Отдавать предпочтение _обычным"
+
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:481
 msgid "Layout"
 msgstr "Оформление"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:333
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:492
 msgid "Show M_enu Bar"
 msgstr "Показывать строку м_еню"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:346
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:505
 #: ../src/shell/e-shell-window-actions.c:1225
 msgid "Show _Tool Bar"
 msgstr "Показывать _панель инструментов"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:359
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:518
 #: ../src/shell/e-shell-window-actions.c:1201
 msgid "Show Side _Bar"
 msgstr "Показывать _боковую панель"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:372
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:531
 msgid "Show Stat_us Bar"
 msgstr "Показывать _строку состояния"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:385
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:544
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:312
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Примечание: некоторые изменения вступят в силу после перезапуска"
@@ -22960,7 +23062,7 @@ msgid "_Manage Address Book groups…"
 msgstr "_Управление группами адресной книги…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1219
-#: ../src/modules/calendar/e-task-shell-view-actions.c:733
+#: ../src/modules/calendar/e-task-shell-view-actions.c:736
 msgid "Manage task list groups order and visibility"
 msgstr "Управление порядком и отображением групп календаря"
 
@@ -22986,8 +23088,8 @@ msgstr "Показать свойства выбранной адресной к
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1245
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1376
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:626
-#: ../src/modules/calendar/e-task-shell-view-actions.c:752
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:629
+#: ../src/modules/calendar/e-task-shell-view-actions.c:755
 msgid "Re_fresh"
 msgstr "О_бновление"
 
@@ -23009,8 +23111,8 @@ msgstr "Показывать карту со всеми контактами и�
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1266
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1390
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:640
-#: ../src/modules/calendar/e-task-shell-view-actions.c:766
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:643
+#: ../src/modules/calendar/e-task-shell-view-actions.c:769
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1695
 msgid "_Rename…"
 msgstr "Пе_реименовать…"
@@ -23085,7 +23187,7 @@ msgstr "Отправить сообщение к выбранным контак
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1345
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1616
-#: ../src/modules/calendar/e-task-shell-view-actions.c:831
+#: ../src/modules/calendar/e-task-shell-view-actions.c:834
 msgid "_Actions"
 msgstr "_Действия"
 
@@ -23095,8 +23197,8 @@ msgstr "_Сортировать карточки по"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1372
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:701
-#: ../src/modules/calendar/e-task-shell-view-actions.c:855
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:704
+#: ../src/modules/calendar/e-task-shell-view-actions.c:858
 msgid "_Manage groups…"
 msgstr "_Управление группами…"
 
@@ -23121,8 +23223,8 @@ msgid "Show maps in contact preview window"
 msgstr "Показывать карту в окне просмотра контакта"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1449
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:766
-#: ../src/modules/calendar/e-task-shell-view-actions.c:932
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:769
+#: ../src/modules/calendar/e-task-shell-view-actions.c:935
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2010
 msgid "_Classic View"
 msgstr "_Классический вид"
@@ -23133,8 +23235,8 @@ msgstr "Показывать предварительный просмотр к�
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1456
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1835
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:773
-#: ../src/modules/calendar/e-task-shell-view-actions.c:939
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:776
+#: ../src/modules/calendar/e-task-shell-view-actions.c:942
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2017
 msgid "_Vertical View"
 msgstr "_Вертикальный вид"
@@ -23150,8 +23252,8 @@ msgstr "Прочее"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1483
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1883
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:800
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1029
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:803
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1032
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2101
 #: ../src/shell/e-shell-content.c:639
 msgid "Advanced Search"
@@ -23508,8 +23610,8 @@ msgstr "Выберите адресную книгу"
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:102
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:239
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:260
-#: ../src/modules/itip-formatter/itip-view.c:2065
-#: ../src/modules/itip-formatter/itip-view.c:2267
+#: ../src/modules/itip-formatter/itip-view.c:2078
+#: ../src/modules/itip-formatter/itip-view.c:2283
 msgid "URL:"
 msgstr "URL:"
 
@@ -24379,14 +24481,14 @@ msgstr "событие"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1187
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:204
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:278
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:510
-#: ../src/modules/calendar/e-task-shell-view-actions.c:629
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:513
+#: ../src/modules/calendar/e-task-shell-view-actions.c:632
 msgid "Save as iCalendar"
 msgstr "Сохранить как iCalendar"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1306
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:591
-#: ../src/modules/calendar/e-task-shell-view-actions.c:717
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:594
+#: ../src/modules/calendar/e-task-shell-view-actions.c:720
 msgid "_Copy…"
 msgstr "_Копировать…"
 
@@ -24431,7 +24533,7 @@ msgid "_New Calendar"
 msgstr "_Создать календарь"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1369
-#: ../src/modules/calendar/e-task-shell-view-actions.c:822
+#: ../src/modules/calendar/e-task-shell-view-actions.c:825
 msgid "Purg_e"
 msgstr "О_чистить"
 
@@ -24542,8 +24644,8 @@ msgstr "Создать новое ежедневное событие"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1488
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:238
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:318
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:584
-#: ../src/modules/calendar/e-task-shell-view-actions.c:710
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:587
+#: ../src/modules/calendar/e-task-shell-view-actions.c:713
 msgid "_Forward as iCalendar…"
 msgstr "_Переслать как iCalendar…"
 
@@ -24729,8 +24831,8 @@ msgid "Occurs Less Than 5 Times"
 msgstr "Происходит менее 5 раз"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:790
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1012
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:793
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1015
 msgid "Without Category"
 msgstr "Без категории"
 
@@ -24739,14 +24841,14 @@ msgid "Show events with no category set"
 msgstr "Показывать события без учёта категории"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1897
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:814
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1043
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:817
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1046
 msgid "Description contains"
 msgstr "Описание содержит"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1904
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:821
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1050
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:824
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1053
 msgid "Summary contains"
 msgstr "Сводка содержит"
 
@@ -24754,10 +24856,10 @@ msgstr "Сводка содержит"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1928
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:269
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:363
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:831
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:845
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1060
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1074
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:834
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:848
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1063
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1077
 msgid "Print…"
 msgstr "Печать…"
 
@@ -24772,8 +24874,8 @@ msgstr "Предварительный просмотр календаря дл�
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1945
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:279
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:373
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:862
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1091
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:865
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1094
 msgid "_Save as iCalendar…"
 msgstr "_Сохранить как iCalendar…"
 
@@ -24784,40 +24886,40 @@ msgstr "Перейти к"
 #. Translators: Default filename part saving a memo to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:202
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:508
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:511
 msgid "memo"
 msgstr "заметка"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:245
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:661
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:664
 msgid "New _Memo"
 msgstr "_Создать заметку"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:247
 #: ../src/modules/calendar/e-memo-shell-backend.c:79
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:663
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:666
 msgid "Create a new memo"
 msgstr "Создать новую заметку"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:252
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:668
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:671
 msgid "_Open Memo"
 msgstr "_Открыть заметку"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:254
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:670
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:673
 msgid "View the selected memo"
 msgstr "Просмотреть выделенные заметки"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:259
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:353
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:675
-#: ../src/modules/calendar/e-task-shell-view-actions.c:815
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:678
+#: ../src/modules/calendar/e-task-shell-view-actions.c:818
 msgid "Open _Web Page"
 msgstr "Открыть _веб-страницу"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:271
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:847
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:850
 msgid "Print the selected memo"
 msgstr "Печать выделенной заметки"
 
@@ -24854,22 +24956,22 @@ msgstr "Невозможно выполнить поиск без выбранн
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:276
-#: ../src/modules/calendar/e-task-shell-view-actions.c:627
+#: ../src/modules/calendar/e-task-shell-view-actions.c:630
 msgid "task"
 msgstr "задача"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:311
-#: ../src/modules/calendar/e-task-shell-view-actions.c:689
+#: ../src/modules/calendar/e-task-shell-view-actions.c:692
 msgid "_Assign Task"
 msgstr "_Назначить задачу"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:325
-#: ../src/modules/calendar/e-task-shell-view-actions.c:787
+#: ../src/modules/calendar/e-task-shell-view-actions.c:790
 msgid "_Mark as Complete"
 msgstr "О_тметить как выполненное"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:327
-#: ../src/modules/calendar/e-task-shell-view-actions.c:789
+#: ../src/modules/calendar/e-task-shell-view-actions.c:792
 msgid "Mark selected tasks as complete"
 msgstr "Пометить выделенные задачи как выполненные"
 
@@ -24878,33 +24980,33 @@ msgid "_Mark as Incomplete"
 msgstr "По_метить как невыполненные"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:334
-#: ../src/modules/calendar/e-task-shell-view-actions.c:796
+#: ../src/modules/calendar/e-task-shell-view-actions.c:799
 msgid "Mark selected tasks as incomplete"
 msgstr "Пометить выделенные задачи как невыполненные"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:339
-#: ../src/modules/calendar/e-task-shell-view-actions.c:801
+#: ../src/modules/calendar/e-task-shell-view-actions.c:804
 msgid "New _Task"
 msgstr "Создать _задачу"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:341
 #: ../src/modules/calendar/e-task-shell-backend.c:77
-#: ../src/modules/calendar/e-task-shell-view-actions.c:803
+#: ../src/modules/calendar/e-task-shell-view-actions.c:806
 msgid "Create a new task"
 msgstr "Создать новую задачу"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:346
-#: ../src/modules/calendar/e-task-shell-view-actions.c:808
+#: ../src/modules/calendar/e-task-shell-view-actions.c:811
 msgid "_Open Task"
 msgstr "_Открыть задачу"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:348
-#: ../src/modules/calendar/e-task-shell-view-actions.c:810
+#: ../src/modules/calendar/e-task-shell-view-actions.c:813
 msgid "View the selected task"
 msgstr "Показать выделенную задачу"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:365
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1076
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1079
 msgid "Print the selected task"
 msgstr "Печать выделенной задачи"
 
@@ -24928,94 +25030,94 @@ msgid "Memo Li_st"
 msgstr "С_писок заметок"
 
 #: ../src/modules/calendar/e-memo-shell-backend.c:96
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:614
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:617
 msgid "Create a new memo list"
 msgstr "Создать новый список заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:196
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:211
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:199
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:214
 msgid "Print Memos"
 msgstr "Вывести на печать заметки"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:570
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:573
 msgid "_Delete Memo"
 msgstr "_Удалить заметку"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:577
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:580
 msgid "_Find in Memo…"
 msgstr "_Найти в заметке…"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:579
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:582
 msgid "Search for text in the displayed memo"
 msgstr "Поиск текста в отображаемой заметке"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:598
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:601
 msgid "D_elete Memo List"
 msgstr "_Удалить список заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:600
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:603
 msgid "Delete the selected memo list"
 msgstr "Удалить список выделенных заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:605
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:608
 msgid "_Manage Memo List groups…"
 msgstr "_Управление группами списка заметок…"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:607
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:610
 msgid "Manage Memo List groups order and visibility"
 msgstr "Управление порядком и отображением групп заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:612
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:615
 msgid "_New Memo List"
 msgstr "_Создать список заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:628
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:631
 msgid "Refresh the selected memo list"
 msgstr "Обновить список выделенных заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:633
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:636
 msgid "Re_fresh list of account memo lists"
 msgstr "О_бновить список заметок учётной записи"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:642
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:645
 msgid "Rename the selected memo list"
 msgstr "Переименовать список выделенных заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:647
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:650
 msgid "Show _Only This Memo List"
 msgstr "_Показывать только этот список заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:654
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:657
 msgid "Sho_w All Memo Lists"
 msgstr "По_казать все списки заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:745
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:748
 msgid "Memo _Preview"
 msgstr "_Предварительный просмотр заметки"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:747
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:750
 msgid "Show memo preview pane"
 msgstr "Показывать панель предварительного просмотра заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:768
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:771
 msgid "Show memo preview below the memo list"
 msgstr ""
 "Показывать панель предварительного просмотра заметок под списком заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:775
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:778
 msgid "Show memo preview alongside the memo list"
 msgstr ""
 "Показывать панель предварительного просмотра заметок рядом со списком заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:792
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:795
 msgid "Show memos with no category set"
 msgstr "Показывать заметки без учёта категории"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:833
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:836
 msgid "Print the list of memos"
 msgstr "Распечатать список заметок"
 
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:840
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:843
 msgid "Preview the list of memos to be printed"
 msgstr "Предварительный просмотр списка заметок для печати"
 
@@ -25055,16 +25157,16 @@ msgid "Tas_k List"
 msgstr "_Список задач"
 
 #: ../src/modules/calendar/e-task-shell-backend.c:94
-#: ../src/modules/calendar/e-task-shell-view-actions.c:740
+#: ../src/modules/calendar/e-task-shell-view-actions.c:743
 msgid "Create a new task list"
 msgstr "Создать новый список задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:220
-#: ../src/modules/calendar/e-task-shell-view-actions.c:235
+#: ../src/modules/calendar/e-task-shell-view-actions.c:223
+#: ../src/modules/calendar/e-task-shell-view-actions.c:238
 msgid "Print Tasks"
 msgstr "Вывести на печать задачи"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:571
+#: ../src/modules/calendar/e-task-shell-view-actions.c:574
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -25076,128 +25178,128 @@ msgstr ""
 "\n"
 "Действительно уничтожить эти задания?"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:578
+#: ../src/modules/calendar/e-task-shell-view-actions.c:581
 msgid "Do not ask me again"
 msgstr "Не задавать больше этот вопрос"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:696
+#: ../src/modules/calendar/e-task-shell-view-actions.c:699
 msgid "_Delete Task"
 msgstr "_Удалить задачу"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:703
+#: ../src/modules/calendar/e-task-shell-view-actions.c:706
 msgid "_Find in Task…"
 msgstr "_Найти в задаче…"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:705
+#: ../src/modules/calendar/e-task-shell-view-actions.c:708
 msgid "Search for text in the displayed task"
 msgstr "Поиск текста в отображаемой задаче"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:724
+#: ../src/modules/calendar/e-task-shell-view-actions.c:727
 msgid "D_elete Task List"
 msgstr "_Удалить список задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:726
+#: ../src/modules/calendar/e-task-shell-view-actions.c:729
 msgid "Delete the selected task list"
 msgstr "Удалить выбранный список задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:731
+#: ../src/modules/calendar/e-task-shell-view-actions.c:734
 msgid "_Manage Task List groups…"
 msgstr "_Управление группами списка задач…"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:738
+#: ../src/modules/calendar/e-task-shell-view-actions.c:741
 msgid "_New Task List"
 msgstr "_Создать список задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:754
+#: ../src/modules/calendar/e-task-shell-view-actions.c:757
 msgid "Refresh the selected task list"
 msgstr "Обновить выбранный список задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:759
+#: ../src/modules/calendar/e-task-shell-view-actions.c:762
 msgid "Re_fresh list of account task lists"
 msgstr "Об_новить список задач учётной записи"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:768
+#: ../src/modules/calendar/e-task-shell-view-actions.c:771
 msgid "Rename the selected task list"
 msgstr "Переименовать выделенный список задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:773
+#: ../src/modules/calendar/e-task-shell-view-actions.c:776
 msgid "Sho_w All Task Lists"
 msgstr "Пока_зать все списки задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:780
+#: ../src/modules/calendar/e-task-shell-view-actions.c:783
 msgid "Show _Only This Task List"
 msgstr "_Показывать только этот список задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:794
+#: ../src/modules/calendar/e-task-shell-view-actions.c:797
 msgid "Mar_k as Incomplete"
 msgstr "От_метить как невыполненные"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:824
+#: ../src/modules/calendar/e-task-shell-view-actions.c:827
 msgid "Delete completed tasks"
 msgstr "Удалить выполненные задачи"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:911
+#: ../src/modules/calendar/e-task-shell-view-actions.c:914
 msgid "Task _Preview"
 msgstr "_Предварительный просмотр задачи"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:913
+#: ../src/modules/calendar/e-task-shell-view-actions.c:916
 msgid "Show task preview pane"
 msgstr "Показывать панель предварительного просмотра задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:934
+#: ../src/modules/calendar/e-task-shell-view-actions.c:937
 msgid "Show task preview below the task list"
 msgstr "Показывать панель предварительного просмотра задач под списком задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:941
+#: ../src/modules/calendar/e-task-shell-view-actions.c:944
 msgid "Show task preview alongside the task list"
 msgstr ""
 "Показывать панель предварительного просмотра задач рядом со списком задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:949
+#: ../src/modules/calendar/e-task-shell-view-actions.c:952
 msgid "Active Tasks"
 msgstr "Активные задачи"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:963
+#: ../src/modules/calendar/e-task-shell-view-actions.c:966
 msgid "Cancelled Tasks"
 msgstr "Отменёные задачи"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:970
+#: ../src/modules/calendar/e-task-shell-view-actions.c:973
 msgid "Completed Tasks"
 msgstr "Завершённые задачи"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:977
+#: ../src/modules/calendar/e-task-shell-view-actions.c:980
 msgid "Uncompleted Tasks"
 msgstr "Невыполненные задачи"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:984
+#: ../src/modules/calendar/e-task-shell-view-actions.c:987
 msgid "Scheduled Tasks"
 msgstr "Запланированные задачи"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:986
+#: ../src/modules/calendar/e-task-shell-view-actions.c:989
 msgid "Show scheduled tasks, aka those with a Due date"
 msgstr "Показать запланированные задачи, а также задачи с датой выполнения"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:991
+#: ../src/modules/calendar/e-task-shell-view-actions.c:994
 msgid "Next 7 Days’ Tasks"
 msgstr "Задачи следующих 7 дней"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:998
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1001
 msgid "Overdue Tasks"
 msgstr "Просроченные задачи"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1005
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1008
 msgid "Tasks with Attachments"
 msgstr "Задачи с вложениями"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1014
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1017
 msgid "Show tasks with no category set"
 msgstr "Показывать задачи без учёта категории"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1019
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1022
 msgid "Started Tasks"
 msgstr "Начатые задачи"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1021
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1024
 msgid ""
 "Filters for tasks that either do not have a start date or the start date is "
 "earlier than the time the filter is selected at"
@@ -25205,11 +25307,11 @@ msgstr ""
 "Фильтры для задач, у которых либо нет даты начала, либо дата начала "
 "наступает раньше, чем время, на которое выбран фильтр"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1062
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1065
 msgid "Print the list of tasks"
 msgstr "Распечатать список задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1069
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1072
 msgid "Preview the list of tasks to be printed"
 msgstr "Предварительный просмотр списка задач для печати"
 
@@ -25296,7 +25398,7 @@ msgstr "Сервер LDAP"
 msgid "Looking up LDAP server…"
 msgstr "Поиск LDAP сервера…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:285
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:287
 msgid "Look up in SRV records"
 msgstr "Поиск в записях SRV"
 
@@ -25722,7 +25824,7 @@ msgid "Start day:"
 msgstr "День начала:"
 
 #: ../src/modules/itip-formatter/itip-view.c:900
-#: ../src/modules/itip-formatter/itip-view.c:2066
+#: ../src/modules/itip-formatter/itip-view.c:2079
 msgid "Start time:"
 msgstr "Время начала:"
 
@@ -25731,7 +25833,7 @@ msgid "End day:"
 msgstr "День завершения:"
 
 #: ../src/modules/itip-formatter/itip-view.c:909
-#: ../src/modules/itip-formatter/itip-view.c:2067
+#: ../src/modules/itip-formatter/itip-view.c:2080
 msgid "End time:"
 msgstr "Время завершения:"
 
@@ -25776,86 +25878,86 @@ msgstr "_Обновить"
 msgid "Im_port"
 msgstr "Им_портировать"
 
-#: ../src/modules/itip-formatter/itip-view.c:2069
-#: ../src/modules/itip-formatter/itip-view.c:2279
-#: ../src/modules/itip-formatter/itip-view.c:7391
+#: ../src/modules/itip-formatter/itip-view.c:2082
+#: ../src/modules/itip-formatter/itip-view.c:2295
+#: ../src/modules/itip-formatter/itip-view.c:7407
 msgid "Due date:"
 msgstr "Срок выполнения:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2072
-#: ../src/modules/itip-formatter/itip-view.c:2205
-#: ../src/modules/itip-formatter/itip-view.c:2288
+#: ../src/modules/itip-formatter/itip-view.c:2085
+#: ../src/modules/itip-formatter/itip-view.c:2221
+#: ../src/modules/itip-formatter/itip-view.c:2304
 msgid "Comment:"
 msgstr "Комментарий:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2104
+#: ../src/modules/itip-formatter/itip-view.c:2117
 msgid "Show description provided by the sender"
 msgstr "Показать описание, предоставленное отправителем"
 
-#: ../src/modules/itip-formatter/itip-view.c:2105
+#: ../src/modules/itip-formatter/itip-view.c:2118
 msgid "Hide description provided by the sender"
 msgstr "Скрыть описание, предоставленное отправителем"
 
 #. RSVP area
-#: ../src/modules/itip-formatter/itip-view.c:2193
-msgid "Send reply to sender"
-msgstr "Отправить ответ отправителю"
+#: ../src/modules/itip-formatter/itip-view.c:2209
+msgid "Send reply to organizer"
+msgstr "Отправить ответ организатору"
 
 #. Updates
-#: ../src/modules/itip-formatter/itip-view.c:2208
+#: ../src/modules/itip-formatter/itip-view.c:2224
 msgid "Send _updates to attendees"
 msgstr "Отправить о_бновления к участникам"
 
 #. The recurrence check button
-#: ../src/modules/itip-formatter/itip-view.c:2211
+#: ../src/modules/itip-formatter/itip-view.c:2227
 msgid "_Apply to all instances"
 msgstr "П_рименить ко всем записям"
 
-#: ../src/modules/itip-formatter/itip-view.c:2212
+#: ../src/modules/itip-formatter/itip-view.c:2228
 msgid "Show time as _free"
 msgstr "Показать время как _свободное"
 
-#: ../src/modules/itip-formatter/itip-view.c:2213
+#: ../src/modules/itip-formatter/itip-view.c:2229
 msgid "_Preserve my reminder"
 msgstr "_Сохранять сигналы"
 
-#: ../src/modules/itip-formatter/itip-view.c:2214
+#: ../src/modules/itip-formatter/itip-view.c:2230
 msgid "_Inherit reminder"
 msgstr "Нас_ледовать напоминание"
 
-#: ../src/modules/itip-formatter/itip-view.c:2458
+#: ../src/modules/itip-formatter/itip-view.c:2474
 msgid "_Tasks:"
 msgstr "_Задачи:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2461
+#: ../src/modules/itip-formatter/itip-view.c:2477
 msgid "_Memos:"
 msgstr "_Заметки:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3530
+#: ../src/modules/itip-formatter/itip-view.c:3546
 msgid "Sa_ve"
 msgstr "_Сохранить"
 
-#: ../src/modules/itip-formatter/itip-view.c:4058
-#: ../src/modules/itip-formatter/itip-view.c:5852
+#: ../src/modules/itip-formatter/itip-view.c:4074
+#: ../src/modules/itip-formatter/itip-view.c:5868
 msgid "Attendee status updated"
 msgstr "Статус участника обновлён"
 
-#: ../src/modules/itip-formatter/itip-view.c:4308
+#: ../src/modules/itip-formatter/itip-view.c:4324
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "Встреча «%s» в календаре «%s» конфликтует с этим собранием"
 
-#: ../src/modules/itip-formatter/itip-view.c:4315
+#: ../src/modules/itip-formatter/itip-view.c:4331
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "Задача «%s» в списке задач «%s» конфликтует с этой задачей"
 
-#: ../src/modules/itip-formatter/itip-view.c:4322
+#: ../src/modules/itip-formatter/itip-view.c:4338
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "Заметка «%s» в списке заметок «%s» конфликтует с этой заметкой"
 
-#: ../src/modules/itip-formatter/itip-view.c:4335
+#: ../src/modules/itip-formatter/itip-view.c:4351
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -25868,7 +25970,7 @@ msgstr[1] ""
 msgstr[2] ""
 "Календарь «%s» содержит %d встреч, которые конфликтуют с этим собранием"
 
-#: ../src/modules/itip-formatter/itip-view.c:4344
+#: ../src/modules/itip-formatter/itip-view.c:4360
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
@@ -25880,7 +25982,7 @@ msgstr[1] ""
 msgstr[2] ""
 "Список задач «%s» содержит %d задачи, которые конфликтуют с этой задачей"
 
-#: ../src/modules/itip-formatter/itip-view.c:4353
+#: ../src/modules/itip-formatter/itip-view.c:4369
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
@@ -25892,237 +25994,237 @@ msgstr[1] ""
 msgstr[2] ""
 "Список заметок «%s» содержит %d заметки, которые конфликтуют с этой заметкой"
 
-#: ../src/modules/itip-formatter/itip-view.c:4390
+#: ../src/modules/itip-formatter/itip-view.c:4406
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Найдена встреча в календаре «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:4395
+#: ../src/modules/itip-formatter/itip-view.c:4411
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "Найти задачи в списке задач «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:4400
+#: ../src/modules/itip-formatter/itip-view.c:4416
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "Найти заметки в списке заметок «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:4411
+#: ../src/modules/itip-formatter/itip-view.c:4427
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "Приглашение на встречу устарело и не может быть обновлено."
 
-#: ../src/modules/itip-formatter/itip-view.c:4533
+#: ../src/modules/itip-formatter/itip-view.c:4549
 msgid "Unable to find any calendars"
 msgstr "Не удалось найти ни одного календаря"
 
-#: ../src/modules/itip-formatter/itip-view.c:4541
+#: ../src/modules/itip-formatter/itip-view.c:4557
 msgid "Unable to find this meeting in any calendar"
 msgstr "Не удалось найти эту встречу ни в одном календаре"
 
-#: ../src/modules/itip-formatter/itip-view.c:4546
+#: ../src/modules/itip-formatter/itip-view.c:4562
 msgid "Unable to find this task in any task list"
 msgstr "Не удалось найти эту задачу ни в одном списке задач"
 
-#: ../src/modules/itip-formatter/itip-view.c:4551
+#: ../src/modules/itip-formatter/itip-view.c:4567
 msgid "Unable to find this memo in any memo list"
 msgstr "Не удалось найти эту заметку ни в одном списке заметок"
 
-#: ../src/modules/itip-formatter/itip-view.c:4865
+#: ../src/modules/itip-formatter/itip-view.c:4881
 msgid "Searching for an existing version of this appointment"
 msgstr "Поиск существующей версии этой встречи"
 
-#: ../src/modules/itip-formatter/itip-view.c:4869
+#: ../src/modules/itip-formatter/itip-view.c:4885
 msgid "Searching for an existing version of this task"
 msgstr "Поиск существующей версии этой задачи"
 
-#: ../src/modules/itip-formatter/itip-view.c:4873
+#: ../src/modules/itip-formatter/itip-view.c:4889
 msgid "Searching for an existing version of this memo"
 msgstr "Поиск существующей версии этой заметки"
 
-#: ../src/modules/itip-formatter/itip-view.c:4933
+#: ../src/modules/itip-formatter/itip-view.c:4949
 msgid "Opening the calendar. Please wait…"
 msgstr "Открытие календаря. Пожалуйста, подождите…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5292
+#: ../src/modules/itip-formatter/itip-view.c:5308
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "Не удалось отправить элемент в календарь «%s».  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5300
+#: ../src/modules/itip-formatter/itip-view.c:5316
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "Не удалось отправить элемент в список задач «%s». %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5308
+#: ../src/modules/itip-formatter/itip-view.c:5324
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "Не удалось отправить элемент в список заметок «%s». %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5329
+#: ../src/modules/itip-formatter/itip-view.c:5345
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Отправить в календарь «%s» как принято"
 
-#: ../src/modules/itip-formatter/itip-view.c:5334
+#: ../src/modules/itip-formatter/itip-view.c:5350
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Отправить в список задач «%s» как принято"
 
-#: ../src/modules/itip-formatter/itip-view.c:5339
+#: ../src/modules/itip-formatter/itip-view.c:5355
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Отправить в список заметок «%s» как принято"
 
-#: ../src/modules/itip-formatter/itip-view.c:5349
+#: ../src/modules/itip-formatter/itip-view.c:5365
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Отправить в календарь «%s» как предварительно"
 
-#: ../src/modules/itip-formatter/itip-view.c:5354
+#: ../src/modules/itip-formatter/itip-view.c:5370
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Отправить в список задач «%s» как предварительно"
 
-#: ../src/modules/itip-formatter/itip-view.c:5359
+#: ../src/modules/itip-formatter/itip-view.c:5375
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Отправить в список заметок «%s» как предварительно"
 
-#: ../src/modules/itip-formatter/itip-view.c:5369
+#: ../src/modules/itip-formatter/itip-view.c:5385
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Отправить в календарь «%s» как отказано"
 
-#: ../src/modules/itip-formatter/itip-view.c:5374
+#: ../src/modules/itip-formatter/itip-view.c:5390
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Отправить в список задач «%s» как отказано"
 
-#: ../src/modules/itip-formatter/itip-view.c:5379
+#: ../src/modules/itip-formatter/itip-view.c:5395
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Отправить в список заметок «%s» как отказано"
 
-#: ../src/modules/itip-formatter/itip-view.c:5389
+#: ../src/modules/itip-formatter/itip-view.c:5405
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Отправить в календарь «%s» как отменено"
 
-#: ../src/modules/itip-formatter/itip-view.c:5394
+#: ../src/modules/itip-formatter/itip-view.c:5410
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "Отправить в список задач «%s» как отменено"
 
-#: ../src/modules/itip-formatter/itip-view.c:5399
+#: ../src/modules/itip-formatter/itip-view.c:5415
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "Отправить в список заметок «%s» как отменено"
 
-#: ../src/modules/itip-formatter/itip-view.c:5409
+#: ../src/modules/itip-formatter/itip-view.c:5425
 #, c-format
 msgid "Imported to calendar “%s”"
 msgstr "Импортировано в календарь «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5414
+#: ../src/modules/itip-formatter/itip-view.c:5430
 #, c-format
 msgid "Imported to task list “%s”"
 msgstr "Импортировано в список задач «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5419
+#: ../src/modules/itip-formatter/itip-view.c:5435
 #, c-format
 msgid "Imported to memo list “%s”"
 msgstr "Импортировано в список заметок «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5438
+#: ../src/modules/itip-formatter/itip-view.c:5454
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Сохранение изменений в календаре. Подождите…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5441
+#: ../src/modules/itip-formatter/itip-view.c:5457
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Сохранение изменений в календаре. Подождите…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5444
+#: ../src/modules/itip-formatter/itip-view.c:5460
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Сохранение изменений в календаре. Подождите…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5583
+#: ../src/modules/itip-formatter/itip-view.c:5599
 msgid "Unable to parse item"
 msgstr "Не удалось разобрать элемент"
 
-#: ../src/modules/itip-formatter/itip-view.c:5776
+#: ../src/modules/itip-formatter/itip-view.c:5792
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Организатор удалил представителя %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:5793
+#: ../src/modules/itip-formatter/itip-view.c:5809
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Делегату отправлено уведомление об отмене"
 
-#: ../src/modules/itip-formatter/itip-view.c:5797
+#: ../src/modules/itip-formatter/itip-view.c:5813
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Не удалось отправить уведомление об отмене делегату"
 
-#: ../src/modules/itip-formatter/itip-view.c:5843
+#: ../src/modules/itip-formatter/itip-view.c:5859
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Не удалось обновить участника. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5877
+#: ../src/modules/itip-formatter/itip-view.c:5893
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Встреча является некорректной и не может быть обновлена"
 
-#: ../src/modules/itip-formatter/itip-view.c:5963
+#: ../src/modules/itip-formatter/itip-view.c:5979
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Статус участника не может быть обновлён из-за неверного текущего статуса"
 
-#: ../src/modules/itip-formatter/itip-view.c:6039
-#: ../src/modules/itip-formatter/itip-view.c:6077
+#: ../src/modules/itip-formatter/itip-view.c:6055
+#: ../src/modules/itip-formatter/itip-view.c:6093
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Статус участника не может быть обновлён, потому что элемент больше не "
 "существует"
 
-#: ../src/modules/itip-formatter/itip-view.c:6138
+#: ../src/modules/itip-formatter/itip-view.c:6154
 msgid "Meeting information sent"
 msgstr "Информация о собрании послана"
 
-#: ../src/modules/itip-formatter/itip-view.c:6143
+#: ../src/modules/itip-formatter/itip-view.c:6159
 msgid "Task information sent"
 msgstr "Информация о задаче послана"
 
-#: ../src/modules/itip-formatter/itip-view.c:6148
+#: ../src/modules/itip-formatter/itip-view.c:6164
 msgid "Memo information sent"
 msgstr "Информация о заметке послана"
 
-#: ../src/modules/itip-formatter/itip-view.c:6159
+#: ../src/modules/itip-formatter/itip-view.c:6175
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Не удалось послать информацию о встрече, встреча не существует"
 
-#: ../src/modules/itip-formatter/itip-view.c:6164
+#: ../src/modules/itip-formatter/itip-view.c:6180
 msgid "Unable to send task information, the task does not exist"
 msgstr "Не удалось послать информацию о задаче, задача не существует"
 
-#: ../src/modules/itip-formatter/itip-view.c:6169
+#: ../src/modules/itip-formatter/itip-view.c:6185
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Не удалось послать информацию о заметке, заметка не существует"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6214
+#: ../src/modules/itip-formatter/itip-view.c:6230
 msgid "calendar.ics"
 msgstr "календарь.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:6219
+#: ../src/modules/itip-formatter/itip-view.c:6235
 msgid "Save Calendar"
 msgstr "Сохранить календарь"
 
-#: ../src/modules/itip-formatter/itip-view.c:6267
-#: ../src/modules/itip-formatter/itip-view.c:6280
+#: ../src/modules/itip-formatter/itip-view.c:6283
+#: ../src/modules/itip-formatter/itip-view.c:6296
 msgid "The calendar attached is not valid"
 msgstr "Вложенный календарь недействителен"
 
-#: ../src/modules/itip-formatter/itip-view.c:6268
-#: ../src/modules/itip-formatter/itip-view.c:6281
+#: ../src/modules/itip-formatter/itip-view.c:6284
+#: ../src/modules/itip-formatter/itip-view.c:6297
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -26130,15 +26232,15 @@ msgstr ""
 "Это сообщение претендует, что содержит календарь, но календарь не является "
 "действительным iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:6363
-#: ../src/modules/itip-formatter/itip-view.c:6447
-#: ../src/modules/itip-formatter/itip-view.c:6551
+#: ../src/modules/itip-formatter/itip-view.c:6379
+#: ../src/modules/itip-formatter/itip-view.c:6463
+#: ../src/modules/itip-formatter/itip-view.c:6567
 msgid "The item in the calendar is not valid"
 msgstr "Элемент в календаре недействителен"
 
-#: ../src/modules/itip-formatter/itip-view.c:6364
-#: ../src/modules/itip-formatter/itip-view.c:6448
-#: ../src/modules/itip-formatter/itip-view.c:6552
+#: ../src/modules/itip-formatter/itip-view.c:6380
+#: ../src/modules/itip-formatter/itip-view.c:6464
+#: ../src/modules/itip-formatter/itip-view.c:6568
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -26146,11 +26248,11 @@ msgstr ""
 "Это сообщение содержит календарь, но календарь не содержит событий, задач "
 "или сведений о занятости"
 
-#: ../src/modules/itip-formatter/itip-view.c:6457
+#: ../src/modules/itip-formatter/itip-view.c:6473
 msgid "The calendar attached contains multiple items"
 msgstr "Вложенный календарь содержит несколько элементов"
 
-#: ../src/modules/itip-formatter/itip-view.c:6458
+#: ../src/modules/itip-formatter/itip-view.c:6474
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -26158,12 +26260,12 @@ msgstr ""
 "Чтобы обработать все эти элементы, файл должен быть сохранен и календарь "
 "должен быть импортирован"
 
-#: ../src/modules/itip-formatter/itip-view.c:7041
+#: ../src/modules/itip-formatter/itip-view.c:7057
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Нет"
 
-#: ../src/modules/itip-formatter/itip-view.c:7065
+#: ../src/modules/itip-formatter/itip-view.c:7081
 msgid "Tentatively Accepted"
 msgstr "Условно принятый"
 
@@ -28349,30 +28451,30 @@ msgid "Notifies you when new mail messages arrive."
 msgstr "Уведомляет о получении новых почтовых сообщений."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
-#: ../src/plugins/mail-to-task/mail-to-task.c:199
+#: ../src/plugins/mail-to-task/mail-to-task.c:200
 #, c-format
 msgid "Created from a mail by %s"
 msgstr "Создано из сообщения от %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:598
+#: ../src/plugins/mail-to-task/mail-to-task.c:599
 msgctxt "mail-to-task"
 msgid "_Cancel"
 msgstr "_Отменить"
 
 #. Translators: Dialog button to Edit an existing event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:600
+#: ../src/plugins/mail-to-task/mail-to-task.c:601
 msgctxt "mail-to-task"
 msgid "_Edit"
 msgstr "_Правка"
 
 #. Translators: Dialog button to create a New event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:602
+#: ../src/plugins/mail-to-task/mail-to-task.c:603
 msgctxt "mail-to-task"
 msgid "_New"
 msgstr "_Создать"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:620
+#: ../src/plugins/mail-to-task/mail-to-task.c:621
 #, c-format
 msgid ""
 "Selected calendar contains event “%s” already. Would you like to edit the "
@@ -28380,7 +28482,7 @@ msgid ""
 msgstr ""
 "Выделенный календарь уже содержит событие «%s». Изменить старое событие?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:623
+#: ../src/plugins/mail-to-task/mail-to-task.c:624
 #, c-format
 msgid ""
 "Selected task list contains task “%s” already. Would you like to edit the "
@@ -28389,7 +28491,7 @@ msgstr ""
 "Выделенный список задач уже содержит задачу «%s». Хотите изменить старую "
 "задачу?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:626
+#: ../src/plugins/mail-to-task/mail-to-task.c:627
 #, c-format
 msgid ""
 "Selected memo list contains memo “%s” already. Would you like to edit the "
@@ -28399,7 +28501,7 @@ msgstr ""
 "заметку?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:646
+#: ../src/plugins/mail-to-task/mail-to-task.c:647
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
@@ -28415,7 +28517,7 @@ msgstr[2] ""
 "Для преобразования в события выбрано %d писем. Хотите их все добавить?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:653
+#: ../src/plugins/mail-to-task/mail-to-task.c:654
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
@@ -28430,7 +28532,7 @@ msgstr[2] ""
 "Для преобразования в задачи выбрано %d писем. Хотите их все добавить?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:660
+#: ../src/plugins/mail-to-task/mail-to-task.c:661
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
@@ -28445,29 +28547,29 @@ msgstr[1] ""
 msgstr[2] ""
 "Для преобразования в заметки выбрано %d писем. Хотите их все добавить?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:681
+#: ../src/plugins/mail-to-task/mail-to-task.c:682
 msgid "Do you wish to continue converting remaining mails?"
 msgstr "Хотите продолжить преобразование оставшейся почты?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:763
+#: ../src/plugins/mail-to-task/mail-to-task.c:764
 msgid "[No Summary]"
 msgstr "[Нет сводки]"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:775
+#: ../src/plugins/mail-to-task/mail-to-task.c:776
 msgid "Invalid object returned from a server"
 msgstr "Неверный объект получен от сервера"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:829
+#: ../src/plugins/mail-to-task/mail-to-task.c:830
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "При обработке произошла ошибка: %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:880
+#: ../src/plugins/mail-to-task/mail-to-task.c:881
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Не удалось открыть календарь. %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:884
+#: ../src/plugins/mail-to-task/mail-to-task.c:885
 msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
@@ -28475,7 +28577,7 @@ msgstr ""
 "Выбранный календарь доступен только для чтения, для него нельзя создавать "
 "события. Выберите другой календарь."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:887
+#: ../src/plugins/mail-to-task/mail-to-task.c:888
 msgid ""
 "Selected task list is read only, thus cannot create task there. Select other "
 "task list, please."
@@ -28483,7 +28585,7 @@ msgstr ""
 "Выбранный список задач доступен только для чтения, для него нельзя создавать "
 "задачи. Выберите другой список."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:890
+#: ../src/plugins/mail-to-task/mail-to-task.c:891
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
@@ -28491,40 +28593,40 @@ msgstr ""
 "Выбранный список заметок доступен только для чтения, для него нельзя "
 "создавать заметки. Выберите другой список."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:951
+#: ../src/plugins/mail-to-task/mail-to-task.c:982
 #, c-format
 msgid "Cannot create component: %s"
 msgstr "Не удалось создать компонент: %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1328
+#: ../src/plugins/mail-to-task/mail-to-task.c:1359
 msgid "Create an _Appointment"
 msgstr "Создать новую _встречу"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1330
+#: ../src/plugins/mail-to-task/mail-to-task.c:1361
 msgid "Create a new event from the selected message"
 msgstr "Создать новое событие из выделенного сообщения"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1335
+#: ../src/plugins/mail-to-task/mail-to-task.c:1366
 msgid "Create a Mem_o"
 msgstr "Создать за_метку"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1337
+#: ../src/plugins/mail-to-task/mail-to-task.c:1368
 msgid "Create a new memo from the selected message"
 msgstr "Создать новую заметку из выделенного сообщения"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1342
+#: ../src/plugins/mail-to-task/mail-to-task.c:1373
 msgid "Create a _Task"
 msgstr "Создать _задачу"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1344
+#: ../src/plugins/mail-to-task/mail-to-task.c:1375
 msgid "Create a new task from the selected message"
 msgstr "Создать новую задачу из выделенного сообщения"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1352
+#: ../src/plugins/mail-to-task/mail-to-task.c:1383
 msgid "Create a _Meeting"
 msgstr "Создать _собрание"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1354
+#: ../src/plugins/mail-to-task/mail-to-task.c:1385
 msgid "Create a new meeting from the selected message"
 msgstr "Создать новое собрание из выделенного сообщения"
 
@@ -29346,7 +29448,7 @@ msgid "%s — Evolution"
 msgstr "%s — Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../src/shell/main.c:294
+#: ../src/shell/main.c:328
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -29383,7 +29485,7 @@ msgstr ""
 "Надеемся, что вам понравится результат нашего труда,\n"
 "и с нетерпением ждём вашей помощи!\n"
 
-#: ../src/shell/main.c:319
+#: ../src/shell/main.c:353
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -29391,13 +29493,13 @@ msgstr ""
 "С благодарностью,\n"
 "команда Evolution\n"
 
-#: ../src/shell/main.c:325
+#: ../src/shell/main.c:359
 msgid "Do not tell me again"
 msgstr "Не показывать больше"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/main.c:427
+#: ../src/shell/main.c:461
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
@@ -29406,39 +29508,39 @@ msgstr ""
 "«mail» (почта), «calendar» (календарь), «contacts» (контакты), "
 "«tasks» (задачи) и «memos» (заметки)"
 
-#: ../src/shell/main.c:431
+#: ../src/shell/main.c:465
 msgid "Apply the given geometry to the main window"
 msgstr "Применить данную геометрию к главному окну"
 
-#: ../src/shell/main.c:435
+#: ../src/shell/main.c:469
 msgid "Start in online mode"
 msgstr "Запуск в режиме подключения к интернету"
 
-#: ../src/shell/main.c:437
+#: ../src/shell/main.c:471
 msgid "Ignore network availability"
 msgstr "Игнорировать подключение к сети"
 
-#: ../src/shell/main.c:440
+#: ../src/shell/main.c:474
 msgid "Forcibly shut down Evolution"
 msgstr "Принудительное завершение работы Evolution"
 
-#: ../src/shell/main.c:443
+#: ../src/shell/main.c:477
 msgid "Disable loading of any plugins."
 msgstr "Запретить загрузку любых модулей."
 
-#: ../src/shell/main.c:445
+#: ../src/shell/main.c:479
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Выключить область просмотра почты, контактов и задач."
 
-#: ../src/shell/main.c:449
+#: ../src/shell/main.c:483
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Импортировать URI или имена файлов, указанные в качестве аргументов."
 
-#: ../src/shell/main.c:451
+#: ../src/shell/main.c:485
 msgid "Request a running Evolution process to quit"
 msgstr "Запрос на завершение запущенного процесса Evolution"
 
-#: ../src/shell/main.c:533
+#: ../src/shell/main.c:567
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
@@ -29447,11 +29549,11 @@ msgstr ""
 "Не удалось запустить Evolution. Может быть запущена другая копия Evolution. "
 "Системная ошибка: %s"
 
-#: ../src/shell/main.c:602 ../src/shell/main.c:607
+#: ../src/shell/main.c:636 ../src/shell/main.c:641
 msgid "— The Evolution PIM and Email Client"
 msgstr "— Почтовый клиент и ежедневник Evolution"
 
-#: ../src/shell/main.c:663
+#: ../src/shell/main.c:697
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -29460,7 +29562,7 @@ msgstr ""
 "%s: --online и --offline не могут использоваться одновременно.\n"
 "  Выполните «%s --help» для получения более подробной информации.\n"
 
-#: ../src/shell/main.c:669
+#: ../src/shell/main.c:703
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
