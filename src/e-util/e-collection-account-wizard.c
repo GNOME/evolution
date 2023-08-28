@@ -272,6 +272,11 @@ collection_account_wizard_create_window (GtkWindow *parent,
 	g_signal_connect (widget, "clicked",
 		G_CALLBACK (collection_wizard_window_back_button_clicked_cb), wwd);
 
+	e_binding_bind_property (
+		wwd->collection_wizard, "can-run",
+		widget, "sensitive",
+		G_BINDING_DEFAULT);
+
 	widget = e_dialog_button_new_with_icon ("go-next", _("_Next"));
 	g_object_set (G_OBJECT (widget),
 		"hexpand", TRUE,
@@ -1220,7 +1225,8 @@ collection_account_wizard_write_changes_thread (ESimpleAsyncResult *result,
 				&root_dse, cancellable, &local_error);
 
 			if (!success && security != E_SOURCE_LDAP_SECURITY_NONE &&
-			    g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CONNECTION_REFUSED)) {
+			    g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CONNECTION_REFUSED) &&
+			    !g_cancellable_is_cancelled (cancellable)) {
 				success = e_util_query_ldap_root_dse_sync (
 					e_source_authentication_get_host (auth_extension),
 					e_source_authentication_get_port (auth_extension),
@@ -1238,6 +1244,11 @@ collection_account_wizard_write_changes_thread (ESimpleAsyncResult *result,
 			camel_operation_pop_message (cancellable);
 
 			g_clear_error (&local_error);
+		}
+
+		if (g_cancellable_set_error_if_cancelled (cancellable, &local_error)) {
+			e_simple_async_result_set_user_data (result, local_error, (GDestroyNotify) g_error_free);
+			return;
 		}
 	}
 
@@ -1388,16 +1399,19 @@ collection_account_wizard_write_changes_done (GObject *source_object,
 
 	wizard = E_COLLECTION_ACCOUNT_WIZARD (source_object);
 
-	g_clear_object (&wizard->priv->finish_cancellable);
-	g_hash_table_remove_all (wizard->priv->store_passwords);
-
 	error = e_simple_async_result_get_user_data (E_SIMPLE_ASYNC_RESULT (result));
 	if (error) {
 		is_cancelled = g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED);
 
+		if (is_cancelled && !wizard->priv->finish_label)
+			return;
+
 		gtk_label_set_text (GTK_LABEL (wizard->priv->finish_label), error->message);
 		gtk_label_set_selectable (GTK_LABEL (wizard->priv->finish_label), TRUE);
 	}
+
+	g_clear_object (&wizard->priv->finish_cancellable);
+	g_hash_table_remove_all (wizard->priv->store_passwords);
 
 	e_spinner_stop (E_SPINNER (wizard->priv->finish_spinner));
 
@@ -2200,12 +2214,25 @@ collection_account_wizard_dispose (GObject *object)
 	ECollectionAccountWizard *wizard = E_COLLECTION_ACCOUNT_WIZARD (object);
 	gint ii;
 
+	g_cancellable_cancel (wizard->priv->finish_cancellable);
+
 	g_clear_object (&wizard->priv->registry);
 	g_clear_object (&wizard->priv->config_lookup);
 	g_clear_object (&wizard->priv->finish_cancellable);
 	g_clear_pointer (&wizard->priv->workers, g_hash_table_destroy);
 	g_clear_pointer (&wizard->priv->store_passwords, g_hash_table_destroy);
 	g_clear_pointer (&wizard->priv->running_result, e_simple_async_result_complete_idle_take);
+
+	wizard->priv->email_entry = NULL;
+	wizard->priv->advanced_expander = NULL;
+	wizard->priv->servers_entry = NULL;
+	wizard->priv->results_label = NULL;
+	wizard->priv->parts_tree_view = NULL;
+	wizard->priv->display_name_entry = NULL;
+	wizard->priv->finish_running_box = NULL;
+	wizard->priv->finish_spinner = NULL;
+	wizard->priv->finish_label = NULL;
+	wizard->priv->finish_cancel_button = NULL;
 
 	for (ii = 0; ii <= E_CONFIG_LOOKUP_RESULT_LAST_KIND; ii++) {
 		g_clear_object (&wizard->priv->sources[ii]);
