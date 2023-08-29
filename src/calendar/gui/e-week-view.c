@@ -1172,17 +1172,16 @@ week_view_style_updated (GtkWidget *widget)
 	week_view_update_style_settings (E_WEEK_VIEW (widget));
 }
 
-static void
-week_view_size_allocate (GtkWidget *widget,
-                         GtkAllocation *allocation)
+static gboolean
+week_view_handle_size_allocate_idle_cb (gpointer user_data)
 {
-	EWeekView *week_view;
+	GWeakRef *weakref = user_data;
+	EWeekView *week_view = g_weak_ref_get (weakref);
 	GtkAllocation canvas_allocation;
 	gdouble old_x2, old_y2, new_x2, new_y2;
 
-	week_view = E_WEEK_VIEW (widget);
-
-	(*GTK_WIDGET_CLASS (e_week_view_parent_class)->size_allocate) (widget, allocation);
+	if (!week_view)
+		return G_SOURCE_REMOVE;
 
 	e_week_view_recalc_cell_sizes (week_view);
 
@@ -1218,6 +1217,20 @@ week_view_size_allocate (GtkWidget *widget,
 		week_view->events_need_reshape = TRUE;
 		e_week_view_check_layout (week_view);
 	}
+
+	g_object_unref (week_view);
+
+	return G_SOURCE_REMOVE;
+}
+
+static void
+week_view_size_allocate (GtkWidget *widget,
+                         GtkAllocation *allocation)
+{
+	(*GTK_WIDGET_CLASS (e_week_view_parent_class)->size_allocate) (widget, allocation);
+
+	g_idle_add_full (G_PRIORITY_HIGH_IDLE, week_view_handle_size_allocate_idle_cb,
+		e_weak_ref_new (widget), (GDestroyNotify) e_weak_ref_free);
 }
 
 static gint

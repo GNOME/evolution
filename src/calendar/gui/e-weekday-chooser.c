@@ -223,24 +223,37 @@ weekday_chooser_realize (GtkWidget *widget)
 	configure_items (chooser);
 }
 
+static gboolean
+weekday_chooser_handle_size_allocate_idle_cb (gpointer user_data)
+{
+	GWeakRef *weakref = user_data;
+	EWeekdayChooser *chooser = g_weak_ref_get (weakref);
+
+	if (chooser) {
+		GtkAllocation allocation;
+
+		gtk_widget_get_allocation (GTK_WIDGET (chooser), &allocation);
+
+		gnome_canvas_set_scroll_region (GNOME_CANVAS (chooser), 0, 0,
+			allocation.width, allocation.height);
+
+		configure_items (chooser);
+
+		g_object_unref (chooser);
+	}
+
+	return G_SOURCE_REMOVE;
+}
+
 static void
 weekday_chooser_size_allocate (GtkWidget *widget,
                                GtkAllocation *allocation)
 {
-	GtkWidgetClass *widget_class;
-	EWeekdayChooser *chooser;
-
-	chooser = E_WEEKDAY_CHOOSER (widget);
-
 	/* Chain up to parent's size_allocate() method. */
-	widget_class = GTK_WIDGET_CLASS (e_weekday_chooser_parent_class);
-	widget_class->size_allocate (widget, allocation);
+	GTK_WIDGET_CLASS (e_weekday_chooser_parent_class)->size_allocate (widget, allocation);
 
-	gnome_canvas_set_scroll_region (
-		GNOME_CANVAS (chooser), 0, 0,
-		allocation->width, allocation->height);
-
-	configure_items (chooser);
+	g_idle_add_full (G_PRIORITY_HIGH_IDLE, weekday_chooser_handle_size_allocate_idle_cb,
+		e_weak_ref_new (widget), (GDestroyNotify) e_weak_ref_free);
 }
 
 static void

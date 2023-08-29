@@ -1690,13 +1690,28 @@ day_view_unrealize (GtkWidget *widget)
 		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)(widget);
 }
 
+static gboolean
+e_day_view_handle_size_allocate_idle_cb (gpointer user_data)
+{
+	GWeakRef *weakref = user_data;
+	EDayView *day_view = g_weak_ref_get (weakref);
+
+	if (day_view) {
+		e_day_view_recalc_main_canvas_size (day_view);
+		g_object_unref (day_view);
+	}
+
+	return G_SOURCE_REMOVE;
+}
+
 static void
 day_view_size_allocate (GtkWidget *widget,
                         GtkAllocation *allocation)
 {
 	(*GTK_WIDGET_CLASS (e_day_view_parent_class)->size_allocate) (widget, allocation);
 
-	e_day_view_recalc_main_canvas_size (E_DAY_VIEW (widget));
+	g_idle_add_full (G_PRIORITY_HIGH_IDLE, e_day_view_handle_size_allocate_idle_cb,
+		e_weak_ref_new (widget), (GDestroyNotify) e_weak_ref_free);
 }
 
 static void
