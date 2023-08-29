@@ -112,7 +112,8 @@ typedef enum {
 	E_EDITING_FLAG_CAN_DELETE	= 1 << 8,
 	E_EDITING_FLAG_IS_BOOK		= 1 << 9,
 	E_EDITING_FLAG_IS_CALENDAR	= 1 << 10,
-	E_EDITING_FLAG_IS_COLLECTION	= 1 << 11
+	E_EDITING_FLAG_IS_COLLECTION	= 1 << 11,
+	E_EDITING_FLAG_HAS_CALENDAR_COMPONENTS	= 1 << 12
 } EEditingFlags;
 
 enum {
@@ -487,8 +488,9 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 
 				gtk_tree_model_get (model, &parent_iter, COLUMN_UINT_EDITING_FLAGS, &parent_editing_flags, -1);
 
-				rd->editing_flags = (parent_editing_flags & ~(E_EDITING_FLAG_IS_BOOK | E_EDITING_FLAG_IS_CALENDAR | E_EDITING_FLAG_IS_COLLECTION)) |
-						    (rd->editing_flags & (E_EDITING_FLAG_IS_BOOK | E_EDITING_FLAG_IS_CALENDAR | E_EDITING_FLAG_IS_COLLECTION));
+				rd->editing_flags =
+					(parent_editing_flags & ~(E_EDITING_FLAG_IS_BOOK | E_EDITING_FLAG_IS_CALENDAR | E_EDITING_FLAG_HAS_CALENDAR_COMPONENTS | E_EDITING_FLAG_IS_COLLECTION)) |
+					(rd->editing_flags & (E_EDITING_FLAG_IS_BOOK | E_EDITING_FLAG_IS_CALENDAR | E_EDITING_FLAG_HAS_CALENDAR_COMPONENTS | E_EDITING_FLAG_IS_COLLECTION));
 			}
 		}
 
@@ -509,8 +511,9 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 		if (rd->resource->kind == E_WEBDAV_RESOURCE_KIND_ADDRESSBOOK) {
 			icon_name = "x-office-address-book";
 			g_string_append (type_info, _("Address book"));
-		} else if (rd->resource->kind == E_WEBDAV_RESOURCE_KIND_CALENDAR) {
-			icon_name = "x-office-calendar";
+		} else if (rd->resource->kind == E_WEBDAV_RESOURCE_KIND_CALENDAR ||
+			rd->resource->kind == E_WEBDAV_RESOURCE_KIND_SCHEDULE_INBOX ||
+			rd->resource->kind == E_WEBDAV_RESOURCE_KIND_SCHEDULE_OUTBOX) {
 
 			#define append_if_set(_flag, _str) \
 				if ((rd->resource->supports & (_flag)) != 0) { \
@@ -529,8 +532,18 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 				g_string_prepend (type_info, " (");
 				g_string_append_c (type_info, ')');
 			}
-
-			g_string_prepend (type_info, _("Calendar"));
+			if (rd->resource->kind == E_WEBDAV_RESOURCE_KIND_CALENDAR) {
+				icon_name = "x-office-calendar";
+				g_string_prepend (type_info, _("Calendar"));
+			} else if (rd->resource->kind == E_WEBDAV_RESOURCE_KIND_SCHEDULE_INBOX) {
+				icon_name = "mail-inbox";
+				g_string_prepend (type_info, _("Scheduling Inbox"));
+				/* Scheduling Inbox collections MUST NOT contain any types of collection resources. */
+				is_loaded_row = 1;
+			} else {
+				icon_name = "mail-outbox";
+				g_string_prepend (type_info, _("Scheduling Outbox"));
+			}
 
 		} else if (rd->resource->kind == E_WEBDAV_RESOURCE_KIND_COLLECTION) {
 			icon_name = "folder";
@@ -905,6 +918,8 @@ webdav_browser_gather_href_resources_sync (EWebDAVBrowser *webdav_browser,
 				    !resource->href || (
 				    resource->kind != E_WEBDAV_RESOURCE_KIND_ADDRESSBOOK &&
 				    resource->kind != E_WEBDAV_RESOURCE_KIND_CALENDAR &&
+				    resource->kind != E_WEBDAV_RESOURCE_KIND_SCHEDULE_INBOX &&
+				    resource->kind != E_WEBDAV_RESOURCE_KIND_SCHEDULE_OUTBOX &&
 				    resource->kind != E_WEBDAV_RESOURCE_KIND_COLLECTION &&
 				    resource->kind != E_WEBDAV_RESOURCE_KIND_PRINCIPAL)) {
 					continue;
@@ -928,7 +943,11 @@ webdav_browser_gather_href_resources_sync (EWebDAVBrowser *webdav_browser,
 					editing_flags |= E_EDITING_FLAG_IS_BOOK;
 
 				if (resource->kind == E_WEBDAV_RESOURCE_KIND_CALENDAR)
-					editing_flags |= E_EDITING_FLAG_IS_CALENDAR;
+					editing_flags |= E_EDITING_FLAG_IS_CALENDAR | E_EDITING_FLAG_HAS_CALENDAR_COMPONENTS;
+
+				else if (resource->kind == E_WEBDAV_RESOURCE_KIND_SCHEDULE_INBOX ||
+					 resource->kind == E_WEBDAV_RESOURCE_KIND_SCHEDULE_OUTBOX)
+					editing_flags |= E_EDITING_FLAG_IS_COLLECTION | E_EDITING_FLAG_HAS_CALENDAR_COMPONENTS;
 
 				if (resource->kind == E_WEBDAV_RESOURCE_KIND_COLLECTION)
 					editing_flags |= E_EDITING_FLAG_IS_COLLECTION;
@@ -2029,10 +2048,12 @@ webdav_browser_edit_collection_save_clicked_cb (GtkWidget *button,
 
 static void
 webdav_browser_prepare_popover (EWebDAVBrowser *webdav_browser,
-				gboolean for_book,
-				gboolean for_calendar)
+				guint32 editing_flags)
 {
 	GdkRGBA rgba;
+	gboolean for_book = (editing_flags & E_EDITING_FLAG_IS_BOOK) != 0;
+	gboolean for_calendar = (editing_flags & E_EDITING_FLAG_IS_CALENDAR) != 0;
+	gboolean has_calendar_components = (editing_flags & E_EDITING_FLAG_HAS_CALENDAR_COMPONENTS) != 0;
 
 	g_return_if_fail (E_IS_WEBDAV_BROWSER (webdav_browser));
 
@@ -2042,10 +2063,10 @@ webdav_browser_prepare_popover (EWebDAVBrowser *webdav_browser,
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_color_chooser, for_calendar);
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_order_label, for_calendar);
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_order_spin, for_calendar);
-	gtk_widget_set_visible (webdav_browser->priv->create_edit_support_label, for_calendar);
-	gtk_widget_set_visible (webdav_browser->priv->create_edit_event_check, for_calendar);
-	gtk_widget_set_visible (webdav_browser->priv->create_edit_memo_check, for_calendar);
-	gtk_widget_set_visible (webdav_browser->priv->create_edit_task_check, for_calendar);
+	gtk_widget_set_visible (webdav_browser->priv->create_edit_support_label, has_calendar_components);
+	gtk_widget_set_visible (webdav_browser->priv->create_edit_event_check, has_calendar_components);
+	gtk_widget_set_visible (webdav_browser->priv->create_edit_memo_check, has_calendar_components);
+	gtk_widget_set_visible (webdav_browser->priv->create_edit_task_check, has_calendar_components);
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_description_label, for_book || for_calendar);
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_description_scrolled_window, for_book || for_calendar);
 
@@ -2100,8 +2121,8 @@ webdav_browser_create_clicked_cb (GtkWidget *button,
 	}
 
 	webdav_browser_prepare_popover (webdav_browser,
-		button == webdav_browser->priv->create_book_button,
-		button == webdav_browser->priv->create_calendar_button);
+		(button == webdav_browser->priv->create_book_button ? E_EDITING_FLAG_IS_BOOK : 0) |
+		(button == webdav_browser->priv->create_calendar_button ? E_EDITING_FLAG_IS_CALENDAR | E_EDITING_FLAG_HAS_CALENDAR_COMPONENTS: 0));
 
 	gtk_popover_set_relative_to (GTK_POPOVER (webdav_browser->priv->create_edit_popover), button);
 
@@ -2156,12 +2177,10 @@ webdav_browser_edit_clicked_cb (GtkWidget *button,
 		COLUMN_UINT_SUPPORTS, &supports,
 		-1);
 
-	webdav_browser_prepare_popover (webdav_browser,
-		(editing_flags & E_EDITING_FLAG_IS_BOOK) != 0,
-		(editing_flags & E_EDITING_FLAG_IS_CALENDAR) != 0);
+	webdav_browser_prepare_popover (webdav_browser, editing_flags);
 
-	if ((editing_flags & E_EDITING_FLAG_IS_CALENDAR) != 0) {
-		if (color_is_set && rgba)
+	if ((editing_flags & (E_EDITING_FLAG_IS_CALENDAR | E_EDITING_FLAG_HAS_CALENDAR_COMPONENTS)) != 0) {
+		if (color_is_set && rgba && ((editing_flags & E_EDITING_FLAG_IS_CALENDAR) != 0))
 			gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (webdav_browser->priv->create_edit_color_chooser), rgba);
 
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (webdav_browser->priv->create_edit_order_spin), order);
