@@ -19,6 +19,8 @@
 
 #include <glib/gi18n-lib.h>
 
+#include <libedataserver/libedataserver.h>
+
 #include "e-dialog-widgets.h"
 #include "e-alert-dialog.h"
 #include "e-alert-bar.h"
@@ -315,25 +317,28 @@ alert_bar_response_cb (EAlert *alert,
 	}
 }
 
-static void
-alert_bar_message_label_size_allocate_cb (GtkWidget *message_label,
-					  GdkRectangle *allocation,
-					  gpointer user_data)
+static gboolean
+alert_bar_message_label_size_recalc_cb (gpointer user_data)
 {
+	GWeakRef *weakref = user_data;
+	GtkAllocation allocation;
 	GtkScrolledWindow *scrolled_window;
-	EAlertBar *alert_bar = user_data;
+	GtkWidget *vscrollbar;
+	EAlertBar *alert_bar;
 	gint max_height, use_height;
 
-	g_return_if_fail (E_IS_ALERT_BAR (alert_bar));
-	g_return_if_fail (allocation != NULL);
+	alert_bar = g_weak_ref_get (weakref);
+	if (!alert_bar)
+		return G_SOURCE_REMOVE;
 
 	scrolled_window = GTK_SCROLLED_WINDOW (alert_bar->priv->scrolled_window);
 
 	max_height = alert_bar->priv->max_content_height;
+	gtk_widget_get_allocation (alert_bar->priv->message_label, &allocation);
 
-	if (allocation->height > 0 && allocation->height <= max_height)
-		use_height = allocation->height;
-	else if (allocation->height <= 0)
+	if (allocation.height > 0 && allocation.height <= max_height)
+		use_height = allocation.height;
+	else if (allocation.height <= 0)
 		use_height = -1;
 	else
 		use_height = max_height;
@@ -348,7 +353,27 @@ alert_bar_message_label_size_allocate_cb (GtkWidget *message_label,
 
 	gtk_scrolled_window_set_min_content_height (scrolled_window, use_height);
 
+	vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (alert_bar->priv->scrolled_window));
+	gtk_widget_set_visible (vscrollbar, use_height > 0 && allocation.height > max_height);
+
 	gtk_widget_queue_resize (alert_bar->priv->scrolled_window);
+
+	g_object_unref (alert_bar);
+
+	return G_SOURCE_REMOVE;
+}
+
+static void
+alert_bar_message_label_size_allocate_cb (GtkWidget *message_label,
+					  GdkRectangle *allocation,
+					  gpointer user_data)
+{
+	EAlertBar *alert_bar = user_data;
+
+	g_return_if_fail (E_IS_ALERT_BAR (alert_bar));
+
+	g_timeout_add_full (G_PRIORITY_HIGH_IDLE, 1, alert_bar_message_label_size_recalc_cb,
+		e_weak_ref_new (alert_bar), (GDestroyNotify) e_weak_ref_free);
 }
 
 static void
