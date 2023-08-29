@@ -1023,7 +1023,7 @@ em_composer_prefs_outbox_delay_setting_to_id (GValue *value,
 
 	if (to_set < 0)
 		to_set = -1;
-	else if (to_set != 0 && to_set != 5)
+	else if (to_set != 0 && to_set != 1 && to_set != 5)
 		to_set = 5;
 
 	str = g_strdup_printf ("%d", to_set);
@@ -1282,6 +1282,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	combo_text = GTK_COMBO_BOX_TEXT (widget);
 	gtk_combo_box_text_append (combo_text, "-1", _("Keep in Outbox"));
 	gtk_combo_box_text_append (combo_text,  "0", _("Send immediately"));
+	gtk_combo_box_text_append (combo_text,  "1", _("Send after 1 minute"));
 	gtk_combo_box_text_append (combo_text,  "5", _("Send after 5 minutes"));
 
 	g_settings_bind_with_mapping (
