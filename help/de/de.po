@@ -33,16 +33,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-28 12:04+0000\n"
-"PO-Revision-Date: 2023-03-03 11:51+0100\n"
-"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
+"POT-Creation-Date: 2023-08-10 09:02+0000\n"
+"PO-Revision-Date: 2023-08-29 18:42+0200\n"
+"Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -2587,9 +2587,9 @@ msgstr ""
 "Eine Kontaktliste ist eine Anzahl von Kontakten, die von Ihnen einen "
 "Spitznamen erhält. Wenn Sie eine E-Mail an diesen Spitznamen schicken, so "
 "wird diese E-Mail an alle Mitglieder dieser Kontaktliste verschickt. Der "
-"Unterschied zu einer klassischen Mailing-Liste ist, dass diese Kontaktliste "
+"Unterschied zu einer klassischen Mailingliste ist, dass diese Kontaktliste "
 "nur auf Ihrem Rechner zu Ihrer Bequemlichkeit existiert, und nicht wie eine "
-"echte Mailing-Liste von einer Software auf einem Server verwaltet wird."
+"echte Mailingliste von einer Software auf einem Server verwaltet wird."
 
 #. (itstool) path: page/p
 #: C/contacts-using-contact-lists.page:34
@@ -3483,7 +3483,7 @@ msgid ""
 "method that you could try."
 msgstr ""
 "Folgen Sie <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
-"February/msg00055.html\">dieser Mailing-Listen-Diskussion</link> für eine "
+"February/msg00055.html\">dieser Mailinglisten-Diskussion</link> für eine "
 "alternative Methode, die Sie ausprobieren könnten."
 
 #. (itstool) path: item/p
@@ -6985,18 +6985,18 @@ msgstr "Ablehnen:"
 msgid ""
 "Indicates you are unable to attend the meeting. The meeting is not entered "
 "into your calendar when you click OK, although your response is sent to the "
-"meeting host if you have selected the Send reply to sender option."
+"meeting host if you have selected the Send reply to organizer option."
 msgstr ""
 "Sie nehmen die Einladung nicht an und werden nicht an der Besprechung "
 "teilnehmen. Wenn Sie auf den OK-Knopf klicken, wird der Termin nicht zu "
 "Ihrem Kalender hinzugefügt, aber Ihre Antwort wird an den Absender der "
-"Einladung geschickt, falls die Option »Antwort an den Absender verschicken« "
-"ausgewählt ist."
+"Einladung geschickt, falls die Option »Antwort an den Organisator "
+"verschicken« ausgewählt ist."
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:39
-msgid "Send reply to sender:"
-msgstr "Antwort an Absender:"
+msgid "Send reply to organizer:"
+msgstr "Antwort an Organisator:"
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:40
@@ -8694,7 +8694,7 @@ msgid ""
 "shared with anyone."
 msgstr ""
 "Margit sendet eine E-Mail an einen Empfänger und schickt Kopien an Lothar "
-"und an eine firmeninterne Mailing-Liste von Mitarbeitern. Wenn nun Lothar "
+"und an eine firmeninterne Mailingliste von Mitarbeitern. Wenn nun Lothar "
 "einen Kommentar an alle Empfänger schicken will, so benutzt er <gui>Antwort "
 "an Alle</gui>, will er jedoch nur Margit schreiben, dass er einverstanden "
 "ist, so benutzt er <gui>Antwort</gui>. Seine Antwort wird nicht an Adressen "
@@ -8709,9 +8709,9 @@ msgid ""
 "list rather than to the sender, select <gui>Reply to List</gui> instead of "
 "<gui>Reply</gui> or <gui>Reply to All</gui>."
 msgstr ""
-"Falls Sie auf einer Mailing-Liste angemeldet sind und Ihre Antwort an die "
-"Mailing-Liste und nicht nur an den Absender verschickt werden soll, so "
-"wählen Sie <gui>Antwort an Liste</gui> anstelle von <gui>Antwort</gui> oder "
+"Falls Sie auf einer Mailingliste angemeldet sind und Ihre Antwort an die "
+"Mailingliste und nicht nur an den Absender verschickt werden soll, so wählen "
+"Sie <gui>Antwort an Liste</gui> anstelle von <gui>Antwort</gui> oder "
 "<gui>Antwort an alle</gui>."
 
 #. (itstool) path: section/title
@@ -12618,7 +12618,7 @@ msgstr "Die Betreff-Kopfzeile sollte übereinstimmen (*)"
 #. (itstool) path: td/p
 #: C/mail-searching.page:74
 msgid "Mailing list header should match (*)"
-msgstr "Die Mailing-Liste-Kopfzeile sollte übereinstimmen (*)"
+msgstr "Die Mailingliste-Kopfzeile sollte übereinstimmen (*)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:75
@@ -14665,7 +14665,7 @@ msgstr ""
 "lesen Sie bitte in der <link xref=\"help:gnome-help/net-problem\" "
 "href=\"https://help.gnome.org/users/gnome-help/stable/net-problem\">GNOME-"
 "Hilfe</link> und ersuchen Sie Hilfe aus Internet-Foren zu Ihrer "
-"Distribution, Mailing-Listen usw."
+"Distribution, Mailinglisten usw."
 
 #. (itstool) path: page/p
 #: C/offline.page:34
@@ -14756,12 +14756,12 @@ msgid ""
 msgstr ""
 "Um Hilfe bei Problemen zu erhalten, können Sie eine E-Mail an die <link "
 "href=\"https://lists.osuosl.org/mailman/listinfo/evolution-"
-"users\"><app>Evolution</app>-Mailing-Liste</link> senden, ein Thema auf "
-"<link href=\"https://discourse.gnome.org/tag/evolution\"><app>GNOME "
-"Discourse</app> eröffnen mit dem evolution-Schlagwort</link> oder "
-"kontaktieren Sie die Entwickler und andere Benutzer im IRC-Chat im Kanal "
-"#evolution auf dem Server irc.gimp.net. Verwenden Sie z.B. <link xref=\"help:"
-"polari/\" href=\"https://help.gnome.org/users/polari/stable/\">die Anwendung "
+"users\"><app>Evolution</app>-Mailingliste</link> senden, ein Thema auf <link "
+"href=\"https://discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</"
+"app> eröffnen mit dem evolution-Schlagwort</link> oder kontaktieren Sie die "
+"Entwickler und andere Benutzer im IRC-Chat im Kanal #evolution auf dem "
+"Server irc.gimp.net. Verwenden Sie z.B. <link xref=\"help:polari/\" "
+"href=\"https://help.gnome.org/users/polari/stable/\">die Anwendung "
 "<app>Polari</app></link>, um sich mit einem IRC-Server zu verbinden."
 
 #. (itstool) path: info/desc
@@ -15815,7 +15815,7 @@ msgstr "Prüft, ob die Nachricht einen Anhang hat."
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:58
 msgid "Mailing List:"
-msgstr "Mailing-Liste:"
+msgstr "Mailingliste:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:59
@@ -15824,8 +15824,8 @@ msgid ""
 "for a variety of common mailing list related headers but might miss messages "
 "from some list servers if they use uncommon headers."
 msgstr ""
-"Filtert basierend auf der Mailing-Liste, von der die Nachricht kommt. Dieser "
-"Filter prüft aufgrund verschiedener auf Mailing-Listen verweisender "
+"Filtert basierend auf der Mailingliste, von der die Nachricht kommt. Dieser "
+"Filter prüft aufgrund verschiedener auf Mailinglisten verweisender "
 "Kopfzeileneinträge, aber könnte Nachrichten einiger Listenserver nicht "
 "berücksichtigen, falls diese unübliche Kopfzeilen enthalten."
 
