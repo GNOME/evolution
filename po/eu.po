@@ -12100,7 +12100,7 @@ msgstr "Mezu hau berbideratze bat denez, mezuaren hartzailea, gaia eta beste atr
 
 #: ../src/composer/mail-composer.error.xml.h:61
 msgid "Not adding OpenPGP public key into the mail."
-msgstr "Ez da OpenGPG gako publikoa gehituko mezuan."
+msgstr "Ez da OpenPGP gako publikoa gehituko mezuan."
 
 #: ../src/composer/mail-composer.error.xml.h:62
 msgid "The OpenPGP public key for “{0}” is too large for the transfer."
@@ -21439,7 +21439,7 @@ msgstr "Aukeratu beste izen bat."
 
 #: ../src/mail/mail.error.xml.h:224
 msgid "Do you wish to import OpenPGP key?"
-msgstr "OpenGPG gakoa inportatu nahi duzu?"
+msgstr "OpenPGP gakoa inportatu nahi duzu?"
 
 #: ../src/mail/mail.error.xml.h:225
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1094
