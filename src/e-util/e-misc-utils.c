@@ -4287,6 +4287,8 @@ e_util_query_ldap_root_dse_sync (const gchar *host,
 #endif
 }
 
+G_LOCK_DEFINE_STATIC (global_tables_lock);
+static GHashTable *pixbufs_table = NULL; /* gchar *filename ~> GdkPixbuf * */
 static GHashTable *iso_639_table = NULL;
 static GHashTable *iso_3166_table = NULL;
 
@@ -4632,12 +4634,55 @@ e_util_get_language_name (const gchar *language_tag)
 void
 e_misc_util_free_global_memory (void)
 {
+	G_LOCK (global_tables_lock);
 	g_clear_pointer (&iso_639_table, g_hash_table_destroy);
 	g_clear_pointer (&iso_3166_table, g_hash_table_destroy);
+	g_clear_pointer (&pixbufs_table, g_hash_table_destroy);
+	G_UNLOCK (global_tables_lock);
 
 	e_util_cleanup_settings ();
 	e_spell_checker_free_global_memory ();
 	e_simple_async_result_free_global_memory ();
+}
+
+/**
+ * e_misc_util_ref_pixbuf:
+ * @filename: a pixbuf file name to load
+ * @error: return location to store a #GError on failure, or %NULL
+ *
+ * Loads @filename as a #GdkPixbuf and cached it in case it's needed
+ * again, without a need to load it repeatedly.
+ *
+ * Returns: (transfer full) (nullable): a #GdkPixbuf loaded from the @filename, or %NULL on error
+ *
+ * Since: 3.50
+ **/
+GdkPixbuf *
+e_misc_util_ref_pixbuf (const gchar *filename,
+			GError **error)
+{
+	GdkPixbuf *pixbuf;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	G_LOCK (global_tables_lock);
+
+	if (!pixbufs_table)
+		pixbufs_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+
+	pixbuf = g_hash_table_lookup (pixbufs_table, filename);
+	if (pixbuf) {
+		g_object_ref (pixbuf);
+	} else {
+		pixbuf = gdk_pixbuf_new_from_file (filename, error);
+
+		if (pixbuf)
+			g_hash_table_insert (pixbufs_table, g_strdup (filename), g_object_ref (pixbuf));
+	}
+
+	G_UNLOCK (global_tables_lock);
+
+	return pixbuf;
 }
 
 /**
