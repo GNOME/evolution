@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-08-17 06:55+0000\n"
-"PO-Revision-Date: 2023-08-18 21:16+0700\n"
+"POT-Creation-Date: 2023-08-29 19:02+0000\n"
+"PO-Revision-Date: 2023-08-30 11:21+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -3929,7 +3929,7 @@ msgstr "Komposer Surel"
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:8
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1013
-#: ../src/e-util/e-collection-account-wizard.c:867
+#: ../src/e-util/e-collection-account-wizard.c:872
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:200
 #: ../src/modules/calendar/e-cal-shell-view.c:635
@@ -3991,7 +3991,7 @@ msgstr "Memo"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
 #: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2467
 #: ../src/calendar/importers/icalendar-importer.c:77
-#: ../src/calendar/importers/icalendar-importer.c:1151
+#: ../src/calendar/importers/icalendar-importer.c:1138
 #: ../src/e-util/e-webdav-browser.c:524
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 #: ../src/modules/calendar/e-cal-shell-content.c:1904
@@ -4365,7 +4365,7 @@ msgid "This address book will be removed permanently."
 msgstr "Buku alamat ini akan dihapus permanen."
 
 #: ../src/addressbook/addressbook.error.xml.h:10
-#: ../src/calendar/calendar.error.xml.h:7 ../src/e-util/e-system.error.xml.h:27
+#: ../src/calendar/calendar.error.xml.h:9 ../src/e-util/e-system.error.xml.h:27
 #: ../src/mail/mail.error.xml.h:69
 msgid "Do _Not Delete"
 msgstr "Ja_ngan Hapus"
@@ -4383,7 +4383,7 @@ msgstr ""
 "Anda yakin ingin melanjutkan?"
 
 #: ../src/addressbook/addressbook.error.xml.h:13
-#: ../src/calendar/calendar.error.xml.h:65
+#: ../src/calendar/calendar.error.xml.h:70
 #: ../src/e-util/e-system.error.xml.h:28
 msgid "_Delete From Server"
 msgstr "_Hapus Dari Peladen"
@@ -4477,7 +4477,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1514
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1522
 #: ../src/e-util/e-accounts-window.c:1570
 #: ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1028 ../src/e-util/filter.ui.h:25
@@ -4622,8 +4622,8 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:806
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1852
-#: ../src/calendar/calendar.error.xml.h:181
-#: ../src/calendar/gui/e-cal-dialogs.c:686
+#: ../src/calendar/calendar.error.xml.h:186
+#: ../src/calendar/gui/e-cal-dialogs.c:695
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
 #: ../src/composer/e-composer-actions.c:242 ../src/e-util/e-activity-bar.c:370
 #: ../src/e-util/e-attachment-dialog.c:290
@@ -4634,8 +4634,8 @@ msgstr ""
 #: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:168
 #: ../src/e-util/e-category-editor.c:252 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240
-#: ../src/e-util/e-collection-account-wizard.c:1930
-#: ../src/e-util/e-collection-account-wizard.c:2177
+#: ../src/e-util/e-collection-account-wizard.c:1944
+#: ../src/e-util/e-collection-account-wizard.c:2191
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
 #: ../src/e-util/e-html-editor-actions.c:395
@@ -4737,7 +4737,7 @@ msgstr "Opsi"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3548
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
-#: ../src/calendar/calendar.error.xml.h:47
+#: ../src/calendar/calendar.error.xml.h:52
 #: ../src/calendar/gui/e-comp-editor.c:2319
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
@@ -4904,14 +4904,14 @@ msgstr "Pering_atan:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1059
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1948
+#: ../src/calendar/gui/e-calendar-view.c:1958
 msgid "Anniversary"
 msgstr "Peringatan"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1058
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1947
+#: ../src/calendar/gui/e-calendar-view.c:1957
 msgid "Birthday"
 msgstr "Ulang Tahun"
 
@@ -4992,7 +4992,7 @@ msgstr "Tambah _X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1530
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1538
 #: ../src/e-util/e-attachment-view.c:409 ../src/e-util/e-filter-rule.c:410
 #: ../src/e-util/e-mail-signature-manager.c:364
 #: ../src/e-util/e-name-selector-dialog.c:1032
@@ -5535,7 +5535,7 @@ msgid "Send a mail message to this address"
 msgstr "Kirim surel ke alamat ini"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:282
-#: ../src/e-util/e-misc-utils.c:4781
+#: ../src/e-util/e-misc-utils.c:4789
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klik untuk mengirim surat kepada %s"
@@ -6247,9 +6247,9 @@ msgstr "_Cari"
 #: ../src/addressbook/importers/evolution-csv-importer.c:796
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
 #: ../src/addressbook/importers/evolution-vcard-importer.c:237
-#: ../src/calendar/importers/icalendar-importer.c:506
-#: ../src/calendar/importers/icalendar-importer.c:1013
-#: ../src/calendar/importers/icalendar-importer.c:1053
+#: ../src/calendar/importers/icalendar-importer.c:515
+#: ../src/calendar/importers/icalendar-importer.c:1000
+#: ../src/calendar/importers/icalendar-importer.c:1040
 msgid "Importing…"
 msgstr "Mengimpor…"
 
@@ -6453,19 +6453,32 @@ msgid "_Send Notice"
 msgstr "_Kirim Pemberitahuan"
 
 #: ../src/calendar/calendar.error.xml.h:5
-#: ../src/calendar/gui/e-cal-dialogs.c:500
+msgid "Would you like to send the organizer a deletion notice?"
+msgstr ""
+"Apakah Anda ingin mengirimkan pemberitahuan penghapusan kepada penyelenggara?"
+
+#: ../src/calendar/calendar.error.xml.h:6
+msgid ""
+"If you do not send a deletion notice, the organizer may not know the meeting "
+"has been deleted."
+msgstr ""
+"Jika Anda tidak mengirimkan pemberitahuan penghapusan, penyelenggara mungkin "
+"tidak mengetahui bahwa rapat telah dihapus."
+
+#: ../src/calendar/calendar.error.xml.h:7
+#: ../src/calendar/gui/e-cal-dialogs.c:509
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Anda yakin ingin menghapus pertemuan ini?"
 
-#: ../src/calendar/calendar.error.xml.h:6
+#: ../src/calendar/calendar.error.xml.h:8
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "Semua informasi pertemuan ini akan dihapus dan tidak akan dikembalikan "
 "menjadi semula."
 
-#: ../src/calendar/calendar.error.xml.h:8
+#: ../src/calendar/calendar.error.xml.h:10
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the task has been deleted."
@@ -6473,23 +6486,31 @@ msgstr ""
 "Jika Anda tidak mengirim pemberitahuan pembatalan, peserta lain mungkin "
 "tidak tahu tugas telah dihapus."
 
-#: ../src/calendar/calendar.error.xml.h:9
-#: ../src/calendar/gui/e-cal-dialogs.c:503
+#: ../src/calendar/calendar.error.xml.h:11
+msgid ""
+"If you do not send a deletion notice, the organizer may not know the task "
+"has been deleted."
+msgstr ""
+"Jika Anda tidak mengirimkan pemberitahuan penghapusan, penyelenggara mungkin "
+"tidak mengetahui tugas tersebut telah dihapus."
+
+#: ../src/calendar/calendar.error.xml.h:12
+#: ../src/calendar/gui/e-cal-dialogs.c:512
 #, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Anda yakin ingin menghapus tugas ini?"
 
-#: ../src/calendar/calendar.error.xml.h:10
+#: ../src/calendar/calendar.error.xml.h:13
 msgid "All information on this task will be deleted and can not be restored."
 msgstr ""
 "Semua informasi pada tugas ini akan dihapus dan tidak dapat dikembalikan ke "
 "semula."
 
-#: ../src/calendar/calendar.error.xml.h:11
+#: ../src/calendar/calendar.error.xml.h:14
 msgid "Would you like to send a cancellation notice for this memo?"
 msgstr "Apakah Anda ingin mengirimkan pemberitahuan pembatalan untuk memo ini?"
 
-#: ../src/calendar/calendar.error.xml.h:12
+#: ../src/calendar/calendar.error.xml.h:15
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the memo has been deleted."
@@ -6497,54 +6518,66 @@ msgstr ""
 "Jika Anda tidak mengirim pemberitahuan pembatalan, peserta lain mungkin "
 "tidak tahu memo telah dihapus."
 
-#: ../src/calendar/calendar.error.xml.h:13
-#: ../src/calendar/gui/e-cal-dialogs.c:506
+#: ../src/calendar/calendar.error.xml.h:16
+msgid "Would you like to send a deletion notice for this memo?"
+msgstr "Apakah Anda ingin mengirimkan pemberitahuan penghapusan memo ini?"
+
+#: ../src/calendar/calendar.error.xml.h:17
+msgid ""
+"If you do not send a deletion notice, the organizer may not know the memo "
+"has been deleted."
+msgstr ""
+"Jika Anda tidak mengirimkan pemberitahuan penghapusan, penyelenggara mungkin "
+"tidak mengetahui memo tersebut telah dihapus."
+
+#: ../src/calendar/calendar.error.xml.h:18
+#: ../src/calendar/gui/e-cal-dialogs.c:515
 #, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "Anda yakin ingin menghapus memo ini?"
 
-#: ../src/calendar/calendar.error.xml.h:14
+#: ../src/calendar/calendar.error.xml.h:19
 msgid "All information on this memo will be deleted and can not be restored."
 msgstr ""
 "Semua informasi memo ini akan dihapus dan tidak dapat dikembalikan ke semula."
 
-#: ../src/calendar/calendar.error.xml.h:15
+#: ../src/calendar/calendar.error.xml.h:20
 msgid "Are you sure you want to delete the meeting titled “{0}”?"
 msgstr "Anda yakin ingin menghapus rapat berjudul “{0}”?"
 
-#: ../src/calendar/calendar.error.xml.h:16
+#: ../src/calendar/calendar.error.xml.h:21
 msgid "Are you sure you want to delete the appointment titled “{0}”?"
 msgstr "Anda yakin ingin menghapus janji temu bertemu berjudul “{0}”?"
 
-#: ../src/calendar/calendar.error.xml.h:17
+#: ../src/calendar/calendar.error.xml.h:22
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
 msgstr ""
 "Semua informasi mengenai jadwal pertemuan ini akan dihapus dan tidak dapat "
 "dikembalikan ke semula."
 
-#: ../src/calendar/calendar.error.xml.h:18
+#: ../src/calendar/calendar.error.xml.h:23
 msgid "Are you sure you want to delete this appointment?"
 msgstr "Anda yakin ingin menghapus janji temu ini?"
 
-#: ../src/calendar/calendar.error.xml.h:19
+#: ../src/calendar/calendar.error.xml.h:24
 msgid "Are you sure you want to delete the “{0}” task?"
 msgstr "Anda yakin ingin menghapus tugas “{0}”?"
 
-#: ../src/calendar/calendar.error.xml.h:20
+#: ../src/calendar/calendar.error.xml.h:25
 msgid "Are you sure you want to delete the memo “{0}”?"
 msgstr "Anda yakin ingin menghapus memo “{0}”?"
 
-#: ../src/calendar/calendar.error.xml.h:21
+#: ../src/calendar/calendar.error.xml.h:26
 msgid "All information in this memo will be deleted and can not be restored."
 msgstr ""
 "Semua informasi memo ini akan dihapus dan tidak dapat dikembalikan ke semula."
 
-#: ../src/calendar/calendar.error.xml.h:22
+#: ../src/calendar/calendar.error.xml.h:27
 msgid "Are you sure you want to delete these {0} appointments?"
 msgstr "Anda yakin ingin menghapus {0} janji temu ini?"
 
-#: ../src/calendar/calendar.error.xml.h:23
+#: ../src/calendar/calendar.error.xml.h:28
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
@@ -6552,90 +6585,90 @@ msgstr ""
 "Semua informasi tentang jadwal pertemuan ini akan dihapus dan tidak dapat "
 "dikembalikan ke semula."
 
-#: ../src/calendar/calendar.error.xml.h:24
+#: ../src/calendar/calendar.error.xml.h:29
 msgid "Are you sure you want to delete these {0} tasks?"
 msgstr "Anda yakin ingin menghapus {0} tugas ini?"
 
-#: ../src/calendar/calendar.error.xml.h:25
+#: ../src/calendar/calendar.error.xml.h:30
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
 "Semua informasi tentang tugas-tugas ini akan dihapus dan tidak dapat "
 "dikembalikan semula."
 
-#: ../src/calendar/calendar.error.xml.h:26
+#: ../src/calendar/calendar.error.xml.h:31
 msgid "Are you sure you want to delete these {0} memos?"
 msgstr "Anda yakin ingin menghapus {0} memo ini?"
 
-#: ../src/calendar/calendar.error.xml.h:27
+#: ../src/calendar/calendar.error.xml.h:32
 msgid "All information in these memos will be deleted and can not be restored."
 msgstr ""
 "Semua informasi tentang memo-memo ini akan dihapus dan tidak dapat "
 "dikembalikan ke semula."
 
-#: ../src/calendar/calendar.error.xml.h:28
+#: ../src/calendar/calendar.error.xml.h:33
 msgid "Would you like to save your changes to this meeting?"
 msgstr "Apakah Anda ingin menyimpan perubahan pada pertemuan ini?"
 
-#: ../src/calendar/calendar.error.xml.h:29
+#: ../src/calendar/calendar.error.xml.h:34
 msgid "You have changed this meeting, but not yet saved it."
 msgstr "Anda telah mengubah rapat ini, tapi belum disimpan."
 
-#: ../src/calendar/calendar.error.xml.h:30
+#: ../src/calendar/calendar.error.xml.h:35
 msgid "_Save Changes"
 msgstr "_Simpan Perubahan"
 
-#: ../src/calendar/calendar.error.xml.h:31
+#: ../src/calendar/calendar.error.xml.h:36
 #: ../src/composer/mail-composer.error.xml.h:15
 msgid "_Discard Changes"
 msgstr "_Abaikan Perubahan"
 
-#: ../src/calendar/calendar.error.xml.h:32
+#: ../src/calendar/calendar.error.xml.h:37
 msgid "Would you like to save your changes to this appointment?"
 msgstr "Apakah Anda ingin menyimpan janji temu ini?"
 
-#: ../src/calendar/calendar.error.xml.h:33
+#: ../src/calendar/calendar.error.xml.h:38
 msgid "You have changed this appointment, but not yet saved it."
 msgstr "Anda telah mengganti janji temu ini, tetapi belum lagi disimpan."
 
-#: ../src/calendar/calendar.error.xml.h:34
+#: ../src/calendar/calendar.error.xml.h:39
 msgid "Would you like to save your changes to this task?"
 msgstr "Apakah Anda ingin menyimpan perubahan pada tugas ini?"
 
-#: ../src/calendar/calendar.error.xml.h:35
+#: ../src/calendar/calendar.error.xml.h:40
 msgid "You have changed this task, but not yet saved it."
 msgstr "Anda telah merubah tugas ini, tapi belum disimpan."
 
-#: ../src/calendar/calendar.error.xml.h:36
+#: ../src/calendar/calendar.error.xml.h:41
 msgid "Would you like to save your changes to this memo?"
 msgstr "Simpan perubahan pada memo ini?"
 
-#: ../src/calendar/calendar.error.xml.h:37
+#: ../src/calendar/calendar.error.xml.h:42
 msgid "You have made changes to this memo, but not yet saved them."
 msgstr "Anda telah merubah memo ini, tapi belum disimpan."
 
-#: ../src/calendar/calendar.error.xml.h:38
+#: ../src/calendar/calendar.error.xml.h:43
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Apakah Anda ingin mengirim undangan rapat pada setiap peserta?"
 
-#: ../src/calendar/calendar.error.xml.h:39
+#: ../src/calendar/calendar.error.xml.h:44
 msgid ""
 "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 "Surat Undangan akan dikirimkan ke semua peserta dan membolehkan konfirmasi "
 "mereka."
 
-#: ../src/calendar/calendar.error.xml.h:40
+#: ../src/calendar/calendar.error.xml.h:45
 #: ../src/composer/mail-composer.error.xml.h:40 ../src/mail/mail.error.xml.h:8
 #: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Kirim"
 
-#: ../src/calendar/calendar.error.xml.h:41
+#: ../src/calendar/calendar.error.xml.h:46
 msgid "Would you like to send updated meeting information to participants?"
 msgstr ""
 "Apakah Anda ingin mengirimkan informasi rapat terbaru pada setiap peserta?"
 
-#: ../src/calendar/calendar.error.xml.h:42
+#: ../src/calendar/calendar.error.xml.h:47
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
@@ -6643,11 +6676,11 @@ msgstr ""
 "Mengirim informasi terbaru akan membantu peserta lain dalam mengatur "
 "kalender mereka."
 
-#: ../src/calendar/calendar.error.xml.h:43
+#: ../src/calendar/calendar.error.xml.h:48
 msgid "Would you like to send this task to participants?"
 msgstr "Apakah Anda ingin mengirim tugas ini ke semua peserta?"
 
-#: ../src/calendar/calendar.error.xml.h:44
+#: ../src/calendar/calendar.error.xml.h:49
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
@@ -6655,11 +6688,11 @@ msgstr ""
 "Undangan melalui surel akan dikirim ke semua peserta dan meminta mereka "
 "untuk menerima tugas ini."
 
-#: ../src/calendar/calendar.error.xml.h:45
+#: ../src/calendar/calendar.error.xml.h:50
 msgid "Download in progress. Do you want to save the task?"
 msgstr "Sedang mengunduh. Anda ingin menyimpan tugas?"
 
-#: ../src/calendar/calendar.error.xml.h:46
+#: ../src/calendar/calendar.error.xml.h:51
 msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
@@ -6667,11 +6700,11 @@ msgstr ""
 "Ada beberapa lampiran yang akan diunduh. Menyimpan tugas akan menyebabkan "
 "kehilangan lampiran ini."
 
-#: ../src/calendar/calendar.error.xml.h:48
+#: ../src/calendar/calendar.error.xml.h:53
 msgid "Download in progress. Do you want to save the appointment?"
 msgstr "Sedang mengunduh. Apakah Anda ingin menyimpan janji temu?"
 
-#: ../src/calendar/calendar.error.xml.h:49
+#: ../src/calendar/calendar.error.xml.h:54
 msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
@@ -6679,13 +6712,13 @@ msgstr ""
 "Ada beberapa lampiran yang akan diunduh. Menyimpan pertemuan akan "
 "menghilangkan lampiran ini."
 
-#: ../src/calendar/calendar.error.xml.h:50
+#: ../src/calendar/calendar.error.xml.h:55
 msgid "Would you like to send updated task information to participants?"
 msgstr ""
 "Apakah Anda ingin mengirim informasi terbaru tentang tugas ini kepada semua "
 "peserta?"
 
-#: ../src/calendar/calendar.error.xml.h:51
+#: ../src/calendar/calendar.error.xml.h:56
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
@@ -6693,11 +6726,11 @@ msgstr ""
 "Mengirim informasi terbaru ke semua peserta akan membantu peserta lain untuk "
 "mengatur daftar tugas mereka."
 
-#: ../src/calendar/calendar.error.xml.h:52
+#: ../src/calendar/calendar.error.xml.h:57
 msgid "Would you like to send this memo to participants?"
 msgstr "Apakah Anda ingin mengirim memo ini ke para peserta?"
 
-#: ../src/calendar/calendar.error.xml.h:53
+#: ../src/calendar/calendar.error.xml.h:58
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this memo."
@@ -6705,12 +6738,12 @@ msgstr ""
 "Undangan surel akan dikirim ke semua peserta dan memungkinkan mereka "
 "menerima memo ini."
 
-#: ../src/calendar/calendar.error.xml.h:54
+#: ../src/calendar/calendar.error.xml.h:59
 msgid "Would you like to send updated memo information to participants?"
 msgstr ""
 "Apakah Anda ingin mengirimkan informasi memo yang diperbarui kepada peserta?"
 
-#: ../src/calendar/calendar.error.xml.h:55
+#: ../src/calendar/calendar.error.xml.h:60
 msgid ""
 "Sending updated information allows other participants to keep their memo "
 "lists up to date."
@@ -6718,39 +6751,39 @@ msgstr ""
 "Mengirim informasi terbaru yang memungkinkan peserta lain agar daftar memo "
 "mereka tetap mutakhir."
 
-#: ../src/calendar/calendar.error.xml.h:56
+#: ../src/calendar/calendar.error.xml.h:61
 msgid "Editor could not be loaded."
 msgstr "Penyunting tidak dapat dimuat."
 
-#: ../src/calendar/calendar.error.xml.h:57
+#: ../src/calendar/calendar.error.xml.h:62
 msgid "Are you sure you want to delete calendar “{0}”?"
 msgstr "Anda yakin ingin menghapus kalender “{0}”?"
 
-#: ../src/calendar/calendar.error.xml.h:58
+#: ../src/calendar/calendar.error.xml.h:63
 msgid "This calendar will be removed permanently."
 msgstr "Kalender ini akan dihapus permanen."
 
-#: ../src/calendar/calendar.error.xml.h:59
+#: ../src/calendar/calendar.error.xml.h:64
 msgid "Are you sure you want to delete task list “{0}”?"
 msgstr "Anda yakin ingin menghapus daftar tugas  “{0}”?"
 
-#: ../src/calendar/calendar.error.xml.h:60
+#: ../src/calendar/calendar.error.xml.h:65
 msgid "This task list will be removed permanently."
 msgstr "Daftar tugas ini akan dihapus permanen."
 
-#: ../src/calendar/calendar.error.xml.h:61
+#: ../src/calendar/calendar.error.xml.h:66
 msgid "Are you sure you want to delete memo list “{0}”?"
 msgstr "Anda yakin ingin menghapus daftar memo “{0}”?"
 
-#: ../src/calendar/calendar.error.xml.h:62
+#: ../src/calendar/calendar.error.xml.h:67
 msgid "This memo list will be removed permanently."
 msgstr "Daftar memo ini akan dihapus permanen."
 
-#: ../src/calendar/calendar.error.xml.h:63
+#: ../src/calendar/calendar.error.xml.h:68
 msgid "Are you sure you want to delete remote calendar “{0}”?"
 msgstr "Anda yakin ingin menghapus kalender jauh “{0}”?"
 
-#: ../src/calendar/calendar.error.xml.h:64
+#: ../src/calendar/calendar.error.xml.h:69
 msgid ""
 "This will permanently remove the calendar “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -6758,11 +6791,11 @@ msgstr ""
 "Ini akan menghapus secara permanen kalender “{0}” dari peladen. Apakah Anda "
 "yakin ingin melanjutkan?"
 
-#: ../src/calendar/calendar.error.xml.h:66
+#: ../src/calendar/calendar.error.xml.h:71
 msgid "Are you sure you want to delete remote task list “{0}”?"
 msgstr "Anda yakin ingin menghapus daftar tugas jauh “{0}”?"
 
-#: ../src/calendar/calendar.error.xml.h:67
+#: ../src/calendar/calendar.error.xml.h:72
 msgid ""
 "This will permanently remove the task list “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -6770,11 +6803,11 @@ msgstr ""
 "Ini akan menghapus secara permanen daftar tugas “{0}” dari peladen. Apakah "
 "Anda yakin ingin melanjutkan?"
 
-#: ../src/calendar/calendar.error.xml.h:68
+#: ../src/calendar/calendar.error.xml.h:73
 msgid "Are you sure you want to delete remote memo list “{0}”?"
 msgstr "Anda yakin ingin menghapus daftar memo jauh “{0}”?"
 
-#: ../src/calendar/calendar.error.xml.h:69
+#: ../src/calendar/calendar.error.xml.h:74
 msgid ""
 "This will permanently remove the memo list “{0}” from the server. Are you "
 "sure you want to proceed?"
@@ -6782,11 +6815,11 @@ msgstr ""
 "Ini akan menghapus secara permanen daftar memo “{0}” dari peladen. Apakah "
 "Anda yakin ingin melanjutkan?"
 
-#: ../src/calendar/calendar.error.xml.h:70
+#: ../src/calendar/calendar.error.xml.h:75
 msgid "Are you sure you want to save the appointment without a summary?"
 msgstr "Anda yakin ingin menyimpan janji temu tanpa rangkuman?"
 
-#: ../src/calendar/calendar.error.xml.h:71
+#: ../src/calendar/calendar.error.xml.h:76
 msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of "
 "what your appointment is about."
@@ -6794,11 +6827,11 @@ msgstr ""
 "Menambahkan ringkasan yang bermakna ke janji temu Anda akan memberi gambaran "
 "tentang janji temu Anda."
 
-#: ../src/calendar/calendar.error.xml.h:72
+#: ../src/calendar/calendar.error.xml.h:77
 msgid "Are you sure you want to save the task without a summary?"
 msgstr "Anda yakin ingin menyimpan tugas tanpa rangkuman?"
 
-#: ../src/calendar/calendar.error.xml.h:73
+#: ../src/calendar/calendar.error.xml.h:78
 msgid ""
 "Adding a meaningful summary to your task will give you an idea of what your "
 "task is about."
@@ -6806,25 +6839,25 @@ msgstr ""
 "Menambahkan ringkasan yang bermakna ke tugas Anda akan memberi gambaran "
 "tentang tugas Anda."
 
-#: ../src/calendar/calendar.error.xml.h:74
+#: ../src/calendar/calendar.error.xml.h:79
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "Anda yakin ingin menyimpan memo tanpa rangkuman?"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:76
+#: ../src/calendar/calendar.error.xml.h:81
 msgid "Error loading calendar “{0}”"
 msgstr "Galat sewaktu memuat kalender “{0}”"
 
-#: ../src/calendar/calendar.error.xml.h:77
+#: ../src/calendar/calendar.error.xml.h:82
 msgid "The calendar is not marked for offline usage."
 msgstr "Kalender tidak ditandai untuk penggunaan offline."
 
-#: ../src/calendar/calendar.error.xml.h:78
+#: ../src/calendar/calendar.error.xml.h:83
 msgid "Cannot save event"
 msgstr "Tidak bisa menyimpan acara"
 
 #. Translators: {0} is the name of the calendar source
-#: ../src/calendar/calendar.error.xml.h:80
+#: ../src/calendar/calendar.error.xml.h:85
 msgid ""
 "“{0}” is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
@@ -6832,249 +6865,249 @@ msgstr ""
 "“{0}” adalah kalender yang dapat dibaca dan tidak dapat dimodifikasi. "
 "Silakan pilih Kalender lain yang dapat menerima janji temu."
 
-#: ../src/calendar/calendar.error.xml.h:81
+#: ../src/calendar/calendar.error.xml.h:86
 msgid "Cannot save task"
 msgstr "Tidak bisa menyimpan tugas"
 
 #. Translators: {0} is the name of the calendar source
-#: ../src/calendar/calendar.error.xml.h:83
+#: ../src/calendar/calendar.error.xml.h:88
 msgid ""
 "“{0}” does not support assigned tasks, please select a different task list."
 msgstr ""
 "“{0}” tak mendukung tugas yang diberikan, silakan pilih daftar tugas lain."
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:85
+#: ../src/calendar/calendar.error.xml.h:90
 msgid "Error loading task list “{0}”"
 msgstr "Galat sewaktu memuat daftar tugas “{0}”"
 
-#: ../src/calendar/calendar.error.xml.h:86
+#: ../src/calendar/calendar.error.xml.h:91
 msgid "The task list is not marked for offline usage."
 msgstr "Daftar tugas tidak ditandai untuk penggunaan offline."
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:88
+#: ../src/calendar/calendar.error.xml.h:93
 msgid "Error loading memo list “{0}”"
 msgstr "Galat sewaktu memuat daftar memo “{0}”"
 
-#: ../src/calendar/calendar.error.xml.h:89
+#: ../src/calendar/calendar.error.xml.h:94
 msgid "The memo list is not marked for offline usage."
 msgstr "Daftar memo tidak ditandai untuk penggunaan luring."
 
 #. Translators: {0} is the name of the calendar/memo list/task list.
-#: ../src/calendar/calendar.error.xml.h:91
+#: ../src/calendar/calendar.error.xml.h:96
 msgid "Failed to add timezone to “{0}”"
 msgstr "Gagal menambah zona waktu ke “{0}”"
 
 #. The {0} is a calendar/memo list/task list name, which is useless here
-#: ../src/calendar/calendar.error.xml.h:93
+#: ../src/calendar/calendar.error.xml.h:98
 msgid "Failed to save attachments"
 msgstr "Gagal menyimpan lampiran"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:95
+#: ../src/calendar/calendar.error.xml.h:100
 msgid "Failed to open calendar “{0}”"
 msgstr "Gagal membuka kalender “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:97
+#: ../src/calendar/calendar.error.xml.h:102
 msgid "Failed to open memo list “{0}”"
 msgstr "Gagal membuka daftar memo “{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:99
+#: ../src/calendar/calendar.error.xml.h:104
 msgid "Failed to open task list “{0}”"
 msgstr "Gagal membuka daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:101
+#: ../src/calendar/calendar.error.xml.h:106
 msgid "Failed to create an event in the calendar “{0}”"
 msgstr "Gagal membuat acara dalam kalender “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:103
+#: ../src/calendar/calendar.error.xml.h:108
 msgid "Failed to create a memo in the memo list “{0}”"
 msgstr "Gagal membuat memo dalam daftar memo “{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:105
+#: ../src/calendar/calendar.error.xml.h:110
 msgid "Failed to create a task in the task list “{0}”"
 msgstr "Gagal membuat tugas dalam daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:107
+#: ../src/calendar/calendar.error.xml.h:112
 msgid "Failed to modify an event in the calendar “{0}”"
 msgstr "Gagal mengubah acara dalam kalender “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:109
+#: ../src/calendar/calendar.error.xml.h:114
 msgid "Failed to modify a memo in the memo list “{0}”"
 msgstr "Gagal mengubah memo dalam daftar memo “{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:111
+#: ../src/calendar/calendar.error.xml.h:116
 msgid "Failed to modify a task in the task list “{0}”"
 msgstr "Gagal mengubah tugas dalam daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:113
+#: ../src/calendar/calendar.error.xml.h:118
 msgid "Failed to delete an event in the calendar “{0}”"
 msgstr "Gagal menghapus acara dalam kalender “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:115
+#: ../src/calendar/calendar.error.xml.h:120
 msgid "Failed to delete a memo in the memo list “{0}”"
 msgstr "Gagal menghapus memo dalam daftar memo “{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:117
+#: ../src/calendar/calendar.error.xml.h:122
 msgid "Failed to delete a task in the task list “{0}”"
 msgstr "Gagal menghapus tugas dalam daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:119
+#: ../src/calendar/calendar.error.xml.h:124
 msgid "Failed to update an event in the calendar “{0}”"
 msgstr "Gagal memutakhirkan acara dalam kalender “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:121
+#: ../src/calendar/calendar.error.xml.h:126
 msgid "Failed to update a memo in the memo list “{0}”"
 msgstr "Gagal memutakhirkan memo dalam daftar memo “{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:123
+#: ../src/calendar/calendar.error.xml.h:128
 msgid "Failed to update a task in the task list “{0}”"
 msgstr "Gagal memutakhirkan tugas dalam daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:125
+#: ../src/calendar/calendar.error.xml.h:130
 msgid "Failed to send an event to the calendar “{0}”"
 msgstr "Gagal mengirim acara ke kalender “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:127
+#: ../src/calendar/calendar.error.xml.h:132
 msgid "Failed to send a memo to the memo list “{0}”"
 msgstr "Gagal mengirim memo ke daftar memo “{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:129
+#: ../src/calendar/calendar.error.xml.h:134
 msgid "Failed to send a task to the task list “{0}”"
 msgstr "Gagal mengirim tugas ke daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:131
+#: ../src/calendar/calendar.error.xml.h:136
 msgid "Error creating view for the calendar “{0}”"
 msgstr "Galat sewaktu membuat tilikan bagi kalender “{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:133
+#: ../src/calendar/calendar.error.xml.h:138
 msgid "Error creating view for the task list “{0}”"
 msgstr "Galat sewaktu membuat tilikan bagi daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:135
+#: ../src/calendar/calendar.error.xml.h:140
 msgid "Error creating view for the memo list “{0}”"
 msgstr "Galat sewaktu membuat tilikan bagi daftar memo “{0}”"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:137
+#: ../src/calendar/calendar.error.xml.h:142
 msgid "Failed to copy an event into the calendar “{0}”"
 msgstr "Gagal menyalin suatu acara ke dalam kalender “{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:139
+#: ../src/calendar/calendar.error.xml.h:144
 msgid "Failed to copy a task into the task list “{0}”"
 msgstr "Gagal menyalin suatu tugas ke dalam daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:141
+#: ../src/calendar/calendar.error.xml.h:146
 msgid "Failed to copy a memo into the memo list “{0}”"
 msgstr "Gagal menyalin suatu memo ke dalam daftar memo “{0}”"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:143
+#: ../src/calendar/calendar.error.xml.h:148
 msgid "Failed to move an event into the calendar “{0}”"
 msgstr "Gagal memindah suatu acara ke dalam kalender “{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:145
+#: ../src/calendar/calendar.error.xml.h:150
 msgid "Failed to move a task into the task list “{0}”"
 msgstr "Gagal memindah suatu tugas ke dalam daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:147
+#: ../src/calendar/calendar.error.xml.h:152
 msgid "Failed to move a memo into the memo list “{0}”"
 msgstr "Gagal memindah suatu memo ke dalam daftar memo “{0}”"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:149
+#: ../src/calendar/calendar.error.xml.h:154
 msgid "Failed to get an event from the calendar “{0}”"
 msgstr "Gagal mengambil acara dari kalender “{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:151
+#: ../src/calendar/calendar.error.xml.h:156
 msgid "Failed to get a task from the task list “{0}”"
 msgstr "Gagal mengambil tugas dari daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:153
+#: ../src/calendar/calendar.error.xml.h:158
 msgid "Failed to get a memo from the memo list “{0}”"
 msgstr "Gagal mengambil memo dari daftar memo “{0}”"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:155
+#: ../src/calendar/calendar.error.xml.h:160
 msgid "Copying an event into the calendar “{0}”"
 msgstr "Menyalin suatu acara ke dalam kalender“{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:157
+#: ../src/calendar/calendar.error.xml.h:162
 msgid "Copying a task into the task list “{0}”"
 msgstr "Menyalin suatu tugas ke dalam daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:159
+#: ../src/calendar/calendar.error.xml.h:164
 msgid "Copying a memo into the memo list “{0}”"
 msgstr "Menyalin suatu memo ke dalam daftar memo “{0}”"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:161
+#: ../src/calendar/calendar.error.xml.h:166
 msgid "Moving an event into the calendar “{0}”"
 msgstr "Memindah suatu acara ke dalam kalender “{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:163
+#: ../src/calendar/calendar.error.xml.h:168
 msgid "Moving a task into the task list “{0}”"
 msgstr "Memindah suatu tugas ke dalam daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:165
+#: ../src/calendar/calendar.error.xml.h:170
 msgid "Moving a memo into the memo list “{0}”"
 msgstr "Menyalin suatu memo ke dalam daftar memo “{0}”"
 
 #. Translators: {0} is the name of the calendar.
-#: ../src/calendar/calendar.error.xml.h:167
+#: ../src/calendar/calendar.error.xml.h:172
 msgid "Failed to refresh calendar “{0}”"
 msgstr "Gagal menyegarkan kalender “{0}”"
 
 #. Translators: {0} is the name of the task list.
-#: ../src/calendar/calendar.error.xml.h:169
+#: ../src/calendar/calendar.error.xml.h:174
 msgid "Failed to refresh task list “{0}”"
 msgstr "Gagal menyegarkan daftar tugas “{0}”"
 
 #. Translators: {0} is the name of the memo list.
-#: ../src/calendar/calendar.error.xml.h:171
+#: ../src/calendar/calendar.error.xml.h:176
 msgid "Failed to refresh memo list “{0}”"
 msgstr "Gagal menyegarkan daftar memo “{0}”"
 
-#: ../src/calendar/calendar.error.xml.h:172
+#: ../src/calendar/calendar.error.xml.h:177
 msgid "Failed to make an occurrence movable"
 msgstr "Gagal membuat suatu kejadian dapat dipindahkan"
 
-#: ../src/calendar/calendar.error.xml.h:173
+#: ../src/calendar/calendar.error.xml.h:178
 msgid "Something has gone wrong when displaying the event"
 msgstr "Ada yang tidak beres saat menampilkan acara"
 
-#: ../src/calendar/calendar.error.xml.h:174
+#: ../src/calendar/calendar.error.xml.h:179
 msgid ""
 "A WebKitWebProcess crashed when displaying the event. You can try again by "
 "moving to another event and back. If the issue persists, please file a bug "
@@ -7084,11 +7117,11 @@ msgstr ""
 "dengan pindah ke acara lain dan kembali. Jika masalah berlanjut, harap "
 "ajukan laporan kutu di GitLab GNOME."
 
-#: ../src/calendar/calendar.error.xml.h:175
+#: ../src/calendar/calendar.error.xml.h:180
 msgid "Something has gone wrong when displaying the memo"
 msgstr "Ada yang tidak beres saat menampilkan memo"
 
-#: ../src/calendar/calendar.error.xml.h:176
+#: ../src/calendar/calendar.error.xml.h:181
 msgid ""
 "A WebKitWebProcess crashed when displaying the memo. You can try again by "
 "moving to another memo and back. If the issue persists, please file a bug "
@@ -7098,11 +7131,11 @@ msgstr ""
 "pindah ke memo lain dan kembali. Jika masalah berlanjut, harap ajukan "
 "laporan kutu di GitLab GNOME."
 
-#: ../src/calendar/calendar.error.xml.h:177
+#: ../src/calendar/calendar.error.xml.h:182
 msgid "Something has gone wrong when displaying the task"
 msgstr "Ada yang tidak beres saat menampilkan tugas"
 
-#: ../src/calendar/calendar.error.xml.h:178
+#: ../src/calendar/calendar.error.xml.h:183
 msgid ""
 "A WebKitWebProcess crashed when displaying the task. You can try again by "
 "moving to another task and back. If the issue persists, please file a bug "
@@ -7112,11 +7145,11 @@ msgstr ""
 "dengan pindah ke tugas lain dan kembali. Jika masalah berlanjut, harap "
 "ajukan laporan kutu di GitLab GNOME."
 
-#: ../src/calendar/calendar.error.xml.h:179
+#: ../src/calendar/calendar.error.xml.h:184
 msgid "Do you want to detach event from the series?"
 msgstr "Apakah Anda ingin melepaskan acara dari rangkaian?"
 
-#: ../src/calendar/calendar.error.xml.h:180
+#: ../src/calendar/calendar.error.xml.h:185
 msgid ""
 "The event “{0}” will be detached from its series and saved as a new "
 "standalone event."
@@ -7124,7 +7157,7 @@ msgstr ""
 "Acara \"{0}\" akan terlepas dari serinya dan disimpan sebagai acara mandiri "
 "baru."
 
-#: ../src/calendar/calendar.error.xml.h:182
+#: ../src/calendar/calendar.error.xml.h:187
 msgid "_Detach and Create Copy"
 msgstr "Lepaskan _dan Buat Salinan"
 
@@ -7143,7 +7176,7 @@ msgstr "Judul"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-collection-account-wizard.c:2028
+#: ../src/e-util/e-collection-account-wizard.c:2042
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -7269,7 +7302,7 @@ msgid "Description Contains"
 msgstr "Deskripsi berisi"
 
 #: ../src/calendar/gui/comp-util.c:1616 ../src/calendar/gui/comp-util.c:2935
-#: ../src/calendar/importers/icalendar-importer.c:1498
+#: ../src/calendar/importers/icalendar-importer.c:1485
 #: ../src/modules/itip-formatter/itip-view.c:2882
 #, c-format
 msgid "with one guest"
@@ -7382,18 +7415,18 @@ msgid "Status"
 msgstr "Kondisi"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2335
+#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2350
 #: ../src/calendar/gui/e-to-do-pane.c:268
-#: ../src/calendar/gui/e-week-view.c:1961 ../src/calendar/gui/print.c:1102
+#: ../src/calendar/gui/e-week-view.c:1974 ../src/calendar/gui/print.c:1102
 #: ../src/calendar/gui/print.c:1121 ../src/calendar/gui/print.c:2688
 #: ../src/calendar/gui/print.c:2708
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2338
+#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2353
 #: ../src/calendar/gui/e-to-do-pane.c:272
-#: ../src/calendar/gui/e-week-view.c:1964 ../src/calendar/gui/print.c:1107
+#: ../src/calendar/gui/e-week-view.c:1977 ../src/calendar/gui/print.c:1107
 #: ../src/calendar/gui/print.c:1123 ../src/calendar/gui/print.c:2693
 #: ../src/calendar/gui/print.c:2710
 msgid "pm"
@@ -7454,7 +7487,7 @@ msgid "Completed: %s"
 msgstr "Selesai: %s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
-#: ../src/e-util/e-misc-utils.c:4864 ../src/e-util/e-text.c:566
+#: ../src/e-util/e-misc-utils.c:4872 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4271
 msgid "…"
 msgstr "…"
@@ -7778,186 +7811,186 @@ msgstr "Membuat tilikan bagi daftar tugas “%s”"
 msgid "Creating view for memo list “%s”"
 msgstr "Membuat tilikan bagi daftar memo “%s”"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:213 ../src/calendar/gui/e-cal-ops.c:2010
+#: ../src/calendar/gui/e-cal-dialogs.c:222 ../src/calendar/gui/e-cal-ops.c:2010
 msgid "Destination is read only"
 msgstr "Tujuan hanya dapat dibaca saja"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:293
+#: ../src/calendar/gui/e-cal-dialogs.c:302
 #, c-format
 msgid "Copying events to the calendar “%s”"
 msgstr "Menyalin acara ke kalender “%s”"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:299
+#: ../src/calendar/gui/e-cal-dialogs.c:308
 #, c-format
 msgid "Copying memos to the memo list “%s”"
 msgstr "Menyalin memo-memo ke daftar memo “%s”"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:305
+#: ../src/calendar/gui/e-cal-dialogs.c:314
 #, c-format
 msgid "Copying tasks to the task list “%s”"
 msgstr "Menyalin tugas-tugas ke daftar tugas “%s”"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:524
+#: ../src/calendar/gui/e-cal-dialogs.c:533
 msgid "_Delete this item from all other recipient’s mailboxes?"
 msgstr "_Hapus butir ini dari seluruh kotak surat penerima yang lain?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:527
+#: ../src/calendar/gui/e-cal-dialogs.c:536
 msgid "_Retract comment"
 msgstr "Cabut komenta_r"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:684
+#: ../src/calendar/gui/e-cal-dialogs.c:693
 msgid "Select Date"
 msgstr "Pilih Tanggal"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:685
+#: ../src/calendar/gui/e-cal-dialogs.c:694
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1334
 msgid "Select _Today"
 msgstr "Pilih _Hari Ini"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:704
+#: ../src/calendar/gui/e-cal-dialogs.c:713
 msgid "January"
 msgstr "Januari"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:705
+#: ../src/calendar/gui/e-cal-dialogs.c:714
 msgid "February"
 msgstr "Februari"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:706
+#: ../src/calendar/gui/e-cal-dialogs.c:715
 msgid "March"
 msgstr "Maret"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:707
+#: ../src/calendar/gui/e-cal-dialogs.c:716
 msgid "April"
 msgstr "April"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:708
+#: ../src/calendar/gui/e-cal-dialogs.c:717
 msgid "May"
 msgstr "Mei"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:709
+#: ../src/calendar/gui/e-cal-dialogs.c:718
 msgid "June"
 msgstr "Juni"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:710
+#: ../src/calendar/gui/e-cal-dialogs.c:719
 msgid "July"
 msgstr "Juli"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:711
+#: ../src/calendar/gui/e-cal-dialogs.c:720
 msgid "August"
 msgstr "Agustus"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:712
+#: ../src/calendar/gui/e-cal-dialogs.c:721
 msgid "September"
 msgstr "September"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:713
+#: ../src/calendar/gui/e-cal-dialogs.c:722
 msgid "October"
 msgstr "Oktober"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:714
+#: ../src/calendar/gui/e-cal-dialogs.c:723
 msgid "November"
 msgstr "November"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:715
+#: ../src/calendar/gui/e-cal-dialogs.c:724
 msgid "December"
 msgstr "Desember"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:878
+#: ../src/calendar/gui/e-cal-dialogs.c:887
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr "Anda sedang merubah acara yang berulang. Apa yang ingin Anda ganti?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:880
+#: ../src/calendar/gui/e-cal-dialogs.c:889
 #, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr ""
 "Anda sedang mendelegasikan acara yang berulang. Apa yang ingin Anda "
 "delegasikan?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:884
+#: ../src/calendar/gui/e-cal-dialogs.c:893
 #, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr ""
 "Anda sedang merubah tugas yang berulang. Bagian apa yang ingin Anda ganti?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:888
+#: ../src/calendar/gui/e-cal-dialogs.c:897
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr "Anda sedang mengubah memo yang berulang. Apa yang ingin Anda ganti?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:915
+#: ../src/calendar/gui/e-cal-dialogs.c:924
 msgid "This Instance Only"
 msgstr "Instance Ini Saja"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:919
+#: ../src/calendar/gui/e-cal-dialogs.c:928
 msgid "This and Prior Instances"
 msgstr "Instance Ini dan Sebelumnya"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:925
+#: ../src/calendar/gui/e-cal-dialogs.c:934
 msgid "This and Future Instances"
 msgstr "Instance Ini dan Akan Datang"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:930
+#: ../src/calendar/gui/e-cal-dialogs.c:939
 msgid "All Instances"
 msgstr "Semua Instance"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1178
-#: ../src/calendar/gui/e-cal-dialogs.c:1260
+#: ../src/calendar/gui/e-cal-dialogs.c:1187
+#: ../src/calendar/gui/e-cal-dialogs.c:1269
 msgid "Send my reminders with this event"
 msgstr "Kirim pengingat saya dengan acara ini"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1180
-#: ../src/calendar/gui/e-cal-dialogs.c:1262
+#: ../src/calendar/gui/e-cal-dialogs.c:1189
+#: ../src/calendar/gui/e-cal-dialogs.c:1271
 msgid "Notify new attendees _only"
 msgstr "Beritahu peserta baru s_aja"
 
-#: ../src/calendar/gui/e-calendar-view.c:515
+#: ../src/calendar/gui/e-calendar-view.c:521
 msgid "Cut selected events to the clipboard"
 msgstr "Ambil acara yang sudah dipilih ke dalam clipboard"
 
-#: ../src/calendar/gui/e-calendar-view.c:521
+#: ../src/calendar/gui/e-calendar-view.c:527
 msgid "Copy selected events to the clipboard"
 msgstr "Salin acara yang sudah dipilih ke dalam clipboard"
 
-#: ../src/calendar/gui/e-calendar-view.c:527
+#: ../src/calendar/gui/e-calendar-view.c:533
 msgid "Paste events from the clipboard"
 msgstr "Tempelkan acara dari clipboard"
 
-#: ../src/calendar/gui/e-calendar-view.c:533
+#: ../src/calendar/gui/e-calendar-view.c:539
 msgid "Delete selected events"
 msgstr "Hapus acara yang dipilih"
 
-#: ../src/calendar/gui/e-calendar-view.c:1035
+#: ../src/calendar/gui/e-calendar-view.c:1045
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "Teks yang ditempelkan tak memuat data iCalendar yang valid"
 
-#: ../src/calendar/gui/e-calendar-view.c:1046
+#: ../src/calendar/gui/e-calendar-view.c:1056
 #: ../src/calendar/gui/e-cal-ops.c:1587
 msgid "Default calendar not found"
 msgstr "Kalender baku tak ditemukan"
 
-#: ../src/calendar/gui/e-calendar-view.c:1051
+#: ../src/calendar/gui/e-calendar-view.c:1061
 #: ../src/calendar/gui/e-cal-ops.c:1590
 msgid "Default memo list not found"
 msgstr "Daftar memo baku tak ditemukan"
 
-#: ../src/calendar/gui/e-calendar-view.c:1056
+#: ../src/calendar/gui/e-calendar-view.c:1066
 #: ../src/calendar/gui/e-cal-ops.c:1593
 msgid "Default task list not found"
 msgstr "Daftar tugas baku tak ditemukan"
 
-#: ../src/calendar/gui/e-calendar-view.c:1163
+#: ../src/calendar/gui/e-calendar-view.c:1173
 msgid "No suitable component found"
 msgstr "Tak ditemukan komponen yang sesuai"
 
-#: ../src/calendar/gui/e-calendar-view.c:1228
+#: ../src/calendar/gui/e-calendar-view.c:1238
 msgid "Pasting iCalendar data"
 msgstr "Menempelkan data iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:1285
-#: ../src/calendar/gui/e-calendar-view.c:1288
-#: ../src/calendar/gui/e-calendar-view.c:1291
-#: ../src/calendar/gui/e-calendar-view.c:1292
+#: ../src/calendar/gui/e-calendar-view.c:1295
+#: ../src/calendar/gui/e-calendar-view.c:1298
+#: ../src/calendar/gui/e-calendar-view.c:1301
+#: ../src/calendar/gui/e-calendar-view.c:1302
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -7966,14 +7999,14 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1287
-#: ../src/calendar/gui/e-day-view.c:3271
+#: ../src/calendar/gui/e-calendar-view.c:1297
+#: ../src/calendar/gui/e-day-view.c:3286
 #: ../src/calendar/gui/e-day-view-top-item.c:855
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1298
+#: ../src/calendar/gui/e-calendar-view.c:1308
 msgid "%A %d %b %Y"
 msgstr "%A, %d %b %Y"
 
@@ -7983,16 +8016,16 @@ msgstr "%A, %d %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1300
-#: ../src/calendar/gui/e-day-view.c:3255
+#: ../src/calendar/gui/e-calendar-view.c:1310
+#: ../src/calendar/gui/e-day-view.c:3270
 #: ../src/calendar/gui/e-day-view-top-item.c:851
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
 msgstr "%a, %d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1301
-#: ../src/calendar/gui/e-calendar-view.c:1303
-#: ../src/calendar/gui/e-calendar-view.c:1304
+#: ../src/calendar/gui/e-calendar-view.c:1311
+#: ../src/calendar/gui/e-calendar-view.c:1313
+#: ../src/calendar/gui/e-calendar-view.c:1314
 msgid "%a %d %b %Y"
 msgstr "%a, %d %b %Y"
 
@@ -8000,7 +8033,7 @@ msgstr "%a, %d %b %Y"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1967
+#: ../src/calendar/gui/e-calendar-view.c:1977
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -8055,7 +8088,7 @@ msgstr "Sumber"
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1450
 #: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:2069
+#: ../src/e-util/e-collection-account-wizard.c:2083
 #: ../src/e-util/e-webdav-browser.c:2530
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -8151,15 +8184,15 @@ msgstr "Mengubah suatu memo"
 msgid "Modifying a task"
 msgstr "Mengubah suatu tutas"
 
-#: ../src/calendar/gui/e-cal-ops.c:429 ../src/calendar/gui/e-to-do-pane.c:2153
+#: ../src/calendar/gui/e-cal-ops.c:429 ../src/calendar/gui/e-to-do-pane.c:2161
 msgid "Removing an event"
 msgstr "Menghapus sebuah acara"
 
-#: ../src/calendar/gui/e-cal-ops.c:433 ../src/calendar/gui/e-to-do-pane.c:2157
+#: ../src/calendar/gui/e-cal-ops.c:433 ../src/calendar/gui/e-to-do-pane.c:2165
 msgid "Removing a memo"
 msgstr "Menghapus sebuah memo"
 
-#: ../src/calendar/gui/e-cal-ops.c:437 ../src/calendar/gui/e-to-do-pane.c:2161
+#: ../src/calendar/gui/e-cal-ops.c:437 ../src/calendar/gui/e-to-do-pane.c:2169
 msgid "Removing a task"
 msgstr "Menghapus sebuah tugas"
 
@@ -8353,12 +8386,13 @@ msgstr "Waktu awal bukan waktu yang valid"
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-misc-utils.c:4163 ../src/e-util/e-misc-utils.c:4171
-#: ../src/e-util/e-misc-utils.c:4206 ../src/e-util/e-misc-utils.c:4219
-#: ../src/e-util/e-misc-utils.c:4233 ../src/mail/e-mail-autoconfig.c:1129
-#: ../src/mail/e-mail-display.c:2922 ../src/mail/e-mail-notes.c:930
-#: ../src/mail/e-mail-reader.c:3577 ../src/mail/e-mail-reader-utils.c:817
-#: ../src/mail/em-composer-utils.c:4049 ../src/mail/em-composer-utils.c:4072
-#: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
+#: ../src/e-util/e-misc-utils.c:4179 ../src/e-util/e-misc-utils.c:4214
+#: ../src/e-util/e-misc-utils.c:4227 ../src/e-util/e-misc-utils.c:4241
+#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2922
+#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3577
+#: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4049
+#: ../src/mail/em-composer-utils.c:4072 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:444
 #: ../src/plugins/face/face.c:175
@@ -8624,82 +8658,82 @@ msgstr[0] "Gagal menghapus peserta yang dipilih"
 msgid "Organizer address is not a valid user mail address"
 msgstr "Alamat penyelenggara bukan alamat surel pengguna yang valid"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:703
+#: ../src/calendar/gui/e-comp-editor-page-general.c:711
 msgid "A_ttendees"
 msgstr "Peser_ta"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:705
+#: ../src/calendar/gui/e-comp-editor-page-general.c:713
 msgid "Toggles whether the Attendees are displayed"
 msgstr "Jungkitkan apakah Peserta ditampilkan"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:714
+#: ../src/calendar/gui/e-comp-editor-page-general.c:722
 msgid "R_ole Field"
 msgstr "D_aerah Pesan"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:716
+#: ../src/calendar/gui/e-comp-editor-page-general.c:724
 msgid "Toggles whether the Role field is displayed"
 msgstr "Apakah daerah peran diampilkan"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:722
+#: ../src/calendar/gui/e-comp-editor-page-general.c:730
 msgid "_RSVP"
 msgstr "_RSVP"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:724
+#: ../src/calendar/gui/e-comp-editor-page-general.c:732
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Apakah daerah RSVP ditampilkan"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:730
+#: ../src/calendar/gui/e-comp-editor-page-general.c:738
 msgid "_Status Field"
 msgstr "Daerah _Status"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:732
+#: ../src/calendar/gui/e-comp-editor-page-general.c:740
 msgid "Toggles whether the Status field is displayed"
 msgstr "Apakah menampilkan daerah Status"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:738
+#: ../src/calendar/gui/e-comp-editor-page-general.c:746
 msgid "_Type Field"
 msgstr "Daerah Ke_tik"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:740
+#: ../src/calendar/gui/e-comp-editor-page-general.c:748
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Apakah daerah pengetikan para peserta ditampilkan"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1049
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1057
 msgid "An organizer is required."
 msgstr "Penyelenggara harus dipilih."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1059
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1201
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1067
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1209
 msgid "At least one attendee is required."
 msgstr "Paling tidak harus ada seorang peserta."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1325
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1333
 msgid "Or_ganizer:"
 msgstr "Penyelen_ggara:"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1424
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1432
 msgid ""
 "Override color of the event. If not set, then color of the calendar is used."
 msgstr "Timpa warna acara. Jika tidak diatur, maka warna kalender digunakan."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1426
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1434
 msgid ""
 "Override color of the memo. If not set, then color of the memo list is used."
 msgstr "Timpa warna memo. Jika tidak diatur, maka warna daftar memo digunakan."
 
 #. E_SOURCE_EXTENSION_TASK_LIST
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1428
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1436
 msgid ""
 "Override color of the task. If not set, then color of the task list is used."
 msgstr ""
 "Timpa warna tugas. Jika tidak diatur, maka warna daftar tugas digunakan."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1439
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1447
 msgctxt "ECompEditor"
 msgid "Atte_ndees…"
 msgstr "P_eserta…"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1522
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1530
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2318
 #: ../src/calendar/gui/e-comp-editor.c:2274
 #: ../src/e-util/e-accounts-window.c:1752
@@ -9548,7 +9582,7 @@ msgstr "Tampilkan bilah ala_t"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../src/calendar/gui/e-day-view.c:3238
+#: ../src/calendar/gui/e-day-view.c:3253
 #: ../src/calendar/gui/e-day-view-top-item.c:847
 #: ../src/calendar/gui/e-week-view-main-item.c:207
 #: ../src/calendar/gui/print.c:2143
@@ -9556,7 +9590,7 @@ msgid "%A %d %B"
 msgstr "%A, %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3975
+#: ../src/calendar/gui/e-day-view.c:3990
 #, c-format
 msgid "Week %d"
 msgstr "Minggu %d"
@@ -9735,7 +9769,7 @@ msgid "Failure reason: %s"
 msgstr "Alasan kegagalan: %s"
 
 #: ../src/calendar/gui/e-meeting-store.c:2029
-#: ../src/e-util/e-collection-account-wizard.c:501
+#: ../src/e-util/e-collection-account-wizard.c:506
 #: ../src/plugins/publish-calendar/publish-calendar.c:350
 #: ../src/smime/gui/component.c:61
 msgid "Enter password"
@@ -9987,56 +10021,56 @@ msgstr "Besok"
 msgid "Tasks without Due date"
 msgstr "Tugas tanpa Tanggal Tenggat"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2256
+#: ../src/calendar/gui/e-to-do-pane.c:2264
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
 msgid "New _Appointment…"
 msgstr "J_anji Baru…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2264
+#: ../src/calendar/gui/e-to-do-pane.c:2272
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1495
 msgid "New _Meeting…"
 msgstr "Perte_muan Baru…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2272
+#: ../src/calendar/gui/e-to-do-pane.c:2280
 msgid "New _Task…"
 msgstr "_Tugas Baru…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2280
+#: ../src/calendar/gui/e-to-do-pane.c:2288
 msgid "_New Assigned Task…"
 msgstr "Tugas Baru yang Diberika_n…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2293
+#: ../src/calendar/gui/e-to-do-pane.c:2301
 msgid "_Open…"
 msgstr "_Buka…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2308
+#: ../src/calendar/gui/e-to-do-pane.c:2316
 msgid "_Delete This Instance…"
 msgstr "Ha_pus Instance Ini…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2317
+#: ../src/calendar/gui/e-to-do-pane.c:2325
 msgid "Delete This and F_uture Occurrences…"
 msgstr "Hap_us Kejadian Ini dan Di Masa Mendatang…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2326
+#: ../src/calendar/gui/e-to-do-pane.c:2334
 msgid "D_elete All Instances…"
 msgstr "Hapus S_emua Instance…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2334
+#: ../src/calendar/gui/e-to-do-pane.c:2342
 msgid "_Delete…"
 msgstr "_Hapus…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2352
+#: ../src/calendar/gui/e-to-do-pane.c:2360
 msgid "_Show Tasks without Due date"
 msgstr "Tampilkan Tuga_s tanpa Tanggal Tenggat"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2631
+#: ../src/calendar/gui/e-to-do-pane.c:2639
 msgid "To Do"
 msgstr "Untuk Dilakukan"
 
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3870
+#: ../src/calendar/gui/e-week-view.c:3883
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -10408,7 +10442,7 @@ msgstr "Hari Sebelumnya"
 msgid "Appointments and Meetings"
 msgstr "Janji Temu dan Rapat"
 
-#: ../src/calendar/importers/icalendar-importer.c:334
+#: ../src/calendar/importers/icalendar-importer.c:343
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:491
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:89
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:279
@@ -10416,7 +10450,7 @@ msgstr "Janji Temu dan Rapat"
 msgid "New Calendar"
 msgstr "Kalender Baru"
 
-#: ../src/calendar/importers/icalendar-importer.c:337
+#: ../src/calendar/importers/icalendar-importer.c:346
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:499
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:287
 #: ../src/modules/calendar/e-task-shell-view-actions.c:207
@@ -10424,193 +10458,189 @@ msgid "New Task List"
 msgstr "Daftar Tugas Baru"
 
 # Yang muncul di baris menu.
-#: ../src/calendar/importers/icalendar-importer.c:379
+#: ../src/calendar/importers/icalendar-importer.c:388
 msgid "Cre_ate new calendar"
 msgstr "Membu_at kalender baru"
 
-#: ../src/calendar/importers/icalendar-importer.c:383
+#: ../src/calendar/importers/icalendar-importer.c:392
 msgid "Cre_ate new task list"
 msgstr "Membu_at daftar tugas baru"
 
-#: ../src/calendar/importers/icalendar-importer.c:528
-#: ../src/calendar/importers/icalendar-importer.c:981
+#: ../src/calendar/importers/icalendar-importer.c:537
+#: ../src/calendar/importers/icalendar-importer.c:968
 msgid "Opening calendar"
 msgstr "Membuka kalender"
 
-#: ../src/calendar/importers/icalendar-importer.c:678
+#: ../src/calendar/importers/icalendar-importer.c:688
 msgid "iCalendar files (.ics)"
 msgstr "Berkas iCalendar (.ics)"
 
-#: ../src/calendar/importers/icalendar-importer.c:679
+#: ../src/calendar/importers/icalendar-importer.c:689
 msgid "Evolution iCalendar importer"
 msgstr "Program import iCalendar milik Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:773
-msgid "Reminder!"
-msgstr "Pengingat!"
-
-#: ../src/calendar/importers/icalendar-importer.c:869
+#: ../src/calendar/importers/icalendar-importer.c:856
 msgid "vCalendar files (.vcs)"
 msgstr "Berkas vCalendar (.vcs)"
 
-#: ../src/calendar/importers/icalendar-importer.c:870
+#: ../src/calendar/importers/icalendar-importer.c:857
 msgid "Evolution vCalendar importer"
 msgstr "Program impor vCalendar ke Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:1144
+#: ../src/calendar/importers/icalendar-importer.c:1131
 msgid "Calendar Events"
 msgstr "Acara Kalender"
 
-#: ../src/calendar/importers/icalendar-importer.c:1187
+#: ../src/calendar/importers/icalendar-importer.c:1174
 msgid "GNOME Calendar"
 msgstr "Kalender GNOME"
 
-#: ../src/calendar/importers/icalendar-importer.c:1188
+#: ../src/calendar/importers/icalendar-importer.c:1175
 msgid "Evolution Calendar intelligent importer"
 msgstr "Program import Kalender Evolution yang pintar"
 
-#: ../src/calendar/importers/icalendar-importer.c:1278
-#: ../src/calendar/importers/icalendar-importer.c:1667
+#: ../src/calendar/importers/icalendar-importer.c:1265
+#: ../src/calendar/importers/icalendar-importer.c:1654
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Rapat"
 
-#: ../src/calendar/importers/icalendar-importer.c:1278
-#: ../src/calendar/importers/icalendar-importer.c:1667
+#: ../src/calendar/importers/icalendar-importer.c:1265
+#: ../src/calendar/importers/icalendar-importer.c:1654
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Kegiatan"
 
-#: ../src/calendar/importers/icalendar-importer.c:1281
-#: ../src/calendar/importers/icalendar-importer.c:1668
+#: ../src/calendar/importers/icalendar-importer.c:1268
+#: ../src/calendar/importers/icalendar-importer.c:1655
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Tugas"
 
-#: ../src/calendar/importers/icalendar-importer.c:1284
-#: ../src/calendar/importers/icalendar-importer.c:1669
+#: ../src/calendar/importers/icalendar-importer.c:1271
+#: ../src/calendar/importers/icalendar-importer.c:1656
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Memo"
 
-#: ../src/calendar/importers/icalendar-importer.c:1293
+#: ../src/calendar/importers/icalendar-importer.c:1280
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "adalah instance"
 
 #. have ? NULL :
-#: ../src/calendar/importers/icalendar-importer.c:1296
+#: ../src/calendar/importers/icalendar-importer.c:1283
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "berulang"
 
-#: ../src/calendar/importers/icalendar-importer.c:1301
+#: ../src/calendar/importers/icalendar-importer.c:1288
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "punya pengingat"
 
-#: ../src/calendar/importers/icalendar-importer.c:1306
+#: ../src/calendar/importers/icalendar-importer.c:1293
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "punya lampian"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1318
+#: ../src/calendar/importers/icalendar-importer.c:1305
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Publik"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1321
+#: ../src/calendar/importers/icalendar-importer.c:1308
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Pribadi"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1324
+#: ../src/calendar/importers/icalendar-importer.c:1311
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Rahasia"
 
 #. Translators: Appointment's classification section name
-#: ../src/calendar/importers/icalendar-importer.c:1328
+#: ../src/calendar/importers/icalendar-importer.c:1315
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Klasifikasi"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
-#: ../src/calendar/importers/icalendar-importer.c:1333
-#: ../src/calendar/importers/icalendar-importer.c:1712
+#: ../src/calendar/importers/icalendar-importer.c:1320
+#: ../src/calendar/importers/icalendar-importer.c:1699
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Ringkasan"
 
 #. Translators: Appointment's location
-#: ../src/calendar/importers/icalendar-importer.c:1340
+#: ../src/calendar/importers/icalendar-importer.c:1327
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Lokasi"
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
-#: ../src/calendar/importers/icalendar-importer.c:1348
-#: ../src/calendar/importers/icalendar-importer.c:1707
+#: ../src/calendar/importers/icalendar-importer.c:1335
+#: ../src/calendar/importers/icalendar-importer.c:1694
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Mulai"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../src/calendar/importers/icalendar-importer.c:1358
+#: ../src/calendar/importers/icalendar-importer.c:1345
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Tenggat"
 
 #. Translators: Appointment's end time
-#: ../src/calendar/importers/icalendar-importer.c:1369
+#: ../src/calendar/importers/icalendar-importer.c:1356
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Akhir"
 
 #. Translators: Appointment's categories
-#: ../src/calendar/importers/icalendar-importer.c:1378
+#: ../src/calendar/importers/icalendar-importer.c:1365
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Kategori"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../src/calendar/importers/icalendar-importer.c:1403
+#: ../src/calendar/importers/icalendar-importer.c:1390
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Selesai"
 
 #. Translators: Appointment's URL
-#: ../src/calendar/importers/icalendar-importer.c:1410
+#: ../src/calendar/importers/icalendar-importer.c:1397
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../src/calendar/importers/icalendar-importer.c:1428
-#: ../src/calendar/importers/icalendar-importer.c:1431
+#: ../src/calendar/importers/icalendar-importer.c:1415
+#: ../src/calendar/importers/icalendar-importer.c:1418
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Penyelenggara"
 
 #. Translators: Appointment's attendees
-#: ../src/calendar/importers/icalendar-importer.c:1514
+#: ../src/calendar/importers/icalendar-importer.c:1501
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Peserta"
 
-#: ../src/calendar/importers/icalendar-importer.c:1533
-#: ../src/calendar/importers/icalendar-importer.c:1541
+#: ../src/calendar/importers/icalendar-importer.c:1520
+#: ../src/calendar/importers/icalendar-importer.c:1528
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Deskripsi"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../src/calendar/importers/icalendar-importer.c:1702
+#: ../src/calendar/importers/icalendar-importer.c:1689
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Jenis"
@@ -12358,7 +12388,7 @@ msgid "Save Draft"
 msgstr "Simpan Draf"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:2101
+#: ../src/e-util/e-collection-account-wizard.c:2115
 #: ../src/e-util/e-mail-signature-script-dialog.c:410
 #: ../src/e-util/e-webdav-browser.c:2557
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -12629,7 +12659,7 @@ msgid "_Save to Outbox"
 msgstr "_Simpan ke Outbox"
 
 #: ../src/composer/mail-composer.error.xml.h:34
-#: ../src/e-util/e-collection-account-wizard.c:722
+#: ../src/e-util/e-collection-account-wizard.c:727
 msgid "_Try Again"
 msgstr "Coba _Lagi"
 
@@ -13286,7 +13316,7 @@ msgstr "Daftar Tugas"
 
 #: ../src/e-util/e-accounts-window.c:1406 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:84
-#: ../src/modules/mail/em-composer-prefs.c:1366
+#: ../src/modules/mail/em-composer-prefs.c:1367
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
 #: ../src/plugins/mail-notification/mail-notification.c:1192
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
@@ -13387,7 +13417,7 @@ msgid "Cancel"
 msgstr "Batal"
 
 #. Translators: Escape is a keyboard binding.
-#: ../src/e-util/e-alert-bar.c:206
+#: ../src/e-util/e-alert-bar.c:208
 msgid "Close this message (Escape)"
 msgstr "Tutup pesan ini (Escape)"
 
@@ -13894,7 +13924,7 @@ msgid "_Look Up"
 msgstr "_Pencarian"
 
 #: ../src/e-util/e-collection-account-wizard.c:112
-#: ../src/e-util/e-collection-account-wizard.c:275
+#: ../src/e-util/e-collection-account-wizard.c:280
 #: ../src/e-util/e-search-bar.c:682
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:85
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:244
@@ -13911,21 +13941,21 @@ msgstr "Akun Koleksi Baru"
 msgid "_Previous"
 msgstr "_Sebelumnya"
 
-#: ../src/e-util/e-collection-account-wizard.c:447
+#: ../src/e-util/e-collection-account-wizard.c:452
 msgid "Looking up details, please wait…"
 msgstr "Melihat rincian, mohon tunggu…"
 
 #. Translators: The %s is replaced with a clickable text "Enter password", thus it'll be "Requires password to continue. Enter password." at the end.
-#: ../src/e-util/e-collection-account-wizard.c:511
+#: ../src/e-util/e-collection-account-wizard.c:516
 #, c-format
 msgid "Requires password to continue. %s."
 msgstr "Memerlukan kata sandi untuk melanjutkan. %s."
 
-#: ../src/e-util/e-collection-account-wizard.c:525
+#: ../src/e-util/e-collection-account-wizard.c:530
 msgid "View certificate"
 msgstr "Lihat Sertifikat"
 
-#: ../src/e-util/e-collection-account-wizard.c:566
+#: ../src/e-util/e-collection-account-wizard.c:571
 msgid ""
 "Found no candidates. It can also mean that the server doesn’t provide any "
 "information about its configuration using the selected lookup methods. Enter "
@@ -13936,13 +13966,13 @@ msgstr ""
 "pencarian yang dipilih. Masukkan akun secara manual atau ganti pengaturan di "
 "atas."
 
-#: ../src/e-util/e-collection-account-wizard.c:568
+#: ../src/e-util/e-collection-account-wizard.c:573
 #, c-format
 msgid "Found one candidate"
 msgid_plural "Found %d candidates"
 msgstr[0] "Ditemukan %d kandidat"
 
-#: ../src/e-util/e-collection-account-wizard.c:667
+#: ../src/e-util/e-collection-account-wizard.c:672
 #: ../src/modules/book-config-google/evolution-book-config-google.c:102
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1070
 #: ../src/modules/cal-config-google/e-cal-config-google.c:188
@@ -13956,86 +13986,86 @@ msgstr ""
 "Nama pengguna berisi huruf, yang dapat mencegah masuk. Pastikan peladen "
 "menerima nama pengguna tertulis tersebut."
 
-#: ../src/e-util/e-collection-account-wizard.c:688
+#: ../src/e-util/e-collection-account-wizard.c:693
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:29
 msgid "_Username:"
 msgstr "Pengg_una:"
 
-#: ../src/e-util/e-collection-account-wizard.c:703
+#: ../src/e-util/e-collection-account-wizard.c:708
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
 #: ../src/smime/gui/certificate-manager.c:757
 msgid "_Password:"
 msgstr "_Sandi:"
 
-#: ../src/e-util/e-collection-account-wizard.c:716
+#: ../src/e-util/e-collection-account-wizard.c:721
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:31
 msgid "_Remember password"
 msgstr "Ingat _sandi"
 
-#: ../src/e-util/e-collection-account-wizard.c:863
+#: ../src/e-util/e-collection-account-wizard.c:868
 #: ../src/e-util/e-webdav-browser.c:537
 msgid "Collection"
 msgstr "Koleksi"
 
-#: ../src/e-util/e-collection-account-wizard.c:864
+#: ../src/e-util/e-collection-account-wizard.c:869
 msgid "Mail Receive"
 msgstr "Terima Surel"
 
-#: ../src/e-util/e-collection-account-wizard.c:865
+#: ../src/e-util/e-collection-account-wizard.c:870
 msgid "Mail Send"
 msgstr "Kirim Surel"
 
-#: ../src/e-util/e-collection-account-wizard.c:866
+#: ../src/e-util/e-collection-account-wizard.c:871
 #: ../src/e-util/e-name-selector-dialog.c:445
 #: ../src/mail/importers/pine-importer.c:430
 msgid "Address Book"
 msgstr "Buku Alamat"
 
-#: ../src/e-util/e-collection-account-wizard.c:868
+#: ../src/e-util/e-collection-account-wizard.c:873
 msgid "Memo List"
 msgstr "Daftar Memo"
 
-#: ../src/e-util/e-collection-account-wizard.c:869
+#: ../src/e-util/e-collection-account-wizard.c:874
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:70
 msgid "Task List"
 msgstr "Daftar Tugas"
 
-#: ../src/e-util/e-collection-account-wizard.c:1213
+#: ../src/e-util/e-collection-account-wizard.c:1218
 msgid "Looking up LDAP server’s search base…"
 msgstr "Melihat basis pencarian peladen LDAP…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1361
+#: ../src/e-util/e-collection-account-wizard.c:1372
 msgid "Failed to store password: "
 msgstr "Gagal menyimpan kata sandi: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1371
+#: ../src/e-util/e-collection-account-wizard.c:1382
 msgid "Failed to create sources: "
 msgstr "Gagal membuat sumber: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1538
+#: ../src/e-util/e-collection-account-wizard.c:1552
 msgid "Saving account settings, please wait…"
 msgstr "Menyimpan pengaturan akun, mohon tunggu…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1701
+#: ../src/e-util/e-collection-account-wizard.c:1715
 msgid "User details"
 msgstr "Rincian Pengguna"
 
-#: ../src/e-util/e-collection-account-wizard.c:1714
+#: ../src/e-util/e-collection-account-wizard.c:1728
 msgid "_Email Address or User name:"
 msgstr "Alamat Sur_el atau Nama Pengguna:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1742
+#: ../src/e-util/e-collection-account-wizard.c:1756
 msgid "_Advanced Options"
 msgstr "Opsi L_anjutan"
 
-#: ../src/e-util/e-collection-account-wizard.c:1747
+#: ../src/e-util/e-collection-account-wizard.c:1761
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:174
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Peladen:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1766
+#: ../src/e-util/e-collection-account-wizard.c:1780
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
@@ -14043,11 +14073,11 @@ msgstr ""
 "Tanda titik koma (\";\") memisahkan daftar peladen untuk mencari informasi, "
 "selain domain alamat surel."
 
-#: ../src/e-util/e-collection-account-wizard.c:1968
+#: ../src/e-util/e-collection-account-wizard.c:1982
 msgid "Select which parts should be configured:"
 msgstr "Pilih bagian mana yang harus dikonfigurasi:"
 
-#: ../src/e-util/e-collection-account-wizard.c:2092
+#: ../src/e-util/e-collection-account-wizard.c:2106
 #: ../src/mail/e-mail-config-identity-page.c:542
 #: ../src/mail/e-mail-config-summary-page.c:318
 msgid "Account Information"
@@ -16128,22 +16158,22 @@ msgstr ""
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Gagal menetapkan versi protokol ke LDAPv3 (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4170
+#: ../src/e-util/e-misc-utils.c:4170 ../src/e-util/e-misc-utils.c:4178
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "Gagal menetapkan opsi batas waktu koneksi (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4205
+#: ../src/e-util/e-misc-utils.c:4213
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Gagal menggunakan STARTTLS (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4218
+#: ../src/e-util/e-misc-utils.c:4226
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Gagal saat mengautentikasi dengan peladen LDAP (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4232
+#: ../src/e-util/e-misc-utils.c:4240
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -16159,7 +16189,7 @@ msgstr ""
 "\n"
 "Detail galat (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4243
+#: ../src/e-util/e-misc-utils.c:4251
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -16170,12 +16200,12 @@ msgstr ""
 "Silakan hubungi bagian IT atau administrator untuk mengaktifkan pencarian "
 "pada LDAP."
 
-#: ../src/e-util/e-misc-utils.c:4276
+#: ../src/e-util/e-misc-utils.c:4284
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution belum dikompil dengan dukungan LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4599
+#: ../src/e-util/e-misc-utils.c:4607
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -16183,31 +16213,31 @@ msgstr "Tak dikenal (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4608
+#: ../src/e-util/e-misc-utils.c:4616
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4786
+#: ../src/e-util/e-misc-utils.c:4794
 #, c-format
 msgid "Click to call %s"
 msgstr "Klik untuk memanggil %s"
 
-#: ../src/e-util/e-misc-utils.c:4788
+#: ../src/e-util/e-misc-utils.c:4796
 msgid "Click to hide/unhide addresses"
 msgstr "Klik untuk sembunyi/tampilkan alamat"
 
-#: ../src/e-util/e-misc-utils.c:4801
+#: ../src/e-util/e-misc-utils.c:4809
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Pergi ke bagian %s dari pesan"
 
-#: ../src/e-util/e-misc-utils.c:4803
+#: ../src/e-util/e-misc-utils.c:4811
 msgid "Go to the beginning of the message"
 msgstr "Pergi ke awal pesan"
 
-#: ../src/e-util/e-misc-utils.c:4809
+#: ../src/e-util/e-misc-utils.c:4817
 #, c-format
 msgid "Click to open %s"
 msgstr "Klik untuk membuka %s"
@@ -19513,43 +19543,43 @@ msgstr "Selanjutnya"
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: ../src/mail/e-mail-reader-utils.c:156
+#: ../src/mail/e-mail-reader-utils.c:157
 msgid "Do not warn me again"
 msgstr "Jangan peringatkan saya lagi"
 
-#: ../src/mail/e-mail-reader-utils.c:644
+#: ../src/mail/e-mail-reader-utils.c:645
 #, c-format
 msgid "Deleting messages in Junk folder “%s”…"
 msgstr "Menghapus pesan di folder Sampah “%s”…"
 
-#: ../src/mail/e-mail-reader-utils.c:739
+#: ../src/mail/e-mail-reader-utils.c:740
 #, c-format
 msgid "Refreshing folder “%s”"
 msgstr "Menyegarkan folder “%s”"
 
-#: ../src/mail/e-mail-reader-utils.c:1346
+#: ../src/mail/e-mail-reader-utils.c:1347
 msgid "Marking thread to be ignored"
 msgstr "Menandai thread untuk diabaikan"
 
-#: ../src/mail/e-mail-reader-utils.c:1350
+#: ../src/mail/e-mail-reader-utils.c:1351
 msgid "Unmarking thread from being ignored"
 msgstr "Cabut tanda thread dari yang diabaikan"
 
-#: ../src/mail/e-mail-reader-utils.c:1354
+#: ../src/mail/e-mail-reader-utils.c:1355
 msgid "Marking subthread to be ignored"
 msgstr "Menandai subthread untuk diabaikan"
 
-#: ../src/mail/e-mail-reader-utils.c:1358
+#: ../src/mail/e-mail-reader-utils.c:1359
 msgid "Unmarking subthread from being ignored"
 msgstr "Cabut tanda subthread dari yang diabaikan"
 
-#: ../src/mail/e-mail-reader-utils.c:1684
+#: ../src/mail/e-mail-reader-utils.c:1672
 msgid "Printing"
 msgstr "Mencetak"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../src/mail/e-mail-reader-utils.c:1921
+#: ../src/mail/e-mail-reader-utils.c:1909
 #, c-format
 msgid ""
 "Folder “%s” contains %u duplicate message. Are you sure you want to delete "
@@ -19560,7 +19590,7 @@ msgid_plural ""
 msgstr[0] ""
 "Folder “%s” memuat %u pesan duplikat. Anda yakin ingin menghapusnya?"
 
-#: ../src/mail/e-mail-reader-utils.c:3209
+#: ../src/mail/e-mail-reader-utils.c:3197
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Simpan Pesan"
@@ -19570,12 +19600,12 @@ msgstr[0] "Simpan Pesan"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3230
+#: ../src/mail/e-mail-reader-utils.c:3218
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Pesan"
 
-#: ../src/mail/e-mail-reader-utils.c:3668
+#: ../src/mail/e-mail-reader-utils.c:3656
 msgid "Parsing message"
 msgstr "Mengurai pesan"
 
@@ -26788,14 +26818,18 @@ msgid "Send immediately"
 msgstr "Kirim seketika"
 
 #: ../src/modules/mail/em-composer-prefs.c:1285
+msgid "Send after 1 minute"
+msgstr "Kirim setelah 1 menit"
+
+#: ../src/modules/mail/em-composer-prefs.c:1286
 msgid "Send after 5 minutes"
 msgstr "Kirim setelah 5 menit"
 
-#: ../src/modules/mail/em-composer-prefs.c:1370
+#: ../src/modules/mail/em-composer-prefs.c:1371
 msgid "Language(s)"
 msgstr "Bahasa"
 
-#: ../src/modules/mail/em-composer-prefs.c:1400
+#: ../src/modules/mail/em-composer-prefs.c:1401
 msgid "Same as user interface"
 msgstr "Sama seperti antarmuka pengguna"
 
@@ -29875,6 +29909,9 @@ msgstr "Tak bisa menulis simpanan ke diska, galat: %i"
 #: ../src/smime/lib/e-pkcs12.c:471
 msgid "Imported Certificate"
 msgstr "Sertifikat Yang Diimpor"
+
+#~ msgid "Reminder!"
+#~ msgstr "Pengingat!"
 
 #~ msgctxt "Location"
 #~ msgid "Unspecified"
