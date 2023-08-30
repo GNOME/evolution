@@ -2385,8 +2385,18 @@ EvoEditor.convertTags = function()
 		}
 
 		/* Do not traverse into the to-be-removed node */
-		if (!next && removeNode)
+		if (!next && removeNode) {
 			next = node.nextSibling;
+			if (!next) {
+				var tmp = node;
+				while (tmp != document.body && tmp && !next) {
+					tmp = tmp.parentElement;
+					next = tmp ? tmp.nextSibling : null;
+				}
+				if (next === document.body)
+					next = null;
+			}
+		}
 
 		if (!next)
 			next = EvoEditor.getNextNodeInHierarchy(node, document.body);
@@ -6005,11 +6015,8 @@ EvoEditor.processLoadedContent = function()
 	}
 
 	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-		// drafts have paragraphs set as expected
-		if (!document.body.hasAttribute("data-evo-draft")) {
-			EvoEditor.convertTags();
-			EvoEditor.convertParagraphs(document.body, 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH, didCite);
-		}
+		EvoEditor.convertTags();
+		EvoEditor.convertParagraphs(document.body, 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH, didCite);
 
 		if (EvoEditor.MAGIC_LINKS) {
 			var next;
