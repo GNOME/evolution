@@ -1437,15 +1437,15 @@ test_selection (TestFixture *fixture)
 
 	g_assert_cmpint (e_web_view_has_selection (E_WEB_VIEW (fixture->web_view)) ? 1 : 0, ==, 1);
 	test_selection_verify (fixture, "er text\nin PR", NULL);
-	test_selection_verify (fixture, NULL, "<pre>er text\nin PR</pre>");
-	test_selection_verify (fixture, "er text\nin PR", "<pre>er text\nin PR</pre>");
+	test_selection_verify (fixture, NULL, "<pre><span id=\"pr1\"></span>er text\nin PR<span id=\"pr2\"></span></pre>");
+	test_selection_verify (fixture, "er text\nin PR", "<pre><span id=\"pr1\"></span>er text\nin PR<span id=\"pr2\"></span></pre>");
 
 	test_selection_select_in_iframe (fixture, "", "br1", "br2");
 
 	g_assert_cmpint (e_web_view_has_selection (E_WEB_VIEW (fixture->web_view)) ? 1 : 0, ==, 1);
-	test_selection_verify (fixture, "\norange; bolditalic", NULL);
-	test_selection_verify (fixture, NULL, "<br id=\"br1\">o<font color=\"orange\">rang</font>e; <b>bold</b><i>italic</i>");
-	test_selection_verify (fixture, "\norange; bolditalic", "<br id=\"br1\">o<font color=\"orange\">rang</font>e; <b>bold</b><i>italic</i>");
+	test_selection_verify (fixture, "\norange; bolditalic\n", NULL);
+	test_selection_verify (fixture, NULL, "<br id=\"br1\">o<font color=\"orange\">rang</font>e; <b>bold</b><i>italic</i><br id=\"br2\">");
+	test_selection_verify (fixture, "\norange; bolditalic\n", "<br id=\"br1\">o<font color=\"orange\">rang</font>e; <b>bold</b><i>italic</i><br id=\"br2\">");
 
 	test_selection_select_in_iframe (fixture, "frm1", "plain", "rgb");
 
@@ -1465,15 +1465,15 @@ test_selection (TestFixture *fixture)
 
 	g_assert_cmpint (e_web_view_has_selection (E_WEB_VIEW (fixture->web_view)) ? 1 : 0, ==, 1);
 	test_selection_verify (fixture, "RGB", NULL);
-	test_selection_verify (fixture, NULL, "<font color=\"red\">R</font><font color=\"green\">G</font><font color=\"blue\">B</font>");
-	test_selection_verify (fixture, "RGB", "<font color=\"red\">R</font><font color=\"green\">G</font><font color=\"blue\">B</font>");
+	test_selection_verify (fixture, NULL, "<font color=\"red\">R</font><font color=\"green\">G</font><font color=\"blue\">B</font><span id=\"rgb-end\"></span>");
+	test_selection_verify (fixture, "RGB", "<font color=\"red\">R</font><font color=\"green\">G</font><font color=\"blue\">B</font><span id=\"rgb-end\"></span>");
 
 	test_selection_select_in_iframe (fixture, "frm1", "styled", "end");
 
 	g_assert_cmpint (e_web_view_has_selection (E_WEB_VIEW (fixture->web_view)) ? 1 : 0, ==, 1);
-	test_selection_verify (fixture, "bbggrr", NULL);
-	test_selection_verify (fixture, NULL, "<span style=\"color:blue;\">bb</span><span style=\"color:green;\">gg</span><span style=\"color:red;\">rr</span>");
-	test_selection_verify (fixture, "bbggrr", "<span style=\"color:blue;\">bb</span><span style=\"color:green;\">gg</span><span style=\"color:red;\">rr</span>");
+	test_selection_verify (fixture, "bbggrr\n", NULL);
+	test_selection_verify (fixture, NULL, "<div id=\"styled\"><span style=\"color:blue;\">bb</span><span style=\"color:green;\">gg</span><span style=\"color:red;\">rr</span></div><div id=\"end\"></div>");
+	test_selection_verify (fixture, "bbggrr\n", "<div id=\"styled\"><span style=\"color:blue;\">bb</span><span style=\"color:green;\">gg</span><span style=\"color:red;\">rr</span></div><div id=\"end\"></div>");
 
 	test_selection_select_in_iframe (fixture, "frm1", "end", "end");
 
@@ -1587,13 +1587,13 @@ static void
 test_get_content (TestFixture *fixture)
 {
 	const gchar *html_main =
-		"<html style=\"\"><head><meta charset=\"utf-8\"></head><body>"
+		"<html><head><meta charset=\"utf-8\"></head><body>"
 		"<div id=\"frst\">first div</div>"
 		"<div id=\"scnd\">second div</div>"
 		"<iframe id=\"frm1\" src=\"empty:///\"></iframe>"
 		"</body></html>";
 	const gchar *html_frm1 =
-		"<html style=\"\"><head><meta name=\"keywords\" value=\"test\"></head><body>"
+		"<html><head><meta name=\"keywords\" value=\"test\"></head><body>"
 		"<span id=\"frm1p\">"
 		"<div id=\"frst\">frm1 div</div>"
 		"</span>"

@@ -268,7 +268,7 @@ ewv_jsc_call_done_cb (GObject *source,
 		    (!g_error_matches (error, WEBKIT_JAVASCRIPT_ERROR, WEBKIT_JAVASCRIPT_ERROR_SCRIPT_FAILED) ||
 		     /* WebKit can return empty error message, thus ignore those. */
 		     (error->message && *(error->message))))
-			g_warning ("Failed to call '%s' function: %s:%d: %s", script, g_quark_to_string (error->domain), error->code, error->message);
+			g_debug ("Failed to call '%s' function: %s:%d: %s", script, g_quark_to_string (error->domain), error->code, error->message);
 		g_clear_error (&error);
 	}
 
