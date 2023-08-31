@@ -42,6 +42,7 @@ test_fixture_tear_down (TestFixture *fixture,
 		converted = e_markdown_utils_html_to_text (html, -1, flags); \
 		g_assert_nonnull (converted); \
 		g_assert_cmpstr (converted, ==, expected); \
+		g_free (converted); \
 	} G_STMT_END
 
 #define HTML_PREFIX "<html><head></head><body>"
