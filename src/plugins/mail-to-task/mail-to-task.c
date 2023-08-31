@@ -244,7 +244,8 @@ set_description (ECalComponent *comp,
 		return;
 
 	type = camel_mime_part_get_content_type (mime_part);
-	if (!camel_content_type_is (type, "text", "plain"))
+	if (!camel_content_type_is (type, "text", "plain") &&
+	    !camel_content_type_is (type, "text", "html"))
 		return;
 
 	byte_array = g_byte_array_new ();
@@ -282,6 +283,19 @@ set_description (ECalComponent *comp,
 
 	if (!convert_str && str)
 		convert_str = e_util_utf8_make_valid (str);
+
+	if (camel_content_type_is (type, "text", "html")) {
+		gchar *plain_text;
+
+		plain_text = e_markdown_utils_html_to_text (convert_str ? convert_str : str, -1, E_MARKDOWN_HTML_TO_TEXT_FLAG_NONE);
+
+		if (plain_text && *plain_text) {
+			g_free (convert_str);
+			convert_str = plain_text;
+		} else {
+			g_free (plain_text);
+		}
+	}
 
 	if (convert_str)
 		text = e_cal_component_text_new (prepend_from (message, &convert_str), NULL);
