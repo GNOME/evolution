@@ -1,3 +1,68 @@
+Evolution 3.49.3 2023-09-01
+---------------------------
+
+Bug Fixes:
+	I#933 - CompEditor: Attendees dialogs out of sync in Schedule and General tab
+	I#941 - ESrvConfigLookup: Consider mail configuration complete
+	I#971 - Mail: Add option to hide unread count in folder tree
+	I#1054 - Preferences: Network proxy port not always saved
+	I#1180 - Calendar: Disallow change of target client for existing components ][
+	I#1247 - Error message only half readable (insufficient panel height)
+	I#1254 - Pair backup process window with the main application
+	I#1324 - Composer: HTML formatting left after mode change to Plain Text
+	I#1340 - ESpinner: Cache working.png into memory
+	I#1388 - mail-to-task: Extract text also from HTML-only messages
+	I#2442 - Correct color of expand/collapse buttons in preview in Dark mode
+	I#2445 - itip: Limit headers in multipart/alternative part
+	I#2446 - Calendar: Change how categories are exported into preview
+	I#2447 - itip-formatter: Rename Send reply to Sender -> Organizer
+	I#2450 - CompEditor: Enhance time re-calculation on overlap change
+	I#2451 - Mail: Detect which images WebKitGTK can show
+	I#2454 - Calendar: Minicalendar blocks sidebar shrink
+	I#2456 - Add Move / Copy to folder into message preview context menu
+	I#2457 - Shell: Add option to prefer symbolic icons
+	I#2460 - First-Run Assistant: Set file filter to backup file chooser
+	I#2463 - Mail: Add filter condition for iCalendar attachment
+	I#2467 - ITip formatter ignores Dark mode preference for text/plain MIME parts
+	I#2469 - Calendar: Hard to read meeting time selector header in Dark mode
+	I#2476 - mail-to-task: Do not create all day events
+	I#2480 - Mail: Add option to auto-show insecure parts
+	I#2482 - CompEditor: Ignore abbreviated date format
+	I#2488 - Only headers visible for unsigned emails attached to signed emails
+	I#2491 - Calendar: Import only valid iCalendar files
+	I#2494 - Add "Send after 1 minute" option to composer's "Send through Outbox" (Roland Tapken)
+	I#2496 - "Next" in Collection Account setup can be disabled for no valid reason
+
+Miscellaneous:
+	Replace internal functions with new functions from libecal
+	alarm-notify: Drop dependency on the evolution-calendar part
+	Tweak how long to wait for a 'connected' state when opening an EClient
+	evolution-util: Declare build dependency on libsecret
+	Force icon size for categories
+	itip: Export to HTML without category icons
+	Composer: Do not send 'Autocrypt' headers larger than 10KB
+	Always use attachments for 'Forward as iCalendar'
+	CompEditor: Cannot move memo/task between lists
+	Calendar: Ask for deletion notice only for attendees
+	Postpone some operations from GtkWidget::size_allocate() to idle callback
+	test-web-view-jsc: Adapt tests to WebKitGTK 2.40.3 behavior changes
+	test-markdown: Fix a memory leak
+
+Translations:
+	Anders Jonsson (sv)
+	Asier Sarasua Garmendia (eu)
+	Boyuan Yang (zh_CN)
+	Ekaterine Papava (ka)
+	Fran Dieguez (gl)
+	Hugo Carvalho (pt)
+	Jiri Grönroos (fi)
+	Jürgen Benvenuti (de)
+	Kukuh Syafaat (id)
+	Piotr Drąg (pl)
+	Sabri Ünal (tr)
+	Sergej A (ru)
+	Yuri Chornoivan (uk)
+
 Evolution 3.49.2 2023-08-04
 ---------------------------
 
