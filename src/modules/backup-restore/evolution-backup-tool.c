@@ -1194,6 +1194,9 @@ main (gint argc,
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
+	/* to pair the tool with the main app in the desktop environment (like in the GNOME shell) */
+	g_set_prgname ("org.gnome.Evolution");
+
 	gtk_init_with_args (
 		&argc, &argv, NULL, options, GETTEXT_PACKAGE, &error);
 
