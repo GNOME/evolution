@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-08-15 18:29+0000\n"
-"PO-Revision-Date: 2023-05-12 10:08+0200\n"
+"PO-Revision-Date: 2023-09-02 10:08+0200\n"
 "Last-Translator: Jordi Mas i Hernàndez <jmas@softcatala.org>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
 "Language: ca\n"
@@ -26188,7 +26188,7 @@ msgstr "Sempre en línia"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:1073
 msgid "_Limit operations in Power Saver mode"
-msgstr "_Limit operacions en mode Estalvi d'energia"
+msgstr "_Limita les operacions en mode Estalvi d'energia"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:1140
 msgid "Mail Preferences"
