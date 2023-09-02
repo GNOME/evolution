@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-21 17:22+0200\n"
-"PO-Revision-Date: 2023-08-21 17:24+0200\n"
+"POT-Creation-Date: 2023-09-02 15:41+0200\n"
+"PO-Revision-Date: 2023-09-02 15:42+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -3987,7 +3987,7 @@ msgstr "Okno tworzenia wiadomości"
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:8
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1013
-#: ../src/e-util/e-collection-account-wizard.c:867
+#: ../src/e-util/e-collection-account-wizard.c:872
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:200
 #: ../src/modules/calendar/e-cal-shell-view.c:635
@@ -4049,7 +4049,7 @@ msgstr "Notatki"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
 #: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2467
 #: ../src/calendar/importers/icalendar-importer.c:77
-#: ../src/calendar/importers/icalendar-importer.c:1151
+#: ../src/calendar/importers/icalendar-importer.c:1138
 #: ../src/e-util/e-webdav-browser.c:524
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 #: ../src/modules/calendar/e-cal-shell-content.c:1904
@@ -4685,8 +4685,8 @@ msgstr ""
 #: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:168
 #: ../src/e-util/e-category-editor.c:252 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240
-#: ../src/e-util/e-collection-account-wizard.c:1930
-#: ../src/e-util/e-collection-account-wizard.c:2177
+#: ../src/e-util/e-collection-account-wizard.c:1944
+#: ../src/e-util/e-collection-account-wizard.c:2191
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
 #: ../src/e-util/e-html-editor-actions.c:395
@@ -4710,7 +4710,7 @@ msgstr ""
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
 #: ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1246
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1249
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:282
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1095
@@ -5584,7 +5584,7 @@ msgid "Send a mail message to this address"
 msgstr "Wysyła wiadomość pod ten adres"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:282
-#: ../src/e-util/e-misc-utils.c:4781
+#: ../src/e-util/e-misc-utils.c:4834
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kliknięcie wyśle %s"
@@ -6303,9 +6303,9 @@ msgstr "_Znajdź"
 #: ../src/addressbook/importers/evolution-csv-importer.c:796
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
 #: ../src/addressbook/importers/evolution-vcard-importer.c:237
-#: ../src/calendar/importers/icalendar-importer.c:506
-#: ../src/calendar/importers/icalendar-importer.c:1013
-#: ../src/calendar/importers/icalendar-importer.c:1053
+#: ../src/calendar/importers/icalendar-importer.c:515
+#: ../src/calendar/importers/icalendar-importer.c:1000
+#: ../src/calendar/importers/icalendar-importer.c:1040
 msgid "Importing…"
 msgstr "Importowanie…"
 
@@ -7214,7 +7214,7 @@ msgstr "Podsumowanie"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-collection-account-wizard.c:2028
+#: ../src/e-util/e-collection-account-wizard.c:2042
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -7340,7 +7340,7 @@ msgid "Description Contains"
 msgstr "Opis zawiera"
 
 #: ../src/calendar/gui/comp-util.c:1616 ../src/calendar/gui/comp-util.c:2935
-#: ../src/calendar/importers/icalendar-importer.c:1498
+#: ../src/calendar/importers/icalendar-importer.c:1485
 #: ../src/modules/itip-formatter/itip-view.c:2882
 #, c-format
 msgid "with one guest"
@@ -7455,18 +7455,18 @@ msgid "Status"
 msgstr "Stan"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2335
+#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2350
 #: ../src/calendar/gui/e-to-do-pane.c:268
-#: ../src/calendar/gui/e-week-view.c:1961 ../src/calendar/gui/print.c:1102
+#: ../src/calendar/gui/e-week-view.c:1974 ../src/calendar/gui/print.c:1102
 #: ../src/calendar/gui/print.c:1121 ../src/calendar/gui/print.c:2688
 #: ../src/calendar/gui/print.c:2708
 msgid "am"
 msgstr "AM"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2338
+#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2353
 #: ../src/calendar/gui/e-to-do-pane.c:272
-#: ../src/calendar/gui/e-week-view.c:1964 ../src/calendar/gui/print.c:1107
+#: ../src/calendar/gui/e-week-view.c:1977 ../src/calendar/gui/print.c:1107
 #: ../src/calendar/gui/print.c:1123 ../src/calendar/gui/print.c:2693
 #: ../src/calendar/gui/print.c:2710
 msgid "pm"
@@ -7527,7 +7527,7 @@ msgid "Completed: %s"
 msgstr "Ukończono: %s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
-#: ../src/e-util/e-misc-utils.c:4864 ../src/e-util/e-text.c:566
+#: ../src/e-util/e-misc-utils.c:4917 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4271
 msgid "…"
 msgstr "…"
@@ -8039,7 +8039,7 @@ msgstr "%-d %b %Y"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1297
-#: ../src/calendar/gui/e-day-view.c:3271
+#: ../src/calendar/gui/e-day-view.c:3286
 #: ../src/calendar/gui/e-day-view-top-item.c:855
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
@@ -8056,7 +8056,7 @@ msgstr "%A, %-d %b %Y"
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1310
-#: ../src/calendar/gui/e-day-view.c:3255
+#: ../src/calendar/gui/e-day-view.c:3270
 #: ../src/calendar/gui/e-day-view-top-item.c:851
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
@@ -8129,7 +8129,7 @@ msgstr "Źródło"
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1450
 #: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:2069
+#: ../src/e-util/e-collection-account-wizard.c:2083
 #: ../src/e-util/e-webdav-browser.c:2530
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -8451,16 +8451,17 @@ msgstr "Czas rozpoczęcia jest nieprawidłowym czasem"
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-misc-utils.c:4163 ../src/e-util/e-misc-utils.c:4171
-#: ../src/e-util/e-misc-utils.c:4206 ../src/e-util/e-misc-utils.c:4219
-#: ../src/e-util/e-misc-utils.c:4233 ../src/mail/e-mail-autoconfig.c:1129
-#: ../src/mail/e-mail-display.c:2922 ../src/mail/e-mail-notes.c:930
-#: ../src/mail/e-mail-reader.c:3577 ../src/mail/e-mail-reader-utils.c:817
-#: ../src/mail/em-composer-utils.c:4049 ../src/mail/em-composer-utils.c:4072
-#: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
+#: ../src/e-util/e-misc-utils.c:4179 ../src/e-util/e-misc-utils.c:4214
+#: ../src/e-util/e-misc-utils.c:4227 ../src/e-util/e-misc-utils.c:4241
+#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2922
+#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3577
+#: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4049
+#: ../src/mail/em-composer-utils.c:4072 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:444
 #: ../src/plugins/face/face.c:175
-#: ../src/plugins/mail-to-task/mail-to-task.c:982 ../src/shell/e-shell.c:1258
+#: ../src/plugins/mail-to-task/mail-to-task.c:996 ../src/shell/e-shell.c:1258
 #: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:353
 #, c-format
 msgid "Unknown error"
@@ -9662,7 +9663,7 @@ msgstr "Pasek _narzędziowy"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../src/calendar/gui/e-day-view.c:3238
+#: ../src/calendar/gui/e-day-view.c:3253
 #: ../src/calendar/gui/e-day-view-top-item.c:847
 #: ../src/calendar/gui/e-week-view-main-item.c:207
 #: ../src/calendar/gui/print.c:2143
@@ -9670,7 +9671,7 @@ msgid "%A %d %B"
 msgstr "%A, %-d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3975
+#: ../src/calendar/gui/e-day-view.c:3990
 #, c-format
 msgid "Week %d"
 msgstr "%d. tydzień"
@@ -9849,7 +9850,7 @@ msgid "Failure reason: %s"
 msgstr "Przyczyna niepowodzenia: %s"
 
 #: ../src/calendar/gui/e-meeting-store.c:2029
-#: ../src/e-util/e-collection-account-wizard.c:501
+#: ../src/e-util/e-collection-account-wizard.c:506
 #: ../src/plugins/publish-calendar/publish-calendar.c:350
 #: ../src/smime/gui/component.c:61
 msgid "Enter password"
@@ -10150,7 +10151,7 @@ msgstr "Do zrobienia"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3870
+#: ../src/calendar/gui/e-week-view.c:3883
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -10531,7 +10532,7 @@ msgstr "Poprzednie dni"
 msgid "Appointments and Meetings"
 msgstr "Spotkania i zebrania"
 
-#: ../src/calendar/importers/icalendar-importer.c:334
+#: ../src/calendar/importers/icalendar-importer.c:343
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:491
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:89
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:279
@@ -10539,200 +10540,196 @@ msgstr "Spotkania i zebrania"
 msgid "New Calendar"
 msgstr "Nowy kalendarz"
 
-#: ../src/calendar/importers/icalendar-importer.c:337
+#: ../src/calendar/importers/icalendar-importer.c:346
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:499
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:287
 #: ../src/modules/calendar/e-task-shell-view-actions.c:207
 msgid "New Task List"
 msgstr "Nowa lista zadań"
 
-#: ../src/calendar/importers/icalendar-importer.c:379
+#: ../src/calendar/importers/icalendar-importer.c:388
 msgid "Cre_ate new calendar"
 msgstr "_Utwórz nowy kalendarz"
 
-#: ../src/calendar/importers/icalendar-importer.c:383
+#: ../src/calendar/importers/icalendar-importer.c:392
 msgid "Cre_ate new task list"
 msgstr "_Utwórz nową listę zadań"
 
-#: ../src/calendar/importers/icalendar-importer.c:528
-#: ../src/calendar/importers/icalendar-importer.c:981
+#: ../src/calendar/importers/icalendar-importer.c:537
+#: ../src/calendar/importers/icalendar-importer.c:968
 msgid "Opening calendar"
 msgstr "Otwieranie kalendarza"
 
-#: ../src/calendar/importers/icalendar-importer.c:678
+#: ../src/calendar/importers/icalendar-importer.c:688
 msgid "iCalendar files (.ics)"
 msgstr "Pliki iCalendar (.ics)"
 
-#: ../src/calendar/importers/icalendar-importer.c:679
+#: ../src/calendar/importers/icalendar-importer.c:689
 msgid "Evolution iCalendar importer"
 msgstr "Asystent importu plików iCalendar dla programu Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:773
-msgid "Reminder!"
-msgstr "Przypomnienie!"
-
-#: ../src/calendar/importers/icalendar-importer.c:869
+#: ../src/calendar/importers/icalendar-importer.c:856
 msgid "vCalendar files (.vcs)"
 msgstr "Pliki vCalendar (.vcs)"
 
-#: ../src/calendar/importers/icalendar-importer.c:870
+#: ../src/calendar/importers/icalendar-importer.c:857
 msgid "Evolution vCalendar importer"
 msgstr "Asystent importu plików vCalendar dla programu Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:1144
+#: ../src/calendar/importers/icalendar-importer.c:1131
 msgid "Calendar Events"
 msgstr "Wydarzenia kalendarza"
 
-#: ../src/calendar/importers/icalendar-importer.c:1187
+#: ../src/calendar/importers/icalendar-importer.c:1174
 msgid "GNOME Calendar"
 msgstr "Kalendarz GNOME"
 
-#: ../src/calendar/importers/icalendar-importer.c:1188
+#: ../src/calendar/importers/icalendar-importer.c:1175
 msgid "Evolution Calendar intelligent importer"
 msgstr "Inteligentny asystent importu kalendarza programu Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:1278
-#: ../src/calendar/importers/icalendar-importer.c:1667
+#: ../src/calendar/importers/icalendar-importer.c:1265
+#: ../src/calendar/importers/icalendar-importer.c:1654
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Zebranie"
 
-#: ../src/calendar/importers/icalendar-importer.c:1278
-#: ../src/calendar/importers/icalendar-importer.c:1667
+#: ../src/calendar/importers/icalendar-importer.c:1265
+#: ../src/calendar/importers/icalendar-importer.c:1654
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Wydarzenie"
 
-#: ../src/calendar/importers/icalendar-importer.c:1281
-#: ../src/calendar/importers/icalendar-importer.c:1668
+#: ../src/calendar/importers/icalendar-importer.c:1268
+#: ../src/calendar/importers/icalendar-importer.c:1655
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Zadanie"
 
-#: ../src/calendar/importers/icalendar-importer.c:1284
-#: ../src/calendar/importers/icalendar-importer.c:1669
+#: ../src/calendar/importers/icalendar-importer.c:1271
+#: ../src/calendar/importers/icalendar-importer.c:1656
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Notatka"
 
-#: ../src/calendar/importers/icalendar-importer.c:1293
+#: ../src/calendar/importers/icalendar-importer.c:1280
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "jest wystąpieniem"
 
 #. have ? NULL :
-#: ../src/calendar/importers/icalendar-importer.c:1296
+#: ../src/calendar/importers/icalendar-importer.c:1283
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "zawiera powtórzenia"
 
-#: ../src/calendar/importers/icalendar-importer.c:1301
+#: ../src/calendar/importers/icalendar-importer.c:1288
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "zawiera przypomnienia"
 
-#: ../src/calendar/importers/icalendar-importer.c:1306
+#: ../src/calendar/importers/icalendar-importer.c:1293
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "zawiera załączniki"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1318
+#: ../src/calendar/importers/icalendar-importer.c:1305
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Publiczne"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1321
+#: ../src/calendar/importers/icalendar-importer.c:1308
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Prywatne"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1324
+#: ../src/calendar/importers/icalendar-importer.c:1311
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Poufne"
 
 #. Translators: Appointment's classification section name
-#: ../src/calendar/importers/icalendar-importer.c:1328
+#: ../src/calendar/importers/icalendar-importer.c:1315
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Klasyfikacja"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
-#: ../src/calendar/importers/icalendar-importer.c:1333
-#: ../src/calendar/importers/icalendar-importer.c:1712
+#: ../src/calendar/importers/icalendar-importer.c:1320
+#: ../src/calendar/importers/icalendar-importer.c:1699
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Podsumowanie"
 
 #. Translators: Appointment's location
-#: ../src/calendar/importers/icalendar-importer.c:1340
+#: ../src/calendar/importers/icalendar-importer.c:1327
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Położenie"
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
-#: ../src/calendar/importers/icalendar-importer.c:1348
-#: ../src/calendar/importers/icalendar-importer.c:1707
+#: ../src/calendar/importers/icalendar-importer.c:1335
+#: ../src/calendar/importers/icalendar-importer.c:1694
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Rozpoczęcie"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../src/calendar/importers/icalendar-importer.c:1358
+#: ../src/calendar/importers/icalendar-importer.c:1345
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Termin"
 
 #. Translators: Appointment's end time
-#: ../src/calendar/importers/icalendar-importer.c:1369
+#: ../src/calendar/importers/icalendar-importer.c:1356
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Zakończenie"
 
 #. Translators: Appointment's categories
-#: ../src/calendar/importers/icalendar-importer.c:1378
+#: ../src/calendar/importers/icalendar-importer.c:1365
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Kategorie"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../src/calendar/importers/icalendar-importer.c:1403
+#: ../src/calendar/importers/icalendar-importer.c:1390
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Ukończono"
 
 #. Translators: Appointment's URL
-#: ../src/calendar/importers/icalendar-importer.c:1410
+#: ../src/calendar/importers/icalendar-importer.c:1397
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "Adres URL"
 
 #. Translators: Appointment's organizer
-#: ../src/calendar/importers/icalendar-importer.c:1428
-#: ../src/calendar/importers/icalendar-importer.c:1431
+#: ../src/calendar/importers/icalendar-importer.c:1415
+#: ../src/calendar/importers/icalendar-importer.c:1418
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Organizator"
 
 #. Translators: Appointment's attendees
-#: ../src/calendar/importers/icalendar-importer.c:1514
+#: ../src/calendar/importers/icalendar-importer.c:1501
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Uczestnicy"
 
-#: ../src/calendar/importers/icalendar-importer.c:1533
-#: ../src/calendar/importers/icalendar-importer.c:1541
+#: ../src/calendar/importers/icalendar-importer.c:1520
+#: ../src/calendar/importers/icalendar-importer.c:1528
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Opis"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../src/calendar/importers/icalendar-importer.c:1702
+#: ../src/calendar/importers/icalendar-importer.c:1689
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Typ"
@@ -12475,7 +12472,7 @@ msgid "Save Draft"
 msgstr "Zapisz szkic"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:2101
+#: ../src/e-util/e-collection-account-wizard.c:2115
 #: ../src/e-util/e-mail-signature-script-dialog.c:410
 #: ../src/e-util/e-webdav-browser.c:2557
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -12753,7 +12750,7 @@ msgid "_Save to Outbox"
 msgstr "_Zapisz w Wychodzących"
 
 #: ../src/composer/mail-composer.error.xml.h:34
-#: ../src/e-util/e-collection-account-wizard.c:722
+#: ../src/e-util/e-collection-account-wizard.c:727
 msgid "_Try Again"
 msgstr "_Spróbuj ponownie"
 
@@ -13414,7 +13411,7 @@ msgstr "Listy zadań"
 
 #: ../src/e-util/e-accounts-window.c:1406 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:84
-#: ../src/modules/mail/em-composer-prefs.c:1366
+#: ../src/modules/mail/em-composer-prefs.c:1367
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
 #: ../src/plugins/mail-notification/mail-notification.c:1192
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
@@ -13515,7 +13512,7 @@ msgid "Cancel"
 msgstr "Anuluj"
 
 #. Translators: Escape is a keyboard binding.
-#: ../src/e-util/e-alert-bar.c:206
+#: ../src/e-util/e-alert-bar.c:208
 msgid "Close this message (Escape)"
 msgstr "Zamyka tę wiadomość (Escape)"
 
@@ -14022,7 +14019,7 @@ msgid "_Look Up"
 msgstr "_Wyszukaj"
 
 #: ../src/e-util/e-collection-account-wizard.c:112
-#: ../src/e-util/e-collection-account-wizard.c:275
+#: ../src/e-util/e-collection-account-wizard.c:280
 #: ../src/e-util/e-search-bar.c:682
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:85
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:244
@@ -14039,21 +14036,21 @@ msgstr "Nowe konto kolekcji"
 msgid "_Previous"
 msgstr "_Poprzedni"
 
-#: ../src/e-util/e-collection-account-wizard.c:447
+#: ../src/e-util/e-collection-account-wizard.c:452
 msgid "Looking up details, please wait…"
 msgstr "Wyszukiwanie informacji, proszę czekać…"
 
 #. Translators: The %s is replaced with a clickable text "Enter password", thus it'll be "Requires password to continue. Enter password." at the end.
-#: ../src/e-util/e-collection-account-wizard.c:511
+#: ../src/e-util/e-collection-account-wizard.c:516
 #, c-format
 msgid "Requires password to continue. %s."
 msgstr "Kontynuacja wymaga hasła. %s."
 
-#: ../src/e-util/e-collection-account-wizard.c:525
+#: ../src/e-util/e-collection-account-wizard.c:530
 msgid "View certificate"
 msgstr "Wyświetl certyfikat"
 
-#: ../src/e-util/e-collection-account-wizard.c:566
+#: ../src/e-util/e-collection-account-wizard.c:571
 msgid ""
 "Found no candidates. It can also mean that the server doesn’t provide any "
 "information about its configuration using the selected lookup methods. Enter "
@@ -14064,7 +14061,7 @@ msgstr ""
 "wyszukiwania. Proszę zamiast tego wprowadzić konto ręcznie lub zmienić "
 "powyższe ustawienia."
 
-#: ../src/e-util/e-collection-account-wizard.c:568
+#: ../src/e-util/e-collection-account-wizard.c:573
 #, c-format
 msgid "Found one candidate"
 msgid_plural "Found %d candidates"
@@ -14072,7 +14069,7 @@ msgstr[0] "Odnaleziono jednego kandydata"
 msgstr[1] "Odnaleziono %d kandydatów"
 msgstr[2] "Odnaleziono %d kandydatów"
 
-#: ../src/e-util/e-collection-account-wizard.c:667
+#: ../src/e-util/e-collection-account-wizard.c:672
 #: ../src/modules/book-config-google/evolution-book-config-google.c:102
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1070
 #: ../src/modules/cal-config-google/e-cal-config-google.c:188
@@ -14086,86 +14083,86 @@ msgstr ""
 "Nazwa użytkownika zawiera litery, które mogą uniemożliwić zalogowanie się. "
 "Proszę się upewnić, że serwer przyjmuje tak zapisane nazwy użytkownika."
 
-#: ../src/e-util/e-collection-account-wizard.c:688
+#: ../src/e-util/e-collection-account-wizard.c:693
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:29
 msgid "_Username:"
 msgstr "Nazwa _użytkownika:"
 
-#: ../src/e-util/e-collection-account-wizard.c:703
+#: ../src/e-util/e-collection-account-wizard.c:708
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
 #: ../src/smime/gui/certificate-manager.c:757
 msgid "_Password:"
 msgstr "_Hasło:"
 
-#: ../src/e-util/e-collection-account-wizard.c:716
+#: ../src/e-util/e-collection-account-wizard.c:721
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:31
 msgid "_Remember password"
 msgstr "_Zapamiętanie hasła"
 
-#: ../src/e-util/e-collection-account-wizard.c:863
+#: ../src/e-util/e-collection-account-wizard.c:868
 #: ../src/e-util/e-webdav-browser.c:537
 msgid "Collection"
 msgstr "Kolekcja"
 
-#: ../src/e-util/e-collection-account-wizard.c:864
+#: ../src/e-util/e-collection-account-wizard.c:869
 msgid "Mail Receive"
 msgstr "Odbiór poczty"
 
-#: ../src/e-util/e-collection-account-wizard.c:865
+#: ../src/e-util/e-collection-account-wizard.c:870
 msgid "Mail Send"
 msgstr "Wysłanie poczty"
 
-#: ../src/e-util/e-collection-account-wizard.c:866
+#: ../src/e-util/e-collection-account-wizard.c:871
 #: ../src/e-util/e-name-selector-dialog.c:445
 #: ../src/mail/importers/pine-importer.c:430
 msgid "Address Book"
 msgstr "Książka adresowa"
 
-#: ../src/e-util/e-collection-account-wizard.c:868
+#: ../src/e-util/e-collection-account-wizard.c:873
 msgid "Memo List"
 msgstr "Lista notatek"
 
-#: ../src/e-util/e-collection-account-wizard.c:869
+#: ../src/e-util/e-collection-account-wizard.c:874
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:70
 msgid "Task List"
 msgstr "Lista zadań"
 
-#: ../src/e-util/e-collection-account-wizard.c:1213
+#: ../src/e-util/e-collection-account-wizard.c:1218
 msgid "Looking up LDAP server’s search base…"
 msgstr "Wyszukiwanie podstawy wyszukiwania serwera LDAP…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1361
+#: ../src/e-util/e-collection-account-wizard.c:1372
 msgid "Failed to store password: "
 msgstr "Przechowanie hasła się nie powiodło: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1371
+#: ../src/e-util/e-collection-account-wizard.c:1382
 msgid "Failed to create sources: "
 msgstr "Utworzenie źródeł się nie powiodło: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1538
+#: ../src/e-util/e-collection-account-wizard.c:1552
 msgid "Saving account settings, please wait…"
 msgstr "Zapisywanie ustawień konta, proszę czekać…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1701
+#: ../src/e-util/e-collection-account-wizard.c:1715
 msgid "User details"
 msgstr "Informacje o użytkowniku"
 
-#: ../src/e-util/e-collection-account-wizard.c:1714
+#: ../src/e-util/e-collection-account-wizard.c:1728
 msgid "_Email Address or User name:"
 msgstr "Adres _e-mail lub nazwa użytkownika:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1742
+#: ../src/e-util/e-collection-account-wizard.c:1756
 msgid "_Advanced Options"
 msgstr "_Opcje zaawansowane"
 
-#: ../src/e-util/e-collection-account-wizard.c:1747
+#: ../src/e-util/e-collection-account-wizard.c:1761
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:174
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Serwer:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1766
+#: ../src/e-util/e-collection-account-wizard.c:1780
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
@@ -14173,11 +14170,11 @@ msgstr ""
 "Lista serwerów oddzielonych średnikami („;”), dla których wyszukać "
 "informacje, dodatkowo poza domeną adresu e-mail."
 
-#: ../src/e-util/e-collection-account-wizard.c:1968
+#: ../src/e-util/e-collection-account-wizard.c:1982
 msgid "Select which parts should be configured:"
 msgstr "Które części skonfigurować:"
 
-#: ../src/e-util/e-collection-account-wizard.c:2092
+#: ../src/e-util/e-collection-account-wizard.c:2106
 #: ../src/mail/e-mail-config-identity-page.c:542
 #: ../src/mail/e-mail-config-summary-page.c:318
 msgid "Account Information"
@@ -16289,23 +16286,23 @@ msgstr ""
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Ustawienie wersji protokołu na LDAPv3 (%d) się nie powiodło: %s"
 
-#: ../src/e-util/e-misc-utils.c:4170
+#: ../src/e-util/e-misc-utils.c:4170 ../src/e-util/e-misc-utils.c:4178
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr ""
 "Ustawienie opcji czasu oczekiwania na połączenie (%d) się nie powiodło: %s"
 
-#: ../src/e-util/e-misc-utils.c:4205
+#: ../src/e-util/e-misc-utils.c:4213
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Użycie StartTLS się nie powiodło (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4218
+#: ../src/e-util/e-misc-utils.c:4226
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Uwierzytelnienie na serwerze LDAP (%d) się nie powiodło: %s"
 
-#: ../src/e-util/e-misc-utils.c:4232
+#: ../src/e-util/e-misc-utils.c:4240
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -16320,7 +16317,7 @@ msgstr ""
 "\n"
 "Szczegółowy błąd (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4243
+#: ../src/e-util/e-misc-utils.c:4251
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -16330,12 +16327,12 @@ msgstr ""
 "funkcjonalności, lub może być błędnie skonfigurowany. Proszę zapytać "
 "administratora o obsługę baz wyszukiwania."
 
-#: ../src/e-util/e-misc-utils.c:4276
+#: ../src/e-util/e-misc-utils.c:4284
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Program nie został skompilowany z obsługą protokołu LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4599
+#: ../src/e-util/e-misc-utils.c:4609
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -16343,31 +16340,31 @@ msgstr "Nieznany (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4608
+#: ../src/e-util/e-misc-utils.c:4618
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4786
+#: ../src/e-util/e-misc-utils.c:4839
 #, c-format
 msgid "Click to call %s"
 msgstr "Kliknięcie zadzwoni do „%s”"
 
-#: ../src/e-util/e-misc-utils.c:4788
+#: ../src/e-util/e-misc-utils.c:4841
 msgid "Click to hide/unhide addresses"
 msgstr "Kliknięcie wyświetli/ukryje adresy"
 
-#: ../src/e-util/e-misc-utils.c:4801
+#: ../src/e-util/e-misc-utils.c:4854
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Przechodzi do części „%s” wiadomości"
 
-#: ../src/e-util/e-misc-utils.c:4803
+#: ../src/e-util/e-misc-utils.c:4856
 msgid "Go to the beginning of the message"
 msgstr "Przechodzi do początku wiadomości"
 
-#: ../src/e-util/e-misc-utils.c:4809
+#: ../src/e-util/e-misc-utils.c:4862
 #, c-format
 msgid "Click to open %s"
 msgstr "Kliknięcie otworzy „%s”"
@@ -19704,43 +19701,43 @@ msgstr "Następny"
 msgid "Previous"
 msgstr "Poprzedni"
 
-#: ../src/mail/e-mail-reader-utils.c:156
+#: ../src/mail/e-mail-reader-utils.c:157
 msgid "Do not warn me again"
 msgstr "Bez ponownego ostrzegania"
 
-#: ../src/mail/e-mail-reader-utils.c:644
+#: ../src/mail/e-mail-reader-utils.c:645
 #, c-format
 msgid "Deleting messages in Junk folder “%s”…"
 msgstr "Usuwanie niechcianych wiadomości w „%s”…"
 
-#: ../src/mail/e-mail-reader-utils.c:739
+#: ../src/mail/e-mail-reader-utils.c:740
 #, c-format
 msgid "Refreshing folder “%s”"
 msgstr "Odświeżanie katalogu „%s”"
 
-#: ../src/mail/e-mail-reader-utils.c:1346
+#: ../src/mail/e-mail-reader-utils.c:1347
 msgid "Marking thread to be ignored"
 msgstr "Oznaczanie wątku jako ignorowanego"
 
-#: ../src/mail/e-mail-reader-utils.c:1350
+#: ../src/mail/e-mail-reader-utils.c:1351
 msgid "Unmarking thread from being ignored"
 msgstr "Odznaczanie wątku jako ignorowanego"
 
-#: ../src/mail/e-mail-reader-utils.c:1354
+#: ../src/mail/e-mail-reader-utils.c:1355
 msgid "Marking subthread to be ignored"
 msgstr "Oznaczanie podwątku jako ignorowanego"
 
-#: ../src/mail/e-mail-reader-utils.c:1358
+#: ../src/mail/e-mail-reader-utils.c:1359
 msgid "Unmarking subthread from being ignored"
 msgstr "Odznaczanie podwątku jako ignorowanego"
 
-#: ../src/mail/e-mail-reader-utils.c:1684
+#: ../src/mail/e-mail-reader-utils.c:1672
 msgid "Printing"
 msgstr "Drukowanie"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../src/mail/e-mail-reader-utils.c:1921
+#: ../src/mail/e-mail-reader-utils.c:1909
 #, c-format
 msgid ""
 "Folder “%s” contains %u duplicate message. Are you sure you want to delete "
@@ -19752,7 +19749,7 @@ msgstr[0] "Katalog „%s” zawiera %u duplikat wiadomości. Na pewno go usuną�
 msgstr[1] "Katalog „%s” zawiera %u duplikaty wiadomości. Na pewno je usunąć?"
 msgstr[2] "Katalog „%s” zawiera %u duplikatów wiadomości. Na pewno je usunąć?"
 
-#: ../src/mail/e-mail-reader-utils.c:3209
+#: ../src/mail/e-mail-reader-utils.c:3197
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Zapisanie wiadomości"
@@ -19764,14 +19761,14 @@ msgstr[2] "Zapisanie wiadomości"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3230
+#: ../src/mail/e-mail-reader-utils.c:3218
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Wiadomość"
 msgstr[1] "Wiadomości"
 msgstr[2] "Wiadomości"
 
-#: ../src/mail/e-mail-reader-utils.c:3668
+#: ../src/mail/e-mail-reader-utils.c:3656
 msgid "Parsing message"
 msgstr "Przetwarzanie wiadomości"
 
@@ -23487,41 +23484,41 @@ msgstr ""
 "Sprawdzenie poprawności pliku kopii zapasowej „%s” się nie powiodło, "
 "archiwum jest uszkodzone."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1213
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1216
 msgid "Evolution Back Up"
 msgstr "Kopia zapasowa programu Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1214
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1217
 #, c-format
 msgid "Backing up to the file %s"
 msgstr "Zapisywanie do katalogu %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1218
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1221
 msgid "Evolution Restore"
 msgstr "Przywracanie kopii programu Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1219
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1222
 #, c-format
 msgid "Restoring from the file %s"
 msgstr "Przywracanie z katalogu %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1288
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1291
 msgid "Backing up Evolution Data"
 msgstr "Tworzenie kopii zapasowej danych programu Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1289
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1292
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Trwa tworzenie kopii zapasowej danych. Proszę czekać."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1291
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1294
 msgid "Restoring Evolution Data"
 msgstr "Przywracanie kopii zapasowej danych programu Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1292
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1295
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Trwa przywracanie danych z kopii zapasowej. Proszę czekać."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1314
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1317
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "Czas działania zależy od ilości danych na koncie."
 
@@ -27065,14 +27062,18 @@ msgid "Send immediately"
 msgstr "Wysłanie od razu"
 
 #: ../src/modules/mail/em-composer-prefs.c:1285
+msgid "Send after 1 minute"
+msgstr "Wysłanie po 1 minucie"
+
+#: ../src/modules/mail/em-composer-prefs.c:1286
 msgid "Send after 5 minutes"
 msgstr "Wysłanie po 5 minutach"
 
-#: ../src/modules/mail/em-composer-prefs.c:1370
+#: ../src/modules/mail/em-composer-prefs.c:1371
 msgid "Language(s)"
 msgstr "Języki"
 
-#: ../src/modules/mail/em-composer-prefs.c:1400
+#: ../src/modules/mail/em-composer-prefs.c:1401
 msgid "Same as user interface"
 msgstr "Język interfejsu użytkownika"
 
@@ -28450,24 +28451,24 @@ msgid "Created from a mail by %s"
 msgstr "Utworzone z wiadomości od %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:599
+#: ../src/plugins/mail-to-task/mail-to-task.c:613
 msgctxt "mail-to-task"
 msgid "_Cancel"
 msgstr "_Anuluj"
 
 #. Translators: Dialog button to Edit an existing event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:601
+#: ../src/plugins/mail-to-task/mail-to-task.c:615
 msgctxt "mail-to-task"
 msgid "_Edit"
 msgstr "_Modyfikuj"
 
 #. Translators: Dialog button to create a New event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:603
+#: ../src/plugins/mail-to-task/mail-to-task.c:617
 msgctxt "mail-to-task"
 msgid "_New"
 msgstr "_Nowe"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:621
+#: ../src/plugins/mail-to-task/mail-to-task.c:635
 #, c-format
 msgid ""
 "Selected calendar contains event “%s” already. Would you like to edit the "
@@ -28476,7 +28477,7 @@ msgstr ""
 "Wybrany kalendarz zawiera już wydarzenie „%s”. Zmodyfikować istniejące "
 "wydarzenie?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:624
+#: ../src/plugins/mail-to-task/mail-to-task.c:638
 #, c-format
 msgid ""
 "Selected task list contains task “%s” already. Would you like to edit the "
@@ -28485,7 +28486,7 @@ msgstr ""
 "Wybrana lista zadań zawiera już zadanie „%s”. Zmodyfikować istniejące "
 "zadanie?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:627
+#: ../src/plugins/mail-to-task/mail-to-task.c:641
 #, c-format
 msgid ""
 "Selected memo list contains memo “%s” already. Would you like to edit the "
@@ -28495,47 +28496,47 @@ msgstr ""
 "notatkę?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:647
-#, c-format
-msgid ""
-"You have selected %d mails to be converted to events. Do you really want to "
-"add them all?"
-msgid_plural ""
-"You have selected %d mails to be converted to events. Do you really want to "
-"add them all?"
-msgstr[0] ""
-"Wybrano %d wiadomości do przekształcenia na wydarzenia. Na pewno dodać je "
-"wszystkie?"
-msgstr[1] ""
-"Wybrano %d wiadomości do przekształcenia na wydarzenia. Na pewno dodać je "
-"wszystkie?"
-msgstr[2] ""
-"Wybrano %d wiadomości do przekształcenia na wydarzenia. Na pewno dodać je "
-"wszystkie?"
-
-#. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:654
-#, c-format
-msgid ""
-"You have selected %d mails to be converted to tasks. Do you really want to "
-"add them all?"
-msgid_plural ""
-"You have selected %d mails to be converted to tasks. Do you really want to "
-"add them all?"
-msgstr[0] ""
-"Wybrano %d wiadomości do przekształcenia na zadania. Na pewno dodać je "
-"wszystkie?"
-msgstr[1] ""
-"Wybrano %d wiadomości do przekształcenia na zadania. Na pewno dodać je "
-"wszystkie?"
-msgstr[2] ""
-"Wybrano %d wiadomości do przekształcenia na zadania. Na pewno dodać je "
-"wszystkie?"
-
-#. Translators: Note there are always more than 10 mails selected
 #: ../src/plugins/mail-to-task/mail-to-task.c:661
 #, c-format
 msgid ""
+"You have selected %d mails to be converted to events. Do you really want to "
+"add them all?"
+msgid_plural ""
+"You have selected %d mails to be converted to events. Do you really want to "
+"add them all?"
+msgstr[0] ""
+"Wybrano %d wiadomości do przekształcenia na wydarzenia. Na pewno dodać je "
+"wszystkie?"
+msgstr[1] ""
+"Wybrano %d wiadomości do przekształcenia na wydarzenia. Na pewno dodać je "
+"wszystkie?"
+msgstr[2] ""
+"Wybrano %d wiadomości do przekształcenia na wydarzenia. Na pewno dodać je "
+"wszystkie?"
+
+#. Translators: Note there are always more than 10 mails selected
+#: ../src/plugins/mail-to-task/mail-to-task.c:668
+#, c-format
+msgid ""
+"You have selected %d mails to be converted to tasks. Do you really want to "
+"add them all?"
+msgid_plural ""
+"You have selected %d mails to be converted to tasks. Do you really want to "
+"add them all?"
+msgstr[0] ""
+"Wybrano %d wiadomości do przekształcenia na zadania. Na pewno dodać je "
+"wszystkie?"
+msgstr[1] ""
+"Wybrano %d wiadomości do przekształcenia na zadania. Na pewno dodać je "
+"wszystkie?"
+msgstr[2] ""
+"Wybrano %d wiadomości do przekształcenia na zadania. Na pewno dodać je "
+"wszystkie?"
+
+#. Translators: Note there are always more than 10 mails selected
+#: ../src/plugins/mail-to-task/mail-to-task.c:675
+#, c-format
+msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
 "add them all?"
 msgid_plural ""
@@ -28551,29 +28552,29 @@ msgstr[2] ""
 "Wybrano %d wiadomości do przekształcenia na notatki. Na pewno dodać je "
 "wszystkie?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:682
+#: ../src/plugins/mail-to-task/mail-to-task.c:696
 msgid "Do you wish to continue converting remaining mails?"
 msgstr "Kontynuować przekształcanie pozostałych wiadomości?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:764
+#: ../src/plugins/mail-to-task/mail-to-task.c:778
 msgid "[No Summary]"
 msgstr "[Brak podsumowania]"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:776
+#: ../src/plugins/mail-to-task/mail-to-task.c:790
 msgid "Invalid object returned from a server"
 msgstr "Serwer zwrócił nieprawidłowy obiekt"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:830
+#: ../src/plugins/mail-to-task/mail-to-task.c:844
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "Wystąpił błąd podczas przetwarzania: %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:881
+#: ../src/plugins/mail-to-task/mail-to-task.c:895
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Nie można otworzyć kalendarza. %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:885
+#: ../src/plugins/mail-to-task/mail-to-task.c:899
 msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
@@ -28581,7 +28582,7 @@ msgstr ""
 "Wybrany kalendarz jest tylko do odczytu, więc nie można utworzyć tutaj "
 "wydarzenia. Proszę wybrać inny kalendarz."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:888
+#: ../src/plugins/mail-to-task/mail-to-task.c:902
 msgid ""
 "Selected task list is read only, thus cannot create task there. Select other "
 "task list, please."
@@ -28589,7 +28590,7 @@ msgstr ""
 "Wybrana lista zadań jest tylko do odczytu, więc nie można utworzyć tutaj "
 "zadania. Proszę wybrać inną listę zadań."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:891
+#: ../src/plugins/mail-to-task/mail-to-task.c:905
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
@@ -28597,40 +28598,40 @@ msgstr ""
 "Wybrana lista notatek jest tylko do odczytu, więc nie można utworzyć tutaj "
 "notatki. Proszę wybrać inną listę notatek."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:982
+#: ../src/plugins/mail-to-task/mail-to-task.c:996
 #, c-format
 msgid "Cannot create component: %s"
 msgstr "Nie można utworzyć składnika: %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1359
+#: ../src/plugins/mail-to-task/mail-to-task.c:1373
 msgid "Create an _Appointment"
 msgstr "Utwórz _spotkanie"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1361
+#: ../src/plugins/mail-to-task/mail-to-task.c:1375
 msgid "Create a new event from the selected message"
 msgstr "Tworzy nowe wydarzenie z zaznaczonej wiadomości"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1366
+#: ../src/plugins/mail-to-task/mail-to-task.c:1380
 msgid "Create a Mem_o"
 msgstr "Utwórz n_otatkę"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1368
+#: ../src/plugins/mail-to-task/mail-to-task.c:1382
 msgid "Create a new memo from the selected message"
 msgstr "Tworzy nową notatkę z zaznaczonej wiadomości"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1373
+#: ../src/plugins/mail-to-task/mail-to-task.c:1387
 msgid "Create a _Task"
 msgstr "Utwórz _zadanie"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1375
+#: ../src/plugins/mail-to-task/mail-to-task.c:1389
 msgid "Create a new task from the selected message"
 msgstr "Tworzy nowe zadanie z zaznaczonej wiadomości"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1383
+#: ../src/plugins/mail-to-task/mail-to-task.c:1397
 msgid "Create a _Meeting"
 msgstr "Utwórz ze_branie"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1385
+#: ../src/plugins/mail-to-task/mail-to-task.c:1399
 msgid "Create a new meeting from the selected message"
 msgstr "Tworzy nowe zebranie z zaznaczonej wiadomości"
 
