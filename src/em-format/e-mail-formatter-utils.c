@@ -625,20 +625,23 @@ e_mail_formatter_format_security_header (EMailFormatter *formatter,
 		if (should_skip_part (id))
 			continue;
 
-		if (!e_mail_part_has_validity (mail_part)) {
-			/* A part without validity, thus it's partially signed/encrypted */
-			is_partial = TRUE;
-		} else {
-			guint32 validies = 0;
-			for (ii = 0; ii < G_N_ELEMENTS (validity_flags); ii++) {
-				if (e_mail_part_get_validity (mail_part, validity_flags[ii].flags))
-					validies |= validity_flags[ii].flags;
+		if (!mail_part->is_hidden && !e_mail_part_id_has_suffix (mail_part, ".secure_button") &&
+		    !e_mail_part_get_is_attachment (mail_part)) {
+			if (!e_mail_part_has_validity (mail_part)) {
+				/* A part without validity, thus it's partially signed/encrypted */
+				is_partial = TRUE;
+			} else {
+				guint32 validies = 0;
+				for (ii = 0; ii < G_N_ELEMENTS (validity_flags); ii++) {
+					if (e_mail_part_get_validity (mail_part, validity_flags[ii].flags))
+						validies |= validity_flags[ii].flags;
+				}
+				check_valid_flags |= validies;
 			}
-			check_valid_flags |= validies;
 		}
 
 		/* Do not traverse sub-messages */
-		if (g_str_has_suffix (e_mail_part_get_id (mail_part), ".rfc822") &&
+		if (e_mail_part_id_has_suffix (mail_part, ".rfc822") &&
 		    !g_str_equal (e_mail_part_get_id (mail_part), part_id_prefix))
 			link = e_mail_formatter_find_rfc822_end_iter (link);
 	}
@@ -770,7 +773,8 @@ e_mail_formatter_utils_extract_secured_message_ids (GList *parts)
 			continue;
 		}
 
-		if (part->is_hidden || e_mail_part_get_is_attachment (part))
+		if (part->is_hidden || e_mail_part_get_is_attachment (part) ||
+		    e_mail_part_id_has_suffix (part, ".secure_button"))
 			continue;
 
 		if (e_mail_part_has_validity (part)) {

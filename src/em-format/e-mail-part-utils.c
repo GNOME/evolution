@@ -125,7 +125,8 @@ e_mail_part_get_frame_security_style (EMailPart *part)
 					end_partid = g_strconcat (e_mail_part_get_id (lpart), ".end", NULL);
 				}
 
-				if (!stack)
+				if (!stack && !lpart->is_hidden && !e_mail_part_get_is_attachment (lpart) &&
+				    !e_mail_part_id_has_suffix (lpart, ".secure_button"))
 					any_secure = e_mail_part_get_validity_flags (lpart) != E_MAIL_PART_VALIDITY_NONE;
 			}
 
