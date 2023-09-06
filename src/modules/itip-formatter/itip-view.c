@@ -4957,6 +4957,9 @@ find_server (ItipView *view,
 	for (; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 
+		if (e_util_guess_source_is_readonly (source))
+			continue;
+
 		if (!fd) {
 			gchar *start = NULL, *end = NULL;
 
