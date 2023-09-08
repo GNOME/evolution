@@ -680,11 +680,8 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 	gtk_file_chooser_set_select_multiple (file_chooser, TRUE);
 
 	if (dialog) {
-#ifdef HAVE_AUTOAR
-		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CLOSE);
-#else
 		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-#endif
+
 		gtk_window_set_icon_name (GTK_WINDOW (dialog), "mail-attachment");
 
 		preview = GTK_IMAGE (gtk_image_new ());
