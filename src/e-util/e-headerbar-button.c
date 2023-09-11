@@ -551,6 +551,13 @@ e_header_bar_button_take_menu (EHeaderBarButton *header_bar_button,
 
 	gtk_menu_button_set_popup (GTK_MENU_BUTTON (header_bar_button->priv->dropdown_button), menu);
 
+	/* Setting/unsetting menu can sensitize/un-sensitize the menu button,
+	   thus re-sync the state with the labeled button. */
+	if (header_bar_button->priv->dropdown_button && menu) {
+		gtk_widget_set_sensitive (header_bar_button->priv->dropdown_button,
+			gtk_widget_get_sensitive (header_bar_button->priv->labeled_button));
+	}
+
 	header_bar_button_update_button (header_bar_button);
 
 	gtk_widget_show (header_bar_button->priv->dropdown_button);
