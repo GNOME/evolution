@@ -2248,7 +2248,7 @@ find_cell (ETableItem *eti,
 
 	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
 
-	/* FIXME: this routine is inneficient, fix later */
+	/* FIXME: this routine is inefficient, fix later */
 
 	if (eti->grabbed_col >= 0 && eti->grabbed_row >= 0) {
 		*view_col_res = eti->grabbed_col;

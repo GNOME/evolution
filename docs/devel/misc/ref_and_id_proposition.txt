@@ -45,7 +45,7 @@ very unreliable method:
 
 2) Message order can change between sessions:
 
-   Gnome-mailer was designed from the begining to allow messages to be
+   Gnome-mailer was designed from the beginning to allow messages to be
    stored in classical mailboxes (mbox, maildir, MH, IMAP ...), in
    order to allow users to run other MUA on their mailboxes if
    necessary.  These other MUA can change message order within folders
@@ -87,7 +87,7 @@ non read-only folders. A combination of these three methods may be the
 most reliable solution.
 The UID is impossible to implement in a POP3 store provider.
 
-(2) Can be used with IMAP, but would be very ineficient. 
+(2) Can be used with IMAP, but would be very inefficient.
 The main issue with this method is its dependancy upon other MUAs and
 MTAs. Message-id is set before or during message transport. Moreover,
 some rfc822 compliant messages may not even have any Message-id
