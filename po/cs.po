@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-09-08 08:56+0000\n"
-"PO-Revision-Date: 2023-09-11 18:52+0200\n"
+"POT-Creation-Date: 2023-09-11 16:57+0000\n"
+"PO-Revision-Date: 2023-09-11 22:04+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -26334,7 +26334,7 @@ msgstr "Přidat Ka_lendář a Úkoly do tohoto účtu"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:533
 msgid "Import OpenP_GP key…"
-msgstr "Importovat klíč Open P_GP…"
+msgstr "Importovat klíč OpenP_GP…"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:535
 msgid "Import Pretty Good Privacy (OpenPGP) key"
