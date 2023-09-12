@@ -1,6 +1,6 @@
 # Translators:
 # Jaume Jorba <jaume.jorba@gmail.com>, 2018
-# Jordi Mas <jmas@softcatala.org>, 2018-2020
+# Jordi Mas i Hernàndez <jmas@softcatala.org>, 2018-2020, 2023
 # Ma. Teresa Guix <maite.guix@gmail.com>, 2020
 # Miquel-Àngel Burgos i Fradeja <miquel.angel.burgos@gmail.com>, 2020
 #
@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help\n"
 "POT-Creation-Date: 2022-04-12 17:51+0000\n"
-"PO-Revision-Date: 2022-04-12 20:15+0200\n"
-"Last-Translator: maite guix <maite.guix@me.com>\n"
+"PO-Revision-Date: 2023-10-12 20:15+0200\n"
+"Last-Translator: Jordi Mas i Hernàndez <jmas@softcatala.org>\n"
 "Language-Team: Catalan (https://www.transifex.com/softcatala/teams/62837/"
 "ca/)\n"
 "Language: ca\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Jordi Mas i Hernàndez <jmas@softcatala.org>, 2014, 2019, 2020\n"
+"Jordi Mas i Hernàndez <jmas@softcatala.org>, 2014, 2019, 2020, 2023\n"
 "Jaume Jorba <jaume.jorba@gmail.com>, 2018, 2019\n"
 "Miquel-Àngel Burgos i Fradeja <miquel.angel.burgos@gmail.com>, 2020"
 
@@ -2170,7 +2170,7 @@ msgstr ""
 "També podeu marcar una carpeta en xarxa per a l'ús fora de línia. Per a "
 "marcar la carpeta, feu clic amb el botó dret a la carpeta, feu clic a "
 "<gui>Propietats</gui> i seleccioneu <gui>Copia el contingut de la carpeta "
-"localment per al seu ús fora de línia</gui>."
+"localment per al seu us fora de línia</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:142
@@ -6370,8 +6370,8 @@ msgid ""
 "gnome.org/users/evolution/2.32/usage-exchange.html\">old <app>Evolution</"
 "app> manual</link>."
 msgstr ""
-"Per a temes que no es tracten aquí, consulteu l'<link href=\"https://help."
-"gnome.org/users/evolution/2.32/usage-exchange.html\">antic <app>manual d'</"
+"Per a temes que no es tracten aquí, consulteu <link href=\"https://help."
+"gnome.org/users/evolution/2.32/usage-exchange.html\">l'antic <app>manual d'</"
 "app>Evolution</link>."
 
 #. (itstool) path: info/desc
@@ -12703,7 +12703,7 @@ msgstr "el valor donat és una expressió regular"
 #. (itstool) path: td/p
 #: C/mail-searching.page:108
 msgid "another type of a regular expression"
-msgstr "altre tipus d'expressió regular"
+msgstr "un altra tipus d'expressió regular"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:110
@@ -14172,7 +14172,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-working-offline.page:48
 msgid "Syncing messages for offline usage"
-msgstr "Sincronització de missatges per a ús fora de línia"
+msgstr "Sincronització de missatges per a us fora de línia"
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:49
