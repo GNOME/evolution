@@ -8,9 +8,9 @@ flatpak:
     - flatpak
   variables:
     BUNDLE: "evolution-nightly.flatpak"
-    MANIFEST_PATH: "data/org.gnome.evolution.nightly.json"
+    MANIFEST_PATH: "data/org.gnome.Evolution.Devel.json"
     FLATPAK_MODULE: "evolution"
-    APP_ID: "org.gnome.evolution-nightly"
+    APP_ID: "org.gnome.Evolution.Devel"
     RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
   before_script:
     - export PATH="/usr/lib/ccache:$PATH"

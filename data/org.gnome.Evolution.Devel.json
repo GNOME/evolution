@@ -1,5 +1,5 @@
 {
-	"app-id": "org.gnome.evolution-nightly",
+	"app-id": "org.gnome.Evolution.Devel",
 	"runtime": "org.gnome.Platform",
 	"runtime-version": "master",
 	"sdk": "org.gnome.Sdk",
@@ -240,7 +240,7 @@
 				"/share/GConf"
 			],
 			"config-opts": [
-				"-DDBUS_SERVICES_PREFIX=org.gnome.evolution-nightly",
+				"-DDBUS_SERVICES_PREFIX=org.gnome.Evolution.Devel",
 				"-DEXTENSIONS_DIR=/app/evolution/extensions",
 				"-DENABLE_FILE_LOCKING=fcntl",
 				"-DENABLE_DOT_LOCKING=OFF",
@@ -363,7 +363,7 @@
 				"cflags": "-DTEMP_HOME=1 -Wno-deprecated-declarations"
 			},
 			"config-opts": [
-				"-DOVERRIDE_APPLICATION_ID=org.gnome.evolution-nightly",
+				"-DOVERRIDE_APPLICATION_ID=org.gnome.Evolution.Devel",
 				"-DENABLE_MAINTAINER_MODE=ON",
 				"-DENABLE_AUTOAR=OFF",
 				"-DENABLE_CONTACT_MAPS=OFF",
@@ -399,7 +399,7 @@
 				}
 			],
 			"post-install": [
-				"mv /app/share/applications/org.gnome.Evolution.desktop /app/share/applications/org.gnome.evolution-nightly.desktop"
+				"mv /app/share/applications/org.gnome.Evolution.desktop /app/share/applications/org.gnome.Evolution.Devel.desktop"
 			]
 		}
 	]
