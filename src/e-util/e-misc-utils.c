@@ -3823,6 +3823,14 @@ e_util_check_gtk_bindings_in_key_press_event_cb (GtkWidget *widget,
 	if (!focused)
 		return FALSE;
 
+	if (GTK_IS_ENTRY (focused) &&
+	    gtk_entry_im_context_filter_keypress (GTK_ENTRY (focused), (GdkEventKey *) event))
+		return TRUE;
+
+	if (GTK_IS_TEXT_VIEW (focused) &&
+	    gtk_text_view_im_context_filter_keypress (GTK_TEXT_VIEW (focused), (GdkEventKey *) event))
+		return TRUE;
+
 	if (gtk_bindings_activate_event (G_OBJECT (focused), key_event))
 		return TRUE;
 
