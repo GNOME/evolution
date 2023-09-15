@@ -60,6 +60,14 @@
     <value nick='eml'  value='1'/>
   </enum>
 
+  <!-- Keep this synchronized with EHTMLLinkToText. -->
+  <enum id="org.gnome.evolution.mail.HTMLLinkToText">
+    <value nick='none'                    value='0'/>
+    <value nick='inline'                  value='1'/>
+    <value nick='reference'               value='2'/>
+    <value nick='reference-without-label' value='3'/>
+  </enum>
+
   <schema gettext-domain="evolution" id="org.gnome.evolution.mail" path="/org/gnome/evolution/mail/">
     <key name="prompt-check-if-default-mailer" type="b">
       <default>true</default>
@@ -946,6 +954,11 @@
       <default>false</default>
       <_summary>Show insecure parts by default</_summary>
       <_description>Set whether not signed/encrypted parts beside signed/encrypted parts should be shown after mail open. The default is to hide these possibly insecure parts.</_description>
+    </key>
+    <key name="html-link-to-text" enum="org.gnome.evolution.mail.HTMLLinkToText">
+      <default>'reference'</default>
+      <_summary>How to convert links from HTML to plain text</_summary>
+      <_description>Possible values: 'none' - do not store href in the plain text; 'inline' - show href beside the text link, like: "label &lt;href&gt;"; 'reference' - show href as reference to the end of the text, like: "label [1] ...... [1] label href"; 'reference-without-label' - show href as reference to the end of the text without label, like: "label [1] ...... [1] href"</_description>
     </key>
 
     <!-- The following keys are deprecated. -->

@@ -651,16 +651,27 @@ typedef enum {
  * @E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS: enable composer quirks to post-process the text
  * @E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL: whether new lines in the text are significant,
  *    aka whether they work the same as the &lt;br&gt; elements. Since: 3.48
+ * @E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_INLINE: this flag is used only together with %E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT,
+ *    and it converts links in a way that it shows href beside the text link, like: "label &lt;href&gt;". Since: 3.52
+ * @E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE: this flag is used only together with %E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT,
+ *    and it converts links in a way that it shows href as reference to the end of the text, like: "label [1] ...... [1] label href". Since: 3.52
+ * @E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE_WITHOUT_LABEL: this flag is used only together with %E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT,
+ *    and it converts links in a way that it shows href as reference to the end of the text without label, like: "label [1] ...... [1] href". Since: 3.52
  *
- * Flags used in e_markdown_util_html_to_text().
+ * Flags used in e_markdown_util_html_to_text(). The %E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_INLINE,
+ * %E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE and %E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE_WITHOUT_LABEL
+ * are mutually exclusive and are used only together with the %E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT flag.
  *
  * Since: 3.44
  **/
 typedef enum { /*< flags >*/
-	E_MARKDOWN_HTML_TO_TEXT_FLAG_NONE		= 0,
-	E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT		= 1 << 0,
-	E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS	= 1 << 1,
-	E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL	= 1 << 2
+	E_MARKDOWN_HTML_TO_TEXT_FLAG_NONE				= 0,
+	E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT				= 1 << 0,
+	E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS			= 1 << 1,
+	E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL			= 1 << 2,
+	E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_INLINE			= 1 << 3,
+	E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE			= 1 << 4,
+	E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE_WITHOUT_LABEL	= 1 << 5
 } EMarkdownHTMLToTextFlags;
 
 /**
@@ -688,6 +699,24 @@ typedef enum {
 	E_PREFER_SYMBOLIC_ICONS_YES	= 1,
 	E_PREFER_SYMBOLIC_ICONS_AUTO	= 2
 } EPreferSymbolicIcons;
+
+/**
+ * EHTMLLinkToText:
+ * @E_HTML_LINK_TO_TEXT_NONE: do not store href in the plain text
+ * @E_HTML_LINK_TO_TEXT_INLINE: show href beside the text link, like: "label &lt;href&gt;"
+ * @E_HTML_LINK_TO_TEXT_REFERENCE: show href as reference to the end of the text, like: "label [1] ...... [1] label href"
+ * @E_HTML_LINK_TO_TEXT_REFERENCE_WITHOUT_LABEL: show href as reference to the end of the text without label, like: "label [1] ...... [1] href"
+ *
+ * How to convert links from HTML to plain text.
+ *
+ * Since: 3.52
+ **/
+typedef enum {
+	E_HTML_LINK_TO_TEXT_NONE = 0,
+	E_HTML_LINK_TO_TEXT_INLINE = 1,
+	E_HTML_LINK_TO_TEXT_REFERENCE = 2,
+	E_HTML_LINK_TO_TEXT_REFERENCE_WITHOUT_LABEL = 3
+} EHTMLLinkToText;
 
 G_END_DECLS
 

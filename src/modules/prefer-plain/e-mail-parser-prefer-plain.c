@@ -340,6 +340,7 @@ mail_parser_prefer_plain_convert_text (gpointer user_data)
 	AsyncContext *async_context = user_data;
 	EContentRequest *content_request;
 	EWebView *web_view;
+	GSettings *settings;
 	gchar *script;
 
 	g_return_val_if_fail (async_context != NULL, FALSE);
@@ -359,12 +360,17 @@ mail_parser_prefer_plain_convert_text (gpointer user_data)
 
 	e_web_view_load_uri (web_view, "evo://disable-remote-content");
 
+	settings= e_util_ref_settings ("org.gnome.evolution.mail");
+
 	script = e_web_view_jsc_printf_script (
 		"var elem;\n"
 		"elem = document.createElement('X-EVO-CONVERT');\n"
 		"elem.innerHTML = %s;\n"
-		"EvoConvert.ToPlainText(elem, -1);",
-		async_context->text_input);
+		"EvoConvert.ToPlainText(elem, -1, %d);",
+		async_context->text_input,
+		g_settings_get_enum (settings, "html-link-to-text"));
+
+	g_object_unref (settings);
 
 	webkit_web_view_run_javascript (async_context->web_view, script, async_context->cancellable,
 		mail_parser_prefer_plain_convert_jsc_call_done_cb, async_context);

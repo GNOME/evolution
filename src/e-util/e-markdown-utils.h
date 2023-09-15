@@ -25,6 +25,8 @@ gchar *		e_markdown_utils_text_to_html_full	(const gchar *plain_text,
 gchar *		e_markdown_utils_html_to_text		(const gchar *html,
 							 gssize length,
 							 EMarkdownHTMLToTextFlags flags);
+EMarkdownHTMLToTextFlags
+		e_markdown_utils_link_to_text_to_flags	(EHTMLLinkToText link_to_text);
 
 G_END_DECLS
 

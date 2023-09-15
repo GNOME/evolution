@@ -361,6 +361,8 @@ gboolean	e_util_setup_toolbar_icon_size	(GtkToolbar *toolbar,
 gboolean	e_util_get_use_header_bar	(void);
 void		e_open_map_uri			(GtkWindow *parent,
 						 const gchar *location);
+gboolean	e_util_link_requires_reference	(const gchar *href,
+						 const gchar *text);
 
 G_END_DECLS
 

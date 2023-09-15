@@ -5083,3 +5083,101 @@ e_open_map_uri (GtkWindow *parent,
 	e_show_uri (parent, uri);
 	g_free (uri);
 }
+
+static gboolean
+e_util_links_similar (const gchar *href1,
+		      const gchar *href2)
+{
+	gsize href1_len, href2_len;
+
+	if (!href1 || !*href1 || !href2 || !*href2)
+		return FALSE;
+
+	if (g_ascii_strcasecmp (href1, href2) == 0)
+		return TRUE;
+
+	href1_len = strlen (href1);
+	href2_len = strlen (href2);
+
+	return (href1_len + 1 == href2_len &&
+		g_str_has_prefix (href2, href1) &&
+		href2[href2_len - 1] == '/') ||
+	       (href1_len == href2_len + 1 &&
+		g_str_has_prefix (href1, href2) &&
+		href1[href1_len - 1] == '/');
+}
+
+static gboolean
+e_util_is_supported_scheme (const gchar *href,
+			    guint *out_scheme_len)
+{
+	const gchar *schemes[] = { "http:", "https:" };
+	guint ii;
+
+	for (ii = 0; ii < G_N_ELEMENTS (schemes); ii++) {
+		const gchar *scheme = schemes[ii];
+		guint scheme_len = strlen (scheme);
+
+		if (g_ascii_strncasecmp (href, scheme, scheme_len) == 0) {
+			if (out_scheme_len)
+				*out_scheme_len = scheme_len;
+
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+static const gchar *
+e_util_skip_scheme (const gchar *href)
+{
+	guint scheme_len = 0;
+
+	if (!href || !*href)
+		return href;
+
+	if (e_util_is_supported_scheme (href, &scheme_len)) {
+		href += scheme_len;
+
+		if (g_str_has_prefix (href, "//"))
+			href += 2;
+
+		return href;
+	}
+
+	return href;
+}
+
+/**
+ * e_util_link_requires_reference:
+ * @href: link href, aka URL
+ * @text: link text
+ *
+ * Checks whether the link's @href and the @text differ in a way that
+ * they require a reference when converting it from HTML to text. Some
+ * protocols can be completely ignored.
+ *
+ * Returns: whether requires the reference
+ *
+ * Since: 3.52
+ **/
+gboolean
+e_util_link_requires_reference (const gchar *href,
+				const gchar *text)
+{
+	gboolean similar;
+
+	if (!href || !*href || !text || !*text)
+		return FALSE;
+
+	if (!e_util_is_supported_scheme (href, NULL))
+		return FALSE;
+
+	similar = e_util_links_similar (href, text);
+
+	if (!similar)
+		similar = e_util_links_similar (e_util_skip_scheme (href), e_util_skip_scheme (text));
+
+	return !similar;
+}

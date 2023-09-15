@@ -128,9 +128,27 @@ html_to_plain_text_cb (GObject *button,
 	GtkTextBuffer *plain_buffer, *html_buffer;
 	GtkTextIter start_iter, end_iter;
 	GtkToggleButton *disallow_html_check;
+	GtkComboBox *link_to_text_combo;
+	EHTMLLinkToText link_to_text;
 	gchar *old_text, *new_text, *tmp;
 
 	disallow_html_check = g_object_get_data (button, "disallow_html_check");
+	link_to_text_combo = g_object_get_data (button, "link_to_text_combo");
+
+	switch (gtk_combo_box_get_active (link_to_text_combo)) {
+	case 1:
+		link_to_text = E_HTML_LINK_TO_TEXT_INLINE;
+		break;
+	case 2:
+		link_to_text = E_HTML_LINK_TO_TEXT_REFERENCE;
+		break;
+	case 3:
+		link_to_text = E_HTML_LINK_TO_TEXT_REFERENCE_WITHOUT_LABEL;
+		break;
+	default:
+		link_to_text = E_HTML_LINK_TO_TEXT_NONE;
+		break;
+	}
 
 	plain_text_view = g_object_get_data (button, "plain_text_view");
 	plain_buffer = gtk_text_view_get_buffer (plain_text_view);
@@ -145,7 +163,8 @@ html_to_plain_text_cb (GObject *button,
 	tmp = gtk_text_buffer_get_text (html_buffer, &start_iter, &end_iter, FALSE);
 
 	new_text = e_markdown_utils_html_to_text (tmp, -1, E_MARKDOWN_HTML_TO_TEXT_FLAG_NONE |
-		(gtk_toggle_button_get_active (disallow_html_check) ? E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT : 0));
+		(gtk_toggle_button_get_active (disallow_html_check) ? (E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT |
+		e_markdown_utils_link_to_text_to_flags (link_to_text)) : 0));
 
 	gtk_text_buffer_set_text (plain_buffer, new_text ? new_text : "NULL", -1);
 
@@ -349,6 +368,28 @@ on_idle_create_widget (gpointer user_data)
 	gtk_grid_attach (grid, widget, 0, 5, 3, 1);
 
 	g_object_set_data (G_OBJECT (button2), "disallow_html_check", widget);
+
+	widget = gtk_combo_box_text_new ();
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (widget), "HTML Link to Text: None");
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (widget), "HTML Link to Text: Inline");
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (widget), "HTML Link to Text: Reference");
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (widget), "HTML Link to Text: Reference without label");
+	gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
+
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_START,
+		"hexpand", FALSE,
+		"valign", GTK_ALIGN_START,
+		"vexpand", FALSE,
+		"visible", TRUE,
+		NULL);
+
+	gtk_grid_attach (grid, widget, 1, 5, 3, 1);
+
+	g_object_set_data (G_OBJECT (button2), "link_to_text_combo", widget);
+
+	e_binding_bind_property (g_object_get_data (G_OBJECT (button2), "disallow_html_check"), "active",
+		widget, "sensitive", G_BINDING_SYNC_CREATE);
 
 	gtk_widget_show (window);
 

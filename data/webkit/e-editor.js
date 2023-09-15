@@ -79,6 +79,7 @@ var EvoEditor = {
 	UNICODE_SMILEYS : false,
 	WRAP_QUOTED_TEXT_IN_REPLIES : true,
 	START_BOTTOM : false,
+	LINK_TO_TEXT : EvoConvert.E_HTML_LINK_TO_TEXT_REFERENCE,
 
 	FORCE_NO : 0,
 	FORCE_YES : 1,
@@ -2244,7 +2245,7 @@ EvoEditor.convertParagraphs = function(parent, blockquoteLevel, wrapWidth, canCh
 			// replace blockquote content with pure plain text and then re-blockquote it
 			// and do it only on the top level, not recursively (nested citations)
 			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && !blockquoteLevel) {
-				child.innerHTML = EvoEditor.reBlockquotePlainText(EvoConvert.ToPlainText(child, -1),
+				child.innerHTML = EvoEditor.reBlockquotePlainText(EvoConvert.ToPlainText(child, -1, EvoEditor.LINK_TO_TEXT),
 					(child.firstElementChild && child.firstElementChild.tagName == "PRE" && (
 					!canChangeQuoteParagraphs || !EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES)),
 					child.firstElementChild && child.firstElementChild.tagName == "PRE");
@@ -2296,6 +2297,76 @@ EvoEditor.convertTags = function()
 	}
 
 	list = document.getElementsByTagName("A");
+	if (list.length > 0 && EvoEditor.LINK_TO_TEXT != EvoConvert.E_HTML_LINK_TO_TEXT_NONE) {
+		var append_refs = [];
+		for (ii = 0; ii < list.length; ii++) {
+			var node = list[ii];
+
+			if (node.href && EvoConvert.linkRequiresReference(node.href, node.innerText)) {
+				var str = "";
+
+				if (EvoEditor.LINK_TO_TEXT == EvoConvert.E_HTML_LINK_TO_TEXT_INLINE) {
+					str += " <" + node.href + ">";
+				} else if (EvoEditor.LINK_TO_TEXT == EvoConvert.E_HTML_LINK_TO_TEXT_REFERENCE) {
+					var index;
+
+					for (index = 0; index < append_refs.length; index++) {
+						if (append_refs[index].href == node.href)
+							break;
+					}
+
+					if (index == append_refs.length)
+						append_refs[append_refs.length] = { label : node.innerText, href : node.href };
+
+					str += " [" + (index + 1) + "]";
+				} else if (EvoEditor.LINK_TO_TEXT == EvoConvert.E_HTML_LINK_TO_TEXT_REFERENCE_WITHOUT_LABEL) {
+					var index;
+
+					for (index = 0; index < append_refs.length; index++) {
+						if (append_refs[index].href == node.href)
+							break;
+					}
+
+					if (index == append_refs.length)
+						append_refs[append_refs.length] = { href : node.href };
+
+					str += " [" + (index + 1) + "]";
+				}
+
+				if (str.length > 0) {
+					node.appendChild(document.createTextNode(str));
+				}
+			}
+		}
+
+		if (append_refs.length > 0) {
+			var node, str = "";
+
+			node = document.createElement("DIV");
+			node.appendChild(document.createElement("BR"));
+			document.body.appendChild(node);
+
+			for (ii = 0; ii < append_refs.length; ii++) {
+				node = document.createElement("DIV");
+				var prefix = "[" + (ii + 1) + "] ";
+				if (append_refs[ii].label) {
+					var indent = prefix.length;
+					prefix += append_refs[ii].label.replace(/\r/g, "").replace(/\n/g, " ");
+					if (EvoEditor.NORMAL_PARAGRAPH_WIDTH && EvoEditor.NORMAL_PARAGRAPH_WIDTH > 0 &&
+					    EvoEditor.NORMAL_PARAGRAPH_WIDTH < (prefix.length + 1 + append_refs[ii].href.length)) {
+						prefix += "\n" + " ".repeat(indent);
+					} else {
+						prefix += " ";
+					}
+				}
+				str += prefix + append_refs[ii].href + "\n";
+			}
+
+			node = document.createElement("PRE");
+			node.appendChild(document.createTextNode(str));
+			document.body.appendChild(node);
+		}
+	}
 
 	for (ii = list.length - 1; ii >= 0; ii--) {
 		var anchor = list[ii];
@@ -3000,7 +3071,7 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix, default_css_style)
 			content_data["to-send-html"] = EvoEditor.convertHtmlToSend(default_css_style);
 
 		if ((flags & EvoEditor.	E_CONTENT_EDITOR_GET_TO_SEND_PLAIN) != 0) {
-			content_data["to-send-plain"] = EvoConvert.ToPlainText(document.body, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
+			content_data["to-send-plain"] = EvoConvert.ToPlainText(document.body, EvoEditor.NORMAL_PARAGRAPH_WIDTH, EvoEditor.LINK_TO_TEXT);
 		}
 	} finally {
 		try {
@@ -5178,7 +5249,7 @@ EvoEditor.InsertSignature = function(content, isHTML, canRepositionCaret, uid, f
 
 			EvoEditor.removeUnwantedTags(node);
 
-			content = EvoConvert.ToPlainText(node, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
+			content = EvoConvert.ToPlainText(node, EvoEditor.NORMAL_PARAGRAPH_WIDTH, EvoEditor.LINK_TO_TEXT);
 			if (content != "") {
 				content = "<PRE>" + content.replace(/\&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</PRE>";
 			}
@@ -5481,7 +5552,7 @@ EvoEditor.InsertContent = function(text, isHTML, quote, preferPre)
 
 			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
 				EvoEditor.convertParagraphs(content, quote ? 1 : 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH, quote);
-				content.innerText = EvoConvert.ToPlainText(content, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
+				content.innerText = EvoConvert.ToPlainText(content, EvoEditor.NORMAL_PARAGRAPH_WIDTH, EvoEditor.LINK_TO_TEXT);
 			} else {
 				EvoEditor.convertParagraphs(content, quote ? 1 : 0, -1, quote);
 			}

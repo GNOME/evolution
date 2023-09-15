@@ -153,6 +153,14 @@ evo_jsc_get_uri_tooltip (const gchar *uri,
 }
 
 static gboolean
+evo_convert_jsc_link_requires_reference (const gchar *href,
+					 const gchar *text,
+					 gpointer user_data)
+{
+	return e_util_link_requires_reference (href, text);
+}
+
+static gboolean
 use_sources_js_file (void)
 {
 	static gint res = -1;
@@ -295,6 +303,7 @@ window_object_cleared_cb (WebKitScriptWorld *world,
 	EWebExtension *extension = user_data;
 	JSCContext *jsc_context;
 	JSCValue *jsc_evo_object;
+	JSCValue *jsc_convert;
 
 	/* Load the javascript files only to the main frame, not to the subframes */
 	if (!webkit_frame_is_main_frame (frame))
@@ -325,6 +334,24 @@ window_object_cleared_cb (WebKitScriptWorld *world,
 	}
 
 	g_clear_object (&jsc_evo_object);
+
+	jsc_convert = jsc_context_get_value (jsc_context, "EvoConvert");
+
+	if (jsc_convert) {
+		JSCValue *jsc_function;
+		const gchar *func_name;
+
+		/* EvoConvert.linkRequiresReference(href, text) */
+		func_name = "linkRequiresReference";
+		jsc_function = jsc_value_new_function (jsc_context, func_name,
+			G_CALLBACK (evo_convert_jsc_link_requires_reference), NULL, NULL,
+			G_TYPE_BOOLEAN, 2, G_TYPE_STRING, G_TYPE_STRING);
+
+		jsc_value_object_set_property (jsc_convert, func_name, jsc_function);
+
+		g_clear_object (&jsc_function);
+		g_clear_object (&jsc_convert);
+	}
 
 	if (extension->priv->known_plugins) {
 		GSList *link;

@@ -159,8 +159,10 @@ typedef struct _HTMLToTextData {
 	gchar *href;
 	GString *link_text;
 	GSList *list_index; /* gint; -1 for unordered list */
+	GPtrArray *link_references; /* gchar * */
 	gboolean plain_text;
 	gboolean significant_nl;
+	EHTMLLinkToText link_to_text;
 	struct _ComposerQuirks composer_quirks;
 } HTMLToTextData;
 
@@ -329,7 +331,7 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 		return;
 
 	if (g_ascii_strcasecmp (name, "a") == 0) {
-		if (!data->plain_text && !data->href) {
+		if (!data->href) {
 			const gchar *href;
 
 			href = markdown_utils_get_attribute_value (xcattrs, "href");
@@ -361,7 +363,10 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 		if (data->pending_nl_paragraph_index)
 			markdown_utils_append_tag (data, NULL);
 
-		data->pending_nl_paragraph_index = data->paragraph_index;
+		if (data->link_text)
+			g_string_append_c (data->link_text, '\n');
+		else
+			data->pending_nl_paragraph_index = data->paragraph_index;
 
 		return;
 	}
@@ -518,9 +523,77 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 		return;
 
 	if (g_ascii_strcasecmp (name, "a") == 0) {
-		if (!data->plain_text && data->href && data->link_text) {
-			markdown_utils_append_tag (data, NULL);
-			g_string_append_printf (data->buffer, "[%s](%s)", data->link_text->str, data->href);
+		if (data->href && data->link_text) {
+			if (data->plain_text) {
+				gboolean added = FALSE;
+
+				if (data->link_to_text != E_HTML_LINK_TO_TEXT_NONE && data->link_text->len > 0 &&
+				    e_util_link_requires_reference (data->href, data->link_text->str)) {
+					if (data->link_to_text == E_HTML_LINK_TO_TEXT_INLINE) {
+						gchar *tag;
+
+						tag = g_strdup_printf ("%s <%s>", data->link_text->str, data->href);
+						markdown_utils_append_tag (data, tag);
+						g_free (tag);
+						added = TRUE;
+					} else if (data->link_to_text == E_HTML_LINK_TO_TEXT_REFERENCE ||
+						   data->link_to_text == E_HTML_LINK_TO_TEXT_REFERENCE_WITHOUT_LABEL) {
+						gchar *tag;
+						guint index;
+
+						if (!data->link_references)
+							data->link_references = g_ptr_array_new_with_free_func (g_free);
+
+						/* group together the same href-s, even they can be with different text */
+						for (index = 0; index < data->link_references->len; index++) {
+							const gchar *ref = g_ptr_array_index (data->link_references, index);
+
+							if (ref) {
+								if ((data->link_to_text == E_HTML_LINK_TO_TEXT_REFERENCE_WITHOUT_LABEL &&
+								     g_ascii_strcasecmp (ref, data->href) == 0) ||
+								    (data->link_to_text == E_HTML_LINK_TO_TEXT_REFERENCE &&
+								     g_str_has_suffix (ref, data->href) && strlen (ref) > strlen (data->href) &&
+								     ref[strlen (ref) - strlen (data->href) - 1] == ' ')) {
+									break;
+								}
+							}
+						}
+
+						tag = g_strdup_printf ("%s [%u]", data->link_text->str, index + 1);
+						markdown_utils_append_tag (data, tag);
+						g_free (tag);
+						added = TRUE;
+
+						if (index == data->link_references->len) {
+							if (data->link_to_text == E_HTML_LINK_TO_TEXT_REFERENCE_WITHOUT_LABEL) {
+								g_ptr_array_add (data->link_references, g_strdup (data->href));
+							} else {
+								guint ii;
+
+								/* remove new lines from the text */
+								for (ii = 0; ii < data->link_text->len; ii++) {
+									if (data->link_text->str[ii] == '\r') {
+										g_string_erase (data->link_text, ii, 1);
+										ii--;
+									} else if (data->link_text->str[ii] == '\n') {
+										data->link_text->str[ii] = ' ';
+									}
+								}
+
+								g_ptr_array_add (data->link_references, g_strconcat (data->link_text->str, " ", data->href, NULL));
+							}
+						}
+					}
+				}
+				if (!added)
+					markdown_utils_append_text (data, data->link_text->str, data->link_text->len, TRUE);
+			} else {
+				gchar *tag;
+
+				tag = g_strdup_printf ("[%s](%s)", data->link_text->str, data->href);
+				markdown_utils_append_tag (data, tag);
+				g_free (tag);
+			}
 
 			g_free (data->href);
 			data->href = NULL;
@@ -717,11 +790,14 @@ e_markdown_utils_html_to_text (const gchar *html,
 	if (length < 0)
 		length = html ? strlen (html) : 0;
 
-	dd (printf ("%s: flags:%s%s%s%shtml:'%.*s'\n", G_STRFUNC,
+	dd (printf ("%s: flags:%s%s%s%s%s%s%shtml:'%.*s'\n", G_STRFUNC,
 		flags == E_MARKDOWN_HTML_TO_TEXT_FLAG_NONE ? "none " : "",
 		(flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT) != 0 ? "plain-text " : "",
 		(flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS) != 0 ? "composer-quirks " : "",
 		(flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL) != 0 ? "significant-nl " : "",
+		(flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_INLINE) != 0 ? "link-inline " : "",
+		(flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE) != 0 ? "link-reference " : "",
+		(flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE_WITHOUT_LABEL) != 0 ? "link-reference-without-label " : "",
 		(int) length, html);)
 
 	memset (&data, 0, sizeof (HTMLToTextData));
@@ -730,6 +806,10 @@ e_markdown_utils_html_to_text (const gchar *html,
 	data.quote_prefix = g_string_new (NULL);
 	data.plain_text = (flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT) != 0;
 	data.significant_nl = (flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL) != 0;
+	data.link_to_text = (flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_INLINE) != 0 ? E_HTML_LINK_TO_TEXT_INLINE :
+		(flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE) != 0 ? E_HTML_LINK_TO_TEXT_REFERENCE :
+		(flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE_WITHOUT_LABEL)  != 0 ? E_HTML_LINK_TO_TEXT_REFERENCE_WITHOUT_LABEL :
+		E_HTML_LINK_TO_TEXT_NONE;
 	data.composer_quirks.enabled = (flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS) != 0;
 
 	memset (&sax, 0, sizeof (htmlSAXHandler));
@@ -768,6 +848,18 @@ e_markdown_utils_html_to_text (const gchar *html,
 
 	markdown_utils_apply_composer_quirks (data.buffer, &data.composer_quirks);
 
+	if (data.link_references) {
+		guint ii;
+
+		g_string_append_c (data.buffer, '\n');
+
+		for (ii = 0; ii < data.link_references->len; ii++) {
+			const gchar *ref = g_ptr_array_index (data.link_references, ii);
+
+			g_string_append_printf (data.buffer, "[%u] %s\n", ii + 1, ref);
+		}
+	}
+
 	g_free (data.href);
 
 	if (data.link_text)
@@ -775,7 +867,35 @@ e_markdown_utils_html_to_text (const gchar *html,
 
 	g_string_free (data.quote_prefix, TRUE);
 	g_slist_free (data.list_index);
+	g_clear_pointer (&data.link_references, g_ptr_array_unref);
 	g_free (data.composer_quirks.to_body_credits);
 
 	return g_string_free (data.buffer, FALSE);
+}
+
+/**
+ * e_markdown_utils_link_to_text_to_flags:
+ * @link_to_text: an #EHTMLLinkToText
+ *
+ * Converts @link_to_text enum into corresponding #EMarkdownHTMLToTextFlags flag.
+ *
+ * Returns: @link_to_text as ##EMarkdownHTMLToTextFlags
+ *
+ * Since: 3.52
+ **/
+EMarkdownHTMLToTextFlags
+e_markdown_utils_link_to_text_to_flags (EHTMLLinkToText link_to_text)
+{
+	switch (link_to_text) {
+	case E_HTML_LINK_TO_TEXT_NONE:
+		break;
+	case E_HTML_LINK_TO_TEXT_INLINE:
+		return E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_INLINE;
+	case E_HTML_LINK_TO_TEXT_REFERENCE:
+		return E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE;
+	case E_HTML_LINK_TO_TEXT_REFERENCE_WITHOUT_LABEL:
+		return E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE_WITHOUT_LABEL;
+	}
+
+	return E_MARKDOWN_HTML_TO_TEXT_FLAG_NONE;
 }

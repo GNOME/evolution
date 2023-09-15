@@ -91,7 +91,8 @@ enum {
 	PROP_UNICODE_SMILEYS,
 	PROP_WRAP_QUOTED_TEXT_IN_REPLIES,
 	PROP_MINIMUM_FONT_SIZE,
-	PROP_PASTE_PLAIN_PREFER_PRE
+	PROP_PASTE_PLAIN_PREFER_PRE,
+	PROP_LINK_TO_TEXT
 };
 
 struct _EWebKitEditorPrivate {
@@ -179,6 +180,7 @@ struct _EWebKitEditorPrivate {
 	GError *last_error;
 
 	gint minimum_font_size;
+	EHTMLLinkToText link_to_text;
 };
 
 static const GdkRGBA black = { 0, 0, 0, 1 };
@@ -4150,6 +4152,31 @@ webkit_editor_get_paste_plain_prefer_pre (EWebKitEditor *wk_editor)
 }
 
 static void
+webkit_editor_set_link_to_text (EWebKitEditor *wk_editor,
+				EHTMLLinkToText value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if (wk_editor->priv->link_to_text != value) {
+		wk_editor->priv->link_to_text = value;
+
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.LINK_TO_TEXT = %d;",
+			value);
+
+		g_object_notify (G_OBJECT (wk_editor), "link-to-text");
+	}
+}
+
+static gboolean
+webkit_editor_get_link_to_text (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
+
+	return wk_editor->priv->link_to_text;
+}
+
+static void
 webkit_editor_clipboard_owner_changed_cb (GtkClipboard *clipboard,
 					  GdkEventOwnerChange *event,
 					  gpointer user_data)
@@ -4312,6 +4339,10 @@ webkit_editor_constructed (GObject *object)
 	g_settings_bind (
 		settings, "composer-paste-plain-prefer-pre",
 		wk_editor, "paste-plain-prefer-pre",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (settings, "html-link-to-text",
+		wk_editor, "link-to-text",
 		G_SETTINGS_BIND_GET);
 
 	g_object_unref (settings);
@@ -4663,6 +4694,11 @@ webkit_editor_set_property (GObject *object,
 				E_WEBKIT_EDITOR (object),
 				g_value_get_boolean (value));
 			return;
+		case PROP_LINK_TO_TEXT:
+			webkit_editor_set_link_to_text (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_enum (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -4902,6 +4938,11 @@ webkit_editor_get_property (GObject *object,
 			g_value_set_boolean (value,
 				webkit_editor_get_paste_plain_prefer_pre (E_WEBKIT_EDITOR (object)));
 			return;
+
+		case PROP_LINK_TO_TEXT:
+			g_value_set_boolean (value,
+				webkit_editor_get_link_to_text (E_WEBKIT_EDITOR (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -5002,13 +5043,15 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 		"EvoEditor.MAGIC_LINKS = %x;"
 		"EvoEditor.MAGIC_SMILEYS = %x;"
 		"EvoEditor.UNICODE_SMILEYS = %x;"
-		"EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES = %x;",
+		"EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES = %x;"
+		"EvoEditor.LINK_TO_TEXT = %d;",
 		wk_editor->priv->normal_paragraph_width,
 		e_content_editor_util_three_state_to_bool (wk_editor->priv->start_bottom, "composer-reply-start-bottom"),
 		wk_editor->priv->magic_links,
 		wk_editor->priv->magic_smileys,
 		wk_editor->priv->unicode_smileys,
-		wk_editor->priv->wrap_quoted_text_in_replies);
+		wk_editor->priv->wrap_quoted_text_in_replies,
+		wk_editor->priv->link_to_text);
 
 	/* Dispatch queued operations - as we are using this just for load
 	 * operations load just the latest request and throw away the rest. */
@@ -5820,6 +5863,19 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_LINK_TO_TEXT,
+		g_param_spec_enum (
+			"link-to-text",
+			NULL,
+			NULL,
+			E_TYPE_HTML_LINK_TO_TEXT,
+			E_HTML_LINK_TO_TEXT_REFERENCE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -5933,6 +5989,8 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 
 	wk_editor->priv->start_bottom = E_THREE_STATE_INCONSISTENT;
 	wk_editor->priv->top_signature = E_THREE_STATE_INCONSISTENT;
+
+	wk_editor->priv->link_to_text = E_HTML_LINK_TO_TEXT_REFERENCE;
 
 	wk_editor_change_existing_instances (+1);
 }

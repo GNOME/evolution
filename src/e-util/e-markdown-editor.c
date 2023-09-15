@@ -255,20 +255,23 @@ e_markdown_editor_insert_content (EContentEditor *cnt_editor,
 	self = E_MARKDOWN_EDITOR (cnt_editor);
 
 	if ((flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0) {
-		gboolean sanitize_text = TRUE;
+		EMarkdownHTMLToTextFlags add_flags = E_MARKDOWN_HTML_TO_TEXT_FLAG_NONE;
 
 		if (self->priv->mode == E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT) {
 			GSettings *settings;
 
 			settings = e_util_ref_settings ("org.gnome.evolution.mail");
-			sanitize_text = g_settings_get_boolean (settings, "composer-sanitize-markdown-plaintext-input");
+			if (!g_settings_get_boolean (settings, "composer-sanitize-markdown-plaintext-input")) {
+				add_flags = E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT |
+					e_markdown_utils_link_to_text_to_flags (g_settings_get_enum (settings, "html-link-to-text"));
+			}
 
 			g_clear_object (&settings);
 		}
 
 		text = e_markdown_utils_html_to_text (content, -1, E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS |
 			((flags & E_CONTENT_EDITOR_INSERT_FROM_PLAIN_TEXT) != 0 ? E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL : 0) |
-			(sanitize_text ? 0 : E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT));
+			add_flags);
 		content = text;
 	}
 
@@ -860,9 +863,16 @@ e_markdown_editor_insert_signature (EContentEditor *cnt_editor,
 	self->priv->signature_uid = g_strdup (signature_id);
 
 	if (content && *content && editor_mode == E_CONTENT_EDITOR_MODE_HTML) {
-		plain_text = e_markdown_utils_html_to_text (content, -1, E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT);
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+		plain_text = e_markdown_utils_html_to_text (content, -1, E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT |
+			e_markdown_utils_link_to_text_to_flags (g_settings_get_enum (settings, "html-link-to-text")));
 		content = plain_text;
 		editor_mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
+
+		g_clear_object (&settings);
 	}
 
 	if (content && *content && editor_mode == E_CONTENT_EDITOR_MODE_PLAIN_TEXT) {

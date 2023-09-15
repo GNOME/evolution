@@ -761,6 +761,486 @@ test_markdown_convert_to_plain_text (void)
 }
 
 static void
+test_markdown_convert_to_plain_text_links_none (void)
+{
+	#define HTML(_body) HTML_PREFIX _body HTML_SUFFIX
+
+	struct _tests {
+		const gchar *html;
+		const gchar *plain;
+	} tests[] = {
+	/* 0 */ { HTML ("<div>before <a href='https://gnome.org'>https://gnome.org</a> after</div>"),
+		"before https://gnome.org after\n"},
+	/* 1 */ { HTML ("<div>before <a href='https://gnome.org'>GNOME</a> after</div>"),
+		"before GNOME after\n" },
+	/* 2 */ { HTML ("<div>b1 <a href='https://gnome.org/a'>GNOME-a</a> a1</div>"
+		"<div>b2 <a href='https://gnome.org/'>https://gnome.org/</a> a2</div>"
+		"<div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div>"
+		"<div>b4 <a href='https://gnome.org/c'>GNOME-c</a> a4</div>"),
+		"b1 GNOME-a a1\n"
+		"b2 https://gnome.org/ a2\n"
+		"b3 GNOME-b a3\n"
+		"b4 GNOME-c a4\n" },
+	/* 3 */ { HTML ("<div>b1 <a href='https://gnome.org/a'>GNOME-a</a> a1</div>"
+		"<div>b2 <a href='https://gnome.org'>https://gnome.org/</a> a2</div>"
+		"<div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div>"
+		"<div>b4 <a href='https://gnome.org/c'>GNOME-c</a> a4</div>"
+		"<div>b5 <a href='https://gnome.org/d'>GNOME-d</a> a5</div>"
+		"<div>b6 <a href='https://gnome.org/e'>GNOME-e</a> a6</div>"
+		"<div>b7 <a href='https://gnome.org/f'>GNOME-f</a> a7</div>"
+		"<div>b8 <a href='https://gnome.org/g'>GNOME-g</a> a8</div>"
+		"<div>b9 <a href='https://gnome.org/h'>GNOME-h</a> a9</div>"
+		"<div>b10 <a href='https://gnome.org/i'>GNOME-i</a> a10</div>"),
+		"b1 GNOME-a a1\n"
+		"b2 https://gnome.org/ a2\n"
+		"b3 GNOME-b a3\n"
+		"b4 GNOME-c a4\n"
+		"b5 GNOME-d a5\n"
+		"b6 GNOME-e a6\n"
+		"b7 GNOME-f a7\n"
+		"b8 GNOME-g a8\n"
+		"b9 GNOME-h a9\n"
+		"b10 GNOME-i a10\n" },
+	/* 4 */ { HTML ("<div>b1 <a href='https://gnome.org/a'>GNOME-a<br>next line<br>text</a> a1</div>"
+		"<div>b2 <a href='https://gnome.org/'>https://gnome.org</a> a2</div>"
+		"<div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div>"
+		"<div>b4 <a href='https://gnome.org/c'>GNOME-c</a> a4</div>"
+		"<div>b5 <a href='https://gnome.org/d'>GNOME-d</a> a5</div>"
+		"<div>b6 <a href='https://gnome.org/e'>GNOME-e</a> a6</div>"
+		"<div>b7 <a href='https://gnome.org/f'>GNOME-f</a> a7</div>"
+		"<div>b8 <a href='https://gnome.org/g'>GNOME-g</a> a8</div>"
+		"<div>b9 <a href='https://gnome.org/h'>GNOME-h</a> a9</div>"
+		"<div>b10 <a href='https://gnome.org/i'>GNOME-i</a> a10</div>"
+		"<div>b11 <a href='https://gnome.org/j'>GNOME-j</a> a11</div>"),
+		"b1 GNOME-a\nnext line\ntext a1\n"
+		"b2 https://gnome.org a2\n"
+		"b3 GNOME-b a3\n"
+		"b4 GNOME-c a4\n"
+		"b5 GNOME-d a5\n"
+		"b6 GNOME-e a6\n"
+		"b7 GNOME-f a7\n"
+		"b8 GNOME-g a8\n"
+		"b9 GNOME-h a9\n"
+		"b10 GNOME-i a10\n"
+		"b11 GNOME-j a11\n" },
+	/* 5 */ { HTML ("<ul><li>first line</li>"
+		"<li>b2 <a href='https://gnome.org/'>GNOME</a> a2</li>"
+		"<li><div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div></li>"
+		"<li>last line</li></ul>"),
+		"\n"
+		"- first line\n"
+		"- b2 GNOME a2\n"
+		"- b3 GNOME-b a3\n\n"
+		"- last line\n"
+		"\n" },
+	/* 6 */ { HTML ("<ol><li>first line</li>"
+		"<li>b2 <a href='https://gnome.org/'>GNOME</a> a2</li>"
+		"<li><div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div></li>"
+		"<li>last line</li></ol>"),
+		"\n"
+		"1. first line\n"
+		"2. b2 GNOME a2\n"
+		"3. b3 GNOME-b a3\n\n"
+		"4. last line\n"
+		"\n" },
+	/* 7 */ { HTML ("<div>before <a href='gnome.org'>GNOME</a> after</div>"
+		"<div>before <a href='mailto:user@no.where'>Mail the User</a> after</div>"
+		"<div>before <a href='https://gnome.org'>https GNOME</a> after</div>"
+		"<div>before <a href='http://gnome.org'>http GNOME</a> after</div>"),
+		"before GNOME after\n"
+		"before Mail the User after\n"
+		"before https GNOME after\n"
+		"before http GNOME after\n" }
+	};
+
+	#undef HTML
+
+	gint ii;
+
+	for (ii = 0; ii < G_N_ELEMENTS (tests); ii++) {
+		test_markdown_convert (tests[ii].html, tests[ii].plain, E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT);
+	}
+}
+
+static void
+test_markdown_convert_to_plain_text_links_inline (void)
+{
+	#define HTML(_body) HTML_PREFIX _body HTML_SUFFIX
+
+	struct _tests {
+		const gchar *html;
+		const gchar *plain;
+	} tests[] = {
+	/* 0 */ { HTML ("<div>before <a href='https://gnome.org'>https://gnome.org</a> after</div>"),
+		"before https://gnome.org after\n" },
+	/* 1 */ { HTML ("<div>before <a href='https://gnome.org'>GNOME</a> after</div>"),
+		"before GNOME <https://gnome.org> after\n" },
+	/* 2 */ { HTML ("<div>b1 <a href='https://gnome.org/a'>GNOME-a</a> a1</div>"
+		"<div>b2 <a href='https://gnome.org/'>https://gnome.org/</a> a2</div>"
+		"<div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div>"
+		"<div>b4 <a href='https://gnome.org/c'>GNOME-c</a> a4</div>"),
+		"b1 GNOME-a <https://gnome.org/a> a1\n"
+		"b2 https://gnome.org/ a2\n"
+		"b3 GNOME-b <https://gnome.org/b> a3\n"
+		"b4 GNOME-c <https://gnome.org/c> a4\n" },
+	/* 3 */ { HTML ("<div>b1 <a href='https://gnome.org/a'>GNOME-a</a> a1</div>"
+		"<div>b2 <a href='https://gnome.org'>https://gnome.org/</a> a2</div>"
+		"<div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div>"
+		"<div>b4 <a href='https://gnome.org/c'>GNOME-c</a> a4</div>"
+		"<div>b5 <a href='https://gnome.org/d'>GNOME-d</a> a5</div>"
+		"<div>b6 <a href='https://gnome.org/e'>GNOME-e</a> a6</div>"
+		"<div>b7 <a href='https://gnome.org/f'>GNOME-f</a> a7</div>"
+		"<div>b8 <a href='https://gnome.org/g'>GNOME-g</a> a8</div>"
+		"<div>b9 <a href='https://gnome.org/h'>GNOME-h</a> a9</div>"
+		"<div>b10 <a href='https://gnome.org/i'>GNOME-i</a> a10</div>"),
+		"b1 GNOME-a <https://gnome.org/a> a1\n"
+		"b2 https://gnome.org/ a2\n"
+		"b3 GNOME-b <https://gnome.org/b> a3\n"
+		"b4 GNOME-c <https://gnome.org/c> a4\n"
+		"b5 GNOME-d <https://gnome.org/d> a5\n"
+		"b6 GNOME-e <https://gnome.org/e> a6\n"
+		"b7 GNOME-f <https://gnome.org/f> a7\n"
+		"b8 GNOME-g <https://gnome.org/g> a8\n"
+		"b9 GNOME-h <https://gnome.org/h> a9\n"
+		"b10 GNOME-i <https://gnome.org/i> a10\n" },
+	/* 4 */ { HTML ("<div>b1 <a href='https://gnome.org/a'>GNOME-a<br>next line<br>text</a> a1</div>"
+		"<div>b2 <a href='https://gnome.org/'>https://gnome.org</a> a2</div>"
+		"<div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div>"
+		"<div>b4 <a href='https://gnome.org/c'>GNOME-c</a> a4</div>"
+		"<div>b5 <a href='https://gnome.org/d'>GNOME-d</a> a5</div>"
+		"<div>b6 <a href='https://gnome.org/e'>GNOME-e</a> a6</div>"
+		"<div>b7 <a href='https://gnome.org/f'>GNOME-f</a> a7</div>"
+		"<div>b8 <a href='https://gnome.org/g'>GNOME-g</a> a8</div>"
+		"<div>b9 <a href='https://gnome.org/h'>GNOME-h</a> a9</div>"
+		"<div>b10 <a href='https://gnome.org/i'>GNOME-i</a> a10</div>"
+		"<div>b11 <a href='https://gnome.org/j'>GNOME-j</a> a11</div>"),
+		"b1 GNOME-a\nnext line\ntext <https://gnome.org/a> a1\n"
+		"b2 https://gnome.org a2\n"
+		"b3 GNOME-b <https://gnome.org/b> a3\n"
+		"b4 GNOME-c <https://gnome.org/c> a4\n"
+		"b5 GNOME-d <https://gnome.org/d> a5\n"
+		"b6 GNOME-e <https://gnome.org/e> a6\n"
+		"b7 GNOME-f <https://gnome.org/f> a7\n"
+		"b8 GNOME-g <https://gnome.org/g> a8\n"
+		"b9 GNOME-h <https://gnome.org/h> a9\n"
+		"b10 GNOME-i <https://gnome.org/i> a10\n"
+		"b11 GNOME-j <https://gnome.org/j> a11\n" },
+	/* 5 */ { HTML ("<ul><li>first line</li>"
+		"<li>b2 <a href='https://gnome.org/'>GNOME</a> a2</li>"
+		"<li><div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div></li>"
+		"<li>last line</li></ul>"),
+		"\n"
+		"- first line\n"
+		"- b2 GNOME <https://gnome.org/> a2\n"
+		"- b3 GNOME-b <https://gnome.org/b> a3\n\n"
+		"- last line\n"
+		"\n" },
+	/* 6 */ { HTML ("<ol><li>first line</li>"
+		"<li>b2 <a href='https://gnome.org/'>GNOME</a> a2</li>"
+		"<li><div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div></li>"
+		"<li>last line</li></ol>"),
+		"\n"
+		"1. first line\n"
+		"2. b2 GNOME <https://gnome.org/> a2\n"
+		"3. b3 GNOME-b <https://gnome.org/b> a3\n\n"
+		"4. last line\n"
+		"\n" },
+	/* 7 */ { HTML ("<div>before <a href='http://gnome.org/'>GNOME</a> after</div>"
+		"<div>before <a href='mailto:user@no.where'>Mail the User</a> after</div>"
+		"<div>before <a href='https://gnome.org'>https GNOME</a> after</div>"
+		"<div>before <a href='http://gnome.org/'>http GNOME</a> after</div>"),
+		"before GNOME <http://gnome.org/> after\n"
+		"before Mail the User after\n"
+		"before https GNOME <https://gnome.org> after\n"
+		"before http GNOME <http://gnome.org/> after\n" }
+	};
+
+	#undef HTML
+
+	gint ii;
+
+	for (ii = 0; ii < G_N_ELEMENTS (tests); ii++) {
+		test_markdown_convert (tests[ii].html, tests[ii].plain, E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT | E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_INLINE);
+	}
+}
+
+static void
+test_markdown_convert_to_plain_text_links_reference (void)
+{
+	#define HTML(_body) HTML_PREFIX _body HTML_SUFFIX
+
+	struct _tests {
+		const gchar *html;
+		const gchar *plain;
+	} tests[] = {
+	/* 0 */ { HTML ("<div>before <a href='https://gnome.org'>https://gnome.org</a> after</div>"),
+		"before https://gnome.org after\n" },
+	/* 1 */ { HTML ("<div>before <a href='https://gnome.org'>GNOME</a> after</div>"),
+		"before GNOME [1] after\n"
+		"\n"
+		"[1] GNOME https://gnome.org\n" },
+	/* 2 */ { HTML ("<div>b1 <a href='https://gnome.org/a'>GNOME-a</a> a1</div>"
+		"<div>b2 <a href='https://gnome.org/'>https://gnome.org/</a> a2</div>"
+		"<div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div>"
+		"<div>b4 <a href='https://gnome.org/c'>GNOME-c</a> a4</div>"),
+		"b1 GNOME-a [1] a1\n"
+		"b2 https://gnome.org/ a2\n"
+		"b3 GNOME-b [2] a3\n"
+		"b4 GNOME-c [3] a4\n"
+		"\n"
+		"[1] GNOME-a https://gnome.org/a\n"
+		"[2] GNOME-b https://gnome.org/b\n"
+		"[3] GNOME-c https://gnome.org/c\n" },
+	/* 3 */ { HTML ("<div>b1 <a href='https://gnome.org/a'>GNOME-a</a> a1</div>"
+		"<div>b2 <a href='https://gnome.org'>https://gnome.org/</a> a2</div>"
+		"<div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div>"
+		"<div>b4 <a href='https://gnome.org/c'>GNOME-c</a> a4</div>"
+		"<div>b5 <a href='https://gnome.org/d'>GNOME-d</a> a5</div>"
+		"<div>b6 <a href='https://gnome.org/e'>GNOME-e</a> a6</div>"
+		"<div>b7 <a href='https://gnome.org/f'>GNOME-f</a> a7</div>"
+		"<div>b8 <a href='https://gnome.org/g'>GNOME-g</a> a8</div>"
+		"<div>b9 <a href='https://gnome.org/h'>GNOME-h</a> a9</div>"
+		"<div>b10 <a href='https://gnome.org/i'>GNOME-i</a> a10</div>"),
+		"b1 GNOME-a [1] a1\n"
+		"b2 https://gnome.org/ a2\n"
+		"b3 GNOME-b [2] a3\n"
+		"b4 GNOME-c [3] a4\n"
+		"b5 GNOME-d [4] a5\n"
+		"b6 GNOME-e [5] a6\n"
+		"b7 GNOME-f [6] a7\n"
+		"b8 GNOME-g [7] a8\n"
+		"b9 GNOME-h [8] a9\n"
+		"b10 GNOME-i [9] a10\n"
+		"\n"
+		"[1] GNOME-a https://gnome.org/a\n"
+		"[2] GNOME-b https://gnome.org/b\n"
+		"[3] GNOME-c https://gnome.org/c\n"
+		"[4] GNOME-d https://gnome.org/d\n"
+		"[5] GNOME-e https://gnome.org/e\n"
+		"[6] GNOME-f https://gnome.org/f\n"
+		"[7] GNOME-g https://gnome.org/g\n"
+		"[8] GNOME-h https://gnome.org/h\n"
+		"[9] GNOME-i https://gnome.org/i\n" },
+	/* 4 */ { HTML ("<div>b1 <a href='https://gnome.org/a'>GNOME-a<br>next line<br>text</a> a1</div>"
+		"<div>b2 <a href='https://gnome.org/'>https://gnome.org</a> a2</div>"
+		"<div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div>"
+		"<div>b4 <a href='https://gnome.org/c'>GNOME-c</a> a4</div>"
+		"<div>b5 <a href='https://gnome.org/d'>GNOME-d</a> a5</div>"
+		"<div>b6 <a href='https://gnome.org/e'>GNOME-e</a> a6</div>"
+		"<div>b7 <a href='https://gnome.org/f'>GNOME-f</a> a7</div>"
+		"<div>b8 <a href='https://gnome.org/g'>GNOME-g</a> a8</div>"
+		"<div>b9 <a href='https://gnome.org/h'>GNOME-h</a> a9</div>"
+		"<div>b10 <a href='https://gnome.org/i'>GNOME-i</a> a10</div>"
+		"<div>b11 <a href='https://gnome.org/j'>GNOME-j long text here</a> a11</div>"),
+		"b1 GNOME-a\nnext line\ntext [1] a1\n"
+		"b2 https://gnome.org a2\n"
+		"b3 GNOME-b [2] a3\n"
+		"b4 GNOME-c [3] a4\n"
+		"b5 GNOME-d [4] a5\n"
+		"b6 GNOME-e [5] a6\n"
+		"b7 GNOME-f [6] a7\n"
+		"b8 GNOME-g [7] a8\n"
+		"b9 GNOME-h [8] a9\n"
+		"b10 GNOME-i [9] a10\n"
+		"b11 GNOME-j long text here [10] a11\n"
+		"\n"
+		"[1] GNOME-a next line text https://gnome.org/a\n"
+		"[2] GNOME-b https://gnome.org/b\n"
+		"[3] GNOME-c https://gnome.org/c\n"
+		"[4] GNOME-d https://gnome.org/d\n"
+		"[5] GNOME-e https://gnome.org/e\n"
+		"[6] GNOME-f https://gnome.org/f\n"
+		"[7] GNOME-g https://gnome.org/g\n"
+		"[8] GNOME-h https://gnome.org/h\n"
+		"[9] GNOME-i https://gnome.org/i\n"
+		"[10] GNOME-j long text here https://gnome.org/j\n" },
+	/* 5 */ { HTML ("<ul><li>first line</li>"
+		"<li>b2 <a href='https://gnome.org/'>GNOME</a> a2</li>"
+		"<li><div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div></li>"
+		"<li>last line</li></ul>"),
+		"\n"
+		"- first line\n"
+		"- b2 GNOME [1] a2\n"
+		"- b3 GNOME-b [2] a3\n\n"
+		"- last line\n"
+		"\n"
+		"\n"
+		"[1] GNOME https://gnome.org/\n"
+		"[2] GNOME-b https://gnome.org/b\n" },
+	/* 6 */ { HTML ("<ol><li>first line</li>"
+		"<li>b2 <a href='https://gnome.org/'>GNOME</a> a2</li>"
+		"<li><div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div></li>"
+		"<li>last line</li></ol>"),
+		"\n"
+		"1. first line\n"
+		"2. b2 GNOME [1] a2\n"
+		"3. b3 GNOME-b [2] a3\n\n"
+		"4. last line\n"
+		"\n"
+		"\n"
+		"[1] GNOME https://gnome.org/\n"
+		"[2] GNOME-b https://gnome.org/b\n" },
+	/* 7 */ { HTML ("<div>before <a href='http://gnome.org/'>GNOME</a> after</div>"
+		"<div>before <a href='mailto:user@no.where'>Mail the User</a> after</div>"
+		"<div>before <a href='https://gnome.org'>https GNOME</a> after</div>"
+		"<div>before <a href='http://gnome.org/'>http GNOME</a> after</div>"),
+		"before GNOME [1] after\n"
+		"before Mail the User after\n"
+		"before https GNOME [2] after\n"
+		"before http GNOME [1] after\n"
+		"\n"
+		"[1] GNOME http://gnome.org/\n"
+		"[2] https GNOME https://gnome.org\n" }
+	};
+
+	#undef HTML
+
+	gint ii;
+
+	for (ii = 0; ii < G_N_ELEMENTS (tests); ii++) {
+		test_markdown_convert (tests[ii].html, tests[ii].plain, E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT | E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE);
+	}
+}
+
+static void
+test_markdown_convert_to_plain_text_links_reference_without_label (void)
+{
+	#define HTML(_body) HTML_PREFIX _body HTML_SUFFIX
+
+	struct _tests {
+		const gchar *html;
+		const gchar *plain;
+	} tests[] = {
+	/* 0 */ { HTML ("<div>before <a href='https://gnome.org'>https://gnome.org</a> after</div>"),
+		"before https://gnome.org after\n" },
+	/* 1 */ { HTML ("<div>before <a href='https://gnome.org'>GNOME</a> after</div>"),
+		"before GNOME [1] after\n"
+		"\n"
+		"[1] https://gnome.org\n" },
+	/* 2 */ { HTML ("<div>b1 <a href='https://gnome.org/a'>GNOME-a</a> a1</div>"
+		"<div>b2 <a href='https://gnome.org/'>https://gnome.org/</a> a2</div>"
+		"<div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div>"
+		"<div>b4 <a href='https://gnome.org/c'>GNOME-c</a> a4</div>"),
+		"b1 GNOME-a [1] a1\n"
+		"b2 https://gnome.org/ a2\n"
+		"b3 GNOME-b [2] a3\n"
+		"b4 GNOME-c [3] a4\n"
+		"\n"
+		"[1] https://gnome.org/a\n"
+		"[2] https://gnome.org/b\n"
+		"[3] https://gnome.org/c\n" },
+	/* 3 */ { HTML ("<div>b1 <a href='https://gnome.org/a'>GNOME-a</a> a1</div>"
+		"<div>b2 <a href='https://gnome.org'>https://gnome.org/</a> a2</div>"
+		"<div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div>"
+		"<div>b4 <a href='https://gnome.org/c'>GNOME-c</a> a4</div>"
+		"<div>b5 <a href='https://gnome.org/d'>GNOME-d</a> a5</div>"
+		"<div>b6 <a href='https://gnome.org/e'>GNOME-e</a> a6</div>"
+		"<div>b7 <a href='https://gnome.org/f'>GNOME-f</a> a7</div>"
+		"<div>b8 <a href='https://gnome.org/g'>GNOME-g</a> a8</div>"
+		"<div>b9 <a href='https://gnome.org/h'>GNOME-h</a> a9</div>"
+		"<div>b10 <a href='https://gnome.org/i'>GNOME-i</a> a10</div>"),
+		"b1 GNOME-a [1] a1\n"
+		"b2 https://gnome.org/ a2\n"
+		"b3 GNOME-b [2] a3\n"
+		"b4 GNOME-c [3] a4\n"
+		"b5 GNOME-d [4] a5\n"
+		"b6 GNOME-e [5] a6\n"
+		"b7 GNOME-f [6] a7\n"
+		"b8 GNOME-g [7] a8\n"
+		"b9 GNOME-h [8] a9\n"
+		"b10 GNOME-i [9] a10\n"
+		"\n"
+		"[1] https://gnome.org/a\n"
+		"[2] https://gnome.org/b\n"
+		"[3] https://gnome.org/c\n"
+		"[4] https://gnome.org/d\n"
+		"[5] https://gnome.org/e\n"
+		"[6] https://gnome.org/f\n"
+		"[7] https://gnome.org/g\n"
+		"[8] https://gnome.org/h\n"
+		"[9] https://gnome.org/i\n" },
+	/* 4 */ { HTML ("<div>b1 <a href='https://gnome.org/a'>GNOME-a<br>next line<br>text</a> a1</div>"
+		"<div>b2 <a href='https://gnome.org/'>https://gnome.org</a> a2</div>"
+		"<div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div>"
+		"<div>b4 <a href='https://gnome.org/c'>GNOME-c</a> a4</div>"
+		"<div>b5 <a href='https://gnome.org/d'>GNOME-d</a> a5</div>"
+		"<div>b6 <a href='https://gnome.org/e'>GNOME-e</a> a6</div>"
+		"<div>b7 <a href='https://gnome.org/f'>GNOME-f</a> a7</div>"
+		"<div>b8 <a href='https://gnome.org/g'>GNOME-g</a> a8</div>"
+		"<div>b9 <a href='https://gnome.org/h'>GNOME-h</a> a9</div>"
+		"<div>b10 <a href='https://gnome.org/i'>GNOME-i</a> a10</div>"
+		"<div>b11 <a href='https://gnome.org/j'>GNOME-j long text here</a> a11</div>"),
+		"b1 GNOME-a\nnext line\ntext [1] a1\n"
+		"b2 https://gnome.org a2\n"
+		"b3 GNOME-b [2] a3\n"
+		"b4 GNOME-c [3] a4\n"
+		"b5 GNOME-d [4] a5\n"
+		"b6 GNOME-e [5] a6\n"
+		"b7 GNOME-f [6] a7\n"
+		"b8 GNOME-g [7] a8\n"
+		"b9 GNOME-h [8] a9\n"
+		"b10 GNOME-i [9] a10\n"
+		"b11 GNOME-j long text here [10] a11\n"
+		"\n"
+		"[1] https://gnome.org/a\n"
+		"[2] https://gnome.org/b\n"
+		"[3] https://gnome.org/c\n"
+		"[4] https://gnome.org/d\n"
+		"[5] https://gnome.org/e\n"
+		"[6] https://gnome.org/f\n"
+		"[7] https://gnome.org/g\n"
+		"[8] https://gnome.org/h\n"
+		"[9] https://gnome.org/i\n"
+		"[10] https://gnome.org/j\n" },
+	/* 5 */ { HTML ("<ul><li>first line</li>"
+		"<li>b2 <a href='https://gnome.org/'>GNOME</a> a2</li>"
+		"<li><div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div></li>"
+		"<li>last line</li></ul>"),
+		"\n"
+		"- first line\n"
+		"- b2 GNOME [1] a2\n"
+		"- b3 GNOME-b [2] a3\n\n"
+		"- last line\n"
+		"\n"
+		"\n"
+		"[1] https://gnome.org/\n"
+		"[2] https://gnome.org/b\n" },
+	/* 6 */ { HTML ("<ol><li>first line</li>"
+		"<li>b2 <a href='https://gnome.org/'>GNOME</a> a2</li>"
+		"<li><div>b3 <a href='https://gnome.org/b'>GNOME-b</a> a3</div></li>"
+		"<li>last line</li></ol>"),
+		"\n"
+		"1. first line\n"
+		"2. b2 GNOME [1] a2\n"
+		"3. b3 GNOME-b [2] a3\n\n"
+		"4. last line\n"
+		"\n"
+		"\n"
+		"[1] https://gnome.org/\n"
+		"[2] https://gnome.org/b\n" },
+	/* 7 */ { HTML ("<div>before <a href='http://gnome.org/'>GNOME</a> after</div>"
+		"<div>before <a href='mailto:user@no.where'>Mail the User</a> after</div>"
+		"<div>before <a href='https://gnome.org'>https GNOME</a> after</div>"
+		"<div>before <a href='http://gnome.org/'>http GNOME</a> after</div>"),
+		"before GNOME [1] after\n"
+		"before Mail the User after\n"
+		"before https GNOME [2] after\n"
+		"before http GNOME [1] after\n"
+		"\n"
+		"[1] http://gnome.org/\n"
+		"[2] https://gnome.org\n" }
+	};
+
+	#undef HTML
+
+	gint ii;
+
+	for (ii = 0; ii < G_N_ELEMENTS (tests); ii++) {
+		test_markdown_convert (tests[ii].html, tests[ii].plain, E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT | E_MARKDOWN_HTML_TO_TEXT_FLAG_LINK_REFERENCE_WITHOUT_LABEL);
+	}
+}
+
+static void
 test_markdown_convert_signature (void)
 {
 	test_markdown_convert (
@@ -858,6 +1338,10 @@ main (gint argc,
 	add_test ("/MarkdownConvert/ComposerQuirksCiteBodyComplex", test_markdown_convert_composer_quirks_cite_body_complex);
 	add_test ("/MarkdownConvert/ComposerQuirksToBodyAndCiteBody", test_markdown_convert_composer_quirks_to_body_and_cite_body);
 	add_test ("/MarkdownConvert/ToPlainText", test_markdown_convert_to_plain_text);
+	add_test ("/MarkdownConvert/ToPlainTextLinksNone", test_markdown_convert_to_plain_text_links_none);
+	add_test ("/MarkdownConvert/ToPlainTextLinksInline", test_markdown_convert_to_plain_text_links_inline);
+	add_test ("/MarkdownConvert/ToPlainTextLinksReference", test_markdown_convert_to_plain_text_links_reference);
+	add_test ("/MarkdownConvert/ToPlainTextLinksReferenceWithoutLabel", test_markdown_convert_to_plain_text_links_reference_without_label);
 	add_test ("/MarkdownConvert/Signature", test_markdown_convert_signature);
 
 	#undef add_test
