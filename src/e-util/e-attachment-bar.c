@@ -37,7 +37,9 @@
 
 struct _EAttachmentBarPrivate {
 	GtkTreeModel *model;
-	GtkWidget *vbox;
+	GtkWidget *content_area;
+	GtkWidget *attachments_area;
+	GtkWidget *info_vbox;
 	GtkWidget *expander;
 	GtkWidget *combo_box;
 	GtkWidget *icon_view;
@@ -58,6 +60,7 @@ struct _EAttachmentBarPrivate {
 enum {
 	PROP_0,
 	PROP_ACTIVE_VIEW,
+	PROP_ATTACHMENTS_VISIBLE,
 	PROP_DRAGGING,
 	PROP_EDITABLE,
 	PROP_EXPANDED,
@@ -68,13 +71,8 @@ enum {
 static void	e_attachment_bar_interface_init
 				(EAttachmentViewInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EAttachmentBar,
-	e_attachment_bar,
-	GTK_TYPE_BOX,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ATTACHMENT_VIEW,
-		e_attachment_bar_interface_init))
+G_DEFINE_TYPE_WITH_CODE (EAttachmentBar, e_attachment_bar, GTK_TYPE_PANED,
+	G_IMPLEMENT_INTERFACE (E_TYPE_ATTACHMENT_VIEW, e_attachment_bar_interface_init))
 
 static void
 attachment_bar_update_status (EAttachmentBar *bar)
@@ -87,6 +85,10 @@ attachment_bar_update_status (EAttachmentBar *bar)
 	guint64 total_size;
 	gchar *display_size;
 	gchar *markup;
+
+	/* dispose was called */
+	if (!bar->priv->model)
+		return;
 
 	store = E_ATTACHMENT_STORE (bar->priv->model);
 	label = GTK_LABEL (bar->priv->status_label);
@@ -155,6 +157,24 @@ attachment_bar_notify_vadjustment_upper_cb (GObject *object,
 		request_height);
 }
 
+static gboolean
+attachment_bar_expanded_to_attachments_area_visible_boolean_cb (GBinding *binding,
+								const GValue *from_value,
+								GValue *to_value,
+								gpointer user_data)
+{
+	EAttachmentBar *bar = user_data;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), FALSE);
+
+	if (e_attachment_bar_get_attachments_visible (bar))
+		g_value_set_boolean (to_value, e_attachment_bar_get_expanded (bar));
+	else
+		g_value_set_boolean (to_value, FALSE);
+
+	return TRUE;
+}
+
 static void
 attachment_bar_set_store (EAttachmentBar *bar,
                           EAttachmentStore *store)
@@ -197,6 +217,12 @@ attachment_bar_set_property (GObject *object,
 				g_value_get_int (value));
 			return;
 
+		case PROP_ATTACHMENTS_VISIBLE:
+			e_attachment_bar_set_attachments_visible (
+				E_ATTACHMENT_BAR (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_DRAGGING:
 			e_attachment_view_set_dragging (
 				E_ATTACHMENT_VIEW (object),
@@ -214,6 +240,7 @@ attachment_bar_set_property (GObject *object,
 				E_ATTACHMENT_BAR (object),
 				g_value_get_boolean (value));
 			return;
+
 		case PROP_STORE:
 			attachment_bar_set_store (
 				E_ATTACHMENT_BAR (object),
@@ -238,6 +265,13 @@ attachment_bar_get_property (GObject *object,
 				E_ATTACHMENT_BAR (object)));
 			return;
 
+		case PROP_ATTACHMENTS_VISIBLE:
+			g_value_set_boolean (
+				value,
+				e_attachment_bar_get_attachments_visible (
+				E_ATTACHMENT_BAR (object)));
+			return;
+
 		case PROP_DRAGGING:
 			g_value_set_boolean (
 				value,
@@ -258,11 +292,13 @@ attachment_bar_get_property (GObject *object,
 				e_attachment_bar_get_expanded (
 				E_ATTACHMENT_BAR (object)));
 			return;
+
 		case PROP_STORE:
 			g_value_set_object (
 				value,
 				e_attachment_bar_get_store (
 				E_ATTACHMENT_BAR (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -275,7 +311,9 @@ attachment_bar_dispose (GObject *object)
 
 	priv = E_ATTACHMENT_BAR_GET_PRIVATE (object);
 	g_clear_object (&priv->model);
-	g_clear_object (&priv->vbox);
+	g_clear_object (&priv->content_area);
+	g_clear_object (&priv->attachments_area);
+	g_clear_object (&priv->info_vbox);
 	g_clear_object (&priv->expander);
 	g_clear_object (&priv->combo_box);
 	g_clear_object (&priv->icon_view);
@@ -343,11 +381,19 @@ attachment_bar_constructed (GObject *object)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	e_binding_bind_property (
+	e_binding_bind_property_full (
 		object, "expanded",
-		priv->vbox, "visible",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		priv->attachments_area, "visible",
+		G_BINDING_SYNC_CREATE,
+		attachment_bar_expanded_to_attachments_area_visible_boolean_cb,
+		NULL, object, NULL);
+
+	e_binding_bind_property_full (
+		object, "attachments-visible",
+		priv->attachments_area, "visible",
+		G_BINDING_SYNC_CREATE,
+		attachment_bar_expanded_to_attachments_area_visible_boolean_cb,
+		NULL, object, NULL);
 
 	/* Set up property-to-GSettings bindings. */
 	settings = e_util_ref_settings ("org.gnome.evolution.shell");
@@ -523,7 +569,8 @@ e_attachment_bar_class_init (EAttachmentBarClass *class)
 	widget_class->button_release_event = attachment_bar_button_release_event;
 	widget_class->motion_notify_event = attachment_bar_motion_notify_event;
 
-	gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class));
+	/* Do not set the CSS class name, it breaks styling of the resize handle */
+	/* gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class)); */
 
 	g_object_class_install_property (
 		object_class,
@@ -535,6 +582,17 @@ e_attachment_bar_class_init (EAttachmentBarClass *class)
 			0,
 			NUM_VIEWS,
 			0,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ATTACHMENTS_VISIBLE,
+		g_param_spec_boolean (
+			"attachments-visible",
+			"Attachments Visible",
+			NULL,
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -615,11 +673,11 @@ e_attachment_bar_init (EAttachmentBar *bar)
 	container = GTK_WIDGET (bar);
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	bar->priv->vbox = g_object_ref (widget);
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+	bar->priv->attachments_area = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	container = bar->priv->vbox;
+	container = bar->priv->attachments_area;
 
 	widget = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
@@ -642,7 +700,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 	bar->priv->icon_view = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	container = bar->priv->vbox;
+	container = bar->priv->attachments_area;
 
 	widget = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
@@ -669,9 +727,17 @@ e_attachment_bar_init (EAttachmentBar *bar)
 
 	container = GTK_WIDGET (bar);
 
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
+	bar->priv->content_area = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	container = bar->priv->content_area;
+
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	bar->priv->info_vbox = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -759,6 +825,7 @@ e_attachment_bar_new (EAttachmentStore *store)
 
 	return g_object_new (
 		E_TYPE_ATTACHMENT_BAR,
+		"orientation", GTK_ORIENTATION_VERTICAL,
 		"editable", FALSE,
 		"store", store, NULL);
 }
@@ -839,4 +906,34 @@ e_attachment_bar_get_store (EAttachmentBar *bar)
 	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), NULL);
 
 	return E_ATTACHMENT_STORE (bar->priv->model);
+}
+
+GtkWidget *
+e_attachment_bar_get_content_area (EAttachmentBar *bar)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), NULL);
+
+	return bar->priv->content_area;
+}
+
+void
+e_attachment_bar_set_attachments_visible (EAttachmentBar *bar,
+					  gboolean value)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_BAR (bar));
+
+	if (!bar->priv->info_vbox || (e_attachment_bar_get_attachments_visible (bar) ? 1 : 0) == (value ? 1 : 0))
+		return;
+
+	gtk_widget_set_visible (bar->priv->info_vbox, value);
+
+	g_object_notify (G_OBJECT (bar), "attachments-visible");
+}
+
+gboolean
+e_attachment_bar_get_attachments_visible (EAttachmentBar *bar)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), FALSE);
+
+	return bar->priv->info_vbox && gtk_widget_get_visible (bar->priv->info_vbox);
 }

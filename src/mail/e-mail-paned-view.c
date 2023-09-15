@@ -812,7 +812,7 @@ mail_paned_view_constructed (GObject *object)
 	EMailView *view;
 	GtkWidget *message_list;
 	GtkWidget *container;
-	GtkWidget *widget, *vbox, *toolbar;
+	GtkWidget *widget, *toolbar;
 
 	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (object);
 
@@ -880,33 +880,30 @@ mail_paned_view_constructed (GObject *object)
 
 	container = priv->paned;
 
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
-	widget = e_preview_pane_new (E_WEB_VIEW (priv->display));
-
-	toolbar = e_shell_window_get_managed_widget (shell_window, "/mail-preview-toolbar");
-	if (toolbar) {
-		e_util_setup_toolbar_icon_size (GTK_TOOLBAR (toolbar), GTK_ICON_SIZE_SMALL_TOOLBAR);
-		gtk_style_context_add_class (gtk_widget_get_style_context (toolbar), GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
-		gtk_box_pack_start (GTK_BOX (vbox), toolbar, FALSE, FALSE, 0);
-	}
-
-	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (e_mail_display_get_attachment_view (priv->display)), FALSE, FALSE, 0);
-
-	gtk_paned_pack2 (GTK_PANED (container), vbox, FALSE, FALSE);
-	priv->preview_pane = g_object_ref (widget);
-	gtk_widget_show (GTK_WIDGET (priv->display));
+	widget = GTK_WIDGET (e_mail_display_get_attachment_view (priv->display));
 	gtk_widget_show (widget);
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 
 	e_binding_bind_property (
 		object, "preview-visible",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
 
-	e_binding_bind_property (
-		object, "preview-visible",
-		vbox, "visible",
-		G_BINDING_SYNC_CREATE);
+	container = e_attachment_bar_get_content_area (E_ATTACHMENT_BAR (widget));
+	widget = e_preview_pane_new (E_WEB_VIEW (priv->display));
+
+	toolbar = e_shell_window_get_managed_widget (shell_window, "/mail-preview-toolbar");
+	if (toolbar) {
+		e_util_setup_toolbar_icon_size (GTK_TOOLBAR (toolbar), GTK_ICON_SIZE_SMALL_TOOLBAR);
+		gtk_style_context_add_class (gtk_widget_get_style_context (toolbar), GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
+		gtk_box_pack_start (GTK_BOX (container), toolbar, FALSE, FALSE, 0);
+	}
+
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+
+	priv->preview_pane = g_object_ref (widget);
+	gtk_widget_show (GTK_WIDGET (priv->display));
+	gtk_widget_show (widget);
 
 	/* Load the view instance. */
 

@@ -54,12 +54,12 @@ typedef struct _EAttachmentBarClass EAttachmentBarClass;
 typedef struct _EAttachmentBarPrivate EAttachmentBarPrivate;
 
 struct _EAttachmentBar {
-	GtkBox parent;
+	GtkPaned parent;
 	EAttachmentBarPrivate *priv;
 };
 
 struct _EAttachmentBarClass {
-	GtkBoxClass parent_class;
+	GtkPanedClass parent_class;
 };
 
 GType		e_attachment_bar_get_type	(void) G_GNUC_CONST;
@@ -76,6 +76,13 @@ void		e_attachment_bar_set_expanded
 						 gboolean expanded);
 EAttachmentStore *
 		e_attachment_bar_get_store	(EAttachmentBar *bar);
+GtkWidget *	e_attachment_bar_get_content_area
+						(EAttachmentBar *bar);
+void		e_attachment_bar_set_attachments_visible
+						(EAttachmentBar *bar,
+						 gboolean value);
+gboolean	e_attachment_bar_get_attachments_visible
+						(EAttachmentBar *bar);
 
 G_END_DECLS
 

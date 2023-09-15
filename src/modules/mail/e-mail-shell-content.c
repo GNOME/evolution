@@ -303,7 +303,7 @@ mail_shell_content_constructed (GObject *object)
 
 	e_binding_bind_property_full (
 		attachment_store, "num-attachments",
-		widget, "visible",
+		widget, "attachments-visible",
 		G_BINDING_SYNC_CREATE,
 		mail_shell_content_transform_num_attachments_to_visible_boolean_with_settings,
 		NULL, NULL, NULL);

@@ -267,14 +267,16 @@ action_mail_attachment_bar_cb (GtkAction *action,
 	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (mail_shell_view->priv->mail_shell_content));
 	attachment_view = e_mail_display_get_attachment_view (mail_display);
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action))) {
+		EAttachmentBar *bar;
 		EAttachmentStore *store;
 		guint num_attachments;
 
-		store = e_attachment_bar_get_store (E_ATTACHMENT_BAR (attachment_view));
+		bar = E_ATTACHMENT_BAR (attachment_view);
+		store = e_attachment_bar_get_store (bar);
 		num_attachments = e_attachment_store_get_num_attachments (store);
-		gtk_widget_set_visible (GTK_WIDGET (attachment_view), num_attachments > 0);
+		e_attachment_bar_set_attachments_visible (bar, num_attachments > 0);
 	} else {
-		gtk_widget_hide (GTK_WIDGET (attachment_view));
+		e_attachment_bar_set_attachments_visible (E_ATTACHMENT_BAR (attachment_view), FALSE);
 	}
 }
 

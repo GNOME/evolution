@@ -974,19 +974,18 @@ mail_browser_constructed (GObject *object)
 
 	e_util_setup_toolbar_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_BUTTON);
 
-	gtk_box_pack_start (
-		GTK_BOX (container),
-		browser->priv->preview_pane,
-		TRUE, TRUE, 0);
-
 	attachment_store = e_mail_display_get_attachment_store (E_MAIL_DISPLAY (display));
 	widget = GTK_WIDGET (e_mail_display_get_attachment_view (E_MAIL_DISPLAY (display)));
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
+
+	container = e_attachment_bar_get_content_area (E_ATTACHMENT_BAR (widget));
+
+	gtk_box_pack_start (GTK_BOX (container), browser->priv->preview_pane, TRUE, TRUE, 0);
 
 	e_binding_bind_property_full (
 		attachment_store, "num-attachments",
-		widget, "visible",
+		widget, "attachments-visible",
 		G_BINDING_SYNC_CREATE,
 		e_attachment_store_transform_num_attachments_to_visible_boolean,
 		NULL, NULL, NULL);
