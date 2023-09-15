@@ -38,6 +38,7 @@
 #include "e-alert-bar.h"
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
+#include "e-color-combo.h"
 #include "e-misc-utils.h"
 #include "e-spell-text-view.h"
 
@@ -72,7 +73,7 @@ struct _EWebDAVBrowserPrivate {
 	GtkWidget *create_edit_popover;
 	GtkWidget *create_edit_name_entry;
 	GtkWidget *create_edit_color_label;
-	GtkWidget *create_edit_color_chooser;
+	GtkWidget *create_edit_color_combo;
 	GtkWidget *create_edit_order_label;
 	GtkWidget *create_edit_order_spin;
 	GtkWidget *create_edit_support_label;
@@ -1722,14 +1723,20 @@ webdav_browser_save_changes_thread (EAlertSinkThreadJobData *job_data,
 			else
 				changes = g_slist_append (changes, e_webdav_property_change_new_remove (E_WEBDAV_NS_CARDDAV, "addressbook-description"));
 		} else if ((scd->supports & (E_WEBDAV_RESOURCE_SUPPORTS_EVENTS | E_WEBDAV_RESOURCE_SUPPORTS_MEMOS | E_WEBDAV_RESOURCE_SUPPORTS_TASKS)) != 0) {
-			gchar *color;
+			if (scd->rgba.alpha <= 1.0 - 1e-9) {
+				changes = g_slist_append (changes, e_webdav_property_change_new_remove (E_WEBDAV_NS_ICAL, "calendar-color"));
+			} else {
+				gchar *color;
 
-			color = g_strdup_printf ("#%02x%02x%02x",
-				(gint) CLAMP (scd->rgba.red * 0xFF, 0, 0xFF),
-				(gint) CLAMP (scd->rgba.green * 0xFF, 0, 0xFF),
-				(gint) CLAMP (scd->rgba.blue * 0xFF, 0, 0xFF));
+				color = g_strdup_printf ("#%02x%02x%02x",
+					(gint) CLAMP (scd->rgba.red * 0xFF, 0, 0xFF),
+					(gint) CLAMP (scd->rgba.green * 0xFF, 0, 0xFF),
+					(gint) CLAMP (scd->rgba.blue * 0xFF, 0, 0xFF));
 
-			changes = g_slist_append (changes, e_webdav_property_change_new_set (E_WEBDAV_NS_ICAL, "calendar-color", color));
+				changes = g_slist_append (changes, e_webdav_property_change_new_set (E_WEBDAV_NS_ICAL, "calendar-color", color));
+
+				g_free (color);
+			}
 
 			if (scd->order >= 0) {
 				gchar order_str[64];
@@ -1745,8 +1752,6 @@ webdav_browser_save_changes_thread (EAlertSinkThreadJobData *job_data,
 				changes = g_slist_append (changes, e_webdav_property_change_new_set (E_WEBDAV_NS_CALDAV, "calendar-description", scd->description));
 			else
 				changes = g_slist_append (changes, e_webdav_property_change_new_remove (E_WEBDAV_NS_CALDAV, "calendar-description"));
-
-			g_free (color);
 		}
 
 		success = e_webdav_session_update_properties_sync (session, scd->href, changes, cancellable, error);
@@ -1937,7 +1942,7 @@ webdav_browser_save_clicked (EWebDAVBrowser *webdav_browser,
 	scd->is_edit = is_edit;
 	scd->load_first = !webdav_browser_get_selected_loaded (webdav_browser);
 	scd->name = text;
-	gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (webdav_browser->priv->create_edit_color_chooser), &scd->rgba);
+	e_color_combo_get_current_color (E_COLOR_COMBO (webdav_browser->priv->create_edit_color_combo), &scd->rgba);
 	scd->order = gtk_spin_button_get_value (GTK_SPIN_BUTTON (webdav_browser->priv->create_edit_order_spin));
 	scd->supports = supports;
 	scd->description = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
@@ -2060,7 +2065,7 @@ webdav_browser_prepare_popover (EWebDAVBrowser *webdav_browser,
 	gtk_widget_hide (webdav_browser->priv->create_edit_popover);
 
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_color_label, for_calendar);
-	gtk_widget_set_visible (webdav_browser->priv->create_edit_color_chooser, for_calendar);
+	gtk_widget_set_visible (webdav_browser->priv->create_edit_color_combo, for_calendar);
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_order_label, for_calendar);
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_order_spin, for_calendar);
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_support_label, has_calendar_components);
@@ -2077,13 +2082,13 @@ webdav_browser_prepare_popover (EWebDAVBrowser *webdav_browser,
 
 	gtk_widget_hide (webdav_browser->priv->create_edit_hint_popover);
 
-	rgba.red = 0;
-	rgba.green = 0;
-	rgba.blue = 0;
-	rgba.alpha = 1;
+	rgba.red = 0.0;
+	rgba.green = 0.0;
+	rgba.blue = 0.0;
+	rgba.alpha = 0.001;
 
 	gtk_entry_set_text (GTK_ENTRY (webdav_browser->priv->create_edit_name_entry), "");
-	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (webdav_browser->priv->create_edit_color_chooser), &rgba);
+	e_color_combo_set_current_color (E_COLOR_COMBO (webdav_browser->priv->create_edit_color_combo), &rgba);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (webdav_browser->priv->create_edit_order_spin), -1);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (webdav_browser->priv->create_edit_event_check), FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (webdav_browser->priv->create_edit_memo_check), FALSE);
@@ -2181,7 +2186,7 @@ webdav_browser_edit_clicked_cb (GtkWidget *button,
 
 	if ((editing_flags & (E_EDITING_FLAG_IS_CALENDAR | E_EDITING_FLAG_HAS_CALENDAR_COMPONENTS)) != 0) {
 		if (color_is_set && rgba && ((editing_flags & E_EDITING_FLAG_IS_CALENDAR) != 0))
-			gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (webdav_browser->priv->create_edit_color_chooser), rgba);
+			e_color_combo_set_current_color (E_COLOR_COMBO (webdav_browser->priv->create_edit_color_combo), rgba);
 
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (webdav_browser->priv->create_edit_order_spin), order);
 
@@ -2564,6 +2569,7 @@ webdav_browser_create_popover (EWebDAVBrowser *webdav_browser)
 {
 	GtkWidget *widget, *label;
 	GtkGrid *grid;
+	GdkRGBA rgba;
 
 	g_return_if_fail (E_IS_WEBDAV_BROWSER (webdav_browser));
 	g_return_if_fail (webdav_browser->priv->create_edit_popover == NULL);
@@ -2589,10 +2595,15 @@ webdav_browser_create_popover (EWebDAVBrowser *webdav_browser)
 	webdav_browser->priv->create_edit_color_label = widget;
 	label = widget;
 
-	widget = gtk_color_button_new ();
+	rgba.red = 0.0;
+	rgba.green = 0.0;
+	rgba.blue = 0.0;
+	rgba.alpha = 0.001;
+
+	widget = e_color_combo_new_defaults (&rgba, C_("ECompEditor", "None"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
-	webdav_browser->priv->create_edit_color_chooser = widget;
+	webdav_browser->priv->create_edit_color_combo = widget;
 
 	/* Translators: It's 'order' as 'sorting order' */
 	widget = gtk_label_new_with_mnemonic (_("_Order:"));
