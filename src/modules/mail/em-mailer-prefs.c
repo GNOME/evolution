@@ -162,12 +162,155 @@ struct _EMMailerPrefsPrivate {
 	GtkWidget *rc_mails_add_btn;
 	GtkWidget *rc_mails_tree_view;
 	GtkWidget *rc_mails_remove_btn;
+
+	gint prompt_on_folder_drop_copy_state;
+	gint prompt_on_folder_drop_move_state;
+};
+
+enum {
+	PROP_0,
+	PROP_PROMPT_ON_FOLDER_DROP_COPY,
+	PROP_PROMPT_ON_FOLDER_DROP_MOVE
 };
 
 G_DEFINE_TYPE (
 	EMMailerPrefs,
 	em_mailer_prefs,
 	GTK_TYPE_BOX)
+
+static gint
+em_mailer_prefs_string_to_folder_drop_state (const gchar *str)
+{
+	if (g_strcmp0 (str, "never") == 0)
+		return 0;
+
+	if (g_strcmp0 (str, "always") == 0)
+		return 1;
+
+	return -1;
+}
+
+static const gchar *
+em_mailer_prefs_folder_drop_state_to_string (gint state)
+{
+	if (state == 0)
+		return "never";
+
+	if (state == 1)
+		return "always";
+
+	return "ask";
+}
+
+static void
+em_mailer_prefs_udate_toggle_prompt_on_folder_drop (EMMailerPrefs *self,
+						    GtkToggleButton *button,
+						    gint state)
+{
+	g_signal_handlers_block_matched (button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, self);
+
+	if (state == -1) {
+		gtk_toggle_button_set_active (button, FALSE);
+		gtk_toggle_button_set_inconsistent (button, TRUE);
+	} else {
+		gtk_toggle_button_set_inconsistent (button, FALSE);
+		gtk_toggle_button_set_active (button, state == 1);
+	}
+
+	g_signal_handlers_unblock_matched (button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, self);
+}
+
+static void
+em_mailer_prefs_manage_toggle_prompt_on_folder_drop (EMMailerPrefs *self,
+						     GtkToggleButton *button,
+						     gint *inout_state)
+{
+	if (*inout_state == 0)
+		*inout_state = -1;
+	else if (*inout_state == 1)
+		*inout_state = 0;
+	else
+		*inout_state = 1;
+
+	em_mailer_prefs_udate_toggle_prompt_on_folder_drop (self, button, *inout_state);
+}
+
+static void
+em_mailer_prefs_toggle_prompt_on_folder_drop_copy_cb (GtkToggleButton *button,
+						      gpointer user_data)
+{
+	EMMailerPrefs *self = user_data;
+
+	em_mailer_prefs_manage_toggle_prompt_on_folder_drop (self, button, &self->priv->prompt_on_folder_drop_copy_state);
+	g_object_notify (G_OBJECT (self), "prompt-on-folder-drop-copy");
+}
+
+static void
+em_mailer_prefs_toggle_prompt_on_folder_drop_move_cb (GtkToggleButton *button,
+						      gpointer user_data)
+{
+	EMMailerPrefs *self = user_data;
+
+	em_mailer_prefs_manage_toggle_prompt_on_folder_drop (self, button, &self->priv->prompt_on_folder_drop_move_state);
+	g_object_notify (G_OBJECT (self), "prompt-on-folder-drop-move");
+}
+
+static void
+em_mailer_prefs_set_property (GObject *object,
+			      guint property_id,
+			      const GValue *value,
+			      GParamSpec *pspec)
+{
+	EMMailerPrefs *self = EM_MAILER_PREFS (object);
+	gint state;
+
+	switch (property_id) {
+	case PROP_PROMPT_ON_FOLDER_DROP_COPY:
+		state = em_mailer_prefs_string_to_folder_drop_state (g_value_get_string (value));
+		if (state != self->priv->prompt_on_folder_drop_copy_state) {
+			self->priv->prompt_on_folder_drop_copy_state = state;
+			g_object_notify (object, "prompt-on-folder-drop-copy");
+		}
+
+		em_mailer_prefs_udate_toggle_prompt_on_folder_drop (self, GTK_TOGGLE_BUTTON (
+			e_builder_get_widget (self->priv->builder, "chk-prompt-on-folder-drop-copy")), state);
+		return;
+
+	case PROP_PROMPT_ON_FOLDER_DROP_MOVE:
+		state = em_mailer_prefs_string_to_folder_drop_state (g_value_get_string (value));
+		if (state != self->priv->prompt_on_folder_drop_move_state) {
+			self->priv->prompt_on_folder_drop_move_state = state;
+			g_object_notify (object, "prompt-on-folder-drop-move");
+		}
+
+		em_mailer_prefs_udate_toggle_prompt_on_folder_drop (self, GTK_TOGGLE_BUTTON (
+			e_builder_get_widget (self->priv->builder, "chk-prompt-on-folder-drop-move")), state);
+		return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+em_mailer_prefs_get_property (GObject *object,
+			      guint property_id,
+			      GValue *value,
+			      GParamSpec *pspec)
+{
+	EMMailerPrefs *self = EM_MAILER_PREFS (object);
+
+	switch (property_id) {
+	case PROP_PROMPT_ON_FOLDER_DROP_COPY:
+		g_value_set_string (value, em_mailer_prefs_folder_drop_state_to_string (self->priv->prompt_on_folder_drop_copy_state));
+		return;
+
+	case PROP_PROMPT_ON_FOLDER_DROP_MOVE:
+		g_value_set_string (value, em_mailer_prefs_folder_drop_state_to_string (self->priv->prompt_on_folder_drop_move_state));
+		return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
 static void
 em_mailer_prefs_dispose (GObject *object)
@@ -211,8 +354,24 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *class)
 	g_type_class_add_private (class, sizeof (EMMailerPrefsPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = em_mailer_prefs_set_property;
+	object_class->get_property = em_mailer_prefs_get_property;
 	object_class->dispose = em_mailer_prefs_dispose;
 	object_class->finalize = em_mailer_prefs_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PROMPT_ON_FOLDER_DROP_COPY,
+		g_param_spec_string (
+			"prompt-on-folder-drop-copy", NULL, NULL,
+			"ask", G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PROMPT_ON_FOLDER_DROP_MOVE,
+		g_param_spec_string (
+			"prompt-on-folder-drop-move", NULL, NULL,
+			"ask", G_PARAM_READWRITE));
 }
 
 static void
@@ -1543,6 +1702,33 @@ emmp_user_headers_changed_cb (GSettings *settings,
 }
 
 static void
+em_prefs_bind_settings_ex (EMMailerPrefs *prefs,
+			   GSettings *settings,
+			   const gchar *key,
+			   const gchar *widget_name,
+			   const gchar *property,
+			   GSettingsBindFlags flags)
+{
+	GtkWidget *widget;
+
+	widget = e_builder_get_widget (prefs->priv->builder, widget_name);
+	g_settings_bind (
+		settings, key,
+		widget, property,
+		flags);
+}
+
+static void
+em_prefs_bind_settings (EMMailerPrefs *prefs,
+			GSettings *settings,
+			const gchar *key,
+			const gchar *widget_name,
+			const gchar *property)
+{
+	em_prefs_bind_settings_ex (prefs, settings, key, widget_name, property, G_SETTINGS_BIND_DEFAULT);
+}
+
+static void
 em_mailer_prefs_construct (EMMailerPrefs *prefs,
                            EMailSession *session,
                            EShell *shell,
@@ -1591,17 +1777,10 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	/* General tab */
 
-	widget = e_builder_get_widget (prefs->priv->builder, "chkCheckMailOnStart");
-	g_settings_bind (
-		settings, "send-recv-on-start",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	em_prefs_bind_settings (prefs, settings, "send-recv-on-start", "chkCheckMailOnStart", "active");
+	em_prefs_bind_settings (prefs, settings, "send-recv-all-on-start", "chkCheckMailInAllOnStart", "active");
 
 	widget = e_builder_get_widget (prefs->priv->builder, "chkCheckMailInAllOnStart");
-	g_settings_bind (
-		settings, "send-recv-all-on-start",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
 	g_settings_bind (
 		settings, "send-recv-on-start",
 		widget, "sensitive",
@@ -1609,11 +1788,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	/* Message Display */
 
-	widget = e_builder_get_widget (prefs->priv->builder, "chkMarkTimeout");
-	g_settings_bind (
-		settings, "mark-seen",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	em_prefs_bind_settings (prefs, settings, "mark-seen", "chkMarkTimeout", "active");
 
 	/* The "mark seen" timeout requires special transform functions
 	 * because we display the timeout value to the user in seconds
@@ -1631,11 +1806,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->priv->builder, "view-check");
-	g_settings_bind (
-		settings, "global-view-setting",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	em_prefs_bind_settings (prefs, settings, "global-view-setting", "view-check", "active");
 
 	widget = e_charset_combo_box_new ();
 	container = e_builder_get_widget (prefs->priv->builder, "hboxDefaultCharset");
@@ -1649,11 +1820,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "charset",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->priv->builder, "chkHighlightCitations");
-	g_settings_bind (
-		settings, "mark-citations",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	em_prefs_bind_settings (prefs, settings, "mark-citations", "chkHighlightCitations", "active");
 
 	widget = e_builder_get_widget (prefs->priv->builder, "colorButtonHighlightCitations");
 	g_settings_bind_with_mapping (
@@ -1668,24 +1835,11 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->priv->builder, "thread-by-subject");
-	g_settings_bind (
-		settings, "thread-subject",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->priv->builder, "thread-flat");
-	g_settings_bind (
-		settings, "thread-flat",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	em_prefs_bind_settings (prefs, settings, "thread-subject", "thread-by-subject", "active");
+	em_prefs_bind_settings (prefs, settings, "thread-flat", "thread-flat", "active");
 
 	/* Deleting Mail */
-	widget = e_builder_get_widget (prefs->priv->builder, "chkEmptyTrashOnExit");
-	g_settings_bind (
-		settings, "trash-empty-on-exit",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	em_prefs_bind_settings (prefs, settings, "trash-empty-on-exit", "chkEmptyTrashOnExit", "active");
 
 	widget = e_builder_get_widget (prefs->priv->builder, "comboboxEmptyTrashDays");
 	g_settings_bind (
@@ -1694,51 +1848,20 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_SETTINGS_BIND_GET);
 	emmp_empty_trash_init (prefs, GTK_COMBO_BOX (widget));
 
-	widget = e_builder_get_widget (prefs->priv->builder, "chkConfirmExpunge");
-	g_settings_bind (
-		settings, "prompt-on-expunge",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->priv->builder, "chkConfirmEmptyJunk");
-	g_settings_bind (
-		settings, "prompt-on-empty-junk",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->priv->builder, "chkDeleteSelectsPrevious");
-	g_settings_bind (
-		settings, "delete-selects-previous",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	em_prefs_bind_settings (prefs, settings, "prompt-on-expunge", "chkConfirmExpunge", "active");
+	em_prefs_bind_settings (prefs, settings, "prompt-on-empty-junk", "chkConfirmEmptyJunk", "active");
+	em_prefs_bind_settings (prefs, settings, "delete-selects-previous", "chkDeleteSelectsPrevious", "active");
 
 	/* Mail Fonts */
-	widget = e_builder_get_widget (prefs->priv->builder, "radFontUseSame");
-	g_settings_bind (
-		settings, "use-custom-font",
-		widget, "active",
+	em_prefs_bind_settings_ex (prefs, settings, "use-custom-font", "radFontUseSame", "active",
 		G_SETTINGS_BIND_DEFAULT |
 		G_SETTINGS_BIND_INVERT_BOOLEAN);
 
-	widget = e_builder_get_widget (prefs->priv->builder, "FontFixed");
-	g_settings_bind (
-		settings, "monospace-font",
-		widget, "font-name",
-		G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (
-		settings, "use-custom-font",
-		widget, "sensitive",
-		G_SETTINGS_BIND_GET);
+	em_prefs_bind_settings (prefs, settings, "monospace-font", "FontFixed", "font-name");
+	em_prefs_bind_settings_ex (prefs, settings, "use-custom-font", "FontFixed", "sensitive", G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->priv->builder, "FontVariable");
-	g_settings_bind (
-		settings, "variable-width-font",
-		widget, "font-name",
-		G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (
-		settings, "use-custom-font",
-		widget, "sensitive",
-		G_SETTINGS_BIND_GET);
+	em_prefs_bind_settings (prefs, settings, "variable-width-font", "FontVariable", "font-name");
+	em_prefs_bind_settings_ex (prefs, settings, "use-custom-font", "FontVariable", "sensitive", G_SETTINGS_BIND_GET);
 
 	/* HTML Mail tab */
 
@@ -1780,29 +1903,10 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "toggled",
 		G_CALLBACK (image_loading_policy_always_cb), NULL);
 
-	widget = e_builder_get_widget (prefs->priv->builder, "chkNotifyRemoteContent");
-	g_settings_bind (
-		settings, "notify-remote-content",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->priv->builder, "chkShowAnimatedImages");
-	g_settings_bind (
-		settings, "show-animated-images",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->priv->builder, "chkUnsetHTMLColors");
-	g_settings_bind (
-		settings, "preview-unset-html-colors",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->priv->builder, "chkPromptWantHTML");
-	g_settings_bind (
-		settings, "prompt-on-unwanted-html",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	em_prefs_bind_settings (prefs, settings, "notify-remote-content", "chkNotifyRemoteContent", "active");
+	em_prefs_bind_settings (prefs, settings, "show-animated-images", "chkShowAnimatedImages", "active");
+	em_prefs_bind_settings (prefs, settings, "preview-unset-html-colors", "chkUnsetHTMLColors", "active");
+	em_prefs_bind_settings (prefs, settings, "prompt-on-unwanted-html", "chkPromptWantHTML", "active");
 
 	container = e_builder_get_widget (prefs->priv->builder, "labels-alignment");
 	widget = e_mail_label_manager_new ();
@@ -1817,27 +1921,10 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	/* headers */
 	locked = !g_settings_is_writable (prefs->priv->settings, "headers");
 
-	widget = e_builder_get_widget (prefs->priv->builder, "photo_show");
-	g_settings_bind (
-		settings, "show-sender-photo",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->priv->builder, "search_gravatar");
-	g_settings_bind (
-		settings, "search-gravatar-for-photo",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-	g_settings_bind (
-		settings, "show-sender-photo",
-		widget, "sensitive",
-		G_SETTINGS_BIND_GET);
-
-	widget = e_builder_get_widget (prefs->priv->builder, "chkShowMailsInPreview");
-	g_settings_bind (
-		settings, "show-mails-in-preview",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	em_prefs_bind_settings (prefs, settings, "show-sender-photo", "photo_show", "active");
+	em_prefs_bind_settings (prefs, settings, "search-gravatar-for-photo", "search_gravatar", "active");
+	em_prefs_bind_settings_ex (prefs, settings, "show-sender-photo", "search_gravatar", "sensitive", G_SETTINGS_BIND_GET);
+	em_prefs_bind_settings (prefs, settings, "show-mails-in-preview", "chkShowMailsInPreview", "active");
 
 	container = e_builder_get_widget (prefs->priv->builder, "archive-mail-hbox");
 	widget = em_folder_selection_button_new (session, "", _("Choose a folder to archive messages to."));
@@ -2097,17 +2184,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_SETTINGS_BIND_DEFAULT);
 
 	/* Junk prefs */
-	widget = e_builder_get_widget (prefs->priv->builder, "chkCheckIncomingMail");
-	g_settings_bind (
-		settings, "junk-check-incoming",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->priv->builder, "junk_empty_check");
-	g_settings_bind (
-		settings, "junk-empty-on-exit",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	em_prefs_bind_settings (prefs, settings, "junk-check-incoming", "chkCheckIncomingMail", "active");
+	em_prefs_bind_settings (prefs, settings, "junk-empty-on-exit", "junk_empty_check", "active");
 
 	widget = e_builder_get_widget (prefs->priv->builder, "junk_empty_combobox");
 	emmp_empty_junk_init (prefs, GTK_COMBO_BOX (widget));
@@ -2116,11 +2194,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->priv->builder, "chkPromptOnMarkAsJunk");
-	g_settings_bind (
-		settings, "prompt-on-mark-as-junk",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	em_prefs_bind_settings (prefs, settings, "prompt-on-mark-as-junk", "chkPromptOnMarkAsJunk", "active");
 
 	widget = e_builder_get_widget (prefs->priv->builder, "junk-module-options");
 	e_mail_junk_options_set_session (E_MAIL_JUNK_OPTIONS (widget), session);
@@ -2186,15 +2260,33 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	toplevel = e_config_create_widget ((EConfig *) ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 
+	em_prefs_bind_settings (prefs, settings, "prompt-check-if-default-mailer", "chk-prompt-check-if-default-mailer", "active");
+	em_prefs_bind_settings (prefs, settings, "prompt-on-empty-trash", "chk-prompt-on-empty-trash", "active");
+	em_prefs_bind_settings (prefs, settings, "prompt-on-open-many", "chk-prompt-on-open-many", "active");
+	em_prefs_bind_settings (prefs, settings, "prompt-on-mark-all-read", "chk-prompt-on-mark-all-read", "active");
+	em_prefs_bind_settings (prefs, settings, "prompt-on-delete-in-vfolder", "chk-prompt-on-delete-in-vfolder", "active");
+
+	widget = e_builder_get_widget (prefs->priv->builder, "chk-prompt-on-folder-drop-copy");
+	g_signal_connect (widget, "toggled",
+		G_CALLBACK (em_mailer_prefs_toggle_prompt_on_folder_drop_copy_cb), prefs);
+	g_settings_bind (
+		settings, "prompt-on-folder-drop-copy",
+		prefs, "prompt-on-folder-drop-copy",
+		G_SETTINGS_BIND_DEFAULT);
+
+	widget = e_builder_get_widget (prefs->priv->builder, "chk-prompt-on-folder-drop-move");
+	g_signal_connect (widget, "toggled",
+		G_CALLBACK (em_mailer_prefs_toggle_prompt_on_folder_drop_move_cb), prefs);
+	g_settings_bind (
+		settings, "prompt-on-folder-drop-move",
+		prefs, "prompt-on-folder-drop-move",
+		G_SETTINGS_BIND_DEFAULT);
+
 	g_object_unref (settings);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 
-	widget = e_builder_get_widget (prefs->priv->builder, "minFontSize");
-	g_settings_bind (
-		settings, "webkit-minimum-font-size",
-		widget, "value",
-		G_SETTINGS_BIND_DEFAULT);
+	em_prefs_bind_settings (prefs, settings, "webkit-minimum-font-size", "minFontSize", "value");
 
 	g_object_unref (settings);
 }
