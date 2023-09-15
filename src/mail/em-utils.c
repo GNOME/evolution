@@ -2138,11 +2138,11 @@ em_utils_import_pgp_key (GtkWindow *parent,
 		CamelGpgTrust trust;
 		GtkToggleButton *button;
 	} trust_options[] = {
-		{ NC_("trust", "_Unknown"),	CAMEL_GPG_TRUST_UNKNOWN,	NULL },
-		{ NC_("trust", "_Never"),	CAMEL_GPG_TRUST_NEVER,		NULL },
-		{ NC_("trust", "_Marginal"),	CAMEL_GPG_TRUST_MARGINAL,	NULL },
-		{ NC_("trust", "_Full"),	CAMEL_GPG_TRUST_FULL,		NULL },
-		{ NC_("trust", "_Ultimate"),	CAMEL_GPG_TRUST_ULTIMATE,	NULL }
+		{ NC_("trust", "_Unknown"),		CAMEL_GPG_TRUST_UNKNOWN,	NULL },
+		{ NC_("trust", "_Never trust"),		CAMEL_GPG_TRUST_NEVER,		NULL },
+		{ NC_("trust", "Trust _marginally"),	CAMEL_GPG_TRUST_MARGINAL,	NULL },
+		{ NC_("trust", "Trust _fully"),		CAMEL_GPG_TRUST_FULL,		NULL },
+		{ NC_("trust", "Trust _ultimately"),	CAMEL_GPG_TRUST_ULTIMATE,	NULL }
 	};
 	EAlert *alert;
 	CamelGpgContext *gpgctx;
