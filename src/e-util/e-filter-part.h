@@ -69,6 +69,9 @@ struct _EFilterPart {
 	gchar *title;
 	gchar *code;
 	GList *elements;
+	gchar *code_gen_func;	/* function to generate the code;
+				 * either @code or @code_gen_func is non-NULL,
+				 * never both */
 };
 
 struct _EFilterPartClass {

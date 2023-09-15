@@ -49,6 +49,7 @@ filter_part_finalize (GObject *object)
 	g_free (part->name);
 	g_free (part->title);
 	g_free (part->code);
+	g_free (part->code_gen_func);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_filter_part_parent_class)->finalize (object);
@@ -118,6 +119,9 @@ e_filter_part_eq (EFilterPart *part_a,
 	if (g_strcmp0 (part_a->code, part_b->code) != 0)
 		return FALSE;
 
+	if (g_strcmp0 (part_a->code_gen_func, part_b->code_gen_func) != 0)
+		return FALSE;
+
 	link_a = part_a->elements;
 	link_b = part_b->elements;
 
@@ -177,11 +181,31 @@ e_filter_part_xml_create (EFilterPart *part,
 					xmlFree (str);
 			}
 		} else if (!strcmp ((gchar *) n->name, "code")) {
-			if (!part->code) {
-				str = (gchar *) xmlNodeGetContent (n);
-				part->code = g_strdup (str);
-				if (str)
-					xmlFree (str);
+			if (part->code || part->code_gen_func) {
+				g_warning ("Element 'code' defined twice in part '%s'", part->name);
+			} else {
+				xmlChar *fn;
+
+				/* if element 'code' has attribute 'func', then
+				 * the content of the element is ignored and only
+				 * the 'func' is used to generate actual rule code;
+				 * The function prototype is:
+				 * void code_gen_func (EFilterPart *part, GString *out);
+				 * @part is the part for which generate the code
+				 * @out is GString where to add the code
+				*/
+				fn = xmlGetProp (n, (const xmlChar *) "func");
+				if (fn && *fn) {
+					part->code_gen_func = g_strdup ((const gchar *) fn);
+				} else {
+					str = (gchar *) xmlNodeGetContent (n);
+					part->code = g_strdup (str);
+					if (str)
+						xmlFree (str);
+				}
+
+				if (fn)
+					xmlFree (fn);
 			}
 		} else if (n->type == XML_ELEMENT_NODE) {
 			g_warning ("Unknown part element in xml: %s\n", n->name);
@@ -253,6 +277,7 @@ e_filter_part_clone (EFilterPart *part)
 	clone->name = g_strdup (part->name);
 	clone->title = g_strdup (part->title);
 	clone->code = g_strdup (part->code);
+	clone->code_gen_func = g_strdup (part->code_gen_func);
 
 	for (link = part->elements; link != NULL; link = g_list_next (link)) {
 		EFilterElement *element = link->data;
@@ -372,6 +397,31 @@ e_filter_part_describe (EFilterPart *part,
 	}
 }
 
+static void
+filter_part_generate_code (EFilterPart *part,
+			   GString *out)
+{
+	GModule *module;
+	gpointer ptr = NULL;
+	void (*code_gen_func) (EFilterPart *part, GString *out);
+
+	if (!part || !part->code_gen_func)
+		return;
+
+	module = g_module_open (NULL, G_MODULE_BIND_LAZY);
+
+	if (g_module_symbol (module, part->code_gen_func, &ptr)) {
+		code_gen_func = ptr;
+		code_gen_func (part, out);
+	} else {
+		g_warning (
+			"part's dynamic code function '%s' not found",
+			part->code_gen_func);
+	}
+
+	g_module_close (module);
+}
+
 /**
  * e_filter_part_build_code:
  * @part:
@@ -388,8 +438,11 @@ e_filter_part_build_code (EFilterPart *part,
 	g_return_if_fail (E_IS_FILTER_PART (part));
 	g_return_if_fail (out != NULL);
 
-	if (part->code != NULL)
+	if (part->code_gen_func) {
+		filter_part_generate_code (part, out);
+	} else if (part->code != NULL) {
 		e_filter_part_expand_code (part, part->code, out);
+	}
 
 	for (link = part->elements; link != NULL; link = g_list_next (link)) {
 		EFilterElement *element = link->data;

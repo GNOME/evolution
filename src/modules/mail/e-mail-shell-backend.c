@@ -1498,7 +1498,8 @@ e_mail_shell_backend_edit_account (EMailShellBackend *mail_shell_backend,
 /******************* Code below here belongs elsewhere. *******************/
 
 static GSList *
-mail_labels_get_filter_options (gboolean include_none)
+mail_labels_get_filter_options (gboolean include_none,
+				gboolean include_all)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
@@ -1518,13 +1519,17 @@ mail_labels_get_filter_options (gboolean include_none)
 	label_store = e_mail_ui_session_get_label_store (
 		E_MAIL_UI_SESSION (session));
 
-	if (include_none) {
+	if (include_none || include_all) {
 		struct _filter_option *option;
 
 		option = g_new0 (struct _filter_option, 1);
-		/* Translators: The first item in the list, to be
-		 * able to set rule: [Label] [is/is-not] [None] */
-		option->title = g_strdup (C_("label", "None"));
+		if (include_none) {
+			/* Translators: The first item in the list, to be able to set rule: [Label] [is/is-not] [None] */
+			option->title = g_strdup (C_("label", "None"));
+		} else {
+			/* Translators: The first item in the list, to be able to set rule: [Unset Label] [All] */
+			option->title = g_strdup (C_("label", "All"));
+		}
 		option->value = g_strdup ("");
 		list = g_slist_prepend (list, option);
 	}
@@ -1563,13 +1568,19 @@ mail_labels_get_filter_options (gboolean include_none)
 GSList *
 e_mail_labels_get_filter_options (void)
 {
-	return mail_labels_get_filter_options (TRUE);
+	return mail_labels_get_filter_options (TRUE, FALSE);
 }
 
 GSList *
 e_mail_labels_get_filter_options_without_none (void)
 {
-	return mail_labels_get_filter_options (FALSE);
+	return mail_labels_get_filter_options (FALSE, FALSE);
+}
+
+GSList *
+e_mail_labels_get_filter_options_with_all (void)
+{
+	return mail_labels_get_filter_options (FALSE, TRUE);
 }
 
 static const gchar *
@@ -1693,6 +1704,78 @@ e_mail_labels_get_filter_code (EFilterElement *element,
 	if (is_not)
 		g_string_append_c (out, ')');
 	g_string_append (out, " ))");
+}
+
+void
+e_mail_labels_get_unset_filter_code (EFilterPart *part,
+				     GString *out)
+{
+	const gchar *label;
+
+	label = get_filter_option_value (part, "label");
+
+	g_return_if_fail (label != NULL);
+
+	/* unset all labels */
+	if (!*label) {
+		EShell *shell;
+		EShellBackend *shell_backend;
+		EMailBackend *backend;
+		EMailSession *session;
+		EMailLabelListStore *label_store;
+		GtkTreeModel *model;
+		GtkTreeIter iter;
+		gboolean valid;
+		gboolean any_added = FALSE;
+
+		shell = e_shell_get_default ();
+		shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+		backend = E_MAIL_BACKEND (shell_backend);
+		session = e_mail_backend_get_session (backend);
+		label_store = e_mail_ui_session_get_label_store (
+			E_MAIL_UI_SESSION (session));
+
+		model = GTK_TREE_MODEL (label_store);
+		valid = gtk_tree_model_get_iter_first (model, &iter);
+
+		while (valid) {
+			gchar *tag;
+
+			tag = e_mail_label_list_store_get_tag (label_store, &iter);
+
+			if (g_str_has_prefix (tag, "$Label")) {
+				gchar *tmp = tag;
+
+				tag = g_strdup (tag + 6);
+
+				g_free (tmp);
+			}
+
+			if (any_added) {
+				g_string_append_c (out, ' ');
+			} else {
+				g_string_append (out, "(unset-label ");
+				any_added = TRUE;
+			}
+
+			camel_sexp_encode_string (out, tag);
+
+			g_free (tag);
+
+			valid = gtk_tree_model_iter_next (model, &iter);
+		}
+
+		if (any_added)
+			g_string_append_c (out, ')');
+	} else {
+		if (g_str_has_prefix (label, "$Label"))
+			label = label + 6;
+
+		g_string_append (out, "(unset-label ");
+		camel_sexp_encode_string (out, label);
+		g_string_append_c (out, ')');
+	}
 }
 
 static gint

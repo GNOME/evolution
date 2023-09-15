@@ -761,6 +761,13 @@
      <dynamic func="e_mail_labels_get_filter_options_without_none"/>
   </input>
  </part>
+ <part name="unset-label">
+  <_title>Unset Label</_title>
+  <code func="e_mail_labels_get_unset_filter_code"></code>
+  <input type="optionlist" name="label">
+     <dynamic func="e_mail_labels_get_filter_options_with_all"/>
+  </input>
+ </part>
  <part name="colour">
   <_title>Assign Color</_title>
   <code>(set-color ${colour})</code>

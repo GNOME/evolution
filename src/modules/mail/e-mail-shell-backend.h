@@ -82,9 +82,14 @@ GSList *	e_mail_labels_get_filter_options
 						(void);
 GSList *	e_mail_labels_get_filter_options_without_none
 						(void);
+GSList *	e_mail_labels_get_filter_options_with_all
+						(void);
 void		e_mail_labels_get_filter_code	(EFilterElement *element,
 						 GString *out,
 						 EFilterPart *part);
+void		e_mail_labels_get_unset_filter_code
+						(EFilterPart *part,
+						 GString *out);
 GSList *	e_mail_addressbook_get_filter_options
 						(void);
 
