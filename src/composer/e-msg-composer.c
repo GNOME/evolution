@@ -586,6 +586,8 @@ build_message_headers (EMsgComposer *composer,
 	gchar *alias_name = NULL, *alias_address = NULL, *uid;
 	const gchar *subject;
 	const gchar *reply_to;
+	const gchar *mail_reply_to;
+	const gchar *mail_followup_to;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
@@ -697,6 +699,42 @@ build_message_headers (EMsgComposer *composer,
 
 		if (camel_address_unformat (CAMEL_ADDRESS (addr), reply_to) > 0)
 			camel_mime_message_set_reply_to (message, addr);
+
+		g_object_unref (addr);
+	}
+
+	/* Mail-Followup-To: */
+	mail_followup_to = e_composer_header_table_get_mail_followup_to (table);
+	if (mail_followup_to != NULL && *mail_followup_to != '\0') {
+		CamelInternetAddress *addr;
+
+		addr = camel_internet_address_new ();
+
+		if (camel_address_unformat (CAMEL_ADDRESS (addr), mail_followup_to) > 0) {
+			gchar *str;
+
+			str = camel_address_encode (CAMEL_ADDRESS (addr));
+			camel_medium_set_header (CAMEL_MEDIUM (message), "Mail-Followup-To", str);
+			g_free (str);
+		}
+
+		g_object_unref (addr);
+	}
+
+	/* Mail-Reply-To: */
+	mail_reply_to = e_composer_header_table_get_mail_reply_to (table);
+	if (mail_reply_to != NULL && *mail_reply_to != '\0') {
+		CamelInternetAddress *addr;
+
+		addr = camel_internet_address_new ();
+
+		if (camel_address_unformat (CAMEL_ADDRESS (addr), mail_reply_to) > 0) {
+			gchar *str;
+
+			str = camel_address_encode (CAMEL_ADDRESS (addr));
+			camel_medium_set_header (CAMEL_MEDIUM (message), "Mail-Reply-To", str);
+			g_free (str);
+		}
 
 		g_object_unref (addr);
 	}
@@ -2792,6 +2830,12 @@ msg_composer_constructed (GObject *object)
 	composer->priv->notify_reply_to_handler = e_signal_connect_notify_swapped (
 		table, "notify::reply-to",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
+	composer->priv->notify_mail_followup_to_handler = e_signal_connect_notify_swapped (
+		table, "notify::mail-followup-to",
+		G_CALLBACK (msg_composer_notify_header_cb), composer);
+	composer->priv->notify_mail_reply_to_handler = e_signal_connect_notify_swapped (
+		table, "notify::mail-reply-to",
+		G_CALLBACK (msg_composer_notify_header_cb), composer);
 	composer->priv->notify_signature_uid_handler = e_signal_connect_notify_swapped (
 		table, "notify::signature-uid",
 		G_CALLBACK (e_composer_update_signature), composer);
@@ -2870,6 +2914,10 @@ msg_composer_dispose (GObject *object)
 			table, &priv->notify_identity_uid_handler);
 		e_signal_disconnect_notify_handler (
 			table, &priv->notify_reply_to_handler);
+		e_signal_disconnect_notify_handler (
+			table, &priv->notify_mail_followup_to_handler);
+		e_signal_disconnect_notify_handler (
+			table, &priv->notify_mail_reply_to_handler);
 		e_signal_disconnect_notify_handler (
 			table, &priv->notify_destinations_to_handler);
 		e_signal_disconnect_notify_handler (
@@ -4501,12 +4549,22 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	if (is_message_from_draft || (
 	    camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Identity") &&
 	    camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport"))) {
-		const gchar *reply_to;
+		const gchar *addr;
 
-		reply_to = camel_medium_get_header (CAMEL_MEDIUM (message), "Reply-To");
+		addr = camel_medium_get_header (CAMEL_MEDIUM (message), "Reply-To");
 
-		if (reply_to)
-			e_composer_header_table_set_reply_to (table, reply_to);
+		if (addr)
+			e_composer_header_table_set_reply_to (table, addr);
+
+		addr = camel_medium_get_header (CAMEL_MEDIUM (message), "Mail-Followup-To");
+
+		if (addr)
+			e_composer_header_table_set_mail_followup_to (table, addr);
+
+		addr = camel_medium_get_header (CAMEL_MEDIUM (message), "Mail-Reply-To");
+
+		if (addr)
+			e_composer_header_table_set_mail_reply_to (table, addr);
 	}
 
 	if (g_strcmp0 (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Request-DSN"), "1") == 0) {
@@ -5715,6 +5773,12 @@ handle_mailto (EMsgComposer *composer,
 			} else if (!g_ascii_strcasecmp (header, "reply-to")) {
 				camel_url_decode (content);
 				e_composer_header_table_set_reply_to (table, content);
+			} else if (!g_ascii_strcasecmp (header, "mail-followup-to")) {
+				camel_url_decode (content);
+				e_composer_header_table_set_mail_followup_to (table, content);
+			} else if (!g_ascii_strcasecmp (header, "mail-reply-to")) {
+				camel_url_decode (content);
+				e_composer_header_table_set_mail_reply_to (table, content);
 			} else {
 				/* add an arbitrary header? */
 				camel_url_decode (content);

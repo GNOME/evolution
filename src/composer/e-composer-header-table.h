@@ -50,6 +50,8 @@ typedef struct _EComposerHeaderTablePrivate EComposerHeaderTablePrivate;
 typedef enum {
 	E_COMPOSER_HEADER_FROM,
 	E_COMPOSER_HEADER_REPLY_TO,
+	E_COMPOSER_HEADER_MAIL_REPLY_TO,
+	E_COMPOSER_HEADER_MAIL_FOLLOWUP_TO,
 	E_COMPOSER_HEADER_TO,
 	E_COMPOSER_HEADER_CC,
 	E_COMPOSER_HEADER_BCC,
@@ -131,6 +133,16 @@ const gchar *	e_composer_header_table_get_reply_to
 void		e_composer_header_table_set_reply_to
 						(EComposerHeaderTable *table,
 						 const gchar *reply_to);
+const gchar *	e_composer_header_table_get_mail_followup_to
+						(EComposerHeaderTable *table);
+void		e_composer_header_table_set_mail_followup_to
+						(EComposerHeaderTable *table,
+						 const gchar *mail_followup_to);
+const gchar *	e_composer_header_table_get_mail_reply_to
+						(EComposerHeaderTable *table);
+void		e_composer_header_table_set_mail_reply_to
+						(EComposerHeaderTable *table,
+						 const gchar *mail_reply_to);
 const gchar *	e_composer_header_table_get_signature_uid
 						(EComposerHeaderTable *table);
 void		e_composer_header_table_set_signature_uid

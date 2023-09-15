@@ -80,6 +80,10 @@
 	E_COMPOSER_ACTION ((composer), "view-cc")
 #define E_COMPOSER_ACTION_VIEW_FROM_OVERRIDE(composer) \
 	E_COMPOSER_ACTION ((composer), "view-from-override")
+#define E_COMPOSER_ACTION_VIEW_MAIL_FOLLOWUP_TO(composer) \
+	E_COMPOSER_ACTION ((composer), "view-mail-followup-to")
+#define E_COMPOSER_ACTION_VIEW_MAIL_REPLY_TO(composer) \
+	E_COMPOSER_ACTION ((composer), "view-mail-reply-to")
 #define E_COMPOSER_ACTION_VIEW_REPLY_TO(composer) \
 	E_COMPOSER_ACTION ((composer), "view-reply-to")
 #define E_COMPOSER_ACTION_VISUALLY_WRAP_LONG_LINES(composer) \

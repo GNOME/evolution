@@ -117,6 +117,8 @@ struct _EMsgComposerPrivate {
 	gulong notify_destinations_cc_handler;
 	gulong notify_destinations_to_handler;
 	gulong notify_identity_uid_handler;
+	gulong notify_mail_followup_to_handler;
+	gulong notify_mail_reply_to_handler;
 	gulong notify_reply_to_handler;
 	gulong notify_signature_uid_handler;
 	gulong notify_subject_handler;

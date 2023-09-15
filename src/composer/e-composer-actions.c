@@ -565,6 +565,22 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  NULL,  /* Handled by property bindings */
 	  FALSE },
 
+	{ "view-mail-followup-to",
+	  NULL,
+	  N_("Mail-Follow_up-To Field"),
+	  NULL,
+	  N_("Toggles whether the Mail-Followup-To field is displayed"),
+	  NULL,  /* Handled by property bindings */
+	  FALSE },
+
+	{ "view-mail-reply-to",
+	  NULL,
+	  N_("Mail-R_eply-To Field"),
+	  NULL,
+	  N_("Toggles whether the Mail-Reply-To field is displayed"),
+	  NULL,  /* Handled by property bindings */
+	  FALSE },
+
 	{ "view-reply-to",
 	  NULL,
 	  N_("_Reply-To Field"),

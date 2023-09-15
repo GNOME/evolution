@@ -63,7 +63,9 @@ enum {
 	PROP_REPLY_TO,
 	PROP_SIGNATURE_COMBO_BOX,
 	PROP_SIGNATURE_UID,
-	PROP_SUBJECT
+	PROP_SUBJECT,
+	PROP_MAIL_FOLLOWUP_TO,
+	PROP_MAIL_REPLY_TO
 };
 
 G_DEFINE_TYPE (
@@ -297,6 +299,14 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 				key = "composer-show-reply-to";
 				break;
 
+			case E_COMPOSER_HEADER_MAIL_FOLLOWUP_TO:
+				key = "composer-show-mail-followup-to";
+				break;
+
+			case E_COMPOSER_HEADER_MAIL_REPLY_TO:
+				key = "composer-show-mail-reply-to";
+				break;
+
 			default:
 				key = NULL;
 				break;
@@ -314,6 +324,8 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 			case E_COMPOSER_HEADER_BCC:
 			case E_COMPOSER_HEADER_CC:
 			case E_COMPOSER_HEADER_REPLY_TO:
+			case E_COMPOSER_HEADER_MAIL_FOLLOWUP_TO:
+			case E_COMPOSER_HEADER_MAIL_REPLY_TO:
 			case E_COMPOSER_HEADER_SUBJECT:
 			case E_COMPOSER_HEADER_TO:
 				sensitive = TRUE;
@@ -369,6 +381,14 @@ composer_header_table_setup_post_headers (EComposerHeaderTable *table)
 				key = "composer-show-post-reply-to";
 				break;
 
+			case E_COMPOSER_HEADER_MAIL_FOLLOWUP_TO:
+				key = "composer-show-post-mail-followup-to";
+				break;
+
+			case E_COMPOSER_HEADER_MAIL_REPLY_TO:
+				key = "composer-show-post-mail-reply-to";
+				break;
+
 			default:
 				key = NULL;
 				break;
@@ -381,6 +401,8 @@ composer_header_table_setup_post_headers (EComposerHeaderTable *table)
 			case E_COMPOSER_HEADER_FROM:
 			case E_COMPOSER_HEADER_POST_TO:
 			case E_COMPOSER_HEADER_REPLY_TO:
+			case E_COMPOSER_HEADER_MAIL_FOLLOWUP_TO:
+			case E_COMPOSER_HEADER_MAIL_REPLY_TO:
 			case E_COMPOSER_HEADER_SUBJECT:
 				e_composer_header_set_sensitive (header, TRUE);
 				e_composer_header_set_visible (header, TRUE);
@@ -671,6 +693,18 @@ composer_header_table_set_property (GObject *object,
 				g_value_get_string (value));
 			return;
 
+		case PROP_MAIL_FOLLOWUP_TO:
+			e_composer_header_table_set_mail_followup_to (
+				E_COMPOSER_HEADER_TABLE (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_MAIL_REPLY_TO:
+			e_composer_header_table_set_mail_reply_to (
+				E_COMPOSER_HEADER_TABLE (object),
+				g_value_get_string (value));
+			return;
+
 		case PROP_SIGNATURE_UID:
 			e_composer_header_table_set_signature_uid (
 				E_COMPOSER_HEADER_TABLE (object),
@@ -747,6 +781,20 @@ composer_header_table_get_property (GObject *object,
 			g_value_set_string (
 				value,
 				e_composer_header_table_get_reply_to (
+				E_COMPOSER_HEADER_TABLE (object)));
+			return;
+
+		case PROP_MAIL_FOLLOWUP_TO:
+			g_value_set_string (
+				value,
+				e_composer_header_table_get_mail_followup_to (
+				E_COMPOSER_HEADER_TABLE (object)));
+			return;
+
+		case PROP_MAIL_REPLY_TO:
+			g_value_set_string (
+				value,
+				e_composer_header_table_get_mail_reply_to (
 				E_COMPOSER_HEADER_TABLE (object)));
 			return;
 
@@ -838,6 +886,14 @@ composer_header_table_constructed (GObject *object)
 	header = e_composer_text_header_new_label (registry, _("_Reply-To:"));
 	composer_header_table_bind_header ("reply-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_REPLY_TO] = header;
+
+	header = e_composer_text_header_new_label (registry, _("Mail-Followu_p-To:"));
+	composer_header_table_bind_header ("mail-followup-to", "changed", header);
+	table->priv->headers[E_COMPOSER_HEADER_MAIL_FOLLOWUP_TO] = header;
+
+	header = e_composer_text_header_new_label (registry, _("Mail-Repl_y-To:"));
+	composer_header_table_bind_header ("mail-reply-to", "changed", header);
+	table->priv->headers[E_COMPOSER_HEADER_MAIL_REPLY_TO] = header;
 
 	header = e_composer_name_header_new (
 		registry, _("_To:"), name_selector);
@@ -1029,6 +1085,28 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 		PROP_REPLY_TO,
 		g_param_spec_string (
 			"reply-to",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MAIL_FOLLOWUP_TO,
+		g_param_spec_string (
+			"mail-followup-to",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MAIL_REPLY_TO,
+		g_param_spec_string (
+			"mail-reply-to",
 			NULL,
 			NULL,
 			NULL,
@@ -1490,6 +1568,78 @@ e_composer_header_table_set_reply_to (EComposerHeaderTable *table,
 	e_composer_text_header_set_text (text_header, reply_to);
 
 	if (reply_to != NULL && *reply_to != '\0')
+		e_composer_header_set_visible (header, TRUE);
+}
+
+const gchar *
+e_composer_header_table_get_mail_followup_to (EComposerHeaderTable *table)
+{
+	EComposerHeader *header;
+	EComposerHeaderType type;
+	EComposerTextHeader *text_header;
+
+	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
+
+	type = E_COMPOSER_HEADER_MAIL_FOLLOWUP_TO;
+	header = e_composer_header_table_get_header (table, type);
+	text_header = E_COMPOSER_TEXT_HEADER (header);
+
+	return e_composer_text_header_get_text (text_header);
+}
+
+void
+e_composer_header_table_set_mail_followup_to (EComposerHeaderTable *table,
+					      const gchar *mail_followup_to)
+{
+	EComposerHeader *header;
+	EComposerHeaderType type;
+	EComposerTextHeader *text_header;
+
+	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (table));
+
+	type = E_COMPOSER_HEADER_MAIL_FOLLOWUP_TO;
+	header = e_composer_header_table_get_header (table, type);
+	text_header = E_COMPOSER_TEXT_HEADER (header);
+
+	e_composer_text_header_set_text (text_header, mail_followup_to);
+
+	if (mail_followup_to != NULL && *mail_followup_to != '\0')
+		e_composer_header_set_visible (header, TRUE);
+}
+
+const gchar *
+e_composer_header_table_get_mail_reply_to (EComposerHeaderTable *table)
+{
+	EComposerHeader *header;
+	EComposerHeaderType type;
+	EComposerTextHeader *text_header;
+
+	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
+
+	type = E_COMPOSER_HEADER_MAIL_REPLY_TO;
+	header = e_composer_header_table_get_header (table, type);
+	text_header = E_COMPOSER_TEXT_HEADER (header);
+
+	return e_composer_text_header_get_text (text_header);
+}
+
+void
+e_composer_header_table_set_mail_reply_to (EComposerHeaderTable *table,
+					   const gchar *mail_reply_to)
+{
+	EComposerHeader *header;
+	EComposerHeaderType type;
+	EComposerTextHeader *text_header;
+
+	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (table));
+
+	type = E_COMPOSER_HEADER_MAIL_REPLY_TO;
+	header = e_composer_header_table_get_header (table, type);
+	text_header = E_COMPOSER_TEXT_HEADER (header);
+
+	e_composer_text_header_set_text (text_header, mail_reply_to);
+
+	if (mail_reply_to != NULL && *mail_reply_to != '\0')
 		e_composer_header_set_visible (header, TRUE);
 }
 

@@ -3255,9 +3255,10 @@ get_reply_sender (CamelMimeMessage *message,
                   CamelInternetAddress *to,
                   CamelNNTPAddress *postto)
 {
-	CamelInternetAddress *reply_to;
+	CamelInternetAddress *reply_to = NULL;
 	CamelMedium *medium;
 	const gchar *posthdr = NULL;
+	const gchar *mail_reply_to;
 
 	medium = CAMEL_MEDIUM (message);
 
@@ -3273,7 +3274,23 @@ get_reply_sender (CamelMimeMessage *message,
 		return;
 	}
 
-	reply_to = get_reply_to (message);
+	/* Prefer Mail-Reply-To for Reply-Sender, if exists */
+	mail_reply_to = camel_medium_get_header (medium, "Mail-Reply-To");
+	if (mail_reply_to && *mail_reply_to) {
+		reply_to = camel_internet_address_new ();
+		camel_address_decode (CAMEL_ADDRESS (reply_to), mail_reply_to);
+
+		if (!camel_address_length (CAMEL_ADDRESS (reply_to))) {
+			g_clear_object (&reply_to);
+		}
+	}
+
+	if (!reply_to) {
+		reply_to = get_reply_to (message);
+
+		if (reply_to)
+			g_object_ref (reply_to);
+	}
 
 	if (reply_to != NULL) {
 		const gchar *name;
@@ -3282,6 +3299,8 @@ get_reply_sender (CamelMimeMessage *message,
 
 		while (camel_internet_address_get (reply_to, ii++, &name, &addr))
 			camel_internet_address_add (to, name, addr);
+
+		g_object_unref (reply_to);
 	}
 }
 
@@ -3482,12 +3501,13 @@ em_utils_get_reply_all (ESourceRegistry *registry,
                         CamelInternetAddress *cc,
                         CamelNNTPAddress *postto)
 {
-	CamelInternetAddress *reply_to;
-	CamelInternetAddress *to_addrs;
-	CamelInternetAddress *cc_addrs;
+	CamelInternetAddress *reply_to = NULL;
+	CamelInternetAddress *to_addrs = NULL;
+	CamelInternetAddress *cc_addrs = NULL;
 	CamelMedium *medium;
 	const gchar *name, *addr;
 	const gchar *posthdr = NULL;
+	const gchar *mail_followup_to;
 	GHashTable *rcpt_hash;
 
 	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
@@ -3509,11 +3529,24 @@ em_utils_get_reply_all (ESourceRegistry *registry,
 
 	rcpt_hash = generate_recipient_hash (registry);
 
-	reply_to = get_reply_to (message);
-	to_addrs = camel_mime_message_get_recipients (
-		message, CAMEL_RECIPIENT_TYPE_TO);
-	cc_addrs = camel_mime_message_get_recipients (
-		message, CAMEL_RECIPIENT_TYPE_CC);
+	/* Prefer Mail-Followup-To for Reply-All, if exists */
+	mail_followup_to = camel_medium_get_header (medium, "Mail-Followup-To");
+	if (mail_followup_to && *mail_followup_to) {
+		to_addrs = camel_internet_address_new ();
+		camel_address_decode (CAMEL_ADDRESS (to_addrs), mail_followup_to);
+
+		if (!camel_address_length (CAMEL_ADDRESS (to_addrs))) {
+			g_clear_object (&to_addrs);
+		}
+	}
+
+	if (to_addrs == NULL) {
+		reply_to = get_reply_to (message);
+		to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+		cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+
+		g_object_ref (to_addrs);
+	}
 
 	if (reply_to != NULL) {
 		gint ii = 0;
@@ -3532,8 +3565,10 @@ em_utils_get_reply_all (ESourceRegistry *registry,
 		}
 	}
 
-	concat_unique_addrs (to, to_addrs, rcpt_hash);
-	concat_unique_addrs (cc, cc_addrs, rcpt_hash);
+	if (to_addrs)
+		concat_unique_addrs (to, to_addrs, rcpt_hash);
+	if (cc_addrs)
+		concat_unique_addrs (cc, cc_addrs, rcpt_hash);
 
 	/* Set as the 'To' the first 'Reply-To' address, if such exists, when no address
 	   had been picked (like when all addresses are configured mail accounts). */
@@ -3560,6 +3595,7 @@ em_utils_get_reply_all (ESourceRegistry *registry,
 	}
 
 	g_hash_table_destroy (rcpt_hash);
+	g_clear_object (&to_addrs);
 }
 
 enum {

@@ -182,6 +182,16 @@
       <_summary>Show “Reply To” field when sending a mail message</_summary>
       <_description>Show the “Reply To” field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
     </key>
+    <key name="composer-show-mail-followup-to" type="b">
+      <default>false</default>
+      <_summary>Show “Mail-Followup-To” field when sending a mail message</_summary>
+      <_description>Show the “Mail-Followup-To” field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
+    </key>
+    <key name="composer-show-mail-reply-to" type="b">
+      <default>false</default>
+      <_summary>Show “Mail-Reply-To” field when sending a mail message</_summary>
+      <_description>Show the “Mail-Reply-To” field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
+    </key>
     <key name="composer-show-post-from" type="b">
       <default>true</default>
       <_summary>Show “From” field when posting to a newsgroup</_summary>
@@ -191,6 +201,16 @@
       <default>false</default>
       <_summary>Show “Reply To” field when posting to a newsgroup</_summary>
       <_description>Show the “Reply To” field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</_description>
+    </key>
+    <key name="composer-show-post-mail-followup-to" type="b">
+      <default>false</default>
+      <_summary>Show “Mail-Followup-To” field when posting to a newsgroup</_summary>
+      <_description>Show the “Mail-Followup-To” field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</_description>
+    </key>
+    <key name="composer-show-post-mail-reply-to" type="b">
+      <default>false</default>
+      <_summary>Show “Mail-Reply-To” field when posting to a newsgroup</_summary>
+      <_description>Show the “Mail-Reply-To” field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</_description>
     </key>
     <key name="composer-sign-reply-if-signed" type="b">
       <default>false</default>

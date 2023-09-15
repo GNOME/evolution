@@ -473,6 +473,20 @@ e_composer_private_constructed (EMsgComposer *composer)
 					focus_tracker);
 				break;
 
+			case E_COMPOSER_HEADER_MAIL_FOLLOWUP_TO:
+				action = ACTION (VIEW_MAIL_FOLLOWUP_TO);
+				e_widget_undo_attach (
+					GTK_WIDGET (header->input_widget),
+					focus_tracker);
+				break;
+
+			case E_COMPOSER_HEADER_MAIL_REPLY_TO:
+				action = ACTION (VIEW_MAIL_REPLY_TO);
+				e_widget_undo_attach (
+					GTK_WIDGET (header->input_widget),
+					focus_tracker);
+				break;
+
 			case E_COMPOSER_HEADER_SUBJECT:
 				e_widget_undo_attach (
 					GTK_WIDGET (header->input_widget),
