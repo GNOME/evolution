@@ -1,3 +1,30 @@
+Evolution 3.50.0 2023-09-15
+---------------------------
+
+Bug Fixes:
+	I#1488 - Backspace in preedit mode can delete extra letters
+	I#2503 - Mail: Signed attachment causes hide of unsigned body
+	I#2508 - Mail: Duplicate items in the popup menu
+	I#2514 - Change default response in 'Add Attachment' dialog
+	M!124 - Fix typos ("begining", "ineficient") in code comments (Дилян Палаузов)
+
+Miscellaneous:
+	itip-formatter: Skip well-known read-only sources
+	EHeaderBarButton: Can be half-sensitive with set menu
+	EColorCombo: Don't set own default palette
+	ci: Rename org.gnome.evolution.nightly to org.gnome.Evolution.Devel
+
+Translations:
+	Anders Jonsson (sv)
+	Aurimas Černius (lt)
+	Balázs Úr (hu)
+	Daniel Rusek (cs)
+	Emin Tufan Çetin (tr)
+	Jean-Marc Tissières (fr)
+	Jordi Mas (ca)
+	Piotr Drąg (pl)
+	Tim Sabsch (de)
+
 Evolution 3.49.3 2023-09-01
 ---------------------------
 
