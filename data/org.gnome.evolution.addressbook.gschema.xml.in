@@ -120,6 +120,11 @@
       <_summary>Where to open contact locations</_summary>
       <_description>Currently supported values are “openstreetmap” and “google”; if unknown set, uses “openstreetmap”</_description>
     </key>
+    <key type="b" name="open-map-prefer-local">
+      <default>true</default>
+      <_summary>Whether to prefer local application over opening map in a browser</_summary>
+      <_description>Open a contact location in a local application handling 'map:' URI, if available, instead of using a web browser</_description>
+    </key>
     <key type="b" name="preview-home-before-work">
       <default>false</default>
       <_summary>Preview Personal before Work information</_summary>

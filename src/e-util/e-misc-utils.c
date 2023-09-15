@@ -5061,20 +5061,35 @@ e_open_map_uri (GtkWindow *parent,
 	#define OPENSTREETMAP_PREFIX "https://www.openstreetmap.org/search?query="
 
 	GSettings *settings;
+	gboolean open_map_prefer_local;
 	gchar *open_map_target;
 	gchar *uri;
-	const gchar *prefix;
+	const gchar *prefix = NULL;
 
 	g_return_if_fail (location != NULL);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 	open_map_target = g_settings_get_string (settings, "open-map-target");
+	open_map_prefer_local = g_settings_get_boolean (settings, "open-map-prefer-local");
 	g_object_unref (settings);
 
-	if (open_map_target && g_ascii_strcasecmp (open_map_target, "google") == 0) {
-		prefix = GOOGLE_MAP_PREFIX;
-	} else {
-		prefix = OPENSTREETMAP_PREFIX;
+	/* Cannot check what apps are installed in the system when running in a Flatpak sandbox */
+	if (open_map_prefer_local && !e_util_is_running_flatpak ()) {
+		GAppInfo *app_info;
+
+		app_info = g_app_info_get_default_for_uri_scheme ("maps");
+		if (app_info) {
+			prefix = "maps:q=";
+			g_object_unref (app_info);
+		}
+	}
+
+	if (!prefix) {
+		if (open_map_target && g_ascii_strcasecmp (open_map_target, "google") == 0) {
+			prefix = GOOGLE_MAP_PREFIX;
+		} else {
+			prefix = OPENSTREETMAP_PREFIX;
+		}
 	}
 
 	g_free (open_map_target);
