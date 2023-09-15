@@ -1222,7 +1222,7 @@ e_attachment_add_to_multipart (EAttachment *attachment,
 		stream = camel_stream_null_new ();
 		filtered_stream = camel_stream_filter_new (stream);
 		filter = camel_mime_filter_bestenc_new (
-			CAMEL_BESTENC_GET_ENCODING);
+			CAMEL_BESTENC_GET_ENCODING | CAMEL_BESTENC_GET_CHARSET);
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filtered_stream),
 			CAMEL_MIME_FILTER (filter));
@@ -1236,7 +1236,6 @@ e_attachment_add_to_multipart (EAttachment *attachment,
 			CAMEL_MIME_FILTER_BESTENC (filter),
 			CAMEL_BESTENC_8BIT);
 		camel_mime_part_set_encoding (mime_part, encoding);
-		g_object_unref (filter);
 
 		if (encoding == CAMEL_TRANSFER_ENCODING_7BIT) {
 			/* The text fits within us-ascii, so this is safe.
@@ -1254,12 +1253,21 @@ e_attachment_add_to_multipart (EAttachment *attachment,
 		if (charset == NULL) {
 			gchar *type;
 
-			camel_content_type_set_param (
-				content_type, "charset", default_charset);
+			if (encoding != CAMEL_TRANSFER_ENCODING_7BIT) {
+				charset = camel_mime_filter_bestenc_get_best_charset (CAMEL_MIME_FILTER_BESTENC (filter));
+				if (charset)
+					camel_content_type_set_param (content_type, "charset", charset);
+			}
+
+			if (!charset)
+				camel_content_type_set_param (content_type, "charset", default_charset);
+
 			type = camel_content_type_format (content_type);
 			camel_mime_part_set_content_type (mime_part, type);
 			g_free (type);
 		}
+
+		g_object_unref (filter);
 
 	/* Otherwise, unless it's a message/rfc822, Base64 encode it. */
 	} else if (!CAMEL_IS_MIME_MESSAGE (wrapper))

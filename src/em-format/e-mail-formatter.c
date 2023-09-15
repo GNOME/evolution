@@ -1061,6 +1061,35 @@ e_mail_formatter_format_as (EMailFormatter *formatter,
 	return ok;
 }
 
+static gboolean
+emf_data_is_utf16 (CamelMimePart *part,
+		   gboolean *out_be_variant)
+{
+	CamelStream *filtered_stream;
+	CamelMimeFilter *filter;
+	CamelStream *stream;
+	const gchar *charset;
+	gboolean is_utf16;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), FALSE);
+
+	stream = camel_stream_null_new ();
+	filtered_stream = camel_stream_filter_new (stream);
+	filter = camel_mime_filter_bestenc_new (CAMEL_BESTENC_GET_CHARSET);
+	camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered_stream), CAMEL_MIME_FILTER (filter));
+	camel_data_wrapper_decode_to_stream_sync (camel_medium_get_content (CAMEL_MEDIUM (part)), filtered_stream, NULL, NULL);
+	g_object_unref (filtered_stream);
+	g_object_unref (stream);
+
+	charset = camel_mime_filter_bestenc_get_best_charset (CAMEL_MIME_FILTER_BESTENC (filter));
+	*out_be_variant = g_strcmp0 (charset, "UTF-16BE") == 0;
+	is_utf16 = *out_be_variant || g_strcmp0 (charset, "UTF-16LE") == 0;
+
+	g_object_unref (filter);
+
+	return is_utf16;
+}
+
 /**
  * em_format_format_text:
  * @part: an #EMailPart to decode
@@ -1081,6 +1110,7 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 	CamelMimeFilter *windows = NULL;
 	CamelMimePart *mime_part;
 	CamelContentType *mime_type;
+	gboolean utf16_be_variant = FALSE;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
@@ -1088,7 +1118,12 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 	mime_part = e_mail_part_ref_mime_part (part);
 	mime_type = camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (mime_part));
 
-	if (formatter->priv->charset != NULL) {
+	if (emf_data_is_utf16 (mime_part, &utf16_be_variant)) {
+		if (utf16_be_variant)
+			charset = "UTF-16BE";
+		else
+			charset = "UTF-16LE";
+	} else if (formatter->priv->charset != NULL) {
 		charset = formatter->priv->charset;
 	} else if (mime_type != NULL
 		   && (charset = camel_content_type_param (mime_type, "charset"))
