@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution help trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-04 10:01+0000\n"
-"PO-Revision-Date: 2023-04-07 22:39+1000\n"
+"POT-Creation-Date: 2023-08-10 09:02+0000\n"
+"PO-Revision-Date: 2023-09-01 18:08+1000\n"
 "Last-Translator: Ser82-png <asvmail.as@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -6879,16 +6879,16 @@ msgstr "Отклонить:"
 msgid ""
 "Indicates you are unable to attend the meeting. The meeting is not entered "
 "into your calendar when you click OK, although your response is sent to the "
-"meeting host if you have selected the Send reply to sender option."
+"meeting host if you have selected the Send reply to organizer option."
 msgstr ""
 "Означает, что вы не можете прибыть на встречу. При нажатии кнопки «ОК» "
 "встреча не записывается в ваш календарь, но если включён параметр «Отправить "
-"ответ отправителю», то ваш ответ направляется организаторам встречи."
+"ответ организатору», то ваш ответ направляется организаторам встречи."
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:39
-msgid "Send reply to sender:"
-msgstr "Отправить ответ отправителю:"
+msgid "Send reply to organizer:"
+msgstr "Отправить ответ организатору:"
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:40
