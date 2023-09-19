@@ -29,6 +29,7 @@ set(SOURCES
 	calendar-view.c
 	comp-util.c
 	e-alarm-list.c
+	e-bulk-edit-tasks.c
 	e-cal-component-preview.c
 	e-cal-config.c
 	e-cal-data-model.c
@@ -107,6 +108,7 @@ set(HEADERS
 	calendar-view.h
 	comp-util.h
 	e-alarm-list.h
+	e-bulk-edit-tasks.h
 	e-cal-component-preview.h
 	e-cal-config.h
 	e-cal-data-model.h

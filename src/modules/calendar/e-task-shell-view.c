@@ -361,6 +361,10 @@ task_shell_view_update_actions (EShellView *shell_view)
 		selection_is_assignable;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (TASK_BULK_EDIT);
+	sensitive = any_tasks_selected;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (TASK_DELETE);
 	sensitive = any_tasks_selected && sources_are_editable;
 	gtk_action_set_sensitive (action, sensitive);

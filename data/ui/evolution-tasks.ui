@@ -40,6 +40,7 @@
         <menuitem action='task-purge'/>
         <menuitem action='task-assign'/>
         <menuitem action='task-forward'/>
+        <menuitem action='task-bulk-edit'/>
       </menu>
     </placeholder>
   </menubar>

@@ -404,6 +404,16 @@ void		e_comp_editor_property_part_picker_with_map_set_selected
 
 /* ************************************************************************* */
 
+void		e_comp_editor_property_part_util_ensure_same_value_type
+								(ECompEditorPropertyPart *src_datetime,
+								 ECompEditorPropertyPart *des_datetime);
+void		e_comp_editor_property_part_util_ensure_start_before_end
+								(ICalComponent *icomp,
+								 ECompEditorPropertyPart *start_datetime,
+								 ECompEditorPropertyPart *end_datetime,
+								 gboolean change_end_datetime,
+								 gint *inout_last_duration);
+
 G_END_DECLS
 
 #endif /* E_COMP_EDITOR_PROPERTY_PART_H */

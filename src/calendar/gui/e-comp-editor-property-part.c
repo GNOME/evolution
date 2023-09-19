@@ -1990,3 +1990,272 @@ e_comp_editor_property_part_picker_with_map_set_selected (ECompEditorPropertyPar
 }
 
 /* ************************************************************************* */
+
+void
+e_comp_editor_property_part_util_ensure_same_value_type (ECompEditorPropertyPart *src_datetime,
+							 ECompEditorPropertyPart *des_datetime)
+{
+	ECompEditorPropertyPartDatetime *src_dtm, *des_dtm;
+	ICalTime *src_tt, *des_tt;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (src_datetime));
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (des_datetime));
+
+	src_dtm = E_COMP_EDITOR_PROPERTY_PART_DATETIME (src_datetime);
+	des_dtm = E_COMP_EDITOR_PROPERTY_PART_DATETIME (des_datetime);
+
+	src_tt = e_comp_editor_property_part_datetime_get_value (src_dtm);
+	des_tt = e_comp_editor_property_part_datetime_get_value (des_dtm);
+
+	if (!src_tt || !des_tt ||
+	    i_cal_time_is_null_time (src_tt) ||
+	    i_cal_time_is_null_time (des_tt) ||
+	    !i_cal_time_is_valid_time (src_tt) ||
+	    !i_cal_time_is_valid_time (des_tt)) {
+		g_clear_object (&src_tt);
+		g_clear_object (&des_tt);
+		return;
+	}
+
+	if (i_cal_time_is_date (src_tt) != i_cal_time_is_date (des_tt)) {
+		gint hour = 0, minute = 0, second = 0;
+
+		i_cal_time_set_is_date (des_tt, i_cal_time_is_date (src_tt));
+
+		if (!i_cal_time_is_date (des_tt)) {
+			i_cal_time_get_time (src_tt, &hour, &minute, &second);
+			i_cal_time_set_time (des_tt, hour, minute, second);
+		}
+
+		e_comp_editor_property_part_datetime_set_value (des_dtm, des_tt);
+	}
+
+	g_clear_object (&src_tt);
+	g_clear_object (&des_tt);
+}
+
+static gboolean
+ecepp_check_start_before_end (ICalComponent *icomp,
+			      ICalTime **pstart_tt,
+			      ICalTime **pend_tt,
+			      gboolean adjust_end_time,
+			      gint *inout_last_duration)
+{
+	ICalTime *start_tt, *end_tt, *end_tt_copy;
+	ICalTimezone *start_zone, *end_zone;
+	gint duration = -1;
+	gint cmp;
+
+	start_tt = *pstart_tt;
+	end_tt = *pend_tt;
+
+	if (*inout_last_duration >= 0) {
+		duration = *inout_last_duration;
+	} else {
+		if (icomp &&
+		    e_cal_util_component_has_property (icomp, I_CAL_DTSTART_PROPERTY) &&
+		    (e_cal_util_component_has_property (icomp, I_CAL_DTEND_PROPERTY) ||
+		     e_cal_util_component_has_property (icomp, I_CAL_DUE_PROPERTY))) {
+			ICalTime *orig_start, *orig_end;
+
+			orig_start = i_cal_component_get_dtstart (icomp);
+			if (e_cal_util_component_has_property (icomp, I_CAL_DTEND_PROPERTY))
+				orig_end = i_cal_component_get_dtend (icomp);
+			else
+				orig_end = i_cal_component_get_due (icomp);
+
+			if (orig_start && i_cal_time_is_valid_time (orig_start) &&
+			    orig_end && i_cal_time_is_valid_time (orig_end)) {
+				duration = i_cal_time_as_timet (orig_end) - i_cal_time_as_timet (orig_start);
+				*inout_last_duration = duration;
+			}
+
+			g_clear_object (&orig_start);
+			g_clear_object (&orig_end);
+		}
+	}
+
+	start_zone = i_cal_time_get_timezone (start_tt);
+	end_zone = i_cal_time_get_timezone (end_tt);
+
+	/* Convert the end time to the same timezone as the start time. */
+	end_tt_copy = i_cal_time_clone (end_tt);
+
+	if (start_zone && end_zone && start_zone != end_zone)
+		i_cal_time_convert_timezone (end_tt_copy, end_zone, start_zone);
+
+	/* Now check if the start time is after the end time. If it is,
+	 * we need to modify one of the times. */
+	cmp = i_cal_time_compare (start_tt, end_tt_copy);
+	if (cmp > 0) {
+		if (adjust_end_time) {
+			/* Try to switch only the date */
+			i_cal_time_set_date (end_tt,
+				i_cal_time_get_year (start_tt),
+				i_cal_time_get_month (start_tt),
+				i_cal_time_get_day (start_tt));
+
+			g_clear_object (&end_tt_copy);
+			end_tt_copy = i_cal_time_clone (end_tt);
+			if (start_zone && end_zone && start_zone != end_zone)
+				i_cal_time_convert_timezone (end_tt_copy, end_zone, start_zone);
+
+			if (duration > 0)
+				i_cal_time_adjust (end_tt_copy, 0, 0, 0, -duration);
+
+			if (i_cal_time_compare (start_tt, end_tt_copy) >= 0) {
+				g_clear_object (&end_tt);
+				end_tt = i_cal_time_clone (start_tt);
+
+				if (duration >= 0) {
+					i_cal_time_adjust (end_tt, 0, 0, 0, duration);
+				} else {
+					/* Modify the end time, to be the start + 1 hour/day. */
+					i_cal_time_adjust (end_tt, 0, i_cal_time_is_date (start_tt) ? 24 : 1, 0, 0);
+
+					if (!i_cal_time_is_date (start_tt)) {
+						GSettings *settings;
+						gint shorten_by;
+						gboolean shorten_end;
+
+						settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+						shorten_by = g_settings_get_int (settings, "shorten-time");
+						shorten_end = g_settings_get_int (settings, "shorten-time");
+						g_clear_object (&settings);
+
+						if (shorten_by > 0 && shorten_by < 60) {
+							if (shorten_end)
+								i_cal_time_adjust (end_tt, 0, 0, -shorten_by, 0);
+							else
+								i_cal_time_adjust (start_tt, 0, 0, shorten_by, 0);
+
+							/* Revert the change, when it would make the time order reverse */
+							if (i_cal_time_compare (start_tt, end_tt) >= 0) {
+								if (shorten_end)
+									i_cal_time_adjust (end_tt, 0, 0, shorten_by, 0);
+								else
+									i_cal_time_adjust (start_tt, 0, 0, -shorten_by, 0);
+							}
+						}
+					}
+				}
+
+				if (start_zone && end_zone && start_zone != end_zone)
+					i_cal_time_convert_timezone (end_tt, start_zone, end_zone);
+			}
+		} else {
+			/* Try to switch only the date */
+			i_cal_time_set_date (start_tt,
+				i_cal_time_get_year (end_tt),
+				i_cal_time_get_month (end_tt),
+				i_cal_time_get_day (end_tt));
+
+			if (i_cal_time_compare (start_tt, end_tt_copy) >= 0) {
+				g_clear_object (&start_tt);
+				start_tt = i_cal_time_clone (end_tt);
+
+				if (duration >= 0) {
+					i_cal_time_adjust (start_tt, 0, 0, 0, -duration);
+				} else {
+					/* Modify the start time, to be the end - 1 hour/day. */
+					i_cal_time_adjust (start_tt, 0, i_cal_time_is_date (start_tt) ? -24 : -1, 0, 0);
+				}
+
+				if (start_zone && end_zone && start_zone != end_zone)
+					i_cal_time_convert_timezone (start_tt, end_zone, start_zone);
+			}
+		}
+
+		*pstart_tt = start_tt;
+		*pend_tt = end_tt;
+
+		g_clear_object (&end_tt_copy);
+
+		return TRUE;
+	}
+
+	g_clear_object (&end_tt_copy);
+
+	return FALSE;
+}
+
+void
+e_comp_editor_property_part_util_ensure_start_before_end (ICalComponent *icomp,
+							  ECompEditorPropertyPart *start_datetime,
+							  ECompEditorPropertyPart *end_datetime,
+							  gboolean change_end_datetime,
+							  gint *inout_last_duration)
+{
+	ECompEditorPropertyPartDatetime *start_dtm, *end_dtm;
+	ICalTime *start_tt, *end_tt;
+	gboolean set_dtstart = FALSE, set_dtend = FALSE;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (start_datetime));
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (end_datetime));
+	g_return_if_fail (inout_last_duration != NULL);
+
+	start_dtm = E_COMP_EDITOR_PROPERTY_PART_DATETIME (start_datetime);
+	end_dtm = E_COMP_EDITOR_PROPERTY_PART_DATETIME (end_datetime);
+
+	start_tt = e_comp_editor_property_part_datetime_get_value (start_dtm);
+	end_tt = e_comp_editor_property_part_datetime_get_value (end_dtm);
+
+	if (!start_tt || !end_tt ||
+	    i_cal_time_is_null_time (start_tt) ||
+	    i_cal_time_is_null_time (end_tt) ||
+	    !i_cal_time_is_valid_time (start_tt) ||
+	    !i_cal_time_is_valid_time (end_tt)) {
+		g_clear_object (&start_tt);
+		g_clear_object (&end_tt);
+		return;
+	}
+
+	if (i_cal_time_is_date (start_tt) || i_cal_time_is_date (end_tt)) {
+		/* All Day Events are simple. We just compare the dates and if
+		 * start > end we copy one of them to the other. */
+		gint cmp;
+
+		i_cal_time_set_is_date (start_tt, TRUE);
+		i_cal_time_set_is_date (end_tt, TRUE);
+
+		cmp = i_cal_time_compare_date_only (start_tt, end_tt);
+
+		if (cmp > 0) {
+			if (change_end_datetime) {
+				g_clear_object (&end_tt);
+				end_tt = start_tt;
+				start_tt = NULL;
+				set_dtend = TRUE;
+
+				if (*inout_last_duration >= 24 * 60 * 60)
+					i_cal_time_adjust (end_tt, *inout_last_duration / (24 * 60 * 60), 0, 0, 0);
+			} else {
+				g_clear_object (&start_tt);
+				start_tt = end_tt;
+				end_tt = NULL;
+				set_dtstart = TRUE;
+
+				if (*inout_last_duration >= 24 * 60 * 60)
+					i_cal_time_adjust (start_tt, -(*inout_last_duration) / (24 * 60 * 60), 0, 0, 0);
+			}
+		}
+	} else {
+		if (ecepp_check_start_before_end (icomp, &start_tt, &end_tt, change_end_datetime, inout_last_duration)) {
+			if (change_end_datetime)
+				set_dtend = TRUE;
+			else
+				set_dtstart = TRUE;
+		}
+	}
+
+	if (set_dtstart || set_dtend) {
+		if (set_dtstart)
+			e_comp_editor_property_part_datetime_set_value (start_dtm, start_tt);
+
+		if (set_dtend)
+			e_comp_editor_property_part_datetime_set_value (end_dtm, end_tt);
+	}
+
+	g_clear_object (&start_tt);
+	g_clear_object (&end_tt);
+}

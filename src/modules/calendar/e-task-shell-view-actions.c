@@ -21,6 +21,7 @@
 #include "evolution-config.h"
 
 #include "calendar/gui/e-cal-ops.h"
+#include "calendar/gui/e-bulk-edit-tasks.h"
 #include "calendar/gui/itip-utils.h"
 
 #include "e-cal-base-shell-view.h"
@@ -48,6 +49,28 @@ action_task_assign_cb (GtkAction *action,
 	e_task_shell_view_open_task (task_shell_view, comp_data, TRUE);
 
 	/* FIXME Need to actually assign the task. */
+}
+
+static void
+action_task_bulk_edit_cb (GtkAction *action,
+			  ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+	GtkWidget *bulk_edit;
+	GSList *list;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
+	list = e_task_table_get_selected (task_table);
+	g_return_if_fail (list != NULL);
+
+	bulk_edit = e_bulk_edit_tasks_new (GTK_WINDOW (e_shell_view_get_shell_window (E_SHELL_VIEW (task_shell_view))), list);
+
+	gtk_widget_show (bulk_edit);
+
+	g_slist_free (list);
 }
 
 static void
@@ -693,6 +716,13 @@ static GtkActionEntry task_entries[] = {
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_assign_cb) },
+
+	{ "task-bulk-edit",
+	  NULL,
+	  N_("_Bulk Edit…"),
+	  "<Control>b",
+	  N_("Edit selected tasks in a bulk"),
+	  G_CALLBACK (action_task_bulk_edit_cb) },
 
 	{ "task-delete",
 	  "edit-delete",

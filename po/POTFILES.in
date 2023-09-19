@@ -66,6 +66,7 @@ src/calendar/gui/ea-jump-button.c
 src/calendar/gui/e-alarm-list.c
 src/calendar/gui/ea-week-view.c
 src/calendar/gui/ea-week-view-main-item.c
+src/calendar/gui/e-bulk-edit-tasks.c
 src/calendar/gui/e-cal-data-model.c
 src/calendar/gui/e-cal-dialogs.c
 src/calendar/gui/e-calendar-view.c
