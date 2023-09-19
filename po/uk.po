@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-09-15 14:06+0000\n"
-"PO-Revision-Date: 2023-09-15 20:19+0300\n"
+"POT-Creation-Date: 2023-09-19 16:13+0000\n"
+"PO-Revision-Date: 2023-09-19 19:23+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -233,16 +233,16 @@ msgstr ""
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:45
 msgid "Whether to prefer local application over opening map in a browser"
 msgstr ""
-"Чи слід надавати перевагу локальній програмі перед відкриттям карти у"
-" навігаторі"
+"Чи слід надавати перевагу локальній програмі перед відкриттям карти у "
+"навігаторі"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
 msgid ""
 "Open a contact location in a local application handling 'map:' URI, if "
 "available, instead of using a web browser"
 msgstr ""
-"Відкривати місце перебування контакту у локальній програмі для обробки адрес"
-" «map:, якщо така доступна, а не у інтернет-навігаторі"
+"Відкривати місце перебування контакту у локальній програмі для обробки адрес "
+"«map:, якщо така доступна, а не у інтернет-навігаторі"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:47
 msgid "Preview Personal before Work information"
@@ -642,7 +642,8 @@ msgid "Marcus Bains Line Color — Time bar"
 msgstr "Колір лінії Маркуса Байнса – поле часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
-msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
+msgid ""
+"Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
 "Колір для лінії Маркуса Байнса у розкладі (для типового значення залиште "
 "порожнім)"
@@ -958,7 +959,8 @@ msgid "Twenty four hour time format"
 msgstr "24-годинний формат часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
-msgid "Whether to show times in twenty four hour format instead of using am/pm"
+msgid ""
+"Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Чи показувати час у 24-ох годинному форматі замість am/pm"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
@@ -1059,7 +1061,8 @@ msgstr "Показувати попередній перегляд у перег
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
 msgid "If “true”, show the preview pane in the Year View"
-msgstr "Якщо зазначено, показує панель попереднього перегляду у перегляді року"
+msgstr ""
+"Якщо зазначено, показує панель попереднього перегляду у перегляді року"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
 msgid "Year view horizontal pane position"
@@ -1483,31 +1486,23 @@ msgstr ""
 "контролюється з меню «Перегляд», коли вибрано обліковий запис пошти."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
-#| msgid "Show “Reply To” field when sending a mail message"
 msgid "Show “Mail-Followup-To” field when sending a mail message"
-msgstr "Показувати поле «Адреса переспрямовування» при надсиланні повідомлення"
+msgstr ""
+"Показувати поле «Адреса переспрямовування» при надсиланні повідомлення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
-#| msgid ""
-#| "Show the “Reply To” field when sending a mail message. This is controlled "
-#| "from the View menu when a mail account is chosen."
 msgid ""
 "Show the “Mail-Followup-To” field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
 msgstr ""
-"Показувати поле «Адреса переспрямовування» при надсиланні повідомлення. Цей"
-" параметр "
-"контролюється з меню «Перегляд», коли вибрано обліковий запис пошти."
+"Показувати поле «Адреса переспрямовування» при надсиланні повідомлення. Цей "
+"параметр контролюється з меню «Перегляд», коли вибрано обліковий запис пошти."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
-#| msgid "Show “Reply To” field when sending a mail message"
 msgid "Show “Mail-Reply-To” field when sending a mail message"
 msgstr "Показувати поле «Зворотна адреса» при надсиланні повідомлення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
-#| msgid ""
-#| "Show the “Reply To” field when sending a mail message. This is controlled "
-#| "from the View menu when a mail account is chosen."
 msgid ""
 "Show the “Mail-Reply-To” field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
@@ -1540,31 +1535,23 @@ msgstr ""
 "контролюється з меню Вигляд, коли обрано рахунок новин."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
-#| msgid "Show “From” field when posting to a newsgroup"
 msgid "Show “Mail-Followup-To” field when posting to a newsgroup"
 msgstr "Показувати поле «Адреса переспрямовування» у дописах до групи новин"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
-#| msgid ""
-#| "Show the “From” field when posting to a newsgroup. This is controlled "
-#| "from the View menu when a news account is chosen."
 msgid ""
 "Show the “Mail-Followup-To” field when posting to a newsgroup. This is "
 "controlled from the View menu when a news account is chosen."
 msgstr ""
-"Показувати поле «Адреса переспрямовування» при надсиланні дописів до групи"
-" новин. Цей параметр "
-"контролюється з меню «Перегляд», коли вибрано обліковий запис новин."
+"Показувати поле «Адреса переспрямовування» при надсиланні дописів до групи "
+"новин. Цей параметр контролюється з меню «Перегляд», коли вибрано обліковий "
+"запис новин."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
-#| msgid "Show “Reply To” field when posting to a newsgroup"
 msgid "Show “Mail-Reply-To” field when posting to a newsgroup"
 msgstr "Показувати поле «Зворотна адреса» у дописах до групи новин"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
-#| msgid ""
-#| "Show the “Reply To” field when posting to a newsgroup. This is controlled "
-#| "from the View menu when a news account is chosen."
 msgid ""
 "Show the “Mail-Reply-To” field when posting to a newsgroup. This is "
 "controlled from the View menu when a news account is chosen."
@@ -2121,7 +2108,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Hides the per-folder preview and removes the selection"
-msgstr "Сховати попередній перегляд для кожного каталогу та вилучити виділення"
+msgstr ""
+"Сховати попередній перегляд для кожного каталогу та вилучити виділення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid ""
@@ -2402,7 +2390,8 @@ msgstr "Спонукати під час очищення смітника"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Prompt the user when he or she tries to empty the trash."
-msgstr "Спонукати користувача, коли він або вона намагається очистити смітник."
+msgstr ""
+"Спонукати користувача, коли він або вона намагається очистити смітник."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Prompt when user expunges"
@@ -2432,7 +2421,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "Prompt before sending to recipients not entered as mail addresses"
-msgstr "Запитувати перед надсиланням до одержувачів, адреси до яких не введено"
+msgstr ""
+"Запитувати перед надсиланням до одержувачів, адреси до яких не введено"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
@@ -3236,7 +3226,6 @@ msgstr ""
 "частинами. Типово програма приховує ці ймовірно небезпечні частини."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:344
-#| msgid "Before composer _format changes from HTML to Plain Text"
 msgid "How to convert links from HTML to plain text"
 msgstr "Спосіб перетворення посилань з коду HTML у звичайний текст"
 
@@ -3248,12 +3237,12 @@ msgid ""
 "label href\"; 'reference-without-label' - show href as reference to the end "
 "of the text without label, like: \"label [1] ...... [1] href\""
 msgstr ""
-"Можливі значення: «none» — не зберігати href у форматі звичайного тексту;"
-" «inline» — показувати href за текстовим посиланням, ось так: «мітка"
-" &lt;href&gt;»; «reference» — показувати href як посилання наприкінці тексту,"
-" ось так: «мітка [1] ...... [1] мітка href»; «reference-without-label» —"
-" показувати href як посилання наприкінці тексту без мітки, ось так: «мітка"
-" [1] ...... [1] href»"
+"Можливі значення: «none» — не зберігати href у форматі звичайного тексту; "
+"«inline» — показувати href за текстовим посиланням, ось так: «мітка &lt;"
+"href&gt;»; «reference» — показувати href як посилання наприкінці тексту, ось "
+"так: «мітка [1] ...... [1] мітка href»; «reference-without-label» — "
+"показувати href як посилання наприкінці тексту без мітки, ось так: «мітка "
+"[1] ...... [1] href»"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:346
 msgid "(Deprecated) Default forward style"
@@ -3339,8 +3328,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
 msgstr ""
-"['долучення','вкладення','долучено','долучив','долучила','долучило','вкладено'"
-",'вклав','вклали','долучили','вклала','вклали']"
+"['долучення','вкладення','долучено','долучив','долучила','долучило','вкладено"
+"','вклав','вклали','долучили','вклала','вклали']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -3731,7 +3720,8 @@ msgid "Start in offline mode"
 msgstr "Запуск у автономному режимі"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
-msgid "Whether Evolution will start up in offline mode instead of online mode."
+msgid ""
+"Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
 "Якщо встановлено, Evolution буде запускатись у автономному режимі замість "
 "мережного режиму."
@@ -4133,9 +4123,9 @@ msgstr "Примітки"
 #: ../src/e-util/e-webdav-browser.c:528
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 #: ../src/modules/calendar/e-cal-shell-content.c:1904
-#: ../src/modules/calendar/e-task-shell-view-actions.c:223
-#: ../src/modules/calendar/e-task-shell-view-actions.c:238
-#: ../src/modules/calendar/e-task-shell-view.c:530
+#: ../src/modules/calendar/e-task-shell-view-actions.c:246
+#: ../src/modules/calendar/e-task-shell-view-actions.c:261
+#: ../src/modules/calendar/e-task-shell-view.c:534
 msgid "Tasks"
 msgstr "Завдання"
 
@@ -5635,7 +5625,7 @@ msgstr "Телефон містить"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1490
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1890
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:810
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1039
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1069
 msgid "Any field contains"
 msgstr "Будь-яке поле містить"
 
@@ -6087,7 +6077,7 @@ msgstr "Вилучити цей контакт (%s)?"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1368
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1640
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:700
-#: ../src/modules/calendar/e-task-shell-view-actions.c:854
+#: ../src/modules/calendar/e-task-shell-view-actions.c:884
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1640
 #: ../src/shell/e-shell-window-actions.c:965
 #: ../src/smime/gui/certificate-manager.c:1602 ../src/smime/gui/smime-ui.ui.h:8
@@ -6719,7 +6709,8 @@ msgid "Are you sure you want to delete these {0} tasks?"
 msgstr "Вилучити завдання ці {0} завдання?"
 
 #: ../src/calendar/calendar.error.xml.h:30
-msgid "All information on these tasks will be deleted and can not be restored."
+msgid ""
+"All information on these tasks will be deleted and can not be restored."
 msgstr "Усі відомості про ці завдання будуть остаточно вилучено."
 
 #: ../src/calendar/calendar.error.xml.h:31
@@ -6727,7 +6718,8 @@ msgid "Are you sure you want to delete these {0} memos?"
 msgstr "Вилучити завдання ці {0} примітки?"
 
 #: ../src/calendar/calendar.error.xml.h:32
-msgid "All information in these memos will be deleted and can not be restored."
+msgid ""
+"All information in these memos will be deleted and can not be restored."
 msgstr "Усі відомості про ці примітки будуть остаточно вилучено."
 
 #: ../src/calendar/calendar.error.xml.h:33
@@ -7924,6 +7916,48 @@ msgstr "вікно календаря для огляду місяця"
 msgid "calendar view for one or more weeks"
 msgstr "вікно календаря одного чи більше тижнів"
 
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:210
+#| msgid "Saving account settings, please wait…"
+msgid "Saving changes, please wait…"
+msgstr "Збереження внесених змін, зачекайте…"
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:212
+#: ../src/e-util/e-webdav-browser.c:1952
+msgid "Failed to save changes"
+msgstr "Не вдалося зберегти зміни"
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:573
+#, c-format
+#| msgid "Modifying a task"
+msgid "Modify a task"
+msgid_plural "Modify %u tasks"
+msgstr[0] "Змінити %u завдання"
+msgstr[1] "Змінити %u завдання"
+msgstr[2] "Змінити %u завдань"
+msgstr[3] "Змінити завдання"
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:578
+#| msgid "Select Folder to Add"
+msgid "Select properties to be modified."
+msgstr "Виберіть властивості, які слід змінити."
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:592
+#: ../src/calendar/gui/e-comp-editor-memo.c:327
+#: ../src/calendar/gui/e-comp-editor-task.c:924
+msgctxt "ECompEditor"
+msgid "Sta_rt date:"
+msgstr "По_чаток:"
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:646
+#| msgid "Modifying a task"
+msgid "M_odify tasks"
+msgstr "З_мінити завдання"
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:647
+#| msgid "Cancel"
+msgid "Ca_ncel"
+msgstr "_Скасувати"
+
 #: ../src/calendar/gui/e-cal-data-model.c:1733
 #, c-format
 msgid "Creating view for calendar “%s”"
@@ -8721,12 +8755,6 @@ msgstr ""
 msgid "_List:"
 msgstr "_Список:"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:327
-#: ../src/calendar/gui/e-comp-editor-task.c:924
-msgctxt "ECompEditor"
-msgid "Sta_rt date:"
-msgstr "По_чаток:"
-
 #: ../src/calendar/gui/e-comp-editor-memo.c:394
 #, c-format
 msgid "Assigned Memo — %s"
@@ -8775,7 +8803,8 @@ msgstr "Не вдалося знайти долучення «%s», вилучі
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:455
 #, c-format
-msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
+msgid ""
+"Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "Долучення «%s» має недійсний URI, вилучіть його зі списку"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:623
@@ -9699,7 +9728,7 @@ msgstr "Над_рукувати…"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1559
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:841
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1070
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1100
 msgid "Pre_view…"
 msgstr "_Перегляд…"
 
@@ -10109,7 +10138,7 @@ msgid "Paste tasks from the clipboard"
 msgstr "Вставити завдання з буферу обміну"
 
 #: ../src/calendar/gui/e-task-table.c:873
-#: ../src/modules/calendar/e-task-shell-view-actions.c:701
+#: ../src/modules/calendar/e-task-shell-view-actions.c:731
 msgid "Delete selected tasks"
 msgstr "Вилучити вибрані завдання"
 
@@ -10394,7 +10423,8 @@ msgstr "Інформація iCalendar"
 #: ../src/calendar/gui/itip-utils.c:1394
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
-msgstr "Не вдалося зарезервувати ресурс, нова подія конфліктує з якоюсь іншою."
+msgstr ""
+"Не вдалося зарезервувати ресурс, нова подія конфліктує з якоюсь іншою."
 
 #: ../src/calendar/gui/itip-utils.c:1399
 msgid "Unable to book a resource, error: "
@@ -10645,7 +10675,7 @@ msgstr "Створити календар"
 #: ../src/calendar/importers/icalendar-importer.c:346
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:499
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:287
-#: ../src/modules/calendar/e-task-shell-view-actions.c:207
+#: ../src/modules/calendar/e-task-shell-view-actions.c:230
 msgid "New Task List"
 msgstr "Новий список завдань"
 
@@ -12500,7 +12530,8 @@ msgstr "_Запитати підтвердження про прочитання
 
 #: ../src/composer/e-composer-actions.c:468
 msgid "Get delivery notification when your message is read"
-msgstr "Встановіть, щоб отримати сповіщення про прочитання вашого повідомлення"
+msgstr ""
+"Встановіть, щоб отримати сповіщення про прочитання вашого повідомлення"
 
 #: ../src/composer/e-composer-actions.c:474
 msgid "Request _Delivery Status Notification"
@@ -12557,17 +12588,14 @@ msgid "Mail-Follow_up-To Field"
 msgstr "Поле Mail-Follow_up-To"
 
 #: ../src/composer/e-composer-actions.c:572
-#| msgid "Toggles whether the Reply-To field is displayed"
 msgid "Toggles whether the Mail-Followup-To field is displayed"
 msgstr "Перемикнути стан показу поля «Зворотна адреса»"
 
 #: ../src/composer/e-composer-actions.c:578
-#| msgid "_Reply-To Field"
 msgid "Mail-R_eply-To Field"
 msgstr "Поле «Зв_оротна адреса»"
 
 #: ../src/composer/e-composer-actions.c:580
-#| msgid "Toggles whether the Reply-To field is displayed"
 msgid "Toggles whether the Mail-Reply-To field is displayed"
 msgstr "Перемикнути стан показу поля «Зворотна адреса»"
 
@@ -12632,7 +12660,6 @@ msgid "Mail-Followu_p-To:"
 msgstr "Адреса п_ереспрямовування:"
 
 #: ../src/composer/e-composer-header-table.c:894
-#| msgid "_Reply-To:"
 msgid "Mail-Repl_y-To:"
 msgstr "Зв_оротна адреса:"
 
@@ -13823,7 +13850,7 @@ msgstr "_Додати долучення…"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1376
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:622
-#: ../src/modules/calendar/e-task-shell-view-actions.c:748
+#: ../src/modules/calendar/e-task-shell-view-actions.c:778
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1605
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1683
 msgid "_Properties"
@@ -16183,7 +16210,7 @@ msgstr "З_апис"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1352
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:687
-#: ../src/modules/calendar/e-task-shell-view-actions.c:841
+#: ../src/modules/calendar/e-task-shell-view-actions.c:871
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1846
 msgid "_Preview"
 msgstr "_Попередній перегляд"
@@ -16378,7 +16405,7 @@ msgstr "По_шук :"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1466
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1852
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:786
-#: ../src/modules/calendar/e-task-shell-view-actions.c:959
+#: ../src/modules/calendar/e-task-shell-view-actions.c:989
 msgid "Any Category"
 msgstr "Будь-яка категорія"
 
@@ -16895,7 +16922,8 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:13
 msgid "The calendar backend servicing “{0}” has quit unexpectedly."
-msgstr "Модуль календаря для обслуговування «{0}» несподівано припинив роботу."
+msgstr ""
+"Модуль календаря для обслуговування «{0}» несподівано припинив роботу."
 
 #: ../src/e-util/e-system.error.xml.h:14
 msgid ""
@@ -16920,7 +16948,8 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:18
 msgid "Some of your tasks may not be available until Evolution is restarted."
-msgstr "Деякі з ваших завдань можуть бути недоступні до перезапуску Evolution."
+msgstr ""
+"Деякі з ваших завдань можуть бути недоступні до перезапуску Evolution."
 
 #: ../src/e-util/e-system.error.xml.h:19
 msgid "The address book backend servicing “{0}” encountered an error."
@@ -17252,7 +17281,6 @@ msgid "Scheduling Inbox"
 msgstr "Плануємо «Вхідні»"
 
 #: ../src/e-util/e-webdav-browser.c:546
-#| msgid "Keep in Outbox"
 msgid "Scheduling Outbox"
 msgstr "Плануємо «Вихідні»"
 
@@ -17285,10 +17313,6 @@ msgstr "Має бути визначений принаймні один тип 
 #: ../src/e-util/e-webdav-browser.c:1919
 msgid "Failed to get selected collection HREF"
 msgstr "Не вдалося отримати HREF вибраної збірки"
-
-#: ../src/e-util/e-webdav-browser.c:1952
-msgid "Failed to save changes"
-msgstr "Не вдалося зберегти зміни"
 
 #: ../src/e-util/e-webdav-browser.c:1954
 msgid "Creating new book…"
@@ -17354,7 +17378,8 @@ msgstr "П_орядок:"
 
 #: ../src/e-util/e-webdav-browser.c:2619
 msgid "Use -1 to not set the sort order"
-msgstr "Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
+msgstr ""
+"Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
 
 #: ../src/e-util/e-webdav-browser.c:2625
 msgid "For Components:"
@@ -17810,7 +17835,8 @@ msgstr "Пересилання листа скасовано, бо не вказ
 
 #: ../src/libemail-engine/e-mail-session.c:1765
 #, c-format
-msgid "No identity found to use, forwarding of the message has been cancelled."
+msgid ""
+"No identity found to use, forwarding of the message has been cancelled."
 msgstr "Пересилання листа скасовано, бо не знайдено тотожності."
 
 #: ../src/libemail-engine/e-mail-session.c:1973
@@ -18068,7 +18094,8 @@ msgstr "Відкрити _мережеві облікові записи"
 #: ../src/mail/e-mail-account-manager.c:144
 #: ../src/mail/e-mail-account-manager.c:232
 msgid "This account was created through the Online Accounts service."
-msgstr "Цей обліковий запис створено через службу мережевих облікових записів."
+msgstr ""
+"Цей обліковий запис створено через службу мережевих облікових записів."
 
 #: ../src/mail/e-mail-account-manager.c:692
 msgid "_Reset Order"
@@ -18774,7 +18801,8 @@ msgstr "_Масштабувати до вікна"
 
 #: ../src/mail/e-mail-display.c:801
 msgid "Zoom large images to not be wider than the window width"
-msgstr "Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
+msgstr ""
+"Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
 
 #: ../src/mail/e-mail-folder-create-dialog.c:328
 msgid "Create Folder"
@@ -20492,15 +20520,11 @@ msgid "_Unknown"
 msgstr "_Невідома"
 
 #: ../src/mail/em-utils.c:2142
-#| msgctxt "trust"
-#| msgid "_Never"
 msgctxt "trust"
 msgid "_Never trust"
 msgstr "Ні_коли не довіряти"
 
 #: ../src/mail/em-utils.c:2143
-#| msgctxt "CamelTrust"
-#| msgid "Marginally"
 msgctxt "trust"
 msgid "Trust _marginally"
 msgstr "Довіряти _частково"
@@ -20511,8 +20535,6 @@ msgid "Trust _fully"
 msgstr "Довіряти _повністю"
 
 #: ../src/mail/em-utils.c:2145
-#| msgctxt "CamelTrust"
-#| msgid "Ultimately"
 msgctxt "trust"
 msgid "Trust _ultimately"
 msgstr "Довіряти _беззастережно"
@@ -20832,7 +20854,6 @@ msgid "Set Label"
 msgstr "Встановити позначку"
 
 #: ../src/mail/filtertypes.xml.in.h:76
-#| msgid "Set Label"
 msgid "Unset Label"
 msgstr "Скасувати позначку"
 
@@ -21413,7 +21434,8 @@ msgstr "_Показувати рухомі зображення"
 
 #: ../src/mail/mail-config.ui.h:120
 msgid "Unset colors provided in HTML mails in message previe_w"
-msgstr "Скидати кольори з повідомлень у HTML на панелі поп_ереднього перегляду"
+msgstr ""
+"Скидати кольори з повідомлень у HTML на панелі поп_ереднього перегляду"
 
 #: ../src/mail/mail-config.ui.h:121
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
@@ -21531,51 +21553,41 @@ msgid "Check cu_stom headers for junk"
 msgstr "Перевіряти _інші заголовки на спам"
 
 #: ../src/mail/mail-config.ui.h:152
-#| msgid ""
-#| "To help avoid email accidents and embarrassments, ask for confirmation "
-#| "before taking the following checkmarked actions:"
 msgid "Ask for confirmation before taking the following checkmarked actions:"
 msgstr "Запитувати про підтвердження перед виконанням таких позначених дій:"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:154
-#| msgid "Check whether Evolution is the default mailer"
 msgid "Check whether Evolution is the _default mailer"
 msgstr "Перевірити чи є Evolution _типовою поштовою програмою"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:156
-#| msgid "Empty _Trash"
 msgid "Emptying the _Trash"
 msgstr "Спорожняємо те_ку «Вилучені»"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:158
-#| msgid "Prompt when user tries to open 10 or more messages at once"
 msgid "Tries to _open 10 or more messages at once"
 msgstr "При спробі від_крити 10 чи більше повідомлень одночасно"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:160
-#| msgid "Marking messages as read…"
 msgid "Marking _all messages as read"
 msgstr "Позначенні _усіх повідомлень як прочитаних"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:162
-#| msgid "Prompt when deleting messages in search folder"
 msgid "Deleting messages in _search folder"
 msgstr "Вилученні повідомлень у те_ці пошуку"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:164
-#| msgid "Copy folder in folder tree."
 msgid "Copy _folder by Drag & Drop in folder tree"
 msgstr "Копіюванні _теки перетягуванням зі скиданням у дереві тек"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:166
-#| msgid "Move folder in folder tree."
 msgid "_Move folder by Drag & Drop in folder tree"
 msgstr "При п_ереміщенні теки перетягуванням зі скиданням у дереві тек"
 
@@ -22349,7 +22361,8 @@ msgstr ""
 "Включіть обліковий запис або використовуйте для надсилання інший запис."
 
 #: ../src/mail/mail.error.xml.h:159
-msgid "This message cannot be sent because there is no mail account configured"
+msgid ""
+"This message cannot be sent because there is no mail account configured"
 msgstr ""
 "Це повідомлення не може бути надіслане, оскільки не налаштовано облікового "
 "запису пошти"
@@ -22920,7 +22933,7 @@ msgid "Memo List Properties"
 msgstr "Властивості списку приміток"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:555
-#: ../src/modules/calendar/e-task-shell-view-actions.c:279
+#: ../src/modules/calendar/e-task-shell-view-actions.c:302
 msgid "Task List Properties"
 msgstr "Властивості списку завдань"
 
@@ -23137,7 +23150,7 @@ msgid "_Manage Address Book groups…"
 msgstr "_Організувати групи адресної книги…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1219
-#: ../src/modules/calendar/e-task-shell-view-actions.c:736
+#: ../src/modules/calendar/e-task-shell-view-actions.c:766
 msgid "Manage task list groups order and visibility"
 msgstr "Керувати порядком списку груп і їхньою видимістю"
 
@@ -23164,7 +23177,7 @@ msgstr "Показати властивості вибраної адресно�
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1245
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1376
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:629
-#: ../src/modules/calendar/e-task-shell-view-actions.c:755
+#: ../src/modules/calendar/e-task-shell-view-actions.c:785
 msgid "Re_fresh"
 msgstr "О_новити"
 
@@ -23187,7 +23200,7 @@ msgstr "Показати карту з усіма контактами з виб
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1266
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1390
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:643
-#: ../src/modules/calendar/e-task-shell-view-actions.c:769
+#: ../src/modules/calendar/e-task-shell-view-actions.c:799
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1697
 msgid "_Rename…"
 msgstr "Пере_йменувати…"
@@ -23262,7 +23275,7 @@ msgstr "Надіслати повідомлення до обраних конт
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1345
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1616
-#: ../src/modules/calendar/e-task-shell-view-actions.c:834
+#: ../src/modules/calendar/e-task-shell-view-actions.c:864
 msgid "_Actions"
 msgstr "Ді_ї"
 
@@ -23273,7 +23286,7 @@ msgstr "_Упорядкувати картки за"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1372
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:704
-#: ../src/modules/calendar/e-task-shell-view-actions.c:858
+#: ../src/modules/calendar/e-task-shell-view-actions.c:888
 msgid "_Manage groups…"
 msgstr "_Організувати групи…"
 
@@ -23299,7 +23312,7 @@ msgstr "Показати карти у вікні перегляду конта�
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1449
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:769
-#: ../src/modules/calendar/e-task-shell-view-actions.c:935
+#: ../src/modules/calendar/e-task-shell-view-actions.c:965
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2012
 msgid "_Classic View"
 msgstr "_Класичний вигляд"
@@ -23311,7 +23324,7 @@ msgstr "Показувати попередній перегляд контак�
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1456
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1835
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:776
-#: ../src/modules/calendar/e-task-shell-view-actions.c:942
+#: ../src/modules/calendar/e-task-shell-view-actions.c:972
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2019
 msgid "_Vertical View"
 msgstr "_Вертикальний вигляд"
@@ -23327,7 +23340,7 @@ msgstr "Інше"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1483
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1883
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:803
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1032
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1062
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2103
 #: ../src/shell/e-shell-content.c:639
 msgid "Advanced Search"
@@ -24552,13 +24565,13 @@ msgstr "подія"
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:204
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:278
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:513
-#: ../src/modules/calendar/e-task-shell-view-actions.c:632
+#: ../src/modules/calendar/e-task-shell-view-actions.c:655
 msgid "Save as iCalendar"
 msgstr "Зберегти як iCalendar"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1306
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:594
-#: ../src/modules/calendar/e-task-shell-view-actions.c:720
+#: ../src/modules/calendar/e-task-shell-view-actions.c:750
 msgid "_Copy…"
 msgstr "С_копіювати…"
 
@@ -24603,7 +24616,7 @@ msgid "_New Calendar"
 msgstr "_Створити календар"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1369
-#: ../src/modules/calendar/e-task-shell-view-actions.c:825
+#: ../src/modules/calendar/e-task-shell-view-actions.c:855
 msgid "Purg_e"
 msgstr "О_чистити"
 
@@ -24715,7 +24728,7 @@ msgstr "Створити нову щоденну подію"
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:238
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:318
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:587
-#: ../src/modules/calendar/e-task-shell-view-actions.c:713
+#: ../src/modules/calendar/e-task-shell-view-actions.c:743
 msgid "_Forward as iCalendar…"
 msgstr "Перес_лати як iCalendar…"
 
@@ -24902,7 +24915,7 @@ msgstr "Трапилось менше за 5 разів"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:793
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1015
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1045
 msgid "Without Category"
 msgstr "Без категорії"
 
@@ -24912,13 +24925,13 @@ msgstr "Показувати записи подій без встановлен
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1897
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:817
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1046
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1076
 msgid "Description contains"
 msgstr "Опис містить"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1904
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:824
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1053
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1083
 msgid "Summary contains"
 msgstr "Зведення містить"
 
@@ -24928,8 +24941,8 @@ msgstr "Зведення містить"
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:363
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:834
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:848
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1063
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1077
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1093
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1107
 msgid "Print…"
 msgstr "Надрукувати…"
 
@@ -24945,7 +24958,7 @@ msgstr "Переглянути перегляд календаря при дру
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:279
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:373
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:865
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1094
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1124
 msgid "_Save as iCalendar…"
 msgstr "З_берегти як iCalendar…"
 
@@ -24984,7 +24997,7 @@ msgstr "Переглянути виділені примітки"
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:259
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:353
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:678
-#: ../src/modules/calendar/e-task-shell-view-actions.c:818
+#: ../src/modules/calendar/e-task-shell-view-actions.c:848
 msgid "Open _Web Page"
 msgstr "_Відкрити веб-сторінку"
 
@@ -25028,22 +25041,22 @@ msgstr "Неможливо шукати без чинного календаря
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:276
-#: ../src/modules/calendar/e-task-shell-view-actions.c:630
+#: ../src/modules/calendar/e-task-shell-view-actions.c:653
 msgid "task"
 msgstr "завдання"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:311
-#: ../src/modules/calendar/e-task-shell-view-actions.c:692
+#: ../src/modules/calendar/e-task-shell-view-actions.c:715
 msgid "_Assign Task"
 msgstr "_Призначити завдання"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:325
-#: ../src/modules/calendar/e-task-shell-view-actions.c:790
+#: ../src/modules/calendar/e-task-shell-view-actions.c:820
 msgid "_Mark as Complete"
 msgstr "Поз_начити як виконане"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:327
-#: ../src/modules/calendar/e-task-shell-view-actions.c:792
+#: ../src/modules/calendar/e-task-shell-view-actions.c:822
 msgid "Mark selected tasks as complete"
 msgstr "Позначити вибрані завдання як виконані"
 
@@ -25052,33 +25065,33 @@ msgid "_Mark as Incomplete"
 msgstr "Поз_начити як незавершене"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:334
-#: ../src/modules/calendar/e-task-shell-view-actions.c:799
+#: ../src/modules/calendar/e-task-shell-view-actions.c:829
 msgid "Mark selected tasks as incomplete"
 msgstr "Позначити вибрані завдання як невиконані"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:339
-#: ../src/modules/calendar/e-task-shell-view-actions.c:804
+#: ../src/modules/calendar/e-task-shell-view-actions.c:834
 msgid "New _Task"
 msgstr "Створити за_вдання"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:341
 #: ../src/modules/calendar/e-task-shell-backend.c:77
-#: ../src/modules/calendar/e-task-shell-view-actions.c:806
+#: ../src/modules/calendar/e-task-shell-view-actions.c:836
 msgid "Create a new task"
 msgstr "Створити нове завдання"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:346
-#: ../src/modules/calendar/e-task-shell-view-actions.c:811
+#: ../src/modules/calendar/e-task-shell-view-actions.c:841
 msgid "_Open Task"
 msgstr "_Відкрити завдання"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:348
-#: ../src/modules/calendar/e-task-shell-view-actions.c:813
+#: ../src/modules/calendar/e-task-shell-view-actions.c:843
 msgid "View the selected task"
 msgstr "Переглянути виділене завдання"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:365
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1079
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1109
 msgid "Print the selected task"
 msgstr "Друкувати виділене завдання"
 
@@ -25228,16 +25241,16 @@ msgid "Tas_k List"
 msgstr "Список _завдань"
 
 #: ../src/modules/calendar/e-task-shell-backend.c:94
-#: ../src/modules/calendar/e-task-shell-view-actions.c:743
+#: ../src/modules/calendar/e-task-shell-view-actions.c:773
 msgid "Create a new task list"
 msgstr "Створити новий список завдань"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:223
-#: ../src/modules/calendar/e-task-shell-view-actions.c:238
+#: ../src/modules/calendar/e-task-shell-view-actions.c:246
+#: ../src/modules/calendar/e-task-shell-view-actions.c:261
 msgid "Print Tasks"
 msgstr "Надрукувати завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:574
+#: ../src/modules/calendar/e-task-shell-view-actions.c:597
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -25249,127 +25262,137 @@ msgstr ""
 "\n"
 "Вилучити ці завдання?"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:581
+#: ../src/modules/calendar/e-task-shell-view-actions.c:604
 msgid "Do not ask me again"
 msgstr "Не питати знову"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:699
+#: ../src/modules/calendar/e-task-shell-view-actions.c:722
+#| msgid "_Edit note…"
+msgid "_Bulk Edit…"
+msgstr "П_акетне редагування…"
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:724
+#| msgid "Delete selected tasks"
+msgid "Edit selected tasks in a bulk"
+msgstr "Виконати пакетне редагування позначених завдань"
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:729
 msgid "_Delete Task"
 msgstr "В_илучити завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:706
+#: ../src/modules/calendar/e-task-shell-view-actions.c:736
 msgid "_Find in Task…"
 msgstr "З_найти у завданні…"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:708
+#: ../src/modules/calendar/e-task-shell-view-actions.c:738
 msgid "Search for text in the displayed task"
 msgstr "Пошук тексту у показаному завданні"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:727
+#: ../src/modules/calendar/e-task-shell-view-actions.c:757
 msgid "D_elete Task List"
 msgstr "В_илучити список завдань"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:729
+#: ../src/modules/calendar/e-task-shell-view-actions.c:759
 msgid "Delete the selected task list"
 msgstr "Вилучити вибраний список задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:734
+#: ../src/modules/calendar/e-task-shell-view-actions.c:764
 msgid "_Manage Task List groups…"
 msgstr "_Організувати групи списків завдань…"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:741
+#: ../src/modules/calendar/e-task-shell-view-actions.c:771
 msgid "_New Task List"
 msgstr "_Створити список завдань"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:757
+#: ../src/modules/calendar/e-task-shell-view-actions.c:787
 msgid "Refresh the selected task list"
 msgstr "Оновити обраний список задач"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:762
+#: ../src/modules/calendar/e-task-shell-view-actions.c:792
 msgid "Re_fresh list of account task lists"
 msgstr "Оно_вити список завдань облікового запису"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:771
+#: ../src/modules/calendar/e-task-shell-view-actions.c:801
 msgid "Rename the selected task list"
 msgstr "Перейменувати виділений список завдань"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:776
+#: ../src/modules/calendar/e-task-shell-view-actions.c:806
 msgid "Sho_w All Task Lists"
 msgstr "Показ_увати всі списки завдань"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:783
+#: ../src/modules/calendar/e-task-shell-view-actions.c:813
 msgid "Show _Only This Task List"
 msgstr "Показувати _лише цей список завдань"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:797
+#: ../src/modules/calendar/e-task-shell-view-actions.c:827
 msgid "Mar_k as Incomplete"
 msgstr "Поз_начити як незавершене"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:827
+#: ../src/modules/calendar/e-task-shell-view-actions.c:857
 msgid "Delete completed tasks"
 msgstr "Вилучити виконані завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:914
+#: ../src/modules/calendar/e-task-shell-view-actions.c:944
 msgid "Task _Preview"
 msgstr "_Попередній перегляд завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:916
+#: ../src/modules/calendar/e-task-shell-view-actions.c:946
 msgid "Show task preview pane"
 msgstr "Показувати панель попереднього перегляду завдань"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:937
+#: ../src/modules/calendar/e-task-shell-view-actions.c:967
 msgid "Show task preview below the task list"
 msgstr "Показувати попередній перегляд завдань нижче списку завдань"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:944
+#: ../src/modules/calendar/e-task-shell-view-actions.c:974
 msgid "Show task preview alongside the task list"
 msgstr "Показувати попередній перегляд завдань поруч зі списком завдань"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:952
+#: ../src/modules/calendar/e-task-shell-view-actions.c:982
 msgid "Active Tasks"
 msgstr "Активні завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:966
+#: ../src/modules/calendar/e-task-shell-view-actions.c:996
 msgid "Cancelled Tasks"
 msgstr "Скасовані завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:973
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1003
 msgid "Completed Tasks"
 msgstr "Завершені завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:980
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1010
 msgid "Uncompleted Tasks"
 msgstr "Незавершені завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:987
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1017
 msgid "Scheduled Tasks"
 msgstr "Заплановані завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:989
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1019
 msgid "Show scheduled tasks, aka those with a Due date"
 msgstr "Показати заплановані завдання або завдання із терміном виконання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:994
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1024
 msgid "Next 7 Days’ Tasks"
 msgstr "Завдання наступних 7 днів"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1001
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1031
 msgid "Overdue Tasks"
 msgstr "Прострочені завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1008
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1038
 msgid "Tasks with Attachments"
 msgstr "Завдання з долученнями"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1017
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1047
 msgid "Show tasks with no category set"
 msgstr "Показувати записи завдань без встановлено категорії"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1022
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1052
 msgid "Started Tasks"
 msgstr "Початі завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1024
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1054
 msgid ""
 "Filters for tasks that either do not have a start date or the start date is "
 "earlier than the time the filter is selected at"
@@ -25377,19 +25400,19 @@ msgstr ""
 "Лишає у списку завдання, у яких немає дати початку, або завдання, дата "
 "початку яких передує вибраному часу фільтрування"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1065
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1095
 msgid "Print the list of tasks"
 msgstr "Надрукувати список завдань"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1072
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1102
 msgid "Preview the list of tasks to be printed"
 msgstr "Попередній перегляд списку завдань для друку"
 
-#: ../src/modules/calendar/e-task-shell-view.c:368
+#: ../src/modules/calendar/e-task-shell-view.c:372
 msgid "Delete Tasks"
 msgstr "Вилучити завдання"
 
-#: ../src/modules/calendar/e-task-shell-view.c:370
+#: ../src/modules/calendar/e-task-shell-view.c:374
 msgid "Delete Task"
 msgstr "Вилучити завдання"
 
@@ -26034,7 +26057,8 @@ msgid ""
 msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr[0] "Календар «%s» містить %d зустріч, яка конфліктує з цим зібранням"
-msgstr[1] "Календар «%s» містить %d зустрічі, які конфліктують з цим зібранням"
+msgstr[1] ""
+"Календар «%s» містить %d зустрічі, які конфліктують з цим зібранням"
 msgstr[2] ""
 "Календар «%s» містить %d зустрічей, які конфліктують з цим зібранням"
 msgstr[3] "Календар «%s» містить зустріч, яка конфліктує з цим зібранням"
@@ -26252,7 +26276,8 @@ msgstr "Засідання неправильне і його неможливо
 
 #: ../src/modules/itip-formatter/itip-view.c:5982
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr "Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
+msgstr ""
+"Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
 
 #: ../src/modules/itip-formatter/itip-view.c:6058
 #: ../src/modules/itip-formatter/itip-view.c:6096
@@ -26331,7 +26356,8 @@ msgstr "Долучений календар містить декілька об
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr "Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
+msgstr ""
+"Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
 
 #: ../src/modules/itip-formatter/itip-view.c:7060
 msgctxt "cal-itip"
@@ -26352,7 +26378,8 @@ msgid "This meeting has been delegated"
 msgstr "Цю зустріч було направлено"
 
 #: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-msgid "“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
+msgid ""
+"“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
 msgstr "«{0}» доручено провести нараду. Ви бажаєте додати представника «{1}»?"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:297
@@ -26688,7 +26715,8 @@ msgstr "Вимкнути цей обліковий запис"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1593
 msgid "Permanently remove all the deleted messages from all folders"
-msgstr "Остаточно знищити з усіх тек всі повідомлення, що позначені вилученими"
+msgstr ""
+"Остаточно знищити з усіх тек всі повідомлення, що позначені вилученими"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1598
 msgid "Empty _Junk"
@@ -26745,7 +26773,8 @@ msgstr "Вик_реслити"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1656
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "Остаточно вилучити всі повідомлення, позначені як вилучені з цієї теки"
+msgstr ""
+"Остаточно вилучити всі повідомлення, позначені як вилучені з цієї теки"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1661
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1753
@@ -30129,7 +30158,8 @@ msgstr "Виберіть сертифікат"
 
 #: ../src/smime/gui/smime-ui.ui.h:1
 msgid "You have certificates from these organizations that identify you:"
-msgstr "Ви маєте сертифікати від наступних організацій, що вас ідентифікували:"
+msgstr ""
+"Ви маєте сертифікати від наступних організацій, що вас ідентифікували:"
 
 #: ../src/smime/gui/smime-ui.ui.h:2
 msgid "Certificates Table"
