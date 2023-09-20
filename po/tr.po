@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-08-29 19:02+0000\n"
-"PO-Revision-Date: 2023-08-16 22:29+0300\n"
+"POT-Creation-Date: 2023-09-18 22:39+0000\n"
+"PO-Revision-Date: 2023-09-19 23:41+0300\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -3121,6 +3121,9 @@ msgid ""
 "be shown after mail open. The default is to hide these possibly insecure "
 "parts."
 msgstr ""
+"Posta açıldıktan sonra imzasız/şifreli bölümlerin yanında imzalı/şifreli "
+"bölümlerin gösterilme durumunu ayarla. Öntanımlı değer, olası güvensiz "
+"bölümleri gizlemektir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
 msgid "(Deprecated) Default forward style"
@@ -3799,6 +3802,10 @@ msgid ""
 "the symbolic icons cannot be used when the icon theme does not provide them. "
 "Similarly the color icons cannot be used, when they are not available."
 msgstr ""
+"Uygulamanın sembolik simgeleri yeğleme durumunu denetler. 'auto' değeri, "
+"simge temasının sembolik simgeler kullanma durumunu algılar. Simge teması "
+"bunları sağlamadığında sembolik simgeler kullanılmaz. Benzer biçimde, renk "
+"simgeleri de yoksa kullanılamazlar."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -4597,8 +4604,8 @@ msgstr ""
 #: ../src/e-util/e-attachment-dialog.c:290
 #: ../src/e-util/e-attachment-store.c:658
 #: ../src/e-util/e-attachment-store.c:668
-#: ../src/e-util/e-attachment-store.c:848
-#: ../src/e-util/e-attachment-store.c:854 ../src/e-util/e-attachment-view.c:348
+#: ../src/e-util/e-attachment-store.c:845
+#: ../src/e-util/e-attachment-store.c:851 ../src/e-util/e-attachment-view.c:348
 #: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:168
 #: ../src/e-util/e-category-editor.c:252 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240
@@ -4627,7 +4634,7 @@ msgstr ""
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
 #: ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1246
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1249
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:282
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1095
@@ -4709,8 +4716,8 @@ msgstr "Seçenekler"
 #: ../src/calendar/gui/e-comp-editor.c:2319
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
-#: ../src/e-util/e-attachment-store.c:848
-#: ../src/e-util/e-attachment-store.c:855
+#: ../src/e-util/e-attachment-store.c:845
+#: ../src/e-util/e-attachment-store.c:852
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
 #: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4085
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
@@ -5501,7 +5508,7 @@ msgid "Send a mail message to this address"
 msgstr "Bu adrese posta iletisi gönder"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:282
-#: ../src/e-util/e-misc-utils.c:4789
+#: ../src/e-util/e-misc-utils.c:4842
 #, c-format
 msgid "Click to mail %s"
 msgstr "%s adresine posta göndermek için tıklayın"
@@ -7331,7 +7338,7 @@ msgstr "İptal Edilmiş"
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:7078
+#: ../src/modules/itip-formatter/itip-view.c:7081
 msgid "Accepted"
 msgstr "Onaylandı"
 
@@ -7339,7 +7346,7 @@ msgstr "Onaylandı"
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:7084
+#: ../src/modules/itip-formatter/itip-view.c:7087
 msgid "Declined"
 msgstr "Reddedildi"
 
@@ -7355,7 +7362,7 @@ msgstr "Girişimli"
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:7087
+#: ../src/modules/itip-formatter/itip-view.c:7090
 msgid "Delegated"
 msgstr "Temsilci"
 
@@ -7450,7 +7457,7 @@ msgid "Completed: %s"
 msgstr "Tamamlanan: %s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
-#: ../src/e-util/e-misc-utils.c:4872 ../src/e-util/e-text.c:566
+#: ../src/e-util/e-misc-utils.c:4925 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4271
 msgid "…"
 msgstr "…"
@@ -8063,7 +8070,7 @@ msgstr "Tür"
 #: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1291
 #: ../src/calendar/gui/print.c:1308 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3998
-#: ../src/modules/itip-formatter/itip-view.c:7090
+#: ../src/modules/itip-formatter/itip-view.c:7093
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Bilinmiyor"
@@ -8343,9 +8350,9 @@ msgstr "Başlangıç saati geçerli zaman değil"
 #: ../src/calendar/gui/e-comp-editor.c:346
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
-#: ../src/e-util/e-misc-utils.c:4163 ../src/e-util/e-misc-utils.c:4171
-#: ../src/e-util/e-misc-utils.c:4179 ../src/e-util/e-misc-utils.c:4214
-#: ../src/e-util/e-misc-utils.c:4227 ../src/e-util/e-misc-utils.c:4241
+#: ../src/e-util/e-misc-utils.c:4171 ../src/e-util/e-misc-utils.c:4179
+#: ../src/e-util/e-misc-utils.c:4187 ../src/e-util/e-misc-utils.c:4222
+#: ../src/e-util/e-misc-utils.c:4235 ../src/e-util/e-misc-utils.c:4249
 #: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2922
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3577
 #: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4049
@@ -8354,7 +8361,7 @@ msgstr "Başlangıç saati geçerli zaman değil"
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:444
 #: ../src/plugins/face/face.c:175
-#: ../src/plugins/mail-to-task/mail-to-task.c:982 ../src/shell/e-shell.c:1258
+#: ../src/plugins/mail-to-task/mail-to-task.c:996 ../src/shell/e-shell.c:1258
 #: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:353
 #, c-format
 msgid "Unknown error"
@@ -8540,13 +8547,13 @@ msgid_plural "Attachments"
 msgstr[0] "Ek"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:201
-#: ../src/e-util/e-attachment.c:2579
+#: ../src/e-util/e-attachment.c:2587
 #, c-format
 msgid "Could not load “%s”"
 msgstr "“%s” yüklenemedi"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:203
-#: ../src/e-util/e-attachment.c:2582
+#: ../src/e-util/e-attachment.c:2590
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Eklenti yüklenemedi"
@@ -13070,7 +13077,7 @@ msgid "Bcc"
 msgstr "Saklı Bilgi"
 
 #: ../src/em-format/e-mail-formatter-utils.c:471
-#: ../src/em-format/e-mail-formatter-utils.c:732
+#: ../src/em-format/e-mail-formatter-utils.c:735
 #: ../src/mail/e-mail-config-security-page.c:929
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
@@ -13109,11 +13116,11 @@ msgstr "S/MIME şifrelenmiş"
 msgid "partially S/MIME encrypted"
 msgstr "kısmen S/MIME şifreli"
 
-#: ../src/em-format/e-mail-formatter-utils.c:726
+#: ../src/em-format/e-mail-formatter-utils.c:729
 msgid "Show parts not being secured"
 msgstr "Güvensiz kısımları göster"
 
-#: ../src/em-format/e-mail-formatter-utils.c:727
+#: ../src/em-format/e-mail-formatter-utils.c:730
 msgid "Hide parts not being secured"
 msgstr "Güvensiz kısımları gizle"
 
@@ -13212,7 +13219,7 @@ msgstr "Yüz"
 msgid "Failed to import certificate: %s"
 msgstr "Sertifika içe aktarılamadı: %s"
 
-#: ../src/em-format/e-mail-part-utils.c:615
+#: ../src/em-format/e-mail-part-utils.c:616
 #, c-format
 msgid "%s attachment"
 msgstr "%s ek"
@@ -13381,45 +13388,45 @@ msgstr "İş ipliği oluşturulamadı: "
 msgid "Attached message"
 msgstr "Ekli ileti"
 
-#: ../src/e-util/e-attachment.c:2194 ../src/e-util/e-attachment.c:3248
+#: ../src/e-util/e-attachment.c:2202 ../src/e-util/e-attachment.c:3256
 #: ../src/mail/em-utils.c:2307
 msgid "Operation was cancelled"
 msgstr "İşlem iptal edildi"
 
 #. Translators: Default attachment filename.
-#: ../src/e-util/e-attachment.c:2379 ../src/e-util/e-attachment.c:3092
-#: ../src/e-util/e-attachment.c:3544 ../src/e-util/e-attachment-store.c:914
+#: ../src/e-util/e-attachment.c:2387 ../src/e-util/e-attachment.c:3100
+#: ../src/e-util/e-attachment.c:3552 ../src/e-util/e-attachment-store.c:911
 msgid "attachment.dat"
 msgstr "ek.dat"
 
-#: ../src/e-util/e-attachment.c:2461 ../src/e-util/e-attachment.c:3604
+#: ../src/e-util/e-attachment.c:2469 ../src/e-util/e-attachment.c:3612
 msgid "A load operation is already in progress"
 msgstr "Yükleme işlemi zaten sürüyor"
 
-#: ../src/e-util/e-attachment.c:2469 ../src/e-util/e-attachment.c:3612
+#: ../src/e-util/e-attachment.c:2477 ../src/e-util/e-attachment.c:3620
 msgid "A save operation is already in progress"
 msgstr "Kayıt işlemi zaten sürüyor"
 
-#: ../src/e-util/e-attachment.c:2875
+#: ../src/e-util/e-attachment.c:2883
 #, c-format
 msgid "Could not open “%s”"
 msgstr "“%s” açılamadı"
 
-#: ../src/e-util/e-attachment.c:2878
+#: ../src/e-util/e-attachment.c:2886
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Ek dosyası açılamadı"
 
-#: ../src/e-util/e-attachment.c:3621
+#: ../src/e-util/e-attachment.c:3629
 msgid "Attachment contents not loaded"
 msgstr "Ek içeriği yüklenmedi"
 
-#: ../src/e-util/e-attachment.c:3712
+#: ../src/e-util/e-attachment.c:3720
 #, c-format
 msgid "Could not save “%s”"
 msgstr "“%s” kaydedilemedi"
 
-#: ../src/e-util/e-attachment.c:3715
+#: ../src/e-util/e-attachment.c:3723
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Ek dosya kaydedilemedi"
@@ -13445,7 +13452,7 @@ msgid "MIME Type:"
 msgstr "MIME Türü:"
 
 #: ../src/e-util/e-attachment-dialog.c:361
-#: ../src/e-util/e-attachment-store.c:700
+#: ../src/e-util/e-attachment-store.c:697
 msgid "_Suggest automatic display of attachment"
 msgstr "_Eklerin kendiliğinden gösterimini öner"
 
@@ -13487,24 +13494,24 @@ msgstr "Dosya Ekle"
 msgid "A_ttach"
 msgstr "_Ekle"
 
-#: ../src/e-util/e-attachment-store.c:721
+#: ../src/e-util/e-attachment-store.c:718
 msgid "Archive selected directories using this format:"
 msgstr "Seçili dizinleri şu biçimde arşivle:"
 
-#: ../src/e-util/e-attachment-store.c:838
+#: ../src/e-util/e-attachment-store.c:835
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
 msgstr[0] "Eklentiyi Kaydet"
 
-#: ../src/e-util/e-attachment-store.c:876
+#: ../src/e-util/e-attachment-store.c:873
 msgid "Do _not extract files from the attachment"
 msgstr "Dosyaları eklentiden _çıkarma"
 
-#: ../src/e-util/e-attachment-store.c:881
+#: ../src/e-util/e-attachment-store.c:878
 msgid "Save extracted files _only"
 msgstr "Yalnızca çıkarılan dosyaları _kaydet"
 
-#: ../src/e-util/e-attachment-store.c:886
+#: ../src/e-util/e-attachment-store.c:883
 msgid "Save extracted files and the original _archive"
 msgstr "Çıkarılan dosyaları ve asıl _arşivi kaydet"
 
@@ -14035,166 +14042,6 @@ msgstr "Özel renk seç"
 #: ../src/mail/e-mail-reader.c:5112 ../src/mail/mail-config.ui.h:82
 msgid "Default"
 msgstr "Öntanımlı"
-
-#: ../src/e-util/e-color-combo.c:564
-msgid "black"
-msgstr "siyah"
-
-#: ../src/e-util/e-color-combo.c:565
-msgid "light brown"
-msgstr "açık kahverengi"
-
-#: ../src/e-util/e-color-combo.c:566
-msgid "brown gold"
-msgstr "koyu kahverengi"
-
-#: ../src/e-util/e-color-combo.c:567
-msgid "dark green #2"
-msgstr "koyu yeşil #2"
-
-#: ../src/e-util/e-color-combo.c:568
-msgid "navy"
-msgstr "deniz mavisi"
-
-#: ../src/e-util/e-color-combo.c:569
-msgid "dark blue"
-msgstr "koyu mavi"
-
-#: ../src/e-util/e-color-combo.c:570
-msgid "purple #2"
-msgstr "mor #2"
-
-#: ../src/e-util/e-color-combo.c:571
-msgid "very dark gray"
-msgstr "çok koyu gri"
-
-#: ../src/e-util/e-color-combo.c:573
-msgid "dark red"
-msgstr "koyu kırmızı"
-
-#: ../src/e-util/e-color-combo.c:574
-msgid "red-orange"
-msgstr "kırmızı-turuncu"
-
-#: ../src/e-util/e-color-combo.c:575
-msgid "gold"
-msgstr "altın"
-
-#: ../src/e-util/e-color-combo.c:576
-msgid "dark green"
-msgstr "koyu yeşil"
-
-#: ../src/e-util/e-color-combo.c:577
-msgid "dull blue"
-msgstr "donuk mavi"
-
-#: ../src/e-util/e-color-combo.c:578
-msgid "blue"
-msgstr "mavi"
-
-#: ../src/e-util/e-color-combo.c:579
-msgid "dull purple"
-msgstr "donuk mor"
-
-#: ../src/e-util/e-color-combo.c:580
-msgid "dark grey"
-msgstr "koyu gri"
-
-#: ../src/e-util/e-color-combo.c:582
-msgid "red"
-msgstr "kırmızı"
-
-#: ../src/e-util/e-color-combo.c:583
-msgid "orange"
-msgstr "turuncu"
-
-#: ../src/e-util/e-color-combo.c:584
-msgid "lime"
-msgstr "sarımsı yeşil"
-
-#: ../src/e-util/e-color-combo.c:585
-msgid "dull green"
-msgstr "donuk yeşil"
-
-#: ../src/e-util/e-color-combo.c:586
-msgid "dull blue #2"
-msgstr "donuk mavi #2"
-
-#: ../src/e-util/e-color-combo.c:587
-msgid "sky blue #2"
-msgstr "gökyüzü mavisi #2"
-
-#: ../src/e-util/e-color-combo.c:588
-msgid "purple"
-msgstr "mor"
-
-#: ../src/e-util/e-color-combo.c:589
-msgid "gray"
-msgstr "gri"
-
-#: ../src/e-util/e-color-combo.c:591
-msgid "magenta"
-msgstr "macenta"
-
-#: ../src/e-util/e-color-combo.c:592
-msgid "bright orange"
-msgstr "parlak turuncu"
-
-#: ../src/e-util/e-color-combo.c:593
-msgid "yellow"
-msgstr "sarı"
-
-#: ../src/e-util/e-color-combo.c:594
-msgid "green"
-msgstr "yeşil"
-
-#: ../src/e-util/e-color-combo.c:595
-msgid "cyan"
-msgstr "turkuaz"
-
-#: ../src/e-util/e-color-combo.c:596
-msgid "bright blue"
-msgstr "açık mavi"
-
-#: ../src/e-util/e-color-combo.c:597
-msgid "red purple"
-msgstr "kırmızı mor"
-
-#: ../src/e-util/e-color-combo.c:598
-msgid "light grey"
-msgstr "açık gri"
-
-#: ../src/e-util/e-color-combo.c:600
-msgid "pink"
-msgstr "pembe"
-
-#: ../src/e-util/e-color-combo.c:601
-msgid "light orange"
-msgstr "açık turuncu"
-
-#: ../src/e-util/e-color-combo.c:602
-msgid "light yellow"
-msgstr "açık sarı"
-
-#: ../src/e-util/e-color-combo.c:603
-msgid "light green"
-msgstr "açık yeşil"
-
-#: ../src/e-util/e-color-combo.c:604
-msgid "light cyan"
-msgstr "açık turkuaz"
-
-#: ../src/e-util/e-color-combo.c:605
-msgid "light blue"
-msgstr "açık mavi"
-
-#: ../src/e-util/e-color-combo.c:606
-msgid "light purple"
-msgstr "açık mor"
-
-#: ../src/e-util/e-color-combo.c:607
-msgid "white"
-msgstr "beyaz"
 
 #: ../src/e-util/e-config-lookup.c:819
 msgid "Running…"
@@ -16089,7 +15936,7 @@ msgstr "“%s” adres defteri açılıyor"
 msgid "_Do not show this message again"
 msgstr "_Bu iletiyi yeniden gösterme"
 
-#: ../src/e-util/e-misc-utils.c:4150
+#: ../src/e-util/e-misc-utils.c:4158
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -16097,27 +15944,27 @@ msgstr ""
 "Bu adres defteri sunucusu ulaşılamıyor olabilir ya da sunucu adı yanlış "
 "yazılmış veya ağ bağlantınız kesik."
 
-#: ../src/e-util/e-misc-utils.c:4162
+#: ../src/e-util/e-misc-utils.c:4170
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "İletişim kuralı sürümü LDAPv3 (%d) olarak belirlenemedi: %s"
 
-#: ../src/e-util/e-misc-utils.c:4170 ../src/e-util/e-misc-utils.c:4178
+#: ../src/e-util/e-misc-utils.c:4178 ../src/e-util/e-misc-utils.c:4186
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "Bağlantı zaman aşımı seçeneği (%d) olarak belirlenemedi: %s"
 
-#: ../src/e-util/e-misc-utils.c:4213
+#: ../src/e-util/e-misc-utils.c:4221
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "STARTTLS (%d) kullanılamadı: %s"
 
-#: ../src/e-util/e-misc-utils.c:4226
+#: ../src/e-util/e-misc-utils.c:4234
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "LDAP sunucuyla kimlik doğrulanamadı (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4240
+#: ../src/e-util/e-misc-utils.c:4248
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -16132,7 +15979,7 @@ msgstr ""
 "\n"
 "Ayrıntılı hata (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4251
+#: ../src/e-util/e-misc-utils.c:4259
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -16142,12 +15989,12 @@ msgstr ""
 "olabilir ya da yanlış yapılandırılmıştır. Desteklenen arama tabanları için "
 "sistem yöneticinize danışın."
 
-#: ../src/e-util/e-misc-utils.c:4284
+#: ../src/e-util/e-misc-utils.c:4292
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution, LDAP desteğiyle derlenmemiş"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4607
+#: ../src/e-util/e-misc-utils.c:4617
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -16155,31 +16002,31 @@ msgstr "Bilinmiyor (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4616
+#: ../src/e-util/e-misc-utils.c:4626
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4794
+#: ../src/e-util/e-misc-utils.c:4847
 #, c-format
 msgid "Click to call %s"
 msgstr "%s çağırmak için tıklayın"
 
-#: ../src/e-util/e-misc-utils.c:4796
+#: ../src/e-util/e-misc-utils.c:4849
 msgid "Click to hide/unhide addresses"
 msgstr "Adresi saklamak/göstermek için tıklayın"
 
-#: ../src/e-util/e-misc-utils.c:4809
+#: ../src/e-util/e-misc-utils.c:4862
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "İletinin %s bölümüne git"
 
-#: ../src/e-util/e-misc-utils.c:4811
+#: ../src/e-util/e-misc-utils.c:4864
 msgid "Go to the beginning of the message"
 msgstr "İletinin başına git"
 
-#: ../src/e-util/e-misc-utils.c:4817
+#: ../src/e-util/e-misc-utils.c:4870
 #, c-format
 msgid "Click to open %s"
 msgstr "%s açmak için tıklayın"
@@ -23184,41 +23031,41 @@ msgstr "Kayıt hizmeti yeniden yükleniyor"
 msgid "Failed to verify the backup file “%s”, the archive is broken."
 msgstr "“%s” yedek dosyası doğrulanamadı, arşiv bozuk."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1213
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1216
 msgid "Evolution Back Up"
 msgstr "Evolution Yedeği"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1214
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1217
 #, c-format
 msgid "Backing up to the file %s"
 msgstr "%s dosyasına yedekleniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1218
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1221
 msgid "Evolution Restore"
 msgstr "Evolution Geri Yükleme"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1219
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1222
 #, c-format
 msgid "Restoring from the file %s"
 msgstr "%s dosyasından geri yükleniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1288
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1291
 msgid "Backing up Evolution Data"
 msgstr "Evolution Verisini Yedekleniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1289
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1292
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Lütfen Evolution verilerinizi yedeklerken bekleyin."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1291
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1294
 msgid "Restoring Evolution Data"
 msgstr "Evolution Verileri Geri Yükleniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1292
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1295
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Lütfen Evolution verinizi geri alırken lütfen bekleyin."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1314
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1317
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "Bu hesabınızdaki verinin miktarına bağlı olarak biraz zaman alabilir."
 
@@ -25578,7 +25425,7 @@ msgstr "İ_çe Aktar"
 
 #: ../src/modules/itip-formatter/itip-view.c:2082
 #: ../src/modules/itip-formatter/itip-view.c:2295
-#: ../src/modules/itip-formatter/itip-view.c:7407
+#: ../src/modules/itip-formatter/itip-view.c:7410
 msgid "Due date:"
 msgstr "Tamamlanma tarihi:"
 
@@ -25636,7 +25483,7 @@ msgid "Sa_ve"
 msgstr "Kay_det"
 
 #: ../src/modules/itip-formatter/itip-view.c:4074
-#: ../src/modules/itip-formatter/itip-view.c:5868
+#: ../src/modules/itip-formatter/itip-view.c:5871
 msgid "Attendee status updated"
 msgstr "Katılımcı durumu güncellendi"
 
@@ -25728,197 +25575,197 @@ msgstr "Bu notun var olan sürümü aranıyor"
 msgid "Opening the calendar. Please wait…"
 msgstr "Takvim açılıyor. Lütfen bekleyin…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5308
+#: ../src/modules/itip-formatter/itip-view.c:5311
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "“%s” takvimine öge gönderilemedi. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5316
+#: ../src/modules/itip-formatter/itip-view.c:5319
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "“%s” görev listesine öge gönderilemedi. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5324
+#: ../src/modules/itip-formatter/itip-view.c:5327
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "“%s” not listesine öge gönderilemedi. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5345
+#: ../src/modules/itip-formatter/itip-view.c:5348
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Onaylanmış olarak “%s” takvimine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5350
+#: ../src/modules/itip-formatter/itip-view.c:5353
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Onaylanmış olarak “%s” görev listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5355
+#: ../src/modules/itip-formatter/itip-view.c:5358
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Onaylanmış olarak “%s” not listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5365
+#: ../src/modules/itip-formatter/itip-view.c:5368
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Kararsız olarak “%s” takvimine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5370
+#: ../src/modules/itip-formatter/itip-view.c:5373
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Kararsız olarak “%s” görev listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5375
+#: ../src/modules/itip-formatter/itip-view.c:5378
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Kararsız olarak “%s” not listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5385
+#: ../src/modules/itip-formatter/itip-view.c:5388
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Reddedilmiş olarak “%s” takvimine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5390
+#: ../src/modules/itip-formatter/itip-view.c:5393
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Reddedilmiş olarak “%s” görev listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5395
+#: ../src/modules/itip-formatter/itip-view.c:5398
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Reddedilmiş olarak “%s” not listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5405
+#: ../src/modules/itip-formatter/itip-view.c:5408
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "İptal edilmiş olarak “%s” takvimine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5410
+#: ../src/modules/itip-formatter/itip-view.c:5413
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "İptal edilmiş olarak “%s” görev listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5415
+#: ../src/modules/itip-formatter/itip-view.c:5418
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "İptal edilmiş olarak “%s” not listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5425
+#: ../src/modules/itip-formatter/itip-view.c:5428
 #, c-format
 msgid "Imported to calendar “%s”"
 msgstr "“%s” takvimine içe aktarıldı"
 
-#: ../src/modules/itip-formatter/itip-view.c:5430
+#: ../src/modules/itip-formatter/itip-view.c:5433
 #, c-format
 msgid "Imported to task list “%s”"
 msgstr "“%s” görev listesine içe aktarıldı"
 
-#: ../src/modules/itip-formatter/itip-view.c:5435
+#: ../src/modules/itip-formatter/itip-view.c:5438
 #, c-format
 msgid "Imported to memo list “%s”"
 msgstr "“%s” not listesine içe aktarıldı"
 
-#: ../src/modules/itip-formatter/itip-view.c:5454
+#: ../src/modules/itip-formatter/itip-view.c:5457
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Değişiklikler takvime kaydediliyor. Lütfen bekleyin…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5457
+#: ../src/modules/itip-formatter/itip-view.c:5460
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Değişiklikler görev listesine kaydediliyor. Lütfen bekleyin…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5460
+#: ../src/modules/itip-formatter/itip-view.c:5463
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Değişiklikler not listesine kaydediliyor. Lütfen bekleyin…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5599
+#: ../src/modules/itip-formatter/itip-view.c:5602
 msgid "Unable to parse item"
 msgstr "Öge ayrıştırılamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:5792
+#: ../src/modules/itip-formatter/itip-view.c:5795
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Düzenleyen, %s temsilcisini kaldırdı "
 
-#: ../src/modules/itip-formatter/itip-view.c:5809
+#: ../src/modules/itip-formatter/itip-view.c:5812
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Temsilciye iptal bildirimi gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5813
+#: ../src/modules/itip-formatter/itip-view.c:5816
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Temsilciye iptal uyarısı gönderilemedi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5859
+#: ../src/modules/itip-formatter/itip-view.c:5862
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Katılımcı güncellenemedi. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5893
+#: ../src/modules/itip-formatter/itip-view.c:5896
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Toplantı geçersiz ve güncellenemez"
 
-#: ../src/modules/itip-formatter/itip-view.c:5979
+#: ../src/modules/itip-formatter/itip-view.c:5982
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Durum geçersiz olduğu için katılımcı durumu güncellenmedi"
 
-#: ../src/modules/itip-formatter/itip-view.c:6055
-#: ../src/modules/itip-formatter/itip-view.c:6093
+#: ../src/modules/itip-formatter/itip-view.c:6058
+#: ../src/modules/itip-formatter/itip-view.c:6096
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Bu öge yerinde bulunamadığı için katılımcı bilgileri güncellenemedi"
 
-#: ../src/modules/itip-formatter/itip-view.c:6154
+#: ../src/modules/itip-formatter/itip-view.c:6157
 msgid "Meeting information sent"
 msgstr "Toplantı bilgisi gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:6159
+#: ../src/modules/itip-formatter/itip-view.c:6162
 msgid "Task information sent"
 msgstr "Görev bilgisi gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:6164
+#: ../src/modules/itip-formatter/itip-view.c:6167
 msgid "Memo information sent"
 msgstr "Not bilgisi gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:6175
+#: ../src/modules/itip-formatter/itip-view.c:6178
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Toplantı bilgisi gönderilemedi, toplantı yok"
 
-#: ../src/modules/itip-formatter/itip-view.c:6180
+#: ../src/modules/itip-formatter/itip-view.c:6183
 msgid "Unable to send task information, the task does not exist"
 msgstr "Görev bilgisi gönderilemedi, görev yok"
 
-#: ../src/modules/itip-formatter/itip-view.c:6185
+#: ../src/modules/itip-formatter/itip-view.c:6188
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Not bilgisi gönderilemedi, not yok"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6230
+#: ../src/modules/itip-formatter/itip-view.c:6233
 msgid "calendar.ics"
 msgstr "takvim.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:6235
+#: ../src/modules/itip-formatter/itip-view.c:6238
 msgid "Save Calendar"
 msgstr "Takvimi Kaydet"
 
-#: ../src/modules/itip-formatter/itip-view.c:6283
-#: ../src/modules/itip-formatter/itip-view.c:6296
+#: ../src/modules/itip-formatter/itip-view.c:6286
+#: ../src/modules/itip-formatter/itip-view.c:6299
 msgid "The calendar attached is not valid"
 msgstr "Eklenmiş takvim geçerli değil"
 
-#: ../src/modules/itip-formatter/itip-view.c:6284
-#: ../src/modules/itip-formatter/itip-view.c:6297
+#: ../src/modules/itip-formatter/itip-view.c:6287
+#: ../src/modules/itip-formatter/itip-view.c:6300
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr "İleti takvim içerdiğini belirtiyor ama geçerli iCalendar değil."
 
-#: ../src/modules/itip-formatter/itip-view.c:6379
-#: ../src/modules/itip-formatter/itip-view.c:6463
-#: ../src/modules/itip-formatter/itip-view.c:6567
+#: ../src/modules/itip-formatter/itip-view.c:6382
+#: ../src/modules/itip-formatter/itip-view.c:6466
+#: ../src/modules/itip-formatter/itip-view.c:6570
 msgid "The item in the calendar is not valid"
 msgstr "Takvimdeki öge geçerli değil"
 
-#: ../src/modules/itip-formatter/itip-view.c:6380
-#: ../src/modules/itip-formatter/itip-view.c:6464
-#: ../src/modules/itip-formatter/itip-view.c:6568
+#: ../src/modules/itip-formatter/itip-view.c:6383
+#: ../src/modules/itip-formatter/itip-view.c:6467
+#: ../src/modules/itip-formatter/itip-view.c:6571
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -25926,23 +25773,23 @@ msgstr ""
 "İleti takvim içeriyor ama takvim olay, görev ya da meşgul/müsait bilgisi "
 "içermiyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:6473
+#: ../src/modules/itip-formatter/itip-view.c:6476
 msgid "The calendar attached contains multiple items"
 msgstr "Eklenmiş takvim çoklu öge içeriyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:6474
+#: ../src/modules/itip-formatter/itip-view.c:6477
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 "Bu ögelerin tümünü işlemek için, dosya kaydedilmeli ve takvim içe aktarılmalı"
 
-#: ../src/modules/itip-formatter/itip-view.c:7057
+#: ../src/modules/itip-formatter/itip-view.c:7060
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Hiçbiri"
 
-#: ../src/modules/itip-formatter/itip-view.c:7081
+#: ../src/modules/itip-formatter/itip-view.c:7084
 msgid "Tentatively Accepted"
 msgstr "Geçici Olarak Kabul Edildi"
 
@@ -28084,24 +27931,24 @@ msgid "Created from a mail by %s"
 msgstr "%s tarafından e-postadan oluşturuldu"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:599
+#: ../src/plugins/mail-to-task/mail-to-task.c:613
 msgctxt "mail-to-task"
 msgid "_Cancel"
 msgstr "_İptal"
 
 #. Translators: Dialog button to Edit an existing event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:601
+#: ../src/plugins/mail-to-task/mail-to-task.c:615
 msgctxt "mail-to-task"
 msgid "_Edit"
 msgstr "Dü_zenle"
 
 #. Translators: Dialog button to create a New event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:603
+#: ../src/plugins/mail-to-task/mail-to-task.c:617
 msgctxt "mail-to-task"
 msgid "_New"
 msgstr "_Yeni"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:621
+#: ../src/plugins/mail-to-task/mail-to-task.c:635
 #, c-format
 msgid ""
 "Selected calendar contains event “%s” already. Would you like to edit the "
@@ -28109,7 +27956,7 @@ msgid ""
 msgstr ""
 "Seçili takvim “%s” olayını zaten içeriyor. Eskisini düzenlemek ister misiniz?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:624
+#: ../src/plugins/mail-to-task/mail-to-task.c:638
 #, c-format
 msgid ""
 "Selected task list contains task “%s” already. Would you like to edit the "
@@ -28118,7 +27965,7 @@ msgstr ""
 "Seçili görev listesi “%s” görevini zaten içeriyor. Eskisini düzenlemek ister "
 "misiniz?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:627
+#: ../src/plugins/mail-to-task/mail-to-task.c:641
 #, c-format
 msgid ""
 "Selected memo list contains memo “%s” already. Would you like to edit the "
@@ -28128,7 +27975,7 @@ msgstr ""
 "misiniz?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:647
+#: ../src/plugins/mail-to-task/mail-to-task.c:661
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
@@ -28141,7 +27988,7 @@ msgstr[0] ""
 "istiyor musunuz?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:654
+#: ../src/plugins/mail-to-task/mail-to-task.c:668
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
@@ -28154,7 +28001,7 @@ msgstr[0] ""
 "istiyor musunuz?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:661
+#: ../src/plugins/mail-to-task/mail-to-task.c:675
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
@@ -28166,29 +28013,29 @@ msgstr[0] ""
 "%d iletiyi notlara dönüştürülmek üzere seçtiniz. Gerçekten tümünü eklemek "
 "istiyor musunuz?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:682
+#: ../src/plugins/mail-to-task/mail-to-task.c:696
 msgid "Do you wish to continue converting remaining mails?"
 msgstr "Geri kalan e-postaları çevirmeyi sürdürmek istiyor musunuz?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:764
+#: ../src/plugins/mail-to-task/mail-to-task.c:778
 msgid "[No Summary]"
 msgstr "[Özet Yok]"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:776
+#: ../src/plugins/mail-to-task/mail-to-task.c:790
 msgid "Invalid object returned from a server"
 msgstr "Sunucudan geçersiz nesne döndü"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:830
+#: ../src/plugins/mail-to-task/mail-to-task.c:844
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "İşlenirken hata oluştu: %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:881
+#: ../src/plugins/mail-to-task/mail-to-task.c:895
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Takvim açılamıyor. %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:885
+#: ../src/plugins/mail-to-task/mail-to-task.c:899
 msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
@@ -28196,7 +28043,7 @@ msgstr ""
 "Seçilen takvim yalnızca okunabilir, bu yüzden olay oluştuturulamıyor. "
 "Lütfen, başka takvim seçin."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:888
+#: ../src/plugins/mail-to-task/mail-to-task.c:902
 msgid ""
 "Selected task list is read only, thus cannot create task there. Select other "
 "task list, please."
@@ -28204,7 +28051,7 @@ msgstr ""
 "Seçilen görev listesi yalnızca okunabilir, bu yüzden görev "
 "oluştuturulamıyor. Lütfen, başka görev listesi seçin."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:891
+#: ../src/plugins/mail-to-task/mail-to-task.c:905
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
@@ -28212,40 +28059,40 @@ msgstr ""
 "Seçilen not listesi yalnızca okunabilir, bu yüzden not oluştuturulamıyor. "
 "Lütfen, başka not listesi seçin."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:982
+#: ../src/plugins/mail-to-task/mail-to-task.c:996
 #, c-format
 msgid "Cannot create component: %s"
 msgstr "Bileşen oluşturulamadı: %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1359
+#: ../src/plugins/mail-to-task/mail-to-task.c:1373
 msgid "Create an _Appointment"
 msgstr "Yeni Randevu _Oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1361
+#: ../src/plugins/mail-to-task/mail-to-task.c:1375
 msgid "Create a new event from the selected message"
 msgstr "Seçili iletiyi kullanarak yeni olay oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1366
+#: ../src/plugins/mail-to-task/mail-to-task.c:1380
 msgid "Create a Mem_o"
 msgstr "Yeni Not _oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1368
+#: ../src/plugins/mail-to-task/mail-to-task.c:1382
 msgid "Create a new memo from the selected message"
 msgstr "Seçilen iletiden yeni not oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1373
+#: ../src/plugins/mail-to-task/mail-to-task.c:1387
 msgid "Create a _Task"
 msgstr "Yeni _Görev Oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1375
+#: ../src/plugins/mail-to-task/mail-to-task.c:1389
 msgid "Create a new task from the selected message"
 msgstr "Seçili iletiden yeni görev oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1383
+#: ../src/plugins/mail-to-task/mail-to-task.c:1397
 msgid "Create a _Meeting"
 msgstr "Yeni _Toplantı Oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1385
+#: ../src/plugins/mail-to-task/mail-to-task.c:1399
 msgid "Create a new meeting from the selected message"
 msgstr "Seçilen iletiden yeni toplantı oluştur"
 
@@ -29798,6 +29645,126 @@ msgstr "Deponun diske yazılması başarısız, hata_kodu: %i"
 #: ../src/smime/lib/e-pkcs12.c:471
 msgid "Imported Certificate"
 msgstr "Aktarılmış Sertifika"
+
+#~ msgid "black"
+#~ msgstr "siyah"
+
+#~ msgid "light brown"
+#~ msgstr "açık kahverengi"
+
+#~ msgid "brown gold"
+#~ msgstr "koyu kahverengi"
+
+#~ msgid "dark green #2"
+#~ msgstr "koyu yeşil #2"
+
+#~ msgid "navy"
+#~ msgstr "deniz mavisi"
+
+#~ msgid "dark blue"
+#~ msgstr "koyu mavi"
+
+#~ msgid "purple #2"
+#~ msgstr "mor #2"
+
+#~ msgid "very dark gray"
+#~ msgstr "çok koyu gri"
+
+#~ msgid "dark red"
+#~ msgstr "koyu kırmızı"
+
+#~ msgid "red-orange"
+#~ msgstr "kırmızı-turuncu"
+
+#~ msgid "gold"
+#~ msgstr "altın"
+
+#~ msgid "dark green"
+#~ msgstr "koyu yeşil"
+
+#~ msgid "dull blue"
+#~ msgstr "donuk mavi"
+
+#~ msgid "blue"
+#~ msgstr "mavi"
+
+#~ msgid "dull purple"
+#~ msgstr "donuk mor"
+
+#~ msgid "dark grey"
+#~ msgstr "koyu gri"
+
+#~ msgid "red"
+#~ msgstr "kırmızı"
+
+#~ msgid "orange"
+#~ msgstr "turuncu"
+
+#~ msgid "lime"
+#~ msgstr "sarımsı yeşil"
+
+#~ msgid "dull green"
+#~ msgstr "donuk yeşil"
+
+#~ msgid "dull blue #2"
+#~ msgstr "donuk mavi #2"
+
+#~ msgid "sky blue #2"
+#~ msgstr "gökyüzü mavisi #2"
+
+#~ msgid "purple"
+#~ msgstr "mor"
+
+#~ msgid "gray"
+#~ msgstr "gri"
+
+#~ msgid "magenta"
+#~ msgstr "macenta"
+
+#~ msgid "bright orange"
+#~ msgstr "parlak turuncu"
+
+#~ msgid "yellow"
+#~ msgstr "sarı"
+
+#~ msgid "green"
+#~ msgstr "yeşil"
+
+#~ msgid "cyan"
+#~ msgstr "turkuaz"
+
+#~ msgid "bright blue"
+#~ msgstr "açık mavi"
+
+#~ msgid "red purple"
+#~ msgstr "kırmızı mor"
+
+#~ msgid "light grey"
+#~ msgstr "açık gri"
+
+#~ msgid "pink"
+#~ msgstr "pembe"
+
+#~ msgid "light orange"
+#~ msgstr "açık turuncu"
+
+#~ msgid "light yellow"
+#~ msgstr "açık sarı"
+
+#~ msgid "light green"
+#~ msgstr "açık yeşil"
+
+#~ msgid "light cyan"
+#~ msgstr "açık turkuaz"
+
+#~ msgid "light blue"
+#~ msgstr "açık mavi"
+
+#~ msgid "light purple"
+#~ msgstr "açık mor"
+
+#~ msgid "white"
+#~ msgstr "beyaz"
 
 #~ msgid "Reminder!"
 #~ msgstr "Hatırlatıcı!"
