@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-09-19 16:13+0000\n"
-"PO-Revision-Date: 2023-09-19 19:23+0300\n"
+"POT-Creation-Date: 2023-09-21 03:53+0000\n"
+"PO-Revision-Date: 2023-09-21 19:19+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2973,13 +2973,18 @@ msgid "Show Subject above Sender in Messages column"
 msgstr "Показувати тему вище відправника у стовпчику повідомлень"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
+#| msgid ""
+#| "Whether to show Subject above Sender (From/To) in the Messages column, "
+#| "usually shown in the Vertical/Wide view of the message list"
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
-"usually shown in the Vertical/Wide view of the message list"
+"usually shown in the Vertical/Wide view of the message list. Change of this "
+"option requires restart of the Evolution."
 msgstr ""
 "Чи показувати тему над відправником (Від/До) у стовпчику панелі повідомлень, "
 "який, зазвичай, буде показано у вертикальному/широкому перегляді списку "
-"повідомлень"
+"повідомлень. Внесення змін до цього параметра потребуватиме перезапуску"
+" Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
 msgid "Visually wrap long lines in composer"
@@ -7659,20 +7664,20 @@ msgstr "Категорії:"
 
 #: ../src/calendar/gui/comp-util.c:2792 ../src/calendar/gui/e-task-table.c:475
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:343
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:341
 msgid "High"
 msgstr "Високий"
 
 #: ../src/calendar/gui/comp-util.c:2794 ../src/calendar/gui/e-cal-model.c:1888
 #: ../src/calendar/gui/e-task-table.c:476
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:342
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:340
 msgid "Normal"
 msgstr "Звичайний"
 
 #: ../src/calendar/gui/comp-util.c:2796 ../src/calendar/gui/e-task-table.c:477
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:341
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:339
 msgid "Low"
 msgstr "Низький"
 
@@ -7917,7 +7922,6 @@ msgid "calendar view for one or more weeks"
 msgstr "вікно календаря одного чи більше тижнів"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:210
-#| msgid "Saving account settings, please wait…"
 msgid "Saving changes, please wait…"
 msgstr "Збереження внесених змін, зачекайте…"
 
@@ -7928,7 +7932,6 @@ msgstr "Не вдалося зберегти зміни"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:573
 #, c-format
-#| msgid "Modifying a task"
 msgid "Modify a task"
 msgid_plural "Modify %u tasks"
 msgstr[0] "Змінити %u завдання"
@@ -7937,7 +7940,6 @@ msgstr[2] "Змінити %u завдань"
 msgstr[3] "Змінити завдання"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:578
-#| msgid "Select Folder to Add"
 msgid "Select properties to be modified."
 msgstr "Виберіть властивості, які слід змінити."
 
@@ -7949,12 +7951,10 @@ msgid "Sta_rt date:"
 msgstr "По_чаток:"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:646
-#| msgid "Modifying a task"
 msgid "M_odify tasks"
 msgstr "З_мінити завдання"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:647
-#| msgid "Cancel"
 msgid "Ca_ncel"
 msgstr "_Скасувати"
 
@@ -14028,7 +14028,7 @@ msgid "popup list"
 msgstr "контекстний список"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138
-#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2168
+#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2192
 msgid "?"
 msgstr "?"
 
@@ -20310,12 +20310,12 @@ msgstr "Переміщення теки %s"
 msgid "Copying folder %s"
 msgstr "Відкривання теки %s"
 
-#: ../src/mail/em-folder-tree.c:2425 ../src/mail/message-list.c:2655
+#: ../src/mail/em-folder-tree.c:2425 ../src/mail/message-list.c:2654
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Переміщення повідомлень у теку %s"
 
-#: ../src/mail/em-folder-tree.c:2429 ../src/mail/message-list.c:2657
+#: ../src/mail/em-folder-tree.c:2429 ../src/mail/message-list.c:2656
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копіювання повідомлень у теку %s"
@@ -22704,96 +22704,96 @@ msgstr "Редагування віртуальної теки"
 msgid "New Search Folder"
 msgstr "Нова віртуальна тека"
 
-#: ../src/mail/message-list.c:321
+#: ../src/mail/message-list.c:319
 msgid "Unseen"
 msgstr "Не прочитано"
 
-#: ../src/mail/message-list.c:322
+#: ../src/mail/message-list.c:320
 msgid "Seen"
 msgstr "Прочитано"
 
-#: ../src/mail/message-list.c:323 ../src/mail/message-list.c:325
+#: ../src/mail/message-list.c:321 ../src/mail/message-list.c:323
 msgid "Answered"
 msgstr "Дана відповідь"
 
 #. and unread
-#: ../src/mail/message-list.c:324 ../src/mail/message-list.c:326
+#: ../src/mail/message-list.c:322 ../src/mail/message-list.c:324
 msgid "Forwarded"
 msgstr "Переслано"
 
-#: ../src/mail/message-list.c:339
+#: ../src/mail/message-list.c:337
 msgid "Lowest"
 msgstr "Найнижчий"
 
-#: ../src/mail/message-list.c:340
+#: ../src/mail/message-list.c:338
 msgid "Lower"
 msgstr "Низький"
 
-#: ../src/mail/message-list.c:344
+#: ../src/mail/message-list.c:342
 msgid "Higher"
 msgstr "Високий"
 
-#: ../src/mail/message-list.c:345
+#: ../src/mail/message-list.c:343
 msgid "Highest"
 msgstr "Найвищий"
 
-#: ../src/mail/message-list.c:494
+#: ../src/mail/message-list.c:492
 msgid "Generating message list"
 msgstr "Створення списку повідомлень"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2176
+#: ../src/mail/message-list.c:2200
 #: ../src/modules/itip-formatter/itip-view.c:288
 msgid "Today %l:%M %p"
 msgstr "Сьогодні %I:%M %p"
 
-#: ../src/mail/message-list.c:2185
+#: ../src/mail/message-list.c:2209
 msgid "Yesterday %l:%M %p"
 msgstr "Вчора %l:%M %p"
 
-#: ../src/mail/message-list.c:2197
+#: ../src/mail/message-list.c:2221
 msgid "%a %l:%M %p"
 msgstr "%a, %I:%M %p"
 
-#: ../src/mail/message-list.c:2205
+#: ../src/mail/message-list.c:2229
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../src/mail/message-list.c:2207
+#: ../src/mail/message-list.c:2231
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../src/mail/message-list.c:3100 ../src/mail/message-list.etspec.h:24
+#: ../src/mail/message-list.c:3099 ../src/mail/message-list.etspec.h:24
 msgid "User Header 1"
 msgstr "Заголовок користувача 1"
 
-#: ../src/mail/message-list.c:3101 ../src/mail/message-list.etspec.h:25
+#: ../src/mail/message-list.c:3100 ../src/mail/message-list.etspec.h:25
 msgid "User Header 2"
 msgstr "Заголовок користувача 2"
 
-#: ../src/mail/message-list.c:3102 ../src/mail/message-list.etspec.h:26
+#: ../src/mail/message-list.c:3101 ../src/mail/message-list.etspec.h:26
 msgid "User Header 3"
 msgstr "Заголовок користувача 3"
 
-#: ../src/mail/message-list.c:3515
+#: ../src/mail/message-list.c:3501
 msgid "Select all visible messages"
 msgstr "Вибрати всі видимі повідомлення"
 
-#: ../src/mail/message-list.c:4354 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4338 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Повідомлення"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5785
+#: ../src/mail/message-list.c:5730
 msgid "Follow-up"
 msgstr "Відповісти"
 
-#: ../src/mail/message-list.c:6531 ../src/mail/message-list.c:6975
+#: ../src/mail/message-list.c:6476 ../src/mail/message-list.c:6920
 msgid "Generating message list…"
 msgstr "Створення списку повідомлень…"
 
-#: ../src/mail/message-list.c:6534
+#: ../src/mail/message-list.c:6479
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -22805,7 +22805,7 @@ msgstr ""
 "запустивши новий пошук через очищення його за допомогою пункту меню «Пошук → "
 "Очистити пункт меню» або зміну запиту вище."
 
-#: ../src/mail/message-list.c:6541
+#: ../src/mail/message-list.c:6486
 msgid "There are no messages in this folder."
 msgstr "У теці немає повідомлень."
 
@@ -22849,6 +22849,11 @@ msgstr "Пошта відправника"
 #: ../src/mail/message-list.etspec.h:23
 msgid "Recipients Mail"
 msgstr "Пошта отримувачів"
+
+#: ../src/mail/message-list.etspec.h:27
+#| msgid "Preview"
+msgid "Body Preview"
+msgstr "Попередній перегляд вмісту"
 
 #: ../src/mail/searchtypes.xml.in.h:23 ../src/mail/vfoldertypes.xml.in.h:23
 msgid "Any header"
@@ -25267,12 +25272,10 @@ msgid "Do not ask me again"
 msgstr "Не питати знову"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:722
-#| msgid "_Edit note…"
 msgid "_Bulk Edit…"
 msgstr "П_акетне редагування…"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:724
-#| msgid "Delete selected tasks"
 msgid "Edit selected tasks in a bulk"
 msgstr "Виконати пакетне редагування позначених завдань"
 
