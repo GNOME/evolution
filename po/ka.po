@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-09-16 11:55+0000\n"
-"PO-Revision-Date: 2023-09-17 19:37+0200\n"
+"POT-Creation-Date: 2023-09-21 03:53+0000\n"
+"PO-Revision-Date: 2023-09-21 08:23+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -2564,7 +2564,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
-"usually shown in the Vertical/Wide view of the message list"
+"usually shown in the Vertical/Wide view of the message list. Change of this "
+"option requires restart of the Evolution."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
@@ -3517,9 +3518,9 @@ msgstr "ჩანაწერები"
 #: ../src/e-util/e-webdav-browser.c:528
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 #: ../src/modules/calendar/e-cal-shell-content.c:1904
-#: ../src/modules/calendar/e-task-shell-view-actions.c:223
-#: ../src/modules/calendar/e-task-shell-view-actions.c:238
-#: ../src/modules/calendar/e-task-shell-view.c:530
+#: ../src/modules/calendar/e-task-shell-view-actions.c:246
+#: ../src/modules/calendar/e-task-shell-view-actions.c:261
+#: ../src/modules/calendar/e-task-shell-view.c:534
 msgid "Tasks"
 msgstr "Tasks"
 
@@ -4998,7 +4999,7 @@ msgstr "ტელეფონი შეიცავს"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1490
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1890
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:810
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1039
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1069
 msgid "Any field contains"
 msgstr ""
 
@@ -5424,7 +5425,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1368
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1640
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:700
-#: ../src/modules/calendar/e-task-shell-view-actions.c:854
+#: ../src/modules/calendar/e-task-shell-view-actions.c:884
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1640
 #: ../src/shell/e-shell-window-actions.c:965
 #: ../src/smime/gui/certificate-manager.c:1602 ../src/smime/gui/smime-ui.ui.h:8
@@ -6929,20 +6930,20 @@ msgstr "კატეგორიები:"
 
 #: ../src/calendar/gui/comp-util.c:2792 ../src/calendar/gui/e-task-table.c:475
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:343
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:341
 msgid "High"
 msgstr "მაღალი"
 
 #: ../src/calendar/gui/comp-util.c:2794 ../src/calendar/gui/e-cal-model.c:1888
 #: ../src/calendar/gui/e-task-table.c:476
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:342
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:340
 msgid "Normal"
 msgstr "ჩვეულებრივი"
 
 #: ../src/calendar/gui/comp-util.c:2796 ../src/calendar/gui/e-task-table.c:477
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:341
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:339
 msgid "Low"
 msgstr "დაბალი"
 
@@ -7182,6 +7183,40 @@ msgstr ""
 #: ../src/calendar/gui/ea-week-view.c:148
 msgid "calendar view for one or more weeks"
 msgstr ""
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:210
+msgid "Saving changes, please wait…"
+msgstr ""
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:212
+#: ../src/e-util/e-webdav-browser.c:1952
+msgid "Failed to save changes"
+msgstr ""
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:573
+#, c-format
+msgid "Modify a task"
+msgid_plural "Modify %u tasks"
+msgstr[0] ""
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:578
+msgid "Select properties to be modified."
+msgstr ""
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:592
+#: ../src/calendar/gui/e-comp-editor-memo.c:327
+#: ../src/calendar/gui/e-comp-editor-task.c:924
+msgctxt "ECompEditor"
+msgid "Sta_rt date:"
+msgstr ""
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:646
+msgid "M_odify tasks"
+msgstr ""
+
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:647
+msgid "Ca_ncel"
+msgstr "_გაუქმება"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1733
 #, c-format
@@ -7924,12 +7959,6 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-memo.c:320
 #: ../src/calendar/gui/e-comp-editor-task.c:914
 msgid "_List:"
-msgstr ""
-
-#: ../src/calendar/gui/e-comp-editor-memo.c:327
-#: ../src/calendar/gui/e-comp-editor-task.c:924
-msgctxt "ECompEditor"
-msgid "Sta_rt date:"
 msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:394
@@ -8885,7 +8914,7 @@ msgstr "_ბეჭდვა…"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1559
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:841
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1070
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1100
 msgid "Pre_view…"
 msgstr ""
 
@@ -9292,7 +9321,7 @@ msgid "Paste tasks from the clipboard"
 msgstr ""
 
 #: ../src/calendar/gui/e-task-table.c:873
-#: ../src/modules/calendar/e-task-shell-view-actions.c:701
+#: ../src/modules/calendar/e-task-shell-view-actions.c:731
 msgid "Delete selected tasks"
 msgstr ""
 
@@ -9813,7 +9842,7 @@ msgstr "ახალი კალენდარი"
 #: ../src/calendar/importers/icalendar-importer.c:346
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:499
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:287
-#: ../src/modules/calendar/e-task-shell-view-actions.c:207
+#: ../src/modules/calendar/e-task-shell-view-actions.c:230
 msgid "New Task List"
 msgstr ""
 
@@ -11794,7 +11823,6 @@ msgid "Mail-Followu_p-To:"
 msgstr ""
 
 #: ../src/composer/e-composer-header-table.c:894
-#| msgid "Reply-To"
 msgid "Mail-Repl_y-To:"
 msgstr ""
 
@@ -12900,7 +12928,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1376
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:622
-#: ../src/modules/calendar/e-task-shell-view-actions.c:748
+#: ../src/modules/calendar/e-task-shell-view-actions.c:778
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1605
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1683
 msgid "_Properties"
@@ -13078,7 +13106,7 @@ msgid "popup list"
 msgstr ""
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138
-#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2168
+#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2192
 msgid "?"
 msgstr ""
 
@@ -15192,7 +15220,7 @@ msgstr "_ჩაწერა"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1352
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:687
-#: ../src/modules/calendar/e-task-shell-view-actions.c:841
+#: ../src/modules/calendar/e-task-shell-view-actions.c:871
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1846
 msgid "_Preview"
 msgstr "_მინიატურა"
@@ -15376,7 +15404,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1466
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1852
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:786
-#: ../src/modules/calendar/e-task-shell-view-actions.c:959
+#: ../src/modules/calendar/e-task-shell-view-actions.c:989
 msgid "Any Category"
 msgstr ""
 
@@ -16251,10 +16279,6 @@ msgstr ""
 
 #: ../src/e-util/e-webdav-browser.c:1919
 msgid "Failed to get selected collection HREF"
-msgstr ""
-
-#: ../src/e-util/e-webdav-browser.c:1952
-msgid "Failed to save changes"
 msgstr ""
 
 #: ../src/e-util/e-webdav-browser.c:1954
@@ -19111,12 +19135,12 @@ msgstr ""
 msgid "Copying folder %s"
 msgstr ""
 
-#: ../src/mail/em-folder-tree.c:2425 ../src/mail/message-list.c:2655
+#: ../src/mail/em-folder-tree.c:2425 ../src/mail/message-list.c:2654
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr ""
 
-#: ../src/mail/em-folder-tree.c:2429 ../src/mail/message-list.c:2657
+#: ../src/mail/em-folder-tree.c:2429 ../src/mail/message-list.c:2656
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr ""
@@ -21357,96 +21381,96 @@ msgstr ""
 msgid "New Search Folder"
 msgstr ""
 
-#: ../src/mail/message-list.c:321
+#: ../src/mail/message-list.c:319
 msgid "Unseen"
 msgstr "უხილავი"
 
-#: ../src/mail/message-list.c:322
+#: ../src/mail/message-list.c:320
 msgid "Seen"
 msgstr "ნანახი"
 
-#: ../src/mail/message-list.c:323 ../src/mail/message-list.c:325
+#: ../src/mail/message-list.c:321 ../src/mail/message-list.c:323
 msgid "Answered"
 msgstr "პასუხ გაცემული"
 
 #. and unread
-#: ../src/mail/message-list.c:324 ../src/mail/message-list.c:326
+#: ../src/mail/message-list.c:322 ../src/mail/message-list.c:324
 msgid "Forwarded"
 msgstr "გადაგზავნილი"
 
-#: ../src/mail/message-list.c:339
+#: ../src/mail/message-list.c:337
 msgid "Lowest"
 msgstr "უმდაბლესი"
 
-#: ../src/mail/message-list.c:340
+#: ../src/mail/message-list.c:338
 msgid "Lower"
 msgstr "დაწევა"
 
-#: ../src/mail/message-list.c:344
+#: ../src/mail/message-list.c:342
 msgid "Higher"
 msgstr ""
 
-#: ../src/mail/message-list.c:345
+#: ../src/mail/message-list.c:343
 msgid "Highest"
 msgstr "უმაღლესი"
 
-#: ../src/mail/message-list.c:494
+#: ../src/mail/message-list.c:492
 msgid "Generating message list"
 msgstr ""
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2176
+#: ../src/mail/message-list.c:2200
 #: ../src/modules/itip-formatter/itip-view.c:288
 msgid "Today %l:%M %p"
 msgstr "დღეს %l:%M %p"
 
-#: ../src/mail/message-list.c:2185
+#: ../src/mail/message-list.c:2209
 msgid "Yesterday %l:%M %p"
 msgstr "გუშინ %l:%M %p"
 
-#: ../src/mail/message-list.c:2197
+#: ../src/mail/message-list.c:2221
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../src/mail/message-list.c:2205
+#: ../src/mail/message-list.c:2229
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../src/mail/message-list.c:2207
+#: ../src/mail/message-list.c:2231
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: ../src/mail/message-list.c:3100 ../src/mail/message-list.etspec.h:24
+#: ../src/mail/message-list.c:3099 ../src/mail/message-list.etspec.h:24
 msgid "User Header 1"
 msgstr ""
 
-#: ../src/mail/message-list.c:3101 ../src/mail/message-list.etspec.h:25
+#: ../src/mail/message-list.c:3100 ../src/mail/message-list.etspec.h:25
 msgid "User Header 2"
 msgstr ""
 
-#: ../src/mail/message-list.c:3102 ../src/mail/message-list.etspec.h:26
+#: ../src/mail/message-list.c:3101 ../src/mail/message-list.etspec.h:26
 msgid "User Header 3"
 msgstr ""
 
-#: ../src/mail/message-list.c:3515
+#: ../src/mail/message-list.c:3501
 msgid "Select all visible messages"
 msgstr ""
 
-#: ../src/mail/message-list.c:4354 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4338 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "შეტყობინებები"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5785
+#: ../src/mail/message-list.c:5730
 msgid "Follow-up"
 msgstr ""
 
-#: ../src/mail/message-list.c:6531 ../src/mail/message-list.c:6975
+#: ../src/mail/message-list.c:6476 ../src/mail/message-list.c:6920
 msgid "Generating message list…"
 msgstr ""
 
-#: ../src/mail/message-list.c:6534
+#: ../src/mail/message-list.c:6479
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -21454,7 +21478,7 @@ msgid ""
 "changing the query above."
 msgstr ""
 
-#: ../src/mail/message-list.c:6541
+#: ../src/mail/message-list.c:6486
 msgid "There are no messages in this folder."
 msgstr ""
 
@@ -21498,6 +21522,10 @@ msgstr ""
 #: ../src/mail/message-list.etspec.h:23
 msgid "Recipients Mail"
 msgstr ""
+
+#: ../src/mail/message-list.etspec.h:27
+msgid "Body Preview"
+msgstr "სხეულის გადახედვა"
 
 #: ../src/mail/searchtypes.xml.in.h:23 ../src/mail/vfoldertypes.xml.in.h:23
 msgid "Any header"
@@ -21582,7 +21610,7 @@ msgid "Memo List Properties"
 msgstr ""
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:555
-#: ../src/modules/calendar/e-task-shell-view-actions.c:279
+#: ../src/modules/calendar/e-task-shell-view-actions.c:302
 msgid "Task List Properties"
 msgstr ""
 
@@ -21797,7 +21825,7 @@ msgid "_Manage Address Book groups…"
 msgstr ""
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1219
-#: ../src/modules/calendar/e-task-shell-view-actions.c:736
+#: ../src/modules/calendar/e-task-shell-view-actions.c:766
 msgid "Manage task list groups order and visibility"
 msgstr ""
 
@@ -21824,7 +21852,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1245
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1376
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:629
-#: ../src/modules/calendar/e-task-shell-view-actions.c:755
+#: ../src/modules/calendar/e-task-shell-view-actions.c:785
 msgid "Re_fresh"
 msgstr "_განახლება"
 
@@ -21847,7 +21875,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1266
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1390
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:643
-#: ../src/modules/calendar/e-task-shell-view-actions.c:769
+#: ../src/modules/calendar/e-task-shell-view-actions.c:799
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1697
 msgid "_Rename…"
 msgstr "_გადარქმევა…"
@@ -21922,7 +21950,7 @@ msgstr ""
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1345
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1616
-#: ../src/modules/calendar/e-task-shell-view-actions.c:834
+#: ../src/modules/calendar/e-task-shell-view-actions.c:864
 msgid "_Actions"
 msgstr "მოქმედებები"
 
@@ -21933,7 +21961,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1372
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:704
-#: ../src/modules/calendar/e-task-shell-view-actions.c:858
+#: ../src/modules/calendar/e-task-shell-view-actions.c:888
 msgid "_Manage groups…"
 msgstr ""
 
@@ -21959,7 +21987,7 @@ msgstr ""
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1449
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:769
-#: ../src/modules/calendar/e-task-shell-view-actions.c:935
+#: ../src/modules/calendar/e-task-shell-view-actions.c:965
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2012
 msgid "_Classic View"
 msgstr ""
@@ -21971,7 +21999,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1456
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1835
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:776
-#: ../src/modules/calendar/e-task-shell-view-actions.c:942
+#: ../src/modules/calendar/e-task-shell-view-actions.c:972
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2019
 msgid "_Vertical View"
 msgstr ""
@@ -21987,7 +22015,7 @@ msgstr "არ ემთხვევა"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1483
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1883
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:803
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1032
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1062
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2103
 #: ../src/shell/e-shell-content.c:639
 msgid "Advanced Search"
@@ -23189,13 +23217,13 @@ msgstr "მოვლენა"
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:204
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:278
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:513
-#: ../src/modules/calendar/e-task-shell-view-actions.c:632
+#: ../src/modules/calendar/e-task-shell-view-actions.c:655
 msgid "Save as iCalendar"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1306
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:594
-#: ../src/modules/calendar/e-task-shell-view-actions.c:720
+#: ../src/modules/calendar/e-task-shell-view-actions.c:750
 msgid "_Copy…"
 msgstr ""
 
@@ -23240,7 +23268,7 @@ msgid "_New Calendar"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1369
-#: ../src/modules/calendar/e-task-shell-view-actions.c:825
+#: ../src/modules/calendar/e-task-shell-view-actions.c:855
 msgid "Purg_e"
 msgstr ""
 
@@ -23352,7 +23380,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:238
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:318
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:587
-#: ../src/modules/calendar/e-task-shell-view-actions.c:713
+#: ../src/modules/calendar/e-task-shell-view-actions.c:743
 msgid "_Forward as iCalendar…"
 msgstr ""
 
@@ -23539,7 +23567,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:793
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1015
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1045
 msgid "Without Category"
 msgstr "კატეგორიის გარეშე"
 
@@ -23549,13 +23577,13 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1897
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:817
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1046
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1076
 msgid "Description contains"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1904
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:824
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1053
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1083
 msgid "Summary contains"
 msgstr ""
 
@@ -23565,8 +23593,8 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:363
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:834
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:848
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1063
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1077
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1093
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1107
 msgid "Print…"
 msgstr "ბეჭდვა…"
 
@@ -23582,7 +23610,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:279
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:373
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:865
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1094
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1124
 msgid "_Save as iCalendar…"
 msgstr ""
 
@@ -23621,7 +23649,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:259
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:353
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:678
-#: ../src/modules/calendar/e-task-shell-view-actions.c:818
+#: ../src/modules/calendar/e-task-shell-view-actions.c:848
 msgid "Open _Web Page"
 msgstr ""
 
@@ -23659,22 +23687,22 @@ msgstr ""
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:276
-#: ../src/modules/calendar/e-task-shell-view-actions.c:630
+#: ../src/modules/calendar/e-task-shell-view-actions.c:653
 msgid "task"
 msgstr "ამოცანა"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:311
-#: ../src/modules/calendar/e-task-shell-view-actions.c:692
+#: ../src/modules/calendar/e-task-shell-view-actions.c:715
 msgid "_Assign Task"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:325
-#: ../src/modules/calendar/e-task-shell-view-actions.c:790
+#: ../src/modules/calendar/e-task-shell-view-actions.c:820
 msgid "_Mark as Complete"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:327
-#: ../src/modules/calendar/e-task-shell-view-actions.c:792
+#: ../src/modules/calendar/e-task-shell-view-actions.c:822
 msgid "Mark selected tasks as complete"
 msgstr ""
 
@@ -23683,33 +23711,33 @@ msgid "_Mark as Incomplete"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:334
-#: ../src/modules/calendar/e-task-shell-view-actions.c:799
+#: ../src/modules/calendar/e-task-shell-view-actions.c:829
 msgid "Mark selected tasks as incomplete"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:339
-#: ../src/modules/calendar/e-task-shell-view-actions.c:804
+#: ../src/modules/calendar/e-task-shell-view-actions.c:834
 msgid "New _Task"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:341
 #: ../src/modules/calendar/e-task-shell-backend.c:77
-#: ../src/modules/calendar/e-task-shell-view-actions.c:806
+#: ../src/modules/calendar/e-task-shell-view-actions.c:836
 msgid "Create a new task"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:346
-#: ../src/modules/calendar/e-task-shell-view-actions.c:811
+#: ../src/modules/calendar/e-task-shell-view-actions.c:841
 msgid "_Open Task"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:348
-#: ../src/modules/calendar/e-task-shell-view-actions.c:813
+#: ../src/modules/calendar/e-task-shell-view-actions.c:843
 msgid "View the selected task"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:365
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1079
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1109
 msgid "Print the selected task"
 msgstr ""
 
@@ -23856,16 +23884,16 @@ msgid "Tas_k List"
 msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-backend.c:94
-#: ../src/modules/calendar/e-task-shell-view-actions.c:743
+#: ../src/modules/calendar/e-task-shell-view-actions.c:773
 msgid "Create a new task list"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:223
-#: ../src/modules/calendar/e-task-shell-view-actions.c:238
+#: ../src/modules/calendar/e-task-shell-view-actions.c:246
+#: ../src/modules/calendar/e-task-shell-view-actions.c:261
 msgid "Print Tasks"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:574
+#: ../src/modules/calendar/e-task-shell-view-actions.c:597
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -23873,145 +23901,153 @@ msgid ""
 "Really erase these tasks?"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:581
+#: ../src/modules/calendar/e-task-shell-view-actions.c:604
 msgid "Do not ask me again"
 msgstr "აღარ მკითხო"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:699
-msgid "_Delete Task"
+#: ../src/modules/calendar/e-task-shell-view-actions.c:722
+msgid "_Bulk Edit…"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:706
-msgid "_Find in Task…"
-msgstr ""
-
-#: ../src/modules/calendar/e-task-shell-view-actions.c:708
-msgid "Search for text in the displayed task"
-msgstr ""
-
-#: ../src/modules/calendar/e-task-shell-view-actions.c:727
-msgid "D_elete Task List"
+#: ../src/modules/calendar/e-task-shell-view-actions.c:724
+msgid "Edit selected tasks in a bulk"
 msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:729
-msgid "Delete the selected task list"
+msgid "_Delete Task"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:734
-msgid "_Manage Task List groups…"
+#: ../src/modules/calendar/e-task-shell-view-actions.c:736
+msgid "_Find in Task…"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:741
-msgid "_New Task List"
+#: ../src/modules/calendar/e-task-shell-view-actions.c:738
+msgid "Search for text in the displayed task"
 msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:757
-msgid "Refresh the selected task list"
+msgid "D_elete Task List"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:762
-msgid "Re_fresh list of account task lists"
+#: ../src/modules/calendar/e-task-shell-view-actions.c:759
+msgid "Delete the selected task list"
+msgstr ""
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:764
+msgid "_Manage Task List groups…"
 msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:771
+msgid "_New Task List"
+msgstr ""
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:787
+msgid "Refresh the selected task list"
+msgstr ""
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:792
+msgid "Re_fresh list of account task lists"
+msgstr ""
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:801
 msgid "Rename the selected task list"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:776
+#: ../src/modules/calendar/e-task-shell-view-actions.c:806
 msgid "Sho_w All Task Lists"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:783
+#: ../src/modules/calendar/e-task-shell-view-actions.c:813
 msgid "Show _Only This Task List"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:797
+#: ../src/modules/calendar/e-task-shell-view-actions.c:827
 msgid "Mar_k as Incomplete"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:827
+#: ../src/modules/calendar/e-task-shell-view-actions.c:857
 msgid "Delete completed tasks"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:914
+#: ../src/modules/calendar/e-task-shell-view-actions.c:944
 msgid "Task _Preview"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:916
+#: ../src/modules/calendar/e-task-shell-view-actions.c:946
 msgid "Show task preview pane"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:937
+#: ../src/modules/calendar/e-task-shell-view-actions.c:967
 msgid "Show task preview below the task list"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:944
+#: ../src/modules/calendar/e-task-shell-view-actions.c:974
 msgid "Show task preview alongside the task list"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:952
+#: ../src/modules/calendar/e-task-shell-view-actions.c:982
 msgid "Active Tasks"
 msgstr "აქტიური ამოცანები"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:966
+#: ../src/modules/calendar/e-task-shell-view-actions.c:996
 msgid "Cancelled Tasks"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:973
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1003
 msgid "Completed Tasks"
 msgstr "დასრულებული ამოცანები"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:980
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1010
 msgid "Uncompleted Tasks"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:987
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1017
 msgid "Scheduled Tasks"
 msgstr "დაგეგმილი ამოცანები"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:989
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1019
 msgid "Show scheduled tasks, aka those with a Due date"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:994
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1024
 msgid "Next 7 Days’ Tasks"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1001
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1031
 msgid "Overdue Tasks"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1008
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1038
 msgid "Tasks with Attachments"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1017
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1047
 msgid "Show tasks with no category set"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1022
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1052
 msgid "Started Tasks"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1024
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1054
 msgid ""
 "Filters for tasks that either do not have a start date or the start date is "
 "earlier than the time the filter is selected at"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1065
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1095
 msgid "Print the list of tasks"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1072
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1102
 msgid "Preview the list of tasks to be printed"
 msgstr ""
 
-#: ../src/modules/calendar/e-task-shell-view.c:368
+#: ../src/modules/calendar/e-task-shell-view.c:372
 msgid "Delete Tasks"
 msgstr "ამოცანების წაშლა"
 
-#: ../src/modules/calendar/e-task-shell-view.c:370
+#: ../src/modules/calendar/e-task-shell-view.c:374
 msgid "Delete Task"
 msgstr "ამოცანის წაშლა"
 
