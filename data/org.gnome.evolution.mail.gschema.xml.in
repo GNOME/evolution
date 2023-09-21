@@ -867,7 +867,7 @@
     <key name="show-subject-above-sender" type="b">
       <default>false</default>
       <_summary>Show Subject above Sender in Messages column</_summary>
-      <_description>Whether to show Subject above Sender (From/To) in the Messages column, usually shown in the Vertical/Wide view of the message list</_description>
+      <_description>Whether to show Subject above Sender (From/To) in the Messages column, usually shown in the Vertical/Wide view of the message list. Change of this option requires restart of the Evolution.</_description>
     </key>
     <key name="composer-visually-wrap-long-lines" type="b">
       <default>false</default>

@@ -106,7 +106,6 @@ struct _MessageListPrivate {
 	gboolean thread_compress;
 	gboolean thread_flat;
 	gboolean any_row_changed; /* save state before regen list when this is set to true */
-	gboolean show_subject_above_sender;
 	gboolean regen_selects_unread;
 
 	GtkTargetList *copy_target_list;
@@ -197,7 +196,6 @@ enum {
 	PROP_SESSION,
 	PROP_SHOW_DELETED,
 	PROP_SHOW_JUNK,
-	PROP_SHOW_SUBJECT_ABOVE_SENDER,
 	PROP_THREAD_LATEST,
 	PROP_THREAD_SUBJECT,
 	PROP_THREAD_COMPRESS,
@@ -2149,6 +2147,32 @@ ml_tree_value_at_ex (ETreeModel *etm,
 			return (gpointer) camel_message_info_dup_user_header (msg_info, name);
 		return NULL;
 	}
+	case COL_BODY_PREVIEW: {
+		return camel_message_info_dup_preview (msg_info);
+	}
+	case COL_SUBJECT_WITH_BODY_PREVIEW: {
+		const gchar *subject = camel_message_info_get_subject (msg_info);
+		const gchar *preview = camel_message_info_get_preview (msg_info);
+
+		if (!subject)
+			subject = "";
+
+		if (preview && *preview) {
+			#define PREVIEW_PART_MARKUP "<span size='x-small'>%s</span>"
+
+			if (gtk_widget_get_direction (GTK_WIDGET (message_list)) == GTK_TEXT_DIR_RTL)
+				return g_markup_printf_escaped (PREVIEW_PART_MARKUP "   %s", preview, subject);
+			else
+				return g_markup_printf_escaped ("%s   " PREVIEW_PART_MARKUP, subject, preview);
+
+			#undef PREVIEW_PART_MARKUP
+		}
+
+		if (!*subject)
+			return NULL;
+
+		return g_markup_escape_text (subject, -1);
+	}
 	default:
 		g_warning ("%s: This shouldn't be reached (col:%d)", G_STRFUNC, col);
 		return NULL;
@@ -2215,7 +2239,8 @@ static ECell *
 create_composite_cell (GSettings *mail_settings,
 		       gint col)
 {
-	ECell *cell_vbox, *cell_hbox, *cell_sub, *cell_date, *cell_from, *top_cell_tree, *bottom_cell_tree, *cell_attach;
+	ECell *cell_vbox, *cell_hbox, *cell_date, *cell_from, *top_cell_tree, *bottom_cell_tree, *cell_attach;
+	ECell *cell_preview;
 	gboolean show_email;
 	gboolean show_subject_above_sender;
 
@@ -2249,71 +2274,45 @@ create_composite_cell (GSettings *mail_settings,
 		"color_column", COL_COLOUR,
 		NULL);
 
-	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_from, show_subject_above_sender ? COL_SUBJECT : col, 68);
+	cell_preview = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	g_object_set (
+		cell_preview,
+		"bold-column", COL_UNREAD,
+		"italic-column", COL_ITALIC,
+		"color-column", COL_COLOUR,
+		"is-markup", TRUE,
+		NULL);
+
+	if (show_subject_above_sender)
+		e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_preview, COL_SUBJECT_WITH_BODY_PREVIEW, 68);
+	else
+		e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_from, col, 68);
+
 	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_attach, COL_ATTACHMENT, 5);
 	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_date, COL_SENT, 27);
+
+	top_cell_tree = e_cell_tree_new (TRUE, FALSE, cell_hbox);
+
+	if (show_subject_above_sender)
+		bottom_cell_tree = e_cell_tree_new (TRUE, TRUE, cell_from);
+	else
+		bottom_cell_tree = e_cell_tree_new (TRUE, TRUE, cell_preview);
+
+	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), top_cell_tree, show_subject_above_sender ? COL_SUBJECT_WITH_BODY_PREVIEW : col);
+	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), bottom_cell_tree, show_subject_above_sender ? col : COL_SUBJECT_WITH_BODY_PREVIEW);
+
+	g_object_unref (top_cell_tree);
+	g_object_unref (bottom_cell_tree);
+	g_object_unref (cell_hbox);
 	g_object_unref (cell_from);
+	g_object_unref (cell_preview);
 	g_object_unref (cell_attach);
 	g_object_unref (cell_date);
 
-	cell_sub = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (
-		cell_sub,
-		"color_column", COL_COLOUR,
-		NULL);
-	top_cell_tree = e_cell_tree_new (TRUE, FALSE, cell_hbox);
-	bottom_cell_tree = e_cell_tree_new (TRUE, TRUE, cell_sub);
-	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), top_cell_tree, show_subject_above_sender ? COL_SUBJECT : col);
-	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), bottom_cell_tree, show_subject_above_sender ? col : COL_SUBJECT);
-	g_object_unref (cell_sub);
-	g_object_unref (cell_hbox);
-	g_object_unref (top_cell_tree);
-	g_object_unref (bottom_cell_tree);
-
 	g_object_set_data (G_OBJECT (cell_vbox), "cell_date", cell_date);
-	g_object_set_data (G_OBJECT (cell_vbox), "cell_sub", cell_sub);
 	g_object_set_data (G_OBJECT (cell_vbox), "cell_from", cell_from);
-	g_object_set_data (G_OBJECT (cell_vbox), "cell_hbox", cell_hbox);
-	g_object_set_data (G_OBJECT (cell_vbox), "address_model_col", GINT_TO_POINTER (col));
 
 	return cell_vbox;
-}
-
-static void
-composite_cell_set_show_subject_above_sender (ECell *cell,
-					      gboolean show_subject_above_sender)
-{
-	ECellVbox *cell_vbox;
-	ECellHbox *cell_hbox;
-	ECell *cell_from;
-	GObject *cell_obj;
-	gint address_model_col, cell_from_index;
-
-	g_return_if_fail (E_IS_CELL_VBOX (cell));
-
-	cell_obj = G_OBJECT (cell);
-	address_model_col = GPOINTER_TO_INT (g_object_get_data (cell_obj, "address_model_col"));
-
-	cell_vbox = E_CELL_VBOX (cell);
-	g_return_if_fail (cell_vbox->subcell_count == 2);
-	g_return_if_fail (cell_vbox->model_cols != NULL);
-
-	cell_from = g_object_get_data (cell_obj, "cell_from");
-	g_return_if_fail (E_IS_CELL (cell_from));
-
-	cell_hbox = g_object_get_data (cell_obj, "cell_hbox");
-	g_return_if_fail (E_IS_CELL_HBOX (cell_hbox));
-
-	for (cell_from_index = 0; cell_from_index < cell_hbox->subcell_count; cell_from_index++) {
-		if (cell_hbox->subcells[cell_from_index] == cell_from)
-			break;
-	}
-
-	g_return_if_fail (cell_from_index < cell_hbox->subcell_count);
-
-	cell_hbox->model_cols[cell_from_index] = show_subject_above_sender ? COL_SUBJECT : address_model_col;
-	cell_vbox->model_cols[0] = show_subject_above_sender ? COL_SUBJECT : address_model_col;
-	cell_vbox->model_cols[1] = show_subject_above_sender ? address_model_col : COL_SUBJECT;
 }
 
 static void
@@ -3248,12 +3247,6 @@ message_list_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
-		case PROP_SHOW_SUBJECT_ABOVE_SENDER:
-			message_list_set_show_subject_above_sender (
-				MESSAGE_LIST (object),
-				g_value_get_boolean (value));
-			return;
-
 		case PROP_THREAD_LATEST:
 			message_list_set_thread_latest (
 				MESSAGE_LIST (object),
@@ -3335,13 +3328,6 @@ message_list_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				message_list_get_show_junk (
-				MESSAGE_LIST (object)));
-			return;
-
-		case PROP_SHOW_SUBJECT_ABOVE_SENDER:
-			g_value_set_boolean (
-				value,
-				message_list_get_show_subject_above_sender (
 				MESSAGE_LIST (object)));
 			return;
 
@@ -3759,6 +3745,8 @@ message_list_duplicate_value (ETreeModel *tree_model,
 		case COL_USER_HEADER_1:
 		case COL_USER_HEADER_2:
 		case COL_USER_HEADER_3:
+		case COL_BODY_PREVIEW:
+		case COL_SUBJECT_WITH_BODY_PREVIEW:
 			return g_strdup (value);
 
 		case COL_SENT:
@@ -3827,6 +3815,8 @@ message_list_free_value (ETreeModel *tree_model,
 		case COL_USER_HEADER_1:
 		case COL_USER_HEADER_2:
 		case COL_USER_HEADER_3:
+		case COL_BODY_PREVIEW:
+		case COL_SUBJECT_WITH_BODY_PREVIEW:
 			g_free (value);
 			break;
 
@@ -3862,6 +3852,8 @@ message_list_initialize_value (ETreeModel *tree_model,
 		case COL_USER_HEADER_1:
 		case COL_USER_HEADER_2:
 		case COL_USER_HEADER_3:
+		case COL_BODY_PREVIEW:
+		case COL_SUBJECT_WITH_BODY_PREVIEW:
 			return NULL;
 
 		case COL_LOCATION:
@@ -3917,6 +3909,8 @@ message_list_value_is_empty (ETreeModel *tree_model,
 		case COL_USER_HEADER_1:
 		case COL_USER_HEADER_2:
 		case COL_USER_HEADER_3:
+		case COL_BODY_PREVIEW:
+		case COL_SUBJECT_WITH_BODY_PREVIEW:
 			return !(value && *(gchar *) value);
 
 		default:
@@ -3979,6 +3973,8 @@ message_list_value_to_string (ETreeModel *tree_model,
 		case COL_USER_HEADER_1:
 		case COL_USER_HEADER_2:
 		case COL_USER_HEADER_3:
+		case COL_BODY_PREVIEW:
+		case COL_SUBJECT_WITH_BODY_PREVIEW:
 			return g_strdup (value);
 
 		default:
@@ -4091,18 +4087,6 @@ message_list_class_init (MessageListClass *class)
 			"show-junk",
 			"Show Junk",
 			"Show messages marked as junk",
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_SUBJECT_ABOVE_SENDER,
-		g_param_spec_boolean (
-			"show-subject-above-sender",
-			"Show Subject Above Sender",
-			NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
@@ -5472,45 +5456,6 @@ message_list_set_show_junk (MessageList *message_list,
 		mail_regen_list (message_list, NULL, NULL);
 	else
 		message_list->priv->thaw_needs_regen = TRUE;
-}
-
-gboolean
-message_list_get_show_subject_above_sender (MessageList *message_list)
-{
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
-
-	return message_list->priv->show_subject_above_sender;
-}
-
-void
-message_list_set_show_subject_above_sender (MessageList *message_list,
-					    gboolean show_subject_above_sender)
-{
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
-
-	if (show_subject_above_sender == message_list->priv->show_subject_above_sender)
-		return;
-
-	message_list->priv->show_subject_above_sender = show_subject_above_sender;
-
-	if (message_list->extras) {
-		ECell *cell;
-
-		cell = e_table_extras_get_cell (message_list->extras, "render_composite_from");
-		if (cell)
-			composite_cell_set_show_subject_above_sender (cell, show_subject_above_sender);
-
-		cell = e_table_extras_get_cell (message_list->extras, "render_composite_to");
-		if (cell)
-			composite_cell_set_show_subject_above_sender (cell, show_subject_above_sender);
-
-		if (message_list->priv->folder &&
-		    gtk_widget_get_realized (GTK_WIDGET (message_list)) &&
-		    gtk_widget_is_visible (GTK_WIDGET (message_list)))
-			mail_regen_list (message_list, NULL, NULL);
-	}
-
-	g_object_notify (G_OBJECT (message_list), "show-subject-above-sender");
 }
 
 gboolean

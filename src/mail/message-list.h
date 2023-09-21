@@ -84,6 +84,7 @@ enum {
 	COL_USER_HEADER_1,
 	COL_USER_HEADER_2,
 	COL_USER_HEADER_3,
+	COL_BODY_PREVIEW,
 
 	COL_LAST,
 
@@ -94,7 +95,8 @@ enum {
 	COL_JUNK_STRIKEOUT_COLOR,
 	COL_UNREAD,
 	COL_COLOUR,
-	COL_ITALIC
+	COL_ITALIC,
+	COL_SUBJECT_WITH_BODY_PREVIEW
 };
 
 #define MESSAGE_LIST_COLUMN_IS_ACTIVE(col) (col == COL_MESSAGE_STATUS || \
@@ -182,11 +184,6 @@ void		message_list_set_show_deleted	(MessageList *message_list,
 gboolean	message_list_get_show_junk	(MessageList *message_list);
 void		message_list_set_show_junk	(MessageList *message_list,
 						 gboolean show_junk);
-gboolean	message_list_get_show_subject_above_sender
-						(MessageList *message_list);
-void		message_list_set_show_subject_above_sender
-						(MessageList *message_list,
-						 gboolean show_subject_above_sender);
 gboolean	message_list_get_thread_latest	(MessageList *message_list);
 void		message_list_set_thread_latest	(MessageList *message_list,
 						 gboolean thread_latest);

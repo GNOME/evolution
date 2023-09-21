@@ -87,6 +87,7 @@ enum {
 	PROP_EDITABLE,
 	PROP_BG_COLOR_COLUMN,
 	PROP_USE_TABULAR_NUMBERS,
+	PROP_IS_MARKUP
 };
 
 enum {
@@ -556,12 +557,15 @@ build_layout (ECellTextView *text_view,
 	PangoAttrList *attrs;
 	PangoLayout *layout;
 
-	layout = gtk_widget_create_pango_layout (GTK_WIDGET (((GnomeCanvasItem *) ecell_view->e_table_item_view)->canvas), text);
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (((GnomeCanvasItem *) ecell_view->e_table_item_view)->canvas), ect->is_markup ? NULL : text);
 
 	attrs = (PangoAttrList *) build_attr_list (text_view, row, text ? strlen (text) : 0);
 
 	pango_layout_set_attributes (layout, attrs);
 	pango_attr_list_unref (attrs);
+
+	if (ect->is_markup)
+		pango_layout_set_markup (layout, text, -1);
 
 	if (text_view->edit || width <= 0)
 		return layout;
@@ -1611,6 +1615,10 @@ ect_set_property (GObject *object,
 		text->use_tabular_numbers = g_value_get_boolean (value);
 		break;
 
+	case PROP_IS_MARKUP:
+		text->is_markup = g_value_get_boolean (value);
+		break;
+
 	default:
 		return;
 	}
@@ -1662,6 +1670,10 @@ ect_get_property (GObject *object,
 
 	case PROP_USE_TABULAR_NUMBERS:
 		g_value_set_boolean (value, text->use_tabular_numbers);
+		break;
+
+	case PROP_IS_MARKUP:
+		g_value_set_boolean (value, text->is_markup);
 		break;
 
 	default:
@@ -1821,6 +1833,16 @@ e_cell_text_class_init (ECellTextClass *class)
 		g_param_spec_boolean (
 			"use-tabular-numbers",
 			"Use tabular numbers",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_IS_MARKUP,
+		g_param_spec_boolean (
+			"is-markup",
+			"The text is markup",
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE));

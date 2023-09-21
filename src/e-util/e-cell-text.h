@@ -86,6 +86,7 @@ struct _ECellText {
 	guint use_ellipsis : 1;         /* Whether to use the ellipsis. */
 	guint editable : 1;		/* Whether the text can be edited. */
 	guint use_tabular_numbers : 1;  /* Whether to use the tabular numbers. */
+	guint is_markup : 1;            /* Whether the text is markup. */
 
 	gint strikeout_column;
 	gint underline_column;
