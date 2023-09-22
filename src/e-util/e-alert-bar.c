@@ -154,6 +154,7 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	gboolean have_secondary_text;
 	gboolean visible;
 	gint response_id;
+	guint n_alerts;
 	gchar *markup;
 
 	info_bar = GTK_INFO_BAR (alert_bar);
@@ -215,6 +216,28 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (alert_bar_response_close), alert);
+
+	n_alerts = g_queue_get_length (&alert_bar->priv->alerts);
+
+	if (n_alerts > 1) {
+		gchar *str;
+
+		/* Translators: there are always at least two messages to be closed */
+		str = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "Close a message", "Close all %u messages", n_alerts), n_alerts);
+
+		widget = e_dialog_button_new_with_icon ("edit-clear-all", NULL);
+		gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
+		gtk_widget_set_tooltip_text (widget, str);
+		gtk_box_pack_end (GTK_BOX (action_area), widget, FALSE, FALSE, 0);
+		gtk_button_box_set_child_non_homogeneous (GTK_BUTTON_BOX (action_area), widget, TRUE);
+		gtk_widget_show (widget);
+
+		g_signal_connect_swapped (
+			widget, "clicked",
+			G_CALLBACK (e_alert_bar_clear), alert_bar);
+
+		g_free (str);
+	}
 
 	widget = gtk_widget_get_toplevel (GTK_WIDGET (alert_bar));
 

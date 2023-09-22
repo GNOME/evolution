@@ -110,6 +110,7 @@ set(private_icons
 	hicolor_actions_48x48_x-office-address-book.png
 	hicolor_actions_48x48_x-office-calendar.png
 	hicolor_actions_scalable_accessories-text-editor-symbolic.svg
+	hicolor_actions_scalable_edit-clear-all-symbolic.svg
 	hicolor_actions_scalable_folder-saved-search-symbolic.svg
 	hicolor_actions_scalable_go-today-symbolic.svg
 	hicolor_actions_scalable_mail-archive-symbolic.svg
