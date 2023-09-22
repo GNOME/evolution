@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-09-21 03:53+0000\n"
-"PO-Revision-Date: 2023-09-21 19:19+0300\n"
+"POT-Creation-Date: 2023-09-22 08:27+0000\n"
+"PO-Revision-Date: 2023-09-22 18:26+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2973,9 +2973,6 @@ msgid "Show Subject above Sender in Messages column"
 msgstr "Показувати тему вище відправника у стовпчику повідомлень"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
-#| msgid ""
-#| "Whether to show Subject above Sender (From/To) in the Messages column, "
-#| "usually shown in the Vertical/Wide view of the message list"
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list. Change of this "
@@ -2983,8 +2980,8 @@ msgid ""
 msgstr ""
 "Чи показувати тему над відправником (Від/До) у стовпчику панелі повідомлень, "
 "який, зазвичай, буде показано у вертикальному/широкому перегляді списку "
-"повідомлень. Внесення змін до цього параметра потребуватиме перезапуску"
-" Evolution."
+"повідомлень. Внесення змін до цього параметра потребуватиме перезапуску "
+"Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
 msgid "Visually wrap long lines in composer"
@@ -13673,9 +13670,20 @@ msgid "Cancel"
 msgstr "Скасувати"
 
 #. Translators: Escape is a keyboard binding.
-#: ../src/e-util/e-alert-bar.c:208
+#: ../src/e-util/e-alert-bar.c:209
 msgid "Close this message (Escape)"
 msgstr "Закрити цей лист (Escape)"
+
+#. Translators: there are always at least two messages to be closed
+#: ../src/e-util/e-alert-bar.c:226
+#, c-format
+#| msgid "Compose a Message"
+msgid "Close a message"
+msgid_plural "Close all %u messages"
+msgstr[0] "Закрити усі %u повідомлення"
+msgstr[1] "Закрити усі %u повідомлення"
+msgstr[2] "Закрити усі %u повідомлень"
+msgstr[3] "Закрити повідомлення"
 
 #: ../src/e-util/e-alert-dialog.c:162
 msgid "_Dismiss"
@@ -22851,7 +22859,6 @@ msgid "Recipients Mail"
 msgstr "Пошта отримувачів"
 
 #: ../src/mail/message-list.etspec.h:27
-#| msgid "Preview"
 msgid "Body Preview"
 msgstr "Попередній перегляд вмісту"
 
