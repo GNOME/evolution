@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-09-21 03:53+0000\n"
-"PO-Revision-Date: 2023-09-21 08:23+0200\n"
+"POT-Creation-Date: 2023-09-22 08:27+0000\n"
+"PO-Revision-Date: 2023-09-25 05:45+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -8960,7 +8960,7 @@ msgstr "ხ_ედი"
 
 #: ../src/calendar/gui/e-comp-editor.c:2321
 msgid "Save current changes"
-msgstr ""
+msgstr "მიმდინარე ცვლილებების შენახვა"
 
 #: ../src/calendar/gui/e-comp-editor.c:2328
 msgid "Save current changes and close editor"
@@ -12754,9 +12754,16 @@ msgid "Cancel"
 msgstr "გაუქმება"
 
 #. Translators: Escape is a keyboard binding.
-#: ../src/e-util/e-alert-bar.c:208
+#: ../src/e-util/e-alert-bar.c:209
 msgid "Close this message (Escape)"
 msgstr ""
+
+#. Translators: there are always at least two messages to be closed
+#: ../src/e-util/e-alert-bar.c:226
+#, c-format
+msgid "Close a message"
+msgid_plural "Close all %u messages"
+msgstr[0] "ყველა %u შეტყობინების დახურვა"
 
 #: ../src/e-util/e-alert-dialog.c:162
 msgid "_Dismiss"
@@ -19528,12 +19535,12 @@ msgstr ""
 #: ../src/mail/filtertypes.xml.in.h:34 ../src/mail/searchtypes.xml.in.h:36
 #: ../src/mail/vfoldertypes.xml.in.h:36
 msgid "is greater than or equal to"
-msgstr ""
+msgstr "მეტია ან ტოლია"
 
 #: ../src/mail/filtertypes.xml.in.h:35 ../src/mail/searchtypes.xml.in.h:37
 #: ../src/mail/vfoldertypes.xml.in.h:37
 msgid "is less than or equal to"
-msgstr ""
+msgstr "ნაკლებია ან ტოლია"
 
 #: ../src/mail/filtertypes.xml.in.h:37 ../src/mail/searchtypes.xml.in.h:39
 #: ../src/mail/vfoldertypes.xml.in.h:39
@@ -19700,7 +19707,7 @@ msgstr "წაშლილია"
 
 #: ../src/mail/filtertypes.xml.in.h:83
 msgid "Unset Status"
-msgstr ""
+msgstr "სტატუსის მოხსნა"
 
 #: ../src/mail/filtertypes.xml.in.h:84
 msgid "Learn as Junk"
