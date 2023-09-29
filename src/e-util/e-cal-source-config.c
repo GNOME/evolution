@@ -255,16 +255,19 @@ static const gchar *
 choose_initial_color (void)
 {
 	static const gchar *colors[] = {
-		"#BECEDD", /* 190 206 221     Blue */
-		"#E2F0EF", /* 226 240 239     Light Blue */
-		"#C6E2B7", /* 198 226 183     Green */
-		"#E2F0D3", /* 226 240 211     Light Green */
-		"#E2D4B7", /* 226 212 183     Khaki */
-		"#EAEAC1", /* 234 234 193     Light Khaki */
-		"#F0B8B7", /* 240 184 183     Pink */
-		"#FED4D3", /* 254 212 211     Light Pink */
-		"#E2C6E1", /* 226 198 225     Purple */
-		"#F0E2EF"  /* 240 226 239     Light Purple */
+		/* From the HIG https://developer.gnome.org/hig/reference/palette.html , as of 2023-09-29 */
+		"#62a0ea", /* Blue 2 */
+		"#1c71d8", /* Blue 4 */
+		"#57e389", /* Green 2 */
+		"#2ec27e", /* Green 4 */
+		"#f8e45c", /* Yellow 2 */
+		"#f5c211", /* Yellow 4 */
+		"#ffbe6f", /* Orange 1 */
+		"#ff7800", /* Orange 3 */
+		"#ed333b", /* Red 2 */
+		"#c01c28", /* Red 4 */
+		"#c061cb", /* Purple 2 */
+		"#813d9c"  /* Purple 4 */
 	};
 
 	return colors[g_random_int_range (0, G_N_ELEMENTS (colors))];

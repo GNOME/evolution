@@ -1194,16 +1194,19 @@ cal_model_get_color_for_component (ECalModel *model,
 	ICalProperty *prop;
 
 	static AssignedColorData assigned_colors[] = {
-		{ "#BECEDD", NULL }, /* 190 206 221     Blue */
-		{ "#E2F0EF", NULL }, /* 226 240 239     Light Blue */
-		{ "#C6E2B7", NULL }, /* 198 226 183     Green */
-		{ "#E2F0D3", NULL }, /* 226 240 211     Light Green */
-		{ "#E2D4B7", NULL }, /* 226 212 183     Khaki */
-		{ "#EAEAC1", NULL }, /* 234 234 193     Light Khaki */
-		{ "#F0B8B7", NULL }, /* 240 184 183     Pink */
-		{ "#FED4D3", NULL }, /* 254 212 211     Light Pink */
-		{ "#E2C6E1", NULL }, /* 226 198 225     Purple */
-		{ "#F0E2EF", NULL }  /* 240 226 239     Light Purple */
+		/* From the HIG https://developer.gnome.org/hig/reference/palette.html , as of 2023-09-29 */
+		{ "#62a0ea", NULL }, /* Blue 2 */
+		{ "#1c71d8", NULL }, /* Blue 4 */
+		{ "#57e389", NULL }, /* Green 2 */
+		{ "#2ec27e", NULL }, /* Green 4 */
+		{ "#f8e45c", NULL }, /* Yellow 2 */
+		{ "#f5c211", NULL }, /* Yellow 4 */
+		{ "#ffbe6f", NULL }, /* Orange 1 */
+		{ "#ff7800", NULL }, /* Orange 3 */
+		{ "#ed333b", NULL }, /* Red 2 */
+		{ "#c01c28", NULL }, /* Red 4 */
+		{ "#c061cb", NULL }, /* Purple 2 */
+		{ "#813d9c", NULL }  /* Purple 4 */
 	};
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
