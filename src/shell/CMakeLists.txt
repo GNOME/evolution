@@ -70,6 +70,7 @@ target_compile_definitions(evolution-shell PRIVATE
 	-DEVOLUTION_ICONDIR=\"${icondir}\"
 	-DEVOLUTION_MODULEDIR=\"${moduledir}\"
 	-DEVOLUTION_RULEDIR=\"${privdatadir}\"
+	-DEVOLUTION_TOOLSDIR=\"${privlibexecdir}\"
 	-DE_DATA_SERVER_ICONDIR=\"${E_DATA_SERVER_ICONDIR}\"
 )
 

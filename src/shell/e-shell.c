@@ -34,10 +34,15 @@
 #include <libebackend/libebackend.h>
 #include <libedataserver/libedataserver.h>
 
+#ifdef ENABLE_CONTACT_MAPS
+#include <clutter-gtk/clutter-gtk.h>
+#endif
+
 #include "e-util/e-util-private.h"
 
 #include "e-shell-backend.h"
 #include "e-shell-enumtypes.h"
+#include "e-shell-migrate.h"
 #include "e-shell-window.h"
 #include "e-shell-utils.h"
 
@@ -80,6 +85,7 @@ struct _EShellPrivate {
 	gulong get_dialog_parent_full_handler_id;
 	gulong credentials_required_handler_id;
 
+	guint started : 1;
 	guint auto_reconnect : 1;
 	guint express_mode : 1;
 	guint modules_loaded : 1;
@@ -90,14 +96,12 @@ struct _EShellPrivate {
 	guint quit_cancelled : 1;
 	guint ready_to_quit : 1;
 	guint safe_mode : 1;
-	guint requires_shutdown : 1;
 };
 
 enum {
 	PROP_0,
 	PROP_CLIENT_CACHE,
 	PROP_EXPRESS_MODE,
-	PROP_GEOMETRY,
 	PROP_MODULE_DIRECTORY,
 	PROP_NETWORK_AVAILABLE,
 	PROP_ONLINE,
@@ -150,31 +154,6 @@ shell_notify_online_cb (EShell *shell)
 
 	online = e_shell_get_online (shell);
 	e_passwords_set_online (online);
-}
-
-static void
-shell_window_removed_cb (EShell *shell)
-{
-	g_return_if_fail (E_IS_SHELL (shell));
-
-	if (!gtk_application_get_windows (GTK_APPLICATION (shell)) &&
-	    !shell->priv->ready_to_quit)
-		e_shell_quit (shell, E_SHELL_QUIT_LAST_WINDOW);
-}
-
-static gboolean
-shell_window_delete_event_cb (GtkWindow *window,
-                              GdkEvent *event,
-                              GtkApplication *application)
-{
-	/* If other windows are open we can safely close this one. */
-	if (g_list_length (gtk_application_get_windows (application)) > 1)
-		return FALSE;
-
-	/* Otherwise we initiate application quit. */
-	e_shell_quit (E_SHELL (application), E_SHELL_QUIT_LAST_WINDOW);
-
-	return TRUE;
 }
 
 static void
@@ -477,9 +456,6 @@ shell_ready_for_quit (EShell *shell,
 	list = g_list_copy (gtk_application_get_windows (application));
 	g_list_foreach (list, (GFunc) gtk_widget_destroy, NULL);
 	g_list_free (list);
-
-	if (gtk_main_level () > 0)
-		gtk_main_quit ();
 }
 
 static gboolean
@@ -1457,11 +1433,182 @@ shell_get_dialog_parent_cb (ECredentialsPrompter *prompter,
 }
 
 static void
-shell_sm_quit_cb (EShell *shell,
-                  gpointer user_data)
+e_setup_theme_icons_theme_changed_cb (GtkSettings *gtk_settings)
 {
-	if (!shell->priv->ready_to_quit)
-		shell_prepare_for_quit (shell);
+	EPreferSymbolicIcons prefer_symbolic_icons;
+	GtkCssProvider *symbolic_icons_css_provider;
+	GtkIconTheme *icon_theme;
+	GSettings *g_settings;
+	gboolean use_symbolic_icons = FALSE;
+	gboolean using_symbolic_icons;
+	gchar **paths = NULL;
+	gchar *icon_theme_name = NULL;
+	guint n_symbolic = 0, n_non_symbolic = 0;
+	guint ii;
+
+	g_settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	prefer_symbolic_icons = g_settings_get_enum (g_settings, "prefer-symbolic-icons");
+	g_clear_object (&g_settings);
+
+	icon_theme = gtk_icon_theme_get_default ();
+
+	switch (prefer_symbolic_icons) {
+	case E_PREFER_SYMBOLIC_ICONS_NO:
+		use_symbolic_icons = FALSE;
+		break;
+	case E_PREFER_SYMBOLIC_ICONS_YES:
+		use_symbolic_icons = TRUE;
+		break;
+	case E_PREFER_SYMBOLIC_ICONS_AUTO:
+	default:
+		if (!gtk_settings)
+			return;
+
+		g_object_get (gtk_settings,
+			"gtk-icon-theme-name", &icon_theme_name,
+			NULL);
+
+		gtk_icon_theme_get_search_path (icon_theme, &paths, NULL);
+
+		for (ii = 0; paths && paths[ii]; ii++) {
+			GDir *dir;
+			gchar *dirname;
+
+			dirname = g_build_filename (paths[ii], icon_theme_name, "16x16", "actions", NULL);
+			dir = g_dir_open (dirname, 0, NULL);
+			if (dir) {
+				const gchar *filename;
+
+				for (filename = g_dir_read_name (dir);
+				     filename;
+				     filename = g_dir_read_name (dir)) {
+					/* pick few common action icons and check whether they are
+					   only symbolic in the current theme */
+					if (g_str_has_prefix (filename, "appointment-new") ||
+					    g_str_has_prefix (filename, "edit-cut") ||
+					    g_str_has_prefix (filename, "edit-copy")) {
+						if (strstr (filename, "-symbolic.") ||
+						    strstr (filename, ".symbolic.")) {
+							n_symbolic++;
+						} else {
+							n_non_symbolic++;
+						}
+					}
+				}
+				g_dir_close (dir);
+			}
+			g_free (dirname);
+		}
+
+		use_symbolic_icons = (!n_non_symbolic && n_symbolic > 0) ||
+			g_strcmp0 (icon_theme_name, "HighContrast") == 0 ||
+			g_strcmp0 (icon_theme_name, "ContrastHigh") == 0;
+
+		g_strfreev (paths);
+		g_free (icon_theme_name);
+		break;
+	}
+
+	/* using the same key on both objects, to save one quark */
+	#define KEY_NAME "e-symbolic-icons-css-provider"
+
+	symbolic_icons_css_provider = g_object_get_data (G_OBJECT (icon_theme), KEY_NAME);
+	using_symbolic_icons = symbolic_icons_css_provider && GINT_TO_POINTER (
+		g_object_get_data (G_OBJECT (symbolic_icons_css_provider), KEY_NAME)) != 0;
+
+	if (prefer_symbolic_icons != E_PREFER_SYMBOLIC_ICONS_AUTO && !symbolic_icons_css_provider) {
+		symbolic_icons_css_provider = gtk_css_provider_new ();
+		g_object_set_data_full (G_OBJECT (icon_theme), KEY_NAME, symbolic_icons_css_provider, g_object_unref);
+
+		gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
+			GTK_STYLE_PROVIDER (symbolic_icons_css_provider),
+			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	}
+
+	if (use_symbolic_icons && !using_symbolic_icons) {
+		if (!symbolic_icons_css_provider) {
+			symbolic_icons_css_provider = gtk_css_provider_new ();
+			g_object_set_data_full (G_OBJECT (icon_theme), KEY_NAME, symbolic_icons_css_provider, g_object_unref);
+
+			gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
+				GTK_STYLE_PROVIDER (symbolic_icons_css_provider),
+				GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+		}
+		gtk_css_provider_load_from_data (symbolic_icons_css_provider, "* { -gtk-icon-style:symbolic; }", -1, NULL);
+		g_object_set_data (G_OBJECT (symbolic_icons_css_provider), KEY_NAME, GINT_TO_POINTER (1));
+	} else if (!use_symbolic_icons && (using_symbolic_icons || prefer_symbolic_icons == E_PREFER_SYMBOLIC_ICONS_NO)) {
+		gtk_css_provider_load_from_data (symbolic_icons_css_provider,
+			prefer_symbolic_icons == E_PREFER_SYMBOLIC_ICONS_NO ? "* { -gtk-icon-style:regular; }" : "", -1, NULL);
+		g_object_set_data (G_OBJECT (symbolic_icons_css_provider), KEY_NAME, GINT_TO_POINTER (0));
+	}
+
+	#undef KEY_NAME
+
+	e_icon_factory_set_prefer_symbolic_icons (use_symbolic_icons);
+}
+
+static void
+e_setup_theme_icons (void)
+{
+	GtkSettings *gtk_settings = gtk_settings_get_default ();
+	GSettings *g_settings;
+
+	e_signal_connect_notify (gtk_settings, "notify::gtk-icon-theme-name",
+		G_CALLBACK (e_setup_theme_icons_theme_changed_cb), NULL);
+
+	g_settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	g_signal_connect_swapped (g_settings, "changed::prefer-symbolic-icons",
+		G_CALLBACK (e_setup_theme_icons_theme_changed_cb), gtk_settings);
+	g_clear_object (&g_settings);
+
+	e_setup_theme_icons_theme_changed_cb (gtk_settings);
+}
+
+static void
+categories_icon_theme_hack (void)
+{
+	GList *categories, *link;
+	GtkIconTheme *icon_theme;
+	GHashTable *dirnames;
+	const gchar *category_name;
+	gchar *filename;
+	gchar *dirname;
+
+	/* XXX Allow the category icons to be referenced as named
+	 *     icons, since GtkAction does not support GdkPixbufs. */
+
+	icon_theme = gtk_icon_theme_get_default ();
+	dirnames = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	/* Get the icon file for some default category.  Doesn't matter
+	 * which, so long as it has an icon.  We're just interested in
+	 * the directory components. */
+	categories = e_categories_dup_list ();
+
+	for (link = categories; link; link = g_list_next (link)) {
+		category_name = link->data;
+
+		filename = e_categories_dup_icon_file_for (category_name);
+		if (filename && *filename) {
+			/* Extract the directory components. */
+			dirname = g_path_get_dirname (filename);
+
+			if (dirname && !g_hash_table_contains (dirnames, dirname)) {
+				/* Add it to the icon theme's search path.  This relies on
+				 * GtkIconTheme's legacy feature of using image files found
+				 * directly in the search path. */
+				gtk_icon_theme_append_search_path (icon_theme, dirname);
+				g_hash_table_insert (dirnames, dirname, NULL);
+			} else {
+				g_free (dirname);
+			}
+		}
+
+		g_free (filename);
+	}
+
+	g_list_free_full (categories, g_free);
+	g_hash_table_destroy (dirnames);
 }
 
 static void
@@ -1469,15 +1616,6 @@ shell_set_express_mode (EShell *shell,
                         gboolean express_mode)
 {
 	shell->priv->express_mode = express_mode;
-}
-
-static void
-shell_set_geometry (EShell *shell,
-                    const gchar *geometry)
-{
-	g_return_if_fail (shell->priv->geometry == NULL);
-
-	shell->priv->geometry = g_strdup (geometry);
 }
 
 static void
@@ -1500,12 +1638,6 @@ shell_set_property (GObject *object,
 			shell_set_express_mode (
 				E_SHELL (object),
 				g_value_get_boolean (value));
-			return;
-
-		case PROP_GEOMETRY:
-			shell_set_geometry (
-				E_SHELL (object),
-				g_value_get_string (value));
 			return;
 
 		case PROP_MODULE_DIRECTORY:
@@ -1713,10 +1845,6 @@ shell_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_shell_parent_class)->constructed (object);
-
-	g_signal_connect (
-		object, "window-removed",
-		G_CALLBACK (shell_window_removed_cb), NULL);
 }
 
 static void
@@ -1727,9 +1855,6 @@ shell_startup (GApplication *application)
 	g_return_if_fail (E_IS_SHELL (application));
 
 	shell = E_SHELL (application);
-	g_warn_if_fail (!shell->priv->requires_shutdown);
-
-	shell->priv->requires_shutdown = TRUE;
 
 	e_file_lock_create ();
 
@@ -1741,31 +1866,42 @@ shell_startup (GApplication *application)
 
 	/* Chain up to parent's startup() method. */
 	G_APPLICATION_CLASS (e_shell_parent_class)->startup (application);
-}
 
-static void
-shell_shutdown (GApplication *application)
-{
-	EShell *shell;
-
-	g_return_if_fail (E_IS_SHELL (application));
-
-	shell = E_SHELL (application);
-
-	g_warn_if_fail (shell->priv->requires_shutdown);
-
-	shell->priv->requires_shutdown = FALSE;
-
-	/* Chain up to parent's method. */
-	G_APPLICATION_CLASS (e_shell_parent_class)->shutdown (application);
+	e_shell_event (shell, "ready-to-start", NULL);
 }
 
 static void
 shell_activate (GApplication *application)
 {
+	EShell *shell = E_SHELL (application);
 	GList *list;
 
 	/* Do not chain up.  Default method just emits a warning. */
+
+	if (!shell->priv->preferences_window) {
+		GtkIconTheme *icon_theme;
+
+		shell->priv->preferences_window = e_preferences_window_new (shell);
+		shell->priv->color_scheme_watcher = e_color_scheme_watcher_new ();
+
+		/* Add our icon directory to the theme's search path
+		 * here instead of in main() so Anjal picks it up. */
+		icon_theme = gtk_icon_theme_get_default ();
+		gtk_icon_theme_append_search_path (icon_theme, EVOLUTION_ICONDIR);
+		gtk_icon_theme_append_search_path (icon_theme, E_DATA_SERVER_ICONDIR);
+
+		e_shell_load_modules (shell);
+
+		/* Attempt migration -after- loading all modules and plugins,
+		 * as both shell backends and certain plugins hook into this. */
+		e_shell_migrate_attempt (shell);
+
+		categories_icon_theme_hack ();
+		e_setup_theme_icons ();
+	}
+
+	if (!shell->priv->started)
+		return;
 
 	list = gtk_application_get_windows (GTK_APPLICATION (application));
 
@@ -1795,10 +1931,6 @@ shell_window_added (GtkApplication *application,
 	GTK_APPLICATION_CLASS (e_shell_parent_class)->
 		window_added (application, window);
 
-	g_signal_connect (
-		window, "delete-event",
-		G_CALLBACK (shell_window_delete_event_cb), application);
-
 	/* We use the window's own type name and memory
 	 * address to form a unique window role for X11. */
 	role = g_strdup_printf (
@@ -1807,6 +1939,269 @@ shell_window_added (GtkApplication *application,
 		(gintptr) window);
 	gtk_window_set_role (window, role);
 	g_free (role);
+}
+
+G_GNUC_NORETURN static gboolean
+option_version_cb (const gchar *option_name,
+                   const gchar *option_value,
+                   gpointer data,
+                   GError **error)
+{
+	g_print ("%s %s%s %s\n", PACKAGE, VERSION, VERSION_SUBSTRING, VERSION_COMMENT);
+
+	exit (0);
+}
+
+/* Command-line options.  */
+#ifdef G_OS_WIN32
+static gboolean register_handlers = FALSE;
+static gboolean reinstall = FALSE;
+static gboolean show_icons = FALSE;
+static gboolean hide_icons = FALSE;
+static gboolean unregister_handlers = FALSE;
+#endif /* G_OS_WIN32 */
+static gboolean force_online = FALSE;
+static gboolean start_online = FALSE;
+static gboolean start_offline = FALSE;
+static gboolean setup_only = FALSE;
+static gboolean force_shutdown = FALSE;
+static gboolean disable_eplugin = FALSE;
+static gboolean disable_preview = FALSE;
+static gboolean import_uris = FALSE;
+static gboolean quit = FALSE;
+
+static gchar *geometry = NULL;
+static gchar *requested_view = NULL;
+static gchar **remaining_args;
+
+static GOptionEntry app_options[] = {
+#ifdef G_OS_WIN32
+	{ "register-handlers", '\0', G_OPTION_FLAG_HIDDEN,
+	  G_OPTION_ARG_NONE, &register_handlers, NULL, NULL },
+	{ "reinstall", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &reinstall,
+	  NULL, NULL },
+	{ "show-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &show_icons,
+	  NULL, NULL },
+	{ "hide-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &hide_icons,
+	  NULL, NULL },
+	{ "unregister-handlers", '\0', G_OPTION_FLAG_HIDDEN,
+	  G_OPTION_ARG_NONE, &unregister_handlers, NULL, NULL },
+#endif /* G_OS_WIN32 */
+	{ "component", 'c', 0, G_OPTION_ARG_STRING, &requested_view,
+	/* Translators: Do NOT translate the five component
+	 * names, they MUST remain in English! */
+	  N_("Start Evolution showing the specified component. "
+	     "Available options are “mail”, “calendar”, “contacts”, "
+	     "“tasks”, and “memos”"), "COMPONENT" },
+	{ "geometry", 'g', 0, G_OPTION_ARG_STRING, &geometry,
+	  N_("Apply the given geometry to the main window"), "GEOMETRY" },
+	{ "offline", '\0', 0, G_OPTION_ARG_NONE, &start_offline,
+	  N_("Start in offline mode"), NULL },
+	{ "online", '\0', 0, G_OPTION_ARG_NONE, &start_online,
+	  N_("Start in online mode"), NULL },
+	{ "force-online", '\0', 0, G_OPTION_ARG_NONE, &force_online,
+	  N_("Ignore network availability"), NULL },
+#ifndef G_OS_WIN32
+	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &force_shutdown,
+	  N_("Forcibly shut down Evolution"), NULL },
+#endif
+	{ "disable-eplugin", '\0', 0, G_OPTION_ARG_NONE, &disable_eplugin,
+	  N_("Disable loading of any plugins."), NULL },
+	{ "disable-preview", '\0', 0, G_OPTION_ARG_NONE, &disable_preview,
+	  N_("Disable preview pane of Mail, Contacts and Tasks."), NULL },
+	{ "setup-only", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE,
+	  &setup_only, NULL, NULL },
+	{ "import", 'i', 0, G_OPTION_ARG_NONE, &import_uris,
+	  N_("Import URIs or filenames given as rest of arguments."), NULL },
+	{ "quit", 'q', 0, G_OPTION_ARG_NONE, &quit,
+	  N_("Request a running Evolution process to quit"), NULL },
+	{ "version", 'v', G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_NO_ARG,
+	  G_OPTION_ARG_CALLBACK, option_version_cb, NULL, NULL },
+	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY,
+	  &remaining_args, NULL, NULL },
+	{ NULL }
+};
+
+static gboolean
+handle_options_idle_cb (gpointer user_data)
+{
+	const gchar * const *uris = (const gchar * const *) user_data;
+	EShell *shell;
+
+	shell = e_shell_get_default ();
+
+	/* These calls do the right thing when another Evolution
+	 * process is running. */
+	if (uris != NULL && *uris != NULL) {
+		if (e_shell_handle_uris (shell, uris, import_uris) == 0)
+			g_application_quit (G_APPLICATION (shell));
+	} else {
+		e_shell_create_shell_window (shell, requested_view);
+	}
+
+	shell->priv->started = TRUE;
+	g_application_release (G_APPLICATION (shell));
+
+	/* If another Evolution process is running, we're done. */
+	if (g_application_get_is_remote (G_APPLICATION (shell)))
+		g_application_quit (G_APPLICATION (shell));
+
+	return FALSE;
+}
+
+static gint
+e_shell_handle_local_options_cb (GApplication *application,
+				 GVariantDict *options,
+				 gpointer user_data)
+{
+	EShell *shell = E_SHELL (application);
+	GSettings *settings;
+	gboolean online = TRUE;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+
+	/* Requesting online or offline mode from the command-line
+	 * should be persistent, just like selecting it in the UI. */
+
+	if (start_online || force_online) {
+		online = TRUE;
+		g_settings_set_boolean (settings, "start-offline", FALSE);
+	} else if (start_offline) {
+		online = FALSE;
+		g_settings_set_boolean (settings, "start-offline", TRUE);
+	} else {
+		online = !g_settings_get_boolean (settings, "start-offline");
+	}
+
+	shell->priv->online = online;
+
+	g_clear_object (&settings);
+
+	g_clear_pointer (&shell->priv->geometry, g_free);
+	shell->priv->geometry = g_strdup (geometry);
+
+#ifdef G_OS_WIN32
+	if (register_handlers || reinstall || show_icons) {
+		_e_win32_register_mailer ();
+		_e_win32_register_addressbook ();
+	}
+
+	if (register_handlers)
+		return 0;
+
+	if (reinstall) {
+		_e_win32_set_default_mailer ();
+		return 0;
+	}
+
+	if (show_icons) {
+		_e_win32_set_default_mailer ();
+		return 0;
+	}
+
+	if (hide_icons) {
+		_e_win32_unset_default_mailer ();
+		return 0;
+	}
+
+	if (unregister_handlers) {
+		_e_win32_unregister_mailer ();
+		_e_win32_unregister_addressbook ();
+		return 0;
+	}
+
+	if (!is_any_gettext_catalog_installed ()) {
+		/* No message catalog installed for the current locale
+		 * language, so don't bother with the localisations
+		 * provided by other things then either. Reset thread
+		 * locale to "en-US" and C library locale to "C". */
+		SetThreadLocale (
+			MAKELCID (MAKELANGID (LANG_ENGLISH, SUBLANG_ENGLISH_US),
+			SORT_DEFAULT));
+		setlocale (LC_ALL, "C");
+	}
+#endif
+
+	if (start_online && start_offline) {
+		g_printerr (
+			_("%s: --online and --offline cannot be used "
+			"together.\n  Run “%s --help” for more "
+			"information.\n"), g_get_prgname (), g_get_prgname ());
+		return 1;
+	} else if (force_online && start_offline) {
+		g_printerr (
+			_("%s: --force-online and --offline cannot be used "
+			"together.\n  Run “%s --help” for more "
+			"information.\n"), g_get_prgname (), g_get_prgname ());
+		return 1;
+	}
+
+	if (force_shutdown) {
+		gchar *filename;
+
+		filename = g_build_filename (EVOLUTION_TOOLSDIR, "killev", NULL);
+		execl (filename, "killev", NULL);
+
+		return 2;
+	}
+
+	if (disable_preview) {
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		g_settings_set_boolean (settings, "safe-list", TRUE);
+		g_object_unref (settings);
+
+		settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
+		g_settings_set_boolean (settings, "show-preview", FALSE);
+		g_object_unref (settings);
+
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+		g_settings_set_boolean (settings, "show-memo-preview", FALSE);
+		g_settings_set_boolean (settings, "show-task-preview", FALSE);
+		g_settings_set_boolean (settings, "year-show-preview", FALSE);
+		g_object_unref (settings);
+	}
+
+	if (setup_only)
+		return 0;
+
+	if (quit) {
+		e_shell_quit (E_SHELL (application), E_SHELL_QUIT_OPTION);
+		return 0;
+	}
+
+	if (g_application_get_is_remote (application)) {
+		g_application_activate (application);
+
+		if (remaining_args && *remaining_args)
+			e_shell_handle_uris (E_SHELL (application), (const gchar * const *) remaining_args, import_uris);
+
+		/* This will be redirected to the previously run instance,
+		   because this instance is remote. */
+		if (requested_view && *requested_view)
+			e_shell_create_shell_window (E_SHELL (application), requested_view);
+
+		return 0;
+	}
+
+	if (force_online)
+		e_shell_lock_network_available (shell);
+
+	/* to not have the papplication shutdown due to no window being created */
+	g_application_hold (G_APPLICATION (shell));
+
+	g_idle_add (handle_options_idle_cb, (gpointer) remaining_args);
+
+	if (!disable_eplugin) {
+		/* Register built-in plugin hook types. */
+		g_type_ensure (E_TYPE_IMPORT_HOOK);
+		g_type_ensure (E_TYPE_PLUGIN_UI_HOOK);
+
+		/* All EPlugin and EPluginHook subclasses should be
+		 * registered in GType now, so load plugins now. */
+		e_plugin_load_plugins ();
+	}
+
+	return -1;
 }
 
 static gboolean
@@ -1897,7 +2292,6 @@ e_shell_class_init (EShellClass *class)
 
 	application_class = G_APPLICATION_CLASS (class);
 	application_class->startup = shell_startup;
-	application_class->shutdown = shell_shutdown;
 	application_class->activate = shell_activate;
 
 	gtk_application_class = GTK_APPLICATION_CLASS (class);
@@ -1934,24 +2328,6 @@ e_shell_class_init (EShellClass *class)
 			"Whether express mode is enabled",
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
-
-	/**
-	 * EShell:geometry
-	 *
-	 * User-specified initial window geometry string to apply
-	 * to the first #EShellWindow created.
-	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_GEOMETRY,
-		g_param_spec_string (
-			"geometry",
-			"Geometry",
-			"Initial window geometry string",
-			NULL,
-			G_PARAM_WRITABLE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
 
@@ -2193,7 +2569,6 @@ e_shell_init (EShell *shell)
 {
 	GHashTable *backends_by_name;
 	GHashTable *backends_by_scheme;
-	GtkIconTheme *icon_theme;
 
 	shell->priv = E_SHELL_GET_PRIVATE (shell);
 
@@ -2203,27 +2578,26 @@ e_shell_init (EShell *shell)
 	g_queue_init (&shell->priv->alerts);
 
 	shell->priv->cancellable = g_cancellable_new ();
-	shell->priv->preferences_window = e_preferences_window_new (shell);
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
 	shell->priv->auth_prompt_parents = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	shell->priv->safe_mode = e_file_lock_exists ();
-	shell->priv->requires_shutdown = FALSE;
-	shell->priv->color_scheme_watcher = e_color_scheme_watcher_new ();
-
-	/* Add our icon directory to the theme's search path
-	 * here instead of in main() so Anjal picks it up. */
-	icon_theme = gtk_icon_theme_get_default ();
-	gtk_icon_theme_append_search_path (icon_theme, EVOLUTION_ICONDIR);
-	gtk_icon_theme_append_search_path (icon_theme, E_DATA_SERVER_ICONDIR);
 
 	e_signal_connect_notify (
 		shell, "notify::online",
 		G_CALLBACK (shell_notify_online_cb), NULL);
 
-	g_signal_connect_swapped (
-		G_APPLICATION (shell), "shutdown",
-		G_CALLBACK (shell_sm_quit_cb), shell);
+	g_signal_connect (
+		shell, "handle-local-options",
+		G_CALLBACK (e_shell_handle_local_options_cb), NULL);
+
+	g_application_add_main_option_entries (G_APPLICATION (shell), app_options);
+
+#ifdef ENABLE_CONTACT_MAPS
+	g_application_add_option_group (G_APPLICATION (shell), cogl_get_option_group ());
+	g_application_add_option_group (G_APPLICATION (shell), clutter_get_option_group ());
+	g_application_add_option_group (G_APPLICATION (shell), gtk_clutter_get_option_group ());
+#endif
 }
 
 /**
@@ -2982,14 +3356,6 @@ e_shell_cancel_quit (EShell *shell)
 	shell->priv->quit_cancelled = TRUE;
 
 	g_signal_stop_emission (shell, signals[QUIT_REQUESTED], 0);
-}
-
-gboolean
-e_shell_requires_shutdown (EShell *shell)
-{
-	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
-
-	return shell->priv->requires_shutdown;
 }
 
 /**

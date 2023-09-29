@@ -1901,6 +1901,8 @@ msg_composer_created_with_mailto_cb (GObject *source_object,
 
 	g_return_if_fail (ccd != NULL);
 
+	g_application_release (G_APPLICATION (e_shell_get_default ()));
+
 	composer = e_msg_composer_new_finish (result, &error);
 	if (error) {
 		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
@@ -1974,6 +1976,10 @@ em_utils_compose_new_message_with_mailto_and_selection (EShell *shell,
 	ccd->folder = folder ? g_object_ref (folder) : NULL;
 	ccd->message_uid = camel_pstring_strdup (message_uid);
 	ccd->mailto = g_strdup (mailto);
+
+	/* In case the app was started with "mailto:" URI; the composer is created
+	   asynchronously, where the async delay can cause shutdown of the app. */
+	g_application_hold (G_APPLICATION (shell));
 
 	e_msg_composer_new (shell, msg_composer_created_with_mailto_cb, ccd);
 }

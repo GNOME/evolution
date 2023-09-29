@@ -29,10 +29,6 @@
 #include <glib-unix.h>
 #endif
 
-#ifdef ENABLE_CONTACT_MAPS
-#include <clutter-gtk/clutter-gtk.h>
-#endif
-
 #ifdef G_OS_WIN32
 #define WIN32_LEAN_AND_MEAN
 #ifdef DATADIR
@@ -52,7 +48,6 @@
 #include <webkit2/webkit2.h>
 
 #include "e-shell.h"
-#include "e-shell-migrate.h"
 
 #ifdef G_OS_WIN32
 #include "e-util/e-win32-defaults.h"
@@ -81,210 +76,9 @@
 /* Set this to TRUE and rebuild to enable MeeGo's Express Mode. */
 #define EXPRESS_MODE FALSE
 
-/* Command-line options.  */
-#ifdef G_OS_WIN32
-static gboolean register_handlers = FALSE;
-static gboolean reinstall = FALSE;
-static gboolean show_icons = FALSE;
-static gboolean hide_icons = FALSE;
-static gboolean unregister_handlers = FALSE;
-#endif /* G_OS_WIN32 */
-static gboolean force_online = FALSE;
-static gboolean start_online = FALSE;
-static gboolean start_offline = FALSE;
-static gboolean setup_only = FALSE;
-static gboolean force_shutdown = FALSE;
-static gboolean disable_eplugin = FALSE;
-static gboolean disable_preview = FALSE;
-static gboolean import_uris = FALSE;
-static gboolean quit = FALSE;
-
-static gchar *geometry = NULL;
-static gchar *requested_view = NULL;
-static gchar **remaining_args;
-
 /* Forward declarations */
 void e_convert_local_mail (EShell *shell);
 void e_migrate_base_dirs (EShell *shell);
-
-static void
-e_setup_theme_icons_theme_changed_cb (GtkSettings *gtk_settings)
-{
-	EPreferSymbolicIcons prefer_symbolic_icons;
-	GtkCssProvider *symbolic_icons_css_provider;
-	GtkIconTheme *icon_theme;
-	GSettings *g_settings;
-	gboolean use_symbolic_icons = FALSE;
-	gboolean using_symbolic_icons;
-	gchar **paths = NULL;
-	gchar *icon_theme_name = NULL;
-	guint n_symbolic = 0, n_non_symbolic = 0;
-	guint ii;
-
-	g_settings = e_util_ref_settings ("org.gnome.evolution.shell");
-	prefer_symbolic_icons = g_settings_get_enum (g_settings, "prefer-symbolic-icons");
-	g_clear_object (&g_settings);
-
-	icon_theme = gtk_icon_theme_get_default ();
-
-	switch (prefer_symbolic_icons) {
-	case E_PREFER_SYMBOLIC_ICONS_NO:
-		use_symbolic_icons = FALSE;
-		break;
-	case E_PREFER_SYMBOLIC_ICONS_YES:
-		use_symbolic_icons = TRUE;
-		break;
-	case E_PREFER_SYMBOLIC_ICONS_AUTO:
-	default:
-		if (!gtk_settings)
-			return;
-
-		g_object_get (gtk_settings,
-			"gtk-icon-theme-name", &icon_theme_name,
-			NULL);
-
-		gtk_icon_theme_get_search_path (icon_theme, &paths, NULL);
-
-		for (ii = 0; paths && paths[ii]; ii++) {
-			GDir *dir;
-			gchar *dirname;
-
-			dirname = g_build_filename (paths[ii], icon_theme_name, "16x16", "actions", NULL);
-			dir = g_dir_open (dirname, 0, NULL);
-			if (dir) {
-				const gchar *filename;
-
-				for (filename = g_dir_read_name (dir);
-				     filename;
-				     filename = g_dir_read_name (dir)) {
-					/* pick few common action icons and check whether they are
-					   only symbolic in the current theme */
-					if (g_str_has_prefix (filename, "appointment-new") ||
-					    g_str_has_prefix (filename, "edit-cut") ||
-					    g_str_has_prefix (filename, "edit-copy")) {
-						if (strstr (filename, "-symbolic.") ||
-						    strstr (filename, ".symbolic.")) {
-							n_symbolic++;
-						} else {
-							n_non_symbolic++;
-						}
-					}
-				}
-				g_dir_close (dir);
-			}
-			g_free (dirname);
-		}
-
-		use_symbolic_icons = (!n_non_symbolic && n_symbolic > 0) ||
-			g_strcmp0 (icon_theme_name, "HighContrast") == 0 ||
-			g_strcmp0 (icon_theme_name, "ContrastHigh") == 0;
-
-		g_strfreev (paths);
-		g_free (icon_theme_name);
-		break;
-	}
-
-	/* using the same key on both objects, to save one quark */
-	#define KEY_NAME "e-symbolic-icons-css-provider"
-
-	symbolic_icons_css_provider = g_object_get_data (G_OBJECT (icon_theme), KEY_NAME);
-	using_symbolic_icons = symbolic_icons_css_provider && GINT_TO_POINTER (
-		g_object_get_data (G_OBJECT (symbolic_icons_css_provider), KEY_NAME)) != 0;
-
-	if (prefer_symbolic_icons != E_PREFER_SYMBOLIC_ICONS_AUTO && !symbolic_icons_css_provider) {
-		symbolic_icons_css_provider = gtk_css_provider_new ();
-		g_object_set_data_full (G_OBJECT (icon_theme), KEY_NAME, symbolic_icons_css_provider, g_object_unref);
-
-		gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
-			GTK_STYLE_PROVIDER (symbolic_icons_css_provider),
-			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-	}
-
-	if (use_symbolic_icons && !using_symbolic_icons) {
-		if (!symbolic_icons_css_provider) {
-			symbolic_icons_css_provider = gtk_css_provider_new ();
-			g_object_set_data_full (G_OBJECT (icon_theme), KEY_NAME, symbolic_icons_css_provider, g_object_unref);
-
-			gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
-				GTK_STYLE_PROVIDER (symbolic_icons_css_provider),
-				GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-		}
-		gtk_css_provider_load_from_data (symbolic_icons_css_provider, "* { -gtk-icon-style:symbolic; }", -1, NULL);
-		g_object_set_data (G_OBJECT (symbolic_icons_css_provider), KEY_NAME, GINT_TO_POINTER (1));
-	} else if (!use_symbolic_icons && (using_symbolic_icons || prefer_symbolic_icons == E_PREFER_SYMBOLIC_ICONS_NO)) {
-		gtk_css_provider_load_from_data (symbolic_icons_css_provider,
-			prefer_symbolic_icons == E_PREFER_SYMBOLIC_ICONS_NO ? "* { -gtk-icon-style:regular; }" : "", -1, NULL);
-		g_object_set_data (G_OBJECT (symbolic_icons_css_provider), KEY_NAME, GINT_TO_POINTER (0));
-	}
-
-	#undef KEY_NAME
-
-	e_icon_factory_set_prefer_symbolic_icons (use_symbolic_icons);
-}
-
-static void
-e_setup_theme_icons (void)
-{
-	GtkSettings *gtk_settings = gtk_settings_get_default ();
-	GSettings *g_settings;
-
-	e_signal_connect_notify (gtk_settings, "notify::gtk-icon-theme-name",
-		G_CALLBACK (e_setup_theme_icons_theme_changed_cb), NULL);
-
-	g_settings = e_util_ref_settings ("org.gnome.evolution.shell");
-	g_signal_connect_swapped (g_settings, "changed::prefer-symbolic-icons",
-		G_CALLBACK (e_setup_theme_icons_theme_changed_cb), gtk_settings);
-	g_clear_object (&g_settings);
-
-	e_setup_theme_icons_theme_changed_cb (gtk_settings);
-}
-
-static void
-categories_icon_theme_hack (void)
-{
-	GList *categories, *link;
-	GtkIconTheme *icon_theme;
-	GHashTable *dirnames;
-	const gchar *category_name;
-	gchar *filename;
-	gchar *dirname;
-
-	/* XXX Allow the category icons to be referenced as named
-	 *     icons, since GtkAction does not support GdkPixbufs. */
-
-	icon_theme = gtk_icon_theme_get_default ();
-	dirnames = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-
-	/* Get the icon file for some default category.  Doesn't matter
-	 * which, so long as it has an icon.  We're just interested in
-	 * the directory components. */
-	categories = e_categories_dup_list ();
-
-	for (link = categories; link; link = g_list_next (link)) {
-		category_name = link->data;
-
-		filename = e_categories_dup_icon_file_for (category_name);
-		if (filename && *filename) {
-			/* Extract the directory components. */
-			dirname = g_path_get_dirname (filename);
-
-			if (dirname && !g_hash_table_contains (dirnames, dirname)) {
-				/* Add it to the icon theme's search path.  This relies on
-				 * GtkIconTheme's legacy feature of using image files found
-				 * directly in the search path. */
-				gtk_icon_theme_append_search_path (icon_theme, dirname);
-				g_hash_table_insert (dirnames, dirname, NULL);
-			} else {
-				g_free (dirname);
-			}
-		}
-
-		g_free (filename);
-	}
-
-	g_list_free_full (categories, g_free);
-	g_hash_table_destroy (dirnames);
-}
 
 #ifdef DEVELOPMENT
 
@@ -376,31 +170,6 @@ show_development_warning (void)
 
 #endif /* DEVELOPMENT */
 
-/* This is for doing stuff that requires the GTK+ loop to be running already.  */
-
-static gboolean
-idle_cb (const gchar * const *uris)
-{
-	EShell *shell;
-
-	shell = e_shell_get_default ();
-
-	/* These calls do the right thing when another Evolution
-	 * process is running. */
-	if (uris != NULL && *uris != NULL) {
-		if (e_shell_handle_uris (shell, uris, import_uris) == 0)
-			gtk_main_quit ();
-	} else {
-		e_shell_create_shell_window (shell, requested_view);
-	}
-
-	/* If another Evolution process is running, we're done. */
-	if (g_application_get_is_remote (G_APPLICATION (shell)))
-		gtk_main_quit ();
-
-	return FALSE;
-}
-
 #ifdef G_OS_UNIX
 static gboolean
 handle_term_signal (gpointer data)
@@ -431,65 +200,6 @@ is_any_gettext_catalog_installed (void)
 }
 #endif
 
-G_GNUC_NORETURN static gboolean
-option_version_cb (const gchar *option_name,
-                   const gchar *option_value,
-                   gpointer data,
-                   GError **error)
-{
-	g_print ("%s %s%s %s\n", PACKAGE, VERSION, VERSION_SUBSTRING, VERSION_COMMENT);
-
-	exit (0);
-}
-
-static GOptionEntry entries[] = {
-#ifdef G_OS_WIN32
-	{ "register-handlers", '\0', G_OPTION_FLAG_HIDDEN,
-	  G_OPTION_ARG_NONE, &register_handlers, NULL, NULL },
-	{ "reinstall", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &reinstall,
-	  NULL, NULL },
-	{ "show-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &show_icons,
-	  NULL, NULL },
-	{ "hide-icons", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &hide_icons,
-	  NULL, NULL },
-	{ "unregister-handlers", '\0', G_OPTION_FLAG_HIDDEN,
-	  G_OPTION_ARG_NONE, &unregister_handlers, NULL, NULL },
-#endif /* G_OS_WIN32 */
-	{ "component", 'c', 0, G_OPTION_ARG_STRING, &requested_view,
-	/* Translators: Do NOT translate the five component
-	 * names, they MUST remain in English! */
-	  N_("Start Evolution showing the specified component. "
-	     "Available options are “mail”, “calendar”, “contacts”, "
-	     "“tasks”, and “memos”"), "COMPONENT" },
-	{ "geometry", 'g', 0, G_OPTION_ARG_STRING, &geometry,
-	  N_("Apply the given geometry to the main window"), "GEOMETRY" },
-	{ "offline", '\0', 0, G_OPTION_ARG_NONE, &start_offline,
-	  N_("Start in offline mode"), NULL },
-	{ "online", '\0', 0, G_OPTION_ARG_NONE, &start_online,
-	  N_("Start in online mode"), NULL },
-	{ "force-online", '\0', 0, G_OPTION_ARG_NONE, &force_online,
-	  N_("Ignore network availability"), NULL },
-#ifndef G_OS_WIN32
-	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &force_shutdown,
-	  N_("Forcibly shut down Evolution"), NULL },
-#endif
-	{ "disable-eplugin", '\0', 0, G_OPTION_ARG_NONE, &disable_eplugin,
-	  N_("Disable loading of any plugins."), NULL },
-	{ "disable-preview", '\0', 0, G_OPTION_ARG_NONE, &disable_preview,
-	  N_("Disable preview pane of Mail, Contacts and Tasks."), NULL },
-	{ "setup-only", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE,
-	  &setup_only, NULL, NULL },
-	{ "import", 'i', 0, G_OPTION_ARG_NONE, &import_uris,
-	  N_("Import URIs or filenames given as rest of arguments."), NULL },
-	{ "quit", 'q', 0, G_OPTION_ARG_NONE, &quit,
-	  N_("Request a running Evolution process to quit"), NULL },
-	{ "version", 'v', G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_NO_ARG,
-	  G_OPTION_ARG_CALLBACK, option_version_cb, NULL, NULL },
-	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY,
-	  &remaining_args, NULL, NULL },
-	{ NULL }
-};
-
 static void G_GNUC_NORETURN
 shell_force_shutdown (void)
 {
@@ -505,58 +215,22 @@ static EShell *
 create_default_shell (void)
 {
 	EShell *shell;
-	GSettings *settings;
 	GApplicationFlags flags;
-	gboolean online = TRUE;
 	GList *module_types;
 	GError *error = NULL;
-
-	settings = e_util_ref_settings ("org.gnome.evolution.shell");
-
-	/* Requesting online or offline mode from the command-line
-	 * should be persistent, just like selecting it in the UI. */
-
-	if (start_online || force_online) {
-		online = TRUE;
-		g_settings_set_boolean (settings, "start-offline", FALSE);
-	} else if (start_offline) {
-		online = FALSE;
-		g_settings_set_boolean (settings, "start-offline", TRUE);
-	} else {
-		gboolean value;
-
-		value = g_settings_get_boolean (settings, "start-offline");
-		if (error == NULL)
-			online = !value;
-	}
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_clear_error (&error);
-	}
-
-	/* Determine whether to run Evolution in "express" mode. */
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_clear_error (&error);
-	}
 
 	/* Load all shared library modules. */
 	module_types = e_module_load_all_in_directory_and_prefixes (EVOLUTION_MODULEDIR, EVOLUTION_PREFIX);
 	g_list_free_full (module_types, (GDestroyNotify) g_type_module_unuse);
 
-	flags = G_APPLICATION_HANDLES_OPEN |
-		G_APPLICATION_HANDLES_COMMAND_LINE;
+	flags = 0;
 
 	shell = g_initable_new (
 		E_TYPE_SHELL, NULL, &error,
 		"application-id", APPLICATION_ID,
 		"flags", flags,
-		"geometry", geometry,
 		"module-directory", EVOLUTION_MODULEDIR,
 		"express-mode", EXPRESS_MODE,
-		"online", online,
 		"register-session", TRUE,
 		NULL);
 
@@ -570,11 +244,6 @@ create_default_shell (void)
 		g_clear_error (&error);
 	}
 
-	if (force_online && shell)
-		e_shell_lock_network_available (shell);
-
-	g_object_unref (settings);
-
 	return shell;
 }
 
@@ -584,21 +253,12 @@ main (gint argc,
 {
 	EShell *shell;
 	GSettings *settings;
-#ifdef ENABLE_MAINTAINER_MODE
-	GtkIconTheme *icon_theme;
-#endif
-#ifdef DEVELOPMENT
-	gboolean skip_warning_dialog;
-#endif
-	gboolean success;
-	GError *error = NULL;
+	gboolean is_remote;
+	gint ret;
 
 #ifdef G_OS_WIN32
 	e_util_win32_initialize ();
 #endif
-
-	/* Make ElectricFence work.  */
-	free (malloc (10));
 
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
@@ -629,101 +289,7 @@ main (gint argc,
 	g_type_ensure (G_TYPE_DBUS_PROXY);
 	g_type_ensure (G_BUS_TYPE_SESSION);
 
-	/* The contact maps feature uses clutter-gtk. */
-#ifdef ENABLE_CONTACT_MAPS
-	success = gtk_clutter_init_with_args (
-		&argc, &argv,
-		_("— The Evolution PIM and Email Client"),
-		entries, (gchar *) GETTEXT_PACKAGE, &error) == CLUTTER_INIT_SUCCESS;
-#else
-	success = gtk_init_with_args (
-		&argc, &argv,
-		_("— The Evolution PIM and Email Client"),
-		entries, (gchar *) GETTEXT_PACKAGE, &error);
-#endif /* ENABLE_CONTACT_MAPS */
-
-	if (!success || error) {
-		g_printerr ("Failed to initialize gtk+: %s\n", error ? error->message : "Unknown error");
-		g_clear_error (&error);
-		exit (1);
-	}
-
 	i_cal_set_unknown_token_handling_setting (I_CAL_DISCARD_TOKEN);
-
-#ifdef G_OS_WIN32
-	if (register_handlers || reinstall || show_icons) {
-		_e_win32_register_mailer ();
-		_e_win32_register_addressbook ();
-	}
-
-	if (register_handlers)
-		exit (0);
-
-	if (reinstall) {
-		_e_win32_set_default_mailer ();
-		exit (0);
-	}
-
-	if (show_icons) {
-		_e_win32_set_default_mailer ();
-		exit (0);
-	}
-
-	if (hide_icons) {
-		_e_win32_unset_default_mailer ();
-		exit (0);
-	}
-
-	if (unregister_handlers) {
-		_e_win32_unregister_mailer ();
-		_e_win32_unregister_addressbook ();
-		exit (0);
-	}
-
-	if (!is_any_gettext_catalog_installed ()) {
-		/* No message catalog installed for the current locale
-		 * language, so don't bother with the localisations
-		 * provided by other things then either. Reset thread
-		 * locale to "en-US" and C library locale to "C". */
-		SetThreadLocale (
-			MAKELCID (MAKELANGID (LANG_ENGLISH, SUBLANG_ENGLISH_US),
-			SORT_DEFAULT));
-		setlocale (LC_ALL, "C");
-	}
-#endif
-
-	if (start_online && start_offline) {
-		g_printerr (
-			_("%s: --online and --offline cannot be used "
-			"together.\n  Run “%s --help” for more "
-			"information.\n"), argv[0], argv[0]);
-		exit (1);
-	} else if (force_online && start_offline) {
-		g_printerr (
-			_("%s: --force-online and --offline cannot be used "
-			"together.\n  Run “%s --help” for more "
-			"information.\n"), argv[0], argv[0]);
-		exit (1);
-	}
-
-	if (force_shutdown)
-		shell_force_shutdown ();
-
-	if (disable_preview) {
-		settings = e_util_ref_settings ("org.gnome.evolution.mail");
-		g_settings_set_boolean (settings, "safe-list", TRUE);
-		g_object_unref (settings);
-
-		settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
-		g_settings_set_boolean (settings, "show-preview", FALSE);
-		g_object_unref (settings);
-
-		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-		g_settings_set_boolean (settings, "show-memo-preview", FALSE);
-		g_settings_set_boolean (settings, "show-task-preview", FALSE);
-		g_settings_set_boolean (settings, "year-show-preview", FALSE);
-		g_object_unref (settings);
-	}
 
 #ifdef G_OS_UNIX
 	g_unix_signal_add_full (
@@ -732,107 +298,67 @@ main (gint argc,
 #endif
 
 	e_util_init_main_thread (NULL);
-	e_passwords_init ();
 	e_xml_initialize_in_main ();
-
-	gtk_window_set_default_icon_name ("evolution");
-
-	if (setup_only)
-		exit (0);
-
-#ifdef ENABLE_MAINTAINER_MODE
-	icon_theme = gtk_icon_theme_get_default ();
-	gtk_icon_theme_prepend_search_path (icon_theme, EVOLUTION_ICONDIR_IN_PREFIX);
-#endif
-
-	categories_icon_theme_hack ();
-	gtk_accel_map_load (e_get_accels_filename ());
-
-#ifdef DEVELOPMENT
-	settings = e_util_ref_settings ("org.gnome.evolution.shell");
-	skip_warning_dialog = g_settings_get_boolean (
-		settings, "skip-warning-dialog");
-
-	if (!skip_warning_dialog && !getenv ("EVOLVE_ME_HARDER"))
-		g_settings_set_boolean (
-			settings, "skip-warning-dialog",
-			show_development_warning ());
-
-	g_object_unref (settings);
-#endif
 
 	shell = create_default_shell ();
 	if (!shell)
 		return 1;
 
-	if (quit) {
-		e_shell_quit (shell, E_SHELL_QUIT_OPTION);
-		goto exit;
+	is_remote = g_application_get_is_remote (G_APPLICATION (shell));
+
+	if (!is_remote) {
+		#ifdef ENABLE_MAINTAINER_MODE
+		GtkIconTheme *icon_theme;
+		#endif
+		#ifdef DEVELOPMENT
+		gboolean skip_warning_dialog;
+		#endif
+
+		e_passwords_init ();
+		gtk_window_set_default_icon_name ("evolution");
+
+		#ifdef ENABLE_MAINTAINER_MODE
+		icon_theme = gtk_icon_theme_get_default ();
+		gtk_icon_theme_prepend_search_path (icon_theme, EVOLUTION_ICONDIR_IN_PREFIX);
+		#endif
+
+		gtk_accel_map_load (e_get_accels_filename ());
+
+		#ifdef DEVELOPMENT
+		settings = e_util_ref_settings ("org.gnome.evolution.shell");
+		skip_warning_dialog = g_settings_get_boolean (
+			settings, "skip-warning-dialog");
+
+		if (!skip_warning_dialog && !getenv ("EVOLVE_ME_HARDER"))
+			g_settings_set_boolean (
+				settings, "skip-warning-dialog",
+				show_development_warning ());
+
+		g_object_unref (settings);
+		#endif
+
+		/* This routine converts the local mail store from mbox format to
+		 * Maildir format as needed.  The reason the code is here and not
+		 * in the mail module is because we inform the user at startup of
+		 * the impending mail conversion by displaying a popup dialog and
+		 * waiting for confirmation before proceeding.
+		 *
+		 * This has to be done before we load modules because some of the
+		 * EShellBackends immediately add GMainContext sources that would
+		 * otherwise get dispatched during gtk_dialog_run(), and we don't
+		 * want them dispatched until after the conversion is complete.
+		 *
+		 * Addendum: We need to perform the XDG Base Directory migration
+		 *           before converting the local mail store, because the
+		 *           conversion is triggered by checking for certain key
+		 *           files and directories under XDG_DATA_HOME.  Without
+		 *           this the mail conversion will not trigger for users
+		 *           upgrading from Evolution 2.30 or older. */
+		e_migrate_base_dirs (shell);
+		e_convert_local_mail (shell);
 	}
 
-	if (g_application_get_is_remote (G_APPLICATION (shell))) {
-		g_application_activate (G_APPLICATION (shell));
-
-		if (remaining_args && *remaining_args)
-			e_shell_handle_uris (shell, (const gchar * const *) remaining_args, import_uris);
-
-		/* This will be redirected to the previously run instance,
-		   because this instance is remote. */
-		if (requested_view && *requested_view)
-			e_shell_create_shell_window (shell, requested_view);
-
-		goto exit;
-	}
-
-	/* This routine converts the local mail store from mbox format to
-	 * Maildir format as needed.  The reason the code is here and not
-	 * in the mail module is because we inform the user at startup of
-	 * the impending mail conversion by displaying a popup dialog and
-	 * waiting for confirmation before proceeding.
-	 *
-	 * This has to be done before we load modules because some of the
-	 * EShellBackends immediately add GMainContext sources that would
-	 * otherwise get dispatched during gtk_dialog_run(), and we don't
-	 * want them dispatched until after the conversion is complete.
-	 *
-	 * Addendum: We need to perform the XDG Base Directory migration
-	 *           before converting the local mail store, because the
-	 *           conversion is triggered by checking for certain key
-	 *           files and directories under XDG_DATA_HOME.  Without
-	 *           this the mail conversion will not trigger for users
-	 *           upgrading from Evolution 2.30 or older. */
-	e_migrate_base_dirs (shell);
-	e_convert_local_mail (shell);
-
-	e_shell_load_modules (shell);
-
-	if (!disable_eplugin) {
-		/* Register built-in plugin hook types. */
-		g_type_ensure (E_TYPE_IMPORT_HOOK);
-		g_type_ensure (E_TYPE_PLUGIN_UI_HOOK);
-
-		/* All EPlugin and EPluginHook subclasses should be
-		 * registered in GType now, so load plugins now. */
-		e_plugin_load_plugins ();
-	}
-
-	/* Attempt migration -after- loading all modules and plugins,
-	 * as both shell backends and certain plugins hook into this. */
-	e_shell_migrate_attempt (shell);
-
-	e_setup_theme_icons ();
-
-	e_shell_event (shell, "ready-to-start", NULL);
-
-	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
-
-	gtk_main ();
-
-exit:
-	if (e_shell_requires_shutdown (shell)) {
-		/* Workaround https://bugzilla.gnome.org/show_bug.cgi?id=737949 */
-		g_signal_emit_by_name (shell, "shutdown");
-	}
+	ret = g_application_run (G_APPLICATION (shell), argc, argv);
 
 	/* Drop what should be the last reference to the shell.
 	 * That will cause e_shell_get_default() to henceforth
@@ -847,9 +373,10 @@ exit:
 			e_file_lock_destroy ();
 	}
 
-	gtk_accel_map_save (e_get_accels_filename ());
+	if (!is_remote)
+		gtk_accel_map_save (e_get_accels_filename ());
 
 	e_misc_util_free_global_memory ();
 
-	return 0;
+	return ret;
 }
