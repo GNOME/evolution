@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-09-21 16:21+0000\n"
-"PO-Revision-Date: 2023-09-22 01:21+0300\n"
+"POT-Creation-Date: 2023-09-29 11:48+0000\n"
+"PO-Revision-Date: 2023-09-30 00:15+0300\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -3239,7 +3239,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:348
 msgid "(Deprecated) Default reply style"
-msgstr "(Kullanılması önerilmiyor) Varsayıla yanıtlama biçemi"
+msgstr "(Kullanılması önerilmiyor) Öntanımlı yanıtlama biçemi"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:349
 msgid ""
@@ -3683,7 +3683,7 @@ msgstr ""
 "Eklenen dizinler autoar ile sıkıştırılırken kullanılan sıkıştırma süzgeci."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/main.c:467
+#: ../src/shell/e-shell.c:1999
 msgid "Start in offline mode"
 msgstr "Çevrim dışı kipte başla"
 
@@ -4728,7 +4728,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4085
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4293
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4299
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -5296,7 +5296,7 @@ msgstr "_Yardım"
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418
 #: ../src/shell/e-shell-content.c:643 ../src/shell/e-shell-content.c:749
-#: ../src/shell/main.c:313 ../src/smime/gui/certificate-manager.c:1278
+#: ../src/shell/main.c:107 ../src/smime/gui/certificate-manager.c:1278
 #: ../src/smime/gui/e-cert-selector.c:233 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "_Tamam"
@@ -8489,14 +8489,14 @@ msgstr "Başlangıç saati geçerli zaman değil"
 #: ../src/e-util/e-misc-utils.c:4235 ../src/e-util/e-misc-utils.c:4249
 #: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2922
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3577
-#: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4085
-#: ../src/mail/em-composer-utils.c:4108 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4091
+#: ../src/mail/em-composer-utils.c:4114 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:444
 #: ../src/plugins/face/face.c:175
-#: ../src/plugins/mail-to-task/mail-to-task.c:996 ../src/shell/e-shell.c:1258
-#: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:353
+#: ../src/plugins/mail-to-task/mail-to-task.c:996 ../src/shell/e-shell.c:1234
+#: ../src/shell/e-shell.c:1259 ../src/smime/gui/certificate-manager.c:353
 #, c-format
 msgid "Unknown error"
 msgstr "Bilinmeyen hata"
@@ -13529,9 +13529,17 @@ msgid "Cancel"
 msgstr "İptal"
 
 #. Translators: Escape is a keyboard binding.
-#: ../src/e-util/e-alert-bar.c:208
+#: ../src/e-util/e-alert-bar.c:209
 msgid "Close this message (Escape)"
 msgstr "Bu iletiyi kapat (Escape)"
+
+#. Translators: there are always at least two messages to be closed
+#: ../src/e-util/e-alert-bar.c:226
+#, fuzzy, c-format
+#| msgid "Compose a Message"
+msgid "Close a message"
+msgid_plural "Close all %u messages"
+msgstr[0] "İleti Yaz"
 
 #: ../src/e-util/e-alert-dialog.c:162
 msgid "_Dismiss"
@@ -18038,7 +18046,7 @@ msgid "Do Not Quote"
 msgstr "Alıntı Yapma"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4423
+#: ../src/mail/em-composer-utils.c:4429
 msgid "Use global setting"
 msgstr "Genel ayarı kullan"
 
@@ -18070,12 +18078,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Yanıtla ve İlet öznitelik metni için dil"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4392 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4398 ../src/mail/mail-config.ui.h:24
 msgid "Start _typing at the bottom"
 msgstr "_Yazmaya aşağıdan başla"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4396 ../src/mail/mail-config.ui.h:25
+#: ../src/mail/em-composer-utils.c:4402 ../src/mail/mail-config.ui.h:25
 msgid "_Keep signature above the original message"
 msgstr "Yanıtlarken imzayı özgün iletinin üzerinde _tut"
 
@@ -19262,7 +19270,7 @@ msgstr "_Yinelenen İletileri Kaldır"
 msgid "Checks selected messages for duplicates"
 msgstr "Seçili iletilerin yinelenenlerini arar"
 
-#: ../src/mail/e-mail-reader.c:2954 ../src/mail/em-composer-utils.c:4351
+#: ../src/mail/e-mail-reader.c:2954 ../src/mail/em-composer-utils.c:4357
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:467
@@ -19287,7 +19295,7 @@ msgstr "Seçilen iletiye yanıt seçeneklerini seç"
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "E-posta listesine, ya da tüm alıcılara yanıtla"
 
-#: ../src/mail/e-mail-reader.c:2975 ../src/mail/em-composer-utils.c:4346
+#: ../src/mail/e-mail-reader.c:2975 ../src/mail/em-composer-utils.c:4352
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:474
 msgid "Reply to _List"
@@ -19683,7 +19691,7 @@ msgstr "Eklerin yüklenmesi bekleniyor…"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2158
+#: ../src/mail/em-composer-utils.c:2164
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -19691,93 +19699,93 @@ msgstr ""
 "${AbbrevWeekdayName}, ${Year}-${Month}-${Day} tarihinde ${24Hour}:${Minute} "
 "${TimeZone} saatinde, ${Sender} yazdı:"
 
-#: ../src/mail/em-composer-utils.c:2164
+#: ../src/mail/em-composer-utils.c:2170
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Yönlendirilmiş İleti --------"
 
-#: ../src/mail/em-composer-utils.c:2169
+#: ../src/mail/em-composer-utils.c:2175
 msgid "-----Original Message-----"
 msgstr "-------- Özgün İleti --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2999
+#: ../src/mail/em-composer-utils.c:3005
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Ynt: %s"
 
-#: ../src/mail/em-composer-utils.c:3654
+#: ../src/mail/em-composer-utils.c:3660
 msgid "an unknown sender"
 msgstr "bilinmeyen gönderici"
 
-#: ../src/mail/em-composer-utils.c:4291
+#: ../src/mail/em-composer-utils.c:4297
 msgid "Alternative Reply"
 msgstr "Alternatif Yanıt"
 
-#: ../src/mail/em-composer-utils.c:4294
+#: ../src/mail/em-composer-utils.c:4300
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4312
+#: ../src/mail/em-composer-utils.c:4318
 msgid "Recipients:"
 msgstr "Alıcılar:"
 
-#: ../src/mail/em-composer-utils.c:4341
+#: ../src/mail/em-composer-utils.c:4347
 msgid "Reply to _Sender"
 msgstr "_Gönderene Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4364
+#: ../src/mail/em-composer-utils.c:4370
 msgid "Reply style:"
 msgstr "Yanıtlama biçemi:"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4373
+#: ../src/mail/em-composer-utils.c:4379
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:347
 msgid "_Default"
 msgstr "_Öntanımlı"
 
-#: ../src/mail/em-composer-utils.c:4377
+#: ../src/mail/em-composer-utils.c:4383
 msgid "Attach_ment"
 msgstr "_Ek"
 
-#: ../src/mail/em-composer-utils.c:4381
+#: ../src/mail/em-composer-utils.c:4387
 msgid "Inline (_Outlook style)"
 msgstr "Satır Arası (_Outlook biçimi)"
 
-#: ../src/mail/em-composer-utils.c:4385
+#: ../src/mail/em-composer-utils.c:4391
 msgid "_Quote"
 msgstr "_Alıntı"
 
-#: ../src/mail/em-composer-utils.c:4389
+#: ../src/mail/em-composer-utils.c:4395
 msgid "Do _Not Quote"
 msgstr "Alıntı Yap_ma"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4410
+#: ../src/mail/em-composer-utils.c:4416
 msgid "_Format message in"
 msgstr "İletiyi şununla _biçimle"
 
-#: ../src/mail/em-composer-utils.c:4432
+#: ../src/mail/em-composer-utils.c:4438
 msgid "Apply t_emplate"
 msgstr "Şabl_on uygula"
 
-#: ../src/mail/em-composer-utils.c:4445
+#: ../src/mail/em-composer-utils.c:4451
 msgid "Preserve original message S_ubject"
 msgstr "Özgün ileti Kon_usunu koru"
 
-#: ../src/mail/em-composer-utils.c:4511
+#: ../src/mail/em-composer-utils.c:4517
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] "%d alıcı"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:5005
+#: ../src/mail/em-composer-utils.c:5011
 msgid "Posting destination"
 msgstr "Gönderme konumu"
 
-#: ../src/mail/em-composer-utils.c:5010
+#: ../src/mail/em-composer-utils.c:5016
 msgid "Choose folders to post the message to."
 msgstr "İletinin gönderileceği klasörleri seç."
 
@@ -28760,29 +28768,91 @@ msgstr "_Yeni Şablon Olarak Kaydet"
 msgid "Save as Template"
 msgstr "Şablon Olarak Kaydet"
 
-#: ../src/shell/e-shell.c:383
+#: ../src/shell/e-shell.c:362
 msgid "Preparing to go offline…"
 msgstr "Çevrim dışı olmaya hazırlanılıyor…"
 
-#: ../src/shell/e-shell.c:412
+#: ../src/shell/e-shell.c:391
 msgid "Preparing to go online…"
 msgstr "Çevrim içi olmaya hazırlanılıyor…"
 
-#: ../src/shell/e-shell.c:523
+#: ../src/shell/e-shell.c:499
 msgid "Preparing to quit"
 msgstr "Çıkış için hazırlanılıyor"
 
-#: ../src/shell/e-shell.c:529
+#: ../src/shell/e-shell.c:505
 msgid "Preparing to quit…"
 msgstr "Çıkışa hazırlanılıyor…"
 
-#: ../src/shell/e-shell.c:1111
+#: ../src/shell/e-shell.c:1087
 msgid "Open _Settings"
 msgstr "_Ayarları Aç"
 
-#: ../src/shell/e-shell.c:1320
+#: ../src/shell/e-shell.c:1296
 msgid "Credentials are required to connect to the destination host."
 msgstr "Hedef makineye bağlantı için kimlik bilgileri gerekiyor."
+
+#. Translators: Do NOT translate the five component
+#. * names, they MUST remain in English!
+#: ../src/shell/e-shell.c:1993
+msgid ""
+"Start Evolution showing the specified component. Available options are "
+"“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
+msgstr ""
+"Evolutionʼu belirtilen bileşen ile başlat. Uygun seçenekler “mail”, "
+"“calendar”, “contacts”, “tasks”, ve “memos“"
+
+#: ../src/shell/e-shell.c:1997
+msgid "Apply the given geometry to the main window"
+msgstr "Verilen geometriyi ana pencereye uygula"
+
+#: ../src/shell/e-shell.c:2001
+msgid "Start in online mode"
+msgstr "Çevrim içi kipte başla"
+
+#: ../src/shell/e-shell.c:2003
+msgid "Ignore network availability"
+msgstr "Ağ uygunluğunu göz ardı et"
+
+#: ../src/shell/e-shell.c:2006
+msgid "Forcibly shut down Evolution"
+msgstr "Evolutionʼu zorla kapat"
+
+#: ../src/shell/e-shell.c:2009
+msgid "Disable loading of any plugins."
+msgstr "Hiçbir eklenti yüklenmesine izin verme."
+
+#: ../src/shell/e-shell.c:2011
+msgid "Disable preview pane of Mail, Contacts and Tasks."
+msgstr "Posta, Bağlantılar ve Görevler ön izleme bölmelerini kapat."
+
+#: ../src/shell/e-shell.c:2015
+msgid "Import URIs or filenames given as rest of arguments."
+msgstr ""
+"Argümanların geri kalanı olarak verilen dosya adları ya da URIʼleri içe "
+"aktar."
+
+#: ../src/shell/e-shell.c:2017
+msgid "Request a running Evolution process to quit"
+msgstr "Çalışan Evolution sürecinden çıkmasını iste"
+
+#: ../src/shell/e-shell.c:2127
+#, c-format
+msgid ""
+"%s: --online and --offline cannot be used together.\n"
+"  Run “%s --help” for more information.\n"
+msgstr ""
+"%s: --online ve --offline aynı anda kullanılamaz.\n"
+"  Daha çok bilgi için “%s --help” çalıştırın.\n"
+
+#: ../src/shell/e-shell.c:2133
+#, c-format
+msgid ""
+"%s: --force-online and --offline cannot be used together.\n"
+"  Run “%s --help” for more information.\n"
+msgstr ""
+"%s: --force-online ve --offline aynı anda kullanılamaz.\n"
+"  Daha çok bilgi için “%s --help” çalıştırın.\n"
 
 #: ../src/shell/e-shell-content.c:702 ../src/shell/e-shell-content.c:703
 msgid "Searches"
@@ -29153,7 +29223,7 @@ msgid "%s — Evolution"
 msgstr "%s — Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../src/shell/main.c:328
+#: ../src/shell/main.c:122
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -29190,61 +29260,17 @@ msgstr ""
 "Umarız yoğun çalışmalarımız sonucundan memnun kalırsınız. Biz sizin\n"
 "katkılarınızı da memnuniyetle beklediğimizi belirtiriz!\n"
 
-#: ../src/shell/main.c:353
+#: ../src/shell/main.c:147
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr "Teşekkürler. Evolution Takımı\n"
 
-#: ../src/shell/main.c:359
+#: ../src/shell/main.c:153
 msgid "Do not tell me again"
 msgstr "Bana yeniden söyleme"
 
-#. Translators: Do NOT translate the five component
-#. * names, they MUST remain in English!
-#: ../src/shell/main.c:461
-msgid ""
-"Start Evolution showing the specified component. Available options are "
-"“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
-msgstr ""
-"Evolutionʼu belirtilen bileşen ile başlat. Uygun seçenekler “mail”, "
-"“calendar”, “contacts”, “tasks”, ve “memos“"
-
-#: ../src/shell/main.c:465
-msgid "Apply the given geometry to the main window"
-msgstr "Verilen geometriyi ana pencereye uygula"
-
-#: ../src/shell/main.c:469
-msgid "Start in online mode"
-msgstr "Çevrim içi kipte başla"
-
-#: ../src/shell/main.c:471
-msgid "Ignore network availability"
-msgstr "Ağ uygunluğunu göz ardı et"
-
-#: ../src/shell/main.c:474
-msgid "Forcibly shut down Evolution"
-msgstr "Evolutionʼu zorla kapat"
-
-#: ../src/shell/main.c:477
-msgid "Disable loading of any plugins."
-msgstr "Hiçbir eklenti yüklenmesine izin verme."
-
-#: ../src/shell/main.c:479
-msgid "Disable preview pane of Mail, Contacts and Tasks."
-msgstr "Posta, Bağlantılar ve Görevler ön izleme bölmelerini kapat."
-
-#: ../src/shell/main.c:483
-msgid "Import URIs or filenames given as rest of arguments."
-msgstr ""
-"Argümanların geri kalanı olarak verilen dosya adları ya da URIʼleri içe "
-"aktar."
-
-#: ../src/shell/main.c:485
-msgid "Request a running Evolution process to quit"
-msgstr "Çalışan Evolution sürecinden çıkmasını iste"
-
-#: ../src/shell/main.c:567
+#: ../src/shell/main.c:241
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
@@ -29252,28 +29278,6 @@ msgid ""
 msgstr ""
 "Evolution başlatılamıyor.  Yanıtlamayan başka Evolution süreci olabilir. "
 "Sistem hatası: %s"
-
-#: ../src/shell/main.c:636 ../src/shell/main.c:641
-msgid "— The Evolution PIM and Email Client"
-msgstr "— Evolution PIM ve E-Posta İstemcisi"
-
-#: ../src/shell/main.c:697
-#, c-format
-msgid ""
-"%s: --online and --offline cannot be used together.\n"
-"  Run “%s --help” for more information.\n"
-msgstr ""
-"%s: --online ve --offline aynı anda kullanılamaz.\n"
-"  Daha çok bilgi için “%s --help” çalıştırın.\n"
-
-#: ../src/shell/main.c:703
-#, c-format
-msgid ""
-"%s: --force-online and --offline cannot be used together.\n"
-"  Run “%s --help” for more information.\n"
-msgstr ""
-"%s: --force-online ve --offline aynı anda kullanılamaz.\n"
-"  Daha çok bilgi için “%s --help” çalıştırın.\n"
 
 #: ../src/shell/shell.error.xml.h:1
 msgid "Importing..."
@@ -29891,6 +29895,9 @@ msgstr "Deponun diske yazılması başarısız, hata_kodu: %i"
 #: ../src/smime/lib/e-pkcs12.c:471
 msgid "Imported Certificate"
 msgstr "Aktarılmış Sertifika"
+
+#~ msgid "— The Evolution PIM and Email Client"
+#~ msgstr "— Evolution PIM ve E-Posta İstemcisi"
 
 #~ msgid "black"
 #~ msgstr "siyah"
