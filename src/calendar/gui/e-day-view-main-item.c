@@ -1252,7 +1252,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		cairo_line_to (cr, grid_x1 + E_DAY_VIEW_BAR_WIDTH - 1, grid_y2);
 		cairo_stroke (cr);
 
-		cairo_set_source_rgb (cr, 1, 1, 1);
+		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
 
 		cairo_rectangle (
 			cr, grid_x1 + 1, grid_y1,
