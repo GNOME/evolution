@@ -14,7 +14,7 @@
 	"tags": [ "devel" ],
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
-		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
+		"cxxflags": "-O2 -g -Wno-deprecated-declarations",
 		"prepend-path" : "/usr/lib/sdk/vala/bin/",
 		"prepend-ld-library-path" : "/usr/lib/sdk/vala/lib"
 	},
