@@ -142,7 +142,7 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 				description = g_strdup_printf ("%s:%d", hostname, g_srv_target_get_port (target));
 
 				lookup_result = e_config_lookup_result_simple_new (known_services[ii].kind,
-					known_services[ii].priority_base - PRIORITY_OFFSET,
+					known_services[ii].priority_base + PRIORITY_OFFSET,
 					/* consider mail configs complete */
 					known_services[ii].kind == E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE ||
 					known_services[ii].kind == E_CONFIG_LOOKUP_RESULT_MAIL_SEND,
