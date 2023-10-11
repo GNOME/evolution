@@ -216,12 +216,12 @@ e_web_view_update_spell_checking (EWebView *web_view,
 
 		languages = g_settings_get_strv (settings, "composer-spell-languages");
 
-		webkit_web_context_set_spell_checking_languages (web_context, (const gchar * const *) languages);
+		if (languages)
+			webkit_web_context_set_spell_checking_languages (web_context, (const gchar * const *) languages);
 		webkit_web_context_set_spell_checking_enabled (web_context, languages != NULL);
 
 		g_strfreev (languages);
 	} else {
-		webkit_web_context_set_spell_checking_languages (web_context, NULL);
 		webkit_web_context_set_spell_checking_enabled (web_context, FALSE);
 	}
 }
