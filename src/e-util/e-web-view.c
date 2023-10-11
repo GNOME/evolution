@@ -204,6 +204,39 @@ async_context_free (gpointer ptr)
 }
 
 static void
+e_web_view_update_spell_checking (EWebView *web_view,
+				  GSettings *settings)
+{
+	WebKitWebContext *web_context;
+
+	web_context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (web_view));
+
+	if (g_settings_get_boolean (settings, "composer-inline-spelling")) {
+		gchar **languages;
+
+		languages = g_settings_get_strv (settings, "composer-spell-languages");
+
+		webkit_web_context_set_spell_checking_languages (web_context, (const gchar * const *) languages);
+		webkit_web_context_set_spell_checking_enabled (web_context, languages != NULL);
+
+		g_strfreev (languages);
+	} else {
+		webkit_web_context_set_spell_checking_languages (web_context, NULL);
+		webkit_web_context_set_spell_checking_enabled (web_context, FALSE);
+	}
+}
+
+static void
+e_web_view_spell_settings_changed_cb (GSettings *settings,
+				      const gchar *key,
+				      gpointer user_data)
+{
+	EWebView *web_view = user_data;
+
+	e_web_view_update_spell_checking (web_view, settings);
+}
+
+static void
 action_copy_clipboard_cb (GtkAction *action,
                           EWebView *web_view)
 {
@@ -645,6 +678,10 @@ web_view_context_menu_cb (WebKitWebView *webkit_web_view,
 		return FALSE;
 
 	context = webkit_hit_test_result_get_context (hit_test_result);
+
+	/* Show the default menu for an editable */
+	if ((context & WEBKIT_HIT_TEST_RESULT_CONTEXT_EDITABLE) != 0)
+		return FALSE;
 
 	if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE) {
 		gchar *image_uri = NULL;
@@ -1691,6 +1728,14 @@ web_view_constructed (GObject *object)
 	webkit_user_content_manager_register_script_message_handler (manager, "elementClicked");
 	webkit_user_content_manager_register_script_message_handler (manager, "hasSelection");
 	webkit_user_content_manager_register_script_message_handler (manager, "needInputChanged");
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	g_signal_connect_object (settings, "changed::composer-inline-spelling",
+		G_CALLBACK (e_web_view_spell_settings_changed_cb), web_view, 0);
+	g_signal_connect_object (settings, "changed::composer-spell-languages",
+		G_CALLBACK (e_web_view_spell_settings_changed_cb), web_view, 0);
+	e_web_view_update_spell_checking (web_view, settings);
+	g_clear_object (&settings);
 }
 
 static void
