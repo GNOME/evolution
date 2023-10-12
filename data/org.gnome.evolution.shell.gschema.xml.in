@@ -162,6 +162,11 @@
       <_summary>Whether to use header bar in the application</_summary>
       <_description>When enabled, adds buttons to the header bar. This applies to dialogs as well. Changing the option requires application restart.</_description>
     </key>
+    <key name="icon-only-buttons-in-header-bar" type="b">
+      <default>false</default>
+      <_summary>Whether to use icon-only buttons in the header bar</_summary>
+      <_description>When enabled, uses icon-only buttons in the header bar. Otherwise some buttons can show also text when there's enough space.</_description>
+    </key>
     <key name="markdown-preview-beside-text" type="b">
       <default>false</default>
       <_summary>Whether the markdown editor show have live preview</_summary>

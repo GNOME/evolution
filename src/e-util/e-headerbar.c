@@ -8,6 +8,7 @@
 
 #include <gtk/gtk.h>
 
+#include "e-misc-utils.h"
 #include "e-headerbar-button.h"
 #include "e-headerbar.h"
 
@@ -29,6 +30,7 @@ struct _EHeaderBarPrivate {
 	gint allocated_width;
 	guint update_buttons_id;
 	guint queue_resize_id;
+	gboolean force_icon_only_buttons;
 };
 
 G_DEFINE_TYPE_WITH_CODE (EHeaderBar, e_header_bar, GTK_TYPE_HEADER_BAR,
@@ -112,115 +114,134 @@ header_bar_update_buttons (EHeaderBar *self)
 	if (!self->priv->priorities)
 		return;
 
-	/* space between the start_buttons and the end_buttons is the available width,
-	   including the window title */
+	if (self->priv->force_icon_only_buttons) {
+		for (ii = 0; ii < self->priv->priorities->len; ii++) {
+			PriorityBasket *bt = g_ptr_array_index (self->priv->priorities, ii);
+			GSList *link;
 
-	gtk_widget_get_allocation (self->priv->start_buttons, &allocation_start);
-	gtk_widget_get_allocation (self->priv->end_buttons, &allocation_end);
+			for (link = bt->widgets; link; link = g_slist_next (link)) {
+				GtkWidget *widget = link->data;
 
-	available_width = MAX (allocation_end.x + allocation_end.width - allocation_start.x
-		- MIN_TITLE_WIDTH - (2 * BUTTON_SPACING), 0);
-
-	for (ii = 0; ii < self->priv->priorities->len && available_width > 0; ii++) {
-		PriorityBasket *bt = g_ptr_array_index (self->priv->priorities, ii);
-		GSList *link;
-
-		for (link = bt->widgets; link && available_width > 0; link = g_slist_next (link)) {
-			GtkWidget *widget = link->data;
-
-			if (gtk_widget_is_visible (widget)) {
-				if (!E_IS_HEADER_BAR_BUTTON (widget)) {
-					gint minimum_width = 0;
-
-					gtk_widget_get_preferred_width (widget, &minimum_width, NULL);
-
-					if (minimum_width > 0)
-						available_width = MAX (available_width - minimum_width, 0);
-				}
-
-				available_width = MAX (available_width - BUTTON_SPACING, 0);
-			}
-		}
-	}
-
-	for (ii = 0; ii < self->priv->priorities->len; ii++) {
-		PriorityBasket *bt = g_ptr_array_index (self->priv->priorities, ii);
-		GSList *link, *labeled_widgets = NULL;
-
-		for (link = bt->widgets; link; link = g_slist_next (link)) {
-			GtkWidget *widget = link->data;
-
-			if (gtk_widget_is_visible (widget) && E_IS_HEADER_BAR_BUTTON (widget)) {
-				EHeaderBarButton *button = E_HEADER_BAR_BUTTON (widget);
-				gint labeled_width = -1, icon_only_width = -1;
-
-				e_header_bar_button_get_widths (button, &labeled_width, &icon_only_width);
-
-				if (labeled_width > 0 && icon_only_width > 0) {
-					if (available_width >= labeled_width) {
-						available_width -= labeled_width;
-						labeled_widgets = g_slist_prepend (labeled_widgets, button);
-					} else {
-						available_width -= icon_only_width;
-						if (!e_header_bar_button_get_show_icon_only (button))
-							icon_only_buttons = g_slist_prepend (icon_only_buttons, button);
+				if (gtk_widget_is_visible (widget) && E_IS_HEADER_BAR_BUTTON (widget)) {
+					EHeaderBarButton *button = E_HEADER_BAR_BUTTON (widget);
+					if (!e_header_bar_button_get_show_icon_only (button)) {
+						e_header_bar_button_set_show_icon_only (button, TRUE);
+						changed = TRUE;
 					}
 				}
 			}
 		}
+	} else {
+		/* space between the start_buttons and the end_buttons is the available width,
+		   including the window title */
 
-		if (labeled_widgets)
-			labeled_groups = g_slist_prepend (labeled_groups, g_slist_reverse (labeled_widgets));
-	}
+		gtk_widget_get_allocation (self->priv->start_buttons, &allocation_start);
+		gtk_widget_get_allocation (self->priv->end_buttons, &allocation_end);
 
-	if (available_width < 0 && labeled_groups) {
-		GSList *lglink;
+		available_width = MAX (allocation_end.x + allocation_end.width - allocation_start.x
+			- MIN_TITLE_WIDTH - (2 * BUTTON_SPACING), 0);
 
-		for (lglink = labeled_groups; lglink && available_width < 0; lglink = g_slist_next (lglink)) {
-			GSList *labeled_widgets = lglink->data, *lwlink;
+		for (ii = 0; ii < self->priv->priorities->len && available_width > 0; ii++) {
+			PriorityBasket *bt = g_ptr_array_index (self->priv->priorities, ii);
+			GSList *link;
 
-			for (lwlink = labeled_widgets; lwlink && available_width < 0; lwlink = g_slist_next (lwlink)) {
-				EHeaderBarButton *button = lwlink->data;
-				gint labeled_width = -1, icon_only_width = -1;
+			for (link = bt->widgets; link && available_width > 0; link = g_slist_next (link)) {
+				GtkWidget *widget = link->data;
 
-				e_header_bar_button_get_widths (button, &labeled_width, &icon_only_width);
-				icon_only_buttons = g_slist_prepend (icon_only_buttons, button);
-				lwlink->data = NULL;
-				available_width += labeled_width - icon_only_width;
-			}
-		}
-	}
+				if (gtk_widget_is_visible (widget)) {
+					if (!E_IS_HEADER_BAR_BUTTON (widget)) {
+						gint minimum_width = 0;
 
-	if (icon_only_buttons) {
-		GSList *link;
+						gtk_widget_get_preferred_width (widget, &minimum_width, NULL);
 
-		changed = TRUE;
+						if (minimum_width > 0)
+							available_width = MAX (available_width - minimum_width, 0);
+					}
 
-		for (link = icon_only_buttons; link; link = g_slist_next (link)) {
-			EHeaderBarButton *button = link->data;
-			e_header_bar_button_set_show_icon_only (button, TRUE);
-		}
-
-		g_slist_free (icon_only_buttons);
-	}
-
-	if (labeled_groups) {
-		GSList *lglink;
-
-		for (lglink = labeled_groups; lglink; lglink = g_slist_next (lglink)) {
-			GSList *labeled_widgets = lglink->data, *lwlink;
-
-			for (lwlink = labeled_widgets; lwlink; lwlink = g_slist_next (lwlink)) {
-				EHeaderBarButton *button = lwlink->data;
-
-				if (button && e_header_bar_button_get_show_icon_only (button)) {
-					e_header_bar_button_set_show_icon_only (button, FALSE);
-					changed = TRUE;
+					available_width = MAX (available_width - BUTTON_SPACING, 0);
 				}
 			}
 		}
 
-		g_slist_free_full (labeled_groups, (GDestroyNotify) g_slist_free);
+		for (ii = 0; ii < self->priv->priorities->len; ii++) {
+			PriorityBasket *bt = g_ptr_array_index (self->priv->priorities, ii);
+			GSList *link, *labeled_widgets = NULL;
+
+			for (link = bt->widgets; link; link = g_slist_next (link)) {
+				GtkWidget *widget = link->data;
+
+				if (gtk_widget_is_visible (widget) && E_IS_HEADER_BAR_BUTTON (widget)) {
+					EHeaderBarButton *button = E_HEADER_BAR_BUTTON (widget);
+					gint labeled_width = -1, icon_only_width = -1;
+
+					e_header_bar_button_get_widths (button, &labeled_width, &icon_only_width);
+
+					if (labeled_width > 0 && icon_only_width > 0) {
+						if (available_width >= labeled_width) {
+							available_width -= labeled_width;
+							labeled_widgets = g_slist_prepend (labeled_widgets, button);
+						} else {
+							available_width -= icon_only_width;
+							if (!e_header_bar_button_get_show_icon_only (button))
+								icon_only_buttons = g_slist_prepend (icon_only_buttons, button);
+						}
+					}
+				}
+			}
+
+			if (labeled_widgets)
+				labeled_groups = g_slist_prepend (labeled_groups, g_slist_reverse (labeled_widgets));
+		}
+
+		if (available_width < 0 && labeled_groups) {
+			GSList *lglink;
+
+			for (lglink = labeled_groups; lglink && available_width < 0; lglink = g_slist_next (lglink)) {
+				GSList *labeled_widgets = lglink->data, *lwlink;
+
+				for (lwlink = labeled_widgets; lwlink && available_width < 0; lwlink = g_slist_next (lwlink)) {
+					EHeaderBarButton *button = lwlink->data;
+					gint labeled_width = -1, icon_only_width = -1;
+
+					e_header_bar_button_get_widths (button, &labeled_width, &icon_only_width);
+					icon_only_buttons = g_slist_prepend (icon_only_buttons, button);
+					lwlink->data = NULL;
+					available_width += labeled_width - icon_only_width;
+				}
+			}
+		}
+
+		if (icon_only_buttons) {
+			GSList *link;
+
+			changed = TRUE;
+
+			for (link = icon_only_buttons; link; link = g_slist_next (link)) {
+				EHeaderBarButton *button = link->data;
+				e_header_bar_button_set_show_icon_only (button, TRUE);
+			}
+
+			g_slist_free (icon_only_buttons);
+		}
+
+		if (labeled_groups) {
+			GSList *lglink;
+
+			for (lglink = labeled_groups; lglink; lglink = g_slist_next (lglink)) {
+				GSList *labeled_widgets = lglink->data, *lwlink;
+
+				for (lwlink = labeled_widgets; lwlink; lwlink = g_slist_next (lwlink)) {
+					EHeaderBarButton *button = lwlink->data;
+
+					if (button && e_header_bar_button_get_show_icon_only (button)) {
+						e_header_bar_button_set_show_icon_only (button, FALSE);
+						changed = TRUE;
+					}
+				}
+			}
+
+			g_slist_free_full (labeled_groups, (GDestroyNotify) g_slist_free);
+		}
 	}
 
 	if (changed && !self->priv->queue_resize_id)
@@ -249,6 +270,22 @@ header_bar_schedule_update_buttons (EHeaderBar *self)
 		return;
 
 	self->priv->update_buttons_id = g_idle_add (header_bar_update_buttons_idle_cb, self);
+}
+
+static void
+header_bar_icon_only_buttons_setting_changed_cb (GSettings *settings,
+						 const gchar *key,
+						 gpointer user_data)
+{
+	EHeaderBar *self = user_data;
+	gboolean new_value;
+
+	new_value = g_settings_get_boolean (settings, "icon-only-buttons-in-header-bar");
+
+	if ((new_value ? 1 : 0) != (self->priv->force_icon_only_buttons ? 1 : 0)) {
+		self->priv->force_icon_only_buttons = new_value;
+		header_bar_schedule_update_buttons (self);
+	}
 }
 
 static void
@@ -338,9 +375,16 @@ static void
 header_bar_constructed (GObject *object)
 {
 	EHeaderBar *self = E_HEADER_BAR (object);
+	GSettings *settings;
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_header_bar_parent_class)->constructed (object);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	self->priv->force_icon_only_buttons = g_settings_get_boolean (settings, "icon-only-buttons-in-header-bar");
+	g_signal_connect_object (settings, "changed::icon-only-buttons-in-header-bar",
+		G_CALLBACK (header_bar_icon_only_buttons_setting_changed_cb), self, 0);
+	g_clear_object (&settings);
 
 	self->priv->start_buttons = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, BUTTON_SPACING);
 	gtk_header_bar_pack_start (GTK_HEADER_BAR (self), self->priv->start_buttons);

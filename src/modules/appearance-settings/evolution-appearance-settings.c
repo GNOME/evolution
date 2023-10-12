@@ -291,6 +291,24 @@ e_appearance_settings_page_new (EPreferencesWindow *window)
 	gtk_grid_attach (grid, widget, 0, row, 2, 1);
 	row++;
 
+	widget = gtk_check_button_new_with_mnemonic (_("Use buttons with _icons only"));
+	g_object_set (widget,
+		"margin-start", 24,
+		NULL);
+
+	e_binding_bind_property (
+		main_radio, "active",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	gtk_grid_attach (grid, widget, 0, row, 2, 1);
+	row++;
+
+	g_settings_bind (
+		settings, "icon-only-buttons-in-header-bar",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	/* Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard" */
 	widget = gtk_radio_button_new_with_mnemonic (NULL, _("_Standard"));
 	g_object_set (widget,
