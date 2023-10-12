@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-09-22 08:27+0000\n"
-"PO-Revision-Date: 2023-09-25 05:45+0200\n"
+"POT-Creation-Date: 2023-10-12 06:17+0000\n"
+"PO-Revision-Date: 2023-10-12 15:36+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -3173,7 +3173,7 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/main.c:467
+#: ../src/shell/e-shell.c:1999
 msgid "Start in offline mode"
 msgstr ""
 
@@ -3344,20 +3344,30 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:48
+msgid "Whether to use icon-only buttons in the header bar"
+msgstr "გამოვიყენო მხოლოდ-ხატულიანი ღილაკები თავსართის ზოლში, თუ არა"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:49
+msgid ""
+"When enabled, uses icon-only buttons in the header bar. Otherwise some "
+"buttons can show also text when there's enough space."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:50
 msgid "Whether the markdown editor show have live preview"
 msgstr ""
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:49
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:51
 msgid ""
 "When enabled, the markdown editor shows a preview beside the editing text "
 "and updates it as the user types."
 msgstr ""
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:50
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:52
 msgid "Whether to prefer symbolic icons"
 msgstr ""
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:51
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:53
 msgid ""
 "Controls whether the application should prefer symbolic icons or not. The "
 "'auto' value detects whether the icon theme is using symbolic icons. Note "
@@ -4147,10 +4157,10 @@ msgstr ""
 #: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4085
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4130
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4293
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4299
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4241,7 +4251,7 @@ msgstr "გამართვა"
 #: ../src/e-util/e-attachment-store.c:845
 #: ../src/e-util/e-attachment-store.c:852
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
-#: ../src/e-util/e-webdav-browser.c:2663 ../src/e-util/e-web-view.c:4085
+#: ../src/e-util/e-webdav-browser.c:2663 ../src/e-util/e-web-view.c:4130
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:865
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
@@ -4716,7 +4726,7 @@ msgstr "და_ხმარება"
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418
 #: ../src/shell/e-shell-content.c:643 ../src/shell/e-shell-content.c:749
-#: ../src/shell/main.c:313 ../src/smime/gui/certificate-manager.c:1278
+#: ../src/shell/main.c:107 ../src/smime/gui/certificate-manager.c:1278
 #: ../src/smime/gui/e-cert-selector.c:233 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "_დიახ"
@@ -5013,17 +5023,17 @@ msgid "Copy _Email Address"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:152
-#: ../src/e-util/e-web-view.c:431
+#: ../src/e-util/e-web-view.c:464
 msgid "Copy the email address to the clipboard"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:157
-#: ../src/e-util/e-web-view.c:443
+#: ../src/e-util/e-web-view.c:476
 msgid "_Send New Message To…"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:159
-#: ../src/e-util/e-web-view.c:445
+#: ../src/e-util/e-web-view.c:478
 msgid "Send a mail message to this address"
 msgstr ""
 
@@ -6876,7 +6886,7 @@ msgstr ""
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
 #: ../src/e-util/e-misc-utils.c:4925 ../src/e-util/e-text.c:566
-#: ../src/e-util/e-web-view.c:4271
+#: ../src/e-util/e-web-view.c:4316
 msgid "…"
 msgstr "…"
 
@@ -6934,7 +6944,7 @@ msgstr "კატეგორიები:"
 msgid "High"
 msgstr "მაღალი"
 
-#: ../src/calendar/gui/comp-util.c:2794 ../src/calendar/gui/e-cal-model.c:1888
+#: ../src/calendar/gui/comp-util.c:2794 ../src/calendar/gui/e-cal-model.c:1891
 #: ../src/calendar/gui/e-task-table.c:476
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:340
@@ -7526,42 +7536,42 @@ msgstr "ტიპი"
 msgid "Unknown"
 msgstr "უცნობია"
 
-#: ../src/calendar/gui/e-cal-model.c:1374 ../src/calendar/gui/e-cal-ops.c:633
+#: ../src/calendar/gui/e-cal-model.c:1377 ../src/calendar/gui/e-cal-ops.c:633
 #: ../src/calendar/gui/e-cal-ops.c:1272
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:390
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:1485 ../src/calendar/gui/e-cal-ops.c:195
+#: ../src/calendar/gui/e-cal-model.c:1488 ../src/calendar/gui/e-cal-ops.c:195
 #: ../src/calendar/gui/e-cal-ops.c:1389
 msgid "Creating an event"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:1489 ../src/calendar/gui/e-cal-ops.c:199
+#: ../src/calendar/gui/e-cal-model.c:1492 ../src/calendar/gui/e-cal-ops.c:199
 #: ../src/calendar/gui/e-cal-ops.c:1393
 msgid "Creating a memo"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:1493 ../src/calendar/gui/e-cal-ops.c:203
+#: ../src/calendar/gui/e-cal-model.c:1496 ../src/calendar/gui/e-cal-ops.c:203
 #: ../src/calendar/gui/e-cal-ops.c:1397
 msgid "Creating a task"
 msgstr "დავალების შექმნა"
 
-#: ../src/calendar/gui/e-cal-model.c:1890
+#: ../src/calendar/gui/e-cal-model.c:1893
 msgid "Recurring"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:1892
+#: ../src/calendar/gui/e-cal-model.c:1895
 msgid "Assigned"
 msgstr "მინიჭებულია"
 
-#: ../src/calendar/gui/e-cal-model.c:1895
+#: ../src/calendar/gui/e-cal-model.c:1898
 #: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "Yes"
 msgstr "დიახ"
 
-#: ../src/calendar/gui/e-cal-model.c:1895
+#: ../src/calendar/gui/e-cal-model.c:1898
 #: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "No"
 msgstr ""
@@ -7798,14 +7808,14 @@ msgstr ""
 #: ../src/e-util/e-misc-utils.c:4235 ../src/e-util/e-misc-utils.c:4249
 #: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2922
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3577
-#: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4085
-#: ../src/mail/em-composer-utils.c:4108 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4091
+#: ../src/mail/em-composer-utils.c:4114 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:444
 #: ../src/plugins/face/face.c:175
-#: ../src/plugins/mail-to-task/mail-to-task.c:996 ../src/shell/e-shell.c:1258
-#: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:353
+#: ../src/plugins/mail-to-task/mail-to-task.c:996 ../src/shell/e-shell.c:1234
+#: ../src/shell/e-shell.c:1259 ../src/smime/gui/certificate-manager.c:353
 #, c-format
 msgid "Unknown error"
 msgstr "უცნობი შეცდომა"
@@ -8852,15 +8862,15 @@ msgstr "მიმდინარე ფანჯრის დახურვა"
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2195 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
-#: ../src/e-util/e-web-view.c:470 ../src/mail/e-mail-browser.c:173
+#: ../src/e-util/e-web-view.c:503 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:951
 msgid "_Copy"
 msgstr "კოპირება"
 
 #: ../src/calendar/gui/e-comp-editor.c:2197 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
-#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:472
-#: ../src/e-util/e-web-view.c:2124 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:505
+#: ../src/e-util/e-web-view.c:2169 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:953
 msgid "Copy the selection"
 msgstr "მონიშნულის კოპირება"
@@ -8874,7 +8884,7 @@ msgstr "ამო_ჭრა"
 
 #: ../src/calendar/gui/e-comp-editor.c:2204 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2133
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2178
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr ""
@@ -8898,7 +8908,7 @@ msgstr "_ჩასმა"
 
 #: ../src/calendar/gui/e-comp-editor.c:2225 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2142
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2187
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr ""
@@ -8919,7 +8929,7 @@ msgid "Pre_view…"
 msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor.c:2244 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:487
+#: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:520
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1063
 msgid "Select _All"
 msgstr "ყველაფრის _მონიშვნა"
@@ -13033,15 +13043,15 @@ msgstr ""
 msgid "Color:"
 msgstr "ფერი:"
 
-#: ../src/e-util/e-cal-source-config.c:420
+#: ../src/e-util/e-cal-source-config.c:423
 msgid "Copy calendar contents locally for offline operation"
 msgstr ""
 
-#: ../src/e-util/e-cal-source-config.c:424
+#: ../src/e-util/e-cal-source-config.c:427
 msgid "Copy task list contents locally for offline operation"
 msgstr ""
 
-#: ../src/e-util/e-cal-source-config.c:428
+#: ../src/e-util/e-cal-source-config.c:431
 msgid "Copy memo list contents locally for offline operation"
 msgstr ""
 
@@ -14376,15 +14386,15 @@ msgstr "+4"
 msgid "Copy _Link Location"
 msgstr "ბმულის _მდებარეობის კოპირება"
 
-#: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:411
+#: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:444
 msgid "Copy the link to the clipboard"
 msgstr "ბმულის ბაფერში კოპირება"
 
-#: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:419
+#: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:452
 msgid "_Open Link in Browser"
 msgstr "ბმულის _ნაგულისხმევ ვებ ბრაუზერში გახსნა"
 
-#: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:421
+#: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:454
 msgid "Open the link in a web browser"
 msgstr "ბმულის ნაგულისხმევ ვებ ბრაუზერში გახსნა"
 
@@ -16378,66 +16388,66 @@ msgstr ""
 msgid "Create Collectio_n"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:409
+#: ../src/e-util/e-web-view.c:442
 msgid "_Copy Link Location"
 msgstr "_ბმულის კოპირება"
 
-#: ../src/e-util/e-web-view.c:429
+#: ../src/e-util/e-web-view.c:462
 msgid "_Copy Email Address"
 msgstr "_ელ-ფოსტის მისამართის კოპირება"
 
-#: ../src/e-util/e-web-view.c:436
+#: ../src/e-util/e-web-view.c:469
 msgid "Copy _Raw Email Address"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:438
+#: ../src/e-util/e-web-view.c:471
 msgid "Copy the raw email address to the clipboard"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:453
+#: ../src/e-util/e-web-view.c:486
 msgid "_Copy Image"
 msgstr "გამოსახულების _კოპირება"
 
-#: ../src/e-util/e-web-view.c:455
+#: ../src/e-util/e-web-view.c:488
 msgid "Copy the image to the clipboard"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:460
+#: ../src/e-util/e-web-view.c:493
 msgid "Save _Image…"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:462
+#: ../src/e-util/e-web-view.c:495
 msgid "Save the image to a file"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:477 ../src/mail/e-mail-browser.c:201
+#: ../src/e-util/e-web-view.c:510 ../src/mail/e-mail-browser.c:201
 #: ../src/mail/e-mail-reader.c:3003
 msgid "Search _Web…"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:479 ../src/mail/e-mail-browser.c:203
+#: ../src/e-util/e-web-view.c:512 ../src/mail/e-mail-browser.c:203
 #: ../src/mail/e-mail-reader.c:3005
 msgid "Search the Web with the selected text"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:489 ../src/e-util/e-web-view.c:2146
+#: ../src/e-util/e-web-view.c:522 ../src/e-util/e-web-view.c:2191
 msgid "Select all text and images"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:3895
+#: ../src/e-util/e-web-view.c:3940
 msgid "Copying image to clipboard"
 msgstr "გამოსახულების ბუფერში კოპირება"
 
-#: ../src/e-util/e-web-view.c:4083
+#: ../src/e-util/e-web-view.c:4128
 msgid "Save Image"
 msgstr "გამოსახულების შენახვა"
 
-#: ../src/e-util/e-web-view.c:4120
+#: ../src/e-util/e-web-view.c:4165
 #, c-format
 msgid "Saving image to “%s”"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:4275
+#: ../src/e-util/e-web-view.c:4320
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr ""
@@ -17191,7 +17201,7 @@ msgid "Do Not Quote"
 msgstr ""
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4423
+#: ../src/mail/em-composer-utils.c:4429
 msgid "Use global setting"
 msgstr ""
 
@@ -17223,12 +17233,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr ""
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4392 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4398 ../src/mail/mail-config.ui.h:24
 msgid "Start _typing at the bottom"
 msgstr ""
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4396 ../src/mail/mail-config.ui.h:25
+#: ../src/mail/em-composer-utils.c:4402 ../src/mail/mail-config.ui.h:25
 msgid "_Keep signature above the original message"
 msgstr ""
 
@@ -18396,7 +18406,7 @@ msgstr ""
 msgid "Checks selected messages for duplicates"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2954 ../src/mail/em-composer-utils.c:4351
+#: ../src/mail/e-mail-reader.c:2954 ../src/mail/em-composer-utils.c:4357
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:467
@@ -18421,7 +18431,7 @@ msgstr ""
 msgid "Reply to the mailing list, or to all recipients"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2975 ../src/mail/em-composer-utils.c:4346
+#: ../src/mail/e-mail-reader.c:2975 ../src/mail/em-composer-utils.c:4352
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:474
 msgid "Reply to _List"
@@ -18804,99 +18814,99 @@ msgstr ""
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2158
+#: ../src/mail/em-composer-utils.c:2164
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:2164
+#: ../src/mail/em-composer-utils.c:2170
 msgid "-------- Forwarded Message --------"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:2169
+#: ../src/mail/em-composer-utils.c:2175
 msgid "-----Original Message-----"
 msgstr ""
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2999
+#: ../src/mail/em-composer-utils.c:3005
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:3654
+#: ../src/mail/em-composer-utils.c:3660
 msgid "an unknown sender"
 msgstr "უცნობი გამომგზავნი"
 
-#: ../src/mail/em-composer-utils.c:4291
+#: ../src/mail/em-composer-utils.c:4297
 msgid "Alternative Reply"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4294
+#: ../src/mail/em-composer-utils.c:4300
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_პასუხი"
 
-#: ../src/mail/em-composer-utils.c:4312
+#: ../src/mail/em-composer-utils.c:4318
 msgid "Recipients:"
 msgstr "მიმღები:"
 
-#: ../src/mail/em-composer-utils.c:4341
+#: ../src/mail/em-composer-utils.c:4347
 msgid "Reply to _Sender"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4364
+#: ../src/mail/em-composer-utils.c:4370
 msgid "Reply style:"
 msgstr ""
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4373
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:347
+#: ../src/mail/em-composer-utils.c:4379
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_ნაგულისხმები"
 
-#: ../src/mail/em-composer-utils.c:4377
+#: ../src/mail/em-composer-utils.c:4383
 msgid "Attach_ment"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4381
+#: ../src/mail/em-composer-utils.c:4387
 msgid "Inline (_Outlook style)"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4385
+#: ../src/mail/em-composer-utils.c:4391
 msgid "_Quote"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4389
+#: ../src/mail/em-composer-utils.c:4395
 msgid "Do _Not Quote"
 msgstr ""
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4410
+#: ../src/mail/em-composer-utils.c:4416
 msgid "_Format message in"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4432
+#: ../src/mail/em-composer-utils.c:4438
 msgid "Apply t_emplate"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4445
+#: ../src/mail/em-composer-utils.c:4451
 msgid "Preserve original message S_ubject"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4511
+#: ../src/mail/em-composer-utils.c:4517
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] ""
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:5005
+#: ../src/mail/em-composer-utils.c:5011
 msgid "Posting destination"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:5010
+#: ../src/mail/em-composer-utils.c:5016
 msgid "Choose folders to post the message to."
 msgstr ""
 
@@ -19070,7 +19080,7 @@ msgid "Label"
 msgstr "ჭდე"
 
 #: ../src/mail/em-folder-properties.c:1431
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:586
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:604
 msgid "Appearance"
 msgstr "გარემოს იერსახე"
 
@@ -21640,68 +21650,72 @@ msgstr ""
 msgid "_GNOME"
 msgstr ""
 
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:294
+msgid "Use buttons with _icons only"
+msgstr ""
+
 #. Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:295
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:313
 msgid "_Standard"
 msgstr "_სტანდარტული"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:323
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:341
 msgid "Toolbar Icon Size"
 msgstr "ხელსაწყოების ზოლის ხატულის ზომა"
 
 #. Translators: this is in a sense of "Look & Feel of the icons"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:334
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:352
 msgid "Icons Look"
 msgstr ""
 
 #. Translators: This is for "Icons Look: Autodetect"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:359
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:377
 msgid "Aut_odetect"
 msgstr ""
 
 #. Translators: This is for "Toolbar Icon Size: Small"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:372
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:390
 msgid "Sm_all"
 msgstr "_პატარა"
 
 #. Translators: This is for "Icons Look: Prefer symbolic"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:383
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:401
 msgid "_Prefer symbolic"
 msgstr ""
 
 #. Translators: This is for "Toolbar Icon Size: Large"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:395
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:413
 msgid "_Large"
 msgstr "_დიდი"
 
 #. Translators: This is for "Icons Look: Prefer regular"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:406
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:424
 msgid "Prefer _regular"
 msgstr ""
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:481
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:499
 msgid "Layout"
 msgstr "განლაგება"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:492
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:510
 msgid "Show M_enu Bar"
 msgstr ""
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:505
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:523
 #: ../src/shell/e-shell-window-actions.c:1225
 msgid "Show _Tool Bar"
 msgstr ""
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:518
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:536
 #: ../src/shell/e-shell-window-actions.c:1201
 msgid "Show Side _Bar"
 msgstr ""
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:531
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:549
 msgid "Show Stat_us Bar"
 msgstr ""
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:544
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:562
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:312
 msgid "Note: Some changes will not take effect until restart"
 msgstr ""
@@ -27608,28 +27622,82 @@ msgstr "_ახალ შაბლონად შენახვა"
 msgid "Save as Template"
 msgstr "შაბლონად შენახვა"
 
-#: ../src/shell/e-shell.c:383
+#: ../src/shell/e-shell.c:362
 msgid "Preparing to go offline…"
 msgstr ""
 
-#: ../src/shell/e-shell.c:412
+#: ../src/shell/e-shell.c:391
 msgid "Preparing to go online…"
 msgstr ""
 
-#: ../src/shell/e-shell.c:523
+#: ../src/shell/e-shell.c:499
 msgid "Preparing to quit"
 msgstr ""
 
-#: ../src/shell/e-shell.c:529
+#: ../src/shell/e-shell.c:505
 msgid "Preparing to quit…"
 msgstr ""
 
-#: ../src/shell/e-shell.c:1111
+#: ../src/shell/e-shell.c:1087
 msgid "Open _Settings"
 msgstr ""
 
-#: ../src/shell/e-shell.c:1320
+#: ../src/shell/e-shell.c:1296
 msgid "Credentials are required to connect to the destination host."
+msgstr ""
+
+#. Translators: Do NOT translate the five component
+#. * names, they MUST remain in English!
+#: ../src/shell/e-shell.c:1993
+msgid ""
+"Start Evolution showing the specified component. Available options are "
+"“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
+msgstr ""
+
+#: ../src/shell/e-shell.c:1997
+msgid "Apply the given geometry to the main window"
+msgstr ""
+
+#: ../src/shell/e-shell.c:2001
+msgid "Start in online mode"
+msgstr ""
+
+#: ../src/shell/e-shell.c:2003
+msgid "Ignore network availability"
+msgstr ""
+
+#: ../src/shell/e-shell.c:2006
+msgid "Forcibly shut down Evolution"
+msgstr ""
+
+#: ../src/shell/e-shell.c:2009
+msgid "Disable loading of any plugins."
+msgstr ""
+
+#: ../src/shell/e-shell.c:2011
+msgid "Disable preview pane of Mail, Contacts and Tasks."
+msgstr ""
+
+#: ../src/shell/e-shell.c:2015
+msgid "Import URIs or filenames given as rest of arguments."
+msgstr ""
+
+#: ../src/shell/e-shell.c:2017
+msgid "Request a running Evolution process to quit"
+msgstr ""
+
+#: ../src/shell/e-shell.c:2127
+#, c-format
+msgid ""
+"%s: --online and --offline cannot be used together.\n"
+"  Run “%s --help” for more information.\n"
+msgstr ""
+
+#: ../src/shell/e-shell.c:2133
+#, c-format
+msgid ""
+"%s: --force-online and --offline cannot be used together.\n"
+"  Run “%s --help” for more information.\n"
 msgstr ""
 
 #: ../src/shell/e-shell-content.c:702 ../src/shell/e-shell-content.c:703
@@ -27998,7 +28066,7 @@ msgid "%s — Evolution"
 msgstr "%s — Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../src/shell/main.c:328
+#: ../src/shell/main.c:122
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -28019,79 +28087,21 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 
-#: ../src/shell/main.c:353
+#: ../src/shell/main.c:147
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
 
-#: ../src/shell/main.c:359
+#: ../src/shell/main.c:153
 msgid "Do not tell me again"
 msgstr ""
 
-#. Translators: Do NOT translate the five component
-#. * names, they MUST remain in English!
-#: ../src/shell/main.c:461
-msgid ""
-"Start Evolution showing the specified component. Available options are "
-"“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
-msgstr ""
-
-#: ../src/shell/main.c:465
-msgid "Apply the given geometry to the main window"
-msgstr ""
-
-#: ../src/shell/main.c:469
-msgid "Start in online mode"
-msgstr ""
-
-#: ../src/shell/main.c:471
-msgid "Ignore network availability"
-msgstr ""
-
-#: ../src/shell/main.c:474
-msgid "Forcibly shut down Evolution"
-msgstr ""
-
-#: ../src/shell/main.c:477
-msgid "Disable loading of any plugins."
-msgstr ""
-
-#: ../src/shell/main.c:479
-msgid "Disable preview pane of Mail, Contacts and Tasks."
-msgstr ""
-
-#: ../src/shell/main.c:483
-msgid "Import URIs or filenames given as rest of arguments."
-msgstr ""
-
-#: ../src/shell/main.c:485
-msgid "Request a running Evolution process to quit"
-msgstr ""
-
-#: ../src/shell/main.c:567
+#: ../src/shell/main.c:241
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
 "System error: %s"
-msgstr ""
-
-#: ../src/shell/main.c:636 ../src/shell/main.c:641
-msgid "— The Evolution PIM and Email Client"
-msgstr ""
-
-#: ../src/shell/main.c:697
-#, c-format
-msgid ""
-"%s: --online and --offline cannot be used together.\n"
-"  Run “%s --help” for more information.\n"
-msgstr ""
-
-#: ../src/shell/main.c:703
-#, c-format
-msgid ""
-"%s: --force-online and --offline cannot be used together.\n"
-"  Run “%s --help” for more information.\n"
 msgstr ""
 
 #: ../src/shell/shell.error.xml.h:1
