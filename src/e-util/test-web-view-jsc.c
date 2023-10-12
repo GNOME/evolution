@@ -3162,6 +3162,9 @@ test_convert_to_plain_links_none (TestFixture *fixture)
 		"before Mail the User after\n"
 		"before https GNOME after\n"
 		"before http GNOME after\n",
+		71 },
+	/* 8 */ { HTML ("<div>before <a href='https://gnome.org/#%C3%A4bc'>https://gnome.org/#äbc</a> after</div>"),
+		"before https://gnome.org/#äbc after\n",
 		71 }
 	};
 
@@ -3276,6 +3279,9 @@ test_convert_to_plain_links_inline (TestFixture *fixture)
 		"before Mail the User after\n"
 		"before https GNOME <https://gnome.org/> after\n"
 		"before http GNOME <http://gnome.org/> after\n",
+		71 },
+	/* 8 */ { HTML ("<div>before <a href='https://gnome.org/#%C3%A4bc'>https://gnome.org/#äbc</a> after</div>"),
+		"before https://gnome.org/#äbc after\n",
 		71 }
 	};
 
@@ -3428,6 +3434,9 @@ test_convert_to_plain_links_reference (TestFixture *fixture)
 		"\n"
 		"[1] GNOME http://gnome.org/\n"
 		"[2] https GNOME https://gnome.org/\n",
+		40 },
+	/* 8 */ { HTML ("<div>before <a href='https://gnome.org/#%C3%A4bc'>https://gnome.org/#äbc</a> after</div>"),
+		"before https://gnome.org/#äbc after\n",
 		40 }
 	};
 
@@ -3580,6 +3589,9 @@ test_convert_to_plain_links_reference_without_label (TestFixture *fixture)
 		"\n"
 		"[1] http://gnome.org/\n"
 		"[2] https://gnome.org/\n",
+		40 },
+	/* 8 */ { HTML ("<div>before <a href='https://gnome.org/#%C3%A4bc'>https://gnome.org/#äbc</a> after</div>"),
+		"before https://gnome.org/#äbc after\n",
 		40 }
 	};
 

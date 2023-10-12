@@ -850,7 +850,9 @@ test_markdown_convert_to_plain_text_links_none (void)
 		"before GNOME after\n"
 		"before Mail the User after\n"
 		"before https GNOME after\n"
-		"before http GNOME after\n" }
+		"before http GNOME after\n" },
+	/* 8 */ { HTML ("<div>before <a href='https://gnome.org/#%C3%A4bc'>https://gnome.org/#äbc</a> after</div>"),
+		"before https://gnome.org/#äbc after\n" }
 	};
 
 	#undef HTML
@@ -952,7 +954,9 @@ test_markdown_convert_to_plain_text_links_inline (void)
 		"before GNOME <http://gnome.org/> after\n"
 		"before Mail the User after\n"
 		"before https GNOME <https://gnome.org> after\n"
-		"before http GNOME <http://gnome.org/> after\n" }
+		"before http GNOME <http://gnome.org/> after\n" },
+	/* 8 */ { HTML ("<div>before <a href='https://gnome.org/#%C3%A4bc'>https://gnome.org/#äbc</a> after</div>"),
+		"before https://gnome.org/#äbc after\n" }
 	};
 
 	#undef HTML
@@ -1090,7 +1094,9 @@ test_markdown_convert_to_plain_text_links_reference (void)
 		"before http GNOME [1] after\n"
 		"\n"
 		"[1] GNOME http://gnome.org/\n"
-		"[2] https GNOME https://gnome.org\n" }
+		"[2] https GNOME https://gnome.org\n" },
+	/* 8 */ { HTML ("<div>before <a href='https://gnome.org/#%C3%A4bc'>https://gnome.org/#äbc</a> after</div>"),
+		"before https://gnome.org/#äbc after\n" }
 	};
 
 	#undef HTML
@@ -1228,7 +1234,9 @@ test_markdown_convert_to_plain_text_links_reference_without_label (void)
 		"before http GNOME [1] after\n"
 		"\n"
 		"[1] http://gnome.org/\n"
-		"[2] https://gnome.org\n" }
+		"[2] https://gnome.org\n" },
+	/* 8 */ { HTML ("<div>before <a href='https://gnome.org/#%C3%A4bc'>https://gnome.org/#äbc</a> after</div>"),
+		"before https://gnome.org/#äbc after\n" }
 	};
 
 	#undef HTML

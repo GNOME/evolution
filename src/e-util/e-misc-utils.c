@@ -5104,6 +5104,7 @@ e_util_links_similar (const gchar *href1,
 		      const gchar *href2)
 {
 	gsize href1_len, href2_len;
+	gboolean similar;
 
 	if (!href1 || !*href1 || !href2 || !*href2)
 		return FALSE;
@@ -5114,12 +5115,40 @@ e_util_links_similar (const gchar *href1,
 	href1_len = strlen (href1);
 	href2_len = strlen (href2);
 
-	return (href1_len + 1 == href2_len &&
+	similar = (href1_len + 1 == href2_len &&
 		g_str_has_prefix (href2, href1) &&
 		href2[href2_len - 1] == '/') ||
 	       (href1_len == href2_len + 1 &&
 		g_str_has_prefix (href1, href2) &&
 		href1[href1_len - 1] == '/');
+
+	if (!similar && (strchr (href1, '%') || strchr (href2, '%'))) {
+		gchar *decoded_href1, *decoded_href2;
+
+		decoded_href1 = g_uri_unescape_string (href1, NULL);
+		decoded_href2 = g_uri_unescape_string (href2, NULL);
+
+		if (decoded_href1 && decoded_href2) {
+			similar = g_ascii_strcasecmp (decoded_href1, decoded_href2) == 0;
+
+			if (!similar) {
+				href1_len = strlen (decoded_href1);
+				href2_len = strlen (decoded_href2);
+
+				similar = (href1_len + 1 == href2_len &&
+					g_str_has_prefix (decoded_href2, decoded_href1) &&
+					decoded_href2[href2_len - 1] == '/') ||
+				       (href1_len == href2_len + 1 &&
+					g_str_has_prefix (decoded_href1, decoded_href2) &&
+					decoded_href1[href1_len - 1] == '/');
+			}
+		}
+
+		g_free (decoded_href1);
+		g_free (decoded_href2);
+	}
+
+	return similar;
 }
 
 static gboolean
