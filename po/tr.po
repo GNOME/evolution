@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-09-29 11:48+0000\n"
-"PO-Revision-Date: 2023-09-30 00:15+0300\n"
+"POT-Creation-Date: 2023-10-12 21:32+0000\n"
+"PO-Revision-Date: 2023-10-14 12:42+0300\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -3880,10 +3880,22 @@ msgstr ""
 "başlatılmasını gerektirir."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:48
+#, fuzzy
+#| msgid "Whether to show notes in the editor"
+msgid "Whether to use icon-only buttons in the header bar"
+msgstr "Düzenleyicide notların gösterilip gösterilmeyeceği"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:49
+msgid ""
+"When enabled, uses icon-only buttons in the header bar. Otherwise some "
+"buttons can show also text when there's enough space."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:50
 msgid "Whether the markdown editor show have live preview"
 msgstr "Markdown düzenleyicinin canlı ön izlemesinin olup olmayacağı"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:49
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:51
 msgid ""
 "When enabled, the markdown editor shows a preview beside the editing text "
 "and updates it as the user types."
@@ -3891,11 +3903,11 @@ msgstr ""
 "Etkinleştirildiğinde, markdown düzenleyici, düzenlenen metnin yanında ön "
 "izleme gösterir ve kullanıcı yazarken güncellenir."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:50
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:52
 msgid "Whether to prefer symbolic icons"
 msgstr "Sembolik simgelerin yeğlenme durumu"
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:51
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:53
 msgid ""
 "Controls whether the application should prefer symbolic icons or not. The "
 "'auto' value detects whether the icon theme is using symbolic icons. Note "
@@ -4725,7 +4737,7 @@ msgstr ""
 #: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4085
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4130
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4299
@@ -4751,7 +4763,7 @@ msgstr ""
 #: ../src/smime/gui/certificate-manager.c:1277
 #: ../src/smime/gui/e-cert-selector.c:232 ../src/smime/gui/smime-ui.ui.h:17
 msgid "_Cancel"
-msgstr "_İptal"
+msgstr "İ_ptal"
 
 #: ../src/addressbook/addressbook.error.xml.h:56
 msgid "_Add Copy"
@@ -4819,7 +4831,7 @@ msgstr "Seçenekler"
 #: ../src/e-util/e-attachment-store.c:845
 #: ../src/e-util/e-attachment-store.c:852
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
-#: ../src/e-util/e-webdav-browser.c:2663 ../src/e-util/e-web-view.c:4085
+#: ../src/e-util/e-webdav-browser.c:2663 ../src/e-util/e-web-view.c:4130
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:865
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
@@ -5593,17 +5605,17 @@ msgid "Copy _Email Address"
 msgstr "_E-posta Adresini Kopyala"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:152
-#: ../src/e-util/e-web-view.c:431
+#: ../src/e-util/e-web-view.c:464
 msgid "Copy the email address to the clipboard"
 msgstr "E-posta adresini panoya kopyala"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:157
-#: ../src/e-util/e-web-view.c:443
+#: ../src/e-util/e-web-view.c:476
 msgid "_Send New Message To…"
 msgstr "Şuna Yeni İleti _Gönder…"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:159
-#: ../src/e-util/e-web-view.c:445
+#: ../src/e-util/e-web-view.c:478
 msgid "Send a mail message to this address"
 msgstr "Bu adrese posta iletisi gönder"
 
@@ -7558,7 +7570,7 @@ msgstr "Tamamlanan: %s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
 #: ../src/e-util/e-misc-utils.c:4925 ../src/e-util/e-text.c:566
-#: ../src/e-util/e-web-view.c:4271
+#: ../src/e-util/e-web-view.c:4316
 msgid "…"
 msgstr "…"
 
@@ -7616,7 +7628,7 @@ msgstr "Kategoriler:"
 msgid "High"
 msgstr "Yüksek"
 
-#: ../src/calendar/gui/comp-util.c:2794 ../src/calendar/gui/e-cal-model.c:1888
+#: ../src/calendar/gui/comp-util.c:2794 ../src/calendar/gui/e-cal-model.c:1891
 #: ../src/calendar/gui/e-task-table.c:476
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:340
@@ -8209,42 +8221,42 @@ msgstr "Tür"
 msgid "Unknown"
 msgstr "Bilinmiyor"
 
-#: ../src/calendar/gui/e-cal-model.c:1374 ../src/calendar/gui/e-cal-ops.c:633
+#: ../src/calendar/gui/e-cal-model.c:1377 ../src/calendar/gui/e-cal-ops.c:633
 #: ../src/calendar/gui/e-cal-ops.c:1272
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:390
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "“%s” UID’ine sahip kaynak bulunamadı"
 
-#: ../src/calendar/gui/e-cal-model.c:1485 ../src/calendar/gui/e-cal-ops.c:195
+#: ../src/calendar/gui/e-cal-model.c:1488 ../src/calendar/gui/e-cal-ops.c:195
 #: ../src/calendar/gui/e-cal-ops.c:1389
 msgid "Creating an event"
 msgstr "Olay oluşturuluyor"
 
-#: ../src/calendar/gui/e-cal-model.c:1489 ../src/calendar/gui/e-cal-ops.c:199
+#: ../src/calendar/gui/e-cal-model.c:1492 ../src/calendar/gui/e-cal-ops.c:199
 #: ../src/calendar/gui/e-cal-ops.c:1393
 msgid "Creating a memo"
 msgstr "Not oluşturuluyor"
 
-#: ../src/calendar/gui/e-cal-model.c:1493 ../src/calendar/gui/e-cal-ops.c:203
+#: ../src/calendar/gui/e-cal-model.c:1496 ../src/calendar/gui/e-cal-ops.c:203
 #: ../src/calendar/gui/e-cal-ops.c:1397
 msgid "Creating a task"
 msgstr "Görev oluşturuluyor"
 
-#: ../src/calendar/gui/e-cal-model.c:1890
+#: ../src/calendar/gui/e-cal-model.c:1893
 msgid "Recurring"
 msgstr "Yineleme"
 
-#: ../src/calendar/gui/e-cal-model.c:1892
+#: ../src/calendar/gui/e-cal-model.c:1895
 msgid "Assigned"
 msgstr "Görevlendirildi"
 
-#: ../src/calendar/gui/e-cal-model.c:1895
+#: ../src/calendar/gui/e-cal-model.c:1898
 #: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "Yes"
 msgstr "Evet"
 
-#: ../src/calendar/gui/e-cal-model.c:1895
+#: ../src/calendar/gui/e-cal-model.c:1898
 #: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "No"
 msgstr "Hayır"
@@ -9551,15 +9563,15 @@ msgstr "Geçerli pencereyi kapat"
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2195 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
-#: ../src/e-util/e-web-view.c:470 ../src/mail/e-mail-browser.c:173
+#: ../src/e-util/e-web-view.c:503 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:951
 msgid "_Copy"
 msgstr "_Kopyala"
 
 #: ../src/calendar/gui/e-comp-editor.c:2197 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
-#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:472
-#: ../src/e-util/e-web-view.c:2124 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:505
+#: ../src/e-util/e-web-view.c:2169 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:953
 msgid "Copy the selection"
 msgstr "Seçimi kopyala"
@@ -9573,7 +9585,7 @@ msgstr "K_es"
 
 #: ../src/calendar/gui/e-comp-editor.c:2204 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2133
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2178
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "Seçimi kes"
@@ -9597,7 +9609,7 @@ msgstr "_Yapıştır"
 
 #: ../src/calendar/gui/e-comp-editor.c:2225 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2142
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2187
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "Panodan yapıştır"
@@ -9618,7 +9630,7 @@ msgid "Pre_view…"
 msgstr "Ön İz_le…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2244 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:487
+#: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:520
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1063
 msgid "Select _All"
 msgstr "Tümünü _Seç"
@@ -13535,11 +13547,11 @@ msgstr "Bu iletiyi kapat (Escape)"
 
 #. Translators: there are always at least two messages to be closed
 #: ../src/e-util/e-alert-bar.c:226
-#, fuzzy, c-format
+#, c-format
 #| msgid "Compose a Message"
 msgid "Close a message"
 msgid_plural "Close all %u messages"
-msgstr[0] "İleti Yaz"
+msgstr[0] "%u iletiyi kapat"
 
 #: ../src/e-util/e-alert-dialog.c:162
 msgid "_Dismiss"
@@ -13809,15 +13821,15 @@ msgstr "Öntanımlı not listesi olarak imle"
 msgid "Color:"
 msgstr "Renk:"
 
-#: ../src/e-util/e-cal-source-config.c:420
+#: ../src/e-util/e-cal-source-config.c:423
 msgid "Copy calendar contents locally for offline operation"
 msgstr "Çevirimdışı işlem için takvim içeriğini yerele kopyala"
 
-#: ../src/e-util/e-cal-source-config.c:424
+#: ../src/e-util/e-cal-source-config.c:427
 msgid "Copy task list contents locally for offline operation"
 msgstr "Çevrim dışı işlem için görev listesi içeriğini yerele kopyala"
 
-#: ../src/e-util/e-cal-source-config.c:428
+#: ../src/e-util/e-cal-source-config.c:431
 msgid "Copy memo list contents locally for offline operation"
 msgstr "Çevirimdışı işlem için not listesi içeriğini yerele kopyala"
 
@@ -15160,15 +15172,15 @@ msgstr "+4"
 msgid "Copy _Link Location"
 msgstr "Bağ Konumunu _Kopyala"
 
-#: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:411
+#: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:444
 msgid "Copy the link to the clipboard"
 msgstr "Bağlantıyı panoya kopyalayın"
 
-#: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:419
+#: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:452
 msgid "_Open Link in Browser"
 msgstr "_Bağlantıyı Tarayıcıda Aç"
 
-#: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:421
+#: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:454
 msgid "Open the link in a web browser"
 msgstr "Bağlantıyı tarayıcıda aç"
 
@@ -17212,66 +17224,66 @@ msgstr "_Takvim Oluştur"
 msgid "Create Collectio_n"
 msgstr "Koleksiyon _oluştur"
 
-#: ../src/e-util/e-web-view.c:409
+#: ../src/e-util/e-web-view.c:442
 msgid "_Copy Link Location"
 msgstr "Bağ Konumunu _Kopyala"
 
-#: ../src/e-util/e-web-view.c:429
+#: ../src/e-util/e-web-view.c:462
 msgid "_Copy Email Address"
 msgstr "E-posta Adresini _Kopyala"
 
-#: ../src/e-util/e-web-view.c:436
+#: ../src/e-util/e-web-view.c:469
 msgid "Copy _Raw Email Address"
 msgstr "_Ham E-posta Adresini Kopyala"
 
-#: ../src/e-util/e-web-view.c:438
+#: ../src/e-util/e-web-view.c:471
 msgid "Copy the raw email address to the clipboard"
 msgstr "Ham e-posta adresini panoya kopyala"
 
-#: ../src/e-util/e-web-view.c:453
+#: ../src/e-util/e-web-view.c:486
 msgid "_Copy Image"
 msgstr "_Resmi Kopyala"
 
-#: ../src/e-util/e-web-view.c:455
+#: ../src/e-util/e-web-view.c:488
 msgid "Copy the image to the clipboard"
 msgstr "Resmi panoya kopyala"
 
-#: ../src/e-util/e-web-view.c:460
+#: ../src/e-util/e-web-view.c:493
 msgid "Save _Image…"
 msgstr "_Resmi Kaydet…"
 
-#: ../src/e-util/e-web-view.c:462
+#: ../src/e-util/e-web-view.c:495
 msgid "Save the image to a file"
 msgstr "Görüntüyü dosyaya kaydet"
 
-#: ../src/e-util/e-web-view.c:477 ../src/mail/e-mail-browser.c:201
+#: ../src/e-util/e-web-view.c:510 ../src/mail/e-mail-browser.c:201
 #: ../src/mail/e-mail-reader.c:3003
 msgid "Search _Web…"
 msgstr "_Webʼde Ara…"
 
-#: ../src/e-util/e-web-view.c:479 ../src/mail/e-mail-browser.c:203
+#: ../src/e-util/e-web-view.c:512 ../src/mail/e-mail-browser.c:203
 #: ../src/mail/e-mail-reader.c:3005
 msgid "Search the Web with the selected text"
 msgstr "Seçilen metinle Web’de arama yapın"
 
-#: ../src/e-util/e-web-view.c:489 ../src/e-util/e-web-view.c:2146
+#: ../src/e-util/e-web-view.c:522 ../src/e-util/e-web-view.c:2191
 msgid "Select all text and images"
 msgstr "Tüm metin ve resimleri seç"
 
-#: ../src/e-util/e-web-view.c:3895
+#: ../src/e-util/e-web-view.c:3940
 msgid "Copying image to clipboard"
 msgstr "Resim panoya kopyalanıyor"
 
-#: ../src/e-util/e-web-view.c:4083
+#: ../src/e-util/e-web-view.c:4128
 msgid "Save Image"
 msgstr "Görüntüyü Kaydet"
 
-#: ../src/e-util/e-web-view.c:4120
+#: ../src/e-util/e-web-view.c:4165
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Resim “%s” konumuna kaydediliyor"
 
-#: ../src/e-util/e-web-view.c:4275
+#: ../src/e-util/e-web-view.c:4320
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "URI “%s” alınamıyor, nasıl indirileceği bilinmiyor."
@@ -19741,7 +19753,7 @@ msgstr "Yanıtlama biçemi:"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
 #: ../src/mail/em-composer-utils.c:4379
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:347
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_Öntanımlı"
 
@@ -19959,7 +19971,7 @@ msgid "Label"
 msgstr "Etiket"
 
 #: ../src/mail/em-folder-properties.c:1431
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:586
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:604
 msgid "Appearance"
 msgstr "Görünüm"
 
@@ -22670,68 +22682,74 @@ msgstr "Başlık Çubuğu Kipi"
 msgid "_GNOME"
 msgstr "_GNOME"
 
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:294
+#, fuzzy
+#| msgid "Display window buttons with icons only"
+msgid "Use buttons with _icons only"
+msgstr "Pencere düğmelerini yalnızca simge olarak göster"
+
 #. Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:295
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:313
 msgid "_Standard"
 msgstr "_Standart"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:323
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:341
 msgid "Toolbar Icon Size"
 msgstr "Araç Çubuğu Simge Boyutu"
 
 #. Translators: this is in a sense of "Look & Feel of the icons"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:334
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:352
 msgid "Icons Look"
 msgstr "Simge Görünümü"
 
 #. Translators: This is for "Icons Look: Autodetect"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:359
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:377
 msgid "Aut_odetect"
 msgstr "_Kendiliğinden algıla"
 
 #. Translators: This is for "Toolbar Icon Size: Small"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:372
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:390
 msgid "Sm_all"
 msgstr "_Küçük"
 
 #. Translators: This is for "Icons Look: Prefer symbolic"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:383
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:401
 msgid "_Prefer symbolic"
 msgstr "Simgesel _yeğle"
 
 #. Translators: This is for "Toolbar Icon Size: Large"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:395
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:413
 msgid "_Large"
 msgstr "_Büyük"
 
 #. Translators: This is for "Icons Look: Prefer regular"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:406
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:424
 msgid "Prefer _regular"
 msgstr "_Olağanı yeğle"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:481
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:499
 msgid "Layout"
 msgstr "Yerleşim"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:492
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:510
 msgid "Show M_enu Bar"
 msgstr "Menü Çubuğunu _Göster"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:505
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:523
 #: ../src/shell/e-shell-window-actions.c:1225
 msgid "Show _Tool Bar"
 msgstr "Araç Çubuğu_nu Göster"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:518
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:536
 #: ../src/shell/e-shell-window-actions.c:1201
 msgid "Show Side _Bar"
 msgstr "_Kenar Çubuğunu Göster"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:531
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:549
 msgid "Show Stat_us Bar"
 msgstr "_Durum Çubuğunu Göster"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:544
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:562
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:312
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Not: Bazı değişiklikler yeniden başlatana dek etkin olmayacak"
