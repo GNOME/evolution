@@ -2077,7 +2077,7 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	gboolean was_disable_signature, unset_signature = FALSE;
 	const gchar *extension_name;
 	const gchar *active_signature_id;
-	gchar *uid, *alias_name = NULL, *alias_address = NULL, *pgp_keyid, *smime_cert;
+	gchar *uid, *alias_name = NULL, *alias_address = NULL, *smime_cert;
 
 	cnt_editor = e_html_editor_get_content_editor (e_msg_composer_get_editor (composer));
 	table = e_msg_composer_get_header_table (composer);
@@ -2110,10 +2110,8 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 
 	extension_name = E_SOURCE_EXTENSION_OPENPGP;
 	pgp = e_source_get_extension (source, extension_name);
-	pgp_keyid = e_source_openpgp_dup_key_id (pgp);
-	pgp_sign = pgp_keyid && *pgp_keyid && e_source_openpgp_get_sign_by_default (pgp);
-	pgp_encrypt = pgp_keyid && *pgp_keyid && e_source_openpgp_get_encrypt_by_default (pgp);
-	g_free (pgp_keyid);
+	pgp_sign = e_source_openpgp_get_sign_by_default (pgp);
+	pgp_encrypt = e_source_openpgp_get_encrypt_by_default (pgp);
 
 	extension_name = E_SOURCE_EXTENSION_SMIME;
 	smime = e_source_get_extension (source, extension_name);
