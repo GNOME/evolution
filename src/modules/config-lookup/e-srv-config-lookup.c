@@ -262,7 +262,7 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 					if (g_str_equal (known_services[ii].gio_protocol, "ldaps"))
 						security = E_SOURCE_LDAP_SECURITY_LDAPS;
 					else
-						security = E_SOURCE_LDAP_SECURITY_NONE;
+						security = E_SOURCE_LDAP_SECURITY_STARTTLS;
 
 					e_config_lookup_result_simple_add_enum (lookup_result,
 						E_SOURCE_EXTENSION_LDAP_BACKEND, "security",
