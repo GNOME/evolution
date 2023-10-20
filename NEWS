@@ -1,3 +1,25 @@
+Evolution 3.50.1 2023-10-20
+---------------------------
+
+Bug Fixes:
+	I#1436 - Mail: Correct conversion of UTF-16 encoded text files
+	I#1608 - ConfigLookup: Default to STARTTLS for LDAP from SRV records
+	I#2526 - EWebView: Enable spell checking for editable fields
+	I#2533 - Make SRV config lookup records lower priority than the others
+	I#2535 - Calendar: "Work Week" column separator light in dark theme
+	I#2546 - OpenPGP: "Always sign/encrypt" doesn't always work (nkr)
+	eds-I#494 - Update default calendar colors
+
+Miscellaneous:
+	flatpak: Add missing comma in the manifests
+
+Translations:
+	Alan Mortensen (da)
+	Artur S0 (ru)
+	Balázs Úr (hu)
+	Sabri Ünal (tr)
+	Sergej A (ru)
+
 Evolution 3.50.0 2023-09-15
 ---------------------------
 
