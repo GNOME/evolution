@@ -344,7 +344,7 @@ attachment_update_icon_column_idle_cb (gpointer weak_ref)
 	cancellable = attachment->priv->cancellable;
 	file_info = e_attachment_ref_file_info (attachment);
 
-	if (file_info != NULL) {
+	if (file_info != NULL && g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_ICON)) {
 		icon = g_file_info_get_icon (file_info);
 		/* add the reference here, thus the create_system_thumbnail() can unref the *icon. */
 		if (icon)
@@ -1425,8 +1425,6 @@ void
 e_attachment_set_file_info (EAttachment *attachment,
                             GFileInfo *file_info)
 {
-	GIcon *icon;
-
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
 	if (file_info != NULL) {
@@ -1439,12 +1437,15 @@ e_attachment_set_file_info (EAttachment *attachment,
 	g_clear_object (&attachment->priv->file_info);
 	attachment->priv->file_info = file_info;
 
-	/* If the GFileInfo contains a GThemedIcon, append a
-	 * fallback icon name to ensure we display something. */
-	icon = g_file_info_get_icon (file_info);
-	if (G_IS_THEMED_ICON (icon))
-		g_themed_icon_append_name (
-			G_THEMED_ICON (icon), DEFAULT_ICON_NAME);
+	if (file_info && g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_ICON)) {
+		GIcon *icon;
+
+		/* If the GFileInfo contains a GThemedIcon, append a
+		 * fallback icon name to ensure we display something. */
+		icon = g_file_info_get_icon (file_info);
+		if (G_IS_THEMED_ICON (icon))
+			g_themed_icon_append_name (G_THEMED_ICON (icon), DEFAULT_ICON_NAME);
+	}
 
 	g_mutex_unlock (&attachment->priv->property_lock);
 
