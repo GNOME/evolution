@@ -21,8 +21,7 @@ typedef struct _CompRef {
 } CompRef;
 
 typedef enum {
-	EDIT_ITEM_CATEGORIES = 0,
-	EDIT_ITEM_DTSTART,
+	EDIT_ITEM_DTSTART = 0,
 	EDIT_ITEM_DUE,
 	EDIT_ITEM_COMPLETED,
 	EDIT_ITEM_STATUS,
@@ -46,6 +45,7 @@ struct _EBulkEditTasksPrivate {
 
 	GPtrArray *comps; /* CompRef * */
 	EditItem items[N_EDIT_ITEMS];
+	ECategoriesSelector *categories;
 	GCancellable *cancellable;
 
 	gint last_duration;
@@ -88,8 +88,11 @@ comp_ref_free (gpointer ptr)
 static GPtrArray * /* CompRef * */
 e_bulk_edit_tasks_apply_changes_gui (EBulkEditTasks *self)
 {
+	GHashTable *categories_checked = NULL, *categories_unchecked = NULL;
 	GPtrArray *comps;
 	guint ii, jj;
+
+	e_categories_selector_get_changes (self->priv->categories, &categories_checked, &categories_unchecked);
 
 	comps = g_ptr_array_new_full (self->priv->comps->len, comp_ref_free);
 
@@ -108,8 +111,39 @@ e_bulk_edit_tasks_apply_changes_gui (EBulkEditTasks *self)
 			e_comp_editor_property_part_fill_component (self->priv->items[ii].part, des_cr->icomp);
 		}
 
+		if (categories_checked || categories_unchecked) {
+			ICalProperty *prop;
+			const gchar *old_value = NULL;
+			gchar *new_value;
+
+			prop = i_cal_component_get_first_property (des_cr->icomp, I_CAL_CATEGORIES_PROPERTY);
+			if (prop)
+				old_value = i_cal_property_get_categories (prop);
+
+			new_value = e_categories_selector_util_apply_changes (old_value, categories_checked, categories_unchecked);
+
+			if (g_strcmp0 (old_value, new_value) != 0) {
+				if (new_value && *new_value) {
+					if (prop) {
+						i_cal_property_set_categories (prop, new_value);
+					} else {
+						prop = i_cal_property_new_categories (new_value);
+						i_cal_component_add_property (des_cr->icomp, prop);
+					}
+				} else if (prop) {
+					i_cal_component_remove_property (des_cr->icomp, prop);
+				}
+			}
+
+			g_clear_object (&prop);
+			g_free (new_value);
+		}
+
 		g_ptr_array_add (comps, des_cr);
 	}
+
+	g_clear_pointer (&categories_checked, g_hash_table_destroy);
+	g_clear_pointer (&categories_unchecked, g_hash_table_destroy);
 
 	return comps;
 }
@@ -175,6 +209,8 @@ e_bulk_edit_tasks_response_cb (GtkDialog *dialog,
 	if (response_id == GTK_RESPONSE_APPLY) {
 		SaveChangesData *scd;
 		EActivity *activity;
+
+		e_alert_bar_clear (E_ALERT_BAR (self->priv->alert_bar));
 
 		scd = g_new0 (SaveChangesData, 1);
 		scd->self = g_object_ref (self);
@@ -545,6 +581,8 @@ e_bulk_edit_tasks_fill_content (EBulkEditTasks *self)
 {
 	GtkWidget *widget;
 	GtkGrid *grid;
+	GtkNotebook *notebook;
+	GtkWidget *scrolled_window;
 	ICalComponent *first_icomp = NULL;
 	ECompEditorPropertyPart *part;
 	gchar *str;
@@ -575,7 +613,7 @@ e_bulk_edit_tasks_fill_content (EBulkEditTasks *self)
 	gtk_window_set_title (GTK_WINDOW (self), str);
 	g_free (str);
 
-	widget = gtk_label_new (_("Select properties to be modified."));
+	widget = gtk_label_new (_("Select values to be modified."));
 	g_object_set (widget,
 		"halign", GTK_ALIGN_START,
 		"valign", GTK_ALIGN_CENTER,
@@ -587,47 +625,98 @@ e_bulk_edit_tasks_fill_content (EBulkEditTasks *self)
 		"width-chars", 80,
 		"max-width-chars", 100,
 		NULL);
-	gtk_grid_attach (grid, widget, 0, 0, 4, 1);
+	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
+
+	widget = gtk_notebook_new ();
+	g_object_set (widget,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"vexpand", TRUE,
+		"visible", TRUE,
+		NULL);
+	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
+	notebook = GTK_NOTEBOOK (widget);
+
+	widget = gtk_grid_new ();
+	g_object_set (widget,
+		"visible", TRUE,
+		"margin", 12,
+		"column-spacing", 4,
+		"row-spacing", 4,
+		NULL);
+
+	gtk_notebook_append_page (notebook, widget, gtk_label_new_with_mnemonic (_("_General")));
+
+	grid = GTK_GRID (widget);
 
 	part = e_comp_editor_property_part_dtstart_new (C_("ECompEditor", "Sta_rt date:"), date_only, TRUE, FALSE);
-	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_DTSTART, part, grid, 0, 1, FALSE);
+	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_DTSTART, part, grid, 0, 0, FALSE);
 	g_signal_connect (e_comp_editor_property_part_get_edit_widget (part), "changed",
 		G_CALLBACK (e_bulk_edit_tasks_dtstart_changed_cb), self);
 
 	part = e_comp_editor_property_part_due_new (date_only, TRUE);
-	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_DUE, part, grid, 0, 2, FALSE);
+	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_DUE, part, grid, 0, 1, FALSE);
 	g_signal_connect (e_comp_editor_property_part_get_edit_widget (part), "changed",
 		G_CALLBACK (e_bulk_edit_tasks_due_changed_cb), self);
 
 	part = e_comp_editor_property_part_completed_new (date_only, TRUE);
-	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_COMPLETED, part, grid, 0, 3, FALSE);
+	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_COMPLETED, part, grid, 0, 2, FALSE);
 	g_signal_connect (e_comp_editor_property_part_get_edit_widget (part), "changed",
 		G_CALLBACK (e_bulk_edit_tasks_completed_changed_cb), self);
 
 	part = e_comp_editor_property_part_estimated_duration_new ();
-	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_ESTIMATED_DURATION, part, grid, 0, 4, FALSE);
+	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_ESTIMATED_DURATION, part, grid, 0, 3, FALSE);
 
 	part = e_comp_editor_property_part_status_new (I_CAL_VTODO_COMPONENT);
-	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_STATUS, part, grid, 2, 1, FALSE);
+	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_STATUS, part, grid, 2, 0, FALSE);
 	g_signal_connect (e_comp_editor_property_part_get_edit_widget (part), "changed",
 		G_CALLBACK (e_bulk_edit_tasks_status_changed_cb), self);
 
 	part = e_comp_editor_property_part_priority_new ();
-	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_PRIORITY, part, grid, 2, 2, FALSE);
+	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_PRIORITY, part, grid, 2, 1, FALSE);
 
 	part = e_comp_editor_property_part_percentcomplete_new ();
-	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_PERCENTCOMPLETE, part, grid, 2, 3, FALSE);
+	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_PERCENTCOMPLETE, part, grid, 2, 2, FALSE);
 	g_signal_connect (e_comp_editor_property_part_get_edit_widget (part), "value-changed",
 		G_CALLBACK (e_bulk_edit_tasks_percentcomplete_value_changed_cb), self);
 
 	part = e_comp_editor_property_part_classification_new ();
-	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_CLASSIFICATION, part, grid, 2, 4, FALSE);
+	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_CLASSIFICATION, part, grid, 2, 3, FALSE);
 
 	part = e_comp_editor_property_part_timezone_new ();
-	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_TIMEZONE, part, grid, 0, 5, TRUE);
+	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_TIMEZONE, part, grid, 0, 4, TRUE);
 
-	part = e_comp_editor_property_part_categories_new (NULL);
-	e_bulk_edit_tasks_set_edit_item (self, EDIT_ITEM_CATEGORIES, part, grid, 0, 6, TRUE);
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (scrolled_window,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"can-focus", FALSE,
+		"shadow-type", GTK_SHADOW_NONE,
+		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"propagate-natural-width", FALSE,
+		"propagate-natural-height", FALSE,
+		NULL);
+
+	gtk_notebook_append_page (notebook, scrolled_window, gtk_label_new_with_mnemonic (_("_Categories")));
+
+	widget = e_categories_selector_new ();
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"vexpand", TRUE,
+		"use-inconsistent", TRUE,
+		NULL);
+
+	gtk_container_add (GTK_CONTAINER (scrolled_window), widget);
+
+	self->priv->categories = E_CATEGORIES_SELECTOR (widget);
 
 	gtk_widget_show (self->priv->items_grid);
 
@@ -643,7 +732,7 @@ e_bulk_edit_tasks_fill_content (EBulkEditTasks *self)
 	gtk_box_pack_start (GTK_BOX (widget), self->priv->activity_bar, FALSE, FALSE, 0);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (self),
-		_("M_odify tasks"), GTK_RESPONSE_APPLY,
+		_("M_odify"), GTK_RESPONSE_APPLY,
 		_("Ca_ncel"), GTK_RESPONSE_CANCEL,
 		NULL);
 
@@ -668,8 +757,20 @@ e_bulk_edit_tasks_fill_content (EBulkEditTasks *self)
 		G_CALLBACK (e_bulk_edit_tasks_lookup_timezone), self);
 
 	if (first_icomp) {
+		ICalProperty *prop;
+
 		for (ii = 0; ii < N_EDIT_ITEMS; ii++) {
 			e_comp_editor_property_part_fill_widget (self->priv->items[ii].part, first_icomp);
+		}
+
+		prop = i_cal_component_get_first_property (first_icomp, I_CAL_CATEGORIES_PROPERTY);
+		if (prop) {
+			const gchar *value = i_cal_property_get_categories (prop);
+
+			if (value && *value)
+				e_categories_selector_set_checked (self->priv->categories, value);
+
+			g_clear_object (&prop);
 		}
 	}
 
