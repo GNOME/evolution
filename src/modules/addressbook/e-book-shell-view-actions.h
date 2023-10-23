@@ -52,6 +52,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "address-book-popup-map")
 
 /* Contact Actions */
+#define E_SHELL_WINDOW_ACTION_CONTACT_BULK_EDIT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-bulk-edit")
 #define E_SHELL_WINDOW_ACTION_CONTACT_COPY(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-copy")
 #define E_SHELL_WINDOW_ACTION_CONTACT_DELETE(window) \

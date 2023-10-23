@@ -29,6 +29,8 @@ set(SOURCES
 	eab-gui-util.h
 	e-alphabet-box.c
 	e-alphabet-box.h
+	e-bulk-edit-contacts.c
+	e-bulk-edit-contacts.h
 	e-card-view.c
 	e-card-view.h
 	e-contact-card-box.c

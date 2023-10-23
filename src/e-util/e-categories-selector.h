@@ -89,6 +89,20 @@ void		e_categories_selector_delete_selection
 						(ECategoriesSelector *selector);
 gchar *		e_categories_selector_get_selected
 						(ECategoriesSelector *selector);
+gboolean	e_categories_selector_get_use_inconsistent
+						(ECategoriesSelector *selector);
+void		e_categories_selector_set_use_inconsistent
+						(ECategoriesSelector *selector,
+						 gboolean use_inconsistent);
+void		e_categories_selector_get_changes
+						(ECategoriesSelector *selector,
+						 GHashTable **out_checked, /* gchar * ~> NULL */
+						 GHashTable **out_unchecked); /* gchar * ~> NULL */
+
+gchar *		e_categories_selector_util_apply_changes
+						(const gchar *in_categories,
+						 GHashTable *checked,
+						 GHashTable *unchecked);
 
 G_END_DECLS
 

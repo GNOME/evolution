@@ -353,6 +353,10 @@ book_shell_view_update_actions (EShellView *shell_view)
 	sensitive = source_is_busy;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (CONTACT_BULK_EDIT);
+	sensitive = any_contacts_selected && !selection_is_contact_list;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (CONTACT_COPY);
 	sensitive = any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);

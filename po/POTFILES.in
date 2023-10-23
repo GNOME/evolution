@@ -47,6 +47,7 @@ src/addressbook/gui/widgets/e-addressbook-model.c
 src/addressbook/gui/widgets/e-addressbook-table-adapter.c
 src/addressbook/gui/widgets/e-addressbook-view.c
 src/addressbook/gui/widgets/e-addressbook-view.etspec
+src/addressbook/gui/widgets/e-bulk-edit-contacts.c
 src/addressbook/gui/widgets/e-card-view.c
 src/addressbook/gui/widgets/e-contact-map.c
 src/addressbook/gui/widgets/e-contact-map-window.c

@@ -52,6 +52,8 @@
         <menuitem action='contact-copy'/>
         <menuitem action='contact-move'/>
         <separator/>
+        <menuitem action='contact-bulk-edit'/>
+        <separator/>
         <menuitem action='address-book-copy'/>
         <menuitem action='address-book-move'/>
         <separator/>

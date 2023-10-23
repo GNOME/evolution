@@ -30,6 +30,7 @@
 
 struct _ECategoriesSelectorPrivate {
 	gboolean checkable;
+	gboolean use_inconsistent;
 	GHashTable *selected_categories;
 
 	gboolean ignore_category_changes;
@@ -37,7 +38,8 @@ struct _ECategoriesSelectorPrivate {
 
 enum {
 	PROP_0,
-	PROP_ITEMS_CHECKABLE
+	PROP_ITEMS_CHECKABLE,
+	PROP_USE_INCONSISTENT
 };
 
 enum {
@@ -50,6 +52,7 @@ enum {
 	COLUMN_ACTIVE,
 	COLUMN_ICON,
 	COLUMN_CATEGORY,
+	COLUMN_INCONSISTENT,
 	N_COLUMNS
 };
 
@@ -67,7 +70,7 @@ categories_selector_build_model (ECategoriesSelector *selector)
 	GList *list, *iter;
 
 	store = gtk_list_store_new (
-		N_COLUMNS, G_TYPE_BOOLEAN, GDK_TYPE_PIXBUF, G_TYPE_STRING);
+		N_COLUMNS, G_TYPE_BOOLEAN, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_BOOLEAN);
 
 	gtk_tree_sortable_set_sort_column_id (
 		GTK_TREE_SORTABLE (store),
@@ -98,6 +101,7 @@ categories_selector_build_model (ECategoriesSelector *selector)
 			COLUMN_ACTIVE, active,
 			COLUMN_ICON, pixbuf,
 			COLUMN_CATEGORY, category_name,
+			COLUMN_INCONSISTENT, selector->priv->use_inconsistent,
 			-1);
 
 		if (pixbuf != NULL)
@@ -132,28 +136,51 @@ category_toggled_cb (GtkCellRenderer *renderer,
 
 	if (gtk_tree_model_get_iter (model, &iter, tree_path)) {
 		gchar *category;
+		gboolean inconsistent;
 		gboolean active;
 
 		gtk_tree_model_get (
 			model, &iter,
 			COLUMN_ACTIVE, &active,
-			COLUMN_CATEGORY, &category, -1);
+			COLUMN_CATEGORY, &category,
+			COLUMN_INCONSISTENT, &inconsistent,
+			-1);
 
-		gtk_list_store_set (
-			GTK_LIST_STORE (model), &iter,
-			COLUMN_ACTIVE, !active, -1);
+		if (selector->priv->use_inconsistent) {
+			if (!active && !inconsistent) {
+				active = TRUE;
+				inconsistent = TRUE;
+			} else if (inconsistent) {
+				inconsistent = FALSE;
+			} else {
+				active = !active;
+			}
 
-		if (active)
-			g_hash_table_remove (
-				selector->priv->selected_categories, category);
-		else
+			gtk_list_store_set (
+				GTK_LIST_STORE (model), &iter,
+				COLUMN_ACTIVE, active,
+				COLUMN_INCONSISTENT, inconsistent,
+				-1);
+		} else {
+			active = !active;
+
+			gtk_list_store_set (
+				GTK_LIST_STORE (model), &iter,
+				COLUMN_ACTIVE, active, -1);
+		}
+
+		if (active) {
 			g_hash_table_insert (
 				selector->priv->selected_categories,
 				g_strdup (category), g_strdup (category));
+		} else {
+			g_hash_table_remove (
+				selector->priv->selected_categories, category);
+		}
 
 		g_signal_emit (
 			selector, signals[CATEGORY_CHECKED], 0,
-			category, !active);
+			category, active);
 
 		g_free (category);
 	}
@@ -201,6 +228,12 @@ categories_selector_get_property (GObject *object,
 				e_categories_selector_get_items_checkable (
 				E_CATEGORIES_SELECTOR (object)));
 			return;
+		case PROP_USE_INCONSISTENT:
+			g_value_set_boolean (
+				value,
+				e_categories_selector_get_use_inconsistent (
+				E_CATEGORIES_SELECTOR (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -215,6 +248,11 @@ categories_selector_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_ITEMS_CHECKABLE:
 			e_categories_selector_set_items_checkable (
+				E_CATEGORIES_SELECTOR (object),
+				g_value_get_boolean (value));
+			return;
+		case PROP_USE_INCONSISTENT:
+			e_categories_selector_set_use_inconsistent (
 				E_CATEGORIES_SELECTOR (object),
 				g_value_get_boolean (value));
 			return;
@@ -265,6 +303,16 @@ e_categories_selector_class_init (ECategoriesSelectorClass *class)
 			TRUE,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_USE_INCONSISTENT,
+		g_param_spec_boolean (
+			"use-inconsistent",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
+
 	signals[CATEGORY_CHECKED] = g_signal_new (
 		"category-checked",
 		G_TYPE_FROM_CLASS (class),
@@ -305,7 +353,7 @@ e_categories_selector_init (ECategoriesSelector *selector)
 
 	renderer = gtk_cell_renderer_toggle_new ();
 	column = gtk_tree_view_column_new_with_attributes (
-		"?", renderer, "active", COLUMN_ACTIVE, NULL);
+		"?", renderer, "active", COLUMN_ACTIVE, "inconsistent", COLUMN_INCONSISTENT, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (selector), column);
 
 	g_signal_connect (
@@ -585,4 +633,132 @@ e_categories_selector_get_selected (ECategoriesSelector *selector)
 	g_list_free (selected);
 
 	return g_string_free (str, FALSE);
+}
+
+gboolean
+e_categories_selector_get_use_inconsistent (ECategoriesSelector *selector)
+{
+	g_return_val_if_fail (E_IS_CATEGORIES_SELECTOR (selector), FALSE);
+
+	return selector->priv->use_inconsistent;
+}
+
+void
+e_categories_selector_set_use_inconsistent (ECategoriesSelector *selector,
+					    gboolean use_inconsistent)
+{
+	g_return_if_fail (E_IS_CATEGORIES_SELECTOR (selector));
+
+	if ((selector->priv->use_inconsistent ? 1 : 0) != (use_inconsistent ? 1 : 0)) {
+		selector->priv->use_inconsistent = use_inconsistent;
+
+		g_object_notify (G_OBJECT (selector), "use-inconsistent");
+
+		categories_selector_build_model (selector);
+	}
+}
+
+void
+e_categories_selector_get_changes (ECategoriesSelector *selector,
+				   GHashTable **out_checked, /* gchar * ~> NULL */
+				   GHashTable **out_unchecked) /* gchar * ~> NULL */
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	g_return_if_fail (E_IS_CATEGORIES_SELECTOR (selector));
+	g_return_if_fail (out_checked != NULL);
+	g_return_if_fail (out_unchecked != NULL);
+
+	*out_checked = NULL;
+	*out_unchecked = NULL;
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
+	g_return_if_fail (model != NULL);
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			gboolean inconsistent = FALSE;
+
+			gtk_tree_model_get (model, &iter, COLUMN_INCONSISTENT, &inconsistent, -1);
+
+			if (!inconsistent) {
+				gboolean active = FALSE;
+				gchar *category = NULL;
+
+				gtk_tree_model_get (model, &iter,
+					COLUMN_ACTIVE, &active,
+					COLUMN_CATEGORY, &category,
+					-1);
+
+				if (category) {
+					GHashTable **out_hash = active ? out_checked : out_unchecked;
+
+					if (!*out_hash)
+						*out_hash = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
+
+					g_hash_table_add (*out_hash, category);
+				}
+			}
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+}
+
+gchar *
+e_categories_selector_util_apply_changes (const gchar *in_categories,
+					  GHashTable *checked,
+					  GHashTable *unchecked)
+{
+	GSList *new_value = NULL;
+	gchar **value_split;
+	gchar *res = NULL;
+	guint ii;
+
+	if (!checked && !unchecked)
+		return g_strdup (in_categories);
+
+	value_split = in_categories ? g_strsplit (in_categories, ",", -1) : NULL;
+
+	for (ii = 0; value_split && value_split[ii]; ii++) {
+		if (unchecked && g_hash_table_contains (unchecked, value_split[ii])) {
+			/* skip it */
+		} else if (!checked || !g_hash_table_contains (checked, value_split[ii])) {
+			new_value = g_slist_prepend (new_value, value_split[ii]);
+		}
+	}
+
+	if (checked) {
+		gpointer key;
+		GHashTableIter iter;
+
+		g_hash_table_iter_init (&iter, checked);
+		while (g_hash_table_iter_next (&iter, &key, NULL)) {
+			const gchar *category = key;
+
+			new_value = g_slist_prepend (new_value, (gpointer) category);
+		}
+	}
+
+	if (new_value) {
+		GSList *new_value_link;
+		GString *str = g_string_new (NULL);
+
+		new_value = g_slist_sort (new_value, (GCompareFunc) g_utf8_collate);
+
+		for (new_value_link = new_value; new_value_link; new_value_link = g_slist_next (new_value_link)) {
+			const gchar *category = new_value_link->data;
+
+			if (str->len)
+				g_string_append_c (str, ',');
+
+			g_string_append (str, category);
+		}
+
+		res = g_string_free (str, FALSE);
+	}
+
+	g_slist_free (new_value);
+	g_strfreev (value_split);
+
+	return res;
 }
