@@ -271,7 +271,7 @@ e_contact_card_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	g_object_set (widget,
 		"halign", GTK_ALIGN_FILL,
-		"valign", GTK_ALIGN_START,
+		"valign", GTK_ALIGN_FILL,
 		"column-homogeneous", FALSE,
 		"column-spacing", 4,
 		"row-homogeneous", FALSE,
