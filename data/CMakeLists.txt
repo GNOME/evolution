@@ -9,6 +9,11 @@ else("${WITH_WMCLASS_OVERRIDE}" STREQUAL "" OR "${WITH_WMCLASS_OVERRIDE}" STREQU
 	set(WMCLASS_OVERRIDE "StartupWMClass=${WITH_WMCLASS_OVERRIDE}\n")
 endif("${WITH_WMCLASS_OVERRIDE}" STREQUAL "" OR "${WITH_WMCLASS_OVERRIDE}" STREQUAL "OFF")
 
+set(DESKTOP_MIME_TYPES)
+if(HAVE_LDAP)
+	set(DESKTOP_MIME_TYPES "x-scheme-handler/ldap;x-scheme-handler/ldaps;")
+endif(HAVE_LDAP)
+
 configure_file(org.gnome.Evolution.desktop.in.in
 	org.gnome.Evolution.desktop.in
 	@ONLY

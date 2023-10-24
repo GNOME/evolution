@@ -353,6 +353,160 @@ book_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	gchar *source_uid = NULL;
 	gchar *contact_uid = NULL;
 
+	#ifdef HAVE_LDAP
+	if (g_str_has_prefix (uri, "ldap://") || g_str_has_prefix (uri, "ldaps://")) {
+		/* RFC 4516 - "ldap://" [host [COLON port]]
+                       [SLASH dn [QUESTION [attributes]
+                       [QUESTION [scope] [QUESTION [filter]
+                       [QUESTION extensions]]]]] */
+		ESourceRegistry *registry;
+		ESource *scratch_source;
+		ESourceAuthentication *auth_extension;
+		ESourceBackend *backend_extension;
+		ESourceLDAP *ldap_extension;
+		EShell *shell;
+		EShellWindow *shell_window = NULL;
+		ESourceLDAPScope scope = E_SOURCE_LDAP_SCOPE_SUBTREE;
+		GtkWidget *config;
+		GtkWidget *dialog;
+		GList *link;
+		const gchar *ptr, *end;
+		gchar *dn = NULL, *filter = NULL;
+		guint pos = 0;
+
+		ptr = strchr (strstr (uri, "://") + 3, '/');
+		if (!ptr || !ptr[1])
+			return FALSE;
+
+		ptr++;
+
+		guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+
+		if (!guri)
+			return FALSE;
+
+		if (!g_uri_get_host (guri)) {
+			g_uri_unref (guri);
+			return FALSE;
+		}
+
+		while (ptr && *ptr) {
+			end = strchr (ptr, '?');
+
+			switch (pos) {
+			case 0: /* dn */
+				if (end) {
+					gchar *tmp = g_strndup (ptr, end - ptr);
+					dn = g_uri_unescape_string (tmp, NULL);
+					g_free (tmp);
+				} else {
+					dn = g_uri_unescape_string (ptr, NULL);
+				}
+				break;
+			case 1: /* attributes - skip */
+				break;
+			case 2: /* scope */
+				if (end) {
+					if (g_ascii_strncasecmp (ptr, "base", end - ptr) == 0) {
+						/* nothing for it in ESourceLDAPScope */
+					} else if (g_ascii_strncasecmp (ptr, "one", end - ptr) == 0) {
+						scope = E_SOURCE_LDAP_SCOPE_ONELEVEL;
+					} else if (g_ascii_strncasecmp (ptr, "sub", end - ptr) == 0) {
+						scope = E_SOURCE_LDAP_SCOPE_SUBTREE;
+					}
+				} else {
+					if (g_ascii_strcasecmp (ptr, "base") == 0) {
+						/* nothing for it in ESourceLDAPScope */
+					} else if (g_ascii_strcasecmp (ptr, "one") == 0) {
+						scope = E_SOURCE_LDAP_SCOPE_ONELEVEL;
+					} else if (g_ascii_strcasecmp (ptr, "sub") == 0) {
+						scope = E_SOURCE_LDAP_SCOPE_SUBTREE;
+					}
+				}
+				break;
+			case 3: /* filter */
+				if (end) {
+					gchar *tmp = g_strndup (ptr, end - ptr);
+					filter = g_uri_unescape_string (tmp, NULL);
+					g_free (tmp);
+				} else {
+					filter = g_uri_unescape_string (ptr, NULL);
+				}
+				break;
+			case 4: /* extensions - skip */
+				break;
+			}
+
+			pos++;
+			ptr = end;
+			if (ptr)
+				ptr++;
+		}
+
+		shell = e_shell_backend_get_shell (shell_backend);
+
+		for (link = gtk_application_get_windows (GTK_APPLICATION (shell)); link; link = g_list_next (link)) {
+			GtkWindow *window = link->data;
+
+			if (E_IS_SHELL_WINDOW (window)) {
+				shell_window = E_SHELL_WINDOW (window);
+				break;
+			}
+		}
+
+		scratch_source = e_source_new (NULL, NULL, NULL);
+		e_source_set_parent (scratch_source, "ldap-stub");
+		e_source_set_display_name (scratch_source, g_uri_get_host (guri));
+
+		backend_extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+		e_source_backend_set_backend_name (backend_extension, "ldap");
+
+		ldap_extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_LDAP_BACKEND);
+		e_source_ldap_set_scope (ldap_extension, scope);
+		if (g_str_has_prefix (uri, "ldaps://"))
+			e_source_ldap_set_security (ldap_extension, E_SOURCE_LDAP_SECURITY_LDAPS);
+		else
+			e_source_ldap_set_security (ldap_extension, E_SOURCE_LDAP_SECURITY_STARTTLS);
+		if (filter)
+			e_source_ldap_set_filter (ldap_extension, filter);
+		if (dn)
+			e_source_ldap_set_root_dn (ldap_extension, dn);
+		if (g_uri_get_user (guri)) {
+			if (strchr (g_uri_get_user (guri), '='))
+				e_source_ldap_set_authentication (ldap_extension, E_SOURCE_LDAP_AUTHENTICATION_BINDDN);
+			else if (strchr (g_uri_get_user (guri), '@'))
+				e_source_ldap_set_authentication (ldap_extension, E_SOURCE_LDAP_AUTHENTICATION_EMAIL);
+		}
+
+		auth_extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_AUTHENTICATION);
+		e_source_authentication_set_host (auth_extension, g_uri_get_host (guri));
+		e_source_authentication_set_port (auth_extension, g_uri_get_port (guri) > 0 ? g_uri_get_port (guri) : 389);
+		e_source_authentication_set_user (auth_extension, g_uri_get_user (guri));
+
+		registry = e_shell_get_registry (shell);
+		config = e_book_source_config_new (registry, scratch_source);
+
+		g_clear_object (&scratch_source);
+
+		dialog = e_source_config_dialog_new (E_SOURCE_CONFIG (config));
+
+		gtk_application_add_window (GTK_APPLICATION (shell), GTK_WINDOW (dialog));
+
+		if (shell_window)
+			gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
+		gtk_window_set_icon_name (GTK_WINDOW (dialog), "address-book-new");
+		gtk_window_set_title (GTK_WINDOW (dialog), _("New Address Book"));
+
+		gtk_widget_show (dialog);
+
+		g_uri_unref (guri);
+		g_free (filter);
+		g_free (dn);
+
+		return TRUE;
+	}
+	#endif /* HAVE_LDAP */
+
 	if (!g_str_has_prefix (uri, "contacts:"))
 		return FALSE;
 

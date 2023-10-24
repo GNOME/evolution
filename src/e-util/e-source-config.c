@@ -516,15 +516,16 @@ source_config_init_for_editing_source (ESourceConfig *config)
 	g_return_if_fail (backend != NULL);
 
 	dbus_object = e_source_ref_dbus_object (original_source);
-	g_return_if_fail (dbus_object != NULL);
-
-	scratch_source = e_source_new (dbus_object, NULL, NULL);
+	if (dbus_object)
+		scratch_source = e_source_new (dbus_object, NULL, NULL);
+	else
+		scratch_source = g_object_ref (original_source);
 	g_return_if_fail (scratch_source != NULL);
 
 	source_config_add_candidate (config, scratch_source, backend);
 
 	g_object_unref (scratch_source);
-	g_object_unref (dbus_object);
+	g_clear_object (&dbus_object);
 }
 
 static void
