@@ -41,9 +41,6 @@
 #include "evolution-calendar-importer.h"
 #include "gui/calendar-config-keys.h"
 
-/* We timeout after 2 minutes, when opening the folders. */
-#define IMPORTER_TIMEOUT_SECONDS 120
-
 typedef struct {
 	EImport *import;
 	EImportTarget *target;
@@ -91,15 +88,18 @@ is_icomp_usable (ICalComponent *icomp,
 	ICalComponent *vevent, *vtodo;
 	gboolean usable;
 
-	if (!icomp || !i_cal_component_is_valid (icomp))
-		return FALSE;
-
 	/* components can be somewhere in the middle of a MIME message, thus check
 	   the `contents`, if provided, begins with expected iCalendar strings */
 	if (contents &&
 	    g_ascii_strncasecmp (contents, "BEGIN:VCALENDAR", strlen ("BEGIN:VCALENDAR")) != 0 &&
 	    g_ascii_strncasecmp (contents, "BEGIN:VEVENT", strlen ("BEGIN:VEVENT")) != 0 &&
 	    g_ascii_strncasecmp (contents, "BEGIN:VTODO", strlen ("BEGIN:VTODO")) != 0)
+		return FALSE;
+
+	if (contents)
+		return TRUE;
+
+	if (!icomp || !i_cal_component_is_valid (icomp))
 		return FALSE;
 
 	vevent = i_cal_component_get_first_component (icomp, I_CAL_VEVENT_COMPONENT);
@@ -581,17 +581,14 @@ ical_supported (EImport *ei,
 	if (!filename)
 		return FALSE;
 
-	contents = e_import_util_get_file_contents (filename, NULL);
+	contents = e_import_util_get_file_contents (filename, 128 * 1024, NULL);
 	if (contents) {
 		ICalComponent *icomp;
 
 		icomp = e_cal_util_parse_ics_string (contents);
+		ret = is_icomp_usable (icomp, contents);
 
-		if (icomp) {
-			ret = is_icomp_usable (icomp, contents);
-			g_object_unref (icomp);
-		}
-
+		g_clear_object (&icomp);
 		g_free (contents);
 	}
 	g_free (filename);
@@ -617,7 +614,7 @@ ical_import (EImport *ei,
 		return;
 	}
 
-	contents = e_import_util_get_file_contents (filename, &error);
+	contents = e_import_util_get_file_contents (filename, 0, &error);
 	if (!contents) {
 		g_free (filename);
 		e_import_complete (ei, target, error);
@@ -652,7 +649,7 @@ ivcal_get_preview (EImport *ei,
 		return NULL;
 	}
 
-	contents = e_import_util_get_file_contents (filename, NULL);
+	contents = e_import_util_get_file_contents (filename, 128 * 1024, NULL);
 	if (!contents) {
 		g_free (filename);
 		return NULL;
@@ -745,19 +742,18 @@ vcal_supported (EImport *ei,
 	if (!filename)
 		return FALSE;
 
-	contents = e_import_util_get_file_contents (filename, NULL);
+	contents = e_import_util_get_file_contents (filename, 128 * 1024, NULL);
 	if (contents) {
 		ICalComponent *icomp;
 
 		icomp = e_cal_util_parse_ics_string (contents);
 
-		if (icomp && is_icomp_usable (icomp, contents)) {
+		if (is_icomp_usable (icomp, contents)) {
 			/* If we can create proper iCalendar from the file, then
 			 * rather use ics importer, because it knows to read more
 			 * information than older version, the vCalendar. */
 			ret = FALSE;
 
-			g_free (contents);
 			g_clear_object (&icomp);
 		} else {
 			g_clear_object (&icomp);
@@ -766,6 +762,8 @@ vcal_supported (EImport *ei,
 			ret = is_icomp_usable (icomp, NULL);
 			g_clear_object (&icomp);
 		}
+
+		g_free (contents);
 	}
 	g_free (filename);
 
@@ -780,7 +778,7 @@ load_vcalendar_file (const gchar *filename)
 	ICalComponent *icomp;
 	gchar *contents;
 
-	contents = e_import_util_get_file_contents (filename, NULL);
+	contents = e_import_util_get_file_contents (filename, 0, NULL);
 	icomp = load_vcalendar_content (contents);
 	g_free (contents);
 

@@ -467,12 +467,75 @@ e_import_target_new_home (EImport *import)
 		import, E_IMPORT_TARGET_HOME, sizeof (EImportTargetHome));
 }
 
+/* it can end in the middle of the data structure or a Unicode letter */
+static gboolean
+import_util_read_file_contents_with_limit (const gchar *filename,
+					   gsize size_limit,
+					   gchar **out_content,
+					   gsize *out_length,
+					   GError **error)
+{
+	GByteArray *bytes;
+	GFile *file;
+	GFileInputStream *stream;
+	GInputStream *istream;
+	guint8 buff[10240];
+	gsize to_read;
+
+	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (out_content != NULL, FALSE);
+
+	file = g_file_new_for_path (filename);
+	stream = g_file_read (file, NULL, error);
+
+	if (!stream) {
+		g_clear_object (&file);
+		return FALSE;
+	}
+
+	istream = G_INPUT_STREAM (stream);
+	to_read = size_limit ? MIN (size_limit, sizeof (buff)) : sizeof (buff);
+	bytes = g_byte_array_new ();
+
+	while (!size_limit || bytes->len < size_limit) {
+		gsize did_read = 0;
+
+		if (!g_input_stream_read_all (istream, buff, to_read, &did_read, NULL, error)) {
+			g_byte_array_free (bytes, TRUE);
+			g_clear_object (&stream);
+			g_clear_object (&file);
+
+			return FALSE;
+		}
+
+		if (!did_read)
+			break;
+
+		g_byte_array_append (bytes, buff, did_read);
+	}
+
+	/* zero-terminate the array, but do not count the NUL byte into the `out_length` */
+	buff[0] = 0;
+	g_byte_array_append (bytes, buff, 1);
+
+	if (out_length)
+		*out_length = bytes->len - 1;
+	*out_content = (gchar *) g_byte_array_free (bytes, FALSE);
+
+	g_clear_object (&stream);
+	g_clear_object (&file);
+
+	return TRUE;
+}
+
 /**
  * e_import_util_get_file_contents:
  * @filename: a local file name to read the contents from
+ * @size_limit: up to how many bytes to read, 0 for the whole file
  * @error: (nullable): a return location for a #GError, or %NULL
  *
  * Reads the @filename content and returns it in a single-byte encoding.
+ * The content can be cut around @size_limit bytes.
  *
  * Returns: (transfer full) (nullable): the file content, or %NULL on error,
  *    in which case the @error is set.
@@ -481,6 +544,7 @@ e_import_target_new_home (EImport *import)
  **/
 gchar *
 e_import_util_get_file_contents (const gchar *filename,
+				 gsize size_limit,
 				 GError **error)
 {
 	gchar *raw_content = NULL;
@@ -491,7 +555,7 @@ e_import_util_get_file_contents (const gchar *filename,
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	if (!g_file_get_contents (filename, &raw_content, &length, error))
+	if (!import_util_read_file_contents_with_limit (filename, size_limit, &raw_content, &length, error))
 		return NULL;
 
 	if (length < 2)

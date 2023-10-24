@@ -331,7 +331,7 @@ vcard_supported (EImport *ei,
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (filename == NULL)
 		return FALSE;
-	contents = e_import_util_get_file_contents (filename, NULL);
+	contents = e_import_util_get_file_contents (filename, 32, NULL);
 	retval = contents && g_ascii_strncasecmp (contents, "BEGIN:VCARD", 11) == 0;
 	g_free (contents);
 	g_free (filename);
@@ -402,7 +402,7 @@ vcard_import (EImport *ei,
 		return;
 	}
 
-	contents = e_import_util_get_file_contents (filename, &error);
+	contents = e_import_util_get_file_contents (filename, 0, &error);
 	if (!contents) {
 		g_free (filename);
 		e_import_complete (ei, target, error);
@@ -453,7 +453,7 @@ vcard_get_preview (EImport *ei,
 		return NULL;
 	}
 
-	contents = e_import_util_get_file_contents (filename, &error);
+	contents = e_import_util_get_file_contents (filename, 128 * 1024, &error);
 	if (!contents) {
 		g_message (G_STRLOC ": Couldn't read file '%s': %s", filename, error ? error->message : "Unknown error");
 		g_clear_error (&error);
