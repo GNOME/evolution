@@ -50,11 +50,11 @@ set(SOURCES
 	e-alert-sink.c
 	e-alert.c
 	e-attachment-bar.c
-	e-attachment-dialog.c
 	e-attachment-handler-image.c
 	e-attachment-handler.c
 	e-attachment-icon-view.c
 	e-attachment-paned.c
+	e-attachment-popover.c
 	e-attachment-store.c
 	e-attachment-tree-view.c
 	e-attachment-view.c
@@ -335,11 +335,11 @@ set(HEADERS
 	e-alert-sink.h
 	e-alert.h
 	e-attachment-bar.h
-	e-attachment-dialog.h
 	e-attachment-handler-image.h
 	e-attachment-handler.h
 	e-attachment-icon-view.h
 	e-attachment-paned.h
+	e-attachment-popover.h
 	e-attachment-store.h
 	e-attachment-tree-view.h
 	e-attachment-view.h

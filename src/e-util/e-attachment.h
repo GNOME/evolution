@@ -86,6 +86,7 @@ void		e_attachment_add_to_multipart	(EAttachment *attachment,
 						 const gchar *default_charset);
 void		e_attachment_cancel		(EAttachment *attachment);
 gboolean	e_attachment_is_mail_note	(EAttachment *attachment);
+gboolean	e_attachment_is_uri		(EAttachment *attachment);
 gboolean	e_attachment_get_can_show	(EAttachment *attachment);
 void		e_attachment_set_can_show	(EAttachment *attachment,
 						 gboolean can_show);

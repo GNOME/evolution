@@ -47,8 +47,8 @@
     <title>Attachments</title>
     <xi:include href="xml/e-attachment.xml"/>
     <xi:include href="xml/e-attachment-bar.xml"/>
-    <xi:include href="xml/e-attachment-dialog.xml"/>
     <xi:include href="xml/e-attachment-paned.xml"/>
+    <xi:include href="xml/e-attachment-popover.xml"/>
     <xi:include href="xml/e-attachment-store.xml"/>
     <xi:include href="xml/e-attachment-view.xml"/>
     <xi:include href="xml/e-attachment-icon-view.xml"/>
@@ -332,6 +332,14 @@
   <index id="api-index-full">
     <title>Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3-52" role="3.52">
+    <title>Index of new symbols in 3.52</title>
+    <xi:include href="xml/api-index-3.52.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3-50" role="3.50">
+    <title>Index of new symbols in 3.50</title>
+    <xi:include href="xml/api-index-3.50.xml"><xi:fallback /></xi:include>
   </index>
   <index id="api-index-3-48" role="3.48">
     <title>Index of new symbols in 3.48</title>

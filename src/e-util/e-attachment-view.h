@@ -91,6 +91,10 @@ struct _EAttachmentViewInterface {
 
 	/* Signals */
 	void		(*update_actions)	(EAttachmentView *view);
+	gboolean	(*before_properties_popup)
+						(EAttachmentView *view,
+						 GtkPopover *properties_popover, /* EAttachmentPopover */
+						 gboolean is_new_attachment);
 };
 
 struct _EAttachmentViewPrivate {
@@ -111,6 +115,9 @@ struct _EAttachmentViewPrivate {
 
 	guint dragging : 1;
 	guint editable : 1;
+	guint allow_uri : 1;
+
+	GtkPopover *attachment_popover;
 };
 
 GType		e_attachment_view_get_type	(void) G_GNUC_CONST;
@@ -129,6 +136,9 @@ void		e_attachment_view_set_dragging	(EAttachmentView *view,
 gboolean	e_attachment_view_get_editable	(EAttachmentView *view);
 void		e_attachment_view_set_editable	(EAttachmentView *view,
 						 gboolean editable);
+gboolean	e_attachment_view_get_allow_uri	(EAttachmentView *view);
+void		e_attachment_view_set_allow_uri	(EAttachmentView *view,
+						 gboolean allow_uri);
 GtkTargetList *	e_attachment_view_get_target_list
 						(EAttachmentView *view);
 GdkDragAction	e_attachment_view_get_drag_actions
@@ -232,6 +242,10 @@ GtkUIManager *	e_attachment_view_get_ui_manager
 						(EAttachmentView *view);
 void		e_attachment_view_update_actions
 						(EAttachmentView *view);
+void		e_attachment_view_position_popover
+						(EAttachmentView *view,
+						 GtkPopover *popover,
+						 EAttachment *attachment);
 
 G_END_DECLS
 

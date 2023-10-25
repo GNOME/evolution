@@ -63,6 +63,7 @@ enum {
 	PROP_ACTIVE_VIEW,
 	PROP_DRAGGING,
 	PROP_EDITABLE,
+	PROP_ALLOW_URI,
 	PROP_EXPANDED,
 	PROP_RESIZE_TOPLEVEL
 };
@@ -219,6 +220,12 @@ attachment_paned_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_ALLOW_URI:
+			e_attachment_view_set_allow_uri (
+				E_ATTACHMENT_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_EXPANDED:
 			e_attachment_paned_set_expanded (
 				E_ATTACHMENT_PANED (object),
@@ -260,6 +267,13 @@ attachment_paned_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_attachment_view_get_editable (
+				E_ATTACHMENT_VIEW (object)));
+			return;
+
+		case PROP_ALLOW_URI:
+			g_value_set_boolean (
+				value,
+				e_attachment_view_get_allow_uri (
 				E_ATTACHMENT_VIEW (object)));
 			return;
 
@@ -533,6 +547,9 @@ e_attachment_paned_class_init (EAttachmentPanedClass *class)
 
 	g_object_class_override_property (
 		object_class, PROP_EDITABLE, "editable");
+
+	g_object_class_override_property (
+		object_class, PROP_ALLOW_URI, "allow-uri");
 
 	g_object_class_install_property (
 		object_class,

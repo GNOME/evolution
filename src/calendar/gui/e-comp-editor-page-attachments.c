@@ -39,6 +39,7 @@ struct _ECompEditorPageAttachmentsPrivate {
 	GtkWidget *tree_view;
 	GtkWidget *status_icon;
 	GtkWidget *status_label;
+	GtkWidget *add_uri_button;
 
 	gulong store_row_inserted_handler_id;
 	gulong store_row_deleted_handler_id;
@@ -53,6 +54,38 @@ enum {
 };
 
 G_DEFINE_TYPE (ECompEditorPageAttachments, e_comp_editor_page_attachments, E_TYPE_COMP_EDITOR_PAGE)
+
+static gboolean
+ecep_before_properties_popup_cb (EAttachmentView *view,
+				 GtkPopover *popover,
+				 gboolean is_new_attachment,
+				 gpointer user_data)
+{
+	ECompEditorPageAttachments *self = user_data;
+
+	if (is_new_attachment) {
+		GdkRectangle rect;
+
+		gtk_widget_get_allocation (self->priv->add_uri_button, &rect);
+		rect.x = 0;
+		rect.y = 0;
+
+		gtk_popover_set_relative_to (popover, self->priv->add_uri_button);
+		gtk_popover_set_pointing_to (popover, &rect);
+	} else {
+		EAttachmentView *active_view;
+
+		if (self->priv->active_view == 0) {
+			active_view = E_ATTACHMENT_VIEW (self->priv->icon_view);
+		} else {
+			active_view = E_ATTACHMENT_VIEW (self->priv->tree_view);
+		}
+
+		e_attachment_view_position_popover (active_view, popover, e_attachment_popover_get_attachment (E_ATTACHMENT_POPOVER (popover)));
+	}
+
+	return TRUE;
+}
 
 static void
 ecep_attachments_action_attach_cb (GtkAction *action,
@@ -171,7 +204,7 @@ ecep_attachments_attachment_loaded_cb (EAttachment *attachment,
 		if (prefer_filename && *prefer_filename) {
 			g_file_info_set_display_name (file_info, prefer_filename);
 			g_object_notify (G_OBJECT (attachment), "file-info");
-		} else if (g_str_has_prefix (display_name, uid)) {
+		} else if (display_name && g_str_has_prefix (display_name, uid)) {
 			gchar *new_name;
 
 			new_name = g_strdup (display_name + strlen (uid) + 1);
@@ -181,7 +214,7 @@ ecep_attachments_attachment_loaded_cb (EAttachment *attachment,
 		}
 	}
 
-	if (!e_attachment_load_finish (attachment, result, &error)) {
+	if (result && !e_attachment_load_finish (attachment, result, &error)) {
 		g_signal_emit_by_name (attachment, "load-failed", NULL);
 
 		/* Ignore cancellations. */
@@ -378,9 +411,66 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 			g_object_set_data_full (G_OBJECT (attachment), "uid", g_strdup (uid), g_free);
 			if (filename)
 				g_object_set_data_full (G_OBJECT (attachment), "prefer-filename", g_strdup (filename), g_free);
-			e_attachment_load_async (
-				attachment, (GAsyncReadyCallback)
-				ecep_attachments_attachment_loaded_cb, page_attachments);
+
+			if (g_ascii_strncasecmp (uri, "file://", 7) == 0) {
+				e_attachment_load_async (attachment, (GAsyncReadyCallback) ecep_attachments_attachment_loaded_cb, page_attachments);
+			} else {
+				ICalParameter *param;
+				GFileInfo *file_info;
+				GPtrArray *add_params = NULL;
+
+				for (param = i_cal_property_get_first_parameter (prop, I_CAL_ANY_PARAMETER);
+				     param;
+				     g_object_unref (param), param = i_cal_property_get_next_parameter (prop, I_CAL_ANY_PARAMETER)) {
+					ICalParameterKind kind = i_cal_parameter_isa (param);
+
+					/* preserve unknown/unset parameters from the existing property */
+					if (kind != I_CAL_FILENAME_PARAMETER &&
+					    kind != I_CAL_FMTTYPE_PARAMETER &&
+					    kind != I_CAL_XLICCOMPARETYPE_PARAMETER &&
+					    kind != I_CAL_XLICERRORTYPE_PARAMETER) {
+						if (!add_params)
+							add_params = g_ptr_array_new_with_free_func (g_object_unref);
+						g_ptr_array_add (add_params, i_cal_parameter_clone (param));
+					}
+				}
+
+				if (add_params)
+					g_object_set_data_full (G_OBJECT (attachment), "ical-params", add_params, (GDestroyNotify) g_ptr_array_unref);
+
+				file_info = g_file_info_new ();
+				g_file_info_set_content_type (file_info, "application/octet-stream");
+
+				param = i_cal_property_get_first_parameter (prop, I_CAL_FMTTYPE_PARAMETER);
+				if (param) {
+					const gchar *fmttype;
+
+					fmttype = i_cal_parameter_get_fmttype (param);
+					if (fmttype && *fmttype)
+						g_file_info_set_content_type (file_info, fmttype);
+
+					g_clear_object (&param);
+				}
+
+				if (g_ascii_strncasecmp (uri, "http://", 7) == 0 ||
+				    g_ascii_strncasecmp (uri, "https://", 8) == 0 ||
+				    g_ascii_strncasecmp (uri, "ftp://", 6) == 0) {
+					GIcon *icon;
+
+					icon = g_themed_icon_new ("emblem-web");
+
+					g_file_info_set_icon (file_info, icon);
+
+					g_clear_object (&icon);
+				}
+
+				e_attachment_set_file_info (attachment, file_info);
+
+				g_clear_object (&file_info);
+
+				ecep_attachments_attachment_loaded_cb (attachment, NULL, page_attachments);
+			}
+
 			g_object_unref (attachment);
 		}
 
@@ -422,6 +512,7 @@ ecep_attachments_fill_component (ECompEditorPage *page,
 		gchar *buf, *uri, *description;
 		GFile *file;
 		GFileInfo *file_info;
+		GPtrArray *add_params;
 
 		if (!attachment)
 			continue;
@@ -472,16 +563,49 @@ ecep_attachments_fill_component (ECompEditorPage *page,
 
 		file_info = e_attachment_ref_file_info (attachment);
 		if (file_info) {
-			const gchar *display_name = g_file_info_get_display_name (file_info);
+			if (g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME)) {
+				const gchar *display_name = g_file_info_get_display_name (file_info);
 
-			if (display_name && *display_name) {
-				ICalParameter *param;
+				if (display_name && *display_name) {
+					ICalParameter *param;
 
-				param = i_cal_parameter_new_filename (display_name);
-				i_cal_property_take_parameter (prop, param);
+					param = i_cal_parameter_new_filename (display_name);
+					i_cal_property_take_parameter (prop, param);
+				}
+			}
+
+			if (g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)) {
+				const gchar *content_type;
+
+				content_type = g_file_info_get_content_type (file_info);
+				if (content_type && *content_type) {
+					gchar *mime_type;
+
+					mime_type = g_content_type_get_mime_type (content_type);
+					if (mime_type) {
+						ICalParameter *param;
+
+						param = i_cal_parameter_new_fmttype (mime_type);
+						i_cal_property_take_parameter (prop, param);
+
+						g_free (mime_type);
+					}
+				}
 			}
 
 			g_object_unref (file_info);
+		}
+
+		add_params = g_object_get_data (G_OBJECT (attachment), "ical-params");
+		if (add_params) {
+			guint ii;
+
+			for (ii = 0; ii < add_params->len; ii++) {
+				ICalParameter *param = g_ptr_array_index (add_params, ii);
+
+				if (param)
+					i_cal_property_take_parameter (prop, i_cal_parameter_clone (param));
+			}
 		}
 
 		i_cal_component_take_property (component, prop);
@@ -743,6 +867,7 @@ ecep_attachments_constructed (GObject *object)
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", TRUE,
 		"valign", GTK_ALIGN_FILL,
+		"allow-uri", TRUE,
 		NULL);
 	gtk_widget_show (widget);
 
@@ -767,6 +892,7 @@ ecep_attachments_constructed (GObject *object)
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", TRUE,
 		"valign", GTK_ALIGN_FILL,
+		"allow-uri", TRUE,
 		NULL);
 	gtk_widget_show (widget);
 
@@ -786,6 +912,17 @@ ecep_attachments_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	container = widget;
+
+	/* The "Add URI" button proxies the "add-uri" action from
+	 * one of the two attachment views.  Doesn't matter which. */
+	widget = gtk_button_new ();
+	action = e_attachment_view_get_action (E_ATTACHMENT_VIEW (page_attachments->priv->icon_view), "add-uri");
+	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
+	gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	page_attachments->priv->add_uri_button = widget;
 
 	/* The "Add Attachment" button proxies the "add" action from
 	 * one of the two attachment views.  Doesn't matter which. */
@@ -827,6 +964,12 @@ ecep_attachments_constructed (GObject *object)
 		G_CALLBACK (ecep_attachments_update_status), page_attachments);
 
 	g_object_unref (size_group);
+
+	g_signal_connect_object (page_attachments->priv->tree_view, "before-properties-popup",
+		G_CALLBACK (ecep_before_properties_popup_cb), page_attachments, 0);
+
+	g_signal_connect_object (page_attachments->priv->icon_view, "before-properties-popup",
+		G_CALLBACK (ecep_before_properties_popup_cb), page_attachments, 0);
 
 	ecep_attachments_update_status (page_attachments);
 

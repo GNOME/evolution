@@ -63,6 +63,7 @@ enum {
 	PROP_ATTACHMENTS_VISIBLE,
 	PROP_DRAGGING,
 	PROP_EDITABLE,
+	PROP_ALLOW_URI,
 	PROP_EXPANDED,
 	PROP_STORE
 };
@@ -235,6 +236,12 @@ attachment_bar_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_ALLOW_URI:
+			e_attachment_view_set_allow_uri (
+				E_ATTACHMENT_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_EXPANDED:
 			e_attachment_bar_set_expanded (
 				E_ATTACHMENT_BAR (object),
@@ -283,6 +290,13 @@ attachment_bar_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_attachment_view_get_editable (
+				E_ATTACHMENT_VIEW (object)));
+			return;
+
+		case PROP_ALLOW_URI:
+			g_value_set_boolean (
+				value,
+				e_attachment_view_get_allow_uri (
 				E_ATTACHMENT_VIEW (object)));
 			return;
 
@@ -623,6 +637,9 @@ e_attachment_bar_class_init (EAttachmentBarClass *class)
 
 	g_object_class_override_property (
 		object_class, PROP_EDITABLE, "editable");
+
+	g_object_class_override_property (
+		object_class, PROP_ALLOW_URI, "allow-uri");
 
 	gtk_widget_class_install_style_property (
 		widget_class,

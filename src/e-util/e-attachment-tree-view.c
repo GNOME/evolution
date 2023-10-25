@@ -40,7 +40,8 @@ struct _EAttachmentTreeViewPrivate {
 enum {
 	PROP_0,
 	PROP_DRAGGING,
-	PROP_EDITABLE
+	PROP_EDITABLE,
+	PROP_ALLOW_URI
 };
 
 /* Forward Declarations */
@@ -96,6 +97,12 @@ attachment_tree_view_set_property (GObject *object,
 				E_ATTACHMENT_VIEW (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_ALLOW_URI:
+			e_attachment_view_set_allow_uri (
+				E_ATTACHMENT_VIEW (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -117,6 +124,12 @@ attachment_tree_view_get_property (GObject *object,
 		case PROP_EDITABLE:
 			g_value_set_boolean (
 				value, e_attachment_view_get_editable (
+				E_ATTACHMENT_VIEW (object)));
+			return;
+
+		case PROP_ALLOW_URI:
+			g_value_set_boolean (
+				value, e_attachment_view_get_allow_uri (
 				E_ATTACHMENT_VIEW (object)));
 			return;
 	}
@@ -601,6 +614,9 @@ e_attachment_tree_view_class_init (EAttachmentTreeViewClass *class)
 
 	g_object_class_override_property (
 		object_class, PROP_EDITABLE, "editable");
+
+	g_object_class_override_property (
+		object_class, PROP_ALLOW_URI, "allow-uri");
 }
 
 static void

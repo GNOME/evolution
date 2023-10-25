@@ -162,10 +162,10 @@ src/e-util/e-alert-dialog.c
 src/e-util/e-alert-sink.c
 src/e-util/e-attachment-bar.c
 src/e-util/e-attachment.c
-src/e-util/e-attachment-dialog.c
 src/e-util/e-attachment-handler-image.c
 src/e-util/e-attachment-icon-view.c
 src/e-util/e-attachment-paned.c
+src/e-util/e-attachment-popover.c
 src/e-util/e-attachment-store.c
 src/e-util/e-attachment-tree-view.c
 src/e-util/e-attachment-view.c

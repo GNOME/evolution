@@ -1306,6 +1306,28 @@ e_attachment_is_mail_note (EAttachment *attachment)
 }
 
 gboolean
+e_attachment_is_uri (EAttachment *attachment)
+{
+	GFile *file;
+	gboolean is_uri = FALSE;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+
+	file = e_attachment_ref_file (attachment);
+	if (file) {
+		gchar *scheme;
+
+		scheme = g_file_get_uri_scheme (file);
+		is_uri = scheme && g_ascii_strcasecmp (scheme, "file") != 0;
+
+		g_free (scheme);
+		g_clear_object (&file);
+	}
+
+	return is_uri;
+}
+
+gboolean
 e_attachment_get_can_show (EAttachment *attachment)
 {
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
@@ -1726,6 +1748,7 @@ e_attachment_is_rfc822 (EAttachment *attachment)
 GAppInfo *
 e_attachment_ref_default_app (EAttachment *attachment)
 {
+	GFile *file;
 	GFileInfo *file_info;
 	GAppInfo *default_app = NULL;
 	const gchar *content_type;
@@ -1736,9 +1759,29 @@ e_attachment_ref_default_app (EAttachment *attachment)
 	if (file_info == NULL)
 		return NULL;
 
-	content_type = g_file_info_get_content_type (file_info);
-	if (content_type && !g_content_type_equals (content_type, "application/octet-stream"))
-		default_app = g_app_info_get_default_for_type (content_type, FALSE);
+	file = e_attachment_ref_file (attachment);
+	if (file) {
+		gchar *scheme;
+
+		scheme = g_file_get_uri_scheme (file);
+		if (scheme && g_ascii_strcasecmp (scheme, "file") != 0) {
+			gchar *handler;
+
+			handler = g_strconcat ("x-scheme-handler/", scheme, NULL);
+			default_app = g_app_info_get_default_for_type (handler, FALSE);
+
+			g_free (handler);
+		}
+
+		g_free (scheme);
+		g_clear_object (&file);
+	}
+
+	if (!default_app) {
+		content_type = g_file_info_get_content_type (file_info);
+		if (content_type && !g_content_type_equals (content_type, "application/octet-stream"))
+			default_app = g_app_info_get_default_for_type (content_type, FALSE);
+	}
 
 	g_object_unref (file_info);
 
@@ -1748,13 +1791,13 @@ e_attachment_ref_default_app (EAttachment *attachment)
 GList *
 e_attachment_list_apps (EAttachment *attachment)
 {
-	GList *app_info_list;
+	GList *app_info_list = NULL;
 	GList *guessed_infos;
+	GFile *file;
 	GFileInfo *file_info;
 	GAppInfo *default_app;
-	const gchar *content_type;
 	const gchar *display_name;
-	gboolean type_is_unknown;
+	gboolean type_is_unknown = FALSE;
 	gchar *allocated;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
@@ -1763,12 +1806,36 @@ e_attachment_list_apps (EAttachment *attachment)
 	if (file_info == NULL)
 		return NULL;
 
-	content_type = g_file_info_get_content_type (file_info);
-	display_name = g_file_info_get_display_name (file_info);
-	g_return_val_if_fail (content_type != NULL, NULL);
+	file = e_attachment_ref_file (attachment);
+	if (file) {
+		gchar *scheme;
 
-	app_info_list = g_app_info_get_all_for_type (content_type);
-	type_is_unknown = g_content_type_is_unknown (content_type);
+		scheme = g_file_get_uri_scheme (file);
+		if (scheme && g_ascii_strcasecmp (scheme, "file") != 0) {
+			gchar *handler;
+
+			handler = g_strconcat ("x-scheme-handler/", scheme, NULL);
+			app_info_list = g_app_info_get_all_for_type (handler);
+			type_is_unknown = g_content_type_is_unknown (handler);
+
+			g_free (handler);
+		}
+
+		g_free (scheme);
+		g_clear_object (&file);
+	}
+
+	display_name = g_file_info_get_display_name (file_info);
+
+	if (!app_info_list) {
+		const gchar *content_type;
+
+		content_type = g_file_info_get_content_type (file_info);
+		g_return_val_if_fail (content_type != NULL, NULL);
+
+		app_info_list = g_app_info_get_all_for_type (content_type);
+		type_is_unknown = g_content_type_is_unknown (content_type);
+	}
 
 	if (app_info_list != NULL && !type_is_unknown)
 		goto exit;
