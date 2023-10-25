@@ -723,6 +723,8 @@ ece_save_component_attachments_sync (ECalClient *cal_client,
 			g_free (uri);
 		}
 
+		g_clear_object (&attach);
+
 		success = success & !g_cancellable_set_error_if_cancelled (cancellable, error);
 	}
 
