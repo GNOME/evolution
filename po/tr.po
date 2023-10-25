@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-10-12 21:32+0000\n"
-"PO-Revision-Date: 2023-10-14 12:42+0300\n"
+"POT-Creation-Date: 2023-10-24 13:08+0000\n"
+"PO-Revision-Date: 2023-10-24 02:47+0300\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -3689,7 +3689,7 @@ msgstr "Çevrim dışı kipte başla"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr "Evolutionʼun çevrim içi kip yerine çevirim dışı kipte başlaması."
+msgstr "Evolutionʼun çevrim içi kip yerine çevrim dışı kipte başlaması."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
 msgid "Offline folder paths"
@@ -3699,7 +3699,7 @@ msgstr "Çevrim dışı klasör yolları"
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage."
 msgstr ""
-"Çevirim dışı kullanım için disk ile eşzamanlandırılacak klasörlerin "
+"Çevrim dışı kullanım için disk ile eşzamanlandırılacak klasörlerin "
 "yollarının listesi."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
@@ -3880,10 +3880,8 @@ msgstr ""
 "başlatılmasını gerektirir."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:48
-#, fuzzy
-#| msgid "Whether to show notes in the editor"
 msgid "Whether to use icon-only buttons in the header bar"
-msgstr "Düzenleyicide notların gösterilip gösterilmeyeceği"
+msgstr "Başlık çubuğunda yalnızca simge düğmelerin kullanılması"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:49
 msgid ""
@@ -4033,7 +4031,7 @@ msgstr "Takvim"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:8
 #: ../src/e-util/e-name-selector-dialog.c:448
 #: ../src/modules/addressbook/e-book-shell-backend.c:301
-#: ../src/modules/addressbook/e-book-shell-view.c:438
+#: ../src/modules/addressbook/e-book-shell-view.c:442
 msgid "Contacts"
 msgstr "Bağlantılar"
 
@@ -4082,8 +4080,8 @@ msgstr "Notlar"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
 #: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2467
-#: ../src/calendar/importers/icalendar-importer.c:77
-#: ../src/calendar/importers/icalendar-importer.c:1138
+#: ../src/calendar/importers/icalendar-importer.c:74
+#: ../src/calendar/importers/icalendar-importer.c:1136
 #: ../src/e-util/e-webdav-browser.c:528
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 #: ../src/modules/calendar/e-cal-shell-content.c:1904
@@ -4505,7 +4503,7 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:20
 msgid "_Discard"
-msgstr "_Sil"
+msgstr "_Gözden Çıkar"
 
 #: ../src/addressbook/addressbook.error.xml.h:21
 msgid "Cannot move contact."
@@ -4896,20 +4894,24 @@ msgid "Contact"
 msgstr "Bağlantı"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:27
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1063
 msgid "_Home Page:"
 msgstr "_Ev Sayfası:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1071
 #: ../src/calendar/gui/e-comp-editor-event.c:935
 #: ../src/modules/itip-formatter/itip-view.c:2471
 msgid "_Calendar:"
 msgstr "_Takvim:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1075
 msgid "_Free/Busy:"
 msgstr "_Müsait/Meşgul:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1079
 msgid "_Video Chat:"
 msgstr "_Görüntülü Sohbet:"
 
@@ -4931,6 +4933,7 @@ msgid "Video Chat:"
 msgstr "Görüntülü Sohbet:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:35
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1067
 msgid "_Blog:"
 msgstr "_Blog:"
 
@@ -4939,11 +4942,14 @@ msgstr "_Blog:"
 msgid "Blog:"
 msgstr "Blog:"
 
+#. tab title
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:38
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:527
 msgid "Web Addresses"
 msgstr "Web Adresleri"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:39
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1092
 msgid "_Profession:"
 msgstr "_Uzmanlık Alanı:"
 
@@ -4957,26 +4963,32 @@ msgid "_Company:"
 msgstr "Şir_ket:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:42
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1106
 msgid "_Department:"
 msgstr "_Bölüm:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:43
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1110
 msgid "_Office:"
 msgstr "_Ofis:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:44
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1083
 msgid "_Manager:"
 msgstr "_Yönetici:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1088
 msgid "_Assistant:"
 msgstr "_Yardımcı:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:46
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:533
 msgid "Job"
 msgstr "İş"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:47
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1114
 msgid "_Spouse:"
 msgstr "_Eş:"
 
@@ -5004,6 +5016,7 @@ msgstr "Doğum Günü"
 
 #. Other options
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:541
 #: ../src/mail/e-mail-config-defaults-page.c:876
 #: ../src/modules/addressbook/autocompletion-config.c:127
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:51
@@ -5011,18 +5024,22 @@ msgid "Miscellaneous"
 msgstr "Çeşitli"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:526
 msgid "Personal Information"
 msgstr "Kişisel Bilgi"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:826
 msgid "_City:"
 msgstr "_Şehir:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:827
 msgid "_Zip/Postal Code:"
 msgstr "_Posta Kodu:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:56
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:828
 msgid "_State/Province:"
 msgstr "_Eyalet/Bölge:"
 
@@ -5031,16 +5048,20 @@ msgid "_Country:"
 msgstr "_Ülke:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:829
 msgid "_PO Box:"
 msgstr "_Posta Kutusu:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:777
 #: ../src/composer/e-composer-from-header.c:122
 msgid "_Address:"
 msgstr "_Adres:"
 
+#. tab title
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:60
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:85
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:545
 #: ../src/addressbook/gui/widgets/e-contact-map.c:419
 msgid "Home"
 msgstr "Ev"
@@ -5048,6 +5069,7 @@ msgstr "Ev"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1027
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:547
 #: ../src/addressbook/gui/widgets/e-contact-map.c:432
 msgid "Work"
 msgstr "İş"
@@ -5055,11 +5077,13 @@ msgstr "İş"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:86
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1093
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:549
 #: ../src/calendar/gui/comp-util.c:1965
 msgid "Other"
 msgstr "Diğer"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:544
 msgid "Mailing Address"
 msgstr "E-posta Adresi"
 
@@ -5551,7 +5575,7 @@ msgstr "Telefon"
 #: ../src/calendar/gui/caltypes.xml.in.h:15
 #: ../src/calendar/gui/memotypes.xml.in.h:13
 #: ../src/calendar/gui/tasktypes.xml.in.h:23
-#: ../src/e-util/e-categories-selector.c:322
+#: ../src/e-util/e-categories-selector.c:370
 msgid "Category"
 msgstr "Kategori"
 
@@ -5565,22 +5589,22 @@ msgid "Expression"
 msgstr "İfade"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:12
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1518
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1601
 msgid "Name contains"
 msgstr "Ad içerir"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:13
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1497
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1580
 msgid "Email begins with"
 msgstr "E-posta başlangıcı"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:14
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1504
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1587
 msgid "Email contains"
 msgstr "E-posta içerir"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:15
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1511
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1594
 msgid "Phone contains"
 msgstr "Telefon içerir"
 
@@ -5588,7 +5612,7 @@ msgstr "Telefon içerir"
 #: ../src/calendar/gui/caltypes.xml.in.h:27
 #: ../src/calendar/gui/memotypes.xml.in.h:20
 #: ../src/calendar/gui/tasktypes.xml.in.h:38
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1490
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1573
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1890
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:810
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1069
@@ -5653,6 +5677,7 @@ msgstr "Takma ad"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:43
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:523
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:6
 #: ../src/calendar/gui/e-memo-table.etspec.h:4
 #: ../src/calendar/gui/e-task-table.etspec.h:12
@@ -5989,7 +6014,7 @@ msgid "Paste contacts from the clipboard"
 msgstr "Bağlantıları panodan yapıştır"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:997
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1289
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1372
 msgid "Delete selected contacts"
 msgstr "Seçili bağlantıları sil"
 
@@ -6038,7 +6063,7 @@ msgstr "Bu bağlantıyı (%s) silmek istediğinizden emin misiniz?"
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2887
 #: ../src/mail/e-mail-account-manager.c:739
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1368
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1451
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1640
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:700
 #: ../src/modules/calendar/e-task-shell-view-actions.c:884
@@ -6277,6 +6302,55 @@ msgstr "Diğer Adres Eyalet/Bölge"
 msgid "Other Address Country"
 msgstr "Diğer Adres Ülke"
 
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:659
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:246
+msgid "Saving changes, please wait…"
+msgstr "Değişiklikler kaydediliyor, lütfen bekleyin…"
+
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:661
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:248
+#: ../src/e-util/e-webdav-browser.c:1952
+msgid "Failed to save changes"
+msgstr "Değişiklikler kaydedilemedi"
+
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:831
+msgid "Co_untry:"
+msgstr "_Ülke:"
+
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:913
+#, fuzzy, c-format
+#| msgid "Modify a task"
+#| msgid_plural "Modify %u tasks"
+msgid "Modify a contact"
+msgid_plural "Modify %u contacts"
+msgstr[0] "%u görevi değiştir"
+
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:918
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:616
+#, fuzzy
+#| msgid "Select properties to be modified."
+msgid "Select values to be modified."
+msgstr "Düzenlenecek özellikleri seç."
+
+# Adres defteri ile ilgili olduğu için kişi ünvanı olarak düşünüldü.
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1097
+msgid "_Title:"
+msgstr "_Ünvan:"
+
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1101
+msgid "Compa_ny:"
+msgstr "Şir_ket:"
+
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1148
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:735
+msgid "M_odify"
+msgstr "D_eğiştir"
+
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1149
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:736
+msgid "Ca_ncel"
+msgstr "İ_ptal"
+
 #: ../src/addressbook/gui/widgets/e-card-view.c:84
 msgid ""
 "Search for the Contact\n"
@@ -6332,8 +6406,8 @@ msgstr "_Bul"
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
 #: ../src/addressbook/importers/evolution-vcard-importer.c:237
 #: ../src/calendar/importers/icalendar-importer.c:515
-#: ../src/calendar/importers/icalendar-importer.c:1000
-#: ../src/calendar/importers/icalendar-importer.c:1040
+#: ../src/calendar/importers/icalendar-importer.c:998
+#: ../src/calendar/importers/icalendar-importer.c:1038
 msgid "Importing…"
 msgstr "İçe aktarılıyor…"
 
@@ -6702,7 +6776,7 @@ msgstr "Değişiklikleri _Kaydet"
 #: ../src/calendar/calendar.error.xml.h:36
 #: ../src/composer/mail-composer.error.xml.h:15
 msgid "_Discard Changes"
-msgstr "_Değişiklikleri Sil"
+msgstr "Değişiklikleri _Gözden Çıkar"
 
 #: ../src/calendar/calendar.error.xml.h:37
 msgid "Would you like to save your changes to this appointment?"
@@ -7384,7 +7458,7 @@ msgid "Description Contains"
 msgstr "Tanım İçerir"
 
 #: ../src/calendar/gui/comp-util.c:1616 ../src/calendar/gui/comp-util.c:2935
-#: ../src/calendar/importers/icalendar-importer.c:1485
+#: ../src/calendar/importers/icalendar-importer.c:1483
 #: ../src/modules/itip-formatter/itip-view.c:2882
 #, c-format
 msgid "with one guest"
@@ -7878,39 +7952,31 @@ msgstr "bir ay için takvim görünümü"
 msgid "calendar view for one or more weeks"
 msgstr "bir ya da daha çok hafta için takvim görünümü"
 
-#: ../src/calendar/gui/e-bulk-edit-tasks.c:210
-msgid "Saving changes, please wait…"
-msgstr "Değişiklikler kaydediliyor, lütfen bekleyin…"
-
-#: ../src/calendar/gui/e-bulk-edit-tasks.c:212
-#: ../src/e-util/e-webdav-browser.c:1952
-msgid "Failed to save changes"
-msgstr "Değişiklikler kaydedilemedi"
-
-#: ../src/calendar/gui/e-bulk-edit-tasks.c:573
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:611
 #, c-format
 msgid "Modify a task"
 msgid_plural "Modify %u tasks"
 msgstr[0] "%u görevi değiştir"
 
-#: ../src/calendar/gui/e-bulk-edit-tasks.c:578
-msgid "Select properties to be modified."
-msgstr "Düzenlenecek özellikleri seç."
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:649
+#, fuzzy
+#| msgid "General"
+msgid "_General"
+msgstr "Genel"
 
-#: ../src/calendar/gui/e-bulk-edit-tasks.c:592
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:653
 #: ../src/calendar/gui/e-comp-editor-memo.c:327
 #: ../src/calendar/gui/e-comp-editor-task.c:924
 msgctxt "ECompEditor"
 msgid "Sta_rt date:"
 msgstr "_Başlangıç tarihi:"
 
-#: ../src/calendar/gui/e-bulk-edit-tasks.c:646
-msgid "M_odify tasks"
-msgstr "Görevleri d_eğiştir"
-
-#: ../src/calendar/gui/e-bulk-edit-tasks.c:647
-msgid "Ca_ncel"
-msgstr "İ_ptal"
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:705
+#: ../src/calendar/gui/e-comp-editor-event.c:775
+#: ../src/calendar/gui/e-comp-editor-memo.c:258
+#: ../src/calendar/gui/e-comp-editor-task.c:802
+msgid "_Categories"
+msgstr "_Kategoriler"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1733
 #, c-format
@@ -8521,12 +8587,6 @@ msgstr "Bitiş tarihi geçerli tarih değil"
 msgid "End time is not a valid time"
 msgstr "Bitiş saati geçerli zaman değil"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:775
-#: ../src/calendar/gui/e-comp-editor-memo.c:258
-#: ../src/calendar/gui/e-comp-editor-task.c:802
-msgid "_Categories"
-msgstr "_Kategoriler"
-
 #: ../src/calendar/gui/e-comp-editor-event.c:777
 #: ../src/calendar/gui/e-comp-editor-memo.c:260
 #: ../src/calendar/gui/e-comp-editor-task.c:804
@@ -8687,13 +8747,13 @@ msgid_plural "Attachments"
 msgstr[0] "Ek"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:201
-#: ../src/e-util/e-attachment.c:2587
+#: ../src/e-util/e-attachment.c:2588
 #, c-format
 msgid "Could not load “%s”"
 msgstr "“%s” yüklenemedi"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:203
-#: ../src/e-util/e-attachment.c:2590
+#: ../src/e-util/e-attachment.c:2591
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Eklenti yüklenemedi"
@@ -9616,13 +9676,13 @@ msgstr "Panodan yapıştır"
 
 #: ../src/calendar/gui/e-comp-editor.c:2230
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2919
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1552
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1566
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1635
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1649
 msgid "_Print…"
 msgstr "_Yazdır…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2237 ../src/mail/e-mail-reader.c:2926
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1559
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1642
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:841
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1100
@@ -10542,7 +10602,7 @@ msgstr "Sonraki Günler"
 msgid "Previous Days"
 msgstr "Önceki Günler"
 
-#: ../src/calendar/importers/icalendar-importer.c:76
+#: ../src/calendar/importers/icalendar-importer.c:73
 msgid "Appointments and Meetings"
 msgstr "Randevular ve Toplantılar"
 
@@ -10570,180 +10630,180 @@ msgid "Cre_ate new task list"
 msgstr "Yeni görev listesi olu_ştur"
 
 #: ../src/calendar/importers/icalendar-importer.c:537
-#: ../src/calendar/importers/icalendar-importer.c:968
+#: ../src/calendar/importers/icalendar-importer.c:966
 msgid "Opening calendar"
 msgstr "Talvim açılıyor"
 
-#: ../src/calendar/importers/icalendar-importer.c:688
+#: ../src/calendar/importers/icalendar-importer.c:685
 msgid "iCalendar files (.ics)"
 msgstr "iCalendar dosyaları (.ics)"
 
-#: ../src/calendar/importers/icalendar-importer.c:689
+#: ../src/calendar/importers/icalendar-importer.c:686
 msgid "Evolution iCalendar importer"
 msgstr "Evolution iCalendar aktarıcı"
 
-#: ../src/calendar/importers/icalendar-importer.c:856
+#: ../src/calendar/importers/icalendar-importer.c:854
 msgid "vCalendar files (.vcs)"
 msgstr "vCalendar dosyaları (.vcs)"
 
-#: ../src/calendar/importers/icalendar-importer.c:857
+#: ../src/calendar/importers/icalendar-importer.c:855
 msgid "Evolution vCalendar importer"
 msgstr "Evolution vCalendar aktarıcı"
 
-#: ../src/calendar/importers/icalendar-importer.c:1131
+#: ../src/calendar/importers/icalendar-importer.c:1129
 msgid "Calendar Events"
 msgstr "Takvim Olayları"
 
-#: ../src/calendar/importers/icalendar-importer.c:1174
+#: ../src/calendar/importers/icalendar-importer.c:1172
 msgid "GNOME Calendar"
 msgstr "GNOME Takvim"
 
-#: ../src/calendar/importers/icalendar-importer.c:1175
+#: ../src/calendar/importers/icalendar-importer.c:1173
 msgid "Evolution Calendar intelligent importer"
 msgstr "Evolution Takvim akıllı aktarıcı"
 
-#: ../src/calendar/importers/icalendar-importer.c:1265
-#: ../src/calendar/importers/icalendar-importer.c:1654
+#: ../src/calendar/importers/icalendar-importer.c:1263
+#: ../src/calendar/importers/icalendar-importer.c:1652
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Toplantı"
 
-#: ../src/calendar/importers/icalendar-importer.c:1265
-#: ../src/calendar/importers/icalendar-importer.c:1654
+#: ../src/calendar/importers/icalendar-importer.c:1263
+#: ../src/calendar/importers/icalendar-importer.c:1652
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Olay"
 
-#: ../src/calendar/importers/icalendar-importer.c:1268
-#: ../src/calendar/importers/icalendar-importer.c:1655
+#: ../src/calendar/importers/icalendar-importer.c:1266
+#: ../src/calendar/importers/icalendar-importer.c:1653
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Görev"
 
-#: ../src/calendar/importers/icalendar-importer.c:1271
-#: ../src/calendar/importers/icalendar-importer.c:1656
+#: ../src/calendar/importers/icalendar-importer.c:1269
+#: ../src/calendar/importers/icalendar-importer.c:1654
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Not"
 
-#: ../src/calendar/importers/icalendar-importer.c:1280
+#: ../src/calendar/importers/icalendar-importer.c:1278
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "örneğidir"
 
 #. have ? NULL :
-#: ../src/calendar/importers/icalendar-importer.c:1283
+#: ../src/calendar/importers/icalendar-importer.c:1281
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "yinelemeleri var"
 
-#: ../src/calendar/importers/icalendar-importer.c:1288
+#: ../src/calendar/importers/icalendar-importer.c:1286
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "anımsatıcıları var"
 
-#: ../src/calendar/importers/icalendar-importer.c:1293
+#: ../src/calendar/importers/icalendar-importer.c:1291
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "eklentileri var"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1305
+#: ../src/calendar/importers/icalendar-importer.c:1303
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Herkese Açık"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1308
+#: ../src/calendar/importers/icalendar-importer.c:1306
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Özel"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1311
+#: ../src/calendar/importers/icalendar-importer.c:1309
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Gizli"
 
 #. Translators: Appointment's classification section name
-#: ../src/calendar/importers/icalendar-importer.c:1315
+#: ../src/calendar/importers/icalendar-importer.c:1313
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Sınıflandırma"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
-#: ../src/calendar/importers/icalendar-importer.c:1320
-#: ../src/calendar/importers/icalendar-importer.c:1699
+#: ../src/calendar/importers/icalendar-importer.c:1318
+#: ../src/calendar/importers/icalendar-importer.c:1697
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Özet"
 
 #. Translators: Appointment's location
-#: ../src/calendar/importers/icalendar-importer.c:1327
+#: ../src/calendar/importers/icalendar-importer.c:1325
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Konum"
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
-#: ../src/calendar/importers/icalendar-importer.c:1335
-#: ../src/calendar/importers/icalendar-importer.c:1694
+#: ../src/calendar/importers/icalendar-importer.c:1333
+#: ../src/calendar/importers/icalendar-importer.c:1692
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Başlangıç"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../src/calendar/importers/icalendar-importer.c:1345
+#: ../src/calendar/importers/icalendar-importer.c:1343
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Tamamlanma"
 
 #. Translators: Appointment's end time
-#: ../src/calendar/importers/icalendar-importer.c:1356
+#: ../src/calendar/importers/icalendar-importer.c:1354
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Bitiş"
 
 #. Translators: Appointment's categories
-#: ../src/calendar/importers/icalendar-importer.c:1365
+#: ../src/calendar/importers/icalendar-importer.c:1363
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Kategoriler"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../src/calendar/importers/icalendar-importer.c:1390
+#: ../src/calendar/importers/icalendar-importer.c:1388
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Tamamlandı"
 
 #. Translators: Appointment's URL
-#: ../src/calendar/importers/icalendar-importer.c:1397
+#: ../src/calendar/importers/icalendar-importer.c:1395
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../src/calendar/importers/icalendar-importer.c:1415
-#: ../src/calendar/importers/icalendar-importer.c:1418
+#: ../src/calendar/importers/icalendar-importer.c:1413
+#: ../src/calendar/importers/icalendar-importer.c:1416
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Düzenleyen"
 
 #. Translators: Appointment's attendees
-#: ../src/calendar/importers/icalendar-importer.c:1501
+#: ../src/calendar/importers/icalendar-importer.c:1499
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Katılımcılar"
 
-#: ../src/calendar/importers/icalendar-importer.c:1520
-#: ../src/calendar/importers/icalendar-importer.c:1528
+#: ../src/calendar/importers/icalendar-importer.c:1518
+#: ../src/calendar/importers/icalendar-importer.c:1526
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Açıklama"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../src/calendar/importers/icalendar-importer.c:1689
+#: ../src/calendar/importers/icalendar-importer.c:1687
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Tür"
@@ -12606,25 +12666,25 @@ msgstr ""
 "Gönderilecek iletiler şifrelenemiyor: Bu hesap için imzalama sertifikası "
 "belirtilmemiş"
 
-#: ../src/composer/e-msg-composer.c:2054 ../src/composer/e-msg-composer.c:2734
+#: ../src/composer/e-msg-composer.c:2054 ../src/composer/e-msg-composer.c:2732
 msgid "Compose Message"
 msgstr "İleti Yaz"
 
-#: ../src/composer/e-msg-composer.c:4950
+#: ../src/composer/e-msg-composer.c:4948
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Metin içeriği okunuyor…"
 
-#: ../src/composer/e-msg-composer.c:5018
+#: ../src/composer/e-msg-composer.c:5016
 msgid "Send _without encryption"
 msgstr "Şifrelemeden _gönder"
 
-#: ../src/composer/e-msg-composer.c:5806
+#: ../src/composer/e-msg-composer.c:5804
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Ek(ler)i göndermeden gözden geçir."
 
-#: ../src/composer/e-msg-composer.c:5811
+#: ../src/composer/e-msg-composer.c:5809
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -12636,7 +12696,7 @@ msgstr[0] ""
 "%d ek dış uygulamaca eklendi. İletiyi göndermeden önce hassas bilgi "
 "barındırmadığından emin olun."
 
-#: ../src/composer/e-msg-composer.c:5944
+#: ../src/composer/e-msg-composer.c:5942
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Düzenleyicide metin olmayan ve düzenlenemeyen ileti gövdesi bulunmaktadır."
@@ -12701,8 +12761,8 @@ msgid ""
 "Are you sure you want to discard the message, titled “{0}”, you are "
 "composing?"
 msgstr ""
-"Hazırlamakta olduğunuz “{0}” başlıklı iletiyi silmek istediğinizden emin "
-"misiniz?"
+"Hazırlamakta olduğunuz “{0}” başlıklı iletiyi gözden çıkarmak istediğinizden "
+"emin misiniz?"
 
 #: ../src/composer/mail-composer.error.xml.h:14
 msgid ""
@@ -12711,7 +12771,7 @@ msgid ""
 "continue the message at a later date."
 msgstr ""
 "Bu düzenleme penceresini kapatmanız, iletiyi Taslaklar klasörüne kaydetme "
-"seçeneğini seçmediyseniz iletinizin kalıcı olarak silinmesine neden "
+"seçeneğini seçmediyseniz iletinizin kalıcı olarak gözden çıkarılmasına neden "
 "olacaktır. Taslaklar klasörünü kullanmak ileti üzerinde çalışmaya ileriki "
 "tarihte sürdürmenizi sağlar."
 
@@ -12726,7 +12786,8 @@ msgstr "_Taslağı Kaydet"
 
 #: ../src/composer/mail-composer.error.xml.h:19
 msgid "Are you sure you want to discard the message you are composing?"
-msgstr "Hazırlamakta olduğunuz iletiyi silmek istediğinizden emin misiniz?"
+msgstr ""
+"Hazırlamakta olduğunuz iletiyi gözden çıkarmak istediğinizden emin misiniz?"
 
 #: ../src/composer/mail-composer.error.xml.h:20
 msgid "Could not create message."
@@ -12853,7 +12914,7 @@ msgid ""
 "closed and the changes being done discarded."
 msgstr ""
 "İleti toplantıya dönüştürüldüğünde oluşturulan ileti kapatılacak ve yapılan "
-"değişiklikler silinecek."
+"değişiklikler gözden çıkarılacak."
 
 #: ../src/composer/mail-composer.error.xml.h:48
 msgid "Convert to _Meeting"
@@ -12869,7 +12930,7 @@ msgid ""
 "and the changes being done discarded."
 msgstr ""
 "Olay iletiye dönüştürüldüğünde düzenleme penceresi kapatılacak ve yapılan "
-"değişiklikler silinecek."
+"değişiklikler gözden çıkarılacak."
 
 #: ../src/composer/mail-composer.error.xml.h:51
 msgid "Convert to _Message"
@@ -12885,7 +12946,7 @@ msgid ""
 "and the changes being done discarded."
 msgstr ""
 "Not iletiye dönüştürüldüğünde düzenleme penceresi kapatılacak ve yapılan "
-"değişiklikler silinecek."
+"değişiklikler gözden çıkarılacak."
 
 #: ../src/composer/mail-composer.error.xml.h:54
 msgid "Are you sure you want to convert the task into a message?"
@@ -12897,7 +12958,7 @@ msgid ""
 "and the changes being done discarded."
 msgstr ""
 "Görev iletiye dönüştürüldüğünde düzenleme penceresi kapatılacak ve yapılan "
-"değişiklikler silinecek."
+"değişiklikler gözden çıkarılacak."
 
 #: ../src/composer/mail-composer.error.xml.h:56
 msgid "Something has gone wrong when editing the message"
@@ -13548,7 +13609,6 @@ msgstr "Bu iletiyi kapat (Escape)"
 #. Translators: there are always at least two messages to be closed
 #: ../src/e-util/e-alert-bar.c:226
 #, c-format
-#| msgid "Compose a Message"
 msgid "Close a message"
 msgid_plural "Close all %u messages"
 msgstr[0] "%u iletiyi kapat"
@@ -13569,45 +13629,45 @@ msgstr "İş ipliği oluşturulamadı: "
 msgid "Attached message"
 msgstr "Ekli ileti"
 
-#: ../src/e-util/e-attachment.c:2202 ../src/e-util/e-attachment.c:3256
+#: ../src/e-util/e-attachment.c:2203 ../src/e-util/e-attachment.c:3257
 #: ../src/mail/em-utils.c:2307
 msgid "Operation was cancelled"
 msgstr "İşlem iptal edildi"
 
 #. Translators: Default attachment filename.
-#: ../src/e-util/e-attachment.c:2387 ../src/e-util/e-attachment.c:3100
-#: ../src/e-util/e-attachment.c:3552 ../src/e-util/e-attachment-store.c:911
+#: ../src/e-util/e-attachment.c:2388 ../src/e-util/e-attachment.c:3101
+#: ../src/e-util/e-attachment.c:3553 ../src/e-util/e-attachment-store.c:911
 msgid "attachment.dat"
 msgstr "ek.dat"
 
-#: ../src/e-util/e-attachment.c:2469 ../src/e-util/e-attachment.c:3612
+#: ../src/e-util/e-attachment.c:2470 ../src/e-util/e-attachment.c:3613
 msgid "A load operation is already in progress"
 msgstr "Yükleme işlemi zaten sürüyor"
 
-#: ../src/e-util/e-attachment.c:2477 ../src/e-util/e-attachment.c:3620
+#: ../src/e-util/e-attachment.c:2478 ../src/e-util/e-attachment.c:3621
 msgid "A save operation is already in progress"
 msgstr "Kayıt işlemi zaten sürüyor"
 
-#: ../src/e-util/e-attachment.c:2883
+#: ../src/e-util/e-attachment.c:2884
 #, c-format
 msgid "Could not open “%s”"
 msgstr "“%s” açılamadı"
 
-#: ../src/e-util/e-attachment.c:2886
+#: ../src/e-util/e-attachment.c:2887
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Ek dosyası açılamadı"
 
-#: ../src/e-util/e-attachment.c:3629
+#: ../src/e-util/e-attachment.c:3630
 msgid "Attachment contents not loaded"
 msgstr "Ek içeriği yüklenmedi"
 
-#: ../src/e-util/e-attachment.c:3720
+#: ../src/e-util/e-attachment.c:3721
 #, c-format
 msgid "Could not save “%s”"
 msgstr "“%s” kaydedilemedi"
 
-#: ../src/e-util/e-attachment.c:3723
+#: ../src/e-util/e-attachment.c:3724
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Ek dosya kaydedilemedi"
@@ -13720,7 +13780,7 @@ msgid "A_dd Attachment…"
 msgstr "_Dosya Ekle…"
 
 #: ../src/e-util/e-attachment-view.c:395
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1376
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1459
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:622
 #: ../src/modules/calendar/e-task-shell-view-actions.c:778
@@ -13765,7 +13825,7 @@ msgstr "Kendiliğinden tamamlamalarda bu adres defterini kullan"
 
 #: ../src/e-util/e-book-source-config.c:269
 msgid "Copy book content locally for offline operation"
-msgstr "Çevirimdışı işlem için defter içeriğini yerele kopyala"
+msgstr "Çevrim dışı işlem için defter içeriğini yerele kopyala"
 
 #: ../src/e-util/e-calendar.c:310
 msgid "Previous month"
@@ -13823,7 +13883,7 @@ msgstr "Renk:"
 
 #: ../src/e-util/e-cal-source-config.c:423
 msgid "Copy calendar contents locally for offline operation"
-msgstr "Çevirimdışı işlem için takvim içeriğini yerele kopyala"
+msgstr "Çevrim dışı işlem için takvim içeriğini yerele kopyala"
 
 #: ../src/e-util/e-cal-source-config.c:427
 msgid "Copy task list contents locally for offline operation"
@@ -13831,7 +13891,7 @@ msgstr "Çevrim dışı işlem için görev listesi içeriğini yerele kopyala"
 
 #: ../src/e-util/e-cal-source-config.c:431
 msgid "Copy memo list contents locally for offline operation"
-msgstr "Çevirimdışı işlem için not listesi içeriğini yerele kopyala"
+msgstr "Çevrim dışı işlem için not listesi içeriğini yerele kopyala"
 
 #: ../src/e-util/e-categories-editor.c:270
 msgid "Currently _used categories:"
@@ -13856,7 +13916,7 @@ msgctxt "category"
 msgid "_Delete"
 msgstr "_Sil"
 
-#: ../src/e-util/e-categories-selector.c:317
+#: ../src/e-util/e-categories-selector.c:365
 msgid "Icon"
 msgstr "Simge"
 
@@ -15460,7 +15520,7 @@ msgstr "<b>Arka Plan</b>"
 #: ../src/e-util/e-html-editor-cell-dialog.c:625
 #: ../src/e-util/e-html-editor-table-dialog.c:668
 msgid "Transparent"
-msgstr "Şeffaf"
+msgstr "Saydam"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:633
 msgid "C_olor:"
@@ -16036,7 +16096,7 @@ msgstr "_Yaz"
 
 #: ../src/e-util/e-markdown-editor.c:1716
 #: ../src/e-util/e-markdown-editor.c:2292
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1352
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1435
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:687
 #: ../src/modules/calendar/e-task-shell-view-actions.c:871
@@ -16230,7 +16290,7 @@ msgstr "A_ra:"
 
 #: ../src/e-util/e-name-selector-dialog.c:363
 #: ../src/e-util/e-name-selector-dialog.c:1321
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1466
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1549
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1852
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:786
 #: ../src/modules/calendar/e-task-shell-view-actions.c:989
@@ -16282,7 +16342,7 @@ msgstr "_Sil %s"
 #: ../src/e-util/e-online-button.c:30
 msgid "Evolution is currently online.  Click this button to work offline."
 msgstr ""
-"Evolution şu anda çevrim içi çalışıyor.  Çevirim dışı çalışmak için bu "
+"Evolution şu anda çevrim içi çalışıyor.  Çevrim dışı çalışmak için bu "
 "düğmeye tıklayın."
 
 #: ../src/e-util/e-online-button.c:33
@@ -16293,7 +16353,7 @@ msgstr ""
 
 #: ../src/e-util/e-online-button.c:36
 msgid "Evolution is currently offline because the network is unavailable."
-msgstr "Evolution şu anda çevrimdışı çünkü ağ kullanılabilir değil."
+msgstr "Evolution şu anda çevrim dışı çünkü ağ kullanılabilir değil."
 
 #: ../src/e-util/e-passwords.c:131
 msgid "Keyring key is unusable: no user or host name"
@@ -16614,37 +16674,37 @@ msgstr "Dönüş Bildirimi"
 msgid "Sta_tus Tracking"
 msgstr "_Durum İzleme"
 
-#: ../src/e-util/e-source-config.c:690 ../src/e-util/e-source-config.c:694
+#: ../src/e-util/e-source-config.c:691 ../src/e-util/e-source-config.c:695
 msgid "Type:"
 msgstr "Tür:"
 
-#: ../src/e-util/e-source-config.c:704 ../src/e-util/e-source-config.c:708
+#: ../src/e-util/e-source-config.c:705 ../src/e-util/e-source-config.c:709
 msgid "Name:"
 msgstr "Ad:"
 
-#: ../src/e-util/e-source-config.c:815 ../src/e-util/e-webdav-browser.c:1884
+#: ../src/e-util/e-source-config.c:816 ../src/e-util/e-webdav-browser.c:1884
 msgid "Name cannot be empty"
 msgstr "Ad boş olamaz"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../src/e-util/e-source-config.c:1382
+#: ../src/e-util/e-source-config.c:1383
 msgid "Refresh every"
 msgstr "Yenileme sıklığı"
 
-#: ../src/e-util/e-source-config.c:1410
+#: ../src/e-util/e-source-config.c:1411
 msgid "Refresh content on metered network"
 msgstr "Ölçülen ağda içeriği yenile"
 
-#: ../src/e-util/e-source-config.c:1437 ../src/e-util/e-source-config.c:1511
+#: ../src/e-util/e-source-config.c:1438 ../src/e-util/e-source-config.c:1512
 msgid "Use a secure connection"
 msgstr "Güvenli bağlantı kullan"
 
-#: ../src/e-util/e-source-config.c:1538
+#: ../src/e-util/e-source-config.c:1539
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "SSL/TLS sertifikasına _güvenme bilgisini kaldır"
 
-#: ../src/e-util/e-source-config.c:1574
+#: ../src/e-util/e-source-config.c:1575
 msgid "User:"
 msgstr "Kullanıcı:"
 
@@ -17509,7 +17569,7 @@ msgstr "Bu imza değiştirildi, ancak kaydedilmedi."
 
 #: ../src/e-util/widgets.error.xml.h:3 ../src/mail/mail.error.xml.h:204
 msgid "_Discard changes"
-msgstr "_Değişiklikleri sil"
+msgstr "Değişiklikleri _gözden çıkar"
 
 #: ../src/e-util/widgets.error.xml.h:4
 msgid "Blank Signature"
@@ -20199,7 +20259,7 @@ msgid "Stop the current operation"
 msgstr "Geçerli işlemi durdur"
 
 #: ../src/mail/em-subscription-editor.c:1961
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1273
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1349
 msgid "_Stop"
 msgstr "_Dur"
 
@@ -21286,10 +21346,8 @@ msgstr "Çöp _Boşaltılıyor"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:158
-#, fuzzy
-#| msgid "Prompt when user tries to open 10 or more messages at once"
 msgid "Tries to _open 10 or more messages at once"
-msgstr "Kullanıcı 10 ya da daha çok iletiyi aynı anda açmaya çalıştığında sor"
+msgstr "10 ya da daha çok ileti aynı anda _açmayı dener"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:160
@@ -21303,17 +21361,13 @@ msgstr "_Arama klasöründen iletiler siliniyor"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:164
-#, fuzzy
-#| msgid "Copy folder in folder tree."
 msgid "Copy _folder by Drag & Drop in folder tree"
-msgstr "Klasörü klasör ağacına kopyala."
+msgstr "Klasör ağacında Sürükle ve Bırak ile _klasör kopyala"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:166
-#, fuzzy
-#| msgid "Move folder in folder tree."
 msgid "_Move folder by Drag & Drop in folder tree"
-msgstr "Klasörü klasör ağacına taşı."
+msgstr "Klasör ağacında Sürükle ve Bırak ile klasör _taşı"
 
 #: ../src/mail/mail-config.ui.h:167
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
@@ -22165,7 +22219,7 @@ msgstr ""
 "Bu, iletinin henüz indirilmemiş olmasından kaynaklı olabilir. Klasör veya "
 "hesap, çevrim dışı eşitleme için imlenebilir. Sonra, yeniden çevrim içi "
 "olduğunuzda, klasördeki tüm iletilerin çevrim dışı kipte kullanılabilir "
-"olduğundan emin olmak için, bu dizin seçiliyken Dosya→Çevirim Dışı Kullanım "
+"olduğundan emin olmak için, bu dizin seçiliyken Dosya→Çevrim Dışı Kullanım "
 "için İndir’i kullanın."
 
 #: ../src/mail/mail.error.xml.h:177
@@ -22222,7 +22276,7 @@ msgstr "{0} üstünde bu işlem gerçekleştirilemedi."
 
 #: ../src/mail/mail.error.xml.h:190
 msgid "You must be working online to complete this operation."
-msgstr "Bu işlemi tamamlayabilmek için çevirim içi çalışmanız gerekiyor."
+msgstr "Bu işlemi tamamlayabilmek için çevrim içi çalışmanız gerekiyor."
 
 #: ../src/mail/mail.error.xml.h:191
 msgid "Message from “{0}” account:"
@@ -22631,7 +22685,8 @@ msgstr "T_akvim"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:487
 #: ../src/modules/addressbook/e-book-shell-backend.c:256
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:140
+#: ../src/modules/addressbook/e-book-shell-backend.c:498
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:141
 msgid "New Address Book"
 msgstr "Yeni Adres Defteri"
 
@@ -22642,7 +22697,7 @@ msgid "New Memo List"
 msgstr "Yeni Görev Listesi"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:543
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:213
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:214
 msgid "Address Book Properties"
 msgstr "Adres Defteri Özellikleri"
 
@@ -22683,10 +22738,8 @@ msgid "_GNOME"
 msgstr "_GNOME"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:294
-#, fuzzy
-#| msgid "Display window buttons with icons only"
 msgid "Use buttons with _icons only"
-msgstr "Pencere düğmelerini yalnızca simge olarak göster"
+msgstr "Düğmeleri yalnızca _simge olarak kullan"
 
 #. Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:313
@@ -22788,7 +22841,7 @@ msgstr "Google"
 
 #: ../src/modules/addressbook/autocompletion-config.c:180
 msgid "Use system map _application, if available"
-msgstr ""
+msgstr "Varsa sistem harita _uygulamasını kullan"
 
 #: ../src/modules/addressbook/autocompletion-config.c:190
 msgid "Autocompletion"
@@ -22824,7 +22877,7 @@ msgid "_Contact"
 msgstr "_Bağlantı"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:267
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1317
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1400
 msgid "Create a new contact"
 msgstr "Yeni bağlantı oluştur"
 
@@ -22834,7 +22887,7 @@ msgid "Contact _List"
 msgstr "Bağlantı _Listesi"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:274
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1324
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1407
 msgid "Create a new contact list"
 msgstr "Yeni bağlantı listesi oluştur"
 
@@ -22844,90 +22897,90 @@ msgid "Address _Book"
 msgstr "Adres _Defteri"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:284
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1233
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1309
 msgid "Create a new address book"
 msgstr "Yeni adres defteri oluştur"
 
 #. Translators: This is a save dialog title
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:606
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:963
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:607
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1039
 msgid "Save as vCard"
 msgstr "vCard olarak kaydet"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:717
-#: ../src/modules/addressbook/e-book-shell-view.c:658
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:678
+#: ../src/modules/addressbook/e-book-shell-view.c:662
 msgid "Retrieving selected contacts…"
 msgstr "Seçili bağlantılar alınıyor…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1203
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1279
 msgid "Co_py All Contacts To…"
 msgstr "Tüm Bağlantıları _Kopyala…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1205
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1281
 msgid "Copy the contacts of the selected address book to another"
 msgstr "Seçili adres defterinin bağlantılarını başkasına kopyala"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1210
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1286
 msgid "D_elete Address Book"
 msgstr "Adres Defterini _Sil"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1212
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1288
 msgid "Delete the selected address book"
 msgstr "Seçilen adres defterini sil"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1217
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1293
 msgid "_Manage Address Book groups…"
 msgstr "Adres Defteri Kümelerini _Yönet…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1219
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1295
 #: ../src/modules/calendar/e-task-shell-view-actions.c:766
 msgid "Manage task list groups order and visibility"
 msgstr "Görev listesi kümelerinin sıralamasını ya da görünürlüğünü yönet"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1224
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1300
 msgid "Mo_ve All Contacts To…"
 msgstr "Tüm Bağlantıları Ta_şı…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1226
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1302
 msgid "Move the contacts of the selected address book to another"
 msgstr "Seçili adres defterinin bağlantılarını başkasına taşı"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1231
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1307
 msgid "_New Address Book"
 msgstr "_Yeni Adres Defteri"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1238
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1314
 msgid "Address _Book Properties"
 msgstr "Adres _Defteri Özellikleri"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1240
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1316
 msgid "Show properties of the selected address book"
 msgstr "Seçilen adres defterinin özelliklerini göster"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1245
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1321
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1376
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:629
 #: ../src/modules/calendar/e-task-shell-view-actions.c:785
 msgid "Re_fresh"
 msgstr "_Yenile"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1247
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1323
 msgid "Refresh the selected address book"
 msgstr "Seçilen adres defterini yenile"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1252
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1328
 msgid "Re_fresh list of account address books"
 msgstr "Hesap adres defterlerinin listesini ye_nile"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1259
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1335
 msgid "Address Book _Map"
 msgstr "Adres Defteri _Haritası"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1261
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1337
 msgid "Show map with all contacts from selected address book"
 msgstr "Haritayı, seçili adres defterindeki tüm bağlantılarla göster"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1266
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1342
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1390
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:643
 #: ../src/modules/calendar/e-task-shell-view-actions.c:799
@@ -22935,123 +22988,132 @@ msgstr "Haritayı, seçili adres defterindeki tüm bağlantılarla göster"
 msgid "_Rename…"
 msgstr "_Yeniden Adlandır…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1268
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1344
 msgid "Rename the selected address book"
 msgstr "Seçilen adres defterini yeniden adlandır"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1275
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1351
 msgid "Stop loading"
 msgstr "Yüklemeyi durdur"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1280
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1356
+#: ../src/modules/calendar/e-task-shell-view-actions.c:722
+msgid "_Bulk Edit…"
+msgstr "Toplu Düz_enle…"
+
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
+msgid "Edit selected contacts in a bulk"
+msgstr "Seçilen bağlantıları toplu düzenle"
+
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1363
 msgid "_Copy Contact To…"
 msgstr "Bağlantıyı Şuraya _Kopyala…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1282
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1365
 msgid "Copy selected contacts to another address book"
 msgstr "Seçilen bağlantıları başka klasöre kopyala"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1287
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1370
 msgid "_Delete Contact"
 msgstr "Bağlantı _Sil"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1294
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1377
 msgid "_Find in Contact…"
 msgstr "Bağlantı içinde _Bul…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1296
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1379
 msgid "Search for text in the displayed contact"
 msgstr "Görüntülenen bağlantı içinde metin ara"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1301
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1384
 msgid "_Forward Contact…"
 msgstr "Bağlantıyı _Yönlendir…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1303
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1386
 msgid "Send selected contacts to another person"
 msgstr "Seçilen bağlantıları başkasına gönder"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1308
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1391
 msgid "_Move Contact To…"
 msgstr "Bağlantıyı Şuraya _Taşı…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1310
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1393
 msgid "Move selected contacts to another address book"
 msgstr "Seçilen bağlantıları başka adres defterine taşı"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1315
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1398
 msgid "_New Contact…"
 msgstr "_Yeni Bağlantı…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1322
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1405
 msgid "New Contact _List…"
 msgstr "Yeni Bağlantı _Listesi…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1329
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1412
 msgid "_Open Contact"
 msgstr "_Bağlantıyı Aç"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1331
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1414
 msgid "View the current contact"
 msgstr "Güncel bağlantıyı göster"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1336
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1419
 msgid "_Send Message to Contact…"
 msgstr "Bağlantıya İleti _Gönder…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1338
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1421
 msgid "Send a message to the selected contacts"
 msgstr "Seçilen bağlantılara ileti gönder"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1345
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1428
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1616
 #: ../src/modules/calendar/e-task-shell-view-actions.c:864
 msgid "_Actions"
 msgstr "_Eylemler"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1359
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1442
 msgid "_Sort Cards By"
 msgstr "Kartları _Sırala"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1372
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1455
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:704
 #: ../src/modules/calendar/e-task-shell-view-actions.c:888
 msgid "_Manage groups…"
 msgstr "Kümeleri _yönet…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1388
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1471
 msgid "Address Book Map"
 msgstr "Adres Defteri Haritası"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1420
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1503
 msgid "Contact _Preview"
 msgstr "Bağlantı Ö_n İzlemesi"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1422
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1505
 msgid "Show contact preview window"
 msgstr "Bağlantı ön izleme penceresini göster"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1428
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1511
 msgid "Show _Maps"
 msgstr "_Haritaları Göster"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1430
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1513
 msgid "Show maps in contact preview window"
 msgstr "Haritaları bağlantı ön izleme penceresinde göster"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1449
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1532
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:769
 #: ../src/modules/calendar/e-task-shell-view-actions.c:965
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2012
 msgid "_Classic View"
 msgstr "_Klasik Görünüm"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1451
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1534
 msgid "Show contact preview below the contact list"
 msgstr "Bağlantı ön izlemesini bağlantı listesinin altında göster"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1456
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1539
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1835
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:776
 #: ../src/modules/calendar/e-task-shell-view-actions.c:972
@@ -23059,15 +23121,15 @@ msgstr "Bağlantı ön izlemesini bağlantı listesinin altında göster"
 msgid "_Vertical View"
 msgstr "_Dikey Görünüm"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1458
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1541
 msgid "Show contact preview alongside the contact list"
 msgstr "Bağlantı ön izlemesini bağlantı listesinin yanında göster"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1473
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1556
 msgid "Unmatched"
 msgstr "Eşleme yok"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1483
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1566
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1883
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:803
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1062
@@ -23076,65 +23138,65 @@ msgstr "Eşleme yok"
 msgid "Advanced Search"
 msgstr "Gelişmiş Arama"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1528
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1611
 msgid "_File Under"
 msgstr "_Altında Dosyala"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1535
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1618
 msgid "_Given Name"
 msgstr "_Takma Adı"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1542
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1625
 msgid "Family _Name"
 msgstr "Aile _Adı"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1554
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1637
 msgid "Print all shown contacts"
 msgstr "Görülen tüm bağlantıları yazdır"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1561
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1644
 msgid "Preview the contacts to be printed"
 msgstr "Yazdırılacak olan bağlantıları ön izle"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1568
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1651
 msgid "Print selected contacts"
 msgstr "Seçili bağlantıları yazdır"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1583
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1666
 msgid "S_ave Address Book as vCard"
 msgstr "Adres Defterini vCard Olarak _Kaydet"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1585
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1668
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "Seçili adres defterinin bağlantılarını vCard olarak kaydet"
 
 #. Translators: This is an action label
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1591
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1601
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1674
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1684
 msgid "_Save as vCard…"
 msgstr "vCard olarak _kaydet…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1593
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1676
 msgid "Save selected contacts as a vCard"
 msgstr "Seçili bağlantıları VCard olarak kaydet"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:372
+#: ../src/modules/addressbook/e-book-shell-view.c:376
 msgid "_Forward Contacts"
 msgstr "Bağlantıları _Yönlendir"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:374
+#: ../src/modules/addressbook/e-book-shell-view.c:378
 msgid "_Forward Contact"
 msgstr "Bağlantıyı _Yönlendir"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:405
+#: ../src/modules/addressbook/e-book-shell-view.c:409
 msgid "_Send Message to Contacts"
 msgstr "Bağlantılara İleti _Gönder"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:407
+#: ../src/modules/addressbook/e-book-shell-view.c:411
 msgid "_Send Message to List"
 msgstr "Listeye İleti _Gönder"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:409
+#: ../src/modules/addressbook/e-book-shell-view.c:413
 msgid "_Send Message to Contact"
 msgstr "Bağlantıya İleti _Gönder"
 
@@ -24988,11 +25050,6 @@ msgstr ""
 msgid "Do not ask me again"
 msgstr "Yeniden sorma"
 
-# Menü ögesi olduğu için başlık düzeni tercih edildi.
-#: ../src/modules/calendar/e-task-shell-view-actions.c:722
-msgid "_Bulk Edit…"
-msgstr "Toplu Düz_enle…"
-
 #: ../src/modules/calendar/e-task-shell-view-actions.c:724
 msgid "Edit selected tasks in a bulk"
 msgstr "Seçilen görevleri toplu düzenle"
@@ -26234,7 +26291,7 @@ msgstr ""
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:135
 msgid "Send mail also when in offline _mode"
-msgstr "E-postayı çevrimdışı _kipteyken de gönder"
+msgstr "E-postayı çevrim dışı _kipteyken de gönder"
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:208
 msgid "Custom binary cannot be empty"
@@ -26425,7 +26482,7 @@ msgstr "Bu hesabın klasör listesini yenile"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1619
 msgid "_Download Messages for Offline Usage"
-msgstr "Çevirim _Dışı Kullanım için İndir"
+msgstr "Çevrim _Dışı Kullanım için İndir"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1621
 msgid "Download messages of accounts and folders marked for offline usage"
@@ -29913,6 +29970,12 @@ msgstr "Deponun diske yazılması başarısız, hata_kodu: %i"
 #: ../src/smime/lib/e-pkcs12.c:471
 msgid "Imported Certificate"
 msgstr "Aktarılmış Sertifika"
+
+#~ msgid "Select properties to be modified."
+#~ msgstr "Düzenlenecek özellikleri seç."
+
+#~ msgid "M_odify tasks"
+#~ msgstr "Görevleri d_eğiştir"
 
 #~ msgid "— The Evolution PIM and Email Client"
 #~ msgstr "— Evolution PIM ve E-Posta İstemcisi"
