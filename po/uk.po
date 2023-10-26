@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-10-23 15:02+0000\n"
-"PO-Revision-Date: 2023-10-23 18:46+0300\n"
+"POT-Creation-Date: 2023-10-25 15:35+0000\n"
+"PO-Revision-Date: 2023-10-26 22:50+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -642,7 +642,8 @@ msgid "Marcus Bains Line Color — Time bar"
 msgstr "Колір лінії Маркуса Байнса – поле часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
-msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
+msgid ""
+"Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
 "Колір для лінії Маркуса Байнса у розкладі (для типового значення залиште "
 "порожнім)"
@@ -958,7 +959,8 @@ msgid "Twenty four hour time format"
 msgstr "24-годинний формат часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
-msgid "Whether to show times in twenty four hour format instead of using am/pm"
+msgid ""
+"Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Чи показувати час у 24-ох годинному форматі замість am/pm"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
@@ -1059,7 +1061,8 @@ msgstr "Показувати попередній перегляд у перег
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
 msgid "If “true”, show the preview pane in the Year View"
-msgstr "Якщо зазначено, показує панель попереднього перегляду у перегляді року"
+msgstr ""
+"Якщо зазначено, показує панель попереднього перегляду у перегляді року"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
 msgid "Year view horizontal pane position"
@@ -1484,7 +1487,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 msgid "Show “Mail-Followup-To” field when sending a mail message"
-msgstr "Показувати поле «Адреса переспрямовування» при надсиланні повідомлення"
+msgstr ""
+"Показувати поле «Адреса переспрямовування» при надсиланні повідомлення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
 msgid ""
@@ -2104,7 +2108,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Hides the per-folder preview and removes the selection"
-msgstr "Сховати попередній перегляд для кожного каталогу та вилучити виділення"
+msgstr ""
+"Сховати попередній перегляд для кожного каталогу та вилучити виділення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid ""
@@ -2385,7 +2390,8 @@ msgstr "Спонукати під час очищення смітника"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Prompt the user when he or she tries to empty the trash."
-msgstr "Спонукати користувача, коли він або вона намагається очистити смітник."
+msgstr ""
+"Спонукати користувача, коли він або вона намагається очистити смітник."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Prompt when user expunges"
@@ -2415,7 +2421,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "Prompt before sending to recipients not entered as mail addresses"
-msgstr "Запитувати перед надсиланням до одержувачів, адреси до яких не введено"
+msgstr ""
+"Запитувати перед надсиланням до одержувачів, адреси до яких не введено"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
@@ -3323,8 +3330,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
 msgstr ""
-"['долучення','вкладення','долучено','долучив','долучила','долучило','вкладено'"
-",'вклав','вклали','долучили','вклала','вклали']"
+"['долучення','вкладення','долучено','долучив','долучила','долучило','вкладено"
+"','вклав','вклали','долучили','вклала','вклали']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -3715,7 +3722,8 @@ msgid "Start in offline mode"
 msgstr "Запуск у автономному режимі"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
-msgid "Whether Evolution will start up in offline mode instead of online mode."
+msgid ""
+"Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
 "Якщо встановлено, Evolution буде запускатись у автономному режимі замість "
 "мережного режиму."
@@ -4125,8 +4133,8 @@ msgstr "Примітки"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
 #: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2467
-#: ../src/calendar/importers/icalendar-importer.c:77
-#: ../src/calendar/importers/icalendar-importer.c:1138
+#: ../src/calendar/importers/icalendar-importer.c:74
+#: ../src/calendar/importers/icalendar-importer.c:1136
 #: ../src/e-util/e-webdav-browser.c:528
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 #: ../src/modules/calendar/e-cal-shell-content.c:1904
@@ -4754,11 +4762,10 @@ msgstr ""
 #: ../src/calendar/gui/e-cal-dialogs.c:695
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
 #: ../src/composer/e-composer-actions.c:242 ../src/e-util/e-activity-bar.c:370
-#: ../src/e-util/e-attachment-dialog.c:290
 #: ../src/e-util/e-attachment-store.c:658
 #: ../src/e-util/e-attachment-store.c:668
 #: ../src/e-util/e-attachment-store.c:845
-#: ../src/e-util/e-attachment-store.c:851 ../src/e-util/e-attachment-view.c:348
+#: ../src/e-util/e-attachment-store.c:851 ../src/e-util/e-attachment-view.c:451
 #: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:168
 #: ../src/e-util/e-category-editor.c:252 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240
@@ -4866,7 +4873,7 @@ msgstr "Параметри"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
 #: ../src/calendar/calendar.error.xml.h:52
-#: ../src/calendar/gui/e-comp-editor.c:2319
+#: ../src/calendar/gui/e-comp-editor.c:2321
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:845
@@ -5147,7 +5154,7 @@ msgstr "Add _X.509"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1538
-#: ../src/e-util/e-attachment-view.c:409 ../src/e-util/e-filter-rule.c:410
+#: ../src/e-util/e-attachment-view.c:519 ../src/e-util/e-filter-rule.c:410
 #: ../src/e-util/e-mail-signature-manager.c:364
 #: ../src/e-util/e-name-selector-dialog.c:1032
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:27
@@ -5180,25 +5187,25 @@ msgid "Certificates"
 msgstr "Сертифікати"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:264
-#: ../src/calendar/gui/e-comp-editor.c:2251
+#: ../src/calendar/gui/e-comp-editor.c:2253
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "В_ернути"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
-#: ../src/calendar/gui/e-comp-editor.c:2253 ../src/e-util/e-focus-tracker.c:147
+#: ../src/calendar/gui/e-comp-editor.c:2255 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Повернути"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271
-#: ../src/calendar/gui/e-comp-editor.c:2258
+#: ../src/calendar/gui/e-comp-editor.c:2260
 #: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "Повт_орити"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
-#: ../src/calendar/gui/e-comp-editor.c:2260 ../src/e-util/e-focus-tracker.c:163
+#: ../src/calendar/gui/e-comp-editor.c:2262 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Повторити"
@@ -5342,8 +5349,8 @@ msgid "Invalid contact."
 msgstr "Неправильний контакт."
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5134
-#: ../src/calendar/gui/e-comp-editor.c:2216
-#: ../src/calendar/gui/e-comp-editor.c:2288
+#: ../src/calendar/gui/e-comp-editor.c:2218
+#: ../src/calendar/gui/e-comp-editor.c:2290
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../src/shell/e-shell-window-actions.c:1121
@@ -5355,7 +5362,6 @@ msgstr "_Довідка"
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:306
-#: ../src/e-util/e-attachment-dialog.c:292
 #: ../src/e-util/e-categories-dialog.c:82 ../src/e-util/e-category-editor.c:253
 #: ../src/e-util/e-charset-combo-box.c:100
 #: ../src/e-util/e-color-chooser-widget.c:126
@@ -6103,7 +6109,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Вилучити цей контакт (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1853
-#: ../src/calendar/gui/e-comp-editor.c:2209
+#: ../src/calendar/gui/e-comp-editor.c:2211
 #: ../src/e-util/e-accounts-window.c:1760 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2887
@@ -6368,14 +6374,11 @@ msgid "Failed to save changes"
 msgstr "Не вдалося зберегти зміни"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:831
-#| msgid "_Country:"
 msgid "Co_untry:"
 msgstr "К_раїна:"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:913
 #, c-format
-#| msgid "Modify a task"
-#| msgid_plural "Modify %u tasks"
 msgid "Modify a contact"
 msgid_plural "Modify %u contacts"
 msgstr[0] "Змінити %u запис контакту"
@@ -6385,24 +6388,19 @@ msgstr[3] "Змінити запис контакту"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:918
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:616
-#| msgid "Select properties to be modified."
 msgid "Select values to be modified."
 msgstr "Виберіть значення, які слід змінити."
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1097
-#| msgctxt "Job"
-#| msgid "_Title:"
 msgid "_Title:"
 msgstr "_Посада:"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1101
-#| msgid "_Company:"
 msgid "Compa_ny:"
 msgstr "_Компанія:"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1148
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:735
-#| msgid "M_odify tasks"
 msgid "M_odify"
 msgstr "З_мінити"
 
@@ -6466,8 +6464,8 @@ msgstr "З_найти"
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
 #: ../src/addressbook/importers/evolution-vcard-importer.c:237
 #: ../src/calendar/importers/icalendar-importer.c:515
-#: ../src/calendar/importers/icalendar-importer.c:1000
-#: ../src/calendar/importers/icalendar-importer.c:1040
+#: ../src/calendar/importers/icalendar-importer.c:998
+#: ../src/calendar/importers/icalendar-importer.c:1038
 msgid "Importing…"
 msgstr "Імпортування…"
 
@@ -6798,7 +6796,8 @@ msgid "Are you sure you want to delete these {0} tasks?"
 msgstr "Вилучити завдання ці {0} завдання?"
 
 #: ../src/calendar/calendar.error.xml.h:30
-msgid "All information on these tasks will be deleted and can not be restored."
+msgid ""
+"All information on these tasks will be deleted and can not be restored."
 msgstr "Усі відомості про ці завдання будуть остаточно вилучено."
 
 #: ../src/calendar/calendar.error.xml.h:31
@@ -6806,7 +6805,8 @@ msgid "Are you sure you want to delete these {0} memos?"
 msgstr "Вилучити завдання ці {0} примітки?"
 
 #: ../src/calendar/calendar.error.xml.h:32
-msgid "All information in these memos will be deleted and can not be restored."
+msgid ""
+"All information in these memos will be deleted and can not be restored."
 msgstr "Усі відомості про ці примітки будуть остаточно вилучено."
 
 #: ../src/calendar/calendar.error.xml.h:33
@@ -6818,6 +6818,7 @@ msgid "You have changed this meeting, but not yet saved it."
 msgstr "Зустріч змінено, але не зміни збережено."
 
 #: ../src/calendar/calendar.error.xml.h:35
+#: ../src/e-util/e-attachment-popover.c:423
 msgid "_Save Changes"
 msgstr "З_берегти зміни"
 
@@ -7376,7 +7377,7 @@ msgstr "Зведення"
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:4
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
-#: ../src/e-util/e-attachment-tree-view.c:147
+#: ../src/e-util/e-attachment-tree-view.c:160
 #: ../src/e-util/e-collection-account-wizard.c:2042
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
@@ -7503,7 +7504,7 @@ msgid "Description Contains"
 msgstr "Опис містить"
 
 #: ../src/calendar/gui/comp-util.c:1616 ../src/calendar/gui/comp-util.c:2935
-#: ../src/calendar/importers/icalendar-importer.c:1485
+#: ../src/calendar/importers/icalendar-importer.c:1483
 #: ../src/modules/itip-formatter/itip-view.c:2882
 #, c-format
 msgid "with one guest"
@@ -7638,7 +7639,7 @@ msgstr "pm"
 
 #: ../src/calendar/gui/comp-util.c:2124 ../src/calendar/gui/comp-util.c:2128
 #: ../src/calendar/gui/comp-util.c:2242
-#: ../src/calendar/gui/e-comp-editor.c:1315
+#: ../src/calendar/gui/e-comp-editor.c:1317
 msgid "No Summary"
 msgstr "Немає зведення"
 
@@ -8013,7 +8014,6 @@ msgstr[2] "Змінити %u завдань"
 msgstr[3] "Змінити завдання"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:649
-#| msgid "General"
 msgid "_General"
 msgstr "З_агальне"
 
@@ -8322,7 +8322,7 @@ msgstr "Джерело"
 #: ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1450
-#: ../src/e-util/e-attachment-tree-view.c:205
+#: ../src/e-util/e-attachment-tree-view.c:218
 #: ../src/e-util/e-collection-account-wizard.c:2083
 #: ../src/e-util/e-webdav-browser.c:2554
 #: ../src/mail/e-mail-account-tree-view.c:158
@@ -8650,7 +8650,7 @@ msgstr "Час початку — недійсний час"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:566
 #: ../src/calendar/gui/e-comp-editor-event.c:582
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:239
 #: ../src/calendar/gui/e-comp-editor.c:346
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
@@ -8832,12 +8832,12 @@ msgstr "Призначена примітка — %s"
 msgid "Memo — %s"
 msgstr "Примітка — %s"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:123
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:128
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:156
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:161
 #: ../src/em-format/e-mail-formatter-attachment.c:381
-#: ../src/e-util/e-attachment-bar.c:103 ../src/e-util/e-attachment-bar.c:108
-#: ../src/e-util/e-attachment-paned.c:175
-#: ../src/e-util/e-attachment-paned.c:180 ../src/mail/message-list.etspec.h:4
+#: ../src/e-util/e-attachment-bar.c:104 ../src/e-util/e-attachment-bar.c:109
+#: ../src/e-util/e-attachment-paned.c:176
+#: ../src/e-util/e-attachment-paned.c:181 ../src/mail/message-list.etspec.h:4
 msgid "Attachment"
 msgid_plural "Attachments"
 msgstr[0] "Долучення"
@@ -8845,60 +8845,61 @@ msgstr[1] "Долучення"
 msgstr[2] "Долучень"
 msgstr[3] "Долучення"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:201
-#: ../src/e-util/e-attachment.c:2587
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:234
+#: ../src/e-util/e-attachment.c:2655
 #, c-format
 msgid "Could not load “%s”"
 msgstr "Не вдалося завантажити «%s»"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:203
-#: ../src/e-util/e-attachment.c:2590
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:236
+#: ../src/e-util/e-attachment.c:2658
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Не вдалося завантажити долучення"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:411
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:501
 msgid ""
 "Some attachments are still being downloaded. Please wait until the download "
 "is finished."
 msgstr "Деякі долучення ще звантажуються. Заждіть поки воно завершиться."
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:438
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:529
 #, c-format
 msgid "Attachment “%s” cannot be found, remove it from the list, please"
 msgstr "Не вдалося знайти долучення «%s», вилучіть його зі списку"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:455
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:546
 #, c-format
-msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
+msgid ""
+"Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "Долучення «%s» має недійсний URI, вилучіть його зі списку"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:623
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:747
 #: ../src/composer/e-composer-actions.c:326
 msgid "_Attachment…"
 msgstr "_Долучення…"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:625
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:749
 #: ../src/composer/e-composer-actions.c:328
-#: ../src/e-util/e-attachment-view.c:390
+#: ../src/e-util/e-attachment-view.c:493
 msgid "Attach a file"
 msgstr "Вкласти файл"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:632
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:756
 msgid "_Attachments"
 msgstr "_Долучення"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:634
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:758
 msgid "Show attachments"
 msgstr "Показати долучення"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:802
-#: ../src/e-util/e-attachment-bar.c:782 ../src/e-util/e-attachment-paned.c:690
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:939
+#: ../src/e-util/e-attachment-bar.c:799 ../src/e-util/e-attachment-paned.c:707
 msgid "Icon View"
 msgstr "Перегляд піктограм"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:804
-#: ../src/e-util/e-attachment-bar.c:784 ../src/e-util/e-attachment-paned.c:692
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:941
+#: ../src/e-util/e-attachment-bar.c:801 ../src/e-util/e-attachment-paned.c:709
 msgid "List View"
 msgstr "Перегляд списків"
 
@@ -9006,7 +9007,7 @@ msgstr "_Учасники…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1530
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2318
-#: ../src/calendar/gui/e-comp-editor.c:2274
+#: ../src/calendar/gui/e-comp-editor.c:2276
 #: ../src/e-util/e-accounts-window.c:1752
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
@@ -9695,19 +9696,19 @@ msgstr "долучення"
 msgid "Sending notifications to attendees…"
 msgstr "Надсилання сповіщення учасникам…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1044
+#: ../src/calendar/gui/e-comp-editor.c:1046
 #: ../src/e-util/e-webdav-browser.c:1951
 msgid "Saving changes…"
 msgstr "Збереження змін…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1961
-#: ../src/calendar/gui/e-comp-editor.c:2326
+#: ../src/calendar/gui/e-comp-editor.c:1963
+#: ../src/calendar/gui/e-comp-editor.c:2328
 #: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-notes.c:1118
 msgid "Save and Close"
 msgstr "Зберегти і закрити"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2188
+#: ../src/calendar/gui/e-comp-editor.c:2190
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1785
 #: ../src/e-util/e-html-editor-dialog.c:194
@@ -9725,19 +9726,19 @@ msgstr "Зберегти і закрити"
 msgid "_Close"
 msgstr "_Закрити"
 
-#: ../src/calendar/gui/e-comp-editor.c:2190
+#: ../src/calendar/gui/e-comp-editor.c:2192
 msgid "Close the current window"
 msgstr "Закрити поточне вікно"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2195 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2197 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:503 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:951
 msgid "_Copy"
 msgstr "_Скопіювати"
 
-#: ../src/calendar/gui/e-comp-editor.c:2197 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2199 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:505
 #: ../src/e-util/e-web-view.c:2169 ../src/mail/e-mail-browser.c:175
@@ -9746,51 +9747,51 @@ msgid "Copy the selection"
 msgstr "Копіювати виділене"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2202 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2204 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1133 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:958
 msgid "Cu_t"
 msgstr "_Вирізати"
 
-#: ../src/calendar/gui/e-comp-editor.c:2204 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2206 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
 #: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2178
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "Вирізати виділене"
 
-#: ../src/calendar/gui/e-comp-editor.c:2211 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2213 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:967
 msgid "Delete the selection"
 msgstr "Вилучити виділене"
 
-#: ../src/calendar/gui/e-comp-editor.c:2218
+#: ../src/calendar/gui/e-comp-editor.c:2220
 msgid "View help"
 msgstr "Переглянути довідку"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2223 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2225 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1140 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:986
 msgid "_Paste"
 msgstr "Вст_авити"
 
-#: ../src/calendar/gui/e-comp-editor.c:2225 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2227 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
 #: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2187
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "Вставити з буфера обміну"
 
-#: ../src/calendar/gui/e-comp-editor.c:2230
+#: ../src/calendar/gui/e-comp-editor.c:2232
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2919
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1635
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1649
 msgid "_Print…"
 msgstr "Над_рукувати…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2237 ../src/mail/e-mail-reader.c:2926
+#: ../src/calendar/gui/e-comp-editor.c:2239 ../src/mail/e-mail-reader.c:2926
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1642
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:841
@@ -9798,55 +9799,55 @@ msgstr "Над_рукувати…"
 msgid "Pre_view…"
 msgstr "_Перегляд…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2244 ../src/e-util/e-focus-tracker.c:821
+#: ../src/calendar/gui/e-comp-editor.c:2246 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:520
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1063
 msgid "Select _All"
 msgstr "Вибрати _все"
 
-#: ../src/calendar/gui/e-comp-editor.c:2246 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2248 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1065
 msgid "Select all text"
 msgstr "Виділити весь текст"
 
-#: ../src/calendar/gui/e-comp-editor.c:2267
+#: ../src/calendar/gui/e-comp-editor.c:2269
 msgid "_Classification"
 msgstr "Класи_фікація"
 
-#: ../src/calendar/gui/e-comp-editor.c:2281
+#: ../src/calendar/gui/e-comp-editor.c:2283
 #: ../src/e-util/e-html-editor-actions.c:1177
 #: ../src/e-util/e-mail-signature-editor.c:348 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1123 ../src/shell/e-shell-window-actions.c:1114
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/calendar/gui/e-comp-editor.c:2295
+#: ../src/calendar/gui/e-comp-editor.c:2297
 #: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_Insert"
 msgstr "Вс_тавка"
 
-#: ../src/calendar/gui/e-comp-editor.c:2302
+#: ../src/calendar/gui/e-comp-editor.c:2304
 #: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Параметри"
 
-#: ../src/calendar/gui/e-comp-editor.c:2309
+#: ../src/calendar/gui/e-comp-editor.c:2311
 #: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1157
 #: ../src/smime/gui/certificate-manager.c:1592 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "П_ерегляд"
 
-#: ../src/calendar/gui/e-comp-editor.c:2321
+#: ../src/calendar/gui/e-comp-editor.c:2323
 msgid "Save current changes"
 msgstr "Зберегти поточні зміни"
 
-#: ../src/calendar/gui/e-comp-editor.c:2328
+#: ../src/calendar/gui/e-comp-editor.c:2330
 msgid "Save current changes and close editor"
 msgstr "Зберегти поточні зміни і закрити редактор"
 
-#: ../src/calendar/gui/e-comp-editor.c:2335
+#: ../src/calendar/gui/e-comp-editor.c:2337
 msgid "Show _toolbar"
 msgstr "Показати панель _інструментів"
 
@@ -10489,7 +10490,8 @@ msgstr "Інформація iCalendar"
 #: ../src/calendar/gui/itip-utils.c:1394
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
-msgstr "Не вдалося зарезервувати ресурс, нова подія конфліктує з якоюсь іншою."
+msgstr ""
+"Не вдалося зарезервувати ресурс, нова подія конфліктує з якоюсь іншою."
 
 #: ../src/calendar/gui/itip-utils.c:1399
 msgid "Unable to book a resource, error: "
@@ -10725,7 +10727,7 @@ msgstr "Наступні дні"
 msgid "Previous Days"
 msgstr "Попередні дні"
 
-#: ../src/calendar/importers/icalendar-importer.c:76
+#: ../src/calendar/importers/icalendar-importer.c:73
 msgid "Appointments and Meetings"
 msgstr "Зустрічі та зібрання"
 
@@ -10753,180 +10755,180 @@ msgid "Cre_ate new task list"
 msgstr "_Створити новий список завдань"
 
 #: ../src/calendar/importers/icalendar-importer.c:537
-#: ../src/calendar/importers/icalendar-importer.c:968
+#: ../src/calendar/importers/icalendar-importer.c:966
 msgid "Opening calendar"
 msgstr "Відкривання календаря"
 
-#: ../src/calendar/importers/icalendar-importer.c:688
+#: ../src/calendar/importers/icalendar-importer.c:685
 msgid "iCalendar files (.ics)"
 msgstr "Файли iCalendar (.ics)"
 
-#: ../src/calendar/importers/icalendar-importer.c:689
+#: ../src/calendar/importers/icalendar-importer.c:686
 msgid "Evolution iCalendar importer"
 msgstr "Компонент імпорту iCalendar Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:856
+#: ../src/calendar/importers/icalendar-importer.c:854
 msgid "vCalendar files (.vcs)"
 msgstr "Файли vCalendar (.vcs)"
 
-#: ../src/calendar/importers/icalendar-importer.c:857
+#: ../src/calendar/importers/icalendar-importer.c:855
 msgid "Evolution vCalendar importer"
 msgstr "Компонент імпорту vCalendar Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:1131
+#: ../src/calendar/importers/icalendar-importer.c:1129
 msgid "Calendar Events"
 msgstr "Календарні події"
 
-#: ../src/calendar/importers/icalendar-importer.c:1174
+#: ../src/calendar/importers/icalendar-importer.c:1172
 msgid "GNOME Calendar"
 msgstr "Календар GNOME"
 
-#: ../src/calendar/importers/icalendar-importer.c:1175
+#: ../src/calendar/importers/icalendar-importer.c:1173
 msgid "Evolution Calendar intelligent importer"
 msgstr "Інтелектуальний компонент імпорту календаря Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:1265
-#: ../src/calendar/importers/icalendar-importer.c:1654
+#: ../src/calendar/importers/icalendar-importer.c:1263
+#: ../src/calendar/importers/icalendar-importer.c:1652
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Зас_ідання"
 
-#: ../src/calendar/importers/icalendar-importer.c:1265
-#: ../src/calendar/importers/icalendar-importer.c:1654
+#: ../src/calendar/importers/icalendar-importer.c:1263
+#: ../src/calendar/importers/icalendar-importer.c:1652
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Подія"
 
-#: ../src/calendar/importers/icalendar-importer.c:1268
-#: ../src/calendar/importers/icalendar-importer.c:1655
+#: ../src/calendar/importers/icalendar-importer.c:1266
+#: ../src/calendar/importers/icalendar-importer.c:1653
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Завдання"
 
-#: ../src/calendar/importers/icalendar-importer.c:1271
-#: ../src/calendar/importers/icalendar-importer.c:1656
+#: ../src/calendar/importers/icalendar-importer.c:1269
+#: ../src/calendar/importers/icalendar-importer.c:1654
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Примітка"
 
-#: ../src/calendar/importers/icalendar-importer.c:1280
+#: ../src/calendar/importers/icalendar-importer.c:1278
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "— екземпляр"
 
 #. have ? NULL :
-#: ../src/calendar/importers/icalendar-importer.c:1283
+#: ../src/calendar/importers/icalendar-importer.c:1281
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "має повтори."
 
-#: ../src/calendar/importers/icalendar-importer.c:1288
+#: ../src/calendar/importers/icalendar-importer.c:1286
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "має нагадування"
 
-#: ../src/calendar/importers/icalendar-importer.c:1293
+#: ../src/calendar/importers/icalendar-importer.c:1291
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "має долучення"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1305
+#: ../src/calendar/importers/icalendar-importer.c:1303
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Загальне"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1308
+#: ../src/calendar/importers/icalendar-importer.c:1306
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Особисте"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1311
+#: ../src/calendar/importers/icalendar-importer.c:1309
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Конфіденційне"
 
 #. Translators: Appointment's classification section name
-#: ../src/calendar/importers/icalendar-importer.c:1315
+#: ../src/calendar/importers/icalendar-importer.c:1313
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Класифікація"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
-#: ../src/calendar/importers/icalendar-importer.c:1320
-#: ../src/calendar/importers/icalendar-importer.c:1699
+#: ../src/calendar/importers/icalendar-importer.c:1318
+#: ../src/calendar/importers/icalendar-importer.c:1697
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Зведення"
 
 #. Translators: Appointment's location
-#: ../src/calendar/importers/icalendar-importer.c:1327
+#: ../src/calendar/importers/icalendar-importer.c:1325
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Адреса"
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
-#: ../src/calendar/importers/icalendar-importer.c:1335
-#: ../src/calendar/importers/icalendar-importer.c:1694
+#: ../src/calendar/importers/icalendar-importer.c:1333
+#: ../src/calendar/importers/icalendar-importer.c:1692
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Починається"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../src/calendar/importers/icalendar-importer.c:1345
+#: ../src/calendar/importers/icalendar-importer.c:1343
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Закінчується"
 
 #. Translators: Appointment's end time
-#: ../src/calendar/importers/icalendar-importer.c:1356
+#: ../src/calendar/importers/icalendar-importer.c:1354
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Кінець"
 
 #. Translators: Appointment's categories
-#: ../src/calendar/importers/icalendar-importer.c:1365
+#: ../src/calendar/importers/icalendar-importer.c:1363
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Категорії"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../src/calendar/importers/icalendar-importer.c:1390
+#: ../src/calendar/importers/icalendar-importer.c:1388
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Завершено"
 
 #. Translators: Appointment's URL
-#: ../src/calendar/importers/icalendar-importer.c:1397
+#: ../src/calendar/importers/icalendar-importer.c:1395
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../src/calendar/importers/icalendar-importer.c:1415
-#: ../src/calendar/importers/icalendar-importer.c:1418
+#: ../src/calendar/importers/icalendar-importer.c:1413
+#: ../src/calendar/importers/icalendar-importer.c:1416
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Організатор"
 
 #. Translators: Appointment's attendees
-#: ../src/calendar/importers/icalendar-importer.c:1501
+#: ../src/calendar/importers/icalendar-importer.c:1499
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Учасники"
 
-#: ../src/calendar/importers/icalendar-importer.c:1520
-#: ../src/calendar/importers/icalendar-importer.c:1528
+#: ../src/calendar/importers/icalendar-importer.c:1518
+#: ../src/calendar/importers/icalendar-importer.c:1526
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Опис"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../src/calendar/importers/icalendar-importer.c:1689
+#: ../src/calendar/importers/icalendar-importer.c:1687
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Тип"
@@ -12595,7 +12597,8 @@ msgstr "_Запитати підтвердження про прочитання
 
 #: ../src/composer/e-composer-actions.c:468
 msgid "Get delivery notification when your message is read"
-msgstr "Встановіть, щоб отримати сповіщення про прочитання вашого повідомлення"
+msgstr ""
+"Встановіть, щоб отримати сповіщення про прочитання вашого повідомлення"
 
 #: ../src/composer/e-composer-actions.c:474
 msgid "Request _Delivery Status Notification"
@@ -13198,7 +13201,7 @@ msgid "Format part as an RFC822 message"
 msgstr "Форматувати частину як лист RFC822"
 
 #: ../src/em-format/e-mail-formatter-print.c:50
-#: ../src/e-util/e-attachment-tree-view.c:193
+#: ../src/e-util/e-attachment-tree-view.c:206
 #: ../src/mail/message-list.etspec.h:10
 msgid "Size"
 msgstr "Розмір"
@@ -13767,73 +13770,48 @@ msgstr "Помилка при створенні гілки: "
 msgid "Attached message"
 msgstr "Долучене повідомлення"
 
-#: ../src/e-util/e-attachment.c:2202 ../src/e-util/e-attachment.c:3256
+#: ../src/e-util/e-attachment.c:2270 ../src/e-util/e-attachment.c:3324
 #: ../src/mail/em-utils.c:2307
 msgid "Operation was cancelled"
 msgstr "Операцію було відмінено"
 
 #. Translators: Default attachment filename.
-#: ../src/e-util/e-attachment.c:2387 ../src/e-util/e-attachment.c:3100
-#: ../src/e-util/e-attachment.c:3552 ../src/e-util/e-attachment-store.c:911
+#: ../src/e-util/e-attachment.c:2455 ../src/e-util/e-attachment.c:3168
+#: ../src/e-util/e-attachment.c:3620 ../src/e-util/e-attachment-store.c:911
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../src/e-util/e-attachment.c:2469 ../src/e-util/e-attachment.c:3612
+#: ../src/e-util/e-attachment.c:2537 ../src/e-util/e-attachment.c:3680
 msgid "A load operation is already in progress"
 msgstr "Виконується операція завантаження"
 
-#: ../src/e-util/e-attachment.c:2477 ../src/e-util/e-attachment.c:3620
+#: ../src/e-util/e-attachment.c:2545 ../src/e-util/e-attachment.c:3688
 msgid "A save operation is already in progress"
 msgstr "Виконується операція зберігання"
 
-#: ../src/e-util/e-attachment.c:2883
+#: ../src/e-util/e-attachment.c:2951
 #, c-format
 msgid "Could not open “%s”"
 msgstr "Не вдалося відкрити «%s»"
 
-#: ../src/e-util/e-attachment.c:2886
+#: ../src/e-util/e-attachment.c:2954
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Не вдалося відкрити долучення"
 
-#: ../src/e-util/e-attachment.c:3629
+#: ../src/e-util/e-attachment.c:3697
 msgid "Attachment contents not loaded"
 msgstr "Вміст долучення не завантажено"
 
-#: ../src/e-util/e-attachment.c:3720
+#: ../src/e-util/e-attachment.c:3788
 #, c-format
 msgid "Could not save “%s”"
 msgstr "Не вдалося зберегти «%s»"
 
-#: ../src/e-util/e-attachment.c:3723
+#: ../src/e-util/e-attachment.c:3791
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Не можу зберегти долучення"
-
-#: ../src/e-util/e-attachment-dialog.c:296
-msgid "Attachment Properties"
-msgstr "Властивості долучень"
-
-#: ../src/e-util/e-attachment-dialog.c:318
-#: ../src/e-util/e-import-assistant.c:303
-msgid "F_ilename:"
-msgstr "_Назва файлу:"
-
-#: ../src/e-util/e-attachment-dialog.c:335
-#: ../src/e-util/e-html-editor-image-dialog.c:602
-#: ../src/e-util/e-html-editor-link-dialog.c:228
-#: ../src/e-util/e-webdav-browser.c:2643
-msgid "_Description:"
-msgstr "_Опис:"
-
-#: ../src/e-util/e-attachment-dialog.c:353
-msgid "MIME Type:"
-msgstr "Тип MIME:"
-
-#: ../src/e-util/e-attachment-dialog.c:361
-#: ../src/e-util/e-attachment-store.c:697
-msgid "_Suggest automatic display of attachment"
-msgstr "_Пропонувати автоматичний показ долучення"
 
 #: ../src/e-util/e-attachment-handler-image.c:96
 msgid "Could not set as background"
@@ -13843,24 +13821,54 @@ msgstr "Не можу встановити як тло"
 msgid "Set as _Background"
 msgstr "Встановити як _тло"
 
-#: ../src/e-util/e-attachment-icon-view.c:171
-#: ../src/e-util/e-attachment-tree-view.c:168
+#: ../src/e-util/e-attachment-icon-view.c:184
+#: ../src/e-util/e-attachment-tree-view.c:181
 msgid "Loading"
 msgstr "Завантаження"
 
-#: ../src/e-util/e-attachment-icon-view.c:183
-#: ../src/e-util/e-attachment-tree-view.c:180
+#: ../src/e-util/e-attachment-icon-view.c:196
+#: ../src/e-util/e-attachment-tree-view.c:193
 msgid "Saving"
 msgstr "Зберігання"
 
-#: ../src/e-util/e-attachment-paned.c:103
+#: ../src/e-util/e-attachment-paned.c:104
 msgid "Hide Attachment _Bar"
 msgstr "Сховати _панель долучень"
 
-#: ../src/e-util/e-attachment-paned.c:105
-#: ../src/e-util/e-attachment-paned.c:706
+#: ../src/e-util/e-attachment-paned.c:106
+#: ../src/e-util/e-attachment-paned.c:723
 msgid "Show Attachment _Bar"
 msgstr "Показати _панель долучень"
+
+#: ../src/e-util/e-attachment-popover.c:284
+msgid "Attachment Properties"
+msgstr "Властивості долучень"
+
+#: ../src/e-util/e-attachment-popover.c:297
+msgid "_URI:"
+msgstr "_Адреса:"
+
+#: ../src/e-util/e-attachment-popover.c:323
+#| msgid "_File name:"
+msgid "_Filename:"
+msgstr "_Назва файла:"
+
+#: ../src/e-util/e-attachment-popover.c:349
+#: ../src/e-util/e-html-editor-image-dialog.c:602
+#: ../src/e-util/e-html-editor-link-dialog.c:228
+#: ../src/e-util/e-webdav-browser.c:2643
+msgid "_Description:"
+msgstr "_Опис:"
+
+#: ../src/e-util/e-attachment-popover.c:375
+#| msgid "MIME Type:"
+msgid "_MIME Type:"
+msgstr "_Тип MIME:"
+
+#: ../src/e-util/e-attachment-popover.c:411
+#| msgid "_Suggest automatic display of attachment"
+msgid "Suggest _automatic display of attachment"
+msgstr "_Пропонувати автоматичний показ долучення"
 
 #: ../src/e-util/e-attachment-store.c:656
 #: ../src/e-util/e-attachment-store.c:663
@@ -13872,6 +13880,10 @@ msgstr "Додати долучення"
 #: ../src/e-util/e-attachment-store.c:672
 msgid "A_ttach"
 msgstr "В_класти"
+
+#: ../src/e-util/e-attachment-store.c:697
+msgid "_Suggest automatic display of attachment"
+msgstr "_Пропонувати автоматичний показ долучення"
 
 #: ../src/e-util/e-attachment-store.c:718
 msgid "Archive selected directories using this format:"
@@ -13897,30 +13909,40 @@ msgstr "Зберегти _лише видобуті файли"
 msgid "Save extracted files and the original _archive"
 msgstr "Зберегти видобуті файли і початковий _архів"
 
-#: ../src/e-util/e-attachment-view.c:355 ../src/mail/e-mail-display.c:2089
+#: ../src/e-util/e-attachment-view.c:458 ../src/mail/e-mail-display.c:2089
 msgid "Open With Other Application…"
 msgstr "Відкрити за допомогою іншої програми…"
 
-#: ../src/e-util/e-attachment-view.c:362
+#: ../src/e-util/e-attachment-view.c:465
 msgid "S_ave All"
 msgstr "Зберегти _як"
 
-#: ../src/e-util/e-attachment-view.c:369
+#: ../src/e-util/e-attachment-view.c:472
 msgid "Sa_ve As"
 msgstr "З_берегти як"
 
-#: ../src/e-util/e-attachment-view.c:378
+#: ../src/e-util/e-attachment-view.c:481
 #: ../src/plugins/save-calendar/save-calendar.c:345
 #: ../src/plugins/save-calendar/save-calendar.c:384
 #: ../src/plugins/save-calendar/save-calendar.c:423
 msgid "Save _As"
 msgstr "Зберегти _як…"
 
-#: ../src/e-util/e-attachment-view.c:388
+#: ../src/e-util/e-attachment-view.c:491
 msgid "A_dd Attachment…"
 msgstr "_Додати долучення…"
 
-#: ../src/e-util/e-attachment-view.c:395
+#: ../src/e-util/e-attachment-view.c:498
+#| msgid "_Add note…"
+msgid "Add _URI…"
+msgstr "Д_одати адресу…"
+
+#: ../src/e-util/e-attachment-view.c:500
+#| msgid "Attach a file"
+msgid "Attach a URI"
+msgstr "Вкласти адресу"
+
+#: ../src/e-util/e-attachment-view.c:505
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1459
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:622
@@ -13930,29 +13952,29 @@ msgstr "_Додати долучення…"
 msgid "_Properties"
 msgstr "В_ластивості"
 
-#: ../src/e-util/e-attachment-view.c:402
+#: ../src/e-util/e-attachment-view.c:512
 msgid "Re_load"
 msgstr "П_ерезавантажити"
 
-#: ../src/e-util/e-attachment-view.c:404
+#: ../src/e-util/e-attachment-view.c:514
 msgid "Reload attachment content"
 msgstr "Перезавантажити вміст долучення"
 
-#: ../src/e-util/e-attachment-view.c:840 ../src/mail/e-mail-display.c:2043
+#: ../src/e-util/e-attachment-view.c:959 ../src/mail/e-mail-display.c:2043
 #, c-format
 msgid "Open With “%s”"
 msgstr "Відкрити у «%s»"
 
-#: ../src/e-util/e-attachment-view.c:841 ../src/mail/e-mail-display.c:2044
+#: ../src/e-util/e-attachment-view.c:960 ../src/mail/e-mail-display.c:2044
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Відкрити долучення в %s"
 
-#: ../src/e-util/e-attachment-view.c:843 ../src/mail/e-mail-display.c:2046
+#: ../src/e-util/e-attachment-view.c:962 ../src/mail/e-mail-display.c:2046
 msgid "Open With Default Application"
 msgstr "Відкрити за допомогою типової програми"
 
-#: ../src/e-util/e-attachment-view.c:844 ../src/mail/e-mail-display.c:2047
+#: ../src/e-util/e-attachment-view.c:963 ../src/mail/e-mail-display.c:2047
 msgid "Open this attachment in default application"
 msgstr "Відкрити це долучення у типовій програмі"
 
@@ -16083,6 +16105,10 @@ msgstr ""
 "Вкажіть файл який бажаєте імпортувати у Evolution, та виберіть тип файлу зі "
 "списку."
 
+#: ../src/e-util/e-import-assistant.c:303
+msgid "F_ilename:"
+msgstr "_Назва файлу:"
+
 #: ../src/e-util/e-import-assistant.c:327
 #: ../src/e-util/e-import-assistant.c:526
 msgid "File _type:"
@@ -16863,37 +16889,37 @@ msgstr "Сповіщення про повернення"
 msgid "Sta_tus Tracking"
 msgstr "Відстеження с_татусу"
 
-#: ../src/e-util/e-source-config.c:690 ../src/e-util/e-source-config.c:694
+#: ../src/e-util/e-source-config.c:691 ../src/e-util/e-source-config.c:695
 msgid "Type:"
 msgstr "Тип:"
 
-#: ../src/e-util/e-source-config.c:704 ../src/e-util/e-source-config.c:708
+#: ../src/e-util/e-source-config.c:705 ../src/e-util/e-source-config.c:709
 msgid "Name:"
 msgstr "Назва:"
 
-#: ../src/e-util/e-source-config.c:815 ../src/e-util/e-webdav-browser.c:1884
+#: ../src/e-util/e-source-config.c:816 ../src/e-util/e-webdav-browser.c:1884
 msgid "Name cannot be empty"
 msgstr "Назва не може бути порожня"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../src/e-util/e-source-config.c:1382
+#: ../src/e-util/e-source-config.c:1383
 msgid "Refresh every"
 msgstr "Оновлювати кожні"
 
-#: ../src/e-util/e-source-config.c:1410
+#: ../src/e-util/e-source-config.c:1411
 msgid "Refresh content on metered network"
 msgstr "Оновлювати дані у мережі із обліком даних"
 
-#: ../src/e-util/e-source-config.c:1437 ../src/e-util/e-source-config.c:1511
+#: ../src/e-util/e-source-config.c:1438 ../src/e-util/e-source-config.c:1512
 msgid "Use a secure connection"
 msgstr "Використовувати безпечне з'єднання"
 
-#: ../src/e-util/e-source-config.c:1538
+#: ../src/e-util/e-source-config.c:1539
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "Скасувати _довіру з цього сертифіката SSL/TLS"
 
-#: ../src/e-util/e-source-config.c:1574
+#: ../src/e-util/e-source-config.c:1575
 msgid "User:"
 msgstr "Користувач:"
 
@@ -16996,7 +17022,8 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:13
 msgid "The calendar backend servicing “{0}” has quit unexpectedly."
-msgstr "Модуль календаря для обслуговування «{0}» несподівано припинив роботу."
+msgstr ""
+"Модуль календаря для обслуговування «{0}» несподівано припинив роботу."
 
 #: ../src/e-util/e-system.error.xml.h:14
 msgid ""
@@ -17021,7 +17048,8 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:18
 msgid "Some of your tasks may not be available until Evolution is restarted."
-msgstr "Деякі з ваших завдань можуть бути недоступні до перезапуску Evolution."
+msgstr ""
+"Деякі з ваших завдань можуть бути недоступні до перезапуску Evolution."
 
 #: ../src/e-util/e-system.error.xml.h:19
 msgid "The address book backend servicing “{0}” encountered an error."
@@ -17450,7 +17478,8 @@ msgstr "П_орядок:"
 
 #: ../src/e-util/e-webdav-browser.c:2619
 msgid "Use -1 to not set the sort order"
-msgstr "Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
+msgstr ""
+"Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
 
 #: ../src/e-util/e-webdav-browser.c:2625
 msgid "For Components:"
@@ -17906,7 +17935,8 @@ msgstr "Пересилання листа скасовано, бо не вказ
 
 #: ../src/libemail-engine/e-mail-session.c:1765
 #, c-format
-msgid "No identity found to use, forwarding of the message has been cancelled."
+msgid ""
+"No identity found to use, forwarding of the message has been cancelled."
 msgstr "Пересилання листа скасовано, бо не знайдено тотожності."
 
 #: ../src/libemail-engine/e-mail-session.c:1973
@@ -18164,7 +18194,8 @@ msgstr "Відкрити _мережеві облікові записи"
 #: ../src/mail/e-mail-account-manager.c:144
 #: ../src/mail/e-mail-account-manager.c:232
 msgid "This account was created through the Online Accounts service."
-msgstr "Цей обліковий запис створено через службу мережевих облікових записів."
+msgstr ""
+"Цей обліковий запис створено через службу мережевих облікових записів."
 
 #: ../src/mail/e-mail-account-manager.c:692
 msgid "_Reset Order"
@@ -18870,7 +18901,8 @@ msgstr "_Масштабувати до вікна"
 
 #: ../src/mail/e-mail-display.c:801
 msgid "Zoom large images to not be wider than the window width"
-msgstr "Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
+msgstr ""
+"Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
 
 #: ../src/mail/e-mail-folder-create-dialog.c:328
 msgid "Create Folder"
@@ -21502,7 +21534,8 @@ msgstr "_Показувати рухомі зображення"
 
 #: ../src/mail/mail-config.ui.h:120
 msgid "Unset colors provided in HTML mails in message previe_w"
-msgstr "Скидати кольори з повідомлень у HTML на панелі поп_ереднього перегляду"
+msgstr ""
+"Скидати кольори з повідомлень у HTML на панелі поп_ереднього перегляду"
 
 #: ../src/mail/mail-config.ui.h:121
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
@@ -22428,7 +22461,8 @@ msgstr ""
 "Включіть обліковий запис або використовуйте для надсилання інший запис."
 
 #: ../src/mail/mail.error.xml.h:159
-msgid "This message cannot be sent because there is no mail account configured"
+msgid ""
+"This message cannot be sent because there is no mail account configured"
 msgstr ""
 "Це повідомлення не може бути надіслане, оскільки не налаштовано облікового "
 "запису пошти"
@@ -22977,6 +23011,7 @@ msgstr "К_алендар"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:487
 #: ../src/modules/addressbook/e-book-shell-backend.c:256
+#: ../src/modules/addressbook/e-book-shell-backend.c:498
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:141
 msgid "New Address Book"
 msgstr "Нова адресна книга"
@@ -23293,7 +23328,6 @@ msgid "_Bulk Edit…"
 msgstr "П_акетне редагування…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
-#| msgid "Edit selected tasks in a bulk"
 msgid "Edit selected contacts in a bulk"
 msgstr "Виконати пакетне редагування позначених записів контактів"
 
@@ -26135,7 +26169,8 @@ msgid ""
 msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr[0] "Календар «%s» містить %d зустріч, яка конфліктує з цим зібранням"
-msgstr[1] "Календар «%s» містить %d зустрічі, які конфліктують з цим зібранням"
+msgstr[1] ""
+"Календар «%s» містить %d зустрічі, які конфліктують з цим зібранням"
 msgstr[2] ""
 "Календар «%s» містить %d зустрічей, які конфліктують з цим зібранням"
 msgstr[3] "Календар «%s» містить зустріч, яка конфліктує з цим зібранням"
@@ -26353,7 +26388,8 @@ msgstr "Засідання неправильне і його неможливо
 
 #: ../src/modules/itip-formatter/itip-view.c:5982
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr "Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
+msgstr ""
+"Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
 
 #: ../src/modules/itip-formatter/itip-view.c:6058
 #: ../src/modules/itip-formatter/itip-view.c:6096
@@ -26432,7 +26468,8 @@ msgstr "Долучений календар містить декілька об
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr "Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
+msgstr ""
+"Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
 
 #: ../src/modules/itip-formatter/itip-view.c:7060
 msgctxt "cal-itip"
@@ -26453,7 +26490,8 @@ msgid "This meeting has been delegated"
 msgstr "Цю зустріч було направлено"
 
 #: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-msgid "“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
+msgid ""
+"“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
 msgstr "«{0}» доручено провести нараду. Ви бажаєте додати представника «{1}»?"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:297
@@ -26789,7 +26827,8 @@ msgstr "Вимкнути цей обліковий запис"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1593
 msgid "Permanently remove all the deleted messages from all folders"
-msgstr "Остаточно знищити з усіх тек всі повідомлення, що позначені вилученими"
+msgstr ""
+"Остаточно знищити з усіх тек всі повідомлення, що позначені вилученими"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1598
 msgid "Empty _Junk"
@@ -26846,7 +26885,8 @@ msgstr "Вик_реслити"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1656
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "Остаточно вилучити всі повідомлення, позначені як вилучені з цієї теки"
+msgstr ""
+"Остаточно вилучити всі повідомлення, позначені як вилучені з цієї теки"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1661
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1753
@@ -30226,7 +30266,8 @@ msgstr "Виберіть сертифікат"
 
 #: ../src/smime/gui/smime-ui.ui.h:1
 msgid "You have certificates from these organizations that identify you:"
-msgstr "Ви маєте сертифікати від наступних організацій, що вас ідентифікували:"
+msgstr ""
+"Ви маєте сертифікати від наступних організацій, що вас ідентифікували:"
 
 #: ../src/smime/gui/smime-ui.ui.h:2
 msgid "Certificates Table"
