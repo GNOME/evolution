@@ -78,8 +78,14 @@ empe_mp_mixed_maybe_update_message_info_headers (EMailParser *parser,
 
 		info = camel_folder_get_message_info (folder, message_uid);
 		if (info) {
-			camel_message_info_set_subject (info, subject);
+			gchar *tmp;
+
+			tmp = camel_header_decode_string (subject, NULL);
+
+			camel_message_info_set_subject (info, tmp ? tmp : subject);
+
 			g_clear_object (&info);
+			g_free (tmp);
 		}
 	}
 
