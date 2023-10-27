@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-10-25 15:35+0000\n"
-"PO-Revision-Date: 2023-10-26 22:50+0300\n"
+"POT-Creation-Date: 2023-10-27 06:37+0000\n"
+"PO-Revision-Date: 2023-10-27 21:13+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -9828,7 +9828,6 @@ msgid "_Insert"
 msgstr "Вс_тавка"
 
 #: ../src/calendar/gui/e-comp-editor.c:2304
-#: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Параметри"
 
@@ -12522,6 +12521,11 @@ msgstr "Зберегти поточний файл з іншою назвою"
 msgid "Character _Encoding"
 msgstr "_Кодування символів"
 
+#: ../src/composer/e-composer-actions.c:377
+#| msgid "Options"
+msgid "Option_s"
+msgstr "П_араметри"
+
 #: ../src/composer/e-composer-actions.c:394
 msgid "Print Pre_view"
 msgstr "_Попередній перегляд"
@@ -13849,7 +13853,6 @@ msgid "_URI:"
 msgstr "_Адреса:"
 
 #: ../src/e-util/e-attachment-popover.c:323
-#| msgid "_File name:"
 msgid "_Filename:"
 msgstr "_Назва файла:"
 
@@ -13861,12 +13864,10 @@ msgid "_Description:"
 msgstr "_Опис:"
 
 #: ../src/e-util/e-attachment-popover.c:375
-#| msgid "MIME Type:"
 msgid "_MIME Type:"
 msgstr "_Тип MIME:"
 
 #: ../src/e-util/e-attachment-popover.c:411
-#| msgid "_Suggest automatic display of attachment"
 msgid "Suggest _automatic display of attachment"
 msgstr "_Пропонувати автоматичний показ долучення"
 
@@ -13933,12 +13934,10 @@ msgid "A_dd Attachment…"
 msgstr "_Додати долучення…"
 
 #: ../src/e-util/e-attachment-view.c:498
-#| msgid "_Add note…"
 msgid "Add _URI…"
 msgstr "Д_одати адресу…"
 
 #: ../src/e-util/e-attachment-view.c:500
-#| msgid "Attach a file"
 msgid "Attach a URI"
 msgstr "Вкласти адресу"
 
