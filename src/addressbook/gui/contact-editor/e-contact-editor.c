@@ -2948,7 +2948,7 @@ extract_simple_field (EContactEditor *editor,
 
 					height = gdk_pixbuf_get_height (pixbuf);
 					width = gdk_pixbuf_get_width (pixbuf);
-					if ((height > 96 || width > 96)) {
+					if ((height > 1024 || width > 1024)) {
 
 						prompt_response =
 							e_alert_run_dialog_for_args
@@ -2958,11 +2958,11 @@ extract_simple_field (EContactEditor *editor,
 
 						if (prompt_response == GTK_RESPONSE_YES) {
 							if (width > height) {
-								height = height * 96 / width;
-								width = 96;
+								height = height * 1024 / width;
+								width = 1024;
 							} else {
-								width = width *96 / height;
-								height = 96;
+								width = width * 1024 / height;
+								height = 1024;
 							}
 
 							new = e_icon_factory_pixbuf_scale (pixbuf, width, height);
