@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-10-27 06:37+0000\n"
-"PO-Revision-Date: 2023-10-27 21:13+0300\n"
+"POT-Creation-Date: 2023-10-31 13:02+0000\n"
+"PO-Revision-Date: 2023-10-31 21:17+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4576,8 +4576,9 @@ msgstr ""
 "збереженням?"
 
 #: ../src/addressbook/addressbook.error.xml.h:24
-msgid "An expected image size is up to 96 x 96 pixels."
-msgstr "Очікуваний розмір зображення — до 96 х 96 пікселів."
+#| msgid "An expected image size is up to 96 x 96 pixels."
+msgid "An expected image size is up to 1024 x 1024 pixels."
+msgstr "Очікуваний розмір зображення — до 1024 x 1024 пікселів."
 
 #: ../src/addressbook/addressbook.error.xml.h:25
 msgid "_Resize"
@@ -12522,7 +12523,6 @@ msgid "Character _Encoding"
 msgstr "_Кодування символів"
 
 #: ../src/composer/e-composer-actions.c:377
-#| msgid "Options"
 msgid "Option_s"
 msgstr "П_араметри"
 
