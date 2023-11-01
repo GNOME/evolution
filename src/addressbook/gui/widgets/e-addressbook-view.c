@@ -525,6 +525,9 @@ addressbook_view_create_table_view (EAddressbookView *view,
 	g_signal_connect_swapped (
 		widget, "selection_change",
 		G_CALLBACK (addressbook_view_emit_selection_change), view);
+	g_signal_connect_object (
+		adapter, "model-row-changed",
+		G_CALLBACK (addressbook_view_emit_selection_change), view, G_CONNECT_SWAPPED);
 
 	e_table_drag_source_set (
 		E_TABLE (widget), GDK_BUTTON1_MASK,
