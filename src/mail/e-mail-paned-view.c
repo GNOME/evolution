@@ -174,6 +174,7 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 		e_shell_window_set_safe_mode (shell_window, FALSE);
 
 	else {
+		gboolean with_fallback = TRUE;
 		gchar *uid = NULL;
 
 		/* This is for regen when setting filter, or when folder changed or such */
@@ -181,6 +182,7 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 		    !message_list_selected_count (message_list) &&
 		    !mail_paned_view_message_list_is_empty (message_list)) {
 			ensure_message_selected = TRUE;
+			with_fallback = FALSE;
 
 			if (priv->last_selected_uid &&
 			    message_list_contains_uid (message_list, priv->last_selected_uid)) {
@@ -216,10 +218,8 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 		    e_mail_reader_get_mark_seen_always (E_MAIL_READER (view)))
 			e_mail_reader_unset_folder_just_selected (E_MAIL_READER (view));
 
-		if (ensure_message_selected) {
-			/* Use selection fallbacks if UID is not found. */
-			message_list_select_uid (message_list, uid, TRUE);
-		}
+		if (ensure_message_selected)
+			message_list_select_uid (message_list, uid, with_fallback);
 
 		g_free (uid);
 	}
