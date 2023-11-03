@@ -240,6 +240,7 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 {
 	ECompEditorPageAttachments *page_attachments;
 	EAttachmentStore *store;
+	GPtrArray *attach_props;
 	ICalProperty *prop;
 	const gchar *uid;
 	gint index;
@@ -259,13 +260,26 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 
 	e_attachment_store_remove_all (store);
 
-	for (prop = i_cal_component_get_first_property (component, I_CAL_ATTACH_PROPERTY), index = 0;
+	index = i_cal_component_count_properties (component, I_CAL_ATTACH_PROPERTY);
+	if (index <= 0)
+		return;
+
+	attach_props = g_ptr_array_new_full (index, g_object_unref);
+
+	/* because e_cal_util_component_get_recurid_as_string() also uses i_cal_component_get_first_property(),
+	   which breaks this cycle */
+	for (prop = i_cal_component_get_first_property (component, I_CAL_ATTACH_PROPERTY);
 	     prop;
-	     g_object_unref (prop), prop = i_cal_component_get_next_property (component, I_CAL_ATTACH_PROPERTY), index++) {
+	     prop = i_cal_component_get_next_property (component, I_CAL_ATTACH_PROPERTY)) {
+		g_ptr_array_add (attach_props, prop);
+	}
+
+	for (index = 0; index < attach_props->len; index++) {
 		ICalParameter *param;
 		ICalAttach *attach;
 		gchar *uri = NULL, *filename = NULL;
 
+		prop = g_ptr_array_index (attach_props, index);
 		attach = i_cal_property_get_attach (prop);
 		if (!attach)
 			continue;
@@ -388,6 +402,8 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 		g_free (filename);
 		g_free (uri);
 	}
+
+	g_ptr_array_unref (attach_props);
 }
 
 static gboolean
