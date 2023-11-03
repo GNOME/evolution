@@ -506,7 +506,6 @@ action_email_custom_header_cb (GtkAction *action,
 	} else {
 		dialog = epech_dialog_new ();
 		if (dialog) {
-			EmailCustomHeaderWindow *new_email_custom_header_window;
 			new_email_custom_header_window = g_new0 (EmailCustomHeaderWindow, 1);
 			new_email_custom_header_window->epech_window = window;
 			new_email_custom_header_window->epech_dialog = dialog;

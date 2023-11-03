@@ -264,11 +264,11 @@ mail_security_page_list_seahorse_keys (void)
 							if ((flags & KEY_FLAG_CAN_SIGN) != 0 &&
 							    (flags & KEY_FLAG_IS_VALID) != 0 &&
 							    (flags & (KEY_FLAG_EXPIRED | KEY_FLAG_REVOKED | KEY_FLAG_DISABLED)) == 0) {
-								gchar *keyid = NULL, *display_name = NULL;
+								gchar *val_keyid = NULL, *display_name = NULL;
 
 								val = g_variant_dict_lookup_value (dict, "key-id", G_VARIANT_TYPE_STRING);
 								if (val) {
-									keyid = g_variant_dup_string (val, NULL);
+									val_keyid = g_variant_dup_string (val, NULL);
 									g_variant_unref (val);
 								}
 
@@ -278,13 +278,13 @@ mail_security_page_list_seahorse_keys (void)
 									g_variant_unref (val);
 								}
 
-								if (keyid && *keyid && display_name && *display_name) {
+								if (val_keyid && *val_keyid && display_name && *display_name) {
 									if (!keys)
 										keys = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
-									g_hash_table_insert (keys, keyid, display_name);
+									g_hash_table_insert (keys, val_keyid, display_name);
 								} else {
-									g_free (keyid);
+									g_free (val_keyid);
 									g_free (display_name);
 								}
 							}

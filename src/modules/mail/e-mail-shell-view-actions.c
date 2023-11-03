@@ -1278,11 +1278,11 @@ action_mail_goto_folder_cb (GtkAction *action,
 	em_folder_selector_maybe_collapse_archive_folders (selector);
 
 	if (folder) {
-		gchar *uri = e_mail_folder_uri_from_folder (folder);
+		gchar *folder_uri = e_mail_folder_uri_from_folder (folder);
 
-		if (uri) {
-			em_folder_tree_set_selected (folder_tree, uri, FALSE);
-			g_free (uri);
+		if (folder_uri) {
+			em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
+			g_free (folder_uri);
 		}
 	}
 

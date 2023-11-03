@@ -206,7 +206,6 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 {
 	GHashTable *expunging_uids;
 	CamelStore *parent_store;
-	CamelService *service;
 	CamelSession *session;
 	ESourceRegistry *registry;
 	GPtrArray *uids;
@@ -217,8 +216,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 
 	parent_store = camel_folder_get_parent_store (folder);
 
-	service = CAMEL_SERVICE (parent_store);
-	session = camel_service_ref_session (service);
+	session = camel_service_ref_session (CAMEL_SERVICE (parent_store));
 	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
 
 	uids = camel_folder_get_uids (folder);
@@ -342,8 +340,6 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 		}
 
 		for (ii = 0; ii < uids->len; ii++) {
-			const gchar *source_uid;
-
 			source_uid = g_hash_table_lookup (
 				expunging_uids, uids->pdata[ii]);
 			if (g_strcmp0 (source_uid, service_uid) == 0) {
@@ -1322,27 +1318,29 @@ mail_folder_strip_message_level (CamelMimePart *in_part,
 		if (is_attachment) {
 			const gchar *filename;
 			const gchar *content_type;
-			gchar *content;
+			gchar *str_content;
 
 			disposition = "inline";
 			content_type = "text/plain";
 			filename = camel_mime_part_get_filename (mime_part);
 
 			if (filename != NULL && *filename != '\0')
-				content = g_strdup_printf (
+				str_content = g_strdup_printf (
 					_("File “%s” has been removed."),
 					filename);
 			else
-				content = g_strdup (
+				str_content = g_strdup (
 					_("File has been removed."));
 
 			camel_mime_part_set_content (
-				mime_part, content,
-				strlen (content), content_type);
+				mime_part, str_content,
+				strlen (str_content), content_type);
 			camel_mime_part_set_content_type (
 				mime_part, content_type);
 			camel_mime_part_set_disposition (
 				mime_part, disposition);
+
+			g_free (str_content);
 
 			modified = TRUE;
 		} else {

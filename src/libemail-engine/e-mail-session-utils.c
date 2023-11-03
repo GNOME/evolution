@@ -601,32 +601,32 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 skip_send:
 	/* Post the message to requested folders. */
 	for (ii = 0; ii < context->post_to_uris->len; ii++) {
-		CamelFolder *folder;
+		CamelFolder *post_folder;
 		const gchar *folder_uri;
 
 		folder_uri = g_ptr_array_index (context->post_to_uris, ii);
 
-		folder = e_mail_session_uri_to_folder_sync (
+		post_folder = e_mail_session_uri_to_folder_sync (
 			session, folder_uri, 0, cancellable, &error);
 
 		if (error != NULL) {
-			g_warn_if_fail (folder == NULL);
+			g_warn_if_fail (post_folder == NULL);
 			mail_tool_restore_xevolution_headers (context->message, context->xev_headers);
 			g_simple_async_result_take_error (simple, error);
 			return;
 		}
 
-		g_return_if_fail (CAMEL_IS_FOLDER (folder));
+		g_return_if_fail (CAMEL_IS_FOLDER (post_folder));
 
-		camel_operation_push_message (cancellable, _("Posting message to “%s”"), camel_folder_get_full_display_name (folder));
+		camel_operation_push_message (cancellable, _("Posting message to “%s”"), camel_folder_get_full_display_name (post_folder));
 
 		camel_folder_append_message_sync (
-			folder, context->message, context->info,
+			post_folder, context->message, context->info,
 			NULL, cancellable, &error);
 
 		camel_operation_pop_message (cancellable);
 
-		g_object_unref (folder);
+		g_object_unref (post_folder);
 
 		if (error != NULL) {
 			mail_tool_restore_xevolution_headers (context->message, context->xev_headers);

@@ -239,24 +239,22 @@ ecep_general_remove_attendee (ECompEditorPageGeneral *page_general,
 	ECompEditor *comp_editor;
 	gint pos = 0;
 
+	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_general));
+
 	/* If this was a delegatee, no longer delegate */
 	if (e_meeting_attendee_is_set_delfrom (attendee)) {
 		EMeetingAttendee *ib;
 
 		ib = e_meeting_store_find_attendee (page_general->priv->meeting_store, e_meeting_attendee_get_delfrom (attendee), &pos);
 		if (ib != NULL) {
-			ECompEditor *comp_editor;
 			ECompEditorFlags flags;
 
 			e_meeting_attendee_set_delto (ib, NULL);
 
-			comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_general));
 			flags = e_comp_editor_get_flags (comp_editor);
 
 			if (!(flags & E_COMP_EDITOR_FLAG_DELEGATE))
 				e_meeting_attendee_set_edit_level (ib, E_MEETING_ATTENDEE_EDIT_FULL);
-
-			g_clear_object (&comp_editor);
 		}
 	}
 
@@ -278,7 +276,6 @@ ecep_general_remove_attendee (ECompEditorPageGeneral *page_general,
 
 	ecep_general_sensitize_widgets (E_COMP_EDITOR_PAGE (page_general), FALSE);
 
-	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_general));
 	e_comp_editor_set_changed (comp_editor, TRUE);
 	g_clear_object (&comp_editor);
 }
@@ -2001,7 +1998,7 @@ e_comp_editor_page_general_get_removed_attendees (ECompEditorPageGeneral *page_g
 		return NULL;
 
 	if (!page_general->priv->show_attendees) {
-		GSList *copy, *link;
+		GSList *copy;
 
 		copy = g_slist_copy (page_general->priv->orig_attendees);
 		for (link = copy; link; link = g_slist_next (link)) {

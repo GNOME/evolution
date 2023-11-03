@@ -4,8 +4,8 @@
 #include "e-misc-utils.h"
 #include "e-tree-view-frame.h"
 
-static GtkTreeView *tree_view;
-static ETreeViewFrame *tree_view_frame;
+static GtkTreeView *glob_tree_view;
+static ETreeViewFrame *glob_tree_view_frame;
 
 static gboolean
 delete_event_cb (GtkWidget *widget,
@@ -153,28 +153,28 @@ build_tree_view (void)
 		"Banana"
 	};
 
-	tree_view = (GtkTreeView *) gtk_tree_view_new ();
-	gtk_tree_view_set_headers_visible (tree_view, FALSE);
+	glob_tree_view = (GtkTreeView *) gtk_tree_view_new ();
+	gtk_tree_view_set_headers_visible (glob_tree_view, FALSE);
 
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (
 		"Bonus Item", renderer, "text", 0, NULL);
-	gtk_tree_view_append_column (tree_view, column);
+	gtk_tree_view_append_column (glob_tree_view, column);
 
 	g_signal_connect (
 		renderer, "edited",
-		G_CALLBACK (cell_edited_cb), tree_view);
+		G_CALLBACK (cell_edited_cb), glob_tree_view);
 
 	g_signal_connect (
 		renderer, "editing-canceled",
-		G_CALLBACK (editing_canceled_cb), tree_view);
+		G_CALLBACK (editing_canceled_cb), glob_tree_view);
 
 	list_store = gtk_list_store_new (1, G_TYPE_STRING);
 	for (ii = 0; ii < G_N_ELEMENTS (items); ii++) {
 		gtk_list_store_append (list_store, &iter);
 		gtk_list_store_set (list_store, &iter, 0, items[ii], -1);
 	}
-	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (list_store));
+	gtk_tree_view_set_model (glob_tree_view, GTK_TREE_MODEL (list_store));
 	g_object_unref (list_store);
 }
 
@@ -187,7 +187,7 @@ build_test_window (void)
 	GtkWidget *grid;
 	const gchar *text;
 
-	selection = gtk_tree_view_get_selection (tree_view);
+	selection = gtk_tree_view_get_selection (glob_tree_view);
 
 	widget = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size (GTK_WINDOW (widget), 500, 300);
@@ -209,11 +209,11 @@ build_test_window (void)
 
 	widget = e_tree_view_frame_new ();
 	e_tree_view_frame_set_tree_view (
-		E_TREE_VIEW_FRAME (widget), tree_view);
+		E_TREE_VIEW_FRAME (widget), glob_tree_view);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	tree_view_frame = E_TREE_VIEW_FRAME (widget);
+	glob_tree_view_frame = E_TREE_VIEW_FRAME (widget);
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -227,7 +227,7 @@ build_test_window (void)
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
-		tree_view_frame, "toolbar-visible",
+		glob_tree_view_frame, "toolbar-visible",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
@@ -238,7 +238,7 @@ build_test_window (void)
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
-		tree_view, "reorderable",
+		glob_tree_view, "reorderable",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
@@ -305,7 +305,7 @@ build_test_window (void)
 	gtk_widget_show (widget);
 
 	e_binding_bind_property_full (
-		tree_view_frame, "hscrollbar-policy",
+		glob_tree_view_frame, "hscrollbar-policy",
 		widget, "active-id",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE,
@@ -333,7 +333,7 @@ build_test_window (void)
 	gtk_widget_show (widget);
 
 	e_binding_bind_property_full (
-		tree_view_frame, "vscrollbar-policy",
+		glob_tree_view_frame, "vscrollbar-policy",
 		widget, "active-id",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE,
@@ -342,22 +342,22 @@ build_test_window (void)
 		NULL, (GDestroyNotify) NULL);
 
 	g_signal_connect (
-		tree_view_frame,
+		glob_tree_view_frame,
 		"toolbar-action-activate::"
 		E_TREE_VIEW_FRAME_ACTION_ADD,
 		G_CALLBACK (action_add_cb), NULL);
 
 	g_signal_connect (
-		tree_view_frame,
+		glob_tree_view_frame,
 		"toolbar-action-activate::"
 		E_TREE_VIEW_FRAME_ACTION_REMOVE,
 		G_CALLBACK (action_remove_cb), NULL);
 
 	g_signal_connect (
-		tree_view_frame, "update-toolbar-actions",
+		glob_tree_view_frame, "update-toolbar-actions",
 		G_CALLBACK (update_toolbar_actions_cb), NULL);
 
-	e_tree_view_frame_update_toolbar_actions (tree_view_frame);
+	e_tree_view_frame_update_toolbar_actions (glob_tree_view_frame);
 }
 
 gint

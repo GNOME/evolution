@@ -843,8 +843,6 @@ tmpl_store_data_find_parent_node_locked (TmplStoreData *tsd,
 	}
 
 	if (for_insert && parent) {
-		GNode *node;
-
 		if (parent->data) {
 			TmplFolderData *tfd = parent->data;
 

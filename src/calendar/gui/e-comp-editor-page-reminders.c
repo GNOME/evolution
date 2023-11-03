@@ -1574,7 +1574,7 @@ ecep_reminders_fill_component (ECompEditorPage *page,
 {
 	ECompEditorPageReminders *page_reminders;
 	ECalComponent *comp;
-	ICalComponent *changed_comp, *alarm;
+	ICalComponent *changed_comp, *alarm_comp;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gboolean valid_iter;
@@ -1654,18 +1654,18 @@ ecep_reminders_fill_component (ECompEditorPage *page,
 		e_cal_component_alarm_free (alarm_copy);
 	}
 
-	while (alarm = i_cal_component_get_first_component (component, I_CAL_VALARM_COMPONENT), alarm) {
-		i_cal_component_remove_component (component, alarm);
-		g_object_unref (alarm);
+	while (alarm_comp = i_cal_component_get_first_component (component, I_CAL_VALARM_COMPONENT), alarm_comp) {
+		i_cal_component_remove_component (component, alarm_comp);
+		g_object_unref (alarm_comp);
 	}
 
 	changed_comp = e_cal_component_get_icalcomponent (comp);
 	if (changed_comp) {
 		/* Move all VALARM components into the right 'component' */
-		while (alarm = i_cal_component_get_first_component (changed_comp, I_CAL_VALARM_COMPONENT), alarm) {
-			i_cal_component_remove_component (changed_comp, alarm);
-			i_cal_component_add_component (component, alarm);
-			g_object_unref (alarm);
+		while (alarm_comp = i_cal_component_get_first_component (changed_comp, I_CAL_VALARM_COMPONENT), alarm_comp) {
+			i_cal_component_remove_component (changed_comp, alarm_comp);
+			i_cal_component_add_component (component, alarm_comp);
+			g_object_unref (alarm_comp);
 		}
 	} else {
 		g_warn_if_reached ();
@@ -1910,7 +1910,7 @@ ecep_reminders_add_custom_time_add_button_clicked_cb (GtkButton *button,
 		GSettings *settings;
 		GVariant *variant;
 		gboolean any_user_alarm_added = FALSE;
-		gint32 array[N_MAX_PREDEFINED_USER_ALARMS + 1] = { 0 }, narray = 0, ii;
+		gint32 array[N_MAX_PREDEFINED_USER_ALARMS + 1] = { 0 }, narray = 0;
 
 		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 		variant = g_settings_get_value (settings, "custom-reminders-minutes");

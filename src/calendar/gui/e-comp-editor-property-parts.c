@@ -969,19 +969,19 @@ ecepp_description_fill_widget (ECompEditorPropertyPart *property_part,
 
 				if (param && i_cal_parameter_get_fmttype (param) &&
 				    g_ascii_strcasecmp (i_cal_parameter_get_fmttype (param), "text/html") == 0) {
-					ICalValue *value;
+					ICalValue *ivalue;
 					const gchar *str = NULL;
 
-					value = i_cal_property_get_value (prop);
+					ivalue = i_cal_property_get_value (prop);
 
-					if (value)
-						str = i_cal_value_get_x (value);
+					if (ivalue)
+						str = i_cal_value_get_x (ivalue);
 
 					if (str && *str) {
 						description_part->alt_desc = g_strdup (str);
 					}
 
-					g_clear_object (&value);
+					g_clear_object (&ivalue);
 				}
 
 				g_clear_object (&param);

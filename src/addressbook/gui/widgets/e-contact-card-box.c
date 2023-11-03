@@ -538,7 +538,7 @@ e_contact_card_container_update (EContactCardContainer *self)
 			e_contact_card_set_contact (E_CONTACT_CARD (card), NULL);
 		}
 	} else {
-		guint max_cards, ii;
+		guint max_cards;
 		gint n_rows, n_cols;
 		gint used_space, available_space;
 

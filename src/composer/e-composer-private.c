@@ -238,7 +238,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	GtkWindow *window;
 	GSettings *settings;
 	gchar *filename, *gallery_path;
-	gint ii;
+	guint ii;
 	GError *error = NULL;
 
 	editor = e_msg_composer_get_editor (composer);
@@ -319,7 +319,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 			"/main-toolbar/toolbar-prioritize-message",
 			"/main-toolbar/toolbar-request-read-receipt"
 		};
-		guint ii;
 		widget = composer_construct_header_bar (composer, menu_button);
 		gtk_window_set_titlebar (window, widget);
 
@@ -433,7 +432,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
 		EComposerHeaderTable *table;
-		EComposerHeader *header;
 
 		table = E_COMPOSER_HEADER_TABLE (priv->header_table);
 		header = e_composer_header_table_get_header (table, ii);

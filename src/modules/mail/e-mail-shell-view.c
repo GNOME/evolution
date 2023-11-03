@@ -1437,9 +1437,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	/* Look for a CamelStore that supports subscriptions. */
 	list = em_folder_tree_model_list_stores (model);
 	for (link = list; link != NULL; link = g_list_next (link)) {
-		CamelStore *store = CAMEL_STORE (link->data);
+		CamelStore *tmp_store = CAMEL_STORE (link->data);
 
-		if (CAMEL_IS_SUBSCRIBABLE (store)) {
+		if (CAMEL_IS_SUBSCRIBABLE (tmp_store)) {
 			any_store_is_subscribable = TRUE;
 			break;
 		}

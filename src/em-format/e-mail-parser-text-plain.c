@@ -162,8 +162,6 @@ empe_text_plain_parse (EMailParserExtension *extension,
 	g_object_unref (filtered_stream);
 
 	if (!e_mail_inline_filter_found_any (inline_filter)) {
-		gboolean handled = FALSE;
-
 		is_attachment = e_mail_part_is_attachment (part);
 
 		if (is_attachment && CAMEL_IS_MIME_MESSAGE (part) &&

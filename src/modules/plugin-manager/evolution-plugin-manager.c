@@ -76,7 +76,7 @@ struct _Manager {
 };
 
 /* for tracking if we're shown */
-static GtkWidget *notebook;
+static GtkWidget *glob_notebook;
 static GtkWidget *configure_page;
 static gint last_selected_page;
 static gulong switch_page_handler_id;
@@ -186,11 +186,11 @@ eppm_show_plugin (Manager *m,
 			n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (cfg_widget));
 
 			for (ii = 0; ii < n_pages; ii++) {
-				eppm_move_page (GTK_NOTEBOOK (cfg_widget), GTK_NOTEBOOK (notebook), 0);
+				eppm_move_page (GTK_NOTEBOOK (cfg_widget), GTK_NOTEBOOK (glob_notebook), 0);
 			}
 		} else {
 			gtk_notebook_append_page_menu (
-				GTK_NOTEBOOK (notebook), configure_page,
+				GTK_NOTEBOOK (glob_notebook), configure_page,
 				gtk_label_new (_("Configuration")), NULL);
 		}
 	}
@@ -224,22 +224,22 @@ eppm_selection_changed (GtkTreeSelection *selection,
 			return;
 	}
 
-	g_signal_handler_block (notebook, switch_page_handler_id);
+	g_signal_handler_block (glob_notebook, switch_page_handler_id);
 
 	if (m->active_cfg_widget && GTK_IS_NOTEBOOK (m->active_cfg_widget)) {
 		gint ii, n_pages;
 
-		n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+		n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (glob_notebook));
 
 		for (ii = 1; ii < n_pages; ii++) {
-			eppm_move_page (GTK_NOTEBOOK (notebook), GTK_NOTEBOOK (m->active_cfg_widget), 1);
+			eppm_move_page (GTK_NOTEBOOK (glob_notebook), GTK_NOTEBOOK (m->active_cfg_widget), 1);
 		}
 	}
 
-	while (gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook)) > 1)
-		gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), 1);
+	while (gtk_notebook_get_n_pages (GTK_NOTEBOOK (glob_notebook)) > 1)
+		gtk_notebook_remove_page (GTK_NOTEBOOK (glob_notebook), 1);
 
-	g_signal_handler_unblock (notebook, switch_page_handler_id);
+	g_signal_handler_unblock (glob_notebook, switch_page_handler_id);
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		EPlugin *ep;
@@ -255,10 +255,10 @@ eppm_selection_changed (GtkTreeSelection *selection,
 		eppm_show_plugin (m, NULL, NULL);
 	}
 
-	g_signal_handler_block (notebook, switch_page_handler_id);
+	g_signal_handler_block (glob_notebook, switch_page_handler_id);
 	gtk_notebook_set_current_page (
-		GTK_NOTEBOOK (notebook), last_selected_page);
-	g_signal_handler_unblock (notebook, switch_page_handler_id);
+		GTK_NOTEBOOK (glob_notebook), last_selected_page);
+	g_signal_handler_unblock (glob_notebook, switch_page_handler_id);
 }
 
 static void
@@ -324,12 +324,12 @@ plugins_page_new (EPreferencesWindow *window)
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, TRUE, 0);
 
-	notebook = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), TRUE);
-	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
+	glob_notebook = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (glob_notebook), TRUE);
+	gtk_notebook_set_scrollable (GTK_NOTEBOOK (glob_notebook), TRUE);
 
 	switch_page_handler_id = g_signal_connect (
-		notebook, "switch-page",
+		glob_notebook, "switch-page",
 		G_CALLBACK (eppm_switch_page_cb), NULL);
 
 	overview_page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -338,10 +338,10 @@ plugins_page_new (EPreferencesWindow *window)
 	gtk_container_set_border_width (GTK_CONTAINER (overview_page), 12);
 	gtk_container_set_border_width (GTK_CONTAINER (configure_page), 12);
 	gtk_notebook_append_page_menu (
-		GTK_NOTEBOOK (notebook), overview_page,
+		GTK_NOTEBOOK (glob_notebook), overview_page,
 		gtk_label_new (_("Overview")), NULL);
 
-	gtk_widget_show (notebook);
+	gtk_widget_show (glob_notebook);
 	gtk_widget_show (overview_page);
 	gtk_widget_show (configure_page);
 
@@ -432,7 +432,7 @@ plugins_page_new (EPreferencesWindow *window)
 	 * all widgets in notebook are going to be visible at one moment. */
 	gtk_widget_show_all (hbox);
 
-	gtk_box_pack_start (GTK_BOX (hbox), notebook, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), glob_notebook, TRUE, TRUE, 0);
 
 	/* this is plugin's name label */
 	subvbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);

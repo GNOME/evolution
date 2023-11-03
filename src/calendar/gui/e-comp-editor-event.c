@@ -437,8 +437,6 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 		dtend = i_cal_time_clone (dtstart);
 
 		if (e_cal_util_component_has_property (component, I_CAL_DURATION_PROPERTY)) {
-			ICalProperty *prop;
-
 			prop = i_cal_component_get_first_property (component, I_CAL_DURATION_PROPERTY);
 			if (prop) {
 				ICalDuration *duration;
@@ -601,7 +599,6 @@ ece_event_fill_component (ECompEditor *comp_editor,
 			set_dtend = TRUE;
 
 			if (ece_event_client_needs_all_day_as_time (comp_editor)) {
-				ECompEditorEvent *event_editor = E_COMP_EDITOR_EVENT (comp_editor);
 				GtkWidget *timezone_entry;
 				ICalTimezone *zone;
 

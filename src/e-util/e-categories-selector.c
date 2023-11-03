@@ -67,7 +67,7 @@ static void
 categories_selector_build_model (ECategoriesSelector *selector)
 {
 	GtkListStore *store;
-	GList *list, *iter;
+	GList *list, *link;
 
 	store = gtk_list_store_new (
 		N_COLUMNS, G_TYPE_BOOLEAN, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_BOOLEAN);
@@ -77,8 +77,8 @@ categories_selector_build_model (ECategoriesSelector *selector)
 		COLUMN_CATEGORY, GTK_SORT_ASCENDING);
 
 	list = e_categories_dup_list ();
-	for (iter = list; iter != NULL; iter = iter->next) {
-		const gchar *category_name = iter->data;
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		const gchar *category_name = link->data;
 		GdkPixbuf *pixbuf = NULL;
 		GtkTreeIter iter;
 		gboolean active;

@@ -1737,15 +1737,15 @@ ref_default_transport (EMailSession *session)
 	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
 	if (e_source_has_extension (source, extension_name)) {
 		ESourceMailSubmission *extension;
-		gchar *uid;
+		gchar *tr_uid;
 
 		extension = e_source_get_extension (source, extension_name);
-		uid = e_source_mail_submission_dup_transport_uid (extension);
+		tr_uid = e_source_mail_submission_dup_transport_uid (extension);
 
 		g_object_unref (source);
-		source = e_source_registry_ref_source (registry, uid);
+		source = e_source_registry_ref_source (registry, tr_uid);
 
-		g_free (uid);
+		g_free (tr_uid);
 	} else {
 		g_object_unref (source);
 		source = NULL;

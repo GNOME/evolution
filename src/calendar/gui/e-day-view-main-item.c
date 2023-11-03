@@ -1281,7 +1281,6 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 			width, height, day, draw_region);
 
 	if (e_day_view_marcus_bains_get_show_line (day_view)) {
-		ICalTimezone *zone;
 		ICalTime *time_now, *day_start;
 		const gchar *marcus_bains_day_view_color;
 		gint marcus_bains_y;
@@ -1300,7 +1299,6 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		if (gdk_color_parse (marcus_bains_day_view_color, &mb_color))
 			gdk_cairo_set_source_color (cr, &mb_color);
 
-		zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
 		time_now = i_cal_time_new_current_with_zone (zone);
 
 		for (day = 0; day < days_shown; day++) {

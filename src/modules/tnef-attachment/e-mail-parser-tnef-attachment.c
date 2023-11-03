@@ -212,8 +212,7 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 		camel_medium_set_content ((CamelMedium *) mainpart, (CamelDataWrapper *) mp);
 
 		while ((d = readdir (dir))) {
-			CamelMimePart *part;
-			CamelDataWrapper *content;
+			CamelMimePart *new_part;
 			CamelStream *stream;
 			gchar *path;
 			gchar *guessed_mime_type;
@@ -231,24 +230,24 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 				content, stream, NULL, NULL);
 			g_object_unref (stream);
 
-			part = camel_mime_part_new ();
-			camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BINARY);
+			new_part = camel_mime_part_new ();
+			camel_mime_part_set_encoding (new_part, CAMEL_TRANSFER_ENCODING_BINARY);
 
-			camel_medium_set_content ((CamelMedium *) part, content);
+			camel_medium_set_content ((CamelMedium *) new_part, content);
 			g_object_unref (content);
 
-			guessed_mime_type = e_mail_part_guess_mime_type (part);
+			guessed_mime_type = e_mail_part_guess_mime_type (new_part);
 			if (guessed_mime_type) {
-				camel_data_wrapper_set_mime_type ((CamelDataWrapper *) part, guessed_mime_type);
+				camel_data_wrapper_set_mime_type ((CamelDataWrapper *) new_part, guessed_mime_type);
 				g_free (guessed_mime_type);
 			}
 
-			camel_mime_part_set_filename (part, d->d_name);
+			camel_mime_part_set_filename (new_part, d->d_name);
 
 			g_free (path);
 
-			camel_multipart_add_part (mp, part);
-			g_object_unref (part);
+			camel_multipart_add_part (mp, new_part);
+			g_object_unref (new_part);
 		}
 
 		closedir (dir);

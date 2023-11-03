@@ -1322,7 +1322,6 @@ collection_account_wizard_write_changes_thread (ESimpleAsyncResult *result,
 	/* It is always true, but have the variables local in this place only */
 	if (source) {
 		ESourceAuthentication *authentication_extension;
-		ESourceCollection *collection_extension;
 		const gchar *host;
 
 		authentication_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
@@ -2448,14 +2447,14 @@ e_collection_account_wizard_get_can_run (ECollectionAccountWizard *wizard)
 
 	if (current_page == 1) { /* Parts page */
 		GtkTreeModel *model;
-		GtkTreeIter iter;
+		GtkTreeIter titer;
 
 		model = gtk_tree_view_get_model (wizard->priv->parts_tree_view);
-		if (gtk_tree_model_get_iter_first (model, &iter)) {
+		if (gtk_tree_model_get_iter_first (model, &titer)) {
 			do {
 				gboolean enabled = FALSE, is_collection_group = FALSE;
 
-				gtk_tree_model_get (model, &iter,
+				gtk_tree_model_get (model, &titer,
 					PART_COLUMN_BOOL_ENABLED, &enabled,
 					PART_COLUMN_BOOL_IS_COLLECTION_GROUP, &is_collection_group,
 					-1);
@@ -2464,7 +2463,7 @@ e_collection_account_wizard_get_can_run (ECollectionAccountWizard *wizard)
 					/* Collection is not with radio, verify at least one child is selected */
 					GtkTreeIter child;
 
-					if (gtk_tree_model_iter_nth_child (model, &child, &iter, 0)) {
+					if (gtk_tree_model_iter_nth_child (model, &child, &titer, 0)) {
 						do {
 							enabled = FALSE;
 
@@ -2479,7 +2478,7 @@ e_collection_account_wizard_get_can_run (ECollectionAccountWizard *wizard)
 				} else if (enabled) {
 					return TRUE;
 				}
-			} while (gtk_tree_model_iter_next (model, &iter));
+			} while (gtk_tree_model_iter_next (model, &titer));
 		}
 
 		return FALSE;

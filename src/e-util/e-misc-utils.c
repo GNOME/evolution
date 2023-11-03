@@ -377,11 +377,9 @@ e_display_help (GtkWindow *parent,
 
 		uris = g_list_prepend (NULL, uri->str);
 
-		if (parent && gtk_widget_get_screen (GTK_WIDGET (parent))) {
+		if (parent && screen) {
 			GdkAppLaunchContext *gdk_context;
-			GdkScreen *screen;
 
-			screen = gtk_widget_get_screen (GTK_WIDGET (parent));
 			gdk_context = gdk_display_get_app_launch_context (gdk_screen_get_display (screen));
 
 			if (gdk_context)

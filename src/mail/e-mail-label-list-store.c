@@ -361,8 +361,6 @@ labels_settings_changed_cb (GSettings *settings,
 	gtk_list_store_clear (GTK_LIST_STORE (store));
 
 	for (i = 0; strv[i] != NULL; i++) {
-		GtkTreeIter iter;
-
 		gtk_list_store_insert_with_values (
 			GTK_LIST_STORE (store), &iter, -1, 0, strv[i], -1);
 	}

@@ -339,7 +339,6 @@ e_http_request_process_sync (EContentRequest *request,
 		ESource *proxy_source;
 		SoupSession *temp_session;
 		SoupMessage *message;
-		GIOStream *cache_stream;
 		GInputStream *input_stream;
 		gulong cancelled_id = 0;
 

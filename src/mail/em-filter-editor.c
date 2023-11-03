@@ -147,13 +147,13 @@ emfe_describe_filters_cb (GtkWidget *button,
 
 		account = g_strdup (em_filter_rule_get_account_uid (EM_FILTER_RULE (rule)));
 		if (account && *account) {
-			ESource *source;
+			ESource *esource;
 
-			source = e_source_registry_ref_source (registry, account);
-			if (source) {
+			esource = e_source_registry_ref_source (registry, account);
+			if (esource) {
 				g_free (account);
-				account = e_source_dup_display_name (source);
-				g_object_unref (source);
+				account = e_source_dup_display_name (esource);
+				g_object_unref (esource);
 			}
 		} else {
 			g_free (account);

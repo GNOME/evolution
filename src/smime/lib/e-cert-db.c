@@ -637,17 +637,17 @@ e_cert_db_init (ECertDB *ec)
 }
 
 GMutex init_mutex;
-static ECertDB *cert_db = NULL;
+static ECertDB *glob_cert_db = NULL;
 
 ECertDB *
 e_cert_db_peek (void)
 {
 	g_mutex_lock (&init_mutex);
-	if (!cert_db)
-		cert_db = g_object_new (E_TYPE_CERT_DB, NULL);
+	if (!glob_cert_db)
+		glob_cert_db = g_object_new (E_TYPE_CERT_DB, NULL);
 	g_mutex_unlock (&init_mutex);
 
-	return cert_db;
+	return glob_cert_db;
 }
 
 void
@@ -1070,11 +1070,11 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 		*imported_certs = NULL;
 		for (i = 0; i < certCollection->numcerts; i++) {
 			SECItem *currItem = &certCollection->rawCerts[i];
-			ECert *cert;
+			ECert *ecert;
 
-			cert = e_cert_new_from_der ((gchar *) currItem->data, currItem->len);
-			if (cert)
-				*imported_certs = g_slist_prepend (*imported_certs, cert);
+			ecert = e_cert_new_from_der ((gchar *) currItem->data, currItem->len);
+			if (ecert)
+				*imported_certs = g_slist_prepend (*imported_certs, ecert);
 		}
 
 		*imported_certs = g_slist_reverse (*imported_certs);

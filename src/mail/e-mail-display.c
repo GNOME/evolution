@@ -1446,7 +1446,7 @@ mail_display_content_loaded_cb (EWebView *web_view,
 	if (mail_display->priv->part_list) {
 		if (!iframe_id || !*iframe_id) {
 			GQueue queue = G_QUEUE_INIT;
-			GList *head, *link;
+			GList *head;
 
 			e_mail_part_list_queue_parts (mail_display->priv->part_list, NULL, &queue);
 			head = g_queue_peek_head_link (&queue);
@@ -1472,11 +1472,11 @@ mail_display_content_loaded_cb (EWebView *web_view,
 
 		if (mail_display->priv->has_secured_parts &&
 		    mail_display->priv->skip_insecure_parts) {
-			GSList *link;
+			GSList *slink;
 
-			for (link = mail_display->priv->insecure_part_ids; link; link = g_slist_next (link)) {
+			for (slink = mail_display->priv->insecure_part_ids; slink; slink = g_slist_next (slink)) {
 				e_web_view_jsc_set_element_hidden (WEBKIT_WEB_VIEW (web_view),
-					"*", link->data, TRUE,
+					"*", slink->data, TRUE,
 					e_web_view_get_cancellable (web_view));
 			}
 		}

@@ -475,8 +475,8 @@ rule_copy (EFilterRule *dest,
 
 	head = g_queue_peek_head_link (&vsrc->priv->sources);
 	for (link = head; link != NULL; link = g_list_next (link)) {
-		const gchar *uri = link->data;
-		g_queue_push_tail (&vdest->priv->sources, g_strdup (uri));
+		uri = g_strdup ((const gchar *) link->data);
+		g_queue_push_tail (&vdest->priv->sources, uri);
 
 		em_vfolder_rule_source_set_include_subfolders (
 			vdest, uri,

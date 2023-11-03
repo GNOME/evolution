@@ -928,7 +928,6 @@ attachment_view_update_actions (EAttachmentView *view)
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		GAppInfo *app_info = iter->data;
-		GtkAction *action;
 		GIcon *app_icon;
 		const gchar *app_id;
 		const gchar *app_name;

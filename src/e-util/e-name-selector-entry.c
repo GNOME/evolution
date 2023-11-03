@@ -2430,7 +2430,6 @@ setup_default_contact_store (ENameSelectorEntry *name_selector_entry)
 		ESource *source = E_SOURCE (iter->data);
 		ESourceAutocomplete *extension;
 		GCancellable *cancellable;
-		const gchar *extension_name;
 
 		extension_name = E_SOURCE_EXTENSION_AUTOCOMPLETE;
 		extension = e_source_get_extension (source, extension_name);

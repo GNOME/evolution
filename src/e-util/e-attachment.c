@@ -3606,11 +3606,9 @@ attachment_save_query_info_cb (GFile *destination,
 
 #ifdef HAVE_AUTOAR
 		if (attachment->priv->save_extracted) {
-			EAttachment *attachment;
 			GFileInfo *info;
 			gchar *suggested;
 
-			attachment = save_context->attachment;
 			suggested = NULL;
 			info = e_attachment_ref_file_info (attachment);
 			if (info != NULL)

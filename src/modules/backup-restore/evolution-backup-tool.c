@@ -1235,7 +1235,7 @@ main (gint argc,
 		GtkWidget *widget, *container;
 		GtkWidget *action_area;
 		GtkWidget *content_area;
-		const gchar *txt, *txt2;
+		const gchar *txt1, *txt2;
 		gchar *str = NULL;
 		gchar *markup;
 
@@ -1288,16 +1288,16 @@ main (gint argc,
 			NULL);
 
 		if (backup_op) {
-			txt = _("Backing up Evolution Data");
+			txt1 = _("Backing up Evolution Data");
 			txt2 = _("Please wait while Evolution is backing up your data.");
 		} else if (restore_op) {
-			txt = _("Restoring Evolution Data");
+			txt1 = _("Restoring Evolution Data");
 			txt2 = _("Please wait while Evolution is restoring your data.");
 		} else {
 			g_return_val_if_reached (EXIT_FAILURE);
 		}
 
-		markup = g_markup_printf_escaped ("<b><big>%s</big></b>", txt);
+		markup = g_markup_printf_escaped ("<b><big>%s</big></b>", txt1);
 		widget = gtk_label_new (markup);
 		gtk_label_set_line_wrap (GTK_LABEL (widget), FALSE);
 		gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);

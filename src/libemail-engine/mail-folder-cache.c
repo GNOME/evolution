@@ -1116,10 +1116,10 @@ folder_cache_process_folder_changes_thread (CamelFolder *folder,
 		added_uids = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) camel_pstring_free, NULL);
 
 		for (i = 0; i < changes->uid_added->len; i++) {
-			const gchar *uid = changes->uid_added->pdata[i];
+			const gchar *tmp_uid = changes->uid_added->pdata[i];
 
-			if (uid)
-				g_hash_table_insert (added_uids, (gpointer) camel_pstring_strdup (uid), IGNORE_THREAD_VALUE_TODO);
+			if (tmp_uid)
+				g_hash_table_insert (added_uids, (gpointer) camel_pstring_strdup (tmp_uid), IGNORE_THREAD_VALUE_TODO);
 		}
 
 		/* for each added message, check to see that it is

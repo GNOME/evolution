@@ -384,11 +384,11 @@ mail_reader_copy_or_move_selected_messages (EMailReader *reader,
 		em_folder_tree_set_selected (
 			folder_tree, default_xfer_messages_uri, FALSE);
 	} else if (folder) {
-		gchar *uri = e_mail_folder_uri_from_folder (folder);
+		gchar *furi = e_mail_folder_uri_from_folder (folder);
 
-		if (uri) {
-			em_folder_tree_set_selected (folder_tree, uri, FALSE);
-			g_free (uri);
+		if (furi) {
+			em_folder_tree_set_selected (folder_tree, furi, FALSE);
+			g_free (furi);
 		}
 	}
 

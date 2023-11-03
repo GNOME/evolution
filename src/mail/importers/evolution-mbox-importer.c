@@ -526,10 +526,10 @@ mbox_get_preview (EImport *ei,
 			e_web_view_preview_show_tree_view (E_WEB_VIEW_PREVIEW (preview));
 
 			if (shortened_list) {
-				GtkTreeIter iter;
+				GtkTreeIter titer;
 
-				gtk_list_store_append (store, &iter);
-				gtk_list_store_set (store, &iter,
+				gtk_list_store_append (store, &titer);
+				gtk_list_store_set (store, &titer,
 					0, _("Showing only first few messages, more will be imported"),
 					1, "",
 					2, NULL,

@@ -333,15 +333,15 @@ vfr_folder_response (EMFolderSelector *selector,
 			(GDestroyNotify) NULL);
 
 		if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (data->model), &iter)) {
-			GtkTreeModel *model = GTK_TREE_MODEL (data->model);
+			GtkTreeModel *dmodel = GTK_TREE_MODEL (data->model);
 			do {
 				gchar *known = NULL;
 
-				gtk_tree_model_get (model, &iter, 1, &known, -1);
+				gtk_tree_model_get (dmodel, &iter, 1, &known, -1);
 
 				if (known)
 					g_hash_table_add (known_uris, known);
-			} while (gtk_tree_model_iter_next (model, &iter));
+			} while (gtk_tree_model_iter_next (dmodel, &iter));
 		}
 
 		for (uris_iter = selected_uris; uris_iter != NULL; uris_iter = uris_iter->next) {

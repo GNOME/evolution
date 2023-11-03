@@ -4343,7 +4343,6 @@ e_cal_model_util_get_datetime_value (ECalModel *model,
 	}
 
 	if (e_cal_data_model_get_expand_recurrences (model->priv->data_model)) {
-		gboolean is_date = i_cal_time_is_date (tt);
 		time_t instance_tt = (time_t) 0;
 
 		if (kind == I_CAL_DTSTART_PROPERTY)

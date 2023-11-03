@@ -2054,7 +2054,7 @@ eti_draw (GnomeCanvasItem *item,
 			gboolean cursor = FALSE;
 			ECellFlags flags;
 			GdkRGBA background;
-			gint x1, x2, y1, y2;
+			gint y1, y2;
 			cairo_pattern_t *pat;
 
 			switch (eti->cursor_mode) {

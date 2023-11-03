@@ -395,11 +395,11 @@ action_mail_import_pgp_key_cb (GtkAction *action,
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	GList *list;
-	gpointer parent;
+	gpointer parent_window;
 
 	view = e_attachment_handler_get_view (handler);
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+	parent_window = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent_window = gtk_widget_is_toplevel (parent_window) ? parent_window : NULL;
 
 	list = e_attachment_view_get_selected_paths (view);
 	g_return_if_fail (g_list_length (list) == 1);
@@ -431,7 +431,7 @@ action_mail_import_pgp_key_cb (GtkAction *action,
 		camel_data_wrapper_decode_to_stream_sync (camel_medium_get_content (CAMEL_MEDIUM (mime_part)), stream, NULL, NULL);
 		g_object_unref (stream);
 
-		if (!em_utils_import_pgp_key (parent, session, buffer->data, buffer->len, &error) &&
+		if (!em_utils_import_pgp_key (parent_window, session, buffer->data, buffer->len, &error) &&
 		    !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			GtkWidget *parent, *alert_sink = NULL;
 

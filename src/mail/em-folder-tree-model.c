@@ -2352,13 +2352,13 @@ em_folder_tree_model_update_folder_icons_for_store (EMFolderTreeModel *model,
 		if (gtk_tree_row_reference_valid (row)) {
 			gchar *folder_uri = NULL;
 			GtkTreePath *path;
-			GtkTreeIter iter;
+			GtkTreeIter titer;
 
 			path = gtk_tree_row_reference_get_path (row);
-			gtk_tree_model_get_iter (tree_model, &iter, path);
+			gtk_tree_model_get_iter (tree_model, &titer, path);
 			gtk_tree_path_free (path);
 
-			gtk_tree_model_get (tree_model, &iter, COL_STRING_FOLDER_URI, &folder_uri, -1);
+			gtk_tree_model_get (tree_model, &titer, COL_STRING_FOLDER_URI, &folder_uri, -1);
 			if (folder_uri)
 				em_folder_tree_model_update_folder_icon (model, folder_uri);
 			g_free (folder_uri);

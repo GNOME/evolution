@@ -17,6 +17,7 @@ macro(setup_build_flags _maintainer_mode)
 		-Wmissing-noreturn
 		-Wpointer-arith
 		-Wredundant-decls
+		-Wshadow
 		-Wundef
 		-Wwrite-strings
 		-Wno-cast-function-type

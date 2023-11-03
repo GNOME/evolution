@@ -356,7 +356,7 @@ ivcal_getwidget (EImport *ei,
 {
 	EShell *shell;
 	ESourceRegistry *registry;
-	GtkWidget *vbox, *hbox, *first = NULL;
+	GtkWidget *top_vbox, *hbox, *first = NULL;
 	GSList *group = NULL;
 	gint i;
 	GtkWidget *nb;
@@ -364,15 +364,15 @@ ivcal_getwidget (EImport *ei,
 	shell = e_shell_get_default ();
 	registry = e_shell_get_registry (shell);
 
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	top_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (top_vbox), hbox, FALSE, TRUE, 6);
 
 	nb = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (nb), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (nb), FALSE);
-	gtk_box_pack_start (GTK_BOX (vbox), nb, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (top_vbox), nb, TRUE, TRUE, 6);
 
 	/* Type of iCalendar items */
 	for (i = 0; import_type_map[i] != -1; i++) {
@@ -448,9 +448,9 @@ ivcal_getwidget (EImport *ei,
 	if (first)
 		gtk_toggle_button_set_active ((GtkToggleButton *) first, TRUE);
 
-	gtk_widget_show_all (vbox);
+	gtk_widget_show_all (top_vbox);
 
-	return vbox;
+	return top_vbox;
 }
 
 static void
@@ -1429,7 +1429,7 @@ preview_comp (EWebViewPreview *preview,
 		for (link = attendees; link; link = g_slist_next (link)) {
 			ECalComponentAttendee *attnd = link->data;
 			ECalComponentParameterBag *param_bag;
-			GString *str;
+			GString *tmp_str;
 			const gchar *value, *cn;
 
 			if (!attnd)
@@ -1441,12 +1441,12 @@ preview_comp (EWebViewPreview *preview,
 
 			cn = e_cal_component_attendee_get_cn (attnd);
 
-			str = g_string_new ("");
+			tmp_str = g_string_new ("");
 
 			if (cn && *cn) {
-				g_string_append_printf (str, "%s <%s>", cn, e_cal_util_strip_mailto (value));
+				g_string_append_printf (tmp_str, "%s <%s>", cn, e_cal_util_strip_mailto (value));
 			} else {
-				g_string_append (str, e_cal_util_strip_mailto (value));
+				g_string_append (tmp_str, e_cal_util_strip_mailto (value));
 			}
 
 			param_bag = e_cal_component_attendee_get_parameter_bag (attnd);
@@ -1479,26 +1479,26 @@ preview_comp (EWebViewPreview *preview,
 					n_guests = (gint) g_ascii_strtoll (i_cal_parameter_get_xvalue (num_guests), NULL, 10);
 
 					if (n_guests > 0) {
-						g_string_append_c (str, ' ');
-						g_string_append_printf (str, g_dngettext (GETTEXT_PACKAGE, "with one guest", "with %d guests", n_guests), n_guests);
+						g_string_append_c (tmp_str, ' ');
+						g_string_append_printf (tmp_str, g_dngettext (GETTEXT_PACKAGE, "with one guest", "with %d guests", n_guests), n_guests);
 					}
 				}
 
 				if (response_comment) {
-					const gchar *value = i_cal_parameter_get_xvalue (response_comment);
+					value = i_cal_parameter_get_xvalue (response_comment);
 
 					if (value && *value) {
-						g_string_append (str, " (");
-						g_string_append (str, value);
-						g_string_append_c (str, ')');
+						g_string_append (tmp_str, " (");
+						g_string_append (tmp_str, value);
+						g_string_append_c (tmp_str, ')');
 					}
 				}
 			}
 
 			/* Translators: Appointment's attendees */
-			e_web_view_preview_add_section (preview, have ? NULL : C_("iCalImp", "Attendees"), str->str);
+			e_web_view_preview_add_section (preview, have ? NULL : C_("iCalImp", "Attendees"), tmp_str->str);
 
-			g_string_free (str, TRUE);
+			g_string_free (tmp_str, TRUE);
 
 			have = TRUE;
 		}

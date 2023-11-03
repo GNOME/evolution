@@ -1695,9 +1695,10 @@ print_day_details (GtkPrintContext *context,
 			DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
 	}
 
+	cr = gtk_print_context_get_cairo_context (context);
+
 	if (rows_in_top_display < pdi.long_events->len) {
 		/* too many events */
-		cairo_t *cr = gtk_print_context_get_cairo_context (context);
 		gint x, y;
 
 		if (!pixbuf) {
@@ -1732,7 +1733,6 @@ print_day_details (GtkPrintContext *context,
 		rows_in_top_display++;
 
 	/* Draw the border around the long events. */
-	cr = gtk_print_context_get_cairo_context (context);
 
 	cairo_set_source_rgb (cr, 0, 0, 0);
 	print_border (
@@ -2878,9 +2878,10 @@ print_work_week_day_details (GtkPrintContext *context,
 			DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
 	}
 
+	cr = gtk_print_context_get_cairo_context (context);
+
 	if (rows_in_top_display < pdi.long_events->len) {
 		/* too many events */
-		cairo_t *cr = gtk_print_context_get_cairo_context (context);
 		gint x, y;
 
 		if (!pixbuf) {
@@ -2908,7 +2909,6 @@ print_work_week_day_details (GtkPrintContext *context,
 		rows_in_top_display++;
 
 	/* Draw the border around the long events. */
-	cr = gtk_print_context_get_cairo_context (context);
 
 	cairo_set_source_rgb (cr, 0, 0, 0);
 	print_border (

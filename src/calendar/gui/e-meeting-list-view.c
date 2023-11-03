@@ -872,11 +872,11 @@ process_section (EMeetingListView *view,
                  GSList **la)
 {
 	EMeetingListViewPrivate *priv;
-	GList *l;
+	GList *link;
 
 	priv = view->priv;
-	for (l = destinations; l; l = g_list_next (l)) {
-		EDestination *destination = l->data, *des = NULL;
+	for (link = destinations; link; link = g_list_next (link)) {
+		EDestination *destination = link->data, *des = NULL;
 		const GList *list_dests = NULL, *l;
 		GList card_dest;
 
@@ -891,7 +891,7 @@ process_section (EMeetingListView *view,
 				ENameSelectorDialog *dialog;
 				ENameSelectorModel *model;
 				EContactStore *c_store;
-				GSList *clients, *l;
+				GSList *clients, *slink;
 				gchar *uid = e_contact_get (contact, E_CONTACT_BOOK_UID);
 
 				dialog = e_name_selector_peek_dialog (view->priv->name_selector);
@@ -899,8 +899,8 @@ process_section (EMeetingListView *view,
 				c_store = e_name_selector_model_peek_contact_store (model);
 				clients = e_contact_store_get_clients (c_store);
 
-				for (l = clients; l; l = l->next) {
-					EBookClient *b = l->data;
+				for (slink = clients; slink; slink = g_slist_next (slink)) {
+					EBookClient *b = slink->data;
 					ESource *source;
 
 					source = e_client_get_source (E_CLIENT (b));
@@ -1074,7 +1074,6 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog,
 	for (l = la; l != NULL; l = l->next) {
 		EMeetingAttendee *ma = NULL;
 		const gchar *email = l->data;
-		gint i;
 
 		ma = e_meeting_store_find_attendee (store, email, &i);
 

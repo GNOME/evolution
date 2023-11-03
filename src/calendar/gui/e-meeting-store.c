@@ -1157,7 +1157,7 @@ e_meeting_store_find_self (EMeetingStore *store,
 	EMeetingAttendee *attendee = NULL;
 	ESourceRegistry *registry;
 	EShell *shell;
-	GList *list, *iter;
+	GList *list, *link;
 	const gchar *extension_name;
 
 	g_return_val_if_fail (E_IS_MEETING_STORE (store), NULL);
@@ -1169,8 +1169,8 @@ e_meeting_store_find_self (EMeetingStore *store,
 
 	list = e_source_registry_list_sources (registry, extension_name);
 
-	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
-		ESource *source = E_SOURCE (iter->data);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
 		ESourceMailIdentity *extension;
 		GHashTable *aliases;
 		const gchar *address;

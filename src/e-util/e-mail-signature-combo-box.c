@@ -434,7 +434,7 @@ e_mail_signature_combo_box_refresh (EMailSignatureComboBox *combo_box)
 	/* Followed by the other mail signatures, alphabetized. */
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
-		GtkTreeIter iter;
+		GtkTreeIter titer;
 		const gchar *display_name;
 		const gchar *uid;
 
@@ -442,10 +442,10 @@ e_mail_signature_combo_box_refresh (EMailSignatureComboBox *combo_box)
 		display_name = e_source_get_display_name (source);
 		uid = e_source_get_uid (source);
 
-		gtk_list_store_append (GTK_LIST_STORE (tree_model), &iter);
+		gtk_list_store_append (GTK_LIST_STORE (tree_model), &titer);
 
 		gtk_list_store_set (
-			GTK_LIST_STORE (tree_model), &iter,
+			GTK_LIST_STORE (tree_model), &titer,
 			COLUMN_DISPLAY_NAME, display_name,
 			COLUMN_UID, uid, -1);
 	}

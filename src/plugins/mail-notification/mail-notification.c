@@ -1010,7 +1010,7 @@ e_mail_notify_account_tree_view_enabled_toggled_cb (GtkCellRendererToggle *cell_
 	GtkTreeIter iter;
 	GPtrArray *array;
 	GSettings *settings;
-	gboolean enabled = FALSE;
+	gboolean account_enabled = FALSE;
 
 	g_return_if_fail (GTK_IS_TREE_VIEW (tree_view));
 
@@ -1022,8 +1022,8 @@ e_mail_notify_account_tree_view_enabled_toggled_cb (GtkCellRendererToggle *cell_
 		return;
 	}
 
-	gtk_tree_model_get (model, &iter, E_MAIL_NOTIFY_ACCOUNTS_ENABLED, &enabled, -1);
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter, E_MAIL_NOTIFY_ACCOUNTS_ENABLED, !enabled, -1);
+	gtk_tree_model_get (model, &iter, E_MAIL_NOTIFY_ACCOUNTS_ENABLED, &account_enabled, -1);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, E_MAIL_NOTIFY_ACCOUNTS_ENABLED, !account_enabled, -1);
 
 	gtk_tree_path_free (path);
 
@@ -1032,14 +1032,15 @@ e_mail_notify_account_tree_view_enabled_toggled_cb (GtkCellRendererToggle *cell_
 	if (gtk_tree_model_get_iter_first (model, &iter)) {
 		do {
 			gchar *uid = NULL;
-			gboolean enabled = FALSE;
+
+			account_enabled = FALSE;
 
 			gtk_tree_model_get (model, &iter,
-				E_MAIL_NOTIFY_ACCOUNTS_ENABLED, &enabled,
+				E_MAIL_NOTIFY_ACCOUNTS_ENABLED, &account_enabled,
 				E_MAIL_NOTIFY_ACCOUNTS_UID, &uid,
 				-1);
 
-			if (!enabled && uid) {
+			if (!account_enabled && uid) {
 				g_ptr_array_add (array, uid);
 			} else {
 				g_free (uid);

@@ -227,7 +227,6 @@ mail_signature_script_dialog_set_source (EMailSignatureScriptDialog *dialog,
 	 * run after the dialog initialization is complete. */
 	if (dbus_object != NULL) {
 		ESourceMailSignature *extension;
-		const gchar *extension_name;
 		GFile *file;
 
 		extension_name = E_SOURCE_EXTENSION_MAIL_SIGNATURE;

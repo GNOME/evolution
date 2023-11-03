@@ -852,7 +852,6 @@ etdp_merge_with_root_paths (EToDoPane *to_do_pane,
 		}
 
 		if (!found) {
-			GtkTreeIter parent;
 			GtkTreePath *path;
 
 			g_warn_if_fail (gtk_tree_model_get_iter (model, &parent, root_path));
@@ -1071,7 +1070,7 @@ etdp_add_component (EToDoPane *to_do_pane,
 			if (itip_organizer_is_user (registry, comp, client)) {
 				icon_name = "stock_task-assigned-to";
 			} else {
-				GSList *attendees = NULL, *link;
+				GSList *attendees = NULL;
 
 				attendees = e_cal_component_get_attendees (comp);
 				for (link = attendees; link; link = g_slist_next (link)) {

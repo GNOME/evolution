@@ -116,7 +116,6 @@ empe_app_smime_parse (EMailParserExtension *extension,
 
 		e_mail_parser_wrap_as_non_expandable_attachment (parser, part, part_id, out_mail_parts);
 	} else {
-		CamelContentType *ct;
 		GQueue work_queue = G_QUEUE_INIT;
 		GList *head, *link;
 		gint len = part_id->len;

@@ -457,16 +457,16 @@ e_rss_preferences_feed_info_ready_cb (GObject *source_object,
 					gtk_entry_set_text (pd->name, title);
 
 				if (icon && *icon) {
-					SoupMessage *message;
+					SoupMessage *message2;
 
 					e_activity_set_text (pd->activity, _("Fetching feed icon…"));
 
-					message = soup_message_new (SOUP_METHOD_GET, icon);
-					if (message) {
-						soup_session_send_and_read_async (SOUP_SESSION (source_object), message, G_PRIORITY_DEFAULT, cancellable,
+					message2 = soup_message_new (SOUP_METHOD_GET, icon);
+					if (message2) {
+						soup_session_send_and_read_async (SOUP_SESSION (source_object), message2, G_PRIORITY_DEFAULT, cancellable,
 							e_rss_preferences_feed_icon_ready_cb, popover);
 
-						g_object_unref (message);
+						g_object_unref (message2);
 
 						/* Not as a problem, but as a flag to not complete the activity */
 						success = FALSE;

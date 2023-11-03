@@ -5323,12 +5323,9 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 
 		/* Only set the cursor if it is different to last one set. */
 		if (day_view->last_cursor_set_in_top_canvas != cursor) {
-			GdkWindow *window;
-
 			day_view->last_cursor_set_in_top_canvas = cursor;
 
-			window = gtk_widget_get_window (widget);
-			gdk_window_set_cursor (window, cursor);
+			gdk_window_set_cursor (gtk_widget_get_window (widget), cursor);
 		}
 
 		if (event && E_IS_TEXT (event->canvas_item) && E_TEXT (event->canvas_item)->editing) {
@@ -5440,12 +5437,9 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 
 		/* Only set the cursor if it is different to last one set. */
 		if (day_view->last_cursor_set_in_main_canvas != cursor) {
-			GdkWindow *window;
-
 			day_view->last_cursor_set_in_main_canvas = cursor;
 
-			window = gtk_widget_get_window (widget);
-			gdk_window_set_cursor (window, cursor);
+			gdk_window_set_cursor (gtk_widget_get_window (widget), cursor);
 		}
 
 		if (event && E_IS_TEXT (event->canvas_item) && E_TEXT (event->canvas_item)->editing) {

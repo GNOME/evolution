@@ -182,7 +182,6 @@ e_name_selector_load_books (ENameSelector *name_selector)
 	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
 		ESource *source = E_SOURCE (iter->data);
 		ESourceAutocomplete *extension;
-		const gchar *extension_name;
 
 		extension_name = E_SOURCE_EXTENSION_AUTOCOMPLETE;
 		extension = e_source_get_extension (source, extension_name);

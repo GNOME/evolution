@@ -597,7 +597,7 @@ typedef struct {
 	time_t *out_exact_date;
 } GoToDialog;
 
-static GoToDialog *dlg = NULL;
+static GoToDialog *glob_dlg = NULL;
 
 /* Callback used when the year adjustment is changed */
 static void
@@ -770,7 +770,7 @@ e_cal_dialogs_goto_run (GtkWindow *parent,
 	GtkAdjustment *adj;
 	gint response;
 
-	if (dlg) {
+	if (glob_dlg) {
 		return FALSE;
 	}
 
@@ -778,76 +778,76 @@ e_cal_dialogs_goto_run (GtkWindow *parent,
 	g_return_val_if_fail (out_move_type != NULL, FALSE);
 	g_return_val_if_fail (out_exact_date != NULL, FALSE);
 
-	dlg = g_new0 (GoToDialog, 1);
+	glob_dlg = g_new0 (GoToDialog, 1);
 
-	goto_dialog_create_widgets (dlg, parent);
+	goto_dialog_create_widgets (glob_dlg, parent);
 
-	dlg->data_model = e_cal_data_model_new_clone (data_model);
-	dlg->out_move_type = out_move_type;
-	dlg->out_exact_date = out_exact_date;
+	glob_dlg->data_model = e_cal_data_model_new_clone (data_model);
+	glob_dlg->out_move_type = out_move_type;
+	glob_dlg->out_exact_date = out_exact_date;
 
 	if (from_date) {
-		dlg->year_val = g_date_get_year (from_date);
-		dlg->month_val = g_date_get_month (from_date) - 1;
-		dlg->day_val = g_date_get_day (from_date);
+		glob_dlg->year_val = g_date_get_year (from_date);
+		glob_dlg->month_val = g_date_get_month (from_date) - 1;
+		glob_dlg->day_val = g_date_get_day (from_date);
 	} else {
 		ICalTime *tt;
 		ICalTimezone *timezone;
 
-		timezone = e_cal_data_model_get_timezone (dlg->data_model);
+		timezone = e_cal_data_model_get_timezone (glob_dlg->data_model);
 		tt = i_cal_time_new_current_with_zone (timezone);
 
-		dlg->year_val = i_cal_time_get_year (tt);
-		dlg->month_val = i_cal_time_get_month (tt) - 1;
-		dlg->day_val = i_cal_time_get_day (tt);
+		glob_dlg->year_val = i_cal_time_get_year (tt);
+		glob_dlg->month_val = i_cal_time_get_month (tt) - 1;
+		glob_dlg->day_val = i_cal_time_get_day (tt);
 
 		g_clear_object (&tt);
 	}
 
 	g_signal_connect (
-		dlg->month_combobox, "changed",
-		G_CALLBACK (month_changed), dlg);
+		glob_dlg->month_combobox, "changed",
+		G_CALLBACK (month_changed), glob_dlg);
 
-	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (dlg->year));
+	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (glob_dlg->year));
 	g_signal_connect (
 		adj, "value_changed",
-		G_CALLBACK (year_changed), dlg);
+		G_CALLBACK (year_changed), glob_dlg);
 
 	g_signal_connect (
-		e_calendar_get_item (dlg->ecal), "selection_changed",
-		G_CALLBACK (ecal_event), dlg);
+		e_calendar_get_item (glob_dlg->ecal), "selection_changed",
+		G_CALLBACK (ecal_event), glob_dlg);
 
-	gtk_combo_box_set_active (GTK_COMBO_BOX (dlg->month_combobox), dlg->month_val);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dlg->year), dlg->year_val);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (glob_dlg->month_combobox), glob_dlg->month_val);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (glob_dlg->year), glob_dlg->year_val);
 
-	gtk_window_set_transient_for (GTK_WINDOW (dlg->dialog), parent);
+	gtk_window_set_transient_for (GTK_WINDOW (glob_dlg->dialog), parent);
 
 	/* set initial selection to current day */
 
-	e_calendar_get_item (dlg->ecal)->selection_set = TRUE;
-	e_calendar_get_item (dlg->ecal)->selection_start_month_offset = 0;
-	e_calendar_get_item (dlg->ecal)->selection_start_day = dlg->day_val;
-	e_calendar_get_item (dlg->ecal)->selection_end_month_offset = 0;
-	e_calendar_get_item (dlg->ecal)->selection_end_day = dlg->day_val;
+	e_calendar_get_item (glob_dlg->ecal)->selection_set = TRUE;
+	e_calendar_get_item (glob_dlg->ecal)->selection_start_month_offset = 0;
+	e_calendar_get_item (glob_dlg->ecal)->selection_start_day = glob_dlg->day_val;
+	e_calendar_get_item (glob_dlg->ecal)->selection_end_month_offset = 0;
+	e_calendar_get_item (glob_dlg->ecal)->selection_end_day = glob_dlg->day_val;
 
-	gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (e_calendar_get_item (dlg->ecal)));
+	gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (e_calendar_get_item (glob_dlg->ecal)));
 
-	e_tag_calendar_subscribe (dlg->tag_calendar, dlg->data_model);
+	e_tag_calendar_subscribe (glob_dlg->tag_calendar, glob_dlg->data_model);
 
-	response = gtk_dialog_run (GTK_DIALOG (dlg->dialog));
+	response = gtk_dialog_run (GTK_DIALOG (glob_dlg->dialog));
 
-	e_tag_calendar_unsubscribe (dlg->tag_calendar, dlg->data_model);
+	e_tag_calendar_unsubscribe (glob_dlg->tag_calendar, glob_dlg->data_model);
 
-	gtk_widget_destroy (dlg->dialog);
+	gtk_widget_destroy (glob_dlg->dialog);
 
 	if (response == GTK_RESPONSE_ACCEPT)
-		*(dlg->out_move_type) = E_CALENDAR_VIEW_MOVE_TO_TODAY;
+		*(glob_dlg->out_move_type) = E_CALENDAR_VIEW_MOVE_TO_TODAY;
 
-	g_clear_object (&dlg->tag_calendar);
-	g_clear_object (&dlg->data_model);
+	g_clear_object (&glob_dlg->tag_calendar);
+	g_clear_object (&glob_dlg->data_model);
 
-	g_free (dlg);
-	dlg = NULL;
+	g_free (glob_dlg);
+	glob_dlg = NULL;
 
 	return response == GTK_RESPONSE_ACCEPT || response == GTK_RESPONSE_APPLY;
 }

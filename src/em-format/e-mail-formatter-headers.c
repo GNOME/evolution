@@ -393,7 +393,7 @@ format_full_headers (EMailFormatter *formatter,
 	} else {
 		CamelMedium *medium;
 		gchar **default_headers;
-		guint ii, length = 0;
+		guint length = 0;
 
 		medium = CAMEL_MEDIUM (mime_part);
 
@@ -474,9 +474,9 @@ format_full_headers (EMailFormatter *formatter,
 
 	/* Prefer contact photos over archaic "Face" headers. */
 	if (show_sender_photo && photo_name != NULL) {
-		gchar *name;
+		gchar *escaped_name;
 
-		name = g_uri_escape_string (photo_name, NULL, FALSE);
+		escaped_name = g_uri_escape_string (photo_name, NULL, FALSE);
 		g_string_append (
 			buffer,
 			"<td align=\"right\" valign=\"top\">");
@@ -484,10 +484,10 @@ format_full_headers (EMailFormatter *formatter,
 			buffer,
 			"<img src=\"mail://contact-photo?mailaddr=\" "
 			"data-mailaddr=\"%s\" id=\"__evo-contact-photo\"/>",
-			name);
+			escaped_name);
 		g_string_append (buffer, "</td>");
 
-		g_free (name);
+		g_free (escaped_name);
 
 	} else if (!is_rfc822_headers && face_header_value != NULL) {
 		CamelMimePart *image_part;

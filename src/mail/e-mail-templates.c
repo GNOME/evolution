@@ -204,8 +204,8 @@ fill_template (CamelMimeMessage *message,
 
 		for (i = 0; i < camel_multipart_get_number (multipart); i++) {
 			CamelMimePart *part = camel_multipart_get_part (multipart, i);
-			CamelContentType *ct = camel_mime_part_get_content_type (part);
 
+			ct = camel_mime_part_get_content_type (part);
 			if (!ct)
 				continue;
 
@@ -335,7 +335,7 @@ fill_template (CamelMimeMessage *message,
 			if (ct) {
 				const gchar *charset = camel_content_type_param (ct, "charset");
 				if (charset && *charset) {
-					CamelMimeFilter *filter = camel_mime_filter_charset_new (charset, "UTF-8");
+					filter = camel_mime_filter_charset_new (charset, "UTF-8");
 					if (filter) {
 						CamelStream *filtered = camel_stream_filter_new (stream);
 

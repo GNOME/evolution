@@ -2113,7 +2113,6 @@ itip_send_component_begin (ItipSendComponentData *isc,
 	    isc->send_comps && !isc->send_comps->next) {
 		ICalComponent *toplevel, *icomp;
 		ICalParameterPartstat partstat;
-		GSList *link;
 		gchar *attendee;
 
 		if ((isc->flags & E_ITIP_SEND_COMPONENT_FLAG_SAVE_RESPONSE_ACCEPTED) != 0)

@@ -1904,7 +1904,6 @@ mail_session_forward_to_sync (CamelSession *session,
 		out_folder, forward, info, NULL, cancellable, error);
 
 	if (success) {
-		GSettings *settings;
 		gboolean flush_outbox;
 
 		settings = e_util_ref_settings ("org.gnome.evolution.mail");

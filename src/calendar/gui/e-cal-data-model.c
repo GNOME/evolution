@@ -2862,12 +2862,12 @@ e_cal_data_model_subscribe (ECalDataModel *data_model,
 	LOCK_PROPS ();
 
 	for (link = data_model->priv->subscribers; link; link = g_slist_next (link)) {
-		SubscriberData *subs_data = link->data;
+		SubscriberData *tmp_subs_data = link->data;
 
-		if (!subs_data)
+		if (!tmp_subs_data)
 			continue;
 
-		if (subs_data->subscriber == subscriber)
+		if (tmp_subs_data->subscriber == subscriber)
 			break;
 	}
 

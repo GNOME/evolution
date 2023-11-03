@@ -3009,7 +3009,7 @@ cal_comp_util_write_to_html (GString *html_buffer,
 					n_guests = (gint) g_ascii_strtoll (i_cal_parameter_get_xvalue (num_guests), NULL, 10);
 
 					if (n_guests > 0) {
-						gchar *str, *escaped;
+						gchar *escaped;
 
 						str = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "with one guest", "with %d guests", n_guests), n_guests);
 						escaped = g_markup_escape_text (str, -1);

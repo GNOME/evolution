@@ -451,7 +451,7 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor,
 			g_object_unref (part);
 
 			for (link = inline_images_parts; link; link = g_slist_next (link)) {
-				CamelMimePart *part = link->data;
+				part = link->data;
 
 				if (!part)
 					continue;
@@ -586,7 +586,6 @@ e_mail_notes_retrieve_message_done (gpointer ptr)
 			nparts = camel_multipart_get_number (multipart);
 			for (ii = 0; ii < nparts; ii++) {
 				CamelMimePart *part;
-				CamelContentType *ct;
 				const gchar *x_evolution_note;
 
 				part = camel_multipart_get_part (multipart, ii);
@@ -705,8 +704,6 @@ static gboolean
 e_mail_notes_replace_note (CamelMimeMessage *message,
 			   CamelMimeMessage *note)
 {
-	CamelMultipart *multipart;
-	CamelMimePart *part;
 	CamelDataWrapper *orig_content;
 	CamelContentType *ct;
 
@@ -724,7 +721,6 @@ e_mail_notes_replace_note (CamelMimeMessage *message,
 		nparts = camel_multipart_get_number (multipart);
 		for (ii = 0; ii < nparts; ii++) {
 			CamelMimePart *part;
-			CamelContentType *ct;
 			const gchar *x_evolution_note;
 
 			part = camel_multipart_get_part (multipart, ii);
@@ -764,6 +760,9 @@ e_mail_notes_replace_note (CamelMimeMessage *message,
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "Content-Transfer-Encoding");
 
 	if (note) {
+		CamelMultipart *multipart;
+		CamelMimePart *part;
+
 		multipart = camel_multipart_new ();
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart), "multipart/mixed");
 		camel_multipart_set_boundary (multipart, NULL);

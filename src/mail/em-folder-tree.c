@@ -3884,7 +3884,6 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 
 		if (gtk_tree_row_reference_valid (reference)) {
 			GtkTreePath *path;
-			GtkTreeIter iter;
 
 			path = gtk_tree_row_reference_get_path (reference);
 			gtk_tree_model_get_iter (tree_model, &iter, path);

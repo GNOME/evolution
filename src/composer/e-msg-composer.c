@@ -1816,7 +1816,7 @@ composer_build_message (EMsgComposer *composer,
 			g_object_unref (body);
 
 			for (link = inline_images_parts; link; link = g_slist_next (link)) {
-				CamelMimePart *part = link->data;
+				part = link->data;
 
 				camel_multipart_add_part (html_with_images, g_object_ref (part));
 			}
@@ -4024,7 +4024,6 @@ handle_multipart_alternative (EMsgComposer *composer,
 
 		if (emcu_format_as_plain_text (composer, camel_mime_part_get_content_type (text_part))) {
 			gchar *text;
-			gssize length;
 
 			text = emcu_part_as_text (composer, text_part, &length, cancellable);
 			if (text) {
@@ -4037,7 +4036,6 @@ handle_multipart_alternative (EMsgComposer *composer,
 		if (!html && fallback_text_part) {
 			if (emcu_format_as_plain_text (composer, camel_mime_part_get_content_type (fallback_text_part))) {
 				gchar *text;
-				gssize length;
 
 				text = emcu_part_as_text (composer, fallback_text_part, &length, cancellable);
 				if (text) {

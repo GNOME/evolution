@@ -109,8 +109,6 @@ ep_set_enabled (const gchar *id,
 		return;
 
 	if (state) {
-		GSList *link;
-
 		link = g_slist_find_custom (
 			ep_disabled, id, (GCompareFunc) strcmp);
 		if (link != NULL) {

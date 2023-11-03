@@ -3667,7 +3667,6 @@ fill_in_certs (EContactEditor *editor)
 		EVCardAttribute *attr = link->data;
 		EContactCert *cert;
 		GString *value;
-		GtkTreeIter iter;
 
 		if (e_vcard_attribute_has_type (attr, "X509"))
 			kind = CERT_KIND_X509;

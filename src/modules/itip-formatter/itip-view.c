@@ -5948,9 +5948,8 @@ update_attendee_status_icomp (ItipView *view,
 						e_cal_util_strip_mailto (delfrom),
 						attendee_email, NULL);
 					if (response == GTK_RESPONSE_YES) {
-						/* Already declared in this function */
-						ICalProperty *prop = itip_utils_find_attendee_property (icomp, attendee_email);
-						i_cal_component_take_property (icomp, i_cal_property_clone (prop));
+						ICalProperty *att_prop = itip_utils_find_attendee_property (icomp, attendee_email);
+						i_cal_component_take_property (icomp, i_cal_property_clone (att_prop));
 					} else if (response == GTK_RESPONSE_NO) {
 						remove_delegate (
 							view,
@@ -7424,20 +7423,20 @@ itip_view_init_view (ItipView *view)
 
 	list = e_cal_component_get_categories_list (view->priv->comp);
 	if (list) {
-		GString *string = g_string_new ("");
+		GString *str = g_string_new ("");
 
 		for (l = list; l; l = l->next) {
 			const gchar *category = l->data;
 
-			if (string->len)
-				g_string_append_len (string, ", ", 2);
+			if (str->len)
+				g_string_append_len (str, ", ", 2);
 
-			g_string_append (string, category);
+			g_string_append (str, category);
 		}
-		if (string->len > 0) {
-			view->priv->categories = g_string_free (string, FALSE);
+		if (str->len > 0) {
+			view->priv->categories = g_string_free (str, FALSE);
 		} else {
-			g_string_free (string, TRUE);
+			g_string_free (str, TRUE);
 		}
 		g_slist_free_full (list, g_free);
 

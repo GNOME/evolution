@@ -432,7 +432,6 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 			if (g_ascii_strncasecmp (uri, "file://", 7) == 0) {
 				e_attachment_load_async (attachment, (GAsyncReadyCallback) ecep_attachments_attachment_loaded_cb, page_attachments);
 			} else {
-				ICalParameter *param;
 				GFileInfo *file_info;
 				GPtrArray *add_params = NULL;
 

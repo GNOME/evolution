@@ -1833,7 +1833,6 @@ test_get_element_from_point (TestFixture *fixture)
 
 	for (ii = 0; ii < G_N_ELEMENTS (elems); ii++) {
 		const gchar *iframe_src;
-		gchar *script;
 		JSCValue *value;
 		gint xx, yy;
 
@@ -1898,7 +1897,6 @@ test_get_element_from_point (TestFixture *fixture)
 
 	for (ii = 0; ii < G_N_ELEMENTS (elems); ii++) {
 		const gchar *iframe_src;
-		gchar *script;
 		JSCValue *value;
 		gint xx, yy;
 
