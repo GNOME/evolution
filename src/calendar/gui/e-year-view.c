@@ -59,6 +59,7 @@ struct _EYearViewPrivate {
 	GtkButton *next_year_button2;
 	GtkTreeView *tree_view;
 	GtkListStore *list_store;
+	GtkWidget *attachment_bar;
 	ECalComponentPreview *preview;
 	ECalDataModel *data_model;
 	EMonthWidget *months[12];
@@ -1805,6 +1806,8 @@ year_view_construct_year_widget (EYearView *self)
 	g_clear_object (&settings);
 	g_date_free (date);
 
+	gtk_widget_show_all (top_container);
+
 	return top_container;
 }
 
@@ -1871,6 +1874,8 @@ static void
 year_view_constructed (GObject *object)
 {
 	EYearView *self = E_YEAR_VIEW (object);
+	EAttachmentBar *attachment_bar;
+	EAttachmentStore *attachment_store;
 	ECalModel *model;
 	GSettings *settings;
 	GtkWidget *widget;
@@ -1931,6 +1936,7 @@ year_view_constructed (GObject *object)
 		"valign", GTK_ALIGN_FILL,
 		"hexpand", TRUE,
 		"vexpand", TRUE,
+		"visible", TRUE,
 		NULL);
 
 	gtk_grid_attach (GTK_GRID (self), self->priv->preview_paned, 0, 0, 1, 1);
@@ -1942,16 +1948,36 @@ year_view_constructed (GObject *object)
 		"valign", GTK_ALIGN_FILL,
 		"hexpand", TRUE,
 		"vexpand", TRUE,
+		"visible", TRUE,
 		NULL);
 
 	gtk_paned_pack1 (GTK_PANED (self->priv->preview_paned), self->priv->hpaned, TRUE, FALSE);
+
+	attachment_store = E_ATTACHMENT_STORE (e_attachment_store_new ());
+	widget = e_attachment_bar_new (attachment_store);
+	gtk_widget_set_visible (widget, TRUE);
+	self->priv->attachment_bar = widget;
+	attachment_bar = E_ATTACHMENT_BAR (widget);
+
+	gtk_paned_pack2 (GTK_PANED (self->priv->preview_paned), widget, FALSE, FALSE);
+
+	e_binding_bind_property_full (
+		attachment_store, "num-attachments",
+		attachment_bar, "attachments-visible",
+		G_BINDING_SYNC_CREATE,
+		e_attachment_store_transform_num_attachments_to_visible_boolean,
+		NULL, NULL, NULL);
 
 	self->priv->preview = E_CAL_COMPONENT_PREVIEW (e_cal_component_preview_new ());
 	g_object_set (G_OBJECT (self->priv->preview),
 		"width-request", 50,
 		"height-request", 50,
+		"visible", TRUE,
 		NULL);
-	gtk_paned_pack2 (GTK_PANED (self->priv->preview_paned), GTK_WIDGET (self->priv->preview), FALSE, FALSE);
+	gtk_box_pack_start (GTK_BOX (e_attachment_bar_get_content_area (attachment_bar)), GTK_WIDGET (self->priv->preview), TRUE, TRUE, 0);
+
+	e_cal_component_preview_set_attachment_store (self->priv->preview, attachment_store);
+	g_clear_object (&attachment_store);
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	g_object_set (G_OBJECT (widget),
@@ -1959,6 +1985,7 @@ year_view_constructed (GObject *object)
 		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
 		"min-content-width", 50,
 		"min-content-height", 50,
+		"visible", TRUE,
 		NULL);
 	gtk_paned_pack1 (GTK_PANED (self->priv->hpaned), widget, TRUE, FALSE);
 
@@ -1970,6 +1997,7 @@ year_view_constructed (GObject *object)
 		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
 		"min-content-width", 50,
 		"min-content-height", 50,
+		"visible", TRUE,
 		NULL);
 
 	gtk_paned_pack2 (GTK_PANED (self->priv->hpaned), widget, FALSE, FALSE);
@@ -1993,6 +2021,7 @@ year_view_constructed (GObject *object)
 		"valign", GTK_ALIGN_FILL,
 		"hexpand", TRUE,
 		"vexpand", TRUE,
+		"visible", TRUE,
 		"fixed-height-mode", TRUE,
 		"headers-clickable", FALSE,
 		"headers-visible", TRUE,
@@ -2068,8 +2097,6 @@ year_view_constructed (GObject *object)
 
 	g_signal_connect_object (self->priv->data_model, "notify::timezone",
 		G_CALLBACK (year_view_timezone_changed_cb), self, 0);
-
-	gtk_widget_show_all (self->priv->preview_paned);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
@@ -2235,7 +2262,7 @@ e_year_view_set_preview_visible (EYearView *self,
 
 	self->priv->preview_visible = value;
 
-	gtk_widget_set_visible (GTK_WIDGET (self->priv->preview), self->priv->preview_visible);
+	gtk_widget_set_visible (GTK_WIDGET (self->priv->attachment_bar), self->priv->preview_visible);
 
 	if (self->priv->preview_visible)
 		year_view_selection_changed_cb (NULL, self);

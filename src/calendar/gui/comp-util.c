@@ -2554,6 +2554,85 @@ cal_comp_util_move_component_by_days (GtkWindow *parent,
 	return TRUE;
 }
 
+gchar *
+cal_comp_util_dup_attach_filename (ICalProperty *attach_prop,
+				   gboolean with_fallback)
+{
+	ICalParameter *param;
+	gchar *filename = NULL;
+
+	g_return_val_if_fail (I_CAL_IS_PROPERTY (attach_prop), NULL);
+
+	param = i_cal_property_get_first_parameter (attach_prop, I_CAL_FILENAME_PARAMETER);
+	if (param) {
+		filename = g_strdup (i_cal_parameter_get_filename (param));
+		if (!filename || !*filename)
+			g_clear_pointer (&filename, g_free);
+
+		g_clear_object (&param);
+	}
+
+	for (param = i_cal_property_get_first_parameter (attach_prop, I_CAL_X_PARAMETER);
+	     param && !filename;
+	     g_object_unref (param), param = i_cal_property_get_next_parameter (attach_prop, I_CAL_X_PARAMETER)) {
+		if (e_util_strstrcase (i_cal_parameter_get_xname (param), "NAME") &&
+		    i_cal_parameter_get_xvalue (param) &&
+		    *i_cal_parameter_get_xvalue (param)) {
+			filename = g_strdup (i_cal_parameter_get_xvalue (param));
+			if (!filename || !*filename) {
+				g_free (filename);
+				filename = NULL;
+			}
+		}
+	}
+
+	g_clear_object (&param);
+
+	if (!filename) {
+		ICalAttach *attach;
+
+		attach = i_cal_property_get_attach (attach_prop);
+		if (attach && i_cal_attach_get_is_url (attach)) {
+			const gchar *data;
+			gchar *uri;
+
+			data = i_cal_attach_get_url (attach);
+			uri = i_cal_value_decode_ical_string (data);
+
+			if (uri) {
+				GUri *guri;
+
+				guri = g_uri_parse (uri, G_URI_FLAGS_PARSE_RELAXED, NULL);
+				if (guri) {
+					const gchar *path;
+
+					path = g_uri_get_path (guri);
+
+					if (path) {
+						path = strrchr (path, '/');
+						if (path)
+							path++;
+					}
+
+					if (path && *path)
+						filename = g_strdup (path);
+
+					g_uri_unref (guri);
+				}
+			}
+
+			g_free (uri);
+		}
+
+		g_clear_object (&attach);
+	}
+
+	if (!filename && with_fallback)
+		filename = g_strdup (_("attachment.dat"));
+
+	return filename;
+}
+
 /* Converts a time_t to a string, relative to the specified timezone */
 static gchar *
 timet_to_str_with_zone (ECalComponentDateTime *dt,

@@ -223,6 +223,10 @@ gboolean	cal_comp_util_move_component_by_days
 void		cal_comp_util_add_reminder	(ECalComponent *comp,
 						 gint reminder_interval,
 						 EDurationType reminder_units);
+gchar *		cal_comp_util_dup_attach_filename
+						(ICalProperty *attach_prop,
+						 gboolean with_fallback);
+
 typedef enum {
 	E_COMP_TO_HTML_FLAG_NONE		= 0,
 	E_COMP_TO_HTML_FLAG_ALLOW_ICONS		= 1 << 0

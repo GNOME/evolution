@@ -437,6 +437,8 @@ static void
 memo_shell_content_constructed (GObject *object)
 {
 	EMemoShellContent *memo_shell_content;
+	EAttachmentBar *attachment_bar;
+	EAttachmentStore *attachment_store;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellTaskbar *shell_taskbar;
@@ -491,8 +493,24 @@ memo_shell_content_constructed (GObject *object)
 
 	container = memo_shell_content->priv->paned;
 
+	attachment_store = E_ATTACHMENT_STORE (e_attachment_store_new ());
+	widget = e_attachment_bar_new (attachment_store);
+	gtk_widget_set_visible (widget, TRUE);
+	attachment_bar = E_ATTACHMENT_BAR (widget);
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+
+	e_binding_bind_property_full (
+		attachment_store, "num-attachments",
+		attachment_bar, "attachments-visible",
+		G_BINDING_SYNC_CREATE,
+		e_attachment_store_transform_num_attachments_to_visible_boolean,
+		NULL, NULL, NULL);
+
+	container = e_attachment_bar_get_content_area (attachment_bar);
+
 	widget = e_cal_component_preview_new ();
 	gtk_widget_show (widget);
+	e_cal_component_preview_set_attachment_store (E_CAL_COMPONENT_PREVIEW (widget), attachment_store);
 
 	g_signal_connect_swapped (
 		widget, "status-message",
@@ -500,13 +518,13 @@ memo_shell_content_constructed (GObject *object)
 		shell_taskbar);
 
 	widget = e_preview_pane_new (E_WEB_VIEW (widget));
-	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	memo_shell_content->priv->preview_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
 		object, "preview-visible",
-		widget, "visible",
+		attachment_bar, "visible",
 		G_BINDING_SYNC_CREATE);
 
 	target_list = gtk_target_list_new (NULL, 0);

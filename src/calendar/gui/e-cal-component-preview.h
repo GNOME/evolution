@@ -74,6 +74,12 @@ void		e_cal_component_preview_display	(ECalComponentPreview *preview,
 						 ICalTimezone *zone,
 						 gboolean use_24_hour_format);
 void		e_cal_component_preview_clear	(ECalComponentPreview *preview);
+void		e_cal_component_preview_set_attachment_store
+						(ECalComponentPreview *preview,
+						 EAttachmentStore *store);
+EAttachmentStore *
+		e_cal_component_preview_get_attachment_store
+						(ECalComponentPreview *preview);
 
 G_END_DECLS
 
