@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-10-25 15:35+0000\n"
-"PO-Revision-Date: 2023-10-25 23:19+0200\n"
+"POT-Creation-Date: 2023-11-03 16:32+0000\n"
+"PO-Revision-Date: 2023-11-11 20:59+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -1084,7 +1084,7 @@ msgstr "ფანჯრის სიმაღლე პიქსელებშ�
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:9
 msgid "Whether the window is maximized"
-msgstr ""
+msgstr "როცა ფანჯარა მთელ ეკრანზეა გაშლილი"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
 msgid "GNOME Calendar’s calendar import done"
@@ -3960,7 +3960,7 @@ msgid ""
 msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:24
-msgid "An expected image size is up to 96 x 96 pixels."
+msgid "An expected image size is up to 1024 x 1024 pixels."
 msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:25
@@ -3996,7 +3996,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1522
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1519
 #: ../src/e-util/e-accounts-window.c:1570
 #: ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1028 ../src/e-util/filter.ui.h:25
@@ -4008,7 +4008,7 @@ msgstr ""
 #: ../src/modules/mail/em-composer-prefs.c:420
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1739
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
-#: ../src/plugins/email-custom-header/email-custom-header.c:828
+#: ../src/plugins/email-custom-header/email-custom-header.c:827
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../src/plugins/sender-validation/sender-validation.c:689
 #: ../src/plugins/sender-validation/sender-validation.c:801
@@ -4045,7 +4045,7 @@ msgid ""
 msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:39
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1772
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1775
 msgid "Failed to delete contact"
 msgstr ""
 
@@ -4119,8 +4119,8 @@ msgstr ""
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3274
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3548
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4383
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4389
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4382
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4388
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:468
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
@@ -4128,7 +4128,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:561
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:806
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1852
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1855
 #: ../src/calendar/calendar.error.xml.h:186
 #: ../src/calendar/gui/e-cal-dialogs.c:695
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
@@ -4140,15 +4140,15 @@ msgstr ""
 #: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:168
 #: ../src/e-util/e-category-editor.c:252 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240
-#: ../src/e-util/e-collection-account-wizard.c:1944
-#: ../src/e-util/e-collection-account-wizard.c:2191
+#: ../src/e-util/e-collection-account-wizard.c:1943
+#: ../src/e-util/e-collection-account-wizard.c:2190
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
 #: ../src/e-util/e-html-editor-actions.c:395
 #: ../src/e-util/e-html-editor-actions.c:439
 #: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:179
-#: ../src/e-util/e-mail-signature-script-dialog.c:360
+#: ../src/e-util/e-mail-signature-script-dialog.c:359
 #: ../src/e-util/e-passwords.c:474 ../src/e-util/e-rule-context.c:819
 #: ../src/e-util/e-rule-editor.c:184 ../src/e-util/e-rule-editor.c:295
 #: ../src/e-util/e-rule-editor.c:931 ../src/e-util/e-send-options.ui.h:16
@@ -4249,7 +4249,7 @@ msgstr "გამართვა"
 #: ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:845
 #: ../src/e-util/e-attachment-store.c:852
-#: ../src/e-util/e-mail-signature-script-dialog.c:364
+#: ../src/e-util/e-mail-signature-script-dialog.c:363
 #: ../src/e-util/e-webdav-browser.c:2663 ../src/e-util/e-web-view.c:4130
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:865
@@ -4260,7 +4260,7 @@ msgid "_Save"
 msgstr "_შენახვა"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/e-util/e-misc-utils.c:3737
+#: ../src/e-util/e-misc-utils.c:3735
 msgid "Image"
 msgstr "სურათი"
 
@@ -4321,7 +4321,7 @@ msgstr "_საწყისი გვერდი:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1071
-#: ../src/calendar/gui/e-comp-editor-event.c:935
+#: ../src/calendar/gui/e-comp-editor-event.c:932
 #: ../src/modules/itip-formatter/itip-view.c:2471
 msgid "_Calendar:"
 msgstr "_კალენდარი:"
@@ -4524,7 +4524,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1538
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1535
 #: ../src/e-util/e-attachment-view.c:519 ../src/e-util/e-filter-rule.c:410
 #: ../src/e-util/e-mail-signature-manager.c:364
 #: ../src/e-util/e-name-selector-dialog.c:1032
@@ -4535,7 +4535,7 @@ msgstr ""
 #: ../src/mail/em-vfolder-editor-rule.c:639 ../src/mail/mail-config.ui.h:68
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1758
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
-#: ../src/plugins/email-custom-header/email-custom-header.c:838
+#: ../src/plugins/email-custom-header/email-custom-header.c:837
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:35
 #: ../src/plugins/sender-validation/sender-validation.c:699
@@ -4597,7 +4597,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3112
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5095
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5094
 msgid "Contact Editor"
 msgstr "კონტაქტების რედაქტორი"
 
@@ -4618,7 +4618,7 @@ msgstr "PGP გასაღები"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3252
 #: ../src/e-util/e-html-editor-actions.c:448
 #: ../src/e-util/e-image-chooser-dialog.c:193
-#: ../src/e-util/e-mail-signature-script-dialog.c:430
+#: ../src/e-util/e-mail-signature-script-dialog.c:429
 #: ../src/smime/gui/certificate-manager.c:667
 #: ../src/smime/gui/certificate-manager.c:952
 msgid "All files"
@@ -4633,8 +4633,8 @@ msgid "Open X.509 certificate"
 msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3274
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4383
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4390
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4382
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4389
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:176
 #: ../src/e-util/e-html-editor-actions.c:395
 #: ../src/e-util/e-html-editor-actions.c:439
@@ -4677,47 +4677,47 @@ msgstr ""
 msgid "Failed to save certificate: %s"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4380
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4386
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4379
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4385
 msgid "Please select an image for this contact"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4391
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4390
 msgid "_No image"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4755
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4754
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4761
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4760
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4769
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4768
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4777
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4776
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4790
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4804
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4789
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4803
 #, c-format
 msgid "%s“%s” is empty"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4819
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4818
 msgid "Invalid contact."
 msgstr "არასწორი კონტაქტი."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5134
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5133
 #: ../src/calendar/gui/e-comp-editor.c:2218
 #: ../src/calendar/gui/e-comp-editor.c:2290
 #: ../src/e-util/e-send-options.ui.h:15
@@ -5062,7 +5062,7 @@ msgid "Send a mail message to this address"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:282
-#: ../src/e-util/e-misc-utils.c:4842
+#: ../src/e-util/e-misc-utils.c:4840
 #, c-format
 msgid "Click to mail %s"
 msgstr ""
@@ -5395,63 +5395,63 @@ msgid "%u contact"
 msgid_plural "%u contacts"
 msgstr[0] "%u კონტაქტი"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:979
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:982
 msgid "Cut selected contacts to the clipboard"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:985
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:988
 msgid "Copy selected contacts to the clipboard"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:991
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:994
 msgid "Paste contacts from the clipboard"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:997
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1000
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1372
 msgid "Delete selected contacts"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1003
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1006
 msgid "Select all visible contacts"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1281
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1284
 #: ../src/addressbook/gui/widgets/e-card-view.c:81
 msgid "Searching for the Contacts…"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1458
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1461
 msgid "Failed to get contacts with unknown error"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1820
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1823
 msgid "Are you sure you want to delete these contact lists?"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1824
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1827
 msgid "Are you sure you want to delete this contact list?"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1828
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1831
 #, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1834
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1837
 msgid "Are you sure you want to delete these contacts?"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1838
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1841
 msgid "Are you sure you want to delete this contact?"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1842
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1845
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1853
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1856
 #: ../src/calendar/gui/e-comp-editor.c:2211
 #: ../src/e-util/e-accounts-window.c:1760 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
@@ -5468,7 +5468,7 @@ msgid "_Delete"
 msgstr "_წაშლა"
 
 #. Translators: This is shown for > 5 contacts.
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2034
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2037
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -5478,11 +5478,11 @@ msgid_plural ""
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2042
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2045
 msgid "_Don’t Display"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2043
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2046
 msgid "Display _All Contacts"
 msgstr ""
 
@@ -6644,7 +6644,7 @@ msgstr "შეჯამება"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:160
-#: ../src/e-util/e-collection-account-wizard.c:2042
+#: ../src/e-util/e-collection-account-wizard.c:2041
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -6670,7 +6670,7 @@ msgid "Public"
 msgstr "საჯარო"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
-#: ../src/calendar/gui/comp-util.c:2805
+#: ../src/calendar/gui/comp-util.c:2884
 #: ../src/calendar/gui/e-cal-list-view.c:290
 #: ../src/calendar/gui/e-cal-model.c:303 ../src/calendar/gui/e-task-table.c:450
 #: ../src/calendar/gui/memotypes.xml.in.h:11
@@ -6678,7 +6678,7 @@ msgid "Private"
 msgstr "პირადი"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
-#: ../src/calendar/gui/comp-util.c:2808
+#: ../src/calendar/gui/comp-util.c:2887
 #: ../src/calendar/gui/e-cal-list-view.c:291
 #: ../src/calendar/gui/e-cal-model.c:305 ../src/calendar/gui/e-task-table.c:451
 #: ../src/calendar/gui/memotypes.xml.in.h:12
@@ -6769,7 +6769,7 @@ msgstr ""
 msgid "Description Contains"
 msgstr ""
 
-#: ../src/calendar/gui/comp-util.c:1616 ../src/calendar/gui/comp-util.c:2935
+#: ../src/calendar/gui/comp-util.c:1616 ../src/calendar/gui/comp-util.c:3014
 #: ../src/calendar/importers/icalendar-importer.c:1483
 #: ../src/modules/itip-formatter/itip-view.c:2882
 #, c-format
@@ -6836,7 +6836,7 @@ msgstr "შეწყვეტილია"
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:7081
+#: ../src/modules/itip-formatter/itip-view.c:7080
 msgid "Accepted"
 msgstr "მიღებულია"
 
@@ -6844,7 +6844,7 @@ msgstr "მიღებულია"
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:7087
+#: ../src/modules/itip-formatter/itip-view.c:7086
 msgid "Declined"
 msgstr "უარყოფილია"
 
@@ -6860,7 +6860,7 @@ msgstr "სავარაუდო"
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:7090
+#: ../src/modules/itip-formatter/itip-view.c:7089
 msgid "Delegated"
 msgstr "დელეგირებული"
 
@@ -6955,97 +6955,104 @@ msgid "Completed: %s"
 msgstr ""
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
-#: ../src/e-util/e-misc-utils.c:4925 ../src/e-util/e-text.c:566
+#: ../src/e-util/e-misc-utils.c:4923 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4316
 msgid "…"
 msgstr "…"
 
-#: ../src/calendar/gui/comp-util.c:2645 ../src/e-util/e-filter-rule.c:1028
+#. Translators: Default attachment filename.
+#: ../src/calendar/gui/comp-util.c:2631 ../src/e-util/e-attachment.c:2455
+#: ../src/e-util/e-attachment.c:3168 ../src/e-util/e-attachment.c:3618
+#: ../src/e-util/e-attachment-store.c:911
+msgid "attachment.dat"
+msgstr ""
+
+#: ../src/calendar/gui/comp-util.c:2724 ../src/e-util/e-filter-rule.c:1028
 #: ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "უსახელო"
 
-#: ../src/calendar/gui/comp-util.c:2658
+#: ../src/calendar/gui/comp-util.c:2737
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:258
 #: ../src/modules/itip-formatter/itip-view.c:2077
 #: ../src/modules/itip-formatter/itip-view.c:2280
 msgid "Location:"
 msgstr "მდებარეობა:"
 
-#: ../src/calendar/gui/comp-util.c:2676
+#: ../src/calendar/gui/comp-util.c:2755
 msgid "Start Date:"
 msgstr "დაწყების თარიღი:"
 
-#: ../src/calendar/gui/comp-util.c:2685
+#: ../src/calendar/gui/comp-util.c:2764
 msgid "End Date:"
 msgstr "დასრულების თარიღი:"
 
-#: ../src/calendar/gui/comp-util.c:2699
+#: ../src/calendar/gui/comp-util.c:2778
 #: ../src/modules/itip-formatter/itip-view.c:2081
 #: ../src/modules/itip-formatter/itip-view.c:2292
 msgid "Recurs:"
 msgstr ""
 
-#: ../src/calendar/gui/comp-util.c:2708
+#: ../src/calendar/gui/comp-util.c:2787
 msgid "Due Date:"
 msgstr ""
 
-#: ../src/calendar/gui/comp-util.c:2725
+#: ../src/calendar/gui/comp-util.c:2804
 #: ../src/modules/itip-formatter/itip-view.c:2083
 #: ../src/modules/itip-formatter/itip-view.c:2298
 msgid "Estimated duration:"
 msgstr ""
 
-#: ../src/calendar/gui/comp-util.c:2741
+#: ../src/calendar/gui/comp-util.c:2820
 #: ../src/modules/itip-formatter/itip-view.c:2084
 #: ../src/modules/itip-formatter/itip-view.c:2301
 msgid "Status:"
 msgstr "მდგომარეობა:"
 
-#: ../src/calendar/gui/comp-util.c:2749
+#: ../src/calendar/gui/comp-util.c:2828
 #: ../src/modules/itip-formatter/itip-view.c:2086
 #: ../src/modules/itip-formatter/itip-view.c:2307
 msgid "Categories:"
 msgstr "კატეგორიები:"
 
-#: ../src/calendar/gui/comp-util.c:2792 ../src/calendar/gui/e-task-table.c:475
+#: ../src/calendar/gui/comp-util.c:2871 ../src/calendar/gui/e-task-table.c:475
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:341
 msgid "High"
 msgstr "მაღალი"
 
-#: ../src/calendar/gui/comp-util.c:2794 ../src/calendar/gui/e-cal-model.c:1891
+#: ../src/calendar/gui/comp-util.c:2873 ../src/calendar/gui/e-cal-model.c:1891
 #: ../src/calendar/gui/e-task-table.c:476
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:340
 msgid "Normal"
 msgstr "ჩვეულებრივი"
 
-#: ../src/calendar/gui/comp-util.c:2796 ../src/calendar/gui/e-task-table.c:477
+#: ../src/calendar/gui/comp-util.c:2875 ../src/calendar/gui/e-task-table.c:477
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:339
 msgid "Low"
 msgstr "დაბალი"
 
-#: ../src/calendar/gui/comp-util.c:2798
+#: ../src/calendar/gui/comp-util.c:2877
 msgid "Priority:"
 msgstr "პრიორიტეტი:"
 
-#: ../src/calendar/gui/comp-util.c:2816
+#: ../src/calendar/gui/comp-util.c:2895
 msgid "Classification:"
 msgstr ""
 
-#: ../src/calendar/gui/comp-util.c:2829
+#: ../src/calendar/gui/comp-util.c:2908
 msgid "Organizer:"
 msgstr "ორგანიზატორი:"
 
-#: ../src/calendar/gui/comp-util.c:2871
+#: ../src/calendar/gui/comp-util.c:2950
 #: ../src/modules/itip-formatter/itip-view.c:2087
 #: ../src/modules/itip-formatter/itip-view.c:2310
 msgid "Attendees:"
 msgstr "დამსწრეები:"
 
-#: ../src/calendar/gui/comp-util.c:2995
+#: ../src/calendar/gui/comp-util.c:3074
 msgid "Web Page:"
 msgstr ""
 
@@ -7282,7 +7289,7 @@ msgid "Sta_rt date:"
 msgstr ""
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:705
-#: ../src/calendar/gui/e-comp-editor-event.c:775
+#: ../src/calendar/gui/e-comp-editor-event.c:772
 #: ../src/calendar/gui/e-comp-editor-memo.c:258
 #: ../src/calendar/gui/e-comp-editor-task.c:802
 msgid "_Categories"
@@ -7577,7 +7584,7 @@ msgstr "წყარო"
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1450
 #: ../src/e-util/e-attachment-tree-view.c:218
-#: ../src/e-util/e-collection-account-wizard.c:2083
+#: ../src/e-util/e-collection-account-wizard.c:2082
 #: ../src/e-util/e-webdav-browser.c:2554
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -7591,7 +7598,7 @@ msgstr "ტიპი"
 #: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1291
 #: ../src/calendar/gui/print.c:1308 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3998
-#: ../src/modules/itip-formatter/itip-view.c:7093
+#: ../src/modules/itip-formatter/itip-view.c:7092
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "უცნობია"
@@ -7627,12 +7634,12 @@ msgid "Assigned"
 msgstr "მინიჭებულია"
 
 #: ../src/calendar/gui/e-cal-model.c:1898
-#: ../src/calendar/gui/e-cal-model-tasks.c:1160
+#: ../src/calendar/gui/e-cal-model-tasks.c:1161
 msgid "Yes"
 msgstr "დიახ"
 
 #: ../src/calendar/gui/e-cal-model.c:1898
-#: ../src/calendar/gui/e-cal-model-tasks.c:1160
+#: ../src/calendar/gui/e-cal-model-tasks.c:1161
 msgid "No"
 msgstr ""
 
@@ -7647,14 +7654,14 @@ msgstr "თავისუფალი"
 msgid "Busy"
 msgstr "დაკავებულია"
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:466
+#: ../src/calendar/gui/e-cal-model-tasks.c:467
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
 "45.436845,125.862501"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:563
+#: ../src/calendar/gui/e-cal-model-tasks.c:564
 msgid "In Progress"
 msgstr "მიმდინარეობს"
 
@@ -7670,15 +7677,15 @@ msgstr ""
 msgid "Modifying a task"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-ops.c:429 ../src/calendar/gui/e-to-do-pane.c:2161
+#: ../src/calendar/gui/e-cal-ops.c:429 ../src/calendar/gui/e-to-do-pane.c:2160
 msgid "Removing an event"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-ops.c:433 ../src/calendar/gui/e-to-do-pane.c:2165
+#: ../src/calendar/gui/e-cal-ops.c:433 ../src/calendar/gui/e-to-do-pane.c:2164
 msgid "Removing a memo"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-ops.c:437 ../src/calendar/gui/e-to-do-pane.c:2169
+#: ../src/calendar/gui/e-cal-ops.c:437 ../src/calendar/gui/e-to-do-pane.c:2168
 msgid "Removing a task"
 msgstr ""
 
@@ -7848,26 +7855,26 @@ msgid ""
 "not the organizer"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:560
+#: ../src/calendar/gui/e-comp-editor-event.c:558
 #: ../src/calendar/gui/e-comp-editor-task.c:619
 msgid "Start date is not a valid date"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:562
+#: ../src/calendar/gui/e-comp-editor-event.c:560
 msgid "Start time is not a valid time"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:566
-#: ../src/calendar/gui/e-comp-editor-event.c:582
+#: ../src/calendar/gui/e-comp-editor-event.c:564
+#: ../src/calendar/gui/e-comp-editor-event.c:580
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:239
 #: ../src/calendar/gui/e-comp-editor.c:346
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
-#: ../src/e-util/e-misc-utils.c:4171 ../src/e-util/e-misc-utils.c:4179
-#: ../src/e-util/e-misc-utils.c:4187 ../src/e-util/e-misc-utils.c:4222
-#: ../src/e-util/e-misc-utils.c:4235 ../src/e-util/e-misc-utils.c:4249
+#: ../src/e-util/e-misc-utils.c:4169 ../src/e-util/e-misc-utils.c:4177
+#: ../src/e-util/e-misc-utils.c:4185 ../src/e-util/e-misc-utils.c:4220
+#: ../src/e-util/e-misc-utils.c:4233 ../src/e-util/e-misc-utils.c:4247
 #: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2922
-#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3577
+#: ../src/mail/e-mail-notes.c:929 ../src/mail/e-mail-reader.c:3577
 #: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4091
 #: ../src/mail/em-composer-utils.c:4114 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
@@ -7880,122 +7887,122 @@ msgstr ""
 msgid "Unknown error"
 msgstr "უცნობი შეცდომა"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:576
+#: ../src/calendar/gui/e-comp-editor-event.c:574
 msgid "End date is not a valid date"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:578
+#: ../src/calendar/gui/e-comp-editor-event.c:576
 msgid "End time is not a valid time"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:777
+#: ../src/calendar/gui/e-comp-editor-event.c:774
 #: ../src/calendar/gui/e-comp-editor-memo.c:260
 #: ../src/calendar/gui/e-comp-editor-task.c:804
 msgid "Toggles whether to display categories"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:783
+#: ../src/calendar/gui/e-comp-editor-event.c:780
 #: ../src/calendar/gui/e-comp-editor-task.c:810
 msgid "Time _Zone"
 msgstr "დროის სარტყელი"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:785
+#: ../src/calendar/gui/e-comp-editor-event.c:782
 #: ../src/calendar/gui/e-comp-editor-task.c:812
 msgid "Toggles whether the time zone is displayed"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:791
+#: ../src/calendar/gui/e-comp-editor-event.c:788
 msgid "All _Day Event"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:793
+#: ../src/calendar/gui/e-comp-editor-event.c:790
 msgid "Toggles whether to have All Day Event"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:799
+#: ../src/calendar/gui/e-comp-editor-event.c:796
 msgid "Show Time as _Busy"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:801
+#: ../src/calendar/gui/e-comp-editor-event.c:798
 msgid "Toggles whether to show time as busy"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:810
+#: ../src/calendar/gui/e-comp-editor-event.c:807
 msgid "Pu_blic"
 msgstr "საჯარო"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:812
+#: ../src/calendar/gui/e-comp-editor-event.c:809
 msgid "Classify as public"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:817
+#: ../src/calendar/gui/e-comp-editor-event.c:814
 msgid "_Private"
 msgstr "პირადი"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:819
+#: ../src/calendar/gui/e-comp-editor-event.c:816
 msgid "Classify as private"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:824
+#: ../src/calendar/gui/e-comp-editor-event.c:821
 msgid "_Confidential"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:826
+#: ../src/calendar/gui/e-comp-editor-event.c:823
 msgid "Classify as confidential"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:949
+#: ../src/calendar/gui/e-comp-editor-event.c:946
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:954
+#: ../src/calendar/gui/e-comp-editor-event.c:951
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:964
+#: ../src/calendar/gui/e-comp-editor-event.c:961
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1037
+#: ../src/calendar/gui/e-comp-editor-event.c:1034
 #: ../src/calendar/gui/e-comp-editor-memo.c:359
 #: ../src/calendar/gui/e-comp-editor-task.c:987
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "ძირითადი"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1040
+#: ../src/calendar/gui/e-comp-editor-event.c:1037
 #: ../src/calendar/gui/e-comp-editor-task.c:1010
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "შეხსენებები"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1043
+#: ../src/calendar/gui/e-comp-editor-event.c:1040
 #: ../src/calendar/gui/e-comp-editor-task.c:1014
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "გამეორებადობა"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1046
+#: ../src/calendar/gui/e-comp-editor-event.c:1043
 #: ../src/calendar/gui/e-comp-editor-memo.c:362
 #: ../src/calendar/gui/e-comp-editor-task.c:1018
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "დანართი"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1054
+#: ../src/calendar/gui/e-comp-editor-event.c:1051
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "განრიგი"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1089
+#: ../src/calendar/gui/e-comp-editor-event.c:1086
 #, c-format
 msgid "Meeting — %s"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1090
+#: ../src/calendar/gui/e-comp-editor-event.c:1087
 #, c-format
 msgid "Appointment — %s"
 msgstr ""
@@ -8057,145 +8064,145 @@ msgstr ""
 msgid "Could not load the attachment"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:501
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:519
 msgid ""
 "Some attachments are still being downloaded. Please wait until the download "
 "is finished."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:529
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:547
 #, c-format
 msgid "Attachment “%s” cannot be found, remove it from the list, please"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:546
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:564
 #, c-format
 msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:747
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:765
 #: ../src/composer/e-composer-actions.c:326
 msgid "_Attachment…"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:749
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:767
 #: ../src/composer/e-composer-actions.c:328
 #: ../src/e-util/e-attachment-view.c:493
 msgid "Attach a file"
 msgstr "ფაილის მიმაგრება"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:756
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:774
 msgid "_Attachments"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:758
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:776
 msgid "Show attachments"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:939
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:957
 #: ../src/e-util/e-attachment-bar.c:799 ../src/e-util/e-attachment-paned.c:707
 msgid "Icon View"
 msgstr "ხატულებით ჩვენება"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:941
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:959
 #: ../src/e-util/e-attachment-bar.c:801 ../src/e-util/e-attachment-paned.c:709
 msgid "List View"
 msgstr "სიის ხედი"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:322
+#: ../src/calendar/gui/e-comp-editor-page-general.c:319
 #, c-format
 msgid "Cannot find attendee “%s” in the list of attendees"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:329
+#: ../src/calendar/gui/e-comp-editor-page-general.c:326
 #, c-format
 msgid "Not enough rights to delete attendee “%s”"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:359
+#: ../src/calendar/gui/e-comp-editor-page-general.c:356
 msgid "Failed to delete selected attendee"
 msgid_plural "Failed to delete selected attendees"
 msgstr[0] ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:473
+#: ../src/calendar/gui/e-comp-editor-page-general.c:470
 msgid "Organizer address is not a valid user mail address"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:711
+#: ../src/calendar/gui/e-comp-editor-page-general.c:708
 msgid "A_ttendees"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:713
+#: ../src/calendar/gui/e-comp-editor-page-general.c:710
 msgid "Toggles whether the Attendees are displayed"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:722
+#: ../src/calendar/gui/e-comp-editor-page-general.c:719
 msgid "R_ole Field"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:724
+#: ../src/calendar/gui/e-comp-editor-page-general.c:721
 msgid "Toggles whether the Role field is displayed"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:730
+#: ../src/calendar/gui/e-comp-editor-page-general.c:727
 msgid "_RSVP"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:732
+#: ../src/calendar/gui/e-comp-editor-page-general.c:729
 msgid "Toggles whether the RSVP field is displayed"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:738
+#: ../src/calendar/gui/e-comp-editor-page-general.c:735
 msgid "_Status Field"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:740
+#: ../src/calendar/gui/e-comp-editor-page-general.c:737
 msgid "Toggles whether the Status field is displayed"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:746
+#: ../src/calendar/gui/e-comp-editor-page-general.c:743
 msgid "_Type Field"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:748
+#: ../src/calendar/gui/e-comp-editor-page-general.c:745
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1057
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1054
 msgid "An organizer is required."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1067
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1209
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1064
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1206
 msgid "At least one attendee is required."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1333
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1330
 msgid "Or_ganizer:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1432
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1429
 msgid ""
 "Override color of the event. If not set, then color of the calendar is used."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1434
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1431
 msgid ""
 "Override color of the memo. If not set, then color of the memo list is used."
 msgstr ""
 
 #. E_SOURCE_EXTENSION_TASK_LIST
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1436
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1433
 msgid ""
 "Override color of the task. If not set, then color of the task list is used."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1447
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1444
 msgctxt "ECompEditor"
 msgid "Atte_ndees…"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1530
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1527
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2318
 #: ../src/calendar/gui/e-comp-editor.c:2276
 #: ../src/e-util/e-accounts-window.c:1752
@@ -8207,7 +8214,7 @@ msgstr ""
 #: ../src/mail/em-folder-properties.c:1394 ../src/mail/mail-config.ui.h:72
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1745
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
-#: ../src/plugins/email-custom-header/email-custom-header.c:833
+#: ../src/plugins/email-custom-header/email-custom-header.c:832
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../src/plugins/sender-validation/sender-validation.c:694
 #: ../src/plugins/sender-validation/sender-validation.c:805
@@ -8886,7 +8893,7 @@ msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor.c:1963
 #: ../src/calendar/gui/e-comp-editor.c:2328
-#: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-notes.c:1118
+#: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-notes.c:1117
 msgid "Save and Close"
 msgstr ""
 
@@ -8901,7 +8908,7 @@ msgstr ""
 #: ../src/e-util/e-table-field-chooser-dialog.c:197
 #: ../src/mail/e-mail-browser.c:166
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:753
-#: ../src/mail/e-mail-notes.c:1109 ../src/mail/em-filter-editor.c:45
+#: ../src/mail/e-mail-notes.c:1108 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1519
 #: ../src/mail/em-subscription-editor.c:1735
 #: ../src/shell/e-shell-window-actions.c:930
@@ -9001,7 +9008,7 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor.c:2283
 #: ../src/e-util/e-html-editor-actions.c:1177
 #: ../src/e-util/e-mail-signature-editor.c:348 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:1123 ../src/shell/e-shell-window-actions.c:1114
+#: ../src/mail/e-mail-notes.c:1122 ../src/shell/e-shell-window-actions.c:1114
 msgid "_File"
 msgstr "_ფაილი"
 
@@ -9011,7 +9018,6 @@ msgid "_Insert"
 msgstr "_ჩასმა"
 
 #: ../src/calendar/gui/e-comp-editor.c:2304
-#: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_პარამეტრები"
 
@@ -9457,7 +9463,7 @@ msgid "Time: %s %s"
 msgstr "დრო: %s %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1638 ../src/e-util/e-cell-date-edit.c:338
+#: ../src/calendar/gui/e-to-do-pane.c:1637 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:237
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:2036
 #: ../src/modules/itip-formatter/itip-view.c:274
@@ -9465,59 +9471,59 @@ msgid "Today"
 msgstr "დღეს"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1640
+#: ../src/calendar/gui/e-to-do-pane.c:1639
 #: ../src/e-util/e-datetime-format.c:248
 #: ../src/modules/itip-formatter/itip-view.c:302
 msgid "Tomorrow"
 msgstr "ხვალ"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1650
+#: ../src/calendar/gui/e-to-do-pane.c:1649
 msgid "Tasks without Due date"
 msgstr ""
 
-#: ../src/calendar/gui/e-to-do-pane.c:2264
+#: ../src/calendar/gui/e-to-do-pane.c:2263
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
 msgid "New _Appointment…"
 msgstr ""
 
-#: ../src/calendar/gui/e-to-do-pane.c:2272
+#: ../src/calendar/gui/e-to-do-pane.c:2271
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1495
 msgid "New _Meeting…"
 msgstr ""
 
-#: ../src/calendar/gui/e-to-do-pane.c:2280
+#: ../src/calendar/gui/e-to-do-pane.c:2279
 msgid "New _Task…"
 msgstr ""
 
-#: ../src/calendar/gui/e-to-do-pane.c:2288
+#: ../src/calendar/gui/e-to-do-pane.c:2287
 msgid "_New Assigned Task…"
 msgstr ""
 
-#: ../src/calendar/gui/e-to-do-pane.c:2301
+#: ../src/calendar/gui/e-to-do-pane.c:2300
 msgid "_Open…"
 msgstr "_გახსნა…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2316
+#: ../src/calendar/gui/e-to-do-pane.c:2315
 msgid "_Delete This Instance…"
 msgstr ""
 
-#: ../src/calendar/gui/e-to-do-pane.c:2325
+#: ../src/calendar/gui/e-to-do-pane.c:2324
 msgid "Delete This and F_uture Occurrences…"
 msgstr ""
 
-#: ../src/calendar/gui/e-to-do-pane.c:2334
+#: ../src/calendar/gui/e-to-do-pane.c:2333
 msgid "D_elete All Instances…"
 msgstr ""
 
-#: ../src/calendar/gui/e-to-do-pane.c:2342
+#: ../src/calendar/gui/e-to-do-pane.c:2341
 msgid "_Delete…"
 msgstr "_წაშლა…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2360
+#: ../src/calendar/gui/e-to-do-pane.c:2359
 msgid "_Show Tasks without Due date"
 msgstr ""
 
-#: ../src/calendar/gui/e-to-do-pane.c:2639
+#: ../src/calendar/gui/e-to-do-pane.c:2638
 msgid "To Do"
 msgstr "გასაკეთებელი"
 
@@ -9538,8 +9544,8 @@ msgstr "%s (%s)"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: ../src/calendar/gui/e-year-view.c:1002
-#: ../src/calendar/gui/e-year-view.c:1051
+#: ../src/calendar/gui/e-year-view.c:1003
+#: ../src/calendar/gui/e-year-view.c:1052
 #, c-format
 msgid "%u event"
 msgid_plural "%u events"
@@ -9677,19 +9683,19 @@ msgstr ""
 msgid "You must be an attendee of the event."
 msgstr ""
 
-#: ../src/calendar/gui/itip-utils.c:2480
+#: ../src/calendar/gui/itip-utils.c:2479
 msgid "Sending an event"
 msgstr ""
 
-#: ../src/calendar/gui/itip-utils.c:2484
+#: ../src/calendar/gui/itip-utils.c:2483
 msgid "Sending a memo"
 msgstr ""
 
-#: ../src/calendar/gui/itip-utils.c:2488
+#: ../src/calendar/gui/itip-utils.c:2487
 msgid "Sending a task"
 msgstr ""
 
-#: ../src/calendar/gui/itip-utils.c:2690
+#: ../src/calendar/gui/itip-utils.c:2689
 msgid "Original Appointment"
 msgstr ""
 
@@ -11686,6 +11692,10 @@ msgstr "მიმდინარე ფაილის სხვა სახე
 msgid "Character _Encoding"
 msgstr "სიმბოლოების კოდირება"
 
+#: ../src/composer/e-composer-actions.c:377
+msgid "Option_s"
+msgstr "_გამართვა"
+
 #: ../src/composer/e-composer-actions.c:394
 msgid "Print Pre_view"
 msgstr "ბეჭდვის გადახედვა"
@@ -11849,8 +11859,8 @@ msgid "Save Draft"
 msgstr ""
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:2115
-#: ../src/e-util/e-mail-signature-script-dialog.c:410
+#: ../src/e-util/e-collection-account-wizard.c:2114
+#: ../src/e-util/e-mail-signature-script-dialog.c:409
 #: ../src/e-util/e-webdav-browser.c:2582
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:551
@@ -11944,21 +11954,21 @@ msgstr ""
 msgid "Compose Message"
 msgstr "შეტყობინების შედგენა"
 
-#: ../src/composer/e-msg-composer.c:4948
+#: ../src/composer/e-msg-composer.c:4946
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr ""
 
-#: ../src/composer/e-msg-composer.c:5016
+#: ../src/composer/e-msg-composer.c:5014
 msgid "Send _without encryption"
 msgstr "_გაგზავნა დაშიფვრის გარეშე"
 
-#: ../src/composer/e-msg-composer.c:5804
+#: ../src/composer/e-msg-composer.c:5802
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] ""
 
-#: ../src/composer/e-msg-composer.c:5809
+#: ../src/composer/e-msg-composer.c:5807
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -11968,7 +11978,7 @@ msgid_plural ""
 "contain any sensitive information before sending the message."
 msgstr[0] ""
 
-#: ../src/composer/e-msg-composer.c:5942
+#: ../src/composer/e-msg-composer.c:5940
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 
@@ -12719,14 +12729,14 @@ msgstr "ამოცანების სიები"
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1367
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
-#: ../src/plugins/mail-notification/mail-notification.c:1192
+#: ../src/plugins/mail-notification/mail-notification.c:1193
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
 msgstr "ჩართულია"
 
 #: ../src/e-util/e-accounts-window.c:1422
 #: ../src/mail/e-mail-account-tree-view.c:108
-#: ../src/plugins/mail-notification/mail-notification.c:1208
+#: ../src/plugins/mail-notification/mail-notification.c:1209
 msgid "Account Name"
 msgstr "ანგარიშის სახელი"
 
@@ -12850,17 +12860,11 @@ msgstr ""
 msgid "Operation was cancelled"
 msgstr "ოპერაცია გაუქმდა"
 
-#. Translators: Default attachment filename.
-#: ../src/e-util/e-attachment.c:2455 ../src/e-util/e-attachment.c:3168
-#: ../src/e-util/e-attachment.c:3620 ../src/e-util/e-attachment-store.c:911
-msgid "attachment.dat"
-msgstr ""
-
-#: ../src/e-util/e-attachment.c:2537 ../src/e-util/e-attachment.c:3680
+#: ../src/e-util/e-attachment.c:2537 ../src/e-util/e-attachment.c:3678
 msgid "A load operation is already in progress"
 msgstr ""
 
-#: ../src/e-util/e-attachment.c:2545 ../src/e-util/e-attachment.c:3688
+#: ../src/e-util/e-attachment.c:2545 ../src/e-util/e-attachment.c:3686
 msgid "A save operation is already in progress"
 msgstr ""
 
@@ -12874,16 +12878,16 @@ msgstr "%s-ის გახსნის შეცდომა"
 msgid "Could not open the attachment"
 msgstr ""
 
-#: ../src/e-util/e-attachment.c:3697
+#: ../src/e-util/e-attachment.c:3695
 msgid "Attachment contents not loaded"
 msgstr ""
 
-#: ../src/e-util/e-attachment.c:3788
+#: ../src/e-util/e-attachment.c:3786
 #, c-format
 msgid "Could not save “%s”"
 msgstr ""
 
-#: ../src/e-util/e-attachment.c:3791
+#: ../src/e-util/e-attachment.c:3789
 #, c-format
 msgid "Could not save the attachment"
 msgstr ""
@@ -13027,21 +13031,21 @@ msgstr ""
 msgid "Reload attachment content"
 msgstr ""
 
-#: ../src/e-util/e-attachment-view.c:959 ../src/mail/e-mail-display.c:2043
+#: ../src/e-util/e-attachment-view.c:958 ../src/mail/e-mail-display.c:2043
 #, c-format
 msgid "Open With “%s”"
 msgstr ""
 
-#: ../src/e-util/e-attachment-view.c:960 ../src/mail/e-mail-display.c:2044
+#: ../src/e-util/e-attachment-view.c:959 ../src/mail/e-mail-display.c:2044
 #, c-format
 msgid "Open this attachment in %s"
 msgstr ""
 
-#: ../src/e-util/e-attachment-view.c:962 ../src/mail/e-mail-display.c:2046
+#: ../src/e-util/e-attachment-view.c:961 ../src/mail/e-mail-display.c:2046
 msgid "Open With Default Application"
 msgstr "ნაგულისხმები პროგრამით გახსნა"
 
-#: ../src/e-util/e-attachment-view.c:963 ../src/mail/e-mail-display.c:2047
+#: ../src/e-util/e-attachment-view.c:962 ../src/mail/e-mail-display.c:2047
 msgid "Open this attachment in default application"
 msgstr ""
 
@@ -13391,7 +13395,7 @@ msgstr[0] ""
 #: ../src/e-util/e-collection-account-wizard.c:672
 #: ../src/modules/book-config-google/evolution-book-config-google.c:102
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1070
-#: ../src/modules/cal-config-google/e-cal-config-google.c:188
+#: ../src/modules/cal-config-google/e-cal-config-google.c:185
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:117
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:445
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:484
@@ -13448,48 +13452,48 @@ msgstr ""
 msgid "Looking up LDAP server’s search base…"
 msgstr ""
 
-#: ../src/e-util/e-collection-account-wizard.c:1372
+#: ../src/e-util/e-collection-account-wizard.c:1371
 msgid "Failed to store password: "
 msgstr ""
 
-#: ../src/e-util/e-collection-account-wizard.c:1382
+#: ../src/e-util/e-collection-account-wizard.c:1381
 msgid "Failed to create sources: "
 msgstr ""
 
-#: ../src/e-util/e-collection-account-wizard.c:1552
+#: ../src/e-util/e-collection-account-wizard.c:1551
 msgid "Saving account settings, please wait…"
 msgstr ""
 
-#: ../src/e-util/e-collection-account-wizard.c:1715
+#: ../src/e-util/e-collection-account-wizard.c:1714
 msgid "User details"
 msgstr ""
 
-#: ../src/e-util/e-collection-account-wizard.c:1728
+#: ../src/e-util/e-collection-account-wizard.c:1727
 msgid "_Email Address or User name:"
 msgstr ""
 
-#: ../src/e-util/e-collection-account-wizard.c:1756
+#: ../src/e-util/e-collection-account-wizard.c:1755
 msgid "_Advanced Options"
 msgstr "დ_ამატებითი პარამეტრები"
 
-#: ../src/e-util/e-collection-account-wizard.c:1761
+#: ../src/e-util/e-collection-account-wizard.c:1760
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:174
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_სერვერი:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1780
+#: ../src/e-util/e-collection-account-wizard.c:1779
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
 msgstr ""
 
-#: ../src/e-util/e-collection-account-wizard.c:1982
+#: ../src/e-util/e-collection-account-wizard.c:1981
 msgid "Select which parts should be configured:"
 msgstr ""
 
-#: ../src/e-util/e-collection-account-wizard.c:2106
+#: ../src/e-util/e-collection-account-wizard.c:2105
 #: ../src/mail/e-mail-config-identity-page.c:542
 #: ../src/mail/e-mail-config-summary-page.c:318
 msgid "Account Information"
@@ -15240,11 +15244,11 @@ msgstr "დღე"
 msgid "Autogenerated"
 msgstr ""
 
-#: ../src/e-util/e-mail-signature-editor.c:336 ../src/mail/e-mail-notes.c:1111
+#: ../src/e-util/e-mail-signature-editor.c:336 ../src/mail/e-mail-notes.c:1110
 msgid "Close"
 msgstr "დახურვა"
 
-#: ../src/e-util/e-mail-signature-editor.c:341 ../src/mail/e-mail-notes.c:1116
+#: ../src/e-util/e-mail-signature-editor.c:341 ../src/mail/e-mail-notes.c:1115
 msgid "_Save and Close"
 msgstr ""
 
@@ -15253,7 +15257,7 @@ msgstr ""
 msgid "Edit Signature"
 msgstr ""
 
-#: ../src/e-util/e-mail-signature-editor.c:591 ../src/mail/e-mail-notes.c:1198
+#: ../src/e-util/e-mail-signature-editor.c:591 ../src/mail/e-mail-notes.c:1197
 msgid "Save"
 msgstr "შენახვა"
 
@@ -15273,18 +15277,18 @@ msgstr ""
 msgid "Edit Signature Script"
 msgstr ""
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:388
+#: ../src/e-util/e-mail-signature-script-dialog.c:387
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only."
 msgstr ""
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:446
+#: ../src/e-util/e-mail-signature-script-dialog.c:445
 msgid "S_cript:"
 msgstr ""
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:477
+#: ../src/e-util/e-mail-signature-script-dialog.c:476
 msgid "Script file must be executable."
 msgstr ""
 
@@ -15358,62 +15362,62 @@ msgstr "ტექსტის ხატულის გვერდით ჩვ
 msgid "Could not open the link."
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:406
+#: ../src/e-util/e-misc-utils.c:404
 msgid "Could not display help for Evolution."
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:2618
+#: ../src/e-util/e-misc-utils.c:2616
 #, c-format
 msgid "Opening calendar “%s”"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:2621
+#: ../src/e-util/e-misc-utils.c:2619
 #, c-format
 msgid "Opening memo list “%s”"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:2624
+#: ../src/e-util/e-misc-utils.c:2622
 #, c-format
 msgid "Opening task list “%s”"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:2627
+#: ../src/e-util/e-misc-utils.c:2625
 #, c-format
 msgid "Opening address book “%s”"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:3500
+#: ../src/e-util/e-misc-utils.c:3498
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4158
+#: ../src/e-util/e-misc-utils.c:4156
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4170
+#: ../src/e-util/e-misc-utils.c:4168
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4178 ../src/e-util/e-misc-utils.c:4186
+#: ../src/e-util/e-misc-utils.c:4176 ../src/e-util/e-misc-utils.c:4184
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4221
+#: ../src/e-util/e-misc-utils.c:4219
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4234
+#: ../src/e-util/e-misc-utils.c:4232
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4248
+#: ../src/e-util/e-misc-utils.c:4246
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -15423,19 +15427,19 @@ msgid ""
 "Detailed error (%d): %s"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4259
+#: ../src/e-util/e-misc-utils.c:4257
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4292
+#: ../src/e-util/e-misc-utils.c:4290
 msgid "Evolution had not been compiled with LDAP support"
 msgstr ""
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4617
+#: ../src/e-util/e-misc-utils.c:4615
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -15443,31 +15447,31 @@ msgstr "უცნობი (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4626
+#: ../src/e-util/e-misc-utils.c:4624
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4847
+#: ../src/e-util/e-misc-utils.c:4845
 #, c-format
 msgid "Click to call %s"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4849
+#: ../src/e-util/e-misc-utils.c:4847
 msgid "Click to hide/unhide addresses"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4862
+#: ../src/e-util/e-misc-utils.c:4860
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4864
+#: ../src/e-util/e-misc-utils.c:4862
 msgid "Go to the beginning of the message"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4870
+#: ../src/e-util/e-misc-utils.c:4868
 #, c-format
 msgid "Click to open %s"
 msgstr ""
@@ -15511,25 +15515,25 @@ msgid "Select Contacts from Address Book"
 msgstr ""
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3166
+#: ../src/e-util/e-name-selector-entry.c:3165
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr ""
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3182
+#: ../src/e-util/e-name-selector-entry.c:3181
 #, c-format
 msgid "Cop_y %s"
 msgstr ""
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3193
+#: ../src/e-util/e-name-selector-entry.c:3192
 #, c-format
 msgid "C_ut %s"
 msgstr ""
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3211
+#: ../src/e-util/e-name-selector-entry.c:3210
 #, c-format
 msgid "_Edit %s"
 msgstr ""
@@ -16774,46 +16778,46 @@ msgstr ""
 msgid "Saving message to folder “%s”"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:567
+#: ../src/libemail-engine/e-mail-folder-utils.c:563
 msgid "Forwarded messages"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:677
-#: ../src/libemail-engine/e-mail-folder-utils.c:939
+#: ../src/libemail-engine/e-mail-folder-utils.c:673
+#: ../src/libemail-engine/e-mail-folder-utils.c:935
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] ""
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:779
+#: ../src/libemail-engine/e-mail-folder-utils.c:775
 msgid "Scanning messages for duplicates"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1152
+#: ../src/libemail-engine/e-mail-folder-utils.c:1148
 #, c-format
 msgid "Removing folder “%s”"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1333
+#: ../src/libemail-engine/e-mail-folder-utils.c:1329
 #, c-format
 msgid "File “%s” has been removed."
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1337
+#: ../src/libemail-engine/e-mail-folder-utils.c:1333
 msgid "File has been removed."
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1413
+#: ../src/libemail-engine/e-mail-folder-utils.c:1411
 msgid "Removing attachments"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1586
+#: ../src/libemail-engine/e-mail-folder-utils.c:1584
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] ""
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1975
+#: ../src/libemail-engine/e-mail-folder-utils.c:1973
 #, c-format
 msgid "Invalid folder URI “%s”"
 msgstr ""
@@ -16881,20 +16885,20 @@ msgstr ""
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-session.c:1973
+#: ../src/libemail-engine/e-mail-session.c:1972
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-session.c:2093
+#: ../src/libemail-engine/e-mail-session.c:2092
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-session.c:2095
+#: ../src/libemail-engine/e-mail-session.c:2094
 msgid "Looking up recipient PGP keys in address books…"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-session.c:3142
+#: ../src/libemail-engine/e-mail-session.c:3141
 #, c-format
 msgid "Waiting for “%s”"
 msgstr ""
@@ -17931,27 +17935,27 @@ msgstr ""
 msgid "Color"
 msgstr "ფერი"
 
-#: ../src/mail/e-mail-notes.c:360 ../src/mail/e-mail-notes.c:780
+#: ../src/mail/e-mail-notes.c:360 ../src/mail/e-mail-notes.c:779
 msgid "Message Note"
 msgstr ""
 
-#: ../src/mail/e-mail-notes.c:698
+#: ../src/mail/e-mail-notes.c:697
 msgid "Cannot find message in its folder summary"
 msgstr ""
 
-#: ../src/mail/e-mail-notes.c:925
+#: ../src/mail/e-mail-notes.c:924
 msgid "Failed to convert text to message"
 msgstr ""
 
-#: ../src/mail/e-mail-notes.c:939 ../src/mail/e-mail-notes.c:964
+#: ../src/mail/e-mail-notes.c:938 ../src/mail/e-mail-notes.c:963
 msgid "Storing changes…"
 msgstr ""
 
-#: ../src/mail/e-mail-notes.c:1194 ../src/mail/e-mail-notes.c:1210
+#: ../src/mail/e-mail-notes.c:1193 ../src/mail/e-mail-notes.c:1209
 msgid "Edit Message Note"
 msgstr ""
 
-#: ../src/mail/e-mail-notes.c:1322
+#: ../src/mail/e-mail-notes.c:1321
 msgid "Retrieving message…"
 msgstr ""
 
@@ -22489,7 +22493,7 @@ msgstr "მისამართების წიგნი:"
 
 #: ../src/modules/book-config-google/evolution-book-config-google.c:103
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1071
-#: ../src/modules/cal-config-google/e-cal-config-google.c:189
+#: ../src/modules/cal-config-google/e-cal-config-google.c:186
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:118
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:446
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:485
@@ -24702,7 +24706,7 @@ msgstr "_შემოტანა"
 
 #: ../src/modules/itip-formatter/itip-view.c:2082
 #: ../src/modules/itip-formatter/itip-view.c:2295
-#: ../src/modules/itip-formatter/itip-view.c:7410
+#: ../src/modules/itip-formatter/itip-view.c:7409
 msgid "Due date:"
 msgstr ""
 
@@ -24980,90 +24984,90 @@ msgstr ""
 msgid "The meeting is invalid and cannot be updated"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5982
+#: ../src/modules/itip-formatter/itip-view.c:5981
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6058
-#: ../src/modules/itip-formatter/itip-view.c:6096
+#: ../src/modules/itip-formatter/itip-view.c:6057
+#: ../src/modules/itip-formatter/itip-view.c:6095
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6157
+#: ../src/modules/itip-formatter/itip-view.c:6156
 msgid "Meeting information sent"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6162
+#: ../src/modules/itip-formatter/itip-view.c:6161
 msgid "Task information sent"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6167
+#: ../src/modules/itip-formatter/itip-view.c:6166
 msgid "Memo information sent"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6178
+#: ../src/modules/itip-formatter/itip-view.c:6177
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6183
+#: ../src/modules/itip-formatter/itip-view.c:6182
 msgid "Unable to send task information, the task does not exist"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6188
+#: ../src/modules/itip-formatter/itip-view.c:6187
 msgid "Unable to send memo information, the memo does not exist"
 msgstr ""
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6233
+#: ../src/modules/itip-formatter/itip-view.c:6232
 msgid "calendar.ics"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6238
+#: ../src/modules/itip-formatter/itip-view.c:6237
 msgid "Save Calendar"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:6285
+#: ../src/modules/itip-formatter/itip-view.c:6298
+msgid "The calendar attached is not valid"
 msgstr ""
 
 #: ../src/modules/itip-formatter/itip-view.c:6286
 #: ../src/modules/itip-formatter/itip-view.c:6299
-msgid "The calendar attached is not valid"
-msgstr ""
-
-#: ../src/modules/itip-formatter/itip-view.c:6287
-#: ../src/modules/itip-formatter/itip-view.c:6300
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6382
-#: ../src/modules/itip-formatter/itip-view.c:6466
-#: ../src/modules/itip-formatter/itip-view.c:6570
+#: ../src/modules/itip-formatter/itip-view.c:6381
+#: ../src/modules/itip-formatter/itip-view.c:6465
+#: ../src/modules/itip-formatter/itip-view.c:6569
 msgid "The item in the calendar is not valid"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6383
-#: ../src/modules/itip-formatter/itip-view.c:6467
-#: ../src/modules/itip-formatter/itip-view.c:6571
+#: ../src/modules/itip-formatter/itip-view.c:6382
+#: ../src/modules/itip-formatter/itip-view.c:6466
+#: ../src/modules/itip-formatter/itip-view.c:6570
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6476
+#: ../src/modules/itip-formatter/itip-view.c:6475
 msgid "The calendar attached contains multiple items"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6477
+#: ../src/modules/itip-formatter/itip-view.c:6476
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:7060
+#: ../src/modules/itip-formatter/itip-view.c:7059
 msgctxt "cal-itip"
 msgid "None"
 msgstr "არცერთი"
 
-#: ../src/modules/itip-formatter/itip-view.c:7084
+#: ../src/modules/itip-formatter/itip-view.c:7083
 msgid "Tentatively Accepted"
 msgstr ""
 
@@ -25176,7 +25180,7 @@ msgstr ""
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:156
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:194
-#: ../src/plugins/mail-notification/mail-notification.c:1288
+#: ../src/plugins/mail-notification/mail-notification.c:1289
 msgid "Configuration"
 msgstr "გამართვა"
 
@@ -26770,22 +26774,22 @@ msgctxt "email-custom-header"
 msgid "None"
 msgstr "არცერთი"
 
-#: ../src/plugins/email-custom-header/email-custom-header.c:530
+#: ../src/plugins/email-custom-header/email-custom-header.c:529
 msgid "_Custom Header"
 msgstr ""
 
 #. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
-#: ../src/plugins/email-custom-header/email-custom-header.c:797
+#: ../src/plugins/email-custom-header/email-custom-header.c:796
 msgid ""
 "The format for specifying a Custom Header key value is:\n"
 "Name of the Custom Header key values separated by “;”."
 msgstr ""
 
-#: ../src/plugins/email-custom-header/email-custom-header.c:851
+#: ../src/plugins/email-custom-header/email-custom-header.c:850
 msgid "Key"
 msgstr "გასაღები"
 
-#: ../src/plugins/email-custom-header/email-custom-header.c:868
+#: ../src/plugins/email-custom-header/email-custom-header.c:867
 #: ../src/plugins/templates/templates.c:504
 msgid "Values"
 msgstr "მნიშვნელობები"
@@ -27120,24 +27124,24 @@ msgstr ""
 msgid "Select sound file"
 msgstr ""
 
-#: ../src/plugins/mail-notification/mail-notification.c:1082
+#: ../src/plugins/mail-notification/mail-notification.c:1083
 msgid "Select _accounts for which enable notifications:"
 msgstr ""
 
-#: ../src/plugins/mail-notification/mail-notification.c:1244
+#: ../src/plugins/mail-notification/mail-notification.c:1245
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
 msgstr ""
 
-#: ../src/plugins/mail-notification/mail-notification.c:1258
+#: ../src/plugins/mail-notification/mail-notification.c:1259
 msgid "Notify new messages for _Inbox only"
 msgstr ""
 
-#: ../src/plugins/mail-notification/mail-notification.c:1274
+#: ../src/plugins/mail-notification/mail-notification.c:1275
 msgid "Show _notification when a new message arrives"
 msgstr ""
 
-#: ../src/plugins/mail-notification/mail-notification.c:1292
+#: ../src/plugins/mail-notification/mail-notification.c:1293
 msgid "Accounts"
 msgstr "ანგარიშები"
 
