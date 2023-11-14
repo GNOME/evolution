@@ -2538,17 +2538,21 @@ e_cal_shell_content_move_view_range (ECalShellContent *cal_shell_content,
 
 				tmt = i_cal_time_as_timet (tt);
 				e_calendar_view_set_selected_time_range (cal_view, tmt, tmt);
+				cal_shell_content->priv->view_start = date;
+				cal_shell_content->priv->view_end = date;
 			}
 			g_clear_object (&tt);
 			/* one-day selection takes care of the view range move with left view kind */
 			e_calendar_item_set_selection (e_calendar_get_item (calendar), &date, &date);
 			break;
 		case E_CALENDAR_VIEW_MOVE_TO_EXACT_DAY:
+			time_to_gdate_with_zone (&date, exact_date, zone);
 			if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_YEAR) {
 				ECalendarView *cal_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
 				e_calendar_view_set_selected_time_range (cal_view, exact_date, exact_date);
+				cal_shell_content->priv->view_start = date;
+				cal_shell_content->priv->view_end = date;
 			} else {
-				time_to_gdate_with_zone (&date, exact_date, zone);
 				e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_DAY, &date, &date, FALSE);
 			}
 			break;
