@@ -2018,6 +2018,38 @@ msg_composer_subject_changed_cb (EMsgComposer *composer)
 	gtk_window_set_title (GTK_WINDOW (composer), subject);
 }
 
+static gboolean
+msg_composer_get_can_sign (EMsgComposer *composer)
+{
+	EComposerHeaderTable *table;
+	ESource *source;
+	gboolean can_sign = TRUE;
+	gchar *uid;
+
+	if (!e_msg_composer_get_is_imip (composer))
+		return TRUE;
+
+	table = e_msg_composer_get_header_table (composer);
+	uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
+
+	if (!uid)
+		return TRUE;
+
+	source = e_composer_header_table_ref_source (table, uid);
+	if (source) {
+		ESourceMailComposition *mc;
+
+		mc = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION);
+		can_sign = e_source_mail_composition_get_sign_imip (mc);
+
+		g_object_unref (source);
+	}
+
+	g_free (uid);
+
+	return can_sign;
+}
+
 static void
 msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 {
@@ -2084,12 +2116,7 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	smime_encrypt = smime_cert && *smime_cert && e_source_smime_get_encrypt_by_default (smime);
 	g_free (smime_cert);
 
-	can_sign =
-		(composer->priv->mime_type == NULL) ||
-		e_source_mail_composition_get_sign_imip (mc) ||
-		(g_ascii_strncasecmp (
-			composer->priv->mime_type,
-			"text/calendar", 13) != 0);
+	can_sign = msg_composer_get_can_sign (composer);
 
 	/* Preserve options only if the composer was realized, otherwise an account
 	   change according to current folder or similar reasons can cause the options
@@ -5856,24 +5883,17 @@ e_msg_composer_set_body (EMsgComposer *composer,
                          const gchar *mime_type)
 {
 	EMsgComposerPrivate *priv = composer->priv;
-	EComposerHeaderTable *table;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	ESource *source;
-	gchar *identity_uid;
 	const gchar *content;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	table = e_msg_composer_get_header_table (composer);
 
 	/* Disable signature */
 	priv->disable_signature = TRUE;
-
-	identity_uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
-	source = e_composer_header_table_ref_source (table, identity_uid);
 
 	content = _("The composer contains a non-text message body, which cannot be edited.");
 	set_editor_text (composer, content, TRUE, FALSE);
@@ -5886,26 +5906,15 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	g_free (priv->mime_type);
 	priv->mime_type = g_strdup (mime_type);
 
-	if (g_ascii_strncasecmp (priv->mime_type, "text/calendar", 13) == 0) {
-		ESourceMailComposition *extension;
-		const gchar *extension_name;
+	if (!msg_composer_get_can_sign (composer)) {
+		GtkToggleAction *action;
 
-		extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
-		extension = e_source_get_extension (source, extension_name);
+		action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
+		gtk_toggle_action_set_active (action, FALSE);
 
-		if (!e_source_mail_composition_get_sign_imip (extension)) {
-			GtkToggleAction *action;
-
-			action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-			gtk_toggle_action_set_active (action, FALSE);
-
-			action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-			gtk_toggle_action_set_active (action, FALSE);
-		}
+		action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
+		gtk_toggle_action_set_active (action, FALSE);
 	}
-
-	g_object_unref (source);
-	g_free (identity_uid);
 }
 
 /**
@@ -7113,7 +7122,7 @@ e_msg_composer_check_autocrypt (EMsgComposer *composer,
 		g_free (keydata);
 	}
 
-	if (send_prefer_encrypt && sender_prefer_encrypt) {
+	if (send_prefer_encrypt && sender_prefer_encrypt && msg_composer_get_can_sign (composer)) {
 		/* Set both sign & encrypt, not only encrypt */
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (ACTION (PGP_SIGN)), TRUE);
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT)), TRUE);
@@ -7121,4 +7130,37 @@ e_msg_composer_check_autocrypt (EMsgComposer *composer,
 
 	g_free (from_email);
 	g_free (keyid);
+}
+
+void
+e_msg_composer_set_is_imip (EMsgComposer *composer,
+			    gboolean is_imip)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	composer->priv->is_imip = is_imip;
+
+	if (!msg_composer_get_can_sign (composer)) {
+		GtkToggleAction *action;
+
+		action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
+		gtk_toggle_action_set_active (action, FALSE);
+
+		action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
+		gtk_toggle_action_set_active (action, FALSE);
+
+		action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
+		gtk_toggle_action_set_active (action, FALSE);
+
+		action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
+		gtk_toggle_action_set_active (action, FALSE);
+	}
+}
+
+gboolean
+e_msg_composer_get_is_imip (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+
+	return composer->priv->is_imip;
 }

@@ -2284,6 +2284,8 @@ itip_send_component_composer_created_cb (GObject *source_object,
 		goto free_ccd;
 	}
 
+	e_msg_composer_set_is_imip (composer, TRUE);
+
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 	use_24hour_format = g_settings_get_boolean (settings, "use-24hour-format");
 	g_object_unref (settings);
