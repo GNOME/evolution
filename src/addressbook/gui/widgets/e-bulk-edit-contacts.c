@@ -883,7 +883,7 @@ e_bulk_edit_contacts_fill_content (EBulkEditContacts *self)
 {
 	GHashTable *supported_fields; /* GINT_TO_POINTER (EContactField) ~> NULL */
 	GtkWidget *widget;
-	GtkGrid *grid, *section_grid;
+	GtkGrid *grid, *section_grid = NULL;
 	GtkNotebook *notebook;
 	PangoAttrList *bold;
 	const gchar *tab_title = NULL, *section_title = NULL;
