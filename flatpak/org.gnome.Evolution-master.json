@@ -1,11 +1,8 @@
 {
 	"app-id": "org.gnome.Evolution",
 	"runtime": "org.gnome.Platform",
-	"runtime-version": "43",
+	"runtime-version": "45",
 	"sdk": "org.gnome.Sdk",
-	"sdk-extensions" : [
-		"org.freedesktop.Sdk.Extension.vala"
-	],
 	"command": "evolution",
 	"rename-icon": "evolution",
 	"copy-icon": true,
@@ -14,9 +11,7 @@
 	"tags": [ "devel" ],
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
-		"cxxflags": "-O2 -g -Wno-deprecated-declarations",
-		"prepend-path" : "/usr/lib/sdk/vala/bin/",
-		"prepend-ld-library-path" : "/usr/lib/sdk/vala/lib"
+		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
 	},
 	"cleanup": [
 		"*.la",
@@ -82,8 +77,7 @@
 				"/bin",
 				"/share/gtk-doc",
 				"/share/gdm",
-				"/share/gnome",
-				"/share/vala"
+				"/share/gnome"
 			],
 			"sources": [
 				{
@@ -533,23 +527,6 @@
 			],
 			"build-commands": [
 				"./update-appdata.sh development"
-			]
-		},
-
-		{
-			"name": "libsecret",
-			"buildsystem": "meson",
-			"config-opts": [
-				"-Dmanpage=false",
-				"-Dvapi=false",
-				"-Dgtk_doc=false"
-			],
-			"sources": [
-				{
-					"type": "archive",
-					"url": "https://download.gnome.org/sources/libsecret/0.19/libsecret-0.19.1.tar.xz",
-					"sha256": "8583e10179456ae2c83075d95455f156dc08db6278b32bf4bd61819335a30e3a"
-				}
 			]
 		}
 	]
