@@ -988,6 +988,13 @@ filter:
 
 	combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
 	value = e_action_combo_box_get_current_value (combo_box);
+
+	/* virtual Trash/Junk folders cannot have subfolders, thus
+	   switch internally to "Current Folder" only */
+	if (value == MAIL_SCOPE_CURRENT_FOLDER_AND_SUBFOLDERS &&
+	    CAMEL_IS_VTRASH_FOLDER (folder))
+		value = MAIL_SCOPE_CURRENT_FOLDER;
+
 	switch (value) {
 		case MAIL_SCOPE_CURRENT_FOLDER:
 			mail_shell_view_stop_and_clear_search_vfolders (E_MAIL_SHELL_VIEW (shell_view));
