@@ -143,7 +143,7 @@ enum {
 };
 
 /* Defaults selected from eab_phone_types */
-static const gint phones_default[] = { 1, 6, 9, 2, 7, 12, 10, 10 };
+static const gint phones_default[] = { 1, 9, 6, 2, 7, 12, 10, 10 };
 
 static EContactField addresses[] = {
 	E_CONTACT_ADDRESS_WORK,
