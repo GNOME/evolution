@@ -1607,7 +1607,8 @@ source_selector_drag_motion (GtkWidget *widget,
 
 	gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
 
-	if (!source || !e_source_get_writable (source))
+	if (!source || !e_source_get_writable (source) ||
+	    e_util_guess_source_is_readonly (source))
 		goto exit;
 
 	pos = GTK_TREE_VIEW_DROP_INTO_OR_BEFORE;

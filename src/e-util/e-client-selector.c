@@ -310,6 +310,47 @@ client_selector_can_reach_cb (GObject *source_object,
 	async_context_free (async_context);
 }
 
+static gboolean
+client_selector_drag_motion (GtkWidget *widget,
+			     GdkDragContext *context,
+			     gint x,
+			     gint y,
+			     guint time_)
+{
+	GtkTreePath *path;
+
+	/* Chain up to parent's method, which sets the action too. */
+	if (!GTK_WIDGET_CLASS (e_client_selector_parent_class)->drag_motion (widget, context, x, y, time_))
+		return FALSE;
+
+	if (!gdk_drag_context_get_selected_action (context))
+		return TRUE;
+
+	gtk_tree_view_get_drag_dest_row (GTK_TREE_VIEW (widget), &path, NULL);
+
+	if (path) {
+		ESource *source;
+
+		source = e_source_selector_ref_source_by_path (E_SOURCE_SELECTOR (widget), path);
+		if (source) {
+			EClient *client = e_client_selector_ref_cached_client (E_CLIENT_SELECTOR (widget), source);
+
+			if (client) {
+				/* Cannot drop into a read-only client */
+				if (e_client_is_readonly (client))
+					gdk_drag_status (context, 0, time_);
+
+				g_object_unref (client);
+			}
+		}
+
+		g_clear_object (&source);
+		gtk_tree_path_free (path);
+	}
+
+	return TRUE;
+}
+
 static void
 client_selector_set_client_cache (EClientSelector *selector,
                                   EClientCache *client_cache)
@@ -532,6 +573,7 @@ static void
 e_client_selector_class_init (EClientSelectorClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EClientSelectorPrivate));
 
@@ -540,6 +582,9 @@ e_client_selector_class_init (EClientSelectorClass *class)
 	object_class->get_property = client_selector_get_property;
 	object_class->dispose = client_selector_dispose;
 	object_class->constructed = client_selector_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->drag_motion = client_selector_drag_motion;
 
 	/**
 	 * EClientSelector:client-cache:
