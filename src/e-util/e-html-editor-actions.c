@@ -347,22 +347,43 @@ static void
 action_insert_emoji_cb (GtkAction *action,
 			EHTMLEditor *editor)
 {
-	if (!editor->priv->emoji_chooser) {
-		GtkWidget *popover;
+	EContentEditor *cnt_editor;
+	GtkPopover *popover;
+	GtkWidget *relative_to;
+	GdkRectangle rect = { 0, 0, -1, -1 };
 
-		popover = e_gtk_emoji_chooser_new ();
+	if (editor->priv->emoji_chooser) {
+		popover = GTK_POPOVER (editor->priv->emoji_chooser);
+	} else {
+		popover = GTK_POPOVER (e_gtk_emoji_chooser_new ());
 
-		gtk_popover_set_relative_to (GTK_POPOVER (popover), GTK_WIDGET (editor));
 		gtk_popover_set_position (GTK_POPOVER (popover), GTK_POS_BOTTOM);
 		gtk_popover_set_modal (GTK_POPOVER (popover), TRUE);
 
 		g_signal_connect_object (popover, "emoji-picked",
 			G_CALLBACK (emoji_chooser_emoji_picked_cb), editor, G_CONNECT_SWAPPED);
 
-		editor->priv->emoji_chooser = popover;
+		editor->priv->emoji_chooser = GTK_WIDGET (popover);
 	}
 
-	gtk_popover_popup (GTK_POPOVER (editor->priv->emoji_chooser));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_get_caret_client_rect (cnt_editor, &rect);
+
+	if (rect.width >= 0 && rect.height >= 0 && rect.x + rect.width >= 0 && rect.y + rect.height >= 0) {
+		relative_to = GTK_WIDGET (cnt_editor);
+	} else {
+		relative_to = GTK_WIDGET (editor);
+
+		rect.x = 0;
+		rect.y = 0;
+		rect.width = gtk_widget_get_allocated_width (relative_to);
+		rect.height = 0;
+	}
+
+	gtk_popover_set_relative_to (popover, relative_to);
+	gtk_popover_set_pointing_to (popover, &rect);
+
+	gtk_popover_popup (popover);
 }
 
 static void
