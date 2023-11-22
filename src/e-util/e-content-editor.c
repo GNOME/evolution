@@ -3871,6 +3871,27 @@ e_content_editor_get_hover_uri (EContentEditor *editor)
 }
 
 void
+e_content_editor_get_caret_client_rect (EContentEditor *editor,
+					GdkRectangle *out_rect)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+	g_return_if_fail (out_rect != NULL);
+
+	out_rect->x = 0;
+	out_rect->y = 0;
+	out_rect->width = -1;
+	out_rect->height = -1;
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+
+	if (iface->get_caret_client_rect)
+		iface->get_caret_client_rect (editor, out_rect);
+}
+
+void
 e_content_editor_emit_load_finished (EContentEditor *editor)
 {
 	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));

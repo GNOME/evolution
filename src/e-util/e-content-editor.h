@@ -431,9 +431,11 @@ struct _EContentEditorInterface {
 	void		(*grab_focus)			(EContentEditor *editor);
 	gboolean	(*is_focus)			(EContentEditor *editor);
 	const gchar *	(*get_hover_uri)		(EContentEditor *editor);
+	void		(*get_caret_client_rect)	(EContentEditor *editor,
+							 GdkRectangle *out_rect);
 
 	/* padding for future expansion */
-	gpointer reserved[16];
+	gpointer reserved[15];
 };
 
 /* Properties */
@@ -993,6 +995,9 @@ void		e_content_editor_delete_h_rule	(EContentEditor *editor);
 void		e_content_editor_delete_image	(EContentEditor *editor);
 
 const gchar *	e_content_editor_get_hover_uri	(EContentEditor *editor);
+void		e_content_editor_get_caret_client_rect
+						(EContentEditor *editor,
+						 GdkRectangle *out_rect);
 
 /* Signal helpers */
 

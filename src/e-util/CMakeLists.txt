@@ -147,7 +147,7 @@ set(SOURCES
 	e-html-editor-find-dialog.c
 	e-html-editor-hrule-dialog.c
 	e-html-editor-image-dialog.c
-	e-html-editor-link-dialog.c
+	e-html-editor-link-popover.c
 	e-html-editor-page-dialog.c
 	e-html-editor-paragraph-dialog.c
 	e-html-editor-private.h
@@ -430,7 +430,7 @@ set(HEADERS
 	e-html-editor-find-dialog.h
 	e-html-editor-hrule-dialog.h
 	e-html-editor-image-dialog.h
-	e-html-editor-link-dialog.h
+	e-html-editor-link-popover.h
 	e-html-editor-page-dialog.h
 	e-html-editor-paragraph-dialog.h
 	e-html-editor-replace-dialog.h

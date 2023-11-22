@@ -6653,7 +6653,26 @@ document.onselectionchange = function() {
 	EvoEditor.maybeUpdateFormattingState(EvoEditor.forceFormatStateUpdate ? EvoEditor.FORCE_YES : EvoEditor.FORCE_MAYBE);
 	EvoEditor.forceFormatStateUpdate = false;
 
-	window.webkit.messageHandlers.selectionChanged.postMessage(document.getSelection().isCollapsed);
+	var sel = document.getSelection(), args = [];
+
+	args["isCollapsed"] = sel.isCollapsed;
+
+	if (sel.rangeCount > 0) {
+		var rect = sel.getRangeAt(0).getBoundingClientRect();
+
+		// this catches empty paragraphs
+		if (sel.getRangeAt(0).getClientRects().length <= 0 && sel.anchorNode) {
+			rect = sel.anchorNode.getBoundingClientRect();
+			rect.width = 0;
+		}
+
+		args["x"] = rect.x;
+		args["y"] = rect.y;
+		args["width"] = rect.width;
+		args["height"] = rect.height;
+	}
+
+	window.webkit.messageHandlers.selectionChanged.postMessage(args);
 };
 
 EvoEditor.initializeContent();

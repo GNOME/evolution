@@ -129,7 +129,7 @@
 #include <e-util/e-html-editor-find-dialog.h>
 #include <e-util/e-html-editor-hrule-dialog.h>
 #include <e-util/e-html-editor-image-dialog.h>
-#include <e-util/e-html-editor-link-dialog.h>
+#include <e-util/e-html-editor-link-popover.h>
 #include <e-util/e-html-editor-page-dialog.h>
 #include <e-util/e-html-editor-paragraph-dialog.h>
 #include <e-util/e-html-editor-replace-dialog.h>

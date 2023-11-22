@@ -216,7 +216,7 @@ src/e-util/e-html-editor-dialog.c
 src/e-util/e-html-editor-find-dialog.c
 src/e-util/e-html-editor-hrule-dialog.c
 src/e-util/e-html-editor-image-dialog.c
-src/e-util/e-html-editor-link-dialog.c
+src/e-util/e-html-editor-link-popover.c
 src/e-util/e-html-editor-page-dialog.c
 src/e-util/e-html-editor-paragraph-dialog.c
 src/e-util/e-html-editor-replace-dialog.c

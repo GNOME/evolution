@@ -29,7 +29,7 @@
 #include <e-util/e-html-editor-find-dialog.h>
 #include <e-util/e-html-editor-hrule-dialog.h>
 #include <e-util/e-html-editor-image-dialog.h>
-#include <e-util/e-html-editor-link-dialog.h>
+#include <e-util/e-html-editor-link-popover.h>
 #include <e-util/e-html-editor-page-dialog.h>
 #include <e-util/e-html-editor-paragraph-dialog.h>
 #include <e-util/e-html-editor-replace-dialog.h>
@@ -73,7 +73,7 @@ struct _EHTMLEditorPrivate {
 
 	GtkWidget *find_dialog;
 	GtkWidget *replace_dialog;
-	GtkWidget *link_dialog;
+	GtkWidget *link_popover;
 	GtkWidget *hrule_dialog;
 	GtkWidget *table_dialog;
 	GtkWidget *page_dialog;

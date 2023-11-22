@@ -140,6 +140,8 @@ struct _EWebKitEditorPrivate {
 	EContentEditorBlockFormat block_format;
 	EContentEditorAlignment alignment;
 
+	GdkRectangle caret_client_rect;
+
 	/* For context menu */
 	gchar *context_menu_caret_word;
 	guint32 context_menu_node_flags; /* bit-or of EContentEditorNodeFlags */
@@ -1043,7 +1045,12 @@ selection_changed_cb (WebKitUserContentManager *manager,
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
 	jsc_value = webkit_javascript_result_get_js_value (js_result);
-	is_collapsed = jsc_value_is_boolean (jsc_value) && jsc_value_to_boolean (jsc_value);
+	g_return_if_fail (jsc_value_is_object (jsc_value));
+	is_collapsed = e_web_view_jsc_get_object_property_boolean (jsc_value, "isCollapsed", FALSE);
+	wk_editor->priv->caret_client_rect.x = e_web_view_jsc_get_object_property_int32 (jsc_value, "x", 0);
+	wk_editor->priv->caret_client_rect.y = e_web_view_jsc_get_object_property_int32 (jsc_value, "y", 0);
+	wk_editor->priv->caret_client_rect.width = e_web_view_jsc_get_object_property_int32 (jsc_value, "width", -1);
+	wk_editor->priv->caret_client_rect.height = e_web_view_jsc_get_object_property_int32 (jsc_value, "height", -1);
 
 	editor_state = webkit_web_view_get_editor_state (WEBKIT_WEB_VIEW (wk_editor));
 
@@ -5567,6 +5574,18 @@ webkit_editor_get_hover_uri (EContentEditor *editor)
 	return wk_editor->priv->last_hover_uri;
 }
 
+static void
+webkit_editor_get_caret_client_rect (EContentEditor *editor,
+				     GdkRectangle *out_rect)
+{
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
+
+	out_rect->x = wk_editor->priv->caret_client_rect.x;
+	out_rect->y = wk_editor->priv->caret_client_rect.y;
+	out_rect->width = wk_editor->priv->caret_client_rect.width;
+	out_rect->height = wk_editor->priv->caret_client_rect.height;
+}
+
 static gboolean
 webkit_editor_query_tooltip_cb (GtkWidget *widget,
 				gint xx,
@@ -5987,6 +6006,11 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	wk_editor->priv->block_format = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
 	wk_editor->priv->alignment = E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 
+	wk_editor->priv->caret_client_rect.x = 0;
+	wk_editor->priv->caret_client_rect.y = 0;
+	wk_editor->priv->caret_client_rect.width = -1;
+	wk_editor->priv->caret_client_rect.height = -1;
+
 	wk_editor->priv->start_bottom = E_THREE_STATE_INCONSISTENT;
 	wk_editor->priv->top_signature = E_THREE_STATE_INCONSISTENT;
 
@@ -6125,6 +6149,7 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->delete_h_rule = webkit_editor_delete_h_rule;
 	iface->delete_image = webkit_editor_delete_image;
 	iface->get_hover_uri = webkit_editor_get_hover_uri;
+	iface->get_caret_client_rect = webkit_editor_get_caret_client_rect;
 }
 
 static void

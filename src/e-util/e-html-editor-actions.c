@@ -497,11 +497,10 @@ static void
 action_insert_link_cb (GtkAction *action,
                        EHTMLEditor *editor)
 {
-	if (editor->priv->link_dialog == NULL)
-		editor->priv->link_dialog =
-			e_html_editor_link_dialog_new (editor);
+	if (!editor->priv->link_popover)
+		editor->priv->link_popover = e_html_editor_link_popover_new (editor);
 
-	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
+	e_html_editor_link_popover_popup (E_HTML_EDITOR_LINK_POPOVER (editor->priv->link_popover));
 }
 
 static void
@@ -863,12 +862,10 @@ static void
 action_properties_link_cb (GtkAction *action,
                            EHTMLEditor *editor)
 {
-	if (editor->priv->link_dialog == NULL) {
-		editor->priv->link_dialog =
-			e_html_editor_link_dialog_new (editor);
-	}
+	if (!editor->priv->link_popover)
+		editor->priv->link_popover = e_html_editor_link_popover_new (editor);
 
-	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
+	e_html_editor_link_popover_popup (E_HTML_EDITOR_LINK_POPOVER (editor->priv->link_popover));
 }
 
 static void
