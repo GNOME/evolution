@@ -2691,7 +2691,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	{ "mail-forward",
 	  "mail-forward",
 	  N_("_Forward"),
-	  "<Control>f",
+	  "<Control><Alt>f",
 	  N_("Forward the selected message to someone"),
 	  G_CALLBACK (action_mail_forward_cb) },
 
@@ -5330,7 +5330,7 @@ e_mail_reader_init (EMailReader *reader,
 		G_CALLBACK (action_mail_forward_cb), reader);
 
 	gtk_action_group_add_action_with_accel (
-		action_group, GTK_ACTION (menu_tool_action), "<Control>f");
+		action_group, GTK_ACTION (menu_tool_action), "<Control><Alt>f");
 
 	menu_tool_action_first = menu_tool_action;
 

@@ -517,8 +517,10 @@ shell_searchbar_entry_focus_out_cb (GtkWidget *entry,
                                     GdkEvent *event,
                                     EShellSearchbar *searchbar)
 {
-	if (e_util_strcmp0 (searchbar->priv->active_search_text, gtk_entry_get_text (GTK_ENTRY (searchbar->priv->search_entry))) != 0)
-		gtk_entry_set_text (GTK_ENTRY (searchbar->priv->search_entry), searchbar->priv->active_search_text);
+	if (e_util_strcmp0 (searchbar->priv->active_search_text, gtk_entry_get_text (GTK_ENTRY (searchbar->priv->search_entry))) != 0) {
+		gtk_entry_set_text (GTK_ENTRY (searchbar->priv->search_entry), searchbar->priv->active_search_text ?
+			searchbar->priv->active_search_text : "");
+	}
 
 	shell_searchbar_update_search_widgets (searchbar);
 
@@ -1482,4 +1484,13 @@ e_shell_searchbar_search_entry_grab_focus (EShellSearchbar *searchbar)
 	g_return_if_fail (searchbar->priv->search_entry);
 
 	gtk_widget_grab_focus (searchbar->priv->search_entry);
+}
+
+gboolean
+e_shell_searchbar_search_entry_has_focus (EShellSearchbar *searchbar)
+{
+	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), FALSE);
+	g_return_val_if_fail (searchbar->priv->search_entry, FALSE);
+
+	return gtk_widget_has_focus (searchbar->priv->search_entry);
 }

@@ -469,6 +469,21 @@ action_search_edit_cb (GtkAction *action,
 	e_shell_window_update_search_menu (shell_window);
 }
 
+static EShellSearchbar *
+shell_window_get_search_bar (EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	const gchar *view_name;
+
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	g_return_val_if_fail (shell_view != NULL, NULL);
+
+	return E_SHELL_SEARCHBAR (e_shell_view_get_searchbar (shell_view));
+}
+
 static void
 search_options_selection_cancel_cb (GtkMenuShell *menu,
 				    EShellWindow *shell_window);
@@ -477,9 +492,7 @@ static void
 search_options_selection_done_cb (GtkMenuShell *menu,
 				  EShellWindow *shell_window)
 {
-	EShellView *shell_view;
 	EShellSearchbar *search_bar;
-	const gchar *view_name;
 
 	/* disconnect first */
 	g_signal_handlers_disconnect_by_func (menu, search_options_selection_done_cb, shell_window);
@@ -487,11 +500,7 @@ search_options_selection_done_cb (GtkMenuShell *menu,
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-	g_return_if_fail (shell_view != NULL);
-
-	search_bar = E_SHELL_SEARCHBAR (e_shell_view_get_searchbar (shell_view));
+	search_bar = shell_window_get_search_bar (shell_window);
 	e_shell_searchbar_search_entry_grab_focus (search_bar);
 }
 
@@ -517,9 +526,16 @@ action_search_options_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellViewClass *shell_view_class;
+	EShellSearchbar *search_bar;
 	const gchar *view_name;
 	const gchar *widget_path;
 	GtkWidget *popup_menu;
+
+	search_bar = shell_window_get_search_bar (shell_window);
+	if (!e_shell_searchbar_search_entry_has_focus (search_bar)) {
+		e_shell_searchbar_search_entry_grab_focus (search_bar);
+		return;
+	}
 
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);

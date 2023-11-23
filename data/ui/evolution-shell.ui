@@ -65,6 +65,7 @@
     </menu>
     <placeholder name='custom-menus'/>
     <menu action='search-menu'>
+      <menuitem action='search-options'/>
       <menuitem action='search-quick'/>
       <menuitem action='search-clear'/>
       <placeholder name='search-extra-actions'/>

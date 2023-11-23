@@ -77,6 +77,13 @@
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
+                <property name="accelerator">&lt;ctrl&gt;f</property>
+                <property name="title" translatable="yes" context="shortcut window">Focus search bar</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
                 <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;q</property>
                 <property name="title" translatable="yes" context="shortcut window">Clear search bar</property>
                 <property name="visible">True</property>
@@ -195,7 +202,7 @@
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
-                <property name="accelerator">&lt;ctrl&gt;f</property>
+                <property name="accelerator">&lt;ctrl&gt;&lt;alt&gt;f</property>
                 <property name="title" translatable="yes" context="shortcut window">Forward selected messages</property>
                 <property name="visible">True</property>
               </object>
