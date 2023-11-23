@@ -2720,6 +2720,8 @@ cal_comp_util_write_to_html (GString *html_buffer,
 		g_return_if_fail (E_IS_CAL_CLIENT (client));
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
+	icomp = e_cal_component_get_icalcomponent (comp);
+
 	str = e_calendar_view_dup_component_summary (e_cal_component_get_icalcomponent (comp));
 	markup = g_markup_escape_text (str ? str : _("Untitled"), -1);
 	if (str)
@@ -2748,6 +2750,37 @@ cal_comp_util_write_to_html (GString *html_buffer,
 	}
 	g_free (location);
 
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_GEO_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_GEO_PROPERTY)) {
+		ICalGeo *geo = i_cal_property_get_geo (prop);
+		gchar *ptr;
+
+		if (!geo)
+			continue;
+
+		location = g_strdup_printf ("%.4f/%.4f", i_cal_geo_get_lat (geo), i_cal_geo_get_lon (geo));
+
+		/* replace comma with dot and slash with comma */
+		for (ptr = location; *ptr; ptr++) {
+			if (*ptr == ',')
+				*ptr = '.';
+			else if (*ptr == '/')
+				*ptr = ',';
+		}
+
+		markup = g_markup_escape_text (_("GEO Location:"), -1);
+		g_string_append_printf (html_buffer, "<tr><th>%s</th>", markup);
+		g_free (markup);
+
+		markup = g_markup_printf_escaped ("<a href='open-map:%s'>%s</a>", location, location);
+		g_string_append_printf (html_buffer, "<td>%s</td></tr>", markup);
+		g_free (markup);
+
+		g_object_unref (geo);
+		g_free (location);
+	}
+
 	/* write start date */
 	dt = e_cal_component_get_dtstart (comp);
 	if (dt && e_cal_component_datetime_get_value (dt)) {
@@ -2765,8 +2798,6 @@ cal_comp_util_write_to_html (GString *html_buffer,
 		g_free (str);
 	}
 	e_cal_component_datetime_free (dt);
-
-	icomp = e_cal_component_get_icalcomponent (comp);
 
 	if (e_cal_util_component_has_recurrences (icomp)) {
 		str = e_cal_recur_describe_recurrence_ex (icomp,

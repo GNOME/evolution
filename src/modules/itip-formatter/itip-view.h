@@ -159,6 +159,8 @@ void		itip_view_set_summary		(ItipView *view,
 const gchar *	itip_view_get_location		(ItipView *view);
 void		itip_view_set_location		(ItipView *view,
 						 const gchar *location);
+void		itip_view_set_geo		(ItipView *view,
+						 const gchar *geo);
 const gchar *	itip_view_get_url		(ItipView *view);
 void		itip_view_set_url		(ItipView *view,
 						 const gchar *url);

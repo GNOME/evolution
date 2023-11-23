@@ -330,25 +330,6 @@ contact_display_link_clicked (EWebView *web_view,
 		return;
 	}
 
-	length = strlen ("open-map:");
-	if (g_ascii_strncasecmp (uri, "open-map:", length) == 0) {
-		GUri *guri;
-
-		guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
-		if (guri) {
-			gpointer parent;
-
-			parent = gtk_widget_get_toplevel (GTK_WIDGET (display));
-			parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-			e_open_map_uri (parent, g_uri_get_path (guri));
-
-			g_uri_unref (guri);
-		}
-
-		return;
-	}
-
 	/* Chain up to parent's method. */
 	E_WEB_VIEW_CLASS (eab_contact_display_parent_class)->link_clicked (web_view, uri);
 }

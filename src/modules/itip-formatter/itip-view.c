@@ -84,6 +84,7 @@ struct _ItipViewPrivate {
 	gchar *summary;
 
 	gchar *location;
+	gchar *geo_html;
         gchar *status;
 	gchar *comment;
 	gchar *attendees;
@@ -713,7 +714,8 @@ htmlize_text (const gchar *id,
 	      gchar **out_tmp)
 {
 	if (text && *text &&
-	    g_strcmp0 (id, TABLE_ROW_ATTENDEES) != 0) {
+	    g_strcmp0 (id, TABLE_ROW_ATTENDEES) != 0 &&
+	    g_strcmp0 (id, TABLE_ROW_GEO) != 0) {
 		if (g_strcmp0 (id, TABLE_ROW_LOCATION) == 0) {
 			*out_tmp = camel_text_to_html (text, CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 		} else if (g_strcmp0 (id, TABLE_ROW_URL) == 0) {
@@ -1641,6 +1643,7 @@ itip_view_finalize (GObject *object)
 	g_free (priv->proxy);
 	g_free (priv->summary);
 	g_free (priv->location);
+	g_free (priv->geo_html);
 	g_free (priv->status);
 	g_free (priv->comment);
 	g_free (priv->attendees);
@@ -2075,6 +2078,7 @@ itip_view_write (gpointer itip_part_ptr,
 
 	append_text_table_row (buffer, TABLE_ROW_SUMMARY, NULL, NULL);
 	append_text_table_row (buffer, TABLE_ROW_LOCATION, _("Location:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_GEO, _("GEO Location:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_URL, _("URL:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_START_DATE, _("Start time:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_END_DATE, _("End time:"), NULL);
@@ -2278,6 +2282,9 @@ itip_view_write_for_printing (ItipView *view,
 	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_LOCATION,
 		_("Location:"), view->priv->location);
+	append_text_table_row_nonempty (
+		buffer, TABLE_ROW_GEO,
+		_("GEO Location:"), view->priv->geo_html);
 	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_URL,
 		_("URL:"), view->priv->url);
@@ -2670,6 +2677,22 @@ itip_view_set_location (ItipView *view,
 	view->priv->location = location ? g_strstrip (e_utf8_ensure_valid (location)) : NULL;
 
 	set_area_text (view, TABLE_ROW_LOCATION, view->priv->location, FALSE);
+}
+
+void
+itip_view_set_geo (ItipView *view,
+		   const gchar *geo)
+{
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
+	if (geo != view->priv->geo_html) {
+		g_clear_pointer (&view->priv->geo_html, g_free);
+
+		if (geo && *geo)
+			view->priv->geo_html = g_markup_printf_escaped ("<a href='open-map:%s'>%s</a>", geo, geo);
+
+		set_area_text (view, TABLE_ROW_GEO, view->priv->geo_html ? view->priv->geo_html : "", TRUE);
+	}
 }
 
 const gchar *
@@ -7063,6 +7086,34 @@ itip_view_init_view (ItipView *view)
 	itip_view_set_location (view, string);
 	g_free (string);
 
+	icomp = e_cal_component_get_icalcomponent (view->priv->comp);
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_GEO_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_GEO_PROPERTY)) {
+		ICalGeo *geo = i_cal_property_get_geo (prop);
+		gchar *ptr;
+
+		if (!geo)
+			continue;
+
+		string = g_strdup_printf ("%.4f/%.4f", i_cal_geo_get_lat (geo), i_cal_geo_get_lon (geo));
+
+		/* replace comma with dot and slash with comma */
+		for (ptr = string; *ptr; ptr++) {
+			if (*ptr == ',')
+				*ptr = '.';
+			else if (*ptr == '/')
+				*ptr = ',';
+		}
+
+		itip_view_set_geo (view, string);
+
+		g_free (string);
+		g_object_unref (geo);
+		g_object_unref (prop);
+		break;
+	}
+
 	string = e_cal_component_get_url (view->priv->comp);
 	if (string)
 		g_strstrip (string);
@@ -7125,7 +7176,6 @@ itip_view_init_view (ItipView *view)
 
 	itip_view_extract_attendee_info (view);
 
-	icomp = e_cal_component_get_icalcomponent (view->priv->comp);
 	prop = i_cal_component_get_first_property (icomp, I_CAL_COLOR_PROPERTY);
 	if (!prop && view->priv->main_comp)
 		prop = i_cal_component_get_first_property (view->priv->main_comp, I_CAL_COLOR_PROPERTY);

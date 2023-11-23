@@ -1860,6 +1860,18 @@ web_view_link_clicked (EWebView *web_view,
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
+	if (g_ascii_strncasecmp (uri, "open-map:", 9) == 0) {
+		GUri *guri;
+
+		guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+		if (guri) {
+			e_open_map_uri (parent, g_uri_get_path (guri));
+			g_uri_unref (guri);
+		}
+
+		return;
+	}
+
 	e_show_uri (parent, uri);
 }
 
