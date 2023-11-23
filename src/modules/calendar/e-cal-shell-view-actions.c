@@ -1443,9 +1443,9 @@ static GtkActionEntry calendar_entries[] = {
 
 	{ "event-delete",
 	  "edit-delete",
-	  N_("_Delete Appointment"),
+	  N_("_Delete"),
 	  "<Control>d",
-	  N_("Delete selected appointments"),
+	  N_("Delete selected events"),
 	  G_CALLBACK (action_event_delete_cb) },
 
 	{ "event-delete-occurrence",
@@ -1473,7 +1473,7 @@ static GtkActionEntry calendar_entries[] = {
 	  NULL,
 	  N_("Edit as Ne_w…"),
 	  NULL,
-	  N_("Edit the current appointment as new"),
+	  N_("Edit the selected event as new"),
 	  G_CALLBACK (action_event_edit_as_new_cb) },
 
 	{ "event-popup-all-day-new",
@@ -1569,9 +1569,9 @@ static GtkActionEntry calendar_entries[] = {
 
 	{ "event-open",
 	  "document-open",
-	  N_("_Open Appointment"),
+	  N_("_Open…"),
 	  "<Control>o",
-	  N_("View the current appointment"),
+	  N_("Edit the selected event"),
 	  G_CALLBACK (action_event_open_cb) },
 
 	{ "event-reply",
