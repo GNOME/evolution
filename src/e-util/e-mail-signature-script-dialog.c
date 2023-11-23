@@ -35,6 +35,7 @@ struct _EMailSignatureScriptDialogPrivate {
 	ESource *source;
 
 	GtkWidget *entry;		/* not referenced */
+	GtkWidget *mime_type;		/* not referenced */
 	GtkWidget *file_chooser;	/* not referenced */
 	GtkWidget *alert;		/* not referenced */
 
@@ -109,10 +110,7 @@ mail_signature_script_dialog_update_status (EMailSignatureScriptDialog *dialog)
 		show_alert = FALSE;
 	}
 
-	if (show_alert)
-		gtk_widget_show (dialog->priv->alert);
-	else
-		gtk_widget_hide (dialog->priv->alert);
+	gtk_widget_set_visible (dialog->priv->alert, show_alert);
 
 	gtk_dialog_set_response_sensitive (
 		GTK_DIALOG (dialog), GTK_RESPONSE_OK, sensitive);
@@ -122,10 +120,7 @@ static void
 mail_signature_script_dialog_file_set_cb (GtkFileChooserButton *button,
                                           EMailSignatureScriptDialog *dialog)
 {
-	ESource *source;
-	ESourceMailSignature *extension;
 	GtkFileChooser *file_chooser;
-	const gchar *extension_name;
 	gchar *filename;
 
 	file_chooser = GTK_FILE_CHOOSER (button);
@@ -133,12 +128,6 @@ mail_signature_script_dialog_file_set_cb (GtkFileChooserButton *button,
 
 	g_free (dialog->priv->symlink_target);
 	dialog->priv->symlink_target = filename;  /* takes ownership */
-
-	/* Invalidate the saved MIME type. */
-	extension_name = E_SOURCE_EXTENSION_MAIL_SIGNATURE;
-	source = e_mail_signature_script_dialog_get_source (dialog);
-	extension = e_source_get_extension (source, extension_name);
-	e_source_mail_signature_set_mime_type (extension, NULL);
 
 	g_object_notify (G_OBJECT (dialog), "symlink-target");
 
@@ -337,12 +326,16 @@ static void
 mail_signature_script_dialog_constructed (GObject *object)
 {
 	EMailSignatureScriptDialog *dialog;
+	ESourceMailSignature *extension;
 	GtkFileFilter *filter;
-	GtkWidget *container;
+	GtkGrid *grid;
+	GtkWidget *content_area;
 	GtkWidget *widget;
+	GtkLabel *label;
 	ESource *source;
 	const gchar *display_name;
 	gchar *markup;
+	gint row = 0;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_signature_script_dialog_parent_class)->constructed (object);
@@ -350,6 +343,7 @@ mail_signature_script_dialog_constructed (GObject *object)
 	dialog = E_MAIL_SIGNATURE_SCRIPT_DIALOG (object);
 
 	source = e_mail_signature_script_dialog_get_source (dialog);
+	extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_SIGNATURE);
 	display_name = e_source_get_display_name (source);
 
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
@@ -364,64 +358,96 @@ mail_signature_script_dialog_constructed (GObject *object)
 
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
-	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-	widget = gtk_table_new (4, 2, FALSE);
-	gtk_table_set_col_spacings (GTK_TABLE (widget), 6);
-	gtk_table_set_row_spacings (GTK_TABLE (widget), 6);
-	gtk_table_set_row_spacing (GTK_TABLE (widget), 0, 12);
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 5);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
+	widget = gtk_grid_new ();
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"column-spacing", 6,
+		"row-spacing", 6,
+		"border-width", 6,
+		NULL);
+	gtk_box_pack_start (GTK_BOX (content_area), widget, FALSE, FALSE, 0);
 
-	container = widget;
+	grid = GTK_GRID (widget);
 
-	widget = gtk_image_new_from_icon_name (
-		"dialog-information", GTK_ICON_SIZE_DIALOG);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		0, 1, 0, 1, 0, 0, 0, 0);
-	gtk_widget_show (widget);
+	widget = gtk_image_new_from_icon_name ("dialog-information", GTK_ICON_SIZE_DIALOG);
+	gtk_widget_set_visible (widget, TRUE);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
 
 	widget = gtk_label_new (_(
 		"The output of this script will be used as your\n"
 		"signature. The name you specify will be used\n"
 		"for display purposes only."));
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_widget_show (widget);
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_CENTER,
+		NULL);
+	gtk_grid_attach (grid, widget, 1, row, 1, 1);
+	row++;
+
+	widget = gtk_label_new_with_mnemonic (_("_Name:"));
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_END,
+		"valign", GTK_ALIGN_CENTER,
+		"xalign", 1.0,
+		"yalign", 0.5,
+		NULL);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
+
+	label = GTK_LABEL (widget);
 
 	widget = gtk_entry_new ();
-	gtk_entry_set_text (GTK_ENTRY (widget), display_name);
-	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"activates-default", TRUE,
+		"text", display_name,
+		NULL);
 	dialog->priv->entry = widget;  /* not referenced */
-	gtk_widget_show (widget);
+
+	gtk_label_set_mnemonic_widget (label, widget);
+
+	gtk_grid_attach (grid, widget, 1, row, 1, 1);
+	row++;
 
 	e_binding_bind_property (
 		widget, "text",
 		source, "display-name",
 		G_BINDING_DEFAULT);
 
-	widget = gtk_label_new_with_mnemonic (_("_Name:"));
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (widget), dialog->priv->entry);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		0, 1, 1, 2, GTK_FILL, 0, 0, 0);
-	gtk_widget_show (widget);
+	widget = gtk_label_new_with_mnemonic (_("Sc_ript:"));
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_CENTER,
+		"xalign", 1.0,
+		"yalign", 0.5,
+		NULL);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
 
-	widget = gtk_file_chooser_button_new (
-		NULL, GTK_FILE_CHOOSER_ACTION_OPEN);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		1, 2, 2, 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	label = GTK_LABEL (widget);
+
+	widget = gtk_file_chooser_button_new (NULL, GTK_FILE_CHOOSER_ACTION_OPEN);
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_CENTER,
+		NULL);
 	dialog->priv->file_chooser = widget;  /* not referenced */
-	gtk_widget_show (widget);
+
+	gtk_label_set_mnemonic_widget (label, widget);
+
+	gtk_grid_attach (grid, widget, 1, row, 1, 1);
+	row++;
 
 	filter = gtk_file_filter_new ();
 
@@ -442,34 +468,63 @@ mail_signature_script_dialog_constructed (GObject *object)
 	 * directory, so restrict the selection to local files only. */
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (widget), TRUE);
 
-	widget = gtk_label_new_with_mnemonic (_("S_cript:"));
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (widget), dialog->priv->file_chooser);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		0, 1, 2, 3, GTK_FILL, 0, 0, 0);
-	gtk_widget_show (widget);
+	widget = gtk_label_new_with_mnemonic (_("_MIME Type:"));
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_END,
+		"valign", GTK_ALIGN_CENTER,
+		"xalign", 1.0,
+		"yalign", 0.5,
+		NULL);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
 
-	/* This is just a placeholder. */
-	widget = gtk_label_new (NULL);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		0, 1, 3, 4, GTK_FILL, 0, 0, 0);
-	gtk_widget_show (widget);
+	label = GTK_LABEL (widget);
+
+	widget = gtk_combo_box_text_new_with_entry ();
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		NULL);
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (widget), "text/plain");
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (widget), "text/html");
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (widget), "text/markdown");
+	dialog->priv->mime_type = widget;  /* not referenced */
+
+	gtk_label_set_mnemonic_widget (label, widget);
+
+	gtk_grid_attach (grid, widget, 1, row, 1, 1);
+	row++;
+
+	widget = gtk_bin_get_child (GTK_BIN (widget));
+	gtk_entry_set_text (GTK_ENTRY (widget), e_source_mail_signature_get_mime_type (extension) ?
+		e_source_mail_signature_get_mime_type (extension) : "");
+	gtk_entry_set_placeholder_text (GTK_ENTRY (widget), _("Auto-detect"));
+
+	e_binding_bind_property (
+		widget, "text",
+		extension, "mime-type",
+		G_BINDING_DEFAULT);
+
+	/* Just a place-holder, to not resize the dialog when the alert is shown */
+	widget = gtk_label_new_with_mnemonic ("");
+	gtk_widget_set_visible (widget, TRUE);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		1, 2, 3, 4, 0, 0, 0, 0);
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_CENTER,
+		"valign", GTK_ALIGN_CENTER,
+		NULL);
 	dialog->priv->alert = widget;  /* not referenced */
-	gtk_widget_show (widget);
 
-	container = widget;
+	gtk_grid_attach (grid, widget, 1, row, 1, 1);
+	row++;
 
-	widget = gtk_image_new_from_icon_name (
-		"dialog-warning", GTK_ICON_SIZE_MENU);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
+	widget = gtk_image_new_from_icon_name ("dialog-warning", GTK_ICON_SIZE_MENU);
+	gtk_box_pack_start (GTK_BOX (dialog->priv->alert), widget, FALSE, FALSE, 0);
+	gtk_widget_set_visible (widget, TRUE);
 
 	markup = g_markup_printf_escaped (
 		"<small>%s</small>",
@@ -477,8 +532,8 @@ mail_signature_script_dialog_constructed (GObject *object)
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
+	gtk_box_pack_start (GTK_BOX (dialog->priv->alert), widget, TRUE, TRUE, 0);
+	gtk_widget_set_visible (widget, TRUE);
 	g_free (markup);
 
 	g_signal_connect (
