@@ -737,8 +737,10 @@ year_view_get_selected_time_range (ECalendarView *cal_view,
 	g_date_clear (&date, 1);
 	g_date_set_dmy (&date, self->priv->current_day, self->priv->current_month, self->priv->current_year);
 
-	*start_time = time_day_begin (cal_comp_gdate_to_timet (&date, zone));
-	*end_time = time_day_end (*start_time);
+	if (start_time)
+		*start_time = time_day_begin (cal_comp_gdate_to_timet (&date, zone));
+	if (end_time)
+		*end_time = time_day_end (*start_time);
 
 	return TRUE;
 }
@@ -787,8 +789,10 @@ year_view_get_visible_time_range (ECalendarView *cal_view,
 	g_date_clear (&date, 1);
 	g_date_set_dmy (&date, self->priv->current_day, self->priv->current_month, self->priv->current_year);
 
-	*start_time = time_year_begin_with_zone (cal_comp_gdate_to_timet (&date, zone), zone);
-	*end_time = year_view_add_days_in_year (*start_time, self->priv->current_year);
+	if (start_time)
+		*start_time = time_year_begin_with_zone (cal_comp_gdate_to_timet (&date, zone), zone);
+	if (end_time)
+		*end_time = year_view_add_days_in_year (*start_time, self->priv->current_year);
 
 	return TRUE;
 }
