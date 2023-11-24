@@ -96,6 +96,13 @@ void		em_utils_reply_alternative	(GtkWindow *parent,
 						 EMailPartValidityFlags validity_pgp_sum,
 						 EMailPartValidityFlags validity_smime_sum,
 						 gboolean skip_insecure_parts);
+void		em_utils_get_reply_recipients	(ESourceRegistry *registry,
+						 CamelMimeMessage *message,
+						 EMailReplyType reply_type,
+						 CamelInternetAddress *address,
+						 CamelInternetAddress *inout_to,
+						 CamelInternetAddress *inout_cc,
+						 CamelNNTPAddress *inout_postto);
 EDestination **	em_utils_camel_address_to_destination
 						(CamelInternetAddress *iaddr);
 void		em_configure_new_composer	(EMsgComposer *composer,

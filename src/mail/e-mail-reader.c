@@ -1973,6 +1973,122 @@ message_is_list_administrative (CamelMimeMessage *message)
 	return g_ascii_strncasecmp (header, "yes", 3) == 0;
 }
 
+static gboolean
+mail_reader_check_recipients_differ_inet (CamelInternetAddress *addr1,
+					  CamelInternetAddress *addr2)
+{
+	gint ii, len;
+
+	if (!addr1 || !addr2)
+		return FALSE;
+
+	len = camel_address_length (CAMEL_ADDRESS (addr1));
+
+	if (len != camel_address_length (CAMEL_ADDRESS (addr2)))
+		return TRUE;
+
+	for (ii = 0; ii < len; ii++) {
+		const gchar *email1 = NULL, *email2 = NULL;
+
+		if (camel_internet_address_get (addr1, ii, NULL, &email1) &&
+		    camel_internet_address_get (addr2, ii, NULL, &email2) &&
+		    email1 && email2 && g_ascii_strcasecmp (email1, email2) != 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
+mail_reader_check_recipients_differ_nntp (CamelNNTPAddress *addr1,
+					  CamelNNTPAddress *addr2)
+{
+	gint ii, len;
+
+	if (!addr1 || !addr2)
+		return FALSE;
+
+	len = camel_address_length (CAMEL_ADDRESS (addr1));
+
+	if (len != camel_address_length (CAMEL_ADDRESS (addr2)))
+		return TRUE;
+
+	for (ii = 0; ii < len; ii++) {
+		const gchar *name1 = NULL, *name2 = NULL;
+
+		if (camel_nntp_address_get (addr1, ii, &name1) &&
+		    camel_nntp_address_get (addr2, ii, &name2) &&
+		    name1 && name2 && g_ascii_strcasecmp (name1, name2) != 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
+mail_reader_get_recipients_differ (ESourceRegistry *registry,
+				   CamelMimeMessage *message,
+				   gboolean with_postto,
+				   EMailReplyType reply_type1,
+				   EMailReplyType reply_type2,
+				   EMailReplyType reply_type3)
+{
+	CamelInternetAddress *to1, *to2;
+	CamelInternetAddress *cc1, *cc2;
+	CamelNNTPAddress *postto1 = NULL, *postto2 = NULL;
+	gboolean differ;
+
+	to1 = camel_internet_address_new ();
+	cc1 = camel_internet_address_new ();
+	to2 = camel_internet_address_new ();
+	cc2 = camel_internet_address_new ();
+
+	if (with_postto) {
+		postto1 = camel_nntp_address_new ();
+		postto2 = camel_nntp_address_new ();
+	}
+
+	em_utils_get_reply_recipients (registry, message, reply_type1, NULL, to1, cc1, postto1);
+	em_utils_get_reply_recipients (registry, message, reply_type2, NULL, to2, cc2, postto2);
+
+	differ = mail_reader_check_recipients_differ_inet (to1, to2) ||
+		 mail_reader_check_recipients_differ_inet (cc1, cc2) ||
+		 mail_reader_check_recipients_differ_nntp (postto1, postto2);
+
+	if (!differ) {
+		CamelAddress *addr;
+
+		addr = CAMEL_ADDRESS (to2);
+		while (camel_address_length (addr))
+			camel_address_remove (addr, 0);
+
+		addr = CAMEL_ADDRESS (cc2);
+		while (camel_address_length (addr))
+			camel_address_remove (addr, 0);
+
+		if (postto2) {
+			addr = CAMEL_ADDRESS (postto2);
+			while (camel_address_length (addr))
+				camel_address_remove (addr, 0);
+		}
+
+		em_utils_get_reply_recipients (registry, message, reply_type3, NULL, to2, cc2, postto2);
+
+		differ = mail_reader_check_recipients_differ_inet (to1, to2) ||
+			 mail_reader_check_recipients_differ_inet (cc1, cc2) ||
+			 mail_reader_check_recipients_differ_nntp (postto1, postto2);
+	}
+
+	g_clear_object (&to1);
+	g_clear_object (&to2);
+	g_clear_object (&cc1);
+	g_clear_object (&cc2);
+	g_clear_object (&postto1);
+	g_clear_object (&postto2);
+
+	return differ;
+}
+
 static void
 action_mail_reply_sender_check (CamelFolder *folder,
                                 GAsyncResult *result,
@@ -1981,6 +2097,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
 	EMailReplyType type = E_MAIL_REPLY_TO_SENDER;
+	ESourceRegistry *registry;
 	GSettings *settings;
 	gboolean ask_ignore_list_reply_to;
 	gboolean ask_list_reply_to;
@@ -2022,6 +2139,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 	ask_list_reply_to = g_settings_get_boolean (settings, key);
 
 	munged_list_message = em_utils_is_munged_list_message (message);
+	registry = e_shell_get_registry (e_shell_backend_get_shell (E_SHELL_BACKEND (e_mail_reader_get_backend (closure->reader))));
 
 	if (message_is_list_administrative (message)) {
 		/* Do not ask for messages which are list administrative,
@@ -2030,46 +2148,50 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		/* Don't do the "Are you sure you want to reply in private?"
 		 * pop-up if it's a Reply-To: munged list message... unless
 		 * we're ignoring munging. */
-		GtkWidget *dialog;
-		GtkWidget *check;
-		GtkWidget *container;
-		gint response;
+		if (mail_reader_get_recipients_differ (registry, message, closure->folder != NULL,
+		    E_MAIL_REPLY_TO_SENDER, E_MAIL_REPLY_TO_LIST, E_MAIL_REPLY_TO_ALL)) {
+			GtkWidget *dialog;
+			GtkWidget *check;
+			GtkWidget *container;
+			gint response;
 
-		dialog = e_alert_dialog_new_for_args (
-			e_mail_reader_get_window (closure->reader),
-			"mail:ask-list-private-reply", NULL);
+			dialog = e_alert_dialog_new_for_args (
+				e_mail_reader_get_window (closure->reader),
+				"mail:ask-list-private-reply", NULL);
 
-		container = e_alert_dialog_get_content_area (
-			E_ALERT_DIALOG (dialog));
+			container = e_alert_dialog_get_content_area (
+				E_ALERT_DIALOG (dialog));
 
-		/* Check buttons */
-		check = gtk_check_button_new_with_mnemonic (
-			_("_Do not ask me again."));
-		gtk_box_pack_start (
-			GTK_BOX (container), check, FALSE, FALSE, 0);
-		gtk_widget_show (check);
+			/* Check buttons */
+			check = gtk_check_button_new_with_mnemonic (
+				_("_Do not ask me again."));
+			gtk_box_pack_start (
+				GTK_BOX (container), check, FALSE, FALSE, 0);
+			gtk_widget_show (check);
 
-		response = gtk_dialog_run (GTK_DIALOG (dialog));
+			response = gtk_dialog_run (GTK_DIALOG (dialog));
 
-		active = gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (check));
-		if (active) {
-			key = "prompt-on-private-list-reply";
-			g_settings_set_boolean (settings, key, FALSE);
+			active = gtk_toggle_button_get_active (
+				GTK_TOGGLE_BUTTON (check));
+			if (active) {
+				key = "prompt-on-private-list-reply";
+				g_settings_set_boolean (settings, key, FALSE);
+			}
+
+			gtk_widget_destroy (dialog);
+
+			if (response == GTK_RESPONSE_YES)
+				type = E_MAIL_REPLY_TO_ALL;
+			else if (response == GTK_RESPONSE_OK)
+				type = E_MAIL_REPLY_TO_LIST;
+			else if (response == GTK_RESPONSE_CANCEL ||
+				response == GTK_RESPONSE_DELETE_EVENT) {
+				goto exit;
+			}
 		}
 
-		gtk_widget_destroy (dialog);
-
-		if (response == GTK_RESPONSE_YES)
-			type = E_MAIL_REPLY_TO_ALL;
-		else if (response == GTK_RESPONSE_OK)
-			type = E_MAIL_REPLY_TO_LIST;
-		else if (response == GTK_RESPONSE_CANCEL ||
-			response == GTK_RESPONSE_DELETE_EVENT) {
-			goto exit;
-		}
-
-	} else if (ask_list_reply_to) {
+	} else if (ask_list_reply_to && mail_reader_get_recipients_differ (registry, message, closure->folder != NULL,
+		   E_MAIL_REPLY_TO_SENDER, E_MAIL_REPLY_TO_FROM, E_MAIL_REPLY_TO_LIST)) {
 		GtkWidget *dialog;
 		GtkWidget *container;
 		GtkWidget *check_again;

@@ -4025,7 +4025,6 @@ alt_reply_composer_created_cb (GObject *source_object,
 		if (context->new_message) {
 			CamelInternetAddress *to = NULL, *cc = NULL;
 			CamelNNTPAddress *postto = NULL;
-			gboolean need_reply_all = FALSE;
 
 			if (context->template_preserve_subject) {
 				gchar *subject;
@@ -4037,34 +4036,16 @@ alt_reply_composer_created_cb (GObject *source_object,
 
 			em_utils_edit_message (composer, context->folder, context->new_message, context->message_uid, TRUE, FALSE);
 
-			if (context->type == E_MAIL_REPLY_TO_SENDER) {
-				/* Reply to sender */
-				to = camel_internet_address_new ();
-				if (context->folder)
-					postto = camel_nntp_address_new ();
-				get_reply_sender (context->source_message, to, postto);
-			} else if (context->type == E_MAIL_REPLY_TO_LIST) {
-				/* Reply to list */
-				to = camel_internet_address_new ();
+			to = camel_internet_address_new ();
+			cc = camel_internet_address_new ();
 
-				if (!get_reply_list (context->source_message, to)) {
-					need_reply_all = TRUE;
-					g_clear_object (&to);
-				}
-			} else if (context->type != E_MAIL_REPLY_TO_ALL) {
-				g_warn_if_reached ();
-			}
+			if (context->folder)
+				postto = camel_nntp_address_new ();
 
-			if (context->type == E_MAIL_REPLY_TO_ALL || need_reply_all) {
-				/* Reply to all */
-				to = camel_internet_address_new ();
-				cc = camel_internet_address_new ();
+			em_utils_get_reply_recipients (e_shell_get_registry (context->shell), context->source_message, context->type, NULL, to, cc, postto);
 
-				if (context->folder)
-					postto = camel_nntp_address_new ();
-
-				em_utils_get_reply_all (e_shell_get_registry (context->shell), context->source_message, to, cc, postto);
-			}
+			if (postto && !camel_address_length (CAMEL_ADDRESS (postto)))
+				g_clear_object (&postto);
 
 			reply_setup_composer_recipients (composer, to, cc, context->folder, context->message_uid, postto);
 			e_msg_composer_check_autocrypt (composer, context->source_message);
@@ -4773,6 +4754,43 @@ em_utils_update_by_reply_flags (EContentEditor *cnt_editor,
 	}
 }
 
+void
+em_utils_get_reply_recipients (ESourceRegistry *registry,
+			       CamelMimeMessage *message,
+			       EMailReplyType reply_type,
+			       CamelInternetAddress *address,
+			       CamelInternetAddress *inout_to,
+			       CamelInternetAddress *inout_cc,
+			       CamelNNTPAddress *inout_postto)
+{
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+	g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (inout_to));
+	g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (inout_cc));
+
+	switch (reply_type) {
+	case E_MAIL_REPLY_TO_FROM:
+		get_reply_from (message, inout_to, inout_postto);
+		break;
+	case E_MAIL_REPLY_TO_RECIPIENT:
+		get_reply_recipient (message, inout_to, inout_postto, address);
+		break;
+	case E_MAIL_REPLY_TO_SENDER:
+		get_reply_sender (message, inout_to, inout_postto);
+		break;
+	case E_MAIL_REPLY_TO_LIST:
+		if (get_reply_list (message, inout_to))
+			break;
+		/* falls through */
+	case E_MAIL_REPLY_TO_ALL:
+		em_utils_get_reply_all (registry, message, inout_to, inout_cc, inout_postto);
+		break;
+	default:
+		g_warn_if_reached ();
+		break;
+	}
+}
+
 /**
  * em_utils_reply_to_message:
  * @composer: an #EMsgComposer
@@ -4882,38 +4900,16 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	    folder && !emcu_folder_is_inbox (folder) && em_utils_folder_is_sent (registry, folder))
 		type = E_MAIL_REPLY_TO_ALL;
 
-	switch (type) {
-	case E_MAIL_REPLY_TO_FROM:
-		if (folder)
-			postto = camel_nntp_address_new ();
+	if (folder)
+		postto = camel_nntp_address_new ();
 
-		get_reply_from (message, to, postto);
-		break;
-	case E_MAIL_REPLY_TO_RECIPIENT:
-		if (folder)
-			postto = camel_nntp_address_new ();
+	em_utils_get_reply_recipients (registry, message, type, address, to, cc, postto);
 
-		get_reply_recipient (message, to, postto, address);
-		break;
-	case E_MAIL_REPLY_TO_SENDER:
-		if (folder)
-			postto = camel_nntp_address_new ();
+	if (postto && !camel_address_length (CAMEL_ADDRESS (postto)))
+		g_clear_object (&postto);
 
-		get_reply_sender (message, to, postto);
-		break;
-	case E_MAIL_REPLY_TO_LIST:
+	if (type == E_MAIL_REPLY_TO_LIST || type == E_MAIL_REPLY_TO_ALL)
 		flags |= CAMEL_MESSAGE_ANSWERED_ALL;
-		if (get_reply_list (message, to))
-			break;
-		/* falls through */
-	case E_MAIL_REPLY_TO_ALL:
-		flags |= CAMEL_MESSAGE_ANSWERED_ALL;
-		if (folder)
-			postto = camel_nntp_address_new ();
-
-		em_utils_get_reply_all (registry, message, to, cc, postto);
-		break;
-	}
 
 	reply_setup_composer (composer, message, identity_uid, identity_name, identity_address, to, cc, folder, message_uid, postto);
 
