@@ -1000,6 +1000,36 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "defall_reminder");
+	g_settings_bind (
+		eds_settings, "defall-reminder-enabled",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
+	widget = e_builder_get_widget (prefs->priv->builder, "defall_reminder_interval");
+	g_settings_bind (
+		eds_settings, "defall-reminder-interval",
+		widget, "value",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		eds_settings, "defall-reminder-enabled",
+		widget, "sensitive",
+		G_SETTINGS_BIND_GET);
+
+	widget = e_builder_get_widget (prefs->priv->builder, "defall_reminder_units");
+	g_settings_bind_with_mapping (
+		eds_settings, "defall-reminder-units",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT,
+		calendar_preferences_map_string_to_integer,
+		calendar_preferences_map_integer_to_string,
+		g_type_class_ref (E_TYPE_DURATION_TYPE),
+		(GDestroyNotify) g_type_class_unref);
+	g_settings_bind (
+		eds_settings, "defall-reminder-enabled",
+		widget, "sensitive",
+		G_SETTINGS_BIND_GET);
+
 	g_object_unref (eds_settings);
 
 	/* Display tab */

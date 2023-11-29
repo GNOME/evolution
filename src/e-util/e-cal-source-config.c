@@ -303,6 +303,24 @@ cal_source_config_init_candidate (ESourceConfig *config,
 		e_binding_transform_string_to_color,
 		e_binding_transform_color_to_string,
 		NULL, (GDestroyNotify) NULL);
+
+	if (priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS &&
+	    g_strcmp0 (e_source_backend_get_backend_name (E_SOURCE_BACKEND (extension)), "contacts") != 0 &&
+	    g_strcmp0 (e_source_backend_get_backend_name (E_SOURCE_BACKEND (extension)), "weather") != 0) {
+		ESourceAlarms *alarms_extension;
+		GtkWidget *widget;
+
+		widget = gtk_check_button_new_with_mnemonic (_("Show reminder _before every event"));
+		e_source_config_insert_widget (config, scratch_source, NULL, widget);
+		gtk_widget_show (widget);
+
+		alarms_extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_ALARMS);
+		e_binding_bind_property (
+			alarms_extension, "for-every-event",
+			widget, "active",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+	}
 }
 
 static void

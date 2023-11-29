@@ -32,6 +32,11 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="defall_reminder_adjustment">
+    <property name="upper">9999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkListStore" id="model2">
     <columns>
       <!-- column-name gchararray -->
@@ -1833,6 +1838,76 @@
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHBox" id="defall_reminder_hbox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="spacing">4</property>
+                    <child>
+                      <object class="GtkCheckButton" id="defall_reminder">
+                        <property name="label" translatable="yes" comments="This is the first half of a user preference. &quot;Show a reminder [time-period] before every event in chosen calendars&quot;">Show a r_eminder</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="defall_reminder_interval">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="adjustment">defall_reminder_adjustment</property>
+                        <property name="climb_rate">1</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="defall_reminder_units">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="model">model3</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="defall_reminder_renderer"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="defall_reminder_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes" comments="This is the last half of a user preference. &quot;Show a reminder [time-period] before every event in chosen calendars&quot;">before every event in chosen calendars</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">9</property>
                   </packing>
                 </child>
               </object>
