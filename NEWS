@@ -1,3 +1,23 @@
+Evolution 3.50.2 2023-12-01
+---------------------------
+
+Bug Fixes:
+	I#2550 - EAttachment: Ask for GFileInfo's icon only when attribute is set
+	I#2551 - Mail: Subject header not decoded with encrypted messages
+	I#2552 - On empty mailbox new mail is automaticly selected and marked read
+	I#2557 - Contacts: Update preview on contact change in List View
+	I#2569 - Mail: Search with "current folder and subfolders" in local Trash fails
+	I#2570 - "Do not sign meeting requests" has no effect
+
+Miscellaneous:
+	EContactCard: Card sometimes hides values
+	docs: Add API indexes for new symbols in 3.50
+	Fix a memory leak in ECompEditor
+	ECompoEditor: Some attachments can be hidden
+	Calendar: Go to day/today in Year View doesn't update internal view dates
+	data: Update appdata (Sabri Ünal)
+	EYearView: Fix a crash when moving through search results
+
 Evolution 3.50.1 2023-10-20
 ---------------------------
 
