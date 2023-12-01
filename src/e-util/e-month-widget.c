@@ -148,8 +148,7 @@ get_digit_format (void)
 	g_strfreev (split);
 
 	if (major > 2 || minor > 2 || (minor == 2 && revision > 2)) {
-		digit_fomat = "%Id";
-		return digit_fomat;
+		return "%Id";
 	}
 #endif
 

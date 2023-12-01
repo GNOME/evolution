@@ -624,7 +624,7 @@ endif(ENABLE_GSPELL)
 # ******************************
 
 CHECK_C_SOURCE_COMPILES("#include <gnu/libc-version.h>
-			int main(void) { const gchar *libc_version = gnu_get_libc_version (); return 0; }" HAVE_GNU_GET_LIBC_VERSION)
+			int main(void) { const char *libc_version = gnu_get_libc_version (); return 0; }" HAVE_GNU_GET_LIBC_VERSION)
 
 # ******************************
 # Plugins
