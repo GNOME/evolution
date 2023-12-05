@@ -205,6 +205,9 @@ get_day_view_time_divisions (void)
 /* Allowance for small errors in floating point comparisons. */
 #define EPSILON			0.01
 
+/* border of the top title, the other-month's days and such */
+#define DARKER_BORDER 0.94
+
 /* The weird month of September 1752, where 3 Sep through 13 Sep were
  * eliminated due to the Gregorian reformation. */
 static const gint sept_1752[42] = {
@@ -494,15 +497,21 @@ shrink_text_to_line (PangoLayout *layout,
                      gdouble y1,
                      gdouble y2)
 {
-	gint new_length;
+	gint new_length, len;
 
 	if (layout_width == 0 || x2 - x1 < EPSILON)
 		return layout; /* Do nothing */
 
+	len = strlen (text);
 	new_length = (gint) floor (pango_units_from_double (x2 - x1) /
-			(gdouble) layout_width * (gdouble) strlen (text));
+			(gdouble) layout_width * (gdouble) len);
 
-	if (new_length < strlen (text)) {
+	/* in case the cut would be in the middle of a UTF-8 character */
+	while (new_length < len && !g_utf8_validate (text, new_length, NULL)) {
+		new_length++;
+	}
+
+	if (new_length < len) {
 		g_object_unref (layout); /* Destroy old layout */
 		layout = gtk_print_context_create_pango_layout (context);
 
@@ -662,7 +671,7 @@ titled_box (GtkPrintContext *context,
 	gdouble size;
 
 	size = evo_calendar_print_renderer_get_height (context, font, text);
-	print_border (context, *x1, *x2, *y1, *y1 + size + 2, linewidth, 0.9);
+	print_border (context, *x1, *x2, *y1, *y1 + size + 2, linewidth, DARKER_BORDER);
 	print_border (context, *x1, *x2, *y1 + size + 2, *y2, linewidth, -1.0);
 	*x1 += 2;
 	*x2 -= 2;
@@ -835,7 +844,7 @@ print_month_small (GtkPrintContext *context,
 
 	font = get_font_for_size (header_size, PANGO_WEIGHT_BOLD);
 	if (bordertitle)
-		print_border (context, x1, x2, y1, y1 + header_size, 1.0, 0.9);
+		print_border (context, x1, x2, y1, y1 + header_size, 1.0, DARKER_BORDER);
 	print_text (
 		context, font, buf, PANGO_ALIGN_CENTER, x1, x2,
 		y1, y1 + header_size);
@@ -1067,7 +1076,7 @@ print_day_background (GtkPrintContext *context,
 	use_24_hour = e_cal_model_get_use_24_hour_format (model);
 
 	/* Fill the time column in light-gray. */
-	print_border (context, left, left + width, top, bottom, -1.0, 0.9);
+	print_border (context, left, left + width, top, bottom, -1.0, DARKER_BORDER);
 
 	/* Draw the border around the entire view. */
 	cr = gtk_print_context_get_cairo_context (context);
@@ -2113,12 +2122,12 @@ print_week_view_background (GtkPrintContext *context,
 		 * of the previous month and the start of the following. */
 		fillcolor = -1.0;
 		if (psi->multi_week_view && (tm.tm_mon != psi->month))
-			fillcolor = 0.9;
+			fillcolor = DARKER_BORDER;
 
 		print_border (context, x1, x2, y1, y2, 1.0, fillcolor);
 
 		if (psi->multi_week_view) {
-			if (tm.tm_mday == 1)
+			if (!day || tm.tm_mday == 1)
 				format_string = _("%d %B");
 			else
 				format_string = "%d";
@@ -2350,6 +2359,16 @@ print_month_summary (GtkPrintContext *context,
 	weekday = e_cal_model_get_week_start_day (model);
 	compress_weekend = e_cal_model_get_compress_weekend (model);
 
+	/* Remember which month we want. */
+	date = time_day_begin_with_zone (whence, zone);
+	if (date != time_month_begin_with_zone (date, zone)) {
+		date = time_month_begin_with_zone (date, zone);
+		date = time_add_month_with_zone (date, 1, zone);
+	}
+	tt = i_cal_time_new_from_timet_with_zone (date, FALSE, zone);
+	month = i_cal_time_get_month (tt) - 1;
+	g_clear_object (&tt);
+
 	date = 0;
 	weeks = 6;
 	if (print_view_type == E_PRINT_VIEW_MONTH) {
@@ -2368,11 +2387,6 @@ print_month_summary (GtkPrintContext *context,
 			date = whence;
 		}
 	}
-
-	/* Remember which month we want. */
-	tt = i_cal_time_new_from_timet_with_zone (whence, FALSE, zone);
-	month = i_cal_time_get_month (tt) - 1;
-	g_clear_object (&tt);
 
 	/* Find the start of the month, and then the start of the week on
 	 * or before that day. */
@@ -2400,8 +2414,8 @@ print_month_summary (GtkPrintContext *context,
 
 	columns = compress_weekend ? 6 : 7;
 	cell_width = (right - left) / columns;
-	y1 = top;
-	y2 = top + font_size * 1.5;
+	y1 = top + font_size * 1.5;
+	y2 = y1 + font_size * 1.5;
 
 	for (col = 0; col < columns; col++) {
 		if (tm.tm_wday == 6 && compress_weekend)
@@ -2579,7 +2593,7 @@ print_day_view (GtkPrintContext *context,
 		/* Print the filled border around the header. */
 		print_border (
 			context, 0.0, width,
-			0.0, HEADER_HEIGHT + 4, 1.0, 0.9);
+			0.0, HEADER_HEIGHT + 4, 1.0, DARKER_BORDER);
 
 		/* Print the 2 mini calendar-months. */
 		l = width - SMALL_MONTH_PAD -
@@ -2647,9 +2661,9 @@ print_work_week_background (GtkPrintContext *context,
 	use_24_hour = e_cal_model_get_use_24_hour_format (model);
 
 	/* Fill the left time column in light-gray. */
-	print_border (context, left, left + width, top, bottom, -1.0, 0.9);
+	print_border (context, left, left + width, top, bottom, -1.0, DARKER_BORDER);
 	/* Fill the right time column in light-gray */
-	print_border (context, right - width, right, top, bottom, -1.0, 0.9);
+	print_border (context, right - width, right, top, bottom, -1.0, DARKER_BORDER);
 
 	/* Draw the border around the entire view. */
 	cr = gtk_print_context_get_cairo_context (context);
@@ -3071,7 +3085,7 @@ print_work_week_view (GtkPrintContext *context,
 		HEADER_HEIGHT + DAY_VIEW_ROW_HEIGHT + LONG_EVENT_OFFSET,
 		height);
 
-	print_border (context, 0.0, width, 0.0, HEADER_HEIGHT, 1.0, 0.9);
+	print_border (context, 0.0, width, 0.0, HEADER_HEIGHT, 1.0, DARKER_BORDER);
 
 	/* Print the 2 mini calendar-months. */
 	l = width - SMALL_MONTH_PAD - (small_month_width + weeknum_inc) * 2 -
@@ -3191,7 +3205,7 @@ print_week_view (GtkPrintContext *context,
 	/* Print the border around the header area. */
 	print_border (
 		context, 0.0, width,
-		0.0, HEADER_HEIGHT + 2.0 + 20, 1.0, 0.9);
+		0.0, HEADER_HEIGHT + 2.0 + 20, 1.0, DARKER_BORDER);
 
 	/* Print the 2 mini calendar-months. */
 	l = width - SMALL_MONTH_PAD - (small_month_width + week_numbers_inc) * 2
@@ -3253,8 +3267,15 @@ print_month_view (GtkPrintContext *context,
 	/* Print the main month view. */
 	print_month_summary (context, model, cal_view, print_view_type, date, 0.0, width, HEADER_HEIGHT, height);
 
+	/* round the date to match the expected month */
+	date = time_day_begin_with_zone (date, zone);
+	if (date != time_month_begin_with_zone (date, zone)) {
+		date = time_month_begin_with_zone (date, zone);
+		date = time_add_month_with_zone (date, 1, zone);
+	}
+
 	/* Print the border around the header. */
-	print_border (context, 0.0, width, 0.0, HEADER_HEIGHT + 10, 1.0, 0.9);
+	print_border (context, 0.0, width, 0.0, HEADER_HEIGHT + 10, 1.0, DARKER_BORDER);
 
 	l = width - SMALL_MONTH_PAD - small_month_width - week_numbers_inc;
 
@@ -3601,7 +3622,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 	if (page_nr == 0) {
 		print_border (
 			context, 0.0, width, 0.0, header_size,
-			1.0, 0.9);
+			1.0, DARKER_BORDER);
 		print_text (
 			context, font, title, PANGO_ALIGN_CENTER, 0.0, width,
 			0.1, header_size - 0.1);
