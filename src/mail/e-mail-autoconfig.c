@@ -465,22 +465,30 @@ mail_autoconfig_resolve_name_server (const gchar *domain,
                                      GError **error)
 {
 	GResolver *resolver;
-	GList *records;
+	GList *records, *link;
 	gchar *name_server = NULL;
+	guint16 best_pref = G_MAXUINT16;
 
 	resolver = g_resolver_get_default ();
+	records = g_resolver_lookup_records (resolver, domain, G_RESOLVER_RECORD_MX, cancellable, error);
 
-	records = g_resolver_lookup_records (
-		resolver, domain, G_RESOLVER_RECORD_NS, cancellable, error);
+	for (link = records; link; link = g_list_next (link)) {
+		GVariant *var = link->data;
+		gchar *val = NULL;
+		guint16 pref = G_MAXUINT16;
 
-	/* This list is sorted per RFC 2782, so use the first item. */
-	if (records != NULL) {
-		GVariant *variant = records->data;
-		g_variant_get_child (variant, 0, "s", &name_server);
+		g_variant_get (var, "(qs)", &pref, &val);
+
+		if (!name_server || best_pref > pref) {
+			g_clear_pointer (&name_server, g_free);
+			name_server = val;
+			best_pref = pref;
+		} else {
+			g_free (val);
+		}
 	}
 
 	g_list_free_full (records, (GDestroyNotify) g_variant_unref);
-
 	g_object_unref (resolver);
 
 	return name_server;
