@@ -1850,11 +1850,7 @@ shell_constructed (GObject *object)
 static void
 shell_startup (GApplication *application)
 {
-	EShell *shell;
-
 	g_return_if_fail (E_IS_SHELL (application));
-
-	shell = E_SHELL (application);
 
 	e_file_lock_create ();
 
@@ -1866,8 +1862,6 @@ shell_startup (GApplication *application)
 
 	/* Chain up to parent's startup() method. */
 	G_APPLICATION_CLASS (e_shell_parent_class)->startup (application);
-
-	e_shell_event (shell, "ready-to-start", NULL);
 }
 
 static void
@@ -1898,6 +1892,8 @@ shell_activate (GApplication *application)
 
 		categories_icon_theme_hack ();
 		e_setup_theme_icons ();
+
+		e_shell_event (shell, "ready-to-start", NULL);
 	}
 
 	if (!shell->priv->started)
