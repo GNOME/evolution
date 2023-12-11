@@ -2297,7 +2297,7 @@ EvoEditor.convertTags = function()
 	}
 
 	list = document.getElementsByTagName("A");
-	if (list.length > 0 && EvoEditor.LINK_TO_TEXT != EvoConvert.E_HTML_LINK_TO_TEXT_NONE) {
+	if (list.length > 0 && EvoEditor.LINK_TO_TEXT != EvoConvert.E_HTML_LINK_TO_TEXT_NONE && EvoEditor.mode == EvoEditor.MODE_HTML) {
 		var append_refs = [];
 		for (ii = 0; ii < list.length; ii++) {
 			var node = list[ii];
@@ -3071,7 +3071,8 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix, default_css_style)
 			content_data["to-send-html"] = EvoEditor.convertHtmlToSend(default_css_style);
 
 		if ((flags & EvoEditor.	E_CONTENT_EDITOR_GET_TO_SEND_PLAIN) != 0) {
-			content_data["to-send-plain"] = EvoConvert.ToPlainText(document.body, EvoEditor.NORMAL_PARAGRAPH_WIDTH, EvoEditor.LINK_TO_TEXT);
+			content_data["to-send-plain"] = EvoConvert.ToPlainText(document.body, EvoEditor.NORMAL_PARAGRAPH_WIDTH,
+				EvoEditor.mode == EvoEditor.MODE_HTML ? EvoEditor.LINK_TO_TEXT : EvoConvert.E_HTML_LINK_TO_TEXT_NONE);
 		}
 	} finally {
 		try {
