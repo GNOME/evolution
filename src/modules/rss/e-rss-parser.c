@@ -295,7 +295,7 @@ e_rss_read_item (xmlNodePtr item,
 		g_clear_pointer (&value, xmlFree);
 	}
 
-	if (feed->link && feed->title) {
+	if (feed->title) {
 		if (!feed->author) {
 			if (defaults->author_name || defaults->author_email) {
 				feed->author = e_rss_parser_encode_address (defaults->author_name, defaults->author_email);
@@ -402,6 +402,21 @@ e_rss_read_defaults_rss (xmlNodePtr root,
 			gboolean has_pubdate = FALSE, has_link = FALSE, has_title = FALSE, has_image = FALSE;
 
 			for (node = channel_node->children; node && (!has_pubdate || !has_link || !has_title || !has_image); node = node->next) {
+				/* coming from "itunes:name" http://www.itunes.com/dtds/podcast-1.0.dtd */
+				if (g_strcmp0 ((const gchar *) node->name, "owner") == 0) {
+					xmlNodePtr owner_node;
+
+					for (owner_node = node->children; owner_node; owner_node = owner_node->next) {
+						if (g_strcmp0 ((const gchar *) owner_node->name, "name") == 0) {
+							g_clear_pointer (&defaults->author_name, xmlFree);
+							defaults->author_name = xmlNodeGetContent (owner_node);
+						} else if (g_strcmp0 ((const gchar *) owner_node->name, "email") == 0) {
+							g_clear_pointer (&defaults->author_email, xmlFree);
+							defaults->author_email = xmlNodeGetContent (owner_node);
+						}
+					}
+				}
+
 				if (!has_pubdate && g_strcmp0 ((const gchar *) node->name, "pubDate") == 0) {
 					xmlChar *value = xmlNodeGetContent (node);
 
@@ -450,6 +465,10 @@ e_rss_read_defaults_rss (xmlNodePtr root,
 						}
 					}
 
+					/* try href attribute from itunes:image http://www.itunes.com/dtds/podcast-1.0.dtd */
+					if (!defaults->icon)
+						defaults->icon = xmlGetProp (node, (const xmlChar *) "href");
+
 					has_image = TRUE;
 				}
 			}
@@ -494,6 +513,8 @@ e_rss_read_defaults_feed (xmlNodePtr root,
 
 	for (node = root->children; node && (!has_author || !has_published || !has_link || !has_alt_link || !has_title || !has_icon); node = node->next) {
 		if (!has_author && g_strcmp0 ((const gchar *) node->name, "author") == 0) {
+			g_clear_pointer (&defaults->author_name, xmlFree);
+			g_clear_pointer (&defaults->author_email, xmlFree);
 			e_rss_read_feed_person (node, &defaults->author_name, &defaults->author_email);
 			has_author = TRUE;
 		}

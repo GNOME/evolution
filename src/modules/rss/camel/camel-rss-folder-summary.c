@@ -180,10 +180,9 @@ camel_rss_folder_summary_add_or_update_feed_sync (CamelRssFolderSummary *self,
 	g_return_val_if_fail (CAMEL_IS_RSS_FOLDER_SUMMARY (self), FALSE);
 	g_return_val_if_fail (href != NULL, FALSE);
 	g_return_val_if_fail (feed != NULL, FALSE);
-	g_return_val_if_fail (feed->link != NULL, FALSE);
 	g_return_val_if_fail (inout_changes != NULL, FALSE);
 
-	uid = g_compute_checksum_for_string (G_CHECKSUM_SHA1, feed->id ? feed->id : feed->link, -1);
+	uid = g_compute_checksum_for_string (G_CHECKSUM_SHA1, feed->id ? feed->id : (feed->link ? feed->link : feed->title), -1);
 	g_return_val_if_fail (uid != NULL, FALSE);
 
 	message = camel_rss_folder_summary_dup_message (self, uid, &rss_cache, &content_type, cancellable, NULL);
@@ -235,7 +234,10 @@ camel_rss_folder_summary_add_or_update_feed_sync (CamelRssFolderSummary *self,
 		if (content_type == CAMEL_RSS_CONTENT_TYPE_PLAIN_TEXT) {
 			ct = "text/plain; charset=utf-8";
 
-			g_string_append (body, feed->link);
+			if (feed->link)
+				g_string_append (body, feed->link);
+			else
+				g_string_append (body, feed->title);
 			g_string_append_c (body, '\n');
 			g_string_append_c (body, '\n');
 		} else if (content_type == CAMEL_RSS_CONTENT_TYPE_MARKDOWN) {
@@ -247,7 +249,10 @@ camel_rss_folder_summary_add_or_update_feed_sync (CamelRssFolderSummary *self,
 		if (content_type != CAMEL_RSS_CONTENT_TYPE_PLAIN_TEXT) {
 			gchar *tmp;
 
-			tmp = g_markup_printf_escaped ("<h4><a href=\"%s\">%s</a></h4><div><br></div>", feed->link, feed->title);
+			if (feed->link)
+				tmp = g_markup_printf_escaped ("<h4><a href=\"%s\">%s</a></h4><div><br></div>", feed->link, feed->title);
+			else
+				tmp = g_markup_printf_escaped ("<h4>%s</h4><div><br></div>", feed->title);
 			g_string_append (body, tmp);
 			g_free (tmp);
 		}
