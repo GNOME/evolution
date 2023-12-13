@@ -372,7 +372,7 @@ rss_folder_refresh_info_sync (CamelFolder *folder,
 						if (max_last_modified < feed->last_modified)
 							max_last_modified = feed->last_modified;
 
-						if (download_complete_article) {
+						if (download_complete_article && feed->link) {
 							g_clear_object (&message);
 							g_clear_pointer (&bytes, g_bytes_unref);
 
