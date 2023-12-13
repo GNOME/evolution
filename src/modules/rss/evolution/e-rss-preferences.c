@@ -371,6 +371,34 @@ e_rss_preferences_entry_changed_cb (GtkEntry *entry,
 }
 
 static void
+e_rss_preferences_maybe_scale_image (GtkImage *image)
+{
+	if (gtk_image_get_storage_type (image) == GTK_IMAGE_PIXBUF) {
+		GdkPixbuf *pixbuf;
+
+		pixbuf = gtk_image_get_pixbuf (image);
+		if (pixbuf && (gdk_pixbuf_get_width (pixbuf) > 48 || gdk_pixbuf_get_height (pixbuf) > 48)) {
+			gint width, height;
+
+			width = gdk_pixbuf_get_width (pixbuf);
+			height = gdk_pixbuf_get_height (pixbuf);
+
+			if (width > height) {
+				height = height * 48 / width;
+				width = 48;
+			} else {
+				width = width * 48 / height;
+				height = 48;
+			}
+
+			pixbuf = e_icon_factory_pixbuf_scale (pixbuf, width, height);
+			gtk_image_set_from_pixbuf (image, pixbuf);
+			g_object_unref (pixbuf);
+		}
+	}
+}
+
+static void
 e_rss_preferences_feed_icon_ready_cb (GObject *source_object,
 				      GAsyncResult *result,
 				      gpointer user_data)
@@ -397,6 +425,7 @@ e_rss_preferences_feed_icon_ready_cb (GObject *source_object,
 				gtk_image_set_from_file (pd->icon_image, tmp_file);
 				g_clear_pointer (&pd->icon_filename, g_free);
 				pd->icon_filename = g_steal_pointer (&tmp_file);
+				e_rss_preferences_maybe_scale_image (pd->icon_image);
 			}
 
 			g_free (tmp_file);
@@ -578,6 +607,7 @@ e_rss_preferences_icon_clicked_cb (GtkWidget *button,
 	if (G_IS_FILE (file)) {
 		pd->icon_filename = g_file_get_path (file);
 		gtk_image_set_from_file (pd->icon_image, pd->icon_filename);
+		e_rss_preferences_maybe_scale_image (pd->icon_image);
 	} else {
 		gtk_image_set_from_icon_name (pd->icon_image, "rss", GTK_ICON_SIZE_DIALOG);
 	}
@@ -593,6 +623,7 @@ e_rss_preferences_maybe_copy_icon (const gchar *feed_id,
 {
 	gchar *basename, *filename;
 	GFile *src, *des;
+	GdkPixbuf *pixbuf;
 	const gchar *ext;
 	GError *error = NULL;
 
@@ -615,12 +646,36 @@ e_rss_preferences_maybe_copy_icon (const gchar *feed_id,
 	src = g_file_new_for_path (icon_filename);
 	des = g_file_new_for_path (filename);
 
-	if (g_file_copy (src, des, G_FILE_COPY_OVERWRITE, NULL, NULL, NULL, &error))
+	/* ensure expected icon size, as some feeds can provide large images */
+	pixbuf = gdk_pixbuf_new_from_file_at_size (icon_filename, 48, 48, NULL);
+	if (pixbuf) {
+		gchar *pixbuf_filename = NULL;
+
+		/* requires .png extension, when it's a .png file */
+		if (g_ascii_strcasecmp (ext, ".png") != 0)
+			pixbuf_filename = g_strconcat (user_data_dir, G_DIR_SEPARATOR_S, feed_id, ".png", NULL);
+
+		if (gdk_pixbuf_save (pixbuf, pixbuf_filename ? pixbuf_filename : filename, "png", NULL, NULL)) {
+			if (pixbuf_filename) {
+				g_free (filename);
+				filename = pixbuf_filename;
+			}
+		} else {
+			/* NULL indicates the save to file failed */
+			g_clear_object (&pixbuf);
+			g_free (pixbuf_filename);
+		}
+	}
+
+	if (pixbuf)
+		gtk_icon_theme_rescan_if_needed (gtk_icon_theme_get_default ());
+	else if (g_file_copy (src, des, G_FILE_COPY_OVERWRITE, NULL, NULL, NULL, &error))
 		gtk_icon_theme_rescan_if_needed (gtk_icon_theme_get_default ());
 	else
 		g_warning ("Failed to copy icon file '%s' to '%s': %s", icon_filename, filename, error ? error->message : "Unknown error");
 
 	g_clear_error (&error);
+	g_clear_object (&pixbuf);
 	g_clear_object (&src);
 	g_clear_object (&des);
 
@@ -994,10 +1049,12 @@ e_rss_properties_got_folder_to_edit_cb (GObject *source_object,
 		gtk_entry_set_text (pd->href, camel_rss_store_summary_get_href (store_summary, id));
 		gtk_entry_set_text (pd->name, camel_rss_store_summary_get_display_name (store_summary, id));
 
-		if (icon_filename && g_file_test (icon_filename, G_FILE_TEST_IS_REGULAR))
+		if (icon_filename && g_file_test (icon_filename, G_FILE_TEST_IS_REGULAR)) {
 			gtk_image_set_from_file (pd->icon_image, icon_filename);
-		else
+			e_rss_preferences_maybe_scale_image (pd->icon_image);
+		} else {
 			gtk_image_set_from_icon_name (pd->icon_image, "rss", GTK_ICON_SIZE_DIALOG);
+		}
 
 		gtk_combo_box_set_active_id (pd->content_type, e_rss_preferences_content_type_to_string (
 			camel_rss_store_summary_get_content_type (store_summary, id)));
@@ -1688,6 +1745,10 @@ e_rss_preferences_new (EPreferencesWindow *window)
 	gtk_tree_view_column_set_expand (column, TRUE);
 
 	cell_renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set (cell_renderer,
+		"width", 48,
+		"height", 48,
+		NULL);
 	gtk_tree_view_column_pack_start (column, cell_renderer, FALSE);
 
 	gtk_tree_view_column_set_attributes (column, cell_renderer,
