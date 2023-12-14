@@ -176,6 +176,7 @@ struct _EDayViewPrivate {
 	gchar *today_background_color;
 
 	gboolean draw_flat_events;
+	gboolean drag_event_is_recurring;
 };
 
 typedef struct {
@@ -2336,6 +2337,7 @@ e_day_view_init (EDayView *day_view)
 	day_view->drag_last_day = -1;
 	day_view->drag_event_day = -1;
 	day_view->drag_event_num = -1;
+	day_view->priv->drag_event_is_recurring = FALSE;
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 	day_view->priv->drag_context = NULL;
 
@@ -3454,6 +3456,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 		if (day_view->drag_event_num == event_num) {
 			day_view->drag_event_num = -1;
 			day_view->drag_event_day = -1;
+			day_view->priv->drag_event_is_recurring = FALSE;
 			if (day_view->priv->drag_context) {
 				gtk_drag_cancel (day_view->priv->drag_context);
 			}
@@ -5285,6 +5288,9 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		    && gtk_drag_check_threshold (widget, day_view->drag_event_x, day_view->drag_event_y, canvas_x, canvas_y)) {
 			day_view->drag_event_day = day_view->pressed_event_day;
 			day_view->drag_event_num = day_view->pressed_event_num;
+			day_view->priv->drag_event_is_recurring =
+				e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
+				e_cal_util_component_has_recurrences (event->comp_data->icalcomp);
 			day_view->pressed_event_day = -1;
 
 			/* Hide the horizontal bars. */
@@ -5299,7 +5305,8 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 			g_clear_object (&day_view->priv->drag_context);
 			day_view->priv->drag_context = gtk_drag_begin (
 				widget, target_list,
-				GDK_ACTION_COPY | GDK_ACTION_MOVE,
+				(day_view->priv->drag_event_is_recurring ? 0 : GDK_ACTION_COPY) |
+				GDK_ACTION_MOVE,
 				1, (GdkEvent *) mevent);
 			gtk_target_list_unref (target_list);
 
@@ -5395,6 +5402,10 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		if (gtk_drag_check_threshold (widget, day_view->drag_event_x, day_view->drag_event_y, canvas_x, canvas_y)) {
 			day_view->drag_event_day = day_view->pressed_event_day;
 			day_view->drag_event_num = day_view->pressed_event_num;
+			day_view->priv->drag_event_is_recurring =
+				event && is_comp_data_valid (event) &&
+				((e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
+				e_cal_util_component_has_recurrences (event->comp_data->icalcomp)));
 			day_view->pressed_event_day = -1;
 
 			/* Hide the horizontal bars. */
@@ -5409,7 +5420,8 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 			g_clear_object (&day_view->priv->drag_context);
 			day_view->priv->drag_context = gtk_drag_begin (
 				widget, target_list,
-				GDK_ACTION_COPY | GDK_ACTION_MOVE,
+				(day_view->priv->drag_event_is_recurring ? 0 : GDK_ACTION_COPY) |
+				GDK_ACTION_MOVE,
 				1, (GdkEvent *) mevent);
 			gtk_target_list_unref (target_list);
 
@@ -5932,6 +5944,7 @@ e_day_view_free_events (EDayView *day_view)
 	day_view->resize_event_day = -1;
 	day_view->pressed_event_day = -1;
 	day_view->drag_event_day = -1;
+	day_view->priv->drag_event_is_recurring = FALSE;
 	day_view->editing_event_num = -1;
 	day_view->popup_event_num = -1;
 
@@ -8751,6 +8764,26 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 	return E_CALENDAR_VIEW_POS_NONE;
 }
 
+static void
+e_day_view_maybe_update_drag_status (EDayView *day_view,
+				     GdkDragContext *context,
+				     guint time)
+{
+	if (!day_view->priv->drag_event_is_recurring &&
+	    day_view->drag_event_day != -1 &&
+	    day_view->drag_event_num != -1) {
+		GdkDragAction drag_action = GDK_ACTION_MOVE;
+		GdkModifierType mask;
+
+		gdk_window_get_pointer (gtk_widget_get_window (GTK_WIDGET (day_view)), NULL, NULL, &mask);
+
+		if ((mask & GDK_CONTROL_MASK) != 0)
+			drag_action = GDK_ACTION_COPY;
+
+		gdk_drag_status (context, drag_action, time);
+	}
+}
+
 static gboolean
 e_day_view_on_top_canvas_drag_motion (GtkWidget *widget,
                                       GdkDragContext *context,
@@ -8768,6 +8801,7 @@ e_day_view_on_top_canvas_drag_motion (GtkWidget *widget,
 	day_view->drag_event_y = y + scroll_y;
 
 	e_day_view_reshape_top_canvas_drag_item (day_view);
+	e_day_view_maybe_update_drag_status (day_view, context, time);
 
 	return TRUE;
 }
@@ -8923,6 +8957,7 @@ e_day_view_on_main_canvas_drag_motion (GtkWidget *widget,
 	e_day_view_reshape_main_canvas_resize_bars (day_view);
 
 	e_day_view_check_auto_scroll (day_view, day_view->drag_event_x, day_view->drag_event_y);
+	e_day_view_maybe_update_drag_status (day_view, context, time);
 
 	return TRUE;
 }
@@ -9171,6 +9206,7 @@ e_day_view_on_drag_end (GtkWidget *widget,
 
 	day_view->drag_event_day = -1;
 	day_view->drag_event_num = -1;
+	day_view->priv->drag_event_is_recurring = FALSE;
 	g_clear_object (&day_view->priv->drag_context);
 }
 
@@ -9303,6 +9339,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			GtkWindow *toplevel;
 			ICalTime *itt;
 			ICalTimezone *zone;
+			gboolean drag_event_is_recurring;
 
 			num_days = 1;
 			start_offset = 0;
@@ -9409,10 +9446,13 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			cal_comp_set_dtend_with_oldzone (client, comp, date);
 			e_cal_component_datetime_free (date);
 
+			drag_event_is_recurring = day_view->priv->drag_event_is_recurring;
+
 			gtk_drag_finish (context, TRUE, TRUE, time);
 
 			/* Reset this since it will be invalid. */
 			day_view->drag_event_day = -1;
+			day_view->priv->drag_event_is_recurring = FALSE;
 			g_clear_object (&day_view->priv->drag_context);
 
 			/* Show the text item again, just in case it hasn't
@@ -9439,10 +9479,22 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 
 			e_cal_component_commit_sequence (comp);
 
-			e_cal_ops_modify_component (model, client, e_cal_component_get_icalcomponent (comp), mod,
-				(send == GTK_RESPONSE_YES ? E_CAL_OPS_SEND_FLAG_SEND : E_CAL_OPS_SEND_FLAG_DONT_SEND) |
-				(strip_alarms ? E_CAL_OPS_SEND_FLAG_STRIP_ALARMS : 0) |
-				(only_new_attendees ? E_CAL_OPS_SEND_FLAG_ONLY_NEW_ATTENDEES : 0));
+			if (gdk_drag_context_get_selected_action (context) == GDK_ACTION_COPY &&
+			    !drag_event_is_recurring) {
+				gchar *uid;
+
+				uid = e_util_generate_uid ();
+				e_cal_component_set_uid (comp, uid);
+				g_free (uid);
+
+				e_cal_ops_create_component (model, client, e_cal_component_get_icalcomponent (comp),
+					e_calendar_view_component_created_cb, g_object_ref (day_view), g_object_unref);
+			} else {
+				e_cal_ops_modify_component (model, client, e_cal_component_get_icalcomponent (comp), mod,
+					(send == GTK_RESPONSE_YES ? E_CAL_OPS_SEND_FLAG_SEND : E_CAL_OPS_SEND_FLAG_DONT_SEND) |
+					(strip_alarms ? E_CAL_OPS_SEND_FLAG_STRIP_ALARMS : 0) |
+					(only_new_attendees ? E_CAL_OPS_SEND_FLAG_ONLY_NEW_ATTENDEES : 0));
+			}
 
 			g_object_unref (comp);
 
@@ -9545,6 +9597,7 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 			ECalClient *client;
 			GtkWindow *toplevel;
 			ICalTimezone *zone;
+			gboolean drag_event_is_recurring;
 
 			num_rows = 1;
 			start_offset = 0;
@@ -9634,10 +9687,13 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 
 			e_cal_component_abort_sequence (comp);
 
+			drag_event_is_recurring = day_view->priv->drag_event_is_recurring;
+
 			gtk_drag_finish (context, TRUE, TRUE, time);
 
 			/* Reset this since it will be invalid. */
 			day_view->drag_event_day = -1;
+			day_view->priv->drag_event_is_recurring = FALSE;
 			g_clear_object (&day_view->priv->drag_context);
 
 			/* Show the text item again, just in case it hasn't
@@ -9664,10 +9720,22 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 
 			e_cal_component_commit_sequence (comp);
 
-			e_cal_ops_modify_component (model, client, e_cal_component_get_icalcomponent (comp), mod,
-				(send == GTK_RESPONSE_YES ? E_CAL_OPS_SEND_FLAG_SEND : E_CAL_OPS_SEND_FLAG_DONT_SEND) |
-				(strip_alarms ? E_CAL_OPS_SEND_FLAG_STRIP_ALARMS : 0) |
-				(only_new_attendees ? E_CAL_OPS_SEND_FLAG_ONLY_NEW_ATTENDEES : 0));
+			if (gdk_drag_context_get_selected_action (context) == GDK_ACTION_COPY &&
+			    !drag_event_is_recurring) {
+				gchar *uid;
+
+				uid = e_util_generate_uid ();
+				e_cal_component_set_uid (comp, uid);
+				g_free (uid);
+
+				e_cal_ops_create_component (model, client, e_cal_component_get_icalcomponent (comp),
+					e_calendar_view_component_created_cb, g_object_ref (day_view), g_object_unref);
+			} else {
+				e_cal_ops_modify_component (model, client, e_cal_component_get_icalcomponent (comp), mod,
+					(send == GTK_RESPONSE_YES ? E_CAL_OPS_SEND_FLAG_SEND : E_CAL_OPS_SEND_FLAG_DONT_SEND) |
+					(strip_alarms ? E_CAL_OPS_SEND_FLAG_STRIP_ALARMS : 0) |
+					(only_new_attendees ? E_CAL_OPS_SEND_FLAG_ONLY_NEW_ATTENDEES : 0));
+			}
 
 			g_object_unref (comp);
 
