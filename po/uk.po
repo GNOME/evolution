@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-11-29 09:18+0000\n"
-"PO-Revision-Date: 2023-11-29 19:27+0200\n"
+"POT-Creation-Date: 2023-12-14 14:48+0000\n"
+"PO-Revision-Date: 2023-12-14 20:52+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3247,10 +3247,18 @@ msgstr ""
 "[1] ...... [1] href»"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:346
+msgid ""
+"Whether click on a header in the message list can change sort order by the "
+"clicked column."
+msgstr ""
+"Визначає, чи клацання на заголовку списку повідомлень може змінити порядок"
+" сортування за відповідним стовпчиком."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:347
 msgid "(Deprecated) Default forward style"
 msgstr "(Застаріло) Типовий стиль пересилання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:347
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:348
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -3258,11 +3266,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «forward-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:348
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:349
 msgid "(Deprecated) Default reply style"
 msgstr "(Застаріло) Типовий стиль відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:349
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:350
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -3270,11 +3278,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «reply-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:350
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Застаріло) Список власних заголовків та їхній стан."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -3282,12 +3290,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «show-headers» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 "(Застаріло) Автоматично завантажувати зображення у листах HTML через HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -3295,7 +3303,7 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «image-loading-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:355
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -3303,7 +3311,7 @@ msgstr ""
 "(Застаріло) Запитує, чи закривати вікно листа, коли користувач пересилає або "
 "відповідає на показане лист у вікні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:355
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:356
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3311,12 +3319,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «browser-close-on-reply-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:356
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:357
 msgid "Prompt before send when attachment changed on the disk"
 msgstr ""
 "Запитувати, перш ніж надсилати долучення, до якого внесено зміни на диску"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:357
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:358
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
@@ -3717,7 +3725,7 @@ msgstr ""
 "через autoar."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/e-shell.c:1999
+#: ../src/shell/e-shell.c:1995
 msgid "Start in offline mode"
 msgstr "Запуск у автономному режимі"
 
@@ -4132,7 +4140,7 @@ msgid "Memos"
 msgstr "Примітки"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2467
+#: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2481
 #: ../src/calendar/importers/icalendar-importer.c:74
 #: ../src/calendar/importers/icalendar-importer.c:1136
 #: ../src/e-util/e-webdav-browser.c:528
@@ -4630,7 +4638,7 @@ msgstr ""
 #: ../src/mail/em-vfolder-editor-rule.c:405
 #: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:67
 #: ../src/modules/mail/em-composer-prefs.c:420
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1739
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1800
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
 #: ../src/plugins/email-custom-header/email-custom-header.c:827
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
@@ -4804,7 +4812,7 @@ msgstr ""
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1249
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:282
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1095
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1152
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
 #: ../src/plugins/face/face.c:298
 #: ../src/plugins/publish-calendar/publish-calendar.c:788
@@ -4888,7 +4896,7 @@ msgstr "Параметри"
 #: ../src/e-util/e-mail-signature-script-dialog.c:357
 #: ../src/e-util/e-webdav-browser.c:2663 ../src/e-util/e-web-view.c:4142
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
-#: ../src/modules/rss/evolution/e-rss-preferences.c:865
+#: ../src/modules/rss/evolution/e-rss-preferences.c:920
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:646
 #: ../src/smime/gui/certificate-manager.c:715
@@ -5170,7 +5178,7 @@ msgstr "Add _X.509"
 #: ../src/mail/e-mail-label-manager.c:397 ../src/mail/em-filter-rule.c:679
 #: ../src/mail/em-folder-properties.c:1397
 #: ../src/mail/em-vfolder-editor-rule.c:639 ../src/mail/mail-config.ui.h:68
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1758
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1819
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:837
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
@@ -5574,7 +5582,7 @@ msgstr "Помилка при вилученні списку"
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1687
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1744
 msgid "Name"
 msgstr "Ім'я"
 
@@ -7628,20 +7636,20 @@ msgid "Status"
 msgstr "Стан"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2350
+#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2352
 #: ../src/calendar/gui/e-to-do-pane.c:268
-#: ../src/calendar/gui/e-week-view.c:1974 ../src/calendar/gui/print.c:1102
-#: ../src/calendar/gui/print.c:1121 ../src/calendar/gui/print.c:2688
-#: ../src/calendar/gui/print.c:2708
+#: ../src/calendar/gui/e-week-view.c:1974 ../src/calendar/gui/print.c:1111
+#: ../src/calendar/gui/print.c:1130 ../src/calendar/gui/print.c:2702
+#: ../src/calendar/gui/print.c:2722
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2353
+#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2355
 #: ../src/calendar/gui/e-to-do-pane.c:272
-#: ../src/calendar/gui/e-week-view.c:1977 ../src/calendar/gui/print.c:1107
-#: ../src/calendar/gui/print.c:1123 ../src/calendar/gui/print.c:2693
-#: ../src/calendar/gui/print.c:2710
+#: ../src/calendar/gui/e-week-view.c:1977 ../src/calendar/gui/print.c:1116
+#: ../src/calendar/gui/print.c:1132 ../src/calendar/gui/print.c:2707
+#: ../src/calendar/gui/print.c:2724
 msgid "pm"
 msgstr "pm"
 
@@ -7667,7 +7675,7 @@ msgstr "Організатор: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2271
 #: ../src/calendar/gui/e-meeting-time-sel.c:2585
-#: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3628
+#: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3649
 #, c-format
 msgid "Location: %s"
 msgstr "Адреса: %s"
@@ -8254,7 +8262,7 @@ msgstr "%d %b %Y"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1297
-#: ../src/calendar/gui/e-day-view.c:3286
+#: ../src/calendar/gui/e-day-view.c:3288
 #: ../src/calendar/gui/e-day-view-top-item.c:855
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
@@ -8271,7 +8279,7 @@ msgstr "%A, %d %b %Y"
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1310
-#: ../src/calendar/gui/e-day-view.c:3270
+#: ../src/calendar/gui/e-day-view.c:3272
 #: ../src/calendar/gui/e-day-view-top-item.c:851
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
@@ -8356,8 +8364,8 @@ msgstr "Тип"
 #: ../src/calendar/gui/e-meeting-list-view.c:194
 #: ../src/calendar/gui/e-meeting-store.c:135
 #: ../src/calendar/gui/e-meeting-store.c:170
-#: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1291
-#: ../src/calendar/gui/print.c:1308 ../src/e-util/e-charset.c:49
+#: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1300
+#: ../src/calendar/gui/print.c:1317 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:4021
 #: ../src/modules/itip-formatter/itip-view.c:7143
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
@@ -8679,7 +8687,7 @@ msgstr "Час початку — недійсний час"
 #: ../src/e-util/e-misc-utils.c:4169 ../src/e-util/e-misc-utils.c:4177
 #: ../src/e-util/e-misc-utils.c:4185 ../src/e-util/e-misc-utils.c:4220
 #: ../src/e-util/e-misc-utils.c:4233 ../src/e-util/e-misc-utils.c:4247
-#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2922
+#: ../src/mail/e-mail-autoconfig.c:1137 ../src/mail/e-mail-display.c:2922
 #: ../src/mail/e-mail-notes.c:929 ../src/mail/e-mail-reader.c:3699
 #: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4072
 #: ../src/mail/em-composer-utils.c:4095 ../src/mail/mail-send-recv.c:598
@@ -9037,7 +9045,7 @@ msgstr "_Учасники…"
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:388
 #: ../src/mail/em-folder-properties.c:1394 ../src/mail/mail-config.ui.h:72
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1745
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1806
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:832
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
@@ -9878,15 +9886,15 @@ msgstr "Показати панель _інструментів"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../src/calendar/gui/e-day-view.c:3253
+#: ../src/calendar/gui/e-day-view.c:3255
 #: ../src/calendar/gui/e-day-view-top-item.c:847
 #: ../src/calendar/gui/e-week-view-main-item.c:207
-#: ../src/calendar/gui/print.c:2143
+#: ../src/calendar/gui/print.c:2152
 msgid "%A %d %B"
 msgstr "%A, %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3990
+#: ../src/calendar/gui/e-day-view.c:3993
 #, c-format
 msgid "Week %d"
 msgstr "%d тиждень"
@@ -9979,51 +9987,51 @@ msgstr "Учасники"
 #: ../src/calendar/gui/e-meeting-list-view.c:176
 #: ../src/calendar/gui/e-meeting-store.c:110
 #: ../src/calendar/gui/e-meeting-store.c:127
-#: ../src/calendar/gui/e-meeting-store.c:1073 ../src/calendar/gui/print.c:1287
+#: ../src/calendar/gui/e-meeting-store.c:1073 ../src/calendar/gui/print.c:1296
 msgid "Individual"
 msgstr "Індивідуально"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:177
 #: ../src/calendar/gui/e-meeting-store.c:112
-#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1288
+#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1297
 #: ../src/e-util/e-table-config.ui.h:1
 msgid "Group"
 msgstr "Група"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:178
 #: ../src/calendar/gui/e-meeting-store.c:114
-#: ../src/calendar/gui/e-meeting-store.c:131 ../src/calendar/gui/print.c:1289
+#: ../src/calendar/gui/e-meeting-store.c:131 ../src/calendar/gui/print.c:1298
 msgid "Resource"
 msgstr "Ресурс"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:179
 #: ../src/calendar/gui/e-meeting-store.c:116
-#: ../src/calendar/gui/e-meeting-store.c:133 ../src/calendar/gui/print.c:1290
+#: ../src/calendar/gui/e-meeting-store.c:133 ../src/calendar/gui/print.c:1299
 msgid "Room"
 msgstr "Кімната"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:190
 #: ../src/calendar/gui/e-meeting-store.c:145
-#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1304
+#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1313
 msgid "Chair"
 msgstr "Голова"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:191
 #: ../src/calendar/gui/e-meeting-store.c:147
 #: ../src/calendar/gui/e-meeting-store.c:164
-#: ../src/calendar/gui/e-meeting-store.c:1074 ../src/calendar/gui/print.c:1305
+#: ../src/calendar/gui/e-meeting-store.c:1074 ../src/calendar/gui/print.c:1314
 msgid "Required Participant"
 msgstr "Обов'язковий учасник"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:192
 #: ../src/calendar/gui/e-meeting-store.c:149
-#: ../src/calendar/gui/e-meeting-store.c:166 ../src/calendar/gui/print.c:1306
+#: ../src/calendar/gui/e-meeting-store.c:166 ../src/calendar/gui/print.c:1315
 msgid "Optional Participant"
 msgstr "Додатковий учасник"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:193
 #: ../src/calendar/gui/e-meeting-store.c:151
-#: ../src/calendar/gui/e-meeting-store.c:168 ../src/calendar/gui/print.c:1307
+#: ../src/calendar/gui/e-meeting-store.c:168 ../src/calendar/gui/print.c:1316
 msgid "Non-Participant"
 msgstr "Не бере участі"
 
@@ -10144,7 +10152,7 @@ msgstr ""
 "Адреса: %s"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2583
-#: ../src/calendar/gui/print.c:3617
+#: ../src/calendar/gui/print.c:3638
 #, c-format
 msgid "Summary: %s"
 msgstr "Зведення: %s"
@@ -10376,7 +10384,7 @@ msgstr "%s (%s)"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-week-view-main-item.c:224
-#: ../src/calendar/gui/print.c:2122
+#: ../src/calendar/gui/print.c:2131
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -10580,119 +10588,119 @@ msgstr[3] "%d секунда"
 #. Translators: These are workday abbreviations,
 #. * e.g. Su=Sunday and Th=thursday
 #. G_DATE_MONDAY
-#: ../src/calendar/gui/print.c:756
+#: ../src/calendar/gui/print.c:765
 msgid "Mo"
 msgstr "Пнд"
 
 #. G_DATE_TUESDAY
-#: ../src/calendar/gui/print.c:757
+#: ../src/calendar/gui/print.c:766
 msgid "Tu"
 msgstr "Втр"
 
 #. G_DATE_WEDNESDAY
-#: ../src/calendar/gui/print.c:758
+#: ../src/calendar/gui/print.c:767
 msgid "We"
 msgstr "Срд"
 
 #. G_DATE_THURSDAY
-#: ../src/calendar/gui/print.c:759
+#: ../src/calendar/gui/print.c:768
 msgid "Th"
 msgstr "Чтв"
 
 #. G_DATE_FRIDAY
-#: ../src/calendar/gui/print.c:760
+#: ../src/calendar/gui/print.c:769
 msgid "Fr"
 msgstr "Птн"
 
 #. G_DATE_SATURDAY
-#: ../src/calendar/gui/print.c:761
+#: ../src/calendar/gui/print.c:770
 msgid "Sa"
 msgstr "Сбт"
 
 #. G_DATE_SUNDAY
-#: ../src/calendar/gui/print.c:762
+#: ../src/calendar/gui/print.c:771
 msgid "Su"
 msgstr "Ндл"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../src/calendar/gui/print.c:3433
+#: ../src/calendar/gui/print.c:3454
 msgid " to "
 msgstr " до "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../src/calendar/gui/print.c:3443
+#: ../src/calendar/gui/print.c:3464
 msgid " (Completed "
 msgstr " (Виконано "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../src/calendar/gui/print.c:3449
+#: ../src/calendar/gui/print.c:3470
 msgid "Completed "
 msgstr "Виконано "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../src/calendar/gui/print.c:3459
+#: ../src/calendar/gui/print.c:3480
 msgid " (Due "
 msgstr " (до дати "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../src/calendar/gui/print.c:3466
+#: ../src/calendar/gui/print.c:3487
 msgid "Due "
 msgstr "До дати "
 
-#: ../src/calendar/gui/print.c:3587
+#: ../src/calendar/gui/print.c:3608
 msgid "Appointment"
 msgstr "Зустріч"
 
-#: ../src/calendar/gui/print.c:3589 ../src/e-util/e-send-options.c:551
+#: ../src/calendar/gui/print.c:3610 ../src/e-util/e-send-options.c:551
 msgid "Task"
 msgstr "Завдання"
 
-#: ../src/calendar/gui/print.c:3591
+#: ../src/calendar/gui/print.c:3612
 msgid "Memo"
 msgstr "Примітка"
 
-#: ../src/calendar/gui/print.c:3648
+#: ../src/calendar/gui/print.c:3669
 msgid "Attendees: "
 msgstr "Учасники:"
 
-#: ../src/calendar/gui/print.c:3687
+#: ../src/calendar/gui/print.c:3708
 #, c-format
 msgid "Estimated duration: %s"
 msgstr "Оцінка тривалості: %s"
 
-#: ../src/calendar/gui/print.c:3708
+#: ../src/calendar/gui/print.c:3729
 #, c-format
 msgid "Status: %s"
 msgstr "Стан: %s"
 
-#: ../src/calendar/gui/print.c:3724
+#: ../src/calendar/gui/print.c:3745
 #, c-format
 msgid "Priority: %s"
 msgstr "Пріоритет: %s"
 
-#: ../src/calendar/gui/print.c:3739
+#: ../src/calendar/gui/print.c:3760
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Відсоток виконання: %i"
 
-#: ../src/calendar/gui/print.c:3754
+#: ../src/calendar/gui/print.c:3775
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../src/calendar/gui/print.c:3770
+#: ../src/calendar/gui/print.c:3791
 #, c-format
 msgid "Categories: %s"
 msgstr "Категорії: %s"
 
-#: ../src/calendar/gui/print.c:3782
+#: ../src/calendar/gui/print.c:3803
 msgid "Contacts: "
 msgstr "Контакти:"
 
@@ -12720,7 +12728,7 @@ msgstr "Зберегти _чернетку"
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:327
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:298
-#: ../src/modules/rss/evolution/e-rss-preferences.c:831
+#: ../src/modules/rss/evolution/e-rss-preferences.c:886
 msgid "_Name:"
 msgstr "_Назва:"
 
@@ -13245,9 +13253,9 @@ msgstr "Тема"
 #. pseudo-header
 #: ../src/em-format/e-mail-formatter-quote-headers.c:205
 #: ../src/em-format/e-mail-formatter-utils.c:362
-#: ../src/modules/mail/em-mailer-prefs.c:875
-#: ../src/modules/mail/em-mailer-prefs.c:2033
-#: ../src/modules/mail/em-mailer-prefs.c:2082
+#: ../src/modules/mail/em-mailer-prefs.c:967
+#: ../src/modules/mail/em-mailer-prefs.c:2125
+#: ../src/modules/mail/em-mailer-prefs.c:2174
 msgid "Mailer"
 msgstr "Поштова програма"
 
@@ -13264,7 +13272,7 @@ msgstr "Показати частину як неформатований тек
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
 #: ../src/em-format/e-mail-formatter-text-html.c:389
 #: ../src/modules/rss/evolution/e-rss-preferences.c:56
-#: ../src/modules/rss/evolution/e-rss-preferences.c:851
+#: ../src/modules/rss/evolution/e-rss-preferences.c:906
 msgid "HTML"
 msgstr "HTML"
 
@@ -13276,7 +13284,7 @@ msgstr "Форматувати частину як HTML"
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:133
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
 #: ../src/modules/rss/evolution/e-rss-preferences.c:51
-#: ../src/modules/rss/evolution/e-rss-preferences.c:852
+#: ../src/modules/rss/evolution/e-rss-preferences.c:907
 msgid "Plain Text"
 msgstr "Звичайний текст"
 
@@ -14932,7 +14940,7 @@ msgstr "Знайти елементи, що відповідають вказа�
 #: ../src/e-util/e-mail-identity-combo-box.c:798
 #: ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:29
-#: ../src/mail/e-mail-autoconfig.c:863
+#: ../src/mail/e-mail-autoconfig.c:871
 #: ../src/mail/e-mail-config-summary-page.c:143
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
 msgid "None"
@@ -17181,11 +17189,11 @@ msgstr "Очистити вс_е"
 msgid "_Show field in View"
 msgstr "_Показати поле у вікні"
 
-#: ../src/e-util/e-table-config.ui.h:6 ../src/e-util/e-table-header-item.c:1778
+#: ../src/e-util/e-table-config.ui.h:6 ../src/e-util/e-table-header-item.c:1779
 msgid "Ascending"
 msgstr "зростанням"
 
-#: ../src/e-util/e-table-config.ui.h:7 ../src/e-util/e-table-header-item.c:1778
+#: ../src/e-util/e-table-config.ui.h:7 ../src/e-util/e-table-header-item.c:1779
 msgid "Descending"
 msgstr "спаданням"
 
@@ -17280,61 +17288,61 @@ msgstr[1] "%s (%d елемент)"
 msgstr[2] "%s (%d елемент)"
 msgstr[3] "%s (%d елемент)"
 
-#: ../src/e-util/e-table-header-item.c:1596
+#: ../src/e-util/e-table-header-item.c:1597
 msgid "Customize Current View"
 msgstr "Змінити поточний вигляд"
 
-#: ../src/e-util/e-table-header-item.c:1628
+#: ../src/e-util/e-table-header-item.c:1629
 msgid "Sort _Ascending"
 msgstr "Сортування за з_ростанням"
 
-#: ../src/e-util/e-table-header-item.c:1631
+#: ../src/e-util/e-table-header-item.c:1632
 msgid "Sort _Descending"
 msgstr "Сортування за с_паданням"
 
-#: ../src/e-util/e-table-header-item.c:1634
+#: ../src/e-util/e-table-header-item.c:1635
 msgid "_Reset sort"
 msgstr "_Скинути впорядкування"
 
-#: ../src/e-util/e-table-header-item.c:1637
+#: ../src/e-util/e-table-header-item.c:1638
 msgid "Group By This _Field"
 msgstr "Групувати за цим _полем"
 
-#: ../src/e-util/e-table-header-item.c:1640
+#: ../src/e-util/e-table-header-item.c:1641
 msgid "Group By _Box"
 msgstr "Групувати за _скринькою"
 
-#: ../src/e-util/e-table-header-item.c:1644
+#: ../src/e-util/e-table-header-item.c:1645
 msgid "Remove This _Column"
 msgstr "Вилучити цей с_товпчик"
 
-#: ../src/e-util/e-table-header-item.c:1647
+#: ../src/e-util/e-table-header-item.c:1648
 msgid "Add a C_olumn…"
 msgstr "Додати с_товпчик…"
 
-#: ../src/e-util/e-table-header-item.c:1651
+#: ../src/e-util/e-table-header-item.c:1652
 msgid "A_lignment"
 msgstr "_Вирівнювання"
 
-#: ../src/e-util/e-table-header-item.c:1654
+#: ../src/e-util/e-table-header-item.c:1655
 msgid "B_est Fit"
 msgstr "Най_краще заповнення"
 
-#: ../src/e-util/e-table-header-item.c:1657
+#: ../src/e-util/e-table-header-item.c:1658
 msgid "Format Column_s…"
 msgstr "Формат стовп_чиків…"
 
-#: ../src/e-util/e-table-header-item.c:1661
+#: ../src/e-util/e-table-header-item.c:1662
 #: ../src/shell/e-shell-window-actions.c:1310
 msgid "Custo_mize Current View…"
 msgstr "З_мінити поточний вигляд…"
 
-#: ../src/e-util/e-table-header-item.c:1728
+#: ../src/e-util/e-table-header-item.c:1729
 msgid "_Sort By"
 msgstr "_Упорядкувати за"
 
 #. Custom
-#: ../src/e-util/e-table-header-item.c:1751
+#: ../src/e-util/e-table-header-item.c:1752
 msgid "_Custom"
 msgstr "_Інший"
 
@@ -18235,62 +18243,62 @@ msgstr "Можете перетягувати назви облікових за
 msgid "De_fault"
 msgstr "Зробити _типовим"
 
-#: ../src/mail/e-mail-autoconfig.c:512
+#: ../src/mail/e-mail-autoconfig.c:520
 #, c-format
 msgid "Invalid URI: “%s”"
 msgstr "Недійсна адреса URI: “%s”"
 
-#: ../src/mail/e-mail-autoconfig.c:853
+#: ../src/mail/e-mail-autoconfig.c:861
 #, c-format
 msgid "Host: %s:%d"
 msgstr "Вузол: %s:%d"
 
-#: ../src/mail/e-mail-autoconfig.c:857
+#: ../src/mail/e-mail-autoconfig.c:865
 #, c-format
 msgid "User: %s"
 msgstr "Користувач: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:861
+#: ../src/mail/e-mail-autoconfig.c:869
 #, c-format
 msgid "Security method: %s"
 msgstr "Метод захисту: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:862
+#: ../src/mail/e-mail-autoconfig.c:870
 #: ../src/mail/e-mail-config-summary-page.c:146
 msgid "TLS"
 msgstr "TLS"
 
-#: ../src/mail/e-mail-autoconfig.c:863
+#: ../src/mail/e-mail-autoconfig.c:871
 #: ../src/mail/e-mail-config-summary-page.c:149
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: ../src/mail/e-mail-autoconfig.c:867
+#: ../src/mail/e-mail-autoconfig.c:875
 #, c-format
 msgid "Authentication mechanism: %s"
 msgstr "Механізм автентифікації: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:1050
+#: ../src/mail/e-mail-autoconfig.c:1058
 msgid "No email address provided"
 msgstr "Не надано поштової адреси"
 
-#: ../src/mail/e-mail-autoconfig.c:1059
+#: ../src/mail/e-mail-autoconfig.c:1067
 msgid "Missing domain in email address"
 msgstr "Немає домену в поштовій адресі"
 
-#: ../src/mail/e-mail-autoconfig.c:1419
+#: ../src/mail/e-mail-autoconfig.c:1427
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 msgid "IMAP server"
 msgstr "Сервер IMAP"
 
-#: ../src/mail/e-mail-autoconfig.c:1426
+#: ../src/mail/e-mail-autoconfig.c:1434
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:89
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 msgid "POP3 server"
 msgstr "Сервер POP3"
 
-#: ../src/mail/e-mail-autoconfig.c:1433
+#: ../src/mail/e-mail-autoconfig.c:1441
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "SMTP server"
@@ -18504,7 +18512,7 @@ msgid "Archi_ve Folder:"
 msgstr "_Архівна тека:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:777
-#: ../src/modules/mail/em-mailer-prefs.c:1930
+#: ../src/modules/mail/em-mailer-prefs.c:2022
 msgid "Choose a folder to archive messages to."
 msgstr "Виберіть теку, в яку архівувати листи."
 
@@ -18672,7 +18680,7 @@ msgstr "Використати адресу відправника"
 #: ../src/modules/calendar/e-calendar-preferences.c:650
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:54
 #: ../src/modules/mail/e-mail-shell-backend.c:1018
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1572
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1629
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Загальне"
@@ -21717,17 +21725,23 @@ msgstr "Копіюванні _теки перетягуванням зі ски�
 msgid "_Move folder by Drag & Drop in folder tree"
 msgstr "При п_ереміщенні теки перетягуванням зі скиданням у дереві тек"
 
-#: ../src/mail/mail-config.ui.h:167
+#. This is in the context of: Ask for confirmation before...
+#: ../src/mail/mail-config.ui.h:168
+#| msgid "Show messages with all email headers"
+msgid "Sort message list on _header click"
+msgstr "Упорядковувати список повідомлень за _клацанням на заголовку"
+
+#: ../src/mail/mail-config.ui.h:169
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:247
 msgid "No encryption"
 msgstr "Без шифрування"
 
-#: ../src/mail/mail-config.ui.h:168
+#: ../src/mail/mail-config.ui.h:170
 msgid "TLS encryption"
 msgstr "Шифрування TLS"
 
-#: ../src/mail/mail-config.ui.h:169
+#: ../src/mail/mail-config.ui.h:171
 msgid "SSL encryption"
 msgstr "Шифрування SSL"
 
@@ -22761,14 +22775,46 @@ msgid "Do you wish to import OpenPGP key?"
 msgstr "Хочете імпортувати ключ OpenPGP?"
 
 #: ../src/mail/mail.error.xml.h:225
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1781
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1151
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1842
 msgid "_Import"
 msgstr "_Імпортувати"
 
 #: ../src/mail/mail.error.xml.h:226
 msgid "Failed to import OpenPGP key"
 msgstr "Не вдалося імпортувати ключ OpenPGP"
+
+#: ../src/mail/mail.error.xml.h:227
+#| msgid "Change sort order of the folders in the folder tree"
+msgid "Change sort order of the message list?"
+msgstr "Змінити порядок сортування списку повідомлень?"
+
+#: ../src/mail/mail.error.xml.h:228
+msgid ""
+"Click in the list headers usually changes sort order. Choose what to do."
+msgstr ""
+"клацання на заголовках списку, зазвичай, змінює порядок сортування."
+" Визначтеся з тим, що слід робити."
+
+#: ../src/mail/mail.error.xml.h:229
+#| msgid "Sort"
+msgid "_Sort"
+msgstr "_Впорядковувати"
+
+#: ../src/mail/mail.error.xml.h:230
+#| msgid "_Don’t lose formatting"
+msgid "_Don’t Sort"
+msgstr "_Не впорядковувати"
+
+#: ../src/mail/mail.error.xml.h:231
+#| msgid "_Always copy"
+msgid "_Always Sort"
+msgstr "_Завжди впорядковувати"
+
+#: ../src/mail/mail.error.xml.h:232
+#| msgid "N_ever copy"
+msgid "N_ever Sort"
+msgstr "Н_іколи не впорядковувати"
 
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
@@ -22902,24 +22948,24 @@ msgstr "Заголовок користувача 2"
 msgid "User Header 3"
 msgstr "Заголовок користувача 3"
 
-#: ../src/mail/message-list.c:3501
+#: ../src/mail/message-list.c:3544
 msgid "Select all visible messages"
 msgstr "Вибрати всі видимі повідомлення"
 
-#: ../src/mail/message-list.c:4338 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4384 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Повідомлення"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5730
+#: ../src/mail/message-list.c:5776
 msgid "Follow-up"
 msgstr "Відповісти"
 
-#: ../src/mail/message-list.c:6476 ../src/mail/message-list.c:6920
+#: ../src/mail/message-list.c:6522 ../src/mail/message-list.c:6966
 msgid "Generating message list…"
 msgstr "Створення списку повідомлень…"
 
-#: ../src/mail/message-list.c:6479
+#: ../src/mail/message-list.c:6525
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -22931,7 +22977,7 @@ msgstr ""
 "запустивши новий пошук через очищення його за допомогою пункту меню «Пошук → "
 "Очистити пункт меню» або зміну запиту вище."
 
-#: ../src/mail/message-list.c:6486
+#: ../src/mail/message-list.c:6532
 msgid "There are no messages in this folder."
 msgstr "У теці немає повідомлень."
 
@@ -23161,7 +23207,7 @@ msgstr "Примітка: Деякі зміни не наберуть сили �
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124
-#: ../src/modules/mail/em-mailer-prefs.c:2175
+#: ../src/modules/mail/em-mailer-prefs.c:2267
 msgid "_Table column:"
 msgstr "Стовпчик _таблиці:"
 
@@ -24610,13 +24656,11 @@ msgstr "до кожної річниці/дня народження"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:99
-#| msgid "Show a _reminder"
 msgid "Show a r_eminder"
 msgstr "Показувати н_агадування"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:101
-#| msgid "Moving an event into the calendar “%s”"
 msgid "before every event in chosen calendars"
 msgstr "перед кожною подією у вибраних календарях"
 
@@ -27339,17 +27383,17 @@ msgstr "Раз на місяць"
 msgid "Immediately, on folder leave"
 msgstr "Відразу, коли покидаєш теку"
 
-#: ../src/modules/mail/em-mailer-prefs.c:625
+#: ../src/modules/mail/em-mailer-prefs.c:717
 msgid "Header"
 msgstr "Верхній колонтитул"
 
-#: ../src/modules/mail/em-mailer-prefs.c:629
+#: ../src/modules/mail/em-mailer-prefs.c:721
 msgid "Contains Value"
 msgstr "Містить значення"
 
 #. Translators: This is a column caption, in which a mail header name is shown.
 #. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
-#: ../src/modules/mail/em-mailer-prefs.c:2145
+#: ../src/modules/mail/em-mailer-prefs.c:2237
 msgctxt "UserHeaders"
 msgid "Header"
 msgstr "Заголовок"
@@ -27357,17 +27401,17 @@ msgstr "Заголовок"
 #. Translators: This is a column caption, in which a mail header title is shown;
 #. it's the text the header is presented in the GUI, aka a user friendly name
 #. of the header. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
-#: ../src/modules/mail/em-mailer-prefs.c:2159
+#: ../src/modules/mail/em-mailer-prefs.c:2251
 msgctxt "UserHeaders"
 msgid "Title"
 msgstr "Назва"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
-#: ../src/modules/mail/em-mailer-prefs.c:2177
+#: ../src/modules/mail/em-mailer-prefs.c:2269
 msgid "_Date header:"
 msgstr "З_аголовок дати:"
 
-#: ../src/modules/mail/em-mailer-prefs.c:2178
+#: ../src/modules/mail/em-mailer-prefs.c:2270
 msgid "Show _original header value"
 msgstr "Показувати _первинне значення заголовку"
 
@@ -27577,23 +27621,23 @@ msgid "Apply message _filters to this folder"
 msgstr "Застосувати _фільтри повідомлень до цієї теки"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:740
-#: ../src/modules/rss/evolution/e-rss-preferences.c:857
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1582
+#: ../src/modules/rss/evolution/e-rss-preferences.c:912
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1639
 msgid "_Download complete articles"
 msgstr "_Отримати статті повністю"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:753
-#: ../src/modules/rss/evolution/e-rss-preferences.c:861
+#: ../src/modules/rss/evolution/e-rss-preferences.c:916
 msgid "Download feed _enclosures"
 msgstr "Отримати з_амикання стрічки"
 
-#: ../src/modules/rss/camel/camel-rss-folder-summary.c:269
+#: ../src/modules/rss/camel/camel-rss-folder-summary.c:274
 msgid "Enclosures:"
 msgstr "Замикання:"
 
 #: ../src/modules/rss/camel/camel-rss-provider.c:17
 #: ../src/modules/rss/camel/camel-rss-store.c:48
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1823
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1884
 #: ../src/modules/rss/evolution/e-rss-shell-extension.c:62
 msgid "News and Blogs"
 msgstr "Новини і блоги"
@@ -27620,95 +27664,95 @@ msgid "Unknown author"
 msgstr "Невідомий автор"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:53
-#: ../src/modules/rss/evolution/e-rss-preferences.c:853
+#: ../src/modules/rss/evolution/e-rss-preferences.c:908
 msgid "Markdown"
 msgstr "Markdown"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:415
+#: ../src/modules/rss/evolution/e-rss-preferences.c:444
 #, c-format
 msgid "Failed to fetch feed icon: %s"
 msgstr "Не вдалося отримати піктограму стрічки: %s"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:462
+#: ../src/modules/rss/evolution/e-rss-preferences.c:491
 msgid "Fetching feed icon…"
 msgstr "Отримуємо піктограму стрічки…"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:476
+#: ../src/modules/rss/evolution/e-rss-preferences.c:505
 msgid "Failed to read feed information."
 msgstr "Не вдалося прочитати дані стрічки."
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:495
+#: ../src/modules/rss/evolution/e-rss-preferences.c:524
 #, c-format
 msgid "Failed to fetch feed information: %s"
 msgstr "Не вдалося отримати відомості щодо стрічки: %s"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:525
+#: ../src/modules/rss/evolution/e-rss-preferences.c:554
 msgid "Fetching feed information…"
 msgstr "Отримуємо відомості щодо стрічки…"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:530
+#: ../src/modules/rss/evolution/e-rss-preferences.c:559
 msgid "Invalid Feed URL"
 msgstr "Некоректна адреса стрічки"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:573
+#: ../src/modules/rss/evolution/e-rss-preferences.c:602
 msgid "Choose Feed Image"
 msgstr "Виберіть зображення стрічки"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:814
+#: ../src/modules/rss/evolution/e-rss-preferences.c:869
 msgid "Feed _URL:"
 msgstr "_Адреса стрічки:"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:827
+#: ../src/modules/rss/evolution/e-rss-preferences.c:882
 msgid "_Fetch"
 msgstr "_Отримати"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:843
+#: ../src/modules/rss/evolution/e-rss-preferences.c:898
 msgid "C_ontent:"
 msgstr "В_міст:"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1091
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1148
 msgid "Import RSS Feeds"
 msgstr "Імпортувати стрічки RSS"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1091
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1148
 msgid "Export RSS Feeds"
 msgstr "Експортувати стрічки RSS"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1151
 msgid "Export"
 msgstr "Експорт"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1098
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1155
 msgid "OPML files"
 msgstr "файли OPML"
 
 #. Translators: This is a default file name for exported RSS feeds.
 #. Keep the extension (".opml") as is, translate only the "feeds" word, if needed.
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1107
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1164
 msgid "feeds.opml"
 msgstr "стрічки.opml"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1195
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1252
 msgid "Failed to export RSS feeds: "
 msgstr "Не вдалося експортувати стрічки RSS: "
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1221
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1278
 msgid "Failed to read file content: "
 msgstr "Не вдалося прочитати вміст файла: "
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1288
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1345
 msgid "Failed to add feed: "
 msgstr "Не вдалося додати стрічку: "
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1333
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1390
 msgid "No RSS feeds found"
 msgstr "Не знайдено стрічок RSS"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1335
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1392
 msgid "No new RSS feeds imported"
 msgstr "Не імпортовано жодної нової стрічки RSS"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1338
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1395
 #, c-format
 msgid "Imported %d feed"
 msgid_plural "Imported %d feeds"
@@ -27717,38 +27761,38 @@ msgstr[1] "Імпортовано %d стрічки"
 msgstr[2] "Імпортовано %d стрічок"
 msgstr[3] "Імпортовано %d стрічку"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1342
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1399
 msgid "Failed to import data, the file does not contain valid OPML data."
 msgstr ""
 "Не вдалося імпортувати дані — у файлі не міститься коректних даних OPML."
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1347
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1404
 msgid "Failed to parse file content. Expected is an OPML file."
 msgstr "Не вдалося обробити вміст файла. У файлі мали бути дані OPML."
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1595
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1652
 msgid "Download _feed enclosures"
 msgstr "_Отримати замикання стрічок"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1614
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1671
 msgid "Do not download e_nclosures larger than"
 msgstr "Не отримувати за_микання, розмір яких перевищує"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1637
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1694
 msgid "KB"
 msgstr "кБ"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1643
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1700
 msgid "Feeds"
 msgstr "Стрічки"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1708
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1769
 msgid "Content"
 msgstr "Вміст"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1768
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1829
 msgid "E_xport"
 msgstr "_Експортувати"
 
@@ -29314,7 +29358,7 @@ msgstr "Потрібно реєстраційні дані, щоб з'єднат
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/e-shell.c:1993
+#: ../src/shell/e-shell.c:1989
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
@@ -29323,39 +29367,39 @@ msgstr ""
 "«calendar» (календар), «contacts» (контакти), «tasks» (завдання) і "
 "«memos» (примітки)"
 
-#: ../src/shell/e-shell.c:1997
+#: ../src/shell/e-shell.c:1993
 msgid "Apply the given geometry to the main window"
 msgstr "Застосувати цю геометрію до головного вікна"
 
-#: ../src/shell/e-shell.c:2001
+#: ../src/shell/e-shell.c:1997
 msgid "Start in online mode"
 msgstr "Запуск у режимі підключення до мережі"
 
-#: ../src/shell/e-shell.c:2003
+#: ../src/shell/e-shell.c:1999
 msgid "Ignore network availability"
 msgstr "Ігнорувати доступність до мережі"
 
-#: ../src/shell/e-shell.c:2006
+#: ../src/shell/e-shell.c:2002
 msgid "Forcibly shut down Evolution"
 msgstr "Примусове завершення роботи Evolution"
 
-#: ../src/shell/e-shell.c:2009
+#: ../src/shell/e-shell.c:2005
 msgid "Disable loading of any plugins."
 msgstr "Заборонити завантаження будь-яких модулів"
 
-#: ../src/shell/e-shell.c:2011
+#: ../src/shell/e-shell.c:2007
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Вимкнути область перегляду пошити, контактів та задач."
 
-#: ../src/shell/e-shell.c:2015
+#: ../src/shell/e-shell.c:2011
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Імпортувати URI чи назви файлів, задані в решті аргументів."
 
-#: ../src/shell/e-shell.c:2017
+#: ../src/shell/e-shell.c:2013
 msgid "Request a running Evolution process to quit"
 msgstr "Запит на завершення запущеного процесу Evolution"
 
-#: ../src/shell/e-shell.c:2127
+#: ../src/shell/e-shell.c:2123
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -29364,7 +29408,7 @@ msgstr ""
 "%s: --online і --offline не можуть використовуватися одночасно.\n"
 "Виконайте «%s --help» для отримання більш докладної інформації.\n"
 
-#: ../src/shell/e-shell.c:2133
+#: ../src/shell/e-shell.c:2129
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
