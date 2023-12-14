@@ -85,6 +85,8 @@ enum {
 	TREE_DRAG_DROP,
 	TREE_DRAG_DATA_RECEIVED,
 
+	HEADER_CLICK_CAN_SORT,
+
 	LAST_SIGNAL
 };
 
@@ -726,6 +728,16 @@ header_canvas_size_allocate (GtkWidget *widget,
 }
 
 static void
+e_tree_header_click_can_sort_cb (ETableHeaderItem *header_item,
+				 gboolean *out_header_click_can_sort,
+				 gpointer user_data)
+{
+	ETree *tree = user_data;
+
+	g_signal_emit (tree, signals[HEADER_CLICK_CAN_SORT], 0, out_header_click_can_sort);
+}
+
+static void
 e_tree_setup_header (ETree *tree)
 {
 	GtkWidget *widget;
@@ -751,6 +763,9 @@ e_tree_setup_header (ETree *tree)
 		NULL);
 
 	g_free (pointer);
+
+	g_signal_connect_object (tree->priv->header_item, "header-click-can-sort",
+		G_CALLBACK (e_tree_header_click_can_sort_cb), tree, 0);
 
 	g_signal_connect (
 		tree->priv->header_canvas, "size_allocate",
@@ -3104,6 +3119,16 @@ e_tree_class_init (ETreeClass *class)
 		GTK_TYPE_SELECTION_DATA,
 		G_TYPE_UINT,
 		G_TYPE_UINT);
+
+	signals[HEADER_CLICK_CAN_SORT] = g_signal_new (
+		"header-click-can-sort",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		/* G_STRUCT_OFFSET (ETreeClass, header_click_can_sort) */ 0,
+		NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 
 	g_object_class_install_property (
 		object_class,

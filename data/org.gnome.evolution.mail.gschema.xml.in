@@ -980,6 +980,10 @@
       <_summary>How to convert links from HTML to plain text</_summary>
       <_description>Possible values: 'none' - do not store href in the plain text; 'inline' - show href beside the text link, like: "label &lt;href&gt;"; 'reference' - show href as reference to the end of the text, like: "label [1] ...... [1] label href"; 'reference-without-label' - show href as reference to the end of the text without label, like: "label [1] ...... [1] href"</_description>
     </key>
+    <key name="message-list-sort-on-header-click" enum="org.gnome.evolution.mail.AutomaticActionPolicy">
+      <default>'ask'</default>
+      <_summary>Whether click on a header in the message list can change sort order by the clicked column.</_summary>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

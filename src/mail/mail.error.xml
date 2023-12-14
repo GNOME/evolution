@@ -697,4 +697,13 @@ in the folder will be available in offline mode.</_secondary>
     <_primary>Failed to import OpenPGP key</_primary>
     <secondary>{0}</secondary>
   </error>
+
+  <error id="message-list-sort-on-header-click" type="question" default="GTK_RESPONSE_YES">
+    <_primary>Change sort order of the message list?</_primary>
+    <_secondary>Click in the list headers usually changes sort order. Choose what to do.</_secondary>
+    <button _label="_Sort" response="GTK_RESPONSE_YES"/>
+    <button _label="_Don’t Sort" response="GTK_RESPONSE_NO"/>
+    <button _label="_Always Sort" response="GTK_RESPONSE_ACCEPT"/>
+    <button _label="N_ever Sort" response="GTK_RESPONSE_CANCEL"/>
+  </error>
 </error-list>

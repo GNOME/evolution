@@ -49,6 +49,7 @@
 
 enum {
 	BUTTON_PRESSED,
+	HEADER_CLICK_CAN_SORT,
 	LAST_SIGNAL
 };
 
@@ -2074,11 +2075,17 @@ ethi_event (GnomeCanvasItem *item,
 			needs_ungrab = (ethi->resize_guide != NULL);
 			ethi_end_resize (ethi);
 		} else if (was_maybe_drag && ethi->sort_info) {
-			ETableCol *ecol;
+			gboolean header_click_can_sort = TRUE;
 
-			col = ethi_find_col_by_x (ethi, event_x_win);
-			ecol = e_table_header_get_column (ethi->eth, col);
-			ethi_change_sort_state (ethi, ecol, sort_flag);
+			g_signal_emit (ethi, ethi_signals[HEADER_CLICK_CAN_SORT], 0, &header_click_can_sort);
+
+			if (header_click_can_sort) {
+				ETableCol *ecol;
+
+				col = ethi_find_col_by_x (ethi, event_x_win);
+				ecol = e_table_header_get_column (ethi->eth, col);
+				ethi_change_sort_state (ethi, ecol, sort_flag);
+			}
 		}
 
 		if (needs_ungrab)
@@ -2246,6 +2253,16 @@ ethi_class_init (ETableHeaderItemClass *class)
 		g_cclosure_marshal_VOID__BOXED,
 		G_TYPE_NONE, 1,
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+
+	ethi_signals[HEADER_CLICK_CAN_SORT] = g_signal_new (
+		"header-click-can-sort",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		/* G_STRUCT_OFFSET (ETableHeaderItemClass, header_click_can_sort) */ 0,
+		NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 }
 
 static void

@@ -165,12 +165,14 @@ struct _EMMailerPrefsPrivate {
 
 	gint prompt_on_folder_drop_copy_state;
 	gint prompt_on_folder_drop_move_state;
+	gint message_list_sort_on_header_click;
 };
 
 enum {
 	PROP_0,
 	PROP_PROMPT_ON_FOLDER_DROP_COPY,
-	PROP_PROMPT_ON_FOLDER_DROP_MOVE
+	PROP_PROMPT_ON_FOLDER_DROP_MOVE,
+	PROP_MESSAGE_LIST_SORT_ON_HEADER_CLICK
 };
 
 G_DEFINE_TYPE (
@@ -203,9 +205,9 @@ em_mailer_prefs_folder_drop_state_to_string (gint state)
 }
 
 static void
-em_mailer_prefs_udate_toggle_prompt_on_folder_drop (EMMailerPrefs *self,
-						    GtkToggleButton *button,
-						    gint state)
+em_mailer_prefs_update_toggle_prompt_on_folder_drop (EMMailerPrefs *self,
+						     GtkToggleButton *button,
+						     gint state)
 {
 	g_signal_handlers_block_matched (button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, self);
 
@@ -232,7 +234,7 @@ em_mailer_prefs_manage_toggle_prompt_on_folder_drop (EMMailerPrefs *self,
 	else
 		*inout_state = 1;
 
-	em_mailer_prefs_udate_toggle_prompt_on_folder_drop (self, button, *inout_state);
+	em_mailer_prefs_update_toggle_prompt_on_folder_drop (self, button, *inout_state);
 }
 
 static void
@@ -255,6 +257,74 @@ em_mailer_prefs_toggle_prompt_on_folder_drop_move_cb (GtkToggleButton *button,
 	g_object_notify (G_OBJECT (self), "prompt-on-folder-drop-move");
 }
 
+/* EAutomaticActionPolicy */
+static gint
+em_mailer_prefs_string_to_action_policy (const gchar *str)
+{
+	if (g_strcmp0 (str, "never") == 0)
+		return E_AUTOMATIC_ACTION_POLICY_NEVER;
+
+	if (g_strcmp0 (str, "always") == 0)
+		return E_AUTOMATIC_ACTION_POLICY_ALWAYS;
+
+	return E_AUTOMATIC_ACTION_POLICY_ASK;
+}
+
+static const gchar *
+em_mailer_prefs_action_policy_to_string (gint state)
+{
+	if (state == E_AUTOMATIC_ACTION_POLICY_NEVER)
+		return "never";
+
+	if (state == E_AUTOMATIC_ACTION_POLICY_ALWAYS)
+		return "always";
+
+	return "ask";
+}
+
+static void
+em_mailer_prefs_update_toggle_action_policy (EMMailerPrefs *self,
+					     GtkToggleButton *button,
+					     gint state)
+{
+	g_signal_handlers_block_matched (button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, self);
+
+	if (state == E_AUTOMATIC_ACTION_POLICY_ASK) {
+		gtk_toggle_button_set_active (button, FALSE);
+		gtk_toggle_button_set_inconsistent (button, TRUE);
+	} else {
+		gtk_toggle_button_set_inconsistent (button, FALSE);
+		gtk_toggle_button_set_active (button, state == E_AUTOMATIC_ACTION_POLICY_ALWAYS);
+	}
+
+	g_signal_handlers_unblock_matched (button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, self);
+}
+
+static void
+em_mailer_prefs_manage_toggle_action_policy (EMMailerPrefs *self,
+					     GtkToggleButton *button,
+					     gint *inout_state)
+{
+	if (*inout_state == E_AUTOMATIC_ACTION_POLICY_NEVER)
+		*inout_state = E_AUTOMATIC_ACTION_POLICY_ASK;
+	else if (*inout_state == E_AUTOMATIC_ACTION_POLICY_ALWAYS)
+		*inout_state = E_AUTOMATIC_ACTION_POLICY_NEVER;
+	else
+		*inout_state = E_AUTOMATIC_ACTION_POLICY_ALWAYS;
+
+	em_mailer_prefs_update_toggle_action_policy (self, button, *inout_state);
+}
+
+static void
+em_mailer_prefs_toggle_message_list_sort_on_header_click_cb (GtkToggleButton *button,
+							     gpointer user_data)
+{
+	EMMailerPrefs *self = user_data;
+
+	em_mailer_prefs_manage_toggle_action_policy (self, button, &self->priv->message_list_sort_on_header_click);
+	g_object_notify (G_OBJECT (self), "message-list-sort-on-header-click");
+}
+
 static void
 em_mailer_prefs_set_property (GObject *object,
 			      guint property_id,
@@ -272,7 +342,7 @@ em_mailer_prefs_set_property (GObject *object,
 			g_object_notify (object, "prompt-on-folder-drop-copy");
 		}
 
-		em_mailer_prefs_udate_toggle_prompt_on_folder_drop (self, GTK_TOGGLE_BUTTON (
+		em_mailer_prefs_update_toggle_prompt_on_folder_drop (self, GTK_TOGGLE_BUTTON (
 			e_builder_get_widget (self->priv->builder, "chk-prompt-on-folder-drop-copy")), state);
 		return;
 
@@ -283,8 +353,19 @@ em_mailer_prefs_set_property (GObject *object,
 			g_object_notify (object, "prompt-on-folder-drop-move");
 		}
 
-		em_mailer_prefs_udate_toggle_prompt_on_folder_drop (self, GTK_TOGGLE_BUTTON (
+		em_mailer_prefs_update_toggle_prompt_on_folder_drop (self, GTK_TOGGLE_BUTTON (
 			e_builder_get_widget (self->priv->builder, "chk-prompt-on-folder-drop-move")), state);
+		return;
+
+	case PROP_MESSAGE_LIST_SORT_ON_HEADER_CLICK:
+		state = em_mailer_prefs_string_to_action_policy (g_value_get_string (value));
+		if (state != self->priv->message_list_sort_on_header_click) {
+			self->priv->message_list_sort_on_header_click = state;
+			g_object_notify (object, "message-list-sort-on-header-click");
+		}
+
+		em_mailer_prefs_update_toggle_action_policy (self, GTK_TOGGLE_BUTTON (
+			e_builder_get_widget (self->priv->builder, "chk-message-list-sort-on-header-click")), state);
 		return;
 	}
 
@@ -306,6 +387,10 @@ em_mailer_prefs_get_property (GObject *object,
 
 	case PROP_PROMPT_ON_FOLDER_DROP_MOVE:
 		g_value_set_string (value, em_mailer_prefs_folder_drop_state_to_string (self->priv->prompt_on_folder_drop_move_state));
+		return;
+
+	case PROP_MESSAGE_LIST_SORT_ON_HEADER_CLICK:
+		g_value_set_string (value, em_mailer_prefs_action_policy_to_string (self->priv->message_list_sort_on_header_click));
 		return;
 	}
 
@@ -371,6 +456,13 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *class)
 		PROP_PROMPT_ON_FOLDER_DROP_MOVE,
 		g_param_spec_string (
 			"prompt-on-folder-drop-move", NULL, NULL,
+			"ask", G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MESSAGE_LIST_SORT_ON_HEADER_CLICK,
+		g_param_spec_string (
+			"message-list-sort-on-header-click", NULL, NULL,
 			"ask", G_PARAM_READWRITE));
 }
 
@@ -2280,6 +2372,14 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	g_settings_bind (
 		settings, "prompt-on-folder-drop-move",
 		prefs, "prompt-on-folder-drop-move",
+		G_SETTINGS_BIND_DEFAULT);
+
+	widget = e_builder_get_widget (prefs->priv->builder, "chk-message-list-sort-on-header-click");
+	g_signal_connect (widget, "toggled",
+		G_CALLBACK (em_mailer_prefs_toggle_message_list_sort_on_header_click_cb), prefs);
+	g_settings_bind (
+		settings, "message-list-sort-on-header-click",
+		prefs, "message-list-sort-on-header-click",
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);

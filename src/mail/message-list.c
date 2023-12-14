@@ -3201,6 +3201,49 @@ message_list_user_headers_changed_cb (GSettings *settings,
 }
 
 static void
+message_list_header_click_can_sort_cb (ETree *tree,
+				       gboolean *out_header_click_can_sort,
+				       gpointer user_data)
+{
+	MessageList *message_list = MESSAGE_LIST (tree);
+	EAutomaticActionPolicy policy;
+
+	policy = g_settings_get_enum (message_list->priv->mail_settings, "message-list-sort-on-header-click");
+
+	if (policy == E_AUTOMATIC_ACTION_POLICY_ALWAYS) {
+		*out_header_click_can_sort = TRUE;
+	} else if (policy == E_AUTOMATIC_ACTION_POLICY_NEVER) {
+		*out_header_click_can_sort = FALSE;
+	} else {
+		gpointer parent;
+		gint response;
+
+		parent = gtk_widget_get_toplevel (GTK_WIDGET (message_list));
+		if (!GTK_IS_WINDOW (parent))
+			parent = NULL;
+
+		response = e_alert_run_dialog_for_args (parent, "mail:message-list-sort-on-header-click", NULL);
+		switch (response) {
+		case GTK_RESPONSE_YES:
+			*out_header_click_can_sort = TRUE;
+			break;
+		case GTK_RESPONSE_NO:
+			*out_header_click_can_sort = FALSE;
+			break;
+		case GTK_RESPONSE_ACCEPT:
+		case GTK_RESPONSE_CANCEL:
+			*out_header_click_can_sort = response == GTK_RESPONSE_ACCEPT;
+			g_settings_set_enum (message_list->priv->mail_settings, "message-list-sort-on-header-click",
+				*out_header_click_can_sort ? E_AUTOMATIC_ACTION_POLICY_ALWAYS : E_AUTOMATIC_ACTION_POLICY_NEVER);
+			break;
+		default:
+			*out_header_click_can_sort = FALSE;
+			break;
+		}
+	}
+}
+
+static void
 message_list_set_session (MessageList *message_list,
                           EMailSession *session)
 {
@@ -4292,6 +4335,9 @@ message_list_init (MessageList *message_list)
 
 	g_signal_connect (message_list->priv->eds_settings, "changed::camel-message-info-user-headers",
 		G_CALLBACK (message_list_user_headers_changed_cb), message_list);
+
+	g_signal_connect (message_list, "header-click-can-sort",
+		G_CALLBACK (message_list_header_click_can_sort_cb), NULL);
 }
 
 static void
