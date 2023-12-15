@@ -35,6 +35,9 @@ struct _EMarkdownEditorPrivate {
 	gboolean is_preview_beside_text;
 	guint preview_update_id;
 	gulong cursor_position_id;
+	gulong notify_mode_id;
+	GdkAtom serialize_atom;
+	gchar *signature_html_code;
 
 	/* EContentEditor properties */
 	gboolean can_copy;
@@ -859,8 +862,12 @@ e_markdown_editor_insert_signature (EContentEditor *cnt_editor,
 	GtkTextIter start, end, selection_start = { 0, };
 	gchar *plain_text = NULL;
 
+	g_clear_pointer (&self->priv->signature_html_code, g_free);
 	g_clear_pointer (&self->priv->signature_uid, g_free);
 	self->priv->signature_uid = g_strdup (signature_id);
+
+	if (content && *content && editor_mode == E_CONTENT_EDITOR_MODE_HTML)
+		self->priv->signature_html_code = g_strdup (content);
 
 	if (content && *content && editor_mode == E_CONTENT_EDITOR_MODE_HTML) {
 		GSettings *settings;
@@ -899,6 +906,12 @@ e_markdown_editor_insert_signature (EContentEditor *cnt_editor,
 		g_free (plain_text);
 		plain_text = tmp;
 		content = plain_text;
+
+		if (self->priv->signature_html_code) {
+			tmp = g_strconcat ("-- <br>\n", self->priv->signature_html_code, NULL);
+			g_free (self->priv->signature_html_code);
+			self->priv->signature_html_code = tmp;
+		}
 	}
 
 	self->priv->can_move_signature_start_mark = FALSE;
@@ -1439,6 +1452,83 @@ e_markdown_editor_markdown_syntax_cb (EMarkdownEditor *self)
 	e_show_uri (GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL, "https://commonmark.org/help/");
 }
 
+/* this is always processing the whole buffer, thus ignore in_start/in_end iters */
+static guint8 *
+e_markdown_editor_serialize_x_evolution_markdown_cb (GtkTextBuffer *register_buffer,
+						     GtkTextBuffer *buffer,
+						     const GtkTextIter *in_start,
+						     const GtkTextIter *in_end,
+						     gsize *out_length,
+						     gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+	GtkTextIter start, end, sig_start, sig_end;
+	GtkTextMark *sig_start_mark, *sig_end_mark;
+	GString *content;
+	gchar *str;
+
+	sig_start_mark = gtk_text_buffer_get_mark (buffer, EVO_SIGNATURE_START_MARK);
+	sig_end_mark = gtk_text_buffer_get_mark (buffer, EVO_SIGNATURE_END_MARK);
+	gtk_text_buffer_get_iter_at_mark (buffer, &sig_start, sig_start_mark);
+	gtk_text_buffer_get_iter_at_mark (buffer, &sig_end, sig_end_mark);
+	gtk_text_buffer_get_bounds (buffer, &start, &end);
+
+	content = g_string_new ("");
+
+	str = gtk_text_buffer_get_text (buffer, &start, &sig_start, FALSE);
+	if (str) {
+		g_string_append (content, str);
+		g_free (str);
+	}
+
+	g_string_append (content, self->priv->signature_html_code);
+
+	str = gtk_text_buffer_get_text (buffer, &sig_end, &end, FALSE);
+	if (str) {
+		g_string_append (content, str);
+		g_free (str);
+	}
+
+	if (out_length)
+		*out_length = content->len;
+
+	return (guint8 *) g_string_free (content, FALSE);
+}
+
+static gchar *
+e_markdown_editor_dup_text_internal (EMarkdownEditor *self,
+				     gboolean for_html)
+{
+	GtkTextBuffer *buffer;
+	GtkTextIter start, end;
+	gchar *content = NULL;
+
+	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
+
+	buffer = gtk_text_view_get_buffer (self->priv->text_view);
+	gtk_text_buffer_get_bounds (buffer, &start, &end);
+
+	if (for_html && self->priv->signature_html_code && self->priv->mode == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML) {
+		GtkTextMark *sig_start_mark, *sig_end_mark;
+
+		sig_start_mark = gtk_text_buffer_get_mark (buffer, EVO_SIGNATURE_START_MARK);
+		sig_end_mark = gtk_text_buffer_get_mark (buffer, EVO_SIGNATURE_END_MARK);
+
+		if (sig_start_mark && sig_end_mark) {
+			guint8 *data;
+			gsize length;
+
+			data = gtk_text_buffer_serialize (buffer, buffer, self->priv->serialize_atom, &start, &end, &length);
+			content = (gchar *) data;
+		}
+	}
+
+	if (!content)
+		content = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+
+	return content;
+}
+
 static gchar *
 e_markdown_editor_dup_html_internal (EMarkdownEditor *self,
 				     gboolean mark_cursor)
@@ -1450,7 +1540,7 @@ e_markdown_editor_dup_html_internal (EMarkdownEditor *self,
 	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
 
 	#ifdef HAVE_MARKDOWN
-	text = e_markdown_editor_dup_text (self);
+	text = e_markdown_editor_dup_text_internal (self, TRUE);
 	html = e_markdown_utils_text_to_html_full (text, -1, mark_cursor ?
 		E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS :
 		E_MARKDOWN_TEXT_TO_HTML_FLAG_NONE);
@@ -1705,6 +1795,8 @@ e_markdown_editor_toggle_preview (EMarkdownEditor *self,
 			G_CALLBACK (e_markdown_editor_buffer_changed_to_preview_cb), self, G_CONNECT_SWAPPED);
 		self->priv->cursor_position_id = e_signal_connect_notify_object (buffer, "notify::cursor-position",
 			G_CALLBACK (e_markdown_editor_buffer_changed_to_preview_cb), self, G_CONNECT_SWAPPED);
+		self->priv->notify_mode_id = e_signal_connect_notify_object (self, "notify::mode",
+			G_CALLBACK (e_markdown_editor_buffer_changed_to_preview_cb), NULL, 0);
 
 		e_paned_set_proportion (E_PANED (paned), 0.5);
 
@@ -1718,6 +1810,7 @@ e_markdown_editor_toggle_preview (EMarkdownEditor *self,
 		g_signal_handlers_disconnect_by_func (buffer,
 			G_CALLBACK (e_markdown_editor_buffer_changed_to_preview_cb), self);
 		e_signal_disconnect_notify_handler (buffer, &self->priv->cursor_position_id);
+		e_signal_disconnect_notify_handler (self, &self->priv->notify_mode_id);
 	}
 
 	g_object_unref (self->priv->text_view);
@@ -2277,6 +2370,10 @@ e_markdown_editor_constructed (GObject *object)
 	e_buffer_tagger_connect (self->priv->text_view);
 	e_spell_text_view_attach (self->priv->text_view);
 
+	self->priv->serialize_atom = gtk_text_buffer_register_serialize_format (
+		gtk_text_view_get_buffer (self->priv->text_view), "text/x-evolution-markdown",
+		e_markdown_editor_serialize_x_evolution_markdown_cb, self, NULL);
+
 	#ifdef HAVE_MARKDOWN
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	g_object_set (G_OBJECT (widget),
@@ -2384,6 +2481,7 @@ e_markdown_editor_finalize (GObject *object)
 
 	g_clear_object (&self->priv->spell_checker);
 	g_clear_pointer (&self->priv->signature_uid, g_free);
+	g_clear_pointer (&self->priv->signature_html_code, g_free);
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_markdown_editor_parent_class)->finalize (object);
@@ -2769,15 +2867,9 @@ e_markdown_editor_set_text (EMarkdownEditor *self,
 gchar *
 e_markdown_editor_dup_text (EMarkdownEditor *self)
 {
-	GtkTextBuffer *buffer;
-	GtkTextIter start, end;
-
 	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
 
-	buffer = gtk_text_view_get_buffer (self->priv->text_view);
-	gtk_text_buffer_get_bounds (buffer, &start, &end);
-
-	return gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+	return e_markdown_editor_dup_text_internal (self, FALSE);
 }
 
 /**
