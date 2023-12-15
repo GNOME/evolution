@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-11-29 09:18+0000\n"
-"PO-Revision-Date: 2023-12-01 23:40+0100\n"
+"POT-Creation-Date: 2023-12-14 14:48+0000\n"
+"PO-Revision-Date: 2023-12-15 05:12+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -2770,62 +2770,68 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:346
-msgid "(Deprecated) Default forward style"
+msgid ""
+"Whether click on a header in the message list can change sort order by the "
+"clicked column."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:347
+msgid "(Deprecated) Default forward style"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:348
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:348
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:349
 msgid "(Deprecated) Default reply style"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:349
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:350
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:350
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:355
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:355
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:356
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:356
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:357
 msgid "Prompt before send when attachment changed on the disk"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:357
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:358
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
@@ -3173,7 +3179,7 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/e-shell.c:1999
+#: ../src/shell/e-shell.c:1995
 msgid "Start in offline mode"
 msgstr ""
 
@@ -3522,7 +3528,7 @@ msgid "Memos"
 msgstr "ჩანაწერები"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2467
+#: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2481
 #: ../src/calendar/importers/icalendar-importer.c:74
 #: ../src/calendar/importers/icalendar-importer.c:1136
 #: ../src/e-util/e-webdav-browser.c:528
@@ -4013,7 +4019,7 @@ msgstr ""
 #: ../src/mail/em-vfolder-editor-rule.c:405
 #: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:67
 #: ../src/modules/mail/em-composer-prefs.c:420
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1739
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1800
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
 #: ../src/plugins/email-custom-header/email-custom-header.c:827
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
@@ -4175,7 +4181,7 @@ msgstr ""
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1249
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:282
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1095
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1152
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
 #: ../src/plugins/face/face.c:298
 #: ../src/plugins/publish-calendar/publish-calendar.c:788
@@ -4259,7 +4265,7 @@ msgstr "გამართვა"
 #: ../src/e-util/e-mail-signature-script-dialog.c:357
 #: ../src/e-util/e-webdav-browser.c:2663 ../src/e-util/e-web-view.c:4142
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
-#: ../src/modules/rss/evolution/e-rss-preferences.c:865
+#: ../src/modules/rss/evolution/e-rss-preferences.c:920
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:646
 #: ../src/smime/gui/certificate-manager.c:715
@@ -4541,7 +4547,7 @@ msgstr ""
 #: ../src/mail/e-mail-label-manager.c:397 ../src/mail/em-filter-rule.c:679
 #: ../src/mail/em-folder-properties.c:1397
 #: ../src/mail/em-vfolder-editor-rule.c:639 ../src/mail/mail-config.ui.h:68
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1758
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1819
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:837
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
@@ -4943,7 +4949,7 @@ msgstr ""
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1687
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1744
 msgid "Name"
 msgstr ""
 
@@ -6891,20 +6897,20 @@ msgid "Status"
 msgstr "სტატუსი"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2350
+#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2352
 #: ../src/calendar/gui/e-to-do-pane.c:268
-#: ../src/calendar/gui/e-week-view.c:1974 ../src/calendar/gui/print.c:1102
-#: ../src/calendar/gui/print.c:1121 ../src/calendar/gui/print.c:2688
-#: ../src/calendar/gui/print.c:2708
+#: ../src/calendar/gui/e-week-view.c:1974 ../src/calendar/gui/print.c:1111
+#: ../src/calendar/gui/print.c:1130 ../src/calendar/gui/print.c:2702
+#: ../src/calendar/gui/print.c:2722
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2353
+#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2355
 #: ../src/calendar/gui/e-to-do-pane.c:272
-#: ../src/calendar/gui/e-week-view.c:1977 ../src/calendar/gui/print.c:1107
-#: ../src/calendar/gui/print.c:1123 ../src/calendar/gui/print.c:2693
-#: ../src/calendar/gui/print.c:2710
+#: ../src/calendar/gui/e-week-view.c:1977 ../src/calendar/gui/print.c:1116
+#: ../src/calendar/gui/print.c:1132 ../src/calendar/gui/print.c:2707
+#: ../src/calendar/gui/print.c:2724
 msgid "pm"
 msgstr "pm"
 
@@ -6930,7 +6936,7 @@ msgstr ""
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2271
 #: ../src/calendar/gui/e-meeting-time-sel.c:2585
-#: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3628
+#: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3649
 #, c-format
 msgid "Location: %s"
 msgstr "მდებარეობა: %s"
@@ -7511,7 +7517,7 @@ msgstr "%d %b %Y"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1297
-#: ../src/calendar/gui/e-day-view.c:3286
+#: ../src/calendar/gui/e-day-view.c:3288
 #: ../src/calendar/gui/e-day-view-top-item.c:855
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
@@ -7528,7 +7534,7 @@ msgstr "%A %d %b %Y"
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1310
-#: ../src/calendar/gui/e-day-view.c:3270
+#: ../src/calendar/gui/e-day-view.c:3272
 #: ../src/calendar/gui/e-day-view-top-item.c:851
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
@@ -7610,8 +7616,8 @@ msgstr "ტიპი"
 #: ../src/calendar/gui/e-meeting-list-view.c:194
 #: ../src/calendar/gui/e-meeting-store.c:135
 #: ../src/calendar/gui/e-meeting-store.c:170
-#: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1291
-#: ../src/calendar/gui/print.c:1308 ../src/e-util/e-charset.c:49
+#: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1300
+#: ../src/calendar/gui/print.c:1317 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:4021
 #: ../src/modules/itip-formatter/itip-view.c:7143
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
@@ -7888,7 +7894,7 @@ msgstr ""
 #: ../src/e-util/e-misc-utils.c:4169 ../src/e-util/e-misc-utils.c:4177
 #: ../src/e-util/e-misc-utils.c:4185 ../src/e-util/e-misc-utils.c:4220
 #: ../src/e-util/e-misc-utils.c:4233 ../src/e-util/e-misc-utils.c:4247
-#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2922
+#: ../src/mail/e-mail-autoconfig.c:1137 ../src/mail/e-mail-display.c:2922
 #: ../src/mail/e-mail-notes.c:929 ../src/mail/e-mail-reader.c:3699
 #: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4072
 #: ../src/mail/em-composer-utils.c:4095 ../src/mail/mail-send-recv.c:598
@@ -8227,7 +8233,7 @@ msgstr ""
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:388
 #: ../src/mail/em-folder-properties.c:1394 ../src/mail/mail-config.ui.h:72
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1745
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1806
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:832
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
@@ -9061,15 +9067,15 @@ msgstr ""
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../src/calendar/gui/e-day-view.c:3253
+#: ../src/calendar/gui/e-day-view.c:3255
 #: ../src/calendar/gui/e-day-view-top-item.c:847
 #: ../src/calendar/gui/e-week-view-main-item.c:207
-#: ../src/calendar/gui/print.c:2143
+#: ../src/calendar/gui/print.c:2152
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3990
+#: ../src/calendar/gui/e-day-view.c:3993
 #, c-format
 msgid "Week %d"
 msgstr "კვირა %d"
@@ -9162,51 +9168,51 @@ msgstr "დამსწრეები"
 #: ../src/calendar/gui/e-meeting-list-view.c:176
 #: ../src/calendar/gui/e-meeting-store.c:110
 #: ../src/calendar/gui/e-meeting-store.c:127
-#: ../src/calendar/gui/e-meeting-store.c:1073 ../src/calendar/gui/print.c:1287
+#: ../src/calendar/gui/e-meeting-store.c:1073 ../src/calendar/gui/print.c:1296
 msgid "Individual"
 msgstr "ინდივიდუალური"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:177
 #: ../src/calendar/gui/e-meeting-store.c:112
-#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1288
+#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1297
 #: ../src/e-util/e-table-config.ui.h:1
 msgid "Group"
 msgstr "ჯგუფი"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:178
 #: ../src/calendar/gui/e-meeting-store.c:114
-#: ../src/calendar/gui/e-meeting-store.c:131 ../src/calendar/gui/print.c:1289
+#: ../src/calendar/gui/e-meeting-store.c:131 ../src/calendar/gui/print.c:1298
 msgid "Resource"
 msgstr "რესურსი"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:179
 #: ../src/calendar/gui/e-meeting-store.c:116
-#: ../src/calendar/gui/e-meeting-store.c:133 ../src/calendar/gui/print.c:1290
+#: ../src/calendar/gui/e-meeting-store.c:133 ../src/calendar/gui/print.c:1299
 msgid "Room"
 msgstr "ოთახი"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:190
 #: ../src/calendar/gui/e-meeting-store.c:145
-#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1304
+#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1313
 msgid "Chair"
 msgstr "სავარძელი"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:191
 #: ../src/calendar/gui/e-meeting-store.c:147
 #: ../src/calendar/gui/e-meeting-store.c:164
-#: ../src/calendar/gui/e-meeting-store.c:1074 ../src/calendar/gui/print.c:1305
+#: ../src/calendar/gui/e-meeting-store.c:1074 ../src/calendar/gui/print.c:1314
 msgid "Required Participant"
 msgstr ""
 
 #: ../src/calendar/gui/e-meeting-list-view.c:192
 #: ../src/calendar/gui/e-meeting-store.c:149
-#: ../src/calendar/gui/e-meeting-store.c:166 ../src/calendar/gui/print.c:1306
+#: ../src/calendar/gui/e-meeting-store.c:166 ../src/calendar/gui/print.c:1315
 msgid "Optional Participant"
 msgstr "არასავალდებულო მონაწილე"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:193
 #: ../src/calendar/gui/e-meeting-store.c:151
-#: ../src/calendar/gui/e-meeting-store.c:168 ../src/calendar/gui/print.c:1307
+#: ../src/calendar/gui/e-meeting-store.c:168 ../src/calendar/gui/print.c:1316
 msgid "Non-Participant"
 msgstr ""
 
@@ -9324,7 +9330,7 @@ msgid ""
 msgstr ""
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2583
-#: ../src/calendar/gui/print.c:3617
+#: ../src/calendar/gui/print.c:3638
 #, c-format
 msgid "Summary: %s"
 msgstr ""
@@ -9556,7 +9562,7 @@ msgstr "%s (%s)"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-week-view-main-item.c:224
-#: ../src/calendar/gui/print.c:2122
+#: ../src/calendar/gui/print.c:2131
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -9744,119 +9750,119 @@ msgstr[0] "%d წამი"
 #. Translators: These are workday abbreviations,
 #. * e.g. Su=Sunday and Th=thursday
 #. G_DATE_MONDAY
-#: ../src/calendar/gui/print.c:756
+#: ../src/calendar/gui/print.c:765
 msgid "Mo"
 msgstr "ორშ"
 
 #. G_DATE_TUESDAY
-#: ../src/calendar/gui/print.c:757
+#: ../src/calendar/gui/print.c:766
 msgid "Tu"
 msgstr "სამშ"
 
 #. G_DATE_WEDNESDAY
-#: ../src/calendar/gui/print.c:758
+#: ../src/calendar/gui/print.c:767
 msgid "We"
 msgstr "ოთხშ"
 
 #. G_DATE_THURSDAY
-#: ../src/calendar/gui/print.c:759
+#: ../src/calendar/gui/print.c:768
 msgid "Th"
 msgstr "ხუთშ"
 
 #. G_DATE_FRIDAY
-#: ../src/calendar/gui/print.c:760
+#: ../src/calendar/gui/print.c:769
 msgid "Fr"
 msgstr "პარ"
 
 #. G_DATE_SATURDAY
-#: ../src/calendar/gui/print.c:761
+#: ../src/calendar/gui/print.c:770
 msgid "Sa"
 msgstr "შაბ"
 
 #. G_DATE_SUNDAY
-#: ../src/calendar/gui/print.c:762
+#: ../src/calendar/gui/print.c:771
 msgid "Su"
 msgstr "კვი"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../src/calendar/gui/print.c:3433
+#: ../src/calendar/gui/print.c:3454
 msgid " to "
 msgstr ""
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../src/calendar/gui/print.c:3443
+#: ../src/calendar/gui/print.c:3464
 msgid " (Completed "
 msgstr ""
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../src/calendar/gui/print.c:3449
+#: ../src/calendar/gui/print.c:3470
 msgid "Completed "
 msgstr ""
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../src/calendar/gui/print.c:3459
+#: ../src/calendar/gui/print.c:3480
 msgid " (Due "
 msgstr ""
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../src/calendar/gui/print.c:3466
+#: ../src/calendar/gui/print.c:3487
 msgid "Due "
 msgstr ""
 
-#: ../src/calendar/gui/print.c:3587
+#: ../src/calendar/gui/print.c:3608
 msgid "Appointment"
 msgstr ""
 
-#: ../src/calendar/gui/print.c:3589 ../src/e-util/e-send-options.c:551
+#: ../src/calendar/gui/print.c:3610 ../src/e-util/e-send-options.c:551
 msgid "Task"
 msgstr "დავალება"
 
-#: ../src/calendar/gui/print.c:3591
+#: ../src/calendar/gui/print.c:3612
 msgid "Memo"
 msgstr "მემორანდუმი"
 
-#: ../src/calendar/gui/print.c:3648
+#: ../src/calendar/gui/print.c:3669
 msgid "Attendees: "
-msgstr ""
-
-#: ../src/calendar/gui/print.c:3687
-#, c-format
-msgid "Estimated duration: %s"
 msgstr ""
 
 #: ../src/calendar/gui/print.c:3708
 #, c-format
+msgid "Estimated duration: %s"
+msgstr ""
+
+#: ../src/calendar/gui/print.c:3729
+#, c-format
 msgid "Status: %s"
 msgstr "სტატუსი: %s"
 
-#: ../src/calendar/gui/print.c:3724
+#: ../src/calendar/gui/print.c:3745
 #, c-format
 msgid "Priority: %s"
 msgstr "პრიორიტეტი: %s"
 
-#: ../src/calendar/gui/print.c:3739
+#: ../src/calendar/gui/print.c:3760
 #, c-format
 msgid "Percent Complete: %i"
 msgstr ""
 
-#: ../src/calendar/gui/print.c:3754
+#: ../src/calendar/gui/print.c:3775
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../src/calendar/gui/print.c:3770
+#: ../src/calendar/gui/print.c:3791
 #, c-format
 msgid "Categories: %s"
 msgstr ""
 
-#: ../src/calendar/gui/print.c:3782
+#: ../src/calendar/gui/print.c:3803
 msgid "Contacts: "
 msgstr ""
 
@@ -11882,7 +11888,7 @@ msgstr ""
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:327
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:298
-#: ../src/modules/rss/evolution/e-rss-preferences.c:831
+#: ../src/modules/rss/evolution/e-rss-preferences.c:886
 msgid "_Name:"
 msgstr "სახელი:"
 
@@ -12348,9 +12354,9 @@ msgstr "შინაარსი"
 #. pseudo-header
 #: ../src/em-format/e-mail-formatter-quote-headers.c:205
 #: ../src/em-format/e-mail-formatter-utils.c:362
-#: ../src/modules/mail/em-mailer-prefs.c:875
-#: ../src/modules/mail/em-mailer-prefs.c:2033
-#: ../src/modules/mail/em-mailer-prefs.c:2082
+#: ../src/modules/mail/em-mailer-prefs.c:967
+#: ../src/modules/mail/em-mailer-prefs.c:2125
+#: ../src/modules/mail/em-mailer-prefs.c:2174
 msgid "Mailer"
 msgstr ""
 
@@ -12367,7 +12373,7 @@ msgstr ""
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
 #: ../src/em-format/e-mail-formatter-text-html.c:389
 #: ../src/modules/rss/evolution/e-rss-preferences.c:56
-#: ../src/modules/rss/evolution/e-rss-preferences.c:851
+#: ../src/modules/rss/evolution/e-rss-preferences.c:906
 msgid "HTML"
 msgstr "HTML"
 
@@ -12379,7 +12385,7 @@ msgstr ""
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:133
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
 #: ../src/modules/rss/evolution/e-rss-preferences.c:51
-#: ../src/modules/rss/evolution/e-rss-preferences.c:852
+#: ../src/modules/rss/evolution/e-rss-preferences.c:907
 msgid "Plain Text"
 msgstr "უბრალო ტექსტი"
 
@@ -13952,7 +13958,7 @@ msgstr ""
 #: ../src/e-util/e-mail-identity-combo-box.c:798
 #: ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:29
-#: ../src/mail/e-mail-autoconfig.c:863
+#: ../src/mail/e-mail-autoconfig.c:871
 #: ../src/mail/e-mail-config-summary-page.c:143
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
 msgid "None"
@@ -16152,11 +16158,11 @@ msgstr ""
 msgid "_Show field in View"
 msgstr ""
 
-#: ../src/e-util/e-table-config.ui.h:6 ../src/e-util/e-table-header-item.c:1778
+#: ../src/e-util/e-table-config.ui.h:6 ../src/e-util/e-table-header-item.c:1779
 msgid "Ascending"
 msgstr "ზრდის მიხედვით"
 
-#: ../src/e-util/e-table-config.ui.h:7 ../src/e-util/e-table-header-item.c:1778
+#: ../src/e-util/e-table-config.ui.h:7 ../src/e-util/e-table-header-item.c:1779
 msgid "Descending"
 msgstr "Დაღმავალი"
 
@@ -16243,61 +16249,61 @@ msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
 msgstr[0] ""
 
-#: ../src/e-util/e-table-header-item.c:1596
+#: ../src/e-util/e-table-header-item.c:1597
 msgid "Customize Current View"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1628
+#: ../src/e-util/e-table-header-item.c:1629
 msgid "Sort _Ascending"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1631
+#: ../src/e-util/e-table-header-item.c:1632
 msgid "Sort _Descending"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1634
+#: ../src/e-util/e-table-header-item.c:1635
 msgid "_Reset sort"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1637
+#: ../src/e-util/e-table-header-item.c:1638
 msgid "Group By This _Field"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1640
+#: ../src/e-util/e-table-header-item.c:1641
 msgid "Group By _Box"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1644
+#: ../src/e-util/e-table-header-item.c:1645
 msgid "Remove This _Column"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1647
+#: ../src/e-util/e-table-header-item.c:1648
 msgid "Add a C_olumn…"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1651
+#: ../src/e-util/e-table-header-item.c:1652
 msgid "A_lignment"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1654
+#: ../src/e-util/e-table-header-item.c:1655
 msgid "B_est Fit"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1657
+#: ../src/e-util/e-table-header-item.c:1658
 msgid "Format Column_s…"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1661
+#: ../src/e-util/e-table-header-item.c:1662
 #: ../src/shell/e-shell-window-actions.c:1310
 msgid "Custo_mize Current View…"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1728
+#: ../src/e-util/e-table-header-item.c:1729
 msgid "_Sort By"
 msgstr ""
 
 #. Custom
-#: ../src/e-util/e-table-header-item.c:1751
+#: ../src/e-util/e-table-header-item.c:1752
 msgid "_Custom"
 msgstr "_ხელით"
 
@@ -17153,62 +17159,62 @@ msgstr ""
 msgid "De_fault"
 msgstr "_ნაგულისხმები"
 
-#: ../src/mail/e-mail-autoconfig.c:512
+#: ../src/mail/e-mail-autoconfig.c:520
 #, c-format
 msgid "Invalid URI: “%s”"
 msgstr ""
 
-#: ../src/mail/e-mail-autoconfig.c:853
+#: ../src/mail/e-mail-autoconfig.c:861
 #, c-format
 msgid "Host: %s:%d"
 msgstr ""
 
-#: ../src/mail/e-mail-autoconfig.c:857
+#: ../src/mail/e-mail-autoconfig.c:865
 #, c-format
 msgid "User: %s"
 msgstr "მომხმარებელი: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:861
+#: ../src/mail/e-mail-autoconfig.c:869
 #, c-format
 msgid "Security method: %s"
 msgstr "უსაფრთხოების მეთოდი: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:862
+#: ../src/mail/e-mail-autoconfig.c:870
 #: ../src/mail/e-mail-config-summary-page.c:146
 msgid "TLS"
 msgstr "TLS"
 
-#: ../src/mail/e-mail-autoconfig.c:863
+#: ../src/mail/e-mail-autoconfig.c:871
 #: ../src/mail/e-mail-config-summary-page.c:149
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: ../src/mail/e-mail-autoconfig.c:867
+#: ../src/mail/e-mail-autoconfig.c:875
 #, c-format
 msgid "Authentication mechanism: %s"
 msgstr ""
 
-#: ../src/mail/e-mail-autoconfig.c:1050
+#: ../src/mail/e-mail-autoconfig.c:1058
 msgid "No email address provided"
 msgstr ""
 
-#: ../src/mail/e-mail-autoconfig.c:1059
+#: ../src/mail/e-mail-autoconfig.c:1067
 msgid "Missing domain in email address"
 msgstr ""
 
-#: ../src/mail/e-mail-autoconfig.c:1419
+#: ../src/mail/e-mail-autoconfig.c:1427
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 msgid "IMAP server"
 msgstr "IMAP სერვერი"
 
-#: ../src/mail/e-mail-autoconfig.c:1426
+#: ../src/mail/e-mail-autoconfig.c:1434
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:89
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 msgid "POP3 server"
 msgstr ""
 
-#: ../src/mail/e-mail-autoconfig.c:1433
+#: ../src/mail/e-mail-autoconfig.c:1441
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "SMTP server"
@@ -17415,7 +17421,7 @@ msgid "Archi_ve Folder:"
 msgstr ""
 
 #: ../src/mail/e-mail-config-defaults-page.c:777
-#: ../src/modules/mail/em-mailer-prefs.c:1930
+#: ../src/modules/mail/em-mailer-prefs.c:2022
 msgid "Choose a folder to archive messages to."
 msgstr ""
 
@@ -17576,7 +17582,7 @@ msgstr ""
 #: ../src/modules/calendar/e-calendar-preferences.c:650
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:54
 #: ../src/modules/mail/e-mail-shell-backend.c:1018
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1572
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1629
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "ძირითადი"
@@ -20497,17 +20503,22 @@ msgstr ""
 msgid "_Move folder by Drag & Drop in folder tree"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:167
+#. This is in the context of: Ask for confirmation before...
+#: ../src/mail/mail-config.ui.h:168
+msgid "Sort message list on _header click"
+msgstr ""
+
+#: ../src/mail/mail-config.ui.h:169
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:247
 msgid "No encryption"
 msgstr "დაშიფვრის გარეშე"
 
-#: ../src/mail/mail-config.ui.h:168
+#: ../src/mail/mail-config.ui.h:170
 msgid "TLS encryption"
 msgstr "TLS დაშიფვრა"
 
-#: ../src/mail/mail-config.ui.h:169
+#: ../src/mail/mail-config.ui.h:171
 msgid "SSL encryption"
 msgstr "SSL დაშიფვრა"
 
@@ -21432,14 +21443,39 @@ msgid "Do you wish to import OpenPGP key?"
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:225
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1781
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1151
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1842
 msgid "_Import"
 msgstr "_შემოტანა"
 
 #: ../src/mail/mail.error.xml.h:226
 msgid "Failed to import OpenPGP key"
 msgstr ""
+
+#: ../src/mail/mail.error.xml.h:227
+msgid "Change sort order of the message list?"
+msgstr ""
+
+#: ../src/mail/mail.error.xml.h:228
+msgid ""
+"Click in the list headers usually changes sort order. Choose what to do."
+msgstr ""
+
+#: ../src/mail/mail.error.xml.h:229
+msgid "_Sort"
+msgstr "_დალაგება"
+
+#: ../src/mail/mail.error.xml.h:230
+msgid "_Don’t Sort"
+msgstr ""
+
+#: ../src/mail/mail.error.xml.h:231
+msgid "_Always Sort"
+msgstr "ყოველთვის _დალაგება"
+
+#: ../src/mail/mail.error.xml.h:232
+msgid "N_ever Sort"
+msgstr "არასდროს დაალაგო"
 
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
@@ -21573,24 +21609,24 @@ msgstr ""
 msgid "User Header 3"
 msgstr ""
 
-#: ../src/mail/message-list.c:3501
+#: ../src/mail/message-list.c:3544
 msgid "Select all visible messages"
 msgstr ""
 
-#: ../src/mail/message-list.c:4338 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4384 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "შეტყობინებები"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5730
+#: ../src/mail/message-list.c:5776
 msgid "Follow-up"
 msgstr ""
 
-#: ../src/mail/message-list.c:6476 ../src/mail/message-list.c:6920
+#: ../src/mail/message-list.c:6522 ../src/mail/message-list.c:6966
 msgid "Generating message list…"
 msgstr ""
 
-#: ../src/mail/message-list.c:6479
+#: ../src/mail/message-list.c:6525
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -21598,7 +21634,7 @@ msgid ""
 "changing the query above."
 msgstr ""
 
-#: ../src/mail/message-list.c:6486
+#: ../src/mail/message-list.c:6532
 msgid "There are no messages in this folder."
 msgstr ""
 
@@ -21826,7 +21862,7 @@ msgstr ""
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124
-#: ../src/modules/mail/em-mailer-prefs.c:2175
+#: ../src/modules/mail/em-mailer-prefs.c:2267
 msgid "_Table column:"
 msgstr ""
 
@@ -25897,17 +25933,17 @@ msgstr ""
 msgid "Immediately, on folder leave"
 msgstr ""
 
-#: ../src/modules/mail/em-mailer-prefs.c:625
+#: ../src/modules/mail/em-mailer-prefs.c:717
 msgid "Header"
 msgstr "სათაური"
 
-#: ../src/modules/mail/em-mailer-prefs.c:629
+#: ../src/modules/mail/em-mailer-prefs.c:721
 msgid "Contains Value"
 msgstr ""
 
 #. Translators: This is a column caption, in which a mail header name is shown.
 #. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
-#: ../src/modules/mail/em-mailer-prefs.c:2145
+#: ../src/modules/mail/em-mailer-prefs.c:2237
 msgctxt "UserHeaders"
 msgid "Header"
 msgstr "თავსართი"
@@ -25915,17 +25951,17 @@ msgstr "თავსართი"
 #. Translators: This is a column caption, in which a mail header title is shown;
 #. it's the text the header is presented in the GUI, aka a user friendly name
 #. of the header. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
-#: ../src/modules/mail/em-mailer-prefs.c:2159
+#: ../src/modules/mail/em-mailer-prefs.c:2251
 msgctxt "UserHeaders"
 msgid "Title"
 msgstr "სათაური"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
-#: ../src/modules/mail/em-mailer-prefs.c:2177
+#: ../src/modules/mail/em-mailer-prefs.c:2269
 msgid "_Date header:"
 msgstr ""
 
-#: ../src/modules/mail/em-mailer-prefs.c:2178
+#: ../src/modules/mail/em-mailer-prefs.c:2270
 msgid "Show _original header value"
 msgstr ""
 
@@ -26121,23 +26157,23 @@ msgid "Apply message _filters to this folder"
 msgstr ""
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:740
-#: ../src/modules/rss/evolution/e-rss-preferences.c:857
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1582
+#: ../src/modules/rss/evolution/e-rss-preferences.c:912
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1639
 msgid "_Download complete articles"
 msgstr ""
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:753
-#: ../src/modules/rss/evolution/e-rss-preferences.c:861
+#: ../src/modules/rss/evolution/e-rss-preferences.c:916
 msgid "Download feed _enclosures"
 msgstr ""
 
-#: ../src/modules/rss/camel/camel-rss-folder-summary.c:269
+#: ../src/modules/rss/camel/camel-rss-folder-summary.c:274
 msgid "Enclosures:"
 msgstr ""
 
 #: ../src/modules/rss/camel/camel-rss-provider.c:17
 #: ../src/modules/rss/camel/camel-rss-store.c:48
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1823
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1884
 #: ../src/modules/rss/evolution/e-rss-shell-extension.c:62
 msgid "News and Blogs"
 msgstr ""
@@ -26164,131 +26200,131 @@ msgid "Unknown author"
 msgstr "უცნობი შეცდომა"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:53
-#: ../src/modules/rss/evolution/e-rss-preferences.c:853
+#: ../src/modules/rss/evolution/e-rss-preferences.c:908
 msgid "Markdown"
 msgstr "მარკდაუნი"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:415
+#: ../src/modules/rss/evolution/e-rss-preferences.c:444
 #, c-format
 msgid "Failed to fetch feed icon: %s"
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:462
+#: ../src/modules/rss/evolution/e-rss-preferences.c:491
 msgid "Fetching feed icon…"
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:476
+#: ../src/modules/rss/evolution/e-rss-preferences.c:505
 msgid "Failed to read feed information."
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:495
+#: ../src/modules/rss/evolution/e-rss-preferences.c:524
 #, c-format
 msgid "Failed to fetch feed information: %s"
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:525
+#: ../src/modules/rss/evolution/e-rss-preferences.c:554
 msgid "Fetching feed information…"
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:530
+#: ../src/modules/rss/evolution/e-rss-preferences.c:559
 msgid "Invalid Feed URL"
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:573
+#: ../src/modules/rss/evolution/e-rss-preferences.c:602
 msgid "Choose Feed Image"
 msgstr "აირჩიეთ ლენტის გამოსახულება"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:814
+#: ../src/modules/rss/evolution/e-rss-preferences.c:869
 msgid "Feed _URL:"
 msgstr "ლენტის _URL:"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:827
+#: ../src/modules/rss/evolution/e-rss-preferences.c:882
 msgid "_Fetch"
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:843
+#: ../src/modules/rss/evolution/e-rss-preferences.c:898
 msgid "C_ontent:"
 msgstr "შემცველობა:"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1091
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1148
 msgid "Import RSS Feeds"
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1091
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1148
 msgid "Export RSS Feeds"
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1151
 msgid "Export"
 msgstr "გატანა"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1098
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1155
 msgid "OPML files"
 msgstr "OPML ფაილები"
 
 #. Translators: This is a default file name for exported RSS feeds.
 #. Keep the extension (".opml") as is, translate only the "feeds" word, if needed.
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1107
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1164
 msgid "feeds.opml"
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1195
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1252
 msgid "Failed to export RSS feeds: "
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1221
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1278
 msgid "Failed to read file content: "
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1288
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1345
 msgid "Failed to add feed: "
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1333
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1390
 msgid "No RSS feeds found"
 msgstr "RSS ლენტა ვერ ვიპოვე"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1335
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1392
 msgid "No new RSS feeds imported"
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1338
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1395
 #, c-format
 msgid "Imported %d feed"
 msgid_plural "Imported %d feeds"
 msgstr[0] ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1342
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1399
 msgid "Failed to import data, the file does not contain valid OPML data."
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1347
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1404
 msgid "Failed to parse file content. Expected is an OPML file."
 msgstr ""
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1595
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1652
 msgid "Download _feed enclosures"
 msgstr ""
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1614
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1671
 msgid "Do not download e_nclosures larger than"
 msgstr ""
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1637
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1694
 msgid "KB"
 msgstr "კბ"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1643
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1700
 msgid "Feeds"
 msgstr "ლენტები"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1708
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1769
 msgid "Content"
 msgstr "შემცველობა"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1768
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1829
 msgid "E_xport"
 msgstr "_გატანა"
 
@@ -27750,52 +27786,52 @@ msgstr ""
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/e-shell.c:1993
+#: ../src/shell/e-shell.c:1989
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
 msgstr ""
 
-#: ../src/shell/e-shell.c:1997
+#: ../src/shell/e-shell.c:1993
 msgid "Apply the given geometry to the main window"
 msgstr ""
 
-#: ../src/shell/e-shell.c:2001
+#: ../src/shell/e-shell.c:1997
 msgid "Start in online mode"
 msgstr ""
 
-#: ../src/shell/e-shell.c:2003
+#: ../src/shell/e-shell.c:1999
 msgid "Ignore network availability"
 msgstr ""
 
-#: ../src/shell/e-shell.c:2006
+#: ../src/shell/e-shell.c:2002
 msgid "Forcibly shut down Evolution"
 msgstr ""
 
-#: ../src/shell/e-shell.c:2009
+#: ../src/shell/e-shell.c:2005
 msgid "Disable loading of any plugins."
 msgstr ""
 
-#: ../src/shell/e-shell.c:2011
+#: ../src/shell/e-shell.c:2007
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr ""
 
-#: ../src/shell/e-shell.c:2015
+#: ../src/shell/e-shell.c:2011
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr ""
 
-#: ../src/shell/e-shell.c:2017
+#: ../src/shell/e-shell.c:2013
 msgid "Request a running Evolution process to quit"
 msgstr ""
 
-#: ../src/shell/e-shell.c:2127
+#: ../src/shell/e-shell.c:2123
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Run “%s --help” for more information.\n"
 msgstr ""
 
-#: ../src/shell/e-shell.c:2133
+#: ../src/shell/e-shell.c:2129
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
