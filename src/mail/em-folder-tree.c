@@ -469,9 +469,10 @@ folder_tree_select_uri (EMFolderTree *folder_tree,
 	folder_tree_free_select_uri (u);
 }
 
-static void
-folder_tree_expand_node (const gchar *key,
-                         EMFolderTree *folder_tree)
+static gboolean
+folder_tree_select_node (EMFolderTree *folder_tree,
+			 const gchar *key,
+			 gboolean with_expand)
 {
 	GtkTreeRowReference *row = NULL;
 	GtkTreeView *tree_view;
@@ -516,16 +517,19 @@ folder_tree_expand_node (const gchar *key,
 	g_clear_object (&service);
 
 	if (row == NULL)
-		return;
+		return FALSE;
 
 	path = gtk_tree_row_reference_get_path (row);
-	gtk_tree_view_expand_to_path (tree_view, path);
+	if (with_expand)
+		gtk_tree_view_expand_to_path (tree_view, path);
 
 	u = g_hash_table_lookup (folder_tree->priv->select_uris_table, key);
 	if (u)
 		folder_tree_select_uri (folder_tree, path, u);
 
 	gtk_tree_path_free (path);
+
+	return TRUE;
 }
 
 static void
@@ -557,7 +561,7 @@ folder_tree_maybe_expand_row (EMFolderTreeModel *model,
 		/* 'c' cannot be NULL, because the above constructed 'key' has it there */
 		/* coverity[dereference] */
 		*c = '\0';
-		folder_tree_expand_node (key, folder_tree);
+		folder_tree_select_node (folder_tree, key, TRUE);
 
 		folder_tree_select_uri (folder_tree, tree_path, u);
 	}
@@ -3296,12 +3300,16 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 		}
 
 		while (end = strrchr (expand_key, '/'), end) {
-			folder_tree_expand_node (expand_key, folder_tree);
+			/* do not expand the folder to be selected, expand only its parents */
 			*end = 0;
+			if (folder_tree_select_node (folder_tree, expand_key, TRUE))
+				break;
 		}
 
 		if (expand_only)
 			folder_tree_free_select_uri (u);
+		else
+			folder_tree_select_node (folder_tree, u->key, FALSE);
 
 		g_free (expand_key);
 	}
