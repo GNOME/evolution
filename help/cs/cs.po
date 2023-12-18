@@ -6989,7 +6989,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-composer-change-quotation-string.page:24
 msgid "Changing the \"On date, person wrote:\" string when replying"
-msgstr "Změna textu „Osoba píše v <datum>:“ při odpovídání na zprávu"
+msgstr "Změna textu „Osoba píše v datum:“ při odpovídání na zprávu"
 
 #. (itstool) path: note/p
 #: C/mail-composer-change-quotation-string.page:27
