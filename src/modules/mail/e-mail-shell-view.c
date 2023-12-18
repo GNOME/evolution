@@ -682,6 +682,207 @@ mail_shell_view_stop_and_clear_search_vfolders (EMailShellView *mail_shell_view)
 	g_clear_object (&mail_shell_view->priv->search_account_current);
 }
 
+static gboolean
+mail_shell_view_option_is_contains (EFilterElement *elem)
+{
+	EFilterOption *opt;
+
+	if (!E_IS_FILTER_OPTION (elem))
+		return FALSE;
+
+	opt = E_FILTER_OPTION (elem);
+
+	return opt->current && g_strcmp0 (opt->current->value, "contains") == 0;
+}
+
+static gchar *
+mail_shell_view_dup_input_text (EFilterElement *elem)
+{
+	EFilterInput *inpt;
+	GString *str;
+	GList *link;
+
+	if (!E_IS_FILTER_INPUT (elem))
+		return NULL;
+
+	inpt = E_FILTER_INPUT (elem);
+	str = g_string_new ("");
+
+	for (link = inpt->values; link; link = g_list_next (link)) {
+		const gchar *value = link->data;
+
+		if (value && *value) {
+			if (str->len)
+				g_string_append_c (str, ' ');
+			g_string_append (str, value);
+		}
+	}
+
+	return g_string_free (str, FALSE);
+}
+
+static void
+mail_shell_view_custom_search (EShellView *shell_view,
+			       EFilterRule *custom_rule)
+{
+	gboolean processed = FALSE;
+
+	/* Make sure the <ruleset> from src/mail/searchtypes.xml.in matches below code */
+
+	if (custom_rule && custom_rule->threading == E_FILTER_THREAD_NONE &&
+	    custom_rule->grouping == E_FILTER_GROUP_ANY &&
+	    custom_rule->parts && custom_rule->parts->data) {
+		EShellWindow *shell_window = e_shell_view_get_shell_window (shell_view);
+		EShellSearchbar *searchbar = E_SHELL_SEARCHBAR (e_shell_view_get_searchbar (shell_view));
+		EFilterPart *part = custom_rule->parts->data;
+		GtkAction *search_action = NULL;
+		gchar *search_text = NULL;
+
+		if (!custom_rule->parts->next && g_list_length (part->elements) == 2) {
+			EFilterElement *elem0, *elem1;
+
+			elem0 = part->elements->data;
+			elem1 = part->elements->next->data;
+
+			if (mail_shell_view_option_is_contains (elem0)) {
+				if (g_strcmp0 (part->name, "sender") == 0)
+					search_action = ACTION (MAIL_SEARCH_SENDER_CONTAINS);
+				else if (g_strcmp0 (part->name, "subject") == 0)
+					search_action = ACTION (MAIL_SEARCH_SUBJECT_CONTAINS);
+				else if (g_strcmp0 (part->name, "to") == 0)
+					search_action = ACTION (MAIL_SEARCH_RECIPIENTS_CONTAIN);
+				else if (g_strcmp0 (part->name, "body") == 0)
+					search_action = ACTION (MAIL_SEARCH_BODY_CONTAINS);
+
+				if (search_action)
+					search_text = mail_shell_view_dup_input_text (elem1);
+			}
+		} else if (!custom_rule->parts->next && g_list_length (part->elements) == 1 &&
+			   g_strcmp0 (part->name, "mail-free-form-exp") == 0) {
+			EFilterElement *elem;
+
+			elem = part->elements->data;
+
+			search_action = ACTION (MAIL_SEARCH_FREE_FORM_EXPR);
+			search_text = mail_shell_view_dup_input_text (elem);
+		} else if (g_list_length (custom_rule->parts) == 3) {
+			GList *link;
+			gboolean has_subject = FALSE, has_sender = FALSE, has_to = FALSE;
+
+			for (link = custom_rule->parts; link; link = g_list_next (link)) {
+				part = link->data;
+
+				if (!part || g_list_length (part->elements) != 2 ||
+				    !mail_shell_view_option_is_contains (part->elements->data))
+					continue;
+
+				if (!has_subject && g_strcmp0 (part->name, "subject") == 0)
+					has_subject = TRUE;
+				else if (!has_sender  && g_strcmp0 (part->name, "sender") == 0)
+					has_sender = TRUE;
+				else if (!has_to && g_strcmp0 (part->name, "to") == 0)
+					has_to = TRUE;
+			}
+
+			if (has_subject && has_sender && has_to) {
+				for (link = custom_rule->parts; link; link = g_list_next (link)) {
+					EFilterElement *elem;
+					gchar *text;
+
+					part = link->data;
+
+					if (!part || !part->elements || !part->elements->next)
+						continue;
+
+					elem = part->elements->next->data;
+					text = mail_shell_view_dup_input_text (elem);
+
+					/* all three options should have set the same text to search for */
+					if (!text || (search_text && g_strcmp0 (search_text, text) != 0)) {
+						g_clear_pointer (&search_text, g_free);
+						g_free (text);
+						break;
+					}
+
+					if (search_text)
+						g_free (text);
+					else
+						search_text = text;
+				}
+
+				if (search_text)
+					search_action = ACTION (MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
+			}
+		} else if (g_list_length (custom_rule->parts) == 4) {
+			GList *link;
+			gboolean has_subject = FALSE, has_sender = FALSE, has_to = FALSE, has_body = FALSE;
+
+			for (link = custom_rule->parts; link; link = g_list_next (link)) {
+				part = link->data;
+
+				if (!part || g_list_length (part->elements) != 2 ||
+				    !mail_shell_view_option_is_contains (part->elements->data))
+					continue;
+
+				if (!has_subject && g_strcmp0 (part->name, "subject") == 0)
+					has_subject = TRUE;
+				else if (!has_sender  && g_strcmp0 (part->name, "sender") == 0)
+					has_sender = TRUE;
+				else if (!has_to && g_strcmp0 (part->name, "to") == 0)
+					has_to = TRUE;
+				else if (!has_body && g_strcmp0 (part->name, "body") == 0)
+					has_body = TRUE;
+			}
+
+			if (has_subject && has_sender && has_to && has_body) {
+				for (link = custom_rule->parts; link; link = g_list_next (link)) {
+					EFilterElement *elem;
+					gchar *text;
+
+					part = link->data;
+
+					if (!part || !part->elements || !part->elements->next)
+						continue;
+
+					elem = part->elements->next->data;
+					text = mail_shell_view_dup_input_text (elem);
+
+					/* all four options should have set the same text to search for */
+					if (!text || (search_text && g_strcmp0 (search_text, text) != 0)) {
+						g_clear_pointer (&search_text, g_free);
+						g_free (text);
+						break;
+					}
+
+					if (search_text)
+						g_free (text);
+					else
+						search_text = text;
+				}
+
+				if (search_text)
+					search_action = ACTION (MAIL_SEARCH_MESSAGE_CONTAINS);
+			}
+		}
+
+		if (search_action && search_text) {
+			e_shell_view_block_execute_search (shell_view);
+			e_shell_view_set_search_rule (shell_view, NULL);
+			gtk_action_activate (search_action);
+			e_shell_searchbar_set_search_text (searchbar, search_text);
+			e_shell_view_unblock_execute_search (shell_view);
+			e_shell_view_execute_search (shell_view);
+
+			processed = TRUE;
+		}
+
+		g_free (search_text);
+	}
+
+	if (!processed)
+		E_SHELL_VIEW_CLASS (e_mail_shell_view_parent_class)->custom_search (shell_view, custom_rule);
+}
+
 static void
 mail_shell_view_execute_search (EShellView *shell_view)
 {
@@ -1577,6 +1778,7 @@ e_mail_shell_view_class_init (EMailShellViewClass *class)
 	shell_view_class->new_shell_content = e_mail_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_mail_shell_sidebar_new;
 	shell_view_class->toggled = mail_shell_view_toggled;
+	shell_view_class->custom_search = mail_shell_view_custom_search;
 	shell_view_class->execute_search = mail_shell_view_execute_search;
 	shell_view_class->update_actions = mail_shell_view_update_actions;
 
