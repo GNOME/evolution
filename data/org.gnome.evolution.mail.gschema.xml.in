@@ -677,6 +677,11 @@
       <_summary>Prompt when sending to many To and CC recipients</_summary>
       <_description>Enable or disable the prompt when sending to many To and CC recipients. The “composer-many-to-cc-recips-num” defines the threshold.</_description>
     </key>
+    <key name="composer-addresses-accept-html" type="as">
+      <default>[]</default>
+      <_summary>List of addresses, or even parts of addresses, which accept HTML</_summary>
+      <_description>It's a complementary option for “prompt-on-unwanted-html”, containing list of addresses, which accept HTML messages.</_description>
+    </key>
     <key name="browser-close-on-reply-policy" enum="org.gnome.evolution.mail.AutomaticActionPolicy">
       <default>'ask'</default>
       <_summary>Policy for automatically closing the message browser window when forwarding or replying to the displayed message.</_summary>

@@ -139,8 +139,33 @@ forward_data_free (ForwardData *data)
 }
 
 static gboolean
+check_destination_accepts_html (EDestination *dest,
+				/* const */ gchar **accepts_html)
+{
+	const gchar *email;
+	guint ii;
+
+	if (!dest)
+		return FALSE;
+	if (!accepts_html)
+		return FALSE;
+
+	email = e_destination_get_email (dest);
+	if (!email || !*email)
+		return FALSE;
+
+	for (ii = 0; accepts_html[ii]; ii++) {
+		if (camel_strstrcase (email, accepts_html[ii]))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
 ask_confirm_for_unwanted_html_mail (EMsgComposer *composer,
-                                    EDestination **recipients)
+                                    EDestination **recipients,
+				    /*const */ gchar **accepts_html)
 {
 	gboolean res;
 	GString *str;
@@ -148,7 +173,8 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer,
 
 	str = g_string_new ("");
 	for (i = 0; recipients[i] != NULL; ++i) {
-		if (!e_destination_get_html_mail_pref (recipients[i])) {
+		if (!e_destination_get_html_mail_pref (recipients[i]) &&
+		    !check_destination_accepts_html (recipients[i], accepts_html)) {
 			const gchar *name;
 
 			name = e_destination_get_textrep (recipients[i], FALSE);
@@ -579,19 +605,24 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 	 * and (presumably) had a good reason for doing this. */
 	if (html_mode && send_html && confirm_html && recipients != NULL) {
 		gboolean html_problem = FALSE;
+		gchar **accepts_html;
+
+		accepts_html = g_settings_get_strv (settings, "composer-addresses-accept-html");
 
 		for (ii = 0; recipients[ii] != NULL; ii++) {
-			if (!e_destination_get_html_mail_pref (recipients[ii])) {
+			if (!e_destination_get_html_mail_pref (recipients[ii]) &&
+			    !check_destination_accepts_html (recipients[ii], accepts_html)) {
 				html_problem = TRUE;
 				break;
 			}
 		}
 
 		if (html_problem) {
-			if (!ask_confirm_for_unwanted_html_mail (
-				composer, recipients))
+			if (!ask_confirm_for_unwanted_html_mail (composer, recipients, accepts_html))
 				check_passed = FALSE;
 		}
+
+		g_strfreev (accepts_html);
 	}
 
 	if (recipients != NULL)

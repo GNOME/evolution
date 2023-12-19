@@ -1998,7 +1998,6 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	em_prefs_bind_settings (prefs, settings, "notify-remote-content", "chkNotifyRemoteContent", "active");
 	em_prefs_bind_settings (prefs, settings, "show-animated-images", "chkShowAnimatedImages", "active");
 	em_prefs_bind_settings (prefs, settings, "preview-unset-html-colors", "chkUnsetHTMLColors", "active");
-	em_prefs_bind_settings (prefs, settings, "prompt-on-unwanted-html", "chkPromptWantHTML", "active");
 
 	container = e_builder_get_widget (prefs->priv->builder, "labels-alignment");
 	widget = e_mail_label_manager_new ();

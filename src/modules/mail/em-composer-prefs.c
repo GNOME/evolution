@@ -1096,6 +1096,497 @@ emcp_current_value_to_composer_mode_cb (const GValue *value,
 }
 
 static void
+accept_html_save (GtkTreeModel *model)
+{
+	GSettings *settings;
+	GPtrArray *array;
+	GtkTreeIter iter;
+	gboolean changed = TRUE;
+	gchar **strv;
+	guint ii;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	array = g_ptr_array_new_with_free_func (g_free);
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			gchar *text = NULL;
+
+			gtk_tree_model_get (model, &iter, 0, &text, -1);
+
+			if (text && *text)
+				g_ptr_array_add (array, text);
+			else
+				g_free (text);
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+
+	/* NULL-terminated array */
+	g_ptr_array_add (array, NULL);
+
+	strv = g_settings_get_strv (settings, "composer-addresses-accept-html");
+	if (strv != NULL) {
+		changed = FALSE;
+
+		for (ii = 0; !changed && ii < array->len - 1 && strv[ii]; ii++) {
+			changed = g_strcmp0 (g_ptr_array_index (array, ii), strv[ii]) != 0;
+		}
+
+		changed = changed || (ii < array->len - 1) || (strv[ii] != NULL);
+	}
+
+	if (changed)
+		g_settings_set_strv (settings, "composer-addresses-accept-html", (const gchar * const *) array->pdata);
+
+	g_ptr_array_unref (array);
+	g_object_unref (settings);
+	g_strfreev (strv);
+}
+
+static void
+accept_html_load (GtkBuilder *builder)
+{
+	GtkWidget *widget;
+	GtkTreeModel *model;
+	GtkListStore *list_store;
+	GSettings *settings;
+	gchar **strv;
+
+	widget = e_builder_get_widget (builder, "accept-html-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	g_return_if_fail (GTK_IS_LIST_STORE (model));
+
+	list_store = GTK_LIST_STORE (model);
+
+	gtk_list_store_clear (list_store);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	strv = g_settings_get_strv (settings, "composer-addresses-accept-html");
+	if (strv != NULL) {
+		guint ii;
+
+		for (ii = 0; strv[ii] != NULL; ii++) {
+			const gchar *text;
+
+			text = g_strchomp (strv[ii]);
+			if (text && *text) {
+				GtkTreeIter iter;
+
+				gtk_list_store_append (list_store, &iter);
+				gtk_list_store_set (list_store, &iter, 0, text, -1);
+			}
+		}
+	}
+
+	g_object_unref (settings);
+	g_strfreev (strv);
+}
+
+static void
+accept_html_treeview_selection_changed_cb (GtkTreeSelection *selection,
+					   GtkBuilder *builder)
+{
+	GtkWidget *widget;
+	gint nselected;
+
+	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	nselected = gtk_tree_selection_count_selected_rows (selection);
+
+	widget = e_builder_get_widget (builder, "accept-html-edit-button");
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	gtk_widget_set_sensitive (widget, nselected == 1);
+
+	widget = e_builder_get_widget (builder, "accept-html-remove-button");
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	gtk_widget_set_sensitive (widget, nselected > 0);
+}
+
+static void
+accept_html_edited_cb (GtkCellRendererText *renderer,
+		       const gchar *path_str,
+		       const gchar *new_text,
+		       GtkBuilder *builder)
+{
+	GtkTreePath *path;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	gchar *text = NULL;
+
+	g_return_if_fail (path_str != NULL);
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "accept-html-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	path = gtk_tree_path_new_from_string (path_str);
+	g_return_if_fail (path != NULL);
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	g_return_if_fail (gtk_tree_model_get_iter (model, &iter, path));
+	gtk_tree_path_free (path);
+
+	text = g_strdup (new_text);
+	if (text)
+		g_strchomp (text);
+
+	if (!text || !*text) {
+		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+		accept_html_save (model);
+	} else {
+		GtkTreeIter new_iter = iter;
+		gboolean is_new = TRUE;
+
+		if (gtk_tree_model_get_iter_first (model, &iter)) {
+			do {
+				gchar *old_text = NULL;
+
+				gtk_tree_model_get (model, &iter, 0, &old_text, -1);
+
+				is_new = !old_text || e_util_utf8_strcasecmp (text, old_text) != 0;
+
+				g_free (old_text);
+			} while (is_new && gtk_tree_model_iter_next (model, &iter));
+		}
+
+		if (is_new) {
+			gtk_list_store_set (GTK_LIST_STORE (model), &new_iter, 0, text, -1);
+			accept_html_save (model);
+		} else {
+			GtkTreeSelection *selection;
+			GtkTreePath *path1, *path2;
+
+			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
+
+			path1 = gtk_tree_model_get_path (model, &iter);
+			path2 = gtk_tree_model_get_path (model, &new_iter);
+
+			if (!path1 || !path2 || gtk_tree_path_compare (path1, path2) != 0)
+				gtk_list_store_remove (GTK_LIST_STORE (model), &new_iter);
+
+			gtk_tree_path_free (path1);
+			gtk_tree_path_free (path2);
+
+			gtk_tree_selection_unselect_all (selection);
+			gtk_tree_selection_select_iter (selection, &iter);
+		}
+	}
+
+	g_free (text);
+}
+
+static void
+accept_html_editing_canceled_cb (GtkCellRenderer *renderer,
+				 GtkBuilder *builder)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "accept-html-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			gchar *old_text = NULL;
+
+			gtk_tree_model_get (model, &iter, 0, &old_text, -1);
+
+			if (!old_text || !*old_text) {
+				gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+				g_free (old_text);
+				break;
+			}
+
+			g_free (old_text);
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+}
+
+static void
+accept_html_add_button_clicked_cb (GtkButton *button,
+				   GtkBuilder *builder)
+{
+	GtkTreeView *tree_view;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	GList *cells;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "accept-html-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	tree_view = GTK_TREE_VIEW (widget);
+	model = gtk_tree_view_get_model (tree_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+
+	gtk_tree_selection_unselect_all (selection);
+	gtk_tree_selection_select_iter (selection, &iter);
+
+	column = gtk_tree_view_get_column (tree_view, 0);
+	g_return_if_fail (column != NULL);
+
+	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (column));
+	g_return_if_fail (cells != NULL);
+
+	path = gtk_tree_model_get_path (model, &iter);
+	if (path == NULL) {
+		g_list_free (cells);
+		return;
+	}
+
+	g_object_set (cells->data, "editable", TRUE, NULL);
+	gtk_tree_view_set_cursor_on_cell (
+		tree_view, path, column, cells->data, TRUE);
+	g_object_set (cells->data, "editable", FALSE, NULL);
+
+	gtk_tree_path_free (path);
+	g_list_free (cells);
+}
+
+static void
+accept_html_edit_button_clicked_cb (GtkButton *button,
+				    GtkBuilder *builder)
+{
+	GtkTreeView *tree_view;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection *selection;
+	GtkTreePath *path;
+	GtkWidget *widget;
+	GList *cells, *selected;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "accept-html-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	tree_view = GTK_TREE_VIEW (widget);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	g_return_if_fail (gtk_tree_selection_count_selected_rows (selection) == 1);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, NULL);
+	g_return_if_fail (selected && selected->next == NULL);
+
+	path = selected->data;
+	/* 'path' is freed later in the function */
+	g_list_free (selected);
+
+	column = gtk_tree_view_get_column (tree_view, 0);
+	g_return_if_fail (column != NULL);
+
+	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (column));
+	g_return_if_fail (cells != NULL);
+
+	g_object_set (cells->data, "editable", TRUE, NULL);
+	gtk_tree_view_set_cursor_on_cell (
+		tree_view, path, column, cells->data, TRUE);
+	g_object_set (cells->data, "editable", FALSE, NULL);
+
+	gtk_tree_path_free (path);
+	g_list_free (cells);
+}
+
+static void
+accept_html_remove_button_clicked_cb (GtkButton *button,
+				      GtkBuilder *builder)
+{
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	GList *selected, *siter;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "accept-html-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+	tree_view = GTK_TREE_VIEW (widget);
+	selection = gtk_tree_view_get_selection (tree_view);
+	model = gtk_tree_view_get_model (tree_view);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, &model);
+	selected = g_list_reverse (selected);
+
+	for (siter = selected; siter; siter = g_list_next (siter)) {
+		if (!gtk_tree_model_get_iter (model, &iter, siter->data))
+			continue;
+
+		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+	}
+
+	accept_html_save (model);
+
+	g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
+}
+
+static void
+accept_html_settings_changed_cb (GSettings *settings,
+				 const gchar *key,
+				 gpointer user_data)
+{
+	GtkBuilder *builder = user_data;
+	GtkWidget *widget;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	GHashTable *existing_keys;
+	gchar **strv;
+	gboolean changed = TRUE;
+
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "accept-html-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	g_return_if_fail (GTK_IS_LIST_STORE (model));
+
+	existing_keys = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			gchar *text = NULL;
+
+			gtk_tree_model_get (model, &iter, 0, &text, -1);
+
+			if (text && *text)
+				g_hash_table_add (existing_keys, text);
+			else
+				g_free (text);
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+
+	strv = g_settings_get_strv (settings, "composer-addresses-accept-html");
+	if (strv != NULL) {
+		guint ii, n_verified = 0;
+
+		changed = FALSE;
+
+		for (ii = 0; !changed && strv[ii] != NULL; ii++) {
+			const gchar *text;
+
+			text = g_strchomp (strv[ii]);
+			if (text && *text) {
+				changed = !g_hash_table_contains (existing_keys, text);
+				n_verified++;
+			}
+		}
+
+		changed = changed || n_verified != g_hash_table_size (existing_keys);
+	}
+
+	if (changed)
+		accept_html_load (builder);
+
+	g_hash_table_destroy (existing_keys);
+	g_object_unref (settings);
+	g_strfreev (strv);
+}
+
+static void
+accept_html_setup (GtkBuilder *builder)
+{
+	GtkCellRenderer *renderer;
+	GtkListStore *list_store;
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkWidget *widget;
+	GSettings *settings;
+
+	widget = e_builder_get_widget (builder, "accept-html-add-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (accept_html_add_button_clicked_cb), builder);
+
+	widget = e_builder_get_widget (builder, "accept-html-edit-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	gtk_widget_set_sensitive (widget, FALSE);
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (accept_html_edit_button_clicked_cb), builder);
+
+	widget = e_builder_get_widget (builder, "accept-html-remove-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	gtk_widget_set_sensitive (widget, FALSE);
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (accept_html_remove_button_clicked_cb), builder);
+
+	widget = e_builder_get_widget (builder, "accept-html-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	tree_view = GTK_TREE_VIEW (widget);
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (renderer), "mode", GTK_CELL_RENDERER_MODE_EDITABLE, NULL);
+	g_signal_connect (renderer, "edited", G_CALLBACK (accept_html_edited_cb), builder);
+	g_signal_connect (renderer, "editing-canceled", G_CALLBACK (accept_html_editing_canceled_cb), builder);
+
+	list_store = gtk_list_store_new (1, G_TYPE_STRING);
+	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (list_store));
+	gtk_tree_view_insert_column_with_attributes (
+		tree_view, -1, _("Recipient"),
+		renderer, "text", 0, NULL);
+	g_object_unref (list_store);
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (accept_html_treeview_selection_changed_cb), builder);
+
+	accept_html_load (builder);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	g_signal_connect_object (settings, "changed::composer-addresses-accept-html",
+		G_CALLBACK (accept_html_settings_changed_cb), builder, 0);
+	g_clear_object (&settings);
+}
+
+static void
+emc_prefs_bind_settings_ex (EMComposerPrefs *prefs,
+			    GSettings *settings,
+			    const gchar *key,
+			    const gchar *widget_name,
+			    const gchar *property,
+			    GSettingsBindFlags flags)
+{
+	GtkWidget *widget;
+
+	widget = e_builder_get_widget (prefs->builder, widget_name);
+	g_settings_bind (
+		settings, key,
+		widget, property,
+		flags);
+}
+
+static void
+emc_prefs_bind_settings (EMComposerPrefs *prefs,
+			 GSettings *settings,
+			 const gchar *key,
+			 const gchar *widget_name,
+			 const gchar *property)
+{
+	emc_prefs_bind_settings_ex (prefs, settings, key, widget_name, property, G_SETTINGS_BIND_DEFAULT);
+}
+
+static void
 em_composer_prefs_construct (EMComposerPrefs *prefs,
                              EShell *shell)
 {
@@ -1163,119 +1654,29 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		emcp_current_value_to_composer_mode_cb,
 		NULL, NULL);
 
-	widget = e_builder_get_widget (prefs->builder, "chkInheritThemeColors");
-	g_settings_bind (
-		settings, "composer-inherit-theme-colors",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	emc_prefs_bind_settings (prefs, settings, "composer-inherit-theme-colors", "chkInheritThemeColors", "active");
+	emc_prefs_bind_settings (prefs, settings, "prompt-on-accel-send", "chkPromptAccelSend", "active");
+	emc_prefs_bind_settings (prefs, settings, "prompt-on-empty-subject", "chkPromptEmptySubject", "active");
+	emc_prefs_bind_settings (prefs, settings, "prompt-on-only-bcc", "chkPromptBccOnly", "active");
+	emc_prefs_bind_settings (prefs, settings, "prompt-on-private-list-reply", "chkPromptPrivateListReply", "active");
+	emc_prefs_bind_settings (prefs, settings, "prompt-on-reply-many-recips", "chkPromptReplyManyRecips", "active");
+	emc_prefs_bind_settings (prefs, settings, "prompt-on-list-reply-to", "chkPromptListReplyTo", "active");
+	emc_prefs_bind_settings (prefs, settings, "prompt-on-many-to-cc-recips", "chkPromptManyToCCRecips", "active");
+	emc_prefs_bind_settings (prefs, settings, "prompt-on-invalid-recip", "chkPromptSendInvalidRecip", "active");
+	emc_prefs_bind_settings (prefs, settings, "prompt-on-composer-mode-switch", "chkPromptComposerModeSwitch", "active");
+	emc_prefs_bind_settings (prefs, settings, "prompt-on-changed-attachment", "chkPromptChangedAttachment", "active");
+	emc_prefs_bind_settings (prefs, settings, "prompt-on-unwanted-html", "chkPromptWantHTML", "active");
 
-	widget = e_builder_get_widget (prefs->builder, "chkPromptAccelSend");
-	g_settings_bind (
-		settings, "prompt-on-accel-send",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	accept_html_setup (prefs->builder);
 
-	widget = e_builder_get_widget (prefs->builder, "chkPromptEmptySubject");
-	g_settings_bind (
-		settings, "prompt-on-empty-subject",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkPromptBccOnly");
-	g_settings_bind (
-		settings, "prompt-on-only-bcc",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkPromptPrivateListReply");
-	g_settings_bind (
-		settings, "prompt-on-private-list-reply",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkPromptReplyManyRecips");
-	g_settings_bind (
-		settings, "prompt-on-reply-many-recips",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkPromptListReplyTo");
-	g_settings_bind (
-		settings, "prompt-on-list-reply-to",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkPromptManyToCCRecips");
-	g_settings_bind (
-		settings, "prompt-on-many-to-cc-recips",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkPromptSendInvalidRecip");
-	g_settings_bind (
-		settings, "prompt-on-invalid-recip",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkPromptComposerModeSwitch");
-	g_settings_bind (
-		settings, "prompt-on-composer-mode-switch",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkPromptChangedAttachment");
-	g_settings_bind (
-		settings, "prompt-on-changed-attachment",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkAutoSmileys");
-	g_settings_bind (
-		settings, "composer-magic-smileys",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkUnicodeSmileys");
-	g_settings_bind (
-		settings, "composer-unicode-smileys",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkRequestReceipt");
-	g_settings_bind (
-		settings, "composer-request-receipt",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkRequestDSN");
-	g_settings_bind (
-		settings, "composer-request-dsn",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkReplyStartBottom");
-	g_settings_bind (
-		settings, "composer-reply-start-bottom",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "spinWordWrapLength");
-	g_settings_bind (
-		settings, "composer-word-wrap-length",
-		widget, "value",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkOutlookFilenames");
-	g_settings_bind (
-		settings, "composer-outlook-filenames",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkUseOutbox");
-	g_settings_bind (
-		settings, "composer-use-outbox",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	emc_prefs_bind_settings (prefs, settings, "composer-magic-smileys", "chkAutoSmileys", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-unicode-smileys", "chkUnicodeSmileys", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-request-receipt", "chkRequestReceipt", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-request-dsn", "chkRequestDSN", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-reply-start-bottom", "chkReplyStartBottom", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-word-wrap-length", "spinWordWrapLength", "value");
+	emc_prefs_bind_settings (prefs, settings, "composer-outlook-filenames", "chkOutlookFilenames", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-use-outbox", "chkUseOutbox", "active");
 
 	widget = e_builder_get_widget (prefs->builder, "comboboxFlushOutbox");
 
@@ -1298,47 +1699,13 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	widget = e_builder_get_widget (prefs->builder, "chkIgnoreListReplyTo");
-	g_settings_bind (
-		settings, "composer-ignore-list-reply-to",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkGroupReplyToList");
-	g_settings_bind (
-		settings, "composer-group-reply-to-list",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkSignReplyIfSigned");
-	g_settings_bind (
-		settings, "composer-sign-reply-if-signed",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkWrapQuotedTextInReplies");
-	g_settings_bind (
-		settings, "composer-wrap-quoted-text-in-replies",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkSignatureInNewOnly");
-	g_settings_bind (
-		settings, "composer-signature-in-new-only",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkTopSignature");
-	g_settings_bind (
-		settings, "composer-top-signature",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "chkEnableSpellChecking");
-	g_settings_bind (
-		settings, "composer-inline-spelling",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	emc_prefs_bind_settings (prefs, settings, "composer-ignore-list-reply-to", "chkIgnoreListReplyTo", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-group-reply-to-list", "chkGroupReplyToList", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-sign-reply-if-signed", "chkSignReplyIfSigned", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-wrap-quoted-text-in-replies", "chkWrapQuotedTextInReplies", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-signature-in-new-only", "chkSignatureInNewOnly", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-top-signature", "chkTopSignature", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-inline-spelling", "chkEnableSpellChecking", "active");
 
 	widget = e_charset_combo_box_new ();
 	container = e_builder_get_widget (prefs->builder, "hboxComposerCharset");
@@ -1385,17 +1752,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		G_CALLBACK (spell_language_save), prefs);
 
 	/* Forwards and Replies */
-	widget = e_builder_get_widget (prefs->builder, "comboboxForwardStyle");
-	g_settings_bind (
-		settings, "forward-style-name",
-		widget, "active-id",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->builder, "comboboxReplyStyle");
-	g_settings_bind (
-		settings, "reply-style-name",
-		widget, "active-id",
-		G_SETTINGS_BIND_DEFAULT);
+	emc_prefs_bind_settings (prefs, settings, "forward-style-name", "comboboxForwardStyle", "active-id");
+	emc_prefs_bind_settings (prefs, settings, "reply-style-name", "comboboxReplyStyle", "active-id");
 
 	widget = e_builder_get_widget (prefs->builder, "comboboxForwardReplyAttribLanguage");
 	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "", _("Same as user interface"));
