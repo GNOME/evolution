@@ -346,6 +346,7 @@ action_mail_download_cb (GtkAction *action,
 	EMailReader *reader;
 	EMailBackend *backend;
 	EMailSession *session;
+	ESourceRegistry *registry;
 	GList *list, *link;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
@@ -354,11 +355,13 @@ action_mail_download_cb (GtkAction *action,
 	reader = E_MAIL_READER (mail_view);
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
+	registry = e_mail_session_get_registry (session);
 
 	list = camel_session_list_services (CAMEL_SESSION (session));
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		EActivity *activity;
+		ESource *source;
 		CamelService *service;
 		GCancellable *cancellable;
 
@@ -366,6 +369,14 @@ action_mail_download_cb (GtkAction *action,
 
 		if (!CAMEL_IS_STORE (service))
 			continue;
+
+		source = e_source_registry_ref_source (registry, camel_service_get_uid (service));
+		if (!source || !e_source_registry_check_enabled (registry, source)) {
+			g_clear_object (&source);
+			continue;
+		}
+
+		g_clear_object (&source);
 
 		activity = e_mail_reader_new_activity (reader);
 		cancellable = e_activity_get_cancellable (activity);
