@@ -989,6 +989,7 @@ mail_backend_job_finished_cb (CamelSession *session,
 		for (iter = list; iter != NULL; iter = g_list_next (iter)) {
 			EShellView *shell_view;
 			EShellContent *shell_content;
+			gchar *tmp = NULL;
 
 			if (!E_IS_SHELL_WINDOW (iter->data))
 				continue;
@@ -999,8 +1000,12 @@ mail_backend_job_finished_cb (CamelSession *session,
 			if (!E_IS_SHELL_VIEW (shell_view))
 				continue;
 
-			shell_content =
-				e_shell_view_get_shell_content (shell_view);
+			shell_content = e_shell_view_get_shell_content (shell_view);
+
+			if (!description || !*description) {
+				tmp = camel_operation_dup_message (cancellable);
+				description = tmp;
+			}
 
 			if (description != NULL && *description != '\0')
 				e_alert_submit (
@@ -1012,6 +1017,8 @@ mail_backend_job_finished_cb (CamelSession *session,
 					E_ALERT_SINK (shell_content),
 					"mail:async-error-nodescribe",
 					error->message, NULL);
+
+			g_free (tmp);
 
 			break;
 		}
