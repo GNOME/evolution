@@ -117,6 +117,7 @@ enum {
 static GtkTargetEntry drag_dest_targets[] = {
 	{ (gchar *) "text/uri-list", 0, E_DND_TARGET_TYPE_TEXT_URI_LIST },
 	{ (gchar *) "_NETSCAPE_URL", 0, E_DND_TARGET_TYPE_MOZILLA_URL },
+	{ (gchar *) "text/x-moz-url", 0, E_DND_TARGET_TYPE_TEXT_X_MOZ_URL },
 	{ (gchar *) "text/html", 0, E_DND_TARGET_TYPE_TEXT_HTML },
 	{ (gchar *) "UTF8_STRING", 0, E_DND_TARGET_TYPE_UTF8_STRING },
 	{ (gchar *) "text/plain", 0, E_DND_TARGET_TYPE_TEXT_PLAIN },
@@ -2274,6 +2275,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	gboolean html_mode, is_move;
+	gchar *moz_url = NULL;
 
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
@@ -2312,6 +2314,13 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			e_content_editor_insert_image (cnt_editor, uri);
 			g_free (uri);
 		} while (list_len);
+
+		gtk_drag_finish (context, TRUE, is_move, time);
+	} else if (html_mode && e_composer_selection_is_moz_url_image (composer, selection, &moz_url)) {
+		e_content_editor_move_caret_on_coordinates (cnt_editor, x, y, FALSE);
+		e_content_editor_insert_image (cnt_editor, moz_url);
+
+		g_free (moz_url);
 
 		gtk_drag_finish (context, TRUE, is_move, time);
 	} else {

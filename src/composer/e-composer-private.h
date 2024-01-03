@@ -155,6 +155,10 @@ gboolean	e_composer_selection_is_base64_uris
 gboolean	e_composer_selection_is_image_uris
 						(EMsgComposer *composer,
 						 GtkSelectionData *selection);
+gboolean	e_composer_selection_is_moz_url_image
+						(EMsgComposer *composer,
+						 GtkSelectionData *selection,
+						 gchar **out_moz_url);
 void		e_composer_update_signature	(EMsgComposer *composer);
 void		e_composer_emit_before_destroy	(EMsgComposer *composer);
 

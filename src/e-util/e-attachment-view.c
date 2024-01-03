@@ -413,40 +413,17 @@ static GtkActionEntry editable_entries[] = {
 };
 
 static void
-attachment_view_netscape_url (EAttachmentView *view,
-                              GdkDragContext *drag_context,
-                              gint x,
-                              gint y,
-                              GtkSelectionData *selection_data,
-                              guint info,
-                              guint time)
+attachment_view_handle_uri_with_title (EAttachmentView *view,
+				       GdkDragContext *drag_context,
+				       const gchar *uri_with_title,
+				       guint time)
 {
-	static GdkAtom atom = GDK_NONE;
 	EAttachmentStore *store;
 	EAttachment *attachment;
-	const gchar *data;
 	gpointer parent;
-	gchar *copied_data;
 	gchar **strv;
-	gint length;
 
-	if (G_UNLIKELY (atom == GDK_NONE))
-		atom = gdk_atom_intern_static_string ("_NETSCAPE_URL");
-
-	if (gtk_selection_data_get_target (selection_data) != atom)
-		return;
-
-	g_signal_stop_emission_by_name (view, "drag-data-received");
-
-	/* _NETSCAPE_URL is represented as "URI\nTITLE" */
-
-	data = (const gchar *) gtk_selection_data_get_data (selection_data);
-	length = gtk_selection_data_get_length (selection_data);
-
-	copied_data = g_strndup (data, length);
-	strv = g_strsplit (copied_data, "\n", 2);
-	g_free (copied_data);
-
+	strv = g_strsplit (uri_with_title, "\n", 2);
 	store = e_attachment_view_get_store (view);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
@@ -462,6 +439,37 @@ attachment_view_netscape_url (EAttachmentView *view,
 	g_strfreev (strv);
 
 	gtk_drag_finish (drag_context, TRUE, FALSE, time);
+}
+
+static void
+attachment_view_netscape_url (EAttachmentView *view,
+                              GdkDragContext *drag_context,
+                              gint x,
+                              gint y,
+                              GtkSelectionData *selection_data,
+                              guint info,
+                              guint time)
+{
+	static GdkAtom atom = GDK_NONE;
+	const gchar *data;
+	gchar *copied_data;
+	gint length;
+
+	if (G_UNLIKELY (atom == GDK_NONE))
+		atom = gdk_atom_intern_static_string ("_NETSCAPE_URL");
+
+	if (gtk_selection_data_get_target (selection_data) != atom)
+		return;
+
+	g_signal_stop_emission_by_name (view, "drag-data-received");
+
+	/* _NETSCAPE_URL is represented as "URI\nTITLE" */
+	data = (const gchar *) gtk_selection_data_get_data (selection_data);
+	length = gtk_selection_data_get_length (selection_data);
+
+	copied_data = g_strndup (data, length);
+	attachment_view_handle_uri_with_title (view, drag_context, copied_data, time);
+	g_free (copied_data);
 }
 
 static void
@@ -732,6 +740,39 @@ attachment_view_uris (EAttachmentView *view,
 }
 
 static void
+attachment_view_text_x_moz_url (EAttachmentView *view,
+				GdkDragContext *drag_context,
+				gint x,
+				gint y,
+				GtkSelectionData *selection_data,
+				guint info,
+				guint time)
+{
+	static GdkAtom atom = GDK_NONE;
+	gchar *uri_with_title = NULL;
+	const guchar *raw_data;
+	gint len;
+
+	if (G_UNLIKELY (atom == GDK_NONE))
+		atom = gdk_atom_intern_static_string ("text/x-moz-url");
+
+	if (gtk_selection_data_get_target (selection_data) != atom)
+		return;
+
+	g_signal_stop_emission_by_name (view, "drag-data-received");
+
+	/* text/x-moz-url is represented as "URI\nTITLE" in UTF-16 */
+	raw_data = gtk_selection_data_get_data_with_length (selection_data, &len);
+	if (raw_data)
+		uri_with_title = g_utf16_to_utf8 ((const gunichar2 *) raw_data, len, NULL, NULL, NULL);
+
+	if (uri_with_title)
+		attachment_view_handle_uri_with_title (view, drag_context, uri_with_title, time);
+
+	g_free (uri_with_title);
+}
+
+static void
 attachment_view_update_actions (EAttachmentView *view)
 {
 	EAttachmentViewPrivate *priv;
@@ -900,6 +941,7 @@ attachment_view_init_drag_dest (EAttachmentView *view)
 	gtk_target_list_add_uri_targets (target_list, 0);
 	e_target_list_add_calendar_targets (target_list, 0);
 	e_target_list_add_directory_targets (target_list, 0);
+	gtk_target_list_add (target_list, gdk_atom_intern_static_string ("text/x-moz-url"), 0, 0);
 
 	priv->target_list = target_list;
 	priv->drag_actions = GDK_ACTION_COPY;
@@ -1007,6 +1049,10 @@ e_attachment_view_init (EAttachmentView *view)
 	g_signal_connect (
 		view, "drag-data-received",
 		G_CALLBACK (attachment_view_uris), NULL);
+
+	g_signal_connect (
+		view, "drag-data-received",
+		G_CALLBACK (attachment_view_text_x_moz_url), NULL);
 }
 
 void

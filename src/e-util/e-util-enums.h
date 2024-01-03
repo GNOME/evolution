@@ -574,6 +574,7 @@ typedef enum {
  * @DND_TARGET_TYPE_TEXT_PLAIN: text/plain
  * @DND_TARGET_TYPE_STRING: STRING
  * @DND_TARGET_TYPE_TEXT_PLAIN_UTF8: text/plain;charser=utf-8
+ * @E_DND_TARGET_TYPE_TEXT_X_MOZ_URL: text/x-moz-url ; Since:3.52
  *
  * Drag and drop targets supported by EContentEditor.
  *
@@ -586,7 +587,8 @@ typedef enum {
 	E_DND_TARGET_TYPE_UTF8_STRING,
 	E_DND_TARGET_TYPE_TEXT_PLAIN,
 	E_DND_TARGET_TYPE_STRING,
-	E_DND_TARGET_TYPE_TEXT_PLAIN_UTF8
+	E_DND_TARGET_TYPE_TEXT_PLAIN_UTF8,
+	E_DND_TARGET_TYPE_TEXT_X_MOZ_URL
 } EDnDTargetType;
 
 /**
