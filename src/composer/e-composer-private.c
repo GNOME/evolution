@@ -725,6 +725,54 @@ e_composer_selection_is_base64_uris (EMsgComposer *composer,
 	return all_base64_uris;
 }
 
+static gboolean
+e_composer_selection_uri_is_image (const gchar *uri)
+{
+	GFile *file;
+	GFileInfo *file_info;
+	GdkPixbufLoader *loader;
+	const gchar *attribute;
+	const gchar *content_type;
+	gchar *mime_type = NULL;
+
+	file = g_file_new_for_uri (uri);
+	attribute = G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE;
+
+	/* XXX This blocks, but we're requesting the fast content
+	 *     type (which only inspects filenames), so hopefully
+	 *     it won't be noticeable.  Also, this is best effort
+	 *     so we don't really care if it fails. */
+	file_info = g_file_query_info (file, attribute, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+
+	if (file_info == NULL) {
+		g_object_unref (file);
+		return FALSE;
+	}
+
+	content_type = g_file_info_get_attribute_string (file_info, attribute);
+	mime_type = g_content_type_get_mime_type (content_type);
+
+	g_object_unref (file_info);
+	g_object_unref (file);
+
+	if (mime_type == NULL)
+		return FALSE;
+
+	/* Easy way to determine if a MIME type is a supported
+	 * image format: try creating a GdkPixbufLoader for it. */
+	loader = gdk_pixbuf_loader_new_with_mime_type (mime_type, NULL);
+
+	g_free (mime_type);
+
+	if (loader == NULL)
+		return FALSE;
+
+	gdk_pixbuf_loader_close (loader, NULL);
+	g_object_unref (loader);
+
+	return TRUE;
+}
+
 gboolean
 e_composer_selection_is_image_uris (EMsgComposer *composer,
                                     GtkSelectionData *selection)
@@ -742,59 +790,58 @@ e_composer_selection_is_image_uris (EMsgComposer *composer,
 		return FALSE;
 
 	for (ii = 0; uris[ii] != NULL; ii++) {
-		GFile *file;
-		GFileInfo *file_info;
-		GdkPixbufLoader *loader;
-		const gchar *attribute;
-		const gchar *content_type;
-		gchar *mime_type = NULL;
-
-		file = g_file_new_for_uri (uris[ii]);
-		attribute = G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE;
-
-		/* XXX This blocks, but we're requesting the fast content
-		 *     type (which only inspects filenames), so hopefully
-		 *     it won't be noticeable.  Also, this is best effort
-		 *     so we don't really care if it fails. */
-		file_info = g_file_query_info (
-			file, attribute, G_FILE_QUERY_INFO_NONE, NULL, NULL);
-
-		if (file_info == NULL) {
-			g_object_unref (file);
-			all_image_uris = FALSE;
+		all_image_uris = e_composer_selection_uri_is_image (uris[ii]);
+		if (!all_image_uris)
 			break;
-		}
-
-		content_type = g_file_info_get_attribute_string (
-			file_info, attribute);
-		mime_type = g_content_type_get_mime_type (content_type);
-
-		g_object_unref (file_info);
-		g_object_unref (file);
-
-		if (mime_type == NULL) {
-			all_image_uris = FALSE;
-			break;
-		}
-
-		/* Easy way to determine if a MIME type is a supported
-		 * image format: try creating a GdkPixbufLoader for it. */
-		loader = gdk_pixbuf_loader_new_with_mime_type (mime_type, NULL);
-
-		g_free (mime_type);
-
-		if (loader == NULL) {
-			all_image_uris = FALSE;
-			break;
-		}
-
-		gdk_pixbuf_loader_close (loader, NULL);
-		g_object_unref (loader);
 	}
 
 	g_strfreev (uris);
 
 	return all_image_uris;
+}
+
+gboolean
+e_composer_selection_is_moz_url_image (EMsgComposer *composer,
+				       GtkSelectionData *selection,
+				       gchar **out_moz_url)
+{
+	static GdkAtom moz_url_atom = GDK_NONE;
+	const guchar *raw_data;
+	gchar *utf8 = NULL;
+	gint len;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	g_return_val_if_fail (selection != NULL, FALSE);
+
+	if (moz_url_atom == GDK_NONE)
+		moz_url_atom = gdk_atom_intern_static_string ("text/x-moz-url");
+
+	if (gtk_selection_data_get_data_type (selection) != moz_url_atom)
+		return FALSE;
+
+	raw_data = gtk_selection_data_get_data_with_length (selection, &len);
+	if (raw_data)
+		utf8 = g_utf16_to_utf8 ((const gunichar2 *) raw_data, len, NULL, NULL, NULL);
+
+	if (utf8) {
+		gchar *ptr;
+
+		ptr = strchr (utf8, '\n');
+		if (ptr)
+			*ptr = '\0';
+	}
+
+	if (!utf8 || !e_composer_selection_uri_is_image ((const gchar *) utf8)) {
+		g_free (utf8);
+		return FALSE;
+	}
+
+	if (out_moz_url)
+		*out_moz_url = utf8;
+	else
+		g_free (utf8);
+
+	return TRUE;
 }
 
 typedef struct _UpdateSignatureData {

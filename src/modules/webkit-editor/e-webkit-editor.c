@@ -5422,13 +5422,25 @@ webkit_editor_drag_motion_cb (GtkWidget *widget,
 			      guint time,
 			      gpointer user_data)
 {
+	static GdkAtom x_uid_list = GDK_NONE, x_moz_url = GDK_NONE;
 	GdkAtom chosen;
 
 	chosen = gtk_drag_dest_find_target (widget, context, NULL);
 
+	if (x_uid_list == GDK_NONE)
+		x_uid_list = gdk_atom_intern_static_string ("x-uid-list");
+
 	/* This is when dragging message from the message list, which can eventually freeze
 	   Evolution, if PDF file format is set, when processes by WebKitGTK itself. */
-	if (chosen != GDK_NONE && chosen == gdk_atom_intern ("x-uid-list", TRUE)) {
+	if (chosen != GDK_NONE && chosen == x_uid_list) {
+		gdk_drag_status (context, GDK_ACTION_COPY, time);
+		return TRUE;
+	}
+
+	if (x_moz_url == GDK_NONE)
+		x_moz_url = gdk_atom_intern_static_string ("text/x-moz-url");
+
+	if (chosen != GDK_NONE && chosen == x_moz_url) {
 		gdk_drag_status (context, GDK_ACTION_COPY, time);
 		return TRUE;
 	}
