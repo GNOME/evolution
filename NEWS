@@ -1,3 +1,19 @@
+Evolution 3.50.3 2024-01-05
+---------------------------
+
+Bug Fixes:
+	I#2593 - Calendar: Improve print of the Month view
+	I#2604 - rss: Better parse itunes feeds
+	I#2608 - Drag and drop images in HTML composer from Chrome
+	I#2613 - EMFolderTree: Do not expand to-be-selected folder
+
+Miscellaneous:
+	rss: Ensure feed icon size to not be too large
+
+Translations:
+	Martin (sl)
+	Rūdolfs Mazurs (lv)
+
 Evolution 3.50.2 2023-12-01
 ---------------------------
 
