@@ -1,3 +1,102 @@
+Evolution 3.51.1 2024-01-05
+---------------------------
+
+Bug Fixes:
+	I#935 - Mail: Preview message body in the message list
+	I#991 - Add Confirmations tab into Mail Preferences
+	I#1078 - Allow bulk edit of Tasks
+	I#1091 - Allow creating event attachments of type URI
+	I#1116 - Make attachment bar resizable in mail preview
+	I#1234 - Add "Unset Label" action in filter rules
+	I#1363 - Calendar: Show attachments of the component in preview panel
+	I#1384 - Links added in HTML mail composer get removed in plain text part
+	I#1411 - WebDAV Editor: Allow set no color for calendar
+	I#1436 - Mail: Correct conversion of UTF-16 encoded text files
+	I#1490 - Contacts: Allow to use local app for "open-map:" URIs
+	I#1493 - Support Mail-Followup-To and Mail-Reply-To headers
+	I#1515 - EAlertBar: Add a button to close all errors at once
+	I#1608 - ConfigLookup: Default to STARTTLS for LDAP from SRV records
+	I#1619 - Batch modification of multiple contacts
+	I#1626 - Register Evolution as handler for ldap:// and ldaps:// URIs
+	I#1643 - Importers: Do not read whole file into memory
+	I#1683 - Composer: Use popover for Link Properties
+	I#1694 - EClientSelection: Disallow drop into a read-only client
+	I#1725 - Mail: Allow explicit MIME Type set for script signatures
+	I#1738 - Calendar: Change Open/Delete context menu option labels
+	I#1753 - Mail: Use Ctrl+Alt+F for Forward, Ctrl+F to search for messages
+	I#1768 - Add to the Task/iTIP preview the GEO property
+	I#1825 - Composer: Add list of addresses/domains accepting HTML messages
+	I#1838 - Mail: Ask for private reply only if recipients differ
+	I#1842 - Add option to show reminder before every event in calendar
+	I#1844 - Calendar: Cannot copy, only move, events in the Day View by drag&drop
+	I#1864 - Mail: Prevent accidental header sort clicks
+	I#1865 - HTML signatures lose formatting in "Markdown to HTML" emails
+	I#1933 - Mail: Show filter rule for Saved Search
+	I#1943 - Mail: Include a filtering searchbar in folder select dialog
+	I#2515 - Names of GPG key trust levels are not clear
+	I#2526 - EWebView: Enable spell checking for editable fields
+	I#2533 - Make SRV config lookup records lower priority than the others
+	I#2535 - Calendar: "Work Week" column separator light in dark theme
+	I#2539 - Decode URIs for text/plain link references comparison
+	I#2544 - Add option to use icon-only buttons in the header bar
+	I#2546 - OpenPGP: "Always sign/encrypt" doesn't always work (nkr)
+	I#2550 - EAttachment: Ask for GFileInfo's icon only when attribute is set
+	I#2551 - Mail: Subject header not decoded with encrypted messages
+	I#2552 - On empty mailbox new mail is automaticly selected and marked read
+	I#2553 - Composer: Mnemonic clash for 'From' and 'Options'
+	I#2556 - Contact avatar large image size warning is too strict
+	I#2557 - Contacts: Update preview on contact change in List View
+	I#2569 - Mail: Search with "current folder and subfolders" in local Trash fails
+	I#2570 - "Do not sign meeting requests" has no effect
+	I#2580 - ContactEditor: Default to "Mobile phone" instead of "Home phone"
+	I#2593 - Calendar: Improve print of the Month view
+	I#2595 - HAVE_GNU_GET_LIBC_VERSION CMake check always fails
+	I#2599 - mail-autoconfig: Check MX (mail exchanger) records, instead of NS (nameserver)
+	I#2604 - rss: Better parse itunes feeds
+	I#2608 - Drag and drop images in HTML composer from Chrome
+	I#2609 - S/MIME error message - part of string not localized
+	I#2613 - EMFolderTree: Do not expand to-be-selected folder
+	M!123 - EWebDAVBrowser: Render specially Scheduling Inbox and Scheduling Outbox (Дилян Палаузов)
+	eds-I#494 - Update default calendar colors
+
+Miscellaneous:
+	shell: Move from gtk_main() to g_application_run()
+	flatpak: Add missing comma in the manifests
+	EBulkEditTasks: Edit Categories as diff of added/removed categories
+	EContactCard: Card sometimes hides values
+	Fix a memory leak in ECompEditor
+	evolution-util-docs: Remove API index for 2.24 symbols, none exist anymore
+	build: Use -Wshadow build option, if available
+	Calendar: Go to day/today in Year View doesn't update internal view dates
+	Update Flatpak manifests
+	e-bulk-edit-contacts: Initialize 'section_grid' variable
+	data: Update appdata (Sabri Ünal)
+	EHTMLEditor: Let emoji chooser point to the caret in the message body
+	EYearView: Fix a crash when moving through search results
+	EShell: Emit "ready-to-start" event after modules and preferences window is ready
+	Composer: Use link references only when composing HTML message
+	rss: Ensure feed icon size to not be too large
+	Mail: Skip disabled accounts for File->Download messages for offline use
+	EMailBackend: Fallback to CamelOperation message when showing error
+	Add x-scheme-handler/mid into the .desktop file
+	help: Fix invalid markup in Czech help translation (Andre Klapper)
+
+Translations:
+	Alan Mortensen (da)
+	Artur S0 (ru)
+	Balázs Úr (hu)
+	Boyuan Yang (zh_CN)
+	Bruce Cowan (en_GB)
+	Christian Kirbach (de)
+	Ekaterine Papava (ka)
+	Jordi Mas i Hernandez (ca)
+	Kukuh Syafaat (id)
+	Martin (sl)
+	Rūdolfs Mazurs (lv)
+	Sabri Ünal (tr)
+	Sergej A (ru)
+	Yuri Chornoivan (uk)
+
 Evolution 3.50.0 2023-09-15
 ---------------------------
 
