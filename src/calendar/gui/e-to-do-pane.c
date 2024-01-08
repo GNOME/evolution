@@ -2233,6 +2233,76 @@ etdp_delete_series_cb (GtkMenuItem *item,
 	etdp_delete_common (to_do_pane, E_CAL_OBJ_MOD_ALL);
 }
 
+typedef struct _MarkCompleteData {
+	ECalClient *client;
+	ECalComponent *comp;
+} MarkCompleteData;
+
+static void
+mark_complete_data_free (gpointer ptr)
+{
+	MarkCompleteData *mcd = ptr;
+
+	if (mcd) {
+		g_clear_object (&mcd->client);
+		g_clear_object (&mcd->comp);
+		g_free (mcd);
+	}
+}
+
+static void
+etdp_mark_task_complete_thread (EAlertSinkThreadJobData *job_data,
+				gpointer user_data,
+				GCancellable *cancellable,
+				GError **error)
+{
+	MarkCompleteData *mcd = user_data;
+	ICalComponent *icomp;
+
+	g_return_if_fail (mcd != NULL);
+
+	icomp = e_cal_component_get_icalcomponent (mcd->comp);
+
+	if (e_cal_util_mark_task_complete_sync (icomp, -1, mcd->client, cancellable, error))
+		e_cal_client_modify_object_sync (mcd->client, icomp, E_CAL_OBJ_MOD_ALL, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
+}
+
+static void
+etdp_mark_task_as_complete_cb (GtkMenuItem *item,
+			       gpointer user_data)
+{
+	EToDoPane *to_do_pane = user_data;
+	ECalClient *client = NULL;
+	ECalComponent *comp = NULL;
+
+	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
+
+	if (etdp_get_tree_view_selected_one (to_do_pane, &client, &comp) && client && comp) {
+		ESource *source;
+		GCancellable *cancellable;
+		MarkCompleteData *mcd;
+		gchar *display_name;
+
+		source = e_client_get_source (E_CLIENT (client));
+		display_name = e_util_get_source_full_name (e_source_registry_watcher_get_registry (to_do_pane->priv->watcher), source);
+
+		mcd = g_new0 (MarkCompleteData, 1);
+		mcd->client = g_steal_pointer (&client);
+		mcd->comp = g_steal_pointer (&comp);
+
+		/* It doesn't matter which data-model is picked, because it's used
+		   only for thread creation and manipulation, not for its content. */
+		cancellable = e_cal_data_model_submit_thread_job (to_do_pane->priv->tasks_data_model, _("Marking a task as complete"),
+			"calendar:failed-modify-task", display_name, etdp_mark_task_complete_thread, mcd, mark_complete_data_free);
+
+		g_clear_object (&cancellable);
+		g_free (display_name);
+	}
+
+	g_clear_object (&client);
+	g_clear_object (&comp);
+}
+
 static void
 etdp_show_tasks_without_due_date_cb (GtkCheckMenuItem *check_menu_item,
 				     gpointer user_data)
@@ -2304,6 +2374,15 @@ etdp_fill_popup_menu (EToDoPane *to_do_pane,
 			G_CALLBACK (etdp_open_selected_cb), to_do_pane);
 		gtk_widget_show (item);
 		gtk_menu_shell_append (menu_shell, item);
+
+		if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO &&
+		    !e_cal_util_component_has_property (e_cal_component_get_icalcomponent (comp), I_CAL_COMPLETED_PROPERTY)) {
+			item = gtk_menu_item_new_with_mnemonic (_("Mark Task as _Complete"));
+			g_signal_connect (item, "activate",
+				G_CALLBACK (etdp_mark_task_as_complete_cb), to_do_pane);
+			gtk_widget_show (item);
+			gtk_menu_shell_append (menu_shell, item);
+		}
 
 		item = gtk_separator_menu_item_new ();
 		gtk_widget_show (item);
