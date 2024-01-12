@@ -1,7 +1,7 @@
 # Evolution build script
 
-cmake_minimum_required(VERSION 3.1)
-cmake_policy(VERSION 3.1)
+cmake_minimum_required(VERSION 3.15)
+cmake_policy(VERSION 3.15)
 
 project(evolution
 	VERSION 3.51.2
