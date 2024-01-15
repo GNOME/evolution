@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2024-01-08 17:32+0000\n"
-"PO-Revision-Date: 2024-01-11 21:24+0200\n"
+"POT-Creation-Date: 2024-01-15 09:34+0000\n"
+"PO-Revision-Date: 2024-01-15 22:14+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -642,7 +642,8 @@ msgid "Marcus Bains Line Color — Time bar"
 msgstr "Колір лінії Маркуса Байнса – поле часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
-msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
+msgid ""
+"Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
 "Колір для лінії Маркуса Байнса у розкладі (для типового значення залиште "
 "порожнім)"
@@ -958,7 +959,8 @@ msgid "Twenty four hour time format"
 msgstr "24-годинний формат часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
-msgid "Whether to show times in twenty four hour format instead of using am/pm"
+msgid ""
+"Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Чи показувати час у 24-ох годинному форматі замість am/pm"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
@@ -1059,7 +1061,8 @@ msgstr "Показувати попередній перегляд у перег
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
 msgid "If “true”, show the preview pane in the Year View"
-msgstr "Якщо зазначено, показує панель попереднього перегляду у перегляді року"
+msgstr ""
+"Якщо зазначено, показує панель попереднього перегляду у перегляді року"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
 msgid "Year view horizontal pane position"
@@ -1484,7 +1487,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 msgid "Show “Mail-Followup-To” field when sending a mail message"
-msgstr "Показувати поле «Адреса переспрямовування» при надсиланні повідомлення"
+msgstr ""
+"Показувати поле «Адреса переспрямовування» при надсиланні повідомлення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
 msgid ""
@@ -2104,7 +2108,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Hides the per-folder preview and removes the selection"
-msgstr "Сховати попередній перегляд для кожного каталогу та вилучити виділення"
+msgstr ""
+"Сховати попередній перегляд для кожного каталогу та вилучити виділення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid ""
@@ -2385,7 +2390,8 @@ msgstr "Спонукати під час очищення смітника"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Prompt the user when he or she tries to empty the trash."
-msgstr "Спонукати користувача, коли він або вона намагається очистити смітник."
+msgstr ""
+"Спонукати користувача, коли він або вона намагається очистити смітник."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Prompt when user expunges"
@@ -2415,7 +2421,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "Prompt before sending to recipients not entered as mail addresses"
-msgstr "Запитувати перед надсиланням до одержувачів, адреси до яких не введено"
+msgstr ""
+"Запитувати перед надсиланням до одержувачів, адреси до яких не введено"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
@@ -3343,8 +3350,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
 msgstr ""
-"['долучення','вкладення','долучено','долучив','долучила','долучило','вкладено'"
-",'вклав','вклали','долучили','вклала','вклали']"
+"['долучення','вкладення','долучено','долучив','долучила','долучило','вкладено"
+"','вклав','вклали','долучили','вклала','вклали']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -3735,7 +3742,8 @@ msgid "Start in offline mode"
 msgstr "Запуск у автономному режимі"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
-msgid "Whether Evolution will start up in offline mode instead of online mode."
+msgid ""
+"Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
 "Якщо встановлено, Evolution буде запускатись у автономному режимі замість "
 "мережного режиму."
@@ -4278,128 +4286,203 @@ msgstr "Перейти до теки"
 
 #: ../data/ui/evolution-shortcuts.ui.h:25
 msgctxt "shortcut window"
-msgid "Mark selected messages as read"
-msgstr "Позначити вибрані повідомлення як прочитані"
-
-#: ../data/ui/evolution-shortcuts.ui.h:26
-msgctxt "shortcut window"
-msgid "Mark selected messages as unread"
-msgstr "Позначити вибрані повідомлення як непрочитані"
-
-#: ../data/ui/evolution-shortcuts.ui.h:27
-msgctxt "shortcut window"
 msgid "Jump to the next unread message"
 msgstr "Перейти до наступного непрочитаного повідомлення"
 
-#: ../data/ui/evolution-shortcuts.ui.h:28
+#: ../data/ui/evolution-shortcuts.ui.h:26
 msgctxt "shortcut window"
 msgid "Jump to the previous unread message"
 msgstr "Перейти до попереднього непрочитаного повідомлення"
 
-#: ../data/ui/evolution-shortcuts.ui.h:29
-msgctxt "shortcut window"
-msgid "Forward selected messages"
-msgstr "Переслати вибрані повідомлення"
-
-#: ../data/ui/evolution-shortcuts.ui.h:30
-msgctxt "shortcut window"
-msgid "Reply to sender"
-msgstr "Відповісти відправнику"
-
-#: ../data/ui/evolution-shortcuts.ui.h:31
-msgctxt "shortcut window"
-msgid "Reply to list"
-msgstr "Відповісти до списку листування"
-
-#: ../data/ui/evolution-shortcuts.ui.h:32
-msgctxt "shortcut window"
-msgid "Reply to all recipients"
-msgstr "Відповісти всім одержувачам"
-
-#: ../data/ui/evolution-shortcuts.ui.h:33
+#: ../data/ui/evolution-shortcuts.ui.h:27
 msgctxt "shortcut window"
 msgid "Scroll up"
 msgstr "Гортати вгору"
 
-#: ../data/ui/evolution-shortcuts.ui.h:34
+#: ../data/ui/evolution-shortcuts.ui.h:28
 msgctxt "shortcut window"
 msgid "Scroll down"
 msgstr "Гортати вниз"
 
+#: ../data/ui/evolution-shortcuts.ui.h:29
+#| msgctxt "New"
+#| msgid "_Mail Message"
+msgctxt "shortcut window"
+msgid "Mail Message"
+msgstr "Надіслати повідомлення"
+
+#: ../data/ui/evolution-shortcuts.ui.h:30
+#| msgid "Copy selected messages to another folder"
+msgctxt "shortcut window"
+msgid "Copy selected messages to folder"
+msgstr "Скопіювати позначені повідомлення до теки"
+
+#: ../data/ui/evolution-shortcuts.ui.h:31
+#| msgid "Move selected messages to another folder"
+msgctxt "shortcut window"
+msgid "Move selected messages to folder"
+msgstr "Перемістити позначені повідомлення до теки"
+
+#: ../data/ui/evolution-shortcuts.ui.h:32
+#| msgctxt "shortcut window"
+#| msgid "Forward selected messages"
+msgctxt "shortcut window"
+msgid "Archive selected messages"
+msgstr "Архівувати позначені повідомлення"
+
+#: ../data/ui/evolution-shortcuts.ui.h:33
+msgctxt "shortcut window"
+msgid "Mark selected messages as read"
+msgstr "Позначити вибрані повідомлення як прочитані"
+
+#: ../data/ui/evolution-shortcuts.ui.h:34
+msgctxt "shortcut window"
+msgid "Mark selected messages as unread"
+msgstr "Позначити вибрані повідомлення як непрочитані"
+
 #: ../data/ui/evolution-shortcuts.ui.h:35
+#| msgid "Mark the selected messages as junk"
+msgctxt "shortcut window"
+msgid "Mark selected messages as junk"
+msgstr "Позначити вибрані повідомлення як спам"
+
+#: ../data/ui/evolution-shortcuts.ui.h:36
+#| msgid "Mark the selected messages as junk"
+msgctxt "shortcut window"
+msgid "Mark selected messages as not junk"
+msgstr "Позначити вибрані повідомлення як неспам"
+
+#: ../data/ui/evolution-shortcuts.ui.h:37
+#| msgid "Flag the selected messages for follow-up"
+msgctxt "shortcut window"
+msgid "Flag selected messages for follow-up"
+msgstr "Позначити «до виконання» вибрані повідомлення"
+
+#: ../data/ui/evolution-shortcuts.ui.h:38
+msgctxt "shortcut window"
+msgid "Forward selected messages"
+msgstr "Переслати вибрані повідомлення"
+
+#: ../data/ui/evolution-shortcuts.ui.h:39
+msgctxt "shortcut window"
+msgid "Reply to sender"
+msgstr "Відповісти відправнику"
+
+#: ../data/ui/evolution-shortcuts.ui.h:40
+msgctxt "shortcut window"
+msgid "Reply to list"
+msgstr "Відповісти до списку листування"
+
+#: ../data/ui/evolution-shortcuts.ui.h:41
+msgctxt "shortcut window"
+msgid "Reply to all recipients"
+msgstr "Відповісти всім одержувачам"
+
+#: ../data/ui/evolution-shortcuts.ui.h:42
+#| msgid "Alternative Reply"
+msgctxt "shortcut window"
+msgid "Alternative reply"
+msgstr "Альтернативна відповідь"
+
+#: ../data/ui/evolution-shortcuts.ui.h:43
+#| msgid "Delete Mail"
+msgctxt "shortcut window"
+msgid "Delete mail"
+msgstr "Вилучити лист"
+
+#: ../data/ui/evolution-shortcuts.ui.h:44
+#| msgid "Delete Mail"
+msgctxt "shortcut window"
+msgid "Undelete mail"
+msgstr "Скасувати вилучення листа"
+
+#: ../data/ui/evolution-shortcuts.ui.h:45
 msgctxt "shortcut window"
 msgid "Calendar"
 msgstr "Календар"
 
-#: ../data/ui/evolution-shortcuts.ui.h:36
+#: ../data/ui/evolution-shortcuts.ui.h:46
 msgctxt "shortcut window"
 msgid "Create a new appointment"
 msgstr "Створити нову зустріч"
 
-#: ../data/ui/evolution-shortcuts.ui.h:37
+#: ../data/ui/evolution-shortcuts.ui.h:47
 msgctxt "shortcut window"
 msgid "Create a new meeting"
 msgstr "Створити новий запис зібрання"
 
-#: ../data/ui/evolution-shortcuts.ui.h:38
+#: ../data/ui/evolution-shortcuts.ui.h:48
 msgctxt "shortcut window"
 msgid "Create a new task"
 msgstr "Створити нове завдання"
 
-#: ../data/ui/evolution-shortcuts.ui.h:39
+#: ../data/ui/evolution-shortcuts.ui.h:49
 msgctxt "shortcut window"
 msgid "Create a new memo"
 msgstr "Створити нову примітку"
 
-#: ../data/ui/evolution-shortcuts.ui.h:40
+#: ../data/ui/evolution-shortcuts.ui.h:50
 msgctxt "shortcut window"
 msgid "Go to today"
 msgstr "Перейти до списку на сьогодні"
 
-#: ../data/ui/evolution-shortcuts.ui.h:41
+#: ../data/ui/evolution-shortcuts.ui.h:51
 msgctxt "shortcut window"
 msgid "Go to date"
 msgstr "Перейти до дати"
 
-#: ../data/ui/evolution-shortcuts.ui.h:42
+#: ../data/ui/evolution-shortcuts.ui.h:52
 msgctxt "shortcut window"
 msgid "Day View"
 msgstr "Перегляд дня"
 
-#: ../data/ui/evolution-shortcuts.ui.h:43
+#: ../data/ui/evolution-shortcuts.ui.h:53
 msgctxt "shortcut window"
 msgid "Work Week View"
 msgstr "Перегляд робочого тижня"
 
-#: ../data/ui/evolution-shortcuts.ui.h:44
+#: ../data/ui/evolution-shortcuts.ui.h:54
 msgctxt "shortcut window"
 msgid "Week View"
 msgstr "Перегляд тижня"
 
-#: ../data/ui/evolution-shortcuts.ui.h:45
+#: ../data/ui/evolution-shortcuts.ui.h:55
 msgctxt "shortcut window"
 msgid "Month View"
 msgstr "Перегляд місяця"
 
-#: ../data/ui/evolution-shortcuts.ui.h:46
+#: ../data/ui/evolution-shortcuts.ui.h:56
 msgctxt "shortcut window"
 msgid "List View"
 msgstr "Перегляд списком"
 
-#: ../data/ui/evolution-shortcuts.ui.h:47
+#: ../data/ui/evolution-shortcuts.ui.h:57
+#| msgid "Deleting an event"
+#| msgid_plural "Deleting %d events"
+msgctxt "shortcut window"
+msgid "Delete event"
+msgstr "Вилучити подію"
+
+#: ../data/ui/evolution-shortcuts.ui.h:58
 msgctxt "shortcut window"
 msgid "Contacts"
 msgstr "Контакти"
 
-#: ../data/ui/evolution-shortcuts.ui.h:48
+#: ../data/ui/evolution-shortcuts.ui.h:59
 msgctxt "shortcut window"
 msgid "Create a new contact"
 msgstr "Створити новий контакт"
 
-#: ../data/ui/evolution-shortcuts.ui.h:49
+#: ../data/ui/evolution-shortcuts.ui.h:60
 msgctxt "shortcut window"
 msgid "Create a new contact list"
 msgstr "Створити новий список контактів"
+
+#: ../data/ui/evolution-shortcuts.ui.h:61
+#| msgid "_Delete Contact"
+msgctxt "shortcut window"
+msgid "Delete contact"
+msgstr "Вилучити контакт"
 
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
@@ -6816,7 +6899,8 @@ msgid "Are you sure you want to delete these {0} tasks?"
 msgstr "Вилучити завдання ці {0} завдання?"
 
 #: ../src/calendar/calendar.error.xml.h:30
-msgid "All information on these tasks will be deleted and can not be restored."
+msgid ""
+"All information on these tasks will be deleted and can not be restored."
 msgstr "Усі відомості про ці завдання будуть остаточно вилучено."
 
 #: ../src/calendar/calendar.error.xml.h:31
@@ -6824,7 +6908,8 @@ msgid "Are you sure you want to delete these {0} memos?"
 msgstr "Вилучити завдання ці {0} примітки?"
 
 #: ../src/calendar/calendar.error.xml.h:32
-msgid "All information in these memos will be deleted and can not be restored."
+msgid ""
+"All information in these memos will be deleted and can not be restored."
 msgstr "Усі відомості про ці примітки будуть остаточно вилучено."
 
 #: ../src/calendar/calendar.error.xml.h:33
@@ -8903,7 +8988,8 @@ msgstr "Не вдалося знайти долучення «%s», вилучі
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:564
 #, c-format
-msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
+msgid ""
+"Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "Долучення «%s» має недійсний URI, вилучіть його зі списку"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:765
@@ -10329,7 +10415,6 @@ msgstr "Завдання без терміну виконання"
 #. It doesn't matter which data-model is picked, because it's used
 #. only for thread creation and manipulation, not for its content.
 #: ../src/calendar/gui/e-to-do-pane.c:2295
-#| msgid "Mark selected tasks as complete"
 msgid "Marking a task as complete"
 msgstr "Позначаємо завдання як виконане"
 
@@ -10357,7 +10442,6 @@ msgid "_Open…"
 msgstr "_Відкрити…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2380
-#| msgid "_Mark as Complete"
 msgid "Mark Task as _Complete"
 msgstr "Поз_начити завдання як виконане"
 
@@ -10534,7 +10618,8 @@ msgstr "Інформація iCalendar"
 #: ../src/calendar/gui/itip-utils.c:1394
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
-msgstr "Не вдалося зарезервувати ресурс, нова подія конфліктує з якоюсь іншою."
+msgstr ""
+"Не вдалося зарезервувати ресурс, нова подія конфліктує з якоюсь іншою."
 
 #: ../src/calendar/gui/itip-utils.c:1399
 msgid "Unable to book a resource, error: "
@@ -12644,7 +12729,8 @@ msgstr "_Запитати підтвердження про прочитання
 
 #: ../src/composer/e-composer-actions.c:468
 msgid "Get delivery notification when your message is read"
-msgstr "Встановіть, щоб отримати сповіщення про прочитання вашого повідомлення"
+msgstr ""
+"Встановіть, щоб отримати сповіщення про прочитання вашого повідомлення"
 
 #: ../src/composer/e-composer-actions.c:474
 msgid "Request _Delivery Status Notification"
@@ -17068,7 +17154,8 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:13
 msgid "The calendar backend servicing “{0}” has quit unexpectedly."
-msgstr "Модуль календаря для обслуговування «{0}» несподівано припинив роботу."
+msgstr ""
+"Модуль календаря для обслуговування «{0}» несподівано припинив роботу."
 
 #: ../src/e-util/e-system.error.xml.h:14
 msgid ""
@@ -17093,7 +17180,8 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:18
 msgid "Some of your tasks may not be available until Evolution is restarted."
-msgstr "Деякі з ваших завдань можуть бути недоступні до перезапуску Evolution."
+msgstr ""
+"Деякі з ваших завдань можуть бути недоступні до перезапуску Evolution."
 
 #: ../src/e-util/e-system.error.xml.h:19
 msgid "The address book backend servicing “{0}” encountered an error."
@@ -17522,7 +17610,8 @@ msgstr "П_орядок:"
 
 #: ../src/e-util/e-webdav-browser.c:2619
 msgid "Use -1 to not set the sort order"
-msgstr "Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
+msgstr ""
+"Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
 
 #: ../src/e-util/e-webdav-browser.c:2625
 msgid "For Components:"
@@ -17978,7 +18067,8 @@ msgstr "Пересилання листа скасовано, бо не вказ
 
 #: ../src/libemail-engine/e-mail-session.c:1765
 #, c-format
-msgid "No identity found to use, forwarding of the message has been cancelled."
+msgid ""
+"No identity found to use, forwarding of the message has been cancelled."
 msgstr "Пересилання листа скасовано, бо не знайдено тотожності."
 
 #: ../src/libemail-engine/e-mail-session.c:1972
@@ -18236,7 +18326,8 @@ msgstr "Відкрити _мережеві облікові записи"
 #: ../src/mail/e-mail-account-manager.c:144
 #: ../src/mail/e-mail-account-manager.c:232
 msgid "This account was created through the Online Accounts service."
-msgstr "Цей обліковий запис створено через службу мережевих облікових записів."
+msgstr ""
+"Цей обліковий запис створено через службу мережевих облікових записів."
 
 #: ../src/mail/e-mail-account-manager.c:692
 msgid "_Reset Order"
@@ -18942,7 +19033,8 @@ msgstr "_Масштабувати до вікна"
 
 #: ../src/mail/e-mail-display.c:801
 msgid "Zoom large images to not be wider than the window width"
-msgstr "Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
+msgstr ""
+"Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
 
 #: ../src/mail/e-mail-folder-create-dialog.c:328
 msgid "Create Folder"
@@ -21587,7 +21679,8 @@ msgstr "_Показувати рухомі зображення"
 
 #: ../src/mail/mail-config.ui.h:122
 msgid "Unset colors provided in HTML mails in message previe_w"
-msgstr "Скидати кольори з повідомлень у HTML на панелі поп_ереднього перегляду"
+msgstr ""
+"Скидати кольори з повідомлень у HTML на панелі поп_ереднього перегляду"
 
 #: ../src/mail/mail-config.ui.h:123
 msgid "Loading Remote Content"
@@ -22514,7 +22607,8 @@ msgstr ""
 "Включіть обліковий запис або використовуйте для надсилання інший запис."
 
 #: ../src/mail/mail.error.xml.h:159
-msgid "This message cannot be sent because there is no mail account configured"
+msgid ""
+"This message cannot be sent because there is no mail account configured"
 msgstr ""
 "Це повідомлення не може бути надіслане, оскільки не налаштовано облікового "
 "запису пошти"
@@ -26241,7 +26335,8 @@ msgid ""
 msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr[0] "Календар «%s» містить %d зустріч, яка конфліктує з цим зібранням"
-msgstr[1] "Календар «%s» містить %d зустрічі, які конфліктують з цим зібранням"
+msgstr[1] ""
+"Календар «%s» містить %d зустрічі, які конфліктують з цим зібранням"
 msgstr[2] ""
 "Календар «%s» містить %d зустрічей, які конфліктують з цим зібранням"
 msgstr[3] "Календар «%s» містить зустріч, яка конфліктує з цим зібранням"
@@ -26459,7 +26554,8 @@ msgstr "Засідання неправильне і його неможливо
 
 #: ../src/modules/itip-formatter/itip-view.c:6004
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr "Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
+msgstr ""
+"Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
 
 #: ../src/modules/itip-formatter/itip-view.c:6080
 #: ../src/modules/itip-formatter/itip-view.c:6118
@@ -26538,7 +26634,8 @@ msgstr "Долучений календар містить декілька об
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr "Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
+msgstr ""
+"Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
 
 #: ../src/modules/itip-formatter/itip-view.c:7082
 msgctxt "cal-itip"
@@ -26559,7 +26656,8 @@ msgid "This meeting has been delegated"
 msgstr "Цю зустріч було направлено"
 
 #: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-msgid "“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
+msgid ""
+"“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
 msgstr "«{0}» доручено провести нараду. Ви бажаєте додати представника «{1}»?"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:297
@@ -26895,7 +26993,8 @@ msgstr "Вимкнути цей обліковий запис"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1604
 msgid "Permanently remove all the deleted messages from all folders"
-msgstr "Остаточно знищити з усіх тек всі повідомлення, що позначені вилученими"
+msgstr ""
+"Остаточно знищити з усіх тек всі повідомлення, що позначені вилученими"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1609
 msgid "Empty _Junk"
@@ -26952,7 +27051,8 @@ msgstr "Вик_реслити"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1667
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "Остаточно вилучити всі повідомлення, позначені як вилучені з цієї теки"
+msgstr ""
+"Остаточно вилучити всі повідомлення, позначені як вилучені з цієї теки"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1672
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1764
@@ -30333,7 +30433,8 @@ msgstr "Виберіть сертифікат"
 
 #: ../src/smime/gui/smime-ui.ui.h:1
 msgid "You have certificates from these organizations that identify you:"
-msgstr "Ви маєте сертифікати від наступних організацій, що вас ідентифікували:"
+msgstr ""
+"Ви маєте сертифікати від наступних організацій, що вас ідентифікували:"
 
 #: ../src/smime/gui/smime-ui.ui.h:2
 msgid "Certificates Table"
