@@ -174,6 +174,61 @@
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
+                <property name="accelerator">period bracketright</property>
+                <property name="title" translatable="yes" context="shortcut window">Jump to the next unread message</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">comma bracketleft</property>
+                <property name="title" translatable="yes" context="shortcut window">Jump to the previous unread message</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">BackSpace</property>
+                <property name="title" translatable="yes" context="shortcut window">Scroll up</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">space</property>
+                <property name="title" translatable="yes" context="shortcut window">Scroll down</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkShortcutsGroup">
+            <property name="title" translatable="yes" context="shortcut window">Mail Message</property>
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;y</property>
+                <property name="title" translatable="yes" context="shortcut window">Copy selected messages to folder</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;v</property>
+                <property name="title" translatable="yes" context="shortcut window">Move selected messages to folder</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">&lt;ctrl&gt;&lt;alt&gt;a</property>
+                <property name="title" translatable="yes" context="shortcut window">Archive selected messages</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
                 <property name="accelerator">&lt;ctrl&gt;k</property>
                 <property name="title" translatable="yes" context="shortcut window">Mark selected messages as read</property>
                 <property name="visible">True</property>
@@ -188,15 +243,22 @@
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
-                <property name="accelerator">period bracketright</property>
-                <property name="title" translatable="yes" context="shortcut window">Jump to the next unread message</property>
+                <property name="accelerator">&lt;ctrl&gt;j</property>
+                <property name="title" translatable="yes" context="shortcut window">Mark selected messages as junk</property>
                 <property name="visible">True</property>
               </object>
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
-                <property name="accelerator">comma bracketleft</property>
-                <property name="title" translatable="yes" context="shortcut window">Jump to the previous unread message</property>
+                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;j</property>
+                <property name="title" translatable="yes" context="shortcut window">Mark selected messages as not junk</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;g</property>
+                <property name="title" translatable="yes" context="shortcut window">Flag selected messages for follow-up</property>
                 <property name="visible">True</property>
               </object>
             </child>
@@ -230,15 +292,22 @@
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
-                <property name="accelerator">BackSpace</property>
-                <property name="title" translatable="yes" context="shortcut window">Scroll up</property>
+                <property name="accelerator">&lt;ctrl&gt;&lt;alt&gt;r</property>
+                <property name="title" translatable="yes" context="shortcut window">Alternative reply</property>
                 <property name="visible">True</property>
               </object>
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
-                <property name="accelerator">space</property>
-                <property name="title" translatable="yes" context="shortcut window">Scroll down</property>
+                <property name="accelerator">&lt;ctrl&gt;d Delete</property>
+                <property name="title" translatable="yes" context="shortcut window">Delete mail</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;d</property>
+                <property name="title" translatable="yes" context="shortcut window">Undelete mail</property>
                 <property name="visible">True</property>
               </object>
             </child>
@@ -325,6 +394,13 @@
                 <property name="visible">True</property>
               </object>
             </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">&lt;ctrl&gt;d</property>
+                <property name="title" translatable="yes" context="shortcut window">Delete event</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
           </object>
         </child>
         <child>
@@ -342,6 +418,13 @@
               <object class="GtkShortcutsShortcut">
                 <property name="accelerator">&lt;ctrl&gt;&lt;shift&gt;l</property>
                 <property name="title" translatable="yes" context="shortcut window">Create a new contact list</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">&lt;ctrl&gt;d</property>
+                <property name="title" translatable="yes" context="shortcut window">Delete contact</property>
                 <property name="visible">True</property>
               </object>
             </child>
