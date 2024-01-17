@@ -885,13 +885,12 @@ e_mail_formatter_format_sync (EMailFormatter *formatter,
 }
 
 static void
-mail_formatter_format_thread (GSimpleAsyncResult *simple,
-                              GObject *source_object,
+mail_formatter_format_thread (GTask *task,
+                              gpointer source_object,
+                              gpointer task_data,
                               GCancellable *cancellable)
 {
-	AsyncContext *async_context;
-
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	AsyncContext *async_context = task_data;
 
 	e_mail_formatter_format_sync (
 		E_MAIL_FORMATTER (source_object),
@@ -900,6 +899,8 @@ mail_formatter_format_thread (GSimpleAsyncResult *simple,
 		async_context->flags,
 		async_context->mode,
 		cancellable);
+
+	g_task_return_boolean (task, TRUE);
 }
 
 void
@@ -912,7 +913,7 @@ e_mail_formatter_format (EMailFormatter *formatter,
                          GCancellable *cancellable,
                          gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *async_context;
 	EMailFormatterClass *class;
 
@@ -929,26 +930,18 @@ e_mail_formatter_format (EMailFormatter *formatter,
 	async_context->flags = flags;
 	async_context->mode = mode;
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (formatter), callback,
-		user_data, e_mail_formatter_format);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, async_context, (GDestroyNotify) async_context_free);
+	task = g_task_new (formatter, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_formatter_format);
+	g_task_set_task_data (task, async_context, (GDestroyNotify) async_context_free);
 
 	if (part_list != NULL) {
 		async_context->part_list = g_object_ref (part_list);
-
-		g_simple_async_result_run_in_thread (
-			simple, mail_formatter_format_thread,
-			G_PRIORITY_DEFAULT, cancellable);
+		g_task_run_in_thread (task, mail_formatter_format_thread);
 	} else {
-		g_simple_async_result_complete_in_idle (simple);
+		g_task_return_boolean (task, TRUE);
 	}
 
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 gboolean
@@ -956,17 +949,10 @@ e_mail_formatter_format_finish (EMailFormatter *formatter,
                                 GAsyncResult *result,
                                 GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, formatter), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_formatter_format), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (formatter),
-		e_mail_formatter_format), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 /**
