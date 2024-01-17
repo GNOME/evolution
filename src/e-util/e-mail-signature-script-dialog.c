@@ -676,20 +676,20 @@ mail_signature_script_dialog_symlink_cb (GObject *object,
                                          GAsyncResult *result,
                                          gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	GError *error = NULL;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
+	task = G_TASK (user_data);
 
 	e_source_mail_signature_symlink_finish (
 		E_SOURCE (object), result, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_boolean (task, TRUE);
 
-	g_simple_async_result_complete (simple);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 static void
@@ -697,20 +697,19 @@ mail_signature_script_dialog_commit_cb (GObject *object,
                                         GAsyncResult *result,
                                         gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *async_context;
 	GError *error = NULL;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	task = G_TASK (user_data);
+	async_context = g_task_get_task_data (task);
 
 	e_source_registry_commit_source_finish (
 		E_SOURCE_REGISTRY (object), result, &error);
 
 	if (error != NULL) {
-		g_simple_async_result_take_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
+		g_task_return_error (task, g_steal_pointer (&error));
+		g_object_unref (task);
 		return;
 	}
 
@@ -720,9 +719,9 @@ mail_signature_script_dialog_commit_cb (GObject *object,
 		async_context->source,
 		async_context->symlink_target,
 		G_PRIORITY_DEFAULT,
-		async_context->cancellable,
+		g_task_get_cancellable (task),
 		mail_signature_script_dialog_symlink_cb,
-		simple);
+		task);
 }
 
 void
@@ -731,7 +730,7 @@ e_mail_signature_script_dialog_commit (EMailSignatureScriptDialog *dialog,
                                        GAsyncReadyCallback callback,
                                        gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *async_context;
 	ESourceRegistry *registry;
 	ESource *source;
@@ -749,21 +748,15 @@ e_mail_signature_script_dialog_commit (EMailSignatureScriptDialog *dialog,
 	async_context->source = g_object_ref (source);
 	async_context->symlink_target = g_strdup (symlink_target);
 
-	if (G_IS_CANCELLABLE (cancellable))
-		async_context->cancellable = g_object_ref (cancellable);
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (dialog), callback, user_data,
-		e_mail_signature_script_dialog_commit);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, async_context, (GDestroyNotify) async_context_free);
+	task = g_task_new (dialog, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_signature_script_dialog_commit);
+	g_task_set_task_data (task, async_context, (GDestroyNotify) async_context_free);
 
 	e_source_registry_commit_source (
 		registry, source,
-		async_context->cancellable,
+		cancellable,
 		mail_signature_script_dialog_commit_cb,
-		simple);
+		task);
 }
 
 gboolean
@@ -771,16 +764,9 @@ e_mail_signature_script_dialog_commit_finish (EMailSignatureScriptDialog *dialog
                                               GAsyncResult *result,
                                               GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, dialog), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_signature_script_dialog_commit), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (dialog),
-		e_mail_signature_script_dialog_commit), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
