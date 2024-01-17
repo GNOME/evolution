@@ -554,17 +554,18 @@ e_mail_parser_parse_sync (EMailParser *parser,
 }
 
 static void
-mail_parser_parse_thread (GSimpleAsyncResult *simple,
-                          GObject *source_object,
+mail_parser_parse_thread (GTask *task,
+                          gpointer source_object,
+                          gpointer task_data,
                           GCancellable *cancellable)
 {
-	EMailPartList *part_list;
-
-	part_list = g_simple_async_result_get_op_res_gpointer (simple);
+	EMailPartList *part_list = task_data;
 
 	mail_parser_run (
 		E_MAIL_PARSER (source_object),
 		part_list, cancellable);
+
+	g_task_return_pointer (task, g_object_ref (part_list), g_object_unref);
 }
 
 /**
@@ -586,7 +587,7 @@ e_mail_parser_parse (EMailParser *parser,
                      GCancellable *cancellable,
                      gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	EMailPartList *part_list;
 
 	g_return_if_fail (E_IS_MAIL_PARSER (parser));
@@ -594,20 +595,13 @@ e_mail_parser_parse (EMailParser *parser,
 
 	part_list = e_mail_part_list_new (message, message_uid, folder);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (parser), callback,
-		user_data, e_mail_parser_parse);
+	task = g_task_new (parser, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_parser_parse);
+	g_task_set_task_data (task, part_list, g_object_unref);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	g_task_run_in_thread (task, mail_parser_parse_thread);
 
-	g_simple_async_result_set_op_res_gpointer (
-		simple, part_list, (GDestroyNotify) g_object_unref);
-
-	g_simple_async_result_run_in_thread (
-		simple, mail_parser_parse_thread,
-		G_PRIORITY_DEFAULT, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 EMailPartList *
@@ -615,16 +609,12 @@ e_mail_parser_parse_finish (EMailParser *parser,
                             GAsyncResult *result,
                             GError **error)
 {
-	GSimpleAsyncResult *simple;
 	EMailPartList *part_list;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (parser), e_mail_parser_parse), NULL);
+	g_return_val_if_fail (g_task_is_valid (result, parser), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_parser_parse), FALSE);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	part_list = g_simple_async_result_get_op_res_gpointer (simple);
-
+	part_list = g_task_propagate_pointer (G_TASK (result), error);
 	if (camel_debug_start ("emformat:parser")) {
 		GQueue queue = G_QUEUE_INIT;
 
