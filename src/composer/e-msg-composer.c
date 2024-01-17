@@ -1276,14 +1276,13 @@ composer_build_message_smime (AsyncContext *context,
 #endif
 
 static void
-composer_build_message_thread (GSimpleAsyncResult *simple,
-                               EMsgComposer *composer,
+composer_build_message_thread (GTask *task,
+                               gpointer source_object,
+                               gpointer task_data,
                                GCancellable *cancellable)
 {
-	AsyncContext *context;
+	AsyncContext *context = task_data;
 	GError *error = NULL;
-
-	context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	/* Setup working recipient list if we're encrypting. */
 	if (context->pgp_encrypt || context->smime_encrypt) {
@@ -1310,16 +1309,17 @@ composer_build_message_thread (GSimpleAsyncResult *simple,
 	}
 
 	if (!composer_build_message_pgp (context, cancellable, &error)) {
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
 		return;
 	}
 
 #if defined (ENABLE_SMIME)
 	if (!composer_build_message_smime (context, cancellable, &error)) {
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
 		return;
 	}
 #endif /* ENABLE_SMIME */
+	g_task_return_boolean (task, TRUE);
 }
 
 static const gchar *
@@ -1402,7 +1402,7 @@ composer_build_message (EMsgComposer *composer,
                         gpointer user_data)
 {
 	EMsgComposerPrivate *priv;
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *context;
 	EAttachmentView *view;
 	EAttachmentStore *store;
@@ -1465,14 +1465,10 @@ composer_build_message (EMsgComposer *composer,
 		context->pgp_sign || context->pgp_encrypt ||
 		context->smime_sign || context->smime_encrypt;
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (composer), callback,
-		user_data, composer_build_message);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
+	task = g_task_new (composer, cancellable, callback, user_data);
+	g_task_set_source_tag (task, composer_build_message);
+	g_task_set_priority (task, io_priority);
+	g_task_set_task_data (task, context, (GDestroyNotify) async_context_free);
 
 	/* If this is a redirected message, just tweak the headers. */
 	if (priv->redirect) {
@@ -1482,8 +1478,8 @@ composer_build_message (EMsgComposer *composer,
 		context->is_redirect = TRUE;
 		context->message = g_object_ref (priv->redirect);
 		build_message_headers (composer, context->message, TRUE);
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
+		g_task_return_boolean (task, TRUE);
+		g_object_unref (task);
 		return;
 	}
 
@@ -1903,25 +1899,20 @@ composer_build_message (EMsgComposer *composer,
 	g_clear_object (&alternative_body);
 
 	if (last_error) {
-		g_simple_async_result_take_error (simple, last_error);
-		g_simple_async_result_complete (simple);
-
+		g_task_return_error (task, g_steal_pointer (&last_error));
 	/* Run any blocking operations in a separate thread. */
 	} else if (context->need_thread) {
 		if (!context->is_draft)
 			context->recipients_with_certificate = composer_get_completed_recipients_with_certificate (composer);
 
-		g_simple_async_result_run_in_thread (
-			simple, (GSimpleAsyncThreadFunc)
-			composer_build_message_thread,
-			io_priority, cancellable);
+		g_task_run_in_thread (task, composer_build_message_thread);
 	} else {
-		g_simple_async_result_complete (simple);
+		g_task_return_boolean (task, TRUE);
 	}
 
 	e_msg_composer_dec_soft_busy (composer);
 
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 static CamelMimeMessage *
@@ -1929,17 +1920,15 @@ composer_build_message_finish (EMsgComposer *composer,
                                GAsyncResult *result,
                                GError **error)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *context;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (composer), composer_build_message), NULL);
+	g_return_val_if_fail (g_task_is_valid (result, composer), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, composer_build_message), NULL);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
+	task = G_TASK (result);
+	context = g_task_get_task_data (task);
+	if (!g_task_propagate_boolean (task, error))
 		return NULL;
 
 	/* Finalize some details before returning. */
@@ -6258,105 +6247,51 @@ e_msg_composer_set_alternative_body (EMsgComposer *composer,
 }
 
 static void
-composer_get_message_ready (EMsgComposer *composer,
-                            GAsyncResult *result,
-                            GSimpleAsyncResult *simple)
+composer_get_message_ready (GObject *source_object,
+                            GAsyncResult *res,
+                            gpointer user_data)
 {
+	EMsgComposer *composer = E_MSG_COMPOSER (source_object);
 	CamelMimeMessage *message;
 	GError *error = NULL;
+	GTask *task = user_data;
 
-	message = composer_build_message_finish (composer, result, &error);
+	message = composer_build_message_finish (composer, res, &error);
 
 	if (message != NULL)
-		g_simple_async_result_set_op_res_gpointer (
-			simple, message, (GDestroyNotify) g_object_unref);
+		g_task_return_pointer (task, message, g_object_unref);
 
 	if (error != NULL) {
 		g_warn_if_fail (message == NULL);
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
 	}
-
-	g_simple_async_result_complete (simple);
 
 	e_msg_composer_unref_content_hash (composer);
 
-	g_object_unref (simple);
-}
-
-typedef struct _BuildMessageWrapperData {
-	EMsgComposer *composer;
-	ComposerFlags flags;
-	gint io_priority;
-	GCancellable *cancellable;
-	GSimpleAsyncResult *simple;
-} BuildMessageWrapperData;
-
-static BuildMessageWrapperData *
-build_message_wrapper_data_new (EMsgComposer *composer,
-				ComposerFlags flags,
-				gint io_priority,
-				GCancellable *cancellable,
-				GSimpleAsyncResult *simple)
-{
-	BuildMessageWrapperData *bmwd;
-
-	bmwd = g_slice_new (BuildMessageWrapperData);
-	bmwd->composer = g_object_ref (composer);
-	bmwd->flags = flags;
-	bmwd->io_priority = io_priority;
-	bmwd->cancellable = cancellable ? g_object_ref (cancellable) : NULL;
-	bmwd->simple = g_object_ref (simple);
-
-	return bmwd;
+	g_object_unref (task);
 }
 
 static void
-build_message_wrapper_data_free (gpointer ptr)
+composer_build_message_content_hash_ready_cb (EMsgComposer *composer,
+                                              gpointer user_data,
+                                              const GError *error)
 {
-	BuildMessageWrapperData *bmwd = ptr;
+	GTask *task = user_data;
 
-	if (bmwd) {
-		g_clear_object (&bmwd->composer);
-		g_clear_object (&bmwd->cancellable);
-		g_clear_object (&bmwd->simple);
-		g_slice_free (BuildMessageWrapperData, bmwd);
-	}
-}
-
-static void
-composer_build_message_wrapper_content_hash_ready_cb (EMsgComposer *composer,
-						      gpointer user_data,
-						      const GError *error)
-{
-	BuildMessageWrapperData *bmwd = user_data;
-
-	g_return_if_fail (bmwd != NULL);
+	g_return_if_fail (task != NULL);
 
 	if (error) {
-		g_simple_async_result_set_from_error (bmwd->simple, error);
-		g_simple_async_result_complete (bmwd->simple);
-		e_msg_composer_unref_content_hash (bmwd->composer);
+		g_task_return_error (task, g_error_copy (error));
+		e_msg_composer_unref_content_hash (composer);
 	} else {
-		composer_build_message (composer, bmwd->flags, bmwd->io_priority,
-			bmwd->cancellable, (GAsyncReadyCallback)
-			composer_get_message_ready, bmwd->simple);
+		ComposerFlags flags = GPOINTER_TO_UINT (g_task_get_task_data (task));
+		guint io_priority = g_task_get_priority (task);
+		GCancellable *cancellable = g_task_get_cancellable (task);
+		composer_build_message (composer, flags, io_priority, cancellable,
+			composer_get_message_ready, g_steal_pointer (&task));
 	}
 
-	build_message_wrapper_data_free (bmwd);
-}
-
-static void
-composer_build_message_wrapper (EMsgComposer *composer,
-				ComposerFlags flags,
-				gint io_priority,
-				GCancellable *cancellable,
-				GSimpleAsyncResult *simple)
-{
-	BuildMessageWrapperData *bmwd;
-
-	bmwd = build_message_wrapper_data_new (composer, flags, io_priority, cancellable, simple);
-
-	e_msg_composer_prepare_content_hash (composer, cancellable, NULL, composer_build_message_wrapper_content_hash_ready_cb, bmwd);
+	g_clear_object (&task);
 }
 
 /**
@@ -6374,7 +6309,7 @@ e_msg_composer_get_message (EMsgComposer *composer,
                             GAsyncReadyCallback callback,
                             gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	GtkAction *action;
 	ComposerFlags flags = 0;
 	EHTMLEditor *editor;
@@ -6382,12 +6317,6 @@ e_msg_composer_get_message (EMsgComposer *composer,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (composer), callback,
-		user_data, e_msg_composer_get_message);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	if (e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_HTML ||
 	    e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML)
@@ -6423,7 +6352,17 @@ e_msg_composer_get_message (EMsgComposer *composer,
 		flags |= COMPOSER_FLAG_SMIME_ENCRYPT;
 #endif
 
-	composer_build_message_wrapper (composer, flags, io_priority, cancellable, simple);
+	task = g_task_new (composer, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_msg_composer_get_message);
+	g_task_set_task_data (task, GUINT_TO_POINTER (flags), NULL);
+	g_task_set_priority (task, io_priority);
+
+	e_msg_composer_prepare_content_hash (
+		composer,
+		cancellable,
+		NULL,
+		composer_build_message_content_hash_ready_cb,
+		g_steal_pointer (&task));
 }
 
 CamelMimeMessage *
@@ -6431,23 +6370,16 @@ e_msg_composer_get_message_finish (EMsgComposer *composer,
                                    GAsyncResult *result,
                                    GError **error)
 {
-	GSimpleAsyncResult *simple;
 	CamelMimeMessage *message;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (composer),
-		e_msg_composer_get_message), NULL);
+	g_return_val_if_fail (g_task_is_valid (result, composer), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_msg_composer_get_message), NULL);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	message = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
+	message = g_task_propagate_pointer (G_TASK (result), error);
+	if (!message)
 		return NULL;
 
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
-
-	return g_object_ref (message);
+	return g_steal_pointer (&message);
 }
 
 void
@@ -6457,21 +6389,25 @@ e_msg_composer_get_message_print (EMsgComposer *composer,
                                   GAsyncReadyCallback callback,
                                   gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	ComposerFlags flags = 0;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (composer), callback,
-		user_data, e_msg_composer_get_message_print);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
 	flags |= COMPOSER_FLAG_HTML_CONTENT;
 	flags |= COMPOSER_FLAG_SAVE_OBJECT_DATA;
 
-	composer_build_message_wrapper (composer, flags, io_priority, cancellable, simple);
+	task = g_task_new (composer, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_msg_composer_get_message_print);
+	g_task_set_task_data (task, GUINT_TO_POINTER (flags), NULL);
+	g_task_set_priority (task, io_priority);
+
+	e_msg_composer_prepare_content_hash (
+		composer,
+		cancellable,
+		NULL,
+		composer_build_message_content_hash_ready_cb,
+		g_steal_pointer (&task));
 }
 
 CamelMimeMessage *
@@ -6479,23 +6415,16 @@ e_msg_composer_get_message_print_finish (EMsgComposer *composer,
                                          GAsyncResult *result,
                                          GError **error)
 {
-	GSimpleAsyncResult *simple;
 	CamelMimeMessage *message;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (composer),
-		e_msg_composer_get_message_print), NULL);
+	g_return_val_if_fail (g_task_is_valid (result, composer), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_msg_composer_get_message_print), NULL);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	message = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
+	message = g_task_propagate_pointer (G_TASK (result), error);
+	if (!message)
 		return NULL;
 
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
-
-	return g_object_ref (message);
+	return g_steal_pointer (&message);
 }
 
 void
@@ -6505,17 +6434,11 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
                                   GAsyncReadyCallback callback,
                                   gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	ComposerFlags flags = COMPOSER_FLAG_SAVE_DRAFT;
 	GtkAction *action;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (composer), callback,
-		user_data, e_msg_composer_get_message_draft);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	/* We want to save HTML content everytime when we save as draft */
 	flags |= COMPOSER_FLAG_SAVE_DRAFT;
@@ -6550,7 +6473,17 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 		flags |= COMPOSER_FLAG_SMIME_ENCRYPT;
 #endif
 
-	composer_build_message_wrapper (composer, flags, io_priority, cancellable, simple);
+	task = g_task_new (composer, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_msg_composer_get_message_draft);
+	g_task_set_task_data (task, GUINT_TO_POINTER (flags), NULL);
+	g_task_set_priority (task, io_priority);
+
+	e_msg_composer_prepare_content_hash (
+		composer,
+		cancellable,
+		NULL,
+		composer_build_message_content_hash_ready_cb,
+		g_steal_pointer (&task));
 }
 
 CamelMimeMessage *
@@ -6558,23 +6491,16 @@ e_msg_composer_get_message_draft_finish (EMsgComposer *composer,
                                          GAsyncResult *result,
                                          GError **error)
 {
-	GSimpleAsyncResult *simple;
 	CamelMimeMessage *message;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (composer),
-		e_msg_composer_get_message_draft), NULL);
+	g_return_val_if_fail (g_task_is_valid (result, composer), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_msg_composer_get_message_draft), NULL);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	message = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
+	message = g_task_propagate_pointer (G_TASK (result), error);
+	if (!message)
 		return NULL;
 
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
-
-	return g_object_ref (message);
+	return g_steal_pointer (&message);
 }
 
 CamelInternetAddress *
