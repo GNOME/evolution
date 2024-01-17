@@ -2699,85 +2699,26 @@ e_attachment_load (EAttachment *attachment,
 
 /************************* e_attachment_open_async() *************************/
 
-typedef struct _OpenContext OpenContext;
-
-struct _OpenContext {
-	EAttachment *attachment;
-	GSimpleAsyncResult *simple;
-
-	GAppInfo *app_info;
-};
-
-static OpenContext *
-attachment_open_context_new (EAttachment *attachment,
-                             GAsyncReadyCallback callback,
-                             gpointer user_data)
-{
-	OpenContext *open_context;
-	GSimpleAsyncResult *simple;
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (attachment), callback,
-		user_data, e_attachment_open_async);
-
-	open_context = g_slice_new0 (OpenContext);
-	open_context->attachment = g_object_ref (attachment);
-	open_context->simple = simple;
-
-	return open_context;
-}
-
-static void
-attachment_open_context_free (OpenContext *open_context)
-{
-	g_object_unref (open_context->attachment);
-	g_object_unref (open_context->simple);
-
-	if (open_context->app_info != NULL)
-		g_object_unref (open_context->app_info);
-
-	g_slice_free (OpenContext, open_context);
-}
-
-static gboolean
-attachment_open_check_for_error (OpenContext *open_context,
-                                 GError *error)
-{
-	GSimpleAsyncResult *simple;
-
-	if (error == NULL)
-		return FALSE;
-
-	simple = open_context->simple;
-	g_simple_async_result_take_error (simple, error);
-	g_simple_async_result_complete (simple);
-
-	attachment_open_context_free (open_context);
-
-	return TRUE;
-}
-
 static void
 attachment_open_file (GFile *file,
-                      OpenContext *open_context)
+                      GTask *task)
 {
 	GdkAppLaunchContext *context;
-	GSimpleAsyncResult *simple;
 	GdkDisplay *display;
 	gboolean success;
 	GError *error = NULL;
-
-	simple = open_context->simple;
+	GAppInfo *app_info;
 
 	display = gdk_display_get_default ();
 	context = gdk_display_get_app_launch_context (display);
+	app_info = g_task_get_task_data (task);
 
-	if (open_context->app_info != NULL) {
+	if (app_info != NULL) {
 		GList *file_list;
 
 		file_list = g_list_prepend (NULL, file);
 		success = g_app_info_launch (
-			open_context->app_info, file_list,
+			app_info, file_list,
 			G_APP_LAUNCH_CONTEXT (context), &error);
 		g_list_free (file_list);
 	} else {
@@ -2791,28 +2732,31 @@ attachment_open_file (GFile *file,
 
 	g_object_unref (context);
 
-	g_simple_async_result_set_op_res_gboolean (simple, success);
+	if (success)
+		g_task_return_boolean (task, TRUE);
+	else
+		g_task_return_error (task, g_steal_pointer (&error));
 
-	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
-
-	g_simple_async_result_complete (simple);
-	attachment_open_context_free (open_context);
+	g_object_unref (task);
 }
 
 static void
-attachment_open_save_finished_cb (EAttachment *attachment,
+attachment_open_save_finished_cb (GObject      *source_object,
                                   GAsyncResult *result,
-                                  OpenContext *open_context)
+                                  gpointer      user_data)
 {
+	EAttachment *attachment = E_ATTACHMENT (source_object);
+	GTask *task = G_TASK (user_data);
 	GFile *file;
 	gchar *path;
 	GError *error = NULL;
 
 	file = e_attachment_save_finish (attachment, result, &error);
-
-	if (attachment_open_check_for_error (open_context, error))
+	if (!file) {
+		g_task_return_error (task, g_steal_pointer (&error));
+		g_object_unref (task);
 		return;
+	}
 
 	/* Make the temporary file read-only.
 	 *
@@ -2832,26 +2776,28 @@ attachment_open_save_finished_cb (EAttachment *attachment,
 #endif
 	g_free (path);
 
-	attachment_open_file (file, open_context);
+	attachment_open_file (file, task);
 	g_object_unref (file);
 }
 
 static void
-attachment_open_save_temporary (OpenContext *open_context)
+attachment_open_save_temporary (EAttachment *attachment,
+                                GTask *task)
 {
 	GFile *temp_directory;
 	GError *error = NULL;
 
 	temp_directory = attachment_get_temporary (&error);
-
-	/* We already know if there's an error, but this does the cleanup. */
-	if (attachment_open_check_for_error (open_context, error))
+	if (error != NULL) {
+		g_task_return_error (task, g_steal_pointer (&error));
+		g_object_unref (task);
 		return;
+	}
 
 	e_attachment_save_async (
-		open_context->attachment,
+		attachment,
 		temp_directory, (GAsyncReadyCallback)
-		attachment_open_save_finished_cb, open_context);
+		attachment_open_save_finished_cb, task);
 
 	g_object_unref (temp_directory);
 }
@@ -2862,9 +2808,9 @@ e_attachment_open_async (EAttachment *attachment,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
-	OpenContext *open_context;
 	CamelMimePart *mime_part;
 	GFile *file;
+	GTask *task;
 
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
@@ -2872,11 +2818,11 @@ e_attachment_open_async (EAttachment *attachment,
 	mime_part = e_attachment_ref_mime_part (attachment);
 	g_return_if_fail (file != NULL || mime_part != NULL);
 
-	open_context = attachment_open_context_new (
-		attachment, callback, user_data);
+	task = g_task_new (attachment, NULL, callback, user_data);
+	g_task_set_source_tag (task, e_attachment_open_async);
 
 	if (G_IS_APP_INFO (app_info))
-		open_context->app_info = g_object_ref (app_info);
+		g_task_set_task_data (task, g_object_ref (app_info), g_object_unref);
 
 	/* open existing file only if it did not change */
 	if (file && mime_part) {
@@ -2890,10 +2836,10 @@ e_attachment_open_async (EAttachment *attachment,
 	 * the application directly.  Otherwise we have to save the MIME
 	 * part to a temporary file and launch the application from that. */
 	if (file != NULL) {
-		attachment_open_file (file, open_context);
+		attachment_open_file (file, g_steal_pointer (&task));
 
 	} else if (mime_part != NULL)
-		attachment_open_save_temporary (open_context);
+		attachment_open_save_temporary (attachment, g_steal_pointer (&task));
 
 	g_clear_object (&file);
 	g_clear_object (&mime_part);
@@ -2904,17 +2850,11 @@ e_attachment_open_finish (EAttachment *attachment,
                           GAsyncResult *result,
                           GError **error)
 {
-	GSimpleAsyncResult *simple;
-	gboolean success;
-
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
-	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
+	g_return_val_if_fail (g_task_is_valid (result, attachment), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_attachment_open_async), FALSE);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	success = !g_simple_async_result_propagate_error (simple, error) &&
-		   g_simple_async_result_get_op_res_gboolean (simple);
-
-	return success;
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 void
