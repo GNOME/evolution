@@ -53,7 +53,6 @@ struct _EMailSignatureEditorPrivate {
 struct _AsyncContext {
 	ESourceRegistry *registry;
 	ESource *source;
-	GCancellable *cancellable;
 	EContentEditorGetContentFlags contents_flag;
 	EContentEditorMode editor_mode;
 	gchar *contents;
@@ -97,7 +96,6 @@ async_context_free (AsyncContext *async_context)
 {
 	g_clear_object (&async_context->registry);
 	g_clear_object (&async_context->source);
-	g_clear_object (&async_context->cancellable);
 
 	if (async_context->destroy_contents)
 		async_context->destroy_contents (async_context->contents);
@@ -895,20 +893,20 @@ mail_signature_editor_replace_cb (GObject *object,
                                   GAsyncResult *result,
                                   gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	GError *error = NULL;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
+	task = G_TASK (user_data);
 
 	e_source_mail_signature_replace_finish (
 		E_SOURCE (object), result, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_boolean (task, TRUE);
 
-	g_simple_async_result_complete (simple);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 static void
@@ -916,20 +914,19 @@ mail_signature_editor_commit_cb (GObject *object,
                                  GAsyncResult *result,
                                  gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *async_context;
 	GError *error = NULL;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	task = G_TASK (user_data);
+	async_context = g_task_get_task_data (task);
 
 	e_source_registry_commit_source_finish (
 		E_SOURCE_REGISTRY (object), result, &error);
 
 	if (error != NULL) {
-		g_simple_async_result_take_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
+		g_task_return_error (task, g_steal_pointer (&error));
+		g_object_unref (task);
 		return;
 	}
 
@@ -940,9 +937,9 @@ mail_signature_editor_commit_cb (GObject *object,
 		async_context->contents,
 		async_context->length,
 		G_PRIORITY_DEFAULT,
-		async_context->cancellable,
+		g_task_get_cancellable (task),
 		mail_signature_editor_replace_cb,
-		simple);
+		task);
 }
 
 static void
@@ -950,7 +947,7 @@ mail_signature_editor_content_hash_ready_cb (GObject *source_object,
 					     GAsyncResult *result,
 					     gpointer user_data)
 {
-	GSimpleAsyncResult *simple = user_data;
+	GTask *task = user_data;
 	EContentEditorContentHash *content_hash;
 	ESourceMailSignature *extension;
 	AsyncContext *async_context;
@@ -962,13 +959,12 @@ mail_signature_editor_content_hash_ready_cb (GObject *source_object,
 	content_hash = e_content_editor_get_content_finish (E_CONTENT_EDITOR (source_object), result, &error);
 
 	if (!content_hash) {
-		g_simple_async_result_take_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
+		g_task_return_error (task, g_steal_pointer (&error));
+		g_object_unref (task);
 		return;
 	}
 
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	async_context = g_task_get_task_data (task);
 
 	async_context->contents = e_content_editor_util_steal_content_data (content_hash,
 		async_context->contents_flag, &async_context->destroy_contents);
@@ -1010,9 +1006,9 @@ mail_signature_editor_content_hash_ready_cb (GObject *source_object,
 
 	e_source_registry_commit_source (
 		async_context->registry, async_context->source,
-		async_context->cancellable,
+		g_task_get_cancellable (task),
 		mail_signature_editor_commit_cb,
-		simple);
+		task);
 }
 
 void
@@ -1021,7 +1017,7 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
                                 GAsyncReadyCallback callback,
                                 gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *async_context;
 	ESourceRegistry *registry;
 	ESource *source;
@@ -1043,18 +1039,12 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	async_context->contents_flag = async_context->editor_mode == E_CONTENT_EDITOR_MODE_HTML ?
 		E_CONTENT_EDITOR_GET_RAW_BODY_HTML : E_CONTENT_EDITOR_GET_TO_SEND_PLAIN;
 
-	if (G_IS_CANCELLABLE (cancellable))
-		async_context->cancellable = g_object_ref (cancellable);
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (window), callback, user_data,
-		e_mail_signature_editor_commit);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, async_context, (GDestroyNotify) async_context_free);
+	task = g_task_new (window, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_signature_editor_commit);
+	g_task_set_task_data (task, async_context, (GDestroyNotify) async_context_free);
 
 	e_content_editor_get_content (cnt_editor, async_context->contents_flag, NULL,
-		cancellable, mail_signature_editor_content_hash_ready_cb, simple);
+		cancellable, mail_signature_editor_content_hash_ready_cb, task);
 }
 
 gboolean
@@ -1062,16 +1052,9 @@ e_mail_signature_editor_commit_finish (EMailSignatureEditor *editor,
                                        GAsyncResult *result,
                                        GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, editor), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_signature_editor_commit), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (editor),
-		e_mail_signature_editor_commit), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
