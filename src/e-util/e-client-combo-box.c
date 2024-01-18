@@ -293,10 +293,10 @@ client_combo_box_get_client_done_cb (GObject *source_object,
                                      gpointer user_data)
 {
 	EClient *client;
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	GError *error = NULL;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
+	task = G_TASK (user_data);
 
 	client = e_client_cache_get_client_finish (
 		E_CLIENT_CACHE (source_object), result, &error);
@@ -306,19 +306,12 @@ client_combo_box_get_client_done_cb (GObject *source_object,
 		((client != NULL) && (error == NULL)) ||
 		((client == NULL) && (error != NULL)));
 
-	if (client != NULL) {
-		g_simple_async_result_set_op_res_gpointer (
-			simple, g_object_ref (client),
-			(GDestroyNotify) g_object_unref);
-		g_object_unref (client);
-	}
+	if (client != NULL)
+		g_task_return_pointer (task, g_steal_pointer (&client), g_object_unref);
+	else
+		g_task_return_error (task, g_steal_pointer (&error));
 
-	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
-
-	g_simple_async_result_complete (simple);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 /**
@@ -353,17 +346,14 @@ e_client_combo_box_get_client (EClientComboBox *combo_box,
                                gpointer user_data)
 {
 	EClientCache *client_cache;
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	const gchar *extension_name;
 
 	g_return_if_fail (E_IS_CLIENT_COMBO_BOX (combo_box));
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (combo_box), callback,
-		user_data, e_client_combo_box_get_client);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	task = g_task_new (combo_box, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_client_combo_box_get_client);
 
 	extension_name = e_source_combo_box_get_extension_name (
 		E_SOURCE_COMBO_BOX (combo_box));
@@ -374,11 +364,9 @@ e_client_combo_box_get_client (EClientComboBox *combo_box,
 		client_cache, source,
 		extension_name, (guint32) -1, cancellable,
 		client_combo_box_get_client_done_cb,
-		g_object_ref (simple));
+		g_steal_pointer (&task));
 
 	g_object_unref (client_cache);
-
-	g_object_unref (simple);
 }
 
 /**
@@ -400,23 +388,10 @@ e_client_combo_box_get_client_finish (EClientComboBox *combo_box,
                                       GAsyncResult *result,
                                       GError **error)
 {
-	GSimpleAsyncResult *simple;
-	EClient *client;
+	g_return_val_if_fail (g_task_is_valid (result, combo_box), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_client_combo_box_get_client), NULL);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (combo_box),
-		e_client_combo_box_get_client), NULL);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	client = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
-		return NULL;
-
-	g_return_val_if_fail (client != NULL, NULL);
-
-	return g_object_ref (client);
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 /**
