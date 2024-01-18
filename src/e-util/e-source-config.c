@@ -1285,19 +1285,20 @@ source_config_commit_cb (GObject *object,
                          GAsyncResult *result,
                          gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	GError *error = NULL;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
+	task = G_TASK (user_data);
 
 	e_source_registry_commit_source_finish (
 		E_SOURCE_REGISTRY (object), result, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_boolean (task, TRUE);
 
-	g_simple_async_result_complete (simple);
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 void
@@ -1306,7 +1307,7 @@ e_source_config_commit (ESourceConfig *config,
                         GAsyncReadyCallback callback,
                         gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	ESourceRegistry *registry;
 	Candidate *candidate;
 
@@ -1324,13 +1325,12 @@ e_source_config_commit (ESourceConfig *config,
 		config, signals[COMMIT_CHANGES], 0,
 		candidate->scratch_source);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (config), callback,
-		user_data, e_source_config_commit);
+	task = g_task_new (config, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_source_config_commit);
 
 	e_source_registry_commit_source (
 		registry, candidate->scratch_source,
-		cancellable, source_config_commit_cb, simple);
+		cancellable, source_config_commit_cb, g_steal_pointer (&task));
 }
 
 gboolean
@@ -1338,17 +1338,10 @@ e_source_config_commit_finish (ESourceConfig *config,
                                GAsyncResult *result,
                                GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, config), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_source_config_commit), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (config),
-		e_source_config_commit), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 void
