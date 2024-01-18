@@ -295,10 +295,6 @@ gboolean	e_util_prompt_user		(GtkWindow *parent,
 						 const gchar *promptkey,
 						 const gchar *tag,
 						 ...);
-void		e_util_run_simple_async_result_in_thread
-						(GSimpleAsyncResult *simple,
-						 GSimpleAsyncThreadFunc func,
-						 GCancellable *cancellable);
 gboolean	e_util_is_running_gnome		(void);
 gboolean	e_util_is_running_flatpak	(void);
 void		e_util_set_entry_issue_hint	(GtkWidget *entry,
