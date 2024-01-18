@@ -26,50 +26,34 @@
 
 #include "e-file-utils.h"
 
-typedef struct _AsyncContext AsyncContext;
-
-struct _AsyncContext {
-	EActivity *activity;
-	gchar *new_etag;
-};
-
 static void
-async_context_free (AsyncContext *context)
-{
-	if (context->activity != NULL)
-		g_object_unref (context->activity);
-
-	g_free (context->new_etag);
-
-	g_slice_free (AsyncContext, context);
-}
-
-static void
-file_replace_contents_cb (GFile *file,
+file_replace_contents_cb (GObject *source_object,
                           GAsyncResult *result,
-                          GSimpleAsyncResult *simple)
+                          gpointer user_data)
 {
-	AsyncContext *context;
+	GFile *file;
+	GTask *task;
+	EActivity *activity;
 	gchar *new_etag = NULL;
 	GError *error = NULL;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	file = G_FILE (source_object);
+	task = G_TASK (user_data);
+	activity = g_task_get_task_data (task);
 
 	g_file_replace_contents_finish (file, result, &new_etag, &error);
 
-	if (!e_activity_handle_cancellation (context->activity, error))
-		e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	if (!e_activity_handle_cancellation (activity, error))
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
 	if (error == NULL)
-		context->new_etag = new_etag;
+		g_task_return_pointer (task, g_steal_pointer (&new_etag), g_free);
 	else {
 		g_warn_if_fail (new_etag == NULL);
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
 	}
 
-	g_simple_async_result_complete (simple);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 /**
@@ -100,9 +84,9 @@ e_file_replace_contents_async (GFile *file,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	GCancellable *cancellable;
-	AsyncContext *context;
+	EActivity *activity;
 	const gchar *format;
 	gchar *description;
 	gchar *basename;
@@ -133,26 +117,20 @@ e_file_replace_contents_async (GFile *file,
 
 	cancellable = g_cancellable_new ();
 
-	context = g_slice_new0 (AsyncContext);
-	context->activity = e_activity_new ();
+	activity = e_activity_new ();
 
-	e_activity_set_text (context->activity, description);
-	e_activity_set_cancellable (context->activity, cancellable);
+	e_activity_set_text (activity, description);
+	e_activity_set_cancellable (activity, cancellable);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (file), callback, user_data,
-		e_file_replace_contents_async);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
+	task = g_task_new (file, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_file_replace_contents_async);
+	g_task_set_task_data (task, activity, g_object_unref);
 
 	g_file_replace_contents_async (
 		file, contents, length, etag,
 		make_backup, flags, cancellable,
-		(GAsyncReadyCallback) file_replace_contents_cb,
-		simple);
+		file_replace_contents_cb,
+		g_steal_pointer (&task));
 
 	g_object_unref (cancellable);
 
@@ -162,7 +140,7 @@ e_file_replace_contents_async (GFile *file,
 	g_free (hostname);
 	g_free (uri);
 
-	return context->activity;
+	return activity;
 }
 
 /**
@@ -185,20 +163,23 @@ e_file_replace_contents_finish (GFile *file,
                                 gchar **new_etag,
                                 GError **error)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	gchar *given_new_etag;
+	GError *local_error = NULL;
 
 	g_return_val_if_fail (G_IS_FILE (file), FALSE);
-	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
+	g_return_val_if_fail (g_task_is_valid (result, file), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_file_replace_contents_async), FALSE);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
-		return FALSE;
-
+	given_new_etag = g_task_propagate_pointer (G_TASK (result), &local_error);
 	if (new_etag != NULL)
-		*new_etag = g_strdup (context->new_etag);
+		*new_etag = g_steal_pointer (&given_new_etag);
+	else
+		g_clear_pointer (&given_new_etag, g_free);
+
+	if (local_error) {
+		g_propagate_error (error, g_steal_pointer (&local_error));
+		return FALSE;
+	}
 
 	return TRUE;
 }
