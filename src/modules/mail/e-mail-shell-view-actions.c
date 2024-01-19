@@ -593,19 +593,19 @@ async_context_free (AsyncContext *context)
 }
 
 static void
-mark_all_read_thread (GSimpleAsyncResult *simple,
-                      GObject *object,
+mark_all_read_thread (GTask *task,
+                      gpointer source_object,
+                      gpointer task_data,
                       GCancellable *cancellable)
 {
-	AsyncContext *context;
+	AsyncContext *context = task_data;
 	CamelStore *store;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	gint ii;
 	GError *error = NULL;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-	store = CAMEL_STORE (object);
+	store = CAMEL_STORE (source_object);
 
 	while (!g_queue_is_empty (&context->folder_names) && !error) {
 		gchar *folder_name;
@@ -638,7 +638,9 @@ mark_all_read_thread (GSimpleAsyncResult *simple,
 	}
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_boolean (task, TRUE);
 }
 
 static void
@@ -646,18 +648,13 @@ mark_all_read_done_cb (GObject *source,
                        GAsyncResult *result,
                        gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	AsyncContext *context = user_data;
 	GError *local_error = NULL;
 
-	g_return_if_fail (
-		g_simple_async_result_is_valid (
-		result, source, mark_all_read_thread));
+	g_return_if_fail (g_task_is_valid (result, source));
+	g_return_if_fail (g_async_result_is_tagged (result, mark_all_read_thread));
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, &local_error) &&
+	if (!g_task_propagate_boolean (G_TASK (result), &local_error) &&
 	    local_error &&
 	    !g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		EAlertSink *alert_sink;
@@ -672,6 +669,7 @@ mark_all_read_done_cb (GObject *source,
 	g_clear_error (&local_error);
 
 	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+	g_clear_pointer (&context, async_context_free);
 }
 
 static void
@@ -775,7 +773,7 @@ mark_all_read_got_folder_info (GObject *source,
 	AsyncContext *context = user_data;
 	EAlertSink *alert_sink;
 	GCancellable *cancellable;
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	CamelFolderInfo *folder_info;
 	gint response;
 	GError *error = NULL;
@@ -831,18 +829,13 @@ mark_all_read_got_folder_info (GObject *source,
 		return;
 	}
 
-	simple = g_simple_async_result_new (
-		source, mark_all_read_done_cb,
-		context, mark_all_read_thread);
+	task = g_task_new (source, cancellable, mark_all_read_done_cb, context);
+	g_task_set_source_tag (task, mark_all_read_thread);
+	g_task_set_task_data (task, context, NULL);
 
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
+	g_task_run_in_thread (task, mark_all_read_thread);
 
-	g_simple_async_result_run_in_thread (
-		simple, mark_all_read_thread,
-		G_PRIORITY_DEFAULT, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 static void
