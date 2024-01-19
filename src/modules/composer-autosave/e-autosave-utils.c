@@ -29,12 +29,7 @@
 #define SNAPSHOT_FILE_PREFIX	".evolution-composer.autosave"
 #define SNAPSHOT_FILE_SEED	SNAPSHOT_FILE_PREFIX "-XXXXXX"
 
-typedef struct _LoadContext LoadContext;
 typedef struct _SaveContext SaveContext;
-
-struct _LoadContext {
-	EMsgComposer *composer;
-};
 
 struct _SaveContext {
 	GCancellable *cancellable;
@@ -42,21 +37,12 @@ struct _SaveContext {
 };
 
 static void
-load_context_free (LoadContext *context)
-{
-	if (context->composer != NULL)
-		g_object_unref (context->composer);
-
-	g_slice_free (LoadContext, context);
-}
-
-static void
 save_context_free (SaveContext *context)
 {
 	g_clear_object (&context->cancellable);
 	g_clear_object (&context->snapshot_file);
 
-	g_slice_free (SaveContext, context);
+	g_free (context);
 }
 
 static void
@@ -112,50 +98,56 @@ create_snapshot_file (EMsgComposer *composer,
 }
 
 typedef struct _CreateComposerData {
-	GSimpleAsyncResult *simple;
-	LoadContext *context;
 	CamelMimeMessage *message;
 	GFile *snapshot_file;
 } CreateComposerData;
+
+static void
+create_composer_data_free (CreateComposerData *ccd)
+{
+	g_clear_object (&ccd->message);
+	g_clear_object (&ccd->snapshot_file);
+
+	g_free (ccd);
+}
 
 static void
 autosave_composer_created_cb (GObject *source_object,
 			      GAsyncResult *result,
 			      gpointer user_data)
 {
-	CreateComposerData *ccd = user_data;
+	GTask *task;
 	EMsgComposer *composer;
 	GError *error = NULL;
 
+	task = G_TASK (user_data);
 	composer = e_msg_composer_new_finish (result, &error);
 	if (error) {
 		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
-		g_simple_async_result_take_error (ccd->simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
 	} else {
+		CreateComposerData *ccd;
+
+		ccd = g_task_get_task_data (task);
 		e_msg_composer_setup_with_message (composer, ccd->message, TRUE, NULL, NULL, NULL, NULL);
 		g_object_set_data_full (
 			G_OBJECT (composer),
 			SNAPSHOT_FILE_KEY, g_object_ref (ccd->snapshot_file),
 			(GDestroyNotify) delete_snapshot_file);
-		ccd->context->composer = g_object_ref_sink (composer);
+		g_task_return_pointer (task, g_object_ref_sink (composer), g_object_unref);
 	}
 
-	g_simple_async_result_complete (ccd->simple);
-
-	g_clear_object (&ccd->simple);
-	g_clear_object (&ccd->message);
-	g_clear_object (&ccd->snapshot_file);
-	g_slice_free (CreateComposerData, ccd);
+	g_object_unref (task);
 }
 
 static void
-load_snapshot_loaded_cb (GFile *snapshot_file,
+load_snapshot_loaded_cb (GObject *source_object,
                          GAsyncResult *result,
-                         GSimpleAsyncResult *simple)
+                         gpointer user_data)
 {
+	GFile *snapshot_file;
+	GTask *task;
 	EShell *shell;
-	GObject *object;
-	LoadContext *context;
 	CamelMimeMessage *message;
 	CamelStream *camel_stream;
 	gchar *contents = NULL;
@@ -163,16 +155,16 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	CreateComposerData *ccd;
 	GError *local_error = NULL;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	snapshot_file = G_FILE (source_object);
+	task = G_TASK (user_data);
 
 	g_file_load_contents_finish (
 		snapshot_file, result, &contents, &length, NULL, &local_error);
 
 	if (local_error != NULL) {
 		g_warn_if_fail (contents == NULL);
-		g_simple_async_result_take_error (simple, local_error);
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
+		g_task_return_error (task, g_steal_pointer (&local_error));
+		g_object_unref (task);
 		return;
 	}
 
@@ -187,49 +179,48 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	g_free (contents);
 
 	if (local_error != NULL) {
-		g_simple_async_result_take_error (simple, local_error);
-		g_simple_async_result_complete (simple);
+		g_task_return_error (task, g_steal_pointer (&local_error));
 		g_object_unref (message);
-		g_object_unref (simple);
+		g_object_unref (task);
 		return;
 	}
-
-	/* g_async_result_get_source_object() returns a new reference. */
-	object = g_async_result_get_source_object (G_ASYNC_RESULT (simple));
 
 	/* Create a new composer window from the loaded message and
 	 * restore its snapshot file so it continues auto-saving to
 	 * the same file. */
-	shell = E_SHELL (object);
+	shell = E_SHELL (g_task_get_source_object (task));
 
-	ccd = g_slice_new0 (CreateComposerData);
-	ccd->simple = simple;
-	ccd->context = context;
-	ccd->message = message;
+	ccd = g_new0 (CreateComposerData, 1);
+	ccd->message = g_steal_pointer (&message);
 	ccd->snapshot_file = g_object_ref (snapshot_file);
+	g_task_set_task_data (task, g_steal_pointer (&ccd),
+		(GDestroyNotify) create_composer_data_free);
 
 	e_msg_composer_new (shell, autosave_composer_created_cb, ccd);
-
-	g_object_unref (object);
 }
 
 static void
-save_snapshot_splice_cb (CamelDataWrapper *data_wrapper,
+save_snapshot_splice_cb (GObject *source_object,
                          GAsyncResult *result,
-                         GSimpleAsyncResult *simple)
+                         gpointer user_data)
 {
+	GTask *parent_task;
+	CamelDataWrapper *data_wrapper;
 	GError *local_error = NULL;
 
-	g_return_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper));
+	parent_task = G_TASK (user_data);
+	data_wrapper = CAMEL_DATA_WRAPPER (source_object);
+
 	g_return_if_fail (g_task_is_valid (result, data_wrapper));
 
 	g_task_propagate_int (G_TASK (result), &local_error);
 
 	if (local_error != NULL)
-		g_simple_async_result_take_error (simple, local_error);
+		g_task_return_error (parent_task, g_steal_pointer (&local_error));
+	else
+		g_task_return_boolean (parent_task, TRUE);
 
-	g_simple_async_result_complete (simple);
-	g_object_unref (simple);
+	g_object_unref (parent_task);
 }
 
 static void
@@ -276,31 +267,34 @@ write_message_to_stream_thread (GTask *task,
 }
 
 static void
-save_snapshot_get_message_cb (EMsgComposer *composer,
+save_snapshot_get_message_cb (GObject *source_object,
                               GAsyncResult *result,
-                              GSimpleAsyncResult *simple)
+                              gpointer user_data)
 {
+	EMsgComposer *composer;
 	SaveContext *context;
 	CamelMimeMessage *message;
-	GTask *task;
+	GTask *parent_task, *task;
 	GError *local_error = NULL;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	composer = E_MSG_COMPOSER (source_object);
+	parent_task = G_TASK (user_data);
+	context = g_task_get_task_data (parent_task);
 
 	message = e_msg_composer_get_message_draft_finish (
 		composer, result, &local_error);
 
 	if (local_error != NULL) {
 		g_warn_if_fail (message == NULL);
-		g_simple_async_result_take_error (simple, local_error);
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
+		g_task_return_error (parent_task, g_steal_pointer (&local_error));
+		g_object_unref (parent_task);
 		return;
 	}
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	task = g_task_new (message, context->cancellable, (GAsyncReadyCallback) save_snapshot_splice_cb, simple);
+	task = g_task_new (message, g_task_get_cancellable (parent_task),
+		save_snapshot_splice_cb, parent_task);
 
 	g_task_set_task_data (task, g_object_ref (context->snapshot_file), g_object_unref);
 
@@ -412,26 +406,17 @@ e_composer_load_snapshot (EShell *shell,
                           GAsyncReadyCallback callback,
                           gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
-	LoadContext *context;
+	GTask *task;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (G_IS_FILE (snapshot_file));
 
-	context = g_slice_new0 (LoadContext);
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (shell), callback, user_data,
-		e_composer_load_snapshot);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) load_context_free);
+	task = g_task_new (shell, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_composer_load_snapshot);
 
 	g_file_load_contents_async (
-		snapshot_file, cancellable, (GAsyncReadyCallback)
-		load_snapshot_loaded_cb, simple);
+		snapshot_file, cancellable,
+		load_snapshot_loaded_cb, g_steal_pointer (&task));
 }
 
 EMsgComposer *
@@ -439,23 +424,10 @@ e_composer_load_snapshot_finish (EShell *shell,
                                  GAsyncResult *result,
                                  GError **error)
 {
-	GSimpleAsyncResult *simple;
-	LoadContext *context;
+	g_return_val_if_fail (g_task_is_valid (result, shell), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_composer_load_snapshot), NULL);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-			result, G_OBJECT (shell),
-			e_composer_load_snapshot), NULL);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
-		return NULL;
-
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (context->composer), NULL);
-
-	return g_object_ref (context->composer);
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 void
@@ -464,26 +436,12 @@ e_composer_save_snapshot (EMsgComposer *composer,
                           GAsyncReadyCallback callback,
                           gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	SaveContext *context;
 	GFile *snapshot_file;
 	GError *local_error = NULL;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	context = g_slice_new0 (SaveContext);
-
-	if (G_IS_CANCELLABLE (cancellable))
-		context->cancellable = g_object_ref (cancellable);
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (composer), callback, user_data,
-		e_composer_save_snapshot);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) save_context_free);
 
 	snapshot_file = e_composer_get_snapshot_file (composer);
 
@@ -492,20 +450,27 @@ e_composer_save_snapshot (EMsgComposer *composer,
 
 	if (local_error != NULL) {
 		g_warn_if_fail (snapshot_file == NULL);
-		g_simple_async_result_take_error (simple, local_error);
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
+		g_task_report_error (composer, callback, user_data,
+			e_composer_save_snapshot, g_steal_pointer (&local_error));
 		return;
 	}
 
 	g_return_if_fail (G_IS_FILE (snapshot_file));
 
+	context = g_new0 (SaveContext, 1);
+
 	context->snapshot_file = g_object_ref (snapshot_file);
+	if (G_IS_CANCELLABLE (cancellable))
+		context->cancellable = g_object_ref (cancellable);
+
+	task = g_task_new (composer, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_composer_save_snapshot);
+	g_task_set_task_data (task, context, (GDestroyNotify) save_context_free);
 
 	e_msg_composer_get_message_draft (
 		composer, G_PRIORITY_DEFAULT,
-		context->cancellable, (GAsyncReadyCallback)
-		save_snapshot_get_message_cb, simple);
+		cancellable, (GAsyncReadyCallback)
+		save_snapshot_get_message_cb, g_steal_pointer (&task));
 }
 
 gboolean
@@ -513,17 +478,10 @@ e_composer_save_snapshot_finish (EMsgComposer *composer,
                                  GAsyncResult *result,
                                  GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, composer), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_composer_save_snapshot), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-			result, G_OBJECT (composer),
-			e_composer_save_snapshot), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Success is assumed unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 GFile *
