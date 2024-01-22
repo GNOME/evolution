@@ -30,7 +30,7 @@ if(WIN32)
 	)
 endif(WIN32)
 
-glib_compile_resources(${CMAKE_SOURCE_DIR}/data/ ${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.gresource org_gnome_evolution ../../data/org.gnome.Evolution.gresource.xml ${CMAKE_SOURCE_DIR}/data/emoji.data)
+glib_compile_resources(${CMAKE_SOURCE_DIR}/data/ ${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.gresource org_gnome_evolution ../../data/org.gnome.Evolution.gresource.xml)
 
 # Main libevolution-util
 
