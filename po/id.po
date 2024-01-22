@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2024-01-04 22:08+0000\n"
-"PO-Revision-Date: 2024-01-05 13:07+0700\n"
+"POT-Creation-Date: 2024-01-15 09:34+0000\n"
+"PO-Revision-Date: 2024-01-22 10:30+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -4239,131 +4239,191 @@ msgstr "Ke folder"
 
 #: ../data/ui/evolution-shortcuts.ui.h:25
 msgctxt "shortcut window"
-msgid "Mark selected messages as read"
-msgstr "Menandai pesan yang dipilih sebagai sudah dibaca"
-
-#: ../data/ui/evolution-shortcuts.ui.h:26
-msgctxt "shortcut window"
-msgid "Mark selected messages as unread"
-msgstr "Menandai pesan yang dipilih sebagai belum dibaca"
-
-#: ../data/ui/evolution-shortcuts.ui.h:27
-msgctxt "shortcut window"
 msgid "Jump to the next unread message"
 msgstr "Lompat ke pesan yang belum dibaca selanjutnya"
 
-#: ../data/ui/evolution-shortcuts.ui.h:28
+#: ../data/ui/evolution-shortcuts.ui.h:26
 msgctxt "shortcut window"
 msgid "Jump to the previous unread message"
 msgstr "Lompat ke pesan yang belum dibaca sebelumnya"
 
-#: ../data/ui/evolution-shortcuts.ui.h:29
-msgctxt "shortcut window"
-msgid "Forward selected messages"
-msgstr "Meneruskan pesan yang dipilih"
-
-#: ../data/ui/evolution-shortcuts.ui.h:30
-msgctxt "shortcut window"
-msgid "Reply to sender"
-msgstr "Balas ke pengirim"
-
-#: ../data/ui/evolution-shortcuts.ui.h:31
-msgctxt "shortcut window"
-msgid "Reply to list"
-msgstr "Balas ke milis"
-
-#: ../data/ui/evolution-shortcuts.ui.h:32
-msgctxt "shortcut window"
-msgid "Reply to all recipients"
-msgstr "Balas ke semua penerima"
-
-#: ../data/ui/evolution-shortcuts.ui.h:33
+#: ../data/ui/evolution-shortcuts.ui.h:27
 msgctxt "shortcut window"
 msgid "Scroll up"
 msgstr "Gulir naik"
 
-#: ../data/ui/evolution-shortcuts.ui.h:34
+#: ../data/ui/evolution-shortcuts.ui.h:28
 msgctxt "shortcut window"
 msgid "Scroll down"
 msgstr "Gulir turun"
 
+#: ../data/ui/evolution-shortcuts.ui.h:29
+msgctxt "shortcut window"
+msgid "Mail Message"
+msgstr "Pesan Surat"
+
+#: ../data/ui/evolution-shortcuts.ui.h:30
+msgctxt "shortcut window"
+msgid "Copy selected messages to folder"
+msgstr "Menyalin pesan yang dipilih ke folder"
+
+#: ../data/ui/evolution-shortcuts.ui.h:31
+msgctxt "shortcut window"
+msgid "Move selected messages to folder"
+msgstr "Memindahkan pesan yang dipilih ke folder"
+
+#: ../data/ui/evolution-shortcuts.ui.h:32
+msgctxt "shortcut window"
+msgid "Archive selected messages"
+msgstr "Arsipkan pesan yang dipilih"
+
+#: ../data/ui/evolution-shortcuts.ui.h:33
+msgctxt "shortcut window"
+msgid "Mark selected messages as read"
+msgstr "Menandai pesan yang dipilih sebagai sudah dibaca"
+
+#: ../data/ui/evolution-shortcuts.ui.h:34
+msgctxt "shortcut window"
+msgid "Mark selected messages as unread"
+msgstr "Menandai pesan yang dipilih sebagai belum dibaca"
+
 #: ../data/ui/evolution-shortcuts.ui.h:35
+msgctxt "shortcut window"
+msgid "Mark selected messages as junk"
+msgstr "Menandai pesan yang dipilih sebagai sampah"
+
+#: ../data/ui/evolution-shortcuts.ui.h:36
+msgctxt "shortcut window"
+msgid "Mark selected messages as not junk"
+msgstr "Menandai pesan yang dipilih sebagai sampah"
+
+#: ../data/ui/evolution-shortcuts.ui.h:37
+msgctxt "shortcut window"
+msgid "Flag selected messages for follow-up"
+msgstr "Tandai pesan-pesan yang dipilih untuk ditindaklanjuti"
+
+#: ../data/ui/evolution-shortcuts.ui.h:38
+msgctxt "shortcut window"
+msgid "Forward selected messages"
+msgstr "Meneruskan pesan yang dipilih"
+
+#: ../data/ui/evolution-shortcuts.ui.h:39
+msgctxt "shortcut window"
+msgid "Reply to sender"
+msgstr "Balas ke pengirim"
+
+#: ../data/ui/evolution-shortcuts.ui.h:40
+msgctxt "shortcut window"
+msgid "Reply to list"
+msgstr "Balas ke milis"
+
+#: ../data/ui/evolution-shortcuts.ui.h:41
+msgctxt "shortcut window"
+msgid "Reply to all recipients"
+msgstr "Balas ke semua penerima"
+
+#: ../data/ui/evolution-shortcuts.ui.h:42
+msgctxt "shortcut window"
+msgid "Alternative reply"
+msgstr "Balasan alternatif"
+
+#: ../data/ui/evolution-shortcuts.ui.h:43
+msgctxt "shortcut window"
+msgid "Delete mail"
+msgstr "Hapus surel"
+
+#: ../data/ui/evolution-shortcuts.ui.h:44
+msgctxt "shortcut window"
+msgid "Undelete mail"
+msgstr "Tak jadi hapus surel"
+
+#: ../data/ui/evolution-shortcuts.ui.h:45
 msgctxt "shortcut window"
 msgid "Calendar"
 msgstr "Kalender"
 
-#: ../data/ui/evolution-shortcuts.ui.h:36
+#: ../data/ui/evolution-shortcuts.ui.h:46
 msgctxt "shortcut window"
 msgid "Create a new appointment"
 msgstr "Membuat janji temu baru"
 
-#: ../data/ui/evolution-shortcuts.ui.h:37
+#: ../data/ui/evolution-shortcuts.ui.h:47
 msgctxt "shortcut window"
 msgid "Create a new meeting"
 msgstr "Membuat pertemuan baru"
 
-#: ../data/ui/evolution-shortcuts.ui.h:38
+#: ../data/ui/evolution-shortcuts.ui.h:48
 msgctxt "shortcut window"
 msgid "Create a new task"
 msgstr "Membuat tugas baru"
 
 # Yang muncul di baris menu.
-#: ../data/ui/evolution-shortcuts.ui.h:39
+#: ../data/ui/evolution-shortcuts.ui.h:49
 msgctxt "shortcut window"
 msgid "Create a new memo"
 msgstr "Membuat memo baru"
 
-#: ../data/ui/evolution-shortcuts.ui.h:40
+#: ../data/ui/evolution-shortcuts.ui.h:50
 msgctxt "shortcut window"
 msgid "Go to today"
 msgstr "Pergi ke hari ini"
 
-#: ../data/ui/evolution-shortcuts.ui.h:41
+#: ../data/ui/evolution-shortcuts.ui.h:51
 msgctxt "shortcut window"
 msgid "Go to date"
 msgstr "Pergi ke tanggal"
 
-#: ../data/ui/evolution-shortcuts.ui.h:42
+#: ../data/ui/evolution-shortcuts.ui.h:52
 msgctxt "shortcut window"
 msgid "Day View"
 msgstr "Tampilan Hari"
 
-#: ../data/ui/evolution-shortcuts.ui.h:43
+#: ../data/ui/evolution-shortcuts.ui.h:53
 msgctxt "shortcut window"
 msgid "Work Week View"
 msgstr "Tampilan Mingguan Hari Kerja"
 
-#: ../data/ui/evolution-shortcuts.ui.h:44
+#: ../data/ui/evolution-shortcuts.ui.h:54
 msgctxt "shortcut window"
 msgid "Week View"
 msgstr "Tampilan Per Minggu"
 
-#: ../data/ui/evolution-shortcuts.ui.h:45
+#: ../data/ui/evolution-shortcuts.ui.h:55
 msgctxt "shortcut window"
 msgid "Month View"
 msgstr "Tampilan Per Bulan"
 
-#: ../data/ui/evolution-shortcuts.ui.h:46
+#: ../data/ui/evolution-shortcuts.ui.h:56
 msgctxt "shortcut window"
 msgid "List View"
 msgstr "Tampilan Daftar"
 
-#: ../data/ui/evolution-shortcuts.ui.h:47
+#: ../data/ui/evolution-shortcuts.ui.h:57
+msgctxt "shortcut window"
+msgid "Delete event"
+msgstr "Hapus Acara"
+
+#: ../data/ui/evolution-shortcuts.ui.h:58
 msgctxt "shortcut window"
 msgid "Contacts"
 msgstr "Kontak"
 
 # Ini yang muncul di baris status.
-#: ../data/ui/evolution-shortcuts.ui.h:48
+#: ../data/ui/evolution-shortcuts.ui.h:59
 msgctxt "shortcut window"
 msgid "Create a new contact"
 msgstr "Membuat kontak baru"
 
 # Yang muncul di baris status.
-#: ../data/ui/evolution-shortcuts.ui.h:49
+#: ../data/ui/evolution-shortcuts.ui.h:60
 msgctxt "shortcut window"
 msgid "Create a new contact list"
 msgstr "Membuat daftar kontak baru"
+
+#: ../data/ui/evolution-shortcuts.ui.h:61
+msgctxt "shortcut window"
+msgid "Delete contact"
+msgstr "Hapus Kontak"
 
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
@@ -10241,50 +10301,60 @@ msgstr "Besok"
 msgid "Tasks without Due date"
 msgstr "Tugas tanpa Tanggal Tenggat"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2263
+#. It doesn't matter which data-model is picked, because it's used
+#. only for thread creation and manipulation, not for its content.
+#: ../src/calendar/gui/e-to-do-pane.c:2295
+msgid "Marking a task as complete"
+msgstr "Tandai bahwa tugas ini telah selesai dilaksanakan"
+
+#: ../src/calendar/gui/e-to-do-pane.c:2333
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
 msgid "New _Appointment…"
 msgstr "J_anji Baru…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2271
+#: ../src/calendar/gui/e-to-do-pane.c:2341
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1495
 msgid "New _Meeting…"
 msgstr "Perte_muan Baru…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2279
+#: ../src/calendar/gui/e-to-do-pane.c:2349
 msgid "New _Task…"
 msgstr "_Tugas Baru…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2287
+#: ../src/calendar/gui/e-to-do-pane.c:2357
 msgid "_New Assigned Task…"
 msgstr "Tugas Baru yang Diberika_n…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2300
+#: ../src/calendar/gui/e-to-do-pane.c:2370
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1572
 msgid "_Open…"
 msgstr "_Buka…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2315
+#: ../src/calendar/gui/e-to-do-pane.c:2380
+msgid "Mark Task as _Complete"
+msgstr "Tandai Tugas Sudah _Selesai"
+
+#: ../src/calendar/gui/e-to-do-pane.c:2394
 msgid "_Delete This Instance…"
 msgstr "Ha_pus Instance Ini…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2324
+#: ../src/calendar/gui/e-to-do-pane.c:2403
 msgid "Delete This and F_uture Occurrences…"
 msgstr "Hap_us Kejadian Ini dan Di Masa Mendatang…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2333
+#: ../src/calendar/gui/e-to-do-pane.c:2412
 msgid "D_elete All Instances…"
 msgstr "Hapus S_emua Instance…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2341
+#: ../src/calendar/gui/e-to-do-pane.c:2420
 msgid "_Delete…"
 msgstr "_Hapus…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2359
+#: ../src/calendar/gui/e-to-do-pane.c:2438
 msgid "_Show Tasks without Due date"
 msgstr "Tampilkan Tuga_s tanpa Tanggal Tenggat"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2638
+#: ../src/calendar/gui/e-to-do-pane.c:2717
 msgid "To Do"
 msgstr "Untuk Dilakukan"
 
