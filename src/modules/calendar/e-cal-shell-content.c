@@ -2458,7 +2458,6 @@ cal_shell_content_move_view_range_relative (ECalShellContent *cal_shell_content,
 			break;
 		case E_CAL_VIEW_KIND_WORKWEEK:
 		case E_CAL_VIEW_KIND_WEEK:
-		case E_CAL_VIEW_KIND_MONTH:
 			if (direction > 0) {
 				g_date_add_days (&start, direction * 7);
 				g_date_add_days (&end, direction * 7);
@@ -2467,6 +2466,7 @@ cal_shell_content_move_view_range_relative (ECalShellContent *cal_shell_content,
 				g_date_subtract_days (&end, direction * -7);
 			}
 			break;
+		case E_CAL_VIEW_KIND_MONTH:
 		case E_CAL_VIEW_KIND_LIST:
 			if (g_date_get_day (&start) != 1) {
 				g_date_add_months (&start, 1);
