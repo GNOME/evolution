@@ -32,55 +32,63 @@
 #define USER_AGENT ("Evolution " VERSION VERSION_SUBSTRING " " VERSION_COMMENT)
 
 typedef struct _AsyncContext AsyncContext;
+typedef struct _BuildAttachmentResult BuildAttachmentResult;
 
 struct _AsyncContext {
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
-	CamelMimePart *part;
-	GHashTable *hash_table;
 	GPtrArray *ptr_array;
 	GFile *destination;
+};
+
+struct _BuildAttachmentResult {
+	CamelMimePart *part;
 	gchar *orig_subject;
-	gchar *message_uid;
 };
 
 static void
 async_context_free (AsyncContext *context)
 {
-	if (context->hash_table != NULL)
-		g_hash_table_unref (context->hash_table);
-
-	if (context->ptr_array != NULL)
-		g_ptr_array_unref (context->ptr_array);
-
+	g_clear_pointer (&context->ptr_array, g_ptr_array_unref);
 	g_clear_object (&context->message);
 	g_clear_object (&context->info);
-	g_clear_object (&context->part);
 	g_clear_object (&context->destination);
-
-	g_free (context->orig_subject);
-	g_free (context->message_uid);
 
 	g_slice_free (AsyncContext, context);
 }
 
 static void
-mail_folder_append_message_thread (GSimpleAsyncResult *simple,
-                                   GObject *object,
+build_attachment_result_free (gpointer data)
+{
+	BuildAttachmentResult *res = data;
+
+	g_clear_object (&res->part);
+	g_clear_pointer (&res->orig_subject, g_free);
+
+	g_free (res);
+}
+
+static void
+mail_folder_append_message_thread (GTask *task,
+                                   gpointer source_object,
+                                   gpointer task_data,
                                    GCancellable *cancellable)
 {
 	AsyncContext *context;
 	GError *error = NULL;
+	gchar *message_uid = NULL;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	context = task_data;
 
 	e_mail_folder_append_message_sync (
-		CAMEL_FOLDER (object), context->message,
-		context->info, &context->message_uid,
+		CAMEL_FOLDER (source_object), context->message,
+		context->info, &message_uid,
 		cancellable, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_pointer (task, g_steal_pointer (&message_uid), g_free);
 }
 
 gboolean
@@ -131,7 +139,7 @@ e_mail_folder_append_message (CamelFolder *folder,
                               GAsyncReadyCallback callback,
                               gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *context;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
@@ -143,20 +151,14 @@ e_mail_folder_append_message (CamelFolder *folder,
 	if (info != NULL)
 		context->info = g_object_ref (info);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (folder), callback, user_data,
-		e_mail_folder_append_message);
+	task = g_task_new (folder, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_folder_append_message);
+	g_task_set_priority (task, io_priority);
+	g_task_set_task_data (task, g_steal_pointer (&context), (GDestroyNotify) async_context_free);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	g_task_run_in_thread (task, mail_folder_append_message_thread);
 
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
-
-	g_simple_async_result_run_in_thread (
-		simple, mail_folder_append_message_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 gboolean
@@ -165,38 +167,38 @@ e_mail_folder_append_message_finish (CamelFolder *folder,
                                      gchar **appended_uid,
                                      GError **error)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	gchar *message_uid;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (folder),
-		e_mail_folder_append_message), FALSE);
+	g_return_val_if_fail (g_task_is_valid (result, folder), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_folder_append_message), FALSE);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	message_uid = g_task_propagate_pointer (G_TASK (result), error);
+	if (!message_uid)
+		return FALSE;
 
-	if (appended_uid != NULL) {
-		*appended_uid = context->message_uid;
-		context->message_uid = NULL;
-	}
+	if (appended_uid != NULL)
+		*appended_uid = g_steal_pointer (&message_uid);
 
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	g_clear_pointer (&message_uid, g_free);
+	return TRUE;
 }
 
 static void
-mail_folder_expunge_thread (GSimpleAsyncResult *simple,
-                            GObject *object,
+mail_folder_expunge_thread (GTask *task,
+                            gpointer source_object,
+                            gpointer task_data,
                             GCancellable *cancellable)
 {
 	GError *error = NULL;
+	gboolean res;
 
-	e_mail_folder_expunge_sync (
-		CAMEL_FOLDER (object), cancellable, &error);
+	res = e_mail_folder_expunge_sync (
+		CAMEL_FOLDER (source_object), cancellable, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_boolean (task, res);
 }
 
 static gboolean
@@ -441,21 +443,17 @@ e_mail_folder_expunge (CamelFolder *folder,
                        GAsyncReadyCallback callback,
                        gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (folder), callback,
-		user_data, e_mail_folder_expunge);
+	task = g_task_new (folder, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_folder_expunge);
+	g_task_set_priority (task, io_priority);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	g_task_run_in_thread (task, mail_folder_expunge_thread);
 
-	g_simple_async_result_run_in_thread (
-		simple, mail_folder_expunge_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 gboolean
@@ -463,35 +461,35 @@ e_mail_folder_expunge_finish (CamelFolder *folder,
                               GAsyncResult *result,
                               GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, folder), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_folder_expunge), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (folder),
-		e_mail_folder_expunge), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 static void
-mail_folder_build_attachment_thread (GSimpleAsyncResult *simple,
-                                     GObject *object,
+mail_folder_build_attachment_thread (GTask *task,
+                                     gpointer source_object,
+                                     gpointer task_data,
                                      GCancellable *cancellable)
 {
-	AsyncContext *context;
+	BuildAttachmentResult *res;
+	GPtrArray *ptr_array;
 	GError *error = NULL;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	ptr_array = task_data;
+	res = g_new0 (BuildAttachmentResult, 1);
 
-	context->part = e_mail_folder_build_attachment_sync (
-		CAMEL_FOLDER (object), context->ptr_array,
-		&context->orig_subject, cancellable, &error);
+	res->part = e_mail_folder_build_attachment_sync (
+		CAMEL_FOLDER (source_object), ptr_array,
+		&res->orig_subject, cancellable, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_pointer (task, g_steal_pointer (&res), build_attachment_result_free);
+
+	g_clear_pointer (&res, build_attachment_result_free);
 }
 
 CamelMimePart *
@@ -578,8 +576,7 @@ e_mail_folder_build_attachment (CamelFolder *folder,
                                 GAsyncReadyCallback callback,
                                 gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	GTask *task;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (message_uids != NULL);
@@ -587,23 +584,14 @@ e_mail_folder_build_attachment (CamelFolder *folder,
 	/* Need at least one message UID to make an attachment. */
 	g_return_if_fail (message_uids->len > 0);
 
-	context = g_slice_new0 (AsyncContext);
-	context->ptr_array = g_ptr_array_ref (message_uids);
+	task = g_task_new (folder, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_folder_build_attachment);
+	g_task_set_priority (task, io_priority);
+	g_task_set_task_data (task, g_ptr_array_ref (message_uids), (GDestroyNotify) g_ptr_array_unref);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (folder), callback, user_data,
-		e_mail_folder_build_attachment);
+	g_task_run_in_thread (task, mail_folder_build_attachment_thread);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
-
-	g_simple_async_result_run_in_thread (
-		simple, mail_folder_build_attachment_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 CamelMimePart *
@@ -612,46 +600,44 @@ e_mail_folder_build_attachment_finish (CamelFolder *folder,
                                        gchar **orig_subject,
                                        GError **error)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	BuildAttachmentResult *res;
+	CamelMimePart *part;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (folder),
-		e_mail_folder_build_attachment), NULL);
+	g_return_val_if_fail (g_task_is_valid (result, folder), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_folder_build_attachment), NULL);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
+	res = g_task_propagate_pointer (G_TASK (result), error);
+	if (!res)
 		return NULL;
 
-	if (orig_subject != NULL) {
-		*orig_subject = context->orig_subject;
-		context->orig_subject = NULL;
-	}
+	if (orig_subject != NULL)
+		*orig_subject = g_steal_pointer (&res->orig_subject);
 
-	g_return_val_if_fail (CAMEL_IS_MIME_PART (context->part), NULL);
-
-	return g_object_ref (context->part);
+	part = g_steal_pointer (&res->part);
+	g_clear_pointer (&res, build_attachment_result_free);
+	return part;
 }
 
 static void
-mail_folder_find_duplicate_messages_thread (GSimpleAsyncResult *simple,
-                                            GObject *object,
+mail_folder_find_duplicate_messages_thread (GTask *task,
+                                            gpointer source_object,
+                                            gpointer task_data,
                                             GCancellable *cancellable)
 {
-	AsyncContext *context;
+	GHashTable *hash_table;
+	GPtrArray *ptr_array;
 	GError *error = NULL;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	ptr_array = task_data;
 
-	context->hash_table = e_mail_folder_find_duplicate_messages_sync (
-		CAMEL_FOLDER (object), context->ptr_array,
+	hash_table = e_mail_folder_find_duplicate_messages_sync (
+		CAMEL_FOLDER (source_object), ptr_array,
 		cancellable, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_pointer (task, g_steal_pointer (&hash_table), (GDestroyNotify) g_hash_table_unref);
 }
 
 static GHashTable *
@@ -851,29 +837,19 @@ e_mail_folder_find_duplicate_messages (CamelFolder *folder,
                                        GAsyncReadyCallback callback,
                                        gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	GTask *task;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (message_uids != NULL);
 
-	context = g_slice_new0 (AsyncContext);
-	context->ptr_array = g_ptr_array_ref (message_uids);
+	task = g_task_new (folder, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_folder_find_duplicate_messages);
+	g_task_set_priority (task, io_priority);
+	g_task_set_task_data (task, g_ptr_array_ref (message_uids), (GDestroyNotify) g_ptr_array_unref);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (folder), callback, user_data,
-		e_mail_folder_find_duplicate_messages);
+	g_task_run_in_thread (task, mail_folder_find_duplicate_messages_thread);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
-
-	g_simple_async_result_run_in_thread (
-		simple, mail_folder_find_duplicate_messages_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 GHashTable *
@@ -881,39 +857,32 @@ e_mail_folder_find_duplicate_messages_finish (CamelFolder *folder,
                                               GAsyncResult *result,
                                               GError **error)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	g_return_val_if_fail (g_task_is_valid (result, folder), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_folder_find_duplicate_messages), NULL);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (folder),
-		e_mail_folder_find_duplicate_messages), NULL);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
-		return NULL;
-
-	return g_hash_table_ref (context->hash_table);
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 static void
-mail_folder_get_multiple_messages_thread (GSimpleAsyncResult *simple,
-                                          GObject *object,
+mail_folder_get_multiple_messages_thread (GTask *task,
+                                          gpointer source_object,
+                                          gpointer task_data,
                                           GCancellable *cancellable)
 {
-	AsyncContext *context;
+	GHashTable *hash_table;
+	GPtrArray *ptr_array;
 	GError *error = NULL;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	ptr_array = task_data;
 
-	context->hash_table = e_mail_folder_get_multiple_messages_sync (
-		CAMEL_FOLDER (object), context->ptr_array,
+	hash_table = e_mail_folder_get_multiple_messages_sync (
+		CAMEL_FOLDER (source_object), ptr_array,
 		cancellable, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_pointer (task, g_steal_pointer (&hash_table), (GDestroyNotify) g_hash_table_unref);
 }
 
 GHashTable *
@@ -981,29 +950,19 @@ e_mail_folder_get_multiple_messages (CamelFolder *folder,
                                      GAsyncReadyCallback callback,
                                      gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	GTask *task;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (message_uids != NULL);
 
-	context = g_slice_new0 (AsyncContext);
-	context->ptr_array = g_ptr_array_ref (message_uids);
+	task = g_task_new (folder, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_folder_get_multiple_messages);
+	g_task_set_priority (task, io_priority);
+	g_task_set_task_data (task, g_ptr_array_ref (message_uids), (GDestroyNotify) g_ptr_array_unref);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (folder), callback, user_data,
-		e_mail_folder_get_multiple_messages);
+	g_task_run_in_thread (task, mail_folder_get_multiple_messages_thread);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
-
-	g_simple_async_result_run_in_thread (
-		simple, mail_folder_get_multiple_messages_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 GHashTable *
@@ -1011,35 +970,28 @@ e_mail_folder_get_multiple_messages_finish (CamelFolder *folder,
                                             GAsyncResult *result,
                                             GError **error)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	g_return_val_if_fail (g_task_is_valid (result, folder), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_folder_get_multiple_messages), NULL);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (folder),
-		e_mail_folder_get_multiple_messages), NULL);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
-		return NULL;
-
-	return g_hash_table_ref (context->hash_table);
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 static void
-mail_folder_remove_thread (GSimpleAsyncResult *simple,
-                           GObject *object,
+mail_folder_remove_thread (GTask *task,
+                           gpointer source_object,
+                           gpointer task_data,
                            GCancellable *cancellable)
 {
 	GError *error = NULL;
+	gboolean res;
 
-	e_mail_folder_remove_sync (
-		CAMEL_FOLDER (object), cancellable, &error);
+	res = e_mail_folder_remove_sync (
+		CAMEL_FOLDER (source_object), cancellable, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_boolean (task, res);
 }
 
 static gboolean
@@ -1225,21 +1177,17 @@ e_mail_folder_remove (CamelFolder *folder,
                       GAsyncReadyCallback callback,
                       gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (folder), callback,
-		user_data, e_mail_folder_remove);
+	task = g_task_new (folder, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_folder_remove);
+	g_task_set_priority (task, io_priority);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	g_task_run_in_thread (task, mail_folder_remove_thread);
 
-	g_simple_async_result_run_in_thread (
-		simple, mail_folder_remove_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 gboolean
@@ -1247,35 +1195,32 @@ e_mail_folder_remove_finish (CamelFolder *folder,
                              GAsyncResult *result,
                              GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, folder), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_folder_remove), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (folder),
-		e_mail_folder_remove), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 static void
-mail_folder_remove_attachments_thread (GSimpleAsyncResult *simple,
-                                       GObject *object,
+mail_folder_remove_attachments_thread (GTask *task,
+                                       gpointer source_object,
+                                       gpointer task_data,
                                        GCancellable *cancellable)
 {
-	AsyncContext *context;
+	GPtrArray *ptr_array;
 	GError *error = NULL;
+	gboolean res;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	ptr_array = task_data;
 
-	e_mail_folder_remove_attachments_sync (
-		CAMEL_FOLDER (object), context->ptr_array,
+	res = e_mail_folder_remove_attachments_sync (
+		CAMEL_FOLDER (source_object), ptr_array,
 		cancellable, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_boolean (task, res);
 }
 
 static gboolean
@@ -1461,29 +1406,19 @@ e_mail_folder_remove_attachments (CamelFolder *folder,
                                   GAsyncReadyCallback callback,
                                   gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	GTask *task;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (message_uids != NULL);
 
-	context = g_slice_new0 (AsyncContext);
-	context->ptr_array = g_ptr_array_ref (message_uids);
+	task = g_task_new (folder, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_folder_remove_attachments);
+	g_task_set_priority (task, io_priority);
+	g_task_set_task_data (task, g_ptr_array_ref (message_uids), (GDestroyNotify) g_ptr_array_unref);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (folder), callback, user_data,
-		e_mail_folder_remove_attachments);
+	g_task_run_in_thread (task, mail_folder_remove_attachments_thread);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
-
-	g_simple_async_result_run_in_thread (
-		simple, mail_folder_remove_attachments_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 gboolean
@@ -1491,35 +1426,32 @@ e_mail_folder_remove_attachments_finish (CamelFolder *folder,
                                          GAsyncResult *result,
                                          GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, folder), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_folder_remove_attachments), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (folder),
-		e_mail_folder_remove_attachments), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 static void
-mail_folder_save_messages_thread (GSimpleAsyncResult *simple,
-                                  GObject *object,
+mail_folder_save_messages_thread (GTask *task,
+                                  gpointer source_object,
+                                  gpointer task_data,
                                   GCancellable *cancellable)
 {
 	AsyncContext *context;
 	GError *error = NULL;
+	gboolean res;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	context = task_data;
 
-	e_mail_folder_save_messages_sync (
-		CAMEL_FOLDER (object), context->ptr_array,
+	res = e_mail_folder_save_messages_sync (
+		CAMEL_FOLDER (source_object), context->ptr_array,
 		context->destination, cancellable, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_boolean (task, res);
 }
 
 /* Helper for e_mail_folder_save_messages_sync() */
@@ -1800,7 +1732,7 @@ e_mail_folder_save_messages (CamelFolder *folder,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *context;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
@@ -1814,20 +1746,14 @@ e_mail_folder_save_messages (CamelFolder *folder,
 	context->ptr_array = g_ptr_array_ref (message_uids);
 	context->destination = g_object_ref (destination);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (folder), callback, user_data,
-		e_mail_folder_save_messages);
+	task = g_task_new (folder, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_folder_save_messages);
+	g_task_set_priority (task, io_priority);
+	g_task_set_task_data (task, g_steal_pointer (&context), (GDestroyNotify) async_context_free);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	g_task_run_in_thread (task, mail_folder_save_messages_thread);
 
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
-
-	g_simple_async_result_run_in_thread (
-		simple, mail_folder_save_messages_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 gboolean
@@ -1835,17 +1761,10 @@ e_mail_folder_save_messages_finish (CamelFolder *folder,
                                     GAsyncResult *result,
                                     GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, folder), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_folder_save_messages), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (folder),
-		e_mail_folder_save_messages), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 /**
