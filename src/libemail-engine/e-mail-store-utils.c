@@ -24,20 +24,6 @@
 
 #include <glib/gi18n-lib.h>
 
-typedef struct _AsyncContext AsyncContext;
-
-struct _AsyncContext {
-	gchar *full_name;
-};
-
-static void
-async_context_free (AsyncContext *context)
-{
-	g_free (context->full_name);
-
-	g_slice_free (AsyncContext, context);
-}
-
 gboolean
 e_mail_store_create_folder_sync (CamelStore *store,
                                  const gchar *full_name,
@@ -83,22 +69,26 @@ e_mail_store_create_folder_sync (CamelStore *store,
 
 /* Helper for e_mail_store_create_folder() */
 static void
-mail_store_create_folder_thread (GSimpleAsyncResult *simple,
-                                 GObject *source_object,
+mail_store_create_folder_thread (GTask *task,
+                                 gpointer source_object,
+                                 gpointer task_data,
                                  GCancellable *cancellable)
 {
-	AsyncContext *context;
+	const gchar *full_name;
 	GError *local_error = NULL;
+	gboolean res;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	full_name = task_data;
 
-	e_mail_store_create_folder_sync (
+	res = e_mail_store_create_folder_sync (
 		CAMEL_STORE (source_object),
-		context->full_name,
+		full_name,
 		cancellable, &local_error);
 
 	if (local_error != NULL)
-		g_simple_async_result_take_error (simple, local_error);
+		g_task_return_error (task, g_steal_pointer (&local_error));
+	else
+		g_task_return_boolean (task, res);
 }
 
 void
@@ -109,29 +99,19 @@ e_mail_store_create_folder (CamelStore *store,
                             GAsyncReadyCallback callback,
                             gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	GTask *task;
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (full_name != NULL);
 
-	context = g_slice_new0 (AsyncContext);
-	context->full_name = g_strdup (full_name);
+	task = g_task_new (store, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_store_create_folder);
+	g_task_set_priority (task, io_priority);
+	g_task_set_task_data (task, g_strdup (full_name), g_free);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (store), callback, user_data,
-		e_mail_store_create_folder);
+	g_task_run_in_thread (task, mail_store_create_folder_thread);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
-
-	g_simple_async_result_run_in_thread (
-		simple, mail_store_create_folder_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 gboolean
@@ -139,32 +119,29 @@ e_mail_store_create_folder_finish (CamelStore *store,
                                    GAsyncResult *result,
                                    GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, store), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_store_create_folder), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (store),
-		e_mail_store_create_folder), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 /* Helper for e_mail_store_go_offline() */
 static void
-mail_store_go_offline_thread (GSimpleAsyncResult *simple,
-                              GObject *source_object,
+mail_store_go_offline_thread (GTask *task,
+                              gpointer source_object,
+                              gpointer task_data,
                               GCancellable *cancellable)
 {
 	GError *local_error = NULL;
+	gboolean res;
 
-	e_mail_store_go_offline_sync (
+	res = e_mail_store_go_offline_sync (
 		CAMEL_STORE (source_object), cancellable, &local_error);
 
 	if (local_error != NULL)
-		g_simple_async_result_take_error (simple, local_error);
+		g_task_return_error (task, g_steal_pointer (&local_error));
+	else
+		g_task_return_boolean (task, res);
 }
 
 gboolean
@@ -209,21 +186,17 @@ e_mail_store_go_offline (CamelStore *store,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (store), callback,
-		user_data, e_mail_store_go_offline);
+	task = g_task_new (store, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_store_go_offline);
+	g_task_set_priority (task, io_priority);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	g_task_run_in_thread (task, mail_store_go_offline_thread);
 
-	g_simple_async_result_run_in_thread (
-		simple, mail_store_go_offline_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 gboolean
@@ -231,16 +204,10 @@ e_mail_store_go_offline_finish (CamelStore *store,
                                 GAsyncResult *result,
                                 GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, store), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_store_go_offline), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (store), e_mail_store_go_offline), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 gboolean
@@ -275,17 +242,21 @@ e_mail_store_go_online_sync (CamelStore *store,
 
 /* Helper for e_mail_store_go_online() */
 static void
-mail_store_go_online_thread (GSimpleAsyncResult *simple,
-                             GObject *source_object,
+mail_store_go_online_thread (GTask *task,
+                             gpointer source_object,
+                             gpointer task_data,
                              GCancellable *cancellable)
 {
 	GError *local_error = NULL;
+	gboolean res;
 
-	e_mail_store_go_online_sync (
+	res = e_mail_store_go_online_sync (
 		CAMEL_STORE (source_object), cancellable, &local_error);
 
 	if (local_error != NULL)
-		g_simple_async_result_take_error (simple, local_error);
+		g_task_return_error (task, g_steal_pointer (&local_error));
+	else
+		g_task_return_boolean (task, res);
 }
 
 void
@@ -295,21 +266,17 @@ e_mail_store_go_online (CamelStore *store,
                         GAsyncReadyCallback callback,
                         gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (store), callback,
-		user_data, e_mail_store_go_online);
+	task = g_task_new (store, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_store_go_online);
+	g_task_set_priority (task, io_priority);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	g_task_run_in_thread (task, mail_store_go_online_thread);
 
-	g_simple_async_result_run_in_thread (
-		simple, mail_store_go_online_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 gboolean
@@ -317,22 +284,17 @@ e_mail_store_go_online_finish (CamelStore *store,
                                GAsyncResult *result,
                                GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, store), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_store_go_online), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (store), e_mail_store_go_online), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 /* Helper for e_mail_store_prepare_for_offline() */
 static void
-mail_store_prepare_for_offline_thread (GSimpleAsyncResult *simple,
-                                       GObject *source_object,
+mail_store_prepare_for_offline_thread (GTask *task,
+                                       gpointer source_object,
+                                       gpointer task_data,
                                        GCancellable *cancellable)
 {
 	CamelService *service;
@@ -354,10 +316,12 @@ mail_store_prepare_for_offline_thread (GSimpleAsyncResult *simple,
 			CAMEL_OFFLINE_STORE (service),
 			cancellable, &local_error);
 
-	if (local_error != NULL)
-		g_simple_async_result_take_error (simple, local_error);
-
 	camel_operation_pop_message (cancellable);
+
+	if (local_error != NULL)
+		g_task_return_error (task, g_steal_pointer (&local_error));
+	else
+		g_task_return_boolean (task, TRUE);
 }
 
 void
@@ -367,21 +331,17 @@ e_mail_store_prepare_for_offline (CamelStore *store,
                                   GAsyncReadyCallback callback,
                                   gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (store), callback, user_data,
-		e_mail_store_prepare_for_offline);
+	task = g_task_new (store, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_store_prepare_for_offline);
+	g_task_set_priority (task, io_priority);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	g_task_run_in_thread (task, mail_store_prepare_for_offline_thread);
 
-	g_simple_async_result_run_in_thread (
-		simple, mail_store_prepare_for_offline_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 gboolean
@@ -389,17 +349,10 @@ e_mail_store_prepare_for_offline_finish (CamelStore *store,
                                          GAsyncResult *result,
                                          GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, store), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_store_prepare_for_offline), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (store),
-		e_mail_store_prepare_for_offline), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 static gboolean
