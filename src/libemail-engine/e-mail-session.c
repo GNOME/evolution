@@ -93,11 +93,7 @@ struct _EMailSessionPrivate {
 struct _AsyncContext {
 	/* arguments */
 	CamelStoreGetFolderFlags flags;
-	gchar *uid;
 	gchar *uri;
-
-	/* results */
-	CamelFolder *folder;
 };
 
 struct _ServiceProxyData {
@@ -161,10 +157,6 @@ session_forward_to_flush_outbox_cb (gpointer user_data)
 static void
 async_context_free (AsyncContext *context)
 {
-	if (context->folder != NULL)
-		g_object_unref (context->folder);
-
-	g_free (context->uid);
 	g_free (context->uri);
 
 	g_slice_free (AsyncContext, context);
@@ -2545,20 +2537,25 @@ e_mail_session_get_junk_filter_by_name (EMailSession *session,
 }
 
 static void
-mail_session_get_inbox_thread (GSimpleAsyncResult *simple,
-                               EMailSession *session,
+mail_session_get_inbox_thread (GTask *task,
+                               gpointer source_object,
+                               gpointer task_data,
                                GCancellable *cancellable)
 {
-	AsyncContext *context;
+	EMailSession *session;
+	CamelFolder *folder;
 	GError *error = NULL;
+	const gchar *uid;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	session = E_MAIL_SESSION (source_object);
+	uid = task_data;
 
-	context->folder = e_mail_session_get_inbox_sync (
-		session, context->uid, cancellable, &error);
+	folder = e_mail_session_get_inbox_sync (session, uid, cancellable, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_pointer (task, g_steal_pointer (&folder), g_object_unref);
 }
 
 CamelFolder *
@@ -2602,30 +2599,19 @@ e_mail_session_get_inbox (EMailSession *session,
                           GAsyncReadyCallback callback,
                           gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	GTask *task;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (service_uid != NULL);
 
-	context = g_slice_new0 (AsyncContext);
-	context->uid = g_strdup (service_uid);
+	task = g_task_new (session, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_session_get_inbox);
+	g_task_set_priority (task, io_priority);
+	g_task_set_task_data (task, g_strdup (service_uid), g_free);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (session), callback,
-		user_data, e_mail_session_get_inbox);
+	g_task_run_in_thread (task, mail_session_get_inbox_thread);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
-
-	g_simple_async_result_run_in_thread (
-		simple, (GSimpleAsyncThreadFunc)
-		mail_session_get_inbox_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 CamelFolder *
@@ -2633,40 +2619,32 @@ e_mail_session_get_inbox_finish (EMailSession *session,
                                  GAsyncResult *result,
                                  GError **error)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	g_return_val_if_fail (g_task_is_valid (result, session), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_session_get_inbox), NULL);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (session),
-		e_mail_session_get_inbox), NULL);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
-		return NULL;
-
-	g_return_val_if_fail (CAMEL_IS_FOLDER (context->folder), NULL);
-
-	return g_object_ref (context->folder);
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 static void
-mail_session_get_trash_thread (GSimpleAsyncResult *simple,
-                               EMailSession *session,
+mail_session_get_trash_thread (GTask *task,
+                               gpointer source_object,
+                               gpointer task_data,
                                GCancellable *cancellable)
 {
-	AsyncContext *context;
+	CamelFolder *folder;
+	EMailSession *session;
 	GError *error = NULL;
+	const gchar *uid;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	session = E_MAIL_SESSION (source_object);
+	uid = task_data;
 
-	context->folder = e_mail_session_get_trash_sync (
-		session, context->uid, cancellable, &error);
+	folder = e_mail_session_get_trash_sync (session, uid, cancellable, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_pointer (task, g_steal_pointer (&folder), g_object_unref);
 }
 
 CamelFolder *
@@ -2710,30 +2688,19 @@ e_mail_session_get_trash (EMailSession *session,
                           GAsyncReadyCallback callback,
                           gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	GTask *task;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (service_uid != NULL);
 
-	context = g_slice_new0 (AsyncContext);
-	context->uid = g_strdup (service_uid);
+	task = g_task_new (session, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_session_get_trash);
+	g_task_set_priority (task, io_priority);
+	g_task_set_task_data (task, g_strdup (service_uid), g_free);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (session), callback,
-		user_data, e_mail_session_get_trash);
+	g_task_run_in_thread (task, mail_session_get_trash_thread);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
-
-	g_simple_async_result_run_in_thread (
-		simple, (GSimpleAsyncThreadFunc)
-		mail_session_get_trash_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 CamelFolder *
@@ -2741,41 +2708,34 @@ e_mail_session_get_trash_finish (EMailSession *session,
                                  GAsyncResult *result,
                                  GError **error)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	g_return_val_if_fail (g_task_is_valid (result, session), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_session_get_trash), NULL);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (session),
-		e_mail_session_get_trash), NULL);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
-		return NULL;
-
-	g_return_val_if_fail (CAMEL_IS_FOLDER (context->folder), NULL);
-
-	return g_object_ref (context->folder);
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 static void
-mail_session_uri_to_folder_thread (GSimpleAsyncResult *simple,
-                                   EMailSession *session,
+mail_session_uri_to_folder_thread (GTask *task,
+                                   gpointer source_object,
+                                   gpointer task_data,
                                    GCancellable *cancellable)
 {
+	CamelFolder *folder;
+	EMailSession *session;
 	AsyncContext *context;
 	GError *error = NULL;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
+	session = E_MAIL_SESSION (source_object);
+	context = task_data;
 
-	context->folder = e_mail_session_uri_to_folder_sync (
+	folder = e_mail_session_uri_to_folder_sync (
 		session, context->uri, context->flags,
 		cancellable, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_pointer (task, g_steal_pointer (&folder), g_object_unref);
 }
 
 CamelFolder *
@@ -2824,7 +2784,7 @@ e_mail_session_uri_to_folder (EMailSession *session,
                               GAsyncReadyCallback callback,
                               gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *context;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
@@ -2834,21 +2794,14 @@ e_mail_session_uri_to_folder (EMailSession *session,
 	context->uri = g_strdup (folder_uri);
 	context->flags = flags;
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (session), callback,
-		user_data, e_mail_session_uri_to_folder);
+	task = g_task_new (session, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_session_uri_to_folder);
+	g_task_set_priority (task, io_priority);
+	g_task_set_task_data (task, g_steal_pointer (&context), (GDestroyNotify) async_context_free);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	g_task_run_in_thread (task, mail_session_uri_to_folder_thread);
 
-	g_simple_async_result_set_op_res_gpointer (
-		simple, context, (GDestroyNotify) async_context_free);
-
-	g_simple_async_result_run_in_thread (
-		simple, (GSimpleAsyncThreadFunc)
-		mail_session_uri_to_folder_thread,
-		io_priority, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 CamelFolder *
@@ -2856,23 +2809,10 @@ e_mail_session_uri_to_folder_finish (EMailSession *session,
                                      GAsyncResult *result,
                                      GError **error)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
+	g_return_val_if_fail (g_task_is_valid (result, session), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_session_uri_to_folder), NULL);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (session),
-		e_mail_session_uri_to_folder), NULL);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (g_simple_async_result_propagate_error (simple, error))
-		return NULL;
-
-	g_return_val_if_fail (CAMEL_IS_FOLDER (context->folder), NULL);
-
-	return g_object_ref (context->folder);
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 gboolean
