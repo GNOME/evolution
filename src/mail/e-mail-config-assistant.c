@@ -1406,20 +1406,21 @@ mail_config_assistant_commit_cb (GObject *object,
                                  GAsyncResult *result,
                                  gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	GError *error = NULL;
+	gboolean res;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
+	task = G_TASK (user_data);
 
-	e_source_registry_create_sources_finish (
+	res = e_source_registry_create_sources_finish (
 		E_SOURCE_REGISTRY (object), result, &error);
 
 	if (error != NULL)
-		g_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
+	else
+		g_task_return_boolean (task, res);
 
-	g_simple_async_result_complete (simple);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 void
@@ -1429,7 +1430,7 @@ e_mail_config_assistant_commit (EMailConfigAssistant *assistant,
                                 gpointer user_data)
 {
 	EMailConfigServiceBackend *backend;
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	ESourceRegistry *registry;
 	EMailSession *session;
 	ESource *source;
@@ -1479,13 +1480,12 @@ e_mail_config_assistant_commit (EMailConfigAssistant *assistant,
 		}
 	}
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (assistant), callback, user_data,
-		e_mail_config_assistant_commit);
+	task = g_task_new (assistant, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_config_assistant_commit);
 
 	e_source_registry_create_sources (
 		registry, g_queue_peek_head_link (queue),
-		cancellable, mail_config_assistant_commit_cb, simple);
+		cancellable, mail_config_assistant_commit_cb, g_steal_pointer (&task));
 
 	g_queue_free_full (queue, (GDestroyNotify) g_object_unref);
 }
@@ -1495,19 +1495,12 @@ e_mail_config_assistant_commit_finish (EMailConfigAssistant *assistant,
                                        GAsyncResult *result,
                                        GError **error)
 {
-	GSimpleAsyncResult *simple;
 	gboolean success;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (assistant),
-		e_mail_config_assistant_commit), FALSE);
+	g_return_val_if_fail (g_task_is_valid (result, assistant), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_config_assistant_commit), FALSE);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	success = !g_simple_async_result_propagate_error (simple, error);
-
+	success =  g_task_propagate_boolean (G_TASK (result), error);
 	if (success) {
 		ESource *source;
 
