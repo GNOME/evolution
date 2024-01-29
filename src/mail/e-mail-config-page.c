@@ -73,17 +73,14 @@ mail_config_page_submit (EMailConfigPage *page,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (page), callback,
-		user_data, mail_config_page_submit);
+	task = g_task_new (page, cancellable, callback, user_data);
+	g_task_set_source_tag (task, mail_config_page_submit);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	g_task_return_boolean (task, TRUE);
 
-	g_simple_async_result_complete_in_idle (simple);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 static gboolean
@@ -91,16 +88,10 @@ mail_config_page_submit_finish (EMailConfigPage *page,
                                 GAsyncResult *result,
                                 GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, page), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, mail_config_page_submit), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (page), mail_config_page_submit), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 static gboolean
