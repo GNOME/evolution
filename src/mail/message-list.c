@@ -6183,8 +6183,9 @@ message_list_regen_tweak_search_results (MessageList *message_list,
 }
 
 static void
-message_list_regen_thread (GSimpleAsyncResult *simple,
-                           GObject *source_object,
+message_list_regen_thread (GTask *task,
+                           gpointer source_object,
+                           gpointer task_data,
                            GCancellable *cancellable)
 {
 	MessageList *message_list;
@@ -6200,9 +6201,9 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 	GError *local_error = NULL;
 
 	message_list = MESSAGE_LIST (source_object);
-	regen_data = g_simple_async_result_get_op_res_gpointer (simple);
+	regen_data = task_data;
 
-	if (g_cancellable_is_cancelled (cancellable))
+	if (g_task_return_error_if_cancelled (task))
 		return;
 
 	/* Just for convenience. */
@@ -6311,15 +6312,11 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 
 	/* Handle search error or cancellation. */
 
-	if (local_error == NULL) {
-		/* coverity[unchecked_value] */
-		if (g_cancellable_set_error_if_cancelled (cancellable, &local_error)) {
-			;
-		}
-	}
+	if (g_task_return_error_if_cancelled (task))
+		goto exit;
 
 	if (local_error != NULL) {
-		g_simple_async_result_take_error (simple, local_error);
+		g_task_return_error (task, g_steal_pointer (&local_error));
 		goto exit;
 	}
 
@@ -6327,7 +6324,7 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 	 *     search with no results should return an empty UID array, but
 	 *     still need to verify that. */
 	if (uids == NULL)
-		goto exit;
+		goto exit_successfully;
 
 	camel_folder_sort_uids (folder, uids);
 
@@ -6365,6 +6362,10 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 		}
 	}
 
+exit_successfully:
+	g_task_return_pointer (task,
+		regen_data_ref (regen_data),
+		(GDestroyNotify) regen_data_unref);
 exit:
 	if (searchuids != NULL)
 		camel_folder_search_free (folder, searchuids);
@@ -6372,6 +6373,7 @@ exit:
 		camel_folder_free_uids (folder, uids);
 
 	g_object_unref (folder);
+	g_clear_error (&local_error);
 }
 
 static gint
@@ -6532,7 +6534,6 @@ message_list_regen_done_cb (GObject *source_object,
                             gpointer user_data)
 {
 	MessageList *message_list;
-	GSimpleAsyncResult *simple;
 	RegenData *regen_data;
 	EActivity *activity;
 	ETree *tree;
@@ -6543,8 +6544,7 @@ message_list_regen_done_cb (GObject *source_object,
 	GError *local_error = NULL;
 
 	message_list = MESSAGE_LIST (source_object);
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	regen_data = g_simple_async_result_get_op_res_gpointer (simple);
+	regen_data = g_task_propagate_pointer (G_TASK (result), &local_error);
 
 	/* Withdraw our RegenData from the private struct, if it hasn't
 	 * already been replaced.  We have exclusive access to it now. */
@@ -6557,10 +6557,8 @@ message_list_regen_done_cb (GObject *source_object,
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
 	activity = regen_data->activity;
-
-	if (g_simple_async_result_propagate_error (simple, &local_error) &&
-	    e_activity_handle_cancellation (activity, local_error)) {
-		g_error_free (local_error);
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_clear_error (&local_error);
 		return;
 
 	} else if (local_error != NULL) {
@@ -6575,7 +6573,7 @@ message_list_regen_done_cb (GObject *source_object,
 		if (!handled)
 			g_warning ("%s: %s", G_STRFUNC, local_error->message);
 
-		g_error_free (local_error);
+		g_clear_error (&local_error);
 		return;
 	}
 
@@ -6915,22 +6913,22 @@ message_list_regen_done_cb (GObject *source_object,
 				0, CAMEL_MESSAGE_SEEN);
 		}
 	}
+
+	g_clear_pointer (&regen_data, regen_data_unref);
 }
 
 static gboolean
 message_list_regen_idle_cb (gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	RegenData *regen_data;
-	GCancellable *cancellable;
 	MessageList *message_list;
 	ETreeTableAdapter *adapter;
 	gboolean searching;
 	gint row_count;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
-	regen_data = g_simple_async_result_get_op_res_gpointer (simple);
-	cancellable = e_activity_get_cancellable (regen_data->activity);
+	task = G_TASK (user_data);
+	regen_data = g_task_get_task_data (task);
 
 	message_list = regen_data->message_list;
 
@@ -6978,17 +6976,10 @@ message_list_regen_idle_cb (gpointer user_data)
 
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
-	if (g_cancellable_is_cancelled (cancellable)) {
-		g_simple_async_result_complete (simple);
-	} else {
-		g_simple_async_result_run_in_thread (
-			simple,
-			message_list_regen_thread,
-			G_PRIORITY_DEFAULT,
-			cancellable);
-	}
+	if (!g_task_return_error_if_cancelled (task))
+		g_task_run_in_thread (task, message_list_regen_thread);
 
-	return FALSE;
+	return G_SOURCE_REMOVE;
 }
 
 static void
@@ -7020,7 +7011,7 @@ mail_regen_list (MessageList *message_list,
                  const gchar *search,
                  CamelFolderChangeInfo *folder_changes)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	GCancellable *cancellable;
 	RegenData *new_regen_data;
 	RegenData *old_regen_data;
@@ -7113,15 +7104,9 @@ mail_regen_list (MessageList *message_list,
 	/* We generate the message list content in a worker thread, and
 	 * then supply our own GAsyncReadyCallback to redraw the widget. */
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (message_list),
-		message_list_regen_done_cb,
-		NULL, mail_regen_list);
-
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple,
+	task = g_task_new (message_list, cancellable, message_list_regen_done_cb, NULL);
+	g_task_set_source_tag (task, mail_regen_list);
+	g_task_set_task_data (task,
 		regen_data_ref (new_regen_data),
 		(GDestroyNotify) regen_data_unref);
 
@@ -7136,10 +7121,8 @@ mail_regen_list (MessageList *message_list,
 		g_idle_add_full (
 			G_PRIORITY_DEFAULT_IDLE,
 			message_list_regen_idle_cb,
-			g_object_ref (simple),
+			g_steal_pointer (&task),
 			(GDestroyNotify) g_object_unref);
-
-	g_object_unref (simple);
 
 	regen_data_unref (new_regen_data);
 
