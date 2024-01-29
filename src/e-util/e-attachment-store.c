@@ -1048,72 +1048,38 @@ e_attachment_store_find_attachment_iter (EAttachmentStore *store,
 typedef struct _UriContext UriContext;
 
 struct _UriContext {
-	GSimpleAsyncResult *simple;
 	GList *attachment_list;
-	GError *error;
 	gchar **uris;
 	gint index;
 };
 
-static UriContext *
-attachment_store_uri_context_new (EAttachmentStore *store,
-                                  GList *attachment_list,
-                                  GAsyncReadyCallback callback,
-                                  gpointer user_data)
+static void
+attachment_store_uri_context_free (gpointer data)
 {
-	UriContext *uri_context;
-	GSimpleAsyncResult *simple;
-	guint length;
-	gchar **uris;
+	UriContext *uri_context = data;
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (store), callback, user_data,
-		e_attachment_store_get_uris_async);
+	g_list_free_full (uri_context->attachment_list, g_object_unref);
+	g_clear_pointer (&uri_context->uris, g_strfreev);
 
-	/* Add one for NULL terminator. */
-	length = g_list_length (attachment_list) + 1;
-	uris = g_malloc0 (sizeof (gchar *) * length);
-
-	uri_context = g_slice_new0 (UriContext);
-	uri_context->simple = simple;
-	uri_context->attachment_list = g_list_copy (attachment_list);
-	uri_context->uris = uris;
-
-	g_list_foreach (
-		uri_context->attachment_list,
-		(GFunc) g_object_ref, NULL);
-
-	return uri_context;
+	g_free (uri_context);
 }
 
 static void
-attachment_store_uri_context_free (UriContext *uri_context)
-{
-	g_object_unref (uri_context->simple);
-
-	/* The attachment list should be empty now. */
-	g_warn_if_fail (uri_context->attachment_list == NULL);
-
-	/* So should the error. */
-	g_warn_if_fail (uri_context->error == NULL);
-
-	g_strfreev (uri_context->uris);
-
-	g_slice_free (UriContext, uri_context);
-}
-
-static void
-attachment_store_get_uris_save_cb (EAttachment *attachment,
+attachment_store_get_uris_save_cb (GObject *source_object,
                                    GAsyncResult *result,
-                                   UriContext *uri_context)
+                                   gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	EAttachment *attachment;
+	GTask *task;
+	UriContext *uri_context;
 	GFile *file;
-	gchar **uris;
-	gchar *uri;
 	GError *error = NULL;
 
+	attachment = E_ATTACHMENT (source_object);
+	task = G_TASK (user_data);
 	file = e_attachment_save_finish (attachment, result, &error);
+
+	uri_context = g_task_get_task_data (task);
 
 	/* Remove the attachment from the list. */
 	uri_context->attachment_list = g_list_remove (
@@ -1121,18 +1087,16 @@ attachment_store_get_uris_save_cb (EAttachment *attachment,
 	g_object_unref (attachment);
 
 	if (file != NULL) {
-		uri = g_file_get_uri (file);
-		uri_context->uris[uri_context->index++] = uri;
+		uri_context->uris[uri_context->index++] = g_file_get_uri (file);
 		g_object_unref (file);
 
 	} else if (error != NULL) {
 		/* If this is the first error, cancel the other jobs. */
-		if (uri_context->error == NULL) {
-			g_propagate_error (&uri_context->error, error);
+		if (!g_task_had_error (task)) {
 			g_list_foreach (
 				uri_context->attachment_list,
 				(GFunc) e_attachment_cancel, NULL);
-			error = NULL;
+			g_task_return_error (task, g_steal_pointer (&error));
 
 		/* Otherwise, we can only report back one error.  So if
 		 * this is something other than cancellation, dump it to
@@ -1142,31 +1106,16 @@ attachment_store_get_uris_save_cb (EAttachment *attachment,
 			g_warning ("%s", error->message);
 	}
 
-	if (error != NULL)
-		g_error_free (error);
+	g_clear_error (&error);
 
 	/* If there's still jobs running, let them finish. */
-	if (uri_context->attachment_list != NULL)
-		return;
+	if (!uri_context->attachment_list && !g_task_had_error (task)) {
+		g_task_return_pointer (task,
+			g_steal_pointer (&uri_context->uris),
+			(GDestroyNotify) g_strfreev);
+	}
 
-	/* Steal the URI list. */
-	uris = uri_context->uris;
-	uri_context->uris = NULL;
-
-	/* And the error. */
-	error = uri_context->error;
-	uri_context->error = NULL;
-
-	simple = uri_context->simple;
-
-	if (error == NULL)
-		g_simple_async_result_set_op_res_gpointer (simple, uris, NULL);
-	else
-		g_simple_async_result_take_error (simple, error);
-
-	g_simple_async_result_complete (simple);
-
-	attachment_store_uri_context_free (uri_context);
+	g_object_unref (task);
 }
 
 void
@@ -1175,22 +1124,22 @@ e_attachment_store_get_uris_async (EAttachmentStore *store,
                                    GAsyncReadyCallback callback,
                                    gpointer user_data)
 {
+	GTask *task;
 	GFile *temp_directory;
 	UriContext *uri_context;
-	GList *iter, *trash = NULL;
+	GList *attachment_list_copy, *iter, *trash = NULL;
 	gchar *template;
 	gchar *path;
+	gchar **uris;
+	guint index = 0;
 
 	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
 
-	uri_context = attachment_store_uri_context_new (
-		store, attachment_list, callback, user_data);
-
-	/* Grab the copied attachment list. */
-	attachment_list = uri_context->attachment_list;
-
+	attachment_list_copy = g_list_copy_deep (attachment_list, (GCopyFunc) g_object_ref, NULL);
+	/* Create a NULL-terminated array */
+	uris = g_new0 (gchar *, g_list_length (attachment_list_copy) + 1);
 	/* First scan the list for attachments with a GFile. */
-	for (iter = attachment_list; iter != NULL; iter = iter->next) {
+	for (iter = attachment_list_copy; iter != NULL; iter = iter->next) {
 		EAttachment *attachment = iter->data;
 		GFile *file;
 
@@ -1199,7 +1148,7 @@ e_attachment_store_get_uris_async (EAttachmentStore *store,
 			gchar *uri;
 
 			uri = g_file_get_uri (file);
-			uri_context->uris[uri_context->index++] = uri;
+			uris[index++] = g_steal_pointer (&uri);
 
 			/* Mark the list node for deletion. */
 			trash = g_list_prepend (trash, iter);
@@ -1212,26 +1161,17 @@ e_attachment_store_get_uris_async (EAttachmentStore *store,
 	/* Expunge the list. */
 	for (iter = trash; iter != NULL; iter = iter->next) {
 		GList *link = iter->data;
-		attachment_list = g_list_delete_link (attachment_list, link);
+		attachment_list_copy = g_list_delete_link (attachment_list_copy, link);
 	}
 	g_list_free (trash);
 
-	uri_context->attachment_list = attachment_list;
+	task = g_task_new (store, NULL, callback, user_data);
+	g_task_set_source_tag (task, e_attachment_store_get_uris_async);
 
 	/* If we got them all then we're done. */
-	if (attachment_list == NULL) {
-		GSimpleAsyncResult *simple;
-		gchar **uris;
-
-		/* Steal the URI list. */
-		uris = uri_context->uris;
-		uri_context->uris = NULL;
-
-		simple = uri_context->simple;
-		g_simple_async_result_set_op_res_gpointer (simple, uris, NULL);
-		g_simple_async_result_complete (simple);
-
-		attachment_store_uri_context_free (uri_context);
+	if (attachment_list_copy == NULL && !g_task_had_error (task)) {
+		g_task_return_pointer (task, g_steal_pointer (&uris), (GDestroyNotify) g_strfreev);
+		g_object_unref (task);
 		return;
 	}
 
@@ -1245,30 +1185,36 @@ e_attachment_store_get_uris_async (EAttachmentStore *store,
 
 	/* XXX Let's hope errno got set properly. */
 	if (path == NULL) {
-		GSimpleAsyncResult *simple;
-
-		simple = uri_context->simple;
-		g_simple_async_result_set_error (
-			simple, G_FILE_ERROR,
-			g_file_error_from_errno (errno),
-			"%s", g_strerror (errno));
-		g_simple_async_result_complete (simple);
-
-		attachment_store_uri_context_free (uri_context);
+		gint err = errno;
+		g_task_return_new_error (task,
+			G_FILE_ERROR,
+			g_file_error_from_errno (err),
+			"%s",
+			g_strerror (err));
+		g_clear_object (&task);
+		g_clear_pointer (&uris, g_strfreev);
+		g_list_free_full (attachment_list_copy, g_object_unref);
 		return;
 	}
 
 	temp_directory = g_file_new_for_path (path);
+	g_free (path);
 
-	for (iter = attachment_list; iter != NULL; iter = iter->next)
+	uri_context = g_new0 (UriContext, 1);
+	uri_context->attachment_list = g_steal_pointer (&attachment_list_copy);
+	uri_context->uris = g_steal_pointer (&uris);
+	uri_context->index = index;
+	g_task_set_task_data (task, uri_context, attachment_store_uri_context_free);
+
+	for (iter = uri_context->attachment_list; iter != NULL; iter = iter->next)
 		e_attachment_save_async (
 			E_ATTACHMENT (iter->data),
-			temp_directory, (GAsyncReadyCallback)
+			temp_directory,
 			attachment_store_get_uris_save_cb,
-			uri_context);
+			g_object_ref (task));
 
 	g_object_unref (temp_directory);
-	g_free (path);
+	g_object_unref (task);
 }
 
 gchar **
@@ -1276,19 +1222,10 @@ e_attachment_store_get_uris_finish (EAttachmentStore *store,
                                     GAsyncResult *result,
                                     GError **error)
 {
-	GSimpleAsyncResult *simple;
-	gchar **uris;
+	g_return_val_if_fail (g_task_is_valid (result, store), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_attachment_store_get_uris_async), NULL);
 
-	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), NULL);
-	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), NULL);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	if (g_simple_async_result_propagate_error (simple, error))
-		return NULL;
-
-	uris = g_simple_async_result_get_op_res_gpointer (simple);
-
-	return uris;
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 /********************** e_attachment_store_load_async() **********************/
@@ -1296,72 +1233,46 @@ e_attachment_store_get_uris_finish (EAttachmentStore *store,
 typedef struct _LoadContext LoadContext;
 
 struct _LoadContext {
-	GSimpleAsyncResult *simple;
 	GList *attachment_list;
-	GError *error;
 };
 
-static LoadContext *
-attachment_store_load_context_new (EAttachmentStore *store,
-                                   GList *attachment_list,
-                                   GAsyncReadyCallback callback,
-                                   gpointer user_data)
+static void
+attachment_store_load_context_free (gpointer data)
 {
-	LoadContext *load_context;
-	GSimpleAsyncResult *simple;
+	LoadContext *load_context = data;
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (store), callback, user_data,
-		e_attachment_store_load_async);
+	g_list_free_full (load_context->attachment_list, g_object_unref);
 
-	load_context = g_slice_new0 (LoadContext);
-	load_context->simple = simple;
-	load_context->attachment_list = g_list_copy (attachment_list);
-
-	g_list_foreach (
-		load_context->attachment_list,
-		(GFunc) g_object_ref, NULL);
-
-	return load_context;
+	g_free (load_context);
 }
 
 static void
-attachment_store_load_context_free (LoadContext *load_context)
-{
-	g_object_unref (load_context->simple);
-
-	/* The attachment list should be empty now. */
-	g_warn_if_fail (load_context->attachment_list == NULL);
-
-	/* So should the error. */
-	g_warn_if_fail (load_context->error == NULL);
-
-	g_slice_free (LoadContext, load_context);
-}
-
-static void
-attachment_store_load_ready_cb (EAttachment *attachment,
+attachment_store_load_ready_cb (GObject *source_object,
                                 GAsyncResult *result,
-                                LoadContext *load_context)
+                                gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	EAttachment *attachment;
+	GTask *task;
+	LoadContext *load_context;
 	GError *error = NULL;
+
+	attachment = E_ATTACHMENT (source_object);
+	task = G_TASK (user_data);
 
 	e_attachment_load_finish (attachment, result, &error);
 
+	load_context = g_task_get_task_data (task);
 	/* Remove the attachment from the list. */
 	load_context->attachment_list = g_list_remove (
 		load_context->attachment_list, attachment);
-	g_object_unref (attachment);
 
 	if (error != NULL) {
 		/* If this is the first error, cancel the other jobs. */
-		if (load_context->error == NULL) {
-			g_propagate_error (&load_context->error, error);
+		if (!g_task_had_error (task)) {
 			g_list_foreach (
 				load_context->attachment_list,
 				(GFunc) e_attachment_cancel, NULL);
-			error = NULL;
+			g_task_return_error (task, g_steal_pointer (&error));
 
 		/* Otherwise, we can only report back one error.  So if
 		 * this is something other than cancellation, dump it to
@@ -1371,27 +1282,13 @@ attachment_store_load_ready_cb (EAttachment *attachment,
 			g_warning ("%s", error->message);
 	}
 
-	if (error != NULL)
-		g_error_free (error);
+	g_clear_error (&error);
 
 	/* If there's still jobs running, let them finish. */
-	if (load_context->attachment_list != NULL)
-		return;
+	if (!load_context->attachment_list && !g_task_had_error (task))
+		g_task_return_boolean (task, TRUE);
 
-	/* Steal the error. */
-	error = load_context->error;
-	load_context->error = NULL;
-
-	simple = load_context->simple;
-
-	if (error == NULL)
-		g_simple_async_result_set_op_res_gboolean (simple, TRUE);
-	else
-		g_simple_async_result_take_error (simple, error);
-
-	g_simple_async_result_complete (simple);
-
-	attachment_store_load_context_free (load_context);
+	g_object_unref (task);
 }
 
 void
@@ -1400,25 +1297,24 @@ e_attachment_store_load_async (EAttachmentStore *store,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
 {
+	GTask *task;
 	LoadContext *load_context;
 	GList *iter;
 
 	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
 
-	load_context = attachment_store_load_context_new (
-		store, attachment_list, callback, user_data);
+	task = g_task_new (store, NULL, callback, user_data);
+	g_task_set_source_tag (task, e_attachment_store_load_async);
 
 	if (attachment_list == NULL) {
-		GSimpleAsyncResult *simple;
-
-		simple = load_context->simple;
-		g_simple_async_result_set_op_res_gboolean (simple, TRUE);
-		g_simple_async_result_complete (simple);
-
-		attachment_store_load_context_free (load_context);
+		g_task_return_boolean (task, TRUE);
+		g_object_unref (task);
 		return;
 	}
 
+	load_context = g_new0 (LoadContext, 1);
+	load_context->attachment_list = g_list_copy_deep (attachment_list, (GCopyFunc) g_object_ref, NULL);
+	g_task_set_task_data (task, load_context, attachment_store_load_context_free);
 	for (iter = attachment_list; iter != NULL; iter = iter->next) {
 		EAttachment *attachment = E_ATTACHMENT (iter->data);
 
@@ -1427,8 +1323,10 @@ e_attachment_store_load_async (EAttachmentStore *store,
 		e_attachment_load_async (
 			attachment, (GAsyncReadyCallback)
 			attachment_store_load_ready_cb,
-			load_context);
+			g_object_ref (task));
 	}
+
+	g_object_unref (task);
 }
 
 gboolean
@@ -1436,17 +1334,10 @@ e_attachment_store_load_finish (EAttachmentStore *store,
                                 GAsyncResult *result,
                                 GError **error)
 {
-	GSimpleAsyncResult *simple;
-	gboolean success;
+	g_return_val_if_fail (g_task_is_valid (result, store), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_attachment_store_load_async), FALSE);
 
-	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), FALSE);
-	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	success = !g_simple_async_result_propagate_error (simple, error) &&
-		   g_simple_async_result_get_op_res_gboolean (simple);
-
-	return success;
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 /********************** e_attachment_store_save_async() **********************/
@@ -1454,67 +1345,30 @@ e_attachment_store_load_finish (EAttachmentStore *store,
 typedef struct _SaveContext SaveContext;
 
 struct _SaveContext {
-	GSimpleAsyncResult *simple;
 	GFile *destination;
 	gchar *filename_prefix;
 	GFile *fresh_directory;
 	GFile *trash_directory;
 	GList *attachment_list;
-	GError *error;
 	gchar **uris;
 	gint index;
 };
 
-static SaveContext *
-attachment_store_save_context_new (EAttachmentStore *store,
-                                   GFile *destination,
-                                   const gchar *filename_prefix,
-                                   GAsyncReadyCallback callback,
-                                   gpointer user_data)
-{
-	SaveContext *save_context;
-	GSimpleAsyncResult *simple;
-	GList *attachment_list;
-	guint length;
-	gchar **uris;
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (store), callback, user_data,
-		e_attachment_store_save_async);
-
-	attachment_list = e_attachment_store_get_attachments (store);
-
-	/* Add one for NULL terminator. */
-	length = g_list_length (attachment_list) + 1;
-	uris = g_malloc0 (sizeof (gchar *) * length);
-
-	save_context = g_slice_new0 (SaveContext);
-	save_context->simple = simple;
-	save_context->destination = g_object_ref (destination);
-	save_context->filename_prefix = g_strdup (filename_prefix);
-	save_context->attachment_list = attachment_list;
-	save_context->uris = uris;
-
-	return save_context;
-}
-
 static void
 attachment_store_save_context_free (SaveContext *save_context)
 {
-	g_object_unref (save_context->simple);
+	g_file_delete (save_context->fresh_directory, NULL, NULL);
 
 	/* The attachment list should be empty now. */
 	g_warn_if_fail (save_context->attachment_list == NULL);
-
-	/* So should the error. */
-	g_warn_if_fail (save_context->error == NULL);
+	g_list_free_full (save_context->attachment_list, g_object_unref);
 
 	g_clear_object (&save_context->destination);
 	g_clear_object (&save_context->fresh_directory);
 	g_clear_object (&save_context->trash_directory);
 	g_clear_pointer (&save_context->filename_prefix, g_free);
-	g_strfreev (save_context->uris);
-	g_slice_free (SaveContext, save_context);
+	g_clear_pointer (&save_context->uris, g_strfreev);
+	g_free (save_context);
 }
 
 static void
@@ -1576,17 +1430,21 @@ attachment_store_move_file (SaveContext *save_context,
 }
 
 static void
-attachment_store_save_cb (EAttachment *attachment,
+attachment_store_save_cb (GObject *source_object,
                           GAsyncResult *result,
-                          SaveContext *save_context)
+                          gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	EAttachment *attachment;
+	SaveContext *save_context;
+	GTask *task;
 	GFile *file;
-	gchar **uris;
 	GError *error = NULL;
 
+	attachment = E_ATTACHMENT (source_object);
+	task = G_TASK (user_data);
 	file = e_attachment_save_finish (attachment, result, &error);
 
+	save_context = g_task_get_task_data (task);
 	/* Remove the attachment from the list. */
 	save_context->attachment_list = g_list_remove (
 		save_context->attachment_list, attachment);
@@ -1597,11 +1455,10 @@ attachment_store_save_cb (EAttachment *attachment,
 		GFile *source = NULL;
 		GFile *destination = NULL;
 		gchar *basename;
-		gchar *uri;
 		const gchar *prefix;
 
 		basename = g_file_get_basename (file);
-		g_object_unref (file);
+		g_clear_object (&file);
 
 		source = g_file_get_child (
 			save_context->fresh_directory, basename);
@@ -1616,14 +1473,13 @@ attachment_store_save_cb (EAttachment *attachment,
 
 		file = save_context->destination;
 		destination = g_file_get_child (file, basename);
-		uri = g_file_get_uri (destination);
 
 		/* move them file-by-file */
 		attachment_store_move_file (
 			save_context, source, destination, &error);
 
 		if (error == NULL)
-			save_context->uris[save_context->index++] = uri;
+			save_context->uris[save_context->index++] = g_file_get_uri (destination);
 
 		g_object_unref (source);
 		g_object_unref (destination);
@@ -1631,12 +1487,11 @@ attachment_store_save_cb (EAttachment *attachment,
 
 	if (error != NULL) {
 		/* If this is the first error, cancel the other jobs. */
-		if (save_context->error == NULL) {
-			g_propagate_error (&save_context->error, error);
+		if (!g_task_had_error (task)) {
 			g_list_foreach (
 				save_context->attachment_list,
 				(GFunc) e_attachment_cancel, NULL);
-			error = NULL;
+			g_task_return_error (task, g_steal_pointer (&error));
 
 		/* Otherwise, we can only report back one error.  So if
 		 * this is something other than cancellation, dump it to
@@ -1649,45 +1504,11 @@ attachment_store_save_cb (EAttachment *attachment,
 	g_clear_error (&error);
 
 	/* If there's still jobs running, let them finish. */
-	if (save_context->attachment_list != NULL)
-		return;
-
-	/* If an error occurred while saving, we're done. */
-	if (save_context->error != NULL) {
-
-		/* Steal the error. */
-		error = save_context->error;
-		save_context->error = NULL;
-
-		simple = save_context->simple;
-		g_simple_async_result_take_error (simple, error);
-		g_simple_async_result_complete (simple);
-
-		attachment_store_save_context_free (save_context);
-		return;
-	}
-
-	if (error != NULL) {
-		simple = save_context->simple;
-		g_simple_async_result_take_error (simple, error);
-		g_simple_async_result_complete (simple);
-
-		attachment_store_save_context_free (save_context);
-		return;
-	}
-
-	/* clean-up left directory */
-	g_file_delete (save_context->fresh_directory, NULL, NULL);
-
-	/* And the URI list. */
-	uris = save_context->uris;
-	save_context->uris = NULL;
-
-	simple = save_context->simple;
-	g_simple_async_result_set_op_res_gpointer (simple, uris, NULL);
-	g_simple_async_result_complete (simple);
-
-	attachment_store_save_context_free (save_context);
+	if (!save_context->attachment_list && !g_task_had_error (task))
+		g_task_return_pointer (task,
+			g_steal_pointer (&save_context->uris),
+			(GDestroyNotify) g_strfreev);
+	g_object_unref (task);
 }
 /*
  * @filename_prefix: prefix to use for a file name; can be %NULL for none
@@ -1701,6 +1522,7 @@ e_attachment_store_save_async (EAttachmentStore *store,
 {
 	SaveContext *save_context;
 	GList *attachment_list, *iter;
+	GTask *task;
 	GFile *temp_directory;
 	gchar *template;
 	gchar *path;
@@ -1708,27 +1530,17 @@ e_attachment_store_save_async (EAttachmentStore *store,
 	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
 	g_return_if_fail (G_IS_FILE (destination));
 
-	save_context = attachment_store_save_context_new (
-		store, destination, filename_prefix, callback, user_data);
+	task = g_task_new (store, NULL, callback, user_data);
+	g_task_set_source_tag (task, e_attachment_store_save_async);
 
-	attachment_list = save_context->attachment_list;
+	attachment_list = e_attachment_store_get_attachments (store);
 
 	/* Deal with an empty attachment store.  The caller will get
 	 * an empty NULL-terminated list as opposed to NULL, to help
 	 * distinguish it from an error. */
 	if (attachment_list == NULL) {
-		GSimpleAsyncResult *simple;
-		gchar **uris;
-
-		/* Steal the URI list. */
-		uris = save_context->uris;
-		save_context->uris = NULL;
-
-		simple = save_context->simple;
-		g_simple_async_result_set_op_res_gpointer (simple, uris, NULL);
-		g_simple_async_result_complete (simple);
-
-		attachment_store_save_context_free (save_context);
+		g_task_return_pointer (task, NULL, NULL);
+		g_object_unref (task);
 		return;
 	}
 
@@ -1742,28 +1554,34 @@ e_attachment_store_save_async (EAttachmentStore *store,
 
 	/* XXX Let's hope errno got set properly. */
 	if (path == NULL) {
-		GSimpleAsyncResult *simple;
-
-		simple = save_context->simple;
-		g_simple_async_result_set_error (
-			simple, G_FILE_ERROR,
-			g_file_error_from_errno (errno),
-			"%s", g_strerror (errno));
-		g_simple_async_result_complete (simple);
-
-		attachment_store_save_context_free (save_context);
+		gint err = errno;
+		g_task_return_new_error (
+			task, G_FILE_ERROR,
+			g_file_error_from_errno (err),
+			"%s", g_strerror (err));
+		g_object_unref (task);
+		g_list_free_full (attachment_list, g_object_unref);
 		return;
 	}
+
+	save_context = g_new0 (SaveContext, 1);
+	save_context->destination = g_object_ref (destination);
+	save_context->filename_prefix = g_strdup (filename_prefix);
+	save_context->attachment_list = g_steal_pointer (&attachment_list);
+	/* Add one for NULL terminator. */
+	save_context->uris = g_new0 (gchar *, g_list_length (save_context->attachment_list) + 1);
 
 	temp_directory = g_file_new_for_path (path);
 	save_context->fresh_directory = temp_directory;
 	g_free (path);
 
-	for (iter = attachment_list; iter != NULL; iter = iter->next)
+	g_task_set_task_data (task, save_context, (GDestroyNotify) attachment_store_save_context_free);
+	for (iter = save_context->attachment_list; iter != NULL; iter = iter->next)
 		e_attachment_save_async (
-			E_ATTACHMENT (iter->data),
-			temp_directory, (GAsyncReadyCallback)
-			attachment_store_save_cb, save_context);
+			E_ATTACHMENT (iter->data), temp_directory,
+			attachment_store_save_cb, g_object_ref (task));
+
+	g_object_unref (task);
 }
 
 gchar **
@@ -1771,17 +1589,9 @@ e_attachment_store_save_finish (EAttachmentStore *store,
                                 GAsyncResult *result,
                                 GError **error)
 {
-	GSimpleAsyncResult *simple;
-	gchar **uris;
-
 	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), NULL);
-	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), NULL);
+	g_return_val_if_fail (g_task_is_valid (result, store), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_attachment_store_save_async), NULL);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	if (g_simple_async_result_propagate_error (simple, error))
-		return NULL;
-
-	uris = g_simple_async_result_get_op_res_gpointer (simple);
-
-	return uris;
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
