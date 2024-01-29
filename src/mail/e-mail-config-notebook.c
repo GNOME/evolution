@@ -41,8 +41,6 @@ struct _EMailConfigNotebookPrivate {
 };
 
 struct _AsyncContext {
-	ESourceRegistry *registry;
-	GCancellable *cancellable;
 	GQueue *page_queue;
 	GQueue *source_queue;
 };
@@ -65,12 +63,6 @@ G_DEFINE_TYPE_WITH_CODE (EMailConfigNotebook, e_mail_config_notebook, GTK_TYPE_N
 static void
 async_context_free (AsyncContext *async_context)
 {
-	if (async_context->registry != NULL)
-		g_object_unref (async_context->registry);
-
-	if (async_context->cancellable != NULL)
-		g_object_unref (async_context->cancellable);
-
 	g_queue_free_full (
 		async_context->page_queue,
 		(GDestroyNotify) g_object_unref);
@@ -79,7 +71,7 @@ async_context_free (AsyncContext *async_context)
 		async_context->source_queue,
 		(GDestroyNotify) g_object_unref);
 
-	g_slice_free (AsyncContext, async_context);
+	g_free (async_context);
 }
 
 static void
@@ -746,21 +738,20 @@ mail_config_notebook_page_submit_cb (GObject *source_object,
                                      GAsyncResult *result,
                                      gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *async_context;
 	EMailConfigPage *next_page;
 	GError *error = NULL;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	task = G_TASK (user_data);
+	async_context = g_task_get_task_data (task);
 
 	e_mail_config_page_submit_finish (
 		E_MAIL_CONFIG_PAGE (source_object), result, &error);
 
 	if (error != NULL) {
-		g_simple_async_result_take_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
+		g_task_return_error (task, g_steal_pointer (&error));
+		g_object_unref (task);
 		return;
 	}
 
@@ -768,16 +759,17 @@ mail_config_notebook_page_submit_cb (GObject *source_object,
 
 	/* Submit the next EMailConfigPage. */
 	if (next_page != NULL) {
+		GCancellable *cancellable = g_task_get_cancellable (task);
 		e_mail_config_page_submit (
-			next_page, async_context->cancellable,
-			mail_config_notebook_page_submit_cb, simple);
+			next_page, cancellable,
+			mail_config_notebook_page_submit_cb, g_steal_pointer (&task));
 
 		g_object_unref (next_page);
 
 	/* All done! */
 	} else {
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
+		g_task_return_boolean (task, TRUE);
+		g_object_unref (task);
 	}
 }
 
@@ -786,32 +778,33 @@ mail_config_notebook_source_commit_cb (GObject *source_object,
                                        GAsyncResult *result,
                                        gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	ESourceRegistry *registry;
+	GTask *task;
+	GCancellable *cancellable;
 	AsyncContext *async_context;
 	ESource *next_source;
 	GError *error = NULL;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	registry = E_SOURCE_REGISTRY (source_object);
+	task = G_TASK (user_data);
 
-	e_source_registry_commit_source_finish (
-		E_SOURCE_REGISTRY (source_object), result, &error);
+	e_source_registry_commit_source_finish (registry, result, &error);
 
 	if (error != NULL) {
-		g_simple_async_result_take_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
+		g_task_return_error (task, g_steal_pointer (&error));
+		g_object_unref (task);
 		return;
 	}
 
+	cancellable = g_task_get_cancellable (task);
+	async_context = g_task_get_task_data (task);
 	next_source = g_queue_pop_head (async_context->source_queue);
 
 	/* Commit the next ESources. */
 	if (next_source != NULL) {
 		e_source_registry_commit_source (
-			async_context->registry, next_source,
-			async_context->cancellable,
-			mail_config_notebook_source_commit_cb, simple);
+			registry, next_source, cancellable,
+			mail_config_notebook_source_commit_cb, g_steal_pointer (&task));
 
 		g_object_unref (next_source);
 
@@ -824,8 +817,8 @@ mail_config_notebook_source_commit_cb (GObject *source_object,
 		page = g_queue_pop_head (async_context->page_queue);
 
 		e_mail_config_page_submit (
-			page, async_context->cancellable,
-			mail_config_notebook_page_submit_cb, simple);
+			page, cancellable,
+			mail_config_notebook_page_submit_cb, g_steal_pointer (&task));
 
 		g_object_unref (page);
 	}
@@ -837,7 +830,7 @@ e_mail_config_notebook_commit (EMailConfigNotebook *notebook,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *async_context;
 	ESourceRegistry *registry;
 	EMailSession *session;
@@ -887,28 +880,20 @@ e_mail_config_notebook_commit (EMailConfigNotebook *notebook,
 
 	g_list_free (list);
 
-	async_context = g_slice_new0 (AsyncContext);
-	async_context->registry = g_object_ref (registry);
-	async_context->page_queue = page_queue;      /* takes ownership */
-	async_context->source_queue = source_queue;  /* takes ownership */
+	async_context = g_new0 (AsyncContext, 1);
+	async_context->page_queue = g_steal_pointer (&page_queue);
+	async_context->source_queue = g_steal_pointer (&source_queue);
 
-	if (G_IS_CANCELLABLE (cancellable))
-		async_context->cancellable = g_object_ref (cancellable);
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (notebook), callback, user_data,
-		e_mail_config_notebook_commit);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, async_context, (GDestroyNotify) async_context_free);
+	task = g_task_new (notebook, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_config_notebook_commit);
+	g_task_set_task_data (task, async_context, (GDestroyNotify) async_context_free);
 
 	source = g_queue_pop_head (async_context->source_queue);
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	e_source_registry_commit_source (
-		async_context->registry, source,
-		async_context->cancellable,
-		mail_config_notebook_source_commit_cb, simple);
+		registry, source, cancellable,
+		mail_config_notebook_source_commit_cb, g_steal_pointer (&task));
 
 	g_object_unref (source);
 }
@@ -918,16 +903,9 @@ e_mail_config_notebook_commit_finish (EMailConfigNotebook *notebook,
                                       GAsyncResult *result,
                                       GError **error)
 {
-	GSimpleAsyncResult *simple;
+	g_return_val_if_fail (g_task_is_valid (result, notebook), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_config_notebook_commit), FALSE);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (notebook),
-		e_mail_config_notebook_commit), FALSE);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
