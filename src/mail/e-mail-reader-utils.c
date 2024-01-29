@@ -55,7 +55,6 @@ struct _AsyncContext {
 	EActivity *activity;
 	CamelFolder *folder;
 	CamelMimeMessage *message;
-	EMailPartList *part_list;
 	EMailReader *reader;
 	CamelInternetAddress *address;
 	GPtrArray *uids;
@@ -81,7 +80,6 @@ async_context_free (AsyncContext *async_context)
 	g_clear_object (&async_context->activity);
 	g_clear_object (&async_context->folder);
 	g_clear_object (&async_context->message);
-	g_clear_object (&async_context->part_list);
 	g_clear_object (&async_context->reader);
 	g_clear_object (&async_context->address);
 
@@ -3491,23 +3489,21 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
 }
 
 static void
-mail_reader_parse_message_run (GSimpleAsyncResult *simple,
-                               GObject *object,
+mail_reader_parse_message_run (GTask *task,
+                               gpointer source_object,
+                               gpointer task_data,
                                GCancellable *cancellable)
 {
-	EMailReader *reader = E_MAIL_READER (object);
+	EMailReader *reader = E_MAIL_READER (source_object);
 	CamelObjectBag *registry;
 	EMailPartList *part_list;
 	EMailDisplay *mail_display;
-	AsyncContext *async_context;
+	AsyncContext *async_context = task_data;
 	gchar *mail_uri;
 	gboolean is_source;
-	GError *local_error = NULL;
 
 	mail_display = e_mail_reader_get_mail_display (reader);
 	is_source = e_mail_display_get_mode (mail_display) == E_MAIL_FORMATTER_MODE_SOURCE;
-
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	registry = e_mail_part_list_get_registry ();
 
@@ -3556,10 +3552,10 @@ mail_reader_parse_message_run (GSimpleAsyncResult *simple,
 
 	g_free (mail_uri);
 
-	async_context->part_list = part_list;
-
-	if (g_cancellable_set_error_if_cancelled (cancellable, &local_error))
-		g_simple_async_result_take_error (simple, local_error);
+	if (!g_task_return_error_if_cancelled (task))
+		g_task_return_pointer (task, g_steal_pointer (&part_list), g_object_unref);
+	else
+		g_clear_object (&part_list);
 }
 
 void
@@ -3571,7 +3567,7 @@ e_mail_reader_parse_message (EMailReader *reader,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *async_context;
 	EActivity *activity;
 
@@ -3590,47 +3586,25 @@ e_mail_reader_parse_message (EMailReader *reader,
 	async_context->message_uid = g_strdup (message_uid);
 	async_context->message = g_object_ref (message);
 
-	simple = g_simple_async_result_new (
-		G_OBJECT (reader), callback, user_data,
-		e_mail_reader_parse_message);
+	task = g_task_new (reader, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_mail_reader_parse_message);
+	g_task_set_task_data (task, async_context, (GDestroyNotify) async_context_free);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	g_task_run_in_thread (task, mail_reader_parse_message_run);
 
-	g_simple_async_result_set_op_res_gpointer (
-		simple, async_context, (GDestroyNotify) async_context_free);
-
-	g_simple_async_result_run_in_thread (
-		simple, mail_reader_parse_message_run,
-		G_PRIORITY_DEFAULT, cancellable);
-
-	g_object_unref (simple);
+	g_object_unref (task);
 	g_object_unref (activity);
 }
 
 EMailPartList *
 e_mail_reader_parse_message_finish (EMailReader *reader,
                                     GAsyncResult *result,
-				    GError **error)
+                                    GError **error)
 {
-	GSimpleAsyncResult *simple;
-	AsyncContext *async_context;
+	g_return_val_if_fail (g_task_is_valid (result, reader), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_reader_parse_message), NULL);
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
-		result, G_OBJECT (reader),
-		e_mail_reader_parse_message), NULL);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	if (g_simple_async_result_propagate_error (simple, error))
-		return NULL;
-
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (async_context->part_list != NULL)
-		g_object_ref (async_context->part_list);
-
-	return async_context->part_list;
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 gboolean
