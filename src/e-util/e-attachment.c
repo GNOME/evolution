@@ -1962,10 +1962,6 @@ e_attachment_get_may_reload (EAttachment *attachment)
 typedef struct _LoadContext LoadContext;
 
 struct _LoadContext {
-	EAttachment *attachment;
-	CamelMimePart *mime_part;
-	GSimpleAsyncResult *simple;
-
 	GInputStream *input_stream;
 	GOutputStream *output_stream;
 	GFileInfo *file_info;
@@ -1976,87 +1972,50 @@ struct _LoadContext {
 
 /* Forward Declaration */
 static void
-attachment_load_stream_read_cb (GInputStream *input_stream,
+attachment_load_stream_read_cb (GObject *source_object,
                                 GAsyncResult *result,
-                                LoadContext *load_context);
+                                gpointer user_data);
 static void
-attachment_load_query_info_cb (GFile *file,
+attachment_load_query_info_cb (GObject *source_object,
                                GAsyncResult *result,
-                               LoadContext *load_context);
+                               gpointer user_data);
 
-static LoadContext *
-attachment_load_context_new (EAttachment *attachment,
-                             GAsyncReadyCallback callback,
-                             gpointer user_data)
+static void
+attachment_load_context_free (gpointer data)
+{
+	LoadContext *load_context = data;
+
+	g_clear_object (&load_context->input_stream);
+	g_clear_object (&load_context->output_stream);
+	g_clear_object (&load_context->file_info);
+
+	g_free (load_context);
+}
+
+static void
+attachment_load_finish_common (EAttachment *attachment,
+                               CamelMimePart *mime_part,
+                               GFileInfo *file_info)
+{
+	const gchar *string;
+
+	string = camel_mime_part_get_disposition (mime_part);
+	e_attachment_set_disposition (attachment, string);
+	e_attachment_set_file_info (attachment, file_info);
+	e_attachment_set_mime_part (attachment, mime_part);
+	e_attachment_set_may_reload (attachment, FALSE);
+}
+
+static void
+attachment_load_finish (GTask *task)
 {
 	LoadContext *load_context;
-	GSimpleAsyncResult *simple;
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (attachment), callback,
-		user_data, e_attachment_load_async);
-
-	load_context = g_slice_new0 (LoadContext);
-	load_context->attachment = g_object_ref (attachment);
-	load_context->simple = simple;
-
-	attachment_set_loading (load_context->attachment, TRUE);
-
-	return load_context;
-}
-
-static void
-attachment_load_context_free (LoadContext *load_context)
-{
-	g_object_unref (load_context->attachment);
-
-	if (load_context->mime_part != NULL)
-		g_object_unref (load_context->mime_part);
-
-	if (load_context->simple)
-		g_object_unref (load_context->simple);
-
-	if (load_context->input_stream != NULL)
-		g_object_unref (load_context->input_stream);
-
-	if (load_context->output_stream != NULL)
-		g_object_unref (load_context->output_stream);
-
-	if (load_context->file_info != NULL)
-		g_object_unref (load_context->file_info);
-
-	g_slice_free (LoadContext, load_context);
-}
-
-static gboolean
-attachment_load_check_for_error (LoadContext *load_context,
-                                 GError *error)
-{
-	GSimpleAsyncResult *simple;
-
-	if (error == NULL)
-		return FALSE;
-
-	simple = load_context->simple;
-	g_simple_async_result_take_error (simple, error);
-	g_simple_async_result_complete (simple);
-
-	attachment_load_context_free (load_context);
-
-	return TRUE;
-}
-
-static void
-attachment_load_finish (LoadContext *load_context)
-{
 	GFileInfo *file_info;
 	EAttachment *attachment;
 	GMemoryOutputStream *output_stream;
-	GSimpleAsyncResult *simple;
 	CamelDataWrapper *wrapper;
 	CamelMimePart *mime_part;
 	CamelStream *stream;
-	const gchar *attribute;
 	const gchar *content_type;
 	const gchar *display_name;
 	const gchar *description;
@@ -2065,10 +2024,9 @@ attachment_load_finish (LoadContext *load_context)
 	gpointer data;
 	gsize size;
 
-	simple = load_context->simple;
-
+	load_context = g_task_get_task_data (task);
+	attachment = g_task_get_source_object (task);
 	file_info = load_context->file_info;
-	attachment = load_context->attachment;
 	output_stream = G_MEMORY_OUTPUT_STREAM (load_context->output_stream);
 
 	if (e_attachment_is_rfc822 (attachment))
@@ -2099,8 +2057,8 @@ attachment_load_finish (LoadContext *load_context)
 	if (display_name != NULL)
 		camel_mime_part_set_filename (mime_part, display_name);
 
-	attribute = G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION;
-	description = g_file_info_get_attribute_string (file_info, attribute);
+	description = g_file_info_get_attribute_string (file_info,
+		G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION);
 	if (description != NULL)
 		camel_mime_part_set_description (mime_part, description);
 
@@ -2112,37 +2070,43 @@ attachment_load_finish (LoadContext *load_context)
 	if (g_file_info_get_size (file_info) == 0)
 		g_file_info_set_size (file_info, size);
 
-	load_context->mime_part = mime_part;
+	attachment_load_finish_common (attachment, mime_part, file_info);
 
-	g_simple_async_result_set_op_res_gpointer (
-		simple, load_context,
-		(GDestroyNotify) attachment_load_context_free);
+	g_clear_object (&mime_part);
 
-	g_simple_async_result_complete (simple);
+	g_task_return_boolean (task, TRUE);
 
-	/* Make sure it's freed on operation end. */
-	g_clear_object (&load_context->simple);
+	g_object_unref (task);
 }
 
 static void
-attachment_load_write_cb (GOutputStream *output_stream,
+attachment_load_write_cb (GObject *source_object,
                           GAsyncResult *result,
-                          LoadContext *load_context)
+                          gpointer user_data)
 {
+	GOutputStream *output_stream;
+	GTask *task;
+	LoadContext *load_context;
 	EAttachment *attachment;
 	GCancellable *cancellable;
 	GInputStream *input_stream;
 	gssize bytes_written;
 	GError *error = NULL;
 
+	output_stream = G_OUTPUT_STREAM (source_object);
+	task = G_TASK (user_data);
 	bytes_written = g_output_stream_write_finish (
 		output_stream, result, &error);
 
-	if (attachment_load_check_for_error (load_context, error))
+	if (error) {
+		g_task_return_error (task, g_steal_pointer (&error));
+		g_object_unref (task);
 		return;
+	}
 
-	attachment = load_context->attachment;
-	cancellable = attachment->priv->cancellable;
+	attachment = g_task_get_source_object (task);
+	cancellable = g_task_get_cancellable (task);
+	load_context = g_task_get_task_data (task);
 	input_stream = load_context->input_stream;
 
 	attachment_progress_cb (
@@ -2161,42 +2125,47 @@ attachment_load_write_cb (GOutputStream *output_stream,
 			load_context->buffer,
 			load_context->bytes_read,
 			G_PRIORITY_DEFAULT, cancellable,
-			(GAsyncReadyCallback) attachment_load_write_cb,
-			load_context);
+			attachment_load_write_cb,
+			g_steal_pointer (&task));
 	} else
 		g_input_stream_read_async (
 			input_stream,
 			load_context->buffer,
 			sizeof (load_context->buffer),
 			G_PRIORITY_DEFAULT, cancellable,
-			(GAsyncReadyCallback) attachment_load_stream_read_cb,
-			load_context);
+			attachment_load_stream_read_cb,
+			g_steal_pointer (&task));
 }
 
 static void
-attachment_load_stream_read_cb (GInputStream *input_stream,
+attachment_load_stream_read_cb (GObject *source_object,
                                 GAsyncResult *result,
-                                LoadContext *load_context)
+                                gpointer user_data)
 {
-	EAttachment *attachment;
+	GInputStream *input_stream;
+	GTask *task;
+	LoadContext *load_context;
 	GCancellable *cancellable;
 	GOutputStream *output_stream;
 	gssize bytes_read;
 	GError *error = NULL;
 
-	bytes_read = g_input_stream_read_finish (
-		input_stream, result, &error);
-
-	if (attachment_load_check_for_error (load_context, error))
-		return;
-
-	if (bytes_read == 0) {
-		attachment_load_finish (load_context);
+	input_stream = G_INPUT_STREAM (source_object);
+	task = G_TASK (user_data);
+	bytes_read = g_input_stream_read_finish (input_stream, result, &error);
+	if (error) {
+		g_task_return_error (task, g_steal_pointer (&error));
+		g_object_unref (task);
 		return;
 	}
 
-	attachment = load_context->attachment;
-	cancellable = attachment->priv->cancellable;
+	if (bytes_read == 0) {
+		attachment_load_finish (g_steal_pointer (&task));
+		return;
+	}
+
+	load_context = g_task_get_task_data (task);
+	cancellable = g_task_get_cancellable (task);
 	output_stream = load_context->output_stream;
 	load_context->bytes_read = bytes_read;
 
@@ -2205,34 +2174,40 @@ attachment_load_stream_read_cb (GInputStream *input_stream,
 		load_context->buffer,
 		load_context->bytes_read,
 		G_PRIORITY_DEFAULT, cancellable,
-		(GAsyncReadyCallback) attachment_load_write_cb,
-		load_context);
+		attachment_load_write_cb,
+		g_steal_pointer (&task));
 }
 
 static void
-attachment_load_file_read_cb (GFile *file,
+attachment_load_file_read_cb (GObject *source_object,
                               GAsyncResult *result,
-                              LoadContext *load_context)
+                              gpointer user_data)
 {
-	EAttachment *attachment;
+	GFile *file;
+	GTask *task;
+	LoadContext *load_context;
 	GCancellable *cancellable;
 	GFileInputStream *input_stream;
 	GOutputStream *output_stream;
 	GError *error = NULL;
 
-	/* Input stream might be NULL, so don't use cast macro. */
+	file = G_FILE (source_object);
+	task = G_TASK (user_data);
+	load_context = g_task_get_task_data (task);
 	input_stream = g_file_read_finish (file, result, &error);
-	load_context->input_stream = (GInputStream *) input_stream;
-
-	if (attachment_load_check_for_error (load_context, error))
+	if (error) {
+		g_task_return_error (task, g_steal_pointer (&error));
+		g_object_unref (task);
 		return;
+	}
 
 	/* Load the contents into a GMemoryOutputStream. */
 	output_stream = g_memory_output_stream_new (
 		NULL, 0, g_realloc, g_free);
 
-	attachment = load_context->attachment;
-	cancellable = attachment->priv->cancellable;
+	cancellable = g_task_get_cancellable (task);
+
+	load_context->input_stream = G_INPUT_STREAM (input_stream);
 	load_context->output_stream = output_stream;
 
 	g_input_stream_read_async (
@@ -2241,7 +2216,7 @@ attachment_load_file_read_cb (GFile *file,
 		sizeof (load_context->buffer),
 		G_PRIORITY_DEFAULT, cancellable,
 		(GAsyncReadyCallback) attachment_load_stream_read_cb,
-		load_context);
+		g_steal_pointer (&task));
 }
 
 #ifdef HAVE_AUTOAR
@@ -2255,17 +2230,19 @@ attachment_load_created_decide_dest_cb (AutoarCompressor *compressor,
 
 static void
 attachment_load_created_cancelled_cb (AutoarCompressor *compressor,
-                                      LoadContext *load_context)
+                                      GTask *task)
 {
-	attachment_load_check_for_error (load_context,
-		g_error_new_literal (
-			G_IO_ERROR, G_IO_ERROR_CANCELLED, _("Operation was cancelled")));
+	g_task_return_new_error (task,
+		G_IO_ERROR,
+		G_IO_ERROR_CANCELLED,
+		_("Operation was cancelled"));
+	g_object_unref (task);
 	g_object_unref (compressor);
 }
 
 static void
 attachment_load_created_completed_cb (AutoarCompressor *compressor,
-                                      LoadContext *load_context)
+                                      GTask *task)
 {
 	EAttachment *attachment;
 	GFile *file;
@@ -2275,13 +2252,13 @@ attachment_load_created_completed_cb (AutoarCompressor *compressor,
 	/* We have set the file to the created temporary archive, so we can
 	 * query info again and use the regular procedure to load the
 	 * attachment. */
-	attachment = load_context->attachment;
+	attachment = g_task_get_source_object (task);
 	file = e_attachment_ref_file (attachment);
 	g_file_query_info_async (
 		file, ATTACHMENT_QUERY,
 		G_FILE_QUERY_INFO_NONE, G_PRIORITY_DEFAULT,
-		attachment->priv->cancellable, (GAsyncReadyCallback)
-		attachment_load_query_info_cb, load_context);
+		g_task_get_cancellable (task),
+		attachment_load_query_info_cb, task);
 
 	g_clear_object (&file);
 }
@@ -2289,29 +2266,39 @@ attachment_load_created_completed_cb (AutoarCompressor *compressor,
 static void
 attachment_load_created_error_cb (AutoarCompressor *compressor,
                                   GError *error,
-                                  LoadContext *load_context)
+                                  GTask *task)
 {
-	attachment_load_check_for_error (load_context, g_error_copy (error));
+	g_task_return_error (task, g_error_copy (error));
+	g_object_unref (task);
 	g_object_unref (compressor);
 }
 #endif
 
 static void
-attachment_load_query_info_cb (GFile *file,
+attachment_load_query_info_cb (GObject *source_object,
                                GAsyncResult *result,
-                               LoadContext *load_context)
+                               gpointer user_data)
 {
+	GFile *file;
+	GTask *task;
+	LoadContext *load_context;
 	EAttachment *attachment;
 	GCancellable *cancellable;
 	GFileInfo *file_info;
 	GError *error = NULL;
 
-	attachment = load_context->attachment;
-	cancellable = attachment->priv->cancellable;
+	file = G_FILE (source_object);
+	task = G_TASK (user_data);
+	attachment = g_task_get_source_object (task);
+	cancellable = g_task_get_cancellable (task);
+	load_context = g_task_get_task_data (task);
 
 	file_info = g_file_query_info_finish (file, result, &error);
-	if (attachment_load_check_for_error (load_context, error))
+	if (error) {
+		g_task_return_error (task, g_steal_pointer (&error));
+		g_object_unref (task);
 		return;
+	}
 
 	e_attachment_set_file_info (attachment, file_info);
 	load_context->file_info = file_info;
@@ -2330,8 +2317,11 @@ attachment_load_query_info_cb (GFile *file,
 		gint filter;
 
 		temporary = attachment_get_temporary (&error);
-		if (attachment_load_check_for_error (load_context, error))
+		if (error) {
+			g_task_return_error (task, g_steal_pointer (&error));
+			g_object_unref (task);
 			return;
+		}
 
 		settings = e_util_ref_settings ("org.gnome.evolution.shell");
 
@@ -2352,11 +2342,11 @@ attachment_load_query_info_cb (GFile *file,
 		g_signal_connect (compressor, "decide-dest",
 			G_CALLBACK (attachment_load_created_decide_dest_cb), attachment);
 		g_signal_connect (compressor, "cancelled",
-			G_CALLBACK (attachment_load_created_cancelled_cb), load_context);
+			G_CALLBACK (attachment_load_created_cancelled_cb), task);
 		g_signal_connect (compressor, "completed",
-			G_CALLBACK (attachment_load_created_completed_cb), load_context);
+			G_CALLBACK (attachment_load_created_completed_cb), task);
 		g_signal_connect (compressor, "error",
-			G_CALLBACK (attachment_load_created_error_cb), load_context);
+			G_CALLBACK (attachment_load_created_error_cb), task);
 		autoar_compressor_start_async (compressor, cancellable);
 
 		g_object_unref (settings);
@@ -2367,22 +2357,19 @@ attachment_load_query_info_cb (GFile *file,
 	} else {
 #endif
 		g_file_read_async (
-			file, G_PRIORITY_DEFAULT,
-			cancellable, (GAsyncReadyCallback)
-			attachment_load_file_read_cb, load_context);
+			file, G_PRIORITY_DEFAULT, cancellable,
+			attachment_load_file_read_cb, g_steal_pointer (&task));
 #ifdef HAVE_AUTOAR
 	}
 #endif
 }
 
-#define ATTACHMENT_LOAD_CONTEXT "attachment-load-context-data"
-
 static void
-attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
-                                       GObject *object,
+attachment_load_from_mime_part_thread (GTask *task,
+                                       gpointer source_object,
+                                       gpointer task_data,
                                        GCancellable *cancellable)
 {
-	LoadContext *load_context;
 	GFileInfo *file_info;
 	EAttachment *attachment;
 	CamelContentType *content_type;
@@ -2393,16 +2380,10 @@ attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
 	gsize bytes_written;
 	CamelDataWrapper *dw;
 
-	load_context = g_object_get_data (
-		G_OBJECT (simple), ATTACHMENT_LOAD_CONTEXT);
-	g_return_if_fail (load_context != NULL);
-	g_object_set_data (G_OBJECT (simple), ATTACHMENT_LOAD_CONTEXT, NULL);
-
-	attachment = load_context->attachment;
+	attachment = E_ATTACHMENT (source_object);
 	mime_part = e_attachment_ref_mime_part (attachment);
 
 	file_info = g_file_info_new ();
-	load_context->file_info = file_info;
 
 	content_type = camel_mime_part_get_content_type (mime_part);
 	allocated = camel_content_type_simple (content_type);
@@ -2498,16 +2479,12 @@ attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
 	bytes_written = camel_data_wrapper_calculate_decoded_size_sync (dw, attachment->priv->cancellable, NULL);
 	g_file_info_set_size (file_info, bytes_written);
 
-	load_context->mime_part = g_object_ref (mime_part);
-
-	/* Make sure it's freed on operation end. */
-	g_clear_object (&load_context->simple);
-
-	g_simple_async_result_set_op_res_gpointer (
-		simple, load_context,
-		(GDestroyNotify) attachment_load_context_free);
+	attachment_load_finish_common (attachment, mime_part, file_info);
 
 	g_clear_object (&mime_part);
+	g_clear_object (&file_info);
+
+	g_task_return_boolean (task, TRUE);
 }
 
 void
@@ -2515,7 +2492,7 @@ e_attachment_load_async (EAttachment *attachment,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
-	LoadContext *load_context;
+	GTask *task;
 	GCancellable *cancellable;
 	CamelMimePart *mime_part;
 	GFile *file;
@@ -2523,16 +2500,18 @@ e_attachment_load_async (EAttachment *attachment,
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
 	if (e_attachment_get_loading (attachment)) {
-		g_simple_async_report_error_in_idle (
-			G_OBJECT (attachment), callback, user_data,
+		g_task_report_new_error (
+			attachment, callback, user_data,
+			e_attachment_load_async,
 			G_IO_ERROR, G_IO_ERROR_BUSY,
 			_("A load operation is already in progress"));
 		return;
 	}
 
 	if (e_attachment_get_saving (attachment)) {
-		g_simple_async_report_error_in_idle (
-			G_OBJECT (attachment), callback, user_data,
+		g_task_report_new_error (
+			attachment, callback, user_data,
+			e_attachment_load_async,
 			G_IO_ERROR, G_IO_ERROR_BUSY,
 			_("A save operation is already in progress"));
 		return;
@@ -2542,29 +2521,27 @@ e_attachment_load_async (EAttachment *attachment,
 	mime_part = e_attachment_ref_mime_part (attachment);
 	g_return_if_fail (file != NULL || mime_part != NULL);
 
-	load_context = attachment_load_context_new (
-		attachment, callback, user_data);
-
 	cancellable = attachment->priv->cancellable;
 	g_cancellable_reset (cancellable);
 
+	task = g_task_new (attachment, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_attachment_load_async);
+
+	attachment_set_loading (attachment, TRUE);
 	if (file != NULL) {
+		LoadContext *load_context;
+
+		load_context = g_new0 (LoadContext, 1);
+		g_task_set_task_data (task, g_steal_pointer (&load_context), attachment_load_context_free);
 		g_file_query_info_async (
 			file, ATTACHMENT_QUERY,
 			G_FILE_QUERY_INFO_NONE,G_PRIORITY_DEFAULT,
 			cancellable, (GAsyncReadyCallback)
-			attachment_load_query_info_cb, load_context);
+			attachment_load_query_info_cb, g_steal_pointer (&task));
 
 	} else if (mime_part != NULL) {
-		g_object_set_data (
-			G_OBJECT (load_context->simple),
-			ATTACHMENT_LOAD_CONTEXT, load_context);
-
-		g_simple_async_result_run_in_thread (
-			load_context->simple,
-			attachment_load_from_mime_part_thread,
-			G_PRIORITY_DEFAULT,
-			cancellable);
+		g_task_run_in_thread (task, attachment_load_from_mime_part_thread);
+		g_clear_object (&task);
 	}
 
 	g_clear_object (&file);
@@ -2576,37 +2553,15 @@ e_attachment_load_finish (EAttachment *attachment,
                           GAsyncResult *result,
                           GError **error)
 {
-	GSimpleAsyncResult *simple;
-	const LoadContext *load_context;
+	gboolean res;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
-	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
+	g_return_val_if_fail (g_task_is_valid (result, attachment), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_attachment_load_async), FALSE);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	if (g_simple_async_result_propagate_error (simple, error)) {
-		attachment_set_loading (attachment, FALSE);
-		return FALSE;
-	}
-
-	load_context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (load_context != NULL && load_context->mime_part != NULL) {
-		const gchar *string;
-
-		string = camel_mime_part_get_disposition (
-			load_context->mime_part);
-		e_attachment_set_disposition (attachment, string);
-
-		e_attachment_set_file_info (
-			attachment, load_context->file_info);
-		e_attachment_set_mime_part (
-			attachment, load_context->mime_part);
-		e_attachment_set_may_reload (attachment, FALSE);
-	}
-
+	res = g_task_propagate_boolean (G_TASK (result), error);
 	attachment_set_loading (attachment, FALSE);
-
-	return (load_context != NULL);
+	return res;
 }
 
 void
@@ -2932,9 +2887,6 @@ e_attachment_open (EAttachment *attachment,
 typedef struct _SaveContext SaveContext;
 
 struct _SaveContext {
-	EAttachment *attachment;
-	GSimpleAsyncResult *simple;
-
 	GFile *directory;
 	GFile *destination;
 	GInputStream *input_stream;
@@ -2958,39 +2910,13 @@ struct _SaveContext {
 
 /* Forward Declaration */
 static void
-attachment_save_read_cb (GInputStream *input_stream,
-                         GAsyncResult *result,
-                         SaveContext *save_context);
-
-static SaveContext *
-attachment_save_context_new (EAttachment *attachment,
-                             GAsyncReadyCallback callback,
-                             gpointer user_data)
-{
-	SaveContext *save_context;
-	GSimpleAsyncResult *simple;
-
-	simple = g_simple_async_result_new (
-		G_OBJECT (attachment), callback,
-		user_data, e_attachment_save_async);
-
-	save_context = g_slice_new0 (SaveContext);
-	save_context->attachment = g_object_ref (attachment);
-	save_context->simple = simple;
-
-	g_mutex_init (&(save_context->completed_tasks_mutex));
-	g_mutex_init (&(save_context->prepared_tasks_mutex));
-
-	attachment_set_saving (save_context->attachment, TRUE);
-
-	return save_context;
-}
+attachment_save_read_cb (GObject *source_object,
+                         GAsyncResult *res,
+                         gpointer user_data);
 
 static void
 attachment_save_context_free (SaveContext *save_context)
 {
-	g_object_unref (save_context->attachment);
-	g_object_unref (save_context->simple);
 	g_clear_object (&save_context->directory);
 	g_clear_object (&save_context->destination);
 	g_clear_object (&save_context->input_stream);
@@ -3000,58 +2926,27 @@ attachment_save_context_free (SaveContext *save_context)
 	g_clear_object (&save_context->temporary_file);
 	g_mutex_clear (&(save_context->completed_tasks_mutex));
 	g_mutex_clear (&(save_context->prepared_tasks_mutex));
-	g_slice_free (SaveContext, save_context);
-}
-
-static gboolean
-attachment_save_check_for_error (SaveContext *save_context,
-                                 GError *error)
-{
-	GSimpleAsyncResult *simple;
-
-	if (error == NULL)
-		return FALSE;
-
-	simple = save_context->simple;
-	g_simple_async_result_take_error (simple, error);
-
-	g_mutex_lock (&(save_context->completed_tasks_mutex));
-	if (++save_context->completed_tasks >= save_context->total_tasks) {
-		g_simple_async_result_complete (simple);
-		g_mutex_unlock (&(save_context->completed_tasks_mutex));
-		attachment_save_context_free (save_context);
-	} else {
-		g_mutex_unlock (&(save_context->completed_tasks_mutex));
-	}
-
-	return TRUE;
+	g_free (save_context);
 }
 
 static void
-attachment_save_complete (SaveContext *save_context) {
+attachment_save_complete (GTask *task) {
+	SaveContext *save_context = g_task_get_task_data (task);
 	g_mutex_lock (&(save_context->completed_tasks_mutex));
 	if (++save_context->completed_tasks >= save_context->total_tasks) {
-		GSimpleAsyncResult *simple;
 		GFile *result;
 
-		/* Steal the destination. */
-		result = save_context->destination;
-		save_context->destination = NULL;
+		result = g_steal_pointer (&save_context->destination);
+		if (result == NULL)
+			result = g_steal_pointer (&save_context->directory);
 
-		if (result == NULL) {
-			result = save_context->directory;
-			save_context->directory = NULL;
-		}
-
-		simple = save_context->simple;
-		g_simple_async_result_set_op_res_gpointer (
-			simple, result, (GDestroyNotify) g_object_unref);
-		g_simple_async_result_complete (simple);
+		g_task_return_pointer (task, g_steal_pointer (&result), g_object_unref);
 		g_mutex_unlock (&(save_context->completed_tasks_mutex));
-		attachment_save_context_free (save_context);
 	} else {
 		g_mutex_unlock (&(save_context->completed_tasks_mutex));
 	}
+
+	g_object_unref (task);
 }
 
 static gchar *
@@ -3082,15 +2977,13 @@ get_new_name_with_count (const gchar *initial_name,
 }
 
 static GFile *
-attachment_save_new_candidate (SaveContext *save_context)
+attachment_save_new_candidate (EAttachment *attachment, SaveContext *save_context)
 {
 	GFile *candidate;
 	GFileInfo *file_info;
-	EAttachment *attachment;
 	const gchar *display_name = NULL;
 	gchar *basename, *allocated;
 
-	attachment = save_context->attachment;
 	file_info = e_attachment_ref_file_info (attachment);
 
 	if (file_info != NULL)
@@ -3117,24 +3010,36 @@ attachment_save_new_candidate (SaveContext *save_context)
 }
 
 static void
-attachment_save_write_cb (GOutputStream *output_stream,
+attachment_save_write_cb (GObject *source_object,
                           GAsyncResult *result,
-                          SaveContext *save_context)
+                          gpointer user_data)
 {
-	EAttachment *attachment;
+	GOutputStream *output_stream;
+	GTask *task;
+	SaveContext *save_context;
 	GCancellable *cancellable;
 	GInputStream *input_stream;
 	gssize bytes_written;
 	GError *error = NULL;
 
-	bytes_written = g_output_stream_write_finish (
-		output_stream, result, &error);
+	output_stream = G_OUTPUT_STREAM (source_object);
+	task = G_TASK (user_data);
+	bytes_written = g_output_stream_write_finish (output_stream, result, &error);
 
-	if (attachment_save_check_for_error (save_context, error))
+	if (error) {
+		if (!g_task_had_error (task))
+			g_task_return_error (task, g_steal_pointer (&error));
+		else
+			g_clear_error (&error);
+
+		g_object_unref (task);
 		return;
+	}
 
-	attachment = save_context->attachment;
-	cancellable = attachment->priv->cancellable;
+	g_clear_error (&error);
+
+	cancellable = g_task_get_cancellable (task);
+	save_context = g_task_get_task_data (task);
 	input_stream = save_context->input_stream;
 
 	if (bytes_written < save_context->bytes_read) {
@@ -3149,42 +3054,57 @@ attachment_save_write_cb (GOutputStream *output_stream,
 			save_context->buffer,
 			save_context->bytes_read,
 			G_PRIORITY_DEFAULT, cancellable,
-			(GAsyncReadyCallback) attachment_save_write_cb,
-			save_context);
+			attachment_save_write_cb,
+			g_steal_pointer (&task));
 	} else
 		g_input_stream_read_async (
 			input_stream,
 			save_context->buffer,
 			sizeof (save_context->buffer),
 			G_PRIORITY_DEFAULT, cancellable,
-			(GAsyncReadyCallback) attachment_save_read_cb,
-			save_context);
+			attachment_save_read_cb,
+			g_steal_pointer (&task));
 }
 
 static void
-attachment_save_read_cb (GInputStream *input_stream,
+attachment_save_read_cb (GObject *source_object,
                          GAsyncResult *result,
-                         SaveContext *save_context)
+                         gpointer user_data)
 {
+	GInputStream *input_stream;
+	GTask *task;
+	SaveContext *save_context;
 	EAttachment *attachment;
 	GCancellable *cancellable;
 	GOutputStream *output_stream;
 	gssize bytes_read;
 	GError *error = NULL;
 
+	input_stream = G_INPUT_STREAM (source_object);
+	task = G_TASK (user_data);
 	bytes_read = g_input_stream_read_finish (
 		input_stream, result, &error);
 
-	if (attachment_save_check_for_error (save_context, error))
-		return;
+	if (error) {
+		if (!g_task_had_error (task))
+			g_task_return_error (task, g_steal_pointer (&error));
+		else
+			g_clear_error (&error);
 
-	if (bytes_read == 0) {
-		attachment_save_complete (save_context);
+		g_object_unref (task);
 		return;
 	}
 
-	attachment = save_context->attachment;
-	cancellable = attachment->priv->cancellable;
+	g_clear_error (&error);
+
+	if (bytes_read == 0) {
+		attachment_save_complete (g_steal_pointer (&task));
+		return;
+	}
+
+	attachment = g_task_get_source_object (task);
+	cancellable = g_task_get_cancellable (task);
+	save_context = g_task_get_task_data (task);
 	output_stream = save_context->output_stream;
 	save_context->bytes_read = bytes_read;
 
@@ -3197,8 +3117,8 @@ attachment_save_read_cb (GInputStream *input_stream,
 		save_context->buffer,
 		save_context->bytes_read,
 		G_PRIORITY_DEFAULT, cancellable,
-		(GAsyncReadyCallback) attachment_save_write_cb,
-		save_context);
+		attachment_save_write_cb,
+		g_steal_pointer (&task));
 }
 
 #ifdef HAVE_AUTOAR
@@ -3206,7 +3126,7 @@ static GFile*
 attachment_save_extracted_decide_destination_cb (AutoarExtractor *extractor,
                                                  GFile *destination,
                                                  GList *files,
-                                                 SaveContext *save_context)
+                                                 gpointer user_data)
 {
 	gchar *basename;
 	GFile *destination_directory;
@@ -3241,86 +3161,100 @@ static void
 attachment_save_extracted_progress_cb (AutoarExtractor *extractor,
                                        guint64 completed_size,
                                        guint completed_files,
-                                       SaveContext *save_context)
+                                       EAttachment *attachment)
 {
 	attachment_progress_cb (
 		autoar_extractor_get_total_size (extractor),
-		completed_size, save_context->attachment);
+		completed_size, attachment);
 }
 
 static void
 attachment_save_extracted_cancelled_cb (AutoarExtractor *extractor,
-                                        SaveContext *save_context)
+                                        GTask *task)
 {
-	if (attachment_save_check_for_error (save_context,
-		g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, _("Operation was cancelled")))) {
-		;
+	if (!g_task_had_error (task)) {
+		g_task_return_new_error (task, G_IO_ERROR, G_IO_ERROR_CANCELLED, _("Operation was cancelled"));
 	}
 
+	g_object_unref (task);
 	g_object_unref (extractor);
 }
 
 static void
 attachment_save_extracted_completed_cb (AutoarExtractor *extractor,
-                                        SaveContext *save_context)
+                                        GTask *task)
 {
-	attachment_save_complete (save_context);
+	attachment_save_complete (g_steal_pointer (&task));
 	g_object_unref (extractor);
 }
 
 static void
 attachment_save_extracted_error_cb (AutoarExtractor *extractor,
                                     GError *error,
-                                    SaveContext *save_context)
+                                    GTask *task)
 {
-	if (attachment_save_check_for_error (save_context, g_error_copy (error))) {
-		;
+	if (!g_task_had_error (task)) {
+		g_task_return_error (task, g_error_copy (error));
 	}
 
+	g_object_unref (task);
 	g_object_unref (extractor);
 }
 
 static void
-attachment_save_write_archive_cb (GOutputStream *output_stream,
-                                   GAsyncResult *result,
-                                   SaveContext *save_context)
+attachment_save_write_archive_cb (GObject *source_object,
+                                  GAsyncResult *result,
+                                  gpointer user_data)
 {
+	GTask *task;
+	GCancellable *cancellable;
+	EAttachment *attachment;
+	SaveContext *save_context;
 	AutoarExtractor *extractor;
 	GError *error = NULL;
 	gsize bytes_written;
 
 	g_output_stream_write_all_finish (
-		output_stream, result, &bytes_written, &error);
+		G_OUTPUT_STREAM (source_object), result, &bytes_written, &error);
 
-	g_object_unref (output_stream);
+	task = G_TASK (user_data);
+	if (error) {
+		if (!g_task_had_error (task))
+			g_task_return_error (task, g_steal_pointer (&error));
+		else
+			g_clear_error (&error);
 
-	if (attachment_save_check_for_error (save_context, error)) {
+		g_object_unref (task);
 		return;
 	}
 
+	g_clear_error (&error);
+
+	save_context = g_task_get_task_data (task);
 	extractor = autoar_extractor_new (
 		save_context->temporary_file, save_context->directory);
+	attachment = g_task_get_source_object (task);
 
 	autoar_extractor_set_delete_after_extraction (extractor, TRUE);
 
 	g_signal_connect (extractor, "decide-destination",
 		G_CALLBACK (attachment_save_extracted_decide_destination_cb),
-		save_context);
+		NULL);
 	g_signal_connect (extractor, "progress",
 		G_CALLBACK (attachment_save_extracted_progress_cb),
-		save_context);
+		attachment);
 	g_signal_connect (extractor, "cancelled",
 		G_CALLBACK (attachment_save_extracted_cancelled_cb),
-		save_context);
+		task);
 	g_signal_connect (extractor, "error",
 		G_CALLBACK (attachment_save_extracted_error_cb),
-		save_context);
+		task);
 	g_signal_connect (extractor, "completed",
 		G_CALLBACK (attachment_save_extracted_completed_cb),
-		save_context);
+		task);
 
-	autoar_extractor_start_async (
-		extractor, save_context->attachment->priv->cancellable);
+	cancellable = g_task_get_cancellable (task);
+	autoar_extractor_start_async (extractor, cancellable);
 
 	/* We do not g_object_unref (extractor); here because
 	 * autoar_extractor_run_start_async () does not increase the
@@ -3329,34 +3263,50 @@ attachment_save_write_archive_cb (GOutputStream *output_stream,
 }
 
 static void
-attachment_save_create_archive_cb (GFile *file,
+attachment_save_create_archive_cb (GObject *source_object,
                                    GAsyncResult *result,
-                                   SaveContext *save_context)
+                                   gpointer user_data)
 {
+	SaveContext *save_context;
+	GCancellable *cancellable;
 	GFileOutputStream *output_stream;
 	GError *error = NULL;
+	GTask *task;
 
-	output_stream = g_file_create_finish (file, result, &error);
+	task = G_TASK (user_data);
+	output_stream = g_file_create_finish (G_FILE (source_object), result, &error);
 
-	if (attachment_save_check_for_error (save_context, error)) {
+	if (error) {
+		if (!g_task_had_error (task))
+			g_task_return_error (task, g_steal_pointer (&error));
+		else
+			g_clear_error (&error);
+
+		g_object_unref (task);
 		return;
 	}
 
+	g_clear_error (&error);
+
+	cancellable = g_task_get_cancellable (task);
+	save_context = g_task_get_task_data (task);
 	g_output_stream_write_all_async (
 		G_OUTPUT_STREAM (output_stream),
 		save_context->input_buffer->data,
 		save_context->input_buffer->len,
 		G_PRIORITY_DEFAULT,
-		save_context->attachment->priv->cancellable,
-		(GAsyncReadyCallback) attachment_save_write_archive_cb,
-		save_context);
+		cancellable,
+		attachment_save_write_archive_cb,
+		g_steal_pointer (&task));
+	g_object_unref (output_stream);
 }
 
 #endif
 
 static void
-attachment_save_got_output_stream (SaveContext *save_context)
+attachment_save_got_output_stream (GTask *task)
 {
+	SaveContext *save_context;
 	GCancellable *cancellable;
 	GInputStream *input_stream;
 	CamelDataWrapper *wrapper;
@@ -3365,8 +3315,9 @@ attachment_save_got_output_stream (SaveContext *save_context)
 	EAttachment *attachment;
 	GByteArray *buffer;
 
-	attachment = save_context->attachment;
-	cancellable = attachment->priv->cancellable;
+	attachment = g_task_get_source_object (task);
+	cancellable = g_task_get_cancellable (task);
+	save_context = g_task_get_task_data (task);
 	mime_part = e_attachment_ref_mime_part (attachment);
 
 	/* Decode the MIME part to an in-memory buffer.  We have to do
@@ -3397,8 +3348,8 @@ attachment_save_got_output_stream (SaveContext *save_context)
 			save_context->buffer,
 			sizeof (save_context->buffer),
 			G_PRIORITY_DEFAULT, cancellable,
-			(GAsyncReadyCallback) attachment_save_read_cb,
-			save_context);
+			attachment_save_read_cb,
+			g_object_ref (task));
 	}
 
 #ifdef HAVE_AUTOAR
@@ -3407,8 +3358,17 @@ attachment_save_got_output_stream (SaveContext *save_context)
 		GError *error = NULL;
 
 		temporary_directory = attachment_get_temporary (&error);
-		if (attachment_save_check_for_error (save_context, error))
+		if (error) {
+			if (!g_task_had_error (task))
+				g_task_return_error (task, g_steal_pointer (&error));
+			else
+				g_clear_error (&error);
+
+			g_object_unref (task);
 			return;
+		}
+
+		g_clear_error (&error);
 
 		save_context->temporary_file = g_file_get_child (
 			temporary_directory, save_context->suggested_destname);
@@ -3418,8 +3378,8 @@ attachment_save_got_output_stream (SaveContext *save_context)
 			G_FILE_CREATE_NONE,
 			G_PRIORITY_DEFAULT,
 			cancellable,
-			(GAsyncReadyCallback) attachment_save_create_archive_cb,
-			save_context);
+			attachment_save_create_archive_cb,
+			g_object_ref (task));
 
 		g_object_unref (temporary_directory);
 	}
@@ -3429,94 +3389,136 @@ attachment_save_got_output_stream (SaveContext *save_context)
 }
 
 static void
-attachment_save_create_cb (GFile *destination,
+attachment_save_create_cb (GObject *source_object,
                            GAsyncResult *result,
-                           SaveContext *save_context)
+                           gpointer user_data)
 {
-	EAttachment *attachment;
-	GCancellable *cancellable;
+	GFile *destination;
+	GTask *task;
+	SaveContext *save_context;
 	GFileOutputStream *output_stream;
 	GError *error = NULL;
+
+	destination = G_FILE (source_object);
+	task = G_TASK (user_data);
+	save_context = g_task_get_task_data (task);
 
 	/* Output stream might be NULL, so don't use cast macro. */
 	output_stream = g_file_create_finish (destination, result, &error);
 	save_context->output_stream = (GOutputStream *) output_stream;
 
-	attachment = save_context->attachment;
-	cancellable = attachment->priv->cancellable;
-
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
-		destination = attachment_save_new_candidate (save_context);
+		EAttachment *attachment;
+		GCancellable *cancellable;
+
+		attachment = g_task_get_source_object (task);
+		cancellable = g_task_get_cancellable (task);
+		destination = attachment_save_new_candidate (attachment, save_context);
 
 		g_file_create_async (
 			destination, G_FILE_CREATE_NONE,
 			G_PRIORITY_DEFAULT, cancellable,
-			(GAsyncReadyCallback) attachment_save_create_cb,
-			save_context);
+			attachment_save_create_cb,
+			g_steal_pointer (&task));
 
 		g_object_unref (destination);
 		g_error_free (error);
 		return;
 	}
 
-	if (attachment_save_check_for_error (save_context, error))
+	if (error) {
+		if (!g_task_had_error (task))
+			g_task_return_error (task, g_steal_pointer (&error));
+		else
+			g_clear_error (&error);
+
+		g_object_unref (task);
 		return;
+	}
+
+	g_clear_error (&error);
 
 	save_context->destination = g_object_ref (destination);
 
 	g_mutex_lock (&(save_context->prepared_tasks_mutex));
 	if (++save_context->prepared_tasks >= save_context->total_tasks)
-		attachment_save_got_output_stream (save_context);
+		attachment_save_got_output_stream (task);
 	g_mutex_unlock (&(save_context->prepared_tasks_mutex));
+	g_object_unref (task);
 }
 
 static void
-attachment_save_replace_cb (GFile *destination,
+attachment_save_replace_cb (GObject *source_object,
                             GAsyncResult *result,
-                            SaveContext *save_context)
+                            gpointer user_data)
 {
+	GFile *destination;
+	GTask *task;
+	SaveContext *save_context;
 	GFileOutputStream *output_stream;
 	GError *error = NULL;
 
+	destination = G_FILE (source_object);
+	task = G_TASK (user_data);
+	save_context = g_task_get_task_data (task);
 	/* Output stream might be NULL, so don't use cast macro. */
 	output_stream = g_file_replace_finish (destination, result, &error);
 	save_context->output_stream = (GOutputStream *) output_stream;
 
-	if (attachment_save_check_for_error (save_context, error))
+	if (error) {
+		if (!g_task_had_error (task))
+			g_task_return_error (task, g_steal_pointer (&error));
+		else
+			g_clear_error (&error);
+
+		g_object_unref (task);
 		return;
+	}
+
+	g_clear_error (&error);
 
 	save_context->destination = g_object_ref (destination);
 
 	g_mutex_lock (&(save_context->prepared_tasks_mutex));
 	if (++save_context->prepared_tasks >= save_context->total_tasks)
-		attachment_save_got_output_stream (save_context);
+		attachment_save_got_output_stream (task);
 	g_mutex_unlock (&(save_context->prepared_tasks_mutex));
+	g_object_unref (task);
 }
 
 static void
-attachment_save_query_info_cb (GFile *destination,
+attachment_save_query_info_cb (GObject *source_object,
                                GAsyncResult *result,
-                               SaveContext *save_context)
+                               gpointer user_data)
 {
+	GFile *destination;
+	GTask *task;
 	EAttachment *attachment;
 	GCancellable *cancellable;
 	GFileInfo *file_info;
 	GFileType file_type;
 	GError *error = NULL;
+	SaveContext *save_context;
 
-	attachment = save_context->attachment;
-	cancellable = attachment->priv->cancellable;
-
+	destination = G_FILE (source_object);
+	task = G_TASK (user_data);
 	file_info = g_file_query_info_finish (destination, result, &error);
 
-	/* G_IO_ERROR_NOT_FOUND just means we're creating a new file. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
-		g_error_free (error);
-		goto replace;
-	}
+	attachment = g_task_get_source_object (task);
+	cancellable = g_task_get_cancellable (task);
+	save_context = g_task_get_task_data (task);
 
-	if (attachment_save_check_for_error (save_context, error))
+	/* G_IO_ERROR_NOT_FOUND just means we're creating a new file. */
+	if (error) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
+			g_error_free (error);
+			goto replace;
+		}
+
+		g_task_return_error (task, g_steal_pointer (&error));
+		g_object_unref (task);
 		return;
+	}
 
 	file_type = g_file_info_get_file_type (file_info);
 	g_object_unref (file_info);
@@ -3525,13 +3527,13 @@ attachment_save_query_info_cb (GFile *destination,
 		save_context->directory = g_object_ref (destination);
 
 		if (attachment->priv->save_self) {
-			destination = attachment_save_new_candidate (save_context);
+			destination = attachment_save_new_candidate (attachment, save_context);
 
 			g_file_create_async (
 				destination, G_FILE_CREATE_NONE,
 				G_PRIORITY_DEFAULT, cancellable,
-				(GAsyncReadyCallback) attachment_save_create_cb,
-				save_context);
+				attachment_save_create_cb,
+				g_object_ref (task));
 
 			g_object_unref (destination);
 		}
@@ -3539,24 +3541,25 @@ attachment_save_query_info_cb (GFile *destination,
 #ifdef HAVE_AUTOAR
 		if (attachment->priv->save_extracted) {
 			GFileInfo *info;
-			gchar *suggested;
+			const gchar *suggested;
 
 			suggested = NULL;
 			info = e_attachment_ref_file_info (attachment);
 			if (info != NULL)
-				suggested = g_strdup (
-					g_file_info_get_display_name (info));
+				suggested = g_file_info_get_display_name (info);
 			if (suggested == NULL)
-				suggested = g_strdup (_("attachment.dat"));
+				suggested = _("attachment.dat");
 
-			save_context->suggested_destname = suggested;
+			save_context->suggested_destname = g_strdup (suggested);
+			g_clear_object (&info);
 
 			g_mutex_lock (&(save_context->prepared_tasks_mutex));
 			if (++save_context->prepared_tasks >= save_context->total_tasks)
-				attachment_save_got_output_stream (save_context);
+				attachment_save_got_output_stream (task);
 			g_mutex_unlock (&(save_context->prepared_tasks_mutex));
 		}
 #endif
+		g_object_unref (task);
 		return;
 	}
 
@@ -3566,8 +3569,8 @@ replace:
 			destination, NULL, FALSE,
 			G_FILE_CREATE_REPLACE_DESTINATION,
 			G_PRIORITY_DEFAULT, cancellable,
-			(GAsyncReadyCallback) attachment_save_replace_cb,
-			save_context);
+			attachment_save_replace_cb,
+			g_object_ref (task));
 	}
 
 #ifdef HAVE_AUTOAR
@@ -3585,10 +3588,11 @@ replace:
 
 		g_mutex_lock (&(save_context->prepared_tasks_mutex));
 		if (++save_context->prepared_tasks >= save_context->total_tasks)
-			attachment_save_got_output_stream (save_context);
+			attachment_save_got_output_stream (task);
 		g_mutex_unlock (&(save_context->prepared_tasks_mutex));
 	}
 #endif
+	g_object_unref (task);
 }
 
 void
@@ -3597,6 +3601,7 @@ e_attachment_save_async (EAttachment *attachment,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
+	GTask *task;
 	SaveContext *save_context;
 	GCancellable *cancellable;
 
@@ -3604,16 +3609,18 @@ e_attachment_save_async (EAttachment *attachment,
 	g_return_if_fail (G_IS_FILE (destination));
 
 	if (e_attachment_get_loading (attachment)) {
-		g_simple_async_report_error_in_idle (
-			G_OBJECT (attachment), callback, user_data,
+		g_task_report_new_error (
+			attachment, callback, user_data,
+			e_attachment_save_async,
 			G_IO_ERROR, G_IO_ERROR_BUSY,
 			_("A load operation is already in progress"));
 		return;
 	}
 
 	if (e_attachment_get_saving (attachment)) {
-		g_simple_async_report_error_in_idle (
-			G_OBJECT (attachment), callback, user_data,
+		g_task_report_new_error (
+			attachment, callback, user_data,
+			e_attachment_save_async,
 			G_IO_ERROR, G_IO_ERROR_BUSY,
 			_("A save operation is already in progress"));
 		return;
@@ -3621,15 +3628,22 @@ e_attachment_save_async (EAttachment *attachment,
 
 	/* Just peek, don't reference. */
 	if (attachment->priv->mime_part == NULL) {
-		g_simple_async_report_error_in_idle (
-			G_OBJECT (attachment), callback, user_data,
+		g_task_report_new_error (
+			attachment, callback, user_data,
+			e_attachment_save_async,
 			G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT,
 			_("Attachment contents not loaded"));
 		return;
 	}
 
-	save_context = attachment_save_context_new (
-		attachment, callback, user_data);
+	save_context = g_new0 (SaveContext, 1);
+	g_mutex_init (&(save_context->completed_tasks_mutex));
+	g_mutex_init (&(save_context->prepared_tasks_mutex));
+
+	cancellable = attachment->priv->cancellable;
+	g_cancellable_reset (cancellable);
+
+	attachment_set_saving (attachment, TRUE);
 
 	/* No task is not allowed. */
 	if (!attachment->priv->save_self && !attachment->priv->save_extracted)
@@ -3642,15 +3656,18 @@ e_attachment_save_async (EAttachment *attachment,
 		save_context->total_tasks++;
 #endif
 
-	cancellable = attachment->priv->cancellable;
-	g_cancellable_reset (cancellable);
+	task = g_task_new (attachment, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_attachment_save_async);
+	g_task_set_task_data (task,
+		g_steal_pointer (&save_context),
+		(GDestroyNotify) attachment_save_context_free);
 
 	/* First we need to know if destination is a directory. */
 	g_file_query_info_async (
 		destination, G_FILE_ATTRIBUTE_STANDARD_TYPE,
 		G_FILE_QUERY_INFO_NONE, G_PRIORITY_DEFAULT,
-		cancellable, (GAsyncReadyCallback)
-		attachment_save_query_info_cb, save_context);
+		cancellable, attachment_save_query_info_cb,
+		g_steal_pointer (&task));
 }
 
 GFile *
@@ -3658,25 +3675,13 @@ e_attachment_save_finish (EAttachment *attachment,
                           GAsyncResult *result,
                           GError **error)
 {
-	GSimpleAsyncResult *simple;
-	GFile *destination;
-
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
-	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), NULL);
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	if (g_simple_async_result_propagate_error (simple, error)) {
-		attachment_set_saving (attachment, FALSE);
-		return NULL;
-	}
-
-	destination = g_simple_async_result_get_op_res_gpointer (simple);
-	if (destination != NULL)
-		g_object_ref (destination);
+	g_return_val_if_fail (g_task_is_valid (result, attachment), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_attachment_save_async), NULL);
 
 	attachment_set_saving (attachment, FALSE);
 
-	return destination;
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 void
