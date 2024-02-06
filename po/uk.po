@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2024-01-15 09:34+0000\n"
-"PO-Revision-Date: 2024-01-15 22:14+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
+"POT-Creation-Date: 2024-02-06 07:52+0000\n"
+"PO-Revision-Date: 2024-02-06 15:39+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4305,27 +4305,21 @@ msgid "Scroll down"
 msgstr "Гортати вниз"
 
 #: ../data/ui/evolution-shortcuts.ui.h:29
-#| msgctxt "New"
-#| msgid "_Mail Message"
 msgctxt "shortcut window"
 msgid "Mail Message"
 msgstr "Надіслати повідомлення"
 
 #: ../data/ui/evolution-shortcuts.ui.h:30
-#| msgid "Copy selected messages to another folder"
 msgctxt "shortcut window"
 msgid "Copy selected messages to folder"
 msgstr "Скопіювати позначені повідомлення до теки"
 
 #: ../data/ui/evolution-shortcuts.ui.h:31
-#| msgid "Move selected messages to another folder"
 msgctxt "shortcut window"
 msgid "Move selected messages to folder"
 msgstr "Перемістити позначені повідомлення до теки"
 
 #: ../data/ui/evolution-shortcuts.ui.h:32
-#| msgctxt "shortcut window"
-#| msgid "Forward selected messages"
 msgctxt "shortcut window"
 msgid "Archive selected messages"
 msgstr "Архівувати позначені повідомлення"
@@ -4341,19 +4335,16 @@ msgid "Mark selected messages as unread"
 msgstr "Позначити вибрані повідомлення як непрочитані"
 
 #: ../data/ui/evolution-shortcuts.ui.h:35
-#| msgid "Mark the selected messages as junk"
 msgctxt "shortcut window"
 msgid "Mark selected messages as junk"
 msgstr "Позначити вибрані повідомлення як спам"
 
 #: ../data/ui/evolution-shortcuts.ui.h:36
-#| msgid "Mark the selected messages as junk"
 msgctxt "shortcut window"
 msgid "Mark selected messages as not junk"
 msgstr "Позначити вибрані повідомлення як неспам"
 
 #: ../data/ui/evolution-shortcuts.ui.h:37
-#| msgid "Flag the selected messages for follow-up"
 msgctxt "shortcut window"
 msgid "Flag selected messages for follow-up"
 msgstr "Позначити «до виконання» вибрані повідомлення"
@@ -4379,19 +4370,16 @@ msgid "Reply to all recipients"
 msgstr "Відповісти всім одержувачам"
 
 #: ../data/ui/evolution-shortcuts.ui.h:42
-#| msgid "Alternative Reply"
 msgctxt "shortcut window"
 msgid "Alternative reply"
 msgstr "Альтернативна відповідь"
 
 #: ../data/ui/evolution-shortcuts.ui.h:43
-#| msgid "Delete Mail"
 msgctxt "shortcut window"
 msgid "Delete mail"
 msgstr "Вилучити лист"
 
 #: ../data/ui/evolution-shortcuts.ui.h:44
-#| msgid "Delete Mail"
 msgctxt "shortcut window"
 msgid "Undelete mail"
 msgstr "Скасувати вилучення листа"
@@ -4457,8 +4445,6 @@ msgid "List View"
 msgstr "Перегляд списком"
 
 #: ../data/ui/evolution-shortcuts.ui.h:57
-#| msgid "Deleting an event"
-#| msgid_plural "Deleting %d events"
 msgctxt "shortcut window"
 msgid "Delete event"
 msgstr "Вилучити подію"
@@ -4479,7 +4465,6 @@ msgid "Create a new contact list"
 msgstr "Створити новий список контактів"
 
 #: ../data/ui/evolution-shortcuts.ui.h:61
-#| msgid "_Delete Contact"
 msgctxt "shortcut window"
 msgid "Delete contact"
 msgstr "Вилучити контакт"
@@ -4991,7 +4976,7 @@ msgid "_Save"
 msgstr "З_берегти"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/e-util/e-misc-utils.c:3735
+#: ../src/e-util/e-misc-utils.c:3661
 msgid "Image"
 msgstr "Зображення"
 
@@ -5230,7 +5215,7 @@ msgstr "Робота"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:86
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1093
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:549
-#: ../src/calendar/gui/comp-util.c:1965
+#: ../src/calendar/gui/comp-util.c:1951
 msgid "Other"
 msgstr "Інша"
 
@@ -5795,7 +5780,7 @@ msgid "Send a mail message to this address"
 msgstr "Перетворити виділене повідомлення на завдання"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:282
-#: ../src/e-util/e-misc-utils.c:4840
+#: ../src/e-util/e-misc-utils.c:4766
 #, c-format
 msgid "Click to mail %s"
 msgstr "Клацніть, щоб надіслати лист %s"
@@ -5962,7 +5947,7 @@ msgid "Blog"
 msgstr "Блог"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
-#: ../src/e-util/e-mail-signature-editor.c:655
+#: ../src/e-util/e-mail-signature-editor.c:653
 msgid "Unnamed"
 msgstr "Без назви"
 
@@ -6221,7 +6206,7 @@ msgstr "Вилучити цей контакт (%s)?"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1640
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:700
 #: ../src/modules/calendar/e-task-shell-view-actions.c:884
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1651
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1644
 #: ../src/shell/e-shell-window-actions.c:981
 #: ../src/smime/gui/certificate-manager.c:1602 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
@@ -7507,7 +7492,7 @@ msgid "Public"
 msgstr "Загальне"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
-#: ../src/calendar/gui/comp-util.c:2915
+#: ../src/calendar/gui/comp-util.c:2901
 #: ../src/calendar/gui/e-cal-list-view.c:290
 #: ../src/calendar/gui/e-cal-model.c:303 ../src/calendar/gui/e-task-table.c:450
 #: ../src/calendar/gui/memotypes.xml.in.h:11
@@ -7515,7 +7500,7 @@ msgid "Private"
 msgstr "Приватне"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
-#: ../src/calendar/gui/comp-util.c:2918
+#: ../src/calendar/gui/comp-util.c:2904
 #: ../src/calendar/gui/e-cal-list-view.c:291
 #: ../src/calendar/gui/e-cal-model.c:305 ../src/calendar/gui/e-task-table.c:451
 #: ../src/calendar/gui/memotypes.xml.in.h:12
@@ -7606,7 +7591,7 @@ msgstr "Зведення містить"
 msgid "Description Contains"
 msgstr "Опис містить"
 
-#: ../src/calendar/gui/comp-util.c:1616 ../src/calendar/gui/comp-util.c:3045
+#: ../src/calendar/gui/comp-util.c:1602 ../src/calendar/gui/comp-util.c:3031
 #: ../src/calendar/importers/icalendar-importer.c:1483
 #: ../src/modules/itip-formatter/itip-view.c:2905
 #, c-format
@@ -7617,62 +7602,62 @@ msgstr[1] "з %d гостями"
 msgstr[2] "з %d гостями"
 msgstr[3] "з одним гостем"
 
-#: ../src/calendar/gui/comp-util.c:1675
+#: ../src/calendar/gui/comp-util.c:1661
 #, c-format
 msgid "Comments: %s"
 msgstr "Коментарі: %s"
 
-#: ../src/calendar/gui/comp-util.c:1689 ../src/calendar/gui/comp-util.c:1692
+#: ../src/calendar/gui/comp-util.c:1675 ../src/calendar/gui/comp-util.c:1678
 msgctxt "iCalendarStatus"
 msgid "None"
 msgstr "Немає"
 
-#: ../src/calendar/gui/comp-util.c:1690
+#: ../src/calendar/gui/comp-util.c:1676
 msgctxt "iCalendarStatus"
 msgid "Tentative"
 msgstr "Умовно прийнято"
 
-#: ../src/calendar/gui/comp-util.c:1691
+#: ../src/calendar/gui/comp-util.c:1677
 msgctxt "iCalendarStatus"
 msgid "Confirmed"
 msgstr "Підтверджено"
 
-#: ../src/calendar/gui/comp-util.c:1693
+#: ../src/calendar/gui/comp-util.c:1679
 msgctxt "iCalendarStatus"
 msgid "Draft"
 msgstr "Чернетка"
 
-#: ../src/calendar/gui/comp-util.c:1694
+#: ../src/calendar/gui/comp-util.c:1680
 msgctxt "iCalendarStatus"
 msgid "Final"
 msgstr "Остаточний"
 
-#: ../src/calendar/gui/comp-util.c:1695
+#: ../src/calendar/gui/comp-util.c:1681
 msgctxt "iCalendarStatus"
 msgid "Not Started"
 msgstr "Не почато"
 
-#: ../src/calendar/gui/comp-util.c:1696
+#: ../src/calendar/gui/comp-util.c:1682
 msgctxt "iCalendarStatus"
 msgid "Needs Action"
 msgstr "Необхідна дія"
 
-#: ../src/calendar/gui/comp-util.c:1697
+#: ../src/calendar/gui/comp-util.c:1683
 msgctxt "iCalendarStatus"
 msgid "In Progress"
 msgstr "Виконується"
 
-#: ../src/calendar/gui/comp-util.c:1698
+#: ../src/calendar/gui/comp-util.c:1684
 msgctxt "iCalendarStatus"
 msgid "Completed"
 msgstr "Завершено"
 
-#: ../src/calendar/gui/comp-util.c:1699
+#: ../src/calendar/gui/comp-util.c:1685
 msgctxt "iCalendarStatus"
 msgid "Cancelled"
 msgstr "Скасовано"
 
-#: ../src/calendar/gui/comp-util.c:1960
+#: ../src/calendar/gui/comp-util.c:1946
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
@@ -7680,7 +7665,7 @@ msgstr "Скасовано"
 msgid "Accepted"
 msgstr "Прийнято"
 
-#: ../src/calendar/gui/comp-util.c:1961
+#: ../src/calendar/gui/comp-util.c:1947
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
@@ -7688,7 +7673,7 @@ msgstr "Прийнято"
 msgid "Declined"
 msgstr "Відхилено"
 
-#: ../src/calendar/gui/comp-util.c:1962
+#: ../src/calendar/gui/comp-util.c:1948
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:183
 #: ../src/calendar/gui/e-meeting-store.c:206
@@ -7696,7 +7681,7 @@ msgstr "Відхилено"
 msgid "Tentative"
 msgstr "Експериментальний"
 
-#: ../src/calendar/gui/comp-util.c:1963
+#: ../src/calendar/gui/comp-util.c:1949
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
@@ -7704,13 +7689,13 @@ msgstr "Експериментальний"
 msgid "Delegated"
 msgstr "Доручено"
 
-#: ../src/calendar/gui/comp-util.c:1964
+#: ../src/calendar/gui/comp-util.c:1950
 msgid "Needs action"
 msgstr "Необхідна дія"
 
 #. Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../src/calendar/gui/comp-util.c:2029
+#: ../src/calendar/gui/comp-util.c:2015
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:10
 #: ../src/calendar/gui/e-meeting-list-view.c:690
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
@@ -7723,7 +7708,7 @@ msgid "Status"
 msgstr "Стан"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2352
+#: ../src/calendar/gui/comp-util.c:2077 ../src/calendar/gui/e-day-view.c:2352
 #: ../src/calendar/gui/e-to-do-pane.c:268
 #: ../src/calendar/gui/e-week-view.c:1974 ../src/calendar/gui/print.c:1111
 #: ../src/calendar/gui/print.c:1130 ../src/calendar/gui/print.c:2702
@@ -7732,7 +7717,7 @@ msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2355
+#: ../src/calendar/gui/comp-util.c:2081 ../src/calendar/gui/e-day-view.c:2355
 #: ../src/calendar/gui/e-to-do-pane.c:272
 #: ../src/calendar/gui/e-week-view.c:1977 ../src/calendar/gui/print.c:1116
 #: ../src/calendar/gui/print.c:1132 ../src/calendar/gui/print.c:2707
@@ -7740,27 +7725,27 @@ msgstr "am"
 msgid "pm"
 msgstr "pm"
 
-#: ../src/calendar/gui/comp-util.c:2124 ../src/calendar/gui/comp-util.c:2128
-#: ../src/calendar/gui/comp-util.c:2242
+#: ../src/calendar/gui/comp-util.c:2110 ../src/calendar/gui/comp-util.c:2114
+#: ../src/calendar/gui/comp-util.c:2228
 #: ../src/calendar/gui/e-comp-editor.c:1317
 msgid "No Summary"
 msgstr "Немає зведення"
 
 #. Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../src/calendar/gui/comp-util.c:2253
+#: ../src/calendar/gui/comp-util.c:2239
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Організатор:  %s <%s>"
 
 #. Translators: It will display "Organizer: NameOfTheUser"
-#: ../src/calendar/gui/comp-util.c:2256
+#: ../src/calendar/gui/comp-util.c:2242
 #, c-format
 msgid "Organizer: %s"
 msgstr "Організатор: %s"
 
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
-#: ../src/calendar/gui/comp-util.c:2271
+#: ../src/calendar/gui/comp-util.c:2257
 #: ../src/calendar/gui/e-meeting-time-sel.c:2585
 #: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3649
 #, c-format
@@ -7768,137 +7753,137 @@ msgid "Location: %s"
 msgstr "Адреса: %s"
 
 #. Translators: It will display "Start: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../src/calendar/gui/comp-util.c:2326
+#: ../src/calendar/gui/comp-util.c:2312
 #, c-format
 msgid "Start: %s (%s)"
 msgstr "Початок: %s (%s)"
 
 #. Translators: It will display "Start: ActualStartDateAndTime"
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2330 ../src/calendar/gui/e-to-do-pane.c:431
+#: ../src/calendar/gui/comp-util.c:2316 ../src/calendar/gui/e-to-do-pane.c:431
 #, c-format
 msgid "Start: %s"
 msgstr "Початок: %s"
 
 #. Translators: It's for a task due date, it will display "Due: DateAndTime"
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2365 ../src/calendar/gui/e-to-do-pane.c:453
+#: ../src/calendar/gui/comp-util.c:2351 ../src/calendar/gui/e-to-do-pane.c:453
 #, c-format
 msgid "Due: %s"
 msgstr "До: %s"
 
 #. Translators: It's for a task completed date, it will display "Completed: DateAndTime"
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/comp-util.c:2390 ../src/calendar/gui/e-to-do-pane.c:467
+#: ../src/calendar/gui/comp-util.c:2376 ../src/calendar/gui/e-to-do-pane.c:467
 #, c-format
 msgid "Completed: %s"
 msgstr "Завершено: %s"
 
-#: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
-#: ../src/e-util/e-misc-utils.c:4923 ../src/e-util/e-text.c:566
+#: ../src/calendar/gui/comp-util.c:2413 ../src/calendar/gui/e-to-do-pane.c:616
+#: ../src/e-util/e-misc-utils.c:4849 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4328
 msgid "…"
 msgstr "…"
 
 #. Translators: Default attachment filename.
-#: ../src/calendar/gui/comp-util.c:2631 ../src/e-util/e-attachment.c:2455
-#: ../src/e-util/e-attachment.c:3168 ../src/e-util/e-attachment.c:3618
+#: ../src/calendar/gui/comp-util.c:2617 ../src/e-util/e-attachment.c:2455
+#: ../src/e-util/e-attachment.c:3108 ../src/e-util/e-attachment.c:3558
 #: ../src/e-util/e-attachment-store.c:911
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../src/calendar/gui/comp-util.c:2726 ../src/e-util/e-filter-rule.c:1028
+#: ../src/calendar/gui/comp-util.c:2712 ../src/e-util/e-filter-rule.c:1028
 #: ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Без заголовку"
 
-#: ../src/calendar/gui/comp-util.c:2739
+#: ../src/calendar/gui/comp-util.c:2725
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:258
 #: ../src/modules/itip-formatter/itip-view.c:2080
 #: ../src/modules/itip-formatter/itip-view.c:2284
 msgid "Location:"
 msgstr "Адреса:"
 
-#: ../src/calendar/gui/comp-util.c:2772
+#: ../src/calendar/gui/comp-util.c:2758
 #: ../src/modules/itip-formatter/itip-view.c:2081
 #: ../src/modules/itip-formatter/itip-view.c:2287
 msgid "GEO Location:"
 msgstr "Геопозиціювання:"
 
-#: ../src/calendar/gui/comp-util.c:2788
+#: ../src/calendar/gui/comp-util.c:2774
 msgid "Start Date:"
 msgstr "Дата початку:"
 
-#: ../src/calendar/gui/comp-util.c:2797
+#: ../src/calendar/gui/comp-util.c:2783
 msgid "End Date:"
 msgstr "Дата завершення:"
 
-#: ../src/calendar/gui/comp-util.c:2809
+#: ../src/calendar/gui/comp-util.c:2795
 #: ../src/modules/itip-formatter/itip-view.c:2085
 #: ../src/modules/itip-formatter/itip-view.c:2299
 msgid "Recurs:"
 msgstr "Повторення:"
 
-#: ../src/calendar/gui/comp-util.c:2818
+#: ../src/calendar/gui/comp-util.c:2804
 msgid "Due Date:"
 msgstr "Дата завершення:"
 
-#: ../src/calendar/gui/comp-util.c:2835
+#: ../src/calendar/gui/comp-util.c:2821
 #: ../src/modules/itip-formatter/itip-view.c:2087
 #: ../src/modules/itip-formatter/itip-view.c:2305
 msgid "Estimated duration:"
 msgstr "Оцінка тривалості:"
 
-#: ../src/calendar/gui/comp-util.c:2851
+#: ../src/calendar/gui/comp-util.c:2837
 #: ../src/modules/itip-formatter/itip-view.c:2088
 #: ../src/modules/itip-formatter/itip-view.c:2308
 msgid "Status:"
 msgstr "Стан:"
 
-#: ../src/calendar/gui/comp-util.c:2859
+#: ../src/calendar/gui/comp-util.c:2845
 #: ../src/modules/itip-formatter/itip-view.c:2090
 #: ../src/modules/itip-formatter/itip-view.c:2314
 msgid "Categories:"
 msgstr "Категорії:"
 
-#: ../src/calendar/gui/comp-util.c:2902 ../src/calendar/gui/e-task-table.c:475
+#: ../src/calendar/gui/comp-util.c:2888 ../src/calendar/gui/e-task-table.c:475
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:341
 msgid "High"
 msgstr "Високий"
 
-#: ../src/calendar/gui/comp-util.c:2904 ../src/calendar/gui/e-cal-model.c:1891
+#: ../src/calendar/gui/comp-util.c:2890 ../src/calendar/gui/e-cal-model.c:1891
 #: ../src/calendar/gui/e-task-table.c:476
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:340
 msgid "Normal"
 msgstr "Звичайний"
 
-#: ../src/calendar/gui/comp-util.c:2906 ../src/calendar/gui/e-task-table.c:477
+#: ../src/calendar/gui/comp-util.c:2892 ../src/calendar/gui/e-task-table.c:477
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:339
 msgid "Low"
 msgstr "Низький"
 
-#: ../src/calendar/gui/comp-util.c:2908
+#: ../src/calendar/gui/comp-util.c:2894
 msgid "Priority:"
 msgstr "Пріоритет:"
 
-#: ../src/calendar/gui/comp-util.c:2926
+#: ../src/calendar/gui/comp-util.c:2912
 msgid "Classification:"
 msgstr "Класифікація:"
 
-#: ../src/calendar/gui/comp-util.c:2939
+#: ../src/calendar/gui/comp-util.c:2925
 msgid "Organizer:"
 msgstr "Організатор:"
 
-#: ../src/calendar/gui/comp-util.c:2981
+#: ../src/calendar/gui/comp-util.c:2967
 #: ../src/modules/itip-formatter/itip-view.c:2091
 #: ../src/modules/itip-formatter/itip-view.c:2317
 msgid "Attendees:"
 msgstr "Запрошені:"
 
-#: ../src/calendar/gui/comp-util.c:3105
+#: ../src/calendar/gui/comp-util.c:3091
 msgid "Web Page:"
 msgstr "Веб-сторінка:"
 
@@ -8771,9 +8756,9 @@ msgstr "Час початку — недійсний час"
 #: ../src/calendar/gui/e-comp-editor.c:346
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
-#: ../src/e-util/e-misc-utils.c:4169 ../src/e-util/e-misc-utils.c:4177
-#: ../src/e-util/e-misc-utils.c:4185 ../src/e-util/e-misc-utils.c:4220
-#: ../src/e-util/e-misc-utils.c:4233 ../src/e-util/e-misc-utils.c:4247
+#: ../src/e-util/e-misc-utils.c:4095 ../src/e-util/e-misc-utils.c:4103
+#: ../src/e-util/e-misc-utils.c:4111 ../src/e-util/e-misc-utils.c:4146
+#: ../src/e-util/e-misc-utils.c:4159 ../src/e-util/e-misc-utils.c:4173
 #: ../src/mail/e-mail-autoconfig.c:1137 ../src/mail/e-mail-display.c:2922
 #: ../src/mail/e-mail-notes.c:929 ../src/mail/e-mail-reader.c:3699
 #: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4103
@@ -9821,7 +9806,7 @@ msgstr "Збереження змін…"
 
 #: ../src/calendar/gui/e-comp-editor.c:1963
 #: ../src/calendar/gui/e-comp-editor.c:2328
-#: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-notes.c:1117
+#: ../src/e-util/e-mail-signature-editor.c:341 ../src/mail/e-mail-notes.c:1117
 msgid "Save and Close"
 msgstr "Зберегти і закрити"
 
@@ -9830,7 +9815,7 @@ msgstr "Зберегти і закрити"
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1785
 #: ../src/e-util/e-html-editor-dialog.c:194
-#: ../src/e-util/e-mail-signature-editor.c:334
+#: ../src/e-util/e-mail-signature-editor.c:332
 #: ../src/e-util/e-name-selector-dialog.c:548
 #: ../src/e-util/e-preferences-window.c:334
 #: ../src/e-util/e-table-field-chooser-dialog.c:197
@@ -9935,7 +9920,7 @@ msgstr "Класи_фікація"
 
 #: ../src/calendar/gui/e-comp-editor.c:2283
 #: ../src/e-util/e-html-editor-actions.c:1195
-#: ../src/e-util/e-mail-signature-editor.c:348 ../src/mail/e-mail-browser.c:210
+#: ../src/e-util/e-mail-signature-editor.c:346 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1122 ../src/shell/e-shell-window-actions.c:1130
 msgid "_File"
 msgstr "_Файл"
@@ -12916,20 +12901,20 @@ msgstr ""
 "Не вдалося зашифрувати повідомлення: для облікового запису не встановлений "
 "сертифікат шифрування"
 
-#: ../src/composer/e-msg-composer.c:2055 ../src/composer/e-msg-composer.c:2768
+#: ../src/composer/e-msg-composer.c:2044 ../src/composer/e-msg-composer.c:2757
 msgid "Compose Message"
 msgstr "Нове повідомлення"
 
-#: ../src/composer/e-msg-composer.c:4982
+#: ../src/composer/e-msg-composer.c:4971
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Читаємо текстові дані…"
 
-#: ../src/composer/e-msg-composer.c:5050
+#: ../src/composer/e-msg-composer.c:5039
 msgid "Send _without encryption"
 msgstr "Надіслати _без шифрування"
 
-#: ../src/composer/e-msg-composer.c:5838
+#: ../src/composer/e-msg-composer.c:5827
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Переглянути долучення перед надсиланням."
@@ -12937,7 +12922,7 @@ msgstr[1] "Переглянути долучення перед надсилан
 msgstr[2] "Переглянути долучення перед надсиланням."
 msgstr[3] "Переглянути долучення перед надсиланням."
 
-#: ../src/composer/e-msg-composer.c:5843
+#: ../src/composer/e-msg-composer.c:5832
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -12958,7 +12943,7 @@ msgstr[3] ""
 "Зовнішньою програмою додано одне долучення. Перш ніж надсилати повідомлення, "
 "переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 
-#: ../src/composer/e-msg-composer.c:5969
+#: ../src/composer/e-msg-composer.c:5958
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редактор містить не текстовий вміст, який неможливо редагувати."
 
@@ -13817,8 +13802,8 @@ msgstr "Облікові записи Evolution"
 #. webdav_browser->priv->permissions_button = widget;
 #: ../src/e-util/e-accounts-window.c:1768 ../src/e-util/e-webdav-browser.c:2898
 #: ../src/mail/em-subscription-editor.c:1949
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1623
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1701
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1616
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1694
 msgid "_Refresh"
 msgstr "_Оновити"
 
@@ -13867,7 +13852,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% виконано)"
 
 #: ../src/e-util/e-activity-proxy.c:350
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1813
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1806
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -13902,39 +13887,39 @@ msgstr "Помилка при створенні гілки: "
 msgid "Attached message"
 msgstr "Долучене повідомлення"
 
-#: ../src/e-util/e-attachment.c:2270 ../src/e-util/e-attachment.c:3324
+#: ../src/e-util/e-attachment.c:2270 ../src/e-util/e-attachment.c:3264
 #: ../src/mail/em-utils.c:2307
 msgid "Operation was cancelled"
 msgstr "Операцію було відмінено"
 
-#: ../src/e-util/e-attachment.c:2537 ../src/e-util/e-attachment.c:3678
+#: ../src/e-util/e-attachment.c:2537 ../src/e-util/e-attachment.c:3618
 msgid "A load operation is already in progress"
 msgstr "Виконується операція завантаження"
 
-#: ../src/e-util/e-attachment.c:2545 ../src/e-util/e-attachment.c:3686
+#: ../src/e-util/e-attachment.c:2545 ../src/e-util/e-attachment.c:3626
 msgid "A save operation is already in progress"
 msgstr "Виконується операція зберігання"
 
-#: ../src/e-util/e-attachment.c:2951
+#: ../src/e-util/e-attachment.c:2891
 #, c-format
 msgid "Could not open “%s”"
 msgstr "Не вдалося відкрити «%s»"
 
-#: ../src/e-util/e-attachment.c:2954
+#: ../src/e-util/e-attachment.c:2894
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Не вдалося відкрити долучення"
 
-#: ../src/e-util/e-attachment.c:3695
+#: ../src/e-util/e-attachment.c:3635
 msgid "Attachment contents not loaded"
 msgstr "Вміст долучення не завантажено"
 
-#: ../src/e-util/e-attachment.c:3786
+#: ../src/e-util/e-attachment.c:3726
 #, c-format
 msgid "Could not save “%s”"
 msgstr "Не вдалося зберегти «%s»"
 
-#: ../src/e-util/e-attachment.c:3789
+#: ../src/e-util/e-attachment.c:3729
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Не можу зберегти долучення"
@@ -14070,8 +14055,8 @@ msgstr "Вкласти адресу"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:622
 #: ../src/modules/calendar/e-task-shell-view-actions.c:778
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1616
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1694
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1609
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1687
 msgid "_Properties"
 msgstr "В_ластивості"
 
@@ -14840,19 +14825,19 @@ msgstr "Бі_сеня"
 msgid "_Monkey"
 msgstr "_Мавпа"
 
-#: ../src/e-util/e-file-utils.c:121
+#: ../src/e-util/e-file-utils.c:105
 msgid "(Unknown Filename)"
 msgstr "(Невідома назва файлу)"
 
 #. Translators: The string value is the basename of a file.
-#: ../src/e-util/e-file-utils.c:125
+#: ../src/e-util/e-file-utils.c:109
 #, c-format
 msgid "Writing “%s”"
 msgstr "Запис «%s»"
 
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
-#: ../src/e-util/e-file-utils.c:130
+#: ../src/e-util/e-file-utils.c:114
 #, c-format
 msgid "Writing “%s” to %s"
 msgstr "Запис «%s» до «%s»"
@@ -16264,7 +16249,7 @@ msgid "Import a _single file"
 msgstr "Імпорт _одного файлу"
 
 #: ../src/e-util/e-import-assistant.c:455
-#: ../src/modules/startup-wizard/e-mail-config-import-page.c:209
+#: ../src/modules/startup-wizard/e-mail-config-import-page.c:202
 msgid "Please select the information that you would like to import:"
 msgstr "Вкажіть інформацію яку бажаєте імпортувати:"
 
@@ -16279,7 +16264,7 @@ msgstr ""
 "параметрів. Якщо ви хочете спробувати ще раз, натисніть кнопку «Назад»."
 
 #: ../src/e-util/e-import-assistant.c:614
-#: ../src/modules/startup-wizard/e-mail-config-import-page.c:238
+#: ../src/modules/startup-wizard/e-mail-config-import-page.c:231
 #, c-format
 msgid "From %s:"
 msgstr "Від %s:"
@@ -16364,24 +16349,24 @@ msgstr "діб"
 msgid "Autogenerated"
 msgstr "Генерується автоматично"
 
-#: ../src/e-util/e-mail-signature-editor.c:336 ../src/mail/e-mail-notes.c:1110
+#: ../src/e-util/e-mail-signature-editor.c:334 ../src/mail/e-mail-notes.c:1110
 msgid "Close"
 msgstr "Закрити"
 
-#: ../src/e-util/e-mail-signature-editor.c:341 ../src/mail/e-mail-notes.c:1115
+#: ../src/e-util/e-mail-signature-editor.c:339 ../src/mail/e-mail-notes.c:1115
 msgid "_Save and Close"
 msgstr "З_берегти та закрити"
 
-#: ../src/e-util/e-mail-signature-editor.c:587
-#: ../src/e-util/e-mail-signature-editor.c:603
+#: ../src/e-util/e-mail-signature-editor.c:585
+#: ../src/e-util/e-mail-signature-editor.c:601
 msgid "Edit Signature"
 msgstr "Редагувати підпис"
 
-#: ../src/e-util/e-mail-signature-editor.c:591 ../src/mail/e-mail-notes.c:1197
+#: ../src/e-util/e-mail-signature-editor.c:589 ../src/mail/e-mail-notes.c:1197
 msgid "Save"
 msgstr "Зберегти"
 
-#: ../src/e-util/e-mail-signature-editor.c:629
+#: ../src/e-util/e-mail-signature-editor.c:627
 msgid "_Signature Name:"
 msgstr "_Ім'я підпису:"
 
@@ -16443,7 +16428,7 @@ msgstr "З_апис"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:687
 #: ../src/modules/calendar/e-task-shell-view-actions.c:871
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1857
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1850
 msgid "_Preview"
 msgstr "_Попередній перегляд"
 
@@ -16520,7 +16505,7 @@ msgstr "Відкриття адресної книги «%s»"
 msgid "_Do not show this message again"
 msgstr "_Не показувати це повідомлення знову."
 
-#: ../src/e-util/e-misc-utils.c:4156
+#: ../src/e-util/e-misc-utils.c:4082
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -16528,27 +16513,27 @@ msgstr ""
 "Можливо, цей сервер адресної книги недосяжний, або неправильно вказана назва "
 "сервера, або ж мережне з'єднання вимкнено."
 
-#: ../src/e-util/e-misc-utils.c:4168
+#: ../src/e-util/e-misc-utils.c:4094
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Не вдалося встановити версію протоколу LDAPv3 (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4176 ../src/e-util/e-misc-utils.c:4184
+#: ../src/e-util/e-misc-utils.c:4102 ../src/e-util/e-misc-utils.c:4110
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "Не вдалося встановити параметр часу очікування на з'єднання (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4219
+#: ../src/e-util/e-misc-utils.c:4145
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Не вдалося скористатися STARTTLS (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4232
+#: ../src/e-util/e-misc-utils.c:4158
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Не вдалося пройти розпізнавання на сервері LDAP (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4246
+#: ../src/e-util/e-misc-utils.c:4172
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -16564,7 +16549,7 @@ msgstr ""
 "\n"
 "Подробиці помилки (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4257
+#: ../src/e-util/e-misc-utils.c:4183
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -16574,12 +16559,12 @@ msgstr ""
 "цю функціональність, або він може бути неправильно налаштований. Спитайте у "
 "вашого системного адміністратора які бази пошуку підтримуються."
 
-#: ../src/e-util/e-misc-utils.c:4290
+#: ../src/e-util/e-misc-utils.c:4216
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution було зібрано без підтримки LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4615
+#: ../src/e-util/e-misc-utils.c:4541
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -16587,31 +16572,31 @@ msgstr "Невідома (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4624
+#: ../src/e-util/e-misc-utils.c:4550
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4845
+#: ../src/e-util/e-misc-utils.c:4771
 #, c-format
 msgid "Click to call %s"
 msgstr "Клацніть, щоб подзвонити %s"
 
-#: ../src/e-util/e-misc-utils.c:4847
+#: ../src/e-util/e-misc-utils.c:4773
 msgid "Click to hide/unhide addresses"
 msgstr "Клацніть, щоб показати/сховати адреси "
 
-#: ../src/e-util/e-misc-utils.c:4860
+#: ../src/e-util/e-misc-utils.c:4786
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Перейти до розділу %s повідомлення"
 
-#: ../src/e-util/e-misc-utils.c:4862
+#: ../src/e-util/e-misc-utils.c:4788
 msgid "Go to the beginning of the message"
 msgstr "Перейти до початку повідомлення"
 
-#: ../src/e-util/e-misc-utils.c:4868
+#: ../src/e-util/e-misc-utils.c:4794
 #, c-format
 msgid "Click to open %s"
 msgstr "Клацніть, щоб відкрити %s"
@@ -17035,23 +17020,23 @@ msgstr "Назва не може бути порожня"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../src/e-util/e-source-config.c:1383
+#: ../src/e-util/e-source-config.c:1376
 msgid "Refresh every"
 msgstr "Оновлювати кожні"
 
-#: ../src/e-util/e-source-config.c:1411
+#: ../src/e-util/e-source-config.c:1404
 msgid "Refresh content on metered network"
 msgstr "Оновлювати дані у мережі із обліком даних"
 
-#: ../src/e-util/e-source-config.c:1438 ../src/e-util/e-source-config.c:1512
+#: ../src/e-util/e-source-config.c:1431 ../src/e-util/e-source-config.c:1505
 msgid "Use a secure connection"
 msgstr "Використовувати безпечне з'єднання"
 
-#: ../src/e-util/e-source-config.c:1539
+#: ../src/e-util/e-source-config.c:1532
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "Скасувати _довіру з цього сертифіката SSL/TLS"
 
-#: ../src/e-util/e-source-config.c:1575
+#: ../src/e-util/e-source-config.c:1568
 msgid "User:"
 msgstr "Користувач:"
 
@@ -20620,7 +20605,7 @@ msgstr "Підписатись на _все"
 
 #: ../src/mail/em-subscription-editor.c:936
 #: ../src/mail/em-subscription-editor.c:1887 ../src/mail/mail.error.xml.h:73
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1729
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1722
 msgid "_Unsubscribe"
 msgstr "_Відписатись"
 
@@ -20679,7 +20664,7 @@ msgid "Su_bscribe"
 msgstr "П_ідписатись"
 
 #: ../src/mail/em-subscription-editor.c:1886
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1731
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1724
 msgid "Unsubscribe from the selected folder"
 msgstr "Відписатися від виділеної теки"
 
@@ -22117,7 +22102,7 @@ msgid ""
 msgstr "Остаточно вилучити всі вилучені повідомлення з усіх тек?"
 
 #: ../src/mail/mail.error.xml.h:42
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1602
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1595
 msgid "_Empty Trash"
 msgstr "О_чистити смітник"
 
@@ -23136,32 +23121,32 @@ msgid "Subject or Addresses contains"
 msgstr "Тема або адреси містять"
 
 #: ../src/mail/searchtypes.xml.in.h:64
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2142
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2135
 msgid "Recipients contain"
 msgstr "Отримувач містять"
 
 #: ../src/mail/searchtypes.xml.in.h:65
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2135
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2128
 msgid "Message contains"
 msgstr "Повідомлення містить"
 
 #: ../src/mail/searchtypes.xml.in.h:66
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2156
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2149
 msgid "Subject contains"
 msgstr "Тема містить"
 
 #: ../src/mail/searchtypes.xml.in.h:67
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2149
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2142
 msgid "Sender contains"
 msgstr "Відправник містить"
 
 #: ../src/mail/searchtypes.xml.in.h:68
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2121
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2114
 msgid "Body contains"
 msgstr "Вміст містить"
 
 #: ../src/mail/searchtypes.xml.in.h:69
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2128
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2121
 msgid "Free form expression"
 msgstr "Вираз у довільній формі"
 
@@ -23483,7 +23468,7 @@ msgstr "Показати карту з усіма контактами з виб
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1390
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:643
 #: ../src/modules/calendar/e-task-shell-view-actions.c:799
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1708
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1701
 msgid "_Rename…"
 msgstr "Пере_йменувати…"
 
@@ -23604,7 +23589,7 @@ msgstr "Показати карти у вікні перегляду конта�
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1532
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:769
 #: ../src/modules/calendar/e-task-shell-view-actions.c:965
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2023
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2016
 msgid "_Classic View"
 msgstr "_Класичний вигляд"
 
@@ -23616,7 +23601,7 @@ msgstr "Показувати попередній перегляд контак�
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1835
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:776
 #: ../src/modules/calendar/e-task-shell-view-actions.c:972
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2030
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2023
 msgid "_Vertical View"
 msgstr "_Вертикальний вигляд"
 
@@ -23632,7 +23617,7 @@ msgstr "Інше"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1883
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:803
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1062
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2114
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2107
 #: ../src/shell/e-shell-content.c:639
 msgid "Advanced Search"
 msgstr "Розширений пошук"
@@ -26971,378 +26956,378 @@ msgctxt "addrbook"
 msgid "Any"
 msgstr "Будь-яка"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:882
+#: ../src/modules/mail/e-mail-shell-view-actions.c:875
 msgid "Marking messages as read…"
 msgstr "Позначаємо повідомлення як прочитані…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1281
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1274
 msgid "Go to Folder"
 msgstr "Перейти до теки"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1285
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1278
 msgid "_Select"
 msgstr "_Вибрати"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1595
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1588
 msgid "_Disable Account"
 msgstr "В_имкнути обліковий запис"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1597
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1590
 msgid "Disable this account"
 msgstr "Вимкнути цей обліковий запис"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1604
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1597
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr ""
 "Остаточно знищити з усіх тек всі повідомлення, що позначені вилученими"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1609
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1602
 msgid "Empty _Junk"
 msgstr "Вилучити _спам"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1611
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1604
 msgid "Delete all Junk messages from all folders"
 msgstr "Вилучити всі спам-повідомлення з усіх тек"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1618
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1611
 msgid "Edit properties of this account"
 msgstr "Редагувати властивості цього облікового запису"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1625
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1618
 msgid "Refresh list of folders of this account"
 msgstr "Оновити перелік тек цього облікового запису"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1630
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1623
 msgid "_Download Messages for Offline Usage"
 msgstr "_Завантажити повідомлення для автономної роботи"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1632
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1625
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr ""
 "Завантажити повідомлення облікових записів/каталогів для автономної роботи"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1637
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1630
 msgid "Fl_ush Outbox"
 msgstr "Надіслати ви_хідні"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1644
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1637
 msgid "_Copy Folder To…"
 msgstr "_Копіювати теку до…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1646
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1639
 msgid "Copy the selected folder into another folder"
 msgstr "Скопіювати вибрану теку у іншу теку"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1653
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1646
 msgid "Permanently remove this folder"
 msgstr "Остаточно вилучити цю теку"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1658
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1651
 msgid "Edit Sort _Order…"
 msgstr "Змінити п_орядок сортування…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1660
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1653
 msgid "Change sort order of the folders in the folder tree"
 msgstr "Змінити порядок сортування тек у ієрархії тек"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1665
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1658
 msgid "E_xpunge"
 msgstr "Вик_реслити"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1667
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1660
 msgid "Permanently remove all deleted messages from this folder"
 msgstr ""
 "Остаточно вилучити всі повідомлення, позначені як вилучені з цієї теки"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1672
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1764
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1665
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1757
 msgid "Mar_k All Messages as Read"
 msgstr "Позначити повідомлення як про_читані"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1674
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1766
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1667
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1759
 msgid "Mark all messages in the folder as read"
 msgstr "Позначити всі повідомлення у піці та долучених теках як прочитані"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1679
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1672
 msgid "_Move Folder To…"
 msgstr "П_еремістити теку до…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1681
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1674
 msgid "Move the selected folder into another folder"
 msgstr "Перемістити вибрану теку у іншу теку"
 
 #. Translators: An action caption to create a new mail folder
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1687
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1680
 msgid "_New…"
 msgstr "С_творити…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1689
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1682
 msgid "Create a new folder for storing mail"
 msgstr "Створити нову теку для зберігання пошти"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1696
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1689
 msgid "Change the properties of this folder"
 msgstr "Змінити властивості цієї теки"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1703
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1696
 msgid "Refresh the folder"
 msgstr "Оновити теку"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1710
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1703
 msgid "Change the name of this folder"
 msgstr "Змінити назву цієї теки"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1715
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1708
 msgid "Select Message _Thread"
 msgstr "Виділити _гілку повідомлення"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1717
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1710
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Виділити всі повідомлення у гілці вибраного повідомлення"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1722
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1715
 msgid "Select Message S_ubthread"
 msgstr "Виділити _збірку повідомлень"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1724
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1717
 msgid "Select all replies to the currently selected message"
 msgstr "Виділити всі відповіді на поточні виділені повідомлення"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1736
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1729
 msgid "Empty _Trash"
 msgstr "О_чистити теку «Вилучені»"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1738
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1731
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr "Стерти в усіх облікових записах повідомлення, що позначені вилученими"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1743
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1736
 msgid "Go to _Folder"
 msgstr "Перейти до _теки"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1745
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1738
 msgid "Opens a dialog to select a folder to go to"
 msgstr "Відкриває вікно вибору теки для переходу"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1757
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1750
 msgid "_Manage Subscriptions"
 msgstr "_Організувати підписки"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1759
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1843
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1752
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1836
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Підписатися або відписатися від тек на віддалених серверах"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1771
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1792
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1764
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1785
 msgid "Send / _Receive"
 msgstr "Відіслати / _отримати"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1773
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1766
 msgid "Send queued items and retrieve new items"
 msgstr "Відіслати повідомлення з черги та отримати нові"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1778
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1771
 msgid "R_eceive All"
 msgstr "_Одержати все"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1780
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1773
 msgid "Receive new items from all accounts"
 msgstr "Одержати нові об'єкти з усіх облікових записів"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1785
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1778
 msgid "_Send All"
 msgstr "_Надіслати все"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1787
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1780
 msgid "Send queued items in all accounts"
 msgstr "Надіслати об'єкти в черзі з усіх облікових записів"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1815
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1808
 msgid "Cancel the current mail operation"
 msgstr "Скасувати поточну поштову операцію"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1820
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1813
 msgid "Collapse All _Threads"
 msgstr "Згорнути усі _гілки"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1822
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1815
 msgid "Collapse all message threads"
 msgstr "Згорнути усі гілки повідомлень"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1827
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1820
 msgid "E_xpand All Threads"
 msgstr "_Розгорнути гілки"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1829
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1822
 msgid "Expand all message threads"
 msgstr "розгорнути усі гілки повідомлень"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1834
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1827
 msgid "_Message Filters"
 msgstr "_Фільтри повідомлень"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1836
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1829
 msgid "Create or edit rules for filtering new mail"
 msgstr "Створити або редагувати правила фільтрації пошти"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1841
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1834
 msgid "_Subscriptions…"
 msgstr "_Підписки…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1850
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1843
 msgid "F_older"
 msgstr "_Тека"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1867
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1860
 msgid "C_reate Search Folder From Search…"
 msgstr "Створити _віртуальну теку за результатами пошуку…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1874
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1867
 msgid "Search F_olders"
 msgstr "Пошук _тек"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1876
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1869
 msgid "Create or edit search folder definitions"
 msgstr "Створити або редагувати визначення теки пошуку"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1919
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1912
 msgid "_New Folder…"
 msgstr "Створити _теку…"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1947
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1940
 msgid "Show Message _Preview"
 msgstr "_Попередній перегляд повідомлення"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1949
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1942
 msgid "Show message preview pane"
 msgstr "Показати вікно попереднього перегляду повідомлень"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1955
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1948
 msgid "Show _Attachment Bar"
 msgstr "показати панель в_кладень"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1957
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1950
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments"
 msgstr "Показує панель долучення нижче перегляду листа, коли є долучення"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1963
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1956
 msgid "Show _Deleted Messages"
 msgstr "Показати _вилучені листи"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1965
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1958
 msgid "Show deleted messages with a line through them"
 msgstr "Показувати вилучені листи з лінією, що проходить повз них"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1971
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1964
 msgid "Show _Junk Messages"
 msgstr "Показувати листи зі _спамом"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1973
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1966
 msgid "Show junk messages with a red line through them"
 msgstr "Показувати спам з лінією, що проходить повз них"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1979
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1972
 msgid "Show _Preview Tool Bar"
 msgstr "Показати панель _попереднього перегляду"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1981
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1974
 msgid "Show tool bar above the preview panel"
 msgstr "Показувати панель інструментів над панеллю перегляду"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1987
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1980
 msgid "_Group By Threads"
 msgstr "Групувати за _гілками"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1989
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1982
 msgid "Threaded message list"
 msgstr "Список підшитих повідомлень"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1995
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1988
 msgid "Show To _Do Bar"
 msgstr "Показувати панель «_Зробити»"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1997
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1990
 msgid "Show To Do bar with appointments and tasks"
 msgstr "Показувати панель «Зробити» з зустрічами та завданнями"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2003
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1996
 msgid "_Unmatched Folder Enabled"
 msgstr "_Незакриту теку ввімкнено"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2005
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1998
 msgid "Toggles whether Unmatched search folder is enabled"
 msgstr "Визначає, чи теку незакритого пошуку ввімкнено"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2025
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2018
 msgid "Show message preview below the message list"
 msgstr "Показувати попередній перегляд повідомлення нижче списку повідомлень"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2032
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2025
 msgid "Show message preview alongside the message list"
 msgstr ""
 "Показувати попередній перегляд повідомлення поруч зі списком повідомлень"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2040
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2033
 msgid "All Messages"
 msgstr "Усі повідомлення"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2047
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2040
 msgid "Important Messages"
 msgstr "Наступне повідомлення"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2054
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2047
 msgid "Last 5 Days’ Messages"
 msgstr "Останні повідомлення за 5 діб"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2061
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2054
 msgid "Messages Not Junk"
 msgstr "Повідомлення не є спамом"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2068
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2061
 msgid "Messages with Attachments"
 msgstr "Повідомлення з долученнями"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2075
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2068
 msgid "Messages with Notes"
 msgstr "Листи з примітками"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2082
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2075
 msgid "No Label"
 msgstr "Немає позначки"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2089
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2082
 msgid "Read Messages"
 msgstr "Прочитати повідомлення"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2096
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2089
 msgid "Unread Messages"
 msgstr "Непрочитане повідомлення"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2103
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2096
 msgid "Message Thread"
 msgstr "Заголовок листа"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2163
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2156
 msgid "Subject or Addresses contain"
 msgstr "Тема або адреси містять"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2173
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2166
 msgid "All Accounts"
 msgstr "Усі облікові записи"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2180
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2173
 msgid "Current Account"
 msgstr "Поточний обліковий запис"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2187
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2180
 msgid "Current Folder"
 msgstr "Поточна тека"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2194
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2187
 msgid "Current Folder and Subfolders"
 msgstr "Поточна тека і підтеки"
 
@@ -27955,7 +27940,7 @@ msgstr "Фільтрувати спам через SpamAssassin"
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
-#: ../src/modules/startup-wizard/e-mail-config-import-page.c:271
+#: ../src/modules/startup-wizard/e-mail-config-import-page.c:264
 #: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:336
 msgid "Importing Files"
 msgstr "Імпортування файлів"
@@ -29482,8 +29467,11 @@ msgid "Ignore network availability"
 msgstr "Ігнорувати доступність до мережі"
 
 #: ../src/shell/e-shell.c:2002
-msgid "Forcibly shut down Evolution"
-msgstr "Примусове завершення роботи Evolution"
+msgid ""
+"Forcibly shut down Evolution and background Evolution-Data-Server processes"
+msgstr ""
+"Примусово завершити роботу Evolution та фонових процесів"
+" Evolution-Data-Server"
 
 #: ../src/shell/e-shell.c:2005
 msgid "Disable loading of any plugins."
@@ -30564,6 +30552,9 @@ msgstr "Неможливо записати сховище на диск, код
 #: ../src/smime/lib/e-pkcs12.c:471
 msgid "Imported Certificate"
 msgstr "Імпортований сертифікат"
+
+#~ msgid "Forcibly shut down Evolution"
+#~ msgstr "Примусове завершення роботи Evolution"
 
 #~ msgid "_Remove Link"
 #~ msgstr "В_илучити посилання"
