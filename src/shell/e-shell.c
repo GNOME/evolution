@@ -1999,7 +1999,7 @@ static GOptionEntry app_options[] = {
 	  N_("Ignore network availability"), NULL },
 #ifndef G_OS_WIN32
 	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &force_shutdown,
-	  N_("Forcibly shut down Evolution"), NULL },
+	  N_("Forcibly shut down Evolution and background Evolution-Data-Server processes"), NULL },
 #endif
 	{ "disable-eplugin", '\0', 0, G_OPTION_ARG_NONE, &disable_eplugin,
 	  N_("Disable loading of any plugins."), NULL },
