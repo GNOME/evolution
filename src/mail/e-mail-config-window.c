@@ -175,7 +175,6 @@ static void
 mail_config_window_commit (EMailConfigWindow *window)
 {
 	GdkCursor *gdk_cursor;
-	GdkWindow *gdk_window;
 	EMailConfigNotebook *notebook;
 
 	notebook = E_MAIL_CONFIG_NOTEBOOK (window->priv->notebook);
@@ -184,10 +183,14 @@ mail_config_window_commit (EMailConfigWindow *window)
 	e_alert_bar_clear (E_ALERT_BAR (window->priv->alert_bar));
 
 	/* Make the cursor appear busy. */
-	gdk_cursor = gdk_cursor_new (GDK_WATCH);
-	gdk_window = gtk_widget_get_window (GTK_WIDGET (window));
-	gdk_window_set_cursor (gdk_window, gdk_cursor);
-	g_object_unref (gdk_cursor);
+	gdk_cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (window)), "wait");
+	if (gdk_cursor) {
+		GdkWindow *gdk_window;
+
+		gdk_window = gtk_widget_get_window (GTK_WIDGET (window));
+		gdk_window_set_cursor (gdk_window, gdk_cursor);
+		g_object_unref (gdk_cursor);
+	}
 
 	/* Prevent user interaction with window content. */
 	gtk_widget_set_sensitive (GTK_WIDGET (window), FALSE);

@@ -148,13 +148,16 @@ mail_folder_create_dialog_create_folder (EMailFolderCreateDialog *dialog)
 		EActivity *activity;
 		GCancellable *cancellable;
 		GdkCursor *gdk_cursor;
-		GdkWindow *gdk_window;
 
 		/* Make the cursor appear busy. */
-		gdk_cursor = gdk_cursor_new (GDK_WATCH);
-		gdk_window = gtk_widget_get_window (GTK_WIDGET (dialog));
-		gdk_window_set_cursor (gdk_window, gdk_cursor);
-		g_object_unref (gdk_cursor);
+		gdk_cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (dialog)), "wait");
+		if (gdk_cursor) {
+			GdkWindow *gdk_window;
+
+			gdk_window = gtk_widget_get_window (GTK_WIDGET (dialog));
+			gdk_window_set_cursor (gdk_window, gdk_cursor);
+			g_object_unref (gdk_cursor);
+		}
 
 		activity = em_folder_selector_new_activity (
 			EM_FOLDER_SELECTOR (dialog));

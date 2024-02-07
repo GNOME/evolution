@@ -2712,10 +2712,10 @@ e_day_view_init (EDayView *day_view)
 	gtk_widget_show (day_view->vscrollbar);
 
 	/* Create the cursors. */
-	day_view->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
-	day_view->move_cursor = gdk_cursor_new (GDK_FLEUR);
-	day_view->resize_width_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
-	day_view->resize_height_cursor = gdk_cursor_new (GDK_SB_V_DOUBLE_ARROW);
+	day_view->normal_cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "default");
+	day_view->move_cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "move");
+	day_view->resize_width_cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "ew-resize");
+	day_view->resize_height_cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "ns-resize");
 	day_view->last_cursor_set_in_top_canvas = NULL;
 	day_view->last_cursor_set_in_main_canvas = NULL;
 

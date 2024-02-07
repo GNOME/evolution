@@ -1110,15 +1110,18 @@ static void
 mail_config_assistant_close (GtkAssistant *assistant)
 {
 	GdkCursor *gdk_cursor;
-	GdkWindow *gdk_window;
 
 	/* Do not chain up.  GtkAssistant does not implement this method. */
 
 	/* Make the cursor appear busy. */
-	gdk_cursor = gdk_cursor_new (GDK_WATCH);
-	gdk_window = gtk_widget_get_window (GTK_WIDGET (assistant));
-	gdk_window_set_cursor (gdk_window, gdk_cursor);
-	g_object_unref (gdk_cursor);
+	gdk_cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (assistant)), "wait");
+	if (gdk_cursor) {
+		GdkWindow *gdk_window;
+
+		gdk_window = gtk_widget_get_window (GTK_WIDGET (assistant));
+		gdk_window_set_cursor (gdk_window, gdk_cursor);
+		g_object_unref (gdk_cursor);
+	}
 
 	/* Prevent user interaction with window content. */
 	gtk_widget_set_sensitive (GTK_WIDGET (assistant), FALSE);

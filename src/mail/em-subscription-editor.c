@@ -396,7 +396,6 @@ subscription_editor_subscribe_many (EMSubscriptionEditor *editor,
 	CamelStore *active_store;
 	AsyncContext *context;
 	GdkCursor *cursor;
-	GdkWindow *window;
 
 	g_return_if_fail (editor != NULL);
 
@@ -420,10 +419,14 @@ subscription_editor_subscribe_many (EMSubscriptionEditor *editor,
 	gtk_widget_set_sensitive (editor->priv->refresh_button, FALSE);
 	gtk_widget_set_sensitive (editor->priv->stop_button, TRUE);
 
-	cursor = gdk_cursor_new (GDK_WATCH);
-	window = gtk_widget_get_window (GTK_WIDGET (editor));
-	gdk_window_set_cursor (window, cursor);
-	g_object_unref (cursor);
+	cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (editor)), "wait");
+	if (cursor) {
+		GdkWindow *window;
+
+		window = gtk_widget_get_window (GTK_WIDGET (editor));
+		gdk_window_set_cursor (window, cursor);
+		g_object_unref (cursor);
+	}
 
 	context = async_context_new (editor, tree_rows);
 
@@ -525,7 +528,6 @@ subscription_editor_unsubscribe_many (EMSubscriptionEditor *editor,
 	AsyncContext *context;
 	CamelStore *active_store;
 	GdkCursor *cursor;
-	GdkWindow *window;
 
 	g_return_if_fail (editor != NULL);
 
@@ -549,10 +551,14 @@ subscription_editor_unsubscribe_many (EMSubscriptionEditor *editor,
 	gtk_widget_set_sensitive (editor->priv->refresh_button, FALSE);
 	gtk_widget_set_sensitive (editor->priv->stop_button, TRUE);
 
-	cursor = gdk_cursor_new (GDK_WATCH);
-	window = gtk_widget_get_window (GTK_WIDGET (editor));
-	gdk_window_set_cursor (window, cursor);
-	g_object_unref (cursor);
+	cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (editor)), "wait");
+	if (cursor) {
+		GdkWindow *window;
+
+		window = gtk_widget_get_window (GTK_WIDGET (editor));
+		gdk_window_set_cursor (window, cursor);
+		g_object_unref (cursor);
+	}
 
 	context = async_context_new (editor, tree_rows);
 
@@ -987,7 +993,6 @@ static void
 subscription_editor_refresh (EMSubscriptionEditor *editor)
 {
 	GdkCursor *cursor;
-	GdkWindow *window;
 
 	/* Cancel any operation on this store still in progress. */
 	gtk_button_clicked (GTK_BUTTON (editor->priv->stop_button));
@@ -1003,10 +1008,14 @@ subscription_editor_refresh (EMSubscriptionEditor *editor)
 	gtk_widget_set_sensitive (editor->priv->refresh_button, FALSE);
 	gtk_widget_set_sensitive (editor->priv->stop_button, TRUE);
 
-	cursor = gdk_cursor_new (GDK_WATCH);
-	window = gtk_widget_get_window (GTK_WIDGET (editor));
-	gdk_window_set_cursor (window, cursor);
-	g_object_unref (cursor);
+	cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (editor)), "wait");
+	if (cursor) {
+		GdkWindow *window;
+
+		window = gtk_widget_get_window (GTK_WIDGET (editor));
+		gdk_window_set_cursor (window, cursor);
+		g_object_unref (cursor);
+	}
 
 	camel_store_get_folder_info (
 		editor->priv->active->store, NULL,

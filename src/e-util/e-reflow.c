@@ -916,8 +916,8 @@ e_reflow_realize (GnomeCanvasItem *item)
 	if (GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->realize)
 		(* GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->realize) (item);
 
-	reflow->arrow_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
-	reflow->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	reflow->arrow_cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (item->canvas)), "ew-resize");
+	reflow->default_cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (item->canvas)), "default");
 
 	count = reflow->count;
 	for (i = 0; i < count; i++) {
@@ -952,10 +952,8 @@ e_reflow_unrealize (GnomeCanvasItem *item)
 
 	reflow = E_REFLOW (item);
 
-	g_object_unref (reflow->arrow_cursor);
-	g_object_unref (reflow->default_cursor);
-	reflow->arrow_cursor = NULL;
-	reflow->default_cursor = NULL;
+	g_clear_object (&reflow->arrow_cursor);
+	g_clear_object (&reflow->default_cursor);
 
 	g_free (reflow->columns);
 	reflow->columns = NULL;

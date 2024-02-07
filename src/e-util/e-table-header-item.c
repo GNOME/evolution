@@ -2270,7 +2270,7 @@ ethi_init (ETableHeaderItem *ethi)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ethi);
 
-	ethi->resize_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
+	ethi->resize_cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "ew-resize");
 
 	ethi->resize_col = -1;
 

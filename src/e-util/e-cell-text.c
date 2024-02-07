@@ -381,7 +381,7 @@ ect_realize (ECellView *ecell_view)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 
-	text_view->i_cursor = gdk_cursor_new (GDK_XTERM);
+	text_view->i_cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (((GnomeCanvasItem *) ecell_view->e_table_item_view)->canvas)), "text");
 
 	if (E_CELL_CLASS (e_cell_text_parent_class)->realize)
 		(* E_CELL_CLASS (e_cell_text_parent_class)->realize) (ecell_view);
@@ -399,7 +399,7 @@ ect_unrealize (ECellView *ecv)
 		ect_cancel_edit (text_view);
 	}
 
-	g_object_unref (text_view->i_cursor);
+	g_clear_object (&text_view->i_cursor);
 
 	if (E_CELL_CLASS (e_cell_text_parent_class)->unrealize)
 		(* E_CELL_CLASS (e_cell_text_parent_class)->unrealize) (ecv);

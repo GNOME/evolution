@@ -99,7 +99,6 @@ static void
 source_config_dialog_commit (ESourceConfigDialog *dialog)
 {
 	GdkCursor *gdk_cursor;
-	GdkWindow *gdk_window;
 	ESourceConfig *config;
 
 	config = e_source_config_dialog_get_config (dialog);
@@ -108,10 +107,14 @@ source_config_dialog_commit (ESourceConfigDialog *dialog)
 	e_alert_bar_clear (E_ALERT_BAR (dialog->priv->alert_bar));
 
 	/* Make the cursor appear busy. */
-	gdk_cursor = gdk_cursor_new (GDK_WATCH);
-	gdk_window = gtk_widget_get_window (GTK_WIDGET (dialog));
-	gdk_window_set_cursor (gdk_window, gdk_cursor);
-	g_object_unref (gdk_cursor);
+	gdk_cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (dialog)), "wait");
+	if (gdk_cursor) {
+		GdkWindow *gdk_window;
+
+		gdk_window = gtk_widget_get_window (GTK_WIDGET (dialog));
+		gdk_window_set_cursor (gdk_window, gdk_cursor);
+		g_object_unref (gdk_cursor);
+	}
 
 	/* Prevent user interaction with window content. */
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog), FALSE);

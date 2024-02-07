@@ -1428,13 +1428,16 @@ e_meeting_time_selector_refresh_cb (gpointer data)
 
 	if (e_meeting_store_get_num_queries (mts->model) == 0) {
 		GdkCursor *cursor;
-		GdkWindow *window;
 
-		cursor = gdk_cursor_new (GDK_LEFT_PTR);
-		window = gtk_widget_get_window (GTK_WIDGET (mts));
-		if (window)
-			gdk_window_set_cursor (window, cursor);
-		g_object_unref (cursor);
+		cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (mts)), "default");
+		if (cursor) {
+			GdkWindow *window;
+
+			window = gtk_widget_get_window (GTK_WIDGET (mts));
+			if (window)
+				gdk_window_set_cursor (window, cursor);
+			g_object_unref (cursor);
+		}
 
 		mts->last_cursor_set = GDK_LEFT_PTR;
 
@@ -1477,14 +1480,17 @@ e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts,
 	 *     no GdkWindow yet.  This avoids a runtime warning. */
 	if (gtk_widget_get_realized (GTK_WIDGET (mts))) {
 		GdkCursor *cursor;
-		GdkWindow *window;
 
 		/* Set the cursor to Busy.  We need to reset it to
 		 * normal once the free busy queries are complete. */
-		cursor = gdk_cursor_new (GDK_WATCH);
-		window = gtk_widget_get_window (GTK_WIDGET (mts));
-		gdk_window_set_cursor (window, cursor);
-		g_object_unref (cursor);
+		cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (mts)), "wait");
+		if (cursor) {
+			GdkWindow *window;
+
+			window = gtk_widget_get_window (GTK_WIDGET (mts));
+			gdk_window_set_cursor (window, cursor);
+			g_object_unref (cursor);
+		}
 
 		mts->last_cursor_set = GDK_WATCH;
 	}

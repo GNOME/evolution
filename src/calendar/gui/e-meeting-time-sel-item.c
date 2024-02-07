@@ -126,9 +126,9 @@ e_meeting_time_selector_item_init (EMeetingTimeSelectorItem *mts_item)
 	mts_item->mts = NULL;
 
 	/* Create the cursors. */
-	mts_item->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
-	mts_item->resize_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
-	mts_item->busy_cursor = gdk_cursor_new (GDK_WATCH);
+	mts_item->normal_cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "default");
+	mts_item->resize_cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "ew-resize");
+	mts_item->busy_cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "wait");
 	mts_item->last_cursor_set = NULL;
 
 	item->x1 = 0;

@@ -1104,8 +1104,8 @@ e_text_realize (GnomeCanvasItem *item)
 
 	create_layout (text);
 
-	text->i_cursor = gdk_cursor_new (GDK_XTERM);
-	text->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	text->i_cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (item->canvas)), "text");
+	text->default_cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (item->canvas)), "default");
 }
 
 /* Unrealize handler for the text item */
@@ -1116,10 +1116,8 @@ e_text_unrealize (GnomeCanvasItem *item)
 
 	text = E_TEXT (item);
 
-	g_object_unref (text->i_cursor);
-	text->i_cursor = NULL;
-	g_object_unref (text->default_cursor);
-	text->default_cursor = NULL;
+	g_clear_object (&text->i_cursor);
+	g_clear_object (&text->default_cursor);
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->unrealize)
 		(* GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->unrealize) (item);

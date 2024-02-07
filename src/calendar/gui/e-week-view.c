@@ -2092,9 +2092,9 @@ e_week_view_init (EWeekView *week_view)
 	gtk_widget_show (week_view->vscrollbar);
 
 	/* Create the cursors. */
-	week_view->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
-	week_view->move_cursor = gdk_cursor_new (GDK_FLEUR);
-	week_view->resize_width_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
+	week_view->normal_cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "default");
+	week_view->move_cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "move");
+	week_view->resize_width_cursor = gdk_cursor_new_from_name (gdk_display_get_default (), "ew-resize");
 	week_view->last_cursor_set = NULL;
 
 	week_view->requires_update = FALSE;
