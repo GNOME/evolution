@@ -462,6 +462,7 @@ ep_ask_password (EPassMsg *msg)
 	GtkWidget *container;
 	GtkWidget *action_area;
 	GtkWidget *content_area;
+	GtkWindow *parent;
 	gint type = msg->flags & E_PASSWORDS_REMEMBER_MASK;
 	guint noreply = msg->noreply;
 	gboolean visible;
@@ -469,15 +470,26 @@ ep_ask_password (EPassMsg *msg)
 
 	msg->noreply = 1;
 
+	parent = msg->parent;
+	if (!parent) {
+		GApplication *app = g_application_get_default ();
+
+		/* use the active window, even it can be a wrong one, but better
+		   than using the default desktop, instead of the desktop where
+		   the app window is */
+		if (app && GTK_IS_APPLICATION (app))
+			parent = gtk_application_get_active_window (GTK_APPLICATION (app));
+	}
+
 	widget = gtk_dialog_new_with_buttons (
-		msg->title, msg->parent, 0,
+		msg->title, parent, 0,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("_OK"), GTK_RESPONSE_OK,
 		NULL);
 	gtk_dialog_set_default_response (
 		GTK_DIALOG (widget), GTK_RESPONSE_OK);
 	gtk_window_set_resizable (GTK_WINDOW (widget), FALSE);
-	gtk_window_set_transient_for (GTK_WINDOW (widget), msg->parent);
+	gtk_window_set_transient_for (GTK_WINDOW (widget), parent);
 	gtk_window_set_position (GTK_WINDOW (widget), GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
 	password_dialog = GTK_DIALOG (widget);
@@ -613,7 +625,7 @@ ep_ask_password (EPassMsg *msg)
 		password_dialog, "response",
 		G_CALLBACK (pass_response), msg);
 
-	if (msg->parent) {
+	if (parent) {
 		gtk_dialog_run (GTK_DIALOG (password_dialog));
 	} else {
 		gtk_window_present (GTK_WINDOW (password_dialog));
