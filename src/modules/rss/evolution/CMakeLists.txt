@@ -1,5 +1,6 @@
 set(extra_deps
 	evolution-mail
+	evolution-rss-common
 	evolution-shell
 )
 set(sources
@@ -10,10 +11,6 @@ set(sources
 	e-rss-shell-view-extension.c
 	module-rss.c
 	module-rss.h
-	../camel-rss-store-summary.c
-	../camel-rss-store-summary.h
-	../e-rss-parser.c
-	../e-rss-parser.h
 )
 set(extra_defines)
 set(extra_cflags)

@@ -2,6 +2,10 @@ pkg_check_modules(LIBEDATASERVER libedataserver-1.2 REQUIRED)
 pkg_check_modules(CAMEL camel-1.2 REQUIRED)
 pkg_check_variable(camel_providerdir camel-1.2 camel_providerdir)
 
+set(DEPENDENCIES
+	evolution-rss-common
+)
+
 set(sources
 	camel-rss-folder.c
 	camel-rss-folder.h
@@ -12,13 +16,13 @@ set(sources
 	camel-rss-settings.h
 	camel-rss-store.c
 	camel-rss-store.h
-	../camel-rss-store-summary.c
-	../camel-rss-store-summary.h
-	../e-rss-parser.h
-	../e-rss-parser.c
 )
 
 add_library(camelrss MODULE ${sources})
+
+add_dependencies(camelrss
+	${DEPENDENCIES}
+)
 
 target_compile_definitions(camelrss PRIVATE
 	-DG_LOG_DOMAIN=\"camel-rss-provider\"
@@ -37,6 +41,7 @@ target_include_directories(camelrss PUBLIC
 )
 
 target_link_libraries(camelrss
+	${DEPENDENCIES}
 	${CAMEL_LDFLAGS}
 	${LIBEDATASERVER_LDFLAGS}
 )
