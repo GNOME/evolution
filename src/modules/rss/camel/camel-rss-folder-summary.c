@@ -221,7 +221,7 @@ camel_rss_folder_summary_add_or_update_feed_sync (CamelRssFolderSummary *self,
 	body_wrapper = camel_data_wrapper_new ();
 
 	if (complete_article && g_bytes_get_size (complete_article) > 0) {
-		camel_data_wrapper_set_encoding (body_wrapper, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
+		camel_data_wrapper_set_encoding (body_wrapper, CAMEL_TRANSFER_ENCODING_8BIT);
 		camel_data_wrapper_set_mime_type (body_wrapper, "text/html; charset=utf-8");
 		success = camel_data_wrapper_construct_from_data_sync (body_wrapper, g_bytes_get_data (complete_article, NULL), g_bytes_get_size (complete_article), cancellable, error);
 	} else {
@@ -283,7 +283,7 @@ camel_rss_folder_summary_add_or_update_feed_sync (CamelRssFolderSummary *self,
 			g_free (tmp);
 		}
 
-		camel_data_wrapper_set_encoding (body_wrapper, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
+		camel_data_wrapper_set_encoding (body_wrapper, CAMEL_TRANSFER_ENCODING_8BIT);
 		camel_data_wrapper_set_mime_type (body_wrapper, ct);
 		success = camel_data_wrapper_construct_from_data_sync (body_wrapper, body->str, body->len, cancellable, error);
 
