@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-02-06 07:52+0000\n"
-"PO-Revision-Date: 2024-02-06 15:39+0200\n"
+"POT-Creation-Date: 2024-02-08 10:07+0000\n"
+"PO-Revision-Date: 2024-02-08 23:06+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4865,17 +4865,17 @@ msgstr ""
 #: ../src/e-util/e-html-editor-actions.c:562
 #: ../src/e-util/e-image-chooser-dialog.c:179
 #: ../src/e-util/e-mail-signature-script-dialog.c:353
-#: ../src/e-util/e-passwords.c:474 ../src/e-util/e-rule-context.c:819
+#: ../src/e-util/e-passwords.c:486 ../src/e-util/e-rule-context.c:819
 #: ../src/e-util/e-rule-editor.c:184 ../src/e-util/e-rule-editor.c:295
 #: ../src/e-util/e-rule-editor.c:931 ../src/e-util/e-send-options.ui.h:16
-#: ../src/e-util/e-source-config-dialog.c:356
+#: ../src/e-util/e-source-config-dialog.c:359
 #: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4142
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
-#: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4311
+#: ../src/mail/e-mail-config-window.c:313 ../src/mail/e-mail-label-dialog.c:187
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4399
 #: ../src/mail/em-folder-selector.c:631 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -5453,15 +5453,15 @@ msgstr "_Довідка"
 #: ../src/e-util/e-categories-dialog.c:82 ../src/e-util/e-category-editor.c:253
 #: ../src/e-util/e-charset-combo-box.c:100
 #: ../src/e-util/e-color-chooser-widget.c:126
-#: ../src/e-util/e-filter-datespec.c:301 ../src/e-util/e-passwords.c:475
+#: ../src/e-util/e-filter-datespec.c:301 ../src/e-util/e-passwords.c:487
 #: ../src/e-util/e-rule-context.c:820 ../src/e-util/e-rule-editor.c:185
 #: ../src/e-util/e-rule-editor.c:296 ../src/e-util/e-rule-editor.c:932
 #: ../src/e-util/e-send-options.ui.h:17
-#: ../src/e-util/e-source-config-dialog.c:357
+#: ../src/e-util/e-source-config-dialog.c:360
 #: ../src/e-util/e-source-selector-dialog.c:337
 #: ../src/e-util/e-table-config.c:541 ../src/e-util/e-table-config.ui.h:4
 #: ../src/e-util/e-timezone-dialog.ui.h:3
-#: ../src/mail/e-mail-config-window.c:311 ../src/mail/e-mail-tag-editor.c:162
+#: ../src/mail/e-mail-config-window.c:314 ../src/mail/e-mail-tag-editor.c:162
 #: ../src/mail/em-folder-selector.c:44 ../src/mail/mail-config.ui.h:3
 #: ../src/mail/mail-vfolder-ui.c:150 ../src/mail/mail-vfolder-ui.c:272
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:278
@@ -7746,7 +7746,7 @@ msgstr "Організатор: %s"
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2257
-#: ../src/calendar/gui/e-meeting-time-sel.c:2585
+#: ../src/calendar/gui/e-meeting-time-sel.c:2591
 #: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3649
 #, c-format
 msgid "Location: %s"
@@ -8761,8 +8761,8 @@ msgstr "Час початку — недійсний час"
 #: ../src/e-util/e-misc-utils.c:4159 ../src/e-util/e-misc-utils.c:4173
 #: ../src/mail/e-mail-autoconfig.c:1137 ../src/mail/e-mail-display.c:2922
 #: ../src/mail/e-mail-notes.c:929 ../src/mail/e-mail-reader.c:3699
-#: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4103
-#: ../src/mail/em-composer-utils.c:4126 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4191
+#: ../src/mail/em-composer-utils.c:4214 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:444
@@ -9823,7 +9823,7 @@ msgstr "Зберегти і закрити"
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:753
 #: ../src/mail/e-mail-notes.c:1108 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1519
-#: ../src/mail/em-subscription-editor.c:1735
+#: ../src/mail/em-subscription-editor.c:1744
 #: ../src/shell/e-shell-window-actions.c:946
 #: ../src/smime/gui/certificate-manager.c:2132
 msgid "_Close"
@@ -9835,7 +9835,7 @@ msgstr "Закрити поточне вікно"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2197 ../src/e-util/e-focus-tracker.c:806
-#: ../src/e-util/e-html-editor-actions.c:1144 ../src/e-util/e-text.c:2065
+#: ../src/e-util/e-html-editor-actions.c:1144 ../src/e-util/e-text.c:2063
 #: ../src/e-util/e-web-view.c:503 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:967
 msgid "_Copy"
@@ -9851,7 +9851,7 @@ msgstr "Копіювати виділене"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2204 ../src/e-util/e-focus-tracker.c:801
-#: ../src/e-util/e-html-editor-actions.c:1151 ../src/e-util/e-text.c:2051
+#: ../src/e-util/e-html-editor-actions.c:1151 ../src/e-util/e-text.c:2049
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:974
 msgid "Cu_t"
 msgstr "_Вирізати"
@@ -9875,7 +9875,7 @@ msgstr "Переглянути довідку"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2225 ../src/e-util/e-focus-tracker.c:811
-#: ../src/e-util/e-html-editor-actions.c:1158 ../src/e-util/e-text.c:2077
+#: ../src/e-util/e-html-editor-actions.c:1158 ../src/e-util/e-text.c:2075
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:1002
 msgid "_Paste"
 msgstr "Вст_авити"
@@ -10215,7 +10215,7 @@ msgstr "По_чаток:"
 msgid "_End time:"
 msgstr "Кіне_ць:"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:2581
+#: ../src/calendar/gui/e-meeting-time-sel.c:2587
 #, c-format
 msgid ""
 "Summary: %s\n"
@@ -10224,7 +10224,7 @@ msgstr ""
 "Зведення: %s\n"
 "Адреса: %s"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:2583
+#: ../src/calendar/gui/e-meeting-time-sel.c:2589
 #: ../src/calendar/gui/print.c:3638
 #, c-format
 msgid "Summary: %s"
@@ -13567,7 +13567,7 @@ msgstr "Прихована:"
 
 #: ../src/em-format/e-mail-formatter-utils.c:471
 #: ../src/em-format/e-mail-formatter-utils.c:735
-#: ../src/mail/e-mail-config-security-page.c:929
+#: ../src/mail/e-mail-config-security-page.c:947
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
 msgid "Security"
@@ -13801,7 +13801,7 @@ msgstr "Облікові записи Evolution"
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
 #: ../src/e-util/e-accounts-window.c:1768 ../src/e-util/e-webdav-browser.c:2898
-#: ../src/mail/em-subscription-editor.c:1949
+#: ../src/mail/em-subscription-editor.c:1958
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1616
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1694
 msgid "_Refresh"
@@ -14557,7 +14557,7 @@ msgstr "Вибрати нетиповий колір"
 #: ../src/e-util/e-color-combo.c:476 ../src/e-util/e-html-editor.c:133
 #: ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:549
-#: ../src/mail/e-mail-config-security-page.c:781
+#: ../src/mail/e-mail-config-security-page.c:799
 #: ../src/mail/e-mail-reader.c:5234 ../src/mail/mail-config.ui.h:84
 msgid "Default"
 msgstr "Типовий"
@@ -16695,19 +16695,19 @@ msgstr ""
 msgid "You have the Caps Lock key on."
 msgstr "Натиснуто клавішу Caps Lock."
 
-#: ../src/e-util/e-passwords.c:583
+#: ../src/e-util/e-passwords.c:595
 msgid "_Remember this passphrase"
 msgstr "_Запам'ятати цей пароль"
 
-#: ../src/e-util/e-passwords.c:584
+#: ../src/e-util/e-passwords.c:596
 msgid "_Remember this passphrase for the remainder of this session"
 msgstr "_Пам'ятати цей пароль до закінчення цього сеансу"
 
-#: ../src/e-util/e-passwords.c:589
+#: ../src/e-util/e-passwords.c:601
 msgid "_Remember this password"
 msgstr "З_апам'ятати цей пароль"
 
-#: ../src/e-util/e-passwords.c:590
+#: ../src/e-util/e-passwords.c:602
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Пам'ятати цей пароль до закінчення цього сеансу"
 
@@ -17429,11 +17429,11 @@ msgstr "_Упорядкувати за"
 msgid "_Custom"
 msgstr "_Інший"
 
-#: ../src/e-util/e-text.c:2090
+#: ../src/e-util/e-text.c:2088
 msgid "Select All"
 msgstr "Виділити все"
 
-#: ../src/e-util/e-text.c:2103
+#: ../src/e-util/e-text.c:2101
 msgid "Input Methods"
 msgstr "Спосіб вводу"
 
@@ -18477,7 +18477,7 @@ msgid "Do Not Quote"
 msgstr "Не цитувати"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4441
+#: ../src/mail/em-composer-utils.c:4529
 msgid "Use global setting"
 msgstr "Використовувати загальні параметри"
 
@@ -18510,12 +18510,12 @@ msgstr ""
 "Мова для тексту пояснення у відповідях та переспрямованих повідомленнях"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4410 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4498 ../src/mail/mail-config.ui.h:24
 msgid "Start _typing at the bottom"
 msgstr "Починати _набір знизу"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4414 ../src/mail/mail-config.ui.h:25
+#: ../src/mail/em-composer-utils.c:4502 ../src/mail/mail-config.ui.h:25
 msgid "_Keep signature above the original message"
 msgstr "_Залишати підпис над оригінальним повідомленням"
 
@@ -18785,25 +18785,25 @@ msgid "Si_gning algorithm:"
 msgstr "Алгоритм підп_исування:"
 
 #: ../src/mail/e-mail-config-security-page.c:552
-#: ../src/mail/e-mail-config-security-page.c:784
+#: ../src/mail/e-mail-config-security-page.c:802
 #: ../src/mail/mail-config.ui.h:85
 msgid "SHA1"
 msgstr "SHA1"
 
 #: ../src/mail/e-mail-config-security-page.c:555
-#: ../src/mail/e-mail-config-security-page.c:787
+#: ../src/mail/e-mail-config-security-page.c:805
 #: ../src/mail/mail-config.ui.h:86
 msgid "SHA256"
 msgstr "SHA256"
 
 #: ../src/mail/e-mail-config-security-page.c:558
-#: ../src/mail/e-mail-config-security-page.c:790
+#: ../src/mail/e-mail-config-security-page.c:808
 #: ../src/mail/mail-config.ui.h:87
 msgid "SHA384"
 msgstr "SHA384"
 
 #: ../src/mail/e-mail-config-security-page.c:561
-#: ../src/mail/e-mail-config-security-page.c:793
+#: ../src/mail/e-mail-config-security-page.c:811
 #: ../src/mail/mail-config.ui.h:88
 msgid "SHA512"
 msgstr "SHA512"
@@ -18846,42 +18846,46 @@ msgstr "Надсилати власний _відкритий ключ у вих
 msgid "Advertise encryption is pre_ferred"
 msgstr "Повідомлення про шифрування є _бажаним"
 
-#: ../src/mail/e-mail-config-security-page.c:717
+#: ../src/mail/e-mail-config-security-page.c:705
+msgid "A_sk before sending mails with own public key"
+msgstr "П_итати перед надсиланням повідомлень із власним відкритим ключем"
+
+#: ../src/mail/e-mail-config-security-page.c:735
 msgid "Secure MIME (S/MIME)"
 msgstr "Безпечний MIME (S/MIME)"
 
-#: ../src/mail/e-mail-config-security-page.c:726
+#: ../src/mail/e-mail-config-security-page.c:744
 msgid "Sig_ning certificate:"
 msgstr "Сертифікат _підпису:"
 
-#: ../src/mail/e-mail-config-security-page.c:750
-#: ../src/mail/e-mail-config-security-page.c:848
+#: ../src/mail/e-mail-config-security-page.c:768
+#: ../src/mail/e-mail-config-security-page.c:866
 msgid "Select"
 msgstr "Вибрати"
 
-#: ../src/mail/e-mail-config-security-page.c:759
-#: ../src/mail/e-mail-config-security-page.c:857
+#: ../src/mail/e-mail-config-security-page.c:777
+#: ../src/mail/e-mail-config-security-page.c:875
 #: ../src/shell/e-shell-window-actions.c:1044
 msgid "_Clear"
 msgstr "О_чистити"
 
-#: ../src/mail/e-mail-config-security-page.c:768
+#: ../src/mail/e-mail-config-security-page.c:786
 msgid "Signing _algorithm:"
 msgstr "_Алгоритм підписування:"
 
-#: ../src/mail/e-mail-config-security-page.c:809
+#: ../src/mail/e-mail-config-security-page.c:827
 msgid "Always sign outgoing messages when using this account"
 msgstr "Завжди підписувати листи, коли використовуєте цей обліковий запис"
 
-#: ../src/mail/e-mail-config-security-page.c:824
+#: ../src/mail/e-mail-config-security-page.c:842
 msgid "Encryption certificate:"
 msgstr "Сертифікат для шифрування:"
 
-#: ../src/mail/e-mail-config-security-page.c:866
+#: ../src/mail/e-mail-config-security-page.c:884
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "Завжди шифрувати листи, коли використовуєте цей обліковий запис"
 
-#: ../src/mail/e-mail-config-security-page.c:878
+#: ../src/mail/e-mail-config-security-page.c:896
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "Завжди шифрувати для себе, коли надсилаєте шифровані листи"
 
@@ -18964,7 +18968,7 @@ msgstr ""
 msgid "Welcome"
 msgstr "Ласкаво просимо"
 
-#: ../src/mail/e-mail-config-window.c:305
+#: ../src/mail/e-mail-config-window.c:308
 msgid "Account Editor"
 msgstr "Редактор облікових записів"
 
@@ -19021,19 +19025,19 @@ msgid "Zoom large images to not be wider than the window width"
 msgstr ""
 "Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
 
-#: ../src/mail/e-mail-folder-create-dialog.c:328
+#: ../src/mail/e-mail-folder-create-dialog.c:331
 msgid "Create Folder"
 msgstr "Створити теку"
 
-#: ../src/mail/e-mail-folder-create-dialog.c:332
+#: ../src/mail/e-mail-folder-create-dialog.c:335
 msgid "Specify where to create the folder:"
 msgstr "Вкажіть, де створити теку:"
 
-#: ../src/mail/e-mail-folder-create-dialog.c:335
+#: ../src/mail/e-mail-folder-create-dialog.c:338
 msgid "C_reate"
 msgstr "С_творити"
 
-#: ../src/mail/e-mail-folder-create-dialog.c:352
+#: ../src/mail/e-mail-folder-create-dialog.c:355
 msgid "Folder _name:"
 msgstr "_Назва теки:"
 
@@ -19713,7 +19717,7 @@ msgstr "Вилучити п_одвійні повідомлення"
 msgid "Checks selected messages for duplicates"
 msgstr "Перевіряє, чи не повторювались вибрані повідомлення"
 
-#: ../src/mail/e-mail-reader.c:3076 ../src/mail/em-composer-utils.c:4369
+#: ../src/mail/e-mail-reader.c:3076 ../src/mail/em-composer-utils.c:4457
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:467
@@ -19738,7 +19742,7 @@ msgstr "Обрати параметри відповіді для обраних
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Відповісти у список листування або всім одержувачам"
 
-#: ../src/mail/e-mail-reader.c:3097 ../src/mail/em-composer-utils.c:4364
+#: ../src/mail/e-mail-reader.c:3097 ../src/mail/em-composer-utils.c:4452
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:474
 msgid "Reply to _List"
@@ -20170,7 +20174,7 @@ msgstr[3] ""
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
-#: ../src/mail/em-composer-utils.c:984
+#: ../src/mail/em-composer-utils.c:1072
 msgid "Waiting for attachments to load…"
 msgstr "Очікуємо на завантаження долучень…"
 
@@ -20178,7 +20182,7 @@ msgstr "Очікуємо на завантаження долучень…"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2195
+#: ../src/mail/em-composer-utils.c:2283
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -20186,82 +20190,82 @@ msgstr ""
 "У ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} у ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} пише:"
 
-#: ../src/mail/em-composer-utils.c:2201
+#: ../src/mail/em-composer-utils.c:2289
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Переслане повідомлення --------"
 
-#: ../src/mail/em-composer-utils.c:2206
+#: ../src/mail/em-composer-utils.c:2294
 msgid "-----Original Message-----"
 msgstr "-------- Оригінальне повідомлення --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:3036
+#: ../src/mail/em-composer-utils.c:3124
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "На: %s"
 
-#: ../src/mail/em-composer-utils.c:3691
+#: ../src/mail/em-composer-utils.c:3779
 msgid "an unknown sender"
 msgstr "невідомий відправник"
 
-#: ../src/mail/em-composer-utils.c:4309
+#: ../src/mail/em-composer-utils.c:4397
 msgid "Alternative Reply"
 msgstr "Альтернативна відповідь"
 
-#: ../src/mail/em-composer-utils.c:4312
+#: ../src/mail/em-composer-utils.c:4400
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Відповісти"
 
-#: ../src/mail/em-composer-utils.c:4330
+#: ../src/mail/em-composer-utils.c:4418
 msgid "Recipients:"
 msgstr "Отримувачі:"
 
-#: ../src/mail/em-composer-utils.c:4359
+#: ../src/mail/em-composer-utils.c:4447
 msgid "Reply to _Sender"
 msgstr "Відповісти _відправнику"
 
-#: ../src/mail/em-composer-utils.c:4382
+#: ../src/mail/em-composer-utils.c:4470
 msgid "Reply style:"
 msgstr "Стиль відповіді:"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4391
+#: ../src/mail/em-composer-utils.c:4479
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_Типово"
 
-#: ../src/mail/em-composer-utils.c:4395
+#: ../src/mail/em-composer-utils.c:4483
 msgid "Attach_ment"
 msgstr "_Долучення"
 
-#: ../src/mail/em-composer-utils.c:4399
+#: ../src/mail/em-composer-utils.c:4487
 msgid "Inline (_Outlook style)"
 msgstr "Вбудовано (_стиль Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4403
+#: ../src/mail/em-composer-utils.c:4491
 msgid "_Quote"
 msgstr "_Цитата"
 
-#: ../src/mail/em-composer-utils.c:4407
+#: ../src/mail/em-composer-utils.c:4495
 msgid "Do _Not Quote"
 msgstr "Не _цитувати"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4428
+#: ../src/mail/em-composer-utils.c:4516
 msgid "_Format message in"
 msgstr "_Форматувати повідомлення до"
 
-#: ../src/mail/em-composer-utils.c:4450
+#: ../src/mail/em-composer-utils.c:4538
 msgid "Apply t_emplate"
 msgstr "Застосувати ш_аблон"
 
-#: ../src/mail/em-composer-utils.c:4463
+#: ../src/mail/em-composer-utils.c:4551
 msgid "Preserve original message S_ubject"
 msgstr "Зберегти оригінальну т_ему повідомлення"
 
-#: ../src/mail/em-composer-utils.c:4529
+#: ../src/mail/em-composer-utils.c:4617
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -20271,11 +20275,11 @@ msgstr[2] "%d отримувачів"
 msgstr[3] "один отримувач"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:5038
+#: ../src/mail/em-composer-utils.c:5126
 msgid "Posting destination"
 msgstr "Адреса призначення"
 
-#: ../src/mail/em-composer-utils.c:5043
+#: ../src/mail/em-composer-utils.c:5131
 msgid "Choose folders to post the message to."
 msgstr "Виберіть теку у яку надіслати повідомлення."
 
@@ -20591,33 +20595,33 @@ msgstr "Перемістити теку у"
 msgid "Copy Folder To"
 msgstr "Копіювати теку у"
 
-#: ../src/mail/em-subscription-editor.c:813
+#: ../src/mail/em-subscription-editor.c:819
 msgid "_Subscribe"
 msgstr "_Підписатись"
 
-#: ../src/mail/em-subscription-editor.c:822
+#: ../src/mail/em-subscription-editor.c:828
 msgid "Su_bscribe To Shown"
 msgstr "П_ідписатись на показане"
 
-#: ../src/mail/em-subscription-editor.c:830
+#: ../src/mail/em-subscription-editor.c:836
 msgid "Subscribe To _All"
 msgstr "Підписатись на _все"
 
-#: ../src/mail/em-subscription-editor.c:936
-#: ../src/mail/em-subscription-editor.c:1887 ../src/mail/mail.error.xml.h:73
+#: ../src/mail/em-subscription-editor.c:942
+#: ../src/mail/em-subscription-editor.c:1896 ../src/mail/mail.error.xml.h:73
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1722
 msgid "_Unsubscribe"
 msgstr "_Відписатись"
 
-#: ../src/mail/em-subscription-editor.c:945
+#: ../src/mail/em-subscription-editor.c:951
 msgid "Unsu_bscribe From Hidden"
 msgstr "_Відписатись від схованого"
 
-#: ../src/mail/em-subscription-editor.c:953
+#: ../src/mail/em-subscription-editor.c:959
 msgid "Unsubscribe From _All"
 msgstr "Відписатись від _усього"
 
-#: ../src/mail/em-subscription-editor.c:1315
+#: ../src/mail/em-subscription-editor.c:1324
 #: ../src/modules/mail/e-mail-shell-view-private.c:928
 #: ../src/modules/mail/e-mail-shell-view-private.c:960
 #: ../src/modules/mail/e-mail-shell-view-private.c:1004
@@ -20629,7 +20633,7 @@ msgstr[1] "%d не прочитаних"
 msgstr[2] "%d не прочитаних"
 msgstr[3] "%d не прочитане"
 
-#: ../src/mail/em-subscription-editor.c:1319
+#: ../src/mail/em-subscription-editor.c:1328
 #: ../src/modules/mail/e-mail-shell-view-private.c:1014
 #, c-format
 msgid "%d total"
@@ -20639,60 +20643,60 @@ msgstr[1] "%d всього"
 msgstr[2] "%d всього"
 msgstr[3] "%d всього"
 
-#: ../src/mail/em-subscription-editor.c:1724
+#: ../src/mail/em-subscription-editor.c:1733
 msgid "Folder Subscriptions"
 msgstr "Тека підписок"
 
-#: ../src/mail/em-subscription-editor.c:1761
+#: ../src/mail/em-subscription-editor.c:1770
 msgid "_Account:"
 msgstr "_Обліковий запис:"
 
-#: ../src/mail/em-subscription-editor.c:1774
+#: ../src/mail/em-subscription-editor.c:1783
 msgid "Clear Search"
 msgstr "Очистити пошук"
 
-#: ../src/mail/em-subscription-editor.c:1791
+#: ../src/mail/em-subscription-editor.c:1800
 msgid "Sho_w items that contain:"
 msgstr "_Показати об'єкти, які містять:"
 
-#: ../src/mail/em-subscription-editor.c:1840
+#: ../src/mail/em-subscription-editor.c:1849
 msgid "Subscribe to the selected folder"
 msgstr "Підписатися до вибраної теки"
 
-#: ../src/mail/em-subscription-editor.c:1841
+#: ../src/mail/em-subscription-editor.c:1850
 msgid "Su_bscribe"
 msgstr "П_ідписатись"
 
-#: ../src/mail/em-subscription-editor.c:1886
+#: ../src/mail/em-subscription-editor.c:1895
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1724
 msgid "Unsubscribe from the selected folder"
 msgstr "Відписатися від виділеної теки"
 
-#: ../src/mail/em-subscription-editor.c:1926
+#: ../src/mail/em-subscription-editor.c:1935
 msgid "Collapse all folders"
 msgstr "Згорнути всі теки"
 
-#: ../src/mail/em-subscription-editor.c:1927
+#: ../src/mail/em-subscription-editor.c:1936
 msgid "C_ollapse All"
 msgstr "З_горнути все"
 
-#: ../src/mail/em-subscription-editor.c:1937
+#: ../src/mail/em-subscription-editor.c:1946
 msgid "Expand all folders"
 msgstr "Розгорнути всі теки"
 
-#: ../src/mail/em-subscription-editor.c:1938
+#: ../src/mail/em-subscription-editor.c:1947
 msgid "E_xpand All"
 msgstr "_Розгорнути все"
 
-#: ../src/mail/em-subscription-editor.c:1948
+#: ../src/mail/em-subscription-editor.c:1957
 msgid "Refresh the folder list"
 msgstr "Оновити перелік тек"
 
-#: ../src/mail/em-subscription-editor.c:1960
+#: ../src/mail/em-subscription-editor.c:1969
 msgid "Stop the current operation"
 msgstr "Зупинити поточну дію"
 
-#: ../src/mail/em-subscription-editor.c:1961
+#: ../src/mail/em-subscription-editor.c:1970
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1349
 msgid "_Stop"
 msgstr "З_упинити"
@@ -22901,6 +22905,48 @@ msgstr "_Завжди впорядковувати"
 #: ../src/mail/mail.error.xml.h:232
 msgid "N_ever Sort"
 msgstr "Н_іколи не впорядковувати"
+
+#: ../src/mail/mail.error.xml.h:233
+#| msgid "Import Pretty Good Privacy (OpenPGP) key"
+msgid "Send mail with Pretty Good Privacy (PGP) public key?"
+msgstr "Надіслати повідомлення з відкритим ключем Pretty Good Privacy (PGP)?"
+
+#: ../src/mail/mail.error.xml.h:234
+msgid ""
+"The message contains your public PGP key, which the recipients can use to "
+"encrypt messages sent to you or to verify signatures made with this PGP "
+"key.\n"
+"\n"
+"This option is set for each mail account separately. You can find it in the "
+"Security tab of the mail account Properties."
+msgstr ""
+"Повідомлення містить ваш відкритий ключ PGP, яким отримувачі зможуть"
+" скористатися для шифрування повідомлень, які надіслано вам, або для"
+" перевірки підписів, які створено за допомогою цього ключа PGP.\n"
+"\n"
+"Цей параметр встановлюється для кожного поштового облікового запису окремо."
+" Ви можете знайти відповідний пункт на вкладці «Безпека» вікна «Властивості»"
+" поштового облікового запису."
+
+#: ../src/mail/mail.error.xml.h:237
+#| msgid "ends with"
+msgid "_Send with Key"
+msgstr "_Надіслати з ключем"
+
+#: ../src/mail/mail.error.xml.h:238
+#| msgid "_Remove"
+msgid "_Remove Key"
+msgstr "В_илучити ключ"
+
+#: ../src/mail/mail.error.xml.h:239
+#| msgid "Always"
+msgid "_Always"
+msgstr "З_авжди"
+
+#: ../src/mail/mail.error.xml.h:240
+#| msgid "Never"
+msgid "_Never"
+msgstr "Н_іколи"
 
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
@@ -29470,8 +29516,8 @@ msgstr "Ігнорувати доступність до мережі"
 msgid ""
 "Forcibly shut down Evolution and background Evolution-Data-Server processes"
 msgstr ""
-"Примусово завершити роботу Evolution та фонових процесів"
-" Evolution-Data-Server"
+"Примусово завершити роботу Evolution та фонових процесів Evolution-Data-"
+"Server"
 
 #: ../src/shell/e-shell.c:2005
 msgid "Disable loading of any plugins."
