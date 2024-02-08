@@ -136,6 +136,7 @@ enum {
 	CONTENT_LOADED,
 	BEFORE_POPUP_EVENT,
 	RESOURCE_LOADED,
+	SET_FONTS,
 	LAST_SIGNAL
 };
 
@@ -2448,6 +2449,14 @@ e_web_view_class_init (EWebViewClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
+	signals[SET_FONTS] = g_signal_new (
+		"set-fonts",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EWebViewClass, set_fonts),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+
 	signals[NEW_ACTIVITY] = g_signal_new (
 		"new-activity",
 		G_TYPE_FROM_CLASS (class),
@@ -3826,8 +3835,7 @@ e_web_view_update_fonts (EWebView *web_view)
 	class = E_WEB_VIEW_GET_CLASS (web_view);
 	g_return_if_fail (class != NULL);
 
-	if (class->set_fonts != NULL)
-		class->set_fonts (web_view, &ms, &vw);
+	g_signal_emit (web_view, signals[SET_FONTS], 0, &ms, &vw, NULL);
 
 	e_web_view_update_fonts_settings (
 		web_view->priv->font_settings,

@@ -26,6 +26,9 @@
 #define EVO_SIGNATURE_START_MARK "x-evo-signature-start"
 #define EVO_SIGNATURE_END_MARK "x-evo-signature-end"
 
+#define DEFAULT_MONOSPACE_FONT "monospace 10"
+#define DEFAULT_VARIABLE_WIDTH_FONT "serif 10"
+
 struct _EMarkdownEditorPrivate {
 	GtkNotebook *notebook;
 	GtkTextView *text_view;
@@ -38,6 +41,8 @@ struct _EMarkdownEditorPrivate {
 	gulong notify_mode_id;
 	GdkAtom serialize_atom;
 	gchar *signature_html_code;
+	gchar *monospace_font;
+	gchar *variable_width_font;
 
 	/* EContentEditor properties */
 	gboolean can_copy;
@@ -242,6 +247,71 @@ e_markdown_editor_is_ready (EContentEditor *cnt_editor)
 static void
 e_markdown_editor_update_styles (EContentEditor *cnt_editor)
 {
+	EMarkdownEditor *self = E_MARKDOWN_EDITOR (cnt_editor);
+	GSettings *settings;
+	gchar *monospace_font = NULL;
+	gchar *variable_width_font = NULL;
+	gboolean changed = FALSE;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	if (g_settings_get_boolean (settings, "use-custom-font")) {
+		monospace_font = g_settings_get_string (settings, "monospace-font");
+		if (monospace_font && !*monospace_font)
+			g_clear_pointer (&monospace_font, g_free);
+
+		variable_width_font = g_settings_get_string (settings, "variable-width-font");
+		if (variable_width_font && !*variable_width_font)
+			g_clear_pointer (&variable_width_font, g_free);
+	}
+	g_clear_object (&settings);
+
+	if (!monospace_font || !variable_width_font) {
+		settings = e_util_ref_settings ("org.gnome.desktop.interface");
+		if (!monospace_font) {
+			monospace_font = g_settings_get_string (settings, "monospace-font-name");
+			if (monospace_font && !*monospace_font)
+				g_clear_pointer (&monospace_font, g_free);
+		}
+
+		if (!variable_width_font) {
+			variable_width_font = g_settings_get_string (settings, "font-name");
+			if (variable_width_font && !*variable_width_font)
+				g_clear_pointer (&variable_width_font, g_free);
+		}
+		g_clear_object (&settings);
+	}
+
+	if (e_util_strcmp0 (monospace_font, self->priv->monospace_font) != 0) {
+		PangoFontDescription *desc = NULL;
+
+		g_clear_pointer (&self->priv->monospace_font, g_free);
+		self->priv->monospace_font = g_steal_pointer (&monospace_font);
+
+		if (self->priv->monospace_font)
+			desc = pango_font_description_from_string (self->priv->monospace_font);
+		if (!desc)
+			desc = pango_font_description_from_string (DEFAULT_MONOSPACE_FONT);
+		if (desc) {
+			if (self->priv->text_view)
+				gtk_widget_override_font (GTK_WIDGET (self->priv->text_view), desc);
+			changed = TRUE;
+			pango_font_description_free (desc);
+		}
+	}
+
+	if (e_util_strcmp0 (variable_width_font, self->priv->variable_width_font) != 0) {
+		g_clear_pointer (&self->priv->variable_width_font, g_free);
+		self->priv->variable_width_font = g_steal_pointer (&variable_width_font);
+		changed = TRUE;
+	}
+
+	g_free (monospace_font);
+	g_free (variable_width_font);
+
+	#ifdef HAVE_MARKDOWN
+	if (changed && self->priv->web_view)
+		e_web_view_update_fonts (self->priv->web_view);
+	#endif
 }
 
 static void
@@ -1826,6 +1896,31 @@ e_markdown_editor_markdown_preview_toggled_cb (EMarkdownEditor *self,
 	e_markdown_editor_toggle_preview (self, gtk_toggle_tool_button_get_active (button));
 }
 
+static void
+e_markdown_editor_preview_set_fonts (EWebView *web_view,
+				     PangoFontDescription **out_monospace,
+				     PangoFontDescription **out_variable_width,
+				     gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+
+	if (out_monospace) {
+		*out_monospace = NULL;
+		if (self->priv->monospace_font)
+			*out_monospace = pango_font_description_from_string (self->priv->monospace_font);
+		if (!*out_monospace)
+			*out_monospace = pango_font_description_from_string (DEFAULT_MONOSPACE_FONT);
+	}
+
+	if (out_variable_width) {
+		*out_variable_width = NULL;
+		if (self->priv->variable_width_font)
+			*out_variable_width = pango_font_description_from_string (self->priv->variable_width_font);
+		if (!*out_variable_width)
+			*out_variable_width = pango_font_description_from_string (DEFAULT_VARIABLE_WIDTH_FONT);
+	}
+}
+
 #endif /* HAVE_MARKDOWN */
 
 static gboolean
@@ -2403,6 +2498,9 @@ e_markdown_editor_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (scrolled_window), widget);
 
 	self->priv->web_view = E_WEB_VIEW (widget);
+
+	g_signal_connect_object (self->priv->web_view, "set-fonts",
+		G_CALLBACK (e_markdown_editor_preview_set_fonts), self, 0);
 	#endif /* HAVE_MARKDOWN */
 
 	widget = gtk_toolbar_new ();
@@ -2458,6 +2556,8 @@ e_markdown_editor_constructed (GObject *object)
 	g_signal_connect (self, "realize", G_CALLBACK (e_markdown_editor_realize_cb), NULL);
 	g_signal_connect_object (gtk_text_view_get_buffer (self->priv->text_view), "changed", G_CALLBACK (e_markdown_editor_text_view_changed_cb), self, 0);
 	e_signal_connect_notify_object (self->priv->text_view, "notify::editable", G_CALLBACK (e_markdown_editor_notify_editable_cb), self, 0);
+
+	e_markdown_editor_update_styles (E_CONTENT_EDITOR (self));
 }
 
 static void
@@ -2482,6 +2582,8 @@ e_markdown_editor_finalize (GObject *object)
 	g_clear_object (&self->priv->spell_checker);
 	g_clear_pointer (&self->priv->signature_uid, g_free);
 	g_clear_pointer (&self->priv->signature_html_code, g_free);
+	g_clear_pointer (&self->priv->monospace_font, g_free);
+	g_clear_pointer (&self->priv->variable_width_font, g_free);
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_markdown_editor_parent_class)->finalize (object);
