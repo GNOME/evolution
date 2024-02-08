@@ -646,7 +646,7 @@ e_rss_parser_parse (const gchar *xml,
 		}
 
 		if (!defaults.publish_date)
-			defaults.publish_date = g_get_real_time ();
+			defaults.publish_date = g_get_real_time () / G_USEC_PER_SEC;
 
 		if (defaults.base || defaults.link || defaults.alt_link) {
 			const gchar *base;
