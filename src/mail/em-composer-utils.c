@@ -707,6 +707,94 @@ composer_presend_check_attachments (EMsgComposer *composer,
 }
 
 static void
+openpgp_changes_saved_cb (GObject *source_object,
+			  GAsyncResult *result,
+			  gpointer user_data)
+{
+	ESource *source = E_SOURCE (source_object);
+	GError *local_error = NULL;
+
+	if (!e_source_write_finish (source, result, &local_error))
+		g_warning ("%s: Failed to save changes to '%s': %s", G_STRFUNC, e_source_get_uid (source), local_error ? local_error->message : "Unknown error");
+
+	g_clear_error (&local_error);
+}
+
+static gboolean
+composer_presend_check_autocrypt_wanted (EMsgComposer *composer,
+					 EMailSession *session)
+{
+	EComposerHeaderTable *table;
+	gchar *identity_uid;
+	gboolean ask_send_public_key = TRUE;
+	gboolean can_send = TRUE;
+
+	if (!e_msg_composer_get_header (composer, "Autocrypt", 0))
+		return TRUE;
+
+	table = e_msg_composer_get_header_table (composer);
+	identity_uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
+	if (identity_uid) {
+		ESource *source;
+
+		source = e_composer_header_table_ref_source (table, identity_uid);
+
+		if (source) {
+			if (e_source_has_extension (source, E_SOURCE_EXTENSION_OPENPGP)) {
+				ESourceOpenPGP *extension;
+
+				extension = e_source_get_extension (source, E_SOURCE_EXTENSION_OPENPGP);
+
+				ask_send_public_key = e_source_openpgp_get_ask_send_public_key (extension);
+			}
+
+			g_object_unref (source);
+		}
+	} else {
+		ask_send_public_key = FALSE;
+	}
+
+	if (ask_send_public_key) {
+		gint response;
+
+		response = e_alert_run_dialog_for_args (GTK_WINDOW (composer), "mail:ask-composer-send-autocrypt", NULL);
+		if (response == GTK_RESPONSE_YES) {
+			can_send = TRUE;
+		} else if (response == GTK_RESPONSE_NO) {
+			e_msg_composer_remove_header (composer, "Autocrypt");
+			can_send = TRUE;
+		} else if (response == GTK_RESPONSE_ACCEPT ||
+			   response == GTK_RESPONSE_REJECT) {
+			ESource *source;
+
+			source = e_composer_header_table_ref_source (table, identity_uid);
+			if (source) {
+				ESourceOpenPGP *extension;
+				extension = e_source_get_extension (source, E_SOURCE_EXTENSION_OPENPGP);
+				/* when disabling send of the public key, keep the ask set */
+				e_source_openpgp_set_ask_send_public_key (extension, response == GTK_RESPONSE_REJECT);
+				e_source_openpgp_set_send_public_key (extension, response == GTK_RESPONSE_ACCEPT);
+				e_source_write (source, NULL, openpgp_changes_saved_cb, NULL);
+				g_object_unref (source);
+			} else {
+				g_warn_if_reached ();
+			}
+
+			if (response != GTK_RESPONSE_ACCEPT)
+				e_msg_composer_remove_header (composer, "Autocrypt");
+
+			can_send = TRUE;
+		} else {
+			can_send = FALSE;
+		}
+	}
+
+	g_free (identity_uid);
+
+	return can_send;
+}
+
+static void
 composer_send_completed (GObject *source_object,
                          GAsyncResult *result,
                          gpointer user_data)
@@ -5122,6 +5210,10 @@ em_configure_new_composer (EMsgComposer *composer,
 	g_signal_connect (
 		composer, "presend",
 		G_CALLBACK (composer_presend_check_attachments), session);
+
+	g_signal_connect (
+		composer, "presend",
+		G_CALLBACK (composer_presend_check_autocrypt_wanted), session);
 
 	g_signal_connect (
 		composer, "send",

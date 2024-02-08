@@ -702,6 +702,24 @@ mail_config_security_page_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_BIDIRECTIONAL);
 
+	text = _("A_sk before sending mails with own public key");
+	widget = gtk_check_button_new_with_mnemonic (text);
+	gtk_widget_set_margin_start (widget, 12);
+	gtk_box_pack_start (GTK_BOX (expander_vbox), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property (
+		openpgp_ext, "ask-send-public-key",
+		widget, "active",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_BIDIRECTIONAL);
+
+	e_binding_bind_property (
+		openpgp_ext, "send-public-key",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_BIDIRECTIONAL);
+
 #if defined (ENABLE_SMIME)
 
 	/*** Security MIME (S/MIME) ***/

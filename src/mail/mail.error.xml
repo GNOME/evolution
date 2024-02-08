@@ -706,4 +706,16 @@ in the folder will be available in offline mode.</_secondary>
     <button _label="_Always Sort" response="GTK_RESPONSE_ACCEPT"/>
     <button _label="N_ever Sort" response="GTK_RESPONSE_CANCEL"/>
   </error>
+
+  <error id="ask-composer-send-autocrypt" type="warning" default="GTK_RESPONSE_YES">
+    <_primary>Send mail with Pretty Good Privacy (PGP) public key?</_primary>
+    <_secondary xml:space="preserve">The message contains your public PGP key, which the recipients can use to encrypt messages sent to you or to verify signatures made with this PGP key.
+
+This option is set for each mail account separately. You can find it in the Security tab of the mail account Properties.</_secondary>
+    <button response="GTK_RESPONSE_YES" _label="_Send with Key"></button>
+    <button response="GTK_RESPONSE_NO" _label="_Remove Key"></button>
+    <button response="GTK_RESPONSE_ACCEPT" _label="_Always"></button>
+    <button response="GTK_RESPONSE_REJECT" _label="_Never"></button>
+    <button response="GTK_RESPONSE_CANCEL" _label="_Cancel"/>
+  </error>
 </error-list>
