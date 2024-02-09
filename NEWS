@@ -1,3 +1,17 @@
+Evolution 3.50.4 2024-02-09
+---------------------------
+
+Bug Fixes:
+	I#2640 - EPasswords: Fallback to use app's active window as its parent
+	I#2652 - rss: Incorrect decode of quoted-printable-like texts
+	I#2653 - rss: Invalid default article date
+
+Miscellaneous:
+	EContactEditor: Explicitly set horizontal/vertical expand/fill for tab content
+
+Translations:
+	Martin (sl)
+
 Evolution 3.50.3 2024-01-05
 ---------------------------
 
