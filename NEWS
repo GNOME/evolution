@@ -1,3 +1,37 @@
+Evolution 3.51.2 2024-02-09
+---------------------------
+
+Bug Fixes:
+	I#2607 - Mail: Add 'Mark Task as complete' in To Do bar
+	I#2628 - Update shortcuts window
+	I#2637 - Calendar: Arrows should move by a whole month
+	I#2640 - EPasswords: Fallback to use app's active window as its parent
+	I#2646 - rss: Build common code as a shared private library
+	I#2647 - misc: Get mouse cursor image by name
+	I#2652 - rss: Incorrect decode of quoted-printable-like texts
+	I#2653 - rss: Invalid default article date
+	I#2654 - Markdown Editor: Use font as set in Evolution
+	M!127 - Port to GTask (Corentin Noël)
+	M!128 - GLibTools: Automatically get the dependencies of a GResource (Corentin Noël)
+
+Miscellaneous:
+	build: Don't set CFLAGS returned by pkg-config as CMAKE_REQUIRED_FLAGS
+	build: Bump CMake version requirement to 3.15
+	build: align glib_encoded_version with the version requirements (Corentin Noël)
+	EContactEditor: Explicitly set horizontal/vertical expand/fill for tab content
+	e-shell: Describe --force-shutdown option as closing also background processes
+	Composer: Ask before sending mail with an Autocrypt header
+
+Translations:
+	Christian Kirbach (de)
+	Ekaterine Papava (ka)
+	Juliano de Souza Camargo (pt_BR)
+	Kukuh Syafaat (id)
+	Martin (sl)
+	Pavel Koulikov (ru)
+	Sabri Ünal (tr)
+	Yuri Chornoivan (uk)
+
 Evolution 3.51.1 2024-01-05
 ---------------------------
 
