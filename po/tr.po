@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-01-31 13:27+0000\n"
-"PO-Revision-Date: 2024-02-03 08:00+0300\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"POT-Creation-Date: 2024-02-07 20:32+0000\n"
+"PO-Revision-Date: 2024-02-08 01:33+0300\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -240,8 +240,8 @@ msgid ""
 "Open a contact location in a local application handling 'map:' URI, if "
 "available, instead of using a web browser"
 msgstr ""
-"Bağlantı konumunu, eğer varsa 'map:' URI’sini ele alan yerel uygulamada "
-"ya da web tarayıcıda açılması"
+"Bağlantı konumunu, eğer varsa 'map:' URI’sini ele alan yerel uygulamada ya "
+"da web tarayıcıda açılması"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:47
 msgid "Preview Personal before Work information"
@@ -4812,16 +4812,16 @@ msgstr ""
 #: ../src/e-util/e-html-editor-actions.c:562
 #: ../src/e-util/e-image-chooser-dialog.c:179
 #: ../src/e-util/e-mail-signature-script-dialog.c:353
-#: ../src/e-util/e-passwords.c:474 ../src/e-util/e-rule-context.c:819
+#: ../src/e-util/e-passwords.c:486 ../src/e-util/e-rule-context.c:819
 #: ../src/e-util/e-rule-editor.c:184 ../src/e-util/e-rule-editor.c:295
 #: ../src/e-util/e-rule-editor.c:931 ../src/e-util/e-send-options.ui.h:16
-#: ../src/e-util/e-source-config-dialog.c:356
+#: ../src/e-util/e-source-config-dialog.c:359
 #: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4142
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
-#: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
+#: ../src/mail/e-mail-config-window.c:313 ../src/mail/e-mail-label-dialog.c:187
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4311
 #: ../src/mail/em-folder-selector.c:631 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
@@ -5400,15 +5400,15 @@ msgstr "_Yardım"
 #: ../src/e-util/e-categories-dialog.c:82 ../src/e-util/e-category-editor.c:253
 #: ../src/e-util/e-charset-combo-box.c:100
 #: ../src/e-util/e-color-chooser-widget.c:126
-#: ../src/e-util/e-filter-datespec.c:301 ../src/e-util/e-passwords.c:475
+#: ../src/e-util/e-filter-datespec.c:301 ../src/e-util/e-passwords.c:487
 #: ../src/e-util/e-rule-context.c:820 ../src/e-util/e-rule-editor.c:185
 #: ../src/e-util/e-rule-editor.c:296 ../src/e-util/e-rule-editor.c:932
 #: ../src/e-util/e-send-options.ui.h:17
-#: ../src/e-util/e-source-config-dialog.c:357
+#: ../src/e-util/e-source-config-dialog.c:360
 #: ../src/e-util/e-source-selector-dialog.c:337
 #: ../src/e-util/e-table-config.c:541 ../src/e-util/e-table-config.ui.h:4
 #: ../src/e-util/e-timezone-dialog.ui.h:3
-#: ../src/mail/e-mail-config-window.c:311 ../src/mail/e-mail-tag-editor.c:162
+#: ../src/mail/e-mail-config-window.c:314 ../src/mail/e-mail-tag-editor.c:162
 #: ../src/mail/em-folder-selector.c:44 ../src/mail/mail-config.ui.h:3
 #: ../src/mail/mail-vfolder-ui.c:150 ../src/mail/mail-vfolder-ui.c:272
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:278
@@ -7690,7 +7690,7 @@ msgstr "Düzenleyen: %s"
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2257
-#: ../src/calendar/gui/e-meeting-time-sel.c:2585
+#: ../src/calendar/gui/e-meeting-time-sel.c:2591
 #: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3649
 #, c-format
 msgid "Location: %s"
@@ -9704,7 +9704,7 @@ msgstr "Kaydet ve Kapat"
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:753
 #: ../src/mail/e-mail-notes.c:1108 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1519
-#: ../src/mail/em-subscription-editor.c:1735
+#: ../src/mail/em-subscription-editor.c:1744
 #: ../src/shell/e-shell-window-actions.c:946
 #: ../src/smime/gui/certificate-manager.c:2132
 msgid "_Close"
@@ -9716,7 +9716,7 @@ msgstr "Geçerli pencereyi kapat"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2197 ../src/e-util/e-focus-tracker.c:806
-#: ../src/e-util/e-html-editor-actions.c:1144 ../src/e-util/e-text.c:2065
+#: ../src/e-util/e-html-editor-actions.c:1144 ../src/e-util/e-text.c:2063
 #: ../src/e-util/e-web-view.c:503 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:967
 msgid "_Copy"
@@ -9732,7 +9732,7 @@ msgstr "Seçimi kopyala"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2204 ../src/e-util/e-focus-tracker.c:801
-#: ../src/e-util/e-html-editor-actions.c:1151 ../src/e-util/e-text.c:2051
+#: ../src/e-util/e-html-editor-actions.c:1151 ../src/e-util/e-text.c:2049
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:974
 msgid "Cu_t"
 msgstr "K_es"
@@ -9756,7 +9756,7 @@ msgstr "Yardımı görüntüle"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2225 ../src/e-util/e-focus-tracker.c:811
-#: ../src/e-util/e-html-editor-actions.c:1158 ../src/e-util/e-text.c:2077
+#: ../src/e-util/e-html-editor-actions.c:1158 ../src/e-util/e-text.c:2075
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:1002
 msgid "_Paste"
 msgstr "_Yapıştır"
@@ -10097,7 +10097,7 @@ msgstr "B_aşlangıç zamanı:"
 msgid "_End time:"
 msgstr "B_itiş zamanı:"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:2581
+#: ../src/calendar/gui/e-meeting-time-sel.c:2587
 #, c-format
 msgid ""
 "Summary: %s\n"
@@ -10106,7 +10106,7 @@ msgstr ""
 "Özet: %s\n"
 "Konum: %s"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:2583
+#: ../src/calendar/gui/e-meeting-time-sel.c:2589
 #: ../src/calendar/gui/print.c:3638
 #, c-format
 msgid "Summary: %s"
@@ -13654,7 +13654,7 @@ msgstr "Evolution Hesapları"
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
 #: ../src/e-util/e-accounts-window.c:1768 ../src/e-util/e-webdav-browser.c:2898
-#: ../src/mail/em-subscription-editor.c:1949
+#: ../src/mail/em-subscription-editor.c:1958
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1616
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1694
 msgid "_Refresh"
@@ -15468,7 +15468,7 @@ msgstr "Sözcüğü Sözlüğe Ekle"
 
 #: ../src/e-util/e-html-editor-actions.c:1931
 msgid "Ignore Misspelled Word"
-msgstr "Yanlış Hecelenmiş Sözcüğü Yoksay"
+msgstr "Yanlış Hecelenmiş Sözcüğü Yok Say"
 
 #: ../src/e-util/e-html-editor-actions.c:1938
 msgid "Add Word To"
@@ -15947,7 +15947,7 @@ msgstr "Tümünü Değiştir"
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:440
 #: ../src/mail/mail.error.xml.h:116
 msgid "Ignore"
-msgstr "Yok say"
+msgstr "Yok Say"
 
 #. Skip
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:449
@@ -16494,19 +16494,19 @@ msgstr "Anahtarlık anahtarı kullanabilir değil: kullanıcı ya da makine adı
 msgid "You have the Caps Lock key on."
 msgstr "Caps Lock tuşunuz açık durumda."
 
-#: ../src/e-util/e-passwords.c:583
+#: ../src/e-util/e-passwords.c:595
 msgid "_Remember this passphrase"
 msgstr "_Bu parola metnini hatırla"
 
-#: ../src/e-util/e-passwords.c:584
+#: ../src/e-util/e-passwords.c:596
 msgid "_Remember this passphrase for the remainder of this session"
 msgstr "_Bu parola metnini oturumun geri kalanında hatırla"
 
-#: ../src/e-util/e-passwords.c:589
+#: ../src/e-util/e-passwords.c:601
 msgid "_Remember this password"
 msgstr "Bu parolayı _hatırla"
 
-#: ../src/e-util/e-passwords.c:590
+#: ../src/e-util/e-passwords.c:602
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Bu parolayı oturumun geri kalanında hatırla"
 
@@ -16561,7 +16561,7 @@ msgstr "_Socks Vekili:"
 
 #: ../src/e-util/e-proxy-editor.c:490
 msgid "_Ignore Hosts:"
-msgstr "İstemcileri _Yoksay:"
+msgstr "İstemcileri _Yok Say:"
 
 #: ../src/e-util/e-proxy-editor.c:516
 msgid "Automatic"
@@ -16886,7 +16886,7 @@ msgstr "“%s” Sözcüğünü Sözlüğe Ekle"
 #. - Ignore All
 #: ../src/e-util/e-spell-entry.c:637
 msgid "Ignore All"
-msgstr "Tümünü Yoksay"
+msgstr "Tümünü Yok Say"
 
 #: ../src/e-util/e-spell-entry.c:669
 msgid "Spelling Suggestions"
@@ -17221,11 +17221,11 @@ msgstr "_Sıralama"
 msgid "_Custom"
 msgstr "Ö_zel"
 
-#: ../src/e-util/e-text.c:2090
+#: ../src/e-util/e-text.c:2088
 msgid "Select All"
 msgstr "Tümünü Seç"
 
-#: ../src/e-util/e-text.c:2103
+#: ../src/e-util/e-text.c:2101
 msgid "Input Methods"
 msgstr "Giriş Yöntemleri"
 
@@ -18728,7 +18728,7 @@ msgstr ""
 msgid "Welcome"
 msgstr "Hoş Geldiniz"
 
-#: ../src/mail/e-mail-config-window.c:305
+#: ../src/mail/e-mail-config-window.c:308
 msgid "Account Editor"
 msgstr "Hesap Düzenleyici"
 
@@ -18785,19 +18785,19 @@ msgid "Zoom large images to not be wider than the window width"
 msgstr ""
 "Büyük resimleri pencere genişliğini aşmayacak biçimde yakınlaştır/uzaklaştır"
 
-#: ../src/mail/e-mail-folder-create-dialog.c:328
+#: ../src/mail/e-mail-folder-create-dialog.c:331
 msgid "Create Folder"
 msgstr "Klasör Oluştur"
 
-#: ../src/mail/e-mail-folder-create-dialog.c:332
+#: ../src/mail/e-mail-folder-create-dialog.c:335
 msgid "Specify where to create the folder:"
 msgstr "Klasörün nerede oluşturulacağını belirtin:"
 
-#: ../src/mail/e-mail-folder-create-dialog.c:335
+#: ../src/mail/e-mail-folder-create-dialog.c:338
 msgid "C_reate"
 msgstr "_Oluştur"
 
-#: ../src/mail/e-mail-folder-create-dialog.c:352
+#: ../src/mail/e-mail-folder-create-dialog.c:355
 msgid "Folder _name:"
 msgstr "Klasör _adı:"
 
@@ -19261,7 +19261,7 @@ msgstr "HTML iletinin içindeki resimlerin yüklenmesine izin ver"
 
 #: ../src/mail/e-mail-reader.c:2887 ../src/mail/e-mail-reader.c:3320
 msgid "_Ignore Subthread"
-msgstr "Alt Diziyi _yoksay"
+msgstr "Alt Diziyi _Yok Say"
 
 #: ../src/mail/e-mail-reader.c:2889
 msgid "Mark new mails in a subthread as read automatically"
@@ -19269,7 +19269,7 @@ msgstr "Alt dizilerdeki yeni e-postaları kendiliğinden okundu olarak imle"
 
 #: ../src/mail/e-mail-reader.c:2894 ../src/mail/e-mail-reader.c:3324
 msgid "_Ignore Thread"
-msgstr "_Diziyi Yoksay"
+msgstr "_Diziyi Yok Say"
 
 #: ../src/mail/e-mail-reader.c:2896
 msgid "Mark new mails in this thread as read automatically"
@@ -20296,33 +20296,33 @@ msgstr "Klasörü Taşı"
 msgid "Copy Folder To"
 msgstr "Klasörü Kopyala"
 
-#: ../src/mail/em-subscription-editor.c:813
+#: ../src/mail/em-subscription-editor.c:819
 msgid "_Subscribe"
 msgstr "_Abone ol"
 
-#: ../src/mail/em-subscription-editor.c:822
+#: ../src/mail/em-subscription-editor.c:828
 msgid "Su_bscribe To Shown"
 msgstr "Gösterilene Abone _Ol"
 
-#: ../src/mail/em-subscription-editor.c:830
+#: ../src/mail/em-subscription-editor.c:836
 msgid "Subscribe To _All"
 msgstr "_Tümüne Abone Ol"
 
-#: ../src/mail/em-subscription-editor.c:936
-#: ../src/mail/em-subscription-editor.c:1887 ../src/mail/mail.error.xml.h:73
+#: ../src/mail/em-subscription-editor.c:942
+#: ../src/mail/em-subscription-editor.c:1896 ../src/mail/mail.error.xml.h:73
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1722
 msgid "_Unsubscribe"
 msgstr "Aboneliği _Kaldır"
 
-#: ../src/mail/em-subscription-editor.c:945
+#: ../src/mail/em-subscription-editor.c:951
 msgid "Unsu_bscribe From Hidden"
 msgstr "Gizli A_boneliğinden Çık"
 
-#: ../src/mail/em-subscription-editor.c:953
+#: ../src/mail/em-subscription-editor.c:959
 msgid "Unsubscribe From _All"
 msgstr "Tüm Aboneliklerden _Çık"
 
-#: ../src/mail/em-subscription-editor.c:1315
+#: ../src/mail/em-subscription-editor.c:1324
 #: ../src/modules/mail/e-mail-shell-view-private.c:928
 #: ../src/modules/mail/e-mail-shell-view-private.c:960
 #: ../src/modules/mail/e-mail-shell-view-private.c:1004
@@ -20331,67 +20331,67 @@ msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d okunmamış, "
 
-#: ../src/mail/em-subscription-editor.c:1319
+#: ../src/mail/em-subscription-editor.c:1328
 #: ../src/modules/mail/e-mail-shell-view-private.c:1014
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "toplam %d"
 
-#: ../src/mail/em-subscription-editor.c:1724
+#: ../src/mail/em-subscription-editor.c:1733
 msgid "Folder Subscriptions"
 msgstr "Klasör Abonelikleri"
 
-#: ../src/mail/em-subscription-editor.c:1761
+#: ../src/mail/em-subscription-editor.c:1770
 msgid "_Account:"
 msgstr "_Hesap:"
 
-#: ../src/mail/em-subscription-editor.c:1774
+#: ../src/mail/em-subscription-editor.c:1783
 msgid "Clear Search"
 msgstr "Aramayı Temizle"
 
-#: ../src/mail/em-subscription-editor.c:1791
+#: ../src/mail/em-subscription-editor.c:1800
 msgid "Sho_w items that contain:"
 msgstr "İçerenleri _göster:"
 
-#: ../src/mail/em-subscription-editor.c:1840
+#: ../src/mail/em-subscription-editor.c:1849
 msgid "Subscribe to the selected folder"
 msgstr "Seçili klasöre abone ol"
 
-#: ../src/mail/em-subscription-editor.c:1841
+#: ../src/mail/em-subscription-editor.c:1850
 msgid "Su_bscribe"
 msgstr "Abone _Ol"
 
-#: ../src/mail/em-subscription-editor.c:1886
+#: ../src/mail/em-subscription-editor.c:1895
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1724
 msgid "Unsubscribe from the selected folder"
 msgstr "Seçili klasöre aboneliği kaldır"
 
-#: ../src/mail/em-subscription-editor.c:1926
+#: ../src/mail/em-subscription-editor.c:1935
 msgid "Collapse all folders"
 msgstr "Tüm klasörleri topla"
 
-#: ../src/mail/em-subscription-editor.c:1927
+#: ../src/mail/em-subscription-editor.c:1936
 msgid "C_ollapse All"
 msgstr "Tümünü _Topla"
 
-#: ../src/mail/em-subscription-editor.c:1937
+#: ../src/mail/em-subscription-editor.c:1946
 msgid "Expand all folders"
 msgstr "Tüm klasörleri genişlet"
 
-#: ../src/mail/em-subscription-editor.c:1938
+#: ../src/mail/em-subscription-editor.c:1947
 msgid "E_xpand All"
 msgstr "Tümünü _Genişlet"
 
-#: ../src/mail/em-subscription-editor.c:1948
+#: ../src/mail/em-subscription-editor.c:1957
 msgid "Refresh the folder list"
 msgstr "Klasör listesini yenile"
 
-#: ../src/mail/em-subscription-editor.c:1960
+#: ../src/mail/em-subscription-editor.c:1969
 msgid "Stop the current operation"
 msgstr "Geçerli işlemi durdur"
 
-#: ../src/mail/em-subscription-editor.c:1961
+#: ../src/mail/em-subscription-editor.c:1970
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1349
 msgid "_Stop"
 msgstr "_Dur"
@@ -27617,7 +27617,7 @@ msgstr "Metin Vurgusu"
 
 #: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:504
 msgid "Syntax highlighting of mail parts"
-msgstr "E-posta bölümlerinin sözdizim vurgulamaları"
+msgstr "E-posta bölümlerinin söz dizim vurgulamaları"
 
 #: ../src/modules/text-highlight/languages.c:29
 msgid "_Plain text"
@@ -29055,8 +29055,9 @@ msgid "Ignore network availability"
 msgstr "Ağ uygunluğunu göz ardı et"
 
 #: ../src/shell/e-shell.c:2002
-msgid "Forcibly shut down Evolution"
-msgstr "Evolutionʼu zorla kapat"
+msgid ""
+"Forcibly shut down Evolution and background Evolution-Data-Server processes"
+msgstr ""
 
 #: ../src/shell/e-shell.c:2005
 msgid "Disable loading of any plugins."
@@ -30135,6 +30136,9 @@ msgstr "Deponun diske yazılması başarısız, hata_kodu: %i"
 #: ../src/smime/lib/e-pkcs12.c:471
 msgid "Imported Certificate"
 msgstr "Aktarılmış Sertifika"
+
+#~ msgid "Forcibly shut down Evolution"
+#~ msgstr "Evolutionʼu zorla kapat"
 
 #~ msgid "_Remove Link"
 #~ msgstr "Bağlantıyı _Kaldır"
