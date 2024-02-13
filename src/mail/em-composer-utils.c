@@ -3851,12 +3851,13 @@ em_composer_utils_get_reply_credits (ESource *identity_source,
 		/* That didn't work either, use current time */
 		time (&date);
 		tzone = 0;
-	} else if (tzone == 0) {
+	} else {
 		GSettings *settings;
 
 		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
-		if (g_settings_get_boolean (settings, "composer-reply-credits-utc-to-localtime")) {
+		if ((tzone == 0 && g_settings_get_boolean (settings, "composer-reply-credits-utc-to-localtime")) ||
+		    g_settings_get_boolean (settings, "composer-reply-credits-to-localtime")) {
 			struct tm local;
 			gint offset = 0;
 

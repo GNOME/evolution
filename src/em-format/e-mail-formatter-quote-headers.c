@@ -224,7 +224,8 @@ emfqe_format_header (EMailFormatter *formatter,
 		date = camel_header_decode_date (txt, &offset);
 
 		settings = e_util_ref_settings ("org.gnome.evolution.mail");
-		if (date > 0 && !offset && g_settings_get_boolean (settings, "composer-reply-credits-utc-to-localtime")) {
+		if (date > 0 && ((!offset && g_settings_get_boolean (settings, "composer-reply-credits-utc-to-localtime")) ||
+		    g_settings_get_boolean (settings, "composer-reply-credits-to-localtime"))) {
 			struct tm local;
 
 			e_localtime_with_offset (date, &local, &offset);

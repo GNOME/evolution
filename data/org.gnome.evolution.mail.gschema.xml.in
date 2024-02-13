@@ -312,6 +312,11 @@
       <_summary>Convert UTC time in reply credits to local time</_summary>
       <_description>Whether the time in reply credits should be converted to local time when it’s in UTC in the message.</_description>
     </key>
+    <key name="composer-reply-credits-to-localtime" type="b">
+      <default>false</default>
+      <_summary>Convert time in reply credits to local time</_summary>
+      <_description>Whether the time in reply credits should be converted to local time. This converts any time, not only UTC times, for which “composer-reply-credits-utc-to-localtime” can be used.</_description>
+    </key>
     <key name="composer-reply-credits-date-user-format" type="b">
       <default>true</default>
       <_summary>Use user date format in reply credits</_summary>
