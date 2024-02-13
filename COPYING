@@ -7,16 +7,15 @@ There are a few exceptions to this rule that have an impact on overall
 licensing. At the present, the code seems GPLv2+ clean.
 
 OpenLDAP license
-        addressbook/gui/component/openldap-extract.h
+        src/modules/addressbook/openldap-extract.h
 
 LGPLv2+
-        widgets/text/e-text.[ch]
-        widgets/table/e-cell-tree.[ch]
-        widgets/misc/e-dateedit.[ch]
+        src/e-util/e-text.[ch]
+        src/e-util/e-cell-tree.[ch]
+        src/e-util/e-dateedit.[ch]
 
 MPL/GPL/LGPLv2+
-        smime/lib/e-asn1-object.c
-        smime/lib/e-cert.c
-        smime/lib/e-cert-db.c
-        smime/lib/e-cert-trust.c
-        smime/lib/e-pkcs12.c
+        src/smime/lib/e-cert.c
+        src/smime/lib/e-cert-db.c
+        src/smime/lib/e-cert-trust.c
+        src/smime/lib/e-pkcs12.c
