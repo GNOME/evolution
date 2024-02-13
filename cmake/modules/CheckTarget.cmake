@@ -17,5 +17,6 @@ add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND})
 
 macro(add_check_test _name)
 	add_test(NAME ${_name} COMMAND ${_name})
+	set_tests_properties(${_name} PROPERTIES RUN_SERIAL ON)
 	add_dependencies(check ${_name})
 endmacro(add_check_test)
