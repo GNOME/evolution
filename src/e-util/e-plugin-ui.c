@@ -397,8 +397,8 @@ plugin_ui_hook_finalize (GObject *object)
 	g_hash_table_destroy (self->priv->callbacks);
 	g_hash_table_destroy (self->priv->registry);
 
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_plugin_ui_hook_parent_class)->dispose (object);
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_plugin_ui_hook_parent_class)->finalize (object);
 }
 
 static gint
