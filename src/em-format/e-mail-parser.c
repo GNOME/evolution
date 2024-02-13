@@ -47,8 +47,6 @@ enum {
 	PROP_SESSION
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (EMailParser, e_mail_parser, G_TYPE_OBJECT)
-
 /* internal parser extensions */
 GType e_mail_parser_application_mbox_get_type (void);
 GType e_mail_parser_audio_get_type (void);
@@ -78,6 +76,15 @@ GType e_mail_parser_application_smime_get_type (void);
 #ifdef HAVE_MARKDOWN
 GType e_mail_parser_text_markdown_get_type (void);
 #endif
+
+static gpointer e_mail_parser_parent_class = NULL;
+static gint EMailParser_private_offset = 0;
+
+static inline gpointer
+e_mail_parser_get_instance_private (EMailParser *self)
+{
+	return (G_STRUCT_MEMBER_P (self, EMailParser_private_offset));
+}
 
 static void
 mail_parser_move_security_before_headers (GQueue *part_queue)
@@ -362,9 +369,8 @@ e_mail_parser_finalize (GObject *object)
 }
 
 static void
-e_mail_parser_class_init (EMailParserClass *class)
+e_mail_parser_base_init (EMailParserClass *class)
 {
-	GObjectClass *object_class;
 	EShell *shell;
 
 	/* Register internal extensions. */
@@ -410,6 +416,16 @@ e_mail_parser_class_init (EMailParserClass *class)
 	/* It can be NULL when creating developer documentation */
 	if (shell)
 		g_object_weak_ref (G_OBJECT (shell), shell_gone_cb, class);
+}
+
+static void
+e_mail_parser_class_init (EMailParserClass *class)
+{
+	GObjectClass *object_class;
+
+	e_mail_parser_parent_class = g_type_class_peek_parent (class);
+	if (EMailParser_private_offset != 0)
+		g_type_class_adjust_private_offset (class, &EMailParser_private_offset);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_mail_parser_finalize;
@@ -435,6 +451,35 @@ e_mail_parser_init (EMailParser *parser)
 	parser->priv->ongoing_part_lists = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	g_mutex_init (&parser->priv->mutex);
+}
+
+GType
+e_mail_parser_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMailParserClass),
+			(GBaseInitFunc) e_mail_parser_base_init,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) e_mail_parser_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMailParser),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) e_mail_parser_init,
+			NULL   /* value_table */
+		};
+
+		type = g_type_register_static (
+			G_TYPE_OBJECT, "EMailParser",
+			&type_info, 0);
+
+		EMailParser_private_offset = g_type_add_instance_private (type, sizeof (EMailParserPrivate));
+	}
+
+	return type;
 }
 
 EMailParser *

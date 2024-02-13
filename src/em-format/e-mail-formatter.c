@@ -76,9 +76,14 @@ GType e_mail_formatter_text_plain_get_type (void);
 GType e_mail_formatter_text_markdown_get_type (void);
 #endif
 
-G_DEFINE_TYPE_WITH_CODE (EMailFormatter, e_mail_formatter, G_TYPE_OBJECT,
-	G_ADD_PRIVATE (EMailFormatter)
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+static gpointer e_mail_formatter_parent_class = NULL;
+static gint EMailFormatter_private_offset = 0;
+
+static inline gpointer
+e_mail_formatter_get_instance_private (EMailFormatter *self)
+{
+	return (G_STRUCT_MEMBER_P (self, EMailFormatter_private_offset));
+}
 
 enum {
 	PROP_0,
@@ -546,9 +551,8 @@ mail_formatter_update_style (EMailFormatter *formatter,
 }
 
 static void
-e_mail_formatter_class_init (EMailFormatterClass *class)
+e_mail_formatter_base_init (EMailFormatterClass *class)
 {
-	GObjectClass *object_class;
 	EShell *shell;
 
 	/* Register internal extensions. */
@@ -590,6 +594,16 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 	/* It can be NULL when creating developer documentation */
 	if (shell)
 		g_object_weak_ref (G_OBJECT (shell), shell_gone_cb, class);
+}
+
+static void
+e_mail_formatter_class_init (EMailFormatterClass *class)
+{
+	GObjectClass *object_class;
+
+	e_mail_formatter_parent_class = g_type_class_peek_parent (class);
+	if (EMailFormatter_private_offset != 0)
+		g_type_class_adjust_private_offset (class, &EMailFormatter_private_offset);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = e_mail_formatter_set_property;
@@ -793,6 +807,42 @@ EMailFormatter *
 e_mail_formatter_new (void)
 {
 	return g_object_new (E_TYPE_MAIL_FORMATTER, NULL);
+}
+
+GType
+e_mail_formatter_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		const GTypeInfo type_info = {
+			sizeof (EMailFormatterClass),
+			(GBaseInitFunc) e_mail_formatter_base_init,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) e_mail_formatter_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,	/* class_data */
+			sizeof (EMailFormatter),
+			0,	/* n_preallocs */
+			(GInstanceInitFunc) e_mail_formatter_init,
+			NULL	/* value_table */
+		};
+
+		const GInterfaceInfo e_extensible_interface_info = {
+			(GInterfaceInitFunc) NULL
+		};
+
+		type = g_type_register_static (
+			G_TYPE_OBJECT,
+			"EMailFormatter", &type_info, 0);
+
+		EMailFormatter_private_offset = g_type_add_instance_private (type, sizeof (EMailFormatterPrivate));
+
+		g_type_add_interface_static (
+			type, E_TYPE_EXTENSIBLE, &e_extensible_interface_info);
+	}
+
+	return type;
 }
 
 void

@@ -33,14 +33,21 @@ struct _EMailFormatterQuotePrivate {
 	EMailFormatterQuoteFlags flags;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (EMailFormatterQuote, e_mail_formatter_quote, E_TYPE_MAIL_FORMATTER)
-
 /* internal formatter extensions */
 GType e_mail_formatter_quote_headers_get_type (void);
 GType e_mail_formatter_quote_message_rfc822_get_type (void);
 GType e_mail_formatter_quote_text_enriched_get_type (void);
 GType e_mail_formatter_quote_text_html_get_type (void);
 GType e_mail_formatter_quote_text_plain_get_type (void);
+
+static gpointer e_mail_formatter_quote_parent_class = NULL;
+static gint EMailFormatterQuote_private_offset = 0;
+
+static inline gpointer
+e_mail_formatter_quote_get_instance_private (EMailFormatterQuote *self)
+{
+	return (G_STRUCT_MEMBER_P (self, EMailFormatterQuote_private_offset));
+}
 
 static void
 mail_formatter_quote_run (EMailFormatter *formatter,
@@ -181,11 +188,8 @@ e_mail_formatter_quote_finalize (GObject *object)
 }
 
 static void
-e_mail_formatter_quote_class_init (EMailFormatterQuoteClass *class)
+e_mail_formatter_quote_base_init (EMailFormatterQuoteClass *class)
 {
-	GObjectClass *object_class;
-	EMailFormatterClass *formatter_class;
-
 	/* Register internal extensions. */
 	g_type_ensure (e_mail_formatter_quote_headers_get_type ());
 	g_type_ensure (e_mail_formatter_quote_message_rfc822_get_type ());
@@ -201,6 +205,17 @@ e_mail_formatter_quote_class_init (EMailFormatterQuoteClass *class)
 		CAMEL_MIME_FILTER_TOHTML_PRE |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
+}
+
+static void
+e_mail_formatter_quote_class_init (EMailFormatterQuoteClass *class)
+{
+	GObjectClass *object_class;
+	EMailFormatterClass *formatter_class;
+
+	e_mail_formatter_quote_parent_class = g_type_class_peek_parent (class);
+	if (EMailFormatterQuote_private_offset != 0)
+		g_type_class_adjust_private_offset (class, &EMailFormatterQuote_private_offset);
 
 	formatter_class = E_MAIL_FORMATTER_CLASS (class);
 	formatter_class->context_size = sizeof (EMailFormatterQuoteContext);
@@ -208,6 +223,35 @@ e_mail_formatter_quote_class_init (EMailFormatterQuoteClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_mail_formatter_quote_finalize;
+}
+
+GType
+e_mail_formatter_quote_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		const GTypeInfo type_info = {
+			sizeof (EMailFormatterClass),
+			(GBaseInitFunc) e_mail_formatter_quote_base_init,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) e_mail_formatter_quote_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,	/* class_data */
+			sizeof (EMailFormatterQuote),
+			0,	/* n_preallocs */
+			(GInstanceInitFunc) e_mail_formatter_quote_init,
+			NULL	/* value_table */
+		};
+
+		type = g_type_register_static (
+			E_TYPE_MAIL_FORMATTER,
+			"EMailFormatterQuote", &type_info, 0);
+
+		EMailFormatterQuote_private_offset = g_type_add_instance_private (type, sizeof (EMailFormatterQuotePrivate));
+	}
+
+	return type;
 }
 
 EMailFormatter *
