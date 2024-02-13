@@ -40,10 +40,6 @@
 #define ROW_VALID(store, row) \
 	(row >= 0 && row < store->priv->attendees->len)
 
-#define E_MEETING_STORE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEETING_STORE, EMeetingStorePrivate))
-
 struct _EMeetingStorePrivate {
 	GPtrArray *attendees;
 	gint stamp;
@@ -99,8 +95,8 @@ enum {
 /* Forward Declarations */
 static void ems_tree_model_init (GtkTreeModelIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMeetingStore, e_meeting_store, GTK_TYPE_LIST_STORE,
+G_DEFINE_TYPE_WITH_CODE (EMeetingStore, e_meeting_store, GTK_TYPE_LIST_STORE,
+	G_ADD_PRIVATE (EMeetingStore)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL, ems_tree_model_init))
 
@@ -738,33 +734,30 @@ meeting_store_constructed (GObject *object)
 static void
 meeting_store_finalize (GObject *object)
 {
-	EMeetingStorePrivate *priv;
+	EMeetingStore *self = E_MEETING_STORE (object);
 	gint i;
 
-	priv = E_MEETING_STORE_GET_PRIVATE (object);
+	for (i = 0; i < self->priv->attendees->len; i++)
+		g_object_unref (g_ptr_array_index (self->priv->attendees, i));
+	g_ptr_array_free (self->priv->attendees, TRUE);
 
-	for (i = 0; i < priv->attendees->len; i++)
-		g_object_unref (g_ptr_array_index (priv->attendees, i));
-	g_ptr_array_free (priv->attendees, TRUE);
+	g_clear_object (&self->priv->client);
 
-	if (priv->client != NULL)
-		g_object_unref (priv->client);
-
-	while (priv->refresh_queue->len > 0)
+	while (self->priv->refresh_queue->len > 0)
 		refresh_queue_remove (
-			E_MEETING_STORE (object),
-			g_ptr_array_index (priv->refresh_queue, 0));
-	g_ptr_array_free (priv->refresh_queue, TRUE);
-	g_hash_table_destroy (priv->refresh_data);
+			self,
+			g_ptr_array_index (self->priv->refresh_queue, 0));
+	g_ptr_array_free (self->priv->refresh_queue, TRUE);
+	g_hash_table_destroy (self->priv->refresh_data);
 
-	if (priv->refresh_idle_id)
-		g_source_remove (priv->refresh_idle_id);
+	if (self->priv->refresh_idle_id)
+		g_source_remove (self->priv->refresh_idle_id);
 
-	g_free (priv->fb_uri);
+	g_free (self->priv->fb_uri);
 
-	g_clear_object (&priv->zone);
+	g_clear_object (&self->priv->zone);
 
-	g_mutex_clear (&priv->mutex);
+	g_mutex_clear (&self->priv->mutex);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_meeting_store_parent_class)->finalize (object);
@@ -774,8 +767,6 @@ static void
 e_meeting_store_class_init (EMeetingStoreClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EMeetingStorePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = meeting_store_set_property;
@@ -851,7 +842,7 @@ e_meeting_store_class_init (EMeetingStoreClass *class)
 static void
 e_meeting_store_init (EMeetingStore *store)
 {
-	store->priv = E_MEETING_STORE_GET_PRIVATE (store);
+	store->priv = e_meeting_store_get_instance_private (store);
 
 	store->priv->attendees = g_ptr_array_new ();
 	store->priv->refresh_queue = g_ptr_array_new ();

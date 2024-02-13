@@ -28,10 +28,6 @@
 #include <e-util/e-util.h>
 #include "eab-gui-util.h"
 
-#define E_ADDRESSBOOK_MODEL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModelPrivate))
-
 struct _EAddressbookModelPrivate {
 	EClientCache *client_cache;
 	gulong client_notify_readonly_handler_id;
@@ -83,7 +79,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (EAddressbookModel, e_addressbook_model, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EAddressbookModel, e_addressbook_model, G_TYPE_OBJECT)
 
 static void
 free_data (EAddressbookModel *model)
@@ -577,11 +573,9 @@ addressbook_model_dispose (GObject *object)
 static void
 addressbook_model_finalize (GObject *object)
 {
-	EAddressbookModelPrivate *priv;
+	EAddressbookModel *self = E_ADDRESSBOOK_MODEL (object);
 
-	priv = E_ADDRESSBOOK_MODEL_GET_PRIVATE (object);
-
-	g_ptr_array_free (priv->contacts, TRUE);
+	g_ptr_array_free (self->priv->contacts, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_addressbook_model_parent_class)->finalize (object);
@@ -618,8 +612,6 @@ static void
 e_addressbook_model_class_init (EAddressbookModelClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EAddressbookModelPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = addressbook_model_set_property;
@@ -785,7 +777,7 @@ e_addressbook_model_class_init (EAddressbookModelClass *class)
 static void
 e_addressbook_model_init (EAddressbookModel *model)
 {
-	model->priv = E_ADDRESSBOOK_MODEL_GET_PRIVATE (model);
+	model->priv = e_addressbook_model_get_instance_private (model);
 	model->priv->contacts = g_ptr_array_new ();
 	model->priv->first_get_view = TRUE;
 }

@@ -19,10 +19,6 @@
 
 #include "e-port-entry.h"
 
-#define E_PORT_ENTRY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PORT_ENTRY, EPortEntryPrivate))
-
 struct _EPortEntryPrivate {
 	CamelNetworkSecurityMethod method;
 	CamelProviderPortEntry *entries;
@@ -41,10 +37,7 @@ enum {
 	PROP_SECURITY_METHOD
 };
 
-G_DEFINE_TYPE (
-	EPortEntry,
-	e_port_entry,
-	GTK_TYPE_COMBO_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EPortEntry, e_port_entry, GTK_TYPE_COMBO_BOX)
 
 static GtkEntry *
 port_entry_get_entry (EPortEntry *port_entry)
@@ -285,8 +278,6 @@ e_port_entry_class_init (EPortEntryClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EPortEntryPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = port_entry_set_property;
 	object_class->get_property = port_entry_get_property;
@@ -338,7 +329,7 @@ e_port_entry_init (EPortEntry *port_entry)
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
 
-	port_entry->priv = E_PORT_ENTRY_GET_PRIVATE (port_entry);
+	port_entry->priv = e_port_entry_get_instance_private (port_entry);
 
 	store = gtk_list_store_new (
 		3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN);

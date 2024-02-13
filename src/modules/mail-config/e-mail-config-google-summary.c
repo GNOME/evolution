@@ -25,10 +25,6 @@
 
 #include "e-mail-config-google-summary.h"
 
-#define E_MAIL_CONFIG_GOOGLE_SUMMARY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_GOOGLE_SUMMARY, EMailConfigGoogleSummaryPrivate))
-
 #define GOOGLE_IMAP_URI		"http://support.google.com/mail/bin/answer.py?hl=en&answer=77695"
 #define GOOGLE_CALENDAR_URI	"https://calendar.google.com/calendar/syncselect"
 
@@ -47,10 +43,8 @@ enum {
 	PROP_APPLICABLE
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EMailConfigGoogleSummary,
-	e_mail_config_google_summary,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailConfigGoogleSummary, e_mail_config_google_summary, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailConfigGoogleSummary))
 
 static EMailConfigSummaryPage *
 mail_config_google_summary_get_summary_page (EMailConfigGoogleSummary *extension)
@@ -236,14 +230,12 @@ mail_config_google_summary_get_property (GObject *object,
 static void
 mail_config_google_summary_dispose (GObject *object)
 {
-	EMailConfigGoogleSummaryPrivate *priv;
+	EMailConfigGoogleSummary *self = E_MAIL_CONFIG_GOOGLE_SUMMARY (object);
 
-	priv = E_MAIL_CONFIG_GOOGLE_SUMMARY_GET_PRIVATE (object);
-	g_clear_object (&priv->collection_source);
+	g_clear_object (&self->priv->collection_source);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_google_summary_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_google_summary_parent_class)->dispose (object);
 }
 
 static void
@@ -373,9 +365,6 @@ e_mail_config_google_summary_class_init (EMailConfigGoogleSummaryClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailConfigGoogleSummaryPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = mail_config_google_summary_get_property;
 	object_class->dispose = mail_config_google_summary_dispose;
@@ -408,7 +397,7 @@ e_mail_config_google_summary_init (EMailConfigGoogleSummary *extension)
 	ESourceBackend *backend_extension;
 	const gchar *extension_name;
 
-	extension->priv = E_MAIL_CONFIG_GOOGLE_SUMMARY_GET_PRIVATE (extension);
+	extension->priv = e_mail_config_google_summary_get_instance_private (extension);
 
 	source = e_source_new (NULL, NULL, NULL);
 	extension_name = E_SOURCE_EXTENSION_COLLECTION;

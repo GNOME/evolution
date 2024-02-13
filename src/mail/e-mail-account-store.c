@@ -28,9 +28,6 @@
 
 #include "e-mail-account-store.h"
 
-#define E_MAIL_ACCOUNT_STORE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_ACCOUNT_STORE, EMailAccountStorePrivate))
 
 typedef struct _IndexItem IndexItem;
 
@@ -73,15 +70,10 @@ static guint signals[LAST_SIGNAL];
 static void	e_mail_account_store_interface_init
 						(GtkTreeModelIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailAccountStore,
-	e_mail_account_store,
-	GTK_TYPE_LIST_STORE,
-	G_IMPLEMENT_INTERFACE (
-		GTK_TYPE_TREE_MODEL,
-		e_mail_account_store_interface_init)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EMailAccountStore, e_mail_account_store, GTK_TYPE_LIST_STORE,
+	G_ADD_PRIVATE (EMailAccountStore)
+	G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL, e_mail_account_store_interface_init)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 index_item_free (IndexItem *item)
@@ -512,19 +504,17 @@ mail_account_store_get_property (GObject *object,
 static void
 mail_account_store_dispose (GObject *object)
 {
-	EMailAccountStorePrivate *priv;
+	EMailAccountStore *self = E_MAIL_ACCOUNT_STORE (object);
 
-	priv = E_MAIL_ACCOUNT_STORE_GET_PRIVATE (object);
-
-	if (priv->session != NULL) {
+	if (self->priv->session != NULL) {
 		g_object_remove_weak_pointer (
-			G_OBJECT (priv->session), &priv->session);
-		priv->session = NULL;
+			G_OBJECT (self->priv->session), &self->priv->session);
+		self->priv->session = NULL;
 	}
 
-	g_clear_object (&priv->default_service);
+	g_clear_object (&self->priv->default_service);
 
-	g_hash_table_remove_all (priv->service_index);
+	g_hash_table_remove_all (self->priv->service_index);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_account_store_parent_class)->dispose (object);
@@ -533,13 +523,11 @@ mail_account_store_dispose (GObject *object)
 static void
 mail_account_store_finalize (GObject *object)
 {
-	EMailAccountStorePrivate *priv;
+	EMailAccountStore *self = E_MAIL_ACCOUNT_STORE (object);
 
-	priv = E_MAIL_ACCOUNT_STORE_GET_PRIVATE (object);
-
-	g_warn_if_fail (priv->busy_count == 0);
-	g_hash_table_destroy (priv->service_index);
-	g_free (priv->sort_order_filename);
+	g_warn_if_fail (self->priv->busy_count == 0);
+	g_hash_table_destroy (self->priv->service_index);
+	g_free (self->priv->sort_order_filename);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_account_store_parent_class)->finalize (object);
@@ -926,8 +914,6 @@ e_mail_account_store_class_init (EMailAccountStoreClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailAccountStorePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_account_store_set_property;
 	object_class->get_property = mail_account_store_get_property;
@@ -1082,7 +1068,7 @@ e_mail_account_store_init (EMailAccountStore *store)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) index_item_free);
 
-	store->priv = E_MAIL_ACCOUNT_STORE_GET_PRIVATE (store);
+	store->priv = e_mail_account_store_get_instance_private (store);
 	store->priv->service_index = service_index;
 
 	types[ii++] = CAMEL_TYPE_SERVICE;	/* COLUMN_SERVICE */

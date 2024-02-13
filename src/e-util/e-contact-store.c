@@ -36,10 +36,6 @@
 	(iter)->user_data = GINT_TO_POINTER (index); \
 	} G_STMT_END
 
-#define E_CONTACT_STORE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CONTACT_STORE, EContactStorePrivate))
-
 struct _EContactStorePrivate {
 	gint stamp;
 	EBookQuery *query;
@@ -60,8 +56,8 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static void e_contact_store_tree_model_init (GtkTreeModelIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EContactStore, e_contact_store, G_TYPE_OBJECT,
+G_DEFINE_TYPE_WITH_CODE (EContactStore, e_contact_store, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EContactStore)
 	G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL, e_contact_store_tree_model_init))
 
 static GtkTreeModelFlags e_contact_store_get_flags       (GtkTreeModel       *tree_model);
@@ -113,26 +109,23 @@ static void stop_view             (EContactStore *contact_store, EBookClientView
 static void
 contact_store_dispose (GObject *object)
 {
-	EContactStorePrivate *priv;
+	EContactStore *self = E_CONTACT_STORE (object);
 	gint ii;
 
-	priv = E_CONTACT_STORE_GET_PRIVATE (object);
-
 	/* Free sources and cached contacts */
-	for (ii = 0; ii < priv->contact_sources->len; ii++) {
+	for (ii = 0; ii < self->priv->contact_sources->len; ii++) {
 		ContactSource *source;
 
 		/* clear from back, because clear_contact_source can later access freed memory */
-		source = &g_array_index (
-			priv->contact_sources, ContactSource, priv->contact_sources->len - ii - 1);
+		source = &g_array_index (self->priv->contact_sources, ContactSource, self->priv->contact_sources->len - ii - 1);
 
 		clear_contact_source (E_CONTACT_STORE (object), source);
 		free_contact_ptrarray (source->contacts);
 		g_object_unref (source->book_client);
 	}
-	g_array_set_size (priv->contact_sources, 0);
+	g_array_set_size (self->priv->contact_sources, 0);
 
-	g_clear_pointer (&priv->query, e_book_query_unref);
+	g_clear_pointer (&self->priv->query, e_book_query_unref);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_contact_store_parent_class)->dispose (object);
@@ -141,11 +134,9 @@ contact_store_dispose (GObject *object)
 static void
 contact_store_finalize (GObject *object)
 {
-	EContactStorePrivate *priv;
+	EContactStore *self = E_CONTACT_STORE (object);
 
-	priv = E_CONTACT_STORE_GET_PRIVATE (object);
-
-	g_array_free (priv->contact_sources, TRUE);
+	g_array_free (self->priv->contact_sources, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_contact_store_parent_class)->finalize (object);
@@ -155,8 +146,6 @@ static void
 e_contact_store_class_init (EContactStoreClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EContactStorePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = contact_store_dispose;
@@ -227,7 +216,7 @@ e_contact_store_init (EContactStore *contact_store)
 
 	contact_sources = g_array_new (FALSE, FALSE, sizeof (ContactSource));
 
-	contact_store->priv = E_CONTACT_STORE_GET_PRIVATE (contact_store);
+	contact_store->priv = e_contact_store_get_instance_private (contact_store);
 	contact_store->priv->stamp = g_random_int ();
 	contact_store->priv->contact_sources = contact_sources;
 }

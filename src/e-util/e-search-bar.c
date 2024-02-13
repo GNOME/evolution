@@ -28,10 +28,6 @@
 #include "e-dialog-widgets.h"
 #include "e-misc-utils.h"
 
-#define E_SEARCH_BAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SEARCH_BAR, ESearchBarPrivate))
-
 struct _ESearchBarPrivate {
 	EWebView *web_view;
 	GtkWidget *hide_button;
@@ -68,10 +64,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	ESearchBar,
-	e_search_bar,
-	GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (ESearchBar, e_search_bar, GTK_TYPE_BOX)
 
 static void
 search_bar_update_matches (ESearchBar *search_bar,
@@ -382,25 +375,21 @@ search_bar_get_property (GObject *object,
 static void
 search_bar_dispose (GObject *object)
 {
-	ESearchBarPrivate *priv;
+	ESearchBar *self = E_SEARCH_BAR (object);
 
-	priv = E_SEARCH_BAR_GET_PRIVATE (object);
-
-	if (priv->web_view != NULL) {
-		g_signal_handlers_disconnect_by_data (priv->web_view, object);
-
-		g_object_unref (priv->web_view);
-		priv->web_view = NULL;
+	if (self->priv->web_view) {
+		g_signal_handlers_disconnect_by_data (self->priv->web_view, object);
+		g_clear_object (&self->priv->web_view);
 	}
 
-	g_clear_object (&priv->hide_button);
-	g_clear_object (&priv->entry);
-	g_clear_object (&priv->case_sensitive_button);
-	g_clear_object (&priv->prev_button);
-	g_clear_object (&priv->next_button);
-	g_clear_object (&priv->wrapped_next_box);
-	g_clear_object (&priv->wrapped_prev_box);
-	g_clear_object (&priv->matches_label);
+	g_clear_object (&self->priv->hide_button);
+	g_clear_object (&self->priv->entry);
+	g_clear_object (&self->priv->case_sensitive_button);
+	g_clear_object (&self->priv->prev_button);
+	g_clear_object (&self->priv->next_button);
+	g_clear_object (&self->priv->wrapped_next_box);
+	g_clear_object (&self->priv->wrapped_prev_box);
+	g_clear_object (&self->priv->matches_label);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_search_bar_parent_class)->dispose (object);
@@ -409,11 +398,9 @@ search_bar_dispose (GObject *object)
 static void
 search_bar_finalize (GObject *object)
 {
-	ESearchBarPrivate *priv;
+	ESearchBar *self = E_SEARCH_BAR (object);
 
-	priv = E_SEARCH_BAR_GET_PRIVATE (object);
-
-	g_free (priv->active_search);
+	g_free (self->priv->active_search);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_search_bar_parent_class)->finalize (object);
@@ -422,13 +409,11 @@ search_bar_finalize (GObject *object)
 static void
 search_bar_constructed (GObject *object)
 {
-	ESearchBarPrivate *priv;
-
-	priv = E_SEARCH_BAR_GET_PRIVATE (object);
+	ESearchBar *self = E_SEARCH_BAR (object);
 
 	e_binding_bind_property (
 		object, "case-sensitive",
-		priv->case_sensitive_button, "active",
+		self->priv->case_sensitive_button, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
@@ -508,8 +493,6 @@ e_search_bar_class_init (ESearchBarClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (ESearchBarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = search_bar_set_property;
@@ -602,7 +585,7 @@ e_search_bar_init (ESearchBar *search_bar)
 	GtkWidget *widget;
 	GtkWidget *container;
 
-	search_bar->priv = E_SEARCH_BAR_GET_PRIVATE (search_bar);
+	search_bar->priv = e_search_bar_get_instance_private (search_bar);
 	search_bar->priv->can_hide = TRUE;
 
 	gtk_box_set_spacing (GTK_BOX (search_bar), 12);

@@ -65,6 +65,7 @@ enum {
 static void e_config_lookup_result_simple_result_init (EConfigLookupResultInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (EConfigLookupResultSimple, e_config_lookup_result_simple, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EConfigLookupResultSimple)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CONFIG_LOOKUP_RESULT, e_config_lookup_result_simple_result_init))
 
 typedef struct _ValueData {
@@ -393,8 +394,6 @@ e_config_lookup_result_simple_class_init (EConfigLookupResultSimpleClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (EConfigLookupResultSimplePrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = config_lookup_result_simple_set_property;
 	object_class->get_property = config_lookup_result_simple_get_property;
@@ -555,7 +554,7 @@ e_config_lookup_result_simple_result_init (EConfigLookupResultInterface *iface)
 static void
 e_config_lookup_result_simple_init (EConfigLookupResultSimple *result_simple)
 {
-	result_simple->priv = G_TYPE_INSTANCE_GET_PRIVATE (result_simple, E_TYPE_CONFIG_LOOKUP_RESULT_SIMPLE, EConfigLookupResultSimplePrivate);
+	result_simple->priv = e_config_lookup_result_simple_get_instance_private (result_simple);
 }
 
 /**

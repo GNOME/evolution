@@ -45,10 +45,6 @@
 #include "misc.h"
 #include "print.h"
 
-#define E_CALENDAR_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CALENDAR_VIEW, ECalendarViewPrivate))
-
 #define X_EVOLUTION_CLIENT_UID "X-EVOLUTION-CLIENT-UID"
 
 struct _ECalendarViewPrivate {
@@ -92,8 +88,8 @@ static guint signals[LAST_SIGNAL];
 
 static void calendar_view_selectable_init (ESelectableInterface *iface);
 
-G_DEFINE_ABSTRACT_TYPE_WITH_CODE (
-	ECalendarView, e_calendar_view, GTK_TYPE_GRID,
+G_DEFINE_ABSTRACT_TYPE_WITH_CODE (ECalendarView, e_calendar_view, GTK_TYPE_GRID,
+	G_ADD_PRIVATE (ECalendarView)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, calendar_view_selectable_init));
 
@@ -433,24 +429,21 @@ calendar_view_get_property (GObject *object,
 static void
 calendar_view_dispose (GObject *object)
 {
-	ECalendarViewPrivate *priv;
+	ECalendarView *self = E_CALENDAR_VIEW (object);
 
-	priv = E_CALENDAR_VIEW_GET_PRIVATE (object);
-
-	if (priv->model != NULL) {
+	if (self->priv->model != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->model, G_SIGNAL_MATCH_DATA,
+			self->priv->model, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->model);
-		priv->model = NULL;
+		g_clear_object (&self->priv->model);
 	}
 
-	g_clear_pointer (&priv->copy_target_list, gtk_target_list_unref);
-	g_clear_pointer (&priv->paste_target_list, gtk_target_list_unref);
+	g_clear_pointer (&self->priv->copy_target_list, gtk_target_list_unref);
+	g_clear_pointer (&self->priv->paste_target_list, gtk_target_list_unref);
 
-	if (priv->selected_cut_list) {
-		g_slist_free_full (priv->selected_cut_list, e_calendar_view_selection_data_free);
-		priv->selected_cut_list = NULL;
+	if (self->priv->selected_cut_list) {
+		g_slist_free_full (self->priv->selected_cut_list, e_calendar_view_selection_data_free);
+		self->priv->selected_cut_list = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -1328,8 +1321,6 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 	GtkWidgetClass *widget_class;
 	GtkBindingSet *binding_set;
 
-	g_type_class_add_private (class, sizeof (ECalendarViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = calendar_view_set_property;
 	object_class->get_property = calendar_view_get_property;
@@ -1500,7 +1491,7 @@ e_calendar_view_init (ECalendarView *calendar_view)
 {
 	GtkTargetList *target_list;
 
-	calendar_view->priv = E_CALENDAR_VIEW_GET_PRIVATE (calendar_view);
+	calendar_view->priv = e_calendar_view_get_instance_private (calendar_view);
 
 	/* Set this early to avoid a divide-by-zero during init. */
 	calendar_view->priv->time_divisions = 30;

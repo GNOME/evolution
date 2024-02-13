@@ -48,11 +48,6 @@
 #include "gal-a11y-e-table-item-factory.h"
 #include "gal-a11y-e-table-item.h"
 
-G_DEFINE_TYPE (
-	ETableItem,
-	e_table_item,
-	GNOME_TYPE_CANVAS_ITEM)
-
 #define FOCUSED_BORDER 2
 
 #define d(x)
@@ -63,15 +58,13 @@ G_DEFINE_TYPE (
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
 #endif
 
-#define E_TABLE_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TABLE_ITEM, ETableItemPrivate))
-
 typedef struct _ETableItemPrivate ETableItemPrivate;
 
 struct _ETableItemPrivate {
 	GSource *show_cursor_delay_source;
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (ETableItem, e_table_item, GNOME_TYPE_CANVAS_ITEM)
 
 static void eti_check_cursor_bounds (ETableItem *eti);
 static void eti_cancel_drag_due_to_model_change (ETableItem *eti);
@@ -993,7 +986,7 @@ eti_request_region_show (ETableItem *eti,
                          gint end_row,
                          gint delay)
 {
-	ETableItemPrivate *priv = E_TABLE_ITEM_GET_PRIVATE (eti);
+	ETableItemPrivate *priv = e_table_item_get_instance_private (eti);
 	gint x1, y1, x2, y2;
 
 	if (priv->show_cursor_delay_source) {
@@ -1569,7 +1562,7 @@ static void
 eti_dispose (GObject *object)
 {
 	ETableItem *eti = E_TABLE_ITEM (object);
-	ETableItemPrivate *priv = E_TABLE_ITEM_GET_PRIVATE (eti);
+	ETableItemPrivate *priv = e_table_item_get_instance_private (eti);
 
 	if (priv->show_cursor_delay_source) {
 		g_source_destroy (priv->show_cursor_delay_source);
@@ -1728,7 +1721,7 @@ eti_get_property (GObject *object,
 static void
 e_table_item_init (ETableItem *eti)
 {
-	/* eti->priv = E_TABLE_ITEM_GET_PRIVATE (eti); */
+	/* eti->priv = e_table_item_get_instance_private (eti); */
 
 	eti->motion_row = -1;
 	eti->motion_col = -1;
@@ -3136,8 +3129,6 @@ e_table_item_class_init (ETableItemClass *class)
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	g_type_class_add_private (class, sizeof (ETableItemPrivate));
-
 	object_class->dispose = eti_dispose;
 	object_class->set_property = eti_set_property;
 	object_class->get_property = eti_get_property;
@@ -4133,7 +4124,7 @@ e_table_item_cancel_scroll_to_cursor (ETableItem *eti)
 
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
 
-	priv = E_TABLE_ITEM_GET_PRIVATE (eti);
+	priv = e_table_item_get_instance_private (eti);
 
 	if (priv->show_cursor_delay_source) {
 		g_source_destroy (priv->show_cursor_delay_source);

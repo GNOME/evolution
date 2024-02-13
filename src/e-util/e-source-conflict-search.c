@@ -17,10 +17,6 @@
 
 #include "e-source-conflict-search.h"
 
-#define E_SOURCE_CONFLICT_SEARCH_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SOURCE_CONFLICT_SEARCH, ESourceConflictSearchPrivate))
-
 struct _ESourceConflictSearchPrivate {
 	gboolean include_me;
 };
@@ -30,10 +26,7 @@ enum {
 	PROP_INCLUDE_ME
 };
 
-G_DEFINE_TYPE (
-	ESourceConflictSearch,
-	e_source_conflict_search,
-	E_TYPE_SOURCE_EXTENSION)
+G_DEFINE_TYPE_WITH_PRIVATE (ESourceConflictSearch, e_source_conflict_search, E_TYPE_SOURCE_EXTENSION)
 
 static void
 source_conflict_search_set_property (GObject *object,
@@ -76,8 +69,6 @@ e_source_conflict_search_class_init (ESourceConflictSearchClass *class)
 	GObjectClass *object_class;
 	ESourceExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ESourceConflictSearchPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = source_conflict_search_set_property;
 	object_class->get_property = source_conflict_search_get_property;
@@ -103,7 +94,7 @@ e_source_conflict_search_class_init (ESourceConflictSearchClass *class)
 static void
 e_source_conflict_search_init (ESourceConflictSearch *extension)
 {
-	extension->priv = E_SOURCE_CONFLICT_SEARCH_GET_PRIVATE (extension);
+	extension->priv = e_source_conflict_search_get_instance_private (extension);
 }
 
 /**

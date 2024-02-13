@@ -21,10 +21,6 @@
 
 #include "e-mail-account-tree-view.h"
 
-#define E_MAIL_ACCOUNT_TREE_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_ACCOUNT_TREE_VIEW, EMailAccountTreeViewPrivate))
-
 struct _EMailAccountTreeViewPrivate {
 	gint placeholder;
 };
@@ -37,10 +33,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EMailAccountTreeView,
-	e_mail_account_tree_view,
-	GTK_TYPE_TREE_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailAccountTreeView, e_mail_account_tree_view, GTK_TYPE_TREE_VIEW)
 
 static void
 mail_account_tree_view_enabled_toggled_cb (GtkCellRendererToggle *cell_renderer,
@@ -189,8 +182,6 @@ e_mail_account_tree_view_class_init (EMailAccountTreeViewClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EMailAccountTreeViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_account_tree_view_constructed;
 
@@ -219,7 +210,7 @@ e_mail_account_tree_view_class_init (EMailAccountTreeViewClass *class)
 static void
 e_mail_account_tree_view_init (EMailAccountTreeView *tree_view)
 {
-	tree_view->priv = E_MAIL_ACCOUNT_TREE_VIEW_GET_PRIVATE (tree_view);
+	tree_view->priv = e_mail_account_tree_view_get_instance_private (tree_view);
 }
 
 GtkWidget *

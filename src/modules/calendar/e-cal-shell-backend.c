@@ -33,15 +33,12 @@
 #include "e-cal-shell-view.h"
 #include "e-cal-shell-backend.h"
 
-#define E_CAL_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_SHELL_BACKEND, ECalShellBackendPrivate))
-
 struct _ECalShellBackendPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (ECalShellBackend, e_cal_shell_backend, E_TYPE_CAL_BASE_SHELL_BACKEND)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ECalShellBackend, e_cal_shell_backend, E_TYPE_CAL_BASE_SHELL_BACKEND, 0,
+	G_ADD_PRIVATE_DYNAMIC (ECalShellBackend))
 
 static void
 action_event_new_cb (GtkAction *action,
@@ -295,8 +292,6 @@ e_cal_shell_backend_class_init (ECalShellBackendClass *class)
 	EShellBackendClass *shell_backend_class;
 	ECalBaseShellBackendClass *cal_base_shell_backend_class;
 
-	g_type_class_add_private (class, sizeof (ECalShellBackendPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = cal_shell_backend_constructed;
 
@@ -320,7 +315,7 @@ e_cal_shell_backend_class_init (ECalShellBackendClass *class)
 static void
 e_cal_shell_backend_init (ECalShellBackend *cal_shell_backend)
 {
-	cal_shell_backend->priv = E_CAL_SHELL_BACKEND_GET_PRIVATE (cal_shell_backend);
+	cal_shell_backend->priv = e_cal_shell_backend_get_instance_private (cal_shell_backend);
 }
 
 static void

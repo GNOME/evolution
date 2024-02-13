@@ -38,10 +38,6 @@
 
 #include "e-util-enumtypes.h"
 
-#define E_ACTIVITY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ACTIVITY, EActivityPrivate))
-
 struct _EActivityPrivate {
 	GCancellable *cancellable;
 	EAlertSink *alert_sink;
@@ -67,10 +63,7 @@ enum {
 	PROP_TEXT
 };
 
-G_DEFINE_TYPE (
-	EActivity,
-	e_activity,
-	G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EActivity, e_activity, G_TYPE_OBJECT)
 
 static void
 activity_camel_status_cb (EActivity *activity,
@@ -182,18 +175,16 @@ activity_get_property (GObject *object,
 static void
 activity_dispose (GObject *object)
 {
-	EActivityPrivate *priv;
+	EActivity *self = E_ACTIVITY (object);
 
-	priv = E_ACTIVITY_GET_PRIVATE (object);
-	g_clear_object (&priv->alert_sink);
+	g_clear_object (&self->priv->alert_sink);
 
-	if (priv->cancellable != NULL) {
+	if (self->priv->cancellable != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->cancellable,
+			self->priv->cancellable,
 			G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->cancellable);
-		priv->cancellable = NULL;
+		g_clear_object (&self->priv->cancellable);
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -203,13 +194,11 @@ activity_dispose (GObject *object)
 static void
 activity_finalize (GObject *object)
 {
-	EActivityPrivate *priv;
+	EActivity *self = E_ACTIVITY (object);
 
-	priv = E_ACTIVITY_GET_PRIVATE (object);
-
-	g_free (priv->icon_name);
-	g_free (priv->text);
-	g_free (priv->last_known_text);
+	g_free (self->priv->icon_name);
+	g_free (self->priv->text);
+	g_free (self->priv->last_known_text);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_activity_parent_class)->finalize (object);
@@ -277,8 +266,6 @@ static void
 e_activity_class_init (EActivityClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EActivityPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = activity_set_property;
@@ -361,7 +348,7 @@ e_activity_class_init (EActivityClass *class)
 static void
 e_activity_init (EActivity *activity)
 {
-	activity->priv = E_ACTIVITY_GET_PRIVATE (activity);
+	activity->priv = e_activity_get_instance_private (activity);
 	activity->priv->warn_bogus_percent = TRUE;
 }
 

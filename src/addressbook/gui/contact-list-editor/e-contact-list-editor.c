@@ -41,17 +41,9 @@
 #include "e-contact-list-model.h"
 #include "eab-contact-merging.h"
 
-#define E_CONTACT_LIST_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorPrivate))
-
-#define E_CONTACT_LIST_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorPrivate))
-
 #define CONTACT_LIST_EDITOR_WIDGET(editor, name) \
 	(e_builder_get_widget \
-	(E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor)->builder, name))
+	(E_CONTACT_LIST_EDITOR (editor)->priv->builder, name))
 
 /* More macros, less typos. */
 #define CONTACT_LIST_EDITOR_WIDGET_ADD_BUTTON(editor) \
@@ -63,7 +55,7 @@
 #define CONTACT_LIST_EDITOR_WIDGET_DIALOG(editor) \
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "dialog")
 #define CONTACT_LIST_EDITOR_WIDGET_EMAIL_ENTRY(editor) \
-	E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor)->email_entry
+	editor->priv->email_entry
 #define CONTACT_LIST_EDITOR_WIDGET_LIST_NAME_ENTRY(editor) \
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "list-name-entry")
 #define CONTACT_LIST_EDITOR_WIDGET_MEMBERS_VBOX(editor) \
@@ -136,7 +128,7 @@ typedef struct {
 	ESource *source;
 } ConnectClosure;
 
-G_DEFINE_TYPE (EContactListEditor, e_contact_list_editor, EAB_TYPE_EDITOR)
+G_DEFINE_TYPE_WITH_PRIVATE (EContactListEditor, e_contact_list_editor, EAB_TYPE_EDITOR)
 
 static void
 editor_close_struct_free (EditorCloseStruct *ecs)
@@ -1273,12 +1265,9 @@ setup_custom_widgets (EContactListEditor *editor)
 	GtkWidget *combo_box;
 	ENameSelectorEntry *name_selector_entry;
 	GtkWidget *old, *parent;
-	EContactListEditorPrivate *priv;
 	guint ba = 0, la = 0, ra = 0, ta = 0, xo = 0, xp = 0, yo = 0, yp = 0;
 
 	g_return_if_fail (editor != NULL);
-
-	priv = E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor);
 
 	shell = eab_editor_get_shell (EAB_EDITOR (editor));
 	client_cache = e_shell_get_client_cache (shell);
@@ -1295,8 +1284,7 @@ setup_custom_widgets (EContactListEditor *editor)
 	old = CONTACT_LIST_EDITOR_WIDGET (editor, "email-entry");
 	g_return_if_fail (old != NULL);
 
-	name_selector_entry = e_name_selector_peek_section_entry (
-		priv->name_selector, "Members");
+	name_selector_entry = e_name_selector_peek_section_entry (editor->priv->name_selector, "Members");
 
 	gtk_widget_set_name (
 		GTK_WIDGET (name_selector_entry),
@@ -1324,7 +1312,7 @@ setup_custom_widgets (EContactListEditor *editor)
 	gtk_table_attach (
 		GTK_TABLE (parent), GTK_WIDGET (name_selector_entry),
 		la, ra, ta, ba, xo, yo, xp, yp);
-	priv->email_entry = name_selector_entry;
+	editor->priv->email_entry = name_selector_entry;
 
 	e_name_selector_entry_set_contact_editor_func (
 		name_selector_entry, contact_editor_fudge_new);
@@ -1615,7 +1603,7 @@ contact_list_editor_is_valid (EABEditor *editor)
 static gboolean
 contact_list_editor_is_changed (EABEditor *editor)
 {
-	return E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor)->changed;
+	return E_CONTACT_LIST_EDITOR (editor)->priv->changed;
 }
 
 static GtkWindow *
@@ -1698,8 +1686,6 @@ e_contact_list_editor_class_init (EContactListEditorClass *class)
 	GObjectClass *object_class;
 	EABEditorClass *editor_class;
 
-	g_type_class_add_private (class, sizeof (EContactListEditorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = contact_list_editor_set_property;
 	object_class->get_property = contact_list_editor_get_property;
@@ -1763,7 +1749,7 @@ e_contact_list_editor_class_init (EContactListEditorClass *class)
 static void
 e_contact_list_editor_init (EContactListEditor *editor)
 {
-	editor->priv = E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor);
+	editor->priv = e_contact_list_editor_get_instance_private (editor);
 }
 
 /***************************** Public Interface ******************************/

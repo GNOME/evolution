@@ -29,10 +29,6 @@
 #include "e-mail-signature-tree-view.h"
 #include "e-mail-signature-script-dialog.h"
 
-#define E_MAIL_SIGNATURE_MANAGER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SIGNATURE_MANAGER, EMailSignatureManagerPrivate))
-
 #define PREVIEW_HEIGHT 200
 
 struct _EMailSignatureManagerPrivate {
@@ -66,10 +62,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EMailSignatureManager,
-	e_mail_signature_manager,
-	GTK_TYPE_PANED)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailSignatureManager, e_mail_signature_manager, GTK_TYPE_PANED)
 
 static void
 mail_signature_manager_emit_editor_created (EMailSignatureManager *manager,
@@ -232,14 +225,12 @@ mail_signature_manager_get_property (GObject *object,
 static void
 mail_signature_manager_dispose (GObject *object)
 {
-	EMailSignatureManagerPrivate *priv;
+	EMailSignatureManager *self = E_MAIL_SIGNATURE_MANAGER (object);
 
-	priv = E_MAIL_SIGNATURE_MANAGER_GET_PRIVATE (object);
-	g_clear_object (&priv->registry);
+	g_clear_object (&self->priv->registry);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_signature_manager_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_signature_manager_parent_class)->dispose (object);
 }
 
 static void
@@ -581,9 +572,6 @@ e_mail_signature_manager_class_init (EMailSignatureManagerClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailSignatureManagerPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_signature_manager_set_property;
 	object_class->get_property = mail_signature_manager_get_property;
@@ -591,8 +579,7 @@ e_mail_signature_manager_class_init (EMailSignatureManagerClass *class)
 	object_class->constructed = mail_signature_manager_constructed;
 
 	class->add_signature = mail_signature_manager_add_signature;
-	class->add_signature_script =
-		mail_signature_manager_add_signature_script;
+	class->add_signature_script = mail_signature_manager_add_signature_script;
 	class->editor_created = mail_signature_manager_editor_created;
 	class->edit_signature = mail_signature_manager_edit_signature;
 	class->remove_signature = mail_signature_manager_remove_signature;
@@ -673,7 +660,7 @@ e_mail_signature_manager_class_init (EMailSignatureManagerClass *class)
 static void
 e_mail_signature_manager_init (EMailSignatureManager *manager)
 {
-	manager->priv = E_MAIL_SIGNATURE_MANAGER_GET_PRIVATE (manager);
+	manager->priv = e_mail_signature_manager_get_instance_private (manager);
 }
 
 GtkWidget *

@@ -66,7 +66,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (ECalDataModel, e_cal_data_model, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (ECalDataModel, e_cal_data_model, G_TYPE_OBJECT)
 
 typedef struct _ComponentData {
 	ECalComponent *component;
@@ -2047,8 +2047,6 @@ e_cal_data_model_class_init (ECalDataModelClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ECalDataModelPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = cal_data_model_set_property;
 	object_class->get_property = cal_data_model_get_property;
@@ -2098,7 +2096,7 @@ e_cal_data_model_class_init (ECalDataModelClass *class)
 static void
 e_cal_data_model_init (ECalDataModel *data_model)
 {
-	data_model->priv = G_TYPE_INSTANCE_GET_PRIVATE (data_model, E_TYPE_CAL_DATA_MODEL, ECalDataModelPrivate);
+	data_model->priv = e_cal_data_model_get_instance_private (data_model);
 
 	/* Suppose the data_model is always created in the main/UI thread */
 	data_model->priv->main_thread = g_thread_self ();

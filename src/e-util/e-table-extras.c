@@ -39,10 +39,6 @@
 #include "e-table-extras.h"
 #include "e-table-sorting-utils.h"
 
-#define E_TABLE_EXTRAS_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TABLE_EXTRAS, ETableExtrasPrivate))
-
 struct _ETableExtrasPrivate {
 	GHashTable *cells;
 	GHashTable *compares;
@@ -50,21 +46,17 @@ struct _ETableExtrasPrivate {
 	GHashTable *searches;
 };
 
-G_DEFINE_TYPE (
-	ETableExtras,
-	e_table_extras,
-	G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (ETableExtras, e_table_extras, G_TYPE_OBJECT)
 
 static void
 ete_finalize (GObject *object)
 {
-	ETableExtrasPrivate *priv;
+	ETableExtras *self = E_TABLE_EXTRAS (object);
 
-	priv = E_TABLE_EXTRAS_GET_PRIVATE (object);
-	g_clear_pointer (&priv->cells, g_hash_table_destroy);
-	g_clear_pointer (&priv->compares, g_hash_table_destroy);
-	g_clear_pointer (&priv->searches, g_hash_table_destroy);
-	g_clear_pointer (&priv->icon_names, g_hash_table_destroy);
+	g_clear_pointer (&self->priv->cells, g_hash_table_destroy);
+	g_clear_pointer (&self->priv->compares, g_hash_table_destroy);
+	g_clear_pointer (&self->priv->searches, g_hash_table_destroy);
+	g_clear_pointer (&self->priv->icon_names, g_hash_table_destroy);
 
 	G_OBJECT_CLASS (e_table_extras_parent_class)->finalize (object);
 }
@@ -73,8 +65,6 @@ static void
 e_table_extras_class_init (ETableExtrasClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (ETableExtrasPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = ete_finalize;
@@ -235,7 +225,7 @@ e_table_extras_init (ETableExtras *extras)
 {
 	ECell *cell, *sub_cell;
 
-	extras->priv = E_TABLE_EXTRAS_GET_PRIVATE (extras);
+	extras->priv = e_table_extras_get_instance_private (extras);
 
 	extras->priv->cells = g_hash_table_new_full (
 		g_str_hash, g_str_equal,

@@ -26,10 +26,6 @@
 
 #include "e-misc-utils.h"
 
-#define E_PANED_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PANED, EPanedPrivate))
-
 #define SYNC_REQUEST_NONE		0
 #define SYNC_REQUEST_POSITION		1
 #define SYNC_REQUEST_PROPORTION		2
@@ -54,10 +50,7 @@ enum {
 	PROP_FIXED_RESIZE
 };
 
-G_DEFINE_TYPE (
-	EPaned,
-	e_paned,
-	GTK_TYPE_PANED)
+G_DEFINE_TYPE_WITH_PRIVATE (EPaned, e_paned, GTK_TYPE_PANED)
 
 static gboolean
 paned_queue_resize_on_idle (GtkWidget *paned)
@@ -237,12 +230,12 @@ paned_get_property (GObject *object,
 static void
 paned_realize (GtkWidget *widget)
 {
-	EPanedPrivate *priv;
+	EPaned *self;
 	GtkWidget *toplevel;
 	GdkWindowState state;
 	GdkWindow *window;
 
-	priv = E_PANED_GET_PRIVATE (widget);
+	self = E_PANED (widget);
 
 	/* Chain up to parent's realize() method. */
 	GTK_WIDGET_CLASS (e_paned_parent_class)->realize (widget);
@@ -259,11 +252,11 @@ paned_realize (GtkWidget *widget)
 	 * setting the pane position.  If the window is already shown,
 	 * it's safe to set the pane position immediately. */
 	if (state & GDK_WINDOW_STATE_WITHDRAWN)
-		priv->wse_handler_id = g_signal_connect_swapped (
+		self->priv->wse_handler_id = g_signal_connect_swapped (
 			toplevel, "window-state-event",
 			G_CALLBACK (paned_window_state_event_cb), widget);
 	else
-		priv->toplevel_ready = TRUE;
+		self->priv->toplevel_ready = TRUE;
 }
 
 static void
@@ -385,8 +378,6 @@ e_paned_class_init (EPanedClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EPanedPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = paned_set_property;
 	object_class->get_property = paned_get_property;
@@ -445,7 +436,7 @@ e_paned_class_init (EPanedClass *class)
 static void
 e_paned_init (EPaned *paned)
 {
-	paned->priv = E_PANED_GET_PRIVATE (paned);
+	paned->priv = e_paned_get_instance_private (paned);
 
 	paned->priv->proportion = 0.5;
 	paned->priv->fixed_resize = TRUE;

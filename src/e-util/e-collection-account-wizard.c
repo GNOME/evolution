@@ -87,7 +87,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (ECollectionAccountWizard, e_collection_account_wizard, GTK_TYPE_NOTEBOOK)
+G_DEFINE_TYPE_WITH_PRIVATE (ECollectionAccountWizard, e_collection_account_wizard, GTK_TYPE_NOTEBOOK)
 
 typedef struct _WizardWindowData {
 	GtkWidget *window;
@@ -2246,8 +2246,6 @@ e_collection_account_wizard_class_init (ECollectionAccountWizardClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (ECollectionAccountWizardPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = collection_account_wizard_set_property;
 	object_class->get_property = collection_account_wizard_get_property;
@@ -2334,7 +2332,7 @@ e_collection_account_wizard_init (ECollectionAccountWizard *wizard)
 {
 	gint ii;
 
-	wizard->priv = G_TYPE_INSTANCE_GET_PRIVATE (wizard, E_TYPE_COLLECTION_ACCOUNT_WIZARD, ECollectionAccountWizardPrivate);
+	wizard->priv = e_collection_account_wizard_get_instance_private (wizard);
 	wizard->priv->workers = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, worker_data_free);
 	wizard->priv->store_passwords = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	wizard->priv->running_workers = 0;

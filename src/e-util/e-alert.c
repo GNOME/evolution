@@ -39,10 +39,6 @@
 
 #define d(x)
 
-#define E_ALERT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ALERT, EAlertPrivate))
-
 typedef struct _EAlertButton EAlertButton;
 
 struct _e_alert {
@@ -119,10 +115,7 @@ enum {
 
 static gulong signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EAlert,
-	e_alert,
-	G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EAlert, e_alert, G_TYPE_OBJECT)
 
 static gint
 map_response (const gchar *name)
@@ -581,15 +574,13 @@ alert_dispose (GObject *object)
 static void
 alert_finalize (GObject *object)
 {
-	EAlertPrivate *priv;
+	EAlert *self = E_ALERT (object);
 
-	priv = E_ALERT_GET_PRIVATE (object);
+	g_free (self->priv->tag);
+	g_free (self->priv->primary_text);
+	g_free (self->priv->secondary_text);
 
-	g_free (priv->tag);
-	g_free (priv->primary_text);
-	g_free (priv->secondary_text);
-
-	g_ptr_array_free (priv->args, TRUE);
+	g_ptr_array_free (self->priv->args, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_alert_parent_class)->finalize (object);
@@ -646,8 +637,6 @@ static void
 e_alert_class_init (EAlertClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
-
-	g_type_class_add_private (class, sizeof (EAlertPrivate));
 
 	object_class->set_property = alert_set_property;
 	object_class->get_property = alert_get_property;
@@ -729,7 +718,7 @@ e_alert_class_init (EAlertClass *class)
 static void
 e_alert_init (EAlert *alert)
 {
-	alert->priv = E_ALERT_GET_PRIVATE (alert);
+	alert->priv = e_alert_get_instance_private (alert);
 
 	g_queue_init (&alert->priv->actions);
 	g_queue_init (&alert->priv->widgets);

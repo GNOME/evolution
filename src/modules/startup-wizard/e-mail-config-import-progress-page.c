@@ -21,10 +21,6 @@
 
 #include "e-mail-config-import-progress-page.h"
 
-#define E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_IMPORT_PROGRESS_PAGE, EMailConfigImportProgressPagePrivate))
-
 struct _EMailConfigImportProgressPagePrivate {
 	EActivity *activity;
 	GtkWidget *progress_bar;   /* not referenced */
@@ -41,14 +37,9 @@ enum {
 static void	e_mail_config_import_progress_page_interface_init
 					(EMailConfigPageInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
-	EMailConfigImportProgressPage,
-	e_mail_config_import_progress_page,
-	GTK_TYPE_SCROLLED_WINDOW,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_CONFIG_PAGE,
-		e_mail_config_import_progress_page_interface_init))
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailConfigImportProgressPage, e_mail_config_import_progress_page, GTK_TYPE_SCROLLED_WINDOW, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailConfigImportProgressPage)
+	G_IMPLEMENT_INTERFACE_DYNAMIC (E_TYPE_MAIL_CONFIG_PAGE, e_mail_config_import_progress_page_interface_init))
 
 static gboolean
 mail_config_import_progress_page_is_cancelled (GBinding *binding,
@@ -144,14 +135,12 @@ mail_config_import_progress_page_get_property (GObject *object,
 static void
 mail_config_import_progress_page_dispose (GObject *object)
 {
-	EMailConfigImportProgressPagePrivate *priv;
+	EMailConfigImportProgressPage *self = E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE (object);
 
-	priv = E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE_GET_PRIVATE (object);
-	g_clear_object (&priv->activity);
+	g_clear_object (&self->priv->activity);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_import_progress_page_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_import_progress_page_parent_class)->dispose (object);
 }
 
 static void
@@ -279,12 +268,10 @@ mail_config_import_progress_page_constructed (GObject *object)
 static gboolean
 mail_config_import_progress_page_check_complete (EMailConfigPage *page)
 {
-	EMailConfigImportProgressPagePrivate *priv;
+	EMailConfigImportProgressPage *self = E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE (page);
 	gboolean complete;
 
-	priv = E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE_GET_PRIVATE (page);
-
-	switch (e_activity_get_state (priv->activity)) {
+	switch (e_activity_get_state (self->priv->activity)) {
 		case E_ACTIVITY_CANCELLED:
 		case E_ACTIVITY_COMPLETED:
 			complete = TRUE;
@@ -301,9 +288,6 @@ static void
 e_mail_config_import_progress_page_class_init (EMailConfigImportProgressPageClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (
-		class, sizeof (EMailConfigImportProgressPagePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_import_progress_page_set_property;
@@ -342,7 +326,7 @@ e_mail_config_import_progress_page_interface_init (EMailConfigPageInterface *ifa
 static void
 e_mail_config_import_progress_page_init (EMailConfigImportProgressPage *page)
 {
-	page->priv = E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE_GET_PRIVATE (page);
+	page->priv = e_mail_config_import_progress_page_get_instance_private (page);
 }
 
 void

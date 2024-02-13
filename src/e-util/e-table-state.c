@@ -28,10 +28,6 @@
 #include "e-table-specification.h"
 #include "e-xml-utils.h"
 
-#define E_TABLE_STATE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TABLE_STATE, ETableStatePrivate))
-
 #define STATE_VERSION 0.1
 
 typedef struct _ParseData ParseData;
@@ -50,7 +46,7 @@ struct _ParseData {
 	GVariantBuilder *column_info;
 };
 
-G_DEFINE_TYPE (ETableState, e_table_state, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (ETableState, e_table_state, G_TYPE_OBJECT)
 
 static ParseData *
 parse_data_new (ETableSpecification *specification)
@@ -279,8 +275,6 @@ e_table_state_class_init (ETableStateClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ETableStatePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = table_state_set_property;
 	object_class->get_property = table_state_get_property;
@@ -304,7 +298,7 @@ e_table_state_class_init (ETableStateClass *class)
 static void
 e_table_state_init (ETableState *state)
 {
-	state->priv = E_TABLE_STATE_GET_PRIVATE (state);
+	state->priv = e_table_state_get_instance_private (state);
 }
 
 ETableState *

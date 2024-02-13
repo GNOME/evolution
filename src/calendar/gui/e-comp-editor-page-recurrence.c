@@ -155,7 +155,7 @@ struct _ECompEditorPageRecurrencePrivate {
 	gint ending_count;
 };
 
-G_DEFINE_TYPE (ECompEditorPageRecurrence, e_comp_editor_page_recurrence, E_TYPE_COMP_EDITOR_PAGE)
+G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorPageRecurrence, e_comp_editor_page_recurrence, E_TYPE_COMP_EDITOR_PAGE)
 
 static void
 ecep_recurrence_update_preview (ECompEditorPageRecurrence *page_recurrence)
@@ -2409,9 +2409,7 @@ ecep_recurrence_dispose (GObject *object)
 static void
 e_comp_editor_page_recurrence_init (ECompEditorPageRecurrence *page_recurrence)
 {
-	page_recurrence->priv = G_TYPE_INSTANCE_GET_PRIVATE (page_recurrence,
-		E_TYPE_COMP_EDITOR_PAGE_RECURRENCE,
-		ECompEditorPageRecurrencePrivate);
+	page_recurrence->priv = e_comp_editor_page_recurrence_get_instance_private (page_recurrence);
 
 	page_recurrence->priv->cancellable = g_cancellable_new ();
 }
@@ -2421,8 +2419,6 @@ e_comp_editor_page_recurrence_class_init (ECompEditorPageRecurrenceClass *klass)
 {
 	ECompEditorPageClass *page_class;
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPageRecurrencePrivate));
 
 	page_class = E_COMP_EDITOR_PAGE_CLASS (klass);
 	page_class->sensitize_widgets = ecep_recurrence_sensitize_widgets;

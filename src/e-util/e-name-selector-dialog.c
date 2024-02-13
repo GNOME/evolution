@@ -34,10 +34,6 @@
 #include "e-name-selector-dialog.h"
 #include "e-name-selector-entry.h"
 
-#define E_NAME_SELECTOR_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_NAME_SELECTOR_DIALOG, ENameSelectorDialogPrivate))
-
 typedef struct {
 	gchar        *name;
 
@@ -106,12 +102,9 @@ static void     destination_column_formatter  (GtkTreeViewColumn *column, GtkCel
  * Class/object setup *
  * ------------------ */
 
-G_DEFINE_TYPE_WITH_CODE (
-	ENameSelectorDialog,
-	e_name_selector_dialog,
-	GTK_TYPE_DIALOG,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (ENameSelectorDialog, e_name_selector_dialog, GTK_TYPE_DIALOG,
+	G_ADD_PRIVATE (ENameSelectorDialog)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 name_selector_dialog_populate_categories (ENameSelectorDialog *name_selector_dialog)
@@ -190,14 +183,12 @@ name_selector_dialog_get_property (GObject *object,
 static void
 name_selector_dialog_dispose (GObject *object)
 {
-	ENameSelectorDialogPrivate *priv;
+	ENameSelectorDialog *self = E_NAME_SELECTOR_DIALOG (object);
 
-	priv = E_NAME_SELECTOR_DIALOG_GET_PRIVATE (object);
+	remove_books (self);
+	shutdown_name_selector_model (self);
 
-	remove_books (E_NAME_SELECTOR_DIALOG (object));
-	shutdown_name_selector_model (E_NAME_SELECTOR_DIALOG (object));
-
-	g_clear_object (&priv->client_cache);
+	g_clear_object (&self->priv->client_cache);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_name_selector_dialog_parent_class)->dispose (object);
@@ -206,16 +197,13 @@ name_selector_dialog_dispose (GObject *object)
 static void
 name_selector_dialog_finalize (GObject *object)
 {
-	ENameSelectorDialogPrivate *priv;
+	ENameSelectorDialog *self = E_NAME_SELECTOR_DIALOG (object);
 
-	priv = E_NAME_SELECTOR_DIALOG_GET_PRIVATE (object);
+	g_slist_free_full (self->priv->user_query_fields, g_free);
 
-	g_slist_foreach (priv->user_query_fields, (GFunc) g_free, NULL);
-	g_slist_free (priv->user_query_fields);
-
-	g_array_free (priv->sections, TRUE);
-	g_object_unref (priv->button_size_group);
-	g_object_unref (priv->dest_label_size_group);
+	g_array_free (self->priv->sections, TRUE);
+	g_object_unref (self->priv->button_size_group);
+	g_object_unref (self->priv->dest_label_size_group);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_name_selector_dialog_parent_class)->finalize (object);
@@ -224,7 +212,7 @@ name_selector_dialog_finalize (GObject *object)
 static void
 name_selector_dialog_constructed (GObject *object)
 {
-	ENameSelectorDialogPrivate *priv;
+	ENameSelectorDialog *self = E_NAME_SELECTOR_DIALOG (object);
 	GtkTreeSelection  *contact_selection;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer   *cell_renderer;
@@ -256,8 +244,6 @@ name_selector_dialog_constructed (GObject *object)
 	GtkWidget *status_message;
 	GtkWidget *client_combo;
 	const gchar *extension_name;
-
-	priv = E_NAME_SELECTOR_DIALOG_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_name_selector_dialog_parent_class)->constructed (object);
@@ -371,7 +357,7 @@ name_selector_dialog_constructed (GObject *object)
 	g_free (tmp_str);
 
 	scrolledwindow0 = gtk_scrolled_window_new (NULL, NULL);
-	priv->contact_window = scrolledwindow0;
+	self->priv->contact_window = scrolledwindow0;
 	gtk_widget_show (scrolledwindow0);
 	gtk_widget_set_vexpand (scrolledwindow0, TRUE);
 	gtk_widget_set_valign (scrolledwindow0, GTK_ALIGN_FILL);
@@ -460,21 +446,19 @@ name_selector_dialog_constructed (GObject *object)
 
 	/* Store pointers to relevant widgets */
 
-	priv->contact_view = GTK_TREE_VIEW (source_tree_view);
-	priv->status_label = GTK_LABEL (status_message);
-	priv->destination_vgrid = GTK_GRID (destination_vgrid);
-	priv->search_entry = GTK_ENTRY (search);
-	priv->category_combobox = combobox_category;
+	self->priv->contact_view = GTK_TREE_VIEW (source_tree_view);
+	self->priv->status_label = GTK_LABEL (status_message);
+	self->priv->destination_vgrid = GTK_GRID (destination_vgrid);
+	self->priv->search_entry = GTK_ENTRY (search);
+	self->priv->category_combobox = combobox_category;
 
 	/* Create size group for transfer buttons */
 
-	priv->button_size_group =
-		gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+	self->priv->button_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
 	/* Create size group for destination labels */
 
-	priv->dest_label_size_group =
-		gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+	self->priv->dest_label_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
 	/* Set up contacts view */
 
@@ -485,24 +469,24 @@ name_selector_dialog_constructed (GObject *object)
 		column, cell_renderer, (GtkTreeCellDataFunc)
 		contact_column_formatter, object, NULL);
 
-	selection = gtk_tree_view_get_selection (priv->contact_view);
+	selection = gtk_tree_view_get_selection (self->priv->contact_view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
-	gtk_tree_view_append_column (priv->contact_view, column);
+	gtk_tree_view_append_column (self->priv->contact_view, column);
 	g_signal_connect_swapped (
-		priv->contact_view, "row-activated",
+		self->priv->contact_view, "row-activated",
 		G_CALLBACK (contact_activated), object);
 
 	/* Listen for changes to the contact selection */
 
-	contact_selection = gtk_tree_view_get_selection (priv->contact_view);
+	contact_selection = gtk_tree_view_get_selection (self->priv->contact_view);
 	g_signal_connect_swapped (
 		contact_selection, "changed",
 		G_CALLBACK (contact_selection_changed), object);
 
 	/* Set up our data structures */
 
-	priv->name_selector_model = e_name_selector_model_new ();
-	priv->sections = g_array_new (FALSE, FALSE, sizeof (Section));
+	self->priv->name_selector_model = e_name_selector_model_new ();
+	self->priv->sections = g_array_new (FALSE, FALSE, sizeof (Section));
 
 	setup_name_selector_model (E_NAME_SELECTOR_DIALOG (object));
 
@@ -510,8 +494,8 @@ name_selector_dialog_constructed (GObject *object)
 
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
 	client_combo = e_client_combo_box_new (
-		priv->client_cache, extension_name);
-	priv->client_combo = client_combo;
+		self->priv->client_cache, extension_name);
+	self->priv->client_combo = client_combo;
 	g_signal_connect_swapped (
 		client_combo, "changed",
 		G_CALLBACK (source_changed), object);
@@ -534,7 +518,7 @@ name_selector_dialog_constructed (GObject *object)
 
 	/* Display initial source */
 
-	registry = e_client_cache_ref_registry (priv->client_cache);
+	registry = e_client_cache_ref_registry (self->priv->client_cache);
 	source = e_source_registry_ref_default_address_book (registry);
 	e_source_combo_box_set_active (
 		E_SOURCE_COMBO_BOX (client_combo), source);
@@ -600,8 +584,6 @@ e_name_selector_dialog_class_init (ENameSelectorDialogClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (ENameSelectorDialogPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = name_selector_dialog_set_property;
 	object_class->get_property = name_selector_dialog_get_property;
@@ -633,8 +615,7 @@ e_name_selector_dialog_class_init (ENameSelectorDialogClass *class)
 static void
 e_name_selector_dialog_init (ENameSelectorDialog *name_selector_dialog)
 {
-	name_selector_dialog->priv =
-		E_NAME_SELECTOR_DIALOG_GET_PRIVATE (name_selector_dialog);
+	name_selector_dialog->priv = e_name_selector_dialog_get_instance_private (name_selector_dialog);
 }
 
 /**
@@ -949,7 +930,6 @@ add_section (ENameSelectorDialog *name_selector_dialog,
              const gchar *pretty_name,
              EDestinationStore *destination_store)
 {
-	ENameSelectorDialogPrivate *priv;
 	Section            section;
 	GtkWidget	  *vgrid;
 	GtkWidget	  *alignment;
@@ -962,8 +942,6 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 	g_return_val_if_fail (name != NULL, -1);
 	g_return_val_if_fail (pretty_name != NULL, -1);
 	g_return_val_if_fail (E_IS_DESTINATION_STORE (destination_store), -1);
-
-	priv = E_NAME_SELECTOR_DIALOG_GET_PRIVATE (name_selector_dialog);
 
 	memset (&section, 0, sizeof (Section));
 
@@ -1049,7 +1027,7 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 
 	/* Title label */
 
-	gtk_size_group_add_widget (priv->dest_label_size_group, GTK_WIDGET (section.label));
+	gtk_size_group_add_widget (name_selector_dialog->priv->dest_label_size_group, GTK_WIDGET (section.label));
 
 	gtk_misc_set_alignment (GTK_MISC (section.label), 0.0, 0.0);
 	gtk_container_add (GTK_CONTAINER (hgrid), GTK_WIDGET (section.label));
@@ -1298,7 +1276,6 @@ source_changed (ENameSelectorDialog *name_selector_dialog,
 static void
 search_changed (ENameSelectorDialog *name_selector_dialog)
 {
-	ENameSelectorDialogPrivate *priv = E_NAME_SELECTOR_DIALOG_GET_PRIVATE (name_selector_dialog);
 	EContactStore *contact_store;
 	EBookQuery    *book_query;
 	GtkWidget     *combo_box;
@@ -1308,7 +1285,7 @@ search_changed (ENameSelectorDialog *name_selector_dialog)
 	gchar         *category;
 	gchar         *category_escaped;
 
-	combo_box = priv->category_combobox;
+	combo_box = name_selector_dialog->priv->category_combobox;
 	if (gtk_combo_box_get_active (GTK_COMBO_BOX (combo_box)) == -1)
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);
 

@@ -36,10 +36,6 @@
 #define ECM_SETTINGS_ID  "org.gnome.evolution.plugin.email-custom-header"
 #define ECM_SETTINGS_KEY "custom-header"
 
-#define CUSTOM_HEADER_OPTIONS_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG, CustomHeaderOptionsDialogPrivate))
-
 typedef struct {
 	GtkWidget *treeview;
 	GtkWidget *header_add;
@@ -79,10 +75,7 @@ GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 gboolean e_plugin_ui_init (GtkUIManager *ui_manager, EMsgComposer *composer);
 GtkWidget *org_gnome_email_custom_header_config_option (EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
-G_DEFINE_TYPE (
-	CustomHeaderOptionsDialog,
-	custom_header_options_dialog,
-	G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (CustomHeaderOptionsDialog, custom_header_options_dialog, G_TYPE_OBJECT)
 
 gint
 e_plugin_lib_enable (EPlugin *ep,
@@ -159,7 +152,7 @@ epech_fill_widgets_with_data (CustomHeaderOptionsDialog *mch)
 CustomHeaderOptionsDialog *
 epech_dialog_new (void)
 {
-	return g_object_new (EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG, NULL);
+	return g_object_new (E_TYPE_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG, NULL);
 }
 
 static void
@@ -201,7 +194,7 @@ epech_dialog_run (CustomHeaderOptionsDialog *mch,
 	GSettings *settings;
 	GtkWidget *toplevel;
 
-	g_return_val_if_fail (mch != NULL || EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG (mch), FALSE);
+	g_return_val_if_fail (mch != NULL || E_IS_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG (mch), FALSE);
 	priv = mch->priv;
 
 	settings = e_util_ref_settings (ECM_SETTINGS_ID);
@@ -370,9 +363,6 @@ custom_header_options_dialog_class_init (CustomHeaderOptionsDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (CustomHeaderOptionsDialogPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = epech_dialog_finalize;
 
@@ -390,17 +380,15 @@ custom_header_options_dialog_class_init (CustomHeaderOptionsDialogClass *class)
 static void
 custom_header_options_dialog_init (CustomHeaderOptionsDialog *mch)
 {
-	mch->priv = CUSTOM_HEADER_OPTIONS_DIALOG_GET_PRIVATE (mch);
+	mch->priv = custom_header_options_dialog_get_instance_private (mch);
 }
 
 static void
 epech_dialog_finalize (GObject *object)
 {
-	CustomHeaderOptionsDialogPrivate *priv;
+	CustomHeaderOptionsDialog *self = E_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG (object);
 
-	priv = CUSTOM_HEADER_OPTIONS_DIALOG_GET_PRIVATE (object);
-
-	g_free (priv->help_section);
+	g_free (self->priv->help_section);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (custom_header_options_dialog_parent_class)->finalize (object);
@@ -449,7 +437,7 @@ epech_custom_header_options_commit (EMsgComposer *comp,
 
 	composer = (EMsgComposer *) user_data;
 
-	if (!user_data || !EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG (user_data))
+	if (!user_data || !E_IS_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG (user_data))
 		return;
 
 	new_email_custom_header_window = g_object_get_data ((GObject *) composer, "compowindow");

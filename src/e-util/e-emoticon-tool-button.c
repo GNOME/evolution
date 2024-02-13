@@ -32,10 +32,6 @@
 
 #include "e-emoticon-chooser.h"
 
-#define E_EMOTICON_TOOL_BUTTON_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EMOTICON_TOOL_BUTTON, EEmoticonToolButtonPrivate))
-
 /* XXX Should calculate this dynamically. */
 #define NUM_ROWS	7
 #define NUM_COLS	3
@@ -67,13 +63,9 @@ static guint signals[LAST_SIGNAL];
 static void	e_emoticon_tool_button_interface_init
 					(EEmoticonChooserInterface *interface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EEmoticonToolButton,
-	e_emoticon_tool_button,
-	GTK_TYPE_TOGGLE_TOOL_BUTTON,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EMOTICON_CHOOSER,
-		e_emoticon_tool_button_interface_init))
+G_DEFINE_TYPE_WITH_CODE (EEmoticonToolButton, e_emoticon_tool_button, GTK_TYPE_TOGGLE_TOOL_BUTTON,
+	G_ADD_PRIVATE (EEmoticonToolButton)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EMOTICON_CHOOSER, e_emoticon_tool_button_interface_init))
 
 /* XXX Copied from _gtk_toolbar_elide_underscores() */
 static gchar *
@@ -226,9 +218,7 @@ emoticon_tool_button_get_property (GObject *object,
                                    GValue *value,
                                    GParamSpec *pspec)
 {
-	EEmoticonToolButtonPrivate *priv;
-
-	priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (object);
+	EEmoticonToolButton *self = E_EMOTICON_TOOL_BUTTON (object);
 
 	switch (property_id) {
 		case PROP_CURRENT_EMOTICON:
@@ -239,7 +229,7 @@ emoticon_tool_button_get_property (GObject *object,
 			return;
 
 		case PROP_POPUP_SHOWN:
-			g_value_set_boolean (value, priv->popup_shown);
+			g_value_set_boolean (value, self->priv->popup_shown);
 			return;
 	}
 
@@ -249,10 +239,9 @@ emoticon_tool_button_get_property (GObject *object,
 static void
 emoticon_tool_button_dispose (GObject *object)
 {
-	EEmoticonToolButtonPrivate *priv;
+	EEmoticonToolButton *self = E_EMOTICON_TOOL_BUTTON (object);
 
-	priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (object);
-	g_clear_pointer (&priv->popover, gtk_widget_destroy);
+	g_clear_pointer (&self->priv->popover, gtk_widget_destroy);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_emoticon_tool_button_parent_class)->dispose (object);
@@ -339,26 +328,22 @@ emoticon_tool_button_popdown (EEmoticonToolButton *button)
 static EEmoticon *
 emoticon_tool_button_get_current_emoticon (EEmoticonChooser *chooser)
 {
-	EEmoticonToolButtonPrivate *priv;
+	EEmoticonToolButton *self = E_EMOTICON_TOOL_BUTTON (chooser);
 
-	priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (chooser);
-
-	if (priv->active_button == NULL)
+	if (!self->priv->active_button)
 		return NULL;
 
-	return g_object_get_data (G_OBJECT (priv->active_button), "emoticon");
+	return g_object_get_data (G_OBJECT (self->priv->active_button), "emoticon");
 }
 
 static void
 emoticon_tool_button_set_current_emoticon (EEmoticonChooser *chooser,
                                            EEmoticon *emoticon)
 {
-	EEmoticonToolButtonPrivate *priv;
+	EEmoticonToolButton *self = E_EMOTICON_TOOL_BUTTON (chooser);
 	GList *list, *iter;
 
-	priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (chooser);
-
-	list = gtk_container_get_children (GTK_CONTAINER (priv->table));
+	list = gtk_container_get_children (GTK_CONTAINER (self->priv->table));
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		GtkWidget *item = iter->data;
@@ -383,8 +368,6 @@ e_emoticon_tool_button_class_init (EEmoticonToolButtonClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkToggleToolButtonClass *toggle_tool_button_class;
-
-	g_type_class_add_private (class, sizeof (EEmoticonToolButtonPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = emoticon_tool_button_set_property;
@@ -468,7 +451,7 @@ e_emoticon_tool_button_init (EEmoticonToolButton *button)
 	GList *list, *iter;
 	gint ii;
 
-	button->priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (button);
+	button->priv = e_emoticon_tool_button_get_instance_private (button);
 
 	/* Build the popover. */
 	popover = gtk_popover_new (GTK_WIDGET (button));

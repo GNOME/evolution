@@ -47,18 +47,12 @@
 #include "smime/gui/certificate-manager.h"
 #endif
 
-#define E_BOOK_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_BOOK_SHELL_BACKEND, EBookShellBackendPrivate))
-
 struct _EBookShellBackendPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EBookShellBackend,
-	e_book_shell_backend,
-	E_TYPE_SHELL_BACKEND)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EBookShellBackend, e_book_shell_backend, E_TYPE_SHELL_BACKEND, 0,
+	G_ADD_PRIVATE_DYNAMIC (EBookShellBackend))
 
 static void
 book_shell_backend_init_importers (void)
@@ -637,8 +631,6 @@ e_book_shell_backend_class_init (EBookShellBackendClass *class)
 	GObjectClass *object_class;
 	EShellBackendClass *shell_backend_class;
 
-	g_type_class_add_private (class, sizeof (EBookShellBackendPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = book_shell_backend_constructed;
 
@@ -661,8 +653,7 @@ e_book_shell_backend_class_finalize (EBookShellBackendClass *class)
 static void
 e_book_shell_backend_init (EBookShellBackend *book_shell_backend)
 {
-	book_shell_backend->priv =
-		E_BOOK_SHELL_BACKEND_GET_PRIVATE (book_shell_backend);
+	book_shell_backend->priv = e_book_shell_backend_get_instance_private (book_shell_backend);
 }
 
 void

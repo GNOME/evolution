@@ -27,15 +27,12 @@
 #include "e-task-shell-view.h"
 #include "e-task-shell-backend.h"
 
-#define E_TASK_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TASK_SHELL_BACKEND, ETaskShellBackendPrivate))
-
 struct _ETaskShellBackendPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (ETaskShellBackend, e_task_shell_backend, E_TYPE_CAL_BASE_SHELL_BACKEND)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ETaskShellBackend, e_task_shell_backend, E_TYPE_CAL_BASE_SHELL_BACKEND, 0,
+	G_ADD_PRIVATE_DYNAMIC (ETaskShellBackend))
 
 static void
 action_task_new_cb (GtkAction *action,
@@ -112,8 +109,6 @@ e_task_shell_backend_class_init (ETaskShellBackendClass *class)
 	EShellBackendClass *shell_backend_class;
 	ECalBaseShellBackendClass *cal_base_shell_backend_class;
 
-	g_type_class_add_private (class, sizeof (ETaskShellBackendPrivate));
-
 	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
 	shell_backend_class->shell_view_type = E_TYPE_TASK_SHELL_VIEW;
 	shell_backend_class->name = "tasks";
@@ -134,7 +129,7 @@ e_task_shell_backend_class_init (ETaskShellBackendClass *class)
 static void
 e_task_shell_backend_init (ETaskShellBackend *task_shell_backend)
 {
-	task_shell_backend->priv = E_TASK_SHELL_BACKEND_GET_PRIVATE (task_shell_backend);
+	task_shell_backend->priv = e_task_shell_backend_get_instance_private (task_shell_backend);
 }
 
 static void

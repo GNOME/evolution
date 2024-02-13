@@ -25,10 +25,6 @@
 #include <glib/gi18n-lib.h>
 #include "e-name-selector-model.h"
 
-#define E_NAME_SELECTOR_MODEL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_NAME_SELECTOR_MODEL, ENameSelectorModelPrivate))
-
 typedef struct {
 	gchar              *name;
 	gchar              *pretty_name;
@@ -65,13 +61,12 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (ENameSelectorModel, e_name_selector_model, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (ENameSelectorModel, e_name_selector_model, G_TYPE_OBJECT)
 
 static void
 e_name_selector_model_init (ENameSelectorModel *name_selector_model)
 {
-	name_selector_model->priv =
-		E_NAME_SELECTOR_MODEL_GET_PRIVATE (name_selector_model);
+	name_selector_model->priv = e_name_selector_model_get_instance_private (name_selector_model);
 
 	name_selector_model->priv->sections = g_array_new (FALSE, FALSE, sizeof (Section));
 	name_selector_model->priv->contact_store = e_contact_store_new ();
@@ -94,19 +89,17 @@ e_name_selector_model_init (ENameSelectorModel *name_selector_model)
 static void
 name_selector_model_finalize (GObject *object)
 {
-	ENameSelectorModelPrivate *priv;
+	ENameSelectorModel *self = E_NAME_SELECTOR_MODEL (object);
 	gint i;
 
-	priv = E_NAME_SELECTOR_MODEL_GET_PRIVATE (object);
-
-	for (i = 0; i < priv->sections->len; i++)
+	for (i = 0; i < self->priv->sections->len; i++)
 		free_section (E_NAME_SELECTOR_MODEL (object), i);
 
-	g_array_free (priv->sections, TRUE);
-	g_object_unref (priv->contact_filter);
+	g_array_free (self->priv->sections, TRUE);
+	g_object_unref (self->priv->contact_filter);
 
-	if (priv->destination_uid_hash)
-		g_hash_table_destroy (priv->destination_uid_hash);
+	if (self->priv->destination_uid_hash)
+		g_hash_table_destroy (self->priv->destination_uid_hash);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_name_selector_model_parent_class)->finalize (object);
@@ -116,8 +109,6 @@ static void
 e_name_selector_model_class_init (ENameSelectorModelClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (ENameSelectorModelPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = name_selector_model_finalize;

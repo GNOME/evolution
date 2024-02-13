@@ -55,7 +55,7 @@ struct _ECompEditorTaskPrivate {
 	gboolean due_is_unset;
 };
 
-G_DEFINE_TYPE (ECompEditorTask, e_comp_editor_task, E_TYPE_COMP_EDITOR)
+G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorTask, e_comp_editor_task, E_TYPE_COMP_EDITOR)
 
 static ICalTimezone *
 ece_task_get_timezone_from_property (ECompEditor *comp_editor,
@@ -1032,7 +1032,7 @@ e_comp_editor_task_constructed (GObject *object)
 static void
 e_comp_editor_task_init (ECompEditorTask *task_editor)
 {
-	task_editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (task_editor, E_TYPE_COMP_EDITOR_TASK, ECompEditorTaskPrivate);
+	task_editor->priv = e_comp_editor_task_get_instance_private (task_editor);
 }
 
 static void
@@ -1040,8 +1040,6 @@ e_comp_editor_task_class_init (ECompEditorTaskClass *klass)
 {
 	GObjectClass *object_class;
 	ECompEditorClass *comp_editor_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->constructed = e_comp_editor_task_constructed;

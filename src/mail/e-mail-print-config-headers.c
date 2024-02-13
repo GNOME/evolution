@@ -23,10 +23,6 @@
 
 #include "e-mail-print-config-headers.h"
 
-#define E_MAIL_PRINT_CONFIG_HEADERS_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_PRINT_CONFIG_HEADERS, EMailPrintConfigHeadersPrivate))
-
 struct _EMailPrintConfigHeadersPrivate {
 	EMailPartHeaders *part;
 };
@@ -36,10 +32,7 @@ enum {
 	PROP_PART
 };
 
-G_DEFINE_TYPE (
-	EMailPrintConfigHeaders,
-	e_mail_print_config_headers,
-	E_TYPE_TREE_VIEW_FRAME)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailPrintConfigHeaders, e_mail_print_config_headers, E_TYPE_TREE_VIEW_FRAME)
 
 static void
 mail_print_config_headers_toggled_cb (GtkCellRendererToggle *renderer,
@@ -116,15 +109,12 @@ mail_print_config_headers_get_property (GObject *object,
 static void
 mail_print_config_headers_dispose (GObject *object)
 {
-	EMailPrintConfigHeadersPrivate *priv;
+	EMailPrintConfigHeaders *self = E_MAIL_PRINT_CONFIG_HEADERS (object);
 
-	priv = E_MAIL_PRINT_CONFIG_HEADERS_GET_PRIVATE (object);
-
-	g_clear_object (&priv->part);
+	g_clear_object (&self->priv->part);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_print_config_headers_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_print_config_headers_parent_class)->dispose (object);
 }
 
 static void
@@ -236,9 +226,6 @@ e_mail_print_config_headers_class_init (EMailPrintConfigHeadersClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailPrintConfigHeadersPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_print_config_headers_set_property;
 	object_class->get_property = mail_print_config_headers_get_property;
@@ -266,7 +253,7 @@ e_mail_print_config_headers_class_init (EMailPrintConfigHeadersClass *class)
 static void
 e_mail_print_config_headers_init (EMailPrintConfigHeaders *config)
 {
-	config->priv = E_MAIL_PRINT_CONFIG_HEADERS_GET_PRIVATE (config);
+	config->priv = e_mail_print_config_headers_get_instance_private (config);
 }
 
 GtkWidget *

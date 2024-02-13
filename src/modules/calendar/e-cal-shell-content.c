@@ -40,10 +40,6 @@
 #include "e-cal-shell-view-private.h"
 #include "e-cal-shell-content.h"
 
-#define E_CAL_SHELL_CONTENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_SHELL_CONTENT, ECalShellContentPrivate))
-
 struct _ECalShellContentPrivate {
 	GtkWidget *hpaned;
 	GtkWidget *vpaned;
@@ -96,7 +92,8 @@ typedef enum {
 	FOCUS_OTHER
 } FocusLocation;
 
-G_DEFINE_DYNAMIC_TYPE (ECalShellContent, e_cal_shell_content, E_TYPE_CAL_BASE_SHELL_CONTENT)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ECalShellContent, e_cal_shell_content, E_TYPE_CAL_BASE_SHELL_CONTENT, 0,
+	G_ADD_PRIVATE_DYNAMIC (ECalShellContent))
 
 static time_t
 convert_to_local_zone (time_t tm,
@@ -2015,8 +2012,6 @@ e_cal_shell_content_class_init (ECalShellContentClass *class)
 	EShellContentClass *shell_content_class;
 	ECalBaseShellContentClass *cal_base_shell_content_class;
 
-	g_type_class_add_private (class, sizeof (ECalShellContentPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = cal_shell_content_set_property;
 	object_class->get_property = cal_shell_content_get_property;
@@ -2104,7 +2099,7 @@ e_cal_shell_content_init (ECalShellContent *cal_shell_content)
 {
 	time_t now;
 
-	cal_shell_content->priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (cal_shell_content);
+	cal_shell_content->priv = e_cal_shell_content_get_instance_private (cal_shell_content);
 	g_date_clear (&cal_shell_content->priv->view_start, 1);
 	g_date_clear (&cal_shell_content->priv->view_end, 1);
 	g_date_clear (&cal_shell_content->priv->last_range_start, 1);

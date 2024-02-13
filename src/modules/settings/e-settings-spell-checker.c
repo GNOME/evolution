@@ -20,18 +20,12 @@
 
 #include <e-util/e-util.h>
 
-#define E_SETTINGS_SPELL_CHECKER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_SPELL_CHECKER, ESettingsSpellCheckerPrivate))
-
 struct _ESettingsSpellCheckerPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsSpellChecker,
-	e_settings_spell_checker,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsSpellChecker, e_settings_spell_checker, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsSpellChecker))
 
 static ESpellChecker *
 settings_spell_checker_get_extensible (ESettingsSpellChecker *extension)
@@ -83,9 +77,6 @@ e_settings_spell_checker_class_init (ESettingsSpellCheckerClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (
-		class, sizeof (ESettingsSpellCheckerPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = settings_spell_checker_constructed;
 
@@ -101,7 +92,7 @@ e_settings_spell_checker_class_finalize (ESettingsSpellCheckerClass *class)
 static void
 e_settings_spell_checker_init (ESettingsSpellChecker *extension)
 {
-	extension->priv = E_SETTINGS_SPELL_CHECKER_GET_PRIVATE (extension);
+	extension->priv = e_settings_spell_checker_get_instance_private (extension);
 }
 
 void

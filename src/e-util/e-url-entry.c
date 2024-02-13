@@ -24,11 +24,11 @@
 
 #include "e-misc-utils.h"
 
-#define E_URL_ENTRY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_URL_ENTRY, EUrlEntryPrivate))
-
 #define ICON_POSITION GTK_ENTRY_ICON_SECONDARY
+
+struct _EUrlEntryPrivate {
+	gboolean dummy;
+};
 
 enum {
 	PROP_0,
@@ -42,10 +42,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EUrlEntry,
-	e_url_entry,
-	GTK_TYPE_ENTRY)
+G_DEFINE_TYPE_WITH_PRIVATE (EUrlEntry, e_url_entry, GTK_TYPE_ENTRY)
 
 static gboolean
 url_entry_text_to_sensitive (GBinding *binding,
@@ -173,6 +170,8 @@ static void
 e_url_entry_init (EUrlEntry *url_entry)
 {
 	GtkEntry *entry;
+
+	url_entry->priv = e_url_entry_get_instance_private (url_entry);
 
 	entry = GTK_ENTRY (url_entry);
 

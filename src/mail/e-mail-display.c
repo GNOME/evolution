@@ -49,10 +49,6 @@
 
 #define d(x)
 
-#define E_MAIL_DISPLAY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_DISPLAY, EMailDisplayPrivate))
-
 typedef enum {
 	E_ATTACHMENT_FLAG_VISIBLE	= (1 << 0),
 	E_ATTACHMENT_FLAG_ZOOMED_TO_100	= (1 << 1)
@@ -125,6 +121,7 @@ static CamelDataCache *emd_global_http_cache = NULL;
 static void e_mail_display_cid_resolver_init (ECidResolverInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (EMailDisplay, e_mail_display, E_TYPE_WEB_VIEW,
+	G_ADD_PRIVATE (EMailDisplay)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CID_RESOLVER, e_mail_display_cid_resolver_init))
 
 static const gchar *ui =
@@ -1629,45 +1626,43 @@ mail_display_get_property (GObject *object,
 static void
 mail_display_dispose (GObject *object)
 {
-	EMailDisplayPrivate *priv;
+	EMailDisplay *self = E_MAIL_DISPLAY (object);
 
-	priv = E_MAIL_DISPLAY_GET_PRIVATE (object);
-
-	if (priv->scheduled_reload > 0) {
-		g_source_remove (priv->scheduled_reload);
-		priv->scheduled_reload = 0;
+	if (self->priv->scheduled_reload > 0) {
+		g_source_remove (self->priv->scheduled_reload);
+		self->priv->scheduled_reload = 0;
 	}
 
-	if (priv->iframes_height_update_id > 0) {
-		g_source_remove (priv->iframes_height_update_id);
-		priv->iframes_height_update_id = 0;
+	if (self->priv->iframes_height_update_id > 0) {
+		g_source_remove (self->priv->iframes_height_update_id);
+		self->priv->iframes_height_update_id = 0;
 	}
 
-	if (priv->settings != NULL) {
+	if (self->priv->settings != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->settings, G_SIGNAL_MATCH_DATA,
+			self->priv->settings, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
 	}
 
-	if (priv->attachment_store) {
+	if (self->priv->attachment_store) {
 		/* To have called the mail_display_attachment_removed_cb() before it's disconnected */
-		e_attachment_store_remove_all (priv->attachment_store);
+		e_attachment_store_remove_all (self->priv->attachment_store);
 
-		g_signal_handlers_disconnect_by_func (priv->attachment_store,
+		g_signal_handlers_disconnect_by_func (self->priv->attachment_store,
 			G_CALLBACK (mail_display_attachment_added_cb), object);
 
-		g_signal_handlers_disconnect_by_func (priv->attachment_store,
+		g_signal_handlers_disconnect_by_func (self->priv->attachment_store,
 			G_CALLBACK (mail_display_attachment_removed_cb), object);
 	}
 
-	g_clear_object (&priv->part_list);
-	g_clear_object (&priv->formatter);
-	g_clear_object (&priv->settings);
-	g_clear_object (&priv->attachment_store);
-	g_clear_object (&priv->attachment_view);
-	g_clear_object (&priv->attachment_inline_group);
-	g_clear_object (&priv->attachment_accel_action_group);
-	g_clear_object (&priv->attachment_accel_group);
+	g_clear_object (&self->priv->part_list);
+	g_clear_object (&self->priv->formatter);
+	g_clear_object (&self->priv->settings);
+	g_clear_object (&self->priv->attachment_store);
+	g_clear_object (&self->priv->attachment_view);
+	g_clear_object (&self->priv->attachment_inline_group);
+	g_clear_object (&self->priv->attachment_accel_action_group);
+	g_clear_object (&self->priv->attachment_accel_group);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->dispose (object);
@@ -1676,19 +1671,18 @@ mail_display_dispose (GObject *object)
 static void
 mail_display_finalize (GObject *object)
 {
-	EMailDisplayPrivate *priv;
+	EMailDisplay *self = E_MAIL_DISPLAY (object);
 
-	priv = E_MAIL_DISPLAY_GET_PRIVATE (object);
-	g_clear_pointer (&priv->old_settings, g_hash_table_destroy);
+	g_clear_pointer (&self->priv->old_settings, g_hash_table_destroy);
 
-	g_mutex_lock (&priv->remote_content_lock);
-	g_clear_pointer (&priv->skipped_remote_content_sites, g_hash_table_destroy);
-	g_slist_free_full (priv->insecure_part_ids, g_free);
-	g_hash_table_destroy (priv->attachment_flags);
-	g_hash_table_destroy (priv->cid_attachments);
-	g_clear_object (&priv->remote_content);
-	g_mutex_unlock (&priv->remote_content_lock);
-	g_mutex_clear (&priv->remote_content_lock);
+	g_mutex_lock (&self->priv->remote_content_lock);
+	g_clear_pointer (&self->priv->skipped_remote_content_sites, g_hash_table_destroy);
+	g_slist_free_full (self->priv->insecure_part_ids, g_free);
+	g_hash_table_destroy (self->priv->attachment_flags);
+	g_hash_table_destroy (self->priv->cid_attachments);
+	g_clear_object (&self->priv->remote_content);
+	g_mutex_unlock (&self->priv->remote_content_lock);
+	g_mutex_clear (&self->priv->remote_content_lock);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->finalize (object);
@@ -2664,8 +2658,6 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	EWebViewClass *web_view_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EMailDisplayPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_display_constructed;
 	object_class->set_property = mail_display_set_property;
@@ -2799,7 +2791,7 @@ e_mail_display_init (EMailDisplay *display)
 	GList *acts_list, *link;
 	GSettings *settings;
 
-	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
+	display->priv = e_mail_display_get_instance_private (display);
 
 	display->priv->attachment_store = E_ATTACHMENT_STORE (e_attachment_store_new ());
 	display->priv->attachment_flags = g_hash_table_new (g_direct_hash, g_direct_equal);

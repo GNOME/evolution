@@ -38,10 +38,6 @@
 #include "e-shell.h"
 #include "e-shell-view.h"
 
-#define E_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_BACKEND, EShellBackendPrivate))
-
 struct _EShellBackendPrivate {
 
 	/* We keep a reference to corresponding EShellView subclass
@@ -76,7 +72,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_ABSTRACT_TYPE (EShellBackend, e_shell_backend, E_TYPE_EXTENSION)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (EShellBackend, e_shell_backend, E_TYPE_EXTENSION)
 
 static void
 shell_backend_debug_list_activities (EShellBackend *shell_backend)
@@ -249,15 +245,14 @@ shell_backend_set_property (GObject *object,
 static void
 shell_backend_dispose (GObject *object)
 {
-	EShellBackendPrivate *priv;
+	EShellBackend *self = E_SHELL_BACKEND (object);
 
-	priv = E_SHELL_BACKEND_GET_PRIVATE (object);
-	g_clear_pointer (&priv->shell_view_class, g_type_class_unref);
+	g_clear_pointer (&self->priv->shell_view_class, g_type_class_unref);
 
-	if (priv->notify_busy_handler_id > 0) {
+	if (self->priv->notify_busy_handler_id > 0) {
 		g_signal_handler_disconnect (
-			object, priv->notify_busy_handler_id);
-		priv->notify_busy_handler_id = 0;
+			object, self->priv->notify_busy_handler_id);
+		self->priv->notify_busy_handler_id = 0;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -267,16 +262,14 @@ shell_backend_dispose (GObject *object)
 static void
 shell_backend_finalize (GObject *object)
 {
-	EShellBackendPrivate *priv;
+	EShellBackend *self = E_SHELL_BACKEND (object);
 
-	priv = E_SHELL_BACKEND_GET_PRIVATE (object);
+	g_warn_if_fail (g_queue_is_empty (self->priv->activities));
+	g_queue_free (self->priv->activities);
 
-	g_warn_if_fail (g_queue_is_empty (priv->activities));
-	g_queue_free (priv->activities);
-
-	g_free (priv->config_dir);
-	g_free (priv->data_dir);
-	g_free (priv->prefer_new_item);
+	g_free (self->priv->config_dir);
+	g_free (self->priv->data_dir);
+	g_free (self->priv->prefer_new_item);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_shell_backend_parent_class)->finalize (object);
@@ -329,8 +322,6 @@ e_shell_backend_class_init (EShellBackendClass *class)
 {
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
-
-	g_type_class_add_private (class, sizeof (EShellBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructor = shell_backend_constructor;
@@ -397,7 +388,7 @@ e_shell_backend_class_init (EShellBackendClass *class)
 static void
 e_shell_backend_init (EShellBackend *shell_backend)
 {
-	shell_backend->priv = E_SHELL_BACKEND_GET_PRIVATE (shell_backend);
+	shell_backend->priv = e_shell_backend_get_instance_private (shell_backend);
 	shell_backend->priv->activities = g_queue_new ();
 }
 

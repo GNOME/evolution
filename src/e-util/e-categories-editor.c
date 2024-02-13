@@ -31,10 +31,6 @@
 #include "e-dialog-widgets.h"
 #include "e-misc-utils.h"
 
-#define E_CATEGORIES_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CATEGORIES_EDITOR, ECategoriesEditorPrivate))
-
 struct _ECategoriesEditorPrivate {
 	ECategoriesSelector *categories_list;
 	GtkWidget *categories_entry;
@@ -67,7 +63,7 @@ enum {
 
 static gint signals[LAST_SIGNAL] = {0};
 
-G_DEFINE_TYPE (ECategoriesEditor, e_categories_editor, GTK_TYPE_GRID)
+G_DEFINE_TYPE_WITH_PRIVATE (ECategoriesEditor, e_categories_editor, GTK_TYPE_GRID)
 
 static void
 entry_changed_cb (GtkEntry *entry,
@@ -216,8 +212,6 @@ e_categories_editor_class_init (ECategoriesEditorClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ECategoriesEditorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = categories_editor_set_property;
 	object_class->get_property = categories_editor_get_property;
@@ -257,7 +251,7 @@ e_categories_editor_init (ECategoriesEditor *editor)
 	GtkWidget *button_edit;
 	GtkWidget *button_delete;
 
-	editor->priv = E_CATEGORIES_EDITOR_GET_PRIVATE (editor);
+	editor->priv = e_categories_editor_get_instance_private (editor);
 
 	gtk_widget_set_size_request (GTK_WIDGET (editor), -1, 400);
 

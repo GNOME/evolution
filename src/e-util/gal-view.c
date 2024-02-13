@@ -15,11 +15,9 @@
  *
  */
 
-#include "gal-view.h"
+#include "evolution-config.h"
 
-#define GAL_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), GAL_TYPE_VIEW, GalViewPrivate))
+#include "gal-view.h"
 
 struct _GalViewPrivate {
 	gchar *title;
@@ -37,7 +35,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_ABSTRACT_TYPE (GalView, gal_view, G_TYPE_OBJECT)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (GalView, gal_view, G_TYPE_OBJECT)
 
 static void
 view_set_property (GObject *object,
@@ -76,11 +74,9 @@ view_get_property (GObject *object,
 static void
 view_finalize (GObject *object)
 {
-	GalViewPrivate *priv;
+	GalView *self = GAL_VIEW (object);
 
-	priv = GAL_VIEW_GET_PRIVATE (object);
-
-	g_free (priv->title);
+	g_free (self->priv->title);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (gal_view_parent_class)->finalize (object);
@@ -115,8 +111,6 @@ gal_view_class_init (GalViewClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (GalViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = view_set_property;
 	object_class->get_property = view_get_property;
@@ -150,7 +144,7 @@ gal_view_class_init (GalViewClass *class)
 static void
 gal_view_init (GalView *view)
 {
-	view->priv = GAL_VIEW_GET_PRIVATE (view);
+	view->priv = gal_view_get_instance_private (view);
 }
 
 /**

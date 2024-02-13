@@ -31,27 +31,27 @@
 
 #include "gal-a11y-e-cell-text.h"
 
-#define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yECellTextClass))
-static AtkObjectClass *parent_class;
-#define PARENT_TYPE (gal_a11y_e_cell_get_type ())
-
-#define GAL_A11Y_E_CELL_TEXT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), GAL_A11Y_TYPE_E_CELL_TEXT, GalA11yECellTextPrivate))
-
 struct _GalA11yECellTextPrivate {
 	ECell *cell;
 };
+
+static void ect_atk_text_iface_init (AtkTextIface *iface);
+static void ect_atk_editable_text_iface_init (AtkEditableTextIface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (GalA11yECellText, gal_a11y_e_cell_text, GAL_A11Y_TYPE_E_CELL,
+	G_ADD_PRIVATE (GalA11yECellText)
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_TEXT, ect_atk_text_iface_init)
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_EDITABLE_TEXT, ect_atk_editable_text_iface_init)
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_ACTION, gal_a11y_e_cell_atk_action_interface_init))
 
 /* Static functions */
 static void
 ect_dispose (GObject *object)
 {
-	GObjectClass *g_class;
 	GalA11yECellText *gaet = GAL_A11Y_E_CELL_TEXT (object);
 	GalA11yECellTextPrivate *priv;
 
-	priv = GAL_A11Y_E_CELL_TEXT_GET_PRIVATE (object);
+	priv = gal_a11y_e_cell_text_get_instance_private (gaet);
 
 	if (gaet->inserted_id != 0 && priv->cell) {
 		ECellText *ect = E_CELL_TEXT (priv->cell);
@@ -67,9 +67,7 @@ ect_dispose (GObject *object)
 
 	g_clear_object (&priv->cell);
 
-	g_class = (GObjectClass *)parent_class;
-	if (g_class->dispose)
-		g_class->dispose (object);
+	G_OBJECT_CLASS (gal_a11y_e_cell_text_parent_class)->dispose (object);
 
 }
 
@@ -109,14 +107,14 @@ ect_get_name (AtkObject * a11y)
 	gaec = GAL_A11Y_E_CELL (a11y);
 	name = e_cell_text_get_text_by_view (gaec->cell_view, gaec->model_col, gaec->row);
 	if (name != NULL) {
-		ATK_OBJECT_CLASS (parent_class)->set_name (a11y, name);
+		ATK_OBJECT_CLASS (gal_a11y_e_cell_text_parent_class)->set_name (a11y, name);
 		g_free (name);
 	}
 
 	if (a11y->name != NULL && strcmp (a11y->name, "")) {
 		return a11y->name;
 	} else {
-		return parent_class->get_name (a11y);
+		return ATK_OBJECT_CLASS (gal_a11y_e_cell_text_parent_class)->get_name (a11y);
 	}
 }
 
@@ -607,16 +605,18 @@ ect_atk_editable_text_iface_init (AtkEditableTextIface *iface)
 }
 
 static void
-ect_class_init (GalA11yECellTextClass *klass)
+gal_a11y_e_cell_text_class_init (GalA11yECellTextClass *klass)
 {
 	AtkObjectClass *a11y      = ATK_OBJECT_CLASS (klass);
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	g_type_class_add_private (klass, sizeof (GalA11yECellTextPrivate));
-
-	parent_class              = g_type_class_ref (PARENT_TYPE);
 	a11y->get_name            = ect_get_name;
 	object_class->dispose     = ect_dispose;
+}
+
+static void
+gal_a11y_e_cell_text_init (GalA11yECellText *self)
+{
 }
 
 static void
@@ -631,55 +631,6 @@ ect_action_init (GalA11yECellText *a11y)
 				    _("begin editing this cell"),
 				    NULL,
 				    (ACTION_FUNC) ect_do_action_edit);
-}
-
-/**
- * gal_a11y_e_cell_text_get_type:
- * @void:
- *
- * Registers the &GalA11yECellText class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value: The type ID of the &GalA11yECellText class.
- **/
-GType
-gal_a11y_e_cell_text_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		GTypeInfo info = {
-			sizeof (GalA11yECellTextClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) ect_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL, /* class_data */
-			sizeof (GalA11yECellText),
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL /* value_cell_text */
-		};
-
-		static const GInterfaceInfo atk_text_info = {
-			(GInterfaceInitFunc) ect_atk_text_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		static const GInterfaceInfo atk_editable_text_info = {
-			(GInterfaceInitFunc) ect_atk_editable_text_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		type = g_type_register_static (PARENT_TYPE, "GalA11yECellText", &info, 0);
-		g_type_add_interface_static (type, ATK_TYPE_TEXT, &atk_text_info);
-		g_type_add_interface_static (type, ATK_TYPE_EDITABLE_TEXT, &atk_editable_text_info);
-		gal_a11y_e_cell_type_add_action_interface (type);
-	}
-
-	return type;
 }
 
 AtkObject *
@@ -707,7 +658,7 @@ gal_a11y_e_cell_text_new (ETableItem *item,
 				   row);
 	gaet = GAL_A11Y_E_CELL_TEXT (a11y);
 
-	priv = GAL_A11Y_E_CELL_TEXT_GET_PRIVATE (a11y);
+	priv = gal_a11y_e_cell_text_get_instance_private (gaet);
 	priv->cell = g_object_ref (((ECellView *) cell_view)->ecell);
 
 	gaet->inserted_id = g_signal_connect (E_CELL_TEXT (priv->cell),

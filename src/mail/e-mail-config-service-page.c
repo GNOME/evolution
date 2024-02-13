@@ -27,10 +27,6 @@
 
 #include "e-mail-config-service-page.h"
 
-#define E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_SERVICE_PAGE, EMailConfigServicePagePrivate))
-
 typedef struct _Candidate Candidate;
 
 struct _EMailConfigServicePagePrivate {
@@ -84,15 +80,10 @@ enum {
 static void	e_mail_config_service_page_interface_init
 					(EMailConfigPageInterface *iface);
 
-G_DEFINE_ABSTRACT_TYPE_WITH_CODE (
-	EMailConfigServicePage,
-	e_mail_config_service_page,
-	E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_CONFIG_PAGE,
-		e_mail_config_service_page_interface_init))
+G_DEFINE_ABSTRACT_TYPE_WITH_CODE (EMailConfigServicePage, e_mail_config_service_page, 	E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE,
+	G_ADD_PRIVATE (EMailConfigServicePage)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (E_TYPE_MAIL_CONFIG_PAGE, e_mail_config_service_page_interface_init))
 
 static void
 mail_config_service_page_settings_notify_cb (CamelSettings *settings,
@@ -378,17 +369,16 @@ mail_config_service_page_get_property (GObject *object,
 static void
 mail_config_service_page_dispose (GObject *object)
 {
-	EMailConfigServicePagePrivate *priv;
+	EMailConfigServicePage *self = E_MAIL_CONFIG_SERVICE_PAGE (object);
 
-	priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (object);
-	g_clear_object (&priv->registry);
-	g_clear_object (&priv->active_backend);
+	g_clear_object (&self->priv->registry);
+	g_clear_object (&self->priv->active_backend);
 
-	g_hash_table_remove_all (priv->backends);
-	g_ptr_array_set_size (priv->candidates, 0);
-	g_ptr_array_set_size (priv->hidden_candidates, 0);
+	g_hash_table_remove_all (self->priv->backends);
+	g_ptr_array_set_size (self->priv->candidates, 0);
+	g_ptr_array_set_size (self->priv->hidden_candidates, 0);
 
-	g_clear_object (&priv->list_store);
+	g_clear_object (&self->priv->list_store);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_service_page_parent_class)->dispose (object);
@@ -397,14 +387,12 @@ mail_config_service_page_dispose (GObject *object)
 static void
 mail_config_service_page_finalize (GObject *object)
 {
-	EMailConfigServicePagePrivate *priv;
+	EMailConfigServicePage *self = E_MAIL_CONFIG_SERVICE_PAGE (object);
 
-	priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (object);
-
-	g_free (priv->email_address);
-	g_hash_table_destroy (priv->backends);
-	g_ptr_array_free (priv->candidates, TRUE);
-	g_ptr_array_free (priv->hidden_candidates, TRUE);
+	g_free (self->priv->email_address);
+	g_hash_table_destroy (self->priv->backends);
+	g_ptr_array_free (self->priv->candidates, TRUE);
+	g_ptr_array_free (self->priv->hidden_candidates, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_config_service_page_parent_class)->finalize (object);
@@ -598,18 +586,18 @@ static void
 mail_config_service_page_setup_defaults (EMailConfigPage *page)
 {
 	EMailConfigServicePageClass *class;
-	EMailConfigServicePagePrivate *priv;
+	EMailConfigServicePage *self;
 	guint ii;
 
 	class = E_MAIL_CONFIG_SERVICE_PAGE_GET_CLASS (page);
 	g_return_if_fail (class != NULL);
 
-	priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (page);
+	self = E_MAIL_CONFIG_SERVICE_PAGE (page);
 
-	for (ii = 0; ii < priv->candidates->len; ii++) {
+	for (ii = 0; ii < self->priv->candidates->len; ii++) {
 		Candidate *candidate;
 
-		candidate = priv->candidates->pdata[ii];
+		candidate = self->priv->candidates->pdata[ii];
 		g_return_if_fail (candidate != NULL);
 
 		e_mail_config_service_backend_setup_defaults (
@@ -621,21 +609,21 @@ mail_config_service_page_setup_defaults (EMailConfigPage *page)
 
 	if (class->default_backend_name != NULL)
 		gtk_combo_box_set_active_id (
-			GTK_COMBO_BOX (priv->type_combo),
+			GTK_COMBO_BOX (self->priv->type_combo),
 			class->default_backend_name);
 }
 
 static gboolean
 mail_config_service_page_check_complete (EMailConfigPage *page)
 {
-	EMailConfigServicePagePrivate *priv;
+	EMailConfigServicePage *self;
 	EMailConfigServiceBackend *backend;
 	GtkComboBox *type_combo;
 	const gchar *backend_name;
 
-	priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (page);
+	self = E_MAIL_CONFIG_SERVICE_PAGE (page);
 
-	type_combo = GTK_COMBO_BOX (priv->type_combo);
+	type_combo = GTK_COMBO_BOX (self->priv->type_combo);
 	backend_name = gtk_combo_box_get_active_id (type_combo);
 
 	if (backend_name == NULL)
@@ -651,14 +639,14 @@ static void
 mail_config_service_page_commit_changes (EMailConfigPage *page,
                                          GQueue *source_queue)
 {
-	EMailConfigServicePagePrivate *priv;
+	EMailConfigServicePage *self;
 	EMailConfigServiceBackend *backend;
 	GtkComboBox *type_combo;
 	const gchar *backend_name;
 
-	priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (page);
+	self = E_MAIL_CONFIG_SERVICE_PAGE (page);
 
-	type_combo = GTK_COMBO_BOX (priv->type_combo);
+	type_combo = GTK_COMBO_BOX (self->priv->type_combo);
 	backend_name = gtk_combo_box_get_active_id (type_combo);
 	g_return_if_fail (backend_name != NULL);
 
@@ -672,8 +660,6 @@ static void
 e_mail_config_service_page_class_init (EMailConfigServicePageClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EMailConfigServicePagePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_service_page_set_property;
@@ -728,7 +714,7 @@ e_mail_config_service_page_interface_init (EMailConfigPageInterface *iface)
 static void
 e_mail_config_service_page_init (EMailConfigServicePage *page)
 {
-	page->priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (page);
+	page->priv = e_mail_config_service_page_get_instance_private (page);
 }
 
 EMailConfigServiceBackend *

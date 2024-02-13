@@ -34,10 +34,6 @@
 #include "eab-contact-formatter.h"
 #include "eab-gui-util.h"
 
-#define EAB_CONTACT_DISPLAY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EAB_TYPE_CONTACT_DISPLAY, EABContactDisplayPrivate))
-
 #define TEXT_IS_RIGHT_TO_LEFT \
 	(gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 
@@ -75,10 +71,7 @@ static const gchar *ui =
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EABContactDisplay,
-	eab_contact_display,
-	E_TYPE_WEB_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (EABContactDisplay, eab_contact_display, E_TYPE_WEB_VIEW)
 
 static void
 contact_display_emit_send_message (EABContactDisplay *display,
@@ -250,10 +243,9 @@ contact_display_get_property (GObject *object,
 static void
 contact_display_dispose (GObject *object)
 {
-	EABContactDisplayPrivate *priv;
+	EABContactDisplay *self = EAB_CONTACT_DISPLAY (object);
 
-	priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (object);
-	g_clear_object (&priv->contact);
+	g_clear_object (&self->priv->contact);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (eab_contact_display_parent_class)->dispose (object);
@@ -414,8 +406,6 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 	GObjectClass *object_class;
 	EWebViewClass *web_view_class;
 
-	g_type_class_add_private (class, sizeof (EABContactDisplayPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = contact_display_set_property;
 	object_class->get_property = contact_display_get_property;
@@ -480,7 +470,7 @@ eab_contact_display_init (EABContactDisplay *display)
 	const gchar *domain = GETTEXT_PACKAGE;
 	GError *error = NULL;
 
-	display->priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (display);
+	display->priv = eab_contact_display_get_instance_private (display);
 
 	web_view = E_WEB_VIEW (display);
 	ui_manager = e_web_view_get_ui_manager (web_view);

@@ -21,23 +21,17 @@
 
 #include <e-util/e-util.h>
 
-#define E_WEBKIT_EDITOR_EXTENSION_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEBKIT_EDITOR_EXTENSION, EWebKitEditorExtensionPrivate))
-
 struct _EWebKitEditorExtensionPrivate {
 	EWebKitEditor *wk_editor;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EWebKitEditorExtension,
-	e_webkit_editor_extension,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EWebKitEditorExtension, e_webkit_editor_extension, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (EWebKitEditorExtension))
 
 static void
 e_webkit_editor_extension_init (EWebKitEditorExtension *editor_extension)
 {
-	editor_extension->priv = E_WEBKIT_EDITOR_EXTENSION_GET_PRIVATE (editor_extension);
+	editor_extension->priv = e_webkit_editor_extension_get_instance_private (editor_extension);
 
 	editor_extension->priv->wk_editor = g_object_ref_sink (e_webkit_editor_new ());
 }
@@ -45,27 +39,24 @@ e_webkit_editor_extension_init (EWebKitEditorExtension *editor_extension)
 static void
 webkit_editor_extension_constructed (GObject *object)
 {
-	EWebKitEditorExtensionPrivate *priv;
+	EWebKitEditorExtension *self = E_WEBKIT_EDITOR_EXTENSION (object);
 	EExtensible *extensible;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_webkit_editor_extension_parent_class)->constructed (object);
 
-	priv = E_WEBKIT_EDITOR_EXTENSION_GET_PRIVATE (object);
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
 
 	e_html_editor_register_content_editor (E_HTML_EDITOR (extensible),
-		DEFAULT_CONTENT_EDITOR_NAME, E_CONTENT_EDITOR (priv->wk_editor));
+		DEFAULT_CONTENT_EDITOR_NAME, E_CONTENT_EDITOR (self->priv->wk_editor));
 }
 
 static void
 webkit_editor_extension_dispose (GObject *object)
 {
-	EWebKitEditorExtensionPrivate *priv;
+	EWebKitEditorExtension *self = E_WEBKIT_EDITOR_EXTENSION (object);
 
-	priv = E_WEBKIT_EDITOR_EXTENSION_GET_PRIVATE (object);
-
-	g_clear_object (&priv->wk_editor);
+	g_clear_object (&self->priv->wk_editor);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_webkit_editor_extension_parent_class)->dispose (object);
@@ -76,8 +67,6 @@ e_webkit_editor_extension_class_init (EWebKitEditorExtensionClass *class)
 {
 	EExtensionClass *extension_class;
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EWebKitEditorExtensionPrivate));
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_HTML_EDITOR;

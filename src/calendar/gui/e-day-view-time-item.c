@@ -49,10 +49,6 @@
 #define E_DVTMI_LARGE_HOUR_Y_PAD	1
 #define E_DVTMI_SMALL_FONT_Y_PAD	1
 
-#define E_DAY_VIEW_TIME_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_DAY_VIEW_TIME_ITEM, EDayViewTimeItemPrivate))
-
 struct _EDayViewTimeItemPrivate {
 	/* The parent EDayView widget. */
 	EDayView *day_view;
@@ -116,10 +112,7 @@ enum {
 	PROP_DAY_VIEW
 };
 
-G_DEFINE_TYPE (
-	EDayViewTimeItem,
-	e_day_view_time_item,
-	GNOME_TYPE_CANVAS_ITEM)
+G_DEFINE_TYPE_WITH_PRIVATE (EDayViewTimeItem, e_day_view_time_item, GNOME_TYPE_CANVAS_ITEM)
 
 static void
 day_view_time_item_set_property (GObject *object,
@@ -158,10 +151,9 @@ day_view_time_item_get_property (GObject *object,
 static void
 day_view_time_item_dispose (GObject *object)
 {
-	EDayViewTimeItemPrivate *priv;
+	EDayViewTimeItem *self = E_DAY_VIEW_TIME_ITEM (object);
 
-	priv = E_DAY_VIEW_TIME_ITEM_GET_PRIVATE (object);
-	g_clear_object (&priv->day_view);
+	g_clear_object (&self->priv->day_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_day_view_time_item_parent_class)->dispose (object);
@@ -187,8 +179,6 @@ e_day_view_time_item_class_init (EDayViewTimeItemClass *class)
 {
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
-
-	g_type_class_add_private (class, sizeof (EDayViewTimeItemPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = day_view_time_item_set_property;
@@ -218,7 +208,7 @@ e_day_view_time_item_init (EDayViewTimeItem *time_item)
 {
 	gchar *last;
 
-	time_item->priv = E_DAY_VIEW_TIME_ITEM_GET_PRIVATE (time_item);
+	time_item->priv = e_day_view_time_item_get_instance_private (time_item);
 
 	last = calendar_config_get_day_second_zone ();
 

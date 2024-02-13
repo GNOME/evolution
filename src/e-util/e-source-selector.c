@@ -27,10 +27,6 @@
 
 #include "e-source-selector.h"
 
-#define E_SOURCE_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SOURCE_SELECTOR, ESourceSelectorPrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _ESourceSelectorPrivate {
@@ -110,7 +106,7 @@ enum {
 
 static guint signals[NUM_SIGNALS];
 
-G_DEFINE_TYPE (ESourceSelector, e_source_selector, GTK_TYPE_TREE_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (ESourceSelector, e_source_selector, GTK_TYPE_TREE_VIEW)
 
 /* ESafeToggleRenderer does not emit 'toggled' signal
  * on 'activate' when mouse is not over the toggle. */
@@ -124,10 +120,7 @@ GType		e_cell_renderer_safe_toggle_get_type
 static void	selection_changed_callback	(GtkTreeSelection *selection,
 						 ESourceSelector *selector);
 
-G_DEFINE_TYPE (
-	ECellRendererSafeToggle,
-	e_cell_renderer_safe_toggle,
-	GTK_TYPE_CELL_RENDERER_TOGGLE)
+G_DEFINE_TYPE (ECellRendererSafeToggle, e_cell_renderer_safe_toggle, GTK_TYPE_CELL_RENDERER_TOGGLE)
 
 static gboolean
 safe_toggle_activate (GtkCellRenderer *cell,
@@ -1355,59 +1348,57 @@ source_selector_get_property (GObject *object,
 static void
 source_selector_dispose (GObject *object)
 {
-	ESourceSelectorPrivate *priv;
+	ESourceSelector *self = E_SOURCE_SELECTOR (object);
 
-	priv = E_SOURCE_SELECTOR_GET_PRIVATE (object);
-
-	if (priv->update_busy_renderer_id) {
-		g_source_remove (priv->update_busy_renderer_id);
-		priv->update_busy_renderer_id = 0;
+	if (self->priv->update_busy_renderer_id) {
+		g_source_remove (self->priv->update_busy_renderer_id);
+		self->priv->update_busy_renderer_id = 0;
 	}
 
-	if (priv->source_added_handler_id > 0) {
+	if (self->priv->source_added_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_added_handler_id);
-		priv->source_added_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_added_handler_id);
+		self->priv->source_added_handler_id = 0;
 	}
 
-	if (priv->source_changed_handler_id > 0) {
+	if (self->priv->source_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_changed_handler_id);
-		priv->source_changed_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_changed_handler_id);
+		self->priv->source_changed_handler_id = 0;
 	}
 
-	if (priv->source_removed_handler_id > 0) {
+	if (self->priv->source_removed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_removed_handler_id);
-		priv->source_removed_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_removed_handler_id);
+		self->priv->source_removed_handler_id = 0;
 	}
 
-	if (priv->source_enabled_handler_id > 0) {
+	if (self->priv->source_enabled_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_enabled_handler_id);
-		priv->source_enabled_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_enabled_handler_id);
+		self->priv->source_enabled_handler_id = 0;
 	}
 
-	if (priv->source_disabled_handler_id > 0) {
+	if (self->priv->source_disabled_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_disabled_handler_id);
-		priv->source_disabled_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_disabled_handler_id);
+		self->priv->source_disabled_handler_id = 0;
 	}
 
-	g_clear_object (&priv->registry);
-	g_clear_object (&priv->busy_renderer);
+	g_clear_object (&self->priv->registry);
+	g_clear_object (&self->priv->busy_renderer);
 
-	g_hash_table_remove_all (priv->source_index);
-	g_hash_table_remove_all (priv->pending_writes);
-	g_hash_table_remove_all (priv->hidden_groups);
+	g_hash_table_remove_all (self->priv->source_index);
+	g_hash_table_remove_all (self->priv->pending_writes);
+	g_hash_table_remove_all (self->priv->hidden_groups);
 
-	g_slist_free_full (priv->groups_order, g_free);
-	priv->groups_order = NULL;
+	g_slist_free_full (self->priv->groups_order, g_free);
+	self->priv->groups_order = NULL;
 
 	clear_saved_primary_selection (E_SOURCE_SELECTOR (object));
 
@@ -1418,18 +1409,16 @@ source_selector_dispose (GObject *object)
 static void
 source_selector_finalize (GObject *object)
 {
-	ESourceSelectorPrivate *priv;
+	ESourceSelector *self = E_SOURCE_SELECTOR (object);
 
-	priv = E_SOURCE_SELECTOR_GET_PRIVATE (object);
+	g_hash_table_destroy (self->priv->source_index);
+	g_hash_table_destroy (self->priv->pending_writes);
+	g_hash_table_destroy (self->priv->hidden_groups);
 
-	g_hash_table_destroy (priv->source_index);
-	g_hash_table_destroy (priv->pending_writes);
-	g_hash_table_destroy (priv->hidden_groups);
+	g_free (self->priv->extension_name);
 
-	g_free (priv->extension_name);
-
-	if (priv->main_context != NULL)
-		g_main_context_unref (priv->main_context);
+	if (self->priv->main_context)
+		g_main_context_unref (self->priv->main_context);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_source_selector_parent_class)->finalize (object);
@@ -1745,17 +1734,15 @@ source_selector_test_collapse_row (GtkTreeView *tree_view,
                                    GtkTreeIter *iter,
                                    GtkTreePath *path)
 {
-	ESourceSelectorPrivate *priv;
+	ESourceSelector *self = E_SOURCE_SELECTOR (tree_view);
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreeIter child_iter;
 
-	priv = E_SOURCE_SELECTOR_GET_PRIVATE (tree_view);
-
 	/* Clear this because something else has been clicked on now */
-	priv->toggled_last = FALSE;
+	self->priv->toggled_last = FALSE;
 
-	if (priv->saved_primary_selection)
+	if (self->priv->saved_primary_selection)
 		return FALSE;
 
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -1769,7 +1756,7 @@ source_selector_test_collapse_row (GtkTreeView *tree_view,
 
 		child_path = gtk_tree_model_get_path (model, &child_iter);
 		reference = gtk_tree_row_reference_new (model, child_path);
-		priv->saved_primary_selection = reference;
+		self->priv->saved_primary_selection = reference;
 		gtk_tree_path_free (child_path);
 	}
 
@@ -1781,20 +1768,17 @@ source_selector_row_expanded (GtkTreeView *tree_view,
                               GtkTreeIter *iter,
                               GtkTreePath *path)
 {
-	ESourceSelectorPrivate *priv;
+	ESourceSelector *self = E_SOURCE_SELECTOR (tree_view);
 	GtkTreeModel *model;
 	GtkTreePath *child_path;
 	GtkTreeIter child_iter;
 
-	priv = E_SOURCE_SELECTOR_GET_PRIVATE (tree_view);
-
-	if (!priv->saved_primary_selection)
+	if (!self->priv->saved_primary_selection)
 		return;
 
 	model = gtk_tree_view_get_model (tree_view);
 
-	child_path = gtk_tree_row_reference_get_path (
-		priv->saved_primary_selection);
+	child_path = gtk_tree_row_reference_get_path (self->priv->saved_primary_selection);
 	gtk_tree_model_get_iter (model, &child_iter, child_path);
 
 	if (gtk_tree_store_is_ancestor (GTK_TREE_STORE (model), iter, &child_iter)) {
@@ -1878,8 +1862,6 @@ e_source_selector_class_init (ESourceSelectorClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkTreeViewClass *tree_view_class;
-
-	g_type_class_add_private (class, sizeof (ESourceSelectorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = source_selector_set_property;
@@ -2062,7 +2044,7 @@ e_source_selector_init (ESourceSelector *selector)
 		(GDestroyNotify) g_object_unref,
 		(GDestroyNotify) pending_writes_destroy_source);
 
-	selector->priv = E_SOURCE_SELECTOR_GET_PRIVATE (selector);
+	selector->priv = e_source_selector_get_instance_private (selector);
 
 	selector->priv->pending_writes = pending_writes;
 	selector->priv->hidden_groups = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);

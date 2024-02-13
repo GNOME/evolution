@@ -31,10 +31,6 @@
 #include "e-table-specification.h"
 #include "e-table-column-selector.h"
 
-#define E_TABLE_COLUMN_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TABLE_COLUMN_SELECTOR, ETableColumnSelectorPrivate))
-
 struct _ETableColumnSelectorPrivate {
 	ETableState *state;
 };
@@ -52,10 +48,7 @@ enum {
 	NUM_COLUMNS
 };
 
-G_DEFINE_TYPE (
-	ETableColumnSelector,
-	e_table_column_selector,
-	E_TYPE_TREE_VIEW_FRAME)
+G_DEFINE_TYPE_WITH_PRIVATE (ETableColumnSelector, e_table_column_selector, E_TYPE_TREE_VIEW_FRAME)
 
 static void
 table_column_selector_toggled_cb (GtkCellRendererToggle *renderer,
@@ -211,15 +204,12 @@ table_column_selector_get_property (GObject *object,
 static void
 table_column_selector_dispose (GObject *object)
 {
-	ETableColumnSelectorPrivate *priv;
+	ETableColumnSelector *self = E_TABLE_COLUMN_SELECTOR (object);
 
-	priv = E_TABLE_COLUMN_SELECTOR_GET_PRIVATE (object);
-
-	g_clear_object (&priv->state);
+	g_clear_object (&self->priv->state);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_table_column_selector_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_table_column_selector_parent_class)->dispose (object);
 }
 
 static void
@@ -317,8 +307,6 @@ e_table_column_selector_class_init (ETableColumnSelectorClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ETableColumnSelectorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = table_column_selector_set_property;
 	object_class->get_property = table_column_selector_get_property;
@@ -341,7 +329,7 @@ e_table_column_selector_class_init (ETableColumnSelectorClass *class)
 static void
 e_table_column_selector_init (ETableColumnSelector *selector)
 {
-	selector->priv = E_TABLE_COLUMN_SELECTOR_GET_PRIVATE (selector);
+	selector->priv = e_table_column_selector_get_instance_private (selector);
 }
 
 /**

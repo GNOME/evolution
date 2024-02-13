@@ -57,14 +57,6 @@
 #include "em-composer-prefs.h"
 #include "em-mailer-prefs.h"
 
-#define E_MAIL_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SHELL_BACKEND, EMailShellBackendPrivate))
-
-#define E_MAIL_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SHELL_BACKEND, EMailShellBackendPrivate))
-
 #define BACKEND_NAME "mail"
 
 struct _EMailShellBackendPrivate {
@@ -82,10 +74,8 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_DYNAMIC_TYPE (
-	EMailShellBackend,
-	e_mail_shell_backend,
-	E_TYPE_MAIL_BACKEND)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailShellBackend, e_mail_shell_backend, E_TYPE_MAIL_BACKEND, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailShellBackend))
 
 /* utility functions for mbox importer */
 static void
@@ -696,14 +686,12 @@ mail_shell_backend_prepare_for_quit_cb (EShell *shell,
                                         EActivity *activity,
                                         EShellBackend *shell_backend)
 {
-	EMailShellBackendPrivate *priv;
-
-	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
+	EMailShellBackend *self = E_MAIL_SHELL_BACKEND (shell_backend);
 
 	/* Prevent a sync from starting while trying to shutdown. */
-	if (priv->mail_sync_source_id > 0) {
-		g_source_remove (priv->mail_sync_source_id);
-		priv->mail_sync_source_id = 0;
+	if (self->priv->mail_sync_source_id > 0) {
+		g_source_remove (self->priv->mail_sync_source_id);
+		self->priv->mail_sync_source_id = 0;
 	}
 }
 
@@ -1188,13 +1176,11 @@ mail_shell_backend_constructed (GObject *object)
 static void
 mail_shell_backend_start (EShellBackend *shell_backend)
 {
-	EMailShellBackendPrivate *priv;
+	EMailShellBackend *self = E_MAIL_SHELL_BACKEND (shell_backend);
 	EMailBackend *backend;
 	EMailSession *session;
 	EMailAccountStore *account_store;
 	GError *error = NULL;
-
-	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
@@ -1210,7 +1196,7 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	}
 
 	if (g_getenv ("CAMEL_FLUSH_CHANGES") != NULL) {
-		priv->mail_sync_source_id = e_named_timeout_add_seconds (
+		self->priv->mail_sync_source_id = e_named_timeout_add_seconds (
 			mail_config_get_sync_timeout (),
 			mail_shell_backend_mail_sync,
 			shell_backend);
@@ -1384,8 +1370,6 @@ e_mail_shell_backend_class_init (EMailShellBackendClass *class)
 	EShellBackendClass *shell_backend_class;
 	EMailBackendClass *mail_backend_class;
 
-	g_type_class_add_private (class, sizeof (EMailShellBackendPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_shell_backend_constructed;
 	object_class->dispose = mail_shell_backend_dispose;
@@ -1457,8 +1441,7 @@ e_mail_shell_backend_class_finalize (EMailShellBackendClass *class)
 static void
 e_mail_shell_backend_init (EMailShellBackend *mail_shell_backend)
 {
-	mail_shell_backend->priv =
-		E_MAIL_SHELL_BACKEND_GET_PRIVATE (mail_shell_backend);
+	mail_shell_backend->priv = e_mail_shell_backend_get_instance_private (mail_shell_backend);
 }
 
 void

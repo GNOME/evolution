@@ -29,10 +29,6 @@
 
 #include "e-mail-config-smtp-backend.h"
 
-#define E_MAIL_CONFIG_SMTP_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_SMTP_BACKEND, EMailConfigSmtpBackendPrivate))
-
 struct _EMailConfigSmtpBackendPrivate {
 	GtkWidget *host_entry;			/* not referenced */
 	GtkWidget *port_entry;			/* not referenced */
@@ -46,10 +42,8 @@ struct _EMailConfigSmtpBackendPrivate {
 	GCancellable *cancellable;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EMailConfigSmtpBackend,
-	e_mail_config_smtp_backend,
-	E_TYPE_MAIL_CONFIG_SERVICE_BACKEND)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailConfigSmtpBackend, e_mail_config_smtp_backend, E_TYPE_MAIL_CONFIG_SERVICE_BACKEND, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailConfigSmtpBackend))
 
 static void
 source_lookup_password_done (GObject *source,
@@ -124,7 +118,7 @@ static void
 mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
                                          GtkBox *parent)
 {
-	EMailConfigSmtpBackendPrivate *priv;
+	EMailConfigSmtpBackend *self = E_MAIL_CONFIG_SMTP_BACKEND (backend);
 	CamelProvider *provider;
 	CamelSettings *settings;
 	ESource *source, *existing_source;
@@ -140,8 +134,6 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	const gchar *text;
 	guint16 port;
 	gchar *markup;
-
-	priv = E_MAIL_CONFIG_SMTP_BACKEND_GET_PRIVATE (backend);
 
 	page = e_mail_config_service_backend_get_page (backend);
 	source = e_mail_config_service_backend_get_source (backend);
@@ -181,7 +173,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 1);
-	priv->host_entry = widget;  /* do not reference */
+	self->priv->host_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new_with_mnemonic (_("_Port:"));
@@ -193,7 +185,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	widget = e_port_entry_new ();
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 3, 0, 1, 1);
-	priv->port_entry = widget;  /* do not reference */
+	self->priv->port_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
 	widget = gtk_image_new_from_icon_name ("dialog-warning", GTK_ICON_SIZE_BUTTON);
@@ -203,12 +195,12 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		"tooltip-text", _("Port number is not valid"),
 		NULL);
 	gtk_grid_attach (GTK_GRID (container), widget, 4, 0, 1, 1);
-	priv->port_error_image = widget;  /* do not reference */
+	self->priv->port_error_image = widget;  /* do not reference */
 
 	text = _("Ser_ver requires authentication");
 	widget = gtk_check_button_new_with_mnemonic (text);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 4, 1);
-	priv->auth_required_toggle = widget;  /* do not reference */
+	self->priv->auth_required_toggle = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
 	g_signal_connect_object (widget, "toggled",
@@ -256,13 +248,13 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_widget_set_halign (widget, GTK_ALIGN_START);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 1);
-	priv->security_combo_box = widget;  /* do not reference */
+	self->priv->security_combo_box = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
 	provider = camel_provider_get (backend_name, NULL);
 	if (provider != NULL && provider->port_entries != NULL)
 		e_port_entry_set_camel_entries (
-			E_PORT_ENTRY (priv->port_entry),
+			E_PORT_ENTRY (self->priv->port_entry),
 			provider->port_entries);
 
 	text = _("Authentication");
@@ -276,7 +268,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	g_free (markup);
 
 	e_binding_bind_property (
-		priv->auth_required_toggle, "active",
+		self->priv->auth_required_toggle, "active",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
@@ -288,7 +280,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
-		priv->auth_required_toggle, "active",
+		self->priv->auth_required_toggle, "active",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
@@ -309,7 +301,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 1);
-	priv->auth_check = widget;  /* do not reference */
+	self->priv->auth_check = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new_with_mnemonic (_("User_name:"));
@@ -323,19 +315,19 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 3, 1);
-	priv->user_entry = widget;  /* do not reference */
+	self->priv->user_entry = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
 	widget = gtk_button_new_with_mnemonic (_("_Forget password"));
 	gtk_widget_set_halign (widget, GTK_ALIGN_START);
 	gtk_widget_set_hexpand (widget, FALSE);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 3, 1);
-	priv->forget_password_button = widget; /* do not reference */
+	self->priv->forget_password_button = widget; /* do not reference */
 	gtk_widget_hide (widget);
 
 	e_mail_config_provider_add_widgets (provider, settings, parent, FALSE);
 
-	g_signal_connect (priv->forget_password_button, "clicked",
+	g_signal_connect (self->priv->forget_password_button, "clicked",
 		G_CALLBACK (smtp_backend_forget_password_cb), backend);
 
 	port = camel_network_settings_get_port (
@@ -343,13 +335,13 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 
 	e_binding_bind_object_text_property (
 		settings, "host",
-		priv->host_entry, "text",
+		self->priv->host_entry, "text",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property_full (
 		settings, "security-method",
-		priv->security_combo_box, "active-id",
+		self->priv->security_combo_box, "active-id",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE,
 		e_binding_transform_enum_value_to_nick,
@@ -358,30 +350,30 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 
 	e_binding_bind_property (
 		settings, "port",
-		priv->port_entry, "port",
+		self->priv->port_entry, "port",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
 		settings, "security-method",
-		priv->port_entry, "security-method",
+		self->priv->port_entry, "security-method",
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_object_text_property (
 		settings, "user",
-		priv->user_entry, "text",
+		self->priv->user_entry, "text",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	if (port != 0)
-		g_object_set (G_OBJECT (priv->port_entry), "port", port, NULL);
+		g_object_set (G_OBJECT (self->priv->port_entry), "port", port, NULL);
 
 	/* Enable the auth-required toggle button if
 	 * we have an authentication mechanism name. */
 	mechanism = camel_network_settings_get_auth_mechanism (
 		CAMEL_NETWORK_SETTINGS (settings));
 	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (priv->auth_required_toggle),
+		GTK_TOGGLE_BUTTON (self->priv->auth_required_toggle),
 		(mechanism != NULL && *mechanism != '\0'));
 
 	if (!existing_source) {
@@ -393,7 +385,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 
 	g_clear_object (&existing_source);
 
-	e_source_lookup_password (source, priv->cancellable, source_lookup_password_done, backend);
+	e_source_lookup_password (source, self->priv->cancellable, source_lookup_password_done, backend);
 }
 
 static gboolean
@@ -402,7 +394,7 @@ mail_config_smtp_backend_auto_configure (EMailConfigServiceBackend *backend,
 					 gint *out_priority,
 					 gboolean *out_is_complete)
 {
-	EMailConfigSmtpBackendPrivate *priv;
+	EMailConfigSmtpBackend *self;
 	CamelSettings *settings;
 	const gchar *mechanism;
 
@@ -419,7 +411,7 @@ mail_config_smtp_backend_auto_configure (EMailConfigServiceBackend *backend,
 	 *     if the flag is TRUE, since the user may revise the
 	 *     SMTP settings before committing. */
 
-	priv = E_MAIL_CONFIG_SMTP_BACKEND_GET_PRIVATE (backend);
+	self = E_MAIL_CONFIG_SMTP_BACKEND (backend);
 
 	settings = e_mail_config_service_backend_get_settings (backend);
 
@@ -427,12 +419,12 @@ mail_config_smtp_backend_auto_configure (EMailConfigServiceBackend *backend,
 		CAMEL_NETWORK_SETTINGS (settings));
 
 	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (priv->auth_required_toggle),
+		GTK_TOGGLE_BUTTON (self->priv->auth_required_toggle),
 		(mechanism != NULL));
 
 	if (mechanism != NULL)
 		e_mail_config_auth_check_set_active_mechanism (
-			E_MAIL_CONFIG_AUTH_CHECK (priv->auth_check),
+			E_MAIL_CONFIG_AUTH_CHECK (self->priv->auth_check),
 			mechanism);
 
 	return TRUE;
@@ -441,7 +433,7 @@ mail_config_smtp_backend_auto_configure (EMailConfigServiceBackend *backend,
 static gboolean
 mail_config_smtp_backend_check_complete (EMailConfigServiceBackend *backend)
 {
-	EMailConfigSmtpBackendPrivate *priv;
+	EMailConfigSmtpBackend *self = E_MAIL_CONFIG_SMTP_BACKEND (backend);
 	CamelSettings *settings;
 	CamelNetworkSettings *network_settings;
 	GtkToggleButton *toggle_button;
@@ -449,8 +441,6 @@ mail_config_smtp_backend_check_complete (EMailConfigServiceBackend *backend)
 	const gchar *host;
 	const gchar *user;
 	gboolean correct, complete = TRUE;
-
-	priv = E_MAIL_CONFIG_SMTP_BACKEND_GET_PRIVATE (backend);
 
 	settings = e_mail_config_service_backend_get_settings (backend);
 
@@ -461,16 +451,16 @@ mail_config_smtp_backend_check_complete (EMailConfigServiceBackend *backend)
 	correct = (host != NULL && *host != '\0');
 	complete = complete && correct;
 
-	e_util_set_entry_issue_hint (priv->host_entry, correct ? NULL : _("Server address cannot be empty"));
+	e_util_set_entry_issue_hint (self->priv->host_entry, correct ? NULL : _("Server address cannot be empty"));
 
-	port_entry = E_PORT_ENTRY (priv->port_entry);
+	port_entry = E_PORT_ENTRY (self->priv->port_entry);
 
 	correct = e_port_entry_is_valid (port_entry);
 	complete = complete && correct;
 
-	gtk_widget_set_visible (priv->port_error_image, !correct);
+	gtk_widget_set_visible (self->priv->port_error_image, !correct);
 
-	toggle_button = GTK_TOGGLE_BUTTON (priv->auth_required_toggle);
+	toggle_button = GTK_TOGGLE_BUTTON (self->priv->auth_required_toggle);
 
 	correct = TRUE;
 
@@ -479,7 +469,7 @@ mail_config_smtp_backend_check_complete (EMailConfigServiceBackend *backend)
 			correct = FALSE;
 
 	complete = complete && correct;
-	e_util_set_entry_issue_hint (priv->user_entry, correct ?
+	e_util_set_entry_issue_hint (self->priv->user_entry, correct ?
 		((!gtk_toggle_button_get_active (toggle_button) || camel_string_is_all_ascii (user)) ? NULL :
 		_("User name contains letters, which can prevent log in. Make sure the server accepts such written user name."))
 		: _("User name cannot be empty"));
@@ -490,7 +480,7 @@ mail_config_smtp_backend_check_complete (EMailConfigServiceBackend *backend)
 static void
 mail_config_smtp_backend_commit_changes (EMailConfigServiceBackend *backend)
 {
-	EMailConfigSmtpBackendPrivate *priv;
+	EMailConfigSmtpBackend *self = E_MAIL_CONFIG_SMTP_BACKEND (backend);
 	GtkToggleButton *toggle_button;
 	CamelSettings *settings;
 	const gchar *mechanism = NULL;
@@ -499,15 +489,13 @@ mail_config_smtp_backend_commit_changes (EMailConfigServiceBackend *backend)
 	 * toggle button and the EMailConfigAuthCheck widget, so
 	 * we have to set it manually here. */
 
-	priv = E_MAIL_CONFIG_SMTP_BACKEND_GET_PRIVATE (backend);
-
 	settings = e_mail_config_service_backend_get_settings (backend);
 
-	toggle_button = GTK_TOGGLE_BUTTON (priv->auth_required_toggle);
+	toggle_button = GTK_TOGGLE_BUTTON (self->priv->auth_required_toggle);
 
 	if (gtk_toggle_button_get_active (toggle_button))
 		mechanism = e_mail_config_auth_check_get_active_mechanism (
-			E_MAIL_CONFIG_AUTH_CHECK (priv->auth_check));
+			E_MAIL_CONFIG_AUTH_CHECK (self->priv->auth_check));
 
 	camel_network_settings_set_auth_mechanism (
 		CAMEL_NETWORK_SETTINGS (settings), mechanism);
@@ -533,8 +521,6 @@ e_mail_config_smtp_backend_class_init (EMailConfigSmtpBackendClass *class)
 	EMailConfigServiceBackendClass *backend_class;
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailConfigSmtpBackendPrivate));
-
 	backend_class = E_MAIL_CONFIG_SERVICE_BACKEND_CLASS (class);
 	backend_class->backend_name = "smtp";
 	backend_class->insert_widgets = mail_config_smtp_backend_insert_widgets;
@@ -554,7 +540,7 @@ e_mail_config_smtp_backend_class_finalize (EMailConfigSmtpBackendClass *class)
 static void
 e_mail_config_smtp_backend_init (EMailConfigSmtpBackend *backend)
 {
-	backend->priv = E_MAIL_CONFIG_SMTP_BACKEND_GET_PRIVATE (backend);
+	backend->priv = e_mail_config_smtp_backend_get_instance_private (backend);
 	backend->priv->cancellable = g_cancellable_new ();
 }
 

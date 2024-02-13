@@ -23,10 +23,6 @@
 #include "e-menu-tool-button.h"
 #include "e-misc-utils.h"
 
-#define E_MENU_TOOL_BUTTON_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MENU_TOOL_BUTTON, EMenuToolButtonPrivate))
-
 struct _EMenuToolButtonPrivate {
 	gchar *prefer_item;
 };
@@ -36,10 +32,7 @@ enum {
 	PROP_PREFER_ITEM
 };
 
-G_DEFINE_TYPE (
-	EMenuToolButton,
-	e_menu_tool_button,
-	GTK_TYPE_MENU_TOOL_BUTTON)
+G_DEFINE_TYPE_WITH_PRIVATE (EMenuToolButton, e_menu_tool_button, GTK_TYPE_MENU_TOOL_BUTTON)
 
 static GtkWidget *
 menu_tool_button_clone_image (GtkWidget *source)
@@ -196,11 +189,9 @@ menu_tool_button_get_property (GObject *object,
 static void
 menu_tool_button_finalize (GObject *object)
 {
-	EMenuToolButtonPrivate *priv;
+	EMenuToolButton *self = E_MENU_TOOL_BUTTON (object);
 
-	priv = E_MENU_TOOL_BUTTON_GET_PRIVATE (object);
-
-	g_free (priv->prefer_item);
+	g_free (self->priv->prefer_item);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_menu_tool_button_parent_class)->finalize (object);
@@ -211,8 +202,6 @@ e_menu_tool_button_class_init (EMenuToolButtonClass *class)
 {
 	GObjectClass *object_class;
 	GtkToolButtonClass *tool_button_class;
-
-	g_type_class_add_private (class, sizeof (EMenuToolButtonPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = menu_tool_button_set_property;
@@ -236,7 +225,7 @@ e_menu_tool_button_class_init (EMenuToolButtonClass *class)
 static void
 e_menu_tool_button_init (EMenuToolButton *button)
 {
-	button->priv = E_MENU_TOOL_BUTTON_GET_PRIVATE (button);
+	button->priv = e_menu_tool_button_get_instance_private (button);
 
 	button->priv->prefer_item = NULL;
 

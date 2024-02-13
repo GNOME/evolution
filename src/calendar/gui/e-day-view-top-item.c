@@ -30,10 +30,6 @@
 #include "e-calendar-view.h"
 #include "e-day-view-top-item.h"
 
-#define E_DAY_VIEW_TOP_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_DAY_VIEW_TOP_ITEM, EDayViewTopItemPrivate))
-
 struct _EDayViewTopItemPrivate {
 	/* The parent EDayView widget. */
 	EDayView *day_view;
@@ -48,10 +44,7 @@ enum {
 	PROP_SHOW_DATES
 };
 
-G_DEFINE_TYPE (
-	EDayViewTopItem,
-	e_day_view_top_item,
-	GNOME_TYPE_CANVAS_ITEM)
+G_DEFINE_TYPE_WITH_PRIVATE (EDayViewTopItem, e_day_view_top_item, GNOME_TYPE_CANVAS_ITEM)
 
 /* This draws a little triangle to indicate that an event extends past
  * the days visible on screen. */
@@ -537,10 +530,9 @@ day_view_top_item_get_property (GObject *object,
 static void
 day_view_top_item_dispose (GObject *object)
 {
-	EDayViewTopItemPrivate *priv;
+	EDayViewTopItem *self = E_DAY_VIEW_TOP_ITEM (object);
 
-	priv = E_DAY_VIEW_TOP_ITEM_GET_PRIVATE (object);
-	g_clear_object (&priv->day_view);
+	g_clear_object (&self->priv->day_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_day_view_top_item_parent_class)->dispose (object);
@@ -782,8 +774,6 @@ e_day_view_top_item_class_init (EDayViewTopItemClass *class)
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	g_type_class_add_private (class, sizeof (EDayViewTopItemPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = day_view_top_item_set_property;
 	object_class->get_property = day_view_top_item_get_property;
@@ -818,7 +808,7 @@ e_day_view_top_item_class_init (EDayViewTopItemClass *class)
 static void
 e_day_view_top_item_init (EDayViewTopItem *top_item)
 {
-	top_item->priv = E_DAY_VIEW_TOP_ITEM_GET_PRIVATE (top_item);
+	top_item->priv = e_day_view_top_item_get_instance_private (top_item);
 }
 
 void

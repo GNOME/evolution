@@ -28,10 +28,6 @@
 #include "e-mail-label-dialog.h"
 #include "e-mail-label-tree-view.h"
 
-#define E_MAIL_LABEL_MANAGER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_LABEL_MANAGER, EMailLabelManagerPrivate))
-
 struct _EMailLabelManagerPrivate {
 	GtkWidget *tree_view;
 	GtkWidget *add_button;
@@ -53,7 +49,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (EMailLabelManager, e_mail_label_manager, GTK_TYPE_TABLE)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailLabelManager, e_mail_label_manager, GTK_TYPE_TABLE)
 
 static void
 mail_label_manager_selection_changed_cb (EMailLabelManager *manager,
@@ -123,13 +119,12 @@ mail_label_manager_get_property (GObject *object,
 static void
 mail_label_manager_dispose (GObject *object)
 {
-	EMailLabelManagerPrivate *priv;
+	EMailLabelManager *self = E_MAIL_LABEL_MANAGER (object);
 
-	priv = E_MAIL_LABEL_MANAGER_GET_PRIVATE (object);
-	g_clear_object (&priv->tree_view);
-	g_clear_object (&priv->add_button);
-	g_clear_object (&priv->edit_button);
-	g_clear_object (&priv->remove_button);
+	g_clear_object (&self->priv->tree_view);
+	g_clear_object (&self->priv->add_button);
+	g_clear_object (&self->priv->edit_button);
+	g_clear_object (&self->priv->remove_button);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_label_manager_parent_class)->dispose (object);
@@ -264,8 +259,6 @@ e_mail_label_manager_class_init (EMailLabelManagerClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailLabelManagerPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_label_manager_set_property;
 	object_class->get_property = mail_label_manager_get_property;
@@ -320,7 +313,7 @@ e_mail_label_manager_init (EMailLabelManager *manager)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	manager->priv = E_MAIL_LABEL_MANAGER_GET_PRIVATE (manager);
+	manager->priv = e_mail_label_manager_get_instance_private (manager);
 
 	gtk_table_resize (GTK_TABLE (manager), 2, 2);
 	gtk_table_set_col_spacings (GTK_TABLE (manager), 6);

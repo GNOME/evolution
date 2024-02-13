@@ -29,10 +29,6 @@
 
 #include "e-mail-config-notebook.h"
 
-#define E_MAIL_CONFIG_NOTEBOOK_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_NOTEBOOK, EMailConfigNotebookPrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailConfigNotebookPrivate {
@@ -62,12 +58,9 @@ enum {
 	PROP_TRANSPORT_SOURCE
 };
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailConfigNotebook,
-	e_mail_config_notebook,
-	GTK_TYPE_NOTEBOOK,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EMailConfigNotebook, e_mail_config_notebook, GTK_TYPE_NOTEBOOK,
+	G_ADD_PRIVATE (EMailConfigNotebook)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -292,20 +285,17 @@ mail_config_notebook_get_property (GObject *object,
 static void
 mail_config_notebook_dispose (GObject *object)
 {
-	EMailConfigNotebookPrivate *priv;
+	EMailConfigNotebook *self = E_MAIL_CONFIG_NOTEBOOK (object);
 
-	priv = E_MAIL_CONFIG_NOTEBOOK_GET_PRIVATE (object);
-
-	g_clear_object (&priv->session);
-	g_clear_object (&priv->account_source);
-	g_clear_object (&priv->identity_source);
-	g_clear_object (&priv->transport_source);
-	g_clear_object (&priv->collection_source);
-	g_clear_object (&priv->original_source);
+	g_clear_object (&self->priv->session);
+	g_clear_object (&self->priv->account_source);
+	g_clear_object (&self->priv->identity_source);
+	g_clear_object (&self->priv->transport_source);
+	g_clear_object (&self->priv->collection_source);
+	g_clear_object (&self->priv->original_source);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_notebook_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_notebook_parent_class)->dispose (object);
 }
 
 static void
@@ -525,8 +515,6 @@ e_mail_config_notebook_class_init (EMailConfigNotebookClass *class)
 	GObjectClass *object_class;
 	GtkNotebookClass *notebook_class;
 
-	g_type_class_add_private (class, sizeof (EMailConfigNotebookPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_notebook_set_property;
 	object_class->get_property = mail_config_notebook_get_property;
@@ -624,7 +612,7 @@ e_mail_config_notebook_class_init (EMailConfigNotebookClass *class)
 static void
 e_mail_config_notebook_init (EMailConfigNotebook *notebook)
 {
-	notebook->priv = E_MAIL_CONFIG_NOTEBOOK_GET_PRIVATE (notebook);
+	notebook->priv = e_mail_config_notebook_get_instance_private (notebook);
 }
 
 GtkWidget *

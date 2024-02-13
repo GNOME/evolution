@@ -26,15 +26,6 @@
 
 #include "e-action-combo-box.h"
 
-#define E_HTML_EDITOR_PARAGRAPH_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HTML_EDITOR_PARAGRAPH_DIALOG, EHTMLEditorParagraphDialogPrivate))
-
-G_DEFINE_TYPE (
-	EHTMLEditorParagraphDialog,
-	e_html_editor_paragraph_dialog,
-	E_TYPE_HTML_EDITOR_DIALOG);
-
 struct _EHTMLEditorParagraphDialogPrivate {
 	GtkWidget *style_combo;
 
@@ -43,6 +34,8 @@ struct _EHTMLEditorParagraphDialogPrivate {
 	GtkWidget *right_button;
 	GtkWidget *justified_button;
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (EHTMLEditorParagraphDialog, e_html_editor_paragraph_dialog, E_TYPE_HTML_EDITOR_DIALOG)
 
 static void
 html_editor_paragraph_dialog_constructed (GObject *object)
@@ -140,9 +133,6 @@ e_html_editor_paragraph_dialog_class_init (EHTMLEditorParagraphDialogClass *clas
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EHTMLEditorParagraphDialogPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = html_editor_paragraph_dialog_constructed;
 }
@@ -150,7 +140,7 @@ e_html_editor_paragraph_dialog_class_init (EHTMLEditorParagraphDialogClass *clas
 static void
 e_html_editor_paragraph_dialog_init (EHTMLEditorParagraphDialog *dialog)
 {
-	dialog->priv = E_HTML_EDITOR_PARAGRAPH_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_html_editor_paragraph_dialog_get_instance_private (dialog);
 }
 
 GtkWidget *

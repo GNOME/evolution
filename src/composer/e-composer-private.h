@@ -40,10 +40,6 @@
 #include <X11/XF86keysym.h>
 #endif
 
-#define E_MSG_COMPOSER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MSG_COMPOSER, EMsgComposerPrivate))
-
 /* Shorthand, requires a variable named "composer". */
 #define ACTION(name)	(E_COMPOSER_ACTION_##name (composer))
 

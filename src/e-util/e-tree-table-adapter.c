@@ -36,10 +36,6 @@
 #include "e-table-sorting-utils.h"
 #include "e-xml-utils.h"
 
-#define E_TREE_TABLE_ADAPTER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TREE_TABLE_ADAPTER, ETreeTableAdapterPrivate))
-
 #define d(x)
 
 #define INCREMENT_AMOUNT 100
@@ -105,13 +101,9 @@ static void	e_tree_table_adapter_table_model_init
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE_WITH_CODE (
-	ETreeTableAdapter,
-	e_tree_table_adapter,
-	G_TYPE_OBJECT,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_TABLE_MODEL,
-		e_tree_table_adapter_table_model_init))
+G_DEFINE_TYPE_WITH_CODE (ETreeTableAdapter, e_tree_table_adapter, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (ETreeTableAdapter)
+	G_IMPLEMENT_INTERFACE (E_TYPE_TABLE_MODEL, e_tree_table_adapter_table_model_init))
 
 static GNode *
 lookup_gnode (ETreeTableAdapter *etta,
@@ -766,63 +758,61 @@ tree_table_adapter_get_property (GObject *object,
 static void
 tree_table_adapter_dispose (GObject *object)
 {
-	ETreeTableAdapterPrivate *priv;
+	ETreeTableAdapter *self = E_TREE_TABLE_ADAPTER (object);
 
-	priv = E_TREE_TABLE_ADAPTER_GET_PRIVATE (object);
-
-	if (priv->pre_change_handler_id > 0) {
+	if (self->priv->pre_change_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->pre_change_handler_id);
-		priv->pre_change_handler_id = 0;
+			self->priv->source_model,
+			self->priv->pre_change_handler_id);
+		self->priv->pre_change_handler_id = 0;
 	}
 
-	if (priv->rebuilt_handler_id > 0) {
+	if (self->priv->rebuilt_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->rebuilt_handler_id);
-		priv->rebuilt_handler_id = 0;
+			self->priv->source_model,
+			self->priv->rebuilt_handler_id);
+		self->priv->rebuilt_handler_id = 0;
 	}
 
-	if (priv->node_changed_handler_id > 0) {
+	if (self->priv->node_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->node_changed_handler_id);
-		priv->node_changed_handler_id = 0;
+			self->priv->source_model,
+			self->priv->node_changed_handler_id);
+		self->priv->node_changed_handler_id = 0;
 	}
 
-	if (priv->node_data_changed_handler_id > 0) {
+	if (self->priv->node_data_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->node_data_changed_handler_id);
-		priv->node_data_changed_handler_id = 0;
+			self->priv->source_model,
+			self->priv->node_data_changed_handler_id);
+		self->priv->node_data_changed_handler_id = 0;
 	}
 
-	if (priv->node_inserted_handler_id > 0) {
+	if (self->priv->node_inserted_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->node_inserted_handler_id);
-		priv->node_inserted_handler_id = 0;
+			self->priv->source_model,
+			self->priv->node_inserted_handler_id);
+		self->priv->node_inserted_handler_id = 0;
 	}
 
-	if (priv->node_removed_handler_id > 0) {
+	if (self->priv->node_removed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->node_removed_handler_id);
-		priv->node_removed_handler_id = 0;
+			self->priv->source_model,
+			self->priv->node_removed_handler_id);
+		self->priv->node_removed_handler_id = 0;
 	}
 
-	if (priv->sort_info_changed_handler_id > 0) {
+	if (self->priv->sort_info_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->sort_info,
-			priv->sort_info_changed_handler_id);
-		priv->sort_info_changed_handler_id = 0;
+			self->priv->sort_info,
+			self->priv->sort_info_changed_handler_id);
+		self->priv->sort_info_changed_handler_id = 0;
 	}
 
-	g_clear_object (&priv->source_model);
-	g_clear_object (&priv->sort_info);
-	g_clear_object (&priv->children_sort_info);
-	g_clear_object (&priv->header);
+	g_clear_object (&self->priv->source_model);
+	g_clear_object (&self->priv->sort_info);
+	g_clear_object (&self->priv->children_sort_info);
+	g_clear_object (&self->priv->header);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_tree_table_adapter_parent_class)->dispose (object);
@@ -831,23 +821,21 @@ tree_table_adapter_dispose (GObject *object)
 static void
 tree_table_adapter_finalize (GObject *object)
 {
-	ETreeTableAdapterPrivate *priv;
+	ETreeTableAdapter *self = E_TREE_TABLE_ADAPTER (object);
 
-	priv = E_TREE_TABLE_ADAPTER_GET_PRIVATE (object);
-
-	if (priv->resort_idle_id) {
-		g_source_remove (priv->resort_idle_id);
-		priv->resort_idle_id = 0;
+	if (self->priv->resort_idle_id) {
+		g_source_remove (self->priv->resort_idle_id);
+		self->priv->resort_idle_id = 0;
 	}
 
-	if (priv->root) {
-		kill_gnode (priv->root, E_TREE_TABLE_ADAPTER (object));
-		priv->root = NULL;
+	if (self->priv->root) {
+		kill_gnode (self->priv->root, self);
+		self->priv->root = NULL;
 	}
 
-	g_hash_table_destroy (priv->nodes);
+	g_hash_table_destroy (self->priv->nodes);
 
-	g_free (priv->map_table);
+	g_free (self->priv->map_table);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_tree_table_adapter_parent_class)->finalize (object);
@@ -1046,8 +1034,6 @@ e_tree_table_adapter_class_init (ETreeTableAdapterClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ETreeTableAdapterPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = tree_table_adapter_set_property;
 	object_class->get_property = tree_table_adapter_get_property;
@@ -1138,7 +1124,7 @@ e_tree_table_adapter_table_model_init (ETableModelInterface *iface)
 static void
 e_tree_table_adapter_init (ETreeTableAdapter *etta)
 {
-	etta->priv = E_TREE_TABLE_ADAPTER_GET_PRIVATE (etta);
+	etta->priv = e_tree_table_adapter_get_instance_private (etta);
 
 	etta->priv->nodes = g_hash_table_new (NULL, NULL);
 

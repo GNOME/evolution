@@ -24,10 +24,6 @@
 
 #include "e-interval-chooser.h"
 
-#define E_INTERVAL_CHOOSER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_INTERVAL_CHOOSER, EIntervalChooserPrivate))
-
 #define MINUTES_PER_HOUR	(60)
 #define MINUTES_PER_DAY		(MINUTES_PER_HOUR * 24)
 
@@ -41,10 +37,7 @@ enum {
 	PROP_INTERVAL_MINUTES
 };
 
-G_DEFINE_TYPE (
-	EIntervalChooser,
-	e_interval_chooser,
-	GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EIntervalChooser, e_interval_chooser, GTK_TYPE_BOX)
 
 static void
 interval_chooser_notify_interval (GObject *object)
@@ -92,8 +85,6 @@ e_interval_chooser_class_init (EIntervalChooserClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EIntervalChooserPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = interval_chooser_set_property;
 	object_class->get_property = interval_chooser_get_property;
@@ -116,7 +107,7 @@ e_interval_chooser_init (EIntervalChooser *chooser)
 {
 	GtkWidget *widget;
 
-	chooser->priv = E_INTERVAL_CHOOSER_GET_PRIVATE (chooser);
+	chooser->priv = e_interval_chooser_get_instance_private (chooser);
 
 	gtk_orientable_set_orientation (
 		GTK_ORIENTABLE (chooser), GTK_ORIENTATION_HORIZONTAL);

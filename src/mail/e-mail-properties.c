@@ -33,7 +33,7 @@ struct _EMailPropertiesPrivate {
 	CamelDB *db;
 };
 
-G_DEFINE_TYPE (EMailProperties, e_mail_properties, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailProperties, e_mail_properties, G_TYPE_OBJECT)
 
 static gint
 e_mail_properties_get_value_cb (gpointer data,
@@ -232,8 +232,6 @@ e_mail_properties_class_init (EMailPropertiesClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailPropertiesPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = mail_properties_finalize;
 }
@@ -241,7 +239,7 @@ e_mail_properties_class_init (EMailPropertiesClass *class)
 static void
 e_mail_properties_init (EMailProperties *properties)
 {
-	properties->priv = G_TYPE_INSTANCE_GET_PRIVATE (properties, E_TYPE_MAIL_PROPERTIES, EMailPropertiesPrivate);
+	properties->priv = e_mail_properties_get_instance_private (properties);
 }
 
 EMailProperties *

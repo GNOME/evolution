@@ -15,16 +15,15 @@
  *
  */
 
+#include "evolution-config.h"
+
 #include "e-mail-part-audio.h"
 
-#define E_MAIL_PART_AUDIO_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_PART_AUDIO, EMailPartAudioPrivate))
+struct _EMailPartAudioPrivate {
+	gboolean dummy;
+};
 
-G_DEFINE_TYPE (
-	EMailPartAudio,
-	e_mail_part_audio,
-	E_TYPE_MAIL_PART)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailPartAudio, e_mail_part_audio, E_TYPE_MAIL_PART)
 
 static void
 mail_part_audio_constructed (GObject *object)
@@ -69,6 +68,7 @@ e_mail_part_audio_class_init (EMailPartAudioClass *class)
 static void
 e_mail_part_audio_init (EMailPartAudio *part)
 {
+	part->priv = e_mail_part_audio_get_instance_private (part);
 }
 
 EMailPart *

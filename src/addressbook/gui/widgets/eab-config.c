@@ -23,20 +23,16 @@
 
 #include "eab-config.h"
 
-#define EAB_CONFIG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EAB_TYPE_CONFIG, EABConfigPrivate))
-
 struct _EABConfigPrivate {
 	guint source_changed_id;
 };
 
-G_DEFINE_TYPE (EABConfig, eab_config, E_TYPE_CONFIG)
+G_DEFINE_TYPE_WITH_PRIVATE (EABConfig, eab_config, E_TYPE_CONFIG)
 
 static void
 eab_config_init (EABConfig *cfg)
 {
-	cfg->priv = EAB_CONFIG_GET_PRIVATE (cfg);
+	cfg->priv = eab_config_get_instance_private (cfg);
 }
 
 static void
@@ -89,7 +85,7 @@ static void
 ecp_set_target (EConfig *ec,
                 EConfigTarget *t)
 {
-	struct _EABConfigPrivate *p = EAB_CONFIG_GET_PRIVATE (ec);
+	EABConfig *self = EAB_CONFIG (ec);
 
 	((EConfigClass *) eab_config_parent_class)->set_target (ec, t);
 
@@ -98,7 +94,7 @@ ecp_set_target (EConfig *ec,
 		case EAB_CONFIG_TARGET_SOURCE: {
 			EABConfigTargetSource *s = (EABConfigTargetSource *) t;
 
-			p->source_changed_id = g_signal_connect (
+			self->priv->source_changed_id = g_signal_connect (
 				s->source, "changed",
 				G_CALLBACK (ecp_source_changed), ec);
 			break; }
@@ -112,8 +108,6 @@ static void
 eab_config_class_init (EABConfigClass *class)
 {
 	EConfigClass *config_class;
-
-	g_type_class_add_private (class, sizeof (struct _EABConfigPrivate));
 
 	config_class = E_CONFIG_CLASS (class);
 	config_class->set_target = ecp_set_target;

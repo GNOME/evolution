@@ -32,14 +32,6 @@
 #include "em-vfolder-context.h"
 #include "em-vfolder-rule.h"
 
-#define EM_VFOLDER_RULE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_VFOLDER_RULE, EMVFolderRulePrivate))
-
-#define EM_VFOLDER_RULE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_VFOLDER_RULE, EMVFolderRulePrivate))
-
 struct _EMVFolderRulePrivate {
 	em_vfolder_rule_with_t with;
 	GQueue sources;		/* uri's of the source folders */
@@ -62,10 +54,7 @@ static const gchar *with_names[] = {
 	"local"
 };
 
-G_DEFINE_TYPE (
-	EMVFolderRule,
-	em_vfolder_rule,
-	E_TYPE_FILTER_RULE)
+G_DEFINE_TYPE_WITH_PRIVATE (EMVFolderRule, em_vfolder_rule, E_TYPE_FILTER_RULE)
 
 static void
 vfolder_rule_finalize (GObject *object)
@@ -88,8 +77,6 @@ em_vfolder_rule_class_init (EMVFolderRuleClass *class)
 	GObjectClass *object_class;
 	EFilterRuleClass *filter_rule_class;
 
-	g_type_class_add_private (class, sizeof (EMVFolderRulePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = vfolder_rule_finalize;
 
@@ -105,7 +92,7 @@ em_vfolder_rule_class_init (EMVFolderRuleClass *class)
 static void
 em_vfolder_rule_init (EMVFolderRule *rule)
 {
-	rule->priv = EM_VFOLDER_RULE_GET_PRIVATE (rule);
+	rule->priv = em_vfolder_rule_get_instance_private (rule);
 	rule->priv->with = EM_VFOLDER_RULE_WITH_SPECIFIC;
 	rule->priv->autoupdate = TRUE;
 	/* it's using pointers from priv::sources, and those

@@ -33,10 +33,6 @@
 #include "e-alert-dialog.h"
 #include "e-misc-utils.h"
 
-#define E_RULE_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_RULE_EDITOR, ERuleEditorPrivate))
-
 enum {
 	BUTTON_ADD,
 	BUTTON_EDIT,
@@ -53,10 +49,7 @@ struct _ERuleEditorPrivate {
 	gint drag_index;
 };
 
-G_DEFINE_TYPE (
-	ERuleEditor,
-	e_rule_editor,
-	GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_PRIVATE (ERuleEditor, e_rule_editor, GTK_TYPE_DIALOG)
 
 static gboolean
 update_selected_rule (ERuleEditor *editor)
@@ -595,8 +588,6 @@ e_rule_editor_class_init (ERuleEditorClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ERuleEditorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = rule_editor_finalize;
 	object_class->dispose = rule_editor_dispose;
@@ -609,7 +600,7 @@ e_rule_editor_class_init (ERuleEditorClass *class)
 static void
 e_rule_editor_init (ERuleEditor *editor)
 {
-	editor->priv = E_RULE_EDITOR_GET_PRIVATE (editor);
+	editor->priv = e_rule_editor_get_instance_private (editor);
 	editor->priv->drag_index = -1;
 }
 

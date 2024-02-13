@@ -34,15 +34,11 @@
 #include "e-cal-base-shell-view.h"
 #include "e-cal-base-shell-backend.h"
 
-#define E_CAL_BASE_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_BASE_SHELL_BACKEND, ECalBaseShellBackendPrivate))
-
 struct _ECalBaseShellBackendPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_ABSTRACT_TYPE (ECalBaseShellBackend, e_cal_base_shell_backend, E_TYPE_SHELL_BACKEND)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (ECalBaseShellBackend, e_cal_base_shell_backend, E_TYPE_SHELL_BACKEND)
 
 static void
 cal_base_shell_backend_handle_webcal_uri (EShellBackend *shell_backend,
@@ -226,8 +222,6 @@ e_cal_base_shell_backend_class_init (ECalBaseShellBackendClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ECalBaseShellBackendPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = cal_base_shell_backend_constructed;
 
@@ -256,7 +250,7 @@ e_cal_base_shell_backend_class_init (ECalBaseShellBackendClass *class)
 static void
 e_cal_base_shell_backend_init (ECalBaseShellBackend *cal_base_shell_backend)
 {
-	cal_base_shell_backend->priv = E_CAL_BASE_SHELL_BACKEND_GET_PRIVATE (cal_base_shell_backend);
+	cal_base_shell_backend->priv = e_cal_base_shell_backend_get_instance_private (cal_base_shell_backend);
 }
 
 void

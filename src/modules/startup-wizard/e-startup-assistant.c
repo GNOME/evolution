@@ -30,20 +30,14 @@
 
 #define NEW_COLLECTION_ACCOUNT_URI "evolution://new-collection-account"
 
-#define E_STARTUP_ASSISTANT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_STARTUP_ASSISTANT, EStartupAssistantPrivate))
-
 struct _EStartupAssistantPrivate {
 	EActivity *import_activity;
 	EMailConfigImportPage *import_page;
 	EMailConfigImportProgressPage *progress_page;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EStartupAssistant,
-	e_startup_assistant,
-	E_TYPE_MAIL_CONFIG_ASSISTANT)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EStartupAssistant, e_startup_assistant, E_TYPE_MAIL_CONFIG_ASSISTANT, 0,
+	G_ADD_PRIVATE_DYNAMIC (EStartupAssistant))
 
 static gboolean
 activate_collection_account_link_cb (GtkLabel *label,
@@ -109,12 +103,11 @@ startup_assistant_import_done (GObject *source_object,
 static void
 startup_assistant_dispose (GObject *object)
 {
-	EStartupAssistantPrivate *priv;
+	EStartupAssistant *self = E_STARTUP_ASSISTANT (object);
 
-	priv = E_STARTUP_ASSISTANT_GET_PRIVATE (object);
-	g_clear_object (&priv->import_activity);
-	g_clear_object (&priv->import_page);
-	g_clear_object (&priv->progress_page);
+	g_clear_object (&self->priv->import_activity);
+	g_clear_object (&self->priv->import_page);
+	g_clear_object (&self->priv->progress_page);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_startup_assistant_parent_class)->dispose (object);
@@ -222,22 +215,19 @@ static void
 startup_assistant_prepare (GtkAssistant *assistant,
                            GtkWidget *page)
 {
-	EStartupAssistantPrivate *priv;
-
-	priv = E_STARTUP_ASSISTANT_GET_PRIVATE (assistant);
+	EStartupAssistant *self = E_STARTUP_ASSISTANT (assistant);
 
 	/* Chain up to parent's prepare() method. */
-	GTK_ASSISTANT_CLASS (e_startup_assistant_parent_class)->
-		prepare (assistant, page);
+	GTK_ASSISTANT_CLASS (e_startup_assistant_parent_class)->prepare (assistant, page);
 
 	if (E_IS_MAIL_CONFIG_IMPORT_PROGRESS_PAGE (page)) {
 		EActivity *activity;
 
-		activity = priv->import_activity;
+		activity = self->priv->import_activity;
 		e_activity_set_state (activity, E_ACTIVITY_RUNNING);
 
 		e_mail_config_import_page_import (
-			priv->import_page, activity,
+			self->priv->import_page, activity,
 			startup_assistant_import_done,
 			g_object_ref (assistant));
 	}
@@ -248,8 +238,6 @@ e_startup_assistant_class_init (EStartupAssistantClass *class)
 {
 	GObjectClass *object_class;
 	GtkAssistantClass *assistant_class;
-
-	g_type_class_add_private (class, sizeof (EStartupAssistantPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = startup_assistant_dispose;
@@ -270,7 +258,7 @@ e_startup_assistant_init (EStartupAssistant *assistant)
 	EActivity *activity;
 	GCancellable *cancellable;
 
-	assistant->priv = E_STARTUP_ASSISTANT_GET_PRIVATE (assistant);
+	assistant->priv = e_startup_assistant_get_instance_private (assistant);
 
 	cancellable = g_cancellable_new ();
 

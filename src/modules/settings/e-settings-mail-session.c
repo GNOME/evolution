@@ -19,18 +19,12 @@
 
 #include <mail/e-mail-ui-session.h>
 
-#define E_SETTINGS_MAIL_SESSION_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_MAIL_SESSION, ESettingsMailSessionPrivate))
-
 struct _ESettingsMailSessionPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsMailSession,
-	e_settings_mail_session,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsMailSession, e_settings_mail_session, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsMailSession))
 
 static gboolean
 settings_mail_session_name_to_junk_filter (GValue *value,
@@ -140,8 +134,6 @@ e_settings_mail_session_class_init (ESettingsMailSessionClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ESettingsMailSessionPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = settings_mail_session_constructed;
 
@@ -157,7 +149,7 @@ e_settings_mail_session_class_finalize (ESettingsMailSessionClass *class)
 static void
 e_settings_mail_session_init (ESettingsMailSession *extension)
 {
-	extension->priv = E_SETTINGS_MAIL_SESSION_GET_PRIVATE (extension);
+	extension->priv = e_settings_mail_session_get_instance_private (extension);
 }
 
 void

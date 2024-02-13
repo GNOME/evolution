@@ -37,10 +37,6 @@
 
 #define d(x)
 
-#define EM_FOLDER_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FOLDER_SELECTOR, EMFolderSelectorPrivate))
-
 #define DEFAULT_BUTTON_LABEL N_("_OK")
 
 struct _EMFolderSelectorPrivate {
@@ -82,13 +78,9 @@ static guint signals[LAST_SIGNAL];
 static void	em_folder_selector_alert_sink_init
 					(EAlertSinkInterface *interface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMFolderSelector,
-	em_folder_selector,
-	GTK_TYPE_DIALOG,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK,
-		em_folder_selector_alert_sink_init))
+G_DEFINE_TYPE_WITH_CODE (EMFolderSelector, em_folder_selector, GTK_TYPE_DIALOG,
+	G_ADD_PRIVATE (EMFolderSelector)
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, em_folder_selector_alert_sink_init))
 
 enum {
 	FILTER_COL_STRING_DISPLAY_NAME,
@@ -549,21 +541,19 @@ folder_selector_get_property (GObject *object,
 static void
 folder_selector_dispose (GObject *object)
 {
-	EMFolderSelectorPrivate *priv;
+	EMFolderSelector *self = EM_FOLDER_SELECTOR (object);
 
-	priv = EM_FOLDER_SELECTOR_GET_PRIVATE (object);
+	if (self->priv->model && self->priv->model != em_folder_tree_model_get_default ())
+		em_folder_tree_model_remove_all_stores (self->priv->model);
 
-	if (priv->model && priv->model != em_folder_tree_model_get_default ())
-		em_folder_tree_model_remove_all_stores (priv->model);
-
-	g_clear_object (&priv->model);
-	g_clear_object (&priv->alert_bar);
-	g_clear_object (&priv->activity_bar);
-	g_clear_object (&priv->caption_label);
-	g_clear_object (&priv->content_area);
-	g_clear_object (&priv->tree_view_frame);
-	g_clear_object (&priv->folder_tree_view);
-	g_clear_object (&priv->search_tree_view);
+	g_clear_object (&self->priv->model);
+	g_clear_object (&self->priv->alert_bar);
+	g_clear_object (&self->priv->activity_bar);
+	g_clear_object (&self->priv->caption_label);
+	g_clear_object (&self->priv->content_area);
+	g_clear_object (&self->priv->tree_view_frame);
+	g_clear_object (&self->priv->folder_tree_view);
+	g_clear_object (&self->priv->search_tree_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_folder_selector_parent_class)->dispose (object);
@@ -572,14 +562,12 @@ folder_selector_dispose (GObject *object)
 static void
 folder_selector_finalize (GObject *object)
 {
-	EMFolderSelectorPrivate *priv;
+	EMFolderSelector *self = EM_FOLDER_SELECTOR (object);
 
-	priv = EM_FOLDER_SELECTOR_GET_PRIVATE (object);
-
-	g_free (priv->selected_uri);
-	g_free (priv->caption);
-	g_free (priv->default_button_label);
-	g_free (priv->search_text);
+	g_free (self->priv->selected_uri);
+	g_free (self->priv->caption);
+	g_free (self->priv->default_button_label);
+	g_free (self->priv->search_text);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_selector_parent_class)->finalize (object);
@@ -741,19 +729,15 @@ static void
 folder_selector_submit_alert (EAlertSink *alert_sink,
                               EAlert *alert)
 {
-	EMFolderSelectorPrivate *priv;
+	EMFolderSelector *self = EM_FOLDER_SELECTOR (alert_sink);
 
-	priv = EM_FOLDER_SELECTOR_GET_PRIVATE (alert_sink);
-
-	e_alert_bar_submit_alert (E_ALERT_BAR (priv->alert_bar), alert);
+	e_alert_bar_submit_alert (E_ALERT_BAR (self->priv->alert_bar), alert);
 }
 
 static void
 em_folder_selector_class_init (EMFolderSelectorClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EMFolderSelectorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = folder_selector_set_property;
@@ -843,7 +827,7 @@ em_folder_selector_alert_sink_init (EAlertSinkInterface *interface)
 static void
 em_folder_selector_init (EMFolderSelector *selector)
 {
-	selector->priv = EM_FOLDER_SELECTOR_GET_PRIVATE (selector);
+	selector->priv = em_folder_selector_get_instance_private (selector);
 
 	selector->priv->default_button_label =
 		g_strdup (gettext (DEFAULT_BUTTON_LABEL));

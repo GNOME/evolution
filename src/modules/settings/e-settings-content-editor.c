@@ -24,20 +24,14 @@
 
 #include <e-util/e-util.h>
 
-#define E_SETTINGS_CONTENT_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_CONTENT_EDITOR, ESettingsContentEditorPrivate))
-
 struct _ESettingsContentEditorPrivate {
 	GSettings *settings;
 
 	GHashTable *old_settings;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsContentEditor,
-	e_settings_content_editor,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsContentEditor, e_settings_content_editor, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsContentEditor))
 
 static void
 settings_content_editor_inline_spelling_changed (ESettingsContentEditor *extension,
@@ -149,17 +143,15 @@ settings_content_editor_html_editor_realize_cb (GtkWidget *html_editor,
 static void
 settings_content_editor_dispose (GObject *object)
 {
-	ESettingsContentEditorPrivate *priv;
+	ESettingsContentEditor *self = E_SETTINGS_CONTENT_EDITOR (object);
 
-	priv = E_SETTINGS_CONTENT_EDITOR_GET_PRIVATE (object);
-
-	if (priv->settings != NULL) {
+	if (self->priv->settings != NULL) {
 		g_signal_handlers_disconnect_by_func (
-			priv->settings,
+			self->priv->settings,
 			settings_content_editor_changed_cb, object);
 	}
 
-	g_clear_object (&priv->settings);
+	g_clear_object (&self->priv->settings);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_settings_content_editor_parent_class)->dispose (object);
@@ -168,10 +160,9 @@ settings_content_editor_dispose (GObject *object)
 static void
 settings_content_editor_finalize (GObject *object)
 {
-	ESettingsContentEditorPrivate *priv;
+	ESettingsContentEditor *self = E_SETTINGS_CONTENT_EDITOR (object);
 
-	priv = E_SETTINGS_CONTENT_EDITOR_GET_PRIVATE (object);
-	g_clear_pointer (&priv->old_settings, g_hash_table_destroy);
+	g_clear_pointer (&self->priv->old_settings, g_hash_table_destroy);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_settings_content_editor_parent_class)->finalize (object);
@@ -198,8 +189,6 @@ e_settings_content_editor_class_init (ESettingsContentEditorClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ESettingsContentEditorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = settings_content_editor_dispose;
 	object_class->finalize = settings_content_editor_finalize;
@@ -219,7 +208,7 @@ e_settings_content_editor_init (ESettingsContentEditor *extension)
 {
 	GSettings *settings;
 
-	extension->priv = E_SETTINGS_CONTENT_EDITOR_GET_PRIVATE (extension);
+	extension->priv = e_settings_content_editor_get_instance_private (extension);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	extension->priv->settings = settings;

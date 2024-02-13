@@ -22,18 +22,12 @@
 
 #include "e-mail-part-itip.h"
 
-#define E_MAIL_PART_ITIP_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_PART_ITIP, EMailPartItipPrivate))
-
 struct _EMailPartItipPrivate {
 	GSList *views; /* ItipView * */
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EMailPartItip,
-	e_mail_part_itip,
-	E_TYPE_MAIL_PART)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailPartItip, e_mail_part_itip, E_TYPE_MAIL_PART, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailPartItip))
 
 static void
 mail_part_itip_dispose (GObject *object)
@@ -189,8 +183,6 @@ e_mail_part_itip_class_init (EMailPartItipClass *class)
 	GObjectClass *object_class;
 	EMailPartClass *mail_part_class;
 
-	g_type_class_add_private (class, sizeof (EMailPartItipPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = mail_part_itip_dispose;
 	object_class->finalize = mail_part_itip_finalize;
@@ -207,7 +199,7 @@ e_mail_part_itip_class_finalize (EMailPartItipClass *class)
 static void
 e_mail_part_itip_init (EMailPartItip *part)
 {
-	part->priv = E_MAIL_PART_ITIP_GET_PRIVATE (part);
+	part->priv = e_mail_part_itip_get_instance_private (part);
 	part->cancellable = g_cancellable_new ();
 
 	e_mail_part_set_mime_type (E_MAIL_PART (part), "text/calendar");

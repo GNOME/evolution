@@ -30,10 +30,6 @@
 
 #include "e-activity-proxy.h"
 
-#define E_ACTIVITY_PROXY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ACTIVITY_PROXY, EActivityProxyPrivate))
-
 #define FEEDBACK_PERIOD		1 /* seconds */
 #define COMPLETED_ICON_NAME	"emblem-default"
 
@@ -55,10 +51,7 @@ enum {
 	PROP_ACTIVITY
 };
 
-G_DEFINE_TYPE (
-	EActivityProxy,
-	e_activity_proxy,
-	GTK_TYPE_FRAME)
+G_DEFINE_TYPE_WITH_PRIVATE (EActivityProxy, e_activity_proxy, GTK_TYPE_FRAME)
 
 typedef struct {
 	EActivityProxy *proxy; /* Not referenced */
@@ -254,23 +247,21 @@ activity_proxy_get_property (GObject *object,
 static void
 activity_proxy_dispose (GObject *object)
 {
-	EActivityProxyPrivate *priv;
+	EActivityProxy *self = E_ACTIVITY_PROXY (object);
 
-	priv = E_ACTIVITY_PROXY_GET_PRIVATE (object);
-
-	if (priv->timeout_id > 0) {
-		g_source_remove (priv->timeout_id);
-		priv->timeout_id = 0;
+	if (self->priv->timeout_id > 0) {
+		g_source_remove (self->priv->timeout_id);
+		self->priv->timeout_id = 0;
 	}
 
-	if (priv->activity != NULL) {
+	if (self->priv->activity != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->activity, G_SIGNAL_MATCH_DATA,
+			self->priv->activity, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
 		g_object_weak_unref (
-			G_OBJECT (priv->activity), (GWeakNotify)
+			G_OBJECT (self->priv->activity), (GWeakNotify)
 			activity_proxy_weak_notify_cb, object);
-		priv->activity = NULL;
+		self->priv->activity = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -281,8 +272,6 @@ static void
 e_activity_proxy_class_init (EActivityProxyClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EActivityProxyPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = activity_proxy_set_property;
@@ -307,7 +296,7 @@ e_activity_proxy_init (EActivityProxy *proxy)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	proxy->priv = E_ACTIVITY_PROXY_GET_PRIVATE (proxy);
+	proxy->priv = e_activity_proxy_get_instance_private (proxy);
 
 	gtk_frame_set_shadow_type (GTK_FRAME (proxy), GTK_SHADOW_IN);
 

@@ -26,10 +26,6 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-#define E_WEB_VIEW_PREVIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEB_VIEW_PREVIEW, EWebViewPreviewPrivate))
-
 struct _EWebViewPreviewPrivate {
 	gboolean escape_values;
 	GString *updating_content; /* is NULL when not between begin_update/end_update */
@@ -42,10 +38,7 @@ enum {
 	PROP_ESCAPE_VALUES
 };
 
-G_DEFINE_TYPE (
-	EWebViewPreview,
-	e_web_view_preview,
-	GTK_TYPE_PANED);
+G_DEFINE_TYPE_WITH_PRIVATE (EWebViewPreview, e_web_view_preview, GTK_TYPE_PANED)
 
 static void
 web_view_preview_set_property (GObject *object,
@@ -96,13 +89,11 @@ web_view_preview_get_property (GObject *object,
 static void
 web_view_preview_dispose (GObject *object)
 {
-	EWebViewPreviewPrivate *priv;
+	EWebViewPreview *self = E_WEB_VIEW_PREVIEW (object);
 
-	priv = E_WEB_VIEW_PREVIEW_GET_PRIVATE (object);
-
-	if (priv->updating_content != NULL) {
-		g_string_free (priv->updating_content, TRUE);
-		priv->updating_content = NULL;
+	if (self->priv->updating_content != NULL) {
+		g_string_free (self->priv->updating_content, TRUE);
+		self->priv->updating_content = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -113,8 +104,6 @@ static void
 e_web_view_preview_class_init (EWebViewPreviewClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EWebViewPreviewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = web_view_preview_set_property;
@@ -174,7 +163,7 @@ e_web_view_preview_init (EWebViewPreview *preview)
 {
 	GtkWidget *tree_view_sw, *web_view;
 
-	preview->priv = E_WEB_VIEW_PREVIEW_GET_PRIVATE (preview);
+	preview->priv = e_web_view_preview_get_instance_private (preview);
 	preview->priv->escape_values = TRUE;
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (preview), GTK_ORIENTATION_VERTICAL);

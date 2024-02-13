@@ -38,10 +38,6 @@
 #include "e-memo-shell-content.h"
 #include "e-memo-shell-view-actions.h"
 
-#define E_MEMO_SHELL_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEMO_SHELL_VIEW, EMemoShellViewPrivate))
-
 /* Shorthand, requires a variable named "shell_window". */
 #define ACTION(name) \
 	(E_SHELL_WINDOW_ACTION_##name (shell_window))

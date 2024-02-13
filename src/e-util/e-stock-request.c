@@ -40,6 +40,7 @@ enum {
 static void e_stock_request_content_request_init (EContentRequestInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (EStockRequest, e_stock_request, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EStockRequest)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CONTENT_REQUEST, e_stock_request_content_request_init))
 
 static gboolean
@@ -387,8 +388,6 @@ e_stock_request_class_init (EStockRequestClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EStockRequestPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = e_stock_request_set_property;
 	object_class->get_property = e_stock_request_get_property;
@@ -408,7 +407,7 @@ e_stock_request_class_init (EStockRequestClass *class)
 static void
 e_stock_request_init (EStockRequest *request)
 {
-	request->priv = G_TYPE_INSTANCE_GET_PRIVATE (request, E_TYPE_STOCK_REQUEST, EStockRequestPrivate);
+	request->priv = e_stock_request_get_instance_private (request);
 	request->priv->scale_factor = 0;
 }
 

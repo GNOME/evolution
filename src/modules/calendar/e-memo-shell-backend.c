@@ -29,15 +29,12 @@
 #include "e-memo-shell-view.h"
 #include "e-memo-shell-backend.h"
 
-#define E_MEMO_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEMO_SHELL_BACKEND, EMemoShellBackendPrivate))
-
 struct _EMemoShellBackendPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (EMemoShellBackend, e_memo_shell_backend, E_TYPE_CAL_BASE_SHELL_BACKEND)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMemoShellBackend, e_memo_shell_backend, E_TYPE_CAL_BASE_SHELL_BACKEND, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMemoShellBackend))
 
 static void
 action_memo_new_cb (GtkAction *action,
@@ -114,8 +111,6 @@ e_memo_shell_backend_class_init (EMemoShellBackendClass *class)
 	EShellBackendClass *shell_backend_class;
 	ECalBaseShellBackendClass *cal_base_shell_backend_class;
 
-	g_type_class_add_private (class, sizeof (EMemoShellBackendPrivate));
-
 	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
 	shell_backend_class->shell_view_type = E_TYPE_MEMO_SHELL_VIEW;
 	shell_backend_class->name = "memos";
@@ -136,7 +131,7 @@ e_memo_shell_backend_class_init (EMemoShellBackendClass *class)
 static void
 e_memo_shell_backend_init (EMemoShellBackend *memo_shell_backend)
 {
-	memo_shell_backend->priv = E_MEMO_SHELL_BACKEND_GET_PRIVATE (memo_shell_backend);
+	memo_shell_backend->priv = e_memo_shell_backend_get_instance_private (memo_shell_backend);
 }
 
 static void

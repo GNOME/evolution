@@ -21,19 +21,12 @@
 
 #include <glib/gi18n-lib.h>
 
-#define E_BOOK_SOURCE_CONFIG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_BOOK_SOURCE_CONFIG, EBookSourceConfigPrivate))
-
 struct _EBookSourceConfigPrivate {
 	GtkWidget *default_button;
 	GtkWidget *autocomplete_button;
 };
 
-G_DEFINE_TYPE (
-	EBookSourceConfig,
-	e_book_source_config,
-	E_TYPE_SOURCE_CONFIG)
+G_DEFINE_TYPE_WITH_PRIVATE (EBookSourceConfig, e_book_source_config, E_TYPE_SOURCE_CONFIG)
 
 static ESource *
 book_source_config_ref_default (ESourceConfig *config)
@@ -59,11 +52,10 @@ book_source_config_set_default (ESourceConfig *config,
 static void
 book_source_config_dispose (GObject *object)
 {
-	EBookSourceConfigPrivate *priv;
+	EBookSourceConfig *self = E_BOOK_SOURCE_CONFIG (object);
 
-	priv = E_BOOK_SOURCE_CONFIG_GET_PRIVATE (object);
-	g_clear_object (&priv->default_button);
-	g_clear_object (&priv->autocomplete_button);
+	g_clear_object (&self->priv->default_button);
+	g_clear_object (&self->priv->autocomplete_button);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_book_source_config_parent_class)->dispose (object);
@@ -72,29 +64,27 @@ book_source_config_dispose (GObject *object)
 static void
 book_source_config_constructed (GObject *object)
 {
-	EBookSourceConfigPrivate *priv;
+	EBookSourceConfig *self;
 	ESource *default_source;
 	ESource *original_source;
 	ESourceConfig *config;
-	GObjectClass *class;
 	GtkWidget *widget;
 	const gchar *label;
 
 	/* Chain up to parent's constructed() method. */
-	class = G_OBJECT_CLASS (e_book_source_config_parent_class);
-	class->constructed (object);
+	G_OBJECT_CLASS (e_book_source_config_parent_class)->constructed (object);
 
 	config = E_SOURCE_CONFIG (object);
-	priv = E_BOOK_SOURCE_CONFIG_GET_PRIVATE (object);
+	self = E_BOOK_SOURCE_CONFIG (object);
 
 	label = _("Mark as default address book");
 	widget = gtk_check_button_new_with_label (label);
-	priv->default_button = g_object_ref_sink (widget);
+	self->priv->default_button = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
 	label = _("Autocomplete with this address book");
 	widget = gtk_check_button_new_with_label (label);
-	priv->autocomplete_button = g_object_ref_sink (widget);
+	self->priv->autocomplete_button = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
 	default_source = book_source_config_ref_default (config);
@@ -104,16 +94,16 @@ book_source_config_constructed (GObject *object)
 		gboolean active;
 
 		active = e_source_equal (original_source, default_source);
-		g_object_set (priv->default_button, "active", active, NULL);
+		g_object_set (self->priv->default_button, "active", active, NULL);
 	}
 
 	g_object_unref (default_source);
 
 	e_source_config_insert_widget (
-		config, NULL, NULL, priv->default_button);
+		config, NULL, NULL, self->priv->default_button);
 
 	e_source_config_insert_widget (
-		config, NULL, NULL, priv->autocomplete_button);
+		config, NULL, NULL, self->priv->autocomplete_button);
 }
 
 static const gchar *
@@ -157,23 +147,21 @@ static void
 book_source_config_init_candidate (ESourceConfig *config,
                                    ESource *scratch_source)
 {
-	EBookSourceConfigPrivate *priv;
-	ESourceConfigClass *class;
+	EBookSourceConfig *self;
 	ESourceExtension *extension;
 	const gchar *extension_name;
 
 	/* Chain up to parent's init_candidate() method. */
-	class = E_SOURCE_CONFIG_CLASS (e_book_source_config_parent_class);
-	class->init_candidate (config, scratch_source);
+	E_SOURCE_CONFIG_CLASS (e_book_source_config_parent_class)->init_candidate (config, scratch_source);
 
-	priv = E_BOOK_SOURCE_CONFIG_GET_PRIVATE (config);
+	self = E_BOOK_SOURCE_CONFIG (config);
 
 	extension_name = E_SOURCE_EXTENSION_AUTOCOMPLETE;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
 	e_binding_bind_property (
 		extension, "include-me",
-		priv->autocomplete_button, "active",
+		self->priv->autocomplete_button, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 }
@@ -182,17 +170,15 @@ static void
 book_source_config_commit_changes (ESourceConfig *config,
                                    ESource *scratch_source)
 {
-	EBookSourceConfigPrivate *priv;
-	ESourceConfigClass *class;
+	EBookSourceConfig *self;
 	ESource *default_source;
 	GtkToggleButton *toggle_button;
 
-	priv = E_BOOK_SOURCE_CONFIG_GET_PRIVATE (config);
-	toggle_button = GTK_TOGGLE_BUTTON (priv->default_button);
+	self = E_BOOK_SOURCE_CONFIG (config);
+	toggle_button = GTK_TOGGLE_BUTTON (self->priv->default_button);
 
 	/* Chain up to parent's commit_changes() method. */
-	class = E_SOURCE_CONFIG_CLASS (e_book_source_config_parent_class);
-	class->commit_changes (config, scratch_source);
+	E_SOURCE_CONFIG_CLASS (e_book_source_config_parent_class)->commit_changes (config, scratch_source);
 
 	default_source = book_source_config_ref_default (config);
 
@@ -216,8 +202,6 @@ e_book_source_config_class_init (EBookSourceConfigClass *class)
 	GObjectClass *object_class;
 	ESourceConfigClass *source_config_class;
 
-	g_type_class_add_private (class, sizeof (EBookSourceConfigPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = book_source_config_dispose;
 	object_class->constructed = book_source_config_constructed;
@@ -234,7 +218,7 @@ e_book_source_config_class_init (EBookSourceConfigClass *class)
 static void
 e_book_source_config_init (EBookSourceConfig *config)
 {
-	config->priv = E_BOOK_SOURCE_CONFIG_GET_PRIVATE (config);
+	config->priv = e_book_source_config_get_instance_private (config);
 }
 
 GtkWidget *

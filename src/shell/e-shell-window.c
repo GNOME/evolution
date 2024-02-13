@@ -57,14 +57,10 @@ static gulong signals[LAST_SIGNAL];
 static void	e_shell_window_alert_sink_init
 					(EAlertSinkInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EShellWindow,
-	e_shell_window,
-	GTK_TYPE_WINDOW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK, e_shell_window_alert_sink_init)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EShellWindow, e_shell_window, GTK_TYPE_WINDOW,
+	G_ADD_PRIVATE (EShellWindow)
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, e_shell_window_alert_sink_init)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static const char *css =
 ".table-header {\
@@ -899,8 +895,6 @@ e_shell_window_class_init (EShellWindowClass *class)
 	GtkWidgetClass *widget_class;
 	GtkBindingSet *binding_set;
 
-	g_type_class_add_private (class, sizeof (EShellWindowPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = shell_window_set_property;
 	object_class->get_property = shell_window_get_property;
@@ -1187,7 +1181,7 @@ e_shell_window_init (EShellWindow *shell_window)
 {
 	GtkCssProvider *css_provider;
 
-	shell_window->priv = E_SHELL_WINDOW_GET_PRIVATE (shell_window);
+	shell_window->priv = e_shell_window_get_instance_private (shell_window);
 
 	e_shell_window_private_init (shell_window);
 

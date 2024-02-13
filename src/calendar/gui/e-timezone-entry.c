@@ -37,10 +37,6 @@
 
 #include "e-timezone-entry.h"
 
-#define E_TIMEZONE_ENTRY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TIMEZONE_ENTRY, ETimezoneEntryPrivate))
-
 struct _ETimezoneEntryPrivate {
 	/* The current timezone, set in e_timezone_entry_set_timezone()
 	 * or from the timezone dialog. Note that we don't copy it or
@@ -65,7 +61,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (ETimezoneEntry, e_timezone_entry, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (ETimezoneEntry, e_timezone_entry, GTK_TYPE_BOX)
 
 static void
 timezone_entry_emit_changed (ETimezoneEntry *timezone_entry)
@@ -240,13 +236,11 @@ static gboolean
 timezone_entry_mnemonic_activate (GtkWidget *widget,
                                   gboolean group_cycling)
 {
-	ETimezoneEntryPrivate *priv;
-
-	priv = E_TIMEZONE_ENTRY_GET_PRIVATE (widget);
+	ETimezoneEntry *self = E_TIMEZONE_ENTRY (widget);
 
 	if (gtk_widget_get_can_focus (widget)) {
-		if (priv->button != NULL)
-			gtk_widget_grab_focus (priv->button);
+		if (self->priv->button != NULL)
+			gtk_widget_grab_focus (self->priv->button);
 	}
 
 	return TRUE;
@@ -256,30 +250,28 @@ static gboolean
 timezone_entry_focus (GtkWidget *widget,
                       GtkDirectionType direction)
 {
-	ETimezoneEntryPrivate *priv;
-
-	priv = E_TIMEZONE_ENTRY_GET_PRIVATE (widget);
+	ETimezoneEntry *self = E_TIMEZONE_ENTRY (widget);
 
 	if (direction == GTK_DIR_TAB_FORWARD) {
-		if (gtk_widget_has_focus (priv->entry))
-			gtk_widget_grab_focus (priv->button);
-		else if (gtk_widget_has_focus (priv->button))
+		if (gtk_widget_has_focus (self->priv->entry))
+			gtk_widget_grab_focus (self->priv->button);
+		else if (gtk_widget_has_focus (self->priv->button))
 			return FALSE;
-		else if (gtk_widget_get_visible (priv->entry))
-			gtk_widget_grab_focus (priv->entry);
+		else if (gtk_widget_get_visible (self->priv->entry))
+			gtk_widget_grab_focus (self->priv->entry);
 		else
-			gtk_widget_grab_focus (priv->button);
+			gtk_widget_grab_focus (self->priv->button);
 
 	} else if (direction == GTK_DIR_TAB_BACKWARD) {
-		if (gtk_widget_has_focus (priv->entry))
+		if (gtk_widget_has_focus (self->priv->entry))
 			return FALSE;
-		else if (gtk_widget_has_focus (priv->button)) {
-			if (gtk_widget_get_visible (priv->entry))
-				gtk_widget_grab_focus (priv->entry);
+		else if (gtk_widget_has_focus (self->priv->button)) {
+			if (gtk_widget_get_visible (self->priv->entry))
+				gtk_widget_grab_focus (self->priv->entry);
 			else
 				return FALSE;
 		} else
-			gtk_widget_grab_focus (priv->button);
+			gtk_widget_grab_focus (self->priv->button);
 	} else
 		return FALSE;
 
@@ -445,8 +437,6 @@ e_timezone_entry_class_init (ETimezoneEntryClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (ETimezoneEntryPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = timezone_entry_set_property;
 	object_class->get_property = timezone_entry_get_property;
@@ -482,7 +472,7 @@ e_timezone_entry_init (ETimezoneEntry *timezone_entry)
 	AtkObject *a11y;
 	GtkWidget *widget;
 
-	timezone_entry->priv = E_TIMEZONE_ENTRY_GET_PRIVATE (timezone_entry);
+	timezone_entry->priv = e_timezone_entry_get_instance_private (timezone_entry);
 	timezone_entry->priv->allow_none = FALSE;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (timezone_entry), TRUE);

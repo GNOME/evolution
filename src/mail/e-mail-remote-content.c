@@ -44,7 +44,7 @@ struct _EMailRemoteContentPrivate {
 	guint recent_last_sites;
 };
 
-G_DEFINE_TYPE (EMailRemoteContent, e_mail_remote_content, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailRemoteContent, e_mail_remote_content, G_TYPE_OBJECT)
 
 static void
 e_mail_remote_content_add_to_recent_cache (EMailRemoteContent *content,
@@ -470,8 +470,6 @@ e_mail_remote_content_class_init (EMailRemoteContentClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailRemoteContentPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = mail_remote_content_finalize;
 }
@@ -479,7 +477,7 @@ e_mail_remote_content_class_init (EMailRemoteContentClass *class)
 static void
 e_mail_remote_content_init (EMailRemoteContent *content)
 {
-	content->priv = G_TYPE_INSTANCE_GET_PRIVATE (content, E_TYPE_MAIL_REMOTE_CONTENT, EMailRemoteContentPrivate);
+	content->priv = e_mail_remote_content_get_instance_private (content);
 
 	g_mutex_init (&content->priv->recent_lock);
 }

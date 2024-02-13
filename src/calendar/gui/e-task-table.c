@@ -47,10 +47,6 @@
 #include "print.h"
 #include "misc.h"
 
-#define E_TASK_TABLE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TASK_TABLE, ETaskTablePrivate))
-
 struct _ETaskTablePrivate {
 	gpointer shell_view;  /* weak pointer */
 	ECalModel *model;
@@ -98,13 +94,9 @@ static const gchar *icon_names[] = {
 static void	e_task_table_selectable_init
 					(ESelectableInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	ETaskTable,
-	e_task_table,
-	E_TYPE_TABLE,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_SELECTABLE,
-		e_task_table_selectable_init))
+G_DEFINE_TYPE_WITH_CODE (ETaskTable, e_task_table, E_TYPE_TABLE,
+	G_ADD_PRIVATE (ETaskTable)
+	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, e_task_table_selectable_init))
 
 static void
 task_table_emit_open_component (ETaskTable *task_table,
@@ -303,36 +295,32 @@ task_table_get_property (GObject *object,
 static void
 task_table_dispose (GObject *object)
 {
-	ETaskTablePrivate *priv;
+	ETaskTable *self = E_TASK_TABLE (object);
 
-	priv = E_TASK_TABLE_GET_PRIVATE (object);
-
-	if (priv->completed_cancellable) {
-		g_cancellable_cancel (priv->completed_cancellable);
-		g_object_unref (priv->completed_cancellable);
-		priv->completed_cancellable = NULL;
+	if (self->priv->completed_cancellable) {
+		g_cancellable_cancel (self->priv->completed_cancellable);
+		g_clear_object (&self->priv->completed_cancellable);
 	}
 
-	if (priv->shell_view != NULL) {
+	if (self->priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
-			G_OBJECT (priv->shell_view), &priv->shell_view);
-		priv->shell_view = NULL;
+			G_OBJECT (self->priv->shell_view), &self->priv->shell_view);
+		self->priv->shell_view = NULL;
 	}
 
-	if (priv->model != NULL) {
-		g_signal_handlers_disconnect_by_data (priv->model, object);
+	if (self->priv->model != NULL) {
+		g_signal_handlers_disconnect_by_data (self->priv->model, object);
 
-		e_signal_disconnect_notify_handler (priv->model, &priv->notify_highlight_due_today_id);
-		e_signal_disconnect_notify_handler (priv->model, &priv->notify_color_due_today_id);
-		e_signal_disconnect_notify_handler (priv->model, &priv->notify_highlight_overdue_id);
-		e_signal_disconnect_notify_handler (priv->model, &priv->notify_color_overdue_id);
+		e_signal_disconnect_notify_handler (self->priv->model, &self->priv->notify_highlight_due_today_id);
+		e_signal_disconnect_notify_handler (self->priv->model, &self->priv->notify_color_due_today_id);
+		e_signal_disconnect_notify_handler (self->priv->model, &self->priv->notify_highlight_overdue_id);
+		e_signal_disconnect_notify_handler (self->priv->model, &self->priv->notify_color_overdue_id);
 
-		g_object_unref (priv->model);
-		priv->model = NULL;
+		g_clear_object (&self->priv->model);
 	}
 
-	g_clear_pointer (&priv->copy_target_list, gtk_target_list_unref);
-	g_clear_pointer (&priv->paste_target_list, gtk_target_list_unref);
+	g_clear_pointer (&self->priv->copy_target_list, gtk_target_list_unref);
+	g_clear_pointer (&self->priv->paste_target_list, gtk_target_list_unref);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_task_table_parent_class)->dispose (object);
@@ -1160,8 +1148,6 @@ e_task_table_class_init (ETaskTableClass *class)
 	GtkWidgetClass *widget_class;
 	ETableClass *table_class;
 
-	g_type_class_add_private (class, sizeof (ETaskTablePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = task_table_set_property;
 	object_class->get_property = task_table_get_property;
@@ -1238,7 +1224,7 @@ e_task_table_init (ETaskTable *task_table)
 {
 	GtkTargetList *target_list;
 
-	task_table->priv = E_TASK_TABLE_GET_PRIVATE (task_table);
+	task_table->priv = e_task_table_get_instance_private (task_table);
 
 	task_table->priv->completed_cancellable = NULL;
 

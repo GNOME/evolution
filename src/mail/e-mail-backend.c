@@ -41,14 +41,6 @@
 #include <mail/mail-send-recv.h>
 #include <mail/mail-vfolder-ui.h>
 
-#define E_MAIL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_BACKEND, EMailBackendPrivate))
-
-#define E_MAIL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_BACKEND, EMailBackendPrivate))
-
 #define QUIT_POLL_INTERVAL 1  /* seconds */
 
 struct _EMailBackendPrivate {
@@ -67,10 +59,7 @@ enum {
 	PROP_MAIL_PROPERTIES
 };
 
-G_DEFINE_ABSTRACT_TYPE (
-	EMailBackend,
-	e_mail_backend,
-	E_TYPE_SHELL_BACKEND)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (EMailBackend, e_mail_backend, E_TYPE_SHELL_BACKEND)
 
 static const gchar *
 mail_shell_backend_get_data_dir (EShellBackend *backend)
@@ -942,17 +931,17 @@ mail_backend_job_started_cb (CamelSession *session,
                              GCancellable *cancellable,
                              EShellBackend *shell_backend)
 {
-	EMailBackendPrivate *priv;
+	EMailBackend *self;
 	EActivity *activity;
 
-	priv = E_MAIL_BACKEND_GET_PRIVATE (shell_backend);
+	self = E_MAIL_BACKEND (shell_backend);
 
 	activity = e_activity_new ();
 	e_activity_set_cancellable (activity, cancellable);
 	e_shell_backend_add_activity (shell_backend, activity);
 
 	/* The hash table takes ownership of the activity. */
-	g_hash_table_insert (priv->jobs, cancellable, activity);
+	g_hash_table_insert (self->priv->jobs, cancellable, activity);
 }
 
 static void
@@ -961,15 +950,15 @@ mail_backend_job_finished_cb (CamelSession *session,
                               const GError *error,
                               EShellBackend *shell_backend)
 {
-	EMailBackendPrivate *priv;
+	EMailBackend *self;
 	EShellBackendClass *class;
 	EActivity *activity;
 	const gchar *description;
 
-	priv = E_MAIL_BACKEND_GET_PRIVATE (shell_backend);
+	self = E_MAIL_BACKEND (shell_backend);
 	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
 
-	activity = g_hash_table_lookup (priv->jobs, cancellable);
+	activity = g_hash_table_lookup (self->priv->jobs, cancellable);
 	description = e_activity_get_text (activity);
 
 	if (e_activity_handle_cancellation (activity, error)) {
@@ -1024,7 +1013,7 @@ mail_backend_job_finished_cb (CamelSession *session,
 		}
 	}
 
-	g_hash_table_remove (priv->jobs, cancellable);
+	g_hash_table_remove (self->priv->jobs, cancellable);
 }
 
 static void
@@ -1120,24 +1109,21 @@ mail_backend_get_property (GObject *object,
 static void
 mail_backend_dispose (GObject *object)
 {
-	EMailBackendPrivate *priv;
+	EMailBackend *self = E_MAIL_BACKEND (object);
 
-	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
-
-	if (priv->session != NULL) {
+	if (self->priv->session != NULL) {
 		em_folder_tree_model_free_default ();
 
 		g_signal_handlers_disconnect_matched (
-			priv->session, G_SIGNAL_MATCH_DATA,
+			self->priv->session, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
 		camel_session_remove_services (
-			CAMEL_SESSION (priv->session));
-		g_object_unref (priv->session);
-		priv->session = NULL;
+			CAMEL_SESSION (self->priv->session));
+		g_clear_object (&self->priv->session);
 	}
 
 	/* There should be no unfinished jobs left. */
-	g_warn_if_fail (g_hash_table_size (priv->jobs) == 0);
+	g_warn_if_fail (g_hash_table_size (self->priv->jobs) == 0);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->dispose (object);
@@ -1146,14 +1132,12 @@ mail_backend_dispose (GObject *object)
 static void
 mail_backend_finalize (GObject *object)
 {
-	EMailBackendPrivate *priv;
+	EMailBackend *self = E_MAIL_BACKEND (object);
 
-	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->jobs);
-	g_clear_object (&priv->send_account_override);
-	g_clear_object (&priv->remote_content);
-	g_clear_object (&priv->mail_properties);
+	g_hash_table_destroy (self->priv->jobs);
+	g_clear_object (&self->priv->send_account_override);
+	g_clear_object (&self->priv->remote_content);
+	g_clear_object (&self->priv->mail_properties);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->finalize (object);
@@ -1303,15 +1287,13 @@ mail_mt_get_alert_sink (void)
 static void
 mail_backend_constructed (GObject *object)
 {
-	EMailBackendPrivate *priv;
+	EMailBackend *self = E_MAIL_BACKEND (object);
 	EShell *shell;
 	EShellBackend *shell_backend;
 	MailFolderCache *folder_cache;
 	ESourceRegistry *registry;
 	gchar *config_filename;
 	GList *providers;
-
-	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -1328,44 +1310,44 @@ mail_backend_constructed (GObject *object)
 	g_list_free (providers);
 
 	registry = e_shell_get_registry (shell);
-	priv->session = e_mail_ui_session_new (registry);
+	self->priv->session = e_mail_ui_session_new (registry);
 
 	g_signal_connect (
-		priv->session, "allow-auth-prompt",
+		self->priv->session, "allow-auth-prompt",
 		G_CALLBACK (mail_backend_allow_auth_prompt_cb), shell);
 
 	g_signal_connect (
-		priv->session, "flush-outbox",
-		G_CALLBACK (mail_send), priv->session);
+		self->priv->session, "flush-outbox",
+		G_CALLBACK (mail_send), self->priv->session);
 
 	g_signal_connect (
-		priv->session, "connect-store",
+		self->priv->session, "connect-store",
 		G_CALLBACK (mail_backend_connect_store_cb), object);
 
 	/* Propagate "activity-added" signals from
 	 * the mail session to the shell backend. */
 	g_signal_connect_swapped (
-		priv->session, "activity-added",
+		self->priv->session, "activity-added",
 		G_CALLBACK (e_shell_backend_add_activity),
 		shell_backend);
 
 	g_signal_connect (
-		priv->session, "job-started",
+		self->priv->session, "job-started",
 		G_CALLBACK (mail_backend_job_started_cb),
 		shell_backend);
 
 	g_signal_connect (
-		priv->session, "job-finished",
+		self->priv->session, "job-finished",
 		G_CALLBACK (mail_backend_job_finished_cb),
 		shell_backend);
 
 	g_signal_connect (
-		priv->session, "store-added",
+		self->priv->session, "store-added",
 		G_CALLBACK (mail_backend_add_store),
 		shell_backend);
 
 	g_signal_connect (
-		priv->session, "store-removed",
+		self->priv->session, "store-removed",
 		G_CALLBACK (mail_backend_remove_store),
 		shell_backend);
 
@@ -1389,7 +1371,7 @@ mail_backend_constructed (GObject *object)
 		G_CALLBACK (mail_backend_quit_requested_cb),
 		shell_backend);
 
-	folder_cache = e_mail_session_get_folder_cache (priv->session);
+	folder_cache = e_mail_session_get_folder_cache (self->priv->session);
 
 	g_signal_connect (
 		folder_cache, "folder-deleted",
@@ -1410,7 +1392,7 @@ mail_backend_constructed (GObject *object)
 		G_CALLBACK (mail_backend_folder_unread_updated_cb),
 		shell_backend);
 
-	mail_config_init (priv->session);
+	mail_config_init (self->priv->session);
 
 	mail_msg_register_activities (
 		mail_mt_create_activity,
@@ -1425,15 +1407,15 @@ mail_backend_constructed (GObject *object)
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed (object);
 
 	config_filename = g_build_filename (e_shell_backend_get_config_dir (shell_backend), "send-overrides.ini", NULL);
-	priv->send_account_override = e_mail_send_account_override_new (config_filename);
+	self->priv->send_account_override = e_mail_send_account_override_new (config_filename);
 	g_free (config_filename);
 
 	config_filename = g_build_filename (e_shell_backend_get_config_dir (shell_backend), "remote-content.db", NULL);
-	priv->remote_content = e_mail_remote_content_new (config_filename);
+	self->priv->remote_content = e_mail_remote_content_new (config_filename);
 	g_free (config_filename);
 
 	config_filename = g_build_filename (e_shell_backend_get_config_dir (shell_backend), "properties.db", NULL);
-	priv->mail_properties = e_mail_properties_new (config_filename);
+	self->priv->mail_properties = e_mail_properties_new (config_filename);
 	g_free (config_filename);
 }
 
@@ -1442,8 +1424,6 @@ e_mail_backend_class_init (EMailBackendClass *class)
 {
 	GObjectClass *object_class;
 	EShellBackendClass *shell_backend_class;
-
-	g_type_class_add_private (class, sizeof (EMailBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = mail_backend_get_property;
@@ -1500,7 +1480,7 @@ e_mail_backend_class_init (EMailBackendClass *class)
 static void
 e_mail_backend_init (EMailBackend *backend)
 {
-	backend->priv = E_MAIL_BACKEND_GET_PRIVATE (backend);
+	backend->priv = e_mail_backend_get_instance_private (backend);
 
 	backend->priv->jobs = g_hash_table_new_full (
 		(GHashFunc) g_direct_hash,

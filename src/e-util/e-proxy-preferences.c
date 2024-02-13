@@ -39,10 +39,6 @@
 
 #include "e-proxy-preferences.h"
 
-#define E_PROXY_PREFERENCES_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PROXY_PREFERENCES, EProxyPreferencesPrivate))
-
 /* Rate-limit committing proxy changes to the registry. */
 #define COMMIT_DELAY_SECS 2
 
@@ -78,10 +74,7 @@ static void	proxy_preferences_toplevel_notify_visible_cb
 					 GParamSpec *param,
 					 EProxyPreferences *preferences);
 
-G_DEFINE_TYPE (
-	EProxyPreferences,
-	e_proxy_preferences,
-	GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EProxyPreferences, e_proxy_preferences, GTK_TYPE_BOX)
 
 static gboolean
 proxy_preferences_commit_timeout_cb (gpointer user_data)
@@ -368,40 +361,38 @@ proxy_preferences_get_property (GObject *object,
 static void
 proxy_preferences_dispose (GObject *object)
 {
-	EProxyPreferencesPrivate *priv;
+	EProxyPreferences *self = E_PROXY_PREFERENCES (object);
 
-	priv = E_PROXY_PREFERENCES_GET_PRIVATE (object);
+	if (self->priv->toplevel) {
+		g_object_weak_unref (G_OBJECT (self->priv->toplevel),
+			(GWeakNotify) g_nullify_pointer, &self->priv->toplevel);
 
-	if (priv->toplevel) {
-		g_object_weak_unref (G_OBJECT (priv->toplevel),
-			(GWeakNotify) g_nullify_pointer, &priv->toplevel);
-
-		if (priv->toplevel_notify_id) {
-			g_signal_handler_disconnect (priv->toplevel, priv->toplevel_notify_id);
-			priv->toplevel_notify_id = 0;
+		if (self->priv->toplevel_notify_id) {
+			g_signal_handler_disconnect (self->priv->toplevel, self->priv->toplevel_notify_id);
+			self->priv->toplevel_notify_id = 0;
 		}
 
-		priv->toplevel = NULL;
+		self->priv->toplevel = NULL;
 	}
 
-	if (priv->source_changed_handler_id > 0) {
+	if (self->priv->source_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_changed_handler_id);
-		priv->source_changed_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_changed_handler_id);
+		self->priv->source_changed_handler_id = 0;
 	}
 
-	if (priv->commit_timeout_id > 0) {
-		g_source_remove (priv->commit_timeout_id);
-		priv->commit_timeout_id = 0;
+	if (self->priv->commit_timeout_id > 0) {
+		g_source_remove (self->priv->commit_timeout_id);
+		self->priv->commit_timeout_id = 0;
 
 		/* Make sure the changes are committed, or at least its write invoked */
-		proxy_preferences_commit_changes (E_PROXY_PREFERENCES (object));
+		proxy_preferences_commit_changes (self);
 	}
 
-	g_clear_object (&priv->registry);
+	g_clear_object (&self->priv->registry);
 
-	g_hash_table_remove_all (priv->commit_sources);
+	g_hash_table_remove_all (self->priv->commit_sources);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_proxy_preferences_parent_class)->dispose (object);
@@ -410,12 +401,10 @@ proxy_preferences_dispose (GObject *object)
 static void
 proxy_preferences_finalize (GObject *object)
 {
-	EProxyPreferencesPrivate *priv;
+	EProxyPreferences *self = E_PROXY_PREFERENCES (object);
 
-	priv = E_PROXY_PREFERENCES_GET_PRIVATE (object);
-
-	g_mutex_clear (&priv->commit_lock);
-	g_hash_table_destroy (priv->commit_sources);
+	g_mutex_clear (&self->priv->commit_lock);
+	g_hash_table_destroy (self->priv->commit_sources);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_proxy_preferences_parent_class)->finalize (object);
@@ -597,8 +586,6 @@ e_proxy_preferences_class_init (EProxyPreferencesClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EProxyPreferencesPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = proxy_preferences_set_property;
 	object_class->get_property = proxy_preferences_get_property;
@@ -642,7 +629,7 @@ e_proxy_preferences_init (EProxyPreferences *preferences)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) e_weak_ref_free);
 
-	preferences->priv = E_PROXY_PREFERENCES_GET_PRIVATE (preferences);
+	preferences->priv = e_proxy_preferences_get_instance_private (preferences);
 
 	g_mutex_init (&preferences->priv->commit_lock);
 	preferences->priv->commit_sources = commit_sources;

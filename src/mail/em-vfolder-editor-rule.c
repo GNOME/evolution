@@ -39,14 +39,6 @@
 
 #include "em-vfolder-editor-rule.h"
 
-#define EM_VFOLDER_EDITOR_RULE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_VFOLDER_EDITOR_RULE, EMVFolderEditorRulePrivate))
-
-#define EM_VFOLDER_EDITOR_RULE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_VFOLDER_EDITOR_RULE, EMVFolderEditorRulePrivate))
-
 struct _EMVFolderEditorRulePrivate {
 	EMailSession *session;
 };
@@ -58,10 +50,7 @@ enum {
 
 static GtkWidget *get_widget (EFilterRule *fr, ERuleContext *f);
 
-G_DEFINE_TYPE (
-	EMVFolderEditorRule,
-	em_vfolder_editor_rule,
-	EM_TYPE_VFOLDER_RULE)
+G_DEFINE_TYPE_WITH_PRIVATE (EMVFolderEditorRule, em_vfolder_editor_rule, EM_TYPE_VFOLDER_RULE)
 
 static void
 vfolder_editor_rule_set_session (EMVFolderEditorRule *rule,
@@ -123,10 +112,9 @@ vfolder_editor_rule_get_property (GObject *object,
 static void
 vfolder_editor_rule_dispose (GObject *object)
 {
-	EMVFolderEditorRulePrivate *priv;
+	EMVFolderEditorRule *self = EM_VFOLDER_EDITOR_RULE (object);
 
-	priv = EM_VFOLDER_EDITOR_RULE_GET_PRIVATE (object);
-	g_clear_object (&priv->session);
+	g_clear_object (&self->priv->session);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_vfolder_editor_rule_parent_class)->dispose (object);
@@ -146,8 +134,6 @@ em_vfolder_editor_rule_class_init (EMVFolderEditorRuleClass *class)
 {
 	GObjectClass *object_class;
 	EFilterRuleClass *filter_rule_class;
-
-	g_type_class_add_private (class, sizeof (EMVFolderEditorRulePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = vfolder_editor_rule_set_property;
@@ -173,7 +159,7 @@ em_vfolder_editor_rule_class_init (EMVFolderEditorRuleClass *class)
 static void
 em_vfolder_editor_rule_init (EMVFolderEditorRule *rule)
 {
-	rule->priv = EM_VFOLDER_EDITOR_RULE_GET_PRIVATE (rule);
+	rule->priv = em_vfolder_editor_rule_get_instance_private (rule);
 }
 
 EFilterRule *

@@ -28,10 +28,6 @@
 
 #include "e-source-config.h"
 
-#define E_SOURCE_CONFIG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SOURCE_CONFIG, ESourceConfigPrivate))
-
 typedef struct _Candidate Candidate;
 
 struct _ESourceConfigPrivate {
@@ -78,12 +74,9 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE_WITH_CODE (
-	ESourceConfig,
-	e_source_config,
-	GTK_TYPE_BOX,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (ESourceConfig, e_source_config, GTK_TYPE_BOX,
+	G_ADD_PRIVATE (ESourceConfig)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 source_config_init_backends (ESourceConfig *config)
@@ -615,23 +608,22 @@ source_config_get_property (GObject *object,
 static void
 source_config_dispose (GObject *object)
 {
-	ESourceConfigPrivate *priv;
+	ESourceConfig *self = E_SOURCE_CONFIG (object);
 
-	priv = E_SOURCE_CONFIG_GET_PRIVATE (object);
-	g_clear_object (&priv->original_source);
-	g_clear_object (&priv->collection_source);
-	g_clear_object (&priv->registry);
-	g_clear_object (&priv->type_label);
-	g_clear_object (&priv->type_combo);
-	g_clear_object (&priv->name_label);
-	g_clear_object (&priv->name_entry);
-	g_clear_object (&priv->backend_box);
-	g_clear_object (&priv->size_group);
+	g_clear_object (&self->priv->original_source);
+	g_clear_object (&self->priv->collection_source);
+	g_clear_object (&self->priv->registry);
+	g_clear_object (&self->priv->type_label);
+	g_clear_object (&self->priv->type_combo);
+	g_clear_object (&self->priv->name_label);
+	g_clear_object (&self->priv->name_entry);
+	g_clear_object (&self->priv->backend_box);
+	g_clear_object (&self->priv->size_group);
 
-	g_hash_table_remove_all (priv->backends);
-	g_ptr_array_set_size (priv->candidates, 0);
+	g_hash_table_remove_all (self->priv->backends);
+	g_ptr_array_set_size (self->priv->candidates, 0);
 
-	g_clear_pointer (&priv->preselect_type, g_free);
+	g_clear_pointer (&self->priv->preselect_type, g_free);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_source_config_parent_class)->dispose (object);
@@ -640,12 +632,10 @@ source_config_dispose (GObject *object)
 static void
 source_config_finalize (GObject *object)
 {
-	ESourceConfigPrivate *priv;
+	ESourceConfig *self = E_SOURCE_CONFIG (object);
 
-	priv = E_SOURCE_CONFIG_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->backends);
-	g_ptr_array_free (priv->candidates, TRUE);
+	g_hash_table_destroy (self->priv->backends);
+	g_ptr_array_free (self->priv->candidates, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_source_config_parent_class)->finalize (object);
@@ -868,8 +858,6 @@ e_source_config_class_init (ESourceConfigClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (ESourceConfigPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = source_config_set_property;
 	object_class->get_property = source_config_get_property;
@@ -1001,7 +989,7 @@ e_source_config_init (ESourceConfig *config)
 	gtk_orientable_set_orientation (
 		GTK_ORIENTABLE (config), GTK_ORIENTATION_VERTICAL);
 
-	config->priv = E_SOURCE_CONFIG_GET_PRIVATE (config);
+	config->priv = e_source_config_get_instance_private (config);
 	config->priv->candidates = candidates;
 	config->priv->size_group = size_group;
 

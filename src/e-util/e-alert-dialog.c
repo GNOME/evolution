@@ -26,10 +26,6 @@
 
 #include "e-alert-dialog.h"
 
-#define E_ALERT_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ALERT_DIALOG, EAlertDialogPrivate))
-
 struct _EAlertDialogPrivate {
 	GtkWidget *content_area;  /* not referenced */
 	EAlert *alert;
@@ -40,10 +36,7 @@ enum {
 	PROP_ALERT
 };
 
-G_DEFINE_TYPE (
-	EAlertDialog,
-	e_alert_dialog,
-	GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_PRIVATE (EAlertDialog, e_alert_dialog, GTK_TYPE_DIALOG)
 
 static void
 alert_dialog_set_alert (EAlertDialog *dialog,
@@ -92,16 +85,13 @@ alert_dialog_get_property (GObject *object,
 static void
 alert_dialog_dispose (GObject *object)
 {
-	EAlertDialogPrivate *priv;
+	EAlertDialog *self = E_ALERT_DIALOG (object);
 
-	priv = E_ALERT_DIALOG_GET_PRIVATE (object);
-
-	if (priv->alert) {
+	if (self->priv->alert) {
 		g_signal_handlers_disconnect_matched (
-			priv->alert, G_SIGNAL_MATCH_DATA,
+			self->priv->alert, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->alert);
-		priv->alert = NULL;
+		g_clear_object (&self->priv->alert);
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -267,8 +257,6 @@ e_alert_dialog_class_init (EAlertDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EAlertDialogPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = alert_dialog_set_property;
 	object_class->get_property = alert_dialog_get_property;
@@ -291,7 +279,7 @@ e_alert_dialog_class_init (EAlertDialogClass *class)
 static void
 e_alert_dialog_init (EAlertDialog *dialog)
 {
-	dialog->priv = E_ALERT_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_alert_dialog_get_instance_private (dialog);
 }
 
 GtkWidget *

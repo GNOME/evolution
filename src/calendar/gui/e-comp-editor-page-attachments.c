@@ -53,7 +53,7 @@ enum {
 	PROP_ACTIVE_VIEW
 };
 
-G_DEFINE_TYPE (ECompEditorPageAttachments, e_comp_editor_page_attachments, E_TYPE_COMP_EDITOR_PAGE)
+G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorPageAttachments, e_comp_editor_page_attachments, E_TYPE_COMP_EDITOR_PAGE)
 
 static gboolean
 ecep_before_properties_popup_cb (EAttachmentView *view,
@@ -1033,9 +1033,7 @@ ecep_attachments_constructed (GObject *object)
 static void
 e_comp_editor_page_attachments_init (ECompEditorPageAttachments *page_attachments)
 {
-	page_attachments->priv = G_TYPE_INSTANCE_GET_PRIVATE (page_attachments,
-		E_TYPE_COMP_EDITOR_PAGE_ATTACHMENTS,
-		ECompEditorPageAttachmentsPrivate);
+	page_attachments->priv = e_comp_editor_page_attachments_get_instance_private (page_attachments);
 }
 
 static void
@@ -1044,8 +1042,6 @@ e_comp_editor_page_attachments_class_init (ECompEditorPageAttachmentsClass *klas
 	ECompEditorPageClass *page_class;
 	GtkWidgetClass *widget_class;
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPageAttachmentsPrivate));
 
 	page_class = E_COMP_EDITOR_PAGE_CLASS (klass);
 	page_class->sensitize_widgets = ecep_attachments_sensitize_widgets;

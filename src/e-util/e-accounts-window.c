@@ -90,6 +90,7 @@ enum {
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE_WITH_CODE (EAccountsWindow, e_accounts_window, GTK_TYPE_WINDOW,
+	G_ADD_PRIVATE (EAccountsWindow)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 enum {
@@ -1829,8 +1830,6 @@ e_accounts_window_class_init (EAccountsWindowClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (EAccountsWindowPrivate));
-
 	klass->get_editing_flags = accounts_window_get_editing_flags_default;
 	klass->delete_source = accounts_window_delete_source_default;
 
@@ -2019,7 +2018,7 @@ e_accounts_window_class_init (EAccountsWindowClass *klass)
 static void
 e_accounts_window_init (EAccountsWindow *accounts_window)
 {
-	accounts_window->priv = G_TYPE_INSTANCE_GET_PRIVATE (accounts_window, E_TYPE_ACCOUNTS_WINDOW, EAccountsWindowPrivate);
+	accounts_window->priv = e_accounts_window_get_instance_private (accounts_window);
 
 	accounts_window->priv->references = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) gtk_tree_row_reference_free);
 }

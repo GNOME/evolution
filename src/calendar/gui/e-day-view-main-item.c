@@ -33,10 +33,6 @@
 #include "e-day-view-layout.h"
 #include "ea-calendar.h"
 
-#define E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_DAY_VIEW_MAIN_ITEM, EDayViewMainItemPrivate))
-
 struct _EDayViewMainItemPrivate {
 	EDayView *day_view;
 };
@@ -46,10 +42,7 @@ enum {
 	PROP_DAY_VIEW
 };
 
-G_DEFINE_TYPE (
-	EDayViewMainItem,
-	e_day_view_main_item,
-	GNOME_TYPE_CANVAS_ITEM)
+G_DEFINE_TYPE_WITH_PRIVATE (EDayViewMainItem, e_day_view_main_item, GNOME_TYPE_CANVAS_ITEM)
 
 static gboolean
 can_draw_in_region (cairo_region_t *draw_region,
@@ -997,10 +990,9 @@ day_view_main_item_get_property (GObject *object,
 static void
 day_view_main_item_dispose (GObject *object)
 {
-	EDayViewMainItemPrivate *priv;
+	EDayViewMainItem *self = E_DAY_VIEW_MAIN_ITEM (object);
 
-	priv = E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE (object);
-	g_clear_object (&priv->day_view);
+	g_clear_object (&self->priv->day_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_day_view_main_item_parent_class)->dispose (object);
@@ -1339,8 +1331,6 @@ e_day_view_main_item_class_init (EDayViewMainItemClass *class)
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	g_type_class_add_private (class, sizeof (EDayViewMainItemPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = day_view_main_item_set_property;
 	object_class->get_property = day_view_main_item_get_property;
@@ -1368,7 +1358,7 @@ e_day_view_main_item_class_init (EDayViewMainItemClass *class)
 static void
 e_day_view_main_item_init (EDayViewMainItem *main_item)
 {
-	main_item->priv = E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE (main_item);
+	main_item->priv = e_day_view_main_item_get_instance_private (main_item);
 }
 
 EDayView *

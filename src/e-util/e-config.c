@@ -30,10 +30,6 @@
 
 #include "e-config.h"
 
-#define E_CONFIG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CONFIG, EConfigPrivate))
-
 #define d(x)
 
 typedef GtkWidget *
@@ -105,10 +101,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EConfig,
-	e_config,
-	G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EConfig, e_config, G_TYPE_OBJECT)
 
 static void
 check_node_free (struct _check_node *node)
@@ -121,16 +114,14 @@ check_node_free (struct _check_node *node)
 static void
 config_finalize (GObject *object)
 {
-	EConfigPrivate *priv;
+	EConfig *self = E_CONFIG (object);
 	GList *link;
-
-	priv = E_CONFIG_GET_PRIVATE (object);
 
 	d (printf ("finalising EConfig %p\n", object));
 
-	g_free (E_CONFIG (object)->id);
+	g_free (self->id);
 
-	link = priv->menus;
+	link = self->priv->menus;
 	while (link != NULL) {
 		struct _menu_node *node = link->data;
 
@@ -142,7 +133,7 @@ config_finalize (GObject *object)
 		link = g_list_delete_link (link, link);
 	}
 
-	link = priv->widgets;
+	link = self->priv->widgets;
 	while (link != NULL) {
 		struct _widget_node *node = link->data;
 
@@ -157,7 +148,7 @@ config_finalize (GObject *object)
 		link = g_list_delete_link (link, link);
 	}
 
-	g_list_free_full (priv->checks, (GDestroyNotify) check_node_free);
+	g_list_free_full (self->priv->checks, (GDestroyNotify) check_node_free);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_config_parent_class)->finalize (object);
@@ -185,8 +176,6 @@ static void
 e_config_class_init (EConfigClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EConfigPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = config_finalize;
@@ -216,7 +205,7 @@ e_config_class_init (EConfigClass *class)
 static void
 e_config_init (EConfig *config)
 {
-	config->priv = E_CONFIG_GET_PRIVATE (config);
+	config->priv = e_config_get_instance_private (config);
 }
 
 /**

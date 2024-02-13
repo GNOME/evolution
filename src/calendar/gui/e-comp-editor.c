@@ -111,6 +111,7 @@ static GSList *opened_editors = NULL;
 static void e_comp_editor_alert_sink_iface_init (EAlertSinkInterface *iface);
 
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (ECompEditor, e_comp_editor, GTK_TYPE_WINDOW,
+	G_ADD_PRIVATE (ECompEditor)
 	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, e_comp_editor_alert_sink_iface_init)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
@@ -2620,7 +2621,7 @@ e_comp_editor_dispose (GObject *object)
 static void
 e_comp_editor_init (ECompEditor *comp_editor)
 {
-	comp_editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (comp_editor, E_TYPE_COMP_EDITOR, ECompEditorPrivate);
+	comp_editor->priv = e_comp_editor_get_instance_private (comp_editor);
 	comp_editor->priv->last_duration = -1;
 }
 
@@ -2635,8 +2636,6 @@ e_comp_editor_class_init (ECompEditorClass *klass)
 {
 	GtkWidgetClass *widget_class;
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPrivate));
 
 	klass->sensitize_widgets = ece_sensitize_widgets;
 	klass->fill_widgets = ece_fill_widgets;

@@ -23,14 +23,9 @@
 #include "e-util/e-util.h"
 #include "e-gravatar-photo-source.h"
 
-#define E_GRAVATAR_PHOTO_SOURCE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_GRAVATAR_PHOTO_SOURCE, EGravatarPhotoSourcePrivate))
-
 #define AVATAR_BASE_URI "https://seccdn.libravatar.org/avatar/"
 
-struct _EGravatarPhotoSourcePrivate
-{
+struct _EGravatarPhotoSourcePrivate {
 	gboolean enabled;
 };
 
@@ -50,14 +45,9 @@ struct _AsyncContext {
 static void	e_gravatar_photo_source_interface_init
 					(EPhotoSourceInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
-	EGravatarPhotoSource,
-	e_gravatar_photo_source,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_PHOTO_SOURCE,
-		e_gravatar_photo_source_interface_init))
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EGravatarPhotoSource, e_gravatar_photo_source, G_TYPE_OBJECT, 0,
+	G_ADD_PRIVATE_DYNAMIC (EGravatarPhotoSource)
+	G_IMPLEMENT_INTERFACE_DYNAMIC (E_TYPE_PHOTO_SOURCE, e_gravatar_photo_source_interface_init))
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -242,8 +232,6 @@ e_gravatar_photo_source_class_init (EGravatarPhotoSourceClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EGravatarPhotoSourcePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = gravatar_photo_source_set_property;
 	object_class->get_property = gravatar_photo_source_get_property;
@@ -277,7 +265,7 @@ e_gravatar_photo_source_init (EGravatarPhotoSource *photo_source)
 {
 	GSettings *settings;
 
-	photo_source->priv = E_GRAVATAR_PHOTO_SOURCE_GET_PRIVATE (photo_source);
+	photo_source->priv = e_gravatar_photo_source_get_instance_private (photo_source);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 

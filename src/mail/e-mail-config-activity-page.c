@@ -15,13 +15,11 @@
  *
  */
 
+#include "evolution-config.h"
+
 #include "e-mail-config-activity-page.h"
 
 #include <camel/camel.h>
-
-#define E_MAIL_CONFIG_ACTIVITY_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE, EMailConfigActivityPagePrivate))
 
 struct _EMailConfigActivityPagePrivate {
 	GtkWidget *box;			/* not referenced */
@@ -33,13 +31,9 @@ struct _EMailConfigActivityPagePrivate {
 static void	e_mail_config_activity_page_alert_sink_init
 					(EAlertSinkInterface *iface);
 
-G_DEFINE_ABSTRACT_TYPE_WITH_CODE (
-	EMailConfigActivityPage,
-	e_mail_config_activity_page,
-	GTK_TYPE_SCROLLED_WINDOW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK,
-		e_mail_config_activity_page_alert_sink_init))
+G_DEFINE_ABSTRACT_TYPE_WITH_CODE (EMailConfigActivityPage, e_mail_config_activity_page, GTK_TYPE_SCROLLED_WINDOW,
+	G_ADD_PRIVATE (EMailConfigActivityPage)
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, e_mail_config_activity_page_alert_sink_init))
 
 static void
 mail_config_activity_page_constructed (GObject *object)
@@ -93,20 +87,15 @@ static void
 mail_config_activity_page_submit_alert (EAlertSink *alert_sink,
                                         EAlert *alert)
 {
-	EMailConfigActivityPagePrivate *priv;
+	EMailConfigActivityPage *self = E_MAIL_CONFIG_ACTIVITY_PAGE (alert_sink);
 
-	priv = E_MAIL_CONFIG_ACTIVITY_PAGE_GET_PRIVATE (alert_sink);
-
-	e_alert_bar_submit_alert (E_ALERT_BAR (priv->alert_bar), alert);
+	e_alert_bar_submit_alert (E_ALERT_BAR (self->priv->alert_bar), alert);
 }
 
 static void
 e_mail_config_activity_page_class_init (EMailConfigActivityPageClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (
-		class, sizeof (EMailConfigActivityPagePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_config_activity_page_constructed;
@@ -121,7 +110,7 @@ e_mail_config_activity_page_alert_sink_init (EAlertSinkInterface *iface)
 static void
 e_mail_config_activity_page_init (EMailConfigActivityPage *page)
 {
-	page->priv = E_MAIL_CONFIG_ACTIVITY_PAGE_GET_PRIVATE (page);
+	page->priv = e_mail_config_activity_page_get_instance_private (page);
 }
 
 GtkWidget *

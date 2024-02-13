@@ -33,6 +33,7 @@ struct _EFileRequestPrivate {
 static void e_file_request_content_request_init (EContentRequestInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (EFileRequest, e_file_request, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EFileRequest)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CONTENT_REQUEST, e_file_request_content_request_init))
 
 static gboolean
@@ -131,13 +132,12 @@ e_file_request_content_request_init (EContentRequestInterface *iface)
 static void
 e_file_request_class_init (EFileRequestClass *class)
 {
-	g_type_class_add_private (class, sizeof (EFileRequestPrivate));
 }
 
 static void
 e_file_request_init (EFileRequest *request)
 {
-	request->priv = G_TYPE_INSTANCE_GET_PRIVATE (request, E_TYPE_FILE_REQUEST, EFileRequestPrivate);
+	request->priv = e_file_request_get_instance_private (request);
 }
 
 EContentRequest *

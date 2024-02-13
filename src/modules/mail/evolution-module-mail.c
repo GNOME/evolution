@@ -41,7 +41,7 @@ e_module_load (GTypeModule *type_module)
 {
 	/* Register dynamically loaded types. */
 
-	e_mail_attachment_handler_register_type (type_module);
+	e_mail_attachment_handler_type_register (type_module);
 
 	e_mail_config_hook_register_type (type_module);
 	e_mail_event_hook_register_type (type_module);

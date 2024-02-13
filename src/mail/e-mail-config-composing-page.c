@@ -39,6 +39,7 @@ static void	e_mail_config_composing_page_interface_init
 					(EMailConfigPageInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (EMailConfigComposingPage, e_mail_config_composing_page, E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE,
+	G_ADD_PRIVATE (EMailConfigComposingPage)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (E_TYPE_MAIL_CONFIG_PAGE, e_mail_config_composing_page_interface_init))
 
@@ -615,8 +616,6 @@ e_mail_config_composing_page_class_init (EMailConfigComposingPageClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailConfigComposingPagePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_composing_page_set_property;
 	object_class->get_property = mail_config_composing_page_get_property;
@@ -646,7 +645,7 @@ e_mail_config_composing_page_interface_init (EMailConfigPageInterface *iface)
 static void
 e_mail_config_composing_page_init (EMailConfigComposingPage *page)
 {
-	page->priv = G_TYPE_INSTANCE_GET_PRIVATE (page, E_TYPE_MAIL_CONFIG_COMPOSING_PAGE, EMailConfigComposingPagePrivate);
+	page->priv = e_mail_config_composing_page_get_instance_private (page);
 }
 
 EMailConfigPage *

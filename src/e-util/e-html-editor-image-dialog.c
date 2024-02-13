@@ -28,10 +28,6 @@
 
 #include "e-html-editor-image-dialog.h"
 
-#define E_HTML_EDITOR_IMAGE_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HTML_EDITOR_IMAGE_DIALOG, EHTMLEditorImageDialogPrivate))
-
 typedef enum {
 	E_SYNC_ASPECT_RATIO_BY_WIDTH,
 	E_SYNC_ASPECT_RATIO_BY_HEIGHT
@@ -56,10 +52,7 @@ struct _EHTMLEditorImageDialogPrivate {
 	gboolean preserve_aspect_ratio;
 };
 
-G_DEFINE_TYPE (
-	EHTMLEditorImageDialog,
-	e_html_editor_image_dialog,
-	E_TYPE_HTML_EDITOR_DIALOG);
+G_DEFINE_TYPE_WITH_PRIVATE (EHTMLEditorImageDialog, e_html_editor_image_dialog, E_TYPE_HTML_EDITOR_DIALOG)
 
 static void
 html_editor_image_dialog_set_src (EHTMLEditorImageDialog *dialog)
@@ -531,8 +524,6 @@ e_html_editor_image_dialog_class_init (EHTMLEditorImageDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EHTMLEditorImageDialogPrivate));
-
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_image_dialog_show;
 	widget_class->hide = html_editor_image_dialog_hide;
@@ -545,7 +536,7 @@ e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
 
-	dialog->priv = E_HTML_EDITOR_IMAGE_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_html_editor_image_dialog_get_instance_private (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 

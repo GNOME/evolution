@@ -46,10 +46,6 @@
 #include "e-shell-window.h"
 #include "e-shell-utils.h"
 
-#define E_SHELL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL, EShellPrivate))
-
 #define SET_ONLINE_TIMEOUT_SECONDS 5
 
 struct _EShellPrivate {
@@ -125,14 +121,10 @@ static guint signals[LAST_SIGNAL];
 /* Forward Declarations */
 static void e_shell_initable_init (GInitableIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EShell,
-	e_shell,
-	GTK_TYPE_APPLICATION,
-	G_IMPLEMENT_INTERFACE (
-		G_TYPE_INITABLE, e_shell_initable_init)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EShell, e_shell, GTK_TYPE_APPLICATION,
+	G_ADD_PRIVATE (EShell)
+	G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE, e_shell_initable_init)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 shell_alert_response_cb (EShell *shell,
@@ -1718,84 +1710,76 @@ shell_get_property (GObject *object,
 static void
 shell_dispose (GObject *object)
 {
-	EShellPrivate *priv;
+	EShell *self = E_SHELL (object);
 	EAlert *alert;
 
-	priv = E_SHELL_GET_PRIVATE (object);
-
-	if (priv->set_online_timeout_id > 0) {
-		g_source_remove (priv->set_online_timeout_id);
-		priv->set_online_timeout_id = 0;
+	if (self->priv->set_online_timeout_id > 0) {
+		g_source_remove (self->priv->set_online_timeout_id);
+		self->priv->set_online_timeout_id = 0;
 	}
 
-	if (priv->prepare_quit_timeout_id) {
-		g_source_remove (priv->prepare_quit_timeout_id);
-		priv->prepare_quit_timeout_id = 0;
+	if (self->priv->prepare_quit_timeout_id) {
+		g_source_remove (self->priv->prepare_quit_timeout_id);
+		self->priv->prepare_quit_timeout_id = 0;
 	}
 
-	if (priv->cancellable) {
-		g_cancellable_cancel (priv->cancellable);
-		g_clear_object (&priv->cancellable);
+	if (self->priv->cancellable) {
+		g_cancellable_cancel (self->priv->cancellable);
+		g_clear_object (&self->priv->cancellable);
 	}
 
-	while ((alert = g_queue_pop_head (&priv->alerts)) != NULL) {
+	while ((alert = g_queue_pop_head (&self->priv->alerts)) != NULL) {
 		g_signal_handlers_disconnect_by_func (
 			alert, shell_alert_response_cb, object);
 		g_object_unref (alert);
 	}
 
-	while ((alert = g_queue_pop_head (&priv->alerts)) != NULL) {
-		g_signal_handlers_disconnect_by_func (
-			alert, shell_alert_response_cb, object);
-		g_object_unref (alert);
-	}
-
-	if (priv->backend_died_handler_id > 0) {
+	if (self->priv->backend_died_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->client_cache,
-			priv->backend_died_handler_id);
-		priv->backend_died_handler_id = 0;
+			self->priv->client_cache,
+			self->priv->backend_died_handler_id);
+		self->priv->backend_died_handler_id = 0;
 	}
 
-	if (priv->allow_auth_prompt_handler_id > 0) {
+	if (self->priv->allow_auth_prompt_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->client_cache,
-			priv->allow_auth_prompt_handler_id);
-		priv->allow_auth_prompt_handler_id = 0;
+			self->priv->client_cache,
+			self->priv->allow_auth_prompt_handler_id);
+		self->priv->allow_auth_prompt_handler_id = 0;
 	}
 
-	if (priv->credentials_required_handler_id > 0) {
+	if (self->priv->credentials_required_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->credentials_required_handler_id);
-		priv->credentials_required_handler_id = 0;
+			self->priv->registry,
+			self->priv->credentials_required_handler_id);
+		self->priv->credentials_required_handler_id = 0;
 	}
 
-	if (priv->get_dialog_parent_handler_id > 0) {
+	if (self->priv->get_dialog_parent_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->credentials_prompter,
-			priv->get_dialog_parent_handler_id);
-		priv->get_dialog_parent_handler_id = 0;
+			self->priv->credentials_prompter,
+			self->priv->get_dialog_parent_handler_id);
+		self->priv->get_dialog_parent_handler_id = 0;
 	}
 
-	if (priv->get_dialog_parent_full_handler_id > 0) {
+	if (self->priv->get_dialog_parent_full_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->credentials_prompter,
-			priv->get_dialog_parent_full_handler_id);
-		priv->get_dialog_parent_full_handler_id = 0;
+			self->priv->credentials_prompter,
+			self->priv->get_dialog_parent_full_handler_id);
+		self->priv->get_dialog_parent_full_handler_id = 0;
 	}
 
-	g_clear_object (&priv->registry);
-	g_clear_object (&priv->credentials_prompter);
-	g_clear_object (&priv->client_cache);
-	g_clear_object (&priv->color_scheme_watcher);
+	g_clear_object (&self->priv->registry);
+	g_clear_object (&self->priv->credentials_prompter);
+	g_clear_object (&self->priv->client_cache);
+	g_clear_object (&self->priv->color_scheme_watcher);
 
-	g_clear_pointer (&priv->preferences_window, gtk_widget_destroy);
+	g_clear_pointer (&self->priv->preferences_window, gtk_widget_destroy);
 
-	if (priv->preparing_for_line_change != NULL) {
+	if (self->priv->preparing_for_line_change != NULL) {
 		g_object_remove_weak_pointer (
-			G_OBJECT (priv->preparing_for_line_change),
-			&priv->preparing_for_line_change);
+			G_OBJECT (self->priv->preparing_for_line_change),
+			&self->priv->preparing_for_line_change);
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -1805,19 +1789,16 @@ shell_dispose (GObject *object)
 static void
 shell_finalize (GObject *object)
 {
-	EShellPrivate *priv;
+	EShell *self = E_SHELL (object);
 
-	priv = E_SHELL_GET_PRIVATE (object);
+	g_hash_table_destroy (self->priv->backends_by_name);
+	g_hash_table_destroy (self->priv->backends_by_scheme);
+	g_hash_table_destroy (self->priv->auth_prompt_parents);
 
-	g_hash_table_destroy (priv->backends_by_name);
-	g_hash_table_destroy (priv->backends_by_scheme);
-	g_hash_table_destroy (priv->auth_prompt_parents);
+	g_list_free_full (self->priv->loaded_backends, g_object_unref);
 
-	g_list_foreach (priv->loaded_backends, (GFunc) g_object_unref, NULL);
-	g_list_free (priv->loaded_backends);
-
-	g_free (priv->geometry);
-	g_free (priv->module_directory);
+	g_free (self->priv->geometry);
+	g_free (self->priv->module_directory);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_shell_parent_class)->finalize (object);
@@ -2277,8 +2258,6 @@ e_shell_class_init (EShellClass *class)
 	GApplicationClass *application_class;
 	GtkApplicationClass *gtk_application_class;
 
-	g_type_class_add_private (class, sizeof (EShellPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = shell_set_property;
 	object_class->get_property = shell_get_property;
@@ -2566,7 +2545,7 @@ e_shell_init (EShell *shell)
 	GHashTable *backends_by_name;
 	GHashTable *backends_by_scheme;
 
-	shell->priv = E_SHELL_GET_PRIVATE (shell);
+	shell->priv = e_shell_get_instance_private (shell);
 
 	backends_by_name = g_hash_table_new (g_str_hash, g_str_equal);
 	backends_by_scheme = g_hash_table_new (g_str_hash, g_str_equal);

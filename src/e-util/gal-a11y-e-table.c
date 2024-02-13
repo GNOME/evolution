@@ -41,7 +41,8 @@ struct _GalA11yETablePrivate {
 static void et_atk_component_iface_init (AtkComponentIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (GalA11yETable, gal_a11y_e_table, GTK_TYPE_CONTAINER_ACCESSIBLE,
-                         G_IMPLEMENT_INTERFACE (ATK_TYPE_COMPONENT, et_atk_component_iface_init))
+	G_ADD_PRIVATE (GalA11yETable)
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_COMPONENT, et_atk_component_iface_init))
 
 /* Static functions */
 static ETableItem *
@@ -210,8 +211,6 @@ gal_a11y_e_table_class_init (GalA11yETableClass *class)
 
 	atk_object_class->get_n_children = et_get_n_children;
 	atk_object_class->ref_child = et_ref_child;
-
-	g_type_class_add_private (class, sizeof (GalA11yETablePrivate));
 }
 
 static void
@@ -224,7 +223,7 @@ et_atk_component_iface_init (AtkComponentIface *iface)
 static void
 gal_a11y_e_table_init (GalA11yETable *a11y)
 {
-	a11y->priv = G_TYPE_INSTANCE_GET_PRIVATE (a11y, GAL_A11Y_TYPE_E_TABLE, GalA11yETablePrivate);
+	a11y->priv = gal_a11y_e_table_get_instance_private (a11y);
 	a11y->priv->child_item = NULL;
 }
 

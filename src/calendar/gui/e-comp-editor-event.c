@@ -50,7 +50,7 @@ struct _ECompEditorEventPrivate {
 	gpointer insensitive_info_alert;
 };
 
-G_DEFINE_TYPE (ECompEditorEvent, e_comp_editor_event, E_TYPE_COMP_EDITOR)
+G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorEvent, e_comp_editor_event, E_TYPE_COMP_EDITOR)
 
 static void
 ece_event_action_classification_cb (GtkRadioAction *action,
@@ -1067,7 +1067,7 @@ e_comp_editor_event_constructed (GObject *object)
 static void
 e_comp_editor_event_init (ECompEditorEvent *event_editor)
 {
-	event_editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (event_editor, E_TYPE_COMP_EDITOR_EVENT, ECompEditorEventPrivate);
+	event_editor->priv = e_comp_editor_event_get_instance_private (event_editor);
 }
 
 static void
@@ -1075,8 +1075,6 @@ e_comp_editor_event_class_init (ECompEditorEventClass *klass)
 {
 	GObjectClass *object_class;
 	ECompEditorClass *comp_editor_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorEventPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->constructed = e_comp_editor_event_constructed;

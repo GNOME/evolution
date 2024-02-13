@@ -40,10 +40,6 @@
 #include "e-calendar.h"
 #include "e-util-enumtypes.h"
 
-#define E_DATE_EDIT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_DATE_EDIT, EDateEditPrivate))
-
 struct _EDateEditPrivate {
 	GtkWidget *date_entry;
 	GtkWidget *date_button;
@@ -215,12 +211,9 @@ static gboolean e_date_edit_set_time_internal	(EDateEdit	*dedit,
 
 static gint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE_WITH_CODE (
-	EDateEdit,
-	e_date_edit,
-	GTK_TYPE_BOX,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EDateEdit, e_date_edit,GTK_TYPE_BOX,
+	G_ADD_PRIVATE (EDateEdit)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 date_edit_set_property (GObject *object,
@@ -395,8 +388,6 @@ e_date_edit_class_init (EDateEditClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EDateEditPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = date_edit_set_property;
 	object_class->get_property = date_edit_get_property;
@@ -525,7 +516,7 @@ e_date_edit_class_init (EDateEditClass *class)
 static void
 e_date_edit_init (EDateEdit *dedit)
 {
-	dedit->priv = E_DATE_EDIT_GET_PRIVATE (dedit);
+	dedit->priv = e_date_edit_get_instance_private (dedit);
 
 	dedit->priv->show_date = TRUE;
 	dedit->priv->show_time = TRUE;

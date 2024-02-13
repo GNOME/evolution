@@ -34,10 +34,6 @@
 
 #define d(x)
 
-#define E_MAIL_FORMATTER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_FORMATTER, EMailFormatterPrivate))
-
 #define STYLESHEET_URI "evo-file://$EVOLUTION_WEBKITDATADIR/webview.css"
 
 typedef struct _AsyncContext AsyncContext;
@@ -80,7 +76,9 @@ GType e_mail_formatter_text_plain_get_type (void);
 GType e_mail_formatter_text_markdown_get_type (void);
 #endif
 
-static gpointer e_mail_formatter_parent_class = 0;
+G_DEFINE_TYPE_WITH_CODE (EMailFormatter, e_mail_formatter, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EMailFormatter)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 enum {
 	PROP_0,
@@ -364,14 +362,12 @@ e_mail_formatter_get_property (GObject *object,
 static void
 e_mail_formatter_finalize (GObject *object)
 {
-	EMailFormatterPrivate *priv;
+	EMailFormatter *self = E_MAIL_FORMATTER (object);
 
-	priv = E_MAIL_FORMATTER_GET_PRIVATE (object);
+	g_free (self->priv->charset);
+	g_free (self->priv->default_charset);
 
-	g_free (priv->charset);
-	g_free (priv->default_charset);
-
-	g_mutex_clear (&priv->property_lock);
+	g_mutex_clear (&self->priv->property_lock);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_formatter_parent_class)->finalize (object);
@@ -550,8 +546,9 @@ mail_formatter_update_style (EMailFormatter *formatter,
 }
 
 static void
-e_mail_formatter_base_init (EMailFormatterClass *class)
+e_mail_formatter_class_init (EMailFormatterClass *class)
 {
+	GObjectClass *object_class;
 	EShell *shell;
 
 	/* Register internal extensions. */
@@ -593,15 +590,6 @@ e_mail_formatter_base_init (EMailFormatterClass *class)
 	/* It can be NULL when creating developer documentation */
 	if (shell)
 		g_object_weak_ref (G_OBJECT (shell), shell_gone_cb, class);
-}
-
-static void
-e_mail_formatter_class_init (EMailFormatterClass *class)
-{
-	GObjectClass *object_class;
-
-	e_mail_formatter_parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (EMailFormatterPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = e_mail_formatter_set_property;
@@ -781,7 +769,7 @@ e_mail_formatter_init (EMailFormatter *formatter)
 {
 	GdkRGBA *rgba;
 
-	formatter->priv = E_MAIL_FORMATTER_GET_PRIVATE (formatter);
+	formatter->priv = e_mail_formatter_get_instance_private (formatter);
 
 	g_mutex_init (&formatter->priv->property_lock);
 
@@ -801,50 +789,10 @@ e_mail_formatter_init (EMailFormatter *formatter)
 	gdk_rgba_parse (rgba, "#000000");
 }
 
-static void
-e_mail_formatter_extensible_interface_init (EExtensibleInterface *iface)
-{
-
-}
-
 EMailFormatter *
 e_mail_formatter_new (void)
 {
 	return g_object_new (E_TYPE_MAIL_FORMATTER, NULL);
-}
-
-GType
-e_mail_formatter_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EMailFormatterClass),
-			(GBaseInitFunc) e_mail_formatter_base_init,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) e_mail_formatter_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,	/* class_data */
-			sizeof (EMailFormatter),
-			0,	/* n_preallocs */
-			(GInstanceInitFunc) e_mail_formatter_init,
-			NULL	/* value_table */
-		};
-
-		const GInterfaceInfo e_extensible_interface_info = {
-			(GInterfaceInitFunc) e_mail_formatter_extensible_interface_init
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT,
-			"EMailFormatter", &type_info, 0);
-
-		g_type_add_interface_static (
-			type, E_TYPE_EXTENSIBLE, &e_extensible_interface_info);
-	}
-
-	return type;
 }
 
 void

@@ -31,27 +31,18 @@
 #include "e-mail-folder-utils.h"
 #include "em-filter-folder-element.h"
 
-#define EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FILTER_FOLDER_ELEMENT, EMFilterFolderElementPrivate))
-
 struct _EMFilterFolderElementPrivate {
 	gchar *uri;
 };
 
-G_DEFINE_TYPE (
-	EMFilterFolderElement,
-	em_filter_folder_element,
-	E_TYPE_FILTER_ELEMENT)
+G_DEFINE_TYPE_WITH_PRIVATE (EMFilterFolderElement, em_filter_folder_element, E_TYPE_FILTER_ELEMENT)
 
 static void
 filter_folder_element_finalize (GObject *object)
 {
-	EMFilterFolderElementPrivate *priv;
+	EMFilterFolderElement *self = EM_FILTER_FOLDER_ELEMENT (object);
 
-	priv = EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE (object);
-
-	g_free (priv->uri);
+	g_free (self->priv->uri);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_filter_folder_element_parent_class)->finalize (object);
@@ -189,8 +180,6 @@ em_filter_folder_element_class_init (EMFilterFolderElementClass *class)
 	GObjectClass *object_class;
 	EFilterElementClass *filter_element_class;
 
-	g_type_class_add_private (class, sizeof (EMFilterFolderElementPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = filter_folder_element_finalize;
 
@@ -209,7 +198,7 @@ em_filter_folder_element_class_init (EMFilterFolderElementClass *class)
 static void
 em_filter_folder_element_init (EMFilterFolderElement *element)
 {
-	element->priv = EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE (element);
+	element->priv = em_filter_folder_element_get_instance_private (element);
 }
 
 EFilterElement *

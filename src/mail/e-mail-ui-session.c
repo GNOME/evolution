@@ -59,10 +59,6 @@
 #include "em-utils.h"
 #include "mail-send-recv.h"
 
-#define E_MAIL_UI_SESSION_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_UI_SESSION, EMailUISessionPrivate))
-
 #ifdef HAVE_CANBERRA
 static ca_context *cactx = NULL;
 #endif
@@ -98,10 +94,8 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailUISession,
-	e_mail_ui_session,
-	E_TYPE_MAIL_SESSION,
+G_DEFINE_TYPE_WITH_CODE (EMailUISession, e_mail_ui_session, E_TYPE_MAIL_SESSION,
+	G_ADD_PRIVATE (EMailUISession)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 struct _SourceContext {
@@ -255,16 +249,14 @@ main_get_filter_driver (CamelSession *session,
 			GError **error)
 {
 	EMailSession *ms = E_MAIL_SESSION (session);
+	EMailUISession *self = E_MAIL_UI_SESSION (session);
 	CamelFilterDriver *driver;
 	EFilterRule *rule = NULL;
 	const gchar *config_dir;
 	gchar *user, *system;
 	GSettings *settings;
 	ERuleContext *fc;
-	EMailUISessionPrivate *priv;
 	gboolean add_junk_test;
-
-	priv = E_MAIL_UI_SESSION_GET_PRIVATE (session);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
@@ -281,25 +273,25 @@ main_get_filter_driver (CamelSession *session,
 
 	if (g_settings_get_boolean (settings, "filters-log-actions") ||
 	    camel_debug ("filters")) {
-		if (!priv->filter_logfile &&
+		if (!self->priv->filter_logfile &&
 		    g_settings_get_boolean (settings, "filters-log-actions")) {
 			gchar *filename;
 
 			filename = g_settings_get_string (settings, "filters-log-file");
 			if (filename) {
 				if (!*filename || g_strcmp0 (filename, "stdout") == 0)
-					priv->filter_logfile = stdout;
+					self->priv->filter_logfile = stdout;
 				else
-					priv->filter_logfile = g_fopen (filename, "a+");
+					self->priv->filter_logfile = g_fopen (filename, "a+");
 
 				g_free (filename);
 			}
-		} else if (!priv->filter_logfile) {
-			priv->filter_logfile = stdout;
+		} else if (!self->priv->filter_logfile) {
+			self->priv->filter_logfile = stdout;
 		}
 
-		if (priv->filter_logfile)
-			camel_filter_driver_set_logfile (driver, priv->filter_logfile);
+		if (self->priv->filter_logfile)
+			camel_filter_driver_set_logfile (driver, self->priv->filter_logfile);
 	}
 
 	camel_filter_driver_set_shell_func (driver, mail_execute_shell_command, NULL);
@@ -307,7 +299,7 @@ main_get_filter_driver (CamelSession *session,
 	camel_filter_driver_set_system_beep_func (driver, session_system_beep, NULL);
 
 	add_junk_test = g_str_equal (type, E_FILTER_SOURCE_JUNKTEST) || (
-		priv->check_junk &&
+		self->priv->check_junk &&
 		g_str_equal (type, E_FILTER_SOURCE_INCOMING) &&
 		session_folder_can_filter_junk (for_folder));
 
@@ -349,7 +341,6 @@ main_get_filter_driver (CamelSession *session,
 	}
 
 	g_object_unref (fc);
-
 	g_object_unref (settings);
 
 	return driver;
@@ -438,24 +429,22 @@ mail_ui_session_get_property (GObject *object,
 static void
 mail_ui_session_dispose (GObject *object)
 {
-	EMailUISessionPrivate *priv;
+	EMailUISession *self = E_MAIL_UI_SESSION (object);
 
-	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
-	g_clear_object (&priv->registry);
+	g_clear_object (&self->priv->registry);
 
-	if (priv->account_store != NULL) {
-		e_mail_account_store_clear (priv->account_store);
-		g_object_unref (priv->account_store);
-		priv->account_store = NULL;
+	if (self->priv->account_store != NULL) {
+		e_mail_account_store_clear (self->priv->account_store);
+		g_clear_object (&self->priv->account_store);
 	}
 
-	g_clear_object (&priv->label_store);
-	g_clear_object (&priv->photo_cache);
+	g_clear_object (&self->priv->label_store);
+	g_clear_object (&self->priv->photo_cache);
 
-	g_mutex_lock (&priv->address_cache_mutex);
-	g_slist_free_full (priv->address_cache, address_cache_data_free);
-	priv->address_cache = NULL;
-	g_mutex_unlock (&priv->address_cache_mutex);
+	g_mutex_lock (&self->priv->address_cache_mutex);
+	g_slist_free_full (self->priv->address_cache, address_cache_data_free);
+	self->priv->address_cache = NULL;
+	g_mutex_unlock (&self->priv->address_cache_mutex);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->dispose (object);
@@ -464,11 +453,9 @@ mail_ui_session_dispose (GObject *object)
 static void
 mail_ui_session_finalize (GObject *object)
 {
-	EMailUISessionPrivate *priv;
+	EMailUISession *self = E_MAIL_UI_SESSION (object);
 
-	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
-
-	g_mutex_clear (&priv->address_cache_mutex);
+	g_mutex_clear (&self->priv->address_cache_mutex);
 
 #ifdef HAVE_CANBERRA
 	g_clear_pointer (&cactx, ca_context_destroy);
@@ -481,7 +468,7 @@ mail_ui_session_finalize (GObject *object)
 static void
 mail_ui_session_constructed (GObject *object)
 {
-	EMailUISessionPrivate *priv;
+	EMailUISession *self;
 	EMFolderTreeModel *folder_tree_model;
 	ESourceRegistry *registry;
 	EClientCache *client_cache;
@@ -497,16 +484,16 @@ mail_ui_session_constructed (GObject *object)
 		session, "online",
 		G_BINDING_SYNC_CREATE);
 
-	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
-	priv->account_store = e_mail_account_store_new (session);
+	self = E_MAIL_UI_SESSION (object);
+	self->priv->account_store = e_mail_account_store_new (session);
 
 	/* Keep our own reference to the ESourceRegistry so we
 	 * can easily disconnect signal handlers in dispose(). */
 	registry = e_mail_session_get_registry (session);
-	priv->registry = g_object_ref (registry);
+	self->priv->registry = g_object_ref (registry);
 
 	client_cache = e_shell_get_client_cache (shell);
-	priv->photo_cache = e_photo_cache_new (client_cache);
+	self->priv->photo_cache = e_photo_cache_new (client_cache);
 
 	/* XXX Make sure the folder tree model is created before we
 	 *     add built-in CamelStores so it gets signals from the
@@ -1090,8 +1077,6 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	CamelSessionClass *session_class;
 	EMailSessionClass *mail_session_class;
 
-	g_type_class_add_private (class, sizeof (EMailUISessionPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_ui_session_set_property;
 	object_class->get_property = mail_ui_session_get_property;
@@ -1161,7 +1146,7 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 static void
 e_mail_ui_session_init (EMailUISession *session)
 {
-	session->priv = E_MAIL_UI_SESSION_GET_PRIVATE (session);
+	session->priv = e_mail_ui_session_get_instance_private (session);
 	g_mutex_init (&session->priv->address_cache_mutex);
 	session->priv->label_store = e_mail_label_list_store_new ();
 }

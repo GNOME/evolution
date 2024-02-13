@@ -159,10 +159,8 @@ static void	handle_multipart_signed		(EMsgComposer *composer,
 						 GCancellable *cancellable,
 						 gint depth);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMsgComposer,
-	e_msg_composer,
-	GTK_TYPE_WINDOW,
+G_DEFINE_TYPE_WITH_CODE (EMsgComposer, e_msg_composer, GTK_TYPE_WINDOW,
+	G_ADD_PRIVATE (EMsgComposer)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
@@ -2909,10 +2907,9 @@ static void
 msg_composer_dispose (GObject *object)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (object);
-	EMsgComposerPrivate *priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 	EShell *shell;
 
-	g_clear_pointer (&priv->address_dialog, gtk_widget_destroy);
+	g_clear_pointer (&composer->priv->address_dialog, gtk_widget_destroy);
 
 	/* FIXME Our EShell is already unreferenced. */
 	shell = e_shell_get_default ();
@@ -2922,29 +2919,20 @@ msg_composer_dispose (GObject *object)
 	g_signal_handlers_disconnect_by_func (
 		shell, msg_composer_prepare_for_quit_cb, composer);
 
-	if (priv->header_table != NULL) {
+	if (composer->priv->header_table != NULL) {
 		EComposerHeaderTable *table;
 
 		table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
 
-		e_signal_disconnect_notify_handler (
-			table, &priv->notify_destinations_bcc_handler);
-		e_signal_disconnect_notify_handler (
-			table, &priv->notify_destinations_cc_handler);
-		e_signal_disconnect_notify_handler (
-			table, &priv->notify_destinations_to_handler);
-		e_signal_disconnect_notify_handler (
-			table, &priv->notify_identity_uid_handler);
-		e_signal_disconnect_notify_handler (
-			table, &priv->notify_reply_to_handler);
-		e_signal_disconnect_notify_handler (
-			table, &priv->notify_mail_followup_to_handler);
-		e_signal_disconnect_notify_handler (
-			table, &priv->notify_mail_reply_to_handler);
-		e_signal_disconnect_notify_handler (
-			table, &priv->notify_destinations_to_handler);
-		e_signal_disconnect_notify_handler (
-			table, &priv->notify_subject_changed_handler);
+		e_signal_disconnect_notify_handler (table, &composer->priv->notify_destinations_bcc_handler);
+		e_signal_disconnect_notify_handler (table, &composer->priv->notify_destinations_cc_handler);
+		e_signal_disconnect_notify_handler (table, &composer->priv->notify_destinations_to_handler);
+		e_signal_disconnect_notify_handler (table, &composer->priv->notify_identity_uid_handler);
+		e_signal_disconnect_notify_handler (table, &composer->priv->notify_reply_to_handler);
+		e_signal_disconnect_notify_handler (table, &composer->priv->notify_mail_followup_to_handler);
+		e_signal_disconnect_notify_handler (table, &composer->priv->notify_mail_reply_to_handler);
+		e_signal_disconnect_notify_handler (table, &composer->priv->notify_destinations_to_handler);
+		e_signal_disconnect_notify_handler (table, &composer->priv->notify_subject_changed_handler);
 	}
 
 	e_composer_private_dispose (composer);
@@ -3112,8 +3100,6 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EMsgComposerPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = msg_composer_set_property;
 	object_class->get_property = msg_composer_get_property;
@@ -3267,7 +3253,7 @@ e_composer_emit_before_destroy (EMsgComposer *composer)
 static void
 e_msg_composer_init (EMsgComposer *composer)
 {
-	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
+	composer->priv = e_msg_composer_get_instance_private (composer);
 }
 
 static void
@@ -4289,7 +4275,6 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	CamelContentType *content_type;
 	const CamelNameValueArray *headers;
 	CamelDataWrapper *content;
-	EMsgComposerPrivate *priv;
 	EComposerHeaderTable *table;
 	ESource *source = NULL;
 	EHTMLEditor *editor;
@@ -4322,7 +4307,6 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		}
 	}
 
-	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 	table = e_msg_composer_get_header_table (composer);
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
@@ -4732,7 +4716,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		e_msg_composer_set_pending_body (composer, html, length, is_html);
 	}
 
-	priv->set_signature_from_message = TRUE;
+	composer->priv->set_signature_from_message = TRUE;
 
 	is_editor_ready = e_content_editor_is_ready (cnt_editor);
 
@@ -4747,7 +4731,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	/* This makes sure the signature is used from the real message body,
 	   not from the empty body when the composer is in the HTML mode */
 	if (!is_editor_ready)
-		priv->set_signature_from_message = TRUE;
+		composer->priv->set_signature_from_message = TRUE;
 
 	#ifdef ENABLE_SMIME
 	g_clear_object (&decrypted_part);

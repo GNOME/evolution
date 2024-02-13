@@ -33,10 +33,6 @@
 #include "e-rule-context.h"
 #include "e-misc-utils.h"
 
-#define E_FILTER_RULE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_FILTER_RULE, EFilterRulePrivate))
-
 typedef struct _FilterPartData FilterPartData;
 typedef struct _FilterRuleData FilterRuleData;
 
@@ -68,10 +64,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EFilterRule,
-	e_filter_rule,
-	G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EFilterRule, e_filter_rule, G_TYPE_OBJECT)
 
 static void
 filter_rule_grouping_changed_cb (GtkComboBox *combo_box,
@@ -1224,8 +1217,6 @@ e_filter_rule_class_init (EFilterRuleClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EFilterRulePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = filter_rule_finalize;
 
@@ -1251,7 +1242,7 @@ e_filter_rule_class_init (EFilterRuleClass *class)
 static void
 e_filter_rule_init (EFilterRule *rule)
 {
-	rule->priv = E_FILTER_RULE_GET_PRIVATE (rule);
+	rule->priv = e_filter_rule_get_instance_private (rule);
 	rule->enabled = TRUE;
 }
 

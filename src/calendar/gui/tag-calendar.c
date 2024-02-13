@@ -54,6 +54,7 @@ enum {
 static void e_tag_calendar_cal_data_model_subscriber_init (ECalDataModelSubscriberInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (ETagCalendar, e_tag_calendar, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (ETagCalendar)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CAL_DATA_MODEL_SUBSCRIBER, e_tag_calendar_cal_data_model_subscriber_init))
 
 typedef struct {
@@ -741,8 +742,6 @@ e_tag_calendar_class_init (ETagCalendarClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ETagCalendarPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = e_tag_calendar_set_property;
 	object_class->get_property = e_tag_calendar_get_property;
@@ -785,7 +784,7 @@ e_tag_calendar_cal_data_model_subscriber_init (ECalDataModelSubscriberInterface 
 static void
 e_tag_calendar_init (ETagCalendar *tag_calendar)
 {
-	tag_calendar->priv = G_TYPE_INSTANCE_GET_PRIVATE (tag_calendar, E_TYPE_TAG_CALENDAR, ETagCalendarPrivate);
+	tag_calendar->priv = e_tag_calendar_get_instance_private (tag_calendar);
 
 	tag_calendar->priv->objects = g_hash_table_new_full (
 		object_info_hash,

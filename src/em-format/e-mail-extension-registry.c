@@ -24,18 +24,11 @@
 #include "e-mail-formatter-extension.h"
 #include "e-mail-parser-extension.h"
 
-#define E_MAIL_EXTENSION_REGISTRY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_EXTENSION_REGISTRY, EMailExtensionRegistryPrivate))
-
 struct _EMailExtensionRegistryPrivate {
 	GHashTable *table;
 };
 
-G_DEFINE_ABSTRACT_TYPE (
-	EMailExtensionRegistry,
-	e_mail_extension_registry,
-	G_TYPE_OBJECT)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (EMailExtensionRegistry, e_mail_extension_registry, G_TYPE_OBJECT)
 
 /**
  * EMailExtensionRegistry:
@@ -104,24 +97,18 @@ mail_extension_registry_add_extension (EMailExtensionRegistry *registry,
 static void
 mail_extension_registry_finalize (GObject *object)
 {
-	EMailExtensionRegistryPrivate *priv;
+	EMailExtensionRegistry *self = E_MAIL_EXTENSION_REGISTRY (object);
 
-	priv = E_MAIL_EXTENSION_REGISTRY_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->table);
+	g_hash_table_destroy (self->priv->table);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_extension_registry_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_mail_extension_registry_parent_class)->finalize (object);
 }
 
 void
 e_mail_extension_registry_class_init (EMailExtensionRegistryClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (
-		class, sizeof (EMailExtensionRegistryPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = mail_extension_registry_finalize;
@@ -130,7 +117,7 @@ e_mail_extension_registry_class_init (EMailExtensionRegistryClass *class)
 void
 e_mail_extension_registry_init (EMailExtensionRegistry *registry)
 {
-	registry->priv = E_MAIL_EXTENSION_REGISTRY_GET_PRIVATE (registry);
+	registry->priv = e_mail_extension_registry_get_instance_private (registry);
 
 	registry->priv->table = g_hash_table_new_full (
 		(GHashFunc) g_str_hash,

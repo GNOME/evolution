@@ -51,10 +51,6 @@
 #include "mail-ops.h"
 #include "mail-tools.h"
 
-#define E_MAIL_SESSION_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SESSION, EMailSessionPrivate))
-
 typedef struct _AsyncContext AsyncContext;
 typedef struct _ServiceProxyData ServiceProxyData;
 
@@ -144,10 +140,8 @@ static gchar *mail_data_dir;
 static gchar *mail_cache_dir;
 static gchar *mail_config_dir;
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailSession,
-	e_mail_session,
-	CAMEL_TYPE_SESSION,
+G_DEFINE_TYPE_WITH_CODE (EMailSession, e_mail_session, CAMEL_TYPE_SESSION,
+	G_ADD_PRIVATE (EMailSession)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static gboolean
@@ -1097,55 +1091,53 @@ mail_session_get_property (GObject *object,
 static void
 mail_session_dispose (GObject *object)
 {
-	EMailSessionPrivate *priv;
+	EMailSession *self = E_MAIL_SESSION (object);
 	GSettings *settings;
 
-	priv = E_MAIL_SESSION_GET_PRIVATE (object);
-
-	if (priv->outbox_changed_handler_id) {
+	if (self->priv->outbox_changed_handler_id) {
 		CamelFolder *folder;
 
-		folder = e_mail_session_get_local_folder (E_MAIL_SESSION (object), E_MAIL_LOCAL_FOLDER_OUTBOX);
+		folder = e_mail_session_get_local_folder (self, E_MAIL_LOCAL_FOLDER_OUTBOX);
 		if (folder)
-			g_signal_handler_disconnect (folder, priv->outbox_changed_handler_id);
+			g_signal_handler_disconnect (folder, self->priv->outbox_changed_handler_id);
 
-		priv->outbox_changed_handler_id = 0;
+		self->priv->outbox_changed_handler_id = 0;
 	}
 
-	g_clear_object (&priv->folder_cache);
+	g_clear_object (&self->priv->folder_cache);
 
-	g_ptr_array_set_size (priv->local_folders, 0);
-	g_ptr_array_set_size (priv->local_folder_uris, 0);
+	g_ptr_array_set_size (self->priv->local_folders, 0);
+	g_ptr_array_set_size (self->priv->local_folder_uris, 0);
 
-	g_mutex_lock (&priv->preparing_flush_lock);
+	g_mutex_lock (&self->priv->preparing_flush_lock);
 
-	if (priv->preparing_flush > 0) {
-		g_source_remove (priv->preparing_flush);
-		priv->preparing_flush = 0;
+	if (self->priv->preparing_flush > 0) {
+		g_source_remove (self->priv->preparing_flush);
+		self->priv->preparing_flush = 0;
 	}
 
-	if (priv->outbox_flush_id > 0) {
-		g_source_remove (priv->outbox_flush_id);
-		priv->outbox_flush_id = 0;
+	if (self->priv->outbox_flush_id > 0) {
+		g_source_remove (self->priv->outbox_flush_id);
+		self->priv->outbox_flush_id = 0;
 	}
 
-	g_mutex_unlock (&priv->preparing_flush_lock);
+	g_mutex_unlock (&self->priv->preparing_flush_lock);
 
-	g_clear_object (&priv->local_store);
-	g_clear_object (&priv->vfolder_store);
+	g_clear_object (&self->priv->local_store);
+	g_clear_object (&self->priv->vfolder_store);
 
-	g_mutex_lock (&priv->archive_folders_hash_lock);
+	g_mutex_lock (&self->priv->archive_folders_hash_lock);
 
-	if (priv->archive_folders_hash) {
-		if (priv->registry) {
+	if (self->priv->archive_folders_hash) {
+		if (self->priv->registry) {
 			GHashTableIter iter;
 			gpointer key;
 
-			g_hash_table_iter_init (&iter, priv->archive_folders_hash);
+			g_hash_table_iter_init (&iter, self->priv->archive_folders_hash);
 			while (g_hash_table_iter_next (&iter, &key, NULL)) {
 				ESource *source;
 
-				source = e_source_registry_ref_source (priv->registry, key);
+				source = e_source_registry_ref_source (self->priv->registry, key);
 				if (source) {
 					if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
 						ESourceExtension *extension;
@@ -1160,34 +1152,33 @@ mail_session_dispose (GObject *object)
 			}
 		}
 
-		g_hash_table_destroy (priv->archive_folders_hash);
-		priv->archive_folders_hash = NULL;
+		g_hash_table_destroy (self->priv->archive_folders_hash);
+		self->priv->archive_folders_hash = NULL;
 	}
 
-	g_mutex_unlock (&priv->archive_folders_hash_lock);
+	g_mutex_unlock (&self->priv->archive_folders_hash_lock);
 
-	if (priv->registry != NULL) {
+	if (self->priv->registry != NULL) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_added_handler_id);
+			self->priv->registry,
+			self->priv->source_added_handler_id);
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_removed_handler_id);
+			self->priv->registry,
+			self->priv->source_removed_handler_id);
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_enabled_handler_id);
+			self->priv->registry,
+			self->priv->source_enabled_handler_id);
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_disabled_handler_id);
+			self->priv->registry,
+			self->priv->source_disabled_handler_id);
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->default_mail_account_handler_id);
+			self->priv->registry,
+			self->priv->default_mail_account_handler_id);
 
 		/* This requires the registry. */
 		mail_session_cancel_refresh (E_MAIL_SESSION (object));
 
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
+		g_clear_object (&self->priv->registry);
 	}
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
@@ -1204,21 +1195,19 @@ mail_session_dispose (GObject *object)
 static void
 mail_session_finalize (GObject *object)
 {
-	EMailSessionPrivate *priv;
+	EMailSession *self = E_MAIL_SESSION (object);
 
-	priv = E_MAIL_SESSION_GET_PRIVATE (object);
+	g_hash_table_destroy (self->priv->auto_refresh_table);
+	g_hash_table_destroy (self->priv->junk_filters);
+	g_hash_table_destroy (self->priv->used_services);
 
-	g_hash_table_destroy (priv->auto_refresh_table);
-	g_hash_table_destroy (priv->junk_filters);
-	g_hash_table_destroy (priv->used_services);
+	g_ptr_array_free (self->priv->local_folders, TRUE);
+	g_ptr_array_free (self->priv->local_folder_uris, TRUE);
 
-	g_ptr_array_free (priv->local_folders, TRUE);
-	g_ptr_array_free (priv->local_folder_uris, TRUE);
-
-	g_mutex_clear (&priv->preparing_flush_lock);
-	g_mutex_clear (&priv->used_services_lock);
-	g_mutex_clear (&priv->archive_folders_hash_lock);
-	g_cond_clear (&priv->used_services_cond);
+	g_mutex_clear (&self->priv->preparing_flush_lock);
+	g_mutex_clear (&self->priv->used_services_lock);
+	g_mutex_clear (&self->priv->archive_folders_hash_lock);
+	g_cond_clear (&self->priv->used_services_cond);
 
 	g_free (mail_data_dir);
 	g_free (mail_config_dir);
@@ -1709,7 +1698,7 @@ mail_session_forward_to_sync (CamelSession *session,
                               GCancellable *cancellable,
                               GError **error)
 {
-	EMailSessionPrivate *priv;
+	EMailSession *self = E_MAIL_SESSION (session);
 	ESource *source;
 	ESourceRegistry *registry;
 	ESourceMailIdentity *extension;
@@ -1737,8 +1726,6 @@ mail_session_forward_to_sync (CamelSession *session,
 	g_return_val_if_fail (message != NULL, FALSE);
 	g_return_val_if_fail (address != NULL, FALSE);
 
-	priv = E_MAIL_SESSION_GET_PRIVATE (session);
-
 	if (!*address) {
 		g_set_error (
 			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
@@ -1747,7 +1734,7 @@ mail_session_forward_to_sync (CamelSession *session,
 		return FALSE;
 	}
 
-	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+	registry = e_mail_session_get_registry (self);
 
 	source = mail_session_decode_forward_with (registry,
 		camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Forward-With"),
@@ -1910,10 +1897,10 @@ mail_session_forward_to_sync (CamelSession *session,
 		flush_outbox = g_settings_get_boolean (settings, "flush-outbox");
 		g_object_unref (settings);
 
-		g_mutex_lock (&priv->preparing_flush_lock);
+		g_mutex_lock (&self->priv->preparing_flush_lock);
 
-		if (priv->preparing_flush > 0) {
-			g_source_remove (priv->preparing_flush);
+		if (self->priv->preparing_flush > 0) {
+			g_source_remove (self->priv->preparing_flush);
 			flush_outbox = TRUE;
 		}
 
@@ -1921,23 +1908,19 @@ mail_session_forward_to_sync (CamelSession *session,
 			GMainContext *main_context;
 			GSource *timeout_source;
 
-			main_context =
-				camel_session_ref_main_context (session);
+			main_context = camel_session_ref_main_context (session);
 
-			timeout_source =
-				g_timeout_source_new_seconds (60);
-			g_source_set_callback (
-				timeout_source,
+			timeout_source = g_timeout_source_new_seconds (60);
+			g_source_set_callback (timeout_source,
 				session_forward_to_flush_outbox_cb,
 				session, (GDestroyNotify) NULL);
-			priv->preparing_flush = g_source_attach (
-				timeout_source, main_context);
+			self->priv->preparing_flush = g_source_attach (timeout_source, main_context);
 			g_source_unref (timeout_source);
 
 			g_main_context_unref (main_context);
 		}
 
-		g_mutex_unlock (&priv->preparing_flush_lock);
+		g_mutex_unlock (&self->priv->preparing_flush_lock);
 	}
 
 	g_clear_object (&info);
@@ -2165,8 +2148,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 {
 	GObjectClass *object_class;
 	CamelSessionClass *session_class;
-
-	g_type_class_add_private (class, sizeof (EMailSessionPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_session_set_property;
@@ -2412,7 +2393,7 @@ e_mail_session_init (EMailSession *session)
 		(GHashFunc) g_str_hash,
 		(GEqualFunc) g_str_equal);
 
-	session->priv = E_MAIL_SESSION_GET_PRIVATE (session);
+	session->priv = e_mail_session_get_instance_private (session);
 	session->priv->folder_cache = mail_folder_cache_new ();
 	session->priv->auto_refresh_table = auto_refresh_table;
 	session->priv->junk_filters = junk_filters;

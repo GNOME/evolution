@@ -23,10 +23,6 @@
 
 #include <glib/gi18n.h>
 
-#define E_ACTION_COMBO_BOX_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ACTION_COMBO_BOX, EActionComboBoxPrivate))
-
 enum {
 	COLUMN_ACTION,
 	COLUMN_SORT
@@ -48,10 +44,7 @@ struct _EActionComboBoxPrivate {
 	gboolean ellipsize_enabled;
 };
 
-G_DEFINE_TYPE (
-	EActionComboBox,
-	e_action_combo_box,
-	GTK_TYPE_COMBO_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EActionComboBox, e_action_combo_box, GTK_TYPE_COMBO_BOX)
 
 static void
 action_combo_box_action_changed_cb (GtkRadioAction *action,
@@ -348,11 +341,11 @@ action_combo_box_get_property (GObject *object,
 static void
 action_combo_box_dispose (GObject *object)
 {
-	EActionComboBoxPrivate *priv = E_ACTION_COMBO_BOX_GET_PRIVATE (object);
+	EActionComboBox *self = E_ACTION_COMBO_BOX (object);
 
-	g_clear_object (&priv->action);
-	g_clear_object (&priv->action_group);
-	g_hash_table_remove_all (priv->index);
+	g_clear_object (&self->priv->action);
+	g_clear_object (&self->priv->action_group);
+	g_hash_table_remove_all (self->priv->index);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_action_combo_box_parent_class)->dispose (object);
@@ -361,9 +354,9 @@ action_combo_box_dispose (GObject *object)
 static void
 action_combo_box_finalize (GObject *object)
 {
-	EActionComboBoxPrivate *priv = E_ACTION_COMBO_BOX_GET_PRIVATE (object);
+	EActionComboBox *self = E_ACTION_COMBO_BOX (object);
 
-	g_hash_table_destroy (priv->index);
+	g_hash_table_destroy (self->priv->index);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_action_combo_box_parent_class)->finalize (object);
@@ -431,8 +424,6 @@ e_action_combo_box_class_init (EActionComboBoxClass *class)
 	GtkWidgetClass *widget_class;
 	GtkComboBoxClass *combo_box_class;
 
-	g_type_class_add_private (class, sizeof (EActionComboBoxPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = action_combo_box_set_property;
 	object_class->get_property = action_combo_box_get_property;
@@ -460,7 +451,7 @@ e_action_combo_box_class_init (EActionComboBoxClass *class)
 static void
 e_action_combo_box_init (EActionComboBox *combo_box)
 {
-	combo_box->priv = E_ACTION_COMBO_BOX_GET_PRIVATE (combo_box);
+	combo_box->priv = e_action_combo_box_get_instance_private (combo_box);
 
 	combo_box->priv->index = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,

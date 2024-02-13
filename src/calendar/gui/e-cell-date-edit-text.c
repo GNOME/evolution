@@ -31,10 +31,6 @@
 
 #include "e-cell-date-edit-text.h"
 
-#define E_CELL_DATE_EDIT_TEXT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CELL_DATE_EDIT_TEXT, ECellDateEditTextPrivate))
-
 struct _ECellDateEditTextPrivate {
 
 	/* The timezone to display the date in. */
@@ -50,10 +46,7 @@ enum {
 	PROP_USE_24_HOUR_FORMAT
 };
 
-G_DEFINE_TYPE (
-	ECellDateEditText,
-	e_cell_date_edit_text,
-	E_TYPE_CELL_TEXT)
+G_DEFINE_TYPE_WITH_PRIVATE (ECellDateEditText, e_cell_date_edit_text, E_TYPE_CELL_TEXT)
 
 static void
 cell_date_edit_text_set_property (GObject *object,
@@ -249,8 +242,6 @@ e_cell_date_edit_text_class_init (ECellDateEditTextClass *class)
 	GObjectClass *object_class;
 	ECellTextClass *cell_text_class;
 
-	g_type_class_add_private (class, sizeof (ECellDateEditTextPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = cell_date_edit_text_set_property;
 	object_class->get_property = cell_date_edit_text_get_property;
@@ -285,7 +276,7 @@ e_cell_date_edit_text_class_init (ECellDateEditTextClass *class)
 static void
 e_cell_date_edit_text_init (ECellDateEditText *ecd)
 {
-	ecd->priv = E_CELL_DATE_EDIT_TEXT_GET_PRIVATE (ecd);
+	ecd->priv = e_cell_date_edit_text_get_instance_private (ecd);
 
 	ecd->priv->timezone = e_cal_util_copy_timezone (i_cal_timezone_get_utc_timezone ());
 	ecd->priv->use_24_hour_format = TRUE;

@@ -34,19 +34,12 @@
 
 #include "em-filter-source-element.h"
 
-#define EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FILTER_SOURCE_ELEMENT, EMFilterSourceElementPrivate))
-
 struct _EMFilterSourceElementPrivate {
 	EMailSession *session;
 	gchar *active_id;
 };
 
-G_DEFINE_TYPE (
-	EMFilterSourceElement,
-	em_filter_source_element,
-	E_TYPE_FILTER_ELEMENT)
+G_DEFINE_TYPE_WITH_PRIVATE (EMFilterSourceElement, em_filter_source_element, E_TYPE_FILTER_ELEMENT)
 
 enum {
 	PROP_0,
@@ -113,10 +106,9 @@ filter_source_element_get_property (GObject *object,
 static void
 filter_source_element_dispose (GObject *object)
 {
-	EMFilterSourceElementPrivate *priv;
+	EMFilterSourceElement *self = EM_FILTER_SOURCE_ELEMENT (object);
 
-	priv = EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE (object);
-	g_clear_object (&priv->session);
+	g_clear_object (&self->priv->session);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_filter_source_element_parent_class)->dispose (object);
@@ -125,11 +117,9 @@ filter_source_element_dispose (GObject *object)
 static void
 filter_source_element_finalize (GObject *object)
 {
-	EMFilterSourceElementPrivate *priv;
+	EMFilterSourceElement *self = EM_FILTER_SOURCE_ELEMENT (object);
 
-	priv = EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE (object);
-
-	g_free (priv->active_id);
+	g_free (self->priv->active_id);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_filter_source_element_parent_class)->finalize (object);
@@ -433,8 +423,6 @@ em_filter_source_element_class_init (EMFilterSourceElementClass *class)
 	GObjectClass *object_class;
 	EFilterElementClass *filter_element_class;
 
-	g_type_class_add_private (class, sizeof (EMFilterSourceElementPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = filter_source_element_set_property;
 	object_class->get_property = filter_source_element_get_property;
@@ -467,7 +455,7 @@ em_filter_source_element_class_init (EMFilterSourceElementClass *class)
 static void
 em_filter_source_element_init (EMFilterSourceElement *element)
 {
-	element->priv = EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE (element);
+	element->priv = em_filter_source_element_get_instance_private (element);
 }
 
 EFilterElement *

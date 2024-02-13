@@ -21,10 +21,6 @@
 
 #include "e-mail-config-import-page.h"
 
-#define E_MAIL_CONFIG_IMPORT_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_IMPORT_PAGE, EMailConfigImportPagePrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailConfigImportPagePrivate {
@@ -46,14 +42,9 @@ static void	e_mail_config_import_page_interface_init
 					(EMailConfigPageInterface *iface);
 static gboolean	mail_config_import_page_next	(gpointer user_data);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
-	EMailConfigImportPage,
-	e_mail_config_import_page,
-	GTK_TYPE_SCROLLED_WINDOW,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_CONFIG_PAGE,
-		e_mail_config_import_page_interface_init))
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailConfigImportPage, e_mail_config_import_page, GTK_TYPE_SCROLLED_WINDOW, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailConfigImportPage)
+	G_IMPLEMENT_INTERFACE_DYNAMIC (E_TYPE_MAIL_CONFIG_PAGE, e_mail_config_import_page_interface_init))
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -160,25 +151,20 @@ mail_config_import_page_cancelled (GCancellable *cancellable,
 static void
 mail_config_import_page_dispose (GObject *object)
 {
-	EMailConfigImportPagePrivate *priv;
+	EMailConfigImportPage *self = E_MAIL_CONFIG_IMPORT_PAGE (object);
 
-	priv = E_MAIL_CONFIG_IMPORT_PAGE_GET_PRIVATE (object);
-
-	if (priv->import != NULL) {
+	if (self->priv->import != NULL) {
 		e_import_target_free (
-			priv->import,
-			priv->import_target);
-		g_object_unref (priv->import);
-		priv->import_target = NULL;
-		priv->import = NULL;
+			self->priv->import,
+			self->priv->import_target);
+		g_clear_object (&self->priv->import);
 	}
 
-	g_slist_free (priv->available_importers);
-	priv->available_importers = NULL;
+	g_slist_free (self->priv->available_importers);
+	self->priv->available_importers = NULL;
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_import_page_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_import_page_parent_class)->dispose (object);
 }
 
 static void
@@ -245,9 +231,6 @@ e_mail_config_import_page_class_init (EMailConfigImportPageClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailConfigImportPagePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = mail_config_import_page_dispose;
 	object_class->constructed = mail_config_import_page_constructed;
@@ -268,7 +251,7 @@ e_mail_config_import_page_interface_init (EMailConfigPageInterface *iface)
 static void
 e_mail_config_import_page_init (EMailConfigImportPage *page)
 {
-	page->priv = E_MAIL_CONFIG_IMPORT_PAGE_GET_PRIVATE (page);
+	page->priv = e_mail_config_import_page_get_instance_private (page);
 
 	page->priv->import =
 		e_import_new ("org.gnome.evolution.shell.importer");

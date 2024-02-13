@@ -25,11 +25,8 @@
 
 #include "e-task-shell-view-private.h"
 
-#define E_TASK_SHELL_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TASK_SHELL_VIEW, ETaskShellViewPrivate))
-
-G_DEFINE_DYNAMIC_TYPE (ETaskShellView, e_task_shell_view, E_TYPE_CAL_BASE_SHELL_VIEW)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ETaskShellView, e_task_shell_view, E_TYPE_CAL_BASE_SHELL_VIEW, 0,
+	G_ADD_PRIVATE_DYNAMIC (ETaskShellView))
 
 enum {
 	PROP_0,
@@ -521,8 +518,6 @@ e_task_shell_view_class_init (ETaskShellViewClass *class)
 	EShellViewClass *shell_view_class;
 	ECalBaseShellViewClass *cal_base_shell_view_class;
 
-	g_type_class_add_private (class, sizeof (ETaskShellViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = task_shell_view_set_property;
 	object_class->get_property = task_shell_view_get_property;
@@ -567,7 +562,7 @@ e_task_shell_view_class_finalize (ETaskShellViewClass *class)
 static void
 e_task_shell_view_init (ETaskShellView *task_shell_view)
 {
-	task_shell_view->priv = E_TASK_SHELL_VIEW_GET_PRIVATE (task_shell_view);
+	task_shell_view->priv = e_task_shell_view_get_instance_private (task_shell_view);
 
 	e_task_shell_view_private_init (task_shell_view);
 }

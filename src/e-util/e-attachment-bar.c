@@ -29,10 +29,6 @@
 #include "e-attachment-tree-view.h"
 #include "e-misc-utils.h"
 
-#define E_ATTACHMENT_BAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ATTACHMENT_BAR, EAttachmentBarPrivate))
-
 #define NUM_VIEWS 2
 
 struct _EAttachmentBarPrivate {
@@ -73,6 +69,7 @@ static void	e_attachment_bar_interface_init
 				(EAttachmentViewInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (EAttachmentBar, e_attachment_bar, GTK_TYPE_PANED,
+	G_ADD_PRIVATE (EAttachmentBar)
 	G_IMPLEMENT_INTERFACE (E_TYPE_ATTACHMENT_VIEW, e_attachment_bar_interface_init))
 
 static void
@@ -321,23 +318,22 @@ attachment_bar_get_property (GObject *object,
 static void
 attachment_bar_dispose (GObject *object)
 {
-	EAttachmentBarPrivate *priv;
+	EAttachmentBar *self = E_ATTACHMENT_BAR (object);
 
-	priv = E_ATTACHMENT_BAR_GET_PRIVATE (object);
-	g_clear_object (&priv->model);
-	g_clear_object (&priv->content_area);
-	g_clear_object (&priv->attachments_area);
-	g_clear_object (&priv->info_vbox);
-	g_clear_object (&priv->expander);
-	g_clear_object (&priv->combo_box);
-	g_clear_object (&priv->icon_view);
-	g_clear_object (&priv->tree_view);
-	g_clear_object (&priv->icon_frame);
-	g_clear_object (&priv->tree_frame);
-	g_clear_object (&priv->status_icon);
-	g_clear_object (&priv->status_label);
-	g_clear_object (&priv->save_all_button);
-	g_clear_object (&priv->save_one_button);
+	g_clear_object (&self->priv->model);
+	g_clear_object (&self->priv->content_area);
+	g_clear_object (&self->priv->attachments_area);
+	g_clear_object (&self->priv->info_vbox);
+	g_clear_object (&self->priv->expander);
+	g_clear_object (&self->priv->combo_box);
+	g_clear_object (&self->priv->icon_view);
+	g_clear_object (&self->priv->tree_view);
+	g_clear_object (&self->priv->icon_frame);
+	g_clear_object (&self->priv->tree_frame);
+	g_clear_object (&self->priv->status_icon);
+	g_clear_object (&self->priv->status_label);
+	g_clear_object (&self->priv->save_all_button);
+	g_clear_object (&self->priv->save_one_button);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_attachment_bar_parent_class)->dispose (object);
@@ -346,65 +342,65 @@ attachment_bar_dispose (GObject *object)
 static void
 attachment_bar_constructed (GObject *object)
 {
-	EAttachmentBarPrivate *priv;
+	EAttachmentBar *self;
 	GSettings *settings;
 
-	priv = E_ATTACHMENT_BAR_GET_PRIVATE (object);
+	self = E_ATTACHMENT_BAR (object);
 
 	/* Set up property-to-property bindings. */
 
 	e_binding_bind_property (
 		object, "active-view",
-		priv->combo_box, "active",
+		self->priv->combo_box, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
 		object, "dragging",
-		priv->icon_view, "dragging",
+		self->priv->icon_view, "dragging",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
 		object, "dragging",
-		priv->tree_view, "dragging",
+		self->priv->tree_view, "dragging",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
 		object, "editable",
-		priv->icon_view, "editable",
+		self->priv->icon_view, "editable",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
 		object, "editable",
-		priv->tree_view, "editable",
+		self->priv->tree_view, "editable",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
 		object, "expanded",
-		priv->expander, "expanded",
+		self->priv->expander, "expanded",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
 		object, "expanded",
-		priv->combo_box, "visible",
+		self->priv->combo_box, "visible",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property_full (
 		object, "expanded",
-		priv->attachments_area, "visible",
+		self->priv->attachments_area, "visible",
 		G_BINDING_SYNC_CREATE,
 		attachment_bar_expanded_to_attachments_area_visible_boolean_cb,
 		NULL, object, NULL);
 
 	e_binding_bind_property_full (
 		object, "attachments-visible",
-		priv->attachments_area, "visible",
+		self->priv->attachments_area, "visible",
 		G_BINDING_SYNC_CREATE,
 		attachment_bar_expanded_to_attachments_area_visible_boolean_cb,
 		NULL, object, NULL);
@@ -570,8 +566,6 @@ e_attachment_bar_class_init (EAttachmentBarClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EAttachmentBarPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = attachment_bar_set_property;
 	object_class->get_property = attachment_bar_get_property;
@@ -678,7 +672,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 
 	gtk_widget_set_name (GTK_WIDGET (bar), "e-attachment-bar");
 
-	bar->priv = E_ATTACHMENT_BAR_GET_PRIVATE (bar);
+	bar->priv = e_attachment_bar_get_instance_private (bar);
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (bar), GTK_ORIENTATION_VERTICAL);
 

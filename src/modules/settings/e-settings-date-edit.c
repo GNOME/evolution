@@ -21,18 +21,12 @@
 
 #include <e-util/e-util.h>
 
-#define E_SETTINGS_DATE_EDIT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_DATE_EDIT, ESettingsDateEditPrivate))
-
 struct _ESettingsDateEditPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsDateEdit,
-	e_settings_date_edit,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsDateEdit, e_settings_date_edit, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsDateEdit))
 
 static void
 settings_date_edit_constructed (GObject *object)
@@ -73,8 +67,6 @@ e_settings_date_edit_class_init (ESettingsDateEditClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ESettingsDateEditPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = settings_date_edit_constructed;
 
@@ -90,7 +82,7 @@ e_settings_date_edit_class_finalize (ESettingsDateEditClass *class)
 static void
 e_settings_date_edit_init (ESettingsDateEdit *extension)
 {
-	extension->priv = E_SETTINGS_DATE_EDIT_GET_PRIVATE (extension);
+	extension->priv = e_settings_date_edit_get_instance_private (extension);
 }
 
 void

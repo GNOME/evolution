@@ -35,10 +35,6 @@
 #include "e-mail-part-attachment.h"
 #include "e-mail-part-list.h"
 
-#define E_MAIL_PART_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_PART, EMailPartPrivate))
-
 struct _EMailPartPrivate {
 	GWeakRef part_list;
 	CamelMimePart *mime_part;
@@ -64,12 +60,9 @@ enum {
 	PROP_PART_LIST
 };
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailPart,
-	e_mail_part,
-	G_TYPE_OBJECT,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EMailPart, e_mail_part, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EMailPart)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 mail_part_validity_pair_free (gpointer ptr)
@@ -232,13 +225,11 @@ mail_part_get_property (GObject *object,
 static void
 mail_part_dispose (GObject *object)
 {
-	EMailPartPrivate *priv;
+	EMailPart *self = E_MAIL_PART (object);
 
-	priv = E_MAIL_PART_GET_PRIVATE (object);
+	g_weak_ref_set (&self->priv->part_list, NULL);
 
-	g_weak_ref_set (&priv->part_list, NULL);
-
-	g_clear_object (&priv->mime_part);
+	g_clear_object (&self->priv->mime_part);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_part_parent_class)->dispose (object);
@@ -274,8 +265,6 @@ static void
 e_mail_part_class_init (EMailPartClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EMailPartPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_part_set_property;
@@ -380,7 +369,7 @@ e_mail_part_class_init (EMailPartClass *class)
 static void
 e_mail_part_init (EMailPart *part)
 {
-	part->priv = E_MAIL_PART_GET_PRIVATE (part);
+	part->priv = e_mail_part_get_instance_private (part);
 }
 
 /**

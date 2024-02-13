@@ -51,10 +51,6 @@
 /* Images */
 #include "data/xpm/jump.xpm"
 
-#define E_WEEK_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEEK_VIEW, EWeekViewPrivate))
-
 #define E_WEEK_VIEW_SMALL_FONT_PTSIZE 7
 
 #define E_WEEK_VIEW_JUMP_BUTTON_WIDTH	16
@@ -202,7 +198,7 @@ static void e_week_view_queue_layout (EWeekView *week_view);
 static void e_week_view_cancel_layout (EWeekView *week_view);
 static gboolean e_week_view_layout_timeout_cb (gpointer data);
 
-G_DEFINE_TYPE (EWeekView, e_week_view, E_TYPE_CALENDAR_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (EWeekView, e_week_view, E_TYPE_CALENDAR_VIEW)
 
 enum {
 	PROP_0,
@@ -1805,8 +1801,6 @@ e_week_view_class_init (EWeekViewClass *class)
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
-	g_type_class_add_private (class, sizeof (EWeekViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = week_view_set_property;
 	object_class->get_property = week_view_get_property;
@@ -1922,7 +1916,7 @@ e_week_view_init (EWeekView *week_view)
 	GdkPixbuf *pixbuf;
 	gint i;
 
-	week_view->priv = E_WEEK_VIEW_GET_PRIVATE (week_view);
+	week_view->priv = e_week_view_get_instance_private (week_view);
 	week_view->priv->weeks_shown = 6;
 	week_view->priv->compress_weekend = TRUE;
 	week_view->priv->days_left_to_right = FALSE;

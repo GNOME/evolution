@@ -28,10 +28,6 @@
 #include "e-composer-spell-header.h"
 #include "e-composer-text-header.h"
 
-#define E_COMPOSER_HEADER_TABLE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_HEADER_TABLE, EComposerHeaderTablePrivate))
-
 #define HEADER_TOOLTIP_TO \
 	_("Enter the recipients of the message")
 #define HEADER_TOOLTIP_CC \
@@ -68,10 +64,7 @@ enum {
 	PROP_MAIL_REPLY_TO
 };
 
-G_DEFINE_TYPE (
-	EComposerHeaderTable,
-	e_composer_header_table,
-	GTK_TYPE_TABLE)
+G_DEFINE_TYPE_WITH_PRIVATE (EComposerHeaderTable, e_composer_header_table, GTK_TYPE_TABLE)
 
 static void
 g_value_set_destinations (GValue *value,
@@ -826,27 +819,23 @@ composer_header_table_get_property (GObject *object,
 static void
 composer_header_table_dispose (GObject *object)
 {
-	EComposerHeaderTablePrivate *priv;
+	EComposerHeaderTable *self = E_COMPOSER_HEADER_TABLE (object);
 	gint ii;
 
-	priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (object);
-
-	for (ii = 0; ii < G_N_ELEMENTS (priv->headers); ii++) {
-		g_clear_object (&priv->headers[ii]);
+	for (ii = 0; ii < G_N_ELEMENTS (self->priv->headers); ii++) {
+		g_clear_object (&self->priv->headers[ii]);
 	}
 
-	g_clear_object (&priv->signature_combo_box);
+	g_clear_object (&self->priv->signature_combo_box);
 
-	if (priv->name_selector != NULL) {
-		e_name_selector_cancel_loading (priv->name_selector);
-		g_object_unref (priv->name_selector);
-		priv->name_selector = NULL;
+	if (self->priv->name_selector != NULL) {
+		e_name_selector_cancel_loading (self->priv->name_selector);
+		g_clear_object (&self->priv->name_selector);
 	}
 
-	g_clear_object (&priv->client_cache);
+	g_clear_object (&self->priv->client_cache);
 
-	g_free (priv->previous_from_uid);
-	priv->previous_from_uid = NULL;
+	g_clear_pointer (&self->priv->previous_from_uid, g_free);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_composer_header_table_parent_class)->dispose (object);
@@ -999,8 +988,6 @@ static void
 e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EComposerHeaderTablePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = composer_header_table_set_property;
@@ -1164,7 +1151,7 @@ e_composer_header_table_init (EComposerHeaderTable *table)
 {
 	gint rows;
 
-	table->priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (table);
+	table->priv = e_composer_header_table_get_instance_private (table);
 
 	rows = G_N_ELEMENTS (table->priv->headers);
 	gtk_table_resize (GTK_TABLE (table), rows, 4);

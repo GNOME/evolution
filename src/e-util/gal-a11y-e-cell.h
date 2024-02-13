@@ -70,6 +70,9 @@ struct _ActionInfo {
 	ACTION_FUNC do_action_func;
 };
 
+/* helper function for descendants to implement ArkAction interface */
+void gal_a11y_e_cell_atk_action_interface_init (AtkActionIface *iface);
+
 /* Standard Glib function */
 GType      gal_a11y_e_cell_get_type   (void);
 AtkObject *gal_a11y_e_cell_new        (ETableItem *item,
@@ -85,8 +88,6 @@ void       gal_a11y_e_cell_construct  (AtkObject  *object,
 				       gint         model_col,
 				       gint         view_col,
 				       gint         row);
-
-void	gal_a11y_e_cell_type_add_action_interface (GType type);
 
 gboolean gal_a11y_e_cell_add_action	(GalA11yECell	*cell,
 					 const gchar     *action_name,

@@ -21,18 +21,12 @@
 
 #include <calendar/gui/e-meeting-store.h>
 
-#define E_SETTINGS_MEETING_STORE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_MEETING_STORE, ESettingsMeetingStorePrivate))
-
 struct _ESettingsMeetingStorePrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsMeetingStore,
-	e_settings_meeting_store,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsMeetingStore, e_settings_meeting_store, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsMeetingStore))
 
 static void
 settings_meeting_store_constructed (GObject *object)
@@ -86,9 +80,6 @@ e_settings_meeting_store_class_init (ESettingsMeetingStoreClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (
-		class, sizeof (ESettingsMeetingStorePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = settings_meeting_store_constructed;
 
@@ -104,7 +95,7 @@ e_settings_meeting_store_class_finalize (ESettingsMeetingStoreClass *class)
 static void
 e_settings_meeting_store_init (ESettingsMeetingStore *extension)
 {
-	extension->priv = E_SETTINGS_MEETING_STORE_GET_PRIVATE (extension);
+	extension->priv = e_settings_meeting_store_get_instance_private (extension);
 }
 
 void

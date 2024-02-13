@@ -27,10 +27,6 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-#define E_SPELL_DICTIONARY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SPELL_DICTIONARY, ESpellDictionaryPrivate))
-
 /**
  * ESpellDictionary:
  *
@@ -50,10 +46,7 @@ struct _ESpellDictionaryPrivate {
 	gchar *collate_key;
 };
 
-G_DEFINE_TYPE (
-	ESpellDictionary,
-	e_spell_dictionary,
-	G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (ESpellDictionary, e_spell_dictionary, G_TYPE_OBJECT)
 
 struct _enchant_dict_description_data {
 	gchar *language_tag;
@@ -133,11 +126,9 @@ spell_dictionary_get_property (GObject *object,
 static void
 spell_dictionary_dispose (GObject *object)
 {
-	ESpellDictionaryPrivate *priv;
+	ESpellDictionary *self = E_SPELL_DICTIONARY (object);
 
-	priv = E_SPELL_DICTIONARY_GET_PRIVATE (object);
-
-	g_weak_ref_set (&priv->spell_checker, NULL);
+	g_weak_ref_set (&self->priv->spell_checker, NULL);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_spell_dictionary_parent_class)->dispose (object);
@@ -146,13 +137,11 @@ spell_dictionary_dispose (GObject *object)
 static void
 spell_dictionary_finalize (GObject *object)
 {
-	ESpellDictionaryPrivate *priv;
+	ESpellDictionary *self = E_SPELL_DICTIONARY (object);
 
-	priv = E_SPELL_DICTIONARY_GET_PRIVATE (object);
-
-	g_free (priv->name);
-	g_free (priv->code);
-	g_free (priv->collate_key);
+	g_free (self->priv->name);
+	g_free (self->priv->code);
+	g_free (self->priv->collate_key);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_spell_dictionary_parent_class)->finalize (object);
@@ -162,8 +151,6 @@ static void
 e_spell_dictionary_class_init (ESpellDictionaryClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (ESpellDictionaryPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = spell_dictionary_set_property;
@@ -186,7 +173,7 @@ e_spell_dictionary_class_init (ESpellDictionaryClass *class)
 static void
 e_spell_dictionary_init (ESpellDictionary *dictionary)
 {
-	dictionary->priv = E_SPELL_DICTIONARY_GET_PRIVATE (dictionary);
+	dictionary->priv = e_spell_dictionary_get_instance_private (dictionary);
 }
 
 ESpellDictionary *

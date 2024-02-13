@@ -40,10 +40,6 @@
 
 #include "e-mail-config-assistant.h"
 
-#define E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_ASSISTANT, EMailConfigAssistantPrivate))
-
 /* GtkAssistant's back button label. */
 #define BACK_BUTTON_LABEL g_dgettext ("gtk30", "_Back")
 
@@ -96,14 +92,10 @@ static gulong signals[LAST_SIGNAL];
  *     fashion faux pas these days.  But it's only used when submitting the
  *     the newly-configured account fails, so should rarely be seen. */
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailConfigAssistant,
-	e_mail_config_assistant,
-	GTK_TYPE_ASSISTANT,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK, NULL)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EMailConfigAssistant, e_mail_config_assistant, GTK_TYPE_ASSISTANT,
+	G_ADD_PRIVATE (EMailConfigAssistant)
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, NULL)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 config_lookup_skip_button_clicked_cb (GtkButton *button,
@@ -297,7 +289,7 @@ mail_config_assistant_config_lookup_run_cb (GObject *source_object,
 					    GAsyncResult *result,
 					    gpointer user_data)
 {
-	EMailConfigAssistantPrivate *priv;
+	EMailConfigAssistant *self;
 	ConfigLookupContext *context;
 	gint n_pages, ii, complete = 0;
 	gboolean any_configured = FALSE;
@@ -305,17 +297,17 @@ mail_config_assistant_config_lookup_run_cb (GObject *source_object,
 
 	context = (ConfigLookupContext *) user_data;
 
-	priv = E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE (context->assistant);
+	self = E_MAIL_CONFIG_ASSISTANT (context->assistant);
 
 	e_config_lookup_run_finish (E_CONFIG_LOOKUP (source_object), result);
 
 	is_complete = FALSE;
 
-	if (e_mail_config_service_page_auto_configure (priv->receiving_page, context->config_lookup, &is_complete)) {
+	if (e_mail_config_service_page_auto_configure (self->priv->receiving_page, context->config_lookup, &is_complete)) {
 		any_configured = TRUE;
 		/* Add the page to the visited pages hash table to
 		 * prevent calling e_mail_config_page_setup_defaults(). */
-		g_hash_table_add (priv->visited_pages, priv->receiving_page);
+		g_hash_table_add (self->priv->visited_pages, self->priv->receiving_page);
 
 		if (is_complete)
 			complete++;
@@ -323,11 +315,11 @@ mail_config_assistant_config_lookup_run_cb (GObject *source_object,
 
 	is_complete = FALSE;
 
-	if (e_mail_config_service_page_auto_configure (priv->sending_page, context->config_lookup, &is_complete)) {
+	if (e_mail_config_service_page_auto_configure (self->priv->sending_page, context->config_lookup, &is_complete)) {
 		any_configured = TRUE;
 		/* Add the page to the visited pages hash table to
 		 * prevent calling e_mail_config_page_setup_defaults(). */
-		g_hash_table_add (priv->visited_pages, priv->sending_page);
+		g_hash_table_add (self->priv->visited_pages, self->priv->sending_page);
 
 		if (is_complete)
 			complete++;
@@ -337,7 +329,7 @@ mail_config_assistant_config_lookup_run_cb (GObject *source_object,
 		if (any_configured) {
 			/* Set the initial display name to the email address
 			 * given so the user can just click past the Summary page. */
-			e_source_set_display_name (priv->identity_source, context->email_address);
+			e_source_set_display_name (self->priv->identity_source, context->email_address);
 		}
 
 		gtk_assistant_next_page (context->assistant);
@@ -348,11 +340,11 @@ mail_config_assistant_config_lookup_run_cb (GObject *source_object,
 	 * service pages and then skip to the Summary page. */
 
 	/* For the summary page... */
-	priv->auto_configured = TRUE;
+	self->priv->auto_configured = TRUE;
 
 	/* Also set the initial display name to the email address
 	 * given so the user can just click past the Summary page. */
-	e_source_set_display_name (priv->identity_source, context->email_address);
+	e_source_set_display_name (self->priv->identity_source, context->email_address);
 
 	/* Go to the next page (Receiving Email) before skipping to the
 	 * Summary Page to get it into GtkAssistant visited page history.
@@ -373,9 +365,9 @@ mail_config_assistant_config_lookup_run_cb (GObject *source_object,
 	g_warn_if_fail (ii < n_pages);
 	gtk_assistant_set_current_page (context->assistant, ii);
 
-exit:
+ exit:
 	/* Set the page invisible so we never revisit it. */
-	gtk_widget_set_visible (GTK_WIDGET (priv->lookup_page), FALSE);
+	gtk_widget_set_visible (GTK_WIDGET (self->priv->lookup_page), FALSE);
 
 	config_lookup_context_free (context);
 }
@@ -635,40 +627,35 @@ mail_config_assistant_get_property (GObject *object,
 static void
 mail_config_assistant_dispose (GObject *object)
 {
-	EMailConfigAssistantPrivate *priv;
+	EMailConfigAssistant *self = E_MAIL_CONFIG_ASSISTANT (object);
 
-	priv = E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE (object);
-	g_clear_object (&priv->session);
-	g_clear_object (&priv->identity_source);
-	g_clear_object (&priv->receiving_page);
-	g_clear_object (&priv->sending_page);
-	g_clear_object (&priv->summary_page);
-	g_clear_object (&priv->lookup_page);
-	g_clear_object (&priv->identity_page);
+	g_clear_object (&self->priv->session);
+	g_clear_object (&self->priv->identity_source);
+	g_clear_object (&self->priv->receiving_page);
+	g_clear_object (&self->priv->sending_page);
+	g_clear_object (&self->priv->summary_page);
+	g_clear_object (&self->priv->lookup_page);
+	g_clear_object (&self->priv->identity_page);
 
-	g_ptr_array_set_size (priv->account_sources, 0);
-	g_ptr_array_set_size (priv->transport_sources, 0);
+	g_ptr_array_set_size (self->priv->account_sources, 0);
+	g_ptr_array_set_size (self->priv->transport_sources, 0);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_assistant_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_assistant_parent_class)->dispose (object);
 }
 
 static void
 mail_config_assistant_finalize (GObject *object)
 {
-	EMailConfigAssistantPrivate *priv;
+	EMailConfigAssistant *self = E_MAIL_CONFIG_ASSISTANT (object);
 
-	priv = E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE (object);
+	g_ptr_array_free (self->priv->account_sources, TRUE);
+	g_ptr_array_free (self->priv->transport_sources, TRUE);
 
-	g_ptr_array_free (priv->account_sources, TRUE);
-	g_ptr_array_free (priv->transport_sources, TRUE);
-
-	g_hash_table_destroy (priv->visited_pages);
+	g_hash_table_destroy (self->priv->visited_pages);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_config_assistant_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_mail_config_assistant_parent_class)->finalize (object);
 }
 
 static void
@@ -982,21 +969,19 @@ static void
 mail_config_assistant_prepare (GtkAssistant *assistant,
                                GtkWidget *page)
 {
-	EMailConfigAssistantPrivate *priv;
+	EMailConfigAssistant *self = E_MAIL_CONFIG_ASSISTANT (assistant);
 	gboolean first_visit = FALSE;
 
-	priv = E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE (assistant);
-
 	/* Only setup defaults the first time a page is visited. */
-	if (!g_hash_table_contains (priv->visited_pages, page)) {
+	if (!g_hash_table_contains (self->priv->visited_pages, page)) {
 		if (E_IS_MAIL_CONFIG_PAGE (page))
 			e_mail_config_page_setup_defaults (
 				E_MAIL_CONFIG_PAGE (page));
-		g_hash_table_add (priv->visited_pages, page);
+		g_hash_table_add (self->priv->visited_pages, page);
 		first_visit = TRUE;
 	}
 
-	if (!priv->back_button) {
+	if (!self->priv->back_button) {
 		/* XXX Locate the GtkAssistant's internal "Go Back" button so
 		 *     we can temporarily rename it for autoconfigure results.
 		 *     Walking the container like this is an extremely naughty
@@ -1011,20 +996,20 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 	/* Are we viewing autoconfiguration results?  If so, temporarily
 	 * rename the back button to clarify that account details can be
 	 * revised.  Otherwise reset the button to its original label. */
-	if (priv->back_button != NULL) {
+	if (self->priv->back_button != NULL) {
 		gboolean auto_configure_results;
 		const gchar *label;
 
 		auto_configure_results =
 			E_IS_MAIL_CONFIG_SUMMARY_PAGE (page) &&
-			priv->auto_configured && first_visit;
+			self->priv->auto_configured && first_visit;
 
 		if (auto_configure_results)
 			label = _("_Revise Details");
 		else
 			label = gettext (BACK_BUTTON_LABEL);
 
-		gtk_button_set_label (priv->back_button, label);
+		gtk_button_set_label (self->priv->back_button, label);
 	}
 
 	if (E_IS_MAIL_CONFIG_LOOKUP_PAGE (page)) {
@@ -1036,9 +1021,9 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 		const gchar *email_address;
 		const gchar *extension_name;
 
-		registry = e_mail_session_get_registry (priv->session);
+		registry = e_mail_session_get_registry (self->priv->session);
 
-		source = priv->identity_source;
+		source = self->priv->identity_source;
 		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 		extension = e_source_get_extension (source, extension_name);
 		email_address = e_source_mail_identity_get_address (extension);
@@ -1066,7 +1051,7 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 		const gchar *email_address;
 		const gchar *extension_name;
 
-		source = priv->identity_source;
+		source = self->priv->identity_source;
 		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 		extension = e_source_get_extension (source, extension_name);
 		email_address = e_source_mail_identity_get_address (extension);
@@ -1075,7 +1060,7 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 		   thus when moving away from it the source's display name is updated
 		   with the new address, in case it changed. Do not modify the display
 		   name when the user changed it. */
-		if (g_strcmp0 (e_mail_config_summary_page_get_account_name (priv->summary_page), email_address) == 0)
+		if (g_strcmp0 (e_mail_config_summary_page_get_account_name (self->priv->summary_page), email_address) == 0)
 			e_source_set_display_name (source, "");
 	}
 
@@ -1090,7 +1075,7 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 		 * query a remote mail server, the password prompt
 		 * will have a more meaningful description. */
 
-		source = priv->identity_source;
+		source = self->priv->identity_source;
 		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 		extension = e_source_get_extension (source, extension_name);
 		email_address = e_source_mail_identity_get_address (extension);
@@ -1103,7 +1088,7 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 	    E_IS_MAIL_CONFIG_LOOKUP_PAGE (page) ||
 	    E_IS_MAIL_CONFIG_RECEIVING_PAGE (page)))
 		e_mail_config_identity_page_set_show_autodiscover_check (
-			E_MAIL_CONFIG_IDENTITY_PAGE (priv->identity_page), FALSE);
+			E_MAIL_CONFIG_IDENTITY_PAGE (self->priv->identity_page), FALSE);
 }
 
 static void
@@ -1146,8 +1131,6 @@ e_mail_config_assistant_class_init (EMailConfigAssistantClass *class)
 	GObjectClass *object_class;
 	GtkContainerClass *container_class;
 	GtkAssistantClass *assistant_class;
-
-	g_type_class_add_private (class, sizeof (EMailConfigAssistantPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_assistant_set_property;
@@ -1262,7 +1245,7 @@ e_mail_config_assistant_init (EMailConfigAssistant *assistant)
 		gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
 	g_object_unref (builder);
 
-	assistant->priv = E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE (assistant);
+	assistant->priv = e_mail_config_assistant_get_instance_private (assistant);
 
 	assistant->priv->account_sources =
 		g_ptr_array_new_with_free_func (

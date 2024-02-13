@@ -29,16 +29,12 @@
 #include "mail/em-composer-utils.h"
 #include "mail/em-utils.h"
 
-#define E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_ATTACHMENT_HANDLER, EMailAttachmentHandlerPrivate))
-
 struct _EMailAttachmentHandlerPrivate {
 	EMailBackend *backend;
 };
 
-static gpointer parent_class;
-static GType mail_attachment_handler_type;
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailAttachmentHandler, e_mail_attachment_handler, E_TYPE_ATTACHMENT_HANDLER, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailAttachmentHandler))
 
 static const gchar *ui =
 "<ui>"
@@ -231,19 +227,17 @@ static void
 mail_attachment_handler_forward_with_style (EAttachmentHandler *handler,
 					    EMailForwardStyle style)
 {
-	EMailAttachmentHandlerPrivate *priv;
+	EMailAttachmentHandler *self = E_MAIL_ATTACHMENT_HANDLER (handler);
 	CamelMimeMessage *message;
 	CamelFolder *folder;
 	CreateComposerData *ccd;
 	EShell *shell;
 
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
-
 	message = mail_attachment_handler_get_selected_message (handler);
 	g_return_if_fail (message != NULL);
 
 	folder = mail_attachment_handler_guess_folder_ref (handler);
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (priv->backend));
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (self->priv->backend));
 
 	ccd = g_slice_new0 (CreateComposerData);
 	ccd->message = message;
@@ -272,18 +266,16 @@ static void
 mail_attachment_handler_reply (EAttachmentHandler *handler,
                                EMailReplyType reply_type)
 {
-	EMailAttachmentHandlerPrivate *priv;
+	EMailAttachmentHandler *self = E_MAIL_ATTACHMENT_HANDLER (handler);
 	CamelMimeMessage *message;
 	CreateComposerData *ccd;
 	EShellBackend *shell_backend;
 	EShell *shell;
 
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
-
 	message = mail_attachment_handler_get_selected_message (handler);
 	g_return_if_fail (message != NULL);
 
-	shell_backend = E_SHELL_BACKEND (priv->backend);
+	shell_backend = E_SHELL_BACKEND (self->priv->backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	ccd = g_slice_new0 (CreateComposerData);
@@ -319,18 +311,16 @@ static void
 mail_attachment_handler_message_edit (GtkAction *action,
 				      EAttachmentHandler *handler)
 {
-	EMailAttachmentHandlerPrivate *priv;
+	EMailAttachmentHandler *self = E_MAIL_ATTACHMENT_HANDLER (handler);
 	CamelMimeMessage *message;
 	CamelFolder *folder;
 	CreateComposerData *ccd;
 	EShell *shell;
 
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
-
 	message = mail_attachment_handler_get_selected_message (handler);
 	g_return_if_fail (message != NULL);
 
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (priv->backend));
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (self->priv->backend));
 	folder = mail_attachment_handler_guess_folder_ref (handler);
 
 	ccd = g_slice_new0 (CreateComposerData);
@@ -364,17 +354,15 @@ static void
 mail_attachment_handler_redirect (GtkAction *action,
 				  EAttachmentHandler *handler)
 {
-	EMailAttachmentHandlerPrivate *priv;
+	EMailAttachmentHandler *self = E_MAIL_ATTACHMENT_HANDLER (handler);
 	CamelMimeMessage *message;
 	CreateComposerData *ccd;
 	EShell *shell;
 
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
-
 	message = mail_attachment_handler_get_selected_message (handler);
 	g_return_if_fail (message != NULL);
 
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (priv->backend));
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (self->priv->backend));
 
 	ccd = g_slice_new0 (CreateComposerData);
 	ccd->message = message;
@@ -653,7 +641,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
                                     EAttachmentHandler *handler)
 {
 	static GdkAtom atom = GDK_NONE;
-	EMailAttachmentHandlerPrivate *priv;
+	EMailAttachmentHandler *self = E_MAIL_ATTACHMENT_HANDLER (handler);
 	CamelDataWrapper *wrapper;
 	CamelMultipart *multipart;
 	CamelMimePart *mime_part;
@@ -672,12 +660,11 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 		return;
 
 	store = e_attachment_view_get_store (view);
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	session = e_mail_backend_get_session (priv->backend);
+	session = e_mail_backend_get_session (self->priv->backend);
 
 	em_utils_selection_uidlist_foreach_sync (selection_data, session,
 		gather_x_uid_list_messages_cb, &messages, NULL, &local_error);
@@ -817,20 +804,18 @@ exit:
 static void
 mail_attachment_handler_dispose (GObject *object)
 {
-	EMailAttachmentHandlerPrivate *priv;
+	EMailAttachmentHandler *self = E_MAIL_ATTACHMENT_HANDLER (object);
 
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (object);
-
-	g_clear_object (&priv->backend);
+	g_clear_object (&self->priv->backend);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_mail_attachment_handler_parent_class)->dispose (object);
 }
 
 static void
 mail_attachment_handler_constructed (GObject *object)
 {
-	EMailAttachmentHandlerPrivate *priv;
+	EMailAttachmentHandler *self = E_MAIL_ATTACHMENT_HANDLER (object);
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EAttachmentHandler *handler;
@@ -840,14 +825,13 @@ mail_attachment_handler_constructed (GObject *object)
 	GError *error = NULL;
 
 	handler = E_ATTACHMENT_HANDLER (object);
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_mail_attachment_handler_parent_class)->constructed (object);
 
 	shell = e_shell_get_default ();
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
-	priv->backend = E_MAIL_BACKEND (g_object_ref (shell_backend));
+	self->priv->backend = E_MAIL_BACKEND (g_object_ref (shell_backend));
 
 	view = e_attachment_handler_get_view (handler);
 
@@ -902,13 +886,10 @@ mail_attachment_handler_get_target_table (EAttachmentHandler *handler,
 }
 
 static void
-mail_attachment_handler_class_init (EMailAttachmentHandlerClass *class)
+e_mail_attachment_handler_class_init (EMailAttachmentHandlerClass *class)
 {
 	GObjectClass *object_class;
 	EAttachmentHandlerClass *handler_class;
-
-	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (EMailAttachmentHandlerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = mail_attachment_handler_dispose;
@@ -920,34 +901,21 @@ mail_attachment_handler_class_init (EMailAttachmentHandlerClass *class)
 }
 
 static void
-mail_attachment_handler_init (EMailAttachmentHandler *handler)
+e_mail_attachment_handler_class_finalize (EMailAttachmentHandlerClass *klass)
 {
-	handler->priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 }
 
-GType
-e_mail_attachment_handler_get_type (void)
+static void
+e_mail_attachment_handler_init (EMailAttachmentHandler *handler)
 {
-	return mail_attachment_handler_type;
+	handler->priv = e_mail_attachment_handler_get_instance_private (handler);
 }
 
 void
-e_mail_attachment_handler_register_type (GTypeModule *type_module)
+e_mail_attachment_handler_type_register (GTypeModule *type_module)
 {
-	static const GTypeInfo type_info = {
-		sizeof (EMailAttachmentHandlerClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) mail_attachment_handler_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (EMailAttachmentHandler),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) mail_attachment_handler_init,
-		NULL   /* value_table */
-	};
-
-	mail_attachment_handler_type = g_type_module_register_type (
-		type_module, E_TYPE_ATTACHMENT_HANDLER,
-		"EMailAttachmentHandler", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_mail_attachment_handler_register_type (type_module);
 }

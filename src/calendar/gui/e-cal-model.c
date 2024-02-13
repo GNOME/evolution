@@ -45,14 +45,6 @@ struct _ECalModelComponentPrivate {
 	gint icon_index;
 };
 
-#define E_CAL_MODEL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_MODEL, ECalModelPrivate))
-
-#define E_CAL_MODEL_COMPONENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_MODEL_COMPONENT, ECalModelComponentPrivate))
-
 struct _ECalModelPrivate {
 	ECalDataModel *data_model;
 	ESourceRegistry *registry;
@@ -189,11 +181,12 @@ static void e_cal_model_cal_data_model_subscriber_init (ECalDataModelSubscriberI
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (ECalModel, e_cal_model, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (ECalModel)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (E_TYPE_TABLE_MODEL, e_cal_model_table_model_init)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CAL_DATA_MODEL_SUBSCRIBER, e_cal_model_cal_data_model_subscriber_init))
 
-G_DEFINE_TYPE (ECalModelComponent, e_cal_model_component, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (ECalModelComponent, e_cal_model_component, G_TYPE_OBJECT)
 
 static void
 e_cal_model_component_set_icalcomponent (ECalModelComponent *comp_data,
@@ -244,7 +237,6 @@ e_cal_model_component_class_init (ECalModelComponentClass *class)
 	GObjectClass *object_class;
 
 	object_class = (GObjectClass *) class;
-	g_type_class_add_private (class, sizeof (ECalModelComponentPrivate));
 
 	object_class->finalize = e_cal_model_component_finalize;
 }
@@ -252,7 +244,7 @@ e_cal_model_component_class_init (ECalModelComponentClass *class)
 static void
 e_cal_model_component_init (ECalModelComponent *comp)
 {
-	comp->priv = E_CAL_MODEL_COMPONENT_GET_PRIVATE (comp);
+	comp->priv = e_cal_model_component_get_instance_private (comp);
 	comp->priv->icon_index = -1;
 	comp->is_new_component = FALSE;
 }
@@ -1139,17 +1131,15 @@ cal_model_constructed (GObject *object)
 static void
 cal_model_dispose (GObject *object)
 {
-	ECalModelPrivate *priv;
+	ECalModel *self = E_CAL_MODEL (object);
 
-	priv = E_CAL_MODEL_GET_PRIVATE (object);
+	g_clear_object (&self->priv->data_model);
+	g_clear_object (&self->priv->registry);
+	g_clear_object (&self->priv->shell);
+	g_clear_object (&self->priv->client_cache);
+	g_clear_object (&self->priv->zone);
 
-	g_clear_object (&priv->data_model);
-	g_clear_object (&priv->registry);
-	g_clear_object (&priv->shell);
-	g_clear_object (&priv->client_cache);
-	g_clear_object (&priv->zone);
-
-	g_clear_pointer (&priv->default_source_uid, g_free);
+	g_clear_pointer (&self->priv->default_source_uid, g_free);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_cal_model_parent_class)->dispose (object);
@@ -1158,24 +1148,22 @@ cal_model_dispose (GObject *object)
 static void
 cal_model_finalize (GObject *object)
 {
-	ECalModelPrivate *priv;
+	ECalModel *self = E_CAL_MODEL (object);
 	gint ii;
 
-	priv = E_CAL_MODEL_GET_PRIVATE (object);
+	g_free (self->priv->default_category);
 
-	g_free (priv->default_category);
-
-	for (ii = 0; ii < priv->objects->len; ii++) {
+	for (ii = 0; ii < self->priv->objects->len; ii++) {
 		ECalModelComponent *comp_data;
 
-		comp_data = g_ptr_array_index (priv->objects, ii);
+		comp_data = g_ptr_array_index (self->priv->objects, ii);
 		if (comp_data == NULL) {
 			g_warning ("comp_data is null\n");
 			continue;
 		}
 		g_object_unref (comp_data);
 	}
-	g_ptr_array_free (priv->objects, TRUE);
+	g_ptr_array_free (self->priv->objects, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_cal_model_parent_class)->finalize (object);
@@ -2105,8 +2093,6 @@ e_cal_model_class_init (ECalModelClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ECalModelPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = cal_model_set_property;
 	object_class->get_property = cal_model_get_property;
@@ -2636,7 +2622,7 @@ e_cal_model_cal_data_model_subscriber_init (ECalDataModelSubscriberInterface *if
 static void
 e_cal_model_init (ECalModel *model)
 {
-	model->priv = E_CAL_MODEL_GET_PRIVATE (model);
+	model->priv = e_cal_model_get_instance_private (model);
 
 	/* match none by default */
 	model->priv->start = (time_t) -1;

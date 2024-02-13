@@ -26,11 +26,9 @@
  * proxy profile, or to the built-in default proxy profile.
  **/
 
-#include "e-proxy-link-selector.h"
+#include "evolution-config.h"
 
-#define E_PROXY_LINK_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PROXY_LINK_SELECTOR, EProxyLinkSelectorPrivate))
+#include "e-proxy-link-selector.h"
 
 struct _EProxyLinkSelectorPrivate {
 	ESource *target_source;
@@ -42,10 +40,7 @@ enum {
 	PROP_TARGET_SOURCE
 };
 
-G_DEFINE_TYPE (
-	EProxyLinkSelector,
-	e_proxy_link_selector,
-	E_TYPE_SOURCE_SELECTOR)
+G_DEFINE_TYPE_WITH_PRIVATE (EProxyLinkSelector, e_proxy_link_selector, E_TYPE_SOURCE_SELECTOR)
 
 static gboolean
 proxy_link_selector_target_source_to_show_toggles (GBinding *binding,
@@ -103,11 +98,9 @@ proxy_link_selector_get_property (GObject *object,
 static void
 proxy_link_selector_dispose (GObject *object)
 {
-	EProxyLinkSelectorPrivate *priv;
+	EProxyLinkSelector *self = E_PROXY_LINK_SELECTOR (object);
 
-	priv = E_PROXY_LINK_SELECTOR_GET_PRIVATE (object);
-
-	g_clear_object (&priv->target_source);
+	g_clear_object (&self->priv->target_source);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_proxy_link_selector_parent_class)->dispose (object);
@@ -116,12 +109,10 @@ proxy_link_selector_dispose (GObject *object)
 static void
 proxy_link_selector_constructed (GObject *object)
 {
-	EProxyLinkSelectorPrivate *priv;
+	EProxyLinkSelector *self = E_PROXY_LINK_SELECTOR (object);
 	ESourceSelector *selector;
 	ESourceRegistry *registry;
 	ESource *builtin_proxy;
-
-	priv = E_PROXY_LINK_SELECTOR_GET_PRIVATE (object);
 
 	selector = E_SOURCE_SELECTOR (object);
 	registry = e_source_selector_get_registry (selector);
@@ -131,8 +122,8 @@ proxy_link_selector_constructed (GObject *object)
 	builtin_proxy = e_source_registry_ref_builtin_proxy (registry);
 	g_return_if_fail (builtin_proxy != NULL);
 
-	priv->target_source = g_object_ref (builtin_proxy);
-	priv->fallback_source = g_object_ref (builtin_proxy);
+	self->priv->target_source = g_object_ref (builtin_proxy);
+	self->priv->fallback_source = g_object_ref (builtin_proxy);
 
 	g_object_unref (builtin_proxy);
 
@@ -145,7 +136,7 @@ proxy_link_selector_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE,
 		proxy_link_selector_target_source_to_show_toggles,
 		NULL,
-		g_object_ref (priv->fallback_source),
+		g_object_ref (self->priv->fallback_source),
 		(GDestroyNotify) g_object_unref);
 
 	/* Chain up to parent's constructed() method. */
@@ -231,8 +222,6 @@ e_proxy_link_selector_class_init (EProxyLinkSelectorClass *class)
 	GObjectClass *object_class;
 	ESourceSelectorClass *source_selector_class;
 
-	g_type_class_add_private (class, sizeof (EProxyLinkSelectorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = proxy_link_selector_set_property;
 	object_class->get_property = proxy_link_selector_get_property;
@@ -261,7 +250,7 @@ e_proxy_link_selector_class_init (EProxyLinkSelectorClass *class)
 static void
 e_proxy_link_selector_init (EProxyLinkSelector *selector)
 {
-	selector->priv = E_PROXY_LINK_SELECTOR_GET_PRIVATE (selector);
+	selector->priv = e_proxy_link_selector_get_instance_private (selector);
 }
 
 /**

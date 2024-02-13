@@ -21,30 +21,22 @@
 
 #include <e-util/e-util.h>
 
-#define E_SETTINGS_NAME_SELECTOR_ENTRY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_NAME_SELECTOR_ENTRY, ESettingsNameSelectorEntryPrivate))
-
 struct _ESettingsNameSelectorEntryPrivate {
 	GSettings *settings;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsNameSelectorEntry,
-	e_settings_name_selector_entry,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsNameSelectorEntry, e_settings_name_selector_entry, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsNameSelectorEntry))
 
 static void
 settings_name_selector_entry_dispose (GObject *object)
 {
-	ESettingsNameSelectorEntryPrivate *priv;
+	ESettingsNameSelectorEntry *self = E_SETTINGS_NAME_SELECTOR_ENTRY (object);
 
-	priv = E_SETTINGS_NAME_SELECTOR_ENTRY_GET_PRIVATE (object);
-	g_clear_object (&priv->settings);
+	g_clear_object (&self->priv->settings);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_settings_name_selector_entry_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_settings_name_selector_entry_parent_class)->dispose (object);
 }
 
 static void
@@ -78,9 +70,6 @@ e_settings_name_selector_entry_class_init (ESettingsNameSelectorEntryClass *clas
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (
-		class, sizeof (ESettingsNameSelectorEntryPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = settings_name_selector_entry_dispose;
 	object_class->constructed = settings_name_selector_entry_constructed;
@@ -97,10 +86,8 @@ e_settings_name_selector_entry_class_finalize (ESettingsNameSelectorEntryClass *
 static void
 e_settings_name_selector_entry_init (ESettingsNameSelectorEntry *extension)
 {
-	extension->priv =
-		E_SETTINGS_NAME_SELECTOR_ENTRY_GET_PRIVATE (extension);
-	extension->priv->settings =
-		e_util_ref_settings ("org.gnome.evolution.addressbook");
+	extension->priv = e_settings_name_selector_entry_get_instance_private (extension);
+	extension->priv->settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 }
 
 void

@@ -29,10 +29,6 @@
 #include "ea-calendar.h"
 #include "calendar-config.h"
 
-#define E_WEEK_VIEW_MAIN_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEEK_VIEW_MAIN_ITEM, EWeekViewMainItemPrivate))
-
 struct _EWeekViewMainItemPrivate {
 	EWeekView *week_view;
 };
@@ -42,10 +38,7 @@ enum {
 	PROP_WEEK_VIEW
 };
 
-G_DEFINE_TYPE (
-	EWeekViewMainItem,
-	e_week_view_main_item,
-	GNOME_TYPE_CANVAS_ITEM)
+G_DEFINE_TYPE_WITH_PRIVATE (EWeekViewMainItem, e_week_view_main_item, GNOME_TYPE_CANVAS_ITEM)
 
 static void
 week_view_main_item_draw_day (EWeekViewMainItem *main_item,
@@ -329,10 +322,9 @@ week_view_main_item_get_property (GObject *object,
 static void
 week_view_main_item_dispose (GObject *object)
 {
-	EWeekViewMainItemPrivate *priv;
+	EWeekViewMainItem *self = E_WEEK_VIEW_MAIN_ITEM (object);
 
-	priv = E_WEEK_VIEW_MAIN_ITEM_GET_PRIVATE (object);
-	g_clear_object (&priv->week_view);
+	g_clear_object (&self->priv->week_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_week_view_main_item_parent_class)->dispose (object);
@@ -414,8 +406,6 @@ e_week_view_main_item_class_init (EWeekViewMainItemClass *class)
 	GObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	g_type_class_add_private (class, sizeof (EWeekViewMainItemPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = week_view_main_item_set_property;
 	object_class->get_property = week_view_main_item_get_property;
@@ -443,7 +433,7 @@ e_week_view_main_item_class_init (EWeekViewMainItemClass *class)
 static void
 e_week_view_main_item_init (EWeekViewMainItem *main_item)
 {
-	main_item->priv = E_WEEK_VIEW_MAIN_ITEM_GET_PRIVATE (main_item);
+	main_item->priv = e_week_view_main_item_get_instance_private (main_item);
 }
 
 EWeekView *

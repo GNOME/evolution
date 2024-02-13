@@ -41,10 +41,6 @@
 #define localtime_r(tp,tmp) memcpy(tmp,localtime(tp),sizeof(struct tm))
 #endif
 
-#define E_FILTER_DATESPEC_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_FILTER_DATESPEC, EFilterDatespecPrivate))
-
 #define d(x)
 
 typedef struct {
@@ -97,10 +93,7 @@ struct _EFilterDatespecPrivate {
 	gint span;
 };
 
-G_DEFINE_TYPE (
-	EFilterDatespec,
-	e_filter_datespec,
-	E_TYPE_FILTER_ELEMENT)
+G_DEFINE_TYPE_WITH_PRIVATE (EFilterDatespec, e_filter_datespec, E_TYPE_FILTER_ELEMENT)
 
 static gint
 get_best_span (time_t val)
@@ -177,14 +170,14 @@ set_button (EFilterDatespec *fds)
 static void
 get_values (EFilterDatespec *fds)
 {
-	EFilterDatespecPrivate *p = E_FILTER_DATESPEC_GET_PRIVATE (fds);
+	EFilterDatespec *self = E_FILTER_DATESPEC (fds);
 
 	switch (fds->priv->type) {
 	case FDST_SPECIFIED: {
 		guint year, month, day;
 		struct tm tm;
 
-		gtk_calendar_get_date ((GtkCalendar *) p->calendar_specify, &year, &month, &day);
+		gtk_calendar_get_date ((GtkCalendar *) self->priv->calendar_specify, &year, &month, &day);
 		memset (&tm, 0, sizeof (tm));
 		tm.tm_mday = day;
 		tm.tm_year = year - 1900;
@@ -196,29 +189,28 @@ get_values (EFilterDatespec *fds)
 	case FDST_X_AGO: {
 		gint val;
 
-		val = gtk_spin_button_get_value_as_int ((GtkSpinButton *) p->spin_relative);
-		fds->value = timespans[p->span].seconds * val;
+		val = gtk_spin_button_get_value_as_int ((GtkSpinButton *) self->priv->spin_relative);
+		fds->value = timespans[self->priv->span].seconds * val;
 		break; }
 	case FDST_NOW:
 	default:
 		break;
 	}
 
-	fds->type = p->type;
+	fds->type = self->priv->type;
 }
 
 static void
 set_values (EFilterDatespec *fds)
 {
 	gint note_type;
+	EFilterDatespec *self = E_FILTER_DATESPEC (fds);
 
-	EFilterDatespecPrivate *p = E_FILTER_DATESPEC_GET_PRIVATE (fds);
+	self->priv->type = fds->type == FDST_UNKNOWN ? FDST_NOW : fds->type;
 
-	p->type = fds->type == FDST_UNKNOWN ? FDST_NOW : fds->type;
+	note_type = self->priv->type == FDST_X_FUTURE ? FDST_X_AGO : self->priv->type; /* FUTURE and AGO use the same notebook pages/etc. */
 
-	note_type = p->type==FDST_X_FUTURE ? FDST_X_AGO : p->type; /* FUTURE and AGO use the same notebook pages/etc. */
-
-	switch (p->type) {
+	switch (self->priv->type) {
 	case FDST_NOW:
 	case FDST_UNKNOWN:
 		/* noop */
@@ -228,26 +220,26 @@ set_values (EFilterDatespec *fds)
 		struct tm tm;
 
 		localtime_r (&fds->value, &tm);
-		gtk_calendar_select_month ((GtkCalendar *) p->calendar_specify, tm.tm_mon, tm.tm_year + 1900);
-		gtk_calendar_select_day ((GtkCalendar *) p->calendar_specify, tm.tm_mday);
+		gtk_calendar_select_month ((GtkCalendar *) self->priv->calendar_specify, tm.tm_mon, tm.tm_year + 1900);
+		gtk_calendar_select_day ((GtkCalendar *) self->priv->calendar_specify, tm.tm_mday);
 		break;
 	}
 	case FDST_X_AGO:
-		p->span = get_best_span (fds->value);
-		gtk_spin_button_set_value ((GtkSpinButton *) p->spin_relative, fds->value / timespans[p->span].seconds);
-		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_relative), p->span);
-		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_past_future), 0);
+		self->priv->span = get_best_span (fds->value);
+		gtk_spin_button_set_value ((GtkSpinButton *) self->priv->spin_relative, fds->value / timespans[self->priv->span].seconds);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->combobox_relative), self->priv->span);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->combobox_past_future), 0);
 		break;
 	case FDST_X_FUTURE:
-		p->span = get_best_span (fds->value);
-		gtk_spin_button_set_value ((GtkSpinButton *) p->spin_relative, fds->value / timespans[p->span].seconds);
-		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_relative), p->span);
-		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_past_future), 1);
+		self->priv->span = get_best_span (fds->value);
+		gtk_spin_button_set_value ((GtkSpinButton *) self->priv->spin_relative, fds->value / timespans[self->priv->span].seconds);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->combobox_relative), self->priv->span);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->combobox_past_future), 1);
 		break;
 	}
 
-	gtk_notebook_set_current_page ((GtkNotebook *) p->notebook_type, note_type);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_type), note_type);
+	gtk_notebook_set_current_page ((GtkNotebook *) self->priv->notebook_type, note_type);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->combobox_type), note_type);
 }
 
 static void
@@ -279,7 +271,7 @@ static void
 button_clicked (GtkButton *button,
                 EFilterDatespec *fds)
 {
-	EFilterDatespecPrivate *p = E_FILTER_DATESPEC_GET_PRIVATE (fds);
+	EFilterDatespec *self = E_FILTER_DATESPEC (fds);
 	GtkWidget *content_area;
 	GtkWidget *toplevel;
 	GtkDialog *dialog;
@@ -301,23 +293,23 @@ button_clicked (GtkButton *button,
 		_("_OK"), GTK_RESPONSE_OK,
 		NULL);
 
-	p->notebook_type = e_builder_get_widget (builder, "notebook_type");
-	p->combobox_type = e_builder_get_widget (builder, "combobox_type");
-	p->calendar_specify = e_builder_get_widget (builder, "calendar_specify");
-	p->spin_relative = e_builder_get_widget (builder, "spin_relative");
-	p->combobox_relative = e_builder_get_widget (builder, "combobox_relative");
-	p->combobox_past_future = e_builder_get_widget (builder, "combobox_past_future");
+	self->priv->notebook_type = e_builder_get_widget (builder, "notebook_type");
+	self->priv->combobox_type = e_builder_get_widget (builder, "combobox_type");
+	self->priv->calendar_specify = e_builder_get_widget (builder, "calendar_specify");
+	self->priv->spin_relative = e_builder_get_widget (builder, "spin_relative");
+	self->priv->combobox_relative = e_builder_get_widget (builder, "combobox_relative");
+	self->priv->combobox_past_future = e_builder_get_widget (builder, "combobox_past_future");
 
 	set_values (fds);
 
 	g_signal_connect (
-		p->combobox_type, "changed",
+		self->priv->combobox_type, "changed",
 		G_CALLBACK (set_combobox_type), fds);
 	g_signal_connect (
-		p->combobox_relative, "changed",
+		self->priv->combobox_relative, "changed",
 		G_CALLBACK (set_combobox_relative), fds);
 	g_signal_connect (
-		p->combobox_past_future, "changed",
+		self->priv->combobox_past_future, "changed",
 		G_CALLBACK (set_combobox_past_future), fds);
 
 	content_area = gtk_dialog_get_content_area (dialog);
@@ -501,8 +493,6 @@ e_filter_datespec_class_init (EFilterDatespecClass *class)
 {
 	EFilterElementClass *filter_element_class;
 
-	g_type_class_add_private (class, sizeof (EFilterDatespecPrivate));
-
 	filter_element_class = E_FILTER_ELEMENT_CLASS (class);
 	filter_element_class->validate = filter_datespec_validate;
 	filter_element_class->eq = filter_datespec_eq;
@@ -516,7 +506,7 @@ e_filter_datespec_class_init (EFilterDatespecClass *class)
 static void
 e_filter_datespec_init (EFilterDatespec *datespec)
 {
-	datespec->priv = E_FILTER_DATESPEC_GET_PRIVATE (datespec);
+	datespec->priv = e_filter_datespec_get_instance_private (datespec);
 	datespec->type = FDST_UNKNOWN;
 }
 

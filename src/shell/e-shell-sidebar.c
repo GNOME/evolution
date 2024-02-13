@@ -32,10 +32,6 @@
 
 #include <shell/e-shell-view.h>
 
-#define E_SHELL_SIDEBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_SIDEBAR, EShellSidebarPrivate))
-
 struct _EShellSidebarPrivate {
 
 	gpointer shell_view;  /* weak pointer */
@@ -60,14 +56,10 @@ enum {
 static void	e_shell_sidebar_alert_sink_init
 					(EAlertSinkInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EShellSidebar,
-	e_shell_sidebar,
-	GTK_TYPE_BIN,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK, e_shell_sidebar_alert_sink_init)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EShellSidebar, e_shell_sidebar, GTK_TYPE_BIN,
+	G_ADD_PRIVATE (EShellSidebar)
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, e_shell_sidebar_alert_sink_init)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 shell_sidebar_set_shell_view (EShellSidebar *shell_sidebar,
@@ -155,25 +147,23 @@ shell_sidebar_get_property (GObject *object,
 static void
 shell_sidebar_dispose (GObject *object)
 {
-	EShellSidebarPrivate *priv;
+	EShellSidebar *self = E_SHELL_SIDEBAR (object);
 
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (object);
-
-	if (priv->shell_view != NULL) {
+	if (self->priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
-			G_OBJECT (priv->shell_view), &priv->shell_view);
-		priv->shell_view = NULL;
+			G_OBJECT (self->priv->shell_view), &self->priv->shell_view);
+		self->priv->shell_view = NULL;
 	}
 
 	/* Unparent the widget before destroying it to avoid
 	 * writing a custom GtkContainer::remove() method. */
 
-	if (priv->event_box != NULL) {
-		gtk_widget_unparent (priv->event_box);
-		gtk_widget_destroy (priv->event_box);
+	if (self->priv->event_box != NULL) {
+		gtk_widget_unparent (self->priv->event_box);
+		gtk_widget_destroy (self->priv->event_box);
 	}
 
-	g_clear_object (&priv->event_box);
+	g_clear_object (&self->priv->event_box);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_sidebar_parent_class)->dispose (object);
@@ -182,13 +172,11 @@ shell_sidebar_dispose (GObject *object)
 static void
 shell_sidebar_finalize (GObject *object)
 {
-	EShellSidebarPrivate *priv;
+	EShellSidebar *self = E_SHELL_SIDEBAR (object);
 
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (object);
-
-	g_free (priv->icon_name);
-	g_free (priv->primary_text);
-	g_free (priv->secondary_text);
+	g_free (self->priv->icon_name);
+	g_free (self->priv->primary_text);
+	g_free (self->priv->secondary_text);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_shell_sidebar_parent_class)->finalize (object);
@@ -245,16 +233,14 @@ shell_sidebar_get_preferred_height (GtkWidget *widget,
                                     gint *minimum,
                                     gint *natural)
 {
-	EShellSidebarPrivate *priv;
+	EShellSidebar *self = E_SHELL_SIDEBAR (widget);
 	gint child_min, child_nat;
 	GtkWidget *child;
-
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (widget);
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
 	gtk_widget_get_preferred_height (child, minimum, natural);
 
-	child = priv->event_box;
+	child = self->priv->event_box;
 	gtk_widget_get_preferred_height (child, &child_min, &child_nat);
 
 	*minimum += child_min;
@@ -265,16 +251,14 @@ static void
 shell_sidebar_size_allocate (GtkWidget *widget,
                              GtkAllocation *allocation)
 {
-	EShellSidebarPrivate *priv;
+	EShellSidebar *self = E_SHELL_SIDEBAR (widget);
 	GtkAllocation child_allocation;
 	GtkRequisition child_requisition;
 	GtkWidget *child;
 
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (widget);
-
 	gtk_widget_set_allocation (widget, allocation);
 
-	child = priv->event_box;
+	child = self->priv->event_box;
 	gtk_widget_get_preferred_size (child, &child_requisition, NULL);
 
 	child_allocation.x = allocation->x;
@@ -299,16 +283,13 @@ shell_sidebar_forall (GtkContainer *container,
                       GtkCallback callback,
                       gpointer callback_data)
 {
-	EShellSidebarPrivate *priv;
+	EShellSidebar *self = E_SHELL_SIDEBAR (container);
 
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (container);
-
-	if (include_internals && callback && priv->event_box)
-		callback (priv->event_box, callback_data);
+	if (include_internals && callback && self->priv->event_box)
+		callback (self->priv->event_box, callback_data);
 
 	/* Chain up to parent's forall() method. */
-	GTK_CONTAINER_CLASS (e_shell_sidebar_parent_class)->forall (
-		container, include_internals, callback, callback_data);
+	GTK_CONTAINER_CLASS (e_shell_sidebar_parent_class)->forall (container, include_internals, callback, callback_data);
 }
 
 static void
@@ -336,8 +317,6 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
-
-	g_type_class_add_private (class, sizeof (EShellSidebarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = shell_sidebar_set_property;
@@ -436,7 +415,7 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 	PangoAttrList *attribute_list;
 	const gchar *icon_name;
 
-	shell_sidebar->priv = E_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
+	shell_sidebar->priv = e_shell_sidebar_get_instance_private (shell_sidebar);
 
 	gtk_widget_set_has_window (GTK_WIDGET (shell_sidebar), FALSE);
 

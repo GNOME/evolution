@@ -483,7 +483,7 @@ gal_a11y_e_cell_action_do_action (AtkAction *action,
 	return TRUE;
 }
 
-static void
+void
 gal_a11y_e_cell_atk_action_interface_init (AtkActionIface *iface)
 {
   g_return_if_fail (iface != NULL);
@@ -494,21 +494,6 @@ gal_a11y_e_cell_atk_action_interface_init (AtkActionIface *iface)
   iface->get_description = gal_a11y_e_cell_action_get_description;
   iface->set_description = gal_a11y_e_cell_action_set_description;
   iface->get_keybinding = gal_a11y_e_cell_action_get_keybinding;
-}
-
-void
-gal_a11y_e_cell_type_add_action_interface (GType type)
-{
-	static const GInterfaceInfo atk_action_info =
-	{
-	(GInterfaceInitFunc) gal_a11y_e_cell_atk_action_interface_init,
-	(GInterfaceFinalizeFunc) NULL,
-	NULL
-	};
-
-	g_type_add_interface_static (
-		type, ATK_TYPE_ACTION,
-		&atk_action_info);
 }
 
 gboolean

@@ -25,10 +25,6 @@
 
 #include <glib/gi18n-lib.h>
 
-#define E_COMPOSER_HEADER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_HEADER, EComposerHeaderPrivate))
-
 struct _EComposerHeaderPrivate {
 	gchar *label;
 	gboolean button;
@@ -38,10 +34,6 @@ struct _EComposerHeaderPrivate {
 	guint sensitive : 1;
 	guint visible : 1;
 };
-
-#define E_COMPOSER_HEADER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_HEADER, EComposerHeaderPrivate))
 
 enum {
 	PROP_0,
@@ -60,10 +52,7 @@ enum {
 
 static guint signal_ids[LAST_SIGNAL];
 
-G_DEFINE_ABSTRACT_TYPE (
-	EComposerHeader,
-	e_composer_header,
-	G_TYPE_OBJECT)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (EComposerHeader, e_composer_header, G_TYPE_OBJECT)
 
 static void
 composer_header_button_clicked_cb (GtkButton *button,
@@ -89,17 +78,15 @@ composer_header_set_property (GObject *object,
                               const GValue *value,
                               GParamSpec *pspec)
 {
-	EComposerHeaderPrivate *priv;
-
-	priv = E_COMPOSER_HEADER_GET_PRIVATE (object);
+	EComposerHeader *self = E_COMPOSER_HEADER (object);
 
 	switch (property_id) {
 		case PROP_BUTTON:	/* construct only */
-			priv->button = g_value_get_boolean (value);
+			self->priv->button = g_value_get_boolean (value);
 			return;
 
 		case PROP_LABEL:	/* construct only */
-			priv->label = g_value_dup_string (value);
+			self->priv->label = g_value_dup_string (value);
 			return;
 
 		case PROP_REGISTRY:
@@ -130,17 +117,15 @@ composer_header_get_property (GObject *object,
                               GValue *value,
                               GParamSpec *pspec)
 {
-	EComposerHeaderPrivate *priv;
-
-	priv = E_COMPOSER_HEADER_GET_PRIVATE (object);
+	EComposerHeader *self = E_COMPOSER_HEADER (object);
 
 	switch (property_id) {
 		case PROP_BUTTON:	/* construct only */
-			g_value_set_boolean (value, priv->button);
+			g_value_set_boolean (value, self->priv->button);
 			return;
 
 		case PROP_LABEL:	/* construct only */
-			g_value_set_string (value, priv->label);
+			g_value_set_string (value, self->priv->label);
 			return;
 
 		case PROP_REGISTRY:
@@ -181,11 +166,9 @@ composer_header_dispose (GObject *object)
 static void
 composer_header_finalize (GObject *object)
 {
-	EComposerHeaderPrivate *priv;
+	EComposerHeader *self = E_COMPOSER_HEADER (object);
 
-	priv = E_COMPOSER_HEADER_GET_PRIVATE (object);
-
-	g_free (priv->label);
+	g_free (self->priv->label);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_composer_header_parent_class)->finalize (object);
@@ -244,8 +227,6 @@ static void
 e_composer_header_class_init (EComposerHeaderClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EComposerHeaderPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = composer_header_set_property;
@@ -334,7 +315,7 @@ e_composer_header_class_init (EComposerHeaderClass *class)
 static void
 e_composer_header_init (EComposerHeader *header)
 {
-	header->priv = E_COMPOSER_HEADER_GET_PRIVATE (header);
+	header->priv = e_composer_header_get_instance_private (header);
 }
 
 const gchar *

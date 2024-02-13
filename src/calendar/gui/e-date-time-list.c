@@ -60,10 +60,9 @@ static GType column_types[E_DATE_TIME_LIST_NUM_COLUMNS];
 
 static void e_date_time_list_tree_model_init (GtkTreeModelIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EDateTimeList, e_date_time_list, G_TYPE_OBJECT,
-	G_IMPLEMENT_INTERFACE (
-		GTK_TYPE_TREE_MODEL, e_date_time_list_tree_model_init))
+G_DEFINE_TYPE_WITH_CODE (EDateTimeList, e_date_time_list, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EDateTimeList)
+	G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL, e_date_time_list_tree_model_init))
 
 static gint
 compare_datetime (const ICalTime *itt1,
@@ -441,8 +440,6 @@ e_date_time_list_class_init (EDateTimeListClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EDateTimeListPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = date_time_list_set_property;
 	object_class->get_property = date_time_list_get_property;
@@ -473,7 +470,7 @@ e_date_time_list_class_init (EDateTimeListClass *class)
 static void
 e_date_time_list_init (EDateTimeList *date_time_list)
 {
-	date_time_list->priv = G_TYPE_INSTANCE_GET_PRIVATE (date_time_list, E_TYPE_DATE_TIME_LIST, EDateTimeListPrivate);
+	date_time_list->priv = e_date_time_list_get_instance_private (date_time_list);
 
 	date_time_list->priv->stamp = g_random_int ();
 	date_time_list->priv->columns_dirty = FALSE;

@@ -29,10 +29,6 @@
 
 #include "e-util/e-util.h"
 
-#define E_MAIL_TAG_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_TAG_EDITOR, EMailTagEditorPrivate))
-
 #define DEFAULT_FLAG 2  /* "Follow-Up" */
 
 struct _EMailTagEditorPrivate {
@@ -54,7 +50,7 @@ enum {
 	COLUMN_SUBJECT
 };
 
-G_DEFINE_TYPE (EMailTagEditor, e_mail_tag_editor, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailTagEditor, e_mail_tag_editor, GTK_TYPE_DIALOG)
 
 static void
 mail_tag_editor_set_property (GObject *object,
@@ -115,8 +111,6 @@ e_mail_tag_editor_class_init (EMailTagEditorClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EMailTagEditorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_tag_editor_set_property;
 	object_class->get_property = mail_tag_editor_get_property;
@@ -146,7 +140,7 @@ e_mail_tag_editor_init (EMailTagEditor *editor)
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
 
-	editor->priv = E_MAIL_TAG_EDITOR_GET_PRIVATE (editor);
+	editor->priv = e_mail_tag_editor_get_instance_private (editor);
 
 	dialog = GTK_DIALOG (editor);
 	window = GTK_WINDOW (editor);

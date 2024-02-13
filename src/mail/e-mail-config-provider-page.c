@@ -24,10 +24,6 @@
 
 #include "e-mail-config-provider-page.h"
 
-#define E_MAIL_CONFIG_PROVIDER_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_PROVIDER_PAGE, EMailConfigProviderPagePrivate))
-
 #define STANDARD_MARGIN   12
 #define DEPENDENCY_MARGIN 24
 
@@ -45,15 +41,10 @@ enum {
 static void	e_mail_config_provider_page_interface_init
 					(EMailConfigPageInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailConfigProviderPage,
-	e_mail_config_provider_page,
-	E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_CONFIG_PAGE,
-		e_mail_config_provider_page_interface_init))
+G_DEFINE_TYPE_WITH_CODE (EMailConfigProviderPage, e_mail_config_provider_page, E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE,
+	G_ADD_PRIVATE (EMailConfigProviderPage)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (E_TYPE_MAIL_CONFIG_PAGE, e_mail_config_provider_page_interface_init))
 
 static void
 mail_config_provider_page_handle_dependency (CamelSettings *settings,
@@ -747,10 +738,9 @@ mail_config_provider_page_get_property (GObject *object,
 static void
 mail_config_provider_page_dispose (GObject *object)
 {
-	EMailConfigProviderPagePrivate *priv;
+	EMailConfigProviderPage *self = E_MAIL_CONFIG_PROVIDER_PAGE (object);
 
-	priv = E_MAIL_CONFIG_PROVIDER_PAGE_GET_PRIVATE (object);
-	g_clear_object (&priv->backend);
+	g_clear_object (&self->priv->backend);
 
 	/* Chain up parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_provider_page_parent_class)->
@@ -792,8 +782,6 @@ e_mail_config_provider_page_class_init (EMailConfigProviderPageClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailConfigProviderPagePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_provider_page_set_property;
 	object_class->get_property = mail_config_provider_page_get_property;
@@ -823,7 +811,7 @@ e_mail_config_provider_page_interface_init (EMailConfigPageInterface *iface)
 static void
 e_mail_config_provider_page_init (EMailConfigProviderPage *page)
 {
-	page->priv = E_MAIL_CONFIG_PROVIDER_PAGE_GET_PRIVATE (page);
+	page->priv = e_mail_config_provider_page_get_instance_private (page);
 }
 
 EMailConfigPage *

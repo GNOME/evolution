@@ -70,15 +70,13 @@ static void
 cal_shell_view_popup_event_cb (EShellView *shell_view,
                                GdkEvent *button_event)
 {
-	GSList *selected;
+	ECalShellView *self = E_CAL_SHELL_VIEW (shell_view);
 	ECalendarView *view;
-	ECalShellViewPrivate *priv;
+	GSList *selected;
 	const gchar *widget_path;
 	gint n_selected;
 
-	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
-
-	view = e_cal_shell_content_get_current_calendar_view (priv->cal_shell_content);
+	view = e_cal_shell_content_get_current_calendar_view (self->priv->cal_shell_content);
 
 	selected = e_calendar_view_get_selected_events (view);
 	n_selected = g_slist_length (selected);

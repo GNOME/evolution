@@ -32,10 +32,6 @@
 
 #include "e-mail-identity-combo-box.h"
 
-#define E_MAIL_IDENTITY_COMBO_BOX_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_IDENTITY_COMBO_BOX, EMailIdentityComboBoxPrivate))
-
 #define SOURCE_IS_MAIL_IDENTITY(source) \
 	(e_source_has_extension ((source), E_SOURCE_EXTENSION_MAIL_IDENTITY))
 
@@ -62,10 +58,7 @@ enum {
 	PROP_REGISTRY
 };
 
-G_DEFINE_TYPE (
-	EMailIdentityComboBox,
-	e_mail_identity_combo_box,
-	GTK_TYPE_COMBO_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailIdentityComboBox, e_mail_identity_combo_box, GTK_TYPE_COMBO_BOX)
 
 static gboolean
 mail_identity_combo_box_refresh_idle_cb (gpointer user_data)
@@ -228,42 +221,39 @@ mail_identity_combo_box_get_property (GObject *object,
 static void
 mail_identity_combo_box_dispose (GObject *object)
 {
-	EMailIdentityComboBoxPrivate *priv;
+	EMailIdentityComboBox *self = E_MAIL_IDENTITY_COMBO_BOX (object);
 
-	priv = E_MAIL_IDENTITY_COMBO_BOX_GET_PRIVATE (object);
-
-	if (priv->source_added_handler_id > 0) {
+	if (self->priv->source_added_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_added_handler_id);
-		priv->source_added_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_added_handler_id);
+		self->priv->source_added_handler_id = 0;
 	}
 
-	if (priv->source_changed_handler_id > 0) {
+	if (self->priv->source_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_changed_handler_id);
-		priv->source_changed_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_changed_handler_id);
+		self->priv->source_changed_handler_id = 0;
 	}
 
-	if (priv->source_removed_handler_id > 0) {
+	if (self->priv->source_removed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_removed_handler_id);
-		priv->source_removed_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_removed_handler_id);
+		self->priv->source_removed_handler_id = 0;
 	}
 
-	if (priv->refresh_idle_id > 0) {
-		g_source_remove (priv->refresh_idle_id);
-		priv->refresh_idle_id = 0;
+	if (self->priv->refresh_idle_id > 0) {
+		g_source_remove (self->priv->refresh_idle_id);
+		self->priv->refresh_idle_id = 0;
 	}
 
-	g_clear_pointer (&priv->none_title, g_free);
-	g_clear_object (&priv->registry);
+	g_clear_pointer (&self->priv->none_title, g_free);
+	g_clear_object (&self->priv->registry);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_identity_combo_box_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_identity_combo_box_parent_class)->dispose (object);
 }
 
 static void
@@ -297,9 +287,6 @@ static void
 e_mail_identity_combo_box_class_init (EMailIdentityComboBoxClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (
-		class, sizeof (EMailIdentityComboBoxPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_identity_combo_box_set_property;
@@ -345,7 +332,7 @@ e_mail_identity_combo_box_class_init (EMailIdentityComboBoxClass *class)
 static void
 e_mail_identity_combo_box_init (EMailIdentityComboBox *combo_box)
 {
-	combo_box->priv = E_MAIL_IDENTITY_COMBO_BOX_GET_PRIVATE (combo_box);
+	combo_box->priv = e_mail_identity_combo_box_get_instance_private (combo_box);
 }
 
 /**

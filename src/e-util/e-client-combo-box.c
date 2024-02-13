@@ -30,10 +30,6 @@
 
 #include "e-client-combo-box.h"
 
-#define E_CLIENT_COMBO_BOX_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CLIENT_COMBO_BOX, EClientComboBoxPrivate))
-
 struct _EClientComboBoxPrivate {
 	EClientCache *client_cache;
 };
@@ -43,10 +39,7 @@ enum {
 	PROP_CLIENT_CACHE
 };
 
-G_DEFINE_TYPE (
-	EClientComboBox,
-	e_client_combo_box,
-	E_TYPE_SOURCE_COMBO_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EClientComboBox, e_client_combo_box, E_TYPE_SOURCE_COMBO_BOX)
 
 static void
 client_combo_box_set_property (GObject *object,
@@ -86,11 +79,9 @@ client_combo_box_get_property (GObject *object,
 static void
 client_combo_box_dispose (GObject *object)
 {
-	EClientComboBoxPrivate *priv;
+	EClientComboBox *self = E_CLIENT_COMBO_BOX (object);
 
-	priv = E_CLIENT_COMBO_BOX_GET_PRIVATE (object);
-
-	g_clear_object (&priv->client_cache);
+	g_clear_object (&self->priv->client_cache);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_client_combo_box_parent_class)->dispose (object);
@@ -100,8 +91,6 @@ static void
 e_client_combo_box_class_init (EClientComboBoxClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EClientComboBoxPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = client_combo_box_set_property;
@@ -133,7 +122,7 @@ e_client_combo_box_class_init (EClientComboBoxClass *class)
 static void
 e_client_combo_box_init (EClientComboBox *combo_box)
 {
-	combo_box->priv = E_CLIENT_COMBO_BOX_GET_PRIVATE (combo_box);
+	combo_box->priv = e_client_combo_box_get_instance_private (combo_box);
 }
 
 /**

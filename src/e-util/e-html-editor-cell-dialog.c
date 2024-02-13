@@ -30,10 +30,6 @@
 #include "e-image-chooser-dialog.h"
 #include "e-misc-utils.h"
 
-#define E_HTML_EDITOR_CELL_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HTML_EDITOR_CELL_DIALOG, EHTMLEditorCellDialogPrivate))
-
 struct _EHTMLEditorCellDialogPrivate {
 	GtkWidget *scope_cell_button;
 	GtkWidget *scope_table_button;
@@ -70,10 +66,7 @@ enum {
 
 static GdkRGBA transparent = { 0, 0, 0, 0 };
 
-G_DEFINE_TYPE (
-	EHTMLEditorCellDialog,
-	e_html_editor_cell_dialog,
-	E_TYPE_HTML_EDITOR_DIALOG);
+G_DEFINE_TYPE_WITH_PRIVATE (EHTMLEditorCellDialog, e_html_editor_cell_dialog, E_TYPE_HTML_EDITOR_DIALOG)
 
 static void
 html_editor_cell_dialog_set_scope (EHTMLEditorCellDialog *dialog)
@@ -384,8 +377,6 @@ e_html_editor_cell_dialog_class_init (EHTMLEditorCellDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EHTMLEditorCellDialogPrivate));
-
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_cell_dialog_show;
 	widget_class->hide = html_editor_cell_dialog_hide;
@@ -399,7 +390,7 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
 
-	dialog->priv = E_HTML_EDITOR_CELL_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_html_editor_cell_dialog_get_instance_private (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 

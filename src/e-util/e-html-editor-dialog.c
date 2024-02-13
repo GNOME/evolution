@@ -25,10 +25,6 @@
 #include "e-html-editor-dialog.h"
 #include "e-dialog-widgets.h"
 
-#define E_HTML_EDITOR_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HTML_EDITOR_DIALOG, EHTMLEditorDialogPrivate))
-
 struct _EHTMLEditorDialogPrivate {
 	EHTMLEditor *editor;
 
@@ -41,10 +37,7 @@ enum {
 	PROP_EDITOR,
 };
 
-G_DEFINE_ABSTRACT_TYPE (
-	EHTMLEditorDialog,
-	e_html_editor_dialog,
-	GTK_TYPE_WINDOW);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (EHTMLEditorDialog, e_html_editor_dialog, GTK_TYPE_WINDOW)
 
 static void
 html_editor_dialog_set_editor (EHTMLEditorDialog *dialog,
@@ -107,12 +100,10 @@ html_editor_dialog_constructed (GObject *object)
 static void
 html_editor_dialog_show (GtkWidget *widget)
 {
-	EHTMLEditorDialogPrivate *priv;
+	EHTMLEditorDialog *self = E_HTML_EDITOR_DIALOG (widget);
 
-	priv = E_HTML_EDITOR_DIALOG_GET_PRIVATE (widget);
-
-	gtk_widget_show_all (GTK_WIDGET (priv->container));
-	gtk_widget_show_all (GTK_WIDGET (priv->button_box));
+	gtk_widget_show_all (GTK_WIDGET (self->priv->container));
+	gtk_widget_show_all (GTK_WIDGET (self->priv->button_box));
 
 	GTK_WIDGET_CLASS (e_html_editor_dialog_parent_class)->show (widget);
 }
@@ -120,11 +111,9 @@ html_editor_dialog_show (GtkWidget *widget)
 static void
 html_editor_dialog_dispose (GObject *object)
 {
-	EHTMLEditorDialogPrivate *priv;
+	EHTMLEditorDialog *self = E_HTML_EDITOR_DIALOG (object);
 
-	priv = E_HTML_EDITOR_DIALOG_GET_PRIVATE (object);
-
-	g_clear_object (&priv->editor);
+	g_clear_object (&self->priv->editor);
 
 	/* Chain up to parent's implementation */
 	G_OBJECT_CLASS (e_html_editor_dialog_parent_class)->dispose (object);
@@ -135,8 +124,6 @@ e_html_editor_dialog_class_init (EHTMLEditorDialogClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (EHTMLEditorDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = html_editor_dialog_get_property;
@@ -178,7 +165,7 @@ e_html_editor_dialog_init (EHTMLEditorDialog *dialog)
 	GtkGrid *grid;
 	GtkWidget *widget, *button_box;
 
-	dialog->priv = E_HTML_EDITOR_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_html_editor_dialog_get_instance_private (dialog);
 
 	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
 	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));

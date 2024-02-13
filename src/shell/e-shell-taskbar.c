@@ -32,10 +32,6 @@
 
 #include "e-shell-view.h"
 
-#define E_SHELL_TASKBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_TASKBAR, EShellTaskbarPrivate))
-
 struct _EShellTaskbarPrivate {
 
 	gpointer shell_view;  /* weak pointer */
@@ -62,12 +58,9 @@ enum {
 	PROP_SHELL_VIEW
 };
 
-G_DEFINE_TYPE_WITH_CODE (
-	EShellTaskbar,
-	e_shell_taskbar,
-	GTK_TYPE_BOX,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EShellTaskbar, e_shell_taskbar, GTK_TYPE_BOX,
+	G_ADD_PRIVATE (EShellTaskbar)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 typedef struct {
 	EShellTaskbar *shell_taskbar;
@@ -299,29 +292,27 @@ shell_taskbar_get_property (GObject *object,
 static void
 shell_taskbar_dispose (GObject *object)
 {
-	EShellTaskbarPrivate *priv;
-
-	priv = E_SHELL_TASKBAR_GET_PRIVATE (object);
+	EShellTaskbar *self = E_SHELL_TASKBAR (object);
 
 	g_hash_table_foreach_remove (
-		priv->proxy_table, (GHRFunc)
+		self->priv->proxy_table, (GHRFunc)
 		shell_taskbar_weak_unref, object);
 
-	if (priv->shell_view != NULL) {
+	if (self->priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
-			G_OBJECT (priv->shell_view), &priv->shell_view);
-		priv->shell_view = NULL;
+			G_OBJECT (self->priv->shell_view), &self->priv->shell_view);
+		self->priv->shell_view = NULL;
 	}
 
-	if (priv->shell_backend != NULL) {
+	if (self->priv->shell_backend != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->shell_backend, G_SIGNAL_MATCH_DATA,
+			self->priv->shell_backend, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
 	}
 
-	g_clear_object (&priv->shell_backend);
-	g_clear_object (&priv->label);
-	g_clear_object (&priv->hbox);
+	g_clear_object (&self->priv->shell_backend);
+	g_clear_object (&self->priv->label);
+	g_clear_object (&self->priv->hbox);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_taskbar_parent_class)->dispose (object);
@@ -330,11 +321,9 @@ shell_taskbar_dispose (GObject *object)
 static void
 shell_taskbar_finalize (GObject *object)
 {
-	EShellTaskbarPrivate *priv;
+	EShellTaskbar *self = E_SHELL_TASKBAR (object);
 
-	priv = E_SHELL_TASKBAR_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->proxy_table);
+	g_hash_table_destroy (self->priv->proxy_table);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_shell_taskbar_parent_class)->finalize (object);
@@ -428,8 +417,6 @@ e_shell_taskbar_class_init (EShellTaskbarClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EShellTaskbarPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = shell_taskbar_set_property;
 	object_class->get_property = shell_taskbar_get_property;
@@ -482,7 +469,7 @@ e_shell_taskbar_init (EShellTaskbar *shell_taskbar)
 {
 	GtkWidget *widget;
 
-	shell_taskbar->priv = E_SHELL_TASKBAR_GET_PRIVATE (shell_taskbar);
+	shell_taskbar->priv = e_shell_taskbar_get_instance_private (shell_taskbar);
 	shell_taskbar->priv->proxy_table = g_hash_table_new (NULL, NULL);
 	shell_taskbar->priv->main_thread = g_thread_self ();
 

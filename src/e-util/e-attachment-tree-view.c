@@ -29,10 +29,6 @@
 #include "e-attachment-store.h"
 #include "e-attachment-view.h"
 
-#define E_ATTACHMENT_TREE_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ATTACHMENT_TREE_VIEW, EAttachmentTreeViewPrivate))
-
 struct _EAttachmentTreeViewPrivate {
 	EAttachmentViewPrivate view_priv;
 };
@@ -48,15 +44,10 @@ enum {
 static void	e_attachment_tree_view_interface_init
 					(EAttachmentViewInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EAttachmentTreeView,
-	e_attachment_tree_view,
-	GTK_TYPE_TREE_VIEW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ATTACHMENT_VIEW,
-		e_attachment_tree_view_interface_init)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EAttachmentTreeView, e_attachment_tree_view, GTK_TYPE_TREE_VIEW,
+	G_ADD_PRIVATE (EAttachmentTreeView)
+	G_IMPLEMENT_INTERFACE (E_TYPE_ATTACHMENT_VIEW, e_attachment_tree_view_interface_init)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 attachment_tree_view_render_size (GtkTreeViewColumn *column,
@@ -417,11 +408,9 @@ attachment_tree_view_row_activated (GtkTreeView *tree_view,
 static EAttachmentViewPrivate *
 attachment_tree_view_get_private (EAttachmentView *view)
 {
-	EAttachmentTreeViewPrivate *priv;
+	EAttachmentTreeView *self = E_ATTACHMENT_TREE_VIEW (view);
 
-	priv = E_ATTACHMENT_TREE_VIEW_GET_PRIVATE (view);
-
-	return &priv->view_priv;
+	return &self->priv->view_priv;
 }
 
 static EAttachmentStore *
@@ -584,8 +573,6 @@ e_attachment_tree_view_class_init (EAttachmentTreeViewClass *class)
 	GtkWidgetClass *widget_class;
 	GtkTreeViewClass *tree_view_class;
 
-	g_type_class_add_private (class, sizeof (EAttachmentViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = attachment_tree_view_set_property;
 	object_class->get_property = attachment_tree_view_get_property;
@@ -622,7 +609,7 @@ e_attachment_tree_view_class_init (EAttachmentTreeViewClass *class)
 static void
 e_attachment_tree_view_init (EAttachmentTreeView *tree_view)
 {
-	tree_view->priv = E_ATTACHMENT_TREE_VIEW_GET_PRIVATE (tree_view);
+	tree_view->priv = e_attachment_tree_view_get_instance_private (tree_view);
 
 	e_attachment_view_init (E_ATTACHMENT_VIEW (tree_view));
 }

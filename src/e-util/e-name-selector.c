@@ -32,10 +32,6 @@
 #include "e-contact-store.h"
 #include "e-destination-store.h"
 
-#define E_NAME_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_NAME_SELECTOR, ENameSelectorPrivate))
-
 typedef struct {
 	gchar *name;
 	ENameSelectorEntry *entry;
@@ -63,24 +59,21 @@ enum {
 	PROP_CLIENT_CACHE
 };
 
-G_DEFINE_TYPE (ENameSelector, e_name_selector, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (ENameSelector, e_name_selector, G_TYPE_OBJECT)
 
 static void
 reset_pointer_cb (gpointer data,
                   GObject *where_was)
 {
 	ENameSelector *name_selector = data;
-	ENameSelectorPrivate *priv;
 	guint ii;
 
 	g_return_if_fail (E_IS_NAME_SELECTOR (name_selector));
 
-	priv = E_NAME_SELECTOR_GET_PRIVATE (name_selector);
-
-	for (ii = 0; ii < priv->sections->len; ii++) {
+	for (ii = 0; ii < name_selector->priv->sections->len; ii++) {
 		Section *section;
 
-		section = &g_array_index (priv->sections, Section, ii);
+		section = &g_array_index (name_selector->priv->sections, Section, ii);
 		if (section->entry == (ENameSelectorEntry *) where_was)
 			section->entry = NULL;
 	}
@@ -274,30 +267,26 @@ name_selector_get_property (GObject *object,
 static void
 name_selector_dispose (GObject *object)
 {
-	ENameSelectorPrivate *priv;
+	ENameSelector *self = E_NAME_SELECTOR (object);
 	guint ii;
 
-	priv = E_NAME_SELECTOR_GET_PRIVATE (object);
-
-	if (priv->cancellable) {
-		g_cancellable_cancel (priv->cancellable);
-		g_object_unref (priv->cancellable);
-		priv->cancellable = NULL;
+	if (self->priv->cancellable) {
+		g_cancellable_cancel (self->priv->cancellable);
+		g_clear_object (&self->priv->cancellable);
 	}
 
-	for (ii = 0; ii < priv->source_books->len; ii++) {
+	for (ii = 0; ii < self->priv->source_books->len; ii++) {
 		SourceBook *source_book;
 
-		source_book = &g_array_index (
-			priv->source_books, SourceBook, ii);
+		source_book = &g_array_index (self->priv->source_books, SourceBook, ii);
 		if (source_book->client != NULL)
 			g_object_unref (source_book->client);
 	}
 
-	for (ii = 0; ii < priv->sections->len; ii++) {
+	for (ii = 0; ii < self->priv->sections->len; ii++) {
 		Section *section;
 
-		section = &g_array_index (priv->sections, Section, ii);
+		section = &g_array_index (self->priv->sections, Section, ii);
 		if (section->entry)
 			g_object_weak_unref (
 				G_OBJECT (section->entry),
@@ -305,15 +294,15 @@ name_selector_dispose (GObject *object)
 		g_free (section->name);
 	}
 
-	g_array_set_size (priv->source_books, 0);
-	g_array_set_size (priv->sections, 0);
+	g_array_set_size (self->priv->source_books, 0);
+	g_array_set_size (self->priv->sections, 0);
 
-	if (priv->dialog) {
-		gtk_widget_destroy (GTK_WIDGET (priv->dialog));
-		priv->dialog = NULL;
+	if (self->priv->dialog) {
+		gtk_widget_destroy (GTK_WIDGET (self->priv->dialog));
+		self->priv->dialog = NULL;
 	}
 
-	g_clear_object (&priv->model);
+	g_clear_object (&self->priv->model);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_name_selector_parent_class)->dispose (object);
@@ -322,12 +311,10 @@ name_selector_dispose (GObject *object)
 static void
 name_selector_finalize (GObject *object)
 {
-	ENameSelectorPrivate *priv;
+	ENameSelector *self = E_NAME_SELECTOR (object);
 
-	priv = E_NAME_SELECTOR_GET_PRIVATE (object);
-
-	g_array_free (priv->source_books, TRUE);
-	g_array_free (priv->sections, TRUE);
+	g_array_free (self->priv->source_books, TRUE);
+	g_array_free (self->priv->sections, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_name_selector_parent_class)->finalize (object);
@@ -337,8 +324,6 @@ static void
 e_name_selector_class_init (ENameSelectorClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (ENameSelectorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = name_selector_set_property;
@@ -373,7 +358,7 @@ e_name_selector_init (ENameSelector *name_selector)
 	sections = g_array_new (FALSE, FALSE, sizeof (Section));
 	source_books = g_array_new (FALSE, FALSE, sizeof (SourceBook));
 
-	name_selector->priv = E_NAME_SELECTOR_GET_PRIVATE (name_selector);
+	name_selector->priv = e_name_selector_get_instance_private (name_selector);
 	name_selector->priv->sections = sections;
 	name_selector->priv->model = e_name_selector_model_new ();
 	name_selector->priv->source_books = source_books;
@@ -558,7 +543,6 @@ ENameSelectorEntry *
 e_name_selector_peek_section_entry (ENameSelector *name_selector,
                                     const gchar *name)
 {
-	ENameSelectorPrivate *priv;
 	ENameSelectorModel *model;
 	EDestinationStore *destination_store;
 	Section *section;
@@ -567,11 +551,9 @@ e_name_selector_peek_section_entry (ENameSelector *name_selector,
 	g_return_val_if_fail (E_IS_NAME_SELECTOR (name_selector), NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
-	priv = E_NAME_SELECTOR_GET_PRIVATE (name_selector);
 	model = e_name_selector_peek_model (name_selector);
 
-	if (!e_name_selector_model_peek_section (
-		model, name, NULL, &destination_store))
+	if (!e_name_selector_model_peek_section (model, name, NULL, &destination_store))
 		return NULL;
 
 	n = find_section_by_name (name_selector, name);
@@ -604,8 +586,8 @@ e_name_selector_peek_section_entry (ENameSelector *name_selector,
 
 		contact_store = e_contact_store_new ();
 
-		for (i = 0; i < priv->source_books->len; i++) {
-			SourceBook *source_book = &g_array_index (priv->source_books, SourceBook, i);
+		for (i = 0; i < name_selector->priv->source_books->len; i++) {
+			SourceBook *source_book = &g_array_index (name_selector->priv->source_books, SourceBook, i);
 
 			if (source_book->is_completion_book && source_book->client)
 				e_contact_store_add_client (contact_store, source_book->client);
@@ -633,7 +615,6 @@ ENameSelectorList *
 e_name_selector_peek_section_list (ENameSelector *name_selector,
                                    const gchar *name)
 {
-	ENameSelectorPrivate *priv;
 	ENameSelectorModel *model;
 	EDestinationStore *destination_store;
 	Section *section;
@@ -642,11 +623,9 @@ e_name_selector_peek_section_list (ENameSelector *name_selector,
 	g_return_val_if_fail (E_IS_NAME_SELECTOR (name_selector), NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
-	priv = E_NAME_SELECTOR_GET_PRIVATE (name_selector);
 	model = e_name_selector_peek_model (name_selector);
 
-	if (!e_name_selector_model_peek_section (
-		model, name, NULL, &destination_store))
+	if (!e_name_selector_model_peek_section (model, name, NULL, &destination_store))
 		return NULL;
 
 	n = find_section_by_name (name_selector, name);
@@ -678,8 +657,8 @@ e_name_selector_peek_section_list (ENameSelector *name_selector,
 		/* Create a contact store for the entry and assign our already-open books to it */
 
 		contact_store = e_contact_store_new ();
-		for (i = 0; i < priv->source_books->len; i++) {
-			SourceBook *source_book = &g_array_index (priv->source_books, SourceBook, i);
+		for (i = 0; i < name_selector->priv->source_books->len; i++) {
+			SourceBook *source_book = &g_array_index (name_selector->priv->source_books, SourceBook, i);
 
 			if (source_book->is_completion_book && source_book->client)
 				e_contact_store_add_client (contact_store, source_book->client);

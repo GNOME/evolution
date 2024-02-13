@@ -20,10 +20,6 @@
 #include "e-util/e-util.h"
 #include "e-contact-photo-source.h"
 
-#define E_CONTACT_PHOTO_SOURCE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CONTACT_PHOTO_SOURCE, EContactPhotoSourcePrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EContactPhotoSourcePrivate {
@@ -49,14 +45,9 @@ enum {
 static void	e_contact_photo_source_interface_init
 					(EPhotoSourceInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
-	EContactPhotoSource,
-	e_contact_photo_source,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_PHOTO_SOURCE,
-		e_contact_photo_source_interface_init))
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EContactPhotoSource, e_contact_photo_source, G_TYPE_OBJECT, 0,
+	G_ADD_PRIVATE_DYNAMIC (EContactPhotoSource)
+	G_IMPLEMENT_INTERFACE_DYNAMIC (E_TYPE_PHOTO_SOURCE, e_contact_photo_source_interface_init))
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -271,12 +262,10 @@ contact_photo_source_get_property (GObject *object,
 static void
 contact_photo_source_dispose (GObject *object)
 {
-	EContactPhotoSourcePrivate *priv;
+	EContactPhotoSource *self = E_CONTACT_PHOTO_SOURCE (object);
 
-	priv = E_CONTACT_PHOTO_SOURCE_GET_PRIVATE (object);
-
-	g_clear_object (&priv->client_cache);
-	g_clear_object (&priv->source);
+	g_clear_object (&self->priv->client_cache);
+	g_clear_object (&self->priv->source);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_contact_photo_source_parent_class)->dispose (object);
@@ -382,8 +371,6 @@ e_contact_photo_source_class_init (EContactPhotoSourceClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EContactPhotoSourcePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = contact_photo_source_set_property;
 	object_class->get_property = contact_photo_source_get_property;
@@ -427,7 +414,7 @@ e_contact_photo_source_interface_init (EPhotoSourceInterface *iface)
 static void
 e_contact_photo_source_init (EContactPhotoSource *photo_source)
 {
-	photo_source->priv = E_CONTACT_PHOTO_SOURCE_GET_PRIVATE (photo_source);
+	photo_source->priv = e_contact_photo_source_get_instance_private (photo_source);
 }
 
 void

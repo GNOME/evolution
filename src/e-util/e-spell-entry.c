@@ -29,10 +29,6 @@
 #include "e-misc-utils.h"
 #include "e-spell-entry.h"
 
-#define E_SPELL_ENTRY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SPELL_ENTRY, ESpellEntryPrivate))
-
 struct _ESpellEntryPrivate {
 	PangoAttrList *attr_list;
 	gint mark_character;
@@ -55,12 +51,9 @@ enum {
 	PROP_SPELL_CHECKER
 };
 
-G_DEFINE_TYPE_WITH_CODE (
-	ESpellEntry,
-	e_spell_entry,
-	GTK_TYPE_ENTRY,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (ESpellEntry, e_spell_entry, GTK_TYPE_ENTRY,
+	G_ADD_PRIVATE (ESpellEntry)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static gboolean
 word_misspelled (ESpellEntry *entry,
@@ -842,20 +835,17 @@ spell_entry_get_property (GObject *object,
 static void
 spell_entry_dispose (GObject *object)
 {
-	ESpellEntryPrivate *priv;
+	ESpellEntry *self = E_SPELL_ENTRY (object);
 
-	priv = E_SPELL_ENTRY_GET_PRIVATE (object);
-
-	if (priv->active_languages_handler_id > 0) {
+	if (self->priv->active_languages_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->spell_checker,
-			priv->active_languages_handler_id);
-		priv->active_languages_handler_id = 0;
+			self->priv->spell_checker,
+			self->priv->active_languages_handler_id);
+		self->priv->active_languages_handler_id = 0;
 	}
 
-	g_clear_object (&priv->spell_checker);
-
-	g_clear_pointer (&priv->attr_list, pango_attr_list_unref);
+	g_clear_object (&self->priv->spell_checker);
+	g_clear_pointer (&self->priv->attr_list, pango_attr_list_unref);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_spell_entry_parent_class)->dispose (object);
@@ -864,13 +854,11 @@ spell_entry_dispose (GObject *object)
 static void
 spell_entry_finalize (GObject *object)
 {
-	ESpellEntryPrivate *priv;
+	ESpellEntry *self = E_SPELL_ENTRY (object);
 
-	priv = E_SPELL_ENTRY_GET_PRIVATE (object);
-
-	g_strfreev (priv->words);
-	g_free (priv->word_starts);
-	g_free (priv->word_ends);
+	g_strfreev (self->priv->words);
+	g_free (self->priv->word_starts);
+	g_free (self->priv->word_ends);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_spell_entry_parent_class)->finalize (object);
@@ -939,8 +927,6 @@ e_spell_entry_class_init (ESpellEntryClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (ESpellEntryPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = spell_entry_set_property;
 	object_class->get_property = spell_entry_get_property;
@@ -978,7 +964,7 @@ e_spell_entry_class_init (ESpellEntryClass *class)
 static void
 e_spell_entry_init (ESpellEntry *spell_entry)
 {
-	spell_entry->priv = E_SPELL_ENTRY_GET_PRIVATE (spell_entry);
+	spell_entry->priv = e_spell_entry_get_instance_private (spell_entry);
 	spell_entry->priv->attr_list = pango_attr_list_new ();
 	spell_entry->priv->checking_enabled = TRUE;
 	spell_entry->priv->im_in_preedit = FALSE;

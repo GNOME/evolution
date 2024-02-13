@@ -22,10 +22,6 @@
 
 #include "e-misc-utils.h"
 
-#define E_ONLINE_BUTTON_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ONLINE_BUTTON, EOnlineButtonPrivate))
-
 #define ONLINE_TOOLTIP \
 	_("Evolution is currently online.  Click this button to work offline.")
 
@@ -45,10 +41,7 @@ enum {
 	PROP_ONLINE
 };
 
-G_DEFINE_TYPE (
-	EOnlineButton,
-	e_online_button,
-	GTK_TYPE_BUTTON)
+G_DEFINE_TYPE_WITH_PRIVATE (EOnlineButton, e_online_button, GTK_TYPE_BUTTON)
 
 static void
 online_button_update_tooltip (EOnlineButton *button)
@@ -123,11 +116,9 @@ online_button_get_property (GObject *object,
 static void
 online_button_dispose (GObject *object)
 {
-	EOnlineButtonPrivate *priv;
+	EOnlineButton *self = E_ONLINE_BUTTON (object);
 
-	priv = E_ONLINE_BUTTON_GET_PRIVATE (object);
-
-	g_clear_object (&priv->image);
+	g_clear_object (&self->priv->image);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_online_button_parent_class)->dispose (object);
@@ -137,8 +128,6 @@ static void
 e_online_button_class_init (EOnlineButtonClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EOnlineButtonPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = online_button_set_property;
@@ -162,7 +151,7 @@ e_online_button_init (EOnlineButton *button)
 {
 	GtkWidget *widget;
 
-	button->priv = E_ONLINE_BUTTON_GET_PRIVATE (button);
+	button->priv = e_online_button_get_instance_private (button);
 
 	gtk_widget_set_can_focus (GTK_WIDGET (button), FALSE);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);

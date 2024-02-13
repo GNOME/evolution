@@ -98,6 +98,7 @@ static void webdav_browser_alert_sink_init (EAlertSinkInterface *iface);
 static void webdav_browser_change_busy_state (EWebDAVBrowser *webdav_browser, gboolean is_busy);
 
 G_DEFINE_TYPE_WITH_CODE (EWebDAVBrowser, e_webdav_browser, GTK_TYPE_GRID,
+	G_ADD_PRIVATE (EWebDAVBrowser)
 	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, webdav_browser_alert_sink_init))
 
 typedef enum {
@@ -2924,8 +2925,6 @@ e_webdav_browser_class_init (EWebDAVBrowserClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (EWebDAVBrowserPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = webdav_browser_set_property;
 	object_class->get_property = webdav_browser_get_property;
@@ -2980,7 +2979,7 @@ webdav_browser_alert_sink_init (EAlertSinkInterface *iface)
 static void
 e_webdav_browser_init (EWebDAVBrowser *webdav_browser)
 {
-	webdav_browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (webdav_browser, E_TYPE_WEBDAV_BROWSER, EWebDAVBrowserPrivate);
+	webdav_browser->priv = e_webdav_browser_get_instance_private (webdav_browser);
 
 	g_mutex_init (&webdav_browser->priv->property_lock);
 

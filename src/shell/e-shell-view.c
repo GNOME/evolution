@@ -36,10 +36,6 @@
 #include "e-shell-window-actions.h"
 #include "e-shell-window-private.h"
 
-#define E_SHELL_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_VIEW, EShellViewPrivate))
-
 #define SIMPLE_SEARCHBAR_WIDTH 300
 #define STATE_SAVE_TIMEOUT_SECONDS 3
 
@@ -103,8 +99,16 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
+
+static gpointer e_shell_view_parent_class = NULL;
+static gint EShellView_private_offset = 0;
+
+static inline gpointer
+e_shell_view_get_instance_private (EShellView *self)
+{
+	return (G_STRUCT_MEMBER_P (self, EShellView_private_offset));
+}
 
 static void
 shell_view_init_search_context (EShellViewClass *class)
@@ -526,78 +530,74 @@ shell_view_get_property (GObject *object,
 static void
 shell_view_dispose (GObject *object)
 {
-	EShellViewPrivate *priv;
-
-	priv = E_SHELL_VIEW_GET_PRIVATE (object);
+	EShellView *self = E_SHELL_VIEW (object);
 
 	/* Expedite any pending state saves. */
-	e_shell_view_save_state_immediately (E_SHELL_VIEW (object));
+	e_shell_view_save_state_immediately (self);
 
-	if (priv->update_actions_idle_id > 0) {
-		g_source_remove (priv->update_actions_idle_id);
-		priv->update_actions_idle_id = 0;
+	if (self->priv->update_actions_idle_id > 0) {
+		g_source_remove (self->priv->update_actions_idle_id);
+		self->priv->update_actions_idle_id = 0;
 	}
 
-	if (priv->state_save_activity != NULL) {
+	if (self->priv->state_save_activity != NULL) {
 		g_object_remove_weak_pointer (
-			G_OBJECT (priv->state_save_activity),
-			&priv->state_save_activity);
-		priv->state_save_activity = NULL;
+			G_OBJECT (self->priv->state_save_activity),
+			&self->priv->state_save_activity);
+		self->priv->state_save_activity = NULL;
 	}
 
-	if (priv->view_instance_changed_handler_id > 0) {
+	if (self->priv->view_instance_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->view_instance,
-			priv->view_instance_changed_handler_id);
-		priv->view_instance_changed_handler_id = 0;
+			self->priv->view_instance,
+			self->priv->view_instance_changed_handler_id);
+		self->priv->view_instance_changed_handler_id = 0;
 	}
 
-	if (priv->view_instance_loaded_handler_id > 0) {
+	if (self->priv->view_instance_loaded_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->view_instance,
-			priv->view_instance_loaded_handler_id);
-		priv->view_instance_loaded_handler_id = 0;
+			self->priv->view_instance,
+			self->priv->view_instance_loaded_handler_id);
+		self->priv->view_instance_loaded_handler_id = 0;
 	}
 
-	if (priv->preferences_window != NULL) {
+	if (self->priv->preferences_window != NULL) {
 		g_signal_handler_disconnect (
-			priv->preferences_window,
-			priv->preferences_hide_handler_id);
-		priv->preferences_hide_handler_id = 0;
+			self->priv->preferences_window,
+			self->priv->preferences_hide_handler_id);
+		self->priv->preferences_hide_handler_id = 0;
 	}
 
-	if (priv->shell_window != NULL) {
+	if (self->priv->shell_window != NULL) {
 		g_object_remove_weak_pointer (
-			G_OBJECT (priv->shell_window), &priv->shell_window);
-		priv->shell_window = NULL;
+			G_OBJECT (self->priv->shell_window), &self->priv->shell_window);
+		self->priv->shell_window = NULL;
 	}
 
-	g_clear_object (&priv->view_instance);
-	g_clear_object (&priv->shell_content);
-	g_clear_object (&priv->shell_sidebar);
-	g_clear_object (&priv->shell_taskbar);
-	g_clear_object (&priv->searchbar);
-	g_clear_object (&priv->search_rule);
-	g_clear_object (&priv->preferences_window);
+	g_clear_object (&self->priv->view_instance);
+	g_clear_object (&self->priv->shell_content);
+	g_clear_object (&self->priv->shell_sidebar);
+	g_clear_object (&self->priv->shell_taskbar);
+	g_clear_object (&self->priv->searchbar);
+	g_clear_object (&self->priv->search_rule);
+	g_clear_object (&self->priv->preferences_window);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_shell_view_parent_class)->dispose (object);
 }
 
 static void
 shell_view_finalize (GObject *object)
 {
-	EShellViewPrivate *priv;
+	EShellView *self = E_SHELL_VIEW (object);
 
-	priv = E_SHELL_VIEW_GET_PRIVATE (object);
+	g_key_file_free (self->priv->state_key_file);
 
-	g_key_file_free (priv->state_key_file);
-
-	g_free (priv->title);
-	g_free (priv->view_id);
+	g_free (self->priv->title);
+	g_free (self->priv->view_id);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_shell_view_parent_class)->finalize (object);
 }
 
 static void
@@ -655,7 +655,7 @@ shell_view_constructed (GObject *object)
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_shell_view_parent_class)->constructed (object);
 }
 
 static GtkWidget *
@@ -774,8 +774,9 @@ e_shell_view_class_init (EShellViewClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (EShellViewPrivate));
+	e_shell_view_parent_class = g_type_class_peek_parent (class);
+	if (EShellView_private_offset != 0)
+		g_type_class_adjust_private_offset (class, &EShellView_private_offset);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = shell_view_set_property;
@@ -1113,7 +1114,7 @@ e_shell_view_init (EShellView *shell_view,
 
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
 
-	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
+	shell_view->priv = e_shell_view_get_instance_private (shell_view);
 	shell_view->priv->main_thread = g_thread_self ();
 	shell_view->priv->state_key_file = g_key_file_new ();
 	shell_view->priv->size_group = size_group;
@@ -1147,6 +1148,8 @@ e_shell_view_get_type (void)
 		type = g_type_register_static (
 			G_TYPE_OBJECT, "EShellView",
 			&type_info, G_TYPE_FLAG_ABSTRACT);
+
+		EShellView_private_offset = g_type_add_instance_private (type, sizeof (EShellViewPrivate));
 
 		g_type_add_interface_static (
 			type, E_TYPE_EXTENSIBLE, &extensible_info);

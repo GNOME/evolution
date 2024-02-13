@@ -27,10 +27,6 @@
 #include "e-charset.h"
 #include "e-misc-utils.h"
 
-#define E_CHARSET_COMBO_BOX_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CHARSET_COMBO_BOX, ECharsetComboBoxPrivate))
-
 #define DEFAULT_CHARSET "UTF-8"
 #define OTHER_VALUE G_MAXINT
 
@@ -53,10 +49,7 @@ enum {
 	PROP_CHARSET
 };
 
-G_DEFINE_TYPE (
-	ECharsetComboBox,
-	e_charset_combo_box,
-	E_TYPE_ACTION_COMBO_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (ECharsetComboBox, e_charset_combo_box, E_TYPE_ACTION_COMBO_BOX)
 
 static void
 charset_combo_box_entry_changed_cb (GtkEntry *entry,
@@ -218,13 +211,12 @@ charset_combo_box_get_property (GObject *object,
 static void
 charset_combo_box_dispose (GObject *object)
 {
-	ECharsetComboBoxPrivate *priv;
+	ECharsetComboBox *self = E_CHARSET_COMBO_BOX (object);
 
-	priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (object);
-	g_clear_object (&priv->action_group);
-	g_clear_object (&priv->other_action);
+	g_clear_object (&self->priv->action_group);
+	g_clear_object (&self->priv->other_action);
 
-	g_hash_table_remove_all (priv->charset_index);
+	g_hash_table_remove_all (self->priv->charset_index);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_charset_combo_box_parent_class)->dispose (object);
@@ -233,11 +225,9 @@ charset_combo_box_dispose (GObject *object)
 static void
 charset_combo_box_finalize (GObject *object)
 {
-	ECharsetComboBoxPrivate *priv;
+	ECharsetComboBox *self = E_CHARSET_COMBO_BOX (object);
 
-	priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->charset_index);
+	g_hash_table_destroy (self->priv->charset_index);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_charset_combo_box_parent_class)->finalize (object);
@@ -246,16 +236,14 @@ charset_combo_box_finalize (GObject *object)
 static void
 charset_combo_box_constructed (GObject *object)
 {
-	ECharsetComboBoxPrivate *priv;
+	ECharsetComboBox *self = E_CHARSET_COMBO_BOX (object);
 	GtkRadioAction *radio_action;
 	GSList *group;
-
-	priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_charset_combo_box_parent_class)->constructed (object);
 
-	radio_action = priv->other_action;
+	radio_action = self->priv->other_action;
 	group = gtk_radio_action_get_group (radio_action);
 
 	e_action_combo_box_set_action (
@@ -272,17 +260,14 @@ charset_combo_box_constructed (GObject *object)
 static void
 charset_combo_box_changed (GtkComboBox *combo_box)
 {
-	ECharsetComboBoxPrivate *priv;
-
-	priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (combo_box);
+	ECharsetComboBox *self = E_CHARSET_COMBO_BOX (combo_box);
 
 	/* Chain up to parent's changed() method. */
-	GTK_COMBO_BOX_CLASS (e_charset_combo_box_parent_class)->
-		changed (combo_box);
+	GTK_COMBO_BOX_CLASS (e_charset_combo_box_parent_class)->changed (combo_box);
 
 	/* Notify -before- updating previous index. */
 	g_object_notify (G_OBJECT (combo_box), "charset");
-	priv->previous_index = gtk_combo_box_get_active (combo_box);
+	self->priv->previous_index = gtk_combo_box_get_active (combo_box);
 }
 
 static void
@@ -290,8 +275,6 @@ e_charset_combo_box_class_init (ECharsetComboBoxClass *class)
 {
 	GObjectClass *object_class;
 	GtkComboBoxClass *combo_box_class;
-
-	g_type_class_add_private (class, sizeof (ECharsetComboBoxPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = charset_combo_box_set_property;
@@ -330,7 +313,7 @@ e_charset_combo_box_init (ECharsetComboBox *combo_box)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
-	combo_box->priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (combo_box);
+	combo_box->priv = e_charset_combo_box_get_instance_private (combo_box);
 	combo_box->priv->action_group = action_group;
 	combo_box->priv->charset_index = charset_index;
 

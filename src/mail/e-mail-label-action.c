@@ -24,15 +24,11 @@
 
 #include "e-mail-label-action.h"
 
-#define E_MAIL_LABEL_ACTION_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_LABEL_ACTION, EMailLabelActionPrivate))
-
 struct _EMailLabelActionPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_TYPE (EMailLabelAction, e_mail_label_action, GTK_TYPE_TOGGLE_ACTION)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailLabelAction, e_mail_label_action, GTK_TYPE_TOGGLE_ACTION)
 
 static void
 mail_label_action_menu_item_realize_cb (GtkWidget *menu_item)
@@ -99,8 +95,6 @@ e_mail_label_action_class_init (EMailLabelActionClass *class)
 {
 	GtkActionClass *action_class;
 
-	g_type_class_add_private (class, sizeof (EMailLabelActionPrivate));
-
 	action_class = GTK_ACTION_CLASS (class);
 	action_class->create_menu_item = mail_label_action_create_menu_item;
 }
@@ -108,7 +102,7 @@ e_mail_label_action_class_init (EMailLabelActionClass *class)
 static void
 e_mail_label_action_init (EMailLabelAction *action)
 {
-	action->priv = E_MAIL_LABEL_ACTION_GET_PRIVATE (action);
+	action->priv = e_mail_label_action_get_instance_private (action);
 }
 
 EMailLabelAction *

@@ -31,10 +31,6 @@
 #include "e-name-selector-list.h"
 #include "e-name-selector-entry.h"
 
-#define E_NAME_SELECTOR_LIST_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_NAME_SELECTOR_LIST, ENameSelectorListPrivate))
-
 #define MAX_ROW	10
 
 struct _ENameSelectorListPrivate {
@@ -46,7 +42,7 @@ struct _ENameSelectorListPrivate {
 	GdkDevice *grab_pointer;
 };
 
-G_DEFINE_TYPE (ENameSelectorList, e_name_selector_list, E_TYPE_NAME_SELECTOR_ENTRY)
+G_DEFINE_TYPE_WITH_PRIVATE (ENameSelectorList, e_name_selector_list, E_TYPE_NAME_SELECTOR_ENTRY)
 
 /* Signals */
 
@@ -685,8 +681,6 @@ e_name_selector_list_class_init (ENameSelectorListClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (ENameSelectorListPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = name_selector_list_dispose;
 
@@ -705,7 +699,7 @@ e_name_selector_list_init (ENameSelectorList *list)
 	EDestinationStore *store;
 	GtkEntryCompletion *completion;
 
-	list->priv = E_NAME_SELECTOR_LIST_GET_PRIVATE (list);
+	list->priv = e_name_selector_list_get_instance_private (list);
 	list->priv->menu = NULL;
 
 	entry = E_NAME_SELECTOR_ENTRY (list);

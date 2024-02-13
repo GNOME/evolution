@@ -23,18 +23,12 @@
 
 #include <calendar/gui/e-weekday-chooser.h>
 
-#define E_SETTINGS_WEEKDAY_CHOOSER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_WEEKDAY_CHOOSER, ESettingsWeekdayChooserPrivate))
-
 struct _ESettingsWeekdayChooserPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsWeekdayChooser,
-	e_settings_weekday_chooser,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsWeekdayChooser, e_settings_weekday_chooser, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsWeekdayChooser))
 
 static void
 settings_weekday_chooser_constructed (GObject *object)
@@ -65,9 +59,6 @@ e_settings_weekday_chooser_class_init (ESettingsWeekdayChooserClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (
-		class, sizeof (ESettingsWeekdayChooserPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = settings_weekday_chooser_constructed;
 
@@ -83,7 +74,7 @@ e_settings_weekday_chooser_class_finalize (ESettingsWeekdayChooserClass *class)
 static void
 e_settings_weekday_chooser_init (ESettingsWeekdayChooser *extension)
 {
-	extension->priv = E_SETTINGS_WEEKDAY_CHOOSER_GET_PRIVATE (extension);
+	extension->priv = e_settings_weekday_chooser_get_instance_private (extension);
 }
 
 void

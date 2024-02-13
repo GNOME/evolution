@@ -28,10 +28,6 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
-#define E_SPELL_CHECKER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SPELL_CHECKER, ESpellCheckerPrivate))
-
 #define MAX_SUGGESTIONS 10
 
 struct _ESpellCheckerPrivate {
@@ -44,13 +40,9 @@ enum {
 	PROP_ACTIVE_LANGUAGES
 };
 
-G_DEFINE_TYPE_EXTENDED (
-	ESpellChecker,
-	e_spell_checker,
-	G_TYPE_OBJECT,
-	0,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (ESpellChecker, e_spell_checker, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (ESpellChecker)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 /**
  * ESpellChecker:
@@ -103,12 +95,10 @@ spell_checker_get_property (GObject *object,
 static void
 spell_checker_dispose (GObject *object)
 {
-	ESpellCheckerPrivate *priv;
+	ESpellChecker *self = E_SPELL_CHECKER (object);
 
-	priv = E_SPELL_CHECKER_GET_PRIVATE (object);
-
-	g_hash_table_remove_all (priv->active_dictionaries);
-	g_hash_table_remove_all (priv->dictionaries_cache);
+	g_hash_table_remove_all (self->priv->active_dictionaries);
+	g_hash_table_remove_all (self->priv->dictionaries_cache);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_spell_checker_parent_class)->dispose (object);
@@ -117,12 +107,10 @@ spell_checker_dispose (GObject *object)
 static void
 spell_checker_finalize (GObject *object)
 {
-	ESpellCheckerPrivate *priv;
+	ESpellChecker *self = E_SPELL_CHECKER (object);
 
-	priv = E_SPELL_CHECKER_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->active_dictionaries);
-	g_hash_table_destroy (priv->dictionaries_cache);
+	g_hash_table_destroy (self->priv->active_dictionaries);
+	g_hash_table_destroy (self->priv->dictionaries_cache);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_spell_checker_parent_class)->finalize (object);
@@ -141,8 +129,6 @@ static void
 e_spell_checker_class_init (ESpellCheckerClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (ESpellCheckerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = spell_checker_get_property;
@@ -180,7 +166,7 @@ e_spell_checker_init (ESpellChecker *checker)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) g_object_unref);
 
-	checker->priv = E_SPELL_CHECKER_GET_PRIVATE (checker);
+	checker->priv = e_spell_checker_get_instance_private (checker);
 
 	checker->priv->active_dictionaries = active_dictionaries;
 	checker->priv->dictionaries_cache = dictionaries_cache;

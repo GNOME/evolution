@@ -54,10 +54,6 @@
 /* Translators: 'None' for a time zone, like 'No time zone being set' */
 #define NONE_TZ_TEXT C_("timezone", "None")
 
-#define E_TIMEZONE_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TIMEZONE_DIALOG, ETimezoneDialogPrivate))
-
 struct _ETimezoneDialogPrivate {
 	/* The selected timezone. May be NULL for a 'local time' (i.e. when
 	 * the displayed name is ""). */
@@ -118,15 +114,13 @@ static gboolean timezone_combo_set_active_text	(ETimezoneDialog *etd,
 static void	map_destroy_cb			(gpointer data,
 						 GObject *where_object_was);
 
-G_DEFINE_TYPE (ETimezoneDialog, e_timezone_dialog, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (ETimezoneDialog, e_timezone_dialog, G_TYPE_OBJECT)
 
 /* Class initialization function for the event editor */
 static void
 e_timezone_dialog_class_init (ETimezoneDialogClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (ETimezoneDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = e_timezone_dialog_dispose;
@@ -136,7 +130,7 @@ e_timezone_dialog_class_init (ETimezoneDialogClass *class)
 static void
 e_timezone_dialog_init (ETimezoneDialog *etd)
 {
-	etd->priv = E_TIMEZONE_DIALOG_GET_PRIVATE (etd);
+	etd->priv = e_timezone_dialog_get_instance_private (etd);
 	etd->priv->index = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	etd->priv->allow_none = FALSE;
 }
@@ -145,25 +139,23 @@ e_timezone_dialog_init (ETimezoneDialog *etd)
 static void
 e_timezone_dialog_dispose (GObject *object)
 {
-	ETimezoneDialogPrivate *priv;
-
-	priv = E_TIMEZONE_DIALOG_GET_PRIVATE (object);
+	ETimezoneDialog *self = E_TIMEZONE_DIALOG (object);
 
 	/* Destroy the actual dialog. */
-	g_clear_pointer (&priv->app, gtk_widget_destroy);
+	g_clear_pointer (&self->priv->app, gtk_widget_destroy);
 
-	if (priv->timeout_id) {
-		g_source_remove (priv->timeout_id);
-		priv->timeout_id = 0;
+	if (self->priv->timeout_id) {
+		g_source_remove (self->priv->timeout_id);
+		self->priv->timeout_id = 0;
 	}
 
-	g_clear_object (&priv->builder);
-	g_clear_pointer (&priv->index, g_hash_table_destroy);
+	g_clear_object (&self->priv->builder);
+	g_clear_pointer (&self->priv->index, g_hash_table_destroy);
 
-	g_slist_free_full (priv->custom_zones, g_object_unref);
-	priv->custom_zones = NULL;
+	g_slist_free_full (self->priv->custom_zones, g_object_unref);
+	self->priv->custom_zones = NULL;
 
-	g_clear_object (&priv->zone);
+	g_clear_object (&self->priv->zone);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_timezone_dialog_parent_class)->dispose (object);

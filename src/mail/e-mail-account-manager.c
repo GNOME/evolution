@@ -27,10 +27,6 @@
 
 #include "e-mail-account-manager.h"
 
-#define E_MAIL_ACCOUNT_MANAGER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_ACCOUNT_MANAGER, EMailAccountManagerPrivate))
-
 #define DEFAULT_ORDER_RESPONSE GTK_RESPONSE_APPLY
 #define OPEN_ONLINE_ACCOUNTS_RESPONSE GTK_RESPONSE_APPLY
 
@@ -64,10 +60,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EMailAccountManager,
-	e_mail_account_manager,
-	GTK_TYPE_GRID)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailAccountManager, e_mail_account_manager, GTK_TYPE_GRID)
 
 static void
 mail_account_manager_open_goa_cb (GtkInfoBar *info_bar,
@@ -561,15 +554,12 @@ mail_account_manager_get_property (GObject *object,
 static void
 mail_account_manager_dispose (GObject *object)
 {
-	EMailAccountManagerPrivate *priv;
+	EMailAccountManager *self = E_MAIL_ACCOUNT_MANAGER (object);
 
-	priv = E_MAIL_ACCOUNT_MANAGER_GET_PRIVATE (object);
-
-	if (priv->store != NULL) {
+	if (self->priv->store != NULL) {
 		g_signal_handler_disconnect (
-			priv->store, priv->row_changed_handler_id);
-		g_object_unref (priv->store);
-		priv->store = NULL;
+			self->priv->store, self->priv->row_changed_handler_id);
+		g_clear_object (&self->priv->store);
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -579,12 +569,10 @@ mail_account_manager_dispose (GObject *object)
 static void
 mail_account_manager_finalize (GObject *object)
 {
-	EMailAccountManagerPrivate *priv;
+	EMailAccountManager *self = E_MAIL_ACCOUNT_MANAGER (object);
 
-	priv = E_MAIL_ACCOUNT_MANAGER_GET_PRIVATE (object);
-
-	g_free (priv->gcc_program_path);
-	g_free (priv->goa_account_id);
+	g_free (self->priv->gcc_program_path);
+	g_free (self->priv->goa_account_id);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_account_manager_parent_class)->finalize (object);
@@ -763,8 +751,6 @@ e_mail_account_manager_class_init (EMailAccountManagerClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailAccountManagerPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_account_manager_set_property;
 	object_class->get_property = mail_account_manager_get_property;
@@ -807,7 +793,7 @@ e_mail_account_manager_class_init (EMailAccountManagerClass *class)
 static void
 e_mail_account_manager_init (EMailAccountManager *manager)
 {
-	manager->priv = E_MAIL_ACCOUNT_MANAGER_GET_PRIVATE (manager);
+	manager->priv = e_mail_account_manager_get_instance_private (manager);
 
 	manager->priv->gcc_program_path =
 		g_find_program_in_path ("gnome-control-center");

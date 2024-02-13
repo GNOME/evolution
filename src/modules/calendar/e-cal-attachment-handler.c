@@ -30,10 +30,6 @@
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window.h>
 
-#define E_CAL_ATTACHMENT_HANDLER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_ATTACHMENT_HANDLER, ECalAttachmentHandlerPrivate))
-
 typedef struct _ImportContext ImportContext;
 
 struct _ECalAttachmentHandlerPrivate {
@@ -46,8 +42,8 @@ struct _ImportContext {
 	ECalClientSourceType source_type;
 };
 
-static gpointer parent_class;
-static GType cal_attachment_handler_type;
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ECalAttachmentHandler, e_cal_attachment_handler, E_TYPE_ATTACHMENT_HANDLER, 0,
+	G_ADD_PRIVATE_DYNAMIC (ECalAttachmentHandler))
 
 static const gchar *ui =
 "<ui>"
@@ -500,7 +496,7 @@ cal_attachment_handler_constructed (GObject *object)
 	handler = E_ATTACHMENT_HANDLER (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_cal_attachment_handler_parent_class)->constructed (object);
 
 	view = e_attachment_handler_get_view (handler);
 
@@ -524,46 +520,30 @@ cal_attachment_handler_constructed (GObject *object)
 }
 
 static void
-cal_attachment_handler_class_init (ECalAttachmentHandlerClass *class)
+e_cal_attachment_handler_class_init (ECalAttachmentHandlerClass *class)
 {
 	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (ECalAttachmentHandlerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = cal_attachment_handler_constructed;
 }
 
 static void
-cal_attachment_handler_init (ECalAttachmentHandler *handler)
+e_cal_attachment_handler_class_finalize (ECalAttachmentHandlerClass *klass)
 {
-	handler->priv = E_CAL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 }
 
-GType
-e_cal_attachment_handler_get_type (void)
+static void
+e_cal_attachment_handler_init (ECalAttachmentHandler *handler)
 {
-	return cal_attachment_handler_type;
+	handler->priv = e_cal_attachment_handler_get_instance_private (handler);
 }
 
 void
-e_cal_attachment_handler_register_type (GTypeModule *type_module)
+e_cal_attachment_handler_type_register (GTypeModule *type_module)
 {
-	static const GTypeInfo type_info = {
-		sizeof (ECalAttachmentHandlerClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) cal_attachment_handler_class_init,
-		(GClassFinalizeFunc) NULL,
-		NULL,  /* class_data */
-		sizeof (ECalAttachmentHandler),
-		0,     /* n_preallocs */
-		(GInstanceInitFunc) cal_attachment_handler_init,
-		NULL   /* value_table */
-	};
-
-	cal_attachment_handler_type = g_type_module_register_type (
-		type_module, E_TYPE_ATTACHMENT_HANDLER,
-		"ECalAttachmentHandler", &type_info, 0);
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_cal_attachment_handler_register_type (type_module);
 }

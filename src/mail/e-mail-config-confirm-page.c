@@ -23,10 +23,6 @@
 
 #include "e-mail-config-confirm-page.h"
 
-#define E_MAIL_CONFIG_CONFIRM_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_CONFIRM_PAGE, EMailConfigConfirmPagePrivate))
-
 struct _EMailConfigConfirmPagePrivate {
 	gchar *text;
 };
@@ -40,15 +36,10 @@ enum {
 static void	e_mail_config_confirm_page_interface_init
 					(EMailConfigPageInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailConfigConfirmPage,
-	e_mail_config_confirm_page,
-	GTK_TYPE_SCROLLED_WINDOW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_CONFIG_PAGE,
-		e_mail_config_confirm_page_interface_init))
+G_DEFINE_TYPE_WITH_CODE (EMailConfigConfirmPage, e_mail_config_confirm_page, GTK_TYPE_SCROLLED_WINDOW,
+	G_ADD_PRIVATE (EMailConfigConfirmPage)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (E_TYPE_MAIL_CONFIG_PAGE, e_mail_config_confirm_page_interface_init))
 
 static void
 mail_config_confirm_page_set_property (GObject *object,
@@ -88,15 +79,12 @@ mail_config_confirm_page_get_property (GObject *object,
 static void
 mail_config_confirm_page_finalize (GObject *object)
 {
-	EMailConfigConfirmPagePrivate *priv;
+	EMailConfigConfirmPage *self = E_MAIL_CONFIG_CONFIRM_PAGE (object);
 
-	priv = E_MAIL_CONFIG_CONFIRM_PAGE_GET_PRIVATE (object);
-
-	g_free (priv->text);
+	g_free (self->priv->text);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_config_confirm_page_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_mail_config_confirm_page_parent_class)->finalize (object);
 }
 
 static void
@@ -136,9 +124,6 @@ e_mail_config_confirm_page_class_init (EMailConfigConfirmPageClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailConfigConfirmPagePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_confirm_page_set_property;
 	object_class->get_property = mail_config_confirm_page_get_property;
@@ -172,7 +157,7 @@ e_mail_config_confirm_page_interface_init (EMailConfigPageInterface *iface)
 static void
 e_mail_config_confirm_page_init (EMailConfigConfirmPage *page)
 {
-	page->priv = E_MAIL_CONFIG_CONFIRM_PAGE_GET_PRIVATE (page);
+	page->priv = e_mail_config_confirm_page_get_instance_private (page);
 }
 
 EMailConfigPage *

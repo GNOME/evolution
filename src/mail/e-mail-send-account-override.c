@@ -26,10 +26,6 @@
 
 #include "e-mail-send-account-override.h"
 
-#define E_MAIL_SEND_ACCOUNT_OVERRIDE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SEND_ACCOUNT_OVERRIDE, EMailSendAccountOverridePrivate))
-
 #define FOLDERS_SECTION				"Folders"
 #define FOLDERS_ALIAS_NAME_SECTION		"Folders-Alias-Name"
 #define FOLDERS_ALIAS_ADDRESS_SECTION		"Folders-Alias-Address"
@@ -63,10 +59,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EMailSendAccountOverride,
-	e_mail_send_account_override,
-	G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailSendAccountOverride, e_mail_send_account_override, G_TYPE_OBJECT)
 
 static gboolean
 e_mail_send_account_override_save_locked (EMailSendAccountOverride *override)
@@ -424,27 +417,21 @@ mail_send_account_override_get_property (GObject *object,
 static void
 mail_send_account_override_finalize (GObject *object)
 {
-	EMailSendAccountOverridePrivate *priv;
+	EMailSendAccountOverride *self = E_MAIL_SEND_ACCOUNT_OVERRIDE (object);
 
-	priv = E_MAIL_SEND_ACCOUNT_OVERRIDE_GET_PRIVATE (object);
+	g_key_file_free (self->priv->key_file);
+	g_free (self->priv->config_filename);
 
-	g_key_file_free (priv->key_file);
-	g_free (priv->config_filename);
-
-	g_mutex_clear (&priv->property_lock);
+	g_mutex_clear (&self->priv->property_lock);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_send_account_override_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_mail_send_account_override_parent_class)->finalize (object);
 }
 
 static void
 e_mail_send_account_override_class_init (EMailSendAccountOverrideClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (
-		class, sizeof (EMailSendAccountOverridePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_send_account_override_set_property;
@@ -473,7 +460,7 @@ e_mail_send_account_override_class_init (EMailSendAccountOverrideClass *class)
 static void
 e_mail_send_account_override_init (EMailSendAccountOverride *override)
 {
-	override->priv = E_MAIL_SEND_ACCOUNT_OVERRIDE_GET_PRIVATE (override);
+	override->priv = e_mail_send_account_override_get_instance_private (override);
 
 	g_mutex_init (&override->priv->property_lock);
 	override->priv->key_file = g_key_file_new ();

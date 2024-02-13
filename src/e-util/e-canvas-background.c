@@ -38,22 +38,15 @@
 #include "e-canvas-utils.h"
 #include "e-misc-utils.h"
 
-#define E_CANVAS_BACKGROUND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CANVAS_BACKGROUND, ECanvasBackgroundPrivate))
-
-/* workaround for avoiding API broken */
-#define ecb_get_type e_canvas_background_get_type
-G_DEFINE_TYPE (
-	ECanvasBackground,
-	ecb,
-	GNOME_TYPE_CANVAS_ITEM)
-
 #define d(x)
 
 struct _ECanvasBackgroundPrivate {
 	guint rgba;		/* Fill color, RGBA */
 };
+
+/* workaround for avoiding API broken */
+#define ecb_get_type e_canvas_background_get_type
+G_DEFINE_TYPE_WITH_PRIVATE (ECanvasBackground, ecb, GNOME_TYPE_CANVAS_ITEM)
 
 enum {
 	STYLE_UPDATED,
@@ -166,7 +159,7 @@ ecb_get_property (GObject *object,
 static void
 ecb_init (ECanvasBackground *ecb)
 {
-	ecb->priv = E_CANVAS_BACKGROUND_GET_PRIVATE (ecb);
+	ecb->priv = ecb_get_instance_private (ecb);
 }
 
 static void
@@ -214,8 +207,6 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 {
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (ecb_class);
 	GObjectClass *object_class = G_OBJECT_CLASS (ecb_class);
-
-	g_type_class_add_private (ecb_class, sizeof (ECanvasBackgroundPrivate));
 
 	object_class->set_property = ecb_set_property;
 	object_class->get_property = ecb_get_property;

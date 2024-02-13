@@ -28,10 +28,6 @@
 #include "e-meeting-utils.h"
 #include "e-meeting-attendee.h"
 
-#define E_MEETING_ATTENDEE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEETING_ATTENDEE, EMeetingAttendeePrivate))
-
 struct _EMeetingAttendeePrivate {
 	gchar *address;
 	gchar *member;
@@ -77,7 +73,7 @@ static guint signals[LAST_SIGNAL];
 
 static void e_meeting_attendee_finalize	(GObject *obj);
 
-G_DEFINE_TYPE (EMeetingAttendee, e_meeting_attendee, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EMeetingAttendee, e_meeting_attendee, G_TYPE_OBJECT)
 
 static gchar *
 string_test (const gchar *string)
@@ -162,8 +158,6 @@ e_meeting_attendee_class_init (EMeetingAttendeeClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMeetingAttendeePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_meeting_attendee_finalize;
 
@@ -180,7 +174,7 @@ e_meeting_attendee_class_init (EMeetingAttendeeClass *class)
 static void
 e_meeting_attendee_init (EMeetingAttendee *ia)
 {
-	ia->priv = E_MEETING_ATTENDEE_GET_PRIVATE (ia);
+	ia->priv = e_meeting_attendee_get_instance_private (ia);
 
 	ia->priv->address = string_test (NULL);
 	ia->priv->member = string_test (NULL);

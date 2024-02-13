@@ -29,10 +29,6 @@
 #include "e-book-shell-view-private.h"
 #include "e-book-shell-view.h"
 
-#define E_BOOK_SHELL_CONTENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_BOOK_SHELL_CONTENT, EBookShellContentPrivate))
-
 struct _EBookShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *notebook;
@@ -53,13 +49,9 @@ enum {
 	PROP_PREVIEW_SHOW_MAPS
 };
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
-	EBookShellContent,
-	e_book_shell_content,
-	E_TYPE_SHELL_CONTENT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		GTK_TYPE_ORIENTABLE, NULL))
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EBookShellContent, e_book_shell_content, E_TYPE_SHELL_CONTENT, 0,
+	G_ADD_PRIVATE_DYNAMIC (EBookShellContent)
+	G_IMPLEMENT_INTERFACE_DYNAMIC (GTK_TYPE_ORIENTABLE, NULL))
 
 static void
 book_shell_content_send_message_cb (EBookShellContent *book_shell_content,
@@ -85,10 +77,8 @@ book_shell_content_restore_state_cb (EShellWindow *shell_window,
                                      EShellView *shell_view,
                                      EShellContent *shell_content)
 {
-	EBookShellContentPrivate *priv;
+	EBookShellContent *self = E_BOOK_SHELL_CONTENT (shell_content);
 	GSettings *settings;
-
-	priv = E_BOOK_SHELL_CONTENT_GET_PRIVATE (shell_content);
 
 	/* Bind GObject properties to GSettings keys. */
 
@@ -97,23 +87,23 @@ book_shell_content_restore_state_cb (EShellWindow *shell_window,
 	if (e_shell_window_is_main_instance (shell_window)) {
 		g_settings_bind (
 			settings, "hpane-position",
-			priv->paned, "hposition",
+			self->priv->paned, "hposition",
 			G_SETTINGS_BIND_DEFAULT);
 
 		g_settings_bind (
 			settings, "vpane-position",
-			priv->paned, "vposition",
+			self->priv->paned, "vposition",
 			G_SETTINGS_BIND_DEFAULT);
 	} else {
 		g_settings_bind (
 			settings, "hpane-position-sub",
-			priv->paned, "hposition",
+			self->priv->paned, "hposition",
 			G_SETTINGS_BIND_DEFAULT |
 			G_SETTINGS_BIND_GET_NO_CHANGES);
 
 		g_settings_bind (
 			settings, "vpane-position-sub",
-			priv->paned, "vposition",
+			self->priv->paned, "vposition",
 			G_SETTINGS_BIND_DEFAULT |
 			G_SETTINGS_BIND_GET_NO_CHANGES);
 	}
@@ -229,12 +219,11 @@ book_shell_content_get_property (GObject *object,
 static void
 book_shell_content_dispose (GObject *object)
 {
-	EBookShellContentPrivate *priv;
+	EBookShellContent *self = E_BOOK_SHELL_CONTENT (object);
 
-	priv = E_BOOK_SHELL_CONTENT_GET_PRIVATE (object);
-	g_clear_object (&priv->paned);
-	g_clear_object (&priv->notebook);
-	g_clear_object (&priv->preview_pane);
+	g_clear_object (&self->priv->paned);
+	g_clear_object (&self->priv->notebook);
+	g_clear_object (&self->priv->preview_pane);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_book_shell_content_parent_class)->dispose (object);
@@ -243,15 +232,13 @@ book_shell_content_dispose (GObject *object)
 static void
 book_shell_content_constructed (GObject *object)
 {
-	EBookShellContentPrivate *priv;
+	EBookShellContent *self = E_BOOK_SHELL_CONTENT (object);
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellTaskbar *shell_taskbar;
 	GtkWidget *container;
 	GtkWidget *widget;
-
-	priv = E_BOOK_SHELL_CONTENT_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_book_shell_content_parent_class)->constructed (object);
@@ -265,7 +252,7 @@ book_shell_content_constructed (GObject *object)
 
 	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
 	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->paned = g_object_ref (widget);
+	self->priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
@@ -279,7 +266,7 @@ book_shell_content_constructed (GObject *object)
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
 	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
-	priv->notebook = g_object_ref (widget);
+	self->priv->notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = eab_contact_display_new ();
@@ -289,7 +276,7 @@ book_shell_content_constructed (GObject *object)
 
 	eab_contact_display_set_show_maps (
 		EAB_CONTACT_DISPLAY (widget),
-		priv->preview_show_maps);
+		self->priv->preview_show_maps);
 
 	e_binding_bind_property (
 		object, "preview-show-maps",
@@ -309,7 +296,7 @@ book_shell_content_constructed (GObject *object)
 
 	widget = e_preview_pane_new (E_WEB_VIEW (widget));
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
-	priv->preview_pane = g_object_ref (widget);
+	self->priv->preview_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
@@ -431,8 +418,6 @@ e_book_shell_content_class_init (EBookShellContentClass *class)
 	GObjectClass *object_class;
 	EShellContentClass *shell_content_class;
 
-	g_type_class_add_private (class, sizeof (EBookShellContentPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = book_shell_content_set_property;
 	object_class->get_property = book_shell_content_get_property;
@@ -497,8 +482,7 @@ e_book_shell_content_class_finalize (EBookShellContentClass *class)
 static void
 e_book_shell_content_init (EBookShellContent *book_shell_content)
 {
-	book_shell_content->priv =
-		E_BOOK_SHELL_CONTENT_GET_PRIVATE (book_shell_content);
+	book_shell_content->priv = e_book_shell_content_get_instance_private (book_shell_content);
 
 	/* Postpone widget construction until we have a shell view. */
 }

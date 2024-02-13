@@ -26,10 +26,6 @@
 
 #include "e-activity-bar.h"
 
-#define E_ACTIVITY_BAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ACTIVITY_BAR, EActivityBarPrivate))
-
 #define FEEDBACK_PERIOD		1 /* seconds */
 #define COMPLETED_ICON_NAME	"emblem-default"
 
@@ -51,10 +47,7 @@ enum {
 	PROP_ACTIVITY
 };
 
-G_DEFINE_TYPE (
-	EActivityBar,
-	e_activity_bar,
-	GTK_TYPE_INFO_BAR)
+G_DEFINE_TYPE_WITH_PRIVATE (EActivityBar, e_activity_bar, GTK_TYPE_INFO_BAR)
 
 typedef struct _EActivityBarTimeoutData {
 	EActivityBar *bar;
@@ -281,20 +274,18 @@ activity_bar_constructed (GObject *object)
 static void
 activity_bar_dispose (GObject *object)
 {
-	EActivityBarPrivate *priv;
+	EActivityBar *self = E_ACTIVITY_BAR (object);
 
-	priv = E_ACTIVITY_BAR_GET_PRIVATE (object);
+	activity_bar_unset_timeout_id (self);
 
-	activity_bar_unset_timeout_id (E_ACTIVITY_BAR (object));
-
-	if (priv->activity != NULL) {
+	if (self->priv->activity != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->activity, G_SIGNAL_MATCH_DATA,
+			self->priv->activity, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
 		g_object_weak_unref (
-			G_OBJECT (priv->activity), (GWeakNotify)
+			G_OBJECT (self->priv->activity), (GWeakNotify)
 			activity_bar_weak_notify_cb, object);
-		priv->activity = NULL;
+		self->priv->activity = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -305,8 +296,6 @@ static void
 e_activity_bar_class_init (EActivityBarClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EActivityBarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = activity_bar_set_property;
@@ -332,7 +321,7 @@ e_activity_bar_init (EActivityBar *bar)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	bar->priv = E_ACTIVITY_BAR_GET_PRIVATE (bar);
+	bar->priv = e_activity_bar_get_instance_private (bar);
 
 	container = gtk_info_bar_get_content_area (GTK_INFO_BAR (bar));
 

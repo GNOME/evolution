@@ -33,10 +33,6 @@
 #include "e-cell-date-edit-text.h"
 #include "misc.h"
 
-#define E_CAL_MODEL_TASKS_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_MODEL_TASKS, ECalModelTasksPrivate))
-
 struct _ECalModelTasksPrivate {
 	gboolean highlight_due_today;
 	gchar *color_due_today;
@@ -58,13 +54,9 @@ static void	e_cal_model_tasks_table_model_init
 
 static ETableModelInterface *table_model_parent_interface;
 
-G_DEFINE_TYPE_WITH_CODE (
-	ECalModelTasks,
-	e_cal_model_tasks,
-	E_TYPE_CAL_MODEL,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_TABLE_MODEL,
-		e_cal_model_tasks_table_model_init))
+G_DEFINE_TYPE_WITH_CODE (ECalModelTasks, e_cal_model_tasks, E_TYPE_CAL_MODEL,
+	G_ADD_PRIVATE (ECalModelTasks)
+	G_IMPLEMENT_INTERFACE (E_TYPE_TABLE_MODEL, e_cal_model_tasks_table_model_init))
 
 /* This makes sure a task is marked as complete.
  * It makes sure the "Date Completed" property is set. If the completed_date
@@ -745,12 +737,10 @@ cal_model_tasks_get_property (GObject *object,
 static void
 cal_model_tasks_finalize (GObject *object)
 {
-	ECalModelTasksPrivate *priv;
+	ECalModelTasks *self = E_CAL_MODEL_TASKS (object);
 
-	priv = E_CAL_MODEL_TASKS_GET_PRIVATE (object);
-
-	g_free (priv->color_due_today);
-	g_free (priv->color_overdue);
+	g_free (self->priv->color_due_today);
+	g_free (self->priv->color_overdue);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_cal_model_tasks_parent_class)->finalize (object);
@@ -1181,8 +1171,6 @@ e_cal_model_tasks_class_init (ECalModelTasksClass *class)
 	GObjectClass *object_class;
 	ECalModelClass *cal_model_class;
 
-	g_type_class_add_private (class, sizeof (ECalModelTasksPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = cal_model_tasks_set_property;
 	object_class->get_property = cal_model_tasks_get_property;
@@ -1256,7 +1244,7 @@ e_cal_model_tasks_table_model_init (ETableModelInterface *iface)
 static void
 e_cal_model_tasks_init (ECalModelTasks *model)
 {
-	model->priv = E_CAL_MODEL_TASKS_GET_PRIVATE (model);
+	model->priv = e_cal_model_tasks_get_instance_private (model);
 
 	model->priv->highlight_due_today = TRUE;
 	model->priv->highlight_overdue = TRUE;

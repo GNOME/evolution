@@ -25,10 +25,6 @@
 
 #include "e-mail-config-summary-page.h"
 
-#define E_MAIL_CONFIG_SUMMARY_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_SUMMARY_PAGE, EMailConfigSummaryPagePrivate))
-
 struct _EMailConfigSummaryPagePrivate {
 	ESource *account_source;
 	ESource *identity_source;
@@ -77,15 +73,10 @@ static gulong signals[LAST_SIGNAL];
 static void	e_mail_config_summary_page_interface_init
 					(EMailConfigPageInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailConfigSummaryPage,
-	e_mail_config_summary_page,
-	GTK_TYPE_SCROLLED_WINDOW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_CONFIG_PAGE,
-		e_mail_config_summary_page_interface_init))
+G_DEFINE_TYPE_WITH_CODE (EMailConfigSummaryPage, e_mail_config_summary_page, GTK_TYPE_SCROLLED_WINDOW,
+	G_ADD_PRIVATE (EMailConfigSummaryPage)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (E_TYPE_MAIL_CONFIG_PAGE, e_mail_config_summary_page_interface_init))
 
 /* Helper for mail_config_summary_page_refresh() */
 static void
@@ -237,42 +228,36 @@ mail_config_summary_page_get_property (GObject *object,
 static void
 mail_config_summary_page_dispose (GObject *object)
 {
-	EMailConfigSummaryPagePrivate *priv;
+	EMailConfigSummaryPage *self = E_MAIL_CONFIG_SUMMARY_PAGE (object);
 
-	priv = E_MAIL_CONFIG_SUMMARY_PAGE_GET_PRIVATE (object);
-
-	if (priv->account_source != NULL) {
+	if (self->priv->account_source != NULL) {
 		g_signal_handler_disconnect (
-			priv->account_source,
-			priv->account_source_changed_id);
-		g_object_unref (priv->account_source);
-		priv->account_source = NULL;
-		priv->account_source_changed_id = 0;
+			self->priv->account_source,
+			self->priv->account_source_changed_id);
+		g_clear_object (&self->priv->account_source);
+		self->priv->account_source_changed_id = 0;
 	}
 
-	if (priv->identity_source != NULL) {
+	if (self->priv->identity_source != NULL) {
 		g_signal_handler_disconnect (
-			priv->identity_source,
-			priv->identity_source_changed_id);
-		g_object_unref (priv->identity_source);
-		priv->identity_source = NULL;
+			self->priv->identity_source,
+			self->priv->identity_source_changed_id);
+		g_clear_object (&self->priv->identity_source);
 	}
 
-	if (priv->transport_source != NULL) {
+	if (self->priv->transport_source != NULL) {
 		g_signal_handler_disconnect (
-			priv->transport_source,
-			priv->transport_source_changed_id);
-		g_object_unref (priv->transport_source);
-		priv->transport_source = NULL;
-		priv->transport_source_changed_id = 0;
+			self->priv->transport_source,
+			self->priv->transport_source_changed_id);
+		g_clear_object (&self->priv->transport_source);
+		self->priv->transport_source_changed_id = 0;
 	}
 
-	g_clear_object (&priv->account_backend);
-	g_clear_object (&priv->transport_backend);
+	g_clear_object (&self->priv->account_backend);
+	g_clear_object (&self->priv->transport_backend);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_summary_page_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_summary_page_parent_class)->dispose (object);
 }
 
 static void
@@ -519,23 +504,23 @@ mail_config_summary_page_constructed (GObject *object)
 static void
 mail_config_summary_page_refresh (EMailConfigSummaryPage *page)
 {
-	EMailConfigSummaryPagePrivate *priv;
+	EMailConfigSummaryPage *self;
 	ESource *source;
 	gboolean account_is_transport = FALSE;
 
-	priv = E_MAIL_CONFIG_SUMMARY_PAGE_GET_PRIVATE (page);
+	self = E_MAIL_CONFIG_SUMMARY_PAGE (page);
 
 	/* Clear all labels. */
-	gtk_label_set_text (priv->name_label, "");
-	gtk_label_set_text (priv->address_label, "");
-	gtk_label_set_text (priv->recv_backend_label, "");
-	gtk_label_set_text (priv->recv_host_label, "");
-	gtk_label_set_text (priv->recv_user_label, "");
-	gtk_label_set_text (priv->recv_security_label, "");
-	gtk_label_set_text (priv->send_backend_label, "");
-	gtk_label_set_text (priv->send_host_label, "");
-	gtk_label_set_text (priv->send_user_label, "");
-	gtk_label_set_text (priv->send_security_label, "");
+	gtk_label_set_text (self->priv->name_label, "");
+	gtk_label_set_text (self->priv->address_label, "");
+	gtk_label_set_text (self->priv->recv_backend_label, "");
+	gtk_label_set_text (self->priv->recv_host_label, "");
+	gtk_label_set_text (self->priv->recv_user_label, "");
+	gtk_label_set_text (self->priv->recv_security_label, "");
+	gtk_label_set_text (self->priv->send_backend_label, "");
+	gtk_label_set_text (self->priv->send_host_label, "");
+	gtk_label_set_text (self->priv->send_user_label, "");
+	gtk_label_set_text (self->priv->send_security_label, "");
 
 	source = e_mail_config_summary_page_get_identity_source (page);
 
@@ -548,10 +533,10 @@ mail_config_summary_page_refresh (EMailConfigSummaryPage *page)
 		extension = e_source_get_extension (source, extension_name);
 
 		value = e_source_mail_identity_get_name (extension);
-		gtk_label_set_text (priv->name_label, value);
+		gtk_label_set_text (self->priv->name_label, value);
 
 		value = e_source_mail_identity_get_address (extension);
-		gtk_label_set_text (priv->address_label, value);
+		gtk_label_set_text (self->priv->address_label, value);
 	}
 
 	source = e_mail_config_summary_page_get_account_source (page);
@@ -565,16 +550,16 @@ mail_config_summary_page_refresh (EMailConfigSummaryPage *page)
 		extension = e_source_get_extension (source, extension_name);
 
 		value = e_source_backend_get_backend_name (extension);
-		gtk_label_set_text (priv->recv_backend_label, value);
+		gtk_label_set_text (self->priv->recv_backend_label, value);
 
 		mail_config_summary_page_refresh_auth_labels (
 			source,
-			priv->recv_host_label,
-			priv->recv_user_label);
+			self->priv->recv_host_label,
+			self->priv->recv_user_label);
 
 		mail_config_summary_page_refresh_security_label (
 			source,
-			priv->recv_security_label);
+			self->priv->recv_security_label);
 
 		extension_name = E_SOURCE_EXTENSION_MAIL_TRANSPORT;
 		if (e_source_has_extension (source, extension_name))
@@ -595,16 +580,16 @@ mail_config_summary_page_refresh (EMailConfigSummaryPage *page)
 		extension = e_source_get_extension (source, extension_name);
 
 		value = e_source_backend_get_backend_name (extension);
-		gtk_label_set_text (priv->send_backend_label, value);
+		gtk_label_set_text (self->priv->send_backend_label, value);
 
 		mail_config_summary_page_refresh_auth_labels (
 			source,
-			priv->send_host_label,
-			priv->send_user_label);
+			self->priv->send_host_label,
+			self->priv->send_user_label);
 
 		mail_config_summary_page_refresh_security_label (
 			source,
-			priv->send_security_label);
+			self->priv->send_security_label);
 	}
 
 	e_mail_config_page_changed (E_MAIL_CONFIG_PAGE (page));
@@ -613,34 +598,35 @@ mail_config_summary_page_refresh (EMailConfigSummaryPage *page)
 static gboolean
 mail_config_summary_page_check_complete (EMailConfigPage *page)
 {
-	EMailConfigSummaryPagePrivate *priv;
+	EMailConfigSummaryPage *self;
 	gchar *stripped_text;
 	const gchar *text;
 	gboolean complete;
 
-	priv = E_MAIL_CONFIG_SUMMARY_PAGE_GET_PRIVATE (page);
+	self = E_MAIL_CONFIG_SUMMARY_PAGE (page);
 
 	/* Strip the account name of leading and trailing
 	 * whitespace as e_source_set_display_name() does. */
-	text = gtk_entry_get_text (priv->account_name_entry);
+	text = gtk_entry_get_text (self->priv->account_name_entry);
 	stripped_text = g_strstrip (g_strdup ((text != NULL) ? text : ""));
 	complete = (*stripped_text != '\0');
 	g_free (stripped_text);
 
-	e_util_set_entry_issue_hint (GTK_WIDGET (priv->account_name_entry), complete ? NULL : _("Account Name cannot be empty"));
+	e_util_set_entry_issue_hint (GTK_WIDGET (self->priv->account_name_entry), complete ? NULL : _("Account Name cannot be empty"));
 
 	if (complete) {
 		gboolean recv_is_none, send_is_none;
 
-		recv_is_none = gtk_widget_get_visible (GTK_WIDGET (priv->recv_backend_label)) &&
-				g_strcmp0 (gtk_label_get_text (priv->recv_backend_label), "none") == 0;
+		recv_is_none = gtk_widget_get_visible (GTK_WIDGET (self->priv->recv_backend_label)) &&
+				g_strcmp0 (gtk_label_get_text (self->priv->recv_backend_label), "none") == 0;
 
-		send_is_none = gtk_widget_get_visible (GTK_WIDGET (priv->send_backend_label)) &&
-				g_strcmp0 (gtk_label_get_text (priv->send_backend_label), "none") == 0;
+		send_is_none = gtk_widget_get_visible (GTK_WIDGET (self->priv->send_backend_label)) &&
+				g_strcmp0 (gtk_label_get_text (self->priv->send_backend_label), "none") == 0;
 
 		complete = !recv_is_none || !send_is_none;
 
-		e_util_set_entry_issue_hint (GTK_WIDGET (priv->account_name_entry), complete ? NULL : _("Cannot have both receiving and sending parts set to None"));
+		e_util_set_entry_issue_hint (GTK_WIDGET (self->priv->account_name_entry),
+			complete ? NULL : _("Cannot have both receiving and sending parts set to None"));
 	}
 
 	return complete;
@@ -650,7 +636,7 @@ static void
 mail_config_summary_page_commit_changes (EMailConfigPage *page,
                                          GQueue *source_queue)
 {
-	EMailConfigSummaryPagePrivate *priv;
+	EMailConfigSummaryPage *self;
 	EMailConfigServiceBackend *backend;
 	ESource *account_source;
 	ESource *identity_source;
@@ -661,7 +647,7 @@ mail_config_summary_page_commit_changes (EMailConfigPage *page,
 	const gchar *parent_uid;
 	const gchar *text;
 
-	priv = E_MAIL_CONFIG_SUMMARY_PAGE_GET_PRIVATE (page);
+	self = E_MAIL_CONFIG_SUMMARY_PAGE (page);
 
 	backend = e_mail_config_summary_page_get_account_backend (
 		E_MAIL_CONFIG_SUMMARY_PAGE (page));
@@ -680,7 +666,7 @@ mail_config_summary_page_commit_changes (EMailConfigPage *page,
 		E_MAIL_CONFIG_SUMMARY_PAGE (page));
 
 	/* This should propagate to the other sources through bindings. */
-	text = gtk_entry_get_text (priv->account_name_entry);
+	text = gtk_entry_get_text (self->priv->account_name_entry);
 	e_source_set_display_name (identity_source, text);
 
 	/* Setup parent/child relationships and cross-references. */
@@ -716,9 +702,6 @@ static void
 e_mail_config_summary_page_class_init (EMailConfigSummaryPageClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (
-		class, sizeof (EMailConfigSummaryPagePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_summary_page_set_property;
@@ -805,7 +788,7 @@ e_mail_config_summary_page_interface_init (EMailConfigPageInterface *iface)
 static void
 e_mail_config_summary_page_init (EMailConfigSummaryPage *page)
 {
-	page->priv = E_MAIL_CONFIG_SUMMARY_PAGE_GET_PRIVATE (page);
+	page->priv = e_mail_config_summary_page_get_instance_private (page);
 }
 
 EMailConfigPage *

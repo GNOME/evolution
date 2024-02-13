@@ -24,10 +24,6 @@
 
 #include "e-mail-folder-create-dialog.h"
 
-#define E_MAIL_FOLDER_CREATE_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_FOLDER_CREATE_DIALOG, EMailFolderCreateDialogPrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailFolderCreateDialogPrivate {
@@ -52,10 +48,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EMailFolderCreateDialog,
-	e_mail_folder_create_dialog,
-	EM_TYPE_FOLDER_SELECTOR)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailFolderCreateDialog, e_mail_folder_create_dialog, EM_TYPE_FOLDER_SELECTOR)
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -276,16 +269,13 @@ mail_folder_create_dialog_get_property (GObject *object,
 static void
 mail_folder_create_dialog_dispose (GObject *object)
 {
-	EMailFolderCreateDialogPrivate *priv;
+	EMailFolderCreateDialog *self = E_MAIL_FOLDER_CREATE_DIALOG (object);
 
-	priv = E_MAIL_FOLDER_CREATE_DIALOG_GET_PRIVATE (object);
-
-	g_clear_object (&priv->session);
-	g_clear_object (&priv->name_entry);
+	g_clear_object (&self->priv->session);
+	g_clear_object (&self->priv->name_entry);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_folder_create_dialog_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_folder_create_dialog_parent_class)->dispose (object);
 }
 
 static void
@@ -420,9 +410,6 @@ e_mail_folder_create_dialog_class_init (EMailFolderCreateDialogClass *class)
 	GtkDialogClass *dialog_class;
 	EMFolderSelectorClass *selector_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailFolderCreateDialogPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_folder_create_dialog_set_property;
 	object_class->get_property = mail_folder_create_dialog_get_property;
@@ -462,7 +449,7 @@ e_mail_folder_create_dialog_class_init (EMailFolderCreateDialogClass *class)
 static void
 e_mail_folder_create_dialog_init (EMailFolderCreateDialog *dialog)
 {
-	dialog->priv = E_MAIL_FOLDER_CREATE_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_mail_folder_create_dialog_get_instance_private (dialog);
 }
 
 GtkWidget *

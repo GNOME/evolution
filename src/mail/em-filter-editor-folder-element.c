@@ -34,10 +34,6 @@
 
 #include "em-filter-editor-folder-element.h"
 
-#define EM_FILTER_EDITOR_FOLDER_ELEMENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FILTER_EDITOR_FOLDER_ELEMENT, EMFilterEditorFolderElementPrivate))
-
 struct _EMFilterEditorFolderElementPrivate {
 	EMailSession *session;
 };
@@ -47,10 +43,7 @@ enum {
 	PROP_SESSION
 };
 
-G_DEFINE_TYPE (
-	EMFilterEditorFolderElement,
-	em_filter_editor_folder_element,
-	EM_TYPE_FILTER_FOLDER_ELEMENT)
+G_DEFINE_TYPE_WITH_PRIVATE (EMFilterEditorFolderElement, em_filter_editor_folder_element, EM_TYPE_FILTER_FOLDER_ELEMENT)
 
 static void
 filter_editor_folder_element_set_session (EMFilterEditorFolderElement *element,
@@ -127,10 +120,9 @@ filter_editor_folder_element_selected_cb (EMFolderSelectionButton *button,
 static void
 filter_editor_folder_element_dispose (GObject *object)
 {
-	EMFilterEditorFolderElementPrivate *priv;
+	EMFilterEditorFolderElement *self = EM_FILTER_EDITOR_FOLDER_ELEMENT (object);
 
-	priv = EM_FILTER_EDITOR_FOLDER_ELEMENT_GET_PRIVATE (object);
-	g_clear_object (&priv->session);
+	g_clear_object (&self->priv->session);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_filter_editor_folder_element_parent_class)->dispose (object);
@@ -177,8 +169,6 @@ em_filter_editor_folder_element_class_init (EMFilterEditorFolderElementClass *cl
 	GObjectClass *object_class;
 	EFilterElementClass *filter_element_class;
 
-	g_type_class_add_private (class, sizeof (EMFilterEditorFolderElementPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = filter_editor_folder_element_set_property;
 	object_class->get_property = filter_editor_folder_element_get_property;
@@ -203,7 +193,7 @@ em_filter_editor_folder_element_class_init (EMFilterEditorFolderElementClass *cl
 static void
 em_filter_editor_folder_element_init (EMFilterEditorFolderElement *element)
 {
-	element->priv = EM_FILTER_EDITOR_FOLDER_ELEMENT_GET_PRIVATE (element);
+	element->priv = em_filter_editor_folder_element_get_instance_private (element);
 }
 
 EFilterElement *

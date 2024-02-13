@@ -42,10 +42,6 @@
 
 #include "e-web-view.h"
 
-#define E_WEB_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEB_VIEW, EWebViewPrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 typedef struct _ElementClickedData {
@@ -173,18 +169,11 @@ static const gchar *ui =
 static void e_web_view_alert_sink_init (EAlertSinkInterface *iface);
 static void e_web_view_selectable_init (ESelectableInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EWebView,
-	e_web_view,
-	WEBKIT_TYPE_WEB_VIEW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK,
-		e_web_view_alert_sink_init)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_SELECTABLE,
-		e_web_view_selectable_init))
+G_DEFINE_TYPE_WITH_CODE (EWebView, e_web_view, WEBKIT_TYPE_WEB_VIEW,
+	G_ADD_PRIVATE (EWebView)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, e_web_view_alert_sink_init)
+	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, e_web_view_selectable_init))
 
 static void
 async_context_free (gpointer ptr)
@@ -1362,54 +1351,52 @@ web_view_get_property (GObject *object,
 static void
 web_view_dispose (GObject *object)
 {
-	EWebViewPrivate *priv;
+	EWebView *self = E_WEB_VIEW (object);
 
 	/* This can be called during dispose, thus disconnect early */
 	g_signal_handlers_disconnect_by_func (object, G_CALLBACK (style_updated_cb), NULL);
 
-	priv = E_WEB_VIEW_GET_PRIVATE (object);
-
-	if (priv->cancellable) {
-		g_cancellable_cancel (priv->cancellable);
-		g_clear_object (&priv->cancellable);
+	if (self->priv->cancellable) {
+		g_cancellable_cancel (self->priv->cancellable);
+		g_clear_object (&self->priv->cancellable);
 	}
 
-	if (priv->font_name_changed_handler_id > 0) {
+	if (self->priv->font_name_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->font_settings,
-			priv->font_name_changed_handler_id);
-		priv->font_name_changed_handler_id = 0;
+			self->priv->font_settings,
+			self->priv->font_name_changed_handler_id);
+		self->priv->font_name_changed_handler_id = 0;
 	}
 
-	if (priv->monospace_font_name_changed_handler_id > 0) {
+	if (self->priv->monospace_font_name_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->font_settings,
-			priv->monospace_font_name_changed_handler_id);
-		priv->monospace_font_name_changed_handler_id = 0;
+			self->priv->font_settings,
+			self->priv->monospace_font_name_changed_handler_id);
+		self->priv->monospace_font_name_changed_handler_id = 0;
 	}
 
-	if (priv->found_text_handler_id > 0) {
+	if (self->priv->found_text_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->find_controller,
-			priv->found_text_handler_id);
-		priv->found_text_handler_id = 0;
+			self->priv->find_controller,
+			self->priv->found_text_handler_id);
+		self->priv->found_text_handler_id = 0;
 	}
 
-	if (priv->failed_to_find_text_handler_id > 0) {
+	if (self->priv->failed_to_find_text_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->find_controller,
-			priv->failed_to_find_text_handler_id);
-		priv->failed_to_find_text_handler_id = 0;
+			self->priv->find_controller,
+			self->priv->failed_to_find_text_handler_id);
+		self->priv->failed_to_find_text_handler_id = 0;
 	}
 
-	g_hash_table_remove_all (priv->scheme_handlers);
-	g_hash_table_remove_all (priv->element_clicked_cbs);
+	g_hash_table_remove_all (self->priv->scheme_handlers);
+	g_hash_table_remove_all (self->priv->element_clicked_cbs);
 
-	g_clear_object (&priv->ui_manager);
-	g_clear_object (&priv->open_proxy);
-	g_clear_object (&priv->print_proxy);
-	g_clear_object (&priv->save_as_proxy);
-	g_clear_object (&priv->font_settings);
+	g_clear_object (&self->priv->ui_manager);
+	g_clear_object (&self->priv->open_proxy);
+	g_clear_object (&self->priv->print_proxy);
+	g_clear_object (&self->priv->save_as_proxy);
+	g_clear_object (&self->priv->font_settings);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->dispose (object);
@@ -1418,24 +1405,22 @@ web_view_dispose (GObject *object)
 static void
 web_view_finalize (GObject *object)
 {
-	EWebViewPrivate *priv;
+	EWebView *self = E_WEB_VIEW (object);
 
-	priv = E_WEB_VIEW_GET_PRIVATE (object);
+	g_clear_pointer (&self->priv->last_popup_iframe_src, g_free);
+	g_clear_pointer (&self->priv->last_popup_iframe_id, g_free);
+	g_clear_pointer (&self->priv->last_popup_element_id, g_free);
+	g_clear_pointer (&self->priv->last_popup_link_uri, g_free);
+	g_free (self->priv->selected_uri);
+	g_free (self->priv->cursor_image_src);
 
-	g_clear_pointer (&priv->last_popup_iframe_src, g_free);
-	g_clear_pointer (&priv->last_popup_iframe_id, g_free);
-	g_clear_pointer (&priv->last_popup_element_id, g_free);
-	g_clear_pointer (&priv->last_popup_link_uri, g_free);
-	g_free (priv->selected_uri);
-	g_free (priv->cursor_image_src);
+	while (!g_queue_is_empty (&self->priv->highlights))
+		g_free (g_queue_pop_head (&self->priv->highlights));
 
-	while (!g_queue_is_empty (&priv->highlights))
-		g_free (g_queue_pop_head (&priv->highlights));
+	g_clear_pointer (&self->priv->old_settings, g_hash_table_destroy);
 
-	g_clear_pointer (&priv->old_settings, g_hash_table_destroy);
-
-	g_hash_table_destroy (priv->scheme_handlers);
-	g_hash_table_destroy (priv->element_clicked_cbs);
+	g_hash_table_destroy (self->priv->scheme_handlers);
+	g_hash_table_destroy (self->priv->element_clicked_cbs);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->finalize (object);
@@ -2297,8 +2282,6 @@ e_web_view_class_init (EWebViewClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EWebViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructor = web_view_constructor;
 	object_class->set_property = web_view_set_property;
@@ -2579,7 +2562,7 @@ e_web_view_init (EWebView *web_view)
 	gulong handler_id;
 	GError *error = NULL;
 
-	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
+	web_view->priv = e_web_view_get_instance_private (web_view);
 
 	web_view->priv->highlights_enabled = TRUE;
 	web_view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);

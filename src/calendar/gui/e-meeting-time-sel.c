@@ -39,10 +39,6 @@
 #include "e-meeting-list-view.h"
 #include "e-meeting-time-sel-item.h"
 
-#define E_MEETING_TIME_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEETING_TIME_SELECTOR, EMeetingTimeSelectorPrivate))
-
 struct _EMeetingTimeSelectorPrivate {
 	gboolean use_24_hour_format;
 	gulong notify_free_busy_template_id;
@@ -188,8 +184,8 @@ static void row_deleted_cb (GtkTreeModel *model, GtkTreePath *path, gpointer dat
 
 static void free_busy_schedule_refresh_cb (EMeetingTimeSelector *mts);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMeetingTimeSelector, e_meeting_time_selector, GTK_TYPE_TABLE,
+G_DEFINE_TYPE_WITH_CODE (EMeetingTimeSelector, e_meeting_time_selector, GTK_TYPE_TABLE,
+	G_ADD_PRIVATE (EMeetingTimeSelector)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
@@ -270,8 +266,6 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EMeetingTimeSelectorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = meeting_time_selector_set_property;
 	object_class->get_property = meeting_time_selector_get_property;
@@ -308,7 +302,7 @@ e_meeting_time_selector_init (EMeetingTimeSelector *mts)
 {
 	GDateWeekday weekday;
 
-	mts->priv = E_MEETING_TIME_SELECTOR_GET_PRIVATE (mts);
+	mts->priv = e_meeting_time_selector_get_instance_private (mts);
 
 	/* The shadow is drawn in the border so it must be >= 2 pixels. */
 	gtk_container_set_border_width (GTK_CONTAINER (mts), 2);

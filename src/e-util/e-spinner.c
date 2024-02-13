@@ -42,7 +42,7 @@ enum {
 	PROP_ACTIVE
 };
 
-G_DEFINE_TYPE (ESpinner, e_spinner, GTK_TYPE_IMAGE)
+G_DEFINE_TYPE_WITH_PRIVATE (ESpinner, e_spinner, GTK_TYPE_IMAGE)
 
 static gboolean
 e_spinner_update_frame_cb (gpointer user_data)
@@ -233,8 +233,6 @@ e_spinner_class_init (ESpinnerClass *klass)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (klass, sizeof (ESpinnerPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = e_spinner_set_property;
 	object_class->get_property = e_spinner_get_property;
@@ -267,7 +265,7 @@ e_spinner_class_init (ESpinnerClass *klass)
 static void
 e_spinner_init (ESpinner *spinner)
 {
-	spinner->priv = G_TYPE_INSTANCE_GET_PRIVATE (spinner, E_TYPE_SPINNER, ESpinnerPrivate);
+	spinner->priv = e_spinner_get_instance_private (spinner);
 }
 
 GtkWidget *

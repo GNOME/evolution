@@ -41,10 +41,6 @@
 #include "e-simple-async-result.h"
 #include "e-client-cache.h"
 
-#define E_CLIENT_CACHE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CLIENT_CACHE, EClientCachePrivate))
-
 typedef struct _ClientData ClientData;
 typedef struct _SignalClosure SignalClosure;
 
@@ -79,12 +75,9 @@ struct _SignalClosure {
 	gchar *error_message;
 };
 
-G_DEFINE_TYPE_WITH_CODE (
-	EClientCache,
-	e_client_cache,
-	G_TYPE_OBJECT,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EClientCache, e_client_cache, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EClientCache)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 enum {
 	PROP_0,
@@ -742,29 +735,27 @@ client_cache_get_property (GObject *object,
 static void
 client_cache_dispose (GObject *object)
 {
-	EClientCachePrivate *priv;
+	EClientCache *self = E_CLIENT_CACHE (object);
 
-	priv = E_CLIENT_CACHE_GET_PRIVATE (object);
-
-	if (priv->source_removed_handler_id > 0) {
+	if (self->priv->source_removed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_removed_handler_id);
-		priv->source_removed_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_removed_handler_id);
+		self->priv->source_removed_handler_id = 0;
 	}
 
-	if (priv->source_disabled_handler_id > 0) {
+	if (self->priv->source_disabled_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_disabled_handler_id);
-		priv->source_disabled_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_disabled_handler_id);
+		self->priv->source_disabled_handler_id = 0;
 	}
 
-	g_clear_object (&priv->registry);
+	g_clear_object (&self->priv->registry);
 
-	g_hash_table_remove_all (priv->client_ht);
+	g_hash_table_remove_all (self->priv->client_ht);
 
-	g_clear_pointer (&priv->main_context, g_main_context_unref);
+	g_clear_pointer (&self->priv->main_context, g_main_context_unref);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_client_cache_parent_class)->dispose (object);
@@ -773,12 +764,10 @@ client_cache_dispose (GObject *object)
 static void
 client_cache_finalize (GObject *object)
 {
-	EClientCachePrivate *priv;
+	EClientCache *self = E_CLIENT_CACHE (object);
 
-	priv = E_CLIENT_CACHE_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->client_ht);
-	g_mutex_clear (&priv->client_ht_lock);
+	g_hash_table_destroy (self->priv->client_ht);
+	g_mutex_clear (&self->priv->client_ht_lock);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_client_cache_parent_class)->finalize (object);
@@ -821,8 +810,6 @@ static void
 e_client_cache_class_init (EClientCacheClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EClientCachePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = client_cache_set_property;
@@ -1006,7 +993,7 @@ e_client_cache_init (EClientCache *client_cache)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_hash_table_unref);
 
-	client_cache->priv = E_CLIENT_CACHE_GET_PRIVATE (client_cache);
+	client_cache->priv = e_client_cache_get_instance_private (client_cache);
 
 	client_cache->priv->main_context = g_main_context_ref_thread_default ();
 	client_cache->priv->client_ht = client_ht;

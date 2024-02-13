@@ -27,16 +27,12 @@
 #include "e-dialog-widgets.h"
 #include "e-misc-utils.h"
 
-#define E_CATEGORY_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CATEGORY_EDITOR, ECategoryEditorPrivate))
-
 struct _ECategoryEditorPrivate {
 	GtkWidget *category_name;
 	GtkWidget *category_icon;
 };
 
-G_DEFINE_TYPE (ECategoryEditor, e_category_editor, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_PRIVATE (ECategoryEditor, e_category_editor, GTK_TYPE_DIALOG)
 
 static void
 update_preview (GtkFileChooser *chooser,
@@ -140,7 +136,6 @@ check_category_name (const gchar *name)
 static void
 e_category_editor_class_init (ECategoryEditorClass *class)
 {
-	g_type_class_add_private (class, sizeof (ECategoryEditorPrivate));
 }
 
 static void
@@ -156,7 +151,7 @@ e_category_editor_init (ECategoryEditor *editor)
 	GtkWidget *chooser_dialog = NULL;
 	GtkWidget *preview;
 
-	editor->priv = E_CATEGORY_EDITOR_GET_PRIVATE (editor);
+	editor->priv = e_category_editor_get_instance_private (editor);
 
 	gtk_window_set_resizable (GTK_WINDOW (editor), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (editor), 6);

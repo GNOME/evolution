@@ -32,10 +32,6 @@
 
 #include "e-contact-map.h"
 
-#define E_CONTACT_MAP_WINDOW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CONTACT_MAP_WINDOW, EContactMapWindowPrivate))
-
 struct _EContactMapWindowPrivate {
 	EContactMap *map;
 
@@ -59,10 +55,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EContactMapWindow,
-	e_contact_map_window,
-	GTK_TYPE_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE (EContactMapWindow, e_contact_map_window, GTK_TYPE_WINDOW)
 
 static gboolean
 contact_map_marker_button_release_event_cb (ClutterActor *actor,
@@ -298,16 +291,14 @@ entry_completion_match_selected_cb (GtkEntryCompletion *widget,
 static void
 contact_map_window_dispose (GObject *object)
 {
-	EContactMapWindowPrivate *priv;
+	EContactMapWindow *self = E_CONTACT_MAP_WINDOW (object);
 
-	priv = E_CONTACT_MAP_WINDOW_GET_PRIVATE (object);
-
-	if (priv->map != NULL) {
-		gtk_widget_destroy (GTK_WIDGET (priv->map));
-		priv->map = NULL;
+	if (self->priv->map != NULL) {
+		gtk_widget_destroy (GTK_WIDGET (self->priv->map));
+		self->priv->map = NULL;
 	}
 
-	g_clear_object (&priv->completion_model);
+	g_clear_object (&self->priv->completion_model);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_contact_map_window_parent_class)->dispose (object);
@@ -316,11 +307,9 @@ contact_map_window_dispose (GObject *object)
 static void
 contact_map_window_finalize (GObject *object)
 {
-	EContactMapWindowPrivate *priv;
+	EContactMapWindow *self = E_CONTACT_MAP_WINDOW (object);
 
-	priv = E_CONTACT_MAP_WINDOW_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->hash_table);
+	g_hash_table_destroy (self->priv->hash_table);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_contact_map_window_parent_class)->finalize (object);
@@ -330,8 +319,6 @@ static void
 e_contact_map_window_class_init (EContactMapWindowClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EContactMapWindowPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = contact_map_window_dispose;
@@ -350,7 +337,6 @@ e_contact_map_window_class_init (EContactMapWindowClass *class)
 static void
 e_contact_map_window_init (EContactMapWindow *window)
 {
-	EContactMapWindowPrivate *priv;
 	GtkWidget *map;
 	GtkWidget *button, *entry;
 	GtkWidget *hbox, *vbox, *viewport;
@@ -359,17 +345,16 @@ e_contact_map_window_init (EContactMapWindow *window)
 	ChamplainView *view;
 	GHashTable *hash_table;
 
-	priv = E_CONTACT_MAP_WINDOW_GET_PRIVATE (window);
-	window->priv = priv;
+	window->priv = e_contact_map_window_get_instance_private (window);
 
-	priv->tasks_cnt = 0;
+	window->priv->tasks_cnt = 0;
 
 	hash_table = g_hash_table_new_full (
 		(GHashFunc) g_str_hash,
 		(GEqualFunc) g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
-	priv->hash_table = hash_table;
+	window->priv->hash_table = hash_table;
 
 	gtk_window_set_title (GTK_WINDOW (window), _("Contacts Map"));
 	gtk_container_set_border_width (GTK_CONTAINER (window), 12);
@@ -379,7 +364,7 @@ e_contact_map_window_init (EContactMapWindow *window)
 	map = e_contact_map_new ();
 	view = e_contact_map_get_view (E_CONTACT_MAP (map));
 	champlain_view_set_zoom_level (view, 2);
-	priv->map = E_CONTACT_MAP (map);
+	window->priv->map = E_CONTACT_MAP (map);
 	e_signal_connect_notify (
 		view, "notify::zoom-level",
 		G_CALLBACK (contact_map_window_zoom_level_changed_cb), window);
@@ -403,14 +388,14 @@ e_contact_map_window_init (EContactMapWindow *window)
 	button = e_spinner_new ();
 	gtk_container_add (GTK_CONTAINER (hbox), button);
 	gtk_widget_hide (button);
-	priv->spinner = button;
+	window->priv->spinner = button;
 
 	/* Zoom-in button */
 	button = e_dialog_button_new_with_icon ("zoom-in", _("Zoom _In"));
 	g_signal_connect (
 		button, "clicked",
 		G_CALLBACK (contact_map_window_zoom_in_cb), window);
-	priv->zoom_in_btn = button;
+	window->priv->zoom_in_btn = button;
 	gtk_container_add (GTK_CONTAINER (hbox), button);
 
 	/* Zoom-out button */
@@ -418,12 +403,12 @@ e_contact_map_window_init (EContactMapWindow *window)
 	g_signal_connect (
 		button, "clicked",
 		G_CALLBACK (contact_map_window_zoom_out_cb), window);
-	priv->zoom_out_btn = button;
+	window->priv->zoom_out_btn = button;
 	gtk_container_add (GTK_CONTAINER (hbox), button);
 
 	/* Completion model */
 	completion_model = gtk_list_store_new (1, G_TYPE_STRING);
-	priv->completion_model = completion_model;
+	window->priv->completion_model = completion_model;
 
 	/* Entry completion */
 	entry_completion = gtk_entry_completion_new ();
@@ -460,7 +445,7 @@ e_contact_map_window_init (EContactMapWindow *window)
 	gtk_container_add (GTK_CONTAINER (window), vbox);
 
 	gtk_widget_show_all (vbox);
-	gtk_widget_hide (priv->spinner);
+	gtk_widget_hide (window->priv->spinner);
 }
 
 EContactMapWindow *

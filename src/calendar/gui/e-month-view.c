@@ -22,15 +22,11 @@
 
 #include "e-month-view.h"
 
-#define E_MONTH_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MONTH_VIEW, EMonthViewPrivate))
-
 struct _EMonthViewPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_TYPE (EMonthView, e_month_view, E_TYPE_WEEK_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (EMonthView, e_month_view, E_TYPE_WEEK_VIEW)
 
 static void
 month_view_cursor_key_up (EWeekView *week_view)
@@ -161,8 +157,6 @@ e_month_view_class_init (EMonthViewClass *class)
 {
 	EWeekViewClass *week_view_class;
 
-	g_type_class_add_private (class, sizeof (EMonthViewPrivate));
-
 	week_view_class = E_WEEK_VIEW_CLASS (class);
 	week_view_class->cursor_key_up = month_view_cursor_key_up;
 	week_view_class->cursor_key_down = month_view_cursor_key_down;
@@ -173,7 +167,7 @@ e_month_view_class_init (EMonthViewClass *class)
 static void
 e_month_view_init (EMonthView *month_view)
 {
-	month_view->priv = E_MONTH_VIEW_GET_PRIVATE (month_view);
+	month_view->priv = e_month_view_get_instance_private (month_view);
 }
 
 ECalendarView *

@@ -67,10 +67,8 @@ ect_value_iface_init (AtkValueIface *iface)
 	iface->get_current_value = ect_get_current_value;
 }
 
-G_DEFINE_TYPE_WITH_CODE (GalA11yECellToggle,
-	gal_a11y_e_cell_toggle,
-	GAL_A11Y_TYPE_E_CELL,
-	gal_a11y_e_cell_type_add_action_interface (g_define_type_id);
+G_DEFINE_TYPE_WITH_CODE (GalA11yECellToggle, gal_a11y_e_cell_toggle, GAL_A11Y_TYPE_E_CELL,
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_ACTION, gal_a11y_e_cell_atk_action_interface_init)
 	G_IMPLEMENT_INTERFACE (ATK_TYPE_VALUE, ect_value_iface_init))
 
 static void

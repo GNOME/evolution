@@ -74,7 +74,7 @@ static gboolean e_cal_list_view_on_table_key_press	(ETable *table, gint row, gin
 static gboolean  e_cal_list_view_on_table_white_space_event (ETable *table, GdkEvent *event, gpointer data);
 static void e_cal_list_view_cursor_change_cb (ETable *etable, gint row, gpointer data);
 
-G_DEFINE_TYPE (ECalListView, e_cal_list_view, E_TYPE_CALENDAR_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (ECalListView, e_cal_list_view, E_TYPE_CALENDAR_VIEW)
 
 static void
 e_cal_list_view_get_property (GObject *object,
@@ -133,8 +133,6 @@ e_cal_list_view_class_init (ECalListViewClass *class)
 	widget_class = (GtkWidgetClass *) class;
 	view_class = (ECalendarViewClass *) class;
 
-	g_type_class_add_private (class, sizeof (ECalListViewPrivate));
-
 	/* Method override */
 	object_class->dispose = e_cal_list_view_dispose;
 	object_class->get_property = e_cal_list_view_get_property;
@@ -155,7 +153,7 @@ e_cal_list_view_class_init (ECalListViewClass *class)
 static void
 e_cal_list_view_init (ECalListView *cal_list_view)
 {
-	cal_list_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (cal_list_view, E_TYPE_CAL_LIST_VIEW, ECalListViewPrivate);
+	cal_list_view->priv = e_cal_list_view_get_instance_private (cal_list_view);
 
 	cal_list_view->priv->table = NULL;
 }

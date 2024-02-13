@@ -15,11 +15,9 @@
  *
  */
 
-#include "e-auth-combo-box.h"
+#include "evolution-config.h"
 
-#define E_AUTH_COMBO_BOX_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_AUTH_COMBO_BOX, EAuthComboBoxPrivate))
+#include "e-auth-combo-box.h"
 
 struct _EAuthComboBoxPrivate {
 	CamelProvider *provider;
@@ -38,10 +36,7 @@ enum {
 	NUM_COLUMNS
 };
 
-G_DEFINE_TYPE (
-	EAuthComboBox,
-	e_auth_combo_box,
-	GTK_TYPE_COMBO_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EAuthComboBox, e_auth_combo_box, GTK_TYPE_COMBO_BOX)
 
 static void
 auth_combo_box_rebuild_model (EAuthComboBox *combo_box)
@@ -160,8 +155,6 @@ e_auth_combo_box_class_init (EAuthComboBoxClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EAuthComboBoxPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = auth_combo_box_set_property;
 	object_class->get_property = auth_combo_box_get_property;
@@ -181,7 +174,7 @@ e_auth_combo_box_class_init (EAuthComboBoxClass *class)
 static void
 e_auth_combo_box_init (EAuthComboBox *combo_box)
 {
-	combo_box->priv = E_AUTH_COMBO_BOX_GET_PRIVATE (combo_box);
+	combo_box->priv = e_auth_combo_box_get_instance_private (combo_box);
 }
 
 GtkWidget *

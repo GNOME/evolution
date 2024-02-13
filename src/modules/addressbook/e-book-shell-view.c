@@ -29,10 +29,8 @@ enum {
 	PROP_CLICKED_SOURCE
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EBookShellView,
-	e_book_shell_view,
-	E_TYPE_SHELL_VIEW);
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EBookShellView, e_book_shell_view, E_TYPE_SHELL_VIEW, 0,
+	G_ADD_PRIVATE_DYNAMIC (EBookShellView))
 
 static void
 book_shell_view_get_property (GObject *object,
@@ -90,7 +88,7 @@ book_shell_view_constructed (GObject *object)
 static void
 book_shell_view_execute_search (EShellView *shell_view)
 {
-	EBookShellViewPrivate *priv;
+	EBookShellView *self;
 	EBookShellContent *book_shell_content;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
@@ -105,9 +103,9 @@ book_shell_view_execute_search (EShellView *shell_view)
 	gchar *search_text = NULL;
 	EFilterRule *advanced_search = NULL;
 
-	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
+	self = E_BOOK_SHELL_VIEW (shell_view);
 
-	if (priv->search_locked)
+	if (self->priv->search_locked)
 		return;
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -430,8 +428,6 @@ e_book_shell_view_class_init (EBookShellViewClass *class)
 	GObjectClass *object_class;
 	EShellViewClass *shell_view_class;
 
-	g_type_class_add_private (class, sizeof (EBookShellViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = book_shell_view_get_property;
 	object_class->dispose = book_shell_view_dispose;
@@ -468,8 +464,7 @@ e_book_shell_view_class_init (EBookShellViewClass *class)
 static void
 e_book_shell_view_init (EBookShellView *book_shell_view)
 {
-	book_shell_view->priv =
-		E_BOOK_SHELL_VIEW_GET_PRIVATE (book_shell_view);
+	book_shell_view->priv = e_book_shell_view_get_instance_private (book_shell_view);
 
 	e_book_shell_view_private_init (book_shell_view);
 }

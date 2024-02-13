@@ -48,10 +48,8 @@ struct _ECalendarPreferencesPrivate {
 	GtkWidget *reminder_tasks_scrolled_window;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ECalendarPreferences,
-	e_calendar_preferences,
-	GTK_TYPE_BOX)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ECalendarPreferences, e_calendar_preferences, GTK_TYPE_BOX, 0,
+	G_ADD_PRIVATE_DYNAMIC (ECalendarPreferences))
 
 static gboolean
 calendar_preferences_map_string_to_integer (GValue *value,
@@ -292,8 +290,6 @@ e_calendar_preferences_class_init (ECalendarPreferencesClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ECalendarPreferencesPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = calendar_preferences_dispose;
 }
@@ -306,7 +302,7 @@ e_calendar_preferences_class_finalize (ECalendarPreferencesClass *class)
 static void
 e_calendar_preferences_init (ECalendarPreferences *preferences)
 {
-	preferences->priv = G_TYPE_INSTANCE_GET_PRIVATE (preferences, E_TYPE_CALENDAR_PREFERENCES, ECalendarPreferencesPrivate);
+	preferences->priv = e_calendar_preferences_get_instance_private (preferences);
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (preferences), GTK_ORIENTATION_VERTICAL);
 }

@@ -25,10 +25,6 @@
 #include "em-folder-utils.h"
 #include "em-subscription-editor.h"
 
-#define EM_SUBSCRIPTION_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_SUBSCRIPTION_EDITOR, EMSubscriptionEditorPrivate))
-
 #define FOLDER_CAN_SELECT(folder_info) \
 	((folder_info) != NULL && \
 	((folder_info)->flags & CAMEL_FOLDER_NOSELECT) == 0)
@@ -103,7 +99,7 @@ enum {
 	N_COLUMNS
 };
 
-G_DEFINE_TYPE (EMSubscriptionEditor, em_subscription_editor, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_PRIVATE (EMSubscriptionEditor, em_subscription_editor, GTK_TYPE_DIALOG)
 
 static void
 tree_row_data_free (TreeRowData *tree_row_data)
@@ -1549,19 +1545,17 @@ subscription_editor_get_property (GObject *object,
 static void
 subscription_editor_dispose (GObject *object)
 {
-	EMSubscriptionEditorPrivate *priv;
+	EMSubscriptionEditor *self = EM_SUBSCRIPTION_EDITOR (object);
 
-	priv = EM_SUBSCRIPTION_EDITOR_GET_PRIVATE (object);
+	g_clear_object (&self->priv->session);
+	g_clear_object (&self->priv->initial_store);
 
-	g_clear_object (&priv->session);
-	g_clear_object (&priv->initial_store);
-
-	if (priv->timeout_id > 0) {
-		g_source_remove (priv->timeout_id);
-		priv->timeout_id = 0;
+	if (self->priv->timeout_id > 0) {
+		g_source_remove (self->priv->timeout_id);
+		self->priv->timeout_id = 0;
 	}
 
-	g_ptr_array_set_size (priv->stores, 0);
+	g_ptr_array_set_size (self->priv->stores, 0);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_subscription_editor_parent_class)->dispose (object);
@@ -1570,13 +1564,11 @@ subscription_editor_dispose (GObject *object)
 static void
 subscription_editor_finalize (GObject *object)
 {
-	EMSubscriptionEditorPrivate *priv;
+	EMSubscriptionEditor *self = EM_SUBSCRIPTION_EDITOR (object);
 
-	priv = EM_SUBSCRIPTION_EDITOR_GET_PRIVATE (object);
+	g_ptr_array_free (self->priv->stores, TRUE);
 
-	g_ptr_array_free (priv->stores, TRUE);
-
-	g_free (priv->search_string);
+	g_free (self->priv->search_string);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_subscription_editor_parent_class)->finalize (object);
@@ -1679,8 +1671,6 @@ em_subscription_editor_class_init (EMSubscriptionEditorClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EMSubscriptionEditorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = subscription_editor_set_property;
 	object_class->get_property = subscription_editor_get_property;
@@ -1724,7 +1714,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	GtkWidget *box;
 	const gchar *tooltip;
 
-	editor->priv = EM_SUBSCRIPTION_EDITOR_GET_PRIVATE (editor);
+	editor->priv = em_subscription_editor_get_instance_private (editor);
 
 	editor->priv->stores = g_ptr_array_new_with_free_func (
 		(GDestroyNotify) store_data_free);

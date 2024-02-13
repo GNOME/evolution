@@ -30,10 +30,6 @@
 
 #include "gnome-canvas-rect.h"
 
-#define GNOME_CANVAS_RECT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), GNOME_TYPE_CANVAS_RECT, GnomeCanvasRectPrivate))
-
 struct _GnomeCanvasRectPrivate {
 	cairo_path_t *path;             /* Our bezier path representation */
 
@@ -82,7 +78,7 @@ enum {
 static void   gnome_canvas_rect_bounds      (GnomeCanvasItem *item,
 					      gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
-G_DEFINE_TYPE (GnomeCanvasRect, gnome_canvas_rect, GNOME_TYPE_CANVAS_ITEM)
+G_DEFINE_TYPE_WITH_PRIVATE (GnomeCanvasRect, gnome_canvas_rect, GNOME_TYPE_CANVAS_ITEM)
 
 static guint32
 get_rgba_from_color (GdkColor *color)
@@ -497,8 +493,6 @@ gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	g_type_class_add_private (class, sizeof (GnomeCanvasRectPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = gnome_canvas_rect_set_property;
 	object_class->get_property = gnome_canvas_rect_get_property;
@@ -695,7 +689,7 @@ gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 static void
 gnome_canvas_rect_init (GnomeCanvasRect *rect)
 {
-	rect->priv = GNOME_CANVAS_RECT_GET_PRIVATE (rect);
+	rect->priv = gnome_canvas_rect_get_instance_private (rect);
 
 	rect->priv->scale = 1.0;
 

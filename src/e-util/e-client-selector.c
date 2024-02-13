@@ -32,10 +32,6 @@
 
 #include "e-client-selector.h"
 
-#define E_CLIENT_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CLIENT_SELECTOR, EClientSelectorPrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EClientSelectorPrivate {
@@ -56,10 +52,7 @@ enum {
 	PROP_CLIENT_CACHE
 };
 
-G_DEFINE_TYPE (
-	EClientSelector,
-	e_client_selector,
-	E_TYPE_SOURCE_SELECTOR)
+G_DEFINE_TYPE_WITH_PRIVATE (EClientSelector, e_client_selector, E_TYPE_SOURCE_SELECTOR)
 
 enum {
 	CONNECTION_STATUS_UNKNOWN	= 0,
@@ -399,32 +392,30 @@ client_selector_get_property (GObject *object,
 static void
 client_selector_dispose (GObject *object)
 {
-	EClientSelectorPrivate *priv;
+	EClientSelector *self = E_CLIENT_SELECTOR (object);
 
-	priv = E_CLIENT_SELECTOR_GET_PRIVATE (object);
-
-	if (priv->backend_died_handler_id > 0) {
+	if (self->priv->backend_died_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->client_cache,
-			priv->backend_died_handler_id);
-		priv->backend_died_handler_id = 0;
+			self->priv->client_cache,
+			self->priv->backend_died_handler_id);
+		self->priv->backend_died_handler_id = 0;
 	}
 
-	if (priv->client_created_handler_id > 0) {
+	if (self->priv->client_created_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->client_cache,
-			priv->client_created_handler_id);
-		priv->client_created_handler_id = 0;
+			self->priv->client_cache,
+			self->priv->client_created_handler_id);
+		self->priv->client_created_handler_id = 0;
 	}
 
-	if (priv->client_notify_online_handler_id > 0) {
+	if (self->priv->client_notify_online_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->client_cache,
-			priv->client_notify_online_handler_id);
-		priv->client_notify_online_handler_id = 0;
+			self->priv->client_cache,
+			self->priv->client_notify_online_handler_id);
+		self->priv->client_notify_online_handler_id = 0;
 	}
 
-	g_clear_object (&priv->client_cache);
+	g_clear_object (&self->priv->client_cache);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_client_selector_parent_class)->dispose (object);
@@ -575,8 +566,6 @@ e_client_selector_class_init (EClientSelectorClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EClientSelectorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = client_selector_set_property;
 	object_class->get_property = client_selector_get_property;
@@ -607,7 +596,7 @@ e_client_selector_class_init (EClientSelectorClass *class)
 static void
 e_client_selector_init (EClientSelector *selector)
 {
-	selector->priv = E_CLIENT_SELECTOR_GET_PRIVATE (selector);
+	selector->priv = e_client_selector_get_instance_private (selector);
 }
 
 /**

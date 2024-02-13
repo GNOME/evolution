@@ -22,18 +22,12 @@
 #include <shell/e-shell.h>
 #include <mail/e-mail-reader.h>
 
-#define E_SETTINGS_MAIL_READER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_MAIL_READER, ESettingsMailReaderPrivate))
-
 struct _ESettingsMailReaderPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsMailReader,
-	e_settings_mail_reader,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsMailReader, e_settings_mail_reader, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsMailReader))
 
 static gboolean
 settings_mail_reader_idle_cb (EExtension *extension)
@@ -114,8 +108,6 @@ e_settings_mail_reader_class_init (ESettingsMailReaderClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ESettingsMailReaderPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = settings_mail_reader_constructed;
 
@@ -131,7 +123,7 @@ e_settings_mail_reader_class_finalize (ESettingsMailReaderClass *class)
 static void
 e_settings_mail_reader_init (ESettingsMailReader *extension)
 {
-	extension->priv = E_SETTINGS_MAIL_READER_GET_PRIVATE (extension);
+	extension->priv = e_settings_mail_reader_get_instance_private (extension);
 }
 
 void

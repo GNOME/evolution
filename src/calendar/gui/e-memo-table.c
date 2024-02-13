@@ -44,10 +44,6 @@
 #include "print.h"
 #include "misc.h"
 
-#define E_MEMO_TABLE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEMO_TABLE, EMemoTablePrivate))
-
 struct _EMemoTablePrivate {
 	gpointer shell_view;  /* weak pointer */
 	ECalModel *model;
@@ -85,13 +81,9 @@ static const gchar *icon_names[] = {
 static void	e_memo_table_selectable_init
 					(ESelectableInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMemoTable,
-	e_memo_table,
-	E_TYPE_TABLE,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_SELECTABLE,
-		e_memo_table_selectable_init))
+G_DEFINE_TYPE_WITH_CODE (EMemoTable, e_memo_table, E_TYPE_TABLE,
+	G_ADD_PRIVATE (EMemoTable)
+	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, e_memo_table_selectable_init))
 
 static void
 memo_table_emit_open_component (EMemoTable *memo_table,
@@ -284,19 +276,16 @@ memo_table_get_property (GObject *object,
 static void
 memo_table_dispose (GObject *object)
 {
-	EMemoTablePrivate *priv;
+	EMemoTable *self = E_MEMO_TABLE (object);
 
-	priv = E_MEMO_TABLE_GET_PRIVATE (object);
-
-	if (priv->shell_view != NULL) {
-		g_object_remove_weak_pointer (
-			G_OBJECT (priv->shell_view), &priv->shell_view);
-		priv->shell_view = NULL;
+	if (self->priv->shell_view != NULL) {
+		g_object_remove_weak_pointer (G_OBJECT (self->priv->shell_view), &self->priv->shell_view);
+		self->priv->shell_view = NULL;
 	}
 
-	g_clear_object (&priv->model);
-	g_clear_pointer (&priv->copy_target_list, gtk_target_list_unref);
-	g_clear_pointer (&priv->paste_target_list, gtk_target_list_unref);
+	g_clear_object (&self->priv->model);
+	g_clear_pointer (&self->priv->copy_target_list, gtk_target_list_unref);
+	g_clear_pointer (&self->priv->paste_target_list, gtk_target_list_unref);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_memo_table_parent_class)->dispose (object);
@@ -898,8 +887,6 @@ e_memo_table_class_init (EMemoTableClass *class)
 	GtkWidgetClass *widget_class;
 	ETableClass *table_class;
 
-	g_type_class_add_private (class, sizeof (EMemoTablePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = memo_table_set_property;
 	object_class->get_property = memo_table_get_property;
@@ -976,7 +963,7 @@ e_memo_table_init (EMemoTable *memo_table)
 {
 	GtkTargetList *target_list;
 
-	memo_table->priv = E_MEMO_TABLE_GET_PRIVATE (memo_table);
+	memo_table->priv = e_memo_table_get_instance_private (memo_table);
 
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);

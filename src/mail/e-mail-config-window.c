@@ -26,10 +26,6 @@
 
 #include "e-mail-config-window.h"
 
-#define E_MAIL_CONFIG_WINDOW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_WINDOW, EMailConfigWindowPrivate))
-
 struct _EMailConfigWindowPrivate {
 	EMailSession *session;
 	ESource *original_source;
@@ -61,13 +57,9 @@ static void	e_mail_config_window_alert_sink_init
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailConfigWindow,
-	e_mail_config_window,
-	GTK_TYPE_DIALOG,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK,
-		e_mail_config_window_alert_sink_init))
+G_DEFINE_TYPE_WITH_CODE (EMailConfigWindow, e_mail_config_window, GTK_TYPE_DIALOG,
+	G_ADD_PRIVATE (EMailConfigWindow)
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, e_mail_config_window_alert_sink_init))
 
 static ESource *
 mail_config_window_clone_source (ESource *source)
@@ -273,15 +265,14 @@ mail_config_window_get_property (GObject *object,
 static void
 mail_config_window_dispose (GObject *object)
 {
-	EMailConfigWindowPrivate *priv;
+	EMailConfigWindow *self = E_MAIL_CONFIG_WINDOW (object);
 
-	priv = E_MAIL_CONFIG_WINDOW_GET_PRIVATE (object);
-	g_clear_object (&priv->session);
-	g_clear_object (&priv->original_source);
-	g_clear_object (&priv->account_source);
-	g_clear_object (&priv->identity_source);
-	g_clear_object (&priv->transport_source);
-	g_clear_object (&priv->collection_source);
+	g_clear_object (&self->priv->session);
+	g_clear_object (&self->priv->original_source);
+	g_clear_object (&self->priv->account_source);
+	g_clear_object (&self->priv->identity_source);
+	g_clear_object (&self->priv->transport_source);
+	g_clear_object (&self->priv->collection_source);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_window_parent_class)->dispose (object);
@@ -413,11 +404,9 @@ static void
 mail_config_window_submit_alert (EAlertSink *alert_sink,
                                  EAlert *alert)
 {
-	EMailConfigWindowPrivate *priv;
+	EMailConfigWindow *self = E_MAIL_CONFIG_WINDOW (alert_sink);
 
-	priv = E_MAIL_CONFIG_WINDOW_GET_PRIVATE (alert_sink);
-
-	e_alert_bar_submit_alert (E_ALERT_BAR (priv->alert_bar), alert);
+	e_alert_bar_submit_alert (E_ALERT_BAR (self->priv->alert_bar), alert);
 }
 
 static void
@@ -425,8 +414,6 @@ e_mail_config_window_class_init (EMailConfigWindowClass *class)
 {
 	GObjectClass *object_class;
 	GtkDialogClass *dialog_class;
-
-	g_type_class_add_private (class, sizeof (EMailConfigWindowPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_window_set_property;
@@ -480,7 +467,7 @@ e_mail_config_window_alert_sink_init (EAlertSinkInterface *iface)
 static void
 e_mail_config_window_init (EMailConfigWindow *window)
 {
-	window->priv = E_MAIL_CONFIG_WINDOW_GET_PRIVATE (window);
+	window->priv = e_mail_config_window_get_instance_private (window);
 }
 
 GtkWidget *

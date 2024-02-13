@@ -21,10 +21,6 @@
 
 #include "e-mail-signature-combo-box.h"
 
-#define E_MAIL_SIGNATURE_COMBO_BOX_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SIGNATURE_COMBO_BOX, EMailSignatureComboBoxPrivate))
-
 #define SOURCE_IS_MAIL_SIGNATURE(source) \
 	(e_source_has_extension ((source), E_SOURCE_EXTENSION_MAIL_SIGNATURE))
 
@@ -49,10 +45,7 @@ enum {
 	COLUMN_UID
 };
 
-G_DEFINE_TYPE (
-	EMailSignatureComboBox,
-	e_mail_signature_combo_box,
-	GTK_TYPE_COMBO_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailSignatureComboBox, e_mail_signature_combo_box, GTK_TYPE_COMBO_BOX)
 
 static gboolean
 mail_signature_combo_box_refresh_idle_cb (EMailSignatureComboBox *combo_box)
@@ -230,42 +223,35 @@ mail_signature_combo_box_get_property (GObject *object,
 static void
 mail_signature_combo_box_dispose (GObject *object)
 {
-	EMailSignatureComboBoxPrivate *priv;
+	EMailSignatureComboBox *self = E_MAIL_SIGNATURE_COMBO_BOX (object);
 
-	priv = E_MAIL_SIGNATURE_COMBO_BOX_GET_PRIVATE (object);
-
-	if (priv->registry != NULL) {
+	if (self->priv->registry != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->registry, G_SIGNAL_MATCH_DATA,
+			self->priv->registry, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
+		g_clear_object (&self->priv->registry);
 	}
 
-	if (priv->refresh_idle_id > 0) {
-		g_source_remove (priv->refresh_idle_id);
-		priv->refresh_idle_id = 0;
+	if (self->priv->refresh_idle_id > 0) {
+		g_source_remove (self->priv->refresh_idle_id);
+		self->priv->refresh_idle_id = 0;
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_signature_combo_box_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_signature_combo_box_parent_class)->dispose (object);
 }
 
 static void
 mail_signature_combo_box_finalize (GObject *object)
 {
-	EMailSignatureComboBoxPrivate *priv;
+	EMailSignatureComboBox *self = E_MAIL_SIGNATURE_COMBO_BOX (object);
 
-	priv = E_MAIL_SIGNATURE_COMBO_BOX_GET_PRIVATE (object);
-
-	g_free (priv->identity_uid);
-	g_free (priv->identity_name);
-	g_free (priv->identity_address);
+	g_free (self->priv->identity_uid);
+	g_free (self->priv->identity_name);
+	g_free (self->priv->identity_address);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_signature_combo_box_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_mail_signature_combo_box_parent_class)->finalize (object);
 }
 
 static void
@@ -308,9 +294,6 @@ static void
 e_mail_signature_combo_box_class_init (EMailSignatureComboBoxClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (
-		class, sizeof (EMailSignatureComboBoxPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_signature_combo_box_set_property;
@@ -368,7 +351,7 @@ e_mail_signature_combo_box_class_init (EMailSignatureComboBoxClass *class)
 static void
 e_mail_signature_combo_box_init (EMailSignatureComboBox *combo_box)
 {
-	combo_box->priv = E_MAIL_SIGNATURE_COMBO_BOX_GET_PRIVATE (combo_box);
+	combo_box->priv = e_mail_signature_combo_box_get_instance_private (combo_box);
 }
 
 GtkWidget *

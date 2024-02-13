@@ -165,7 +165,7 @@ struct _ECompEditorPageRemindersPrivate {
 	gboolean any_custom_reminder_set;
 };
 
-G_DEFINE_TYPE (ECompEditorPageReminders, e_comp_editor_page_reminders, E_TYPE_COMP_EDITOR_PAGE)
+G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorPageReminders, e_comp_editor_page_reminders, E_TYPE_COMP_EDITOR_PAGE)
 
 static gint
 ecep_reminders_get_alarm_index (ECompEditorPageReminders *page_reminders)
@@ -2794,9 +2794,7 @@ ecep_reminders_dispose (GObject *object)
 static void
 e_comp_editor_page_reminders_init (ECompEditorPageReminders *page_reminders)
 {
-	page_reminders->priv = G_TYPE_INSTANCE_GET_PRIVATE (page_reminders,
-		E_TYPE_COMP_EDITOR_PAGE_REMINDERS,
-		ECompEditorPageRemindersPrivate);
+	page_reminders->priv = e_comp_editor_page_reminders_get_instance_private (page_reminders);
 }
 
 static void
@@ -2804,8 +2802,6 @@ e_comp_editor_page_reminders_class_init (ECompEditorPageRemindersClass *klass)
 {
 	ECompEditorPageClass *page_class;
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPageRemindersPrivate));
 
 	page_class = E_COMP_EDITOR_PAGE_CLASS (klass);
 	page_class->sensitize_widgets = ecep_reminders_sensitize_widgets;

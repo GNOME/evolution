@@ -122,8 +122,6 @@ static void	set_entry_text			(EContactEditor *editor,
 						 const gchar *string);
 static void	sensitize_ok			(EContactEditor *ce);
 
-static EABEditorClass *parent_class = NULL;
-
 enum {
 	PROP_0,
 	PROP_SOURCE_CLIENT,
@@ -248,7 +246,7 @@ struct _EContactEditorPrivate
 	EFocusTracker *focus_tracker;
 };
 
-G_DEFINE_TYPE (EContactEditor, e_contact_editor, EAB_TYPE_EDITOR)
+G_DEFINE_TYPE_WITH_PRIVATE (EContactEditor, e_contact_editor, EAB_TYPE_EDITOR)
 
 static GtkActionEntry undo_entries[] = {
 
@@ -354,10 +352,6 @@ e_contact_editor_class_init (EContactEditorClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 	EABEditorClass *editor_class = EAB_EDITOR_CLASS (class);
-
-	g_type_class_add_private (class, sizeof (EContactEditorPrivate));
-
-	parent_class = g_type_class_ref (EAB_TYPE_EDITOR);
 
 	object_class->set_property = e_contact_editor_set_property;
 	object_class->get_property = e_contact_editor_get_property;
@@ -5053,8 +5047,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	GtkEntryCompletion *completion;
 	GtkAccelGroup *accel_group;
 
-	e_contact_editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		e_contact_editor, E_TYPE_CONTACT_EDITOR, EContactEditorPrivate);
+	e_contact_editor->priv = e_contact_editor_get_instance_private (e_contact_editor);
 
 	/* FIXME The shell should be obtained
 	 *       through a constructor property. */
@@ -5266,7 +5259,7 @@ e_contact_editor_constructed (GObject *object)
 	GError *error = NULL;
 
 	/* Chain up to parent's method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_contact_editor_parent_class)->constructed (object);
 
 	editor->priv->focus_tracker = e_focus_tracker_new (GTK_WINDOW (editor->priv->app));
 	editor->priv->ui_manager = gtk_ui_manager_new ();
@@ -5344,7 +5337,7 @@ e_contact_editor_dispose (GObject *object)
 	g_clear_object (&e_contact_editor->priv->focus_tracker);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_contact_editor_parent_class)->dispose (object);
 }
 
 static void

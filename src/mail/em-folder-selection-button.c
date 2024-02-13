@@ -33,10 +33,6 @@
 
 #include "em-folder-selection-button.h"
 
-#define EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButtonPrivate))
-
 struct _EMFolderSelectionButtonPrivate {
 	EMailSession *session;
 	GtkWidget *icon;
@@ -67,10 +63,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EMFolderSelectionButton,
-	em_folder_selection_button,
-	GTK_TYPE_BUTTON)
+G_DEFINE_TYPE_WITH_PRIVATE (EMFolderSelectionButton, em_folder_selection_button, GTK_TYPE_BUTTON)
 
 static void
 folder_selection_button_unselected (EMFolderSelectionButton *button)
@@ -226,37 +219,32 @@ folder_selection_button_get_property (GObject *object,
 static void
 folder_selection_button_dispose (GObject *object)
 {
-	EMFolderSelectionButtonPrivate *priv;
+	EMFolderSelectionButton *self = EM_FOLDER_SELECTION_BUTTON (object);
 
-	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
-	g_clear_object (&priv->session);
-	g_clear_object (&priv->store);
+	g_clear_object (&self->priv->session);
+	g_clear_object (&self->priv->store);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (em_folder_selection_button_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (em_folder_selection_button_parent_class)->dispose (object);
 }
 
 static void
 folder_selection_button_finalize (GObject *object)
 {
-	EMFolderSelectionButtonPrivate *priv;
+	EMFolderSelectionButton *self = EM_FOLDER_SELECTION_BUTTON (object);
 
-	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
-
-	g_free (priv->title);
-	g_free (priv->caption);
-	g_free (priv->folder_uri);
+	g_free (self->priv->title);
+	g_free (self->priv->caption);
+	g_free (self->priv->folder_uri);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (em_folder_selection_button_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (em_folder_selection_button_parent_class)->finalize (object);
 }
 
 static void
 folder_selection_button_clicked (GtkButton *button)
 {
-	EMFolderSelectionButtonPrivate *priv;
+	EMFolderSelectionButton *self = EM_FOLDER_SELECTION_BUTTON (button);
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model = NULL;
@@ -265,15 +253,13 @@ folder_selection_button_clicked (GtkButton *button)
 	gpointer parent;
 	gint response;
 
-	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (button);
-
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	if (priv->store != NULL) {
+	if (self->priv->store != NULL) {
 		model = em_folder_tree_model_new ();
-		em_folder_tree_model_set_session (model, priv->session);
-		em_folder_tree_model_add_store (model, priv->store);
+		em_folder_tree_model_set_session (model, self->priv->session);
+		em_folder_tree_model_add_store (model, self->priv->store);
 	}
 
 	if (model == NULL)
@@ -281,14 +267,14 @@ folder_selection_button_clicked (GtkButton *button)
 
 	dialog = em_folder_selector_new (parent, model);
 
-	gtk_window_set_title (GTK_WINDOW (dialog), priv->title);
+	gtk_window_set_title (GTK_WINDOW (dialog), self->priv->title);
 
 	g_object_unref (model);
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);
-	em_folder_selector_set_can_none (selector, priv->can_none);
-	em_folder_selector_set_caption (selector, priv->caption);
+	em_folder_selector_set_can_none (selector, self->priv->can_none);
+	em_folder_selector_set_caption (selector, self->priv->caption);
 
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 
@@ -301,7 +287,7 @@ folder_selection_button_clicked (GtkButton *button)
 		EMFT_EXCLUDE_VIRTUAL |
 		EMFT_EXCLUDE_VTRASH);
 
-	em_folder_tree_set_selected (folder_tree, priv->folder_uri, FALSE);
+	em_folder_tree_set_selected (folder_tree, self->priv->folder_uri, FALSE);
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
@@ -326,8 +312,6 @@ em_folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 {
 	GObjectClass *object_class;
 	GtkButtonClass *button_class;
-
-	g_type_class_add_private (class, sizeof (EMFolderSelectionButtonPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = folder_selection_button_set_property;
@@ -419,7 +403,7 @@ em_folder_selection_button_init (EMFolderSelectionButton *emfsb)
 {
 	GtkWidget *box;
 
-	emfsb->priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (emfsb);
+	emfsb->priv = em_folder_selection_button_get_instance_private (emfsb);
 
 	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
 	gtk_container_add (GTK_CONTAINER (emfsb), box);

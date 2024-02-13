@@ -31,10 +31,6 @@
 #include "e-book-shell-backend.h"
 #include "e-addressbook-selector.h"
 
-#define E_BOOK_SHELL_SIDEBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_BOOK_SHELL_SIDEBAR, EBookShellSidebarPrivate))
-
 struct _EBookShellSidebarPrivate {
 	GtkWidget *selector;
 };
@@ -44,10 +40,8 @@ enum {
 	PROP_SELECTOR
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EBookShellSidebar,
-	e_book_shell_sidebar,
-	E_TYPE_SHELL_SIDEBAR)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EBookShellSidebar, e_book_shell_sidebar, E_TYPE_SHELL_SIDEBAR, 0,
+	G_ADD_PRIVATE_DYNAMIC (EBookShellSidebar))
 
 static gboolean
 book_shell_sidebar_map_uid_to_source (GValue *value,
@@ -109,10 +103,9 @@ book_shell_sidebar_get_property (GObject *object,
 static void
 book_shell_sidebar_dispose (GObject *object)
 {
-	EBookShellSidebarPrivate *priv;
+	EBookShellSidebar *self = E_BOOK_SHELL_SIDEBAR (object);
 
-	priv = E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (object);
-	g_clear_object (&priv->selector);
+	g_clear_object (&self->priv->selector);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_book_shell_sidebar_parent_class)->dispose (object);
@@ -121,7 +114,7 @@ book_shell_sidebar_dispose (GObject *object)
 static void
 book_shell_sidebar_constructed (GObject *object)
 {
-	EBookShellSidebarPrivate *priv;
+	EBookShellSidebar *self = E_BOOK_SHELL_SIDEBAR (object);
 	EShell *shell;
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
@@ -130,8 +123,6 @@ book_shell_sidebar_constructed (GObject *object)
 	GtkContainer *container;
 	GtkWidget *widget;
 	GSettings *settings;
-
-	priv = E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_book_shell_sidebar_parent_class)->constructed (object);
@@ -155,10 +146,10 @@ book_shell_sidebar_constructed (GObject *object)
 	client_cache = e_shell_get_client_cache (shell);
 	widget = e_addressbook_selector_new (client_cache);
 	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->selector = g_object_ref (widget);
+	self->priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_source_selector_load_groups_setup (E_SOURCE_SELECTOR (priv->selector),
+	e_source_selector_load_groups_setup (E_SOURCE_SELECTOR (self->priv->selector),
 		e_shell_view_get_state_key_file (shell_view));
 
 	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
@@ -257,8 +248,6 @@ e_book_shell_sidebar_class_init (EBookShellSidebarClass *class)
 	GObjectClass *object_class;
 	EShellSidebarClass *shell_sidebar_class;
 
-	g_type_class_add_private (class, sizeof (EBookShellSidebarPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = book_shell_sidebar_get_property;
 	object_class->dispose = book_shell_sidebar_dispose;
@@ -286,8 +275,7 @@ e_book_shell_sidebar_class_finalize (EBookShellSidebarClass *class)
 static void
 e_book_shell_sidebar_init (EBookShellSidebar *book_shell_sidebar)
 {
-	book_shell_sidebar->priv =
-		E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (book_shell_sidebar);
+	book_shell_sidebar->priv = e_book_shell_sidebar_get_instance_private (book_shell_sidebar);
 
 	/* Postpone widget construction until we have a shell view. */
 }

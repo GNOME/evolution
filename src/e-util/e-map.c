@@ -35,10 +35,6 @@
 
 #include "e-map.h"
 
-#define E_MAP_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAP, EMapPrivate))
-
 #define E_MAP_TWEEN_TIMEOUT_MSECS 25
 #define E_MAP_TWEEN_DURATION_MSECS 150
 
@@ -121,6 +117,10 @@ enum {
 	PROP_HSCROLL_POLICY,
 	PROP_VSCROLL_POLICY
 };
+
+G_DEFINE_TYPE_WITH_CODE (EMap, e_map, GTK_TYPE_WIDGET,
+	G_ADD_PRIVATE (EMap)
+	G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
 
 /* Internal prototypes */
 
@@ -234,12 +234,6 @@ e_map_tween_new (EMap *map,
 
 	gtk_widget_queue_draw (GTK_WIDGET (map));
 }
-
-G_DEFINE_TYPE_WITH_CODE (
-	EMap,
-	e_map,
-	GTK_TYPE_WIDGET,
-	G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
 
 static void
 e_map_get_current_location (EMap *map,
@@ -805,8 +799,6 @@ e_map_class_init (EMapClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EMapPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = e_map_set_property;
 	object_class->get_property = e_map_get_property;
@@ -846,7 +838,7 @@ e_map_init (EMap *map)
 
 	widget = GTK_WIDGET (map);
 
-	map->priv = E_MAP_GET_PRIVATE (map);
+	map->priv = e_map_get_instance_private (map);
 
 	load_map_background (map, map_file_name);
 	g_free (map_file_name);

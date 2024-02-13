@@ -30,10 +30,6 @@
 
 #include "e-menu-bar.h"
 
-#define E_MAIL_SIGNATURE_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SIGNATURE_EDITOR, EMailSignatureEditorPrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailSignatureEditorPrivate {
@@ -86,10 +82,7 @@ static const gchar *ui =
 "  </toolbar>\n"
 "</ui>";
 
-G_DEFINE_TYPE (
-	EMailSignatureEditor,
-	e_mail_signature_editor,
-	GTK_TYPE_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailSignatureEditor, e_mail_signature_editor, GTK_TYPE_WINDOW)
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -473,40 +466,34 @@ mail_signature_editor_get_property (GObject *object,
 static void
 mail_signature_editor_dispose (GObject *object)
 {
-	EMailSignatureEditorPrivate *priv;
+	EMailSignatureEditor *self = E_MAIL_SIGNATURE_EDITOR (object);
 
-	priv = E_MAIL_SIGNATURE_EDITOR_GET_PRIVATE (object);
-	g_clear_object (&priv->editor);
-	g_clear_object (&priv->action_group);
-	g_clear_object (&priv->focus_tracker);
-	g_clear_object (&priv->menu_bar);
+	g_clear_object (&self->priv->editor);
+	g_clear_object (&self->priv->action_group);
+	g_clear_object (&self->priv->focus_tracker);
+	g_clear_object (&self->priv->menu_bar);
 
-	if (priv->cancellable != NULL) {
-		g_cancellable_cancel (priv->cancellable);
-		g_object_unref (priv->cancellable);
-		priv->cancellable = NULL;
+	if (self->priv->cancellable != NULL) {
+		g_cancellable_cancel (self->priv->cancellable);
+		g_clear_object (&self->priv->cancellable);
 	}
 
-	g_clear_object (&priv->registry);
-	g_clear_object (&priv->source);
+	g_clear_object (&self->priv->registry);
+	g_clear_object (&self->priv->source);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_signature_editor_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_signature_editor_parent_class)->dispose (object);
 }
 
 static void
 mail_signature_editor_finalize (GObject *object)
 {
-	EMailSignatureEditorPrivate *priv;
+	EMailSignatureEditor *self = E_MAIL_SIGNATURE_EDITOR (object);
 
-	priv = E_MAIL_SIGNATURE_EDITOR_GET_PRIVATE (object);
-
-	g_free (priv->original_name);
+	g_free (self->priv->original_name);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_signature_editor_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_mail_signature_editor_parent_class)->finalize (object);
 }
 
 static void
@@ -672,8 +659,6 @@ e_mail_signature_editor_class_init (EMailSignatureEditorClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailSignatureEditorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_signature_editor_set_property;
 	object_class->get_property = mail_signature_editor_get_property;
@@ -732,7 +717,7 @@ e_mail_signature_editor_class_init (EMailSignatureEditorClass *class)
 static void
 e_mail_signature_editor_init (EMailSignatureEditor *editor)
 {
-	editor->priv = E_MAIL_SIGNATURE_EDITOR_GET_PRIVATE (editor);
+	editor->priv = e_mail_signature_editor_get_instance_private (editor);
 }
 
 typedef struct _CreateEditorData {

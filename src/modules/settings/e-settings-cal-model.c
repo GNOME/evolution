@@ -22,18 +22,12 @@
 #include <calendar/gui/e-cal-model.h>
 #include <calendar/gui/e-cal-model-tasks.h>
 
-#define E_SETTINGS_CAL_MODEL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_CAL_MODEL, ESettingsCalModelPrivate))
-
 struct _ESettingsCalModelPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsCalModel,
-	e_settings_cal_model,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsCalModel, e_settings_cal_model, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsCalModel))
 
 static gboolean
 settings_map_string_to_icaltimezone (GValue *value,
@@ -283,8 +277,6 @@ e_settings_cal_model_class_init (ESettingsCalModelClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ESettingsCalModelPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = settings_cal_model_constructed;
 
@@ -300,7 +292,7 @@ e_settings_cal_model_class_finalize (ESettingsCalModelClass *class)
 static void
 e_settings_cal_model_init (ESettingsCalModel *extension)
 {
-	extension->priv = E_SETTINGS_CAL_MODEL_GET_PRIVATE (extension);
+	extension->priv = e_settings_cal_model_get_instance_private (extension);
 }
 
 void

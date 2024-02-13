@@ -30,10 +30,6 @@
 
 #include "e-cal-base-shell-view.h"
 
-#define E_CAL_BASE_SHELL_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_BASE_SHELL_VIEW, ECalBaseShellViewPrivate))
-
 struct _ECalBaseShellViewPrivate {
 	EShell *shell;
 	guint prepare_for_quit_handler_id;
@@ -45,7 +41,7 @@ enum {
 	PROP_CLICKED_SOURCE
 };
 
-G_DEFINE_ABSTRACT_TYPE (ECalBaseShellView, e_cal_base_shell_view, E_TYPE_SHELL_VIEW)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (ECalBaseShellView, e_cal_base_shell_view, E_TYPE_SHELL_VIEW)
 
 static void
 cal_base_shell_view_prepare_for_quit_cb (EShell *shell,
@@ -126,8 +122,6 @@ e_cal_base_shell_view_class_init (ECalBaseShellViewClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ECalBaseShellViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = cal_base_shell_view_get_property;
 	object_class->dispose = cal_base_shell_view_dispose;
@@ -149,7 +143,7 @@ e_cal_base_shell_view_class_init (ECalBaseShellViewClass *class)
 static void
 e_cal_base_shell_view_init (ECalBaseShellView *cal_base_shell_view)
 {
-	cal_base_shell_view->priv = E_CAL_BASE_SHELL_VIEW_GET_PRIVATE (cal_base_shell_view);
+	cal_base_shell_view->priv = e_cal_base_shell_view_get_instance_private (cal_base_shell_view);
 }
 
 ECalClientSourceType

@@ -19,14 +19,7 @@
 
 #include <mail/e-mail-browser.h>
 
-#define E_SETTINGS_MAIL_BROWSER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_MAIL_BROWSER, ESettingsMailBrowserPrivate))
-
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsMailBrowser,
-	e_settings_mail_browser,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE (ESettingsMailBrowser, e_settings_mail_browser, E_TYPE_EXTENSION)
 
 static void
 settings_mail_browser_constructed (GObject *object)

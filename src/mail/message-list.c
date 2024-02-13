@@ -63,10 +63,6 @@
 #define t(x)
 #define dd(x) G_STMT_START { if (camel_debug ("message-list")) { x; } } G_STMT_END
 
-#define MESSAGE_LIST_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), MESSAGE_LIST_TYPE, MessageListPrivate))
-
 /* Common search expression segments. */
 #define EXCLUDE_DELETED_MESSAGES_EXPR	"(not (system-flag \"deleted\"))"
 #define EXCLUDE_JUNK_MESSAGES_EXPR	"(not (system-flag \"junk\"))"
@@ -211,18 +207,11 @@ static gboolean	message_list_get_hide_deleted
 					(MessageList *message_list,
 					 CamelFolder *folder);
 
-G_DEFINE_TYPE_WITH_CODE (
-	MessageList,
-	message_list,
-	E_TYPE_TREE,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_SELECTABLE,
-		message_list_selectable_init)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_TREE_MODEL,
-		message_list_tree_model_init))
+G_DEFINE_TYPE_WITH_CODE (MessageList, message_list, E_TYPE_TREE,
+	G_ADD_PRIVATE (MessageList)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, message_list_selectable_init)
+	G_IMPLEMENT_INTERFACE (E_TYPE_TREE_MODEL, message_list_tree_model_init))
 
 static struct {
 	const gchar *target;
@@ -4048,8 +4037,6 @@ message_list_class_init (MessageListClass *class)
 		}
 	}
 
-	g_type_class_add_private (class, sizeof (MessageListPrivate));
-
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_preferred_width = message_list_get_preferred_width;
 
@@ -4272,7 +4259,7 @@ message_list_init (MessageList *message_list)
 	GtkTargetList *target_list;
 	GdkAtom matom;
 
-	message_list->priv = MESSAGE_LIST_GET_PRIVATE (message_list);
+	message_list->priv = message_list_get_instance_private (message_list);
 
 	message_list->normalised_hash = g_hash_table_new_full (
 		g_str_hash, g_str_equal,

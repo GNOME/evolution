@@ -42,10 +42,6 @@
 
 #include "em-folder-tree-model.h"
 
-#define EM_FOLDER_TREE_MODEL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelPrivate))
-
 /* See GtkCellRendererSpinner:pulse property.
  * Animation cycles over 12 frames in 750 ms. */
 #define SPINNER_PULSE_INTERVAL (750 / 12)
@@ -155,6 +151,7 @@ static void	folder_tree_model_status_notify_cb
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE_WITH_CODE (EMFolderTreeModel, em_folder_tree_model, GTK_TYPE_TREE_STORE,
+	G_ADD_PRIVATE (EMFolderTreeModel)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static StoreInfo *
@@ -936,38 +933,34 @@ folder_tree_model_get_property (GObject *object,
 static void
 folder_tree_model_dispose (GObject *object)
 {
-	EMFolderTreeModelPrivate *priv;
+	EMFolderTreeModel *self = EM_FOLDER_TREE_MODEL (object);
 
-	priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (object);
-
-	if (priv->selection != NULL) {
+	if (self->priv->selection != NULL) {
 		g_object_weak_unref (
-			G_OBJECT (priv->selection), (GWeakNotify)
+			G_OBJECT (self->priv->selection), (GWeakNotify)
 			folder_tree_model_selection_finalized_cb, object);
-		priv->selection = NULL;
+		self->priv->selection = NULL;
 	}
 
-	if (priv->session != NULL) {
+	if (self->priv->session != NULL) {
 		MailFolderCache *folder_cache;
 
-		folder_cache = e_mail_session_get_folder_cache (priv->session);
+		folder_cache = e_mail_session_get_folder_cache (self->priv->session);
 		g_signal_handlers_disconnect_by_data (folder_cache, object);
 
-		g_signal_handlers_disconnect_by_data (priv->session, object);
+		g_signal_handlers_disconnect_by_data (self->priv->session, object);
 
-		g_object_unref (priv->session);
-		priv->session = NULL;
+		g_clear_object (&self->priv->session);
 	}
 
-	if (priv->account_store != NULL) {
+	if (self->priv->account_store != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->account_store, G_SIGNAL_MATCH_DATA,
+			self->priv->account_store, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->account_store);
-		priv->account_store = NULL;
+		g_clear_object (&self->priv->account_store);
 	}
 
-	g_signal_handlers_disconnect_by_func (priv->folder_tweaks,
+	g_signal_handlers_disconnect_by_func (self->priv->folder_tweaks,
 		em_folder_tree_model_folder_tweaks_changed_cb, object);
 
 	/* Chain up to parent's dispose() method. */
@@ -977,13 +970,11 @@ folder_tree_model_dispose (GObject *object)
 static void
 folder_tree_model_finalize (GObject *object)
 {
-	EMFolderTreeModelPrivate *priv;
+	EMFolderTreeModel *self = EM_FOLDER_TREE_MODEL (object);
 
-	priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->store_index);
-	g_mutex_clear (&priv->store_index_lock);
-	g_clear_object (&priv->folder_tweaks);
+	g_hash_table_destroy (self->priv->store_index);
+	g_mutex_clear (&self->priv->store_index_lock);
+	g_clear_object (&self->priv->folder_tweaks);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_tree_model_parent_class)->finalize (object);
@@ -1037,8 +1028,6 @@ static void
 em_folder_tree_model_class_init (EMFolderTreeModelClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EMFolderTreeModelPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = folder_tree_model_set_property;
@@ -1242,7 +1231,7 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) store_info_dispose);
 
-	model->priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (model);
+	model->priv = em_folder_tree_model_get_instance_private (model);
 	model->priv->store_index = store_index;
 	model->priv->folder_tweaks = e_mail_folder_tweaks_new ();
 

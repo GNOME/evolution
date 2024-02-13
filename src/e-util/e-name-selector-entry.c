@@ -29,10 +29,6 @@
 
 #include "e-name-selector-entry.h"
 
-#define E_NAME_SELECTOR_ENTRY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_NAME_SELECTOR_ENTRY, ENameSelectorEntryPrivate))
-
 struct _ENameSelectorEntryPrivate {
 	EClientCache *client_cache;
 	gint minimum_query_length;
@@ -84,12 +80,9 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 #define ENS_DEBUG(x)
 
-G_DEFINE_TYPE_WITH_CODE (
-	ENameSelectorEntry,
-	e_name_selector_entry,
-	GTK_TYPE_ENTRY,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (ENameSelectorEntry, e_name_selector_entry, GTK_TYPE_ENTRY,
+	G_ADD_PRIVATE (ENameSelectorEntry)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 /* 1/3 of the second to wait until invoking autocomplete lookup */
 #define AUTOCOMPLETE_TIMEOUT 333
@@ -191,26 +184,24 @@ name_selector_entry_get_property (GObject *object,
 static void
 name_selector_entry_dispose (GObject *object)
 {
-	ENameSelectorEntryPrivate *priv;
+	ENameSelectorEntry *self = E_NAME_SELECTOR_ENTRY (object);
 
-	priv = E_NAME_SELECTOR_ENTRY_GET_PRIVATE (object);
+	remove_completion_timeout_sources (self);
+	gtk_editable_set_position (GTK_EDITABLE (self), 0);
 
-	remove_completion_timeout_sources (E_NAME_SELECTOR_ENTRY (object));
-	gtk_editable_set_position (GTK_EDITABLE (object), 0);
-
-	g_clear_object (&priv->client_cache);
-	g_clear_pointer (&priv->attr_list, pango_attr_list_unref);
-	g_clear_object (&priv->entry_completion);
-	g_clear_object (&priv->destination_store);
-	g_clear_object (&priv->email_generator);
-	g_clear_object (&priv->contact_store);
-	g_clear_pointer (&priv->known_contacts, g_hash_table_destroy);
+	g_clear_object (&self->priv->client_cache);
+	g_clear_pointer (&self->priv->attr_list, pango_attr_list_unref);
+	g_clear_object (&self->priv->entry_completion);
+	g_clear_object (&self->priv->destination_store);
+	g_clear_object (&self->priv->email_generator);
+	g_clear_object (&self->priv->contact_store);
+	g_clear_pointer (&self->priv->known_contacts, g_hash_table_destroy);
 
 	/* Cancel any stuck book loading operations. */
-	while (!g_queue_is_empty (&priv->cancellables)) {
+	while (!g_queue_is_empty (&self->priv->cancellables)) {
 		GCancellable *cancellable;
 
-		cancellable = g_queue_pop_head (&priv->cancellables);
+		cancellable = g_queue_pop_head (&self->priv->cancellables);
 		g_cancellable_cancel (cancellable);
 		g_object_unref (cancellable);
 	}
@@ -231,15 +222,13 @@ name_selector_entry_constructed (GObject *object)
 static void
 name_selector_entry_realize (GtkWidget *widget)
 {
-	ENameSelectorEntryPrivate *priv;
-
-	priv = E_NAME_SELECTOR_ENTRY_GET_PRIVATE (widget);
+	ENameSelectorEntry *self = E_NAME_SELECTOR_ENTRY (widget);
 
 	/* Chain up to parent's realize() method. */
 	GTK_WIDGET_CLASS (e_name_selector_entry_parent_class)->realize (widget);
 
-	if (priv->contact_store == NULL)
-		setup_default_contact_store (E_NAME_SELECTOR_ENTRY (widget));
+	if (self->priv->contact_store == NULL)
+		setup_default_contact_store (self);
 }
 
 static void
@@ -305,8 +294,6 @@ e_name_selector_entry_class_init (ENameSelectorEntryClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (ENameSelectorEntryPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = name_selector_entry_set_property;
@@ -1119,10 +1106,7 @@ type_ahead_complete (ENameSelectorEntry *name_selector_entry)
 	const gchar   *text;
 	gchar         *cue_str;
 	gchar         *temp_str;
-	ENameSelectorEntryPrivate *priv;
 	GtkEntryCompletion *completion;
-
-	priv = E_NAME_SELECTOR_ENTRY_GET_PRIVATE (name_selector_entry);
 
 	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (name_selector_entry));
 	if (cursor_pos < 0)
@@ -1135,7 +1119,7 @@ type_ahead_complete (ENameSelectorEntry *name_selector_entry)
 	text = gtk_entry_get_text (GTK_ENTRY (name_selector_entry));
 	get_range_at_position (text, cursor_pos, &range_start, &range_end);
 	range_len = range_end - range_start;
-	if (range_len < priv->minimum_query_length)
+	if (range_len < name_selector_entry->priv->minimum_query_length)
 		return;
 
 	destination = find_destination_at_position (name_selector_entry, cursor_pos);
@@ -1180,7 +1164,7 @@ type_ahead_complete (ENameSelectorEntry *name_selector_entry)
 		gtk_editable_select_region (
 			GTK_EDITABLE (name_selector_entry),
 			range_end, range_start + textrep_len);
-		priv->is_completing = TRUE;
+		name_selector_entry->priv->is_completing = TRUE;
 	}
 	g_free (cue_str);
 
@@ -1207,16 +1191,12 @@ type_ahead_complete (ENameSelectorEntry *name_selector_entry)
 static void
 clear_completion_model (ENameSelectorEntry *name_selector_entry)
 {
-	ENameSelectorEntryPrivate *priv;
-
-	priv = E_NAME_SELECTOR_ENTRY_GET_PRIVATE (name_selector_entry);
-
 	if (!name_selector_entry->priv->contact_store)
 		return;
 
 	e_contact_store_set_query (name_selector_entry->priv->contact_store, NULL);
 	g_hash_table_remove_all (name_selector_entry->priv->known_contacts);
-	priv->is_completing = FALSE;
+	name_selector_entry->priv->is_completing = FALSE;
 }
 
 static void
@@ -1871,7 +1851,6 @@ entry_activate (ENameSelectorEntry *name_selector_entry)
 {
 	gint         cursor_pos;
 	gint         range_start, range_end;
-	ENameSelectorEntryPrivate *priv;
 	EDestination  *destination;
 	gint           range_len;
 	const gchar   *text;
@@ -1881,14 +1860,12 @@ entry_activate (ENameSelectorEntry *name_selector_entry)
 	if (cursor_pos < 0)
 		return;
 
-	priv = E_NAME_SELECTOR_ENTRY_GET_PRIVATE (name_selector_entry);
-
 	text = gtk_entry_get_text (GTK_ENTRY (name_selector_entry));
 	if (!get_range_at_position (text, cursor_pos, &range_start, &range_end))
 		return;
 
 	range_len = range_end - range_start;
-	if (range_len < priv->minimum_query_length)
+	if (range_len < name_selector_entry->priv->minimum_query_length)
 		return;
 
 	destination = find_destination_at_position (name_selector_entry, cursor_pos);
@@ -1910,7 +1887,7 @@ entry_activate (ENameSelectorEntry *name_selector_entry)
 	text = gtk_entry_get_text (GTK_ENTRY (name_selector_entry));
 	get_range_at_position (text, cursor_pos, &range_start, &range_end);
 
-	if (priv->is_completing) {
+	if (name_selector_entry->priv->is_completing) {
 		gchar *str_context = NULL;
 
 		str_context = gtk_editable_get_chars (GTK_EDITABLE (name_selector_entry), range_end, range_end + 1);
@@ -1936,12 +1913,12 @@ entry_activate (ENameSelectorEntry *name_selector_entry)
 	}
 
 	/* Set the position only if is completing or nothing is selected, because it also deselects any selection. */
-	if (priv->is_completing || !gtk_editable_get_selection_bounds (GTK_EDITABLE (name_selector_entry), NULL, NULL))
+	if (name_selector_entry->priv->is_completing || !gtk_editable_get_selection_bounds (GTK_EDITABLE (name_selector_entry), NULL, NULL))
 		gtk_editable_set_position (GTK_EDITABLE (name_selector_entry), range_end);
 
 	g_signal_emit (name_selector_entry, signals[UPDATED], 0, destination, NULL);
 
-	if (priv->is_completing)
+	if (name_selector_entry->priv->is_completing)
 		clear_completion_model (name_selector_entry);
 }
 
@@ -3352,8 +3329,7 @@ e_name_selector_entry_init (ENameSelectorEntry *name_selector_entry)
 {
 	GtkCellRenderer *renderer;
 
-	name_selector_entry->priv =
-		E_NAME_SELECTOR_ENTRY_GET_PRIVATE (name_selector_entry);
+	name_selector_entry->priv = e_name_selector_entry_get_instance_private (name_selector_entry);
 
 	g_queue_init (&name_selector_entry->priv->cancellables);
 

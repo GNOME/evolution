@@ -29,10 +29,6 @@
 #include "e-dialog-widgets.h"
 #include "e-html-editor-private.h"
 
-#define E_HTML_EDITOR_PAGE_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HTML_EDITOR_PAGE_DIALOG, EHTMLEditorPageDialogPrivate))
-
 struct _EHTMLEditorPageDialogPrivate {
 	GtkWidget *text_color_picker;
 	GtkWidget *link_color_picker;
@@ -140,10 +136,7 @@ static const Template templates[] = {
 	}
 };
 
-G_DEFINE_TYPE (
-	EHTMLEditorPageDialog,
-	e_html_editor_page_dialog,
-	E_TYPE_HTML_EDITOR_DIALOG);
+G_DEFINE_TYPE_WITH_PRIVATE (EHTMLEditorPageDialog, e_html_editor_page_dialog, E_TYPE_HTML_EDITOR_DIALOG)
 
 static void
 html_editor_page_dialog_set_text_color (EHTMLEditorPageDialog *dialog)
@@ -375,8 +368,6 @@ e_html_editor_page_dialog_class_init (EHTMLEditorPageDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EHTMLEditorPageDialogPrivate));
-
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_page_dialog_show;
 	widget_class->hide = html_editor_page_dialog_hide;
@@ -391,7 +382,7 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 	PangoAttrList *bold;
 	gint ii;
 
-	dialog->priv = E_HTML_EDITOR_PAGE_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_html_editor_page_dialog_get_instance_private (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 

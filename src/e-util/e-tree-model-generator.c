@@ -42,10 +42,6 @@
 	(iter)->user_data2 = GINT_TO_POINTER (index); \
 	} G_STMT_END
 
-#define E_TREE_MODEL_GENERATOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TREE_MODEL_GENERATOR, ETreeModelGeneratorPrivate))
-
 struct _ETreeModelGeneratorPrivate {
 	GtkTreeModel *child_model;
 	GArray *root_nodes;
@@ -66,8 +62,8 @@ typedef struct {
 
 static void e_tree_model_generator_tree_model_init (GtkTreeModelIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	ETreeModelGenerator, e_tree_model_generator, G_TYPE_OBJECT,
+G_DEFINE_TYPE_WITH_CODE (ETreeModelGenerator, e_tree_model_generator, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (ETreeModelGenerator)
 	G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL, e_tree_model_generator_tree_model_init))
 
 static GtkTreeModelFlags e_tree_model_generator_get_flags       (GtkTreeModel       *tree_model);
@@ -209,8 +205,6 @@ e_tree_model_generator_class_init (ETreeModelGeneratorClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ETreeModelGeneratorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = tree_model_generator_get_property;
 	object_class->set_property = tree_model_generator_set_property;
@@ -248,8 +242,7 @@ e_tree_model_generator_tree_model_init (GtkTreeModelIface *iface)
 static void
 e_tree_model_generator_init (ETreeModelGenerator *tree_model_generator)
 {
-	tree_model_generator->priv =
-		E_TREE_MODEL_GENERATOR_GET_PRIVATE (tree_model_generator);
+	tree_model_generator->priv = e_tree_model_generator_get_instance_private (tree_model_generator);
 
 	tree_model_generator->priv->stamp = g_random_int ();
 	tree_model_generator->priv->root_nodes = g_array_new (FALSE, FALSE, sizeof (Node));

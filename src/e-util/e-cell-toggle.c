@@ -35,10 +35,6 @@
 #include "e-cell-toggle.h"
 #include "e-table-item.h"
 
-#define E_CELL_TOGGLE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CELL_TOGGLE, ECellTogglePrivate))
-
 struct _ECellTogglePrivate {
 	gchar **icon_names;
 	gchar **icon_descriptions;
@@ -57,7 +53,7 @@ enum {
 	PROP_BG_COLOR_COLUMN
 };
 
-G_DEFINE_TYPE (ECellToggle, e_cell_toggle, E_TYPE_CELL)
+G_DEFINE_TYPE_WITH_PRIVATE (ECellToggle, e_cell_toggle, E_TYPE_CELL)
 
 typedef struct _SurfaceData {
 	cairo_surface_t *surface;
@@ -150,13 +146,12 @@ cell_toggle_ensure_icons (ECellToggle *cell_toggle,
 static void
 cell_toggle_dispose (GObject *object)
 {
-	ECellTogglePrivate *priv;
+	ECellToggle *self = E_CELL_TOGGLE (object);
 
-	priv = E_CELL_TOGGLE_GET_PRIVATE (object);
-	g_clear_object (&priv->empty);
+	g_clear_object (&self->priv->empty);
 
 	/* This frees all the elements. */
-	g_ptr_array_set_size (priv->surfaces, 0);
+	g_ptr_array_set_size (self->priv->surfaces, 0);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_cell_toggle_parent_class)->dispose (object);
@@ -165,24 +160,22 @@ cell_toggle_dispose (GObject *object)
 static void
 cell_toggle_finalize (GObject *object)
 {
-	ECellTogglePrivate *priv;
+	ECellToggle *self = E_CELL_TOGGLE (object);
 	guint ii;
-
-	priv = E_CELL_TOGGLE_GET_PRIVATE (object);
 
 	/* The array is not NULL-terminated,
 	 * so g_strfreev() will not work. */
-	for (ii = 0; ii < priv->n_icon_names; ii++)
-		g_free (priv->icon_names[ii]);
-	g_free (priv->icon_names);
+	for (ii = 0; ii < self->priv->n_icon_names; ii++)
+		g_free (self->priv->icon_names[ii]);
+	g_free (self->priv->icon_names);
 
-	if (priv->icon_descriptions) {
-		for (ii = 0; ii < priv->n_icon_names; ii++)
-			g_free (priv->icon_descriptions[ii]);
-		g_free (priv->icon_descriptions);
+	if (self->priv->icon_descriptions) {
+		for (ii = 0; ii < self->priv->n_icon_names; ii++)
+			g_free (self->priv->icon_descriptions[ii]);
+		g_free (self->priv->icon_descriptions);
 	}
 
-	g_ptr_array_free (priv->surfaces, TRUE);
+	g_ptr_array_free (self->priv->surfaces, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_cell_toggle_parent_class)->finalize (object);
@@ -234,7 +227,7 @@ cell_toggle_draw (ECellView *ecell_view,
                   gint x2,
                   gint y2)
 {
-	ECellTogglePrivate *priv;
+	ECellToggle *self;
 	ETableItem *eti;
 	GtkStyleContext *style_context;
 	SurfaceData *sd;
@@ -245,12 +238,12 @@ cell_toggle_draw (ECellView *ecell_view,
 
 	cell_toggle_ensure_icons (E_CELL_TOGGLE (ecell_view->ecell), ecell_view);
 
-	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
+	self = E_CELL_TOGGLE (ecell_view->ecell);
 
-	if (value < 0 || value >= priv->surfaces->len)
+	if (value < 0 || value >= self->priv->surfaces->len)
 		return;
 
-	sd = g_ptr_array_index (priv->surfaces, value);
+	sd = g_ptr_array_index (self->priv->surfaces, value);
 
 	if ((x2 - x1) < sd->width)
 		x = x1;
@@ -281,13 +274,13 @@ etog_set_value (ECellToggleView *toggle_view,
                 gint row,
                 gint value)
 {
-	ECellTogglePrivate *priv;
+	ECellToggle *self;
 
 	cell_toggle_ensure_icons (E_CELL_TOGGLE (toggle_view->cell_view.ecell), &(toggle_view->cell_view));
 
-	priv = E_CELL_TOGGLE_GET_PRIVATE (toggle_view->cell_view.ecell);
+	self = E_CELL_TOGGLE (toggle_view->cell_view.ecell);
 
-	if (value >= priv->surfaces->len)
+	if (value >= self->priv->surfaces->len)
 		value = 0;
 
 	e_table_model_set_value_at (
@@ -335,11 +328,9 @@ cell_toggle_height (ECellView *ecell_view,
                     gint view_col,
                     gint row)
 {
-	ECellTogglePrivate *priv;
+	ECellToggle *self = E_CELL_TOGGLE (ecell_view->ecell);
 
-	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
-
-	return priv->height;
+	return self->priv->height;
 }
 
 static void
@@ -351,7 +342,7 @@ cell_toggle_print (ECellView *ecell_view,
                    gdouble width,
                    gdouble height)
 {
-	ECellTogglePrivate *priv;
+	ECellToggle *self;
 	SurfaceData *sd;
 	gdouble image_width, image_height;
 	const gint value = GPOINTER_TO_INT (
@@ -361,12 +352,12 @@ cell_toggle_print (ECellView *ecell_view,
 
 	cell_toggle_ensure_icons (E_CELL_TOGGLE (ecell_view->ecell), ecell_view);
 
-	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
+	self = E_CELL_TOGGLE (ecell_view->ecell);
 
-	if (value >= priv->surfaces->len)
+	if (value >= self->priv->surfaces->len)
 		return;
 
-	sd = g_ptr_array_index (priv->surfaces, value);
+	sd = g_ptr_array_index (self->priv->surfaces, value);
 	if (sd) {
 		ETableItem *eti;
 		GtkStyleContext *style_context;
@@ -404,11 +395,9 @@ cell_toggle_print_height (ECellView *ecell_view,
                           gint row,
                           gdouble width)
 {
-	ECellTogglePrivate *priv;
+	ECellToggle *self = E_CELL_TOGGLE (ecell_view->ecell);
 
-	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
-
-	return priv->height;
+	return self->priv->height;
 }
 
 static gint
@@ -416,14 +405,14 @@ cell_toggle_max_width (ECellView *ecell_view,
                        gint model_col,
                        gint view_col)
 {
-	ECellTogglePrivate *priv;
+	ECellToggle *self;
 	gint max_width = 0;
 	gint number_of_rows;
 	gint row;
 
 	cell_toggle_ensure_icons (E_CELL_TOGGLE (ecell_view->ecell), ecell_view);
 
-	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
+	self = E_CELL_TOGGLE (ecell_view->ecell);
 
 	number_of_rows = e_table_model_row_count (ecell_view->e_table_model);
 	for (row = 0; row < number_of_rows; row++) {
@@ -431,7 +420,7 @@ cell_toggle_max_width (ECellView *ecell_view,
 		gpointer value;
 
 		value = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
-		sd = g_ptr_array_index (priv->surfaces, GPOINTER_TO_INT (value));
+		sd = g_ptr_array_index (self->priv->surfaces, GPOINTER_TO_INT (value));
 
 		max_width = MAX (max_width, sd->width);
 	}
@@ -507,8 +496,6 @@ e_cell_toggle_class_init (ECellToggleClass *class)
 	GObjectClass *object_class;
 	ECellClass *cell_class;
 
-	g_type_class_add_private (class, sizeof (ECellTogglePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = cell_toggle_dispose;
 	object_class->finalize = cell_toggle_finalize;
@@ -543,7 +530,7 @@ e_cell_toggle_class_init (ECellToggleClass *class)
 static void
 e_cell_toggle_init (ECellToggle *cell_toggle)
 {
-	cell_toggle->priv = E_CELL_TOGGLE_GET_PRIVATE (cell_toggle);
+	cell_toggle->priv = e_cell_toggle_get_instance_private (cell_toggle);
 
 	cell_toggle->priv->empty = gdk_pixbuf_new_from_xpm_data (empty_xpm);
 	cell_toggle->priv->surfaces = g_ptr_array_new_with_free_func (surface_data_free);

@@ -23,7 +23,8 @@
 #include "e-memo-shell-view-private.h"
 #include "e-memo-shell-view.h"
 
-G_DEFINE_DYNAMIC_TYPE (EMemoShellView, e_memo_shell_view, E_TYPE_CAL_BASE_SHELL_VIEW)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMemoShellView, e_memo_shell_view, E_TYPE_CAL_BASE_SHELL_VIEW, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMemoShellView))
 
 static void
 memo_shell_view_execute_search (EShellView *shell_view)
@@ -324,8 +325,6 @@ e_memo_shell_view_class_init (EMemoShellViewClass *class)
 	EShellViewClass *shell_view_class;
 	ECalBaseShellViewClass *cal_base_shell_view_class;
 
-	g_type_class_add_private (class, sizeof (EMemoShellViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = memo_shell_view_dispose;
 	object_class->finalize = memo_shell_view_finalize;
@@ -358,7 +357,7 @@ e_memo_shell_view_class_finalize (EMemoShellViewClass *class)
 static void
 e_memo_shell_view_init (EMemoShellView *memo_shell_view)
 {
-	memo_shell_view->priv = E_MEMO_SHELL_VIEW_GET_PRIVATE (memo_shell_view);
+	memo_shell_view->priv = e_memo_shell_view_get_instance_private (memo_shell_view);
 }
 
 void

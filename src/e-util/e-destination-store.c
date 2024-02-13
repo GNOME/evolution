@@ -36,10 +36,6 @@
 	(iter)->user_data = GINT_TO_POINTER (index); \
 	} G_STMT_END
 
-#define E_DESTINATION_STORE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_DESTINATION_STORE, EDestinationStorePrivate))
-
 struct _EDestinationStorePrivate {
 	GPtrArray *destinations;
 	gint stamp;
@@ -49,9 +45,9 @@ static GType column_types[E_DESTINATION_STORE_NUM_COLUMNS];
 
 static void e_destination_store_tree_model_init (GtkTreeModelIface *iface);
 
-G_DEFINE_TYPE_EXTENDED (
-	EDestinationStore, e_destination_store, G_TYPE_OBJECT, 0,
-	G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL, e_destination_store_tree_model_init);
+G_DEFINE_TYPE_EXTENDED (EDestinationStore, e_destination_store, G_TYPE_OBJECT, 0,
+	G_ADD_PRIVATE (EDestinationStore)
+	G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL, e_destination_store_tree_model_init)
 	column_types[E_DESTINATION_STORE_COLUMN_NAME]    = G_TYPE_STRING;
 	column_types[E_DESTINATION_STORE_COLUMN_EMAIL]   = G_TYPE_STRING;
 	column_types[E_DESTINATION_STORE_COLUMN_ADDRESS] = G_TYPE_STRING;
@@ -91,19 +87,17 @@ static void stop_destination    (EDestinationStore *destination_store, EDestinat
 static void
 destination_store_dispose (GObject *object)
 {
-	EDestinationStorePrivate *priv;
+	EDestinationStore *self = E_DESTINATION_STORE (object);
 	gint ii;
 
-	priv = E_DESTINATION_STORE_GET_PRIVATE (object);
-
-	for (ii = 0; ii < priv->destinations->len; ii++) {
+	for (ii = 0; ii < self->priv->destinations->len; ii++) {
 		EDestination *destination;
 
-		destination = g_ptr_array_index (priv->destinations, ii);
+		destination = g_ptr_array_index (self->priv->destinations, ii);
 		stop_destination (E_DESTINATION_STORE (object), destination);
 		g_object_unref (destination);
 	}
-	g_ptr_array_set_size (priv->destinations, 0);
+	g_ptr_array_set_size (self->priv->destinations, 0);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_destination_store_parent_class)->dispose (object);
@@ -112,11 +106,9 @@ destination_store_dispose (GObject *object)
 static void
 destination_store_finalize (GObject *object)
 {
-	EDestinationStorePrivate *priv;
+	EDestinationStore *self = E_DESTINATION_STORE (object);
 
-	priv = E_DESTINATION_STORE_GET_PRIVATE (object);
-
-	g_ptr_array_free (priv->destinations, TRUE);
+	g_ptr_array_free (self->priv->destinations, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_destination_store_parent_class)->finalize (object);
@@ -126,8 +118,6 @@ static void
 e_destination_store_class_init (EDestinationStoreClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EDestinationStorePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = destination_store_dispose;
@@ -154,8 +144,7 @@ e_destination_store_tree_model_init (GtkTreeModelIface *iface)
 static void
 e_destination_store_init (EDestinationStore *destination_store)
 {
-	destination_store->priv =
-		E_DESTINATION_STORE_GET_PRIVATE (destination_store);
+	destination_store->priv = e_destination_store_get_instance_private (destination_store);
 
 	destination_store->priv->destinations = g_ptr_array_new ();
 	destination_store->priv->stamp = g_random_int ();

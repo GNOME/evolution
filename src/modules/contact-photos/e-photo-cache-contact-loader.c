@@ -19,10 +19,6 @@
 
 #include "e-contact-photo-source.h"
 
-#define E_PHOTO_CACHE_CONTACT_LOADER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PHOTO_CACHE_CONTACT_LOADER, EPhotoCacheContactLoaderPrivate))
-
 struct _EPhotoCacheContactLoaderPrivate {
 	ESourceRegistry *registry;
 	gulong source_added_handler_id;
@@ -32,10 +28,8 @@ struct _EPhotoCacheContactLoaderPrivate {
 	GHashTable *photo_sources;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EPhotoCacheContactLoader,
-	e_photo_cache_contact_loader,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EPhotoCacheContactLoader, e_photo_cache_contact_loader, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (EPhotoCacheContactLoader))
 
 static EPhotoCache *
 photo_cache_contact_loader_get_photo_cache (EPhotoCacheContactLoader *loader)
@@ -112,45 +106,39 @@ photo_cache_contact_loader_source_removed_cb (ESourceRegistry *registry,
 static void
 photo_cache_contact_loader_dispose (GObject *object)
 {
-	EPhotoCacheContactLoaderPrivate *priv;
+	EPhotoCacheContactLoader *self = E_PHOTO_CACHE_CONTACT_LOADER (object);
 
-	priv = E_PHOTO_CACHE_CONTACT_LOADER_GET_PRIVATE (object);
-
-	if (priv->source_added_handler_id > 0) {
+	if (self->priv->source_added_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_added_handler_id);
-		priv->source_added_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_added_handler_id);
+		self->priv->source_added_handler_id = 0;
 	}
 
-	if (priv->source_removed_handler_id > 0) {
+	if (self->priv->source_removed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_removed_handler_id);
-		priv->source_removed_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_removed_handler_id);
+		self->priv->source_removed_handler_id = 0;
 	}
 
-	g_clear_object (&priv->registry);
+	g_clear_object (&self->priv->registry);
 
-	g_hash_table_remove_all (priv->photo_sources);
+	g_hash_table_remove_all (self->priv->photo_sources);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_photo_cache_contact_loader_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_photo_cache_contact_loader_parent_class)->dispose (object);
 }
 
 static void
 photo_cache_contact_loader_finalize (GObject *object)
 {
-	EPhotoCacheContactLoaderPrivate *priv;
+	EPhotoCacheContactLoader *self = E_PHOTO_CACHE_CONTACT_LOADER (object);
 
-	priv = E_PHOTO_CACHE_CONTACT_LOADER_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->photo_sources);
+	g_hash_table_destroy (self->priv->photo_sources);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_photo_cache_contact_loader_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_photo_cache_contact_loader_parent_class)->finalize (object);
 }
 
 static void
@@ -207,9 +195,6 @@ e_photo_cache_contact_loader_class_init (EPhotoCacheContactLoaderClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (
-		class, sizeof (EPhotoCacheContactLoaderPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = photo_cache_contact_loader_dispose;
 	object_class->finalize = photo_cache_contact_loader_finalize;
@@ -235,7 +220,7 @@ e_photo_cache_contact_loader_init (EPhotoCacheContactLoader *loader)
 		(GDestroyNotify) g_object_unref,
 		(GDestroyNotify) g_object_unref);
 
-	loader->priv = E_PHOTO_CACHE_CONTACT_LOADER_GET_PRIVATE (loader);
+	loader->priv = e_photo_cache_contact_loader_get_instance_private (loader);
 	loader->priv->photo_sources = photo_sources;
 }
 

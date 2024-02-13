@@ -39,10 +39,6 @@
 #include "shell/e-shell-window-actions.h"
 #include "shell/e-shell-utils.h"
 
-#define E_SHELL_WINDOW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_WINDOW, EShellWindowPrivate))
-
 /* Shorthand, requires a variable named "shell_window". */
 #define ACTION(name) \
 	(E_SHELL_WINDOW_ACTION_##name (shell_window))

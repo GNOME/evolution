@@ -50,10 +50,6 @@
 #include "print.h"
 #include "ea-day-view.h"
 
-#define E_DAY_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_DAY_VIEW, EDayViewPrivate))
-
 /* The minimum amount of space wanted on each side of the date string. */
 #define E_DAY_VIEW_DATE_X_PAD	4
 
@@ -502,7 +498,7 @@ enum {
 	PROP_IS_EDITING
 };
 
-G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
 
 static gboolean
 day_view_refresh_marcus_bains_line (gpointer user_data)
@@ -2169,8 +2165,6 @@ e_day_view_class_init (EDayViewClass *class)
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
-	g_type_class_add_private (class, sizeof (EDayViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = day_view_set_property;
 	object_class->get_property = day_view_get_property;
@@ -2274,7 +2268,7 @@ e_day_view_init (EDayView *day_view)
 	GtkWidget *widget;
 	gulong handler_id;
 
-	day_view->priv = E_DAY_VIEW_GET_PRIVATE (day_view);
+	day_view->priv = e_day_view_get_instance_private (day_view);
 
 	gtk_widget_set_can_focus (GTK_WIDGET (day_view), TRUE);
 

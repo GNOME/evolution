@@ -73,7 +73,7 @@ enum {
 	PROP_SHOW_ATTENDEES
 };
 
-G_DEFINE_TYPE (ECompEditorPageGeneral, e_comp_editor_page_general, E_TYPE_COMP_EDITOR_PAGE)
+G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorPageGeneral, e_comp_editor_page_general, E_TYPE_COMP_EDITOR_PAGE)
 
 static void ecep_general_sensitize_widgets (ECompEditorPage *page,
 					    gboolean force_insensitive);
@@ -1584,9 +1584,7 @@ ecep_general_finalize (GObject *object)
 static void
 e_comp_editor_page_general_init (ECompEditorPageGeneral *page_general)
 {
-	page_general->priv = G_TYPE_INSTANCE_GET_PRIVATE (page_general,
-		E_TYPE_COMP_EDITOR_PAGE_GENERAL,
-		ECompEditorPageGeneralPrivate);
+	page_general->priv = e_comp_editor_page_general_get_instance_private (page_general);
 }
 
 static void
@@ -1594,8 +1592,6 @@ e_comp_editor_page_general_class_init (ECompEditorPageGeneralClass *klass)
 {
 	ECompEditorPageClass *page_class;
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPageGeneralPrivate));
 
 	page_class = E_COMP_EDITOR_PAGE_CLASS (klass);
 	page_class->sensitize_widgets = ecep_general_sensitize_widgets;

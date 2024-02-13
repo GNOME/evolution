@@ -175,10 +175,7 @@ enum {
 	PROP_MESSAGE_LIST_SORT_ON_HEADER_CLICK
 };
 
-G_DEFINE_TYPE (
-	EMMailerPrefs,
-	em_mailer_prefs,
-	GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EMMailerPrefs, em_mailer_prefs, GTK_TYPE_BOX)
 
 static gint
 em_mailer_prefs_string_to_folder_drop_state (const gchar *str)
@@ -436,8 +433,6 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMMailerPrefsPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = em_mailer_prefs_set_property;
 	object_class->get_property = em_mailer_prefs_get_property;
@@ -469,7 +464,7 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *class)
 static void
 em_mailer_prefs_init (EMMailerPrefs *preferences)
 {
-	preferences->priv = G_TYPE_INSTANCE_GET_PRIVATE (preferences, EM_TYPE_MAILER_PREFS, EMMailerPrefsPrivate);
+	preferences->priv = em_mailer_prefs_get_instance_private (preferences);
 	preferences->priv->settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	preferences->priv->eds_settings = e_util_ref_settings ("org.gnome.evolution-data-server");
 

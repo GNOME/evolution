@@ -69,10 +69,6 @@ typedef enum _EAddressField {
 #define E_VIRT_COLUMN_OTHER_ADDRESS_COUNTRY	(E_VIRT_COLUMN_OTHER_ADDRESS_STATE + 1)
 #define E_VIRT_COLUMN_LAST			(E_VIRT_COLUMN_OTHER_ADDRESS_COUNTRY)
 
-#define E_ADDRESSBOOK_TABLE_ADAPTER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ADDRESSBOOK_TABLE_ADAPTER, EAddressbookTableAdapterPrivate))
-
 struct _EAddressbookTableAdapterPrivate {
 	EAddressbookModel *model;
 
@@ -85,13 +81,9 @@ struct _EAddressbookTableAdapterPrivate {
 static void	e_addressbook_table_adapter_table_model_init
 					(ETableModelInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EAddressbookTableAdapter,
-	e_addressbook_table_adapter,
-	G_TYPE_OBJECT,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_TABLE_MODEL,
-		e_addressbook_table_adapter_table_model_init))
+G_DEFINE_TYPE_WITH_CODE (EAddressbookTableAdapter, e_addressbook_table_adapter, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EAddressbookTableAdapter)
+	G_IMPLEMENT_INTERFACE (E_TYPE_TABLE_MODEL, e_addressbook_table_adapter_table_model_init))
 
 static gchar *
 eata_dup_address_field (EContact *contact,
@@ -457,9 +449,6 @@ e_addressbook_table_adapter_class_init (EAddressbookTableAdapterClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EAddressbookTableAdapterPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = addressbook_finalize;
 
@@ -496,7 +485,7 @@ e_addressbook_table_adapter_table_model_init (ETableModelInterface *iface)
 static void
 e_addressbook_table_adapter_init (EAddressbookTableAdapter *adapter)
 {
-	adapter->priv = E_ADDRESSBOOK_TABLE_ADAPTER_GET_PRIVATE (adapter);
+	adapter->priv = e_addressbook_table_adapter_get_instance_private (adapter);
 }
 
 static void

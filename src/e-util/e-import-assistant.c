@@ -37,10 +37,6 @@
 #include "e-misc-utils.h"
 #include "e-util-private.h"
 
-#define E_IMPORT_ASSISTANT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_IMPORT_ASSISTANT, EImportAssistantPrivate))
-
 typedef struct _ImportFilePage ImportFilePage;
 typedef struct _ImportDestinationPage ImportDestinationPage;
 typedef struct _ImportTypePage ImportTypePage;
@@ -128,12 +124,9 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE_WITH_CODE (
-	EImportAssistant,
-	e_import_assistant,
-	GTK_TYPE_ASSISTANT,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EImportAssistant, e_import_assistant, GTK_TYPE_ASSISTANT,
+	G_ADD_PRIVATE (EImportAssistant)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 /* Importing functions */
 
@@ -151,14 +144,14 @@ static void
 filename_changed (GtkWidget *widget,
                   GtkAssistant *assistant)
 {
-	EImportAssistantPrivate *priv;
+	EImportAssistant *self;
 	ImportFilePage *page;
 	GtkWidget *child;
 	gchar *filename;
 	gint fileok;
 
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
-	page = &priv->file_page;
+	self = E_IMPORT_ASSISTANT (assistant);
+	page = &self->priv->file_page;
 
 	child = gtk_bin_get_child (GTK_BIN (page->preview_scrolled_window));
 
@@ -183,8 +176,7 @@ filename_changed (GtkWidget *widget,
 		g_free (page->target->uri_src);
 		page->target->uri_src = g_filename_to_uri (filename, NULL, NULL);
 
-		l = e_import_get_importers (
-			priv->import, (EImportTarget *) page->target);
+		l = e_import_get_importers (self->priv->import, (EImportTarget *) page->target);
 		model = gtk_combo_box_get_model (GTK_COMBO_BOX (page->filetype));
 		valid = gtk_tree_model_get_iter_first (model, &iter);
 		while (valid) {
@@ -219,7 +211,7 @@ filename_changed (GtkWidget *widget,
 		} else if (page->importer && importer_can_handle) {
 			GtkWidget *preview;
 
-			preview = e_import_get_preview_widget (priv->import, (EImportTarget *) page->target, page->importer);
+			preview = e_import_get_preview_widget (self->priv->import, (EImportTarget *) page->target, page->importer);
 
 			if (preview)
 				gtk_container_add (GTK_CONTAINER (page->preview_scrolled_window), preview);
@@ -251,17 +243,17 @@ static void
 filetype_changed_cb (GtkComboBox *combo_box,
                      GtkAssistant *assistant)
 {
-	EImportAssistantPrivate *priv;
+	EImportAssistant *self;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
+	self = E_IMPORT_ASSISTANT (assistant);
 
 	g_return_if_fail (gtk_combo_box_get_active_iter (combo_box, &iter));
 
 	model = gtk_combo_box_get_model (combo_box);
-	gtk_tree_model_get (model, &iter, 2, &priv->file_page.importer, -1);
-	filename_changed (priv->file_page.filename, assistant);
+	gtk_tree_model_get (model, &iter, 2, &self->priv->file_page.importer, -1);
+	filename_changed (self->priv->file_page.filename, assistant);
 }
 
 static GtkWidget *
@@ -558,27 +550,26 @@ static void
 prepare_intelligent_page (GtkAssistant *assistant,
                           GtkWidget *vbox)
 {
-	EImportAssistantPrivate *priv;
+	EImportAssistant *self;
 	GSList *l;
 	GtkWidget *table;
 	gint row;
 	ImportSelectionPage *page;
 
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
-	page = &priv->selection_page;
+	self = E_IMPORT_ASSISTANT (assistant);
+	page = &self->priv->selection_page;
 
 	if (page->target != NULL) {
 		gtk_assistant_set_page_complete (assistant, vbox, FALSE);
 		return;
 	}
 
-	page->target = e_import_target_new_home (priv->import);
+	page->target = e_import_target_new_home (self->priv->import);
 
 	if (page->importers)
 		g_slist_free (page->importers);
 	l = page->importers =
-		e_import_get_importers (
-			priv->import, (EImportTarget *) page->target);
+		e_import_get_importers (self->priv->import, (EImportTarget *) page->target);
 
 	if (l == NULL) {
 		GtkWidget *widget;
@@ -608,8 +599,7 @@ prepare_intelligent_page (GtkAssistant *assistant,
 		gchar *str;
 		GtkWidget *w, *label;
 
-		w = e_import_get_widget (
-			priv->import, (EImportTarget *) page->target, eii);
+		w = e_import_get_widget (self->priv->import, (EImportTarget *) page->target, eii);
 
 		str = g_strdup_printf (_("From %s:"), eii->name);
 		label = gtk_label_new (str);
@@ -726,21 +716,21 @@ static void
 prepare_file_page (GtkAssistant *assistant,
                    GtkWidget *vbox)
 {
-	EImportAssistantPrivate *priv;
+	EImportAssistant *self;
 	GSList *importers, *imp;
 	GtkListStore *store;
 	ImportFilePage *page;
 
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
-	page = &priv->file_page;
+	self = E_IMPORT_ASSISTANT (assistant);
+	page = &self->priv->file_page;
 
 	if (page->target != NULL) {
-		filename_changed (priv->file_page.filename, assistant);
+		filename_changed (self->priv->file_page.filename, assistant);
 		return;
 	}
 
-	page->target = e_import_target_new_uri (priv->import, NULL, NULL);
-	importers = e_import_get_importers (priv->import, (EImportTarget *) page->target);
+	page->target = e_import_target_new_uri (self->priv->import, NULL, NULL);
+	importers = e_import_get_importers (self->priv->import, (EImportTarget *) page->target);
 
 	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (page->filetype)));
 	gtk_list_store_clear (store);
@@ -762,7 +752,7 @@ prepare_file_page (GtkAssistant *assistant,
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (page->filetype), 0);
 
-	filename_changed (priv->file_page.filename, assistant);
+	filename_changed (self->priv->file_page.filename, assistant);
 
 	g_signal_connect (
 		page->filetype, "changed",
@@ -791,21 +781,21 @@ static gboolean
 prepare_destination_page (GtkAssistant *assistant,
                           GtkWidget *vbox)
 {
-	EImportAssistantPrivate *priv;
+	EImportAssistant *self;
 	ImportDestinationPage *page;
 
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
-	page = &priv->destination_page;
+	self = E_IMPORT_ASSISTANT (assistant);
+	page = &self->priv->destination_page;
 
 	if (page->control)
 		gtk_container_remove (GTK_CONTAINER (vbox), page->control);
 
 	page->control = create_importer_control (
-		priv->import, (EImportTarget *)
-		priv->file_page.target, priv->file_page.importer);
+		self->priv->import, (EImportTarget *)
+		self->priv->file_page.target, self->priv->file_page.importer);
 
 	gtk_box_pack_start (GTK_BOX (vbox), page->control, TRUE, TRUE, 0);
-	gtk_assistant_set_page_complete (assistant, vbox, e_import_get_widget_complete (priv->import));
+	gtk_assistant_set_page_complete (assistant, vbox, e_import_get_widget_complete (self->priv->import));
 
 	return FALSE;
 }
@@ -840,7 +830,7 @@ static void
 prepare_progress_page (GtkAssistant *assistant,
                        GtkWidget *vbox)
 {
-	EImportAssistantPrivate *priv;
+	EImportAssistant *self;
 	EImportCompleteFunc done = NULL;
 	ImportSelectionPage *page;
 	GtkWidget *cancel_button;
@@ -848,8 +838,8 @@ prepare_progress_page (GtkAssistant *assistant,
 	gboolean intelligent_import;
 	gboolean is_simple = FALSE;
 
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
-	page = &priv->selection_page;
+	self = E_IMPORT_ASSISTANT (assistant);
+	page = &self->priv->selection_page;
 
 	/* Because we're a GTK_ASSISTANT_PAGE_PROGRESS, this will
 	 * prevent the assistant window from being closed via window
@@ -867,23 +857,23 @@ prepare_progress_page (GtkAssistant *assistant,
 	g_object_get (assistant, "is-simple", &is_simple, NULL);
 
 	intelligent_import = is_simple ? FALSE : gtk_toggle_button_get_active (
-		GTK_TOGGLE_BUTTON (priv->type_page.intelligent));
+		GTK_TOGGLE_BUTTON (self->priv->type_page.intelligent));
 
 	if (is_simple) {
-		priv->import_importer = priv->simple_page.importer;
-		priv->import_target = (EImportTarget *) priv->simple_page.target;
+		self->priv->import_importer = self->priv->simple_page.importer;
+		self->priv->import_target = (EImportTarget *) self->priv->simple_page.target;
 		done = import_simple_done;
 	} else if (intelligent_import) {
 		page->current = page->importers;
 		if (page->current) {
-			priv->import_target = (EImportTarget *) page->target;
-			priv->import_importer = page->current->data;
+			self->priv->import_target = (EImportTarget *) page->target;
+			self->priv->import_importer = page->current->data;
 			done = import_intelligent_done;
 		}
 	} else {
-		if (priv->file_page.importer) {
-			priv->import_importer = priv->file_page.importer;
-			priv->import_target = (EImportTarget *) priv->file_page.target;
+		if (self->priv->file_page.importer) {
+			self->priv->import_importer = self->priv->file_page.importer;
+			self->priv->import_target = (EImportTarget *) self->priv->file_page.target;
 			done = import_done;
 		}
 	}
@@ -899,15 +889,15 @@ static void
 simple_filetype_changed_cb (GtkComboBox *combo_box,
                             GtkAssistant *assistant)
 {
-	EImportAssistantPrivate *priv;
+	EImportAssistant *self;
 	ImportSimplePage *page;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GtkWidget *vbox;
 	GtkWidget *control;
 
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
-	page = &priv->simple_page;
+	self = E_IMPORT_ASSISTANT (assistant);
+	page = &self->priv->simple_page;
 
 	g_return_if_fail (gtk_combo_box_get_active_iter (combo_box, &iter));
 
@@ -922,14 +912,14 @@ simple_filetype_changed_cb (GtkComboBox *combo_box,
 	page->has_preview = FALSE;
 
 	control = e_import_get_preview_widget (
-		priv->import, (EImportTarget *)
+		self->priv->import, (EImportTarget *)
 		page->target, page->importer);
 	if (control) {
 		page->has_preview = TRUE;
 		gtk_widget_set_size_request (control, 440, 360);
 	} else
 		control = create_importer_control (
-			priv->import, (EImportTarget *)
+			self->priv->import, (EImportTarget *)
 			page->target, page->importer);
 
 	page->control = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
@@ -944,25 +934,25 @@ static void
 prepare_simple_page (GtkAssistant *assistant,
                      GtkWidget *vbox)
 {
-	EImportAssistantPrivate *priv;
+	EImportAssistant *self;
 	GSList *importers, *imp;
 	GtkListStore *store;
 	ImportSimplePage *page;
 	gchar *uri;
 
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
-	page = &priv->simple_page;
+	self = E_IMPORT_ASSISTANT (assistant);
+	page = &self->priv->simple_page;
 
-	g_return_if_fail (priv->fileuris != NULL);
+	g_return_if_fail (self->priv->fileuris != NULL);
 
 	if (page->target != NULL) {
 		return;
 	}
 
-	uri = g_ptr_array_remove_index (priv->fileuris, 0);
-	page->target = e_import_target_new_uri (priv->import, uri, NULL);
+	uri = g_ptr_array_remove_index (self->priv->fileuris, 0);
+	page->target = e_import_target_new_uri (self->priv->import, uri, NULL);
 	g_free (uri);
-	importers = e_import_get_importers (priv->import, (EImportTarget *) page->target);
+	importers = e_import_get_importers (self->priv->import, (EImportTarget *) page->target);
 
 	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (page->filetype)));
 	gtk_list_store_clear (store);
@@ -1033,23 +1023,23 @@ static gboolean
 prepare_simple_destination_page (GtkAssistant *assistant,
 				 GtkWidget *vbox)
 {
-	EImportAssistantPrivate *priv;
+	EImportAssistant *self;
 	ImportDestinationPage *page;
 	ImportSimplePage *simple_page;
 
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
-	page = &priv->destination_page;
-	simple_page = &priv->simple_page;
+	self = E_IMPORT_ASSISTANT (assistant);
+	page = &self->priv->destination_page;
+	simple_page = &self->priv->simple_page;
 
 	if (page->control)
 		gtk_container_remove (GTK_CONTAINER (vbox), page->control);
 
 	page->control = create_importer_control (
-		priv->import, (EImportTarget *)
+		self->priv->import, (EImportTarget *)
 		simple_page->target, simple_page->importer);
 
 	gtk_box_pack_start (GTK_BOX (vbox), page->control, TRUE, TRUE, 0);
-	gtk_assistant_set_page_complete (assistant, vbox, e_import_get_widget_complete (priv->import));
+	gtk_assistant_set_page_complete (assistant, vbox, e_import_get_widget_complete (self->priv->import));
 
 	return FALSE;
 }
@@ -1090,7 +1080,6 @@ static gboolean
 set_import_uris (EImportAssistant *assistant,
                  const gchar * const *uris)
 {
-	EImportAssistantPrivate *priv;
 	GPtrArray *fileuris = NULL;
 	gint i;
 
@@ -1098,8 +1087,6 @@ set_import_uris (EImportAssistant *assistant,
 	g_return_val_if_fail (assistant->priv != NULL, FALSE);
 	g_return_val_if_fail (assistant->priv->import != NULL, FALSE);
 	g_return_val_if_fail (uris != NULL, FALSE);
-
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
 
 	for (i = 0; uris[i]; i++) {
 		const gchar *uri = uris[i];
@@ -1129,9 +1116,9 @@ set_import_uris (EImportAssistant *assistant,
 				GSList *importers;
 
 				furi = g_filename_to_uri (filename, NULL, NULL);
-				target = e_import_target_new_uri (priv->import, furi, NULL);
+				target = e_import_target_new_uri (assistant->priv->import, furi, NULL);
 				importers = e_import_get_importers (
-					priv->import, (EImportTarget *) target);
+					assistant->priv->import, (EImportTarget *) target);
 
 				if (importers != NULL) {
 					/* there is at least one importer which can be used,
@@ -1140,7 +1127,7 @@ set_import_uris (EImportAssistant *assistant,
 				}
 
 				g_slist_free (importers);
-				e_import_target_free (priv->import, target);
+				e_import_target_free (assistant->priv->import, target);
 				g_free (furi);
 
 				if (fileuris == NULL) {
@@ -1158,7 +1145,7 @@ set_import_uris (EImportAssistant *assistant,
 	}
 
 	if (fileuris != NULL) {
-		priv->fileuris = fileuris;
+		assistant->priv->fileuris = fileuris;
 	}
 
 	return fileuris != NULL;
@@ -1170,13 +1157,11 @@ import_assistant_set_property (GObject *object,
                                const GValue *value,
                                GParamSpec *pspec)
 {
-	EImportAssistantPrivate *priv;
-
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (object);
+	EImportAssistant *self = E_IMPORT_ASSISTANT (object);
 
 	switch (property_id) {
 		case PROP_IS_SIMPLE:
-			priv->is_simple = g_value_get_boolean (value);
+			self->priv->is_simple = g_value_get_boolean (value);
 		return;
 	}
 
@@ -1189,13 +1174,11 @@ import_assistant_get_property (GObject *object,
                                GValue *value,
                                GParamSpec *pspec)
 {
-	EImportAssistantPrivate *priv;
-
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (object);
+	EImportAssistant *self = E_IMPORT_ASSISTANT (object);
 
 	switch (property_id) {
 		case PROP_IS_SIMPLE:
-			g_value_set_boolean (value, priv->is_simple);
+			g_value_set_boolean (value, self->priv->is_simple);
 			return;
 	}
 
@@ -1205,37 +1188,35 @@ import_assistant_get_property (GObject *object,
 static void
 import_assistant_dispose (GObject *object)
 {
-	EImportAssistantPrivate *priv;
+	EImportAssistant *self = E_IMPORT_ASSISTANT (object);
 
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (object);
-
-	if (priv->file_page.target != NULL) {
+	if (self->priv->file_page.target != NULL) {
 		e_import_target_free (
-			priv->import, (EImportTarget *)
-			priv->file_page.target);
-		priv->file_page.target = NULL;
+			self->priv->import, (EImportTarget *)
+			self->priv->file_page.target);
+		self->priv->file_page.target = NULL;
 	}
 
-	if (priv->selection_page.target != NULL) {
+	if (self->priv->selection_page.target != NULL) {
 		e_import_target_free (
-			priv->import, (EImportTarget *)
-			priv->selection_page.target);
-		priv->selection_page.target = NULL;
+			self->priv->import, (EImportTarget *)
+			self->priv->selection_page.target);
+		self->priv->selection_page.target = NULL;
 	}
 
-	if (priv->simple_page.target != NULL) {
+	if (self->priv->simple_page.target != NULL) {
 		e_import_target_free (
-			priv->import, (EImportTarget *)
-			priv->simple_page.target);
-		priv->simple_page.target = NULL;
+			self->priv->import, (EImportTarget *)
+			self->priv->simple_page.target);
+		self->priv->simple_page.target = NULL;
 	}
 
-	g_clear_object (&priv->import);
+	g_clear_object (&self->priv->import);
 
-	if (priv->fileuris != NULL) {
-		g_ptr_array_foreach (priv->fileuris, (GFunc) g_free, NULL);
-		g_ptr_array_free (priv->fileuris, TRUE);
-		priv->fileuris = NULL;
+	if (self->priv->fileuris != NULL) {
+		g_ptr_array_foreach (self->priv->fileuris, (GFunc) g_free, NULL);
+		g_ptr_array_free (self->priv->fileuris, TRUE);
+		self->priv->fileuris = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -1245,11 +1226,9 @@ import_assistant_dispose (GObject *object)
 static void
 import_assistant_finalize (GObject *object)
 {
-	EImportAssistantPrivate *priv;
+	EImportAssistant *self = E_IMPORT_ASSISTANT (object);
 
-	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (object);
-
-	g_slist_free (priv->selection_page.importers);
+	g_slist_free (self->priv->selection_page.importers);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_import_assistant_parent_class)->finalize (object);
@@ -1339,8 +1318,6 @@ e_import_assistant_class_init (EImportAssistantClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkAssistantClass *assistant_class;
-
-	g_type_class_add_private (class, sizeof (EImportAssistantPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = import_assistant_dispose;
@@ -1499,8 +1476,7 @@ import_assistant_construct (EImportAssistant *import_assistant)
 static void
 e_import_assistant_init (EImportAssistant *import_assistant)
 {
-	import_assistant->priv =
-		E_IMPORT_ASSISTANT_GET_PRIVATE (import_assistant);
+	import_assistant->priv = e_import_assistant_get_instance_private (import_assistant);
 }
 
 GtkWidget *

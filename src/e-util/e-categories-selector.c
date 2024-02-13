@@ -24,10 +24,6 @@
 #include "e-categories-config.h"
 #include "e-categories-selector.h"
 
-#define E_CATEGORIES_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CATEGORIES_SELECTOR, ECategoriesSelectorPrivate))
-
 struct _ECategoriesSelectorPrivate {
 	gboolean checkable;
 	gboolean use_inconsistent;
@@ -58,10 +54,7 @@ enum {
 
 static gint signals[LAST_SIGNAL] = {0};
 
-G_DEFINE_TYPE (
-	ECategoriesSelector,
-	e_categories_selector,
-	GTK_TYPE_TREE_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (ECategoriesSelector, e_categories_selector, GTK_TYPE_TREE_VIEW)
 
 static void
 categories_selector_build_model (ECategoriesSelector *selector)
@@ -264,10 +257,9 @@ categories_selector_set_property (GObject *object,
 static void
 categories_selector_dispose (GObject *object)
 {
-	ECategoriesSelectorPrivate *priv;
+	ECategoriesSelector *self = E_CATEGORIES_SELECTOR (object);
 
-	priv = E_CATEGORIES_SELECTOR_GET_PRIVATE (object);
-	g_clear_pointer (&priv->selected_categories, g_hash_table_destroy);
+	g_clear_pointer (&self->priv->selected_categories, g_hash_table_destroy);
 
 	/* Chain up to parent's dispose() method.*/
 	G_OBJECT_CLASS (e_categories_selector_parent_class)->dispose (object);
@@ -284,8 +276,6 @@ static void
 e_categories_selector_class_init (ECategoriesSelectorClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (ECategoriesSelectorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = categories_selector_set_property;
@@ -341,7 +331,7 @@ e_categories_selector_init (ECategoriesSelector *selector)
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *selection;
 
-	selector->priv = E_CATEGORIES_SELECTOR_GET_PRIVATE (selector);
+	selector->priv = e_categories_selector_get_instance_private (selector);
 
 	selector->priv->checkable = TRUE;
 	selector->priv->selected_categories = g_hash_table_new_full (

@@ -24,10 +24,6 @@
 
 #include <libedataserver/libedataserver.h>
 
-#define E_TABLE_SPECIFICATION_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TABLE_SPECIFICATION, ETableSpecificationPrivate))
-
 struct _ETableSpecificationPrivate {
 	GPtrArray *columns;
 	gchar *filename;
@@ -42,13 +38,9 @@ enum {
 static void	e_table_specification_initable_init
 						(GInitableIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	ETableSpecification,
-	e_table_specification,
-	G_TYPE_OBJECT,
-	G_IMPLEMENT_INTERFACE (
-		G_TYPE_INITABLE,
-		e_table_specification_initable_init))
+G_DEFINE_TYPE_WITH_CODE (ETableSpecification, e_table_specification, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (ETableSpecification)
+	G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE, e_table_specification_initable_init))
 
 static void
 table_specification_start_specification (GMarkupParseContext *context,
@@ -537,8 +529,6 @@ e_table_specification_class_init (ETableSpecificationClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ETableSpecificationPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = table_specification_set_property;
 	object_class->get_property = table_specification_get_property;
@@ -567,8 +557,7 @@ e_table_specification_initable_init (GInitableIface *iface)
 static void
 e_table_specification_init (ETableSpecification *specification)
 {
-	specification->priv =
-		E_TABLE_SPECIFICATION_GET_PRIVATE (specification);
+	specification->priv = e_table_specification_get_instance_private (specification);
 	specification->priv->columns =
 		g_ptr_array_new_with_free_func (
 		(GDestroyNotify) g_object_unref);

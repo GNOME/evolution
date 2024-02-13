@@ -30,10 +30,6 @@
 
 #include "e-mail-config-security-page.h"
 
-#define E_MAIL_CONFIG_SECURITY_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_SECURITY_PAGE, EMailConfigSecurityPagePrivate))
-
 struct _EMailConfigSecurityPagePrivate {
 	ESource *identity_source;
 };
@@ -47,15 +43,10 @@ enum {
 static void	e_mail_config_security_page_interface_init
 					(EMailConfigPageInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailConfigSecurityPage,
-	e_mail_config_security_page,
-	GTK_TYPE_SCROLLED_WINDOW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_CONFIG_PAGE,
-		e_mail_config_security_page_interface_init))
+G_DEFINE_TYPE_WITH_CODE (EMailConfigSecurityPage, e_mail_config_security_page, GTK_TYPE_SCROLLED_WINDOW,
+	G_ADD_PRIVATE (EMailConfigSecurityPage)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (E_TYPE_MAIL_CONFIG_PAGE, e_mail_config_security_page_interface_init))
 
 #ifdef ENABLE_SMIME
 static void
@@ -171,14 +162,12 @@ mail_config_security_page_get_property (GObject *object,
 static void
 mail_config_security_page_dispose (GObject *object)
 {
-	EMailConfigSecurityPagePrivate *priv;
+	EMailConfigSecurityPage *self = E_MAIL_CONFIG_SECURITY_PAGE (object);
 
-	priv = E_MAIL_CONFIG_SECURITY_PAGE_GET_PRIVATE (object);
-	g_clear_object (&priv->identity_source);
+	g_clear_object (&self->priv->identity_source);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_security_page_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_security_page_parent_class)->dispose (object);
 }
 
 static GHashTable * /* gchar *keyid ~> gchar *display_name */
@@ -919,9 +908,6 @@ e_mail_config_security_page_class_init (EMailConfigSecurityPageClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailConfigSecurityPagePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_security_page_set_property;
 	object_class->get_property = mail_config_security_page_get_property;
@@ -951,7 +937,7 @@ e_mail_config_security_page_interface_init (EMailConfigPageInterface *iface)
 static void
 e_mail_config_security_page_init (EMailConfigSecurityPage *page)
 {
-	page->priv = E_MAIL_CONFIG_SECURITY_PAGE_GET_PRIVATE (page);
+	page->priv = e_mail_config_security_page_get_instance_private (page);
 }
 
 EMailConfigPage *

@@ -41,7 +41,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (EMailFolderTweaks, e_mail_folder_tweaks, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailFolderTweaks, e_mail_folder_tweaks, G_TYPE_OBJECT)
 
 static gboolean
 mail_folder_tweaks_save_idle_cb (gpointer user_data)
@@ -222,8 +222,6 @@ e_mail_folder_tweaks_class_init (EMailFolderTweaksClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (EMailFolderTweaksPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->constructor = e_mail_folder_tweaks_constructor;
 	object_class->finalize = e_mail_folder_tweaks_finalize;
@@ -242,7 +240,7 @@ e_mail_folder_tweaks_class_init (EMailFolderTweaksClass *klass)
 static void
 e_mail_folder_tweaks_init (EMailFolderTweaks *tweaks)
 {
-	tweaks->priv = G_TYPE_INSTANCE_GET_PRIVATE (tweaks, E_TYPE_MAIL_FOLDER_TWEAKS, EMailFolderTweaksPrivate);
+	tweaks->priv = e_mail_folder_tweaks_get_instance_private (tweaks);
 	tweaks->priv->config_filename = g_build_filename (mail_session_get_config_dir (), "folder-tweaks.ini", NULL);
 	tweaks->priv->config = g_key_file_new ();
 

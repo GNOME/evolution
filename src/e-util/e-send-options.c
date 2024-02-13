@@ -33,10 +33,6 @@
 #include "e-misc-utils.h"
 #include "e-util-private.h"
 
-#define E_SEND_OPTIONS_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SEND_OPTIONS_DIALOG, ESendOptionsDialogPrivate))
-
 struct _ESendOptionsDialogPrivate {
 	GtkBuilder *builder;
 
@@ -107,10 +103,7 @@ enum {
 
 static guint signals[LAST_SIGNAL] = {0};
 
-G_DEFINE_TYPE (
-	ESendOptionsDialog,
-	e_send_options_dialog,
-	G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (ESendOptionsDialog, e_send_options_dialog, G_TYPE_OBJECT)
 
 static void
 e_send_options_get_widgets_data (ESendOptionsDialog *sod)
@@ -735,7 +728,7 @@ e_send_options_dialog_init (ESendOptionsDialog *sod)
 	new->copts = g_new0 (ESendOptionsStatusTracking, 1);
 	new->topts = g_new0 (ESendOptionsStatusTracking, 1);
 
-	sod->priv = E_SEND_OPTIONS_DIALOG_GET_PRIVATE (sod);
+	sod->priv = e_send_options_dialog_get_instance_private (sod);
 
 	sod->data = new;
 	sod->data->initialized = FALSE;
@@ -750,8 +743,6 @@ e_send_options_dialog_class_init (ESendOptionsDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ESendOptionsDialogPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_send_options_dialog_finalize;
 
@@ -764,5 +755,4 @@ e_send_options_dialog_class_init (ESendOptionsDialogClass *class)
 		g_cclosure_marshal_VOID__INT,
 		G_TYPE_NONE, 1,
 		G_TYPE_INT);
-
 }

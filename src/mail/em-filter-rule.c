@@ -47,7 +47,7 @@ static gint xml_decode (EFilterRule *fr, xmlNodePtr, ERuleContext *rc);
 static void rule_copy (EFilterRule *dest, EFilterRule *src);
 static GtkWidget *get_widget (EFilterRule *fr, ERuleContext *rc);
 
-G_DEFINE_TYPE (EMFilterRule, em_filter_rule, E_TYPE_FILTER_RULE)
+G_DEFINE_TYPE_WITH_PRIVATE (EMFilterRule, em_filter_rule, E_TYPE_FILTER_RULE)
 
 static void
 em_filter_rule_build_code (EFilterRule *rule,
@@ -94,8 +94,6 @@ em_filter_rule_class_init (EMFilterRuleClass *class)
 	GObjectClass *object_class;
 	EFilterRuleClass *filter_rule_class;
 
-	g_type_class_add_private (class, sizeof (EMFilterRulePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = em_filter_rule_finalize;
 
@@ -112,7 +110,7 @@ em_filter_rule_class_init (EMFilterRuleClass *class)
 static void
 em_filter_rule_init (EMFilterRule *ff)
 {
-	ff->priv = G_TYPE_INSTANCE_GET_PRIVATE (ff, EM_TYPE_FILTER_RULE, EMFilterRulePrivate);
+	ff->priv = em_filter_rule_get_instance_private (ff);
 }
 
 /**

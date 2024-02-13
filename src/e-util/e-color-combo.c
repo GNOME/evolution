@@ -26,10 +26,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <cairo/cairo.h>
 
-#define E_COLOR_COMBO_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COLOR_COMBO, EColorComboPrivate))
-
 struct _EColorComboPrivate {
 	GtkWidget *color_frame;		/* not referenced */
 	GtkWidget *arrow;		/* not referenced */
@@ -68,10 +64,7 @@ enum {
 static guint signals[LAST_SIGNAL];
 static GdkRGBA black = { 0, 0, 0, 1 };
 
-G_DEFINE_TYPE (
-	EColorCombo,
-	e_color_combo,
-	GTK_TYPE_BUTTON);
+G_DEFINE_TYPE_WITH_PRIVATE (EColorCombo, e_color_combo, GTK_TYPE_BUTTON);
 
 static void
 color_combo_popup (EColorCombo *combo)
@@ -363,45 +356,34 @@ color_combo_get_property (GObject *object,
                           GValue *value,
                           GParamSpec *pspec)
 {
-	EColorComboPrivate *priv;
+	EColorCombo *self = E_COLOR_COMBO (object);
 	GdkRGBA color;
-
-	priv = E_COLOR_COMBO_GET_PRIVATE (object);
 
 	switch (property_id) {
 		case PROP_CURRENT_COLOR:
-			e_color_combo_get_current_color (
-				E_COLOR_COMBO (object), &color);
+			e_color_combo_get_current_color (self, &color);
 			g_value_set_boxed (value, &color);
 			return;
 
 		case PROP_DEFAULT_COLOR:
-			e_color_combo_get_default_color (
-				E_COLOR_COMBO (object), &color);
+			e_color_combo_get_default_color (self, &color);
 			g_value_set_boxed (value, &color);
 			return;
 
 		case PROP_DEFAULT_LABEL:
-			g_value_set_string (
-				value, e_color_combo_get_default_label (
-				E_COLOR_COMBO (object)));
+			g_value_set_string (value, e_color_combo_get_default_label (self));
 			return;
 
 		case PROP_DEFAULT_TRANSPARENT:
-			g_value_set_boolean (
-				value,
-				e_color_combo_get_default_transparent (
-				E_COLOR_COMBO (object)));
+			g_value_set_boolean (value, e_color_combo_get_default_transparent (self));
 			return;
 
 		case PROP_PALETTE:
-			g_value_set_object (
-				value, e_color_combo_get_palette (
-				E_COLOR_COMBO (object)));
+			g_value_set_object (value, e_color_combo_get_palette (self));
 			return;
 
 		case PROP_POPUP_SHOWN:
-			g_value_set_boolean (value, priv->popup_shown);
+			g_value_set_boolean (value, self->priv->popup_shown);
 			return;
 	}
 
@@ -411,15 +393,14 @@ color_combo_get_property (GObject *object,
 static void
 color_combo_dispose (GObject *object)
 {
-	EColorComboPrivate *priv;
+	EColorCombo *self = E_COLOR_COMBO (object);
 
-	priv = E_COLOR_COMBO_GET_PRIVATE (object);
-	g_clear_pointer (&priv->popover, gtk_widget_destroy);
-	g_clear_pointer (&priv->current_color, gdk_rgba_free);
-	g_clear_pointer (&priv->default_color, gdk_rgba_free);
+	g_clear_pointer (&self->priv->popover, gtk_widget_destroy);
+	g_clear_pointer (&self->priv->current_color, gdk_rgba_free);
+	g_clear_pointer (&self->priv->default_color, gdk_rgba_free);
 
-	g_list_free_full (priv->palette, (GDestroyNotify) gdk_rgba_free);
-	priv->palette = NULL;
+	g_list_free_full (self->priv->palette, (GDestroyNotify) gdk_rgba_free);
+	self->priv->palette = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_color_combo_parent_class)->dispose (object);
@@ -430,8 +411,6 @@ e_color_combo_class_init (EColorComboClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (EColorComboPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = color_combo_set_property;
@@ -558,7 +537,7 @@ e_color_combo_init (EColorCombo *combo)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	combo->priv = E_COLOR_COMBO_GET_PRIVATE (combo);
+	combo->priv = e_color_combo_get_instance_private (combo);
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
 	gtk_container_add (GTK_CONTAINER (combo), widget);

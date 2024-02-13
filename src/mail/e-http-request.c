@@ -42,6 +42,7 @@ struct _EHTTPRequestPrivate {
 static void e_http_request_content_request_init (EContentRequestInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (EHTTPRequest, e_http_request, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EHTTPRequest)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CONTENT_REQUEST, e_http_request_content_request_init))
 
 static gboolean
@@ -480,13 +481,12 @@ e_http_request_content_request_init (EContentRequestInterface *iface)
 static void
 e_http_request_class_init (EHTTPRequestClass *class)
 {
-	g_type_class_add_private (class, sizeof (EHTTPRequestPrivate));
 }
 
 static void
 e_http_request_init (EHTTPRequest *request)
 {
-	request->priv = G_TYPE_INSTANCE_GET_PRIVATE (request, E_TYPE_HTTP_REQUEST, EHTTPRequestPrivate);
+	request->priv = e_http_request_get_instance_private (request);
 }
 
 EContentRequest *

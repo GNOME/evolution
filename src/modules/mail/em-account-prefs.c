@@ -39,14 +39,6 @@
 #include <mail/em-utils.h>
 #include <mail/mail-vfolder-ui.h>
 
-#define EM_ACCOUNT_PREFS_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsPrivate))
-
-#define EM_ACCOUNT_PREFS_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsPrivate))
-
 struct _EMAccountPrefsPrivate {
 	EMailBackend *backend;
 };
@@ -56,10 +48,8 @@ enum {
 	PROP_BACKEND
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EMAccountPrefs,
-	em_account_prefs,
-	E_TYPE_MAIL_ACCOUNT_MANAGER)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMAccountPrefs, em_account_prefs, E_TYPE_MAIL_ACCOUNT_MANAGER, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMAccountPrefs))
 
 static void
 account_prefs_service_enabled_cb (EMailAccountStore *store,
@@ -128,10 +118,9 @@ account_prefs_get_property (GObject *object,
 static void
 account_prefs_dispose (GObject *object)
 {
-	EMAccountPrefsPrivate *priv;
+	EMAccountPrefs *self = EM_ACCOUNT_PREFS (object);
 
-	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (object);
-	g_clear_object (&priv->backend);
+	g_clear_object (&self->priv->backend);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_account_prefs_parent_class)->dispose (object);
@@ -157,32 +146,26 @@ account_prefs_constructed (GObject *object)
 static void
 account_prefs_add_account (EMailAccountManager *manager)
 {
-	EMAccountPrefsPrivate *priv;
+	EMAccountPrefs *self = EM_ACCOUNT_PREFS (manager);
 	gpointer parent;
-
-	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (manager);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	e_mail_shell_backend_new_account (
-		E_MAIL_SHELL_BACKEND (priv->backend), parent);
+	e_mail_shell_backend_new_account (E_MAIL_SHELL_BACKEND (self->priv->backend), parent);
 }
 
 static void
 account_prefs_edit_account (EMailAccountManager *manager,
                             ESource *source)
 {
-	EMAccountPrefsPrivate *priv;
+	EMAccountPrefs *self = EM_ACCOUNT_PREFS (manager);
 	gpointer parent;
-
-	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (manager);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	e_mail_shell_backend_edit_account (
-		E_MAIL_SHELL_BACKEND (priv->backend), parent, source);
+	e_mail_shell_backend_edit_account (E_MAIL_SHELL_BACKEND (self->priv->backend), parent, source);
 }
 
 static void
@@ -190,8 +173,6 @@ em_account_prefs_class_init (EMAccountPrefsClass *class)
 {
 	GObjectClass *object_class;
 	EMailAccountManagerClass *account_manager_class;
-
-	g_type_class_add_private (class, sizeof (EMAccountPrefsPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = account_prefs_set_property;
@@ -223,7 +204,7 @@ em_account_prefs_class_finalize (EMAccountPrefsClass *class)
 static void
 em_account_prefs_init (EMAccountPrefs *prefs)
 {
-	prefs->priv = EM_ACCOUNT_PREFS_GET_PRIVATE (prefs);
+	prefs->priv = em_account_prefs_get_instance_private (prefs);
 }
 
 void

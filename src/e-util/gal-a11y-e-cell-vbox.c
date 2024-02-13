@@ -30,9 +30,11 @@
 #include "e-cell-vbox.h"
 #include "gal-a11y-e-cell-registry.h"
 
-static GObjectClass *parent_class;
-static AtkComponentIface *component_parent_iface;
-#define PARENT_TYPE (gal_a11y_e_cell_get_type ())
+static void ecv_atk_component_iface_init (AtkComponentIface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (GalA11yECellVbox, gal_a11y_e_cell_vbox, GAL_A11Y_TYPE_E_CELL,
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_COMPONENT, ecv_atk_component_iface_init)
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_ACTION, gal_a11y_e_cell_atk_action_interface_init))
 
 static gint
 ecv_get_n_children (AtkObject *a11y)
@@ -111,8 +113,7 @@ ecv_dispose (GObject *object)
 	GalA11yECellVbox *gaev = GAL_A11Y_E_CELL_VBOX (object);
 	g_free (gaev->a11y_subcells);
 
-	if (parent_class->dispose)
-		parent_class->dispose (object);
+	G_OBJECT_CLASS (gal_a11y_e_cell_vbox_parent_class)->dispose (object);
 }
 
 /* AtkComponet interface */
@@ -148,11 +149,10 @@ ecv_ref_accessible_at_point (AtkComponent *component,
 }
 
 static void
-ecv_class_init (GalA11yECellVboxClass *class)
+gal_a11y_e_cell_vbox_class_init (GalA11yECellVboxClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 	AtkObjectClass *a11y_class = ATK_OBJECT_CLASS (class);
-	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class->dispose = ecv_dispose;
 
@@ -161,48 +161,14 @@ ecv_class_init (GalA11yECellVboxClass *class)
 }
 
 static void
-ecv_init (GalA11yECellVbox *a11y)
+gal_a11y_e_cell_vbox_init (GalA11yECellVbox *a11y)
 {
 }
 
 static void
 ecv_atk_component_iface_init (AtkComponentIface *iface)
 {
-	component_parent_iface = g_type_interface_peek_parent (iface);
-
 	iface->ref_accessible_at_point = ecv_ref_accessible_at_point;
-}
-
-GType
-gal_a11y_e_cell_vbox_get_type (void)
-{
-	static GType type = 0;
-	if (!type) {
-		GTypeInfo info = {
-			sizeof (GalA11yECellVboxClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) ecv_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL, /* class_data */
-			sizeof (GalA11yECellVbox),
-			0,
-			(GInstanceInitFunc) ecv_init,
-			NULL /* value_cell */
-		};
-
-		static const GInterfaceInfo atk_component_info = {
-			(GInterfaceInitFunc) ecv_atk_component_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		type = g_type_register_static (PARENT_TYPE, "GalA11yECellVbox", &info, 0);
-		gal_a11y_e_cell_type_add_action_interface (type);
-		g_type_add_interface_static (type, ATK_TYPE_COMPONENT, &atk_component_info);
-	}
-
-	return type;
 }
 
 AtkObject *gal_a11y_e_cell_vbox_new	(ETableItem *item,

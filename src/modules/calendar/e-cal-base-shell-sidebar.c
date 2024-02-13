@@ -27,10 +27,6 @@
 #include "e-cal-base-shell-view.h"
 #include "e-cal-base-shell-sidebar.h"
 
-#define E_CAL_BASE_SHELL_SIDEBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_BASE_SHELL_SIDEBAR, ECalBaseShellSidebarPrivate))
-
 struct _ECalBaseShellSidebarPrivate {
 	ECalendar *date_navigator; /* not referenced, is inside itself */
 	GtkWidget *paned; /* not referenced, is inside itself */
@@ -55,7 +51,8 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_DYNAMIC_TYPE (ECalBaseShellSidebar, e_cal_base_shell_sidebar, E_TYPE_SHELL_SIDEBAR)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ECalBaseShellSidebar, e_cal_base_shell_sidebar, E_TYPE_SHELL_SIDEBAR, 0,
+	G_ADD_PRIVATE_DYNAMIC (ECalBaseShellSidebar))
 
 static gboolean
 cal_base_shell_sidebar_map_uid_to_source (GValue *value,
@@ -867,8 +864,6 @@ e_cal_base_shell_sidebar_class_init (ECalBaseShellSidebarClass *class)
 	GObjectClass *object_class;
 	EShellSidebarClass *shell_sidebar_class;
 
-	g_type_class_add_private (class, sizeof (ECalBaseShellSidebarPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = cal_base_shell_sidebar_get_property;
 	object_class->constructed = cal_base_shell_sidebar_constructed;
@@ -927,7 +922,7 @@ e_cal_base_shell_sidebar_class_finalize (ECalBaseShellSidebarClass *class)
 static void
 e_cal_base_shell_sidebar_init (ECalBaseShellSidebar *cal_base_shell_sidebar)
 {
-	cal_base_shell_sidebar->priv = E_CAL_BASE_SHELL_SIDEBAR_GET_PRIVATE (cal_base_shell_sidebar);
+	cal_base_shell_sidebar->priv = e_cal_base_shell_sidebar_get_instance_private (cal_base_shell_sidebar);
 	cal_base_shell_sidebar->priv->selected_uids =
 		g_hash_table_new_full (g_str_hash, g_str_equal, g_free, cancel_and_unref);
 }

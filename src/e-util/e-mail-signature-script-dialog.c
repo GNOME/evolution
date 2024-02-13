@@ -23,11 +23,6 @@
 
 #include "e-mail-signature-script-dialog.h"
 
-#define E_MAIL_SIGNATURE_SCRIPT_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SIGNATURE_SCRIPT_DIALOG, \
-	EMailSignatureScriptDialogPrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailSignatureScriptDialogPrivate {
@@ -55,10 +50,7 @@ enum {
 	PROP_SYMLINK_TARGET
 };
 
-G_DEFINE_TYPE (
-	EMailSignatureScriptDialog,
-	e_mail_signature_script_dialog,
-	GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailSignatureScriptDialog, e_mail_signature_script_dialog, GTK_TYPE_DIALOG)
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -297,29 +289,24 @@ mail_signature_script_dialog_get_property (GObject *object,
 static void
 mail_signature_script_dialog_dispose (GObject *object)
 {
-	EMailSignatureScriptDialogPrivate *priv;
+	EMailSignatureScriptDialog *self = E_MAIL_SIGNATURE_SCRIPT_DIALOG (object);
 
-	priv = E_MAIL_SIGNATURE_SCRIPT_DIALOG_GET_PRIVATE (object);
-	g_clear_object (&priv->registry);
-	g_clear_object (&priv->source);
+	g_clear_object (&self->priv->registry);
+	g_clear_object (&self->priv->source);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_signature_script_dialog_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_signature_script_dialog_parent_class)->dispose (object);
 }
 
 static void
 mail_signature_script_dialog_finalize (GObject *object)
 {
-	EMailSignatureScriptDialogPrivate *priv;
+	EMailSignatureScriptDialog *self = E_MAIL_SIGNATURE_SCRIPT_DIALOG (object);
 
-	priv = E_MAIL_SIGNATURE_SCRIPT_DIALOG_GET_PRIVATE (object);
-
-	g_free (priv->symlink_target);
+	g_free (self->priv->symlink_target);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_signature_script_dialog_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_mail_signature_script_dialog_parent_class)->finalize (object);
 }
 
 static void
@@ -552,9 +539,6 @@ e_mail_signature_script_dialog_class_init (EMailSignatureScriptDialogClass *clas
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailSignatureScriptDialogPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_signature_script_dialog_set_property;
 	object_class->get_property = mail_signature_script_dialog_get_property;
@@ -601,7 +585,7 @@ e_mail_signature_script_dialog_class_init (EMailSignatureScriptDialogClass *clas
 static void
 e_mail_signature_script_dialog_init (EMailSignatureScriptDialog *dialog)
 {
-	dialog->priv = E_MAIL_SIGNATURE_SCRIPT_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_mail_signature_script_dialog_get_instance_private (dialog);
 }
 
 GtkWidget *

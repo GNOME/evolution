@@ -26,10 +26,6 @@
 
 #include "e-color-combo.h"
 
-#define E_HTML_EDITOR_TEXT_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HTML_EDITOR_TEXT_DIALOG, EHTMLEditorTextDialogPrivate))
-
 struct _EHTMLEditorTextDialogPrivate {
 	GtkWidget *bold_check;
 	GtkWidget *italic_check;
@@ -40,10 +36,7 @@ struct _EHTMLEditorTextDialogPrivate {
 	GtkWidget *size_check;
 };
 
-G_DEFINE_TYPE (
-	EHTMLEditorTextDialog,
-	e_html_editor_text_dialog,
-	E_TYPE_HTML_EDITOR_DIALOG);
+G_DEFINE_TYPE_WITH_PRIVATE (EHTMLEditorTextDialog, e_html_editor_text_dialog, E_TYPE_HTML_EDITOR_DIALOG)
 
 static void
 html_editor_text_dialog_set_bold (EHTMLEditorTextDialog *dialog)
@@ -178,8 +171,6 @@ e_html_editor_text_dialog_class_init (EHTMLEditorTextDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EHTMLEditorTextDialogPrivate));
-
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_text_dialog_show;
 }
@@ -190,7 +181,7 @@ e_html_editor_text_dialog_init (EHTMLEditorTextDialog *dialog)
 	GtkGrid *main_layout;
 	GtkWidget *widget;
 
-	dialog->priv = E_HTML_EDITOR_TEXT_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_html_editor_text_dialog_get_instance_private (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 

@@ -25,10 +25,6 @@
 #include "e-misc-utils.h"
 #include "e-image-chooser-dialog.h"
 
-#define E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_IMAGE_CHOOSER_DIALOG, EImageChooserDialogPrivate))
-
 #define PREVIEW_WIDTH	256
 #define PREVIEW_HEIGHT	256
 
@@ -43,10 +39,7 @@ struct _Context {
 	GCancellable *cancellable;
 };
 
-G_DEFINE_TYPE (
-	EImageChooserDialog,
-	e_image_chooser_dialog,
-	GTK_TYPE_FILE_CHOOSER_DIALOG)
+G_DEFINE_TYPE_WITH_PRIVATE (EImageChooserDialog, e_image_chooser_dialog, GTK_TYPE_FILE_CHOOSER_DIALOG)
 
 static void
 context_free (Context *context)
@@ -101,20 +94,19 @@ exit:
 static void
 image_chooser_dialog_update_preview (GtkFileChooser *file_chooser)
 {
-	EImageChooserDialogPrivate *priv;
+	EImageChooserDialog *self;
 	GtkWidget *preview_widget;
 	GFile *preview_file;
 	Context *context;
 	gchar *filename;
 
-	priv = E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE (file_chooser);
+	self = E_IMAGE_CHOOSER_DIALOG (file_chooser);
 	preview_file = gtk_file_chooser_get_preview_file (file_chooser);
 	preview_widget = gtk_file_chooser_get_preview_widget (file_chooser);
 
-	if (priv->cancellable != NULL) {
-		g_cancellable_cancel (priv->cancellable);
-		g_object_unref (priv->cancellable);
-		priv->cancellable = NULL;
+	if (self->priv->cancellable) {
+		g_cancellable_cancel (self->priv->cancellable);
+		g_clear_object (&self->priv->cancellable);
 	}
 
 	gtk_image_clear (GTK_IMAGE (preview_widget));
@@ -131,15 +123,15 @@ image_chooser_dialog_update_preview (GtkFileChooser *file_chooser)
 	}
 	g_free (filename);
 
-	priv->cancellable = g_cancellable_new ();
+	self->priv->cancellable = g_cancellable_new ();
 
 	context = g_slice_new0 (Context);
 	context->file_chooser = g_object_ref (file_chooser);
-	context->cancellable = g_object_ref (priv->cancellable);
+	context->cancellable = g_object_ref (self->priv->cancellable);
 
 	g_file_read_async (
 		preview_file, G_PRIORITY_LOW,
-		priv->cancellable, (GAsyncReadyCallback)
+		self->priv->cancellable, (GAsyncReadyCallback)
 		image_chooser_dialog_read_cb, context);
 
 	g_object_unref (preview_file);
@@ -148,14 +140,11 @@ image_chooser_dialog_update_preview (GtkFileChooser *file_chooser)
 static void
 image_chooser_dialog_dispose (GObject *object)
 {
-	EImageChooserDialogPrivate *priv;
+	EImageChooserDialog *self = E_IMAGE_CHOOSER_DIALOG (object);
 
-	priv = E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE (object);
-
-	if (priv->cancellable != NULL) {
-		g_cancellable_cancel (priv->cancellable);
-		g_object_unref (priv->cancellable);
-		priv->cancellable = NULL;
+	if (self->priv->cancellable) {
+		g_cancellable_cancel (self->priv->cancellable);
+		g_clear_object (&self->priv->cancellable);
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -202,9 +191,6 @@ e_image_chooser_dialog_class_init (EImageChooserDialogClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EImageChooserDialogPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = image_chooser_dialog_dispose;
 	object_class->constructed = image_chooser_dialog_constructed;
@@ -213,7 +199,7 @@ e_image_chooser_dialog_class_init (EImageChooserDialogClass *class)
 static void
 e_image_chooser_dialog_init (EImageChooserDialog *dialog)
 {
-	dialog->priv = E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_image_chooser_dialog_get_instance_private (dialog);
 
 	g_signal_connect (
 		dialog, "update-preview",

@@ -21,18 +21,12 @@
 
 #include <e-util/e-util.h>
 
-#define E_SETTINGS_CLIENT_CACHE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_CLIENT_CACHE, ESettingsClientCachePrivate))
-
 struct _ESettingsClientCachePrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsClientCache,
-	e_settings_client_cache,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsClientCache, e_settings_client_cache, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsClientCache))
 
 static gboolean
 settings_map_string_to_icaltimezone (GValue *value,
@@ -108,8 +102,6 @@ e_settings_client_cache_class_init (ESettingsClientCacheClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ESettingsClientCachePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = settings_client_cache_constructed;
 
@@ -125,7 +117,7 @@ e_settings_client_cache_class_finalize (ESettingsClientCacheClass *class)
 static void
 e_settings_client_cache_init (ESettingsClientCache *extension)
 {
-	extension->priv = E_SETTINGS_CLIENT_CACHE_GET_PRIVATE (extension);
+	extension->priv = e_settings_client_cache_get_instance_private (extension);
 }
 
 void

@@ -19,18 +19,12 @@
 
 #include <e-util/e-util.h>
 
-#define E_SETTINGS_SPELL_ENTRY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_SPELL_ENTRY, ESettingsSpellEntryPrivate))
-
 struct _ESettingsSpellEntryPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsSpellEntry,
-	e_settings_spell_entry,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsSpellEntry, e_settings_spell_entry, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsSpellEntry))
 
 static void
 settings_spell_entry_constructed (GObject *object)
@@ -61,8 +55,6 @@ e_settings_spell_entry_class_init (ESettingsSpellEntryClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ESettingsSpellEntryPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = settings_spell_entry_constructed;
 
@@ -78,7 +70,7 @@ e_settings_spell_entry_class_finalize (ESettingsSpellEntryClass *class)
 static void
 e_settings_spell_entry_init (ESettingsSpellEntry *extension)
 {
-	extension->priv = E_SETTINGS_SPELL_ENTRY_GET_PRIVATE (extension);
+	extension->priv = e_settings_spell_entry_get_instance_private (extension);
 }
 
 void

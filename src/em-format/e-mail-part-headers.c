@@ -22,10 +22,6 @@
 #include "e-mail-part-list.h"
 #include "e-mail-part-headers.h"
 
-#define E_MAIL_PART_HEADERS_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_PART_HEADERS, EMailPartHeadersPrivate))
-
 struct _EMailPartHeadersPrivate {
 	GMutex property_lock;
 	gchar **default_headers;
@@ -37,10 +33,7 @@ enum {
 	PROP_DEFAULT_HEADERS
 };
 
-G_DEFINE_TYPE (
-	EMailPartHeaders,
-	e_mail_part_headers,
-	E_TYPE_MAIL_PART)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailPartHeaders, e_mail_part_headers, E_TYPE_MAIL_PART)
 
 static const gchar *basic_headers[] = {
 	N_("From"),
@@ -169,11 +162,9 @@ mail_part_headers_get_property (GObject *object,
 static void
 mail_part_headers_dispose (GObject *object)
 {
-	EMailPartHeadersPrivate *priv;
+	EMailPartHeaders *self = E_MAIL_PART_HEADERS (object);
 
-	priv = E_MAIL_PART_HEADERS_GET_PRIVATE (object);
-
-	g_clear_object (&priv->print_model);
+	g_clear_object (&self->priv->print_model);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_part_headers_parent_class)->dispose (object);
@@ -182,13 +173,11 @@ mail_part_headers_dispose (GObject *object)
 static void
 mail_part_headers_finalize (GObject *object)
 {
-	EMailPartHeadersPrivate *priv;
+	EMailPartHeaders *self = E_MAIL_PART_HEADERS (object);
 
-	priv = E_MAIL_PART_HEADERS_GET_PRIVATE (object);
+	g_mutex_clear (&self->priv->property_lock);
 
-	g_mutex_clear (&priv->property_lock);
-
-	g_strfreev (priv->default_headers);
+	g_strfreev (self->priv->default_headers);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_part_headers_parent_class)->finalize (object);
@@ -211,8 +200,6 @@ static void
 e_mail_part_headers_class_init (EMailPartHeadersClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EMailPartHeadersPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_part_headers_set_property;
@@ -237,7 +224,7 @@ e_mail_part_headers_class_init (EMailPartHeadersClass *class)
 static void
 e_mail_part_headers_init (EMailPartHeaders *part)
 {
-	part->priv = E_MAIL_PART_HEADERS_GET_PRIVATE (part);
+	part->priv = e_mail_part_headers_get_instance_private (part);
 
 	g_mutex_init (&part->priv->property_lock);
 }

@@ -27,10 +27,6 @@
 
 #include "e-misc-utils.h"
 
-#define E_ATTACHMENT_HANDLER_IMAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ATTACHMENT_HANDLER_IMAGE, EAttachmentHandlerImagePrivate))
-
 struct _EAttachmentHandlerImagePrivate {
 	gint placeholder;
 };
@@ -44,10 +40,7 @@ static const gchar *ui =
 "  </popup>"
 "</ui>";
 
-G_DEFINE_TYPE (
-	EAttachmentHandlerImage,
-	e_attachment_handler_image,
-	E_TYPE_ATTACHMENT_HANDLER)
+G_DEFINE_TYPE_WITH_PRIVATE (EAttachmentHandlerImage, e_attachment_handler_image, E_TYPE_ATTACHMENT_HANDLER)
 
 static void
 action_image_set_as_background_saved_cb (EAttachment *attachment,
@@ -226,8 +219,6 @@ e_attachment_handler_image_class_init (EAttachmentHandlerImageClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EAttachmentHandlerImagePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = attachment_handler_image_constructed;
 }
@@ -235,5 +226,5 @@ e_attachment_handler_image_class_init (EAttachmentHandlerImageClass *class)
 static void
 e_attachment_handler_image_init (EAttachmentHandlerImage *handler)
 {
-	handler->priv = E_ATTACHMENT_HANDLER_IMAGE_GET_PRIVATE (handler);
+	handler->priv = e_attachment_handler_image_get_instance_private (handler);
 }

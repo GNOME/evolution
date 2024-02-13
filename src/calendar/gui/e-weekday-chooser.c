@@ -30,10 +30,6 @@
 
 #define PADDING 2
 
-#define E_WEEKDAY_CHOOSER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEEKDAY_CHOOSER, EWeekdayChooserPrivate))
-
 /* Private part of the EWeekdayChooser structure */
 struct _EWeekdayChooserPrivate {
 	gboolean blocked_weekdays[8];   /* indexed by GDateWeekday */
@@ -66,12 +62,9 @@ enum {
 
 static guint chooser_signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE_WITH_CODE (
-	EWeekdayChooser,
-	e_weekday_chooser,
-	GNOME_TYPE_CANVAS,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EWeekdayChooser, e_weekday_chooser, GNOME_TYPE_CANVAS,
+	G_ADD_PRIVATE (EWeekdayChooser)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 colorize_items (EWeekdayChooser *chooser)
@@ -369,8 +362,6 @@ e_weekday_chooser_class_init (EWeekdayChooserClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EWeekdayChooserPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = weekday_chooser_set_property;
 	object_class->get_property = weekday_chooser_get_property;
@@ -534,7 +525,7 @@ create_items (EWeekdayChooser *chooser)
 static void
 e_weekday_chooser_init (EWeekdayChooser *chooser)
 {
-	chooser->priv = E_WEEKDAY_CHOOSER_GET_PRIVATE (chooser);
+	chooser->priv = e_weekday_chooser_get_instance_private (chooser);
 
 	create_items (chooser);
 	chooser->priv->focus_day = -1;

@@ -58,8 +58,7 @@ struct _ECalAttachmentHandlerClass {
 };
 
 GType		e_cal_attachment_handler_get_type	(void);
-void		e_cal_attachment_handler_register_type
-						(GTypeModule *type_module);
+void		e_cal_attachment_handler_type_register	(GTypeModule *type_module);
 
 G_END_DECLS
 

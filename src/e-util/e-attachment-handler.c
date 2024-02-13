@@ -22,18 +22,11 @@
 
 #include "e-attachment-handler.h"
 
-#define E_ATTACHMENT_HANDLER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ATTACHMENT_HANDLER, EAttachmentHandlerPrivate))
-
 struct _EAttachmentHandlerPrivate {
 	gpointer placeholder;
 };
 
-G_DEFINE_TYPE (
-	EAttachmentHandler,
-	e_attachment_handler,
-	E_TYPE_EXTENSION)
+G_DEFINE_TYPE_WITH_PRIVATE (EAttachmentHandler, e_attachment_handler, E_TYPE_EXTENSION)
 
 static void
 attachment_handler_constructed (GObject *object)
@@ -66,8 +59,6 @@ e_attachment_handler_class_init (EAttachmentHandlerClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (EAttachmentHandlerPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = attachment_handler_constructed;
 
@@ -78,7 +69,7 @@ e_attachment_handler_class_init (EAttachmentHandlerClass *class)
 static void
 e_attachment_handler_init (EAttachmentHandler *handler)
 {
-	handler->priv = E_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
+	handler->priv = e_attachment_handler_get_instance_private (handler);
 }
 
 EAttachmentView *

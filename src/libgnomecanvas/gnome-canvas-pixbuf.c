@@ -25,10 +25,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "gnome-canvas-pixbuf.h"
 
-#define GNOME_CANVAS_PIXBUF_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), GNOME_TYPE_CANVAS_PIXBUF, GnomeCanvasPixbufPrivate))
-
 /* Private part of the GnomeCanvasPixbuf structure */
 struct _GnomeCanvasPixbufPrivate {
 	/* Our gdk-pixbuf */
@@ -64,7 +60,7 @@ static GnomeCanvasItem *gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
 static void gnome_canvas_pixbuf_bounds (GnomeCanvasItem *item,
 					gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
-G_DEFINE_TYPE (GnomeCanvasPixbuf, gnome_canvas_pixbuf, GNOME_TYPE_CANVAS_ITEM)
+G_DEFINE_TYPE_WITH_PRIVATE (GnomeCanvasPixbuf, gnome_canvas_pixbuf, GNOME_TYPE_CANVAS_ITEM)
 
 /* Class initialization function for the pixbuf canvas item */
 static void
@@ -91,15 +87,13 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
 	item_class->draw = gnome_canvas_pixbuf_draw;
 	item_class->point = gnome_canvas_pixbuf_point;
 	item_class->bounds = gnome_canvas_pixbuf_bounds;
-
-	g_type_class_add_private (class, sizeof (GnomeCanvasPixbufPrivate));
 }
 
 /* Object initialization function for the pixbuf canvas item */
 static void
 gnome_canvas_pixbuf_init (GnomeCanvasPixbuf *gcp)
 {
-	gcp->priv = GNOME_CANVAS_PIXBUF_GET_PRIVATE (gcp);
+	gcp->priv = gnome_canvas_pixbuf_get_instance_private (gcp);
 }
 
 /* Dispose handler for the pixbuf canvas item */

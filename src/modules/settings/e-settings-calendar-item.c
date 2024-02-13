@@ -21,18 +21,12 @@
 
 #include <e-util/e-util.h>
 
-#define E_SETTINGS_CALENDAR_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_CALENDAR_ITEM, ESettingsCalendarItemPrivate))
-
 struct _ESettingsCalendarItemPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsCalendarItem,
-	e_settings_calendar_item,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsCalendarItem, e_settings_calendar_item, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsCalendarItem))
 
 static void
 settings_calendar_item_constructed (GObject *object)
@@ -68,9 +62,6 @@ e_settings_calendar_item_class_init (ESettingsCalendarItemClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (
-		class, sizeof (ESettingsCalendarItemPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = settings_calendar_item_constructed;
 
@@ -86,7 +77,7 @@ e_settings_calendar_item_class_finalize (ESettingsCalendarItemClass *class)
 static void
 e_settings_calendar_item_init (ESettingsCalendarItem *extension)
 {
-	extension->priv = E_SETTINGS_CALENDAR_ITEM_GET_PRIVATE (extension);
+	extension->priv = e_settings_calendar_item_get_instance_private (extension);
 }
 
 void

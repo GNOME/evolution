@@ -29,10 +29,6 @@
 #include "e-attachment-store.h"
 #include "e-attachment-view.h"
 
-#define E_ATTACHMENT_ICON_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ATTACHMENT_ICON_VIEW, EAttachmentIconViewPrivate))
-
 struct _EAttachmentIconViewPrivate {
 	EAttachmentViewPrivate view_priv;
 };
@@ -48,15 +44,10 @@ enum {
 static void	e_attachment_icon_view_interface_init
 					(EAttachmentViewInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EAttachmentIconView,
-	e_attachment_icon_view,
-	GTK_TYPE_ICON_VIEW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ATTACHMENT_VIEW,
-		e_attachment_icon_view_interface_init)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EAttachmentIconView, e_attachment_icon_view, GTK_TYPE_ICON_VIEW,
+	G_ADD_PRIVATE (EAttachmentIconView)
+	G_IMPLEMENT_INTERFACE (E_TYPE_ATTACHMENT_VIEW, e_attachment_icon_view_interface_init)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 attachment_icon_view_set_property (GObject *object,
@@ -377,11 +368,9 @@ attachment_icon_view_item_activated (GtkIconView *icon_view,
 static EAttachmentViewPrivate *
 attachment_icon_view_get_private (EAttachmentView *view)
 {
-	EAttachmentIconViewPrivate *priv;
+	EAttachmentIconView *self = E_ATTACHMENT_ICON_VIEW (view);
 
-	priv = E_ATTACHMENT_ICON_VIEW_GET_PRIVATE (view);
-
-	return &priv->view_priv;
+	return &self->priv->view_priv;
 }
 
 static EAttachmentStore *
@@ -527,8 +516,6 @@ e_attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 	GtkWidgetClass *widget_class;
 	GtkIconViewClass *icon_view_class;
 
-	g_type_class_add_private (class, sizeof (EAttachmentViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = attachment_icon_view_set_property;
 	object_class->get_property = attachment_icon_view_get_property;
@@ -565,7 +552,7 @@ e_attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 static void
 e_attachment_icon_view_init (EAttachmentIconView *icon_view)
 {
-	icon_view->priv = E_ATTACHMENT_ICON_VIEW_GET_PRIVATE (icon_view);
+	icon_view->priv = e_attachment_icon_view_get_instance_private (icon_view);
 
 	e_attachment_view_init (E_ATTACHMENT_VIEW (icon_view));
 }

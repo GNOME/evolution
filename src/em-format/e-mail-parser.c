@@ -31,10 +31,6 @@
 #include "e-mail-part-attachment.h"
 #include "e-mail-part-utils.h"
 
-#define E_MAIL_PARSER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_PARSER, EMailParserPrivate))
-
 #define d(x)
 
 struct _EMailParserPrivate {
@@ -50,6 +46,8 @@ enum {
 	PROP_0,
 	PROP_SESSION
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (EMailParser, e_mail_parser, G_TYPE_OBJECT)
 
 /* internal parser extensions */
 GType e_mail_parser_application_mbox_get_type (void);
@@ -80,8 +78,6 @@ GType e_mail_parser_application_smime_get_type (void);
 #ifdef HAVE_MARKDOWN
 GType e_mail_parser_text_markdown_get_type (void);
 #endif
-
-static gpointer parent_class;
 
 static void
 mail_parser_move_security_before_headers (GQueue *part_queue)
@@ -355,21 +351,20 @@ e_mail_parser_get_property (GObject *object,
 static void
 e_mail_parser_finalize (GObject *object)
 {
-	EMailParserPrivate *priv;
+	EMailParser *self = E_MAIL_PARSER (object);
 
-	priv = E_MAIL_PARSER_GET_PRIVATE (object);
-
-	g_clear_object (&priv->session);
-	g_hash_table_destroy (priv->ongoing_part_lists);
-	g_mutex_clear (&priv->mutex);
+	g_clear_object (&self->priv->session);
+	g_hash_table_destroy (self->priv->ongoing_part_lists);
+	g_mutex_clear (&self->priv->mutex);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_mail_parser_parent_class)->finalize (object);
 }
 
 static void
-e_mail_parser_base_init (EMailParserClass *class)
+e_mail_parser_class_init (EMailParserClass *class)
 {
+	GObjectClass *object_class;
 	EShell *shell;
 
 	/* Register internal extensions. */
@@ -415,15 +410,6 @@ e_mail_parser_base_init (EMailParserClass *class)
 	/* It can be NULL when creating developer documentation */
 	if (shell)
 		g_object_weak_ref (G_OBJECT (shell), shell_gone_cb, class);
-}
-
-static void
-e_mail_parser_class_init (EMailParserClass *class)
-{
-	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (EMailParserPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_mail_parser_finalize;
@@ -445,37 +431,10 @@ e_mail_parser_class_init (EMailParserClass *class)
 static void
 e_mail_parser_init (EMailParser *parser)
 {
-	parser->priv = E_MAIL_PARSER_GET_PRIVATE (parser);
+	parser->priv = e_mail_parser_get_instance_private (parser);
 	parser->priv->ongoing_part_lists = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	g_mutex_init (&parser->priv->mutex);
-}
-
-GType
-e_mail_parser_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailParserClass),
-			(GBaseInitFunc) e_mail_parser_base_init,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) e_mail_parser_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailParser),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) e_mail_parser_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EMailParser",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 EMailParser *

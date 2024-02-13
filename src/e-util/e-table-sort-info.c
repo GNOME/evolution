@@ -22,10 +22,6 @@
 #include "e-table-specification.h"
 #include "e-xml-utils.h"
 
-#define E_TABLE_SORT_INFO_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TABLE_SORT_INFO, ETableSortInfoPrivate))
-
 typedef struct _ColumnData ColumnData;
 
 struct _ETableSortInfoPrivate {
@@ -53,7 +49,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (ETableSortInfo , e_table_sort_info, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (ETableSortInfo , e_table_sort_info, G_TYPE_OBJECT)
 
 static void
 column_data_clear (ColumnData *data)
@@ -268,14 +264,12 @@ table_sort_info_get_property (GObject *object,
 static void
 table_sort_info_dispose (GObject *object)
 {
-	ETableSortInfoPrivate *priv;
+	ETableSortInfo *self = E_TABLE_SORT_INFO (object);
 
-	priv = E_TABLE_SORT_INFO_GET_PRIVATE (object);
+	g_weak_ref_set (&self->priv->specification, NULL);
 
-	g_weak_ref_set (&priv->specification, NULL);
-
-	g_array_set_size (priv->groupings, 0);
-	g_array_set_size (priv->sortings, 0);
+	g_array_set_size (self->priv->groupings, 0);
+	g_array_set_size (self->priv->sortings, 0);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_sort_info_parent_class)->dispose (object);
@@ -284,12 +278,10 @@ table_sort_info_dispose (GObject *object)
 static void
 table_sort_info_finalize (GObject *object)
 {
-	ETableSortInfoPrivate *priv;
+	ETableSortInfo *self = E_TABLE_SORT_INFO (object);
 
-	priv = E_TABLE_SORT_INFO_GET_PRIVATE (object);
-
-	g_array_free (priv->groupings, TRUE);
-	g_array_free (priv->sortings, TRUE);
+	g_array_free (self->priv->groupings, TRUE);
+	g_array_free (self->priv->sortings, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_table_sort_info_parent_class)->finalize (object);
@@ -299,8 +291,6 @@ static void
 e_table_sort_info_class_init (ETableSortInfoClass *class)
 {
 	GObjectClass * object_class;
-
-	g_type_class_add_private (class, sizeof (ETableSortInfoPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = table_sort_info_set_property;
@@ -342,7 +332,7 @@ e_table_sort_info_class_init (ETableSortInfoClass *class)
 static void
 e_table_sort_info_init (ETableSortInfo *sort_info)
 {
-	sort_info->priv = E_TABLE_SORT_INFO_GET_PRIVATE (sort_info);
+	sort_info->priv = e_table_sort_info_get_instance_private (sort_info);
 
 	sort_info->priv->groupings = g_array_new (
 		FALSE, TRUE, sizeof (ColumnData));

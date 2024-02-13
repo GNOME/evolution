@@ -23,10 +23,6 @@
 
 #include "e-autosave-utils.h"
 
-#define E_COMPOSER_AUTOSAVE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_AUTOSAVE, EComposerAutosavePrivate))
-
 #define AUTOSAVE_INTERVAL	60 /* seconds */
 
 struct _EComposerAutosavePrivate {
@@ -37,10 +33,8 @@ struct _EComposerAutosavePrivate {
 	gboolean editor_is_malfunction;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EComposerAutosave,
-	e_composer_autosave,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EComposerAutosave, e_composer_autosave, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (EComposerAutosave))
 
 static void composer_autosave_changed_cb (EComposerAutosave *autosave);
 
@@ -226,21 +220,18 @@ composer_autosave_msg_composer_before_destroy_cb (EMsgComposer *composer,
 static void
 composer_autosave_dispose (GObject *object)
 {
-	EComposerAutosavePrivate *priv;
-
-	priv = E_COMPOSER_AUTOSAVE_GET_PRIVATE (object);
+	EComposerAutosave *self = E_COMPOSER_AUTOSAVE (object);
 
 	/* Cancel any snapshots in progress. */
-	g_cancellable_cancel (priv->cancellable);
+	g_cancellable_cancel (self->priv->cancellable);
 
-	if (priv->timeout_id > 0) {
-		g_source_remove (priv->timeout_id);
-		priv->timeout_id = 0;
+	if (self->priv->timeout_id > 0) {
+		g_source_remove (self->priv->timeout_id);
+		self->priv->timeout_id = 0;
 	}
 
-	g_clear_object (&priv->cancellable);
-
-	g_clear_object (&priv->malfunction_snapshot_file);
+	g_clear_object (&self->priv->cancellable);
+	g_clear_object (&self->priv->malfunction_snapshot_file);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_composer_autosave_parent_class)->dispose (object);
@@ -285,8 +276,6 @@ e_composer_autosave_class_init (EComposerAutosaveClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (EComposerAutosavePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = composer_autosave_dispose;
 	object_class->constructed = composer_autosave_constructed;
@@ -303,7 +292,7 @@ e_composer_autosave_class_finalize (EComposerAutosaveClass *class)
 static void
 e_composer_autosave_init (EComposerAutosave *autosave)
 {
-	autosave->priv = E_COMPOSER_AUTOSAVE_GET_PRIVATE (autosave);
+	autosave->priv = e_composer_autosave_get_instance_private (autosave);
 	autosave->priv->cancellable = g_cancellable_new ();
 	autosave->priv->malfunction_snapshot_file = NULL;
 	autosave->priv->editor_is_malfunction = FALSE;

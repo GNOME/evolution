@@ -17,10 +17,6 @@
 
 #include "e-mail-signature-tree-view.h"
 
-#define E_MAIL_SIGNATURE_TREE_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SIGNATURE_TREE_VIEW, EMailSignatureTreeViewPrivate))
-
 #define SOURCE_IS_MAIL_SIGNATURE(source) \
 	(e_source_has_extension ((source), E_SOURCE_EXTENSION_MAIL_SIGNATURE))
 
@@ -40,10 +36,7 @@ enum {
 	NUM_COLUMNS
 };
 
-G_DEFINE_TYPE (
-	EMailSignatureTreeView,
-	e_mail_signature_tree_view,
-	GTK_TYPE_TREE_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailSignatureTreeView, e_mail_signature_tree_view, GTK_TYPE_TREE_VIEW)
 
 static gboolean
 mail_signature_tree_view_refresh_idle_cb (EMailSignatureTreeView *tree_view)
@@ -139,26 +132,22 @@ mail_signature_tree_view_get_property (GObject *object,
 static void
 mail_signature_tree_view_dispose (GObject *object)
 {
-	EMailSignatureTreeViewPrivate *priv;
+	EMailSignatureTreeView *self = E_MAIL_SIGNATURE_TREE_VIEW (object);
 
-	priv = E_MAIL_SIGNATURE_TREE_VIEW_GET_PRIVATE (object);
-
-	if (priv->registry != NULL) {
+	if (self->priv->registry != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->registry, G_SIGNAL_MATCH_DATA,
+			self->priv->registry, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
+		g_clear_object (&self->priv->registry);
 	}
 
-	if (priv->refresh_idle_id > 0) {
-		g_source_remove (priv->refresh_idle_id);
-		priv->refresh_idle_id = 0;
+	if (self->priv->refresh_idle_id > 0) {
+		g_source_remove (self->priv->refresh_idle_id);
+		self->priv->refresh_idle_id = 0;
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_signature_tree_view_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_signature_tree_view_parent_class)->dispose (object);
 }
 
 static void
@@ -206,9 +195,6 @@ e_mail_signature_tree_view_class_init (EMailSignatureTreeViewClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailSignatureTreeViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_signature_tree_view_set_property;
 	object_class->get_property = mail_signature_tree_view_get_property;
@@ -231,7 +217,7 @@ e_mail_signature_tree_view_class_init (EMailSignatureTreeViewClass *class)
 static void
 e_mail_signature_tree_view_init (EMailSignatureTreeView *tree_view)
 {
-	tree_view->priv = E_MAIL_SIGNATURE_TREE_VIEW_GET_PRIVATE (tree_view);
+	tree_view->priv = e_mail_signature_tree_view_get_instance_private (tree_view);
 }
 
 GtkWidget *

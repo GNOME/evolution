@@ -22,10 +22,6 @@
 
 #include "e-source-combo-box.h"
 
-#define E_SOURCE_COMBO_BOX_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SOURCE_COMBO_BOX, ESourceComboBoxPrivate))
-
 struct _ESourceComboBoxPrivate {
 	ESourceRegistry *registry;
 	gchar *extension_name;
@@ -59,7 +55,7 @@ enum {
 	NUM_COLUMNS
 };
 
-G_DEFINE_TYPE (ESourceComboBox, e_source_combo_box, GTK_TYPE_COMBO_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (ESourceComboBox, e_source_combo_box, GTK_TYPE_COMBO_BOX)
 
 static gboolean
 source_combo_box_traverse (GNode *node,
@@ -352,27 +348,24 @@ source_combo_box_get_property (GObject *object,
 static void
 source_combo_box_dispose (GObject *object)
 {
-	ESourceComboBoxPrivate *priv;
+	ESourceComboBox *self = E_SOURCE_COMBO_BOX (object);
 
-	priv = E_SOURCE_COMBO_BOX_GET_PRIVATE (object);
+	self->priv->name_renderer = NULL;
 
-	priv->name_renderer = NULL;
-
-	if (priv->registry != NULL) {
+	if (self->priv->registry) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_added_handler_id);
+			self->priv->registry,
+			self->priv->source_added_handler_id);
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_removed_handler_id);
+			self->priv->registry,
+			self->priv->source_removed_handler_id);
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_enabled_handler_id);
+			self->priv->registry,
+			self->priv->source_enabled_handler_id);
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_disabled_handler_id);
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
+			self->priv->registry,
+			self->priv->source_disabled_handler_id);
+		g_clear_object (&self->priv->registry);
 	}
 
 	/* Chain up to parent's "dispose" method. */
@@ -382,12 +375,10 @@ source_combo_box_dispose (GObject *object)
 static void
 source_combo_box_finalize (GObject *object)
 {
-	ESourceComboBoxPrivate *priv;
+	ESourceComboBox *self = E_SOURCE_COMBO_BOX (object);
 
-	priv = E_SOURCE_COMBO_BOX_GET_PRIVATE (object);
-
-	g_free (priv->extension_name);
-	g_hash_table_destroy (priv->hide_sources);
+	g_free (self->priv->extension_name);
+	g_hash_table_destroy (self->priv->hide_sources);
 
 	/* Chain up to parent's "finalize" method. */
 	G_OBJECT_CLASS (e_source_combo_box_parent_class)->finalize (object);
@@ -458,8 +449,6 @@ e_source_combo_box_class_init (ESourceComboBoxClass *class)
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
 
-	g_type_class_add_private (class, sizeof (ESourceComboBoxPrivate));
-
 	widget_class->get_preferred_width = source_combo_box_get_preferred_width;
 
 	object_class->set_property = source_combo_box_set_property;
@@ -524,7 +513,7 @@ e_source_combo_box_class_init (ESourceComboBoxClass *class)
 static void
 e_source_combo_box_init (ESourceComboBox *combo_box)
 {
-	combo_box->priv = E_SOURCE_COMBO_BOX_GET_PRIVATE (combo_box);
+	combo_box->priv = e_source_combo_box_get_instance_private (combo_box);
 	combo_box->priv->hide_sources = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
 }
 

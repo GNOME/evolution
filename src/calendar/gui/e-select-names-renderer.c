@@ -24,10 +24,6 @@
 #include "e-select-names-editable.h"
 #include "e-select-names-renderer.h"
 
-#define E_SELECT_NAMES_RENDERER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SELECT_NAMES_RENDERER, ESelectNamesRendererPrivate))
-
 struct _ESelectNamesRendererPrivate {
 	EClientCache *client_cache;
 	ESelectNamesEditable *editable;
@@ -51,10 +47,7 @@ enum {
 
 static gint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	ESelectNamesRenderer,
-	e_select_names_renderer,
-	GTK_TYPE_CELL_RENDERER_TEXT)
+G_DEFINE_TYPE_WITH_PRIVATE (ESelectNamesRenderer, e_select_names_renderer, 	GTK_TYPE_CELL_RENDERER_TEXT)
 
 static void
 e_select_names_renderer_editing_done (GtkCellEditable *editable,
@@ -183,12 +176,10 @@ select_names_renderer_get_property (GObject *object,
 static void
 select_names_renderer_dispose (GObject *object)
 {
-	ESelectNamesRendererPrivate *priv;
+	ESelectNamesRenderer *self = E_SELECT_NAMES_RENDERER (object);
 
-	priv = E_SELECT_NAMES_RENDERER_GET_PRIVATE (object);
-
-	g_clear_object (&priv->client_cache);
-	g_clear_object (&priv->editable);
+	g_clear_object (&self->priv->client_cache);
+	g_clear_object (&self->priv->editable);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_select_names_renderer_parent_class)->
@@ -198,13 +189,11 @@ select_names_renderer_dispose (GObject *object)
 static void
 select_names_renderer_finalize (GObject *object)
 {
-	ESelectNamesRendererPrivate *priv;
+	ESelectNamesRenderer *self = E_SELECT_NAMES_RENDERER (object);
 
-	priv = E_SELECT_NAMES_RENDERER_GET_PRIVATE (object);
-
-	g_free (priv->path);
-	g_free (priv->name);
-	g_free (priv->email);
+	g_free (self->priv->path);
+	g_free (self->priv->name);
+	g_free (self->priv->email);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_select_names_renderer_parent_class)->
@@ -264,8 +253,6 @@ e_select_names_renderer_class_init (ESelectNamesRendererClass *class)
 {
 	GObjectClass *object_class;
 	GtkCellRendererClass *renderer_class;
-
-	g_type_class_add_private (class, sizeof (ESelectNamesRendererPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = select_names_renderer_get_property;
@@ -331,7 +318,7 @@ e_select_names_renderer_class_init (ESelectNamesRendererClass *class)
 static void
 e_select_names_renderer_init (ESelectNamesRenderer *renderer)
 {
-	renderer->priv = E_SELECT_NAMES_RENDERER_GET_PRIVATE (renderer);
+	renderer->priv = e_select_names_renderer_get_instance_private (renderer);
 }
 
 GtkCellRenderer *

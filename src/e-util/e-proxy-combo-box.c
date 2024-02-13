@@ -26,11 +26,9 @@
  * #ESource:uid strings.
  **/
 
-#include "e-proxy-combo-box.h"
+#include "evolution-config.h"
 
-#define E_PROXY_COMBO_BOX_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PROXY_COMBO_BOX, EProxyComboBoxPrivate))
+#include "e-proxy-combo-box.h"
 
 struct _EProxyComboBoxPrivate {
 	ESourceRegistry *registry;
@@ -51,10 +49,7 @@ enum {
 	COLUMN_UID
 };
 
-G_DEFINE_TYPE (
-	EProxyComboBox,
-	e_proxy_combo_box,
-	GTK_TYPE_COMBO_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EProxyComboBox, e_proxy_combo_box, GTK_TYPE_COMBO_BOX)
 
 static gboolean
 proxy_combo_box_refresh_idle_cb (gpointer user_data)
@@ -172,37 +167,35 @@ proxy_combo_box_get_property (GObject *object,
 static void
 proxy_combo_box_dispose (GObject *object)
 {
-	EProxyComboBoxPrivate *priv;
+	EProxyComboBox *self = E_PROXY_COMBO_BOX (object);
 
-	priv = E_PROXY_COMBO_BOX_GET_PRIVATE (object);
-
-	if (priv->source_added_handler_id > 0) {
+	if (self->priv->source_added_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_added_handler_id);
-		priv->source_added_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_added_handler_id);
+		self->priv->source_added_handler_id = 0;
 	}
 
-	if (priv->source_changed_handler_id > 0) {
+	if (self->priv->source_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_changed_handler_id);
-		priv->source_changed_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_changed_handler_id);
+		self->priv->source_changed_handler_id = 0;
 	}
 
-	if (priv->source_removed_handler_id > 0) {
+	if (self->priv->source_removed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_removed_handler_id);
-		priv->source_removed_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_removed_handler_id);
+		self->priv->source_removed_handler_id = 0;
 	}
 
-	if (priv->refresh_idle_id > 0) {
-		g_source_remove (priv->refresh_idle_id);
-		priv->refresh_idle_id = 0;
+	if (self->priv->refresh_idle_id > 0) {
+		g_source_remove (self->priv->refresh_idle_id);
+		self->priv->refresh_idle_id = 0;
 	}
 
-	g_clear_object (&priv->registry);
+	g_clear_object (&self->priv->registry);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_proxy_combo_box_parent_class)->dispose (object);
@@ -240,8 +233,6 @@ e_proxy_combo_box_class_init (EProxyComboBoxClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EProxyComboBoxPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = proxy_combo_box_set_property;
 	object_class->get_property = proxy_combo_box_get_property;
@@ -264,7 +255,7 @@ e_proxy_combo_box_class_init (EProxyComboBoxClass *class)
 static void
 e_proxy_combo_box_init (EProxyComboBox *combo_box)
 {
-	combo_box->priv = E_PROXY_COMBO_BOX_GET_PRIVATE (combo_box);
+	combo_box->priv = e_proxy_combo_box_get_instance_private (combo_box);
 }
 
 /**

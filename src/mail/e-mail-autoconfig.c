@@ -71,10 +71,6 @@
 
 #include "e-mail-autoconfig.h"
 
-#define E_MAIL_AUTOCONFIG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_AUTOCONFIG, EMailAutoconfigPrivate))
-
 #define AUTOCONFIG_BASE_URI "https://autoconfig.thunderbird.net/v1.1/"
 
 #define FAKE_EVOLUTION_USER_STRING "EVOLUTIONUSER"
@@ -134,6 +130,7 @@ static void	e_mail_autoconfig_initable_init	(GInitableIface *iface);
 /* By default, the GAsyncInitable interface calls GInitable.init()
  * from a separate thread, so we only have to override GInitable. */
 G_DEFINE_TYPE_WITH_CODE (EMailAutoconfig, e_mail_autoconfig, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EMailAutoconfig)
 	G_IMPLEMENT_INTERFACE (G_TYPE_INITABLE, e_mail_autoconfig_initable_init)
 	G_IMPLEMENT_INTERFACE (G_TYPE_ASYNC_INITABLE, NULL)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
@@ -1005,11 +1002,9 @@ mail_autoconfig_constructed (GObject *object)
 static void
 mail_autoconfig_dispose (GObject *object)
 {
-	EMailAutoconfigPrivate *priv;
+	EMailAutoconfig *self = E_MAIL_AUTOCONFIG (object);
 
-	priv = E_MAIL_AUTOCONFIG_GET_PRIVATE (object);
-
-	g_clear_object (&priv->registry);
+	g_clear_object (&self->priv->registry);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_autoconfig_parent_class)->dispose (object);
@@ -1018,18 +1013,16 @@ mail_autoconfig_dispose (GObject *object)
 static void
 mail_autoconfig_finalize (GObject *object)
 {
-	EMailAutoconfigPrivate *priv;
+	EMailAutoconfig *self = E_MAIL_AUTOCONFIG (object);
 
-	priv = E_MAIL_AUTOCONFIG_GET_PRIVATE (object);
+	g_free (self->priv->email_address);
+	g_free (self->priv->email_local_part);
+	g_free (self->priv->email_domain_part);
+	g_free (self->priv->use_domain);
 
-	g_free (priv->email_address);
-	g_free (priv->email_local_part);
-	g_free (priv->email_domain_part);
-	g_free (priv->use_domain);
-
-	e_mail_config_result_clear (&priv->imap_result);
-	e_mail_config_result_clear (&priv->pop3_result);
-	e_mail_config_result_clear (&priv->smtp_result);
+	e_mail_config_result_clear (&self->priv->imap_result);
+	e_mail_config_result_clear (&self->priv->pop3_result);
+	e_mail_config_result_clear (&self->priv->smtp_result);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_autoconfig_parent_class)->finalize (object);
@@ -1149,8 +1142,6 @@ e_mail_autoconfig_class_init (EMailAutoconfigClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailAutoconfigPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_autoconfig_set_property;
 	object_class->get_property = mail_autoconfig_get_property;
@@ -1213,7 +1204,7 @@ e_mail_autoconfig_initable_init (GInitableIface *iface)
 static void
 e_mail_autoconfig_init (EMailAutoconfig *autoconfig)
 {
-	autoconfig->priv = E_MAIL_AUTOCONFIG_GET_PRIVATE (autoconfig);
+	autoconfig->priv = e_mail_autoconfig_get_instance_private (autoconfig);
 }
 
 EMailAutoconfig *

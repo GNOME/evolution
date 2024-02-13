@@ -17,21 +17,6 @@
 
 #include "e-contact-editor-dyntable.h"
 
-G_DEFINE_TYPE(EContactEditorDynTable, e_contact_editor_dyntable, GTK_TYPE_GRID)
-
-/* one position is occupied by two widgets: combo+entry */
-#define ENTRY_SIZE 2
-#define MAX_CAPACITY 100
-
-enum {
-	CHANGED_SIGNAL,
-	ACTIVATE_SIGNAL,
-	ROW_ADDED_SIGNAL,
-	LAST_SIGNAL
-};
-
-static guint dyntable_signals[LAST_SIGNAL];
-
 struct _EContactEditorDynTablePrivate {
 
 	/* absolute max, dyntable will ignore the rest */
@@ -62,6 +47,21 @@ struct _EContactEditorDynTablePrivate {
 	/* number of elements in the array */
 	size_t		combo_defaults_n;
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (EContactEditorDynTable, e_contact_editor_dyntable, GTK_TYPE_GRID)
+
+/* one position is occupied by two widgets: combo+entry */
+#define ENTRY_SIZE 2
+#define MAX_CAPACITY 100
+
+enum {
+	CHANGED_SIGNAL,
+	ACTIVATE_SIGNAL,
+	ROW_ADDED_SIGNAL,
+	LAST_SIGNAL
+};
+
+static guint dyntable_signals[LAST_SIGNAL];
 
 GtkWidget*
 e_contact_editor_dyntable_new (void)
@@ -679,9 +679,7 @@ e_contact_editor_dyntable_init (EContactEditorDynTable *dyntable)
 {
 	GtkGrid *grid;
 
-	dyntable->priv = G_TYPE_INSTANCE_GET_PRIVATE(dyntable,
-			E_TYPE_CONTACT_EDITOR_DYNTABLE,
-			EContactEditorDynTablePrivate);
+	dyntable->priv = e_contact_editor_dyntable_get_instance_private (dyntable);
 
 	/* fill in defaults */
 	dyntable->priv->max_entries = MAX_CAPACITY;
@@ -722,8 +720,6 @@ static void
 e_contact_editor_dyntable_class_init (EContactEditorDynTableClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof(EContactEditorDynTablePrivate));
 
 	dyntable_signals[CHANGED_SIGNAL] = g_signal_new ("changed",
 			G_TYPE_FROM_CLASS(class), G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,

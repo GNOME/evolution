@@ -25,10 +25,6 @@
 
 #include <glib/gi18n.h>
 
-#define E_MAIL_LABEL_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_LABEL_DIALOG, EMailLabelDialogPrivate))
-
 struct _EMailLabelDialogPrivate {
 	GtkWidget *entry;
 	GtkWidget *colorsel;
@@ -40,7 +36,7 @@ enum {
 	PROP_LABEL_NAME
 };
 
-G_DEFINE_TYPE (EMailLabelDialog, e_mail_label_dialog, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailLabelDialog, e_mail_label_dialog, GTK_TYPE_DIALOG)
 
 static void
 mail_label_dialog_entry_changed_cb (EMailLabelDialog *dialog)
@@ -106,11 +102,10 @@ mail_label_dialog_get_property (GObject *object,
 static void
 mail_label_dialog_dispose (GObject *object)
 {
-	EMailLabelDialogPrivate *priv;
+	EMailLabelDialog *self = E_MAIL_LABEL_DIALOG (object);
 
-	priv = E_MAIL_LABEL_DIALOG_GET_PRIVATE (object);
-	g_clear_object (&priv->entry);
-	g_clear_object (&priv->colorsel);
+	g_clear_object (&self->priv->entry);
+	g_clear_object (&self->priv->colorsel);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_label_dialog_parent_class)->dispose (object);
@@ -141,8 +136,6 @@ static void
 e_mail_label_dialog_class_init (EMailLabelDialogClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EMailLabelDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_label_dialog_set_property;
@@ -178,7 +171,7 @@ e_mail_label_dialog_init (EMailLabelDialog *dialog)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	dialog->priv = E_MAIL_LABEL_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_mail_label_dialog_get_instance_private (dialog);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 

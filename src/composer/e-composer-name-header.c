@@ -28,10 +28,6 @@
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
 
-#define E_COMPOSER_NAME_HEADER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_NAME_HEADER, EComposerNameHeaderPrivate))
-
 /* Convenience macro */
 #define E_COMPOSER_NAME_HEADER_GET_ENTRY(header) \
 	(E_NAME_SELECTOR_ENTRY (E_COMPOSER_HEADER (header)->input_widget))
@@ -46,10 +42,7 @@ struct _EComposerNameHeaderPrivate {
 	guint destination_index;
 };
 
-G_DEFINE_TYPE (
-	EComposerNameHeader,
-	e_composer_name_header,
-	E_TYPE_COMPOSER_HEADER)
+G_DEFINE_TYPE_WITH_PRIVATE (EComposerNameHeader, e_composer_name_header, E_TYPE_COMPOSER_HEADER)
 
 static gpointer
 contact_editor_fudge_new (EBookClient *book_client,
@@ -117,12 +110,12 @@ static void
 composer_name_header_visible_changed_cb (EComposerNameHeader *header)
 {
 	const gchar *label;
-	EComposerNameHeaderPrivate *priv;
+	EComposerNameHeader *self;
 	ENameSelectorDialog *dialog;
 
-	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (header);
+	self = E_COMPOSER_NAME_HEADER (header);
 	label = e_composer_header_get_label (E_COMPOSER_HEADER (header));
-	dialog = e_name_selector_peek_dialog (priv->name_selector);
+	dialog = e_name_selector_peek_dialog (self->priv->name_selector);
 
 	e_name_selector_dialog_set_section_visible (
 		dialog, label,
@@ -135,14 +128,12 @@ composer_name_header_set_property (GObject *object,
                                    const GValue *value,
                                    GParamSpec *pspec)
 {
-	EComposerNameHeaderPrivate *priv;
-
-	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (object);
+	EComposerNameHeader *self = E_COMPOSER_NAME_HEADER (object);
 
 	switch (property_id) {
 		case PROP_NAME_SELECTOR:	/* construct only */
-			g_return_if_fail (priv->name_selector == NULL);
-			priv->name_selector = g_value_dup_object (value);
+			g_return_if_fail (self->priv->name_selector == NULL);
+			self->priv->name_selector = g_value_dup_object (value);
 			return;
 	}
 
@@ -170,10 +161,9 @@ composer_name_header_get_property (GObject *object,
 static void
 composer_name_header_dispose (GObject *object)
 {
-	EComposerNameHeaderPrivate *priv;
+	EComposerNameHeader *self = E_COMPOSER_NAME_HEADER (object);
 
-	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (object);
-	g_clear_object (&priv->name_selector);
+	g_clear_object (&self->priv->name_selector);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_composer_name_header_parent_class)->dispose (object);
@@ -182,7 +172,7 @@ composer_name_header_dispose (GObject *object)
 static void
 composer_name_header_constructed (GObject *object)
 {
-	EComposerNameHeaderPrivate *priv;
+	EComposerNameHeader *self;
 	ENameSelectorModel *model;
 	ENameSelectorEntry *entry;
 	GList *sections;
@@ -190,22 +180,22 @@ composer_name_header_constructed (GObject *object)
 
 	/* Input widget must be set before chaining up. */
 
-	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (object);
-	g_return_if_fail (E_IS_NAME_SELECTOR (priv->name_selector));
+	self = E_COMPOSER_NAME_HEADER (object);
+	g_return_if_fail (E_IS_NAME_SELECTOR (self->priv->name_selector));
 
-	model = e_name_selector_peek_model (priv->name_selector);
+	model = e_name_selector_peek_model (self->priv->name_selector);
 	label = e_composer_header_get_label (E_COMPOSER_HEADER (object));
 	g_return_if_fail (label != NULL);
 
 	sections = e_name_selector_model_list_sections (model);
-	priv->destination_index = g_list_length (sections);
+	self->priv->destination_index = g_list_length (sections);
 	e_name_selector_model_add_section (model, label, label, NULL);
 	g_list_foreach (sections, (GFunc) g_free, NULL);
 	g_list_free (sections);
 
 	entry = E_NAME_SELECTOR_ENTRY (
 		e_name_selector_peek_section_list (
-		priv->name_selector, label));
+		self->priv->name_selector, label));
 
 	e_name_selector_entry_set_contact_editor_func (
 		entry, contact_editor_fudge_new);
@@ -236,16 +226,16 @@ composer_name_header_constructed (GObject *object)
 static void
 composer_name_header_clicked (EComposerHeader *header)
 {
-	EComposerNameHeaderPrivate *priv;
+	EComposerNameHeader *self;
 	ENameSelectorDialog *dialog;
 
-	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (header);
+	self = E_COMPOSER_NAME_HEADER (header);
 
-	dialog = e_name_selector_peek_dialog (priv->name_selector);
+	dialog = e_name_selector_peek_dialog (self->priv->name_selector);
 	e_name_selector_dialog_set_destination_index (
-		dialog, priv->destination_index);
+		dialog, self->priv->destination_index);
 	e_name_selector_show_dialog (
-		priv->name_selector, header->title_widget);
+		self->priv->name_selector, header->title_widget);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_hide (GTK_WIDGET (dialog));
 }
@@ -255,8 +245,6 @@ e_composer_name_header_class_init (EComposerNameHeaderClass *class)
 {
 	GObjectClass *object_class;
 	EComposerHeaderClass *header_class;
-
-	g_type_class_add_private (class, sizeof (EComposerNameHeaderPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = composer_name_header_set_property;
@@ -282,7 +270,7 @@ e_composer_name_header_class_init (EComposerNameHeaderClass *class)
 static void
 e_composer_name_header_init (EComposerNameHeader *header)
 {
-	header->priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (header);
+	header->priv = e_composer_name_header_get_instance_private (header);
 }
 
 EComposerHeader *

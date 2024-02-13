@@ -24,10 +24,6 @@
 
 #include <glib/gi18n-lib.h>
 
-#define E_COLOR_CHOOSER_WIDGET_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COLOR_CHOOSER_WIDGET, EColorChooserWidgetPrivate))
-
 /**
  * EColorChooserWidget:
  *
@@ -46,10 +42,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EColorChooserWidget,
-	e_color_chooser_widget,
-	GTK_TYPE_COLOR_CHOOSER_WIDGET);
+G_DEFINE_TYPE_WITH_PRIVATE (EColorChooserWidget, e_color_chooser_widget, GTK_TYPE_COLOR_CHOOSER_WIDGET);
 
 static gboolean (* origin_swatch_button_press_event) (GtkWidget *widget, GdkEventButton *event);
 
@@ -104,7 +97,7 @@ color_chooser_widget_color_activated (GtkColorChooser *chooser,
 static gboolean
 run_color_chooser_dialog (gpointer user_data)
 {
-	EColorChooserWidgetPrivate *priv;
+	EColorChooserWidget *self;
 	GtkWidget *parent_window;
 	GtkWidget *parent_chooser;
 	GtkWidget *dialog;
@@ -144,8 +137,8 @@ run_color_chooser_dialog (gpointer user_data)
 
 	gtk_widget_destroy (dialog);
 
-	priv = E_COLOR_CHOOSER_WIDGET_GET_PRIVATE (parent_chooser);
-	priv->showing_editor = FALSE;
+	self = E_COLOR_CHOOSER_WIDGET (parent_chooser);
+	self->priv->showing_editor = FALSE;
 
 	return FALSE;
 }
@@ -176,8 +169,6 @@ color_chooser_show_editor_notify_cb (EColorChooserWidget *chooser,
 void
 e_color_chooser_widget_class_init (EColorChooserWidgetClass *class)
 {
-	g_type_class_add_private (class, sizeof (EColorChooserWidgetPrivate));
-
 	signals[SIGNAL_EDITOR_ACTIVATED] = g_signal_new (
 		"editor-activated",
 		E_TYPE_COLOR_CHOOSER_WIDGET,
@@ -229,7 +220,7 @@ e_color_chooser_widget_init (EColorChooserWidget *widget)
 {
 	GtkWidget *swatch;
 
-	widget->priv = E_COLOR_CHOOSER_WIDGET_GET_PRIVATE (widget);
+	widget->priv = e_color_chooser_widget_get_instance_private (widget);
 	widget->priv->showing_editor = FALSE;
 
 	swatch = find_swatch (GTK_CONTAINER (widget));

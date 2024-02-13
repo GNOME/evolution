@@ -22,18 +22,12 @@
 #include <calendar/gui/e-day-view.h>
 #include <calendar/gui/e-week-view.h>
 
-#define E_SETTINGS_CALENDAR_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SETTINGS_CALENDAR_VIEW, ESettingsCalendarViewPrivate))
-
 struct _ESettingsCalendarViewPrivate {
 	gint placeholder;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	ESettingsCalendarView,
-	e_settings_calendar_view,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESettingsCalendarView, e_settings_calendar_view, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (ESettingsCalendarView))
 
 static void
 settings_calendar_view_constructed (GObject *object)
@@ -139,8 +133,6 @@ e_settings_calendar_view_class_init (ESettingsCalendarViewClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (ESettingsCalendarViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = settings_calendar_view_constructed;
 
@@ -156,7 +148,7 @@ e_settings_calendar_view_class_finalize (ESettingsCalendarViewClass *class)
 static void
 e_settings_calendar_view_init (ESettingsCalendarView *extension)
 {
-	extension->priv = E_SETTINGS_CALENDAR_VIEW_GET_PRIVATE (extension);
+	extension->priv = e_settings_calendar_view_get_instance_private (extension);
 }
 
 void

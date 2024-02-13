@@ -41,10 +41,6 @@
 
 #define MARKDOWN_EDITOR_NAME "markdown"
 
-#define E_HTML_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HTML_EDITOR, EHTMLEditorPrivate))
-
 /**
  * EHTMLEditor:
  *
@@ -91,15 +87,10 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static void	e_html_editor_alert_sink_init
 					(EAlertSinkInterface *interface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EHTMLEditor,
-	e_html_editor,
-	GTK_TYPE_GRID,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK,
-		e_html_editor_alert_sink_init))
+G_DEFINE_TYPE_WITH_CODE (EHTMLEditor, e_html_editor, GTK_TYPE_GRID,
+	G_ADD_PRIVATE (EHTMLEditor)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, e_html_editor_alert_sink_init))
 
 /* See: https://www.w3schools.com/cssref/css_websafe_fonts.asp */
 static struct _SupportedFonts {
@@ -1089,50 +1080,48 @@ html_editor_constructed (GObject *object)
 static void
 html_editor_dispose (GObject *object)
 {
-	EHTMLEditorPrivate *priv;
+	EHTMLEditor *self = E_HTML_EDITOR (object);
 
-	priv = E_HTML_EDITOR_GET_PRIVATE (object);
+	if (self->priv->mode_change_content_cancellable)
+		g_cancellable_cancel (self->priv->mode_change_content_cancellable);
 
-	if (priv->mode_change_content_cancellable)
-		g_cancellable_cancel (priv->mode_change_content_cancellable);
+	g_clear_object (&self->priv->manager);
+	g_clear_object (&self->priv->core_actions);
+	g_clear_object (&self->priv->core_editor_actions);
+	g_clear_object (&self->priv->html_actions);
+	g_clear_object (&self->priv->context_actions);
+	g_clear_object (&self->priv->html_context_actions);
+	g_clear_object (&self->priv->language_actions);
+	g_clear_object (&self->priv->spell_check_actions);
+	g_clear_object (&self->priv->suggestion_actions);
 
-	g_clear_object (&priv->manager);
-	g_clear_object (&priv->core_actions);
-	g_clear_object (&priv->core_editor_actions);
-	g_clear_object (&priv->html_actions);
-	g_clear_object (&priv->context_actions);
-	g_clear_object (&priv->html_context_actions);
-	g_clear_object (&priv->language_actions);
-	g_clear_object (&priv->spell_check_actions);
-	g_clear_object (&priv->suggestion_actions);
+	g_clear_object (&self->priv->main_menu);
+	g_clear_object (&self->priv->main_toolbar);
+	g_clear_object (&self->priv->edit_toolbar);
+	g_clear_object (&self->priv->html_toolbar);
+	g_clear_object (&self->priv->activity_bar);
+	g_clear_object (&self->priv->alert_bar);
+	g_clear_object (&self->priv->edit_area);
+	g_clear_object (&self->priv->markdown_editor);
 
-	g_clear_object (&priv->main_menu);
-	g_clear_object (&priv->main_toolbar);
-	g_clear_object (&priv->edit_toolbar);
-	g_clear_object (&priv->html_toolbar);
-	g_clear_object (&priv->activity_bar);
-	g_clear_object (&priv->alert_bar);
-	g_clear_object (&priv->edit_area);
-	g_clear_object (&priv->markdown_editor);
+	g_clear_object (&self->priv->fg_color_combo_box);
+	g_clear_object (&self->priv->bg_color_combo_box);
+	g_clear_object (&self->priv->mode_combo_box);
+	g_clear_object (&self->priv->mode_tool_item);
+	g_clear_object (&self->priv->size_combo_box);
+	g_clear_object (&self->priv->font_name_combo_box);
+	g_clear_object (&self->priv->style_combo_box);
 
-	g_clear_object (&priv->fg_color_combo_box);
-	g_clear_object (&priv->bg_color_combo_box);
-	g_clear_object (&priv->mode_combo_box);
-	g_clear_object (&priv->mode_tool_item);
-	g_clear_object (&priv->size_combo_box);
-	g_clear_object (&priv->font_name_combo_box);
-	g_clear_object (&priv->style_combo_box);
+	g_clear_object (&self->priv->mode_change_content_cancellable);
 
-	g_clear_object (&priv->mode_change_content_cancellable);
-
-	g_clear_pointer (&priv->filename, g_free);
-	g_clear_pointer (&priv->context_hover_uri, g_free);
+	g_clear_pointer (&self->priv->filename, g_free);
+	g_clear_pointer (&self->priv->context_hover_uri, g_free);
 
 	/* Do not unbind/disconnect signal handlers here, just free/unset them */
-	g_slist_free_full (priv->content_editor_bindings, g_object_unref);
-	priv->content_editor_bindings = NULL;
-	priv->subscript_notify_id = 0;
-	priv->superscript_notify_id = 0;
+	g_slist_free_full (self->priv->content_editor_bindings, g_object_unref);
+	self->priv->content_editor_bindings = NULL;
+	self->priv->subscript_notify_id = 0;
+	self->priv->superscript_notify_id = 0;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_html_editor_parent_class)->dispose (object);
@@ -1155,11 +1144,9 @@ static void
 html_editor_submit_alert (EAlertSink *alert_sink,
                           EAlert *alert)
 {
-	EHTMLEditorPrivate *priv;
+	EHTMLEditor *self = E_HTML_EDITOR (alert_sink);
 
-	priv = E_HTML_EDITOR_GET_PRIVATE (alert_sink);
-
-	e_alert_bar_submit_alert (E_ALERT_BAR (priv->alert_bar), alert);
+	e_alert_bar_submit_alert (E_ALERT_BAR (self->priv->alert_bar), alert);
 }
 
 static void
@@ -1167,8 +1154,6 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (EHTMLEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = html_editor_set_property;
@@ -1253,7 +1238,7 @@ e_html_editor_init (EHTMLEditor *editor)
 	gchar *filename;
 	GError *error = NULL;
 
-	editor->priv = E_HTML_EDITOR_GET_PRIVATE (editor);
+	editor->priv = e_html_editor_get_instance_private (editor);
 
 	priv = editor->priv;
 

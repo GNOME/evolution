@@ -41,7 +41,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_ABSTRACT_TYPE (ECompEditorPage, e_comp_editor_page, GTK_TYPE_GRID)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (ECompEditorPage, e_comp_editor_page, GTK_TYPE_GRID)
 
 typedef struct _ProperyPartData {
 	ECompEditorPropertyPart *part;
@@ -196,7 +196,7 @@ e_comp_editor_page_finalize (GObject *object)
 static void
 e_comp_editor_page_init (ECompEditorPage *page)
 {
-	page->priv = G_TYPE_INSTANCE_GET_PRIVATE (page, E_TYPE_COMP_EDITOR_PAGE, ECompEditorPagePrivate);
+	page->priv = e_comp_editor_page_get_instance_private (page);
 
 	g_weak_ref_init (&page->priv->editor, NULL);
 }
@@ -205,8 +205,6 @@ static void
 e_comp_editor_page_class_init (ECompEditorPageClass *klass)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPagePrivate));
 
 	klass->sensitize_widgets = ecep_sensitize_widgets;
 	klass->fill_widgets = ecep_fill_widgets;

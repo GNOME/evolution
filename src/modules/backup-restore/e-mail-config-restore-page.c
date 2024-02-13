@@ -29,10 +29,6 @@
 
 #include "e-mail-config-restore-page.h"
 
-#define E_MAIL_CONFIG_RESTORE_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_RESTORE_PAGE, EMailConfigRestorePagePrivate))
-
 struct _EMailConfigRestorePagePrivate {
 	GtkWidget *toggle_button;  /* not referenced */
 	GtkWidget *file_chooser;   /* not referenced */
@@ -51,17 +47,10 @@ static void	e_mail_config_restore_page_alert_sink_init
 static void	e_mail_config_restore_page_interface_init
 					(EMailConfigPageInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
-	EMailConfigRestorePage,
-	e_mail_config_restore_page,
-	GTK_TYPE_SCROLLED_WINDOW,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_ALERT_SINK,
-		e_mail_config_restore_page_alert_sink_init)
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_CONFIG_PAGE,
-		e_mail_config_restore_page_interface_init))
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailConfigRestorePage, e_mail_config_restore_page, GTK_TYPE_SCROLLED_WINDOW, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailConfigRestorePage)
+	G_IMPLEMENT_INTERFACE_DYNAMIC (E_TYPE_ALERT_SINK, e_mail_config_restore_page_alert_sink_init)
+	G_IMPLEMENT_INTERFACE_DYNAMIC (E_TYPE_MAIL_CONFIG_PAGE, e_mail_config_restore_page_interface_init))
 
 static void
 mail_config_restore_page_update_filename (EMailConfigRestorePage *page)
@@ -132,15 +121,12 @@ mail_config_restore_page_get_property (GObject *object,
 static void
 mail_config_restore_page_finalize (GObject *object)
 {
-	EMailConfigRestorePagePrivate *priv;
+	EMailConfigRestorePage *self = E_MAIL_CONFIG_RESTORE_PAGE (object);
 
-	priv = E_MAIL_CONFIG_RESTORE_PAGE_GET_PRIVATE (object);
-
-	g_free (priv->filename);
+	g_free (self->priv->filename);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_config_restore_page_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_mail_config_restore_page_parent_class)->finalize (object);
 }
 
 static gboolean
@@ -254,27 +240,23 @@ static void
 mail_config_restore_page_submit_alert (EAlertSink *alert_sink,
                                        EAlert *alert)
 {
-	EMailConfigRestorePagePrivate *priv;
+	EMailConfigRestorePage *self = E_MAIL_CONFIG_RESTORE_PAGE (alert_sink);
 
-	priv = E_MAIL_CONFIG_RESTORE_PAGE_GET_PRIVATE (alert_sink);
-
-	e_alert_bar_submit_alert (E_ALERT_BAR (priv->alert_bar), alert);
+	e_alert_bar_submit_alert (E_ALERT_BAR (self->priv->alert_bar), alert);
 }
 
 static gboolean
 mail_config_restore_page_check_complete (EMailConfigPage *page)
 {
-	EMailConfigRestorePagePrivate *priv;
+	EMailConfigRestorePage *self = E_MAIL_CONFIG_RESTORE_PAGE (page);
 	GtkToggleButton *toggle_button;
 	gboolean complete;
 
-	priv = E_MAIL_CONFIG_RESTORE_PAGE_GET_PRIVATE (page);
-
-	toggle_button = GTK_TOGGLE_BUTTON (priv->toggle_button);
+	toggle_button = GTK_TOGGLE_BUTTON (self->priv->toggle_button);
 
 	complete =
 		!gtk_toggle_button_get_active (toggle_button) ||
-		(priv->filename != NULL && *priv->filename != '\0');
+		(self->priv->filename != NULL && *self->priv->filename != '\0');
 
 	return complete;
 }
@@ -283,9 +265,6 @@ static void
 e_mail_config_restore_page_class_init (EMailConfigRestorePageClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (
-		class, sizeof (EMailConfigRestorePagePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = mail_config_restore_page_get_property;
@@ -325,7 +304,7 @@ e_mail_config_restore_page_interface_init (EMailConfigPageInterface *iface)
 static void
 e_mail_config_restore_page_init (EMailConfigRestorePage *page)
 {
-	page->priv = E_MAIL_CONFIG_RESTORE_PAGE_GET_PRIVATE (page);
+	page->priv = e_mail_config_restore_page_get_instance_private (page);
 }
 
 void

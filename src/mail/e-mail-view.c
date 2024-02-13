@@ -25,10 +25,6 @@
 
 #include <glib/gi18n-lib.h>
 
-#define E_MAIL_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_VIEW, EMailViewPrivate))
-
 struct _EMailViewPrivate {
 	EShellView *shell_view;
 	GtkOrientation orientation;
@@ -58,7 +54,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (EMailView, e_mail_view, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailView, e_mail_view, GTK_TYPE_BOX)
 
 static void
 mail_view_set_shell_view (EMailView *view,
@@ -167,11 +163,10 @@ mail_view_get_property (GObject *object,
 static void
 mail_view_dispose (GObject *object)
 {
-	EMailViewPrivate *priv;
+	EMailView *self = E_MAIL_VIEW (object);
 
-	priv = E_MAIL_VIEW_GET_PRIVATE (object);
-	g_clear_object (&priv->shell_view);
-	g_clear_object (&priv->previous_view);
+	g_clear_object (&self->priv->shell_view);
+	g_clear_object (&self->priv->previous_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_view_parent_class)->dispose (object);
@@ -255,8 +250,6 @@ static void
 e_mail_view_class_init (EMailViewClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EMailViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_view_set_property;
@@ -365,7 +358,7 @@ e_mail_view_class_init (EMailViewClass *class)
 static void
 e_mail_view_init (EMailView *view)
 {
-	view->priv = E_MAIL_VIEW_GET_PRIVATE (view);
+	view->priv = e_mail_view_get_instance_private (view);
 	view->priv->orientation = GTK_ORIENTATION_VERTICAL;
 }
 

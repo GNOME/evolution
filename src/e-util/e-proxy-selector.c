@@ -30,10 +30,6 @@
 
 #include "e-proxy-selector.h"
 
-#define E_PROXY_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PROXY_SELECTOR, EProxySelectorPrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EProxySelectorPrivate {
@@ -64,10 +60,7 @@ enum {
 	COLUMN_SOURCE
 };
 
-G_DEFINE_TYPE (
-	EProxySelector,
-	e_proxy_selector,
-	E_TYPE_TREE_VIEW_FRAME)
+G_DEFINE_TYPE_WITH_PRIVATE (EProxySelector, e_proxy_selector, E_TYPE_TREE_VIEW_FRAME)
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -413,44 +406,42 @@ proxy_selector_get_property (GObject *object,
 static void
 proxy_selector_dispose (GObject *object)
 {
-	EProxySelectorPrivate *priv;
+	EProxySelector *self = E_PROXY_SELECTOR (object);
 
-	priv = E_PROXY_SELECTOR_GET_PRIVATE (object);
-
-	if (priv->source_added_handler_id > 0) {
+	if (self->priv->source_added_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_added_handler_id);
-		priv->source_added_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_added_handler_id);
+		self->priv->source_added_handler_id = 0;
 	}
 
-	if (priv->source_changed_handler_id > 0) {
+	if (self->priv->source_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_changed_handler_id);
-		priv->source_changed_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_changed_handler_id);
+		self->priv->source_changed_handler_id = 0;
 	}
 
-	if (priv->source_removed_handler_id > 0) {
+	if (self->priv->source_removed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_removed_handler_id);
-		priv->source_removed_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_removed_handler_id);
+		self->priv->source_removed_handler_id = 0;
 	}
 
-	if (priv->selection_changed_handler_id > 0) {
+	if (self->priv->selection_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->selection,
-			priv->selection_changed_handler_id);
-		priv->selection_changed_handler_id = 0;
+			self->priv->selection,
+			self->priv->selection_changed_handler_id);
+		self->priv->selection_changed_handler_id = 0;
 	}
 
-	if (priv->refresh_idle_id > 0) {
-		g_source_remove (priv->refresh_idle_id);
-		priv->refresh_idle_id = 0;
+	if (self->priv->refresh_idle_id > 0) {
+		g_source_remove (self->priv->refresh_idle_id);
+		self->priv->refresh_idle_id = 0;
 	}
 
-	g_clear_object (&priv->registry);
+	g_clear_object (&self->priv->registry);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_proxy_selector_parent_class)->dispose (object);
@@ -557,8 +548,6 @@ e_proxy_selector_class_init (EProxySelectorClass *class)
 	GObjectClass *object_class;
 	ETreeViewFrameClass *tree_view_frame_class;
 
-	g_type_class_add_private (class, sizeof (EProxySelectorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = proxy_selector_set_property;
 	object_class->get_property = proxy_selector_get_property;
@@ -596,7 +585,7 @@ e_proxy_selector_class_init (EProxySelectorClass *class)
 static void
 e_proxy_selector_init (EProxySelector *selector)
 {
-	selector->priv = E_PROXY_SELECTOR_GET_PRIVATE (selector);
+	selector->priv = e_proxy_selector_get_instance_private (selector);
 
 	/* In this particular case, it's easier to connect handlers
 	 * to detailed signal names than to override the class method. */

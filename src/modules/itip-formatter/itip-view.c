@@ -49,12 +49,6 @@
 
 #define MEETING_ICON "stock_people"
 
-#define ITIP_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), ITIP_TYPE_VIEW, ItipViewPrivate))
-
-G_DEFINE_TYPE (ItipView, itip_view, G_TYPE_OBJECT)
-
 typedef struct  {
 	ItipViewInfoItemType type;
 	gchar *message;
@@ -218,6 +212,8 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (ItipView, itip_view, G_TYPE_OBJECT)
 
 static void
 format_date_and_time_x (struct tm *date_tm,
@@ -1596,28 +1592,26 @@ itip_view_get_property (GObject *object,
 static void
 itip_view_dispose (GObject *object)
 {
-	ItipViewPrivate *priv;
+	ItipView *self = ITIP_VIEW (object);
 
-	priv = ITIP_VIEW_GET_PRIVATE (object);
-
-	if (priv->source_added_handler_id > 0) {
+	if (self->priv->source_added_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_added_handler_id);
-		priv->source_added_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_added_handler_id);
+		self->priv->source_added_handler_id = 0;
 	}
 
-	if (priv->source_removed_handler_id > 0) {
+	if (self->priv->source_removed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->registry,
-			priv->source_removed_handler_id);
-		priv->source_removed_handler_id = 0;
+			self->priv->registry,
+			self->priv->source_removed_handler_id);
+		self->priv->source_removed_handler_id = 0;
 	}
 
-	g_clear_object (&priv->client_cache);
-	g_clear_object (&priv->registry);
-	g_clear_object (&priv->cancellable);
-	g_clear_object (&priv->comp);
+	g_clear_object (&self->priv->client_cache);
+	g_clear_object (&self->priv->registry);
+	g_clear_object (&self->priv->cancellable);
+	g_clear_object (&self->priv->comp);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (itip_view_parent_class)->dispose (object);
@@ -1626,79 +1620,77 @@ itip_view_dispose (GObject *object)
 static void
 itip_view_finalize (GObject *object)
 {
-	ItipViewPrivate *priv;
+	ItipView *self = ITIP_VIEW (object);
 	GSList *iter;
-
-	priv = ITIP_VIEW_GET_PRIVATE (object);
 
 	d (printf ("Itip view finalized!\n"));
 
-	g_free (priv->extension_name);
-	g_free (priv->sender);
-	g_free (priv->organizer);
-	g_free (priv->organizer_sentby);
-	g_free (priv->delegator);
-	g_free (priv->attendee);
-	g_free (priv->attendee_sentby);
-	g_free (priv->proxy);
-	g_free (priv->summary);
-	g_free (priv->location);
-	g_free (priv->geo_html);
-	g_free (priv->status);
-	g_free (priv->comment);
-	g_free (priv->attendees);
-	g_free (priv->url);
-	g_free (priv->start_tm);
-	g_free (priv->start_label);
-	g_free (priv->end_tm);
-	g_free (priv->end_label);
-	g_free (priv->description);
-	g_free (priv->categories);
-	g_free (priv->error);
-	g_free (priv->part_id);
-	g_free (priv->selected_source_uid);
-	g_free (priv->due_date_label);
-	g_free (priv->estimated_duration);
-	g_free (priv->recurring_info);
+	g_free (self->priv->extension_name);
+	g_free (self->priv->sender);
+	g_free (self->priv->organizer);
+	g_free (self->priv->organizer_sentby);
+	g_free (self->priv->delegator);
+	g_free (self->priv->attendee);
+	g_free (self->priv->attendee_sentby);
+	g_free (self->priv->proxy);
+	g_free (self->priv->summary);
+	g_free (self->priv->location);
+	g_free (self->priv->geo_html);
+	g_free (self->priv->status);
+	g_free (self->priv->comment);
+	g_free (self->priv->attendees);
+	g_free (self->priv->url);
+	g_free (self->priv->start_tm);
+	g_free (self->priv->start_label);
+	g_free (self->priv->end_tm);
+	g_free (self->priv->end_label);
+	g_free (self->priv->description);
+	g_free (self->priv->categories);
+	g_free (self->priv->error);
+	g_free (self->priv->part_id);
+	g_free (self->priv->selected_source_uid);
+	g_free (self->priv->due_date_label);
+	g_free (self->priv->estimated_duration);
+	g_free (self->priv->recurring_info);
 
-	for (iter = priv->lower_info_items; iter; iter = iter->next) {
+	for (iter = self->priv->lower_info_items; iter; iter = iter->next) {
 		ItipViewInfoItem *item = iter->data;
 		g_free (item->message);
 		g_free (item);
 	}
 
-	g_slist_free (priv->lower_info_items);
+	g_slist_free (self->priv->lower_info_items);
 
-	for (iter = priv->upper_info_items; iter; iter = iter->next) {
+	for (iter = self->priv->upper_info_items; iter; iter = iter->next) {
 		ItipViewInfoItem *item = iter->data;
 		g_free (item->message);
 		g_free (item);
 	}
 
-	g_slist_free (priv->upper_info_items);
+	g_slist_free (self->priv->upper_info_items);
 
-	e_weak_ref_free (priv->web_view_weakref);
+	e_weak_ref_free (self->priv->web_view_weakref);
 
-	g_free (priv->vcalendar);
-	g_free (priv->calendar_uid);
-	g_free (priv->from_address);
-	g_free (priv->from_name);
-	g_free (priv->to_address);
-	g_free (priv->to_name);
-	g_free (priv->delegator_address);
-	g_free (priv->delegator_name);
-	g_free (priv->my_address);
-	g_free (priv->message_uid);
-	g_free (priv->state_rsvp_comment);
+	g_free (self->priv->vcalendar);
+	g_free (self->priv->calendar_uid);
+	g_free (self->priv->from_address);
+	g_free (self->priv->from_name);
+	g_free (self->priv->to_address);
+	g_free (self->priv->to_name);
+	g_free (self->priv->delegator_address);
+	g_free (self->priv->delegator_name);
+	g_free (self->priv->my_address);
+	g_free (self->priv->message_uid);
+	g_free (self->priv->state_rsvp_comment);
 
-	g_clear_object (&priv->folder);
-	g_clear_object (&priv->message);
-	g_clear_object (&priv->itip_mime_part);
-	g_clear_object (&priv->top_level);
-	g_clear_object (&priv->main_comp);
+	g_clear_object (&self->priv->folder);
+	g_clear_object (&self->priv->message);
+	g_clear_object (&self->priv->itip_mime_part);
+	g_clear_object (&self->priv->top_level);
+	g_clear_object (&self->priv->main_comp);
 
-	g_hash_table_destroy (priv->real_comps);
-	g_hash_table_destroy (priv->readonly_sources);
+	g_hash_table_destroy (self->priv->real_comps);
+	g_hash_table_destroy (self->priv->readonly_sources);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (itip_view_parent_class)->finalize (object);
@@ -1740,8 +1732,6 @@ static void
 itip_view_class_init (ItipViewClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (ItipViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = itip_view_set_property;
@@ -2339,7 +2329,7 @@ itip_view_init (ItipView *view)
 	shell = e_shell_get_default ();
 	client_cache = e_shell_get_client_cache (shell);
 
-	view->priv = ITIP_VIEW_GET_PRIVATE (view);
+	view->priv = itip_view_get_instance_private (view);
 	view->priv->web_view_weakref = e_weak_ref_new (NULL);
 	view->priv->real_comps = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	view->priv->client_cache = g_object_ref (client_cache);

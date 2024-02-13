@@ -29,10 +29,6 @@
 
 #include "e-icon-factory.h"
 
-#define E_IMAGE_CHOOSER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_IMAGE_CHOOSER, EImageChooserPrivate))
-
 struct _EImageChooserPrivate {
 	GtkWidget *frame;
 	GtkWidget *image;
@@ -60,10 +56,7 @@ static guint signals[LAST_SIGNAL];
 
 #define URI_LIST_TYPE "text/uri-list"
 
-G_DEFINE_TYPE (
-	EImageChooser,
-	e_image_chooser,
-	GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EImageChooser, e_image_chooser, GTK_TYPE_BOX)
 
 static gboolean
 set_image_from_data (EImageChooser *chooser,
@@ -370,11 +363,10 @@ image_chooser_get_property (GObject *object,
 static void
 image_chooser_dispose (GObject *object)
 {
-	EImageChooserPrivate *priv;
+	EImageChooser *self = E_IMAGE_CHOOSER (object);
 
-	priv = E_IMAGE_CHOOSER_GET_PRIVATE (object);
-	g_clear_object (&priv->frame);
-	g_clear_object (&priv->image);
+	g_clear_object (&self->priv->frame);
+	g_clear_object (&self->priv->image);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_image_chooser_parent_class)->dispose (object);
@@ -383,12 +375,10 @@ image_chooser_dispose (GObject *object)
 static void
 image_chooser_finalize (GObject *object)
 {
-	EImageChooserPrivate *priv;
+	EImageChooser *self = E_IMAGE_CHOOSER (object);
 
-	priv = E_IMAGE_CHOOSER_GET_PRIVATE (object);
-
-	g_free (priv->image_buf);
-	g_free (priv->icon_name);
+	g_free (self->priv->image_buf);
+	g_free (self->priv->icon_name);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_image_chooser_parent_class)->finalize (object);
@@ -398,8 +388,6 @@ static void
 e_image_chooser_class_init (EImageChooserClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EImageChooserPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = image_chooser_set_property;
@@ -434,7 +422,7 @@ e_image_chooser_init (EImageChooser *chooser)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	chooser->priv = E_IMAGE_CHOOSER_GET_PRIVATE (chooser);
+	chooser->priv = e_image_chooser_get_instance_private (chooser);
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (chooser), GTK_ORIENTATION_VERTICAL);
 

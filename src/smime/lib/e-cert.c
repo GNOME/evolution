@@ -55,10 +55,6 @@
 #include "certdb.h"
 #include "hasht.h"
 
-#define E_CERT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CERT, ECertPrivate))
-
 struct _ECertPrivate {
 	CERTCertificate *cert;
 
@@ -89,58 +85,56 @@ struct _ECertPrivate {
 	gboolean delete;
 };
 
-G_DEFINE_TYPE (ECert, e_cert, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (ECert, e_cert, G_TYPE_OBJECT)
 
 static void
 e_cert_finalize (GObject *object)
 {
-	ECertPrivate *priv;
+	ECert *self = E_CERT (object);
 
-	priv = E_CERT_GET_PRIVATE (object);
+	if (self->priv->org_name)
+		PORT_Free (self->priv->org_name);
+	if (self->priv->org_unit_name)
+		PORT_Free (self->priv->org_unit_name);
+	if (self->priv->cn)
+		PORT_Free (self->priv->cn);
 
-	if (priv->org_name)
-		PORT_Free (priv->org_name);
-	if (priv->org_unit_name)
-		PORT_Free (priv->org_unit_name);
-	if (priv->cn)
-		PORT_Free (priv->cn);
+	if (self->priv->issuer_org_name)
+		PORT_Free (self->priv->issuer_org_name);
+	if (self->priv->issuer_org_unit_name)
+		PORT_Free (self->priv->issuer_org_unit_name);
+	if (self->priv->issuer_cn)
+		PORT_Free (self->priv->issuer_cn);
 
-	if (priv->issuer_org_name)
-		PORT_Free (priv->issuer_org_name);
-	if (priv->issuer_org_unit_name)
-		PORT_Free (priv->issuer_org_unit_name);
-	if (priv->issuer_cn)
-		PORT_Free (priv->issuer_cn);
+	g_free (self->priv->issued_on_string);
+	g_free (self->priv->expires_on_string);
 
-	g_free (priv->issued_on_string);
-	g_free (priv->expires_on_string);
+	if (self->priv->serial_number)
+		PORT_Free (self->priv->serial_number);
 
-	if (priv->serial_number)
-		PORT_Free (priv->serial_number);
+	g_free (self->priv->usage_string);
 
-	g_free (priv->usage_string);
+	if (self->priv->sha256_fingerprint)
+		PORT_Free (self->priv->sha256_fingerprint);
+	if (self->priv->sha1_fingerprint)
+		PORT_Free (self->priv->sha1_fingerprint);
+	if (self->priv->md5_fingerprint)
+		PORT_Free (self->priv->md5_fingerprint);
 
-	if (priv->sha256_fingerprint)
-		PORT_Free (priv->sha256_fingerprint);
-	if (priv->sha1_fingerprint)
-		PORT_Free (priv->sha1_fingerprint);
-	if (priv->md5_fingerprint)
-		PORT_Free (priv->md5_fingerprint);
-
-	if (priv->delete) {
+	if (self->priv->delete) {
 		printf ("attempting to delete cert marked for deletion\n");
 		if (e_cert_get_cert_type (E_CERT (object)) == E_CERT_USER) {
-			PK11_DeleteTokenCertAndKey (priv->cert, NULL);
-		} else if (!PK11_IsReadOnly (priv->cert->slot)) {
+			PK11_DeleteTokenCertAndKey (self->priv->cert, NULL);
+		} else if (!PK11_IsReadOnly (self->priv->cert->slot)) {
 			/* If the list of built-ins does contain a non-removable
 			 * copy of this certificate, our call will not remove
 			 * the certificate permanently, but rather remove all trust. */
-			SEC_DeletePermCertificate (priv->cert);
+			SEC_DeletePermCertificate (self->priv->cert);
 		}
 	}
 
-	if (priv->cert)
-		CERT_DestroyCertificate (priv->cert);
+	if (self->priv->cert)
+		CERT_DestroyCertificate (self->priv->cert);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_cert_parent_class)->finalize (object);
@@ -151,8 +145,6 @@ e_cert_class_init (ECertClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ECertPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_cert_finalize;
 }
@@ -160,7 +152,7 @@ e_cert_class_init (ECertClass *class)
 static void
 e_cert_init (ECert *ec)
 {
-	ec->priv = E_CERT_GET_PRIVATE (ec);
+	ec->priv = e_cert_get_instance_private (ec);
 }
 
 static void

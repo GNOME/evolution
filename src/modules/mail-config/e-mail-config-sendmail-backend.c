@@ -30,10 +30,8 @@ struct _EMailConfigSendmailBackendPrivate
 	GtkWidget *custom_binary_entry; /* not referenced */
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EMailConfigSendmailBackend,
-	e_mail_config_sendmail_backend,
-	E_TYPE_MAIL_CONFIG_SERVICE_BACKEND)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailConfigSendmailBackend, e_mail_config_sendmail_backend, E_TYPE_MAIL_CONFIG_SERVICE_BACKEND, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailConfigSendmailBackend))
 
 static void
 mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
@@ -215,8 +213,6 @@ e_mail_config_sendmail_backend_class_init (EMailConfigSendmailBackendClass *clas
 {
 	EMailConfigServiceBackendClass *backend_class;
 
-	g_type_class_add_private (class, sizeof (EMailConfigSendmailBackendPrivate));
-
 	backend_class = E_MAIL_CONFIG_SERVICE_BACKEND_CLASS (class);
 	backend_class->backend_name = "sendmail";
 	backend_class->insert_widgets = mail_config_sendmail_backend_insert_widgets;
@@ -231,7 +227,7 @@ e_mail_config_sendmail_backend_class_finalize (EMailConfigSendmailBackendClass *
 static void
 e_mail_config_sendmail_backend_init (EMailConfigSendmailBackend *backend)
 {
-	backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (backend, E_TYPE_MAIL_CONFIG_SENDMAIL_BACKEND, EMailConfigSendmailBackendPrivate);
+	backend->priv = e_mail_config_sendmail_backend_get_instance_private (backend);
 }
 
 void

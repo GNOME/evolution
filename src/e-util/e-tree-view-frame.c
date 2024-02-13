@@ -37,10 +37,6 @@
 
 #include "e-tree-view-frame.h"
 
-#define E_TREE_VIEW_FRAME_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TREE_VIEW_FRAME, ETreeViewFramePrivate))
-
 /**
  * E_TREE_VIEW_FRAME_ACTION_ADD:
  *
@@ -130,12 +126,9 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE_WITH_CODE (
-	ETreeViewFrame,
-	e_tree_view_frame,
-	GTK_TYPE_BOX,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (ETreeViewFrame, e_tree_view_frame, GTK_TYPE_BOX,
+	G_ADD_PRIVATE (ETreeViewFrame)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 tree_view_frame_append_action (ETreeViewFrame *tree_view_frame,
@@ -520,16 +513,14 @@ tree_view_frame_get_property (GObject *object,
 static void
 tree_view_frame_dispose (GObject *object)
 {
-	ETreeViewFramePrivate *priv;
+	ETreeViewFrame *self = E_TREE_VIEW_FRAME (object);
 
-	priv = E_TREE_VIEW_FRAME_GET_PRIVATE (object);
+	tree_view_frame_dispose_tree_view (self->priv);
 
-	tree_view_frame_dispose_tree_view (priv);
+	g_clear_object (&self->priv->scrolled_window);
+	g_clear_object (&self->priv->inline_toolbar);
 
-	g_clear_object (&priv->scrolled_window);
-	g_clear_object (&priv->inline_toolbar);
-
-	g_hash_table_remove_all (priv->tool_item_ht);
+	g_hash_table_remove_all (self->priv->tool_item_ht);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_tree_view_frame_parent_class)->dispose (object);
@@ -538,11 +529,9 @@ tree_view_frame_dispose (GObject *object)
 static void
 tree_view_frame_finalize (GObject *object)
 {
-	ETreeViewFramePrivate *priv;
+	ETreeViewFrame *self = E_TREE_VIEW_FRAME (object);
 
-	priv = E_TREE_VIEW_FRAME_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->tool_item_ht);
+	g_hash_table_destroy (self->priv->tool_item_ht);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_tree_view_frame_parent_class)->finalize (object);
@@ -744,8 +733,6 @@ e_tree_view_frame_class_init (ETreeViewFrameClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ETreeViewFramePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = tree_view_frame_set_property;
 	object_class->get_property = tree_view_frame_get_property;
@@ -864,8 +851,7 @@ e_tree_view_frame_init (ETreeViewFrame *tree_view_frame)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
-	tree_view_frame->priv =
-		E_TREE_VIEW_FRAME_GET_PRIVATE (tree_view_frame);
+	tree_view_frame->priv = e_tree_view_frame_get_instance_private (tree_view_frame);
 
 	tree_view_frame->priv->tool_item_ht = tool_item_ht;
 }

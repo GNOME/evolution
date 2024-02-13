@@ -36,10 +36,6 @@
 #include "e-mktemp.h"
 #include "e-misc-utils.h"
 
-#define E_ATTACHMENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ATTACHMENT, EAttachmentPrivate))
-
 /* Fallback Icon */
 #define DEFAULT_ICON_NAME	"mail-attachment"
 
@@ -120,10 +116,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EAttachment,
-	e_attachment,
-	G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EAttachment, e_attachment, G_TYPE_OBJECT)
 
 static gboolean
 create_system_thumbnail (EAttachment *attachment,
@@ -794,19 +787,17 @@ attachment_get_property (GObject *object,
 static void
 attachment_dispose (GObject *object)
 {
-	EAttachmentPrivate *priv;
+	EAttachment *self = E_ATTACHMENT (object);
 
-	priv = E_ATTACHMENT_GET_PRIVATE (object);
+	g_clear_object (&self->priv->file);
+	g_clear_object (&self->priv->icon);
+	g_clear_object (&self->priv->file_info);
+	g_clear_object (&self->priv->cancellable);
+	g_clear_object (&self->priv->mime_part);
 
-	g_clear_object (&priv->file);
-	g_clear_object (&priv->icon);
-	g_clear_object (&priv->file_info);
-	g_clear_object (&priv->cancellable);
-	g_clear_object (&priv->mime_part);
-
-	if (priv->emblem_timeout_id > 0) {
-		g_source_remove (priv->emblem_timeout_id);
-		priv->emblem_timeout_id = 0;
+	if (self->priv->emblem_timeout_id > 0) {
+		g_source_remove (self->priv->emblem_timeout_id);
+		self->priv->emblem_timeout_id = 0;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -816,23 +807,21 @@ attachment_dispose (GObject *object)
 static void
 attachment_finalize (GObject *object)
 {
-	EAttachmentPrivate *priv;
+	EAttachment *self = E_ATTACHMENT (object);
 
-	priv = E_ATTACHMENT_GET_PRIVATE (object);
+	if (self->priv->update_icon_column_idle_id > 0)
+		g_source_remove (self->priv->update_icon_column_idle_id);
 
-	if (priv->update_icon_column_idle_id > 0)
-		g_source_remove (priv->update_icon_column_idle_id);
+	if (self->priv->update_progress_columns_idle_id > 0)
+		g_source_remove (self->priv->update_progress_columns_idle_id);
 
-	if (priv->update_progress_columns_idle_id > 0)
-		g_source_remove (priv->update_progress_columns_idle_id);
+	if (self->priv->update_file_info_columns_idle_id > 0)
+		g_source_remove (self->priv->update_file_info_columns_idle_id);
 
-	if (priv->update_file_info_columns_idle_id > 0)
-		g_source_remove (priv->update_file_info_columns_idle_id);
+	g_mutex_clear (&self->priv->property_lock);
+	g_mutex_clear (&self->priv->idle_lock);
 
-	g_mutex_clear (&priv->property_lock);
-	g_mutex_clear (&priv->idle_lock);
-
-	g_free (priv->disposition);
+	g_free (self->priv->disposition);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_attachment_parent_class)->finalize (object);
@@ -842,8 +831,6 @@ static void
 e_attachment_class_init (EAttachmentClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EAttachmentPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = attachment_set_property;
@@ -1061,7 +1048,7 @@ e_attachment_class_init (EAttachmentClass *class)
 static void
 e_attachment_init (EAttachment *attachment)
 {
-	attachment->priv = E_ATTACHMENT_GET_PRIVATE (attachment);
+	attachment->priv = e_attachment_get_instance_private (attachment);
 	attachment->priv->cancellable = g_cancellable_new ();
 	attachment->priv->encrypted = CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE;
 	attachment->priv->signed_ = CAMEL_CIPHER_VALIDITY_SIGN_NONE;

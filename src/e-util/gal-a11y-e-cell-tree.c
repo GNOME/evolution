@@ -32,11 +32,10 @@
 #include "gal-a11y-e-cell-registry.h"
 #include "gal-a11y-util.h"
 
-#define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yECellTreeClass))
-static AtkObjectClass *a11y_parent_class;
-#define A11Y_PARENT_TYPE (gal_a11y_e_cell_get_type ())
-
 #define d(x)
+
+G_DEFINE_TYPE_WITH_CODE (GalA11yECellTree, gal_a11y_e_cell_tree, GAL_A11Y_TYPE_E_CELL,
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_ACTION, gal_a11y_e_cell_atk_action_interface_init))
 
 static void
 ectr_model_row_changed_cb (ETableModel *etm,
@@ -144,40 +143,13 @@ ectr_do_action_collapse (AtkAction *action)
 }
 
 static void
-ectr_class_init (GalA11yECellTreeClass *class)
+gal_a11y_e_cell_tree_class_init (GalA11yECellTreeClass *class)
 {
-	a11y_parent_class = g_type_class_ref (A11Y_PARENT_TYPE);
 }
 
 static void
-ectr_init (GalA11yECellTree *a11y)
+gal_a11y_e_cell_tree_init (GalA11yECellTree *a11y)
 {
-}
-
-GType
-gal_a11y_e_cell_tree_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		GTypeInfo info = {
-			sizeof (GalA11yECellTreeClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) ectr_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL, /* class_data */
-			sizeof (GalA11yECellTree),
-			0,
-			(GInstanceInitFunc) ectr_init,
-			NULL /* value_cell_text */
-		};
-
-		type = g_type_register_static (A11Y_PARENT_TYPE, "GalA11yECellTree", &info, 0);
-		gal_a11y_e_cell_type_add_action_interface (type);
-	}
-
-	return type;
 }
 
 AtkObject *

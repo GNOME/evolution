@@ -28,10 +28,6 @@
 #include "mail/e-mail-sidebar.h"
 #include "mail/em-folder-utils.h"
 
-#define E_MAIL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SHELL_SIDEBAR, EMailShellSidebarPrivate))
-
 struct _EMailShellSidebarPrivate {
 	GtkWidget *folder_tree;
 };
@@ -41,10 +37,8 @@ enum {
 	PROP_FOLDER_TREE
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EMailShellSidebar,
-	e_mail_shell_sidebar,
-	E_TYPE_SHELL_SIDEBAR)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailShellSidebar, e_mail_shell_sidebar, E_TYPE_SHELL_SIDEBAR, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailShellSidebar))
 
 static void
 mail_shell_sidebar_selection_changed_cb (EShellSidebar *shell_sidebar,
@@ -175,22 +169,19 @@ mail_shell_sidebar_get_property (GObject *object,
 static void
 mail_shell_sidebar_dispose (GObject *object)
 {
-	EMailShellSidebarPrivate *priv;
+	EMailShellSidebar *self = E_MAIL_SHELL_SIDEBAR (object);
 
-	priv = E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (object);
-
-	if (priv->folder_tree != NULL) {
+	if (self->priv->folder_tree != NULL) {
 		GtkTreeModel *model;
 
-		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->folder_tree));
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (self->priv->folder_tree));
 
 		if (model) {
 			g_signal_handlers_disconnect_by_func (model,
 				mail_shell_sidebar_model_row_changed_cb, object);
 		}
 
-		g_object_unref (priv->folder_tree);
-		priv->folder_tree = NULL;
+		g_clear_object (&self->priv->folder_tree);
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -380,11 +371,11 @@ mail_shell_sidebar_get_preferred_width (GtkWidget *widget,
 static guint32
 mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 {
-	EMailShellSidebarPrivate *priv;
+	EMailShellSidebar *self;
 	EMailSidebar *sidebar;
 
-	priv = E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
-	sidebar = E_MAIL_SIDEBAR (priv->folder_tree);
+	self = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
+	sidebar = E_MAIL_SIDEBAR (self->priv->folder_tree);
 
 	return e_mail_sidebar_check_state (sidebar);
 }
@@ -395,8 +386,6 @@ e_mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	EShellSidebarClass *shell_sidebar_class;
-
-	g_type_class_add_private (class, sizeof (EMailShellSidebarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = mail_shell_sidebar_get_property;
@@ -429,8 +418,7 @@ e_mail_shell_sidebar_class_finalize (EMailShellSidebarClass *class)
 static void
 e_mail_shell_sidebar_init (EMailShellSidebar *mail_shell_sidebar)
 {
-	mail_shell_sidebar->priv =
-		E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (mail_shell_sidebar);
+	mail_shell_sidebar->priv = e_mail_shell_sidebar_get_instance_private (mail_shell_sidebar);
 
 	/* Postpone widget construction until we have a shell view. */
 }

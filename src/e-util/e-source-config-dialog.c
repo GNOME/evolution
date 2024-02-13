@@ -26,10 +26,6 @@
 #include "e-alert-sink.h"
 #include "e-misc-utils.h"
 
-#define E_SOURCE_CONFIG_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SOURCE_CONFIG_DIALOG, ESourceConfigDialogPrivate))
-
 struct _ESourceConfigDialogPrivate {
 	ESourceConfig *config;
 	ESourceRegistry *registry;
@@ -47,13 +43,9 @@ enum {
 static void	e_source_config_dialog_alert_sink_init
 					(EAlertSinkInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	ESourceConfigDialog,
-	e_source_config_dialog,
-	GTK_TYPE_DIALOG,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK,
-		e_source_config_dialog_alert_sink_init))
+G_DEFINE_TYPE_WITH_CODE (ESourceConfigDialog, e_source_config_dialog, GTK_TYPE_DIALOG,
+	G_ADD_PRIVATE (ESourceConfigDialog)
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, e_source_config_dialog_alert_sink_init))
 
 static void
 source_config_dialog_commit_cb (GObject *object,
@@ -213,25 +205,22 @@ source_config_dialog_get_property (GObject *object,
 static void
 source_config_dialog_dispose (GObject *object)
 {
-	ESourceConfigDialogPrivate *priv;
+	ESourceConfigDialog *self = E_SOURCE_CONFIG_DIALOG (object);
 
-	priv = E_SOURCE_CONFIG_DIALOG_GET_PRIVATE (object);
-	g_clear_object (&priv->config);
+	g_clear_object (&self->priv->config);
 
-	if (priv->registry != NULL) {
+	if (self->priv->registry) {
 		g_signal_handlers_disconnect_matched (
-			priv->registry, G_SIGNAL_MATCH_DATA,
+			self->priv->registry, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
+		g_clear_object (&self->priv->registry);
 	}
 
-	if (priv->alert_bar != NULL) {
+	if (self->priv->alert_bar) {
 		g_signal_handler_disconnect (
-			priv->alert_bar,
-			priv->alert_bar_visible_handler_id);
-		g_object_unref (priv->alert_bar);
-		priv->alert_bar = NULL;
+			self->priv->alert_bar,
+			self->priv->alert_bar_visible_handler_id);
+		g_clear_object (&self->priv->alert_bar);
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -241,7 +230,7 @@ source_config_dialog_dispose (GObject *object)
 static void
 source_config_dialog_constructed (GObject *object)
 {
-	ESourceConfigDialogPrivate *priv;
+	ESourceConfigDialog *self = E_SOURCE_CONFIG_DIALOG (object);
 	GtkWidget *content_area;
 	GtkWidget *config;
 	GtkWidget *widget;
@@ -250,9 +239,7 @@ source_config_dialog_constructed (GObject *object)
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_source_config_dialog_parent_class)->constructed (object);
 
-	priv = E_SOURCE_CONFIG_DIALOG_GET_PRIVATE (object);
-
-	config = GTK_WIDGET (priv->config);
+	config = GTK_WIDGET (self->priv->config);
 
 	widget = gtk_dialog_get_widget_for_response (
 		GTK_DIALOG (object), GTK_RESPONSE_OK);
@@ -273,14 +260,14 @@ source_config_dialog_constructed (GObject *object)
 
 	widget = e_alert_bar_new ();
 	gtk_box_pack_start (GTK_BOX (content_area), widget, FALSE, FALSE, 0);
-	priv->alert_bar = g_object_ref (widget);
+	self->priv->alert_bar = g_object_ref (widget);
 	/* EAlertBar controls its own visibility. */
 
 	handler_id = e_signal_connect_notify (
-		priv->alert_bar, "notify::visible",
+		self->priv->alert_bar, "notify::visible",
 		G_CALLBACK (source_config_alert_bar_visible_cb), object);
 
-	priv->alert_bar_visible_handler_id = handler_id;
+	self->priv->alert_bar_visible_handler_id = handler_id;
 }
 
 static void
@@ -306,11 +293,9 @@ static void
 source_config_dialog_submit_alert (EAlertSink *alert_sink,
                                    EAlert *alert)
 {
-	ESourceConfigDialogPrivate *priv;
+	ESourceConfigDialog *self = E_SOURCE_CONFIG_DIALOG (alert_sink);
 
-	priv = E_SOURCE_CONFIG_DIALOG_GET_PRIVATE (alert_sink);
-
-	e_alert_bar_submit_alert (E_ALERT_BAR (priv->alert_bar), alert);
+	e_alert_bar_submit_alert (E_ALERT_BAR (self->priv->alert_bar), alert);
 }
 
 static void
@@ -318,8 +303,6 @@ e_source_config_dialog_class_init (ESourceConfigDialogClass *class)
 {
 	GObjectClass *object_class;
 	GtkDialogClass *dialog_class;
-
-	g_type_class_add_private (class, sizeof (ESourceConfigDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = source_config_dialog_set_property;
@@ -352,7 +335,7 @@ e_source_config_dialog_alert_sink_init (EAlertSinkInterface *iface)
 static void
 e_source_config_dialog_init (ESourceConfigDialog *dialog)
 {
-	dialog->priv = E_SOURCE_CONFIG_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_source_config_dialog_get_instance_private (dialog);
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (dialog),

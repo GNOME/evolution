@@ -78,6 +78,7 @@ enum {
 static void e_to_do_pane_cal_data_model_subscriber_init (ECalDataModelSubscriberInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (EToDoPane, e_to_do_pane, GTK_TYPE_GRID,
+	G_ADD_PRIVATE (EToDoPane)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CAL_DATA_MODEL_SUBSCRIBER, e_to_do_pane_cal_data_model_subscriber_init))
 
 enum {
@@ -2949,7 +2950,7 @@ e_to_do_pane_finalize (GObject *object)
 static void
 e_to_do_pane_init (EToDoPane *to_do_pane)
 {
-	to_do_pane->priv = G_TYPE_INSTANCE_GET_PRIVATE (to_do_pane, E_TYPE_TO_DO_PANE, EToDoPanePrivate);
+	to_do_pane->priv = e_to_do_pane_get_instance_private (to_do_pane);
 	to_do_pane->priv->cancellable = g_cancellable_new ();
 	to_do_pane->priv->roots = g_ptr_array_new ();
 
@@ -2968,8 +2969,6 @@ static void
 e_to_do_pane_class_init (EToDoPaneClass *klass)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (EToDoPanePrivate));
 
 	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (klass), "EToDoPane");
 

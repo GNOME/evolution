@@ -29,10 +29,6 @@
 #include "e-unicode.h"
 #include "e-xml-utils.h"
 
-#define GAL_VIEW_COLLECTION_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), GAL_TYPE_VIEW_COLLECTION, GalViewCollectionPrivate))
-
 struct _GalViewCollectionPrivate {
 	GalViewCollectionItem **view_data;
 	gint view_count;
@@ -61,7 +57,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (GalViewCollection, gal_view_collection, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (GalViewCollection, gal_view_collection, G_TYPE_OBJECT)
 
 static void
 gal_view_collection_changed (GalViewCollection *collection)
@@ -392,22 +388,22 @@ gal_view_collection_get_property (GObject *object,
 static void
 gal_view_collection_dispose (GObject *object)
 {
-	GalViewCollectionPrivate *priv;
+	GalViewCollection *self = GAL_VIEW_COLLECTION (object);
 	gint ii;
 
-	priv = GAL_VIEW_COLLECTION_GET_PRIVATE (object);
+	for (ii = 0; ii < self->priv->view_count; ii++) {
+		gal_view_collection_item_free (self->priv->view_data[ii]);
+	}
 
-	for (ii = 0; ii < priv->view_count; ii++)
-		gal_view_collection_item_free (priv->view_data[ii]);
-	g_free (priv->view_data);
-	priv->view_data = NULL;
-	priv->view_count = 0;
+	g_clear_pointer (&self->priv->view_data, g_free);
+	self->priv->view_count = 0;
 
-	for (ii = 0; ii < priv->removed_view_count; ii++)
-		gal_view_collection_item_free (priv->removed_view_data[ii]);
-	g_free (priv->removed_view_data);
-	priv->removed_view_data = NULL;
-	priv->removed_view_count = 0;
+	for (ii = 0; ii < self->priv->removed_view_count; ii++) {
+		gal_view_collection_item_free (self->priv->removed_view_data[ii]);
+	}
+
+	g_clear_pointer (&self->priv->removed_view_data, g_free);
+	self->priv->removed_view_count = 0;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (gal_view_collection_parent_class)->dispose (object);
@@ -416,13 +412,11 @@ gal_view_collection_dispose (GObject *object)
 static void
 gal_view_collection_finalize (GObject *object)
 {
-	GalViewCollectionPrivate *priv;
+	GalViewCollection *self = GAL_VIEW_COLLECTION (object);
 
-	priv = GAL_VIEW_COLLECTION_GET_PRIVATE (object);
-
-	g_free (priv->system_directory);
-	g_free (priv->user_directory);
-	g_free (priv->default_view);
+	g_free (self->priv->system_directory);
+	g_free (self->priv->user_directory);
+	g_free (self->priv->default_view);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (gal_view_collection_parent_class)->finalize (object);
@@ -455,8 +449,6 @@ static void
 gal_view_collection_class_init (GalViewCollectionClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (GalViewCollectionPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = gal_view_collection_set_property;
@@ -502,7 +494,7 @@ gal_view_collection_class_init (GalViewCollectionClass *class)
 static void
 gal_view_collection_init (GalViewCollection *collection)
 {
-	collection->priv = GAL_VIEW_COLLECTION_GET_PRIVATE (collection);
+	collection->priv = gal_view_collection_get_instance_private (collection);
 
 	collection->priv->default_view_built_in = TRUE;
 }

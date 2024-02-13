@@ -35,14 +35,6 @@
 
 #include "e-shell-window-private.h"
 
-#define E_SHELL_SWITCHER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate))
-
-#define E_SHELL_SWITCHER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate))
-
 #define H_PADDING 6
 #define V_PADDING 6
 
@@ -71,15 +63,10 @@ static guint signals[LAST_SIGNAL];
 /* Forward Declarations */
 static void shell_switcher_tool_shell_iface_init (GtkToolShellIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EShellSwitcher,
-	e_shell_switcher,
-	GTK_TYPE_BIN,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		GTK_TYPE_TOOL_SHELL,
-		shell_switcher_tool_shell_iface_init))
+G_DEFINE_TYPE_WITH_CODE (EShellSwitcher, e_shell_switcher, GTK_TYPE_BIN,
+	G_ADD_PRIVATE (EShellSwitcher)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (GTK_TYPE_TOOL_SHELL, shell_switcher_tool_shell_iface_init))
 
 static gint
 shell_switcher_layout_actions (EShellSwitcher *switcher)
@@ -244,12 +231,10 @@ shell_switcher_get_property (GObject *object,
 static void
 shell_switcher_dispose (GObject *object)
 {
-	EShellSwitcherPrivate *priv;
+	EShellSwitcher *self = E_SHELL_SWITCHER (object);
 
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (object);
-
-	while (priv->proxies != NULL) {
-		GtkWidget *widget = priv->proxies->data;
+	while (self->priv->proxies != NULL) {
+		GtkWidget *widget = self->priv->proxies->data;
 		gtk_container_remove (GTK_CONTAINER (object), widget);
 	}
 
@@ -262,11 +247,9 @@ shell_switcher_get_preferred_width (GtkWidget *widget,
                                     gint *minimum,
                                     gint *natural)
 {
-	EShellSwitcherPrivate *priv;
+	EShellSwitcher *self = E_SHELL_SWITCHER (widget);
 	GtkWidget *child;
 	GList *iter;
-
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (widget);
 
 	*minimum = *natural = 0;
 
@@ -274,10 +257,10 @@ shell_switcher_get_preferred_width (GtkWidget *widget,
 	if (child != NULL)
 		gtk_widget_get_preferred_width (child, minimum, natural);
 
-	if (!priv->toolbar_visible)
+	if (!self->priv->toolbar_visible)
 		return;
 
-	for (iter = priv->proxies; iter != NULL; iter = iter->next) {
+	for (iter = self->priv->proxies; iter != NULL; iter = iter->next) {
 		GtkWidget *widget_proxy = iter->data;
 		gint child_min, child_nat;
 
@@ -297,11 +280,9 @@ shell_switcher_get_preferred_height (GtkWidget *switcher_widget,
                                      gint *minimum,
                                      gint *natural)
 {
-	EShellSwitcherPrivate *priv;
+	EShellSwitcher *self = E_SHELL_SWITCHER (switcher_widget);
 	GtkWidget *child;
 	GList *iter;
-
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (switcher_widget);
 
 	*minimum = *natural = 0;
 
@@ -309,10 +290,10 @@ shell_switcher_get_preferred_height (GtkWidget *switcher_widget,
 	if (child != NULL)
 		gtk_widget_get_preferred_height (child, minimum, natural);
 
-	if (!priv->toolbar_visible)
+	if (!self->priv->toolbar_visible)
 		return;
 
-	for (iter = priv->proxies; iter != NULL; iter = iter->next) {
+	for (iter = self->priv->proxies; iter != NULL; iter = iter->next) {
 		GtkWidget *widget = iter->data;
 		gint child_min, child_nat;
 
@@ -359,61 +340,56 @@ static void
 shell_switcher_screen_changed (GtkWidget *widget,
                                GdkScreen *previous_screen)
 {
-	EShellSwitcherPrivate *priv;
+	EShellSwitcher *self = E_SHELL_SWITCHER (widget);
 	GtkSettings *settings;
-
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (widget);
 
 	if (gtk_widget_has_screen (widget))
 		settings = gtk_widget_get_settings (widget);
 	else
 		settings = NULL;
 
-	if (settings == priv->settings)
+	if (settings == self->priv->settings)
 		return;
 
-	if (priv->settings != NULL) {
+	if (self->priv->settings != NULL) {
 		g_signal_handler_disconnect (
-			priv->settings, priv->settings_handler_id);
-		g_object_unref (priv->settings);
+			self->priv->settings, self->priv->settings_handler_id);
+		g_clear_object (&self->priv->settings);
 	}
 
 	if (settings != NULL) {
-		priv->settings = g_object_ref (settings);
-		priv->settings_handler_id = e_signal_connect_notify_swapped (
+		self->priv->settings = g_object_ref (settings);
+		self->priv->settings_handler_id = e_signal_connect_notify_swapped (
 			settings, "notify::gtk-toolbar-style",
 			G_CALLBACK (shell_switcher_toolbar_style_changed_cb),
 			widget);
 	} else
-		priv->settings = NULL;
+		self->priv->settings = NULL;
 
-	shell_switcher_toolbar_style_changed_cb (E_SHELL_SWITCHER (widget));
+	shell_switcher_toolbar_style_changed_cb (self);
 }
 
 static void
 shell_switcher_remove (GtkContainer *container,
                        GtkWidget *remove_widget)
 {
-	EShellSwitcherPrivate *priv;
+	EShellSwitcher *self = E_SHELL_SWITCHER (container);
 	GList *link;
-
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (container);
 
 	/* Look in the internal widgets first. */
 
-	link = g_list_find (priv->proxies, remove_widget);
+	link = g_list_find (self->priv->proxies, remove_widget);
 	if (link != NULL) {
 		GtkWidget *widget = link->data;
 
 		gtk_widget_unparent (widget);
-		priv->proxies = g_list_delete_link (priv->proxies, link);
+		self->priv->proxies = g_list_delete_link (self->priv->proxies, link);
 		gtk_widget_queue_resize (GTK_WIDGET (container));
 		return;
 	}
 
 	/* Chain up to parent's remove() method. */
-	GTK_CONTAINER_CLASS (e_shell_switcher_parent_class)->remove (
-		container, remove_widget);
+	GTK_CONTAINER_CLASS (e_shell_switcher_parent_class)->remove (container, remove_widget);
 }
 
 static void
@@ -422,17 +398,13 @@ shell_switcher_forall (GtkContainer *container,
                        GtkCallback callback,
                        gpointer callback_data)
 {
-	EShellSwitcherPrivate *priv;
-
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (container);
+	EShellSwitcher *self = E_SHELL_SWITCHER (container);
 
 	if (include_internals)
-		g_list_foreach (
-			priv->proxies, (GFunc) callback, callback_data);
+		g_list_foreach (self->priv->proxies, (GFunc) callback, callback_data);
 
 	/* Chain up to parent's forall() method. */
-	GTK_CONTAINER_CLASS (e_shell_switcher_parent_class)->forall (
-		container, include_internals, callback, callback_data);
+	GTK_CONTAINER_CLASS (e_shell_switcher_parent_class)->forall (container, include_internals, callback, callback_data);
 }
 
 static void
@@ -491,8 +463,6 @@ e_shell_switcher_class_init (EShellSwitcherClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
-
-	g_type_class_add_private (class, sizeof (EShellSwitcherPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = shell_switcher_set_property;
@@ -567,7 +537,7 @@ e_shell_switcher_class_init (EShellSwitcherClass *class)
 static void
 e_shell_switcher_init (EShellSwitcher *switcher)
 {
-	switcher->priv = E_SHELL_SWITCHER_GET_PRIVATE (switcher);
+	switcher->priv = e_shell_switcher_get_instance_private (switcher);
 
 	gtk_widget_set_has_window (GTK_WIDGET (switcher), FALSE);
 

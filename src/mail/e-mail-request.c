@@ -48,6 +48,7 @@ enum {
 static void e_mail_request_content_request_init (EContentRequestInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (EMailRequest, e_mail_request, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EMailRequest)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CONTENT_REQUEST, e_mail_request_content_request_init))
 
 static gboolean
@@ -546,8 +547,6 @@ e_mail_request_class_init (EMailRequestClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailRequestPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = e_mail_request_set_property;
 	object_class->get_property = e_mail_request_get_property;
@@ -567,7 +566,7 @@ e_mail_request_class_init (EMailRequestClass *class)
 static void
 e_mail_request_init (EMailRequest *request)
 {
-	request->priv = G_TYPE_INSTANCE_GET_PRIVATE (request, E_TYPE_MAIL_REQUEST, EMailRequestPrivate);
+	request->priv = e_mail_request_get_instance_private (request);
 	request->priv->scale_factor = 0;
 }
 

@@ -25,10 +25,6 @@
 #include <glib/gi18n-lib.h>
 #include <stdlib.h>
 
-#define E_HTML_EDITOR_HRULE_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HTML_EDITOR_HRULE_DIALOG, EHTMLEditorHRuleDialogPrivate))
-
 struct _EHTMLEditorHRuleDialogPrivate {
 	GtkWidget *width_edit;
 	GtkWidget *size_edit;
@@ -38,10 +34,7 @@ struct _EHTMLEditorHRuleDialogPrivate {
 	GtkWidget *shaded_check;
 };
 
-G_DEFINE_TYPE (
-	EHTMLEditorHRuleDialog,
-	e_html_editor_hrule_dialog,
-	E_TYPE_HTML_EDITOR_DIALOG);
+G_DEFINE_TYPE_WITH_PRIVATE (EHTMLEditorHRuleDialog, e_html_editor_hrule_dialog, E_TYPE_HTML_EDITOR_DIALOG)
 
 static void
 html_editor_hrule_dialog_set_alignment (EHTMLEditorHRuleDialog *dialog)
@@ -219,8 +212,6 @@ e_html_editor_hrule_dialog_class_init (EHTMLEditorHRuleDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EHTMLEditorHRuleDialogPrivate));
-
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_hrule_dialog_show;
 	widget_class->hide = html_editor_hrule_dialog_hide;
@@ -232,7 +223,7 @@ e_html_editor_hrule_dialog_init (EHTMLEditorHRuleDialog *dialog)
 	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 
-	dialog->priv = E_HTML_EDITOR_HRULE_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_html_editor_hrule_dialog_get_instance_private (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 

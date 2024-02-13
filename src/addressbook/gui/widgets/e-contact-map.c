@@ -34,10 +34,6 @@
 
 #include "e-util/e-util.h"
 
-#define E_CONTACT_MAP_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CONTACT_MAP, EContactMapPrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EContactMapPrivate {
@@ -63,7 +59,7 @@ enum {
 
 static gint signals[LAST_SIGNAL] = {0};
 
-G_DEFINE_TYPE (EContactMap, e_contact_map, GTK_CHAMPLAIN_TYPE_EMBED)
+G_DEFINE_TYPE_WITH_PRIVATE (EContactMap, e_contact_map, GTK_CHAMPLAIN_TYPE_EMBED)
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -310,11 +306,9 @@ address_to_xep (EContactAddress *address)
 static void
 contact_map_finalize (GObject *object)
 {
-	EContactMapPrivate *priv;
+	EContactMap *self = E_CONTACT_MAP (object);
 
-	priv = E_CONTACT_MAP_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->markers);
+	g_hash_table_destroy (self->priv->markers);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_contact_map_parent_class)->finalize (object);
@@ -324,8 +318,6 @@ static void
 e_contact_map_class_init (EContactMapClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EContactMapPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = contact_map_finalize;
@@ -373,7 +365,7 @@ e_contact_map_init (EContactMap *map)
 	ChamplainMarkerLayer *layer;
 	ChamplainView *view;
 
-	map->priv = E_CONTACT_MAP_GET_PRIVATE (map);
+	map->priv = e_contact_map_get_instance_private (map);
 
 	map->priv->markers = g_hash_table_new_full (
 		(GHashFunc) g_str_hash,

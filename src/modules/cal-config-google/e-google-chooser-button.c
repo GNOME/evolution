@@ -24,10 +24,6 @@
 #include "module-cal-config-google.h"
 #include "e-google-chooser-button.h"
 
-#define E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_GOOGLE_CHOOSER_BUTTON, EGoogleChooserButtonPrivate))
-
 struct _EGoogleChooserButtonPrivate {
 	ESource *source;
 	ESourceConfig *config;
@@ -40,10 +36,8 @@ enum {
 	PROP_CONFIG
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EGoogleChooserButton,
-	e_google_chooser_button,
-	GTK_TYPE_BUTTON)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EGoogleChooserButton, e_google_chooser_button, GTK_TYPE_BUTTON, 0,
+	G_ADD_PRIVATE_DYNAMIC (EGoogleChooserButton))
 
 static void
 google_chooser_button_set_source (EGoogleChooserButton *button,
@@ -116,13 +110,11 @@ google_chooser_button_get_property (GObject *object,
 static void
 google_chooser_button_dispose (GObject *object)
 {
-	EGoogleChooserButtonPrivate *priv;
+	EGoogleChooserButton *self = E_GOOGLE_CHOOSER_BUTTON (object);
 
-	priv = E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE (object);
-
-	g_clear_object (&priv->source);
-	g_clear_object (&priv->config);
-	g_clear_object (&priv->label);
+	g_clear_object (&self->priv->source);
+	g_clear_object (&self->priv->config);
+	g_clear_object (&self->priv->label);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_google_chooser_button_parent_class)->dispose (object);
@@ -172,7 +164,7 @@ google_config_get_dialog_parent_cb (ECredentialsPrompter *prompter,
 static void
 google_chooser_button_clicked (GtkButton *button)
 {
-	EGoogleChooserButtonPrivate *priv;
+	EGoogleChooserButton *self = E_GOOGLE_CHOOSER_BUTTON (button);
 	gpointer parent;
 	ESourceRegistry *registry;
 	ECredentialsPrompter *prompter;
@@ -186,15 +178,13 @@ google_chooser_button_clicked (GtkButton *button)
 	gboolean can_google_auth;
 	const gchar *title = NULL;
 
-	priv = E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE (button);
-
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	registry = e_source_config_get_registry (priv->config);
+	registry = e_source_config_get_registry (self->priv->config);
 
-	authentication_extension = e_source_get_extension (priv->source, E_SOURCE_EXTENSION_AUTHENTICATION);
-	webdav_extension = e_source_get_extension (priv->source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
+	authentication_extension = e_source_get_extension (self->priv->source, E_SOURCE_EXTENSION_AUTHENTICATION);
+	webdav_extension = e_source_get_extension (self->priv->source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
 
 	guri = e_source_webdav_dup_uri (webdav_extension);
 	can_google_auth = e_module_cal_config_google_is_supported (NULL, registry) &&
@@ -220,7 +210,7 @@ google_chooser_button_clicked (GtkButton *button)
 
 	e_source_webdav_set_uri (webdav_extension, guri);
 
-	switch (e_cal_source_config_get_source_type (E_CAL_SOURCE_CONFIG (priv->config))) {
+	switch (e_cal_source_config_get_source_type (E_CAL_SOURCE_CONFIG (self->priv->config))) {
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 		supports_filter = E_WEBDAV_DISCOVER_SUPPORTS_EVENTS;
 		title = _("Choose a Calendar");
@@ -242,7 +232,7 @@ google_chooser_button_clicked (GtkButton *button)
 
 	base_url = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
 
-	dialog = e_webdav_discover_dialog_new (parent, title, prompter, priv->source, base_url, supports_filter);
+	dialog = e_webdav_discover_dialog_new (parent, title, prompter, self->priv->source, base_url, supports_filter);
 
 	if (parent != NULL)
 		e_binding_bind_property (
@@ -270,7 +260,7 @@ google_chooser_button_clicked (GtkButton *button)
 				ESourceSelectable *selectable_extension;
 				const gchar *extension_name;
 
-				switch (e_cal_source_config_get_source_type (E_CAL_SOURCE_CONFIG (priv->config))) {
+				switch (e_cal_source_config_get_source_type (E_CAL_SOURCE_CONFIG (self->priv->config))) {
 					case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 						extension_name = E_SOURCE_EXTENSION_CALENDAR;
 						break;
@@ -284,9 +274,9 @@ google_chooser_button_clicked (GtkButton *button)
 						g_return_if_reached ();
 				}
 
-				selectable_extension = e_source_get_extension (priv->source, extension_name);
+				selectable_extension = e_source_get_extension (self->priv->source, extension_name);
 
-				e_source_set_display_name (priv->source, display_name);
+				e_source_set_display_name (self->priv->source, display_name);
 
 				e_source_webdav_set_display_name (webdav_extension, display_name);
 				e_source_webdav_set_uri (webdav_extension, guri);
@@ -329,8 +319,6 @@ e_google_chooser_button_class_init (EGoogleChooserButtonClass *class)
 	GObjectClass *object_class;
 	GtkButtonClass *button_class;
 
-	g_type_class_add_private (class, sizeof (EGoogleChooserButtonPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = google_chooser_button_set_property;
 	object_class->get_property = google_chooser_button_get_property;
@@ -371,7 +359,7 @@ e_google_chooser_button_class_finalize (EGoogleChooserButtonClass *class)
 static void
 e_google_chooser_button_init (EGoogleChooserButton *button)
 {
-	button->priv = E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE (button);
+	button->priv = e_google_chooser_button_get_instance_private (button);
 }
 
 void

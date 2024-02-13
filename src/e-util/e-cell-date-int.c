@@ -28,7 +28,7 @@ struct _ECellDateIntPrivate {
 	gint dummy;
 };
 
-G_DEFINE_TYPE (ECellDateInt, e_cell_date_int, E_TYPE_CELL_DATE)
+G_DEFINE_TYPE_WITH_PRIVATE (ECellDateInt, e_cell_date_int, E_TYPE_CELL_DATE)
 
 static gchar *
 ecdi_get_text (ECellText *cell,
@@ -62,15 +62,13 @@ e_cell_date_int_class_init (ECellDateIntClass *class)
 {
 	ECellTextClass *ectc = E_CELL_TEXT_CLASS (class);
 
-	g_type_class_add_private (class, sizeof (ECellDateIntPrivate));
-
 	ectc->get_text = ecdi_get_text;
 }
 
 static void
 e_cell_date_int_init (ECellDateInt *ecdi)
 {
-	ecdi->priv = G_TYPE_INSTANCE_GET_PRIVATE (ecdi, E_TYPE_CELL_DATE_INT, ECellDateIntPrivate);
+	ecdi->priv = e_cell_date_int_get_instance_private (ecdi);
 }
 
 /**

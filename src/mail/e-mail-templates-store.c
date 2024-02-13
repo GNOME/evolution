@@ -41,7 +41,7 @@ struct _EMailTemplatesStorePrivate {
 	guint menu_refresh_idle_id;
 };
 
-G_DEFINE_TYPE (EMailTemplatesStore, e_mail_templates_store, G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (EMailTemplatesStore, e_mail_templates_store, G_TYPE_OBJECT);
 
 enum {
 	PROP_0,
@@ -1911,8 +1911,6 @@ e_mail_templates_store_class_init (EMailTemplatesStoreClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailTemplatesStorePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = templates_store_set_property;
 	object_class->get_property = templates_store_get_property;
@@ -1944,7 +1942,7 @@ e_mail_templates_store_class_init (EMailTemplatesStoreClass *class)
 static void
 e_mail_templates_store_init (EMailTemplatesStore *templates_store)
 {
-	templates_store->priv = G_TYPE_INSTANCE_GET_PRIVATE (templates_store, E_TYPE_MAIL_TEMPLATES_STORE, EMailTemplatesStorePrivate);
+	templates_store->priv = e_mail_templates_store_get_instance_private (templates_store);
 
 	g_mutex_init (&templates_store->priv->busy_lock);
 	templates_store->priv->account_store_weakref = e_weak_ref_new (NULL);

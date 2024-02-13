@@ -30,10 +30,6 @@
 #include "em-filter-mail-identity-element.h"
 #include "em-filter-source-element.h"
 
-#define EM_FILTER_CONTEXT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FILTER_CONTEXT, EMFilterContextPrivate))
-
 struct _EMFilterContextPrivate {
 	EMailSession *session;
 	GList *actions;
@@ -44,10 +40,7 @@ enum {
 	PROP_SESSION
 };
 
-G_DEFINE_TYPE (
-	EMFilterContext,
-	em_filter_context,
-	E_TYPE_RULE_CONTEXT)
+G_DEFINE_TYPE_WITH_PRIVATE (EMFilterContext, em_filter_context, E_TYPE_RULE_CONTEXT)
 
 static void
 filter_context_set_session (EMFilterContext *context,
@@ -97,13 +90,12 @@ filter_context_get_property (GObject *object,
 static void
 filter_context_dispose (GObject *object)
 {
-	EMFilterContextPrivate *priv;
+	EMFilterContext *self = EM_FILTER_CONTEXT (object);
 
-	priv = EM_FILTER_CONTEXT_GET_PRIVATE (object);
-	g_clear_object (&priv->session);
+	g_clear_object (&self->priv->session);
 
-	g_list_foreach (priv->actions, (GFunc) g_object_unref, NULL);
-	g_list_free (priv->actions);
+	g_list_free_full (self->priv->actions, g_object_unref);
+	self->priv->actions = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_filter_context_parent_class)->dispose (object);
@@ -216,12 +208,10 @@ static EFilterElement *
 filter_context_new_element (ERuleContext *context,
                             const gchar *type)
 {
-	EMFilterContextPrivate *priv;
-
-	priv = EM_FILTER_CONTEXT_GET_PRIVATE (context);
+	EMFilterContext *self = EM_FILTER_CONTEXT (context);
 
 	if (strcmp (type, "folder") == 0)
-		return em_filter_editor_folder_element_new (priv->session);
+		return em_filter_editor_folder_element_new (self->priv->session);
 
 	if (strcmp (type, "system-flag") == 0)
 		return e_filter_option_new ();
@@ -230,13 +220,12 @@ filter_context_new_element (ERuleContext *context,
 		return e_filter_int_new_type ("score", -3, 3);
 
 	if (strcmp (type, "source") == 0)
-		return em_filter_source_element_new (priv->session);
+		return em_filter_source_element_new (self->priv->session);
 
 	if (strcmp (type, "mail-identity") == 0)
-		return em_filter_mail_identity_element_new (e_mail_session_get_registry (priv->session));
+		return em_filter_mail_identity_element_new (e_mail_session_get_registry (self->priv->session));
 
-	return E_RULE_CONTEXT_CLASS (em_filter_context_parent_class)->
-		new_element (context, type);
+	return E_RULE_CONTEXT_CLASS (em_filter_context_parent_class)->new_element (context, type);
 }
 
 static void
@@ -244,8 +233,6 @@ em_filter_context_class_init (EMFilterContextClass *class)
 {
 	GObjectClass *object_class;
 	ERuleContextClass *rule_context_class;
-
-	g_type_class_add_private (class, sizeof (EMFilterContextPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = filter_context_set_property;
@@ -272,7 +259,7 @@ em_filter_context_class_init (EMFilterContextClass *class)
 static void
 em_filter_context_init (EMFilterContext *context)
 {
-	context->priv = EM_FILTER_CONTEXT_GET_PRIVATE (context);
+	context->priv = em_filter_context_get_instance_private (context);
 
 	e_rule_context_add_part_set (
 		E_RULE_CONTEXT (context),

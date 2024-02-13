@@ -27,18 +27,12 @@
 
 #include "e-mail-part-vcard.h"
 
-#define E_MAIL_PART_VCARD_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_PART_VCARD, EMailPartVCardPrivate))
-
 struct _EMailPartVCardPrivate {
 	GSList *contacts;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EMailPartVCard,
-	e_mail_part_vcard,
-	E_TYPE_MAIL_PART)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailPartVCard, e_mail_part_vcard, E_TYPE_MAIL_PART, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailPartVCard))
 
 static void
 client_connect_cb (GObject *source_object,
@@ -196,8 +190,6 @@ e_mail_part_vcard_class_init (EMailPartVCardClass *class)
 	GObjectClass *object_class;
 	EMailPartClass *mail_part_class;
 
-	g_type_class_add_private (class, sizeof (EMailPartVCardPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = mail_part_vcard_finalize;
 	object_class->constructed = mail_part_vcard_constructed;
@@ -214,7 +206,7 @@ e_mail_part_vcard_class_finalize (EMailPartVCardClass *class)
 static void
 e_mail_part_vcard_init (EMailPartVCard *part)
 {
-	part->priv = E_MAIL_PART_VCARD_GET_PRIVATE (part);
+	part->priv = e_mail_part_vcard_get_instance_private (part);
 }
 
 void

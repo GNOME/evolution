@@ -26,20 +26,20 @@
 
 #include <gtk/gtk.h>
 
-#define EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG \
+#define E_TYPE_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG \
 	(custom_header_options_dialog_get_type ())
-#define EMAIL_CUSTOM_HEADEROPTIONS_DIALOG(obj) \
+#define E_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG, CustomHeaderOptionsDialog))
-#define EMAIL_CUSTOM_HEADEROPTIONS_DIALOG_CLASS(cls) \
+	((obj), E_TYPE_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG, CustomHeaderOptionsDialog))
+#define E_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG, CustomHeaderOptionsDialogClass))
-#define EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG(obj) \
+	((cls), E_TYPE_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG, CustomHeaderOptionsDialogClass))
+#define E_IS_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
-	((obj), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG))
-#define EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG_CLASS(cls) \
+	((obj), E_TYPE_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG))
+#define E_IS_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), EMAIL_CUSTOM_HEADER_OPTIONS_DIALOG))
+	((cls), E_TYPE_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG))
 
 typedef struct _CustomHeaderOptionsDialog		CustomHeaderOptionsDialog;
 typedef struct _CustomHeaderOptionsDialogClass		CustomHeaderOptionsDialogClass;

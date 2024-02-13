@@ -25,10 +25,6 @@
 #include "e-icon-factory.h"
 #include "e-misc-utils.h"
 
-#define E_PICTURE_GALLERY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PICTURE_GALLERY, EPictureGalleryPrivate))
-
 struct _EPictureGalleryPrivate {
 	gboolean initialized;
 	gchar *path;
@@ -46,7 +42,7 @@ enum {
 	COL_FILENAME_TEXT
 };
 
-G_DEFINE_TYPE (EPictureGallery, e_picture_gallery, GTK_TYPE_ICON_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (EPictureGallery, e_picture_gallery, GTK_TYPE_ICON_VIEW)
 
 static gboolean
 update_file_iter (GtkListStore *list_store,
@@ -430,8 +426,6 @@ e_picture_gallery_class_init (EPictureGalleryClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EPictureGalleryPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = picture_gallery_get_property;
 	object_class->set_property = picture_gallery_set_property;
@@ -452,7 +446,7 @@ e_picture_gallery_class_init (EPictureGalleryClass *class)
 static void
 e_picture_gallery_init (EPictureGallery *gallery)
 {
-	gallery->priv = E_PICTURE_GALLERY_GET_PRIVATE (gallery);
+	gallery->priv = e_picture_gallery_get_instance_private (gallery);
 	gallery->priv->initialized = FALSE;
 	gallery->priv->monitor = NULL;
 	picture_gallery_set_path (gallery, NULL);

@@ -25,15 +25,11 @@
 
 #include "e-cal-config.h"
 
-#define E_CAL_CONFIG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_CONFIG, ECalConfigPrivate))
-
 struct _ECalConfigPrivate {
 	guint source_changed_id;
 };
 
-G_DEFINE_TYPE (ECalConfig, e_cal_config, E_TYPE_CONFIG)
+G_DEFINE_TYPE_WITH_PRIVATE (ECalConfig, e_cal_config, E_TYPE_CONFIG)
 
 static void
 ecp_target_free (EConfig *ec,
@@ -84,7 +80,7 @@ static void
 ecp_set_target (EConfig *ec,
                 EConfigTarget *t)
 {
-	ECalConfigPrivate *p = E_CAL_CONFIG_GET_PRIVATE (ec);
+	ECalConfig *self = E_CAL_CONFIG (ec);
 
 	((EConfigClass *) e_cal_config_parent_class)->set_target (ec, t);
 
@@ -93,7 +89,7 @@ ecp_set_target (EConfig *ec,
 		case EC_CONFIG_TARGET_SOURCE: {
 			ECalConfigTargetSource *s = (ECalConfigTargetSource *) t;
 
-			p->source_changed_id = g_signal_connect (
+			self->priv->source_changed_id = g_signal_connect (
 				s->source, "changed",
 				G_CALLBACK (ecp_source_changed), ec);
 			break; }
@@ -109,8 +105,6 @@ e_cal_config_class_init (ECalConfigClass *class)
 {
 	EConfigClass *config_class;
 
-	g_type_class_add_private (class, sizeof (ECalConfigPrivate));
-
 	config_class = E_CONFIG_CLASS (class);
 	config_class->set_target = ecp_set_target;
 	config_class->target_free = ecp_target_free;
@@ -119,7 +113,7 @@ e_cal_config_class_init (ECalConfigClass *class)
 static void
 e_cal_config_init (ECalConfig *cfg)
 {
-	cfg->priv = E_CAL_CONFIG_GET_PRIVATE (cfg);
+	cfg->priv = e_cal_config_get_instance_private (cfg);
 }
 
 ECalConfig *

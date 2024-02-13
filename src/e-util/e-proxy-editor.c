@@ -34,10 +34,6 @@
 
 #include "e-proxy-editor.h"
 
-#define E_PROXY_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PROXY_EDITOR, EProxyEditorPrivate))
-
 struct _EProxyEditorPrivate {
 	ESourceRegistry *registry;
 	ESource *source;
@@ -62,10 +58,7 @@ enum {
 	PROP_SOURCE
 };
 
-G_DEFINE_TYPE (
-	EProxyEditor,
-	e_proxy_editor,
-	GTK_TYPE_GRID)
+G_DEFINE_TYPE_WITH_PRIVATE (EProxyEditor, e_proxy_editor, GTK_TYPE_GRID)
 
 static void
 proxy_editor_load (EProxyEditor *editor)
@@ -265,15 +258,13 @@ proxy_editor_get_property (GObject *object,
 static void
 proxy_editor_dispose (GObject *object)
 {
-	EProxyEditorPrivate *priv;
+	EProxyEditor *self = E_PROXY_EDITOR (object);
 
-	priv = E_PROXY_EDITOR_GET_PRIVATE (object);
-
-	if (priv->source != NULL)
+	if (self->priv->source)
 		e_proxy_editor_save (E_PROXY_EDITOR (object));
 
-	g_clear_object (&priv->registry);
-	g_clear_object (&priv->source);
+	g_clear_object (&self->priv->registry);
+	g_clear_object (&self->priv->source);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_proxy_editor_parent_class)->dispose (object);
@@ -282,11 +273,9 @@ proxy_editor_dispose (GObject *object)
 static void
 proxy_editor_finalize (GObject *object)
 {
-	EProxyEditorPrivate *priv;
+	EProxyEditor *self = E_PROXY_EDITOR (object);
 
-	priv = E_PROXY_EDITOR_GET_PRIVATE (object);
-
-	g_free (priv->gcc_program_path);
+	g_free (self->priv->gcc_program_path);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_proxy_editor_parent_class)->finalize (object);
@@ -592,8 +581,6 @@ e_proxy_editor_class_init (EProxyEditorClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EProxyEditorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = proxy_editor_set_property;
 	object_class->get_property = proxy_editor_get_property;
@@ -628,7 +615,7 @@ e_proxy_editor_class_init (EProxyEditorClass *class)
 static void
 e_proxy_editor_init (EProxyEditor *editor)
 {
-	editor->priv = E_PROXY_EDITOR_GET_PRIVATE (editor);
+	editor->priv = e_proxy_editor_get_instance_private (editor);
 
 	editor->priv->gcc_program_path =
 		g_find_program_in_path ("gnome-control-center");

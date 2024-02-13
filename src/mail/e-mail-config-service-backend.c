@@ -15,14 +15,12 @@
  *
  */
 
+#include "evolution-config.h"
+
 #include "e-mail-config-service-backend.h"
 
 #include <mail/e-mail-config-receiving-page.h>
 #include <mail/e-mail-config-sending-page.h>
-
-#define E_MAIL_CONFIG_SERVICE_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_SERVICE_BACKEND, EMailConfigServiceBackendPrivate))
 
 struct _EMailConfigServiceBackendPrivate {
 	ESource *source;
@@ -36,10 +34,7 @@ enum {
 	PROP_SOURCE
 };
 
-G_DEFINE_ABSTRACT_TYPE (
-	EMailConfigServiceBackend,
-	e_mail_config_service_backend,
-	E_TYPE_EXTENSION)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (EMailConfigServiceBackend, e_mail_config_service_backend, E_TYPE_EXTENSION)
 
 static void
 mail_config_service_backend_init_collection (EMailConfigServiceBackend *backend)
@@ -118,15 +113,13 @@ mail_config_service_backend_get_property (GObject *object,
 static void
 mail_config_service_backend_dispose (GObject *object)
 {
-	EMailConfigServiceBackendPrivate *priv;
+	EMailConfigServiceBackend *self = E_MAIL_CONFIG_SERVICE_BACKEND (object);
 
-	priv = E_MAIL_CONFIG_SERVICE_BACKEND_GET_PRIVATE (object);
-	g_clear_object (&priv->source);
-	g_clear_object (&priv->collection);
+	g_clear_object (&self->priv->source);
+	g_clear_object (&self->priv->collection);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_service_backend_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_service_backend_parent_class)->dispose (object);
 }
 
 static void
@@ -204,9 +197,6 @@ e_mail_config_service_backend_class_init (EMailConfigServiceBackendClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailConfigServiceBackendPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_service_backend_set_property;
 	object_class->get_property = mail_config_service_backend_get_property;
@@ -261,7 +251,7 @@ e_mail_config_service_backend_class_init (EMailConfigServiceBackendClass *class)
 static void
 e_mail_config_service_backend_init (EMailConfigServiceBackend *backend)
 {
-	backend->priv = E_MAIL_CONFIG_SERVICE_BACKEND_GET_PRIVATE (backend);
+	backend->priv = e_mail_config_service_backend_get_instance_private (backend);
 }
 
 EMailConfigServicePage *

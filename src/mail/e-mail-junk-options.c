@@ -21,15 +21,6 @@
 
 #include "e-mail-junk-options.h"
 
-#define E_MAIL_JUNK_OPTIONS_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_JUNK_OPTIONS, EMailJunkOptionsPrivate))
-
-G_DEFINE_TYPE (
-	EMailJunkOptions,
-	e_mail_junk_options,
-	GTK_TYPE_GRID)
-
 struct _EMailJunkOptionsPrivate {
 	EMailSession *session;
 
@@ -50,6 +41,8 @@ enum {
 	COLUMN_FILTER_NAME,
 	COLUMN_DISPLAY_NAME
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (EMailJunkOptions, e_mail_junk_options, GTK_TYPE_GRID)
 
 static gboolean
 mail_junk_options_junk_filter_to_name (GBinding *binding,
@@ -242,10 +235,9 @@ mail_junk_options_get_property (GObject *object,
 static void
 mail_junk_options_dispose (GObject *object)
 {
-	EMailJunkOptionsPrivate *priv;
+	EMailJunkOptions *self = E_MAIL_JUNK_OPTIONS (object);
 
-	priv = E_MAIL_JUNK_OPTIONS_GET_PRIVATE (object);
-	g_clear_object (&priv->session);
+	g_clear_object (&self->priv->session);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_junk_options_parent_class)->dispose (object);
@@ -254,11 +246,9 @@ mail_junk_options_dispose (GObject *object)
 static void
 mail_junk_options_finalize (GObject *object)
 {
-	EMailJunkOptionsPrivate *priv;
+	EMailJunkOptions *self = E_MAIL_JUNK_OPTIONS (object);
 
-	priv = E_MAIL_JUNK_OPTIONS_GET_PRIVATE (object);
-
-	g_ptr_array_free (priv->widgets, TRUE);
+	g_ptr_array_free (self->priv->widgets, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_junk_options_parent_class)->finalize (object);
@@ -267,13 +257,11 @@ mail_junk_options_finalize (GObject *object)
 static void
 mail_junk_options_constructed (GObject *object)
 {
-	EMailJunkOptionsPrivate *priv;
+	EMailJunkOptions *self = E_MAIL_JUNK_OPTIONS (object);
 	GtkCellRenderer *cell_renderer;
 	GtkCellLayout *cell_layout;
 	GtkListStore *list_store;
 	GtkWidget *widget;
-
-	priv = E_MAIL_JUNK_OPTIONS_GET_PRIVATE (object);
 
 	/* XXX The margins we're using here are tailored to its
 	 *     placement in the Junk tab of Mail Preferences.
@@ -290,14 +278,14 @@ mail_junk_options_constructed (GObject *object)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_grid_attach (GTK_GRID (object), widget, 0, 0, 1, 1);
-	priv->label = widget;  /* not referenced */
+	self->priv->label = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
 	widget = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list_store));
 	gtk_combo_box_set_id_column (
 		GTK_COMBO_BOX (widget), COLUMN_FILTER_NAME);
 	gtk_grid_attach (GTK_GRID (object), widget, 1, 0, 1, 1);
-	priv->combo_box = widget;  /* not referenced */
+	self->priv->combo_box = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
 	g_signal_connect (
@@ -309,10 +297,10 @@ mail_junk_options_constructed (GObject *object)
 	 * interactive widgets with their own left margin. */
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_grid_attach (GTK_GRID (object), widget, 0, 1, 2, 1);
-	priv->option_box = widget;  /* not referenced */
+	self->priv->option_box = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
-	cell_layout = GTK_CELL_LAYOUT (priv->combo_box);
+	cell_layout = GTK_CELL_LAYOUT (self->priv->combo_box);
 	cell_renderer = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (cell_layout, cell_renderer, FALSE);
 
@@ -337,8 +325,6 @@ e_mail_junk_options_class_init (EMailJunkOptionsClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (EMailJunkOptionsPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_junk_options_set_property;
@@ -365,7 +351,7 @@ e_mail_junk_options_class_init (EMailJunkOptionsClass *class)
 static void
 e_mail_junk_options_init (EMailJunkOptions *options)
 {
-	options->priv = E_MAIL_JUNK_OPTIONS_GET_PRIVATE (options);
+	options->priv = e_mail_junk_options_get_instance_private (options);
 
 	options->priv->widgets = g_ptr_array_new ();
 }

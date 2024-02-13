@@ -29,7 +29,6 @@
 #include "gal-a11y-e-tree-factory.h"
 #include "gal-a11y-util.h"
 
-#define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yETreeClass))
 struct _GalA11yETreePrivate {
 	AtkObject *child_item;
 };
@@ -37,7 +36,8 @@ struct _GalA11yETreePrivate {
 static void et_atk_component_iface_init (AtkComponentIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (GalA11yETree, gal_a11y_e_tree, GTK_TYPE_CONTAINER_ACCESSIBLE,
-                         G_IMPLEMENT_INTERFACE (ATK_TYPE_COMPONENT, et_atk_component_iface_init))
+	G_ADD_PRIVATE (GalA11yETree)
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_COMPONENT, et_atk_component_iface_init))
 
 /* Static functions */
 
@@ -99,8 +99,6 @@ gal_a11y_e_tree_class_init (GalA11yETreeClass *class)
 
 	atk_object_class->get_n_children = et_get_n_children;
 	atk_object_class->ref_child = et_ref_child;
-
-	g_type_class_add_private (class, sizeof (GalA11yETreePrivate));
 }
 
 static void
@@ -113,7 +111,7 @@ et_atk_component_iface_init (AtkComponentIface *iface)
 static void
 gal_a11y_e_tree_init (GalA11yETree *a11y)
 {
-	a11y->priv = G_TYPE_INSTANCE_GET_PRIVATE (a11y, GAL_A11Y_TYPE_E_TREE, GalA11yETreePrivate);
+	a11y->priv = gal_a11y_e_tree_get_instance_private (a11y);
 	a11y->priv->child_item = NULL;
 }
 

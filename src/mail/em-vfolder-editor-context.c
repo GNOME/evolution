@@ -33,10 +33,6 @@
 #include "em-utils.h"
 #include "em-vfolder-editor-rule.h"
 
-#define EM_VFOLDER_EDITOR_CONTEXT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_VFOLDER_EDITOR_CONTEXT, EMVFolderEditorContextPrivate))
-
 struct _EMVFolderEditorContextPrivate {
 	EMailSession *session;
 };
@@ -46,10 +42,7 @@ enum {
 	PROP_SESSION
 };
 
-G_DEFINE_TYPE (
-	EMVFolderEditorContext,
-	em_vfolder_editor_context,
-	EM_TYPE_VFOLDER_CONTEXT)
+G_DEFINE_TYPE_WITH_PRIVATE (EMVFolderEditorContext, em_vfolder_editor_context, EM_TYPE_VFOLDER_CONTEXT)
 
 static void
 vfolder_editor_context_set_session (EMVFolderEditorContext *context,
@@ -111,10 +104,9 @@ vfolder_editor_context_get_property (GObject *object,
 static void
 vfolder_editor_context_dispose (GObject *object)
 {
-	EMVFolderEditorContextPrivate *priv;
+	EMVFolderEditorContext *self = EM_VFOLDER_EDITOR_CONTEXT (object);
 
-	priv = EM_VFOLDER_EDITOR_CONTEXT_GET_PRIVATE (object);
-	g_clear_object (&priv->session);
+	g_clear_object (&self->priv->session);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_vfolder_editor_context_parent_class)->dispose (object);
@@ -124,9 +116,7 @@ static EFilterElement *
 vfolder_editor_context_new_element (ERuleContext *context,
                              const gchar *type)
 {
-	EMVFolderEditorContextPrivate *priv;
-
-	priv = EM_VFOLDER_EDITOR_CONTEXT_GET_PRIVATE (context);
+	EMVFolderEditorContext *self = EM_VFOLDER_EDITOR_CONTEXT (context);
 
 	if (strcmp (type, "system-flag") == 0)
 		return e_filter_option_new ();
@@ -135,14 +125,13 @@ vfolder_editor_context_new_element (ERuleContext *context,
 		return e_filter_int_new_type ("score", -3, 3);
 
 	if (strcmp (type, "folder") == 0)
-		return em_filter_editor_folder_element_new (priv->session);
+		return em_filter_editor_folder_element_new (self->priv->session);
 
 	/* XXX Legacy type name.  Same as "folder" now. */
 	if (strcmp (type, "folder-curi") == 0)
-		return em_filter_editor_folder_element_new (priv->session);
+		return em_filter_editor_folder_element_new (self->priv->session);
 
-	return E_RULE_CONTEXT_CLASS (em_vfolder_editor_context_parent_class)->
-		new_element (context, type);
+	return E_RULE_CONTEXT_CLASS (em_vfolder_editor_context_parent_class)->new_element (context, type);
 }
 
 static void
@@ -150,8 +139,6 @@ em_vfolder_editor_context_class_init (EMVFolderEditorContextClass *class)
 {
 	GObjectClass *object_class;
 	ERuleContextClass *rule_context_class;
-
-	g_type_class_add_private (class, sizeof (EMVFolderEditorContextPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = vfolder_editor_context_set_property;
@@ -176,7 +163,7 @@ em_vfolder_editor_context_class_init (EMVFolderEditorContextClass *class)
 static void
 em_vfolder_editor_context_init (EMVFolderEditorContext *context)
 {
-	context->priv = EM_VFOLDER_EDITOR_CONTEXT_GET_PRIVATE (context);
+	context->priv = em_vfolder_editor_context_get_instance_private (context);
 
 	e_rule_context_add_part_set (
 		E_RULE_CONTEXT (context), "partset", E_TYPE_FILTER_PART,

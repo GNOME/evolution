@@ -24,10 +24,6 @@
 
 #include "e-alert-sink.h"
 
-#define E_MAIL_SIGNATURE_PREVIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SIGNATURE_PREVIEW, EMailSignaturePreviewPrivate))
-
 #define SOURCE_IS_MAIL_SIGNATURE(source) \
 	(e_source_has_extension ((source), E_SOURCE_EXTENSION_MAIL_SIGNATURE))
 
@@ -51,10 +47,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EMailSignaturePreview,
-	e_mail_signature_preview,
-	E_TYPE_WEB_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailSignaturePreview, e_mail_signature_preview, E_TYPE_WEB_VIEW)
 
 static void
 mail_signature_preview_load_cb (ESource *source,
@@ -187,34 +180,28 @@ mail_signature_preview_get_property (GObject *object,
 static void
 mail_signature_preview_dispose (GObject *object)
 {
-	EMailSignaturePreviewPrivate *priv;
+	EMailSignaturePreview *self = E_MAIL_SIGNATURE_PREVIEW (object);
 
-	priv = E_MAIL_SIGNATURE_PREVIEW_GET_PRIVATE (object);
-	g_clear_object (&priv->registry);
+	g_clear_object (&self->priv->registry);
 
-	if (priv->cancellable != NULL) {
-		g_cancellable_cancel (priv->cancellable);
-		g_object_unref (priv->cancellable);
-		priv->cancellable = NULL;
+	if (self->priv->cancellable != NULL) {
+		g_cancellable_cancel (self->priv->cancellable);
+		g_clear_object (&self->priv->cancellable);
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_signature_preview_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_signature_preview_parent_class)->dispose (object);
 }
 
 static void
 mail_signature_preview_finalize (GObject *object)
 {
-	EMailSignaturePreviewPrivate *priv;
+	EMailSignaturePreview *self = E_MAIL_SIGNATURE_PREVIEW (object);
 
-	priv = E_MAIL_SIGNATURE_PREVIEW_GET_PRIVATE (object);
-
-	g_free (priv->source_uid);
+	g_free (self->priv->source_uid);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_signature_preview_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_mail_signature_preview_parent_class)->finalize (object);
 }
 
 static void
@@ -269,8 +256,6 @@ e_mail_signature_preview_class_init (EMailSignaturePreviewClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailSignaturePreviewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_signature_preview_set_property;
 	object_class->get_property = mail_signature_preview_get_property;
@@ -315,7 +300,7 @@ e_mail_signature_preview_class_init (EMailSignaturePreviewClass *class)
 static void
 e_mail_signature_preview_init (EMailSignaturePreview *preview)
 {
-	preview->priv = E_MAIL_SIGNATURE_PREVIEW_GET_PRIVATE (preview);
+	preview->priv = e_mail_signature_preview_get_instance_private (preview);
 	preview->priv->webprocess_crashed = FALSE;
 
 	g_signal_connect (

@@ -15,11 +15,9 @@
  *
  */
 
-#include "gal-view-etable.h"
+#include "evolution-config.h"
 
-#define GAL_VIEW_ETABLE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), GAL_TYPE_VIEW_ETABLE, GalViewEtablePrivate))
+#include "gal-view-etable.h"
 
 struct _GalViewEtablePrivate {
 	gchar *state_filename;
@@ -31,7 +29,7 @@ struct _GalViewEtablePrivate {
 	guint tree_state_changed_id;
 };
 
-G_DEFINE_TYPE (GalViewEtable, gal_view_etable, GAL_TYPE_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (GalViewEtable, gal_view_etable, GAL_TYPE_VIEW)
 
 static void
 detach_table (GalViewEtable *view)
@@ -154,8 +152,6 @@ gal_view_etable_class_init (GalViewEtableClass *class)
 	GObjectClass *object_class;
 	GalViewClass *gal_view_class;
 
-	g_type_class_add_private (class, sizeof (GalViewEtablePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = gal_view_etable_dispose;
 	object_class->finalize = gal_view_etable_finalize;
@@ -170,7 +166,7 @@ gal_view_etable_class_init (GalViewEtableClass *class)
 static void
 gal_view_etable_init (GalViewEtable *view)
 {
-	view->priv = GAL_VIEW_ETABLE_GET_PRIVATE (view);
+	view->priv = gal_view_etable_get_instance_private (view);
 }
 
 /**

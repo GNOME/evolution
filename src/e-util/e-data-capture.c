@@ -33,10 +33,6 @@
 
 #include <string.h>
 
-#define E_DATA_CAPTURE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_DATA_CAPTURE, EDataCapturePrivate))
-
 typedef struct _SignalClosure SignalClosure;
 
 struct _EDataCapturePrivate {
@@ -65,13 +61,9 @@ static guint signals[LAST_SIGNAL];
 /* Forward Declarations */
 static void	e_data_capture_converter_init	(GConverterIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EDataCapture,
-	e_data_capture,
-	G_TYPE_OBJECT,
-	G_IMPLEMENT_INTERFACE (
-		G_TYPE_CONVERTER,
-		e_data_capture_converter_init))
+G_DEFINE_TYPE_WITH_CODE (EDataCapture, e_data_capture, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EDataCapture)
+	G_IMPLEMENT_INTERFACE (G_TYPE_CONVERTER, e_data_capture_converter_init))
 
 static void
 signal_closure_free (SignalClosure *signal_closure)
@@ -153,14 +145,12 @@ data_capture_get_property (GObject *object,
 static void
 data_capture_finalize (GObject *object)
 {
-	EDataCapturePrivate *priv;
+	EDataCapture *self = E_DATA_CAPTURE (object);
 
-	priv = E_DATA_CAPTURE_GET_PRIVATE (object);
+	g_main_context_unref (self->priv->main_context);
 
-	g_main_context_unref (priv->main_context);
-
-	g_byte_array_free (priv->byte_array, TRUE);
-	g_mutex_clear (&priv->byte_array_lock);
+	g_byte_array_free (self->priv->byte_array, TRUE);
+	g_mutex_clear (&self->priv->byte_array_lock);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_data_capture_parent_class)->finalize (object);
@@ -258,8 +248,6 @@ e_data_capture_class_init (EDataCaptureClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EDataCapturePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = data_capture_set_property;
 	object_class->get_property = data_capture_get_property;
@@ -312,7 +300,7 @@ e_data_capture_converter_init (GConverterIface *iface)
 static void
 e_data_capture_init (EDataCapture *data_capture)
 {
-	data_capture->priv = E_DATA_CAPTURE_GET_PRIVATE (data_capture);
+	data_capture->priv = e_data_capture_get_instance_private (data_capture);
 
 	data_capture->priv->byte_array = g_byte_array_new ();
 	g_mutex_init (&data_capture->priv->byte_array_lock);

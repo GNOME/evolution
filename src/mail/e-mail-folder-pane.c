@@ -37,15 +37,11 @@
 #include "em-utils.h"
 #include "message-list.h"
 
-#define E_MAIL_FOLDER_PANE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_FOLDER_PANE, EMailFolderPanePrivate))
-
 struct _EMailFolderPanePrivate {
 	gint placeholder;
 };
 
-G_DEFINE_TYPE (EMailFolderPane, e_mail_folder_pane, E_TYPE_MAIL_PANED_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailFolderPane, e_mail_folder_pane, E_TYPE_MAIL_PANED_VIEW)
 
 static gboolean
 folder_pane_get_preview_visible (EMailView *view)
@@ -162,8 +158,6 @@ e_mail_folder_pane_class_init (EMailFolderPaneClass *class)
 	EMailViewClass *mail_view_class;
 	EMailPanedViewClass *mail_paned_view_class;
 
-	g_type_class_add_private (class, sizeof (EMailFolderPanePrivate));
-
 	mail_view_class = E_MAIL_VIEW_CLASS (class);
 	mail_view_class->get_preview_visible = folder_pane_get_preview_visible;
 	mail_view_class->set_preview_visible = folder_pane_set_preview_visible;
@@ -175,7 +169,7 @@ e_mail_folder_pane_class_init (EMailFolderPaneClass *class)
 static void
 e_mail_folder_pane_init (EMailFolderPane *folder_pane)
 {
-	folder_pane->priv = E_MAIL_FOLDER_PANE_GET_PRIVATE (folder_pane);
+	folder_pane->priv = e_mail_folder_pane_get_instance_private (folder_pane);
 }
 
 EMailView *

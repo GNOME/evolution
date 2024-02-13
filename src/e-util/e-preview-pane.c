@@ -24,10 +24,6 @@
 #include "e-alert-sink.h"
 #include "e-misc-utils.h"
 
-#define E_PREVIEW_PANE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PREVIEW_PANE, EPreviewPanePrivate))
-
 struct _EPreviewPanePrivate {
 	GtkWidget *alert_bar;
 	GtkWidget *web_view;
@@ -53,13 +49,9 @@ static guint signals[LAST_SIGNAL];
 static void	e_preview_pane_alert_sink_init
 					(EAlertSinkInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EPreviewPane,
-	e_preview_pane,
-	GTK_TYPE_BOX,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_ALERT_SINK,
-		e_preview_pane_alert_sink_init))
+G_DEFINE_TYPE_WITH_CODE (EPreviewPane, e_preview_pane, GTK_TYPE_BOX,
+	G_ADD_PRIVATE (EPreviewPane)
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, e_preview_pane_alert_sink_init))
 
 static void
 preview_pane_web_view_new_activity_cb (EWebView *web_view,
@@ -152,20 +144,18 @@ preview_pane_get_property (GObject *object,
 static void
 preview_pane_dispose (GObject *object)
 {
-	EPreviewPanePrivate *priv;
+	EPreviewPane *self = E_PREVIEW_PANE (object);
 
-	priv = E_PREVIEW_PANE_GET_PRIVATE (object);
-
-	if (priv->web_view_new_activity_handler_id > 0) {
+	if (self->priv->web_view_new_activity_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->web_view,
-			priv->web_view_new_activity_handler_id);
-		priv->web_view_new_activity_handler_id = 0;
+			self->priv->web_view,
+			self->priv->web_view_new_activity_handler_id);
+		self->priv->web_view_new_activity_handler_id = 0;
 	}
 
-	g_clear_object (&priv->alert_bar);
-	g_clear_object (&priv->search_bar);
-	g_clear_object (&priv->web_view);
+	g_clear_object (&self->priv->alert_bar);
+	g_clear_object (&self->priv->search_bar);
+	g_clear_object (&self->priv->web_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_preview_pane_parent_class)->dispose (object);
@@ -174,28 +164,26 @@ preview_pane_dispose (GObject *object)
 static void
 preview_pane_constructed (GObject *object)
 {
-	EPreviewPanePrivate *priv;
+	EPreviewPane *self = E_PREVIEW_PANE (object);
 	GtkWidget *widget;
-
-	priv = E_PREVIEW_PANE_GET_PRIVATE (object);
 
 	widget = e_alert_bar_new ();
 	gtk_box_pack_start (GTK_BOX (object), widget, FALSE, FALSE, 0);
-	priv->alert_bar = g_object_ref (widget);
+	self->priv->alert_bar = g_object_ref (widget);
 	/* EAlertBar controls its own visibility. */
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_box_pack_start (GTK_BOX (object), widget, TRUE, TRUE, 0);
-	gtk_container_add (GTK_CONTAINER (widget), priv->web_view);
+	gtk_container_add (GTK_CONTAINER (widget), self->priv->web_view);
 	gtk_widget_show (widget);
-	gtk_widget_show (priv->web_view);
+	gtk_widget_show (self->priv->web_view);
 
-	widget = e_search_bar_new (E_WEB_VIEW (priv->web_view));
+	widget = e_search_bar_new (E_WEB_VIEW (self->priv->web_view));
 	gtk_box_pack_start (GTK_BOX (object), widget, FALSE, FALSE, 0);
-	priv->search_bar = g_object_ref (widget);
+	self->priv->search_bar = g_object_ref (widget);
 	gtk_widget_hide (widget);
 
-	e_signal_connect_notify (priv->alert_bar, "notify::visible",
+	e_signal_connect_notify (self->priv->alert_bar, "notify::visible",
 		G_CALLBACK (preview_pane_alert_bar_visible_notify_cb), object);
 
 	/* Chain up to parent's constructed() method. */
@@ -231,8 +219,6 @@ e_preview_pane_class_init (EPreviewPaneClass *class)
 {
 	GObjectClass *object_class;
 	GtkBindingSet *binding_set;
-
-	g_type_class_add_private (class, sizeof (EPreviewPanePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = preview_pane_set_property;
@@ -289,7 +275,7 @@ e_preview_pane_alert_sink_init (EAlertSinkInterface *iface)
 static void
 e_preview_pane_init (EPreviewPane *preview_pane)
 {
-	preview_pane->priv = E_PREVIEW_PANE_GET_PRIVATE (preview_pane);
+	preview_pane->priv = e_preview_pane_get_instance_private (preview_pane);
 
 	gtk_box_set_spacing (GTK_BOX (preview_pane), 1);
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (preview_pane), GTK_ORIENTATION_VERTICAL);

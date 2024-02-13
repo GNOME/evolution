@@ -37,17 +37,13 @@ struct _ETableSearchPrivate {
 	gunichar last_character;
 };
 
-G_DEFINE_TYPE (ETableSearch, e_table_search, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (ETableSearch, e_table_search, G_TYPE_OBJECT)
 
 enum {
 	SEARCH_SEARCH,
 	SEARCH_ACCEPT,
 	LAST_SIGNAL
 };
-
-#define E_TABLE_SEARCH_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TABLE_SEARCH, ETableSearchPrivate))
 
 d (static gint depth = 0)
 
@@ -114,13 +110,11 @@ add_timeout (ETableSearch *ets)
 static void
 e_table_search_finalize (GObject *object)
 {
-	ETableSearchPrivate *priv;
+	ETableSearch *self = E_TABLE_SEARCH (object);
 
-	priv = E_TABLE_SEARCH_GET_PRIVATE (object);
+	drop_timeout (self);
 
-	drop_timeout (E_TABLE_SEARCH (object));
-
-	g_free (priv->search_string);
+	g_free (self->priv->search_string);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_table_search_parent_class)->finalize (object);
@@ -130,8 +124,6 @@ static void
 e_table_search_class_init (ETableSearchClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (ETableSearchPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_table_search_finalize;
@@ -163,7 +155,7 @@ e_table_search_class_init (ETableSearchClass *class)
 static void
 e_table_search_init (ETableSearch *ets)
 {
-	ets->priv = E_TABLE_SEARCH_GET_PRIVATE (ets);
+	ets->priv = e_table_search_get_instance_private (ets);
 
 	ets->priv->search_string = g_strdup ("");
 }

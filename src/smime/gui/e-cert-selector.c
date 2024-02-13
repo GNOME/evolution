@@ -38,10 +38,6 @@
 
 #include "smime/lib/e-cert.h"
 
-#define E_CERT_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CERT_SELECTOR, ECertSelectorPrivate))
-
 struct _ECertSelectorPrivate {
 	CERTCertList *certlist;
 
@@ -56,7 +52,7 @@ enum {
 
 static guint ecs_signals[ECS_LAST_SIGNAL];
 
-G_DEFINE_TYPE (ECertSelector, e_cert_selector, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_PRIVATE (ECertSelector, e_cert_selector, GTK_TYPE_DIALOG)
 
 /* (this is what mozilla shows)
  * Issued to:
@@ -224,7 +220,7 @@ e_cert_selector_new (gint type,
 static void
 e_cert_selector_init (ECertSelector *ecs)
 {
-	ecs->priv = E_CERT_SELECTOR_GET_PRIVATE (ecs);
+	ecs->priv = e_cert_selector_get_instance_private (ecs);
 	gtk_window_set_default_size (GTK_WINDOW (ecs), 400, 300);
 
 	gtk_dialog_add_buttons (
@@ -236,12 +232,10 @@ e_cert_selector_init (ECertSelector *ecs)
 static void
 e_cert_selector_finalize (GObject *object)
 {
-	ECertSelectorPrivate *priv;
+	ECertSelector *self = E_CERT_SELECTOR (object);
 
-	priv = E_CERT_SELECTOR_GET_PRIVATE (object);
-
-	if (priv->certlist)
-		CERT_DestroyCertList (priv->certlist);
+	if (self->priv->certlist)
+		CERT_DestroyCertList (self->priv->certlist);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_cert_selector_parent_class)->finalize (object);
@@ -252,8 +246,6 @@ e_cert_selector_class_init (ECertSelectorClass *class)
 {
 	GObjectClass *object_class;
 	GtkDialogClass *dialog_class;
-
-	g_type_class_add_private (class, sizeof (ECertSelectorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_cert_selector_finalize;

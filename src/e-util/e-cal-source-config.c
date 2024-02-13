@@ -22,10 +22,6 @@
 #include "e-misc-utils.h"
 #include "e-cal-source-config.h"
 
-#define E_CAL_SOURCE_CONFIG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_SOURCE_CONFIG, ECalSourceConfigPrivate))
-
 struct _ECalSourceConfigPrivate {
 	ECalClientSourceType source_type;
 	GtkWidget *color_button;
@@ -37,25 +33,22 @@ enum {
 	PROP_SOURCE_TYPE
 };
 
-G_DEFINE_TYPE (
-	ECalSourceConfig,
-	e_cal_source_config,
-	E_TYPE_SOURCE_CONFIG)
+G_DEFINE_TYPE_WITH_PRIVATE (ECalSourceConfig, e_cal_source_config, E_TYPE_SOURCE_CONFIG)
 
 static ESource *
 cal_source_config_ref_default (ESourceConfig *config)
 {
-	ECalSourceConfigPrivate *priv;
+	ECalSourceConfig *self;
 	ESourceRegistry *registry;
 
-	priv = E_CAL_SOURCE_CONFIG_GET_PRIVATE (config);
+	self = E_CAL_SOURCE_CONFIG (config);
 	registry = e_source_config_get_registry (config);
 
-	if (priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
+	if (self->priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
 		return e_source_registry_ref_default_calendar (registry);
-	else if (priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
+	else if (self->priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
 		return e_source_registry_ref_default_memo_list (registry);
-	else if (priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
+	else if (self->priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
 		return e_source_registry_ref_default_task_list (registry);
 
 	g_return_val_if_reached (NULL);
@@ -65,17 +58,17 @@ static void
 cal_source_config_set_default (ESourceConfig *config,
                                ESource *source)
 {
-	ECalSourceConfigPrivate *priv;
+	ECalSourceConfig *self;
 	ESourceRegistry *registry;
 
-	priv = E_CAL_SOURCE_CONFIG_GET_PRIVATE (config);
+	self = E_CAL_SOURCE_CONFIG (config);
 	registry = e_source_config_get_registry (config);
 
-	if (priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
+	if (self->priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
 		e_source_registry_set_default_calendar (registry, source);
-	else if (priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
+	else if (self->priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
 		e_source_registry_set_default_memo_list (registry, source);
-	else if (priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
+	else if (self->priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
 		e_source_registry_set_default_task_list (registry, source);
 }
 
@@ -124,11 +117,10 @@ cal_source_config_get_property (GObject *object,
 static void
 cal_source_config_dispose (GObject *object)
 {
-	ECalSourceConfigPrivate *priv;
+	ECalSourceConfig *self = E_CAL_SOURCE_CONFIG (object);
 
-	priv = E_CAL_SOURCE_CONFIG_GET_PRIVATE (object);
-	g_clear_object (&priv->color_button);
-	g_clear_object (&priv->default_button);
+	g_clear_object (&self->priv->color_button);
+	g_clear_object (&self->priv->default_button);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_cal_source_config_parent_class)->dispose (object);
@@ -137,26 +129,24 @@ cal_source_config_dispose (GObject *object)
 static void
 cal_source_config_constructed (GObject *object)
 {
-	ECalSourceConfigPrivate *priv;
+	ECalSourceConfig *self;
 	ESource *default_source;
 	ESource *original_source;
 	ESourceConfig *config;
-	GObjectClass *class;
 	GtkWidget *widget;
 	const gchar *label;
 
 	/* Chain up to parent's constructed() method. */
-	class = G_OBJECT_CLASS (e_cal_source_config_parent_class);
-	class->constructed (object);
+	G_OBJECT_CLASS (e_cal_source_config_parent_class)->constructed (object);
 
 	config = E_SOURCE_CONFIG (object);
-	priv = E_CAL_SOURCE_CONFIG_GET_PRIVATE (object);
+	self = E_CAL_SOURCE_CONFIG (object);
 
 	widget = gtk_color_button_new ();
-	priv->color_button = g_object_ref_sink (widget);
+	self->priv->color_button = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
-	switch (priv->source_type) {
+	switch (self->priv->source_type) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 			label = _("Mark as default calendar");
 			break;
@@ -173,7 +163,7 @@ cal_source_config_constructed (GObject *object)
 	}
 
 	widget = gtk_check_button_new_with_label (label);
-	priv->default_button = g_object_ref_sink (widget);
+	self->priv->default_button = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
 	default_source = cal_source_config_ref_default (config);
@@ -183,16 +173,16 @@ cal_source_config_constructed (GObject *object)
 		gboolean active;
 
 		active = e_source_equal (original_source, default_source);
-		g_object_set (priv->default_button, "active", active, NULL);
+		g_object_set (self->priv->default_button, "active", active, NULL);
 	}
 
 	g_object_unref (default_source);
 
 	e_source_config_insert_widget (
-		config, NULL, _("Color:"), priv->color_button);
+		config, NULL, _("Color:"), self->priv->color_button);
 
 	e_source_config_insert_widget (
-		config, NULL, NULL, priv->default_button);
+		config, NULL, NULL, self->priv->default_button);
 }
 
 static const gchar *
@@ -277,16 +267,14 @@ static void
 cal_source_config_init_candidate (ESourceConfig *config,
                                   ESource *scratch_source)
 {
-	ECalSourceConfigPrivate *priv;
-	ESourceConfigClass *class;
+	ECalSourceConfig *self;
 	ESourceExtension *extension;
 	const gchar *extension_name;
 
 	/* Chain up to parent's init_candidate() method. */
-	class = E_SOURCE_CONFIG_CLASS (e_cal_source_config_parent_class);
-	class->init_candidate (config, scratch_source);
+	E_SOURCE_CONFIG_CLASS (e_cal_source_config_parent_class)->init_candidate (config, scratch_source);
 
-	priv = E_CAL_SOURCE_CONFIG_GET_PRIVATE (config);
+	self = E_CAL_SOURCE_CONFIG (config);
 
 	extension_name = e_source_config_get_backend_extension_name (config);
 	extension = e_source_get_extension (scratch_source, extension_name);
@@ -297,14 +285,14 @@ cal_source_config_init_candidate (ESourceConfig *config,
 
 	e_binding_bind_property_full (
 		extension, "color",
-		priv->color_button, "color",
+		self->priv->color_button, "color",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE,
 		e_binding_transform_string_to_color,
 		e_binding_transform_color_to_string,
 		NULL, (GDestroyNotify) NULL);
 
-	if (priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS &&
+	if (self->priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS &&
 	    g_strcmp0 (e_source_backend_get_backend_name (E_SOURCE_BACKEND (extension)), "contacts") != 0 &&
 	    g_strcmp0 (e_source_backend_get_backend_name (E_SOURCE_BACKEND (extension)), "weather") != 0) {
 		ESourceAlarms *alarms_extension;
@@ -327,17 +315,15 @@ static void
 cal_source_config_commit_changes (ESourceConfig *config,
                                   ESource *scratch_source)
 {
-	ECalSourceConfigPrivate *priv;
+	ECalSourceConfig *self;
 	GtkToggleButton *toggle_button;
-	ESourceConfigClass *class;
 	ESource *default_source;
 
-	priv = E_CAL_SOURCE_CONFIG_GET_PRIVATE (config);
-	toggle_button = GTK_TOGGLE_BUTTON (priv->default_button);
+	self = E_CAL_SOURCE_CONFIG (config);
+	toggle_button = GTK_TOGGLE_BUTTON (self->priv->default_button);
 
 	/* Chain up to parent's commit_changes() method. */
-	class = E_SOURCE_CONFIG_CLASS (e_cal_source_config_parent_class);
-	class->commit_changes (config, scratch_source);
+	E_SOURCE_CONFIG_CLASS (e_cal_source_config_parent_class)->commit_changes (config, scratch_source);
 
 	default_source = cal_source_config_ref_default (config);
 
@@ -360,8 +346,6 @@ e_cal_source_config_class_init (ECalSourceConfigClass *class)
 {
 	GObjectClass *object_class;
 	ESourceConfigClass *source_config_class;
-
-	g_type_class_add_private (class, sizeof (ECalSourceConfigPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = cal_source_config_set_property;
@@ -394,7 +378,7 @@ e_cal_source_config_class_init (ECalSourceConfigClass *class)
 static void
 e_cal_source_config_init (ECalSourceConfig *config)
 {
-	config->priv = E_CAL_SOURCE_CONFIG_GET_PRIVATE (config);
+	config->priv = e_cal_source_config_get_instance_private (config);
 }
 
 GtkWidget *

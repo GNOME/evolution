@@ -31,51 +31,19 @@
 #include "gal-a11y-e-cell-registry.h"
 #include "gal-a11y-util.h"
 
-static AtkObjectClass *parent_class = NULL;
-#define PARENT_TYPE (gal_a11y_e_cell_get_type ())
-
-static void gal_a11y_e_cell_popup_class_init (GalA11yECellPopupClass *class);
 static void popup_cell_action (GalA11yECell *cell);
 
-/**
- * gal_a11y_e_cell_popup_get_type:
- * @void:
- *
- * Registers the &GalA11yECellPopup class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value: The type ID of the &GalA11yECellPopup class.
- **/
-GType
-gal_a11y_e_cell_popup_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		GTypeInfo info = {
-			sizeof (GalA11yECellPopupClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gal_a11y_e_cell_popup_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL, /* class_data */
-			sizeof (GalA11yECellPopup),
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL /* value_cell_popup */
-		};
-
-		type = g_type_register_static (PARENT_TYPE, "GalA11yECellPopup", &info, 0);
-		gal_a11y_e_cell_type_add_action_interface (type);
-	}
-
-	return type;
-}
+G_DEFINE_TYPE_WITH_CODE (GalA11yECellPopup, gal_a11y_e_cell_popup, GAL_A11Y_TYPE_E_CELL,
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_ACTION, gal_a11y_e_cell_atk_action_interface_init))
 
 static void
 gal_a11y_e_cell_popup_class_init (GalA11yECellPopupClass *class)
 {
-	parent_class = g_type_class_ref (PARENT_TYPE);
+}
+
+static void
+gal_a11y_e_cell_popup_init (GalA11yECellPopup *self)
+{
 }
 
 AtkObject *

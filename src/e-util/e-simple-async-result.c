@@ -39,6 +39,7 @@ struct _ESimpleAsyncResultPrivate {
 static void e_simple_async_result_iface_init (GAsyncResultIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (ESimpleAsyncResult, e_simple_async_result, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (ESimpleAsyncResult)
 	G_IMPLEMENT_INTERFACE (G_TYPE_ASYNC_RESULT, e_simple_async_result_iface_init))
 
 static gpointer
@@ -116,8 +117,6 @@ e_simple_async_result_class_init (ESimpleAsyncResultClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ESimpleAsyncResultPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_simple_async_result_finalize;
 }
@@ -125,7 +124,7 @@ e_simple_async_result_class_init (ESimpleAsyncResultClass *class)
 static void
 e_simple_async_result_init (ESimpleAsyncResult *result)
 {
-	result->priv = G_TYPE_INSTANCE_GET_PRIVATE (result, E_TYPE_SIMPLE_ASYNC_RESULT, ESimpleAsyncResultPrivate);
+	result->priv = e_simple_async_result_get_instance_private (result);
 }
 
 ESimpleAsyncResult *

@@ -23,10 +23,6 @@
 
 #include "e-mail-config-yahoo-summary.h"
 
-#define E_MAIL_CONFIG_YAHOO_SUMMARY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_YAHOO_SUMMARY, EMailConfigYahooSummaryPrivate))
-
 struct _EMailConfigYahooSummaryPrivate {
 	ESource *collection_source;
 
@@ -42,10 +38,8 @@ enum {
 	PROP_APPLICABLE
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EMailConfigYahooSummary,
-	e_mail_config_yahoo_summary,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailConfigYahooSummary, e_mail_config_yahoo_summary, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailConfigYahooSummary))
 
 static EMailConfigSummaryPage *
 mail_config_yahoo_summary_get_summary_page (EMailConfigYahooSummary *extension)
@@ -207,14 +201,12 @@ mail_config_yahoo_summary_get_property (GObject *object,
 static void
 mail_config_yahoo_summary_dispose (GObject *object)
 {
-	EMailConfigYahooSummaryPrivate *priv;
+	EMailConfigYahooSummary *self = E_MAIL_CONFIG_YAHOO_SUMMARY (object);
 
-	priv = E_MAIL_CONFIG_YAHOO_SUMMARY_GET_PRIVATE (object);
-	g_clear_object (&priv->collection_source);
+	g_clear_object (&self->priv->collection_source);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_yahoo_summary_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_yahoo_summary_parent_class)->dispose (object);
 }
 
 static void
@@ -314,9 +306,6 @@ e_mail_config_yahoo_summary_class_init (EMailConfigYahooSummaryClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailConfigYahooSummaryPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = mail_config_yahoo_summary_get_property;
 	object_class->dispose = mail_config_yahoo_summary_dispose;
@@ -349,7 +338,7 @@ e_mail_config_yahoo_summary_init (EMailConfigYahooSummary *extension)
 	ESourceBackend *backend_extension;
 	const gchar *extension_name;
 
-	extension->priv = E_MAIL_CONFIG_YAHOO_SUMMARY_GET_PRIVATE (extension);
+	extension->priv = e_mail_config_yahoo_summary_get_instance_private (extension);
 
 	source = e_source_new (NULL, NULL, NULL);
 	extension_name = E_SOURCE_EXTENSION_COLLECTION;

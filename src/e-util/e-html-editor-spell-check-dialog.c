@@ -30,10 +30,6 @@
 
 #include "e-dialog-widgets.h"
 
-#define E_HTML_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HTML_EDITOR_SPELL_CHECK_DIALOG, EHTMLEditorSpellCheckDialogPrivate))
-
 struct _EHTMLEditorSpellCheckDialogPrivate {
 	GtkWidget *add_word_button;
 	GtkWidget *back_button;
@@ -55,10 +51,7 @@ enum {
 	NUM_COLUMNS
 };
 
-G_DEFINE_TYPE (
-	EHTMLEditorSpellCheckDialog,
-	e_html_editor_spell_check_dialog,
-	E_TYPE_HTML_EDITOR_DIALOG)
+G_DEFINE_TYPE_WITH_PRIVATE (EHTMLEditorSpellCheckDialog, e_html_editor_spell_check_dialog, E_TYPE_HTML_EDITOR_DIALOG)
 
 static void
 html_editor_spell_check_dialog_set_word (EHTMLEditorSpellCheckDialog *dialog,
@@ -328,11 +321,9 @@ html_editor_spell_check_dialog_hide (GtkWidget *widget)
 static void
 html_editor_spell_check_dialog_finalize (GObject *object)
 {
-	EHTMLEditorSpellCheckDialogPrivate *priv;
+	EHTMLEditorSpellCheckDialog *self = E_HTML_EDITOR_SPELL_CHECK_DIALOG (object);
 
-	priv = E_HTML_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE (object);
-
-	g_free (priv->word);
+	g_free (self->priv->word);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_html_editor_spell_check_dialog_parent_class)->finalize (object);
@@ -357,9 +348,6 @@ e_html_editor_spell_check_dialog_class_init (EHTMLEditorSpellCheckDialogClass *c
 	GtkWidgetClass *widget_class;
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EHTMLEditorSpellCheckDialogPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = html_editor_spell_check_dialog_finalize;
 	object_class->constructed = html_editor_spell_check_dialog_constructed;
@@ -378,7 +366,7 @@ e_html_editor_spell_check_dialog_init (EHTMLEditorSpellCheckDialog *dialog)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
-	dialog->priv = E_HTML_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_html_editor_spell_check_dialog_get_instance_private (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 

@@ -20,10 +20,6 @@
 
 #include <string.h>
 
-#define E_PLUGIN_UI_HOOK_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PLUGIN_UI_HOOK, EPluginUIHookPrivate))
-
 #define E_PLUGIN_UI_DEFAULT_FUNC	"e_plugin_ui_init"
 #define E_PLUGIN_UI_HOOK_CLASS_ID	"org.gnome.evolution.ui:1.0"
 
@@ -161,10 +157,7 @@ struct _EPluginUIHookPrivate {
 	GHashTable *registry;
 };
 
-G_DEFINE_TYPE (
-	EPluginUIHook,
-	e_plugin_ui_hook,
-	E_TYPE_PLUGIN_HOOK)
+G_DEFINE_TYPE_WITH_PRIVATE (EPluginUIHook, e_plugin_ui_hook, E_TYPE_PLUGIN_HOOK)
 
 static void
 plugin_ui_hook_unregister_manager (EPluginUIHook *hook,
@@ -389,22 +382,20 @@ plugin_ui_disable_hook (EPluginUIHook *hook)
 static void
 plugin_ui_hook_finalize (GObject *object)
 {
-	EPluginUIHookPrivate *priv;
+	EPluginUIHook *self = E_PLUGIN_UI_HOOK (object);
 	GHashTableIter iter;
 	gpointer ui_manager;
 
-	priv = E_PLUGIN_UI_HOOK_GET_PRIVATE (object);
-
 	/* Remove weak reference callbacks to GtkUIManagers. */
-	g_hash_table_iter_init (&iter, priv->registry);
+	g_hash_table_iter_init (&iter, self->priv->registry);
 	while (g_hash_table_iter_next (&iter, &ui_manager, NULL))
 		g_object_weak_unref (
 			G_OBJECT (ui_manager), (GWeakNotify)
 			plugin_ui_hook_unregister_manager, object);
 
-	g_hash_table_destroy (priv->ui_definitions);
-	g_hash_table_destroy (priv->callbacks);
-	g_hash_table_destroy (priv->registry);
+	g_hash_table_destroy (self->priv->ui_definitions);
+	g_hash_table_destroy (self->priv->callbacks);
+	g_hash_table_destroy (self->priv->registry);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_plugin_ui_hook_parent_class)->dispose (object);
@@ -415,21 +406,16 @@ plugin_ui_hook_construct (EPluginHook *hook,
                           EPlugin *plugin,
                           xmlNodePtr node)
 {
-	EPluginUIHookPrivate *priv;
-
-	priv = E_PLUGIN_UI_HOOK_GET_PRIVATE (hook);
+	EPluginUIHook *self = E_PLUGIN_UI_HOOK (hook);
 
 	/* XXX The EPlugin should be a property of EPluginHookClass.
 	 *     Then it could be passed directly to g_object_new() and
 	 *     we wouldn't have to chain up here. */
 
 	/* Chain up to parent's construct() method. */
-	E_PLUGIN_HOOK_CLASS (e_plugin_ui_hook_parent_class)->
-		construct (hook, plugin, node);
+	E_PLUGIN_HOOK_CLASS (e_plugin_ui_hook_parent_class)->construct (hook, plugin, node);
 
-	for (node = xmlFirstElementChild (node); node != NULL;
-		node = xmlNextElementSibling (node)) {
-
+	for (node = xmlFirstElementChild (node); node != NULL; node = xmlNextElementSibling (node)) {
 		xmlNodePtr child;
 		xmlBufferPtr buffer;
 		GString *content;
@@ -449,7 +435,7 @@ plugin_ui_hook_construct (EPluginHook *hook,
 		callback = e_plugin_xml_prop (node, "callback");
 		if (callback != NULL)
 			g_hash_table_insert (
-				priv->callbacks,
+				self->priv->callbacks,
 				g_strdup (id), callback);
 
 		content = g_string_sized_new (1024);
@@ -463,7 +449,7 @@ plugin_ui_hook_construct (EPluginHook *hook,
 		}
 
 		g_hash_table_insert (
-			priv->ui_definitions,
+			self->priv->ui_definitions,
 			id, g_string_free (content, FALSE));
 
 		xmlBufferFree (buffer);
@@ -487,8 +473,6 @@ e_plugin_ui_hook_class_init (EPluginUIHookClass *class)
 {
 	GObjectClass *object_class;
 	EPluginHookClass *plugin_hook_class;
-
-	g_type_class_add_private (class, sizeof (EPluginUIHookPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = plugin_ui_hook_finalize;
@@ -521,7 +505,7 @@ e_plugin_ui_hook_init (EPluginUIHook *hook)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) g_hash_table_destroy);
 
-	hook->priv = E_PLUGIN_UI_HOOK_GET_PRIVATE (hook);
+	hook->priv = e_plugin_ui_hook_get_instance_private (hook);
 	hook->priv->ui_definitions = ui_definitions;
 	hook->priv->callbacks = callbacks;
 	hook->priv->registry = registry;

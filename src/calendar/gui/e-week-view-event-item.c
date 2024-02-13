@@ -34,10 +34,6 @@
 #include "e-calendar-view.h"
 #include "comp-util.h"
 
-#define E_WEEK_VIEW_EVENT_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEEK_VIEW_EVENT_ITEM, EWeekViewEventItemPrivate))
-
 struct _EWeekViewEventItemPrivate {
 	/* The event index in the EWeekView events array. */
 	gint event_num;
@@ -52,10 +48,7 @@ enum {
 	PROP_SPAN_NUM
 };
 
-G_DEFINE_TYPE (
-	EWeekViewEventItem,
-	e_week_view_event_item,
-	GNOME_TYPE_CANVAS_ITEM)
+G_DEFINE_TYPE_WITH_PRIVATE (EWeekViewEventItem, e_week_view_event_item, GNOME_TYPE_CANVAS_ITEM)
 
 static gboolean
 can_draw_in_region (cairo_region_t *draw_region,
@@ -1160,8 +1153,6 @@ e_week_view_event_item_class_init (EWeekViewEventItemClass *class)
 	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	g_type_class_add_private (class, sizeof (EWeekViewEventItemPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = week_view_event_item_set_property;
 	object_class->get_property = week_view_event_item_get_property;
@@ -1200,7 +1191,7 @@ e_week_view_event_item_class_init (EWeekViewEventItemClass *class)
 static void
 e_week_view_event_item_init (EWeekViewEventItem *event_item)
 {
-	event_item->priv = E_WEEK_VIEW_EVENT_ITEM_GET_PRIVATE (event_item);
+	event_item->priv = e_week_view_event_item_get_instance_private (event_item);
 
 	event_item->priv->event_num = -1;
 	event_item->priv->span_num = -1;

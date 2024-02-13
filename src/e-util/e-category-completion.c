@@ -25,10 +25,6 @@
 #include "e-categories-config.h"
 #include "e-category-completion.h"
 
-#define E_CATEGORY_COMPLETION_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CATEGORY_COMPLETION, ECategoryCompletionPrivate))
-
 struct _ECategoryCompletionPrivate {
 	GtkWidget *last_known_entry;
 	gchar *create;
@@ -45,10 +41,7 @@ enum {
 	NUM_COLUMNS
 };
 
-G_DEFINE_TYPE (
-	ECategoryCompletion,
-	e_category_completion,
-	GTK_TYPE_ENTRY_COMPLETION)
+G_DEFINE_TYPE_WITH_PRIVATE (ECategoryCompletion, e_category_completion, GTK_TYPE_ENTRY_COMPLETION)
 
 /* Forward Declarations */
 
@@ -175,26 +168,26 @@ category_completion_is_match (GtkEntryCompletion *completion,
                               const gchar *key,
                               GtkTreeIter *iter)
 {
-	ECategoryCompletionPrivate *priv;
+	ECategoryCompletion *self;
 	GtkTreeModel *model;
 	GtkWidget *entry;
 	GValue value = { 0, };
 	gboolean match;
 
-	priv = E_CATEGORY_COMPLETION_GET_PRIVATE (completion);
+	self = E_CATEGORY_COMPLETION (completion);
 	entry = gtk_entry_completion_get_entry (completion);
 	model = gtk_entry_completion_get_model (completion);
 
 	/* XXX This would be easier if GtkEntryCompletion had an 'entry'
 	 *     property that we could listen to for notifications. */
-	if (entry != priv->last_known_entry)
+	if (entry != self->priv->last_known_entry)
 		category_completion_track_entry (completion);
 
-	if (priv->prefix == NULL)
+	if (!self->priv->prefix)
 		return FALSE;
 
 	gtk_tree_model_get_value (model, iter, COLUMN_NORMALIZED, &value);
-	match = g_str_has_prefix (g_value_get_string (&value), priv->prefix);
+	match = g_str_has_prefix (g_value_get_string (&value), self->priv->prefix);
 	g_value_unset (&value);
 
 	return match;
@@ -203,7 +196,7 @@ category_completion_is_match (GtkEntryCompletion *completion,
 static void
 category_completion_update_prefix (GtkEntryCompletion *completion)
 {
-	ECategoryCompletionPrivate *priv;
+	ECategoryCompletion *self;
 	GtkEditable *editable;
 	GtkTreeModel *model;
 	GtkWidget *entry;
@@ -216,13 +209,13 @@ category_completion_update_prefix (GtkEntryCompletion *completion)
 	gchar *input;
 	glong offset;
 
-	priv = E_CATEGORY_COMPLETION_GET_PRIVATE (completion);
+	self = E_CATEGORY_COMPLETION (completion);
 	entry = gtk_entry_completion_get_entry (completion);
 	model = gtk_entry_completion_get_model (completion);
 
 	/* XXX This would be easier if GtkEntryCompletion had an 'entry'
 	 *     property that we could listen to for notifications. */
-	if (entry != priv->last_known_entry) {
+	if (entry != self->priv->last_known_entry) {
 		category_completion_track_entry (completion);
 		return;
 	}
@@ -257,28 +250,24 @@ category_completion_update_prefix (GtkEntryCompletion *completion)
 	else
 		end = cp;
 
-	if (priv->create != NULL)
+	if (self->priv->create != NULL)
 		gtk_entry_completion_delete_action (completion, 0);
 
-	g_free (priv->create);
-	priv->create = NULL;
-
-	g_free (priv->prefix);
-	priv->prefix = NULL;
+	g_clear_pointer (&self->priv->create, g_free);
+	g_clear_pointer (&self->priv->prefix, g_free);
 
 	if (start == end)
 		return;
 
 	input = g_strstrip (g_strndup (start, end - start));
-	priv->create = input;
+	self->priv->create = input;
 
 	input = g_utf8_normalize (input, -1, G_NORMALIZE_DEFAULT);
-	priv->prefix = g_utf8_casefold (input, -1);
+	self->priv->prefix = g_utf8_casefold (input, -1);
 	g_free (input);
 
-	if (*priv->create == '\0') {
-		g_free (priv->create);
-		priv->create = NULL;
+	if (*self->priv->create == '\0') {
+		g_clear_pointer (&self->priv->create, g_free);
 		return;
 	}
 
@@ -288,10 +277,9 @@ category_completion_update_prefix (GtkEntryCompletion *completion)
 
 		gtk_tree_model_get_value (
 			model, &iter, COLUMN_NORMALIZED, &value);
-		if (strcmp (g_value_get_string (&value), priv->prefix) == 0) {
+		if (strcmp (g_value_get_string (&value), self->priv->prefix) == 0) {
 			g_value_unset (&value);
-			g_free (priv->create);
-			priv->create = NULL;
+			g_clear_pointer (&self->priv->create, g_free);
 			return;
 		}
 		g_value_unset (&value);
@@ -299,7 +287,7 @@ category_completion_update_prefix (GtkEntryCompletion *completion)
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
-	input = g_strdup_printf (_("Create category “%s”"), priv->create);
+	input = g_strdup_printf (_("Create category “%s”"), self->priv->create);
 	gtk_entry_completion_insert_action_text (completion, 0, input);
 	g_free (input);
 }
@@ -336,38 +324,35 @@ category_completion_sanitize_suffix (GtkEntry *entry,
 static void
 category_completion_track_entry (GtkEntryCompletion *completion)
 {
-	ECategoryCompletionPrivate *priv;
+	ECategoryCompletion *self = E_CATEGORY_COMPLETION (completion);
 
-	priv = E_CATEGORY_COMPLETION_GET_PRIVATE (completion);
-
-	if (priv->last_known_entry != NULL) {
+	if (self->priv->last_known_entry != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->last_known_entry, G_SIGNAL_MATCH_DATA,
+			self->priv->last_known_entry, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, completion);
-		e_signal_disconnect_notify_handler (priv->last_known_entry, &priv->notify_cursor_position_id);
-		e_signal_disconnect_notify_handler (priv->last_known_entry, &priv->notify_text_id);
-		g_object_unref (priv->last_known_entry);
+		e_signal_disconnect_notify_handler (self->priv->last_known_entry, &self->priv->notify_cursor_position_id);
+		e_signal_disconnect_notify_handler (self->priv->last_known_entry, &self->priv->notify_text_id);
+		g_clear_object (&self->priv->last_known_entry);
 	}
 
-	g_free (priv->prefix);
-	priv->prefix = NULL;
+	g_clear_pointer (&self->priv->prefix, g_free);
 
-	priv->last_known_entry = gtk_entry_completion_get_entry (completion);
-	if (priv->last_known_entry == NULL)
+	self->priv->last_known_entry = gtk_entry_completion_get_entry (completion);
+	if (!self->priv->last_known_entry)
 		return;
 
-	g_object_ref (priv->last_known_entry);
+	g_object_ref (self->priv->last_known_entry);
 
-	priv->notify_cursor_position_id = e_signal_connect_notify_swapped (
-		priv->last_known_entry, "notify::cursor-position",
+	self->priv->notify_cursor_position_id = e_signal_connect_notify_swapped (
+		self->priv->last_known_entry, "notify::cursor-position",
 		G_CALLBACK (category_completion_update_prefix), completion);
 
-	priv->notify_text_id = e_signal_connect_notify_swapped (
-		priv->last_known_entry, "notify::text",
+	self->priv->notify_text_id = e_signal_connect_notify_swapped (
+		self->priv->last_known_entry, "notify::text",
 		G_CALLBACK (category_completion_update_prefix), completion);
 
 	g_signal_connect (
-		priv->last_known_entry, "focus-out-event",
+		self->priv->last_known_entry, "focus-out-event",
 		G_CALLBACK (category_completion_sanitize_suffix), completion);
 
 	category_completion_update_prefix (completion);
@@ -409,18 +394,15 @@ category_completion_constructed (GObject *object)
 static void
 category_completion_dispose (GObject *object)
 {
-	ECategoryCompletionPrivate *priv;
+	ECategoryCompletion *self = E_CATEGORY_COMPLETION (object);
 
-	priv = E_CATEGORY_COMPLETION_GET_PRIVATE (object);
-
-	if (priv->last_known_entry != NULL) {
+	if (self->priv->last_known_entry != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->last_known_entry, G_SIGNAL_MATCH_DATA,
+			self->priv->last_known_entry, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		e_signal_disconnect_notify_handler (priv->last_known_entry, &priv->notify_cursor_position_id);
-		e_signal_disconnect_notify_handler (priv->last_known_entry, &priv->notify_text_id);
-		g_object_unref (priv->last_known_entry);
-		priv->last_known_entry = NULL;
+		e_signal_disconnect_notify_handler (self->priv->last_known_entry, &self->priv->notify_cursor_position_id);
+		e_signal_disconnect_notify_handler (self->priv->last_known_entry, &self->priv->notify_text_id);
+		g_clear_object (&self->priv->last_known_entry);
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -430,12 +412,10 @@ category_completion_dispose (GObject *object)
 static void
 category_completion_finalize (GObject *object)
 {
-	ECategoryCompletionPrivate *priv;
+	ECategoryCompletion *self = E_CATEGORY_COMPLETION (object);
 
-	priv = E_CATEGORY_COMPLETION_GET_PRIVATE (object);
-
-	g_free (priv->create);
-	g_free (priv->prefix);
+	g_free (self->priv->create);
+	g_free (self->priv->prefix);
 
 	e_categories_unregister_change_listener (
 		G_CALLBACK (category_completion_categories_changed_cb),
@@ -463,12 +443,12 @@ static void
 category_completion_action_activated (GtkEntryCompletion *completion,
                                       gint index)
 {
-	ECategoryCompletionPrivate *priv;
+	ECategoryCompletion *self;
 	gchar *category;
 
-	priv = E_CATEGORY_COMPLETION_GET_PRIVATE (completion);
+	self = E_CATEGORY_COMPLETION (completion);
 
-	category = g_strdup (priv->create);
+	category = g_strdup (self->priv->create);
 	e_categories_add (category, NULL, NULL, TRUE);
 	category_completion_complete (completion, category);
 	g_free (category);
@@ -479,8 +459,6 @@ e_category_completion_class_init (ECategoryCompletionClass *class)
 {
 	GObjectClass *object_class;
 	GtkEntryCompletionClass *entry_completion_class;
-
-	g_type_class_add_private (class, sizeof (ECategoryCompletionPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = category_completion_constructed;
@@ -495,8 +473,7 @@ e_category_completion_class_init (ECategoryCompletionClass *class)
 static void
 e_category_completion_init (ECategoryCompletion *category_completion)
 {
-	category_completion->priv =
-		E_CATEGORY_COMPLETION_GET_PRIVATE (category_completion);
+	category_completion->priv = e_category_completion_get_instance_private (category_completion);
 }
 
 /**

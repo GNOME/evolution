@@ -15,11 +15,9 @@
  *
  */
 
-#include "e-mail-config-sidebar.h"
+#include "evolution-config.h"
 
-#define E_MAIL_CONFIG_SIDEBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_SIDEBAR, EMailConfigSidebarPrivate))
+#include "e-mail-config-sidebar.h"
 
 struct _EMailConfigSidebarPrivate {
 	EMailConfigNotebook *notebook;
@@ -39,10 +37,7 @@ enum {
 	PROP_NOTEBOOK
 };
 
-G_DEFINE_TYPE (
-	EMailConfigSidebar,
-	e_mail_config_sidebar,
-	GTK_TYPE_BUTTON_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailConfigSidebar, e_mail_config_sidebar, GTK_TYPE_BUTTON_BOX)
 
 static void
 mail_config_sidebar_button_toggled (GtkToggleButton *button,
@@ -203,23 +198,20 @@ mail_config_sidebar_get_property (GObject *object,
 static void
 mail_config_sidebar_dispose (GObject *object)
 {
-	EMailConfigSidebarPrivate *priv;
+	EMailConfigSidebar *self = E_MAIL_CONFIG_SIDEBAR (object);
 
-	priv = E_MAIL_CONFIG_SIDEBAR_GET_PRIVATE (object);
-
-	if (priv->notebook != NULL) {
+	if (self->priv->notebook != NULL) {
 		g_signal_handler_disconnect (
-			priv->notebook, priv->page_added_handler_id);
+			self->priv->notebook, self->priv->page_added_handler_id);
 		g_signal_handler_disconnect (
-			priv->notebook, priv->page_removed_handler_id);
+			self->priv->notebook, self->priv->page_removed_handler_id);
 		g_signal_handler_disconnect (
-			priv->notebook, priv->page_reordered_handler_id);
-		g_object_unref (priv->notebook);
-		priv->notebook = NULL;
+			self->priv->notebook, self->priv->page_reordered_handler_id);
+		g_clear_object (&self->priv->notebook);
 	}
 
-	g_hash_table_remove_all (priv->buttons_to_pages);
-	g_hash_table_remove_all (priv->pages_to_buttons);
+	g_hash_table_remove_all (self->priv->buttons_to_pages);
+	g_hash_table_remove_all (self->priv->pages_to_buttons);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_sidebar_parent_class)->dispose (object);
@@ -228,12 +220,10 @@ mail_config_sidebar_dispose (GObject *object)
 static void
 mail_config_sidebar_finalize (GObject *object)
 {
-	EMailConfigSidebarPrivate *priv;
+	EMailConfigSidebar *self = E_MAIL_CONFIG_SIDEBAR (object);
 
-	priv = E_MAIL_CONFIG_SIDEBAR_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->buttons_to_pages);
-	g_hash_table_destroy (priv->pages_to_buttons);
+	g_hash_table_destroy (self->priv->buttons_to_pages);
+	g_hash_table_destroy (self->priv->pages_to_buttons);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_config_sidebar_parent_class)->finalize (object);
@@ -305,8 +295,6 @@ e_mail_config_sidebar_class_init (EMailConfigSidebarClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailConfigSidebarPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_sidebar_set_property;
 	object_class->get_property = mail_config_sidebar_get_property;
@@ -357,7 +345,7 @@ e_mail_config_sidebar_init (EMailConfigSidebar *sidebar)
 		(GDestroyNotify) g_object_unref,
 		(GDestroyNotify) g_object_unref);
 
-	sidebar->priv = E_MAIL_CONFIG_SIDEBAR_GET_PRIVATE (sidebar);
+	sidebar->priv = e_mail_config_sidebar_get_instance_private (sidebar);
 	sidebar->priv->buttons_to_pages = buttons_to_pages;
 	sidebar->priv->pages_to_buttons = pages_to_buttons;
 }

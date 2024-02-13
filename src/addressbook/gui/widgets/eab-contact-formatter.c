@@ -27,10 +27,6 @@
 
 #include "eab-contact-formatter.h"
 
-#define EAB_CONTACT_FORMATTER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EAB_TYPE_CONTACT_FORMATTER, EABContactFormatterPrivate))
-
 #define TEXT_IS_RIGHT_TO_LEFT \
 	(gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 
@@ -86,10 +82,7 @@ static struct {
 	{ "OTHER", N_ ("Other") }
 };
 
-G_DEFINE_TYPE (
-	EABContactFormatter,
-	eab_contact_formatter,
-	G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (EABContactFormatter, eab_contact_formatter, G_TYPE_OBJECT)
 
 #define E_CREATE_TEL_URL	(E_TEXT_TO_HTML_LAST_FLAG << 0)
 #define E_CREATE_SIP_URL	(E_TEXT_TO_HTML_LAST_FLAG << 1)
@@ -1465,8 +1458,6 @@ eab_contact_formatter_class_init (EABContactFormatterClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EABContactFormatterClass));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = eab_contact_formatter_set_property;
 	object_class->get_property = eab_contact_formatter_get_property;
@@ -1501,7 +1492,7 @@ eab_contact_formatter_class_init (EABContactFormatterClass *class)
 static void
 eab_contact_formatter_init (EABContactFormatter *formatter)
 {
-	formatter->priv = EAB_CONTACT_FORMATTER_GET_PRIVATE (formatter);
+	formatter->priv = eab_contact_formatter_get_instance_private (formatter);
 
 	formatter->priv->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
 	formatter->priv->render_maps = FALSE;

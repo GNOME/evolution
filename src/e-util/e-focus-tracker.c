@@ -28,10 +28,6 @@
 #include "e-widget-undo.h"
 #include "e-content-editor.h"
 
-#define E_FOCUS_TRACKER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_FOCUS_TRACKER, EFocusTrackerPrivate))
-
 struct _EFocusTrackerPrivate {
 	GtkWidget *focus;  /* not referenced */
 	GtkWindow *window;
@@ -58,10 +54,7 @@ enum {
 	PROP_REDO_ACTION
 };
 
-G_DEFINE_TYPE (
-	EFocusTracker,
-	e_focus_tracker,
-	G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EFocusTracker, e_focus_tracker, G_TYPE_OBJECT)
 
 static void
 focus_tracker_disable_actions (EFocusTracker *focus_tracker)
@@ -587,9 +580,7 @@ focus_tracker_get_property (GObject *object,
 static void
 focus_tracker_dispose (GObject *object)
 {
-	EFocusTrackerPrivate *priv;
-
-	priv = E_FOCUS_TRACKER_GET_PRIVATE (object);
+	EFocusTracker *self = E_FOCUS_TRACKER (object);
 
 	g_signal_handlers_disconnect_matched (
 		gtk_clipboard_get (GDK_SELECTION_PRIMARY),
@@ -599,52 +590,46 @@ focus_tracker_dispose (GObject *object)
 		gtk_clipboard_get (GDK_SELECTION_CLIPBOARD),
 		G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, object);
 
-	if (priv->window != NULL) {
+	if (self->priv->window != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->window, G_SIGNAL_MATCH_DATA,
+			self->priv->window, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->window);
-		priv->window = NULL;
+		g_clear_object (&self->priv->window);
 	}
 
-	if (priv->cut_clipboard != NULL) {
+	if (self->priv->cut_clipboard != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->cut_clipboard, G_SIGNAL_MATCH_DATA,
+			self->priv->cut_clipboard, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->cut_clipboard);
-		priv->cut_clipboard = NULL;
+		g_clear_object (&self->priv->cut_clipboard);
 	}
 
-	if (priv->copy_clipboard != NULL) {
+	if (self->priv->copy_clipboard != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->copy_clipboard, G_SIGNAL_MATCH_DATA,
+			self->priv->copy_clipboard, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->copy_clipboard);
-		priv->copy_clipboard = NULL;
+		g_clear_object (&self->priv->copy_clipboard);
 	}
 
-	if (priv->paste_clipboard != NULL) {
+	if (self->priv->paste_clipboard != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->paste_clipboard, G_SIGNAL_MATCH_DATA,
+			self->priv->paste_clipboard, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->paste_clipboard);
-		priv->paste_clipboard = NULL;
+		g_clear_object (&self->priv->paste_clipboard);
 	}
 
-	if (priv->delete_selection != NULL) {
+	if (self->priv->delete_selection != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->delete_selection, G_SIGNAL_MATCH_DATA,
+			self->priv->delete_selection, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->delete_selection);
-		priv->delete_selection = NULL;
+		g_clear_object (&self->priv->delete_selection);
 	}
 
-	if (priv->select_all != NULL) {
+	if (self->priv->select_all != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->select_all, G_SIGNAL_MATCH_DATA,
+			self->priv->select_all, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->select_all);
-		priv->select_all = NULL;
+		g_clear_object (&self->priv->select_all);
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -685,8 +670,6 @@ static void
 e_focus_tracker_class_init (EFocusTrackerClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EFocusTrackerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = focus_tracker_set_property;
@@ -791,7 +774,7 @@ e_focus_tracker_init (EFocusTracker *focus_tracker)
 {
 	GtkAction *action;
 
-	focus_tracker->priv = E_FOCUS_TRACKER_GET_PRIVATE (focus_tracker);
+	focus_tracker->priv = e_focus_tracker_get_instance_private (focus_tracker);
 
 	/* Define dummy actions.  These will most likely be overridden,
 	 * but for cases where they're not it ensures ESelectable objects

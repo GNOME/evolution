@@ -52,10 +52,6 @@
 
 #define d(x)
 
-#define E_TREE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TREE, ETreePrivate))
-
 typedef struct _ETreeDragSourceSite ETreeDragSourceSite;
 
 enum {
@@ -266,7 +262,8 @@ static void context_destroyed (gpointer data, GObject *ctx);
 static void e_tree_scrollable_init (GtkScrollableInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (ETree, e_tree, GTK_TYPE_TABLE,
-			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, e_tree_scrollable_init))
+	G_ADD_PRIVATE (ETree)
+	G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, e_tree_scrollable_init))
 
 static void
 tree_item_is_editing_changed_cb (ETableItem *item,
@@ -423,77 +420,70 @@ connect_header (ETree *tree,
 static void
 et_dispose (GObject *object)
 {
-	ETreePrivate *priv;
+	ETree *self = E_TREE (object);
 
-	priv = E_TREE_GET_PRIVATE (object);
-
-	if (priv->search != NULL) {
-		g_signal_handler_disconnect (
-			priv->search, priv->search_search_id);
-		g_signal_handler_disconnect (
-			priv->search, priv->search_accept_id);
-		g_object_unref (priv->search);
-		priv->search = NULL;
+	if (self->priv->search != NULL) {
+		g_signal_handler_disconnect (self->priv->search, self->priv->search_search_id);
+		g_signal_handler_disconnect (self->priv->search, self->priv->search_accept_id);
+		g_clear_object (&self->priv->search);
 	}
 
-	if (priv->reflow_idle_id > 0) {
-		g_source_remove (priv->reflow_idle_id);
-		priv->reflow_idle_id = 0;
+	if (self->priv->reflow_idle_id > 0) {
+		g_source_remove (self->priv->reflow_idle_id);
+		self->priv->reflow_idle_id = 0;
 	}
 
-	scroll_off (E_TREE (object));
-	hover_off (E_TREE (object));
-	g_list_foreach (
-		priv->expanded_list,
-		(GFunc) g_free, NULL);
-	g_list_free (priv->expanded_list);
-	priv->expanded_list = NULL;
+	scroll_off (self);
+	hover_off (self);
+	g_list_foreach (self->priv->expanded_list, (GFunc) g_free, NULL);
+	g_list_free (self->priv->expanded_list);
+	self->priv->expanded_list = NULL;
 
-	et_disconnect_from_etta (E_TREE (object));
+	et_disconnect_from_etta (self);
 
-	g_clear_object (&priv->etta);
-	g_clear_object (&priv->model);
-	g_clear_object (&priv->full_header);
+	g_clear_object (&self->priv->etta);
+	g_clear_object (&self->priv->model);
+	g_clear_object (&self->priv->full_header);
 
-	disconnect_header (E_TREE (object));
+	disconnect_header (self);
 
-	g_clear_object (&priv->selection);
-	g_clear_object (&priv->spec);
+	g_clear_object (&self->priv->selection);
+	g_clear_object (&self->priv->spec);
 
-	if (priv->header_canvas != NULL) {
-		gtk_widget_destroy (GTK_WIDGET (priv->header_canvas));
-		priv->header_canvas = NULL;
+	if (self->priv->header_canvas != NULL) {
+		gtk_widget_destroy (GTK_WIDGET (self->priv->header_canvas));
+		self->priv->header_canvas = NULL;
 	}
 
-	if (priv->site)
-		e_tree_drag_source_unset (E_TREE (object));
+	if (self->priv->site)
+		e_tree_drag_source_unset (self);
 
-	if (priv->last_drop_context != NULL) {
+	if (self->priv->last_drop_context != NULL) {
 		g_object_weak_unref (
-			G_OBJECT (priv->last_drop_context),
+			G_OBJECT (self->priv->last_drop_context),
 			context_destroyed, object);
-		priv->last_drop_context = NULL;
+		self->priv->last_drop_context = NULL;
 	}
 
-	if (priv->info_text != NULL) {
-		g_object_run_dispose (G_OBJECT (priv->info_text));
-		priv->info_text = NULL;
+	if (self->priv->info_text != NULL) {
+		g_object_run_dispose (G_OBJECT (self->priv->info_text));
+		self->priv->info_text = NULL;
 	}
-	priv->info_text_resize_id = 0;
+	self->priv->info_text_resize_id = 0;
 
-	if (priv->table_canvas != NULL) {
-		g_signal_handlers_disconnect_by_data (priv->table_canvas, object);
-		gtk_widget_destroy (GTK_WIDGET (priv->table_canvas));
-		priv->table_canvas = NULL;
+	if (self->priv->table_canvas != NULL) {
+		g_signal_handlers_disconnect_by_data (self->priv->table_canvas, object);
+		gtk_widget_destroy (GTK_WIDGET (self->priv->table_canvas));
+		self->priv->table_canvas = NULL;
 	}
 
-	if (priv->table_canvas_vadjustment) {
-		g_signal_handlers_disconnect_by_data (priv->table_canvas_vadjustment, object);
-		g_clear_object (&priv->table_canvas_vadjustment);
+	if (self->priv->table_canvas_vadjustment) {
+		g_signal_handlers_disconnect_by_data (self->priv->table_canvas_vadjustment, object);
+		g_clear_object (&self->priv->table_canvas_vadjustment);
 	}
 
 	/* do not unref it, it was owned by priv->table_canvas */
-	priv->item = NULL;
+	self->priv->item = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_tree_parent_class)->dispose (object);
@@ -614,7 +604,7 @@ e_tree_init (ETree *tree)
 
 	gtk_table_set_homogeneous (GTK_TABLE (tree), FALSE);
 
-	tree->priv = E_TREE_GET_PRIVATE (tree);
+	tree->priv = e_tree_get_instance_private (tree);
 
 	tree->priv->alternating_row_colors = 1;
 	tree->priv->horizontal_draw_grid = 1;
@@ -2868,8 +2858,6 @@ e_tree_class_init (ETreeClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (ETreePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = et_dispose;

@@ -25,10 +25,6 @@
 #include <glib/gi18n.h>
 #include <camel/camel.h>
 
-#define E_COMPOSER_POST_HEADER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_POST_HEADER, EComposerPostHeaderPrivate))
-
 enum {
 	PROP_0,
 	PROP_MAIL_ACCOUNT
@@ -40,10 +36,7 @@ struct _EComposerPostHeaderPrivate {
 	gboolean custom;
 };
 
-G_DEFINE_TYPE (
-	EComposerPostHeader,
-	e_composer_post_header,
-	E_TYPE_COMPOSER_TEXT_HEADER)
+G_DEFINE_TYPE_WITH_PRIVATE (EComposerPostHeader, e_composer_post_header, E_TYPE_COMPOSER_TEXT_HEADER)
 
 static gchar *
 composer_post_header_folder_name_to_string (EComposerPostHeader *header,
@@ -143,10 +136,9 @@ composer_post_header_get_property (GObject *object,
 static void
 composer_post_header_dispose (GObject *object)
 {
-	EComposerPostHeaderPrivate *priv;
+	EComposerPostHeader *self = E_COMPOSER_POST_HEADER (object);
 
-	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (object);
-	g_clear_object (&priv->mail_account);
+	g_clear_object (&self->priv->mail_account);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_composer_post_header_parent_class)->dispose (object);
@@ -155,11 +147,9 @@ composer_post_header_dispose (GObject *object)
 static void
 composer_post_header_finalize (GObject *object)
 {
-	EComposerPostHeaderPrivate *priv;
+	EComposerPostHeader *self = E_COMPOSER_POST_HEADER (object);
 
-	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (object);
-
-	g_free (priv->base_url);
+	g_free (self->priv->base_url);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_composer_post_header_parent_class)->finalize (object);
@@ -179,21 +169,17 @@ composer_post_header_constructed (GObject *object)
 static void
 composer_post_header_changed (EComposerHeader *header)
 {
-	EComposerPostHeaderPrivate *priv;
+	EComposerPostHeader *self = E_COMPOSER_POST_HEADER (header);
 
-	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (header);
-
-	priv->custom = TRUE;
+	self->priv->custom = TRUE;
 }
 
 static void
 composer_post_header_clicked (EComposerHeader *header)
 {
-	EComposerPostHeaderPrivate *priv;
+	EComposerPostHeader *self = E_COMPOSER_POST_HEADER (header);
 
-	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (header);
-
-	priv->custom = FALSE;
+	self->priv->custom = FALSE;
 }
 
 static void
@@ -201,8 +187,6 @@ e_composer_post_header_class_init (EComposerPostHeaderClass *class)
 {
 	GObjectClass *object_class;
 	EComposerHeaderClass *header_class;
-
-	g_type_class_add_private (class, sizeof (EComposerPostHeaderPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = composer_post_header_set_property;
@@ -229,7 +213,7 @@ e_composer_post_header_class_init (EComposerPostHeaderClass *class)
 static void
 e_composer_post_header_init (EComposerPostHeader *header)
 {
-	header->priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (header);
+	header->priv = e_composer_post_header_get_instance_private (header);
 }
 
 EComposerHeader *

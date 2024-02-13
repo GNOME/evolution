@@ -30,10 +30,6 @@
 #include "em-filter-folder-element.h"
 #include "em-vfolder-rule.h"
 
-#define EM_VFOLDER_CONTEXT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_VFOLDER_CONTEXT, EMVFolderContextPrivate))
-
 struct _EMVFolderContextPrivate {
 	gint placeholder;
 };
@@ -43,10 +39,7 @@ enum {
 	PROP_SESSION
 };
 
-G_DEFINE_TYPE (
-	EMVFolderContext,
-	em_vfolder_context,
-	E_TYPE_RULE_CONTEXT)
+G_DEFINE_TYPE_WITH_PRIVATE (EMVFolderContext, em_vfolder_context, E_TYPE_RULE_CONTEXT)
 
 static EFilterElement *
 vfolder_context_new_element (ERuleContext *context,
@@ -74,8 +67,6 @@ em_vfolder_context_class_init (EMVFolderContextClass *class)
 {
 	ERuleContextClass *rule_context_class;
 
-	g_type_class_add_private (class, sizeof (EMVFolderContextPrivate));
-
 	rule_context_class = E_RULE_CONTEXT_CLASS (class);
 	rule_context_class->new_element = vfolder_context_new_element;
 }
@@ -83,7 +74,7 @@ em_vfolder_context_class_init (EMVFolderContextClass *class)
 static void
 em_vfolder_context_init (EMVFolderContext *context)
 {
-	context->priv = EM_VFOLDER_CONTEXT_GET_PRIVATE (context);
+	context->priv = em_vfolder_context_get_instance_private (context);
 
 	e_rule_context_add_part_set (
 		E_RULE_CONTEXT (context), "partset", E_TYPE_FILTER_PART,

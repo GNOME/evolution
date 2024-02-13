@@ -107,10 +107,6 @@ e_scrolled_window_new (void)
 		NULL);
 }
 
-#define E_ALERT_BAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ALERT_BAR, EAlertBarPrivate))
-
 /* GTK_ICON_SIZE_DIALOG is a tad too big. */
 #define ICON_SIZE GTK_ICON_SIZE_DND
 
@@ -128,7 +124,7 @@ struct _EAlertBarPrivate {
 	gint max_content_height;
 };
 
-G_DEFINE_TYPE (EAlertBar, e_alert_bar, GTK_TYPE_INFO_BAR)
+G_DEFINE_TYPE_WITH_PRIVATE (EAlertBar, e_alert_bar, GTK_TYPE_INFO_BAR)
 
 static void
 alert_bar_response_close (EAlert *alert)
@@ -402,18 +398,16 @@ alert_bar_message_label_size_allocate_cb (GtkWidget *message_label,
 static void
 alert_bar_dispose (GObject *object)
 {
-	EAlertBarPrivate *priv;
+	EAlertBar *self = E_ALERT_BAR (object);
 
-	priv = E_ALERT_BAR_GET_PRIVATE (object);
-
-	if (priv->message_label) {
-		g_signal_handlers_disconnect_by_func (priv->message_label,
+	if (self->priv->message_label) {
+		g_signal_handlers_disconnect_by_func (self->priv->message_label,
 			G_CALLBACK (alert_bar_message_label_size_allocate_cb), object);
-		priv->message_label = NULL;
+		self->priv->message_label = NULL;
 	}
 
-	while (!g_queue_is_empty (&priv->alerts)) {
-		EAlert *alert = g_queue_pop_head (&priv->alerts);
+	while (!g_queue_is_empty (&self->priv->alerts)) {
+		EAlert *alert = g_queue_pop_head (&self->priv->alerts);
 		g_signal_handlers_disconnect_by_func (
 			alert, alert_bar_response_cb, object);
 		g_object_unref (alert);
@@ -449,7 +443,7 @@ alert_bar_add_css_style (GtkWidget *widget,
 static void
 alert_bar_constructed (GObject *object)
 {
-	EAlertBarPrivate *priv;
+	EAlertBar *self;
 	GtkInfoBar *info_bar;
 	GtkWidget *action_area;
 	GtkWidget *content_area;
@@ -457,12 +451,12 @@ alert_bar_constructed (GObject *object)
 	GtkWidget *widget;
 	GObject *revealer;
 
-	priv = E_ALERT_BAR_GET_PRIVATE (object);
+	self = E_ALERT_BAR (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_alert_bar_parent_class)->constructed (object);
 
-	g_queue_init (&priv->alerts);
+	g_queue_init (&self->priv->alerts);
 
 	info_bar = GTK_INFO_BAR (object);
 	action_area = gtk_info_bar_get_action_area (info_bar);
@@ -477,7 +471,7 @@ alert_bar_constructed (GObject *object)
 	widget = gtk_image_new ();
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.5, 0.0);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->image = widget;
+	self->priv->image = widget;
 	gtk_widget_show (widget);
 
 	widget = e_scrolled_window_new ();
@@ -489,7 +483,7 @@ alert_bar_constructed (GObject *object)
 		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
 		NULL);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	priv->scrolled_window = widget;
+	self->priv->scrolled_window = widget;
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -502,10 +496,10 @@ alert_bar_constructed (GObject *object)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
 	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->message_label = widget;
+	self->priv->message_label = widget;
 	gtk_widget_show (widget);
 
-	g_signal_connect (priv->message_label, "size-allocate",
+	g_signal_connect (self->priv->message_label, "size-allocate",
 		G_CALLBACK (alert_bar_message_label_size_allocate_cb), object);
 
 	widget = gtk_bin_get_child (GTK_BIN (container));
@@ -550,8 +544,6 @@ e_alert_bar_class_init (EAlertBarClass *class)
 	GtkWidgetClass *widget_class;
 	GtkInfoBarClass *info_bar_class;
 
-	g_type_class_add_private (class, sizeof (EAlertBarPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = alert_bar_dispose;
 	object_class->constructed = alert_bar_constructed;
@@ -566,7 +558,7 @@ e_alert_bar_class_init (EAlertBarClass *class)
 static void
 e_alert_bar_init (EAlertBar *alert_bar)
 {
-	alert_bar->priv = E_ALERT_BAR_GET_PRIVATE (alert_bar);
+	alert_bar->priv = e_alert_bar_get_instance_private (alert_bar);
 	alert_bar->priv->max_content_height = MAX_HEIGHT;
 }
 

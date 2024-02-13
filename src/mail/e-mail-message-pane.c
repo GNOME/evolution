@@ -27,15 +27,11 @@
 
 #include "mail/e-mail-reader.h"
 
-#define E_MAIL_MESSAGE_PANE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_MESSAGE_PANE, EMailMessagePanePrivate))
-
 struct _EMailMessagePanePrivate {
 	gint placeholder;
 };
 
-G_DEFINE_TYPE (EMailMessagePane, e_mail_message_pane, E_TYPE_MAIL_PANED_VIEW)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailMessagePane, e_mail_message_pane, E_TYPE_MAIL_PANED_VIEW)
 
 static void
 mail_message_pane_constructed (GObject *object)
@@ -66,8 +62,6 @@ e_mail_message_pane_class_init (EMailMessagePaneClass *class)
 	GObjectClass *object_class;
 	EMailViewClass *mail_view_class;
 
-	g_type_class_add_private (class, sizeof (EMailMessagePanePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_message_pane_constructed;
 
@@ -79,7 +73,7 @@ e_mail_message_pane_class_init (EMailMessagePaneClass *class)
 static void
 e_mail_message_pane_init (EMailMessagePane *message_pane)
 {
-	message_pane->priv = E_MAIL_MESSAGE_PANE_GET_PRIVATE (message_pane);
+	message_pane->priv = e_mail_message_pane_get_instance_private (message_pane);
 }
 
 EMailView *

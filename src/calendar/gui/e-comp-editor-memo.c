@@ -43,7 +43,7 @@ struct _ECompEditorMemoPrivate {
 	gpointer insensitive_info_alert;
 };
 
-G_DEFINE_TYPE (ECompEditorMemo, e_comp_editor_memo, E_TYPE_COMP_EDITOR)
+G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorMemo, e_comp_editor_memo, E_TYPE_COMP_EDITOR)
 
 /* A rough code to mimic what Nextcloud does, it's not accurate, but it's close
    enough to work similarly. It skips leading whitespaces and uses up to the first
@@ -375,7 +375,7 @@ e_comp_editor_memo_constructed (GObject *object)
 static void
 e_comp_editor_memo_init (ECompEditorMemo *memo_editor)
 {
-	memo_editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (memo_editor, E_TYPE_COMP_EDITOR_MEMO, ECompEditorMemoPrivate);
+	memo_editor->priv = e_comp_editor_memo_get_instance_private (memo_editor);
 }
 
 static void
@@ -383,8 +383,6 @@ e_comp_editor_memo_class_init (ECompEditorMemoClass *klass)
 {
 	GObjectClass *object_class;
 	ECompEditorClass *comp_editor_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorMemoPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->constructed = e_comp_editor_memo_constructed;

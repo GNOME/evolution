@@ -37,7 +37,7 @@ enum {
 	PROP_NAME_SELECTOR
 };
 
-G_DEFINE_TYPE (ECompEditorPageSchedule, e_comp_editor_page_schedule, E_TYPE_COMP_EDITOR_PAGE)
+G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorPageSchedule, e_comp_editor_page_schedule, E_TYPE_COMP_EDITOR_PAGE)
 
 static void
 ecep_schedule_get_work_day_range_for (GSettings *settings,
@@ -622,9 +622,7 @@ e_comp_editor_page_schedule_dispose (GObject *object)
 static void
 e_comp_editor_page_schedule_init (ECompEditorPageSchedule *page_schedule)
 {
-	page_schedule->priv = G_TYPE_INSTANCE_GET_PRIVATE (page_schedule,
-		E_TYPE_COMP_EDITOR_PAGE_SCHEDULE,
-		ECompEditorPageSchedulePrivate);
+	page_schedule->priv = e_comp_editor_page_schedule_get_instance_private (page_schedule);
 }
 
 static void
@@ -632,8 +630,6 @@ e_comp_editor_page_schedule_class_init (ECompEditorPageScheduleClass *klass)
 {
 	ECompEditorPageClass *page_class;
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPageSchedulePrivate));
 
 	page_class = E_COMP_EDITOR_PAGE_CLASS (klass);
 	page_class->sensitize_widgets = ecep_schedule_sensitize_widgets;

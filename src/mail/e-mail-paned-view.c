@@ -33,10 +33,6 @@
 
 #include "e-mail-paned-view.h"
 
-#define E_MAIL_PANED_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_PANED_VIEW, EMailPanedViewPrivate))
-
 #define E_SHELL_WINDOW_ACTION_GROUP_MAIL(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail")
 
@@ -80,12 +76,10 @@ enum {
 /* Forward Declarations */
 static void e_mail_paned_view_reader_init (EMailReaderInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailPanedView, e_mail_paned_view, E_TYPE_MAIL_VIEW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_READER, e_mail_paned_view_reader_init)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EMailPanedView, e_mail_paned_view, E_TYPE_MAIL_VIEW,
+	G_ADD_PRIVATE (EMailPanedView)
+	G_IMPLEMENT_INTERFACE (E_TYPE_MAIL_READER, e_mail_paned_view_reader_init)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
 mail_paned_view_save_boolean (EMailView *view,
@@ -145,17 +139,15 @@ static void
 mail_paned_view_message_list_built_cb (EMailView *view,
                                        MessageList *message_list)
 {
-	EMailPanedViewPrivate *priv;
+	EMailPanedView *self = E_MAIL_PANED_VIEW (view);
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	CamelFolder *folder;
 	GKeyFile *key_file;
 	gboolean ensure_message_selected;
 
-	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
-
-	ensure_message_selected = priv->folder_just_set;
-	priv->folder_just_set = FALSE;
+	ensure_message_selected = self->priv->folder_just_set;
+	self->priv->folder_just_set = FALSE;
 
 	folder = message_list_ref_folder (message_list);
 
@@ -184,19 +176,19 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 			ensure_message_selected = TRUE;
 			with_fallback = FALSE;
 
-			if (priv->last_selected_uid &&
-			    message_list_contains_uid (message_list, priv->last_selected_uid)) {
+			if (self->priv->last_selected_uid &&
+			    message_list_contains_uid (message_list, self->priv->last_selected_uid)) {
 				g_free (uid);
-				uid = g_strdup (priv->last_selected_uid);
+				uid = g_strdup (self->priv->last_selected_uid);
 			}
 		}
 
 		/* This is to prefer last selected message from the previous search folder
 		   over the stored message. The _set_folder() makes sure to unset
 		   priv->last_selected_uid, when it's not from this folder. */
-		if (ensure_message_selected && !uid && priv->last_selected_uid &&
-		    message_list_contains_uid (message_list, priv->last_selected_uid)) {
-			uid = g_strdup (priv->last_selected_uid);
+		if (ensure_message_selected && !uid && self->priv->last_selected_uid &&
+		    message_list_contains_uid (message_list, self->priv->last_selected_uid)) {
+			uid = g_strdup (self->priv->last_selected_uid);
 		}
 
 		if (ensure_message_selected && !uid) {
@@ -485,34 +477,31 @@ mail_paned_view_get_property (GObject *object,
 static void
 mail_paned_view_dispose (GObject *object)
 {
-	EMailPanedViewPrivate *priv;
-
-	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (object);
+	EMailPanedView *self = E_MAIL_PANED_VIEW (object);
 
 	e_mail_reader_dispose (E_MAIL_READER (object));
 
-	g_clear_object (&priv->paned);
-	g_clear_object (&priv->scrolled_window);
+	g_clear_object (&self->priv->paned);
+	g_clear_object (&self->priv->scrolled_window);
 
-	if (priv->message_list != NULL) {
+	if (self->priv->message_list != NULL) {
 		/* It can be disconnected by EMailReader in e_mail_reader_dispose() */
-		if (priv->message_list_built_id &&
-		    g_signal_handler_is_connected (priv->message_list, priv->message_list_built_id)) {
-			g_signal_handler_disconnect (priv->message_list, priv->message_list_built_id);
+		if (self->priv->message_list_built_id &&
+		    g_signal_handler_is_connected (self->priv->message_list, self->priv->message_list_built_id)) {
+			g_signal_handler_disconnect (self->priv->message_list, self->priv->message_list_built_id);
 		}
 
-		priv->message_list_built_id = 0;
+		self->priv->message_list_built_id = 0;
 
-		g_object_unref (priv->message_list);
-		priv->message_list = NULL;
+		g_clear_object (&self->priv->message_list);
 	}
 
-	g_clear_object (&priv->preview_pane);
-	g_clear_object (&priv->view_instance);
+	g_clear_object (&self->priv->preview_pane);
+	g_clear_object (&self->priv->view_instance);
 
-	g_clear_pointer (&priv->last_selected_uid, g_free);
+	g_clear_pointer (&self->priv->last_selected_uid, g_free);
 
-	priv->display = NULL;
+	self->priv->display = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_paned_view_parent_class)->dispose (object);
@@ -649,7 +638,7 @@ static void
 mail_paned_view_set_folder (EMailReader *reader,
                             CamelFolder *folder)
 {
-	EMailPanedViewPrivate *priv;
+	EMailPanedView *self = E_MAIL_PANED_VIEW (reader);
 	EMailView *view;
 	EShell *shell;
 	EShellView *shell_view;
@@ -665,8 +654,6 @@ mail_paned_view_set_folder (EMailReader *reader,
 	gboolean value, global_view_setting;
 	GError *error = NULL;
 
-	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (reader);
-
 	view = E_MAIL_VIEW (reader);
 	shell_view = e_mail_view_get_shell_view (view);
 
@@ -680,24 +667,24 @@ mail_paned_view_set_folder (EMailReader *reader,
 		return;
 	}
 
-	if (priv->last_selected_uid && previous_folder && folder &&
+	if (self->priv->last_selected_uid && previous_folder && folder &&
 	    CAMEL_IS_VEE_FOLDER (previous_folder)) {
 		CamelFolder *real_folder = NULL;
 		gchar *message_uid = NULL;
 
-		em_utils_get_real_folder_and_message_uid (previous_folder, priv->last_selected_uid, &real_folder, NULL, &message_uid);
+		em_utils_get_real_folder_and_message_uid (previous_folder, self->priv->last_selected_uid, &real_folder, NULL, &message_uid);
 
-		g_clear_pointer (&priv->last_selected_uid, g_free);
+		g_clear_pointer (&self->priv->last_selected_uid, g_free);
 
 		if (real_folder == folder && message_uid) {
-			priv->last_selected_uid = message_uid;
+			self->priv->last_selected_uid = message_uid;
 			message_uid = NULL;
 		}
 
 		g_free (message_uid);
 		g_clear_object (&real_folder);
 	} else {
-		g_clear_pointer (&priv->last_selected_uid, g_free);
+		g_clear_pointer (&self->priv->last_selected_uid, g_free);
 	}
 
 	g_clear_object (&previous_folder);
@@ -727,7 +714,7 @@ mail_paned_view_set_folder (EMailReader *reader,
 	if (e_shell_get_online (shell))
 		e_mail_reader_refresh_folder (reader, folder);
 
-	priv->folder_just_set = TRUE;
+	self->priv->folder_just_set = TRUE;
 
 	/* Restore the folder's preview and threaded state. */
 
@@ -801,7 +788,7 @@ mail_paned_view_reader_open_selected_mail (EMailReader *reader)
 static void
 mail_paned_view_constructed (GObject *object)
 {
-	EMailPanedViewPrivate *priv;
+	EMailPanedView *self = E_MAIL_PANED_VIEW (object);
 	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
@@ -814,8 +801,6 @@ mail_paned_view_constructed (GObject *object)
 	GtkWidget *container;
 	GtkWidget *widget, *toolbar;
 
-	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (object);
-
 	view = E_MAIL_VIEW (object);
 	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -824,7 +809,7 @@ mail_paned_view_constructed (GObject *object)
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
-	priv->display = g_object_new (E_TYPE_MAIL_DISPLAY,
+	self->priv->display = g_object_new (E_TYPE_MAIL_DISPLAY,
 		"headers-collapsable", TRUE,
 		"remote-content", e_mail_backend_get_remote_content (backend),
 		NULL);
@@ -836,7 +821,7 @@ mail_paned_view_constructed (GObject *object)
 
 	g_settings_bind (
 		settings, "headers-collapsed",
-		priv->display, "headers-collapsed",
+		self->priv->display, "headers-collapsed",
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
@@ -848,7 +833,7 @@ mail_paned_view_constructed (GObject *object)
 	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
 	e_paned_set_fixed_resize (E_PANED (widget), FALSE);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	priv->paned = g_object_ref (widget);
+	self->priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
@@ -856,31 +841,31 @@ mail_paned_view_constructed (GObject *object)
 		widget, "orientation",
 		G_BINDING_SYNC_CREATE);
 
-	container = priv->paned;
+	container = self->priv->paned;
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
-	priv->scrolled_window = g_object_ref (widget);
+	self->priv->scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	container = widget;
 
 	widget = message_list_new (session);
 	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->message_list = g_object_ref (widget);
+	self->priv->message_list = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	priv->message_list_built_id = g_signal_connect_swapped (
-		priv->message_list, "message-list-built",
+	self->priv->message_list_built_id = g_signal_connect_swapped (
+		self->priv->message_list, "message-list-built",
 		G_CALLBACK (mail_paned_view_message_list_built_cb),
 		object);
 
-	container = priv->paned;
+	container = self->priv->paned;
 
-	widget = GTK_WIDGET (e_mail_display_get_attachment_view (priv->display));
+	widget = GTK_WIDGET (e_mail_display_get_attachment_view (self->priv->display));
 	gtk_widget_show (widget);
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 
@@ -890,7 +875,7 @@ mail_paned_view_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	container = e_attachment_bar_get_content_area (E_ATTACHMENT_BAR (widget));
-	widget = e_preview_pane_new (E_WEB_VIEW (priv->display));
+	widget = e_preview_pane_new (E_WEB_VIEW (self->priv->display));
 
 	toolbar = e_shell_window_get_managed_widget (shell_window, "/mail-preview-toolbar");
 	if (toolbar) {
@@ -901,8 +886,8 @@ mail_paned_view_constructed (GObject *object)
 
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 
-	priv->preview_pane = g_object_ref (widget);
-	gtk_widget_show (GTK_WIDGET (priv->display));
+	self->priv->preview_pane = g_object_ref (widget);
+	gtk_widget_show (GTK_WIDGET (self->priv->display));
 	gtk_widget_show (widget);
 
 	/* Load the view instance. */
@@ -1048,7 +1033,7 @@ empv_folder_or_parent_is_outgoing (MailFolderCache *folder_cache,
 static void
 mail_paned_view_update_view_instance (EMailView *view)
 {
-	EMailPanedViewPrivate *priv;
+	EMailPanedView *self = E_MAIL_PANED_VIEW (view);
 	EMailReader *reader;
 	EShell *shell;
 	EShellView *shell_view;
@@ -1067,8 +1052,6 @@ mail_paned_view_update_view_instance (EMailView *view)
 	gboolean global_view_setting;
 	gchar *view_id;
 
-	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
-
 	shell_view = e_mail_view_get_shell_view (view);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	view_collection = shell_view_class->view_collection;
@@ -1084,7 +1067,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 	if (folder == NULL)
 		return;
 
-	g_clear_object (&priv->view_instance);
+	g_clear_object (&self->priv->view_instance);
 
 	view_id = empv_create_view_id (folder);
 	e_util_make_safe_filename (view_id);
@@ -1115,7 +1098,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 			shell_view, view_id);
 	}
 
-	priv->view_instance = g_object_ref (view_instance);
+	self->priv->view_instance = g_object_ref (view_instance);
 
 	orientable = GTK_ORIENTABLE (view);
 	orientation = gtk_orientable_get_orientation (orientable);
@@ -1250,8 +1233,6 @@ e_mail_paned_view_class_init (EMailPanedViewClass *class)
 	GObjectClass *object_class;
 	EMailViewClass *mail_view_class;
 
-	g_type_class_add_private (class, sizeof (EMailPanedViewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = mail_paned_view_dispose;
 	object_class->constructed = mail_paned_view_constructed;
@@ -1317,7 +1298,7 @@ e_mail_paned_view_reader_init (EMailReaderInterface *iface)
 static void
 e_mail_paned_view_init (EMailPanedView *view)
 {
-	view->priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
+	view->priv = e_mail_paned_view_get_instance_private (view);
 
 	e_signal_connect_notify (
 		view, "notify::group-by-threads",

@@ -25,10 +25,6 @@
 #include "util/eab-book-util.h"
 #include "eab-contact-merging.h"
 
-#define E_ADDRESSBOOK_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ADDRESSBOOK_SELECTOR, EAddressbookSelectorPrivate))
-
 typedef struct _MergeContext MergeContext;
 
 struct _EAddressbookSelectorPrivate {
@@ -58,10 +54,7 @@ static GtkTargetEntry drag_types[] = {
 	{ (gchar *) "text/x-source-vcard", 0, 1 }
 };
 
-G_DEFINE_TYPE (
-	EAddressbookSelector,
-	e_addressbook_selector,
-	E_TYPE_CLIENT_SELECTOR)
+G_DEFINE_TYPE_WITH_PRIVATE (EAddressbookSelector, e_addressbook_selector, E_TYPE_CLIENT_SELECTOR)
 
 static void
 merge_context_next (MergeContext *merge_context)
@@ -398,10 +391,9 @@ addressbook_selector_get_property (GObject *object,
 static void
 addressbook_selector_dispose (GObject *object)
 {
-	EAddressbookSelectorPrivate *priv;
+	EAddressbookSelector *self = E_ADDRESSBOOK_SELECTOR (object);
 
-	priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (object);
-	g_clear_object (&priv->current_view);
+	g_clear_object (&self->priv->current_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_addressbook_selector_parent_class)->dispose (object);
@@ -505,7 +497,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
                                    GdkDragAction action,
                                    guint info)
 {
-	EAddressbookSelectorPrivate *priv;
+	EAddressbookSelector *self = E_ADDRESSBOOK_SELECTOR (selector);
 	MergeContext *merge_context;
 	EBookClient *source_client;
 	ESource *source_source = NULL;
@@ -514,8 +506,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	const gchar *string;
 	gboolean remove_from_source;
 
-	priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (selector);
-	g_return_val_if_fail (priv->current_view != NULL, FALSE);
+	g_return_val_if_fail (self->priv->current_view != NULL, FALSE);
 
 	string = (const gchar *) gtk_selection_data_get_data (selection_data);
 	remove_from_source = (action == GDK_ACTION_MOVE);
@@ -533,7 +524,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 		return FALSE;
 	}
 
-	source_client = e_addressbook_view_get_client (priv->current_view);
+	source_client = e_addressbook_view_get_client (self->priv->current_view);
 	g_return_val_if_fail (E_IS_BOOK_CLIENT (source_client), FALSE);
 
 	if (remove_from_source && source_source &&
@@ -565,8 +556,6 @@ e_addressbook_selector_class_init (EAddressbookSelectorClass *class)
 	GObjectClass *object_class;
 	ESourceSelectorClass *selector_class;
 
-	g_type_class_add_private (class, sizeof (EAddressbookSelectorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = addressbook_selector_set_property;
 	object_class->get_property = addressbook_selector_get_property;
@@ -590,7 +579,7 @@ e_addressbook_selector_class_init (EAddressbookSelectorClass *class)
 static void
 e_addressbook_selector_init (EAddressbookSelector *selector)
 {
-	selector->priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (selector);
+	selector->priv = e_addressbook_selector_get_instance_private (selector);
 
 	e_source_selector_set_show_colors (
 		E_SOURCE_SELECTOR (selector), FALSE);

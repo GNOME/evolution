@@ -27,10 +27,6 @@
 
 #include "e-mail-sidebar.h"
 
-#define E_MAIL_SIDEBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SIDEBAR, EMailSidebarPrivate))
-
 struct _EMailSidebarPrivate {
 	GKeyFile *key_file;  /* not owned */
 	GtkTreeModel *model;
@@ -50,10 +46,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (
-	EMailSidebar,
-	e_mail_sidebar,
-	EM_TYPE_FOLDER_TREE)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailSidebar, e_mail_sidebar, EM_TYPE_FOLDER_TREE)
 
 static void
 mail_sidebar_restore_state (EMailSidebar *sidebar)
@@ -228,12 +221,10 @@ mail_sidebar_get_property (GObject *object,
 static void
 mail_sidebar_constructed (GObject *object)
 {
-	EMailSidebarPrivate *priv;
+	EMailSidebar *self = E_MAIL_SIDEBAR(object);
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
-
-	priv = E_MAIL_SIDEBAR_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() property. */
 	G_OBJECT_CLASS (e_mail_sidebar_parent_class)->constructed (object);
@@ -248,8 +239,8 @@ mail_sidebar_constructed (GObject *object)
 	/* Keep an internal reference to these since we're connecting
 	 * signal handlers to them.  Retrieving them during dispose()
 	 * does not guarantee we get the same instances back. */
-	priv->model = g_object_ref (model);
-	priv->selection = g_object_ref (selection);
+	self->priv->model = g_object_ref (model);
+	self->priv->selection = g_object_ref (selection);
 
 	g_signal_connect (
 		model, "loaded-row",
@@ -263,24 +254,20 @@ mail_sidebar_constructed (GObject *object)
 static void
 mail_sidebar_dispose (GObject *object)
 {
-	EMailSidebarPrivate *priv;
+	EMailSidebar *self = E_MAIL_SIDEBAR (object);
 
-	priv = E_MAIL_SIDEBAR_GET_PRIVATE (object);
-
-	if (priv->model != NULL) {
+	if (self->priv->model != NULL) {
 		g_signal_handlers_disconnect_by_func (
-			priv->model,
+			self->priv->model,
 			mail_sidebar_model_loaded_row_cb, object);
-		g_object_unref (priv->model);
-		priv->model = NULL;
+		g_clear_object (&self->priv->model);
 	}
 
-	if (priv->selection != NULL) {
+	if (self->priv->selection != NULL) {
 		g_signal_handlers_disconnect_by_func (
-			priv->selection,
+			self->priv->selection,
 			mail_sidebar_selection_changed_cb, object);
-		g_object_unref (priv->selection);
-		priv->selection = NULL;
+		g_clear_object (&self->priv->selection);
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -568,8 +555,6 @@ e_mail_sidebar_class_init (EMailSidebarClass *class)
 	GObjectClass *object_class;
 	GtkTreeViewClass *tree_view_class;
 
-	g_type_class_add_private (class, sizeof (EMailSidebarPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_sidebar_set_property;
 	object_class->get_property = mail_sidebar_get_property;
@@ -606,7 +591,7 @@ e_mail_sidebar_init (EMailSidebar *sidebar)
 {
 	EMFolderTree *folder_tree;
 
-	sidebar->priv = E_MAIL_SIDEBAR_GET_PRIVATE (sidebar);
+	sidebar->priv = e_mail_sidebar_get_instance_private (sidebar);
 
 	folder_tree = EM_FOLDER_TREE (sidebar);
 	em_folder_tree_set_excluded (folder_tree, 0);

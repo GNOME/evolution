@@ -28,10 +28,6 @@
 #include "e-util/e-util.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 
-#define EAB_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EAB_TYPE_EDITOR, EABEditorPrivate))
-
 struct _EABEditorPrivate {
 	EShell *shell;
 };
@@ -52,7 +48,7 @@ enum {
 static GSList *all_editors;
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_ABSTRACT_TYPE (EABEditor, eab_editor, G_TYPE_OBJECT)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (EABEditor, eab_editor, G_TYPE_OBJECT)
 
 static void
 eab_editor_quit_requested_cb (EShell *shell,
@@ -123,16 +119,13 @@ eab_editor_get_property (GObject *object,
 static void
 eab_editor_dispose (GObject *object)
 {
-	EABEditorPrivate *priv;
+	EABEditor *self = EAB_EDITOR (object);
 
-	priv = EAB_EDITOR_GET_PRIVATE (object);
-
-	if (priv->shell != NULL) {
+	if (self->priv->shell != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->shell, G_SIGNAL_MATCH_DATA,
+			self->priv->shell, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
-		g_object_unref (priv->shell);
-		priv->shell = NULL;
+		g_clear_object (&self->priv->shell);
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -152,8 +145,6 @@ static void
 eab_editor_class_init (EABEditorClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EABEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = eab_editor_set_property;
@@ -218,7 +209,7 @@ eab_editor_class_init (EABEditorClass *class)
 static void
 eab_editor_init (EABEditor *editor)
 {
-	editor->priv = EAB_EDITOR_GET_PRIVATE (editor);
+	editor->priv = eab_editor_get_instance_private (editor);
 
 	all_editors = g_slist_prepend (all_editors, editor);
 }

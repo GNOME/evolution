@@ -70,6 +70,7 @@ enum {
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE_WITH_CODE (EConfigLookup, e_config_lookup, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EConfigLookup)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 enum {
@@ -320,8 +321,6 @@ e_config_lookup_class_init (EConfigLookupClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (EConfigLookupPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = config_lookup_set_property;
 	object_class->get_property = config_lookup_get_property;
@@ -456,7 +455,7 @@ e_config_lookup_class_init (EConfigLookupClass *klass)
 static void
 e_config_lookup_init (EConfigLookup *config_lookup)
 {
-	config_lookup->priv = G_TYPE_INSTANCE_GET_PRIVATE (config_lookup, E_TYPE_CONFIG_LOOKUP, EConfigLookupPrivate);
+	config_lookup->priv = e_config_lookup_get_instance_private (config_lookup);
 
 	g_mutex_init (&config_lookup->priv->property_lock);
 	config_lookup->priv->pool = g_thread_pool_new (config_lookup_thread, config_lookup, 10, FALSE, NULL);

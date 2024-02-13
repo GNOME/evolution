@@ -28,20 +28,14 @@
 
 #include "e-composer-registry.h"
 
-#define E_COMPOSER_REGISTRY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_REGISTRY, EComposerRegistryPrivate))
-
 struct _EComposerRegistryPrivate {
 	GQueue composers;
 	gboolean orphans_restored;
 	gulong map_event_handler_id;
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EComposerRegistry,
-	e_composer_registry,
-	E_TYPE_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EComposerRegistry, e_composer_registry, E_TYPE_EXTENSION, 0,
+	G_ADD_PRIVATE_DYNAMIC (EComposerRegistry))
 
 static void
 composer_registry_recovered_cb (GObject *source_object,
@@ -176,12 +170,10 @@ composer_registry_window_added_cb (GtkApplication *application,
 static void
 composer_registry_finalize (GObject *object)
 {
-	EComposerRegistryPrivate *priv;
-
-	priv = E_COMPOSER_REGISTRY_GET_PRIVATE (object);
+	EComposerRegistry *self = E_COMPOSER_REGISTRY (object);
 
 	/* All composers should have been finalized by now. */
-	g_warn_if_fail (g_queue_is_empty (&priv->composers));
+	g_warn_if_fail (g_queue_is_empty (&self->priv->composers));
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_composer_registry_parent_class)->finalize (object);
@@ -210,8 +202,6 @@ e_composer_registry_class_init (EComposerRegistryClass *class)
 	GObjectClass *object_class;
 	EExtensionClass *extension_class;
 
-	g_type_class_add_private (class, sizeof (EComposerRegistryPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = composer_registry_finalize;
 	object_class->constructed = composer_registry_constructed;
@@ -228,7 +218,7 @@ e_composer_registry_class_finalize (EComposerRegistryClass *class)
 static void
 e_composer_registry_init (EComposerRegistry *registry)
 {
-	registry->priv = E_COMPOSER_REGISTRY_GET_PRIVATE (registry);
+	registry->priv = e_composer_registry_get_instance_private (registry);
 }
 
 void

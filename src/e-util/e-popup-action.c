@@ -24,10 +24,6 @@
 
 #include <glib/gi18n.h>
 
-#define E_POPUP_ACTION_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_POPUP_ACTION, EPopupActionPrivate))
-
 enum {
 	PROP_0,
 	PROP_RELATED_ACTION,
@@ -44,13 +40,9 @@ struct _EPopupActionPrivate {
 /* Forward Declarations */
 static void e_popup_action_activatable_init (GtkActivatableIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EPopupAction,
-	e_popup_action,
-	GTK_TYPE_ACTION,
-	G_IMPLEMENT_INTERFACE (
-		GTK_TYPE_ACTIVATABLE,
-		e_popup_action_activatable_init))
+G_DEFINE_TYPE_WITH_CODE (EPopupAction, e_popup_action, GTK_TYPE_ACTION,
+	G_ADD_PRIVATE (EPopupAction)
+	G_IMPLEMENT_INTERFACE (GTK_TYPE_ACTIVATABLE, e_popup_action_activatable_init))
 
 static void
 popup_action_notify_cb (GtkAction *action,
@@ -199,19 +191,16 @@ popup_action_get_property (GObject *object,
 static void
 popup_action_dispose (GObject *object)
 {
-	EPopupActionPrivate *priv;
+	EPopupAction *self = E_POPUP_ACTION (object);
 
-	priv = E_POPUP_ACTION_GET_PRIVATE (object);
-
-	if (priv->related_action != NULL) {
+	if (self->priv->related_action != NULL) {
 		g_signal_handler_disconnect (
 			object,
-			priv->activate_handler_id);
+			self->priv->activate_handler_id);
 		g_signal_handler_disconnect (
-			priv->related_action,
-			priv->notify_handler_id);
-		g_object_unref (priv->related_action);
-		priv->related_action = NULL;
+			self->priv->related_action,
+			self->priv->notify_handler_id);
+		g_clear_object (&self->priv->related_action);
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -317,8 +306,6 @@ e_popup_action_class_init (EPopupActionClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EPopupActionPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = popup_action_set_property;
 	object_class->get_property = popup_action_get_property;
@@ -338,7 +325,7 @@ e_popup_action_class_init (EPopupActionClass *class)
 static void
 e_popup_action_init (EPopupAction *popup_action)
 {
-	popup_action->priv = E_POPUP_ACTION_GET_PRIVATE (popup_action);
+	popup_action->priv = e_popup_action_get_instance_private (popup_action);
 	popup_action->priv->use_action_appearance = TRUE;
 
 	/* Remain invisible until we have a related action. */

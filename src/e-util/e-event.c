@@ -30,10 +30,6 @@
 
 #include <glib/gi18n.h>
 
-#define E_EVENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EVENT, EEventPrivate))
-
 #define d(x)
 
 struct _event_node {
@@ -52,10 +48,7 @@ struct _EEventPrivate {
 	GSList *sorted;		/* sorted list of struct _event_info's */
 };
 
-G_DEFINE_TYPE (
-	EEvent,
-	e_event,
-	G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (EEvent, e_event, G_TYPE_OBJECT)
 
 static void
 event_finalize (GObject *object)
@@ -99,8 +92,6 @@ e_event_class_init (EEventClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EEventPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = event_finalize;
 
@@ -110,7 +101,7 @@ e_event_class_init (EEventClass *class)
 static void
 e_event_init (EEvent *event)
 {
-	event->priv = E_EVENT_GET_PRIVATE (event);
+	event->priv = e_event_get_instance_private (event);
 
 	g_queue_init (&event->priv->events);
 }

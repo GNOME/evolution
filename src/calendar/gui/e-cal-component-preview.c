@@ -36,15 +36,6 @@
 
 #include "e-cal-component-preview.h"
 
-#define E_CAL_COMPONENT_PREVIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreviewPrivate))
-
-G_DEFINE_TYPE (
-	ECalComponentPreview,
-	e_cal_component_preview,
-	E_TYPE_WEB_VIEW)
-
 struct _ECalComponentPreviewPrivate {
 	EAttachmentStore *attachment_store;
 	/* information about currently showing component in a preview;
@@ -59,6 +50,8 @@ struct _ECalComponentPreviewPrivate {
 	ICalTimezone *timezone;
 	gboolean use_24_hour_format;
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (ECalComponentPreview, e_cal_component_preview, E_TYPE_WEB_VIEW)
 
 #define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n" \
                     "<head>\n<meta name=\"generator\" content=\"Evolution Calendar Component\">\n" \
@@ -432,8 +425,6 @@ e_cal_component_preview_class_init (ECalComponentPreviewClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ECalComponentPreviewPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = cal_component_preview_finalize;
 }
@@ -441,7 +432,7 @@ e_cal_component_preview_class_init (ECalComponentPreviewClass *class)
 static void
 e_cal_component_preview_init (ECalComponentPreview *preview)
 {
-	preview->priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (preview);
+	preview->priv = e_cal_component_preview_get_instance_private (preview);
 
 	g_signal_connect (
 		preview, "web-process-terminated",

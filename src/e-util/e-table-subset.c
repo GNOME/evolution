@@ -27,10 +27,6 @@
 
 #include "e-table-subset.h"
 
-#define E_TABLE_SUBSET_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TABLE_SUBSET, ETableSubsetPrivate))
-
 #define VALID_ROW(table_subset, row) \
 	(row >= -1 && row < table_subset->n_map)
 #define MAP_ROW(table_subset, row) \
@@ -55,13 +51,9 @@ struct _ETableSubsetPrivate {
 static void	e_table_subset_table_model_init
 					(ETableModelInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	ETableSubset,
-	e_table_subset,
-	G_TYPE_OBJECT,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_TABLE_MODEL,
-		e_table_subset_table_model_init))
+G_DEFINE_TYPE_WITH_CODE (ETableSubset, e_table_subset, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (ETableSubset)
+	G_IMPLEMENT_INTERFACE (E_TYPE_TABLE_MODEL, e_table_subset_table_model_init))
 
 static gint
 table_subset_get_view_row (ETableSubset *table_subset,
@@ -103,60 +95,58 @@ table_subset_get_view_row (ETableSubset *table_subset,
 static void
 table_subset_dispose (GObject *object)
 {
-	ETableSubsetPrivate *priv;
+	ETableSubset *self = E_TABLE_SUBSET (object);
 
-	priv = E_TABLE_SUBSET_GET_PRIVATE (object);
-
-	if (priv->table_model_pre_change_handler_id > 0) {
+	if (self->priv->table_model_pre_change_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->table_model_pre_change_handler_id);
-		priv->table_model_pre_change_handler_id = 0;
+			self->priv->source_model,
+			self->priv->table_model_pre_change_handler_id);
+		self->priv->table_model_pre_change_handler_id = 0;
 	}
 
-	if (priv->table_model_no_change_handler_id > 0) {
+	if (self->priv->table_model_no_change_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->table_model_no_change_handler_id);
-		priv->table_model_no_change_handler_id = 0;
+			self->priv->source_model,
+			self->priv->table_model_no_change_handler_id);
+		self->priv->table_model_no_change_handler_id = 0;
 	}
 
-	if (priv->table_model_changed_handler_id > 0) {
+	if (self->priv->table_model_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->table_model_changed_handler_id);
-		priv->table_model_changed_handler_id = 0;
+			self->priv->source_model,
+			self->priv->table_model_changed_handler_id);
+		self->priv->table_model_changed_handler_id = 0;
 	}
 
-	if (priv->table_model_row_changed_handler_id > 0) {
+	if (self->priv->table_model_row_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->table_model_row_changed_handler_id);
-		priv->table_model_row_changed_handler_id = 0;
+			self->priv->source_model,
+			self->priv->table_model_row_changed_handler_id);
+		self->priv->table_model_row_changed_handler_id = 0;
 	}
 
-	if (priv->table_model_cell_changed_handler_id > 0) {
+	if (self->priv->table_model_cell_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->table_model_cell_changed_handler_id);
-		priv->table_model_cell_changed_handler_id = 0;
+			self->priv->source_model,
+			self->priv->table_model_cell_changed_handler_id);
+		self->priv->table_model_cell_changed_handler_id = 0;
 	}
 
-	if (priv->table_model_rows_inserted_handler_id > 0) {
+	if (self->priv->table_model_rows_inserted_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->table_model_rows_inserted_handler_id);
-		priv->table_model_rows_inserted_handler_id = 0;
+			self->priv->source_model,
+			self->priv->table_model_rows_inserted_handler_id);
+		self->priv->table_model_rows_inserted_handler_id = 0;
 	}
 
-	if (priv->table_model_rows_deleted_handler_id > 0) {
+	if (self->priv->table_model_rows_deleted_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->source_model,
-			priv->table_model_rows_deleted_handler_id);
-		priv->table_model_rows_deleted_handler_id = 0;
+			self->priv->source_model,
+			self->priv->table_model_rows_deleted_handler_id);
+		self->priv->table_model_rows_deleted_handler_id = 0;
 	}
 
-	g_clear_object (&priv->source_model);
+	g_clear_object (&self->priv->source_model);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_subset_parent_class)->dispose (object);
@@ -398,8 +388,6 @@ e_table_subset_class_init (ETableSubsetClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ETableSubsetPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = table_subset_dispose;
 	object_class->finalize = table_subset_finalize;
@@ -437,7 +425,7 @@ e_table_subset_table_model_init (ETableModelInterface *iface)
 static void
 e_table_subset_init (ETableSubset *table_subset)
 {
-	table_subset->priv = E_TABLE_SUBSET_GET_PRIVATE (table_subset);
+	table_subset->priv = e_table_subset_get_instance_private (table_subset);
 }
 
 static void

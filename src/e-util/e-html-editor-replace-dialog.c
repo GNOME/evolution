@@ -24,15 +24,6 @@
 
 #include <glib/gi18n-lib.h>
 
-#define E_HTML_EDITOR_REPLACE_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HTML_EDITOR_REPLACE_DIALOG, EHTMLEditorReplaceDialogPrivate))
-
-G_DEFINE_TYPE (
-	EHTMLEditorReplaceDialog,
-	e_html_editor_replace_dialog,
-	E_TYPE_HTML_EDITOR_DIALOG);
-
 struct _EHTMLEditorReplaceDialogPrivate {
 	GtkWidget *search_entry;
 	GtkWidget *replace_entry;
@@ -56,6 +47,8 @@ enum {
 	PROP_0,
 	PROP_EDITOR
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (EHTMLEditorReplaceDialog, e_html_editor_replace_dialog, E_TYPE_HTML_EDITOR_DIALOG)
 
 static void
 content_editor_find_done_cb (EContentEditor *cnt_editor,
@@ -227,22 +220,20 @@ html_editor_replace_dialog_hide (GtkWidget *widget)
 static void
 html_editor_replace_dialog_dispose (GObject *object)
 {
-	EHTMLEditorReplaceDialogPrivate *priv;
+	EHTMLEditorReplaceDialog *self = E_HTML_EDITOR_REPLACE_DIALOG (object);
 
-	priv = E_HTML_EDITOR_REPLACE_DIALOG_GET_PRIVATE (object);
-
-	if (priv->find_done_handler_id > 0) {
+	if (self->priv->find_done_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->cnt_editor,
-			priv->find_done_handler_id);
-		priv->find_done_handler_id = 0;
+			self->priv->cnt_editor,
+			self->priv->find_done_handler_id);
+		self->priv->find_done_handler_id = 0;
 	}
 
-	if (priv->replace_all_done_handler_id > 0) {
+	if (self->priv->replace_all_done_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->cnt_editor,
-			priv->replace_all_done_handler_id);
-		priv->replace_all_done_handler_id = 0;
+			self->priv->cnt_editor,
+			self->priv->replace_all_done_handler_id);
+		self->priv->replace_all_done_handler_id = 0;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -254,8 +245,6 @@ e_html_editor_replace_dialog_class_init (EHTMLEditorReplaceDialogClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (EHTMLEditorReplaceDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = html_editor_replace_dialog_dispose;
@@ -272,7 +261,7 @@ e_html_editor_replace_dialog_init (EHTMLEditorReplaceDialog *dialog)
 	GtkWidget *widget, *layout;
 	GtkBox *button_box;
 
-	dialog->priv = E_HTML_EDITOR_REPLACE_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_html_editor_replace_dialog_get_instance_private (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 

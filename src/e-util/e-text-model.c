@@ -33,10 +33,6 @@
 #include "e-marshal.h"
 #include "e-text-model-repos.h"
 
-#define E_TEXT_MODEL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TEXT_MODEL, ETextModelPrivate))
-
 enum {
 	E_TEXT_MODEL_CHANGED,
 	E_TEXT_MODEL_REPOSITION,
@@ -70,16 +66,14 @@ static void	e_text_model_real_delete	(ETextModel *model,
 						 gint postion,
 						 gint length);
 
-G_DEFINE_TYPE (ETextModel, e_text_model, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (ETextModel, e_text_model, G_TYPE_OBJECT)
 
 static void
 e_text_model_finalize (GObject *object)
 {
-	ETextModelPrivate *priv;
+	ETextModel *self = E_TEXT_MODEL (object);
 
-	priv = E_TEXT_MODEL_GET_PRIVATE (object);
-
-	g_string_free (priv->text, TRUE);
+	g_string_free (self->priv->text, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_text_model_parent_class)->finalize (object);
@@ -89,8 +83,6 @@ static void
 e_text_model_class_init (ETextModelClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (ETextModelPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_text_model_finalize;
@@ -157,7 +149,7 @@ e_text_model_class_init (ETextModelClass *class)
 static void
 e_text_model_init (ETextModel *model)
 {
-	model->priv = E_TEXT_MODEL_GET_PRIVATE (model);
+	model->priv = e_text_model_get_instance_private (model);
 	model->priv->text = g_string_new ("");
 }
 

@@ -25,18 +25,12 @@
 #include "e-contact-list-model.h"
 #include "shell/e-shell.h"
 
-#define E_CONTACT_LIST_MODEL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CONTACT_LIST_MODEL, EContactListModelPrivate))
-
-G_DEFINE_TYPE (EContactListModel, e_contact_list_model, GTK_TYPE_TREE_STORE);
-
 struct _EContactListModelPrivate {
-
 	GHashTable *uids_table;
 	GHashTable *emails_table;
-
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (EContactListModel, e_contact_list_model, GTK_TYPE_TREE_STORE);
 
 static gboolean
 contact_list_get_iter (EContactListModel *model,
@@ -90,8 +84,6 @@ e_contact_list_model_class_init (EContactListModelClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EContactListModelPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructor = contact_list_model_constructor;
 	object_class->dispose = contact_list_model_dispose;
@@ -100,7 +92,7 @@ e_contact_list_model_class_init (EContactListModelClass *class)
 static void
 e_contact_list_model_init (EContactListModel *model)
 {
-	model->priv = E_CONTACT_LIST_MODEL_GET_PRIVATE (model);
+	model->priv = e_contact_list_model_get_instance_private (model);
 
 	model->priv->uids_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	model->priv->emails_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);

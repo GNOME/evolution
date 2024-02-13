@@ -69,6 +69,7 @@ struct _ECidRequestPrivate {
 static void e_cid_request_content_request_init (EContentRequestInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (ECidRequest, e_cid_request, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (ECidRequest)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CONTENT_REQUEST, e_cid_request_content_request_init))
 
 static gboolean
@@ -163,13 +164,12 @@ e_cid_request_content_request_init (EContentRequestInterface *iface)
 static void
 e_cid_request_class_init (ECidRequestClass *class)
 {
-	g_type_class_add_private (class, sizeof (ECidRequestPrivate));
 }
 
 static void
 e_cid_request_init (ECidRequest *request)
 {
-	request->priv = G_TYPE_INSTANCE_GET_PRIVATE (request, E_TYPE_CID_REQUEST, ECidRequestPrivate);
+	request->priv = e_cid_request_get_instance_private (request);
 }
 
 EContentRequest *

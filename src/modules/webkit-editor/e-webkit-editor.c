@@ -27,10 +27,6 @@
 
 #include <string.h>
 
-#define E_WEBKIT_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEBKIT_EDITOR, EWebKitEditorPrivate))
-
 /* FIXME WK2 Move to e-content-editor? */
 #define UNICODE_NBSP "\xc2\xa0"
 #define SPACES_PER_LIST_LEVEL 3
@@ -211,6 +207,7 @@ static void e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 static void e_webkit_editor_cid_resolver_init (ECidResolverInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (EWebKitEditor, e_webkit_editor, WEBKIT_TYPE_WEB_VIEW,
+	G_ADD_PRIVATE (EWebKitEditor)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CONTENT_EDITOR, e_webkit_editor_content_editor_init)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CID_RESOLVER, e_webkit_editor_cid_resolver_init));
 
@@ -4457,30 +4454,26 @@ webkit_editor_constructor (GType type,
 static void
 webkit_editor_dispose (GObject *object)
 {
-	EWebKitEditorPrivate *priv;
+	EWebKitEditor *self = E_WEBKIT_EDITOR (object);
 
-	priv = E_WEBKIT_EDITOR_GET_PRIVATE (object);
+	if (self->priv->cancellable)
+		g_cancellable_cancel (self->priv->cancellable);
 
-	if (priv->cancellable)
-		g_cancellable_cancel (priv->cancellable);
+	g_clear_pointer (&self->priv->current_user_stylesheet, g_free);
 
-	g_clear_pointer (&priv->current_user_stylesheet, g_free);
-
-	if (priv->font_settings != NULL) {
-		g_signal_handlers_disconnect_by_data (priv->font_settings, object);
-		g_object_unref (priv->font_settings);
-		priv->font_settings = NULL;
+	if (self->priv->font_settings != NULL) {
+		g_signal_handlers_disconnect_by_data (self->priv->font_settings, object);
+		g_clear_object (&self->priv->font_settings);
 	}
 
-	if (priv->mail_settings != NULL) {
-		g_signal_handlers_disconnect_by_data (priv->mail_settings, object);
-		g_object_unref (priv->mail_settings);
-		priv->mail_settings = NULL;
+	if (self->priv->mail_settings != NULL) {
+		g_signal_handlers_disconnect_by_data (self->priv->mail_settings, object);
+		g_clear_object (&self->priv->mail_settings);
 	}
 
-	webkit_editor_finish_search (E_WEBKIT_EDITOR (object));
+	webkit_editor_finish_search (self);
 
-	g_hash_table_remove_all (priv->scheme_handlers);
+	g_hash_table_remove_all (self->priv->scheme_handlers);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_webkit_editor_parent_class)->dispose (object);
@@ -4489,37 +4482,35 @@ webkit_editor_dispose (GObject *object)
 static void
 webkit_editor_finalize (GObject *object)
 {
-	EWebKitEditorPrivate *priv;
+	EWebKitEditor *self = E_WEBKIT_EDITOR (object);
 
-	priv = E_WEBKIT_EDITOR_GET_PRIVATE (object);
+	g_clear_pointer (&self->priv->old_settings, g_hash_table_destroy);
 
-	g_clear_pointer (&priv->old_settings, g_hash_table_destroy);
+	if (self->priv->post_reload_operations) {
+		g_warn_if_fail (g_queue_is_empty (self->priv->post_reload_operations));
 
-	if (priv->post_reload_operations) {
-		g_warn_if_fail (g_queue_is_empty (priv->post_reload_operations));
-
-		g_queue_free (priv->post_reload_operations);
-		priv->post_reload_operations = NULL;
+		g_queue_free (self->priv->post_reload_operations);
+		self->priv->post_reload_operations = NULL;
 	}
 
-	g_clear_pointer (&priv->background_color, gdk_rgba_free);
-	g_clear_pointer (&priv->font_color, gdk_rgba_free);
-	g_clear_pointer (&priv->body_fg_color, gdk_rgba_free);
-	g_clear_pointer (&priv->body_bg_color, gdk_rgba_free);
-	g_clear_pointer (&priv->body_link_color, gdk_rgba_free);
-	g_clear_pointer (&priv->body_vlink_color, gdk_rgba_free);
+	g_clear_pointer (&self->priv->background_color, gdk_rgba_free);
+	g_clear_pointer (&self->priv->font_color, gdk_rgba_free);
+	g_clear_pointer (&self->priv->body_fg_color, gdk_rgba_free);
+	g_clear_pointer (&self->priv->body_bg_color, gdk_rgba_free);
+	g_clear_pointer (&self->priv->body_link_color, gdk_rgba_free);
+	g_clear_pointer (&self->priv->body_vlink_color, gdk_rgba_free);
 
-	g_clear_pointer (&priv->last_hover_uri, g_free);
+	g_clear_pointer (&self->priv->last_hover_uri, g_free);
 
-	g_clear_object (&priv->spell_checker);
-	g_clear_object (&priv->cancellable);
-	g_clear_error (&priv->last_error);
+	g_clear_object (&self->priv->spell_checker);
+	g_clear_object (&self->priv->cancellable);
+	g_clear_error (&self->priv->last_error);
 
-	g_free (priv->body_font_name);
-	g_free (priv->font_name);
-	g_free (priv->context_menu_caret_word);
+	g_free (self->priv->body_font_name);
+	g_free (self->priv->font_name);
+	g_free (self->priv->context_menu_caret_word);
 
-	g_hash_table_destroy (priv->scheme_handlers);
+	g_hash_table_destroy (self->priv->scheme_handlers);
 
 	wk_editor_change_existing_instances (-1);
 
@@ -5740,8 +5731,6 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EWebKitEditorPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = webkit_editor_constructed;
 	object_class->constructor = webkit_editor_constructor;
@@ -5914,7 +5903,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 {
 	GSettings *g_settings;
 
-	wk_editor->priv = E_WEBKIT_EDITOR_GET_PRIVATE (wk_editor);
+	wk_editor->priv = e_webkit_editor_get_instance_private (wk_editor);
 
 	/* To be able to cancel any pending calls when 'dispose' is called. */
 	wk_editor->priv->cancellable = g_cancellable_new ();

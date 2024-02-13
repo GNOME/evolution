@@ -49,6 +49,7 @@ static void
 e_mail_folder_sort_order_dialog_alert_sink_init (EAlertSinkInterface *interface);
 
 G_DEFINE_TYPE_WITH_CODE (EMailFolderSortOrderDialog, e_mail_folder_sort_order_dialog, GTK_TYPE_DIALOG,
+	G_ADD_PRIVATE (EMailFolderSortOrderDialog)
 	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, e_mail_folder_sort_order_dialog_alert_sink_init))
 
 static void
@@ -801,8 +802,6 @@ e_mail_folder_sort_order_dialog_class_init (EMailFolderSortOrderDialogClass *kla
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (klass, sizeof (EMailFolderSortOrderDialogPrivate));
-
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->realize = e_mail_folder_sort_order_dialog_realize;
 
@@ -847,7 +846,7 @@ e_mail_folder_sort_order_dialog_alert_sink_init (EAlertSinkInterface *interface)
 static void
 e_mail_folder_sort_order_dialog_init (EMailFolderSortOrderDialog *dialog)
 {
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (dialog, E_TYPE_MAIL_FOLDER_SORT_ORDER_DIALOG, EMailFolderSortOrderDialogPrivate);
+	dialog->priv = e_mail_folder_sort_order_dialog_get_instance_private (dialog);
 }
 
 GtkWidget *

@@ -15,11 +15,9 @@
  *
  */
 
-#include "e-mail-config-service-notebook.h"
+#include "evolution-config.h"
 
-#define E_MAIL_CONFIG_SERVICE_NOTEBOOK_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_SERVICE_NOTEBOOK, EMailConfigServiceNotebookPrivate))
+#include "e-mail-config-service-notebook.h"
 
 #define CHILD_BACKEND_KEY_FORMAT \
 	"__e_mail_config_service_notebook_%p_child_backend__"
@@ -39,10 +37,7 @@ enum {
 	PROP_CHILD_BACKEND
 };
 
-G_DEFINE_TYPE (
-	EMailConfigServiceNotebook,
-	e_mail_config_service_notebook,
-	GTK_TYPE_NOTEBOOK)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailConfigServiceNotebook, e_mail_config_service_notebook, GTK_TYPE_NOTEBOOK)
 
 static void
 mail_config_service_notebook_set_child_backend (EMailConfigServiceNotebook *notebook,
@@ -170,28 +165,23 @@ mail_config_service_notebook_get_property (GObject *object,
 static void
 mail_config_service_notebook_dispose (GObject *object)
 {
-	EMailConfigServiceNotebookPrivate *priv;
+	EMailConfigServiceNotebook *self = E_MAIL_CONFIG_SERVICE_NOTEBOOK (object);
 
-	priv = E_MAIL_CONFIG_SERVICE_NOTEBOOK_GET_PRIVATE (object);
-	g_clear_object (&priv->active_backend);
+	g_clear_object (&self->priv->active_backend);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_service_notebook_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_service_notebook_parent_class)->dispose (object);
 }
 
 static void
 mail_config_service_notebook_finalize (GObject *object)
 {
-	EMailConfigServiceNotebookPrivate *priv;
+	EMailConfigServiceNotebook *self = E_MAIL_CONFIG_SERVICE_NOTEBOOK (object);
 
-	priv = E_MAIL_CONFIG_SERVICE_NOTEBOOK_GET_PRIVATE (object);
-
-	g_free (priv->child_backend_key);
+	g_free (self->priv->child_backend_key);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_config_service_notebook_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_mail_config_service_notebook_parent_class)->finalize (object);
 }
 
 static void
@@ -258,9 +248,6 @@ e_mail_config_service_notebook_class_init (EMailConfigServiceNotebookClass *clas
 	GObjectClass *object_class;
 	GtkContainerClass *container_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailConfigServiceNotebookPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_service_notebook_set_property;
 	object_class->get_property = mail_config_service_notebook_get_property;
@@ -301,7 +288,7 @@ e_mail_config_service_notebook_init (EMailConfigServiceNotebook *notebook)
 {
 	gchar *key;
 
-	notebook->priv = E_MAIL_CONFIG_SERVICE_NOTEBOOK_GET_PRIVATE (notebook);
+	notebook->priv = e_mail_config_service_notebook_get_instance_private (notebook);
 
 	key = g_strdup_printf (CHILD_BACKEND_KEY_FORMAT, notebook);
 	notebook->priv->child_backend_key = key;

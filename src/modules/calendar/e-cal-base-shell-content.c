@@ -38,7 +38,7 @@ enum {
 	PROP_MODEL
 };
 
-G_DEFINE_ABSTRACT_TYPE (ECalBaseShellContent, e_cal_base_shell_content, E_TYPE_SHELL_CONTENT)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (ECalBaseShellContent, e_cal_base_shell_content, E_TYPE_SHELL_CONTENT)
 
 static void
 cal_base_shell_content_client_opened_cb (ECalBaseShellSidebar *cal_base_shell_sidebar,
@@ -375,8 +375,6 @@ e_cal_base_shell_content_class_init (ECalBaseShellContentClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ECalBaseShellContentPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = cal_base_shell_content_get_property;
 	object_class->dispose = cal_base_shell_content_dispose;
@@ -407,8 +405,7 @@ e_cal_base_shell_content_class_init (ECalBaseShellContentClass *class)
 static void
 e_cal_base_shell_content_init (ECalBaseShellContent *cal_base_shell_content)
 {
-	cal_base_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		cal_base_shell_content, E_TYPE_CAL_BASE_SHELL_CONTENT, ECalBaseShellContentPrivate);
+	cal_base_shell_content->priv = e_cal_base_shell_content_get_instance_private (cal_base_shell_content);
 }
 
 ECalDataModel *

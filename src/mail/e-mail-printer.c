@@ -34,10 +34,6 @@
 
 #define w(x)
 
-#define E_MAIL_PRINTER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_PRINTER, EMailPrinterPrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailPrinterPrivate {
@@ -71,10 +67,7 @@ enum {
 	LAST_COLUMN
 };
 
-G_DEFINE_TYPE (
-	EMailPrinter,
-	e_mail_printer,
-	G_TYPE_OBJECT);
+G_DEFINE_TYPE_WITH_PRIVATE (EMailPrinter, e_mail_printer, G_TYPE_OBJECT)
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -425,14 +418,12 @@ mail_printer_get_property (GObject *object,
 static void
 mail_printer_dispose (GObject *object)
 {
-	EMailPrinterPrivate *priv;
+	EMailPrinter *self = E_MAIL_PRINTER (object);
 
-	priv = E_MAIL_PRINTER_GET_PRIVATE (object);
-
-	g_clear_object (&priv->formatter);
-	g_clear_object (&priv->part_list);
-	g_clear_object (&priv->remote_content);
-	g_free (priv->export_filename);
+	g_clear_object (&self->priv->formatter);
+	g_clear_object (&self->priv->part_list);
+	g_clear_object (&self->priv->remote_content);
+	g_clear_pointer (&self->priv->export_filename, g_free);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_printer_parent_class)->dispose (object);
@@ -442,8 +433,6 @@ static void
 e_mail_printer_class_init (EMailPrinterClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EMailPrinterPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_printer_set_property;
@@ -476,7 +465,7 @@ e_mail_printer_class_init (EMailPrinterClass *class)
 static void
 e_mail_printer_init (EMailPrinter *printer)
 {
-	printer->priv = E_MAIL_PRINTER_GET_PRIVATE (printer);
+	printer->priv = e_mail_printer_get_instance_private (printer);
 
 	printer->priv->formatter = e_mail_formatter_print_new ();
 	printer->priv->mode = E_MAIL_FORMATTER_MODE_PRINTING;

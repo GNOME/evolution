@@ -29,10 +29,6 @@
 
 #include "e-mail-config-defaults-page.h"
 
-#define E_MAIL_CONFIG_DEFAULTS_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_DEFAULTS_PAGE, EMailConfigDefaultsPagePrivate))
-
 struct _EMailConfigDefaultsPagePrivate {
 	EMailSession *session;
 	ESource *account_source;
@@ -64,15 +60,10 @@ enum {
 static void	e_mail_config_defaults_page_interface_init
 					(EMailConfigPageInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EMailConfigDefaultsPage,
-	e_mail_config_defaults_page,
-	E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_MAIL_CONFIG_PAGE,
-		e_mail_config_defaults_page_interface_init))
+G_DEFINE_TYPE_WITH_CODE (EMailConfigDefaultsPage, e_mail_config_defaults_page, E_TYPE_MAIL_CONFIG_ACTIVITY_PAGE,
+	G_ADD_PRIVATE (EMailConfigDefaultsPage)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (E_TYPE_MAIL_CONFIG_PAGE, e_mail_config_defaults_page_interface_init))
 
 static CamelSettings *
 mail_config_defaults_page_maybe_get_settings (EMailConfigDefaultsPage *page)
@@ -587,19 +578,16 @@ mail_config_defaults_page_get_property (GObject *object,
 static void
 mail_config_defaults_page_dispose (GObject *object)
 {
-	EMailConfigDefaultsPagePrivate *priv;
+	EMailConfigDefaultsPage *self = E_MAIL_CONFIG_DEFAULTS_PAGE (object);
 
-	priv = E_MAIL_CONFIG_DEFAULTS_PAGE_GET_PRIVATE (object);
-
-	g_clear_object (&priv->account_source);
-	g_clear_object (&priv->collection_source);
-	g_clear_object (&priv->identity_source);
-	g_clear_object (&priv->transport_source);
-	g_clear_object (&priv->session);
+	g_clear_object (&self->priv->account_source);
+	g_clear_object (&self->priv->collection_source);
+	g_clear_object (&self->priv->identity_source);
+	g_clear_object (&self->priv->transport_source);
+	g_clear_object (&self->priv->session);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_defaults_page_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_defaults_page_parent_class)->dispose (object);
 }
 
 static void
@@ -896,9 +884,6 @@ e_mail_config_defaults_page_class_init (EMailConfigDefaultsPageClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (
-		class, sizeof (EMailConfigDefaultsPagePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_defaults_page_set_property;
 	object_class->get_property = mail_config_defaults_page_get_property;
@@ -988,7 +973,7 @@ e_mail_config_defaults_page_interface_init (EMailConfigPageInterface *iface)
 static void
 e_mail_config_defaults_page_init (EMailConfigDefaultsPage *page)
 {
-	page->priv = E_MAIL_CONFIG_DEFAULTS_PAGE_GET_PRIVATE (page);
+	page->priv = e_mail_config_defaults_page_get_instance_private (page);
 }
 
 EMailConfigPage *

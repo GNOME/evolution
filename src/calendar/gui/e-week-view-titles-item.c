@@ -26,10 +26,6 @@
 #include <e-util/e-util.h>
 #include "e-week-view-titles-item.h"
 
-#define E_WEEK_VIEW_TITLES_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEEK_VIEW_TITLES_ITEM, EWeekViewTitlesItemPrivate))
-
 struct _EWeekViewTitlesItemPrivate {
 	EWeekView *week_view;
 };
@@ -39,10 +35,7 @@ enum {
 	PROP_WEEK_VIEW
 };
 
-G_DEFINE_TYPE (
-	EWeekViewTitlesItem,
-	e_week_view_titles_item,
-	GNOME_TYPE_CANVAS_ITEM)
+G_DEFINE_TYPE_WITH_PRIVATE (EWeekViewTitlesItem, e_week_view_titles_item, GNOME_TYPE_CANVAS_ITEM)
 
 static void
 week_view_titles_item_set_property (GObject *object,
@@ -82,10 +75,9 @@ week_view_titles_item_get_property (GObject *object,
 static void
 week_view_titles_item_dispose (GObject *object)
 {
-	EWeekViewTitlesItemPrivate *priv;
+	EWeekViewTitlesItem *self = E_WEEK_VIEW_TITLES_ITEM (object);
 
-	priv = E_WEEK_VIEW_TITLES_ITEM_GET_PRIVATE (object);
-	g_clear_object (&priv->week_view);
+	g_clear_object (&self->priv->week_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_week_view_titles_item_parent_class)->dispose (object);
@@ -257,8 +249,6 @@ e_week_view_titles_item_class_init (EWeekViewTitlesItemClass *class)
 	GObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	g_type_class_add_private (class, sizeof (EWeekViewTitlesItemPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = week_view_titles_item_set_property;
 	object_class->get_property = week_view_titles_item_get_property;
@@ -283,7 +273,7 @@ e_week_view_titles_item_class_init (EWeekViewTitlesItemClass *class)
 static void
 e_week_view_titles_item_init (EWeekViewTitlesItem *titles_item)
 {
-	titles_item->priv = E_WEEK_VIEW_TITLES_ITEM_GET_PRIVATE (titles_item);
+	titles_item->priv = e_week_view_titles_item_get_instance_private (titles_item);
 }
 
 EWeekView *

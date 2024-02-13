@@ -26,10 +26,6 @@
 
 #include "e-mail-config-auth-check.h"
 
-#define E_MAIL_CONFIG_AUTH_CHECK_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_CONFIG_AUTH_CHECK, EMailConfigAuthCheckPrivate))
-
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailConfigAuthCheckPrivate {
@@ -53,10 +49,7 @@ enum {
 	PROP_BACKEND
 };
 
-G_DEFINE_TYPE (
-	EMailConfigAuthCheck,
-	e_mail_config_auth_check,
-	GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailConfigAuthCheck, e_mail_config_auth_check, GTK_TYPE_BOX)
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -374,40 +367,33 @@ mail_config_auth_check_get_property (GObject *object,
 static void
 mail_config_auth_check_dispose (GObject *object)
 {
-	EMailConfigAuthCheckPrivate *priv;
+	EMailConfigAuthCheck *self = E_MAIL_CONFIG_AUTH_CHECK (object);
 
-	priv = E_MAIL_CONFIG_AUTH_CHECK_GET_PRIVATE (object);
-
-	if (priv->backend != NULL) {
-		if (priv->host_changed_id) {
+	if (self->priv->backend != NULL) {
+		if (self->priv->host_changed_id) {
 			CamelSettings *settings;
 
-			settings = e_mail_config_service_backend_get_settings (priv->backend);
+			settings = e_mail_config_service_backend_get_settings (self->priv->backend);
 			if (settings)
-				e_signal_disconnect_notify_handler (settings, &priv->host_changed_id);
+				e_signal_disconnect_notify_handler (settings, &self->priv->host_changed_id);
 		}
 
-		g_object_unref (priv->backend);
-		priv->backend = NULL;
+		g_clear_object (&self->priv->backend);
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_config_auth_check_parent_class)->
-		dispose (object);
+	G_OBJECT_CLASS (e_mail_config_auth_check_parent_class)->dispose (object);
 }
 
 static void
 mail_config_auth_check_finalize (GObject *object)
 {
-	EMailConfigAuthCheckPrivate *priv;
+	EMailConfigAuthCheck *self = E_MAIL_CONFIG_AUTH_CHECK (object);
 
-	priv = E_MAIL_CONFIG_AUTH_CHECK_GET_PRIVATE (object);
-
-	g_free (priv->active_mechanism);
+	g_free (self->priv->active_mechanism);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_mail_config_auth_check_parent_class)->
-		finalize (object);
+	G_OBJECT_CLASS (e_mail_config_auth_check_parent_class)->finalize (object);
 }
 
 static void
@@ -482,8 +468,6 @@ e_mail_config_auth_check_class_init (EMailConfigAuthCheckClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailConfigAuthCheckPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_config_auth_check_set_property;
 	object_class->get_property = mail_config_auth_check_get_property;
@@ -518,7 +502,7 @@ e_mail_config_auth_check_class_init (EMailConfigAuthCheckClass *class)
 static void
 e_mail_config_auth_check_init (EMailConfigAuthCheck *auth_check)
 {
-	auth_check->priv = E_MAIL_CONFIG_AUTH_CHECK_GET_PRIVATE (auth_check);
+	auth_check->priv = e_mail_config_auth_check_get_instance_private (auth_check);
 	auth_check->priv->host_changed_id = 0;
 	auth_check->priv->used_xoauth2 = NULL;
 

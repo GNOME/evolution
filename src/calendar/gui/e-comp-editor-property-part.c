@@ -46,7 +46,7 @@ enum {
 
 static guint property_part_signals[PROPERTY_PART_LAST_SIGNAL];
 
-G_DEFINE_ABSTRACT_TYPE (ECompEditorPropertyPart, e_comp_editor_property_part, G_TYPE_OBJECT)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (ECompEditorPropertyPart, e_comp_editor_property_part, G_TYPE_OBJECT)
 
 static void
 e_comp_editor_property_part_set_property (GObject *object,
@@ -168,9 +168,7 @@ e_comp_editor_property_part_impl_sensitize_widgets (ECompEditorPropertyPart *pro
 static void
 e_comp_editor_property_part_init (ECompEditorPropertyPart *property_part)
 {
-	property_part->priv = G_TYPE_INSTANCE_GET_PRIVATE (property_part,
-		E_TYPE_COMP_EDITOR_PROPERTY_PART,
-		ECompEditorPropertyPartPrivate);
+	property_part->priv = e_comp_editor_property_part_get_instance_private (property_part);
 	property_part->priv->visible = TRUE;
 	property_part->priv->sensitize_handled = FALSE;
 }
@@ -179,8 +177,6 @@ static void
 e_comp_editor_property_part_class_init (ECompEditorPropertyPartClass *klass)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPropertyPartPrivate));
 
 	klass->sensitize_widgets = e_comp_editor_property_part_impl_sensitize_widgets;
 
@@ -363,7 +359,7 @@ struct _ECompEditorPropertyPartStringPrivate {
 	gboolean is_multivalue;
 };
 
-G_DEFINE_ABSTRACT_TYPE (ECompEditorPropertyPartString, e_comp_editor_property_part_string, E_TYPE_COMP_EDITOR_PROPERTY_PART)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (ECompEditorPropertyPartString, e_comp_editor_property_part_string, E_TYPE_COMP_EDITOR_PROPERTY_PART)
 
 static void
 ecepp_string_create_widgets (ECompEditorPropertyPart *property_part,
@@ -602,9 +598,7 @@ ecepp_string_get_real_edit_widget (ECompEditorPropertyPartString *part_string)
 static void
 e_comp_editor_property_part_string_init (ECompEditorPropertyPartString *part_string)
 {
-	part_string->priv = G_TYPE_INSTANCE_GET_PRIVATE (part_string,
-		E_TYPE_COMP_EDITOR_PROPERTY_PART_STRING,
-		ECompEditorPropertyPartStringPrivate);
+	part_string->priv = e_comp_editor_property_part_string_get_instance_private (part_string);
 	part_string->priv->is_multivalue = FALSE;
 }
 
@@ -612,8 +606,6 @@ static void
 e_comp_editor_property_part_string_class_init (ECompEditorPropertyPartStringClass *klass)
 {
 	ECompEditorPropertyPartClass *part_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPropertyPartStringPrivate));
 
 	klass->entry_type = GTK_TYPE_ENTRY;
 
@@ -699,7 +691,7 @@ enum {
 
 static guint ecepp_datetime_signals[ECEPP_DATETIME_LAST_SIGNAL];
 
-G_DEFINE_ABSTRACT_TYPE (ECompEditorPropertyPartDatetime, e_comp_editor_property_part_datetime, E_TYPE_COMP_EDITOR_PROPERTY_PART)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (ECompEditorPropertyPartDatetime, e_comp_editor_property_part_datetime, E_TYPE_COMP_EDITOR_PROPERTY_PART)
 
 static ICalTimezone *
 ecepp_datetime_lookup_timezone (ECompEditorPropertyPartDatetime *part_datetime,
@@ -982,9 +974,7 @@ ecepp_datetime_finalize (GObject *object)
 static void
 e_comp_editor_property_part_datetime_init (ECompEditorPropertyPartDatetime *part_datetime)
 {
-	part_datetime->priv = G_TYPE_INSTANCE_GET_PRIVATE (part_datetime,
-		E_TYPE_COMP_EDITOR_PROPERTY_PART_DATETIME,
-		ECompEditorPropertyPartDatetimePrivate);
+	part_datetime->priv = e_comp_editor_property_part_datetime_get_instance_private (part_datetime);
 
 	g_weak_ref_init (&part_datetime->priv->timezone_entry, NULL);
 }
@@ -994,8 +984,6 @@ e_comp_editor_property_part_datetime_class_init (ECompEditorPropertyPartDatetime
 {
 	ECompEditorPropertyPartClass *part_class;
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPropertyPartDatetimePrivate));
 
 	klass->prop_kind = I_CAL_NO_PROPERTY;
 	klass->i_cal_new_func = NULL;
@@ -1246,7 +1234,7 @@ struct _ECompEditorPropertyPartSpinPrivate {
 	gint dummy;
 };
 
-G_DEFINE_ABSTRACT_TYPE (ECompEditorPropertyPartSpin, e_comp_editor_property_part_spin, E_TYPE_COMP_EDITOR_PROPERTY_PART)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (ECompEditorPropertyPartSpin, e_comp_editor_property_part_spin, E_TYPE_COMP_EDITOR_PROPERTY_PART)
 
 static void
 ecepp_spin_create_widgets (ECompEditorPropertyPart *property_part,
@@ -1353,17 +1341,13 @@ ecepp_spin_fill_component (ECompEditorPropertyPart *property_part,
 static void
 e_comp_editor_property_part_spin_init (ECompEditorPropertyPartSpin *part_spin)
 {
-	part_spin->priv = G_TYPE_INSTANCE_GET_PRIVATE (part_spin,
-		E_TYPE_COMP_EDITOR_PROPERTY_PART_SPIN,
-		ECompEditorPropertyPartSpinPrivate);
+	part_spin->priv = e_comp_editor_property_part_spin_get_instance_private (part_spin);
 }
 
 static void
 e_comp_editor_property_part_spin_class_init (ECompEditorPropertyPartSpinClass *klass)
 {
 	ECompEditorPropertyPartClass *part_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPropertyPartSpinPrivate));
 
 	klass->prop_kind = I_CAL_NO_PROPERTY;
 	klass->i_cal_new_func = NULL;
@@ -1418,7 +1402,7 @@ struct _ECompEditorPropertyPartPickerPrivate {
 	gint dummy;
 };
 
-G_DEFINE_ABSTRACT_TYPE (ECompEditorPropertyPartPicker, e_comp_editor_property_part_picker, E_TYPE_COMP_EDITOR_PROPERTY_PART)
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (ECompEditorPropertyPartPicker, e_comp_editor_property_part_picker, E_TYPE_COMP_EDITOR_PROPERTY_PART)
 
 static void
 ecepp_picker_create_widgets (ECompEditorPropertyPart *property_part,
@@ -1525,17 +1509,13 @@ ecepp_picker_fill_component (ECompEditorPropertyPart *property_part,
 static void
 e_comp_editor_property_part_picker_init (ECompEditorPropertyPartPicker *part_picker)
 {
-	part_picker->priv = G_TYPE_INSTANCE_GET_PRIVATE (part_picker,
-		E_TYPE_COMP_EDITOR_PROPERTY_PART_PICKER,
-		ECompEditorPropertyPartPickerPrivate);
+	part_picker->priv = e_comp_editor_property_part_picker_get_instance_private (part_picker);
 }
 
 static void
 e_comp_editor_property_part_picker_class_init (ECompEditorPropertyPartPickerClass *klass)
 {
 	ECompEditorPropertyPartClass *part_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPropertyPartPickerPrivate));
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_picker_create_widgets;
@@ -1643,7 +1623,7 @@ enum {
 	PICKER_WITH_MAP_PROP_LABEL
 };
 
-G_DEFINE_TYPE (ECompEditorPropertyPartPickerWithMap, e_comp_editor_property_part_picker_with_map, E_TYPE_COMP_EDITOR_PROPERTY_PART_PICKER)
+G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorPropertyPartPickerWithMap, e_comp_editor_property_part_picker_with_map, E_TYPE_COMP_EDITOR_PROPERTY_PART_PICKER)
 
 static void
 ecepp_picker_with_map_get_values (ECompEditorPropertyPartPicker *part_picker,
@@ -1851,9 +1831,7 @@ ecepp_picker_with_map_finalize (GObject *object)
 static void
 e_comp_editor_property_part_picker_with_map_init (ECompEditorPropertyPartPickerWithMap *part_picker_with_map)
 {
-	part_picker_with_map->priv = G_TYPE_INSTANCE_GET_PRIVATE (part_picker_with_map,
-		E_TYPE_COMP_EDITOR_PROPERTY_PART_PICKER_WITH_MAP,
-		ECompEditorPropertyPartPickerWithMapPrivate);
+	part_picker_with_map->priv = e_comp_editor_property_part_picker_with_map_get_instance_private (part_picker_with_map);
 }
 
 static void
@@ -1862,8 +1840,6 @@ e_comp_editor_property_part_picker_with_map_class_init (ECompEditorPropertyPartP
 	ECompEditorPropertyPartPickerClass *part_picker_class;
 	ECompEditorPropertyPartClass *part_class;
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (ECompEditorPropertyPartPickerWithMapPrivate));
 
 	part_picker_class = E_COMP_EDITOR_PROPERTY_PART_PICKER_CLASS (klass);
 	part_picker_class->get_values = ecepp_picker_with_map_get_values;

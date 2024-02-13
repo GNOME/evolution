@@ -40,6 +40,7 @@ struct _EWebExtensionPrivate {
 };
 
 G_DEFINE_TYPE_WITH_CODE (EWebExtension, e_web_extension, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EWebExtension)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
@@ -68,8 +69,6 @@ e_web_extension_class_init (EWebExtensionClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	g_type_class_add_private (object_class, sizeof (EWebExtensionPrivate));
-
 	object_class->constructed = e_web_extension_constructed;
 	object_class->dispose = e_web_extension_dispose;
 }
@@ -77,7 +76,7 @@ e_web_extension_class_init (EWebExtensionClass *class)
 static void
 e_web_extension_init (EWebExtension *extension)
 {
-	extension->priv = G_TYPE_INSTANCE_GET_PRIVATE (extension, E_TYPE_WEB_EXTENSION, EWebExtensionPrivate);
+	extension->priv = e_web_extension_get_instance_private (extension);
 
 	extension->priv->initialized = FALSE;
 }

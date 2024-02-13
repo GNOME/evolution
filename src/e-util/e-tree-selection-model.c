@@ -28,13 +28,6 @@
 
 #include "e-tree-table-adapter.h"
 
-#define E_TREE_SELECTION_MODEL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TREE_SELECTION_MODEL, ETreeSelectionModelPrivate))
-
-G_DEFINE_TYPE (
-	ETreeSelectionModel, e_tree_selection_model, E_TYPE_SELECTION_MODEL)
-
 enum {
 	PROP_0,
 	PROP_CURSOR_ROW,
@@ -60,6 +53,8 @@ struct _ETreeSelectionModelPrivate {
 	gint tree_model_node_removed_id;
 	gint tree_model_node_deleted_id;
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (ETreeSelectionModel, e_tree_selection_model, E_TYPE_SELECTION_MODEL)
 
 static gint
 get_cursor_row (ETreeSelectionModel *etsm)
@@ -362,12 +357,10 @@ tree_selection_model_dispose (GObject *object)
 static void
 tree_selection_model_finalize (GObject *object)
 {
-	ETreeSelectionModelPrivate *priv;
+	ETreeSelectionModel *self = E_TREE_SELECTION_MODEL (object);
 
-	priv = E_TREE_SELECTION_MODEL_GET_PRIVATE (object);
-
-	clear_selection (E_TREE_SELECTION_MODEL (object));
-	g_hash_table_destroy (priv->paths);
+	clear_selection (self);
+	g_hash_table_destroy (self->priv->paths);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_tree_selection_model_parent_class)->finalize (object);
@@ -661,8 +654,6 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *class)
 	GObjectClass *object_class;
 	ESelectionModelClass *esm_class;
 
-	g_type_class_add_private (class, sizeof (ETreeSelectionModelPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = tree_selection_model_set_property;
 	object_class->get_property = tree_selection_model_get_property;
@@ -731,7 +722,7 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *class)
 static void
 e_tree_selection_model_init (ETreeSelectionModel *etsm)
 {
-	etsm->priv = E_TREE_SELECTION_MODEL_GET_PRIVATE (etsm);
+	etsm->priv = e_tree_selection_model_get_instance_private (etsm);
 
 	etsm->priv->paths = g_hash_table_new (NULL, NULL);
 	etsm->priv->cursor_col = -1;

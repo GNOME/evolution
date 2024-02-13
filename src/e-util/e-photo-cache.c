@@ -37,10 +37,6 @@
 #include "e-simple-async-result.h"
 #include "e-photo-cache.h"
 
-#define E_PHOTO_CACHE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PHOTO_CACHE, EPhotoCachePrivate))
-
 /* How long (in seconds) to hold out for a hit from the highest
  * priority photo source, after which we settle for what we have. */
 #define ASYNC_TIMEOUT_SECONDS 3.0
@@ -112,12 +108,9 @@ enum {
 /* Forward Declarations */
 static void	async_context_cancel_subtasks	(AsyncContext *async_context);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EPhotoCache,
-	e_photo_cache,
-	G_TYPE_OBJECT,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL))
+G_DEFINE_TYPE_WITH_CODE (EPhotoCache, e_photo_cache, G_TYPE_OBJECT,
+	G_ADD_PRIVATE (EPhotoCache)
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static AsyncSubtask *
 async_subtask_new (EPhotoSource *photo_source,
@@ -752,13 +745,11 @@ photo_cache_get_property (GObject *object,
 static void
 photo_cache_dispose (GObject *object)
 {
-	EPhotoCachePrivate *priv;
+	EPhotoCache *self = E_PHOTO_CACHE (object);
 
-	priv = E_PHOTO_CACHE_GET_PRIVATE (object);
+	g_clear_object (&self->priv->client_cache);
 
-	g_clear_object (&priv->client_cache);
-
-	photo_ht_remove_all (E_PHOTO_CACHE (object));
+	photo_ht_remove_all (self);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_photo_cache_parent_class)->dispose (object);
@@ -767,17 +758,15 @@ photo_cache_dispose (GObject *object)
 static void
 photo_cache_finalize (GObject *object)
 {
-	EPhotoCachePrivate *priv;
+	EPhotoCache *self = E_PHOTO_CACHE (object);
 
-	priv = E_PHOTO_CACHE_GET_PRIVATE (object);
+	g_main_context_unref (self->priv->main_context);
 
-	g_main_context_unref (priv->main_context);
+	g_hash_table_destroy (self->priv->photo_ht);
+	g_hash_table_destroy (self->priv->sources_ht);
 
-	g_hash_table_destroy (priv->photo_ht);
-	g_hash_table_destroy (priv->sources_ht);
-
-	g_mutex_clear (&priv->photo_ht_lock);
-	g_mutex_clear (&priv->sources_ht_lock);
+	g_mutex_clear (&self->priv->photo_ht_lock);
+	g_mutex_clear (&self->priv->sources_ht_lock);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_photo_cache_parent_class)->finalize (object);
@@ -796,8 +785,6 @@ static void
 e_photo_cache_class_init (EPhotoCacheClass *class)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (class, sizeof (EPhotoCachePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = photo_cache_set_property;
@@ -842,7 +829,7 @@ e_photo_cache_init (EPhotoCache *photo_cache)
 		(GDestroyNotify) g_object_unref,
 		(GDestroyNotify) NULL);
 
-	photo_cache->priv = E_PHOTO_CACHE_GET_PRIVATE (photo_cache);
+	photo_cache->priv = e_photo_cache_get_instance_private (photo_cache);
 	photo_cache->priv->main_context = g_main_context_ref_thread_default ();
 	photo_cache->priv->photo_ht = photo_ht;
 	photo_cache->priv->sources_ht = sources_ht;

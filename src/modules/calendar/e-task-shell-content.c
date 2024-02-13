@@ -27,10 +27,6 @@
 #include "e-cal-base-shell-sidebar.h"
 #include "e-task-shell-content.h"
 
-#define E_TASK_SHELL_CONTENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TASK_SHELL_CONTENT, ETaskShellContentPrivate))
-
 struct _ETaskShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *task_table;
@@ -50,6 +46,7 @@ enum {
 };
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (ETaskShellContent, e_task_shell_content, E_TYPE_CAL_BASE_SHELL_CONTENT, 0,
+	G_ADD_PRIVATE_DYNAMIC (ETaskShellContent)
 	G_IMPLEMENT_INTERFACE_DYNAMIC (GTK_TYPE_ORIENTABLE, NULL))
 
 static void
@@ -605,8 +602,6 @@ e_task_shell_content_class_init (ETaskShellContentClass *class)
 	EShellContentClass *shell_content_class;
 	ECalBaseShellContentClass *cal_base_shell_content_class;
 
-	g_type_class_add_private (class, sizeof (ETaskShellContentPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = task_shell_content_set_property;
 	object_class->get_property = task_shell_content_get_property;
@@ -644,7 +639,7 @@ e_task_shell_content_class_finalize (ETaskShellContentClass *class)
 static void
 e_task_shell_content_init (ETaskShellContent *task_shell_content)
 {
-	task_shell_content->priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (task_shell_content);
+	task_shell_content->priv = e_task_shell_content_get_instance_private (task_shell_content);
 
 	/* Postpone widget construction until we have a shell view. */
 }

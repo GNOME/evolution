@@ -31,15 +31,11 @@
 #include "e-category-editor.h"
 #include "e-misc-utils.h"
 
-#define E_CATEGORIES_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CATEGORIES_DIALOG, ECategoriesDialogPrivate))
-
-G_DEFINE_TYPE (ECategoriesDialog, e_categories_dialog, GTK_TYPE_DIALOG)
-
 struct _ECategoriesDialogPrivate {
 	GtkWidget *categories_editor;
 };
+
+G_DEFINE_TYPE_WITH_PRIVATE (ECategoriesDialog, e_categories_dialog, GTK_TYPE_DIALOG)
 
 static void
 entry_changed_cb (GtkEntry *entry,
@@ -52,7 +48,6 @@ entry_changed_cb (GtkEntry *entry,
 static void
 e_categories_dialog_class_init (ECategoriesDialogClass *class)
 {
-	g_type_class_add_private (class, sizeof (ECategoriesDialogPrivate));
 }
 
 static void
@@ -61,7 +56,7 @@ e_categories_dialog_init (ECategoriesDialog *dialog)
 	GtkWidget *dialog_content;
 	GtkWidget *categories_editor;
 
-	dialog->priv = E_CATEGORIES_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = e_categories_dialog_get_instance_private (dialog);
 
 	categories_editor = e_categories_editor_new ();
 	dialog->priv->categories_editor = categories_editor;

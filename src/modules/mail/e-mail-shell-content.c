@@ -37,10 +37,6 @@
 #include "e-mail-shell-backend.h"
 #include "e-mail-shell-view-actions.h"
 
-#define E_MAIL_SHELL_CONTENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SHELL_CONTENT, EMailShellContentPrivate))
-
 struct _EMailShellContentPrivate {
 	EMailView *mail_view;
 	GtkWidget *to_do_pane; /* not referenced */
@@ -61,14 +57,9 @@ enum {
 static void	e_mail_shell_content_reader_init
 					(EMailReaderInterface *iface);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
-	EMailShellContent,
-	e_mail_shell_content,
-	E_TYPE_SHELL_CONTENT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_MAIL_READER,
-		e_mail_shell_content_reader_init))
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailShellContent, e_mail_shell_content, E_TYPE_SHELL_CONTENT, 0,
+	G_ADD_PRIVATE_DYNAMIC (EMailShellContent)
+	G_IMPLEMENT_INTERFACE_DYNAMIC (E_TYPE_MAIL_READER, e_mail_shell_content_reader_init))
 
 static gboolean
 mail_shell_content_transform_num_attachments_to_visible_boolean_with_settings (GBinding *binding,
@@ -235,10 +226,9 @@ mail_shell_content_get_property (GObject *object,
 static void
 mail_shell_content_dispose (GObject *object)
 {
-	EMailShellContentPrivate *priv;
+	EMailShellContent *self = E_MAIL_SHELL_CONTENT (object);
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
-	g_clear_object (&priv->mail_view);
+	g_clear_object (&self->priv->mail_view);
 
 	/* Intentionally after freeing the mail_view, because
 	   the widgets it contains/references can be freed already */
@@ -251,7 +241,7 @@ mail_shell_content_dispose (GObject *object)
 static void
 mail_shell_content_constructed (GObject *object)
 {
-	EMailShellContentPrivate *priv;
+	EMailShellContent *self = E_MAIL_SHELL_CONTENT (object);
 	EShellContent *shell_content;
 	EShellView *shell_view;
 	EAttachmentStore *attachment_store;
@@ -260,8 +250,6 @@ mail_shell_content_constructed (GObject *object)
 	GtkWidget *widget;
 	GtkBox *vbox;
 	GSettings *settings;
-
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed () method. */
 	G_OBJECT_CLASS (e_mail_shell_content_parent_class)->constructed (object);
@@ -287,7 +275,7 @@ mail_shell_content_constructed (GObject *object)
 	widget = e_mail_paned_view_new (shell_view);
 	gtk_box_pack_start (vbox, widget, TRUE, TRUE, 0);
 
-	priv->mail_view = E_MAIL_VIEW (g_object_ref (widget));
+	self->priv->mail_view = E_MAIL_VIEW (g_object_ref (widget));
 	gtk_widget_show (widget);
 
 	g_signal_connect (
@@ -312,7 +300,7 @@ mail_shell_content_constructed (GObject *object)
 	gtk_paned_pack2 (paned, widget, FALSE, FALSE);
 	gtk_widget_show (widget);
 
-	priv->to_do_pane = widget;
+	self->priv->to_do_pane = widget;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
@@ -336,17 +324,17 @@ mail_shell_content_constructed (GObject *object)
 
 	g_settings_bind (
 		settings, "to-do-bar-show-completed-tasks",
-		priv->to_do_pane, "show-completed-tasks",
+		self->priv->to_do_pane, "show-completed-tasks",
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind (
 		settings, "to-do-bar-show-no-duedate-tasks",
-		priv->to_do_pane, "show-no-duedate-tasks",
+		self->priv->to_do_pane, "show-no-duedate-tasks",
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind (
 		settings, "to-do-bar-show-n-days",
-		priv->to_do_pane, "show-n-days",
+		self->priv->to_do_pane, "show-n-days",
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
@@ -640,8 +628,6 @@ e_mail_shell_content_class_init (EMailShellContentClass *class)
 	GObjectClass *object_class;
 	EShellContentClass *shell_content_class;
 
-	g_type_class_add_private (class, sizeof (EMailShellContentPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_shell_content_set_property;
 	object_class->get_property = mail_shell_content_get_property;
@@ -730,8 +716,7 @@ e_mail_shell_content_reader_init (EMailReaderInterface *iface)
 static void
 e_mail_shell_content_init (EMailShellContent *mail_shell_content)
 {
-	mail_shell_content->priv =
-		E_MAIL_SHELL_CONTENT_GET_PRIVATE (mail_shell_content);
+	mail_shell_content->priv = e_mail_shell_content_get_instance_private (mail_shell_content);
 
 	/* Postpone widget construction until we have a shell view. */
 }
