@@ -95,6 +95,9 @@
                 <option value="IN PROGRESS">
                     <_title>In progress</_title>
                 </option>
+                <option value="NEEDS ACTION">
+                    <_title>Needs Action</_title>
+                </option>
                 <option value="COMPLETED">
                     <_title>Completed</_title>
                 </option>
