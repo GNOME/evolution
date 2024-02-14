@@ -1442,8 +1442,9 @@ post_insert_update (ENameSelectorEntry *name_selector_entry,
 /* Returns the number of characters inserted */
 static gint
 insert_unichar (ENameSelectorEntry *name_selector_entry,
-                gint *pos,
-                gunichar c)
+		gint *pos,
+		gunichar c,
+		gboolean *inout_is_first_char)
 {
 	const gchar *text;
 	gunichar     str_context[4];
@@ -1457,7 +1458,7 @@ insert_unichar (ENameSelectorEntry *name_selector_entry,
 	 * - Before or after another space.
 	 * - At start of string. */
 
-	if (c == ' ' && (str_context[1] == ' ' || str_context[1] == '\0' || str_context[2] == ' '))
+	if (c == ' ' && *inout_is_first_char && str_context[0] && (str_context[1] == ' ' || str_context[1] == '\0' || str_context[2] == ' '))
 		return 0;
 
 	/* Comma is not allowed:
@@ -1508,10 +1509,14 @@ insert_unichar (ENameSelectorEntry *name_selector_entry,
 			generate_attribute_list (name_selector_entry);
 		}
 
+		*inout_is_first_char = TRUE;
+
 		return 2;
 	}
 
 	/* Generic case. Allowed spaces also end up here. */
+
+	*inout_is_first_char = FALSE;
 
 	len = g_unichar_to_utf8 (c, buf);
 	buf[len] = '\0';
@@ -1567,7 +1572,7 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 	 * can be inserted, and insert a trailing space after comma. */
 	} else {
 		const gchar *cp;
-		gboolean last_was_comma = FALSE;
+		gboolean last_was_comma = FALSE, is_first_char = TRUE;
 
 		for (cp = new_text; *cp; cp = g_utf8_next_char (cp)) {
 			gunichar uc = g_utf8_get_char (cp);
@@ -1583,8 +1588,8 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 				last_was_comma = uc == ',';
 			}
 
-			insert_unichar (name_selector_entry, position, uc);
-			chars_inserted++;
+			if (insert_unichar (name_selector_entry, position, uc, &is_first_char))
+				chars_inserted++;
 		}
 	}
 
