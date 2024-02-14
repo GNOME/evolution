@@ -1602,6 +1602,10 @@ composer_build_message (EMsgComposer *composer,
 			text = "";
 
 			last_error = e_content_editor_dup_last_error (cnt_editor);
+			if (!last_error) {
+				last_error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED,
+					_("Failed to retrieve text/plain processed content"));
+			}
 		}
 
 		g_byte_array_append (data, (guint8 *) text, strlen (text));
@@ -1721,6 +1725,11 @@ composer_build_message (EMsgComposer *composer,
 			if (!text) {
 				g_warning ("%s: Failed to retrieve draft content", G_STRFUNC);
 				text = "";
+
+				if (!last_error) {
+					last_error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED,
+						_("Failed to retrieve draft content"));
+				}
 			}
 		} else {
 			text = e_content_editor_util_get_content_data (e_msg_composer_get_content_hash (composer),
@@ -1729,6 +1738,11 @@ composer_build_message (EMsgComposer *composer,
 			if (!text) {
 				g_warning ("%s: Failed to retrieve HTML processed content", G_STRFUNC);
 				text = "";
+
+				if (!last_error) {
+					last_error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED,
+						_("Failed to retrieve HTML processed content"));
+				}
 			}
 		}
 

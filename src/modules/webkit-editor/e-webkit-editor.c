@@ -2241,7 +2241,7 @@ webkit_editor_get_content_finish (EContentEditor *editor,
 				g_clear_object (&images_value);
 			}
 		} else {
-			g_warn_if_reached ();
+			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, _("Failed to retrieve message content"));
 		}
 
 		webkit_javascript_result_unref (js_result);
