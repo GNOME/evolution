@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-02-13 15:49+0000\n"
-"PO-Revision-Date: 2024-02-13 19:16+0200\n"
+"POT-Creation-Date: 2024-02-14 07:24+0000\n"
+"PO-Revision-Date: 2024-02-14 13:05+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1815,23 +1815,19 @@ msgstr ""
 "повідомленні його показано в UTC."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
-#| msgid "Convert UTC time in reply credits to local time"
 msgid "Convert time in reply credits to local time"
 msgstr "У відповідях перетворити час у місцевий час"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
-#| msgid ""
-#| "Whether the time in reply credits should be converted to local time when "
-#| "it’s in UTC in the message."
 msgid ""
 "Whether the time in reply credits should be converted to local time. This "
 "converts any time, not only UTC times, for which “composer-reply-credits-utc-"
 "to-localtime” can be used."
 msgstr ""
-"Чи потрібно перетворювати час у відповідях на місцевий час. У результаті"
-" буде перетворено час у всіх часових поясах, не лише у загальносвітовому"
-" часі, для якого може бути використано «composer-reply-credits-utc-to-localti"
-"me»."
+"Чи потрібно перетворювати час у відповідях на місцевий час. У результаті "
+"буде перетворено час у всіх часових поясах, не лише у загальносвітовому "
+"часі, для якого може бути використано «composer-reply-credits-utc-to-"
+"localtime»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Use user date format in reply credits"
@@ -12920,20 +12916,35 @@ msgstr ""
 "Не вдалося зашифрувати повідомлення: для облікового запису не встановлений "
 "сертифікат шифрування"
 
-#: ../src/composer/e-msg-composer.c:2042 ../src/composer/e-msg-composer.c:2755
+#: ../src/composer/e-msg-composer.c:1607
+#| msgid "Failed to retrieve message:"
+msgid "Failed to retrieve text/plain processed content"
+msgstr "Не вдалося отримати оброблені звичайні текстові дані"
+
+#: ../src/composer/e-msg-composer.c:1731
+#| msgid "Failed to read file content: "
+msgid "Failed to retrieve draft content"
+msgstr "Не вдалося отримати вміст чернетки"
+
+#: ../src/composer/e-msg-composer.c:1744
+#| msgid "Failed to retrieve message:"
+msgid "Failed to retrieve HTML processed content"
+msgstr "Не вдалося отримати оброблені дані HTML"
+
+#: ../src/composer/e-msg-composer.c:2056 ../src/composer/e-msg-composer.c:2769
 msgid "Compose Message"
 msgstr "Нове повідомлення"
 
-#: ../src/composer/e-msg-composer.c:4955
+#: ../src/composer/e-msg-composer.c:4969
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Читаємо текстові дані…"
 
-#: ../src/composer/e-msg-composer.c:5023
+#: ../src/composer/e-msg-composer.c:5037
 msgid "Send _without encryption"
 msgstr "Надіслати _без шифрування"
 
-#: ../src/composer/e-msg-composer.c:5811
+#: ../src/composer/e-msg-composer.c:5825
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Переглянути долучення перед надсиланням."
@@ -12941,7 +12952,7 @@ msgstr[1] "Переглянути долучення перед надсилан
 msgstr[2] "Переглянути долучення перед надсиланням."
 msgstr[3] "Переглянути долучення перед надсиланням."
 
-#: ../src/composer/e-msg-composer.c:5816
+#: ../src/composer/e-msg-composer.c:5830
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -12962,7 +12973,7 @@ msgstr[3] ""
 "Зовнішньою програмою додано одне долучення. Перш ніж надсилати повідомлення, "
 "переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 
-#: ../src/composer/e-msg-composer.c:5942
+#: ../src/composer/e-msg-composer.c:5956
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редактор містить не текстовий вміст, який неможливо редагувати."
 
@@ -28302,6 +28313,11 @@ msgstr "Контакт адресної книги"
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:260
 msgid "Display the part as an addressbook contact"
 msgstr "Показати частину як контакт адресної книги"
+
+#: ../src/modules/webkit-editor/e-webkit-editor.c:2244
+#| msgid "Failed to retrieve message:"
+msgid "Failed to retrieve message content"
+msgstr "Не вдалося отримати вміст повідомлення"
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
 #: ../src/modules/webkit-editor/e-webkit-editor.c:5611
