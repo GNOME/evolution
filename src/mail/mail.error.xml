@@ -713,7 +713,7 @@ in the folder will be available in offline mode.</_secondary>
 
 This option is set for each mail account separately. You can find it in the Security tab of the mail account Properties.</_secondary>
     <button response="GTK_RESPONSE_YES" _label="_Send with Key"></button>
-    <button response="GTK_RESPONSE_NO" _label="_Remove Key"></button>
+    <button response="GTK_RESPONSE_NO" _label="Send _without Key"></button>
     <button response="GTK_RESPONSE_ACCEPT" _label="_Always"></button>
     <button response="GTK_RESPONSE_REJECT" _label="_Never"></button>
     <button response="GTK_RESPONSE_CANCEL" _label="_Cancel"/>
