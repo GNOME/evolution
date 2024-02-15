@@ -7117,8 +7117,9 @@ e_msg_composer_check_autocrypt (EMsgComposer *composer,
 
 		if (keydata) {
 			GString *value;
+			gint ii;
 
-			value = g_string_sized_new (strlen (keydata) + strlen (from_email) + 64);
+			value = g_string_sized_new (strlen (keydata) + strlen (from_email) + 64 + (strlen (keydata) / CAMEL_FOLD_SIZE) + 1);
 
 			g_string_append (value, "addr=");
 			g_string_append (value, from_email);
@@ -7126,17 +7127,25 @@ e_msg_composer_check_autocrypt (EMsgComposer *composer,
 			if (send_prefer_encrypt)
 				g_string_append (value, "; prefer-encrypt=mutual");
 
+			ii = value->len + 2; /* just at "keydata=" */
+
 			/* keep it as the last parameter */
 			g_string_append (value, "; keydata=");
 			g_string_append (value, keydata);
 
 			/* Ignore headers above 10KB in size. See:
 			   https://autocrypt.org/level1.html#id74 */
-			if (value->len <= 10240)
+			if (value->len <= 10240) {
+				/* insert "folding spaces" into the encoded key, to not have too long header lines;
+				   these spaces are ignored during decode of the key */
+				for (ii += CAMEL_FOLD_SIZE; ii < value->len - 1; ii += CAMEL_FOLD_SIZE + 1) {
+					g_string_insert_c (value, ii, ' ');
+				}
 				e_msg_composer_add_header (composer, "Autocrypt", value->str);
-			else
+			} else {
 				e_alert_submit (E_ALERT_SINK (e_msg_composer_get_editor (composer)),
 					"mail-composer:info-autocrypt-header-too-large", from_email, NULL);
+			}
 
 			g_string_free (value, TRUE);
 		}
