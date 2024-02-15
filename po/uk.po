@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-02-14 07:24+0000\n"
-"PO-Revision-Date: 2024-02-14 13:05+0200\n"
+"POT-Creation-Date: 2024-02-15 13:46+0000\n"
+"PO-Revision-Date: 2024-02-15 18:35+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -12899,7 +12899,7 @@ msgstr "Натисніть тут, щоб вибрати теку для від�
 msgid "Send"
 msgstr "Надіслати"
 
-#: ../src/composer/e-msg-composer.c:1153
+#: ../src/composer/e-msg-composer.c:1182
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -12907,7 +12907,7 @@ msgstr ""
 "Не вдалося підписати повідомлення: для цього облікового запису не "
 "встановлений сертифікат підпису"
 
-#: ../src/composer/e-msg-composer.c:1162
+#: ../src/composer/e-msg-composer.c:1191
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -12916,35 +12916,32 @@ msgstr ""
 "Не вдалося зашифрувати повідомлення: для облікового запису не встановлений "
 "сертифікат шифрування"
 
-#: ../src/composer/e-msg-composer.c:1607
-#| msgid "Failed to retrieve message:"
+#: ../src/composer/e-msg-composer.c:1636
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Не вдалося отримати оброблені звичайні текстові дані"
 
-#: ../src/composer/e-msg-composer.c:1731
-#| msgid "Failed to read file content: "
+#: ../src/composer/e-msg-composer.c:1760
 msgid "Failed to retrieve draft content"
 msgstr "Не вдалося отримати вміст чернетки"
 
-#: ../src/composer/e-msg-composer.c:1744
-#| msgid "Failed to retrieve message:"
+#: ../src/composer/e-msg-composer.c:1773
 msgid "Failed to retrieve HTML processed content"
 msgstr "Не вдалося отримати оброблені дані HTML"
 
-#: ../src/composer/e-msg-composer.c:2056 ../src/composer/e-msg-composer.c:2769
+#: ../src/composer/e-msg-composer.c:2085 ../src/composer/e-msg-composer.c:2798
 msgid "Compose Message"
 msgstr "Нове повідомлення"
 
-#: ../src/composer/e-msg-composer.c:4969
+#: ../src/composer/e-msg-composer.c:4998
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Читаємо текстові дані…"
 
-#: ../src/composer/e-msg-composer.c:5037
+#: ../src/composer/e-msg-composer.c:5066
 msgid "Send _without encryption"
 msgstr "Надіслати _без шифрування"
 
-#: ../src/composer/e-msg-composer.c:5825
+#: ../src/composer/e-msg-composer.c:5854
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Переглянути долучення перед надсиланням."
@@ -12952,7 +12949,7 @@ msgstr[1] "Переглянути долучення перед надсилан
 msgstr[2] "Переглянути долучення перед надсиланням."
 msgstr[3] "Переглянути долучення перед надсиланням."
 
-#: ../src/composer/e-msg-composer.c:5830
+#: ../src/composer/e-msg-composer.c:5859
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -12973,7 +12970,7 @@ msgstr[3] ""
 "Зовнішньою програмою додано одне долучення. Перш ніж надсилати повідомлення, "
 "переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 
-#: ../src/composer/e-msg-composer.c:5956
+#: ../src/composer/e-msg-composer.c:5985
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редактор містить не текстовий вміст, який неможливо редагувати."
 
@@ -16669,25 +16666,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Виберіть контакти з адресної книги"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3142
+#: ../src/e-util/e-name-selector-entry.c:3147
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "_Розгорнути %s в рядок"
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3158
+#: ../src/e-util/e-name-selector-entry.c:3163
 #, c-format
 msgid "Cop_y %s"
 msgstr "_Копіювати %s"
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3169
+#: ../src/e-util/e-name-selector-entry.c:3174
 #, c-format
 msgid "C_ut %s"
 msgstr "_Вирізати %s"
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3187
+#: ../src/e-util/e-name-selector-entry.c:3192
 #, c-format
 msgid "_Edit %s"
 msgstr "Ре_дагувати %s"
@@ -22961,8 +22958,9 @@ msgid "_Send with Key"
 msgstr "_Надіслати з ключем"
 
 #: ../src/mail/mail.error.xml.h:238
-msgid "_Remove Key"
-msgstr "В_илучити ключ"
+#| msgid "_Send with Key"
+msgid "Send _without Key"
+msgstr "Надіслати _без ключа"
 
 #: ../src/mail/mail.error.xml.h:239
 msgid "_Always"
@@ -28315,7 +28313,6 @@ msgid "Display the part as an addressbook contact"
 msgstr "Показати частину як контакт адресної книги"
 
 #: ../src/modules/webkit-editor/e-webkit-editor.c:2244
-#| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve message content"
 msgstr "Не вдалося отримати вміст повідомлення"
 
@@ -30627,6 +30624,9 @@ msgstr "Неможливо записати сховище на диск, код
 #: ../src/smime/lib/e-pkcs12.c:471
 msgid "Imported Certificate"
 msgstr "Імпортований сертифікат"
+
+#~ msgid "_Remove Key"
+#~ msgstr "В_илучити ключ"
 
 #~ msgid "Forcibly shut down Evolution"
 #~ msgstr "Примусове завершення роботи Evolution"
