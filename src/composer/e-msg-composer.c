@@ -270,8 +270,15 @@ emcu_part_to_html (EMsgComposer *composer,
 				g_free (body);
 
 				if (text) {
+					EHTMLEditor *editor;
+
 					if (len)
 						*len = strlen (text);
+
+					editor = e_msg_composer_get_editor (composer);
+					/* switch from HTML to plain text, if needed */
+					if (e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_HTML)
+						e_html_editor_set_mode (editor, E_CONTENT_EDITOR_MODE_PLAIN_TEXT);
 
 					return text;
 				}
