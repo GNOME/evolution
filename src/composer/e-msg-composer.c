@@ -220,6 +220,12 @@ e_msg_composer_dec_soft_busy (EMsgComposer *composer)
 		g_object_notify (G_OBJECT (composer), "soft-busy");
 }
 
+static gchar *
+emcu_part_as_text (EMsgComposer *composer,
+                   CamelMimePart *part,
+                   gssize *out_len,
+                   GCancellable *cancellable);
+
 /*
  * emcu_part_to_html:
  * @part:
@@ -249,6 +255,29 @@ emcu_part_to_html (EMsgComposer *composer,
 	GtkWindow *window;
 	gsize n_bytes_written = 0;
 	GQueue queue = G_QUEUE_INIT;
+
+	if (keep_signature) {
+		CamelContentType *content_type;
+
+		content_type = camel_mime_part_get_content_type (part);
+		if (camel_content_type_is (content_type, "text", "plain")) {
+			gchar *body;
+
+			/* easy case, just enclose the plain text into <pre> to preserve white-spaces */
+			body = emcu_part_as_text (composer, part, NULL, cancellable);
+			if (body) {
+				text = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+				g_free (body);
+
+				if (text) {
+					if (len)
+						*len = strlen (text);
+
+					return text;
+				}
+			}
+		}
+	}
 
 	shell = e_shell_get_default ();
 	window = e_shell_get_active_window (shell);
