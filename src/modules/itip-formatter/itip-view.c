@@ -217,8 +217,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (ItipView, itip_view, G_TYPE_OBJECT)
 
 static void
 format_date_and_time_x (struct tm *date_tm,
-                        struct tm *current_tm,
-                        gboolean use_24_hour_format,
+                        struct tm current_tm,
                         gboolean show_midnight,
                         gboolean show_zero_seconds,
                         gboolean is_date,
@@ -226,15 +225,17 @@ format_date_and_time_x (struct tm *date_tm,
                         gchar *buffer,
                         gint buffer_size)
 {
+	gboolean use_24_hour_format;
 	gchar *format;
 	struct tm tomorrow_tm, week_tm;
 
+	use_24_hour_format = calendar_config_get_24_hour_format ();
 	*out_is_abbreviated_value = TRUE;
 
 	/* Calculate a normalized "tomorrow" */
-	tomorrow_tm = *current_tm;
+	tomorrow_tm = current_tm;
 	/* Don't need this if date is in the past. Also, year assumption won't fail. */
-	if (date_tm->tm_year >= current_tm->tm_year && tomorrow_tm.tm_mday == time_days_in_month (current_tm->tm_year + 1900, current_tm->tm_mon)) {
+	if (date_tm->tm_year >= current_tm.tm_year && tomorrow_tm.tm_mday == time_days_in_month (current_tm.tm_year + 1900, current_tm.tm_mon)) {
 		tomorrow_tm.tm_mday = 1;
 		if (tomorrow_tm.tm_mon == 11) {
 			tomorrow_tm.tm_mon = 1;
@@ -247,9 +248,9 @@ format_date_and_time_x (struct tm *date_tm,
 	}
 
 	/* Calculate a normalized "next seven days" */
-	week_tm = *current_tm;
+	week_tm = current_tm;
 	/* Don't need this if date is in the past. Also, year assumption won't fail. */
-	if (date_tm->tm_year >= current_tm->tm_year && week_tm.tm_mday + 6 > time_days_in_month (date_tm->tm_year + 1900, date_tm->tm_mon)) {
+	if (date_tm->tm_year >= current_tm.tm_year && week_tm.tm_mday + 6 > time_days_in_month (date_tm->tm_year + 1900, date_tm->tm_mon)) {
 		week_tm.tm_mday = (week_tm.tm_mday + 6) % time_days_in_month (date_tm->tm_year + 1900, date_tm->tm_mon);
 		if (week_tm.tm_mon == 11) {
 			week_tm.tm_mon = 1;
@@ -262,9 +263,9 @@ format_date_and_time_x (struct tm *date_tm,
 	}
 
 	/* Today */
-	if (date_tm->tm_mday == current_tm->tm_mday &&
-	    date_tm->tm_mon == current_tm->tm_mon &&
-	    date_tm->tm_year == current_tm->tm_year) {
+	if (date_tm->tm_mday == current_tm.tm_mday &&
+	    date_tm->tm_mon == current_tm.tm_mon &&
+	    date_tm->tm_year == current_tm.tm_year) {
 		if (is_date || (!show_midnight && date_tm->tm_hour == 0
 		    && date_tm->tm_min == 0 && date_tm->tm_sec == 0)) {
 			/* strftime format of a weekday and a date. */
@@ -318,9 +319,9 @@ format_date_and_time_x (struct tm *date_tm,
 		}
 
 	/* Within 6 days */
-	} else if ((date_tm->tm_year >= current_tm->tm_year &&
-		    date_tm->tm_mon >= current_tm->tm_mon &&
-		    date_tm->tm_mday >= current_tm->tm_mday) &&
+	} else if ((date_tm->tm_year >= current_tm.tm_year &&
+		    date_tm->tm_mon >= current_tm.tm_mon &&
+		    date_tm->tm_mday >= current_tm.tm_mday) &&
 
 		   (date_tm->tm_year < week_tm.tm_year ||
 
@@ -355,7 +356,7 @@ format_date_and_time_x (struct tm *date_tm,
 		}
 
 	/* This Year */
-	} else if (date_tm->tm_year == current_tm->tm_year) {
+	} else if (date_tm->tm_year == current_tm.tm_year) {
 		*out_is_abbreviated_value = FALSE;
 
 		if (is_date || (!show_midnight && date_tm->tm_hour == 0
@@ -861,20 +862,35 @@ set_sender_text (ItipView *view)
 		set_inner_html (view, TEXT_ROW_SENDER, priv->sender);
 }
 
+static struct tm
+get_current_time (void)
+{
+	time_t now;
+	struct tm *now_tm, tm = { 0, };
+
+	now = time (NULL);
+	now_tm = localtime (&now);
+
+	if (now_tm)
+		tm = *now_tm;
+	else
+		memset (&tm, 0, sizeof (struct tm));
+
+	return tm;
+}
+
 static void
 update_start_end_times (ItipView *view)
 {
 	ItipViewPrivate *priv;
 	EWebView *web_view;
 	gchar buffer[256];
-	time_t now;
-	struct tm *now_tm;
 	gboolean is_abbreviated_value = FALSE;
+	struct tm now_tm;
 
 	priv = view->priv;
 
-	now = time (NULL);
-	now_tm = localtime (&now);
+	now_tm = get_current_time ();
 
 	g_clear_pointer (&priv->start_label, g_free);
 	g_clear_pointer (&priv->end_label, g_free);
@@ -887,14 +903,14 @@ update_start_end_times (ItipView *view)
 	if (priv->start_tm && priv->end_tm && priv->start_tm_is_date && priv->end_tm_is_date
 	    && is_same (tm_mday) && is_same (tm_mon) && is_same (tm_year)) {
 		/* it's an all day event in one particular day */
-		format_date_and_time_x (priv->start_tm, now_tm, FALSE, TRUE, FALSE, priv->start_tm_is_date, &is_abbreviated_value, buffer, 256);
+		format_date_and_time_x (priv->start_tm, now_tm, TRUE, FALSE, priv->start_tm_is_date, &is_abbreviated_value, buffer, 256);
 		priv->start_label = contact_abbreviated_date (buffer, priv->start_tm, priv->start_tm_is_date, is_abbreviated_value);
 		priv->start_header = _("All day:");
 		priv->end_header = NULL;
 		priv->end_label = NULL;
 	} else {
 		if (priv->start_tm) {
-			format_date_and_time_x (priv->start_tm, now_tm, FALSE, TRUE, FALSE, priv->start_tm_is_date, &is_abbreviated_value, buffer, 256);
+			format_date_and_time_x (priv->start_tm, now_tm, TRUE, FALSE, priv->start_tm_is_date, &is_abbreviated_value, buffer, 256);
 			priv->start_header = priv->start_tm_is_date ? _("Start day:") : _("Start time:");
 			priv->start_label = contact_abbreviated_date (buffer, priv->start_tm, priv->start_tm_is_date, is_abbreviated_value);
 		} else {
@@ -903,7 +919,7 @@ update_start_end_times (ItipView *view)
 		}
 
 		if (priv->end_tm) {
-			format_date_and_time_x (priv->end_tm, now_tm, FALSE, TRUE, FALSE, priv->end_tm_is_date, &is_abbreviated_value, buffer, 256);
+			format_date_and_time_x (priv->end_tm, now_tm, TRUE, FALSE, priv->end_tm_is_date, &is_abbreviated_value, buffer, 256);
 			priv->end_header = priv->end_tm_is_date ? _("End day:") : _("End time:");
 			priv->end_label = contact_abbreviated_date (buffer, priv->end_tm, priv->end_tm_is_date, is_abbreviated_value);
 		} else {
@@ -7410,8 +7426,7 @@ itip_view_init_view (ItipView *view)
 			ICalTime *itt = e_cal_component_datetime_get_value (datetime);
 			gchar buffer[256];
 			struct tm due_tm;
-			time_t now;
-			struct tm *now_tm;
+			struct tm now_tm;
 			gboolean is_abbreviated_value = FALSE;
 			EWebView *web_view;
 
@@ -7432,10 +7447,9 @@ itip_view_init_view (ItipView *view)
 
 			due_tm = e_cal_util_icaltime_to_tm_with_zone (itt, from_zone, to_zone);
 
-			now = time (NULL);
-			now_tm = localtime (&now);
+			now_tm = get_current_time ();
 
-			format_date_and_time_x (&due_tm, now_tm, FALSE, TRUE, FALSE, i_cal_time_is_date (itt), &is_abbreviated_value, buffer, 256);
+			format_date_and_time_x (&due_tm, now_tm, TRUE, FALSE, i_cal_time_is_date (itt), &is_abbreviated_value, buffer, 256);
 			view->priv->due_date_label = contact_abbreviated_date (buffer, &due_tm, i_cal_time_is_date (itt), is_abbreviated_value);
 
 			web_view = itip_view_ref_web_view (view);
