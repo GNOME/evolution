@@ -154,7 +154,8 @@ cal_config_webcal_check_complete (ESourceConfigBackend *backend,
 	if (guri) {
 		/* XXX webcal:// is a non-standard scheme, but we accept it.
 		 *     Just convert it to http:// for the URI validity test. */
-		if (g_strcmp0 (g_uri_get_scheme (guri), "webcal") == 0)
+		if (g_strcmp0 (g_uri_get_scheme (guri), "webcal") == 0 ||
+		    g_strcmp0 (g_uri_get_scheme (guri), "webcals") == 0)
 			e_util_change_uri_component (&guri, SOUP_URI_SCHEME, "https");
 
 		complete = (g_strcmp0 (g_uri_get_scheme (guri), "http") == 0 ||

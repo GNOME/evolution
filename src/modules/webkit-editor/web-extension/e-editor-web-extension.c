@@ -255,7 +255,7 @@ evo_editor_jsc_split_text_with_links (const gchar *text,
 {
 	/* stephenhay from https://mathiasbynens.be/demo/url-regex */
 	const gchar *URL_PATTERN = "((?:(?:(?:"
-				   "news|telnet|nntp|file|https?|s?ftp|webcal|localhost|ssh"
+				   "news|telnet|nntp|file|https?|s?ftp|webcals?|localhost|ssh"
 				   ")\\:\\/\\/)|(?:www\\.|ftp\\.))[^\\s\\/\\$\\.\\?#].[^\\s]*+)";
 	/* from camel-url-scanner.c */
 	const gchar *URL_INVALID_TRAILING_CHARS = ",.:;?!-|}])\">";

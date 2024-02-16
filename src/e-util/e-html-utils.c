@@ -304,7 +304,8 @@ e_text_to_html_full (const gchar *input,
 			    !g_ascii_strncasecmp ((gchar *) cur, "h323:", 5) ||
 			    !g_ascii_strncasecmp ((gchar *) cur, "sip:", 4) ||
 			    !g_ascii_strncasecmp ((gchar *) cur, "tel:", 4) ||
-			    !g_ascii_strncasecmp ((gchar *) cur, "webcal:", 7)) {
+			    !g_ascii_strncasecmp ((gchar *) cur, "webcal:", 7) ||
+			    !g_ascii_strncasecmp ((gchar *) cur, "webcals:", 8)) {
 				tmpurl = url_extract (&cur, TRUE, (flags & E_TEXT_TO_HTML_URL_IS_WHOLE_TEXT) != 0);
 				if (tmpurl) {
 					refurl = e_text_to_html (tmpurl, 0);

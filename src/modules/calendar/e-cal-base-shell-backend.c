@@ -153,7 +153,8 @@ cal_base_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	g_return_val_if_fail (E_IS_CAL_BASE_SHELL_BACKEND (shell_backend), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
 
-	if (g_str_has_prefix (uri, "webcal:")) {
+	if (g_str_has_prefix (uri, "webcal:") ||
+	    g_str_has_prefix (uri, "webcals:")) {
 		cal_base_shell_backend_handle_webcal_uri (shell_backend, uri);
 		return TRUE;
 	}

@@ -13,7 +13,7 @@ Categories=GNOME;GTK;Office;Email;Calendar;ContactManagement;X-Red-Hat-Base;
 StartupNotify=true
 X-GNOME-UsesNotifications=true
 X-Flatpak-RenamedFrom=evolution
-MimeType=text/calendar;text/x-vcard;text/directory;application/mbox;message/rfc822;x-scheme-handler/mailto;x-scheme-handler/mid;x-scheme-handler/webcal;x-scheme-handler/calendar;x-scheme-handler/task;x-scheme-handler/memo;@DESKTOP_MIME_TYPES@
+MimeType=text/calendar;text/x-vcard;text/directory;application/mbox;message/rfc822;x-scheme-handler/mailto;x-scheme-handler/mid;x-scheme-handler/webcal;x-scheme-handler/webcals;x-scheme-handler/calendar;x-scheme-handler/task;x-scheme-handler/memo;@DESKTOP_MIME_TYPES@
 @WMCLASS_OVERRIDE@
 [Desktop Action new-window]
 _Name=New Window
