@@ -7,35 +7,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-41\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-09-17 18:19+0000\n"
-"PO-Revision-Date: 2021-09-17 18:19+0000\n"
+"POT-Creation-Date: 2021-09-26 09:26+0000\n"
+"PO-Revision-Date: 2021-09-28 09:44-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
-"X-Generator: Gtranslator 40.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.0\n"
 "X-DamnedLies-Scope: partial\n"
 "X-Project-Style: gnome\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
-#| msgid "translator-credits"
 msgctxt "_"
 msgid "translator-credits"
 msgstr "Rafael Fontenelle <rafaelff@gnome.org>, 2021"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
-#| msgid "Backing Evolution accounts and settings"
 msgid "Back up and restore your <app>Evolution</app> data and settings."
 msgstr ""
 "Faça backup e restaure suas datas e configurações do <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/backup-restore.page:22
-#| msgid "Back up Evolution directory"
 msgid "Back up and restore"
 msgstr "Fazendo backup e restaurando"
 
@@ -52,7 +49,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/backup-restore.page:29
-#| msgid "_Backup"
 msgid "Backing up"
 msgstr "Fazendo backup"
 
@@ -102,7 +98,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/backup-restore.page:58 C/intro-first-run.page:45
-#| msgid "Recurring"
 msgid "Restoring"
 msgstr "Restaurando"
 
@@ -131,19 +126,16 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-alarms-and-reminders.page:23
-#| msgid "Keep reminder notification _window always on top"
 msgid "Setting up reminder notifications for appointments."
 msgstr "Configurando notificações de lembretes de compromissos."
 
 #. (itstool) path: page/title
 #: C/calendar-alarms-and-reminders.page:26
-#| msgid "Sender or Recipients"
 msgid "Reminders for appointments"
 msgstr "Lembretes para compromissos"
 
 #. (itstool) path: section/title
 #: C/calendar-alarms-and-reminders.page:29
-#| msgid "Gene_ral Options"
 msgid "General Settings"
 msgstr "Configurações gerais"
 
@@ -177,7 +169,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/calendar-alarms-and-reminders.page:50
-#| msgid "Reminders"
 msgid "Manual Reminders"
 msgstr "Lembretes manuais"
 
@@ -230,13 +221,11 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-caldav.page:23
-#| msgid "Unable to find any calendars"
 msgid "Using an online CalDAV calendar."
 msgstr "Usando uma agenda CalDAV online."
 
 #. (itstool) path: page/title
 #: C/calendar-caldav.page:26
-#| msgid "Opening calendar"
 msgid "Using a CalDAV calendar"
 msgstr "Usando uma agenda CalDAV"
 
@@ -308,7 +297,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:56 C/tasks-caldav.page:31
-#| msgid "Organizer address is not a valid user mail address"
 msgid "Enter your username and your email address."
 msgstr "Digite seu nome de usuário e seu endereço de e-mail."
 
@@ -343,7 +331,6 @@ msgstr "Restringindo a visibilidade de compromissos em servidores remotos."
 
 #. (itstool) path: page/title
 #: C/calendar-classifications.page:26
-#| msgid "Classification"
 msgid "Using Classifications"
 msgstr "Usando classificações"
 
@@ -489,7 +476,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:70
-#| msgid "Attendees List"
 msgid "Attendee List:"
 msgstr "Lista de participantes:"
 
@@ -503,8 +489,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:75
-#| msgctxt "ECompEditorPage"
-#| msgid "Schedule"
 msgid "Schedule Grid:"
 msgstr "Grade de programação:"
 
@@ -598,7 +582,6 @@ msgstr "Usando a agenda online da sua conta Google."
 
 #. (itstool) path: page/title
 #: C/calendar-google.page:27
-#| msgid "Opening calendar"
 msgid "Using a Google calendar"
 msgstr "Usando um agenda do Google"
 
@@ -620,13 +603,11 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-layout-appointment-display.page:23
-#| msgid "Found the appointment in the calendar “%s”"
 msgid "Define the displaying of appointments in the calendar."
 msgstr "Defina a exibição dos compromissos na agenda."
 
 #. (itstool) path: page/title
 #: C/calendar-layout-appointment-display.page:26
-#| msgid "Active Appointments"
 msgid "Appearance of Appointments"
 msgstr "Aparência dos compromissos"
 
@@ -648,7 +629,6 @@ msgstr "Geral"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:42
-#| msgid "_Time divisions:"
 msgid "Time Divisions:"
 msgstr "Frações de tempo:"
 
@@ -663,7 +643,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:47
-#| msgid "Show appointment end times in week and month views"
 msgid "Show appointment end times in week and month views:"
 msgstr "Mostrar hora de término de compromissos nas exibições de semana e mês:"
 
@@ -683,7 +662,6 @@ msgstr "Mostrar ícones de compromissos na visão de mês"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:55
-#| msgid "Compress weekends in month view"
 msgid "Compress weekends in month view:"
 msgstr "Comprimir finais de semana na visão de mês:"
 
@@ -698,19 +676,16 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:60
-#| msgid "Show week _numbers"
 msgid "Show week numbers:"
 msgstr "Mostrar números da semana:"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:61
-#| msgid "Whether to show week numbers in various places in the Calendar"
 msgid "Shows the week numbers next to the respective weeks in the calendar."
 msgstr "Mostra o número da semana próximo às respectivas semanas na agenda."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:65
-#| msgid "Show r_ecurring events in italic in bottom left calendar"
 msgid "Show recurring events in italic in bottom left calendar."
 msgstr ""
 "Mostrar recorrência de eventos em itálico na parte inferior esquerda da "
@@ -718,7 +693,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:68
-#| msgid "Sc_roll Month View by a week"
 msgid "Scroll Month View by a week"
 msgstr "Rolar visão de mês por semana"
 
@@ -738,13 +712,11 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-layout-general-formatting.page:27
-#| msgid "Error creating view for the calendar “{0}”"
 msgid "General formatting options for the calendar."
 msgstr "Opções gerais de formatação para a agenda."
 
 #. (itstool) path: page/title
 #: C/calendar-layout-general-formatting.page:30
-#| msgid "Gene_ral Options"
 msgid "General formatting options"
 msgstr "Opções gerais de formatação"
 
@@ -796,7 +768,6 @@ msgstr "Semana útil"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:57
-#| msgid "Wee_k starts on:"
 msgid "Week starts on:"
 msgstr "A semana começa na:"
 
@@ -812,13 +783,11 @@ msgstr "Dias úteis:"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:62
-#| msgid "Wednesday is a work day"
 msgid "Define which week days are work days."
 msgstr "Define quais dias da semana são dias úteis."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:65
-#| msgid "_Day begins:"
 msgid "Day begins:"
 msgstr "O dia começa às:"
 
@@ -829,7 +798,6 @@ msgstr "Define que horas seu dia útil começa."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:69
-#| msgid "Day _ends:"
 msgid "Day ends:"
 msgstr "O dia termina às:"
 
@@ -872,7 +840,6 @@ msgstr "Ajustando a exibição e visualizações da agenda."
 
 #. (itstool) path: page/title
 #: C/calendar-layout.page:20
-#| msgid "Opening the calendar. Please wait…"
 msgid "Changing the calendar layout"
 msgstr "Alterando a disposição da agenda"
 
@@ -883,7 +850,6 @@ msgstr "Usando intervalos de data  (dia, semana, mês) para ver no calendário."
 
 #. (itstool) path: page/title
 #: C/calendar-layout-views.page:26
-#| msgid "Available Cate_gories"
 msgid "Available views"
 msgstr "Visões disponíveis"
 
@@ -897,32 +863,24 @@ msgstr ""
 #. (itstool) path: item/p
 #. (itstool) path: td/p
 #: C/calendar-layout-views.page:33 C/intro-keyboard-shortcuts.page:296
-#| msgctxt "shortcut window"
-#| msgid "Day View"
 msgid "Day View"
 msgstr "Visão de dia"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
 #: C/calendar-layout-views.page:36 C/intro-keyboard-shortcuts.page:302
-#| msgctxt "shortcut window"
-#| msgid "Work Week View"
 msgid "Work Week View"
 msgstr "Visão de semana útil"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
 #: C/calendar-layout-views.page:39 C/intro-keyboard-shortcuts.page:308
-#| msgctxt "shortcut window"
-#| msgid "Week View"
 msgid "Week View"
 msgstr "Visão de semana"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
 #: C/calendar-layout-views.page:42 C/intro-keyboard-shortcuts.page:314
-#| msgctxt "shortcut window"
-#| msgid "Month View"
 msgid "Month View"
 msgstr "Visão de mês"
 
@@ -1013,9 +971,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-marcus-bains-line.page:17
-#| msgid ""
-#| "Whether to draw the Marcus Bains Line (line at current time) in the "
-#| "calendar"
 msgid "The red \"Marcus Bains\" line displays the current time."
 msgstr "A linha vermelha “Marcus Bains” exibe a hora atual."
 
@@ -1040,7 +995,6 @@ msgstr "Peça a outra pessoa para dirigir a reunião."
 
 #. (itstool) path: page/title
 #: C/calendar-meetings-delegating.page:25
-#| msgid "_Delegate Meeting…"
 msgid "Delegating Meetings"
 msgstr "Delegando reuniões"
 
@@ -1065,7 +1019,6 @@ msgstr "Clique em <gui>Delegar reunião</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:38
-#| msgid "Are you sure you want to delete this meeting?"
 msgid "Select the contacts you want to delegate the meeting to."
 msgstr "Selecione os contatos aos quais você deseja delegar a reunião."
 
@@ -1076,26 +1029,21 @@ msgstr "Cada contato recebe uma cópia do convite da reunião."
 
 #. (itstool) path: info/desc
 #: C/calendar-meetings.page:17
-#| msgid "Purging events in the calendar “%s”"
 msgid "Using meetings in the calendar."
 msgstr "Usando reuniões na agenda."
 
 #. (itstool) path: page/title
 #: C/calendar-meetings.page:20
-#| msgctxt "iCalImp"
-#| msgid "Meeting"
 msgid "Meetings"
 msgstr "Reuniões"
 
 #. (itstool) path: info/desc
 #: C/calendar-meetings-replying-to-invitation.page:5
-#| msgid "Server handles meeting invitations"
 msgid "Accepting and replying to a meeting invitation."
 msgstr "Aceitando e respondendo a um convite de reunião"
 
 #. (itstool) path: page/title
 #: C/calendar-meetings-replying-to-invitation.page:23
-#| msgid "Decline meeting request"
 msgid "Replying to a Meeting Request"
 msgstr "Respondendo a um pedido de reunião"
 
@@ -1168,13 +1116,11 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-meetings-sending-invitation.page:23
-#| msgid "Meeting Invitations"
 msgid "Sending a Meeting Invitation."
 msgstr "Enviando um convite de reunião."
 
 #. (itstool) path: page/title
 #: C/calendar-meetings-sending-invitation.page:26
-#| msgid "Meeting Invitations"
 msgid "Sending a Meeting Invitation"
 msgstr "Enviando um convite de reunião"
 
@@ -1211,7 +1157,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:40
-#| msgid "_Schedule Meeting…"
 msgid "To schedule a meeting:"
 msgstr "Para programar uma reunião:"
 
@@ -1266,7 +1211,6 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:75
 #: C/calendar-usage-add-appointment.page:50
-#| msgid "Select all text and images"
 msgid "Select the date and time."
 msgstr "Selecione a data e hora."
 
@@ -1376,6 +1320,11 @@ msgid ""
 "Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
 "guiseq>."
 msgstr ""
+"Para disponibilizar uma de suas agendas ao público, você pode definir "
+"agendas a serem carregadas em um servidor web em <guiseq><gui>Editar</"
+"gui><gui>Preferências</gui><gui>Agenda e tarefas</gui><gui>Informações de "
+"publicação</gui><gui>Locais</gui><gui style=\"button\">Adicionar</gui></"
+"guiseq>."
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:37
@@ -1383,6 +1332,8 @@ msgid ""
 "You can specify the online location, the frequency of publishing, which "
 "calendar(s) to publish, and authentication information for uploading."
 msgstr ""
+"Você pode especificar o local online, a frequência de publicação, que "
+"agenda(s) publicar e informações de autenticação para enviar."
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:44
@@ -1390,20 +1341,19 @@ msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
 msgstr ""
+"Para publicar as informações do calendário imediatamente, clique em "
+"<guiseq><gui>Ações</gui><gui>Publicar informações de agenda</gui></guiseq> "
+"na agenda."
 
 #. (itstool) path: info/desc
 #: C/calendar-recurrence.page:23
-#, fuzzy
-#| msgid "_Open Appointment"
 msgid "Repeating appointments."
-msgstr "_Abrir compromisso"
+msgstr "Repetindo compromissos."
 
 #. (itstool) path: page/title
 #: C/calendar-recurrence.page:26
-#, fuzzy
-#| msgid "Recurrence"
 msgid "Using Recurrence"
-msgstr "Recorrência"
+msgstr "Usando recorrência"
 
 #. (itstool) path: page/p
 #: C/calendar-recurrence.page:28
@@ -1418,28 +1368,31 @@ msgid ""
 "Friday until January 3, 2015\" or \"Every month on the first Friday for 12 "
 "occurrences.\""
 msgstr ""
+"Se você tem um compromisso que ocorre regularmente, pode definir sua "
+"recorrência clicando no botão <gui>Recorrência</gui> no <gui>Editor de "
+"compromissos</gui> ou clicando em <guiseq><gui>Opções</gui><gui>Recorrência</"
+"gui></guiseq>. Você pode então escolher a hora e a data em que o compromisso "
+"deixa de ser recorrente e, em <gui>Exceções</gui>, escolher os dias "
+"individuais em que o compromisso não é recorrente. Faça suas seleções da "
+"esquerda para a direita e você formará uma frase: \"A cada duas semanas na "
+"segunda e sexta-feira até 3 de janeiro de 2015\" ou \"Todos os meses na "
+"primeira sexta-feira para 12 ocorrências.\""
 
 #. (itstool) path: info/desc
 #: C/calendar-searching.page:27
-#, fuzzy
-#| msgid "Purge old appointments and meetings"
 msgid "Searching appointments and meetings."
-msgstr "Exclui permanentemente compromissos e reuniões antigas"
+msgstr "Pesquisando compromissos e reuniões."
 
 #. (itstool) path: page/title
 #: C/calendar-searching.page:30
-#, fuzzy
-#| msgid "Searching for the Contacts…"
 msgid "Searching for Calendar Items"
-msgstr "Pesquisando por contatos…"
+msgstr "Pesquisando por itens de agendas"
 
 #. (itstool) path: section/title
 #: C/calendar-searching.page:33 C/contacts-searching.page:43
 #: C/mail-searching.page:39 C/memos-searching.page:39 C/tasks-searching.page:39
-#, fuzzy
-#| msgid "Conflict Search"
 msgid "Quick Search"
-msgstr "Pesquisa de conflitos"
+msgstr "Pesquisa rápida"
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:35
@@ -1447,34 +1400,34 @@ msgid ""
 "In the Calendar view, you can quickly search for appointments and meetings "
 "either by summary or by category."
 msgstr ""
+"Na visualização de Agenda, você pode pesquisar rapidamente compromissos e "
+"reuniões por resumo ou por categoria."
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:38 C/memos-searching.page:41
 #: C/tasks-searching.page:41
-#, fuzzy
-#| msgid "Searching"
 msgid "Searching by summary:"
-msgstr "Pesquisando"
+msgstr "Pesquisando por resumo:"
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:42 C/contacts-searching.page:50
 #: C/memos-searching.page:43 C/tasks-searching.page:43
 msgid "Click the search icon <_:media-1/> to expand the drop-down list."
 msgstr ""
+"Clique no ícone de pesquisa <_:media-1/> para expandir a lista suspensa."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:47 C/contacts-searching.page:55
 #: C/mail-searching.page:43 C/memos-searching.page:44 C/tasks-searching.page:44
-#, fuzzy
-#| msgid "Select what type of file you want to import from the list."
 msgid "Select the search condition from the list."
-msgstr "Selecione da lista qual o tipo de arquivo você deseja importar."
+msgstr "Selecione a condição de pesquisa da lista."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:50 C/contacts-searching.page:58
 #: C/mail-searching.page:49 C/memos-searching.page:45 C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr ""
+"Insira o texto pelo qual você deseja pesquisar e pressione <key>Enter</key>."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:53 C/calendar-searching.page:67
@@ -1482,29 +1435,25 @@ msgstr ""
 #: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52
 #: C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "<app>Evolution</app> displays the search results."
-msgstr ""
+msgstr "O <app>Evolution</app> exibe os resultados de pesquisa."
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:57 C/contacts-searching.page:66
 #: C/memos-searching.page:48 C/tasks-searching.page:48
-#, fuzzy
-#| msgid "Search Filter:"
 msgid "Searching by category:"
-msgstr "Filtro de pesquisa:"
+msgstr "Pesquisando por categoria:"
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:61 C/contacts-searching.page:70
 #: C/memos-searching.page:50 C/tasks-searching.page:50
 msgid "Click the <gui>Show</gui> drop-down list."
-msgstr ""
+msgstr "Clique na lista suspensa <gui>Mostrar</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:64 C/contacts-searching.page:73
 #: C/memos-searching.page:51 C/tasks-searching.page:51
-#, fuzzy
-#| msgid "Delete the selected memo list"
 msgid "Select the category from the list."
-msgstr "Exclui a lista de memorandos selecionada"
+msgstr "Selecione a categoria da lista."
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:71
@@ -1514,6 +1463,10 @@ msgid ""
 "the currently selected day in the given direction, in a range of 10 years by "
 "default."
 msgstr ""
+"Para ver os resultados, você pode usar os dois botões de seta ao lado do "
+"campo de pesquisa. Isso pesquisa em agendas habilitadas no momento. Ele "
+"pesquisa a partir do dia atualmente selecionado na direção fornecida, em um "
+"intervalo de 10 anos por padrão."
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:76 C/contacts-searching.page:80
@@ -1522,43 +1475,41 @@ msgid ""
 "If you want to set several search conditions, you should use an Advanced "
 "search, which is described below."
 msgstr ""
+"Se você deseja definir várias condições de pesquisa, deve usar uma Pesquisa "
+"avançada, que é descrita a seguir."
 
 #. (itstool) path: info/desc
 #: C/calendar-sharing-information.page:17
 msgid ""
 "Make your information (appointments and free/busy times) available to others."
 msgstr ""
+"Disponibilize suas informações (compromissos e horas de disponibilidade) "
+"para outros."
 
 #. (itstool) path: page/title
 #: C/calendar-sharing-information.page:21
-#, fuzzy
-#| msgid "iCalendar information"
 msgid "Sharing your calendar information"
-msgstr "Informações do iCalendar"
+msgstr "Compartilhando suas informações da agenda"
 
 #. (itstool) path: info/desc
 #: C/calendar-timezones.page:22
-#, fuzzy
-#| msgid "Purging events in the calendar “%s”"
 msgid "Using time zones in the calendar."
-msgstr "Eliminando eventos na agenda “%s”"
+msgstr "Usando fusos horários na agenda."
 
 #. (itstool) path: page/title
 #: C/calendar-timezones.page:25
-#, fuzzy
-#| msgid "Use s_ystem time zone"
 msgid "Using time zones"
-msgstr "Usar fuso horário do s_istema"
+msgstr "Usando fusos horários"
 
 #. (itstool) path: page/p
 #: C/calendar-timezones.page:27
 msgid "<app>Evolution</app> supports using multiple time zones."
-msgstr ""
+msgstr "O <app>Evolution</app> tem suporte a usar vários fusos horários."
 
 #. (itstool) path: section/title
 #: C/calendar-timezones.page:30
 msgid "Setting your global timezone(s)"
-msgstr ""
+msgstr "Definindo seus fusos horários globais"
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:32
@@ -1568,9 +1519,14 @@ msgid ""
 "and Tasks</gui><gui>General</gui><gui>Time</gui> <gui>Time zone</gui></"
 "guiseq>."
 msgstr ""
+"Por padrão, o <app>Evolution</app> usa o fuso horário do sistema. Isso pode "
+"ser alterado em <guiseq><gui>Editar</gui><gui>Preferências</gui> <gui>Agenda "
+"e tarefas</gui><gui>Geral</gui><gui>Hora</gui> <gui>Fuso horário</gui></"
+"guiseq>."
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:37
+
 msgid ""
 "If you deal a lot with people in another specific time zone you can display "
 "that second time zone in the day view of the calendar. You can set a second "
@@ -1578,13 +1534,16 @@ msgid ""
 "and Tasks</gui><gui>General</gui><gui>Time</gui> <gui>Second zone</gui></"
 "guiseq>."
 msgstr ""
+"Se você lida muito com pessoas em outro fuso horário específico, pode exibir "
+"esse segundo fuso horário na visualização do dia da agenda. Você pode "
+"definir um segundo fuso horário em <guiseq><gui>Editar</"
+"gui><gui>Preferências</gui> <gui>Agenda e tarefas</gui><gui>Geral</"
+"gui><gui>Hora</gui> <gui>Segundo fuso</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/calendar-timezones.page:46
-#, fuzzy
-#| msgid "Converts a meeting to an appointment"
 msgid "Setting a timezone for an appointment"
-msgstr "Converte uma reunião em um compromisso"
+msgstr "Definindo um fuso horário para um compromisso"
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:48
@@ -1597,22 +1556,24 @@ msgid ""
 "to make sure that your schedules are coordinated. Setting time zones on a "
 "per-appointment basis helps avoid that potential confusion."
 msgstr ""
+"Você também pode configurar informações de fuso horário específicas para "
+"cada compromisso. Para fazer isso, <link xref=\"calendar-usage\">adicione um "
+"novo ou edite um compromisso existente</link>. Em <gui>Fuso horário</gui>, "
+"clique em <gui style=\"button\">Selecionar…</gui> para personalizar o fuso "
+"horário. Por exemplo, se você mora em Nova York, mas tem uma reunião por "
+"telefone marcada com alguém na Califórnia, precisa se certificar de que seus "
+"horários sejam coordenados. Definir fusos horários por compromisso ajuda a "
+"evitar essa confusão potencial."
 
 #. (itstool) path: info/desc
 #: C/calendar-usage-add-appointment.page:17
-#, fuzzy
-#| msgid "%d appointment"
-#| msgid_plural "%d appointments"
 msgid "Adding an appointment."
-msgstr "%d compromisso"
+msgstr "Adicionando um compromisso."
 
 #. (itstool) path: page/title
 #: C/calendar-usage-add-appointment.page:20
-#, fuzzy
-#| msgid "%d appointment"
-#| msgid_plural "%d appointments"
 msgid "Adding an Appointment"
-msgstr "%d compromisso"
+msgstr "Adicionando um compromisso"
 
 #. (itstool) path: item/p
 #: C/calendar-usage-add-appointment.page:24
@@ -1624,11 +1585,17 @@ msgid ""
 "directly write in the calendar and then adjust the duration by dragging it "
 "with the mouse."
 msgstr ""
+"Clique em <guiseq><gui>Arquivo</gui><gui>Novo</gui><gui>Compromisso</gui></"
+"guiseq>, ou clique duas vezes em um espaço em branco no calendário para "
+"abrir a caixa de diálogo Compromisso. O horário específico na visualização "
+"do calendário em que você clicou duas vezes será sugerido para o novo "
+"compromisso. Você também pode escrever diretamente no calendário e ajustar a "
+"duração arrastando-o com o mouse."
 
 #. (itstool) path: item/p
 #: C/calendar-usage-add-appointment.page:33
 msgid "If you use the Appointment dialog:"
-msgstr ""
+msgstr "Se você usar a caixa de diálogo Compromisso:"
 
 #. (itstool) path: item/p
 #: C/calendar-usage-add-appointment.page:56
@@ -1636,20 +1603,19 @@ msgid ""
 "To show the time as <link xref=\"calendar-free-busy\">busy</link> to others, "
 "click <guiseq><gui>Options</gui> <gui>Show Time as Busy</gui></guiseq>."
 msgstr ""
+"Para mostrar os tempos como <link xref=\"calendar-free-busy\">ocupado</link> "
+"para outros, clique em <guiseq><gui>Opções</gui> <gui>Exibir hora como "
+"ocupado</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/calendar-usage-delete-appointment.page:17
-#, fuzzy
-#| msgid "Default appointment reminder"
 msgid "Deleting an appointment in your calendar."
-msgstr "Lembrete de compromisso padrão"
+msgstr "Excluindo um compromisso em sua agenda."
 
 #. (itstool) path: page/title
 #: C/calendar-usage-delete-appointment.page:20
-#, fuzzy
-#| msgid "_Delete Appointment"
 msgid "Deleting an Appointment"
-msgstr "E_xcluir compromisso"
+msgstr "Excluindo um compromisso"
 
 #. (itstool) path: page/p
 #: C/calendar-usage-delete-appointment.page:22
@@ -1661,33 +1627,35 @@ msgid ""
 "xref=\"calendar-layout-views\">list view</link> you can also use "
 "<guiseq><gui>Edit</gui><gui>Delete Appointment</gui></guiseq>."
 msgstr ""
+"Se você deseja excluir um compromisso de suas agendas, clique com o botão "
+"direito do mouse no compromisso no calendário e selecione <gui>Excluir "
+"compromisso</gui>, ou clique no compromisso e clique em <gui>Excluir</gui> "
+"na barra de ferramentas ou pressione <keyseq><key>Ctrl</key><key>D</key></"
+"keyseq>. Se você está na <link xref=\"calendar-layout-views\">visão de "
+"lista</link> você também pode usar <guiseq><gui>Editar</gui><gui>Excluir "
+"compromisso</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/calendar-usage-edit-appointment.page:17
-#, fuzzy
-#| msgid "Found the appointment in the calendar “%s”"
 msgid "Editing in appointment in your calendar."
-msgstr "Localizado o compromisso na agenda “%s”"
+msgstr "Editando um compromisso em sua agenda."
 
 #. (itstool) path: page/title
 #: C/calendar-usage-edit-appointment.page:20
-#, fuzzy
-#| msgid "Create an _Appointment"
 msgid "Editing an Appointment"
-msgstr "Cria um novo _compromisso"
+msgstr "Editando um compromisso"
 
 #. (itstool) path: page/p
 #: C/calendar-usage-edit-appointment.page:22
 msgid ""
 "If you want to change an appointment that already exists in your calendars:"
-msgstr ""
+msgstr "Se você deseja alterar um compromisso que já existe em suas agendas:"
 
 #. (itstool) path: item/p
 #: C/calendar-usage-edit-appointment.page:27
-#, fuzzy
-#| msgid "Found the appointment in the calendar “%s”"
 msgid "Double-click on the appointment that you want to edit in the calendar."
-msgstr "Localizado o compromisso na agenda “%s”"
+msgstr ""
+"Efetue clique duplo no compromisso que você deseja editar no calendário."
 
 #. (itstool) path: item/p
 #: C/calendar-usage-edit-appointment.page:31
@@ -1695,6 +1663,8 @@ msgid ""
 "Edit the appointment (see <link xref=\"calendar-usage-add-appointment"
 "\">Adding an Appointment</link> for the list of available options)."
 msgstr ""
+"Edite o compromisso (veja <link xref=\"calendar-usage-add-appointment"
+"\">Adicionando um compromisso</link> para a lista de opções disponíveis)."
 
 #. (itstool) path: item/p
 #: C/calendar-usage-edit-appointment.page:36 C/memos-usage-add-memo.page:29
@@ -1704,30 +1674,28 @@ msgid ""
 "Click the <gui style=\"button\">Save</gui> button, or <guiseq><gui>File</"
 "gui><gui>Save</gui></guiseq>."
 msgstr ""
+"Clique no botão <gui style=\"button\">Salvar</gui> ou <guiseq><gui>Arquivo</"
+"gui><gui>Salvar</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/calendar-usage.page:18
 msgid "On adding, editing, and deleting appointments."
-msgstr ""
+msgstr "Sobre adicionar, editar e excluir compromissos."
 
 #. (itstool) path: page/title
 #: C/calendar-usage.page:21
-#, fuzzy
-#| msgid "_Delete Appointment"
 msgid "Add, Edit, and Delete Appointments"
-msgstr "E_xcluir compromisso"
+msgstr "Adicionando, editando e excluindo compromissos"
 
 #. (itstool) path: info/desc
 #: C/calendar-using-several-calendars.page:25
 msgid "Adding and using more than one calendar and different types."
-msgstr ""
+msgstr "Adicionando e usando mais de uma agenda e tipos diferentes."
 
 #. (itstool) path: page/title
 #: C/calendar-using-several-calendars.page:28
-#, fuzzy
-#| msgid "Using email address"
 msgid "Using several calendars"
-msgstr "Usando endereço de e-mail"
+msgstr "Usando várias agendas"
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:30
@@ -1740,11 +1708,18 @@ msgid ""
 "appointments, you can be sure to avoid conflicts, while keeping a minimum of "
 "clutter in your view."
 msgstr ""
+"Você pode ter várias agendas e sobrepor umas sobre as outras. Por exemplo, "
+"você pode ter uma programação de eventos para o trabalho, uma para casa e "
+"outra para o seu time favorito. A barra lateral lista essas agendas e você "
+"pode marcar ou desmarcar as caixas ao lado deles para mostrar e ocultar os "
+"compromissos na visão de calendário. Ao ocultar e mostrar diferentes "
+"conjuntos de compromissos, você pode ter certeza de evitar conflitos, "
+"enquanto mantém o mínimo de confusão em sua visão."
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:38
 msgid "Appointments for each calendar appear in different color."
-msgstr ""
+msgstr "Compromissos para cada agenda aparecem em cores diferentes."
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:40
@@ -1752,6 +1727,8 @@ msgid ""
 "You can also use calendars that are not on your computer, such as on the "
 "internet or in a local network."
 msgstr ""
+"Você também pode usar agendas que não estão em seu computador, tal como na "
+"internet ou na rede local."
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:43
@@ -1761,76 +1738,75 @@ msgid ""
 "and religious holidays, phases of the moon, sports, and local and regional "
 "events."
 msgstr ""
+"Por exemplo, o <link href=\"http://icalshare.com\">site icalshare.com</link> "
+"tem uma extensa lista de agendas online compartilhadas, incluindo feriados "
+"nacionais e religiosos, fases da lua, esportes e locais e eventos regionais."
 
 #. (itstool) path: info/desc
 #: C/calendar-weather.page:17
-#, fuzzy
-#| msgid "Display the next thread"
 msgid "Display the weather in the calendar."
-msgstr "Exibe a próxima discussão"
+msgstr "Exiba a previsão do tempo na agenda."
 
 #. (itstool) path: page/title
 #: C/calendar-weather.page:20
-#, fuzzy
-#| msgid "Print this calendar"
 msgid "Using a weather calendar"
-msgstr "Imprime esta agenda"
+msgstr "Usando a agenda de meteorologia"
 
 #. (itstool) path: page/p
 #: C/calendar-weather.page:22 C/calendar-webdav.page:21
 msgid "Calendars of this type are read-only."
-msgstr ""
+msgstr "Agendas deste tipo são somente leitura."
 
+# Confirmar tradução de Weather na UI
 #. (itstool) path: item/p
 #: C/calendar-weather.page:33
+#, fuzzy
 msgid "Select the type <gui>Weather</gui>."
-msgstr ""
+msgstr "Selecione o tipo <gui>Meteorologia</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-weather.page:46
 msgid "Choose a location by selecting continent, country and city."
-msgstr ""
+msgstr "Escolha um local selecionando o continente, país e cidade."
 
 #. (itstool) path: item/p
 #: C/calendar-weather.page:53
-#, fuzzy
-#| msgid "Choose the type of importer to run:"
 msgid "Choose the temperature unit."
-msgstr "Escolha o tipo de importador a executar:"
+msgstr "Escolha o tipo da temperatura."
 
 #. (itstool) path: info/desc
 #: C/calendar-webdav.page:16
 msgid "Using an online Webcal/WebDAV calendar."
-msgstr ""
+msgstr "Usando uma agenda Webcal/WebDAV online."
 
 #. (itstool) path: page/title
 #: C/calendar-webdav.page:19
-#, fuzzy
-#| msgid "Opening calendar"
 msgid "Using a WebDAV calendar"
-msgstr "Abrindo agenda"
+msgstr "Usando uma agenda WebDAV"
 
 #. (itstool) path: item/p
 #: C/calendar-webdav.page:32 C/tasks-caldav.page:25 C/tasks-webdav.page:27
 msgid "Select the type <gui>On the Web</gui>."
-msgstr ""
+msgstr "Selecione o tipo <gui>Na web</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-webdav.page:52 C/mail-sending-options-smtp.page:35
 #: C/tasks-webdav.page:33
 msgid "Enter your username."
-msgstr ""
+msgstr "Digite seu nome de usuário."
 
 #. (itstool) path: info/desc
 #: C/contacts-add-automatically.page:22
 msgid ""
 "Automatically add senders of mail that you have received to your contacts."
 msgstr ""
+"Adicione automaticamente remetentes de correio que você recebeu aos seus "
+"contatos."
 
 #. (itstool) path: page/title
 #: C/contacts-add-automatically.page:26
 msgid "Adding people automatically to my contacts"
-msgstr ""
+msgstr "Adicionando automaticamente pessoas aos meus contatos"
 
 #. (itstool) path: page/p
 #: C/contacts-add-automatically.page:28
@@ -1838,6 +1814,8 @@ msgid ""
 "You can add people automatically to your contacts when you reply to received "
 "email."
 msgstr ""
+"Você pode adicionar pessoas automaticamente aos seus contatos ao responder "
+"ao correio recebido."
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:31 C/mail-attachments-sending.page:46
@@ -1847,14 +1825,12 @@ msgstr ""
 #: C/mail-composer-message-templates-variables.page:28
 #: C/mail-received-notification.page:30
 msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
-msgstr ""
+msgstr "Selecione <guiseq><gui>Editar</gui><gui>Plug-ins</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:32
-#, fuzzy
-#| msgid "Automatic Contacts"
 msgid "Enable <gui>Automatic Contacts</gui>."
-msgstr "Contatos automáticos"
+msgstr "Habilitando <gui>Contatos automáticos</gui>."
 
 #. (itstool) path: note/p
 #: C/contacts-add-automatically.page:33 C/mail-attachments-sending.page:48
@@ -1870,6 +1846,10 @@ msgid ""
 "distribution might have decided to disable some plugins or to ship plugins "
 "in a separate package."
 msgstr ""
+"Se um plug-in não estiver disponível em <guiseq><gui>Editar</gui><gui>Plug-"
+"ins</gui></guiseq>, pergunte em um fórum de suporte de sua distribuição. Sua "
+"distribuição pode ter decidido desabilitar alguns plug-ins ou enviar plug-"
+"ins em um pacote separado."
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:35
@@ -1877,6 +1857,8 @@ msgid ""
 "Go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
 "<gui>Automatic Contacts</gui></guiseq>."
 msgstr ""
+"Vá até <guiseq><gui>Editar</gui><gui>Preferências</gui><gui>Contatos</gui> "
+"<gui>Contatos automáticos</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:37
@@ -1885,6 +1867,9 @@ msgid ""
 "an address book in the drop-down field below that will receive the new "
 "contacts."
 msgstr ""
+"Habilite <gui>Criar entradas no catálogo de endereços ao enviar mensagens</"
+"gui> e selecione uma lista de endereços no campo suspenso abaixo que "
+"receberá os novos contatos."
 
 #. (itstool) path: page/p
 #: C/contacts-add-automatically.page:42
@@ -1892,25 +1877,21 @@ msgid ""
 "From now on, contacts will be automatically created for senders of received "
 "mail when you reply to that mail."
 msgstr ""
+"A partir de agora, os contatos serão criados automaticamente para remetentes "
+"de e-mails recebidos quando você responder a esse e-mail."
 
 #. (itstool) path: info/desc
 #: C/contacts-autocompletion.page:28
-#, fuzzy
-#| msgid ""
-#| "Automatically launch editor when key is pressed in the mail composer."
 msgid ""
 "Autocompletion of names and email addresses entered in the mail composer."
 msgstr ""
-"Automaticamente iniciar o editor quando a tecla for pressionada no "
-"compositor de mensagens."
+"Completamento automático de nomes e endereços de e-mails digitados no "
+"redator de mensagens."
 
 #. (itstool) path: page/title
 #: C/contacts-autocompletion.page:31
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Reply to all recipients"
 msgid "Autocompletion of mail recipients"
-msgstr "Responde a todos os destinatários"
+msgstr "Completando automaticamente destinatários de mensagens"
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:33
@@ -1920,6 +1901,7 @@ msgid ""
 "of matches from your address books."
 msgstr ""
 
+
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:37
 msgid ""
@@ -1928,6 +1910,10 @@ msgid ""
 "address books from the list that <app>Evolution</app> should look in for "
 "matches."
 msgstr ""
+"Para habilitar o completamento automático, vá para <guiseq><gui>Editar</"
+"gui><gui>Preferências</gui><gui>Contatos</gui><gui>Completar "
+"automaticamente</gui></guiseq> e escolha os livros de endereços na lista que "
+"o <app>Evolution</app> deve procurar correspondências."
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:42
@@ -1936,6 +1922,9 @@ msgid ""
 "show the email address along with the name. This can be helpful to "
 "distinguish if a contact has several email addresses."
 msgstr ""
+"Selecione <gui>Sempre mostrar o e-mail do contato</gui> para mostrar também "
+"o endereço de e-mail junto com o nome. Isso pode ser útil para distinguir se "
+"um contato possui vários endereços de e-mail."
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:46
@@ -1945,18 +1934,20 @@ msgid ""
 "addresses and click the arrow buttons to move them into the appropriate "
 "address columns."
 msgstr ""
+"Como alternativa, você pode clicar nos botões <gui>Para:</gui>, <gui>Cc:</"
+"gui> ou <gui>Cco:</gui> para obter uma lista dos endereços de e-mail em seus "
+"contatos. Selecione endereços e clique nos botões de seta para movê-los para "
+"as colunas de endereço apropriadas."
 
 #. (itstool) path: info/desc
 #: C/contacts-google.page:18
 msgid "Use the online address book of your Google account."
-msgstr ""
+msgstr "Use o catálogo de endereços online de sua conta do Google."
 
 #. (itstool) path: page/title
 #: C/contacts-google.page:21
-#, fuzzy
-#| msgid "Using email address"
 msgid "Using a Google addressbook"
-msgstr "Usando endereço de e-mail"
+msgstr "Usando endereço de endereços do Google"
 
 #. (itstool) path: page/p
 #: C/contacts-google.page:23
@@ -1964,12 +1955,16 @@ msgid ""
 "To add such an address book to <app>Evolution</app>, perform the following "
 "steps:"
 msgstr ""
+"Para adicionar tal catálogo de endereços ao <app>Evolution</app>, execute as "
+"seguintes etapas:"
 
 #. (itstool) path: item/p
 #: C/contacts-google.page:28 C/contacts-ldap.page:40 C/contacts-local.page:27
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui> <gui>Address Book</gui></guiseq>."
 msgstr ""
+"Clique em <guiseq><gui>Arquivo</gui><gui>Novo</gui> <gui>Catalogo de "
+"endereços</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/contacts-google.page:53 C/contacts-local.page:41
@@ -1977,19 +1972,18 @@ msgid ""
 "The address book will be added to the list of address books in "
 "<app>Evolution</app>."
 msgstr ""
+"O catálogo de endereços será adicionado à lista de catálogos de endereços no "
+"<app>Evolution</app>."
 
 #. (itstool) path: info/desc
 #: C/contacts-ldap.page:25
 msgid "Use shared address books on a local network."
-msgstr ""
+msgstr "Use catálogos de endereços compartilhados em uma rede local."
 
 #. (itstool) path: page/title
 #: C/contacts-ldap.page:28
-#, fuzzy
-#| msgctxt "GoggleSummary"
-#| msgid "IMAP access"
 msgid "Adding LDAP access"
-msgstr "acesso IMAP"
+msgstr "Adicionando acesso LDAP"
 
 #. (itstool) path: page/p
 #: C/contacts-ldap.page:30
@@ -1999,19 +1993,23 @@ msgid ""
 "maintain a shared set of contact information. Many companies keep a common "
 "LDAP address book for all their employees or for client contacts."
 msgstr ""
+"O protocolo LDAP foi criado para permitir que os usuários compartilhem "
+"informações de contato em uma rede, compartilhando o acesso a um diretório "
+"central. O LDAP permite que uma empresa mantenha um conjunto compartilhado "
+"de informações de contato. Muitas empresas mantêm um catálogo de endereços "
+"LDAP comum para todos os seus funcionários ou para contatos de clientes."
 
 #. (itstool) path: section/title
 #: C/contacts-ldap.page:36
-#, fuzzy
-#| msgid "Add sender to address book"
 msgid "Adding an LDAP address book"
-msgstr "Adiciona o remetente ao catálogo de endereços"
+msgstr "Adicionando um catálogo de endereços LDAP"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:44
 msgid ""
 "In the <gui>General</gui> tab, select the type <gui>On LDAP Servers</gui>."
 msgstr ""
+"Na aba <gui>Geral</gui>, selecione o tipo <gui>Em servidor LDAP</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:51
@@ -2019,16 +2017,19 @@ msgid ""
 "Enter the address of the server, the port number (the default number is 389) "
 "and whether you want to connect securely."
 msgstr ""
+"Digite o endereço do servidor, o número da porta (o número padrão é 389) e "
+"se deseja se conectar com segurança."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:55
 msgid "Define the login method and your username."
-msgstr ""
+msgstr "Defina o método de login e seu nome de usuário."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:61
 msgid "In the <gui>Details</gui> tab you can define the following settings:"
 msgstr ""
+"Na aba <gui>Detalhes</gui>, você pode definir as seguintes configurações:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:65
@@ -2036,28 +2037,31 @@ msgid ""
 "Search Base: The search base is the starting point for a directory search. "
 "Contact your system administrator for information about the correct settings."
 msgstr ""
+"Base de pesquisa: a base de pesquisa é o ponto de partida para uma pesquisa "
+"de diretório. Entre em contato com o administrador do sistema para obter "
+"informações sobre as configurações corretas."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:70
 msgid "Search Scope: The search scope is the breadth of a given search."
 msgstr ""
+"Escopo da pesquisa: o escopo da pesquisa é a amplitude de uma determinada "
+"pesquisa."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:71
-#, fuzzy
-#| msgid "If all the following conditions are met"
 msgid "The following options are available:"
-msgstr "Se todas as condições a seguir forem atendidas"
+msgstr "As opções a seguir estão disponíveis:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
 msgid "One Level: Searches one entry below the Search Base."
-msgstr ""
+msgstr "Um nível: pesquisa uma entrada sob a base da pesquisa."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:77
 msgid "Subtree: Searches the Search Base and all entries below it."
-msgstr ""
+msgstr "Subárvore: pesquisa a base da pesquisa e todas as entradas sob ela."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:82
@@ -2065,16 +2069,18 @@ msgid ""
 "Search Filter: The search filter can be set here for all the LDAP queries. "
 "For example:"
 msgstr ""
+"Filtro de pesquisa: O filtro de pesquisa pode ser definido aqui para todas "
+"as entradas LDAP. Por exemplo:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:86
 msgid "<code>ObjectClass=*</code>: Lists all the objects from the server."
-msgstr ""
+msgstr "<code>ObjectClass=*</code>: Lista todos os objetos do servidor."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:90
 msgid "<code>ObjectClass=User</code>: Lists only the users."
-msgstr ""
+msgstr "<code>ObjectClass=User</code>: Lista apenas os usuários."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:93
@@ -2082,6 +2088,8 @@ msgid ""
 "<code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: "
 "Retrieves the User and Contact List objects."
 msgstr ""
+"<code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: Obtém "
+"os objetos usuário e lista de contatos."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:97
@@ -2089,13 +2097,19 @@ msgid ""
 "<code>(&amp;(mail=*)(ObjectClass=*))</code>: Lists the objects associated "
 "with the email addresses."
 msgstr ""
+"<code>(&amp;(mail=*)(ObjectClass=*))</code>: Lista os objetos associados com "
+"endereços de e-mail."
 
+# Conferir a tradução de Timeout (minutes) na UI
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:103
+#, fuzzy
 msgid ""
 "Timeout (minutes): The maximum time <app>Evolution</app> attempts to "
 "download data from the server before giving up."
 msgstr ""
+"Tempo limite (minutos): O tempo máximo que o <app>Evolution</app> tenta "
+"baixar dados do servidor antes de desistir."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:107
@@ -2104,18 +2118,22 @@ msgid ""
 "servers refuse to send more than 500 contacts, but you can set the number "
 "lower if you want to shorten downloads for very broad searches."
 msgstr ""
+"Limite de download: o número máximo de resultados para uma determinada "
+"pesquisa. A maioria dos servidores se recusa a enviar mais de 500 contatos, "
+"mas você pode definir o número mais baixo se quiser encurtar os downloads "
+"para pesquisas muito amplas."
 
 #. (itstool) path: note/p
 #: C/contacts-ldap.page:117
 msgid "If you are unsure about some settings, ask your system administrator."
 msgstr ""
+"Se você não tiver certeza sobre algumas configurações, pergunte ao "
+"administrador do sistema."
 
 #. (itstool) path: section/title
 #: C/contacts-ldap.page:124
-#, fuzzy
-#| msgid "Delete the selected address book"
 msgid "Differences to local address books"
-msgstr "Exclui o catálogo de endereços selecionado"
+msgstr "Diferentes para catálogos de endereços locais"
 
 #. (itstool) path: section/p
 #: C/contacts-ldap.page:126
@@ -2123,6 +2141,8 @@ msgid ""
 "LDAP address books work like local address books on your computer, with the "
 "following exceptions:"
 msgstr ""
+"Os catálogos de endereços LDAP funcionam como catálogos de endereços locais "
+"em seu computador, com as seguintes exceções:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:131
@@ -2132,14 +2152,24 @@ msgid ""
 "some of the network directory. You do this by dragging and dropping your "
 "desired contacts into the local address books."
 msgstr ""
+"As pastas de rede estão disponíveis apenas quando você está conectado à "
+"rede. Se você usa um laptop ou tem uma conexão de modem, pode desejar copiar "
+"ou armazenar em cache parte do diretório da rede. Você faz isso arrastando e "
+"soltando os contatos desejados nas listas de endereços locais."
 
+# Conferir tradução de "Copy folder content..." na UI. OBS: Há "Copy book content locally..." na tradução. Desatualizado?
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:137
+#, fuzzy
 msgid ""
 "You can also mark the network folder for offline usage. To mark the folder, "
 "right-click the folder, click <gui>Properties</gui> and select <gui>Copy "
 "folder content locally for offline operation</gui>."
 msgstr ""
+"Você também pode marcar a pasta de rede para uso desconectado. Para marcar a "
+"pasta, clique com o botão direito na pasta, clique em <gui>Propriedades</"
+"gui> e selecione <gui>Copiar o conteúdo da pasta localmente para "
+"funcionamento desconectado</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:142
@@ -2147,6 +2177,8 @@ msgid ""
 "To prevent excess network traffic, <app>Evolution</app> does not normally "
 "load data from the LDAP server upon opening."
 msgstr ""
+"Para evitar tráfego de rede em excesso, o <app>Evolution</app> normalmente "
+"não carrega dados do servidor LDAP ao abrir."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:146
@@ -2157,19 +2189,24 @@ msgid ""
 "app> allows. Check with your system administrator if you need different "
 "settings."
 msgstr ""
+"Dependendo das configurações do servidor, talvez você não consiga editar "
+"todos os campos de um contato armazenado em um servidor LDAP. Alguns "
+"servidores proíbem algumas ou todas as mudanças e outros usam um conjunto "
+"menor de campos do que o permitido pelo <app>Evolution</app>. Verifique com "
+"o administrador do sistema se precisar de configurações diferentes."
 
 #. (itstool) path: info/desc
 #: C/contacts-libreoffice.page:17
 msgid ""
 "Using data from <app>Evolution</app> address books in LibreOffice documents."
 msgstr ""
+"Usando dados dos catálogos de endereços do <app>Evolution</app> em "
+"documentos do LibreOffice."
 
 #. (itstool) path: page/title
 #: C/contacts-libreoffice.page:21
-#, fuzzy
-#| msgid "Contact _Preview"
 msgid "Contacts in LibreOffice"
-msgstr "_Visualização dos contatos"
+msgstr "Contatos no LibreOffice"
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:23
@@ -13854,7 +13891,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:34
-#| msgid "Date sent"
 msgid "Date sent:"
 msgstr "Data de envio:"
 
@@ -13872,7 +13908,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:37
-#| msgid "Date received"
 msgid "Date received:"
 msgstr "Data de recebimento:"
 
@@ -13885,13 +13920,11 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:40
-#| msgid "Label"
 msgid "Label:"
 msgstr "Rótulo:"
 
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:41
-#| msgid "Labels"
 msgid "labels"
 msgstr "rótulos"
 
@@ -13904,7 +13937,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:43
-#| msgid "Score"
 msgid "Score:"
 msgstr "Pontuação:"
 
@@ -13920,7 +13952,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:46
-#| msgid "Size (kB)"
 msgid "Size (kB):"
 msgstr "Tamanho (kB):"
 
@@ -13943,7 +13974,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:52
-#| msgid "Follow Up"
 msgid "Follow Up:"
 msgstr "Acompanhamento:"
 
@@ -13963,7 +13993,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:55
-#| msgid "Attachments"
 msgid "Attachments:"
 msgstr "Anexos:"
 
@@ -13991,7 +14020,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:61
-#| msgid "Regex Match"
 msgid "Regex Match:"
 msgstr "Correspondência de expressão regular:"
 
@@ -14071,7 +14099,6 @@ msgstr "Fecha a pesquisa"
 #. (itstool) path: p/gui
 #. (itstool) path: guiseq/gui
 #: C/xinclude-searching.xml:15
-#| msgid "_Clear"
 msgid "Clear"
 msgstr "Limpar"
 
@@ -14100,7 +14127,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:19
-#| msgid "_Saved Searches"
 msgid "Saved Searches"
 msgstr "Pesquisas salvas"
 
@@ -14113,7 +14139,6 @@ msgstr ""
 
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:21
-#| msgid "_Save"
 msgid "Save"
 msgstr "Salvar"
 
@@ -14133,13 +14158,11 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:25
-#| msgid "_Edit Saved Searches…"
 msgid "Editing a Saved Search"
 msgstr "Editar pesquisas salvas"
 
 #. (itstool) path: guiseq/gui
 #: C/xinclude-searching.xml:27
-#| msgid "_Edit Saved Searches…"
 msgid "Edit Saved Searches"
 msgstr "Editar pesquisas salvas"
 
@@ -14150,7 +14173,6 @@ msgstr "Selecione <_:guiseq-1/> a partir da barra de menu para abrir a janela."
 
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:28
-#| msgid "_Edit"
 msgid "Edit"
 msgstr "Editar"
 
