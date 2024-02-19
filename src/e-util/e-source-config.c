@@ -828,13 +828,8 @@ source_config_resize_window (ESourceConfig *config)
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (config));
 
-	if (GTK_IS_WINDOW (toplevel)) {
-		GtkWindow *window = GTK_WINDOW (toplevel);
-		GtkAllocation allocation;
-
-		gtk_widget_get_allocation (toplevel, &allocation);
-		gtk_window_resize (window, allocation.width, 1);
-	}
+	if (GTK_IS_WINDOW (toplevel))
+		gtk_window_resize (GTK_WINDOW (toplevel), 1, 1);
 }
 
 static gboolean
