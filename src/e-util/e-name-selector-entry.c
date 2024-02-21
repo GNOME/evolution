@@ -100,7 +100,7 @@ static void destination_row_inserted (ENameSelectorEntry *name_selector_entry, G
 static void destination_row_changed  (ENameSelectorEntry *name_selector_entry, GtkTreePath *path, GtkTreeIter *iter);
 static void destination_row_deleted  (ENameSelectorEntry *name_selector_entry, GtkTreePath *path);
 
-static void user_insert_text (ENameSelectorEntry *name_selector_entry, gchar *new_text, gint new_text_length, gint *position, gpointer user_data);
+static void user_insert_text (ENameSelectorEntry *name_selector_entry, const gchar *in_new_text, gint in_new_text_length, gint *position, gpointer user_data);
 static void user_delete_text (ENameSelectorEntry *name_selector_entry, gint start_pos, gint end_pos, gpointer user_data);
 
 static void setup_default_contact_store (ENameSelectorEntry *name_selector_entry);
@@ -1530,22 +1530,141 @@ insert_unichar (ENameSelectorEntry *name_selector_entry,
 
 static void
 user_insert_text (ENameSelectorEntry *name_selector_entry,
-                  gchar *new_text,
-                  gint new_text_length,
+                  const gchar *in_new_text,
+                  gint in_new_text_length,
                   gint *position,
                   gpointer user_data)
 {
+	const gchar *text = in_new_text;
+	gchar *tmp_text = NULL;
+	gint text_length = in_new_text_length;
 	gint chars_inserted = 0;
 	gboolean fast_insert, has_focus;
 
 	g_signal_handlers_block_by_func (name_selector_entry, user_insert_text, name_selector_entry);
 	g_signal_handlers_block_by_func (name_selector_entry, user_delete_text, name_selector_entry);
 
+	/* these can be groups or Outlook-provided list of addresses with a ';' as
+	   a delimiter, instead of ',', copied from the message body */
+	if (g_utf8_strchr (text, text_length, ';') != NULL) {
+		GString *prefer_text = NULL;
+		GPtrArray *parts = g_ptr_array_new_with_free_func (g_free);
+		const gchar *from = text;
+		gboolean in_quote = FALSE;
+		guint ii;
+
+		if (text_length < 0)
+			text_length = strlen (text);
+
+		for (ii = 0; ii < text_length; ii++) {
+			if (text[ii] == '\"') {
+				in_quote = !in_quote;
+			} else if (!in_quote && text[ii] == ';') {
+				gchar *part = g_strstrip (g_strndup (from, text + ii - from));
+
+				if (*part)
+					g_ptr_array_add (parts, part);
+				else
+					g_free (part);
+
+				from = text + ii + 1;
+			}
+		}
+
+		if (from < text + text_length) {
+			gchar *part = g_strstrip (g_strndup (from, text + text_length - from));
+
+			if (*part)
+				g_ptr_array_add (parts, part);
+			else
+				g_free (part);
+		}
+
+		for (ii = 0; ii < parts->len; ii++) {
+			const gchar *addr = g_ptr_array_index (parts, ii);
+
+			if (!strchr (addr, ':') && !strchr (addr, '\"')) {
+				guint jj, has_addr_start = 0, has_addr_end = 0;
+				gboolean in_addr = FALSE, broken = FALSE;
+
+				for (jj = 0; addr[jj] && !broken; jj++) {
+					gchar chr = addr[jj];
+
+					if (chr == '<') {
+						has_addr_start++;
+						if (in_addr)
+							broken = TRUE;
+						else
+							in_addr = TRUE;
+					} else if (chr == '>') {
+						if (in_addr)
+							in_addr = FALSE;
+						else
+							broken = TRUE;
+						has_addr_end++;
+					}
+				}
+
+				broken = broken || in_addr || has_addr_start != 1 || has_addr_start != has_addr_end;
+
+				if (broken) {
+					if (!prefer_text) {
+						prefer_text = g_string_new (addr);
+					} else {
+						g_string_append (prefer_text, ", ");
+						g_string_append (prefer_text, addr);
+					}
+				} else {
+					gchar *addr_start = strchr (addr, '<'), *name_end = addr_start;
+
+					while (name_end > addr && g_ascii_isspace (name_end[-1]))
+						name_end--;
+
+					if (!prefer_text)
+						prefer_text = g_string_new ("");
+					else
+						g_string_append (prefer_text, ", ");
+
+					if (name_end > addr) {
+						gboolean quote = g_utf8_strchr (addr, name_end - addr, ',') != NULL;
+
+						if (quote)
+							g_string_append_c (prefer_text, '\"');
+
+						g_string_append_len (prefer_text, addr, name_end - addr);
+
+						if (quote)
+							g_string_append_c (prefer_text, '\"');
+
+						g_string_append_c (prefer_text, ' ');
+					}
+
+					g_string_append (prefer_text, addr_start);
+				}
+			} else {
+				if (!prefer_text) {
+					prefer_text = g_string_new (addr);
+				} else {
+					g_string_append (prefer_text, ", ");
+					g_string_append (prefer_text, addr);
+				}
+			}
+		}
+
+		g_ptr_array_free (parts, TRUE);
+
+		if (prefer_text) {
+			text_length = prefer_text->len;
+			tmp_text = g_string_free (prefer_text, FALSE);
+			text = tmp_text;
+		}
+	}
+
 	fast_insert =
-		(g_utf8_strchr (new_text, new_text_length, ' ') == NULL) &&
-		(g_utf8_strchr (new_text, new_text_length, ',') == NULL) &&
-		(g_utf8_strchr (new_text, new_text_length, '\t') == NULL) &&
-		(g_utf8_strchr (new_text, new_text_length, '\n') == NULL);
+		(g_utf8_strchr (text, text_length, ' ') == NULL) &&
+		(g_utf8_strchr (text, text_length, ',') == NULL) &&
+		(g_utf8_strchr (text, text_length, '\t') == NULL) &&
+		(g_utf8_strchr (text, text_length, '\n') == NULL);
 
 	has_focus = gtk_widget_has_focus (GTK_WIDGET (name_selector_entry));
 
@@ -1562,7 +1681,7 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 
 		gtk_editable_insert_text (
 			GTK_EDITABLE (name_selector_entry),
-			new_text, new_text_length, position);
+			text, text_length, position);
 
 		chars_inserted = *position - old_position;
 		if (chars_inserted > 0)
@@ -1574,7 +1693,7 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 		const gchar *cp;
 		gboolean last_was_comma = FALSE, is_first_char = TRUE;
 
-		for (cp = new_text; *cp; cp = g_utf8_next_char (cp)) {
+		for (cp = text; *cp; cp = g_utf8_next_char (cp)) {
 			gunichar uc = g_utf8_get_char (cp);
 
 			if (uc == '\n' || uc == '\t') {
@@ -1609,6 +1728,8 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 	g_signal_handlers_unblock_by_func (name_selector_entry, user_insert_text, name_selector_entry);
 
 	g_signal_stop_emission_by_name (name_selector_entry, "insert_text");
+
+	g_free (tmp_text);
 }
 
 static void
