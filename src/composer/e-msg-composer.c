@@ -4113,6 +4113,21 @@ handle_multipart_alternative (EMsgComposer *composer,
 	}
 }
 
+static gboolean
+mime_part_is_evolution_note (CamelMimePart *mime_part)
+{
+	CamelContentType *content_type;
+
+	if (!mime_part)
+		return FALSE;
+
+	content_type = camel_mime_part_get_content_type (mime_part);
+
+	return camel_content_type_is (content_type, "message", "rfc822") &&
+	       camel_medium_get_header (CAMEL_MEDIUM (mime_part), "X-Evolution-Note") &&
+	       g_ascii_strcasecmp (camel_medium_get_header (CAMEL_MEDIUM (mime_part), "X-Evolution-Note"), "True") == 0;
+}
+
 static void
 handle_multipart (EMsgComposer *composer,
                   CamelMultipart *multipart,
@@ -4162,10 +4177,21 @@ handle_multipart (EMsgComposer *composer,
 					composer, mp, parent_part, keep_signature, cancellable, depth + 1);
 
 			} else {
-				/* Depth doesn't matter so long as we
-				 * don't pass 0. */
+				gint depth_inc = 1;
+
+				/* this can be a multipart/mixed with user's Note on the message, thus treat
+				   the inner part as the top part, not as one level lower in such case */
+				if (depth == 0 && i == 0 && nparts == 2) {
+					CamelMimePart *second_part;
+
+					second_part = camel_multipart_get_part (multipart, 1);
+
+					if (mime_part_is_evolution_note (second_part))
+						depth_inc = 0;
+				}
+
 				handle_multipart (
-					composer, mp, parent_part, keep_signature, cancellable, depth + 1);
+					composer, mp, parent_part, keep_signature, cancellable, depth + depth_inc);
 			}
 
 		} else if (depth == 0 && i == 0) {
@@ -4205,8 +4231,12 @@ handle_multipart (EMsgComposer *composer,
 			if (emc_is_attachment_part (mime_part, parent_part))
 				e_msg_composer_attach (composer, mime_part);
 		} else {
-			/* normal attachment */
-			e_msg_composer_attach (composer, mime_part);
+			if (mime_part_is_evolution_note (mime_part)) {
+				/* do not attach user notes on the message created by Evolution */
+			} else {
+				/* normal attachment */
+				e_msg_composer_attach (composer, mime_part);
+			}
 		}
 	}
 }
