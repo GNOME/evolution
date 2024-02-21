@@ -94,15 +94,21 @@ mail_ffe_build_header_sexp (const gchar *word,
 }
 
 static gchar *
+mail_ffe_default (const gchar *word,
+		  const gchar *options,
+		  const gchar *hint)
+{
+	const gchar *header_names[] = { "From", "To", "Cc", "Subject", NULL };
+
+	return mail_ffe_build_header_sexp (word, options, header_names);
+}
+
+static gchar *
 mail_ffe_recips (const gchar *word,
 		 const gchar *options,
 		 const gchar *hint)
 {
-	const gchar *header_names[] = { "To", "Cc", "Subject", NULL };
-
-	/* Include Subject only in the default expression. */
-	if (!hint)
-		header_names[2] = NULL;
+	const gchar *header_names[] = { "To", "Cc", NULL };
 
 	return mail_ffe_build_header_sexp (word, options, header_names);
 }
@@ -557,7 +563,7 @@ mail_ffe_message_id (const gchar *word,
 }
 
 static const EFreeFormExpSymbol mail_ffe_symbols[] = {
-	{ "",		"1",	mail_ffe_recips },
+	{ "",		NULL,	mail_ffe_default },
 	{ "from:f",	NULL,	mail_ffe_from },
 	{ "to:t",	NULL,	mail_ffe_to },
 	{ "cc:c:",	NULL,	mail_ffe_cc },
