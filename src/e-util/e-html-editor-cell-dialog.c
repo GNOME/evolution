@@ -407,9 +407,6 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Scope: cell */
-	widget = gtk_image_new_from_icon_name ("stock_select-cell", GTK_ICON_SIZE_BUTTON);
-	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
-
 	widget = gtk_radio_button_new_with_mnemonic (NULL, _("C_ell"));
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->scope_cell_button = widget;
@@ -419,9 +416,6 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 		G_CALLBACK (html_editor_cell_dialog_set_scope), dialog);
 
 	/* Scope: row */
-	widget = gtk_image_new_from_icon_name ("stock_select-row", GTK_ICON_SIZE_BUTTON);
-	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
-
 	widget = gtk_radio_button_new_with_mnemonic_from_widget (
 		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("_Row"));
 	gtk_grid_attach (grid, widget, 3, 0, 1, 1);
@@ -432,9 +426,6 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 		G_CALLBACK (html_editor_cell_dialog_set_scope), dialog);
 
 	/* Scope: table */
-	widget = gtk_image_new_from_icon_name ("stock_select-table", GTK_ICON_SIZE_BUTTON);
-	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
-
 	widget = gtk_radio_button_new_with_mnemonic_from_widget (
 		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("_Table"));
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
@@ -445,9 +436,6 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 		G_CALLBACK (html_editor_cell_dialog_set_scope), dialog);
 
 	/* Scope: column */
-	widget = gtk_image_new_from_icon_name ("stock_select-column", GTK_ICON_SIZE_BUTTON);
-	gtk_grid_attach (grid, widget, 2, 1, 1, 1);
-
 	widget = gtk_radio_button_new_with_mnemonic_from_widget (
 		GTK_RADIO_BUTTON (dialog->priv->scope_cell_button), _("Col_umn"));
 	gtk_grid_attach (grid, widget, 3, 1, 1, 1);

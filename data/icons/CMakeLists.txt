@@ -222,8 +222,6 @@ set(stock_private_icons
 	hicolor_actions_16x16_stock_new-24h-appointment.png
 	hicolor_actions_16x16_stock_notes.png
 	hicolor_actions_16x16_stock_people.png
-	hicolor_actions_16x16_stock_select-column.png
-	hicolor_actions_16x16_stock_select-row.png
 	hicolor_actions_16x16_stock_shared-by-me.png
 	hicolor_actions_16x16_stock_shared-to-me.png
 	hicolor_actions_16x16_stock_show-all.png
@@ -246,8 +244,6 @@ set(stock_private_icons
 	hicolor_actions_24x24_stock_mail-unread-multiple.png
 	hicolor_actions_24x24_stock_notes.png
 	hicolor_actions_24x24_stock_people.png
-	hicolor_actions_24x24_stock_select-column.png
-	hicolor_actions_24x24_stock_select-row.png
 	hicolor_actions_24x24_stock_shared-by-me.png
 	hicolor_actions_24x24_stock_shared-to-me.png
 	hicolor_actions_24x24_stock_show-all.png

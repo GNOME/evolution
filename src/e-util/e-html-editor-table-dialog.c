@@ -504,9 +504,6 @@ e_html_editor_table_dialog_init (EHTMLEditorTableDialog *dialog)
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Rows */
-	widget = gtk_image_new_from_icon_name ("stock_select-row", GTK_ICON_SIZE_BUTTON);
-	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
-
 	widget = gtk_spin_button_new_with_range (1, G_MAXINT, 1);
 	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (widget), 0);
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
@@ -521,9 +518,6 @@ e_html_editor_table_dialog_init (EHTMLEditorTableDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 
 	/* Columns */
-	widget = gtk_image_new_from_icon_name ("stock_select-column", GTK_ICON_SIZE_BUTTON);
-	gtk_grid_attach (grid, widget, 3, 0, 1, 1);
-
 	widget = gtk_spin_button_new_with_range (1, G_MAXINT, 1);
 	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (widget), 0);
 	gtk_grid_attach (grid, widget, 5, 0, 1, 1);
