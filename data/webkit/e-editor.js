@@ -5512,6 +5512,7 @@ EvoEditor.InsertContent = function(text, isHTML, quote, preferPre)
 
 			// convert P into DIV
 			var node = content.firstChild, next;
+			var bodyFontSize = window.getComputedStyle(document.body).fontSize;
 
 			while (node) {
 				var removeNode = false;
@@ -5532,12 +5533,11 @@ EvoEditor.InsertContent = function(text, isHTML, quote, preferPre)
 					EvoEditor.moveNodeContent(node, div);
 					node.parentElement.insertBefore(div, node.nextSibling);
 				// workaround https://bugs.webkit.org/show_bug.cgi?id=250003
-				} else if (isPaste && node.nodeType == node.ELEMENT_NODE && node.tagName == "SPAN" &&
-					   node.attributes.length == 1 && node.attributes[0].name == "style" &&
-					   node.style.length > 0 && node.fontSize != "") {
-					if (node.style.length == 1 && node.style.backgroundColor != "") {
-						// do nothing, the editor itself sets the backgroundColor too
-					} else {
+				} else if (node.nodeType == node.ELEMENT_NODE && node.style.fontSize == bodyFontSize) {
+					node.style.removeProperty("font-size");
+					EvoEditor.removeEmptyStyleAttribute(node);
+
+					if (node.tagName == "SPAN" && node.attributes.length == 0) {
 						EvoEditor.moveNodeContent(node, null);
 						removeNode = true;
 					}
