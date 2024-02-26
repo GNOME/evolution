@@ -1,5 +1,6 @@
 stages:
   - test
+  - pages
 
 flatpak:
   image: "quay.io/gnome_infrastructure/gnome-runtime-images:gnome-master"
@@ -38,4 +39,39 @@ flatpak:
       - ".flatpak-builder/build/${FLATPAK_MODULE}/evolution-config.h"
       - ".flatpak-builder/build/${FLATPAK_MODULE}/CMakeFiles/CMakeError.log"
       - ".flatpak-builder/build/${FLATPAK_MODULE}/CMakeFiles/CMakeOutput.log"
+      - ".flatpak-builder/build/${FLATPAK_MODULE}/help/"
     expire_in: 14 days
+
+pages:
+  image: registry.fedoraproject.org/fedora:40
+  stage: pages
+  dependencies:
+    - flatpak
+  interruptible: false
+  variables:
+    FLATPAK_MODULE: "evolution"
+  script:
+    - |
+      dnf install -qy yelp-tools
+      export PUBDIR=$(pwd)/public/help
+      mkdir -p $PUBDIR
+      for d in ".flatpak-builder/build/${FLATPAK_MODULE}/help/"*
+      do
+        if [ -d "$d" ] && [ $(basename $d) != "CMakeFiles" ]; then
+          lang=$(basename $d);
+          cd $d
+          echo "Generating help for $lang"
+          if [ $lang == "C" ]; then
+            yelp-build html -o $PUBDIR .
+          else
+            mkdir $PUBDIR/$lang
+            yelp-build html -o $PUBDIR/$lang . -p ../C
+          fi
+          cd $PUBDIR/../..
+        fi
+      done
+  artifacts:
+    paths:
+    - public
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
