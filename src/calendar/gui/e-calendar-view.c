@@ -202,6 +202,9 @@ calendar_view_delete_event (ECalendarView *cal_view,
 				itip_send_component_with_model (model, I_CAL_METHOD_CANCEL,
 					comp, client, NULL, NULL,
 					NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS);
+
+				/* attendees will know by the above cancel message */
+				op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
 			} else {
 				op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
 			}
