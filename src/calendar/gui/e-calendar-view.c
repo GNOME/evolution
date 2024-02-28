@@ -119,65 +119,6 @@ e_calendar_view_selection_data_free (gpointer ptr)
 }
 
 static void
-calendar_view_add_retract_data (ECalComponent *comp,
-                                const gchar *retract_comment,
-                                ECalObjModType mod)
-{
-	ICalComponent *icomp;
-	ICalProperty *prop;
-
-	icomp = e_cal_component_get_icalcomponent (comp);
-	if (retract_comment && *retract_comment)
-		prop = i_cal_property_new_x (retract_comment);
-	else
-		prop = i_cal_property_new_x ("0");
-	i_cal_property_set_x_name (prop, "X-EVOLUTION-RETRACT-COMMENT");
-	i_cal_component_take_property (icomp, prop);
-
-	if (mod == E_CAL_OBJ_MOD_ALL)
-		prop = i_cal_property_new_x ("All");
-	else if (mod == E_CAL_OBJ_MOD_THIS_AND_FUTURE)
-		prop = i_cal_property_new_x ("ThisAndFuture");
-	else
-		prop = i_cal_property_new_x ("This");
-	i_cal_property_set_x_name (prop, "X-EVOLUTION-RECUR-MOD");
-	i_cal_component_take_property (icomp, prop);
-}
-
-static gboolean
-calendar_view_check_for_retract (ECalComponent *comp,
-                                 ECalClient *client)
-{
-	ECalComponentOrganizer *organizer;
-	const gchar *strip;
-	gchar *email = NULL;
-	gboolean ret_val;
-
-	if (!e_cal_component_has_attendees (comp))
-		return FALSE;
-
-	if (!e_cal_client_check_save_schedules (client) ||
-	    !e_client_check_capability (E_CLIENT (client), E_CAL_STATIC_CAPABILITY_RETRACT_SUPPORTED))
-		return FALSE;
-
-	organizer = e_cal_component_get_organizer (comp);
-	if (!organizer)
-		return FALSE;
-
-	strip = e_cal_util_get_organizer_email (organizer);
-
-	ret_val =
-		e_client_get_backend_property_sync (E_CLIENT (client), E_CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &email, NULL, NULL) &&
-		e_cal_util_email_addresses_equal (email, strip);
-
-	g_free (email);
-
-	e_cal_component_organizer_free (organizer);
-
-	return ret_val;
-}
-
-static void
 calendar_view_delete_event (ECalendarView *cal_view,
                             ECalendarViewSelectionData *sel_data,
 			    gboolean only_occurrence,
@@ -192,7 +133,6 @@ calendar_view_delete_event (ECalendarView *cal_view,
 	ICalTime *itt_start = NULL, *itt_end = NULL;
 	time_t instance_start;
 	gboolean do_delete = TRUE;
-	gboolean is_retract;
 
 	model = e_calendar_view_get_model (cal_view);
 	registry = e_cal_model_get_registry (model);
@@ -218,25 +158,10 @@ calendar_view_delete_event (ECalendarView *cal_view,
 	if (!only_occurrence && !e_cal_client_check_recurrences_no_master (client))
 		e_cal_component_set_recurid (comp, NULL);
 
-	/*FIXME Retract should be moved to Groupwise features plugin */
-	is_retract = calendar_view_check_for_retract (comp, client);
-	if (is_retract) {
-		gchar *retract_comment = NULL;
-		gboolean retract = FALSE;
-
-		do_delete = e_cal_dialogs_prompt_retract (GTK_WIDGET (cal_view), comp, &retract_comment, &retract);
-		if (retract) {
-			ICalComponent *icomp;
-
-			calendar_view_add_retract_data (comp, retract_comment, mod);
-			icomp = e_cal_component_get_icalcomponent (comp);
-			i_cal_component_set_method (icomp, I_CAL_METHOD_CANCEL);
-
-			e_cal_ops_send_component (model, client, icomp);
-		}
-	} else if (e_cal_model_get_confirm_delete (model))
+	if (e_cal_model_get_confirm_delete (model)) {
 		do_delete = e_cal_dialogs_delete_component (
 			comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
+	}
 
 	if (do_delete) {
 		ECalOperationFlags op_flags = E_CAL_OPERATION_FLAG_NONE;
@@ -251,7 +176,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 
 		if (itip_has_any_attendees (comp) && (organizer_is_user ||
 		    itip_sentby_is_user (registry, comp, client))) {
-			if (e_cal_dialogs_cancel_component (parent_window, client, comp, is_retract, organizer_is_user)) {
+			if (e_cal_dialogs_cancel_component (parent_window, client, comp, FALSE, organizer_is_user)) {
 				if (only_occurrence && !e_cal_component_is_instance (comp)) {
 					ECalComponentRange *range;
 					ECalComponentDateTime *dtstart;
@@ -282,7 +207,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 			}
 		} else if (e_cal_client_check_save_schedules (client) &&
 			   itip_attendee_is_user (registry, comp, client) &&
-			   !e_cal_dialogs_cancel_component (parent_window, client, comp, is_retract, organizer_is_user)) {
+			   !e_cal_dialogs_cancel_component (parent_window, client, comp, FALSE, organizer_is_user)) {
 			op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
 		}
 
