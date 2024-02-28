@@ -5336,7 +5336,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 		default:
 			view->priv->update_item_error_info_id =
 				itip_view_add_lower_info_item_printf (
-					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+					view, ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
 					_("Unable to send item to calendar “%s”. %s"),
 					source_display_name,
 					error->message);
@@ -5344,7 +5344,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			view->priv->update_item_error_info_id =
 				itip_view_add_lower_info_item_printf (
-					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+					view, ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
 					_("Unable to send item to task list “%s”. %s"),
 					source_display_name,
 					error->message);
@@ -5352,7 +5352,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			view->priv->update_item_error_info_id =
 				itip_view_add_lower_info_item_printf (
-					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+					view, ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
 					_("Unable to send item to memo list “%s”. %s"),
 					source_display_name,
 					error->message);
