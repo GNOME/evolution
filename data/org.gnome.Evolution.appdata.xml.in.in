@@ -29,6 +29,10 @@
   <provides>
     <id>org.gnome.Evolution.desktop</id>
   </provides>
+  <branding>
+    <color type="primary" scheme_preference="light">#d6dfd9</color>
+    <color type="primary" scheme_preference="dark">#613583</color>
+  </branding>
   <screenshots>
     <screenshot type="default">
       <_caption>Mail – Classic View</_caption>
