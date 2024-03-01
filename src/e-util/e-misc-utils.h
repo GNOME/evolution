@@ -359,6 +359,7 @@ void		e_open_map_uri			(GtkWindow *parent,
 						 const gchar *location);
 gboolean	e_util_link_requires_reference	(const gchar *href,
 						 const gchar *text);
+void		e_util_call_malloc_trim_limited	(void);
 
 G_END_DECLS
 

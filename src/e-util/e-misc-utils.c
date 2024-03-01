@@ -5149,3 +5149,22 @@ e_util_link_requires_reference (const gchar *href,
 
 	return !similar;
 }
+
+/**
+ * e_util_call_malloc_trim_limited:
+ *
+ * Calls e_util_call_malloc_trim(), but not more often than once per 30 minutes.
+ *
+ * Since: 3.52
+ **/
+void
+e_util_call_malloc_trim_limited (void)
+{
+	static gint64 last_called = 0;
+	gint64 now = g_get_real_time ();
+
+	if (now >= last_called + (30 * 60 * G_USEC_PER_SEC)) {
+		last_called = now;
+		e_util_call_malloc_trim ();
+	}
+}

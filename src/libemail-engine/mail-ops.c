@@ -447,6 +447,8 @@ exit:
 	}
 
 	g_object_unref (session);
+
+	e_util_call_malloc_trim_limited ();
 }
 
 static void
