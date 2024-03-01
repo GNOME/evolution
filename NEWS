@@ -1,3 +1,43 @@
+Evolution 3.51.3 2024-03-01
+---------------------------
+
+Bug Fixes:
+	I#2627 - Skip message Note part in "Edit as New Message"
+	I#2657 - Composer: Option to prefer local datetime in reply credits
+	I#2659 - Composer: Preserve whitespace in text/plain drafts
+	I#2661 - Unclear licensing in some places
+	I#2663 - Composer: Try to parse pasted addresses with ';' better
+	I#2664 - itip-view: Prefer user's choice for 24h time format
+	I#2665 - Tasks: Add Status=Needs Action filter option (Nico Rikken)
+	I#2670 - Pasting into composer address box can lose spaces
+	I#2675 - Support webcals: URI
+	I#2677 - ESourceConfig: Window width always increases on Type change in Wayland
+	I#2679 - Remove old stock icons from table and cell Properties dialogs
+	I#2680 - Mail: Add 'From' header to default Free Form Expression
+	I#2685 - Composer: Drop extra font-size in elems of paste in HTML
+	eds-I#522 - build: Make sure tests run in serial
+
+Miscellaneous:
+	Replace G_TYPE_INSTANCE_GET_PRIVATE() with G_ADD_PRIVATE()
+	plugin_ui_hook_finalize: Chain up to the finalize() method
+	Composer: Stop message send when retrieve of the content failed
+	Composer: Hint places for folding in Autocrypt header
+	Composer: Change "Remove Key" to "Send without Key" in Autocrypt question
+	ci: Export the help with Gitlab Pages (Corentin Noël)
+	itip-formatter: Show "Unable to send item..." errors with error icon
+	Calendar: Remove support for E_CAL_STATIC_CAPABILITY_RETRACT_SUPPORTED
+	Calendar: Meeting deletion can sometimes send duplicate cancel messages
+	appdata: Add <branding/> colors
+
+Translations:
+	Asier Sarasua Garmendia (eu)
+	Ekaterine Papava (ka)
+	Juliano de Souza Camargo (pt_BR)
+	Jürgen Benvenuti (de)
+	Kukuh Syafaat (id)
+	Sabri Ünal (tr)
+	Yuri Chornoivan (uk)
+
 Evolution 3.51.2 2024-02-09
 ---------------------------
 
