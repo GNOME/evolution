@@ -252,7 +252,6 @@ main (gint argc,
       gchar **argv)
 {
 	EShell *shell;
-	GSettings *settings;
 	gboolean is_remote;
 	gint ret;
 
@@ -311,6 +310,7 @@ main (gint argc,
 		GtkIconTheme *icon_theme;
 		#endif
 		#ifdef DEVELOPMENT
+		GSettings *settings;
 		gboolean skip_warning_dialog;
 		#endif
 
