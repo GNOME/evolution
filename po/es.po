@@ -12,25 +12,24 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 # Rodrigo <rodhos92@gmail.com>, 2019.
 # Rodrigo Lledó <rodhos92@gmail.com>, 2019.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010-2022.
 # leo <daniel.mustieles@gmail.com>, 2022.
-# Daniel Mustieles García <daniel.mustieles@gmail.com>, 2022-2023.
 # Roberto MF <2022-gnome-l10n@virgulilla.com>, 2023.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2022-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-10-09 18:42+0000\n"
-"PO-Revision-Date: 2023-04-30 12:59+0200\n"
-"Last-Translator: Roberto MF <2022-gnome-l10n@virgulilla.com>\n"
-"Language-Team: Spanish - Spain <international-spanish@discourse.gnome.org>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
+"POT-Creation-Date: 2024-02-19 09:17+0000\n"
+"PO-Revision-Date: 2024-03-04 11:54+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 42.0\n"
+"X-Generator: Gtranslator 45.3\n"
 "X-DL-Team: es\n"
 "X-DL-Module: evolution\n"
 "X-DL-Branch: master\n"
@@ -1457,7 +1456,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:29
 msgid "Always request Delivery Status Notification"
-msgstr ""
+msgstr "Requerir siempre la notificación del estado de entrega"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:30
 #, fuzzy
@@ -2326,6 +2325,8 @@ msgid ""
 "Set to true to generate flat threads. That is, the thread will have only one "
 "level, with no sublevels."
 msgstr ""
+"Establecer a verdarero para generar hilos planos. Es decir, el hilo tendrá "
+"un solo nivel, sin subniveles."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Sort accounts alphabetically in a folder tree"
@@ -2828,10 +2829,8 @@ msgid "Directory for saving mail component files."
 msgstr "Carpeta para guardar archivos enviados por correo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
-#, fuzzy
-#| msgid "Save Draft"
 msgid "Save format"
-msgstr "Guardar borrador"
+msgstr "Guardar formato"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
 #, fuzzy
@@ -3237,12 +3236,16 @@ msgid ""
 "Whether the markdown composer should sanitize input text also for the "
 "'Markdown as Plain text' mode"
 msgstr ""
+"Si el editor de Markdown debe sanear el texto de entrada también para el "
+"modo 'Markdown as Plain text'"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
 msgid ""
 "Disabling the sanitization allows to use the Markdown editor as a very "
 "simple text editor without mangling the input text."
 msgstr ""
+"Deshabilitar el saneado permite utilizar el editor Markdown como un editor "
+"de texto muy simple sin alterar el texto de entrada."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
 #, fuzzy
@@ -3268,6 +3271,9 @@ msgid ""
 "be shown after mail open. The default is to hide these possibly insecure "
 "parts."
 msgstr ""
+"Establecer si deben mostrarse las partes no firmadas/cifradas junto a las "
+"partes firmadas/cifradas después de abrir el correo. El valor predeterminado "
+"es ocultar estas partes posiblemente inseguras."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
 msgid "(Deprecated) Default forward style"
@@ -3336,12 +3342,15 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:346
 msgid "Prompt before send when attachment changed on the disk"
 msgstr ""
+"Preguntar antes de enviar cuando el archivo adjunto haya cambiado en el disco"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:347
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
 msgstr ""
+"Preguntar si se debe enviar un mensaje con archivos adjuntos que cambiaron "
+"en el disco desde que se adjuntaron al mensaje."
 
 #. Translators: This is a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -3526,6 +3535,8 @@ msgid ""
 "Attach components in mail messages like meeting invitations or responses, "
 "instead of saving them as a body alternative"
 msgstr ""
+"Adjunte componentes en mensajes de correo, como invitaciones a reuniones o "
+"respuestas, en lugar de guardarlos como una alternativa al cuerpo."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -3962,7 +3973,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:50
 msgid "Whether to prefer symbolic icons"
-msgstr ""
+msgstr "Indica si se prefieren iconos simbólicos"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:51
 msgid ""
@@ -3971,6 +3982,11 @@ msgid ""
 "the symbolic icons cannot be used when the icon theme does not provide them. "
 "Similarly the color icons cannot be used, when they are not available."
 msgstr ""
+"Controla si la aplicación debe preferir iconos simbólicos o no. El valor "
+"'auto' detecta si el tema del icono utiliza iconos simbólicos. Tenga en "
+"cuenta que los iconos simbólicos no se pueden usar cuando el tema del icono "
+"no los proporciona. Del mismo modo, los iconos de colores no se pueden "
+"utilizar cuando no están disponibles."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -4121,7 +4137,7 @@ msgstr "Redactar un mensaje"
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:249
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1563
+#: ../src/modules/mail/e-mail-shell-view.c:1570
 #: ../src/smime/gui/certificate-manager.c:1612
 msgid "Mail"
 msgstr "Correo"
@@ -4136,7 +4152,7 @@ msgid "Memos"
 msgstr "Notas"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2467
+#: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2481
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1138
 #: ../src/e-util/e-webdav-browser.c:524
@@ -4631,7 +4647,7 @@ msgstr ""
 #: ../src/mail/em-vfolder-editor-rule.c:405
 #: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:67
 #: ../src/modules/mail/em-composer-prefs.c:420
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1739
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1800
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
 #: ../src/plugins/email-custom-header/email-custom-header.c:828
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
@@ -4674,7 +4690,7 @@ msgstr ""
 "añadirlo de todos modos?"
 
 #: ../src/addressbook/addressbook.error.xml.h:39
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1772
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1775
 msgid "Failed to delete contact"
 msgstr "Falló al eliminar el contacto"
 
@@ -4770,7 +4786,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:561
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:806
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1852
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1855
 #: ../src/calendar/calendar.error.xml.h:186
 #: ../src/calendar/gui/e-cal-dialogs.c:695
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
@@ -4792,14 +4808,14 @@ msgstr ""
 #: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:179
 #: ../src/e-util/e-mail-signature-script-dialog.c:360
-#: ../src/e-util/e-passwords.c:474 ../src/e-util/e-rule-context.c:819
+#: ../src/e-util/e-passwords.c:486 ../src/e-util/e-rule-context.c:819
 #: ../src/e-util/e-rule-editor.c:184 ../src/e-util/e-rule-editor.c:295
 #: ../src/e-util/e-rule-editor.c:931 ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:356
 #: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4085
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4130
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4257
@@ -4811,7 +4827,7 @@ msgstr ""
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1249
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:282
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1095
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1152
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
 #: ../src/plugins/face/face.c:298
 #: ../src/plugins/publish-calendar/publish-calendar.c:788
@@ -4887,15 +4903,15 @@ msgstr "Opciones"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
 #: ../src/calendar/calendar.error.xml.h:52
-#: ../src/calendar/gui/e-comp-editor.c:2319
+#: ../src/calendar/gui/e-comp-editor.c:2321
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:845
 #: ../src/e-util/e-attachment-store.c:852
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
-#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4085
+#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4130
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
-#: ../src/modules/rss/evolution/e-rss-preferences.c:865
+#: ../src/modules/rss/evolution/e-rss-preferences.c:920
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:646
 #: ../src/smime/gui/certificate-manager.c:715
@@ -5150,7 +5166,7 @@ msgstr "Añadir _X.509"
 #: ../src/mail/e-mail-label-manager.c:397 ../src/mail/em-filter-rule.c:679
 #: ../src/mail/em-folder-properties.c:1397
 #: ../src/mail/em-vfolder-editor-rule.c:639 ../src/mail/mail-config.ui.h:68
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1758
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1819
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:838
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
@@ -5175,25 +5191,25 @@ msgid "Certificates"
 msgstr "Certificados"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:264
-#: ../src/calendar/gui/e-comp-editor.c:2251
+#: ../src/calendar/gui/e-comp-editor.c:2253
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "Des_hacer"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
-#: ../src/calendar/gui/e-comp-editor.c:2253 ../src/e-util/e-focus-tracker.c:147
+#: ../src/calendar/gui/e-comp-editor.c:2255 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Deshacer"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271
-#: ../src/calendar/gui/e-comp-editor.c:2258
+#: ../src/calendar/gui/e-comp-editor.c:2260
 #: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "_Rehacer"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
-#: ../src/calendar/gui/e-comp-editor.c:2260 ../src/e-util/e-focus-tracker.c:163
+#: ../src/calendar/gui/e-comp-editor.c:2262 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Rehacer"
@@ -5337,8 +5353,8 @@ msgid "Invalid contact."
 msgstr "Contacto no válido."
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5134
-#: ../src/calendar/gui/e-comp-editor.c:2216
-#: ../src/calendar/gui/e-comp-editor.c:2288
+#: ../src/calendar/gui/e-comp-editor.c:2218
+#: ../src/calendar/gui/e-comp-editor.c:2290
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../src/shell/e-shell-window-actions.c:1121
@@ -5356,7 +5372,7 @@ msgstr "Ay_uda"
 #: ../src/e-util/e-color-chooser-widget.c:126
 #: ../src/e-util/e-filter-datespec.c:301
 #: ../src/e-util/e-html-editor-link-dialog.c:242
-#: ../src/e-util/e-passwords.c:475 ../src/e-util/e-rule-context.c:820
+#: ../src/e-util/e-passwords.c:487 ../src/e-util/e-rule-context.c:820
 #: ../src/e-util/e-rule-editor.c:185 ../src/e-util/e-rule-editor.c:296
 #: ../src/e-util/e-rule-editor.c:932 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:357
@@ -5376,10 +5392,8 @@ msgid "_OK"
 msgstr "_Aceptar"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:251
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to find contact"
-msgstr "Falló al eliminar el contacto"
+msgstr "Falló al buscar el contacto"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:464
 msgid "Contact Quick-Add"
@@ -5402,10 +5416,8 @@ msgid "_Select Address Book"
 msgstr "_Seleccionar la libreta de direcciones"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:779
-#, fuzzy
-#| msgid "Failed to store password: "
 msgid "Failed to parse vCard data"
-msgstr "Falló al guardar la contraseña: "
+msgstr "Falló al analizar los datos vCard"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Mr."
@@ -5561,7 +5573,7 @@ msgstr "Error al eliminar la lista"
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1687
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1744
 msgid "Name"
 msgstr "Nombre"
 
@@ -5643,17 +5655,13 @@ msgstr "El correo-e empieza por"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:14
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1504
-#, fuzzy
-#| msgid "Name contains"
 msgid "Email contains"
-msgstr "El nombre contiene"
+msgstr "El correo contiene"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:15
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1511
-#, fuzzy
-#| msgid "Sender contains"
 msgid "Phone contains"
-msgstr "El remitente contiene"
+msgstr "El teléfono contiene"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:16
 #: ../src/calendar/gui/caltypes.xml.in.h:27
@@ -5676,17 +5684,17 @@ msgid "Copy _Email Address"
 msgstr "Copiar dirección de _correo-e"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:152
-#: ../src/e-util/e-web-view.c:431
+#: ../src/e-util/e-web-view.c:464
 msgid "Copy the email address to the clipboard"
 msgstr "Copiar la dirección de correo-e al portapapeles"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:157
-#: ../src/e-util/e-web-view.c:443
+#: ../src/e-util/e-web-view.c:476
 msgid "_Send New Message To…"
 msgstr "_Enviar un correo nuevo a…"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:159
-#: ../src/e-util/e-web-view.c:445
+#: ../src/e-util/e-web-view.c:478
 msgid "Send a mail message to this address"
 msgstr "Enviar un correo a esta dirección"
 
@@ -6044,74 +6052,72 @@ msgid "No contacts"
 msgstr "Sin contactos"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:350
-#, fuzzy, c-format
-#| msgid "%d contact"
-#| msgid_plural "%d contacts"
+#, c-format
 msgid "%u contact"
 msgid_plural "%u contacts"
-msgstr[0] "%d contacto"
-msgstr[1] "%d contactos"
+msgstr[0] "%u contacto"
+msgstr[1] "%u contactos"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:979
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:982
 msgid "Cut selected contacts to the clipboard"
 msgstr "Cortar los contactos seleccionados al portapapeles"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:985
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:988
 msgid "Copy selected contacts to the clipboard"
 msgstr "Copiar los contactos seleccionados al portapapeles"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:991
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:994
 msgid "Paste contacts from the clipboard"
 msgstr "Pegar los contactos desde el portapapeles"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:997
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1000
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1289
 msgid "Delete selected contacts"
 msgstr "Eliminar los contactos seleccionados"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1003
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1006
 msgid "Select all visible contacts"
 msgstr "Seleccionar todos los contactos visibles"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1281
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1284
 #: ../src/addressbook/gui/widgets/e-card-view.c:81
 msgid "Searching for the Contacts…"
 msgstr "Buscando contactos…"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1458
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1461
 #, fuzzy
 #| msgid "Failed to communicate with LDAP server."
 msgid "Failed to get contacts with unknown error"
 msgstr "Falló al comunicarse con el servidor LDAP."
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1820
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1823
 msgid "Are you sure you want to delete these contact lists?"
 msgstr "¿Seguro que quiere eliminar estas listas de contactos?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1824
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1827
 msgid "Are you sure you want to delete this contact list?"
 msgstr "¿Seguro que quiere eliminar esta lista de contactos?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1828
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1831
 #, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr "¿Seguro que quiere eliminar esta lista de contactos (%s)?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1834
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1837
 msgid "Are you sure you want to delete these contacts?"
 msgstr "¿Seguro que quiere eliminar estos contactos?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1838
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1841
 msgid "Are you sure you want to delete this contact?"
 msgstr "¿Seguro que quiere eliminar este contacto?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1842
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1845
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "¿Seguro que quiere eliminar este contacto (%s)?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1853
-#: ../src/calendar/gui/e-comp-editor.c:2209
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1856
+#: ../src/calendar/gui/e-comp-editor.c:2211
 #: ../src/e-util/e-accounts-window.c:1760 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857
@@ -6127,7 +6133,7 @@ msgid "_Delete"
 msgstr "_Eliminar"
 
 #. Translators: This is shown for > 5 contacts.
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2034
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2037
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -6142,11 +6148,11 @@ msgstr[1] ""
 "Abrir %d contactos abrirá también %d ventanas nuevas.\n"
 "¿Quiere realmente mostrar todos estos contactos?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2042
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2045
 msgid "_Don’t Display"
 msgstr "_No mostrar"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2043
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2046
 msgid "Display _All Contacts"
 msgstr "Mostrar t_odos los contactos"
 
@@ -6275,184 +6281,116 @@ msgid "Journal"
 msgstr "Diario"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:48
-#, fuzzy
-#| msgid "Web Addresses"
 msgid "Home Address Street"
-msgstr "Páginas web"
+msgstr "Calle de la dirección personal"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:49
 msgid "Home Address Extended"
-msgstr ""
+msgstr "Dirección personal extendida"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:50
-#, fuzzy
-#| msgid "New Address Book"
 msgid "Home Address PO Box"
-msgstr "Libreta de direcciones nueva"
+msgstr "Apartado de correos de la dirección personal"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:51
-#, fuzzy
-#| msgid "New Address Book"
 msgid "Home Address City"
-msgstr "Libreta de direcciones nueva"
+msgstr "Ciudad de la dirección personal"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:52
-#, fuzzy
-#| msgid "_Zip/Postal Code:"
 msgid "Home Address Zip/Postal code"
-msgstr "_Código postal:"
+msgstr "Código postal de la dirección personal"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:53
-#, fuzzy
-#| msgid "_State/Province:"
 msgid "Home Address State/Province"
-msgstr "E_stado/Provincia:"
+msgstr "Estado/Provincia de la dirección personal"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:54
-#, fuzzy
-#| msgid "Addressbook Contact"
 msgid "Home Address Country"
-msgstr "Contacto de la libreta de direcciones"
+msgstr "País de la dirección personal"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:55
-#, fuzzy
-#| msgid "Web Addresses"
 msgid "Work Address Street"
-msgstr "Páginas web"
+msgstr "Calle de la dirección de trabajo"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:56
 msgid "Work Address Extended"
-msgstr ""
+msgstr "Dirección de trabajo extendida"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:57
-#, fuzzy
-#| msgid "Address Book"
 msgid "Work Address PO Box"
-msgstr "Libreta de direcciones"
+msgstr "Apartado de correos de la dirección de trabajo"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:58
-#, fuzzy
-#| msgid "Web Addresses"
 msgid "Work Address City"
-msgstr "Páginas web"
+msgstr "Ciudad de la dirección de trabajo"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:59
-#, fuzzy
-#| msgid "_Zip/Postal Code:"
 msgid "Work Address Zip/Postal code"
-msgstr "_Código postal:"
+msgstr "Código postal de la dirección de trabajo"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:60
-#, fuzzy
-#| msgid "_State/Province:"
 msgid "Work Address State/Province"
-msgstr "E_stado/Provincia:"
+msgstr "Estado/Provincia de la dirección de trabajo"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:61
-#, fuzzy
-#| msgid "Addressbook Contact"
 msgid "Work Address Country"
-msgstr "Contacto de la libreta de direcciones"
+msgstr "País de la dirección de trabajo"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:62
-#, fuzzy
-#| msgid "Web Addresses"
 msgid "Other Address Street"
-msgstr "Páginas web"
+msgstr "Calle de la dirección alternativa"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:63
 msgid "Other Address Extended"
-msgstr ""
+msgstr "Dirección alternativa extendida"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:64
-#, fuzzy
-#| msgid "New Address Book"
 msgid "Other Address PO Box"
-msgstr "Libreta de direcciones nueva"
+msgstr "Apartado de correos de la dirección alternativa"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:65
 msgid "Other Address City"
-msgstr ""
+msgstr "País de la dirección alternativa"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:66
-#, fuzzy
-#| msgid "_Zip/Postal Code:"
 msgid "Other Address Zip/Postal code"
-msgstr "_Código postal:"
+msgstr "Código postal de la dirección alternativa"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:67
-#, fuzzy
-#| msgid "_State/Province:"
 msgid "Other Address State/Province"
-msgstr "E_stado/Provincia:"
+msgstr "Estado/Provincia de la dirección alternativa"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:68
-#, fuzzy
-#| msgid "Addressbook Contact"
 msgid "Other Address Country"
-msgstr "Contacto de la libreta de direcciones"
+msgstr "País de la dirección alternativa"
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:84
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Search for the Contact\n"
-#| "\n"
-#| "or double-click here to create a new Contact."
 msgid ""
 "Search for the Contact\n"
 "\n"
 "or double-click here to create a new Contact."
 msgstr ""
-"\n"
-"\n"
 "Buscar el contacto.\n"
 "\n"
 "o pulse dos veces aquí para crear un contacto nuevo."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:86
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view.\n"
-#| "\n"
-#| "Double-click here to create a new Contact."
 msgid ""
 "There are no items to show in this view.\n"
 "\n"
 "Double-click here to create a new Contact."
 msgstr ""
-"\n"
-"\n"
 "No hay elementos para mostrar en esta vista.\n"
 "\n"
 "Pulse dos veces aquí para crear un contacto nuevo."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:89
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Search for the Contact."
 msgid "Search for the Contact."
-msgstr ""
-"\n"
-"\n"
-"Buscar contacto."
+msgstr "Buscar contacto."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:91
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view."
 msgid "There are no items to show in this view."
-msgstr ""
-"\n"
-"\n"
-"No hay elementos para mostrar en esta vista."
+msgstr "No hay elementos para mostrar en esta vista."
 
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:374
 msgid "Contacts Map"
@@ -7661,24 +7599,24 @@ msgstr "Estado"
 #. String to use in 12-hour time format for times in the morning.
 #: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2350
 #: ../src/calendar/gui/e-to-do-pane.c:268
-#: ../src/calendar/gui/e-week-view.c:1974 ../src/calendar/gui/print.c:1102
-#: ../src/calendar/gui/print.c:1121 ../src/calendar/gui/print.c:2688
-#: ../src/calendar/gui/print.c:2708
+#: ../src/calendar/gui/e-week-view.c:1974 ../src/calendar/gui/print.c:1111
+#: ../src/calendar/gui/print.c:1130 ../src/calendar/gui/print.c:2702
+#: ../src/calendar/gui/print.c:2722
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2353
 #: ../src/calendar/gui/e-to-do-pane.c:272
-#: ../src/calendar/gui/e-week-view.c:1977 ../src/calendar/gui/print.c:1107
-#: ../src/calendar/gui/print.c:1123 ../src/calendar/gui/print.c:2693
-#: ../src/calendar/gui/print.c:2710
+#: ../src/calendar/gui/e-week-view.c:1977 ../src/calendar/gui/print.c:1116
+#: ../src/calendar/gui/print.c:1132 ../src/calendar/gui/print.c:2707
+#: ../src/calendar/gui/print.c:2724
 msgid "pm"
 msgstr "pm"
 
 #: ../src/calendar/gui/comp-util.c:2124 ../src/calendar/gui/comp-util.c:2128
 #: ../src/calendar/gui/comp-util.c:2242
-#: ../src/calendar/gui/e-comp-editor.c:1315
+#: ../src/calendar/gui/e-comp-editor.c:1317
 msgid "No Summary"
 msgstr "Sin resumen"
 
@@ -7698,7 +7636,7 @@ msgstr "Organizador: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2271
 #: ../src/calendar/gui/e-meeting-time-sel.c:2585
-#: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3628
+#: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3649
 #, c-format
 msgid "Location: %s"
 msgstr "Lugar: %s"
@@ -7732,7 +7670,7 @@ msgstr "Completado: %s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
 #: ../src/e-util/e-misc-utils.c:4925 ../src/e-util/e-text.c:566
-#: ../src/e-util/e-web-view.c:4271
+#: ../src/e-util/e-web-view.c:4316
 msgid "…"
 msgstr "…"
 
@@ -8342,8 +8280,8 @@ msgstr "Tipo"
 #: ../src/calendar/gui/e-meeting-list-view.c:194
 #: ../src/calendar/gui/e-meeting-store.c:135
 #: ../src/calendar/gui/e-meeting-store.c:170
-#: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1291
-#: ../src/calendar/gui/print.c:1308 ../src/e-util/e-charset.c:49
+#: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1300
+#: ../src/calendar/gui/print.c:1317 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3998
 #: ../src/modules/itip-formatter/itip-view.c:7093
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
@@ -8838,18 +8776,18 @@ msgstr[0] "Adjunto"
 msgstr[1] "Adjuntos"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:201
-#: ../src/e-util/e-attachment.c:2587
+#: ../src/e-util/e-attachment.c:2588
 #, c-format
 msgid "Could not load “%s”"
 msgstr "No se pudo cargar «%s»"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:203
-#: ../src/e-util/e-attachment.c:2590
+#: ../src/e-util/e-attachment.c:2591
 #, c-format
 msgid "Could not load the attachment"
 msgstr "No se pudo cargar el adjunto"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:411
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:427
 msgid ""
 "Some attachments are still being downloaded. Please wait until the download "
 "is finished."
@@ -8857,41 +8795,41 @@ msgstr ""
 "Todavía hay algunos adjuntos descargándose. Espere hasta que se termine la "
 "descarga."
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:438
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:454
 #, c-format
 msgid "Attachment “%s” cannot be found, remove it from the list, please"
 msgstr "No se puede encontrar el adjunto «%s», elimínelo de la lista"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:455
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:471
 #, c-format
 msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "El adjunto «%s» no tiene un URI válido, elimínelo de la lista"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:623
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:639
 #: ../src/composer/e-composer-actions.c:326
 msgid "_Attachment…"
 msgstr "_Adjuntos…"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:625
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:641
 #: ../src/composer/e-composer-actions.c:328
 #: ../src/e-util/e-attachment-view.c:390
 msgid "Attach a file"
 msgstr "Adjuntar un archivo"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:632
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:648
 msgid "_Attachments"
 msgstr "_Adjuntos"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:634
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:650
 msgid "Show attachments"
 msgstr "Mostrar adjuntos"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:802
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:818
 #: ../src/e-util/e-attachment-bar.c:716 ../src/e-util/e-attachment-paned.c:690
 msgid "Icon View"
 msgstr "Vista de icono"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:804
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:820
 #: ../src/e-util/e-attachment-bar.c:718 ../src/e-util/e-attachment-paned.c:692
 msgid "List View"
 msgstr "Vista de lista"
@@ -9000,7 +8938,7 @@ msgstr "Participa_ntes…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1530
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2318
-#: ../src/calendar/gui/e-comp-editor.c:2274
+#: ../src/calendar/gui/e-comp-editor.c:2276
 #: ../src/e-util/e-accounts-window.c:1752
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
@@ -9008,7 +8946,7 @@ msgstr "Participa_ntes…"
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:388
 #: ../src/mail/em-folder-properties.c:1394 ../src/mail/mail-config.ui.h:72
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1745
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1806
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:833
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
@@ -9491,10 +9429,8 @@ msgid "Click here to open the URL"
 msgstr "Pulse aquí para abrir el URL"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:362
-#, fuzzy
-#| msgid "Click here to open the URL"
 msgid "Click here to open map"
-msgstr "Pulse aquí para abrir el URL"
+msgstr "Pulse aquí para abrir el mapa"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:427
 msgctxt "ECompEditor"
@@ -9686,19 +9622,19 @@ msgstr "adjunto"
 msgid "Sending notifications to attendees…"
 msgstr "Enviando notificaciones a los participantes…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1044
+#: ../src/calendar/gui/e-comp-editor.c:1046
 #: ../src/e-util/e-webdav-browser.c:1927
 msgid "Saving changes…"
 msgstr "Guardando cambios…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1961
-#: ../src/calendar/gui/e-comp-editor.c:2326
+#: ../src/calendar/gui/e-comp-editor.c:1963
+#: ../src/calendar/gui/e-comp-editor.c:2328
 #: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-notes.c:1118
 msgid "Save and Close"
 msgstr "Guardar y cerrar"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2188
+#: ../src/calendar/gui/e-comp-editor.c:2190
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1785
 #: ../src/e-util/e-html-editor-dialog.c:194
@@ -9716,72 +9652,72 @@ msgstr "Guardar y cerrar"
 msgid "_Close"
 msgstr "_Cerrar"
 
-#: ../src/calendar/gui/e-comp-editor.c:2190
+#: ../src/calendar/gui/e-comp-editor.c:2192
 msgid "Close the current window"
 msgstr "Cerrar la ventana actual"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2195 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2197 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
-#: ../src/e-util/e-web-view.c:470 ../src/mail/e-mail-browser.c:173
+#: ../src/e-util/e-web-view.c:503 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:951
 msgid "_Copy"
 msgstr "_Copiar"
 
-#: ../src/calendar/gui/e-comp-editor.c:2197 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2199 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
-#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:472
-#: ../src/e-util/e-web-view.c:2124 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:505
+#: ../src/e-util/e-web-view.c:2169 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:953
 msgid "Copy the selection"
 msgstr "Copiar la selección"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2202 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2204 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1133 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:958
 msgid "Cu_t"
 msgstr "Cor_tar"
 
-#: ../src/calendar/gui/e-comp-editor.c:2204 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2206 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2133
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2178
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "Cortar la selección"
 
-#: ../src/calendar/gui/e-comp-editor.c:2211 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2213 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:967
 msgid "Delete the selection"
 msgstr "Eliminar la selección"
 
-#: ../src/calendar/gui/e-comp-editor.c:2218
+#: ../src/calendar/gui/e-comp-editor.c:2220
 msgid "View help"
 msgstr "Ver la ayuda"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2223 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2225 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1140 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:986
 msgid "_Paste"
 msgstr "_Pegar"
 
-#: ../src/calendar/gui/e-comp-editor.c:2225 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2227 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2142
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2187
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
 
-#: ../src/calendar/gui/e-comp-editor.c:2230
+#: ../src/calendar/gui/e-comp-editor.c:2232
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2919
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1552
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1566
 msgid "_Print…"
 msgstr "_Imprimir…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2237 ../src/mail/e-mail-reader.c:2926
+#: ../src/calendar/gui/e-comp-editor.c:2239 ../src/mail/e-mail-reader.c:2926
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1559
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:841
@@ -9789,55 +9725,55 @@ msgstr "_Imprimir…"
 msgid "Pre_view…"
 msgstr "Vista pre_via…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2244 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:487
+#: ../src/calendar/gui/e-comp-editor.c:2246 ../src/e-util/e-focus-tracker.c:821
+#: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:520
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1063
 msgid "Select _All"
 msgstr "Seleccionar _todo"
 
-#: ../src/calendar/gui/e-comp-editor.c:2246 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2248 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1065
 msgid "Select all text"
 msgstr "Selecciona todo el texto"
 
-#: ../src/calendar/gui/e-comp-editor.c:2267
+#: ../src/calendar/gui/e-comp-editor.c:2269
 msgid "_Classification"
 msgstr "_Clasificación"
 
-#: ../src/calendar/gui/e-comp-editor.c:2281
+#: ../src/calendar/gui/e-comp-editor.c:2283
 #: ../src/e-util/e-html-editor-actions.c:1177
 #: ../src/e-util/e-mail-signature-editor.c:348 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1123 ../src/shell/e-shell-window-actions.c:1114
 msgid "_File"
 msgstr "_Archivo"
 
-#: ../src/calendar/gui/e-comp-editor.c:2295
+#: ../src/calendar/gui/e-comp-editor.c:2297
 #: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_Insert"
 msgstr "_Insertar"
 
-#: ../src/calendar/gui/e-comp-editor.c:2302
+#: ../src/calendar/gui/e-comp-editor.c:2304
 #: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Opciones"
 
-#: ../src/calendar/gui/e-comp-editor.c:2309
+#: ../src/calendar/gui/e-comp-editor.c:2311
 #: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1157
 #: ../src/smime/gui/certificate-manager.c:1592 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Ver"
 
-#: ../src/calendar/gui/e-comp-editor.c:2321
+#: ../src/calendar/gui/e-comp-editor.c:2323
 msgid "Save current changes"
 msgstr "Guardar los cambios actuales"
 
-#: ../src/calendar/gui/e-comp-editor.c:2328
+#: ../src/calendar/gui/e-comp-editor.c:2330
 msgid "Save current changes and close editor"
 msgstr "Guardar los cambios actuales y cerrar el editor"
 
-#: ../src/calendar/gui/e-comp-editor.c:2335
+#: ../src/calendar/gui/e-comp-editor.c:2337
 msgid "Show _toolbar"
 msgstr "Mostrar barra de _herramientas"
 
@@ -9850,7 +9786,7 @@ msgstr "Mostrar barra de _herramientas"
 #: ../src/calendar/gui/e-day-view.c:3253
 #: ../src/calendar/gui/e-day-view-top-item.c:847
 #: ../src/calendar/gui/e-week-view-main-item.c:207
-#: ../src/calendar/gui/print.c:2143
+#: ../src/calendar/gui/print.c:2152
 msgid "%A %d %B"
 msgstr "%A %e de %B"
 
@@ -9948,51 +9884,51 @@ msgstr "Participantes"
 #: ../src/calendar/gui/e-meeting-list-view.c:176
 #: ../src/calendar/gui/e-meeting-store.c:110
 #: ../src/calendar/gui/e-meeting-store.c:127
-#: ../src/calendar/gui/e-meeting-store.c:1073 ../src/calendar/gui/print.c:1287
+#: ../src/calendar/gui/e-meeting-store.c:1073 ../src/calendar/gui/print.c:1296
 msgid "Individual"
 msgstr "Individual"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:177
 #: ../src/calendar/gui/e-meeting-store.c:112
-#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1288
+#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1297
 #: ../src/e-util/e-table-config.ui.h:1
 msgid "Group"
 msgstr "Grupo"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:178
 #: ../src/calendar/gui/e-meeting-store.c:114
-#: ../src/calendar/gui/e-meeting-store.c:131 ../src/calendar/gui/print.c:1289
+#: ../src/calendar/gui/e-meeting-store.c:131 ../src/calendar/gui/print.c:1298
 msgid "Resource"
 msgstr "Recurso"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:179
 #: ../src/calendar/gui/e-meeting-store.c:116
-#: ../src/calendar/gui/e-meeting-store.c:133 ../src/calendar/gui/print.c:1290
+#: ../src/calendar/gui/e-meeting-store.c:133 ../src/calendar/gui/print.c:1299
 msgid "Room"
 msgstr "Sala"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:190
 #: ../src/calendar/gui/e-meeting-store.c:145
-#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1304
+#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1313
 msgid "Chair"
 msgstr "Presidente"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:191
 #: ../src/calendar/gui/e-meeting-store.c:147
 #: ../src/calendar/gui/e-meeting-store.c:164
-#: ../src/calendar/gui/e-meeting-store.c:1074 ../src/calendar/gui/print.c:1305
+#: ../src/calendar/gui/e-meeting-store.c:1074 ../src/calendar/gui/print.c:1314
 msgid "Required Participant"
 msgstr "Participante requerido"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:192
 #: ../src/calendar/gui/e-meeting-store.c:149
-#: ../src/calendar/gui/e-meeting-store.c:166 ../src/calendar/gui/print.c:1306
+#: ../src/calendar/gui/e-meeting-store.c:166 ../src/calendar/gui/print.c:1315
 msgid "Optional Participant"
 msgstr "Participante opcional"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:193
 #: ../src/calendar/gui/e-meeting-store.c:151
-#: ../src/calendar/gui/e-meeting-store.c:168 ../src/calendar/gui/print.c:1307
+#: ../src/calendar/gui/e-meeting-store.c:168 ../src/calendar/gui/print.c:1316
 msgid "Non-Participant"
 msgstr "No participan"
 
@@ -10114,7 +10050,7 @@ msgstr ""
 "Lugar: %s"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2583
-#: ../src/calendar/gui/print.c:3617
+#: ../src/calendar/gui/print.c:3638
 #, c-format
 msgid "Summary: %s"
 msgstr "Resumen: %s"
@@ -10345,12 +10281,12 @@ msgstr "%s (%s)"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-week-view-main-item.c:224
-#: ../src/calendar/gui/print.c:2122
+#: ../src/calendar/gui/print.c:2131
 msgid "%d %B"
 msgstr "%e de %B"
 
-#: ../src/calendar/gui/e-year-view.c:1002
-#: ../src/calendar/gui/e-year-view.c:1051
+#: ../src/calendar/gui/e-year-view.c:1006
+#: ../src/calendar/gui/e-year-view.c:1055
 #, c-format
 msgid "%u event"
 msgid_plural "%u events"
@@ -10462,11 +10398,10 @@ msgstr "Contra-propuesta"
 #. and the second "%s" is the meeting summary. The full
 #. subject line would be: "Accepted: Meeting Name".
 #: ../src/calendar/gui/itip-utils.c:1284
-#, fuzzy, c-format
-#| msgid "User: %s"
+#, c-format
 msgctxt "Meeting"
 msgid "%s: %s"
-msgstr "Usuario: %s"
+msgstr "%s: %s"
 
 #: ../src/calendar/gui/itip-utils.c:1357
 #, c-format
@@ -10491,23 +10426,21 @@ msgstr "No se pudo reservar un recurso, error: "
 msgid "You must be an attendee of the event."
 msgstr "Debe ser un participante en el evento."
 
-#: ../src/calendar/gui/itip-utils.c:2480
+#: ../src/calendar/gui/itip-utils.c:2482
 msgid "Sending an event"
 msgstr "Enviando un evento"
 
-#: ../src/calendar/gui/itip-utils.c:2484
+#: ../src/calendar/gui/itip-utils.c:2486
 msgid "Sending a memo"
 msgstr "Enviando una nota"
 
-#: ../src/calendar/gui/itip-utils.c:2488
+#: ../src/calendar/gui/itip-utils.c:2490
 msgid "Sending a task"
 msgstr "Envinado una tarea"
 
-#: ../src/calendar/gui/itip-utils.c:2690
-#, fuzzy
-#| msgid "_Open Appointment"
+#: ../src/calendar/gui/itip-utils.c:2692
 msgid "Original Appointment"
-msgstr "_Abrir cita"
+msgstr "Cita original"
 
 #: ../src/calendar/gui/misc.c:95
 #, c-format
@@ -10542,119 +10475,119 @@ msgstr[1] "%d segundos"
 #. Translators: These are workday abbreviations,
 #. * e.g. Su=Sunday and Th=thursday
 #. G_DATE_MONDAY
-#: ../src/calendar/gui/print.c:756
+#: ../src/calendar/gui/print.c:765
 msgid "Mo"
 msgstr "Lu"
 
 #. G_DATE_TUESDAY
-#: ../src/calendar/gui/print.c:757
+#: ../src/calendar/gui/print.c:766
 msgid "Tu"
 msgstr "Ma"
 
 #. G_DATE_WEDNESDAY
-#: ../src/calendar/gui/print.c:758
+#: ../src/calendar/gui/print.c:767
 msgid "We"
 msgstr "Mi"
 
 #. G_DATE_THURSDAY
-#: ../src/calendar/gui/print.c:759
+#: ../src/calendar/gui/print.c:768
 msgid "Th"
 msgstr "Ju"
 
 #. G_DATE_FRIDAY
-#: ../src/calendar/gui/print.c:760
+#: ../src/calendar/gui/print.c:769
 msgid "Fr"
 msgstr "Vi"
 
 #. G_DATE_SATURDAY
-#: ../src/calendar/gui/print.c:761
+#: ../src/calendar/gui/print.c:770
 msgid "Sa"
 msgstr "Sa"
 
 #. G_DATE_SUNDAY
-#: ../src/calendar/gui/print.c:762
+#: ../src/calendar/gui/print.c:771
 msgid "Su"
 msgstr "Do"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../src/calendar/gui/print.c:3433
+#: ../src/calendar/gui/print.c:3454
 msgid " to "
 msgstr " a "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../src/calendar/gui/print.c:3443
+#: ../src/calendar/gui/print.c:3464
 msgid " (Completed "
 msgstr " (Completado "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../src/calendar/gui/print.c:3449
+#: ../src/calendar/gui/print.c:3470
 msgid "Completed "
 msgstr "Completado "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../src/calendar/gui/print.c:3459
+#: ../src/calendar/gui/print.c:3480
 msgid " (Due "
 msgstr " (Vence "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../src/calendar/gui/print.c:3466
+#: ../src/calendar/gui/print.c:3487
 msgid "Due "
 msgstr "Vence "
 
-#: ../src/calendar/gui/print.c:3587
+#: ../src/calendar/gui/print.c:3608
 msgid "Appointment"
 msgstr "Cita"
 
-#: ../src/calendar/gui/print.c:3589 ../src/e-util/e-send-options.c:551
+#: ../src/calendar/gui/print.c:3610 ../src/e-util/e-send-options.c:551
 msgid "Task"
 msgstr "Tarea"
 
-#: ../src/calendar/gui/print.c:3591
+#: ../src/calendar/gui/print.c:3612
 msgid "Memo"
 msgstr "Nota"
 
-#: ../src/calendar/gui/print.c:3648
+#: ../src/calendar/gui/print.c:3669
 msgid "Attendees: "
 msgstr "Participantes: "
 
-#: ../src/calendar/gui/print.c:3687
+#: ../src/calendar/gui/print.c:3708
 #, c-format
 msgid "Estimated duration: %s"
 msgstr "Duración estimada: %s"
 
-#: ../src/calendar/gui/print.c:3708
+#: ../src/calendar/gui/print.c:3729
 #, c-format
 msgid "Status: %s"
 msgstr "Estado: %s"
 
-#: ../src/calendar/gui/print.c:3724
+#: ../src/calendar/gui/print.c:3745
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioridad: %s"
 
-#: ../src/calendar/gui/print.c:3739
+#: ../src/calendar/gui/print.c:3760
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Porcentaje completado: %i"
 
-#: ../src/calendar/gui/print.c:3754
+#: ../src/calendar/gui/print.c:3775
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../src/calendar/gui/print.c:3770
+#: ../src/calendar/gui/print.c:3791
 #, c-format
 msgid "Categories: %s"
 msgstr "Categorías: %s"
 
-#: ../src/calendar/gui/print.c:3782
+#: ../src/calendar/gui/print.c:3803
 msgid "Contacts: "
 msgstr "Contactos: "
 
@@ -12664,7 +12597,7 @@ msgstr "Guardar borrador"
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:327
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:298
-#: ../src/modules/rss/evolution/e-rss-preferences.c:831
+#: ../src/modules/rss/evolution/e-rss-preferences.c:886
 msgid "_Name:"
 msgstr "_Nombre:"
 
@@ -12729,7 +12662,7 @@ msgstr "Pulse aquí para seleccionar carpetas en las que publicar"
 msgid "Send"
 msgstr "Enviar"
 
-#: ../src/composer/e-msg-composer.c:1116
+#: ../src/composer/e-msg-composer.c:1117
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -12737,7 +12670,7 @@ msgstr ""
 "No es posible firmar el mensaje saliente: No hay establecido un certificado "
 "de firma para esta cuenta"
 
-#: ../src/composer/e-msg-composer.c:1125
+#: ../src/composer/e-msg-composer.c:1126
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -12746,29 +12679,27 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../src/composer/e-msg-composer.c:2016 ../src/composer/e-msg-composer.c:2696
+#: ../src/composer/e-msg-composer.c:2017 ../src/composer/e-msg-composer.c:2730
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
 # Título de preferencias
-#: ../src/composer/e-msg-composer.c:4892
+#: ../src/composer/e-msg-composer.c:4926
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Leyendo contenido del texto…"
 
-#: ../src/composer/e-msg-composer.c:4960
-#, fuzzy
-#| msgid "No encryption"
+#: ../src/composer/e-msg-composer.c:4994
 msgid "Send _without encryption"
-msgstr "Sin cifrado"
+msgstr "Enviar _sin cifrado"
 
-#: ../src/composer/e-msg-composer.c:5742
+#: ../src/composer/e-msg-composer.c:5776
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Revisar adjunto antes de enviar."
 msgstr[1] "Revisar adjuntos antes de enviar."
 
-#: ../src/composer/e-msg-composer.c:5747
+#: ../src/composer/e-msg-composer.c:5781
 #, fuzzy, c-format
 #| msgid ""
 #| "There had been added %d attachment. Make sure it does not contain any "
@@ -12789,7 +12720,7 @@ msgstr[1] ""
 "Se han añadido %d adjuntos. Asegúrese de que no contienen información "
 "sensible antes de enviar el mensaje."
 
-#: ../src/composer/e-msg-composer.c:5880
+#: ../src/composer/e-msg-composer.c:5907
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
@@ -13073,16 +13004,16 @@ msgid "An error occurred while creating message composer."
 msgstr "Ocurrió un error al crear el editor de mensajes."
 
 #: ../src/composer/mail-composer.error.xml.h:59
-#, fuzzy
-#| msgid "Message Location"
 msgid "Message Redirection"
-msgstr "Ubicación del mensaje"
+msgstr "Redirección del mensaje"
 
 #: ../src/composer/mail-composer.error.xml.h:60
 msgid ""
 "This message is a redirection, which allows you to change the recipients, "
 "subject and other message attributes, but not the contents of the message."
 msgstr ""
+"Este mensaje es una redirección que le permite cambiar los destinatarios, el "
+"asunto y otros atributos del mensaje, pero no el contenido del mensaje."
 
 #: ../src/composer/mail-composer.error.xml.h:61
 msgid "Not adding OpenPGP public key into the mail."
@@ -13196,7 +13127,7 @@ msgstr "Mostrar parte como texto enriquecido"
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
 #: ../src/em-format/e-mail-formatter-text-html.c:389
 #: ../src/modules/rss/evolution/e-rss-preferences.c:56
-#: ../src/modules/rss/evolution/e-rss-preferences.c:851
+#: ../src/modules/rss/evolution/e-rss-preferences.c:906
 msgid "HTML"
 msgstr "HTML"
 
@@ -13208,7 +13139,7 @@ msgstr "Formatear parte como HTML"
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:133
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
 #: ../src/modules/rss/evolution/e-rss-preferences.c:51
-#: ../src/modules/rss/evolution/e-rss-preferences.c:852
+#: ../src/modules/rss/evolution/e-rss-preferences.c:907
 msgid "Plain Text"
 msgstr "Texto sin formato"
 
@@ -13721,45 +13652,45 @@ msgstr "Falló al crear una conversación: "
 msgid "Attached message"
 msgstr "Mensaje adjunto"
 
-#: ../src/e-util/e-attachment.c:2202 ../src/e-util/e-attachment.c:3256
+#: ../src/e-util/e-attachment.c:2203 ../src/e-util/e-attachment.c:3257
 #: ../src/mail/em-utils.c:2307
 msgid "Operation was cancelled"
 msgstr "Operación cancelada"
 
 #. Translators: Default attachment filename.
-#: ../src/e-util/e-attachment.c:2387 ../src/e-util/e-attachment.c:3100
-#: ../src/e-util/e-attachment.c:3552 ../src/e-util/e-attachment-store.c:911
+#: ../src/e-util/e-attachment.c:2388 ../src/e-util/e-attachment.c:3101
+#: ../src/e-util/e-attachment.c:3553 ../src/e-util/e-attachment-store.c:911
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../src/e-util/e-attachment.c:2469 ../src/e-util/e-attachment.c:3612
+#: ../src/e-util/e-attachment.c:2470 ../src/e-util/e-attachment.c:3613
 msgid "A load operation is already in progress"
 msgstr "Existe una operación de carga en progreso"
 
-#: ../src/e-util/e-attachment.c:2477 ../src/e-util/e-attachment.c:3620
+#: ../src/e-util/e-attachment.c:2478 ../src/e-util/e-attachment.c:3621
 msgid "A save operation is already in progress"
 msgstr "Existe una operación de guardado en progreso"
 
-#: ../src/e-util/e-attachment.c:2883
+#: ../src/e-util/e-attachment.c:2884
 #, c-format
 msgid "Could not open “%s”"
 msgstr "No se pudo abrir «%s»:"
 
-#: ../src/e-util/e-attachment.c:2886
+#: ../src/e-util/e-attachment.c:2887
 #, c-format
 msgid "Could not open the attachment"
 msgstr "No se pudo abrir el adjunto"
 
-#: ../src/e-util/e-attachment.c:3629
+#: ../src/e-util/e-attachment.c:3630
 msgid "Attachment contents not loaded"
 msgstr "No se cargó el contenido del adjunto"
 
-#: ../src/e-util/e-attachment.c:3720
+#: ../src/e-util/e-attachment.c:3721
 #, c-format
 msgid "Could not save “%s”"
 msgstr "No se pudo guardar «%s»"
 
-#: ../src/e-util/e-attachment.c:3723
+#: ../src/e-util/e-attachment.c:3724
 #, c-format
 msgid "Could not save the attachment"
 msgstr "No se pudo guardar el adjunto"
@@ -13884,7 +13815,7 @@ msgstr "_Propiedades"
 
 #: ../src/e-util/e-attachment-view.c:402
 msgid "Re_load"
-msgstr ""
+msgstr "Volver a _cargar"
 
 # Título de preferencias
 #: ../src/e-util/e-attachment-view.c:404
@@ -13893,21 +13824,21 @@ msgstr ""
 msgid "Reload attachment content"
 msgstr "Leyendo contenido del texto…"
 
-#: ../src/e-util/e-attachment-view.c:840 ../src/mail/e-mail-display.c:2043
+#: ../src/e-util/e-attachment-view.c:881 ../src/mail/e-mail-display.c:2043
 #, c-format
 msgid "Open With “%s”"
 msgstr "Abrir con «%s»"
 
-#: ../src/e-util/e-attachment-view.c:841 ../src/mail/e-mail-display.c:2044
+#: ../src/e-util/e-attachment-view.c:882 ../src/mail/e-mail-display.c:2044
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Abrir este adjunto en %s"
 
-#: ../src/e-util/e-attachment-view.c:843 ../src/mail/e-mail-display.c:2046
+#: ../src/e-util/e-attachment-view.c:884 ../src/mail/e-mail-display.c:2046
 msgid "Open With Default Application"
 msgstr "Abrir con la aplicación predeterminada"
 
-#: ../src/e-util/e-attachment-view.c:844 ../src/mail/e-mail-display.c:2047
+#: ../src/e-util/e-attachment-view.c:885 ../src/mail/e-mail-display.c:2047
 msgid "Open this attachment in default application"
 msgstr "Abrir este adjunto con la aplicación predeterminada"
 
@@ -14188,22 +14119,22 @@ msgid "Cannot create a client object from extension name “%s”"
 msgstr ""
 "No se puede crear un objeto cliente a partir de un nombre de extensión «%s»"
 
-#: ../src/e-util/e-client-selector.c:190 ../src/mail/em-folder-tree.c:1039
+#: ../src/e-util/e-client-selector.c:190 ../src/mail/em-folder-tree.c:1043
 msgctxt "Status"
 msgid "Offline"
 msgstr "Desconectado"
 
-#: ../src/e-util/e-client-selector.c:193 ../src/mail/em-folder-tree.c:1042
+#: ../src/e-util/e-client-selector.c:193 ../src/mail/em-folder-tree.c:1046
 msgctxt "Status"
 msgid "Online"
 msgstr "En línea"
 
-#: ../src/e-util/e-client-selector.c:196 ../src/mail/em-folder-tree.c:1045
+#: ../src/e-util/e-client-selector.c:196 ../src/mail/em-folder-tree.c:1049
 msgctxt "Status"
 msgid "Unreachable"
 msgstr "No alcanzable"
 
-#: ../src/e-util/e-client-selector.c:199 ../src/mail/em-folder-tree.c:1048
+#: ../src/e-util/e-client-selector.c:199 ../src/mail/em-folder-tree.c:1052
 msgctxt "Status"
 msgid "Failed to connect"
 msgstr "Falló al conectar"
@@ -15354,15 +15285,15 @@ msgstr "+4"
 msgid "Copy _Link Location"
 msgstr "Copiar _ubicación del en_lace"
 
-#: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:411
+#: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:444
 msgid "Copy the link to the clipboard"
 msgstr "Copiar el enlace al portapapeles"
 
-#: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:419
+#: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:452
 msgid "_Open Link in Browser"
 msgstr "_Abrir enlace en el navegador"
 
-#: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:421
+#: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:454
 msgid "Open the link in a web browser"
 msgstr "_Abrir enlace en el navegador"
 
@@ -16490,19 +16421,19 @@ msgstr ""
 msgid "You have the Caps Lock key on."
 msgstr "Tiene activada la tecla Bloq. Mayús."
 
-#: ../src/e-util/e-passwords.c:583
+#: ../src/e-util/e-passwords.c:595
 msgid "_Remember this passphrase"
 msgstr "_Recordar esta frase de paso"
 
-#: ../src/e-util/e-passwords.c:584
+#: ../src/e-util/e-passwords.c:596
 msgid "_Remember this passphrase for the remainder of this session"
 msgstr "_Recordar esta frase de paso durante esta sesión"
 
-#: ../src/e-util/e-passwords.c:589
+#: ../src/e-util/e-passwords.c:601
 msgid "_Remember this password"
 msgstr "_Recordar esta contraseña"
 
-#: ../src/e-util/e-passwords.c:590
+#: ../src/e-util/e-passwords.c:602
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Recordar esta contraseña para el recordatorio durante esta sesión"
 
@@ -17424,66 +17355,66 @@ msgstr "Crear _calendario "
 msgid "Create Collectio_n"
 msgstr "Crear colecció_n"
 
-#: ../src/e-util/e-web-view.c:409
+#: ../src/e-util/e-web-view.c:442
 msgid "_Copy Link Location"
 msgstr "_Copiar dirección del enlace"
 
-#: ../src/e-util/e-web-view.c:429
+#: ../src/e-util/e-web-view.c:462
 msgid "_Copy Email Address"
 msgstr "_Copiar dirección de correo-e"
 
-#: ../src/e-util/e-web-view.c:436
+#: ../src/e-util/e-web-view.c:469
 msgid "Copy _Raw Email Address"
 msgstr "Copiar dirección de _correo-e en bruto"
 
-#: ../src/e-util/e-web-view.c:438
+#: ../src/e-util/e-web-view.c:471
 msgid "Copy the raw email address to the clipboard"
 msgstr "Copiar la dirección de correo-e en bruto al portapapeles"
 
-#: ../src/e-util/e-web-view.c:453
+#: ../src/e-util/e-web-view.c:486
 msgid "_Copy Image"
 msgstr "_Copiar imagen"
 
-#: ../src/e-util/e-web-view.c:455
+#: ../src/e-util/e-web-view.c:488
 msgid "Copy the image to the clipboard"
 msgstr "Copiar la imagen al portapapeles"
 
-#: ../src/e-util/e-web-view.c:460
+#: ../src/e-util/e-web-view.c:493
 msgid "Save _Image…"
 msgstr "Guardar _imagen…"
 
-#: ../src/e-util/e-web-view.c:462
+#: ../src/e-util/e-web-view.c:495
 msgid "Save the image to a file"
 msgstr "Guardar la imagen en un archivo"
 
-#: ../src/e-util/e-web-view.c:477 ../src/mail/e-mail-browser.c:201
+#: ../src/e-util/e-web-view.c:510 ../src/mail/e-mail-browser.c:201
 #: ../src/mail/e-mail-reader.c:3003
 msgid "Search _Web…"
 msgstr "Buscar en la _web…"
 
-#: ../src/e-util/e-web-view.c:479 ../src/mail/e-mail-browser.c:203
+#: ../src/e-util/e-web-view.c:512 ../src/mail/e-mail-browser.c:203
 #: ../src/mail/e-mail-reader.c:3005
 msgid "Search the Web with the selected text"
 msgstr "Buscar en la web el texto seleccionado"
 
-#: ../src/e-util/e-web-view.c:489 ../src/e-util/e-web-view.c:2146
+#: ../src/e-util/e-web-view.c:522 ../src/e-util/e-web-view.c:2191
 msgid "Select all text and images"
 msgstr "Seleccionar todo el texto y las imágenes"
 
-#: ../src/e-util/e-web-view.c:3895
+#: ../src/e-util/e-web-view.c:3940
 msgid "Copying image to clipboard"
 msgstr "Copiando imagen al portapapeles"
 
-#: ../src/e-util/e-web-view.c:4083
+#: ../src/e-util/e-web-view.c:4128
 msgid "Save Image"
 msgstr "Guardar imagen"
 
-#: ../src/e-util/e-web-view.c:4120
+#: ../src/e-util/e-web-view.c:4165
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Guardando imagen en «%s»"
 
-#: ../src/e-util/e-web-view.c:4275
+#: ../src/e-util/e-web-view.c:4320
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "No se puede obtener el URI «%s», o no se sabe de dónde bajarlo."
@@ -18559,7 +18490,7 @@ msgstr "Usando dirección de correo-e"
 #: ../src/modules/calendar/e-calendar-preferences.c:650
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:54
 #: ../src/modules/mail/e-mail-shell-backend.c:1018
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1572
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1629
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "General"
@@ -18618,10 +18549,8 @@ msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Siempre cifrar a _mí mismo cuando envíe correo cifrado"
 
 #: ../src/mail/e-mail-config-security-page.c:613
-#, fuzzy
-#| msgid "Advanced Options"
 msgid "Ad_vanced Options"
-msgstr "Opciones avanzadas"
+msgstr "Opciones a_vanzadas"
 
 #: ../src/mail/e-mail-config-security-page.c:643
 msgid "Always _trust keys in my keyring when encrypting"
@@ -19083,10 +19012,8 @@ msgid "Add sender to address book"
 msgstr "Añadir el remitente a la libreta de direcciones"
 
 #: ../src/mail/e-mail-reader.c:2567
-#, fuzzy
-#| msgid "Archive"
 msgid "_Archive"
-msgstr "Archivador"
+msgstr "_Archivar"
 
 #: ../src/mail/e-mail-reader.c:2569
 msgid "Move selected messages to the Archive folder for the account"
@@ -19570,10 +19497,8 @@ msgid "Repl_y with Template"
 msgstr "Resp_onder con plantilla"
 
 #: ../src/mail/e-mail-reader.c:2996
-#, fuzzy
-#| msgid "_Move to Folder…"
 msgid "_Save to File…"
-msgstr "_Mover a la carpeta…"
+msgstr "_Guardar en un archivo…"
 
 #: ../src/mail/e-mail-reader.c:2998
 msgid "Save selected messages as an mbox file"
@@ -19920,13 +19845,11 @@ msgstr[1] ""
 "CCo en su lugar."
 
 #: ../src/mail/em-composer-utils.c:648
-#, fuzzy, c-format
-#| msgid "Attachment"
-#| msgid_plural "Attachments"
+#, c-format
 msgid "Attachment changed"
 msgid_plural "%d attachments changed"
-msgstr[0] "Adjunto"
-msgstr[1] "Adjuntos"
+msgstr[0] "Adjunto modificado"
+msgstr[1] "%d adjuntos modificados"
 
 #: ../src/mail/em-composer-utils.c:653
 #, c-format
@@ -20257,7 +20180,7 @@ msgstr "<pulse aquí para seleccionar una carpeta>"
 msgid "Create a new folder"
 msgstr "Crea una carpeta nueva"
 
-#: ../src/mail/em-folder-tree.c:687
+#: ../src/mail/em-folder-tree.c:691
 msgid "Folder names cannot contain “/”"
 msgstr "Los nombres de carpetas no pueden contener el carácter «/»"
 
@@ -20279,37 +20202,37 @@ msgstr "Los nombres de carpetas no pueden contener el carácter «/»"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../src/mail/em-folder-tree.c:891
+#: ../src/mail/em-folder-tree.c:895
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1865
+#: ../src/mail/em-folder-tree.c:1869
 msgid "Mail Folder Tree"
 msgstr "Árbol de carpetas de correo"
 
-#: ../src/mail/em-folder-tree.c:2415
+#: ../src/mail/em-folder-tree.c:2419
 #, c-format
 msgid "Moving folder %s"
 msgstr "Moviendo la carpeta %s"
 
-#: ../src/mail/em-folder-tree.c:2418
+#: ../src/mail/em-folder-tree.c:2422
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copiando la carpeta %s"
 
-#: ../src/mail/em-folder-tree.c:2425 ../src/mail/message-list.c:2655
+#: ../src/mail/em-folder-tree.c:2429 ../src/mail/message-list.c:2655
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moviendo los mensajes a la carpeta %s"
 
-#: ../src/mail/em-folder-tree.c:2429 ../src/mail/message-list.c:2657
+#: ../src/mail/em-folder-tree.c:2433 ../src/mail/message-list.c:2657
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando los mensajes a la carpeta %s"
 
-#: ../src/mail/em-folder-tree.c:2448
+#: ../src/mail/em-folder-tree.c:2452
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No se puede dejar el(los) mensaje(s) en el almacén de nivel superior"
@@ -20498,67 +20421,49 @@ msgid "Deleting old messages"
 msgstr "Eliminando mensajes antiguos"
 
 #: ../src/mail/em-utils.c:2141
-#, fuzzy
-#| msgid "Unknown"
 msgctxt "trust"
 msgid "_Unknown"
-msgstr "Desconocido"
+msgstr "_Desconocido"
 
 #: ../src/mail/em-utils.c:2142
-#, fuzzy
-#| msgid "Never"
 msgctxt "trust"
 msgid "_Never"
-msgstr "Nunca"
+msgstr "_Nunca"
 
 #: ../src/mail/em-utils.c:2143
-#, fuzzy
-#| msgctxt "CamelTrust"
-#| msgid "Marginally"
 msgctxt "trust"
 msgid "_Marginal"
-msgstr "Marginal"
+msgstr "_Marginal"
 
 #: ../src/mail/em-utils.c:2144
-#, fuzzy
-#| msgctxt "CamelTrust"
-#| msgid "Fully"
 msgctxt "trust"
 msgid "_Full"
-msgstr "Completamente"
+msgstr "_Completo"
 
 #: ../src/mail/em-utils.c:2145
-#, fuzzy
-#| msgctxt "CamelTrust"
-#| msgid "Ultimately"
 msgctxt "trust"
 msgid "_Ultimate"
-msgstr "Absoluta"
+msgstr "_Absoluto"
 
 #: ../src/mail/em-utils.c:2184
-#, fuzzy, c-format
-#| msgctxt "reply-attribution"
-#| msgid "Re: %s"
+#, c-format
 msgid "Key ID: %s"
-msgstr "Re: %s"
+msgstr "ID de clave: %s"
 
 #: ../src/mail/em-utils.c:2195
-#, fuzzy, c-format
-#| msgid "Fingerprint"
+#, c-format
 msgid "Fingerprint: %s"
-msgstr "Huella"
+msgstr "Huella: %s"
 
 #: ../src/mail/em-utils.c:2211
-#, fuzzy, c-format
-#| msgid "Created"
+#, c-format
 msgid "Created: %s"
-msgstr "Creado"
+msgstr "Creado: %s"
 
 #: ../src/mail/em-utils.c:2243
-#, fuzzy, c-format
-#| msgid "User: %s"
+#, c-format
 msgid "User ID: %s"
-msgstr "Usuario: %s"
+msgstr "ID de usuario: %s"
 
 #: ../src/mail/em-utils.c:2264
 msgid "Set trust level for the key:"
@@ -22615,7 +22520,7 @@ msgstr "La dirección «{0}» ya existe."
 
 #: ../src/mail/mail.error.xml.h:223
 msgid "Choose a different name, please."
-msgstr ""
+msgstr "Elija un nombre diferente"
 
 #: ../src/mail/mail.error.xml.h:224
 #, fuzzy
@@ -22624,8 +22529,8 @@ msgid "Do you wish to import OpenPGP key?"
 msgstr "¿Quiere guardar los cambios?"
 
 #: ../src/mail/mail.error.xml.h:225
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1781
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1151
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1842
 msgid "_Import"
 msgstr "_Importar"
 
@@ -22961,12 +22866,12 @@ msgstr "Tamaño del icono de la barra de herramientas"
 #. Translators: this is in a sense of "Look & Feel of the icons"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:334
 msgid "Icons Look"
-msgstr ""
+msgstr "Aspecto de los iconos"
 
 #. Translators: This is for "Icons Look: Autodetect"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:359
 msgid "Aut_odetect"
-msgstr ""
+msgstr "Detectar aut_omáticamente"
 
 #. Translators: This is for "Toolbar Icon Size: Small"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:372
@@ -22976,7 +22881,7 @@ msgstr "Peq_queña"
 #. Translators: This is for "Icons Look: Prefer symbolic"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:383
 msgid "_Prefer symbolic"
-msgstr ""
+msgstr "_Preferir simbólicos"
 
 #. Translators: This is for "Toolbar Icon Size: Large"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:395
@@ -22986,7 +22891,7 @@ msgstr "_Grande"
 #. Translators: This is for "Icons Look: Prefer regular"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:406
 msgid "Prefer _regular"
-msgstr ""
+msgstr "Preferir _regulares"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:481
 msgid "Layout"
@@ -23341,22 +23246,16 @@ msgid "Advanced Search"
 msgstr "Búsqueda avanzada"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1528
-#, fuzzy
-#| msgid "_File under:"
 msgid "_File Under"
-msgstr "A_rchivar como:"
+msgstr "A_rchivar en"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1535
-#, fuzzy
-#| msgid "Given Name"
 msgid "_Given Name"
-msgstr "Nombre dado"
+msgstr "Nombre _dado"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1542
-#, fuzzy
-#| msgid "Family Name"
 msgid "Family _Name"
-msgstr "Apellidos"
+msgstr "_Apellidos"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1554
 msgid "Print all shown contacts"
@@ -23434,10 +23333,8 @@ msgid "Choose a backup file to restore"
 msgstr "Elija un archivo de respaldo que restaurar"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:210
-#, fuzzy
-#| msgid "Backup _All"
 msgid "Backup Files"
-msgstr "Respaldar _todo"
+msgstr "Archivos de respaldo"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:215
 #: ../src/shell/e-shell-utils.c:198
@@ -24937,14 +24834,12 @@ msgstr "Sucede menos de 5 veces"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:793
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1015
-#, fuzzy
-#| msgid "Category"
 msgid "Without Category"
-msgstr "Categoría"
+msgstr "Sin categoría"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1875
 msgid "Show events with no category set"
-msgstr ""
+msgstr "Mostrar eventos sin categoría establecida"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1897
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:817
@@ -25213,7 +25108,7 @@ msgstr "Mostrar la vista previa de la nota junto a la lista de notas"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:795
 msgid "Show memos with no category set"
-msgstr ""
+msgstr "Mostrar recordatorios sin categoría establecida"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:836
 msgid "Print the list of memos"
@@ -26011,10 +25906,8 @@ msgstr "Ocultar la descripción proporcionada por el remitente"
 
 #. RSVP area
 #: ../src/modules/itip-formatter/itip-view.c:2209
-#, fuzzy
-#| msgid "Send reply to sender"
 msgid "Send reply to organizer"
-msgstr "Responder al remitente"
+msgstr "Enviar respuesta al organizador"
 
 #. Updates
 #: ../src/modules/itip-formatter/itip-view.c:2224
@@ -27080,15 +26973,15 @@ msgstr "Carpeta actual"
 msgid "Current Folder and Subfolders"
 msgstr "Carpeta actual y subcarpetas"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1056
+#: ../src/modules/mail/e-mail-shell-view.c:1063
 msgid "Current Folder and Subfolders Search"
 msgstr "Búsqueda en la carpeta actual y subcarpetas"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1144
+#: ../src/modules/mail/e-mail-shell-view.c:1151
 msgid "All Account Search"
 msgstr "Búsqueda en todas las cuentas"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1220
+#: ../src/modules/mail/e-mail-shell-view.c:1227
 msgid "Account Search"
 msgstr "Búsqueda en la cuenta"
 
@@ -27169,10 +27062,8 @@ msgid "Send immediately"
 msgstr "Enviar inmediatamente"
 
 #: ../src/modules/mail/em-composer-prefs.c:1285
-#, fuzzy
-#| msgid "Send after 5 minutes"
 msgid "Send after 1 minute"
-msgstr "Enviar dentro de 5 minutos"
+msgstr "Enviar dentro de 1 minuto"
 
 #: ../src/modules/mail/em-composer-prefs.c:1286
 msgid "Send after 5 minutes"
@@ -27217,8 +27108,6 @@ msgstr "Contiene el valor"
 #. Translators: This is a column caption, in which a mail header name is shown.
 #. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
 #: ../src/modules/mail/em-mailer-prefs.c:2058
-#, fuzzy
-#| msgid "Header"
 msgctxt "UserHeaders"
 msgid "Header"
 msgstr "Cabecera"
@@ -27227,11 +27116,9 @@ msgstr "Cabecera"
 #. it's the text the header is presented in the GUI, aka a user friendly name
 #. of the header. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
 #: ../src/modules/mail/em-mailer-prefs.c:2072
-#, fuzzy
-#| msgid "Title"
 msgctxt "UserHeaders"
 msgid "Title"
-msgstr "Tratamiento"
+msgstr "Título"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
 #: ../src/modules/mail/em-mailer-prefs.c:2090
@@ -27448,23 +27335,23 @@ msgid "Apply message _filters to this folder"
 msgstr "Aplicar _filtros de mensajes a esta carpeta"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:740
-#: ../src/modules/rss/evolution/e-rss-preferences.c:857
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1582
+#: ../src/modules/rss/evolution/e-rss-preferences.c:912
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1639
 msgid "_Download complete articles"
 msgstr "_Descargar artículos completos"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:753
-#: ../src/modules/rss/evolution/e-rss-preferences.c:861
+#: ../src/modules/rss/evolution/e-rss-preferences.c:916
 msgid "Download feed _enclosures"
 msgstr "Descargar _adjuntos del proveedor"
 
-#: ../src/modules/rss/camel/camel-rss-folder-summary.c:269
+#: ../src/modules/rss/camel/camel-rss-folder-summary.c:274
 msgid "Enclosures:"
 msgstr "Adjuntos:"
 
 #: ../src/modules/rss/camel/camel-rss-provider.c:17
 #: ../src/modules/rss/camel/camel-rss-store.c:48
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1823
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1884
 #: ../src/modules/rss/evolution/e-rss-shell-extension.c:62
 msgid "News and Blogs"
 msgstr "Noticias y blogs"
@@ -27491,133 +27378,133 @@ msgid "Unknown author"
 msgstr "Autor desconocido"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:53
-#: ../src/modules/rss/evolution/e-rss-preferences.c:853
+#: ../src/modules/rss/evolution/e-rss-preferences.c:908
 msgid "Markdown"
 msgstr "Markdown"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:415
+#: ../src/modules/rss/evolution/e-rss-preferences.c:444
 #, c-format
 msgid "Failed to fetch feed icon: %s"
 msgstr "Falló al obtener el icono del proveedor: %s"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:462
+#: ../src/modules/rss/evolution/e-rss-preferences.c:491
 msgid "Fetching feed icon…"
 msgstr "Obteniendo icono del proveedor…"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:476
+#: ../src/modules/rss/evolution/e-rss-preferences.c:505
 msgid "Failed to read feed information."
 msgstr "Falló al leer la información del proveedor"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:495
+#: ../src/modules/rss/evolution/e-rss-preferences.c:524
 #, c-format
 msgid "Failed to fetch feed information: %s"
 msgstr "Falló al obtener la información del proveedor: %s"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:525
+#: ../src/modules/rss/evolution/e-rss-preferences.c:554
 msgid "Fetching feed information…"
 msgstr "Obteniendo información del proveedor…"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:530
+#: ../src/modules/rss/evolution/e-rss-preferences.c:559
 msgid "Invalid Feed URL"
 msgstr "URL de proveedor no válido"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:573
+#: ../src/modules/rss/evolution/e-rss-preferences.c:602
 msgid "Choose Feed Image"
 msgstr "Cambiar la imagen del proveedor"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:814
+#: ../src/modules/rss/evolution/e-rss-preferences.c:869
 msgid "Feed _URL:"
 msgstr "_URL del proveedor:"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:827
+#: ../src/modules/rss/evolution/e-rss-preferences.c:882
 msgid "_Fetch"
 msgstr "_Obtener"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:843
+#: ../src/modules/rss/evolution/e-rss-preferences.c:898
 msgid "C_ontent:"
 msgstr "C_ontenido:"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1091
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1148
 msgid "Import RSS Feeds"
 msgstr "Importar proveedores RSS"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1091
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1148
 msgid "Export RSS Feeds"
 msgstr "Exportar proveedores RSS"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1151
 msgid "Export"
 msgstr "Exportar"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1098
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1155
 msgid "OPML files"
 msgstr "Archivos OPML"
 
 #. Translators: This is a default file name for exported RSS feeds.
 #. Keep the extension (".opml") as is, translate only the "feeds" word, if needed.
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1107
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1164
 msgid "feeds.opml"
 msgstr "feeds.opml"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1195
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1252
 msgid "Failed to export RSS feeds: "
 msgstr "Falló al exportar los proveedores RSS: "
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1221
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1278
 msgid "Failed to read file content: "
 msgstr "Falló al leer el contenido del archivo: "
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1288
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1345
 msgid "Failed to add feed: "
 msgstr "Falló al añadir el proveedor: "
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1333
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1390
 msgid "No RSS feeds found"
 msgstr "No se han encontrado proveedores RSS"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1335
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1392
 msgid "No new RSS feeds imported"
 msgstr "No se han importado proveedores RSS nuevos"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1338
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1395
 #, c-format
 msgid "Imported %d feed"
 msgid_plural "Imported %d feeds"
 msgstr[0] "Importado %d proveedor"
 msgstr[1] "Importados %d proveedores"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1342
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1399
 msgid "Failed to import data, the file does not contain valid OPML data."
 msgstr "Falló al importar datos, el archivo no contiene datos OPML válidos."
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1347
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1404
 msgid "Failed to parse file content. Expected is an OPML file."
 msgstr ""
 "Falló al analizar el contenido del archivo. Se esperaba un archivo OPML."
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1595
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1652
 msgid "Download _feed enclosures"
 msgstr "_Descargar adjuntos del proveedor"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1614
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1671
 msgid "Do not download e_nclosures larger than"
 msgstr "No descargar adju_ntos que excedan de"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1637
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1694
 msgid "KB"
 msgstr "KB"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1643
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1700
 msgid "Feeds"
 msgstr "Proveedores"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1708
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1769
 msgid "Content"
 msgstr "Contenido"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1768
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1829
 msgid "E_xport"
 msgstr "E_xportar"
 
@@ -27982,7 +27869,7 @@ msgid "Display the part as an addressbook contact"
 msgstr "Mostrar parte como un contacto de la libreta de direcciones"
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
-#: ../src/modules/webkit-editor/e-webkit-editor.c:5546
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5558
 #, c-format
 msgid "Ctrl-click to open a link “%s”"
 msgstr "Ctrl-botón del ratón para abrir un enlace «%s»"
@@ -29148,10 +29035,8 @@ msgid "Saving message template"
 msgstr "Guardando plantilla de mensaje"
 
 #: ../src/plugins/templates/templates.c:968
-#, fuzzy
-#| msgid "Save as _Template"
 msgid "Save _Template"
-msgstr "Guardar como plan_tilla"
+msgstr "Guardar plan_tilla"
 
 #: ../src/plugins/templates/templates.c:970
 #, fuzzy
@@ -29160,10 +29045,8 @@ msgid "Replace opened Template message"
 msgstr "¿Quitar mensajes duplicados?"
 
 #: ../src/plugins/templates/templates.c:975
-#, fuzzy
-#| msgid "Save as _Template"
 msgid "Save as _New Template"
-msgstr "Guardar como plan_tilla"
+msgstr "Guardar como plan_tilla nueva"
 
 #: ../src/plugins/templates/templates.c:977
 msgid "Save as Template"
@@ -29230,11 +29113,8 @@ msgid "i_n"
 msgstr "e_n"
 
 #: ../src/shell/e-shell-utils.c:169
-#, fuzzy
-#| msgctxt "New"
-#| msgid "_Mail Message"
 msgid "Mail Message (eml)"
-msgstr "_Mensaje de correo"
+msgstr "Mensaje de correo (eml)"
 
 #: ../src/shell/e-shell-utils.c:172
 msgid "vCard (.vcf)"
