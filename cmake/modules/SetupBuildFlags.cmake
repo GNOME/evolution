@@ -21,7 +21,6 @@ macro(setup_build_flags _maintainer_mode)
 		-Wundef
 		-Wwrite-strings
 		-Wno-cast-function-type
-		-Wl,--no-undefined
 		-fno-strict-aliasing
 	)
 
