@@ -2678,6 +2678,27 @@ cal_comp_util_write_to_html_add_table_line (GString *html,
 	g_free (markup_value);
 }
 
+static gboolean
+comp_util_is_x_alt_desc_html (ICalProperty *prop,
+			      gpointer user_data)
+{
+	ICalParameter *param;
+	gboolean can_use = FALSE;
+
+	if (!i_cal_property_get_x_name (prop) ||
+	    g_ascii_strcasecmp (i_cal_property_get_x_name (prop), "X-ALT-DESC") != 0)
+		return FALSE;
+
+	param = i_cal_property_get_first_parameter (prop, I_CAL_FMTTYPE_PARAMETER);
+
+	can_use = param && i_cal_parameter_get_fmttype (param) &&
+	    g_ascii_strcasecmp (i_cal_parameter_get_fmttype (param), "text/html") == 0;
+
+	g_clear_object (&param);
+
+	return can_use;
+}
+
 #define DESCRIPTION_STYLE "style=\"font-family: monospace; font-size: 1em;\""
 
 /* Converts the @comp into HTML adding the code into the @html_buffer (it's without the <body/> tag) */
@@ -2700,6 +2721,7 @@ cal_comp_util_write_to_html (GString *html_buffer,
 	gchar *location, *url;
 	gint priority;
 	gchar *markup;
+	gboolean has_alt_desc;
 
 	g_return_if_fail (html_buffer != NULL);
 	if (client)
@@ -3105,67 +3127,111 @@ cal_comp_util_write_to_html (GString *html_buffer,
 
 	/* Write description as the last, using full width */
 
-	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
-		list = e_cal_component_get_descriptions (comp);
-		if (list) {
-			GSList *node;
-			gboolean has_header = FALSE;
+	has_alt_desc = FALSE;
+	prop = e_cal_util_component_find_property_for_locale_filtered (icomp, I_CAL_X_PROPERTY, NULL,
+		comp_util_is_x_alt_desc_html, NULL);
+	if (prop) {
+		ICalValue *ivalue;
+		const gchar *alt_desc = NULL;
 
-			for (node = list; node != NULL; node = node->next) {
-				gchar *html;
+		ivalue = i_cal_property_get_value (prop);
 
-				text = node->data;
-				if (!text || !e_cal_component_text_get_value (text))
-					continue;
+		if (ivalue)
+			alt_desc = i_cal_value_get_x (ivalue);
 
-				html = camel_text_to_html (
-					e_cal_component_text_get_value (text),
-					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
-					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
-					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+		if (alt_desc && *alt_desc) {
+			has_alt_desc = TRUE;
+			g_string_append (html_buffer, "<tr><td colspan=\"2\" " DESCRIPTION_STYLE ">");
+			g_string_append (html_buffer, alt_desc);
+			g_string_append (html_buffer, "</td></tr>");
+		}
 
-				if (html) {
-					if (!has_header) {
-						has_header = TRUE;
+		g_clear_object (&ivalue);
+		g_object_unref (prop);
+	}
 
-						g_string_append (html_buffer, "<tr><td colspan=\"2\" " DESCRIPTION_STYLE ">");
+	if (has_alt_desc) {
+		/* do nothing, it had been set above */
+	} else {
+		gboolean is_markdown;
+		gchar *x_value;
+
+		x_value = e_cal_util_component_dup_x_property (icomp, "X-EVOLUTION-IS-MARKDOWN");
+		is_markdown = g_strcmp0 (x_value, "1") == 0;
+		g_free (x_value);
+
+		if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
+			list = e_cal_component_get_descriptions (comp);
+			if (list) {
+				GSList *node;
+				gboolean has_header = FALSE;
+
+				for (node = list; node != NULL; node = node->next) {
+					gchar *html = NULL;
+
+					text = node->data;
+					if (!text || !e_cal_component_text_get_value (text))
+						continue;
+
+					if (is_markdown)
+						html = e_markdown_utils_text_to_html (e_cal_component_text_get_value (text), -1);
+
+					if (!html) {
+						html = camel_text_to_html (
+							e_cal_component_text_get_value (text),
+							CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+							CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+							CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+							CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 					}
 
-					g_string_append_printf (html_buffer, "%s", html);
+					if (html) {
+						if (!has_header) {
+							has_header = TRUE;
+
+							g_string_append (html_buffer, "<tr><td colspan=\"2\" " DESCRIPTION_STYLE ">");
+						}
+
+						g_string_append_printf (html_buffer, "%s", html);
+					}
+
+					g_free (html);
 				}
 
-				g_free (html);
-			}
-
-			if (has_header)
-				g_string_append (html_buffer, "</td></tr>");
-
-			g_slist_free_full (list, e_cal_component_text_free);
-		}
-	} else {
-		text = e_cal_component_dup_description_for_locale (comp, NULL);
-		if (text) {
-			if (e_cal_component_text_get_value (text)) {
-				gchar *html;
-
-				html = camel_text_to_html (
-					e_cal_component_text_get_value (text),
-					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
-					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
-					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
-
-				if (html) {
-					g_string_append (html_buffer, "<tr><td colspan=\"2\" " DESCRIPTION_STYLE ">");
-					g_string_append_printf (html_buffer, "%s", html);
+				if (has_header)
 					g_string_append (html_buffer, "</td></tr>");
+
+				g_slist_free_full (list, e_cal_component_text_free);
+			}
+		} else {
+			text = e_cal_component_dup_description_for_locale (comp, NULL);
+			if (text) {
+				if (e_cal_component_text_get_value (text)) {
+					gchar *html = NULL;
+
+					if (is_markdown)
+						html = e_markdown_utils_text_to_html (e_cal_component_text_get_value (text), -1);
+
+					if (!html) {
+						html = camel_text_to_html (
+							e_cal_component_text_get_value (text),
+							CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+							CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+							CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+							CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+					}
+
+					if (html) {
+						g_string_append (html_buffer, "<tr><td colspan=\"2\" " DESCRIPTION_STYLE ">");
+						g_string_append_printf (html_buffer, "%s", html);
+						g_string_append (html_buffer, "</td></tr>");
+					}
+
+					g_free (html);
 				}
 
-				g_free (html);
+				e_cal_component_text_free (text);
 			}
-
-			e_cal_component_text_free (text);
 		}
 	}
 
