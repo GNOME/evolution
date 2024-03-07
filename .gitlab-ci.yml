@@ -54,6 +54,7 @@ pages:
     - |
       dnf install -qy yelp-tools
       export PUBDIR=$(pwd)/public/help
+      LANGLINKS=" "
       mkdir -p $PUBDIR
       for d in ".flatpak-builder/build/${FLATPAK_MODULE}/help/"*
       do
@@ -66,10 +67,14 @@ pages:
           else
             mkdir $PUBDIR/$lang
             yelp-build html -o $PUBDIR/$lang . -p ../C
+            LANGLINKS="${LANGLINKS}<a href='help/$lang/'>$lang</a> "
           fi
           cd $PUBDIR/../..
         fi
       done
+      echo "Go to Evolution <a href='https://gitlab.gnome.org/GNOME/evolution/-/wikis'>Wiki pages</a> or the <a href='help/'>user documentation</a> (${LANGLINKS})">$(pwd)/public/index.html
+      mkdir $(pwd)/public/YahooOAuth2
+      echo "Wait a bit, please...<br><br>The page URL contains an authorization code, which can be copied into the credentials prompt dialog.">$(pwd)/public/YahooOAuth2/index.html
   artifacts:
     paths:
     - public
