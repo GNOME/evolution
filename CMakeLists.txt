@@ -7,7 +7,7 @@ project(evolution
 	VERSION 3.52.0
 	LANGUAGES C)
 set(PROJECT_BUGREPORT "https://gitlab.gnome.org/GNOME/evolution/issues/")
-set(PROJECT_URL "http://wiki.gnome.org/Apps/Evolution/")
+set(PROJECT_URL "https://gitlab.gnome.org/GNOME/evolution/-/wikis/home")
 
 # Base Version: This is for API/version tracking for things like
 # D-Bus server files. This should always be the major/minor of

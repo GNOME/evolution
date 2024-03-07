@@ -20,11 +20,11 @@ the menu after running the application), at the
 The rest of this file is dedicated to building Evolution.
 
 [icon]: https://raw.github.com/gnome-design-team/gnome-icons/master/apps/hicolor/48x48/apps/evolution.png "Evolution app icon"
-[gnome-wiki]: https://wiki.gnome.org/Apps/Evolution
+[gnome-wiki]: https://gitlab.gnome.org/GNOME/evolution/-/wikis/home
 [mailing-list]: https://lists.osuosl.org/mailman/listinfo/evolution-users
 [#gnome-evolution]: ircs://irc.libera.chat:6697/gnome-evolution
 [Libera.Chat]: https://libera.chat/
-[gnome-help]: https://help.gnome.org/users/evolution/stable/
+[gnome-help]: https://gnome.pages.gitlab.gnome.org/evolution/help/
 
 DEPENDENCIES
 ------------
@@ -149,4 +149,4 @@ ONLINE BUILD MANUAL
 
 An [online build manual][Build Manual] is also available.
 
-[Build Manual]: https://wiki.gnome.org/Apps/Evolution/Building
+[Build Manual]: https://gitlab.gnome.org/GNOME/evolution/-/wikis/Building

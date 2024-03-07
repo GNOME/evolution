@@ -8,7 +8,7 @@
   <name xml:lang="en">evolution</name>
   <shortdesc xml:lang="en">Manage your email, contacts and schedule</shortdesc>
   <description>Manage your email, contacts and schedule</description>
-  <homepage rdf:resource="https://wiki.gnome.org/Apps/Evolution" />
+  <homepage rdf:resource="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home" />
   <mailing-list rdf:resource="https://lists.osuosl.org/mailman/listinfo/evolution-users" />
   <download-page rdf:resource="https://download.gnome.org/sources/evolution" />
   <support-forum rdf:resource="https://discourse.gnome.org/tag/evolution" />

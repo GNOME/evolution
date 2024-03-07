@@ -19,10 +19,10 @@
       the “Exchange Web Services” (EWS) extension.
     </_p>
   </description>
-  <url type="homepage">https://wiki.gnome.org/Apps/Evolution</url>
+  <url type="homepage">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/evolution/issues/new</url>
   <url type="donation">https://www.gnome.org/donate/</url>
-  <url type="help">https://help.gnome.org/users/evolution/stable/</url>
+  <url type="help">https://gnome.pages.gitlab.gnome.org/evolution/help/</url>
   <url type="vcs-browser">https://gitlab.gnome.org/GNOME/evolution</url>
   <url type="translate">https://l10n.gnome.org/module/evolution/</url>
   <launchable type="desktop-id">org.gnome.Evolution.desktop</launchable>
