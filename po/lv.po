@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: lv\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-09-16 11:58+0000\n"
-"PO-Revision-Date: 2024-01-05 00:05+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
+"POT-Creation-Date: 2024-02-19 09:17+0000\n"
+"PO-Revision-Date: 2024-03-09 14:55+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -263,11 +263,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:1
 msgid "Save directory for reminder audio"
-msgstr "Atgādinājumu skaņu glabāšanas mape"
+msgstr "Atgādinājumu skaņu glabāšanas direktorijs"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:2
 msgid "Directory for saving reminder audio files"
-msgstr "Mape atgādinājumu skaņu datņu glabāšanai"
+msgstr "Direktorijs atgādinājumu skaņu datņu glabāšanai"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:3
 msgid "Birthday and anniversary reminder value"
@@ -1355,14 +1355,12 @@ msgid "Always request Delivery Status Notification"
 msgstr "Vienmēr pieprasīt “_piegādes statusa paziņojumu”"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:30
-#| msgid ""
-#| "Whether a read receipt request gets added to every message by default."
 msgid ""
 "Whether a Delivery Status Notification request gets added to every message "
 "by default."
 msgstr ""
-"Vai vēstulei pēc noklusējuma pievienot “piegādes statusa paziņošanas”"
-" pieprasījumu."
+"Vai vēstulei pēc noklusējuma pievienot “piegādes statusa paziņošanas” "
+"pieprasījumu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:31
 msgid "What mode open the composer with"
@@ -1868,7 +1866,7 @@ msgstr "Automātiski ielādēt HTML attēlus caur HTTP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid "Show notification about missing remote content"
-msgstr "Rādīt paziņojumu, ja trūkst attālinātais saturs"
+msgstr "Rādīt paziņojumu, ja trūkst attālais saturs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid ""
@@ -1876,7 +1874,7 @@ msgid ""
 "content, while the download is not allowed for the user or the site, then "
 "show a notification about it on top of the preview panel."
 msgstr ""
-"Ja vēstules priekšskatījums rāda vēstuli, kurai vajag attālināto saturu, bet "
+"Ja vēstules priekšskatījums rāda vēstuli, kurai vajag attālo saturu, bet "
 "tā lejupielādēšana lietotājam vai vietnei nav atļauta, tad priekšskatījuma "
 "paneļa augšpusē par to tiks parādīts paziņojums."
 
@@ -2178,7 +2176,6 @@ msgstr ""
 "lai padarītu līmeņus ne tik dziļus."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
-#| msgid "Whether to print attachments."
 msgid "Whether to generate flat threads"
 msgstr "Vai ģenerēt plakanus pavedienus"
 
@@ -2187,8 +2184,8 @@ msgid ""
 "Set to true to generate flat threads. That is, the thread will have only one "
 "level, with no sublevels."
 msgstr ""
-"Iestatiet uz “patiess”, lai ģenerētu plakanus pavedienus. Tas ir, pavedieni"
-" būs tikai vienā līmenī, bez apakšlīmeņiem."
+"Iestatiet uz “patiess”, lai ģenerētu plakanus pavedienus. Tas ir, pavedieni "
+"būs tikai vienā līmenī, bez apakšlīmeņiem."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Sort accounts alphabetically in a folder tree"
@@ -2307,13 +2304,10 @@ msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr "Prasīt apstiprinājumu, ja lietotājs vēlas iztukšot mēstules."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
-#| msgid "Prompt when user calls Empty Junk"
 msgid "Prompt when user marks message as Junk"
 msgstr "Prasīt apstiprinājumu, ja lietotājs vēlas atzīmēt vēstules kā mēstules"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
-#| msgid ""
-#| "Prompt the user when he or she tries to send a message without a Subject."
 msgid "Prompt the user when he or she tries to mark a message as Junk."
 msgstr "Prasīt apstiprinājumu, ja lietotājs mēģina atzīmēt vēstuli kā mēstuli."
 
@@ -2623,7 +2617,7 @@ msgid ""
 msgstr ""
 "Nosaka, vai uzmeklēt sūtītāja e-pasta adresi adrešu grāmatā. Ja adrese "
 "atrasta, vēstulei nevajadzētu būt mēstulei. Meklē grāmatās, kuras ir "
-"atzīmētas automātikai pabeigšanai. Tas var būt lēni, ja attālinātas adrešu "
+"atzīmētas automātikai pabeigšanai. Tas var būt lēni, ja attālās adrešu "
 "grāmatas (piemēram, LDAP) ir atzīmētas automātiskai pabeigšanai."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
@@ -2675,29 +2669,27 @@ msgstr "Noklusējuma konta UID virkne."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid "Save directory"
-msgstr "Saglabāšanas mape"
+msgstr "Saglabāšanas direktorijs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
 msgid "Directory for saving mail component files."
-msgstr "Mape pasta komponenšu datņu saglabāšanai."
+msgstr "Direktorijs pasta komponenšu datņu saglabāšanai."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
-#| msgid "Save Draft"
 msgid "Save format"
 msgstr "Saglabāt formātu"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
-#| msgid "Failed to save messages to disk."
 msgid "Last used format when saving messages to file."
 msgstr "Pēdējo reizi izmantotais formāts, kad vēstuli saglabā datnē."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
 msgid "Composer load/attach directory"
-msgstr "Redaktora ielādēšanas/pievienošanas mape"
+msgstr "Redaktora ielādēšanas/pievienošanas direktorijs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
 msgid "Directory for loading/attaching files to composer."
-msgstr "Mape datņu ielādēšanai/pievienošanai redaktorā."
+msgstr "Direktorijs datņu ielādēšanai/pievienošanai redaktorā."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
 msgid "Check for new messages on start"
@@ -2735,7 +2727,7 @@ msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
 msgstr ""
-"Kontrolē, cik bieži lokālās izmaiņas ir jāsinhronizē ar attālināto pasta "
+"Kontrolē, cik bieži lokālās izmaiņas ir jāsinhronizē ar attālo pasta "
 "serveri. Intervālam ir jābūt vismaz 30 sekundēm."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
@@ -3056,12 +3048,10 @@ msgstr ""
 "definēts kilobaitos. Visu, kas ir virs šī limita, nevarēs parādīt iekļauti."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
-#| msgid "Show preview pane"
 msgid "Show Preview Toolbar"
 msgstr "Rādīt priekšskatījuma rīkjoslu"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
-#| msgid "Show the preview pane in the Year View"
 msgid "Show toolbar above preview panel in the Mail view."
 msgstr "Pasta skatā rādīt rīkjoslu virs priekšsaktījuma paneļa."
 
@@ -3070,29 +3060,26 @@ msgid ""
 "Whether the markdown composer should sanitize input text also for the "
 "'Markdown as Plain text' mode"
 msgstr ""
-"Vai markdown redaktoram vajadzētu sanitizēt ievadīto tekstu arī režīmā"
-" “Markdown kā vienkāršs teksts”"
+"Vai markdown redaktoram vajadzētu sanitizēt ievadīto tekstu arī režīmā "
+"“Markdown kā vienkāršs teksts”"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
 msgid ""
 "Disabling the sanitization allows to use the Markdown editor as a very "
 "simple text editor without mangling the input text."
 msgstr ""
-"Sanitizācijas izslēgšana ļauj izmantot Markdown redaktoru kā ļoti vienkāršu"
-" teksta redaktoru, kurš nemaina ievadīto tekstu."
+"Sanitizācijas izslēgšana ļauj izmantot Markdown redaktoru kā ļoti vienkāršu "
+"teksta redaktoru, kurš nemaina ievadīto tekstu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
-#| msgid "Move folder in folder tree."
 msgid "Show unread count in folder tree"
 msgstr "Rādīt neizlasīto vēstuļu skaitu mapju kokā"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
-#| msgid "Change sort order of the folders in the folder tree"
 msgid "Show unread count beside the folder name in the folder tree."
 msgstr "Rādīt neizlasīto vēstuļu skaitu pie mapes nosaukuma mapju kokā."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
-#| msgid "Insert Face picture by default"
 msgid "Show insecure parts by default"
 msgstr "Pēc noklusējuma rādīt nedrošās daļas"
 
@@ -3102,9 +3089,9 @@ msgid ""
 "be shown after mail open. The default is to hide these possibly insecure "
 "parts."
 msgstr ""
-"Iestatiet, vai pēc pasta atvēršanas ir jāparāda neparakstītās/šifrētās daļas,"
-" kas atrodas blakus parakstītajām/šifrētajām daļām. Pēc noklusējuma šīs,"
-" iespējams, nedrošās daļas, tiks paslēptas."
+"Iestatiet, vai pēc pasta atvēršanas ir jāparāda neparakstītās/šifrētās "
+"daļas, kas atrodas blakus parakstītajām/šifrētajām daļām. Pēc noklusējuma "
+"šīs, iespējams, nedrošās daļas, tiks paslēptas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
 msgid "(Deprecated) Default forward style"
@@ -3180,8 +3167,8 @@ msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
 msgstr ""
-"Jautāt, vai var nosūtīt vēstuli ar pielikumiem, kas diskā ir mainījušies,"
-" kopš tie tika pievienoti vēstulei."
+"Jautāt, vai var nosūtīt vēstuli ar pielikumiem, kas diskā ir mainījušies, "
+"kopš tie tika pievienoti vēstulei."
 
 #. Translators: This is a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -3351,7 +3338,6 @@ msgstr ""
 "ja tāds ir pieejams"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:7
-#| msgid "Use an external editor to compose plain-text mail messages."
 msgid "Whether to attach components in mail messages"
 msgstr "Vai vēstulēm pievienot komponentus"
 
@@ -3360,8 +3346,8 @@ msgid ""
 "Attach components in mail messages like meeting invitations or responses, "
 "instead of saving them as a body alternative"
 msgstr ""
-"Pievienot vēstulēm komponentus, piemēram, sapulču ielūgumus vai atbildes,"
-" nevis saglabāt tos kā satura alternatīvu"
+"Pievienot vēstulēm komponentus, piemēram, sapulču ielūgumus vai atbildes, "
+"nevis saglabāt tos kā satura alternatīvu"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -3510,7 +3496,6 @@ msgstr ""
 "“No” adresei."
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:4
-#| msgid "List of assignments for recipient and the address to be used with it"
 msgid "List of assignments for an account, which recipients it accepts"
 msgstr "Saraksts ar uzdevumiem kontam, kurus saņēmējus tas pieņem"
 
@@ -3519,8 +3504,8 @@ msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
 msgstr ""
-"Saraksts ar atslēgas vārdu un vērtību pāriem veidņu spraudnim "
-"aizvietošanai vēstules pamattekstā."
+"Saraksts ar atslēgas vārdu un vērtību pāriem veidņu spraudnim aizvietošanai "
+"vēstules pamattekstā."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:1
 msgid "Skip development warning dialog"
@@ -3749,12 +3734,11 @@ msgid ""
 "decide what is the best icon size for the toolbar. Changing the option "
 "requires application restart."
 msgstr ""
-"Nosaka rīkjoslas ikonu izmēru. Vērtība “default” (noklusējuma) ļauj sistēmai"
-" / kodam izlemt, kāds ir labākais rīkjoslas ikonu izmērs.  Lai mainītu"
-" opciju, ir jāpārstartē lietotne."
+"Nosaka rīkjoslas ikonu izmēru. Vērtība “default” (noklusējuma) ļauj "
+"sistēmai / kodam izlemt, kāds ir labākais rīkjoslas ikonu izmērs.  Lai "
+"mainītu opciju, ir jāpārstartē lietotne."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:46
-#| msgid "Whether to show phone numbers in the editor"
 msgid "Whether to use header bar in the application"
 msgstr "Vai lietotnē izmantot galvenes joslu"
 
@@ -3763,11 +3747,10 @@ msgid ""
 "When enabled, adds buttons to the header bar. This applies to dialogs as "
 "well. Changing the option requires application restart."
 msgstr ""
-"Kad ieslēgts, virsraksta joslai tiks pievienotas pogas. Tas attiecas arī uz"
-" dialoglodziņiem. Lai mainītu opciju, ir jāpārstartē lietotne."
+"Kad ieslēgts, virsraksta joslai tiks pievienotas pogas. Tas attiecas arī uz "
+"dialoglodziņiem. Lai mainītu opciju, ir jāpārstartē lietotne."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:48
-#| msgid "Whether to show maps in preview pane"
 msgid "Whether the markdown editor show have live preview"
 msgstr "Vai markdown redaktora izvadei priekšskatījumu atsvaidzināt tūlītēji"
 
@@ -3776,8 +3759,8 @@ msgid ""
 "When enabled, the markdown editor shows a preview beside the editing text "
 "and updates it as the user types."
 msgstr ""
-"Kad ieslēgts, markdown redaktors rādīs priekšskatījumu līdzās rediģētajam"
-" tekstam un tas tiks atjaunināts, kad lietotājs ko ierakstīs."
+"Kad ieslēgts, markdown redaktors rādīs priekšskatījumu līdzās rediģētajam "
+"tekstam un tas tiks atjaunināts, kad lietotājs ko ierakstīs."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:50
 msgid "Whether to prefer symbolic icons"
@@ -3790,10 +3773,10 @@ msgid ""
 "the symbolic icons cannot be used when the icon theme does not provide them. "
 "Similarly the color icons cannot be used, when they are not available."
 msgstr ""
-"Nosaka, vai lietotnei vajadzētu dot priekšroku simboliskajām ikonām. Vērtība"
-" ”auto“ nosaka, vai ikonu motīvs izmanto simboliskās ikonas. Ņemiet vērā, ka"
-" simboliskās ikonas nevar izmantot, ja ikonu motīvs tās nenodrošina."
-"Tāpat nevar izmantot krāsainās ikonas, ja tās nav pieejamas."
+"Nosaka, vai lietotnei vajadzētu dot priekšroku simboliskajām ikonām. Vērtība "
+"”auto“ nosaka, vai ikonu motīvs izmanto simboliskās ikonas. Ņemiet vērā, ka "
+"simboliskās ikonas nevar izmantot, ja ikonu motīvs tās nenodrošina.Tāpat "
+"nevar izmantot krāsainās ikonas, ja tās nav pieejamas."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -3884,17 +3867,14 @@ msgstr ""
 "izmantojot “Exchange Web Services” (EWS) paplašinājumu."
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:5
-#| msgid "_Classic View"
 msgid "Mail – Classic View"
 msgstr "Pasts — klasiskais skats"
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:6
-#| msgid "_Vertical View"
 msgid "Mail – Vertical View"
 msgstr "Pasts — vertikālais skats"
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:7
-#| msgid "Mail from %s"
 msgid "Mail Composer"
 msgstr "Pasta redaktors"
 
@@ -3946,7 +3926,7 @@ msgstr "Rakstīt vēstuli"
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:249
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1563
+#: ../src/modules/mail/e-mail-shell-view.c:1570
 #: ../src/smime/gui/certificate-manager.c:1612
 msgid "Mail"
 msgstr "Pasts"
@@ -3961,7 +3941,7 @@ msgid "Memos"
 msgstr "Memo"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2467
+#: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2481
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1138
 #: ../src/e-util/e-webdav-browser.c:524
@@ -4340,7 +4320,7 @@ msgstr "_Nedzēst"
 
 #: ../src/addressbook/addressbook.error.xml.h:11
 msgid "Delete remote address book “{0}”?"
-msgstr "Dzēst attālināto adrešu grāmatu “{0}”?"
+msgstr "Dzēst attālo adrešu grāmatu “{0}”?"
 
 #: ../src/addressbook/addressbook.error.xml.h:12
 msgid ""
@@ -4453,7 +4433,7 @@ msgstr ""
 #: ../src/mail/em-vfolder-editor-rule.c:405
 #: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:67
 #: ../src/modules/mail/em-composer-prefs.c:420
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1739
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1800
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
 #: ../src/plugins/email-custom-header/email-custom-header.c:828
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
@@ -4496,7 +4476,7 @@ msgstr ""
 "pievienot?"
 
 #: ../src/addressbook/addressbook.error.xml.h:39
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1772
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1775
 msgid "Failed to delete contact"
 msgstr "Neizdevās izdzēst kontaktu"
 
@@ -4588,7 +4568,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:561
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:806
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1852
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1855
 #: ../src/calendar/calendar.error.xml.h:186
 #: ../src/calendar/gui/e-cal-dialogs.c:695
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
@@ -4610,14 +4590,14 @@ msgstr ""
 #: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:179
 #: ../src/e-util/e-mail-signature-script-dialog.c:360
-#: ../src/e-util/e-passwords.c:474 ../src/e-util/e-rule-context.c:819
+#: ../src/e-util/e-passwords.c:486 ../src/e-util/e-rule-context.c:819
 #: ../src/e-util/e-rule-editor.c:184 ../src/e-util/e-rule-editor.c:295
 #: ../src/e-util/e-rule-editor.c:931 ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:356
 #: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4085
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4130
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4257
@@ -4629,7 +4609,7 @@ msgstr ""
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1249
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:282
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1095
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1152
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
 #: ../src/plugins/face/face.c:298
 #: ../src/plugins/publish-calendar/publish-calendar.c:788
@@ -4705,15 +4685,15 @@ msgstr "Opcijas"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
 #: ../src/calendar/calendar.error.xml.h:52
-#: ../src/calendar/gui/e-comp-editor.c:2319
+#: ../src/calendar/gui/e-comp-editor.c:2321
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:845
 #: ../src/e-util/e-attachment-store.c:852
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
-#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4085
+#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4130
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
-#: ../src/modules/rss/evolution/e-rss-preferences.c:865
+#: ../src/modules/rss/evolution/e-rss-preferences.c:920
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:646
 #: ../src/smime/gui/certificate-manager.c:715
@@ -4968,7 +4948,7 @@ msgstr "Pievienot _X.509"
 #: ../src/mail/e-mail-label-manager.c:397 ../src/mail/em-filter-rule.c:679
 #: ../src/mail/em-folder-properties.c:1397
 #: ../src/mail/em-vfolder-editor-rule.c:639 ../src/mail/mail-config.ui.h:68
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1758
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1819
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:838
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
@@ -4993,25 +4973,25 @@ msgid "Certificates"
 msgstr "Sertifikāti"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:264
-#: ../src/calendar/gui/e-comp-editor.c:2251
+#: ../src/calendar/gui/e-comp-editor.c:2253
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "_Atsaukt"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
-#: ../src/calendar/gui/e-comp-editor.c:2253 ../src/e-util/e-focus-tracker.c:147
+#: ../src/calendar/gui/e-comp-editor.c:2255 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Atsaukt"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271
-#: ../src/calendar/gui/e-comp-editor.c:2258
+#: ../src/calendar/gui/e-comp-editor.c:2260
 #: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "A_tatsaukt"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
-#: ../src/calendar/gui/e-comp-editor.c:2260 ../src/e-util/e-focus-tracker.c:163
+#: ../src/calendar/gui/e-comp-editor.c:2262 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Atatsaukt"
@@ -5155,8 +5135,8 @@ msgid "Invalid contact."
 msgstr "Nederīgs kontakts."
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5134
-#: ../src/calendar/gui/e-comp-editor.c:2216
-#: ../src/calendar/gui/e-comp-editor.c:2288
+#: ../src/calendar/gui/e-comp-editor.c:2218
+#: ../src/calendar/gui/e-comp-editor.c:2290
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../src/shell/e-shell-window-actions.c:1121
@@ -5174,7 +5154,7 @@ msgstr "_Palīdzība"
 #: ../src/e-util/e-color-chooser-widget.c:126
 #: ../src/e-util/e-filter-datespec.c:301
 #: ../src/e-util/e-html-editor-link-dialog.c:242
-#: ../src/e-util/e-passwords.c:475 ../src/e-util/e-rule-context.c:820
+#: ../src/e-util/e-passwords.c:487 ../src/e-util/e-rule-context.c:820
 #: ../src/e-util/e-rule-editor.c:185 ../src/e-util/e-rule-editor.c:296
 #: ../src/e-util/e-rule-editor.c:932 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:357
@@ -5194,7 +5174,6 @@ msgid "_OK"
 msgstr "_Labi"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:251
-#| msgid "Failed to delete contact"
 msgid "Failed to find contact"
 msgstr "Neizdevās atrast kontaktu"
 
@@ -5219,7 +5198,6 @@ msgid "_Select Address Book"
 msgstr "Izvēlietie_s adrešu grāmatu"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:779
-#| msgid "Failed to store password: "
 msgid "Failed to parse vCard data"
 msgstr "Neizdevās parsēt vCard datus"
 
@@ -5376,7 +5354,7 @@ msgstr "Kļūda, noņemot sarakstu"
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1687
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1744
 msgid "Name"
 msgstr "Vārds"
 
@@ -5458,13 +5436,11 @@ msgstr "E-pasts sākas ar"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:14
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1504
-#| msgid "Name contains"
 msgid "Email contains"
 msgstr "E-pasts satur"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:15
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1511
-#| msgid "Sender contains"
 msgid "Phone contains"
 msgstr "Tālrunis satur"
 
@@ -5489,17 +5465,17 @@ msgid "Copy _Email Address"
 msgstr "Kopēt _e-pasta adresi"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:152
-#: ../src/e-util/e-web-view.c:431
+#: ../src/e-util/e-web-view.c:464
 msgid "Copy the email address to the clipboard"
 msgstr "Kopēt e-pasta adreses uz starpliktuvi"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:157
-#: ../src/e-util/e-web-view.c:443
+#: ../src/e-util/e-web-view.c:476
 msgid "_Send New Message To…"
 msgstr "_Sūtīt jaunu vēstuli…"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:159
-#: ../src/e-util/e-web-view.c:445
+#: ../src/e-util/e-web-view.c:478
 msgid "Send a mail message to this address"
 msgstr "Sūtīt e-pasta vēstuli uz šo adresi"
 
@@ -5774,8 +5750,8 @@ msgstr ""
 "Šajā vaicājumā tika atgriezts lielāks skaits kontaktu, \n"
 "nekā serveris ir nokonfigurēts atgriezt vai Evolution \n"
 "nokonfigurēta parādīt.\n"
-"Lūdzu, padariet jūsu meklējumu precīzāku, vai arī palieliniet \n"
-"rezultāta limitu direktorijas servera iestatījumos šai adrešu \n"
+"Lūdzu, padariet savu meklējumu precīzāku, vai arī palieliniet \n"
+"rezultāta limitu direktoriju servera iestatījumos šai adrešu \n"
 "grāmatai."
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:216
@@ -5786,8 +5762,8 @@ msgid ""
 "preferences for this address book."
 msgstr ""
 "Vaicājuma izpildes laiks pārsniedza servera limitu vai arī limitu\n"
-"šai adrešu grāmatai. Lūdzu, padariet jūsu meklējumu precīzāku,\n"
-"vai arī palieliniet laika limitu direktorijas servera iestatījumos\n"
+"šai adrešu grāmatai. Lūdzu, padariet savu meklējumu precīzāku,\n"
+"vai arī palieliniet laika limitu direktoriju servera iestatījumos\n"
 "šai adrešu grāmatai."
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
@@ -5856,73 +5832,70 @@ msgstr "Kontaktu nav"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:350
 #, c-format
-#| msgid "%d contact"
-#| msgid_plural "%d contacts"
 msgid "%u contact"
 msgid_plural "%u contacts"
 msgstr[0] "%u kontakts"
 msgstr[1] "%u kontakti"
 msgstr[2] "%u kontaktu"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:979
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:982
 msgid "Cut selected contacts to the clipboard"
 msgstr "Izgriezt izvēlētos kontaktus starpliktuvē"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:985
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:988
 msgid "Copy selected contacts to the clipboard"
 msgstr "Kopēt izvēlētos kontaktus uz starpliktuvi"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:991
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:994
 msgid "Paste contacts from the clipboard"
 msgstr "Ielīmēt kontaktus no starpliktuves"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:997
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1000
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1289
 msgid "Delete selected contacts"
 msgstr "Dzēst izvēlētos kontaktus"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1003
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1006
 msgid "Select all visible contacts"
 msgstr "Izvēlēties visus redzamos kontaktus"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1281
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1284
 #: ../src/addressbook/gui/widgets/e-card-view.c:81
 msgid "Searching for the Contacts…"
 msgstr "Meklē kontaktus…"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1458
-#| msgid "Failed to communicate with LDAP server."
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1461
 msgid "Failed to get contacts with unknown error"
 msgstr "Neizdevās saņemt kontaktus ar nezināmu kļūdu"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1820
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1823
 msgid "Are you sure you want to delete these contact lists?"
 msgstr "Vai tiešām vēlaties dzēst šos kontaktu sarakstus?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1824
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1827
 msgid "Are you sure you want to delete this contact list?"
 msgstr "Vai tiešām vēlaties dzēst šo kontaktu sarakstu?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1828
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1831
 #, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr "Vai tiešām vēlaties dzēst šo kontaktu sarakstu (%s) ?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1834
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1837
 msgid "Are you sure you want to delete these contacts?"
 msgstr "Vai tiešām vēlaties dzēst šos kontaktus?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1838
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1841
 msgid "Are you sure you want to delete this contact?"
 msgstr "Vai tiešām vēlaties dzēst šo kontaktu?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1842
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1845
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Vai tiešām vēlaties dzēst šo kontaktu (%s)?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1853
-#: ../src/calendar/gui/e-comp-editor.c:2209
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1856
+#: ../src/calendar/gui/e-comp-editor.c:2211
 #: ../src/e-util/e-accounts-window.c:1760 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857
@@ -5938,7 +5911,7 @@ msgid "_Delete"
 msgstr "_Dzēst"
 
 #. Translators: This is shown for > 5 contacts.
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2034
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2037
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -5956,11 +5929,11 @@ msgstr[2] ""
 "%d kontaktu atvēršana atvērs %d jaunus logus.\n"
 "Vai tiešām vēlaties attēlot visus šos kontaktus?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2042
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2045
 msgid "_Don’t Display"
 msgstr "_Neattēlot"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2043
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2046
 msgid "Display _All Contacts"
 msgstr "_Attēlot visus kontaktus"
 
@@ -6089,7 +6062,6 @@ msgid "Journal"
 msgstr "Žurnāls"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:48
-#| msgid "Web Addresses"
 msgid "Home Address Street"
 msgstr "Mājas adreses iela"
 
@@ -6098,32 +6070,26 @@ msgid "Home Address Extended"
 msgstr "Mājas adrese, paplašināta"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:50
-#| msgid "New Address Book"
 msgid "Home Address PO Box"
 msgstr "Mājas adrese PO kaste"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:51
-#| msgid "New Address Book"
 msgid "Home Address City"
 msgstr "Mājas adreses pilsēta"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:52
-#| msgid "_Zip/Postal Code:"
 msgid "Home Address Zip/Postal code"
 msgstr "Mājas adreses zip/pasta indekss"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:53
-#| msgid "_State/Province:"
 msgid "Home Address State/Province"
 msgstr "Mājas adreses rajons/štats/province"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:54
-#| msgid "Addressbook Contact"
 msgid "Home Address Country"
 msgstr "Mājas adreses valsts"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:55
-#| msgid "Web Addresses"
 msgid "Work Address Street"
 msgstr "Darba adreses iela"
 
@@ -6132,32 +6098,26 @@ msgid "Work Address Extended"
 msgstr "Darba adrese, paplašināta"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:57
-#| msgid "Address Book"
 msgid "Work Address PO Box"
 msgstr "Darba adrese PO kaste"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:58
-#| msgid "Web Addresses"
 msgid "Work Address City"
 msgstr "Darba adreses pilsēta"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:59
-#| msgid "_Zip/Postal Code:"
 msgid "Work Address Zip/Postal code"
 msgstr "Darba adreses zip/pasta indekss"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:60
-#| msgid "_State/Province:"
 msgid "Work Address State/Province"
 msgstr "Darba adreses rajons/štats/province"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:61
-#| msgid "Addressbook Contact"
 msgid "Work Address Country"
 msgstr "Darba adreses valsts"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:62
-#| msgid "Web Addresses"
 msgid "Other Address Street"
 msgstr "Citas adreses iela"
 
@@ -6166,7 +6126,6 @@ msgid "Other Address Extended"
 msgstr "Cita adrese, paplašināta"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:64
-#| msgid "New Address Book"
 msgid "Other Address PO Box"
 msgstr "Citas adreses PO kaste"
 
@@ -6175,27 +6134,18 @@ msgid "Other Address City"
 msgstr "Citas adreses pilsēta"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:66
-#| msgid "_Zip/Postal Code:"
 msgid "Other Address Zip/Postal code"
 msgstr "Citas adreses zip/pasta indekss"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:67
-#| msgid "_State/Province:"
 msgid "Other Address State/Province"
 msgstr "Citas adreses rajons/štats/province"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:68
-#| msgid "Addressbook Contact"
 msgid "Other Address Country"
 msgstr "Citas adreses valsts"
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:84
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Search for the Contact\n"
-#| "\n"
-#| "or double-click here to create a new Contact."
 msgid ""
 "Search for the Contact\n"
 "\n"
@@ -6206,12 +6156,6 @@ msgstr ""
 "vai arī dubultklikšķiniet šeit, lai izveidotu jaunu kontaktu."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:86
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view.\n"
-#| "\n"
-#| "Double-click here to create a new Contact."
 msgid ""
 "There are no items to show in this view.\n"
 "\n"
@@ -6222,18 +6166,10 @@ msgstr ""
 "Veiciet dubultklikšķi šeit, lai izveidotu jaunu kontaktu."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:89
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Search for the Contact."
 msgid "Search for the Contact."
 msgstr "Meklēt kontaktu."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:91
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view."
 msgid "There are no items to show in this view."
 msgstr "Nav vienumu, ko rādīt šajā skatā."
 
@@ -6468,20 +6404,16 @@ msgid "_Send Notice"
 msgstr "_Sūtīt paziņojumu"
 
 #: ../src/calendar/calendar.error.xml.h:5
-#| msgid "Would you like to send all the participants a cancellation notice?"
 msgid "Would you like to send the organizer a deletion notice?"
 msgstr "Vai vēlaties organizatoram nosūtīt dzēšanas ziņu?"
 
 #: ../src/calendar/calendar.error.xml.h:6
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the memo has been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the meeting "
 "has been deleted."
 msgstr ""
-"Ja nenosūtīsiet dzēšanas ziņu, organizētājs var nezināt, ka šī sapulce ir"
-" izdzēsta."
+"Ja nenosūtīsiet dzēšanas ziņu, organizētājs var nezināt, ka šī sapulce ir "
+"izdzēsta."
 
 #: ../src/calendar/calendar.error.xml.h:7
 #: ../src/calendar/gui/e-cal-dialogs.c:509
@@ -6503,15 +6435,12 @@ msgstr ""
 "uzdevums ir izdzēsts."
 
 #: ../src/calendar/calendar.error.xml.h:11
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the task has been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the task "
 "has been deleted."
 msgstr ""
-"Ja nenosūtīsiet dzēšanas ziņu, organizētājs var nezināt, ka šis uzdevums ir"
-" izdzēsts."
+"Ja nenosūtīsiet dzēšanas ziņu, organizētājs var nezināt, ka šis uzdevums ir "
+"izdzēsts."
 
 #: ../src/calendar/calendar.error.xml.h:12
 #: ../src/calendar/gui/e-cal-dialogs.c:512
@@ -6536,20 +6465,16 @@ msgstr ""
 "izdzēsts."
 
 #: ../src/calendar/calendar.error.xml.h:16
-#| msgid "Would you like to send a cancellation notice for this memo?"
 msgid "Would you like to send a deletion notice for this memo?"
 msgstr "Vai vēlaties nosūtīt šī memo dzēšanas ziņu?"
 
 #: ../src/calendar/calendar.error.xml.h:17
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the memo has been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the memo "
 "has been deleted."
 msgstr ""
-"Ja nenosūtīsiet dzēšanas ziņu, organizētājs var nezināt, ka šis memo ir"
-" izdzēsts."
+"Ja nenosūtīsiet dzēšanas ziņu, organizētājs var nezināt, ka šis memo ir "
+"izdzēsts."
 
 #: ../src/calendar/calendar.error.xml.h:18
 #: ../src/calendar/gui/e-cal-dialogs.c:515
@@ -6791,7 +6716,7 @@ msgstr "Memo saraksts tiks neatgriezeniski dzēsts."
 
 #: ../src/calendar/calendar.error.xml.h:68
 msgid "Are you sure you want to delete remote calendar “{0}”?"
-msgstr "Vai tiešām vēlaties dzēst attālināto kalendāru “{0}”?"
+msgstr "Vai tiešām vēlaties dzēst attālo kalendāru “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:69
 msgid ""
@@ -6803,7 +6728,7 @@ msgstr ""
 
 #: ../src/calendar/calendar.error.xml.h:71
 msgid "Are you sure you want to delete remote task list “{0}”?"
-msgstr "Vai tiešām vēlaties dzēst attālināto uzdevumu sarakstu “{0}”?"
+msgstr "Vai tiešām vēlaties dzēst attālo uzdevumu sarakstu “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:72
 msgid ""
@@ -6815,7 +6740,7 @@ msgstr ""
 
 #: ../src/calendar/calendar.error.xml.h:73
 msgid "Are you sure you want to delete remote memo list “{0}”?"
-msgstr "Vai tiešām vēlaties dzēst attālināto memo sarakstu “{0}”?"
+msgstr "Vai tiešām vēlaties dzēst attālo memo sarakstu “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:74
 msgid ""
@@ -7428,24 +7353,24 @@ msgstr "Statuss"
 #. String to use in 12-hour time format for times in the morning.
 #: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2350
 #: ../src/calendar/gui/e-to-do-pane.c:268
-#: ../src/calendar/gui/e-week-view.c:1974 ../src/calendar/gui/print.c:1102
-#: ../src/calendar/gui/print.c:1121 ../src/calendar/gui/print.c:2688
-#: ../src/calendar/gui/print.c:2708
+#: ../src/calendar/gui/e-week-view.c:1974 ../src/calendar/gui/print.c:1111
+#: ../src/calendar/gui/print.c:1130 ../src/calendar/gui/print.c:2702
+#: ../src/calendar/gui/print.c:2722
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2353
 #: ../src/calendar/gui/e-to-do-pane.c:272
-#: ../src/calendar/gui/e-week-view.c:1977 ../src/calendar/gui/print.c:1107
-#: ../src/calendar/gui/print.c:1123 ../src/calendar/gui/print.c:2693
-#: ../src/calendar/gui/print.c:2710
+#: ../src/calendar/gui/e-week-view.c:1977 ../src/calendar/gui/print.c:1116
+#: ../src/calendar/gui/print.c:1132 ../src/calendar/gui/print.c:2707
+#: ../src/calendar/gui/print.c:2724
 msgid "pm"
 msgstr "pm"
 
 #: ../src/calendar/gui/comp-util.c:2124 ../src/calendar/gui/comp-util.c:2128
 #: ../src/calendar/gui/comp-util.c:2242
-#: ../src/calendar/gui/e-comp-editor.c:1315
+#: ../src/calendar/gui/e-comp-editor.c:1317
 msgid "No Summary"
 msgstr "Nav kopsavilkuma"
 
@@ -7465,7 +7390,7 @@ msgstr "Organizētājs: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2271
 #: ../src/calendar/gui/e-meeting-time-sel.c:2585
-#: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3628
+#: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3649
 #, c-format
 msgid "Location: %s"
 msgstr "Vieta: %s"
@@ -7499,7 +7424,7 @@ msgstr "Pabeigts: %s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
 #: ../src/e-util/e-misc-utils.c:4925 ../src/e-util/e-text.c:566
-#: ../src/e-util/e-web-view.c:4271
+#: ../src/e-util/e-web-view.c:4316
 msgid "…"
 msgstr "…"
 
@@ -7557,7 +7482,7 @@ msgstr "Kategorijas:"
 msgid "High"
 msgstr "Augsta"
 
-#: ../src/calendar/gui/comp-util.c:2794 ../src/calendar/gui/e-cal-model.c:1888
+#: ../src/calendar/gui/comp-util.c:2794 ../src/calendar/gui/e-cal-model.c:1891
 #: ../src/calendar/gui/e-task-table.c:476
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:342
@@ -8111,50 +8036,50 @@ msgstr "Tips"
 #: ../src/calendar/gui/e-meeting-list-view.c:194
 #: ../src/calendar/gui/e-meeting-store.c:135
 #: ../src/calendar/gui/e-meeting-store.c:170
-#: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1291
-#: ../src/calendar/gui/print.c:1308 ../src/e-util/e-charset.c:49
+#: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1300
+#: ../src/calendar/gui/print.c:1317 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3998
 #: ../src/modules/itip-formatter/itip-view.c:7093
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Nezināms"
 
-#: ../src/calendar/gui/e-cal-model.c:1374 ../src/calendar/gui/e-cal-ops.c:633
+#: ../src/calendar/gui/e-cal-model.c:1377 ../src/calendar/gui/e-cal-ops.c:633
 #: ../src/calendar/gui/e-cal-ops.c:1272
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:390
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Avots ar UID “%s” nav atrasts"
 
-#: ../src/calendar/gui/e-cal-model.c:1485 ../src/calendar/gui/e-cal-ops.c:195
+#: ../src/calendar/gui/e-cal-model.c:1488 ../src/calendar/gui/e-cal-ops.c:195
 #: ../src/calendar/gui/e-cal-ops.c:1389
 msgid "Creating an event"
 msgstr "Izveido notikumu"
 
-#: ../src/calendar/gui/e-cal-model.c:1489 ../src/calendar/gui/e-cal-ops.c:199
+#: ../src/calendar/gui/e-cal-model.c:1492 ../src/calendar/gui/e-cal-ops.c:199
 #: ../src/calendar/gui/e-cal-ops.c:1393
 msgid "Creating a memo"
 msgstr "Izveido memo"
 
-#: ../src/calendar/gui/e-cal-model.c:1493 ../src/calendar/gui/e-cal-ops.c:203
+#: ../src/calendar/gui/e-cal-model.c:1496 ../src/calendar/gui/e-cal-ops.c:203
 #: ../src/calendar/gui/e-cal-ops.c:1397
 msgid "Creating a task"
 msgstr "Izveido uzdevumu"
 
-#: ../src/calendar/gui/e-cal-model.c:1890
+#: ../src/calendar/gui/e-cal-model.c:1893
 msgid "Recurring"
 msgstr "Periodisks"
 
-#: ../src/calendar/gui/e-cal-model.c:1892
+#: ../src/calendar/gui/e-cal-model.c:1895
 msgid "Assigned"
 msgstr "Piešķirts"
 
-#: ../src/calendar/gui/e-cal-model.c:1895
+#: ../src/calendar/gui/e-cal-model.c:1898
 #: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "Yes"
 msgstr "Jā"
 
-#: ../src/calendar/gui/e-cal-model.c:1895
+#: ../src/calendar/gui/e-cal-model.c:1898
 #: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "No"
 msgstr "Nē"
@@ -8615,18 +8540,18 @@ msgstr[1] "Pielikumi"
 msgstr[2] "Pielikumu"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:201
-#: ../src/e-util/e-attachment.c:2587
+#: ../src/e-util/e-attachment.c:2588
 #, c-format
 msgid "Could not load “%s”"
 msgstr "Neizdevās ielādēt “%s”"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:203
-#: ../src/e-util/e-attachment.c:2590
+#: ../src/e-util/e-attachment.c:2591
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Neizdevās ielādēt pielikumu"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:411
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:427
 msgid ""
 "Some attachments are still being downloaded. Please wait until the download "
 "is finished."
@@ -8634,41 +8559,41 @@ msgstr ""
 "Daži pielikumi pašlaik tiek lejupielādēti. Uzgaidiet līdz lejupielāde tiek "
 "pabeigta."
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:438
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:454
 #, c-format
 msgid "Attachment “%s” cannot be found, remove it from the list, please"
 msgstr "Nevar atrast pielikumu “%s”, lūdzu, izņemiet to no saraksta"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:455
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:471
 #, c-format
 msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "Pielikumam “%s” nav derīgs URI, lūdzu, izņemiet to no saraksta"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:623
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:639
 #: ../src/composer/e-composer-actions.c:326
 msgid "_Attachment…"
 msgstr "_Pielikums…"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:625
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:641
 #: ../src/composer/e-composer-actions.c:328
 #: ../src/e-util/e-attachment-view.c:390
 msgid "Attach a file"
 msgstr "Pievienot datni"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:632
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:648
 msgid "_Attachments"
 msgstr "_Pielikumi"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:634
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:650
 msgid "Show attachments"
 msgstr "Rādīt pielikumus"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:802
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:818
 #: ../src/e-util/e-attachment-bar.c:716 ../src/e-util/e-attachment-paned.c:690
 msgid "Icon View"
 msgstr "Ikonu skats"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:804
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:820
 #: ../src/e-util/e-attachment-bar.c:718 ../src/e-util/e-attachment-paned.c:692
 msgid "List View"
 msgstr "Saraksta skats"
@@ -8774,7 +8699,7 @@ msgstr "Ap_meklētāji…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1530
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2318
-#: ../src/calendar/gui/e-comp-editor.c:2274
+#: ../src/calendar/gui/e-comp-editor.c:2276
 #: ../src/e-util/e-accounts-window.c:1752
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
@@ -8782,7 +8707,7 @@ msgstr "Ap_meklētāji…"
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:388
 #: ../src/mail/em-folder-properties.c:1394 ../src/mail/mail-config.ui.h:72
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1745
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1806
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:833
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
@@ -9265,7 +9190,6 @@ msgid "Click here to open the URL"
 msgstr "Spiediet šeit, lai atvērtu URL adresi"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:362
-#| msgid "Click here to open the URL"
 msgid "Click here to open map"
 msgstr "Spiediet šeit, lai atvērtu karti"
 
@@ -9459,19 +9383,19 @@ msgstr "pielikums"
 msgid "Sending notifications to attendees…"
 msgstr "Sūta paziņojumus apmeklētājiem…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1044
+#: ../src/calendar/gui/e-comp-editor.c:1046
 #: ../src/e-util/e-webdav-browser.c:1927
 msgid "Saving changes…"
 msgstr "Saglabā izmaiņas…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1961
-#: ../src/calendar/gui/e-comp-editor.c:2326
+#: ../src/calendar/gui/e-comp-editor.c:1963
+#: ../src/calendar/gui/e-comp-editor.c:2328
 #: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-notes.c:1118
 msgid "Save and Close"
 msgstr "Saglabāt un aizvērt"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2188
+#: ../src/calendar/gui/e-comp-editor.c:2190
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1785
 #: ../src/e-util/e-html-editor-dialog.c:194
@@ -9489,72 +9413,72 @@ msgstr "Saglabāt un aizvērt"
 msgid "_Close"
 msgstr "_Aizvērt"
 
-#: ../src/calendar/gui/e-comp-editor.c:2190
+#: ../src/calendar/gui/e-comp-editor.c:2192
 msgid "Close the current window"
 msgstr "Aizvērt pašreizējo logu"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2195 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2197 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
-#: ../src/e-util/e-web-view.c:470 ../src/mail/e-mail-browser.c:173
+#: ../src/e-util/e-web-view.c:503 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:951
 msgid "_Copy"
 msgstr "_Kopēt"
 
-#: ../src/calendar/gui/e-comp-editor.c:2197 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2199 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
-#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:472
-#: ../src/e-util/e-web-view.c:2124 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:505
+#: ../src/e-util/e-web-view.c:2169 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:953
 msgid "Copy the selection"
 msgstr "Kopēt izvēli"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2202 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2204 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1133 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:958
 msgid "Cu_t"
 msgstr "Izgriez_t"
 
-#: ../src/calendar/gui/e-comp-editor.c:2204 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2206 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2133
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2178
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "Izgriezt izvēlēto"
 
-#: ../src/calendar/gui/e-comp-editor.c:2211 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2213 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:967
 msgid "Delete the selection"
 msgstr "Dzēst izvēlēto"
 
-#: ../src/calendar/gui/e-comp-editor.c:2218
+#: ../src/calendar/gui/e-comp-editor.c:2220
 msgid "View help"
 msgstr "Skatīt palīdzību"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2223 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2225 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1140 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:986
 msgid "_Paste"
 msgstr "_Ielīmēt"
 
-#: ../src/calendar/gui/e-comp-editor.c:2225 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2227 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2142
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2187
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "Ielīmēt starpliktuvi"
 
-#: ../src/calendar/gui/e-comp-editor.c:2230
+#: ../src/calendar/gui/e-comp-editor.c:2232
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2919
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1552
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1566
 msgid "_Print…"
 msgstr "_Drukāt…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2237 ../src/mail/e-mail-reader.c:2926
+#: ../src/calendar/gui/e-comp-editor.c:2239 ../src/mail/e-mail-reader.c:2926
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1559
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:841
@@ -9562,55 +9486,55 @@ msgstr "_Drukāt…"
 msgid "Pre_view…"
 msgstr "Priekš_skatījums…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2244 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:487
+#: ../src/calendar/gui/e-comp-editor.c:2246 ../src/e-util/e-focus-tracker.c:821
+#: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:520
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1063
 msgid "Select _All"
 msgstr "Izvēlēties _visu"
 
-#: ../src/calendar/gui/e-comp-editor.c:2246 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2248 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1065
 msgid "Select all text"
 msgstr "Izvēlēties visu tekstu"
 
-#: ../src/calendar/gui/e-comp-editor.c:2267
+#: ../src/calendar/gui/e-comp-editor.c:2269
 msgid "_Classification"
 msgstr "_Klasifikācija"
 
-#: ../src/calendar/gui/e-comp-editor.c:2281
+#: ../src/calendar/gui/e-comp-editor.c:2283
 #: ../src/e-util/e-html-editor-actions.c:1177
 #: ../src/e-util/e-mail-signature-editor.c:348 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1123 ../src/shell/e-shell-window-actions.c:1114
 msgid "_File"
 msgstr "_Datne"
 
-#: ../src/calendar/gui/e-comp-editor.c:2295
+#: ../src/calendar/gui/e-comp-editor.c:2297
 #: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_Insert"
 msgstr "_Ievietot"
 
-#: ../src/calendar/gui/e-comp-editor.c:2302
+#: ../src/calendar/gui/e-comp-editor.c:2304
 #: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Opcijas"
 
-#: ../src/calendar/gui/e-comp-editor.c:2309
+#: ../src/calendar/gui/e-comp-editor.c:2311
 #: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1157
 #: ../src/smime/gui/certificate-manager.c:1592 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Skats"
 
-#: ../src/calendar/gui/e-comp-editor.c:2321
+#: ../src/calendar/gui/e-comp-editor.c:2323
 msgid "Save current changes"
 msgstr "Saglabāt pašreizējās izmaiņas"
 
-#: ../src/calendar/gui/e-comp-editor.c:2328
+#: ../src/calendar/gui/e-comp-editor.c:2330
 msgid "Save current changes and close editor"
 msgstr "Saglabāt pašreizējās izmaiņas un aizvērt redaktoru"
 
-#: ../src/calendar/gui/e-comp-editor.c:2335
+#: ../src/calendar/gui/e-comp-editor.c:2337
 msgid "Show _toolbar"
 msgstr "Rādī_t rīkjoslu"
 
@@ -9623,7 +9547,7 @@ msgstr "Rādī_t rīkjoslu"
 #: ../src/calendar/gui/e-day-view.c:3253
 #: ../src/calendar/gui/e-day-view-top-item.c:847
 #: ../src/calendar/gui/e-week-view-main-item.c:207
-#: ../src/calendar/gui/print.c:2143
+#: ../src/calendar/gui/print.c:2152
 msgid "%A %d %B"
 msgstr "%A, %d. %B"
 
@@ -9721,51 +9645,51 @@ msgstr "Apmeklētāji"
 #: ../src/calendar/gui/e-meeting-list-view.c:176
 #: ../src/calendar/gui/e-meeting-store.c:110
 #: ../src/calendar/gui/e-meeting-store.c:127
-#: ../src/calendar/gui/e-meeting-store.c:1073 ../src/calendar/gui/print.c:1287
+#: ../src/calendar/gui/e-meeting-store.c:1073 ../src/calendar/gui/print.c:1296
 msgid "Individual"
 msgstr "Indivīds"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:177
 #: ../src/calendar/gui/e-meeting-store.c:112
-#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1288
+#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1297
 #: ../src/e-util/e-table-config.ui.h:1
 msgid "Group"
 msgstr "Grupa"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:178
 #: ../src/calendar/gui/e-meeting-store.c:114
-#: ../src/calendar/gui/e-meeting-store.c:131 ../src/calendar/gui/print.c:1289
+#: ../src/calendar/gui/e-meeting-store.c:131 ../src/calendar/gui/print.c:1298
 msgid "Resource"
 msgstr "Resurss"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:179
 #: ../src/calendar/gui/e-meeting-store.c:116
-#: ../src/calendar/gui/e-meeting-store.c:133 ../src/calendar/gui/print.c:1290
+#: ../src/calendar/gui/e-meeting-store.c:133 ../src/calendar/gui/print.c:1299
 msgid "Room"
 msgstr "Telpa"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:190
 #: ../src/calendar/gui/e-meeting-store.c:145
-#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1304
+#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1313
 msgid "Chair"
 msgstr "Vadītājs"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:191
 #: ../src/calendar/gui/e-meeting-store.c:147
 #: ../src/calendar/gui/e-meeting-store.c:164
-#: ../src/calendar/gui/e-meeting-store.c:1074 ../src/calendar/gui/print.c:1305
+#: ../src/calendar/gui/e-meeting-store.c:1074 ../src/calendar/gui/print.c:1314
 msgid "Required Participant"
 msgstr "Pieprasītais dalībnieks"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:192
 #: ../src/calendar/gui/e-meeting-store.c:149
-#: ../src/calendar/gui/e-meeting-store.c:166 ../src/calendar/gui/print.c:1306
+#: ../src/calendar/gui/e-meeting-store.c:166 ../src/calendar/gui/print.c:1315
 msgid "Optional Participant"
 msgstr "Iespējamais dalībnieks"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:193
 #: ../src/calendar/gui/e-meeting-store.c:151
-#: ../src/calendar/gui/e-meeting-store.c:168 ../src/calendar/gui/print.c:1307
+#: ../src/calendar/gui/e-meeting-store.c:168 ../src/calendar/gui/print.c:1316
 msgid "Non-Participant"
 msgstr "Nepiedalās"
 
@@ -9887,7 +9811,7 @@ msgstr ""
 "Vieta: %s"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2583
-#: ../src/calendar/gui/print.c:3617
+#: ../src/calendar/gui/print.c:3638
 #, c-format
 msgid "Summary: %s"
 msgstr "Kopsavilkums: %s"
@@ -10118,12 +10042,12 @@ msgstr "%s (%s)"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-week-view-main-item.c:224
-#: ../src/calendar/gui/print.c:2122
+#: ../src/calendar/gui/print.c:2131
 msgid "%d %B"
 msgstr "%d %B"
 
-#: ../src/calendar/gui/e-year-view.c:1002
-#: ../src/calendar/gui/e-year-view.c:1051
+#: ../src/calendar/gui/e-year-view.c:1006
+#: ../src/calendar/gui/e-year-view.c:1055
 #, c-format
 msgid "%u event"
 msgid_plural "%u events"
@@ -10237,7 +10161,6 @@ msgstr "Pretpiedāvājums"
 #. subject line would be: "Accepted: Meeting Name".
 #: ../src/calendar/gui/itip-utils.c:1284
 #, c-format
-#| msgid "User: %s"
 msgctxt "Meeting"
 msgid "%s: %s"
 msgstr "%s: %s"
@@ -10264,20 +10187,19 @@ msgstr "Nevar rezervēt resursu, kļūda:"
 msgid "You must be an attendee of the event."
 msgstr "Jums jābūt šī notikuma apmeklētājam."
 
-#: ../src/calendar/gui/itip-utils.c:2480
+#: ../src/calendar/gui/itip-utils.c:2482
 msgid "Sending an event"
 msgstr "Sūta notikumu"
 
-#: ../src/calendar/gui/itip-utils.c:2484
+#: ../src/calendar/gui/itip-utils.c:2486
 msgid "Sending a memo"
 msgstr "Sūta memo"
 
-#: ../src/calendar/gui/itip-utils.c:2488
+#: ../src/calendar/gui/itip-utils.c:2490
 msgid "Sending a task"
 msgstr "Sūta uzdevumu"
 
-#: ../src/calendar/gui/itip-utils.c:2690
-#| msgid "_Open Appointment"
+#: ../src/calendar/gui/itip-utils.c:2692
 msgid "Original Appointment"
 msgstr "Sākotnējā tikšanās"
 
@@ -10318,119 +10240,119 @@ msgstr[2] "%d sekunžu"
 #. Translators: These are workday abbreviations,
 #. * e.g. Su=Sunday and Th=thursday
 #. G_DATE_MONDAY
-#: ../src/calendar/gui/print.c:756
+#: ../src/calendar/gui/print.c:765
 msgid "Mo"
 msgstr "Pr"
 
 #. G_DATE_TUESDAY
-#: ../src/calendar/gui/print.c:757
+#: ../src/calendar/gui/print.c:766
 msgid "Tu"
 msgstr "Ot"
 
 #. G_DATE_WEDNESDAY
-#: ../src/calendar/gui/print.c:758
+#: ../src/calendar/gui/print.c:767
 msgid "We"
 msgstr "Tr"
 
 #. G_DATE_THURSDAY
-#: ../src/calendar/gui/print.c:759
+#: ../src/calendar/gui/print.c:768
 msgid "Th"
 msgstr "Ct"
 
 #. G_DATE_FRIDAY
-#: ../src/calendar/gui/print.c:760
+#: ../src/calendar/gui/print.c:769
 msgid "Fr"
 msgstr "Pk"
 
 #. G_DATE_SATURDAY
-#: ../src/calendar/gui/print.c:761
+#: ../src/calendar/gui/print.c:770
 msgid "Sa"
 msgstr "Se"
 
 #. G_DATE_SUNDAY
-#: ../src/calendar/gui/print.c:762
+#: ../src/calendar/gui/print.c:771
 msgid "Su"
 msgstr "Sv"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../src/calendar/gui/print.c:3433
+#: ../src/calendar/gui/print.c:3454
 msgid " to "
 msgstr " līdz "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../src/calendar/gui/print.c:3443
+#: ../src/calendar/gui/print.c:3464
 msgid " (Completed "
 msgstr " (Pabeigts "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../src/calendar/gui/print.c:3449
+#: ../src/calendar/gui/print.c:3470
 msgid "Completed "
 msgstr "Pabeigts "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../src/calendar/gui/print.c:3459
+#: ../src/calendar/gui/print.c:3480
 msgid " (Due "
 msgstr " (Termiņš "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../src/calendar/gui/print.c:3466
+#: ../src/calendar/gui/print.c:3487
 msgid "Due "
 msgstr "Termiņš "
 
-#: ../src/calendar/gui/print.c:3587
+#: ../src/calendar/gui/print.c:3608
 msgid "Appointment"
 msgstr "Tikšanās"
 
-#: ../src/calendar/gui/print.c:3589 ../src/e-util/e-send-options.c:551
+#: ../src/calendar/gui/print.c:3610 ../src/e-util/e-send-options.c:551
 msgid "Task"
 msgstr "Uzdevums"
 
-#: ../src/calendar/gui/print.c:3591
+#: ../src/calendar/gui/print.c:3612
 msgid "Memo"
 msgstr "Memo"
 
-#: ../src/calendar/gui/print.c:3648
+#: ../src/calendar/gui/print.c:3669
 msgid "Attendees: "
 msgstr "Apmeklētāji: "
 
-#: ../src/calendar/gui/print.c:3687
+#: ../src/calendar/gui/print.c:3708
 #, c-format
 msgid "Estimated duration: %s"
 msgstr "Novērtētais ilgums: %s"
 
-#: ../src/calendar/gui/print.c:3708
+#: ../src/calendar/gui/print.c:3729
 #, c-format
 msgid "Status: %s"
 msgstr "Statuss: %s"
 
-#: ../src/calendar/gui/print.c:3724
+#: ../src/calendar/gui/print.c:3745
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioritāte: %s"
 
-#: ../src/calendar/gui/print.c:3739
+#: ../src/calendar/gui/print.c:3760
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Izpildīts, procentos: %i"
 
-#: ../src/calendar/gui/print.c:3754
+#: ../src/calendar/gui/print.c:3775
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../src/calendar/gui/print.c:3770
+#: ../src/calendar/gui/print.c:3791
 #, c-format
 msgid "Categories: %s"
 msgstr "Kategorijas: %s"
 
-#: ../src/calendar/gui/print.c:3782
+#: ../src/calendar/gui/print.c:3803
 msgid "Contacts: "
 msgstr "Kontakti: "
 
@@ -12359,12 +12281,10 @@ msgid "Get delivery notification when your message is read"
 msgstr "Saņemt piegādes paziņojumu, kad jūsu vēstule ir izlasīta"
 
 #: ../src/composer/e-composer-actions.c:474
-#| msgid "Return Notification"
 msgid "Request _Delivery Status Notification"
 msgstr "Pieprasīt “_piegādes statusa paziņojumu”"
 
 #: ../src/composer/e-composer-actions.c:476
-#| msgid "Get delivery notification when your message is read"
 msgid "Get delivery status notification for the message"
 msgstr "Saņemt piegādes statusa paziņojumu vēstulei"
 
@@ -12373,7 +12293,6 @@ msgid "S/MIME En_crypt"
 msgstr "S/MIME ši_frēšana"
 
 #: ../src/composer/e-composer-actions.c:484
-#| msgid "Encrypt this message with PGP"
 msgid "Encrypt this message with S/MIME"
 msgstr "Šifrēt šo vēstuli ar S/MIME"
 
@@ -12441,7 +12360,7 @@ msgstr "Saglabāt melnrakstu"
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:327
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:298
-#: ../src/modules/rss/evolution/e-rss-preferences.c:831
+#: ../src/modules/rss/evolution/e-rss-preferences.c:886
 msgid "_Name:"
 msgstr "_Nosaukums:"
 
@@ -12506,7 +12425,7 @@ msgstr "Izvēlēties mapes"
 msgid "Send"
 msgstr "Sūtīt"
 
-#: ../src/composer/e-msg-composer.c:1116
+#: ../src/composer/e-msg-composer.c:1117
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -12514,7 +12433,7 @@ msgstr ""
 "Nevar parakstīt izejošo vēstuli: paraksta sertifikāts šim kontam nav "
 "iestatīts"
 
-#: ../src/composer/e-msg-composer.c:1125
+#: ../src/composer/e-msg-composer.c:1126
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -12523,35 +12442,28 @@ msgstr ""
 "Nevar nošifrēt izejošo vēstuli: šifrēšanas sertifikāts šim kontam nav "
 "iestatīts"
 
-#: ../src/composer/e-msg-composer.c:2016 ../src/composer/e-msg-composer.c:2696
+#: ../src/composer/e-msg-composer.c:2017 ../src/composer/e-msg-composer.c:2730
 msgid "Compose Message"
 msgstr "Rakstīt vēstuli"
 
-#: ../src/composer/e-msg-composer.c:4892
+#: ../src/composer/e-msg-composer.c:4926
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Lasa teksta saturu…"
 
-#: ../src/composer/e-msg-composer.c:4960
-#| msgid "No encryption"
+#: ../src/composer/e-msg-composer.c:4994
 msgid "Send _without encryption"
 msgstr "Sūtīt _bez šifrēšanas"
 
-#: ../src/composer/e-msg-composer.c:5742
+#: ../src/composer/e-msg-composer.c:5776
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Pārskatīt pielikumu pirms sūtīšanas."
 msgstr[1] "Pārskatīt pielikumus pirms sūtīšanas."
 msgstr[2] "Pārskatīt pielikumus pirms sūtīšanas."
 
-#: ../src/composer/e-msg-composer.c:5747
+#: ../src/composer/e-msg-composer.c:5781
 #, c-format
-#| msgid ""
-#| "There had been added %d attachment. Make sure it does not contain any "
-#| "sensitive information before sending the message."
-#| msgid_plural ""
-#| "There had been added %d attachments. Make sure they do not contain any "
-#| "sensitive information before sending the message."
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
 "contain any sensitive information before sending the message."
@@ -12559,19 +12471,16 @@ msgid_plural ""
 "%d attachments were added by an external application. Make sure they do not "
 "contain any sensitive information before sending the message."
 msgstr[0] ""
-"Ārēja lietotne ir pievienojusi %d pielikumu. Pirms vēstules sūtīšanas"
-" pārliecinieties, ka "
-"tajā nav sensitīva informācija."
+"Ārēja lietotne ir pievienojusi %d pielikumu. Pirms vēstules sūtīšanas "
+"pārliecinieties, ka tajā nav sensitīva informācija."
 msgstr[1] ""
-"Ārēja lietotne ir pievienojusi %d pielikumus. Pirms vēstules sūtīšanas"
-" pārliecinieties, ka "
-"tajos nav sensitīva informācija."
+"Ārēja lietotne ir pievienojusi %d pielikumus. Pirms vēstules sūtīšanas "
+"pārliecinieties, ka tajos nav sensitīva informācija."
 msgstr[2] ""
-"Ārēja lietotne ir pievienojusi %d pielikumus. Pirms vēstules sūtīšanas"
-" pārliecinieties, ka "
-"tajos nav sensitīva informācija."
+"Ārēja lietotne ir pievienojusi %d pielikumus. Pirms vēstules sūtīšanas "
+"pārliecinieties, ka tajos nav sensitīva informācija."
 
-#: ../src/composer/e-msg-composer.c:5880
+#: ../src/composer/e-msg-composer.c:5907
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Redaktors satur neteksta vēstules pamattekstu, kuru nevar rediģēt."
 
@@ -12851,7 +12760,6 @@ msgid "An error occurred while creating message composer."
 msgstr "Radās kļūda, veidojot uzdevuma redaktoru."
 
 #: ../src/composer/mail-composer.error.xml.h:59
-#| msgid "Message Location"
 msgid "Message Redirection"
 msgstr "Vēstules pāradresācija"
 
@@ -12860,8 +12768,8 @@ msgid ""
 "This message is a redirection, which allows you to change the recipients, "
 "subject and other message attributes, but not the contents of the message."
 msgstr ""
-"Šī vēstule ir pāradresēta, kas jums ļauj mainīt saņēmējus, tematu un vēstules"
-" atribūtus, bet ne vēstules saturu."
+"Šī vēstule ir pāradresēta, kas jums ļauj mainīt saņēmējus, tematu un "
+"vēstules atribūtus, bet ne vēstules saturu."
 
 #: ../src/composer/mail-composer.error.xml.h:61
 msgid "Not adding OpenPGP public key into the mail."
@@ -12906,7 +12814,7 @@ msgstr "(bez temata)"
 #: ../src/em-format/e-mail-formatter-headers.c:520
 #: ../src/mail/e-mail-remote-content-popover.c:381
 msgid "Remote content download had been blocked for this message."
-msgstr "Attālinātā satura lejupielādēšana šai vēstulei ir bloķēta."
+msgstr "Attālā satura lejupielādēšana šai vēstulei ir bloķēta."
 
 #: ../src/em-format/e-mail-formatter-headers.c:156
 #: ../src/em-format/e-mail-formatter-headers.c:526
@@ -12975,7 +12883,7 @@ msgstr "Rādīt daļu kā bagātinātu tekstu"
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
 #: ../src/em-format/e-mail-formatter-text-html.c:389
 #: ../src/modules/rss/evolution/e-rss-preferences.c:56
-#: ../src/modules/rss/evolution/e-rss-preferences.c:851
+#: ../src/modules/rss/evolution/e-rss-preferences.c:906
 msgid "HTML"
 msgstr "HTML"
 
@@ -12987,7 +12895,7 @@ msgstr "Formatēt daļu kā HTML"
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:133
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
 #: ../src/modules/rss/evolution/e-rss-preferences.c:51
-#: ../src/modules/rss/evolution/e-rss-preferences.c:852
+#: ../src/modules/rss/evolution/e-rss-preferences.c:907
 msgid "Plain Text"
 msgstr "Vienkāršs teksts"
 
@@ -13272,7 +13180,7 @@ msgstr "Norāde uz lokālu datni (%s)"
 #: ../src/em-format/e-mail-parser-message-external.c:131
 #, c-format
 msgid "Pointer to remote data (%s)"
-msgstr "Norāde uz attālinātiem datiem (%s)"
+msgstr "Norāde uz attāliem datiem (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:149
 #, c-format
@@ -13493,45 +13401,45 @@ msgstr "Neizdevās izveidot pavedienu: "
 msgid "Attached message"
 msgstr "Pievienota vēstule"
 
-#: ../src/e-util/e-attachment.c:2202 ../src/e-util/e-attachment.c:3256
+#: ../src/e-util/e-attachment.c:2203 ../src/e-util/e-attachment.c:3257
 #: ../src/mail/em-utils.c:2307
 msgid "Operation was cancelled"
 msgstr "Darbība tika atcelta"
 
 #. Translators: Default attachment filename.
-#: ../src/e-util/e-attachment.c:2387 ../src/e-util/e-attachment.c:3100
-#: ../src/e-util/e-attachment.c:3552 ../src/e-util/e-attachment-store.c:911
+#: ../src/e-util/e-attachment.c:2388 ../src/e-util/e-attachment.c:3101
+#: ../src/e-util/e-attachment.c:3553 ../src/e-util/e-attachment-store.c:911
 msgid "attachment.dat"
 msgstr "pielikums.dat"
 
-#: ../src/e-util/e-attachment.c:2469 ../src/e-util/e-attachment.c:3612
+#: ../src/e-util/e-attachment.c:2470 ../src/e-util/e-attachment.c:3613
 msgid "A load operation is already in progress"
 msgstr "Jau notiek ielādes darbība"
 
-#: ../src/e-util/e-attachment.c:2477 ../src/e-util/e-attachment.c:3620
+#: ../src/e-util/e-attachment.c:2478 ../src/e-util/e-attachment.c:3621
 msgid "A save operation is already in progress"
 msgstr "Jau notiek saglabāšanas darbība"
 
-#: ../src/e-util/e-attachment.c:2883
+#: ../src/e-util/e-attachment.c:2884
 #, c-format
 msgid "Could not open “%s”"
 msgstr "Neizdevās atvērt “%s”"
 
-#: ../src/e-util/e-attachment.c:2886
+#: ../src/e-util/e-attachment.c:2887
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Neizdevās atvērt pielikumu"
 
-#: ../src/e-util/e-attachment.c:3629
+#: ../src/e-util/e-attachment.c:3630
 msgid "Attachment contents not loaded"
 msgstr "Pielikuma saturs nav ielādēts"
 
-#: ../src/e-util/e-attachment.c:3720
+#: ../src/e-util/e-attachment.c:3721
 #, c-format
 msgid "Could not save “%s”"
 msgstr "Neizdevās saglabāt “%s”"
 
-#: ../src/e-util/e-attachment.c:3723
+#: ../src/e-util/e-attachment.c:3724
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Neizdevās saglabāt pielikumu"
@@ -13601,7 +13509,7 @@ msgstr "Pievieno_t"
 
 #: ../src/e-util/e-attachment-store.c:718
 msgid "Archive selected directories using this format:"
-msgstr "Arhivēt izvēlētās direktorijas šajā formātā:"
+msgstr "Arhivēt izvēlētos direktorijus šajā formātā:"
 
 #: ../src/e-util/e-attachment-store.c:835
 msgid "Save Attachment"
@@ -13660,25 +13568,24 @@ msgid "Re_load"
 msgstr "Pār_lādēt"
 
 #: ../src/e-util/e-attachment-view.c:404
-#| msgid "Reading text content…"
 msgid "Reload attachment content"
 msgstr "Pārlādēt pielikumu saturu"
 
-#: ../src/e-util/e-attachment-view.c:840 ../src/mail/e-mail-display.c:2043
+#: ../src/e-util/e-attachment-view.c:881 ../src/mail/e-mail-display.c:2043
 #, c-format
 msgid "Open With “%s”"
 msgstr "Atvērt ar “%s”"
 
-#: ../src/e-util/e-attachment-view.c:841 ../src/mail/e-mail-display.c:2044
+#: ../src/e-util/e-attachment-view.c:882 ../src/mail/e-mail-display.c:2044
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Saglabāt pielikumus %s"
 
-#: ../src/e-util/e-attachment-view.c:843 ../src/mail/e-mail-display.c:2046
+#: ../src/e-util/e-attachment-view.c:884 ../src/mail/e-mail-display.c:2046
 msgid "Open With Default Application"
 msgstr "Atvērt ar noklusējuma lietotni"
 
-#: ../src/e-util/e-attachment-view.c:844 ../src/mail/e-mail-display.c:2047
+#: ../src/e-util/e-attachment-view.c:885 ../src/mail/e-mail-display.c:2047
 msgid "Open this attachment in default application"
 msgstr "Atvērt šo pielikumu noklusējuma lietotnē"
 
@@ -13748,15 +13655,15 @@ msgstr "Atzīmēt kā noklusējuma memo sarakstu"
 msgid "Color:"
 msgstr "Krāsa:"
 
-#: ../src/e-util/e-cal-source-config.c:420
+#: ../src/e-util/e-cal-source-config.c:423
 msgid "Copy calendar contents locally for offline operation"
 msgstr "Izveidot lokālu kalendāra kopiju darbam nesaistē"
 
-#: ../src/e-util/e-cal-source-config.c:424
+#: ../src/e-util/e-cal-source-config.c:427
 msgid "Copy task list contents locally for offline operation"
 msgstr "Izveidot lokālu uzdevumu saraksta kopiju darbam nesaistē"
 
-#: ../src/e-util/e-cal-source-config.c:428
+#: ../src/e-util/e-cal-source-config.c:431
 msgid "Copy memo list contents locally for offline operation"
 msgstr "Izveidot lokālu memo saraksta kopiju darbam nesaistē"
 
@@ -13952,22 +13859,22 @@ msgstr "Citi…"
 msgid "Cannot create a client object from extension name “%s”"
 msgstr "Nevar izveidot klienta objektu no paplašinājuma nosaukuma “%s”"
 
-#: ../src/e-util/e-client-selector.c:190 ../src/mail/em-folder-tree.c:1039
+#: ../src/e-util/e-client-selector.c:190 ../src/mail/em-folder-tree.c:1043
 msgctxt "Status"
 msgid "Offline"
 msgstr "Nesaistē"
 
-#: ../src/e-util/e-client-selector.c:193 ../src/mail/em-folder-tree.c:1042
+#: ../src/e-util/e-client-selector.c:193 ../src/mail/em-folder-tree.c:1046
 msgctxt "Status"
 msgid "Online"
 msgstr "Tiešsaistē"
 
-#: ../src/e-util/e-client-selector.c:196 ../src/mail/em-folder-tree.c:1045
+#: ../src/e-util/e-client-selector.c:196 ../src/mail/em-folder-tree.c:1049
 msgctxt "Status"
 msgid "Unreachable"
 msgstr "Nav sasniedzams"
 
-#: ../src/e-util/e-client-selector.c:199 ../src/mail/em-folder-tree.c:1048
+#: ../src/e-util/e-client-selector.c:199 ../src/mail/em-folder-tree.c:1052
 msgctxt "Status"
 msgid "Failed to connect"
 msgstr "Neizdevās savienoties"
@@ -15129,15 +15036,15 @@ msgstr "+4"
 msgid "Copy _Link Location"
 msgstr "Kopēt _saites vietu"
 
-#: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:411
+#: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:444
 msgid "Copy the link to the clipboard"
 msgstr "Kopēt saiti uz starpliktuvi"
 
-#: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:419
+#: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:452
 msgid "_Open Link in Browser"
 msgstr "_Atvērt saiti pārlūkā"
 
-#: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:421
+#: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:454
 msgid "Open the link in a web browser"
 msgstr "Atvērt saiti tīmekļa pārlūkā"
 
@@ -16037,7 +15944,6 @@ msgid "Open online common mark documentation"
 msgstr "Atvērt tiešsaistes kopējā marķējuma dokumentāciju"
 
 #: ../src/e-util/e-markdown-editor.c:1771
-#| msgid "Show preview pane"
 msgid "Show preview beside text"
 msgstr "Rādīt priekšskatījuma blakus tekstam"
 
@@ -16089,7 +15995,6 @@ msgstr "Neizdevās iestatīt protokola versiju uz LDAPv3 (%d): %s"
 
 #: ../src/e-util/e-misc-utils.c:4178 ../src/e-util/e-misc-utils.c:4186
 #, c-format
-#| msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "Neizdevās iestatīt savienojuma noildzes opciju (%d): %s"
 
@@ -16259,19 +16164,19 @@ msgstr "Atslēgu saišķis nav lietojams — nav lietotāja vai datora nosaukuma
 msgid "You have the Caps Lock key on."
 msgstr "Ir ieslēgts Caps Lock taustiņš."
 
-#: ../src/e-util/e-passwords.c:583
+#: ../src/e-util/e-passwords.c:595
 msgid "_Remember this passphrase"
 msgstr "Atce_rēties šo paroli"
 
-#: ../src/e-util/e-passwords.c:584
+#: ../src/e-util/e-passwords.c:596
 msgid "_Remember this passphrase for the remainder of this session"
 msgstr "Atce_rēties šo paroli uz visu atlikušo sesijas laiku"
 
-#: ../src/e-util/e-passwords.c:589
+#: ../src/e-util/e-passwords.c:601
 msgid "_Remember this password"
 msgstr "Atce_rēties šo paroli"
 
-#: ../src/e-util/e-passwords.c:590
+#: ../src/e-util/e-passwords.c:602
 msgid "_Remember this password for the remainder of this session"
 msgstr "Atce_rēties šo paroli uz visu atlikušo sesijas laiku"
 
@@ -16759,7 +16664,7 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:25
 msgid "Are you sure you want to delete remote collection “{0}”?"
-msgstr "Vai tiešām vēlaties dzēst attālināto kolekciju “{0}”?"
+msgstr "Vai tiešām vēlaties dzēst attālo kolekciju “{0}”?"
 
 #: ../src/e-util/e-system.error.xml.h:26
 msgid ""
@@ -17175,66 +17080,66 @@ msgstr "Izveidot _kalendāru"
 msgid "Create Collectio_n"
 msgstr "Izveidot k_olekciju"
 
-#: ../src/e-util/e-web-view.c:409
+#: ../src/e-util/e-web-view.c:442
 msgid "_Copy Link Location"
 msgstr "_Kopēt saites vietu"
 
-#: ../src/e-util/e-web-view.c:429
+#: ../src/e-util/e-web-view.c:462
 msgid "_Copy Email Address"
 msgstr "_Kopēt e-pasta adresi"
 
-#: ../src/e-util/e-web-view.c:436
+#: ../src/e-util/e-web-view.c:469
 msgid "Copy _Raw Email Address"
 msgstr "Kopēt jēlas _e-pasta adreses"
 
-#: ../src/e-util/e-web-view.c:438
+#: ../src/e-util/e-web-view.c:471
 msgid "Copy the raw email address to the clipboard"
 msgstr "Kopēt jēlas e-pasta adreses uz starpliktuvi"
 
-#: ../src/e-util/e-web-view.c:453
+#: ../src/e-util/e-web-view.c:486
 msgid "_Copy Image"
 msgstr "_Kopēt attēlu"
 
-#: ../src/e-util/e-web-view.c:455
+#: ../src/e-util/e-web-view.c:488
 msgid "Copy the image to the clipboard"
 msgstr "Kopēt attēlu uz starpliktuvi"
 
-#: ../src/e-util/e-web-view.c:460
+#: ../src/e-util/e-web-view.c:493
 msgid "Save _Image…"
 msgstr "Saglabāt _attēlu…"
 
-#: ../src/e-util/e-web-view.c:462
+#: ../src/e-util/e-web-view.c:495
 msgid "Save the image to a file"
 msgstr "Saglabāt attēlu datnē"
 
-#: ../src/e-util/e-web-view.c:477 ../src/mail/e-mail-browser.c:201
+#: ../src/e-util/e-web-view.c:510 ../src/mail/e-mail-browser.c:201
 #: ../src/mail/e-mail-reader.c:3003
 msgid "Search _Web…"
 msgstr "Meklēt _tīmeklī…"
 
-#: ../src/e-util/e-web-view.c:479 ../src/mail/e-mail-browser.c:203
+#: ../src/e-util/e-web-view.c:512 ../src/mail/e-mail-browser.c:203
 #: ../src/mail/e-mail-reader.c:3005
 msgid "Search the Web with the selected text"
 msgstr "Meklēt tīmeklī ar izvēlēto tekstu"
 
-#: ../src/e-util/e-web-view.c:489 ../src/e-util/e-web-view.c:2146
+#: ../src/e-util/e-web-view.c:522 ../src/e-util/e-web-view.c:2191
 msgid "Select all text and images"
 msgstr "Izvēlēties visu tekstu un attēlus"
 
-#: ../src/e-util/e-web-view.c:3895
+#: ../src/e-util/e-web-view.c:3940
 msgid "Copying image to clipboard"
 msgstr "Kopēt attēlu uz starpliktuvi"
 
-#: ../src/e-util/e-web-view.c:4083
+#: ../src/e-util/e-web-view.c:4128
 msgid "Save Image"
 msgstr "Saglabāt attēlu"
 
-#: ../src/e-util/e-web-view.c:4120
+#: ../src/e-util/e-web-view.c:4165
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Saglabā attēlu mapē “%s”"
 
-#: ../src/e-util/e-web-view.c:4275
+#: ../src/e-util/e-web-view.c:4320
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Nevar saņemt URI “%s”, nezina, kā to lejupielādēt."
@@ -17783,7 +17688,7 @@ msgstr "Apstrādā izmaiņas \"%s\" mapē"
 #: ../src/libemail-engine/mail-tools.c:69
 #, c-format
 msgid "Could not create spool directory “%s”: %s"
-msgstr "Neizdevās izveidot mapi “%s” — %s"
+msgstr "Neizdevās izveidot spoles direktoriju “%s” — %s"
 
 #: ../src/libemail-engine/mail-tools.c:109
 #, c-format
@@ -18124,16 +18029,14 @@ msgid "Choose a folder for saving sent messages."
 msgstr "Izvēlieties mapi, kur saglabāt nosūtītās vēstules."
 
 #: ../src/mail/e-mail-config-defaults-page.c:727
-#| msgid "Move selected messages to another folder"
 msgid "Save s_ent messages into the Sent folder"
 msgstr "Saglabāt nosūtītās _vēstules mapē “Nosūtīts”"
 
 #: ../src/mail/e-mail-config-defaults-page.c:744
-#| msgid "S_ave replies in the folder of the message being replied to"
 msgid "S_ave replies and forwards in the folder of the original message"
 msgstr ""
-"S_aglabāt atbildes un pārsūtītās vēstules tajā pat mapē, kurā atrodas"
-" sākotnējā vēstule"
+"S_aglabāt atbildes un pārsūtītās vēstules tajā pat mapē, kurā atrodas "
+"sākotnējā vēstule"
 
 #: ../src/mail/e-mail-config-defaults-page.c:767
 msgid "Archi_ve Folder:"
@@ -18297,7 +18200,6 @@ msgstr "%s — %s"
 
 #: ../src/mail/e-mail-config-security-page.c:402
 #: ../src/mail/e-mail-config-security-page.c:516
-#| msgid "Using email address"
 msgid "Use sender e-mail address"
 msgstr "Izmantot sūtītāja e-pasta adresi"
 
@@ -18307,7 +18209,7 @@ msgstr "Izmantot sūtītāja e-pasta adresi"
 #: ../src/modules/calendar/e-calendar-preferences.c:650
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:54
 #: ../src/modules/mail/e-mail-shell-backend.c:1018
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1572
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1629
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Vispārīgi"
@@ -18365,7 +18267,6 @@ msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Vienmēr ši_frēt sev, sūtot šifrētas vēstules"
 
 #: ../src/mail/e-mail-config-security-page.c:613
-#| msgid "Advanced Options"
 msgid "Ad_vanced Options"
 msgstr "_Paplašinātās opcijas"
 
@@ -18784,8 +18685,6 @@ msgstr "Dzēš vēstules piezīmi…"
 
 #: ../src/mail/e-mail-reader.c:1068
 #, c-format
-#| msgid "Are you sure you want to open %d message at once?"
-#| msgid_plural "Are you sure you want to open %d messages at once?"
 msgid "Are you sure you want to mark %d message as Junk?"
 msgid_plural "Are you sure you want to mark %d messages as Junk?"
 msgstr[0] "Vai tiešām vēlaties marķēt %d vēstuli kā mēstuli?"
@@ -18793,7 +18692,6 @@ msgstr[1] "Vai tiešām vēlaties marķēt %d vēstules kā mēstules?"
 msgstr[2] "Vai tiešām vēlaties marķēt %d vēstules kā mēstules?"
 
 #: ../src/mail/e-mail-reader.c:1076
-#| msgid "There are no messages in this folder."
 msgid "The message will be shown in the Junk folder."
 msgid_plural "The messages will be shown in the Junk folder."
 msgstr[0] "Vēstule tiks attēlota Mēstuļu mapē."
@@ -18827,7 +18725,6 @@ msgid "Add sender to address book"
 msgstr "Pievienot sūtītāju adrešu grāmatai"
 
 #: ../src/mail/e-mail-reader.c:2567
-#| msgid "Archive"
 msgid "_Archive"
 msgstr "_Arhivēt"
 
@@ -19306,7 +19203,6 @@ msgid "Repl_y with Template"
 msgstr "Atb_ildēt ar veidni"
 
 #: ../src/mail/e-mail-reader.c:2996
-#| msgid "_Move to Folder…"
 msgid "_Save to File…"
 msgstr "_Saglabāt datnē…"
 
@@ -19557,17 +19453,17 @@ msgstr "Parsē vēstuli"
 #: ../src/mail/e-mail-remote-content-popover.c:232
 #, c-format
 msgid "Allow remote content for anyone from %s"
-msgstr "Atļaut attālināto saturu visiem no %s"
+msgstr "Atļaut attālo saturu visiem no %s"
 
 #: ../src/mail/e-mail-remote-content-popover.c:234
 #, c-format
 msgid "Allow remote content for %s"
-msgstr "Atļaut %s attālināto saturu"
+msgstr "Atļaut %s attālo saturu"
 
 #: ../src/mail/e-mail-remote-content-popover.c:251
 #, c-format
 msgid "Allow remote content from %s"
-msgstr "Atļaut attālināto saturu visiem no %s"
+msgstr "Atļaut attālo saturu visiem no %s"
 
 #: ../src/mail/e-mail-remote-content-popover.c:268
 msgid "Do not show this message again"
@@ -19575,14 +19471,14 @@ msgstr "Vairs nerādīt šo ziņojumu"
 
 #: ../src/mail/e-mail-remote-content-popover.c:320
 msgid "Load remote content"
-msgstr "Ielādēt attālināto saturu"
+msgstr "Ielādēt attālo saturu"
 
 #: ../src/mail/e-mail-remote-content-popover.c:395
 msgid ""
 "You can download remote content manually, or set to remember to download "
 "remote content for this sender or used sites."
 msgstr ""
-"Jūs varat lejupielādēt attālināto pašrocīgi, vai iestatīt attālināta satura "
+"Jūs varat lejupielādēt attālo saturu pašrocīgi, vai iestatīt attālā satura "
 "lejupielādēšanu šim sūtītājam vai izmantotajām vietnēm."
 
 #: ../src/mail/e-mail-request.c:289
@@ -19659,8 +19555,6 @@ msgstr[2] ""
 
 #: ../src/mail/em-composer-utils.c:648
 #, c-format
-#| msgid "Attachment"
-#| msgid_plural "Attachments"
 msgid "Attachment changed"
 msgid_plural "%d attachments changed"
 msgstr[0] "%d pielikums ir mainījies"
@@ -19673,8 +19567,8 @@ msgid ""
 "Attachment “%s” changed after being added to the message. Do you want to "
 "send the message anyway?"
 msgstr ""
-"Pielikums “%s” ir mainījies kopš tas tika pievienots vēstulei. Vai tomēr"
-" vēlaties sūtīt vēstuli?"
+"Pielikums “%s” ir mainījies kopš tas tika pievienots vēstulei. Vai tomēr "
+"vēlaties sūtīt vēstuli?"
 
 #: ../src/mail/em-composer-utils.c:656
 #, c-format
@@ -19685,14 +19579,14 @@ msgid_plural ""
 "%d attachments changed after being added to the message. Do you want to send "
 "the message anyway?"
 msgstr[0] ""
-"%d pielikums ir mainījies kopš tas tika pievienots vēstulei. Vai tomēr"
-" vēlaties sūtīt vēstuli?"
+"%d pielikums ir mainījies kopš tas tika pievienots vēstulei. Vai tomēr "
+"vēlaties sūtīt vēstuli?"
 msgstr[1] ""
-"%d pielikumi ir mainījušies kopš tie tika pievienoti vēstulei. Vai tomēr"
-" vēlaties sūtīt vēstuli?"
+"%d pielikumi ir mainījušies kopš tie tika pievienoti vēstulei. Vai tomēr "
+"vēlaties sūtīt vēstuli?"
 msgstr[2] ""
-"%d pielikumi ir mainījušies kopš tie tika pievienoti vēstulei. Vai tomēr"
-" vēlaties sūtīt vēstuli?"
+"%d pielikumi ir mainījušies kopš tie tika pievienoti vēstulei. Vai tomēr "
+"vēlaties sūtīt vēstuli?"
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
@@ -20008,7 +19902,7 @@ msgstr "<klikšķiniet, lai izvēlētos mapi>"
 msgid "Create a new folder"
 msgstr "Izveidot jaunu mapi"
 
-#: ../src/mail/em-folder-tree.c:687
+#: ../src/mail/em-folder-tree.c:691
 msgid "Folder names cannot contain “/”"
 msgstr "Mapes nosaukums nevar saturēt “/”"
 
@@ -20030,37 +19924,37 @@ msgstr "Mapes nosaukums nevar saturēt “/”"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../src/mail/em-folder-tree.c:891
+#: ../src/mail/em-folder-tree.c:895
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1865
+#: ../src/mail/em-folder-tree.c:1869
 msgid "Mail Folder Tree"
 msgstr "Pasta mapes koks"
 
-#: ../src/mail/em-folder-tree.c:2415
+#: ../src/mail/em-folder-tree.c:2419
 #, c-format
 msgid "Moving folder %s"
 msgstr "Pārvieto mapi %s"
 
-#: ../src/mail/em-folder-tree.c:2418
+#: ../src/mail/em-folder-tree.c:2422
 #, c-format
 msgid "Copying folder %s"
 msgstr "Kopē mapi %s"
 
-#: ../src/mail/em-folder-tree.c:2425 ../src/mail/message-list.c:2655
+#: ../src/mail/em-folder-tree.c:2429 ../src/mail/message-list.c:2655
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Pārvieto vēstules uz mapi  %s"
 
-#: ../src/mail/em-folder-tree.c:2429 ../src/mail/message-list.c:2657
+#: ../src/mail/em-folder-tree.c:2433 ../src/mail/message-list.c:2657
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopē vēstules uz mapi %s"
 
-#: ../src/mail/em-folder-tree.c:2448
+#: ../src/mail/em-folder-tree.c:2452
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Nevar nomest vēstuli(-es) virsējā līmeņa glabātuvē"
@@ -20252,60 +20146,47 @@ msgid "Deleting old messages"
 msgstr "Dzēst vecās vēstules"
 
 #: ../src/mail/em-utils.c:2141
-#| msgid "Unknown"
 msgctxt "trust"
 msgid "_Unknown"
 msgstr "N_ezināms"
 
 #: ../src/mail/em-utils.c:2142
-#| msgid "Never"
 msgctxt "trust"
 msgid "_Never"
 msgstr "_Nekad"
 
 #: ../src/mail/em-utils.c:2143
-#| msgctxt "CamelTrust"
-#| msgid "Marginally"
 msgctxt "trust"
 msgid "_Marginal"
 msgstr "_Daļēji"
 
 #: ../src/mail/em-utils.c:2144
-#| msgctxt "CamelTrust"
-#| msgid "Fully"
 msgctxt "trust"
 msgid "_Full"
 msgstr "_Pilnībā"
 
 #: ../src/mail/em-utils.c:2145
-#| msgctxt "CamelTrust"
-#| msgid "Ultimately"
 msgctxt "trust"
 msgid "_Ultimate"
 msgstr "_Absolūti"
 
 #: ../src/mail/em-utils.c:2184
 #, c-format
-#| msgctxt "reply-attribution"
-#| msgid "Re: %s"
 msgid "Key ID: %s"
 msgstr "Atslēgas ID: %s"
 
 #: ../src/mail/em-utils.c:2195
 #, c-format
-#| msgid "Fingerprint"
 msgid "Fingerprint: %s"
 msgstr "Nospiedums: %s"
 
 #: ../src/mail/em-utils.c:2211
 #, c-format
-#| msgid "Created"
 msgid "Created: %s"
 msgstr "Izveidots: %s"
 
 #: ../src/mail/em-utils.c:2243
 #, c-format
-#| msgid "User: %s"
 msgid "User ID: %s"
 msgstr "Lietotāja ID: %s"
 
@@ -20335,11 +20216,11 @@ msgstr "Visas lokālās mapes"
 
 #: ../src/mail/em-vfolder-editor-rule.c:575
 msgid "All active remote folders"
-msgstr "Visas aktīvās attālinātās mapes"
+msgstr "Visas aktīvās attālās mapes"
 
 #: ../src/mail/em-vfolder-editor-rule.c:576
 msgid "All local and active remote folders"
-msgstr "Visas lokālās un aktīvās attālinātās mapes"
+msgstr "Visas lokālās un aktīvās attālās mapes"
 
 #: ../src/mail/em-vfolder-editor-rule.c:577
 msgid "Specific folders"
@@ -20512,19 +20393,16 @@ msgstr "nav pabeigts"
 
 #: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
 #: ../src/mail/vfoldertypes.xml.in.h:50
-#| msgid "Follow Up"
 msgid "Follow Up Due By"
 msgstr "Sekojuma termiņš līdz"
 
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
-#| msgid "Pasting iCalendar data"
 msgid "Contain iCalendar Data"
 msgstr "Satur iCalendar datus"
 
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
-#| msgid "Pasting iCalendar data"
 msgid "Do Not Contain iCalendar Data"
 msgstr "NesaturiCalendar datus"
 
@@ -20636,7 +20514,6 @@ msgid "Unset Status"
 msgstr "Noņemt statusu"
 
 #: ../src/mail/filtertypes.xml.in.h:83
-#| msgid "Mark as _Junk"
 msgid "Learn as Junk"
 msgstr "Atzīmēt kā mēstuli"
 
@@ -21008,7 +20885,6 @@ msgstr "Pirms sacerēšanas _formāts mainās no HTML uz vienkāršu tekstu"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:65
-#| msgid "Sending a message with _recipients not entered as mail addresses"
 msgid "Sending a message with _attachments which changed since being attached"
 msgstr ""
 "Vēstules sūtīšana ar _pielikumiem, kuri ir mainījušies kopš to pievienošanas"
@@ -21140,7 +21016,6 @@ msgid "F_all back to threading messages by subject"
 msgstr "_Atkāpties uz vēstuļu grupēšanu pavedienos pēc temata"
 
 #: ../src/mail/mail-config.ui.h:109
-#| msgid "Show messages with all email headers"
 msgid "Group messages to _flat threads"
 msgstr "Grupēt vēstules uz _plakaniem pavedieniem"
 
@@ -21192,23 +21067,23 @@ msgstr ""
 
 #: ../src/mail/mail-config.ui.h:122
 msgid "Loading Remote Content"
-msgstr "Ielādē attālināto saturu"
+msgstr "Ielādē attālo saturu"
 
 #: ../src/mail/mail-config.ui.h:123
 msgid "_Never load remote content from the Internet"
-msgstr "_Nekad neielādēt attālināto saturu no Interneta"
+msgstr "_Nekad neielādēt attālo saturu no interneta"
 
 #: ../src/mail/mail-config.ui.h:124
 msgid "_Load remote content only in messages from contacts"
-msgstr "Ie_lādēt attālināto saturu tikai vēstulēs no kontaktiem"
+msgstr "Ie_lādēt attālo saturu tikai vēstulēs no kontaktiem"
 
 #: ../src/mail/mail-config.ui.h:125
 msgid "_Always load remote content from the Internet"
-msgstr "Vienmēr ielādēt _attālināto saturu no interneta"
+msgstr "Vienmēr ielādēt _attālo saturu no interneta"
 
 #: ../src/mail/mail-config.ui.h:126
 msgid "Notify about _missing remote content in the message preview"
-msgstr "Ziņot par trūkstošu attālināto saturu vēstules priekšskatīju_mā"
+msgstr "Ziņot par trūkstošu attālo saturu vēstules priekšskatīju_mā"
 
 #: ../src/mail/mail-config.ui.h:127
 msgid "Add"
@@ -21281,7 +21156,6 @@ msgid "_Delete junk messages"
 msgstr "_Dzēst mēstules"
 
 #: ../src/mail/mail-config.ui.h:146
-#| msgid "Timeout for marking messages as seen"
 msgid "_Prompt before marking message as junk"
 msgstr "Vaicāt, _pirms atzīmēt vēstules kā mēstules"
 
@@ -21625,7 +21499,7 @@ msgstr "Kļūda, ielādējot filtru informāciju."
 
 #: ../src/mail/mail.error.xml.h:54
 msgid "Cannot save to directory “{0}”."
-msgstr "Nevar saglabāt mapē “{0}”."
+msgstr "Nevar saglabāt direktorijā “{0}”."
 
 #: ../src/mail/mail.error.xml.h:55
 msgid "Cannot save to file “{0}”."
@@ -21633,11 +21507,11 @@ msgstr "Nevar saglabāt datnē “{0}”."
 
 #: ../src/mail/mail.error.xml.h:56
 msgid "Cannot create the save directory, because “{1}”"
-msgstr "Nevar izveidot mapi, jo “{1}”"
+msgstr "Nevar izveidot saglabāšanas direktoriju, jo “{1}”"
 
 #: ../src/mail/mail.error.xml.h:57
 msgid "Cannot create temporary save directory."
-msgstr "Nevar izveidot pagaidu saglabāšanas mapi."
+msgstr "Nevar izveidot pagaidu saglabāšanas direktoriju."
 
 #: ../src/mail/mail.error.xml.h:58
 msgid "File exists but cannot overwrite it."
@@ -21862,7 +21736,7 @@ msgid ""
 msgstr ""
 "Jums jānorāda vismaz viena avota mape.\n"
 "To var izdarīt, izvēloties atsevišķas mapes, un/vai izvēloties visas "
-"lokālās, attālinātās vai abu divu veidu mapes."
+"lokālās, attālās vai abu divu veidu mapes."
 
 #: ../src/mail/mail.error.xml.h:112
 msgid "Problem migrating old mail folder “{0}”."
@@ -22316,13 +22190,11 @@ msgid "Failed to generate message list"
 msgstr "Neizdevās izveidot vēstuļu sarakstu"
 
 #: ../src/mail/mail.error.xml.h:220
-#| msgid "Mark as _Junk"
 msgid "_Mark as Junk"
 msgstr "Atzīmēt kā _mēstuli"
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../src/mail/mail.error.xml.h:222
-#| msgid "Address “{0}” already exists."
 msgid "Label named “{0}” already exists"
 msgstr "Etiķete ar nosaukumu “{0}” jau eksistē"
 
@@ -22331,19 +22203,16 @@ msgid "Choose a different name, please."
 msgstr "Lūdzu, izvēlieties citu nosaukumu."
 
 #: ../src/mail/mail.error.xml.h:224
-#| msgid "Do you wish to save your changes?"
 msgid "Do you wish to import OpenPGP key?"
 msgstr "Vai vēlaties importēt OpenPGP atslēgu?"
 
 #: ../src/mail/mail.error.xml.h:225
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1781
-#| msgid "I_mport"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1151
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1842
 msgid "_Import"
 msgstr "_Importēt"
 
 #: ../src/mail/mail.error.xml.h:226
-#| msgid "Failed to import certificate"
 msgid "Failed to import OpenPGP key"
 msgstr "Neizdevās importēt OpenPGP atslēgu"
 
@@ -22663,12 +22532,10 @@ msgstr "_GNOME"
 
 #. Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:295
-#| msgid "Standard"
 msgid "_Standard"
 msgstr "_Standarta"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:323
-#| msgid "Tool_bar Style"
 msgid "Toolbar Icon Size"
 msgstr "Rīkjoslas ikonu izmērs"
 
@@ -22703,12 +22570,10 @@ msgid "Prefer _regular"
 msgstr "P_riekšroka parastām"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:481
-#| msgid "Layout style"
 msgid "Layout"
 msgstr "Izkārtojums"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:492
-#| msgid "_Show Menu Bar"
 msgid "Show M_enu Bar"
 msgstr "_Rādīt izvēļņu joslu"
 
@@ -22723,7 +22588,6 @@ msgid "Show Side _Bar"
 msgstr "Rādīt sānu _joslu"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:531
-#| msgid "Show _Status Bar"
 msgid "Show Stat_us Bar"
 msgstr "Rādīt stat_usa joslu"
 
@@ -22830,7 +22694,6 @@ msgstr "Saglabāt kā vCard"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:717
 #: ../src/modules/addressbook/e-book-shell-view.c:658
-#| msgid "Print selected contacts"
 msgid "Retrieving selected contacts…"
 msgstr "Saņem izvēlētos kontaktus…"
 
@@ -22985,7 +22848,6 @@ msgid "_Actions"
 msgstr "D_arbības"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1359
-#| msgid "_Sort By"
 msgid "_Sort Cards By"
 msgstr "_Kārtot kartes pēc"
 
@@ -23053,17 +22915,14 @@ msgid "Advanced Search"
 msgstr "Paplašinātā meklēšana"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1528
-#| msgid "_File under:"
 msgid "_File Under"
 msgstr "Sagla_bāt kā"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1535
-#| msgid "Given Name"
 msgid "_Given Name"
 msgstr "_Vārds"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1542
-#| msgid "Family Name"
 msgid "Family _Name"
 msgstr "_Uzvārds"
 
@@ -23140,7 +22999,6 @@ msgid "Choose a backup file to restore"
 msgstr "Izvēlieties dublējuma datni, no kuras atjaunot"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:210
-#| msgid "Backup _All"
 msgid "Backup Files"
 msgstr "Dublējumu datnes"
 
@@ -23196,11 +23054,11 @@ msgstr "Atjaunot Evolution datus un iestatījumus no arhīva datnes"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:74
 msgid "Back up Evolution directory"
-msgstr "Izveidot Evolution mapes rezerves kopiju"
+msgstr "Dublēt Evolution direktoriju"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:76
 msgid "Restore Evolution directory"
-msgstr "Atjaunot Evolution mapi"
+msgstr "Atjaunot Evolution direktoriju"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:78
 msgid "Check Evolution Back up"
@@ -23817,7 +23675,6 @@ msgstr "Uzdevuma saraksta selektors"
 #. Translators: The '%s' is replaced with the time zone name, like "America/New York" or "UTC"
 #: ../src/modules/calendar/e-calendar-preferences.c:520
 #, c-format
-#| msgid "Use s_ystem time zone"
 msgid "Use s_ystem time zone (%s)"
 msgstr "_Izmantot sistēmas laika joslu (%s)"
 
@@ -24624,7 +24481,6 @@ msgstr "Notiek mazāk kā 5 reizes"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:793
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1015
-#| msgid "Category"
 msgid "Without Category"
 msgstr "Bez kategorijas"
 
@@ -25081,7 +24937,6 @@ msgid "Tasks with Attachments"
 msgstr "Uzdevumi ar pielikumiem"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1017
-#| msgid "_Show Tasks without Due date"
 msgid "Show tasks with no category set"
 msgstr "Rādīt uzdevumus, kuriem nav kategorijas"
 
@@ -25396,7 +25251,6 @@ msgid "%s has published the following meeting information:"
 msgstr "%s publicēja informāciju par sanāksmi:"
 
 #: ../src/modules/itip-formatter/itip-view.c:495
-#| msgid "%s has published the following meeting information:"
 msgid "The following meeting information has been published:"
 msgstr "Ir publicēta šī informācija par sanāksmi:"
 
@@ -25663,7 +25517,6 @@ msgid "_Update"
 msgstr "Atja_unināt"
 
 #: ../src/modules/itip-formatter/itip-view.c:1315
-#| msgid "I_mport"
 msgid "Im_port"
 msgstr "Im_portēt"
 
@@ -25689,7 +25542,6 @@ msgstr "Slēpt aprakstu, ko sniedza sūtītājs"
 
 #. RSVP area
 #: ../src/modules/itip-formatter/itip-view.c:2209
-#| msgid "Send reply to sender"
 msgid "Send reply to organizer"
 msgstr "Atbildēt organizētājam"
 
@@ -25906,19 +25758,16 @@ msgstr "Aizsūtīts uz memo sarakstu “%s” kā atcelts"
 
 #: ../src/modules/itip-formatter/itip-view.c:5428
 #, c-format
-#| msgid "Opening calendar “%s”"
 msgid "Imported to calendar “%s”"
 msgstr "Importēts kalendārā “%s”"
 
 #: ../src/modules/itip-formatter/itip-view.c:5433
 #, c-format
-#| msgid "Opening task list “%s”"
 msgid "Imported to task list “%s”"
 msgstr "Importēts uzdevumu sarakstā “%s”"
 
 #: ../src/modules/itip-formatter/itip-view.c:5438
 #, c-format
-#| msgid "Opening memo list “%s”"
 msgid "Imported to memo list “%s”"
 msgstr "Importēts memo sarakstā “%s”"
 
@@ -26103,7 +25952,7 @@ msgstr "Iespējams, jāieslēdz %s un %s"
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:268
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:316
 msgid "Mail _Directory:"
-msgstr "Pasta _direktorija:"
+msgstr "Pasta _direktorijs:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:269
 msgid "Choose a MH mail directory"
@@ -26111,7 +25960,7 @@ msgstr "Izvēlieties MH pasta direktoriju"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:271
 msgid "MH mail directory cannot be empty"
-msgstr "MH pasta direktorija nevar būt tukša"
+msgstr "MH pasta direktorijs nevar būt tukšs"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:292
 msgid "Local Delivery _File:"
@@ -26131,7 +25980,7 @@ msgstr "Izvēlieties Maildir pasta direktoriju"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:319
 msgid "Maildir mail directory cannot be empty"
-msgstr "Maildir pasta direktorija nevar būt tukša"
+msgstr "Maildir pasta direktorijs nevar būt tukšs"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:340
 msgid "Spool _File:"
@@ -26147,7 +25996,7 @@ msgstr "Mbox spoles datne nevar būt tukša"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:364
 msgid "Spool _Directory:"
-msgstr "Spoles _direktorija:"
+msgstr "Spoles _direktorijs:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:365
 msgid "Choose a mbox spool directory"
@@ -26155,7 +26004,7 @@ msgstr "Izvēlieties mbox spoles direktoriju"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:367
 msgid "Mbox spool directory cannot be empty"
-msgstr "Mbox spoles direktorija nevar būt tukša"
+msgstr "Mbox spoles direktorijs nevar būt tukšs"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:199
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59
@@ -26248,12 +26097,10 @@ msgid "Add Ca_lendar and Tasks to this account"
 msgstr "Pievienot ka_lendāru un uzdevumus šim kontam"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:533
-#| msgid "Open PGP key"
 msgid "Import OpenP_GP key…"
 msgstr "Importēt OpenP_GP atslēgu…"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:535
-#| msgid "Pretty Good Privacy (OpenPGP)"
 msgid "Import Pretty Good Privacy (OpenPGP) key"
 msgstr "Importēt Pretty Good Privacy (OpenPGP) atslēgu"
 
@@ -26533,7 +26380,7 @@ msgstr "Pārvaldīt abone_mentus"
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1746
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1830
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr "Pierakstīties vai atrakstīties uz/no mapēm uz attālinātajiem serveriem"
+msgstr "Pierakstīties vai atrakstīties uz/no mapēm uz attālajiem serveriem"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1758
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1779
@@ -26649,12 +26496,10 @@ msgid "Show junk messages with a red line through them"
 msgstr "Rādīt mēstules kā pārsvītrotas ar sarkanu līniju"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1966
-#| msgid "Show _Tool Bar"
 msgid "Show _Preview Tool Bar"
 msgstr "Rādīt _priekšskatījuma rīkjoslu"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1968
-#| msgid "Show event preview pane"
 msgid "Show tool bar above the preview panel"
 msgstr "Rādīt rīkjoslu virs priekšskatījuma paneļa"
 
@@ -26750,15 +26595,15 @@ msgstr "Pašreizējā mape"
 msgid "Current Folder and Subfolders"
 msgstr "Šajā mapē un apakšmapēs"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1056
+#: ../src/modules/mail/e-mail-shell-view.c:1063
 msgid "Current Folder and Subfolders Search"
 msgstr "Šīs mapes un apakšmapju meklēšana"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1144
+#: ../src/modules/mail/e-mail-shell-view.c:1151
 msgid "All Account Search"
 msgstr "Visu kontu meklēšana"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1220
+#: ../src/modules/mail/e-mail-shell-view.c:1227
 msgid "Account Search"
 msgstr "Kontu meklēšana"
 
@@ -26846,7 +26691,6 @@ msgid "Send immediately"
 msgstr "Sūtīt nekavējoties"
 
 #: ../src/modules/mail/em-composer-prefs.c:1285
-#| msgid "Send after 5 minutes"
 msgid "Send after 1 minute"
 msgstr "Sūtīt pēc 1 minūtes"
 
@@ -26893,7 +26737,6 @@ msgstr "Satur vērtību"
 #. Translators: This is a column caption, in which a mail header name is shown.
 #. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
 #: ../src/modules/mail/em-mailer-prefs.c:2058
-#| msgid "Header"
 msgctxt "UserHeaders"
 msgid "Header"
 msgstr "Galvene"
@@ -26902,7 +26745,6 @@ msgstr "Galvene"
 #. it's the text the header is presented in the GUI, aka a user friendly name
 #. of the header. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
 #: ../src/modules/mail/em-mailer-prefs.c:2072
-#| msgid "Title"
 msgctxt "UserHeaders"
 msgid "Title"
 msgstr "Virsraksts"
@@ -27117,23 +26959,23 @@ msgid "Apply message _filters to this folder"
 msgstr "Šai mapei attiecināt vēstuļu _filtrus"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:740
-#: ../src/modules/rss/evolution/e-rss-preferences.c:857
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1582
+#: ../src/modules/rss/evolution/e-rss-preferences.c:912
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1639
 msgid "_Download complete articles"
 msgstr "Lejupielā_dēt pilnus rakstus"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:753
-#: ../src/modules/rss/evolution/e-rss-preferences.c:861
+#: ../src/modules/rss/evolution/e-rss-preferences.c:916
 msgid "Download feed _enclosures"
 msgstr "L_ejupielādēt plūsmu ietvarus"
 
-#: ../src/modules/rss/camel/camel-rss-folder-summary.c:269
+#: ../src/modules/rss/camel/camel-rss-folder-summary.c:274
 msgid "Enclosures:"
 msgstr "Ietvari:"
 
 #: ../src/modules/rss/camel/camel-rss-provider.c:17
 #: ../src/modules/rss/camel/camel-rss-store.c:48
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1823
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1884
 #: ../src/modules/rss/evolution/e-rss-shell-extension.c:62
 msgid "News and Blogs"
 msgstr "Ziņas un Emuāri"
@@ -27160,145 +27002,133 @@ msgid "Unknown author"
 msgstr "Nezināms autors"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:53
-#: ../src/modules/rss/evolution/e-rss-preferences.c:853
+#: ../src/modules/rss/evolution/e-rss-preferences.c:908
 msgid "Markdown"
 msgstr "Markdown"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:415
+#: ../src/modules/rss/evolution/e-rss-preferences.c:444
 #, c-format
 msgid "Failed to fetch feed icon: %s"
 msgstr "Neizdevās saņemt plūsmas ikonu: %s"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:462
+#: ../src/modules/rss/evolution/e-rss-preferences.c:491
 msgid "Fetching feed icon…"
 msgstr "Saņem plūsmas ikonu…"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:476
+#: ../src/modules/rss/evolution/e-rss-preferences.c:505
 msgid "Failed to read feed information."
 msgstr "Neizdevās lasīt informāciju par plūsmu."
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:495
+#: ../src/modules/rss/evolution/e-rss-preferences.c:524
 #, c-format
 msgid "Failed to fetch feed information: %s"
 msgstr "Neizdevās saņemt informāciju par plūsmu — %s"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:525
+#: ../src/modules/rss/evolution/e-rss-preferences.c:554
 msgid "Fetching feed information…"
 msgstr "Iegūst informāciju par plūsmu…"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:530
+#: ../src/modules/rss/evolution/e-rss-preferences.c:559
 msgid "Invalid Feed URL"
 msgstr "Nederīgs plūsmas URL"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:573
+#: ../src/modules/rss/evolution/e-rss-preferences.c:602
 msgid "Choose Feed Image"
 msgstr "Izvēlieties plūsmas attēlu"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:814
+#: ../src/modules/rss/evolution/e-rss-preferences.c:869
 msgid "Feed _URL:"
 msgstr "Plūsmas _URL:"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:827
+#: ../src/modules/rss/evolution/e-rss-preferences.c:882
 msgid "_Fetch"
 msgstr "_Saņemt"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:843
+#: ../src/modules/rss/evolution/e-rss-preferences.c:898
 msgid "C_ontent:"
 msgstr "_Saturs:"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1091
-#| msgid "Importing Files"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1148
 msgid "Import RSS Feeds"
 msgstr "Importēt RSS plūsmas"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1091
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1148
 msgid "Export RSS Feeds"
 msgstr "Eksportēt RSS plūsmas"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
-#| msgid "I_mport"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1151
 msgid "Export"
 msgstr "Eksportēt"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1098
-#| msgid "HTML file"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1155
 msgid "OPML files"
 msgstr "OPML datnes"
 
 #. Translators: This is a default file name for exported RSS feeds.
 #. Keep the extension (".opml") as is, translate only the "feeds" word, if needed.
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1107
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1164
 msgid "feeds.opml"
 msgstr "feeds.opml"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1195
-#| msgid "Failed to fetch feed icon: %s"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1252
 msgid "Failed to export RSS feeds: "
 msgstr "Neizdevās eksportēt RSS plūsmas: "
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1221
-#| msgid "Failed to delete contact"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1278
 msgid "Failed to read file content: "
 msgstr "Neizdevās ielasīt datnes saturu: "
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1288
-#| msgid "Failed to fetch feed icon: %s"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1345
 msgid "Failed to add feed: "
 msgstr "Neizdevās pievienot plūsmai: "
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1333
-#| msgctxt "EmojiChooser"
-#| msgid "No Results Found"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1390
 msgid "No RSS feeds found"
 msgstr "Nav atrastu RSS plūsmu"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1335
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1392
 msgid "No new RSS feeds imported"
 msgstr "Nav importētu jaunu RSS plūsmu"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1338
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1395
 #, c-format
-#| msgid "Importer Type"
 msgid "Imported %d feed"
 msgid_plural "Imported %d feeds"
 msgstr[0] "Importētāja %d plūsmu"
 msgstr[1] "Importētāja %d plūsmas"
 msgstr[2] "Importētāja %d plūsmu"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1342
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1399
 msgid "Failed to import data, the file does not contain valid OPML data."
 msgstr "Neizdevās importēt datus, datne nesatur derīgus OPML datus."
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1347
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1404
 msgid "Failed to parse file content. Expected is an OPML file."
 msgstr "Neizdevās parsēt datnes saturu. Tika gaidīta OPML datne."
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1595
-#| msgid "_Download feed enclosures"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1652
 msgid "Download _feed enclosures"
 msgstr "_Lejupielādēt plūsmu ietvarus"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1614
-#| msgid "Do not download enclosures larger than"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1671
 msgid "Do not download e_nclosures larger than"
 msgstr "_Nelejupielādēt plūsmu ietvarus, kas ir lielāki par"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1637
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1694
 msgid "KB"
 msgstr "KB"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1643
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1700
 msgid "Feeds"
 msgstr "Plūsmas"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1708
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1769
 msgid "Content"
 msgstr "Saturs"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1768
-#| msgid "I_mport"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1829
 msgid "E_xport"
 msgstr "E_ksportēt"
 
@@ -27342,7 +27172,7 @@ msgstr "SpamAssassin opcijas"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:551
 msgid "I_nclude remote tests"
-msgstr "Ie_kļaut attālinātos testus"
+msgstr "Ie_kļaut attālos testus"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:565
 msgid "This will make SpamAssassin more reliable, but slower."
@@ -27662,7 +27492,7 @@ msgid "Display the part as an addressbook contact"
 msgstr "Rādīt daļu kā adrešu grāmatas kontaktu"
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
-#: ../src/modules/webkit-editor/e-webkit-editor.c:5546
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5558
 #, c-format
 msgid "Ctrl-click to open a link “%s”"
 msgstr "Ctrl-klikšķis atvērs saiti “%s”"
@@ -28743,9 +28573,6 @@ msgid "Confirm sender address"
 msgstr "Apstiprināt sūtītāja adresi"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:2
-#| msgid ""
-#| "The message contains recipient “{0}” for which it is set up to use sender "
-#| "account “{1}”, but the account “{2}” is used instead."
 msgid ""
 "The message contains recipient “{0}” for which it is set to use sender "
 "account “{1}”, but the account “{2}” is used instead."
@@ -28758,20 +28585,16 @@ msgid "_Send Anyway"
 msgstr "_Tomēr sūtīt"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:5
-#| msgid "Confirm sender address"
 msgid "Confirm recipient address"
 msgstr "Apstiprināt adresāta adresi"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:6
-#| msgid ""
-#| "The message contains recipient “{0}” for which it is set up to use sender "
-#| "account “{1}”, but the account “{2}” is used instead."
 msgid ""
 "The message contains recipient “{0}”, which does not match recipient pattern "
 "“{1}” for the account “{2}”."
 msgstr ""
-"Vēstule satur adresātu “{0}”, kas neatbilst adresāta “{1}” paraugam"
-" kontam“{2}”."
+"Vēstule satur adresātu “{0}”, kas neatbilst adresāta “{1}” paraugam "
+"kontam“{2}”."
 
 #: ../src/plugins/sender-validation/sender-validation.c:653
 msgid ""
@@ -28781,9 +28604,9 @@ msgid ""
 "the “me@company.org” account."
 msgstr ""
 "Iestatiet, kuru kontu vajadzētu izmantot adresāta paraugam.\n"
-"Piemēram, iestatot adresātu kā “@firma.lv” kontam “es@firma.lv”, parādīsies"
-" brīdinājums, ja adresāts, kurš satur “@firma.lv” netiek izmantots ar kontu"
-" “es@firma.lv”."
+"Piemēram, iestatot adresātu kā “@firma.lv” kontam “es@firma.lv”, parādīsies "
+"brīdinājums, ja adresāts, kurš satur “@firma.lv” netiek izmantots ar kontu "
+"“es@firma.lv”."
 
 #: ../src/plugins/sender-validation/sender-validation.c:711
 msgid "Recipient Contains"
@@ -28801,11 +28624,10 @@ msgid ""
 "sending with the “me@company.org” account."
 msgstr ""
 "Iestatiet, kurš adresāta paraugs tiks izmantots ar noteiktu kontu.\n"
-"Piemēram, iestatot kontu “es@firma.lv” adresātiem “@firma.lv”, parādīsies"
-" brīdinājums, ja adresāts nesatur “@firma.lv” kad sūta no konta “es@firma.lv”."
+"Piemēram, iestatot kontu “es@firma.lv” adresātiem “@firma.lv”, parādīsies "
+"brīdinājums, ja adresāts nesatur “@firma.lv” kad sūta no konta “es@firma.lv”."
 
 #: ../src/plugins/sender-validation/sender-validation.c:831
-#| msgid "Recipients contain"
 msgid "Allow Recipients Which Contain"
 msgstr "Atļaut adresātus, kas satur"
 
@@ -28825,17 +28647,14 @@ msgid "Saving message template"
 msgstr "Saglabā vēstules veidni"
 
 #: ../src/plugins/templates/templates.c:968
-#| msgid "Save as _Template"
 msgid "Save _Template"
 msgstr "Saglabāt _veidni"
 
 #: ../src/plugins/templates/templates.c:970
-#| msgid "Remove duplicate messages?"
 msgid "Replace opened Template message"
 msgstr "Aizstāt atvērtās Veidņu vēstules"
 
 #: ../src/plugins/templates/templates.c:975
-#| msgid "Save as _Template"
 msgid "Save as _New Template"
 msgstr "Saglabāt kā  jau_nu veidni"
 
@@ -28903,8 +28722,6 @@ msgid "i_n"
 msgstr "_mapē"
 
 #: ../src/shell/e-shell-utils.c:169
-#| msgctxt "New"
-#| msgid "_Mail Message"
 msgid "Mail Message (eml)"
 msgstr "Pasta vēstule (eml)"
 
@@ -30893,5 +30710,4 @@ msgstr "Importēts sertifikāts"
 
 #~ msgid "Evolution Web Inspector"
 #~ msgstr "Evolution tīmekļa inspektors"
-
 
