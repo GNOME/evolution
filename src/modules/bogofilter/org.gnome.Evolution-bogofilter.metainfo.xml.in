@@ -5,7 +5,7 @@
 	<extends>org.gnome.Evolution.desktop</extends>
 	<_name>Bogofilter</_name>
 	<_summary>Junk filter using Bogofilter</_summary>
-	<url type="homepage">https://live.gnome.org/Apps/Evolution</url>
+	<url type="homepage">https://gitlab.gnome.org/GNOME/evolution/-/wikis/</url>
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>LGPL</project_license>
 	<updatecontact>evolution-hackers_at_gnome.org</updatecontact>
