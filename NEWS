@@ -1,3 +1,30 @@
+Evolution 3.52.0 2024-03-15
+---------------------------
+
+Bug Fixes:
+	I#2632 - Workaround excessive memory use
+	I#2672 - Calendar: Prefer html/markdown description in preview
+	I#2691 - Incorrect/missing URLs in app metadata
+
+Miscellaneous:
+	main.c: Fix unused variable when in non-development build
+	SetupBuildFlags.cmake: Remove "-Wl,--no-undefined" from compiler flags
+	ci: Create top 'pages' index.html page
+	Plugins' .xml.in: Update homepage URI from GNOME wiki to GNOME GitLab (Andre Klapper)
+
+Translations:
+	Alan Mortensen (da)
+	Anders Jonsson (sv)
+	Artur S0 (ru)
+	Balázs Úr (hu)
+	Bruce Cowan (en_GB)
+	Daniel Mustieles (es)
+	Daniel Rusek (cs)
+	Emin Tufan Çetin (tr)
+	Jean-Marc Tissières (fr)
+	Martin (sl)
+	Rūdolfs Mazurs (lv)
+
 Evolution 3.51.3 2024-03-01
 ---------------------------
 

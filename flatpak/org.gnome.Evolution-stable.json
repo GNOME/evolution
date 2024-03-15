@@ -6,8 +6,8 @@
 	"command": "evolution",
 	"rename-icon": "evolution",
 	"copy-icon": true,
-	"branch": "gnome-45",
-	"desktop-file-name-suffix": " (3.50)",
+	"branch": "gnome-46",
+	"desktop-file-name-suffix": " (3.52)",
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
 		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
@@ -340,7 +340,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
-					"branch": "gnome-45"
+					"branch": "gnome-46"
 				}
 			],
 			"post-install": [
@@ -396,7 +396,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution.git",
-					"branch": "gnome-45"
+					"branch": "gnome-46"
 				},
 				{
 					"type": "shell",
@@ -486,7 +486,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
-					"branch": "gnome-45"
+					"branch": "gnome-46"
 				}
 			],
 			"post-install": [
