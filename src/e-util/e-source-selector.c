@@ -973,6 +973,11 @@ source_selector_source_changed_cb (ESourceRegistry *registry,
 	source_selector_cancel_write (selector, source);
 
 	e_source_selector_update_row (selector, source);
+
+	if (e_source_selector_source_is_selected (selector, source))
+		g_signal_emit (selector, signals[SOURCE_SELECTED], 0, source);
+	else
+		g_signal_emit (selector, signals[SOURCE_UNSELECTED], 0, source);
 }
 
 static void
