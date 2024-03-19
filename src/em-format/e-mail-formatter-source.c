@@ -51,6 +51,7 @@ emfe_source_format (EMailFormatterExtension *extension,
 	GOutputStream *filtered_stream;
 	CamelMimeFilter *filter;
 	CamelMimePart *mime_part;
+	gboolean did_read_file = FALSE;
 
 	mime_part = e_mail_part_ref_mime_part (part);
 
@@ -87,9 +88,54 @@ emfe_source_format (EMailFormatterExtension *extension,
 		G_FILTER_OUTPUT_STREAM (filtered_stream), FALSE);
 	g_object_unref (filter);
 
-	camel_data_wrapper_write_to_output_stream_sync (
-		CAMEL_DATA_WRAPPER (mime_part),
-		filtered_stream, cancellable, NULL);
+	if (g_strcmp0 (e_mail_part_get_id (part), ".message") == 0 &&
+	    CAMEL_IS_MIME_MESSAGE (mime_part)) {
+		EMailPartList *part_list;
+
+		part_list = e_mail_part_ref_part_list (part);
+		if (part_list) {
+			CamelFolder *folder;
+			const gchar *uid;
+
+			folder = e_mail_part_list_get_folder (part_list);
+			uid = e_mail_part_list_get_message_uid (part_list);
+
+			if (folder && uid) {
+				gchar *filename;
+
+				filename = camel_folder_get_filename (folder, uid, NULL);
+				if (filename) {
+					GFile *file;
+
+					file = g_file_new_for_path (filename);
+					if (file) {
+						GFileInputStream *file_input_stream;
+
+						file_input_stream = g_file_read (file, cancellable, NULL);
+						if (file_input_stream) {
+							did_read_file = TRUE;
+							g_output_stream_splice (filtered_stream, G_INPUT_STREAM (file_input_stream),
+								G_OUTPUT_STREAM_SPLICE_NONE, cancellable, NULL);
+						}
+
+						g_clear_object (&file_input_stream);
+						g_clear_object (&file);
+					}
+
+					g_free (filename);
+				}
+			}
+		}
+
+		g_clear_object (&part_list);
+	}
+
+	if (!did_read_file && !g_cancellable_is_cancelled (cancellable)) {
+		camel_data_wrapper_write_to_output_stream_sync (
+			CAMEL_DATA_WRAPPER (mime_part),
+			filtered_stream, cancellable, NULL);
+	}
+
 	g_output_stream_flush (filtered_stream, cancellable, NULL);
 
 	g_object_unref (filtered_stream);
