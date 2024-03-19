@@ -1558,6 +1558,54 @@ mail_folder_save_prepare_part (CamelMimePart *mime_part)
 	}
 }
 
+static gssize
+mail_folder_utils_splice_to_stream (CamelStream *stream,
+				    GInputStream *input_stream,
+				    GCancellable *cancellable,
+				    GError **error)
+{
+	gssize n_read;
+	gsize bytes_copied, n_written;
+	gchar buffer[8192];
+	goffset file_offset;
+	gboolean res;
+
+	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
+	g_return_val_if_fail (G_IS_INPUT_STREAM (input_stream), -1);
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		return -1;
+
+	file_offset = 0;
+	bytes_copied = 0;
+	res = TRUE;
+	do {
+		n_read = g_input_stream_read (input_stream, buffer, sizeof (buffer), cancellable, error);
+		if (n_read == -1) {
+			res = FALSE;
+			break;
+		}
+
+		if (n_read == 0)
+			break;
+
+		if ((n_written = camel_stream_write (stream, buffer, n_read, cancellable, error)) == -1) {
+			res = FALSE;
+			break;
+		}
+
+		file_offset += n_read;
+		bytes_copied += n_written;
+		if (bytes_copied > G_MAXSSIZE)
+			bytes_copied = G_MAXSSIZE;
+	} while (res);
+
+	if (res)
+		return bytes_copied;
+
+	return -1;
+}
+
 gboolean
 e_mail_folder_save_messages_sync (CamelFolder *folder,
                                   GPtrArray *message_uids,
@@ -1609,9 +1657,9 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 
 	for (ii = 0; ii < message_uids->len; ii++) {
 		CamelMimeMessage *message;
-		CamelMimeFilter *filter;
-		CamelStream *stream;
 		const gchar *uid;
+		gchar *filename;
+		GFileInputStream *file_input_stream = NULL;
 		gint percent;
 		gint retval;
 
@@ -1628,14 +1676,28 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 
 		uid = g_ptr_array_index (message_uids, ii);
 
-		message = camel_folder_get_message_sync (
-			folder, uid, cancellable, error);
+		message = camel_folder_get_message_sync (folder, uid, cancellable, error);
 		if (message == NULL) {
 			success = FALSE;
 			goto exit;
 		}
 
-		mail_folder_save_prepare_part (CAMEL_MIME_PART (message));
+		filename = camel_folder_get_filename (folder, uid, NULL);
+		if (filename) {
+			GFile *file;
+
+			file = g_file_new_for_path (filename);
+			if (file) {
+				file_input_stream = g_file_read (file, cancellable, NULL);
+
+				g_clear_object (&file);
+			}
+
+			g_clear_pointer (&filename, g_free);
+		}
+
+		if (!file_input_stream)
+			mail_folder_save_prepare_part (CAMEL_MIME_PART (message));
 
 		if (is_mbox) {
 			gchar *from_line;
@@ -1653,44 +1715,62 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 
 		if (!success) {
 			g_object_unref (message);
+			g_clear_object (&file_input_stream);
 			goto exit;
 		}
 
-		filter = camel_mime_filter_from_new ();
-		stream = camel_stream_filter_new (base_stream);
-		camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
+		if (is_mbox) {
+			CamelMimeFilter *filter;
+			CamelStream *stream;
 
-		retval = camel_data_wrapper_write_to_stream_sync (
-			CAMEL_DATA_WRAPPER (message),
-			stream, cancellable, error);
+			filter = camel_mime_filter_from_new ();
+			stream = camel_stream_filter_new (base_stream);
+			camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
 
-		g_object_unref (filter);
-		g_object_unref (stream);
+			if (file_input_stream) {
+				retval = mail_folder_utils_splice_to_stream (stream, G_INPUT_STREAM (file_input_stream), cancellable, error);
+			} else {
+				retval = camel_data_wrapper_write_to_stream_sync (
+					CAMEL_DATA_WRAPPER (message),
+					stream, cancellable, error);
+			}
 
-		if (retval == -1) {
-			g_object_unref (message);
-			goto exit;
+			g_object_unref (filter);
+			g_object_unref (stream);
+		} else {
+			if (file_input_stream) {
+				retval = g_output_stream_splice (G_OUTPUT_STREAM (file_output_stream), G_INPUT_STREAM (file_input_stream),
+					G_OUTPUT_STREAM_SPLICE_NONE, cancellable, error);
+			} else {
+				retval = camel_data_wrapper_write_to_output_stream_sync (CAMEL_DATA_WRAPPER (message),
+					G_OUTPUT_STREAM (file_output_stream), cancellable, error);
+			}
 		}
 
-		g_byte_array_append (byte_array, (guint8 *) "\n", 1);
+		g_clear_object (&file_input_stream);
+		g_clear_object (&message);
 
-		success = g_output_stream_write_all (
-			G_OUTPUT_STREAM (file_output_stream),
-			byte_array->data, byte_array->len,
-			NULL, cancellable, error);
-
-		if (!success) {
-			g_object_unref (message);
+		if (retval == -1)
 			goto exit;
+
+		if (is_mbox && ii + 1 < message_uids->len)
+			g_byte_array_append (byte_array, (guint8 *) "\n", 1);
+
+		if (byte_array->len > 0) {
+			success = g_output_stream_write_all (
+				G_OUTPUT_STREAM (file_output_stream),
+				byte_array->data, byte_array->len,
+				NULL, cancellable, error);
+
+			if (!success)
+				goto exit;
+
+			/* Reset the byte array for the next message. */
+			g_byte_array_set_size (byte_array, 0);
 		}
 
 		percent = ((ii + 1) * 100) / message_uids->len;
 		camel_operation_progress (cancellable, percent);
-
-		/* Reset the byte array for the next message. */
-		g_byte_array_set_size (byte_array, 0);
-
-		g_object_unref (message);
 	}
 
 exit:
