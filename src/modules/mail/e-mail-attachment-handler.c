@@ -682,50 +682,73 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 
 		g_object_unref (attachment);
 	} else {
-		gint n_messages = g_slist_length (messages);
+		GSettings *settings;
 
 		messages = g_slist_reverse (messages);
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
-		/* Build a multipart/digest message out of the UIDs. */
-		multipart = camel_multipart_new ();
-		wrapper = CAMEL_DATA_WRAPPER (multipart);
-		camel_data_wrapper_set_mime_type (wrapper, "multipart/digest");
-		camel_multipart_set_boundary (multipart, NULL);
+		if (g_settings_get_boolean (settings, "composer-attach-separate-messages")) {
+			for (link = messages; link; link = g_slist_next (link)) {
+				CamelMimeMessage *message = link->data;
 
-		for (link = messages; link; link = g_slist_next (link)) {
+				mime_part = mail_tool_make_message_attachment (message);
+				/* remove it, no need to have "Forwarded Message - $SUBJECT" there */
+				camel_medium_remove_header (CAMEL_MEDIUM (mime_part), "Content-Description");
+				attachment = e_attachment_new ();
+				e_attachment_set_mime_part (attachment, mime_part);
+				e_attachment_store_add_attachment (store, attachment);
+				e_attachment_load_async (
+					attachment, (GAsyncReadyCallback)
+					call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
+				g_object_unref (attachment);
+				g_object_unref (mime_part);
+			}
+		} else {
+			gint n_messages = g_slist_length (messages);
+
+			/* Build a multipart/digest message out of the UIDs. */
+			multipart = camel_multipart_new ();
+			wrapper = CAMEL_DATA_WRAPPER (multipart);
+			camel_data_wrapper_set_mime_type (wrapper, "multipart/digest");
+			camel_multipart_set_boundary (multipart, NULL);
+
+			for (link = messages; link; link = g_slist_next (link)) {
+				mime_part = camel_mime_part_new ();
+				wrapper = CAMEL_DATA_WRAPPER (link->data);
+				camel_mime_part_set_disposition (mime_part, "inline");
+				camel_medium_set_content (
+					CAMEL_MEDIUM (mime_part), wrapper);
+				camel_mime_part_set_content_type (mime_part, "message/rfc822");
+				camel_multipart_add_part (multipart, mime_part);
+				g_object_unref (mime_part);
+			}
+
 			mime_part = camel_mime_part_new ();
-			wrapper = CAMEL_DATA_WRAPPER (link->data);
-			camel_mime_part_set_disposition (mime_part, "inline");
-			camel_medium_set_content (
-				CAMEL_MEDIUM (mime_part), wrapper);
-			camel_mime_part_set_content_type (mime_part, "message/rfc822");
-			camel_multipart_add_part (multipart, mime_part);
+			wrapper = CAMEL_DATA_WRAPPER (multipart);
+			camel_medium_set_content (CAMEL_MEDIUM (mime_part), wrapper);
+
+			description = g_strdup_printf (
+				ngettext (
+					"%d attached message",
+					"%d attached messages",
+					n_messages),
+				n_messages);
+			camel_mime_part_set_description (mime_part, description);
+			g_free (description);
+
+			attachment = e_attachment_new ();
+			e_attachment_set_mime_part (attachment, mime_part);
+			e_attachment_store_add_attachment (store, attachment);
+			e_attachment_load_async (
+				attachment, (GAsyncReadyCallback)
+				call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
+			g_object_unref (attachment);
+
 			g_object_unref (mime_part);
+			g_object_unref (multipart);
 		}
 
-		mime_part = camel_mime_part_new ();
-		wrapper = CAMEL_DATA_WRAPPER (multipart);
-		camel_medium_set_content (CAMEL_MEDIUM (mime_part), wrapper);
-
-		description = g_strdup_printf (
-			ngettext (
-				"%d attached message",
-				"%d attached messages",
-				n_messages),
-			n_messages);
-		camel_mime_part_set_description (mime_part, description);
-		g_free (description);
-
-		attachment = e_attachment_new ();
-		e_attachment_set_mime_part (attachment, mime_part);
-		e_attachment_store_add_attachment (store, attachment);
-		e_attachment_load_async (
-			attachment, (GAsyncReadyCallback)
-			call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
-		g_object_unref (attachment);
-
-		g_object_unref (mime_part);
-		g_object_unref (multipart);
+		g_clear_object (&settings);
 	}
 
  exit:

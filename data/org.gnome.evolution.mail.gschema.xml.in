@@ -994,6 +994,11 @@
       <default>'ask'</default>
       <_summary>Whether click on a header in the message list can change sort order by the clicked column.</_summary>
     </key>
+    <key name="composer-attach-separate-messages" type="b">
+      <default>false</default>
+      <_summary>Attach multiple messages as separate files</_summary>
+      <_description>When attaching multiple messages at once, attach them as separate file (when set to 'true'), instead of a single mbox file.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

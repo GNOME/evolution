@@ -2936,6 +2936,7 @@ em_utils_forward_attachment (EMsgComposer *composer,
                              CamelFolder *folder,
                              GPtrArray *uids)
 {
+	GSettings *settings;
 	CamelDataWrapper *content;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
@@ -2956,9 +2957,41 @@ em_utils_forward_attachment (EMsgComposer *composer,
 		g_free (subject);
 	}
 
-	e_msg_composer_attach (composer, part);
-
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	content = camel_medium_get_content (CAMEL_MEDIUM (part));
+
+	if (uids != NULL && uids->len > 1 && CAMEL_IS_MULTIPART (content) &&
+	    g_settings_get_boolean (settings, "composer-attach-separate-messages")) {
+		CamelMultipart *multipart;
+		guint ii, nparts;
+
+		multipart = CAMEL_MULTIPART (content);
+		nparts = camel_multipart_get_number (multipart);
+
+		for (ii = 0; ii < nparts; ii++) {
+			CamelMimePart *mpart;
+			gchar *mime_type;
+
+			mpart = camel_multipart_get_part (multipart, ii);
+			mime_type = camel_data_wrapper_get_mime_type (CAMEL_DATA_WRAPPER (mpart));
+
+			if (mime_type && g_ascii_strcasecmp (mime_type, "message/rfc822") == 0) {
+				CamelDataWrapper *mpart_content;
+
+				mpart_content = camel_medium_get_content (CAMEL_MEDIUM (mpart));
+
+				if (CAMEL_IS_MIME_MESSAGE (mpart_content))
+					e_msg_composer_attach (composer, mpart);
+			}
+
+			g_free (mime_type);
+		}
+	} else {
+		e_msg_composer_attach (composer, part);
+	}
+
+	g_clear_object (&settings);
+
 	if (CAMEL_IS_MIME_MESSAGE (content)) {
 		emu_add_composer_references_from_message (composer, CAMEL_MIME_MESSAGE (content));
 	} else if (CAMEL_IS_MULTIPART (content)) {

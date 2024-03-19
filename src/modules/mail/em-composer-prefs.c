@@ -1706,6 +1706,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	emc_prefs_bind_settings (prefs, settings, "composer-signature-in-new-only", "chkSignatureInNewOnly", "active");
 	emc_prefs_bind_settings (prefs, settings, "composer-top-signature", "chkTopSignature", "active");
 	emc_prefs_bind_settings (prefs, settings, "composer-inline-spelling", "chkEnableSpellChecking", "active");
+	emc_prefs_bind_settings (prefs, settings, "composer-attach-separate-messages", "chkAttachSeparateMessages", "active");
 
 	widget = e_charset_combo_box_new ();
 	container = e_builder_get_widget (prefs->builder, "hboxComposerCharset");
