@@ -301,6 +301,16 @@ action_settings_backup_cb (GtkAction *action,
 
 	g_free (tmp);
 
+	if (!evolution_backup_restore_check_prog_exists ("tar", &error)) {
+		e_alert_run_dialog_for_args (
+			GTK_WINDOW (shell_window),
+			"org.gnome.backup-restore:cannot-backup",
+			error ? error->message : "Unknown error", NULL);
+		g_clear_error (&error);
+		g_object_unref (settings);
+		return;
+	}
+
 	file = e_shell_run_save_dialog (
 		e_shell_window_get_shell (shell_window),
 		_("Select name of the Evolution backup file"),
@@ -322,6 +332,21 @@ action_settings_backup_cb (GtkAction *action,
 		g_settings_set_string (settings, "backup-restore-extension", ".gz");
 
 	g_object_unref (settings);
+
+	if ((tmp && g_str_has_suffix (tmp, ".xz") &&
+	    !evolution_backup_restore_check_prog_exists ("xz", &error)) ||
+	    (tmp && !g_str_has_suffix (tmp, ".xz") &&
+	    !evolution_backup_restore_check_prog_exists ("gzip", &error))) {
+		e_alert_run_dialog_for_args (
+			GTK_WINDOW (shell_window),
+			"org.gnome.backup-restore:cannot-backup",
+			error ? error->message : "Unknown error", NULL);
+		g_clear_error (&error);
+		g_object_unref (file);
+		g_free (tmp);
+		return;
+	}
+
 	g_free (tmp);
 
 	/* Make sure the parent directory can be written to. */
@@ -339,6 +364,7 @@ action_settings_backup_cb (GtkAction *action,
 	if (error != NULL) {
 		g_warning ("%s", error->message);
 		g_error_free (error);
+		g_object_unref (file);
 		return;
 	}
 
@@ -402,15 +428,22 @@ validate_backup_file_thread (EAlertSinkThreadJobData *job_data,
 			     GError **error)
 {
 	ValidateBackupFileData *vbf = user_data;
+	GError *local_error = NULL;
 
 	g_return_if_fail (vbf != NULL);
 	g_return_if_fail (vbf->path != NULL);
 
-	vbf->is_valid = evolution_backup_restore_validate_backup_file (vbf->path);
+	vbf->is_valid = evolution_backup_restore_validate_backup_file (vbf->path, &local_error);
 
-	/* The error text doesn't matter here, it will not be shown to the user */
-	if (!vbf->is_valid)
-		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed");
+	if (local_error) {
+		e_alert_sink_thread_job_set_alert_ident (job_data, "org.gnome.backup-restore:cannot-restore");
+		e_alert_sink_thread_job_set_alert_arg_0 (job_data, local_error->message);
+		g_propagate_error (error, local_error);
+	} else {
+		/* The error text doesn't matter here, it will not be shown to the user */
+		if (!vbf->is_valid)
+			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed");
+	}
 }
 
 static void

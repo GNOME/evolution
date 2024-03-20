@@ -58,6 +58,7 @@ mail_config_restore_page_update_filename (EMailConfigRestorePage *page)
 	GtkToggleButton *toggle_button;
 	GtkFileChooser *file_chooser;
 	gchar *filename = NULL;
+	GError *local_error = NULL;
 
 	file_chooser = GTK_FILE_CHOOSER (page->priv->file_chooser);
 	toggle_button = GTK_TOGGLE_BUTTON (page->priv->toggle_button);
@@ -67,16 +68,25 @@ mail_config_restore_page_update_filename (EMailConfigRestorePage *page)
 	if (gtk_toggle_button_get_active (toggle_button))
 		filename = gtk_file_chooser_get_filename (file_chooser);
 
-	if (!evolution_backup_restore_validate_backup_file (filename)) {
+	if (!evolution_backup_restore_validate_backup_file (filename, &local_error)) {
 		if (filename != NULL) {
-			e_alert_submit (
-				E_ALERT_SINK (page),
-				"org.gnome.backup-restore:invalid-backup",
-				filename, NULL);
+			if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
+				e_alert_submit (
+					E_ALERT_SINK (page),
+					"org.gnome.backup-restore:cannot-restore",
+					local_error->message, NULL);
+			} else {
+				e_alert_submit (
+					E_ALERT_SINK (page),
+					"org.gnome.backup-restore:invalid-backup",
+					filename, NULL);
+			}
 			g_free (filename);
 			filename = NULL;
 		}
 	}
+
+	g_clear_error (&local_error);
 
 	g_free (page->priv->filename);
 	page->priv->filename = filename;
@@ -331,7 +341,26 @@ e_mail_config_restore_page_get_filename (EMailConfigRestorePage *page)
 }
 
 gboolean
-evolution_backup_restore_validate_backup_file (const gchar *filename)
+evolution_backup_restore_check_prog_exists (const gchar *prog,
+					    GError **error)
+{
+	gchar *path;
+
+	path = g_find_program_in_path (prog);
+
+	if (!path) {
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND, _("Program '%s' not found"), prog);
+		return FALSE;
+	}
+
+	g_free (path);
+
+	return TRUE;
+}
+
+gboolean
+evolution_backup_restore_validate_backup_file (const gchar *filename,
+					       GError **error)
 {
 	gchar *command;
 	gint result;
@@ -340,6 +369,11 @@ evolution_backup_restore_validate_backup_file (const gchar *filename)
 	const gchar *basedir;
 
 	if (filename == NULL || *filename == '\0')
+		return FALSE;
+
+	if (!evolution_backup_restore_check_prog_exists ("tar", error) ||
+	    (g_str_has_suffix (filename, ".xz") && !evolution_backup_restore_check_prog_exists ("xz", error)) ||
+	    (!g_str_has_suffix (filename, ".xz") && !evolution_backup_restore_check_prog_exists ("gzip", error)))
 		return FALSE;
 
 	/* FIXME We should be using g_spawn_command_line_sync() here. */

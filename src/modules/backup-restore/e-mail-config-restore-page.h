@@ -72,7 +72,11 @@ const gchar *	e_mail_config_restore_page_get_filename
 /* This is a stand-alone function to validate the given backup file.
  * It resides in this file because EMailConfigRestorePage uses it. */
 gboolean	evolution_backup_restore_validate_backup_file
-						(const gchar *filename);
+						(const gchar *filename,
+						 GError **error);
+gboolean	evolution_backup_restore_check_prog_exists
+						(const gchar *prog,
+						 GError **error);
 
 G_END_DECLS
 
