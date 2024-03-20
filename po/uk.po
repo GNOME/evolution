@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-20 07:52+0000\n"
-"PO-Revision-Date: 2024-03-20 12:04+0200\n"
+"POT-Creation-Date: 2024-03-20 16:05+0000\n"
+"PO-Revision-Date: 2024-03-20 20:39+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3286,9 +3286,12 @@ msgid "Attach multiple messages as separate files"
 msgstr "Долучити повідомлення як окремі файли"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
+#| msgid ""
+#| "When attaching multiple messages at once, attach them as separate file "
+#| "(when set to 'true'), instead of a single mbox file."
 msgid ""
-"When attaching multiple messages at once, attach them as separate file (when "
-"set to 'true'), instead of a single mbox file."
+"When attaching multiple messages at once, attach them as separate files "
+"(when set to 'true'), instead of a single mbox file."
 msgstr ""
 "При долученні декількох повідомлень одразу долучати їх як окремі файли (якщо "
 "встановлено значення «true»), замість єдиного файла mbox."
@@ -23810,7 +23813,6 @@ msgstr "Відновити з резервної копії"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:352
 #, c-format
-#| msgid "Folder '%s' not found"
 msgid "Program '%s' not found"
 msgstr "Не знайдено програми «%s»"
 
@@ -23975,12 +23977,10 @@ msgid "File “{0}” is not a valid Evolution backup file."
 msgstr "Файл «{0}» не є належним файлом резервної копії Evolution"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
-#| msgid "_Restore from a backup file:"
 msgid "Cannot restore from backup file"
 msgstr "Не вдалося виконати відновлення з файла резервної копії"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:4
-#| msgid "Cannot create Temporary File"
 msgid "Cannot create backup file"
 msgstr "Не вдалося створити файл резервної копії"
 
