@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-02-15 13:46+0000\n"
-"PO-Revision-Date: 2024-02-15 18:35+0200\n"
+"POT-Creation-Date: 2024-03-19 17:43+0000\n"
+"PO-Revision-Date: 2024-03-20 08:57+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3282,10 +3282,23 @@ msgstr ""
 "сортування за відповідним стовпчиком."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
+#| msgid "Save selected messages as an mbox file"
+msgid "Attach multiple messages as separate files"
+msgstr "Долучити повідомлення як окремі файли"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
+msgid ""
+"When attaching multiple messages at once, attach them as separate file (when "
+"set to 'true'), instead of a single mbox file."
+msgstr ""
+"При долученні декількох повідомлень одразу долучати їх як окремі файли (якщо"
+" встановлено значення «true»), замість єдиного файла mbox."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
 msgid "(Deprecated) Default forward style"
 msgstr "(Застаріло) Типовий стиль пересилання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -3293,11 +3306,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «forward-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:355
 msgid "(Deprecated) Default reply style"
 msgstr "(Застаріло) Типовий стиль відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:356
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -3305,11 +3318,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «reply-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:355
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:357
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Застаріло) Список власних заголовків та їхній стан."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:356
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:358
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -3317,12 +3330,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «show-headers» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:357
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:359
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 "(Застаріло) Автоматично завантажувати зображення у листах HTML через HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:358
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:360
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -3330,7 +3343,7 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «image-loading-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:359
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:361
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -3338,7 +3351,7 @@ msgstr ""
 "(Застаріло) Запитує, чи закривати вікно листа, коли користувач пересилає або "
 "відповідає на показане лист у вікні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:360
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:362
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3346,12 +3359,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «browser-close-on-reply-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:361
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:363
 msgid "Prompt before send when attachment changed on the disk"
 msgstr ""
 "Запитувати, перш ніж надсилати долучення, до якого внесено зміни на диску"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:362
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:364
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
@@ -4723,7 +4736,7 @@ msgstr ""
 #: ../src/mail/e-mail-label-manager.c:372
 #: ../src/mail/em-folder-properties.c:1391
 #: ../src/mail/em-vfolder-editor-rule.c:391
-#: ../src/mail/em-vfolder-editor-rule.c:620 ../src/mail/mail-config.ui.h:68
+#: ../src/mail/em-vfolder-editor-rule.c:620 ../src/mail/mail-config.ui.h:69
 #: ../src/modules/mail/em-composer-prefs.c:420
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1800
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
@@ -4890,7 +4903,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4133
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:304 ../src/mail/e-mail-label-dialog.c:180
-#: ../src/mail/e-mail-tag-editor.c:154 ../src/mail/em-composer-utils.c:4400
+#: ../src/mail/e-mail-tag-editor.c:154 ../src/mail/em-composer-utils.c:4433
 #: ../src/mail/em-folder-selector.c:619 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4966,7 +4979,7 @@ msgstr "Показати сертифікати"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2489
 #: ../src/em-format/e-mail-formatter-attachment.c:322
-#: ../src/mail/mail-config.ui.h:42
+#: ../src/mail/mail-config.ui.h:43
 msgid "Options"
 msgstr "Параметри"
 
@@ -5053,7 +5066,7 @@ msgstr "_Домашня сторінка:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1071
 #: ../src/calendar/gui/e-comp-editor-event.c:932
-#: ../src/modules/itip-formatter/itip-view.c:2468
+#: ../src/modules/itip-formatter/itip-view.c:2484
 msgid "_Calendar:"
 msgstr "_Календар:"
 
@@ -5155,14 +5168,14 @@ msgstr "_Річниця:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1949
+#: ../src/calendar/gui/e-calendar-view.c:1877
 msgid "Anniversary"
 msgstr "Річниця"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1948
+#: ../src/calendar/gui/e-calendar-view.c:1876
 msgid "Birthday"
 msgstr "День народження"
 
@@ -5264,7 +5277,7 @@ msgstr "Add _X.509"
 #: ../src/mail/e-mail-config-identity-page.c:865
 #: ../src/mail/e-mail-label-manager.c:390 ../src/mail/em-filter-rule.c:677
 #: ../src/mail/em-folder-properties.c:1397
-#: ../src/mail/em-vfolder-editor-rule.c:625 ../src/mail/mail-config.ui.h:70
+#: ../src/mail/em-vfolder-editor-rule.c:625 ../src/mail/mail-config.ui.h:71
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1819
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:825
@@ -5629,12 +5642,12 @@ msgid "_Top"
 msgstr "_Верх"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/e-source-selector.c:3913 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-source-selector.c:3918 ../src/e-util/filter.ui.h:29
 msgid "_Up"
 msgstr "В_гору"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
-#: ../src/e-util/e-source-selector.c:3914 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-source-selector.c:3919 ../src/e-util/filter.ui.h:30
 msgid "_Down"
 msgstr "У_низ"
 
@@ -5725,7 +5738,7 @@ msgstr "Телефон"
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:10
 #: ../src/calendar/gui/caltypes.xml.in.h:15
 #: ../src/calendar/gui/memotypes.xml.in.h:13
-#: ../src/calendar/gui/tasktypes.xml.in.h:23
+#: ../src/calendar/gui/tasktypes.xml.in.h:24
 #: ../src/e-util/e-categories-selector.c:360
 msgid "Category"
 msgstr "Категорія"
@@ -5733,7 +5746,7 @@ msgstr "Категорія"
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:11
 #: ../src/calendar/gui/caltypes.xml.in.h:24
 #: ../src/calendar/gui/memotypes.xml.in.h:17
-#: ../src/calendar/gui/tasktypes.xml.in.h:35
+#: ../src/calendar/gui/tasktypes.xml.in.h:36
 #: ../src/mail/filtertypes.xml.in.h:23 ../src/mail/searchtypes.xml.in.h:25
 #: ../src/mail/vfoldertypes.xml.in.h:25
 msgid "Expression"
@@ -5762,7 +5775,7 @@ msgstr "Телефон містить"
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:16
 #: ../src/calendar/gui/caltypes.xml.in.h:27
 #: ../src/calendar/gui/memotypes.xml.in.h:20
-#: ../src/calendar/gui/tasktypes.xml.in.h:38
+#: ../src/calendar/gui/tasktypes.xml.in.h:39
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1573
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1890
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:810
@@ -5967,7 +5980,7 @@ msgid "Unnamed"
 msgstr "Без назви"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:350
-#: ../src/calendar/gui/tasktypes.xml.in.h:14 ../src/mail/mail-send-recv.c:1143
+#: ../src/calendar/gui/tasktypes.xml.in.h:15 ../src/mail/mail-send-recv.c:1143
 msgid "Cancelled"
 msgstr "Скасовано"
 
@@ -7507,7 +7520,7 @@ msgid "Public"
 msgstr "Загальне"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
-#: ../src/calendar/gui/comp-util.c:2901
+#: ../src/calendar/gui/comp-util.c:2923
 #: ../src/calendar/gui/e-cal-list-view.c:288
 #: ../src/calendar/gui/e-cal-model.c:295 ../src/calendar/gui/e-task-table.c:438
 #: ../src/calendar/gui/memotypes.xml.in.h:11
@@ -7515,7 +7528,7 @@ msgid "Private"
 msgstr "Приватне"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
-#: ../src/calendar/gui/comp-util.c:2904
+#: ../src/calendar/gui/comp-util.c:2926
 #: ../src/calendar/gui/e-cal-list-view.c:289
 #: ../src/calendar/gui/e-cal-model.c:297 ../src/calendar/gui/e-task-table.c:439
 #: ../src/calendar/gui/memotypes.xml.in.h:12
@@ -7549,7 +7562,7 @@ msgstr "Адреса"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:16
 #: ../src/calendar/gui/memotypes.xml.in.h:14
-#: ../src/calendar/gui/tasktypes.xml.in.h:15
+#: ../src/calendar/gui/tasktypes.xml.in.h:16
 #: ../src/em-format/e-mail-formatter-print.c:50
 #: ../src/em-format/e-mail-formatter-print-headers.c:161
 #: ../src/mail/filtertypes.xml.in.h:48 ../src/mail/searchtypes.xml.in.h:50
@@ -7559,7 +7572,7 @@ msgstr "Долучення"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:17
 #: ../src/calendar/gui/memotypes.xml.in.h:15
-#: ../src/calendar/gui/tasktypes.xml.in.h:16
+#: ../src/calendar/gui/tasktypes.xml.in.h:17
 #: ../src/mail/filtertypes.xml.in.h:49 ../src/mail/searchtypes.xml.in.h:51
 #: ../src/mail/vfoldertypes.xml.in.h:52
 msgid "Exist"
@@ -7567,7 +7580,7 @@ msgstr "існує"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:18
 #: ../src/calendar/gui/memotypes.xml.in.h:16
-#: ../src/calendar/gui/tasktypes.xml.in.h:17
+#: ../src/calendar/gui/tasktypes.xml.in.h:18
 #: ../src/mail/filtertypes.xml.in.h:50 ../src/mail/searchtypes.xml.in.h:52
 #: ../src/mail/vfoldertypes.xml.in.h:53
 msgid "Do Not Exist"
@@ -7596,19 +7609,19 @@ msgstr "Більше за"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:25
 #: ../src/calendar/gui/memotypes.xml.in.h:18
-#: ../src/calendar/gui/tasktypes.xml.in.h:36
+#: ../src/calendar/gui/tasktypes.xml.in.h:37
 msgid "Summary Contains"
 msgstr "Зведення містить"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:26
 #: ../src/calendar/gui/memotypes.xml.in.h:19
-#: ../src/calendar/gui/tasktypes.xml.in.h:37
+#: ../src/calendar/gui/tasktypes.xml.in.h:38
 msgid "Description Contains"
 msgstr "Опис містить"
 
-#: ../src/calendar/gui/comp-util.c:1602 ../src/calendar/gui/comp-util.c:3031
+#: ../src/calendar/gui/comp-util.c:1602 ../src/calendar/gui/comp-util.c:3053
 #: ../src/calendar/importers/icalendar-importer.c:1483
-#: ../src/modules/itip-formatter/itip-view.c:2895
+#: ../src/modules/itip-formatter/itip-view.c:2911
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -7676,7 +7689,7 @@ msgstr "Скасовано"
 #: ../src/calendar/gui/e-meeting-list-view.c:196
 #: ../src/calendar/gui/e-meeting-store.c:175
 #: ../src/calendar/gui/e-meeting-store.c:198
-#: ../src/modules/itip-formatter/itip-view.c:7121
+#: ../src/modules/itip-formatter/itip-view.c:7137
 msgid "Accepted"
 msgstr "Прийнято"
 
@@ -7684,7 +7697,7 @@ msgstr "Прийнято"
 #: ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:177
 #: ../src/calendar/gui/e-meeting-store.c:200
-#: ../src/modules/itip-formatter/itip-view.c:7127
+#: ../src/modules/itip-formatter/itip-view.c:7143
 msgid "Declined"
 msgstr "Відхилено"
 
@@ -7700,7 +7713,7 @@ msgstr "Експериментальний"
 #: ../src/calendar/gui/e-meeting-list-view.c:199
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:7130
+#: ../src/modules/itip-formatter/itip-view.c:7146
 msgid "Delegated"
 msgstr "Доручено"
 
@@ -7807,98 +7820,98 @@ msgstr "…"
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../src/calendar/gui/comp-util.c:2712 ../src/e-util/e-filter-rule.c:1021
+#: ../src/calendar/gui/comp-util.c:2734 ../src/e-util/e-filter-rule.c:1021
 #: ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Без заголовку"
 
-#: ../src/calendar/gui/comp-util.c:2725
+#: ../src/calendar/gui/comp-util.c:2747
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:258
-#: ../src/modules/itip-formatter/itip-view.c:2070
-#: ../src/modules/itip-formatter/itip-view.c:2274
+#: ../src/modules/itip-formatter/itip-view.c:2086
+#: ../src/modules/itip-formatter/itip-view.c:2290
 msgid "Location:"
 msgstr "Адреса:"
 
-#: ../src/calendar/gui/comp-util.c:2758
-#: ../src/modules/itip-formatter/itip-view.c:2071
-#: ../src/modules/itip-formatter/itip-view.c:2277
+#: ../src/calendar/gui/comp-util.c:2780
+#: ../src/modules/itip-formatter/itip-view.c:2087
+#: ../src/modules/itip-formatter/itip-view.c:2293
 msgid "GEO Location:"
 msgstr "Геопозиціювання:"
 
-#: ../src/calendar/gui/comp-util.c:2774
+#: ../src/calendar/gui/comp-util.c:2796
 msgid "Start Date:"
 msgstr "Дата початку:"
 
-#: ../src/calendar/gui/comp-util.c:2783
+#: ../src/calendar/gui/comp-util.c:2805
 msgid "End Date:"
 msgstr "Дата завершення:"
 
-#: ../src/calendar/gui/comp-util.c:2795
-#: ../src/modules/itip-formatter/itip-view.c:2075
-#: ../src/modules/itip-formatter/itip-view.c:2289
+#: ../src/calendar/gui/comp-util.c:2817
+#: ../src/modules/itip-formatter/itip-view.c:2091
+#: ../src/modules/itip-formatter/itip-view.c:2305
 msgid "Recurs:"
 msgstr "Повторення:"
 
-#: ../src/calendar/gui/comp-util.c:2804
+#: ../src/calendar/gui/comp-util.c:2826
 msgid "Due Date:"
 msgstr "Дата завершення:"
 
-#: ../src/calendar/gui/comp-util.c:2821
-#: ../src/modules/itip-formatter/itip-view.c:2077
-#: ../src/modules/itip-formatter/itip-view.c:2295
+#: ../src/calendar/gui/comp-util.c:2843
+#: ../src/modules/itip-formatter/itip-view.c:2093
+#: ../src/modules/itip-formatter/itip-view.c:2311
 msgid "Estimated duration:"
 msgstr "Оцінка тривалості:"
 
-#: ../src/calendar/gui/comp-util.c:2837
-#: ../src/modules/itip-formatter/itip-view.c:2078
-#: ../src/modules/itip-formatter/itip-view.c:2298
+#: ../src/calendar/gui/comp-util.c:2859
+#: ../src/modules/itip-formatter/itip-view.c:2094
+#: ../src/modules/itip-formatter/itip-view.c:2314
 msgid "Status:"
 msgstr "Стан:"
 
-#: ../src/calendar/gui/comp-util.c:2845
-#: ../src/modules/itip-formatter/itip-view.c:2080
-#: ../src/modules/itip-formatter/itip-view.c:2304
+#: ../src/calendar/gui/comp-util.c:2867
+#: ../src/modules/itip-formatter/itip-view.c:2096
+#: ../src/modules/itip-formatter/itip-view.c:2320
 msgid "Categories:"
 msgstr "Категорії:"
 
-#: ../src/calendar/gui/comp-util.c:2888 ../src/calendar/gui/e-task-table.c:463
-#: ../src/calendar/gui/tasktypes.xml.in.h:19
+#: ../src/calendar/gui/comp-util.c:2910 ../src/calendar/gui/e-task-table.c:463
+#: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:330
 msgid "High"
 msgstr "Високий"
 
-#: ../src/calendar/gui/comp-util.c:2890 ../src/calendar/gui/e-cal-model.c:1879
+#: ../src/calendar/gui/comp-util.c:2912 ../src/calendar/gui/e-cal-model.c:1879
 #: ../src/calendar/gui/e-task-table.c:464
-#: ../src/calendar/gui/tasktypes.xml.in.h:20
+#: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:329
 msgid "Normal"
 msgstr "Звичайний"
 
-#: ../src/calendar/gui/comp-util.c:2892 ../src/calendar/gui/e-task-table.c:465
-#: ../src/calendar/gui/tasktypes.xml.in.h:21
+#: ../src/calendar/gui/comp-util.c:2914 ../src/calendar/gui/e-task-table.c:465
+#: ../src/calendar/gui/tasktypes.xml.in.h:22
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:328
 msgid "Low"
 msgstr "Низький"
 
-#: ../src/calendar/gui/comp-util.c:2894
+#: ../src/calendar/gui/comp-util.c:2916
 msgid "Priority:"
 msgstr "Пріоритет:"
 
-#: ../src/calendar/gui/comp-util.c:2912
+#: ../src/calendar/gui/comp-util.c:2934
 msgid "Classification:"
 msgstr "Класифікація:"
 
-#: ../src/calendar/gui/comp-util.c:2925
+#: ../src/calendar/gui/comp-util.c:2947
 msgid "Organizer:"
 msgstr "Організатор:"
 
-#: ../src/calendar/gui/comp-util.c:2967
-#: ../src/modules/itip-formatter/itip-view.c:2081
-#: ../src/modules/itip-formatter/itip-view.c:2307
+#: ../src/calendar/gui/comp-util.c:2989
+#: ../src/modules/itip-formatter/itip-view.c:2097
+#: ../src/modules/itip-formatter/itip-view.c:2323
 msgid "Attendees:"
 msgstr "Запрошені:"
 
-#: ../src/calendar/gui/comp-util.c:3091
+#: ../src/calendar/gui/comp-util.c:3113
 msgid "Web Page:"
 msgstr "Веб-сторінка:"
 
@@ -8292,54 +8305,54 @@ msgstr "Надіслати мої нагадування з цією подіє�
 msgid "Notify new attendees _only"
 msgstr "Сповідати _лише нових учасників"
 
-#: ../src/calendar/gui/e-calendar-view.c:514
+#: ../src/calendar/gui/e-calendar-view.c:442
 msgid "Cut selected events to the clipboard"
 msgstr "Вирізати виділені події у буфер обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:520
+#: ../src/calendar/gui/e-calendar-view.c:448
 msgid "Copy selected events to the clipboard"
 msgstr "Копіювати виділені події у буфер обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:526
+#: ../src/calendar/gui/e-calendar-view.c:454
 msgid "Paste events from the clipboard"
 msgstr "Вставити події з буфера обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:532
+#: ../src/calendar/gui/e-calendar-view.c:460
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1448
 msgid "Delete selected events"
 msgstr "Вилучити вибрані події"
 
-#: ../src/calendar/gui/e-calendar-view.c:1038
+#: ../src/calendar/gui/e-calendar-view.c:966
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "Вставлений текст не містить дійсних даних iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:1049
+#: ../src/calendar/gui/e-calendar-view.c:977
 #: ../src/calendar/gui/e-cal-ops.c:1587
 msgid "Default calendar not found"
 msgstr "Типовий календар не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:1054
+#: ../src/calendar/gui/e-calendar-view.c:982
 #: ../src/calendar/gui/e-cal-ops.c:1590
 msgid "Default memo list not found"
 msgstr "Типовий список приміток не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:1059
+#: ../src/calendar/gui/e-calendar-view.c:987
 #: ../src/calendar/gui/e-cal-ops.c:1593
 msgid "Default task list not found"
 msgstr "Типовий список завдань не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:1166
+#: ../src/calendar/gui/e-calendar-view.c:1094
 msgid "No suitable component found"
 msgstr "Не знайдено належний модель"
 
-#: ../src/calendar/gui/e-calendar-view.c:1231
+#: ../src/calendar/gui/e-calendar-view.c:1159
 msgid "Pasting iCalendar data"
 msgstr "Вставлення даних iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:1288
-#: ../src/calendar/gui/e-calendar-view.c:1291
-#: ../src/calendar/gui/e-calendar-view.c:1294
-#: ../src/calendar/gui/e-calendar-view.c:1295
+#: ../src/calendar/gui/e-calendar-view.c:1216
+#: ../src/calendar/gui/e-calendar-view.c:1219
+#: ../src/calendar/gui/e-calendar-view.c:1222
+#: ../src/calendar/gui/e-calendar-view.c:1223
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -8348,14 +8361,14 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1290
+#: ../src/calendar/gui/e-calendar-view.c:1218
 #: ../src/calendar/gui/e-day-view.c:3282
 #: ../src/calendar/gui/e-day-view-top-item.c:845
 #: ../src/calendar/gui/e-week-view-main-item.c:223
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1301
+#: ../src/calendar/gui/e-calendar-view.c:1229
 msgid "%A %d %b %Y"
 msgstr "%A, %d %b %Y"
 
@@ -8365,16 +8378,16 @@ msgstr "%A, %d %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1303
+#: ../src/calendar/gui/e-calendar-view.c:1231
 #: ../src/calendar/gui/e-day-view.c:3266
 #: ../src/calendar/gui/e-day-view-top-item.c:841
 #: ../src/calendar/gui/e-week-view-main-item.c:209
 msgid "%a %d %b"
 msgstr "%a, %d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1304
-#: ../src/calendar/gui/e-calendar-view.c:1306
-#: ../src/calendar/gui/e-calendar-view.c:1307
+#: ../src/calendar/gui/e-calendar-view.c:1232
+#: ../src/calendar/gui/e-calendar-view.c:1234
+#: ../src/calendar/gui/e-calendar-view.c:1235
 msgid "%a %d %b %Y"
 msgstr "%a, %d %b %Y"
 
@@ -8382,7 +8395,7 @@ msgstr "%a, %d %b %Y"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1968
+#: ../src/calendar/gui/e-calendar-view.c:1896
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -8429,7 +8442,7 @@ msgstr "Востаннє змінено"
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:9
 #: ../src/calendar/gui/e-memo-table.etspec.h:8
 #: ../src/calendar/gui/e-task-table.etspec.h:16
-#: ../src/em-format/e-mail-formatter-source.c:118
+#: ../src/em-format/e-mail-formatter-source.c:164
 msgid "Source"
 msgstr "Джерело"
 
@@ -8453,15 +8466,15 @@ msgstr "Тип"
 #: ../src/calendar/gui/e-meeting-store.c:166
 #: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1300
 #: ../src/calendar/gui/print.c:1317 ../src/e-util/e-charset.c:49
-#: ../src/modules/itip-formatter/itip-view.c:4011
-#: ../src/modules/itip-formatter/itip-view.c:7133
+#: ../src/modules/itip-formatter/itip-view.c:4027
+#: ../src/modules/itip-formatter/itip-view.c:7149
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Невідоме"
 
 #: ../src/calendar/gui/e-cal-model.c:1365 ../src/calendar/gui/e-cal-ops.c:633
 #: ../src/calendar/gui/e-cal-ops.c:1272
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:384
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:385
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Джерела з унікальним ідентифікатором «%s» не знайдено"
@@ -8776,8 +8789,8 @@ msgstr "Час початку — недійсний час"
 #: ../src/e-util/e-misc-utils.c:4159 ../src/e-util/e-misc-utils.c:4173
 #: ../src/mail/e-mail-autoconfig.c:1130 ../src/mail/e-mail-display.c:2914
 #: ../src/mail/e-mail-notes.c:929 ../src/mail/e-mail-reader.c:3699
-#: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4192
-#: ../src/mail/em-composer-utils.c:4215 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4225
+#: ../src/mail/em-composer-utils.c:4248 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:432
@@ -9132,7 +9145,7 @@ msgstr "_Учасники…"
 #: ../src/e-util/e-webdav-browser.c:2881 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:718 ../src/mail/e-mail-browser.c:209
 #: ../src/mail/e-mail-label-manager.c:381
-#: ../src/mail/em-folder-properties.c:1394 ../src/mail/mail-config.ui.h:69
+#: ../src/mail/em-folder-properties.c:1394 ../src/mail/mail-config.ui.h:70
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1806
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:820
@@ -9404,13 +9417,13 @@ msgstr "Винятки<"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2310
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2278
 #: ../src/mail/e-mail-config-identity-page.c:847
-#: ../src/mail/mail-config.ui.h:74
+#: ../src/mail/mail-config.ui.h:75
 msgid "A_dd"
 msgstr "_Додати"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2326
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2286
-#: ../src/mail/mail-config.ui.h:75
+#: ../src/mail/mail-config.ui.h:76
 msgid "Re_move"
 msgstr "В_илучити"
 
@@ -10127,6 +10140,7 @@ msgstr "Не бере участі"
 #: ../src/calendar/gui/e-meeting-store.c:173
 #: ../src/calendar/gui/e-meeting-store.c:196
 #: ../src/calendar/gui/e-meeting-store.c:1071
+#: ../src/calendar/gui/tasktypes.xml.in.h:13
 msgid "Needs Action"
 msgstr "Необхідна дія"
 
@@ -10138,7 +10152,7 @@ msgstr "Зацікавлена особа"
 
 #: ../src/calendar/gui/e-meeting-store.c:183
 #: ../src/calendar/gui/e-meeting-store.c:206
-#: ../src/calendar/gui/tasktypes.xml.in.h:13
+#: ../src/calendar/gui/tasktypes.xml.in.h:14
 #: ../src/plugins/save-calendar/csv-format.c:366
 msgid "Completed"
 msgstr "Завершено"
@@ -10295,7 +10309,7 @@ msgid "Click to add a memo"
 msgstr "Клацніть, щоб додати примітку"
 
 #: ../src/calendar/gui/e-task-table.c:466
-#: ../src/calendar/gui/tasktypes.xml.in.h:22
+#: ../src/calendar/gui/tasktypes.xml.in.h:23
 #: ../src/e-util/e-send-options.ui.h:1
 msgid "Undefined"
 msgstr "Невизначено"
@@ -10357,7 +10371,7 @@ msgid "% Complete"
 msgstr "% виконання:"
 
 #: ../src/calendar/gui/e-task-table.etspec.h:10
-#: ../src/calendar/gui/tasktypes.xml.in.h:18
+#: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/plugins/save-calendar/csv-format.c:373
 msgid "Priority"
 msgstr "Пріоритет"
@@ -10397,14 +10411,14 @@ msgstr "Час: %s %s"
 #: ../src/calendar/gui/e-to-do-pane.c:1638 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:237
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:2036
-#: ../src/modules/itip-formatter/itip-view.c:271
+#: ../src/modules/itip-formatter/itip-view.c:272
 msgid "Today"
 msgstr "Сьогодні"
 
 #. strftime format of a weekday and a date.
 #: ../src/calendar/gui/e-to-do-pane.c:1640
 #: ../src/e-util/e-datetime-format.c:248
-#: ../src/modules/itip-formatter/itip-view.c:299
+#: ../src/modules/itip-formatter/itip-view.c:300
 msgid "Tomorrow"
 msgstr "Завтра"
 
@@ -10810,48 +10824,48 @@ msgstr "Не розпочато"
 msgid "In progress"
 msgstr "Виконується"
 
-#: ../src/calendar/gui/tasktypes.xml.in.h:25
+#: ../src/calendar/gui/tasktypes.xml.in.h:26
 #, no-c-format
 msgid "% Completed"
 msgstr "% завершено"
 
-#: ../src/calendar/gui/tasktypes.xml.in.h:26
+#: ../src/calendar/gui/tasktypes.xml.in.h:27
 #: ../src/mail/filtertypes.xml.in.h:31 ../src/mail/searchtypes.xml.in.h:33
 #: ../src/mail/vfoldertypes.xml.in.h:33
 msgid "is greater than"
 msgstr "більше ніж"
 
-#: ../src/calendar/gui/tasktypes.xml.in.h:27
+#: ../src/calendar/gui/tasktypes.xml.in.h:28
 #: ../src/mail/filtertypes.xml.in.h:32 ../src/mail/searchtypes.xml.in.h:34
 #: ../src/mail/vfoldertypes.xml.in.h:34
 msgid "is less than"
 msgstr "менше ніж"
 
-#: ../src/calendar/gui/tasktypes.xml.in.h:28
+#: ../src/calendar/gui/tasktypes.xml.in.h:29
 msgid "Current State"
 msgstr "Поточний стан"
 
-#: ../src/calendar/gui/tasktypes.xml.in.h:29
+#: ../src/calendar/gui/tasktypes.xml.in.h:30
 msgid "is Overdue"
 msgstr "прострочено"
 
-#: ../src/calendar/gui/tasktypes.xml.in.h:30
+#: ../src/calendar/gui/tasktypes.xml.in.h:31
 msgid "is Scheduled"
 msgstr "заплановано"
 
-#: ../src/calendar/gui/tasktypes.xml.in.h:31
+#: ../src/calendar/gui/tasktypes.xml.in.h:32
 msgid "is not Scheduled"
 msgstr "не заплановано"
 
-#: ../src/calendar/gui/tasktypes.xml.in.h:32
+#: ../src/calendar/gui/tasktypes.xml.in.h:33
 msgid "Due In"
 msgstr "Граничний термін"
 
-#: ../src/calendar/gui/tasktypes.xml.in.h:33
+#: ../src/calendar/gui/tasktypes.xml.in.h:34
 msgid "Next Days"
 msgstr "Наступні дні"
 
-#: ../src/calendar/gui/tasktypes.xml.in.h:34
+#: ../src/calendar/gui/tasktypes.xml.in.h:35
 msgid "Previous Days"
 msgstr "Попередні дні"
 
@@ -10862,14 +10876,14 @@ msgstr "Зустрічі та зібрання"
 #: ../src/calendar/importers/icalendar-importer.c:343
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:491
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:85
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:273
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:274
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:181
 msgid "New Calendar"
 msgstr "Створити календар"
 
 #: ../src/calendar/importers/icalendar-importer.c:346
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:499
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:281
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:282
 #: ../src/modules/calendar/e-task-shell-view-actions.c:230
 msgid "New Task List"
 msgstr "Новий список завдань"
@@ -12899,7 +12913,7 @@ msgstr "Натисніть тут, щоб вибрати теку для від�
 msgid "Send"
 msgstr "Надіслати"
 
-#: ../src/composer/e-msg-composer.c:1182
+#: ../src/composer/e-msg-composer.c:1189
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -12907,7 +12921,7 @@ msgstr ""
 "Не вдалося підписати повідомлення: для цього облікового запису не "
 "встановлений сертифікат підпису"
 
-#: ../src/composer/e-msg-composer.c:1191
+#: ../src/composer/e-msg-composer.c:1198
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -12916,32 +12930,32 @@ msgstr ""
 "Не вдалося зашифрувати повідомлення: для облікового запису не встановлений "
 "сертифікат шифрування"
 
-#: ../src/composer/e-msg-composer.c:1636
+#: ../src/composer/e-msg-composer.c:1643
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Не вдалося отримати оброблені звичайні текстові дані"
 
-#: ../src/composer/e-msg-composer.c:1760
+#: ../src/composer/e-msg-composer.c:1767
 msgid "Failed to retrieve draft content"
 msgstr "Не вдалося отримати вміст чернетки"
 
-#: ../src/composer/e-msg-composer.c:1773
+#: ../src/composer/e-msg-composer.c:1780
 msgid "Failed to retrieve HTML processed content"
 msgstr "Не вдалося отримати оброблені дані HTML"
 
-#: ../src/composer/e-msg-composer.c:2085 ../src/composer/e-msg-composer.c:2798
+#: ../src/composer/e-msg-composer.c:2092 ../src/composer/e-msg-composer.c:2805
 msgid "Compose Message"
 msgstr "Нове повідомлення"
 
-#: ../src/composer/e-msg-composer.c:4998
+#: ../src/composer/e-msg-composer.c:5035
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Читаємо текстові дані…"
 
-#: ../src/composer/e-msg-composer.c:5066
+#: ../src/composer/e-msg-composer.c:5103
 msgid "Send _without encryption"
 msgstr "Надіслати _без шифрування"
 
-#: ../src/composer/e-msg-composer.c:5854
+#: ../src/composer/e-msg-composer.c:5891
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Переглянути долучення перед надсиланням."
@@ -12949,7 +12963,7 @@ msgstr[1] "Переглянути долучення перед надсилан
 msgstr[2] "Переглянути долучення перед надсиланням."
 msgstr[3] "Переглянути долучення перед надсиланням."
 
-#: ../src/composer/e-msg-composer.c:5859
+#: ../src/composer/e-msg-composer.c:5896
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -12970,7 +12984,7 @@ msgstr[3] ""
 "Зовнішньою програмою додано одне долучення. Перш ніж надсилати повідомлення, "
 "переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 
-#: ../src/composer/e-msg-composer.c:5985
+#: ../src/composer/e-msg-composer.c:6022
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редактор містить не текстовий вміст, який неможливо редагувати."
 
@@ -13557,7 +13571,7 @@ msgstr "Шифрування"
 msgid "Encrypted by:"
 msgstr "Зашифровано:"
 
-#: ../src/em-format/e-mail-formatter-source.c:119
+#: ../src/em-format/e-mail-formatter-source.c:165
 msgid "Display source of a MIME part"
 msgstr "Показати джерело частини MIME"
 
@@ -13783,7 +13797,7 @@ msgstr "Списки завдань"
 
 #: ../src/e-util/e-accounts-window.c:1407 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:77
-#: ../src/modules/mail/em-composer-prefs.c:1734
+#: ../src/modules/mail/em-composer-prefs.c:1735
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
 #: ../src/plugins/mail-notification/mail-notification.c:1193
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
@@ -14584,7 +14598,7 @@ msgstr "Вибрати нетиповий колір"
 #: ../src/mail/e-mail-account-tree-view.c:128
 #: ../src/mail/e-mail-config-security-page.c:538
 #: ../src/mail/e-mail-config-security-page.c:788
-#: ../src/mail/e-mail-reader.c:5234 ../src/mail/mail-config.ui.h:84
+#: ../src/mail/e-mail-reader.c:5234 ../src/mail/mail-config.ui.h:85
 msgid "Default"
 msgstr "Типовий"
 
@@ -15734,7 +15748,7 @@ msgid "_Rule"
 msgstr "_Відріз"
 
 #: ../src/e-util/e-html-editor-actions.c:2345
-#: ../src/e-util/e-html-editor-cell-dialog.c:439
+#: ../src/e-util/e-html-editor-cell-dialog.c:430
 msgid "_Table"
 msgstr "_Таблиця"
 
@@ -15770,132 +15784,133 @@ msgstr "Не вдалося отримати дані редактора"
 msgid "<b>Scope</b>"
 msgstr "<b>Область</b>"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:413
+#. Scope: cell
+#: ../src/e-util/e-html-editor-cell-dialog.c:410
 msgid "C_ell"
 msgstr "К_омірка"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:426
+#: ../src/e-util/e-html-editor-cell-dialog.c:420
 msgid "_Row"
 msgstr "_Рядок"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:452
+#: ../src/e-util/e-html-editor-cell-dialog.c:440
 msgid "Col_umn"
 msgstr "Ст_овпчик"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:462
+#: ../src/e-util/e-html-editor-cell-dialog.c:450
 msgid "<b>Alignment &amp; Behavior</b>"
 msgstr "<b>Вирівнювання і поведінка</b>"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:475
+#: ../src/e-util/e-html-editor-cell-dialog.c:463
 #: ../src/e-util/e-html-editor-hrule-dialog.c:297
-#: ../src/e-util/e-html-editor-table-dialog.c:630
+#: ../src/e-util/e-html-editor-table-dialog.c:624
 msgid "Left"
 msgstr "Ліворуч"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:476
+#: ../src/e-util/e-html-editor-cell-dialog.c:464
 #: ../src/e-util/e-html-editor-hrule-dialog.c:299
-#: ../src/e-util/e-html-editor-table-dialog.c:631
+#: ../src/e-util/e-html-editor-table-dialog.c:625
 msgid "Center"
 msgstr "По центру"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:477
+#: ../src/e-util/e-html-editor-cell-dialog.c:465
 #: ../src/e-util/e-html-editor-hrule-dialog.c:301
-#: ../src/e-util/e-html-editor-table-dialog.c:632
+#: ../src/e-util/e-html-editor-table-dialog.c:626
 msgid "Right"
 msgstr "Праворуч"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:485
+#: ../src/e-util/e-html-editor-cell-dialog.c:473
 msgid "_Horizontal:"
 msgstr "_Горизонталь:"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:493
+#: ../src/e-util/e-html-editor-cell-dialog.c:481
 #: ../src/e-util/e-html-editor-image-dialog.c:659
 msgid "Top"
 msgstr "Вгорі"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:494
+#: ../src/e-util/e-html-editor-cell-dialog.c:482
 #: ../src/e-util/e-html-editor-image-dialog.c:660
 msgid "Middle"
 msgstr "Посередині"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:495
+#: ../src/e-util/e-html-editor-cell-dialog.c:483
 #: ../src/e-util/e-html-editor-image-dialog.c:661
 msgid "Bottom"
 msgstr "Внизу"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:503
+#: ../src/e-util/e-html-editor-cell-dialog.c:491
 msgid "_Vertical:"
 msgstr "_Вертикаль:"
 
 #. Wrap Text
-#: ../src/e-util/e-html-editor-cell-dialog.c:509
+#: ../src/e-util/e-html-editor-cell-dialog.c:497
 msgid "_Wrap Text"
 msgstr "_Переносити текст"
 
 #. Header Style
-#: ../src/e-util/e-html-editor-cell-dialog.c:517
+#: ../src/e-util/e-html-editor-cell-dialog.c:505
 msgid "_Header Style"
 msgstr "_Стиль заголовка"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:531
+#: ../src/e-util/e-html-editor-cell-dialog.c:519
 #: ../src/e-util/e-html-editor-image-dialog.c:600
-#: ../src/e-util/e-html-editor-table-dialog.c:542
+#: ../src/e-util/e-html-editor-table-dialog.c:536
 msgid "<b>Layout</b>"
 msgstr "<b>Компонування</b>"
 
 #. Width
-#: ../src/e-util/e-html-editor-cell-dialog.c:542
+#: ../src/e-util/e-html-editor-cell-dialog.c:530
 msgid "_Width"
 msgstr "_Ширина"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:582
+#: ../src/e-util/e-html-editor-cell-dialog.c:570
 msgid "Row S_pan:"
 msgstr "Діапазон _рядків:"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:596
+#: ../src/e-util/e-html-editor-cell-dialog.c:584
 msgid "Co_lumn Span:"
 msgstr "Діапазон _стовпців:"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:603
-#: ../src/e-util/e-html-editor-table-dialog.c:646
+#: ../src/e-util/e-html-editor-cell-dialog.c:591
+#: ../src/e-util/e-html-editor-table-dialog.c:640
 msgid "<b>Background</b>"
 msgstr "<b>Тло</b>"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:616
-#: ../src/e-util/e-html-editor-table-dialog.c:659
+#: ../src/e-util/e-html-editor-cell-dialog.c:604
+#: ../src/e-util/e-html-editor-table-dialog.c:653
 msgid "Transparent"
 msgstr "Прозорість"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:624
+#: ../src/e-util/e-html-editor-cell-dialog.c:612
 msgid "C_olor:"
 msgstr "_Колір:"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:631
+#: ../src/e-util/e-html-editor-cell-dialog.c:619
 #: ../src/e-util/e-html-editor-image-dialog.c:556
-#: ../src/e-util/e-html-editor-table-dialog.c:674
+#: ../src/e-util/e-html-editor-table-dialog.c:668
 msgid "Images"
 msgstr "Зображення"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:636
-#: ../src/e-util/e-html-editor-cell-dialog.c:639
+#: ../src/e-util/e-html-editor-cell-dialog.c:624
+#: ../src/e-util/e-html-editor-cell-dialog.c:627
 #: ../src/e-util/e-html-editor-image-dialog.c:561
 #: ../src/e-util/e-html-editor-image-dialog.c:564
-#: ../src/e-util/e-html-editor-table-dialog.c:679
-#: ../src/e-util/e-html-editor-table-dialog.c:684
+#: ../src/e-util/e-html-editor-table-dialog.c:673
+#: ../src/e-util/e-html-editor-table-dialog.c:678
 msgid "Choose Background Image"
 msgstr "Вибрати зображення тла"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:653
+#: ../src/e-util/e-html-editor-cell-dialog.c:641
 msgid "_Image:"
 msgstr "_Зображення:"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:660
+#: ../src/e-util/e-html-editor-cell-dialog.c:648
 #: ../src/e-util/e-html-editor-page-dialog.c:536
-#: ../src/e-util/e-html-editor-table-dialog.c:705
+#: ../src/e-util/e-html-editor-table-dialog.c:699
 msgid "_Remove image"
 msgstr "_Вилучити зображення"
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:680
+#: ../src/e-util/e-html-editor-cell-dialog.c:668
 msgid "Cell Properties"
 msgstr "Властивості комірки"
 
@@ -15928,7 +15943,7 @@ msgstr "<b>Розмір</b>"
 #. Width
 #: ../src/e-util/e-html-editor-hrule-dialog.c:252
 #: ../src/e-util/e-html-editor-image-dialog.c:618
-#: ../src/e-util/e-html-editor-table-dialog.c:553
+#: ../src/e-util/e-html-editor-table-dialog.c:547
 msgid "_Width:"
 msgstr "_Ширина:"
 
@@ -15941,7 +15956,7 @@ msgid "<b>Style</b>"
 msgstr "<b>Стиль</b>"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:309
-#: ../src/e-util/e-html-editor-table-dialog.c:639
+#: ../src/e-util/e-html-editor-table-dialog.c:633
 msgid "_Alignment:"
 msgstr "_Вирівнювання:"
 
@@ -15981,7 +15996,7 @@ msgid "_Y-Padding:"
 msgstr "_Y-заповнення:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:714
-#: ../src/e-util/e-html-editor-table-dialog.c:620
+#: ../src/e-util/e-html-editor-table-dialog.c:614
 msgid "_Border:"
 msgstr "_Рамка:"
 
@@ -16002,7 +16017,7 @@ msgid "Image Properties"
 msgstr "Властивості зображення"
 
 #: ../src/e-util/e-html-editor-link-popover.c:120
-#: ../src/modules/itip-formatter/itip-view.c:1310
+#: ../src/modules/itip-formatter/itip-view.c:1326
 #: ../src/smime/gui/certificate-manager.c:1603
 msgid "_Update"
 msgstr "_Оновити"
@@ -16194,37 +16209,37 @@ msgid "Add word"
 msgstr "Додати слово"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:492
-#: ../src/mail/mail-config.ui.h:44
+#: ../src/mail/mail-config.ui.h:45
 msgid "Spell Checking"
 msgstr "Перевірка орфографії"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:518
+#: ../src/e-util/e-html-editor-table-dialog.c:515
 msgid "_Rows:"
 msgstr "_Рядки:"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:535
+#: ../src/e-util/e-html-editor-table-dialog.c:529
 msgid "C_olumns:"
 msgstr "_Стовпчики:"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:586
+#: ../src/e-util/e-html-editor-table-dialog.c:580
 msgid "_Spacing:"
 msgstr "_Інтервал:"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:603
+#: ../src/e-util/e-html-editor-table-dialog.c:597
 msgid "_Padding:"
 msgstr "_Заповнення:"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:667
+#: ../src/e-util/e-html-editor-table-dialog.c:661
 #: ../src/e-util/e-html-editor-text-dialog.c:239
 #: ../src/e-util/e-webdav-browser.c:2593
 msgid "_Color:"
 msgstr "_Колір:"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:698
+#: ../src/e-util/e-html-editor-table-dialog.c:692
 msgid "Image:"
 msgstr "Зображення:"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:725
+#: ../src/e-util/e-html-editor-table-dialog.c:719
 msgid "Table Properties"
 msgstr "Властивості таблиці"
 
@@ -16666,25 +16681,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Виберіть контакти з адресної книги"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3147
+#: ../src/e-util/e-name-selector-entry.c:3268
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "_Розгорнути %s в рядок"
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3163
+#: ../src/e-util/e-name-selector-entry.c:3284
 #, c-format
 msgid "Cop_y %s"
 msgstr "_Копіювати %s"
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3174
+#: ../src/e-util/e-name-selector-entry.c:3295
 #, c-format
 msgid "C_ut %s"
 msgstr "_Вирізати %s"
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3192
+#: ../src/e-util/e-name-selector-entry.c:3313
 #, c-format
 msgid "_Edit %s"
 msgstr "Ре_дагувати %s"
@@ -17046,48 +17061,48 @@ msgstr "Назва не може бути порожня"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../src/e-util/e-source-config.c:1364
+#: ../src/e-util/e-source-config.c:1359
 msgid "Refresh every"
 msgstr "Оновлювати кожні"
 
-#: ../src/e-util/e-source-config.c:1392
+#: ../src/e-util/e-source-config.c:1387
 msgid "Refresh content on metered network"
 msgstr "Оновлювати дані у мережі із обліком даних"
 
-#: ../src/e-util/e-source-config.c:1419 ../src/e-util/e-source-config.c:1493
+#: ../src/e-util/e-source-config.c:1414 ../src/e-util/e-source-config.c:1488
 msgid "Use a secure connection"
 msgstr "Використовувати безпечне з'єднання"
 
-#: ../src/e-util/e-source-config.c:1520
+#: ../src/e-util/e-source-config.c:1515
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "Скасувати _довіру з цього сертифіката SSL/TLS"
 
-#: ../src/e-util/e-source-config.c:1556
+#: ../src/e-util/e-source-config.c:1551
 msgid "User:"
 msgstr "Користувач:"
 
-#: ../src/e-util/e-source-selector.c:3608
+#: ../src/e-util/e-source-selector.c:3613
 msgid "Show"
 msgstr "Показати"
 
-#: ../src/e-util/e-source-selector.c:3614
+#: ../src/e-util/e-source-selector.c:3619
 msgid "Group name"
 msgstr "Назва групи"
 
-#: ../src/e-util/e-source-selector.c:3818 ../src/mail/e-mail-display.c:761
+#: ../src/e-util/e-source-selector.c:3823 ../src/mail/e-mail-display.c:761
 msgid "_Hide"
 msgstr "С_ховати"
 
-#: ../src/e-util/e-source-selector.c:3818
-#: ../src/e-util/e-source-selector.c:3916
+#: ../src/e-util/e-source-selector.c:3823
+#: ../src/e-util/e-source-selector.c:3921
 msgid "_Show"
 msgstr "_Показати"
 
-#: ../src/e-util/e-source-selector.c:3870
+#: ../src/e-util/e-source-selector.c:3875
 msgid "Manage Groups"
 msgstr "Організувати групи"
 
-#: ../src/e-util/e-source-selector.c:3882
+#: ../src/e-util/e-source-selector.c:3887
 msgid "Available Groups:"
 msgstr "Доступні групи:"
 
@@ -17808,7 +17823,7 @@ msgstr "вказаний вами час"
 msgid "a time relative to the current time"
 msgstr "час відносно поточного"
 
-#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:104
+#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:105
 msgid "seconds"
 msgstr "секунди"
 
@@ -18004,7 +18019,7 @@ msgstr "Файл вилучено."
 msgid "Removing attachments"
 msgstr "Вилучення долучень"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1584
+#: ../src/libemail-engine/e-mail-folder-utils.c:1632
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
@@ -18013,7 +18028,7 @@ msgstr[1] "Збереження %d повідомлень"
 msgstr[2] "Збереження %d повідомлень"
 msgstr[3] "Збереження %d повідомлення"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1973
+#: ../src/libemail-engine/e-mail-folder-utils.c:2053
 #, c-format
 msgid "Invalid folder URI “%s”"
 msgstr "Неправильний URI теки «%s»"
@@ -18106,26 +18121,26 @@ msgid "No mail transport service available"
 msgstr "Немає доступної поштової служби"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:621
-#: ../src/libemail-engine/mail-ops.c:710
+#: ../src/libemail-engine/mail-ops.c:712
 #, c-format
 msgid "Posting message to “%s”"
 msgstr "Публікація повідомлення на «%s»"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:659
-#: ../src/libemail-engine/mail-ops.c:746
+#: ../src/libemail-engine/mail-ops.c:748
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Не вдалося застосувати фільтри на виході: %s"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:692
 #: ../src/libemail-engine/e-mail-session-utils.c:727
-#: ../src/libemail-engine/mail-ops.c:774 ../src/libemail-engine/mail-ops.c:809
+#: ../src/libemail-engine/mail-ops.c:776 ../src/libemail-engine/mail-ops.c:811
 #, c-format
 msgid "Storing sent message to “%s”"
 msgstr "Збереження надісланого повідомлення у «%s»"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:716
-#: ../src/libemail-engine/mail-ops.c:798
+#: ../src/libemail-engine/mail-ops.c:800
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -18135,14 +18150,14 @@ msgstr ""
 "Натомість додаємо до локальної теки «Надіслані»."
 
 #: ../src/libemail-engine/e-mail-session-utils.c:746
-#: ../src/libemail-engine/mail-ops.c:826
+#: ../src/libemail-engine/mail-ops.c:828
 #, c-format
 msgid "Failed to append to local “Sent” folder: %s"
 msgstr "Не вдалося додати до локальної теки «Надіслані»: %s"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:943
-#: ../src/libemail-engine/mail-ops.c:1022
-#: ../src/libemail-engine/mail-ops.c:1134 ../src/mail/mail-send-recv.c:665
+#: ../src/libemail-engine/mail-ops.c:1024
+#: ../src/libemail-engine/mail-ops.c:1136 ../src/mail/mail-send-recv.c:665
 msgid "Sending message"
 msgstr "Надсилається повідомлення"
 
@@ -18185,7 +18200,7 @@ msgstr ""
 msgid "Fetching mail from “%s”"
 msgstr "Отримання пошти з «%s»"
 
-#: ../src/libemail-engine/mail-ops.c:740
+#: ../src/libemail-engine/mail-ops.c:742
 #, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set "
@@ -18198,7 +18213,7 @@ msgstr ""
 "ласка, перевірте свої фільтри в «Редагувати → Фільтри повідомлень». "
 "Повідомлення помилки: %s"
 
-#: ../src/libemail-engine/mail-ops.c:1033
+#: ../src/libemail-engine/mail-ops.c:1035
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Відсилання повідомлення %d з %d"
@@ -18206,7 +18221,7 @@ msgstr "Відсилання повідомлення %d з %d"
 #. Translators: The string is distinguished by total
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
-#: ../src/libemail-engine/mail-ops.c:1091
+#: ../src/libemail-engine/mail-ops.c:1093
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
@@ -18215,45 +18230,45 @@ msgstr[1] "Не вдалось надіслати %d з %d листів"
 msgstr[2] "Не вдалось надіслати %d з %d листів"
 msgstr[3] "Не вдалось надіслати %d з %d листа"
 
-#: ../src/libemail-engine/mail-ops.c:1097
+#: ../src/libemail-engine/mail-ops.c:1099
 msgid "Cancelled."
 msgstr "Скасовано."
 
-#: ../src/libemail-engine/mail-ops.c:1099
+#: ../src/libemail-engine/mail-ops.c:1101
 msgid "Complete."
 msgstr "Виконано."
 
-#: ../src/libemail-engine/mail-ops.c:1220
+#: ../src/libemail-engine/mail-ops.c:1222
 #, c-format
 msgid "Moving messages to “%s”"
 msgstr "Перенесення повідомлень до «%s»"
 
-#: ../src/libemail-engine/mail-ops.c:1221
+#: ../src/libemail-engine/mail-ops.c:1223
 #, c-format
 msgid "Copying messages to “%s”"
 msgstr "Копіювання повідомлень до «%s»"
 
-#: ../src/libemail-engine/mail-ops.c:1340
+#: ../src/libemail-engine/mail-ops.c:1342
 #, c-format
 msgid "Storing folder “%s”"
 msgstr "Збереження теки «%s»"
 
-#: ../src/libemail-engine/mail-ops.c:1468
+#: ../src/libemail-engine/mail-ops.c:1470
 #, c-format
 msgid "Expunging and storing account “%s”"
 msgstr "Очищення і збереження облікового запису «%s»"
 
-#: ../src/libemail-engine/mail-ops.c:1469
+#: ../src/libemail-engine/mail-ops.c:1471
 #, c-format
 msgid "Storing account “%s”"
 msgstr "Збереження облікового запису «%s»"
 
-#: ../src/libemail-engine/mail-ops.c:1544
+#: ../src/libemail-engine/mail-ops.c:1546
 #, c-format
 msgid "Emptying trash in “%s”"
 msgstr "Очищення смітника в «%s»"
 
-#: ../src/libemail-engine/mail-ops.c:1643
+#: ../src/libemail-engine/mail-ops.c:1645
 #, c-format
 msgid "Processing folder changes in “%s”"
 msgstr "Обробка змін теки в «%s»"
@@ -18479,31 +18494,31 @@ msgid "Use global setting"
 msgstr "Використовувати загальні параметри"
 
 #: ../src/mail/e-mail-config-composing-page.c:120
-#: ../src/mail/mail-config.ui.h:31
+#: ../src/mail/mail-config.ui.h:32
 msgctxt "ReplyForward"
 msgid "Attachment"
 msgstr "Долучення"
 
 #: ../src/mail/e-mail-config-composing-page.c:122
-#: ../src/mail/mail-config.ui.h:32
+#: ../src/mail/mail-config.ui.h:33
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
 msgstr "Вбудовувати (у стилі Outlook)"
 
 #: ../src/mail/e-mail-config-composing-page.c:124
-#: ../src/mail/mail-config.ui.h:33
+#: ../src/mail/mail-config.ui.h:34
 msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr "Цитувати"
 
 #: ../src/mail/e-mail-config-composing-page.c:126
-#: ../src/mail/mail-config.ui.h:34
+#: ../src/mail/mail-config.ui.h:35
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
 msgstr "Не цитувати"
 
 #: ../src/mail/e-mail-config-composing-page.c:158
-#: ../src/mail/em-composer-utils.c:4530
+#: ../src/mail/em-composer-utils.c:4563
 msgid "Use global setting"
 msgstr "Використовувати загальні параметри"
 
@@ -18536,12 +18551,12 @@ msgstr ""
 "Мова для тексту пояснення у відповідях та переспрямованих повідомленнях"
 
 #: ../src/mail/e-mail-config-composing-page.c:525
-#: ../src/mail/em-composer-utils.c:4499 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4532 ../src/mail/mail-config.ui.h:24
 msgid "Start _typing at the bottom"
 msgstr "Починати _набір знизу"
 
 #: ../src/mail/e-mail-config-composing-page.c:532
-#: ../src/mail/em-composer-utils.c:4503 ../src/mail/mail-config.ui.h:25
+#: ../src/mail/em-composer-utils.c:4536 ../src/mail/mail-config.ui.h:25
 msgid "_Keep signature above the original message"
 msgstr "_Залишати підпис над оригінальним повідомленням"
 
@@ -18784,7 +18799,7 @@ msgid "Use sender e-mail address"
 msgstr "Використати адресу відправника"
 
 #: ../src/mail/e-mail-config-security-page.c:451
-#: ../src/mail/em-folder-properties.c:1428 ../src/mail/mail-config.ui.h:36
+#: ../src/mail/em-folder-properties.c:1428 ../src/mail/mail-config.ui.h:37
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:646
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:54
@@ -18812,25 +18827,25 @@ msgstr "Алгоритм підп_исування:"
 
 #: ../src/mail/e-mail-config-security-page.c:541
 #: ../src/mail/e-mail-config-security-page.c:791
-#: ../src/mail/mail-config.ui.h:85
+#: ../src/mail/mail-config.ui.h:86
 msgid "SHA1"
 msgstr "SHA1"
 
 #: ../src/mail/e-mail-config-security-page.c:544
 #: ../src/mail/e-mail-config-security-page.c:794
-#: ../src/mail/mail-config.ui.h:86
+#: ../src/mail/mail-config.ui.h:87
 msgid "SHA256"
 msgstr "SHA256"
 
 #: ../src/mail/e-mail-config-security-page.c:547
 #: ../src/mail/e-mail-config-security-page.c:797
-#: ../src/mail/mail-config.ui.h:87
+#: ../src/mail/mail-config.ui.h:88
 msgid "SHA384"
 msgstr "SHA384"
 
 #: ../src/mail/e-mail-config-security-page.c:550
 #: ../src/mail/e-mail-config-security-page.c:800
-#: ../src/mail/mail-config.ui.h:88
+#: ../src/mail/mail-config.ui.h:89
 msgid "SHA512"
 msgstr "SHA512"
 
@@ -19089,47 +19104,47 @@ msgstr "Скинути порядок сортування на всіх рів�
 
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
-#: ../src/mail/e-mail-free-form-exp.c:233
+#: ../src/mail/e-mail-free-form-exp.c:239
 msgctxt "ffe"
 msgid "Answered"
 msgstr "Відповіли"
 
-#: ../src/mail/e-mail-free-form-exp.c:234
+#: ../src/mail/e-mail-free-form-exp.c:240
 msgctxt "ffe"
 msgid "Deleted"
 msgstr "Вилучено"
 
-#: ../src/mail/e-mail-free-form-exp.c:235
+#: ../src/mail/e-mail-free-form-exp.c:241
 msgctxt "ffe"
 msgid "Draft"
 msgstr "Чернетка"
 
-#: ../src/mail/e-mail-free-form-exp.c:236
+#: ../src/mail/e-mail-free-form-exp.c:242
 msgctxt "ffe"
 msgid "Flagged"
 msgstr "З прапорцем"
 
-#: ../src/mail/e-mail-free-form-exp.c:237
+#: ../src/mail/e-mail-free-form-exp.c:243
 msgctxt "ffe"
 msgid "Seen"
 msgstr "Побачено"
 
-#: ../src/mail/e-mail-free-form-exp.c:238
+#: ../src/mail/e-mail-free-form-exp.c:244
 msgctxt "ffe"
 msgid "Attachment"
 msgstr "Долучення"
 
-#: ../src/mail/e-mail-free-form-exp.c:488
+#: ../src/mail/e-mail-free-form-exp.c:494
 msgctxt "ffe"
 msgid "no"
 msgstr "ні"
 
-#: ../src/mail/e-mail-free-form-exp.c:489
+#: ../src/mail/e-mail-free-form-exp.c:495
 msgctxt "ffe"
 msgid "not"
 msgstr "не"
 
-#: ../src/mail/e-mail-free-form-exp.c:490
+#: ../src/mail/e-mail-free-form-exp.c:496
 msgctxt "ffe"
 msgid "false"
 msgstr "хибність"
@@ -19240,7 +19255,7 @@ msgstr "Назва заголовка"
 msgid "Header Value"
 msgstr "Значення заголовка"
 
-#: ../src/mail/e-mail-printer.c:96 ../src/mail/mail-config.ui.h:144
+#: ../src/mail/e-mail-printer.c:96 ../src/mail/mail-config.ui.h:145
 msgid "Headers"
 msgstr "Заголовки"
 
@@ -19743,7 +19758,7 @@ msgstr "Вилучити п_одвійні повідомлення"
 msgid "Checks selected messages for duplicates"
 msgstr "Перевіряє, чи не повторювались вибрані повідомлення"
 
-#: ../src/mail/e-mail-reader.c:3076 ../src/mail/em-composer-utils.c:4458
+#: ../src/mail/e-mail-reader.c:3076 ../src/mail/em-composer-utils.c:4491
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:455
@@ -19768,7 +19783,7 @@ msgstr "Обрати параметри відповіді для обраних
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Відповісти у список листування або всім одержувачам"
 
-#: ../src/mail/e-mail-reader.c:3097 ../src/mail/em-composer-utils.c:4453
+#: ../src/mail/e-mail-reader.c:3097 ../src/mail/em-composer-utils.c:4486
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:462
 msgid "Reply to _List"
@@ -20225,73 +20240,73 @@ msgid "-----Original Message-----"
 msgstr "-------- Оригінальне повідомлення --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:3124
+#: ../src/mail/em-composer-utils.c:3157
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "На: %s"
 
-#: ../src/mail/em-composer-utils.c:3779
+#: ../src/mail/em-composer-utils.c:3812
 msgid "an unknown sender"
 msgstr "невідомий відправник"
 
-#: ../src/mail/em-composer-utils.c:4398
+#: ../src/mail/em-composer-utils.c:4431
 msgid "Alternative Reply"
 msgstr "Альтернативна відповідь"
 
-#: ../src/mail/em-composer-utils.c:4401
+#: ../src/mail/em-composer-utils.c:4434
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Відповісти"
 
-#: ../src/mail/em-composer-utils.c:4419
+#: ../src/mail/em-composer-utils.c:4452
 msgid "Recipients:"
 msgstr "Отримувачі:"
 
-#: ../src/mail/em-composer-utils.c:4448
+#: ../src/mail/em-composer-utils.c:4481
 msgid "Reply to _Sender"
 msgstr "Відповісти _відправнику"
 
-#: ../src/mail/em-composer-utils.c:4471
+#: ../src/mail/em-composer-utils.c:4504
 msgid "Reply style:"
 msgstr "Стиль відповіді:"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4480
+#: ../src/mail/em-composer-utils.c:4513
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_Типово"
 
-#: ../src/mail/em-composer-utils.c:4484
+#: ../src/mail/em-composer-utils.c:4517
 msgid "Attach_ment"
 msgstr "_Долучення"
 
-#: ../src/mail/em-composer-utils.c:4488
+#: ../src/mail/em-composer-utils.c:4521
 msgid "Inline (_Outlook style)"
 msgstr "Вбудовано (_стиль Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4492
+#: ../src/mail/em-composer-utils.c:4525
 msgid "_Quote"
 msgstr "_Цитата"
 
-#: ../src/mail/em-composer-utils.c:4496
+#: ../src/mail/em-composer-utils.c:4529
 msgid "Do _Not Quote"
 msgstr "Не _цитувати"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4517
+#: ../src/mail/em-composer-utils.c:4550
 msgid "_Format message in"
 msgstr "_Форматувати повідомлення до"
 
-#: ../src/mail/em-composer-utils.c:4539
+#: ../src/mail/em-composer-utils.c:4572
 msgid "Apply t_emplate"
 msgstr "Застосувати ш_аблон"
 
-#: ../src/mail/em-composer-utils.c:4552
+#: ../src/mail/em-composer-utils.c:4585
 msgid "Preserve original message S_ubject"
 msgstr "Зберегти оригінальну т_ему повідомлення"
 
-#: ../src/mail/em-composer-utils.c:4618
+#: ../src/mail/em-composer-utils.c:4651
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -20301,11 +20316,11 @@ msgstr[2] "%d отримувачів"
 msgstr[3] "один отримувач"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:5127
+#: ../src/mail/em-composer-utils.c:5160
 msgid "Posting destination"
 msgstr "Адреса призначення"
 
-#: ../src/mail/em-composer-utils.c:5132
+#: ../src/mail/em-composer-utils.c:5165
 msgid "Choose folders to post the message to."
 msgstr "Виберіть теку у яку надіслати повідомлення."
 
@@ -20494,7 +20509,7 @@ msgstr "Вигляд"
 msgid "Archive"
 msgstr "Архів"
 
-#: ../src/mail/em-folder-properties.c:1438 ../src/mail/mail-config.ui.h:133
+#: ../src/mail/em-folder-properties.c:1438 ../src/mail/mail-config.ui.h:134
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Позначки"
@@ -20589,7 +20604,7 @@ msgid "Trash"
 msgstr "Смітник"
 
 #: ../src/mail/em-folder-tree-model.c:1563 ../src/mail/filtertypes.xml.in.h:41
-#: ../src/mail/mail-config.ui.h:152 ../src/mail/vfoldertypes.xml.in.h:44
+#: ../src/mail/mail-config.ui.h:153 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Спам"
 
@@ -21425,38 +21440,42 @@ msgstr ""
 msgid "_Wrap quoted text in replies"
 msgstr "З_гортати цитований текст у відповідях"
 
-#: ../src/mail/mail-config.ui.h:35
+#: ../src/mail/mail-config.ui.h:31
+msgid "_Attach multiple messages as separate files"
+msgstr "Д_олучати повідомлення як окремі файли"
+
+#: ../src/mail/mail-config.ui.h:36
 msgctxt "ReplyForward"
 msgid "Inline"
 msgstr "Вбудувати"
 
-#: ../src/mail/mail-config.ui.h:37
+#: ../src/mail/mail-config.ui.h:38
 msgid "Sig_natures"
 msgstr "П_ідписи"
 
-#: ../src/mail/mail-config.ui.h:38
+#: ../src/mail/mail-config.ui.h:39
 msgid "Signatures"
 msgstr "Підписи"
 
-#: ../src/mail/mail-config.ui.h:39
+#: ../src/mail/mail-config.ui.h:40
 msgid "_Languages"
 msgstr "_Мова"
 
-#: ../src/mail/mail-config.ui.h:40
+#: ../src/mail/mail-config.ui.h:41
 msgid "Languages Table"
 msgstr "Таблиця мов"
 
-#: ../src/mail/mail-config.ui.h:41
+#: ../src/mail/mail-config.ui.h:42
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr "Список мов відображує лише ті мови, для яких встановлено словники."
 
-#: ../src/mail/mail-config.ui.h:43
+#: ../src/mail/mail-config.ui.h:44
 msgid "Check spelling while I _type"
 msgstr "Перевіряти правопис під час набору _тексту"
 
-#: ../src/mail/mail-config.ui.h:45
+#: ../src/mail/mail-config.ui.h:46
 msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation "
 "before taking the following checkmarked actions:"
@@ -21465,91 +21484,91 @@ msgstr ""
 "підтвердження перед виконанням таких позначених дій:"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:47
+#: ../src/mail/mail-config.ui.h:48
 msgid "Sending a message with an _empty subject line"
 msgstr "Надсилання листа з _порожнім рядком теми"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:49
+#: ../src/mail/mail-config.ui.h:50
 msgid "Sending a message with only _Bcc recipients defined"
 msgstr "Надсилання листа лише з вказаним  п_рихованими одержувачами"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:51
+#: ../src/mail/mail-config.ui.h:52
 msgid "Sending a message to many _To and CC recipients"
 msgstr "Надсилання листа багатьом _одержувачам у полях «Кому» і «Копія»"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:53
+#: ../src/mail/mail-config.ui.h:54
 msgid "Sending a _private reply to a mailing list message"
 msgstr "Надсилання _особистої відповіді на лист списку листування"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:55
+#: ../src/mail/mail-config.ui.h:56
 msgid "Sending a reply to a large _number of recipients"
 msgstr "Надсилання відповіді до великої _кількості одержувачі"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:57
+#: ../src/mail/mail-config.ui.h:58
 msgid "Allowing a _mailing list to redirect a private reply to the list"
 msgstr "Дозвіл списку _листування перенаправляти особисті відповіді в список"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:59
+#: ../src/mail/mail-config.ui.h:60
 msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr "Надсилання листа з о_держувачем, адресу якого не введено"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:61
+#: ../src/mail/mail-config.ui.h:62
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
 msgstr "Надсилання листа за допомогою _клавішного скорочення (Ctrl+Enter)"
 
 #. Translators:
-#: ../src/mail/mail-config.ui.h:63
+#: ../src/mail/mail-config.ui.h:64
 msgid "Before composer _format changes from HTML to Plain Text"
 msgstr "Перед зміною _формату редактора з  HTML на простий текст"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:65
+#: ../src/mail/mail-config.ui.h:66
 msgid "Sending a message with _attachments which changed since being attached"
 msgstr ""
 "Надсилання повідомлення з д_олученнями, до яких внесено зміни з моменту "
 "долучення"
 
-#: ../src/mail/mail-config.ui.h:66
+#: ../src/mail/mail-config.ui.h:67
 msgid "Sending an _HTML mail to contacts that do not want them"
 msgstr ""
 "Надсилання _HTML-пошти контактам, які не бажають отримувати такі повідомлення"
 
-#: ../src/mail/mail-config.ui.h:67
+#: ../src/mail/mail-config.ui.h:68
 msgid "Addresses or domains which accept HTML messages:"
 msgstr "Адреси або домени, які приймають повідомлення HTML:"
 
-#: ../src/mail/mail-config.ui.h:71
+#: ../src/mail/mail-config.ui.h:72
 msgid "Confirmations"
 msgstr "Підтвердження"
 
 #. Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides
-#: ../src/mail/mail-config.ui.h:73
+#: ../src/mail/mail-config.ui.h:74
 msgid "Use for Folders"
 msgstr "Використовувати для тек"
 
 #. Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides
-#: ../src/mail/mail-config.ui.h:77
+#: ../src/mail/mail-config.ui.h:78
 msgid "Use for Recipients"
 msgstr "Використовувати для одержувачів"
 
 #. Translators: Label of a frame with a list of configured accounts in Send account overrides
-#: ../src/mail/mail-config.ui.h:79 ../src/modules/mail/em-composer-prefs.c:873
+#: ../src/mail/mail-config.ui.h:80 ../src/modules/mail/em-composer-prefs.c:873
 #: ../src/plugins/sender-validation/sender-validation.c:822
 msgid "Account"
 msgstr "Обліковий запис"
 
-#: ../src/mail/mail-config.ui.h:80
+#: ../src/mail/mail-config.ui.h:81
 msgid "Send account overrides"
 msgstr "Надіслати відмови облікового запису"
 
-#: ../src/mail/mail-config.ui.h:81
+#: ../src/mail/mail-config.ui.h:82
 msgid ""
 "Assign which account should be used as a send account for respective folders "
 "or recipients, an override for usual send account detection. List of "
@@ -21561,308 +21580,308 @@ msgstr ""
 "запису відправника. Перелік одержувачів може містити неповні адреси або "
 "ім'я. Частини імен і адрес зіставляються окремо."
 
-#: ../src/mail/mail-config.ui.h:82
+#: ../src/mail/mail-config.ui.h:83
 msgid "_Folder override has precedence over Recipient override"
 msgstr "Нехтування _теки має перевагу над нехтуванням одержувача"
 
-#: ../src/mail/mail-config.ui.h:83
+#: ../src/mail/mail-config.ui.h:84
 msgid "Send Account"
 msgstr "Обліковий запис відправника"
 
-#: ../src/mail/mail-config.ui.h:89 ../src/smime/gui/smime-ui.ui.h:27
+#: ../src/mail/mail-config.ui.h:90 ../src/smime/gui/smime-ui.ui.h:27
 msgid "a"
 msgstr "a"
 
-#: ../src/mail/mail-config.ui.h:90 ../src/smime/gui/smime-ui.ui.h:28
+#: ../src/mail/mail-config.ui.h:91 ../src/smime/gui/smime-ui.ui.h:28
 msgid "b"
 msgstr "b"
 
-#: ../src/mail/mail-config.ui.h:91
+#: ../src/mail/mail-config.ui.h:92
 msgid "Start up"
 msgstr "Запуск"
 
-#: ../src/mail/mail-config.ui.h:92
+#: ../src/mail/mail-config.ui.h:93
 msgid "Check for new _messages on start"
 msgstr "Перевіряти на нові _листи під часу запуску"
 
-#: ../src/mail/mail-config.ui.h:93
+#: ../src/mail/mail-config.ui.h:94
 msgid "Check for new messa_ges in all active accounts"
 msgstr "Перевіряти на нові _листи в усіх активних облікових записах"
 
-#: ../src/mail/mail-config.ui.h:94
+#: ../src/mail/mail-config.ui.h:95
 msgid "Message Display"
 msgstr "Показ повідомлень"
 
-#: ../src/mail/mail-config.ui.h:95
+#: ../src/mail/mail-config.ui.h:96
 msgid "_Use the same fonts as other applications"
 msgstr "_Використовувати такі ж шрифти, як і інші програми"
 
-#: ../src/mail/mail-config.ui.h:96
+#: ../src/mail/mail-config.ui.h:97
 msgid "S_tandard Font:"
 msgstr "_Стандартний шрифт:"
 
-#: ../src/mail/mail-config.ui.h:97
+#: ../src/mail/mail-config.ui.h:98
 msgid "Select HTML fixed width font"
 msgstr "Виберіть шрифт HTML фіксованої ширини"
 
-#: ../src/mail/mail-config.ui.h:98
+#: ../src/mail/mail-config.ui.h:99
 msgid "Select HTML variable width font"
 msgstr "Виберіть шрифт HTML змінної ширини"
 
-#: ../src/mail/mail-config.ui.h:99
+#: ../src/mail/mail-config.ui.h:100
 msgid "Fix_ed Width Font:"
 msgstr "Шрифт не_змінної ширини:"
 
-#: ../src/mail/mail-config.ui.h:100
+#: ../src/mail/mail-config.ui.h:101
 msgid "Minimum Font _Size:"
 msgstr "Мінімальний _розмір шрифту:"
 
 #. Translators: This is part of
-#: ../src/mail/mail-config.ui.h:102
+#: ../src/mail/mail-config.ui.h:103
 msgid "(in pixels)"
 msgstr "(у пікселях)"
 
-#: ../src/mail/mail-config.ui.h:103
+#: ../src/mail/mail-config.ui.h:104
 msgid "_Mark messages as read after"
 msgstr "_Позначати повідомлення як «Прочитані» через"
 
-#: ../src/mail/mail-config.ui.h:105
+#: ../src/mail/mail-config.ui.h:106
 msgid "Highlight _quotations with"
 msgstr "Висвітлювати _цитування"
 
-#: ../src/mail/mail-config.ui.h:106
+#: ../src/mail/mail-config.ui.h:107
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:72
 msgid "Pick a color"
 msgstr "Вибір кольору"
 
-#: ../src/mail/mail-config.ui.h:107
+#: ../src/mail/mail-config.ui.h:108
 msgid "color"
 msgstr "колір"
 
-#: ../src/mail/mail-config.ui.h:108
+#: ../src/mail/mail-config.ui.h:109
 msgid "Default character e_ncoding:"
 msgstr "Типовий _набір символів:"
 
-#: ../src/mail/mail-config.ui.h:109
+#: ../src/mail/mail-config.ui.h:110
 msgid "Apply the same _view settings to all folders"
 msgstr "Застосувати однаковий _перегляд налаштувань для всіх тек"
 
-#: ../src/mail/mail-config.ui.h:110
+#: ../src/mail/mail-config.ui.h:111
 msgid "F_all back to threading messages by subject"
 msgstr "Повернутись до розбиття повідомлень на гілки за _темою"
 
-#: ../src/mail/mail-config.ui.h:111
+#: ../src/mail/mail-config.ui.h:112
 msgid "Group messages to _flat threads"
 msgstr "Групувати повідомлення до п_лоских гілок"
 
-#: ../src/mail/mail-config.ui.h:112
+#: ../src/mail/mail-config.ui.h:113
 msgid "Delete Mail"
 msgstr "Вилучити лист"
 
-#: ../src/mail/mail-config.ui.h:113
+#: ../src/mail/mail-config.ui.h:114
 msgid "Empty _trash folders"
 msgstr "_Спорожнити всі теки"
 
-#: ../src/mail/mail-config.ui.h:114
+#: ../src/mail/mail-config.ui.h:115
 msgid "Confirm _when expunging a folder"
 msgstr "_Питати підтвердження при очищенні вилучених повідомлень"
 
-#: ../src/mail/mail-config.ui.h:115
+#: ../src/mail/mail-config.ui.h:116
 msgid "Confirm when emptying a _Junk folder"
 msgstr "Підтверджувати про очищення теки _спаму"
 
-#: ../src/mail/mail-config.ui.h:116
+#: ../src/mail/mail-config.ui.h:117
 msgid "Go to the previ_ous message after message deletion"
 msgstr "Переходити на п_опереднє повідомлення після вилучення поточного"
 
-#: ../src/mail/mail-config.ui.h:117
+#: ../src/mail/mail-config.ui.h:118
 msgid "Archive Mail"
 msgstr "Архівувати пошту"
 
-#: ../src/mail/mail-config.ui.h:118
+#: ../src/mail/mail-config.ui.h:119
 msgid "Archive folder to use for On This Computer messages"
 msgstr "Архівна тека для листів на цьому комп'ютері"
 
-#: ../src/mail/mail-config.ui.h:119
+#: ../src/mail/mail-config.ui.h:120
 msgid "On This Computer A_rchive folder:"
 msgstr "_Архівна тека на цьому комп'ютері:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../src/mail/mail-config.ui.h:121
+#: ../src/mail/mail-config.ui.h:122
 msgid "_Show animated images"
 msgstr "_Показувати рухомі зображення"
 
-#: ../src/mail/mail-config.ui.h:122
+#: ../src/mail/mail-config.ui.h:123
 msgid "Unset colors provided in HTML mails in message previe_w"
 msgstr ""
 "Скидати кольори з повідомлень у HTML на панелі поп_ереднього перегляду"
 
-#: ../src/mail/mail-config.ui.h:123
+#: ../src/mail/mail-config.ui.h:124
 msgid "Loading Remote Content"
 msgstr "Завантаження віддаленого вмісту"
 
-#: ../src/mail/mail-config.ui.h:124
+#: ../src/mail/mail-config.ui.h:125
 msgid "_Never load remote content from the Internet"
 msgstr "_Ніколи не завантажувати віддалений вміст з інтернету"
 
-#: ../src/mail/mail-config.ui.h:125
+#: ../src/mail/mail-config.ui.h:126
 msgid "_Load remote content only in messages from contacts"
 msgstr "_Завантажувати віддалений вміст лише в листах від контактів"
 
-#: ../src/mail/mail-config.ui.h:126
+#: ../src/mail/mail-config.ui.h:127
 msgid "_Always load remote content from the Internet"
 msgstr "_Завжди не завантажувати віддалений вміст з інтернету"
 
-#: ../src/mail/mail-config.ui.h:127
+#: ../src/mail/mail-config.ui.h:128
 msgid "Notify about _missing remote content in the message preview"
 msgstr "Сповіщати про _брак віддаленого вмісту в перегляді листа"
 
-#: ../src/mail/mail-config.ui.h:128
+#: ../src/mail/mail-config.ui.h:129
 msgid "Add"
 msgstr "Додати"
 
-#: ../src/mail/mail-config.ui.h:129
+#: ../src/mail/mail-config.ui.h:130
 msgid "Remove"
 msgstr "Вилучити"
 
-#: ../src/mail/mail-config.ui.h:130
+#: ../src/mail/mail-config.ui.h:131
 msgid "Allow for sites:"
 msgstr "Дозволити для сайтів:"
 
-#: ../src/mail/mail-config.ui.h:131
+#: ../src/mail/mail-config.ui.h:132
 msgid "Allow for senders:"
 msgstr "Дозволити для відправників:"
 
-#: ../src/mail/mail-config.ui.h:132
+#: ../src/mail/mail-config.ui.h:133
 msgid "HTML Messages"
 msgstr "Повідомлення HTML"
 
-#: ../src/mail/mail-config.ui.h:134
+#: ../src/mail/mail-config.ui.h:135
 msgid "Sender Photograph"
 msgstr "Фотографія відправника"
 
-#: ../src/mail/mail-config.ui.h:135
+#: ../src/mail/mail-config.ui.h:136
 msgid "_Show the photograph of sender in the message preview"
 msgstr "Показувати фотографію _відправника у панелі перегляду пошти"
 
-#: ../src/mail/mail-config.ui.h:136
+#: ../src/mail/mail-config.ui.h:137
 msgid "Search libra_vatar.org for the photograph of sender"
 msgstr "Шукати на libra_vatar.org фотографію відправника"
 
-#: ../src/mail/mail-config.ui.h:137
+#: ../src/mail/mail-config.ui.h:138
 msgid "Displayed Message Headers"
 msgstr "Показані заголовки листів"
 
-#: ../src/mail/mail-config.ui.h:138
+#: ../src/mail/mail-config.ui.h:139
 msgid "Show _full mail addresses in message preview"
 msgstr "Показати _повну поштову адресу у попередньому перегляді повідомлень"
 
-#: ../src/mail/mail-config.ui.h:139
+#: ../src/mail/mail-config.ui.h:140
 msgid "Mail Headers Table"
 msgstr "Таблиця поштових заголовків"
 
-#: ../src/mail/mail-config.ui.h:140
+#: ../src/mail/mail-config.ui.h:141
 msgid "Re_set"
 msgstr "С_кинути"
 
-#: ../src/mail/mail-config.ui.h:141
+#: ../src/mail/mail-config.ui.h:142
 msgid "Message List User Headers"
 msgstr "Заголовки користувача у списку повідомлень"
 
-#: ../src/mail/mail-config.ui.h:142
+#: ../src/mail/mail-config.ui.h:143
 msgid "Message List User Headers Table"
 msgstr "Таблиця заголовків користувача у списку повідомлень"
 
-#: ../src/mail/mail-config.ui.h:143
+#: ../src/mail/mail-config.ui.h:144
 #: ../src/modules/addressbook/autocompletion-config.c:118
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:50
 msgid "Date/Time Format"
 msgstr "Формат дати та часу"
 
-#: ../src/mail/mail-config.ui.h:145
+#: ../src/mail/mail-config.ui.h:146
 msgid "Check incoming _messages for junk"
 msgstr "Перевіряти вхідні _повідомлення на спам"
 
-#: ../src/mail/mail-config.ui.h:146
+#: ../src/mail/mail-config.ui.h:147
 msgid "_Delete junk messages"
 msgstr "В_илучити листи зі спамом"
 
-#: ../src/mail/mail-config.ui.h:147
+#: ../src/mail/mail-config.ui.h:148
 msgid "_Prompt before marking message as junk"
 msgstr "_Питати до позначення повідомлення як спаму"
 
-#: ../src/mail/mail-config.ui.h:148
+#: ../src/mail/mail-config.ui.h:149
 msgid "Junk Test Options"
 msgstr "Параметри тестування спаму"
 
-#: ../src/mail/mail-config.ui.h:149
+#: ../src/mail/mail-config.ui.h:150
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 "_Не позначати повідомлення як спам, якщо відправник у моїй адресній книзі"
 
-#: ../src/mail/mail-config.ui.h:150
+#: ../src/mail/mail-config.ui.h:151
 msgid "_Lookup in local address book only"
 msgstr "Переглядати теки _локальну адресну книгу"
 
-#: ../src/mail/mail-config.ui.h:151
+#: ../src/mail/mail-config.ui.h:152
 msgid "Check cu_stom headers for junk"
 msgstr "Перевіряти _інші заголовки на спам"
 
-#: ../src/mail/mail-config.ui.h:153
+#: ../src/mail/mail-config.ui.h:154
 msgid "Ask for confirmation before taking the following checkmarked actions:"
 msgstr "Запитувати про підтвердження перед виконанням таких позначених дій:"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:155
+#: ../src/mail/mail-config.ui.h:156
 msgid "Check whether Evolution is the _default mailer"
 msgstr "Перевірити чи є Evolution _типовою поштовою програмою"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:157
+#: ../src/mail/mail-config.ui.h:158
 msgid "Emptying the _Trash"
 msgstr "Спорожняємо те_ку «Вилучені»"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:159
+#: ../src/mail/mail-config.ui.h:160
 msgid "Tries to _open 10 or more messages at once"
 msgstr "При спробі від_крити 10 чи більше повідомлень одночасно"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:161
+#: ../src/mail/mail-config.ui.h:162
 msgid "Marking _all messages as read"
 msgstr "Позначенні _усіх повідомлень як прочитаних"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:163
+#: ../src/mail/mail-config.ui.h:164
 msgid "Deleting messages in _search folder"
 msgstr "Вилученні повідомлень у те_ці пошуку"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:165
+#: ../src/mail/mail-config.ui.h:166
 msgid "Copy _folder by Drag & Drop in folder tree"
 msgstr "Копіюванні _теки перетягуванням зі скиданням у дереві тек"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:167
+#: ../src/mail/mail-config.ui.h:168
 msgid "_Move folder by Drag & Drop in folder tree"
 msgstr "При п_ереміщенні теки перетягуванням зі скиданням у дереві тек"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:169
+#: ../src/mail/mail-config.ui.h:170
 msgid "Sort message list on _header click"
 msgstr "Упорядковувати список повідомлень за _клацанням на заголовку"
 
-#: ../src/mail/mail-config.ui.h:170
+#: ../src/mail/mail-config.ui.h:171
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:239
 msgid "No encryption"
 msgstr "Без шифрування"
 
-#: ../src/mail/mail-config.ui.h:171
+#: ../src/mail/mail-config.ui.h:172
 msgid "TLS encryption"
 msgstr "Шифрування TLS"
 
-#: ../src/mail/mail-config.ui.h:172
+#: ../src/mail/mail-config.ui.h:173
 msgid "SSL encryption"
 msgstr "Шифрування SSL"
 
@@ -22958,7 +22977,6 @@ msgid "_Send with Key"
 msgstr "_Надіслати з ключем"
 
 #: ../src/mail/mail.error.xml.h:238
-#| msgid "_Send with Key"
 msgid "Send _without Key"
 msgstr "Надіслати _без ключа"
 
@@ -23070,7 +23088,7 @@ msgstr "Створення списку повідомлень"
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
 #: ../src/mail/message-list.c:2189
-#: ../src/modules/itip-formatter/itip-view.c:285
+#: ../src/modules/itip-formatter/itip-view.c:286
 msgid "Today %l:%M %p"
 msgstr "Сьогодні %I:%M %p"
 
@@ -23243,7 +23261,7 @@ msgid "New Address Book"
 msgstr "Нова адресна книга"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:495
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:277
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:278
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:183
 msgid "New Memo List"
 msgstr "Створити список приміток"
@@ -24038,8 +24056,8 @@ msgstr "Виберіть адресну книгу"
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:102
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:239
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:260
-#: ../src/modules/itip-formatter/itip-view.c:2072
-#: ../src/modules/itip-formatter/itip-view.c:2280
+#: ../src/modules/itip-formatter/itip-view.c:2088
+#: ../src/modules/itip-formatter/itip-view.c:2296
 msgid "URL:"
 msgstr "URL:"
 
@@ -24053,7 +24071,7 @@ msgstr "Уникати IfMatch (потрібно для Apache < 2.2.8)"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:290
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:392
-#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:170
+#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:171
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:374
 msgid "URL is not a valid http:// nor https:// URL"
 msgstr ""
@@ -25107,7 +25125,7 @@ msgid "Accept meeting request for selected instance only"
 msgstr "Прийняти запрошення на засідання лише для позначеного запису"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1523
-#: ../src/modules/itip-formatter/itip-view.c:1289
+#: ../src/modules/itip-formatter/itip-view.c:1305
 msgid "_Decline"
 msgstr "Від_хилити"
 
@@ -25864,298 +25882,298 @@ msgstr "Показати частину як зібрання"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:276
+#: ../src/modules/itip-formatter/itip-view.c:277
 msgid "Today %H:%M"
 msgstr "Сьогодні о %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:280
+#: ../src/modules/itip-formatter/itip-view.c:281
 msgid "Today %H:%M:%S"
 msgstr "Сьогодні о %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:289
+#: ../src/modules/itip-formatter/itip-view.c:290
 msgid "Today %l:%M:%S %p"
 msgstr "Сьогодні о %l:%M:%S %p"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:304
+#: ../src/modules/itip-formatter/itip-view.c:305
 msgid "Tomorrow %H:%M"
 msgstr "Завтра о %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:308
+#: ../src/modules/itip-formatter/itip-view.c:309
 msgid "Tomorrow %H:%M:%S"
 msgstr "Завтра о %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:313
+#: ../src/modules/itip-formatter/itip-view.c:314
 msgid "Tomorrow %l:%M %p"
 msgstr "Завтра о %I:%M %p"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:317
+#: ../src/modules/itip-formatter/itip-view.c:318
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "Сьогодні о %l:%M:%S %p"
 
 #. strftime format of a weekday.
-#: ../src/modules/itip-formatter/itip-view.c:336
+#: ../src/modules/itip-formatter/itip-view.c:337
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:341
+#: ../src/modules/itip-formatter/itip-view.c:342
 msgid "%A %H:%M"
 msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:345
+#: ../src/modules/itip-formatter/itip-view.c:346
 msgid "%A %H:%M:%S"
 msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:350
+#: ../src/modules/itip-formatter/itip-view.c:351
 msgid "%A %l:%M %p"
 msgstr "%A %I:%M %p"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:354
+#: ../src/modules/itip-formatter/itip-view.c:355
 msgid "%A %l:%M:%S %p"
 msgstr "%A %I:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. * without a year.
-#: ../src/modules/itip-formatter/itip-view.c:365
+#: ../src/modules/itip-formatter/itip-view.c:366
 msgid "%A, %B %e"
 msgstr "%A, %e %b"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:371
+#: ../src/modules/itip-formatter/itip-view.c:372
 msgid "%A, %B %e %H:%M"
 msgstr "%A, %e %b %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:375
+#: ../src/modules/itip-formatter/itip-view.c:376
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%A, %e %b %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:380
+#: ../src/modules/itip-formatter/itip-view.c:381
 msgid "%A, %B %e %l:%M %p"
 msgstr "%A, %e %b %I:%M:%p"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:384
+#: ../src/modules/itip-formatter/itip-view.c:385
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%A, %e %b %I:%M:%S %p"
 
 #. strftime format of a weekday and a date.
-#: ../src/modules/itip-formatter/itip-view.c:392
+#: ../src/modules/itip-formatter/itip-view.c:393
 msgid "%A, %B %e, %Y"
 msgstr "%A, %e %b %Y"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:397
+#: ../src/modules/itip-formatter/itip-view.c:398
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%A, %e %b %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:401
+#: ../src/modules/itip-formatter/itip-view.c:402
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%A, %e %b %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:406
+#: ../src/modules/itip-formatter/itip-view.c:407
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%A, %e %b %Y %I:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:410
+#: ../src/modules/itip-formatter/itip-view.c:411
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %e %b %Y %I:%M:%S %p"
 
 #. Translators: The first '%s' is replaced with an abbreviated date/time of an appointment start or end, like "Tomorrow" or "Tomorrow 10:30";
 #. the second '%s' is replaced with the actual date, to know what the 'Tomorrow' means. What the date looks like depends on the user settings.
 #. Example: 'Tomorrow 10:30 (20.2.2020)'
-#: ../src/modules/itip-formatter/itip-view.c:437
+#: ../src/modules/itip-formatter/itip-view.c:438
 #, c-format
 msgctxt "cal-itip"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/modules/itip-formatter/itip-view.c:475
 #: ../src/modules/itip-formatter/itip-view.c:476
-#: ../src/modules/itip-formatter/itip-view.c:569
+#: ../src/modules/itip-formatter/itip-view.c:477
 #: ../src/modules/itip-formatter/itip-view.c:570
-#: ../src/modules/itip-formatter/itip-view.c:663
+#: ../src/modules/itip-formatter/itip-view.c:571
+#: ../src/modules/itip-formatter/itip-view.c:664
 msgid "An unknown person"
 msgstr "Невідома особа"
 
-#: ../src/modules/itip-formatter/itip-view.c:480
-#: ../src/modules/itip-formatter/itip-view.c:574
-#: ../src/modules/itip-formatter/itip-view.c:667
+#: ../src/modules/itip-formatter/itip-view.c:481
+#: ../src/modules/itip-formatter/itip-view.c:575
+#: ../src/modules/itip-formatter/itip-view.c:668
 #, c-format
 msgid "Please respond on behalf of %s"
 msgstr "Дайте відповідь від імені %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:482
-#: ../src/modules/itip-formatter/itip-view.c:576
-#: ../src/modules/itip-formatter/itip-view.c:669
+#: ../src/modules/itip-formatter/itip-view.c:483
+#: ../src/modules/itip-formatter/itip-view.c:577
+#: ../src/modules/itip-formatter/itip-view.c:670
 #, c-format
 msgid "Received on behalf of %s"
 msgstr "Одержано від імені %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:488
+#: ../src/modules/itip-formatter/itip-view.c:489
 #, c-format
 msgid "%s through %s has published the following meeting information:"
 msgstr "%s через %s оприлюднив інформацію про зібрання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:490
+#: ../src/modules/itip-formatter/itip-view.c:491
 #, c-format
 msgid "%s has published the following meeting information:"
 msgstr "%s оприлюднив таку інформацію про зібрання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:492
+#: ../src/modules/itip-formatter/itip-view.c:493
 msgid "The following meeting information has been published:"
 msgstr "Оприлюднено такі дані щодо зібрання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:498
+#: ../src/modules/itip-formatter/itip-view.c:499
 #, c-format
 msgid "%s has delegated the following meeting to you:"
 msgstr "%s доручає таке зібрання вам:"
 
-#: ../src/modules/itip-formatter/itip-view.c:501
+#: ../src/modules/itip-formatter/itip-view.c:502
 #, c-format
 msgid "%s through %s requests your presence at the following meeting:"
 msgstr "%s через %s запитує про вашу присутність на такому зібранні:"
 
-#: ../src/modules/itip-formatter/itip-view.c:503
+#: ../src/modules/itip-formatter/itip-view.c:504
 #, c-format
 msgid "%s requests your presence at the following meeting:"
 msgstr "%s запитує про вашу присутність на такому зібранні:"
 
-#: ../src/modules/itip-formatter/itip-view.c:509
+#: ../src/modules/itip-formatter/itip-view.c:510
 #, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "%s через %s бажає додати до наявного зібрання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:511
+#: ../src/modules/itip-formatter/itip-view.c:512
 #, c-format
 msgid "%s wishes to add to an existing meeting:"
 msgstr "%s бажає додати до наявного зібрання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:515
+#: ../src/modules/itip-formatter/itip-view.c:516
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr "%s через %s бажає одержати останню інформацію про таке зібрання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:517
+#: ../src/modules/itip-formatter/itip-view.c:518
 #, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr "%s бажає одержати останню інформацію про таке зібрання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:521
+#: ../src/modules/itip-formatter/itip-view.c:522
 #, c-format
 msgid "%s through %s has sent back the following meeting response:"
 msgstr "%s через %s надіслано такий відгук про зібрання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:523
+#: ../src/modules/itip-formatter/itip-view.c:524
 #, c-format
 msgid "%s has sent back the following meeting response:"
 msgstr "%s надіслано такий відгук про зібрання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:527
+#: ../src/modules/itip-formatter/itip-view.c:528
 #, c-format
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "%s через %s скасовано таке зібрання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:529
+#: ../src/modules/itip-formatter/itip-view.c:530
 #, c-format
 msgid "%s has cancelled the following meeting:"
 msgstr "%s скасовано таке зібрання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:533
+#: ../src/modules/itip-formatter/itip-view.c:534
 #, c-format
 msgid "%s through %s has proposed the following meeting changes."
 msgstr "%s> через %s запропоновано такі зміни у зібранні."
 
-#: ../src/modules/itip-formatter/itip-view.c:535
+#: ../src/modules/itip-formatter/itip-view.c:536
 #, c-format
 msgid "%s has proposed the following meeting changes:"
 msgstr "%s запропоновано такі зміни у зібранні:"
 
-#: ../src/modules/itip-formatter/itip-view.c:539
+#: ../src/modules/itip-formatter/itip-view.c:540
 #, c-format
 msgid "%s through %s has declined the following meeting changes:"
 msgstr "%s через %s відхилено такі зміни у зібранні:"
 
-#: ../src/modules/itip-formatter/itip-view.c:541
+#: ../src/modules/itip-formatter/itip-view.c:542
 #, c-format
 msgid "%s has declined the following meeting changes:"
 msgstr "%s відхилено такі зміни у зібранні:"
 
-#: ../src/modules/itip-formatter/itip-view.c:582
+#: ../src/modules/itip-formatter/itip-view.c:583
 #, c-format
 msgid "%s through %s has published the following task:"
 msgstr "%s через %s оприлюднив таке завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:584
+#: ../src/modules/itip-formatter/itip-view.c:585
 #, c-format
 msgid "%s has published the following task:"
 msgstr "%s оприлюднив таке завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:586
+#: ../src/modules/itip-formatter/itip-view.c:587
 msgid "The following task has been published:"
 msgstr "Було оприлюднено таке завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:592
+#: ../src/modules/itip-formatter/itip-view.c:593
 #, c-format
 msgid "%s requests the assignment of %s to the following task:"
 msgstr "%s запитує про призначення %s на таке завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:595
+#: ../src/modules/itip-formatter/itip-view.c:596
 #, c-format
 msgid "%s through %s has assigned you a task:"
 msgstr "%s через %s призначив вам завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:597
+#: ../src/modules/itip-formatter/itip-view.c:598
 #, c-format
 msgid "%s has assigned you a task:"
 msgstr "%s призначив вам завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:603
+#: ../src/modules/itip-formatter/itip-view.c:604
 #, c-format
 msgid "%s through %s wishes to add to an existing task:"
 msgstr "%s через %s бажає додати до наявного завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:605
+#: ../src/modules/itip-formatter/itip-view.c:606
 #, c-format
 msgid "%s wishes to add to an existing task:"
 msgstr "%s бажає додати до наявного завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:609
+#: ../src/modules/itip-formatter/itip-view.c:610
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
@@ -26163,225 +26181,225 @@ msgid ""
 msgstr ""
 "%s через %s бажає одержати останню інформацію про таке призначене завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:611
+#: ../src/modules/itip-formatter/itip-view.c:612
 #, c-format
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
 msgstr "%s бажає одержати останню інформацію про таке призначене завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:615
+#: ../src/modules/itip-formatter/itip-view.c:616
 #, c-format
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr "%s через %s надіслав назад таку відповідь на призначене завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:617
+#: ../src/modules/itip-formatter/itip-view.c:618
 #, c-format
 msgid "%s has sent back the following assigned task response:"
 msgstr "%s надіслав назад таку відповідь на призначене завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:621
+#: ../src/modules/itip-formatter/itip-view.c:622
 #, c-format
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "%s через %s скасував таке призначене завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:623
+#: ../src/modules/itip-formatter/itip-view.c:624
 #, c-format
 msgid "%s has cancelled the following assigned task:"
 msgstr "%s скасував таке призначене завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:627
+#: ../src/modules/itip-formatter/itip-view.c:628
 #, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr "%s через %s запропонував такі зміни у призначенні завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:629
+#: ../src/modules/itip-formatter/itip-view.c:630
 #, c-format
 msgid "%s has proposed the following task assignment changes:"
 msgstr "%s запропонував такі зміни у призначенні завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:633
+#: ../src/modules/itip-formatter/itip-view.c:634
 #, c-format
 msgid "%s through %s has declined the following assigned task:"
 msgstr "%s через %s відхилив таке призначене завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:635
+#: ../src/modules/itip-formatter/itip-view.c:636
 #, c-format
 msgid "%s has declined the following assigned task:"
 msgstr "%s відхилив таке призначене завдання:"
 
-#: ../src/modules/itip-formatter/itip-view.c:675
+#: ../src/modules/itip-formatter/itip-view.c:676
 #, c-format
 msgid "%s through %s has published the following memo:"
 msgstr "%s через %s оприлюднив таку примітку:"
 
-#: ../src/modules/itip-formatter/itip-view.c:677
+#: ../src/modules/itip-formatter/itip-view.c:678
 #, c-format
 msgid "%s has published the following memo:"
 msgstr "%s оприлюднив таку примітку:"
 
-#: ../src/modules/itip-formatter/itip-view.c:679
+#: ../src/modules/itip-formatter/itip-view.c:680
 msgid "The following memo has been published:"
 msgstr "Було оприлюднено таку нотатку:"
 
-#: ../src/modules/itip-formatter/itip-view.c:685
+#: ../src/modules/itip-formatter/itip-view.c:686
 #, c-format
 msgid "%s through %s wishes to add to an existing memo:"
 msgstr "%s через %s бажає додати до наявної примітки:"
 
-#: ../src/modules/itip-formatter/itip-view.c:687
+#: ../src/modules/itip-formatter/itip-view.c:688
 #, c-format
 msgid "%s wishes to add to an existing memo:"
 msgstr "%s бажає додати до наявної примітки:"
 
-#: ../src/modules/itip-formatter/itip-view.c:691
+#: ../src/modules/itip-formatter/itip-view.c:692
 #, c-format
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "%s через %s скасував таку спільну примітку:"
 
-#: ../src/modules/itip-formatter/itip-view.c:693
+#: ../src/modules/itip-formatter/itip-view.c:694
 #, c-format
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s скасував таку спільну примітку:"
 
-#: ../src/modules/itip-formatter/itip-view.c:892
+#: ../src/modules/itip-formatter/itip-view.c:908
 msgid "All day:"
 msgstr "Весь день:"
 
-#: ../src/modules/itip-formatter/itip-view.c:898
+#: ../src/modules/itip-formatter/itip-view.c:914
 msgid "Start day:"
 msgstr "День початку:"
 
-#: ../src/modules/itip-formatter/itip-view.c:898
-#: ../src/modules/itip-formatter/itip-view.c:2073
+#: ../src/modules/itip-formatter/itip-view.c:914
+#: ../src/modules/itip-formatter/itip-view.c:2089
 msgid "Start time:"
 msgstr "Час початку:"
 
-#: ../src/modules/itip-formatter/itip-view.c:907
+#: ../src/modules/itip-formatter/itip-view.c:923
 msgid "End day:"
 msgstr "День завершення:"
 
-#: ../src/modules/itip-formatter/itip-view.c:907
-#: ../src/modules/itip-formatter/itip-view.c:2074
+#: ../src/modules/itip-formatter/itip-view.c:923
+#: ../src/modules/itip-formatter/itip-view.c:2090
 msgid "End time:"
 msgstr "Час завершення:"
 
 #
-#: ../src/modules/itip-formatter/itip-view.c:1283
+#: ../src/modules/itip-formatter/itip-view.c:1299
 msgid "Ope_n Calendar"
 msgstr "Відк_рити календар"
 
-#: ../src/modules/itip-formatter/itip-view.c:1286
+#: ../src/modules/itip-formatter/itip-view.c:1302
 msgid "_Decline all"
 msgstr "Від_хилити все"
 
-#: ../src/modules/itip-formatter/itip-view.c:1292
+#: ../src/modules/itip-formatter/itip-view.c:1308
 msgid "_Tentative all"
 msgstr "_Невизначені усі"
 
-#: ../src/modules/itip-formatter/itip-view.c:1295
+#: ../src/modules/itip-formatter/itip-view.c:1311
 msgid "_Tentative"
 msgstr "_Невизначені"
 
-#: ../src/modules/itip-formatter/itip-view.c:1298
+#: ../src/modules/itip-formatter/itip-view.c:1314
 msgid "Acce_pt all"
 msgstr "При_йняти усе"
 
-#: ../src/modules/itip-formatter/itip-view.c:1301
+#: ../src/modules/itip-formatter/itip-view.c:1317
 msgid "Acce_pt"
 msgstr "_Прийняти"
 
-#: ../src/modules/itip-formatter/itip-view.c:1304
+#: ../src/modules/itip-formatter/itip-view.c:1320
 msgid "Send _Information"
 msgstr "Надіслати _інформацію"
 
-#: ../src/modules/itip-formatter/itip-view.c:1307
+#: ../src/modules/itip-formatter/itip-view.c:1323
 msgid "_Update Attendee Status"
 msgstr "_Оновити стан учасника"
 
-#: ../src/modules/itip-formatter/itip-view.c:1313
+#: ../src/modules/itip-formatter/itip-view.c:1329
 msgid "Im_port"
 msgstr "І_мпорт"
 
-#: ../src/modules/itip-formatter/itip-view.c:2076
-#: ../src/modules/itip-formatter/itip-view.c:2292
-#: ../src/modules/itip-formatter/itip-view.c:7449
+#: ../src/modules/itip-formatter/itip-view.c:2092
+#: ../src/modules/itip-formatter/itip-view.c:2308
+#: ../src/modules/itip-formatter/itip-view.c:7463
 msgid "Due date:"
 msgstr "Дата завершення:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2079
-#: ../src/modules/itip-formatter/itip-view.c:2215
-#: ../src/modules/itip-formatter/itip-view.c:2301
+#: ../src/modules/itip-formatter/itip-view.c:2095
+#: ../src/modules/itip-formatter/itip-view.c:2231
+#: ../src/modules/itip-formatter/itip-view.c:2317
 msgid "Comment:"
 msgstr "Коментар:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2111
+#: ../src/modules/itip-formatter/itip-view.c:2127
 msgid "Show description provided by the sender"
 msgstr "Показати опис, який надано відправником"
 
-#: ../src/modules/itip-formatter/itip-view.c:2112
+#: ../src/modules/itip-formatter/itip-view.c:2128
 msgid "Hide description provided by the sender"
 msgstr "Приховати опис, який надано відправником"
 
 #. RSVP area
-#: ../src/modules/itip-formatter/itip-view.c:2203
+#: ../src/modules/itip-formatter/itip-view.c:2219
 msgid "Send reply to organizer"
 msgstr "Надіслати відповідь організатору"
 
 #. Updates
-#: ../src/modules/itip-formatter/itip-view.c:2218
+#: ../src/modules/itip-formatter/itip-view.c:2234
 msgid "Send _updates to attendees"
 msgstr "Надіслати _оновлення учасникам"
 
 #. The recurrence check button
-#: ../src/modules/itip-formatter/itip-view.c:2221
+#: ../src/modules/itip-formatter/itip-view.c:2237
 msgid "_Apply to all instances"
 msgstr "Застосувати до усіх _записів"
 
-#: ../src/modules/itip-formatter/itip-view.c:2222
+#: ../src/modules/itip-formatter/itip-view.c:2238
 msgid "Show time as _free"
 msgstr "Показувати час як _зайнятий"
 
-#: ../src/modules/itip-formatter/itip-view.c:2223
+#: ../src/modules/itip-formatter/itip-view.c:2239
 msgid "_Preserve my reminder"
 msgstr "З_берегти нагадування"
 
-#: ../src/modules/itip-formatter/itip-view.c:2224
+#: ../src/modules/itip-formatter/itip-view.c:2240
 msgid "_Inherit reminder"
 msgstr "_Успадковувати нагадування"
 
-#: ../src/modules/itip-formatter/itip-view.c:2471
+#: ../src/modules/itip-formatter/itip-view.c:2487
 msgid "_Tasks:"
 msgstr "_Завдання"
 
-#: ../src/modules/itip-formatter/itip-view.c:2474
+#: ../src/modules/itip-formatter/itip-view.c:2490
 msgid "_Memos:"
 msgstr "_Примітки:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3559
+#: ../src/modules/itip-formatter/itip-view.c:3575
 msgid "Sa_ve"
 msgstr "З_берегти"
 
-#: ../src/modules/itip-formatter/itip-view.c:4087
-#: ../src/modules/itip-formatter/itip-view.c:5884
+#: ../src/modules/itip-formatter/itip-view.c:4103
+#: ../src/modules/itip-formatter/itip-view.c:5900
 msgid "Attendee status updated"
 msgstr "Стан учасника оновлено!"
 
-#: ../src/modules/itip-formatter/itip-view.c:4337
+#: ../src/modules/itip-formatter/itip-view.c:4353
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "Зустріч «%s» в календарі «%s» конфліктує з цією нарадою"
 
-#: ../src/modules/itip-formatter/itip-view.c:4344
+#: ../src/modules/itip-formatter/itip-view.c:4360
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "Завдання «%s» у списку завдань «%s» конфліктує із цим завданням"
 
-#: ../src/modules/itip-formatter/itip-view.c:4351
+#: ../src/modules/itip-formatter/itip-view.c:4367
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "Примітка «%s» у списку приміток «%s» конфліктує із цією приміткою"
 
-#: ../src/modules/itip-formatter/itip-view.c:4364
+#: ../src/modules/itip-formatter/itip-view.c:4380
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -26394,7 +26412,7 @@ msgstr[2] ""
 "Календар «%s» містить %d зустрічей, які конфліктують з цим зібранням"
 msgstr[3] "Календар «%s» містить зустріч, яка конфліктує з цим зібранням"
 
-#: ../src/modules/itip-formatter/itip-view.c:4373
+#: ../src/modules/itip-formatter/itip-view.c:4389
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
@@ -26408,7 +26426,7 @@ msgstr[2] ""
 msgstr[3] ""
 "У списку завдань «%s» міститься один запис, який конфліктує із цим завданням"
 
-#: ../src/modules/itip-formatter/itip-view.c:4382
+#: ../src/modules/itip-formatter/itip-view.c:4398
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
@@ -26426,236 +26444,236 @@ msgstr[3] ""
 "У списку приміток «%s» міститься %d примітка, які конфліктують із цією "
 "приміткою"
 
-#: ../src/modules/itip-formatter/itip-view.c:4419
+#: ../src/modules/itip-formatter/itip-view.c:4435
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Знайдено зустріч в календарі «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:4424
+#: ../src/modules/itip-formatter/itip-view.c:4440
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "Знайдено завдання у списку завдань «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:4429
+#: ../src/modules/itip-formatter/itip-view.c:4445
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "Знайдено примітку у списку приміток «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:4440
+#: ../src/modules/itip-formatter/itip-view.c:4456
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "Це запрошення на нараду є застарілими. Вона була оновлена."
 
-#: ../src/modules/itip-formatter/itip-view.c:4562
+#: ../src/modules/itip-formatter/itip-view.c:4578
 msgid "Unable to find any calendars"
 msgstr "Не вдалося знайти жоден календар"
 
-#: ../src/modules/itip-formatter/itip-view.c:4570
+#: ../src/modules/itip-formatter/itip-view.c:4586
 msgid "Unable to find this meeting in any calendar"
 msgstr "Не вдалося знайти цю зустріч у жодному календарі"
 
-#: ../src/modules/itip-formatter/itip-view.c:4575
+#: ../src/modules/itip-formatter/itip-view.c:4591
 msgid "Unable to find this task in any task list"
 msgstr "Не вдалося знайти це завдання у жодному списку завдань"
 
-#: ../src/modules/itip-formatter/itip-view.c:4580
+#: ../src/modules/itip-formatter/itip-view.c:4596
 msgid "Unable to find this memo in any memo list"
 msgstr "Не вдалося знайти цю примітку у жодному списку приміток"
 
-#: ../src/modules/itip-formatter/itip-view.c:4894
+#: ../src/modules/itip-formatter/itip-view.c:4910
 msgid "Searching for an existing version of this appointment"
 msgstr "Пошук наявної версії цієї зустрічі"
 
-#: ../src/modules/itip-formatter/itip-view.c:4898
+#: ../src/modules/itip-formatter/itip-view.c:4914
 msgid "Searching for an existing version of this task"
 msgstr "Шукаємо наявну версію цього завдання"
 
-#: ../src/modules/itip-formatter/itip-view.c:4902
+#: ../src/modules/itip-formatter/itip-view.c:4918
 msgid "Searching for an existing version of this memo"
 msgstr "Шукаємо наявну версію цієї примітки"
 
-#: ../src/modules/itip-formatter/itip-view.c:4962
+#: ../src/modules/itip-formatter/itip-view.c:4978
 msgid "Opening the calendar. Please wait…"
 msgstr "Відкривання календаря. Заждіть…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5324
+#: ../src/modules/itip-formatter/itip-view.c:5340
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "Не вдалося надіслати календар «%s».  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5332
+#: ../src/modules/itip-formatter/itip-view.c:5348
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "Не вдалося надіслати запис до списку завдань «%s».  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5340
+#: ../src/modules/itip-formatter/itip-view.c:5356
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "Не вдалося надіслати список приміток «%s».  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5361
+#: ../src/modules/itip-formatter/itip-view.c:5377
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Надіслано до календаря «%s» як прийняте"
 
-#: ../src/modules/itip-formatter/itip-view.c:5366
+#: ../src/modules/itip-formatter/itip-view.c:5382
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Надіслано до списку завдань «%s» як прийняте"
 
-#: ../src/modules/itip-formatter/itip-view.c:5371
+#: ../src/modules/itip-formatter/itip-view.c:5387
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Надіслано до списку приміток «%s» як прийняте"
 
-#: ../src/modules/itip-formatter/itip-view.c:5381
+#: ../src/modules/itip-formatter/itip-view.c:5397
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Надіслано до календаря «%s» як можливе"
 
-#: ../src/modules/itip-formatter/itip-view.c:5386
+#: ../src/modules/itip-formatter/itip-view.c:5402
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Надіслано до списку завдань «%s» як можливе"
 
-#: ../src/modules/itip-formatter/itip-view.c:5391
+#: ../src/modules/itip-formatter/itip-view.c:5407
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Надіслано до списку приміток «%s» як можливе"
 
-#: ../src/modules/itip-formatter/itip-view.c:5401
+#: ../src/modules/itip-formatter/itip-view.c:5417
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Надіслано до календаря «%s» як відхилене"
 
-#: ../src/modules/itip-formatter/itip-view.c:5406
+#: ../src/modules/itip-formatter/itip-view.c:5422
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Надіслано до списку завдань «%s» як відхилене"
 
-#: ../src/modules/itip-formatter/itip-view.c:5411
+#: ../src/modules/itip-formatter/itip-view.c:5427
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Надіслано до списку приміток «%s» як відхилене"
 
-#: ../src/modules/itip-formatter/itip-view.c:5421
+#: ../src/modules/itip-formatter/itip-view.c:5437
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Надіслано до календаря «%s» як скасоване"
 
-#: ../src/modules/itip-formatter/itip-view.c:5426
+#: ../src/modules/itip-formatter/itip-view.c:5442
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "Надіслано до списку завдань «%s» як скасоване"
 
-#: ../src/modules/itip-formatter/itip-view.c:5431
+#: ../src/modules/itip-formatter/itip-view.c:5447
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "Надіслано до списку приміток «%s» як скасоване"
 
-#: ../src/modules/itip-formatter/itip-view.c:5441
+#: ../src/modules/itip-formatter/itip-view.c:5457
 #, c-format
 msgid "Imported to calendar “%s”"
 msgstr "Імпортовано до календаря «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5446
+#: ../src/modules/itip-formatter/itip-view.c:5462
 #, c-format
 msgid "Imported to task list “%s”"
 msgstr "Імпортовано до списку завдань «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5451
+#: ../src/modules/itip-formatter/itip-view.c:5467
 #, c-format
 msgid "Imported to memo list “%s”"
 msgstr "Імпортовано до списку приміток «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5470
+#: ../src/modules/itip-formatter/itip-view.c:5486
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Збереження змін до календаря. Заждіть…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5473
+#: ../src/modules/itip-formatter/itip-view.c:5489
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Збереження змін до списку завдань. Заждіть…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5476
+#: ../src/modules/itip-formatter/itip-view.c:5492
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Збереження змін до списку приміток. Заждіть…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5615
+#: ../src/modules/itip-formatter/itip-view.c:5631
 msgid "Unable to parse item"
 msgstr "Не вдалося розібрати елемент"
 
-#: ../src/modules/itip-formatter/itip-view.c:5808
+#: ../src/modules/itip-formatter/itip-view.c:5824
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Організатор вилучив уповноваженого %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:5825
+#: ../src/modules/itip-formatter/itip-view.c:5841
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Надіслано уповноваженому сповіщення про скасування"
 
-#: ../src/modules/itip-formatter/itip-view.c:5829
+#: ../src/modules/itip-formatter/itip-view.c:5845
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Не вдалося надіслати сповіщення про скасування"
 
-#: ../src/modules/itip-formatter/itip-view.c:5875
+#: ../src/modules/itip-formatter/itip-view.c:5891
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Не вдалося оновити учасника. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5909
+#: ../src/modules/itip-formatter/itip-view.c:5925
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Засідання неправильне і його неможливо оновити"
 
-#: ../src/modules/itip-formatter/itip-view.c:5994
+#: ../src/modules/itip-formatter/itip-view.c:6010
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
 
-#: ../src/modules/itip-formatter/itip-view.c:6070
-#: ../src/modules/itip-formatter/itip-view.c:6108
+#: ../src/modules/itip-formatter/itip-view.c:6086
+#: ../src/modules/itip-formatter/itip-view.c:6124
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Не вдалося оновити стан учасника, оскільки відповідного запису вже не існує"
 
-#: ../src/modules/itip-formatter/itip-view.c:6169
+#: ../src/modules/itip-formatter/itip-view.c:6185
 msgid "Meeting information sent"
 msgstr "Інформацію про зібрання надіслано"
 
-#: ../src/modules/itip-formatter/itip-view.c:6174
+#: ../src/modules/itip-formatter/itip-view.c:6190
 msgid "Task information sent"
 msgstr "Інформацію про завдання надіслано"
 
-#: ../src/modules/itip-formatter/itip-view.c:6179
+#: ../src/modules/itip-formatter/itip-view.c:6195
 msgid "Memo information sent"
 msgstr "Інформацію про примітку надіслано"
 
-#: ../src/modules/itip-formatter/itip-view.c:6190
+#: ../src/modules/itip-formatter/itip-view.c:6206
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Не вдалося надіслати інформацію про зустріч, зустріч не існує"
 
-#: ../src/modules/itip-formatter/itip-view.c:6195
+#: ../src/modules/itip-formatter/itip-view.c:6211
 msgid "Unable to send task information, the task does not exist"
 msgstr "Не вдалося надіслати інформацію про завдання, завдання не існує"
 
-#: ../src/modules/itip-formatter/itip-view.c:6200
+#: ../src/modules/itip-formatter/itip-view.c:6216
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Не вдалося надіслати інформацію про примітку, примітка не існує"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6245
+#: ../src/modules/itip-formatter/itip-view.c:6261
 msgid "calendar.ics"
 msgstr "календар.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:6250
+#: ../src/modules/itip-formatter/itip-view.c:6266
 msgid "Save Calendar"
 msgstr "Зберегти календар"
 
-#: ../src/modules/itip-formatter/itip-view.c:6298
-#: ../src/modules/itip-formatter/itip-view.c:6311
+#: ../src/modules/itip-formatter/itip-view.c:6314
+#: ../src/modules/itip-formatter/itip-view.c:6327
 msgid "The calendar attached is not valid"
 msgstr "Долучений календар недійсний"
 
-#: ../src/modules/itip-formatter/itip-view.c:6299
-#: ../src/modules/itip-formatter/itip-view.c:6312
+#: ../src/modules/itip-formatter/itip-view.c:6315
+#: ../src/modules/itip-formatter/itip-view.c:6328
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -26663,15 +26681,15 @@ msgstr ""
 "Це повідомлення заявляє, що містить календар, але календар не є дійсним "
 "iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:6394
-#: ../src/modules/itip-formatter/itip-view.c:6478
-#: ../src/modules/itip-formatter/itip-view.c:6582
+#: ../src/modules/itip-formatter/itip-view.c:6410
+#: ../src/modules/itip-formatter/itip-view.c:6494
+#: ../src/modules/itip-formatter/itip-view.c:6598
 msgid "The item in the calendar is not valid"
 msgstr "Елемент календаря - недійсний"
 
-#: ../src/modules/itip-formatter/itip-view.c:6395
-#: ../src/modules/itip-formatter/itip-view.c:6479
-#: ../src/modules/itip-formatter/itip-view.c:6583
+#: ../src/modules/itip-formatter/itip-view.c:6411
+#: ../src/modules/itip-formatter/itip-view.c:6495
+#: ../src/modules/itip-formatter/itip-view.c:6599
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -26679,23 +26697,23 @@ msgstr ""
 "Це повідомлення містить календар, але календар не містить подій, задач або "
 "відомостей про зайнятість."
 
-#: ../src/modules/itip-formatter/itip-view.c:6488
+#: ../src/modules/itip-formatter/itip-view.c:6504
 msgid "The calendar attached contains multiple items"
 msgstr "Долучений календар містить декілька об'єктів"
 
-#: ../src/modules/itip-formatter/itip-view.c:6489
+#: ../src/modules/itip-formatter/itip-view.c:6505
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 "Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
 
-#: ../src/modules/itip-formatter/itip-view.c:7072
+#: ../src/modules/itip-formatter/itip-view.c:7088
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Немає"
 
-#: ../src/modules/itip-formatter/itip-view.c:7124
+#: ../src/modules/itip-formatter/itip-view.c:7140
 msgid "Tentatively Accepted"
 msgstr "Експериментально прийнято"
 
@@ -26903,7 +26921,7 @@ msgstr "Імпортувати ключ OpenP_GP…"
 msgid "Import Pretty Good Privacy (OpenPGP) key"
 msgstr "Імпортувати ключ Pretty Good Privacy (OpenPGP)"
 
-#: ../src/modules/mail/e-mail-attachment-handler.c:712
+#: ../src/modules/mail/e-mail-attachment-handler.c:732
 #, c-format
 msgid "%d attached message"
 msgid_plural "%d attached messages"
@@ -27510,11 +27528,11 @@ msgstr "Надіслати за 1 хвилину"
 msgid "Send after 5 minutes"
 msgstr "Надіслати через 15 хвилин"
 
-#: ../src/modules/mail/em-composer-prefs.c:1738
+#: ../src/modules/mail/em-composer-prefs.c:1739
 msgid "Language(s)"
 msgstr "Мова"
 
-#: ../src/modules/mail/em-composer-prefs.c:1759
+#: ../src/modules/mail/em-composer-prefs.c:1760
 msgid "Same as user interface"
 msgstr "Те саме, що і в інтерфейсі користувача"
 
