@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-19 17:43+0000\n"
-"PO-Revision-Date: 2024-03-20 08:57+0200\n"
+"POT-Creation-Date: 2024-03-20 07:52+0000\n"
+"PO-Revision-Date: 2024-03-20 12:04+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3282,7 +3282,6 @@ msgstr ""
 "сортування за відповідним стовпчиком."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
-#| msgid "Save selected messages as an mbox file"
 msgid "Attach multiple messages as separate files"
 msgstr "Долучити повідомлення як окремі файли"
 
@@ -3291,8 +3290,8 @@ msgid ""
 "When attaching multiple messages at once, attach them as separate file (when "
 "set to 'true'), instead of a single mbox file."
 msgstr ""
-"При долученні декількох повідомлень одразу долучати їх як окремі файли (якщо"
-" встановлено значення «true»), замість єдиного файла mbox."
+"При долученні декількох повідомлень одразу долучати їх як окремі файли (якщо "
+"встановлено значення «true»), замість єдиного файла mbox."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
 msgid "(Deprecated) Default forward style"
@@ -4909,7 +4908,7 @@ msgstr ""
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
 #: ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1249
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1310
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:278
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1152
@@ -23775,7 +23774,7 @@ msgstr "Надіслати _повідомлення контакту"
 msgid "Failed to launch command “%s”:"
 msgstr "Помилка запуску команди «%s»:"
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:161
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:171
 msgid ""
 "You can restore Evolution from a backup file.\n"
 "\n"
@@ -23785,177 +23784,183 @@ msgstr ""
 "\n"
 "Так можна відновити всі особисті дані, параметри поштових фільтрів, тощо."
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:177
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:187
 msgid "_Restore from a backup file:"
 msgstr "_Відновити з резервної копії:"
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:188
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:198
 msgid "Choose a backup file to restore"
 msgstr "Вибрати файл копії для відновлення"
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:196
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:206
 msgid "Backup Files"
 msgstr "Файли резервних копій"
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:201
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:211
 #: ../src/shell/e-shell-utils.c:198
 msgid "All Files (*)"
 msgstr "Усі файли (*)"
 
 #. Keep the title identical to EMailConfigRestorePage
 #. * so it's only shown once in the assistant sidebar.
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:299
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:309
 #: ../src/modules/backup-restore/e-mail-config-restore-ready-page.c:57
 msgid "Restore from Backup"
 msgstr "Відновити з резервної копії"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:306
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:352
+#, c-format
+#| msgid "Folder '%s' not found"
+msgid "Program '%s' not found"
+msgstr "Не знайдено програми «%s»"
+
+#: ../src/modules/backup-restore/evolution-backup-restore.c:316
 msgid "Select name of the Evolution backup file"
 msgstr "Виберіть назву файлу для архіву Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:351
+#: ../src/modules/backup-restore/evolution-backup-restore.c:377
 msgid "_Restart Evolution after backup"
 msgstr "_Перезапустити Evolution після збереження"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:386
+#: ../src/modules/backup-restore/evolution-backup-restore.c:412
 msgid "Re_start Evolution after restore"
 msgstr "Пе_резапустити програму після відновлення"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:428
+#: ../src/modules/backup-restore/evolution-backup-restore.c:461
 msgid "Select name of the Evolution backup file to restore"
 msgstr "Виберіть файл архіву Evolution для відновлення"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:437
+#: ../src/modules/backup-restore/evolution-backup-restore.c:470
 #, c-format
 msgid "Checking content of backup file “%s”, please wait…"
 msgstr "Перевіряємо вміст резервної копії файла «%s», заждіть…"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:458
+#: ../src/modules/backup-restore/evolution-backup-restore.c:491
 msgid "_Back up Evolution Data…"
 msgstr "_Резервне копіювання даних Evolution…"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:460
+#: ../src/modules/backup-restore/evolution-backup-restore.c:493
 msgid "Back up Evolution data and settings to an archive file"
 msgstr "Зберегти дані й параметри Evolution у архівний файл"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:465
+#: ../src/modules/backup-restore/evolution-backup-restore.c:498
 msgid "R_estore Evolution Data…"
 msgstr "_Відновити дані Evolution…"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:467
+#: ../src/modules/backup-restore/evolution-backup-restore.c:500
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Відновити дані та параметри Evolution з архівного файлу"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:74
+#: ../src/modules/backup-restore/evolution-backup-tool.c:82
 msgid "Back up Evolution directory"
 msgstr "Зберегти каталог Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:76
+#: ../src/modules/backup-restore/evolution-backup-tool.c:84
 msgid "Restore Evolution directory"
 msgstr "Відновити каталог Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:78
+#: ../src/modules/backup-restore/evolution-backup-tool.c:86
 msgid "Check Evolution Back up"
 msgstr "Перевірити архів Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:80
+#: ../src/modules/backup-restore/evolution-backup-tool.c:88
 msgid "Restart Evolution"
 msgstr "Перезапустити Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:82
+#: ../src/modules/backup-restore/evolution-backup-tool.c:90
 msgid "With Graphical User Interface"
 msgstr "з графічним інтерфейсом"
 
 #. FIXME Will the versioned setting always work?
-#: ../src/modules/backup-restore/evolution-backup-tool.c:516
-#: ../src/modules/backup-restore/evolution-backup-tool.c:779
+#: ../src/modules/backup-restore/evolution-backup-tool.c:565
+#: ../src/modules/backup-restore/evolution-backup-tool.c:827
 msgid "Shutting down Evolution"
 msgstr "Зупиняється Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:525
+#: ../src/modules/backup-restore/evolution-backup-tool.c:574
 msgid "Backing Evolution accounts and settings"
 msgstr "Збереження та відновлення даних та параметрів"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:540
+#: ../src/modules/backup-restore/evolution-backup-tool.c:589
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "Збереження даних Evolution (листів, контактів, календарів, задач, приміток)"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:556
+#: ../src/modules/backup-restore/evolution-backup-tool.c:604
 msgid "Checking validity of the archive"
 msgstr "Перевіряємо коректність архіву"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:563
+#: ../src/modules/backup-restore/evolution-backup-tool.c:611
 msgid "Back up complete"
 msgstr "Архів створено"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:570
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1002
+#: ../src/modules/backup-restore/evolution-backup-tool.c:618
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1050
 msgid "Restarting Evolution"
 msgstr "Перезапуск Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:785
+#: ../src/modules/backup-restore/evolution-backup-tool.c:833
 msgid "Back up current Evolution data"
 msgstr "Зберегти поточні дані Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:792
+#: ../src/modules/backup-restore/evolution-backup-tool.c:840
 msgid "Extracting files from back up"
 msgstr "Розпакування файлів з архіву"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:887
+#: ../src/modules/backup-restore/evolution-backup-tool.c:935
 msgid "Loading Evolution settings"
 msgstr "Завантаження параметрів Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:973
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1021
 msgid "Removing temporary back up files"
 msgstr "Вилучення тимчасових резервних файлів"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:987
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1035
 msgid "Reloading registry service"
 msgstr "Перезавантаження служби реєстру"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1115
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1176
 #, c-format
 msgid "Failed to verify the backup file “%s”, the archive is broken."
 msgstr ""
 "Перевірку коректності файла резервної копії «%s» не пройдено. Архів "
 "пошкоджено."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1216
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1277
 msgid "Evolution Back Up"
 msgstr "Архів Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1217
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1278
 #, c-format
 msgid "Backing up to the file %s"
 msgstr "Резервування у файл %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1221
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1282
 msgid "Evolution Restore"
 msgstr "Відновлення Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1222
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1283
 #, c-format
 msgid "Restoring from the file %s"
 msgstr "Відновлення з файла %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1291
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1352
 msgid "Backing up Evolution Data"
 msgstr "Резервне копіювання даних Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1292
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1353
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Зачекайте, доки Evolution виконає резервне копіювання ваших даних."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1294
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1355
 msgid "Restoring Evolution Data"
 msgstr "Відновлення даних Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1295
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1356
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Зачекайте, доки Evolution відновлює ваші дані."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1317
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1378
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
 "Це може зайняти деякий час, залежно від обсягу даних вашого облікового "
@@ -23970,10 +23975,20 @@ msgid "File “{0}” is not a valid Evolution backup file."
 msgstr "Файл «{0}» не є належним файлом резервної копії Evolution"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
+#| msgid "_Restore from a backup file:"
+msgid "Cannot restore from backup file"
+msgstr "Не вдалося виконати відновлення з файла резервної копії"
+
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:4
+#| msgid "Cannot create Temporary File"
+msgid "Cannot create backup file"
+msgstr "Не вдалося створити файл резервної копії"
+
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Are you sure you want to close Evolution?"
 msgstr "Ви дійсно хочете закрити Evolution?"
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:4
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
 "To back up your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding."
@@ -23981,16 +23996,16 @@ msgstr ""
 "Щоб зберегти ваші дані та параметри, потрібно закрити Evolution. Насамперед "
 "переконайтесь, що ви зберегли незбережені дані."
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:7
 msgid "Close and _Back up Evolution"
 msgstr "Закрити і зробити _резервну копію"
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:6
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid ""
 "Are you sure you want to restore Evolution from the selected backup file?"
 msgstr "Відновити Evolution з вибраного файла архіву?"
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:7
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:9
 msgid ""
 "To restore your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding. This will delete "
@@ -24001,15 +24016,15 @@ msgstr ""
 "Насамперед переконайтесь, що ви зберегли незбережені дані. Це вилучить всі "
 "поточні дані та параметри Evolution і відновить їх з архіву."
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:8
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:10
 msgid "Close and _Restore Evolution"
 msgstr "Закрити і ві_дновити дані"
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:9
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:11
 msgid "Insufficient Permissions"
 msgstr "Недостатньо прав доступу"
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:10
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:12
 msgid "The selected folder is not writable."
 msgstr "Виділена тека недоступна для запису."
 
