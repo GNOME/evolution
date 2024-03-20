@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-06 09:36+0000\n"
-"PO-Revision-Date: 2024-03-11 08:00+0300\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"POT-Creation-Date: 2024-03-20 18:39+0000\n"
+"PO-Revision-Date: 2024-03-21 01:15+0300\n"
+"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -1469,27 +1469,29 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 msgid "Show “Mail-Followup-To” field when sending a mail message"
-msgstr "Posta iletisi gönderilirken “Mail-Followup-To” (Posta Takip) alanını göster"
+msgstr ""
+"Posta iletisi gönderilirken “Mail-Followup-To” (Posta Takip) alanını göster"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
 msgid ""
 "Show the “Mail-Followup-To” field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
 msgstr ""
-"Posta iletisi gönderirken “Mail-Followup-To” (Posta Takip) alanını göster. Bu ayar Görünüm "
-"menüsünden, e-posta hesabı seçiliyken denetlenebilir."
+"Posta iletisi gönderirken “Mail-Followup-To” (Posta Takip) alanını göster. "
+"Bu ayar Görünüm menüsünden, e-posta hesabı seçiliyken denetlenebilir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
 msgid "Show “Mail-Reply-To” field when sending a mail message"
-msgstr "Posta iletisi gönderilirken “Mail-Reply-To” (Posta Yanıtla) alanını göster"
+msgstr ""
+"Posta iletisi gönderilirken “Mail-Reply-To” (Posta Yanıtla) alanını göster"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
 msgid ""
 "Show the “Mail-Reply-To” field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
 msgstr ""
-"Posta iletisi gönderirken “Mail-Reply-To” (Posta Yanıtla) alanını göster. Bu ayar Görünüm "
-"menüsünden, e-posta hesabı seçiliyken denetlenebilir."
+"Posta iletisi gönderirken “Mail-Reply-To” (Posta Yanıtla) alanını göster. Bu "
+"ayar Görünüm menüsünden, e-posta hesabı seçiliyken denetlenebilir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
 msgid "Show “From” field when posting to a newsgroup"
@@ -1517,27 +1519,31 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "Show “Mail-Followup-To” field when posting to a newsgroup"
-msgstr "Haber kümesine gönderim yaparken “Mail-Followup-To” (Posta Takip) alanını göster"
+msgstr ""
+"Haber kümesine gönderim yaparken “Mail-Followup-To” (Posta Takip) alanını "
+"göster"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
 msgid ""
 "Show the “Mail-Followup-To” field when posting to a newsgroup. This is "
 "controlled from the View menu when a news account is chosen."
 msgstr ""
-"Haber kümesine gönderim yaparken “Mail-Followup-To” (Posta Takip) alanını göster. Bu ayar, "
-"haber hesabı seçiliyken Görünüm menüsünden denetlenir."
+"Haber kümesine gönderim yaparken “Mail-Followup-To” (Posta Takip) alanını "
+"göster. Bu ayar, haber hesabı seçiliyken Görünüm menüsünden denetlenir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Show “Mail-Reply-To” field when posting to a newsgroup"
-msgstr "Haber kümesine gönderim yaparken “Mail-Reply-To” (Posta Yanıtla) alanını göster"
+msgstr ""
+"Haber kümesine gönderim yaparken “Mail-Reply-To” (Posta Yanıtla) alanını "
+"göster"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
 msgid ""
 "Show the “Mail-Reply-To” field when posting to a newsgroup. This is "
 "controlled from the View menu when a news account is chosen."
 msgstr ""
-"Haber kümesine gönderim yaparken “Mail-Reply-To” (Posta Yanıtla) alanını göster. Bu ayar, "
-"haber hesabı seçiliyken Görünüm menüsünden denetlenebilir."
+"Haber kümesine gönderim yaparken “Mail-Reply-To” (Posta Yanıtla) alanını "
+"göster. Bu ayar, haber hesabı seçiliyken Görünüm menüsünden denetlenebilir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Digitally sign replies when the original message is signed"
@@ -1801,9 +1807,9 @@ msgid ""
 "converts any time, not only UTC times, for which “composer-reply-credits-utc-"
 "to-localtime” can be used."
 msgstr ""
-"Yanıt tanıtımındaki zamanın yerel zamana dönüştürülme durumu. Bu, yalnızca UTC "
-"zamanları değil, “composer-reply-credits-utc-to-localtime” kullanılabilen "
-"tüm zamanları dönüştürür."
+"Yanıt tanıtımındaki zamanın yerel zamana dönüştürülme durumu. Bu, yalnızca "
+"UTC zamanları değil, “composer-reply-credits-utc-to-localtime” "
+"kullanılabilen tüm zamanları dönüştürür."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Use user date format in reply credits"
@@ -2583,8 +2589,8 @@ msgid ""
 "It's a complementary option for “prompt-on-unwanted-html”, containing list "
 "of addresses, which accept HTML messages."
 msgstr ""
-"HTML iletileri kabul eden adreslerin listesi, “prompt-on-unwanted-"
-"html” için tamamlayıcı bir seçenektir."
+"HTML iletileri kabul eden adreslerin listesi, “prompt-on-unwanted-html” için "
+"tamamlayıcı bir seçenektir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid ""
@@ -2981,8 +2987,8 @@ msgid ""
 msgstr ""
 "İletiler sütununda Konunun Göndericiden (Kimden/Kime) yukarıda gösterilip "
 "gösterilmeyeceği, genellikle Dikey/Geniş ileti listesi görünümünde "
-"gösterilir. Bu seçeneğin değiştirilmesi için Evolutionʼın yeniden başlatılması "
-"gerekir."
+"gösterilir. Bu seçeneğin değiştirilmesi için Evolutionʼın yeniden "
+"başlatılması gerekir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
 msgid "Visually wrap long lines in composer"
@@ -3226,25 +3232,38 @@ msgid ""
 "label href\"; 'reference-without-label' - show href as reference to the end "
 "of the text without label, like: \"label [1] ...... [1] href\""
 msgstr ""
-"Olası değerler: 'none' (hiçbiri) - href’i düz metinde depolama; 'inline' "
-"(satır içi) - href’i metin bağının yanında göster, örneğin: \"etiket &lt;href&gt;\"; "
-"'reference' (atıf) - href’i metnin sonuna atıf olarak göster, örneğin: "
-"\"etiket [1] ...... [1] etiket href\"; 'reference-without-label' (etiketsiz atıf) - "
-"href’i metnin sonuna etiketsiz atıf olarak göster, örneğin: \"etiket [1] ...... [1] href\""
+"Olası değerler: 'none' (hiçbiri) - href’i düz metinde depolama; "
+"'inline' (satır içi) - href’i metin bağının yanında göster, örneğin: "
+"\"etiket &lt;href&gt;\"; 'reference' (atıf) - href’i metnin sonuna atıf "
+"olarak göster, örneğin: \"etiket [1] ...... [1] etiket href\"; 'reference-"
+"without-label' (etiketsiz atıf) - href’i metnin sonuna etiketsiz atıf olarak "
+"göster, örneğin: \"etiket [1] ...... [1] href\""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:350
 msgid ""
 "Whether click on a header in the message list can change sort order by the "
 "clicked column."
 msgstr ""
-"İleti listesindeki başlığa tıklanması, tıklanan sütuna göre sıralama düzenini "
-"değiştirebilir."
+"İleti listesindeki başlığa tıklanması, tıklanan sütuna göre sıralama "
+"düzenini değiştirebilir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
+msgid "Attach multiple messages as separate files"
+msgstr "Birden çok iletiyi ayrı dosyalar olarak ekle"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
+msgid ""
+"When attaching multiple messages at once, attach them as separate files "
+"(when set to 'true'), instead of a single mbox file."
+msgstr ""
+"Birden çok ileti eklerken, bunları tek mbox dosyası yerine ayrı dosyalar "
+"olarak ekle ('true' ayarlandığında)."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
 msgid "(Deprecated) Default forward style"
 msgstr "(Kullanılması önerilmiyor) Öntanımlı yönlendirme biçemi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -3252,11 +3271,11 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “forward-style-name” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:355
 msgid "(Deprecated) Default reply style"
 msgstr "(Kullanılması önerilmiyor) Öntanımlı yanıtlama biçemi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:356
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -3264,13 +3283,13 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “reply-style-name” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:355
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:357
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
 "(Kullanımı önerilmiyor) Özel başlıklar ve onların etkin olup olmadıklarının "
 "listesi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:356
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:358
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -3278,13 +3297,13 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “show-headers” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:357
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:359
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 "(Kullanımı önerilmiyor) HTML iletileri için resimlerin HTTP üzerinden "
 "yüklenmesi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:358
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:360
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -3292,7 +3311,7 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “image-loading-policy” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:359
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:361
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -3300,7 +3319,7 @@ msgstr ""
 "(Terk edilmiş) Kullanıcı penceredeki iletiyi yanıtlarken ya da iletiyi "
 "iletirken ileti penceresinin kapatılıp kapatılmayacağını sorar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:360
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:362
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3308,11 +3327,11 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “browser-close-on-reply-policy” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:361
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:363
 msgid "Prompt before send when attachment changed on the disk"
 msgstr "Ek, diskte değiştirildiğinde göndermeden önce uyarı ver."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:362
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:364
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
@@ -4653,7 +4672,7 @@ msgstr ""
 #: ../src/mail/e-mail-label-manager.c:372
 #: ../src/mail/em-folder-properties.c:1391
 #: ../src/mail/em-vfolder-editor-rule.c:391
-#: ../src/mail/em-vfolder-editor-rule.c:620 ../src/mail/mail-config.ui.h:68
+#: ../src/mail/em-vfolder-editor-rule.c:620 ../src/mail/mail-config.ui.h:69
 #: ../src/modules/mail/em-composer-prefs.c:420
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1800
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
@@ -4821,13 +4840,13 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4133
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:304 ../src/mail/e-mail-label-dialog.c:180
-#: ../src/mail/e-mail-tag-editor.c:154 ../src/mail/em-composer-utils.c:4400
+#: ../src/mail/e-mail-tag-editor.c:154 ../src/mail/em-composer-utils.c:4433
 #: ../src/mail/em-folder-selector.c:619 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
 #: ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1249
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1310
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:278
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1152
@@ -4897,7 +4916,7 @@ msgstr "Sertifikaları Göster"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2489
 #: ../src/em-format/e-mail-formatter-attachment.c:322
-#: ../src/mail/mail-config.ui.h:42
+#: ../src/mail/mail-config.ui.h:43
 msgid "Options"
 msgstr "Seçenekler"
 
@@ -5195,7 +5214,7 @@ msgstr "_X.509 Ekle"
 #: ../src/mail/e-mail-config-identity-page.c:865
 #: ../src/mail/e-mail-label-manager.c:390 ../src/mail/em-filter-rule.c:677
 #: ../src/mail/em-folder-properties.c:1397
-#: ../src/mail/em-vfolder-editor-rule.c:625 ../src/mail/mail-config.ui.h:70
+#: ../src/mail/em-vfolder-editor-rule.c:625 ../src/mail/mail-config.ui.h:71
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1819
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:825
@@ -5560,12 +5579,12 @@ msgid "_Top"
 msgstr "_Üst"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/e-source-selector.c:3913 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-source-selector.c:3918 ../src/e-util/filter.ui.h:29
 msgid "_Up"
 msgstr "_Yukarı"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
-#: ../src/e-util/e-source-selector.c:3914 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-source-selector.c:3919 ../src/e-util/filter.ui.h:30
 msgid "_Down"
 msgstr "_Aşağı"
 
@@ -8349,7 +8368,7 @@ msgstr "Son değiştirilme"
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:9
 #: ../src/calendar/gui/e-memo-table.etspec.h:8
 #: ../src/calendar/gui/e-task-table.etspec.h:16
-#: ../src/em-format/e-mail-formatter-source.c:118
+#: ../src/em-format/e-mail-formatter-source.c:164
 msgid "Source"
 msgstr "Kaynak"
 
@@ -8659,8 +8678,8 @@ msgstr "Başlangıç saati geçerli zaman değil"
 #: ../src/e-util/e-misc-utils.c:4159 ../src/e-util/e-misc-utils.c:4173
 #: ../src/mail/e-mail-autoconfig.c:1130 ../src/mail/e-mail-display.c:2914
 #: ../src/mail/e-mail-notes.c:929 ../src/mail/e-mail-reader.c:3699
-#: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4192
-#: ../src/mail/em-composer-utils.c:4215 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4225
+#: ../src/mail/em-composer-utils.c:4248 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:432
@@ -9002,7 +9021,7 @@ msgstr "Katılı_mcılar…"
 #: ../src/e-util/e-webdav-browser.c:2881 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:718 ../src/mail/e-mail-browser.c:209
 #: ../src/mail/e-mail-label-manager.c:381
-#: ../src/mail/em-folder-properties.c:1394 ../src/mail/mail-config.ui.h:69
+#: ../src/mail/em-folder-properties.c:1394 ../src/mail/mail-config.ui.h:70
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1806
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:820
@@ -9273,13 +9292,13 @@ msgstr "İstisnalar"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2310
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2278
 #: ../src/mail/e-mail-config-identity-page.c:847
-#: ../src/mail/mail-config.ui.h:74
+#: ../src/mail/mail-config.ui.h:75
 msgid "A_dd"
 msgstr "_Ekle"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2326
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2286
-#: ../src/mail/mail-config.ui.h:75
+#: ../src/mail/mail-config.ui.h:76
 msgid "Re_move"
 msgstr "_Kaldır"
 
@@ -13387,7 +13406,7 @@ msgstr "Şifreleme"
 msgid "Encrypted by:"
 msgstr "Şifreleyen:"
 
-#: ../src/em-format/e-mail-formatter-source.c:119
+#: ../src/em-format/e-mail-formatter-source.c:165
 msgid "Display source of a MIME part"
 msgstr "MIME parçasının kaynağını göster"
 
@@ -13613,7 +13632,7 @@ msgstr "Görev Listeleri"
 
 #: ../src/e-util/e-accounts-window.c:1407 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:77
-#: ../src/modules/mail/em-composer-prefs.c:1734
+#: ../src/modules/mail/em-composer-prefs.c:1735
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
 #: ../src/plugins/mail-notification/mail-notification.c:1193
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
@@ -14405,7 +14424,7 @@ msgstr "Özel renk seç"
 #: ../src/mail/e-mail-account-tree-view.c:128
 #: ../src/mail/e-mail-config-security-page.c:538
 #: ../src/mail/e-mail-config-security-page.c:788
-#: ../src/mail/e-mail-reader.c:5234 ../src/mail/mail-config.ui.h:84
+#: ../src/mail/e-mail-reader.c:5234 ../src/mail/mail-config.ui.h:85
 msgid "Default"
 msgstr "Öntanımlı"
 
@@ -15973,7 +15992,7 @@ msgid "Add word"
 msgstr "Sözcük ekle"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:492
-#: ../src/mail/mail-config.ui.h:44
+#: ../src/mail/mail-config.ui.h:45
 msgid "Spell Checking"
 msgstr "İmla Denetimi"
 
@@ -16843,28 +16862,28 @@ msgstr "SSL/TLS sertifikasına _güvenme bilgisini kaldır"
 msgid "User:"
 msgstr "Kullanıcı:"
 
-#: ../src/e-util/e-source-selector.c:3608
+#: ../src/e-util/e-source-selector.c:3613
 msgid "Show"
 msgstr "Göster"
 
-#: ../src/e-util/e-source-selector.c:3614
+#: ../src/e-util/e-source-selector.c:3619
 msgid "Group name"
 msgstr "Küme adı"
 
-#: ../src/e-util/e-source-selector.c:3818 ../src/mail/e-mail-display.c:761
+#: ../src/e-util/e-source-selector.c:3823 ../src/mail/e-mail-display.c:761
 msgid "_Hide"
 msgstr "_Gizle"
 
-#: ../src/e-util/e-source-selector.c:3818
-#: ../src/e-util/e-source-selector.c:3916
+#: ../src/e-util/e-source-selector.c:3823
+#: ../src/e-util/e-source-selector.c:3921
 msgid "_Show"
 msgstr "_Göster"
 
-#: ../src/e-util/e-source-selector.c:3870
+#: ../src/e-util/e-source-selector.c:3875
 msgid "Manage Groups"
 msgstr "Kümeleri Yönet"
 
-#: ../src/e-util/e-source-selector.c:3882
+#: ../src/e-util/e-source-selector.c:3887
 msgid "Available Groups:"
 msgstr "Kullanılabilir Kümeler:"
 
@@ -17577,7 +17596,7 @@ msgstr "belirteceğiniz zaman"
 msgid "a time relative to the current time"
 msgstr "şimdiki zamana göre bir zaman"
 
-#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:104
+#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:105
 msgid "seconds"
 msgstr "saniye"
 
@@ -17770,13 +17789,13 @@ msgstr "Dosya kaldırıldı."
 msgid "Removing attachments"
 msgstr "Eklentiler kaldırıyor"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1584
+#: ../src/libemail-engine/e-mail-folder-utils.c:1632
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "%d ileti kaydediliyor"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1973
+#: ../src/libemail-engine/e-mail-folder-utils.c:2053
 #, c-format
 msgid "Invalid folder URI “%s”"
 msgstr "Geçersiz klasör URI “%s”"
@@ -18227,31 +18246,31 @@ msgid "Use global setting"
 msgstr "Genel ayarı kullan"
 
 #: ../src/mail/e-mail-config-composing-page.c:120
-#: ../src/mail/mail-config.ui.h:31
+#: ../src/mail/mail-config.ui.h:32
 msgctxt "ReplyForward"
 msgid "Attachment"
 msgstr "Eklenti"
 
 #: ../src/mail/e-mail-config-composing-page.c:122
-#: ../src/mail/mail-config.ui.h:32
+#: ../src/mail/mail-config.ui.h:33
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
 msgstr "Satır Arası (Outlook biçimi)"
 
 #: ../src/mail/e-mail-config-composing-page.c:124
-#: ../src/mail/mail-config.ui.h:33
+#: ../src/mail/mail-config.ui.h:34
 msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr "Alıntılı"
 
 #: ../src/mail/e-mail-config-composing-page.c:126
-#: ../src/mail/mail-config.ui.h:34
+#: ../src/mail/mail-config.ui.h:35
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
 msgstr "Alıntı Yapma"
 
 #: ../src/mail/e-mail-config-composing-page.c:158
-#: ../src/mail/em-composer-utils.c:4530
+#: ../src/mail/em-composer-utils.c:4563
 msgid "Use global setting"
 msgstr "Genel ayarı kullan"
 
@@ -18283,12 +18302,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Yanıtla ve İlet öznitelik metni için dil"
 
 #: ../src/mail/e-mail-config-composing-page.c:525
-#: ../src/mail/em-composer-utils.c:4499 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4532 ../src/mail/mail-config.ui.h:24
 msgid "Start _typing at the bottom"
 msgstr "_Yazmaya aşağıdan başla"
 
 #: ../src/mail/e-mail-config-composing-page.c:532
-#: ../src/mail/em-composer-utils.c:4503 ../src/mail/mail-config.ui.h:25
+#: ../src/mail/em-composer-utils.c:4536 ../src/mail/mail-config.ui.h:25
 msgid "_Keep signature above the original message"
 msgstr "Yanıtlarken imzayı özgün iletinin üzerinde _tut"
 
@@ -18529,7 +18548,7 @@ msgid "Use sender e-mail address"
 msgstr "Gönderen e-posta adresini kullan"
 
 #: ../src/mail/e-mail-config-security-page.c:451
-#: ../src/mail/em-folder-properties.c:1428 ../src/mail/mail-config.ui.h:36
+#: ../src/mail/em-folder-properties.c:1428 ../src/mail/mail-config.ui.h:37
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:646
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:54
@@ -18557,25 +18576,25 @@ msgstr "İmzalama al_goritması:"
 
 #: ../src/mail/e-mail-config-security-page.c:541
 #: ../src/mail/e-mail-config-security-page.c:791
-#: ../src/mail/mail-config.ui.h:85
+#: ../src/mail/mail-config.ui.h:86
 msgid "SHA1"
 msgstr "SHA1"
 
 #: ../src/mail/e-mail-config-security-page.c:544
 #: ../src/mail/e-mail-config-security-page.c:794
-#: ../src/mail/mail-config.ui.h:86
+#: ../src/mail/mail-config.ui.h:87
 msgid "SHA256"
 msgstr "SHA256"
 
 #: ../src/mail/e-mail-config-security-page.c:547
 #: ../src/mail/e-mail-config-security-page.c:797
-#: ../src/mail/mail-config.ui.h:87
+#: ../src/mail/mail-config.ui.h:88
 msgid "SHA384"
 msgstr "SHA384"
 
 #: ../src/mail/e-mail-config-security-page.c:550
 #: ../src/mail/e-mail-config-security-page.c:800
-#: ../src/mail/mail-config.ui.h:88
+#: ../src/mail/mail-config.ui.h:89
 msgid "SHA512"
 msgstr "SHA512"
 
@@ -18982,7 +19001,7 @@ msgstr "Başlık Adı"
 msgid "Header Value"
 msgstr "Başlık Değeri"
 
-#: ../src/mail/e-mail-printer.c:96 ../src/mail/mail-config.ui.h:144
+#: ../src/mail/e-mail-printer.c:96 ../src/mail/mail-config.ui.h:145
 msgid "Headers"
 msgstr "Başlıklar"
 
@@ -19479,7 +19498,7 @@ msgstr "_Yinelenen İletileri Kaldır"
 msgid "Checks selected messages for duplicates"
 msgstr "Seçili iletilerin yinelenenlerini arar"
 
-#: ../src/mail/e-mail-reader.c:3076 ../src/mail/em-composer-utils.c:4458
+#: ../src/mail/e-mail-reader.c:3076 ../src/mail/em-composer-utils.c:4491
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:455
@@ -19504,7 +19523,7 @@ msgstr "Seçilen iletiye yanıt seçeneklerini seç"
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "E-posta listesine, ya da tüm alıcılara yanıtla"
 
-#: ../src/mail/e-mail-reader.c:3097 ../src/mail/em-composer-utils.c:4453
+#: ../src/mail/e-mail-reader.c:3097 ../src/mail/em-composer-utils.c:4486
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:462
 msgid "Reply to _List"
@@ -19917,84 +19936,84 @@ msgid "-----Original Message-----"
 msgstr "-------- Özgün İleti --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:3124
+#: ../src/mail/em-composer-utils.c:3157
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Ynt: %s"
 
-#: ../src/mail/em-composer-utils.c:3779
+#: ../src/mail/em-composer-utils.c:3812
 msgid "an unknown sender"
 msgstr "bilinmeyen gönderici"
 
-#: ../src/mail/em-composer-utils.c:4398
+#: ../src/mail/em-composer-utils.c:4431
 msgid "Alternative Reply"
 msgstr "Alternatif Yanıt"
 
-#: ../src/mail/em-composer-utils.c:4401
+#: ../src/mail/em-composer-utils.c:4434
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4419
+#: ../src/mail/em-composer-utils.c:4452
 msgid "Recipients:"
 msgstr "Alıcılar:"
 
-#: ../src/mail/em-composer-utils.c:4448
+#: ../src/mail/em-composer-utils.c:4481
 msgid "Reply to _Sender"
 msgstr "_Gönderene Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4471
+#: ../src/mail/em-composer-utils.c:4504
 msgid "Reply style:"
 msgstr "Yanıtlama biçemi:"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4480
+#: ../src/mail/em-composer-utils.c:4513
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_Öntanımlı"
 
-#: ../src/mail/em-composer-utils.c:4484
+#: ../src/mail/em-composer-utils.c:4517
 msgid "Attach_ment"
 msgstr "_Ek"
 
-#: ../src/mail/em-composer-utils.c:4488
+#: ../src/mail/em-composer-utils.c:4521
 msgid "Inline (_Outlook style)"
 msgstr "Satır Arası (_Outlook biçimi)"
 
-#: ../src/mail/em-composer-utils.c:4492
+#: ../src/mail/em-composer-utils.c:4525
 msgid "_Quote"
 msgstr "_Alıntı"
 
-#: ../src/mail/em-composer-utils.c:4496
+#: ../src/mail/em-composer-utils.c:4529
 msgid "Do _Not Quote"
 msgstr "Alıntı Yap_ma"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4517
+#: ../src/mail/em-composer-utils.c:4550
 msgid "_Format message in"
 msgstr "İletiyi şununla _biçimle"
 
-#: ../src/mail/em-composer-utils.c:4539
+#: ../src/mail/em-composer-utils.c:4572
 msgid "Apply t_emplate"
 msgstr "Şabl_on uygula"
 
-#: ../src/mail/em-composer-utils.c:4552
+#: ../src/mail/em-composer-utils.c:4585
 msgid "Preserve original message S_ubject"
 msgstr "Özgün ileti Kon_usunu koru"
 
-#: ../src/mail/em-composer-utils.c:4618
+#: ../src/mail/em-composer-utils.c:4651
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] "%d alıcı"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:5127
+#: ../src/mail/em-composer-utils.c:5160
 msgid "Posting destination"
 msgstr "Gönderme konumu"
 
-#: ../src/mail/em-composer-utils.c:5132
+#: ../src/mail/em-composer-utils.c:5165
 msgid "Choose folders to post the message to."
 msgstr "İletinin gönderileceği klasörleri seç."
 
@@ -20177,7 +20196,7 @@ msgstr "Görünüm"
 msgid "Archive"
 msgstr "Arşiv"
 
-#: ../src/mail/em-folder-properties.c:1438 ../src/mail/mail-config.ui.h:133
+#: ../src/mail/em-folder-properties.c:1438 ../src/mail/mail-config.ui.h:134
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Etiketler"
@@ -20272,7 +20291,7 @@ msgid "Trash"
 msgstr "Çöp"
 
 #: ../src/mail/em-folder-tree-model.c:1563 ../src/mail/filtertypes.xml.in.h:41
-#: ../src/mail/mail-config.ui.h:152 ../src/mail/vfoldertypes.xml.in.h:44
+#: ../src/mail/mail-config.ui.h:153 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Gereksiz"
 
@@ -21086,28 +21105,32 @@ msgstr ""
 msgid "_Wrap quoted text in replies"
 msgstr "Alıntılanmış metni yanıtlarda _sar"
 
-#: ../src/mail/mail-config.ui.h:35
+#: ../src/mail/mail-config.ui.h:31
+msgid "_Attach multiple messages as separate files"
+msgstr "Bird_en çok iletiyi ayrı dosyalar olarak ekle"
+
+#: ../src/mail/mail-config.ui.h:36
 msgctxt "ReplyForward"
 msgid "Inline"
 msgstr "Satır arası"
 
-#: ../src/mail/mail-config.ui.h:37
+#: ../src/mail/mail-config.ui.h:38
 msgid "Sig_natures"
 msgstr "İ_mzalar"
 
-#: ../src/mail/mail-config.ui.h:38
+#: ../src/mail/mail-config.ui.h:39
 msgid "Signatures"
 msgstr "İmzalar"
 
-#: ../src/mail/mail-config.ui.h:39
+#: ../src/mail/mail-config.ui.h:40
 msgid "_Languages"
 msgstr "_Diller"
 
-#: ../src/mail/mail-config.ui.h:40
+#: ../src/mail/mail-config.ui.h:41
 msgid "Languages Table"
 msgstr "Diller Tablosu"
 
-#: ../src/mail/mail-config.ui.h:41
+#: ../src/mail/mail-config.ui.h:42
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
@@ -21115,11 +21138,11 @@ msgstr ""
 "Buradaki diller listesi, yalnızca sistemde kurulu bulunan sözlük dillerinin "
 "oluşturduğu listedir."
 
-#: ../src/mail/mail-config.ui.h:43
+#: ../src/mail/mail-config.ui.h:44
 msgid "Check spelling while I _type"
 msgstr "_Yazarken imla denetimi yap"
 
-#: ../src/mail/mail-config.ui.h:45
+#: ../src/mail/mail-config.ui.h:46
 msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation "
 "before taking the following checkmarked actions:"
@@ -21128,89 +21151,89 @@ msgstr ""
 "yapmadan önce doğrulama için sor:"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:47
+#: ../src/mail/mail-config.ui.h:48
 msgid "Sending a message with an _empty subject line"
 msgstr "İletileri konusuz gönderirk_en"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:49
+#: ../src/mail/mail-config.ui.h:50
 msgid "Sending a message with only _Bcc recipients defined"
 msgstr "Yalnızca _Bcc alıcıların tanımlandığı ileti gönderilirken"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:51
+#: ../src/mail/mail-config.ui.h:52
 msgid "Sending a message to many _To and CC recipients"
 msgstr "Birçok _Alıcı ve CC alıcılara bir ileti gönderiliyor"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:53
+#: ../src/mail/mail-config.ui.h:54
 msgid "Sending a _private reply to a mailing list message"
 msgstr "E-_posta listesi iletisine özel bir yanıt yollarken"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:55
+#: ../src/mail/mail-config.ui.h:56
 msgid "Sending a reply to a large _number of recipients"
 msgstr "Çok sayıda alıcıya yanıt gönderilmeden ö_nce"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:57
+#: ../src/mail/mail-config.ui.h:58
 msgid "Allowing a _mailing list to redirect a private reply to the list"
 msgstr "E-posta listesinin özel yanıtı listeye yönlendir_mesine izin verirken"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:59
+#: ../src/mail/mail-config.ui.h:60
 msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr "Alıcıların e-posta adresleri olarak girilmediği ileti gönde_rilirken"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:61
+#: ../src/mail/mail-config.ui.h:62
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
 msgstr "İleti _tuş hızlandırıcı kullanarak gönderiliyor (Ctrl+Enter)"
 
 #. Translators:
-#: ../src/mail/mail-config.ui.h:63
+#: ../src/mail/mail-config.ui.h:64
 msgid "Before composer _format changes from HTML to Plain Text"
 msgstr "Düzenleyici _biçimi HTMLʼden Düz Metine değişmeden önce"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:65
+#: ../src/mail/mail-config.ui.h:66
 msgid "Sending a message with _attachments which changed since being attached"
 msgstr ""
 "Eklendikten sonra değişiklik yapılan _ekler içeren bir ileti gönderiliyor"
 
-#: ../src/mail/mail-config.ui.h:66
+#: ../src/mail/mail-config.ui.h:67
 msgid "Sending an _HTML mail to contacts that do not want them"
 msgstr "İstemeyen bağlantılara _HTML postası gönderiliyor"
 
-#: ../src/mail/mail-config.ui.h:67
+#: ../src/mail/mail-config.ui.h:68
 msgid "Addresses or domains which accept HTML messages:"
 msgstr "HTML iletilerini kabul eden adresler ya da alan adları:"
 
-#: ../src/mail/mail-config.ui.h:71
+#: ../src/mail/mail-config.ui.h:72
 msgid "Confirmations"
 msgstr "Onaylar"
 
 #. Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides
-#: ../src/mail/mail-config.ui.h:73
+#: ../src/mail/mail-config.ui.h:74
 msgid "Use for Folders"
 msgstr "Klasörler için Kullan"
 
 #. Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides
-#: ../src/mail/mail-config.ui.h:77
+#: ../src/mail/mail-config.ui.h:78
 msgid "Use for Recipients"
 msgstr "Alıcılar için Kullan"
 
 #. Translators: Label of a frame with a list of configured accounts in Send account overrides
-#: ../src/mail/mail-config.ui.h:79 ../src/modules/mail/em-composer-prefs.c:873
+#: ../src/mail/mail-config.ui.h:80 ../src/modules/mail/em-composer-prefs.c:873
 #: ../src/plugins/sender-validation/sender-validation.c:822
 msgid "Account"
 msgstr "Hesap"
 
-#: ../src/mail/mail-config.ui.h:80
+#: ../src/mail/mail-config.ui.h:81
 msgid "Send account overrides"
 msgstr "Gönderim hesabını ez"
 
-#: ../src/mail/mail-config.ui.h:81
+#: ../src/mail/mail-config.ui.h:82
 msgid ""
 "Assign which account should be used as a send account for respective folders "
 "or recipients, an override for usual send account detection. List of "
@@ -21222,306 +21245,306 @@ msgstr ""
 "listesi kısmi adresler veya adlar içerebilir. Ad ve adres kısımları ayrı "
 "ayrı karşılaştırılır."
 
-#: ../src/mail/mail-config.ui.h:82
+#: ../src/mail/mail-config.ui.h:83
 msgid "_Folder override has precedence over Recipient override"
 msgstr "_Ezilen Klasörlerin ezilen Alıcılara üstünlüğü var"
 
-#: ../src/mail/mail-config.ui.h:83
+#: ../src/mail/mail-config.ui.h:84
 msgid "Send Account"
 msgstr "Gönderim Hesabı"
 
-#: ../src/mail/mail-config.ui.h:89 ../src/smime/gui/smime-ui.ui.h:27
+#: ../src/mail/mail-config.ui.h:90 ../src/smime/gui/smime-ui.ui.h:27
 msgid "a"
 msgstr "a"
 
-#: ../src/mail/mail-config.ui.h:90 ../src/smime/gui/smime-ui.ui.h:28
+#: ../src/mail/mail-config.ui.h:91 ../src/smime/gui/smime-ui.ui.h:28
 msgid "b"
 msgstr "b"
 
-#: ../src/mail/mail-config.ui.h:91
+#: ../src/mail/mail-config.ui.h:92
 msgid "Start up"
 msgstr "Başlangıç"
 
-#: ../src/mail/mail-config.ui.h:92
+#: ../src/mail/mail-config.ui.h:93
 msgid "Check for new _messages on start"
 msgstr "Başlangıçta yeni _iletileri denetle"
 
-#: ../src/mail/mail-config.ui.h:93
+#: ../src/mail/mail-config.ui.h:94
 msgid "Check for new messa_ges in all active accounts"
 msgstr "Tüm aktif hesaplardaki yeni _iletileri denetle"
 
-#: ../src/mail/mail-config.ui.h:94
+#: ../src/mail/mail-config.ui.h:95
 msgid "Message Display"
 msgstr "İleti Görüntüleme"
 
-#: ../src/mail/mail-config.ui.h:95
+#: ../src/mail/mail-config.ui.h:96
 msgid "_Use the same fonts as other applications"
 msgstr "_Diğer uygulamalarla aynı yazı tipini kullan"
 
-#: ../src/mail/mail-config.ui.h:96
+#: ../src/mail/mail-config.ui.h:97
 msgid "S_tandard Font:"
 msgstr "_Standart Yazı Tipi:"
 
-#: ../src/mail/mail-config.ui.h:97
+#: ../src/mail/mail-config.ui.h:98
 msgid "Select HTML fixed width font"
 msgstr "HTML eşaralıklı yazı tipini seç"
 
-#: ../src/mail/mail-config.ui.h:98
+#: ../src/mail/mail-config.ui.h:99
 msgid "Select HTML variable width font"
 msgstr "HTML değişken aralıklı yazı tipini seç"
 
-#: ../src/mail/mail-config.ui.h:99
+#: ../src/mail/mail-config.ui.h:100
 msgid "Fix_ed Width Font:"
 msgstr "S_abit Genişlikli Yazı Tipi:"
 
-#: ../src/mail/mail-config.ui.h:100
+#: ../src/mail/mail-config.ui.h:101
 msgid "Minimum Font _Size:"
 msgstr "En Küçük Yazı Tipi _Boyutu:"
 
 #. Translators: This is part of
-#: ../src/mail/mail-config.ui.h:102
+#: ../src/mail/mail-config.ui.h:103
 msgid "(in pixels)"
 msgstr "(piksel türünde)"
 
-#: ../src/mail/mail-config.ui.h:103
+#: ../src/mail/mail-config.ui.h:104
 msgid "_Mark messages as read after"
 msgstr "_Belirtilen süre sonrası iletileri okundu olarak imle"
 
-#: ../src/mail/mail-config.ui.h:105
+#: ../src/mail/mail-config.ui.h:106
 msgid "Highlight _quotations with"
 msgstr "_Alıntılarda belirtirken"
 
-#: ../src/mail/mail-config.ui.h:106
+#: ../src/mail/mail-config.ui.h:107
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:72
 msgid "Pick a color"
 msgstr "Renk seç"
 
-#: ../src/mail/mail-config.ui.h:107
+#: ../src/mail/mail-config.ui.h:108
 msgid "color"
 msgstr "rengini kullan"
 
-#: ../src/mail/mail-config.ui.h:108
+#: ../src/mail/mail-config.ui.h:109
 msgid "Default character e_ncoding:"
 msgstr "Ö_ntanımlı karakter kodlaması:"
 
-#: ../src/mail/mail-config.ui.h:109
+#: ../src/mail/mail-config.ui.h:110
 msgid "Apply the same _view settings to all folders"
 msgstr "Aynı _görünüm ayarlarını tüm klasörlere uygula"
 
-#: ../src/mail/mail-config.ui.h:110
+#: ../src/mail/mail-config.ui.h:111
 msgid "F_all back to threading messages by subject"
 msgstr "En son olarak iletileri _konuya göre dallandır"
 
-#: ../src/mail/mail-config.ui.h:111
+#: ../src/mail/mail-config.ui.h:112
 msgid "Group messages to _flat threads"
 msgstr "İletileri _düz dallara kümele"
 
-#: ../src/mail/mail-config.ui.h:112
+#: ../src/mail/mail-config.ui.h:113
 msgid "Delete Mail"
 msgstr "Posta Sil"
 
-#: ../src/mail/mail-config.ui.h:113
+#: ../src/mail/mail-config.ui.h:114
 msgid "Empty _trash folders"
 msgstr "Çöp dizinlerini boşal_t"
 
-#: ../src/mail/mail-config.ui.h:114
+#: ../src/mail/mail-config.ui.h:115
 msgid "Confirm _when expunging a folder"
 msgstr "_Klasörü temizlemeden önce onay sor"
 
-#: ../src/mail/mail-config.ui.h:115
+#: ../src/mail/mail-config.ui.h:116
 msgid "Confirm when emptying a _Junk folder"
 msgstr "_Gereksiz klasörünü temizlemeden önce onay sor"
 
-#: ../src/mail/mail-config.ui.h:116
+#: ../src/mail/mail-config.ui.h:117
 msgid "Go to the previ_ous message after message deletion"
 msgstr "İletiyi sildikten sonra _önceki iletiye git"
 
-#: ../src/mail/mail-config.ui.h:117
+#: ../src/mail/mail-config.ui.h:118
 msgid "Archive Mail"
 msgstr "E-Posta Arşivle"
 
-#: ../src/mail/mail-config.ui.h:118
+#: ../src/mail/mail-config.ui.h:119
 msgid "Archive folder to use for On This Computer messages"
 msgstr "Bu Bilgisayarda iletileri için kullanılacak Arşiv dizini"
 
-#: ../src/mail/mail-config.ui.h:119
+#: ../src/mail/mail-config.ui.h:120
 msgid "On This Computer A_rchive folder:"
 msgstr "Bu Bilgisayarda A_rşiv dizini:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../src/mail/mail-config.ui.h:121
+#: ../src/mail/mail-config.ui.h:122
 msgid "_Show animated images"
 msgstr "_Hareketli resimleri göster"
 
-#: ../src/mail/mail-config.ui.h:122
+#: ../src/mail/mail-config.ui.h:123
 msgid "Unset colors provided in HTML mails in message previe_w"
 msgstr "HTML postalarında sağlanan renkleri ileti ön _izlemede geçersiz kıl."
 
-#: ../src/mail/mail-config.ui.h:123
+#: ../src/mail/mail-config.ui.h:124
 msgid "Loading Remote Content"
 msgstr "Uzaktaki İçerik Yükleniyor"
 
-#: ../src/mail/mail-config.ui.h:124
+#: ../src/mail/mail-config.ui.h:125
 msgid "_Never load remote content from the Internet"
 msgstr "Uzaktaki içeriği _hiçbir zaman İnternetʼten yükleme"
 
-#: ../src/mail/mail-config.ui.h:125
+#: ../src/mail/mail-config.ui.h:126
 msgid "_Load remote content only in messages from contacts"
 msgstr "Yalnızca kayıtlı bağlantılardan gelen iletilerdeki uzak içeriği _yükle"
 
-#: ../src/mail/mail-config.ui.h:126
+#: ../src/mail/mail-config.ui.h:127
 msgid "_Always load remote content from the Internet"
 msgstr "İnternetteki uzak içeriği her zaman y_ükle"
 
-#: ../src/mail/mail-config.ui.h:127
+#: ../src/mail/mail-config.ui.h:128
 msgid "Notify about _missing remote content in the message preview"
 msgstr "İleti ön izlemesinde _eksik uzak içerik hakkında beni uyar"
 
-#: ../src/mail/mail-config.ui.h:128
+#: ../src/mail/mail-config.ui.h:129
 msgid "Add"
 msgstr "Ekle"
 
-#: ../src/mail/mail-config.ui.h:129
+#: ../src/mail/mail-config.ui.h:130
 msgid "Remove"
 msgstr "Kaldır"
 
-#: ../src/mail/mail-config.ui.h:130
+#: ../src/mail/mail-config.ui.h:131
 msgid "Allow for sites:"
 msgstr "Şu sitelere izin ver:"
 
-#: ../src/mail/mail-config.ui.h:131
+#: ../src/mail/mail-config.ui.h:132
 msgid "Allow for senders:"
 msgstr "Şu göndericilere izin ver:"
 
-#: ../src/mail/mail-config.ui.h:132
+#: ../src/mail/mail-config.ui.h:133
 msgid "HTML Messages"
 msgstr "HTML İletileri"
 
-#: ../src/mail/mail-config.ui.h:134
+#: ../src/mail/mail-config.ui.h:135
 msgid "Sender Photograph"
 msgstr "Gönderici Fotoğrafı"
 
-#: ../src/mail/mail-config.ui.h:135
+#: ../src/mail/mail-config.ui.h:136
 msgid "_Show the photograph of sender in the message preview"
 msgstr "İleti ön izlemesinde gönderenin fotoğrafını _göster"
 
-#: ../src/mail/mail-config.ui.h:136
+#: ../src/mail/mail-config.ui.h:137
 msgid "Search libra_vatar.org for the photograph of sender"
 msgstr "Gönderenin fotoğrafı için libra_vatar.org araması yap"
 
-#: ../src/mail/mail-config.ui.h:137
+#: ../src/mail/mail-config.ui.h:138
 msgid "Displayed Message Headers"
 msgstr "Gösterilen İleti Başlıkları"
 
-#: ../src/mail/mail-config.ui.h:138
+#: ../src/mail/mail-config.ui.h:139
 msgid "Show _full mail addresses in message preview"
 msgstr "İleti ön izlemesinde _tam posta adreslerini göster"
 
-#: ../src/mail/mail-config.ui.h:139
+#: ../src/mail/mail-config.ui.h:140
 msgid "Mail Headers Table"
 msgstr "Posta Başlıkları Tablosu"
 
-#: ../src/mail/mail-config.ui.h:140
+#: ../src/mail/mail-config.ui.h:141
 msgid "Re_set"
 msgstr "_Sıfırla"
 
-#: ../src/mail/mail-config.ui.h:141
+#: ../src/mail/mail-config.ui.h:142
 msgid "Message List User Headers"
 msgstr "İleti Listesi Kullanıcı Başlıkları"
 
-#: ../src/mail/mail-config.ui.h:142
+#: ../src/mail/mail-config.ui.h:143
 msgid "Message List User Headers Table"
 msgstr "İleti Listesi Kullanıcı Başlıkları Tablosu"
 
-#: ../src/mail/mail-config.ui.h:143
+#: ../src/mail/mail-config.ui.h:144
 #: ../src/modules/addressbook/autocompletion-config.c:118
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:50
 msgid "Date/Time Format"
 msgstr "Tarih/Zaman Biçimi"
 
-#: ../src/mail/mail-config.ui.h:145
+#: ../src/mail/mail-config.ui.h:146
 msgid "Check incoming _messages for junk"
 msgstr "_Gereksiz için gelen iletileri denetle"
 
-#: ../src/mail/mail-config.ui.h:146
+#: ../src/mail/mail-config.ui.h:147
 msgid "_Delete junk messages"
 msgstr "Gereksiz i_letileri sil"
 
-#: ../src/mail/mail-config.ui.h:147
+#: ../src/mail/mail-config.ui.h:148
 msgid "_Prompt before marking message as junk"
 msgstr "İletiyi gereksiz olarak imlemeden önce _sor"
 
-#: ../src/mail/mail-config.ui.h:148
+#: ../src/mail/mail-config.ui.h:149
 msgid "Junk Test Options"
 msgstr "Gereksiz Posta Sınama İşlemleri"
 
-#: ../src/mail/mail-config.ui.h:149
+#: ../src/mail/mail-config.ui.h:150
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr "Eğer gönderen adres defterinde ise iletileri _gereksiz olarak imleme"
 
-#: ../src/mail/mail-config.ui.h:150
+#: ../src/mail/mail-config.ui.h:151
 msgid "_Lookup in local address book only"
 msgstr "_Yalnızca yerel adres defterinde ara"
 
-#: ../src/mail/mail-config.ui.h:151
+#: ../src/mail/mail-config.ui.h:152
 msgid "Check cu_stom headers for junk"
 msgstr "_Gereksiz için özel başlıkları denetle"
 
-#: ../src/mail/mail-config.ui.h:153
+#: ../src/mail/mail-config.ui.h:154
 msgid "Ask for confirmation before taking the following checkmarked actions:"
 msgstr "Aşağıda imli eylemleri yapmadan önce onay iste:"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:155
+#: ../src/mail/mail-config.ui.h:156
 msgid "Check whether Evolution is the _default mailer"
 msgstr "Evolutionʼun ö_ntanımlı postacı olup olmadığını denetle"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:157
+#: ../src/mail/mail-config.ui.h:158
 msgid "Emptying the _Trash"
 msgstr "Çöp _Boşaltılıyor"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:159
+#: ../src/mail/mail-config.ui.h:160
 msgid "Tries to _open 10 or more messages at once"
 msgstr "10 ya da daha çok ileti aynı anda _açmayı dener"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:161
+#: ../src/mail/mail-config.ui.h:162
 msgid "Marking _all messages as read"
 msgstr "_Tüm iletiler okundu imleniyor"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:163
+#: ../src/mail/mail-config.ui.h:164
 msgid "Deleting messages in _search folder"
 msgstr "_Arama klasöründen iletiler siliniyor"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:165
+#: ../src/mail/mail-config.ui.h:166
 msgid "Copy _folder by Drag & Drop in folder tree"
 msgstr "Klasör ağacında Sürükle ve Bırak ile _klasör kopyala"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:167
+#: ../src/mail/mail-config.ui.h:168
 msgid "_Move folder by Drag & Drop in folder tree"
 msgstr "Klasör ağacında Sürükle ve Bırak ile klasör _taşı"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../src/mail/mail-config.ui.h:169
+#: ../src/mail/mail-config.ui.h:170
 msgid "Sort message list on _header click"
 msgstr "_Başlığa tıklandığında ileti listesini sırala"
 
-#: ../src/mail/mail-config.ui.h:170
+#: ../src/mail/mail-config.ui.h:171
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:239
 msgid "No encryption"
 msgstr "Şifreleme yok"
 
-#: ../src/mail/mail-config.ui.h:171
+#: ../src/mail/mail-config.ui.h:172
 msgid "TLS encryption"
 msgstr "TLS şifreleme"
 
-#: ../src/mail/mail-config.ui.h:172
+#: ../src/mail/mail-config.ui.h:173
 msgid "SSL encryption"
 msgstr "SSL şifreleme"
 
@@ -23410,7 +23433,7 @@ msgstr "Bağlantıya İleti _Gönder"
 msgid "Failed to launch command “%s”:"
 msgstr "“%s” komutu başlatılamadı:"
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:161
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:171
 msgid ""
 "You can restore Evolution from a backup file.\n"
 "\n"
@@ -23421,176 +23444,181 @@ msgstr ""
 "Bu işlem tüm kişisel verinizi, ayarlarınızı, posta süzgeçlerinizi vs. geri "
 "yükler."
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:177
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:187
 msgid "_Restore from a backup file:"
 msgstr "_Yedek dosyasından geri yükle:"
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:188
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:198
 msgid "Choose a backup file to restore"
 msgstr "Geri yüklemek için yedek dosyası seç"
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:196
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:206
 msgid "Backup Files"
 msgstr "Dosyaları Yedekle"
 
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:201
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:211
 #: ../src/shell/e-shell-utils.c:198
 msgid "All Files (*)"
 msgstr "Tüm dosyalar (*)"
 
 #. Keep the title identical to EMailConfigRestorePage
 #. * so it's only shown once in the assistant sidebar.
-#: ../src/modules/backup-restore/e-mail-config-restore-page.c:299
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:309
 #: ../src/modules/backup-restore/e-mail-config-restore-ready-page.c:57
 msgid "Restore from Backup"
 msgstr "Yedekten Geri Yükle"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:306
+#: ../src/modules/backup-restore/e-mail-config-restore-page.c:352
+#, c-format
+msgid "Program '%s' not found"
+msgstr "'%s' programı bulunamadı"
+
+#: ../src/modules/backup-restore/evolution-backup-restore.c:316
 msgid "Select name of the Evolution backup file"
 msgstr "Evolution arşiv dosyası adı seç"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:351
+#: ../src/modules/backup-restore/evolution-backup-restore.c:377
 msgid "_Restart Evolution after backup"
 msgstr "_Yedeklemeden sonra Evolutionʼı yeniden başlat"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:386
+#: ../src/modules/backup-restore/evolution-backup-restore.c:412
 msgid "Re_start Evolution after restore"
 msgstr "Geri yüklemenin ardından Evolutionʼı yeniden ba_şlat"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:428
+#: ../src/modules/backup-restore/evolution-backup-restore.c:461
 msgid "Select name of the Evolution backup file to restore"
 msgstr "Geri yüklemek için Evolution yedek dosyasının adını seç"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:437
+#: ../src/modules/backup-restore/evolution-backup-restore.c:470
 #, c-format
 msgid "Checking content of backup file “%s”, please wait…"
 msgstr "“%s” yedek dosyasının içeriği denetleniyor, lütfen bekleyin…"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:458
+#: ../src/modules/backup-restore/evolution-backup-restore.c:491
 msgid "_Back up Evolution Data…"
 msgstr "Evolution Verisini _Yedekle…"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:460
+#: ../src/modules/backup-restore/evolution-backup-restore.c:493
 msgid "Back up Evolution data and settings to an archive file"
 msgstr "Evolution verilerini ve ayarlarını arşiv dosyasına yedekle"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:465
+#: ../src/modules/backup-restore/evolution-backup-restore.c:498
 msgid "R_estore Evolution Data…"
 msgstr "Evolution Verilerini G_eri Yükle…"
 
-#: ../src/modules/backup-restore/evolution-backup-restore.c:467
+#: ../src/modules/backup-restore/evolution-backup-restore.c:500
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Evolution verilerini ve ayarlarını arşiv dosyasından geri yükle"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:74
+#: ../src/modules/backup-restore/evolution-backup-tool.c:82
 msgid "Back up Evolution directory"
 msgstr "Evolution dizinini yedekle"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:76
+#: ../src/modules/backup-restore/evolution-backup-tool.c:84
 msgid "Restore Evolution directory"
 msgstr "Evolution geri yükleme dizini"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:78
+#: ../src/modules/backup-restore/evolution-backup-tool.c:86
 msgid "Check Evolution Back up"
 msgstr "Evolution Yedeğini Denetle"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:80
+#: ../src/modules/backup-restore/evolution-backup-tool.c:88
 msgid "Restart Evolution"
 msgstr "Evolutionʼı yeniden başlat"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:82
+#: ../src/modules/backup-restore/evolution-backup-tool.c:90
 msgid "With Graphical User Interface"
 msgstr "Grafiksel Kullanıcı Arabirimi İle"
 
 #. FIXME Will the versioned setting always work?
-#: ../src/modules/backup-restore/evolution-backup-tool.c:516
-#: ../src/modules/backup-restore/evolution-backup-tool.c:779
+#: ../src/modules/backup-restore/evolution-backup-tool.c:565
+#: ../src/modules/backup-restore/evolution-backup-tool.c:827
 msgid "Shutting down Evolution"
 msgstr "Evolution Kapatılıyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:525
+#: ../src/modules/backup-restore/evolution-backup-tool.c:574
 msgid "Backing Evolution accounts and settings"
 msgstr "Evolution heseapları ve ayarları yedekleniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:540
+#: ../src/modules/backup-restore/evolution-backup-tool.c:589
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "Evolution verisi yedekleniyor (Postalar, Bağlantılar, Takvim, Görevler, "
 "Notlar)"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:556
+#: ../src/modules/backup-restore/evolution-backup-tool.c:604
 msgid "Checking validity of the archive"
 msgstr "Arşivin geçerliliği denetleniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:563
+#: ../src/modules/backup-restore/evolution-backup-tool.c:611
 msgid "Back up complete"
 msgstr "Yedekleme tamamlandı"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:570
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1002
+#: ../src/modules/backup-restore/evolution-backup-tool.c:618
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1050
 msgid "Restarting Evolution"
 msgstr "Evolution Yeniden Başlatılıyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:785
+#: ../src/modules/backup-restore/evolution-backup-tool.c:833
 msgid "Back up current Evolution data"
 msgstr "Güncel Evolution verisini yedekle"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:792
+#: ../src/modules/backup-restore/evolution-backup-tool.c:840
 msgid "Extracting files from back up"
 msgstr "Dosyalar yedekten çıkartılıyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:887
+#: ../src/modules/backup-restore/evolution-backup-tool.c:935
 msgid "Loading Evolution settings"
 msgstr "Evolution ayarları yükleniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:973
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1021
 msgid "Removing temporary back up files"
 msgstr "Geçici yedek dosyaları siliniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:987
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1035
 msgid "Reloading registry service"
 msgstr "Kayıt hizmeti yeniden yükleniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1115
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1176
 #, c-format
 msgid "Failed to verify the backup file “%s”, the archive is broken."
 msgstr "“%s” yedek dosyası doğrulanamadı, arşiv bozuk."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1216
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1277
 msgid "Evolution Back Up"
 msgstr "Evolution Yedeği"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1217
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1278
 #, c-format
 msgid "Backing up to the file %s"
 msgstr "%s dosyasına yedekleniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1221
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1282
 msgid "Evolution Restore"
 msgstr "Evolution Geri Yükleme"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1222
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1283
 #, c-format
 msgid "Restoring from the file %s"
 msgstr "%s dosyasından geri yükleniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1291
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1352
 msgid "Backing up Evolution Data"
 msgstr "Evolution Verisini Yedekleniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1292
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1353
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Lütfen Evolution verilerinizi yedeklerken bekleyin."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1294
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1355
 msgid "Restoring Evolution Data"
 msgstr "Evolution Verileri Geri Yükleniyor"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1295
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1356
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Lütfen Evolution verinizi geri alırken lütfen bekleyin."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1317
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1378
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "Bu hesabınızdaki verinin miktarına bağlı olarak biraz zaman alabilir."
 
@@ -23603,10 +23631,18 @@ msgid "File “{0}” is not a valid Evolution backup file."
 msgstr "“{0}” dosyası, geçerli Evolution yedek dosyası değil."
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
+msgid "Cannot restore from backup file"
+msgstr "Yedek dosyasından geri yüklenemedi"
+
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:4
+msgid "Cannot create backup file"
+msgstr "Yedek dosyası oluşturulamadı"
+
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Are you sure you want to close Evolution?"
 msgstr "Evolutionʼı kapatmak istediğinizden emin misiniz?"
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:4
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
 "To back up your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding."
@@ -23614,17 +23650,17 @@ msgstr ""
 "Verilerinizi ve ayarlarınız yedeklemek için önce Evolutionʼu kapatmalısınız. "
 "Sürdürmeden önce tüm verinizi kaydettiğinizden emin olun."
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:7
 msgid "Close and _Back up Evolution"
 msgstr "Kapat ve Evolutionʼu _Yedekle"
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:6
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid ""
 "Are you sure you want to restore Evolution from the selected backup file?"
 msgstr ""
 "Evolutionʼı seçili yedek dosyasından geri yüklemek istediğinize emin misiniz?"
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:7
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:9
 msgid ""
 "To restore your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding. This will delete "
@@ -23635,15 +23671,15 @@ msgstr ""
 "Sürdürmeden önce tüm verinizi kaydettiğinizden emin olun. Bu işlem tüm "
 "Evolution verinizi ve ayarlarınızı silecek ve yedeğinizden geri yükleyecek."
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:8
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:10
 msgid "Close and _Restore Evolution"
 msgstr "Kapat ve Evolutionʼu _Geri Yükle"
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:9
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:11
 msgid "Insufficient Permissions"
 msgstr "Yetersiz İzinler"
 
-#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:10
+#: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:12
 msgid "The selected folder is not writable."
 msgstr "Seçili klasör yazılabilir değil."
 
@@ -26520,7 +26556,7 @@ msgstr "OpenP_GP anahtarını içe aktar…"
 msgid "Import Pretty Good Privacy (OpenPGP) key"
 msgstr "Oldukça İyi Gizlilik (OpenPGP) anahtarını içe aktar"
 
-#: ../src/modules/mail/e-mail-attachment-handler.c:712
+#: ../src/modules/mail/e-mail-attachment-handler.c:732
 #, c-format
 msgid "%d attached message"
 msgid_plural "%d attached messages"
@@ -27101,11 +27137,11 @@ msgstr "1 dakika sonra gönder"
 msgid "Send after 5 minutes"
 msgstr "5 dakika sonra gönder"
 
-#: ../src/modules/mail/em-composer-prefs.c:1738
+#: ../src/modules/mail/em-composer-prefs.c:1739
 msgid "Language(s)"
 msgstr "Dil(ler)"
 
-#: ../src/modules/mail/em-composer-prefs.c:1759
+#: ../src/modules/mail/em-composer-prefs.c:1760
 msgid "Same as user interface"
 msgstr "Kullanıcı arayüzü ile aynı"
 
