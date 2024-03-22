@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-20 16:05+0000\n"
-"PO-Revision-Date: 2024-03-20 20:39+0200\n"
+"POT-Creation-Date: 2024-03-22 10:30+0000\n"
+"PO-Revision-Date: 2024-03-22 18:25+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3286,9 +3286,6 @@ msgid "Attach multiple messages as separate files"
 msgstr "Долучити повідомлення як окремі файли"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
-#| msgid ""
-#| "When attaching multiple messages at once, attach them as separate file "
-#| "(when set to 'true'), instead of a single mbox file."
 msgid ""
 "When attaching multiple messages at once, attach them as separate files "
 "(when set to 'true'), instead of a single mbox file."
@@ -5184,7 +5181,7 @@ msgstr "День народження"
 #. Other options
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:541
-#: ../src/mail/e-mail-config-defaults-page.c:864
+#: ../src/mail/e-mail-config-defaults-page.c:899
 #: ../src/modules/addressbook/autocompletion-config.c:127
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Miscellaneous"
@@ -18605,76 +18602,86 @@ msgstr "Виконано"
 msgid "Checking server settings…"
 msgstr "Перевіряємо параметри сервера…"
 
-#: ../src/mail/e-mail-config-defaults-page.c:650
+#: ../src/mail/e-mail-config-defaults-page.c:651
 msgid "Special Folders"
 msgstr "Особливі теки"
 
-#: ../src/mail/e-mail-config-defaults-page.c:659
+#: ../src/mail/e-mail-config-defaults-page.c:661
 msgid "Draft Messages _Folder:"
 msgstr "_Тека чернеток:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:669
+#: ../src/mail/e-mail-config-defaults-page.c:671
 msgid "Choose a folder for saving draft messages."
 msgstr "Виберіть теку для зберігання чернеток."
 
-#: ../src/mail/e-mail-config-defaults-page.c:685
+#: ../src/mail/e-mail-config-defaults-page.c:688
 msgid "Sent _Messages Folder:"
 msgstr "Тека _надісланих повідомлень:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:695
+#: ../src/mail/e-mail-config-defaults-page.c:698
 msgid "Choose a folder for saving sent messages."
 msgstr "Виберіть теку для зберігання надісланих листів."
 
-#: ../src/mail/e-mail-config-defaults-page.c:715
+#: ../src/mail/e-mail-config-defaults-page.c:719
 msgid "Save s_ent messages into the Sent folder"
 msgstr "Зберігати _надіслані повідомлення до теки «Надіслані»"
 
-#: ../src/mail/e-mail-config-defaults-page.c:732
+#: ../src/mail/e-mail-config-defaults-page.c:737
 msgid "S_ave replies and forwards in the folder of the original message"
 msgstr "З_берегти відповіді і переспрямування у теці початкового повідомлення"
 
-#: ../src/mail/e-mail-config-defaults-page.c:755
+#: ../src/mail/e-mail-config-defaults-page.c:761
 msgid "Archi_ve Folder:"
 msgstr "_Архівна тека:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:765
+#: ../src/mail/e-mail-config-defaults-page.c:771
 #: ../src/modules/mail/em-mailer-prefs.c:2016
 msgid "Choose a folder to archive messages to."
 msgstr "Виберіть теку, в яку архівувати листи."
 
-#: ../src/mail/e-mail-config-defaults-page.c:780
+#: ../src/mail/e-mail-config-defaults-page.c:787
 msgid "_Templates Folder:"
 msgstr "Тека _шаблонів:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:790
+#: ../src/mail/e-mail-config-defaults-page.c:797
 msgid "Choose a folder to use for template messages."
 msgstr "Виберіть теку для шаблонів листів."
 
-#: ../src/mail/e-mail-config-defaults-page.c:808
+#: ../src/mail/e-mail-config-defaults-page.c:814
 msgid "_Restore Defaults"
 msgstr "_Типові значення"
 
-#: ../src/mail/e-mail-config-defaults-page.c:825
+#: ../src/mail/e-mail-config-defaults-page.c:831
 msgid "_Lookup Folders"
 msgstr "Теки по_шуку"
 
-#: ../src/mail/e-mail-config-defaults-page.c:843
+#: ../src/mail/e-mail-config-defaults-page.c:849
 msgid "Use a Real Folder for _Trash:"
 msgstr "Використовувати справжню теку для _смітника:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:844
+#: ../src/mail/e-mail-config-defaults-page.c:850
 msgid "Choose a folder for deleted messages."
 msgstr "Виберіть теку для вилучених листів."
 
-#: ../src/mail/e-mail-config-defaults-page.c:853
+#: ../src/mail/e-mail-config-defaults-page.c:860
 msgid "Use a Real Folder for _Junk:"
 msgstr "Використовувати справжню теку для _спаму:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:854
+#: ../src/mail/e-mail-config-defaults-page.c:861
 msgid "Choose a folder for junk messages."
 msgstr "Виберіть теку для спаму."
 
-#: ../src/mail/e-mail-config-defaults-page.c:969
+#: ../src/mail/e-mail-config-defaults-page.c:872
+msgid "Restore _Not-Junk to Folder:"
+msgstr "Відновлювати _неспам до теки:"
+
+#: ../src/mail/e-mail-config-defaults-page.c:873
+#| msgid "Choose a folder for junk messages."
+msgid "Choose a folder to restore not-junk messages from the Junk folder to."
+msgstr ""
+"Виберіть теку для відновлення повідомлень, які не є спамом, з теки спаму."
+
+#: ../src/mail/e-mail-config-defaults-page.c:1006
 msgid "Defaults"
 msgstr "Умовчання"
 
