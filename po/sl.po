@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-04 11:14+0000\n"
-"PO-Revision-Date: 2024-03-09 13:54+0100\n"
+"POT-Creation-Date: 2024-03-17 12:11+0000\n"
+"PO-Revision-Date: 2024-03-24 18:55+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -2610,16 +2610,12 @@ msgid "Directory for saving mail component files."
 msgstr "Mapa za shranjevanje datotek sestavnih delov pošte."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
-#, fuzzy
-#| msgid "Save Draft"
 msgid "Save format"
-msgstr "Shrani osnutek"
+msgstr "Oblika zapisa za shranjevanje"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
-#, fuzzy
-#| msgid "Failed to save messages to disk."
 msgid "Last used format when saving messages to file."
-msgstr "Shranjevanje sporočila na disk je spodletelo."
+msgstr "Nnazadnje uporabljena vrsta zapisa pri shranjevanju sporočil v datoteko."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 msgid "Composer load/attach directory"
@@ -3076,13 +3072,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:361
 msgid "Prompt before send when attachment changed on the disk"
-msgstr ""
+msgstr "Vprašaj pred pošiljanjem, ko se priloga spremeni na disku"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:362
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk since they had been "
 "attached to the message."
 msgstr ""
+"Vpraša, ali lahko pošlje sporočilo s prilogami, ki so se spremenile na disku, odkar so bile "
+"priložene sporočilu."
 
 #. Translators: This is a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -3985,22 +3983,16 @@ msgid "Mark selected messages as unread"
 msgstr "Izbrana sporočila označi kot neprebrana"
 
 #: ../data/ui/evolution-shortcuts.ui.h:35
-#, fuzzy
-#| msgid "Mark the selected messages as junk"
 msgctxt "shortcut window"
 msgid "Mark selected messages as junk"
 msgstr "Izbrana sporočila označi kot vsiljena"
 
 #: ../data/ui/evolution-shortcuts.ui.h:36
-#, fuzzy
-#| msgid "Mark the selected messages as junk"
 msgctxt "shortcut window"
 msgid "Mark selected messages as not junk"
-msgstr "Izbrana sporočila označi kot vsiljena"
+msgstr "Izbrana sporočila označi kot ne vsiljena"
 
 #: ../data/ui/evolution-shortcuts.ui.h:37
-#, fuzzy
-#| msgid "Flag the selected messages for follow-up"
 msgctxt "shortcut window"
 msgid "Flag selected messages for follow-up"
 msgstr "Z zastavico označi izbrana sporočila za navezavo"
@@ -4309,10 +4301,8 @@ msgid "The image you have selected is large. Do you want to resize and store it?
 msgstr "Izbrana slika je zelo velika. Ali jo želite pomanjšati in shraniti?"
 
 #: ../src/addressbook/addressbook.error.xml.h:24
-#, fuzzy
-#| msgid "An expected image size is up to 96 x 96 pixels."
 msgid "An expected image size is up to 1024 x 1024 pixels."
-msgstr "Pričakovana velikost sličice je 96 x 96 točk."
+msgstr "Pričakovana velikost slike je največ 1024 x 1024 slik. točk."
 
 #: ../src/addressbook/addressbook.error.xml.h:25
 msgid "_Resize"
@@ -5102,10 +5092,8 @@ msgid "_Select Address Book"
 msgstr "_Izbor imenika"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:779
-#, fuzzy
-#| msgid "Failed to store password: "
 msgid "Failed to parse vCard data"
-msgstr "Shranjevanje gesla je spodletelo: "
+msgstr "Razčlenjevanje podatkov vCard je spodletelo."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Mr."
@@ -6048,15 +6036,13 @@ msgid "Co_untry:"
 msgstr "Držav_a:"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:913
-#, fuzzy, c-format
-#| msgid "%d contact"
-#| msgid_plural "%d contacts"
+#, c-format
 msgid "Modify a contact"
 msgid_plural "Modify %u contacts"
-msgstr[0] "%d stikov"
-msgstr[1] "%d stik"
-msgstr[2] "%d stika"
-msgstr[3] "%d stiki"
+msgstr[0] "Spremeni %u stikov"
+msgstr[1] "Spremeni %u stik"
+msgstr[2] "Spremeni %u stika"
+msgstr[3] "Spremeni %u stike"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:918
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:616
@@ -6082,39 +6068,21 @@ msgid "Ca_ncel"
 msgstr "Pre_kliči"
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:84
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Search for the Contact\n"
-#| "\n"
-#| "or double-click here to create a new Contact."
 msgid ""
 "Search for the Contact\n"
 "\n"
 "or double-click here to create a new Contact."
 msgstr ""
-"\n"
-"\n"
 "Poiščite stik\n"
 "\n"
 "ali pa tukaj dvakrat kliknite z miško za ustvarjanje novega."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:86
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view.\n"
-#| "\n"
-#| "Double-click here to create a new Contact."
 msgid ""
 "There are no items to show in this view.\n"
 "\n"
 "Double-click here to create a new Contact."
 msgstr ""
-"\n"
-"\n"
 "V tem pogledu ni predmetov za prikaz\n"
 "\n"
 "V kolikor želite ustvariti nov stik, dvojno kliknite tukaj."
@@ -6356,9 +6324,8 @@ msgid "_Send Notice"
 msgstr "_Pošlji obvestilo"
 
 #: ../src/calendar/calendar.error.xml.h:5
-#, fuzzy
 msgid "Would you like to send the organizer a deletion notice?"
-msgstr "Ali želite organizatorju poslati sporočilo o izbrisu/preklicu?"
+msgstr "Ali želite organizatorju poslati sporočilo o izbrisu?"
 
 #: ../src/calendar/calendar.error.xml.h:6
 #, fuzzy
@@ -7051,13 +7018,13 @@ msgstr "Razvrstitev"
 msgid "Public"
 msgstr "Javno"
 
-#: ../src/calendar/gui/caltypes.xml.in.h:10 ../src/calendar/gui/comp-util.c:2901
+#: ../src/calendar/gui/caltypes.xml.in.h:10 ../src/calendar/gui/comp-util.c:2923
 #: ../src/calendar/gui/e-cal-list-view.c:288 ../src/calendar/gui/e-cal-model.c:295
 #: ../src/calendar/gui/e-task-table.c:438 ../src/calendar/gui/memotypes.xml.in.h:11
 msgid "Private"
 msgstr "Zasebno"
 
-#: ../src/calendar/gui/caltypes.xml.in.h:11 ../src/calendar/gui/comp-util.c:2904
+#: ../src/calendar/gui/caltypes.xml.in.h:11 ../src/calendar/gui/comp-util.c:2926
 #: ../src/calendar/gui/e-cal-list-view.c:289 ../src/calendar/gui/e-cal-model.c:297
 #: ../src/calendar/gui/e-task-table.c:439 ../src/calendar/gui/memotypes.xml.in.h:12
 #: ../src/e-util/e-html-editor-page-dialog.c:112 ../src/e-util/e-send-options.ui.h:7
@@ -7132,7 +7099,7 @@ msgstr "Povzetek vsebuje"
 msgid "Description Contains"
 msgstr "Opis vsebuje"
 
-#: ../src/calendar/gui/comp-util.c:1602 ../src/calendar/gui/comp-util.c:3031
+#: ../src/calendar/gui/comp-util.c:1602 ../src/calendar/gui/comp-util.c:3053
 #: ../src/calendar/importers/icalendar-importer.c:1483
 #: ../src/modules/itip-formatter/itip-view.c:2911
 #, c-format
@@ -7317,92 +7284,90 @@ msgstr "…"
 msgid "attachment.dat"
 msgstr "priloga.dat"
 
-#: ../src/calendar/gui/comp-util.c:2712 ../src/e-util/e-filter-rule.c:1021
+#: ../src/calendar/gui/comp-util.c:2734 ../src/e-util/e-filter-rule.c:1021
 #: ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Neimenovano"
 
-#: ../src/calendar/gui/comp-util.c:2725
+#: ../src/calendar/gui/comp-util.c:2747
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:258
 #: ../src/modules/itip-formatter/itip-view.c:2086 ../src/modules/itip-formatter/itip-view.c:2290
 msgid "Location:"
 msgstr "Mesto:"
 
-#: ../src/calendar/gui/comp-util.c:2758 ../src/modules/itip-formatter/itip-view.c:2087
+#: ../src/calendar/gui/comp-util.c:2780 ../src/modules/itip-formatter/itip-view.c:2087
 #: ../src/modules/itip-formatter/itip-view.c:2293
-#, fuzzy
-#| msgid "Location:"
 msgid "GEO Location:"
-msgstr "Mesto:"
+msgstr "Geolokacija:"
 
-#: ../src/calendar/gui/comp-util.c:2774
+#: ../src/calendar/gui/comp-util.c:2796
 msgid "Start Date:"
 msgstr "Datum začetka:"
 
-#: ../src/calendar/gui/comp-util.c:2783
+#: ../src/calendar/gui/comp-util.c:2805
 msgid "End Date:"
 msgstr "Končni datum:"
 
-#: ../src/calendar/gui/comp-util.c:2795 ../src/modules/itip-formatter/itip-view.c:2091
+#: ../src/calendar/gui/comp-util.c:2817 ../src/modules/itip-formatter/itip-view.c:2091
 #: ../src/modules/itip-formatter/itip-view.c:2305
 msgid "Recurs:"
 msgstr "Ponavljajoče:"
 
-#: ../src/calendar/gui/comp-util.c:2804
+#: ../src/calendar/gui/comp-util.c:2826
 msgid "Due Date:"
 msgstr "Datum zapadlosti:"
 
-#: ../src/calendar/gui/comp-util.c:2821 ../src/modules/itip-formatter/itip-view.c:2093
+#: ../src/calendar/gui/comp-util.c:2843 ../src/modules/itip-formatter/itip-view.c:2093
 #: ../src/modules/itip-formatter/itip-view.c:2311
 msgid "Estimated duration:"
 msgstr "Ocenjeno trajanje:"
 
-#: ../src/calendar/gui/comp-util.c:2837 ../src/modules/itip-formatter/itip-view.c:2094
+#: ../src/calendar/gui/comp-util.c:2859 ../src/modules/itip-formatter/itip-view.c:2094
 #: ../src/modules/itip-formatter/itip-view.c:2314
 msgid "Status:"
 msgstr "Stanje:"
 
-#: ../src/calendar/gui/comp-util.c:2845 ../src/modules/itip-formatter/itip-view.c:2096
+#: ../src/calendar/gui/comp-util.c:2867 ../src/modules/itip-formatter/itip-view.c:2096
 #: ../src/modules/itip-formatter/itip-view.c:2320
 msgid "Categories:"
 msgstr "Kategorije:"
 
-#: ../src/calendar/gui/comp-util.c:2888 ../src/calendar/gui/e-task-table.c:463
+#: ../src/calendar/gui/comp-util.c:2910 ../src/calendar/gui/e-task-table.c:463
 #: ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/e-util/e-send-options.ui.h:2
 #: ../src/mail/message-list.c:330
 msgid "High"
 msgstr "Visoka"
 
-#: ../src/calendar/gui/comp-util.c:2890 ../src/calendar/gui/e-cal-model.c:1879
+#: ../src/calendar/gui/comp-util.c:2912 ../src/calendar/gui/e-cal-model.c:1879
 #: ../src/calendar/gui/e-task-table.c:464 ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:329
 msgid "Normal"
 msgstr "Običajno"
 
-#: ../src/calendar/gui/comp-util.c:2892 ../src/calendar/gui/e-task-table.c:465
+#: ../src/calendar/gui/comp-util.c:2914 ../src/calendar/gui/e-task-table.c:465
 #: ../src/calendar/gui/tasktypes.xml.in.h:22 ../src/e-util/e-send-options.ui.h:4
 #: ../src/mail/message-list.c:328
 msgid "Low"
 msgstr "nizka"
 
-#: ../src/calendar/gui/comp-util.c:2894
+#: ../src/calendar/gui/comp-util.c:2916
 msgid "Priority:"
 msgstr "Prednost:"
 
-#: ../src/calendar/gui/comp-util.c:2912
+#: ../src/calendar/gui/comp-util.c:2934
 msgid "Classification:"
 msgstr "Razvrstitev:"
 
-#: ../src/calendar/gui/comp-util.c:2925
+#: ../src/calendar/gui/comp-util.c:2947
 msgid "Organizer:"
 msgstr "Organizator:"
 
-#: ../src/calendar/gui/comp-util.c:2967 ../src/modules/itip-formatter/itip-view.c:2097
+#: ../src/calendar/gui/comp-util.c:2989 ../src/modules/itip-formatter/itip-view.c:2097
 #: ../src/modules/itip-formatter/itip-view.c:2323
 msgid "Attendees:"
 msgstr "Navzoči:"
 
-#: ../src/calendar/gui/comp-util.c:3091
+#: ../src/calendar/gui/comp-util.c:3113
 msgid "Web Page:"
 msgstr "Spletna stran:"
 
@@ -12099,16 +12064,12 @@ msgid "Get delivery notification when your message is read"
 msgstr "Dobi obvestilo o dostavi, ko je poslano sporočilo prebrano"
 
 #: ../src/composer/e-composer-actions.c:474
-#, fuzzy
-#| msgid "Return Notification"
 msgid "Request _Delivery Status Notification"
-msgstr "Povratno obvestilo"
+msgstr "Zahtevaj _obvestilo o stanju dostave"
 
 #: ../src/composer/e-composer-actions.c:476
-#, fuzzy
-#| msgid "Get delivery notification when your message is read"
 msgid "Get delivery status notification for the message"
-msgstr "Dobi obvestilo o dostavi, ko je poslano sporočilo prebrano"
+msgstr "Pridobi obvestilo o stanju dostave za sporočilo"
 
 #: ../src/composer/e-composer-actions.c:482
 msgid "S/MIME En_crypt"
@@ -13195,14 +13156,13 @@ msgstr "Zapri sporočilo (ubežna tipka)"
 
 #. Translators: there are always at least two messages to be closed
 #: ../src/e-util/e-alert-bar.c:222
-#, fuzzy, c-format
-#| msgid "Compose a Message"
+#, c-format
 msgid "Close a message"
 msgid_plural "Close all %u messages"
-msgstr[0] "Sestavi sporočilo"
-msgstr[1] "Sestavi sporočilo"
-msgstr[2] "Sestavi sporočilo"
-msgstr[3] "Sestavi sporočilo"
+msgstr[0] "Zapri %u sporočil"
+msgstr[1] "Zapri %u sporočilo"
+msgstr[2] "Zapri %u sporočili"
+msgstr[3] "Zapri %u sporočila"
 
 #: ../src/e-util/e-alert-dialog.c:152
 msgid "_Dismiss"
@@ -13370,10 +13330,8 @@ msgid "Add _URI…"
 msgstr "Dodaj _URI …"
 
 #: ../src/e-util/e-attachment-view.c:500
-#, fuzzy
-#| msgid "Attach a file"
 msgid "Attach a URI"
-msgstr "Priloži datoteko"
+msgstr "Priloži URI"
 
 #: ../src/e-util/e-attachment-view.c:505
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1459
@@ -13390,10 +13348,8 @@ msgid "Re_load"
 msgstr "Ponovno na_loži"
 
 #: ../src/e-util/e-attachment-view.c:514
-#, fuzzy
-#| msgid "Reading text content…"
 msgid "Reload attachment content"
-msgstr "Poteka branje vsebine …"
+msgstr "Ponovno naloži vsebino priponke"
 
 #: ../src/e-util/e-attachment-view.c:999 ../src/mail/e-mail-display.c:2037
 #, c-format
@@ -17929,10 +17885,8 @@ msgid "%s — %s"
 msgstr "%s – %s"
 
 #: ../src/mail/e-mail-config-security-page.c:391 ../src/mail/e-mail-config-security-page.c:505
-#, fuzzy
-#| msgid "Using email address"
 msgid "Use sender e-mail address"
-msgstr "Z uporabo elektronskega naslova"
+msgstr "Uporabi e-poštni naslov pošiljatelja"
 
 #: ../src/mail/e-mail-config-security-page.c:451 ../src/mail/em-folder-properties.c:1428
 #: ../src/mail/mail-config.ui.h:36 ../src/modules/addressbook/autocompletion-config.c:115
@@ -18018,7 +17972,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-security-page.c:694
 msgid "A_sk before sending mails with own public key"
-msgstr ""
+msgstr "Vpra_šaj pred pošiljanjem pošte z lastnim javnim ključem"
 
 #: ../src/mail/e-mail-config-security-page.c:724
 msgid "Secure MIME (S/MIME)"
@@ -18453,9 +18407,8 @@ msgstr "Doda pošiljatelja v imenik"
 
 #: ../src/mail/e-mail-reader.c:2689
 #, fuzzy
-#| msgid "Archive"
 msgid "_Archive"
-msgstr "Arhiv"
+msgstr "_Arhiviraj"
 
 #: ../src/mail/e-mail-reader.c:2691
 msgid "Move selected messages to the Archive folder for the account"
@@ -19268,10 +19221,10 @@ msgstr[3] ""
 #, c-format
 msgid "Attachment changed"
 msgid_plural "%d attachments changed"
-msgstr[0] ""
-msgstr[1] "Priloga"
-msgstr[2] "Prilogi"
-msgstr[3] "Priloge"
+msgstr[0] "%d prilog je bilo spremenjenih"
+msgstr[1] "%d priloga je bila spremenjena"
+msgstr[2] "%d prilogi sta bili spremenjeni"
+msgstr[3] "%d priloge so bile spremenjene"
 
 #: ../src/mail/em-composer-utils.c:684
 #, c-format
@@ -19873,7 +19826,7 @@ msgstr "_Delno zaupaj"
 #: ../src/mail/em-utils.c:2144
 msgctxt "trust"
 msgid "Trust _fully"
-msgstr ""
+msgstr "_Polno zaupaj"
 
 #: ../src/mail/em-utils.c:2145
 msgctxt "trust"
@@ -19881,7 +19834,7 @@ msgid "Trust _ultimately"
 msgstr "_Povsem zaupaj"
 
 #: ../src/mail/em-utils.c:2184
-#, fuzzy, c-format
+#, c-format
 msgid "Key ID: %s"
 msgstr "ID ključa: %s"
 
@@ -20112,17 +20065,13 @@ msgstr "Navezava"
 
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
-#, fuzzy
-#| msgid "Pasting iCalendar data"
 msgid "Contain iCalendar Data"
-msgstr "Poteka dodajanje podatkov iCalendar"
+msgstr "Naj vsebuje podatke iCalendar"
 
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
-#, fuzzy
-#| msgid "Pasting iCalendar data"
 msgid "Do Not Contain iCalendar Data"
-msgstr "Poteka dodajanje podatkov iCalendar"
+msgstr "Naj ne vsebuje podatkov iCalendar"
 
 #: ../src/mail/filtertypes.xml.in.h:54 ../src/mail/searchtypes.xml.in.h:56
 #: ../src/mail/vfoldertypes.xml.in.h:57
@@ -20203,10 +20152,8 @@ msgid "Set Label"
 msgstr "Nastavi oznako"
 
 #: ../src/mail/filtertypes.xml.in.h:76
-#, fuzzy
-#| msgid "Set Label"
 msgid "Unset Label"
-msgstr "Nastavi oznako"
+msgstr "Odnastavi oznako"
 
 #: ../src/mail/filtertypes.xml.in.h:77
 msgid "Assign Color"
@@ -20461,7 +20408,7 @@ msgstr "Vedno zaht_evaj povratnico"
 
 #: ../src/mail/mail-config.ui.h:14
 msgid "Always request Deli_very Status Notification"
-msgstr ""
+msgstr "Vedno zahtevaj _obvestilo o stanju dostave"
 
 #: ../src/mail/mail-config.ui.h:15
 msgid "Encode filenames in an _Outlook/GMail way"
@@ -20896,21 +20843,13 @@ msgid "Check cu_stom headers for junk"
 msgstr "Preveri glave _po meri za vsiljeno pošto"
 
 #: ../src/mail/mail-config.ui.h:153
-#, fuzzy
-#| msgid ""
-#| "To help avoid email accidents and embarrassments, ask for confirmation before taking the "
-#| "following checkmarked actions:"
 msgid "Ask for confirmation before taking the following checkmarked actions:"
-msgstr ""
-"Za izogibanje neprijetnostim in zadregam pri pošiljanju elektronskih sporočil, lahko program "
-"pred pošiljanjem zahteva potrditev nekaterih možnosti:"
+msgstr "Pred izvedbo naslednjih potrjenih dejanj vprašaj za potrditev:"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:155
-#, fuzzy
-#| msgid "Check whether Evolution is the default mailer"
 msgid "Check whether Evolution is the _default mailer"
-msgstr "Preveri, ali je program Evolution privzet poštni odjemalec"
+msgstr "Preverjanje, ali je program _Evolution privzet poštni odjemalec"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:157
@@ -20919,45 +20858,33 @@ msgstr "Praznjenje _koša"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:159
-#, fuzzy
-#| msgid "Prompt when user tries to open 10 or more messages at once"
 msgid "Tries to _open 10 or more messages at once"
-msgstr "Opozori uporabnika, ko želi hkrati odpreti 10 ali več sporočil."
+msgstr "Ob poskusu hkratnega _odpiranja 10 ali več sporočil."
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:161
-#, fuzzy
-#| msgid "Marking messages as read…"
 msgid "Marking _all messages as read"
-msgstr "Poteka označevanje sporočil kot prebranih …"
+msgstr "Ob o_značevanju vseh sporočil kot prebranih"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:163
-#, fuzzy
-#| msgid "Prompt when deleting messages in search folder"
 msgid "Deleting messages in _search folder"
-msgstr "Opozori ob brisanju sporočil v iskalni mapi"
+msgstr "Ob brisanju sporočil v _iskalni mapi"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:165
-#, fuzzy
-#| msgid "Copy folder in folder tree."
 msgid "Copy _folder by Drag & Drop in folder tree"
-msgstr "Kopiraj mapo v drevesu map."
+msgstr "Ob _kopiranju mape s povleci in spusti v drevesu map"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:167
-#, fuzzy
-#| msgid "Move folder in folder tree."
 msgid "_Move folder by Drag & Drop in folder tree"
-msgstr "Premakni mapo v drevesu map."
+msgstr "Ob premikanju _mape s povleci in spusti v drevesu map"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:169
-#, fuzzy
-#| msgid "Show messages with all email headers"
 msgid "Sort message list on _header click"
-msgstr "Pokaži sporočila z vsemi glavami elektronske pošte"
+msgstr "Ob razvrščanju seznama sporočil po kliku _glave"
 
 #: ../src/mail/mail-config.ui.h:170
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
@@ -21937,7 +21864,7 @@ msgstr "Naslov »{0}« že obstaja."
 
 #: ../src/mail/mail.error.xml.h:223
 msgid "Choose a different name, please."
-msgstr ""
+msgstr "Izberite drugo ime."
 
 #: ../src/mail/mail.error.xml.h:224
 msgid "Do you wish to import OpenPGP key?"
