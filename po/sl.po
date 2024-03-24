@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-22 10:30+0000\n"
-"PO-Revision-Date: 2024-03-24 18:49+0100\n"
+"POT-Creation-Date: 2024-03-24 17:51+0000\n"
+"PO-Revision-Date: 2024-03-25 00:38+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -2429,6 +2429,8 @@ msgid ""
 "It's a complementary option for “prompt-on-unwanted-html”, containing list of addresses, which "
 "accept HTML messages."
 msgstr ""
+"To je dopolnilna možnost za »prompt-on-unwanted-html«, ki vsebuje seznam naslovov, ki "
+"sprejemajo sporočila HTML."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid ""
@@ -3017,6 +3019,8 @@ msgid ""
 "When attaching multiple messages at once, attach them as separate files (when set to 'true'), "
 "instead of a single mbox file."
 msgstr ""
+"Ko priložite več sporočil hkrati, jih priložite kot ločene datoteke (če je nastavljeno na "
+"»true«) namesto ene datoteke mbox."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
 msgid "(Deprecated) Default forward style"
@@ -3253,6 +3257,8 @@ msgid ""
 "Attach components in mail messages like meeting invitations or responses, instead of saving "
 "them as a body alternative"
 msgstr ""
+"V e-poštna sporočila priložite komponente, kot so povabila na srečanje ali odgovori, namesto "
+"da jih shranite kot alternativo telesu"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -3637,6 +3643,8 @@ msgid ""
 "When enabled, uses icon-only buttons in the header bar. Otherwise some buttons can show also "
 "text when there's enough space."
 msgstr ""
+"Ko je ta možnost omogočena, v vrstici z glavo uporabi gumbe, ki so samo ikone. V nasprotnem "
+"primeru lahko nekateri gumbi prikažejo tudi besedilo, ko je dovolj prostora."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:50
 msgid "Whether the markdown editor show have live preview"
@@ -9989,10 +9997,8 @@ msgid "Sending a task"
 msgstr "Poteka pošiljanje naloge"
 
 #: ../src/calendar/gui/itip-utils.c:2691
-#, fuzzy
-#| msgid "_Open Appointment"
 msgid "Original Appointment"
-msgstr "_Odpri sestanek"
+msgstr "Prvotni sestanek"
 
 #: ../src/calendar/gui/misc.c:95
 #, c-format
@@ -12286,10 +12292,8 @@ msgid "Reading text content…"
 msgstr "Poteka branje vsebine …"
 
 #: ../src/composer/e-msg-composer.c:5103
-#, fuzzy
-#| msgid "No encryption"
 msgid "Send _without encryption"
-msgstr "Brez šifriranja"
+msgstr "Pošlji brez _šifriranja"
 
 #: ../src/composer/e-msg-composer.c:5891
 msgid "Review attachment before sending."
@@ -18428,10 +18432,8 @@ msgid "Add sender to address book"
 msgstr "Doda pošiljatelja v imenik"
 
 #: ../src/mail/e-mail-reader.c:2689
-#, fuzzy
-#| msgid "Archive"
 msgid "_Archive"
-msgstr "Arhiv"
+msgstr "_Arhiviraj"
 
 #: ../src/mail/e-mail-reader.c:2691
 msgid "Move selected messages to the Archive folder for the account"
@@ -19582,10 +19584,8 @@ msgid "<click here to select a folder>"
 msgstr "<kliknite tukaj za izbiro mape>"
 
 #: ../src/mail/em-folder-selector.c:609
-#, fuzzy
-#| msgid "Search Folders"
 msgid "Search for folder…"
-msgstr "Iskalne mape"
+msgstr "Poišči mapo …"
 
 #: ../src/mail/em-folder-selector.c:710
 msgid "Create a new folder"
@@ -20588,7 +20588,7 @@ msgstr "O_pozori ob pošiljanju HTML sporočil stikom, ki tega niso potrdili"
 
 #: ../src/mail/mail-config.ui.h:68
 msgid "Addresses or domains which accept HTML messages:"
-msgstr ""
+msgstr "Naslovi ali domene, ki sprejemajo sporočila HTML:"
 
 #: ../src/mail/mail-config.ui.h:72
 msgid "Confirmations"
@@ -21915,6 +21915,8 @@ msgstr "Spremeni način razvrščanja map v drevesnem pogledu"
 #: ../src/mail/mail.error.xml.h:228
 msgid "Click in the list headers usually changes sort order. Choose what to do."
 msgstr ""
+"Kliknite glave seznama, običajno spremenijo vrstni red razvrščanja. Izberite, kaj želite "
+"storiti."
 
 #: ../src/mail/mail.error.xml.h:229
 msgid "_Sort"
@@ -21948,16 +21950,12 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:237
-#, fuzzy
-#| msgid "ends with"
 msgid "_Send with Key"
-msgstr "se konča z"
+msgstr "_Pošlji s ključem"
 
 #: ../src/mail/mail.error.xml.h:238
-#, fuzzy
-#| msgid "No encryption"
 msgid "Send _without Key"
-msgstr "Brez šifriranja"
+msgstr "Pošlji _brez ključa"
 
 #: ../src/mail/mail.error.xml.h:239
 msgid "_Always"
@@ -22296,7 +22294,7 @@ msgstr "Videz ikon"
 #. Translators: This is for "Icons Look: Autodetect"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:377
 msgid "Aut_odetect"
-msgstr ""
+msgstr "Sam_ozaznaj"
 
 #. Translators: This is for "Toolbar Icon Size: Small"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:390
@@ -22306,7 +22304,7 @@ msgstr "_Majhno"
 #. Translators: This is for "Icons Look: Prefer symbolic"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:401
 msgid "_Prefer symbolic"
-msgstr ""
+msgstr "_Prednost ima simbolično"
 
 #. Translators: This is for "Toolbar Icon Size: Large"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:413
@@ -22316,7 +22314,7 @@ msgstr "_Veliko"
 #. Translators: This is for "Icons Look: Prefer regular"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:424
 msgid "Prefer _regular"
-msgstr ""
+msgstr "Prednost ima _navadno"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:499
 msgid "Layout"
@@ -22611,9 +22609,8 @@ msgstr "_Dejanja"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1442
 #, fuzzy
-#| msgid "_Sort By"
 msgid "_Sort Cards By"
-msgstr "_Razvrsti po"
+msgstr "_Razvrsti kartic po"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1455
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
@@ -22779,10 +22776,9 @@ msgid "Restore from Backup"
 msgstr "Obnovitev iz varnostne kopije"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:352
-#, fuzzy, c-format
-#| msgid "Folder '%s' not found"
+#, c-format
 msgid "Program '%s' not found"
-msgstr "Mape »%s« ni mogoče najti."
+msgstr "Programa »%s« ni mogoče najti."
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:316
 msgid "Select name of the Evolution backup file"
@@ -22946,10 +22942,8 @@ msgid "Cannot restore from backup file"
 msgstr "_Obnovi iz varnostne kopije:"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:4
-#, fuzzy
-#| msgid "Cannot create Temporary File"
 msgid "Cannot create backup file"
-msgstr "Ni mogoče ustvariti začasne datoteke"
+msgstr "Ni mogoče ustvariti datoteke varnostne kopije"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Are you sure you want to close Evolution?"
@@ -23479,7 +23473,6 @@ msgid "_Show invitation description provided by the sender"
 msgstr "_Pokaži opis povabila, ki ga je posredoval pošiljatelj"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:687
-#, fuzzy
 msgid "_Always attach components in mail messages"
 msgstr "_Vedno prilagaj komponente v e-poštna sporočila"
 
@@ -26688,7 +26681,7 @@ msgstr "Neveljaven naslov URI »%s«."
 #: ../src/modules/rss/camel/camel-rss-folder.c:320
 #, c-format
 msgid "Failed to download feeds, error code %d (%s)"
-msgstr ""
+msgstr "Virov ni bilo mogoče prenesti, koda napake %d (%s)"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:470
 #, c-format
@@ -28418,7 +28411,7 @@ msgstr "Prezri razpoložljivost omrežja"
 
 #: ../src/shell/e-shell.c:1983
 msgid "Forcibly shut down Evolution and background Evolution-Data-Server processes"
-msgstr ""
+msgstr "Prisilno zaustavite procese Evolution in Evolution-Data-Server v ozadju"
 
 #: ../src/shell/e-shell.c:1986
 msgid "Disable loading of any plugins."
