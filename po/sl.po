@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-24 17:56+0000\n"
-"PO-Revision-Date: 2024-03-25 00:41+0100\n"
+"POT-Creation-Date: 2024-03-24 23:41+0000\n"
+"PO-Revision-Date: 2024-03-25 16:07+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -214,9 +214,8 @@ msgstr ""
 "možnost »openstreetmap«."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:45
-#, fuzzy
 msgid "Whether to prefer local application over opening map in a browser"
-msgstr "Ali raje lokalno aplikacijo kot odpiranje zemljevida v brskalniku"
+msgstr "Ali imate raje krajevni program kot odpiranje zemljevida v brskalniku"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
 msgid ""
@@ -1298,10 +1297,8 @@ msgid "Always request Delivery Status Notification"
 msgstr "Vedno zahtevaj obvestilo o stanju dostave"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:30
-#, fuzzy
-#| msgid "Whether a read receipt request gets added to every message by default."
 msgid "Whether a Delivery Status Notification request gets added to every message by default."
-msgstr "Ali se povratnica privzeto samodejno doda k vsakemu sporočilu."
+msgstr "Ali naj bo zahteva za obvestilo o stanju dostave privzeto dodana v vsako sporočilo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:31
 msgid "What mode open the composer with"
@@ -1700,10 +1697,8 @@ msgstr ""
 "Ali naj bo čas pri odgovarjanju pretvorjen na krajevni čas, če je v prejetem sporočilu čas UTC."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
-#, fuzzy
-#| msgid "Convert UTC time in reply credits to local time"
 msgid "Convert time in reply credits to local time"
-msgstr "Pretvori čas UTC v odgovorih na krajevni čas"
+msgstr "Pretvori čas v odgovorih na krajevni čas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 #, fuzzy
@@ -2958,16 +2953,22 @@ msgid "Show toolbar above preview panel in the Mail view."
 msgstr "Pokaže pladenj predogleda v pogledu sporočil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:342
+#, fuzzy
 msgid ""
 "Whether the markdown composer should sanitize input text also for the 'Markdown as Plain text' "
 "mode"
 msgstr ""
+"Ali naj skladatelj markdown očisti vhodno besedilo tudi za način »Markdown kot navadno "
+"besedilo«"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:343
+#, fuzzy
 msgid ""
 "Disabling the sanitization allows to use the Markdown editor as a very simple text editor "
 "without mangling the input text."
 msgstr ""
+"Onemogočanje čiščenja omogoča uporabo urejevalnika Markdown kot zelo preprostega urejevalnika "
+"besedil brez premetavanja vhodnega besedila."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:344
 msgid "Show unread count in folder tree"
@@ -2978,16 +2979,17 @@ msgid "Show unread count beside the folder name in the folder tree."
 msgstr "Pokaži število neprebranih ob imenu mape v drevesu map."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:346
-#, fuzzy
-#| msgid "Insert Face picture by default"
 msgid "Show insecure parts by default"
-msgstr "Privzeto vstavi sličico obraza odhajajočemu sporočilu"
+msgstr "Privzeto pokaži nezaščitene dele"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:347
+#, fuzzy
 msgid ""
 "Set whether not signed/encrypted parts beside signed/encrypted parts should be shown after "
 "mail open. The default is to hide these possibly insecure parts."
 msgstr ""
+"Nastavite, ali naj bodo po odprtju pošte prikazani nepodpisani/šifrirani deli poleg podpisanih/"
+"šifriranih delov. Privzeto so skriti ti morda ne varni deli."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:348
 #, fuzzy
@@ -2996,17 +2998,24 @@ msgid "How to convert links from HTML to plain text"
 msgstr "Preden se _zapis v sestavljalniku pretvori iz HTML v besedilni način"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:349
+#, fuzzy
 msgid ""
 "Possible values: 'none' - do not store href in the plain text; 'inline' - show href beside the "
 "text link, like: \"label &lt;href&gt;\"; 'reference' - show href as reference to the end of "
 "the text, like: \"label [1] ...... [1] label href\"; 'reference-without-label' - show href as "
 "reference to the end of the text without label, like: \"label [1] ...... [1] href\""
 msgstr ""
+"Možne vrednosti: »none« - ne shranjuj href v navadnem besedilu; »inline« – pokaži HREF poleg "
+"besedilne povezave, npr.: »oznaka &lt;href&gt;«; »reference« – označi HREF kot sklic na konec "
+"besedila, npr.: »oznaka [1] …… [1] oznaka HREF«; »reference-without-label« – označi HREF kot "
+"sklic na konec besedila brez oznake, npr.: »oznaka [1] …… [1] HREF«"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:350
 msgid ""
 "Whether click on a header in the message list can change sort order by the clicked column."
 msgstr ""
+"Ali lahko s klikom na glavo na seznamu sporočil spremenite vrstni red razvrščanja glede na "
+"stolpec, ki ste ga kliknili."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
 msgid "(Deprecated) Default forward style"
@@ -3233,10 +3242,8 @@ msgstr ""
 "seveda na voljo."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:7
-#, fuzzy
-#| msgid "Use an external editor to compose plain-text mail messages."
 msgid "Whether to attach components in mail messages"
-msgstr "Uporabi zunanji urejevalnik besedila za sestavljanje neoblikovanih besedilnih sporočil."
+msgstr "Ali želite v e-poštna sporočila priložiti komponente"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:8
 msgid ""
@@ -3619,10 +3626,8 @@ msgstr ""
 "Spreminjanje možnosti zahteva ponovni zagon programa."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:48
-#, fuzzy
-#| msgid "Whether to show notes in the editor"
 msgid "Whether to use icon-only buttons in the header bar"
-msgstr "Ali naj se v urejevalniku prikažejo opombe"
+msgstr "Ali naj se v naslovni vrstici uporabijo gumbi samo z ikonami"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:49
 msgid ""
@@ -3655,6 +3660,9 @@ msgid ""
 "the icon theme does not provide them. Similarly the color icons cannot be used, when they are "
 "not available."
 msgstr ""
+"Nadzira, ali naj program daje prednost simboličnim ikonam ali ne. Vrednost »samodejno« zazna, "
+"ali tema ikon uporablja simbolične ikone. Opomba: simboličnih ikon ni mogoče uporabiti, če jih "
+"tema ikon ne ponuja. Podobno barvnih ikon ni mogoče uporabiti, če niso na voljo."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -9005,10 +9013,8 @@ msgid "Click here to open the URL"
 msgstr "Kliknite tukaj za obisk odpiranje naslova URL"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:362
-#, fuzzy
-#| msgid "Click here to open the URL"
 msgid "Click here to open map"
-msgstr "Kliknite tukaj za obisk odpiranje naslova URL"
+msgstr "Kliknite tukaj, da odprete zemljevid"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:427
 msgctxt "ECompEditor"
@@ -12116,8 +12122,9 @@ msgid "Toggles whether the From override field to change name or email address i
 msgstr "Ali naj bo prikazano ime in elektronski naslov iz polja prepisa"
 
 #: ../src/composer/e-composer-actions.c:570
+#, fuzzy
 msgid "Mail-Follow_up-To Field"
-msgstr ""
+msgstr "Polje _Pošlji v nadaljnjo obravnavo"
 
 #: ../src/composer/e-composer-actions.c:572
 #, fuzzy
@@ -12192,7 +12199,7 @@ msgstr "_Odgovori _na:"
 
 #: ../src/composer/e-composer-header-table.c:879
 msgid "Mail-Followu_p-To:"
-msgstr ""
+msgstr "_Pošlji v nadaljnjo obravnavo:"
 
 #: ../src/composer/e-composer-header-table.c:883
 #, fuzzy
@@ -12582,14 +12589,16 @@ msgid ""
 "This message is a redirection, which allows you to change the recipients, subject and other "
 "message attributes, but not the contents of the message."
 msgstr ""
+"To sporočilo je preusmeritev, ki vam omogoča, da spremenite prejemnike, zadevo in druge "
+"atribute sporočila, ne pa tudi vsebine sporočila."
 
 #: ../src/composer/mail-composer.error.xml.h:61
 msgid "Not adding OpenPGP public key into the mail."
-msgstr ""
+msgstr "Brez dodajanja javnega ključa OpenPGP v pošto."
 
 #: ../src/composer/mail-composer.error.xml.h:62
 msgid "The OpenPGP public key for “{0}” is too large for the transfer."
-msgstr ""
+msgstr "Javni ključ OpenPGP za »{0}« je prevelik za prenos."
 
 #: ../src/em-format/e-mail-formatter-attachment.c:317
 msgid "Toggle View Inline"
@@ -16675,14 +16684,14 @@ msgid "Events"
 msgstr "Dogodki"
 
 #: ../src/e-util/e-webdav-browser.c:542
+#, fuzzy
 msgid "Scheduling Inbox"
-msgstr ""
+msgstr "Načrtovanje prejetega"
 
 #: ../src/e-util/e-webdav-browser.c:547
 #, fuzzy
-#| msgid "Keep in Outbox"
 msgid "Scheduling Outbox"
-msgstr "Ohrani v mapi odhodne pošte"
+msgstr "Načrtovanje odhodne pošte"
 
 #: ../src/e-util/e-webdav-browser.c:610 ../src/mail/em-folder-tree-model.c:1618
 #: ../src/mail/em-folder-tree-model.c:2006
@@ -17719,16 +17728,12 @@ msgid "Choose a folder for saving sent messages."
 msgstr "Izberite mapo za shranjevanje poslanih sporočil."
 
 #: ../src/mail/e-mail-config-defaults-page.c:715
-#, fuzzy
-#| msgid "Move selected messages to another folder"
 msgid "Save s_ent messages into the Sent folder"
-msgstr "Izbrana sporočila premakni v drugo mapo"
+msgstr "Poslana sporo_čila shrani v mapo Poslano"
 
 #: ../src/mail/e-mail-config-defaults-page.c:732
-#, fuzzy
-#| msgid "S_ave replies in the folder of the message being replied to"
 msgid "S_ave replies and forwards in the folder of the original message"
-msgstr "S_hrani odgovore v mapo sporočila, na katerega se nanaša odgovor"
+msgstr "S_hrani odgovore in posredovano v mapo sporočila, na katerega se nanašajo"
 
 #: ../src/mail/e-mail-config-defaults-page.c:755
 msgid "Archi_ve Folder:"
@@ -17969,8 +17974,9 @@ msgid "Send own _public key in outgoing mails"
 msgstr "Pošlji lastni _javni ključ v odhodnih sporočilih"
 
 #: ../src/mail/e-mail-config-security-page.c:676
+#, fuzzy
 msgid "Advertise encryption is pre_ferred"
-msgstr ""
+msgstr "Oglaševanje šifriranja je _zaželena"
 
 #: ../src/mail/e-mail-config-security-page.c:694
 msgid "A_sk before sending mails with own public key"
@@ -19233,6 +19239,8 @@ msgid ""
 "Attachment “%s” changed after being added to the message. Do you want to send the message "
 "anyway?"
 msgstr ""
+"Priloga »%s« se je spremenila zatem, ko je bila dodana sporočilu. Ali želite vseeno poslati "
+"sporočilo?"
 
 #: ../src/mail/em-composer-utils.c:687
 #, c-format
@@ -19243,9 +19251,17 @@ msgid_plural ""
 "%d attachments changed after being added to the message. Do you want to send the message "
 "anyway?"
 msgstr[0] ""
+"%d prilog se je spremenilo, ko so že bile dodane sporočilu. Ali želite vseeno poslati "
+"sporočilo?"
 msgstr[1] ""
+"%d priloga se je spremenila, ko je že bila dodana sporočilu. Ali želite vseeno poslati "
+"sporočilo?"
 msgstr[2] ""
+"%d prilogi sta se spremenili, ko sta že bili dodani sporočilu. Ali želite vseeno poslati "
+"sporočilo?"
 msgstr[3] ""
+"%d priloge so se spremenile, ko so že bile dodane sporočilu. Ali želite vseeno poslati "
+"sporočilo?"
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
@@ -19853,10 +19869,8 @@ msgid "User ID: %s"
 msgstr "ID uporabnika: %s"
 
 #: ../src/mail/em-utils.c:2264
-#, fuzzy
-#| msgid "Set or unset reminders for this event"
 msgid "Set trust level for the key:"
-msgstr "Določi ali odstrani opomnike za ta dogodek"
+msgstr "Določite raven zaupanja za ključ:"
 
 #: ../src/mail/em-vfolder-editor.c:102
 msgid "Search _Folders"
@@ -21920,6 +21934,11 @@ msgid ""
 "This option is set for each mail account separately. You can find it in the Security tab of "
 "the mail account Properties."
 msgstr ""
+"Sporočilo vsebuje vaš javni ključ PGP, ki ga prejemniki lahko uporabijo za šifriranje "
+"sporočil, poslana vam, ali za preverjanje podpisov, ustvarjenih s tem ključem PGP.\n"
+"\n"
+"Ta možnost je nastavljena za vsak e-poštni račun posebej. Najdete ga na zavihku Varnost v "
+"Lastnostih poštnega računa."
 
 #: ../src/mail/mail.error.xml.h:237
 msgid "_Send with Key"
@@ -22348,8 +22367,9 @@ msgid "Google"
 msgstr "Google"
 
 #: ../src/modules/addressbook/autocompletion-config.c:180
+#, fuzzy
 msgid "Use system map _application, if available"
-msgstr ""
+msgstr "Uporabi sistemski program za _zemljevide, če je na voljo"
 
 #: ../src/modules/addressbook/autocompletion-config.c:190
 msgid "Autocompletion"
@@ -24479,8 +24499,9 @@ msgid "Show memo preview alongside the memo list"
 msgstr "Pokaži predogled opomnikov ob seznamu opomnikov"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:795
+#, fuzzy
 msgid "Show memos with no category set"
-msgstr ""
+msgstr "Pokaži beležke brez dodeljene kategorije"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:836
 msgid "Print the list of memos"
