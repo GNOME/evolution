@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-20 18:39+0000\n"
-"PO-Revision-Date: 2024-03-21 01:15+0300\n"
+"POT-Creation-Date: 2024-03-24 23:40+0000\n"
+"PO-Revision-Date: 2024-03-25 16:58+0300\n"
 "Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -5119,7 +5119,7 @@ msgstr "Doğum Günü"
 #. Other options
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:541
-#: ../src/mail/e-mail-config-defaults-page.c:864
+#: ../src/mail/e-mail-config-defaults-page.c:899
 #: ../src/modules/addressbook/autocompletion-config.c:127
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Miscellaneous"
@@ -18354,76 +18354,86 @@ msgstr "Tamamlandı"
 msgid "Checking server settings…"
 msgstr "Sunucu ayarları denetleniyor…"
 
-#: ../src/mail/e-mail-config-defaults-page.c:650
+#: ../src/mail/e-mail-config-defaults-page.c:651
 msgid "Special Folders"
 msgstr "Özel Klasörler"
 
-#: ../src/mail/e-mail-config-defaults-page.c:659
+#: ../src/mail/e-mail-config-defaults-page.c:661
 msgid "Draft Messages _Folder:"
 msgstr "_Taslak İletiler Klasörü:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:669
+#: ../src/mail/e-mail-config-defaults-page.c:671
 msgid "Choose a folder for saving draft messages."
 msgstr "Taslak iletileri kaydetmek için klasör seç."
 
-#: ../src/mail/e-mail-config-defaults-page.c:685
+#: ../src/mail/e-mail-config-defaults-page.c:688
 msgid "Sent _Messages Folder:"
 msgstr "_Gönderilen İletiler Klasörü:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:695
+#: ../src/mail/e-mail-config-defaults-page.c:698
 msgid "Choose a folder for saving sent messages."
 msgstr "Gönderilmiş iletileri kaydetmek için klasör seç."
 
-#: ../src/mail/e-mail-config-defaults-page.c:715
+#: ../src/mail/e-mail-config-defaults-page.c:719
 msgid "Save s_ent messages into the Sent folder"
 msgstr "Gönderilen iletileri Gönderilenler klasörüne _kaydet"
 
-#: ../src/mail/e-mail-config-defaults-page.c:732
+#: ../src/mail/e-mail-config-defaults-page.c:737
 msgid "S_ave replies and forwards in the folder of the original message"
 msgstr "Yanıtları ve iletmeleri özgün iletinin klasörüne k_aydet"
 
-#: ../src/mail/e-mail-config-defaults-page.c:755
+#: ../src/mail/e-mail-config-defaults-page.c:761
 msgid "Archi_ve Folder:"
 msgstr "Arşi_v Dizini:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:765
+#: ../src/mail/e-mail-config-defaults-page.c:771
 #: ../src/modules/mail/em-mailer-prefs.c:2016
 msgid "Choose a folder to archive messages to."
 msgstr "İletilerin arşivleneceği dizin seç."
 
-#: ../src/mail/e-mail-config-defaults-page.c:780
+#: ../src/mail/e-mail-config-defaults-page.c:787
 msgid "_Templates Folder:"
 msgstr "_Şablonlar Klasörü:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:790
+#: ../src/mail/e-mail-config-defaults-page.c:797
 msgid "Choose a folder to use for template messages."
 msgstr "Şablon iletiler için kullanılacak klasör seç."
 
-#: ../src/mail/e-mail-config-defaults-page.c:808
+#: ../src/mail/e-mail-config-defaults-page.c:814
 msgid "_Restore Defaults"
 msgstr "Öntanımlıları Ge_ri Yükle"
 
-#: ../src/mail/e-mail-config-defaults-page.c:825
+#: ../src/mail/e-mail-config-defaults-page.c:831
 msgid "_Lookup Folders"
 msgstr "_Arama Klasörleri"
 
-#: ../src/mail/e-mail-config-defaults-page.c:843
+#: ../src/mail/e-mail-config-defaults-page.c:849
 msgid "Use a Real Folder for _Trash:"
 msgstr "_Çöp için Gerçek Klasör Kullan:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:844
+#: ../src/mail/e-mail-config-defaults-page.c:850
 msgid "Choose a folder for deleted messages."
 msgstr "Silinmiş iletiler için klasör seç."
 
-#: ../src/mail/e-mail-config-defaults-page.c:853
+#: ../src/mail/e-mail-config-defaults-page.c:860
 msgid "Use a Real Folder for _Junk:"
 msgstr "_Önemsiz İletiler için Gerçek Klasör Kullan:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:854
+#: ../src/mail/e-mail-config-defaults-page.c:861
 msgid "Choose a folder for junk messages."
 msgstr "Gereksiz iletiler için klasör seç."
 
-#: ../src/mail/e-mail-config-defaults-page.c:969
+#: ../src/mail/e-mail-config-defaults-page.c:872
+msgid "Restore _Not-Junk to Folder:"
+msgstr ""
+
+#: ../src/mail/e-mail-config-defaults-page.c:873
+#, fuzzy
+#| msgid "Choose a folder for junk messages."
+msgid "Choose a folder to restore not-junk messages from the Junk folder to."
+msgstr "Gereksiz iletiler için klasör seç."
+
+#: ../src/mail/e-mail-config-defaults-page.c:1006
 msgid "Defaults"
 msgstr "Öntanımlılar"
 
@@ -29012,7 +29022,7 @@ msgid ""
 "The message contains recipient “{0}”, which does not match recipient pattern "
 "“{1}” for the account “{2}”."
 msgstr ""
-"İleti, “{2}” hesabı için “{1}” alıcı deseniyle eşleşmeyen “{0}” alıcısını "
+"İleti, “{2}” hesabı için “{1}” alıcı örüntüsüyle eşleşmeyen “{0}” alıcısını "
 "içeriyor."
 
 #: ../src/plugins/sender-validation/sender-validation.c:653
@@ -29022,7 +29032,7 @@ msgid ""
 "org” will warn when a recipient containing “@company.org” is not used with "
 "the “me@company.org” account."
 msgstr ""
-"Belirli alıcı desenleri için hangi hesabın kullanılacağını ayarla.\n"
+"Belirli alıcı örüntüleri için hangi hesabın kullanılacağını ayarla.\n"
 "Örneğin, “ben@firma.org” hesabı için alıcıyı “@firma.org” olarak ayarlamak, "
 "“@firma.org” içeren bir alıcı “ben@firma.org” hesabıyla kullanılmadığında "
 "uyarır."
@@ -29042,7 +29052,7 @@ msgid ""
 "will warn when any of the recipients does not contain “@company.org” when "
 "sending with the “me@company.org” account."
 msgstr ""
-"Belirli bir hesap için hangi alıcı desenlerinin kullanılacağını ayarla.\n"
+"Belirli bir hesap için hangi alıcı örüntülerinin kullanılacağını ayarla.\n"
 "Örnegin, “@firma.org” alıcıları için “ben@firma.org” hesabının ayarlanması, "
 "“ben@firma.org” hesabıyla gönderim yaparken alıcılardan herhangi biri "
 "“@firma.org” içermediğinde uyarır."
