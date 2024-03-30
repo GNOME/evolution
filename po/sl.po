@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-24 23:41+0000\n"
-"PO-Revision-Date: 2024-03-25 16:07+0100\n"
+"POT-Creation-Date: 2024-03-25 15:08+0000\n"
+"PO-Revision-Date: 2024-03-30 16:26+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -2992,10 +2992,8 @@ msgstr ""
 "šifriranih delov. Privzeto so skriti ti morda ne varni deli."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:348
-#, fuzzy
-#| msgid "Before composer _format changes from HTML to Plain Text"
 msgid "How to convert links from HTML to plain text"
-msgstr "Preden se _zapis v sestavljalniku pretvori iz HTML v besedilni način"
+msgstr "Kako pretvoriti povezave iz HTML v navadno besedilo"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:349
 #, fuzzy
@@ -6342,15 +6340,11 @@ msgid "Would you like to send the organizer a deletion notice?"
 msgstr "Ali želite organizatorju poslati sporočilo o izbrisu?"
 
 #: ../src/calendar/calendar.error.xml.h:6
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not know the memo has "
-#| "been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the meeting has been deleted."
 msgstr ""
-"V kolikor ne pošljete sporočila o preklicu, ostali sodelujoči morda ne bodo vedeli, da je bil "
-"opomnik izbrisan."
+"Če ne pošljete sporočila o brisanju, ostali sodelujoči morda ne bodo vedeli, da je bilo "
+"srečanje izbrisano."
 
 #: ../src/calendar/calendar.error.xml.h:7 ../src/calendar/gui/e-cal-dialogs.c:509
 #, c-format
@@ -6408,14 +6402,10 @@ msgid "Would you like to send a deletion notice for this memo?"
 msgstr "Ali želite poslati sporočilo o preklicu tega opomnika?"
 
 #: ../src/calendar/calendar.error.xml.h:17
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not know the memo has "
-#| "been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the memo has been deleted."
 msgstr ""
-"V kolikor ne pošljete sporočila o preklicu, ostali sodelujoči morda ne bodo vedeli, da je bil "
+"V kolikor ne pošljete sporočila o brisanju, ostali sodelujoči morda ne bodo vedeli, da je bil "
 "opomnik izbrisan."
 
 #: ../src/calendar/calendar.error.xml.h:18 ../src/calendar/gui/e-cal-dialogs.c:515
@@ -17976,7 +17966,7 @@ msgstr "Pošlji lastni _javni ključ v odhodnih sporočilih"
 #: ../src/mail/e-mail-config-security-page.c:676
 #, fuzzy
 msgid "Advertise encryption is pre_ferred"
-msgstr "Oglaševanje šifriranja je _zaželena"
+msgstr "Načrtovanje odhodne pošte"
 
 #: ../src/mail/e-mail-config-security-page.c:694
 msgid "A_sk before sending mails with own public key"
@@ -21870,10 +21860,8 @@ msgstr "Označi kot _vsiljeno"
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../src/mail/mail.error.xml.h:222
-#, fuzzy
-#| msgid "Address “{0}” already exists."
 msgid "Label named “{0}” already exists"
-msgstr "Naslov »{0}« že obstaja."
+msgstr "Oznaka »{0}« že obstaja."
 
 #: ../src/mail/mail.error.xml.h:223
 msgid "Choose a different name, please."
@@ -21893,10 +21881,8 @@ msgid "Failed to import OpenPGP key"
 msgstr "Ni bilo mogoče uvoziti ključa OpenPGP"
 
 #: ../src/mail/mail.error.xml.h:227
-#, fuzzy
-#| msgid "Change sort order of the folders in the folder tree"
 msgid "Change sort order of the message list?"
-msgstr "Spremeni način razvrščanja map v drevesnem pogledu"
+msgstr "Ali želite spremeniti vrstni red razvrščanja seznama sporočil?"
 
 #: ../src/mail/mail.error.xml.h:228
 msgid "Click in the list headers usually changes sort order. Choose what to do."
@@ -21921,10 +21907,8 @@ msgid "N_ever Sort"
 msgstr "Ni_koli ne razvrsti"
 
 #: ../src/mail/mail.error.xml.h:233
-#, fuzzy
-#| msgid "Pretty Good Privacy (OpenPGP)"
 msgid "Send mail with Pretty Good Privacy (PGP) public key?"
-msgstr "Precej dobra zasebnost (OpenPGP)"
+msgstr "Ali želite poslati e-sporočilo z javnim ključem OpenPHP (precej dobra zasebnost)?"
 
 #: ../src/mail/mail.error.xml.h:234
 msgid ""
@@ -22367,7 +22351,6 @@ msgid "Google"
 msgstr "Google"
 
 #: ../src/modules/addressbook/autocompletion-config.c:180
-#, fuzzy
 msgid "Use system map _application, if available"
 msgstr "Uporabi sistemski program za _zemljevide, če je na voljo"
 
@@ -22600,10 +22583,8 @@ msgid "_Actions"
 msgstr "_Dejanja"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1442
-#, fuzzy
-#| msgid "_Sort By"
 msgid "_Sort Cards By"
-msgstr "_Razvrsti po"
+msgstr "_Razvrsti vizitke po"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1455
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
@@ -25818,10 +25799,8 @@ msgid "Import OpenP_GP key…"
 msgstr "Uvozi ključ OpenP_GP …"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:523
-#, fuzzy
-#| msgid "Pretty Good Privacy (OpenPGP)"
 msgid "Import Pretty Good Privacy (OpenPGP) key"
-msgstr "Precej dobra zasebnost (OpenPGP)"
+msgstr "Uvozi ključ OpenPGP (precej dobra zasebnost)"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:712
 #, c-format
@@ -27200,10 +27179,8 @@ msgid "Display the part as an addressbook contact"
 msgstr "Prikaži del kot stik imenika"
 
 #: ../src/modules/webkit-editor/e-webkit-editor.c:2244
-#, fuzzy
-#| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve message content"
-msgstr "Pridobivanje poročila je spodletelo:"
+msgstr "Pridobivanje vsebine poročila je spodletelo"
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
 #: ../src/modules/webkit-editor/e-webkit-editor.c:5611
