@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-28 09:08+0000\n"
-"PO-Revision-Date: 2024-03-30 16:22+0100\n"
+"POT-Creation-Date: 2024-03-30 15:24+0000\n"
+"PO-Revision-Date: 2024-03-31 17:31+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -2139,9 +2139,8 @@ msgstr "Izbrana možnost stisne ravni niti za prikaz ploskega pogovora, s čimer
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 #, fuzzy
-#| msgid "Whether to print attachments."
 msgid "Whether to generate flat threads"
-msgstr "Ali naj program tiska tudi priloge."
+msgstr "Ali želite ustvariti ravne niti"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
@@ -2996,7 +2995,6 @@ msgid "How to convert links from HTML to plain text"
 msgstr "Kako pretvoriti povezave iz HTML v navadno besedilo"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:349
-#, fuzzy
 msgid ""
 "Possible values: 'none' - do not store href in the plain text; 'inline' - show href beside the "
 "text link, like: \"label &lt;href&gt;\"; 'reference' - show href as reference to the end of "
@@ -6352,7 +6350,6 @@ msgid "Would you like to send the organizer a deletion notice?"
 msgstr "Ali želite organizatorju poslati sporočilo o izbrisu?"
 
 #: ../src/calendar/calendar.error.xml.h:6
-#, fuzzy
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the meeting has been deleted."
 msgstr ""
@@ -6377,7 +6374,6 @@ msgstr ""
 "naloga izbrisana."
 
 #: ../src/calendar/calendar.error.xml.h:11
-#, fuzzy
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the task has been deleted."
 msgstr ""
@@ -6406,9 +6402,8 @@ msgstr ""
 "opomnik izbrisan."
 
 #: ../src/calendar/calendar.error.xml.h:16
-#, fuzzy
 msgid "Would you like to send a deletion notice for this memo?"
-msgstr "Ali želite poslati sporočilo o brisanju tega opomnika?"
+msgstr "Ali želite poslati sporočilo o brisanju te zabeležke?"
 
 #: ../src/calendar/calendar.error.xml.h:17
 msgid ""
@@ -7599,14 +7594,13 @@ msgid "calendar view for one or more weeks"
 msgstr "pogled koledarja za enega ali več tednov"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:611
-#, fuzzy, c-format
-#| msgid "Modifying a task"
+#, c-format
 msgid "Modify a task"
 msgid_plural "Modify %u tasks"
-msgstr[0] "Spreminjanje naloge"
-msgstr[1] "Spreminjanje naloge"
-msgstr[2] "Spreminjanje naloge"
-msgstr[3] "Spreminjanje naloge"
+msgstr[0] "Spremeni %u nalog"
+msgstr[1] "Spremeni %u nalogo"
+msgstr[2] "Spremeni %u nalogi"
+msgstr[3] "Spremeni %u naloge"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:649
 msgid "_General"
@@ -9760,10 +9754,8 @@ msgstr "Naloga brez datuma zapadlosti"
 #. It doesn't matter which data-model is picked, because it's used
 #. only for thread creation and manipulation, not for its content.
 #: ../src/calendar/gui/e-to-do-pane.c:2296
-#, fuzzy
-#| msgid "Mark selected tasks as complete"
 msgid "Marking a task as complete"
-msgstr "Označi izbrane naloge kot opravljene"
+msgstr "Označevanje naloge kot opravljene"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2334
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
@@ -9789,10 +9781,8 @@ msgid "_Open…"
 msgstr "_Odpri …"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2381
-#, fuzzy
-#| msgid "_Mark as Complete"
 msgid "Mark Task as _Complete"
-msgstr "_Označi kot opravljeno"
+msgstr "_Označi nalogo kot opravljeno"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2395
 msgid "_Delete This Instance…"
@@ -12258,17 +12248,14 @@ msgstr ""
 "šifriranje"
 
 #: ../src/composer/e-msg-composer.c:1643
-#, fuzzy
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Pridobivanje obdelane vsebine besedila/navadno je spodletelo"
 
 #: ../src/composer/e-msg-composer.c:1767
-#, fuzzy
 msgid "Failed to retrieve draft content"
 msgstr "Pridobivanje vsebine osnutka ni uspelo"
 
 #: ../src/composer/e-msg-composer.c:1780
-#, fuzzy
 msgid "Failed to retrieve HTML processed content"
 msgstr "Pridobivanje vsebine, obdelane v HTML-ju, ni uspelo"
 
@@ -12294,13 +12281,7 @@ msgstr[2] "Odstrani prilogi pred pošiljanjem."
 msgstr[3] "Odstrani priloge pred pošiljanjem."
 
 #: ../src/composer/e-msg-composer.c:5896
-#, fuzzy, c-format
-#| msgid ""
-#| "There had been added %d attachment. Make sure it does not contain any sensitive information "
-#| "before sending the message."
-#| msgid_plural ""
-#| "There had been added %d attachments. Make sure they do not contain any sensitive "
-#| "information before sending the message."
+#, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not contain any "
 "sensitive information before sending the message."
@@ -12308,17 +12289,17 @@ msgid_plural ""
 "%d attachments were added by an external application. Make sure they do not contain any "
 "sensitive information before sending the message."
 msgstr[0] ""
-"Dodanih je bilo %d prilog. Preden sporočilo pošljete, se prepričajte, da ni vključenih nobenih "
-"občutljivih podatkov."
+"Dodanih je bilo %d prilog. Preden sporočilo pošljete, se prepričajte, da niso vključeni nobeni "
+"občutljivi podatki."
 msgstr[1] ""
-"Dodana je bila %d priloga. Preden sporočilo pošljete, se prepričajte, da ni vključenih nobenih "
-"občutljivih podatkov."
+"Dodana je bila %d priloga. Preden sporočilo pošljete, se prepričajte, da niso vključeni nobeni "
+"občutljivi podatki."
 msgstr[2] ""
-"Dodani sta bili %d prilogi. Preden sporočilo pošljete, se prepričajte, da ni vključenih "
-"nobenih občutljivih podatkov."
+"Dodani sta bili %d prilogi. Preden sporočilo pošljete, se prepričajte, da niso vključeni "
+"nobeni občutljivi podatki."
 msgstr[3] ""
-"Dodane so bile %d priloge. Preden sporočilo pošljete, se prepričajte, da ni vključenih nobenih "
-"občutljivih podatkov."
+"Dodane so bile %d priloge. Preden sporočilo pošljete, se prepričajte, da niso vključeni nobeni "
+"občutljivi podatki."
 
 #: ../src/composer/e-msg-composer.c:6022
 msgid "The composer contains a non-text message body, which cannot be edited."
@@ -16681,12 +16662,10 @@ msgid "Events"
 msgstr "Dogodki"
 
 #: ../src/e-util/e-webdav-browser.c:542
-#, fuzzy
 msgid "Scheduling Inbox"
 msgstr "Načrtovanje prejetega"
 
 #: ../src/e-util/e-webdav-browser.c:547
-#, fuzzy
 msgid "Scheduling Outbox"
 msgstr "Načrtovanje odhodne pošte"
 
@@ -17777,7 +17756,6 @@ msgid "Restore _Not-Junk to Folder:"
 msgstr "Obnovi _ne neželeno v mapo:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:873
-#, fuzzy
 msgid "Choose a folder to restore not-junk messages from the Junk folder to."
 msgstr "Izberite mapo za obnovitev ne vsiljenih sporočil iz mape Vsiljeno."
 
@@ -20078,9 +20056,8 @@ msgstr "ni končano"
 #: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
 #: ../src/mail/vfoldertypes.xml.in.h:50
 #, fuzzy
-#| msgid "Follow Up"
 msgid "Follow Up Due By"
-msgstr "Navezava"
+msgstr "Navezava ima rok"
 
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
@@ -20571,16 +20548,12 @@ msgstr "Preden se _zapis v sestavljalniku pretvori iz HTML v besedilni način"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:66
-#, fuzzy
-#| msgid "Sending a message with _recipients not entered as mail addresses"
 msgid "Sending a message with _attachments which changed since being attached"
-msgstr "Pošiljanje sporočila s _prejemniki, ki niso vpisani z elektronskimi naslovi"
+msgstr "Ob pošiljanju sporočila s pripon_kami, ki so se od pripetja spremenile"
 
 #: ../src/mail/mail-config.ui.h:67
-#, fuzzy
-#| msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgid "Sending an _HTML mail to contacts that do not want them"
-msgstr "O_pozori ob pošiljanju HTML sporočil stikom, ki tega niso potrdili"
+msgstr "O_b pošiljanju sporočil HMTL stikom, ki tega ne želijo"
 
 #: ../src/mail/mail-config.ui.h:68
 msgid "Addresses or domains which accept HTML messages:"
@@ -20711,9 +20684,8 @@ msgstr "_Po ogledu povrni pogled nitenja sporočil po zadevi"
 
 #: ../src/mail/mail-config.ui.h:112
 #, fuzzy
-#| msgid "Show messages with all email headers"
 msgid "Group messages to _flat threads"
-msgstr "Pokaži sporočila z vsemi glavami elektronske pošte"
+msgstr "Združi sporočila v p_loske niti"
 
 #: ../src/mail/mail-config.ui.h:113
 msgid "Delete Mail"
@@ -24513,7 +24485,6 @@ msgid "Show memo preview alongside the memo list"
 msgstr "Pokaži predogled opomnikov ob seznamu opomnikov"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:795
-#, fuzzy
 msgid "Show memos with no category set"
 msgstr "Pokaži beležke brez dodeljene kategorije"
 
