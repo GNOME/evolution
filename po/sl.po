@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-30 15:28+0000\n"
-"PO-Revision-Date: 2024-03-31 17:34+0200\n"
+"POT-Creation-Date: 2024-03-31 15:35+0000\n"
+"PO-Revision-Date: 2024-04-01 19:47+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -1391,22 +1391,16 @@ msgstr ""
 "meniju pogleda izbranega poštnega računa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
-#, fuzzy
-#| msgid "Show “Reply To” field when sending a mail message"
 msgid "Show “Mail-Reply-To” field when sending a mail message"
-msgstr "Pokaži polje »Odgovori« pri pošiljanju sporočila"
+msgstr "Pokaži polje »Odgovori« (Mail-Reply-To) pri pošiljanju sporočila"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
-#, fuzzy
-#| msgid ""
-#| "Show the “Reply To” field when sending a mail message. This is controlled from the View "
-#| "menu when a mail account is chosen."
 msgid ""
 "Show the “Mail-Reply-To” field when sending a mail message. This is controlled from the View "
 "menu when a mail account is chosen."
 msgstr ""
-"Pokaži polje »Odgovori« pri pošiljanju poštnega sporočila. Možnost je mogoče nastaviti v "
-"meniju pogleda izbranega poštnega računa."
+"Pokaži polje »Odgovori« (Mail-Reply-To) pri pošiljanju poštnega sporočila. Možnost je mogoče "
+"nastaviti v meniju pogleda izbranega poštnega računa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
 msgid "Show “From” field when posting to a newsgroup"
@@ -1451,22 +1445,16 @@ msgstr ""
 "pogleda izbranega poštnega računa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
-#, fuzzy
-#| msgid "Show “Reply To” field when posting to a newsgroup"
 msgid "Show “Mail-Reply-To” field when posting to a newsgroup"
-msgstr "Pokaži polje »Odgovori« pri objavi na novičarsko skupino"
+msgstr "Pokaži polje »Odgovori« (Mail-Reply-To) pri objavi na novičarsko skupino"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
-#, fuzzy
-#| msgid ""
-#| "Show the “Reply To” field when posting to a newsgroup. This is controlled from the View "
-#| "menu when a news account is chosen."
 msgid ""
 "Show the “Mail-Reply-To” field when posting to a newsgroup. This is controlled from the View "
 "menu when a news account is chosen."
 msgstr ""
-"Pokaži polje »Odgovori« pri objavi na novičarski skupini. Možnost je mogoče nastaviti v meniju "
-"pogleda izbranega poštnega računa."
+"Pokaži polje »Odgovori« (Mail-Reply-To) pri objavi na novičarski skupini. Možnost je mogoče "
+"nastaviti v meniju pogleda izbranega poštnega računa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Digitally sign replies when the original message is signed"
@@ -2138,7 +2126,6 @@ msgid ""
 msgstr "Izbrana možnost stisne ravni niti za prikaz ploskega pogovora, s čimer zmanjša ravni."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
-#, fuzzy
 msgid "Whether to generate flat threads"
 msgstr "Ali želite ustvariti ploske niti"
 
@@ -12110,16 +12097,12 @@ msgid "Toggles whether the Mail-Followup-To field is displayed"
 msgstr "Preklopi prikaz polja Odgovori na"
 
 #: ../src/composer/e-composer-actions.c:578
-#, fuzzy
-#| msgid "_Reply-To Field"
 msgid "Mail-R_eply-To Field"
-msgstr "Polje o_dgovori na"
+msgstr "Polje o_dgovori (Mail-Reply-To)"
 
 #: ../src/composer/e-composer-actions.c:580
-#, fuzzy
-#| msgid "Toggles whether the Reply-To field is displayed"
 msgid "Toggles whether the Mail-Reply-To field is displayed"
-msgstr "Preklopi prikaz polja Odgovori na"
+msgstr "Preklopi prikaz polja Odgovori (Mail-Reply-To)"
 
 #: ../src/composer/e-composer-actions.c:586
 msgid "_Reply-To Field"
@@ -12179,10 +12162,8 @@ msgid "Mail-Followu_p-To:"
 msgstr "_Pošlji v nadaljnjo obravnavo:"
 
 #: ../src/composer/e-composer-header-table.c:883
-#, fuzzy
-#| msgid "_Reply-To:"
 msgid "Mail-Repl_y-To:"
-msgstr "_Odgovori _na:"
+msgstr "_Odgovori (Mail-Reply-To):"
 
 #: ../src/composer/e-composer-header-table.c:888
 msgid "_To:"
@@ -12268,7 +12249,7 @@ msgstr[2] "Odstrani prilogi pred pošiljanjem."
 msgstr[3] "Odstrani priloge pred pošiljanjem."
 
 #: ../src/composer/e-msg-composer.c:5896
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not contain any "
 "sensitive information before sending the message."
@@ -17937,9 +17918,8 @@ msgid "Send own _public key in outgoing mails"
 msgstr "Pošlji lastni _javni ključ v odhodnih sporočilih"
 
 #: ../src/mail/e-mail-config-security-page.c:676
-#, fuzzy
 msgid "Advertise encryption is pre_ferred"
-msgstr "Načrtovanje odhodne pošte"
+msgstr "Oglaševanje šifriranja je _zaželena"
 
 #: ../src/mail/e-mail-config-security-page.c:694
 msgid "A_sk before sending mails with own public key"
@@ -20659,7 +20639,6 @@ msgid "F_all back to threading messages by subject"
 msgstr "_Po ogledu povrni pogled nitenja sporočil po zadevi"
 
 #: ../src/mail/mail-config.ui.h:111
-#, fuzzy
 msgid "Group messages to _flat threads"
 msgstr "Združi sporočila v p_loske niti"
 
