@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2024-03-31 15:35+0000\n"
-"PO-Revision-Date: 2024-04-01 19:47+0200\n"
+"PO-Revision-Date: 2024-04-02 10:43+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -1373,22 +1373,16 @@ msgstr ""
 "meniju pogleda izbranega poštnega računa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
-#, fuzzy
-#| msgid "Show “Reply To” field when sending a mail message"
 msgid "Show “Mail-Followup-To” field when sending a mail message"
-msgstr "Pokaži polje »Odgovori« pri pošiljanju sporočila"
+msgstr "Pokaži polje nadaljnje obravnave (»Mail-Followup-To«) pri pošiljanju sporočila"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
-#, fuzzy
-#| msgid ""
-#| "Show the “Reply To” field when sending a mail message. This is controlled from the View "
-#| "menu when a mail account is chosen."
 msgid ""
 "Show the “Mail-Followup-To” field when sending a mail message. This is controlled from the "
 "View menu when a mail account is chosen."
 msgstr ""
-"Pokaži polje »Odgovori« pri pošiljanju poštnega sporočila. Možnost je mogoče nastaviti v "
-"meniju pogleda izbranega poštnega računa."
+"Pokaži polje nadaljnje obravnave (»Mail-Followup-To«) pri pošiljanju poštnega sporočila. "
+"Možnost je mogoče nastaviti v meniju pogleda izbranega poštnega računa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
 msgid "Show “Mail-Reply-To” field when sending a mail message"
@@ -1427,22 +1421,16 @@ msgstr ""
 "pogleda izbranega poštnega računa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
-#, fuzzy
-#| msgid "Show “From” field when posting to a newsgroup"
 msgid "Show “Mail-Followup-To” field when posting to a newsgroup"
-msgstr "Pokaži polje »Od« pri objavi na novičarsko skupino"
+msgstr "Pokaži polje nadaljnje obravnave (»Mail-Followup-To«) pri objavi na novičarsko skupino"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
-#, fuzzy
-#| msgid ""
-#| "Show the “From” field when posting to a newsgroup. This is controlled from the View menu "
-#| "when a news account is chosen."
 msgid ""
 "Show the “Mail-Followup-To” field when posting to a newsgroup. This is controlled from the "
 "View menu when a news account is chosen."
 msgstr ""
-"Pokaži polje »Od« pri objavi na novičarski skupini. Možnost je mogoče nastaviti v meniju "
-"pogleda izbranega poštnega računa."
+"Pokaži polje nadaljnje obravnave (»Mail-Followup-To«) pri objavi na novičarski skupini. "
+"Možnost je mogoče nastaviti v meniju pogleda izbranega poštnega računa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Show “Mail-Reply-To” field when posting to a newsgroup"
@@ -1689,15 +1677,12 @@ msgid "Convert time in reply credits to local time"
 msgstr "Pretvori čas v odgovorih na krajevni čas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
-#, fuzzy
-#| msgid ""
-#| "Whether the time in reply credits should be converted to local time when it’s in UTC in the "
-#| "message."
 msgid ""
 "Whether the time in reply credits should be converted to local time. This converts any time, "
 "not only UTC times, for which “composer-reply-credits-utc-to-localtime” can be used."
 msgstr ""
-"Ali naj bo čas pri odgovarjanju pretvorjen na krajevni čas, če je v prejetem sporočilu čas UTC."
+"Ali naj bo čas pri odgovarjanju pretvorjen na krajevni čas. Slednje se pretvori v vsakem "
+"primeru, ne le časi UTC, za katere lahko uporabite »composer-reply-credits-utc-to-localtime«."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Use user date format in reply credits"
@@ -2766,17 +2751,14 @@ msgid "Show Subject above Sender in Messages column"
 msgstr "Pokaži zadevo nad poljem pošiljatelja v stolpcu sporočil"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
-#, fuzzy
-#| msgid ""
-#| "Whether to show Subject above Sender (From/To) in the Messages column, usually shown in the "
-#| "Vertical/Wide view of the message list"
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, usually shown in the "
 "Vertical/Wide view of the message list. Change of this option requires restart of the "
 "Evolution."
 msgstr ""
 "Ali naj bo prikazana zadeva nad pošiljateljem (Od/Za) v stolpcu sporočila, običajno pokazanega "
-"v navpičnem oziroma širokem pogledu seznama sporočil."
+"v navpičnem oziroma širokem pogledu seznama sporočil. Sprememba te možnosti zahteva ponoven "
+"zagon programa Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
 msgid "Visually wrap long lines in composer"
@@ -2939,22 +2921,20 @@ msgid "Show toolbar above preview panel in the Mail view."
 msgstr "Pokaže pladenj predogleda v pogledu sporočil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:342
-#, fuzzy
 msgid ""
 "Whether the markdown composer should sanitize input text also for the 'Markdown as Plain text' "
 "mode"
 msgstr ""
-"Ali naj skladatelj markdown očisti vhodno besedilo tudi za način »Markdown kot navadno "
+"Ali naj urejevalnik Markdown očisti vhodno besedilo tudi za način »Markdown kot navadno "
 "besedilo«"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:343
-#, fuzzy
 msgid ""
 "Disabling the sanitization allows to use the Markdown editor as a very simple text editor "
 "without mangling the input text."
 msgstr ""
 "Onemogočanje čiščenja omogoča uporabo urejevalnika Markdown kot zelo preprostega urejevalnika "
-"besedil brez premetavanja vhodnega besedila."
+"besedil brez izkrivljanja vhodnega besedila."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:344
 msgid "Show unread count in folder tree"
@@ -2969,7 +2949,6 @@ msgid "Show insecure parts by default"
 msgstr "Privzeto pokaži nezaščitene dele"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:347
-#, fuzzy
 msgid ""
 "Set whether not signed/encrypted parts beside signed/encrypted parts should be shown after "
 "mail open. The default is to hide these possibly insecure parts."
@@ -12086,15 +12065,12 @@ msgid "Toggles whether the From override field to change name or email address i
 msgstr "Ali naj bo prikazano ime in elektronski naslov iz polja prepisa"
 
 #: ../src/composer/e-composer-actions.c:570
-#, fuzzy
 msgid "Mail-Follow_up-To Field"
 msgstr "Polje _Pošlji v nadaljnjo obravnavo"
 
 #: ../src/composer/e-composer-actions.c:572
-#, fuzzy
-#| msgid "Toggles whether the Reply-To field is displayed"
 msgid "Toggles whether the Mail-Followup-To field is displayed"
-msgstr "Preklopi prikaz polja Odgovori na"
+msgstr "Preklopi prikaz polja Pošlji v nadaljnjo obravnavo"
 
 #: ../src/composer/e-composer-actions.c:578
 msgid "Mail-R_eply-To Field"
@@ -20014,10 +19990,8 @@ msgstr "ni končano"
 
 #: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
 #: ../src/mail/vfoldertypes.xml.in.h:50
-#, fuzzy
-#| msgid "Follow Up"
 msgid "Follow Up Due By"
-msgstr "Navezava"
+msgstr "Nadaljnja obravnava ima rok"
 
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
