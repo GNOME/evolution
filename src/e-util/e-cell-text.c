@@ -207,7 +207,6 @@ static gboolean e_cell_text_retrieve_surrounding_cb (GtkIMContext *context, ECel
 static gboolean e_cell_text_delete_surrounding_cb   (GtkIMContext *context, gint          offset, gint          n_chars, ECellTextView        *text_view);
 static void _insert (ECellTextView *text_view, const gchar *string, gint value);
 static void _delete_selection (ECellTextView *text_view);
-static PangoAttrList * build_attr_list (ECellTextView *text_view, gint row, gint text_length);
 static void update_im_cursor_location (ECellTextView *tv);
 
 static gchar *
@@ -409,12 +408,13 @@ ect_unrealize (ECellView *ecv)
 static PangoAttrList *
 build_attr_list (ECellTextView *text_view,
                  gint row,
-                 gint text_length)
+                 gint text_length,
+		 GString **out_attrs_span)
 {
 
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
-	PangoAttrList *attrs = pango_attr_list_new ();
+	PangoAttrList *attrs = out_attrs_span ? NULL : pango_attr_list_new ();
 	gboolean bold, strikeout, underline, italic;
 	gint strikeout_color = 0;
 
@@ -431,53 +431,94 @@ build_attr_list (ECellTextView *text_view,
 		row >= 0 &&
 		e_table_model_value_at (ecell_view->e_table_model, ect->italic_column, row);
 
-	if (ect->strikeout_color_column >= 0 && row >= 0)
+	if (strikeout && ect->strikeout_color_column >= 0 && row >= 0)
 		strikeout_color = GPOINTER_TO_UINT (e_table_model_value_at (ecell_view->e_table_model, ect->strikeout_color_column, row));
 
-	if (bold) {
-		PangoAttribute *attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
-		attr->start_index = 0;
-		attr->end_index = text_length;
+	#define ensure_attrs_span() { if (out_attrs_span && !*out_attrs_span) *out_attrs_span = g_string_new ("<span"); }
 
-		pango_attr_list_insert_before (attrs, attr);
+	if (bold) {
+		if (out_attrs_span) {
+			ensure_attrs_span ();
+			g_string_append (*out_attrs_span, " weight='bold'");
+		} else {
+			PangoAttribute *attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
+			attr->start_index = 0;
+			attr->end_index = text_length;
+
+			pango_attr_list_insert_before (attrs, attr);
+		}
 	}
 	if (strikeout) {
-		PangoAttribute *attr = pango_attr_strikethrough_new (TRUE);
-		attr->start_index = 0;
-		attr->end_index = text_length;
+		if (out_attrs_span) {
+			ensure_attrs_span ();
+			g_string_append (*out_attrs_span, " strikethrough='true'");
+		} else {
+			PangoAttribute *attr = pango_attr_strikethrough_new (TRUE);
+			attr->start_index = 0;
+			attr->end_index = text_length;
 
-		pango_attr_list_insert_before (attrs, attr);
+			pango_attr_list_insert_before (attrs, attr);
+		}
 	}
 	if (underline) {
-		PangoAttribute *attr = pango_attr_underline_new (TRUE);
-		attr->start_index = 0;
-		attr->end_index = text_length;
+		if (out_attrs_span) {
+			ensure_attrs_span ();
+			g_string_append (*out_attrs_span, " underline='single'");
+		} else {
+			PangoAttribute *attr = pango_attr_underline_new (TRUE);
+			attr->start_index = 0;
+			attr->end_index = text_length;
 
-		pango_attr_list_insert_before (attrs, attr);
+			pango_attr_list_insert_before (attrs, attr);
+		}
 	}
 	if (italic) {
-		PangoAttribute *attr = pango_attr_style_new (PANGO_STYLE_ITALIC);
-		attr->start_index = 0;
-		attr->end_index = text_length;
+		if (out_attrs_span) {
+			ensure_attrs_span ();
+			g_string_append (*out_attrs_span, " style='italic'");
+		} else {
+			PangoAttribute *attr = pango_attr_style_new (PANGO_STYLE_ITALIC);
+			attr->start_index = 0;
+			attr->end_index = text_length;
 
-		pango_attr_list_insert_before (attrs, attr);
+			pango_attr_list_insert_before (attrs, attr);
+		}
 	}
 	if (strikeout_color) {
-		PangoAttribute *attr = pango_attr_strikethrough_color_new (
-			((strikeout_color >> 16) & 0xFF) * 0xFF,
-			((strikeout_color >> 8) & 0xFF) * 0xFF,
-			(strikeout_color & 0xFF) * 0xFF);
+		if (out_attrs_span) {
+			ensure_attrs_span ();
+			g_string_append_printf (*out_attrs_span, " strikethrough_color='#%02x%02x%02x'",
+				(strikeout_color >> 16) & 0xFF,
+				(strikeout_color >> 8) & 0xFF,
+				strikeout_color & 0xFF);
+		} else {
+			PangoAttribute *attr = pango_attr_strikethrough_color_new (
+				((strikeout_color >> 16) & 0xFF) * 0xFF,
+				((strikeout_color >> 8) & 0xFF) * 0xFF,
+				(strikeout_color & 0xFF) * 0xFF);
 
-		attr->start_index = 0;
-		attr->end_index = text_length;
+			attr->start_index = 0;
+			attr->end_index = text_length;
 
-		pango_attr_list_insert_before (attrs, attr);
+			pango_attr_list_insert_before (attrs, attr);
+		}
 	}
 	if (ect->use_tabular_numbers) {
-		PangoAttribute *attr = pango_attr_font_features_new ("tnum=1");
+		if (out_attrs_span) {
+			ensure_attrs_span ();
+			g_string_append (*out_attrs_span, " font_features='tnum=1'");
+		} else {
+			PangoAttribute *attr = pango_attr_font_features_new ("tnum=1");
 
-		pango_attr_list_insert_before (attrs, attr);
+			pango_attr_list_insert_before (attrs, attr);
+		}
 	}
+
+	#undef ensure_attrs_span
+
+	/* close `<span ....` element */
+	if (out_attrs_span && *out_attrs_span)
+		g_string_append_c (*out_attrs_span, '>');
 
 	return attrs;
 }
@@ -530,7 +571,7 @@ layout_with_preedit (ECellTextView *text_view,
 
 	pango_layout_set_text (layout, tmp_string->str, tmp_string->len);
 
-	attrs = (PangoAttrList *) build_attr_list (text_view, row, text_length);
+	attrs = build_attr_list (text_view, row, text_length, NULL);
 
 	if (preedit_length)
 		pango_attr_list_splice (attrs, preedit_attrs, mlen, preedit_length);
@@ -554,18 +595,33 @@ build_layout (ECellTextView *text_view,
 {
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
-	PangoAttrList *attrs;
 	PangoLayout *layout;
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (((GnomeCanvasItem *) ecell_view->e_table_item_view)->canvas), ect->is_markup ? NULL : text);
 
-	attrs = (PangoAttrList *) build_attr_list (text_view, row, text ? strlen (text) : 0);
+	if (ect->is_markup && text && *text) {
+		GString *attrs_span = NULL;
 
-	pango_layout_set_attributes (layout, attrs);
-	pango_attr_list_unref (attrs);
+		/* should return NULL, when building attrs as markup snap */
+		g_warn_if_fail (!build_attr_list (text_view, row, text ? strlen (text) : 0, &attrs_span));
 
-	if (ect->is_markup)
-		pango_layout_set_markup (layout, text, -1);
+		if (attrs_span && attrs_span->len) {
+			g_string_append (attrs_span, text);
+			g_string_append (attrs_span, "</span>");
+
+			pango_layout_set_markup (layout, attrs_span->str, attrs_span->len);
+		} else {
+			pango_layout_set_markup (layout, text, -1);
+		}
+		if (attrs_span)
+			g_string_free (attrs_span, TRUE);
+	} else {
+		PangoAttrList *attrs;
+
+		attrs = build_attr_list (text_view, row, text ? strlen (text) : 0, NULL);
+		pango_layout_set_attributes (layout, attrs);
+		pango_attr_list_unref (attrs);
+	}
 
 	if (text_view->edit || width <= 0)
 		return layout;
