@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2024-01-05 08:11+0000\n"
-"PO-Revision-Date: 2024-01-06 20:40+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
+"POT-Creation-Date: 2024-03-09 12:56+0000\n"
+"PO-Revision-Date: 2024-04-08 17:07+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -1285,10 +1285,8 @@ msgid "Always request Delivery Status Notification"
 msgstr "Vedno zahtevaj obvestilo o stanju dostave"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:30
-#, fuzzy
-#| msgid "Whether a read receipt request gets added to every message by default."
 msgid "Whether a Delivery Status Notification request gets added to every message by default."
-msgstr "Ali se povratnica privzeto samodejno doda k vsakemu sporočilu."
+msgstr "Ali naj bo zahteva za obvestilo o stanju dostave privzeto dodana v vsako sporočilo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:31
 msgid "What mode open the composer with"
@@ -2041,19 +2039,16 @@ msgid ""
 msgstr "Izbrana možnost stisne ravni niti za prikaz ploskega pogovora, s čimer zmanjša ravni."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
-#, fuzzy
-#| msgid "Whether to print attachments."
 msgid "Whether to generate flat threads"
-msgstr "Ali naj program tiska tudi priloge."
+msgstr "Ali želite ustvariti ploske niti"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
-#, fuzzy
 msgid ""
 "Set to true to generate flat threads. That is, the thread will have only one level, with no "
 "sublevels."
 msgstr ""
-"Nastavite na resnično, da ustvarite ploske niti. To pomeni, da bo nit imela samo eno raven, "
-"brez podravni."
+"Nastavite na resnično (true), da ustvarite ploske niti. To pomeni, da bo nit imela samo eno "
+"raven, brez podravni."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Sort accounts alphabetically in a folder tree"
@@ -2499,16 +2494,12 @@ msgid "Directory for saving mail component files."
 msgstr "Mapa za shranjevanje datotek sestavnih delov pošte."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
-#, fuzzy
-#| msgid "Save Draft"
 msgid "Save format"
-msgstr "Shrani osnutek"
+msgstr "Oblika zapisa za shranjevanje"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
-#, fuzzy
-#| msgid "Failed to save messages to disk."
 msgid "Last used format when saving messages to file."
-msgstr "Shranjevanje sporočila na disk je spodletelo."
+msgstr "Nnazadnje uporabljena vrsta zapisa pri shranjevanju sporočil v datoteko."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
 msgid "Composer load/attach directory"
@@ -2848,12 +2839,16 @@ msgid ""
 "Whether the markdown composer should sanitize input text also for the 'Markdown as Plain text' "
 "mode"
 msgstr ""
+"Ali naj urejevalnik Markdown očisti vhodno besedilo tudi za način »Markdown kot navadno "
+"besedilo«"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
 msgid ""
 "Disabling the sanitization allows to use the Markdown editor as a very simple text editor "
 "without mangling the input text."
 msgstr ""
+"Onemogočanje čiščenja omogoča uporabo urejevalnika Markdown kot zelo preprostega urejevalnika "
+"besedil brez izkrivljanja vhodnega besedila."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
 msgid "Show unread count in folder tree"
@@ -2864,15 +2859,16 @@ msgid "Show unread count beside the folder name in the folder tree."
 msgstr "Pokaži število neprebranih ob imenu mape v drevesu map."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
-#, fuzzy
 msgid "Show insecure parts by default"
-msgstr "Privzeto prikaži nezaščitene dele"
+msgstr "Privzeto pokaži nezaščitene dele"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
 msgid ""
 "Set whether not signed/encrypted parts beside signed/encrypted parts should be shown after "
 "mail open. The default is to hide these possibly insecure parts."
 msgstr ""
+"Nastavite, ali naj bodo po odprtju pošte prikazani nepodpisani/šifrirani deli poleg podpisanih/"
+"šifriranih delov. Privzeto so skriti ti morda ne varni deli."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
 msgid "(Deprecated) Default forward style"
@@ -2939,7 +2935,6 @@ msgstr ""
 "»zapri okno po odgovoru«."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:346
-#, fuzzy
 msgid "Prompt before send when attachment changed on the disk"
 msgstr "Vprašaj pred pošiljanjem, ko se priloga spremeni na disku"
 
@@ -2948,6 +2943,8 @@ msgid ""
 "Ask whether can send a message with attachments which changed on the disk since they had been "
 "attached to the message."
 msgstr ""
+"Vpraša, ali lahko pošlje sporočilo s prilogami, ki so se spremenile na disku, odkar so bile "
+"priložene sporočilu."
 
 #. Translators: This is a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -3098,16 +3095,16 @@ msgstr ""
 "seveda na voljo."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:7
-#, fuzzy
-#| msgid "Use an external editor to compose plain-text mail messages."
 msgid "Whether to attach components in mail messages"
-msgstr "Uporabi zunanji urejevalnik besedila za sestavljanje neoblikovanih besedilnih sporočil."
+msgstr "Ali želite v e-poštna sporočila priložiti komponente"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:8
 msgid ""
 "Attach components in mail messages like meeting invitations or responses, instead of saving "
 "them as a body alternative"
 msgstr ""
+"V e-poštna sporočila priložite komponente, kot so povabila na srečanje ali odgovori, namesto "
+"da jih shranite kot alternativo telesu"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -3504,6 +3501,9 @@ msgid ""
 "the icon theme does not provide them. Similarly the color icons cannot be used, when they are "
 "not available."
 msgstr ""
+"Nadzira, ali naj program daje prednost simboličnim ikonam ali ne. Vrednost »samodejno« zazna, "
+"ali tema ikon uporablja simbolične ikone. Opomba: simboličnih ikon ni mogoče uporabiti, če jih "
+"tema ikon ne ponuja. Podobno barvnih ikon ni mogoče uporabiti, če niso na voljo."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -4275,7 +4275,7 @@ msgstr "Stik »{0}« v imeniku »{1}« že obstaja. ALi želite raje dodati kopi
 #: ../src/e-util/e-filter-datespec.c:300 ../src/e-util/e-html-editor-actions.c:395
 #: ../src/e-util/e-html-editor-actions.c:439 ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:179 ../src/e-util/e-mail-signature-script-dialog.c:360
-#: ../src/e-util/e-passwords.c:474 ../src/e-util/e-rule-context.c:819
+#: ../src/e-util/e-passwords.c:486 ../src/e-util/e-rule-context.c:819
 #: ../src/e-util/e-rule-editor.c:184 ../src/e-util/e-rule-editor.c:295
 #: ../src/e-util/e-rule-editor.c:931 ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:356 ../src/e-util/e-source-selector-dialog.c:336
@@ -4814,7 +4814,7 @@ msgstr "Pomo_č"
 #: ../src/e-util/e-attachment-dialog.c:292 ../src/e-util/e-categories-dialog.c:82
 #: ../src/e-util/e-category-editor.c:253 ../src/e-util/e-charset-combo-box.c:100
 #: ../src/e-util/e-color-chooser-widget.c:126 ../src/e-util/e-filter-datespec.c:301
-#: ../src/e-util/e-html-editor-link-dialog.c:242 ../src/e-util/e-passwords.c:475
+#: ../src/e-util/e-html-editor-link-dialog.c:242 ../src/e-util/e-passwords.c:487
 #: ../src/e-util/e-rule-context.c:820 ../src/e-util/e-rule-editor.c:185
 #: ../src/e-util/e-rule-editor.c:296 ../src/e-util/e-rule-editor.c:932
 #: ../src/e-util/e-send-options.ui.h:17 ../src/e-util/e-source-config-dialog.c:357
@@ -4857,10 +4857,8 @@ msgid "_Select Address Book"
 msgstr "_Izbor imenika"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:779
-#, fuzzy
-#| msgid "Failed to store password: "
 msgid "Failed to parse vCard data"
-msgstr "Shranjevanje gesla je spodletelo: "
+msgstr "Razčlenjevanje podatkov vCard je spodletelo."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Mr."
@@ -5708,7 +5706,7 @@ msgstr "Ulica domačega naslova"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:49
 msgid "Home Address Extended"
-msgstr ""
+msgstr "Razširjen domači naslov"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:50
 msgid "Home Address PO Box"
@@ -5736,7 +5734,7 @@ msgstr "Ulica službenega naslova"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:56
 msgid "Work Address Extended"
-msgstr ""
+msgstr "Razširjen delovni naslov"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:57
 msgid "Work Address PO Box"
@@ -5764,7 +5762,7 @@ msgstr "Ulica drugega naslova"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:63
 msgid "Other Address Extended"
-msgstr ""
+msgstr "Razširjen drugi naslov"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:64
 msgid "Other Address PO Box"
@@ -5787,66 +5785,32 @@ msgid "Other Address Country"
 msgstr "Država drugega naslova"
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:84
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Search for the Contact\n"
-#| "\n"
-#| "or double-click here to create a new Contact."
 msgid ""
 "Search for the Contact\n"
 "\n"
 "or double-click here to create a new Contact."
 msgstr ""
-"\n"
-"\n"
 "Poiščite stik\n"
 "\n"
 "ali pa tukaj dvakrat kliknite z miško za ustvarjanje novega."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:86
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view.\n"
-#| "\n"
-#| "Double-click here to create a new Contact."
 msgid ""
 "There are no items to show in this view.\n"
 "\n"
 "Double-click here to create a new Contact."
 msgstr ""
-"\n"
-"\n"
 "V tem pogledu ni predmetov za prikaz\n"
 "\n"
 "V kolikor želite ustvariti nov stik, dvojno kliknite tukaj."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:89
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Search for the Contact."
 msgid "Search for the Contact."
-msgstr ""
-"\n"
-"\n"
-"Iskanje stika."
+msgstr "Poiščite stik."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:91
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view."
 msgid "There are no items to show in this view."
-msgstr ""
-"\n"
-"\n"
-"V tem pogledu ni predmetov za prikaz."
+msgstr "V tem pogledu ni predmetov za prikaz."
 
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:374
 msgid "Contacts Map"
@@ -6077,21 +6041,15 @@ msgid "_Send Notice"
 msgstr "_Pošlji obvestilo"
 
 #: ../src/calendar/calendar.error.xml.h:5
-#, fuzzy
-#| msgid "Would you like to send all the participants a cancellation notice?"
 msgid "Would you like to send the organizer a deletion notice?"
-msgstr "Ali želite vsem udeležencem poslati sporočilo o preklicu?"
+msgstr "Ali želite organizatorju poslati sporočilo o izbrisu?"
 
 #: ../src/calendar/calendar.error.xml.h:6
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not know the memo has "
-#| "been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the meeting has been deleted."
 msgstr ""
-"V kolikor ne pošljete sporočila o preklicu, ostali sodelujoči morda ne bodo vedeli, da je bil "
-"opomnik izbrisan."
+"Če ne pošljete sporočila o brisanju, ostali sodelujoči morda ne bodo vedeli, da je bilo "
+"srečanje izbrisano."
 
 #: ../src/calendar/calendar.error.xml.h:7 ../src/calendar/gui/e-cal-dialogs.c:509
 #, c-format
@@ -6111,15 +6069,11 @@ msgstr ""
 "naloga izbrisana."
 
 #: ../src/calendar/calendar.error.xml.h:11
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not know the task has "
-#| "been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the task has been deleted."
 msgstr ""
-"V kolikor ne pošljete sporočila o preklicu, ostali sodelujoči morda ne bodo vedeli, da je bila "
-"naloga izbrisana."
+"Če ne pošljete sporočila o brisanju, organizator morda ne bo vedel, da je bila naloga "
+"izbrisana."
 
 #: ../src/calendar/calendar.error.xml.h:12 ../src/calendar/gui/e-cal-dialogs.c:512
 #, c-format
@@ -6143,20 +6097,14 @@ msgstr ""
 "opomnik izbrisan."
 
 #: ../src/calendar/calendar.error.xml.h:16
-#, fuzzy
-#| msgid "Would you like to send a cancellation notice for this memo?"
 msgid "Would you like to send a deletion notice for this memo?"
-msgstr "Ali želite poslati sporočilo o preklicu tega opomnika?"
+msgstr "Ali želite poslati sporočilo o brisanju te zabeležke?"
 
 #: ../src/calendar/calendar.error.xml.h:17
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not know the memo has "
-#| "been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the memo has been deleted."
 msgstr ""
-"V kolikor ne pošljete sporočila o preklicu, ostali sodelujoči morda ne bodo vedeli, da je bil "
+"V kolikor ne pošljete sporočila o brisanju, ostali sodelujoči morda ne bodo vedeli, da je bil "
 "opomnik izbrisan."
 
 #: ../src/calendar/calendar.error.xml.h:18 ../src/calendar/gui/e-cal-dialogs.c:515
@@ -8725,10 +8673,8 @@ msgid "Click here to open the URL"
 msgstr "Kliknite tukaj za obisk odpiranje naslova URL"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:362
-#, fuzzy
-#| msgid "Click here to open the URL"
 msgid "Click here to open map"
-msgstr "Kliknite tukaj za obisk odpiranje naslova URL"
+msgstr "Kliknite tukaj, da odprete zemljevid"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:427
 msgctxt "ECompEditor"
@@ -9687,10 +9633,8 @@ msgid "Sending a task"
 msgstr "Poteka pošiljanje naloge"
 
 #: ../src/calendar/gui/itip-utils.c:2692
-#, fuzzy
-#| msgid "_Open Appointment"
 msgid "Original Appointment"
-msgstr "_Odpri sestanek"
+msgstr "Prvotni sestanek"
 
 #: ../src/calendar/gui/misc.c:95
 #, c-format
@@ -11770,16 +11714,12 @@ msgid "Get delivery notification when your message is read"
 msgstr "Dobi obvestilo o dostavi, ko je poslano sporočilo prebrano"
 
 #: ../src/composer/e-composer-actions.c:474
-#, fuzzy
-#| msgid "Return Notification"
 msgid "Request _Delivery Status Notification"
-msgstr "Povratno obvestilo"
+msgstr "Zahtevaj _obvestilo o stanju dostave"
 
 #: ../src/composer/e-composer-actions.c:476
-#, fuzzy
-#| msgid "Get delivery notification when your message is read"
 msgid "Get delivery status notification for the message"
-msgstr "Dobi obvestilo o dostavi, ko je poslano sporočilo prebrano"
+msgstr "Pridobi obvestilo o stanju dostave za sporočilo"
 
 #: ../src/composer/e-composer-actions.c:482
 msgid "S/MIME En_crypt"
@@ -11934,10 +11874,8 @@ msgid "Reading text content…"
 msgstr "Poteka branje vsebine …"
 
 #: ../src/composer/e-msg-composer.c:4994
-#, fuzzy
-#| msgid "No encryption"
 msgid "Send _without encryption"
-msgstr "Brez šifriranja"
+msgstr "Pošlji brez _šifriranja"
 
 #: ../src/composer/e-msg-composer.c:5776
 msgid "Review attachment before sending."
@@ -11948,13 +11886,7 @@ msgstr[2] "Odstrani prilogi pred pošiljanjem."
 msgstr[3] "Odstrani priloge pred pošiljanjem."
 
 #: ../src/composer/e-msg-composer.c:5781
-#, fuzzy, c-format
-#| msgid ""
-#| "There had been added %d attachment. Make sure it does not contain any sensitive information "
-#| "before sending the message."
-#| msgid_plural ""
-#| "There had been added %d attachments. Make sure they do not contain any sensitive "
-#| "information before sending the message."
+#, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not contain any "
 "sensitive information before sending the message."
@@ -11962,8 +11894,8 @@ msgid_plural ""
 "%d attachments were added by an external application. Make sure they do not contain any "
 "sensitive information before sending the message."
 msgstr[0] ""
-"Dodanih je bilo %d prilog. Preden sporočilo pošljete, se prepričajte, da ni vključenih nobenih "
-"občutljivih podatkov."
+"Dodanih je bilo %d prilog. Preden sporočilo pošljete, se prepričajte, da niso vključeni nobeni "
+"občutljivi podatki."
 msgstr[1] ""
 "Dodana je bila %d priloga. Preden sporočilo pošljete, se prepričajte, da ni vključenih nobenih "
 "občutljivih podatkov."
@@ -12240,14 +12172,16 @@ msgid ""
 "This message is a redirection, which allows you to change the recipients, subject and other "
 "message attributes, but not the contents of the message."
 msgstr ""
+"To sporočilo je preusmeritev, ki vam omogoča, da spremenite prejemnike, zadevo in druge "
+"atribute sporočila, ne pa tudi vsebine sporočila."
 
 #: ../src/composer/mail-composer.error.xml.h:61
 msgid "Not adding OpenPGP public key into the mail."
-msgstr ""
+msgstr "Brez dodajanja javnega ključa OpenPGP v pošto."
 
 #: ../src/composer/mail-composer.error.xml.h:62
 msgid "The OpenPGP public key for “{0}” is too large for the transfer."
-msgstr ""
+msgstr "Javni ključ OpenPGP za »{0}« je prevelik za prenos."
 
 #: ../src/em-format/e-mail-formatter-attachment.c:317
 msgid "Toggle View Inline"
@@ -12287,9 +12221,8 @@ msgstr "Prejemanje oddaljene vsebine je za sporočilo blokirano."
 
 #: ../src/em-format/e-mail-formatter-headers.c:156
 #: ../src/em-format/e-mail-formatter-headers.c:526
-#, fuzzy
 msgid "Import OpenPGP key provided in this message"
-msgstr "Uvozi ključ OpenPGP, podan v tem sporočilu"
+msgstr "Uvozi ključ OpenPGP, naveden v tem sporočilu"
 
 #. Translators: This message suggests to the recipients
 #. * that the sender of the mail is different from the one
@@ -12571,12 +12504,10 @@ msgid "partially S/MIME encrypted"
 msgstr "delno šifrirano z S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:729
-#, fuzzy
 msgid "Show parts not being secured"
 msgstr "Pokaži dele, ki niso zavarovani"
 
 #: ../src/em-format/e-mail-formatter-utils.c:730
-#, fuzzy
 msgid "Hide parts not being secured"
 msgstr "Skrij dele, ki niso zavarovani"
 
@@ -12991,10 +12922,8 @@ msgid "Re_load"
 msgstr "Ponovno na_loži"
 
 #: ../src/e-util/e-attachment-view.c:404
-#, fuzzy
-#| msgid "Reading text content…"
 msgid "Reload attachment content"
-msgstr "Poteka branje vsebine …"
+msgstr "Ponovno naloži vsebino priponke"
 
 #: ../src/e-util/e-attachment-view.c:881 ../src/mail/e-mail-display.c:2043
 #, c-format
@@ -15524,19 +15453,19 @@ msgstr "Ključ zbirke ključev ni uporaben: ni navedenega imena uporabnika ali g
 msgid "You have the Caps Lock key on."
 msgstr "Pritisnjena je tipka zaklepa velikih črk."
 
-#: ../src/e-util/e-passwords.c:583
+#: ../src/e-util/e-passwords.c:595
 msgid "_Remember this passphrase"
 msgstr "Za_pomni si šifrirno geslo"
 
-#: ../src/e-util/e-passwords.c:584
+#: ../src/e-util/e-passwords.c:596
 msgid "_Remember this passphrase for the remainder of this session"
 msgstr "_Zapomni si šifrirno geslo za trenutno sejo"
 
-#: ../src/e-util/e-passwords.c:589
+#: ../src/e-util/e-passwords.c:601
 msgid "_Remember this password"
 msgstr "Za_pomni si geslo"
 
-#: ../src/e-util/e-passwords.c:590
+#: ../src/e-util/e-passwords.c:602
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Zapomni si geslo za trenutno sejo"
 
@@ -17342,16 +17271,12 @@ msgid "Choose a folder for saving sent messages."
 msgstr "Izberite mapo za shranjevanje poslanih sporočil."
 
 #: ../src/mail/e-mail-config-defaults-page.c:727
-#, fuzzy
-#| msgid "Move selected messages to another folder"
 msgid "Save s_ent messages into the Sent folder"
-msgstr "Izbrana sporočila premakni v drugo mapo"
+msgstr "Poslana sporo_čila shrani v mapo Poslano"
 
 #: ../src/mail/e-mail-config-defaults-page.c:744
-#, fuzzy
-#| msgid "S_ave replies in the folder of the message being replied to"
 msgid "S_ave replies and forwards in the folder of the original message"
-msgstr "S_hrani odgovore v mapo sporočila, na katerega se nanaša odgovor"
+msgstr "S_hrani odgovore in posredovano v mapo sporočila, na katerega se nanašajo"
 
 #: ../src/mail/e-mail-config-defaults-page.c:767
 msgid "Archi_ve Folder:"
@@ -17510,10 +17435,8 @@ msgid "%s — %s"
 msgstr "%s – %s"
 
 #: ../src/mail/e-mail-config-security-page.c:402 ../src/mail/e-mail-config-security-page.c:516
-#, fuzzy
-#| msgid "Using email address"
 msgid "Use sender e-mail address"
-msgstr "Z uporabo elektronskega naslova"
+msgstr "Uporabi e-poštni naslov pošiljatelja"
 
 #: ../src/mail/e-mail-config-security-page.c:462 ../src/mail/em-folder-properties.c:1428
 #: ../src/mail/mail-config.ui.h:36 ../src/modules/addressbook/autocompletion-config.c:115
@@ -17595,7 +17518,7 @@ msgstr "Pošlji lastni _javni ključ v odhodnih sporočilih"
 
 #: ../src/mail/e-mail-config-security-page.c:687
 msgid "Advertise encryption is pre_ferred"
-msgstr ""
+msgstr "Oglaševanje šifriranja je _zaželena"
 
 #: ../src/mail/e-mail-config-security-page.c:717
 msgid "Secure MIME (S/MIME)"
@@ -18029,10 +17952,8 @@ msgid "Add sender to address book"
 msgstr "Doda pošiljatelja v imenik"
 
 #: ../src/mail/e-mail-reader.c:2567
-#, fuzzy
-#| msgid "Archive"
 msgid "_Archive"
-msgstr "Arhiv"
+msgstr "_Arhiviraj"
 
 #: ../src/mail/e-mail-reader.c:2569
 msgid "Move selected messages to the Archive folder for the account"
@@ -18842,15 +18763,13 @@ msgstr[3] ""
 "vpisati v polje skrite kopije SKP."
 
 #: ../src/mail/em-composer-utils.c:648
-#, fuzzy, c-format
-#| msgid "Attachment"
-#| msgid_plural "Attachments"
+#, c-format
 msgid "Attachment changed"
 msgid_plural "%d attachments changed"
-msgstr[0] "Prilog"
-msgstr[1] "Priloga"
-msgstr[2] "Prilogi"
-msgstr[3] "Priloge"
+msgstr[0] "%d prilog je bilo spremenjenih"
+msgstr[1] "%d priloga je bila spremenjena"
+msgstr[2] "%d prilogi sta bili spremenjeni"
+msgstr[3] "%d priloge so bile spremenjene"
 
 #: ../src/mail/em-composer-utils.c:653
 #, c-format
@@ -18858,6 +18777,8 @@ msgid ""
 "Attachment “%s” changed after being added to the message. Do you want to send the message "
 "anyway?"
 msgstr ""
+"Priloga »%s« se je spremenila zatem, ko je bila dodana sporočilu. Ali želite vseeno poslati "
+"sporočilo?"
 
 #: ../src/mail/em-composer-utils.c:656
 #, c-format
@@ -18868,9 +18789,17 @@ msgid_plural ""
 "%d attachments changed after being added to the message. Do you want to send the message "
 "anyway?"
 msgstr[0] ""
+"%d prilog se je spremenilo, ko so že bile dodane sporočilu. Ali želite vseeno poslati "
+"sporočilo?"
 msgstr[1] ""
+"%d priloga se je spremenilo, ko je že bile dodana sporočilu. Ali želite vseeno poslati "
+"sporočilo?"
 msgstr[2] ""
+"%d prilogi sta se spremenili, ko sta že bili dodani sporočilu. Ali želite vseeno poslati "
+"sporočilo?"
 msgstr[3] ""
+"%d priloge so se spremenile, ko so že bile dodane sporočilu. Ali želite vseeno poslati "
+"sporočilo?"
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
@@ -19429,50 +19358,34 @@ msgid "Deleting old messages"
 msgstr "Poteka brisanje starih sporočil"
 
 #: ../src/mail/em-utils.c:2141
-#, fuzzy
-#| msgid "Unknown"
 msgctxt "trust"
 msgid "_Unknown"
-msgstr "Neznano"
+msgstr "Ne_znano"
 
 #: ../src/mail/em-utils.c:2142
-#, fuzzy
-#| msgctxt "CamelTrust"
-#| msgid "_Never"
 msgctxt "trust"
 msgid "_Never"
 msgstr "_Nikoli"
 
 #: ../src/mail/em-utils.c:2143
-#, fuzzy
-#| msgctxt "CamelTrust"
-#| msgid "_Marginal"
 msgctxt "trust"
 msgid "_Marginal"
 msgstr "_Obrobno"
 
 #: ../src/mail/em-utils.c:2144
-#, fuzzy
-#| msgctxt "CamelTrust"
-#| msgid "_Fully"
 msgctxt "trust"
 msgid "_Full"
-msgstr "_Polno"
+msgstr "Po_lno"
 
 #: ../src/mail/em-utils.c:2145
-#, fuzzy
-#| msgctxt "CamelTrust"
-#| msgid "_Ultimate"
 msgctxt "trust"
 msgid "_Ultimate"
 msgstr "_Popolno"
 
 #: ../src/mail/em-utils.c:2184
-#, fuzzy, c-format
-#| msgctxt "reply-attribution"
-#| msgid "Re: %s"
+#, c-format
 msgid "Key ID: %s"
-msgstr "Odg: %s"
+msgstr "ID ključa: %s"
 
 #: ../src/mail/em-utils.c:2195
 #, c-format
@@ -19490,10 +19403,8 @@ msgid "User ID: %s"
 msgstr "ID uporabnika: %s"
 
 #: ../src/mail/em-utils.c:2264
-#, fuzzy
-#| msgid "Set or unset reminders for this event"
 msgid "Set trust level for the key:"
-msgstr "Določi ali odstrani opomnike za ta dogodek"
+msgstr "Določite raven zaupanja za ključ:"
 
 #: ../src/mail/em-vfolder-editor.c:102
 msgid "Search _Folders"
@@ -19694,24 +19605,18 @@ msgstr "ni končano"
 
 #: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
 #: ../src/mail/vfoldertypes.xml.in.h:50
-#, fuzzy
-#| msgid "Follow Up"
 msgid "Follow Up Due By"
-msgstr "Navezava"
+msgstr "Nadaljnja obravnava ima rok"
 
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
-#, fuzzy
-#| msgid "Pasting iCalendar data"
 msgid "Contain iCalendar Data"
-msgstr "Poteka dodajanje podatkov iCalendar"
+msgstr "Naj vsebuje podatke iCalendar"
 
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
-#, fuzzy
-#| msgid "Pasting iCalendar data"
 msgid "Do Not Contain iCalendar Data"
-msgstr "Poteka dodajanje podatkov iCalendar"
+msgstr "Naj ne vsebuje podatkov iCalendar"
 
 #: ../src/mail/filtertypes.xml.in.h:54 ../src/mail/searchtypes.xml.in.h:56
 #: ../src/mail/vfoldertypes.xml.in.h:57
@@ -20044,7 +19949,7 @@ msgstr "Vedno zaht_evaj povratnico"
 
 #: ../src/mail/mail-config.ui.h:14
 msgid "Always request Deli_very Status Notification"
-msgstr ""
+msgstr "Vedno zahtevaj _obvestilo o stanju dostave"
 
 #: ../src/mail/mail-config.ui.h:15
 msgid "Encode filenames in an _Outlook/GMail way"
@@ -20184,10 +20089,8 @@ msgstr "Preden se _zapis v sestavljalniku pretvori iz HTML v besedilni način"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:65
-#, fuzzy
-#| msgid "Sending a message with _recipients not entered as mail addresses"
 msgid "Sending a message with _attachments which changed since being attached"
-msgstr "Pošiljanje sporočila s _prejemniki, ki niso vpisani z elektronskimi naslovi"
+msgstr "Ob pošiljanju sporočila s pripon_kami, ki so se od pripetja spremenile"
 
 #: ../src/mail/mail-config.ui.h:66
 msgid "Confirmations"
@@ -20313,10 +20216,8 @@ msgid "F_all back to threading messages by subject"
 msgstr "_Po ogledu povrni pogled nitenja sporočil po zadevi"
 
 #: ../src/mail/mail-config.ui.h:109
-#, fuzzy
-#| msgid "Show messages with all email headers"
 msgid "Group messages to _flat threads"
-msgstr "Pokaži sporočila z vsemi glavami elektronske pošte"
+msgstr "Združi sporočila v p_loske niti"
 
 #: ../src/mail/mail-config.ui.h:110
 msgid "Delete Mail"
@@ -21443,14 +21344,12 @@ msgstr "Označi kot _vsiljeno"
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../src/mail/mail.error.xml.h:222
-#, fuzzy
-#| msgid "Address “{0}” already exists."
 msgid "Label named “{0}” already exists"
-msgstr "Naslov »{0}« že obstaja."
+msgstr "Oznaka »{0}« že obstaja."
 
 #: ../src/mail/mail.error.xml.h:223
 msgid "Choose a different name, please."
-msgstr ""
+msgstr "Izberite drugo ime."
 
 #: ../src/mail/mail.error.xml.h:224
 msgid "Do you wish to import OpenPGP key?"
@@ -21785,7 +21684,7 @@ msgstr "Videz ikon"
 #. Translators: This is for "Icons Look: Autodetect"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:359
 msgid "Aut_odetect"
-msgstr ""
+msgstr "Sam_ozaznaj"
 
 #. Translators: This is for "Toolbar Icon Size: Small"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:372
@@ -21795,7 +21694,7 @@ msgstr "_Majhno"
 #. Translators: This is for "Icons Look: Prefer symbolic"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:383
 msgid "_Prefer symbolic"
-msgstr ""
+msgstr "_Prednost ima simbolično"
 
 #. Translators: This is for "Toolbar Icon Size: Large"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:395
@@ -21805,7 +21704,7 @@ msgstr "_Veliko"
 #. Translators: This is for "Icons Look: Prefer regular"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:406
 msgid "Prefer _regular"
-msgstr ""
+msgstr "Prednost ima _navadno"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:481
 msgid "Layout"
@@ -22086,10 +21985,8 @@ msgid "_Actions"
 msgstr "_Dejanja"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1359
-#, fuzzy
-#| msgid "_Sort By"
 msgid "_Sort Cards By"
-msgstr "_Razvrsti po"
+msgstr "_Razvrsti vizitke po"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1372
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
@@ -22158,16 +22055,12 @@ msgid "_File Under"
 msgstr "_Zavedi pod"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1535
-#, fuzzy
-#| msgid "Given Name"
 msgid "_Given Name"
-msgstr "Rojstno ime"
+msgstr "_Ime"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1542
-#, fuzzy
-#| msgid "Family Name"
 msgid "Family _Name"
-msgstr "Družinsko ime"
+msgstr "_Priimek"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1554
 msgid "Print all shown contacts"
@@ -22243,10 +22136,8 @@ msgid "Choose a backup file to restore"
 msgstr "Izberite varnostno kopijo za obnovitev"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:210
-#, fuzzy
-#| msgid "Backup _All"
 msgid "Backup Files"
-msgstr "V_arnostna kopija vsega"
+msgstr "Datoteke varnostnih kopij"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:215
 #: ../src/shell/e-shell-utils.c:198
@@ -22932,7 +22823,7 @@ msgstr "Izbriši sporočilo po _dejanju"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:674
 msgid "Delete _meeting from calendar on Decline"
-msgstr ""
+msgstr "Izbriši _sestanek iz koledarja ob zavrnitvi"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:677
 msgid "_Preserve existing reminder by default"
@@ -22944,7 +22835,7 @@ msgstr "_Pokaži opis povabila, ki ga je posredoval pošiljatelj"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:691
 msgid "_Always attach components in mail messages"
-msgstr ""
+msgstr "_Vedno prilagaj komponente v e-poštna sporočila"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:713
 #: ../src/modules/calendar/e-calendar-preferences.c:744
@@ -23994,7 +23885,7 @@ msgstr "Pokaži predogled opomnikov ob seznamu opomnikov"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:795
 msgid "Show memos with no category set"
-msgstr ""
+msgstr "Pokaži beležke brez dodeljene kategorije"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:836
 msgid "Print the list of memos"
@@ -24664,10 +24555,8 @@ msgid "%s has published the following memo:"
 msgstr "%s je objavil(a) naslednji opomnik:"
 
 #: ../src/modules/itip-formatter/itip-view.c:682
-#, fuzzy
-#| msgid "The following meeting information has been published:"
 msgid "The following memo has been published:"
-msgstr "Objavljeni so navedeni podatki srečanja:"
+msgstr "Naslednja zabeležka je objavljena:"
 
 #: ../src/modules/itip-formatter/itip-view.c:688
 #, c-format
@@ -25313,10 +25202,8 @@ msgid "Import OpenP_GP key…"
 msgstr "Uvozi ključ OpenP_GP …"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:535
-#, fuzzy
-#| msgid "Pretty Good Privacy (OpenPGP)"
 msgid "Import Pretty Good Privacy (OpenPGP) key"
-msgstr "Precej dobra zasebnost (OpenPGP)"
+msgstr "Uvozi ključ OpenPGP (precej dobra zasebnost)"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:725
 #, c-format
@@ -26149,7 +26036,7 @@ msgstr "Neveljaven naslov URI »%s«."
 #: ../src/modules/rss/camel/camel-rss-folder.c:320
 #, c-format
 msgid "Failed to download feeds, error code %d (%s)"
-msgstr ""
+msgstr "Virov ni bilo mogoče prenesti, koda napake %d (%s)"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:470
 #, c-format
@@ -27814,10 +27701,8 @@ msgid "Save _Template"
 msgstr "Shrani _predlogo"
 
 #: ../src/plugins/templates/templates.c:970
-#, fuzzy
-#| msgid "Remove duplicate messages?"
 msgid "Replace opened Template message"
-msgstr "Ali želite odstraniti podvojena sporočila?"
+msgstr "Zamenjaj odprto sporočilo predloge"
 
 #: ../src/plugins/templates/templates.c:975
 msgid "Save as _New Template"
