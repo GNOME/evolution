@@ -27,6 +27,8 @@ struct _EHeaderBarButtonPrivate {
 	GtkAction *action;
 	gchar *label;
 	gchar *prefer_item;
+	gint last_labeled_button_width;
+	gint last_icon_only_button_width;
 };
 
 enum {
@@ -328,6 +330,18 @@ header_bar_button_add_action (EHeaderBarButton *header_bar_button,
 }
 
 static void
+header_bar_button_style_updated (GtkWidget *widget)
+{
+	EHeaderBarButton *self = E_HEADER_BAR_BUTTON (widget);
+
+	/* Chain up to parent's method. */
+	GTK_WIDGET_CLASS (e_header_bar_button_parent_class)->style_updated (widget);
+
+	self->priv->last_labeled_button_width = -1;
+	self->priv->last_icon_only_button_width = -1;
+}
+
+static void
 header_bar_button_set_property (GObject *object,
 				guint property_id,
 				const GValue *value,
@@ -421,12 +435,16 @@ static void
 e_header_bar_button_class_init (EHeaderBarButtonClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = header_bar_button_set_property;
 	object_class->get_property = header_bar_button_get_property;
 	object_class->constructed = header_bar_button_constructed;
 	object_class->finalize = header_bar_button_finalize;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->style_updated = header_bar_button_style_updated;
 
 	g_object_class_install_property (
 		object_class,
@@ -467,6 +485,8 @@ e_header_bar_button_init (EHeaderBarButton *self)
 	self->priv->dropdown_button = NULL;
 	self->priv->prefer_item = NULL;
 	self->priv->label = NULL;
+	self->priv->last_labeled_button_width = -1;
+	self->priv->last_icon_only_button_width = -1;
 }
 
 /**
@@ -656,6 +676,12 @@ e_header_bar_button_get_widths (EHeaderBarButton *self,
 		return;
 	}
 
+	if (self->priv->last_labeled_button_width > 0) {
+		*out_labeled_width = self->priv->last_labeled_button_width;
+		*out_icon_only_width = self->priv->last_icon_only_button_width;
+		return;
+	}
+
 	if (gtk_widget_get_visible (self->priv->labeled_button)) {
 		gtk_widget_get_preferred_width (self->priv->labeled_button, &labeled_width, NULL);
 	} else {
@@ -679,6 +705,9 @@ e_header_bar_button_get_widths (EHeaderBarButton *self,
 		*out_labeled_width = current_width - icon_only_width + labeled_width;
 		*out_icon_only_width = current_width;
 	}
+
+	self->priv->last_labeled_button_width = *out_labeled_width;
+	self->priv->last_icon_only_button_width = *out_icon_only_width;
 }
 
 /**
