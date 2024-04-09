@@ -96,7 +96,8 @@ header_bar_queue_resize_cb (gpointer user_data)
 }
 
 static void
-header_bar_update_buttons (EHeaderBar *self)
+header_bar_update_buttons (EHeaderBar *self,
+			   gint for_width)
 {
 	GtkAllocation allocation_start, allocation_end;
 	GSList *labeled_groups = NULL; /* GSList { GtkWidget * }; labeled widgets, divided by groups */
@@ -140,6 +141,13 @@ header_bar_update_buttons (EHeaderBar *self)
 
 		available_width = MAX (allocation_end.x + allocation_end.width - allocation_start.x
 			- MIN_TITLE_WIDTH - (2 * BUTTON_SPACING), 0);
+
+		/* when making window smaller, calculate with the new size, to have buttons of the proper size */
+		if (for_width > 0) {
+			gint current_width = gtk_widget_get_allocated_width (GTK_WIDGET (self));
+			if (current_width > for_width)
+				available_width = MAX (0, available_width - (current_width - for_width));
+		}
 
 		for (ii = 0; ii < self->priv->priorities->len && available_width > 0; ii++) {
 			PriorityBasket *bt = g_ptr_array_index (self->priv->priorities, ii);
@@ -257,7 +265,7 @@ header_bar_update_buttons_idle_cb (gpointer user_data)
 
 	self->priv->update_buttons_id = 0;
 
-	header_bar_update_buttons (self);
+	header_bar_update_buttons (self, -1);
 
 	return FALSE;
 }
@@ -353,12 +361,17 @@ header_bar_size_allocate (GtkWidget *widget,
 {
 	EHeaderBar *self = E_HEADER_BAR (widget);
 
+	/* prepare buttons for after-allocation size */
+	if (self->priv->allocated_width != allocation->width)
+		header_bar_update_buttons (self, allocation->width);
+
 	/* Chain up to parent's method. */
 	GTK_WIDGET_CLASS (e_header_bar_parent_class)->size_allocate (widget, allocation);
 
+	/* apply the new size */
 	if (self->priv->allocated_width != allocation->width) {
 		self->priv->allocated_width = allocation->width;
-		header_bar_update_buttons (self);
+		header_bar_update_buttons (self, -1);
 	}
 }
 
@@ -368,7 +381,50 @@ header_bar_realize (GtkWidget *widget)
 	/* Chain up to parent's method. */
 	GTK_WIDGET_CLASS (e_header_bar_parent_class)->realize (widget);
 
-	header_bar_update_buttons (E_HEADER_BAR (widget));
+	header_bar_update_buttons (E_HEADER_BAR (widget), -1);
+}
+
+static void
+header_bar_get_preferred_width (GtkWidget *in_widget,
+				gint *minimum_width,
+				gint *natural_width)
+{
+	EHeaderBar *self = E_HEADER_BAR (in_widget);
+
+	/* Chain up to parent's method. */
+	GTK_WIDGET_CLASS (e_header_bar_parent_class)->get_preferred_width (in_widget, minimum_width, natural_width);
+
+	if (!self->priv->force_icon_only_buttons) {
+		gint decrement_minimum = 0;
+		guint ii;
+
+		for (ii = 0; ii < self->priv->priorities->len; ii++) {
+			PriorityBasket *bt = g_ptr_array_index (self->priv->priorities, ii);
+			GSList *link;
+
+			for (link = bt->widgets; link; link = g_slist_next (link)) {
+				GtkWidget *widget = link->data;
+
+				if (gtk_widget_is_visible (widget) && E_IS_HEADER_BAR_BUTTON (widget)) {
+					EHeaderBarButton *button = E_HEADER_BAR_BUTTON (widget);
+					if (!e_header_bar_button_get_show_icon_only (button)) {
+						gint labeled_width = -1, icon_only_width = -1;
+
+						e_header_bar_button_get_widths (button, &labeled_width, &icon_only_width);
+
+						/* it's showing the labeled button now, and when it's switched
+						   to the icon-only button, it'll use this less space, which can
+						   be subtracted from the current minimum width */
+						if (icon_only_width > 0 && labeled_width > icon_only_width)
+							decrement_minimum += labeled_width - icon_only_width;
+					}
+				}
+			}
+		}
+
+		if (decrement_minimum > 0 && *minimum_width > decrement_minimum)
+			*minimum_width -= decrement_minimum;
+	}
 }
 
 static void
@@ -425,6 +481,7 @@ e_header_bar_class_init (EHeaderBarClass *klass)
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->size_allocate = header_bar_size_allocate;
 	widget_class->realize = header_bar_realize;
+	widget_class->get_preferred_width = header_bar_get_preferred_width;
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->constructed = header_bar_constructed;
