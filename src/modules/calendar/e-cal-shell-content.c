@@ -504,7 +504,7 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 			   cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_LIST) {
 			sel_end = sel_start;
 			if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_MONTH) {
-				g_date_add_days (&sel_end, 7 * e_week_view_get_weeks_shown (E_WEEK_VIEW (cal_shell_content->priv->views[E_CAL_VIEW_KIND_WEEK])));
+				g_date_add_days (&sel_end, 7 * e_week_view_get_weeks_shown (E_WEEK_VIEW (cal_shell_content->priv->views[E_CAL_VIEW_KIND_MONTH])));
 			} else {
 				/* whole month */
 				g_date_set_day (&sel_start, 1);
