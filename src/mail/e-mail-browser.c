@@ -994,6 +994,11 @@ mail_browser_constructed (GObject *object)
 		browser, "key-press-event",
 		G_CALLBACK (mail_browser_key_press_event_cb), NULL);
 
+	/* WebKitGTK does not support print preview, thus hide the option from the menu;
+	   maybe it'll be supported in the future */
+	action = e_mail_reader_get_action (reader, "mail-print-preview");
+	gtk_action_set_visible (action, FALSE);
+
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
