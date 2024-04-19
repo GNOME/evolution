@@ -1,3 +1,23 @@
+Evolution 3.52.1 2024-04-19
+---------------------------
+
+Bug Fixes:
+	I#2617 - Wrong weeks in Month view when returning from different page of dates
+	I#2693 - Mail: Prefer saving original message instead of re-encode
+	I#2710 - EHeaderBar: Report correct minimum width
+	I#2711 - Subject line in message pane not bold anymore in Wide view
+	I#2712 - Crash when hiding completed tasks
+	I#2722 - EMailBrowser: Hide Print preview menu option
+
+Miscellaneous:
+	data: Fix circular-component-relation in .appdata file
+
+Translations:
+	Martin (sl)
+	Милош Поповић (sr)
+	Милош Поповић (sr@latin)
+	Piotr Drąg (pl)
+
 Evolution 3.52.0 2024-03-15
 ---------------------------
 
