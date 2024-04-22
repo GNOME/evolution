@@ -79,13 +79,13 @@ mail_config_yahoo_summary_is_applicable (EMailConfigSummaryPage *page)
 	if (host == NULL)
 		return FALSE;
 
-	if (e_util_utf8_strstrcase (host, "yahoo.com") != NULL)
+	if (e_util_host_is_in_domain (host, "yahoo.com"))
 		return TRUE;
 
-	if (e_util_utf8_strstrcase (host, "ymail.com") != NULL)
+	if (e_util_host_is_in_domain (host, "ymail.com"))
 		return TRUE;
 
-	if (e_util_utf8_strstrcase (host, "rocketmail.com") != NULL)
+	if (e_util_host_is_in_domain (host, "rocketmail.com"))
 		return TRUE;
 
 	return FALSE;

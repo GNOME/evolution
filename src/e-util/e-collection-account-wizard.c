@@ -1175,10 +1175,10 @@ collection_account_wizard_host_is_google_server (const gchar *host)
 	if (!host || !*host)
 		return FALSE;
 
-	return camel_strstrcase (host, "gmail.com") ||
-	       camel_strstrcase (host, "googlemail.com") ||
-	       camel_strstrcase (host, "google.com") ||
-	       camel_strstrcase (host, "googleusercontent.com");
+	return e_util_host_is_in_domain (host, "gmail.com") ||
+	       e_util_host_is_in_domain (host, "googlemail.com") ||
+	       e_util_host_is_in_domain (host, "google.com") ||
+	       e_util_host_is_in_domain (host, "googleusercontent.com");
 }
 
 static void

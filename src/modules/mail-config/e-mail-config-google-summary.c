@@ -84,10 +84,10 @@ mail_config_google_summary_is_applicable (EMailConfigSummaryPage *page)
 	if (host == NULL)
 		return FALSE;
 
-	if (e_util_utf8_strstrcase (host, "gmail.com") != NULL)
+	if (e_util_host_is_in_domain (host, "gmail.com"))
 		return TRUE;
 
-	if (e_util_utf8_strstrcase (host, "googlemail.com") != NULL)
+	if (e_util_host_is_in_domain (host, "googlemail.com"))
 		return TRUE;
 
 	return FALSE;
