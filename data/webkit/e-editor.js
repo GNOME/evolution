@@ -5916,9 +5916,11 @@ EvoEditor.processLoadedContent = function()
 	if (!document.body)
 		return;
 
-	var node, didCite, ii, list;
+	var node, didCite, ii, list, isDraft;
 
-	if (!document.body.hasAttribute("data-evo-draft") && document.querySelector("PRE")) {
+	isDraft = document.body.hasAttribute("data-evo-draft");
+
+	if (!isDraft && document.querySelector("PRE")) {
 		var next, replacement;
 
 		document.body.normalize();
@@ -6087,21 +6089,23 @@ EvoEditor.processLoadedContent = function()
 	}
 
 	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-		EvoEditor.convertTags();
-		EvoEditor.convertParagraphs(document.body, 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH, didCite);
+		if (!isDraft) {
+			EvoEditor.convertTags();
+			EvoEditor.convertParagraphs(document.body, 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH, didCite);
 
-		if (EvoEditor.MAGIC_LINKS) {
-			var next;
+			if (EvoEditor.MAGIC_LINKS) {
+				var next;
 
-			for (node = document.body.firstChild; node; node = next) {
-				next = EvoEditor.getNextNodeInHierarchy(node, null);
+				for (node = document.body.firstChild; node; node = next) {
+					next = EvoEditor.getNextNodeInHierarchy(node, null);
 
-				if (node.nodeType == node.TEXT_NODE)
-					EvoEditor.linkifyText(node, false);
+					if (node.nodeType == node.TEXT_NODE)
+						EvoEditor.linkifyText(node, false);
+				}
 			}
-		}
 
-		EvoEditor.cleanupForPlainText();
+			EvoEditor.cleanupForPlainText();
+		}
 	} else {
 		// drop margin/padding-related attributes and styles
 		var unsetMarginPadding = function(elem, style) {
