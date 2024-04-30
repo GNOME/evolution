@@ -36,6 +36,7 @@
 enum {
 	BUTTON_ADD,
 	BUTTON_EDIT,
+	BUTTON_DUPLICATE,
 	BUTTON_DELETE,
 	BUTTON_TOP,
 	BUTTON_UP,
@@ -314,6 +315,59 @@ rule_edit (GtkWidget *widget,
 }
 
 static void
+rule_duplicate (GtkWidget *widget,
+		ERuleEditor *editor)
+{
+	GtkWidget *rules;
+	GtkWidget *content_area;
+	gchar *new_name;
+
+	update_selected_rule (editor);
+
+	if (editor->current == NULL || editor->edit != NULL)
+		return;
+
+	editor->edit = e_filter_rule_clone (editor->current);
+	/* Translators: the '%s' is replaced with a rule name, making it for example "Copy of Subject contains work";
+	   the text itself is provided by the user. */
+	new_name = g_strdup_printf (_("Copy of %s"), editor->edit->name);
+	e_filter_rule_set_name (editor->edit, new_name);
+	g_clear_pointer (&new_name, g_free);
+
+	rules = e_filter_rule_get_widget (editor->edit, editor->context);
+
+	editor->dialog = gtk_dialog_new ();
+	gtk_dialog_add_buttons (
+		(GtkDialog *) editor->dialog,
+				_("_Cancel"), GTK_RESPONSE_CANCEL,
+				_("_OK"), GTK_RESPONSE_OK,
+				NULL);
+
+	gtk_window_set_title ((GtkWindow *) editor->dialog, _("Edit Rule"));
+	gtk_window_set_default_size (GTK_WINDOW (editor->dialog), 650, 400);
+	gtk_window_set_resizable (GTK_WINDOW (editor->dialog), TRUE);
+	gtk_window_set_transient_for (GTK_WINDOW (editor->dialog), GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (editor))));
+	gtk_container_set_border_width ((GtkContainer *) editor->dialog, 6);
+
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (editor->dialog));
+	gtk_box_pack_start (GTK_BOX (content_area), rules, TRUE, TRUE, 3);
+
+	g_signal_connect (
+		editor->dialog, "response",
+		G_CALLBACK (add_editor_response), editor);
+	g_object_weak_ref ((GObject *) editor->dialog, (GWeakNotify) editor_destroy, editor);
+
+	g_signal_connect (
+		editor->edit, "changed",
+		G_CALLBACK (dialog_rule_changed), editor->dialog);
+	dialog_rule_changed (editor->edit, editor->dialog);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (editor), FALSE);
+
+	gtk_widget_show (editor->dialog);
+}
+
+static void
 rule_delete (GtkWidget *widget,
              ERuleEditor *editor)
 {
@@ -491,6 +545,7 @@ static struct {
 } edit_buttons[] = {
 	{ "rule_add",    G_CALLBACK (rule_add)    },
 	{ "rule_edit",   G_CALLBACK (rule_edit)   },
+	{ "rule_duplicate", G_CALLBACK (rule_duplicate) },
 	{ "rule_delete", G_CALLBACK (rule_delete) },
 	{ "rule_top",    G_CALLBACK (rule_top)    },
 	{ "rule_up",     G_CALLBACK (rule_up)     },
@@ -562,6 +617,7 @@ rule_editor_set_sensitive (ERuleEditor *editor)
 	count--;
 
 	gtk_widget_set_sensitive (GTK_WIDGET (editor->priv->buttons[BUTTON_EDIT]), index != -1);
+	gtk_widget_set_sensitive (GTK_WIDGET (editor->priv->buttons[BUTTON_DUPLICATE]), index != -1);
 	gtk_widget_set_sensitive (GTK_WIDGET (editor->priv->buttons[BUTTON_DELETE]), index != -1);
 	gtk_widget_set_sensitive (GTK_WIDGET (editor->priv->buttons[BUTTON_TOP]), index > 0);
 	gtk_widget_set_sensitive (GTK_WIDGET (editor->priv->buttons[BUTTON_UP]), index > 0);
