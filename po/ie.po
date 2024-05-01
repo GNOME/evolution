@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-43\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-22 10:30+0000\n"
-"PO-Revision-Date: 2024-04-21 06:51+0700\n"
+"POT-Creation-Date: 2024-05-01 09:00+0000\n"
+"PO-Revision-Date: 2024-05-02 05:05+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <ie@li.org>\n"
 "Language: ie\n"
@@ -130,7 +130,7 @@ msgstr "Monstar telefon-numerós"
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:23
 #, fuzzy
 msgid "Show SIP addresses"
-msgstr "Monstrar adresses MI"
+msgstr "Monstrar adresses web"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:24
 msgid "Whether to show SIP addresses in the editor"
@@ -148,7 +148,7 @@ msgstr "Monstrar adresses MI"
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:27
 #, fuzzy
 msgid "Show mailing Home addresses"
-msgstr "Monstrar adresses MI"
+msgstr "Monstrar adresses web"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:28
 msgid "Whether to show mailing Home addresses in the editor"
@@ -157,7 +157,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:29
 #, fuzzy
 msgid "Show mailing Work addresses"
-msgstr "Monstrar adresses MI"
+msgstr "Monstrar adresses web"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:30
 msgid "Whether to show mailing addresses Work in the editor"
@@ -175,11 +175,12 @@ msgstr ""
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:33
 #, fuzzy
 msgid "Show web addresses"
-msgstr "Monstrar adresses MI"
+msgstr "Monstrar adresses web"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:34
+#, fuzzy
 msgid "Whether to show Web Addresses in the editor"
-msgstr ""
+msgstr "Monstrar adresses web"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:35
 #, fuzzy
@@ -212,7 +213,7 @@ msgstr "Monstrar diversi statistica pri li notes."
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:41
 #, fuzzy
 msgid "Show Certificates tab"
-msgstr "Certificates"
+msgstr "Monstrar li certificates"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:42
 msgid "Whether to show Certificates tab in the editor"
@@ -300,7 +301,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 #, fuzzy
 msgid "Compress weekends in month view"
-msgstr "Vise de mensu"
+msgstr "Vise de _mensu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:8
 msgid ""
@@ -586,7 +587,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
 #, fuzzy
 msgid "Hide cancelled events"
-msgstr "Anullat"
+msgstr "Ce&lar"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
 msgid "Whether to hide cancelled events in the calendar view"
@@ -658,7 +659,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 #, fuzzy
 msgid "Memo layout style"
-msgstr "Arangeament"
+msgstr "_Stil:"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
 msgid ""
@@ -1046,7 +1047,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
 #, fuzzy
 msgid "Layout style for the Year View"
-msgstr "Monstrar li arangeament de tastatura"
+msgstr "Vise de _annu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
 msgid ""
@@ -1126,7 +1127,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
 #, fuzzy
 msgid "Previous Evolution version"
-msgstr "_Precedent"
+msgstr "Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:2
 msgid ""
@@ -1148,7 +1149,7 @@ msgstr "Additional plugines deve esser desactivat"
 #: ../data/org.gnome.evolution.gschema.xml.in.h:5
 #, fuzzy
 msgid "The window’s X coordinate"
-msgstr "Coordinate X de video"
+msgstr "Errore de LDAP 0x%x (%s)"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:6
 #, fuzzy
@@ -1281,7 +1282,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:19
 #, fuzzy
 msgid "Forward message"
-msgstr "_Transmisser"
+msgstr "Transmisser a"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:20
 msgid ""
@@ -1869,7 +1870,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 #, fuzzy
 msgid "Show photo of the sender"
-msgstr "_Foto"
+msgstr "Foto"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Show the photo of the sender in the message reading pane."
@@ -2118,7 +2119,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 #, fuzzy
 msgid "Whether to generate flat threads"
-msgstr "_Printar…"
+msgstr "Temas in sin_gul nivelle"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
@@ -2177,7 +2178,7 @@ msgstr "Transmisser"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 #, fuzzy
 msgid "Default reply style"
-msgstr "Stil de response:"
+msgstr "Stil de _response:"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid ""
@@ -2198,7 +2199,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 #, fuzzy
 msgid "Prompt on empty subject"
-msgstr "(Tema manca)"
+msgstr "vacui"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid ""
@@ -2208,7 +2209,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 #, fuzzy
 msgid "Prompt when emptying the trash"
-msgstr "Vacuante li Paper-corb..."
+msgstr "Vacuante li _Paper-corb"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "Prompt the user when he or she tries to empty the trash."
@@ -2393,7 +2394,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 #, fuzzy
 msgid "Empty Trash folders on exit"
-msgstr "Vacuar li Paper-corb"
+msgstr "Vacuar _Paper-corbes"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 msgid "Empty all Trash folders when exiting Evolution."
@@ -2462,7 +2463,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
 #, fuzzy
 msgid "Empty Junk folders on exit"
-msgstr "Celar vacui fólderes"
+msgstr "_Vacuar li spam"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
 msgid "Empty all Junk folders when exiting Evolution."
@@ -2577,7 +2578,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
 #, fuzzy
 msgid "Check for new messages on start"
-msgstr "Controlar _nov missages chascun"
+msgstr "Controllar nov _missages al inicie"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
 msgid ""
@@ -2702,7 +2703,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 #, fuzzy
 msgid "Show start up wizard"
-msgstr "ye inicie"
+msgstr "Inicie"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid "Whether show start up wizard when there is no mail account configured."
@@ -2743,7 +2744,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
 #, fuzzy
 msgid "Alternative reply style"
-msgstr "Stil de response:"
+msgstr "Stil de _response:"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
 #, fuzzy
@@ -2966,7 +2967,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:355
 #, fuzzy
 msgid "(Deprecated) Default reply style"
-msgstr "Stil de response:"
+msgstr "Stil de _response:"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:356
 msgid ""
@@ -3451,7 +3452,7 @@ msgstr "Esque Fragmentes deve usar un tema obscur"
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
 #, fuzzy
 msgid "Toolbar is visible"
-msgstr "Columnes _visibil..."
+msgstr "Panel de &instrumentarium:"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:26
 #, fuzzy
@@ -3461,7 +3462,7 @@ msgstr "Esque Fragmentes deve usar un tema obscur"
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:27
 #, fuzzy
 msgid "Sidebar is visible"
-msgstr "Columnes _visibil..."
+msgstr "Panel láteral"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:28
 #, fuzzy
@@ -3590,8 +3591,9 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:52
+#, fuzzy
 msgid "Whether to prefer symbolic icons"
-msgstr ""
+msgstr "_Preferer li simbolic"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:53
 msgid ""
@@ -3648,7 +3650,7 @@ msgstr ""
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
-#: ../src/mail/e-mail-browser.c:1340
+#: ../src/mail/e-mail-browser.c:1345
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:265
 msgid "Evolution"
@@ -3782,7 +3784,7 @@ msgstr "E-post"
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Select Contacts component"
-msgstr "Componente de dominia"
+msgstr "Selecter omni visibil contactes"
 
 #: ../data/ui/evolution-shortcuts.ui.h:5
 #, fuzzy
@@ -3835,13 +3837,13 @@ msgstr "Panel de _sercha"
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Move mails or contacts to folder"
-msgstr "Mover li element a un altri fólder."
+msgstr "Mover li contactes a"
 
 #: ../data/ui/evolution-shortcuts.ui.h:14
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Copy mails or contacts to folder"
-msgstr "copiar li besonat file o fólder"
+msgstr "Copiar li selectet contactes al Paperiere"
 
 #: ../data/ui/evolution-shortcuts.ui.h:15
 msgctxt "shortcut window"
@@ -3886,7 +3888,7 @@ msgstr "Inviar e reciver postage"
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Apply filters to selection"
-msgstr "_Applicar"
+msgstr "Applicar li _filtres a nov missages"
 
 #: ../data/ui/evolution-shortcuts.ui.h:23
 #, fuzzy
@@ -3932,13 +3934,13 @@ msgstr "Inviar li missage"
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Copy selected messages to folder"
-msgstr "Archivar li selectet missages"
+msgstr "Null fólder es selectet."
 
 #: ../data/ui/evolution-shortcuts.ui.h:31
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Move selected messages to folder"
-msgstr "Mover a un fólder"
+msgstr "Null fólder es selectet."
 
 #: ../data/ui/evolution-shortcuts.ui.h:32
 msgctxt "shortcut window"
@@ -3961,13 +3963,13 @@ msgstr "Ínleet missage:"
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Mark selected messages as junk"
-msgstr "_Marcar li selectet gruppes quam leet"
+msgstr "_Marcar quam spam"
 
 #: ../data/ui/evolution-shortcuts.ui.h:36
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Mark selected messages as not junk"
-msgstr "Archivar li selectet missages"
+msgstr "_Marcar quam spam"
 
 #: ../data/ui/evolution-shortcuts.ui.h:37
 #, fuzzy
@@ -4022,7 +4024,7 @@ msgstr "Calendare"
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Create a new appointment"
-msgstr "Crear un nov memorandum"
+msgstr "Crear un nov contacte"
 
 #: ../data/ui/evolution-shortcuts.ui.h:47
 #, fuzzy
@@ -4062,7 +4064,7 @@ msgstr "Vise de _die"
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Work Week View"
-msgstr "Vise de semane"
+msgstr "Vise de semane de _labor"
 
 #: ../data/ui/evolution-shortcuts.ui.h:54
 msgctxt "shortcut window"
@@ -4094,13 +4096,13 @@ msgstr "Contactes"
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Create a new contact"
-msgstr "Crear nov"
+msgstr "Crear un nov contacte"
 
 #: ../data/ui/evolution-shortcuts.ui.h:60
 #, fuzzy
 msgctxt "shortcut window"
 msgid "Create a new contact list"
-msgstr "Nov liste de contactes"
+msgstr "Crear un nov contacte"
 
 #: ../data/ui/evolution-shortcuts.ui.h:61
 msgctxt "shortcut window"
@@ -4108,9 +4110,8 @@ msgid "Delete contact"
 msgstr "Remover li contacte"
 
 #: ../data/views/addressbook/galview.xml.h:1
-#, fuzzy
 msgid "_Address Cards"
-msgstr "_Adresse:"
+msgstr "_Adress-cartes"
 
 #: ../data/views/addressbook/galview.xml.h:2
 #: ../data/views/calendar/galview.xml.h:6
@@ -4126,53 +4127,45 @@ msgid "_Day View"
 msgstr "Vise de _die"
 
 #: ../data/views/calendar/galview.xml.h:2
-#, fuzzy
 msgid "_Work Week View"
-msgstr "Vise de semane"
+msgstr "Vise de semane de _labor"
 
 #: ../data/views/calendar/galview.xml.h:3
-#, fuzzy
 msgid "W_eek View"
-msgstr "N_u"
+msgstr "Vise de s_emane"
 
 #: ../data/views/calendar/galview.xml.h:4
-#, fuzzy
 msgid "_Month View"
-msgstr "Vise de mensu"
+msgstr "Vise de _mensu"
 
 #: ../data/views/calendar/galview.xml.h:5
-#, fuzzy
 msgid "_Year View"
-msgstr "Li annu."
+msgstr "Vise de _annu"
 
 #: ../data/views/mail/galview.xml.h:1
 msgid "_Messages"
 msgstr "_Missages"
 
 #: ../data/views/mail/galview.xml.h:2
-#, fuzzy
 msgid "As _Sent Folder"
-msgstr "Inviat"
+msgstr "Qua_m li fólder Inviat"
 
 #: ../data/views/mail/galview.xml.h:3
-#, fuzzy
 msgid "By Su_bject"
-msgstr "Su_perscription"
+msgstr "Secun li t_ema"
 
 #: ../data/views/mail/galview.xml.h:4
-#, fuzzy
 msgid "By Se_nder"
-msgstr "Se_lection"
+msgstr "Secun li in_viator"
 
 #: ../data/views/mail/galview.xml.h:5
-#, fuzzy
 msgid "By S_tatus"
-msgstr "%s: «%s»"
+msgstr "Secun li s_tatu"
 
 #: ../data/views/mail/galview.xml.h:6
 #, fuzzy
 msgid "By _Follow Up Flag"
-msgstr "_Flagga:"
+msgstr "Ad-supra"
 
 #: ../data/views/mail/galview.xml.h:7
 #, fuzzy
@@ -4234,8 +4227,9 @@ msgid "Could not remove address book."
 msgstr "_Selecter un adressarium"
 
 #: ../src/addressbook/addressbook.error.xml.h:8
+#, fuzzy
 msgid "Are you sure you want to delete address book “{0}”?"
-msgstr ""
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/addressbook/addressbook.error.xml.h:9
 #, fuzzy
@@ -4245,9 +4239,8 @@ msgstr "_Selecter un adressarium"
 #: ../src/addressbook/addressbook.error.xml.h:10
 #: ../src/calendar/calendar.error.xml.h:9 ../src/e-util/e-system.error.xml.h:27
 #: ../src/mail/mail.error.xml.h:69
-#, fuzzy
 msgid "Do _Not Delete"
-msgstr "Ne remover"
+msgstr "_Ne remover"
 
 #: ../src/addressbook/addressbook.error.xml.h:11
 msgid "Delete remote address book “{0}”?"
@@ -4262,14 +4255,12 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:13
 #: ../src/calendar/calendar.error.xml.h:70
 #: ../src/e-util/e-system.error.xml.h:28
-#, fuzzy
 msgid "_Delete From Server"
-msgstr "_Deleter ex li Paper-corb"
+msgstr "_Remover ex li servitor"
 
 #: ../src/addressbook/addressbook.error.xml.h:14
-#, fuzzy
 msgid "Category editor not available."
-msgstr "Redactor:"
+msgstr "Redactor de categories es índisponibil."
 
 #: ../src/addressbook/addressbook.error.xml.h:15
 #, fuzzy
@@ -4304,9 +4295,8 @@ msgstr ""
 "li redactet missage?"
 
 #: ../src/addressbook/addressbook.error.xml.h:21
-#, fuzzy
 msgid "Cannot move contact."
-msgstr "Li contacte ne posse esser marcat quam un preferet."
+msgstr "Ne successat mover li contacte."
 
 #: ../src/addressbook/addressbook.error.xml.h:22
 msgid ""
@@ -4336,9 +4326,8 @@ msgid "_Do not save"
 msgstr "_Ne gardar"
 
 #: ../src/addressbook/addressbook.error.xml.h:28
-#, fuzzy
 msgid "Unable to save {0}."
-msgstr ",0 Gio"
+msgstr "Ne successat gardar {0}."
 
 #: ../src/addressbook/addressbook.error.xml.h:29
 #, fuzzy
@@ -4348,7 +4337,7 @@ msgstr "Un errore evenit gardante un image a %1"
 #: ../src/addressbook/addressbook.error.xml.h:30
 #, fuzzy
 msgid "Address “{0}” already exists."
-msgstr "Ja existe quam un fólder"
+msgstr "Li file ja existe."
 
 #: ../src/addressbook/addressbook.error.xml.h:31
 msgid ""
@@ -4392,14 +4381,12 @@ msgid ""
 msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:35
-#, fuzzy
 msgid "Skip duplicates"
-msgstr "Duplicates:"
+msgstr "Omisser duplicates"
 
 #: ../src/addressbook/addressbook.error.xml.h:36
-#, fuzzy
 msgid "Add with duplicates"
-msgstr "Duplicates:"
+msgstr "Adjunter con duplicates"
 
 #: ../src/addressbook/addressbook.error.xml.h:37
 #, fuzzy
@@ -4414,18 +4401,16 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:39
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1775
-#, fuzzy
 msgid "Failed to delete contact"
-msgstr "Remover li contacte"
+msgstr "Ne successat remover li contacte"
 
 #: ../src/addressbook/addressbook.error.xml.h:40
 msgid "You do not have permission to delete contacts in this address book."
 msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:41
-#, fuzzy
 msgid "Cannot add new contact"
-msgstr "Li contacte ne posse esser marcat quam un preferet."
+msgstr "Ne successat adjunter un nov contacte"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:43
@@ -4467,13 +4452,13 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:51
 #, fuzzy
 msgid "Do _Not Unset"
-msgstr "_Agende"
+msgstr "Vacuar statu"
 
 #: ../src/addressbook/addressbook.error.xml.h:52
 #: ../src/calendar/gui/e-estimated-duration-entry.c:261
 #, fuzzy
 msgid "_Unset"
-msgstr "Mar_cat liste"
+msgstr "Vacuar li etiquette"
 
 #: ../src/addressbook/addressbook.error.xml.h:53
 msgid "Contact already exists in the address book."
@@ -4522,8 +4507,9 @@ msgstr ""
 #: ../src/e-util/e-image-chooser-dialog.c:168
 #: ../src/e-util/e-mail-signature-script-dialog.c:340
 #: ../src/e-util/e-passwords.c:486 ../src/e-util/e-rule-context.c:810
-#: ../src/e-util/e-rule-editor.c:177 ../src/e-util/e-rule-editor.c:288
-#: ../src/e-util/e-rule-editor.c:922 ../src/e-util/e-send-options.ui.h:16
+#: ../src/e-util/e-rule-editor.c:178 ../src/e-util/e-rule-editor.c:289
+#: ../src/e-util/e-rule-editor.c:342 ../src/e-util/e-rule-editor.c:978
+#: ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:342
 #: ../src/e-util/e-source-selector-dialog.c:324
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
@@ -4562,9 +4548,8 @@ msgid "_Add Copy"
 msgstr " (copie)"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:1
-#, fuzzy
 msgid "Show Telephone"
-msgstr "Telefon"
+msgstr "Monstrar li telefon"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:2
 #, fuzzy
@@ -4577,9 +4562,8 @@ msgid "Show Instant Messaging"
 msgstr "Missages ínmediat"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:4
-#, fuzzy
 msgid "Show Web Addresses"
-msgstr "Monstrar adresses MI"
+msgstr "Monstrar adresses web"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:5
 #, fuzzy
@@ -4611,9 +4595,8 @@ msgid "Show Notes"
 msgstr "Monstrar special notes quel ordinarimen es celat"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
-#, fuzzy
 msgid "Show Certificates"
-msgstr "Certificates"
+msgstr "Monstrar li certificates"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2489
@@ -4666,9 +4649,8 @@ msgid "Ca_tegories..."
 msgstr "Ca_tegories..."
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:20
-#, fuzzy
 msgid "Full _Name..."
-msgstr "Nó_mine complet:"
+msgstr "Nó_mine complet…"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:8
@@ -4743,22 +4725,20 @@ msgstr "Videoconversation:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:35
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1067
-#, fuzzy
 msgid "_Blog:"
-msgstr "Blog"
+msgstr "_Blog:"
 
 #. Translators: an accessibility name
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:37
-#, fuzzy
 msgid "Blog:"
-msgstr "Blog"
+msgstr "Blog:"
 
 #. tab title
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:527
 #, fuzzy
 msgid "Web Addresses"
-msgstr "Monstrar adresses MI"
+msgstr "Monstrar adresses web"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:39
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1092
@@ -4796,9 +4776,8 @@ msgstr "_Assistente:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:46
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:533
-#, fuzzy
 msgid "Job"
-msgstr "Tache"
+msgstr "Oficie"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:47
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1114
@@ -4924,7 +4903,7 @@ msgstr "X.509"
 #: ../src/e-util/e-html-editor-link-popover.c:276
 #: ../src/e-util/e-mail-signature-manager.c:355
 #: ../src/e-util/e-name-selector-dialog.c:1010
-#: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:27
+#: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:28
 #: ../src/mail/e-mail-config-identity-page.c:865
 #: ../src/mail/e-mail-label-manager.c:390 ../src/mail/em-filter-rule.c:677
 #: ../src/mail/em-folder-properties.c:1397
@@ -5030,9 +5009,8 @@ msgid "Open PGP key"
 msgstr "Aperter un clave PGP"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3266
-#, fuzzy
 msgid "Open X.509 certificate"
-msgstr "X.509"
+msgstr "Aperter un certificate X.509"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3268
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4376
@@ -5068,36 +5046,34 @@ msgid "PGP"
 msgstr "PGP"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3540
-#, fuzzy
 msgid "Save PGP key"
-msgstr "Aperter un clave PGP"
+msgstr "Gardar li clave PGP"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3540
-#, fuzzy
 msgid "Save X.509 certificate"
-msgstr "X.509"
+msgstr "Gardar li certificate X.509"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3567
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to save certificate: %s"
-msgstr "Ne successat gardar li atachamentes"
+msgstr "Ne successat gardar un certificate: %s"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4373
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4379
-#, fuzzy
 msgid "Please select an image for this contact"
-msgstr "Ples selecter un altri image."
+msgstr "Ples selecter un image por ti-ci contacte"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4384
 msgid "_No image"
 msgstr "Si_n image"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4748
-#, fuzzy
 msgid ""
 "The contact data is invalid:\n"
 "\n"
-msgstr "Ínvalid compresset data"
+msgstr ""
+"Li data de contacte es ínvalid:\n"
+"\n"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4754
 #, fuzzy, c-format
@@ -5112,7 +5088,7 @@ msgstr "Ne successat leer li CD: %s"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4770
 #, fuzzy, c-format
 msgid "%s“%s” has an invalid format"
-msgstr "Ínvalid valore in un contacte: %s"
+msgstr "Un errore evenit: %s"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4783
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4797
@@ -5142,9 +5118,9 @@ msgstr "Au_xilie"
 #: ../src/e-util/e-charset-combo-box.c:93
 #: ../src/e-util/e-color-chooser-widget.c:119
 #: ../src/e-util/e-filter-datespec.c:293 ../src/e-util/e-passwords.c:487
-#: ../src/e-util/e-rule-context.c:811 ../src/e-util/e-rule-editor.c:178
-#: ../src/e-util/e-rule-editor.c:289 ../src/e-util/e-rule-editor.c:923
-#: ../src/e-util/e-send-options.ui.h:17
+#: ../src/e-util/e-rule-context.c:811 ../src/e-util/e-rule-editor.c:179
+#: ../src/e-util/e-rule-editor.c:290 ../src/e-util/e-rule-editor.c:343
+#: ../src/e-util/e-rule-editor.c:979 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:343
 #: ../src/e-util/e-source-selector-dialog.c:325
 #: ../src/e-util/e-table-config.c:541 ../src/e-util/e-table-config.ui.h:4
@@ -5164,12 +5140,12 @@ msgstr "_OK"
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:251
 #, fuzzy
 msgid "Failed to find contact"
-msgstr "_Trovar"
+msgstr "Ne successat remover li contacte"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:464
 #, fuzzy
 msgid "Contact Quick-Add"
-msgstr "_Adjunter"
+msgstr "Ne successat adjunter un nov contacte"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:467
 #, fuzzy
@@ -5310,25 +5286,25 @@ msgid "Insert email addresses from Address Book"
 msgstr ""
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
-#: ../src/e-util/filter.ui.h:28
+#: ../src/e-util/filter.ui.h:29
 #, fuzzy
 msgid "_Top"
 msgstr "_Alt:"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/e-source-selector.c:3918 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-source-selector.c:3918 ../src/e-util/filter.ui.h:30
 #, fuzzy
 msgid "_Up"
 msgstr "Ad-supra"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
-#: ../src/e-util/e-source-selector.c:3919 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-source-selector.c:3919 ../src/e-util/filter.ui.h:31
 #, fuzzy
 msgid "_Down"
 msgstr "Infra"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
-#: ../src/e-util/filter.ui.h:31
+#: ../src/e-util/filter.ui.h:32
 #, fuzzy
 msgid "_Bottom"
 msgstr "_Bass:"
@@ -5336,7 +5312,7 @@ msgstr "_Bass:"
 #: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:942
 #, fuzzy
 msgid "Contact List Members"
-msgstr "Nov liste de contactes"
+msgstr "Membres del liste:"
 
 #: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1490
 msgid "_Members"
@@ -5440,23 +5416,18 @@ msgstr "Nómine contene"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:13
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1580
-#, fuzzy
 msgid "Email begins with"
-msgstr "E-post"
+msgstr "E-post comense per"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:14
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1587
-#, fuzzy
-#| msgid "Name contains"
 msgid "Email contains"
-msgstr "E-post"
+msgstr "E-post contene"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:15
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1594
-#, fuzzy
-#| msgid "Sender contains"
 msgid "Phone contains"
-msgstr "contene"
+msgstr "Telefon contene"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:16
 #: ../src/calendar/gui/caltypes.xml.in.h:27
@@ -5466,9 +5437,8 @@ msgstr "contene"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1890
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:810
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1069
-#, fuzzy
 msgid "Any field contains"
-msgstr "Alquel camp"
+msgstr "Alquel camp contene"
 
 #: ../src/addressbook/gui/widgets/ea-addressbook-view.c:92
 #: ../src/addressbook/gui/widgets/ea-addressbook-view.c:101
@@ -5502,7 +5472,7 @@ msgstr "Inviar li missage"
 #: ../src/e-util/e-misc-utils.c:4766
 #, fuzzy, c-format
 msgid "Click to mail %s"
-msgstr "E-post"
+msgstr "E-postage de %s"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:289
 #, fuzzy, c-format
@@ -5518,9 +5488,8 @@ msgid "SIP"
 msgstr "SIP"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:683
-#, fuzzy
 msgid "List Members:"
-msgstr "_Membres"
+msgstr "Membres del liste:"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:777
 msgid "Fax"
@@ -5655,12 +5624,12 @@ msgstr "Note"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1309
 #, fuzzy
 msgid "List Members"
-msgstr "_Membres"
+msgstr "Membres del liste:"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1332
 #, fuzzy
 msgid "Job Title"
-msgstr "Tache"
+msgstr "Oficie"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1373
 msgid "Home page"
@@ -5709,7 +5678,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:877
 #, fuzzy
 msgid "Changed Contact:"
-msgstr "Contacte"
+msgstr "Un file sta modificat"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:879
 msgid "New Contact:"
@@ -5721,9 +5690,8 @@ msgid "Conflicting Contact:"
 msgstr "Contacte: "
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:920
-#, fuzzy
 msgid "Old Contact:"
-msgstr " (old)"
+msgstr "Old contacte:"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:119
 msgid ""
@@ -5806,24 +5774,20 @@ msgid "list"
 msgstr "liste"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:581
-#, fuzzy
 msgid "Move contact to"
-msgstr "_Mover"
+msgstr "Mover li contactes a"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:583
-#, fuzzy
 msgid "Copy contact to"
-msgstr "Copiar"
+msgstr "Copiar li contacte a"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:586
-#, fuzzy
 msgid "Move contacts to"
-msgstr "Null contactes"
+msgstr "Mover li contactes a"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:588
-#, fuzzy
 msgid "Copy contacts to"
-msgstr "Null contactes"
+msgstr "Copiar li contactes a"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-model.c:364
 #, fuzzy
@@ -5838,7 +5802,7 @@ msgstr "Serchar por"
 #: ../src/addressbook/gui/widgets/e-addressbook-table-adapter.c:310
 #, fuzzy
 msgid "Error modifying card"
-msgstr "ERRORE"
+msgstr "Lansar usante li separat grafic carte"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:347
 msgid "No contacts"
@@ -5852,36 +5816,31 @@ msgstr[0] "%u contacte"
 msgstr[1] "%u contactes"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:982
-#, fuzzy
 msgid "Cut selected contacts to the clipboard"
-msgstr "Exciser li selectet textu al Paperiere"
+msgstr "Exciser li selectet contactes al Paperiere"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:988
-#, fuzzy
 msgid "Copy selected contacts to the clipboard"
-msgstr "_Copiar li rute al Paperiere"
+msgstr "Copiar li selectet contactes al Paperiere"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:994
-#, fuzzy
 msgid "Paste contacts from the clipboard"
-msgstr "Coll&ar li contenete del Paperiere"
+msgstr "Collar contactes ex li Paperiere"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1000
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1372
-#, fuzzy
 msgid "Delete selected contacts"
-msgstr "Deleter li selectet areas"
+msgstr "Remover li selectet contactes"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1006
-#, fuzzy
 msgid "Select all visible contacts"
-msgstr "Selecter _omni"
+msgstr "Selecter omni visibil contactes"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1284
 #: ../src/addressbook/gui/widgets/e-card-view.c:81
 #, fuzzy
 msgid "Searching for the Contacts…"
-msgstr "Contactes"
+msgstr "Sercha..."
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1461
 #, fuzzy
@@ -5891,12 +5850,12 @@ msgstr "Comunication con li servitor de contrasignes ne successat"
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1823
 #, fuzzy
 msgid "Are you sure you want to delete these contact lists?"
-msgstr "Esque vu vole remover li actual image?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1827
 #, fuzzy
 msgid "Are you sure you want to delete this contact list?"
-msgstr "Esque vu vole remover ti-ci provisor?"
+msgstr "Esque vu vole remover li actual image?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1831
 #, fuzzy, c-format
@@ -5906,12 +5865,12 @@ msgstr "Esque vu vole remover «%s» permanentmen?"
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1837
 #, fuzzy
 msgid "Are you sure you want to delete these contacts?"
-msgstr "Esque vu vole remover les?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1841
 #, fuzzy
 msgid "Are you sure you want to delete this contact?"
-msgstr "Esque vu vole remover ti-ci provisor?"
+msgstr "Esque vu vole remover les?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1845
 #, fuzzy, c-format
@@ -5948,14 +5907,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:2045
-#, fuzzy
 msgid "_Don’t Display"
-msgstr "Ne have un conto?"
+msgstr "Ne mon_strar"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:2046
 #, fuzzy
 msgid "Display _All Contacts"
-msgstr "Vise"
+msgstr "Selecter omni visibil contactes"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 #, fuzzy
@@ -5971,19 +5929,16 @@ msgid "Family Name"
 msgstr "Surnómine"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:7
-#, fuzzy
 msgid "Email 2"
-msgstr "E-post:"
+msgstr "E-post 2"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-#, fuzzy
 msgid "Email 3"
-msgstr "+3"
+msgstr "E-post 3"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:9
-#, fuzzy
 msgid "Assistant Phone"
-msgstr "_Assistente:"
+msgstr "Telefon del assistente"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 #, fuzzy
@@ -6250,10 +6205,8 @@ msgstr "Compa_nie:"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1148
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:735
-#, fuzzy
-#| msgid "Modified"
 msgid "M_odify"
-msgstr "M_etode:"
+msgstr "M_odificar"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1149
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:736
@@ -6286,9 +6239,8 @@ msgid "There are no items to show in this view."
 msgstr "_Selecter elementes"
 
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:359
-#, fuzzy
 msgid "Contacts Map"
-msgstr "Carte"
+msgstr "Carte de contactes"
 
 #. Zoom-in button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:394
@@ -6355,18 +6307,16 @@ msgid "LDAP Data Interchange Format (.ldif)"
 msgstr ""
 
 #: ../src/addressbook/importers/evolution-ldif-importer.c:820
-#, fuzzy
 msgid "Evolution LDIF importer"
-msgstr "Importator de KMail de Evolution"
+msgstr "Importator de LDIF de Evolution"
 
 #: ../src/addressbook/importers/evolution-vcard-importer.c:489
 msgid "vCard (.vcf, .gcrd)"
 msgstr "vCard (.vcf, .gcrd)"
 
 #: ../src/addressbook/importers/evolution-vcard-importer.c:490
-#, fuzzy
 msgid "Evolution vCard Importer"
-msgstr "Importator de KMail de Evolution"
+msgstr "Importator de vCard de Evolution"
 
 #. Uncomment next if it is successful to get total number if pages in list view
 #. * g_object_get (operation, "n-pages", &n_pages, NULL)
@@ -6391,7 +6341,7 @@ msgstr "E-post"
 #, fuzzy
 msgctxt "addressbook-label"
 msgid "Other Email"
-msgstr "Altris"
+msgstr "E-post"
 
 #: ../src/addressbook/util/eab-book-util.c:42
 #, fuzzy
@@ -6538,7 +6488,7 @@ msgstr ""
 #: ../src/calendar/gui/e-cal-dialogs.c:509
 #, fuzzy, c-format
 msgid "Are you sure you want to delete this meeting?"
-msgstr "Esque vu vole remover ti-ci provisor?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:8
 msgid ""
@@ -6592,19 +6542,21 @@ msgstr ""
 #: ../src/calendar/gui/e-cal-dialogs.c:515
 #, fuzzy, c-format
 msgid "Are you sure you want to delete this memo?"
-msgstr "Esque vu vole remover ti-ci provisor?"
+msgstr "Esque vu vole remover li actual image?"
 
 #: ../src/calendar/calendar.error.xml.h:19
 msgid "All information on this memo will be deleted and can not be restored."
 msgstr ""
 
 #: ../src/calendar/calendar.error.xml.h:20
+#, fuzzy
 msgid "Are you sure you want to delete the meeting titled “{0}”?"
-msgstr ""
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:21
+#, fuzzy
 msgid "Are you sure you want to delete the appointment titled “{0}”?"
-msgstr ""
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:22
 msgid ""
@@ -6614,17 +6566,17 @@ msgstr ""
 #: ../src/calendar/calendar.error.xml.h:23
 #, fuzzy
 msgid "Are you sure you want to delete this appointment?"
-msgstr "Esque vu vole remover li actual image?"
+msgstr "Esque vu vole remover «%s» permanentmen?"
 
 #: ../src/calendar/calendar.error.xml.h:24
 #, fuzzy
 msgid "Are you sure you want to delete the “{0}” task?"
-msgstr "Esque vu vole remover les?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:25
 #, fuzzy
 msgid "Are you sure you want to delete the memo “{0}”?"
-msgstr "Esque vu vole remover «%s» permanentmen?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:26
 msgid "All information in this memo will be deleted and can not be restored."
@@ -6633,7 +6585,7 @@ msgstr ""
 #: ../src/calendar/calendar.error.xml.h:27
 #, fuzzy
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr "Esque vu vole remover les?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:28
 msgid ""
@@ -6644,7 +6596,7 @@ msgstr ""
 #: ../src/calendar/calendar.error.xml.h:29
 #, fuzzy
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr "Esque vu vole remover les?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:30
 msgid "All information on these tasks will be deleted and can not be restored."
@@ -6653,7 +6605,7 @@ msgstr ""
 #: ../src/calendar/calendar.error.xml.h:31
 #, fuzzy
 msgid "Are you sure you want to delete these {0} memos?"
-msgstr "Esque vu vole remover li actual image?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:32
 msgid "All information in these memos will be deleted and can not be restored."
@@ -6794,7 +6746,7 @@ msgstr "Ne successat cargar li plugin «%s»"
 #: ../src/calendar/calendar.error.xml.h:62
 #, fuzzy
 msgid "Are you sure you want to delete calendar “{0}”?"
-msgstr "Esque vu vole remover «%s» permanentmen?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:63
 #, fuzzy
@@ -6802,8 +6754,9 @@ msgid "This calendar will be removed permanently."
 msgstr "Installat paccages a REMOVER:"
 
 #: ../src/calendar/calendar.error.xml.h:64
+#, fuzzy
 msgid "Are you sure you want to delete task list “{0}”?"
-msgstr ""
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:65
 #, fuzzy
@@ -6811,17 +6764,19 @@ msgid "This task list will be removed permanently."
 msgstr "Liste de _taches"
 
 #: ../src/calendar/calendar.error.xml.h:66
+#, fuzzy
 msgid "Are you sure you want to delete memo list “{0}”?"
-msgstr ""
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:67
 #, fuzzy
 msgid "This memo list will be removed permanently."
-msgstr "Si vu delete un element, it va esser perdit irrevocabilmen."
+msgstr "Memorandum"
 
 #: ../src/calendar/calendar.error.xml.h:68
+#, fuzzy
 msgid "Are you sure you want to delete remote calendar “{0}”?"
-msgstr ""
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:69
 msgid ""
@@ -6877,7 +6832,7 @@ msgstr ""
 #: ../src/calendar/calendar.error.xml.h:81
 #, fuzzy
 msgid "Error loading calendar “{0}”"
-msgstr "Un errore evenit cargante li prijecte"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #: ../src/calendar/calendar.error.xml.h:82
 msgid "The calendar is not marked for offline usage."
@@ -6927,7 +6882,7 @@ msgstr ""
 #: ../src/calendar/calendar.error.xml.h:96
 #, fuzzy
 msgid "Failed to add timezone to “{0}”"
-msgstr "Ne posset assignar li zone horari del sistema"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. The {0} is a calendar/memo list/task list name, which is useless here
 #: ../src/calendar/calendar.error.xml.h:98
@@ -6936,24 +6891,26 @@ msgstr "Ne successat gardar li atachamentes"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:100
-#, fuzzy
 msgid "Failed to open calendar “{0}”"
-msgstr "calendar:week_start:1"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:102
+#, fuzzy
 msgid "Failed to open memo list “{0}”"
-msgstr ""
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:104
+#, fuzzy
 msgid "Failed to open task list “{0}”"
-msgstr ""
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:106
+#, fuzzy
 msgid "Failed to create an event in the calendar “{0}”"
-msgstr ""
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:108
@@ -6967,8 +6924,9 @@ msgstr ""
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:112
+#, fuzzy
 msgid "Failed to modify an event in the calendar “{0}”"
-msgstr ""
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:114
@@ -6982,8 +6940,9 @@ msgstr ""
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:118
+#, fuzzy
 msgid "Failed to delete an event in the calendar “{0}”"
-msgstr ""
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:120
@@ -6997,8 +6956,9 @@ msgstr ""
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:124
+#, fuzzy
 msgid "Failed to update an event in the calendar “{0}”"
-msgstr ""
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:126
@@ -7012,8 +6972,9 @@ msgstr ""
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:130
+#, fuzzy
 msgid "Failed to send an event to the calendar “{0}”"
-msgstr ""
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:132
@@ -7043,8 +7004,9 @@ msgstr ""
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:142
+#, fuzzy
 msgid "Failed to copy an event into the calendar “{0}”"
-msgstr ""
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:144
@@ -7058,8 +7020,9 @@ msgstr ""
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:148
+#, fuzzy
 msgid "Failed to move an event into the calendar “{0}”"
-msgstr ""
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:150
@@ -7090,7 +7053,7 @@ msgstr ""
 #: ../src/calendar/calendar.error.xml.h:160
 #, fuzzy
 msgid "Copying an event into the calendar “{0}”"
-msgstr "calendar:week_start:1"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:162
@@ -7107,7 +7070,7 @@ msgstr ""
 #: ../src/calendar/calendar.error.xml.h:166
 #, fuzzy
 msgid "Moving an event into the calendar “{0}”"
-msgstr "calendar:week_start:1"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:168
@@ -7124,7 +7087,7 @@ msgstr ""
 #: ../src/calendar/calendar.error.xml.h:172
 #, fuzzy
 msgid "Failed to refresh calendar “{0}”"
-msgstr "calendar:week_start:1"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:174
@@ -7496,16 +7459,16 @@ msgstr "Localisation: %s"
 
 #. Translators: It will display "Start: ActualStartDateAndTime (DurationOfTheMeeting)"
 #: ../src/calendar/gui/comp-util.c:2312
-#, fuzzy, c-format
+#, c-format
 msgid "Start: %s (%s)"
-msgstr "Ne posset startar «%s»"
+msgstr "Comense: %s (%s)"
 
 #. Translators: It will display "Start: ActualStartDateAndTime"
 #. Translators: It will display "Start: StartDateAndTime"
 #: ../src/calendar/gui/comp-util.c:2316 ../src/calendar/gui/e-to-do-pane.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "Start: %s"
-msgstr "Ne posset startar «%s»"
+msgstr "Comense: %s"
 
 #. Translators: It's for a task due date, it will display "Due: DateAndTime"
 #. Translators: It will display "Due: DueDateAndTime"
@@ -7555,14 +7518,12 @@ msgid "GEO Location:"
 msgstr "_Localisation:"
 
 #: ../src/calendar/gui/comp-util.c:2796
-#, fuzzy
 msgid "Start Date:"
-msgstr "Date"
+msgstr "Date del comense:"
 
 #: ../src/calendar/gui/comp-util.c:2805
-#, fuzzy
 msgid "End Date:"
-msgstr "al fin"
+msgstr "Date del fin:"
 
 #: ../src/calendar/gui/comp-util.c:2817
 #: ../src/modules/itip-formatter/itip-view.c:2091
@@ -7681,8 +7642,9 @@ msgid "Calendar Event: Summary is %s."
 msgstr "Eveniment %s"
 
 #: ../src/calendar/gui/ea-cal-view-event.c:247
+#, fuzzy
 msgid "Calendar Event: It has no summary."
-msgstr ""
+msgstr "It contene %d eveniment."
 
 #: ../src/calendar/gui/ea-cal-view-event.c:270
 #, fuzzy
@@ -7697,11 +7659,11 @@ msgstr "Barra del localisation"
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
 #: ../src/calendar/gui/ea-day-view.c:105 ../src/calendar/gui/ea-week-view.c:105
-#, fuzzy, c-format
+#, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
-msgstr[0] "%d eveniment"
-msgstr[1] ""
+msgstr[0] "It contene %d eveniment."
+msgstr[1] "It contene %d evenimentes."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
@@ -7716,7 +7678,7 @@ msgstr "Null evenimentes"
 #: ../src/calendar/gui/ea-day-view.c:119
 #, fuzzy, c-format
 msgid "Work Week View: %s. %s"
-msgstr "Monstrar li proprietás del fólder «%s»"
+msgstr "Vise de semane de _labor"
 
 #. To translators: First %s is the day, for example "Thursday July
 #. 13th, 2006". Second %s is the number of events on this day, for
@@ -7729,7 +7691,7 @@ msgstr "die(s)"
 #: ../src/calendar/gui/ea-day-view.c:155
 #, fuzzy
 msgid "calendar view for a work week"
-msgstr "Vise de semane"
+msgstr "Vise de semane de _labor"
 
 #: ../src/calendar/gui/ea-day-view.c:157
 msgid "calendar view for one or more days"
@@ -7779,7 +7741,6 @@ msgid "Run a program"
 msgstr "Lansar un programma"
 
 #: ../src/calendar/gui/e-alarm-list.c:405
-#, fuzzy
 msgctxt "cal-reminders"
 msgid "Unknown action to be performed"
 msgstr "Ínconosset action"
@@ -7790,7 +7751,7 @@ msgstr "Ínconosset action"
 #, fuzzy, c-format
 msgctxt "cal-reminders"
 msgid "%s %s before the start"
-msgstr "Ne posset startar «%s»"
+msgstr "Comense: %s"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
@@ -7798,7 +7759,7 @@ msgstr "Ne posset startar «%s»"
 #, fuzzy, c-format
 msgctxt "cal-reminders"
 msgid "%s %s after the start"
-msgstr "Ne posset startar «%s»"
+msgstr "Comense: %s (%s)"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
@@ -7806,7 +7767,7 @@ msgstr "Ne posset startar «%s»"
 #, fuzzy, c-format
 msgctxt "cal-reminders"
 msgid "%s at the start"
-msgstr "Ne posset startar «%s»"
+msgstr "Comense: %s (%s)"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
@@ -7835,10 +7796,10 @@ msgstr "Acceptar cookie(s) til li fin del actual session"
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
 #: ../src/calendar/gui/e-alarm-list.c:484
-#, fuzzy, c-format
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s at %s"
-msgstr "%s %s, %s %s"
+msgstr "%s ye %s"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound". "Trigger types" are absolute or relative dates
@@ -8047,23 +8008,22 @@ msgstr "Notificar quande un missage ariva"
 #: ../src/calendar/gui/e-calendar-view.c:442
 #, fuzzy
 msgid "Cut selected events to the clipboard"
-msgstr "Exciser li selectet textu al Paperiere"
+msgstr "Exciser li selectet contactes al Paperiere"
 
 #: ../src/calendar/gui/e-calendar-view.c:448
 #, fuzzy
 msgid "Copy selected events to the clipboard"
-msgstr "_Copiar li rute al Paperiere"
+msgstr "Copiar li selectet contactes al Paperiere"
 
 #: ../src/calendar/gui/e-calendar-view.c:454
 #, fuzzy
 msgid "Paste events from the clipboard"
-msgstr "Coll&ar li contenete del Paperiere"
+msgstr "Collar contactes ex li Paperiere"
 
 #: ../src/calendar/gui/e-calendar-view.c:460
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1448
-#, fuzzy
 msgid "Delete selected events"
-msgstr "Deleter li selectet areas"
+msgstr "Remover li selectet evenimentes"
 
 #: ../src/calendar/gui/e-calendar-view.c:966
 msgid "Pasted text doesn’t contain valid iCalendar data"
@@ -8079,7 +8039,7 @@ msgstr "Pre_definit"
 #: ../src/calendar/gui/e-cal-ops.c:1590
 #, fuzzy
 msgid "Default memo list not found"
-msgstr "Li largore predefinit del columne de nómine in li liste de files."
+msgstr "Memorandum"
 
 #: ../src/calendar/gui/e-calendar-view.c:987
 #: ../src/calendar/gui/e-cal-ops.c:1593
@@ -8167,12 +8127,12 @@ msgstr "%d selectet"
 #: ../src/calendar/gui/e-memo-table.etspec.h:5
 #, fuzzy
 msgid "Start Date"
-msgstr "Date"
+msgstr "Date del comense:"
 
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:2
 #, fuzzy
 msgid "End Date"
-msgstr "al fin"
+msgstr "Date del fin:"
 
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:7
 #: ../src/calendar/gui/e-memo-table.etspec.h:6
@@ -8328,7 +8288,7 @@ msgstr[1] ""
 #, fuzzy, c-format
 msgid "Deleting a memo"
 msgid_plural "Deleting %d memos"
-msgstr[0] "Remotion"
+msgstr[0] "Memorandum"
 msgstr[1] ""
 
 #: ../src/calendar/gui/e-cal-ops.c:534
@@ -8442,7 +8402,7 @@ msgstr[1] ""
 #, fuzzy, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
-msgstr[0] "Motion"
+msgstr[0] "Memorandum"
 msgstr[1] ""
 
 #: ../src/calendar/gui/e-cal-ops.c:2109
@@ -8509,12 +8469,12 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-task.c:619
 #, fuzzy
 msgid "Start date is not a valid date"
-msgstr "Fat ye"
+msgstr "Date del comense:"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:560
 #, fuzzy
 msgid "Start time is not a valid time"
-msgstr "Date e hora"
+msgstr "Monstrar li hora"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:564
 #: ../src/calendar/gui/e-comp-editor-event.c:580
@@ -8543,12 +8503,12 @@ msgstr "Ínconosset errore"
 #: ../src/calendar/gui/e-comp-editor-event.c:574
 #, fuzzy
 msgid "End date is not a valid date"
-msgstr "Fat ye"
+msgstr "Date del fin:"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:576
 #, fuzzy
 msgid "End time is not a valid time"
-msgstr "Date e hora"
+msgstr "Monstrar li hora"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:774
 #: ../src/calendar/gui/e-comp-editor-memo.c:260
@@ -8579,7 +8539,7 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-event.c:796
 #, fuzzy
 msgid "Show Time as _Busy"
-msgstr "Monstrar _horas"
+msgstr "Ocupat"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:798
 msgid "Toggles whether to show time as busy"
@@ -8789,7 +8749,7 @@ msgstr ""
 #, fuzzy
 msgid "Failed to delete selected attendee"
 msgid_plural "Failed to delete selected attendees"
-msgstr[0] "Remover li selectet calendare"
+msgstr[0] "Ne successat remover li contacte"
 msgstr[1] ""
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:470
@@ -9000,9 +8960,10 @@ msgstr "11-im"
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:658
+#, fuzzy
 msgctxt "ECompEditorPageRecur"
 msgid "21st to 31st"
-msgstr ""
+msgstr "21-im"
 
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
@@ -9120,7 +9081,7 @@ msgstr "Textual (rw-r--r--)"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2040
 #, fuzzy
 msgid "Set or unset recurrence"
-msgstr "Assignar quam li _funde"
+msgstr "A_ssignar"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2142
@@ -9207,7 +9168,7 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1707
 #, fuzzy
 msgid "Set or unset reminders"
-msgstr "Assignar quam li _funde"
+msgstr "A_ssignar"
 
 #. Translators: "None" for "No reminder set"
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1817
@@ -9365,7 +9326,7 @@ msgstr "dies"
 #, fuzzy
 msgctxt "cal-reminders"
 msgid "Custom _message"
-msgstr "_Missage"
+msgstr "Personal:"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2567
 #, fuzzy
@@ -9462,7 +9423,7 @@ msgstr "Sin date"
 #, fuzzy
 msgctxt "ECompEditor"
 msgid "Date _completed:"
-msgstr "Date."
+msgstr "Compleet ye "
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1920
 msgctxt "ECompEditor"
@@ -9529,7 +9490,7 @@ msgstr "_Zone horari:"
 #, fuzzy
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
-msgstr "Monstrar _horas"
+msgstr "Ocupat"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:2695
@@ -9981,7 +9942,7 @@ msgstr ""
 #: ../src/calendar/gui/e-meeting-store.c:2015
 #, fuzzy, c-format
 msgid "Failure reason: %s"
-msgstr "<b>Technic cause</b>: "
+msgstr "Cause:"
 
 #: ../src/calendar/gui/e-meeting-store.c:2020
 #: ../src/e-util/e-collection-account-wizard.c:506
@@ -10108,28 +10069,28 @@ msgstr "Lingue"
 #: ../src/calendar/gui/e-memo-table.c:660
 #, fuzzy
 msgid "Cut selected memos to the clipboard"
-msgstr "Exciser li selectet textu al Paperiere"
+msgstr "Exciser li selectet contactes al Paperiere"
 
 #: ../src/calendar/gui/e-memo-table.c:666
 #, fuzzy
 msgid "Copy selected memos to the clipboard"
-msgstr "_Copiar li rute al Paperiere"
+msgstr "Copiar li selectet contactes al Paperiere"
 
 #: ../src/calendar/gui/e-memo-table.c:672
 #, fuzzy
 msgid "Paste memos from the clipboard"
-msgstr "Coll&ar li contenete del Paperiere"
+msgstr "Collar contactes ex li Paperiere"
 
 #: ../src/calendar/gui/e-memo-table.c:678
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:575
 #, fuzzy
 msgid "Delete selected memos"
-msgstr "Deleter li selectet areas"
+msgstr "Memorandums"
 
 #: ../src/calendar/gui/e-memo-table.c:684
 #, fuzzy
 msgid "Select all visible memos"
-msgstr "Selecter _omni"
+msgstr "Selecter omni visibil contactes"
 
 #: ../src/calendar/gui/e-memo-table.etspec.h:1
 #, fuzzy
@@ -10154,17 +10115,17 @@ msgstr "%d%%"
 #: ../src/calendar/gui/e-task-table.c:843
 #, fuzzy
 msgid "Cut selected tasks to the clipboard"
-msgstr "Exciser li selectet textu al Paperiere"
+msgstr "Exciser li selectet contactes al Paperiere"
 
 #: ../src/calendar/gui/e-task-table.c:849
 #, fuzzy
 msgid "Copy selected tasks to the clipboard"
-msgstr "_Copiar li rute al Paperiere"
+msgstr "Copiar li selectet contactes al Paperiere"
 
 #: ../src/calendar/gui/e-task-table.c:855
 #, fuzzy
 msgid "Paste tasks from the clipboard"
-msgstr "Coll&ar li contenete del Paperiere"
+msgstr "Collar contactes ex li Paperiere"
 
 #: ../src/calendar/gui/e-task-table.c:861
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
@@ -10175,7 +10136,7 @@ msgstr "Deleter li selectet areas"
 #: ../src/calendar/gui/e-task-table.c:867
 #, fuzzy
 msgid "Select all visible tasks"
-msgstr "Selecter _omni"
+msgstr "Selecter omni visibil contactes"
 
 #: ../src/calendar/gui/e-task-table.etspec.h:1
 #, fuzzy
@@ -10185,7 +10146,7 @@ msgstr "Tache"
 #: ../src/calendar/gui/e-task-table.etspec.h:2
 #, fuzzy
 msgid "Start date"
-msgstr "Date"
+msgstr "Date del comense:"
 
 #: ../src/calendar/gui/e-task-table.etspec.h:5
 #, fuzzy
@@ -10316,7 +10277,7 @@ msgstr ""
 #: ../src/calendar/gui/e-to-do-pane.c:2413
 #, fuzzy
 msgid "D_elete All Instances…"
-msgstr "Omni instanties"
+msgstr "R_emover li adressarium"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2421
 msgid "_Delete…"
@@ -10359,7 +10320,7 @@ msgstr[1] "%u evenimentes"
 #: ../src/calendar/gui/itip-utils.c:1055
 #, fuzzy
 msgid "An organizer must be set."
-msgstr "A_ssignar"
+msgstr "Organisator:"
 
 #: ../src/calendar/gui/itip-utils.c:904
 #, fuzzy
@@ -10500,7 +10461,7 @@ msgstr "Ne successat %1 pro que li ressurse es blocat."
 #: ../src/calendar/gui/itip-utils.c:1593
 #, fuzzy
 msgid "You must be an attendee of the event."
-msgstr "Un nómine de marca-págine es mancant."
+msgstr "Vu deve provider un fólder."
 
 #: ../src/calendar/gui/itip-utils.c:2481
 #, fuzzy
@@ -10510,7 +10471,7 @@ msgstr "Eveniment"
 #: ../src/calendar/gui/itip-utils.c:2485
 #, fuzzy
 msgid "Sending a memo"
-msgstr "Emissente"
+msgstr "Memorandum"
 
 #: ../src/calendar/gui/itip-utils.c:2489
 #, fuzzy
@@ -10699,16 +10660,14 @@ msgstr "Compleet ye "
 #: ../src/calendar/gui/tasktypes.xml.in.h:27
 #: ../src/mail/filtertypes.xml.in.h:31 ../src/mail/searchtypes.xml.in.h:33
 #: ../src/mail/vfoldertypes.xml.in.h:33
-#, fuzzy
 msgid "is greater than"
-msgstr "plu quam"
+msgstr "es plu quam"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:28
 #: ../src/mail/filtertypes.xml.in.h:32 ../src/mail/searchtypes.xml.in.h:34
 #: ../src/mail/vfoldertypes.xml.in.h:34
-#, fuzzy
 msgid "is less than"
-msgstr "Minu quam"
+msgstr "es minu quam"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:29
 #, fuzzy
@@ -10792,7 +10751,7 @@ msgstr "Files de iCalendar (.ics)"
 #: ../src/calendar/importers/icalendar-importer.c:686
 #, fuzzy
 msgid "Evolution iCalendar importer"
-msgstr "Importator de KMail de Evolution"
+msgstr "Importator de vCard de Evolution"
 
 #: ../src/calendar/importers/icalendar-importer.c:854
 msgid "vCalendar files (.vcs)"
@@ -10801,7 +10760,7 @@ msgstr "Files vCalendar (.vcs)"
 #: ../src/calendar/importers/icalendar-importer.c:855
 #, fuzzy
 msgid "Evolution vCalendar importer"
-msgstr "Importator de KMail de Evolution"
+msgstr "Importator de vCard de Evolution"
 
 #: ../src/calendar/importers/icalendar-importer.c:1129
 #, fuzzy
@@ -10815,7 +10774,7 @@ msgstr "Calendare de GNOME"
 #: ../src/calendar/importers/icalendar-importer.c:1173
 #, fuzzy
 msgid "Evolution Calendar intelligent importer"
-msgstr "Importator de KMail de Evolution"
+msgstr "Postage e calendare Evolution"
 
 #: ../src/calendar/importers/icalendar-importer.c:1263
 #: ../src/calendar/importers/icalendar-importer.c:1652
@@ -11159,9 +11118,8 @@ msgid "Africa/Lome"
 msgstr "Sud-Africa"
 
 #: ../src/calendar/zones.h:57
-#, fuzzy
 msgid "Africa/Luanda"
-msgstr "Sud-Africa"
+msgstr "Africa/Luanda"
 
 #: ../src/calendar/zones.h:58
 #, fuzzy
@@ -11284,9 +11242,8 @@ msgid "America/Araguaina"
 msgstr "America/Port-au-Prince"
 
 #: ../src/calendar/zones.h:82
-#, fuzzy
 msgid "America/Aruba"
-msgstr "America/Port-au-Prince"
+msgstr "America/Aruba"
 
 #: ../src/calendar/zones.h:83
 #, fuzzy
@@ -11564,14 +11521,12 @@ msgid "America/La_Paz"
 msgstr "America/Port-au-Prince"
 
 #: ../src/calendar/zones.h:138
-#, fuzzy
 msgid "America/Lima"
-msgstr "America/Port-au-Prince"
+msgstr "America/Lima"
 
 #: ../src/calendar/zones.h:139
-#, fuzzy
 msgid "America/Los_Angeles"
-msgstr "America/Port-au-Prince"
+msgstr "America/Los-Angeles"
 
 #: ../src/calendar/zones.h:140
 #, fuzzy
@@ -11799,7 +11754,7 @@ msgstr "America/Port-au-Prince"
 #: ../src/calendar/zones.h:185
 #, fuzzy
 msgid "America/Swift_Current"
-msgstr "America/Port-au-Prince"
+msgstr "Actual"
 
 #: ../src/calendar/zones.h:186
 #, fuzzy
@@ -11817,9 +11772,8 @@ msgid "America/Thunder_Bay"
 msgstr "America/Port-au-Prince"
 
 #: ../src/calendar/zones.h:189
-#, fuzzy
 msgid "America/Tijuana"
-msgstr "America/Port-au-Prince"
+msgstr "America/Tijuana"
 
 #: ../src/calendar/zones.h:190
 #, fuzzy
@@ -11852,48 +11806,40 @@ msgid "America/Yellowknife"
 msgstr "America/Port-au-Prince"
 
 #: ../src/calendar/zones.h:196
-#, fuzzy
 msgid "Antarctica/Casey"
-msgstr "Antarctica/Sud pol"
+msgstr "Antarctica/Casey"
 
 #: ../src/calendar/zones.h:197
-#, fuzzy
 msgid "Antarctica/Davis"
-msgstr "Antarctica/Sud pol"
+msgstr "Antarctica/Davis"
 
 #: ../src/calendar/zones.h:198
-#, fuzzy
 msgid "Antarctica/DumontDUrville"
-msgstr "Antarctica/Sud pol"
+msgstr "Antarctica/Dumont-D'Urville"
 
 #: ../src/calendar/zones.h:199
-#, fuzzy
 msgid "Antarctica/Mawson"
-msgstr "Antarctica/Sud pol"
+msgstr "Antarctica/Mawson"
 
 #: ../src/calendar/zones.h:200
-#, fuzzy
 msgid "Antarctica/McMurdo"
-msgstr "Antarctica/Sud pol"
+msgstr "Antarctica/McMurdo"
 
 #: ../src/calendar/zones.h:201
-#, fuzzy
 msgid "Antarctica/Palmer"
-msgstr "Antarctica/Sud pol"
+msgstr "Antarctica/Palmer"
 
 #: ../src/calendar/zones.h:202
 msgid "Antarctica/South_Pole"
 msgstr "Antarctica/Sud pol"
 
 #: ../src/calendar/zones.h:203
-#, fuzzy
 msgid "Antarctica/Syowa"
-msgstr "Antarctica/Sud pol"
+msgstr "Antarctica/Syowa"
 
 #: ../src/calendar/zones.h:204
-#, fuzzy
 msgid "Antarctica/Vostok"
-msgstr "Antarctica/Sud pol"
+msgstr "Antarctica/Vostok"
 
 #: ../src/calendar/zones.h:205
 #, fuzzy
@@ -11946,9 +11892,8 @@ msgid "Asia/Bahrain"
 msgstr "Asia/Tbilisi"
 
 #: ../src/calendar/zones.h:215
-#, fuzzy
 msgid "Asia/Baku"
-msgstr "Asia/Omsk"
+msgstr "Asia/Baku"
 
 #: ../src/calendar/zones.h:216
 #, fuzzy
@@ -12036,9 +11981,8 @@ msgid "Asia/Hovd"
 msgstr "Asia/Omsk"
 
 #: ../src/calendar/zones.h:233
-#, fuzzy
 msgid "Asia/Irkutsk"
-msgstr "Asia/Tbilisi"
+msgstr "Asia/Irkutsk"
 
 #: ../src/calendar/zones.h:234
 #, fuzzy
@@ -12066,9 +12010,8 @@ msgid "Asia/Kabul"
 msgstr "Asia/Omsk"
 
 #: ../src/calendar/zones.h:239
-#, fuzzy
 msgid "Asia/Kamchatka"
-msgstr "Asia/Tashkent"
+msgstr "Asia/Kamchatka"
 
 #: ../src/calendar/zones.h:240
 #, fuzzy
@@ -12100,9 +12043,8 @@ msgid "Asia/Kuching"
 msgstr "Asia/Tbilisi"
 
 #: ../src/calendar/zones.h:246
-#, fuzzy
 msgid "Asia/Kuwait"
-msgstr "Asia/Tbilisi"
+msgstr "Asia/Kuwait"
 
 #: ../src/calendar/zones.h:247
 #, fuzzy
@@ -12115,9 +12057,8 @@ msgid "Asia/Macau"
 msgstr "Asia/Omsk"
 
 #: ../src/calendar/zones.h:249
-#, fuzzy
 msgid "Asia/Magadan"
-msgstr "Asia/Tbilisi"
+msgstr "Asia/Magadan"
 
 #: ../src/calendar/zones.h:250
 #, fuzzy
@@ -12135,9 +12076,8 @@ msgid "Asia/Muscat"
 msgstr "Asia/Tbilisi"
 
 #: ../src/calendar/zones.h:253
-#, fuzzy
 msgid "Asia/Nicosia"
-msgstr "Asia/Tbilisi"
+msgstr "Asia/Nicosia"
 
 #: ../src/calendar/zones.h:254
 msgid "Asia/Novosibirsk"
@@ -12278,9 +12218,8 @@ msgid "Asia/Yekaterinburg"
 msgstr "Asia/Yekaterinburg"
 
 #: ../src/calendar/zones.h:283
-#, fuzzy
 msgid "Asia/Yerevan"
-msgstr "Asia/Tbilisi"
+msgstr "Asia/Yerevan"
 
 #: ../src/calendar/zones.h:284
 msgid "Atlantic/Azores"
@@ -12332,49 +12271,40 @@ msgid "Atlantic/Stanley"
 msgstr ""
 
 #: ../src/calendar/zones.h:295
-#, fuzzy
 msgid "Australia/Adelaide"
-msgstr "Australia/Sydney"
+msgstr "Australia/Adelaide"
 
 #: ../src/calendar/zones.h:296
-#, fuzzy
 msgid "Australia/Brisbane"
-msgstr "Australia/Sydney"
+msgstr "Australia/Brisbane"
 
 #: ../src/calendar/zones.h:297
-#, fuzzy
 msgid "Australia/Broken_Hill"
-msgstr "Australia/Sydney"
+msgstr "Australia/Broken-Hill"
 
 #: ../src/calendar/zones.h:298
-#, fuzzy
 msgid "Australia/Darwin"
-msgstr "Australia/Sydney"
+msgstr "Australia/Darwin"
 
 #: ../src/calendar/zones.h:299
-#, fuzzy
 msgid "Australia/Hobart"
-msgstr "Australia/Sydney"
+msgstr "Australia/Hobart"
 
 #: ../src/calendar/zones.h:300
-#, fuzzy
 msgid "Australia/Lindeman"
-msgstr "Australia/Sydney"
+msgstr "Australia/Lindeman"
 
 #: ../src/calendar/zones.h:301
-#, fuzzy
 msgid "Australia/Lord_Howe"
-msgstr "Australia/Sydney"
+msgstr "Australia/Lord-Howe"
 
 #: ../src/calendar/zones.h:302
-#, fuzzy
 msgid "Australia/Melbourne"
-msgstr "Australia/Sydney"
+msgstr "Australia/Melbourne"
 
 #: ../src/calendar/zones.h:303
-#, fuzzy
 msgid "Australia/Perth"
-msgstr "Australia/Sydney"
+msgstr "Australia/Perth"
 
 #: ../src/calendar/zones.h:304
 msgid "Australia/Sydney"
@@ -12409,9 +12339,8 @@ msgid "Europe/Berlin"
 msgstr "Europa/Berlin"
 
 #: ../src/calendar/zones.h:311
-#, fuzzy
 msgid "Europe/Bratislava"
-msgstr "Europa"
+msgstr "Europa/Bratislava"
 
 #: ../src/calendar/zones.h:312
 #, fuzzy
@@ -12434,9 +12363,8 @@ msgid "Europe/Chisinau"
 msgstr "Europa"
 
 #: ../src/calendar/zones.h:316
-#, fuzzy
 msgid "Europe/Copenhagen"
-msgstr "Europa"
+msgstr "Europa/København"
 
 #: ../src/calendar/zones.h:317
 msgid "Europe/Dublin"
@@ -12843,7 +12771,7 @@ msgstr "Crear un _missage"
 #: ../src/composer/e-composer-actions.c:342
 #, fuzzy
 msgid "Open New Message window"
-msgstr "Aperter ligament in un nov _fenestre"
+msgstr "Aperter «%1» in un nov fenestre"
 
 #: ../src/composer/e-composer-actions.c:347
 #: ../src/shell/e-shell-window-actions.c:1016
@@ -12977,17 +12905,17 @@ msgstr "Ear a textu"
 #: ../src/composer/e-composer-actions.c:482
 #, fuzzy
 msgid "S/MIME En_crypt"
-msgstr "S/MIME opac"
+msgstr "MIME-tip: %s"
 
 #: ../src/composer/e-composer-actions.c:484
 #, fuzzy
 msgid "Encrypt this message with S/MIME"
-msgstr "Cargante li córpor por li tema «%s»"
+msgstr "MIME-tip: %s"
 
 #: ../src/composer/e-composer-actions.c:490
 #, fuzzy
 msgid "S/MIME Sig_n"
-msgstr "%(north_latitude)s N"
+msgstr "MIME-tip: %s"
 
 #: ../src/composer/e-composer-actions.c:492
 msgid "Sign this message with your S/MIME Signature Certificate"
@@ -13100,7 +13028,7 @@ msgstr "_Responder-A:"
 #: ../src/composer/e-composer-header-table.c:879
 #, fuzzy
 msgid "Mail-Followu_p-To:"
-msgstr "_E-post"
+msgstr "P_lugines"
 
 #: ../src/composer/e-composer-header-table.c:883
 #, fuzzy
@@ -13167,7 +13095,7 @@ msgstr "obtener valores de proprietás"
 #: ../src/composer/e-msg-composer.c:1767
 #, fuzzy
 msgid "Failed to retrieve draft content"
-msgstr "obtener valores de proprietás"
+msgstr "Ne successat obtener un missage"
 
 #: ../src/composer/e-msg-composer.c:1780
 #, fuzzy
@@ -13362,7 +13290,7 @@ msgstr ""
 #: ../src/composer/mail-composer.error.xml.h:36
 #, fuzzy
 msgid "Saving message to Outbox."
-msgstr "Salient"
+msgstr "Inviante %d missage"
 
 #: ../src/composer/mail-composer.error.xml.h:37
 msgid ""
@@ -13611,7 +13539,7 @@ msgstr "HTML"
 #: ../src/em-format/e-mail-formatter-text-html.c:390
 #, fuzzy
 msgid "Format part as HTML"
-msgstr "Ti articul manca %d parte."
+msgstr "Formate:"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:133
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
@@ -13826,22 +13754,22 @@ msgstr "Ciffrat med GPG"
 #: ../src/em-format/e-mail-formatter-utils.c:587
 #, fuzzy
 msgid "S/MIME signed"
-msgstr "Signat med GPG"
+msgstr "MIME-tip: %s"
 
 #: ../src/em-format/e-mail-formatter-utils.c:587
 #, fuzzy
 msgid "partially S/MIME signed"
-msgstr "S/MIME opac"
+msgstr "MIME-tip: %s"
 
 #: ../src/em-format/e-mail-formatter-utils.c:588
 #, fuzzy
 msgid "S/MIME encrypted"
-msgstr "Ciffrat de %s"
+msgstr "MIME-tip: %s"
 
 #: ../src/em-format/e-mail-formatter-utils.c:588
 #, fuzzy
 msgid "partially S/MIME encrypted"
-msgstr "Ciffrat de %s"
+msgstr "MIME-tip: %s"
 
 #: ../src/em-format/e-mail-formatter-utils.c:729
 msgid "Show parts not being secured"
@@ -13918,7 +13846,7 @@ msgstr ""
 #: ../src/em-format/e-mail-parser-multipart-signed.c:149
 #, fuzzy
 msgid "Unsupported signature format"
-msgstr "Formate:"
+msgstr "Algoritme de signature es ínsupportat"
 
 #: ../src/em-format/e-mail-part-headers.c:40
 #: ../src/modules/mail/em-mailer-prefs.c:72
@@ -13945,7 +13873,7 @@ msgstr "Facie"
 #: ../src/em-format/e-mail-part-secure-button.c:96
 #, fuzzy, c-format
 msgid "Failed to import certificate: %s"
-msgstr "Importar li certificate"
+msgstr "Ne successat gardar un certificate: %s"
 
 #: ../src/em-format/e-mail-part-utils.c:616
 #, c-format
@@ -13988,7 +13916,7 @@ msgstr "Calendares"
 #: ../src/e-util/e-accounts-window.c:918
 #, fuzzy
 msgid "Memo Lists"
-msgstr "Memorandum"
+msgstr "Listes de taches"
 
 #: ../src/e-util/e-accounts-window.c:580 ../src/e-util/e-accounts-window.c:711
 #: ../src/e-util/e-accounts-window.c:919
@@ -14032,7 +13960,7 @@ msgstr "_Calendare"
 #: ../src/e-util/e-accounts-window.c:1494
 #, fuzzy
 msgid "M_emo List"
-msgstr "M_etode:"
+msgstr "M_odificar"
 
 #: ../src/e-util/e-accounts-window.c:1495
 msgid "_Task List"
@@ -14094,7 +14022,7 @@ msgstr "%s"
 #: ../src/modules/calendar/e-cal-base-shell-content.c:143
 #, fuzzy, c-format
 msgid "%s (%d%% complete)"
-msgstr "Compleet"
+msgstr "%s (%d)"
 
 #: ../src/e-util/e-activity-proxy.c:339
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1806
@@ -14130,9 +14058,8 @@ msgstr "_Ignorar li tema"
 #. * message to be attached has also filled Subject, then this text is
 #. * of form "Attached message - Subject", otherwise it's left as is.
 #: ../src/e-util/e-attachment.c:1155
-#, fuzzy
 msgid "Attached message"
-msgstr "_Atachat"
+msgstr "Atachat missage"
 
 #: ../src/e-util/e-attachment.c:2257 ../src/e-util/e-attachment.c:3251
 #: ../src/mail/em-utils.c:2307
@@ -14151,9 +14078,9 @@ msgid "A save operation is already in progress"
 msgstr "Statu del operation con files"
 
 #: ../src/e-util/e-attachment.c:2878
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open “%s”"
-msgstr "«%s» ne posset esset apertet"
+msgstr "Ne successat aperter «%s»"
 
 #: ../src/e-util/e-attachment.c:2881
 #, fuzzy, c-format
@@ -14166,9 +14093,9 @@ msgid "Attachment contents not loaded"
 msgstr "_Atachament…"
 
 #: ../src/e-util/e-attachment.c:3713
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save “%s”"
-msgstr "Ne posset salvar li archive «%s»"
+msgstr "Ne successat gardar «%s»"
 
 #: ../src/e-util/e-attachment.c:3716
 #, fuzzy, c-format
@@ -14194,7 +14121,7 @@ msgstr "Carga..."
 #: ../src/e-util/e-attachment-tree-view.c:184
 #, fuzzy
 msgid "Saving"
-msgstr "Cl_uder sin gardar"
+msgstr "Inviante %d missage"
 
 #: ../src/e-util/e-attachment-paned.c:96
 #, fuzzy
@@ -14207,15 +14134,13 @@ msgid "Show Attachment _Bar"
 msgstr "Monstrar li menú"
 
 #: ../src/e-util/e-attachment-popover.c:284
-#, fuzzy
 msgid "Attachment Properties"
-msgstr "_Atachament…"
+msgstr "Proprietás del atachament"
 
 #: ../src/e-util/e-attachment-popover.c:297
 #: ../src/e-util/e-html-editor-link-popover.c:200
-#, fuzzy
 msgid "_URI:"
-msgstr "[URI] [URI] …"
+msgstr "_URI:"
 
 #: ../src/e-util/e-attachment-popover.c:323
 msgid "_Filename:"
@@ -14257,11 +14182,10 @@ msgid "Archive selected directories using this format:"
 msgstr ""
 
 #: ../src/e-util/e-attachment-store.c:824
-#, fuzzy
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
 msgstr[0] "Gardar li atachament"
-msgstr[1] ""
+msgstr[1] "Gardar li atachamentes"
 
 #: ../src/e-util/e-attachment-store.c:862
 #, fuzzy
@@ -14283,9 +14207,8 @@ msgid "Open With Other Application…"
 msgstr "Aperter per altri _application"
 
 #: ../src/e-util/e-attachment-view.c:465
-#, fuzzy
 msgid "S_ave All"
-msgstr "_Omni"
+msgstr "G_ardar omni"
 
 #: ../src/e-util/e-attachment-view.c:472
 msgid "Sa_ve As"
@@ -14325,9 +14248,8 @@ msgid "_Properties"
 msgstr "_Proprietás"
 
 #: ../src/e-util/e-attachment-view.c:512
-#, fuzzy
 msgid "Re_load"
-msgstr "_Cargar"
+msgstr "Re_cargar"
 
 #: ../src/e-util/e-attachment-view.c:514
 #, fuzzy
@@ -14419,7 +14341,7 @@ msgstr "Liste de _taches"
 #: ../src/e-util/e-cal-source-config.c:157
 #, fuzzy
 msgid "Mark as default memo list"
-msgstr "Li largore predefinit del columne de nómine in li liste de files."
+msgstr "Memorandum"
 
 #: ../src/e-util/e-cal-source-config.c:182
 msgid "Color:"
@@ -14451,19 +14373,16 @@ msgid "_Available Categories:"
 msgstr "Disponibil categories:"
 
 #: ../src/e-util/e-categories-editor.c:315
-#, fuzzy
 msgctxt "category"
 msgid "_New"
 msgstr "_Crear"
 
 #: ../src/e-util/e-categories-editor.c:319
-#, fuzzy
 msgctxt "category"
 msgid "_Edit"
-msgstr "_Redacter"
+msgstr "R_edacter"
 
 #: ../src/e-util/e-categories-editor.c:323
-#, fuzzy
 msgctxt "category"
 msgid "_Delete"
 msgstr "_Remover"
@@ -14482,7 +14401,6 @@ msgid "Category Icon"
 msgstr "Icone de categorie"
 
 #: ../src/e-util/e-category-editor.c:165
-#, fuzzy
 msgid "_No Image"
 msgstr "Si_n image"
 
@@ -14497,12 +14415,11 @@ msgstr "_Icone de categorie"
 #: ../src/e-util/e-category-editor.c:228
 #, fuzzy
 msgid "_Unset icon"
-msgstr "Icone:"
+msgstr "Icone"
 
 #: ../src/e-util/e-category-editor.c:250
-#, fuzzy
 msgid "Category Properties"
-msgstr "_Proprietás"
+msgstr "Proprietás del categorie"
 
 #: ../src/e-util/e-category-editor.c:313
 #, c-format
@@ -14539,7 +14456,7 @@ msgstr "OK"
 #: ../src/e-util/e-cell-date-edit.c:908
 #, fuzzy, c-format
 msgid "The time must be in the format: %s"
-msgstr "Formate de témpor:"
+msgstr "Formate de date e hora"
 
 #: ../src/e-util/e-cell-percent.c:79
 msgid "The percent value must be between 0 and 100, inclusive"
@@ -14706,7 +14623,6 @@ msgid "Requires password to continue. %s."
 msgstr "Un contrasigne es besonat por «%s»"
 
 #: ../src/e-util/e-collection-account-wizard.c:530
-#, fuzzy
 msgid "View certificate"
 msgstr "Vider li certificate"
 
@@ -14812,9 +14728,8 @@ msgid "_Email Address or User name:"
 msgstr "Nómine de _usator:"
 
 #: ../src/e-util/e-collection-account-wizard.c:1755
-#, fuzzy
 msgid "_Advanced Options"
-msgstr "Parametres avansat por %1"
+msgstr "P_arametres avansat"
 
 #: ../src/e-util/e-collection-account-wizard.c:1760
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
@@ -14860,7 +14775,6 @@ msgid "Running…"
 msgstr "Executent"
 
 #: ../src/e-util/e-dateedit.c:572
-#, fuzzy
 msgid "Date and Time"
 msgstr "Date e hora"
 
@@ -14894,9 +14808,8 @@ msgstr "_Hodie"
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
 #: ../src/e-util/e-dateedit.c:783 ../src/mail/em-folder-selector.c:620
-#, fuzzy
 msgid "_None"
-msgstr "(null)"
+msgstr "_Null"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
@@ -14906,14 +14819,12 @@ msgid "None"
 msgstr "Null"
 
 #: ../src/e-util/e-dateedit.c:2095 ../src/e-util/e-dateedit.c:2570
-#, fuzzy
 msgid "Invalid Date Value"
-msgstr "Ínvalid valore in un contacte: %s"
+msgstr "Ínvalid valore de date"
 
 #: ../src/e-util/e-dateedit.c:2135 ../src/e-util/e-dateedit.c:2627
-#, fuzzy
 msgid "Invalid Time Value"
-msgstr "Ínvalid valore in un contacte: %s"
+msgstr "Ínvalid valore de hora"
 
 #: ../src/e-util/e-datetime-format.c:250
 msgid "Yesterday"
@@ -15051,7 +14962,7 @@ msgstr "%s h"
 #: ../src/e-util/e-emoticon-chooser.c:48
 #, fuzzy
 msgid "_Plain"
-msgstr "Preferer simplic textu"
+msgstr "PLAIN"
 
 #. Translators: :-!
 #: ../src/e-util/e-emoticon-chooser.c:50
@@ -15165,7 +15076,7 @@ msgstr[1] "ante %d secondes"
 #, fuzzy, c-format
 msgid "1 second in the future"
 msgid_plural "%d seconds in the future"
-msgstr[0] "Cadres (1 seconde = 75 cadres)"
+msgstr[0] "1 hor in li futur"
 msgstr[1] ""
 
 #: ../src/e-util/e-filter-datespec.c:62
@@ -15179,7 +15090,7 @@ msgstr[1] "ante %d minutes"
 #, fuzzy, c-format
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
-msgstr[0] "Inviar pos 1 minute"
+msgstr[0] "1 hor in li futur"
 msgstr[1] ""
 
 #: ../src/e-util/e-filter-datespec.c:64
@@ -15190,11 +15101,11 @@ msgstr[0] "ante 1 hor"
 msgstr[1] "ante %d hores"
 
 #: ../src/e-util/e-filter-datespec.c:65
-#, fuzzy, c-format
+#, c-format
 msgid "1 hour in the future"
 msgid_plural "%d hours in the future"
-msgstr[0] "ante 1 hor"
-msgstr[1] ""
+msgstr[0] "1 hor in li futur"
+msgstr[1] "%d hores in li futur"
 
 #: ../src/e-util/e-filter-datespec.c:66
 #, c-format
@@ -15207,7 +15118,7 @@ msgstr[1] "ante %d dies"
 #, fuzzy, c-format
 msgid "1 day in the future"
 msgid_plural "%d days in the future"
-msgstr[0] "ante 1 die"
+msgstr[0] "1 hor in li futur"
 msgstr[1] ""
 
 #: ../src/e-util/e-filter-datespec.c:68
@@ -15221,7 +15132,7 @@ msgstr[1] "ante %d semanes"
 #, fuzzy, c-format
 msgid "1 week in the future"
 msgid_plural "%d weeks in the future"
-msgstr[0] "ante 1 semane"
+msgstr[0] "1 hor in li futur"
 msgstr[1] ""
 
 #: ../src/e-util/e-filter-datespec.c:70
@@ -15235,7 +15146,7 @@ msgstr[1] "ante %d mensus"
 #, fuzzy, c-format
 msgid "1 month in the future"
 msgid_plural "%d months in the future"
-msgstr[0] "ante 1 mensu"
+msgstr[0] "1 hor in li futur"
 msgstr[1] ""
 
 #: ../src/e-util/e-filter-datespec.c:72
@@ -15249,7 +15160,7 @@ msgstr[1] "ante %d annus"
 #, fuzzy, c-format
 msgid "1 year in the future"
 msgid_plural "%d years in the future"
-msgstr[0] "ante 1 annu"
+msgstr[0] "1 hor in li futur"
 msgstr[1] ""
 
 #: ../src/e-util/e-filter-datespec.c:120
@@ -15265,7 +15176,6 @@ msgstr "nu"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: ../src/e-util/e-filter-datespec.c:132
-#, fuzzy
 msgid "%d-%b-%Y"
 msgstr "%d %b %Y"
 
@@ -15275,9 +15185,8 @@ msgid "Select a time to compare against"
 msgstr "Selecter hora"
 
 #: ../src/e-util/e-filter-file.c:184
-#, fuzzy
 msgid "Choose a File"
-msgstr "Selecter un file torrent…"
+msgstr "Selecter un file"
 
 #: ../src/e-util/e-filter-rule.c:1014
 #, fuzzy
@@ -15315,14 +15224,12 @@ msgstr ""
 #: ../src/mail/e-mail-autoconfig.c:868
 #: ../src/mail/e-mail-config-summary-page.c:134
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
-#, fuzzy
 msgid "None"
 msgstr "Null"
 
 #: ../src/e-util/e-filter-rule.c:1116
-#, fuzzy
 msgid "All related"
-msgstr "Relatet applicationes"
+msgstr "Omni relatet"
 
 #: ../src/e-util/e-filter-rule.c:1117 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
@@ -15341,12 +15248,11 @@ msgstr "Loc superiori"
 #: ../src/e-util/e-filter-rule.c:1122
 #, fuzzy
 msgid "I_nclude threads:"
-msgstr "Págine: %i/%i"
+msgstr "Temas in sin_gul nivelle"
 
 #: ../src/e-util/e-filter-rule.c:1200
-#, fuzzy
 msgid "A_dd Condition"
-msgstr "Condition mancant."
+msgstr "A_djunter un condition"
 
 #: ../src/e-util/e-filter-rule.c:1518 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:995 ../src/mail/em-utils.c:166
@@ -15420,19 +15326,16 @@ msgid "Try a different search"
 msgstr "Li files es diferent."
 
 #: ../src/e-util/e-html-editor-actions.c:81
-#, fuzzy
 msgid "Failed to insert HTML file."
-msgstr "File HTML..."
+msgstr "Ne successat inserter un file HTML."
 
 #: ../src/e-util/e-html-editor-actions.c:119
-#, fuzzy
 msgid "Failed to insert text file."
-msgstr "Inserter textu"
+msgstr "Ne successat inserter un file textual."
 
 #: ../src/e-util/e-html-editor-actions.c:414
-#, fuzzy
 msgid "Insert HTML File"
-msgstr "File HTML..."
+msgstr "Inserter un file HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:419
 msgid "HTML file"
@@ -15440,10 +15343,9 @@ msgstr "File HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:457
 #: ../src/e-util/e-html-editor-actions.c:475
-#, fuzzy
 msgctxt "dialog-title"
 msgid "Insert Image"
-msgstr "_Inserter"
+msgstr "Inserter un image"
 
 #: ../src/e-util/e-html-editor-actions.c:464
 #: ../src/e-util/e-html-editor-actions.c:482
@@ -15452,48 +15354,40 @@ msgid "Image files"
 msgstr "Files de images"
 
 #: ../src/e-util/e-html-editor-actions.c:560
-#, fuzzy
 msgid "Insert text file"
-msgstr "Inserter textu"
+msgstr "Inserter un file textual"
 
 #: ../src/e-util/e-html-editor-actions.c:565
 msgid "Text file"
 msgstr "File textual"
 
 #: ../src/e-util/e-html-editor-actions.c:1146
-#, fuzzy
 msgid "Copy selected text to the clipboard"
-msgstr "Copiar li reconosset textu al Paperiere"
+msgstr "Copiar li selectet textu al Paperiere"
 
 #: ../src/e-util/e-html-editor-actions.c:1153
-#, fuzzy
 msgid "Cut selected text to the clipboard"
-msgstr "Copiar li reconosset textu al Paperiere"
+msgstr "Exciser li selectet textu al Paperiere"
 
 #: ../src/e-util/e-html-editor-actions.c:1160
-#, fuzzy
 msgid "Paste text from the clipboard"
-msgstr "Coll&ar li contenete del Paperiere"
+msgstr "Collar textu ex li Paperiere"
 
 #: ../src/e-util/e-html-editor-actions.c:1167
-#, fuzzy
 msgid "Redo the last undone action"
 msgstr "Refar li ultim action defat"
 
 #: ../src/e-util/e-html-editor-actions.c:1181
-#, fuzzy
 msgid "Undo the last action"
 msgstr "Defar li ultim action"
 
 #: ../src/e-util/e-html-editor-actions.c:1202
-#, fuzzy
 msgid "For_mat"
 msgstr "For_mate"
 
 #: ../src/e-util/e-html-editor-actions.c:1209
-#, fuzzy
 msgid "_Paragraph Style"
-msgstr "_Stil:"
+msgstr "Stil de _paragraf"
 
 #: ../src/e-util/e-html-editor-actions.c:1223
 #: ../src/e-util/e-html-editor-image-dialog.c:669
@@ -15501,9 +15395,8 @@ msgid "_Alignment"
 msgstr "_Alineament"
 
 #: ../src/e-util/e-html-editor-actions.c:1230
-#, fuzzy
 msgid "Current _Languages"
-msgstr "_Lingues"
+msgstr "Actual _lingues"
 
 #: ../src/e-util/e-html-editor-actions.c:1247
 #, fuzzy
@@ -15523,7 +15416,6 @@ msgstr "E_moji"
 #: ../src/e-util/e-html-editor-actions.c:1256
 #: ../src/e-util/e-html-editor-actions.c:1263
 #: ../src/e-util/e-markdown-editor.c:1965
-#, fuzzy
 msgid "Insert Emoji"
 msgstr "Inserter un emoji"
 
@@ -15533,14 +15425,12 @@ msgid "Insert E_moji"
 msgstr "E_moji"
 
 #: ../src/e-util/e-html-editor-actions.c:1268
-#, fuzzy
 msgid "_HTML File…"
-msgstr "File HTML..."
+msgstr "File _HTML…"
 
 #: ../src/e-util/e-html-editor-actions.c:1275
-#, fuzzy
 msgid "Te_xt File…"
-msgstr "Ne es un file"
+msgstr "File te_xtual…"
 
 #: ../src/e-util/e-html-editor-actions.c:1282
 #, fuzzy
@@ -15548,7 +15438,6 @@ msgid "Paste _Quotation"
 msgstr "Co_llar"
 
 #: ../src/e-util/e-html-editor-actions.c:1289
-#, fuzzy
 msgid "_Find…"
 msgstr "_Trovar…"
 
@@ -15588,9 +15477,8 @@ msgid "Decrease Indent"
 msgstr "← Decrementar li márgine"
 
 #: ../src/e-util/e-html-editor-actions.c:1324
-#, fuzzy
 msgid "_Wrap Lines"
-msgstr "Lineas"
+msgstr "_Rupter lineas"
 
 #. Center
 #: ../src/e-util/e-html-editor-actions.c:1334
@@ -15628,9 +15516,8 @@ msgstr "_Alineament:"
 #. Right
 #: ../src/e-util/e-html-editor-actions.c:1355
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:111
-#, fuzzy
 msgid "_Right"
-msgstr "_Dextri:"
+msgstr "A _dextri"
 
 #: ../src/e-util/e-html-editor-actions.c:1357
 #, fuzzy
@@ -15648,7 +15535,6 @@ msgid "HTML editing mode"
 msgstr "_Mode HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:1372
-#, fuzzy
 msgid "Plain _Text"
 msgstr "Sim_plic textu"
 
@@ -15668,18 +15554,16 @@ msgid "Markdown editing mode"
 msgstr "_Markdown"
 
 #: ../src/e-util/e-html-editor-actions.c:1386
-#, fuzzy
 msgid "Ma_rkdown as Plain Text"
-msgstr "Preferer simplic textu"
+msgstr "Ma_rkdown quam simplic textu"
 
 #: ../src/e-util/e-html-editor-actions.c:1388
 msgid "Markdown editing mode, exported as Plain Text"
 msgstr ""
 
 #: ../src/e-util/e-html-editor-actions.c:1393
-#, fuzzy
 msgid "Mar_kdown as HTML"
-msgstr "HTML"
+msgstr "Mar_kdown quam HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:1395
 msgid "Markdown editing mode, exported as HTML"
@@ -15694,29 +15578,24 @@ msgid "Heading _1"
 msgstr "Rubrica _1"
 
 #: ../src/e-util/e-html-editor-actions.c:1417
-#, fuzzy
 msgid "Heading _2"
-msgstr "Rubrica niv. 2"
+msgstr "Rubrica niv. _2"
 
 #: ../src/e-util/e-html-editor-actions.c:1424
-#, fuzzy
 msgid "Heading _3"
-msgstr "rubrica"
+msgstr "Rubrica niv. _3"
 
 #: ../src/e-util/e-html-editor-actions.c:1431
-#, fuzzy
 msgid "Heading _4"
-msgstr "rubrica"
+msgstr "Rubrica niv. _4"
 
 #: ../src/e-util/e-html-editor-actions.c:1438
-#, fuzzy
 msgid "Heading _5"
-msgstr "rubrica"
+msgstr "Rubrica niv. _5"
 
 #: ../src/e-util/e-html-editor-actions.c:1445
-#, fuzzy
 msgid "Heading _6"
-msgstr "rubrica"
+msgstr "Rubrica niv. _6"
 
 #: ../src/e-util/e-html-editor-actions.c:1452
 msgid "_Preformatted"
@@ -15748,15 +15627,13 @@ msgstr "_Liste:"
 
 #: ../src/e-util/e-html-editor-actions.c:1503
 #: ../src/e-util/e-html-editor-actions.c:1541
-#, fuzzy
 msgid "_Image…"
-msgstr "_Image:"
+msgstr "_Image…"
 
 #. Translators: This is an action tooltip
 #: ../src/e-util/e-html-editor-actions.c:1506
-#, fuzzy
 msgid "Insert Image"
-msgstr "_Inserter"
+msgstr "Inserter un image"
 
 #: ../src/e-util/e-html-editor-actions.c:1511
 #: ../src/e-util/e-html-editor-actions.c:1548
@@ -15764,9 +15641,8 @@ msgid "_Link…"
 msgstr "_Ligament…"
 
 #: ../src/e-util/e-html-editor-actions.c:1513
-#, fuzzy
 msgid "Insert Link"
-msgstr "_Inserter"
+msgstr "Inserter un ligament"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1519
@@ -15787,9 +15663,8 @@ msgid "_Table…"
 msgstr "_Tabelle…"
 
 #: ../src/e-util/e-html-editor-actions.c:1529
-#, fuzzy
 msgid "Insert Table"
-msgstr "_Tabelle…"
+msgstr "Inserter un tabelle"
 
 #: ../src/e-util/e-html-editor-actions.c:1534
 msgid "_Cell…"
@@ -15921,9 +15796,8 @@ msgid "Open the link in a web browser"
 msgstr "Navigator _web:"
 
 #: ../src/e-util/e-html-editor-actions.c:1737
-#, fuzzy
 msgid "Cell Contents"
-msgstr "_Cellul…"
+msgstr "Contenete de lcellul"
 
 #: ../src/e-util/e-html-editor-actions.c:1744
 msgid "Column"
@@ -15950,7 +15824,6 @@ msgid "Table Insert"
 msgstr "_Tabelle…"
 
 #: ../src/e-util/e-html-editor-actions.c:1783
-#, fuzzy
 msgid "Properties"
 msgstr "Proprietás"
 
@@ -15960,34 +15833,28 @@ msgid "Delete Rule"
 msgstr "_Remover…"
 
 #: ../src/e-util/e-html-editor-actions.c:1808
-#, fuzzy
 msgid "Delete Image"
-msgstr "_Remover"
+msgstr "Remover li image"
 
 #: ../src/e-util/e-html-editor-actions.c:1815
-#, fuzzy
 msgid "Column After"
-msgstr "pos"
+msgstr "Columne pos"
 
 #: ../src/e-util/e-html-editor-actions.c:1822
-#, fuzzy
 msgid "Column Before"
-msgstr "Columne"
+msgstr "Columne ante"
 
 #: ../src/e-util/e-html-editor-actions.c:1829
-#, fuzzy
 msgid "Insert _Link"
-msgstr "_Inserter"
+msgstr "Inserter un _ligament"
 
 #: ../src/e-util/e-html-editor-actions.c:1836
-#, fuzzy
 msgid "Row Above"
-msgstr "Range"
+msgstr "Range a supra"
 
 #: ../src/e-util/e-html-editor-actions.c:1843
-#, fuzzy
 msgid "Row Below"
-msgstr "Range"
+msgstr "Range ad infra"
 
 #: ../src/e-util/e-html-editor-actions.c:1850
 msgid "Cell…"
@@ -15998,18 +15865,16 @@ msgid "Image…"
 msgstr "Image…"
 
 #: ../src/e-util/e-html-editor-actions.c:1864
-#, fuzzy
 msgid "Link…"
-msgstr "_Ligament"
+msgstr "Ligament…"
 
 #: ../src/e-util/e-html-editor-actions.c:1871
 msgid "Page…"
 msgstr "Págine…"
 
 #: ../src/e-util/e-html-editor-actions.c:1878
-#, fuzzy
 msgid "Paragraph…"
-msgstr "&Paragraf"
+msgstr "Paragraf…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1886
@@ -16022,9 +15887,8 @@ msgid "Table…"
 msgstr "Tabelle…"
 
 #: ../src/e-util/e-html-editor-actions.c:1900
-#, fuzzy
 msgid "Text…"
-msgstr "Textu:"
+msgstr "Textu…"
 
 #: ../src/e-util/e-html-editor-actions.c:1907
 #, fuzzy
@@ -16041,9 +15905,8 @@ msgid "Ignore Misspelled Word"
 msgstr "Parol misespelat:"
 
 #: ../src/e-util/e-html-editor-actions.c:1938
-#, fuzzy
 msgid "Add Word To"
-msgstr "Adjuncter al dictionarium"
+msgstr "Adjuncter a"
 
 #: ../src/e-util/e-html-editor-actions.c:1947
 msgid "More Suggestions"
@@ -16098,29 +15961,24 @@ msgid "Editing Mode"
 msgstr "Redaction"
 
 #: ../src/e-util/e-html-editor.c:958
-#, fuzzy
 msgid "Paragraph Style"
-msgstr "_Stil:"
+msgstr "Stil de paragraf"
 
 #: ../src/e-util/e-html-editor.c:985
-#, fuzzy
 msgid "Font Color"
-msgstr "<small><font color=\"%1\"><b>Shift</b> por vider plu.</font></small>"
+msgstr "Color de fonde"
 
 #: ../src/e-util/e-html-editor.c:996
-#, fuzzy
 msgid "Background Color"
-msgstr "_Funde:"
+msgstr "Color de funde"
 
 #: ../src/e-util/e-html-editor.c:1006
-#, fuzzy
 msgid "Font Size"
-msgstr "Incrementar li grandore de textu"
+msgstr "Dimension de fonde"
 
 #: ../src/e-util/e-html-editor.c:1015
-#, fuzzy
 msgid "Font Name"
-msgstr "Serchar un nómine del fonde"
+msgstr "Nómine de fonde"
 
 #: ../src/e-util/e-html-editor.c:2169
 #, fuzzy
@@ -16134,19 +15992,16 @@ msgstr "<b>Technic cause</b>: "
 
 #. Scope: cell
 #: ../src/e-util/e-html-editor-cell-dialog.c:410
-#, fuzzy
 msgid "C_ell"
-msgstr "_C/C++"
+msgstr "C_ellul"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:420
-#, fuzzy
 msgid "_Row"
-msgstr "Range"
+msgstr "_Range"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:440
-#, fuzzy
 msgid "Col_umn"
-msgstr "Col"
+msgstr "Col_umne"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:450
 #, fuzzy
@@ -16172,7 +16027,6 @@ msgid "Right"
 msgstr "A dextri"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:473
-#, fuzzy
 msgid "_Horizontal:"
 msgstr "_Horizontal:"
 
@@ -16230,7 +16084,7 @@ msgstr "Pan"
 #: ../src/e-util/e-html-editor-cell-dialog.c:584
 #, fuzzy
 msgid "Co_lumn Span:"
-msgstr "Co_mandes:"
+msgstr "Co_mpleet"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:591
 #: ../src/e-util/e-html-editor-table-dialog.c:640
@@ -16273,9 +16127,8 @@ msgid "_Remove image"
 msgstr "_Remover li image"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:668
-#, fuzzy
 msgid "Cell Properties"
-msgstr "_Proprietás"
+msgstr "Proprietás de cellul"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:60
 #: ../src/e-util/e-html-editor-replace-dialog.c:61
@@ -16321,9 +16174,8 @@ msgid "_Size:"
 msgstr "Grandore"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:284
-#, fuzzy
 msgid "<b>Style</b>"
-msgstr "<b>Technic cause</b>: "
+msgstr "<b>Stil</b>"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:309
 #: ../src/e-util/e-html-editor-table-dialog.c:633
@@ -16378,12 +16230,10 @@ msgid "_Border:"
 msgstr "_Borde:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:724
-#, fuzzy
 msgid "<b>Link</b>"
-msgstr "<b>Technic cause</b>: "
+msgstr "<b>Ligament</b>"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:742
-#, fuzzy
 msgid "_URL:"
 msgstr "_URL:"
 
@@ -16409,9 +16259,8 @@ msgid "Link Properties"
 msgstr "_Proprietás…"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:67
-#, fuzzy
 msgid "Perforated Paper"
-msgstr "Papere"
+msgstr "Perforat papere"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:76
 #, fuzzy
@@ -16456,9 +16305,8 @@ msgid "_Link:"
 msgstr "_Ligament:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:443
-#, fuzzy
 msgid "_Visited Link:"
-msgstr "Precedent localisation visitat"
+msgstr "_Visitat ligament:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:458
 msgid "_Background:"
@@ -16470,15 +16318,13 @@ msgid "Text"
 msgstr "Textu"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:484
-#, fuzzy
 msgid "_Font Name:"
-msgstr "Serchar un nómine del fonde"
+msgstr "Nómine de _fonde:"
 
 #. == Background Image ==
 #: ../src/e-util/e-html-editor-page-dialog.c:491
-#, fuzzy
 msgid "Background Image"
-msgstr "Selecter un image de funde"
+msgstr "Image de funde"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:514
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:106
@@ -16496,29 +16342,26 @@ msgid "_Custom:"
 msgstr "Personal:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:558
-#, fuzzy
 msgid "Page Properties"
-msgstr "_Proprietás…"
+msgstr "Proprietás de págine"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:75
 msgid "_Style:"
 msgstr "_Stil:"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:82
-#, fuzzy
 msgid "<b>Alignment</b>"
-msgstr "<b>Technic cause</b>: "
+msgstr "<b>Alineament</b>"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:153
-#, fuzzy
 msgid "Paragraph Properties"
-msgstr "_Proprietás…"
+msgstr "Proprietás del paragraf"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:83
 #, fuzzy, c-format
 msgid "%d occurrence replaced"
 msgid_plural "%d occurrences replaced"
-msgstr[0] "Remover chascun occurrentie de"
+msgstr[0] "por singul vez"
 msgstr[1] ""
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:275
@@ -16531,14 +16374,13 @@ msgid "_With:"
 msgstr "_Per:"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:296
-#, fuzzy
 msgid "_Case sensitive"
-msgstr "Atenter a MAJ/min"
+msgstr "Atenter a MA_J/min"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:300
 #, fuzzy
 msgid "Wra_p search"
-msgstr "Serchar:"
+msgstr "P_lugines"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:310
 #, fuzzy
@@ -16562,24 +16404,21 @@ msgid "Replace"
 msgstr "Substituer"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "<b>Suggestions for “%s”</b>"
-msgstr "<b>%1</b> sur <b>%2</b>"
+msgstr "<b>Suggestiones por «%s»</b>"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:375
-#, fuzzy
 msgid "<b>Suggestions</b>"
-msgstr "<b>Technic cause</b>: "
+msgstr "<b>Suggestiones</b>"
 
 #. Replace
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:410
-#, fuzzy
 msgid "Replace"
 msgstr "Substituer"
 
 #. Replace All
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:419
-#, fuzzy
 msgid "Replace All"
 msgstr "Substituer omni"
 
@@ -16591,7 +16430,6 @@ msgstr "Ignorar"
 
 #. Skip
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:437
-#, fuzzy
 msgid "Skip"
 msgstr "Omisser"
 
@@ -16616,14 +16454,12 @@ msgid "Spell Checking"
 msgstr "Control de ortografia"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:515
-#, fuzzy
 msgid "_Rows:"
 msgstr "_Ranges:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:529
-#, fuzzy
 msgid "C_olumns:"
-msgstr "_C/C++"
+msgstr "C_olumnes:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:580
 #, fuzzy
@@ -16672,14 +16508,12 @@ msgstr "_F#"
 
 #: ../src/e-util/e-import-assistant.c:319
 #: ../src/e-util/e-import-assistant.c:518
-#, fuzzy
 msgid "File _type:"
-msgstr "Tip de &file:"
+msgstr "_Tip de file:"
 
 #: ../src/e-util/e-import-assistant.c:347
-#, fuzzy
 msgid "Pre_view:"
-msgstr "Pre_vider…"
+msgstr "Pre_vider:"
 
 #: ../src/e-util/e-import-assistant.c:382
 #: ../src/e-util/e-import-assistant.c:998
@@ -16734,9 +16568,8 @@ msgstr "Data"
 #: ../src/e-util/e-import-assistant.c:1376
 #: ../src/e-util/e-import-assistant.c:1453
 #: ../src/e-util/e-import-assistant.c:1462
-#, fuzzy
 msgid "Import Data"
-msgstr "_Importar"
+msgstr "Importar data"
 
 #: ../src/e-util/e-import-assistant.c:1011
 msgid "Select what type of file you want to import from the list."
@@ -16772,7 +16605,6 @@ msgid "Select Information to Import"
 msgstr "_Importar"
 
 #: ../src/e-util/e-import-assistant.c:1431
-#, fuzzy
 msgid "Select a File"
 msgstr "Selecter un file"
 
@@ -16808,9 +16640,8 @@ msgid "Close"
 msgstr "Cluder"
 
 #: ../src/e-util/e-mail-signature-editor.c:332 ../src/mail/e-mail-notes.c:1115
-#, fuzzy
 msgid "_Save and Close"
-msgstr "Gardar e cluder"
+msgstr "_Gardar e cluder"
 
 #: ../src/e-util/e-mail-signature-editor.c:572
 #: ../src/e-util/e-mail-signature-editor.c:588
@@ -16850,9 +16681,8 @@ msgid ""
 msgstr ""
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:414
-#, fuzzy
 msgid "Sc_ript:"
-msgstr "Sc_ale:"
+msgstr "Sc_ritura:"
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:489
 #, fuzzy
@@ -16873,9 +16703,8 @@ msgstr ""
 "%2."
 
 #: ../src/e-util/e-map.c:875
-#, fuzzy
 msgid "World Map"
-msgstr "Carte"
+msgstr "Carte del munde"
 
 #: ../src/e-util/e-map.c:878
 msgid ""
@@ -16911,19 +16740,16 @@ msgid "Add italic text"
 msgstr "_Italic"
 
 #: ../src/e-util/e-markdown-editor.c:1959
-#, fuzzy
 msgid "Insert a quote"
-msgstr "_Inserter"
+msgstr "Inserter un citation"
 
 #: ../src/e-util/e-markdown-editor.c:1960
-#, fuzzy
 msgid "Insert code"
-msgstr "Code:"
+msgstr "Inserter code"
 
 #: ../src/e-util/e-markdown-editor.c:1961
-#, fuzzy
 msgid "Add a link"
-msgstr "Adjunter un ligament magnet ex li Paperiere?"
+msgstr "Adjunter un ligament"
 
 #: ../src/e-util/e-markdown-editor.c:1962
 #, fuzzy
@@ -16936,9 +16762,8 @@ msgid "Add a numbered list"
 msgstr "&Adjunter"
 
 #: ../src/e-util/e-markdown-editor.c:1964
-#, fuzzy
 msgid "Add a header"
-msgstr "Adjunter li cap-linea «Agente-del-_usator»"
+msgstr "Adjunter un rubrica"
 
 #: ../src/e-util/e-markdown-editor.c:1967
 #, fuzzy
@@ -16968,7 +16793,7 @@ msgstr "Apertente «%s»."
 #: ../src/e-util/e-misc-utils.c:2619
 #, fuzzy, c-format
 msgid "Opening memo list “%s”"
-msgstr "Apertente «%s»."
+msgstr "Apertente «%s»"
 
 #: ../src/e-util/e-misc-utils.c:2622
 #, fuzzy, c-format
@@ -16982,9 +16807,8 @@ msgstr "Adressarium «%s» ne es disponibil."
 
 #: ../src/e-util/e-misc-utils.c:3498
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
-#, fuzzy
 msgid "_Do not show this message again"
-msgstr "Ne monstrar ti missage denov"
+msgstr "_Ne monstrar ti missage denov"
 
 #: ../src/e-util/e-misc-utils.c:4082
 msgid ""
@@ -17003,9 +16827,9 @@ msgid "Failed to set connection timeout option (%d): %s"
 msgstr ""
 
 #: ../src/e-util/e-misc-utils.c:4145
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to use STARTTLS (%d): %s"
-msgstr "Ne successat cargar un icone (%s, %d): %s"
+msgstr "Ne successat usar STARTTLS (%d): %s"
 
 #: ../src/e-util/e-misc-utils.c:4158
 #, c-format
@@ -17064,9 +16888,8 @@ msgid "Go to the section %s of the message"
 msgstr "Ear a textu"
 
 #: ../src/e-util/e-misc-utils.c:4788
-#, fuzzy
 msgid "Go to the beginning of the message"
-msgstr "al inicie"
+msgstr "Ear al inicie del missage"
 
 #: ../src/e-util/e-misc-utils.c:4794
 #, fuzzy, c-format
@@ -17078,9 +16901,8 @@ msgid "Show Contacts"
 msgstr "Monstrar contactes"
 
 #: ../src/e-util/e-name-selector-dialog.c:292
-#, fuzzy
 msgid "Address B_ook:"
-msgstr "%OB"
+msgstr "Adress_arium:"
 
 #: ../src/e-util/e-name-selector-dialog.c:299
 msgid "Cat_egory:"
@@ -17096,9 +16918,8 @@ msgstr "_Serchar:"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1852
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:786
 #: ../src/modules/calendar/e-task-shell-view-actions.c:989
-#, fuzzy
 msgid "Any Category"
-msgstr "Li categorie."
+msgstr "Alquel categorie"
 
 #: ../src/e-util/e-name-selector-dialog.c:351
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:346
@@ -17110,9 +16931,8 @@ msgid "Search"
 msgstr "Serchar"
 
 #: ../src/e-util/e-name-selector-dialog.c:557
-#, fuzzy
 msgid "Select Contacts from Address Book"
-msgstr "_Selecter un adressarium"
+msgstr "Selecter contactes de un adressarium"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
 #: ../src/e-util/e-name-selector-entry.c:3268
@@ -17139,9 +16959,9 @@ msgid "_Edit %s"
 msgstr "Modificar…"
 
 #: ../src/e-util/e-name-selector-list.c:569
-#, fuzzy, c-format
+#, c-format
 msgid "_Delete %s"
-msgstr "Esque vu vole remover «%s» permanentmen?"
+msgstr "_Remover %s"
 
 #: ../src/e-util/e-online-button.c:26
 msgid "Evolution is currently online.  Click this button to work offline."
@@ -17174,9 +16994,8 @@ msgid "_Remember this passphrase for the remainder of this session"
 msgstr ""
 
 #: ../src/e-util/e-passwords.c:601
-#, fuzzy
 msgid "_Remember this password"
-msgstr "Memorar ti contrasigne"
+msgstr "Memo_rar ti contrasigne"
 
 #: ../src/e-util/e-passwords.c:602
 #, fuzzy
@@ -17194,7 +17013,7 @@ msgstr "Preferenties de Evolution"
 #: ../src/e-util/e-print.c:164
 #, fuzzy
 msgid "An error occurred while printing"
-msgstr "Un errore evenit accessante «%1»"
+msgstr "Un error evenit salvante li archive."
 
 #: ../src/e-util/e-print.c:171
 msgid "The printing system reported the following details about the error:"
@@ -17224,24 +17043,20 @@ msgid "Manual"
 msgstr "Manual"
 
 #: ../src/e-util/e-proxy-editor.c:386
-#, fuzzy
 msgid "_HTTP Proxy:"
-msgstr "Proxy HTTP:"
+msgstr "Proxy _HTTP:"
 
 #: ../src/e-util/e-proxy-editor.c:417
-#, fuzzy
 msgid "H_TTPS Proxy:"
-msgstr "Proxy"
+msgstr "Proxy H_TTPS:"
 
 #: ../src/e-util/e-proxy-editor.c:448
-#, fuzzy
 msgid "_Socks Proxy:"
-msgstr "Proxy SOCKS:"
+msgstr "Proxy _SOCKS:"
 
 #: ../src/e-util/e-proxy-editor.c:479
-#, fuzzy
 msgid "_Ignore Hosts:"
-msgstr "Serchar por dominias e hostes"
+msgstr "_Ignorar li hostes:"
 
 #: ../src/e-util/e-proxy-editor.c:505
 msgid "Automatic"
@@ -17295,15 +17110,20 @@ msgstr "Crear nov"
 msgid "Delete the selected proxy profile"
 msgstr "Deleter li profil"
 
-#: ../src/e-util/e-rule-editor.c:181
-#, fuzzy
+#: ../src/e-util/e-rule-editor.c:182
 msgid "Add Rule"
-msgstr "Adjunter…"
+msgstr "Adjunter un regul"
 
-#: ../src/e-util/e-rule-editor.c:292
-#, fuzzy
+#: ../src/e-util/e-rule-editor.c:293 ../src/e-util/e-rule-editor.c:346
 msgid "Edit Rule"
-msgstr "Modificar…"
+msgstr "Modificar li regul"
+
+#. Translators: the '%s' is replaced with a rule name, making it for example "Copy of Subject contains work";
+#. the text itself is provided by the user.
+#: ../src/e-util/e-rule-editor.c:333
+#, c-format
+msgid "Copy of %s"
+msgstr "Copie de %s"
 
 #: ../src/e-util/e-search-bar.c:78
 #, fuzzy, c-format
@@ -17316,9 +17136,8 @@ msgid "Close the find bar"
 msgstr "_Cluder"
 
 #: ../src/e-util/e-search-bar.c:617
-#, fuzzy
 msgid "Fin_d:"
-msgstr "%d → %d"
+msgstr "Tro_var:"
 
 #: ../src/e-util/e-search-bar.c:629
 #, fuzzy
@@ -17338,7 +17157,7 @@ msgstr "Trovar _sequent"
 #: ../src/e-util/e-search-bar.c:677
 #, fuzzy
 msgid "Mat_ch case"
-msgstr "Correspondentie _exact"
+msgstr "For_mate"
 
 #: ../src/e-util/e-search-bar.c:705
 #, fuzzy
@@ -17511,7 +17330,7 @@ msgstr "Quande"
 #: ../src/e-util/e-send-options.ui.h:46
 #, fuzzy
 msgid "When co_mpleted:"
-msgstr "L_ande:"
+msgstr "Co_mpleet"
 
 #: ../src/e-util/e-send-options.ui.h:47
 #, fuzzy
@@ -17641,7 +17460,7 @@ msgstr ""
 #: ../src/e-util/e-system.error.xml.h:4
 #, fuzzy
 msgid "Cannot save file “{0}”."
-msgstr "Ne successat gardar cookies"
+msgstr "Ne successat gardar li eveniment"
 
 #: ../src/e-util/e-system.error.xml.h:6
 #, fuzzy
@@ -17667,7 +17486,7 @@ msgstr ""
 #: ../src/e-util/e-system.error.xml.h:10
 #, fuzzy
 msgid "Failed to delete resource “{0}”."
-msgstr "Ne successat remover un ressurse"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #: ../src/e-util/e-system.error.xml.h:11
 msgid "The address book backend servicing “{0}” has quit unexpectedly."
@@ -17732,8 +17551,9 @@ msgid ""
 msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:25
+#, fuzzy
 msgid "Are you sure you want to delete remote collection “{0}”?"
-msgstr ""
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/e-util/e-system.error.xml.h:26
 msgid ""
@@ -17750,7 +17570,7 @@ msgstr ""
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:140
 #, fuzzy
 msgid "click to add"
-msgstr "_Adjunter"
+msgstr "Far un clic"
 
 #: ../src/e-util/e-table-column-selector.c:254
 msgid "Move selected column names to top"
@@ -18105,7 +17925,7 @@ msgstr "Crear un c_aderne..."
 #: ../src/e-util/e-webdav-browser.c:1956
 #, fuzzy
 msgid "Failed to create new book"
-msgstr "Crear nov"
+msgstr "Crear un c_aderne..."
 
 #: ../src/e-util/e-webdav-browser.c:1958
 #, fuzzy
@@ -18115,7 +17935,7 @@ msgstr "Creation de «%s»"
 #: ../src/e-util/e-webdav-browser.c:1959
 #, fuzzy
 msgid "Failed to create new calendar"
-msgstr "Crear nov"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #: ../src/e-util/e-webdav-browser.c:1961
 #, fuzzy
@@ -18144,7 +17964,7 @@ msgstr "Remotion"
 #: ../src/e-util/e-webdav-browser.c:2362
 #, fuzzy
 msgid "Failed to delete book"
-msgstr "Ne successat"
+msgstr "Ne successat remover li contacte"
 
 #: ../src/e-util/e-webdav-browser.c:2365
 #, fuzzy
@@ -18164,7 +17984,7 @@ msgstr "Remotion"
 #: ../src/e-util/e-webdav-browser.c:2370
 #, fuzzy
 msgid "Failed to delete collection"
-msgstr "Collection"
+msgstr "Ne successat remover li contacte"
 
 #. Translators: It's 'order' as 'sorting order'
 #: ../src/e-util/e-webdav-browser.c:2610
@@ -18229,7 +18049,7 @@ msgstr "_Copiar li image"
 #: ../src/e-util/e-web-view.c:478
 #, fuzzy
 msgid "Copy the image to the clipboard"
-msgstr "_Copiar li rute al Paperiere"
+msgstr "Copiar li selectet contactes al Paperiere"
 
 #: ../src/e-util/e-web-view.c:483
 msgid "Save _Image…"
@@ -18256,7 +18076,7 @@ msgstr "Serchar clav-paroles del sercha web"
 #: ../src/e-util/e-web-view.c:512 ../src/e-util/e-web-view.c:2189
 #, fuzzy
 msgid "Select all text and images"
-msgstr "Selecter _omni"
+msgstr "Adjunter omni images in un fólder"
 
 #: ../src/e-util/e-web-view.c:3943
 #, fuzzy
@@ -18280,12 +18100,12 @@ msgstr ""
 #: ../src/e-util/e-widget-undo.c:527
 #, fuzzy
 msgid "Undo “Insert text”"
-msgstr "Inserter textu"
+msgstr "Inserter un file textual"
 
 #: ../src/e-util/e-widget-undo.c:529
 #, fuzzy
 msgid "Redo “Insert text”"
-msgstr "Inserter textu"
+msgstr "Inserter un file textual"
 
 #: ../src/e-util/e-widget-undo.c:543
 #, fuzzy
@@ -18304,7 +18124,7 @@ msgstr "Date mancant."
 #: ../src/e-util/filter.error.xml.h:2
 #, fuzzy
 msgid "You must choose a date."
-msgstr "On deve selecter un valid nómine de file."
+msgstr "Vu deve provider un fólder."
 
 #: ../src/e-util/filter.error.xml.h:3
 msgid "Missing filename."
@@ -18313,7 +18133,7 @@ msgstr "Nómine de file mancant."
 #: ../src/e-util/filter.error.xml.h:4
 #, fuzzy
 msgid "You must specify a filename."
-msgstr "Provide li nómine de file de tema por installar"
+msgstr "Vu deve provider un fólder."
 
 #: ../src/e-util/filter.error.xml.h:5
 #, fuzzy
@@ -18336,7 +18156,7 @@ msgstr "Nómine mancant."
 #: ../src/e-util/filter.error.xml.h:9
 #, fuzzy
 msgid "You must name this filter."
-msgstr "On deve provider un nómine del archive."
+msgstr "Vu deve provider un fólder."
 
 #: ../src/e-util/filter.error.xml.h:10
 msgid "Name “{0}” already used."
@@ -18367,7 +18187,7 @@ msgstr "--geometry ne posse esset usat med plu quam 1 URI."
 #: ../src/e-util/filter.error.xml.h:16
 #, fuzzy
 msgid "Are you sure you want to remove rule “{0}”?"
-msgstr "Esque vu vole remover li panel %d?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/e-util/filter.error.xml.h:17
 msgid "_Keep"
@@ -18414,7 +18234,7 @@ msgstr "ante 1 seconde"
 #: ../src/e-util/filter.ui.h:13
 #, fuzzy
 msgid "in the future"
-msgstr "_Futuri valore:"
+msgstr "1 hor in li futur"
 
 #: ../src/e-util/filter.ui.h:14
 #, fuzzy
@@ -18453,6 +18273,11 @@ msgstr "Regules"
 #, fuzzy
 msgid "Rule Name"
 msgstr "Nómine"
+
+#: ../src/e-util/filter.ui.h:27
+#, fuzzy
+msgid "Du_plicate"
+msgstr "Duplicates:"
 
 #: ../src/e-util/gal-a11y-e-cell.c:125
 msgid "Table Cell"
@@ -18504,7 +18329,7 @@ msgstr "Gardar li modificationes"
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:1
 #, fuzzy
 msgid "_Create new view"
-msgstr "Crear un nov memorandum"
+msgstr "Crear un nov contacte"
 
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:3
 #, fuzzy
@@ -18529,7 +18354,7 @@ msgstr "_Rejecter li modificationes"
 #: ../src/e-util/widgets.error.xml.h:4
 #, fuzzy
 msgid "Blank Signature"
-msgstr "_Vacuar"
+msgstr "Signature:"
 
 #: ../src/e-util/widgets.error.xml.h:5
 msgid "Please provide a unique name to identify this signature."
@@ -18562,7 +18387,7 @@ msgstr "Crear un ligament a un note ex li selectet textu"
 #: ../src/libemail-engine/e-mail-folder-utils.c:106
 #, fuzzy, c-format
 msgid "Saving message to folder “%s”"
-msgstr "Gardante «%s»"
+msgstr "Inviante %d missage"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:563
 #, fuzzy
@@ -18571,16 +18396,16 @@ msgstr "Transmisset"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:673
 #: ../src/libemail-engine/e-mail-folder-utils.c:935
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] "_Missage"
-msgstr[1] ""
+msgstr[0] "Obtenente %d missage"
+msgstr[1] "Obtenente %d missages"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:775
 #, fuzzy
 msgid "Scanning messages for duplicates"
-msgstr "Duplicates:"
+msgstr "Examination"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1148
 #, fuzzy, c-format
@@ -18603,16 +18428,16 @@ msgid "Removing attachments"
 msgstr "Atachamentes"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1632
-#, fuzzy, c-format
+#, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
-msgstr[0] "_Missage"
-msgstr[1] ""
+msgstr[0] "Inviante %d missage"
+msgstr[1] "Inviante %d missages"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:2053
 #, fuzzy, c-format
 msgid "Invalid folder URI “%s”"
-msgstr "Li URI have ínvalid codification."
+msgstr "URI del fólder:"
 
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:117
@@ -18743,7 +18568,7 @@ msgstr "Emissente"
 #: ../src/libemail-engine/e-mail-store-utils.c:188
 #, fuzzy, c-format
 msgid "Disconnecting from “%s”"
-msgstr "Deletion de files ex «%s»"
+msgstr "E-postage de %s"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:264
 #: ../src/mail/e-mail-backend.c:1051
@@ -18774,7 +18599,7 @@ msgstr ""
 #: ../src/libemail-engine/mail-ops.c:225
 #, fuzzy, c-format
 msgid "Fetching mail from “%s”"
-msgstr "De %s:"
+msgstr "E-postage de %s"
 
 #: ../src/libemail-engine/mail-ops.c:742
 #, c-format
@@ -18788,17 +18613,17 @@ msgstr ""
 #: ../src/libemail-engine/mail-ops.c:1035
 #, fuzzy, c-format
 msgid "Sending message %d of %d"
-msgstr "Vu ha recivet %d nov missage."
+msgstr "Obtenente %d missage"
 
 #. Translators: The string is distinguished by total
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
 #: ../src/libemail-engine/mail-ops.c:1093
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] "Inviar ti-ci missage"
-msgstr[1] ""
+msgstr[0] "Ne successat inviar un missage"
+msgstr[1] "Ne successat inviar %d ex %d missages"
 
 #: ../src/libemail-engine/mail-ops.c:1099
 msgid "Cancelled."
@@ -18836,7 +18661,7 @@ msgstr "Un conto %s ja existe por %s"
 #: ../src/libemail-engine/mail-ops.c:1546
 #, fuzzy, c-format
 msgid "Emptying trash in “%s”"
-msgstr "Vacuante li Paper-corb..."
+msgstr "Vacuante li _Paper-corb"
 
 #: ../src/libemail-engine/mail-ops.c:1645
 #, fuzzy, c-format
@@ -18868,7 +18693,7 @@ msgstr "Tema manca"
 #: ../src/libemail-engine/mail-tools.c:284
 #, fuzzy, c-format
 msgid "Forwarded message — %s"
-msgstr "-------- Transmisset missage -------- "
+msgstr "Transmisset missage"
 
 #: ../src/libemail-engine/mail-tools.c:286
 msgid "Forwarded message"
@@ -18958,7 +18783,7 @@ msgstr "STARTTLS"
 #: ../src/mail/e-mail-autoconfig.c:872
 #, fuzzy, c-format
 msgid "Authentication mechanism: %s"
-msgstr "Autentication"
+msgstr "Autentication %s ne es supportat"
 
 #: ../src/mail/e-mail-autoconfig.c:1051
 #, fuzzy
@@ -19122,7 +18947,7 @@ msgstr ""
 #: ../src/mail/em-composer-utils.c:4532 ../src/mail/mail-config.ui.h:24
 #, fuzzy
 msgid "Start _typing at the bottom"
-msgstr "Comense"
+msgstr "Controlar li or_tografie durante tippada"
 
 #: ../src/mail/e-mail-config-composing-page.c:532
 #: ../src/mail/em-composer-utils.c:4536 ../src/mail/mail-config.ui.h:25
@@ -19186,7 +19011,7 @@ msgstr ""
 #: ../src/mail/e-mail-config-defaults-page.c:688
 #, fuzzy
 msgid "Sent _Messages Folder:"
-msgstr "_Missages"
+msgstr "Qua_m li fólder Inviat"
 
 #: ../src/mail/e-mail-config-defaults-page.c:698
 msgid "Choose a folder for saving sent messages."
@@ -19243,7 +19068,7 @@ msgstr "Provide un altri nómine por li nov fólder."
 #: ../src/mail/e-mail-config-defaults-page.c:860
 #, fuzzy
 msgid "Use a Real Folder for _Junk:"
-msgstr "Li fólder predefinit por li comandes «--add» e «--extract»"
+msgstr "_Usar li file de compendie «.folders» (exmh)"
 
 #: ../src/mail/e-mail-config-defaults-page.c:861
 #, fuzzy
@@ -19345,7 +19170,7 @@ msgstr "_Adresse de e-post:"
 #: ../src/mail/e-mail-config-identity-page.c:952
 #, fuzzy
 msgid "Reply To is not a valid email"
-msgstr "_Responder-A:"
+msgstr "E-post"
 
 #: ../src/mail/e-mail-config-identity-page.c:963
 #: ../src/mail/e-mail-config-summary-page.c:615
@@ -19371,7 +19196,7 @@ msgstr "Verification…"
 #: ../src/mail/e-mail-config-provider-page.c:660
 #, fuzzy
 msgid "Check for _new messages every"
-msgstr "Controlar _nov missages chascun"
+msgstr "Controllar nov _missages al inicie"
 
 #: ../src/mail/e-mail-config-provider-page.c:807
 #, fuzzy
@@ -19493,12 +19318,12 @@ msgstr ""
 #: ../src/mail/e-mail-config-security-page.c:724
 #, fuzzy
 msgid "Secure MIME (S/MIME)"
-msgstr "MIME-tip del file."
+msgstr "MIME-tip: %s"
 
 #: ../src/mail/e-mail-config-security-page.c:733
 #, fuzzy
 msgid "Sig_ning certificate:"
-msgstr "Certificate"
+msgstr "Sig_natures"
 
 #: ../src/mail/e-mail-config-security-page.c:757
 #: ../src/mail/e-mail-config-security-page.c:855
@@ -19639,7 +19464,7 @@ msgstr "_Inviar"
 #: ../src/mail/e-mail-display.c:171
 #, fuzzy
 msgid "Send a reply message to this address"
-msgstr "Inviar ti-ci missage"
+msgstr "Ne successat inviar un missage"
 
 #: ../src/mail/e-mail-display.c:178
 #, fuzzy
@@ -19686,7 +19511,7 @@ msgstr "Crear un fólder"
 #: ../src/mail/e-mail-folder-create-dialog.c:325
 #, fuzzy
 msgid "Specify where to create the folder:"
-msgstr "Li localisation u li fólder vell esser creat forsan ne existe."
+msgstr "Vu deve provider un fólder."
 
 #: ../src/mail/e-mail-folder-create-dialog.c:328
 msgid "C_reate"
@@ -19770,7 +19595,7 @@ msgstr "fals"
 #: ../src/mail/e-mail-junk-options.c:277
 #, fuzzy
 msgid "Junk filtering software:"
-msgstr "Filtre de spam quel usa SpamAssassin"
+msgstr "Programma:"
 
 #: ../src/mail/e-mail-label-dialog.c:208
 #, fuzzy
@@ -19834,7 +19659,7 @@ msgstr ""
 #: ../src/mail/e-mail-notes.c:924
 #, fuzzy
 msgid "Failed to convert text to message"
-msgstr "Ne successat converter li textu a UTF-8!\n"
+msgstr "Ne successat obtener un missage"
 
 #: ../src/mail/e-mail-notes.c:938 ../src/mail/e-mail-notes.c:963
 #, fuzzy
@@ -19849,7 +19674,7 @@ msgstr "Modificar…"
 #: ../src/mail/e-mail-notes.c:1321
 #, fuzzy
 msgid "Retrieving message…"
-msgstr "Recuperation del claves DVD"
+msgstr "Obtenente %d missage"
 
 #: ../src/mail/e-mail-print-config-headers.c:156
 #, fuzzy
@@ -19879,7 +19704,7 @@ msgstr "_Obtener omni cap-lineas"
 #: ../src/mail/e-mail-print-config-headers.c:195
 #, fuzzy
 msgid "Header Name"
-msgstr "Cap-linea"
+msgstr "Nómine de cap-linea"
 
 #: ../src/mail/e-mail-print-config-headers.c:204
 #, fuzzy
@@ -19928,7 +19753,7 @@ msgstr[1] "Esque vu vole vacuar li projecte?"
 #, fuzzy
 msgid "The message will be shown in the Junk folder."
 msgid_plural "The messages will be shown in the Junk folder."
-msgstr[0] "_Missages"
+msgstr[0] "Missage ne es spam"
 msgstr[1] "_Missages"
 
 #: ../src/mail/e-mail-reader.c:1745 ../src/mail/e-mail-reader.c:2167
@@ -19944,12 +19769,12 @@ msgstr ""
 #: ../src/mail/e-mail-reader.c:2419
 #, fuzzy
 msgid "Failed to retrieve message:"
-msgstr "_Missage"
+msgstr "Ne successat obtener un missage"
 
 #: ../src/mail/e-mail-reader.c:2478 ../src/mail/e-mail-reader.c:4047
 #, fuzzy, c-format
 msgid "Retrieving message “%s”"
-msgstr "Cargante li córpor por li tema «%s»"
+msgstr "Obtenente %d missage"
 
 #: ../src/mail/e-mail-reader.c:2682
 #, fuzzy
@@ -19972,7 +19797,7 @@ msgstr ""
 #: ../src/mail/e-mail-reader.c:2696
 #, fuzzy
 msgid "Check for _Junk"
-msgstr "Filtre de spam quel usa SpamAssassin"
+msgstr "Missage es spam"
 
 #: ../src/mail/e-mail-reader.c:2698
 msgid "Filter the selected messages for junk status"
@@ -19986,7 +19811,7 @@ msgstr "C_olor:"
 #: ../src/mail/e-mail-reader.c:2705
 #, fuzzy
 msgid "Assign color for the selected messages"
-msgstr "Archivar li selectet missages"
+msgstr "Assignar un color"
 
 #: ../src/mail/e-mail-reader.c:2710
 #, fuzzy
@@ -19996,7 +19821,7 @@ msgstr "_Ye:"
 #: ../src/mail/e-mail-reader.c:2712
 #, fuzzy
 msgid "Unset color for the selected messages"
-msgstr "Archivar li selectet missages"
+msgstr "Reverter li color"
 
 #: ../src/mail/e-mail-reader.c:2717
 #, fuzzy
@@ -20165,7 +19990,7 @@ msgstr ""
 #: ../src/mail/e-mail-reader.c:2843
 #, fuzzy
 msgid "Forward As _Inline"
-msgstr "Transmisser"
+msgstr "_Inbedat"
 
 #: ../src/mail/e-mail-reader.c:2850
 #: ../src/modules/mail/e-mail-attachment-handler.c:504
@@ -20230,17 +20055,17 @@ msgstr "Important missages"
 #: ../src/mail/e-mail-reader.c:2908
 #, fuzzy
 msgid "_Junk"
-msgstr "Filtre de spam quel usa SpamAssassin"
+msgstr "%d de spam"
 
 #: ../src/mail/e-mail-reader.c:2910
 #, fuzzy
 msgid "Mark the selected messages as junk"
-msgstr "Archivar li selectet missages"
+msgstr "_Marcar quam spam"
 
 #: ../src/mail/e-mail-reader.c:2915
 #, fuzzy
 msgid "_Not Junk"
-msgstr "Filtre de spam quel usa SpamAssassin"
+msgstr "_Vacuar li spam"
 
 #: ../src/mail/e-mail-reader.c:2917
 msgid "Mark the selected messages as not being junk"
@@ -20333,12 +20158,12 @@ msgstr "Mover li selectet image in li Paper-corb"
 #: ../src/mail/e-mail-reader.c:2985
 #, fuzzy
 msgid "_Next Message"
-msgstr "_Sequent"
+msgstr "_Missage"
 
 #: ../src/mail/e-mail-reader.c:2987
 #, fuzzy
 msgid "Display the next message"
-msgstr "_Missage"
+msgstr "_Sequent"
 
 #: ../src/mail/e-mail-reader.c:2992
 #, fuzzy
@@ -20358,12 +20183,12 @@ msgstr "_Ignorar li tema"
 #: ../src/mail/e-mail-reader.c:3001
 #, fuzzy
 msgid "Display the next thread"
-msgstr "_Ignorar li tema"
+msgstr "Vise"
 
 #: ../src/mail/e-mail-reader.c:3006
 #, fuzzy
 msgid "Next _Unread Message"
-msgstr "_Missage"
+msgstr "_Sequent"
 
 #: ../src/mail/e-mail-reader.c:3008
 #, fuzzy
@@ -20412,12 +20237,12 @@ msgstr "Ear al prim ínleet missage"
 #: ../src/mail/e-mail-reader.c:3043
 #, fuzzy
 msgid "Print this message"
-msgstr "_Missage"
+msgstr "Printar ye"
 
 #: ../src/mail/e-mail-reader.c:3050
 #, fuzzy
 msgid "Preview the message to be printed"
-msgstr "_Missage"
+msgstr "_Previder:"
 
 #: ../src/mail/e-mail-reader.c:3055
 #: ../src/modules/mail/e-mail-attachment-handler.c:511
@@ -20440,7 +20265,7 @@ msgstr "Remover li atachamentes"
 #: ../src/mail/e-mail-reader.c:3069
 #, fuzzy
 msgid "Remove Du_plicate Messages"
-msgstr "Du_plicar"
+msgstr "Remover duplicat missages?"
 
 #: ../src/mail/e-mail-reader.c:3071
 #, fuzzy
@@ -20636,12 +20461,12 @@ msgstr "_Important"
 #: ../src/mail/e-mail-reader.c:3332
 #, fuzzy
 msgid "Mark as _Junk"
-msgstr "Marcar quam í_nleet"
+msgstr "_Marcar quam spam"
 
 #: ../src/mail/e-mail-reader.c:3336
 #, fuzzy
 msgid "Mark as _Not Junk"
-msgstr "Marcar quam í_nleet"
+msgstr "_Marcar quam spam"
 
 #: ../src/mail/e-mail-reader.c:3340
 msgid "Mar_k as Read"
@@ -20677,7 +20502,7 @@ msgstr ""
 #: ../src/mail/e-mail-reader.c:4053
 #, fuzzy
 msgid "Retrieving message"
-msgstr "Recuperation del claves DVD"
+msgstr "Obtenente %d missage"
 
 #: ../src/mail/e-mail-reader.c:5567 ../src/mail/filtertypes.xml.in.h:73
 msgid "Delete"
@@ -20706,7 +20531,7 @@ msgstr "Un errore evenit durante remotion del fólder «%s»."
 #: ../src/mail/e-mail-reader-utils.c:740
 #, fuzzy, c-format
 msgid "Refreshing folder “%s”"
-msgstr "«%s» ne es un fólder valid"
+msgstr "Refriscante…"
 
 #: ../src/mail/e-mail-reader-utils.c:1347
 #, fuzzy
@@ -20803,7 +20628,7 @@ msgstr ""
 #: ../src/mail/e-mail-tag-editor.c:149
 #, fuzzy
 msgid "Flag to Follow Up"
-msgstr "_Flagga:"
+msgstr "Ad-supra"
 
 #: ../src/mail/e-mail-tag-editor.c:155
 #, fuzzy
@@ -20827,7 +20652,7 @@ msgstr ""
 #: ../src/mail/e-mail-ui-session.c:971
 #, fuzzy, c-format
 msgid "%s authentication failed"
-msgstr "Autentication ne successat."
+msgstr "Autentication %s ne successat"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../src/mail/em-composer-utils.c:423
@@ -20904,7 +20729,7 @@ msgstr ""
 
 #: ../src/mail/em-composer-utils.c:2289
 msgid "-------- Forwarded Message --------"
-msgstr "-------- Transmisset missage -------- "
+msgstr "-------- Transmisset missage --------"
 
 #: ../src/mail/em-composer-utils.c:2294
 msgid "-----Original Message-----"
@@ -20972,7 +20797,7 @@ msgstr "_Ne citar"
 #: ../src/mail/em-composer-utils.c:4550
 #, fuzzy
 msgid "_Format message in"
-msgstr "_Missage"
+msgstr "_Formatar por:"
 
 #: ../src/mail/em-composer-utils.c:4572
 msgid "Apply t_emplate"
@@ -21046,7 +20871,7 @@ msgstr "Alor"
 #: ../src/mail/em-filter-editor.c:416
 #, fuzzy
 msgid "De_scribe Filters…"
-msgstr "Filtres"
+msgstr "Prede_finit"
 
 #: ../src/mail/em-filter-editor-folder-element.c:143
 msgid "Select Folder"
@@ -21103,11 +20928,10 @@ msgstr[0] "Ínleet missage:"
 msgstr[1] "Ínleet missages:"
 
 #: ../src/mail/em-folder-properties.c:538
-#, fuzzy
 msgid "Total messages:"
 msgid_plural "Total messages:"
-msgstr[0] "_Missages"
-msgstr[1] ""
+msgstr[0] "Missages total:"
+msgstr[1] "Missages total:"
 
 #: ../src/mail/em-folder-properties.c:559
 #, fuzzy, c-format
@@ -21404,7 +21228,7 @@ msgstr "M_onstrar:"
 #: ../src/mail/em-subscription-editor.c:1839
 #, fuzzy
 msgid "Subscribe to the selected folder"
-msgstr "_Abonnar"
+msgstr "%'d fólder selectet"
 
 #: ../src/mail/em-subscription-editor.c:1840
 msgid "Su_bscribe"
@@ -21414,7 +21238,7 @@ msgstr "A_bonnar"
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1724
 #, fuzzy
 msgid "Unsubscribe from the selected folder"
-msgstr "D_esabonnar li liste"
+msgstr "Null fólder es selectet."
 
 #: ../src/mail/em-subscription-editor.c:1925
 #, fuzzy
@@ -21550,7 +21374,7 @@ msgstr ""
 #: ../src/mail/em-vfolder-editor.c:102
 #, fuzzy
 msgid "Search _Folders"
-msgstr "_Fólderes:"
+msgstr "Fólderes de sercha"
 
 #: ../src/mail/em-vfolder-editor-rule.c:387
 msgid "Add Folder"
@@ -21647,7 +21471,7 @@ msgstr "ne have paroles"
 #: ../src/mail/vfoldertypes.xml.in.h:20
 #, fuzzy
 msgid "Specific header"
-msgstr "Specific fólderes"
+msgstr "Cap-linea"
 
 #: ../src/mail/filtertypes.xml.in.h:20 ../src/mail/searchtypes.xml.in.h:21
 #: ../src/mail/vfoldertypes.xml.in.h:21
@@ -21810,9 +21634,8 @@ msgid "Source Account"
 msgstr "_Por un conto:"
 
 #: ../src/mail/filtertypes.xml.in.h:58
-#, fuzzy
 msgid "Pipe to Program"
-msgstr "_Programma:"
+msgstr "Canalisar a"
 
 #: ../src/mail/filtertypes.xml.in.h:59
 #, fuzzy
@@ -21837,19 +21660,17 @@ msgid "Junk Test"
 msgstr "Provar"
 
 #: ../src/mail/filtertypes.xml.in.h:64
-#, fuzzy
 msgid "Message is Junk"
-msgstr "_Missage"
+msgstr "Missage es spam"
 
 #: ../src/mail/filtertypes.xml.in.h:65
-#, fuzzy
 msgid "Message is not Junk"
-msgstr "_Missage"
+msgstr "Missage ne es spam"
 
 #: ../src/mail/filtertypes.xml.in.h:66 ../src/mail/vfoldertypes.xml.in.h:60
 #, fuzzy
 msgid "Message Location"
-msgstr "Localisation"
+msgstr "_Missage"
 
 #: ../src/mail/filtertypes.xml.in.h:68 ../src/mail/searchtypes.xml.in.h:60
 #: ../src/mail/vfoldertypes.xml.in.h:62
@@ -21870,34 +21691,29 @@ msgid "Match All"
 msgstr "%1 correspondentie"
 
 #: ../src/mail/filtertypes.xml.in.h:74
-#, fuzzy
 msgid "Stop Processing"
-msgstr "_Stoppar"
+msgstr "Stoppar li operation"
 
 #: ../src/mail/filtertypes.xml.in.h:75
-#, fuzzy
 msgid "Set Label"
-msgstr "Sin etiquette"
+msgstr "Assignar un etiquette"
 
 #: ../src/mail/filtertypes.xml.in.h:76
-#, fuzzy
 msgid "Unset Label"
-msgstr "Sin etiquette"
+msgstr "Vacuar li etiquette"
 
 #: ../src/mail/filtertypes.xml.in.h:77
-#, fuzzy
 msgid "Assign Color"
-msgstr "_Color:"
+msgstr "Assignar un color"
 
 #: ../src/mail/filtertypes.xml.in.h:78
-#, fuzzy
 msgid "Unset Color"
-msgstr "_Color:"
+msgstr "Reverter li color"
 
 #: ../src/mail/filtertypes.xml.in.h:79
 #, fuzzy
 msgid "Assign Score"
-msgstr "Conte"
+msgstr "Assignar un color"
 
 #: ../src/mail/filtertypes.xml.in.h:80
 #, fuzzy
@@ -21905,9 +21721,8 @@ msgid "Adjust Score"
 msgstr "_Adjustar"
 
 #: ../src/mail/filtertypes.xml.in.h:81
-#, fuzzy
 msgid "Set Status"
-msgstr "_Statu:"
+msgstr "Assignar statu"
 
 #: ../src/mail/filtertypes.xml.in.h:82 ../src/mail/searchtypes.xml.in.h:40
 #: ../src/mail/vfoldertypes.xml.in.h:40
@@ -21915,33 +21730,28 @@ msgid "Deleted"
 msgstr "Removet"
 
 #: ../src/mail/filtertypes.xml.in.h:83
-#, fuzzy
 msgid "Unset Status"
-msgstr "_Statu:"
+msgstr "Vacuar statu"
 
 #: ../src/mail/filtertypes.xml.in.h:84
-#, fuzzy
 msgid "Learn as Junk"
-msgstr "Learn CPP"
+msgstr "Aprender quam spam"
 
 #: ../src/mail/filtertypes.xml.in.h:85
 msgid "Beep"
 msgstr ""
 
 #: ../src/mail/filtertypes.xml.in.h:86
-#, fuzzy
 msgid "Play Sound"
 msgstr "Reproducter un son"
 
 #: ../src/mail/filtertypes.xml.in.h:87
-#, fuzzy
 msgid "Run Program"
 msgstr "Lansar un programma"
 
 #: ../src/mail/filtertypes.xml.in.h:88
-#, fuzzy
 msgid "Forward to"
-msgstr "_Transmisser"
+msgstr "Transmisser a"
 
 #: ../src/mail/filtertypes.xml.in.h:89
 msgid "with"
@@ -21955,7 +21765,7 @@ msgstr "Data"
 #: ../src/mail/importers/elm-importer.c:377
 #, fuzzy
 msgid "Evolution Elm importer"
-msgstr "Importator de KMail de Evolution"
+msgstr "Importator de LDIF de Evolution"
 
 #: ../src/mail/importers/elm-importer.c:378
 #, fuzzy
@@ -21965,9 +21775,8 @@ msgstr "Importar postage e contactes de KMail."
 #: ../src/mail/importers/evolution-mbox-importer.c:135
 #: ../src/mail/importers/kmail-importer.c:206
 #: ../src/plugins/dbx-import/dbx-importer.c:242
-#, fuzzy
 msgid "_Destination folder:"
-msgstr "_Fólder de destination:"
+msgstr "Fólder de _destination:"
 
 #: ../src/mail/importers/evolution-mbox-importer.c:141
 #: ../src/mail/importers/kmail-importer.c:212
@@ -22029,9 +21838,8 @@ msgid "Importing mailbox"
 msgstr "Importante li lettrebux"
 
 #: ../src/mail/importers/mail-importer.c:61
-#, fuzzy
 msgid "Importing mail and contacts from KMail"
-msgstr "Importar postage e contactes de KMail."
+msgstr "Importar postage e contactes de KMail"
 
 #. Destination folder, was set in our widget
 #: ../src/mail/importers/mail-importer.c:190
@@ -22043,9 +21851,9 @@ msgid "Importing “%s”"
 msgstr "Importante «%s»"
 
 #: ../src/mail/importers/mail-importer.c:559
-#, fuzzy, c-format
+#, c-format
 msgid "Scanning %s"
-msgstr "Examination"
+msgstr "Examination de %s"
 
 #: ../src/mail/importers/pine-importer.c:248
 #, fuzzy
@@ -22053,9 +21861,8 @@ msgid "Importing Pine data"
 msgstr "Data"
 
 #: ../src/mail/importers/pine-importer.c:478
-#, fuzzy
 msgid "Evolution Pine importer"
-msgstr "Importator de KMail de Evolution"
+msgstr "Importator de Pine de Evolution"
 
 #: ../src/mail/importers/pine-importer.c:479
 #, fuzzy
@@ -22063,14 +21870,14 @@ msgid "Import mail from Pine."
 msgstr "Importar postage e contactes de KMail."
 
 #: ../src/mail/mail-autofilter.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "Mail to %s"
-msgstr "_E-post"
+msgstr "E-postage a %s"
 
 #: ../src/mail/mail-autofilter.c:220 ../src/mail/mail-autofilter.c:268
-#, fuzzy, c-format
+#, c-format
 msgid "Mail from %s"
-msgstr "De %s:"
+msgstr "E-postage de %s"
 
 #: ../src/mail/mail-autofilter.c:251
 #, c-format
@@ -22105,9 +21912,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../src/mail/mail-autofilter.c:560
-#, fuzzy
 msgid "Open Message Filters"
-msgstr "Filtres de _missages"
+msgstr "Aperter li filtres de missages"
 
 #: ../src/mail/mail-config.ui.h:1
 #, fuzzy
@@ -22121,30 +21927,27 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:5
-#, fuzzy
 msgid "Header name"
-msgstr "Cap-linea"
+msgstr "Nómine de cap-linea"
 
 #: ../src/mail/mail-config.ui.h:6
-#, fuzzy
 msgid "Header content"
-msgstr "Cap-linea"
+msgstr "Contenete de cap-linea"
 
 #: ../src/mail/mail-config.ui.h:7
-#, fuzzy
 msgid "Default Behavior"
-msgstr "_Conduida"
+msgstr "Conduida predefinit"
 
 #. Translators: The text is followed by the format combo with values like
 #: ../src/mail/mail-config.ui.h:9
 #, fuzzy
 msgid "For_mat messages in"
-msgstr "Missages a"
+msgstr "For_mate"
 
 #: ../src/mail/mail-config.ui.h:11
 #, fuzzy
 msgid "Automatically insert _emoticons"
-msgstr "_Inserter"
+msgstr "Inserter un emoji"
 
 #: ../src/mail/mail-config.ui.h:12
 msgid "Use Un_icode characters for emoticons"
@@ -22175,14 +21978,12 @@ msgid "Ch_aracter encoding:"
 msgstr "Codific_ation de caracteres:"
 
 #: ../src/mail/mail-config.ui.h:19
-#, fuzzy
 msgid "Replies and Forwards"
-msgstr "Respondes"
+msgstr "Respondes e transmissiones"
 
 #: ../src/mail/mail-config.ui.h:20
-#, fuzzy
 msgid "_Reply style:"
-msgstr "Stil de response:"
+msgstr "Stil de _response:"
 
 #: ../src/mail/mail-config.ui.h:21
 #, fuzzy
@@ -22322,7 +22123,7 @@ msgstr "Confirmationes"
 #: ../src/mail/mail-config.ui.h:74
 #, fuzzy
 msgid "Use for Folders"
-msgstr "_Fólderes:"
+msgstr "_Usar li file de compendie «.folders» (exmh)"
 
 #. Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides
 #: ../src/mail/mail-config.ui.h:78
@@ -22339,7 +22140,7 @@ msgstr "Conto"
 #: ../src/mail/mail-config.ui.h:81
 #, fuzzy
 msgid "Send account overrides"
-msgstr "_Por un conto:"
+msgstr "_Inviar"
 
 #: ../src/mail/mail-config.ui.h:82
 msgid ""
@@ -22368,14 +22169,12 @@ msgid "b"
 msgstr "<b>%1</b> sur <b>%2</b>"
 
 #: ../src/mail/mail-config.ui.h:92
-#, fuzzy
 msgid "Start up"
-msgstr "Comense"
+msgstr "Inicie"
 
 #: ../src/mail/mail-config.ui.h:93
-#, fuzzy
 msgid "Check for new _messages on start"
-msgstr "Controlar _nov missages chascun"
+msgstr "Controllar nov _missages al inicie"
 
 #: ../src/mail/mail-config.ui.h:94
 msgid "Check for new messa_ges in all active accounts"
@@ -22384,16 +22183,15 @@ msgstr ""
 #: ../src/mail/mail-config.ui.h:95
 #, fuzzy
 msgid "Message Display"
-msgstr "_Missage"
+msgstr "_Monstrar"
 
 #: ../src/mail/mail-config.ui.h:96
 msgid "_Use the same fonts as other applications"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:97
-#, fuzzy
 msgid "S_tandard Font:"
-msgstr "\tFonde: "
+msgstr "S_tandard fonde:"
 
 #: ../src/mail/mail-config.ui.h:98
 msgid "Select HTML fixed width font"
@@ -22424,9 +22222,8 @@ msgid "_Mark messages as read after"
 msgstr "_Marcar li selectet gruppes quam leet"
 
 #: ../src/mail/mail-config.ui.h:106
-#, fuzzy
 msgid "Highlight _quotations with"
-msgstr "M_arcar"
+msgstr "Marcar c_itationes per"
 
 #: ../src/mail/mail-config.ui.h:107
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:72
@@ -22438,7 +22235,6 @@ msgid "color"
 msgstr "color"
 
 #: ../src/mail/mail-config.ui.h:109
-#, fuzzy
 msgid "Default character e_ncoding:"
 msgstr "Codificatio_n de caracteres predefinit:"
 
@@ -22451,19 +22247,16 @@ msgid "F_all back to threading messages by subject"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:112
-#, fuzzy
 msgid "Group messages to _flat threads"
-msgstr "Fólder: %s"
+msgstr "Temas in sin_gul nivelle"
 
 #: ../src/mail/mail-config.ui.h:113
-#, fuzzy
 msgid "Delete Mail"
 msgstr "Remover li postage"
 
 #: ../src/mail/mail-config.ui.h:114
-#, fuzzy
 msgid "Empty _trash folders"
-msgstr "Vacuar li Paper-corb"
+msgstr "Vacuar _Paper-corbes"
 
 #: ../src/mail/mail-config.ui.h:115
 #, fuzzy
@@ -22479,9 +22272,8 @@ msgid "Go to the previ_ous message after message deletion"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:118
-#, fuzzy
 msgid "Archive Mail"
-msgstr "_Archivar"
+msgstr "Archivar e-postage"
 
 #: ../src/mail/mail-config.ui.h:119
 msgid "Archive folder to use for On This Computer messages"
@@ -22532,14 +22324,12 @@ msgid "Remove"
 msgstr "Remover"
 
 #: ../src/mail/mail-config.ui.h:131
-#, fuzzy
 msgid "Allow for sites:"
-msgstr "Permisser"
+msgstr "Permisser por sites:"
 
 #: ../src/mail/mail-config.ui.h:132
-#, fuzzy
 msgid "Allow for senders:"
-msgstr "Permisser"
+msgstr "Permisser por inviatores:"
 
 #: ../src/mail/mail-config.ui.h:133
 msgid "HTML Messages"
@@ -22588,19 +22378,18 @@ msgstr ""
 #: ../src/mail/mail-config.ui.h:144
 #: ../src/modules/addressbook/autocompletion-config.c:118
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:50
-#, fuzzy
 msgid "Date/Time Format"
-msgstr "Formate de date"
+msgstr "Formate de date e hora"
 
 #: ../src/mail/mail-config.ui.h:146
 #, fuzzy
 msgid "Check incoming _messages for junk"
-msgstr "Controlar _nov missages chascun"
+msgstr "Controllar nov _missages al inicie"
 
 #: ../src/mail/mail-config.ui.h:147
 #, fuzzy
 msgid "_Delete junk messages"
-msgstr "Filtre de spam quel usa SpamAssassin"
+msgstr "Missage es spam"
 
 #: ../src/mail/mail-config.ui.h:148
 msgid "_Prompt before marking message as junk"
@@ -22635,9 +22424,8 @@ msgstr ""
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:158
-#, fuzzy
 msgid "Emptying the _Trash"
-msgstr "Vacuante li Paper-corb..."
+msgstr "Vacuante li _Paper-corb"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:160
@@ -22695,7 +22483,7 @@ msgstr "Cl_amar…"
 #: ../src/mail/mail-dialogs.ui.h:2
 #, fuzzy
 msgid "Do Not Forward"
-msgstr "_Transmisser"
+msgstr "Transmisser a"
 
 #: ../src/mail/mail-dialogs.ui.h:3
 #, fuzzy
@@ -22741,9 +22529,8 @@ msgstr ""
 
 #. Translators: Flag Completed
 #: ../src/mail/mail-dialogs.ui.h:17
-#, fuzzy
 msgid "Co_mpleted"
-msgstr "Co_mandes:"
+msgstr "Co_mpleet"
 
 #: ../src/mail/mail-dialogs.ui.h:18
 msgid "License Agreement"
@@ -22754,19 +22541,18 @@ msgid "_No"
 msgstr "_No"
 
 #: ../src/mail/mail-dialogs.ui.h:20
-#, fuzzy
 msgid "_Accept License"
-msgstr "Licentie"
+msgstr "_Acceptar li licentie"
 
 #: ../src/mail/mail-dialogs.ui.h:21
 #, fuzzy
 msgid "_Tick this to accept the license agreement"
-msgstr "Acorde de licentie"
+msgstr "_Acceptar li licentie"
 
 #: ../src/mail/mail.error.xml.h:1
 #, fuzzy
 msgid "Invalid authentication"
-msgstr "Autentication"
+msgstr "Ínvalid"
 
 #: ../src/mail/mail.error.xml.h:2
 msgid ""
@@ -22860,9 +22646,8 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:25
-#, fuzzy
 msgid "Reply _Privately"
-msgstr "_Responder-A:"
+msgstr "Res_ponder privatmen"
 
 #: ../src/mail/mail.error.xml.h:27
 msgid ""
@@ -22941,9 +22726,8 @@ msgid "Opening too many messages at once may take a long time."
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:44
-#, fuzzy
 msgid "_Open Messages"
-msgstr "Missages a"
+msgstr "_Aperter Missages"
 
 #: ../src/mail/mail.error.xml.h:45
 msgid "You have unsent messages, do you wish to quit anyway?"
@@ -22981,12 +22765,12 @@ msgstr "Un errore evenit cargante li prijecte"
 #: ../src/mail/mail.error.xml.h:54
 #, fuzzy
 msgid "Cannot save to directory “{0}”."
-msgstr "Ne successat gardar cookies"
+msgstr "Ne successat gardar li eveniment"
 
 #: ../src/mail/mail.error.xml.h:55
 #, fuzzy
 msgid "Cannot save to file “{0}”."
-msgstr "Un file ne posse esser nominat “.”."
+msgstr "Ne successat gardar li eveniment"
 
 #: ../src/mail/mail.error.xml.h:56
 msgid "Cannot create the save directory, because “{1}”"
@@ -23025,12 +22809,12 @@ msgstr ""
 #: ../src/mail/mail.error.xml.h:63
 #, fuzzy
 msgid "Failed to expunge folder “{0}”."
-msgstr "Ne successat monter li fólder"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #: ../src/mail/mail.error.xml.h:65
 #, fuzzy
 msgid "Failed to refresh folder “{0}”."
-msgstr "Refriscar li fólder"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #: ../src/mail/mail.error.xml.h:66
 msgid "Cannot rename or move system folder “{0}”."
@@ -23061,9 +22845,8 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:72
-#, fuzzy
 msgid "Do _Not Unsubscribe"
-msgstr "D_esabonnar"
+msgstr "_Ne desabonnar"
 
 #: ../src/mail/mail.error.xml.h:74
 #, fuzzy
@@ -23138,9 +22921,8 @@ msgid "You may not create two accounts with the same name."
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:89
-#, fuzzy
 msgid "Are you sure you want to delete account “{0}”?"
-msgstr "Esque vu vole remover li actual image?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/mail/mail.error.xml.h:90
 msgid "If you proceed, the account information will be deleted permanently."
@@ -23166,12 +22948,10 @@ msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:96
-#, fuzzy
 msgid "Do _Not Disable"
-msgstr "_Desactivar"
+msgstr "_Ne desactivar"
 
 #: ../src/mail/mail.error.xml.h:97
-#, fuzzy
 msgid "_Disable"
 msgstr "_Desactivar"
 
@@ -23196,31 +22976,28 @@ msgstr ""
 #: ../src/mail/mail.error.xml.h:103
 #, fuzzy
 msgid "Search Folders automatically updated."
-msgstr "Li base de data de sercha es actualisat."
+msgstr "Fólderes de sercha"
 
 #: ../src/mail/mail.error.xml.h:104
 msgid "Mail filters automatically updated."
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:105
-#, fuzzy
 msgid "Missing folder."
-msgstr "Valore mancant."
+msgstr "Fólder mancant."
 
 #: ../src/mail/mail.error.xml.h:106
-#, fuzzy
 msgid "You must specify a folder."
-msgstr "Vu deve selecter un fólder"
+msgstr "Vu deve provider un fólder."
 
 #: ../src/mail/mail.error.xml.h:108
 #, fuzzy
 msgid "You must name this Search Folder."
-msgstr "Un nómine de marca-págine es mancant."
+msgstr "Vu deve provider un fólder."
 
 #: ../src/mail/mail.error.xml.h:109
-#, fuzzy
 msgid "No folder selected."
-msgstr "%'d fólder selectet"
+msgstr "Null fólder es selectet."
 
 #: ../src/mail/mail.error.xml.h:110
 msgid ""
@@ -23269,14 +23046,12 @@ msgid "_Exit Evolution"
 msgstr "S_urtir de Evolution"
 
 #: ../src/mail/mail.error.xml.h:124
-#, fuzzy
 msgid "_Migrate Now"
-msgstr "_Nu"
+msgstr "_Migrar nu"
 
 #: ../src/mail/mail.error.xml.h:125
-#, fuzzy
 msgid "Unable to read license file."
-msgstr "Ne successat leer un file"
+msgstr "Ne successat leer un file del licentie."
 
 #: ../src/mail/mail.error.xml.h:126
 msgid ""
@@ -23300,7 +23075,7 @@ msgstr ""
 #: ../src/mail/mail.error.xml.h:130
 #, fuzzy
 msgid "Failed to get server setup."
-msgstr "Ne successat obtener configurationes de EGL"
+msgstr "Ne successat obtener capabilitás"
 
 #: ../src/mail/mail.error.xml.h:131
 msgid "Synchronize folders locally for offline usage?"
@@ -23313,9 +23088,8 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:133
-#, fuzzy
 msgid "Do _Not Synchronize"
-msgstr "_Sincronisar"
+msgstr "_Ne sincronisar"
 
 #: ../src/mail/mail.error.xml.h:134
 msgid "_Synchronize"
@@ -23340,14 +23114,12 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:139
-#, fuzzy
 msgid "In Current Folder and _Subfolders"
-msgstr "Actual fólder e li subfólderes"
+msgstr "In li actual fólder e su _subfólderes"
 
 #: ../src/mail/mail.error.xml.h:140
-#, fuzzy
 msgid "In Current _Folder Only"
-msgstr "Serchar solmen li actual fólder"
+msgstr "Solmen in li actual _fólder"
 
 #: ../src/mail/mail.error.xml.h:141
 #, fuzzy
@@ -23369,7 +23141,7 @@ msgstr "_No, nequande"
 #: ../src/mail/mail.error.xml.h:145
 #, fuzzy
 msgid "Copy folder in folder tree."
-msgstr "copiar li besonat file o fólder"
+msgstr "Copiar a un fólder"
 
 #: ../src/mail/mail.error.xml.h:146
 msgid "Are you sure you want to copy folder “{0}” to folder “{1}”?"
@@ -23441,7 +23213,7 @@ msgstr "Vu ne have suficent permissiones por remover li file «%s»."
 #: ../src/mail/mail.error.xml.h:163
 #, fuzzy
 msgid "“Check Junk” Failed"
-msgstr "Filtre de spam quel usa SpamAssassin"
+msgstr "Missage es spam"
 
 #: ../src/mail/mail.error.xml.h:164
 #, fuzzy
@@ -23454,14 +23226,13 @@ msgid "“Report Not Junk” Failed"
 msgstr "Ne successat"
 
 #: ../src/mail/mail.error.xml.h:166
-#, fuzzy
 msgid "Remove duplicate messages?"
-msgstr "_Duplicar"
+msgstr "Remover duplicat missages?"
 
 #: ../src/mail/mail.error.xml.h:167
 #, fuzzy
 msgid "No duplicate messages found."
-msgstr "_Duplicar"
+msgstr "Remover duplicat missages?"
 
 #. Translators: {0} is replaced with a folder name
 #: ../src/mail/mail.error.xml.h:169
@@ -23471,21 +23242,20 @@ msgstr ""
 #: ../src/mail/mail.error.xml.h:170
 #, fuzzy
 msgid "Failed to connect account “{0}”."
-msgstr "Ne posset conexer al Paper-corb"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #: ../src/mail/mail.error.xml.h:171
 #, fuzzy
 msgid "Failed to disconnect account “{0}”."
-msgstr "Transferte del file %(0)s ne sussessat"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #: ../src/mail/mail.error.xml.h:172
 msgid "Failed to unsubscribe from folder “{0}”."
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:173
-#, fuzzy
 msgid "Unable to retrieve message."
-msgstr "_Missage"
+msgstr "Ne successat obtener li missage."
 
 #: ../src/mail/mail.error.xml.h:174
 msgid "{0}"
@@ -23494,7 +23264,7 @@ msgstr "{0}"
 #: ../src/mail/mail.error.xml.h:175
 #, fuzzy
 msgid "Message is not available in offline mode."
-msgstr "Ne successat far li video disponibil éxter li rete."
+msgstr "Li missage es índisponibil."
 
 #: ../src/mail/mail.error.xml.h:176
 msgid ""
@@ -23506,19 +23276,18 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:177
-#, fuzzy
 msgid "Failed to open folder."
-msgstr "Aperter un fólder"
+msgstr "Ne successat aperter un fólder."
 
 #: ../src/mail/mail.error.xml.h:179
 #, fuzzy
 msgid "Failed to find duplicate messages."
-msgstr "Ne successat trovar ASUrl e OABUrl in li response de autodecovrition"
+msgstr "Remover duplicat missages?"
 
 #: ../src/mail/mail.error.xml.h:180
 #, fuzzy
 msgid "Failed to retrieve messages."
-msgstr "obtener valores de proprietás"
+msgstr "Ne successat obtener un missage"
 
 #: ../src/mail/mail.error.xml.h:181
 #, fuzzy
@@ -23537,7 +23306,7 @@ msgstr ""
 #: ../src/mail/mail.error.xml.h:184
 #, fuzzy
 msgid "Failed to save messages to disk."
-msgstr "Ne successat gardar li atachamentes"
+msgstr "Ne successat gardar un certificate: %s"
 
 #: ../src/mail/mail.error.xml.h:185
 msgid "Hidden file is attached."
@@ -23592,7 +23361,7 @@ msgstr ""
 #: ../src/mail/mail.error.xml.h:197
 #, fuzzy
 msgid "{0}, Completed on {1}"
-msgstr "Compleet"
+msgstr "+0"
 
 #. Translators: This constructs a string like "Follow-up by Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:199
@@ -23655,9 +23424,8 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:215
-#, fuzzy
 msgid "_Empty Junk"
-msgstr "Filtre de spam quel usa SpamAssassin"
+msgstr "_Vacuar li spam"
 
 #: ../src/mail/mail.error.xml.h:216
 msgid "Failed to empty Junk folder “{0}”"
@@ -23680,9 +23448,8 @@ msgid "Failed to generate message list"
 msgstr "_Inviar un missage al liste"
 
 #: ../src/mail/mail.error.xml.h:220
-#, fuzzy
 msgid "_Mark as Junk"
-msgstr "Marcar quam í_nleet"
+msgstr "_Marcar quam spam"
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../src/mail/mail.error.xml.h:222
@@ -23703,8 +23470,6 @@ msgstr "Esque vu vole gardar li modificationes?"
 #: ../src/mail/mail.error.xml.h:225
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1151
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1842
-#, fuzzy
-#| msgid "I_mport"
 msgid "_Import"
 msgstr "_Importar"
 
@@ -23724,14 +23489,12 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:229
-#, fuzzy
 msgid "_Sort"
-msgstr "Ordinar"
+msgstr "_Ordinar"
 
 #: ../src/mail/mail.error.xml.h:230
-#, fuzzy
 msgid "_Don’t Sort"
-msgstr "Ne have un conto?"
+msgstr "Ne or_dinar"
 
 #: ../src/mail/mail.error.xml.h:231
 #, fuzzy
@@ -23763,21 +23526,19 @@ msgstr ""
 #, fuzzy
 #| msgid "ends with"
 msgid "_Send with Key"
-msgstr "Clave"
+msgstr "Inviar _a:"
 
 #: ../src/mail/mail.error.xml.h:238
 #, fuzzy
 #| msgid "ends with"
 msgid "Send _without Key"
-msgstr "Clave"
+msgstr "Sin comenta"
 
 #: ../src/mail/mail.error.xml.h:239
-#, fuzzy
 msgid "_Always"
-msgstr "Sempre"
+msgstr "S_empre"
 
 #: ../src/mail/mail.error.xml.h:240
-#, fuzzy
 msgid "_Never"
 msgstr "_Nequande"
 
@@ -23815,7 +23576,7 @@ msgstr "Atendente…"
 #: ../src/mail/mail-send-recv.c:1433
 #, fuzzy, c-format
 msgid "Checking for new mail at “%s”"
-msgstr "Nov contacte ne es scribil: %s"
+msgstr "E-postage de %s"
 
 #: ../src/mail/mail-send-recv.c:1660
 #, c-format
@@ -23833,9 +23594,8 @@ msgid "Expunging trash at “%s”"
 msgstr "'Paper-corb'"
 
 #: ../src/mail/mail-vfolder-ui.c:67
-#, fuzzy
 msgid "Search Folders"
-msgstr "_Fólderes:"
+msgstr "Fólderes de sercha"
 
 #: ../src/mail/mail-vfolder-ui.c:147
 #, fuzzy
@@ -23916,24 +23676,20 @@ msgid "%b %d %Y"
 msgstr "%d.%m.%y"
 
 #: ../src/mail/message-list.c:3088 ../src/mail/message-list.etspec.h:24
-#, fuzzy
 msgid "User Header 1"
-msgstr "Adjunter li cap-linea «Agente-del-_usator»"
+msgstr "Cap-linea del usator 1"
 
 #: ../src/mail/message-list.c:3089 ../src/mail/message-list.etspec.h:25
-#, fuzzy
 msgid "User Header 2"
-msgstr "Adjunter li cap-linea «Agente-del-_usator»"
+msgstr "Cap-linea del usator 2"
 
 #: ../src/mail/message-list.c:3090 ../src/mail/message-list.etspec.h:26
-#, fuzzy
 msgid "User Header 3"
-msgstr "Adjunter li cap-linea «Agente-del-_usator»"
+msgstr "Cap-linea del usator 3"
 
 #: ../src/mail/message-list.c:3533
-#, fuzzy
 msgid "Select all visible messages"
-msgstr "Selecter _omni"
+msgstr "Selecter omni visibil missages"
 
 #: ../src/mail/message-list.c:4371 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
@@ -23974,12 +23730,12 @@ msgstr "Recivet"
 #: ../src/mail/message-list.etspec.h:11
 #, fuzzy
 msgid "Flag Status"
-msgstr "_Flagga:"
+msgstr "Statu"
 
 #: ../src/mail/message-list.etspec.h:12
 #, fuzzy
 msgid "Follow Up Flag"
-msgstr "_Flagga:"
+msgstr "Ad-supra"
 
 #: ../src/mail/message-list.etspec.h:13
 #, fuzzy
@@ -24017,7 +23773,7 @@ msgstr "Recipientes:"
 #, fuzzy
 #| msgid "Preview"
 msgid "Body Preview"
-msgstr "Previder"
+msgstr "_Previder:"
 
 #: ../src/mail/searchtypes.xml.in.h:23 ../src/mail/vfoldertypes.xml.in.h:23
 msgid "Any header"
@@ -24049,9 +23805,8 @@ msgstr "Inviator contene"
 
 #: ../src/mail/searchtypes.xml.in.h:68
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2114
-#, fuzzy
 msgid "Body contains"
-msgstr "contene"
+msgstr "Li córpor contene"
 
 #: ../src/mail/searchtypes.xml.in.h:69
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2121
@@ -24090,25 +23845,24 @@ msgstr "_Adressarium"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:183
 #, fuzzy
 msgid "New Memo List"
-msgstr "Crear un nov memorandum"
+msgstr "Memorandum"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:543
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:214
 #, fuzzy
 msgid "Address Book Properties"
-msgstr "_Selecter un adressarium"
+msgstr "Proprietás del a_dressarium"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:547
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:287
-#, fuzzy
 msgid "Calendar Properties"
-msgstr "Calendare"
+msgstr "Proprietás del calendare"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:551
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:255
 #, fuzzy
 msgid "Memo List Properties"
-msgstr "_Proprietás"
+msgstr "Memorandum"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:555
 #: ../src/modules/calendar/e-task-shell-view-actions.c:302
@@ -24153,9 +23907,8 @@ msgstr "Dimension predefinit del icones"
 
 #. Translators: this is in a sense of "Look & Feel of the icons"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:352
-#, fuzzy
 msgid "Icons Look"
-msgstr "Icones"
+msgstr "Aspecte de icones"
 
 #. Translators: This is for "Icons Look: Autodetect"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:377
@@ -24164,15 +23917,13 @@ msgstr ""
 
 #. Translators: This is for "Toolbar Icon Size: Small"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:390
-#, fuzzy
 msgid "Sm_all"
-msgstr "_Omni"
+msgstr "_Micri"
 
 #. Translators: This is for "Icons Look: Prefer symbolic"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:401
-#, fuzzy
 msgid "_Prefer symbolic"
-msgstr "Simbolic"
+msgstr "_Preferer li simbolic"
 
 #. Translators: This is for "Toolbar Icon Size: Large"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:413
@@ -24275,12 +24026,12 @@ msgstr "vCard por %s"
 #: ../src/modules/addressbook/eab-composer-util.c:144
 #, fuzzy, c-format
 msgid "Contact information"
-msgstr "Contacte"
+msgstr "Information"
 
 #: ../src/modules/addressbook/eab-composer-util.c:146
 #, fuzzy, c-format
 msgid "Contact information for %s"
-msgstr "Ínvalid valore in un contacte: %s"
+msgstr "Information"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:259
 msgctxt "New"
@@ -24289,21 +24040,19 @@ msgstr "_Contacte"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:261
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1400
-#, fuzzy
 msgid "Create a new contact"
-msgstr "Crear nov"
+msgstr "Crear un nov contacte"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:266
-#, fuzzy
 msgctxt "New"
 msgid "Contact _List"
-msgstr "Liste de contactes"
+msgstr "_Liste de contactes"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:268
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1407
 #, fuzzy
 msgid "Create a new contact list"
-msgstr "Nov liste de contactes"
+msgstr "Crear un nov contacte"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:276
 msgctxt "New"
@@ -24326,7 +24075,7 @@ msgstr "Gardar quam vCard"
 #: ../src/modules/addressbook/e-book-shell-view.c:657
 #, fuzzy
 msgid "Retrieving selected contacts…"
-msgstr "{} _selectet"
+msgstr "Remover li selectet contactes"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1279
 #, fuzzy
@@ -24338,14 +24087,13 @@ msgid "Copy the contacts of the selected address book to another"
 msgstr ""
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1286
-#, fuzzy
 msgid "D_elete Address Book"
-msgstr "_Adressarium"
+msgstr "R_emover li adressarium"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1288
 #, fuzzy
 msgid "Delete the selected address book"
-msgstr "_Selecter un adressarium"
+msgstr "Renominar li selectet adressarium"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1293
 #, fuzzy
@@ -24372,14 +24120,13 @@ msgid "_New Address Book"
 msgstr "_Adressarium"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1314
-#, fuzzy
 msgid "Address _Book Properties"
-msgstr "_Selecter un adressarium"
+msgstr "Proprietás del a_dressarium"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1316
 #, fuzzy
 msgid "Show properties of the selected address book"
-msgstr "Monstrar li proprietás e metadata del selectet image"
+msgstr "Renominar li selectet adressarium"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1321
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1376
@@ -24391,7 +24138,7 @@ msgstr "Re_friscar"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1323
 #, fuzzy
 msgid "Refresh the selected address book"
-msgstr "_Selecter un adressarium"
+msgstr "Renominar li selectet adressarium"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1328
 msgid "Re_fresh list of account address books"
@@ -24415,9 +24162,8 @@ msgid "_Rename…"
 msgstr "_Renominar…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1344
-#, fuzzy
 msgid "Rename the selected address book"
-msgstr "_Selecter un adressarium"
+msgstr "Renominar li selectet adressarium"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1351
 #, fuzzy
@@ -24426,28 +24172,25 @@ msgstr "(cargante…)"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1356
 #: ../src/modules/calendar/e-task-shell-view-actions.c:722
-#, fuzzy
 msgid "_Bulk Edit…"
-msgstr "Redacter"
+msgstr "Redacter in m_asse…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
 #, fuzzy
 msgid "Edit selected contacts in a bulk"
-msgstr "_Printar…"
+msgstr "Redacter in m_asse…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1363
-#, fuzzy
 msgid "_Copy Contact To…"
-msgstr "Copiar"
+msgstr "_Copiar li contacte a…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1365
 msgid "Copy selected contacts to another address book"
 msgstr ""
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1370
-#, fuzzy
 msgid "_Delete Contact"
-msgstr "Remover li contacte"
+msgstr "_Remover li contacte"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1377
 #, fuzzy
@@ -24460,9 +24203,8 @@ msgid "Search for text in the displayed contact"
 msgstr "https://yandex.ru/search/?text=\\\\{@}"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1384
-#, fuzzy
 msgid "_Forward Contact…"
-msgstr "_Transmisser li contacte"
+msgstr "_Transmisser li contacte…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1386
 msgid "Send selected contacts to another person"
@@ -24471,7 +24213,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1391
 #, fuzzy
 msgid "_Move Contact To…"
-msgstr "_Mover"
+msgstr "Mover li contactes a"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1393
 msgid "Move selected contacts to another address book"
@@ -24504,7 +24246,7 @@ msgstr "Inviar ti-ci missage"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1421
 #, fuzzy
 msgid "Send a message to the selected contacts"
-msgstr "Inviar ti-ci missage"
+msgstr "Exciser li selectet contactes al Paperiere"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1428
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1616
@@ -24515,7 +24257,7 @@ msgstr "_Actiones"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1442
 #, fuzzy
 msgid "_Sort Cards By"
-msgstr "_Ordinar..."
+msgstr "Ordinar"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1455
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
@@ -24582,9 +24324,8 @@ msgstr "Ínvalid caracter"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1062
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2107
 #: ../src/shell/e-shell-content.c:608
-#, fuzzy
 msgid "Advanced Search"
-msgstr "_Avansat sercha…"
+msgstr "Avansat sercha"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1611
 #, fuzzy
@@ -24602,7 +24343,7 @@ msgstr "Sur_nómine"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1637
 #, fuzzy
 msgid "Print all shown contacts"
-msgstr "Printar omni"
+msgstr "Selecter omni visibil contactes"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1644
 #, fuzzy
@@ -24612,7 +24353,7 @@ msgstr "Contactes"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1651
 #, fuzzy
 msgid "Print selected contacts"
-msgstr "_Printar…"
+msgstr "Remover li selectet contactes"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1666
 #, fuzzy
@@ -24632,7 +24373,7 @@ msgstr "_Gardar quam vCard…"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1676
 #, fuzzy
 msgid "Save selected contacts as a vCard"
-msgstr "_Gardar quam vCard…"
+msgstr "Exciser li selectet contactes al Paperiere"
 
 #: ../src/modules/addressbook/e-book-shell-view.c:374
 #, fuzzy
@@ -24661,7 +24402,7 @@ msgstr "Inviar ti-ci missage"
 #: ../src/modules/alarm-notify/alarm-notify.c:173
 #, fuzzy, c-format
 msgid "Failed to launch command “%s”:"
-msgstr "Dependentie «%s» ne esset cargat"
+msgstr "Comande HELO ne successat: "
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:171
 msgid ""
@@ -24678,7 +24419,7 @@ msgstr "_Restituer ex li Paper-corb"
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:198
 #, fuzzy
 msgid "Choose a backup file to restore"
-msgstr "Selecter un file torrent…"
+msgstr "Restituer un file in li Paper-corb a su original localisation"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:206
 #, fuzzy
@@ -24845,7 +24586,7 @@ msgstr "_Restituer"
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1283
 #, fuzzy, c-format
 msgid "Restoring from the file %s"
-msgstr "Deletion de files ex «%s»"
+msgstr "E-postage de %s"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1352
 #, fuzzy
@@ -24891,7 +24632,7 @@ msgstr "Ne successat crear un note"
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
 #, fuzzy
 msgid "Are you sure you want to close Evolution?"
-msgstr "Esque vu vole vacuar li projecte?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
@@ -24935,7 +24676,7 @@ msgstr "%'d fólder selectet"
 #: ../src/modules/bogofilter/evolution-bogofilter.c:158
 #, fuzzy, c-format
 msgid "Failed to spawn Bogofilter (%s): "
-msgstr "Dependentie «%s» ne esset cargat"
+msgstr "Ne successat gardar un certificate: %s"
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:176
 msgid "Failed to stream mail message content to Bogofilter: "
@@ -25025,7 +24766,7 @@ msgstr ""
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:494
 #, fuzzy
 msgid "Standard LDAP Port"
-msgstr "Servitor LDAP"
+msgstr "Portu:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:500
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:687
@@ -25045,7 +24786,7 @@ msgstr ""
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:623
 #, fuzzy
 msgid "Connecting to LDAP"
-msgstr "Servitor LDAP"
+msgstr "Connexente…"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:640
 #, fuzzy
@@ -25193,7 +24934,7 @@ msgstr "Selecter un calendare"
 #: ../src/modules/cal-config-google/e-google-chooser-button.c:220
 #, fuzzy
 msgid "Choose a Memo List"
-msgstr "Selecter"
+msgstr "Memorandum"
 
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:120
 #: ../src/modules/cal-config-google/e-google-chooser-button.c:224
@@ -25236,7 +24977,7 @@ msgstr "_Anniversaries"
 #: ../src/modules/cal-config-google/e-cal-config-google.c:98
 #, fuzzy
 msgid "Enable Calendars to synchronize"
-msgstr "Activar"
+msgstr "_Sincronisar"
 
 #: ../src/modules/cal-config-google/e-google-chooser-button.c:137
 #, fuzzy
@@ -25361,7 +25102,7 @@ msgstr "Monstrar un calendare por selecter li date"
 #: ../src/modules/calendar/e-cal-attachment-handler.c:403
 #, fuzzy
 msgid "Select a Memo List"
-msgstr "Monstrar un liste por selecter li date"
+msgstr "Memorandum"
 
 #: ../src/modules/calendar/e-cal-attachment-handler.c:410
 #, fuzzy
@@ -25376,7 +25117,7 @@ msgstr "I_mportar…"
 #: ../src/modules/calendar/e-cal-attachment-handler.c:424
 #, fuzzy
 msgid "I_mport to Memo List"
-msgstr "I_mportar…"
+msgstr "Memorandum"
 
 #: ../src/modules/calendar/e-cal-attachment-handler.c:431
 #, fuzzy
@@ -25416,7 +25157,7 @@ msgstr "Li liste de taches <b>%s</b> sta removet"
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:704
 #, fuzzy
 msgid "Calendar Selector"
-msgstr "_Calendare:"
+msgstr "Ne es un calendare."
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:710
 #, fuzzy
@@ -25523,7 +25264,7 @@ msgstr "05 minutes"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:10
 #, fuzzy
 msgid "Se_cond zone:"
-msgstr "Se_lection"
+msgstr "_Zone horari"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:12
 #, fuzzy
@@ -25559,7 +25300,7 @@ msgstr "Fin"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:22
 #, fuzzy
 msgid "Start events later"
-msgstr "Comense"
+msgstr "Evenimentes"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:23
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1801
@@ -25678,7 +25419,7 @@ msgstr ""
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:59
 #, fuzzy
 msgid "_Compress weekends in month view"
-msgstr "Vise de mensu"
+msgstr "Vise de _mensu"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:60
 #, fuzzy
@@ -25864,7 +25605,7 @@ msgstr "Nov rendevú"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1560
 #, fuzzy
 msgid "Create a new appointment"
-msgstr "Crear un nov memorandum"
+msgstr "Crear un nov contacte"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:122
 #, fuzzy
@@ -25885,7 +25626,7 @@ msgstr "M_etode:"
 #: ../src/modules/calendar/e-cal-shell-backend.c:131
 #, fuzzy
 msgid "Create a new meeting request"
-msgstr "Crear un nov memorandum"
+msgstr "Crear un nov contacte"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:139
 msgctxt "New"
@@ -25950,7 +25691,7 @@ msgstr "_Copiar…"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1313
 #, fuzzy
 msgid "D_elete Calendar"
-msgstr "_Calendare:"
+msgstr "R_emover li adressarium"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1315
 msgid "Delete the selected calendar"
@@ -25989,7 +25730,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1355
 #, fuzzy
 msgid "_New Calendar"
-msgstr "_Calendare:"
+msgstr "Ne es un calendare."
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1369
 #: ../src/modules/calendar/e-task-shell-view-actions.c:855
@@ -26013,7 +25754,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1392
 #, fuzzy
 msgid "Rename the selected calendar"
-msgstr "Renominar li selectet file"
+msgstr "Renominar li selectet adressarium"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1397
 msgid "Find _Next"
@@ -26411,7 +26152,7 @@ msgstr "Memorandum"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:673
 #, fuzzy
 msgid "View the selected memo"
-msgstr "Memorandum"
+msgstr "%d memorandum"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:259
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:353
@@ -26467,7 +26208,7 @@ msgstr "tache"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:715
 #, fuzzy
 msgid "_Assign Task"
-msgstr "_Tache"
+msgstr "Assignar un color"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:325
 #: ../src/modules/calendar/e-task-shell-view-actions.c:820
@@ -26575,16 +26316,17 @@ msgstr "https://yandex.ru/search/?text=\\\\{@}"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:601
 #, fuzzy
 msgid "D_elete Memo List"
-msgstr "R_emover li element"
+msgstr "%d memorandum"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:603
 #, fuzzy
 msgid "Delete the selected memo list"
-msgstr "Remover li selectet calendare"
+msgstr "Memorandum"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:608
+#, fuzzy
 msgid "_Manage Memo List groups…"
-msgstr ""
+msgstr "Memorandum"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:610
 msgid "Manage Memo List groups order and visibility"
@@ -26593,12 +26335,12 @@ msgstr ""
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:615
 #, fuzzy
 msgid "_New Memo List"
-msgstr "Crear un nov memorandum"
+msgstr "Memorandum"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:631
 #, fuzzy
 msgid "Refresh the selected memo list"
-msgstr "Refriscar li liste de aparates"
+msgstr "Memorandum"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:636
 msgid "Re_fresh list of account memo lists"
@@ -26607,12 +26349,12 @@ msgstr ""
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:645
 #, fuzzy
 msgid "Rename the selected memo list"
-msgstr "Renominar li %1 selectet element a:"
+msgstr "Memorandum"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:650
 #, fuzzy
 msgid "Show _Only This Memo List"
-msgstr "Solmen listar files"
+msgstr "Memorandum"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:657
 msgid "Sho_w All Memo Lists"
@@ -26660,11 +26402,11 @@ msgid "Delete Memo"
 msgstr "Memorandum"
 
 #: ../src/modules/calendar/e-memo-shell-view-private.c:361
-#, fuzzy, c-format
+#, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
-msgstr[0] "Memorandum"
-msgstr[1] ""
+msgstr[0] "%d memorandum"
+msgstr[1] "%d memorandums"
 
 #: ../src/modules/calendar/e-task-shell-backend.c:72
 msgctxt "New"
@@ -26680,7 +26422,7 @@ msgstr "%d tache"
 #: ../src/modules/calendar/e-task-shell-backend.c:81
 #, fuzzy
 msgid "Create a new assigned task"
-msgstr "Crear nov"
+msgstr "Crear un _tache"
 
 #: ../src/modules/calendar/e-task-shell-backend.c:89
 msgctxt "New"
@@ -26715,7 +26457,7 @@ msgstr "Ne questionar denov"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:724
 #, fuzzy
 msgid "Edit selected tasks in a bulk"
-msgstr "Deleter li selectet areas"
+msgstr "Redacter in m_asse…"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:729
 #, fuzzy
@@ -26735,7 +26477,7 @@ msgstr "https://yandex.ru/search/?text=\\\\{@}"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:757
 #, fuzzy
 msgid "D_elete Task List"
-msgstr "%d tache"
+msgstr "Liste de _taches"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:759
 #, fuzzy
@@ -26764,7 +26506,7 @@ msgstr ""
 #: ../src/modules/calendar/e-task-shell-view-actions.c:801
 #, fuzzy
 msgid "Rename the selected task list"
-msgstr "Renominar li selectet file"
+msgstr "Renominar li selectet adressarium"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:806
 msgid "Sho_w All Task Lists"
@@ -27038,7 +26780,7 @@ msgstr "Hodie a %H∶%M∶S"
 #: ../src/modules/itip-formatter/itip-view.c:314
 #, fuzzy
 msgid "Tomorrow %l:%M %p"
-msgstr "%l:%M %p"
+msgstr "Yer a %l:%M %p"
 
 #. strftime format of a time,
 #. * in 12-hour format.
@@ -27079,7 +26821,7 @@ msgstr "%a, %l:%M %p"
 #: ../src/modules/itip-formatter/itip-view.c:355
 #, fuzzy
 msgid "%A %l:%M:%S %p"
-msgstr "Hodie a %l:%M %p"
+msgstr "%a, %l:%M %p"
 
 #. strftime format of a weekday and a date
 #. * without a year.
@@ -27173,7 +26915,7 @@ msgstr "Un ínconosset persone"
 #: ../src/modules/itip-formatter/itip-view.c:668
 #, fuzzy, c-format
 msgid "Please respond on behalf of %s"
-msgstr "Ples raportar errores a <%s>."
+msgstr "Provide li contrasigne por li adressarium «%s»."
 
 #: ../src/modules/itip-formatter/itip-view.c:483
 #: ../src/modules/itip-formatter/itip-view.c:577
@@ -27465,7 +27207,6 @@ msgid "_Update Attendee Status"
 msgstr "Act_ualisar"
 
 #: ../src/modules/itip-formatter/itip-view.c:1329
-#| msgid "I_mport"
 msgid "Im_port"
 msgstr "Im_portar"
 
@@ -27496,7 +27237,7 @@ msgstr "«Descrition» ne esset providet"
 #: ../src/modules/itip-formatter/itip-view.c:2219
 #, fuzzy
 msgid "Send reply to organizer"
-msgstr "_Responder-A:"
+msgstr "Organisator:"
 
 #. Updates
 #: ../src/modules/itip-formatter/itip-view.c:2234
@@ -27828,7 +27569,7 @@ msgstr ""
 #: ../src/modules/itip-formatter/itip-view.c:6598
 #, fuzzy
 msgid "The item in the calendar is not valid"
-msgstr "Ínvalid ante"
+msgstr "Ti certificate es valid."
 
 #: ../src/modules/itip-formatter/itip-view.c:6411
 #: ../src/modules/itip-formatter/itip-view.c:6495
@@ -27894,7 +27635,7 @@ msgstr "Adjunter un conto de Todoist"
 #, fuzzy
 msgctxt "GoggleSummary"
 msgid "IMAP access"
-msgstr "IMAP"
+msgstr "accesse"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
@@ -28081,11 +27822,11 @@ msgid "Import Pretty Good Privacy (OpenPGP) key"
 msgstr ""
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:732
-#, fuzzy, c-format
+#, c-format
 msgid "%d attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "_Atachat"
-msgstr[1] ""
+msgstr[0] "%d atachat missage"
+msgstr[1] "%d atachat missages"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:413
 #, fuzzy
@@ -28107,7 +27848,7 @@ msgstr "_E-post"
 #: ../src/modules/mail/e-mail-shell-backend.c:425
 #, fuzzy
 msgid "Create a new mail account"
-msgstr "Crear un nov memorandum"
+msgstr "Crear un nov contacte"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:430
 #, fuzzy
@@ -28239,7 +27980,7 @@ msgstr ""
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1602
 #, fuzzy
 msgid "Empty _Junk"
-msgstr "Filtre de spam quel usa SpamAssassin"
+msgstr "_Vacuar li spam"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1604
 msgid "Delete all Junk messages from all folders"
@@ -28256,8 +27997,9 @@ msgid "Refresh list of folders of this account"
 msgstr "Refriscar li liste de aparates"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1623
+#, fuzzy
 msgid "_Download Messages for Offline Usage"
-msgstr ""
+msgstr "Descargar ad maxim %s ultim missages"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1625
 msgid "Download messages of accounts and folders marked for offline usage"
@@ -28426,7 +28168,7 @@ msgstr "Anullar li actual scannation"
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1813
 #, fuzzy
 msgid "Collapse All _Threads"
-msgstr "Omni etiquettes"
+msgstr "Temas in sin_gul nivelle"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1815
 #, fuzzy
@@ -28509,7 +28251,7 @@ msgstr ""
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1964
 #, fuzzy
 msgid "Show _Junk Messages"
-msgstr "Filtre de spam quel usa SpamAssassin"
+msgstr "Missage es spam"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1966
 msgid "Show junk messages with a red line through them"
@@ -28528,7 +28270,7 @@ msgstr "Monstrar li panel de previder"
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1980
 #, fuzzy
 msgid "_Group By Threads"
-msgstr "_Gruppar secun..."
+msgstr "Temas in sin_gul nivelle"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1982
 #, fuzzy
@@ -28577,7 +28319,7 @@ msgstr "Obtener li cap-lineas por N ultim _dies: "
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2054
 #, fuzzy
 msgid "Messages Not Junk"
-msgstr "Filtre de spam quel usa SpamAssassin"
+msgstr "Missage es spam"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2061
 #, fuzzy
@@ -28587,7 +28329,7 @@ msgstr "_Missages"
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2068
 #, fuzzy
 msgid "Messages with Notes"
-msgstr "Missages a"
+msgstr "_Missages"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2075
 msgid "No Label"
@@ -28629,7 +28371,7 @@ msgstr "Actual fólder e li subfólderes"
 #: ../src/modules/mail/e-mail-shell-view.c:1256
 #, fuzzy
 msgid "Current Folder and Subfolders Search"
-msgstr "Actual fólder e li subfólderes"
+msgstr "In li actual fólder e su _subfólderes"
 
 #: ../src/modules/mail/e-mail-shell-view.c:1343
 #, fuzzy
@@ -28650,33 +28392,33 @@ msgstr[1] "%d selectet, "
 
 #: ../src/modules/mail/e-mail-shell-view-private.c:936
 #: ../src/modules/mail/e-mail-shell-view-private.c:953
-#, fuzzy, c-format
+#, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
-msgstr[0] "%d file deletet"
-msgstr[1] ""
+msgstr[0] "%d removet"
+msgstr[1] "%d removet"
 
 #: ../src/modules/mail/e-mail-shell-view-private.c:967
 #: ../src/modules/mail/e-mail-shell-view-private.c:973
-#, fuzzy, c-format
+#, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] "Filtre de spam quel usa SpamAssassin"
-msgstr[1] ""
+msgstr[0] "%d de spam"
+msgstr[1] "%d de spam"
 
 #: ../src/modules/mail/e-mail-shell-view-private.c:980
-#, fuzzy, c-format
+#, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] "Esquisse"
-msgstr[1] ""
+msgstr[0] "%d esquisse"
+msgstr[1] "%d esquisses"
 
 #: ../src/modules/mail/e-mail-shell-view-private.c:986
-#, fuzzy, c-format
+#, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
-msgstr[0] "%d → %d"
-msgstr[1] ""
+msgstr[0] "%d íninviat"
+msgstr[1] "%d íninviat"
 
 #: ../src/modules/mail/e-mail-shell-view-private.c:992
 #, c-format
@@ -28739,7 +28481,7 @@ msgstr "Interfacie de usator"
 #: ../src/modules/mail/em-mailer-prefs.c:88
 #, fuzzy
 msgid "On exit, every time"
-msgstr "Hora"
+msgstr "Chascun"
 
 #: ../src/modules/mail/em-mailer-prefs.c:89
 msgid "Once per day"
@@ -28972,7 +28714,7 @@ msgstr ""
 #: ../src/modules/rss/camel/camel-rss-folder.c:225
 #, fuzzy
 msgid "Message is not available"
-msgstr "_Missage"
+msgstr "Li missage es índisponibil."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:280
 #, fuzzy, c-format
@@ -28992,7 +28734,7 @@ msgstr "Ínvalid URL"
 #: ../src/modules/rss/camel/camel-rss-folder.c:727
 #, fuzzy
 msgid "Apply message _filters to this folder"
-msgstr "Filtres de _missages"
+msgstr "Applicar li _filtres a nov missages"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:740
 #: ../src/modules/rss/evolution/e-rss-preferences.c:912
@@ -29197,7 +28939,7 @@ msgstr ""
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, fuzzy, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
-msgstr "Dependentie «%s» ne esset cargat"
+msgstr "Ne successat gardar un certificate: %s"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:211
 msgid "Failed to stream mail message content to SpamAssassin: "
@@ -29206,7 +28948,7 @@ msgstr ""
 #: ../src/modules/spamassassin/evolution-spamassassin.c:230
 #, fuzzy, c-format
 msgid "Failed to write “%s” to SpamAssassin: "
-msgstr "Dependentie «%s» ne esset cargat"
+msgstr "Ne successat gardar un certificate: %s"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:258
 msgid "Failed to read output from SpamAssassin: "
@@ -29327,7 +29069,7 @@ msgstr "_C#"
 #: ../src/modules/text-highlight/languages.c:65
 #, fuzzy
 msgid "_Cascade Style Sheet"
-msgstr "_Stil:"
+msgstr "Págines per folie"
 
 #: ../src/modules/text-highlight/languages.c:78
 msgid "_Java"
@@ -29551,7 +29293,7 @@ msgstr ""
 #: ../src/modules/webkit-editor/e-webkit-editor.c:2244
 #, fuzzy
 msgid "Failed to retrieve message content"
-msgstr "obtener valores de proprietás"
+msgstr "Ne successat obtener un missage"
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
 #: ../src/modules/webkit-editor/e-webkit-editor.c:5611
@@ -29910,7 +29652,7 @@ msgstr ""
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:438
 #, fuzzy
 msgid "Contact List _Owner"
-msgstr "Liste de contactes"
+msgstr "_Liste de contactes"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:440
 msgid "Contact the owner of the mailing list this message belongs to"
@@ -30064,7 +29806,7 @@ msgstr[1] "(e %d plu)"
 #: ../src/plugins/mail-notification/mail-notification.c:562
 #, fuzzy
 msgid "New email in Evolution"
-msgstr "Evolution"
+msgstr "E-post"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
@@ -30127,7 +29869,7 @@ msgstr ""
 #: ../src/plugins/mail-to-task/mail-to-task.c:200
 #, fuzzy, c-format
 msgid "Created from a mail by %s"
-msgstr "«%s» har esset creat con success"
+msgstr "E-postage de %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
 #: ../src/plugins/mail-to-task/mail-to-task.c:613
@@ -30374,7 +30116,7 @@ msgstr "Ne successat monter %s."
 #: ../src/plugins/publish-calendar/publish-calendar.c:787
 #, fuzzy
 msgid "Are you sure you want to remove this location?"
-msgstr "Esque vu vole remover ti-ci provisor?"
+msgstr "Esque vu vole remover li conto «{0}»?"
 
 #. To Translators: This is shown to a user when creation of a new thread,
 #. * where the publishing should be done, fails. Basically, this shouldn't
@@ -30711,7 +30453,7 @@ msgstr ""
 #: ../src/plugins/templates/templates.c:937
 #, fuzzy
 msgid "Saving message template"
-msgstr "_Missage"
+msgstr "Inviante %d missage"
 
 #: ../src/plugins/templates/templates.c:968
 msgid "Save _Template"
@@ -30899,7 +30641,7 @@ msgstr "_Por un conto:"
 #: ../src/shell/e-shell-window-actions.c:917
 #, fuzzy
 msgid "Create a new collection account"
-msgstr "Crear un nov memorandum"
+msgstr "Crear un nov contacte"
 
 #: ../src/shell/e-shell-window-actions.c:925
 msgid "_About"
@@ -31147,7 +30889,7 @@ msgstr ""
 #: ../src/shell/e-shell-window-actions.c:1286
 #, fuzzy
 msgid "Tool_bar Style"
-msgstr "_Stil:"
+msgstr "Utensile a importar fotos"
 
 #: ../src/shell/e-shell-window-actions.c:1288
 msgid "Display window buttons using the desktop toolbar setting"
@@ -31321,12 +31063,12 @@ msgstr ""
 #: ../src/shell/shell.error.xml.h:16
 #, fuzzy
 msgid "Failed to invoke authenticate for “{0}”"
-msgstr "Ne successat autenticar"
+msgstr "Autentication ne successat"
 
 #: ../src/shell/shell.error.xml.h:17
 #, fuzzy
 msgid "Failed to connect “{0}”"
-msgstr "+0"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #: ../src/shell/shell.error.xml.h:18
 msgid "_Reconnect"
@@ -31339,7 +31081,7 @@ msgstr ""
 #: ../src/shell/shell.error.xml.h:20
 #, fuzzy
 msgid "Failed to connect calendar “{0}”"
-msgstr "calendar:week_start:1"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #: ../src/shell/shell.error.xml.h:21
 msgid "Failed to connect mail account “{0}”"
@@ -31356,7 +31098,7 @@ msgstr ""
 #: ../src/shell/shell.error.xml.h:24
 #, fuzzy
 msgid "Failed to prompt for credentials for “{0}”"
-msgstr "Transferte del file %(0)s ne sussessat"
+msgstr "Ne successat aperter li calendare «{0}»"
 
 #: ../src/shell/shell.error.xml.h:25
 msgid "Failed to finish trust prompt for “{0}”"
