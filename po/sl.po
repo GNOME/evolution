@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-31 15:33+0000\n"
-"PO-Revision-Date: 2024-04-02 10:42+0200\n"
+"POT-Creation-Date: 2024-04-30 15:55+0000\n"
+"PO-Revision-Date: 2024-05-01 10:59+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -3690,7 +3690,7 @@ msgstr ""
 "→ ...."
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
-#: ../data/org.gnome.Evolution.desktop.in.in.h:1 ../src/mail/e-mail-browser.c:1340
+#: ../data/org.gnome.Evolution.desktop.in.in.h:1 ../src/mail/e-mail-browser.c:1345
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:265
 msgid "Evolution"
@@ -4474,18 +4474,18 @@ msgstr "Stik »{0}« v imeniku »{1}« že obstaja. ALi želite raje dodati kopi
 #: ../src/e-util/e-html-editor-actions.c:460 ../src/e-util/e-html-editor-actions.c:562
 #: ../src/e-util/e-image-chooser-dialog.c:168 ../src/e-util/e-mail-signature-script-dialog.c:340
 #: ../src/e-util/e-passwords.c:486 ../src/e-util/e-rule-context.c:810
-#: ../src/e-util/e-rule-editor.c:177 ../src/e-util/e-rule-editor.c:288
-#: ../src/e-util/e-rule-editor.c:922 ../src/e-util/e-send-options.ui.h:16
-#: ../src/e-util/e-source-config-dialog.c:342 ../src/e-util/e-source-selector-dialog.c:324
-#: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
-#: ../src/e-util/e-timezone-dialog.ui.h:2 ../src/e-util/evolution-source-viewer.c:829
-#: ../src/e-util/e-web-view.c:4133 ../src/e-util/gal-view-instance-save-as-dialog.c:265
-#: ../src/mail/e-mail-config-window.c:304 ../src/mail/e-mail-label-dialog.c:180
-#: ../src/mail/e-mail-tag-editor.c:154 ../src/mail/em-composer-utils.c:4433
-#: ../src/mail/em-folder-selector.c:619 ../src/mail/mail-config.ui.h:2
-#: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
-#: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
-#: ../src/mail/mail-vfolder-ui.c:271
+#: ../src/e-util/e-rule-editor.c:178 ../src/e-util/e-rule-editor.c:289
+#: ../src/e-util/e-rule-editor.c:342 ../src/e-util/e-rule-editor.c:978
+#: ../src/e-util/e-send-options.ui.h:16 ../src/e-util/e-source-config-dialog.c:342
+#: ../src/e-util/e-source-selector-dialog.c:324 ../src/e-util/e-table-config.c:540
+#: ../src/e-util/e-table-config.ui.h:3 ../src/e-util/e-timezone-dialog.ui.h:2
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4133
+#: ../src/e-util/gal-view-instance-save-as-dialog.c:265 ../src/mail/e-mail-config-window.c:304
+#: ../src/mail/e-mail-label-dialog.c:180 ../src/mail/e-mail-tag-editor.c:154
+#: ../src/mail/em-composer-utils.c:4433 ../src/mail/em-folder-selector.c:619
+#: ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16
+#: ../src/mail/mail-send-recv.c:874 ../src/mail/mail-send-recv.c:955
+#: ../src/mail/mail-vfolder-ui.c:149 ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1310
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
@@ -4837,7 +4837,7 @@ msgstr "Dodaj _X.509"
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1535 ../src/e-util/e-attachment-view.c:519
 #: ../src/e-util/e-filter-rule.c:403 ../src/e-util/e-html-editor-link-popover.c:276
 #: ../src/e-util/e-mail-signature-manager.c:355 ../src/e-util/e-name-selector-dialog.c:1010
-#: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:27
+#: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:28
 #: ../src/mail/e-mail-config-identity-page.c:865 ../src/mail/e-mail-label-manager.c:390
 #: ../src/mail/em-filter-rule.c:677 ../src/mail/em-folder-properties.c:1397
 #: ../src/mail/em-vfolder-editor-rule.c:625 ../src/mail/mail-config.ui.h:71
@@ -5038,14 +5038,14 @@ msgstr "Pomo_č"
 #: ../src/e-util/e-category-editor.c:248 ../src/e-util/e-charset-combo-box.c:93
 #: ../src/e-util/e-color-chooser-widget.c:119 ../src/e-util/e-filter-datespec.c:293
 #: ../src/e-util/e-passwords.c:487 ../src/e-util/e-rule-context.c:811
-#: ../src/e-util/e-rule-editor.c:178 ../src/e-util/e-rule-editor.c:289
-#: ../src/e-util/e-rule-editor.c:923 ../src/e-util/e-send-options.ui.h:17
-#: ../src/e-util/e-source-config-dialog.c:343 ../src/e-util/e-source-selector-dialog.c:325
-#: ../src/e-util/e-table-config.c:541 ../src/e-util/e-table-config.ui.h:4
-#: ../src/e-util/e-timezone-dialog.ui.h:3 ../src/mail/e-mail-config-window.c:305
-#: ../src/mail/e-mail-tag-editor.c:156 ../src/mail/em-folder-selector.c:40
-#: ../src/mail/mail-config.ui.h:3 ../src/mail/mail-vfolder-ui.c:150
-#: ../src/mail/mail-vfolder-ui.c:272
+#: ../src/e-util/e-rule-editor.c:179 ../src/e-util/e-rule-editor.c:290
+#: ../src/e-util/e-rule-editor.c:343 ../src/e-util/e-rule-editor.c:979
+#: ../src/e-util/e-send-options.ui.h:17 ../src/e-util/e-source-config-dialog.c:343
+#: ../src/e-util/e-source-selector-dialog.c:325 ../src/e-util/e-table-config.c:541
+#: ../src/e-util/e-table-config.ui.h:4 ../src/e-util/e-timezone-dialog.ui.h:3
+#: ../src/mail/e-mail-config-window.c:305 ../src/mail/e-mail-tag-editor.c:156
+#: ../src/mail/em-folder-selector.c:40 ../src/mail/mail-config.ui.h:3
+#: ../src/mail/mail-vfolder-ui.c:150 ../src/mail/mail-vfolder-ui.c:272
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:278
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418 ../src/shell/e-shell-content.c:612
@@ -5191,22 +5191,22 @@ msgid "Insert email addresses from Address Book"
 msgstr "Vstavi elektronski naslov iz imenika"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
-#: ../src/e-util/filter.ui.h:28
+#: ../src/e-util/filter.ui.h:29
 msgid "_Top"
 msgstr "Na _vrh"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/e-source-selector.c:3918 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-source-selector.c:3918 ../src/e-util/filter.ui.h:30
 msgid "_Up"
 msgstr "_Gor"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
-#: ../src/e-util/e-source-selector.c:3919 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-source-selector.c:3919 ../src/e-util/filter.ui.h:31
 msgid "_Down"
 msgstr "_Dol"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
-#: ../src/e-util/filter.ui.h:31
+#: ../src/e-util/filter.ui.h:32
 msgid "_Bottom"
 msgstr "Na _dno"
 
@@ -15954,13 +15954,20 @@ msgstr "Ustvari nov profil posredniškega strežnika"
 msgid "Delete the selected proxy profile"
 msgstr "Izbriši izbran profil posredniškega strežnika"
 
-#: ../src/e-util/e-rule-editor.c:181
+#: ../src/e-util/e-rule-editor.c:182
 msgid "Add Rule"
 msgstr "Dodaj pravilo"
 
-#: ../src/e-util/e-rule-editor.c:292
+#: ../src/e-util/e-rule-editor.c:293 ../src/e-util/e-rule-editor.c:346
 msgid "Edit Rule"
 msgstr "Uredi pravilo"
+
+#. Translators: the '%s' is replaced with a rule name, making it for example "Copy of Subject contains work";
+#. the text itself is provided by the user.
+#: ../src/e-util/e-rule-editor.c:333
+#, c-format
+msgid "Copy of %s"
+msgstr "Kopiranje %s"
 
 #: ../src/e-util/e-search-bar.c:78
 #, c-format
@@ -16968,6 +16975,10 @@ msgstr "Pravila _filtriranja"
 #: ../src/e-util/filter.ui.h:24
 msgid "Rule Name"
 msgstr "Ime pravila"
+
+#: ../src/e-util/filter.ui.h:27
+msgid "Du_plicate"
+msgstr "Po_dvoji"
 
 #: ../src/e-util/gal-a11y-e-cell.c:125
 msgid "Table Cell"
