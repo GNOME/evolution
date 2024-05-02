@@ -12,17 +12,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-22 10:30+0000\n"
-"PO-Revision-Date: 2024-03-22 18:25+0200\n"
+"POT-Creation-Date: 2024-04-30 15:55+0000\n"
+"PO-Revision-Date: 2024-05-02 20:16+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
+"Language-Team: Ukrainian\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.3\n"
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
@@ -4073,7 +4073,7 @@ msgstr ""
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
-#: ../src/mail/e-mail-browser.c:1340
+#: ../src/mail/e-mail-browser.c:1345
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:265
 msgid "Evolution"
@@ -4893,8 +4893,9 @@ msgstr ""
 #: ../src/e-util/e-image-chooser-dialog.c:168
 #: ../src/e-util/e-mail-signature-script-dialog.c:340
 #: ../src/e-util/e-passwords.c:486 ../src/e-util/e-rule-context.c:810
-#: ../src/e-util/e-rule-editor.c:177 ../src/e-util/e-rule-editor.c:288
-#: ../src/e-util/e-rule-editor.c:922 ../src/e-util/e-send-options.ui.h:16
+#: ../src/e-util/e-rule-editor.c:178 ../src/e-util/e-rule-editor.c:289
+#: ../src/e-util/e-rule-editor.c:342 ../src/e-util/e-rule-editor.c:978
+#: ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:342
 #: ../src/e-util/e-source-selector-dialog.c:324
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
@@ -5272,7 +5273,7 @@ msgstr "Add _X.509"
 #: ../src/e-util/e-html-editor-link-popover.c:276
 #: ../src/e-util/e-mail-signature-manager.c:355
 #: ../src/e-util/e-name-selector-dialog.c:1010
-#: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:27
+#: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:28
 #: ../src/mail/e-mail-config-identity-page.c:865
 #: ../src/mail/e-mail-label-manager.c:390 ../src/mail/em-filter-rule.c:677
 #: ../src/mail/em-folder-properties.c:1397
@@ -5481,9 +5482,9 @@ msgstr "_Довідка"
 #: ../src/e-util/e-charset-combo-box.c:93
 #: ../src/e-util/e-color-chooser-widget.c:119
 #: ../src/e-util/e-filter-datespec.c:293 ../src/e-util/e-passwords.c:487
-#: ../src/e-util/e-rule-context.c:811 ../src/e-util/e-rule-editor.c:178
-#: ../src/e-util/e-rule-editor.c:289 ../src/e-util/e-rule-editor.c:923
-#: ../src/e-util/e-send-options.ui.h:17
+#: ../src/e-util/e-rule-context.c:811 ../src/e-util/e-rule-editor.c:179
+#: ../src/e-util/e-rule-editor.c:290 ../src/e-util/e-rule-editor.c:343
+#: ../src/e-util/e-rule-editor.c:979 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:343
 #: ../src/e-util/e-source-selector-dialog.c:325
 #: ../src/e-util/e-table-config.c:541 ../src/e-util/e-table-config.ui.h:4
@@ -5636,22 +5637,22 @@ msgid "Insert email addresses from Address Book"
 msgstr "Вставити поштові адреси з адресної книги"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
-#: ../src/e-util/filter.ui.h:28
+#: ../src/e-util/filter.ui.h:29
 msgid "_Top"
 msgstr "_Верх"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/e-source-selector.c:3918 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-source-selector.c:3918 ../src/e-util/filter.ui.h:30
 msgid "_Up"
 msgstr "В_гору"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
-#: ../src/e-util/e-source-selector.c:3919 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-source-selector.c:3919 ../src/e-util/filter.ui.h:31
 msgid "_Down"
 msgstr "У_низ"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
-#: ../src/e-util/filter.ui.h:31
+#: ../src/e-util/filter.ui.h:32
 msgid "_Bottom"
 msgstr "_Знизу"
 
@@ -16852,13 +16853,21 @@ msgstr "Створити новий профіль проксі"
 msgid "Delete the selected proxy profile"
 msgstr "Вилучити вибраний профіль проксі"
 
-#: ../src/e-util/e-rule-editor.c:181
+#: ../src/e-util/e-rule-editor.c:182
 msgid "Add Rule"
 msgstr "Додати правило"
 
-#: ../src/e-util/e-rule-editor.c:292
+#: ../src/e-util/e-rule-editor.c:293 ../src/e-util/e-rule-editor.c:346
 msgid "Edit Rule"
 msgstr "Змінити правило"
+
+#. Translators: the '%s' is replaced with a rule name, making it for example "Copy of Subject contains work";
+#. the text itself is provided by the user.
+#: ../src/e-util/e-rule-editor.c:333
+#, c-format
+#| msgid "Copying folder %s"
+msgid "Copy of %s"
+msgstr "Копія %s"
 
 #: ../src/e-util/e-search-bar.c:78
 #, c-format
@@ -17888,6 +17897,11 @@ msgstr "Правила _фільтрування"
 msgid "Rule Name"
 msgstr "Назва правила"
 
+#: ../src/e-util/filter.ui.h:27
+#| msgid "Skip duplicates"
+msgid "Du_plicate"
+msgstr "Д_ублювати"
+
 #: ../src/e-util/gal-a11y-e-cell.c:125
 msgid "Table Cell"
 msgstr "Комірка таблиці"
@@ -18676,7 +18690,6 @@ msgid "Restore _Not-Junk to Folder:"
 msgstr "Відновлювати _неспам до теки:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:873
-#| msgid "Choose a folder for junk messages."
 msgid "Choose a folder to restore not-junk messages from the Junk folder to."
 msgstr ""
 "Виберіть теку для відновлення повідомлень, які не є спамом, з теки спаму."
