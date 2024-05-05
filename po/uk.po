@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-04-30 15:55+0000\n"
-"PO-Revision-Date: 2024-05-02 20:16+0300\n"
+"POT-Creation-Date: 2024-05-02 17:18+0000\n"
+"PO-Revision-Date: 2024-05-05 20:40+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -15647,7 +15647,7 @@ msgstr "Стовпчик після"
 
 #: ../src/e-util/e-html-editor-actions.c:1822
 msgid "Column Before"
-msgstr "Стовпчик після"
+msgstr "Стовпчик до"
 
 #: ../src/e-util/e-html-editor-actions.c:1829
 msgid "Insert _Link"
@@ -16865,7 +16865,6 @@ msgstr "Змінити правило"
 #. the text itself is provided by the user.
 #: ../src/e-util/e-rule-editor.c:333
 #, c-format
-#| msgid "Copying folder %s"
 msgid "Copy of %s"
 msgstr "Копія %s"
 
@@ -17898,7 +17897,6 @@ msgid "Rule Name"
 msgstr "Назва правила"
 
 #: ../src/e-util/filter.ui.h:27
-#| msgid "Skip duplicates"
 msgid "Du_plicate"
 msgstr "Д_ублювати"
 
