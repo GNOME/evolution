@@ -87,7 +87,7 @@ save_gicon_to_stream (GIcon *icon,
 		g_object_unref (pixbuf);
 	}
 
-	g_object_unref (icon);
+	g_object_unref (icon_info);
 }
 
 static gboolean
@@ -216,6 +216,8 @@ mail_request_process_mail_sync (EContentRequest *request,
 								scale_factor = 1;
 
 							save_gicon_to_stream (icon, atoi (size) * scale_factor, output_stream, &use_mime_type);
+
+							g_object_unref (icon);
 						}
 					}
 
