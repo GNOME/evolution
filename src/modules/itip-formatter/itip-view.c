@@ -6676,7 +6676,7 @@ idle_open_cb (gpointer user_data)
 	uris[1] = NULL;
 
 	shell = e_shell_get_default ();
-	e_shell_handle_uris (shell, uris, FALSE);
+	e_shell_handle_uris (shell, uris, FALSE, FALSE);
 
 	g_free (shell_uri);
 	g_free (start);

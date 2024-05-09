@@ -103,6 +103,8 @@ struct _EShellClass {
 						 EActivity *activity);
 	void		(*quit_requested)	(EShell *shell,
 						 EShellQuitReason reason);
+	/*gboolean	(*view_uri)		(EShell *shell,
+						 const gchar *uri);*/
 };
 
 GType		e_shell_get_type		(void);
@@ -126,7 +128,8 @@ GtkWidget *	e_shell_create_shell_window	(EShell *shell,
 						 const gchar *view_name);
 guint		e_shell_handle_uris		(EShell *shell,
 						 const gchar * const *uris,
-						 gboolean do_import);
+						 gboolean do_import,
+						 gboolean do_view);
 void		e_shell_submit_alert		(EShell *shell,
 						 EAlert *alert);
 GtkWindow *     e_shell_get_active_window	(EShell *shell);

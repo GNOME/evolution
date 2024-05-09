@@ -22,6 +22,7 @@ data/org.gnome.evolution.spamassassin.gschema.xml.in
 data/org.gnome.evolution.text-highlight.gschema.xml.in
 data/org.gnome.Evolution.appdata.xml.in.in
 data/org.gnome.Evolution.desktop.in.in
+[type: gettext/glade]data/ui/evolution-mail-viewer.ui
 [type: gettext/glade]data/ui/evolution-shortcuts.ui
 data/views/addressbook/galview.xml
 data/views/calendar/galview.xml
@@ -353,6 +354,7 @@ src/mail/e-mail-request.c
 src/mail/e-mail-tag-editor.c
 src/mail/e-mail-templates-store.c
 src/mail/e-mail-ui-session.c
+src/mail/e-mail-viewer.c
 src/mail/em-composer-utils.c
 src/mail/em-filter-editor.c
 src/mail/em-filter-editor-folder-element.c

@@ -316,8 +316,11 @@ update_actions (EMailDisplayPopupExtension *extension,
 
 	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (extension);
 
-	if (!th_extension->action_group)
+	if (!th_extension->action_group) {
 		th_extension->action_group = create_group (extension);
+		if (!th_extension->action_group)
+			return;
+	}
 
 	set_popup_place (th_extension, popup_iframe_src, popup_iframe_id);
 

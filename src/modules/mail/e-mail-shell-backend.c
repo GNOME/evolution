@@ -37,6 +37,7 @@
 #include <mail/e-mail-config-window.h>
 #include <mail/e-mail-folder-create-dialog.h>
 #include <mail/e-mail-reader.h>
+#include "mail/e-mail-viewer.h"
 #include <mail/em-composer-utils.h>
 #include <mail/em-utils.h>
 #include <mail/mail-send-recv.h>
@@ -680,6 +681,40 @@ mail_shell_backend_handle_uri_cb (EShell *shell,
 
 	return handled;
 }
+static gboolean
+mail_shell_backend_view_file (EMailShellBackend *mail_shell_backend,
+			      GFile *file)
+{
+	EMailViewer *viewer;
+
+	viewer = e_mail_viewer_new (E_MAIL_BACKEND (mail_shell_backend));
+
+	if (!e_mail_viewer_assign_file (E_MAIL_VIEWER (viewer), file)) {
+		g_object_ref_sink (viewer);
+		gtk_widget_destroy (GTK_WIDGET (viewer));
+
+		return FALSE;
+	}
+
+	gtk_window_present (GTK_WINDOW (viewer));
+
+	return TRUE;
+}
+
+static gboolean
+mail_shell_backend_view_uri_cb (EShell *shell,
+				const gchar *uri,
+				EMailShellBackend *mail_shell_backend)
+{
+	GFile *file;
+	gboolean handled;
+
+	file = g_file_new_for_commandline_arg (uri);
+	handled = mail_shell_backend_view_file (mail_shell_backend, file);
+	g_clear_object (&file);
+
+	return handled;
+}
 
 static void
 mail_shell_backend_prepare_for_quit_cb (EShell *shell,
@@ -1105,6 +1140,11 @@ mail_shell_backend_constructed (GObject *object)
 	g_signal_connect (
 		shell, "handle-uri",
 		G_CALLBACK (mail_shell_backend_handle_uri_cb),
+		shell_backend);
+
+	g_signal_connect (
+		shell, "view-uri",
+		G_CALLBACK (mail_shell_backend_view_uri_cb),
 		shell_backend);
 
 	g_signal_connect (

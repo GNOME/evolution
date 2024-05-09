@@ -262,3 +262,72 @@ e_charset_add_radio_actions (GtkActionGroup *action_group,
 
 	return group;
 }
+
+/**
+ * e_charset_add_to_g_menu:
+ * @menu: a #GMenu to add the character sets to
+ * @action_name: what action name should be used
+ *
+ * Adds a new section with all predefined character sets into the @menu,
+ * naming all of them as the @action_name, only with different target,
+ * thus they will construct a radio menu.
+ *
+ * This does not add a "Default" option.
+ *
+ * Since: 3.54
+ **/
+void
+e_charset_add_to_g_menu (GMenu *menu,
+			 const gchar *action_name)
+{
+	GMenu *section;
+	gint ii;
+
+	g_return_if_fail (G_IS_MENU (menu));
+	g_return_if_fail (action_name != NULL);
+
+	section = g_menu_new ();
+
+	for (ii = 0; ii < G_N_ELEMENTS (charsets); ii++) {
+		GMenuItem *menu_item;
+		const gchar *charset_name;
+		gchar *escaped_name;
+		gchar *charset_label;
+		gchar **str_array;
+
+		charset_name = charsets[ii].name;
+
+		/* Escape underlines in the character set name so
+		 * they're not treated as GtkLabel mnemonics. */
+		str_array = g_strsplit (charset_name, "_", -1);
+		escaped_name = g_strjoinv ("__", str_array);
+		g_strfreev (str_array);
+
+		if (charsets[ii].subclass != NULL)
+			charset_label = g_strdup_printf (
+				"%s, %s (%s)",
+				gettext (classnames[charsets[ii].class]),
+				gettext (charsets[ii].subclass),
+				escaped_name);
+		else if (charsets[ii].class != E_CHARSET_UNKNOWN)
+			charset_label = g_strdup_printf (
+				"%s (%s)",
+				gettext (classnames[charsets[ii].class]),
+				escaped_name);
+		else
+			charset_label = g_strdup (escaped_name);
+
+		menu_item = g_menu_item_new (charset_label, NULL);
+		g_menu_item_set_action_and_target (menu_item, action_name, "s", charset_name);
+		g_menu_append_item (section, menu_item);
+
+		g_object_unref (menu_item);
+
+		g_free (escaped_name);
+		g_free (charset_label);
+	}
+
+	g_menu_append_section (menu, NULL, G_MENU_MODEL (section));
+
+	g_clear_object (&section);
+}

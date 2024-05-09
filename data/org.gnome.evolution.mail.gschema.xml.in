@@ -822,6 +822,7 @@
     <child name="send-recv-window" schema="org.gnome.evolution.window"/>
     <child name="subscription-window" schema="org.gnome.evolution.window"/>
     <child name="vfolder-window" schema="org.gnome.evolution.window"/>
+    <child name="viewer-window" schema="org.gnome.evolution.window"/>
 
     <key name="local-archive-folder" type="s">
       <default>''</default>

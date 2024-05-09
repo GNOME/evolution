@@ -108,6 +108,7 @@ enum {
 enum {
 	EVENT,
 	HANDLE_URI,
+	VIEW_URI,
 	PREPARE_FOR_OFFLINE,
 	PREPARE_FOR_ONLINE,
 	PREPARE_FOR_QUIT,
@@ -208,24 +209,45 @@ shell_action_handle_uris_cb (GSimpleAction *action,
 {
 	const gchar **uris;
 	gchar *change_dir = NULL;
-	gint ii;
+	gboolean do_import = FALSE, do_view = FALSE;
+	gint ii, skip_args = 0, did_read_args = -1;
 
 	/* Do not use g_strfreev() here. */
 	uris = g_variant_get_strv (parameter, NULL);
-	if (uris && g_strcmp0 (uris[0], "--use-cwd") == 0 && uris[1] && *uris[1]) {
-		change_dir = g_get_current_dir ();
 
-		if (g_chdir (uris[1]) != 0)
-			g_warning ("%s: Failed to change directory to '%s': %s", G_STRFUNC, uris[1], g_strerror (errno));
+	/* the arguments can come in any order, they only should be at the beginning, before the URI-s */
+	while (did_read_args != skip_args) {
+		did_read_args = skip_args;
 
-		for (ii = 0; uris[ii + 2]; ii++) {
-			uris[ii] = uris[ii + 2];
+		if (uris && g_strcmp0 (uris[skip_args], "--use-cwd") == 0 && uris[skip_args + 1] && *uris[skip_args + 1]) {
+			change_dir = g_get_current_dir ();
+
+			if (g_chdir (uris[skip_args + 1]) != 0)
+				g_warning ("%s: Failed to change directory to '%s': %s", G_STRFUNC, uris[skip_args + 1], g_strerror (errno));
+
+			skip_args += 2;
+		}
+
+		if (uris && g_strcmp0 (uris[skip_args], "--import") == 0) {
+			do_import = TRUE;
+			skip_args++;
+		}
+
+		if (uris && g_strcmp0 (uris[skip_args], "--view") == 0) {
+			do_view = TRUE;
+			skip_args++;
+		}
+	}
+
+	if (skip_args > 0) {
+		for (ii = 0; uris[ii + skip_args]; ii++) {
+			uris[ii] = uris[ii + skip_args];
 		}
 
 		uris[ii] = NULL;
 	}
 
-	e_shell_handle_uris (shell, uris, FALSE);
+	e_shell_handle_uris (shell, uris, do_import, do_view);
 	g_free (uris);
 
 	if (change_dir) {
@@ -1945,6 +1967,7 @@ static gboolean force_shutdown = FALSE;
 static gboolean disable_eplugin = FALSE;
 static gboolean disable_preview = FALSE;
 static gboolean import_uris = FALSE;
+static gboolean view_uris = FALSE;
 static gboolean quit = FALSE;
 
 static gchar *geometry = NULL;
@@ -1990,6 +2013,8 @@ static GOptionEntry app_options[] = {
 	  &setup_only, NULL, NULL },
 	{ "import", 'i', 0, G_OPTION_ARG_NONE, &import_uris,
 	  N_("Import URIs or filenames given as rest of arguments."), NULL },
+	{ "view", '\0', 0, G_OPTION_ARG_NONE, &view_uris,
+	  N_("View URIs or filenames given as rest of arguments."), NULL },
 	{ "quit", 'q', 0, G_OPTION_ARG_NONE, &quit,
 	  N_("Request a running Evolution process to quit"), NULL },
 	{ "version", 'v', G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_NO_ARG,
@@ -2010,7 +2035,7 @@ handle_options_idle_cb (gpointer user_data)
 	/* These calls do the right thing when another Evolution
 	 * process is running. */
 	if (uris != NULL && *uris != NULL) {
-		if (e_shell_handle_uris (shell, uris, import_uris) == 0)
+		if (e_shell_handle_uris (shell, uris, import_uris, view_uris) == 0)
 			g_application_quit (G_APPLICATION (shell));
 	} else {
 		e_shell_create_shell_window (shell, requested_view);
@@ -2150,7 +2175,7 @@ e_shell_handle_local_options_cb (GApplication *application,
 		g_application_activate (application);
 
 		if (remaining_args && *remaining_args)
-			e_shell_handle_uris (E_SHELL (application), (const gchar * const *) remaining_args, import_uris);
+			e_shell_handle_uris (E_SHELL (application), (const gchar * const *) remaining_args, import_uris, view_uris);
 
 		/* This will be redirected to the previously run instance,
 		   because this instance is remote. */
@@ -2425,6 +2450,30 @@ e_shell_class_init (EShellClass *class)
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 		G_STRUCT_OFFSET (EShellClass, handle_uri),
+		g_signal_accumulator_true_handled, NULL,
+		e_marshal_BOOLEAN__STRING,
+		G_TYPE_BOOLEAN, 1,
+		G_TYPE_STRING);
+
+	/**
+	 * EShell::view-uri
+	 * @shell: the #EShell which emitted the signal
+	 * @uri: the URI to be viewed
+	 *
+	 * Emitted when @shell receives a URI to be viewed, usually by
+	 * way of a command-line argument.  An #EShellBackend should listen
+	 * for this signal and try to show the URI, usually by opening an
+	 * viewer window for the identified resource.
+	 *
+	 * Returns: %TRUE if the URI could be viewed, %FALSE otherwise
+	 *
+	 * Since: 3.54
+	 **/
+	signals[VIEW_URI] = g_signal_new (
+		"view-uri",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		0 /* G_STRUCT_OFFSET (EShellClass, view_uri) */,
 		g_signal_accumulator_true_handled, NULL,
 		e_marshal_BOOLEAN__STRING,
 		G_TYPE_BOOLEAN, 1,
@@ -2906,6 +2955,7 @@ remote:  /* Send a message to the other Evolution process. */
  * @shell: an #EShell
  * @uris: %NULL-terminated list of URIs
  * @do_import: request an import of the URIs
+ * @do_view: request a view of the URIs
  *
  * Emits the #EShell::handle-uri signal for each URI.
  *
@@ -2914,7 +2964,8 @@ remote:  /* Send a message to the other Evolution process. */
 guint
 e_shell_handle_uris (EShell *shell,
                      const gchar * const *uris,
-                     gboolean do_import)
+                     gboolean do_import,
+		     gboolean do_view)
 {
 	GPtrArray *args;
 	gchar *cwd;
@@ -2933,13 +2984,19 @@ e_shell_handle_uris (EShell *shell,
 		for (ii = 0; uris[ii] != NULL; ii++) {
 			gboolean handled;
 
-			g_signal_emit (
-				shell, signals[HANDLE_URI],
-				0, uris[ii], &handled);
+			if (do_view) {
+				g_signal_emit (
+					shell, signals[VIEW_URI],
+					0, uris[ii], &handled);
+			} else {
+				g_signal_emit (
+					shell, signals[HANDLE_URI],
+					0, uris[ii], &handled);
+			}
 			n_handled += handled ? 1 : 0;
 		}
 
-		if (n_handled == 0)
+		if (n_handled == 0 && !do_view)
 			n_handled = e_shell_utils_import_uris (shell, uris);
 	}
 
@@ -2952,6 +3009,11 @@ remote:  /* Send a message to the other Evolution process. */
 
 	g_ptr_array_add (args, (gchar *) "--use-cwd");
 	g_ptr_array_add (args, cwd);
+
+	if (do_import)
+		g_ptr_array_add (args, (gchar *) "--import");
+	if (do_view)
+		g_ptr_array_add (args, (gchar *) "--view");
 
 	for (ii = 0; uris[ii]; ii++) {
 		g_ptr_array_add (args, (gchar *) uris[ii]);

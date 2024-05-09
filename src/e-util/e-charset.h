@@ -34,6 +34,9 @@ GSList *	e_charset_add_radio_actions	(GtkActionGroup *action_group,
 						 GCallback callback,
 						 gpointer user_data);
 
+void		e_charset_add_to_g_menu		(GMenu *menu,
+						 const gchar *action_name);
+
 G_END_DECLS
 
 #endif /* E_CHARSET_H */

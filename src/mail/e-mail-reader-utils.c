@@ -32,7 +32,6 @@
 
 #include <libemail-engine/libemail-engine.h>
 
-#include <em-format/e-mail-formatter-utils.h>
 #include <em-format/e-mail-parser.h>
 #include <em-format/e-mail-part-utils.h>
 
@@ -1549,8 +1548,7 @@ mail_reader_print_message_cb (GObject *source_object,
 	activity = async_context->activity;
 	alert_sink = e_activity_get_alert_sink (activity);
 
-	e_mail_printer_print_finish (
-		E_MAIL_PRINTER (source_object), result, &local_error);
+	em_utils_print_part_list_finish (source_object, result, &local_error);
 
 	if (e_activity_handle_cancellation (activity, local_error)) {
 		g_error_free (local_error);
@@ -1578,15 +1576,11 @@ mail_reader_print_parse_message_cb (GObject *source_object,
 {
 	EMailReader *reader;
 	EMailDisplay *mail_display;
-	EMailFormatter *formatter;
 	EActivity *activity;
 	GCancellable *cancellable;
-	EMailPrinter *printer;
 	EMailPartList *part_list;
-	EMailRemoteContent *remote_content;
 	AsyncContext *async_context;
 	GError *local_error = NULL;
-	gchar *export_basename;
 
 	reader = E_MAIL_READER (source_object);
 	async_context = (AsyncContext *) user_data;
@@ -1608,78 +1602,13 @@ mail_reader_print_parse_message_cb (GObject *source_object,
 	}
 
 	mail_display = e_mail_reader_get_mail_display (reader);
-	formatter = e_mail_display_get_formatter (mail_display);
-	remote_content = e_mail_display_ref_remote_content (mail_display);
-
-	if (e_mail_display_get_skip_insecure_parts (mail_display)) {
-		GList *head, *link;
-		GHashTable *secured_message_ids;
-		GQueue queue = G_QUEUE_INIT;
-
-		e_mail_part_list_queue_parts (part_list, NULL, &queue);
-
-		head = g_queue_peek_head_link (&queue);
-		secured_message_ids = e_mail_formatter_utils_extract_secured_message_ids (head);
-
-		if (secured_message_ids) {
-			gboolean has_encrypted_part = FALSE;
-
-			for (link = head; link != NULL; link = g_list_next (link)) {
-				EMailPart *part = E_MAIL_PART (link->data);
-
-				if (!e_mail_formatter_utils_consider_as_secured_part (part, secured_message_ids))
-					continue;
-
-				if (!e_mail_part_has_validity (part)) {
-					part->is_hidden = TRUE;
-					async_context->hidden_parts = g_slist_prepend (async_context->hidden_parts, g_object_ref (part));
-					continue;
-				}
-
-				if (e_mail_part_get_validity (part, E_MAIL_PART_VALIDITY_ENCRYPTED)) {
-					/* consider the second and following encrypted parts as evil */
-					if (has_encrypted_part) {
-						part->is_hidden = TRUE;
-						async_context->hidden_parts = g_slist_prepend (async_context->hidden_parts, g_object_ref (part));
-					} else {
-						has_encrypted_part = TRUE;
-					}
-				}
-			}
-		}
-
-		while (!g_queue_is_empty (&queue))
-			g_object_unref (g_queue_pop_head (&queue));
-
-		g_clear_pointer (&secured_message_ids, g_hash_table_destroy);
-	}
-
-	printer = e_mail_printer_new (part_list, remote_content);
-	export_basename = em_utils_build_export_basename (
-		CAMEL_FOLDER (async_context->folder),
-		e_mail_part_list_get_message_uid (part_list),
-		NULL);
-	e_util_make_safe_filename (export_basename);
-	e_mail_printer_set_export_filename (printer, export_basename);
-	g_free (export_basename);
-
-	if (e_mail_display_get_mode (mail_display) == E_MAIL_FORMATTER_MODE_SOURCE)
-		e_mail_printer_set_mode (printer, E_MAIL_FORMATTER_MODE_SOURCE);
-
-	g_clear_object (&remote_content);
-	g_clear_object (&part_list);
 
 	e_activity_set_text (activity, _("Printing"));
 
-	e_mail_printer_print (
-		printer,
-		async_context->print_action,
-		formatter,
-		cancellable,
-		mail_reader_print_message_cb,
-		async_context);
+	em_utils_print_part_list (part_list, mail_display, async_context->print_action,
+		cancellable, mail_reader_print_message_cb, async_context);
 
-	g_object_unref (printer);
+	g_clear_object (&part_list);
 }
 
 static void

@@ -94,6 +94,7 @@ set(SOURCES
 	e-mail-templates-store.c
 	e-mail-ui-session.c
 	e-mail-view.c
+	e-mail-viewer.c
 	em-composer-utils.c
 	em-config.c
 	em-event.c
@@ -186,6 +187,7 @@ set(HEADERS
 	e-mail-templates-store.h
 	e-mail-ui-session.h
 	e-mail-view.h
+	e-mail-viewer.h
 	em-composer-utils.h
 	em-config.h
 	em-event.h

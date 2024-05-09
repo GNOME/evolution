@@ -174,7 +174,7 @@ e_web_view_preview_init (EWebViewPreview *preview)
 	gtk_widget_hide (tree_view_sw);
 	gtk_widget_show (web_view);
 
-	gtk_paned_pack1 (GTK_PANED (preview), tree_view_sw, FALSE, TRUE);
+	gtk_paned_pack1 (GTK_PANED (preview), tree_view_sw, FALSE, FALSE);
 	gtk_paned_pack2 (GTK_PANED (preview), web_view, TRUE, TRUE);
 
 	/* rawly 3 lines of a text plus a little bit more */

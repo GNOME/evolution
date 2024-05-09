@@ -200,8 +200,21 @@ create_group (EMailDisplayPopupExtension *extension)
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 	web_view = E_WEB_VIEW (extensible);
 
+	shell = e_shell_get_default ();
+	shell_window = e_shell_get_active_window (shell);
+	if (E_IS_SHELL_WINDOW (shell_window)) {
+		ui_manager = e_shell_window_get_ui_manager (E_SHELL_WINDOW (shell_window));
+	} else if (E_IS_MAIL_BROWSER (shell_window)) {
+		ui_manager = e_mail_browser_get_ui_manager (E_MAIL_BROWSER (shell_window));
+	} else {
+		return NULL;
+	}
+
 	group = gtk_action_group_new ("prefer-plain");
 	gtk_action_group_add_actions (group, entries, G_N_ELEMENTS (entries), NULL);
+
+	gtk_ui_manager_insert_action_group (ui_manager, group, 0);
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui_reader, -1, NULL);
 
 	ui_manager = e_web_view_get_ui_manager (web_view);
 	gtk_ui_manager_insert_action_group (ui_manager, group, 0);
@@ -216,19 +229,6 @@ create_group (EMailDisplayPopupExtension *extension)
 	g_signal_connect (
 		action, "activate",
 		G_CALLBACK (toggle_part), extension);
-
-	shell = e_shell_get_default ();
-	shell_window = e_shell_get_active_window (shell);
-	if (E_IS_SHELL_WINDOW (shell_window)) {
-		ui_manager = e_shell_window_get_ui_manager (E_SHELL_WINDOW (shell_window));
-	} else if (E_IS_MAIL_BROWSER (shell_window)) {
-		ui_manager = e_mail_browser_get_ui_manager (E_MAIL_BROWSER (shell_window));
-	} else {
-		return NULL;
-	}
-
-	gtk_ui_manager_insert_action_group (ui_manager, group, 0);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui_reader, -1, NULL);
 
 	return group;
 }
@@ -255,8 +255,11 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 
 	pp_extension = E_MAIL_DISPLAY_POPUP_PREFER_PLAIN (extension);
 
-	if (!pp_extension->action_group)
+	if (!pp_extension->action_group) {
 		pp_extension->action_group = create_group (extension);
+		if (!pp_extension->action_group)
+			return;
+	}
 
 	set_popup_place (pp_extension, popup_iframe_src, popup_iframe_id);
 

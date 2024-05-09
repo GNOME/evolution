@@ -131,6 +131,15 @@ gboolean	em_utils_import_pgp_key		(GtkWindow *parent,
 						 const guint8 *keydata,
 						 gsize keydata_size,
 						 GError **error);
+void		em_utils_print_part_list	(EMailPartList *part_list,
+						 EMailDisplay *mail_display,
+						 GtkPrintOperationAction print_action,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	em_utils_print_part_list_finish	(GObject *source_object,
+						 GAsyncResult *result,
+						 GError **error);
 
 G_END_DECLS
 

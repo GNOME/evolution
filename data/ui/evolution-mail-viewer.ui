@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <menu id="goto-menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Go to _Previous Message</attribute>
+        <attribute name="icon">go-previous</attribute>
+        <attribute name="action">mail-viewer.goto-previous</attribute>
+        <attribute name="accel">&lt;Control&gt;Page_Up</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Go to _Next Message</attribute>
+        <attribute name="icon">go-next</attribute>
+        <attribute name="action">mail-viewer.goto-next</attribute>
+        <attribute name="accel">&lt;Control&gt;Page_Down</attribute>
+      </item>
+    </section>
+  </menu>
+  <menu id="menu">
+    <submenu>
+      <attribute name="label" translatable="yes">_File</attribute>
+      <section id="filesection">
+        <item>
+          <attribute name="label" translatable="yes">_Open…</attribute>
+          <attribute name="icon">document-open</attribute>
+          <attribute name="action">mail-viewer.open</attribute>
+          <attribute name="accel">&lt;Control&gt;o</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">_Print</attribute>
+          <attribute name="icon">document-print</attribute>
+          <attribute name="action">mail-viewer.print</attribute>
+          <attribute name="accel">&lt;Control&gt;p</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">_Close</attribute>
+          <attribute name="action">mail-viewer.close</attribute>
+          <attribute name="accel">&lt;Control&gt;w</attribute>
+        </item>
+      </section>
+    </submenu>
+    <submenu>
+      <attribute name="label" translatable="yes">_Edit</attribute>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">C_ut</attribute>
+          <attribute name="icon">edit-cut</attribute>
+          <attribute name="action">mail-viewer.cut</attribute>
+          <attribute name="accel">&lt;Control&gt;x</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">_Copy</attribute>
+          <attribute name="icon">edit-copy</attribute>
+          <attribute name="action">mail-viewer.copy</attribute>
+          <attribute name="accel">&lt;Control&gt;c</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">_Paste</attribute>
+          <attribute name="icon">edit-paste</attribute>
+          <attribute name="action">mail-viewer.paste</attribute>
+          <attribute name="accel">&lt;Control&gt;v</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">_Select All</attribute>
+          <attribute name="icon">edit-select-all</attribute>
+          <attribute name="action">mail-viewer.select-all</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">_Find in Message…</attribute>
+          <attribute name="icon">edit-find</attribute>
+          <attribute name="action">mail-viewer.find</attribute>
+          <attribute name="accel">&lt;Control&gt;&lt;Shift&gt;f</attribute>
+        </item>
+      </section>
+    </submenu>
+    <submenu>
+      <attribute name="label" translatable="yes">_View</attribute>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">_Load Images</attribute>
+          <attribute name="icon">image-x-generic</attribute>
+          <attribute name="action">mail-viewer.load-images</attribute>
+          <attribute name="accel">&lt;Control&gt;i</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">All Message _Headers</attribute>
+          <attribute name="action">mail-viewer.all-headers</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Message _Source</attribute>
+          <attribute name="action">mail-viewer.msg-source</attribute>
+          <attribute name="accel">&lt;Control&gt;u</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">_Caret Mode</attribute>
+          <attribute name="action">mail-viewer.caret-mode</attribute>
+          <attribute name="accel">F7</attribute>
+        </item>
+        <submenu>
+          <attribute name="label" translatable="yes">_Zoom</attribute>
+          <item>
+            <attribute name="label" translatable="yes">_Zoom In</attribute>
+            <attribute name="icon">zoom-in</attribute>
+            <attribute name="action">mail-viewer.zoom-in</attribute>
+            <attribute name="accel">&lt;Control&gt;plus</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">Zoom _Out</attribute>
+            <attribute name="icon">zoom-out</attribute>
+            <attribute name="action">mail-viewer.zoom-out</attribute>
+            <attribute name="accel">&lt;Control&gt;minus</attribute>
+          </item>
+          <item>
+            <attribute name="label" translatable="yes">_Normal Size</attribute>
+            <attribute name="icon">zoom-original</attribute>
+            <attribute name="action">mail-viewer.zoom-zero</attribute>
+            <attribute name="accel">&lt;Control&gt;0</attribute>
+          </item>
+        </submenu>
+      </section>
+      <submenu id="charset-submenu">
+        <attribute name="label" translatable="yes">Ch_aracter Encoding</attribute>
+        <section>
+          <item>
+            <attribute name="label" translatable="yes">_Default</attribute>
+            <attribute name="action">mail-viewer.charset</attribute>
+            <attribute name="target"></attribute>
+          </item>
+        </section>
+      </submenu>
+    </submenu>
+    <submenu id="msgsubmenu">
+      <attribute name="label" translatable="yes">_Message</attribute>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">_Import…</attribute>
+          <attribute name="action">mail-viewer.import-one</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">_Edit as New Message</attribute>
+          <attribute name="action">mail-viewer.edit-as-new</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">A_dd Sender to Address Book</attribute>
+          <attribute name="action">mail-viewer.add-sender</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">_Reply to Sender</attribute>
+          <attribute name="icon">mail-reply-sender</attribute>
+          <attribute name="action">mail-viewer.reply-sender</attribute>
+          <attribute name="accel">&lt;Control&gt;r</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Reply to _List</attribute>
+          <attribute name="action">mail-viewer.reply-list</attribute>
+          <attribute name="accel">&lt;Control&gt;l</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Reply to _All</attribute>
+          <attribute name="icon">mail-reply-all</attribute>
+          <attribute name="action">mail-viewer.reply-all</attribute>
+          <attribute name="accel">&lt;Control&gt;&lt;Shift&gt;r</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Al_ternative Reply…</attribute>
+          <attribute name="action">mail-viewer.reply-alt</attribute>
+          <attribute name="accel">&lt;Control&gt;&lt;Primary&gt;r</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">_Forward</attribute>
+          <attribute name="icon">mail-forward</attribute>
+          <attribute name="action">mail-viewer.forward</attribute>
+          <attribute name="accel">&lt;Control&gt;&lt;Primary&gt;f</attribute>
+        </item>
+        <submenu>
+          <attribute name="label" translatable="yes">F_orward As</attribute>
+          <section>
+            <item>
+              <attribute name="label" translatable="yes">_Attached</attribute>
+              <attribute name="action">mail-viewer.forward-attached</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">_Inline</attribute>
+              <attribute name="action">mail-viewer.forward-inline</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">_Quoted</attribute>
+              <attribute name="action">mail-viewer.forward-quoted</attribute>
+            </item>
+          </section>
+          <section>
+            <item>
+              <attribute name="label" translatable="yes">Re_direct</attribute>
+              <attribute name="action">mail-viewer.redirect</attribute>
+            </item>
+          </section>
+        </submenu>
+      </section>
+    </submenu>
+  </menu>
+</interface>

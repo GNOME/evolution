@@ -44,6 +44,7 @@
 
 #include <em-format/e-mail-parser.h>
 #include <em-format/e-mail-formatter-quote.h>
+#include "em-format/e-mail-formatter-utils.h"
 
 #include "e-mail-printer.h"
 #include "e-mail-tag-editor.h"
@@ -909,6 +910,32 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 	em_utils_selection_uidlist_foreach_sync	(selection_data, session, uidlist_move_uids_cb, &uld, cancellable, error);
 }
 
+static gchar *
+em_utils_build_export_basename_internal (const gchar *subject,
+					 time_t reftime,
+					 const gchar *extension)
+{
+	gchar *basename;
+	struct tm *ts;
+	gchar datetmp[15];
+
+	if (reftime <= 0)
+		reftime = time (NULL);
+
+	ts = localtime (&reftime);
+	strftime (datetmp, sizeof (datetmp), "%Y%m%d%H%M%S", ts);
+
+	if (subject == NULL || *subject == '\0')
+		subject = "Untitled Message";
+
+	if (extension == NULL)
+		extension = "";
+
+	basename = g_strdup_printf ("%s_%s%s", datetmp, subject, extension);
+
+	return basename;
+}
+
 /**
  * em_utils_build_export_basename:
  * @folder: a #CamelFolder where the message belongs
@@ -928,16 +955,12 @@ em_utils_build_export_basename (CamelFolder *folder,
                                 const gchar *extension)
 {
 	CamelMessageInfo *info;
-	gchar *basename;
 	const gchar *subject = NULL;
-	struct tm *ts;
-	time_t reftime;
-	gchar datetmp[15];
+	gchar *basename;
+	time_t reftime = 0;
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (uid != NULL, NULL);
-
-	reftime = time (NULL);
 
 	/* Try to get the drop filename from the message or folder. */
 	info = camel_folder_get_message_info (folder, uid);
@@ -946,16 +969,7 @@ em_utils_build_export_basename (CamelFolder *folder,
 		reftime = camel_message_info_get_date_sent (info);
 	}
 
-	ts = localtime (&reftime);
-	strftime (datetmp, sizeof (datetmp), "%Y%m%d%H%M%S", ts);
-
-	if (subject == NULL || *subject == '\0')
-		subject = "Untitled Message";
-
-	if (extension == NULL)
-		extension = "";
-
-	basename = g_strdup_printf ("%s_%s%s", datetmp, subject, extension);
+	basename = em_utils_build_export_basename_internal (subject, reftime, extension);
 
 	g_clear_object (&info);
 
@@ -2312,4 +2326,165 @@ em_utils_import_pgp_key (GtkWindow *parent,
 	g_clear_object (&gpgctx);
 
 	return success;
+}
+
+typedef struct _PrintData {
+	GSList *hidden_parts; /* EMailPart * */
+	GAsyncReadyCallback callback;
+	gpointer user_data;
+} PrintData;
+
+static void
+print_data_free (gpointer ptr)
+{
+	PrintData *pd = ptr;
+
+	if (pd) {
+		GSList *link;
+
+		for (link = pd->hidden_parts; link; link = g_slist_next (link)) {
+			EMailPart *part = link->data;
+
+			part->is_hidden = FALSE;
+		}
+
+		g_slist_free_full (pd->hidden_parts, g_object_unref);
+		g_free (pd);
+	}
+}
+
+static void
+em_utils_print_part_list_done_cb (GObject *source_object,
+				  GAsyncResult *result,
+				  gpointer user_data)
+{
+	PrintData *pd = user_data;
+
+	g_return_if_fail (pd != NULL);
+
+	if (pd->callback)
+		pd->callback (source_object, result, pd->user_data);
+
+	print_data_free (pd);
+}
+
+void
+em_utils_print_part_list (EMailPartList *part_list,
+			  EMailDisplay *mail_display,
+			  GtkPrintOperationAction print_action,
+			  GCancellable *cancellable,
+			  GAsyncReadyCallback callback,
+			  gpointer user_data)
+{
+	EMailFormatter *formatter;
+	EMailPrinter *printer;
+	EMailRemoteContent *remote_content;
+	PrintData *pd;
+	gchar *export_basename;
+
+	g_return_if_fail (E_IS_MAIL_PART_LIST (part_list));
+	g_return_if_fail (E_IS_MAIL_DISPLAY (mail_display));
+
+	pd = g_new0 (PrintData, 1);
+	pd->callback = callback;
+	pd->user_data = user_data;
+
+	formatter = e_mail_display_get_formatter (mail_display);
+	remote_content = e_mail_display_ref_remote_content (mail_display);
+
+	if (e_mail_display_get_skip_insecure_parts (mail_display)) {
+		GList *head, *link;
+		GHashTable *secured_message_ids;
+		GQueue queue = G_QUEUE_INIT;
+
+		e_mail_part_list_queue_parts (part_list, NULL, &queue);
+
+		head = g_queue_peek_head_link (&queue);
+		secured_message_ids = e_mail_formatter_utils_extract_secured_message_ids (head);
+
+		if (secured_message_ids) {
+			gboolean has_encrypted_part = FALSE;
+
+			for (link = head; link != NULL; link = g_list_next (link)) {
+				EMailPart *part = E_MAIL_PART (link->data);
+
+				if (!e_mail_formatter_utils_consider_as_secured_part (part, secured_message_ids))
+					continue;
+
+				if (!e_mail_part_has_validity (part)) {
+					if (!part->is_hidden) {
+						part->is_hidden = TRUE;
+						pd->hidden_parts = g_slist_prepend (pd->hidden_parts, g_object_ref (part));
+					}
+					continue;
+				}
+
+				if (e_mail_part_get_validity (part, E_MAIL_PART_VALIDITY_ENCRYPTED)) {
+					/* consider the second and following encrypted parts as evil */
+					if (has_encrypted_part) {
+						if (!part->is_hidden) {
+							part->is_hidden = TRUE;
+							pd->hidden_parts = g_slist_prepend (pd->hidden_parts, g_object_ref (part));
+						}
+					} else {
+						has_encrypted_part = TRUE;
+					}
+				}
+			}
+		}
+
+		while (!g_queue_is_empty (&queue))
+			g_object_unref (g_queue_pop_head (&queue));
+
+		g_clear_pointer (&secured_message_ids, g_hash_table_destroy);
+	}
+
+	printer = e_mail_printer_new (part_list, remote_content);
+	if (e_mail_part_list_get_folder (part_list)) {
+		export_basename = em_utils_build_export_basename (
+			e_mail_part_list_get_folder (part_list),
+			e_mail_part_list_get_message_uid (part_list),
+			NULL);
+	} else {
+		CamelMimeMessage *msg;
+
+		msg = e_mail_part_list_get_message (part_list);
+		if (msg) {
+			export_basename = em_utils_build_export_basename_internal (
+				camel_mime_message_get_subject (msg),
+				camel_mime_message_get_date (msg, NULL),
+				NULL);
+		} else {
+			export_basename = NULL;
+		}
+	}
+
+	e_util_make_safe_filename (export_basename);
+	e_mail_printer_set_export_filename (printer, export_basename);
+	g_free (export_basename);
+
+	if (e_mail_display_get_mode (mail_display) == E_MAIL_FORMATTER_MODE_SOURCE)
+		e_mail_printer_set_mode (printer, E_MAIL_FORMATTER_MODE_SOURCE);
+
+	g_clear_object (&remote_content);
+
+	e_mail_printer_print (
+		printer,
+		print_action,
+		formatter,
+		cancellable,
+		em_utils_print_part_list_done_cb,
+		pd);
+
+	g_object_unref (printer);
+}
+
+gboolean
+em_utils_print_part_list_finish (GObject *source_object,
+				 GAsyncResult *result,
+				 GError **error)
+{
+	g_return_val_if_fail (E_IS_MAIL_PRINTER (source_object), FALSE);
+
+	return e_mail_printer_print_finish (E_MAIL_PRINTER (source_object), result, error);
 }
