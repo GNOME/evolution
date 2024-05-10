@@ -1433,10 +1433,7 @@ e_setup_theme_icons_theme_changed_cb (GtkSettings *gtk_settings)
 	GSettings *g_settings;
 	gboolean use_symbolic_icons = FALSE;
 	gboolean using_symbolic_icons;
-	gchar **paths = NULL;
 	gchar *icon_theme_name = NULL;
-	guint n_symbolic = 0, n_non_symbolic = 0;
-	guint ii;
 
 	g_settings = e_util_ref_settings ("org.gnome.evolution.shell");
 	prefer_symbolic_icons = g_settings_get_enum (g_settings, "prefer-symbolic-icons");
@@ -1460,43 +1457,38 @@ e_setup_theme_icons_theme_changed_cb (GtkSettings *gtk_settings)
 			"gtk-icon-theme-name", &icon_theme_name,
 			NULL);
 
-		gtk_icon_theme_get_search_path (icon_theme, &paths, NULL);
+		if (g_strcmp0 (icon_theme_name, "HighContrast") == 0 ||
+		    g_strcmp0 (icon_theme_name, "ContrastHigh") == 0) {
+			use_symbolic_icons = TRUE;
+		} else {
+			/* pick few common action icons and check whether they are
+			   only symbolic in the current theme */
+			const gchar *sample_icon_names[][3] = {
+				{ "appointment-new", "appointment-new-symbolic", NULL },
+				{ "edit-cut", "edit-cut-symbolic", NULL },
+				{ "edit-copy", "edit-copy-symbolic", NULL },
+				{ "mail-reply-sender", "mail-reply-sender-symbolic", NULL }
+			};
+			guint n_symbolic = 0, n_non_symbolic = 0;
+			guint ii;
 
-		for (ii = 0; paths && paths[ii]; ii++) {
-			GDir *dir;
-			gchar *dirname;
+			for (ii = 0; ii < G_N_ELEMENTS (sample_icon_names); ii++) {
+				GtkIconInfo *icon_info;
 
-			dirname = g_build_filename (paths[ii], icon_theme_name, "16x16", "actions", NULL);
-			dir = g_dir_open (dirname, 0, NULL);
-			if (dir) {
-				const gchar *filename;
+				icon_info = gtk_icon_theme_choose_icon (icon_theme, sample_icon_names[ii], 32, 0);
+				if (icon_info) {
+					if (gtk_icon_info_is_symbolic (icon_info))
+						n_symbolic++;
+					else
+						n_non_symbolic++;
 
-				for (filename = g_dir_read_name (dir);
-				     filename;
-				     filename = g_dir_read_name (dir)) {
-					/* pick few common action icons and check whether they are
-					   only symbolic in the current theme */
-					if (g_str_has_prefix (filename, "appointment-new") ||
-					    g_str_has_prefix (filename, "edit-cut") ||
-					    g_str_has_prefix (filename, "edit-copy")) {
-						if (strstr (filename, "-symbolic.") ||
-						    strstr (filename, ".symbolic.")) {
-							n_symbolic++;
-						} else {
-							n_non_symbolic++;
-						}
-					}
+					g_clear_object (&icon_info);
 				}
-				g_dir_close (dir);
 			}
-			g_free (dirname);
+
+			use_symbolic_icons = n_symbolic > n_non_symbolic;
 		}
 
-		use_symbolic_icons = (!n_non_symbolic && n_symbolic > 0) ||
-			g_strcmp0 (icon_theme_name, "HighContrast") == 0 ||
-			g_strcmp0 (icon_theme_name, "ContrastHigh") == 0;
-
-		g_strfreev (paths);
 		g_free (icon_theme_name);
 		break;
 	}
