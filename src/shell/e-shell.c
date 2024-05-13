@@ -150,6 +150,31 @@ shell_notify_online_cb (EShell *shell)
 }
 
 static void
+shell_window_removed_cb (EShell *shell)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	if (!gtk_application_get_windows (GTK_APPLICATION (shell)) &&
+	    !shell->priv->ready_to_quit)
+		e_shell_quit (shell, E_SHELL_QUIT_LAST_WINDOW);
+}
+
+static gboolean
+shell_window_delete_event_cb (GtkWindow *window,
+                              GdkEvent *event,
+                              GtkApplication *application)
+{
+	/* If other windows are open we can safely close this one. */
+	if (g_list_length (gtk_application_get_windows (application)) > 1)
+		return FALSE;
+
+	/* Otherwise we initiate application quit. */
+	e_shell_quit (E_SHELL (application), E_SHELL_QUIT_LAST_WINDOW);
+
+	return TRUE;
+}
+
+static void
 shell_action_new_window_cb (GSimpleAction *action,
                             GVariant *parameter,
                             EShell *shell)
@@ -1840,6 +1865,10 @@ shell_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_shell_parent_class)->constructed (object);
+
+	g_signal_connect (
+		object, "window-removed",
+		G_CALLBACK (shell_window_removed_cb), NULL);
 }
 
 static void
@@ -1921,6 +1950,10 @@ shell_window_added (GtkApplication *application,
 	/* Chain up to parent's window_added() method. */
 	GTK_APPLICATION_CLASS (e_shell_parent_class)->
 		window_added (application, window);
+
+	g_signal_connect (
+		window, "delete-event",
+		G_CALLBACK (shell_window_delete_event_cb), application);
 
 	/* We use the window's own type name and memory
 	 * address to form a unique window role for X11. */
