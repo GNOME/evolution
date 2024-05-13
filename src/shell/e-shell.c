@@ -474,15 +474,6 @@ shell_ready_for_quit (EShell *shell,
 	/* Finalize the activity. */
 	g_object_unref (activity);
 
-	/* XXX Inhibiting session manager actions currently only
-	 *     works on GNOME, so check that we obtained a valid
-	 *     inhibit cookie before attempting to uninhibit. */
-	if (shell->priv->inhibit_cookie > 0) {
-		gtk_application_uninhibit (
-			application, shell->priv->inhibit_cookie);
-		shell->priv->inhibit_cookie = 0;
-	}
-
 	if (shell->priv->prepare_quit_timeout_id) {
 		g_source_remove (shell->priv->prepare_quit_timeout_id);
 		shell->priv->prepare_quit_timeout_id = 0;
@@ -1830,6 +1821,8 @@ shell_finalize (GObject *object)
 {
 	EShell *self = E_SHELL (object);
 
+	g_warn_if_fail (self->priv->inhibit_cookie == 0);
+
 	g_hash_table_destroy (self->priv->backends_by_name);
 	g_hash_table_destroy (self->priv->backends_by_scheme);
 	g_hash_table_destroy (self->priv->auth_prompt_parents);
@@ -1939,6 +1932,20 @@ shell_activate (GApplication *application)
 
 	/* No EShellWindow found, so create one. */
 	e_shell_create_shell_window (E_SHELL (application), NULL);
+}
+
+static void
+shell_shutdown (GApplication *application)
+{
+	EShell *shell = E_SHELL (application);
+
+	if (shell->priv->inhibit_cookie > 0) {
+		gtk_application_uninhibit (GTK_APPLICATION (application), shell->priv->inhibit_cookie);
+		shell->priv->inhibit_cookie = 0;
+	}
+
+	/* Chain up to parent's method. */
+	G_APPLICATION_CLASS (e_shell_parent_class)->shutdown (application);
 }
 
 static void
@@ -2318,6 +2325,7 @@ e_shell_class_init (EShellClass *class)
 	application_class = G_APPLICATION_CLASS (class);
 	application_class->startup = shell_startup;
 	application_class->activate = shell_activate;
+	application_class->shutdown = shell_shutdown;
 
 	gtk_application_class = GTK_APPLICATION_CLASS (class);
 	gtk_application_class->window_added = shell_window_added;
