@@ -196,7 +196,7 @@ load_snapshot_loaded_cb (GObject *source_object,
 	g_task_set_task_data (task, g_steal_pointer (&ccd),
 		(GDestroyNotify) create_composer_data_free);
 
-	e_msg_composer_new (shell, autosave_composer_created_cb, ccd);
+	e_msg_composer_new (shell, autosave_composer_created_cb, task);
 }
 
 static void
