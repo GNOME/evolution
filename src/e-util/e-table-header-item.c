@@ -44,9 +44,6 @@
 #include "e-table.h"
 #include "e-xml-utils.h"
 
-#include "data/xpm/arrow-up.xpm"
-#include "data/xpm/arrow-down.xpm"
-
 enum {
 	BUTTON_PRESSED,
 	HEADER_CLICK_CAN_SORT,
@@ -446,12 +443,19 @@ ethi_remove_drop_marker (ETableHeaderItem *ethi)
 }
 
 static GtkWidget *
-make_shaped_window_from_xpm (const gchar **xpm)
+make_shaped_window_from_svg (const gchar *image_name)
 {
 	GdkPixbuf *pixbuf;
 	GtkWidget *win, *pix;
+	GError *error = NULL;
+	gchar *resource_path;
 
-	pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
+	resource_path = g_strconcat ("/org.gnome.Evolution/", image_name, NULL);
+	pixbuf = gdk_pixbuf_new_from_resource (resource_path, &error);
+	if (!pixbuf)
+		g_warning ("%s: Failed to load '%s': %s", G_STRFUNC, resource_path, error ? error->message : "Unknown error");
+	g_clear_error (&error);
+	g_clear_pointer (&resource_path, g_free);
 
 	win = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_type_hint (GTK_WINDOW (win), GDK_WINDOW_TYPE_HINT_NOTIFICATION);
@@ -490,8 +494,8 @@ ethi_add_drop_marker (ETableHeaderItem *ethi,
 		x += ethi->group_indent_width;
 
 	if (!arrow_up) {
-		arrow_up = make_shaped_window_from_xpm (arrow_up_xpm);
-		arrow_down = make_shaped_window_from_xpm (arrow_down_xpm);
+		arrow_up = make_shaped_window_from_svg ("arrow-up.svg");
+		arrow_down = make_shaped_window_from_svg ("arrow-down.svg");
 	}
 
 	canvas = GNOME_CANVAS_ITEM (ethi)->canvas;

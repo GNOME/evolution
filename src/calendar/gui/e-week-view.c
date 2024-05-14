@@ -48,9 +48,6 @@
 #include "print.h"
 #include "ea-week-view.h"
 
-/* Images */
-#include "data/xpm/jump.xpm"
-
 #define E_WEEK_VIEW_SMALL_FONT_PTSIZE 7
 
 #define E_WEEK_VIEW_JUMP_BUTTON_WIDTH	16
@@ -106,6 +103,9 @@ struct _EWeekViewPrivate {
 
 	gint drag_event_num;
 	gint drag_from_day;
+
+	GdkPixbuf *jump_pixbuf;
+	GdkPixbuf *jump_focused_pixbuf;
 };
 
 typedef struct {
@@ -901,6 +901,8 @@ week_view_dispose (GObject *object)
 	g_clear_object (&week_view->normal_cursor);
 	g_clear_object (&week_view->move_cursor);
 	g_clear_object (&week_view->resize_width_cursor);
+	g_clear_object (&week_view->priv->jump_pixbuf);
+	g_clear_object (&week_view->priv->jump_focused_pixbuf);
 
 	calendar_config_remove_notification (
 		month_scroll_by_week_changed_cb, week_view);
@@ -1913,7 +1915,7 @@ e_week_view_init (EWeekView *week_view)
 {
 	GnomeCanvasGroup *canvas_group;
 	GtkAdjustment *adjustment;
-	GdkPixbuf *pixbuf;
+	GError *error = NULL;
 	gint i;
 
 	week_view->priv = e_week_view_get_instance_private (week_view);
@@ -2052,13 +2054,21 @@ e_week_view_init (EWeekView *week_view)
 		GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
 	/* Create the buttons to jump to each days. */
-	pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **) jump_xpm);
+	week_view->priv->jump_pixbuf = gdk_pixbuf_new_from_resource ("/org.gnome.Evolution/jump.svg", &error);
+	if (!week_view->priv->jump_pixbuf)
+		g_warning ("%s: Failed to load 'jump.svg': %s", G_STRFUNC, error ? error->message : "Unknown error");
+	g_clear_error (&error);
+
+	week_view->priv->jump_focused_pixbuf = gdk_pixbuf_new_from_resource ("/org.gnome.Evolution/jump-focused.svg", &error);
+	if (!week_view->priv->jump_focused_pixbuf)
+		g_warning ("%s: Failed to load 'jump-focused.svg': %s", G_STRFUNC, error ? error->message : "Unknown error");
+	g_clear_error (&error);
 
 	for (i = 0; i < E_WEEK_VIEW_MAX_WEEKS * 7; i++) {
 		week_view->jump_buttons[i] = gnome_canvas_item_new
 			(canvas_group,
 			 gnome_canvas_pixbuf_get_type (),
-			 "GnomeCanvasPixbuf::pixbuf", pixbuf,
+			 "GnomeCanvasPixbuf::pixbuf", week_view->priv->jump_pixbuf,
 			 NULL);
 
 		g_signal_connect (
@@ -2066,8 +2076,6 @@ e_week_view_init (EWeekView *week_view)
 			G_CALLBACK (e_week_view_on_jump_button_event), week_view);
 	}
 	week_view->focused_jump_button = E_WEEK_VIEW_JUMP_BUTTON_NO_FOCUS;
-
-	g_object_unref (pixbuf);
 
 	/*
 	 * Scrollbar.
@@ -5365,7 +5373,6 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 	}
 	else if (event->type == GDK_FOCUS_CHANGE) {
 		GdkEventFocus *focus_event = (GdkEventFocus *) event;
-		GdkPixbuf *pixbuf = NULL;
 
 		for (day = 0; day < E_WEEK_VIEW_MAX_WEEKS * 7; day++) {
 			if (item == week_view->jump_buttons[day])
@@ -5379,22 +5386,18 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 
 		if (focus_event->in) {
 			week_view->focused_jump_button = day;
-			pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **) jump_xpm_focused);
 			gnome_canvas_item_set (
 				week_view->jump_buttons[day],
 				"GnomeCanvasPixbuf::pixbuf",
-				pixbuf, NULL);
+				week_view->priv->jump_focused_pixbuf, NULL);
 		}
 		else {
 			week_view->focused_jump_button = E_WEEK_VIEW_JUMP_BUTTON_NO_FOCUS;
-			pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **) jump_xpm);
 			gnome_canvas_item_set (
 				week_view->jump_buttons[day],
 				"GnomeCanvasPixbuf::pixbuf",
-				pixbuf, NULL);
+				week_view->priv->jump_pixbuf, NULL);
 		}
-		if (pixbuf)
-			g_object_unref (pixbuf);
 	}
 
 	return FALSE;

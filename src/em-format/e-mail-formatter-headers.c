@@ -23,6 +23,7 @@
 #include <libedataserver/libedataserver.h>
 
 #include <e-util/e-util.h>
+#include "e-util/e-util-private.h"
 #include <libemail-engine/libemail-engine.h>
 #include <shell/e-shell.h>
 

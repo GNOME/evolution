@@ -2015,7 +2015,6 @@ ml_tree_value_at_ex (ETreeModel *etm,
 
 		if (!colour) {
 			if (camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_FLAGGED) {
-				/* FIXME: extract from the important.xpm somehow. */
 				colour = "#A7453E";
 			} else if (((followup && *followup) || (due_by && *due_by)) && !(completed && *completed)) {
 				time_t now = time (NULL);

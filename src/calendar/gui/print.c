@@ -45,8 +45,6 @@
 #include "e-week-view-layout.h"
 #include "e-task-table.h"
 
-#include "data/xpm/jump.xpm"
-
 typedef struct PrintCompItem PrintCompItem;
 typedef struct PrintCalItem PrintCalItem;
 
@@ -1711,16 +1709,12 @@ print_day_details (GtkPrintContext *context,
 		gint x, y;
 
 		if (!pixbuf) {
-			const gchar **xpm = (const gchar **) jump_xpm;
+			GError *error = NULL;
 
-			/* this ugly thing is here only to get rid of compiler warning
-			 * about unused 'jump_xpm_focused' */
-			if (pixbuf) {
-				/* coverity[dead_error_line] */
-				xpm = (const gchar **) jump_xpm_focused;
-			}
-
-			pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
+			pixbuf = gdk_pixbuf_new_from_resource ("/org.gnome.Evolution/jump.svg", &error);
+			if (!pixbuf)
+				g_warning ("%s: Failed to load 'jump.svg': %s", G_STRFUNC, error ? error->message : "Unknown error");
+			g_clear_error (&error);
 		}
 
 		/* Right align - 10 comes from print_day_long_event  too */
@@ -2065,9 +2059,12 @@ print_week_event (GtkPrintContext *context,
 			}
 
 			if (!pixbuf) {
-				const gchar **xpm = (const gchar **) jump_xpm;
+				GError *error = NULL;
 
-				pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
+				pixbuf = gdk_pixbuf_new_from_resource ("/org.gnome.Evolution/jump.svg", &error);
+				if (!pixbuf)
+					g_warning ("%s: Failed to load 'jump.svg': %s", G_STRFUNC, error ? error->message : "Unknown error");
+				g_clear_error (&error);
 			}
 
 			x1 = left + (start_x + 1) * cell_width - 6 -
@@ -2899,9 +2896,12 @@ print_work_week_day_details (GtkPrintContext *context,
 		gint x, y;
 
 		if (!pixbuf) {
-			const gchar **xpm = (const gchar **) jump_xpm;
+			GError *error = NULL;
 
-			pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
+			pixbuf = gdk_pixbuf_new_from_resource ("/org.gnome.Evolution/jump.svg", &error);
+			if (!pixbuf)
+				g_warning ("%s: Failed to load 'jump.svg': %s", G_STRFUNC, error ? error->message : "Unknown error");
+			g_clear_error (&error);
 		}
 
 		/* Right align - 10 comes from print_day_long_event  too */
