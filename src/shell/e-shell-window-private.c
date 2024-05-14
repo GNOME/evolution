@@ -664,8 +664,6 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 	g_clear_object (&priv->tooltip_label);
 	g_clear_object (&priv->status_notebook);
 	g_clear_object (&priv->menu_bar);
-
-	priv->destroyed = TRUE;
 }
 
 void

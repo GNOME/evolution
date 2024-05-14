@@ -87,7 +87,6 @@ struct _EShellWindowPrivate {
 
 	gchar *geometry;
 
-	guint destroyed        : 1;  /* XXX Do we still need this? */
 	guint safe_mode : 1;
 	guint sidebar_visible : 1;
 	guint switcher_visible : 1;
