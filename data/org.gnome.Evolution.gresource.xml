@@ -2,5 +2,10 @@
 <gresources>
   <gresource prefix="org.gnome.Evolution">
     <file>emoji.data</file>
+    <file alias="arrow-down.svg">images/arrow-down.svg</file>
+    <file alias="arrow-up.svg">images/arrow-up.svg</file>
+    <file alias="empty.svg">images/empty.svg</file>
+    <file alias="jump.svg">images/jump.svg</file>
+    <file alias="jump-focused.svg">images/jump-focused.svg</file>
   </gresource>
 </gresources>

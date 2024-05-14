@@ -27,8 +27,6 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 
-#include "data/xpm/empty.xpm"
-
 #include "gal-a11y-e-cell-toggle.h"
 #include "gal-a11y-e-cell-registry.h"
 
@@ -530,12 +528,16 @@ e_cell_toggle_class_init (ECellToggleClass *class)
 static void
 e_cell_toggle_init (ECellToggle *cell_toggle)
 {
-	cell_toggle->priv = e_cell_toggle_get_instance_private (cell_toggle);
+	GError *error = NULL;
 
-	cell_toggle->priv->empty = gdk_pixbuf_new_from_xpm_data (empty_xpm);
+	cell_toggle->priv = e_cell_toggle_get_instance_private (cell_toggle);
 	cell_toggle->priv->surfaces = g_ptr_array_new_with_free_func (surface_data_free);
 	cell_toggle->priv->surface_scale = 0;
 	cell_toggle->priv->bg_color_column = -1;
+	cell_toggle->priv->empty = gdk_pixbuf_new_from_resource ("/org.gnome.Evolution/empty.svg", &error);
+	if (!cell_toggle->priv->empty)
+		g_warning ("%s: Failed to load 'empty.svg': %s", G_STRFUNC, error ? error->message : "Unknown error");
+	g_clear_error (&error);
 }
 
 /**
