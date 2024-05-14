@@ -258,3 +258,37 @@ e_print_run_page_setup_dialog (GtkWindow *parent)
 	save_key_file (key_file);
 	g_key_file_free (key_file);
 }
+
+void
+e_print_load_settings (GtkPrintSettings **out_settings,
+		       GtkPageSetup **out_page_setup)
+{
+	GKeyFile *key_file;
+
+	g_return_if_fail (out_settings != NULL);
+	g_return_if_fail (out_page_setup != NULL);
+
+	key_file = g_key_file_new ();
+	load_key_file (key_file);
+
+	*out_settings = load_settings (key_file);
+	*out_page_setup = load_page_setup (key_file);
+
+	g_key_file_free (key_file);
+}
+
+void
+e_print_save_settings (GtkPrintSettings *settings,
+		       GtkPageSetup *page_setup)
+{
+	GKeyFile *key_file;
+
+	key_file = g_key_file_new ();
+	load_key_file (key_file);
+
+	save_settings (settings, key_file);
+	save_page_setup (page_setup, key_file);
+
+	save_key_file (key_file);
+	g_key_file_free (key_file);
+}

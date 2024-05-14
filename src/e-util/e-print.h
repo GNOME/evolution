@@ -36,6 +36,11 @@ G_BEGIN_DECLS
 GtkPrintOperation *	e_print_operation_new		(void);
 void			e_print_run_page_setup_dialog	(GtkWindow *parent);
 
+void			e_print_load_settings		(GtkPrintSettings **out_settings,
+							 GtkPageSetup **out_page_setup);
+void			e_print_save_settings		(GtkPrintSettings *settings,
+							 GtkPageSetup *page_setup);
+
 G_END_DECLS
 
 #endif
