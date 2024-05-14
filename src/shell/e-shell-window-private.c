@@ -622,6 +622,14 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
 
+	if (priv->active_view && *priv->active_view) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.shell");
+		g_settings_set_string (settings, "default-component-id", priv->active_view);
+		g_clear_object (&settings);
+	}
+
 	/* Need to disconnect handlers before we unref the shell. */
 	if (priv->signal_handler_ids != NULL) {
 		GArray *array = priv->signal_handler_ids;
