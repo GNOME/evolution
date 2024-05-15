@@ -1031,16 +1031,18 @@ static void
 add_retract_data (ECalComponent *comp,
                   const gchar *retract_comment)
 {
-	ICalComponent *icomp = NULL;
-	ICalProperty *prop = NULL;
+	if (retract_comment && *retract_comment) {
+		ECalComponentText *text;
+		GSList lst = { NULL, NULL };
 
-	icomp = e_cal_component_get_icalcomponent (comp);
-	if (retract_comment && *retract_comment)
-		prop = i_cal_property_new_x (retract_comment);
-	else
-		prop = i_cal_property_new_x ("0");
-	i_cal_property_set_x_name (prop, "X-EVOLUTION-RETRACT-COMMENT");
-	i_cal_component_take_property (icomp, prop);
+		text = e_cal_component_text_new (retract_comment, NULL);
+		lst.data = text;
+
+		e_cal_component_set_comments (comp, &lst);
+		e_cal_component_text_free (text);
+	} else {
+		e_cal_component_set_comments (comp, NULL);
+	}
 }
 
 static gboolean
