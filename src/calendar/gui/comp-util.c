@@ -2789,6 +2789,33 @@ cal_comp_util_write_to_html (GString *html_buffer,
 		g_free (location);
 	}
 
+	text = e_cal_component_dup_comment_for_locale (comp, NULL);
+	if (text) {
+		if (e_cal_component_text_get_value (text)) {
+			gchar *html;
+
+			html = camel_text_to_html (
+				e_cal_component_text_get_value (text),
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+
+			if (html) {
+				markup = g_markup_escape_text (_("Comment:"), -1);
+				g_string_append_printf (html_buffer, "<tr><th>%s</th><td>", markup);
+				g_free (markup);
+
+				g_string_append (html_buffer, html);
+				g_string_append (html_buffer, "</td></tr>");
+			}
+
+			g_free (html);
+		}
+
+		e_cal_component_text_free (text);
+	}
+
 	/* write start date */
 	dt = e_cal_component_get_dtstart (comp);
 	if (dt && e_cal_component_datetime_get_value (dt)) {

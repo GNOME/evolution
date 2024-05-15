@@ -126,20 +126,21 @@ calendar_view_delete_event (ECalendarView *cal_view,
 {
 	ECalModel *model;
 	ECalComponent *comp;
-	ECalComponentVType vtype;
 	ESourceRegistry *registry;
 	ECalClient *client;
 	ICalComponent *icalcomp;
 	ICalTime *itt_start = NULL, *itt_end = NULL;
 	time_t instance_start;
 	gboolean do_delete = TRUE;
+	gboolean organizer_is_user;
+	gboolean attendee_is_user;
+	gboolean can_send_notice = FALSE;
 
 	model = e_calendar_view_get_model (cal_view);
 	registry = e_cal_model_get_registry (model);
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, i_cal_component_clone (sel_data->icalcomp));
-	vtype = e_cal_component_get_vtype (comp);
 
 	cal_comp_get_instance_times (sel_data->client, sel_data->icalcomp,
 		e_cal_model_get_timezone (model),
@@ -158,25 +159,29 @@ calendar_view_delete_event (ECalendarView *cal_view,
 	if (!only_occurrence && !e_cal_client_check_recurrences_no_master (client))
 		e_cal_component_set_recurid (comp, NULL);
 
+	organizer_is_user = itip_organizer_is_user (registry, comp, client);
+	attendee_is_user = itip_attendee_is_user (registry, comp, client);
+
 	if (e_cal_model_get_confirm_delete (model)) {
-		do_delete = e_cal_dialogs_delete_component (
-			comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
+		GtkWindow *parent_window;
+		GtkWidget *toplevel;
+
+		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (cal_view));
+		parent_window = GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL;
+
+		do_delete = e_cal_dialogs_delete_with_comment (parent_window, client, comp, organizer_is_user, attendee_is_user, &can_send_notice);
 	}
 
 	if (do_delete) {
 		ECalOperationFlags op_flags = E_CAL_OPERATION_FLAG_NONE;
-		GtkWindow *parent_window;
-		gboolean organizer_is_user;
 		const gchar *uid;
 		gchar *rid;
 
 		rid = e_cal_component_get_recurid_as_string (comp);
-		organizer_is_user = itip_organizer_is_user (registry, comp, client);
-		parent_window = (GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view));
 
 		if (itip_has_any_attendees (comp) && (organizer_is_user ||
 		    itip_sentby_is_user (registry, comp, client))) {
-			if (e_cal_dialogs_cancel_component (parent_window, client, comp, FALSE, organizer_is_user)) {
+			if (can_send_notice) {
 				if (only_occurrence && !e_cal_component_is_instance (comp)) {
 					ECalComponentRange *range;
 					ECalComponentDateTime *dtstart;
@@ -208,10 +213,16 @@ calendar_view_delete_event (ECalendarView *cal_view,
 			} else {
 				op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
 			}
-		} else if (e_cal_client_check_save_schedules (client) &&
-			   itip_attendee_is_user (registry, comp, client) &&
-			   !e_cal_dialogs_cancel_component (parent_window, client, comp, FALSE, organizer_is_user)) {
-			op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
+		} else if (attendee_is_user) {
+			if (can_send_notice && !e_cal_client_check_save_schedules (client)) {
+				itip_send_component_with_model (model, I_CAL_METHOD_CANCEL,
+					comp, client, NULL, NULL,
+					NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS);
+				/* attendees will know by the above cancel message */
+				op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
+			} else if (!can_send_notice) {
+				op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
+			}
 		}
 
 		uid = e_cal_component_get_uid (comp);
@@ -793,7 +804,7 @@ paste_clipboard_data_free (gpointer ptr)
 
 				if (itip_has_any_attendees (comp) && (organizer_is_user ||
 				    itip_sentby_is_user (registry, comp, sel_data->client))) {
-					if (e_cal_dialogs_cancel_component ((GtkWindow *) pcd->top_level, sel_data->client, comp, FALSE, organizer_is_user)) {
+					if (e_cal_dialogs_cancel_component ((GtkWindow *) pcd->top_level, sel_data->client, comp, TRUE, organizer_is_user)) {
 						itip_send_component_with_model (model, I_CAL_METHOD_CANCEL,
 							comp, sel_data->client, NULL, NULL, NULL,
 							E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT);

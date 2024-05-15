@@ -62,10 +62,190 @@ is_past_event (ECalComponent *comp)
 }
 
 /**
+ * e_cal_dialogs_delete_with_comment:
+ * @parent: a dialog parent #GtkWindow
+ * @cal_client: an #ECalClient
+ * @comp: an #ECalComponent to be deleted
+ * @organizer_is_user: for meetings, whether the organizer is the app user
+ * @attendee_is_user: for meetings, whether the app user is in the attendees
+ * @out_can_send_notice: (out): set to %TRUE/%FALSE, whether the organizer/attendees can/cannot be notified about the deletion
+ *
+ * Asks the user whether the @comp can be deleted and when it's a meeting
+ * or assigned task or memo, also allows to enter deletion reason and
+ * decide the user whether to send the notice or not.
+ *
+ * The deletion reason is stored into the @comp's COMMENT property.
+ *
+ * Returns: %TRUE, when can delete the @comp, %FALSE otherwise
+ *
+ * Since: 3.54
+ **/
+gboolean
+e_cal_dialogs_delete_with_comment (GtkWindow *parent,
+				   ECalClient *cal_client,
+				   ECalComponent *comp,
+				   gboolean organizer_is_user,
+				   gboolean attendee_is_user,
+				   gboolean *out_can_send_notice)
+{
+	ECalComponentText *summary;
+	GtkWidget *dialog;
+	GtkWidget *textview = NULL;
+	const gchar *id = NULL;
+	gboolean ask_send_notice;
+	gboolean ask_notice_comment = FALSE;
+	gboolean has_attendees;
+	gchar *arg0 = NULL;
+	gint result;
+
+	g_return_val_if_fail (E_IS_CAL_CLIENT (cal_client), FALSE);
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
+
+	has_attendees = e_cal_component_has_attendees (comp);
+	ask_send_notice = has_attendees && out_can_send_notice && e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT && !is_past_event (comp) &&
+		(!organizer_is_user || !e_cal_client_check_save_schedules (cal_client) ||
+		 e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_ITIP_SUPPRESS_ON_REMOVE_SUPPORTED) ||
+		 e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_RETRACT_SUPPORTED));
+	if (ask_send_notice) {
+		ask_notice_comment = e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_RETRACT_SUPPORTED) ||
+			(!e_cal_client_check_save_schedules (cal_client) && (organizer_is_user || attendee_is_user));
+	}
+
+	if (out_can_send_notice)
+		*out_can_send_notice = FALSE;
+
+	summary = e_cal_component_dup_summary_for_locale (comp, NULL);
+	if (summary) {
+		arg0 = g_strdup (e_cal_component_text_get_value (summary));
+		e_cal_component_text_free (summary);
+	}
+
+	switch (e_cal_component_get_vtype (comp)) {
+	case E_CAL_COMPONENT_EVENT:
+		if (arg0) {
+			if (has_attendees && ask_send_notice && organizer_is_user)
+				id = "calendar:prompt-delete-titled-meeting-with-notice-organizer";
+			else if (has_attendees && ask_send_notice && attendee_is_user)
+				id = "calendar:prompt-delete-titled-meeting-with-notice-attendee";
+			else if (has_attendees)
+				id = "calendar:prompt-delete-titled-meeting";
+			else
+				id = "calendar:prompt-delete-titled-appointment";
+		} else {
+			if (has_attendees && ask_send_notice && organizer_is_user)
+				id = "calendar:prompt-delete-meeting-with-notice-organizer";
+			else if (has_attendees && ask_send_notice && attendee_is_user)
+				id = "calendar:prompt-delete-meeting-with-notice-atendee";
+			else if (has_attendees)
+				id = "calendar:prompt-delete-meeting";
+			else
+				id = "calendar:prompt-delete-appointment";
+		}
+		break;
+
+	case E_CAL_COMPONENT_TODO:
+		if (arg0)
+			id = "calendar:prompt-delete-named-task";
+		else
+			id = "calendar:prompt-delete-task";
+		break;
+
+	case E_CAL_COMPONENT_JOURNAL:
+		if (arg0)
+			id = "calendar:prompt-delete-named-memo";
+		else
+			id = "calendar:prompt-delete-memo";
+		break;
+
+	default:
+		g_message ("%s: Cannot handle object of type %d", G_STRFUNC, e_cal_component_get_vtype (comp));
+		g_free (arg0);
+		return FALSE;
+	}
+
+	dialog = e_alert_dialog_new_for_args (parent, id, arg0, NULL);
+
+	g_free (arg0);
+
+	if (ask_notice_comment) {
+		GtkWidget *scrolled_window;
+		GtkWidget *label;
+		GtkWidget *vbox;
+		GtkWidget *content_area;
+
+		content_area = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
+		vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
+		gtk_widget_show (vbox);
+		gtk_box_pack_start (GTK_BOX (content_area), vbox, TRUE, TRUE, 0);
+
+		label = gtk_label_new_with_mnemonic (_("Deletion _reason:"));
+		gtk_widget_set_halign (label, GTK_ALIGN_START);
+		gtk_widget_show (label);
+		gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+
+		scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+		gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
+		gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
+		gtk_widget_show (scrolled_window);
+
+		textview = gtk_text_view_new ();
+		gtk_text_view_set_accepts_tab (GTK_TEXT_VIEW (textview), FALSE);
+		gtk_widget_show (textview);
+		gtk_container_add (GTK_CONTAINER (scrolled_window), textview);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), textview);
+
+		e_spell_text_view_attach (GTK_TEXT_VIEW (textview));
+	}
+
+	result = gtk_dialog_run (GTK_DIALOG (dialog));
+
+	if (result == GTK_RESPONSE_APPLY && textview) {
+		GtkTextIter text_iter_start, text_iter_end;
+		GtkTextBuffer *text_buffer;
+		gchar *comment;
+
+		text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+		gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
+		gtk_text_buffer_get_end_iter (text_buffer, &text_iter_end);
+
+		comment = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
+		if (comment && *comment) {
+			ECalComponentText *text;
+			GSList lst = { NULL, NULL };
+
+			text = e_cal_component_text_new (comment, NULL);
+			lst.data = text;
+
+			e_cal_component_set_comments (comp, &lst);
+			e_cal_component_text_free (text);
+		}
+		g_free (comment);
+	}
+
+	gtk_widget_destroy (dialog);
+
+	if (out_can_send_notice)
+		*out_can_send_notice = result == GTK_RESPONSE_APPLY;
+
+	return result == GTK_RESPONSE_YES || result == GTK_RESPONSE_APPLY;
+}
+
+/**
  * e_cal_dialogs_cancel_component:
+ * @parent: a parent #GtkWindow
+ * @cal_client: a calendar client for whitch the component is cancelled
+ * @comp: the #ECalComponent to be cancelled
+ * @can_set_cancel_comment: whether can set cancellation comment
+ * @organizer_is_user: whether the @comp organizer is the user
  *
  * Pops up a dialog box asking the user whether he wants to send a
- * cancel and delete an iTip/iMip message
+ * cancel notice as an iTip/iMip message.
+ *
+ * The @can_set_cancel_comment is used only if the @cal_client has
+ * the %E_CAL_STATIC_CAPABILITY_RETRACT_SUPPORTED capability, otherwise (or when %FALSE),
+ * ask only whether to send the cancellation mail or not. When the comment
+ * had been entered, the @comp has it set as a COMMENT property.
  *
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
@@ -73,14 +253,17 @@ gboolean
 e_cal_dialogs_cancel_component (GtkWindow *parent,
 				ECalClient *cal_client,
 				ECalComponent *comp,
-				gboolean is_retract,
+				gboolean can_set_cancel_comment,
 				gboolean organizer_is_user)
 {
 	ECalComponentVType vtype;
+	GtkWidget *dialog, *textview = NULL;
+	gboolean res;
 	const gchar *id;
 
-	if (e_cal_client_check_save_schedules (cal_client) &&
-	    (is_retract || organizer_is_user ||
+	if ((!can_set_cancel_comment || !e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_RETRACT_SUPPORTED)) &&
+	    e_cal_client_check_save_schedules (cal_client) &&
+	    (organizer_is_user ||
 	     !e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_ITIP_SUPPRESS_ON_REMOVE_SUPPORTED)))
 		return TRUE;
 
@@ -117,10 +300,68 @@ e_cal_dialogs_cancel_component (GtkWindow *parent,
 		return FALSE;
 	}
 
-	if (e_alert_run_dialog_for_args (parent, id, NULL) == GTK_RESPONSE_YES)
-		return TRUE;
-	else
-		return FALSE;
+	dialog = e_alert_dialog_new_for_args (parent, id, NULL);
+
+	if (can_set_cancel_comment && organizer_is_user && (!e_cal_client_check_save_schedules (cal_client) ||
+	    e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_RETRACT_SUPPORTED))) {
+		GtkWidget *scrolled_window;
+		GtkWidget *label;
+		GtkWidget *vbox;
+		GtkWidget *content_area;
+
+		content_area = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
+		vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
+		gtk_widget_show (vbox);
+		gtk_box_pack_start (GTK_BOX (content_area), vbox, TRUE, TRUE, 0);
+
+		label = gtk_label_new_with_mnemonic (_("Cancellation _reason:"));
+		gtk_widget_set_halign (label, GTK_ALIGN_START);
+		gtk_widget_show (label);
+		gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+
+		scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+		gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
+		gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
+		gtk_widget_show (scrolled_window);
+
+		textview = gtk_text_view_new ();
+		gtk_text_view_set_accepts_tab (GTK_TEXT_VIEW (textview), FALSE);
+		gtk_widget_show (textview);
+		gtk_container_add (GTK_CONTAINER (scrolled_window), textview);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), textview);
+
+		e_spell_text_view_attach (GTK_TEXT_VIEW (textview));
+	}
+
+	res = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
+
+	if (res && can_set_cancel_comment && textview) {
+		GtkTextIter text_iter_start, text_iter_end;
+		GtkTextBuffer *text_buffer;
+		gchar *comment;
+
+		text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+		gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
+		gtk_text_buffer_get_end_iter (text_buffer, &text_iter_end);
+
+		comment = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
+		if (comment && *comment) {
+			ECalComponentText *text;
+			GSList lst = { NULL, NULL };
+
+			text = e_cal_component_text_new (comment, NULL);
+			lst.data = text;
+
+			e_cal_component_set_comments (comp, &lst);
+			e_cal_component_text_free (text);
+		}
+		g_free (comment);
+	}
+
+	gtk_widget_destroy (dialog);
+
+	return res;
 }
 
 typedef struct {

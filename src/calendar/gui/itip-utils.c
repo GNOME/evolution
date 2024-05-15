@@ -2186,7 +2186,8 @@ itip_send_component_begin (ItipSendComponentData *isc,
 		g_free (attendee);
 	}
 
-	if (isc->method != I_CAL_METHOD_PUBLISH && e_cal_client_check_save_schedules (isc->cal_client)) {
+	if (isc->method != I_CAL_METHOD_PUBLISH && e_cal_client_check_save_schedules (isc->cal_client) &&
+	    (isc->method != I_CAL_METHOD_CANCEL || !e_client_check_capability (E_CLIENT (isc->cal_client), E_CAL_STATIC_CAPABILITY_RETRACT_SUPPORTED))) {
 		isc->success = TRUE;
 		isc->completed = TRUE;
 		return;
