@@ -42,7 +42,7 @@ struct _EPluginUIHookPrivate {
 	 *             "org.gnome.evolution.foo",
 	 *             "... UI definition ...");
 	 *
-	 * See http://library.gnome.org/devel/gtk/unstable/GtkUIManager.html
+	 * See https://docs.gtk.org/gtk3/class.UIManager.html
 	 * for more information about UI definitions.  Note: the <ui> tag is
 	 * optional.
 	 */
