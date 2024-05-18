@@ -383,7 +383,7 @@ e_shell_utils_run_help_contents (EShell *shell)
 	 * See https://bugzilla.gnome.org/show_bug.cgi?id=576478 */
 
 	online_help_url = g_strconcat (
-		"http://library.gnome.org/users/evolution/",
+		"https://infrastructure.pages.gitlab.gnome.org/help.gnome.org/evolution/",
 		BASE_VERSION, NULL);
 	e_show_uri (window, online_help_url);
 	g_free (online_help_url);
