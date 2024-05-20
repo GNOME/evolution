@@ -654,7 +654,7 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 
 		g_object_unref (icomp);
 		g_free (content);
-	} else if (shell_window) {
+	} else {
 		HandleUriData *hud;
 		ESourceRegistry *registry;
 		ESource *source;
@@ -662,6 +662,13 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 		EActivity *activity;
 		gchar *description = NULL, *alert_ident = NULL, *alert_arg_0 = NULL;
 		gchar *source_display_name = NULL;
+
+		if (!shell_window) {
+			GtkWidget *widget;
+
+			widget = e_shell_create_shell_window (shell, "calendar");
+			shell_window = E_SHELL_WINDOW (widget);
+		}
 
 		hud = g_slice_new0 (HandleUriData);
 		hud->shell_backend = g_object_ref (shell_backend);
@@ -693,8 +700,6 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 		g_free (description);
 		g_free (alert_ident);
 		g_free (alert_arg_0);
-	} else {
-		g_warn_if_reached ();
 	}
 
  exit:
