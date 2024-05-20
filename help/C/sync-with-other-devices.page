@@ -24,6 +24,6 @@
 
 <p>In general it is recommended to use applications and devices that both support the <link href="https://en.wikipedia.org/wiki/ActiveSync">ActiveSync protocol</link> (such as <app>SyncEvolution</app>). A <link href="https://en.wikipedia.org/wiki/List_of_collaborative_software">list of collaborative software</link> is available on Wikipedia.</p>
 
-<p>If you can provide good practices or more information on this topic feel free to file a bug report in <link href="https://gitlab.gnome.org/GNOME/evolution/issues/new">GNOME's bug tracking system</link>.</p>
+<p>If you can provide good practices or more information on this topic feel free to file a bug report in <link href="https://gitlab.gnome.org/GNOME/evolution/-/issues/">GNOME's bug tracking system</link>.</p>
 
 </page>
