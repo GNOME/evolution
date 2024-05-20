@@ -20,7 +20,7 @@
     </_p>
   </description>
   <url type="homepage">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</url>
-  <url type="bugtracker">https://gitlab.gnome.org/GNOME/evolution/issues/new</url>
+  <url type="bugtracker">https://gitlab.gnome.org/GNOME/evolution/-/issues/</url>
   <url type="donation">https://www.gnome.org/donate/</url>
   <url type="help">https://gnome.pages.gitlab.gnome.org/evolution/help/</url>
   <url type="vcs-browser">https://gitlab.gnome.org/GNOME/evolution</url>
