@@ -119,6 +119,8 @@ e_mail_notes_editor_extract_text_part (EHTMLEditor *editor,
 	text = e_mail_notes_extract_text_content (part);
 	if (text) {
 		e_html_editor_set_mode (editor, mode);
+		/* no need to transfer the current content from old editor to the new, the content is set below */
+		e_html_editor_cancel_mode_change_content_update (editor);
 
 		e_content_editor_insert_content (
 			e_html_editor_get_content_editor (editor),

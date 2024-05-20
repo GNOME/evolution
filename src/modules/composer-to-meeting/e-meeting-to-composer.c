@@ -317,6 +317,8 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 			cnt_editor = e_html_editor_get_content_editor (html_editor);
 
 			e_html_editor_set_mode (html_editor, mode);
+			/* no need to transfer the current content from old editor to the new, the content is set below */
+			e_html_editor_cancel_mode_change_content_update (html_editor);
 			e_content_editor_insert_content (cnt_editor, text, E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
 		}
 
