@@ -155,25 +155,29 @@ mail_signature_editor_loaded_cb (GObject *object,
 	else
 		mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
 
+	if (mode == E_CONTENT_EDITOR_MODE_HTML &&
+	    strstr (contents, "data-evo-signature-plain-text-mode"))
+		mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
+
 	editor = e_mail_signature_editor_get_editor (window);
 	e_html_editor_set_mode (editor, mode);
+	/* no need to transfer the current content from old editor to the new, the content is set below */
+	e_html_editor_cancel_mode_change_content_update (editor);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	if (mode == E_CONTENT_EDITOR_MODE_HTML) {
-		if (strstr (contents, "data-evo-signature-plain-text-mode"))
-			e_html_editor_set_mode (editor, E_CONTENT_EDITOR_MODE_PLAIN_TEXT);
-
 		e_content_editor_insert_content (
 			cnt_editor,
 			contents,
 			E_CONTENT_EDITOR_INSERT_TEXT_HTML |
 			E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
-	} else
+	} else {
 		e_content_editor_insert_content (
 			cnt_editor,
 			contents,
 			E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
 			E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
+	}
 
 	g_free (contents);
 
