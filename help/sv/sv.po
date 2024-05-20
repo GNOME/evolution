@@ -1,8 +1,8 @@
 # Swedish messages for Evolution manual.
-# Copyright © 2007-2023 Free Software Foundation, Inc.
+# Copyright © 2007-2024 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Sebastian Rasmussen <sebras@gmail.com>, 2016, 2018.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
 # Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
 msgid ""
@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2023-08-10 09:02+0000\n"
-"PO-Revision-Date: 2023-08-10 15:55+0200\n"
+"POT-Creation-Date: 2024-05-20 15:49+0000\n"
+"PO-Revision-Date: 2024-05-20 18:15+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -173,7 +173,7 @@ msgid ""
 msgstr ""
 "För allmän information om att visa påminnelser, se <link xref=\"help:gnome-"
 "help/shell-notifications\" href=\"https://help.gnome.org/users/gnome-help/"
-"stable/shell-notifications\">GNOME:s skrivbordshjälp</link>."
+"stable/shell-notifications\">GNOMEs skrivbordshjälp</link>."
 
 #. (itstool) path: section/title
 #: C/calendar-alarms-and-reminders.page:50
@@ -2974,7 +2974,7 @@ msgid ""
 "Desktop Help</link>."
 msgstr ""
 "Se <link xref=\"help:gnome-help/net-default-browser\" href=\"https://help."
-"gnome.org/users/gnome-help/stable/net-default-browser\">GNOME:s "
+"gnome.org/users/gnome-help/stable/net-default-browser\">GNOMEs "
 "skrivbordshjälp</link>."
 
 #. (itstool) path: choose/p
@@ -3019,7 +3019,7 @@ msgid ""
 "Help</link>."
 msgstr ""
 "Se <link xref=\"help:gnome-help/net-default-email\" href=\"https://help."
-"gnome.org/users/gnome-help/stable/net-default-email\">GNOME:s "
+"gnome.org/users/gnome-help/stable/net-default-email\">GNOMEs "
 "skrivbordshjälp</link>."
 
 #. (itstool) path: section/title
@@ -5430,9 +5430,8 @@ msgid ""
 msgstr ""
 "Det rekommenderas att ställa in Gmail som ett nätkonto i GNOME. Se <link "
 "xref=\"help:gnome-help/accounts\" href=\"https://help.gnome.org/users/gnome-"
-"help/stable/accounts\">GNOME:s skrivbordshjälp</link> för vidare "
-"information. Efter att det är gjort kommer Gmail-kontot att listas i "
-"Evolution."
+"help/stable/accounts\">GNOMEs skrivbordshjälp</link> för vidare information. "
+"Efter att det är gjort kommer Gmail-kontot att listas i Evolution."
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-imap-account.page:30
@@ -8766,7 +8765,7 @@ msgid ""
 "your address books. Select the addresses and click the arrow buttons to move "
 "them into the appropriate address columns (To:, Cc:, Bcc:)."
 msgstr ""
-"Istället för att skriva in mottagarnas namn kan du också klicka på <gui "
+"I stället för att skriva in mottagarnas namn kan du också klicka på <gui "
 "style=\"button\">Till:</gui>-, <gui style=\"button\">Kopia:</gui>-, eller "
 "<gui style=\"button\">Blindkopia:</gui>-knapparna för att få en lista över e-"
 "postadresserna i dina adressböcker. Välj adresserna och klicka på "
@@ -11315,7 +11314,7 @@ msgid ""
 "Help</link> for more information."
 msgstr ""
 "Se <link xref=\"help:gnome-help/shell-notifications\" href=\"https://help."
-"gnome.org/users/gnome-help/stable/shell-notifications\">GNOME:s "
+"gnome.org/users/gnome-help/stable/shell-notifications\">GNOMEs "
 "skrivbordshjälp</link> för mer information."
 
 #. (itstool) path: info/desc
@@ -14429,7 +14428,7 @@ msgstr ""
 "Om du inte behöver hjälp med konfiguration men du är säker på att du hittat "
 "ett misstag eller felaktigt beteende i <app>Evolution</app>-programmet, "
 "eller om du vill begära en ny funktion kan du skicka in en rapport i <link "
-"href=\"https://gitlab.gnome.org/GNOME/evolution/issues/\">GNOME:s "
+"href=\"https://gitlab.gnome.org/GNOME/evolution/issues/\">GNOMEs "
 "felhanteringssystem</link>. Notera att detta först kräver registrering. "
 "Försök att undvika att rapportera duplikat och titta genom <link "
 "href=\"https://wiki.gnome.org/Community/GettingInTouch/"
@@ -14622,11 +14621,11 @@ msgstr ""
 msgid ""
 "If you can provide good practices or more information on this topic feel "
 "free to file a bug report in <link href=\"https://gitlab.gnome.org/GNOME/"
-"evolution/issues/new\">GNOME's bug tracking system</link>."
+"evolution/-/issues/\">GNOME's bug tracking system</link>."
 msgstr ""
 "Om du kan tillhandahålla goda arbetsmetoder eller mer information om detta "
 "ämne, så skicka in en felrapport i <link href=\"https://gitlab.gnome.org/"
-"GNOME/evolution/issues/new\">GNOME:s felhanteringssystem</link>."
+"GNOME/evolution/-/issues/\">GNOMEs felhanteringssystem</link>."
 
 #. (itstool) path: info/desc
 #: C/tasks-caldav.page:5
