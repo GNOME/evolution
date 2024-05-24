@@ -1,3 +1,24 @@
+Evolution 3.52.2 2024-05-24
+---------------------------
+
+Bug Fixes:
+	I#2371 - Composer: Added extra quotation level after draft open ][
+	I#2707 - Calendar: Fails to open event from alarm-notify on app start
+	I#2709 - Possible crash when exiting application
+	I#2739 - Mail: Remember Page Setup settings when printing
+	I#2744 - Shell: Enhance symbolic icons usage detection
+	I#2749 - Crash when recovering mail from the previous session
+	I#2751 - Open last view when restarting Evolution
+	I#2753 - SignatureEditor: Format change can discard signature text
+
+Miscellaneous:
+	e-mail-request: Fix a memory leak
+	shell: Closing last window does not always run "prepare-for-quit"
+	Update online_help_url URI (Andre Klapper)
+
+Translations:
+	Jordi Mas i Hernandez (ca)
+
 Evolution 3.52.1 2024-04-19
 ---------------------------
 
