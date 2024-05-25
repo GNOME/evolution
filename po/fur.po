@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2024-05-15 16:33+0000\n"
-"PO-Revision-Date: 2024-05-20 20:02+0200\n"
+"PO-Revision-Date: 2024-05-25 20:42+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -2894,10 +2894,8 @@ msgid "Directory for saving mail component files."
 msgstr "Cartele pal salvament dai files di components de pueste."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
-#, fuzzy
-#| msgid "Save Draft"
 msgid "Save format"
-msgstr "Salve stampon"
+msgstr "Salve formât"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
 #, fuzzy
@@ -3306,22 +3304,18 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:344
-#, fuzzy
-#| msgid "Move folder in folder tree."
 msgid "Show unread count in folder tree"
-msgstr "Spostâ la cartele tal arbul des cartelis."
+msgstr "Mostre il cont dai no lets tal arbul des cartelis"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:345
-#, fuzzy
-#| msgid "Change sort order of the folders in the folder tree"
 msgid "Show unread count beside the folder name in the folder tree."
-msgstr "Cambie ordenament des cartelis tal arbul des cartelis"
+msgstr ""
+"Mostre il cont dai no lets dongje dal non des cartelis tal arbul des "
+"cartelis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:346
-#, fuzzy
-#| msgid "Insert Face picture by default"
 msgid "Show insecure parts by default"
-msgstr "Inserî imagjin \"Muse\" in mût predefinît"
+msgstr "Mostre lis parts no siguris come impostazion predefinide"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:347
 msgid ""
@@ -4280,10 +4274,8 @@ msgid "_Open…"
 msgstr "_Vierç…"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:5
-#, fuzzy
-#| msgid "Print"
 msgid "_Print"
-msgstr "Stampe"
+msgstr "Stam_pe"
 
 #. == Button box ==
 #: ../data/ui/evolution-mail-viewer.ui.h:6
@@ -4349,10 +4341,8 @@ msgid "_Paste"
 msgstr "_Tache"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:11
-#, fuzzy
-#| msgid "Select All"
 msgid "_Select All"
-msgstr "Selezione Dut"
+msgstr "_Selezione dut"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:12 ../src/mail/e-mail-reader.c:2787
 msgid "_Find in Message…"
@@ -4642,11 +4632,9 @@ msgid "Copy selected messages to folder"
 msgstr "Copie i messaçs selezionâts suntune altre cartele"
 
 #: ../data/ui/evolution-shortcuts.ui.h:31
-#, fuzzy
-#| msgid "Move selected messages to another folder"
 msgctxt "shortcut window"
 msgid "Move selected messages to folder"
-msgstr "Sposte i messaçs selezionâts intune altre cartele"
+msgstr "Sposte i messaçs selezionâts te cartele"
 
 #: ../data/ui/evolution-shortcuts.ui.h:32
 msgctxt "shortcut window"
@@ -4715,11 +4703,9 @@ msgid "Delete mail"
 msgstr "Elimine e-mail"
 
 #: ../data/ui/evolution-shortcuts.ui.h:44
-#, fuzzy
-#| msgid "Delete Mail"
 msgctxt "shortcut window"
 msgid "Undelete mail"
-msgstr "Eliminâ pueste"
+msgstr "Ripristine pueste"
 
 #: ../data/ui/evolution-shortcuts.ui.h:45
 msgctxt "shortcut window"
@@ -6091,10 +6077,8 @@ msgstr "Il non al à"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:15
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1594
-#, fuzzy
-#| msgid "Sender contains"
 msgid "Phone contains"
-msgstr "Mitent al conten"
+msgstr "Telefon al conten"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:16
 #: ../src/calendar/gui/caltypes.xml.in.h:27
@@ -6796,49 +6780,37 @@ msgid "Work Address Country"
 msgstr "Contat rubriche"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:62
-#, fuzzy
-#| msgid "Web Addresses"
 msgid "Other Address Street"
-msgstr "Direzions web"
+msgstr "Vie de altre direzion"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:63
 msgid "Other Address Extended"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:64
-#, fuzzy
-#| msgid "New Address Book"
 msgid "Other Address PO Box"
-msgstr "Gnove rubriche"
+msgstr "Casele postâl de altre direzion"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:65
 msgid "Other Address City"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:66
-#, fuzzy
-#| msgid "_Zip/Postal Code:"
 msgid "Other Address Zip/Postal code"
-msgstr "_Zip/Codiç postâl:"
+msgstr "Zip/Codiç postâl de altre direzion"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:67
-#, fuzzy
-#| msgid "_State/Province:"
 msgid "Other Address State/Province"
-msgstr "_Stât/Provincie:"
+msgstr "Stât/Provincie de altre direzion"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:68
-#, fuzzy
-#| msgid "Addressbook Contact"
 msgid "Other Address Country"
-msgstr "Contat rubriche"
+msgstr "Paîs de altre direzion"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:659
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:246
-#, fuzzy
-#| msgid "Saving account settings, please wait…"
 msgid "Saving changes, please wait…"
-msgstr "Daûr a salvâ lis impostazions dal account, par plasê spiete…"
+msgstr "Daûr a salvâ lis modifichis, par plasê spiete…"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:661
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:248
@@ -6851,25 +6823,18 @@ msgid "Co_untry:"
 msgstr "_Paîs:"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:913
-#, fuzzy, c-format
-#| msgid "%d contact"
-#| msgid_plural "%d contacts"
+#, c-format
 msgid "Modify a contact"
 msgid_plural "Modify %u contacts"
-msgstr[0] "%d contat"
-msgstr[1] "%d contats"
+msgstr[0] "Modifiche un contat"
+msgstr[1] "Modifiche %u contats"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:918
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:616
-#, fuzzy
-#| msgid "Select Folder to Add"
 msgid "Select values to be modified."
-msgstr "Selezione cartele di zontâ"
+msgstr "Selezione i valôrs di modifica."
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1097
-#, fuzzy
-#| msgctxt "Job"
-#| msgid "_Title:"
 msgid "_Title:"
 msgstr "_Titul:"
 
@@ -6890,7 +6855,6 @@ msgid "Ca_ncel"
 msgstr "A_nule"
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:84
-#, fuzzy
 #| msgid ""
 #| "\n"
 #| "\n"
@@ -6902,54 +6866,27 @@ msgid ""
 "\n"
 "or double-click here to create a new Contact."
 msgstr ""
-"\n"
-"\n"
-"Cirî il contat\n"
+"Cîr il contat\n"
 "\n"
 "o fâs dopli clic achì par creâ un gnûf contat."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:86
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view.\n"
-#| "\n"
-#| "Double-click here to create a new Contact."
 msgid ""
 "There are no items to show in this view.\n"
 "\n"
 "Double-click here to create a new Contact."
 msgstr ""
-"\n"
-"\n"
 "Nol è nuie ce mostrâ in cheste viodude.\n"
 "\n"
 "Fâs dopli clic achì par creâ un gnûf contat."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:89
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Search for the Contact."
 msgid "Search for the Contact."
-msgstr ""
-"\n"
-"\n"
-"Cirî il contat."
+msgstr "Cîr il contat."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:91
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view."
 msgid "There are no items to show in this view."
-msgstr ""
-"\n"
-"\n"
-"Nol è nuie ce mostrâ in cheste viodude."
+msgstr "Nol è nuie ce mostrâ in cheste viodude."
 
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:359
 msgid "Contacts Map"
@@ -8601,12 +8538,11 @@ msgid "calendar view for one or more weeks"
 msgstr "viodude calendari par une o plui setemanis"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:611
-#, fuzzy, c-format
-#| msgid "Modifying a task"
+#, c-format
 msgid "Modify a task"
 msgid_plural "Modify %u tasks"
-msgstr[0] "Daûr a modificâ une ativitât"
-msgstr[1] "Daûr a modificâ une ativitât"
+msgstr[0] "Modifiche une ativitât"
+msgstr[1] "Modifiche %u ativitâts"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:649
 msgid "_General"
@@ -11036,10 +10972,8 @@ msgid "Sending a task"
 msgstr "Spedizion di une ativitât"
 
 #: ../src/calendar/gui/itip-utils.c:2692
-#, fuzzy
-#| msgid "_Open Appointment"
 msgid "Original Appointment"
-msgstr "_Vierç apontament"
+msgstr "Apontament origjinâl"
 
 #: ../src/calendar/gui/misc.c:95
 #, c-format
@@ -13045,10 +12979,8 @@ msgid "Character _Encoding"
 msgstr "Codifich_e caratars"
 
 #: ../src/composer/e-composer-actions.c:377
-#, fuzzy
-#| msgid "Options"
 msgid "Option_s"
-msgstr "Opzions"
+msgstr "Opzion_s"
 
 #: ../src/composer/e-composer-actions.c:394
 msgid "Print Pre_view"
@@ -13128,10 +13060,8 @@ msgid "Get delivery notification when your message is read"
 msgstr "Ricêf une notifiche di consegne cuant che il propri messaç al ven let"
 
 #: ../src/composer/e-composer-actions.c:474
-#, fuzzy
-#| msgid "Return Notification"
 msgid "Request _Delivery Status Notification"
-msgstr "Torne notifiche"
+msgstr "Domande la notifiche di stât de _consegne"
 
 #: ../src/composer/e-composer-actions.c:476
 #, fuzzy
@@ -13352,10 +13282,8 @@ msgid "Reading text content…"
 msgstr "Daûr a lei il contignût dal test…"
 
 #: ../src/composer/e-msg-composer.c:5103
-#, fuzzy
-#| msgid "No encryption"
 msgid "Send _without encryption"
-msgstr "Nissune cifradure"
+msgstr "Mande _cence cifradure"
 
 #: ../src/composer/e-msg-composer.c:5891
 msgid "Review attachment before sending."
@@ -14417,10 +14345,8 @@ msgid "_MIME Type:"
 msgstr "Gjenar _MIME:"
 
 #: ../src/e-util/e-attachment-popover.c:411
-#, fuzzy
-#| msgid "_Suggest automatic display of attachment"
 msgid "Suggest _automatic display of attachment"
-msgstr "_Sugjerìs la visualizazion automatiche de zonte"
+msgstr "Sugjerìs la visualizazion _automatiche de zonte"
 
 #: ../src/e-util/e-attachment-store.c:645
 #: ../src/e-util/e-attachment-store.c:652
@@ -14505,10 +14431,8 @@ msgid "Re_load"
 msgstr "Torne _cjame"
 
 #: ../src/e-util/e-attachment-view.c:514
-#, fuzzy
-#| msgid "Reading text content…"
 msgid "Reload attachment content"
-msgstr "Daûr a lei il contignût dal test…"
+msgstr "Torne cjame il contignût de zonte"
 
 #: ../src/e-util/e-attachment-view.c:999 ../src/mail/e-mail-display.c:2037
 #, c-format
@@ -14595,10 +14519,8 @@ msgid "Color:"
 msgstr "Colôr:"
 
 #: ../src/e-util/e-cal-source-config.c:301
-#, fuzzy
-#| msgid "Show reminders for completed tasks"
 msgid "Show reminder _before every event"
-msgstr "Mostre promemorie pes ativitâts completadis"
+msgstr "Mostre un pro memoria _prime di ogni event"
 
 #: ../src/e-util/e-cal-source-config.c:425
 msgid "Copy calendar contents locally for offline operation"
@@ -16810,10 +16732,8 @@ msgstr ""
 "pe visualizazion."
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:414
-#, fuzzy
-#| msgid "S_cript:"
 msgid "Sc_ript:"
-msgstr "S_cript:"
+msgstr "Sc_ript:"
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:489
 #, fuzzy
@@ -17936,10 +17856,8 @@ msgid "Scheduling Inbox"
 msgstr ""
 
 #: ../src/e-util/e-webdav-browser.c:547
-#, fuzzy
-#| msgid "Keep in Outbox"
 msgid "Scheduling Outbox"
-msgstr "Ten dentri «In jessude»"
+msgstr "Planificazion «In jessude»"
 
 #: ../src/e-util/e-webdav-browser.c:610 ../src/mail/e-mail-viewer.c:1731
 #: ../src/mail/e-mail-viewer.c:2419 ../src/mail/em-folder-tree-model.c:1618
@@ -19016,16 +18934,14 @@ msgid "Choose a folder for saving sent messages."
 msgstr "Sielç une cartele par salvâ i messaçs inviâts."
 
 #: ../src/mail/e-mail-config-defaults-page.c:719
-#, fuzzy
-#| msgid "Move selected messages to another folder"
 msgid "Save s_ent messages into the Sent folder"
-msgstr "Sposte i messaçs selezionâts intune altre cartele"
+msgstr "Sposte i messaçs inviâts inte cartele Inviâts"
 
 #: ../src/mail/e-mail-config-defaults-page.c:737
-#, fuzzy
-#| msgid "S_ave replies in the folder of the message being replied to"
 msgid "S_ave replies and forwards in the folder of the original message"
-msgstr "S_alve lis rispuestis inte cartele dal messaç che si sta rispuindint"
+msgstr ""
+"S_alve lis rispuestis e i messaçs mandâts indenant te cartele dal messaç "
+"origjinâl"
 
 #: ../src/mail/e-mail-config-defaults-page.c:761
 msgid "Archi_ve Folder:"
@@ -20152,10 +20068,8 @@ msgid "Repl_y with Template"
 msgstr "Ris_puint cun model"
 
 #: ../src/mail/e-mail-reader.c:3118
-#, fuzzy
-#| msgid "_Move to Folder…"
 msgid "_Save to File…"
-msgstr "S_poste te cartele…"
+msgstr "_Salve su file…"
 
 #: ../src/mail/e-mail-reader.c:3120
 msgid "Save selected messages as an mbox file"
@@ -20473,10 +20387,8 @@ msgid "Failed to print message: %s"
 msgstr "No si è rivâts a recuperâ il messaç:"
 
 #: ../src/mail/e-mail-viewer.c:592
-#, fuzzy
-#| msgid "Open Message Filters"
 msgid "Open Message File"
-msgstr "Vierç filtris dai messaçs"
+msgstr "Vierç file di messaç"
 
 #: ../src/mail/e-mail-viewer.c:605
 msgid "Mail Messages"
@@ -20531,10 +20443,8 @@ msgid "File “%s” does not contain MIME message"
 msgstr "La cartele “{0}” no à nissun messaç dopli."
 
 #: ../src/mail/e-mail-viewer.c:2429
-#, fuzzy
-#| msgid "Loading…"
 msgid "Reading file…"
-msgstr "Daûr a cjariâ…"
+msgstr "Daûr a lei il file…"
 
 #: ../src/mail/e-mail-viewer.c:2431
 #, fuzzy
@@ -20908,10 +20818,8 @@ msgid "<click here to select a folder>"
 msgstr "<fâs clic chi par selezionâ une cartele>"
 
 #: ../src/mail/em-folder-selector.c:609
-#, fuzzy
-#| msgid "Search Folders"
 msgid "Search for folder…"
-msgstr "Cartelis di ricercje"
+msgstr "Cîr cartele…"
 
 #: ../src/mail/em-folder-selector.c:710
 msgid "Create a new folder"
@@ -21159,11 +21067,9 @@ msgid "Deleting old messages"
 msgstr "Daûr a eliminâ i messaçs vecjos"
 
 #: ../src/mail/em-utils.c:2155
-#, fuzzy
-#| msgid "Unknown"
 msgctxt "trust"
 msgid "_Unknown"
-msgstr "No cognossût"
+msgstr "_No cognossût"
 
 #: ../src/mail/em-utils.c:2156
 msgctxt "trust"
@@ -21207,10 +21113,9 @@ msgid "Created: %s"
 msgstr "Creât: %s"
 
 #: ../src/mail/em-utils.c:2257
-#, fuzzy, c-format
-#| msgid "User: %s"
+#, c-format
 msgid "User ID: %s"
-msgstr "Utent: %s"
+msgstr "ID utent: %s"
 
 #: ../src/mail/em-utils.c:2278
 msgid "Set trust level for the key:"
@@ -21519,10 +21424,8 @@ msgid "Set Label"
 msgstr "Stabilìs etichete"
 
 #: ../src/mail/filtertypes.xml.in.h:76
-#, fuzzy
-#| msgid "Set Label"
 msgid "Unset Label"
-msgstr "Stabilìs etichete"
+msgstr "Gjave etichete"
 
 #: ../src/mail/filtertypes.xml.in.h:77
 msgid "Assign Color"
@@ -21916,17 +21819,14 @@ msgstr "Prime che il compositôr al cambi _formât di HTML a Test sempliç"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:66
-#, fuzzy
-#| msgid "Sending a message with _recipients not entered as mail addresses"
 msgid "Sending a message with _attachments which changed since being attached"
-msgstr "Inviâ un messaç cun destinata_ris no inserîts come direzions e-mail"
+msgstr ""
+"Daûr a inviâ un messaç cun _zontis che a son stadis modificadis di cuant che "
+"a son stadis zontadis"
 
 #: ../src/mail/mail-config.ui.h:67
-#, fuzzy
-#| msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgid "Sending an _HTML mail to contacts that do not want them"
-msgstr ""
-"_Domandâ pal inviament di pueste in HTML ai contats che no le desiderin"
+msgstr "Daûr a inviâ une e-mail _HTML a contats che no lis desiderin"
 
 #: ../src/mail/mail-config.ui.h:68
 msgid "Addresses or domains which accept HTML messages:"
@@ -22239,10 +22139,8 @@ msgstr "Daûr a disvuedâ la _scovacere"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:160
-#, fuzzy
-#| msgid "Prompt when user tries to open 10 or more messages at once"
 msgid "Tries to _open 10 or more messages at once"
-msgstr "Vise l'utent cuant che al cîr di vierzi 10 o plui messaçs adun"
+msgstr "Al cîr di _vierzi 10 o plui messaçs intun volte"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:162
@@ -22265,17 +22163,13 @@ msgstr "Copiâ la cartele tal arbul des cartelis."
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:168
-#, fuzzy
-#| msgid "Move folder in folder tree."
 msgid "_Move folder by Drag & Drop in folder tree"
-msgstr "Spostâ la cartele tal arbul des cartelis."
+msgstr "_Sposte la cartele strissinantle e molantle intal arbul des cartelis"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:170
-#, fuzzy
-#| msgid "Show messages with all email headers"
 msgid "Sort message list on _header click"
-msgstr "Mostre i messaçs cun dutis lis intestazions e-mail"
+msgstr "Ordene la liste dai messaçs al clic su la intestazion"
 
 #: ../src/mail/mail-config.ui.h:171
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
@@ -23352,10 +23246,8 @@ msgstr ""
 "Il clic tes intestazions de liste di solit al cambie l'ordin. Sielç ce fâ."
 
 #: ../src/mail/mail.error.xml.h:229
-#, fuzzy
-#| msgid "Sort"
 msgid "_Sort"
-msgstr "Ordene"
+msgstr "_Ordene"
 
 #: ../src/mail/mail.error.xml.h:230
 msgid "_Don’t Sort"
@@ -23366,16 +23258,12 @@ msgid "_Always Sort"
 msgstr "Ordene _simpri"
 
 #: ../src/mail/mail.error.xml.h:232
-#, fuzzy
-#| msgid "N_ever copy"
 msgid "N_ever Sort"
-msgstr "M_ai copiâ"
+msgstr "M_ai ordenâ"
 
 #: ../src/mail/mail.error.xml.h:233
-#, fuzzy
-#| msgid "Pretty Good Privacy (OpenPGP)"
 msgid "Send mail with Pretty Good Privacy (PGP) public key?"
-msgstr "Pretty Good Privacy (OpenPGP)"
+msgstr "Inviâ la pueste cu la clâf publiche Pretty Good Privacy (PGP)?"
 
 #: ../src/mail/mail.error.xml.h:234
 msgid ""
@@ -23389,27 +23277,21 @@ msgstr ""
 
 # m o f?
 #: ../src/mail/mail.error.xml.h:237
-#, fuzzy
-#| msgid "ends with"
 msgid "_Send with Key"
-msgstr "al/e finìs cun"
+msgstr "_Mande cun clâf"
 
 # m o f?
 #: ../src/mail/mail.error.xml.h:238
-#, fuzzy
-#| msgid "ends with"
 msgid "Send _without Key"
-msgstr "al/e finìs cun"
+msgstr "Mande _cence clâf"
 
 #: ../src/mail/mail.error.xml.h:239
 msgid "_Always"
 msgstr "_Simpri"
 
 #: ../src/mail/mail.error.xml.h:240
-#, fuzzy
-#| msgid "Never"
 msgid "_Never"
-msgstr "Mai"
+msgstr "_Mai"
 
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
@@ -23734,10 +23616,8 @@ msgid "_GNOME"
 msgstr "_GNOME"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:294
-#, fuzzy
-#| msgid "Display window buttons with icons only"
 msgid "Use buttons with _icons only"
-msgstr "Mostre i botons barcon dome cun lis iconis"
+msgstr "Dopre nome i botons cu lis iconis"
 
 #. Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:313
@@ -23907,10 +23787,8 @@ msgstr "Salve come vCard"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:678
 #: ../src/modules/addressbook/e-book-shell-view.c:657
-#, fuzzy
-#| msgid "Print selected contacts"
 msgid "Retrieving selected contacts…"
-msgstr "Stampe i contats selezionâts"
+msgstr "Daûr a recuperâ i contats selezionâts…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1279
 msgid "Co_py All Contacts To…"
@@ -24074,10 +23952,8 @@ msgid "_Actions"
 msgstr "A_zions"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1442
-#, fuzzy
-#| msgid "_Sort By"
 msgid "_Sort Cards By"
-msgstr "_Ordene par"
+msgstr "_Ordene cjartis par"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1455
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
@@ -24244,10 +24120,9 @@ msgid "Restore from Backup"
 msgstr "Ripristine di backup"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:352
-#, fuzzy, c-format
-#| msgid "Folder '%s' not found"
+#, c-format
 msgid "Program '%s' not found"
-msgstr "Cartele '%s' no cjatade"
+msgstr "Program '%s' no cjatât"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:316
 msgid "Select name of the Evolution backup file"
@@ -25280,10 +25155,8 @@ msgstr "prime di ogni aniversari/complean"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:99
-#, fuzzy
-#| msgid "Show a _reminder"
 msgid "Show a r_eminder"
-msgstr "Mostrâ un p_ro memoria"
+msgstr "Mostre un p_ro memoria"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:101
@@ -26192,10 +26065,8 @@ msgid "Tasks with Attachments"
 msgstr "Ativitâts cun zontis"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1047
-#, fuzzy
-#| msgid "_Show Tasks without Due date"
 msgid "Show tasks with no category set"
-msgstr "_Mostre ativitât cence date di scjadince"
+msgstr "Mostre lis ativitâts cence une categorie stabilide"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1052
 msgid "Started Tasks"
@@ -26812,10 +26683,8 @@ msgstr "Plate la descrizion furnide dal mitent"
 
 #. RSVP area
 #: ../src/modules/itip-formatter/itip-view.c:2219
-#, fuzzy
-#| msgid "Send reply to sender"
 msgid "Send reply to organizer"
-msgstr "Invie rispueste al mitent"
+msgstr "Mande rispueste al organizadôr"
 
 #. Updates
 #: ../src/modules/itip-formatter/itip-view.c:2234
@@ -27987,10 +27856,8 @@ msgid "Send immediately"
 msgstr "Invie subite"
 
 #: ../src/modules/mail/em-composer-prefs.c:1686
-#, fuzzy
-#| msgid "Send after 5 minutes"
 msgid "Send after 1 minute"
-msgstr "Invie dopo 5 minûts"
+msgstr "Invie dopo 1 minût"
 
 #: ../src/modules/mail/em-composer-prefs.c:1687
 msgid "Send after 5 minutes"
@@ -29957,22 +29824,16 @@ msgid "Saving message template"
 msgstr "Salvament model dal messaç"
 
 #: ../src/plugins/templates/templates.c:968
-#, fuzzy
-#| msgid "Save as _Template"
 msgid "Save _Template"
-msgstr "Salve come _model"
+msgstr "Salve _model"
 
 #: ../src/plugins/templates/templates.c:970
-#, fuzzy
-#| msgid "Remove duplicate messages?"
 msgid "Replace opened Template message"
-msgstr "Gjavâ i messaçs doplis?"
+msgstr "Sostituìs il messaç model viert"
 
 #: ../src/plugins/templates/templates.c:975
-#, fuzzy
-#| msgid "Save as _Template"
 msgid "Save as _New Template"
-msgstr "Salve come _model"
+msgstr "Salve come _gnûf model"
 
 #: ../src/plugins/templates/templates.c:977
 msgid "Save as Template"
