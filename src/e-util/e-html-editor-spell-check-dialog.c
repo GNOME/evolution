@@ -294,12 +294,11 @@ html_editor_spell_check_dialog_show (GtkWidget *widget)
 
 	e_content_editor_on_dialog_open (cnt_editor, E_CONTENT_EDITOR_DIALOG_SPELLCHECK);
 
+	GTK_WIDGET_CLASS (e_html_editor_spell_check_dialog_parent_class)->show (widget);
+
 	/* Select the first word or quit */
-	if (html_editor_spell_check_dialog_next (dialog)) {
-		GTK_WIDGET_CLASS (e_html_editor_spell_check_dialog_parent_class)->show (widget);
-	} else {
+	if (!html_editor_spell_check_dialog_next (dialog))
 		e_content_editor_on_dialog_close (cnt_editor, E_CONTENT_EDITOR_DIALOG_SPELLCHECK);
-	}
 }
 
 static void
