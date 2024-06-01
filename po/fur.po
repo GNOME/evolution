@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2024-05-15 16:33+0000\n"
-"PO-Revision-Date: 2024-05-25 20:42+0200\n"
+"PO-Revision-Date: 2024-06-01 12:48+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -1873,10 +1873,8 @@ msgstr ""
 "locâl cuant che tal messaç e sta in UTC."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
-#, fuzzy
-#| msgid "Convert UTC time in reply credits to local time"
 msgid "Convert time in reply credits to local time"
-msgstr "Fâs deventâ la ore UTC tai credits de rispueste in ore locâl"
+msgstr "Fâs deventâ la ore tai credits de rispueste in ore locâl"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 #, fuzzy
@@ -2898,10 +2896,8 @@ msgid "Save format"
 msgstr "Salve formât"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
-#, fuzzy
-#| msgid "Failed to save messages to disk."
 msgid "Last used format when saving messages to file."
-msgstr "No si è rivâts a salvâ i messaçs sul disc."
+msgstr "L'ultin formât doprât par salvâ i messaçs su file."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 msgid "Composer load/attach directory"
@@ -3325,10 +3321,8 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:348
-#, fuzzy
-#| msgid "Before composer _format changes from HTML to Plain Text"
 msgid "How to convert links from HTML to plain text"
-msgstr "Prime che il compositôr al cambi _formât di HTML a Test sempliç"
+msgstr "Cemût convertî i colegaments di HTML a test sempliç"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:349
 msgid ""
@@ -4365,10 +4359,8 @@ msgid "All Message _Headers"
 msgstr "Dutis lis intestazions dal _messaç"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:16
-#, fuzzy
-#| msgid "_Message Source"
 msgid "Message _Source"
-msgstr "Sorzint _messaç"
+msgstr "_Sorzint messaç"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:17 ../src/mail/e-mail-reader.c:3408
 msgid "_Caret Mode"
@@ -4617,19 +4609,14 @@ msgid "Scroll down"
 msgstr "Scor Jù"
 
 #: ../data/ui/evolution-shortcuts.ui.h:29
-#, fuzzy
-#| msgctxt "New"
-#| msgid "_Mail Message"
 msgctxt "shortcut window"
 msgid "Mail Message"
-msgstr "_Messaç di pueste"
+msgstr "Messaç di pueste"
 
 #: ../data/ui/evolution-shortcuts.ui.h:30
-#, fuzzy
-#| msgid "Copy selected messages to another folder"
 msgctxt "shortcut window"
 msgid "Copy selected messages to folder"
-msgstr "Copie i messaçs selezionâts suntune altre cartele"
+msgstr "Copie i messaçs selezionâts te cartele"
 
 #: ../data/ui/evolution-shortcuts.ui.h:31
 msgctxt "shortcut window"
@@ -5827,10 +5814,8 @@ msgid "_Select Address Book"
 msgstr "_Selezione rubriche"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:779
-#, fuzzy
-#| msgid "Failed to store password: "
 msgid "Failed to parse vCard data"
-msgstr "No si è rivâts a archiviâ la password: "
+msgstr "Analisi dai dâts vCard falide"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Mr."
@@ -6070,10 +6055,8 @@ msgstr "E-mail e tache par"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:14
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1587
-#, fuzzy
-#| msgid "Name contains"
 msgid "Email contains"
-msgstr "Il non al à"
+msgstr "La e-mail e conten"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:15
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1594
@@ -6503,10 +6486,8 @@ msgid "Searching for the Contacts…"
 msgstr "Daûr a cirî i Contats…"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1461
-#, fuzzy
-#| msgid "Failed to communicate with LDAP server."
 msgid "Failed to get contacts with unknown error"
-msgstr "No si è rivâts a comunicâ cul servidôr LDAP."
+msgstr "Recupar dai contats falît cun erôr no cognossût"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1823
 msgid "Are you sure you want to delete these contact lists?"
@@ -6700,84 +6681,60 @@ msgid "Journal"
 msgstr "Diari"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:48
-#, fuzzy
-#| msgid "Web Addresses"
 msgid "Home Address Street"
-msgstr "Direzions web"
+msgstr "Vie de direzion di cjase"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:49
 msgid "Home Address Extended"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:50
-#, fuzzy
-#| msgid "New Address Book"
 msgid "Home Address PO Box"
-msgstr "Gnove rubriche"
+msgstr "Casele postâl de direzion di cjase"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:51
-#, fuzzy
-#| msgid "New Address Book"
 msgid "Home Address City"
-msgstr "Gnove rubriche"
+msgstr "Citât de direzion di cjase"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:52
-#, fuzzy
-#| msgid "_Zip/Postal Code:"
 msgid "Home Address Zip/Postal code"
-msgstr "_Zip/Codiç postâl:"
+msgstr "Zip/Codiç postâl de direzion di cjase"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:53
-#, fuzzy
-#| msgid "_State/Province:"
 msgid "Home Address State/Province"
-msgstr "_Stât/Provincie:"
+msgstr "Stât/Provincie de direzion di cjase"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:54
-#, fuzzy
-#| msgid "Addressbook Contact"
 msgid "Home Address Country"
-msgstr "Contat rubriche"
+msgstr "Paîs de direzion di cjase"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:55
-#, fuzzy
-#| msgid "Web Addresses"
 msgid "Work Address Street"
-msgstr "Direzions web"
+msgstr "Vie de direzion di lavôr"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:56
 msgid "Work Address Extended"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:57
-#, fuzzy
-#| msgid "Address Book"
 msgid "Work Address PO Box"
-msgstr "Rubriche"
+msgstr "Casele postâl de direzion di lavôr"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:58
-#, fuzzy
-#| msgid "Web Addresses"
 msgid "Work Address City"
-msgstr "Direzions web"
+msgstr "Citât de direzion di lavôr"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:59
-#, fuzzy
-#| msgid "_Zip/Postal Code:"
 msgid "Work Address Zip/Postal code"
-msgstr "_Zip/Codiç postâl:"
+msgstr "Zip/Codiç postâl de direzion di lavôr"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:60
-#, fuzzy
-#| msgid "_State/Province:"
 msgid "Work Address State/Province"
-msgstr "_Stât/Provincie:"
+msgstr "Stât/Provincie de direzion di lavôr"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:61
-#, fuzzy
-#| msgid "Addressbook Contact"
 msgid "Work Address Country"
-msgstr "Contat rubriche"
+msgstr "Paîs de direzion di lavôr"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:62
 msgid "Other Address Street"
@@ -6844,10 +6801,8 @@ msgstr "Soci_etât:"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1148
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:735
-#, fuzzy
-#| msgid "Modified"
 msgid "M_odify"
-msgstr "Modificât"
+msgstr "M_odifiche"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1149
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:736
@@ -7114,22 +7069,16 @@ msgid "_Send Notice"
 msgstr "_Invie notifiche"
 
 #: ../src/calendar/calendar.error.xml.h:5
-#, fuzzy
-#| msgid "Would you like to send all the participants a cancellation notice?"
 msgid "Would you like to send the organizer a deletion notice?"
-msgstr "Inviâ a ducj i partecipants une notifiche di cancelazion?"
+msgstr "Inviâ al organizadôr une notifiche di cancelazion?"
 
 #: ../src/calendar/calendar.error.xml.h:6
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the memo has been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the meeting "
 "has been deleted."
 msgstr ""
-"Se no tu inviis une notifiche di cancelazion, chei altris partecipants a "
-"podaressin no vignî a savê che il pro memoria al è stât eliminât."
+"Se no tu inviis une notifiche di cancelazion, l'organizadôr al podarès no "
+"savê che la riunion e je stade cancelade."
 
 #: ../src/calendar/calendar.error.xml.h:7
 #: ../src/calendar/gui/e-cal-dialogs.c:750
@@ -7191,16 +7140,12 @@ msgstr ""
 "podaressin no vignî a savê che la ativitât e je stade eliminade."
 
 #: ../src/calendar/calendar.error.xml.h:16
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the task has been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the task "
 "has been deleted."
 msgstr ""
-"Se no tu inviis une notifiche di cancelazion, chei altris partecipants a "
-"podaressin no vignî a savê che la ativitât e je stade eliminade."
+"Se no tu inviis une notifiche di cancelazion, l'organizadôr al podarès no "
+"savê che la ativitât e je stade cancelade."
 
 #: ../src/calendar/calendar.error.xml.h:17
 #: ../src/calendar/gui/e-cal-dialogs.c:753
@@ -7227,22 +7172,16 @@ msgstr ""
 "podaressin no vignî a savê che il pro memoria al è stât eliminât."
 
 #: ../src/calendar/calendar.error.xml.h:21
-#, fuzzy
-#| msgid "Would you like to send a cancellation notice for this memo?"
 msgid "Would you like to send a deletion notice for this memo?"
 msgstr "Inviâ une notifiche di cancelazion par chest pro memoria?"
 
 #: ../src/calendar/calendar.error.xml.h:22
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the memo has been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the memo "
 "has been deleted."
 msgstr ""
-"Se no tu inviis une notifiche di cancelazion, chei altris partecipants a "
-"podaressin no vignî a savê che il pro memoria al è stât eliminât."
+"Se no tu inviis une notifiche di cancelazion, l'organizadôr al podarès no "
+"savêche il pro memoria al è stât cancelât."
 
 #: ../src/calendar/calendar.error.xml.h:23
 #: ../src/calendar/gui/e-cal-dialogs.c:756
@@ -8578,11 +8517,8 @@ msgid "Creating view for memo list “%s”"
 msgstr "Daûr a creâ la viodude pe liste dai pro memoria “%s”"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:181
-#, fuzzy
-#| msgid "Deleting a memo"
-#| msgid_plural "Deleting %d memos"
 msgid "Deletion _reason:"
-msgstr "Daûr a eliminâ un pro memoria"
+msgstr "_Motîf de cancelazion:"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:317
 msgid "Cancellation _reason:"
@@ -9998,10 +9934,8 @@ msgid "Click here to open the URL"
 msgstr "Fâs clic par vierzi il URL"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:362
-#, fuzzy
-#| msgid "Click here to open the URL"
 msgid "Click here to open map"
-msgstr "Fâs clic par vierzi il URL"
+msgstr "Fâs clic achì par vierzi la mape"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:427
 msgctxt "ECompEditor"
@@ -13255,22 +13189,16 @@ msgstr ""
 "cifradure par chest account"
 
 #: ../src/composer/e-msg-composer.c:1643
-#, fuzzy
-#| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve text/plain processed content"
-msgstr "No si è rivâts a recuperâ il messaç:"
+msgstr "Recupar falît dal contignût elaborât dal test sempliç"
 
 #: ../src/composer/e-msg-composer.c:1767
-#, fuzzy
-#| msgid "Failed to read file content: "
 msgid "Failed to retrieve draft content"
-msgstr "Impussibil lei i contignûts dal file:"
+msgstr "Recupar falît dal contignût dal stampon"
 
 #: ../src/composer/e-msg-composer.c:1780
-#, fuzzy
-#| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve HTML processed content"
-msgstr "No si è rivâts a recuperâ il messaç:"
+msgstr "Recupar falît dal contignût elaborât dal HTML"
 
 #: ../src/composer/e-msg-composer.c:2092 ../src/composer/e-msg-composer.c:2805
 msgid "Compose Message"
@@ -18209,7 +18137,6 @@ msgstr "Non de regule"
 
 #: ../src/e-util/filter.ui.h:27
 #, fuzzy
-#| msgid "Skip duplicates"
 msgid "Du_plicate"
 msgstr "Salte duplicâts"
 
@@ -20340,10 +20267,9 @@ msgid "%s authentication failed"
 msgstr "Autenticazion %s falide"
 
 #: ../src/mail/e-mail-viewer.c:186
-#, fuzzy, c-format
-#| msgid "Failed to open calendar “{0}”"
+#, c-format
 msgid "Failed to open file “%s”: %s"
-msgstr "No si è rivâts a vierzi il calendari “{0}”"
+msgstr "Nol è stât pussibil vierzi il file “%s”: %s"
 
 #: ../src/mail/e-mail-viewer.c:202
 #, fuzzy
@@ -20362,10 +20288,8 @@ msgid "_Import"
 msgstr "_Impuarte"
 
 #: ../src/mail/e-mail-viewer.c:274
-#, fuzzy
-#| msgid "Could not create message."
 msgid "Could not import any message"
-msgstr "Impussibil creâ messaç."
+msgstr "Nol è stât pussibil impuartâ nissun messaç"
 
 #: ../src/mail/e-mail-viewer.c:278
 #, c-format
@@ -20375,16 +20299,13 @@ msgstr[0] "Un messaç impuartât."
 msgstr[1] "%u messaçs impuartâts."
 
 #: ../src/mail/e-mail-viewer.c:507
-#, fuzzy
-#| msgid "Failed to retrieve message:"
 msgid "Failed to import message"
-msgstr "No si è rivâts a recuperâ il messaç:"
+msgstr "Importazion dal messaç falide"
 
 #: ../src/mail/e-mail-viewer.c:568
-#, fuzzy, c-format
-#| msgid "Failed to retrieve message:"
+#, c-format
 msgid "Failed to print message: %s"
-msgstr "No si è rivâts a recuperâ il messaç:"
+msgstr "Stampe dal messaç falide: %s"
 
 #: ../src/mail/e-mail-viewer.c:592
 msgid "Open Message File"
@@ -20402,17 +20323,13 @@ msgstr "Ducj i files (*)"
 
 #. Intentionally the "Mail Viewer" first, because it's more important than the message subject
 #: ../src/mail/e-mail-viewer.c:1570
-#, fuzzy, c-format
-#| msgid "Meeting — %s"
+#, c-format
 msgid "Mail Viewer — %s"
-msgstr "Riunion — %s"
+msgstr "Visualizadôr pueste — %s"
 
 #: ../src/mail/e-mail-viewer.c:1733
-#, fuzzy
-#| msgid "Failed to send a message"
-#| msgid_plural "Failed to send %d of %d messages"
 msgid "Failed to load message"
-msgstr "No si è rivâts a inviâ un messaç"
+msgstr "Cjariament messaç falît"
 
 #: ../src/mail/e-mail-viewer.c:1961
 msgid "Import…"
@@ -20437,20 +20354,17 @@ msgid "_Import All…"
 msgstr "Impuarte dut…"
 
 #: ../src/mail/e-mail-viewer.c:2412
-#, fuzzy, c-format
-#| msgid "Folder “{0}” doesn’t contain any duplicate message."
+#, c-format
 msgid "File “%s” does not contain MIME message"
-msgstr "La cartele “{0}” no à nissun messaç dopli."
+msgstr "Il file “%s” nol conten un messaç MIME"
 
 #: ../src/mail/e-mail-viewer.c:2429
 msgid "Reading file…"
 msgstr "Daûr a lei il file…"
 
 #: ../src/mail/e-mail-viewer.c:2431
-#, fuzzy
-#| msgid "Failed to read file content: "
 msgid "Failed to read file content"
-msgstr "Impussibil lei i contignûts dal file:"
+msgstr "Leture dai contignûts dal file falide"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../src/mail/em-composer-utils.c:423
@@ -21341,9 +21255,8 @@ msgstr "Daûr a tacâ dâts iCalendar"
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
 #, fuzzy
-#| msgid "Pasting iCalendar data"
 msgid "Do Not Contain iCalendar Data"
-msgstr "Daûr a tacâ dâts iCalendar"
+msgstr "Nol conten dâts iCalendar"
 
 #: ../src/mail/filtertypes.xml.in.h:54 ../src/mail/searchtypes.xml.in.h:56
 #: ../src/mail/vfoldertypes.xml.in.h:57
@@ -22156,10 +22069,8 @@ msgstr "Visâ cuant che si eliminin messaçs in cartelis di ricercje"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:166
-#, fuzzy
-#| msgid "Copy folder in folder tree."
 msgid "Copy _folder by Drag & Drop in folder tree"
-msgstr "Copiâ la cartele tal arbul des cartelis."
+msgstr "Copiâ la _cartele tal arbul des cartelis cul strissine e mole"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:168
@@ -23222,16 +23133,12 @@ msgid "Choose a different name, please."
 msgstr "Sielç un non diferent, par plasê."
 
 #: ../src/mail/mail.error.xml.h:224
-#, fuzzy
-#| msgid "Do you wish to save your changes?"
 msgid "Do you wish to import OpenPGP key?"
-msgstr "Salvâ lis modifichis fatis?"
+msgstr "Impuartâ la clâf OpenPGP?"
 
 #: ../src/mail/mail.error.xml.h:226
-#, fuzzy
-#| msgid "Failed to import certificate"
 msgid "Failed to import OpenPGP key"
-msgstr "No si è rivâts a impuartâ il certificât"
+msgstr "Importazion clâf OpenPGP falide"
 
 #: ../src/mail/mail.error.xml.h:227
 #, fuzzy
@@ -23501,10 +23408,8 @@ msgid "Recipients Mail"
 msgstr "Pueste dai destinataris"
 
 #: ../src/mail/message-list.etspec.h:27
-#, fuzzy
-#| msgid "Preview"
 msgid "Body Preview"
-msgstr "Anteprime"
+msgstr "Anteprime dal cuarp"
 
 #: ../src/mail/searchtypes.xml.in.h:23 ../src/mail/vfoldertypes.xml.in.h:23
 msgid "Any header"
@@ -23876,10 +23781,8 @@ msgstr "Ferme il cjariament"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1356
 #: ../src/modules/calendar/e-task-shell-view-actions.c:722
-#, fuzzy
-#| msgid "_Edit note…"
 msgid "_Bulk Edit…"
-msgstr "_Modifiche note…"
+msgstr "_Modifiche in tasse…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
 msgid "Edit selected contacts in a bulk"
@@ -25605,10 +25508,8 @@ msgstr "Al capite mancul di 5 voltis"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:793
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1045
-#, fuzzy
-#| msgid "Category"
 msgid "Without Category"
-msgstr "Categorie"
+msgstr "Cence categorie"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1875
 msgid "Show events with no category set"
@@ -28661,10 +28562,8 @@ msgid "Display the part as an addressbook contact"
 msgstr "Mostre la part come un contat de rubriche"
 
 #: ../src/modules/webkit-editor/e-webkit-editor.c:2244
-#, fuzzy
-#| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve message content"
-msgstr "No si è rivâts a recuperâ il messaç:"
+msgstr "Recupar falît dal contignût dal messaç"
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
 #: ../src/modules/webkit-editor/e-webkit-editor.c:5611
@@ -29966,11 +29865,8 @@ msgid "i_n"
 msgstr "i_n"
 
 #: ../src/shell/e-shell-utils.c:169
-#, fuzzy
-#| msgctxt "New"
-#| msgid "_Mail Message"
 msgid "Mail Message (eml)"
-msgstr "_Messaç di pueste"
+msgstr "Messaç di pueste (eml)"
 
 #: ../src/shell/e-shell-utils.c:172
 msgid "vCard (.vcf)"
