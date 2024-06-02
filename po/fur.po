@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2024-05-15 16:33+0000\n"
-"PO-Revision-Date: 2024-06-01 12:48+0200\n"
+"PO-Revision-Date: 2024-06-02 19:44+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -231,12 +231,16 @@ msgstr ""
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:45
 msgid "Whether to prefer local application over opening map in a browser"
 msgstr ""
+"Indiche se preferî la aplicazion locâl invezit che vierzi la mape tal "
+"navigadôr web"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
 msgid ""
 "Open a contact location in a local application handling 'map:' URI, if "
 "available, instead of using a web browser"
 msgstr ""
+"Vierç une posizion di contat intune aplicazion locâl che e gjestìs l'URI "
+"'map:', se disponibile, invezit di doprâ un navigadôr web"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:47
 msgid "Preview Personal before Work information"
@@ -1422,15 +1426,12 @@ msgid "Always request Delivery Status Notification"
 msgstr "Domande simpri la notifiche di stât de consegne"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:30
-#, fuzzy
-#| msgid ""
-#| "Whether a read receipt request gets added to every message by default."
 msgid ""
 "Whether a Delivery Status Notification request gets added to every message "
 "by default."
 msgstr ""
-"Indiche se une domande di ricezion e leture e à di vegni zontade a ogni "
-"messaç in mût predefinît."
+"Indiche se une richieste di notifiche dal stât di consegne e à di vignî "
+"zontade a ogni messaç in mût predefinît."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:31
 msgid "What mode open the composer with"
@@ -1877,17 +1878,14 @@ msgid "Convert time in reply credits to local time"
 msgstr "Fâs deventâ la ore tai credits de rispueste in ore locâl"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
-#, fuzzy
-#| msgid ""
-#| "Whether the time in reply credits should be converted to local time when "
-#| "it’s in UTC in the message."
 msgid ""
 "Whether the time in reply credits should be converted to local time. This "
 "converts any time, not only UTC times, for which “composer-reply-credits-utc-"
 "to-localtime” can be used."
 msgstr ""
 "Indiche se la ore tai credits de rispueste e à di jessi convertide in ore "
-"locâl cuant che tal messaç e sta in UTC."
+"locâl. Chest al convertìs dutis lis oris, no nome lis oris in UTC, là che al "
+"è pussibil doprâ “composer-reply-credits-utc-to-localtime”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Use user date format in reply credits"
@@ -3078,17 +3076,14 @@ msgid "Show Subject above Sender in Messages column"
 msgstr "Mostre l'ogjet parsore dal mitent inte colone Messaçs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
-#, fuzzy
-#| msgid ""
-#| "Whether to show Subject above Sender (From/To) in the Messages column, "
-#| "usually shown in the Vertical/Wide view of the message list"
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list. Change of this "
 "option requires restart of the Evolution."
 msgstr ""
 "Indiche se mostrâ l'ogjet parsore dal mitent (Di/A) inte colone dai messaçs, "
-"di solit mostrât inte viodude Verticâl/Largje de liste dai messaçs"
+"di solit mostrât inte viodude Verticâl/Largje de liste dai messaçs. La "
+"modifiche di cheste opzions e necessite un gnûf inviament di Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
 msgid "Visually wrap long lines in composer"
@@ -3319,6 +3314,10 @@ msgid ""
 "be shown after mail open. The default is to hide these possibly insecure "
 "parts."
 msgstr ""
+"Stabilìs se lis parts che no son stadis firmadis/cifradis dongje di chês "
+"firmadis/cifradis a àn di jessi mostradis dopo che la mail e ven vierte. La "
+"impostazion predefinide e je chê di platâ chestis parts che a puedin jessi "
+"no siguris."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:348
 msgid "How to convert links from HTML to plain text"
@@ -3332,12 +3331,20 @@ msgid ""
 "label href\"; 'reference-without-label' - show href as reference to the end "
 "of the text without label, like: \"label [1] ...... [1] href\""
 msgstr ""
+"Valôrs pussibii: 'none' - no sta archiviâ href intal test sempliç; 'inline' "
+"- mostre href dongje il colegament dal test, come: \"etichete &lt;href&gt;"
+"\"; 'reference' - mostre href come riferiment ae fin dal test, come: "
+"\"etichete [1] ...... [1] etichete href\"; 'reference-without-label' - "
+"mostre href come riferiment ae fin dal test cence etichete, come: \"etichete "
+"[1] ...... [1] href\""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:350
 msgid ""
 "Whether click on a header in the message list can change sort order by the "
 "clicked column."
 msgstr ""
+"Indiche se il clic su une intestazion te liste dai messaçs e pues cambiâ "
+"l'ordenament in base ae colone là che al è stât fat il clic."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
 msgid "Attach multiple messages as separate files"
@@ -3348,6 +3355,8 @@ msgid ""
 "When attaching multiple messages at once, attach them as separate files "
 "(when set to 'true'), instead of a single mbox file."
 msgstr ""
+"Cuant che tu zontis plui messaçs ae volte, zontiju come files separâts (se "
+"metût a 'true'), invezit di un singul file mbox."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
 msgid "(Deprecated) Default forward style"
@@ -3416,7 +3425,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:363
 msgid "Prompt before send when attachment changed on the disk"
-msgstr ""
+msgstr "Domande prime di inviâ se la zonte e je stade modificade sul disc"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:364
 msgid ""
@@ -3594,17 +3603,16 @@ msgstr ""
 "furnide dal mitent, se e je disponibile"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:7
-#, fuzzy
-#| msgid "Use an external editor to compose plain-text mail messages."
 msgid "Whether to attach components in mail messages"
-msgstr ""
-"Dopre un editôr esterni par scrivi un messaç di pueste in test sempliç."
+msgstr "Indiche se zontâ components tai messaçs di pueste"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:8
 msgid ""
 "Attach components in mail messages like meeting invitations or responses, "
 "instead of saving them as a body alternative"
 msgstr ""
+"Zonte i components tai messaçs di pueste come invîts a riunions o "
+"rispuestis, invezit che salvâju come un cuarp alternatîf"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -4032,16 +4040,16 @@ msgstr ""
 "aplicazion."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:48
-#, fuzzy
-#| msgid "Whether to show notes in the editor"
 msgid "Whether to use icon-only buttons in the header bar"
-msgstr "Indiche se mostrâ lis notis tal editôr"
+msgstr "Indiche se doprâ i botons dome-icone te sbare de intestazion"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:49
 msgid ""
 "When enabled, uses icon-only buttons in the header bar. Otherwise some "
 "buttons can show also text when there's enough space."
 msgstr ""
+"Se abilitât, al dopre i botons nome-icone te sbare de intestazion. In câs "
+"contrari, cualchi boton al pues mostra ancje test se al à vonde spazi."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:50
 msgid "Whether the markdown editor show have live preview"
@@ -4068,6 +4076,11 @@ msgid ""
 "the symbolic icons cannot be used when the icon theme does not provide them. "
 "Similarly the color icons cannot be used, when they are not available."
 msgstr ""
+"Al controle se la aplicazion e varès di preferî lis iconis simbolichis o "
+"mancul. Il valôr 'auto' al rileve se il teme des iconis al sta doprant "
+"iconis simbolichis. Viôt che nol è pussibil doprâ lis iconis simbolichis "
+"cuant che il teme des iconis no lis furnìs. In maniere similâr nol è "
+"pussibil doprâ lis iconis dai colôrs se no son disponibilis."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -4516,12 +4529,9 @@ msgid "Open the Evolution user guide"
 msgstr "Vierç la vuide pal utent di Evolution"
 
 #: ../data/ui/evolution-shortcuts.ui.h:11
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Clear search bar"
 msgctxt "shortcut window"
 msgid "Focus search bar"
-msgstr "Nete la sbare di ricercje"
+msgstr "Met a fûc la sbare di ricercje"
 
 #: ../data/ui/evolution-shortcuts.ui.h:12
 msgctxt "shortcut window"
@@ -4639,25 +4649,19 @@ msgid "Mark selected messages as unread"
 msgstr "Segne i messaçs selezionâts come no let"
 
 #: ../data/ui/evolution-shortcuts.ui.h:35
-#, fuzzy
-#| msgid "Mark the selected messages as junk"
 msgctxt "shortcut window"
 msgid "Mark selected messages as junk"
-msgstr "Segne i messaçs selezionâts come malvolûts"
+msgstr "Segne messaçs selezionâts come malvolûts"
 
 #: ../data/ui/evolution-shortcuts.ui.h:36
-#, fuzzy
-#| msgid "Mark the selected messages as junk"
 msgctxt "shortcut window"
 msgid "Mark selected messages as not junk"
-msgstr "Segne i messaçs selezionâts come malvolûts"
+msgstr "Segne messaçs selezionâts come malvolûts"
 
 #: ../data/ui/evolution-shortcuts.ui.h:37
-#, fuzzy
-#| msgid "Flag the selected messages for follow-up"
 msgctxt "shortcut window"
 msgid "Flag selected messages for follow-up"
-msgstr "Segne i messaçs selezionâts pal completament"
+msgstr "Segne messaçs selezionâts pal completament"
 
 #: ../data/ui/evolution-shortcuts.ui.h:38
 msgctxt "shortcut window"
@@ -6686,7 +6690,7 @@ msgstr "Vie de direzion di cjase"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:49
 msgid "Home Address Extended"
-msgstr ""
+msgstr "Direzion di cjase complete"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:50
 msgid "Home Address PO Box"
@@ -6714,7 +6718,7 @@ msgstr "Vie de direzion di lavôr"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:56
 msgid "Work Address Extended"
-msgstr ""
+msgstr "Direzion di lavôr complete"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:57
 msgid "Work Address PO Box"
@@ -6742,7 +6746,7 @@ msgstr "Vie de altre direzion"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:63
 msgid "Other Address Extended"
-msgstr ""
+msgstr "Altre direzion complete"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:64
 msgid "Other Address PO Box"
@@ -6750,7 +6754,7 @@ msgstr "Casele postâl de altre direzion"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:65
 msgid "Other Address City"
-msgstr ""
+msgstr "Citât de altre direzion"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:66
 msgid "Other Address Zip/Postal code"
@@ -7094,17 +7098,15 @@ msgstr ""
 "jessi recuperadis."
 
 #: ../src/calendar/calendar.error.xml.h:10
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the meeting is canceled."
 msgid ""
 "All information on this meeting will be deleted and can not be restored. If "
 "you do not send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
-"Se no tu inviis une notifiche di cancelazion, chei altris partecipants a "
-"podaressin no vignî a savê che la riunion e je stade cancelade."
+"Dutis lis informazions su cheste riunion a vignaran eliminadis e nol sarà "
+"pussibil recuperâlis. Se no tu mandis une notifiche di cancelazion, al è "
+"pussibil che chei altris partecipants no savedin che la riunion e je stade "
+"cancelade."
 
 #: ../src/calendar/calendar.error.xml.h:11
 msgid "_Delete and Sent Notice"
@@ -7115,17 +7117,14 @@ msgid "Delete _without Notice"
 msgstr "Elimine _cence visâ"
 
 #: ../src/calendar/calendar.error.xml.h:13
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the memo has been deleted."
 msgid ""
 "All information on this meeting will be deleted and can not be restored. If "
 "you do not send a deletion notice, the organizer may not know the meeting "
 "has been deleted."
 msgstr ""
-"Se no tu inviis une notifiche di cancelazion, chei altris partecipants a "
-"podaressin no vignî a savê che il pro memoria al è stât eliminât."
+"Dutis lis informazions su cheste riunion a vignarna eliminadis e nol sarà "
+"pussibil recuperâlis. Se no tu mandis une notifiche di cancelazion, al è "
+"pussibil che l'organizadôr nol savedi che e je stade cancelade."
 
 #: ../src/calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete the meeting titled “{0}”?"
@@ -8171,10 +8170,8 @@ msgstr "Ubicazion:"
 #: ../src/calendar/gui/comp-util.c:2780
 #: ../src/modules/itip-formatter/itip-view.c:2087
 #: ../src/modules/itip-formatter/itip-view.c:2293
-#, fuzzy
-#| msgid "Location:"
 msgid "GEO Location:"
-msgstr "Ubicazion:"
+msgstr "Ubicazion GEO:"
 
 #: ../src/calendar/gui/comp-util.c:2805
 #: ../src/modules/itip-formatter/itip-view.c:2095
@@ -12998,10 +12995,8 @@ msgid "Request _Delivery Status Notification"
 msgstr "Domande la notifiche di stât de _consegne"
 
 #: ../src/composer/e-composer-actions.c:476
-#, fuzzy
-#| msgid "Get delivery notification when your message is read"
 msgid "Get delivery status notification for the message"
-msgstr "Ricêf une notifiche di consegne cuant che il propri messaç al ven let"
+msgstr "Ricêf une notifiche sul stât di consegne pal messaç"
 
 #: ../src/composer/e-composer-actions.c:482
 msgid "S/MIME En_crypt"
@@ -13220,13 +13215,7 @@ msgstr[0] "Revisione la zonte prime di inviâ."
 msgstr[1] "Revisione lis zontis prime di inviâ."
 
 #: ../src/composer/e-msg-composer.c:5896
-#, fuzzy, c-format
-#| msgid ""
-#| "There had been added %d attachment. Make sure it does not contain any "
-#| "sensitive information before sending the message."
-#| msgid_plural ""
-#| "There had been added %d attachments. Make sure they do not contain any "
-#| "sensitive information before sending the message."
+#, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
 "contain any sensitive information before sending the message."
@@ -13234,11 +13223,11 @@ msgid_plural ""
 "%d attachments were added by an external application. Make sure they do not "
 "contain any sensitive information before sending the message."
 msgstr[0] ""
-"E je stade zontade %d zonte. Siguraitsi che nol contegni nissune informazion "
-"sensibile prime di inviâ il messaç."
+"E je stade zontade %d zonte di une aplicazion esterne. Controle che no "
+"contegni nissune informazion sensibile prime di inviâ il messaç."
 msgstr[1] ""
-"A son stadis zontadis %d zontis. Siguraitsi che no contignedin nissune "
-"informazion sensibile prime di inviâ il messaç."
+"A son stadis zontadis %d zontis di une aplicazion esterne. Controle che no "
+"contignedin nissune informazion sensibile prime di inviâ il messaç."
 
 #: ../src/composer/e-msg-composer.c:6022
 msgid "The composer contains a non-text message body, which cannot be edited."
@@ -13539,11 +13528,11 @@ msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:61
 msgid "Not adding OpenPGP public key into the mail."
-msgstr ""
+msgstr "No sarà zontade la clâf publiche OpenPGP te e-mail."
 
 #: ../src/composer/mail-composer.error.xml.h:62
 msgid "The OpenPGP public key for “{0}” is too large for the transfer."
-msgstr ""
+msgstr "La clâf OpenPGP publiche par “{0}” e je masse grande pal trasferiment."
 
 #: ../src/em-format/e-mail-formatter-attachment.c:317
 msgid "Toggle View Inline"
@@ -13905,7 +13894,7 @@ msgstr "cifrât S/MIME in maniere parziâl"
 
 #: ../src/em-format/e-mail-formatter-utils.c:729
 msgid "Show parts not being secured"
-msgstr ""
+msgstr "Mostre parts che no son protetis"
 
 #: ../src/em-format/e-mail-formatter-utils.c:730
 msgid "Hide parts not being secured"
@@ -16664,10 +16653,8 @@ msgid "Sc_ript:"
 msgstr "Sc_ript:"
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:489
-#, fuzzy
-#| msgid "A_uto-delete sent item"
 msgid "Auto-detect"
-msgstr "Elimine in a_utomatic i elements eliminâts"
+msgstr "Rilevament-automatic"
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:518
 msgid "Script file must be executable."
@@ -17303,7 +17290,7 @@ msgstr "Inzorne ogni"
 
 #: ../src/e-util/e-source-config.c:1387
 msgid "Refresh content on metered network"
-msgstr ""
+msgstr "Inzorne il contignût su rêts a consum"
 
 #: ../src/e-util/e-source-config.c:1414 ../src/e-util/e-source-config.c:1488
 msgid "Use a secure connection"
@@ -18913,13 +18900,13 @@ msgstr "Sielç une cartele pai messaçs malvolûts."
 
 #: ../src/mail/e-mail-config-defaults-page.c:872
 msgid "Restore _Not-Junk to Folder:"
-msgstr ""
+msgstr "Ripristine _No-malvolût te cartele:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:873
-#, fuzzy
-#| msgid "Choose a folder for junk messages."
 msgid "Choose a folder to restore not-junk messages from the Junk folder to."
-msgstr "Sielç une cartele pai messaçs malvolûts."
+msgstr ""
+"Sielç une cartele dulà lâ a ripristinâ i messaçs malvolûts de cartele dai "
+"malvolûts."
 
 #: ../src/mail/e-mail-config-defaults-page.c:1006
 msgid "Defaults"
@@ -19128,7 +19115,7 @@ msgstr "_Cîr clâfs pe cifradure in Web Key Directory (WKD)"
 
 #: ../src/mail/e-mail-config-security-page.c:665
 msgid "Send own _public key in outgoing mails"
-msgstr ""
+msgstr "Mande la proprie clâf _publiche tes e-mails in jessude"
 
 #: ../src/mail/e-mail-config-security-page.c:676
 msgid "Advertise encryption is pre_ferred"
@@ -20428,7 +20415,11 @@ msgid_plural ""
 "%d attachments changed after being added to the message. Do you want to send "
 "the message anyway?"
 msgstr[0] ""
+"Une zonte e je stade modificade dopo che e je stade zontade al messaç. "
+"Desideristu inviâ distès il messaç?"
 msgstr[1] ""
+"%d zontis a son stadis modificadis dopo che a son stadis zontadis al messaç. "
+"Desideristu inviâ distès il messaç?"
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
@@ -20991,12 +20982,9 @@ msgid "_Never trust"
 msgstr "_No sta fidâti mai"
 
 #: ../src/mail/em-utils.c:2157
-#, fuzzy
-#| msgctxt "CamelTrust"
-#| msgid "Marginally"
 msgctxt "trust"
 msgid "Trust _marginally"
-msgstr "Margjinâl"
+msgstr "Fiditi in mût _margjinâl"
 
 #: ../src/mail/em-utils.c:2158
 msgctxt "trust"
@@ -21004,12 +20992,9 @@ msgid "Trust _fully"
 msgstr "Fiditi dal _dut"
 
 #: ../src/mail/em-utils.c:2159
-#, fuzzy
-#| msgctxt "CamelTrust"
-#| msgid "Ultimately"
 msgctxt "trust"
 msgid "Trust _ultimately"
-msgstr "Complete"
+msgstr "Fiditi in ultime analisi"
 
 #: ../src/mail/em-utils.c:2198
 #, c-format
@@ -21240,23 +21225,18 @@ msgstr "nol è completât"
 
 #: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
 #: ../src/mail/vfoldertypes.xml.in.h:50
-#, fuzzy
-#| msgid "Follow Up"
 msgid "Follow Up Due By"
-msgstr "Di completâ"
+msgstr "Completament di fâ dentri di"
 
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
-#, fuzzy
-#| msgid "Pasting iCalendar data"
 msgid "Contain iCalendar Data"
-msgstr "Daûr a tacâ dâts iCalendar"
+msgstr "Contignî dâts iCalendar"
 
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
-#, fuzzy
 msgid "Do Not Contain iCalendar Data"
-msgstr "Nol conten dâts iCalendar"
+msgstr "No contignî dâts iCalendar"
 
 #: ../src/mail/filtertypes.xml.in.h:54 ../src/mail/searchtypes.xml.in.h:56
 #: ../src/mail/vfoldertypes.xml.in.h:57
@@ -22029,21 +22009,13 @@ msgid "Check cu_stom headers for junk"
 msgstr "Controlâ intestazions _personalizadis pai malvolûts"
 
 #: ../src/mail/mail-config.ui.h:154
-#, fuzzy
-#| msgid ""
-#| "To help avoid email accidents and embarrassments, ask for confirmation "
-#| "before taking the following checkmarked actions:"
 msgid "Ask for confirmation before taking the following checkmarked actions:"
-msgstr ""
-"Par evitâ di inviâ e-mail par erôr o e-mail intrigosis, domande prime di fâ "
-"lis azions chi daurman segnadis:"
+msgstr "Domande conferme prime di fâ lis azions chi sot segnadis:"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:156
-#, fuzzy
-#| msgid "Check whether Evolution is the default mailer"
 msgid "Check whether Evolution is the _default mailer"
-msgstr "Controle se Evolution al è il gjestôr di pueste predefinît"
+msgstr "Controle se Evolution al è il gjestôr di pueste _predefinît"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:158
@@ -22062,10 +22034,8 @@ msgstr "Daûr a segnâ _ducj i messaçs come lets"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:164
-#, fuzzy
-#| msgid "Prompt when deleting messages in search folder"
 msgid "Deleting messages in _search folder"
-msgstr "Visâ cuant che si eliminin messaçs in cartelis di ricercje"
+msgstr "Eliminazion messaçs te cartele di _ricercje"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:166
@@ -23141,10 +23111,8 @@ msgid "Failed to import OpenPGP key"
 msgstr "Importazion clâf OpenPGP falide"
 
 #: ../src/mail/mail.error.xml.h:227
-#, fuzzy
-#| msgid "Change sort order of the folders in the folder tree"
 msgid "Change sort order of the message list?"
-msgstr "Cambie ordenament des cartelis tal arbul des cartelis"
+msgstr "Cambiâ l'ordenament de liste dai messaçs?"
 
 #: ../src/mail/mail.error.xml.h:228
 msgid ""
@@ -23181,6 +23149,12 @@ msgid ""
 "This option is set for each mail account separately. You can find it in the "
 "Security tab of the mail account Properties."
 msgstr ""
+"Il messaç al conten la tô clâf publiche PGP, che i destinataris a puedin "
+"doprâ par cifrâ i messaçs inviâts a te o par verificâ lis firmis fatis cun "
+"cheste clâf PGP.\n"
+"\n"
+"Cheste opzion e je stabilide in mût separât par ogni account di pueste. Tu "
+"puedis cjatâle te schede Sigurece des Proprietâts dal account di pueste."
 
 # m o f?
 #: ../src/mail/mail.error.xml.h:237
@@ -23624,7 +23598,7 @@ msgstr "Google"
 
 #: ../src/modules/addressbook/autocompletion-config.c:180
 msgid "Use system map _application, if available"
-msgstr ""
+msgstr "Dopre _aplicazion di sisteme pes mapis, se disponibile"
 
 #: ../src/modules/addressbook/autocompletion-config.c:190
 msgid "Autocompletion"
@@ -23922,10 +23896,8 @@ msgid "Advanced Search"
 msgstr "Ricercje avanzade"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1611
-#, fuzzy
-#| msgid "_File under:"
 msgid "_File Under"
-msgstr "_Memorize come:"
+msgstr "_Memorize come"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1618
 msgid "_Given Name"
@@ -24009,11 +23981,11 @@ msgstr "_Ripristinâ di un file di backup:"
 msgid "Choose a backup file to restore"
 msgstr "Sielç un file di backup di ripristinâ"
 
+# Backup isan un verp?:
+# "Files di backup" o "Fâs il backup dai files?"
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:206
-#, fuzzy
-#| msgid "Backup _All"
 msgid "Backup Files"
-msgstr "Backup di _dut"
+msgstr "Files di backup"
 
 #. Keep the title identical to EMailConfigRestorePage
 #. * so it's only shown once in the assistant sidebar.
@@ -25063,10 +25035,8 @@ msgstr "Mostre un p_ro memoria"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:101
-#, fuzzy
-#| msgid "Moving an event into the calendar “%s”"
 msgid "before every event in chosen calendars"
-msgstr "Daûr a spostâ un event intal calendari “%s”"
+msgstr "prime di ducj i events tai calendaris sielts"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:102
 msgid "Select the sources for reminder notification:"
@@ -25513,7 +25483,7 @@ msgstr "Cence categorie"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1875
 msgid "Show events with no category set"
-msgstr ""
+msgstr "Mostre i events cence une categorie stabilide"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1897
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:817
@@ -25782,7 +25752,7 @@ msgstr "Mostre la anteprime dai pro memoria in bande ae liste dai pro memoria"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:795
 msgid "Show memos with no category set"
-msgstr ""
+msgstr "Mostre i pro memoria cence une categorie stabilide"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:836
 msgid "Print the list of memos"
@@ -29788,6 +29758,8 @@ msgstr "Ignore disponibilitât rêt"
 msgid ""
 "Forcibly shut down Evolution and background Evolution-Data-Server processes"
 msgstr ""
+"Sfuarce il distudament dai procès Evolution e Evolution-Data-Server in "
+"sotfont"
 
 #: ../src/shell/e-shell.c:2041
 msgid "Disable loading of any plugins."
@@ -29802,10 +29774,8 @@ msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Impuarte URI o nons di file indicâts tal rest dai argoments."
 
 #: ../src/shell/e-shell.c:2049
-#, fuzzy
-#| msgid "Import URIs or filenames given as rest of arguments."
 msgid "View URIs or filenames given as rest of arguments."
-msgstr "Impuarte URI o nons di file indicâts tal rest dai argoments."
+msgstr "Viôt i URIs o nons di file indicâts come rest dai argoments."
 
 #: ../src/shell/e-shell.c:2051
 msgid "Request a running Evolution process to quit"
