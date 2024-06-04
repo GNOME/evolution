@@ -2350,6 +2350,25 @@ mail_viewer_read_file_data_thread (EAlertSinkThreadJobData *job_data,
 	}
 }
 
+static gboolean
+mail_viewer_file_is_mbox (EMailViewer *self)
+{
+	GFileInfo *info;
+	const gchar *content_type;
+	gboolean is_mbox;
+
+	info = 	g_file_query_info (self->priv->file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+	if (!info)
+		return TRUE;
+
+	content_type = g_file_info_get_content_type (info);
+	is_mbox = content_type && g_content_type_is_mime_type (content_type, "application/mbox");
+
+	g_clear_object (&info);
+
+	return is_mbox;
+}
+
 gboolean
 e_mail_viewer_assign_file (EMailViewer *self,
 			   GFile *file)
@@ -2378,7 +2397,7 @@ e_mail_viewer_assign_file (EMailViewer *self,
 	gtk_tree_view_set_model (tree_view, NULL);
 	e_web_view_clear (E_WEB_VIEW (self->priv->mail_display));
 
-	self->priv->scan_from = TRUE;
+	self->priv->scan_from = mail_viewer_file_is_mbox (self);
 	mime_parser = mail_viewer_create_mime_parser (self->priv->file, 0, self->priv->scan_from, &local_error);
 	if (!mime_parser) {
 		mail_viewer_report_error (self, local_error ? local_error->message : _("Unknown error"));
@@ -2387,7 +2406,7 @@ e_mail_viewer_assign_file (EMailViewer *self,
 	}
 
 	state = camel_mime_parser_step (mime_parser, NULL, NULL);
-	if (state != CAMEL_MIME_PARSER_STATE_FROM) {
+	if (state != CAMEL_MIME_PARSER_STATE_FROM && self->priv->scan_from) {
 		/* re-try without reading the "From " lines */
 		g_clear_object (&mime_parser);
 

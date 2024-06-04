@@ -420,7 +420,6 @@ mbox_get_preview (EImport *ei,
 	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
 	gint fd;
-	CamelMimeParser *mp;
 	GtkListStore *store = NULL;
 	GtkTreeIter iter;
 	GtkWidget *preview_widget = NULL;
@@ -445,35 +444,44 @@ mbox_get_preview (EImport *ei,
 		return NULL;
 	}
 
-	mp = camel_mime_parser_new ();
-	camel_mime_parser_scan_from (mp, TRUE);
-	if (camel_mime_parser_init_with_fd (mp, fd) == -1) {
-		goto cleanup;
-	}
+	if (mail_importer_file_is_mbox (filename)) {
+		CamelMimeParser *mp;
 
-	while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
-		CamelMimeMessage *msg;
-
-		n_read++;
-
-		/* Read only first few messages, not the whole mbox */
-		if (n_read > 10) {
-			shortened_list = TRUE;
-			break;
+		mp = camel_mime_parser_new ();
+		camel_mime_parser_scan_from (mp, TRUE);
+		if (camel_mime_parser_init_with_fd (mp, fd) == -1) {
+			g_clear_object (&mp);
+			goto cleanup;
 		}
 
-		msg = camel_mime_message_new ();
-		if (!camel_mime_part_construct_from_parser_sync (
-			(CamelMimePart *) msg, mp, NULL, NULL)) {
+		while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
+			CamelMimeMessage *msg;
+
+			n_read++;
+
+			/* Read only first few messages, not the whole mbox */
+			if (n_read > 10) {
+				shortened_list = TRUE;
+				break;
+			}
+
+			msg = camel_mime_message_new ();
+			if (!camel_mime_part_construct_from_parser_sync (
+				(CamelMimePart *) msg, mp, NULL, NULL)) {
+				g_object_unref (msg);
+				break;
+			}
+
+			mbox_preview_add_message (msg, &store);
+
 			g_object_unref (msg);
-			break;
+
+			camel_mime_parser_step (mp, NULL, NULL);
 		}
 
-		mbox_preview_add_message (msg, &store);
-
-		g_object_unref (msg);
-
-		camel_mime_parser_step (mp, NULL, NULL);
+		g_clear_object (&mp);
+	} else {
+		close (fd);
 	}
 
 	if (!n_read) {
@@ -563,7 +571,6 @@ mbox_get_preview (EImport *ei,
 	}
 
  cleanup:
-	g_object_unref (mp);
 	g_free (filename);
 
 	/* 'fd' is freed together with 'mp' */

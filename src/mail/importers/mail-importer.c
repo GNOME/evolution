@@ -143,7 +143,6 @@ import_mbox_exec (struct _import_mbox_msg *m,
                   GError **error)
 {
 	CamelFolder *folder;
-	CamelMimeParser *mp = NULL;
 	struct stat st;
 	gint fd;
 
@@ -169,6 +168,7 @@ import_mbox_exec (struct _import_mbox_msg *m,
 		return;
 
 	if (S_ISREG (st.st_mode)) {
+		CamelMimeParser *mp = NULL;
 		gboolean any_read = FALSE;
 
 		fd = g_open (m->path, O_RDONLY | O_BINARY, 0);
@@ -179,47 +179,54 @@ import_mbox_exec (struct _import_mbox_msg *m,
 			goto fail1;
 		}
 
-		mp = camel_mime_parser_new ();
-		camel_mime_parser_scan_from (mp, TRUE);
-		if (camel_mime_parser_init_with_fd (mp, fd) == -1) {
-			/* will never happen - 0 is unconditionally returned */
-			goto fail2;
-		}
-
 		camel_operation_push_message (
 			cancellable, _("Importing “%s”"),
 			camel_folder_get_display_name (folder));
+
 		camel_folder_freeze (folder);
-		while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM &&
-		       !g_cancellable_is_cancelled (cancellable)) {
 
-			CamelMimeMessage *msg;
-			gint pc = 0;
-
-			any_read = TRUE;
-
-			if (st.st_size > 0)
-				pc = (gint) (100.0 * ((gdouble)
-					camel_mime_parser_tell (mp) /
-					(gdouble) st.st_size));
-			camel_operation_progress (cancellable, pc);
-
-			msg = camel_mime_message_new ();
-			if (!camel_mime_part_construct_from_parser_sync (
-				(CamelMimePart *) msg, mp, NULL, NULL)) {
-				/* set exception? */
-				g_object_unref (msg);
-				break;
+		if (mail_importer_file_is_mbox (m->path)) {
+			mp = camel_mime_parser_new ();
+			camel_mime_parser_scan_from (mp, TRUE);
+			if (camel_mime_parser_init_with_fd (mp, fd) == -1) {
+				camel_folder_thaw (folder);
+				/* will never happen - 0 is unconditionally returned */
+				goto fail2;
 			}
 
-			import_mbox_add_message (folder, msg, cancellable, error);
+			while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM &&
+			       !g_cancellable_is_cancelled (cancellable)) {
 
-			g_object_unref (msg);
+				CamelMimeMessage *msg;
+				gint pc = 0;
 
-			if (error && *error != NULL)
-				break;
+				any_read = TRUE;
 
-			camel_mime_parser_step (mp, NULL, NULL);
+				if (st.st_size > 0)
+					pc = (gint) (100.0 * ((gdouble)
+						camel_mime_parser_tell (mp) /
+						(gdouble) st.st_size));
+				camel_operation_progress (cancellable, pc);
+
+				msg = camel_mime_message_new ();
+				if (!camel_mime_part_construct_from_parser_sync (
+					(CamelMimePart *) msg, mp, NULL, NULL)) {
+					/* set exception? */
+					g_object_unref (msg);
+					break;
+				}
+
+				import_mbox_add_message (folder, msg, cancellable, error);
+
+				g_object_unref (msg);
+
+				if (error && *error != NULL)
+					break;
+
+				camel_mime_parser_step (mp, NULL, NULL);
+			}
+		} else {
+			close (fd);
 		}
 
 		if (!any_read && !g_cancellable_is_cancelled (cancellable)) {
@@ -243,7 +250,7 @@ import_mbox_exec (struct _import_mbox_msg *m,
 		camel_folder_thaw (folder);
 		camel_operation_pop_message (cancellable);
 	fail2:
-		g_object_unref (mp);
+		g_clear_object (&mp);
 	}
 fail1:
 	/* Not passing a GCancellable or GError here. */
@@ -440,6 +447,33 @@ static MailMsgInfo import_kmail_info = {
 	(MailMsgDoneFunc) import_kmail_done,
 	(MailMsgFreeFunc) import_kmail_free
 };
+
+gboolean
+mail_importer_file_is_mbox (const gchar *path)
+{
+	GFile *file;
+	GFileInfo *info;
+	const gchar *content_type;
+	gboolean is_mbox;
+
+	if (!path)
+		return FALSE;
+
+	file = g_file_new_for_path (path);
+	info = 	g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+	if (!info) {
+		g_clear_object (&file);
+		return TRUE;
+	}
+
+	content_type = g_file_info_get_content_type (info);
+	is_mbox = content_type && g_content_type_is_mime_type (content_type, "application/mbox");
+
+	g_clear_object (&info);
+	g_clear_object (&file);
+
+	return is_mbox;
+}
 
 gint
 mail_importer_import_mbox (EMailSession *session,

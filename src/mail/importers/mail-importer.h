@@ -47,6 +47,7 @@ EImportImporter *kmail_importer_peek (void);
 #define MSG_FLAG_MARKED 0x0004
 #define MSG_FLAG_EXPUNGED 0x0008
 
+gboolean	mail_importer_file_is_mbox	(const gchar *path);
 gint		mail_importer_import_mbox	(EMailSession *session,
 						 const gchar *path,
 						 const gchar *folderuri,
