@@ -68,7 +68,7 @@ em_migrate_set_progress (double percent)
 	gtk_progress_bar_set_text (progress, text);
 
 	while (gtk_events_pending ())
-		gtk_main_iteration ();
+		g_main_context_iteration (NULL, TRUE);
 }
 
 enum {
