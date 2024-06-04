@@ -1612,9 +1612,17 @@ ece_sentby_is_user (ECompEditor *comp_editor,
 }
 
 static void
-ece_emit_times_changed_cb (ECompEditor *comp_editor)
+ece_emit_times_changed_cb (ECompEditor *comp_editor,
+			   ECompEditorPropertyPart *part)
 {
+	GtkWidget *edit_widget;
+
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
+
+	/* ignore the notification when the user is changing the date/time */
+	edit_widget = e_comp_editor_property_part_get_edit_widget (part);
+	if (E_IS_DATE_EDIT (edit_widget) && e_date_edit_has_focus (E_DATE_EDIT (edit_widget)))
+		return;
 
 	g_signal_emit (comp_editor, signals[TIMES_CHANGED], 0, NULL);
 

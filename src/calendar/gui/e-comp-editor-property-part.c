@@ -754,7 +754,7 @@ ecepp_datetime_changed_cb (ECompEditorPropertyPart *property_part)
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 
-	if (!edit_widget || e_date_edit_has_focus (E_DATE_EDIT (edit_widget)) ||
+	if (!edit_widget ||
 	    !e_date_edit_date_is_valid (E_DATE_EDIT (edit_widget)) ||
 	    !e_date_edit_time_is_valid (E_DATE_EDIT (edit_widget)))
 		return;
