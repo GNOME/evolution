@@ -1978,8 +1978,7 @@ e_attachment_view_drag_data_get (EAttachmentView *view,
 	/* We can't return until we have results, so crank
 	 * the main loop until the callback gets triggered. */
 	while (!status.done)
-		if (gtk_main_iteration ())
-			break;
+		g_main_context_iteration (NULL, TRUE);
 
 	if (status.uris) {
 		gtk_selection_data_set_uris (selection, status.uris);

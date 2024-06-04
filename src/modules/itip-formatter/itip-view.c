@@ -5144,7 +5144,7 @@ get_uri_for_part (CamelMimePart *mime_part)
 	 * loop until the callback gets triggered. */
 	/* coverity[loop_condition] */
 	while (!status.done)
-		gtk_main_iteration ();
+		g_main_context_iteration (NULL, TRUE);
 
 	status.file = NULL;
 	status.done = FALSE;
@@ -5157,7 +5157,7 @@ get_uri_for_part (CamelMimePart *mime_part)
 	 * the main loop until the callback gets triggered. */
 	/* coverity[loop_condition] */
 	while (!status.done)
-		gtk_main_iteration ();
+		g_main_context_iteration (NULL, TRUE);
 
 	if (status.file != NULL) {
 		path = g_file_get_path (status.file);
