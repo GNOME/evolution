@@ -1565,3 +1565,44 @@ e_source_config_add_user_entry (ESourceConfig *config,
 	return widget;
 }
 
+void
+e_source_config_add_timeout_interval_for_webdav (ESourceConfig *config,
+						 ESource *scratch_source)
+{
+	GtkWidget *widget;
+	GtkWidget *container;
+	ESourceExtension *extension;
+
+	g_return_if_fail (E_IS_SOURCE_CONFIG (config));
+	g_return_if_fail (E_IS_SOURCE (scratch_source));
+
+	extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
+
+	widget = gtk_alignment_new (0.0, 0.5, 0.0, 0.0);
+	e_source_config_insert_widget (config, scratch_source, NULL, widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_label_new (_("Connection timeout (in seconds)"));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = gtk_spin_button_new_with_range (0, G_MAXUINT, 1);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (widget), TRUE);
+	gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (widget), GTK_UPDATE_IF_VALID);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property (
+		extension, "timeout",
+		widget, "value",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+}

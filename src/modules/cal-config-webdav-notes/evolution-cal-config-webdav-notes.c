@@ -285,6 +285,7 @@ cal_config_webdav_notes_insert_widgets (ESourceConfigBackend *backend,
 
 	e_source_config_add_refresh_interval (config, scratch_source);
 	e_source_config_add_refresh_on_metered_network (config, scratch_source);
+	e_source_config_add_timeout_interval_for_webdav (config, scratch_source);
 
 	notes_extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_WEBDAV_NOTES);
 
