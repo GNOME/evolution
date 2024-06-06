@@ -235,6 +235,7 @@ src/e-util/e-mail-signature-manager.c
 src/e-util/e-mail-signature-script-dialog.c
 src/e-util/e-map.c
 src/e-util/e-markdown-editor.c
+src/e-util/e-markdown-utils.c
 src/e-util/e-misc-utils.c
 src/e-util/e-name-selector-dialog.c
 src/e-util/e-name-selector-entry.c

@@ -177,6 +177,16 @@
       <_summary>Whether to prefer symbolic icons</_summary>
       <_description>Controls whether the application should prefer symbolic icons or not. The 'auto' value detects whether the icon theme is using symbolic icons. Note the symbolic icons cannot be used when the icon theme does not provide them. Similarly the color icons cannot be used, when they are not available.</_description>
     </key>
+    <key name="markdown-to-html-command" type="s">
+      <default>''</default>
+      <_summary>Custom command to convert markdown into HTML</_summary>
+      <_description>When not empty, can contain a command, which will be used to convert markdown into HTML. It can contain also additional arguments, but not shell variables and the like. It's expected that the command reads the markdown from stdin and writes the HTML data into stdout. The command can be called very often, even as the user types, thus make sure it'll not be slow, because it can block the application.</_description>
+    </key>
+    <key name="markdown-to-html-command-sourcepos-arg" type="s">
+      <default>''</default>
+      <_summary>Additional argument to use with markdown-to-html-command when want to get source position in the output HTML</_summary>
+      <_description>The markdown editor can ask to get also source position as additional `data-sourcepos` attributes, then this argument is added to the markdown-to-html-command command line to include them. It can be empty when not supported by that command.</_description>
+    </key>
     <child name="window" schema="org.gnome.evolution.window"/>
   </schema>
 </schemalist>

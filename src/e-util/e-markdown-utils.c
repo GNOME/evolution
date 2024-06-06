@@ -12,6 +12,7 @@
 
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
+#include <glib/gi18n-lib.h>
 
 #include "e-misc-utils.h"
 
@@ -42,6 +43,44 @@ e_markdown_utils_text_to_html (const gchar *plain_text,
 	return e_markdown_utils_text_to_html_full (plain_text, length, E_MARKDOWN_TEXT_TO_HTML_FLAG_NONE);
 }
 
+G_LOCK_DEFINE_STATIC (custom_command_lock);
+
+static void
+markdown_utils_update_value_cb (GSettings *settings,
+				const gchar *key,
+				gpointer user_data)
+{
+	gchar **pstr = user_data;
+	gchar *value;
+
+	value = g_settings_get_string (settings, key);
+
+	G_LOCK (custom_command_lock);
+
+	if (g_strcmp0 (*pstr, value) != 0) {
+		g_free (*pstr);
+		*pstr = g_steal_pointer (&value);
+	}
+
+	G_UNLOCK (custom_command_lock);
+
+	g_free (value);
+}
+
+static void
+markdown_utils_handler_destroyed_cb (gpointer data,
+				     GClosure *closure)
+{
+	gchar **pstr = data;
+
+	G_LOCK (custom_command_lock);
+
+	g_free (*pstr);
+	*pstr = NULL;
+
+	G_UNLOCK (custom_command_lock);
+}
+
 /**
  * e_markdown_utils_text_to_html_full:
  * @plain_text: plain text with markdown to convert to HTML
@@ -65,28 +104,140 @@ e_markdown_utils_text_to_html_full (const gchar *plain_text,
 				    gssize length,
 				    EMarkdownTextToHTMLFlags flags)
 {
-	#ifdef HAVE_MARKDOWN
-	GString *html;
-	gchar *converted;
+	static gchar *command = NULL;
+	static gchar *command_sourcepos_arg = NULL;
+	GString *html = NULL;
+	gchar *converted = NULL;
+	gboolean has_sourcepos = FALSE;
 
 	if (length == -1)
 		length = plain_text ? strlen (plain_text) : 0;
 
-	converted = cmark_markdown_to_html (plain_text ? plain_text : "", length,
-		CMARK_OPT_VALIDATE_UTF8 | CMARK_OPT_UNSAFE |
-		((flags & E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS) != 0 ? CMARK_OPT_SOURCEPOS : 0));
+	if (!length)
+		return NULL;
 
-	if ((flags & E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS) != 0)
-		html = e_str_replace_string (converted, "<blockquote data-sourcepos=", "<blockquote type=\"cite\" data-sourcepos=");
-	else
-		html = e_str_replace_string (converted, "<blockquote>", "<blockquote type=\"cite\">");
+	G_LOCK (custom_command_lock);
 
-	g_free (converted);
+	if (!command) {
+		GSettings *settings;
 
-	return g_string_free (html, FALSE);
-	#else
-	return NULL;
+		settings = e_util_ref_settings ("org.gnome.evolution.shell");
+
+		g_signal_connect_data (settings, "changed::markdown-to-html-command",
+			G_CALLBACK (markdown_utils_update_value_cb), &command,
+			markdown_utils_handler_destroyed_cb, 0);
+		g_signal_connect_data (settings, "changed::markdown-to-html-command-sourcepos-arg",
+			G_CALLBACK (markdown_utils_update_value_cb), &command_sourcepos_arg,
+			markdown_utils_handler_destroyed_cb, 0);
+
+		command = g_settings_get_string (settings, "markdown-to-html-command");
+		command_sourcepos_arg = g_settings_get_string (settings, "markdown-to-html-command-sourcepos-arg");
+
+		g_clear_object (&settings);
+	}
+
+	if (command && *command) {
+		gchar **argv = NULL;
+		gint argc = 0;
+		GError *local_error = NULL;
+
+		if (g_shell_parse_argv (command, &argc, &argv, &local_error)) {
+			GSubprocess *subprocess;
+
+			if ((flags & E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS) != 0) {
+				if (command_sourcepos_arg && *command_sourcepos_arg) {
+					gchar **new_argv;
+					guint ii;
+
+					new_argv = g_new0 (gchar *, g_strv_length (argv) + 2);
+					for (ii = 0; argv[ii]; ii++) {
+						new_argv[ii] = argv[ii];
+						argv[ii] = NULL;
+					}
+					new_argv[ii] = g_strdup (command_sourcepos_arg);
+
+					g_free (argv);
+					argv = new_argv;
+					has_sourcepos = TRUE;
+				}
+			}
+
+			subprocess = g_subprocess_newv ((const gchar * const *) argv,
+				G_SUBPROCESS_FLAGS_STDIN_PIPE |
+				G_SUBPROCESS_FLAGS_STDOUT_PIPE |
+				G_SUBPROCESS_FLAGS_STDERR_PIPE,
+				&local_error);
+			if (subprocess) {
+				gchar *str_stdout = NULL, *str_stderr = NULL;
+				if (g_subprocess_communicate_utf8 (subprocess, plain_text, NULL, &str_stdout, &str_stderr, &local_error)) {
+					if (str_stdout && *str_stdout) {
+						converted = g_steal_pointer (&str_stdout);
+					} else if (str_stderr && *str_stderr) {
+						gchar *tmp;
+
+						tmp = g_strdup_printf (_("Command “%s” returned error: %s"), command, str_stderr);
+						html = g_string_sized_new (strlen (tmp) + 15);
+						e_util_markup_append_escaped (html, "<div>%s</div>", tmp);
+						g_free (tmp);
+					}
+
+					g_free (str_stdout);
+					g_free (str_stderr);
+				} else {
+					gchar *tmp;
+
+					tmp = g_strdup_printf (_("Failed to read data from command “%s”: %s"), command, local_error ? local_error->message : _("Unknown error"));
+					html = g_string_sized_new (strlen (tmp) + 15);
+					e_util_markup_append_escaped (html, "<div>%s</div>", tmp);
+					g_free (tmp);
+				}
+
+				g_clear_object (&subprocess);
+			} else {
+				gchar *tmp;
+
+				tmp = g_strdup_printf (_("Failed to run process from command line “%s”: %s"), command, local_error ? local_error->message : _("Unknown error"));
+				html = g_string_sized_new (strlen (tmp) + 15);
+				e_util_markup_append_escaped (html, "<div>%s</div>", tmp);
+				g_free (tmp);
+			}
+
+			g_strfreev (argv);
+		} else {
+			gchar *tmp;
+
+			tmp = g_strdup_printf (_("Failed to parse command line “%s”: %s"), command, local_error ? local_error->message : _("Unknown error"));
+			html = g_string_sized_new (strlen (tmp) + 15);
+			e_util_markup_append_escaped (html, "<div>%s</div>", tmp);
+			g_free (tmp);
+		}
+
+		g_clear_error (&local_error);
+	}
+
+	G_UNLOCK (custom_command_lock);
+
+	#ifdef HAVE_MARKDOWN
+	if (!converted && !html) {
+		has_sourcepos = TRUE;
+		converted = cmark_markdown_to_html (plain_text ? plain_text : "", length,
+			CMARK_OPT_VALIDATE_UTF8 | CMARK_OPT_UNSAFE |
+			((flags & E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS) != 0 ? CMARK_OPT_SOURCEPOS : 0));
+	}
 	#endif
+
+	if (converted) {
+		g_warn_if_fail (html == NULL);
+
+		if (has_sourcepos && (flags & E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS) != 0)
+			html = e_str_replace_string (converted, "<blockquote data-sourcepos=", "<blockquote type=\"cite\" data-sourcepos=");
+		else
+			html = e_str_replace_string (converted, "<blockquote>", "<blockquote type=\"cite\">");
+
+		g_free (converted);
+	}
+
+	return html ? g_string_free (html, FALSE) : NULL;
 }
 
 static const gchar *

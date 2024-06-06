@@ -1603,13 +1603,10 @@ static gchar *
 e_markdown_editor_dup_html_internal (EMarkdownEditor *self,
 				     gboolean mark_cursor)
 {
-	#ifdef HAVE_MARKDOWN
 	gchar *text, *html;
-	#endif
 
 	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
 
-	#ifdef HAVE_MARKDOWN
 	text = e_markdown_editor_dup_text_internal (self, TRUE);
 	html = e_markdown_utils_text_to_html_full (text, -1, mark_cursor ?
 		E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS :
@@ -1618,9 +1615,6 @@ e_markdown_editor_dup_html_internal (EMarkdownEditor *self,
 	g_free (text);
 
 	return html;
-	#else
-	return NULL;
-	#endif
 }
 
 #ifdef HAVE_MARKDOWN
