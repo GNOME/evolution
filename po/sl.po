@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-06-05 15:37+0000\n"
-"PO-Revision-Date: 2024-06-05 22:12+0200\n"
+"POT-Creation-Date: 2024-06-06 09:21+0000\n"
+"PO-Revision-Date: 2024-06-06 22:59+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -3637,6 +3637,41 @@ msgstr ""
 "Nadzira, ali naj program daje prednost simboličnim ikonam ali ne. Vrednost »samodejno« zazna, "
 "ali tema ikon uporablja simbolične ikone. Opomba: simboličnih ikon ni mogoče uporabiti, če jih "
 "tema ikon ne ponuja. Podobno barvnih ikon ni mogoče uporabiti, če niso na voljo."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:54
+msgid "Custom command to convert markdown into HTML"
+msgstr "Ukaz po meri za pretvorbo oznak v HTML"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:55
+msgid ""
+"When not empty, can contain a command, which will be used to convert markdown into HTML. It "
+"can contain also additional arguments, but not shell variables and the like. It's expected "
+"that the command reads the markdown from stdin and writes the HTML data into stdout. The "
+"command can be called very often, even as the user types, thus make sure it'll not be slow, "
+"because it can block the application."
+msgstr ""
+"Ko ni prazen, lahko vsebuje ukaz, ki bo uporabljen za pretvorbo oznake v HTML. Vsebuje lahko "
+"tudi dodatne argumente, ne pa tudi spremenljivk lupine in podobno. Pričakuje se, da ukaz "
+"prebere oznako stdin in zapiše podatke HTML v stdout. Ukaz lahko pokličete zelo pogosto, tudi "
+"ko uporabnik tipka, zato se prepričajte, da ne bo počasen, ker lahko blokira program."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:56
+msgid ""
+"Additional argument to use with markdown-to-html-command when want to get source position in "
+"the output HTML"
+msgstr ""
+"Dodatni argument za uporabo z ukazom markdown-to-html, ko želite pridobiti izvorni položaj v "
+"izhodnem HTML-ju"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:57
+msgid ""
+"The markdown editor can ask to get also source position as additional `data-sourcepos` "
+"attributes, then this argument is added to the markdown-to-html-command command line to "
+"include them. It can be empty when not supported by that command."
+msgstr ""
+"Urejevalnik markdown lahko zahteva, da dobi tudi izvorni položaj kot dodatne atribute `data-"
+"sourcepos`, nato pa se ta argument doda ukazni vrstici markdown-to-html-command, da jih "
+"vključi. Lahko je prazen, če ga ta ukaz ne podpira."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -8404,16 +8439,18 @@ msgstr "Čas začetka ni veljaven čas"
 #: ../src/calendar/gui/e-comp-editor-event.c:564 ../src/calendar/gui/e-comp-editor-event.c:580
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:239
 #: ../src/calendar/gui/e-comp-editor.c:347 ../src/composer/e-composer-actions.c:180
-#: ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-misc-utils.c:4095
-#: ../src/e-util/e-misc-utils.c:4103 ../src/e-util/e-misc-utils.c:4111
-#: ../src/e-util/e-misc-utils.c:4146 ../src/e-util/e-misc-utils.c:4159
-#: ../src/e-util/e-misc-utils.c:4173 ../src/mail/e-mail-autoconfig.c:1130
-#: ../src/mail/e-mail-display.c:2914 ../src/mail/e-mail-notes.c:931
-#: ../src/mail/e-mail-reader.c:3699 ../src/mail/e-mail-reader-utils.c:817
-#: ../src/mail/e-mail-viewer.c:568 ../src/mail/e-mail-viewer.c:1741
-#: ../src/mail/e-mail-viewer.c:2403 ../src/mail/e-mail-viewer.c:2416
-#: ../src/mail/em-composer-utils.c:4225 ../src/mail/em-composer-utils.c:4248
-#: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
+#: ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-markdown-utils.c:189
+#: ../src/e-util/e-markdown-utils.c:199 ../src/e-util/e-markdown-utils.c:209
+#: ../src/e-util/e-misc-utils.c:4095 ../src/e-util/e-misc-utils.c:4103
+#: ../src/e-util/e-misc-utils.c:4111 ../src/e-util/e-misc-utils.c:4146
+#: ../src/e-util/e-misc-utils.c:4159 ../src/e-util/e-misc-utils.c:4173
+#: ../src/mail/e-mail-autoconfig.c:1130 ../src/mail/e-mail-display.c:2914
+#: ../src/mail/e-mail-notes.c:931 ../src/mail/e-mail-reader.c:3699
+#: ../src/mail/e-mail-reader-utils.c:817 ../src/mail/e-mail-viewer.c:568
+#: ../src/mail/e-mail-viewer.c:1741 ../src/mail/e-mail-viewer.c:2403
+#: ../src/mail/e-mail-viewer.c:2416 ../src/mail/em-composer-utils.c:4225
+#: ../src/mail/em-composer-utils.c:4248 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:432 ../src/plugins/face/face.c:175
 #: ../src/plugins/mail-to-task/mail-to-task.c:996 ../src/shell/e-shell.c:1264
@@ -14599,7 +14636,7 @@ msgid "E_moji"
 msgstr "_Izrazne ikone"
 
 #: ../src/e-util/e-html-editor-actions.c:1256 ../src/e-util/e-html-editor-actions.c:1263
-#: ../src/e-util/e-markdown-editor.c:1965
+#: ../src/e-util/e-markdown-editor.c:1959
 msgid "Insert Emoji"
 msgstr "Vstavi izrazno ikono"
 
@@ -15754,12 +15791,12 @@ msgstr ""
 "Gradnik za interaktivni izbor časovnega pasu z miško na zemljevidu. Uporabniki tipkovnice "
 "lahko časovni pas izberejo iz spodnjega spustnega polja."
 
-#: ../src/e-util/e-markdown-editor.c:1862 ../src/e-util/e-markdown-editor.c:1876
-#: ../src/e-util/e-markdown-editor.c:2445
+#: ../src/e-util/e-markdown-editor.c:1856 ../src/e-util/e-markdown-editor.c:1870
+#: ../src/e-util/e-markdown-editor.c:2439
 msgid "_Write"
 msgstr "_Zapiši"
 
-#: ../src/e-util/e-markdown-editor.c:1878 ../src/e-util/e-markdown-editor.c:2484
+#: ../src/e-util/e-markdown-editor.c:1872 ../src/e-util/e-markdown-editor.c:2478
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1435
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:687
@@ -15768,45 +15805,65 @@ msgstr "_Zapiši"
 msgid "_Preview"
 msgstr "_Predogled"
 
-#: ../src/e-util/e-markdown-editor.c:1957
+#: ../src/e-util/e-markdown-editor.c:1951
 msgid "Add bold text"
 msgstr "Dodaj krepko besedilo"
 
-#: ../src/e-util/e-markdown-editor.c:1958
+#: ../src/e-util/e-markdown-editor.c:1952
 msgid "Add italic text"
 msgstr "Dodaj ležeče besedilo"
 
-#: ../src/e-util/e-markdown-editor.c:1959
+#: ../src/e-util/e-markdown-editor.c:1953
 msgid "Insert a quote"
 msgstr "Vstavi navedek"
 
-#: ../src/e-util/e-markdown-editor.c:1960
+#: ../src/e-util/e-markdown-editor.c:1954
 msgid "Insert code"
 msgstr "Vstavi kodo"
 
-#: ../src/e-util/e-markdown-editor.c:1961
+#: ../src/e-util/e-markdown-editor.c:1955
 msgid "Add a link"
 msgstr "Dodaj povezavo"
 
-#: ../src/e-util/e-markdown-editor.c:1962
+#: ../src/e-util/e-markdown-editor.c:1956
 msgid "Add a bullet list"
 msgstr "Dodaj vrstični seznam"
 
-#: ../src/e-util/e-markdown-editor.c:1963
+#: ../src/e-util/e-markdown-editor.c:1957
 msgid "Add a numbered list"
 msgstr "Dodaj številčni seznam"
 
-#: ../src/e-util/e-markdown-editor.c:1964
+#: ../src/e-util/e-markdown-editor.c:1958
 msgid "Add a header"
 msgstr "Dodaj glavo"
 
-#: ../src/e-util/e-markdown-editor.c:1967
+#: ../src/e-util/e-markdown-editor.c:1961
 msgid "Open online common mark documentation"
 msgstr "Odpri spletno dokumentacijo"
 
-#: ../src/e-util/e-markdown-editor.c:1969
+#: ../src/e-util/e-markdown-editor.c:1963
 msgid "Show preview beside text"
 msgstr "Pokaži predogled ob besedilu"
+
+#: ../src/e-util/e-markdown-utils.c:178
+#, c-format
+msgid "Command “%s” returned error: %s"
+msgstr "Vrnjena napaka ukaza »%s«: %s"
+
+#: ../src/e-util/e-markdown-utils.c:189
+#, c-format
+msgid "Failed to read data from command “%s”: %s"
+msgstr "Branje podatkov iz ukaza »%s« je spodletelo: %s"
+
+#: ../src/e-util/e-markdown-utils.c:199
+#, c-format
+msgid "Failed to run process from command line “%s”: %s"
+msgstr "Zaganjanje ukaza »%s« iz ukazne vrstice je spodletelo: %s"
+
+#: ../src/e-util/e-markdown-utils.c:209
+#, c-format
+msgid "Failed to parse command line “%s”: %s"
+msgstr "Razčlenjevanje ukazne vrstice »%s« je spodletelo: %s"
 
 #: ../src/e-util/e-misc-utils.c:279
 msgid "Could not open the link."
