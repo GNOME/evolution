@@ -866,6 +866,36 @@
           </packing>
         </child>
         <child>
+          <object class="GtkCheckButton" id="allow_direct_summary_edit">
+            <property name="label" translatable="yes">Allo_w direct edit of event Summary</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="use_underline">True</property>
+            <property name="draw_indicator">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">9</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="allow_event_dnd">
+            <property name="label" translatable="yes">Allow dra_g and drop of events</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="use_underline">True</property>
+            <property name="draw_indicator">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">10</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkLabel" id="general-space-label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -873,7 +903,7 @@
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">9</property>
+            <property name="position">11</property>
           </packing>
         </child>
       </object>
@@ -1099,21 +1129,6 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="allow_direct_summary_edit">
-                    <property name="label" translatable="yes">Allo_w direct edit of event Summary</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">9</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkCheckButton" id="hide_cancelled_events">
                     <property name="label" translatable="yes">Hi_de cancelled events</property>
                     <property name="visible">True</property>
@@ -1125,7 +1140,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">10</property>
+                    <property name="position">9</property>
                   </packing>
                 </child>
               </object>

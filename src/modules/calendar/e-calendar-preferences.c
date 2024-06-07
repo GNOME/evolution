@@ -1092,6 +1092,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "allow_event_dnd");
+	g_settings_bind (
+		settings, "allow-event-dnd",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->priv->builder, "hide_cancelled_events");
 	g_settings_bind (
 		settings, "hide-cancelled-events",

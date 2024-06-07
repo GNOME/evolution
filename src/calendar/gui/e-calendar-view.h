@@ -280,6 +280,11 @@ gboolean	e_calendar_view_get_allow_direct_summary_edit
 void		e_calendar_view_set_allow_direct_summary_edit
 						(ECalendarView *cal_view,
 						 gboolean allow);
+gboolean	e_calendar_view_get_allow_event_dnd
+						(ECalendarView *cal_view);
+void		e_calendar_view_set_allow_event_dnd
+						(ECalendarView *cal_view,
+						 gboolean allow);
 
 G_END_DECLS
 

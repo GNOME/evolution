@@ -51,6 +51,11 @@ settings_calendar_view_constructed (GObject *object)
 		extensible, "allow-direct-summary-edit",
 		G_SETTINGS_BIND_DEFAULT);
 
+	g_settings_bind (
+		settings, "allow-event-dnd",
+		extensible, "allow-event-dnd",
+		G_SETTINGS_BIND_DEFAULT);
+
 	/*** EDayView ***/
 
 	if (E_IS_DAY_VIEW (extensible)) {

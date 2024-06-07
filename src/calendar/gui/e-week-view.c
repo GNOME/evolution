@@ -3803,6 +3803,7 @@ e_week_view_maybe_start_event_drag_on_motion (EWeekView *week_view,
 	    week_view->drag_event_x != -1 &&
 	    week_view->drag_event_y != -1 &&
 	    gtk_drag_check_threshold (GTK_WIDGET (week_view), week_view->drag_event_x, week_view->drag_event_y, event_x_root, event_y_root) &&
+	    e_calendar_view_get_allow_event_dnd (E_CALENDAR_VIEW (week_view)) &&
 	    !e_client_is_readonly (E_CLIENT (pevent->comp_data->client))) {
 		GtkTargetList *target_list;
 

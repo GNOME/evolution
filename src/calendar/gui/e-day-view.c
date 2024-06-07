@@ -4884,6 +4884,9 @@ e_day_view_on_long_event_click (EDayView *day_view,
 		GdkDevice *event_device;
 		guint32 event_time;
 
+		if (!e_calendar_view_get_allow_event_dnd (E_CALENDAR_VIEW (day_view)))
+			return;
+
 		if (!e_day_view_find_long_event_days (
 			event,
 			e_day_view_get_days_shown (day_view),
@@ -4992,6 +4995,9 @@ e_day_view_on_event_click (EDayView *day_view,
 		GdkGrabStatus grab_status;
 		GdkDevice *event_device;
 		guint32 event_time;
+
+		if (!e_calendar_view_get_allow_event_dnd (E_CALENDAR_VIEW (day_view)))
+			return;
 
 		if (event && (!event->is_editable || e_client_is_readonly (E_CLIENT (event->comp_data->client)))) {
 			return;
@@ -5278,8 +5284,9 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		if (!is_comp_data_valid (event))
 			return FALSE;
 
-		if (!e_cal_util_component_has_recurrences (event->comp_data->icalcomp)
-		    && gtk_drag_check_threshold (widget, day_view->drag_event_x, day_view->drag_event_y, canvas_x, canvas_y)) {
+		if (!e_cal_util_component_has_recurrences (event->comp_data->icalcomp) &&
+		    e_calendar_view_get_allow_event_dnd (E_CALENDAR_VIEW (day_view)) &&
+		    gtk_drag_check_threshold (widget, day_view->drag_event_x, day_view->drag_event_y, canvas_x, canvas_y)) {
 			day_view->drag_event_day = day_view->pressed_event_day;
 			day_view->drag_event_num = day_view->pressed_event_num;
 			day_view->priv->drag_event_is_recurring =
@@ -5311,7 +5318,9 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Recurring events can't be resized. */
-		if (event && is_comp_data_valid (event) && !e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
+		if (event && is_comp_data_valid (event) &&
+		    !e_cal_util_component_has_recurrences (event->comp_data->icalcomp) &&
+		    e_calendar_view_get_allow_event_dnd (E_CALENDAR_VIEW (day_view))) {
 			switch (pos) {
 			case E_CALENDAR_VIEW_POS_LEFT_EDGE:
 			case E_CALENDAR_VIEW_POS_RIGHT_EDGE:
@@ -5393,7 +5402,8 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		   && day_view->pressed_event_day != E_DAY_VIEW_LONG_EVENT) {
 		GtkTargetList *target_list;
 
-		if (gtk_drag_check_threshold (widget, day_view->drag_event_x, day_view->drag_event_y, canvas_x, canvas_y)) {
+		if (e_calendar_view_get_allow_event_dnd (E_CALENDAR_VIEW (day_view)) &&
+		    gtk_drag_check_threshold (widget, day_view->drag_event_x, day_view->drag_event_y, canvas_x, canvas_y)) {
 			day_view->drag_event_day = day_view->pressed_event_day;
 			day_view->drag_event_num = day_view->pressed_event_num;
 			day_view->priv->drag_event_is_recurring =
@@ -5426,7 +5436,9 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Check if the event is editable and client is not readonly while changing the cursor */
-		if (event && event->is_editable && is_comp_data_valid (event) && !e_client_is_readonly (E_CLIENT (event->comp_data->client))) {
+		if (event && event->is_editable && is_comp_data_valid (event) &&
+		    e_calendar_view_get_allow_event_dnd (E_CALENDAR_VIEW (day_view)) &&
+		    !e_client_is_readonly (E_CLIENT (event->comp_data->client))) {
 
 			switch (pos) {
 			case E_CALENDAR_VIEW_POS_LEFT_EDGE:
@@ -7905,8 +7917,12 @@ e_day_view_change_event_end_time_up (EDayView *day_view)
 	gint time_divisions;
 	gint day, event_num, resize_start_row, resize_end_row;
 
+	if (!e_calendar_view_get_allow_event_dnd (E_CALENDAR_VIEW (day_view)))
+		return;
+
 	day = day_view->editing_event_day;
 	event_num = day_view->editing_event_num;
+
 	if ((day == -1) || (day == E_DAY_VIEW_LONG_EVENT))
 		return;
 
@@ -7945,6 +7961,8 @@ e_day_view_change_event_end_time_down (EDayView *day_view)
 	gint day, event_num, resize_start_row, resize_end_row;
 
 	cal_view = E_CALENDAR_VIEW (day_view);
+	if (!e_calendar_view_get_allow_event_dnd (cal_view))
+		return;
 	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	day = day_view->editing_event_day;

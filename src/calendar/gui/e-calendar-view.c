@@ -58,6 +58,7 @@ struct _ECalendarViewPrivate {
 	GtkTargetList *paste_target_list;
 
 	gboolean allow_direct_summary_edit;
+	gboolean allow_event_dnd;
 };
 
 enum {
@@ -67,7 +68,8 @@ enum {
 	PROP_PASTE_TARGET_LIST,
 	PROP_TIME_DIVISIONS,
 	PROP_IS_EDITING,
-	PROP_ALLOW_DIRECT_SUMMARY_EDIT
+	PROP_ALLOW_DIRECT_SUMMARY_EDIT,
+	PROP_ALLOW_EVENT_DND
 };
 
 /* FIXME Why are we emitting these event signals here? Can't the model just be listened to? */
@@ -317,6 +319,12 @@ calendar_view_set_property (GObject *object,
 				E_CALENDAR_VIEW (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_ALLOW_EVENT_DND:
+			e_calendar_view_set_allow_event_dnd (
+				E_CALENDAR_VIEW (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -359,6 +367,10 @@ calendar_view_get_property (GObject *object,
 
 		case PROP_ALLOW_DIRECT_SUMMARY_EDIT:
 			g_value_set_boolean (value, e_calendar_view_get_allow_direct_summary_edit (E_CALENDAR_VIEW (object)));
+			return;
+
+		case PROP_ALLOW_EVENT_DND:
+			g_value_set_boolean (value, e_calendar_view_get_allow_event_dnd (E_CALENDAR_VIEW (object)));
 			return;
 	}
 
@@ -1336,6 +1348,16 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 			FALSE,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_ALLOW_EVENT_DND,
+		g_param_spec_boolean (
+			"allow-event-dnd",
+			"Whether can drag-and-drop events",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
 		G_TYPE_FROM_CLASS (class),
@@ -1442,6 +1464,8 @@ e_calendar_view_init (ECalendarView *calendar_view)
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);
 	calendar_view->priv->paste_target_list = target_list;
+
+	calendar_view->priv->allow_event_dnd = TRUE;
 }
 
 static void
@@ -2123,4 +2147,26 @@ e_calendar_view_set_allow_direct_summary_edit (ECalendarView *cal_view,
 	cal_view->priv->allow_direct_summary_edit = allow;
 
 	g_object_notify (G_OBJECT (cal_view), "allow-direct-summary-edit");
+}
+
+gboolean
+e_calendar_view_get_allow_event_dnd (ECalendarView *cal_view)
+{
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
+
+	return cal_view->priv->allow_event_dnd;
+}
+
+void
+e_calendar_view_set_allow_event_dnd (ECalendarView *cal_view,
+				     gboolean allow)
+{
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	if ((cal_view->priv->allow_event_dnd ? 1 : 0) == (allow ? 1 : 0))
+		return;
+
+	cal_view->priv->allow_event_dnd = allow;
+
+	g_object_notify (G_OBJECT (cal_view), "allow-event-dnd");
 }

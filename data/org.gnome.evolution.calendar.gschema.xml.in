@@ -524,6 +524,11 @@
       <_summary>Background color for the 'today' day</_summary>
       <_description>Leave empty to use a yellow color derived from the current theme, otherwise use the color of form `#RRGGBB`</_description>
     </key>
+    <key name="allow-event-dnd" type="b">
+      <default>true</default>
+      <_summary>Allow drag and drop of events in the Calendar.</_summary>
+      <_description>This influences the Day view, the Work Week view, the Week view and the Month view.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 
