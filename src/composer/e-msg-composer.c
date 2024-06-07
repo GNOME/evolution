@@ -138,6 +138,7 @@ static void	handle_multipart		(EMsgComposer *composer,
 						 CamelMultipart *multipart,
 						 CamelMimePart *parent_part,
 						 gboolean keep_signature,
+						 gboolean is_signed_or_encrypted,
 						 GCancellable *cancellable,
 						 gint depth);
 static void	handle_multipart_alternative	(EMsgComposer *composer,
@@ -3424,6 +3425,12 @@ e_msg_composer_set_pending_body (EMsgComposer *composer,
 		text, (GDestroyNotify) g_free);
 }
 
+static gboolean
+e_msg_composer_has_pending_body (EMsgComposer *composer)
+{
+	return g_object_get_data (G_OBJECT (composer), "body:text") != NULL;
+}
+
 static void
 e_msg_composer_flush_pending_body (EMsgComposer *composer)
 {
@@ -3830,8 +3837,7 @@ handle_multipart_signed (EMsgComposer *composer,
 
 		} else {
 			/* There must be attachments... */
-			handle_multipart (
-				composer, multipart, parent_part, keep_signature, cancellable, depth);
+			handle_multipart (composer, multipart, parent_part, keep_signature, TRUE, cancellable, depth);
 		}
 	} else if (camel_content_type_is (content_type, "text", "markdown") ||
 		   emcu_format_as_plain_text (composer, content_type)) {
@@ -3940,7 +3946,7 @@ handle_multipart_encrypted (EMsgComposer *composer,
 		} else {
 			/* There must be attachments... */
 			handle_multipart (
-				composer, content_multipart, multipart, keep_signature, cancellable, depth);
+				composer, content_multipart, multipart, keep_signature, TRUE, cancellable, depth);
 		}
 
 	} else if (camel_content_type_is (content_type, "text", "markdown") ||
@@ -4015,8 +4021,7 @@ handle_multipart_alternative (EMsgComposer *composer,
 			} else {
 				/* Depth doesn't matter so long as we
 				 * don't pass 0. */
-				handle_multipart (
-					composer, mp, parent_part, keep_signature, cancellable, depth + 1);
+				handle_multipart (composer, mp, parent_part, keep_signature, FALSE, cancellable, depth + 1);
 			}
 
 		} else if (camel_content_type_is (content_type, "text", "html")) {
@@ -4133,6 +4138,7 @@ handle_multipart (EMsgComposer *composer,
                   CamelMultipart *multipart,
 		  CamelMimePart *parent_part,
                   gboolean keep_signature,
+		  gboolean is_signed_or_encrypted,
                   GCancellable *cancellable,
                   gint depth)
 {
@@ -4190,15 +4196,16 @@ handle_multipart (EMsgComposer *composer,
 						depth_inc = 0;
 				}
 
-				handle_multipart (
-					composer, mp, parent_part, keep_signature, cancellable, depth + depth_inc);
+				handle_multipart (composer, mp, parent_part, keep_signature, FALSE, cancellable, depth + depth_inc);
 			}
 
-		} else if (depth == 0 && i == 0) {
+		} else if (depth == 0 && (i == 0 || (is_signed_or_encrypted && i == 1 && !e_msg_composer_has_pending_body (composer)))) {
 			/* Since the first part is not multipart/alternative,
 			 * this must be the body. */
 
-			if (camel_content_type_is (content_type, "text", "markdown") ||
+			if (is_signed_or_encrypted && camel_content_type_is (content_type, "text", "rfc822-headers")) {
+				/* ignore this part, it's not a body */
+			} else if (camel_content_type_is (content_type, "text", "markdown") ||
 			    emcu_format_as_plain_text (composer, content_type)) {
 				gchar *text;
 				gssize length;
@@ -4723,8 +4730,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 
 		} else {
 			/* There must be attachments... */
-			handle_multipart (
-				composer, multipart, mime_part, keep_signature, cancellable, 0);
+			handle_multipart (composer, multipart, mime_part, keep_signature, FALSE, cancellable, 0);
 		}
 	} else {
 		gboolean is_html = FALSE;
