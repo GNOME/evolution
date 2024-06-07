@@ -387,15 +387,24 @@ focus_tracker_targets_received_cb (GtkClipboard *clipboard,
 			focus_tracker, GTK_EDITABLE (focus),
 			targets, n_targets);
 
-	else if (GTK_IS_TEXT_VIEW (focus))
-		focus_tracker_text_view_update_actions (
-			focus_tracker, GTK_TEXT_VIEW (focus),
-			targets, n_targets);
+	else {
+		GtkWidget *ancestor = gtk_widget_get_ancestor (focus, E_TYPE_CONTENT_EDITOR);
 
-	else if (E_IS_CONTENT_EDITOR (focus))
-		focus_tracker_editor_update_actions (
-			focus_tracker, E_CONTENT_EDITOR (focus),
-			targets, n_targets);
+		if (E_IS_CONTENT_EDITOR (ancestor))
+			focus_tracker_editor_update_actions (
+				focus_tracker, E_CONTENT_EDITOR (ancestor),
+				targets, n_targets);
+
+		else if (GTK_IS_TEXT_VIEW (focus))
+			focus_tracker_text_view_update_actions (
+				focus_tracker, GTK_TEXT_VIEW (focus),
+				targets, n_targets);
+
+		else if (E_IS_CONTENT_EDITOR (focus))
+			focus_tracker_editor_update_actions (
+				focus_tracker, E_CONTENT_EDITOR (focus),
+				targets, n_targets);
+	}
 
 	g_object_unref (focus_tracker);
 }

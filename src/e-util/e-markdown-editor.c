@@ -504,25 +504,25 @@ e_markdown_editor_move_caret_on_coordinates (EContentEditor *cnt_editor,
 static void
 e_markdown_editor_cut (EContentEditor *cnt_editor)
 {
-	/* Handled by GtktextView itself */
+	/* Handled by GtkTextView itself */
 }
 
 static void
 e_markdown_editor_copy (EContentEditor *cnt_editor)
 {
-	/* Handled by GtktextView itself */
+	/* Handled by GtkTextView itself */
 }
 
 static void
 e_markdown_editor_paste (EContentEditor *cnt_editor)
 {
-	/* Handled by GtktextView itself */
+	/* Handled by GtkTextView itself */
 }
 
 static void
 e_markdown_editor_paste_primary (EContentEditor *cnt_editor)
 {
-	/* Handled by GtktextView itself */
+	/* Handled by GtkTextView itself */
 }
 
 static void
@@ -2026,12 +2026,13 @@ e_markdown_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
 					     gpointer user_data)
 {
 	EMarkdownEditor *self = user_data;
-	gboolean has_text;
+	gboolean has_text_or_image;
 
-	has_text = gtk_clipboard_wait_is_text_available (clipboard);
+	/* image is taken care of by the owner of the editor */
+	has_text_or_image = gtk_clipboard_wait_is_text_available (clipboard) || gtk_clipboard_wait_is_image_available (clipboard);
 
-	if ((self->priv->can_paste ? 1 : 0) != (has_text ? 1 : 0)) {
-		self->priv->can_paste = has_text;
+	if ((self->priv->can_paste ? 1 : 0) != (has_text_or_image ? 1 : 0)) {
+		self->priv->can_paste = has_text_or_image;
 		g_object_notify (G_OBJECT (self), "can-paste");
 	}
 }
@@ -2157,6 +2158,17 @@ e_markdown_editor_realize_cb (GtkWidget *widget,
 
 	g_signal_connect_object (buffer, "insert-text",
 		G_CALLBACK (e_markdown_editor_insert_text_after_cb), self, G_CONNECT_AFTER);
+}
+
+static void
+e_markdown_editor_paste_clipboard_cb (GtkTextView *text_view,
+				      gpointer user_data)
+{
+	EContentEditor *self = user_data;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	e_content_editor_emit_paste_clipboard (self);
 }
 
 static void
@@ -2459,6 +2471,9 @@ e_markdown_editor_constructed (GObject *object)
 	e_buffer_tagger_connect (self->priv->text_view);
 	e_spell_text_view_attach (self->priv->text_view);
 
+	g_signal_connect_object (self->priv->text_view, "paste-clipboard",
+		G_CALLBACK (e_markdown_editor_paste_clipboard_cb), self, 0);
+
 	self->priv->serialize_atom = gtk_text_buffer_register_serialize_format (
 		gtk_text_view_get_buffer (self->priv->text_view), "text/x-evolution-markdown",
 		e_markdown_editor_serialize_x_evolution_markdown_cb, self, NULL);
@@ -2562,6 +2577,17 @@ e_markdown_editor_dispose (GObject *object)
 	if (self->priv->preview_update_id) {
 		g_source_remove (self->priv->preview_update_id);
 		self->priv->preview_update_id = 0;
+	}
+
+	if (self->priv->text_view) {
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer (self->priv->text_view);
+
+		if (buffer && self->priv->serialize_atom) {
+			gtk_text_buffer_unregister_serialize_format (buffer, self->priv->serialize_atom);
+			self->priv->serialize_atom = 0;
+		}
+
+		self->priv->text_view = NULL;
 	}
 
 	/* Chain up to parent's method. */

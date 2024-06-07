@@ -5136,6 +5136,7 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
                                           GdkAtom *targets,
                                           gint n_targets,
 					  gboolean is_from_self,
+					  gboolean is_primary_paste,
                                           gpointer user_data)
 {
 	EWebKitEditor *wk_editor = user_data;
@@ -5194,6 +5195,10 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 
 	if (!content || !*content) {
 		g_free (content);
+		if (is_primary_paste)
+			e_content_editor_emit_paste_primary_clipboard (E_CONTENT_EDITOR (wk_editor));
+		else
+			e_content_editor_emit_paste_clipboard (E_CONTENT_EDITOR (wk_editor));
 		return;
 	}
 
@@ -5243,7 +5248,7 @@ webkit_editor_paste_primary (EContentEditor *editor)
 	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
 
 	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
-		webkit_editor_paste_clipboard_targets_cb (clipboard, targets, n_targets, wk_editor_primary_clipboard_owner_is_from_self, wk_editor);
+		webkit_editor_paste_clipboard_targets_cb (clipboard, targets, n_targets, wk_editor_primary_clipboard_owner_is_from_self, TRUE, wk_editor);
 		g_free (targets);
 	}
 }
@@ -5261,7 +5266,7 @@ webkit_editor_paste (EContentEditor *editor)
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
 	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
-		webkit_editor_paste_clipboard_targets_cb (clipboard, targets, n_targets, wk_editor_clipboard_owner_is_from_self, wk_editor);
+		webkit_editor_paste_clipboard_targets_cb (clipboard, targets, n_targets, wk_editor_clipboard_owner_is_from_self, FALSE, wk_editor);
 		g_free (targets);
 	}
 }

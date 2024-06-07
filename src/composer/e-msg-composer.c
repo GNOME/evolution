@@ -2767,6 +2767,32 @@ composer_notify_activity_cb (EActivityBar *activity_bar,
 }
 
 static void
+msg_composer_notify_mode_cb (GObject *editor,
+			     GParamSpec *param,
+			     gpointer user_data)
+{
+	EMsgComposer *composer = user_data;
+	EContentEditor *cnt_editor;
+
+	cnt_editor = e_html_editor_get_content_editor (E_HTML_EDITOR (editor));
+	if (!cnt_editor)
+		return;
+
+	/* in case the cnt_editor has the handler already connected, which can
+	   happen when the user changes the editor mode forth and back */
+	g_signal_handlers_disconnect_by_func (cnt_editor, G_CALLBACK (msg_composer_paste_clipboard_cb), composer);
+	g_signal_handlers_disconnect_by_func (cnt_editor, G_CALLBACK (msg_composer_paste_primary_clipboard_cb), composer);
+
+	g_signal_connect (
+		cnt_editor, "paste-clipboard",
+		G_CALLBACK (msg_composer_paste_clipboard_cb), composer);
+
+	g_signal_connect (
+		cnt_editor, "paste-primary-clipboard",
+		G_CALLBACK (msg_composer_paste_primary_clipboard_cb), composer);
+}
+
+static void
 msg_composer_constructed (GObject *object)
 {
 	EShell *shell;
@@ -2854,6 +2880,9 @@ msg_composer_constructed (GObject *object)
 	gtk_toggle_action_set_active (action, active);
 
 	g_object_unref (settings);
+
+	g_signal_connect_object (editor, "notify::mode",
+		G_CALLBACK (msg_composer_notify_mode_cb), composer, 0);
 
 	/* Clipboard Support */
 
