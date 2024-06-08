@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-06-06 09:21+0000\n"
-"PO-Revision-Date: 2024-06-06 22:59+0200\n"
+"POT-Creation-Date: 2024-06-07 09:10+0000\n"
+"PO-Revision-Date: 2024-06-08 10:01+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -1063,10 +1063,18 @@ msgstr ""
 "barvo v zapisu »#RRGGBB«."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
+msgid "Allow drag and drop of events in the Calendar."
+msgstr "Dovoli povleci in spusti za dogodke v koledarju."
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
+msgid "This influences the Day view, the Work Week view, the Week view and the Month view."
+msgstr "To vpliva na poglede Dan, Delovni teden, Teden in Mesec."
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(Opuščeno) Prvi dan tedna, od nedelje (0) do sobote (6)."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use “week-start-day-"
 "name” instead."
@@ -1074,11 +1082,11 @@ msgstr ""
 "Ključ je opuščen z različico 3.10 in ne bo več v rabi. Priporočena je uporaba možnosti »ime "
 "dneva začetka tedna«."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
 msgid "(Deprecated) Work days"
 msgstr "(Opuščeno) Delovni dnevi"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key was deprecated in "
 "version 3.10 and should no longer be used. Use the “work-day-monday”, “work-day-tuesday”, etc. "
@@ -3827,7 +3835,7 @@ msgstr "Opomniki"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12 ../src/calendar/gui/e-task-table.c:617
 #: ../src/calendar/gui/print.c:2478 ../src/calendar/importers/icalendar-importer.c:74
 #: ../src/calendar/importers/icalendar-importer.c:1136 ../src/e-util/e-webdav-browser.c:529
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
 #: ../src/modules/calendar/e-cal-shell-content.c:1901
 #: ../src/modules/calendar/e-task-shell-view-actions.c:246
 #: ../src/modules/calendar/e-task-shell-view-actions.c:261
@@ -4974,14 +4982,14 @@ msgstr "Ob_letnica:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1888
+#: ../src/calendar/gui/e-calendar-view.c:1912
 msgid "Anniversary"
 msgstr "Obletnica"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1887
+#: ../src/calendar/gui/e-calendar-view.c:1911
 msgid "Birthday"
 msgstr "Rojstni dan"
 
@@ -7998,49 +8006,49 @@ msgstr "Pošlji opomnike skupaj z dogodkom"
 msgid "Notify new attendees _only"
 msgstr "Obvesti _samo nove udeležence"
 
-#: ../src/calendar/gui/e-calendar-view.c:453
+#: ../src/calendar/gui/e-calendar-view.c:465
 msgid "Cut selected events to the clipboard"
 msgstr "Izreži izbrane dogodke v odložišče"
 
-#: ../src/calendar/gui/e-calendar-view.c:459
+#: ../src/calendar/gui/e-calendar-view.c:471
 msgid "Copy selected events to the clipboard"
 msgstr "Kopiraj izbrane dogodke v odložišče"
 
-#: ../src/calendar/gui/e-calendar-view.c:465
+#: ../src/calendar/gui/e-calendar-view.c:477
 msgid "Paste events from the clipboard"
 msgstr "Prilepi izbrane dogodke iz odložišča"
 
-#: ../src/calendar/gui/e-calendar-view.c:471
+#: ../src/calendar/gui/e-calendar-view.c:483
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1448
 msgid "Delete selected events"
 msgstr "Izbriši izbrane dogodke"
 
-#: ../src/calendar/gui/e-calendar-view.c:977
+#: ../src/calendar/gui/e-calendar-view.c:989
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "Prilepljeno besedilo ne vključuje veljavnih podatkov v zapisu iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:988 ../src/calendar/gui/e-cal-ops.c:1587
+#: ../src/calendar/gui/e-calendar-view.c:1000 ../src/calendar/gui/e-cal-ops.c:1587
 msgid "Default calendar not found"
 msgstr "Privzetega koledarja ni mogoče najti."
 
-#: ../src/calendar/gui/e-calendar-view.c:993 ../src/calendar/gui/e-cal-ops.c:1590
+#: ../src/calendar/gui/e-calendar-view.c:1005 ../src/calendar/gui/e-cal-ops.c:1590
 msgid "Default memo list not found"
 msgstr "Privzetega seznama opomnikov ni mogoče najti."
 
-#: ../src/calendar/gui/e-calendar-view.c:998 ../src/calendar/gui/e-cal-ops.c:1593
+#: ../src/calendar/gui/e-calendar-view.c:1010 ../src/calendar/gui/e-cal-ops.c:1593
 msgid "Default task list not found"
 msgstr "Privzetega seznama nalog ni mogoče najti."
 
-#: ../src/calendar/gui/e-calendar-view.c:1105
+#: ../src/calendar/gui/e-calendar-view.c:1117
 msgid "No suitable component found"
 msgstr "Ni mogoče najti ustreznega seznama."
 
-#: ../src/calendar/gui/e-calendar-view.c:1170
+#: ../src/calendar/gui/e-calendar-view.c:1182
 msgid "Pasting iCalendar data"
 msgstr "Poteka dodajanje podatkov iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:1227 ../src/calendar/gui/e-calendar-view.c:1230
-#: ../src/calendar/gui/e-calendar-view.c:1233 ../src/calendar/gui/e-calendar-view.c:1234
+#: ../src/calendar/gui/e-calendar-view.c:1239 ../src/calendar/gui/e-calendar-view.c:1242
+#: ../src/calendar/gui/e-calendar-view.c:1245 ../src/calendar/gui/e-calendar-view.c:1246
 msgid "%d %b %Y"
 msgstr "%d.%m.%Y"
 
@@ -8049,13 +8057,13 @@ msgstr "%d.%m.%Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1229 ../src/calendar/gui/e-day-view.c:3282
+#: ../src/calendar/gui/e-calendar-view.c:1241 ../src/calendar/gui/e-day-view.c:3282
 #: ../src/calendar/gui/e-day-view-top-item.c:845 ../src/calendar/gui/e-week-view-main-item.c:223
 #, c-format
 msgid "%d %b"
 msgstr "%d. %b."
 
-#: ../src/calendar/gui/e-calendar-view.c:1240
+#: ../src/calendar/gui/e-calendar-view.c:1252
 msgid "%A %d %b %Y"
 msgstr "%A %d.%m.%Y"
 
@@ -8065,14 +8073,14 @@ msgstr "%A %d.%m.%Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1242 ../src/calendar/gui/e-day-view.c:3266
+#: ../src/calendar/gui/e-calendar-view.c:1254 ../src/calendar/gui/e-day-view.c:3266
 #: ../src/calendar/gui/e-day-view-top-item.c:841 ../src/calendar/gui/e-week-view-main-item.c:209
 #, c-format
 msgid "%a %d %b"
 msgstr "%a, %d. %b."
 
-#: ../src/calendar/gui/e-calendar-view.c:1243 ../src/calendar/gui/e-calendar-view.c:1245
-#: ../src/calendar/gui/e-calendar-view.c:1246
+#: ../src/calendar/gui/e-calendar-view.c:1255 ../src/calendar/gui/e-calendar-view.c:1257
+#: ../src/calendar/gui/e-calendar-view.c:1258
 msgid "%a %d %b %Y"
 msgstr "%a %d.%b.%Y"
 
@@ -8080,7 +8088,7 @@ msgstr "%a %d.%b.%Y"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1907
+#: ../src/calendar/gui/e-calendar-view.c:1931
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -9107,7 +9115,7 @@ msgid "_Add time"
 msgstr "_Dodaj čas"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2136
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Reminders"
 msgstr "Opomniki"
 
@@ -9993,7 +10001,7 @@ msgstr "Seznam opravil"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3885
+#: ../src/calendar/gui/e-week-view.c:3886
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -12405,46 +12413,46 @@ msgstr "Kliknite tukaj za izbiro map za objavljanje"
 msgid "Send"
 msgstr "Pošlji"
 
-#: ../src/composer/e-msg-composer.c:1189
+#: ../src/composer/e-msg-composer.c:1190
 #, c-format
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Odhodnega sporočila ni mogoče podpisati: za ta račun ni nastavljeno nobeno potrdilo za "
 "podpisovanje"
 
-#: ../src/composer/e-msg-composer.c:1198
+#: ../src/composer/e-msg-composer.c:1199
 #, c-format
 msgid "Cannot encrypt outgoing message: No encryption certificate set for this account"
 msgstr ""
 "Odhodnega sporočila ni mogoče šifrirati: za ta račun ni nastavljeno nobeno potrdilo za "
 "šifriranje"
 
-#: ../src/composer/e-msg-composer.c:1643
+#: ../src/composer/e-msg-composer.c:1644
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Pridobivanje obdelane vsebine besedila/navadno je spodletelo"
 
-#: ../src/composer/e-msg-composer.c:1767
+#: ../src/composer/e-msg-composer.c:1768
 msgid "Failed to retrieve draft content"
 msgstr "Pridobivanje vsebine osnutka ni uspelo"
 
-#: ../src/composer/e-msg-composer.c:1780
+#: ../src/composer/e-msg-composer.c:1781
 msgid "Failed to retrieve HTML processed content"
 msgstr "Pridobivanje vsebine, obdelane v HTML-ju, ni uspelo"
 
-#: ../src/composer/e-msg-composer.c:2092 ../src/composer/e-msg-composer.c:2805
+#: ../src/composer/e-msg-composer.c:2093 ../src/composer/e-msg-composer.c:2806
 msgid "Compose Message"
 msgstr "Sestavi sporočilo"
 
-#: ../src/composer/e-msg-composer.c:5035
+#: ../src/composer/e-msg-composer.c:5041
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Poteka branje vsebine …"
 
-#: ../src/composer/e-msg-composer.c:5103
+#: ../src/composer/e-msg-composer.c:5109
 msgid "Send _without encryption"
 msgstr "Pošlji brez _šifriranja"
 
-#: ../src/composer/e-msg-composer.c:5891
+#: ../src/composer/e-msg-composer.c:5897
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Odstrani priloge pred pošiljanjem."
@@ -12452,7 +12460,7 @@ msgstr[1] "Odstrani prilogo pred pošiljanjem."
 msgstr[2] "Odstrani prilogi pred pošiljanjem."
 msgstr[3] "Odstrani priloge pred pošiljanjem."
 
-#: ../src/composer/e-msg-composer.c:5896
+#: ../src/composer/e-msg-composer.c:5902
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not contain any "
@@ -12473,7 +12481,7 @@ msgstr[3] ""
 "Dodane so bile %d priloge. Preden sporočilo pošljete, se prepričajte, da niso vključeni nobeni "
 "občutljivi podatki."
 
-#: ../src/composer/e-msg-composer.c:6022
+#: ../src/composer/e-msg-composer.c:6028
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Sestavljalnik vsebuje ne-besedilno telo sporočila, ki ga ni mogoče urejati."
 
@@ -13199,7 +13207,7 @@ msgid "Address Books"
 msgstr "Imenik"
 
 #: ../src/e-util/e-accounts-window.c:568 ../src/e-util/e-accounts-window.c:709
-#: ../src/e-util/e-accounts-window.c:917 ../src/modules/calendar/e-calendar-preferences.ui.h:103
+#: ../src/e-util/e-accounts-window.c:917 ../src/modules/calendar/e-calendar-preferences.ui.h:104
 msgid "Calendars"
 msgstr "Koledarji"
 
@@ -13209,7 +13217,7 @@ msgid "Memo Lists"
 msgstr "Seznam opomnikov"
 
 #: ../src/e-util/e-accounts-window.c:580 ../src/e-util/e-accounts-window.c:711
-#: ../src/e-util/e-accounts-window.c:919 ../src/modules/calendar/e-calendar-preferences.ui.h:104
+#: ../src/e-util/e-accounts-window.c:919 ../src/modules/calendar/e-calendar-preferences.ui.h:105
 msgid "Task Lists"
 msgstr "Seznam nalog"
 
@@ -13930,7 +13938,7 @@ msgid "Memo List"
 msgstr "Seznam opomnikov"
 
 #: ../src/e-util/e-collection-account-wizard.c:874
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:70
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:71
 msgid "Task List"
 msgstr "Seznam nalog"
 
@@ -15441,7 +15449,7 @@ msgid "Background Image"
 msgstr "Slika ozadja"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:514
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:106
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:107
 msgid "_Template:"
 msgstr "_Predloga:"
 
@@ -18090,7 +18098,7 @@ msgstr "Uporabi e-poštni naslov pošiljatelja"
 #: ../src/mail/e-mail-config-security-page.c:451 ../src/mail/em-folder-properties.c:1428
 #: ../src/mail/mail-config.ui.h:37 ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:646
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:54
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:56
 #: ../src/modules/mail/e-mail-shell-backend.c:1041
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1629
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
@@ -20863,7 +20871,7 @@ msgstr "_Označi sporočila kot prebrana po"
 msgid "Highlight _quotations with"
 msgstr "Poudari _navedke z"
 
-#: ../src/mail/mail-config.ui.h:107 ../src/modules/calendar/e-calendar-preferences.ui.h:72
+#: ../src/mail/mail-config.ui.h:107 ../src/modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Pick a color"
 msgstr "Izbor barve"
 
@@ -23640,11 +23648,11 @@ msgstr "Iskanje sporov"
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Izberite koledarje za iskanje sporov med srečanji"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1240
+#: ../src/modules/calendar/e-calendar-preferences.c:1246
 msgid "Ti_me and date:"
 msgstr "_Čas in datum:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1241
+#: ../src/modules/calendar/e-calendar-preferences.c:1247
 msgid "_Date only:"
 msgstr "Le _datum:"
 
@@ -23810,170 +23818,174 @@ msgstr "Privzeto ustvari dogodke, opomnike in naloge kot _zasebne"
 msgid "Use ma_rkdown for Description in the component editor"
 msgstr "Uporabite ma_rkdown za Opis v urejevalniku komponent"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:55
-msgid "View Options"
-msgstr "Možnosti pogleda"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:56
-msgid "_Time divisions:"
-msgstr "Deli_tve časa:"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:57
-msgid "_Show appointment end times in week and month view"
-msgstr "Pokaži čase koncev _sestankov v tedenskih in mesečnih pogledih"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:58
-msgid "Show appointment _icons in the month view"
-msgstr "Pokaži _ikone sestankov v mesečnih pogledih"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:59
-msgid "_Compress weekends in month view"
-msgstr "_Stisni vikende v mesečnem pogledu"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:60
-msgid "Show week _numbers"
-msgstr "Pokaži _številke tednov"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:61
-msgid "Show r_ecurring events in italic in bottom left calendar"
-msgstr "Pokaži p_onavljajoče se dogodke v ležeči pisavi v spodnjem levem koledarju"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:62
-msgid "Sc_roll Month View by a week"
-msgstr "D_rsenje po tednih v mesečnem pogledu"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:63
-msgid "Start Month View with the c_urrent week"
-msgstr "Začni mesečni pogled s _trenutnim tednom"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:64
-msgid "Order days in Week View from _left to right"
-msgstr "Uredi dneve v tedenskem pogledu od _leve proti desni"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:65
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:54
 msgid "Allo_w direct edit of event Summary"
 msgstr "_Dovoli neposredno urejanje povzetka dogodka"
 
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:55
+msgid "Allow dra_g and drop of events"
+msgstr "Dovoli pov_leci in spusti za dogodke"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:57
+msgid "View Options"
+msgstr "Možnosti pogleda"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:58
+msgid "_Time divisions:"
+msgstr "Deli_tve časa:"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:59
+msgid "_Show appointment end times in week and month view"
+msgstr "Pokaži čase koncev _sestankov v tedenskih in mesečnih pogledih"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:60
+msgid "Show appointment _icons in the month view"
+msgstr "Pokaži _ikone sestankov v mesečnih pogledih"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:61
+msgid "_Compress weekends in month view"
+msgstr "_Stisni vikende v mesečnem pogledu"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:62
+msgid "Show week _numbers"
+msgstr "Pokaži _številke tednov"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:63
+msgid "Show r_ecurring events in italic in bottom left calendar"
+msgstr "Pokaži p_onavljajoče se dogodke v ležeči pisavi v spodnjem levem koledarju"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:64
+msgid "Sc_roll Month View by a week"
+msgstr "D_rsenje po tednih v mesečnem pogledu"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:65
+msgid "Start Month View with the c_urrent week"
+msgstr "Začni mesečni pogled s _trenutnim tednom"
+
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:66
+msgid "Order days in Week View from _left to right"
+msgstr "Uredi dneve v tedenskem pogledu od _leve proti desni"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:67
 msgid "Hi_de cancelled events"
 msgstr "_Skrij preklicane naloge"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:67
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:68
 msgid "Alerts"
 msgstr "Opozorila"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:68
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:69
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Vprašaj za potrditev ob brisanju predmetov"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:69
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:70
 msgid "Display"
 msgstr "Pokaži"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:71
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:72
 msgid "Highlight t_asks due today"
 msgstr "Poudari naloge, ki potečejo _danes"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:73
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:74
 msgid "Highlight _overdue tasks"
 msgstr "Poudari _zakasnele naloge"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:74
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:75
 msgid "_Hide completed tasks after"
 msgstr "_Skrij opravljene naloge po"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:75
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:76
 msgid "Hid_e cancelled tasks"
 msgstr "Skrij _preklicane naloge"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:76
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:77
 msgid "To Do bar"
 msgstr "Orodna vrstica opravil"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:77
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:78
 msgid "Show Tasks without _Due date"
 msgstr "Pokaži naloge brez datuma _zapadlosti"
 
 #. Translators: This constructs: Show [spinner] days
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:79
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:80
 msgctxt "to-do-bar-n-days"
 msgid "Show"
 msgstr "Pokaži"
 
 #. Translators: This constructs: Show [spinner] days
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 msgctxt "to-do-bar-n-days"
 msgid "da_ys"
 msgstr "_dni"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:84
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
 msgid "Display Reminders window with _notifications"
 msgstr "Pokaži okno opomnikov v obvestilnem p_odročju"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
 msgid "Keep reminder notification _window always on top"
 msgstr "Pusti _okno obvestila opomnikov vedno na vrhu"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
 msgid "Enable de_sktop notifications"
 msgstr "Omogoči obvestila _namizja"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
 msgid "Enable _audio notifications"
 msgstr "Omogoči _zvočna obvestila"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
 msgid "Display reminders for completed _tasks"
 msgstr "Pokaži opomnike _opravljenih nalog"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
 msgid "Display reminders for _past events"
 msgstr "Pokaži opomnike _preteklih dogodkov"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
 msgid "Set _default reminder"
 msgstr "Nastavi _privzet opomnik"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:94
 msgid "before every new appointment"
 msgstr "pred vsakim sestankom"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:95
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:96
 msgid "Show a _reminder"
 msgstr "Pokaži o_pomnik"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:97
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:98
 msgid "before every anniversary/birthday"
 msgstr "pred vsako obletnico ali rojstnim dnem"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:99
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:100
 msgid "Show a r_eminder"
 msgstr "Pokaži o_pomnik"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:101
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:102
 msgid "before every event in chosen calendars"
 msgstr "pred vsakim dogodkom v izbranih koledarjih"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:102
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:103
 msgid "Select the sources for reminder notification:"
 msgstr "Izberite vire za obvestila opomnikov:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:105
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:106
 msgid "Default Free/Busy Server"
 msgstr "Privzet strežnik zasedenosti"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:108
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:109
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr "Vpisa %u in %d bosta zamenjana s podatki uporabnika in domene iz elektronskega naslova."
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:109
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:110
 msgid ""
 "Specify login user name as part of the URL in case the server requires authentication, like: "
 "https://USER@example.com/"
@@ -23981,7 +23993,7 @@ msgstr ""
 "Navedite uporabniško ime za prijavo kot del naslova URL, če strežnik zahteva overitev, na "
 "primer: https: //UPORABNIŠKOIME@splet.si/"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:110
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:111
 msgid "Publishing Information"
 msgstr "Objavi podrobnosti"
 
