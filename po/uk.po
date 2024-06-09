@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-06-06 09:21+0000\n"
-"PO-Revision-Date: 2024-06-06 22:50+0300\n"
+"POT-Creation-Date: 2024-06-07 09:10+0000\n"
+"PO-Revision-Date: 2024-06-09 17:49+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -1148,10 +1148,26 @@ msgstr ""
 "теми. Якщо хочете вказати колір, скористайтеся форматом «#ЧЧЗЗСС»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
+#| msgid "Show Tasks and Memos pane in the Calendar view"
+msgid "Allow drag and drop of events in the Calendar."
+msgstr "Дозволити перетягування зі скиданням для записів подій у календарі."
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
+#| msgid ""
+#| "Show week numbers in Day View, Work Week View, Year view and Date "
+#| "Navigator"
+msgid ""
+"This influences the Day view, the Work Week view, the Week view and the "
+"Month view."
+msgstr ""
+"Це вплине на режим перегляду «День», режим перегляду «Робочий тиждень»,"
+" режим перегляду «Тиждень» і режим перегляду «Місяць»."
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(Застаріло) Перший день тижня, від неділі (0) до суботи (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
@@ -1159,11 +1175,11 @@ msgstr ""
 "Цей ключ застарілий з версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «week-start-day-name» натомість."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
 msgid "(Deprecated) Work days"
 msgstr "(Застаріло) Робочі дні"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the “work-"
@@ -4029,22 +4045,22 @@ msgid ""
 "very often, even as the user types, thus make sure it'll not be slow, "
 "because it can block the application."
 msgstr ""
-"Якщо не є порожнім, може містити команду, яку буде використано для"
-" перетворення коду markdown на HTML. У команді можуть міститися додаткові"
-" аргументи, але не змінні оболонки та подібні змінні. Очікується, що команда"
-" читатиме код markdown зі стандартного джерела даних (stdin) і записуватиме"
-" дані HTML до стандартного виведення (stdout). Команду може бути викликано"
-" дуже часто, навіть коли користувач вводить текст, тому вона має бути доволі"
-" швидкою, оскільки може блокувати роботу програми."
+"Якщо не є порожнім, може містити команду, яку буде використано для "
+"перетворення коду markdown на HTML. У команді можуть міститися додаткові "
+"аргументи, але не змінні оболонки та подібні змінні. Очікується, що команда "
+"читатиме код markdown зі стандартного джерела даних (stdin) і записуватиме "
+"дані HTML до стандартного виведення (stdout). Команду може бути викликано "
+"дуже часто, навіть коли користувач вводить текст, тому вона має бути доволі "
+"швидкою, оскільки може блокувати роботу програми."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:56
 msgid ""
 "Additional argument to use with markdown-to-html-command when want to get "
 "source position in the output HTML"
 msgstr ""
-"Додатковий аргумент, яким слід скористатися у команді перетворення markdown"
-" на html при отриманні позиції у початковому коді для результатів у форматі"
-" HTML"
+"Додатковий аргумент, яким слід скористатися у команді перетворення markdown "
+"на html при отриманні позиції у початковому коді для результатів у форматі "
+"HTML"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:57
 msgid ""
@@ -4053,11 +4069,11 @@ msgid ""
 "command command line to include them. It can be empty when not supported by "
 "that command."
 msgstr ""
-"Редактор markdown може надсилати запити щодо отримання позиції у початковому"
-" коді як додаткові атрибути `data-"
-"sourcepos`. У цьому випадку аргумент буде дописано до команди перетворення"
-" markdown на html з метою включення цих атрибутів. Може бути порожнім, якщо"
-" підтримки таких атрибутів у команді не передбачено."
+"Редактор markdown може надсилати запити щодо отримання позиції у початковому "
+"коді як додаткові атрибути `data-sourcepos`. У цьому випадку аргумент буде "
+"дописано до команди перетворення markdown на html з метою включення цих "
+"атрибутів. Може бути порожнім, якщо підтримки таких атрибутів у команді не "
+"передбачено."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -4226,7 +4242,7 @@ msgstr "Примітки"
 #: ../src/calendar/importers/icalendar-importer.c:74
 #: ../src/calendar/importers/icalendar-importer.c:1136
 #: ../src/e-util/e-webdav-browser.c:529
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
 #: ../src/modules/calendar/e-cal-shell-content.c:1901
 #: ../src/modules/calendar/e-task-shell-view-actions.c:246
 #: ../src/modules/calendar/e-task-shell-view-actions.c:261
@@ -5431,14 +5447,14 @@ msgstr "_Річниця:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1888
+#: ../src/calendar/gui/e-calendar-view.c:1912
 msgid "Anniversary"
 msgstr "Річниця"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1887
+#: ../src/calendar/gui/e-calendar-view.c:1911
 msgid "Birthday"
 msgstr "День народження"
 
@@ -8607,54 +8623,54 @@ msgstr "Надіслати мої нагадування з цією подіє�
 msgid "Notify new attendees _only"
 msgstr "Сповідати _лише нових учасників"
 
-#: ../src/calendar/gui/e-calendar-view.c:453
+#: ../src/calendar/gui/e-calendar-view.c:465
 msgid "Cut selected events to the clipboard"
 msgstr "Вирізати виділені події у буфер обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:459
+#: ../src/calendar/gui/e-calendar-view.c:471
 msgid "Copy selected events to the clipboard"
 msgstr "Копіювати виділені події у буфер обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:465
+#: ../src/calendar/gui/e-calendar-view.c:477
 msgid "Paste events from the clipboard"
 msgstr "Вставити події з буфера обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:471
+#: ../src/calendar/gui/e-calendar-view.c:483
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1448
 msgid "Delete selected events"
 msgstr "Вилучити вибрані події"
 
-#: ../src/calendar/gui/e-calendar-view.c:977
+#: ../src/calendar/gui/e-calendar-view.c:989
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "Вставлений текст не містить дійсних даних iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:988
+#: ../src/calendar/gui/e-calendar-view.c:1000
 #: ../src/calendar/gui/e-cal-ops.c:1587
 msgid "Default calendar not found"
 msgstr "Типовий календар не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:993
+#: ../src/calendar/gui/e-calendar-view.c:1005
 #: ../src/calendar/gui/e-cal-ops.c:1590
 msgid "Default memo list not found"
 msgstr "Типовий список приміток не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:998
+#: ../src/calendar/gui/e-calendar-view.c:1010
 #: ../src/calendar/gui/e-cal-ops.c:1593
 msgid "Default task list not found"
 msgstr "Типовий список завдань не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:1105
+#: ../src/calendar/gui/e-calendar-view.c:1117
 msgid "No suitable component found"
 msgstr "Не знайдено належний модель"
 
-#: ../src/calendar/gui/e-calendar-view.c:1170
+#: ../src/calendar/gui/e-calendar-view.c:1182
 msgid "Pasting iCalendar data"
 msgstr "Вставлення даних iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:1227
-#: ../src/calendar/gui/e-calendar-view.c:1230
-#: ../src/calendar/gui/e-calendar-view.c:1233
-#: ../src/calendar/gui/e-calendar-view.c:1234
+#: ../src/calendar/gui/e-calendar-view.c:1239
+#: ../src/calendar/gui/e-calendar-view.c:1242
+#: ../src/calendar/gui/e-calendar-view.c:1245
+#: ../src/calendar/gui/e-calendar-view.c:1246
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -8663,7 +8679,7 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1229
+#: ../src/calendar/gui/e-calendar-view.c:1241
 #: ../src/calendar/gui/e-day-view.c:3282
 #: ../src/calendar/gui/e-day-view-top-item.c:845
 #: ../src/calendar/gui/e-week-view-main-item.c:223
@@ -8671,7 +8687,7 @@ msgstr "%d %b %Y"
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1240
+#: ../src/calendar/gui/e-calendar-view.c:1252
 msgid "%A %d %b %Y"
 msgstr "%A, %d %b %Y"
 
@@ -8681,7 +8697,7 @@ msgstr "%A, %d %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1242
+#: ../src/calendar/gui/e-calendar-view.c:1254
 #: ../src/calendar/gui/e-day-view.c:3266
 #: ../src/calendar/gui/e-day-view-top-item.c:841
 #: ../src/calendar/gui/e-week-view-main-item.c:209
@@ -8689,9 +8705,9 @@ msgstr "%A, %d %b %Y"
 msgid "%a %d %b"
 msgstr "%a, %d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1243
-#: ../src/calendar/gui/e-calendar-view.c:1245
-#: ../src/calendar/gui/e-calendar-view.c:1246
+#: ../src/calendar/gui/e-calendar-view.c:1255
+#: ../src/calendar/gui/e-calendar-view.c:1257
+#: ../src/calendar/gui/e-calendar-view.c:1258
 msgid "%a %d %b %Y"
 msgstr "%a, %d %b %Y"
 
@@ -8699,7 +8715,7 @@ msgstr "%a, %d %b %Y"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1907
+#: ../src/calendar/gui/e-calendar-view.c:1931
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -9790,7 +9806,7 @@ msgid "_Add time"
 msgstr "_Додати час"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2136
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Reminders"
 msgstr "Нагадування"
 
@@ -10719,7 +10735,7 @@ msgstr "Зробити"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3885
+#: ../src/calendar/gui/e-week-view.c:3886
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -13146,7 +13162,7 @@ msgstr "Натисніть тут, щоб вибрати теку для від�
 msgid "Send"
 msgstr "Надіслати"
 
-#: ../src/composer/e-msg-composer.c:1189
+#: ../src/composer/e-msg-composer.c:1190
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -13154,7 +13170,7 @@ msgstr ""
 "Не вдалося підписати повідомлення: для цього облікового запису не "
 "встановлений сертифікат підпису"
 
-#: ../src/composer/e-msg-composer.c:1198
+#: ../src/composer/e-msg-composer.c:1199
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -13163,32 +13179,32 @@ msgstr ""
 "Не вдалося зашифрувати повідомлення: для облікового запису не встановлений "
 "сертифікат шифрування"
 
-#: ../src/composer/e-msg-composer.c:1643
+#: ../src/composer/e-msg-composer.c:1644
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Не вдалося отримати оброблені звичайні текстові дані"
 
-#: ../src/composer/e-msg-composer.c:1767
+#: ../src/composer/e-msg-composer.c:1768
 msgid "Failed to retrieve draft content"
 msgstr "Не вдалося отримати вміст чернетки"
 
-#: ../src/composer/e-msg-composer.c:1780
+#: ../src/composer/e-msg-composer.c:1781
 msgid "Failed to retrieve HTML processed content"
 msgstr "Не вдалося отримати оброблені дані HTML"
 
-#: ../src/composer/e-msg-composer.c:2092 ../src/composer/e-msg-composer.c:2805
+#: ../src/composer/e-msg-composer.c:2093 ../src/composer/e-msg-composer.c:2806
 msgid "Compose Message"
 msgstr "Нове повідомлення"
 
-#: ../src/composer/e-msg-composer.c:5035
+#: ../src/composer/e-msg-composer.c:5041
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Читаємо текстові дані…"
 
-#: ../src/composer/e-msg-composer.c:5103
+#: ../src/composer/e-msg-composer.c:5109
 msgid "Send _without encryption"
 msgstr "Надіслати _без шифрування"
 
-#: ../src/composer/e-msg-composer.c:5891
+#: ../src/composer/e-msg-composer.c:5897
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Переглянути долучення перед надсиланням."
@@ -13196,7 +13212,7 @@ msgstr[1] "Переглянути долучення перед надсилан
 msgstr[2] "Переглянути долучення перед надсиланням."
 msgstr[3] "Переглянути долучення перед надсиланням."
 
-#: ../src/composer/e-msg-composer.c:5896
+#: ../src/composer/e-msg-composer.c:5902
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -13217,7 +13233,7 @@ msgstr[3] ""
 "Зовнішньою програмою додано одне долучення. Перш ніж надсилати повідомлення, "
 "переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 
-#: ../src/composer/e-msg-composer.c:6022
+#: ../src/composer/e-msg-composer.c:6028
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редактор містить не текстовий вміст, який неможливо редагувати."
 
@@ -14013,7 +14029,7 @@ msgstr "Адресні книги"
 
 #: ../src/e-util/e-accounts-window.c:568 ../src/e-util/e-accounts-window.c:709
 #: ../src/e-util/e-accounts-window.c:917
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:103
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:104
 msgid "Calendars"
 msgstr "Календарі"
 
@@ -14024,7 +14040,7 @@ msgstr "Списки приміток"
 
 #: ../src/e-util/e-accounts-window.c:580 ../src/e-util/e-accounts-window.c:711
 #: ../src/e-util/e-accounts-window.c:919
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:104
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:105
 msgid "Task Lists"
 msgstr "Списки завдань"
 
@@ -14766,7 +14782,7 @@ msgid "Memo List"
 msgstr "Список приміток"
 
 #: ../src/e-util/e-collection-account-wizard.c:874
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:70
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:71
 msgid "Task List"
 msgstr "Список завдань"
 
@@ -16325,7 +16341,7 @@ msgid "Background Image"
 msgstr "Зображення тла"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:514
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:106
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:107
 msgid "_Template:"
 msgstr "_Шаблон:"
 
@@ -16753,19 +16769,16 @@ msgstr "Командою «%s» повернуто повідомлення пр
 
 #: ../src/e-util/e-markdown-utils.c:189
 #, c-format
-#| msgid "Failed to launch command “%s”:"
 msgid "Failed to read data from command “%s”: %s"
 msgstr "Не вдалося прочитати дані з команди «%s»: %s"
 
 #: ../src/e-util/e-markdown-utils.c:199
 #, c-format
-#| msgid "Failed to launch command “%s”:"
 msgid "Failed to run process from command line “%s”: %s"
 msgstr "Не вдалося запустити процес з рядка команди «%s»: %s"
 
 #: ../src/e-util/e-markdown-utils.c:209
 #, c-format
-#| msgid "Failed to open file “%s”: %s"
 msgid "Failed to parse command line “%s”: %s"
 msgstr "Не вдалося обробити рядок команди «%s»: %s"
 
@@ -19083,7 +19096,7 @@ msgstr "Використати адресу відправника"
 #: ../src/mail/em-folder-properties.c:1428 ../src/mail/mail-config.ui.h:37
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:646
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:54
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:56
 #: ../src/modules/mail/e-mail-shell-backend.c:1041
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1629
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
@@ -21920,7 +21933,7 @@ msgid "Highlight _quotations with"
 msgstr "Висвітлювати _цитування"
 
 #: ../src/mail/mail-config.ui.h:107
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:72
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Pick a color"
 msgstr "Вибір кольору"
 
@@ -24788,11 +24801,11 @@ msgstr "Пошук конфліктів"
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Виберіть календарі для пошуку конфліктуючих зібрань"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1240
+#: ../src/modules/calendar/e-calendar-preferences.c:1246
 msgid "Ti_me and date:"
 msgstr "Дата й _час:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1241
+#: ../src/modules/calendar/e-calendar-preferences.c:1247
 msgid "_Date only:"
 msgstr "Лише _дата:"
 
@@ -24958,171 +24971,175 @@ msgstr "Типово створювати події, примітки і зав
 msgid "Use ma_rkdown for Description in the component editor"
 msgstr "Використовувати роз_мітку для «Опису» у редакторі компонентів"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:55
-msgid "View Options"
-msgstr "Параметри перегляду"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:56
-msgid "_Time divisions:"
-msgstr "Поділки _часу:"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:57
-msgid "_Show appointment end times in week and month view"
-msgstr "_Показувати час завершення зустрічей при перегляді тижню та місяцю"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:58
-msgid "Show appointment _icons in the month view"
-msgstr "Показувати _піктограми зустрічі в перегляді місяця"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:59
-msgid "_Compress weekends in month view"
-msgstr "С_тискати вихідні дні при перегляді місяцю"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:60
-msgid "Show week _numbers"
-msgstr "Показувати _кількість тижнів"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:61
-msgid "Show r_ecurring events in italic in bottom left calendar"
-msgstr "Показувати пер_іодичні події курсивом у кнопці зліва від календарю"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:62
-msgid "Sc_roll Month View by a week"
-msgstr "_Прокручувати огляд місяцю по тижнях"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:63
-msgid "Start Month View with the c_urrent week"
-msgstr "Починати перегляд місяця з по_точного тижня"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:64
-msgid "Order days in Week View from _left to right"
-msgstr "Впорядковувати дні у огляді тижня _зліва направо"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:65
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:54
 msgid "Allo_w direct edit of event Summary"
 msgstr "Доз_волити пряме редагування Звіту події"
 
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:55
+msgid "Allow dra_g and drop of events"
+msgstr "Дозволити п_еретягування зі скиданням для подій"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:57
+msgid "View Options"
+msgstr "Параметри перегляду"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:58
+msgid "_Time divisions:"
+msgstr "Поділки _часу:"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:59
+msgid "_Show appointment end times in week and month view"
+msgstr "_Показувати час завершення зустрічей при перегляді тижню та місяцю"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:60
+msgid "Show appointment _icons in the month view"
+msgstr "Показувати _піктограми зустрічі в перегляді місяця"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:61
+msgid "_Compress weekends in month view"
+msgstr "С_тискати вихідні дні при перегляді місяцю"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:62
+msgid "Show week _numbers"
+msgstr "Показувати _кількість тижнів"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:63
+msgid "Show r_ecurring events in italic in bottom left calendar"
+msgstr "Показувати пер_іодичні події курсивом у кнопці зліва від календарю"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:64
+msgid "Sc_roll Month View by a week"
+msgstr "_Прокручувати огляд місяцю по тижнях"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:65
+msgid "Start Month View with the c_urrent week"
+msgstr "Починати перегляд місяця з по_точного тижня"
+
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:66
+msgid "Order days in Week View from _left to right"
+msgstr "Впорядковувати дні у огляді тижня _зліва направо"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:67
 msgid "Hi_de cancelled events"
 msgstr "При_ховати скасовані події"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:67
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:68
 msgid "Alerts"
 msgstr "Сигнали"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:68
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:69
 msgid "_Ask for confirmation when deleting items"
 msgstr "П_итати підтвердження при вилученні об'єктів"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:69
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:70
 msgid "Display"
 msgstr "Відображення"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:71
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:72
 msgid "Highlight t_asks due today"
 msgstr "Підсвітити _завдання на сьогодні"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:73
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:74
 msgid "Highlight _overdue tasks"
 msgstr "Підсвітити з_гаяні завдання"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:74
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:75
 msgid "_Hide completed tasks after"
 msgstr "При_ховувати виконані завдання через"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:75
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:76
 msgid "Hid_e cancelled tasks"
 msgstr "При_ховати скасовані завдання"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:76
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:77
 msgid "To Do bar"
 msgstr "Панель «Зробити»"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:77
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:78
 msgid "Show Tasks without _Due date"
 msgstr "Показувати завдання без _терміну виконання"
 
 #. Translators: This constructs: Show [spinner] days
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:79
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:80
 msgctxt "to-do-bar-n-days"
 msgid "Show"
 msgstr "Показати"
 
 #. Translators: This constructs: Show [spinner] days
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 msgctxt "to-do-bar-n-days"
 msgid "da_ys"
 msgstr "д_нів"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:84
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
 msgid "Display Reminders window with _notifications"
 msgstr "Показувати вікно нагадувань за допомогою с_повіщень"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
 msgid "Keep reminder notification _window always on top"
 msgstr "Тримати _вікно сповіщення про нагадування завжди зверху"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
 msgid "Enable de_sktop notifications"
 msgstr "Увімкнути сповіщення на с_тільниці"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
 msgid "Enable _audio notifications"
 msgstr "Увімкнути зв_укові сповіщення"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
 msgid "Display reminders for completed _tasks"
 msgstr "Показувати нагадування виконаних _завдань"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
 msgid "Display reminders for _past events"
 msgstr "Показувати нагадування _минулих завдань"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
 msgid "Set _default reminder"
 msgstr "Встановити _типове нагадування"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:94
 msgid "before every new appointment"
 msgstr "перед кожною новою зустріччю"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:95
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:96
 msgid "Show a _reminder"
 msgstr "Показати _нагадування"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:97
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:98
 msgid "before every anniversary/birthday"
 msgstr "до кожної річниці/дня народження"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:99
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:100
 msgid "Show a r_eminder"
 msgstr "Показувати н_агадування"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:101
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:102
 msgid "before every event in chosen calendars"
 msgstr "перед кожною подією у вибраних календарях"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:102
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:103
 msgid "Select the sources for reminder notification:"
 msgstr "Виберіть джерела для сповіщення про нагадування:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:105
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:106
 msgid "Default Free/Busy Server"
 msgstr "<span weight=\"bold\">Типовий сервер «Вільний/зайнятий»</span>"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:108
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:109
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr ""
 "%u и %d будуть замінені на користувача та домен з адреси електронної пошти."
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:109
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:110
 msgid ""
 "Specify login user name as part of the URL in case the server requires "
 "authentication, like: https://USER@example.com/"
@@ -25130,7 +25147,7 @@ msgstr ""
 "Вкажіть ім'я користувача для входу як частину адреси, якщо для доступу до "
 "сервера слід пройти розпізнавання. Приклад: https://USER@example.com/"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:110
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:111
 msgid "Publishing Information"
 msgstr "Оприлюднення інформації"
 
