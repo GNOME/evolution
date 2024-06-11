@@ -245,7 +245,6 @@ attachment_update_file_info_columns_idle_cb (gpointer weak_ref)
 	EAttachment *attachment;
 	GFileInfo *file_info;
 	const gchar *content_type;
-	const gchar *display_name;
 	gchar *content_desc;
 	gchar *display_size;
 	gchar *description;
@@ -265,7 +264,6 @@ attachment_update_file_info_columns_idle_cb (gpointer weak_ref)
 		goto exit;
 
 	content_type = g_file_info_get_content_type (file_info);
-	display_name = g_file_info_get_display_name (file_info);
 	size = g_file_info_get_size (file_info);
 
 	content_desc = g_content_type_get_description (content_type);
@@ -273,6 +271,13 @@ attachment_update_file_info_columns_idle_cb (gpointer weak_ref)
 
 	description = e_attachment_dup_description (attachment);
 	if (description == NULL || *description == '\0') {
+		const gchar *display_name;
+
+		if (g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME))
+			display_name = g_file_info_get_display_name (file_info);
+		else
+			display_name = "";
+
 		g_free (description);
 		description = g_strdup (display_name);
 	}
