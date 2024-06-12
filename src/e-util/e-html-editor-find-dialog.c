@@ -218,6 +218,7 @@ e_html_editor_find_dialog_init (EHTMLEditorFindDialog *dialog)
 
 	widget = gtk_check_button_new_with_mnemonic (N_("_Wrap Search"));
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
 	dialog->priv->wrap_search = widget;
 	g_signal_connect_swapped (
 		widget, "toggled",
