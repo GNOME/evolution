@@ -892,6 +892,10 @@ action_mail_forward_quoted_cb (GtkAction *action,
 }
 
 static void
+action_mail_label_change_more_cb (GtkAction *action,
+				  EMailReader *reader);
+
+static void
 action_mail_label_new_cb (GtkAction *action,
                           EMailReader *reader)
 {
@@ -2859,6 +2863,13 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Forward the selected message quoted like a reply"),
 	  G_CALLBACK (action_mail_forward_quoted_cb) },
 
+	{ "mail-label-change-more",
+	  NULL,
+	  N_("Change _More Labels…"),
+	  "l",
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mail_label_change_more_cb) },
+
 	{ "mail-label-new",
 	  NULL,
 	  N_("_New Label"),
@@ -4753,6 +4764,284 @@ mail_reader_update_labels_menu (EMailReader *reader)
 
 	g_hash_table_destroy (labels_info);
 	g_ptr_array_unref (uids);
+}
+
+static void
+mail_label_change_more_checkbox_toggled_cb (GtkToggleButton *button)
+{
+	g_signal_handlers_block_by_func (button, mail_label_change_more_checkbox_toggled_cb, NULL);
+
+	if (gtk_toggle_button_get_inconsistent (button) &&
+	    gtk_toggle_button_get_active (button)) {
+		gtk_toggle_button_set_active (button, FALSE);
+		gtk_toggle_button_set_inconsistent (button, FALSE);
+	} else if (!gtk_toggle_button_get_active (button)) {
+		gtk_toggle_button_set_inconsistent (button, TRUE);
+		gtk_toggle_button_set_active (button, FALSE);
+	}
+
+	g_signal_handlers_unblock_by_func (button, mail_label_change_more_checkbox_toggled_cb, NULL);
+}
+
+typedef struct _MoreLabelsData {
+	GPtrArray *uids;
+	GPtrArray *checkboxes;
+	CamelFolder *folder;
+} MoreLabelsData;
+
+static void
+more_labels_data_free (gpointer ptr)
+{
+	MoreLabelsData *mld = ptr;
+
+	if (mld) {
+		g_ptr_array_unref (mld->checkboxes);
+		g_ptr_array_unref (mld->uids);
+		g_clear_object (&mld->folder);
+		g_free (mld);
+	}
+}
+
+static void
+mail_label_change_more_store_changes (MoreLabelsData *mld,
+				      gboolean unset_all)
+{
+	guint ii, jj;
+
+	camel_folder_freeze (mld->folder);
+
+	for (ii = 0; ii < mld->checkboxes->len; ii++) {
+		GtkToggleButton *checkbox = g_ptr_array_index (mld->checkboxes, ii);
+		const gchar *tag;
+
+		if (!unset_all && gtk_toggle_button_get_inconsistent (checkbox))
+			continue;
+
+		tag = g_object_get_data (G_OBJECT (checkbox), "tag");
+		if (!tag || !*tag)
+			continue;
+
+		for (jj = 0; jj < mld->uids->len; jj++) {
+			const gchar *uid = g_ptr_array_index (mld->uids, jj);
+
+			if (unset_all || !gtk_toggle_button_get_active (checkbox)) {
+				camel_folder_set_message_user_flag (mld->folder, uid, tag, FALSE);
+				camel_folder_set_message_user_tag (mld->folder, uid, "label", NULL);
+			} else {
+				camel_folder_set_message_user_flag (mld->folder, uid, tag, TRUE);
+			}
+		}
+	}
+
+	camel_folder_thaw (mld->folder);
+}
+
+static void
+mail_label_change_more_set_selected_clicked_cb (GtkWidget *button,
+						gpointer user_data)
+{
+	GtkWidget *popover = user_data;
+	MoreLabelsData *mld = g_object_get_data (G_OBJECT (popover), "more-labels-data");
+
+	g_return_if_fail (mld != NULL);
+
+	mail_label_change_more_store_changes (mld, FALSE);
+
+	/* do it as the last thing, it frees the 'mld' structure */
+	gtk_widget_hide (popover);
+}
+
+static void
+mail_label_change_more_set_none_clicked_cb (GtkWidget *button,
+					    gpointer user_data)
+{
+	GtkWidget *popover = user_data;
+	MoreLabelsData *mld = g_object_get_data (G_OBJECT (popover), "more-labels-data");
+
+	g_return_if_fail (mld != NULL);
+
+	mail_label_change_more_store_changes (mld, TRUE);
+
+	/* do it as the last thing, it frees the 'mld' structure */
+	gtk_widget_hide (popover);
+}
+
+static void
+action_mail_label_change_more_cb (GtkAction *action,
+				  EMailReader *reader)
+{
+	GtkBox *box;
+	GtkGrid *grid;
+	GtkWidget *widget, *popover;
+	EMailLabelListStore *label_store;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GHashTable *labels_info; /* gchar * ~> guint { LABEL_EXISTS | LABEL_NOTEXIST | LABEL_UNKNOWN } */
+	GPtrArray *uids;
+	GPtrArray *checkboxes;
+	gboolean valid;
+	guint ii, col, row, max_rows, split_to_rows;
+	MoreLabelsData *mld;
+
+	uids = e_mail_reader_get_selected_uids (reader);
+	if (!uids)
+		return;
+
+	label_store = e_mail_ui_session_get_label_store (E_MAIL_UI_SESSION (e_mail_backend_get_session (e_mail_reader_get_backend (reader))));
+	labels_info = mail_reader_gather_labels_info (reader, label_store, uids);
+
+	model = GTK_TREE_MODEL (label_store);
+	checkboxes = g_ptr_array_sized_new (gtk_tree_model_iter_n_children (model, NULL));
+	valid = gtk_tree_model_get_iter_first (model, &iter);
+
+	while (valid) {
+		GtkWidget *checkbox;
+		gchar *label;
+		gchar *stock_id;
+		gchar *tag;
+		guint value;
+		gboolean exists, not_exists;
+
+		label = e_mail_label_list_store_get_name (label_store, &iter);
+		stock_id = e_mail_label_list_store_get_stock_id (label_store, &iter);
+		tag = e_mail_label_list_store_get_tag (label_store, &iter);
+
+		checkbox = gtk_check_button_new_with_mnemonic (label);
+		if (stock_id && *stock_id) {
+			gtk_button_set_image (GTK_BUTTON (checkbox), gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_MENU));
+			gtk_button_set_always_show_image (GTK_BUTTON (checkbox), TRUE);
+		}
+		g_object_set_data_full (G_OBJECT (checkbox), "tag", tag, g_free);
+		gtk_widget_show (checkbox);
+
+		value = GPOINTER_TO_UINT (g_hash_table_lookup (labels_info, tag));
+		exists = (value & LABEL_EXISTS) != 0;
+		not_exists = (value & LABEL_NOTEXIST) != 0;
+
+		if (exists && not_exists)
+			gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (checkbox), TRUE);
+		else if (exists)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), TRUE);
+
+		g_signal_connect (checkbox, "toggled",
+			G_CALLBACK (mail_label_change_more_checkbox_toggled_cb), NULL);
+
+		g_ptr_array_add (checkboxes, checkbox);
+
+		g_free (label);
+		g_free (stock_id);
+
+		valid = gtk_tree_model_iter_next (model, &iter);
+	}
+
+	grid = GTK_GRID (gtk_grid_new ());
+	g_object_set (G_OBJECT (grid),
+		"margin-start", 12,
+		"margin-end", 12,
+		"margin-top", 12,
+		"margin-bottom", 12,
+		"visible", TRUE,
+		"column-homogeneous", TRUE,
+		"column-spacing", 4,
+		"row-spacing", 4,
+		NULL);
+
+	/* The '7' is just a magic value, to have up to 7 rows in a column */
+	split_to_rows = 7;
+	if (checkboxes->len > split_to_rows) {
+		#define need_cols(_n_rows) ((checkboxes->len / (_n_rows)) + ((checkboxes->len % (_n_rows)) == 0 ? 0 : 1))
+		/* to make it look more naturally, when the last column is less than half filled */
+		while (split_to_rows > 5 && (checkboxes->len % split_to_rows) <= split_to_rows / 2 + 1) {
+			/* using one-less row does not increase the column count, then use less rows */
+			if (need_cols (split_to_rows) == need_cols (split_to_rows - 1))
+				split_to_rows--;
+			else
+				break;
+		}
+		#undef need_cols
+	}
+
+	col = 0;
+	row = 1;
+	max_rows = 1;
+
+	for (ii = 0; ii < checkboxes->len; ii++) {
+		widget = g_ptr_array_index (checkboxes, ii);
+
+		gtk_grid_attach (grid, widget, col, row, 1, 1);
+		row++;
+
+		if (row - 1 == split_to_rows && ii + 1 < checkboxes->len) {
+			row = 1;
+			col++;
+		}
+
+		if (row > max_rows)
+			max_rows = row;
+	}
+
+	mld = g_new0 (MoreLabelsData, 1);
+	mld->uids = uids;
+	mld->checkboxes = checkboxes;
+	mld->folder = e_mail_reader_ref_folder (reader);
+
+	popover = gtk_popover_new (GTK_WIDGET (e_mail_reader_get_message_list (reader)));
+	gtk_popover_set_position (GTK_POPOVER (popover), GTK_POS_BOTTOM);
+	gtk_container_add (GTK_CONTAINER (popover), GTK_WIDGET (grid));
+
+	g_object_set_data_full (G_OBJECT (popover), "more-labels-data", mld, more_labels_data_free);
+
+	widget = gtk_label_new (g_dngettext (GETTEXT_PACKAGE, "Modify labels for selected message", "Modify labels for selected messages", mld->uids->len));
+	gtk_widget_show (widget);
+	gtk_grid_attach (grid, widget, 0, 0, col + 1, 1);
+
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
+	gtk_widget_set_halign (widget, GTK_ALIGN_CENTER);
+	box = GTK_BOX (widget);
+
+	widget = gtk_button_new_with_mnemonic (_("Set _Selected"));
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (mail_label_change_more_set_selected_clicked_cb), popover);
+
+	widget = gtk_button_new_with_mnemonic (_("Set _None"));
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (mail_label_change_more_set_none_clicked_cb), popover);
+
+	widget = gtk_button_new_with_mnemonic (_("_Cancel"));
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+
+	g_signal_connect_swapped (widget, "clicked",
+		G_CALLBACK (gtk_widget_hide), popover);
+
+	gtk_widget_show_all (GTK_WIDGET (box));
+	gtk_grid_attach (grid, GTK_WIDGET (box), 0, max_rows + 1, col + 1, 1);
+
+	g_signal_connect (popover, "closed",
+		G_CALLBACK (gtk_widget_destroy), NULL);
+
+	widget = gtk_popover_get_relative_to (GTK_POPOVER (popover));
+	if (widget) {
+		GtkAllocation allocation;
+		GdkRectangle rect;
+
+		gtk_widget_get_allocation (widget, &allocation);
+
+		/* Point into the middle of the message list, for a lack of easy check where the list's cursor/selection is */
+		rect.x = allocation.width / 2;
+		rect.y = allocation.height / 2;
+		rect.width = 1;
+		rect.height = 1;
+
+		gtk_popover_set_pointing_to (GTK_POPOVER (popover), &rect);
+	}
+
+	gtk_widget_show (popover);
+
+	g_hash_table_destroy (labels_info);
 }
 
 static void

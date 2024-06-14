@@ -177,6 +177,7 @@
       <placeholder name='mail-label-actions'/>
       <separator/>
       <menuitem action='mail-label-new'/>
+      <menuitem action='mail-label-change-more'/>
     </menu>
     <separator/>
     <menu action='mail-create-menu'>

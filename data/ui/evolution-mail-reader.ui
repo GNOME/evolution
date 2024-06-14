@@ -102,6 +102,7 @@
             <placeholder name='mail-label-actions'/>
             <separator/>
             <menuitem action='mail-label-new'/>
+            <menuitem action='mail-label-change-more'/>
           </menu>
           <separator/>
           <menuitem action='mail-mark-ignore-thread-whole'/>
