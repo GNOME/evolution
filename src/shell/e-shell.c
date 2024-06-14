@@ -34,10 +34,6 @@
 #include <libebackend/libebackend.h>
 #include <libedataserver/libedataserver.h>
 
-#ifdef ENABLE_CONTACT_MAPS
-#include <clutter-gtk/clutter-gtk.h>
-#endif
-
 #include "e-util/e-util-private.h"
 
 #include "e-shell-backend.h"
@@ -2649,12 +2645,6 @@ e_shell_init (EShell *shell)
 		G_CALLBACK (e_shell_handle_local_options_cb), NULL);
 
 	g_application_add_main_option_entries (G_APPLICATION (shell), app_options);
-
-#ifdef ENABLE_CONTACT_MAPS
-	g_application_add_option_group (G_APPLICATION (shell), cogl_get_option_group ());
-	g_application_add_option_group (G_APPLICATION (shell), clutter_get_option_group ());
-	g_application_add_option_group (G_APPLICATION (shell), gtk_clutter_get_option_group ());
-#endif
 }
 
 /**
