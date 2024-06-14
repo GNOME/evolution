@@ -47,6 +47,10 @@
 
 #include <webkit2/webkit2.h>
 
+#ifdef ENABLE_CONTACT_MAPS
+#include <clutter-gtk/clutter-gtk.h>
+#endif
+
 #include "e-shell.h"
 
 #ifdef G_OS_WIN32
@@ -356,6 +360,16 @@ main (gint argc,
 		 *           upgrading from Evolution 2.30 or older. */
 		e_migrate_base_dirs (shell);
 		e_convert_local_mail (shell);
+
+		/* Clutter is not developed anymore. Unfortunately, when its options are parsed,
+		   it can cause a crash when the instance is a remote app, not the main app.
+		   Side-effect of this change is that the --help will show different options
+		   when invoked on the remote instance and when on a primary instance. */
+		#ifdef ENABLE_CONTACT_MAPS
+		g_application_add_option_group (G_APPLICATION (shell), cogl_get_option_group ());
+		g_application_add_option_group (G_APPLICATION (shell), clutter_get_option_group ());
+		g_application_add_option_group (G_APPLICATION (shell), gtk_clutter_get_option_group ());
+		#endif
 	}
 
 	ret = g_application_run (G_APPLICATION (shell), argc, argv);
