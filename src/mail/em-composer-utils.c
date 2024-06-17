@@ -2297,7 +2297,9 @@ static struct {
 
 static gchar *
 quoting_text (QuotingTextEnum type,
-	      EMsgComposer *composer)
+	      EMsgComposer *composer,
+	      gchar **out_restore_lc_messages,
+	      gchar **out_restore_lc_time)
 {
 	GSettings *settings;
 	gchar *restore_lc_messages = NULL, *restore_lc_time = NULL;
@@ -2307,8 +2309,18 @@ quoting_text (QuotingTextEnum type,
 	text = g_settings_get_string (settings, conf_messages[type].conf_key);
 	g_object_unref (settings);
 
-	if (text && *text)
+	if (text && *text) {
+		if (composer && out_restore_lc_messages && out_restore_lc_time) {
+			ESource *identity_source;
+
+			identity_source = emcu_ref_identity_source_from_composer (composer);
+
+			emcu_prepare_attribution_locale (identity_source, &restore_lc_messages, &restore_lc_time);
+
+			g_clear_object (&identity_source);
+		}
 		return text;
+	}
 
 	g_free (text);
 
@@ -2324,7 +2336,12 @@ quoting_text (QuotingTextEnum type,
 
 	text = g_strdup (_(conf_messages[type].message));
 
-	emcu_restore_locale_after_attribution (restore_lc_messages, restore_lc_time);
+	if (out_restore_lc_messages && out_restore_lc_time) {
+		*out_restore_lc_messages = restore_lc_messages;
+		*out_restore_lc_time = restore_lc_time;
+	} else {
+		emcu_restore_locale_after_attribution (restore_lc_messages, restore_lc_time);
+	}
 
 	return text;
 }
@@ -2341,7 +2358,7 @@ quoting_text (QuotingTextEnum type,
 gchar *
 em_composer_utils_get_forward_marker (EMsgComposer *composer)
 {
-	return quoting_text (QUOTING_FORWARD, composer);
+	return quoting_text (QUOTING_FORWARD, composer, NULL, NULL);
 }
 
 /**
@@ -2356,7 +2373,7 @@ em_composer_utils_get_forward_marker (EMsgComposer *composer)
 gchar *
 em_composer_utils_get_original_marker (EMsgComposer *composer)
 {
-	return quoting_text (QUOTING_ORIGINAL, composer);
+	return quoting_text (QUOTING_ORIGINAL, composer, NULL, NULL);
 }
 
 static gboolean
@@ -2811,6 +2828,7 @@ forward_non_attached (EMsgComposer *composer,
 	CamelSession *session;
 	EComposerHeaderTable *table;
 	EMailPartList *part_list = NULL;
+	gchar *restore_lc_messages = NULL, *restore_lc_time = NULL;
 	gchar *text, *forward, *subject;
 	guint32 validity_found = 0;
 	guint32 flags;
@@ -2831,8 +2849,9 @@ forward_non_attached (EMsgComposer *composer,
 	   forward subject, because both rely on that account. */
 	set_up_new_composer (composer, NULL, folder, message, uid, FALSE);
 
-	forward = quoting_text (QUOTING_FORWARD, composer);
+	forward = quoting_text (QUOTING_FORWARD, composer, &restore_lc_messages, &restore_lc_time);
 	text = em_utils_message_to_html_ex (session, message, forward, flags, NULL, NULL, NULL, &validity_found, &part_list);
+	emcu_restore_locale_after_attribution (restore_lc_messages, restore_lc_time);
 
 	e_msg_composer_add_attachments_from_part_list (composer, part_list, FALSE);
 
@@ -3871,7 +3890,7 @@ em_composer_utils_get_reply_credits (ESource *identity_source,
 
 	emcu_prepare_attribution_locale (identity_source, &restore_lc_messages, &restore_lc_time);
 
-	format = quoting_text (QUOTING_ATTRIBUTION, NULL);
+	format = quoting_text (QUOTING_ATTRIBUTION, NULL, NULL, NULL);
 	str = g_string_new ("");
 
 	date = camel_mime_message_get_date (message, &tzone);
@@ -4025,6 +4044,7 @@ composer_set_body (EMsgComposer *composer,
 	CamelSession *session;
 	GSettings *settings;
 	guint32 validity_found = 0, add_flags = 0;
+	gchar *restore_lc_messages = NULL, *restore_lc_time = NULL;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	if (g_settings_get_boolean (settings, "composer-reply-keep-signature"))
@@ -4047,10 +4067,11 @@ composer_set_body (EMsgComposer *composer,
 		g_object_unref (part);
 		break;
 	case E_MAIL_REPLY_STYLE_OUTLOOK:
-		original = quoting_text (QUOTING_ORIGINAL, composer);
+		original = quoting_text (QUOTING_ORIGINAL, composer, &restore_lc_messages, &restore_lc_time);
 		text = em_utils_message_to_html_ex (
 			session, message, original, E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS | add_flags,
 			parts_list, NULL, NULL, &validity_found, out_used_part_list);
+		emcu_restore_locale_after_attribution (restore_lc_messages, restore_lc_time);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		g_free (text);
 		g_free (original);
