@@ -139,19 +139,37 @@ empe_mp_related_parse (EMailParserExtension *extension,
 
 		for (link = head; link != NULL; link = g_list_next (link), subpart_index++) {
 			EMailPart *mail_part = link->data;
+			gboolean can_be_attachment;
+			gboolean allow_as_attachment = FALSE;
 			const gchar *cid;
 
 			cid = e_mail_part_get_cid (mail_part);
+			can_be_attachment = cid && E_IS_MAIL_PART_IMAGE (mail_part) &&
+				e_mail_part_get_is_attachment (mail_part) && mail_part->is_hidden;
+
+			if (can_be_attachment) {
+				CamelMimePart *img_part;
+
+				img_part = e_mail_part_ref_mime_part (mail_part);
+				if (img_part) {
+					CamelContentType *ct;
+
+					ct = camel_mime_part_get_content_type (img_part);
+					if (ct) {
+						const gchar *name = camel_content_type_param (ct, "name");
+
+						if (name && *name)
+							allow_as_attachment = TRUE;
+					}
+					g_clear_object (&img_part);
+				}
+			}
 
 			/* Don't render the part on its own! */
-			if (e_mail_part_utils_body_refers (html_body, cid))
+			if (!allow_as_attachment && e_mail_part_utils_body_refers (html_body, cid))
 				mail_part->is_hidden = TRUE;
-			else if (cid && E_IS_MAIL_PART_IMAGE (mail_part) &&
-				 e_mail_part_get_is_attachment (mail_part) &&
-				 mail_part->is_hidden) {
+			else if (can_be_attachment) {
 				gint sub_partidlen;
-
-				mail_part->is_hidden = FALSE;
 
 				sub_partidlen = part_id->len;
 				g_string_append_printf (part_id, ".subpart.%d", subpart_index);
