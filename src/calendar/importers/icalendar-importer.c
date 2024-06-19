@@ -349,6 +349,56 @@ create_calendar_clicked_cb (GtkWidget *button,
 	gtk_widget_show (dialog);
 }
 
+static gboolean
+ivcal_source_selector_filter_source_readonly_cb (ESourceSelector *selector,
+						 ESource *source,
+						 gpointer user_data)
+{
+	GHashTable *known_readonly = user_data;
+	gboolean hidden = FALSE;
+
+	if (E_IS_SOURCE (source)) {
+		if ((e_source_get_uid (source) && g_hash_table_contains (known_readonly, e_source_get_uid (source))) ||
+		    (e_source_get_parent (source) && g_hash_table_contains (known_readonly, e_source_get_parent (source)))) {
+			hidden = TRUE;
+		} else {
+			const gchar *ext_name = e_source_selector_get_extension_name (selector);
+
+			if (e_source_has_extension (source, ext_name)) {
+				gpointer extension = e_source_get_extension (source, ext_name);
+
+				if (E_IS_SOURCE_BACKEND (extension)) {
+					ESourceBackend *backend = E_SOURCE_BACKEND (extension);
+
+					if (e_source_backend_get_backend_name (backend) &&
+					    g_hash_table_contains (known_readonly, e_source_backend_get_backend_name (backend))) {
+						hidden = TRUE;
+					}
+				}
+			}
+		}
+	}
+
+	return hidden;
+}
+
+static GHashTable *
+ivcal_new_known_readonly_hash_table (void)
+{
+	GHashTable *hash_table;
+	const gchar *known_readonly[] = { "webcal-stub", "weather-stub", "contacts-stub",
+		"webcal", "weather", "contacts", "birthdays" };
+	guint ii;
+
+	hash_table = g_hash_table_new (g_str_hash, g_str_equal);
+
+	for (ii = 0; ii < G_N_ELEMENTS (known_readonly); ii++) {
+		g_hash_table_add (hash_table, (gpointer) known_readonly[ii]);
+	}
+
+	return hash_table;
+}
+
 static GtkWidget *
 ivcal_getwidget (EImport *ei,
                  EImportTarget *target,
@@ -357,9 +407,12 @@ ivcal_getwidget (EImport *ei,
 	EShell *shell;
 	ESourceRegistry *registry;
 	GtkWidget *top_vbox, *hbox, *first = NULL;
+	GHashTable *known_readonly;
 	GSList *group = NULL;
 	gint i;
 	GtkWidget *nb;
+
+	known_readonly = ivcal_new_known_readonly_hash_table ();
 
 	shell = e_shell_get_default ();
 	registry = e_shell_get_registry (shell);
@@ -397,6 +450,12 @@ ivcal_getwidget (EImport *ei,
 		}
 
 		selector = e_source_selector_new (registry, extension_name);
+		/* flip the property to force rebuild of the model also when the "filter-source" signal is connected */
+		e_source_selector_set_show_toggles (E_SOURCE_SELECTOR (selector), TRUE);
+		g_signal_connect_data (selector, "filter-source",
+			G_CALLBACK (ivcal_source_selector_filter_source_readonly_cb),
+			g_hash_table_ref (known_readonly),
+			(GClosureNotify) g_hash_table_unref, 0);
 		e_source_selector_set_show_toggles (E_SOURCE_SELECTOR (selector), FALSE);
 
 		vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 4);
@@ -449,6 +508,7 @@ ivcal_getwidget (EImport *ei,
 		gtk_toggle_button_set_active ((GtkToggleButton *) first, TRUE);
 
 	gtk_widget_show_all (top_vbox);
+	g_hash_table_unref (known_readonly);
 
 	return top_vbox;
 }
