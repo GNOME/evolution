@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-06-14 09:27+0000\n"
-"PO-Revision-Date: 2024-06-14 22:12+0300\n"
+"POT-Creation-Date: 2024-06-21 10:48+0000\n"
+"PO-Revision-Date: 2024-06-21 16:48+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -1160,10 +1160,25 @@ msgstr ""
 "режим перегляду «Тиждень» і режим перегляду «Місяць»."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
+msgid ""
+"Value to preselect when sending an event with attendees with reminders set."
+msgstr ""
+"Значення, яке слід попередньо вибрати при надсиланні повідомлення про подію"
+" з учасниками і увімкненими нагадуваннями."
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
+msgid ""
+"This remembers the last value of \"Send my reminders with this event\" "
+"option and uses it the next time."
+msgstr ""
+"Запам'ятовує останнє значення параметр «Надіслати мої нагадування з цією"
+" подією» і використовує його наступного разу."
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(Застаріло) Перший день тижня, від неділі (0) до суботи (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
@@ -1171,11 +1186,11 @@ msgstr ""
 "Цей ключ застарілий з версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «week-start-day-name» натомість."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:186
 msgid "(Deprecated) Work days"
 msgstr "(Застаріло) Робочі дні"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:187
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the “work-"
@@ -4236,7 +4251,7 @@ msgstr "Примітки"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
 #: ../src/calendar/gui/e-task-table.c:617 ../src/calendar/gui/print.c:2478
 #: ../src/calendar/importers/icalendar-importer.c:74
-#: ../src/calendar/importers/icalendar-importer.c:1136
+#: ../src/calendar/importers/icalendar-importer.c:1196
 #: ../src/e-util/e-webdav-browser.c:529
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:83
 #: ../src/modules/calendar/e-cal-shell-content.c:1901
@@ -4392,7 +4407,7 @@ msgstr "Набір си_мволів"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
 #: ../data/ui/evolution-mail-viewer.ui.h:23
-#: ../src/mail/em-composer-utils.c:4513
+#: ../src/mail/em-composer-utils.c:4534
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_Типово"
@@ -4419,13 +4434,13 @@ msgid "_Reply to Sender"
 msgstr "В_ідповісти відправнику"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:29 ../src/mail/e-mail-reader.c:3108
-#: ../src/mail/em-composer-utils.c:4486 ../src/mail/mail.error.xml.h:26
+#: ../src/mail/em-composer-utils.c:4507 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:462
 msgid "Reply to _List"
 msgstr "Відповісти у _список"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:30 ../src/mail/e-mail-reader.c:3087
-#: ../src/mail/em-composer-utils.c:4491 ../src/mail/mail.error.xml.h:28
+#: ../src/mail/em-composer-utils.c:4512 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:455
 msgid "Reply to _All"
@@ -5179,7 +5194,7 @@ msgstr ""
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:304 ../src/mail/e-mail-label-dialog.c:180
 #: ../src/mail/e-mail-reader.c:5014 ../src/mail/e-mail-tag-editor.c:154
-#: ../src/mail/e-mail-viewer.c:594 ../src/mail/em-composer-utils.c:4433
+#: ../src/mail/e-mail-viewer.c:594 ../src/mail/em-composer-utils.c:4454
 #: ../src/mail/em-folder-selector.c:619 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -6850,9 +6865,9 @@ msgstr "З_найти"
 #: ../src/addressbook/importers/evolution-csv-importer.c:796
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
 #: ../src/addressbook/importers/evolution-vcard-importer.c:237
-#: ../src/calendar/importers/icalendar-importer.c:515
-#: ../src/calendar/importers/icalendar-importer.c:998
-#: ../src/calendar/importers/icalendar-importer.c:1038
+#: ../src/calendar/importers/icalendar-importer.c:575
+#: ../src/calendar/importers/icalendar-importer.c:1058
+#: ../src/calendar/importers/icalendar-importer.c:1098
 #: ../src/mail/e-mail-viewer.c:505
 msgid "Importing…"
 msgstr "Імпортування…"
@@ -7920,7 +7935,7 @@ msgid "Description Contains"
 msgstr "Опис містить"
 
 #: ../src/calendar/gui/comp-util.c:1602 ../src/calendar/gui/comp-util.c:3080
-#: ../src/calendar/importers/icalendar-importer.c:1483
+#: ../src/calendar/importers/icalendar-importer.c:1543
 #: ../src/modules/itip-formatter/itip-view.c:2911
 #, c-format
 msgid "with one guest"
@@ -8610,13 +8625,13 @@ msgstr "Цей та наступні екземпляри"
 msgid "All Instances"
 msgstr "Усі екземпляри"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1428
-#: ../src/calendar/gui/e-cal-dialogs.c:1510
+#: ../src/calendar/gui/e-cal-dialogs.c:1429
+#: ../src/calendar/gui/e-cal-dialogs.c:1519
 msgid "Send my reminders with this event"
 msgstr "Надіслати мої нагадування з цією подією"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1430
-#: ../src/calendar/gui/e-cal-dialogs.c:1512
+#: ../src/calendar/gui/e-cal-dialogs.c:1434
+#: ../src/calendar/gui/e-cal-dialogs.c:1524
 msgid "Notify new attendees _only"
 msgstr "Сповідати _лише нових учасників"
 
@@ -9110,7 +9125,7 @@ msgstr "Час початку — недійсний час"
 #: ../src/mail/e-mail-reader.c:3710 ../src/mail/e-mail-reader-utils.c:817
 #: ../src/mail/e-mail-viewer.c:568 ../src/mail/e-mail-viewer.c:1741
 #: ../src/mail/e-mail-viewer.c:2403 ../src/mail/e-mail-viewer.c:2416
-#: ../src/mail/em-composer-utils.c:4225 ../src/mail/em-composer-utils.c:4248
+#: ../src/mail/em-composer-utils.c:4246 ../src/mail/em-composer-utils.c:4269
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:432
@@ -11134,189 +11149,189 @@ msgstr "Створити календар"
 msgid "New Task List"
 msgstr "Новий список завдань"
 
-#: ../src/calendar/importers/icalendar-importer.c:388
+#: ../src/calendar/importers/icalendar-importer.c:441
 msgid "Cre_ate new calendar"
 msgstr "_Створити новий календар"
 
-#: ../src/calendar/importers/icalendar-importer.c:392
+#: ../src/calendar/importers/icalendar-importer.c:445
 msgid "Cre_ate new task list"
 msgstr "_Створити новий список завдань"
 
-#: ../src/calendar/importers/icalendar-importer.c:537
-#: ../src/calendar/importers/icalendar-importer.c:966
+#: ../src/calendar/importers/icalendar-importer.c:597
+#: ../src/calendar/importers/icalendar-importer.c:1026
 msgid "Opening calendar"
 msgstr "Відкривання календаря"
 
-#: ../src/calendar/importers/icalendar-importer.c:685
+#: ../src/calendar/importers/icalendar-importer.c:745
 msgid "iCalendar files (.ics)"
 msgstr "Файли iCalendar (.ics)"
 
-#: ../src/calendar/importers/icalendar-importer.c:686
+#: ../src/calendar/importers/icalendar-importer.c:746
 msgid "Evolution iCalendar importer"
 msgstr "Компонент імпорту iCalendar Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:854
+#: ../src/calendar/importers/icalendar-importer.c:914
 msgid "vCalendar files (.vcs)"
 msgstr "Файли vCalendar (.vcs)"
 
-#: ../src/calendar/importers/icalendar-importer.c:855
+#: ../src/calendar/importers/icalendar-importer.c:915
 msgid "Evolution vCalendar importer"
 msgstr "Компонент імпорту vCalendar Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:1129
+#: ../src/calendar/importers/icalendar-importer.c:1189
 msgid "Calendar Events"
 msgstr "Календарні події"
 
-#: ../src/calendar/importers/icalendar-importer.c:1172
+#: ../src/calendar/importers/icalendar-importer.c:1232
 msgid "GNOME Calendar"
 msgstr "Календар GNOME"
 
-#: ../src/calendar/importers/icalendar-importer.c:1173
+#: ../src/calendar/importers/icalendar-importer.c:1233
 msgid "Evolution Calendar intelligent importer"
 msgstr "Інтелектуальний компонент імпорту календаря Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:1263
-#: ../src/calendar/importers/icalendar-importer.c:1652
+#: ../src/calendar/importers/icalendar-importer.c:1323
+#: ../src/calendar/importers/icalendar-importer.c:1712
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Зас_ідання"
 
-#: ../src/calendar/importers/icalendar-importer.c:1263
-#: ../src/calendar/importers/icalendar-importer.c:1652
+#: ../src/calendar/importers/icalendar-importer.c:1323
+#: ../src/calendar/importers/icalendar-importer.c:1712
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Подія"
 
-#: ../src/calendar/importers/icalendar-importer.c:1266
-#: ../src/calendar/importers/icalendar-importer.c:1653
+#: ../src/calendar/importers/icalendar-importer.c:1326
+#: ../src/calendar/importers/icalendar-importer.c:1713
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Завдання"
 
-#: ../src/calendar/importers/icalendar-importer.c:1269
-#: ../src/calendar/importers/icalendar-importer.c:1654
+#: ../src/calendar/importers/icalendar-importer.c:1329
+#: ../src/calendar/importers/icalendar-importer.c:1714
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Примітка"
 
-#: ../src/calendar/importers/icalendar-importer.c:1278
+#: ../src/calendar/importers/icalendar-importer.c:1338
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "— екземпляр"
 
 #. have ? NULL :
-#: ../src/calendar/importers/icalendar-importer.c:1281
+#: ../src/calendar/importers/icalendar-importer.c:1341
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "має повтори."
 
-#: ../src/calendar/importers/icalendar-importer.c:1286
+#: ../src/calendar/importers/icalendar-importer.c:1346
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "має нагадування"
 
-#: ../src/calendar/importers/icalendar-importer.c:1291
+#: ../src/calendar/importers/icalendar-importer.c:1351
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "має долучення"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1303
+#: ../src/calendar/importers/icalendar-importer.c:1363
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Загальне"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1306
+#: ../src/calendar/importers/icalendar-importer.c:1366
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Особисте"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1309
+#: ../src/calendar/importers/icalendar-importer.c:1369
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Конфіденційне"
 
 #. Translators: Appointment's classification section name
-#: ../src/calendar/importers/icalendar-importer.c:1313
+#: ../src/calendar/importers/icalendar-importer.c:1373
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Класифікація"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
-#: ../src/calendar/importers/icalendar-importer.c:1318
-#: ../src/calendar/importers/icalendar-importer.c:1697
+#: ../src/calendar/importers/icalendar-importer.c:1378
+#: ../src/calendar/importers/icalendar-importer.c:1757
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Зведення"
 
 #. Translators: Appointment's location
-#: ../src/calendar/importers/icalendar-importer.c:1325
+#: ../src/calendar/importers/icalendar-importer.c:1385
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Адреса"
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
-#: ../src/calendar/importers/icalendar-importer.c:1333
-#: ../src/calendar/importers/icalendar-importer.c:1692
+#: ../src/calendar/importers/icalendar-importer.c:1393
+#: ../src/calendar/importers/icalendar-importer.c:1752
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Починається"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../src/calendar/importers/icalendar-importer.c:1343
+#: ../src/calendar/importers/icalendar-importer.c:1403
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Закінчується"
 
 #. Translators: Appointment's end time
-#: ../src/calendar/importers/icalendar-importer.c:1354
+#: ../src/calendar/importers/icalendar-importer.c:1414
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Кінець"
 
 #. Translators: Appointment's categories
-#: ../src/calendar/importers/icalendar-importer.c:1363
+#: ../src/calendar/importers/icalendar-importer.c:1423
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Категорії"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../src/calendar/importers/icalendar-importer.c:1388
+#: ../src/calendar/importers/icalendar-importer.c:1448
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Завершено"
 
 #. Translators: Appointment's URL
-#: ../src/calendar/importers/icalendar-importer.c:1395
+#: ../src/calendar/importers/icalendar-importer.c:1455
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../src/calendar/importers/icalendar-importer.c:1413
-#: ../src/calendar/importers/icalendar-importer.c:1416
+#: ../src/calendar/importers/icalendar-importer.c:1473
+#: ../src/calendar/importers/icalendar-importer.c:1476
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Організатор"
 
 #. Translators: Appointment's attendees
-#: ../src/calendar/importers/icalendar-importer.c:1499
+#: ../src/calendar/importers/icalendar-importer.c:1559
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Учасники"
 
-#: ../src/calendar/importers/icalendar-importer.c:1518
-#: ../src/calendar/importers/icalendar-importer.c:1526
+#: ../src/calendar/importers/icalendar-importer.c:1578
+#: ../src/calendar/importers/icalendar-importer.c:1586
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Опис"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../src/calendar/importers/icalendar-importer.c:1687
+#: ../src/calendar/importers/icalendar-importer.c:1747
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Тип"
@@ -18800,7 +18815,7 @@ msgid "Do Not Quote"
 msgstr "Не цитувати"
 
 #: ../src/mail/e-mail-config-composing-page.c:158
-#: ../src/mail/em-composer-utils.c:4563
+#: ../src/mail/em-composer-utils.c:4584
 msgid "Use global setting"
 msgstr "Використовувати загальні параметри"
 
@@ -18833,12 +18848,12 @@ msgstr ""
 "Мова для тексту пояснення у відповідях та переспрямованих повідомленнях"
 
 #: ../src/mail/e-mail-config-composing-page.c:525
-#: ../src/mail/em-composer-utils.c:4532 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4553 ../src/mail/mail-config.ui.h:24
 msgid "Start _typing at the bottom"
 msgstr "Починати _набір знизу"
 
 #: ../src/mail/e-mail-config-composing-page.c:532
-#: ../src/mail/em-composer-utils.c:4536 ../src/mail/mail-config.ui.h:25
+#: ../src/mail/em-composer-utils.c:4557 ../src/mail/mail-config.ui.h:25
 msgid "_Keep signature above the original message"
 msgstr "_Залишати підпис над оригінальним повідомленням"
 
@@ -20172,7 +20187,6 @@ msgid "Retrieving message"
 msgstr "Одержання листа"
 
 #: ../src/mail/e-mail-reader.c:4994
-#| msgid "Edit a note for the selected message"
 msgid "Modify labels for selected message"
 msgid_plural "Modify labels for selected messages"
 msgstr[0] "Змінити мітки для позначених повідомлень"
@@ -20181,12 +20195,10 @@ msgstr[2] "Змінити мітки для позначених повідом�
 msgstr[3] "Змінити мітки для позначеного повідомлення"
 
 #: ../src/mail/e-mail-reader.c:5002
-#| msgid "Save Selected"
 msgid "Set _Selected"
 msgstr "Встановити _вибрані"
 
 #: ../src/mail/e-mail-reader.c:5008
-#| msgid "_None"
 msgid "Set _None"
 msgstr "_Скасувати усі"
 
@@ -20561,67 +20573,67 @@ msgid "-----Original Message-----"
 msgstr "-------- Оригінальне повідомлення --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:3157
+#: ../src/mail/em-composer-utils.c:3176
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "На: %s"
 
-#: ../src/mail/em-composer-utils.c:3812
+#: ../src/mail/em-composer-utils.c:3831
 msgid "an unknown sender"
 msgstr "невідомий відправник"
 
-#: ../src/mail/em-composer-utils.c:4431
+#: ../src/mail/em-composer-utils.c:4452
 msgid "Alternative Reply"
 msgstr "Альтернативна відповідь"
 
-#: ../src/mail/em-composer-utils.c:4434
+#: ../src/mail/em-composer-utils.c:4455
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Відповісти"
 
-#: ../src/mail/em-composer-utils.c:4452
+#: ../src/mail/em-composer-utils.c:4473
 msgid "Recipients:"
 msgstr "Отримувачі:"
 
-#: ../src/mail/em-composer-utils.c:4481
+#: ../src/mail/em-composer-utils.c:4502
 msgid "Reply to _Sender"
 msgstr "Відповісти _відправнику"
 
-#: ../src/mail/em-composer-utils.c:4504
+#: ../src/mail/em-composer-utils.c:4525
 msgid "Reply style:"
 msgstr "Стиль відповіді:"
 
-#: ../src/mail/em-composer-utils.c:4517
+#: ../src/mail/em-composer-utils.c:4538
 msgid "Attach_ment"
 msgstr "_Долучення"
 
-#: ../src/mail/em-composer-utils.c:4521
+#: ../src/mail/em-composer-utils.c:4542
 msgid "Inline (_Outlook style)"
 msgstr "Вбудовано (_стиль Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4525
+#: ../src/mail/em-composer-utils.c:4546
 msgid "_Quote"
 msgstr "_Цитата"
 
-#: ../src/mail/em-composer-utils.c:4529
+#: ../src/mail/em-composer-utils.c:4550
 msgid "Do _Not Quote"
 msgstr "Не _цитувати"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4550
+#: ../src/mail/em-composer-utils.c:4571
 msgid "_Format message in"
 msgstr "_Форматувати повідомлення до"
 
-#: ../src/mail/em-composer-utils.c:4572
+#: ../src/mail/em-composer-utils.c:4593
 msgid "Apply t_emplate"
 msgstr "Застосувати ш_аблон"
 
-#: ../src/mail/em-composer-utils.c:4585
+#: ../src/mail/em-composer-utils.c:4606
 msgid "Preserve original message S_ubject"
 msgstr "Зберегти оригінальну т_ему повідомлення"
 
-#: ../src/mail/em-composer-utils.c:4651
+#: ../src/mail/em-composer-utils.c:4672
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -20631,11 +20643,11 @@ msgstr[2] "%d отримувачів"
 msgstr[3] "один отримувач"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:5160
+#: ../src/mail/em-composer-utils.c:5181
 msgid "Posting destination"
 msgstr "Адреса призначення"
 
-#: ../src/mail/em-composer-utils.c:5165
+#: ../src/mail/em-composer-utils.c:5186
 msgid "Choose folders to post the message to."
 msgstr "Виберіть теку у яку надіслати повідомлення."
 
