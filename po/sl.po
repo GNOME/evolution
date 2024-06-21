@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-06-14 09:27+0000\n"
-"PO-Revision-Date: 2024-06-14 22:12+0200\n"
+"POT-Creation-Date: 2024-06-21 10:48+0000\n"
+"PO-Revision-Date: 2024-06-21 15:39+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -1071,10 +1071,24 @@ msgid "This influences the Day view, the Work Week view, the Week view and the M
 msgstr "To vpliva na poglede Dan, Delovni teden, Teden in Mesec."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
+msgid "Value to preselect when sending an event with attendees with reminders set."
+msgstr ""
+"Vrednost, ki jo je treba vnaprej izbrati pri pošiljanju dogodka z udeleženci z nastavljenimi "
+"opomniki."
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
+msgid ""
+"This remembers the last value of \"Send my reminders with this event\" option and uses it the "
+"next time."
+msgstr ""
+"S tem si zapomni zadnjo vrednost možnosti »Pošlji opomnike s tem dogodkom« in jo naslednjič "
+"uporabi."
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(Opuščeno) Prvi dan tedna, od nedelje (0) do sobote (6)."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use “week-start-day-"
 "name” instead."
@@ -1082,11 +1096,11 @@ msgstr ""
 "Ključ je opuščen z različico 3.10 in ne bo več v rabi. Priporočena je uporaba možnosti »ime "
 "dneva začetka tedna«."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:186
 msgid "(Deprecated) Work days"
 msgstr "(Opuščeno) Delovni dnevi"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:187
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key was deprecated in "
 "version 3.10 and should no longer be used. Use the “work-day-monday”, “work-day-tuesday”, etc. "
@@ -3834,7 +3848,7 @@ msgstr "Opomniki"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12 ../src/calendar/gui/e-task-table.c:617
 #: ../src/calendar/gui/print.c:2478 ../src/calendar/importers/icalendar-importer.c:74
-#: ../src/calendar/importers/icalendar-importer.c:1136 ../src/e-util/e-webdav-browser.c:529
+#: ../src/calendar/importers/icalendar-importer.c:1196 ../src/e-util/e-webdav-browser.c:529
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:83
 #: ../src/modules/calendar/e-cal-shell-content.c:1901
 #: ../src/modules/calendar/e-task-shell-view-actions.c:246
@@ -3972,7 +3986,7 @@ msgid "Ch_aracter Encoding"
 msgstr "Zn_akovno kodiranje"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../data/ui/evolution-mail-viewer.ui.h:23 ../src/mail/em-composer-utils.c:4513
+#: ../data/ui/evolution-mail-viewer.ui.h:23 ../src/mail/em-composer-utils.c:4534
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_Privzeto"
@@ -3999,13 +4013,13 @@ msgid "_Reply to Sender"
 msgstr "_Odgovori pošiljatelju"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:29 ../src/mail/e-mail-reader.c:3108
-#: ../src/mail/em-composer-utils.c:4486 ../src/mail/mail.error.xml.h:26
+#: ../src/mail/em-composer-utils.c:4507 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:462
 msgid "Reply to _List"
 msgstr "Odgovori na _seznam"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:30 ../src/mail/e-mail-reader.c:3087
-#: ../src/mail/em-composer-utils.c:4491 ../src/mail/mail.error.xml.h:28
+#: ../src/mail/em-composer-utils.c:4512 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:455
 msgid "Reply to _All"
@@ -4729,7 +4743,7 @@ msgstr "Stik »{0}« v imeniku »{1}« že obstaja. ALi želite raje dodati kopi
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265 ../src/mail/e-mail-config-window.c:304
 #: ../src/mail/e-mail-label-dialog.c:180 ../src/mail/e-mail-reader.c:5014
 #: ../src/mail/e-mail-tag-editor.c:154 ../src/mail/e-mail-viewer.c:594
-#: ../src/mail/em-composer-utils.c:4433 ../src/mail/em-folder-selector.c:619
+#: ../src/mail/em-composer-utils.c:4454 ../src/mail/em-folder-selector.c:619
 #: ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16
 #: ../src/mail/mail-send-recv.c:874 ../src/mail/mail-send-recv.c:955
 #: ../src/mail/mail-vfolder-ui.c:149 ../src/mail/mail-vfolder-ui.c:271
@@ -6349,9 +6363,9 @@ msgstr "_Najdi"
 #: ../src/addressbook/importers/evolution-csv-importer.c:796
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
 #: ../src/addressbook/importers/evolution-vcard-importer.c:237
-#: ../src/calendar/importers/icalendar-importer.c:515
-#: ../src/calendar/importers/icalendar-importer.c:998
-#: ../src/calendar/importers/icalendar-importer.c:1038 ../src/mail/e-mail-viewer.c:505
+#: ../src/calendar/importers/icalendar-importer.c:575
+#: ../src/calendar/importers/icalendar-importer.c:1058
+#: ../src/calendar/importers/icalendar-importer.c:1098 ../src/mail/e-mail-viewer.c:505
 msgid "Importing…"
 msgstr "Poteka uvažanje …"
 
@@ -7341,7 +7355,7 @@ msgid "Description Contains"
 msgstr "Opis vsebuje"
 
 #: ../src/calendar/gui/comp-util.c:1602 ../src/calendar/gui/comp-util.c:3080
-#: ../src/calendar/importers/icalendar-importer.c:1483
+#: ../src/calendar/importers/icalendar-importer.c:1543
 #: ../src/modules/itip-formatter/itip-view.c:2911
 #, c-format
 msgid "with one guest"
@@ -7998,11 +8012,11 @@ msgstr "Ta in prihodnje ponovitve"
 msgid "All Instances"
 msgstr "Vse ponovitve"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1428 ../src/calendar/gui/e-cal-dialogs.c:1510
+#: ../src/calendar/gui/e-cal-dialogs.c:1429 ../src/calendar/gui/e-cal-dialogs.c:1519
 msgid "Send my reminders with this event"
 msgstr "Pošlji opomnike skupaj z dogodkom"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1430 ../src/calendar/gui/e-cal-dialogs.c:1512
+#: ../src/calendar/gui/e-cal-dialogs.c:1434 ../src/calendar/gui/e-cal-dialogs.c:1524
 msgid "Notify new attendees _only"
 msgstr "Obvesti _samo nove udeležence"
 
@@ -8456,8 +8470,8 @@ msgstr "Čas začetka ni veljaven čas"
 #: ../src/mail/e-mail-notes.c:931 ../src/mail/e-mail-reader.c:3710
 #: ../src/mail/e-mail-reader-utils.c:817 ../src/mail/e-mail-viewer.c:568
 #: ../src/mail/e-mail-viewer.c:1741 ../src/mail/e-mail-viewer.c:2403
-#: ../src/mail/e-mail-viewer.c:2416 ../src/mail/em-composer-utils.c:4225
-#: ../src/mail/em-composer-utils.c:4248 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-viewer.c:2416 ../src/mail/em-composer-utils.c:4246
+#: ../src/mail/em-composer-utils.c:4269 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:432 ../src/plugins/face/face.c:175
@@ -10398,189 +10412,189 @@ msgstr "Nov koledar"
 msgid "New Task List"
 msgstr "Nov seznam nalog"
 
-#: ../src/calendar/importers/icalendar-importer.c:388
+#: ../src/calendar/importers/icalendar-importer.c:441
 msgid "Cre_ate new calendar"
 msgstr "Ust_vari nov koledar"
 
-#: ../src/calendar/importers/icalendar-importer.c:392
+#: ../src/calendar/importers/icalendar-importer.c:445
 msgid "Cre_ate new task list"
 msgstr "Ustvari nov seznam nalog"
 
-#: ../src/calendar/importers/icalendar-importer.c:537
-#: ../src/calendar/importers/icalendar-importer.c:966
+#: ../src/calendar/importers/icalendar-importer.c:597
+#: ../src/calendar/importers/icalendar-importer.c:1026
 msgid "Opening calendar"
 msgstr "Odpiranje koledarja"
 
-#: ../src/calendar/importers/icalendar-importer.c:685
+#: ../src/calendar/importers/icalendar-importer.c:745
 msgid "iCalendar files (.ics)"
 msgstr "Datoteke iCalendar (.ics)"
 
-#: ../src/calendar/importers/icalendar-importer.c:686
+#: ../src/calendar/importers/icalendar-importer.c:746
 msgid "Evolution iCalendar importer"
 msgstr "Uvoznik Evolution iCalendar"
 
-#: ../src/calendar/importers/icalendar-importer.c:854
+#: ../src/calendar/importers/icalendar-importer.c:914
 msgid "vCalendar files (.vcs)"
 msgstr "Datoteke vCalendar (.vcf)"
 
-#: ../src/calendar/importers/icalendar-importer.c:855
+#: ../src/calendar/importers/icalendar-importer.c:915
 msgid "Evolution vCalendar importer"
 msgstr "Uvoznik Evolution vCalendar"
 
-#: ../src/calendar/importers/icalendar-importer.c:1129
+#: ../src/calendar/importers/icalendar-importer.c:1189
 msgid "Calendar Events"
 msgstr "Dogodki koledarja"
 
-#: ../src/calendar/importers/icalendar-importer.c:1172
+#: ../src/calendar/importers/icalendar-importer.c:1232
 msgid "GNOME Calendar"
 msgstr "Koledar GNOME"
 
-#: ../src/calendar/importers/icalendar-importer.c:1173
+#: ../src/calendar/importers/icalendar-importer.c:1233
 msgid "Evolution Calendar intelligent importer"
 msgstr "Pametni uvoznik koledarja Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:1263
-#: ../src/calendar/importers/icalendar-importer.c:1652
+#: ../src/calendar/importers/icalendar-importer.c:1323
+#: ../src/calendar/importers/icalendar-importer.c:1712
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Srečanje"
 
-#: ../src/calendar/importers/icalendar-importer.c:1263
-#: ../src/calendar/importers/icalendar-importer.c:1652
+#: ../src/calendar/importers/icalendar-importer.c:1323
+#: ../src/calendar/importers/icalendar-importer.c:1712
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Dogodek"
 
-#: ../src/calendar/importers/icalendar-importer.c:1266
-#: ../src/calendar/importers/icalendar-importer.c:1653
+#: ../src/calendar/importers/icalendar-importer.c:1326
+#: ../src/calendar/importers/icalendar-importer.c:1713
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Naloga"
 
-#: ../src/calendar/importers/icalendar-importer.c:1269
-#: ../src/calendar/importers/icalendar-importer.c:1654
+#: ../src/calendar/importers/icalendar-importer.c:1329
+#: ../src/calendar/importers/icalendar-importer.c:1714
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Opomnik"
 
-#: ../src/calendar/importers/icalendar-importer.c:1278
+#: ../src/calendar/importers/icalendar-importer.c:1338
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "je ponovitev"
 
 #. have ? NULL :
-#: ../src/calendar/importers/icalendar-importer.c:1281
+#: ../src/calendar/importers/icalendar-importer.c:1341
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "ima ponavljanja"
 
-#: ../src/calendar/importers/icalendar-importer.c:1286
+#: ../src/calendar/importers/icalendar-importer.c:1346
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "ima opomnike"
 
-#: ../src/calendar/importers/icalendar-importer.c:1291
+#: ../src/calendar/importers/icalendar-importer.c:1351
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "ima priloge"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1303
+#: ../src/calendar/importers/icalendar-importer.c:1363
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Javno"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1306
+#: ../src/calendar/importers/icalendar-importer.c:1366
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Zasebno"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1309
+#: ../src/calendar/importers/icalendar-importer.c:1369
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Zaupno"
 
 #. Translators: Appointment's classification section name
-#: ../src/calendar/importers/icalendar-importer.c:1313
+#: ../src/calendar/importers/icalendar-importer.c:1373
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Razvrstitev"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
-#: ../src/calendar/importers/icalendar-importer.c:1318
-#: ../src/calendar/importers/icalendar-importer.c:1697
+#: ../src/calendar/importers/icalendar-importer.c:1378
+#: ../src/calendar/importers/icalendar-importer.c:1757
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Povzetek"
 
 #. Translators: Appointment's location
-#: ../src/calendar/importers/icalendar-importer.c:1325
+#: ../src/calendar/importers/icalendar-importer.c:1385
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Mesto"
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
-#: ../src/calendar/importers/icalendar-importer.c:1333
-#: ../src/calendar/importers/icalendar-importer.c:1692
+#: ../src/calendar/importers/icalendar-importer.c:1393
+#: ../src/calendar/importers/icalendar-importer.c:1752
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Začetek"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../src/calendar/importers/icalendar-importer.c:1343
+#: ../src/calendar/importers/icalendar-importer.c:1403
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Datum zakasnelosti"
 
 #. Translators: Appointment's end time
-#: ../src/calendar/importers/icalendar-importer.c:1354
+#: ../src/calendar/importers/icalendar-importer.c:1414
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Konec"
 
 #. Translators: Appointment's categories
-#: ../src/calendar/importers/icalendar-importer.c:1363
+#: ../src/calendar/importers/icalendar-importer.c:1423
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Kategorije"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../src/calendar/importers/icalendar-importer.c:1388
+#: ../src/calendar/importers/icalendar-importer.c:1448
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Končano"
 
 #. Translators: Appointment's URL
-#: ../src/calendar/importers/icalendar-importer.c:1395
+#: ../src/calendar/importers/icalendar-importer.c:1455
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../src/calendar/importers/icalendar-importer.c:1413
-#: ../src/calendar/importers/icalendar-importer.c:1416
+#: ../src/calendar/importers/icalendar-importer.c:1473
+#: ../src/calendar/importers/icalendar-importer.c:1476
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Organizator"
 
 #. Translators: Appointment's attendees
-#: ../src/calendar/importers/icalendar-importer.c:1499
+#: ../src/calendar/importers/icalendar-importer.c:1559
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Udeleženci"
 
-#: ../src/calendar/importers/icalendar-importer.c:1518
-#: ../src/calendar/importers/icalendar-importer.c:1526
+#: ../src/calendar/importers/icalendar-importer.c:1578
+#: ../src/calendar/importers/icalendar-importer.c:1586
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Opis"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../src/calendar/importers/icalendar-importer.c:1687
+#: ../src/calendar/importers/icalendar-importer.c:1747
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Vrsta"
@@ -17818,7 +17832,7 @@ msgctxt "ReplyForward"
 msgid "Do Not Quote"
 msgstr "Ne navajaj"
 
-#: ../src/mail/e-mail-config-composing-page.c:158 ../src/mail/em-composer-utils.c:4563
+#: ../src/mail/e-mail-config-composing-page.c:158 ../src/mail/em-composer-utils.c:4584
 msgid "Use global setting"
 msgstr "Uporabi sistemske nastavitve"
 
@@ -17847,12 +17861,12 @@ msgstr "_Jezik:"
 msgid "Language for Reply and Forward attribution text"
 msgstr "Jezik za odgovarjanje in posredovanje besedila"
 
-#: ../src/mail/e-mail-config-composing-page.c:525 ../src/mail/em-composer-utils.c:4532
+#: ../src/mail/e-mail-config-composing-page.c:525 ../src/mail/em-composer-utils.c:4553
 #: ../src/mail/mail-config.ui.h:24
 msgid "Start _typing at the bottom"
 msgstr "Odgovor začni _dnu izvornega sporočila"
 
-#: ../src/mail/e-mail-config-composing-page.c:532 ../src/mail/em-composer-utils.c:4536
+#: ../src/mail/e-mail-config-composing-page.c:532 ../src/mail/em-composer-utils.c:4557
 #: ../src/mail/mail-config.ui.h:25
 msgid "_Keep signature above the original message"
 msgstr "Pri odgovarjanju _ohrani podpis nad izvirnim sporočilom"
@@ -19522,66 +19536,66 @@ msgid "-----Original Message-----"
 msgstr "-------- Izvirno sporočilo --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:3157
+#: ../src/mail/em-composer-utils.c:3176
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Odg: %s"
 
-#: ../src/mail/em-composer-utils.c:3812
+#: ../src/mail/em-composer-utils.c:3831
 msgid "an unknown sender"
 msgstr "neznan pošiljatelj"
 
-#: ../src/mail/em-composer-utils.c:4431
+#: ../src/mail/em-composer-utils.c:4452
 msgid "Alternative Reply"
 msgstr "Alternativni odgovor"
 
-#: ../src/mail/em-composer-utils.c:4434 ../src/modules/calendar/e-cal-shell-view-actions.c:1579
+#: ../src/mail/em-composer-utils.c:4455 ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "Odgovo_ri"
 
-#: ../src/mail/em-composer-utils.c:4452
+#: ../src/mail/em-composer-utils.c:4473
 msgid "Recipients:"
 msgstr "Prejemniki:"
 
-#: ../src/mail/em-composer-utils.c:4481
+#: ../src/mail/em-composer-utils.c:4502
 msgid "Reply to _Sender"
 msgstr "_Odgovori pošiljatelju"
 
-#: ../src/mail/em-composer-utils.c:4504
+#: ../src/mail/em-composer-utils.c:4525
 msgid "Reply style:"
 msgstr "Slog odgovo_ra:"
 
-#: ../src/mail/em-composer-utils.c:4517
+#: ../src/mail/em-composer-utils.c:4538
 msgid "Attach_ment"
 msgstr "_Priloga"
 
-#: ../src/mail/em-composer-utils.c:4521
+#: ../src/mail/em-composer-utils.c:4542
 msgid "Inline (_Outlook style)"
 msgstr "Medvrstično (slog _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4525
+#: ../src/mail/em-composer-utils.c:4546
 msgid "_Quote"
 msgstr "_Citiraj"
 
-#: ../src/mail/em-composer-utils.c:4529
+#: ../src/mail/em-composer-utils.c:4550
 msgid "Do _Not Quote"
 msgstr "Ne citira_j"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4550
+#: ../src/mail/em-composer-utils.c:4571
 msgid "_Format message in"
 msgstr "_Oblikuj sporočila v"
 
-#: ../src/mail/em-composer-utils.c:4572
+#: ../src/mail/em-composer-utils.c:4593
 msgid "Apply t_emplate"
 msgstr "Uveljavi _predlogo"
 
-#: ../src/mail/em-composer-utils.c:4585
+#: ../src/mail/em-composer-utils.c:4606
 msgid "Preserve original message S_ubject"
 msgstr "Ohrani izvorno _Zadevo sporočila"
 
-#: ../src/mail/em-composer-utils.c:4651
+#: ../src/mail/em-composer-utils.c:4672
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -19591,11 +19605,11 @@ msgstr[2] "%d prejemnika"
 msgstr[3] "%d prejemniki"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:5160
+#: ../src/mail/em-composer-utils.c:5181
 msgid "Posting destination"
 msgstr "Cilj objave"
 
-#: ../src/mail/em-composer-utils.c:5165
+#: ../src/mail/em-composer-utils.c:5186
 msgid "Choose folders to post the message to."
 msgstr "Izberite mape, v katere želite objaviti sporočilo."
 
