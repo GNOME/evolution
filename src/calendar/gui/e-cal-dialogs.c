@@ -1364,6 +1364,7 @@ e_cal_dialogs_send_component (GtkWindow *parent,
 			      gboolean *only_new_attendees)
 {
 	ECalComponentVType vtype;
+	GSettings *settings = NULL;
 	const gchar *id;
 	GtkWidget *dialog, *sa_checkbox = NULL, *ona_checkbox = NULL;
 	GtkWidget *content_area;
@@ -1424,19 +1425,26 @@ e_cal_dialogs_send_component (GtkWindow *parent,
 	dialog = e_alert_dialog_new_for_args (parent, id, NULL);
 	content_area = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
 
-	if (strip_alarms)
+	if (strip_alarms) {
 		sa_checkbox = add_checkbox (GTK_BOX (content_area), _("Send my reminders with this event"));
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sa_checkbox), g_settings_get_boolean (settings, "send-reminder-with-event"));
+	}
 	if (only_new_attendees)
 		ona_checkbox = add_checkbox (GTK_BOX (content_area), _("Notify new attendees _only"));
 
 	res = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
 
-	if (res && strip_alarms)
-		*strip_alarms = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (sa_checkbox));
+	if (res && strip_alarms) {
+		gboolean send_alarms = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (sa_checkbox));
+		g_settings_set_boolean (settings, "send-reminder-with-event", send_alarms);
+		*strip_alarms = !send_alarms;
+	}
 	if (only_new_attendees)
 		*only_new_attendees = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ona_checkbox));
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
+	g_clear_object (&settings);
 
 	return res;
 }
@@ -1459,6 +1467,7 @@ e_cal_dialogs_send_dragged_or_resized_component (GtkWindow *parent,
 						 gboolean *only_new_attendees)
 {
 	ECalComponentVType vtype;
+	GSettings *settings = NULL;
 	const gchar *id;
 	GtkWidget *dialog, *sa_checkbox = NULL, *ona_checkbox = NULL;
 	GtkWidget *content_area;
@@ -1506,8 +1515,11 @@ e_cal_dialogs_send_dragged_or_resized_component (GtkWindow *parent,
 	dialog = e_alert_dialog_new_for_args (parent, id, NULL);
 	content_area = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
 
-	if (strip_alarms)
+	if (strip_alarms) {
 		sa_checkbox = add_checkbox (GTK_BOX (content_area), _("Send my reminders with this event"));
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sa_checkbox), g_settings_get_boolean (settings, "send-reminder-with-event"));
+	}
 	if (only_new_attendees)
 		ona_checkbox = add_checkbox (GTK_BOX (content_area), _("Notify new attendees _only"));
 
@@ -1520,12 +1532,16 @@ e_cal_dialogs_send_dragged_or_resized_component (GtkWindow *parent,
 	if (res == GTK_RESPONSE_DELETE_EVENT)
 		res = GTK_RESPONSE_CANCEL;
 
-	if (res == GTK_RESPONSE_YES && strip_alarms)
-		*strip_alarms = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (sa_checkbox));
+	if (res == GTK_RESPONSE_YES && strip_alarms) {
+		gboolean send_alarms = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (sa_checkbox));
+		g_settings_set_boolean (settings, "send-reminder-with-event", send_alarms);
+		*strip_alarms = !send_alarms;
+	}
 	if (only_new_attendees)
 		*only_new_attendees = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ona_checkbox));
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
+	g_clear_object (&settings);
 
 	return res;
 }

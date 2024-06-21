@@ -529,6 +529,11 @@
       <_summary>Allow drag and drop of events in the Calendar.</_summary>
       <_description>This influences the Day view, the Work Week view, the Week view and the Month view.</_description>
     </key>
+    <key name="send-reminder-with-event" type="b">
+      <default>false</default>
+      <_summary>Value to preselect when sending an event with attendees with reminders set.</_summary>
+      <_description>This remembers the last value of "Send my reminders with this event" option and uses it the next time.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 
