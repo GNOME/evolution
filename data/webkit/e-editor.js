@@ -2179,6 +2179,38 @@ EvoEditor.setULOLWidth = function(child, wrapWidth)
 	}
 }
 
+// enclose any text out of element and BR-s on the body's top level into the <div>
+EvoEditor.normalizeBody = function()
+{
+	var node, next = null;
+
+	for (node = document.body.firstChild; node; node = next) {
+		var enclose = false;
+
+		next = node.nextSibling;
+
+		if (node.nodeType == node.TEXT_NODE) {
+			if (node.nodeValue && node.nodeValue != "") {
+				enclose = true;
+				// skip the following <BR>, the added <DIV> does the same thing
+				if (next && next.tagName == "BR") {
+					var tmp = next;
+					next = next.nextSibling;
+					tmp.remove();
+				}
+			}
+		} else if (node.tagName == "BR") {
+			enclose = true;
+		}
+
+		if (enclose) {
+			var div = document.createElement("DIV");
+			document.body.insertBefore(div, node);
+			div.appendChild(node);
+		}
+	}
+}
+
 EvoEditor.convertParagraphs = function(parent, blockquoteLevel, wrapWidth, canChangeQuoteParagraphs)
 {
 	if (!parent)
@@ -6087,6 +6119,9 @@ EvoEditor.processLoadedContent = function()
 		blockquoteNode.setAttribute("type", "cite");
 		blockquoteNode.setAttribute("spellcheck", "false");
 	}
+
+	if (!isDraft)
+		EvoEditor.normalizeBody();
 
 	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
 		if (!isDraft) {
