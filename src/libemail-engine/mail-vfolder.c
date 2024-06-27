@@ -782,12 +782,23 @@ mail_vfolder_rename_folder (CamelStore *store,
 static void context_rule_added (ERuleContext *ctx, EFilterRule *rule, EMailSession *session);
 
 static void
+rule_add_source (GList **psources_uri,
+		 const gchar *uri,
+		 EMVFolderRule *rule)
+{
+	/* "tag" uris with subfolders with a star prefix */
+	if (!rule || !em_vfolder_rule_source_get_include_subfolders (rule, uri))
+		*psources_uri = g_list_prepend (*psources_uri, g_strdup (uri));
+	else
+		*psources_uri = g_list_prepend (*psources_uri, g_strconcat ("*", uri, NULL));
+}
+
+static void
 rule_add_sources (EMailSession *session,
                   GQueue *queue,
                   GList **sources_urip,
                   EMVFolderRule *rule)
 {
-	GList *sources_uri = *sources_urip;
 	GList *head, *link;
 
 	head = g_queue_peek_head_link (queue);
@@ -796,16 +807,20 @@ rule_add_sources (EMailSession *session,
 
 		/* always pick fresh folders - they are
 		 * from CamelStore's folders bag anyway */
-		if (vfolder_cache_has_folder_info (session, uri)) {
-			/* "tag" uris with subfolders with a star prefix */
-			if (!rule || !em_vfolder_rule_source_get_include_subfolders (rule, uri))
-				sources_uri = g_list_prepend (sources_uri, g_strdup (uri));
-			else
-				sources_uri = g_list_prepend (sources_uri, g_strconcat ("*", uri, NULL));
-		}
+		if (vfolder_cache_has_folder_info (session, uri))
+			rule_add_source (sources_urip, uri, rule);
 	}
+}
 
-	*sources_urip = sources_uri;
+static gboolean
+mail_vfolder_foreach_folder_uri_cb (const gchar *uri,
+				    gpointer user_data)
+{
+	GList **psources_uri = user_data;
+
+	rule_add_source (psources_uri, uri, NULL);
+
+	return TRUE;
 }
 
 static void
@@ -819,6 +834,7 @@ rule_changed (EFilterRule *rule,
 	GList *sources_uri = NULL;
 	GString *query;
 	const gchar *full_name;
+	em_vfolder_rule_with_t rule_with;
 
 	full_name = camel_folder_get_full_name (folder);
 	store = camel_folder_get_parent_store (folder);
@@ -880,34 +896,15 @@ rule_changed (EFilterRule *rule,
 
 	G_LOCK (vfolder);
 
-	if (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL ||
-	    em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE) {
-
-		GQueue queue = G_QUEUE_INIT;
-
-		mail_folder_cache_get_local_folder_uris (cache, &queue);
-
-		rule_add_sources (
-			E_MAIL_SESSION (session),
-			&queue, &sources_uri, NULL);
-
-		while (!g_queue_is_empty (&queue))
-			g_free (g_queue_pop_head (&queue));
+	rule_with = em_vfolder_rule_get_with (EM_VFOLDER_RULE (rule));
+	if (rule_with == EM_VFOLDER_RULE_WITH_LOCAL ||
+	    rule_with == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE) {
+		mail_folder_cache_foreach_local_folder_uri (cache, mail_vfolder_foreach_folder_uri_cb, &sources_uri);
 	}
 
-	if (em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE ||
-	    em_vfolder_rule_get_with ((EMVFolderRule *) rule) == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE) {
-
-		GQueue queue = G_QUEUE_INIT;
-
-		mail_folder_cache_get_remote_folder_uris (cache, &queue);
-
-		rule_add_sources (
-			E_MAIL_SESSION (session),
-			&queue, &sources_uri, NULL);
-
-		while (!g_queue_is_empty (&queue))
-			g_free (g_queue_pop_head (&queue));
+	if (rule_with == EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE ||
+	    rule_with == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE) {
+		mail_folder_cache_foreach_remote_folder_uri (cache, mail_vfolder_foreach_folder_uri_cb, &sources_uri);
 	}
 
 	G_UNLOCK (vfolder);

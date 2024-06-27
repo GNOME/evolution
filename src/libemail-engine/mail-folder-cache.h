@@ -56,6 +56,9 @@ typedef struct _MailFolderCache MailFolderCache;
 typedef struct _MailFolderCacheClass MailFolderCacheClass;
 typedef struct _MailFolderCachePrivate MailFolderCachePrivate;
 
+typedef gboolean (* MailFolderCacheForeachUriFunc) (const gchar *uri,
+						    gpointer user_data);
+
 /**
  * MailFolderCache:
  *
@@ -126,12 +129,14 @@ gboolean	mail_folder_cache_get_folder_info_flags
 						 CamelStore *store,
 						 const gchar *folder_name,
 						 CamelFolderInfoFlags *flags);
-void		mail_folder_cache_get_local_folder_uris
+void		mail_folder_cache_foreach_local_folder_uri
 						(MailFolderCache *cache,
-						 GQueue *out_queue);
-void		mail_folder_cache_get_remote_folder_uris
+						 MailFolderCacheForeachUriFunc func,
+						 gpointer user_data);
+void		mail_folder_cache_foreach_remote_folder_uri
 						(MailFolderCache *cache,
-						 GQueue *out_queue);
+						 MailFolderCacheForeachUriFunc func,
+						 gpointer user_data);
 void		mail_folder_cache_service_removed
 						(MailFolderCache *cache,
 						 CamelService *service);
