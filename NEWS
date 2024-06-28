@@ -1,3 +1,82 @@
+Evolution 3.53.1 2024-06-28
+---------------------------
+
+Bug Fixes:
+	I#1997 - Evolution imports some .eml files incorrectly
+	I#2006 - Calendar: Changing start date does not offer saving immediately
+	I#2230 - Configurable timeout for WebDAV sources
+	I#2266 - Ability to use a different Markdown-to-HTML converter
+	I#2273 - Speed up startup - lots of local folders
+	I#2276 - "Edit as new message" fails for encrypted mails
+	I#2283 - Calendar: Add option to disable drag&drop of the events
+	I#2287 - Paste screenshot from clipboard in Mail composer
+	I#2308 - Language for replies and forwards is not respected by "Inline (Outlook style)" reply style
+	I#2365 - Composer: Wrap search by default
+	I#2371 - Composer: Added extra quotation level after draft open ][
+	I#2384 - Mail: Show inline images with 'name' as attachments
+	I#2404 - Calendar: Hide well-known read-only source from import dialog
+	I#2411 - Composer: Text out of <div> can break Undo
+	I#2449 - Calendar: Remember "Send my reminders with this event" value
+	I#2617 - Wrong weeks in Month view when returning from different page of dates
+	I#2660 - Ability to duplicate a mail filtering rule to create a new one
+	I#2669 - Wrong error message on restoring backup when 'tar' is absent
+	I#2674 - Add option to attach multiple messages as separate files
+	I#2683 - Open mbox files instead of import
+	I#2687 - Calendar: Allow entering cancellation reason on meeting deletion
+	I#2693 - Mail: Prefer saving original message instead of re-encode
+	I#2696 - Mail: Add possibility to add multiple Labels at once
+	I#2697 - Add option to set folder to restore Not-Junk messages to
+	I#2698 - ESourceSelector: Emit source-select/unselect on source change
+	I#2707 - Calendar: Fails to open event from alarm-notify on app start
+	I#2709 - Possible crash when exiting application
+	I#2710 - EHeaderBar: Report correct minimum width
+	I#2711 - Subject line in message pane not bold anymore in Wide view
+	I#2712 - Crash when hiding completed tasks
+	I#2720 - Correct service detection by domain name (Peter Simonyi)
+	I#2722 - EMailBrowser: Hide Print preview menu option
+	I#2739 - Mail: Remember Page Setup settings when printing
+	I#2744 - Shell: Enhance symbolic icons usage detection
+	I#2749 - Crash when recovering mail from the previous session
+	I#2751 - Open last view when restarting Evolution
+	I#2753 - SignatureEditor: Format change can discard signature text
+	I#2754 - SignatureEditor: Let gtk+ decide default window width
+	I#2758 - Forwarded e-mails don't have a filename extension
+	I#2761 - Composer: Crash when opening spellcheck dialog
+	I#2773 - Unable to drag'n'drop attachments between attachment bars
+	I#2778 - Crash under gtk_clutter_init_internal()
+
+Miscellaneous:
+	data: Fix circular-component-relation in .appdata file
+	org.gnome.evolution.mail.gschema.xml: Fix a typo in a translatable string
+	e-mail-request: Fix a memory leak
+	shell: Closing last window does not always run "prepare-for-quit"
+	EShellWindow: Remove unused private variable
+	Misc: Replace XPM images with SVG images
+	e-task-table: Store deletion reason into COMMENT property
+	docs: Fix a 404 API reference docs URI (Andre Klapper)
+	Update online_help_url URI (Andre Klapper)
+	Appdata: Link to GitLab Issues instead of New Issue URL (Andre Klapper)
+	EAttachment: Check file_info contains display-name before accessing it
+	CI: Workaround broken git clone for libcanberra
+	help: Link to GitLab Issues instead of New Issue URL (Andre Klapper)
+
+Translations:
+	Anders Jonsson (sv)
+	Andika Triwidada (id)
+	Athmane MOKRAOUI (kab)
+	Aurimas Černius (lt)
+	Boyuan Yang (zh_CN)
+	Ekaterine Papava (ka)
+	Fabio Tomat (fur)
+	Jordi Mas i Hernandez (ca)
+	Martin (sl)
+	Милош Поповић (sr)
+	Милош Поповић (sr@latin)
+	Olga Smirnova (ie)
+	Piotr Drąg (pl)
+	Sabri Ünal (tr)
+	Yuri Chornoivan (uk)
+
 Evolution 3.52.0 2024-03-15
 ---------------------------
 
