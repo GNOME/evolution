@@ -1,3 +1,24 @@
+Evolution 3.52.3 2024-06-28
+---------------------------
+
+Bug Fixes:
+	I#2273 - Speed up startup - lots of local folders
+	I#2365 - Composer: Wrap search by default
+	I#2411 - Composer: Text out of <div> can break Undo
+	I#2758 - Forwarded e-mails don't have a filename extension
+	I#2761 - Composer: Crash when opening spellcheck dialog
+	I#2773 - Unable to drag'n'drop attachments between attachment bars
+	I#2778 - Crash under gtk_clutter_init_internal()
+
+Miscellaneous:
+	Misc: Replace XPM images with SVG images
+	EAttachment: Check file_info contains display-name before accessing it
+	CI: Workaround broken git clone for libcanberra
+
+Translations:
+	Aurimas Černius (lt)
+	Martin (sl)
+
 Evolution 3.52.2 2024-05-24
 ---------------------------
 
