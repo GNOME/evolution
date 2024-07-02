@@ -823,24 +823,35 @@ filter_rule_build_code_for_parts (EFilterRule *rule,
 				  gboolean force_match_all,
 				  GString *out)
 {
+	const gchar *thread_no_subject = "";
+
 	g_return_if_fail (rule != NULL);
 	g_return_if_fail (parts != NULL);
 	g_return_if_fail (out != NULL);
+
+	if (rule->threading != E_FILTER_THREAD_NONE) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		if (!g_settings_get_boolean (settings, "thread-subject"))
+			thread_no_subject = "no-subject,";
+		g_clear_object (&settings);
+	}
 
 	switch (rule->threading) {
 	case E_FILTER_THREAD_NONE:
 		break;
 	case E_FILTER_THREAD_ALL:
-		g_string_append (out, " (match-threads \"all\" ");
+		g_string_append_printf (out, " (match-threads \"%sall\" ", thread_no_subject);
 		break;
 	case E_FILTER_THREAD_REPLIES:
-		g_string_append (out, " (match-threads \"replies\" ");
+		g_string_append_printf (out, " (match-threads \"%sreplies\" ", thread_no_subject);
 		break;
 	case E_FILTER_THREAD_REPLIES_PARENTS:
-		g_string_append (out, " (match-threads \"replies_parents\" ");
+		g_string_append_printf (out, " (match-threads \"%sreplies_parents\" ", thread_no_subject);
 		break;
 	case E_FILTER_THREAD_SINGLE:
-		g_string_append (out, " (match-threads \"single\" ");
+		g_string_append_printf (out, " (match-threads \"%ssingle\" ", thread_no_subject);
 		break;
 	}
 

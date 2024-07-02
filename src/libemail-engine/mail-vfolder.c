@@ -1120,6 +1120,46 @@ folder_renamed_cb (MailFolderCache *cache,
 	mail_vfolder_rename_folder (store, old_folder_name, new_folder_name);
 }
 
+static gboolean glob_thread_subject = FALSE;
+
+static void
+mail_vfolder_thread_subject_changed_cb (GSettings *settings,
+					const gchar *key,
+					gpointer user_data)
+{
+	gboolean thread_subject;
+
+	thread_subject = g_settings_get_boolean (settings, key);
+
+	/* maybe it changed, verify it did */
+	if ((!thread_subject) != (!glob_thread_subject)) {
+		glob_thread_subject = thread_subject;
+
+		if (context && !vfolder_shutdown) {
+			EFilterRule *rule;
+			GSList *rules = NULL, *link;
+
+			G_LOCK (vfolder);
+
+			rule = NULL;
+			while ((rule = e_rule_context_next_rule ((ERuleContext *) context, rule, NULL))) {
+				if (rule->name && rule->threading != E_FILTER_THREAD_NONE)
+					rules = g_slist_prepend (rules, g_object_ref (rule));
+			}
+
+			G_UNLOCK (vfolder);
+
+			for (link = rules; link; link = g_slist_next (link)) {
+				rule = link->data;
+
+				e_filter_rule_emit_changed (rule);
+			}
+
+			g_slist_free_full (rules, g_object_unref);
+		}
+	}
+}
+
 void
 vfolder_load_storage (EMailSession *session)
 {
@@ -1130,6 +1170,7 @@ vfolder_load_storage (EMailSession *session)
 	const gchar *config_dir;
 	gchar *user;
 	EFilterRule *rule;
+	GSettings *settings;
 	MailFolderCache *folder_cache;
 	gchar *xmlfile;
 
@@ -1203,6 +1244,12 @@ vfolder_load_storage (EMailSession *session)
 	g_signal_connect (
 		folder_cache, "folder-renamed",
 		G_CALLBACK (folder_renamed_cb), NULL);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	g_signal_connect_object (settings, "changed::thread-subject",
+		G_CALLBACK (mail_vfolder_thread_subject_changed_cb), context, 0);
+	glob_thread_subject = g_settings_get_boolean (settings, "thread-subject");
+	g_clear_object (&settings);
 }
 
 static void
