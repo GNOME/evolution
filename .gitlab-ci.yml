@@ -52,7 +52,7 @@ pages:
     FLATPAK_MODULE: "evolution"
   script:
     - |
-      dnf install -qy yelp-tools
+      dnf install -qy yelp-tools gcc glib2-devel
       export PUBDIR=$(pwd)/public/help
       LANGLINKS=" "
       mkdir -p $PUBDIR
@@ -72,6 +72,8 @@ pages:
           cd $PUBDIR/../..
         fi
       done
+      gcc `pkg-config --cflags --libs glib-2.0` .gitlab-ci/update-help.c -g -O0 -o update-help
+      ./update-help $PUBDIR
       echo "Go to Evolution <a href='https://gitlab.gnome.org/GNOME/evolution/-/wikis'>Wiki pages</a> or the <a href='help/'>user documentation</a> (${LANGLINKS})">$(pwd)/public/index.html
       mkdir $(pwd)/public/YahooOAuth2
       echo "Wait a bit, please...<br><br>The page URL contains an authorization code, which can be copied into the credentials prompt dialog.">$(pwd)/public/YahooOAuth2/index.html
