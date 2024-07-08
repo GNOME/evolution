@@ -76,7 +76,7 @@
 </item>
 <item>
 <title>Switcher</title>
-<p>The switcher at the bottom of the side bar lets you switch between the <app>Evolution</app> tools:  Mail, Contacts, Calendars, Memos and Tasks.</p>
+<p>The switcher at the bottom of the side bar lets you switch between the <app>Evolution</app> tools:  Mail, Contacts, Calendars, Memos and Tasks. The appearance of the Switcher, including whether the buttons should be shown at all, can be changed in the menu <guiseq><gui>View</gui><gui>Switcher Appearance</gui></guiseq>.</p>
 <note style="tip"><p>You can disable the folder list and the switcher side bar by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> or pressing <key>F9</key>.</p></note>
 </item>
 <item>
