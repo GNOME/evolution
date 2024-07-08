@@ -221,6 +221,26 @@ mail_printer_print_timeout_cb (GTask *task)
 	e_print_load_settings (&print_settings, &page_setup);
 
 	export_filename = e_mail_printer_get_export_filename (E_MAIL_PRINTER (source_object));
+
+	if (!gtk_print_settings_get (print_settings, GTK_PRINT_SETTINGS_OUTPUT_DIR)) {
+		const gchar *uri;
+
+		uri = gtk_print_settings_get (print_settings, GTK_PRINT_SETTINGS_OUTPUT_URI);
+		if (uri && g_str_has_prefix (uri, "file://")) {
+			GFile *file, *parent;
+
+			file = g_file_new_for_uri (uri);
+			parent = g_file_get_parent (file);
+
+			if (parent && g_file_peek_path (parent))
+				gtk_print_settings_set (print_settings, GTK_PRINT_SETTINGS_OUTPUT_DIR, g_file_peek_path (parent));
+
+			g_clear_object (&parent);
+			g_clear_object (&file);
+		}
+	}
+
+	gtk_print_settings_set (print_settings, GTK_PRINT_SETTINGS_OUTPUT_URI, NULL);
 	gtk_print_settings_set (print_settings, GTK_PRINT_SETTINGS_OUTPUT_BASENAME, export_filename);
 
 	print_operation = webkit_print_operation_new (async_context->web_view);
