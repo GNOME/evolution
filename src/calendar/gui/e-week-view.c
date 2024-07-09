@@ -5039,6 +5039,15 @@ e_week_view_find_event_from_item (EWeekView *week_view,
 	EWeekViewEventSpan *span;
 	gint event_num, span_num, num_events;
 
+	if (E_IS_WEEK_VIEW_EVENT_ITEM (item)) {
+		EWeekViewEventItem *event_item = E_WEEK_VIEW_EVENT_ITEM (item);
+
+		*event_num_return = e_week_view_event_item_get_event_num (event_item);
+		*span_num_return = e_week_view_event_item_get_span_num (event_item);
+
+		return TRUE;
+	}
+
 	num_events = week_view->events->len;
 	for (event_num = 0; event_num < num_events; event_num++) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
