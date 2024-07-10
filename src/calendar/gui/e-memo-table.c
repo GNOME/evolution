@@ -526,10 +526,12 @@ memo_table_query_tooltip (GtkWidget *widget,
 		rect.width = allocation.width;
 		rect.height = row_height + 2 * BUTTON_PADDING;
 
-		if (etable && etable->header_canvas) {
-			gtk_widget_get_allocation (GTK_WIDGET (etable->header_canvas), &allocation);
+		if (etable && etable->click_to_add && !etable->use_click_to_add_end) {
+			gdouble spacing = 0.0;
 
-			rect.y += allocation.height;
+			g_object_get (etable->canvas_vbox, "spacing", &spacing, NULL);
+
+			rect.y += spacing + BUTTON_PADDING;
 		}
 
 		gtk_tooltip_set_tip_area (tooltip, &rect);
