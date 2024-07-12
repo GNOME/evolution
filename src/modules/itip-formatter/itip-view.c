@@ -715,6 +715,21 @@ htmlize_text (const gchar *id,
 	    g_strcmp0 (id, TABLE_ROW_GEO) != 0) {
 		if (g_strcmp0 (id, TABLE_ROW_LOCATION) == 0) {
 			*out_tmp = camel_text_to_html (text, CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+			if (*out_tmp && **out_tmp && !strstr (*out_tmp, "<a ") && !strstr (*out_tmp, " href=\"")) {
+				GString *html;
+				gchar *escaped;
+
+				html = g_string_new (NULL);
+
+				escaped = g_uri_escape_string (text, NULL, TRUE);
+				g_string_append (html, "<a href=\"open-map:");
+				g_string_append (html, escaped);
+				g_string_append_printf (html, "\">%s</a>", *out_tmp);
+				g_free (escaped);
+
+				g_free (*out_tmp);
+				*out_tmp = g_string_free (html, FALSE);
+			}
 		} else if (g_strcmp0 (id, TABLE_ROW_URL) == 0) {
 			gchar *escaped = g_markup_escape_text (text, -1);
 			/* The URL can be used as-is, which can help when it ends with a text
