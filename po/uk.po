@@ -12,10 +12,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-07-16 09:09+0000\n"
-"PO-Revision-Date: 2024-07-17 09:28+0300\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian\n"
+"POT-Creation-Date: 2024-07-17 11:30+0000\n"
+"PO-Revision-Date: 2024-07-17 14:50+0300\n"
+"Last-Translator: Fracture dept <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5024,8 +5024,8 @@ msgstr ""
 #: ../src/mail/e-mail-account-manager.c:709
 #: ../src/mail/e-mail-label-manager.c:372
 #: ../src/mail/em-folder-properties.c:1391
-#: ../src/mail/em-vfolder-editor-rule.c:391
-#: ../src/mail/em-vfolder-editor-rule.c:620 ../src/mail/mail-config.ui.h:69
+#: ../src/mail/em-vfolder-editor-rule.c:395
+#: ../src/mail/em-vfolder-editor-rule.c:944 ../src/mail/mail-config.ui.h:69
 #: ../src/modules/mail/em-composer-prefs.c:420
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1800
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
@@ -5183,8 +5183,8 @@ msgstr ""
 #: ../src/e-util/e-image-chooser-dialog.c:168
 #: ../src/e-util/e-mail-signature-script-dialog.c:340
 #: ../src/e-util/e-passwords.c:486 ../src/e-util/e-rule-context.c:810
-#: ../src/e-util/e-rule-editor.c:178 ../src/e-util/e-rule-editor.c:289
-#: ../src/e-util/e-rule-editor.c:342 ../src/e-util/e-rule-editor.c:978
+#: ../src/e-util/e-rule-editor.c:179 ../src/e-util/e-rule-editor.c:292
+#: ../src/e-util/e-rule-editor.c:345 ../src/e-util/e-rule-editor.c:981
 #: ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:342
 #: ../src/e-util/e-source-selector-dialog.c:324
@@ -5197,8 +5197,8 @@ msgstr ""
 #: ../src/mail/e-mail-viewer.c:594 ../src/mail/em-composer-utils.c:4454
 #: ../src/mail/em-folder-selector.c:619 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
-#: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
-#: ../src/mail/mail-vfolder-ui.c:271
+#: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:151
+#: ../src/mail/mail-vfolder-ui.c:272
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1310
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
@@ -5560,7 +5560,7 @@ msgstr "Add _X.509"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1535
-#: ../src/e-util/e-attachment-view.c:519 ../src/e-util/e-filter-rule.c:403
+#: ../src/e-util/e-attachment-view.c:519 ../src/e-util/e-filter-rule.c:405
 #: ../src/e-util/e-html-editor-link-popover.c:276
 #: ../src/e-util/e-mail-signature-manager.c:355
 #: ../src/e-util/e-name-selector-dialog.c:1010
@@ -5568,7 +5568,7 @@ msgstr "Add _X.509"
 #: ../src/mail/e-mail-config-identity-page.c:865
 #: ../src/mail/e-mail-label-manager.c:390 ../src/mail/em-filter-rule.c:677
 #: ../src/mail/em-folder-properties.c:1397
-#: ../src/mail/em-vfolder-editor-rule.c:625 ../src/mail/mail-config.ui.h:71
+#: ../src/mail/em-vfolder-editor-rule.c:949 ../src/mail/mail-config.ui.h:71
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1819
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:825
@@ -5774,16 +5774,16 @@ msgstr "_Довідка"
 #: ../src/e-util/e-charset-combo-box.c:93
 #: ../src/e-util/e-color-chooser-widget.c:119
 #: ../src/e-util/e-filter-datespec.c:293 ../src/e-util/e-passwords.c:487
-#: ../src/e-util/e-rule-context.c:811 ../src/e-util/e-rule-editor.c:179
-#: ../src/e-util/e-rule-editor.c:290 ../src/e-util/e-rule-editor.c:343
-#: ../src/e-util/e-rule-editor.c:979 ../src/e-util/e-send-options.ui.h:17
+#: ../src/e-util/e-rule-context.c:811 ../src/e-util/e-rule-editor.c:180
+#: ../src/e-util/e-rule-editor.c:293 ../src/e-util/e-rule-editor.c:346
+#: ../src/e-util/e-rule-editor.c:982 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:343
 #: ../src/e-util/e-source-selector-dialog.c:325
 #: ../src/e-util/e-table-config.c:541 ../src/e-util/e-table-config.ui.h:4
 #: ../src/e-util/e-timezone-dialog.ui.h:3
 #: ../src/mail/e-mail-config-window.c:305 ../src/mail/e-mail-tag-editor.c:156
 #: ../src/mail/em-folder-selector.c:40 ../src/mail/mail-config.ui.h:3
-#: ../src/mail/mail-vfolder-ui.c:150 ../src/mail/mail-vfolder-ui.c:272
+#: ../src/mail/mail-vfolder-ui.c:152 ../src/mail/mail-vfolder-ui.c:273
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:278
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418
@@ -8135,7 +8135,7 @@ msgstr "…"
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../src/calendar/gui/comp-util.c:2734 ../src/e-util/e-filter-rule.c:1032
+#: ../src/calendar/gui/comp-util.c:2734 ../src/e-util/e-filter-rule.c:1034
 #: ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Без заголовку"
@@ -15295,23 +15295,23 @@ msgstr "Вибір часу для порівняння"
 msgid "Choose a File"
 msgstr "Виберіть файл"
 
-#: ../src/e-util/e-filter-rule.c:1025
+#: ../src/e-util/e-filter-rule.c:1027
 msgid "R_ule name:"
 msgstr "_Назва правила"
 
-#: ../src/e-util/e-filter-rule.c:1081
+#: ../src/e-util/e-filter-rule.c:1085
 msgid "all the following conditions"
 msgstr "усі подальші умови"
 
-#: ../src/e-util/e-filter-rule.c:1082
+#: ../src/e-util/e-filter-rule.c:1086
 msgid "any of the following conditions"
 msgstr "будь-який з подальших умов"
 
-#: ../src/e-util/e-filter-rule.c:1088
+#: ../src/e-util/e-filter-rule.c:1092
 msgid "_Find items which match:"
 msgstr "З_найти об'єкти, які збігаються:"
 
-#: ../src/e-util/e-filter-rule.c:1111
+#: ../src/e-util/e-filter-rule.c:1115
 msgid "Find items that meet the following conditions"
 msgstr "Знайти елементи, що відповідають вказаним критеріям"
 
@@ -15319,7 +15319,7 @@ msgstr "Знайти елементи, що відповідають вказа�
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:1126
+#: ../src/e-util/e-filter-rule.c:1130
 #: ../src/e-util/e-html-editor-page-dialog.c:58
 #: ../src/e-util/e-mail-identity-combo-box.c:785
 #: ../src/e-util/e-mail-signature-combo-box.c:405
@@ -15330,36 +15330,36 @@ msgstr "Знайти елементи, що відповідають вказа�
 msgid "None"
 msgstr "Немає"
 
-#: ../src/e-util/e-filter-rule.c:1127
+#: ../src/e-util/e-filter-rule.c:1131
 msgid "All related"
 msgstr "Усе пов'язане"
 
-#: ../src/e-util/e-filter-rule.c:1128 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1132 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Відповіді"
 
-#: ../src/e-util/e-filter-rule.c:1129
+#: ../src/e-util/e-filter-rule.c:1133
 msgid "Replies and parents"
 msgstr "Відповіді та батьківські"
 
-#: ../src/e-util/e-filter-rule.c:1130
+#: ../src/e-util/e-filter-rule.c:1134
 msgid "No reply or parent"
 msgstr "Не є відповіддю чи батьківським"
 
-#: ../src/e-util/e-filter-rule.c:1133
+#: ../src/e-util/e-filter-rule.c:1137
 msgid "I_nclude threads:"
 msgstr "_Ураховуючи гілки:"
 
-#: ../src/e-util/e-filter-rule.c:1211
+#: ../src/e-util/e-filter-rule.c:1215
 msgid "A_dd Condition"
 msgstr "Додати _критерій"
 
-#: ../src/e-util/e-filter-rule.c:1529 ../src/e-util/filter.ui.h:1
+#: ../src/e-util/e-filter-rule.c:1553 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:995 ../src/mail/em-utils.c:167
 msgid "Incoming"
 msgstr "Вхідні"
 
-#: ../src/e-util/e-filter-rule.c:1529 ../src/mail/em-filter-rule.c:996
+#: ../src/e-util/e-filter-rule.c:1553 ../src/mail/em-filter-rule.c:996
 #: ../src/mail/em-utils.c:168
 msgid "Outgoing"
 msgstr "Вихідні"
@@ -17134,17 +17134,17 @@ msgstr "Створити новий профіль проксі"
 msgid "Delete the selected proxy profile"
 msgstr "Вилучити вибраний профіль проксі"
 
-#: ../src/e-util/e-rule-editor.c:182
+#: ../src/e-util/e-rule-editor.c:183
 msgid "Add Rule"
 msgstr "Додати правило"
 
-#: ../src/e-util/e-rule-editor.c:293 ../src/e-util/e-rule-editor.c:346
+#: ../src/e-util/e-rule-editor.c:296 ../src/e-util/e-rule-editor.c:349
 msgid "Edit Rule"
 msgstr "Змінити правило"
 
 #. Translators: the '%s' is replaced with a rule name, making it for example "Copy of Subject contains work";
 #. the text itself is provided by the user.
-#: ../src/e-util/e-rule-editor.c:333
+#: ../src/e-util/e-rule-editor.c:336
 #, c-format
 msgid "Copy of %s"
 msgstr "Копія %s"
@@ -20722,14 +20722,17 @@ msgid "Add Ac_tion"
 msgstr "Додати д_ію"
 
 #: ../src/mail/em-folder-properties.c:170
+#: ../src/mail/em-vfolder-editor-rule.c:582
 msgid "Select Custom Icon"
 msgstr "Вибрати нетипову піктограму"
 
 #: ../src/mail/em-folder-properties.c:219
+#: ../src/mail/em-vfolder-editor-rule.c:628
 msgid "_Use custom icon"
 msgstr "_Нетипова піктограма"
 
 #: ../src/mail/em-folder-properties.c:312
+#: ../src/mail/em-vfolder-editor-rule.c:712
 msgid "Use te_xt color"
 msgstr "Колір _тексту"
 
@@ -21160,35 +21163,40 @@ msgstr "Встановити такий рівень довіри до ключ�
 msgid "Search _Folders"
 msgstr "_Віртуальні теки"
 
-#: ../src/mail/em-vfolder-editor-rule.c:387
+#: ../src/mail/em-vfolder-editor-rule.c:391
 msgid "Add Folder"
 msgstr "Додати теку"
 
-#: ../src/mail/em-vfolder-editor-rule.c:516
+#: ../src/mail/em-vfolder-editor-rule.c:754
+#| msgid "Appearance"
+msgid "Customize Appearance"
+msgstr "Налаштовування вигляду"
+
+#: ../src/mail/em-vfolder-editor-rule.c:840
 msgid "Search Folder Sources"
 msgstr "Джерело тек пошуку"
 
-#: ../src/mail/em-vfolder-editor-rule.c:548
+#: ../src/mail/em-vfolder-editor-rule.c:872
 msgid "Automatically update on any _source folder change"
 msgstr "Автоматично оновлювати за будь-якої зміни д_жерельної теки"
 
-#: ../src/mail/em-vfolder-editor-rule.c:560
+#: ../src/mail/em-vfolder-editor-rule.c:884
 msgid "All local folders"
 msgstr "Усі локальні теки"
 
-#: ../src/mail/em-vfolder-editor-rule.c:561
+#: ../src/mail/em-vfolder-editor-rule.c:885
 msgid "All active remote folders"
 msgstr "Усі активні віддалені теки"
 
-#: ../src/mail/em-vfolder-editor-rule.c:562
+#: ../src/mail/em-vfolder-editor-rule.c:886
 msgid "All local and active remote folders"
 msgstr "Усі локальні теки та активні віддалені теки"
 
-#: ../src/mail/em-vfolder-editor-rule.c:563
+#: ../src/mail/em-vfolder-editor-rule.c:887
 msgid "Specific folders"
 msgstr "Певні теки"
 
-#: ../src/mail/em-vfolder-editor-rule.c:601
+#: ../src/mail/em-vfolder-editor-rule.c:925
 msgid "include subfolders"
 msgstr "залучити підтеки"
 
@@ -23353,11 +23361,11 @@ msgstr "Очищення смітника в «%s»"
 msgid "Search Folders"
 msgstr "Теки пошуку"
 
-#: ../src/mail/mail-vfolder-ui.c:147
+#: ../src/mail/mail-vfolder-ui.c:149
 msgid "Edit Search Folder"
 msgstr "Редагування віртуальної теки"
 
-#: ../src/mail/mail-vfolder-ui.c:268
+#: ../src/mail/mail-vfolder-ui.c:269
 msgid "New Search Folder"
 msgstr "Нова віртуальна тека"
 
