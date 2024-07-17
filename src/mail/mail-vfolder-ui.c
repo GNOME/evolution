@@ -96,6 +96,8 @@ vfolder_edit_response_cb (GtkWidget *dialog,
 		rule = g_object_get_data (object, "vfolder-rule");
 		newrule = g_object_get_data (object, "vfolder-newrule");
 
+		e_filter_rule_persist_customizations (newrule);
+
 		e_filter_rule_copy (rule, newrule);
 		config_dir = mail_session_get_config_dir ();
 		user = g_build_filename (config_dir, "vfolders.xml", NULL);
@@ -158,8 +160,7 @@ vfolder_edit_rule (EMailSession *session,
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_box_set_spacing (GTK_BOX (container), 6);
 
-	widget = e_filter_rule_get_widget (
-		(EFilterRule *) newrule, (ERuleContext *) context);
+	widget = e_filter_rule_get_widget (newrule, (ERuleContext *) context);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 

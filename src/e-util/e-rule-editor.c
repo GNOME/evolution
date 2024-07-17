@@ -106,6 +106,7 @@ add_editor_response (GtkWidget *dialog,
 
 		g_object_ref (editor->edit);
 
+		e_filter_rule_persist_customizations (editor->edit);
 		e_rule_context_add_rule (editor->context, editor->edit);
 
 		if (g_strcmp0 (editor->source, editor->edit->source) == 0) {
@@ -247,6 +248,8 @@ edit_editor_response (GtkWidget *dialog,
 			gtk_tree_model_get_iter (
 				GTK_TREE_MODEL (editor->model), &iter, path);
 			gtk_tree_path_free (path);
+
+			e_filter_rule_persist_customizations (editor->edit);
 
 			/* replace the old rule with the new rule */
 			e_filter_rule_copy (editor->current, editor->edit);

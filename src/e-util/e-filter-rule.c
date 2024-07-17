@@ -59,6 +59,8 @@ struct _FilterRuleData {
 
 enum {
 	CHANGED,
+	CUSTOMIZE_CONTENT,
+	PERSIST_CUSTOMIZATIONS,
 	LAST_SIGNAL
 };
 
@@ -1049,6 +1051,8 @@ filter_rule_get_widget (EFilterRule *rule,
 
 	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (hgrid));
 
+	g_signal_emit (rule, signals[CUSTOMIZE_CONTENT], 0, vgrid, hgrid, name);
+
 	g_signal_connect (
 		name, "changed",
 		G_CALLBACK (name_changed), rule);
@@ -1244,6 +1248,26 @@ e_filter_rule_class_init (EFilterRuleClass *class)
 		E_TYPE_FILTER_RULE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EFilterRuleClass, changed),
+		NULL,
+		NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	signals[CUSTOMIZE_CONTENT] = g_signal_new (
+		"customize-content",
+		E_TYPE_FILTER_RULE,
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		0,
+		NULL,
+		NULL,
+		NULL,
+		G_TYPE_NONE, 3, GTK_TYPE_GRID, GTK_TYPE_GRID, GTK_TYPE_WIDGET);
+
+	signals[PERSIST_CUSTOMIZATIONS] = g_signal_new (
+		"persist-customizations",
+		E_TYPE_FILTER_RULE,
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		0,
 		NULL,
 		NULL,
 		g_cclosure_marshal_VOID__VOID,
@@ -1529,3 +1553,11 @@ static gchar *list[] = {
   N_("Incoming"), N_("Outgoing")
 };
 #endif
+
+void
+e_filter_rule_persist_customizations (EFilterRule *rule)
+{
+	g_return_if_fail (E_IS_FILTER_RULE (rule));
+
+	g_signal_emit (rule, signals[PERSIST_CUSTOMIZATIONS], 0);
+}

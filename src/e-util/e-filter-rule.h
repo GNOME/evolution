@@ -148,7 +148,8 @@ GtkWidget *	e_filter_rule_get_widget	(EFilterRule *rule,
 void		e_filter_rule_build_code	(EFilterRule *rule,
 						 GString *out);
 void		e_filter_rule_emit_changed	(EFilterRule *rule);
-
+void		e_filter_rule_persist_customizations
+						(EFilterRule *rule);
 /* static functions */
 EFilterRule *	e_filter_rule_next_list		(GList *list,
 						 EFilterRule *last,
