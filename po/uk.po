@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-06-21 10:48+0000\n"
-"PO-Revision-Date: 2024-06-21 16:48+0300\n"
+"POT-Creation-Date: 2024-07-16 09:09+0000\n"
+"PO-Revision-Date: 2024-07-17 09:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -1163,16 +1163,16 @@ msgstr ""
 msgid ""
 "Value to preselect when sending an event with attendees with reminders set."
 msgstr ""
-"Значення, яке слід попередньо вибрати при надсиланні повідомлення про подію"
-" з учасниками і увімкненими нагадуваннями."
+"Значення, яке слід попередньо вибрати при надсиланні повідомлення про подію "
+"з учасниками і увімкненими нагадуваннями."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
 msgid ""
 "This remembers the last value of \"Send my reminders with this event\" "
 "option and uses it the next time."
 msgstr ""
-"Запам'ятовує останнє значення параметр «Надіслати мої нагадування з цією"
-" подією» і використовує його наступного разу."
+"Запам'ятовує останнє значення параметр «Надіслати мої нагадування з цією "
+"подією» і використовує його наступного разу."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -5357,7 +5357,7 @@ msgstr "_Домашня сторінка:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1071
 #: ../src/calendar/gui/e-comp-editor-event.c:932
-#: ../src/modules/itip-formatter/itip-view.c:2484
+#: ../src/modules/itip-formatter/itip-view.c:2499
 msgid "_Calendar:"
 msgstr "_Календар:"
 
@@ -7936,7 +7936,7 @@ msgstr "Опис містить"
 
 #: ../src/calendar/gui/comp-util.c:1602 ../src/calendar/gui/comp-util.c:3080
 #: ../src/calendar/importers/icalendar-importer.c:1543
-#: ../src/modules/itip-formatter/itip-view.c:2911
+#: ../src/modules/itip-formatter/itip-view.c:2926
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -8004,7 +8004,7 @@ msgstr "Скасовано"
 #: ../src/calendar/gui/e-meeting-list-view.c:196
 #: ../src/calendar/gui/e-meeting-store.c:175
 #: ../src/calendar/gui/e-meeting-store.c:198
-#: ../src/modules/itip-formatter/itip-view.c:7137
+#: ../src/modules/itip-formatter/itip-view.c:7152
 msgid "Accepted"
 msgstr "Прийнято"
 
@@ -8012,7 +8012,7 @@ msgstr "Прийнято"
 #: ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:177
 #: ../src/calendar/gui/e-meeting-store.c:200
-#: ../src/modules/itip-formatter/itip-view.c:7143
+#: ../src/modules/itip-formatter/itip-view.c:7158
 msgid "Declined"
 msgstr "Відхилено"
 
@@ -8028,7 +8028,7 @@ msgstr "Експериментальний"
 #: ../src/calendar/gui/e-meeting-list-view.c:199
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:7146
+#: ../src/modules/itip-formatter/itip-view.c:7161
 msgid "Delegated"
 msgstr "Доручено"
 
@@ -8135,28 +8135,28 @@ msgstr "…"
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../src/calendar/gui/comp-util.c:2734 ../src/e-util/e-filter-rule.c:1021
+#: ../src/calendar/gui/comp-util.c:2734 ../src/e-util/e-filter-rule.c:1032
 #: ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Без заголовку"
 
 #: ../src/calendar/gui/comp-util.c:2747
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:258
-#: ../src/modules/itip-formatter/itip-view.c:2086
-#: ../src/modules/itip-formatter/itip-view.c:2290
+#: ../src/modules/itip-formatter/itip-view.c:2101
+#: ../src/modules/itip-formatter/itip-view.c:2305
 msgid "Location:"
 msgstr "Адреса:"
 
 #: ../src/calendar/gui/comp-util.c:2780
-#: ../src/modules/itip-formatter/itip-view.c:2087
-#: ../src/modules/itip-formatter/itip-view.c:2293
+#: ../src/modules/itip-formatter/itip-view.c:2102
+#: ../src/modules/itip-formatter/itip-view.c:2308
 msgid "GEO Location:"
 msgstr "Геопозиціювання:"
 
 #: ../src/calendar/gui/comp-util.c:2805
-#: ../src/modules/itip-formatter/itip-view.c:2095
-#: ../src/modules/itip-formatter/itip-view.c:2231
-#: ../src/modules/itip-formatter/itip-view.c:2317
+#: ../src/modules/itip-formatter/itip-view.c:2110
+#: ../src/modules/itip-formatter/itip-view.c:2246
+#: ../src/modules/itip-formatter/itip-view.c:2332
 msgid "Comment:"
 msgstr "Коментар:"
 
@@ -8169,8 +8169,8 @@ msgid "End Date:"
 msgstr "Дата завершення:"
 
 #: ../src/calendar/gui/comp-util.c:2844
-#: ../src/modules/itip-formatter/itip-view.c:2091
-#: ../src/modules/itip-formatter/itip-view.c:2305
+#: ../src/modules/itip-formatter/itip-view.c:2106
+#: ../src/modules/itip-formatter/itip-view.c:2320
 msgid "Recurs:"
 msgstr "Повторення:"
 
@@ -8179,20 +8179,20 @@ msgid "Due Date:"
 msgstr "Дата завершення:"
 
 #: ../src/calendar/gui/comp-util.c:2870
-#: ../src/modules/itip-formatter/itip-view.c:2093
-#: ../src/modules/itip-formatter/itip-view.c:2311
+#: ../src/modules/itip-formatter/itip-view.c:2108
+#: ../src/modules/itip-formatter/itip-view.c:2326
 msgid "Estimated duration:"
 msgstr "Оцінка тривалості:"
 
 #: ../src/calendar/gui/comp-util.c:2886
-#: ../src/modules/itip-formatter/itip-view.c:2094
-#: ../src/modules/itip-formatter/itip-view.c:2314
+#: ../src/modules/itip-formatter/itip-view.c:2109
+#: ../src/modules/itip-formatter/itip-view.c:2329
 msgid "Status:"
 msgstr "Стан:"
 
 #: ../src/calendar/gui/comp-util.c:2894
-#: ../src/modules/itip-formatter/itip-view.c:2096
-#: ../src/modules/itip-formatter/itip-view.c:2320
+#: ../src/modules/itip-formatter/itip-view.c:2111
+#: ../src/modules/itip-formatter/itip-view.c:2335
 msgid "Categories:"
 msgstr "Категорії:"
 
@@ -8228,8 +8228,8 @@ msgid "Organizer:"
 msgstr "Організатор:"
 
 #: ../src/calendar/gui/comp-util.c:3016
-#: ../src/modules/itip-formatter/itip-view.c:2097
-#: ../src/modules/itip-formatter/itip-view.c:2323
+#: ../src/modules/itip-formatter/itip-view.c:2112
+#: ../src/modules/itip-formatter/itip-view.c:2338
 msgid "Attendees:"
 msgstr "Запрошені:"
 
@@ -8798,8 +8798,8 @@ msgstr "Тип"
 #: ../src/calendar/gui/e-meeting-store.c:166
 #: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1298
 #: ../src/calendar/gui/print.c:1315 ../src/e-util/e-charset.c:49
-#: ../src/modules/itip-formatter/itip-view.c:4027
-#: ../src/modules/itip-formatter/itip-view.c:7149
+#: ../src/modules/itip-formatter/itip-view.c:4042
+#: ../src/modules/itip-formatter/itip-view.c:7164
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Невідоме"
@@ -10549,24 +10549,24 @@ msgstr "Загальна назва"
 msgid "Language"
 msgstr "Мова"
 
-#: ../src/calendar/gui/e-memo-table.c:660
+#: ../src/calendar/gui/e-memo-table.c:662
 msgid "Cut selected memos to the clipboard"
 msgstr "Вирізати виділені примітки в буфер обміну"
 
-#: ../src/calendar/gui/e-memo-table.c:666
+#: ../src/calendar/gui/e-memo-table.c:668
 msgid "Copy selected memos to the clipboard"
 msgstr "Копіювати виділені примітки в буфер обміну"
 
-#: ../src/calendar/gui/e-memo-table.c:672
+#: ../src/calendar/gui/e-memo-table.c:674
 msgid "Paste memos from the clipboard"
 msgstr "Вставити примітку з буфера обміну"
 
-#: ../src/calendar/gui/e-memo-table.c:678
+#: ../src/calendar/gui/e-memo-table.c:680
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:575
 msgid "Delete selected memos"
 msgstr "Вилучити вибрані примітки"
 
-#: ../src/calendar/gui/e-memo-table.c:684
+#: ../src/calendar/gui/e-memo-table.c:686
 msgid "Select all visible memos"
 msgstr "Виділити всі видимі примітки"
 
@@ -10589,24 +10589,24 @@ msgstr "Невизначено"
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../src/calendar/gui/e-task-table.c:843
+#: ../src/calendar/gui/e-task-table.c:845
 msgid "Cut selected tasks to the clipboard"
 msgstr "Вирізати виділені завдання у буфер обміну"
 
-#: ../src/calendar/gui/e-task-table.c:849
+#: ../src/calendar/gui/e-task-table.c:851
 msgid "Copy selected tasks to the clipboard"
 msgstr "Копіювати виділені завдання у буфер обміну"
 
-#: ../src/calendar/gui/e-task-table.c:855
+#: ../src/calendar/gui/e-task-table.c:857
 msgid "Paste tasks from the clipboard"
 msgstr "Вставити завдання з буферу обміну"
 
-#: ../src/calendar/gui/e-task-table.c:861
+#: ../src/calendar/gui/e-task-table.c:863
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
 msgid "Delete selected tasks"
 msgstr "Вилучити вибрані завдання"
 
-#: ../src/calendar/gui/e-task-table.c:867
+#: ../src/calendar/gui/e-task-table.c:869
 msgid "Select all visible tasks"
 msgstr "Виділити всі видимі завдання"
 
@@ -15295,23 +15295,23 @@ msgstr "Вибір часу для порівняння"
 msgid "Choose a File"
 msgstr "Виберіть файл"
 
-#: ../src/e-util/e-filter-rule.c:1014
+#: ../src/e-util/e-filter-rule.c:1025
 msgid "R_ule name:"
 msgstr "_Назва правила"
 
-#: ../src/e-util/e-filter-rule.c:1070
+#: ../src/e-util/e-filter-rule.c:1081
 msgid "all the following conditions"
 msgstr "усі подальші умови"
 
-#: ../src/e-util/e-filter-rule.c:1071
+#: ../src/e-util/e-filter-rule.c:1082
 msgid "any of the following conditions"
 msgstr "будь-який з подальших умов"
 
-#: ../src/e-util/e-filter-rule.c:1077
+#: ../src/e-util/e-filter-rule.c:1088
 msgid "_Find items which match:"
 msgstr "З_найти об'єкти, які збігаються:"
 
-#: ../src/e-util/e-filter-rule.c:1100
+#: ../src/e-util/e-filter-rule.c:1111
 msgid "Find items that meet the following conditions"
 msgstr "Знайти елементи, що відповідають вказаним критеріям"
 
@@ -15319,7 +15319,7 @@ msgstr "Знайти елементи, що відповідають вказа�
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:1115
+#: ../src/e-util/e-filter-rule.c:1126
 #: ../src/e-util/e-html-editor-page-dialog.c:58
 #: ../src/e-util/e-mail-identity-combo-box.c:785
 #: ../src/e-util/e-mail-signature-combo-box.c:405
@@ -15330,36 +15330,36 @@ msgstr "Знайти елементи, що відповідають вказа�
 msgid "None"
 msgstr "Немає"
 
-#: ../src/e-util/e-filter-rule.c:1116
+#: ../src/e-util/e-filter-rule.c:1127
 msgid "All related"
 msgstr "Усе пов'язане"
 
-#: ../src/e-util/e-filter-rule.c:1117 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1128 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Відповіді"
 
-#: ../src/e-util/e-filter-rule.c:1118
+#: ../src/e-util/e-filter-rule.c:1129
 msgid "Replies and parents"
 msgstr "Відповіді та батьківські"
 
-#: ../src/e-util/e-filter-rule.c:1119
+#: ../src/e-util/e-filter-rule.c:1130
 msgid "No reply or parent"
 msgstr "Не є відповіддю чи батьківським"
 
-#: ../src/e-util/e-filter-rule.c:1122
+#: ../src/e-util/e-filter-rule.c:1133
 msgid "I_nclude threads:"
 msgstr "_Ураховуючи гілки:"
 
-#: ../src/e-util/e-filter-rule.c:1200
+#: ../src/e-util/e-filter-rule.c:1211
 msgid "A_dd Condition"
 msgstr "Додати _критерій"
 
-#: ../src/e-util/e-filter-rule.c:1518 ../src/e-util/filter.ui.h:1
+#: ../src/e-util/e-filter-rule.c:1529 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:995 ../src/mail/em-utils.c:167
 msgid "Incoming"
 msgstr "Вхідні"
 
-#: ../src/e-util/e-filter-rule.c:1518 ../src/mail/em-filter-rule.c:996
+#: ../src/e-util/e-filter-rule.c:1529 ../src/mail/em-filter-rule.c:996
 #: ../src/mail/em-utils.c:168
 msgid "Outgoing"
 msgstr "Вихідні"
@@ -16278,7 +16278,7 @@ msgid "Image Properties"
 msgstr "Властивості зображення"
 
 #: ../src/e-util/e-html-editor-link-popover.c:120
-#: ../src/modules/itip-formatter/itip-view.c:1326
+#: ../src/modules/itip-formatter/itip-view.c:1341
 #: ../src/smime/gui/certificate-manager.c:1603
 msgid "_Update"
 msgstr "_Оновити"
@@ -17817,7 +17817,7 @@ msgstr "Ознаки"
 msgid "Identity"
 msgstr "Особисті дані"
 
-#: ../src/e-util/e-webdav-browser.c:515 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/e-util/e-webdav-browser.c:515 ../src/mail/filtertypes.xml.in.h:68
 #: ../src/mail/searchtypes.xml.in.h:59 ../src/mail/vfoldertypes.xml.in.h:61
 msgid "Address book"
 msgstr "Адресна книга"
@@ -19570,11 +19570,11 @@ msgstr "Заголовки"
 msgid "Page %d of %d"
 msgstr "Сторінка %d з %d"
 
-#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:71
+#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:72
 msgid "Move to Folder"
 msgstr "Перемістити в теку"
 
-#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:72
+#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:73
 msgid "Copy to Folder"
 msgstr "Скопіювати у теку"
 
@@ -20202,7 +20202,7 @@ msgstr "Встановити _вибрані"
 msgid "Set _None"
 msgstr "_Скасувати усі"
 
-#: ../src/mail/e-mail-reader.c:5856 ../src/mail/filtertypes.xml.in.h:73
+#: ../src/mail/e-mail-reader.c:5856 ../src/mail/filtertypes.xml.in.h:74
 msgid "Delete"
 msgstr "Вилучити"
 
@@ -21419,87 +21419,91 @@ msgstr "Повідомлення є спамом"
 msgid "Message is not Junk"
 msgstr "Повідомлення не є спамом"
 
-#: ../src/mail/filtertypes.xml.in.h:66 ../src/mail/vfoldertypes.xml.in.h:60
+#: ../src/mail/filtertypes.xml.in.h:66
+msgid "Inconclusive whether Message is Junk"
+msgstr "Немає певності щодо того, чи є повідомлення непотребом"
+
+#: ../src/mail/filtertypes.xml.in.h:67 ../src/mail/vfoldertypes.xml.in.h:60
 msgid "Message Location"
 msgstr "Місцезнаходження повідомлення"
 
-#: ../src/mail/filtertypes.xml.in.h:68 ../src/mail/searchtypes.xml.in.h:60
+#: ../src/mail/filtertypes.xml.in.h:69 ../src/mail/searchtypes.xml.in.h:60
 #: ../src/mail/vfoldertypes.xml.in.h:62
 msgid "contains Sender"
 msgstr "містить відправника"
 
-#: ../src/mail/filtertypes.xml.in.h:69 ../src/mail/searchtypes.xml.in.h:61
+#: ../src/mail/filtertypes.xml.in.h:70 ../src/mail/searchtypes.xml.in.h:61
 #: ../src/mail/vfoldertypes.xml.in.h:63
 msgid "does not contain Sender"
 msgstr "не містить відправника"
 
-#: ../src/mail/filtertypes.xml.in.h:70 ../src/mail/searchtypes.xml.in.h:62
+#: ../src/mail/filtertypes.xml.in.h:71 ../src/mail/searchtypes.xml.in.h:62
 #: ../src/mail/vfoldertypes.xml.in.h:64
 msgid "Match All"
 msgstr "Відповідає усім"
 
-#: ../src/mail/filtertypes.xml.in.h:74
+#: ../src/mail/filtertypes.xml.in.h:75
 msgid "Stop Processing"
 msgstr "Зупинити обробку"
 
-#: ../src/mail/filtertypes.xml.in.h:75
+#: ../src/mail/filtertypes.xml.in.h:76
 msgid "Set Label"
 msgstr "Встановити позначку"
 
-#: ../src/mail/filtertypes.xml.in.h:76
+#: ../src/mail/filtertypes.xml.in.h:77
 msgid "Unset Label"
 msgstr "Скасувати позначку"
 
-#: ../src/mail/filtertypes.xml.in.h:77
+#: ../src/mail/filtertypes.xml.in.h:78
 msgid "Assign Color"
 msgstr "Призначити колір"
 
-#: ../src/mail/filtertypes.xml.in.h:78
+#: ../src/mail/filtertypes.xml.in.h:79
 msgid "Unset Color"
 msgstr "Невказаний колір"
 
-#: ../src/mail/filtertypes.xml.in.h:79
+#: ../src/mail/filtertypes.xml.in.h:80
 msgid "Assign Score"
 msgstr "Призначити вагу"
 
-#: ../src/mail/filtertypes.xml.in.h:80
+#: ../src/mail/filtertypes.xml.in.h:81
 msgid "Adjust Score"
 msgstr "Скоригувати вагу"
 
-#: ../src/mail/filtertypes.xml.in.h:81
+#: ../src/mail/filtertypes.xml.in.h:82
 msgid "Set Status"
 msgstr "Встановити стан"
 
-#: ../src/mail/filtertypes.xml.in.h:82 ../src/mail/searchtypes.xml.in.h:40
+#: ../src/mail/filtertypes.xml.in.h:83 ../src/mail/searchtypes.xml.in.h:40
 #: ../src/mail/vfoldertypes.xml.in.h:40
 msgid "Deleted"
 msgstr "Вилучено"
 
-#: ../src/mail/filtertypes.xml.in.h:83
+#: ../src/mail/filtertypes.xml.in.h:84
 msgid "Unset Status"
 msgstr "Скинути стан"
 
-#: ../src/mail/filtertypes.xml.in.h:84
+#: ../src/mail/filtertypes.xml.in.h:85
 msgid "Learn as Junk"
 msgstr "Вивчити як _спам"
 
-#: ../src/mail/filtertypes.xml.in.h:85
+#: ../src/mail/filtertypes.xml.in.h:86
 msgid "Beep"
 msgstr "Звукове повідомлення"
 
-#: ../src/mail/filtertypes.xml.in.h:86
+#: ../src/mail/filtertypes.xml.in.h:87
 msgid "Play Sound"
 msgstr "Відтворити звук"
 
-#: ../src/mail/filtertypes.xml.in.h:87
+#: ../src/mail/filtertypes.xml.in.h:88
 msgid "Run Program"
 msgstr "Запустити програму"
 
-#: ../src/mail/filtertypes.xml.in.h:88
+#: ../src/mail/filtertypes.xml.in.h:89
 msgid "Forward to"
 msgstr "Переслати"
 
-#: ../src/mail/filtertypes.xml.in.h:89
+#: ../src/mail/filtertypes.xml.in.h:90
 msgid "with"
 msgstr "з"
 
@@ -24373,8 +24377,8 @@ msgstr "Виберіть адресну книгу"
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:102
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:239
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:260
-#: ../src/modules/itip-formatter/itip-view.c:2088
-#: ../src/modules/itip-formatter/itip-view.c:2296
+#: ../src/modules/itip-formatter/itip-view.c:2103
+#: ../src/modules/itip-formatter/itip-view.c:2311
 msgid "URL:"
 msgstr "URL:"
 
@@ -25446,7 +25450,7 @@ msgid "Accept meeting request for selected instance only"
 msgstr "Прийняти запрошення на засідання лише для позначеного запису"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1523
-#: ../src/modules/itip-formatter/itip-view.c:1305
+#: ../src/modules/itip-formatter/itip-view.c:1320
 msgid "_Decline"
 msgstr "Від_хилити"
 
@@ -26582,139 +26586,139 @@ msgstr "%s через %s скасував таку спільну примітк
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s скасував таку спільну примітку:"
 
-#: ../src/modules/itip-formatter/itip-view.c:908
+#: ../src/modules/itip-formatter/itip-view.c:923
 msgid "All day:"
 msgstr "Весь день:"
 
-#: ../src/modules/itip-formatter/itip-view.c:914
+#: ../src/modules/itip-formatter/itip-view.c:929
 msgid "Start day:"
 msgstr "День початку:"
 
-#: ../src/modules/itip-formatter/itip-view.c:914
-#: ../src/modules/itip-formatter/itip-view.c:2089
+#: ../src/modules/itip-formatter/itip-view.c:929
+#: ../src/modules/itip-formatter/itip-view.c:2104
 msgid "Start time:"
 msgstr "Час початку:"
 
-#: ../src/modules/itip-formatter/itip-view.c:923
+#: ../src/modules/itip-formatter/itip-view.c:938
 msgid "End day:"
 msgstr "День завершення:"
 
-#: ../src/modules/itip-formatter/itip-view.c:923
-#: ../src/modules/itip-formatter/itip-view.c:2090
+#: ../src/modules/itip-formatter/itip-view.c:938
+#: ../src/modules/itip-formatter/itip-view.c:2105
 msgid "End time:"
 msgstr "Час завершення:"
 
 #
-#: ../src/modules/itip-formatter/itip-view.c:1299
+#: ../src/modules/itip-formatter/itip-view.c:1314
 msgid "Ope_n Calendar"
 msgstr "Відк_рити календар"
 
-#: ../src/modules/itip-formatter/itip-view.c:1302
+#: ../src/modules/itip-formatter/itip-view.c:1317
 msgid "_Decline all"
 msgstr "Від_хилити все"
 
-#: ../src/modules/itip-formatter/itip-view.c:1308
+#: ../src/modules/itip-formatter/itip-view.c:1323
 msgid "_Tentative all"
 msgstr "_Невизначені усі"
 
-#: ../src/modules/itip-formatter/itip-view.c:1311
+#: ../src/modules/itip-formatter/itip-view.c:1326
 msgid "_Tentative"
 msgstr "_Невизначені"
 
-#: ../src/modules/itip-formatter/itip-view.c:1314
+#: ../src/modules/itip-formatter/itip-view.c:1329
 msgid "Acce_pt all"
 msgstr "При_йняти усе"
 
-#: ../src/modules/itip-formatter/itip-view.c:1317
+#: ../src/modules/itip-formatter/itip-view.c:1332
 msgid "Acce_pt"
 msgstr "_Прийняти"
 
-#: ../src/modules/itip-formatter/itip-view.c:1320
+#: ../src/modules/itip-formatter/itip-view.c:1335
 msgid "Send _Information"
 msgstr "Надіслати _інформацію"
 
-#: ../src/modules/itip-formatter/itip-view.c:1323
+#: ../src/modules/itip-formatter/itip-view.c:1338
 msgid "_Update Attendee Status"
 msgstr "_Оновити стан учасника"
 
-#: ../src/modules/itip-formatter/itip-view.c:1329
+#: ../src/modules/itip-formatter/itip-view.c:1344
 msgid "Im_port"
 msgstr "І_мпорт"
 
-#: ../src/modules/itip-formatter/itip-view.c:2092
-#: ../src/modules/itip-formatter/itip-view.c:2308
-#: ../src/modules/itip-formatter/itip-view.c:7463
+#: ../src/modules/itip-formatter/itip-view.c:2107
+#: ../src/modules/itip-formatter/itip-view.c:2323
+#: ../src/modules/itip-formatter/itip-view.c:7478
 msgid "Due date:"
 msgstr "Дата завершення:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2127
+#: ../src/modules/itip-formatter/itip-view.c:2142
 msgid "Show description provided by the sender"
 msgstr "Показати опис, який надано відправником"
 
-#: ../src/modules/itip-formatter/itip-view.c:2128
+#: ../src/modules/itip-formatter/itip-view.c:2143
 msgid "Hide description provided by the sender"
 msgstr "Приховати опис, який надано відправником"
 
 #. RSVP area
-#: ../src/modules/itip-formatter/itip-view.c:2219
+#: ../src/modules/itip-formatter/itip-view.c:2234
 msgid "Send reply to organizer"
 msgstr "Надіслати відповідь організатору"
 
 #. Updates
-#: ../src/modules/itip-formatter/itip-view.c:2234
+#: ../src/modules/itip-formatter/itip-view.c:2249
 msgid "Send _updates to attendees"
 msgstr "Надіслати _оновлення учасникам"
 
 #. The recurrence check button
-#: ../src/modules/itip-formatter/itip-view.c:2237
+#: ../src/modules/itip-formatter/itip-view.c:2252
 msgid "_Apply to all instances"
 msgstr "Застосувати до усіх _записів"
 
-#: ../src/modules/itip-formatter/itip-view.c:2238
+#: ../src/modules/itip-formatter/itip-view.c:2253
 msgid "Show time as _free"
 msgstr "Показувати час як _зайнятий"
 
-#: ../src/modules/itip-formatter/itip-view.c:2239
+#: ../src/modules/itip-formatter/itip-view.c:2254
 msgid "_Preserve my reminder"
 msgstr "З_берегти нагадування"
 
-#: ../src/modules/itip-formatter/itip-view.c:2240
+#: ../src/modules/itip-formatter/itip-view.c:2255
 msgid "_Inherit reminder"
 msgstr "_Успадковувати нагадування"
 
-#: ../src/modules/itip-formatter/itip-view.c:2487
+#: ../src/modules/itip-formatter/itip-view.c:2502
 msgid "_Tasks:"
 msgstr "_Завдання"
 
-#: ../src/modules/itip-formatter/itip-view.c:2490
+#: ../src/modules/itip-formatter/itip-view.c:2505
 msgid "_Memos:"
 msgstr "_Примітки:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3575
+#: ../src/modules/itip-formatter/itip-view.c:3590
 msgid "Sa_ve"
 msgstr "З_берегти"
 
-#: ../src/modules/itip-formatter/itip-view.c:4103
-#: ../src/modules/itip-formatter/itip-view.c:5900
+#: ../src/modules/itip-formatter/itip-view.c:4118
+#: ../src/modules/itip-formatter/itip-view.c:5915
 msgid "Attendee status updated"
 msgstr "Стан учасника оновлено!"
 
-#: ../src/modules/itip-formatter/itip-view.c:4353
+#: ../src/modules/itip-formatter/itip-view.c:4368
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "Зустріч «%s» в календарі «%s» конфліктує з цією нарадою"
 
-#: ../src/modules/itip-formatter/itip-view.c:4360
+#: ../src/modules/itip-formatter/itip-view.c:4375
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "Завдання «%s» у списку завдань «%s» конфліктує із цим завданням"
 
-#: ../src/modules/itip-formatter/itip-view.c:4367
+#: ../src/modules/itip-formatter/itip-view.c:4382
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "Примітка «%s» у списку приміток «%s» конфліктує із цією приміткою"
 
-#: ../src/modules/itip-formatter/itip-view.c:4380
+#: ../src/modules/itip-formatter/itip-view.c:4395
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -26727,7 +26731,7 @@ msgstr[2] ""
 "Календар «%s» містить %d зустрічей, які конфліктують з цим зібранням"
 msgstr[3] "Календар «%s» містить зустріч, яка конфліктує з цим зібранням"
 
-#: ../src/modules/itip-formatter/itip-view.c:4389
+#: ../src/modules/itip-formatter/itip-view.c:4404
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
@@ -26741,7 +26745,7 @@ msgstr[2] ""
 msgstr[3] ""
 "У списку завдань «%s» міститься один запис, який конфліктує із цим завданням"
 
-#: ../src/modules/itip-formatter/itip-view.c:4398
+#: ../src/modules/itip-formatter/itip-view.c:4413
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
@@ -26759,236 +26763,236 @@ msgstr[3] ""
 "У списку приміток «%s» міститься %d примітка, які конфліктують із цією "
 "приміткою"
 
-#: ../src/modules/itip-formatter/itip-view.c:4435
+#: ../src/modules/itip-formatter/itip-view.c:4450
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Знайдено зустріч в календарі «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:4440
+#: ../src/modules/itip-formatter/itip-view.c:4455
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "Знайдено завдання у списку завдань «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:4445
+#: ../src/modules/itip-formatter/itip-view.c:4460
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "Знайдено примітку у списку приміток «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:4456
+#: ../src/modules/itip-formatter/itip-view.c:4471
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "Це запрошення на нараду є застарілими. Вона була оновлена."
 
-#: ../src/modules/itip-formatter/itip-view.c:4578
+#: ../src/modules/itip-formatter/itip-view.c:4593
 msgid "Unable to find any calendars"
 msgstr "Не вдалося знайти жоден календар"
 
-#: ../src/modules/itip-formatter/itip-view.c:4586
+#: ../src/modules/itip-formatter/itip-view.c:4601
 msgid "Unable to find this meeting in any calendar"
 msgstr "Не вдалося знайти цю зустріч у жодному календарі"
 
-#: ../src/modules/itip-formatter/itip-view.c:4591
+#: ../src/modules/itip-formatter/itip-view.c:4606
 msgid "Unable to find this task in any task list"
 msgstr "Не вдалося знайти це завдання у жодному списку завдань"
 
-#: ../src/modules/itip-formatter/itip-view.c:4596
+#: ../src/modules/itip-formatter/itip-view.c:4611
 msgid "Unable to find this memo in any memo list"
 msgstr "Не вдалося знайти цю примітку у жодному списку приміток"
 
-#: ../src/modules/itip-formatter/itip-view.c:4910
+#: ../src/modules/itip-formatter/itip-view.c:4925
 msgid "Searching for an existing version of this appointment"
 msgstr "Пошук наявної версії цієї зустрічі"
 
-#: ../src/modules/itip-formatter/itip-view.c:4914
+#: ../src/modules/itip-formatter/itip-view.c:4929
 msgid "Searching for an existing version of this task"
 msgstr "Шукаємо наявну версію цього завдання"
 
-#: ../src/modules/itip-formatter/itip-view.c:4918
+#: ../src/modules/itip-formatter/itip-view.c:4933
 msgid "Searching for an existing version of this memo"
 msgstr "Шукаємо наявну версію цієї примітки"
 
-#: ../src/modules/itip-formatter/itip-view.c:4978
+#: ../src/modules/itip-formatter/itip-view.c:4993
 msgid "Opening the calendar. Please wait…"
 msgstr "Відкривання календаря. Заждіть…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5340
+#: ../src/modules/itip-formatter/itip-view.c:5355
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "Не вдалося надіслати календар «%s».  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5348
+#: ../src/modules/itip-formatter/itip-view.c:5363
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "Не вдалося надіслати запис до списку завдань «%s».  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5356
+#: ../src/modules/itip-formatter/itip-view.c:5371
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "Не вдалося надіслати список приміток «%s».  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5377
+#: ../src/modules/itip-formatter/itip-view.c:5392
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Надіслано до календаря «%s» як прийняте"
 
-#: ../src/modules/itip-formatter/itip-view.c:5382
+#: ../src/modules/itip-formatter/itip-view.c:5397
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Надіслано до списку завдань «%s» як прийняте"
 
-#: ../src/modules/itip-formatter/itip-view.c:5387
+#: ../src/modules/itip-formatter/itip-view.c:5402
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Надіслано до списку приміток «%s» як прийняте"
 
-#: ../src/modules/itip-formatter/itip-view.c:5397
+#: ../src/modules/itip-formatter/itip-view.c:5412
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Надіслано до календаря «%s» як можливе"
 
-#: ../src/modules/itip-formatter/itip-view.c:5402
+#: ../src/modules/itip-formatter/itip-view.c:5417
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Надіслано до списку завдань «%s» як можливе"
 
-#: ../src/modules/itip-formatter/itip-view.c:5407
+#: ../src/modules/itip-formatter/itip-view.c:5422
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Надіслано до списку приміток «%s» як можливе"
 
-#: ../src/modules/itip-formatter/itip-view.c:5417
+#: ../src/modules/itip-formatter/itip-view.c:5432
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Надіслано до календаря «%s» як відхилене"
 
-#: ../src/modules/itip-formatter/itip-view.c:5422
+#: ../src/modules/itip-formatter/itip-view.c:5437
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Надіслано до списку завдань «%s» як відхилене"
 
-#: ../src/modules/itip-formatter/itip-view.c:5427
+#: ../src/modules/itip-formatter/itip-view.c:5442
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Надіслано до списку приміток «%s» як відхилене"
 
-#: ../src/modules/itip-formatter/itip-view.c:5437
+#: ../src/modules/itip-formatter/itip-view.c:5452
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Надіслано до календаря «%s» як скасоване"
 
-#: ../src/modules/itip-formatter/itip-view.c:5442
+#: ../src/modules/itip-formatter/itip-view.c:5457
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "Надіслано до списку завдань «%s» як скасоване"
 
-#: ../src/modules/itip-formatter/itip-view.c:5447
+#: ../src/modules/itip-formatter/itip-view.c:5462
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "Надіслано до списку приміток «%s» як скасоване"
 
-#: ../src/modules/itip-formatter/itip-view.c:5457
+#: ../src/modules/itip-formatter/itip-view.c:5472
 #, c-format
 msgid "Imported to calendar “%s”"
 msgstr "Імпортовано до календаря «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5462
+#: ../src/modules/itip-formatter/itip-view.c:5477
 #, c-format
 msgid "Imported to task list “%s”"
 msgstr "Імпортовано до списку завдань «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5467
+#: ../src/modules/itip-formatter/itip-view.c:5482
 #, c-format
 msgid "Imported to memo list “%s”"
 msgstr "Імпортовано до списку приміток «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5486
+#: ../src/modules/itip-formatter/itip-view.c:5501
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Збереження змін до календаря. Заждіть…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5489
+#: ../src/modules/itip-formatter/itip-view.c:5504
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Збереження змін до списку завдань. Заждіть…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5492
+#: ../src/modules/itip-formatter/itip-view.c:5507
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Збереження змін до списку приміток. Заждіть…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5631
+#: ../src/modules/itip-formatter/itip-view.c:5646
 msgid "Unable to parse item"
 msgstr "Не вдалося розібрати елемент"
 
-#: ../src/modules/itip-formatter/itip-view.c:5824
+#: ../src/modules/itip-formatter/itip-view.c:5839
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Організатор вилучив уповноваженого %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:5841
+#: ../src/modules/itip-formatter/itip-view.c:5856
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Надіслано уповноваженому сповіщення про скасування"
 
-#: ../src/modules/itip-formatter/itip-view.c:5845
+#: ../src/modules/itip-formatter/itip-view.c:5860
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Не вдалося надіслати сповіщення про скасування"
 
-#: ../src/modules/itip-formatter/itip-view.c:5891
+#: ../src/modules/itip-formatter/itip-view.c:5906
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Не вдалося оновити учасника. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5925
+#: ../src/modules/itip-formatter/itip-view.c:5940
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Засідання неправильне і його неможливо оновити"
 
-#: ../src/modules/itip-formatter/itip-view.c:6010
+#: ../src/modules/itip-formatter/itip-view.c:6025
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
 
-#: ../src/modules/itip-formatter/itip-view.c:6086
-#: ../src/modules/itip-formatter/itip-view.c:6124
+#: ../src/modules/itip-formatter/itip-view.c:6101
+#: ../src/modules/itip-formatter/itip-view.c:6139
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Не вдалося оновити стан учасника, оскільки відповідного запису вже не існує"
 
-#: ../src/modules/itip-formatter/itip-view.c:6185
+#: ../src/modules/itip-formatter/itip-view.c:6200
 msgid "Meeting information sent"
 msgstr "Інформацію про зібрання надіслано"
 
-#: ../src/modules/itip-formatter/itip-view.c:6190
+#: ../src/modules/itip-formatter/itip-view.c:6205
 msgid "Task information sent"
 msgstr "Інформацію про завдання надіслано"
 
-#: ../src/modules/itip-formatter/itip-view.c:6195
+#: ../src/modules/itip-formatter/itip-view.c:6210
 msgid "Memo information sent"
 msgstr "Інформацію про примітку надіслано"
 
-#: ../src/modules/itip-formatter/itip-view.c:6206
+#: ../src/modules/itip-formatter/itip-view.c:6221
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Не вдалося надіслати інформацію про зустріч, зустріч не існує"
 
-#: ../src/modules/itip-formatter/itip-view.c:6211
+#: ../src/modules/itip-formatter/itip-view.c:6226
 msgid "Unable to send task information, the task does not exist"
 msgstr "Не вдалося надіслати інформацію про завдання, завдання не існує"
 
-#: ../src/modules/itip-formatter/itip-view.c:6216
+#: ../src/modules/itip-formatter/itip-view.c:6231
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Не вдалося надіслати інформацію про примітку, примітка не існує"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6261
+#: ../src/modules/itip-formatter/itip-view.c:6276
 msgid "calendar.ics"
 msgstr "календар.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:6266
+#: ../src/modules/itip-formatter/itip-view.c:6281
 msgid "Save Calendar"
 msgstr "Зберегти календар"
 
-#: ../src/modules/itip-formatter/itip-view.c:6314
-#: ../src/modules/itip-formatter/itip-view.c:6327
+#: ../src/modules/itip-formatter/itip-view.c:6329
+#: ../src/modules/itip-formatter/itip-view.c:6342
 msgid "The calendar attached is not valid"
 msgstr "Долучений календар недійсний"
 
-#: ../src/modules/itip-formatter/itip-view.c:6315
-#: ../src/modules/itip-formatter/itip-view.c:6328
+#: ../src/modules/itip-formatter/itip-view.c:6330
+#: ../src/modules/itip-formatter/itip-view.c:6343
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -26996,15 +27000,15 @@ msgstr ""
 "Це повідомлення заявляє, що містить календар, але календар не є дійсним "
 "iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:6410
-#: ../src/modules/itip-formatter/itip-view.c:6494
-#: ../src/modules/itip-formatter/itip-view.c:6598
+#: ../src/modules/itip-formatter/itip-view.c:6425
+#: ../src/modules/itip-formatter/itip-view.c:6509
+#: ../src/modules/itip-formatter/itip-view.c:6613
 msgid "The item in the calendar is not valid"
 msgstr "Елемент календаря - недійсний"
 
-#: ../src/modules/itip-formatter/itip-view.c:6411
-#: ../src/modules/itip-formatter/itip-view.c:6495
-#: ../src/modules/itip-formatter/itip-view.c:6599
+#: ../src/modules/itip-formatter/itip-view.c:6426
+#: ../src/modules/itip-formatter/itip-view.c:6510
+#: ../src/modules/itip-formatter/itip-view.c:6614
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -27012,23 +27016,23 @@ msgstr ""
 "Це повідомлення містить календар, але календар не містить подій, задач або "
 "відомостей про зайнятість."
 
-#: ../src/modules/itip-formatter/itip-view.c:6504
+#: ../src/modules/itip-formatter/itip-view.c:6519
 msgid "The calendar attached contains multiple items"
 msgstr "Долучений календар містить декілька об'єктів"
 
-#: ../src/modules/itip-formatter/itip-view.c:6505
+#: ../src/modules/itip-formatter/itip-view.c:6520
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 "Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
 
-#: ../src/modules/itip-formatter/itip-view.c:7088
+#: ../src/modules/itip-formatter/itip-view.c:7103
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Немає"
 
-#: ../src/modules/itip-formatter/itip-view.c:7140
+#: ../src/modules/itip-formatter/itip-view.c:7155
 msgid "Tentatively Accepted"
 msgstr "Експериментально прийнято"
 
