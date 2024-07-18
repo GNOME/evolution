@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-07-16 09:09+0000\n"
-"PO-Revision-Date: 2024-07-16 22:56+0200\n"
+"POT-Creation-Date: 2024-07-17 11:30+0000\n"
+"PO-Revision-Date: 2024-07-18 13:10+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -4590,7 +4590,7 @@ msgstr "Stik s tem naslovom že obstaja. Ali želite vseeno dodati novo vizitko 
 #: ../src/e-util/e-mail-signature-manager.c:315 ../src/e-util/e-name-selector-dialog.c:1006
 #: ../src/e-util/filter.ui.h:25 ../src/mail/e-mail-account-manager.c:709
 #: ../src/mail/e-mail-label-manager.c:372 ../src/mail/em-folder-properties.c:1391
-#: ../src/mail/em-vfolder-editor-rule.c:391 ../src/mail/em-vfolder-editor-rule.c:620
+#: ../src/mail/em-vfolder-editor-rule.c:395 ../src/mail/em-vfolder-editor-rule.c:944
 #: ../src/mail/mail-config.ui.h:69 ../src/modules/mail/em-composer-prefs.c:420
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1800
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
@@ -4734,8 +4734,8 @@ msgstr "Stik »{0}« v imeniku »{1}« že obstaja. ALi želite raje dodati kopi
 #: ../src/e-util/e-html-editor-actions.c:460 ../src/e-util/e-html-editor-actions.c:562
 #: ../src/e-util/e-image-chooser-dialog.c:168 ../src/e-util/e-mail-signature-script-dialog.c:340
 #: ../src/e-util/e-passwords.c:486 ../src/e-util/e-rule-context.c:810
-#: ../src/e-util/e-rule-editor.c:178 ../src/e-util/e-rule-editor.c:289
-#: ../src/e-util/e-rule-editor.c:342 ../src/e-util/e-rule-editor.c:978
+#: ../src/e-util/e-rule-editor.c:179 ../src/e-util/e-rule-editor.c:292
+#: ../src/e-util/e-rule-editor.c:345 ../src/e-util/e-rule-editor.c:981
 #: ../src/e-util/e-send-options.ui.h:16 ../src/e-util/e-source-config-dialog.c:342
 #: ../src/e-util/e-source-selector-dialog.c:324 ../src/e-util/e-table-config.c:540
 #: ../src/e-util/e-table-config.ui.h:3 ../src/e-util/e-timezone-dialog.ui.h:2
@@ -4746,7 +4746,7 @@ msgstr "Stik »{0}« v imeniku »{1}« že obstaja. ALi želite raje dodati kopi
 #: ../src/mail/em-composer-utils.c:4454 ../src/mail/em-folder-selector.c:619
 #: ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16
 #: ../src/mail/mail-send-recv.c:874 ../src/mail/mail-send-recv.c:955
-#: ../src/mail/mail-vfolder-ui.c:149 ../src/mail/mail-vfolder-ui.c:271
+#: ../src/mail/mail-vfolder-ui.c:151 ../src/mail/mail-vfolder-ui.c:272
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1310
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
@@ -5096,12 +5096,12 @@ msgstr "Dodaj _X.509"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1535 ../src/e-util/e-attachment-view.c:519
-#: ../src/e-util/e-filter-rule.c:403 ../src/e-util/e-html-editor-link-popover.c:276
+#: ../src/e-util/e-filter-rule.c:405 ../src/e-util/e-html-editor-link-popover.c:276
 #: ../src/e-util/e-mail-signature-manager.c:355 ../src/e-util/e-name-selector-dialog.c:1010
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:28
 #: ../src/mail/e-mail-config-identity-page.c:865 ../src/mail/e-mail-label-manager.c:390
 #: ../src/mail/em-filter-rule.c:677 ../src/mail/em-folder-properties.c:1397
-#: ../src/mail/em-vfolder-editor-rule.c:625 ../src/mail/mail-config.ui.h:71
+#: ../src/mail/em-vfolder-editor-rule.c:949 ../src/mail/mail-config.ui.h:71
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1819
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:825
@@ -5299,14 +5299,14 @@ msgstr "Pomo_č"
 #: ../src/e-util/e-category-editor.c:248 ../src/e-util/e-charset-combo-box.c:93
 #: ../src/e-util/e-color-chooser-widget.c:119 ../src/e-util/e-filter-datespec.c:293
 #: ../src/e-util/e-passwords.c:487 ../src/e-util/e-rule-context.c:811
-#: ../src/e-util/e-rule-editor.c:179 ../src/e-util/e-rule-editor.c:290
-#: ../src/e-util/e-rule-editor.c:343 ../src/e-util/e-rule-editor.c:979
+#: ../src/e-util/e-rule-editor.c:180 ../src/e-util/e-rule-editor.c:293
+#: ../src/e-util/e-rule-editor.c:346 ../src/e-util/e-rule-editor.c:982
 #: ../src/e-util/e-send-options.ui.h:17 ../src/e-util/e-source-config-dialog.c:343
 #: ../src/e-util/e-source-selector-dialog.c:325 ../src/e-util/e-table-config.c:541
 #: ../src/e-util/e-table-config.ui.h:4 ../src/e-util/e-timezone-dialog.ui.h:3
 #: ../src/mail/e-mail-config-window.c:305 ../src/mail/e-mail-tag-editor.c:156
 #: ../src/mail/em-folder-selector.c:40 ../src/mail/mail-config.ui.h:3
-#: ../src/mail/mail-vfolder-ui.c:150 ../src/mail/mail-vfolder-ui.c:272
+#: ../src/mail/mail-vfolder-ui.c:152 ../src/mail/mail-vfolder-ui.c:273
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:278
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418 ../src/shell/e-shell-content.c:612
@@ -7539,7 +7539,7 @@ msgstr "…"
 msgid "attachment.dat"
 msgstr "priloga.dat"
 
-#: ../src/calendar/gui/comp-util.c:2734 ../src/e-util/e-filter-rule.c:1032
+#: ../src/calendar/gui/comp-util.c:2734 ../src/e-util/e-filter-rule.c:1034
 #: ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Neimenovano"
@@ -14450,23 +14450,23 @@ msgstr "Izberite čas za primerjavo"
 msgid "Choose a File"
 msgstr "Izbor datoteke"
 
-#: ../src/e-util/e-filter-rule.c:1025
+#: ../src/e-util/e-filter-rule.c:1027
 msgid "R_ule name:"
 msgstr "Ime _pravila:"
 
-#: ../src/e-util/e-filter-rule.c:1081
+#: ../src/e-util/e-filter-rule.c:1085
 msgid "all the following conditions"
 msgstr "vse navedene pogoje"
 
-#: ../src/e-util/e-filter-rule.c:1082
+#: ../src/e-util/e-filter-rule.c:1086
 msgid "any of the following conditions"
 msgstr "katerikoli naveden pogoj"
 
-#: ../src/e-util/e-filter-rule.c:1088
+#: ../src/e-util/e-filter-rule.c:1092
 msgid "_Find items which match:"
 msgstr "_Upoštevaj:"
 
-#: ../src/e-util/e-filter-rule.c:1111
+#: ../src/e-util/e-filter-rule.c:1115
 msgid "Find items that meet the following conditions"
 msgstr "Iskanje predmetov, ki ustrezajo navedenim pogojem"
 
@@ -14474,7 +14474,7 @@ msgstr "Iskanje predmetov, ki ustrezajo navedenim pogojem"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:1126 ../src/e-util/e-html-editor-page-dialog.c:58
+#: ../src/e-util/e-filter-rule.c:1130 ../src/e-util/e-html-editor-page-dialog.c:58
 #: ../src/e-util/e-mail-identity-combo-box.c:785 ../src/e-util/e-mail-signature-combo-box.c:405
 #: ../src/libemail-engine/camel-null-store.c:29 ../src/mail/e-mail-autoconfig.c:868
 #: ../src/mail/e-mail-config-summary-page.c:134
@@ -14482,36 +14482,36 @@ msgstr "Iskanje predmetov, ki ustrezajo navedenim pogojem"
 msgid "None"
 msgstr "Ne združuj"
 
-#: ../src/e-util/e-filter-rule.c:1127
+#: ../src/e-util/e-filter-rule.c:1131
 msgid "All related"
 msgstr "Vse povezano"
 
-#: ../src/e-util/e-filter-rule.c:1128 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1132 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Odgovore na sporočila"
 
-#: ../src/e-util/e-filter-rule.c:1129
+#: ../src/e-util/e-filter-rule.c:1133
 msgid "Replies and parents"
 msgstr "Odgovore in nadrejena sporočila"
 
-#: ../src/e-util/e-filter-rule.c:1130
+#: ../src/e-util/e-filter-rule.c:1134
 msgid "No reply or parent"
 msgstr "Le zadetke (brez odgovorov in nadrejenih)"
 
-#: ../src/e-util/e-filter-rule.c:1133
+#: ../src/e-util/e-filter-rule.c:1137
 msgid "I_nclude threads:"
 msgstr "Združuj:"
 
-#: ../src/e-util/e-filter-rule.c:1211
+#: ../src/e-util/e-filter-rule.c:1215
 msgid "A_dd Condition"
 msgstr "Dodaj _pogoj"
 
-#: ../src/e-util/e-filter-rule.c:1529 ../src/e-util/filter.ui.h:1
+#: ../src/e-util/e-filter-rule.c:1553 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:995 ../src/mail/em-utils.c:167
 msgid "Incoming"
 msgstr "·Prejeto·"
 
-#: ../src/e-util/e-filter-rule.c:1529 ../src/mail/em-filter-rule.c:996 ../src/mail/em-utils.c:168
+#: ../src/e-util/e-filter-rule.c:1553 ../src/mail/em-filter-rule.c:996 ../src/mail/em-utils.c:168
 msgid "Outgoing"
 msgstr "Odhodna"
 
@@ -16212,17 +16212,17 @@ msgstr "Ustvari nov profil posredniškega strežnika"
 msgid "Delete the selected proxy profile"
 msgstr "Izbriši izbran profil posredniškega strežnika"
 
-#: ../src/e-util/e-rule-editor.c:182
+#: ../src/e-util/e-rule-editor.c:183
 msgid "Add Rule"
 msgstr "Dodaj pravilo"
 
-#: ../src/e-util/e-rule-editor.c:293 ../src/e-util/e-rule-editor.c:346
+#: ../src/e-util/e-rule-editor.c:296 ../src/e-util/e-rule-editor.c:349
 msgid "Edit Rule"
 msgstr "Uredi pravilo"
 
 #. Translators: the '%s' is replaced with a rule name, making it for example "Copy of Subject contains work";
 #. the text itself is provided by the user.
-#: ../src/e-util/e-rule-editor.c:333
+#: ../src/e-util/e-rule-editor.c:336
 #, c-format
 msgid "Copy of %s"
 msgstr "Kopiranje %s"
@@ -19683,15 +19683,15 @@ msgstr "Za _račun:"
 msgid "Add Ac_tion"
 msgstr "Dodaj _dejanje"
 
-#: ../src/mail/em-folder-properties.c:170
+#: ../src/mail/em-folder-properties.c:170 ../src/mail/em-vfolder-editor-rule.c:582
 msgid "Select Custom Icon"
 msgstr "Izbor ikone po meri"
 
-#: ../src/mail/em-folder-properties.c:219
+#: ../src/mail/em-folder-properties.c:219 ../src/mail/em-vfolder-editor-rule.c:628
 msgid "_Use custom icon"
 msgstr "Uporabi _ikono po meri"
 
-#: ../src/mail/em-folder-properties.c:312
+#: ../src/mail/em-folder-properties.c:312 ../src/mail/em-vfolder-editor-rule.c:712
 msgid "Use te_xt color"
 msgstr "Uporabi barvo _besedila"
 
@@ -20116,35 +20116,39 @@ msgstr "Določite raven zaupanja za ključ:"
 msgid "Search _Folders"
 msgstr "Iskalne _mape"
 
-#: ../src/mail/em-vfolder-editor-rule.c:387
+#: ../src/mail/em-vfolder-editor-rule.c:391
 msgid "Add Folder"
 msgstr "Dodaj mapo"
 
-#: ../src/mail/em-vfolder-editor-rule.c:516
+#: ../src/mail/em-vfolder-editor-rule.c:754
+msgid "Customize Appearance"
+msgstr "Prilagoditev videza"
+
+#: ../src/mail/em-vfolder-editor-rule.c:840
 msgid "Search Folder Sources"
 msgstr "Viri iskalne mape"
 
-#: ../src/mail/em-vfolder-editor-rule.c:548
+#: ../src/mail/em-vfolder-editor-rule.c:872
 msgid "Automatically update on any _source folder change"
 msgstr "Samodejno posodobi ob vsaki spremembi _izvorne mape"
 
-#: ../src/mail/em-vfolder-editor-rule.c:560
+#: ../src/mail/em-vfolder-editor-rule.c:884
 msgid "All local folders"
 msgstr "Vse krajevne mape"
 
-#: ../src/mail/em-vfolder-editor-rule.c:561
+#: ../src/mail/em-vfolder-editor-rule.c:885
 msgid "All active remote folders"
 msgstr "Vse dejavne oddaljene mape"
 
-#: ../src/mail/em-vfolder-editor-rule.c:562
+#: ../src/mail/em-vfolder-editor-rule.c:886
 msgid "All local and active remote folders"
 msgstr "Vse krajevne in dejavne oddaljene mape"
 
-#: ../src/mail/em-vfolder-editor-rule.c:563
+#: ../src/mail/em-vfolder-editor-rule.c:887
 msgid "Specific folders"
 msgstr "Določene mape"
 
-#: ../src/mail/em-vfolder-editor-rule.c:601
+#: ../src/mail/em-vfolder-editor-rule.c:925
 msgid "include subfolders"
 msgstr "vključi podmape"
 
@@ -22225,11 +22229,11 @@ msgstr "Poteka uničevanje vsebine koša v »%s«"
 msgid "Search Folders"
 msgstr "Iskalne mape"
 
-#: ../src/mail/mail-vfolder-ui.c:147
+#: ../src/mail/mail-vfolder-ui.c:149
 msgid "Edit Search Folder"
 msgstr "Uredi iskalno mapo"
 
-#: ../src/mail/mail-vfolder-ui.c:268
+#: ../src/mail/mail-vfolder-ui.c:269
 msgid "New Search Folder"
 msgstr "Nova iskalna mapa"
 
