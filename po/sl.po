@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-07-17 11:30+0000\n"
-"PO-Revision-Date: 2024-07-18 13:10+0200\n"
+"POT-Creation-Date: 2024-07-23 13:33+0000\n"
+"PO-Revision-Date: 2024-07-23 16:12+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -4742,7 +4742,7 @@ msgstr "Stik »{0}« v imeniku »{1}« že obstaja. ALi želite raje dodati kopi
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4133
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265 ../src/mail/e-mail-config-window.c:304
 #: ../src/mail/e-mail-label-dialog.c:180 ../src/mail/e-mail-reader.c:5014
-#: ../src/mail/e-mail-tag-editor.c:154 ../src/mail/e-mail-viewer.c:594
+#: ../src/mail/e-mail-tag-editor.c:155 ../src/mail/e-mail-viewer.c:594
 #: ../src/mail/em-composer-utils.c:4454 ../src/mail/em-folder-selector.c:619
 #: ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16
 #: ../src/mail/mail-send-recv.c:874 ../src/mail/mail-send-recv.c:955
@@ -5304,7 +5304,7 @@ msgstr "Pomo_č"
 #: ../src/e-util/e-send-options.ui.h:17 ../src/e-util/e-source-config-dialog.c:343
 #: ../src/e-util/e-source-selector-dialog.c:325 ../src/e-util/e-table-config.c:541
 #: ../src/e-util/e-table-config.ui.h:4 ../src/e-util/e-timezone-dialog.ui.h:3
-#: ../src/mail/e-mail-config-window.c:305 ../src/mail/e-mail-tag-editor.c:156
+#: ../src/mail/e-mail-config-window.c:305 ../src/mail/e-mail-tag-editor.c:157
 #: ../src/mail/em-folder-selector.c:40 ../src/mail/mail-config.ui.h:3
 #: ../src/mail/mail-vfolder-ui.c:152 ../src/mail/mail-vfolder-ui.c:273
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:278
@@ -8466,7 +8466,7 @@ msgstr "Čas začetka ni veljaven čas"
 #: ../src/e-util/e-misc-utils.c:4095 ../src/e-util/e-misc-utils.c:4103
 #: ../src/e-util/e-misc-utils.c:4111 ../src/e-util/e-misc-utils.c:4146
 #: ../src/e-util/e-misc-utils.c:4159 ../src/e-util/e-misc-utils.c:4173
-#: ../src/mail/e-mail-autoconfig.c:1130 ../src/mail/e-mail-display.c:2914
+#: ../src/mail/e-mail-autoconfig.c:1130 ../src/mail/e-mail-display.c:3083
 #: ../src/mail/e-mail-notes.c:931 ../src/mail/e-mail-reader.c:3710
 #: ../src/mail/e-mail-reader-utils.c:817 ../src/mail/e-mail-viewer.c:568
 #: ../src/mail/e-mail-viewer.c:1741 ../src/mail/e-mail-viewer.c:2403
@@ -12793,7 +12793,7 @@ msgid "Play the attachment in embedded audio player"
 msgstr "Predvajaj prilogo v vgrajenem predvajalniku zvoka"
 
 #: ../src/em-format/e-mail-formatter-headers.c:110 ../src/em-format/e-mail-part-headers.c:39
-#: ../src/mail/e-mail-tag-editor.c:190 ../src/mail/message-list.etspec.h:5
+#: ../src/mail/e-mail-tag-editor.c:191 ../src/mail/message-list.etspec.h:5
 #: ../src/modules/mail/em-mailer-prefs.c:71
 msgid "From"
 msgstr "Od"
@@ -12843,7 +12843,7 @@ msgid "Size"
 msgstr "Velikost"
 
 #: ../src/em-format/e-mail-formatter-quote-headers.c:184
-#: ../src/em-format/e-mail-part-headers.c:44 ../src/mail/e-mail-tag-editor.c:195
+#: ../src/em-format/e-mail-part-headers.c:44 ../src/mail/e-mail-tag-editor.c:196
 #: ../src/mail/filtertypes.xml.in.h:16 ../src/mail/message-list.etspec.h:6
 #: ../src/mail/searchtypes.xml.in.h:17 ../src/mail/vfoldertypes.xml.in.h:17
 #: ../src/modules/mail/em-mailer-prefs.c:76 ../src/smime/gui/certificate-manager.c:1569
@@ -13486,7 +13486,7 @@ msgstr "_Shrani le odpakirane datoteke"
 msgid "Save extracted files and the original _archive"
 msgstr "Shrani odpakirane datoteke v izvorni _arhiv"
 
-#: ../src/e-util/e-attachment-view.c:458 ../src/mail/e-mail-display.c:2083
+#: ../src/e-util/e-attachment-view.c:458 ../src/mail/e-mail-display.c:2199
 msgid "Open With Other Application…"
 msgstr "Odpri z drugim programom …"
 
@@ -13534,21 +13534,21 @@ msgstr "Ponovno na_loži"
 msgid "Reload attachment content"
 msgstr "Ponovno naloži vsebino priponke"
 
-#: ../src/e-util/e-attachment-view.c:999 ../src/mail/e-mail-display.c:2037
+#: ../src/e-util/e-attachment-view.c:999 ../src/mail/e-mail-display.c:2153
 #, c-format
 msgid "Open With “%s”"
 msgstr "Odpri s programom »%s«"
 
-#: ../src/e-util/e-attachment-view.c:1000 ../src/mail/e-mail-display.c:2038
+#: ../src/e-util/e-attachment-view.c:1000 ../src/mail/e-mail-display.c:2154
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Odpri prilogo v %s"
 
-#: ../src/e-util/e-attachment-view.c:1002 ../src/mail/e-mail-display.c:2040
+#: ../src/e-util/e-attachment-view.c:1002 ../src/mail/e-mail-display.c:2156
 msgid "Open With Default Application"
 msgstr "Odpre s privzetim programom"
 
-#: ../src/e-util/e-attachment-view.c:1003 ../src/mail/e-mail-display.c:2041
+#: ../src/e-util/e-attachment-view.c:1003 ../src/mail/e-mail-display.c:2157
 msgid "Open this attachment in default application"
 msgstr "Odpri prilogo v privzeto določenem programu"
 
@@ -13700,7 +13700,7 @@ msgid "popup list"
 msgstr "pojavni seznam"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138 ../src/e-util/e-cell-date.c:158
-#: ../src/mail/message-list.c:2180
+#: ../src/mail/message-list.c:2185
 msgid "?"
 msgstr "?"
 
@@ -16459,7 +16459,7 @@ msgstr "Pokaži"
 msgid "Group name"
 msgstr "Ime skupine"
 
-#: ../src/e-util/e-source-selector.c:3823 ../src/mail/e-mail-display.c:761
+#: ../src/e-util/e-source-selector.c:3823 ../src/mail/e-mail-display.c:781
 msgid "_Hide"
 msgstr "_Skrij"
 
@@ -18313,57 +18313,71 @@ msgstr "Uvodna stran"
 msgid "Account Editor"
 msgstr "Urejevalnik računov"
 
-#: ../src/mail/e-mail-display.c:148
+#: ../src/mail/e-mail-display.c:152
 msgid "_Add to Address Book…"
 msgstr "Dod_aj v imenik …"
 
-#: ../src/mail/e-mail-display.c:155
+#: ../src/mail/e-mail-display.c:159
 msgid "_To This Address"
 msgstr "_Za ta naslov"
 
-#: ../src/mail/e-mail-display.c:162
+#: ../src/mail/e-mail-display.c:166
 msgid "_From This Address"
 msgstr "_Iz tega naslova"
 
-#: ../src/mail/e-mail-display.c:169
+#: ../src/mail/e-mail-display.c:173
 msgid "Send _Reply To…"
 msgstr "_Odgovori pošiljatelju …"
 
-#: ../src/mail/e-mail-display.c:171
+#: ../src/mail/e-mail-display.c:175
 msgid "Send a reply message to this address"
 msgstr "Pošlji odgovor na sporočilo na ta naslov"
 
-#: ../src/mail/e-mail-display.c:178
+#: ../src/mail/e-mail-display.c:182
 msgid "Create Search _Folder"
 msgstr "Ustvari _iskalno mapo"
 
-#: ../src/mail/e-mail-display.c:768
+#: ../src/mail/e-mail-display.c:788
 msgid "Hid_e All"
 msgstr "Skrij _vse"
 
-#: ../src/mail/e-mail-display.c:775
+#: ../src/mail/e-mail-display.c:795
 msgid "_View Inline"
 msgstr "Poglej _znotrajvrstično"
 
-#: ../src/mail/e-mail-display.c:782
+#: ../src/mail/e-mail-display.c:802
 msgid "Vie_w All Inline"
 msgstr "Poglej vse _medvrstično"
 
-#: ../src/mail/e-mail-display.c:789
+#: ../src/mail/e-mail-display.c:809
 msgid "_Zoom to 100%"
 msgstr "_Približaj na 100 %"
 
-#: ../src/mail/e-mail-display.c:791
+#: ../src/mail/e-mail-display.c:811
 msgid "Zoom the image to its natural size"
 msgstr "Približaj sliko na izvorno velikost"
 
-#: ../src/mail/e-mail-display.c:796
+#: ../src/mail/e-mail-display.c:816
 msgid "_Zoom to window"
 msgstr "_Prilagodi širini okna"
 
-#: ../src/mail/e-mail-display.c:798
+#: ../src/mail/e-mail-display.c:818
 msgid "Zoom large images to not be wider than the window width"
 msgstr "Prilagodi velikost slik na širino velikosti okna"
+
+#: ../src/mail/e-mail-display.c:911
+msgid "Load this image"
+msgstr "Naloži to sliko"
+
+#: ../src/mail/e-mail-display.c:2300 ../src/mail/e-mail-remote-content-popover.c:251
+#, c-format
+msgid "Allow remote content from %s"
+msgstr "Dovoli oddaljeno vsebino od %s"
+
+#: ../src/mail/e-mail-display.c:2312
+#, c-format
+msgid "Load remote content from %s"
+msgstr "Naloži oddaljeno vsebino iz %s"
 
 #: ../src/mail/e-mail-folder-create-dialog.c:321
 msgid "Create Folder"
@@ -19277,11 +19291,6 @@ msgstr "Dovoli oddaljeno vsebino vsakomur iz %s"
 msgid "Allow remote content for %s"
 msgstr "Dovoli oddaljeno vsebino za %s"
 
-#: ../src/mail/e-mail-remote-content-popover.c:251
-#, c-format
-msgid "Allow remote content from %s"
-msgstr "Dovoli oddaljeno vsebino od %s"
-
 #: ../src/mail/e-mail-remote-content-popover.c:268
 msgid "Do not show this message again"
 msgstr "Ne pokaži več tega sporočila"
@@ -19302,11 +19311,11 @@ msgstr ""
 msgid "The message has no text content."
 msgstr "Sporočilo nima besedilne vsebine."
 
-#: ../src/mail/e-mail-tag-editor.c:149
+#: ../src/mail/e-mail-tag-editor.c:150
 msgid "Flag to Follow Up"
 msgstr "Zastavica za navezavo"
 
-#: ../src/mail/e-mail-tag-editor.c:155
+#: ../src/mail/e-mail-tag-editor.c:156
 msgid "Cl_ear"
 msgstr "P_očisti"
 
@@ -19865,12 +19874,12 @@ msgstr "Premikanje mape %s"
 msgid "Copying folder %s"
 msgstr "Kopiranje mape %s"
 
-#: ../src/mail/em-folder-tree.c:2401 ../src/mail/message-list.c:2642
+#: ../src/mail/em-folder-tree.c:2401 ../src/mail/message-list.c:2647
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Premikanje sporočil v mapo %s"
 
-#: ../src/mail/em-folder-tree.c:2405 ../src/mail/message-list.c:2644
+#: ../src/mail/em-folder-tree.c:2405 ../src/mail/message-list.c:2649
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopiranje sporočil v mapo %s"
@@ -22276,56 +22285,56 @@ msgstr "Ustvarjanje seznama sporočil"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2188 ../src/modules/itip-formatter/itip-view.c:286
+#: ../src/mail/message-list.c:2193 ../src/modules/itip-formatter/itip-view.c:286
 msgid "Today %l:%M %p"
 msgstr "Danes %H.%M"
 
-#: ../src/mail/message-list.c:2197
+#: ../src/mail/message-list.c:2202
 msgid "Yesterday %l:%M %p"
 msgstr "Včeraj %H.%M"
 
-#: ../src/mail/message-list.c:2209
+#: ../src/mail/message-list.c:2214
 msgid "%a %l:%M %p"
 msgstr "%a %H.%M"
 
-#: ../src/mail/message-list.c:2217
+#: ../src/mail/message-list.c:2222
 msgid "%b %d %l:%M %p"
 msgstr "%d. %m. %H.%M"
 
-#: ../src/mail/message-list.c:2219
+#: ../src/mail/message-list.c:2224
 msgid "%b %d %Y"
 msgstr "%d. %m. %Y"
 
-#: ../src/mail/message-list.c:3087 ../src/mail/message-list.etspec.h:24
+#: ../src/mail/message-list.c:3092 ../src/mail/message-list.etspec.h:24
 msgid "User Header 1"
 msgstr "Uporabniška glava 1"
 
-#: ../src/mail/message-list.c:3088 ../src/mail/message-list.etspec.h:25
+#: ../src/mail/message-list.c:3093 ../src/mail/message-list.etspec.h:25
 msgid "User Header 2"
 msgstr "Uporabniška glava 2"
 
-#: ../src/mail/message-list.c:3089 ../src/mail/message-list.etspec.h:26
+#: ../src/mail/message-list.c:3094 ../src/mail/message-list.etspec.h:26
 msgid "User Header 3"
 msgstr "Uporabniška glava 3"
 
-#: ../src/mail/message-list.c:3532
+#: ../src/mail/message-list.c:3537
 msgid "Select all visible messages"
 msgstr "Izberi vsa vidna sporočila"
 
-#: ../src/mail/message-list.c:4370 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4375 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Sporočila"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5762
+#: ../src/mail/message-list.c:5767
 msgid "Follow-up"
 msgstr "Navezava"
 
-#: ../src/mail/message-list.c:6508 ../src/mail/message-list.c:6952
+#: ../src/mail/message-list.c:6513 ../src/mail/message-list.c:6957
 msgid "Generating message list…"
 msgstr "Ustvarjanje seznama sporočil …"
 
-#: ../src/mail/message-list.c:6511
+#: ../src/mail/message-list.c:6516
 msgid ""
 "No message satisfies your search criteria. Change search criteria by selecting a new Show "
 "message filter from the drop down list above or by running a new search either by clearing it "
@@ -22334,7 +22343,7 @@ msgstr ""
 "Ni sporočil, ki ustrezajo iskalnemu nizu. Spremenite kriterije z izbiro možnosti prikaza "
 "filtrov sporočil iz spustnega seznama, ali pa z zagonom novega iskanja."
 
-#: ../src/mail/message-list.c:6518
+#: ../src/mail/message-list.c:6523
 msgid "There are no messages in this folder."
 msgstr "V tej mapi ni sporočil ..."
 
