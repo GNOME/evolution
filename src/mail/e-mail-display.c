@@ -93,6 +93,7 @@ struct _EMailDisplayPrivate {
 	GMutex remote_content_lock;
 	EMailRemoteContent *remote_content;
 	GHashTable *skipped_remote_content_sites;
+	GHashTable *temporary_allow_remote_content; /* complete uri or site  */
 
 	guint32 magic_spacebar_state; /* bit-or of EMagicSpacebarFlags */
 };
@@ -132,6 +133,9 @@ static const gchar *ui =
 "      <menuitem action='send-reply'/>"
 "    </placeholder>"
 "    <placeholder name='custom-actions-3'>"
+"      <menuitem action='allow-remote-content-site'/>"
+"      <menuitem action='load-remote-content-site'/>"
+"      <menuitem action='load-remote-content-this'/>"
 "      <menu action='search-folder-menu'>"
 "        <menuitem action='search-folder-recipient'/>"
 "        <menuitem action='search-folder-sender'/>"
@@ -250,6 +254,15 @@ e_mail_display_can_download_uri (EMailDisplay *mail_display,
 	g_return_val_if_fail (E_IS_MAIL_DISPLAY (mail_display), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
 
+	g_mutex_lock (&mail_display->priv->remote_content_lock);
+	can_download = g_hash_table_contains (mail_display->priv->temporary_allow_remote_content, uri);
+	if (!can_download && g_str_has_prefix (uri, "evo-"))
+		can_download = g_hash_table_contains (mail_display->priv->temporary_allow_remote_content, uri + 4);
+	g_mutex_unlock (&mail_display->priv->remote_content_lock);
+
+	if (can_download)
+		return can_download;
+
 	remote_content = e_mail_display_ref_remote_content (mail_display);
 	if (!remote_content)
 		return FALSE;
@@ -261,8 +274,15 @@ e_mail_display_can_download_uri (EMailDisplay *mail_display,
 	}
 
 	site = g_uri_get_host (guri);
-	if (site && *site)
+	if (site && *site) {
 		can_download = e_mail_remote_content_has_site (remote_content, site);
+
+		if (!can_download) {
+			g_mutex_lock (&mail_display->priv->remote_content_lock);
+			can_download = g_hash_table_contains (mail_display->priv->temporary_allow_remote_content, site);
+			g_mutex_unlock (&mail_display->priv->remote_content_lock);
+		}
+	}
 
 	g_uri_unref (guri);
 
@@ -797,6 +817,101 @@ static GtkActionEntry attachment_inline_entries[] = {
 	  NULL,
 	  N_("Zoom large images to not be wider than the window width"),
 	  G_CALLBACK (action_attachment_zoom_to_window_cb) }
+};
+
+static void
+mail_display_allow_remote_content_site_cb (GtkAction *action,
+					   EMailDisplay *display)
+{
+	EMailRemoteContent *remote_content;
+	GUri *img_uri;
+	const gchar *cursor_image_source;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	cursor_image_source = e_web_view_get_cursor_image_src (E_WEB_VIEW (display));
+	if (!cursor_image_source)
+		return;
+
+	remote_content = e_mail_display_ref_remote_content (display);
+	if (!remote_content)
+		return;
+
+	img_uri = g_uri_parse (cursor_image_source, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	if (img_uri && g_uri_get_host (img_uri)) {
+		e_mail_remote_content_add_site (remote_content, g_uri_get_host (img_uri));
+		e_mail_display_reload (display);
+	}
+
+	g_clear_pointer (&img_uri, g_uri_unref);
+	g_clear_object (&remote_content);
+}
+
+static void
+mail_display_load_remote_content_site_cb (GtkAction *action,
+					  EMailDisplay *display)
+{
+	GUri *img_uri;
+	const gchar *cursor_image_source;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	cursor_image_source = e_web_view_get_cursor_image_src (E_WEB_VIEW (display));
+	if (!cursor_image_source)
+		return;
+
+	img_uri = g_uri_parse (cursor_image_source, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	if (img_uri && g_uri_get_host (img_uri)) {
+		g_mutex_lock (&display->priv->remote_content_lock);
+		g_hash_table_add (display->priv->temporary_allow_remote_content, g_strdup (g_uri_get_host (img_uri)));
+		g_mutex_unlock (&display->priv->remote_content_lock);
+
+		e_mail_display_reload (display);
+	}
+
+	g_clear_pointer (&img_uri, g_uri_unref);
+}
+
+static void
+mail_display_load_remote_content_this_cb (GtkAction *action,
+					  EMailDisplay *display)
+{
+	const gchar *cursor_image_source;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	cursor_image_source = e_web_view_get_cursor_image_src (E_WEB_VIEW (display));
+	if (cursor_image_source) {
+		g_mutex_lock (&display->priv->remote_content_lock);
+		g_hash_table_add (display->priv->temporary_allow_remote_content, g_strdup (cursor_image_source));
+		g_mutex_unlock (&display->priv->remote_content_lock);
+
+		e_mail_display_reload (display);
+	}
+}
+
+static GtkActionEntry image_entries[] = {
+
+	{ "allow-remote-content-site",
+	  NULL,
+	  "Allow remote content from...", /* placeholder text, do not localize */
+	  NULL,
+	  NULL,
+	  G_CALLBACK (mail_display_allow_remote_content_site_cb) },
+
+	{ "load-remote-content-site",
+	  NULL,
+	  "Load remote content from...", /* placeholder text, do not localize */
+	  NULL,
+	  NULL,
+	  G_CALLBACK (mail_display_load_remote_content_site_cb) },
+
+	{ "load-remote-content-this",
+	  NULL,
+	  N_("Load this image"),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (mail_display_load_remote_content_this_cb) }
 };
 
 static void
@@ -1677,6 +1792,7 @@ mail_display_finalize (GObject *object)
 
 	g_mutex_lock (&self->priv->remote_content_lock);
 	g_clear_pointer (&self->priv->skipped_remote_content_sites, g_hash_table_destroy);
+	g_clear_pointer (&self->priv->temporary_allow_remote_content, g_hash_table_destroy);
 	g_slist_free_full (self->priv->insecure_part_ids, g_free);
 	g_hash_table_destroy (self->priv->attachment_flags);
 	g_hash_table_destroy (self->priv->cid_attachments);
@@ -2156,8 +2272,54 @@ mail_display_before_popup_event (EWebView *web_view,
 	}
 
 	cursor_image_source = e_web_view_get_cursor_image_src (web_view);
-	if (cursor_image_source)
+	if (cursor_image_source) {
+		GtkAction *action;
+		GUri *img_uri;
+		gboolean img_is_available;
+		gboolean can_show;
+
 		mai_display_fill_open_with (web_view, cursor_image_source);
+
+		img_is_available = mail_display_image_exists_in_cache (cursor_image_source, NULL) ||
+			e_mail_display_can_download_uri (E_MAIL_DISPLAY (web_view), cursor_image_source);
+
+		img_uri = g_uri_parse (cursor_image_source, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+		can_show = !img_is_available && img_uri && g_uri_get_host (img_uri) && g_uri_get_scheme (img_uri) && (
+			g_ascii_strcasecmp (g_uri_get_scheme (img_uri), "http") == 0 ||
+			g_ascii_strcasecmp (g_uri_get_scheme (img_uri), "https") == 0 ||
+			g_ascii_strcasecmp (g_uri_get_scheme (img_uri), "evo-http") == 0 ||
+			g_ascii_strcasecmp (g_uri_get_scheme (img_uri), "evo-https") == 0);
+
+		action = e_web_view_get_action (web_view, "allow-remote-content-site");
+		gtk_action_set_sensitive (action, can_show);
+		gtk_action_set_visible (action, can_show);
+
+		if (can_show) {
+			gchar *label;
+
+			label = g_strdup_printf (_("Allow remote content from %s"), g_uri_get_host (img_uri));
+			gtk_action_set_label (action, label);
+			g_free (label);
+		}
+
+		action = e_web_view_get_action (web_view, "load-remote-content-site");
+		gtk_action_set_sensitive (action, can_show);
+		gtk_action_set_visible (action, can_show);
+
+		if (can_show) {
+			gchar *label;
+
+			label = g_strdup_printf (_("Load remote content from %s"), g_uri_get_host (img_uri));
+			gtk_action_set_label (action, label);
+			g_free (label);
+		}
+
+		action = e_web_view_get_action (web_view, "load-remote-content-this");
+		gtk_action_set_sensitive (action, can_show);
+		gtk_action_set_visible (action, can_show);
+
+		g_clear_pointer (&img_uri, g_uri_unref);
+	}
 
 	g_free (popup_iframe_src);
 	g_free (popup_iframe_id);
@@ -2886,12 +3048,19 @@ e_mail_display_init (EMailDisplay *display)
 	gtk_action_group_add_actions (
 		actions, mailto_entries,
 		G_N_ELEMENTS (mailto_entries), display);
+
+	actions = e_web_view_get_action_group (E_WEB_VIEW (display), "image");
+	gtk_action_group_add_actions (
+		actions, image_entries,
+		G_N_ELEMENTS (image_entries), display);
+
 	ui_manager = e_web_view_get_ui_manager (E_WEB_VIEW (display));
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
 
 	g_mutex_init (&display->priv->remote_content_lock);
 	display->priv->remote_content = NULL;
 	display->priv->skipped_remote_content_sites = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
+	display->priv->temporary_allow_remote_content = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
 
 	g_signal_connect (display, "uri-requested", G_CALLBACK (mail_display_uri_requested_cb), NULL);
 
@@ -3244,6 +3413,10 @@ e_mail_display_load (EMailDisplay *display,
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
 	e_mail_display_set_force_load_images (display, FALSE);
+
+	g_mutex_lock (&display->priv->remote_content_lock);
+	g_hash_table_remove_all (display->priv->temporary_allow_remote_content);
+	g_mutex_unlock (&display->priv->remote_content_lock);
 
 	part_list = display->priv->part_list;
 	if (part_list == NULL) {
