@@ -1670,6 +1670,7 @@ sanitize_addresses (const gchar *string,
 struct LabelsData {
 	EMailLabelListStore *store;
 	GHashTable *labels_tag2iter;
+	guint n_messages;
 };
 
 static void
@@ -1704,6 +1705,8 @@ add_all_labels_foreach (ETreeModel *etm,
 	else
 		msg_info = ((GNode *) path)->data;
 	g_return_val_if_fail (msg_info != NULL, FALSE);
+
+	ld->n_messages++;
 
 	camel_message_info_property_lock (msg_info);
 	flags = camel_message_info_get_user_flags (msg_info);
@@ -1960,6 +1963,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 			ld.store = e_mail_ui_session_get_label_store (
 				E_MAIL_UI_SESSION (session));
 			ld.labels_tag2iter = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) gtk_tree_iter_free);
+			ld.n_messages = 0;
 			for_node_and_subtree_if_collapsed (message_list, node, msg_info, add_all_labels_foreach, &ld);
 
 			if (g_hash_table_size (ld.labels_tag2iter) == 1) {
@@ -1978,9 +1982,9 @@ ml_tree_value_at_ex (ETreeModel *etm,
 					colour = g_intern_string (colour_alloced);
 					g_free (colour_alloced);
 				}
-			} else if (g_hash_table_size (ld.labels_tag2iter) > 1) {
-				/* When there is more than one label set, then pick the color of the first
-				   found, in order of the EMailLabelListStore */
+			} else if (ld.n_messages == 1 && g_hash_table_size (ld.labels_tag2iter) > 1) {
+				/* When there is more than one label set on a single message, then pick
+				   the color of the first found, in order of the EMailLabelListStore */
 				GtkTreeIter titer;
 				GtkTreeModel *model = GTK_TREE_MODEL (ld.store);
 
@@ -2095,6 +2099,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		ld.store = e_mail_ui_session_get_label_store (
 			E_MAIL_UI_SESSION (session));
 		ld.labels_tag2iter = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) gtk_tree_iter_free);
+		ld.n_messages = 0;
 		for_node_and_subtree_if_collapsed (message_list, node, msg_info, add_all_labels_foreach, &ld);
 
 		if (g_hash_table_size (ld.labels_tag2iter) > 0) {
