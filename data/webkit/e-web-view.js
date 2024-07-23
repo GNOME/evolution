@@ -976,12 +976,15 @@ Evo.mailDisplayResizeContentToPreviewWidthCB = function(timeStamp)
 									expected_width = parseInt(tmp.slice(0, -2));
 								else
 									expected_width = tmp;
-								img.setAttribute("x-evo-width-modified", expected_width);
+								if (expected_width > 0)
+									img.setAttribute("x-evo-width-modified", expected_width);
 							}
-							if (expected_width < local_width)
-								img.style.width = expected_width + "px";
-							else
-								img.style.width = local_width + "px";
+							if (expected_width > 0) {
+								if (expected_width < local_width)
+									img.style.width = expected_width + "px";
+								else
+									img.style.width = local_width + "px";
+							}
 						}
 					}
 				}
