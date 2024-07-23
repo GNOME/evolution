@@ -139,6 +139,7 @@ e_mail_tag_editor_init (EMailTagEditor *editor)
 	GtkWindow *window;
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
+	const gchar *date_format;
 
 	editor->priv = e_mail_tag_editor_get_instance_private (editor);
 
@@ -201,6 +202,11 @@ e_mail_tag_editor_init (EMailTagEditor *editor)
 
 	widget = e_builder_get_widget (builder, "target_date");
 	editor->priv->target_date = E_DATE_EDIT (widget);
+
+	date_format = e_datetime_format_get_format ("calendar", "table",  DTFormatKindDate);
+	/* the "%ad" is not a strftime format, thus avoid it, if included */
+	if (date_format && *date_format && !strstr (date_format, "%ad"))
+		e_date_edit_set_date_format (editor->priv->target_date, date_format);
 
 	widget = e_builder_get_widget (builder, "completed");
 	e_binding_bind_property (
