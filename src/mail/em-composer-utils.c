@@ -248,11 +248,13 @@ composer_presend_check_recipients (EMsgComposer *composer,
 	EComposerHeader *post_to_header;
 	GString *invalid_addrs = NULL;
 	GSettings *settings;
+	gchar *to_cc_domain = NULL;
 	gboolean check_passed = FALSE;
 	gint hidden = 0;
 	gint shown = 0;
 	gint num = 0;
 	gint num_to_cc = 0;
+	gint num_to_cc_same_domain = 0;
 	gint num_bcc = 0;
 	gint num_post = 0;
 	gint ii;
@@ -272,6 +274,20 @@ composer_presend_check_recipients (EMsgComposer *composer,
 			if (addr == NULL || *addr == '\0')
 				continue;
 
+			addr = e_destination_get_email (recipients[ii]);
+			if (addr && *addr) {
+				const gchar *at;
+
+				at = strchr (addr, '@');
+
+				if (!to_cc_domain && at) {
+					to_cc_domain = g_strdup (at);
+					num_to_cc_same_domain = 1;
+				} else if (to_cc_domain && at && g_ascii_strcasecmp (to_cc_domain, at) == 0) {
+					num_to_cc_same_domain++;
+				}
+			}
+
 			num_to_cc++;
 		}
 
@@ -286,6 +302,20 @@ composer_presend_check_recipients (EMsgComposer *composer,
 			addr = e_destination_get_address (recipients[ii]);
 			if (addr == NULL || *addr == '\0')
 				continue;
+
+			addr = e_destination_get_email (recipients[ii]);
+			if (addr && *addr) {
+				const gchar *at;
+
+				at = strchr (addr, '@');
+
+				if (!to_cc_domain && at) {
+					to_cc_domain = g_strdup (at);
+					num_to_cc_same_domain = 1;
+				} else if (to_cc_domain && at && g_ascii_strcasecmp (to_cc_domain, at) == 0) {
+					num_to_cc_same_domain++;
+				}
+			}
 
 			num_to_cc++;
 		}
@@ -412,7 +442,8 @@ composer_presend_check_recipients (EMsgComposer *composer,
 	}
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	if (num_to_cc > 1 && num_to_cc >= g_settings_get_int (settings, "composer-many-to-cc-recips-num")) {
+	if (num_to_cc > 1 && num_to_cc != num_to_cc_same_domain &&
+	    num_to_cc >= g_settings_get_int (settings, "composer-many-to-cc-recips-num")) {
 		gchar *head;
 		gchar *msg;
 
@@ -469,6 +500,8 @@ composer_presend_check_recipients (EMsgComposer *composer,
 	check_passed = TRUE;
 
 finished:
+	g_free (to_cc_domain);
+
 	if (recipients != NULL)
 		e_destination_freev (recipients);
 
