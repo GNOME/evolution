@@ -12,10 +12,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-07-17 11:30+0000\n"
-"PO-Revision-Date: 2024-07-17 14:50+0300\n"
-"Last-Translator: Fracture dept <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
+"POT-Creation-Date: 2024-07-23 13:33+0000\n"
+"PO-Revision-Date: 2024-07-23 22:00+0300\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5193,7 +5193,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4133
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:304 ../src/mail/e-mail-label-dialog.c:180
-#: ../src/mail/e-mail-reader.c:5014 ../src/mail/e-mail-tag-editor.c:154
+#: ../src/mail/e-mail-reader.c:5014 ../src/mail/e-mail-tag-editor.c:155
 #: ../src/mail/e-mail-viewer.c:594 ../src/mail/em-composer-utils.c:4454
 #: ../src/mail/em-folder-selector.c:619 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
@@ -5781,7 +5781,7 @@ msgstr "_Довідка"
 #: ../src/e-util/e-source-selector-dialog.c:325
 #: ../src/e-util/e-table-config.c:541 ../src/e-util/e-table-config.ui.h:4
 #: ../src/e-util/e-timezone-dialog.ui.h:3
-#: ../src/mail/e-mail-config-window.c:305 ../src/mail/e-mail-tag-editor.c:156
+#: ../src/mail/e-mail-config-window.c:305 ../src/mail/e-mail-tag-editor.c:157
 #: ../src/mail/em-folder-selector.c:40 ../src/mail/mail-config.ui.h:3
 #: ../src/mail/mail-vfolder-ui.c:152 ../src/mail/mail-vfolder-ui.c:273
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:278
@@ -9121,7 +9121,7 @@ msgstr "Час початку — недійсний час"
 #: ../src/e-util/e-misc-utils.c:4103 ../src/e-util/e-misc-utils.c:4111
 #: ../src/e-util/e-misc-utils.c:4146 ../src/e-util/e-misc-utils.c:4159
 #: ../src/e-util/e-misc-utils.c:4173 ../src/mail/e-mail-autoconfig.c:1130
-#: ../src/mail/e-mail-display.c:2914 ../src/mail/e-mail-notes.c:931
+#: ../src/mail/e-mail-display.c:3083 ../src/mail/e-mail-notes.c:931
 #: ../src/mail/e-mail-reader.c:3710 ../src/mail/e-mail-reader-utils.c:817
 #: ../src/mail/e-mail-viewer.c:568 ../src/mail/e-mail-viewer.c:1741
 #: ../src/mail/e-mail-viewer.c:2403 ../src/mail/e-mail-viewer.c:2416
@@ -13575,7 +13575,7 @@ msgstr "Програти долучення у вбудованим програ
 
 #: ../src/em-format/e-mail-formatter-headers.c:110
 #: ../src/em-format/e-mail-part-headers.c:39
-#: ../src/mail/e-mail-tag-editor.c:190 ../src/mail/message-list.etspec.h:5
+#: ../src/mail/e-mail-tag-editor.c:191 ../src/mail/message-list.etspec.h:5
 #: ../src/modules/mail/em-mailer-prefs.c:71
 msgid "From"
 msgstr "Від"
@@ -13627,7 +13627,7 @@ msgstr "Розмір"
 
 #: ../src/em-format/e-mail-formatter-quote-headers.c:184
 #: ../src/em-format/e-mail-part-headers.c:44
-#: ../src/mail/e-mail-tag-editor.c:195 ../src/mail/filtertypes.xml.in.h:16
+#: ../src/mail/e-mail-tag-editor.c:196 ../src/mail/filtertypes.xml.in.h:16
 #: ../src/mail/message-list.etspec.h:6 ../src/mail/searchtypes.xml.in.h:17
 #: ../src/mail/vfoldertypes.xml.in.h:17
 #: ../src/modules/mail/em-mailer-prefs.c:76
@@ -14320,7 +14320,7 @@ msgstr "Зберегти _лише видобуті файли"
 msgid "Save extracted files and the original _archive"
 msgstr "Зберегти видобуті файли і початковий _архів"
 
-#: ../src/e-util/e-attachment-view.c:458 ../src/mail/e-mail-display.c:2083
+#: ../src/e-util/e-attachment-view.c:458 ../src/mail/e-mail-display.c:2199
 msgid "Open With Other Application…"
 msgstr "Відкрити за допомогою іншої програми…"
 
@@ -14369,21 +14369,21 @@ msgstr "П_ерезавантажити"
 msgid "Reload attachment content"
 msgstr "Перезавантажити вміст долучення"
 
-#: ../src/e-util/e-attachment-view.c:999 ../src/mail/e-mail-display.c:2037
+#: ../src/e-util/e-attachment-view.c:999 ../src/mail/e-mail-display.c:2153
 #, c-format
 msgid "Open With “%s”"
 msgstr "Відкрити у «%s»"
 
-#: ../src/e-util/e-attachment-view.c:1000 ../src/mail/e-mail-display.c:2038
+#: ../src/e-util/e-attachment-view.c:1000 ../src/mail/e-mail-display.c:2154
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Відкрити долучення в %s"
 
-#: ../src/e-util/e-attachment-view.c:1002 ../src/mail/e-mail-display.c:2040
+#: ../src/e-util/e-attachment-view.c:1002 ../src/mail/e-mail-display.c:2156
 msgid "Open With Default Application"
 msgstr "Відкрити за допомогою типової програми"
 
-#: ../src/e-util/e-attachment-view.c:1003 ../src/mail/e-mail-display.c:2041
+#: ../src/e-util/e-attachment-view.c:1003 ../src/mail/e-mail-display.c:2157
 msgid "Open this attachment in default application"
 msgstr "Відкрити це долучення у типовій програмі"
 
@@ -14537,7 +14537,7 @@ msgid "popup list"
 msgstr "контекстний список"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138
-#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2180
+#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2185
 msgid "?"
 msgstr "?"
 
@@ -17381,7 +17381,7 @@ msgstr "Показати"
 msgid "Group name"
 msgstr "Назва групи"
 
-#: ../src/e-util/e-source-selector.c:3823 ../src/mail/e-mail-display.c:761
+#: ../src/e-util/e-source-selector.c:3823 ../src/mail/e-mail-display.c:781
 msgid "_Hide"
 msgstr "С_ховати"
 
@@ -19319,58 +19319,75 @@ msgstr "Ласкаво просимо"
 msgid "Account Editor"
 msgstr "Редактор облікових записів"
 
-#: ../src/mail/e-mail-display.c:148
+#: ../src/mail/e-mail-display.c:152
 msgid "_Add to Address Book…"
 msgstr "_Додати до адресної книги…"
 
-#: ../src/mail/e-mail-display.c:155
+#: ../src/mail/e-mail-display.c:159
 msgid "_To This Address"
 msgstr "_За цією адресою"
 
-#: ../src/mail/e-mail-display.c:162
+#: ../src/mail/e-mail-display.c:166
 msgid "_From This Address"
 msgstr "_З цієї адреси"
 
-#: ../src/mail/e-mail-display.c:169
+#: ../src/mail/e-mail-display.c:173
 msgid "Send _Reply To…"
 msgstr "Надіслати _відповідь до…"
 
-#: ../src/mail/e-mail-display.c:171
+#: ../src/mail/e-mail-display.c:175
 msgid "Send a reply message to this address"
 msgstr "Надіслати відповідь на лист до цієї адреси"
 
-#: ../src/mail/e-mail-display.c:178
+#: ../src/mail/e-mail-display.c:182
 msgid "Create Search _Folder"
 msgstr "Створити теку _пошуку"
 
-#: ../src/mail/e-mail-display.c:768
+#: ../src/mail/e-mail-display.c:788
 msgid "Hid_e All"
 msgstr "С_ховати все"
 
-#: ../src/mail/e-mail-display.c:775
+#: ../src/mail/e-mail-display.c:795
 msgid "_View Inline"
 msgstr "_Вбудований перегляд"
 
-#: ../src/mail/e-mail-display.c:782
+#: ../src/mail/e-mail-display.c:802
 msgid "Vie_w All Inline"
 msgstr "Пере_глянути всі вбудовані"
 
-#: ../src/mail/e-mail-display.c:789
+#: ../src/mail/e-mail-display.c:809
 msgid "_Zoom to 100%"
 msgstr "_Масштабувати до 100%"
 
-#: ../src/mail/e-mail-display.c:791
+#: ../src/mail/e-mail-display.c:811
 msgid "Zoom the image to its natural size"
 msgstr "Масштабувати до оригінального розміру зображення"
 
-#: ../src/mail/e-mail-display.c:796
+#: ../src/mail/e-mail-display.c:816
 msgid "_Zoom to window"
 msgstr "_Масштабувати до вікна"
 
-#: ../src/mail/e-mail-display.c:798
+#: ../src/mail/e-mail-display.c:818
 msgid "Zoom large images to not be wider than the window width"
 msgstr ""
 "Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
+
+#: ../src/mail/e-mail-display.c:911
+#| msgid "Send this message"
+msgid "Load this image"
+msgstr "Завантажити це зображення"
+
+#: ../src/mail/e-mail-display.c:2300
+#: ../src/mail/e-mail-remote-content-popover.c:251
+#, c-format
+msgid "Allow remote content from %s"
+msgstr "Дозволити віддалений вміст з %s"
+
+#: ../src/mail/e-mail-display.c:2312
+#, c-format
+#| msgid "Allow remote content from %s"
+msgid "Load remote content from %s"
+msgstr "Завантажити віддалені дані з %s"
 
 #: ../src/mail/e-mail-folder-create-dialog.c:321
 msgid "Create Folder"
@@ -20304,11 +20321,6 @@ msgstr "Дозволити віддалений вміст для всіх з %s
 msgid "Allow remote content for %s"
 msgstr "Дозволити віддалений вміст для %s"
 
-#: ../src/mail/e-mail-remote-content-popover.c:251
-#, c-format
-msgid "Allow remote content from %s"
-msgstr "Дозволити віддалений вміст з %s"
-
 #: ../src/mail/e-mail-remote-content-popover.c:268
 msgid "Do not show this message again"
 msgstr "Не показувати цей лист знову"
@@ -20329,11 +20341,11 @@ msgstr ""
 msgid "The message has no text content."
 msgstr "Лист не має текстового вмісту."
 
-#: ../src/mail/e-mail-tag-editor.c:149
+#: ../src/mail/e-mail-tag-editor.c:150
 msgid "Flag to Follow Up"
 msgstr "Позначити до виконання"
 
-#: ../src/mail/e-mail-tag-editor.c:155
+#: ../src/mail/e-mail-tag-editor.c:156
 msgid "Cl_ear"
 msgstr "О_чистити"
 
@@ -20906,12 +20918,12 @@ msgstr "Переміщення теки %s"
 msgid "Copying folder %s"
 msgstr "Відкривання теки %s"
 
-#: ../src/mail/em-folder-tree.c:2401 ../src/mail/message-list.c:2642
+#: ../src/mail/em-folder-tree.c:2401 ../src/mail/message-list.c:2647
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Переміщення повідомлень у теку %s"
 
-#: ../src/mail/em-folder-tree.c:2405 ../src/mail/message-list.c:2644
+#: ../src/mail/em-folder-tree.c:2405 ../src/mail/message-list.c:2649
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копіювання повідомлень у теку %s"
@@ -21168,7 +21180,6 @@ msgid "Add Folder"
 msgstr "Додати теку"
 
 #: ../src/mail/em-vfolder-editor-rule.c:754
-#| msgid "Appearance"
 msgid "Customize Appearance"
 msgstr "Налаштовування вигляду"
 
@@ -23408,57 +23419,57 @@ msgstr "Створення списку повідомлень"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2188
+#: ../src/mail/message-list.c:2193
 #: ../src/modules/itip-formatter/itip-view.c:286
 msgid "Today %l:%M %p"
 msgstr "Сьогодні %I:%M %p"
 
-#: ../src/mail/message-list.c:2197
+#: ../src/mail/message-list.c:2202
 msgid "Yesterday %l:%M %p"
 msgstr "Вчора %l:%M %p"
 
-#: ../src/mail/message-list.c:2209
+#: ../src/mail/message-list.c:2214
 msgid "%a %l:%M %p"
 msgstr "%a, %I:%M %p"
 
-#: ../src/mail/message-list.c:2217
+#: ../src/mail/message-list.c:2222
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../src/mail/message-list.c:2219
+#: ../src/mail/message-list.c:2224
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../src/mail/message-list.c:3087 ../src/mail/message-list.etspec.h:24
+#: ../src/mail/message-list.c:3092 ../src/mail/message-list.etspec.h:24
 msgid "User Header 1"
 msgstr "Заголовок користувача 1"
 
-#: ../src/mail/message-list.c:3088 ../src/mail/message-list.etspec.h:25
+#: ../src/mail/message-list.c:3093 ../src/mail/message-list.etspec.h:25
 msgid "User Header 2"
 msgstr "Заголовок користувача 2"
 
-#: ../src/mail/message-list.c:3089 ../src/mail/message-list.etspec.h:26
+#: ../src/mail/message-list.c:3094 ../src/mail/message-list.etspec.h:26
 msgid "User Header 3"
 msgstr "Заголовок користувача 3"
 
-#: ../src/mail/message-list.c:3532
+#: ../src/mail/message-list.c:3537
 msgid "Select all visible messages"
 msgstr "Вибрати всі видимі повідомлення"
 
-#: ../src/mail/message-list.c:4370 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4375 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Повідомлення"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5762
+#: ../src/mail/message-list.c:5767
 msgid "Follow-up"
 msgstr "Відповісти"
 
-#: ../src/mail/message-list.c:6508 ../src/mail/message-list.c:6952
+#: ../src/mail/message-list.c:6513 ../src/mail/message-list.c:6957
 msgid "Generating message list…"
 msgstr "Створення списку повідомлень…"
 
-#: ../src/mail/message-list.c:6511
+#: ../src/mail/message-list.c:6516
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -23470,7 +23481,7 @@ msgstr ""
 "запустивши новий пошук через очищення його за допомогою пункту меню «Пошук → "
 "Очистити пункт меню» або зміну запиту вище."
 
-#: ../src/mail/message-list.c:6518
+#: ../src/mail/message-list.c:6523
 msgid "There are no messages in this folder."
 msgstr "У теці немає повідомлень."
 
