@@ -281,36 +281,25 @@ mount_ready_cb (GObject *source_object,
 	GError *error = NULL;
 	GMount *mount;
 
+	g_return_if_fail (ms != NULL);
+
 	g_file_mount_enclosing_volume_finish (G_FILE (source_object), result, &error);
 
 	if (error != NULL) {
 		error_queue_add (
-			g_strdup_printf (
-				_("Mount of %s failed:"),
-				ms ? ms->uri->location : "???"),
+			g_strdup_printf (_("Mount of %s failed:"), ms->uri->location),
 			error);
+	} else {
+		publish_online (ms->uri, ms->file, NULL, ms->can_report_success);
 
-		if (ms)
-			g_object_unref (ms->mount_op);
-		g_free (ms);
-
-		g_object_unref (source_object);
-
-		return;
+		mount = g_file_find_enclosing_mount (G_FILE (source_object), NULL, NULL);
+		if (mount)
+			g_mount_unmount_with_operation (mount, G_MOUNT_UNMOUNT_NONE, NULL, NULL, unmount_done_cb, NULL);
 	}
 
-	g_return_if_fail (ms != NULL);
-
-	publish_online (ms->uri, ms->file, NULL, ms->can_report_success);
-
-	g_object_unref (ms->mount_op);
+	g_clear_object (&ms->file);
+	g_clear_object (&ms->mount_op);
 	g_free (ms);
-
-	mount = g_file_find_enclosing_mount (G_FILE (source_object), NULL, NULL);
-	if (mount)
-		g_mount_unmount_with_operation (mount, G_MOUNT_UNMOUNT_NONE, NULL, NULL, unmount_done_cb, NULL);
-
-	g_object_unref (source_object);
 }
 
 static void
@@ -434,6 +423,7 @@ mount_first (EPublishUri *uri,
              gboolean can_report_success)
 {
 	struct mnt_struct *ms = g_malloc (sizeof (struct mnt_struct));
+	GFile *path;
 
 	ms->uri = uri;
 	ms->file = g_object_ref (file);
@@ -447,7 +437,16 @@ mount_first (EPublishUri *uri,
 		ms->mount_op, "ask-question",
 		G_CALLBACK (ask_question), ms);
 
-	g_file_mount_enclosing_volume (file, G_MOUNT_MOUNT_NONE, ms->mount_op, NULL, mount_ready_cb, ms);
+	path = g_file_get_parent (file);
+	/* this should not happen, because the 'file' is a file,
+	   but to get UI failure, not on the terminal... */
+	if (!path)
+		path = g_object_ref (file);
+
+	/* mount the path, not the file to be saved into that path */
+	g_file_mount_enclosing_volume (path, G_MOUNT_MOUNT_NONE, ms->mount_op, NULL, mount_ready_cb, ms);
+
+	g_clear_object (&path);
 }
 
 static void
