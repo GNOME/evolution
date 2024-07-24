@@ -690,7 +690,7 @@ mail_send_message (struct _send_queue_msg *m,
 	}
 
 	/* Now check for posting, failures are ignored */
-	info = camel_message_info_new (NULL);
+	info = camel_message_info_new_from_headers (NULL, camel_medium_get_headers (CAMEL_MEDIUM (message)));
 	camel_message_info_set_size (info, camel_data_wrapper_calculate_size_sync (CAMEL_DATA_WRAPPER (message), cancellable, NULL));
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN |
 		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
@@ -726,9 +726,12 @@ mail_send_message (struct _send_queue_msg *m,
 	mail_tool_restore_xevolution_headers (message, xev_headers);
 
 	if (local_error == NULL && driver) {
+		const gchar *transport_uid = service ? camel_service_get_uid (service) : NULL;
+
 		camel_filter_driver_filter_message (
 			driver, message, info, NULL, NULL,
-			NULL, "", cancellable, &local_error);
+			transport_uid, transport_uid ? transport_uid : "",
+			cancellable, &local_error);
 
 		if (local_error != NULL) {
 			if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))

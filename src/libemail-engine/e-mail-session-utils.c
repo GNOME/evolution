@@ -645,10 +645,11 @@ skip_send:
 	/* Run filters on the outgoing message. */
 	if (context->driver != NULL) {
 		CamelMessageFlags message_flags;
+		const gchar *transport_uid = camel_service_get_uid (context->transport);
 
 		camel_filter_driver_filter_message (
 			context->driver, context->message, context->info,
-			NULL, NULL, NULL, "", cancellable, &error);
+			NULL, NULL, transport_uid, transport_uid, cancellable, &error);
 
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 			goto exit;
