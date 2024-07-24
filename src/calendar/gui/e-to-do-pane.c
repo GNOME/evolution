@@ -1148,7 +1148,8 @@ etdp_got_client_cb (GObject *source_object,
 		    GAsyncResult *result,
 		    gpointer user_data)
 {
-	EToDoPane *to_do_pane = user_data;
+	GWeakRef *weakref = user_data;
+	EToDoPane *to_do_pane;
 	EClient *client;
 	GError *error = NULL;
 
@@ -1156,10 +1157,19 @@ etdp_got_client_cb (GObject *source_object,
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_clear_error (&error);
+		e_weak_ref_free (weakref);
 		return;
 	}
 
-	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
+	to_do_pane = g_weak_ref_get (weakref);
+
+	e_weak_ref_free (weakref);
+
+	if (!to_do_pane) {
+		g_clear_object (&client);
+		g_clear_error (&error);
+		return;
+	}
 
 	if (client && gtk_widget_get_visible (GTK_WIDGET (to_do_pane))) {
 		ECalClient *cal_client = E_CAL_CLIENT (client);
@@ -1199,6 +1209,7 @@ etdp_got_client_cb (GObject *source_object,
 		/* Ignore errors */
 	}
 
+	g_clear_object (&to_do_pane);
 	g_clear_object (&client);
 	g_clear_error (&error);
 }
@@ -1242,7 +1253,7 @@ e_to_do_pane_watcher_appeared_cb (ESourceRegistryWatcher *watcher,
 	g_return_if_fail (extension_name != NULL);
 
 	e_client_cache_get_client (to_do_pane->priv->client_cache, source, extension_name,
-		(guint32) -1, to_do_pane->priv->cancellable, etdp_got_client_cb, to_do_pane);
+		(guint32) -1, to_do_pane->priv->cancellable, etdp_got_client_cb, e_weak_ref_new (to_do_pane));
 }
 
 static void
