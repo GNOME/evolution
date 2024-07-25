@@ -3067,8 +3067,9 @@ e_content_editor_image_set_height_follow (EContentEditor *editor,
 
 void
 e_content_editor_link_get_properties (EContentEditor *editor,
-				      gchar **href,
-				      gchar **text)
+				      gchar **out_href,
+				      gchar **out_text,
+				      gchar **out_name)
 {
 	EContentEditorInterface *iface;
 
@@ -3078,13 +3079,14 @@ e_content_editor_link_get_properties (EContentEditor *editor,
 	g_return_if_fail (iface != NULL);
 	g_return_if_fail (iface->link_get_properties != NULL);
 
-	iface->link_get_properties (editor, href, text);
+	iface->link_get_properties (editor, out_href, out_text, out_name);
 }
 
 void
 e_content_editor_link_set_properties (EContentEditor *editor,
 				      const gchar *href,
-				      const gchar *text)
+				      const gchar *text,
+				      const gchar *name)
 {
 	EContentEditorInterface *iface;
 
@@ -3094,7 +3096,7 @@ e_content_editor_link_set_properties (EContentEditor *editor,
 	g_return_if_fail (iface != NULL);
 	g_return_if_fail (iface->link_set_properties != NULL);
 
-	iface->link_set_properties (editor, href, text);
+	iface->link_set_properties (editor, href, text, name);
 }
 
 void

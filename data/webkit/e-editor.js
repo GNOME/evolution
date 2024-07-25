@@ -4401,8 +4401,9 @@ EvoEditor.LinkGetProperties = function()
 
 	if (anchor) {
 		res = [];
-		res["href"] = anchor.href;
+		res["href"] = anchor.hasAttribute("href") ? anchor.getAttribute("href") : "";
 		res["text"] = anchor.innerText;
+		res["name"] = anchor.name;
 	} else if (!document.getSelection().isCollapsed && document.getSelection().rangeCount > 0) {
 		var range;
 
@@ -4417,33 +4418,55 @@ EvoEditor.LinkGetProperties = function()
 	return res;
 }
 
-EvoEditor.LinkSetProperties = function(href, text)
+EvoEditor.LinkSetProperties = function(href, text, name)
 {
 	// The properties dialog can discard selection, thus restore it before doing changes
 	EvoEditor.restorePropertiesSelection();
 
 	var anchor = EvoEditor.getParentElement("A", null, false);
 
-	if (anchor && (anchor.href != href || anchor.innerText != text)) {
+	if (anchor && (anchor.href != href || anchor.innerText != text || anchor.name != name)) {
 		EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "SetLinkValues", anchor, anchor, EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
 		try {
-			if (anchor.href != href)
-				anchor.href = href;
+			if (anchor.href != href) {
+				if (href)
+					anchor.href = href;
+				else
+					anchor.removeAttribute("href");
+			}
+			if (text == " ")
+				text = "&nbsp;";
 			if (anchor.innerText != text) {
 				var selection = EvoSelection.Store(document);
 				anchor.innerText = text;
 				EvoSelection.Restore(document, selection);
+			}
+			if (anchor.name != name) {
+				if (name)
+					anchor.name = name;
+				else
+					anchor.removeAttribute("name");
 			}
 		} finally {
 			EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "SetLinkValues");
 			EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
 			EvoEditor.EmitContentChanged();
 		}
-	} else if (!anchor && href != "" && text != "") {
+	} else if (!anchor && (href || name) && text != "") {
 		text = text.replace(/\&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-		href = href.replace(/\&/g, "&amp;").replace(/\"/g, "&quot;");
+		if (text == " ")
+			text = "&nbsp;";
+		if (href)
+			href = href.replace(/\&/g, "&amp;").replace(/\"/g, "&quot;");
+		if (name)
+			name = name.replace(/\&/g, "&amp;").replace(/\"/g, "&quot;");
 
-		EvoEditor.InsertHTML("CreateLink", "<A href=\"" + href + "\">" + text + "</A>");
+		if (href && name)
+			EvoEditor.InsertHTML("CreateLink", "<A href=\"" + href + "\" name=\"" + name + "\">" + text + "</A>");
+		else if (href)
+			EvoEditor.InsertHTML("CreateLink", "<A href=\"" + href + "\">" + text + "</A>");
+		else if (name)
+			EvoEditor.InsertHTML("CreateLink", "<A name=\"" + name + "\">" + text + "</A>");
 	}
 }
 
@@ -6634,6 +6657,24 @@ EvoEditor.CleanupSignatureID = function()
 	}
 }
 
+EvoEditor.MoveToAnchor = function(name)
+{
+	if (!name)
+		return;
+
+	var elements, ii;
+
+	elements = document.querySelectorAll("a[name]");
+	for (ii = 0; ii < elements.length; ii++) {
+		var elem = elements[ii];
+		if (elem.name == name) {
+			elem.scrollIntoView();
+			document.getSelection().setPosition(elem);
+			break;
+		}
+	}
+}
+
 EvoEditor.onContextMenu = function(event)
 {
 	var node = event.target;
@@ -6653,7 +6694,7 @@ EvoEditor.onContextMenu = function(event)
 			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT)
 				anchorHref = node.innerText;
 			else
-				anchorHref = node.href;
+				anchorHref = node.hasAttribute("href") ? node.getAttribute("href") : "";
 		} else if (node.tagName == "HR")
 			nodeFlags |= EvoEditor.E_CONTENT_EDITOR_NODE_IS_H_RULE;
 		else if (node.tagName == "IMG")

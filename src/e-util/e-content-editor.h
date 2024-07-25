@@ -251,12 +251,14 @@ struct _EContentEditorInterface {
 	gchar *		(*image_get_align)		(EContentEditor *editor);
 
 	void		(*link_get_properties)		(EContentEditor *editor,
-							 gchar **href,
-							 gchar **text);
+							 gchar **out_href,
+							 gchar **out_text,
+							 gchar **out_name);
 
 	void		(*link_set_properties)		(EContentEditor *editor,
 							 const gchar *href,
-							 const gchar *text);
+							 const gchar *text,
+							 const gchar *name);
 
 	void		(*page_set_text_color)		(EContentEditor *editor,
 							 const GdkRGBA *value);
@@ -793,13 +795,15 @@ void		e_content_editor_image_set_height_follow
 
 void		e_content_editor_link_get_properties
 						(EContentEditor *editor,
-						 gchar **href,
-						 gchar **text);
+						 gchar **out_href,
+						 gchar **out_text,
+						 gchar **out_name);
 
 void		e_content_editor_link_set_properties
 						(EContentEditor *editor,
 						 const gchar *href,
-						 const gchar *text);
+						 const gchar *text,
+						 const gchar *name);
 
 void		e_content_editor_page_set_text_color
 						(EContentEditor *editor,

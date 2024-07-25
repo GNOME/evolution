@@ -21,6 +21,8 @@ struct _EHTMLEditorLinkPopover {
 	GtkWidget *uri_entry;
 	GtkWidget *description_label;
 	GtkWidget *description_entry;
+	GtkWidget *name_label;
+	GtkWidget *name_entry;
 	GtkWidget *remove_button;
 	GtkWidget *save_button;
 
@@ -35,8 +37,9 @@ e_html_editor_link_popover_sensitize_save_button (EHTMLEditorLinkPopover *self)
 {
 	gboolean sensitive;
 
-	sensitive = g_strcmp0 (gtk_entry_get_text (GTK_ENTRY (self->uri_entry)), "") != 0 &&
-		    g_strcmp0 (gtk_entry_get_text (GTK_ENTRY (self->description_entry)), "") != 0;
+	sensitive = g_strcmp0 (gtk_entry_get_text (GTK_ENTRY (self->description_entry)), "") != 0 && (
+		    g_strcmp0 (gtk_entry_get_text (GTK_ENTRY (self->uri_entry)), "") != 0 ||
+		    g_strcmp0 (gtk_entry_get_text (GTK_ENTRY (self->name_entry)), "") != 0);
 
 	gtk_widget_set_sensitive (self->save_button, sensitive);
 }
@@ -76,7 +79,8 @@ e_html_editor_link_popover_save_clicked_cb (GtkButton *button,
 	e_content_editor_link_set_properties (
 		cnt_editor,
 		gtk_entry_get_text (GTK_ENTRY (self->uri_entry)),
-		gtk_entry_get_text (GTK_ENTRY (self->description_entry)));
+		gtk_entry_get_text (GTK_ENTRY (self->description_entry)),
+		gtk_entry_get_text (GTK_ENTRY (self->name_entry)));
 
 	gtk_popover_popdown (GTK_POPOVER (self));
 }
@@ -100,7 +104,7 @@ e_html_editor_link_popover_show (GtkWidget *widget)
 {
 	EHTMLEditorLinkPopover *self;
 	EContentEditor *cnt_editor;
-	gchar *href = NULL, *text = NULL;
+	gchar *href = NULL, *text = NULL, *name = NULL;
 
 	self = E_HTML_EDITOR_LINK_POPOVER (widget);
 	cnt_editor = e_html_editor_get_content_editor (self->editor);
@@ -109,26 +113,31 @@ e_html_editor_link_popover_show (GtkWidget *widget)
 	gtk_entry_set_text (GTK_ENTRY (self->uri_entry), "https://");
 	gtk_entry_set_text (GTK_ENTRY (self->description_entry), "");
 	gtk_widget_set_sensitive (self->description_entry, TRUE);
+	gtk_entry_set_text (GTK_ENTRY (self->name_entry), "");
 
 	self->description_autofill = TRUE;
 
 	e_content_editor_on_dialog_open (cnt_editor, E_CONTENT_EDITOR_DIALOG_LINK);
 
-	e_content_editor_link_get_properties (cnt_editor, &href, &text);
-	if (href && *href) {
+	e_content_editor_link_get_properties (cnt_editor, &href, &text, &name);
+	if ((href && *href) || (name && *name)) {
 		gtk_entry_set_text (GTK_ENTRY (self->uri_entry), href);
 		gtk_button_set_label (GTK_BUTTON (self->save_button), _("_Update"));
 	} else {
 		gtk_button_set_label (GTK_BUTTON (self->save_button), _("_Add"));
 	}
 
-	gtk_widget_set_visible (self->remove_button, href && *href);
+	gtk_widget_set_visible (self->remove_button, (href && *href) || (name && *name));
 
 	if (text && *text)
 		gtk_entry_set_text (GTK_ENTRY (self->description_entry), text);
 
+	if (name && *name)
+		gtk_entry_set_text (GTK_ENTRY (self->name_entry), name);
+
 	g_free (href);
 	g_free (text);
+	g_free (name);
 
 	/* Chain up to parent's method. */
 	GTK_WIDGET_CLASS (e_html_editor_link_popover_parent_class)->show (widget);
@@ -249,6 +258,32 @@ e_html_editor_link_popover_constructed (GObject *object)
 
 	self->description_entry = widget;
 
+	widget = gtk_label_new_with_mnemonic (_("_Name:"));
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_END,
+		"valign", GTK_ALIGN_CENTER,
+		NULL);
+
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
+
+	self->name_label = widget;
+	label = GTK_LABEL (widget);
+
+	widget = gtk_entry_new ();
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_CENTER,
+		NULL);
+
+	gtk_label_set_mnemonic_widget (label, widget);
+
+	gtk_grid_attach (grid, widget, 1, row, 1, 1);
+	row++;
+
+	self->name_entry = widget;
+
 	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
 	g_object_set (widget,
 		"visible", TRUE,
@@ -298,6 +333,9 @@ e_html_editor_link_popover_constructed (GObject *object)
 
 	g_signal_connect_swapped (self->description_entry, "changed",
 		G_CALLBACK (e_html_editor_link_popover_description_changed_cb), self);
+
+	g_signal_connect_swapped (self->name_entry, "changed",
+		G_CALLBACK (e_html_editor_link_popover_sensitize_save_button), self);
 
 	g_signal_connect_swapped (self->uri_entry, "focus-out-event",
 		G_CALLBACK (e_html_editor_link_popover_sensitize_save_button), self);

@@ -3349,19 +3349,21 @@ webkit_editor_selection_unlink (EContentEditor *editor)
 static void
 webkit_editor_link_set_properties (EContentEditor *editor,
 				   const gchar *href,
-				   const gchar *text)
+				   const gchar *text,
+				   const gchar *name)
 {
 	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-		"EvoEditor.LinkSetProperties(%s, %s);",
-		href, text);
+		"EvoEditor.LinkSetProperties(%s, %s, %s);",
+		href, text, name);
 }
 
 static void
 webkit_editor_link_get_properties (EContentEditor *editor,
-				   gchar **href,
-				   gchar **text)
+				   gchar **out_href,
+				   gchar **out_text,
+				   gchar **out_name)
 {
 	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 	JSCValue *result;
@@ -3369,13 +3371,15 @@ webkit_editor_link_get_properties (EContentEditor *editor,
 	result = webkit_editor_call_jsc_sync (wk_editor, "EvoEditor.LinkGetProperties();");
 
 	if (result) {
-		*href = e_web_view_jsc_get_object_property_string (result, "href", NULL);
-		*text = e_web_view_jsc_get_object_property_string (result, "text", NULL);
+		*out_href = e_web_view_jsc_get_object_property_string (result, "href", NULL);
+		*out_text = e_web_view_jsc_get_object_property_string (result, "text", NULL);
+		*out_name = e_web_view_jsc_get_object_property_string (result, "name", NULL);
 
 		g_clear_object (&result);
 	} else {
-		*href = NULL;
-		*text = NULL;
+		*out_href = NULL;
+		*out_text = NULL;
+		*out_name = NULL;
 	}
 }
 
@@ -5271,6 +5275,19 @@ webkit_editor_paste (EContentEditor *editor)
 	}
 }
 
+static const gchar *
+webkit_editor_sanitize_link_uri (const gchar *link_uri)
+{
+	if (!link_uri)
+		return link_uri;
+
+	/* these might be in-document links, like '#top' */
+	if (g_str_has_prefix (link_uri, "evo-file:///"))
+		return link_uri + 12;
+
+	return link_uri;
+}
+
 static void
 webkit_editor_mouse_target_changed_cb (EWebKitEditor *wk_editor,
                                        WebKitHitTestResult *hit_test_result,
@@ -5283,7 +5300,7 @@ webkit_editor_mouse_target_changed_cb (EWebKitEditor *wk_editor,
 
 	if (webkit_hit_test_result_context_is_link (hit_test_result)) {
 		if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML)
-			wk_editor->priv->last_hover_uri = g_strdup (webkit_hit_test_result_get_link_uri (hit_test_result));
+			wk_editor->priv->last_hover_uri = g_strdup (webkit_editor_sanitize_link_uri (webkit_hit_test_result_get_link_uri (hit_test_result)));
 		else
 			wk_editor->priv->last_hover_uri = g_strdup (webkit_hit_test_result_get_link_label (hit_test_result));
 	}
@@ -5594,6 +5611,41 @@ webkit_editor_get_caret_client_rect (EContentEditor *editor,
 	out_rect->height = wk_editor->priv->caret_client_rect.height;
 }
 
+typedef struct _MoveToAnchorData {
+	GWeakRef weakref; /* EWebKitEditor */
+	gchar *anchor_name;
+} MoveToAnchorData;
+
+static void
+move_to_anchor_data_free (gpointer ptr)
+{
+	MoveToAnchorData *data = ptr;
+
+	if (data) {
+		g_weak_ref_clear (&data->weakref);
+		g_free (data->anchor_name);
+		g_free (data);
+	}
+}
+
+static gboolean
+webkit_editor_move_to_anchor_idle_cb (gpointer user_data)
+{
+	MoveToAnchorData *data = user_data;
+	EWebKitEditor *wk_editor;
+
+	wk_editor = g_weak_ref_get (&data->weakref);
+	if (wk_editor) {
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.MoveToAnchor(%s);",
+			data->anchor_name);
+
+		g_object_unref (wk_editor);
+	}
+
+	return G_SOURCE_REMOVE;
+}
+
 static gboolean
 webkit_editor_query_tooltip_cb (GtkWidget *widget,
 				gint xx,
@@ -5612,8 +5664,12 @@ webkit_editor_query_tooltip_cb (GtkWidget *widget,
 	if (!wk_editor->priv->last_hover_uri || !*wk_editor->priv->last_hover_uri)
 		return FALSE;
 
-	/* Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”" */
-	str = g_strdup_printf (_("Ctrl-click to open a link “%s”"), wk_editor->priv->last_hover_uri);
+	if (*wk_editor->priv->last_hover_uri == '#') {
+		str = g_strdup_printf (_("Ctrl-click to go to the section “%s” of the message"), wk_editor->priv->last_hover_uri + 1);
+	} else {
+		/* Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”" */
+		str = g_strdup_printf (_("Ctrl-click to open a link “%s”"), wk_editor->priv->last_hover_uri);
+	}
 	gtk_tooltip_set_text (tooltip, str);
 	g_free (str);
 
@@ -5641,14 +5697,26 @@ webkit_editor_button_press_event (GtkWidget *widget,
 
 	/* Ctrl + Left Click on link opens it. */
 	if (event->button == 1 && wk_editor->priv->last_hover_uri &&
+	    *wk_editor->priv->last_hover_uri &&
 	    (event->state & GDK_CONTROL_MASK) != 0 &&
 	    (event->state & GDK_SHIFT_MASK) == 0 &&
 	    (event->state & GDK_MOD1_MASK) == 0) {
-		GtkWidget *toplevel;
+		if (*wk_editor->priv->last_hover_uri == '#') {
+			MoveToAnchorData *data;
 
-		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (wk_editor));
+			data = g_new0 (MoveToAnchorData, 1);
+			g_weak_ref_init (&data->weakref, wk_editor);
+			data->anchor_name = g_strdup (wk_editor->priv->last_hover_uri + 1);
 
-		e_show_uri (GTK_WINDOW (toplevel), wk_editor->priv->last_hover_uri);
+			g_idle_add_full (G_PRIORITY_HIGH_IDLE, webkit_editor_move_to_anchor_idle_cb, data,
+				move_to_anchor_data_free);
+		} else {
+			GtkWidget *toplevel;
+
+			toplevel = gtk_widget_get_toplevel (GTK_WIDGET (wk_editor));
+
+			e_show_uri (GTK_WINDOW (toplevel), wk_editor->priv->last_hover_uri);
+		}
 	}
 
 	/* Chain up to parent's button_press_event() method. */
