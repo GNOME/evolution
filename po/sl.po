@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-07-23 13:33+0000\n"
-"PO-Revision-Date: 2024-07-23 16:12+0200\n"
+"POT-Creation-Date: 2024-07-26 12:19+0000\n"
+"PO-Revision-Date: 2024-07-26 15:28+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -3872,7 +3872,7 @@ msgstr "Pojdi na _naslednje sporočilo"
 msgid "_File"
 msgstr "_Datoteka"
 
-#: ../data/ui/evolution-mail-viewer.ui.h:4 ../src/calendar/gui/e-to-do-pane.c:2371
+#: ../data/ui/evolution-mail-viewer.ui.h:4 ../src/calendar/gui/e-to-do-pane.c:2382
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1572
 msgid "_Open…"
 msgstr "_Odpri …"
@@ -3986,7 +3986,7 @@ msgid "Ch_aracter Encoding"
 msgstr "Zn_akovno kodiranje"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../data/ui/evolution-mail-viewer.ui.h:23 ../src/mail/em-composer-utils.c:4534
+#: ../data/ui/evolution-mail-viewer.ui.h:23 ../src/mail/em-composer-utils.c:4567
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_Privzeto"
@@ -4013,13 +4013,13 @@ msgid "_Reply to Sender"
 msgstr "_Odgovori pošiljatelju"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:29 ../src/mail/e-mail-reader.c:3108
-#: ../src/mail/em-composer-utils.c:4507 ../src/mail/mail.error.xml.h:26
+#: ../src/mail/em-composer-utils.c:4540 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:462
 msgid "Reply to _List"
 msgstr "Odgovori na _seznam"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:30 ../src/mail/e-mail-reader.c:3087
-#: ../src/mail/em-composer-utils.c:4512 ../src/mail/mail.error.xml.h:28
+#: ../src/mail/em-composer-utils.c:4545 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:455
 msgid "Reply to _All"
@@ -4586,7 +4586,7 @@ msgstr "Stik s tem naslovom že obstaja. Ali želite vseeno dodati novo vizitko 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1519 ../src/e-util/e-accounts-window.c:1571
-#: ../src/e-util/e-html-editor-link-popover.c:122 ../src/e-util/e-html-editor-link-popover.c:264
+#: ../src/e-util/e-html-editor-link-popover.c:127 ../src/e-util/e-html-editor-link-popover.c:299
 #: ../src/e-util/e-mail-signature-manager.c:315 ../src/e-util/e-name-selector-dialog.c:1006
 #: ../src/e-util/filter.ui.h:25 ../src/mail/e-mail-account-manager.c:709
 #: ../src/mail/e-mail-label-manager.c:372 ../src/mail/em-folder-properties.c:1391
@@ -4743,7 +4743,7 @@ msgstr "Stik »{0}« v imeniku »{1}« že obstaja. ALi želite raje dodati kopi
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265 ../src/mail/e-mail-config-window.c:304
 #: ../src/mail/e-mail-label-dialog.c:180 ../src/mail/e-mail-reader.c:5014
 #: ../src/mail/e-mail-tag-editor.c:155 ../src/mail/e-mail-viewer.c:594
-#: ../src/mail/em-composer-utils.c:4454 ../src/mail/em-folder-selector.c:619
+#: ../src/mail/em-composer-utils.c:4487 ../src/mail/em-folder-selector.c:619
 #: ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16
 #: ../src/mail/mail-send-recv.c:874 ../src/mail/mail-send-recv.c:955
 #: ../src/mail/mail-vfolder-ui.c:151 ../src/mail/mail-vfolder-ui.c:272
@@ -4753,7 +4753,7 @@ msgstr "Stik »{0}« v imeniku »{1}« že obstaja. ALi želite raje dodati kopi
 #: ../src/modules/calendar/e-cal-attachment-handler.c:278
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1152
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
-#: ../src/plugins/face/face.c:298 ../src/plugins/publish-calendar/publish-calendar.c:788
+#: ../src/plugins/face/face.c:298 ../src/plugins/publish-calendar/publish-calendar.c:787
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:417
 #: ../src/plugins/save-calendar/save-calendar.c:184 ../src/shell/e-shell-content.c:610
 #: ../src/shell/e-shell-content.c:717 ../src/shell/e-shell-utils.c:69
@@ -5096,7 +5096,7 @@ msgstr "Dodaj _X.509"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1535 ../src/e-util/e-attachment-view.c:519
-#: ../src/e-util/e-filter-rule.c:405 ../src/e-util/e-html-editor-link-popover.c:276
+#: ../src/e-util/e-filter-rule.c:405 ../src/e-util/e-html-editor-link-popover.c:311
 #: ../src/e-util/e-mail-signature-manager.c:355 ../src/e-util/e-name-selector-dialog.c:1010
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:28
 #: ../src/mail/e-mail-config-identity-page.c:865 ../src/mail/e-mail-label-manager.c:390
@@ -5105,7 +5105,7 @@ msgstr "Dodaj _X.509"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1819
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:825
-#: ../src/plugins/publish-calendar/publish-calendar.c:789
+#: ../src/plugins/publish-calendar/publish-calendar.c:788
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:35
 #: ../src/plugins/sender-validation/sender-validation.c:699
 #: ../src/plugins/sender-validation/sender-validation.c:810
@@ -7298,7 +7298,7 @@ msgstr "Udeleženec"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:14 ../src/calendar/gui/e-cal-list-view.etspec.h:5
 #: ../src/calendar/gui/e-task-table.etspec.h:13 ../src/mail/message-list.etspec.h:14
-#: ../src/plugins/publish-calendar/publish-calendar.c:860
+#: ../src/plugins/publish-calendar/publish-calendar.c:859
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:23
 #: ../src/plugins/save-calendar/csv-format.c:376
 msgid "Location"
@@ -8236,15 +8236,15 @@ msgstr "Spreminjanje opomnika"
 msgid "Modifying a task"
 msgstr "Spreminjanje naloge"
 
-#: ../src/calendar/gui/e-cal-ops.c:429 ../src/calendar/gui/e-to-do-pane.c:2161
+#: ../src/calendar/gui/e-cal-ops.c:429 ../src/calendar/gui/e-to-do-pane.c:2172
 msgid "Removing an event"
 msgstr "Odstranjevanje dogodka"
 
-#: ../src/calendar/gui/e-cal-ops.c:433 ../src/calendar/gui/e-to-do-pane.c:2165
+#: ../src/calendar/gui/e-cal-ops.c:433 ../src/calendar/gui/e-to-do-pane.c:2176
 msgid "Removing a memo"
 msgstr "Odstranjevanje opomnika"
 
-#: ../src/calendar/gui/e-cal-ops.c:437 ../src/calendar/gui/e-to-do-pane.c:2169
+#: ../src/calendar/gui/e-cal-ops.c:437 ../src/calendar/gui/e-to-do-pane.c:2180
 msgid "Removing a task"
 msgstr "Odstranjevanje naloge"
 
@@ -8470,8 +8470,8 @@ msgstr "Čas začetka ni veljaven čas"
 #: ../src/mail/e-mail-notes.c:931 ../src/mail/e-mail-reader.c:3710
 #: ../src/mail/e-mail-reader-utils.c:817 ../src/mail/e-mail-viewer.c:568
 #: ../src/mail/e-mail-viewer.c:1741 ../src/mail/e-mail-viewer.c:2403
-#: ../src/mail/e-mail-viewer.c:2416 ../src/mail/em-composer-utils.c:4246
-#: ../src/mail/em-composer-utils.c:4269 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-viewer.c:2416 ../src/mail/em-composer-utils.c:4279
+#: ../src/mail/em-composer-utils.c:4302 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:432 ../src/plugins/face/face.c:175
@@ -9721,7 +9721,7 @@ msgid "Failure reason: %s"
 msgstr "Vzrok napake: %s"
 
 #: ../src/calendar/gui/e-meeting-store.c:2020 ../src/e-util/e-collection-account-wizard.c:506
-#: ../src/plugins/publish-calendar/publish-calendar.c:350 ../src/smime/gui/component.c:61
+#: ../src/plugins/publish-calendar/publish-calendar.c:339 ../src/smime/gui/component.c:61
 msgid "Enter password"
 msgstr "Vnesite geslo"
 
@@ -9944,71 +9944,71 @@ msgid "Time: %s %s"
 msgstr "Čas: %s %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1638 ../src/e-util/e-cell-date-edit.c:338
+#: ../src/calendar/gui/e-to-do-pane.c:1649 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:237 ../src/modules/calendar/e-cal-shell-view-actions.c:2036
 #: ../src/modules/itip-formatter/itip-view.c:272
 msgid "Today"
 msgstr "Danes"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1640 ../src/e-util/e-datetime-format.c:248
+#: ../src/calendar/gui/e-to-do-pane.c:1651 ../src/e-util/e-datetime-format.c:248
 #: ../src/modules/itip-formatter/itip-view.c:300
 msgid "Tomorrow"
 msgstr "Jutri"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1650
+#: ../src/calendar/gui/e-to-do-pane.c:1661
 msgid "Tasks without Due date"
 msgstr "Naloga brez datuma zapadlosti"
 
 #. It doesn't matter which data-model is picked, because it's used
 #. only for thread creation and manipulation, not for its content.
-#: ../src/calendar/gui/e-to-do-pane.c:2296
+#: ../src/calendar/gui/e-to-do-pane.c:2307
 msgid "Marking a task as complete"
 msgstr "Označevanje naloge kot opravljene"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2334
+#: ../src/calendar/gui/e-to-do-pane.c:2345
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
 msgid "New _Appointment…"
 msgstr "Nov _sestanek …"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2342
+#: ../src/calendar/gui/e-to-do-pane.c:2353
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1495
 msgid "New _Meeting…"
 msgstr "Novo _srečanje …"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2350
+#: ../src/calendar/gui/e-to-do-pane.c:2361
 msgid "New _Task…"
 msgstr "Nova _naloga …"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2358
+#: ../src/calendar/gui/e-to-do-pane.c:2369
 msgid "_New Assigned Task…"
 msgstr "_Nova dodeljena naloga …"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2381
+#: ../src/calendar/gui/e-to-do-pane.c:2392
 msgid "Mark Task as _Complete"
 msgstr "_Označi nalogo kot opravljeno"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2395
+#: ../src/calendar/gui/e-to-do-pane.c:2406
 msgid "_Delete This Instance…"
 msgstr "Izbriši to _ponovitev …"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2404
+#: ../src/calendar/gui/e-to-do-pane.c:2415
 msgid "Delete This and F_uture Occurrences…"
 msgstr "Izbriši to in vse prihodnje _pojavitve …"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2413
+#: ../src/calendar/gui/e-to-do-pane.c:2424
 msgid "D_elete All Instances…"
 msgstr "Izbriši _vse ponovitve …"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2421
+#: ../src/calendar/gui/e-to-do-pane.c:2432
 msgid "_Delete…"
 msgstr "_Izbriši …"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2439
+#: ../src/calendar/gui/e-to-do-pane.c:2450
 msgid "_Show Tasks without Due date"
 msgstr "Pokaži naloge brez datuma _zapadlosti"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2718
+#: ../src/calendar/gui/e-to-do-pane.c:2729
 msgid "To Do"
 msgstr "Seznam opravil"
 
@@ -12351,6 +12351,7 @@ msgid "Save Draft"
 msgstr "Shrani osnutek"
 
 #: ../src/composer/e-composer-from-header.c:108 ../src/e-util/e-collection-account-wizard.c:2114
+#: ../src/e-util/e-html-editor-link-popover.c:261
 #: ../src/e-util/e-mail-signature-script-dialog.c:382 ../src/e-util/e-webdav-browser.c:2583
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:540 ../src/mail/e-mail-config-summary-page.c:312
@@ -13239,7 +13240,7 @@ msgstr "Seznam nalog"
 #: ../src/mail/e-mail-account-tree-view.c:77 ../src/modules/mail/em-composer-prefs.c:1735
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
 #: ../src/plugins/mail-notification/mail-notification.c:1193
-#: ../src/plugins/publish-calendar/publish-calendar.c:853
+#: ../src/plugins/publish-calendar/publish-calendar.c:852
 msgid "Enabled"
 msgstr "Omogočeno"
 
@@ -13428,7 +13429,7 @@ msgstr "Pokaži _vrstico prilog"
 msgid "Attachment Properties"
 msgstr "Lastnosti priloge"
 
-#: ../src/e-util/e-attachment-popover.c:297 ../src/e-util/e-html-editor-link-popover.c:200
+#: ../src/e-util/e-attachment-popover.c:297 ../src/e-util/e-html-editor-link-popover.c:209
 msgid "_URI:"
 msgstr "_URI:"
 
@@ -13437,7 +13438,7 @@ msgid "_Filename:"
 msgstr "_Ime datoteke:"
 
 #: ../src/e-util/e-attachment-popover.c:349 ../src/e-util/e-html-editor-image-dialog.c:593
-#: ../src/e-util/e-html-editor-link-popover.c:226 ../src/e-util/e-webdav-browser.c:2644
+#: ../src/e-util/e-html-editor-link-popover.c:235 ../src/e-util/e-webdav-browser.c:2644
 msgid "_Description:"
 msgstr "_Opis:"
 
@@ -15389,12 +15390,12 @@ msgstr "_Preizkusni naslov URL …"
 msgid "Image Properties"
 msgstr "Lastnosti slike"
 
-#: ../src/e-util/e-html-editor-link-popover.c:120 ../src/modules/itip-formatter/itip-view.c:1341
+#: ../src/e-util/e-html-editor-link-popover.c:125 ../src/modules/itip-formatter/itip-view.c:1341
 #: ../src/smime/gui/certificate-manager.c:1603
 msgid "_Update"
 msgstr "_Posodobi"
 
-#: ../src/e-util/e-html-editor-link-popover.c:187
+#: ../src/e-util/e-html-editor-link-popover.c:196
 msgid "Link Properties"
 msgstr "Lastnosti povezave"
 
@@ -17464,19 +17465,19 @@ msgstr "Na voljo ni nobene storitve za dostop do pošte"
 msgid "Posting message to “%s”"
 msgstr "Poteka objavljanje sporočila na »%s«"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:659 ../src/libemail-engine/mail-ops.c:748
+#: ../src/libemail-engine/e-mail-session-utils.c:660 ../src/libemail-engine/mail-ops.c:751
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Uveljavljanje izhodnih filtrov ni uspelo: %s"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:692
-#: ../src/libemail-engine/e-mail-session-utils.c:727 ../src/libemail-engine/mail-ops.c:776
-#: ../src/libemail-engine/mail-ops.c:811
+#: ../src/libemail-engine/e-mail-session-utils.c:693
+#: ../src/libemail-engine/e-mail-session-utils.c:728 ../src/libemail-engine/mail-ops.c:779
+#: ../src/libemail-engine/mail-ops.c:814
 #, c-format
 msgid "Storing sent message to “%s”"
 msgstr "Poteka shranjevanje sporočila v »%s«"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:716 ../src/libemail-engine/mail-ops.c:800
+#: ../src/libemail-engine/e-mail-session-utils.c:717 ../src/libemail-engine/mail-ops.c:803
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -17485,13 +17486,13 @@ msgstr ""
 "Pripenjanje v %s je spodletelo: %s\n"
 "Sporočilo bo pripeto v krajevno mapo »Poslano«."
 
-#: ../src/libemail-engine/e-mail-session-utils.c:746 ../src/libemail-engine/mail-ops.c:828
+#: ../src/libemail-engine/e-mail-session-utils.c:747 ../src/libemail-engine/mail-ops.c:831
 #, c-format
 msgid "Failed to append to local “Sent” folder: %s"
 msgstr "Pripenjanje v krajevno mapo »Poslano« je spodletelo: %s"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:943 ../src/libemail-engine/mail-ops.c:1024
-#: ../src/libemail-engine/mail-ops.c:1136 ../src/mail/mail-send-recv.c:665
+#: ../src/libemail-engine/e-mail-session-utils.c:944 ../src/libemail-engine/mail-ops.c:1027
+#: ../src/libemail-engine/mail-ops.c:1139 ../src/mail/mail-send-recv.c:665
 msgid "Sending message"
 msgstr "Pošiljanje sporočila"
 
@@ -17530,7 +17531,7 @@ msgstr ""
 msgid "Fetching mail from “%s”"
 msgstr "Pridobivanje pošte s strežnika »%s«"
 
-#: ../src/libemail-engine/mail-ops.c:742
+#: ../src/libemail-engine/mail-ops.c:745
 #, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set in one or more "
@@ -17541,7 +17542,7 @@ msgstr ""
 "filtrih, neveljavno. Preverite svoje filtre v Uredi→Filtri sporočil.\n"
 "Izvorna napaka je: %s"
 
-#: ../src/libemail-engine/mail-ops.c:1035
+#: ../src/libemail-engine/mail-ops.c:1038
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Pošiljanje sporočila %d od %d"
@@ -17549,7 +17550,7 @@ msgstr "Pošiljanje sporočila %d od %d"
 #. Translators: The string is distinguished by total
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
-#: ../src/libemail-engine/mail-ops.c:1093
+#: ../src/libemail-engine/mail-ops.c:1096
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
@@ -17558,45 +17559,45 @@ msgstr[1] "Pošiljanje %d od %d sporočila je spodletelo."
 msgstr[2] "Pošiljanje %d od %d sporočil je spodletelo."
 msgstr[3] "Pošiljanje %d od %d sporočil je spodletelo."
 
-#: ../src/libemail-engine/mail-ops.c:1099
+#: ../src/libemail-engine/mail-ops.c:1102
 msgid "Cancelled."
 msgstr "Preklicano."
 
-#: ../src/libemail-engine/mail-ops.c:1101
+#: ../src/libemail-engine/mail-ops.c:1104
 msgid "Complete."
 msgstr "Končano."
 
-#: ../src/libemail-engine/mail-ops.c:1222
+#: ../src/libemail-engine/mail-ops.c:1225
 #, c-format
 msgid "Moving messages to “%s”"
 msgstr "Premikanje sporočil v »%s«"
 
-#: ../src/libemail-engine/mail-ops.c:1223
+#: ../src/libemail-engine/mail-ops.c:1226
 #, c-format
 msgid "Copying messages to “%s”"
 msgstr "Kopiranje sporočil v »%s«"
 
-#: ../src/libemail-engine/mail-ops.c:1342
+#: ../src/libemail-engine/mail-ops.c:1345
 #, c-format
 msgid "Storing folder “%s”"
 msgstr "Shranjevanje mape »%s«"
 
-#: ../src/libemail-engine/mail-ops.c:1470
+#: ../src/libemail-engine/mail-ops.c:1473
 #, c-format
 msgid "Expunging and storing account “%s”"
 msgstr "Poteka uničevanje in shranjevanje računa »%s«"
 
-#: ../src/libemail-engine/mail-ops.c:1471
+#: ../src/libemail-engine/mail-ops.c:1474
 #, c-format
 msgid "Storing account “%s”"
 msgstr "Shranjevanje računa »%s«"
 
-#: ../src/libemail-engine/mail-ops.c:1546
+#: ../src/libemail-engine/mail-ops.c:1549
 #, c-format
 msgid "Emptying trash in “%s”"
 msgstr "Praznjenje smeti v »%s«"
 
-#: ../src/libemail-engine/mail-ops.c:1645
+#: ../src/libemail-engine/mail-ops.c:1648
 #, c-format
 msgid "Processing folder changes in “%s”"
 msgstr "Obdelovanje sprememb mape »%s«"
@@ -17832,7 +17833,7 @@ msgctxt "ReplyForward"
 msgid "Do Not Quote"
 msgstr "Ne navajaj"
 
-#: ../src/mail/e-mail-config-composing-page.c:158 ../src/mail/em-composer-utils.c:4584
+#: ../src/mail/e-mail-config-composing-page.c:158 ../src/mail/em-composer-utils.c:4617
 msgid "Use global setting"
 msgstr "Uporabi sistemske nastavitve"
 
@@ -17861,12 +17862,12 @@ msgstr "_Jezik:"
 msgid "Language for Reply and Forward attribution text"
 msgstr "Jezik za odgovarjanje in posredovanje besedila"
 
-#: ../src/mail/e-mail-config-composing-page.c:525 ../src/mail/em-composer-utils.c:4553
+#: ../src/mail/e-mail-config-composing-page.c:525 ../src/mail/em-composer-utils.c:4586
 #: ../src/mail/mail-config.ui.h:24
 msgid "Start _typing at the bottom"
 msgstr "Odgovor začni _dnu izvornega sporočila"
 
-#: ../src/mail/e-mail-config-composing-page.c:532 ../src/mail/em-composer-utils.c:4557
+#: ../src/mail/e-mail-config-composing-page.c:532 ../src/mail/em-composer-utils.c:4590
 #: ../src/mail/mail-config.ui.h:25
 msgid "_Keep signature above the original message"
 msgstr "Pri odgovarjanju _ohrani podpis nad izvirnim sporočilom"
@@ -19436,7 +19437,7 @@ msgid "Failed to read file content"
 msgstr "Branje vsebine datoteke ni uspelo"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
-#: ../src/mail/em-composer-utils.c:423
+#: ../src/mail/em-composer-utils.c:454
 #, c-format
 msgid "Are you sure you want to send a message with %d To and CC recipients?"
 msgid_plural "Are you sure you want to send a message with %d To and CC recipients?"
@@ -19446,7 +19447,7 @@ msgstr[2] "Ali ste prepričani, da želite poslati sporočilo %d prejemnikoma?"
 msgstr[3] "Ali ste prepričani, da želite poslati sporočilo %d prejemnikom?"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
-#: ../src/mail/em-composer-utils.c:429
+#: ../src/mail/em-composer-utils.c:460
 #, c-format
 msgid ""
 "You are trying to send a message to %d recipients in To and CC fields. This would result in "
@@ -19479,7 +19480,7 @@ msgstr[3] ""
 "prejemniki med seboj ne poznajo oziroma je vsebina zasebna. Morda je priporočljivo prejemnike "
 "vpisati v polje skrite kopije SKP."
 
-#: ../src/mail/em-composer-utils.c:679
+#: ../src/mail/em-composer-utils.c:712
 #, c-format
 msgid "Attachment changed"
 msgid_plural "%d attachments changed"
@@ -19488,7 +19489,7 @@ msgstr[1] "%d priloga je bila spremenjena"
 msgstr[2] "%d prilogi sta bili spremenjeni"
 msgstr[3] "%d priloge so bile spremenjene"
 
-#: ../src/mail/em-composer-utils.c:684
+#: ../src/mail/em-composer-utils.c:717
 #, c-format
 msgid ""
 "Attachment “%s” changed after being added to the message. Do you want to send the message "
@@ -19497,7 +19498,7 @@ msgstr ""
 "Priloga »%s« se je spremenila zatem, ko je bila dodana sporočilu. Ali želite vseeno poslati "
 "sporočilo?"
 
-#: ../src/mail/em-composer-utils.c:687
+#: ../src/mail/em-composer-utils.c:720
 #, c-format
 msgid ""
 "One attachment changed after being added to the message. Do you want to send the message "
@@ -19520,7 +19521,7 @@ msgstr[3] ""
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
-#: ../src/mail/em-composer-utils.c:1072
+#: ../src/mail/em-composer-utils.c:1105
 msgid "Waiting for attachments to load…"
 msgstr "Poteka nalaganje prilog …"
 
@@ -19528,7 +19529,7 @@ msgstr "Poteka nalaganje prilog …"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2283
+#: ../src/mail/em-composer-utils.c:2316
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} "
 "wrote:"
@@ -19536,75 +19537,75 @@ msgstr ""
 "Dne ${Day}.${Month}.${Year} (${AbbrevWeekdayName}) ob ${24Hour}:${Minute} ${TimeZone} je "
 "${Sender} napisal(a):"
 
-#: ../src/mail/em-composer-utils.c:2289
+#: ../src/mail/em-composer-utils.c:2322
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Posredovano sporočilo --------"
 
-#: ../src/mail/em-composer-utils.c:2294
+#: ../src/mail/em-composer-utils.c:2327
 msgid "-----Original Message-----"
 msgstr "-------- Izvirno sporočilo --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:3176
+#: ../src/mail/em-composer-utils.c:3209
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Odg: %s"
 
-#: ../src/mail/em-composer-utils.c:3831
+#: ../src/mail/em-composer-utils.c:3864
 msgid "an unknown sender"
 msgstr "neznan pošiljatelj"
 
-#: ../src/mail/em-composer-utils.c:4452
+#: ../src/mail/em-composer-utils.c:4485
 msgid "Alternative Reply"
 msgstr "Alternativni odgovor"
 
-#: ../src/mail/em-composer-utils.c:4455 ../src/modules/calendar/e-cal-shell-view-actions.c:1579
+#: ../src/mail/em-composer-utils.c:4488 ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "Odgovo_ri"
 
-#: ../src/mail/em-composer-utils.c:4473
+#: ../src/mail/em-composer-utils.c:4506
 msgid "Recipients:"
 msgstr "Prejemniki:"
 
-#: ../src/mail/em-composer-utils.c:4502
+#: ../src/mail/em-composer-utils.c:4535
 msgid "Reply to _Sender"
 msgstr "_Odgovori pošiljatelju"
 
-#: ../src/mail/em-composer-utils.c:4525
+#: ../src/mail/em-composer-utils.c:4558
 msgid "Reply style:"
 msgstr "Slog odgovo_ra:"
 
-#: ../src/mail/em-composer-utils.c:4538
+#: ../src/mail/em-composer-utils.c:4571
 msgid "Attach_ment"
 msgstr "_Priloga"
 
-#: ../src/mail/em-composer-utils.c:4542
+#: ../src/mail/em-composer-utils.c:4575
 msgid "Inline (_Outlook style)"
 msgstr "Medvrstično (slog _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4546
+#: ../src/mail/em-composer-utils.c:4579
 msgid "_Quote"
 msgstr "_Citiraj"
 
-#: ../src/mail/em-composer-utils.c:4550
+#: ../src/mail/em-composer-utils.c:4583
 msgid "Do _Not Quote"
 msgstr "Ne citira_j"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4571
+#: ../src/mail/em-composer-utils.c:4604
 msgid "_Format message in"
 msgstr "_Oblikuj sporočila v"
 
-#: ../src/mail/em-composer-utils.c:4593
+#: ../src/mail/em-composer-utils.c:4626
 msgid "Apply t_emplate"
 msgstr "Uveljavi _predlogo"
 
-#: ../src/mail/em-composer-utils.c:4606
+#: ../src/mail/em-composer-utils.c:4639
 msgid "Preserve original message S_ubject"
 msgstr "Ohrani izvorno _Zadevo sporočila"
 
-#: ../src/mail/em-composer-utils.c:4672
+#: ../src/mail/em-composer-utils.c:4705
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -19614,11 +19615,11 @@ msgstr[2] "%d prejemnika"
 msgstr[3] "%d prejemniki"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:5181
+#: ../src/mail/em-composer-utils.c:5214
 msgid "Posting destination"
 msgstr "Cilj objave"
 
-#: ../src/mail/em-composer-utils.c:5186
+#: ../src/mail/em-composer-utils.c:5219
 msgid "Choose folders to post the message to."
 msgstr "Izberite mape, v katere želite objaviti sporočilo."
 
@@ -27434,8 +27435,13 @@ msgstr "Prikaži del kot stik imenika"
 msgid "Failed to retrieve message content"
 msgstr "Pridobivanje vsebine poročila je spodletelo"
 
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5668
+#, c-format
+msgid "Ctrl-click to go to the section “%s” of the message"
+msgstr "Kliknite ob pritisnjeni krmilki za skok na del sporočila »%s«"
+
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
-#: ../src/modules/webkit-editor/e-webkit-editor.c:5616
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5671
 #, c-format
 msgid "Ctrl-click to open a link “%s”"
 msgstr "S Ctrl+klikom se odpre povezava »%s«"
@@ -28212,7 +28218,7 @@ msgid "Publish calendars to the web."
 msgstr "Vstavek doda možnost objavljanja koledarjev na splet."
 
 #: ../src/plugins/publish-calendar/publish-calendar.c:215
-#: ../src/plugins/publish-calendar/publish-calendar.c:483
+#: ../src/plugins/publish-calendar/publish-calendar.c:482
 #, c-format
 msgid "Could not open %s:"
 msgstr "Ni mogoče odpreti %s:"
@@ -28227,23 +28233,23 @@ msgstr "Med objavljanjem v %s je prišlo do napake:"
 msgid "Publishing to %s finished successfully"
 msgstr "Objavljanje v %s je uspešno končano"
 
-#: ../src/plugins/publish-calendar/publish-calendar.c:289
+#: ../src/plugins/publish-calendar/publish-calendar.c:290
 #, c-format
 msgid "Mount of %s failed:"
 msgstr "Priklop %s je spodletel:"
 
-#: ../src/plugins/publish-calendar/publish-calendar.c:787
+#: ../src/plugins/publish-calendar/publish-calendar.c:786
 msgid "Are you sure you want to remove this location?"
 msgstr "Ali ste prepričani, da želite odstraniti to mesto?"
 
 #. To Translators: This is shown to a user when creation of a new thread,
 #. * where the publishing should be done, fails. Basically, this shouldn't
 #. * ever happen, and if so, then something is really wrong.
-#: ../src/plugins/publish-calendar/publish-calendar.c:1097
+#: ../src/plugins/publish-calendar/publish-calendar.c:1096
 msgid "Could not create publish thread."
 msgstr "Ni mogoče objaviti niti sporočil."
 
-#: ../src/plugins/publish-calendar/publish-calendar.c:1107
+#: ../src/plugins/publish-calendar/publish-calendar.c:1106
 msgid "_Publish Calendar Information"
 msgstr "Objavi _podatke o koledarju"
 
