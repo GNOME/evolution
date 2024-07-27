@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-07-26 12:19+0000\n"
-"PO-Revision-Date: 2024-07-27 16:27-0400\n"
+"POT-Creation-Date: 2024-07-27 20:30+0000\n"
+"PO-Revision-Date: 2024-07-27 17:23-0400\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -8076,17 +8076,14 @@ msgid "calendar view for one or more weeks"
 msgstr "一周或多周的日历视图"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:611
-#, fuzzy, c-format
-#| msgid "Modifying a task"
+#, c-format
 msgid "Modify a task"
 msgid_plural "Modify %u tasks"
-msgstr[0] "修改任务"
+msgstr[0] "修改 %u 项任务"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:649
-#, fuzzy
-#| msgid "General"
 msgid "_General"
-msgstr "常规"
+msgstr "常规(_G)"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:653
 #: ../src/calendar/gui/e-comp-editor-memo.c:327
@@ -8118,19 +8115,16 @@ msgid "Creating view for memo list “%s”"
 msgstr "正在创建备忘录“%s”视图"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:181
-#, fuzzy
-#| msgid "Deleting a memo"
-#| msgid_plural "Deleting %d memos"
 msgid "Deletion _reason:"
-msgstr "正在删除 %d 个备忘"
+msgstr "删除原因(_R)："
 
 #: ../src/calendar/gui/e-cal-dialogs.c:317
 msgid "Cancellation _reason:"
-msgstr ""
+msgstr "取消原因(_R)："
 
 #: ../src/calendar/gui/e-cal-dialogs.c:463 ../src/calendar/gui/e-cal-ops.c:2010
 msgid "Destination is read only"
-msgstr "目的只读"
+msgstr "目标是只读的"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:543
 #, c-format
@@ -10430,11 +10424,10 @@ msgstr "投票表决"
 #. and the second "%s" is the meeting summary. The full
 #. subject line would be: "Accepted: Meeting Name".
 #: ../src/calendar/gui/itip-utils.c:1284
-#, fuzzy, c-format
-#| msgid "User: %s"
+#, c-format
 msgctxt "Meeting"
 msgid "%s: %s"
-msgstr "用户：%s"
+msgstr "%s: %s"
 
 #: ../src/calendar/gui/itip-utils.c:1357
 #, c-format
@@ -10471,10 +10464,8 @@ msgid "Sending a task"
 msgstr "正在发送任务"
 
 #: ../src/calendar/gui/itip-utils.c:2692
-#, fuzzy
-#| msgid "_Open Appointment"
 msgid "Original Appointment"
-msgstr "打开约会(_O)"
+msgstr "原始约会"
 
 #: ../src/calendar/gui/misc.c:95
 #, c-format
@@ -12470,10 +12461,8 @@ msgid "Character _Encoding"
 msgstr "字符编码(_E)"
 
 #: ../src/composer/e-composer-actions.c:377
-#, fuzzy
-#| msgid "Options"
 msgid "Option_s"
-msgstr "选项"
+msgstr "选项(_S)"
 
 #: ../src/composer/e-composer-actions.c:394
 msgid "Print Pre_view"
@@ -12745,10 +12734,8 @@ msgid "Failed to retrieve text/plain processed content"
 msgstr "获取信息失败："
 
 #: ../src/composer/e-msg-composer.c:1768
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to retrieve draft content"
-msgstr "删除联系人失败"
+msgstr "获取草稿内容失败"
 
 #: ../src/composer/e-msg-composer.c:1781
 #, fuzzy
@@ -12775,20 +12762,15 @@ msgid_plural "Review attachments before sending."
 msgstr[0] "发送前审查附件。"
 
 #: ../src/composer/e-msg-composer.c:5931
-#, fuzzy, c-format
-#| msgid ""
-#| "There had been added %d attachment. Make sure it does not contain any "
-#| "sensitive information before sending the message."
-#| msgid_plural ""
-#| "There had been added %d attachments. Make sure they do not contain any "
-#| "sensitive information before sending the message."
+#, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
 "contain any sensitive information before sending the message."
 msgid_plural ""
 "%d attachments were added by an external application. Make sure they do not "
 "contain any sensitive information before sending the message."
-msgstr[0] "已添加 %d 个附件。在发送消息之前，请确保它们不包含任何敏感信息。"
+msgstr[0] ""
+"外部程序已添加 %d 个附件。在发送消息之前，请确保它们不包含任何敏感信息。"
 
 #: ../src/composer/e-msg-composer.c:6057
 msgid "The composer contains a non-text message body, which cannot be edited."
@@ -13052,24 +13034,23 @@ msgid "An error occurred while creating message composer."
 msgstr "创建信息编辑器时出现了错误。"
 
 #: ../src/composer/mail-composer.error.xml.h:59
-#, fuzzy
-#| msgid "Message Retract"
 msgid "Message Redirection"
-msgstr "信息收回"
+msgstr "信息重定向"
 
 #: ../src/composer/mail-composer.error.xml.h:60
 msgid ""
 "This message is a redirection, which allows you to change the recipients, "
 "subject and other message attributes, but not the contents of the message."
 msgstr ""
+"该信件将仅用于重定向，即您可以改变收件人、标题和其它属性，但无法改变其内容。"
 
 #: ../src/composer/mail-composer.error.xml.h:61
 msgid "Not adding OpenPGP public key into the mail."
-msgstr ""
+msgstr "OpenPGP 公钥将不会被添加进邮件中。"
 
 #: ../src/composer/mail-composer.error.xml.h:62
 msgid "The OpenPGP public key for “{0}” is too large for the transfer."
-msgstr ""
+msgstr "“{0}”的 OpenPGP 公钥过大而无法传输。"
 
 #: ../src/em-format/e-mail-formatter-attachment.c:317
 msgid "Toggle View Inline"
@@ -13204,7 +13185,7 @@ msgstr "未签名"
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
-msgstr "此信息未签名。无法保证这封信是可信的。"
+msgstr "此信息未被签名。无法保证这封信是可信的。"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:54
 msgid "Valid signature"
@@ -13218,7 +13199,7 @@ msgstr "签名有效，但发送者地址和签名者地址不匹配"
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
-msgstr "此信息已签名，而且签名是有效的。这意味着这封信应该是可信的。"
+msgstr "这封信已被签名，而且签名是有效的。这意味着这封信应该是可信的。"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:58
 msgid "Invalid signature"
@@ -13252,9 +13233,9 @@ msgid ""
 "trusted method and add it to your keyring. Until then, there is no guarantee "
 "that this message truly came from that person and that it arrived unaltered."
 msgstr ""
-"此消息已经数字签名，但对应的公钥并不在您的密钥环中。如果您想能够验证此消息的"
+"这封信已被数字签名，但对应的公钥并不在您的密钥环中。如果您想能够验证此消息的"
 "发送者，您需要通过可信的渠道获取此公钥并加入到您的密钥环中。在此之前，无法保"
-"证此消息是真的从这个发送者发送并在传输过程中没有更改。"
+"证此信件是真的从这个发送者发送并在传输过程中没有更改。"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:77
 msgid "Unencrypted"
@@ -13756,11 +13737,9 @@ msgstr "附件属性"
 #: ../src/e-util/e-attachment-popover.c:297
 #: ../src/e-util/e-html-editor-link-popover.c:209
 msgid "_URI:"
-msgstr ""
+msgstr "_URI："
 
 #: ../src/e-util/e-attachment-popover.c:323
-#, fuzzy
-#| msgid "_File name:"
 msgid "_Filename:"
 msgstr "文件名(_F)："
 
@@ -13773,16 +13752,12 @@ msgstr "描述(_D)："
 
 #: ../src/e-util/e-attachment-popover.c:375
 #: ../src/e-util/e-mail-signature-script-dialog.c:458
-#, fuzzy
-#| msgid "MIME Type:"
 msgid "_MIME Type:"
-msgstr "MIME  类型："
+msgstr "_MIME 类型："
 
 #: ../src/e-util/e-attachment-popover.c:411
-#, fuzzy
-#| msgid "_Suggest automatic display of attachment"
 msgid "Suggest _automatic display of attachment"
-msgstr "建议自动显示附件(_S)"
+msgstr "建议自动显示附件(_A)"
 
 #: ../src/e-util/e-attachment-store.c:645
 #: ../src/e-util/e-attachment-store.c:652
@@ -13844,16 +13819,12 @@ msgid "A_dd Attachment…"
 msgstr "添加附件(_D)…"
 
 #: ../src/e-util/e-attachment-view.c:498
-#, fuzzy
-#| msgid "_Add note…"
 msgid "Add _URI…"
-msgstr "添加便笺(_A)…"
+msgstr "添加 _URI…"
 
 #: ../src/e-util/e-attachment-view.c:500
-#, fuzzy
-#| msgid "Attach a file"
 msgid "Attach a URI"
-msgstr "添加附件"
+msgstr "附加一个 URI"
 
 #: ../src/e-util/e-attachment-view.c:505
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1459
@@ -13958,10 +13929,8 @@ msgid "Color:"
 msgstr "颜色："
 
 #: ../src/e-util/e-cal-source-config.c:301
-#, fuzzy
-#| msgid "Show reminders for completed tasks"
 msgid "Show reminder _before every event"
-msgstr "显示已完成工作的提醒"
+msgstr "在每个事件之前显示提醒(_B)"
 
 #: ../src/e-util/e-cal-source-config.c:425
 msgid "Copy calendar contents locally for offline operation"
@@ -16143,16 +16112,12 @@ msgstr ""
 "用于显示。"
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:414
-#, fuzzy
-#| msgid "S_cript:"
 msgid "Sc_ript:"
-msgstr "脚本(_C)："
+msgstr "脚本(_R)："
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:489
-#, fuzzy
-#| msgid "A_uto-delete sent item"
 msgid "Auto-detect"
-msgstr "自动删除已发项目(_U)"
+msgstr "自动检测"
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:518
 msgid "Script file must be executable."
@@ -16229,25 +16194,22 @@ msgstr "在文字旁显示预览"
 #: ../src/e-util/e-markdown-utils.c:178
 #, c-format
 msgid "Command “%s” returned error: %s"
-msgstr ""
+msgstr "命令“%s”返回错误：%s"
 
 #: ../src/e-util/e-markdown-utils.c:189
-#, fuzzy, c-format
-#| msgid "Failed to launch command “%s”:"
+#, c-format
 msgid "Failed to read data from command “%s”: %s"
-msgstr "启动命令“%s”失败："
+msgstr "从命令“%s”读取数据失败：%s"
 
 #: ../src/e-util/e-markdown-utils.c:199
-#, fuzzy, c-format
-#| msgid "Failed to launch command “%s”:"
+#, c-format
 msgid "Failed to run process from command line “%s”: %s"
-msgstr "启动命令“%s”失败："
+msgstr "从命令行“%s”启动进程失败：%s"
 
 #: ../src/e-util/e-markdown-utils.c:209
-#, fuzzy, c-format
-#| msgid "Failed to launch command “%s”:"
+#, c-format
 msgid "Failed to parse command line “%s”: %s"
-msgstr "启动命令“%s”失败："
+msgstr "解析命令行“%s”失败：%s"
 
 #: ../src/e-util/e-misc-utils.c:279
 msgid "Could not open the link."
@@ -16586,10 +16548,9 @@ msgstr "编辑规则"
 #. Translators: the '%s' is replaced with a rule name, making it for example "Copy of Subject contains work";
 #. the text itself is provided by the user.
 #: ../src/e-util/e-rule-editor.c:336
-#, fuzzy, c-format
-#| msgid "Copying folder %s"
+#, c-format
 msgid "Copy of %s"
-msgstr "复制文件夹 %s"
+msgstr "%s 的副本"
 
 #: ../src/e-util/e-search-bar.c:78
 #, c-format
@@ -16813,7 +16774,7 @@ msgstr "用户："
 
 #: ../src/e-util/e-source-config.c:1593
 msgid "Connection timeout (in seconds)"
-msgstr ""
+msgstr "连接超时（秒）"
 
 #: ../src/e-util/e-source-selector.c:3613
 msgid "Show"
@@ -18324,10 +18285,8 @@ msgid "Save s_ent messages into the Sent folder"
 msgstr "将已发送的消息保存至已发送文件夹(_E)"
 
 #: ../src/mail/e-mail-config-defaults-page.c:737
-#, fuzzy
-#| msgid "S_ave replies in the folder of the message being replied to"
 msgid "S_ave replies and forwards in the folder of the original message"
-msgstr "将回复邮件保存在被回复信息所在的文件夹"
+msgstr "将回复邮件和转发邮件保存在被原始信息所在的文件夹"
 
 #: ../src/mail/e-mail-config-defaults-page.c:761
 msgid "Archi_ve Folder:"
@@ -18502,10 +18461,8 @@ msgstr "%s — %s"
 
 #: ../src/mail/e-mail-config-security-page.c:391
 #: ../src/mail/e-mail-config-security-page.c:505
-#, fuzzy
-#| msgid "Using email address"
 msgid "Use sender e-mail address"
-msgstr "使用电子邮件地址"
+msgstr "使用发信方电子邮件地址"
 
 #: ../src/mail/e-mail-config-security-page.c:451
 #: ../src/mail/em-folder-properties.c:1428 ../src/mail/mail-config.ui.h:37
@@ -18560,11 +18517,11 @@ msgstr "SHA512"
 
 #: ../src/mail/e-mail-config-security-page.c:566
 msgid "Al_ways sign outgoing messages when using this account"
-msgstr "当使用该帐号时总是发送签名信息(_W)"
+msgstr "当使用该账号时总是发送签名信息(_W)"
 
 #: ../src/mail/e-mail-config-security-page.c:578
 msgid "Always enc_rypt outgoing messages when using this account"
-msgstr "当使用此帐号时永远加密外发邮件(_R)"
+msgstr "当使用此账号时永远加密外发邮件(_R)"
 
 #: ../src/mail/e-mail-config-security-page.c:590
 msgid "Always encrypt to _myself when sending encrypted messages"
@@ -18588,15 +18545,15 @@ msgstr "查询用于在网络密钥目录（WKD）中加密的密钥(_L)"
 
 #: ../src/mail/e-mail-config-security-page.c:665
 msgid "Send own _public key in outgoing mails"
-msgstr ""
+msgstr "在发出信件中添加自己所有的公钥(_P)"
 
 #: ../src/mail/e-mail-config-security-page.c:676
 msgid "Advertise encryption is pre_ferred"
-msgstr ""
+msgstr "告知对方偏好进行加密(_F)"
 
 #: ../src/mail/e-mail-config-security-page.c:694
 msgid "A_sk before sending mails with own public key"
-msgstr ""
+msgstr "在发送包含自己所有的公钥的信件之前询问(_S)"
 
 #: ../src/mail/e-mail-config-security-page.c:724
 msgid "Secure MIME (S/MIME)"
@@ -18717,7 +18674,7 @@ msgstr "欢迎"
 
 #: ../src/mail/e-mail-config-window.c:299
 msgid "Account Editor"
-msgstr "帐号编辑器"
+msgstr "账号编辑器"
 
 #: ../src/mail/e-mail-display.c:152
 msgid "_Add to Address Book…"
@@ -18772,10 +18729,8 @@ msgid "Zoom large images to not be wider than the window width"
 msgstr "缩小较大图像以免宽于窗口宽度"
 
 #: ../src/mail/e-mail-display.c:911
-#, fuzzy
-#| msgid "Loading Images"
 msgid "Load this image"
-msgstr "载入图像"
+msgstr "载入此图像"
 
 #: ../src/mail/e-mail-display.c:2300
 #: ../src/mail/e-mail-remote-content-popover.c:251
@@ -18784,10 +18739,9 @@ msgid "Allow remote content from %s"
 msgstr "允许任何发件人为 %s 的远程内容"
 
 #: ../src/mail/e-mail-display.c:2312
-#, fuzzy, c-format
-#| msgid "Allow remote content from %s"
+#, c-format
 msgid "Load remote content from %s"
-msgstr "允许任何发件人为 %s 的远程内容"
+msgstr "加载来自 %s 的远程内容"
 
 #: ../src/mail/e-mail-folder-create-dialog.c:321
 msgid "Create Folder"
@@ -19466,10 +19420,8 @@ msgid "Repl_y with Template"
 msgstr "应用模板回复(_Y)"
 
 #: ../src/mail/e-mail-reader.c:3129
-#, fuzzy
-#| msgid "_Move to Folder…"
 msgid "_Save to File…"
-msgstr "移至文件夹(_M)…"
+msgstr "保存到文件(_S)…"
 
 #: ../src/mail/e-mail-reader.c:3131
 msgid "Save selected messages as an mbox file"
@@ -19750,61 +19702,46 @@ msgid "%s authentication failed"
 msgstr "%s 认证失败"
 
 #: ../src/mail/e-mail-viewer.c:186
-#, fuzzy, c-format
-#| msgid "Failed to open client '%s': %s"
+#, c-format
 msgid "Failed to open file “%s”: %s"
-msgstr "打开客户端“%s”失败：%s"
+msgstr "打开文件“%s”失败：%s"
 
 #: ../src/mail/e-mail-viewer.c:202
-#, fuzzy
-#| msgid "Failed to insert text file."
 msgid "Failed to seek to offset in file"
-msgstr "插入文本文件失败。"
+msgstr "无法在文件中跳转到指定偏移量"
 
 #: ../src/mail/e-mail-viewer.c:222
-#, fuzzy
-#| msgid "Go to Folder"
 msgid "Import to Folder"
-msgstr "前往文件夹"
+msgstr "导入到文件夹"
 
 #: ../src/mail/e-mail-viewer.c:226 ../src/mail/mail.error.xml.h:225
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1151
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1842
-#, fuzzy
-#| msgid "Import"
 msgid "_Import"
-msgstr "导入"
+msgstr "导入(_I)"
 
 #: ../src/mail/e-mail-viewer.c:274
-#, fuzzy
-#| msgid "Could not create message."
 msgid "Could not import any message"
-msgstr "无法创建信息。"
+msgstr "无法导入任何信息。"
 
 #: ../src/mail/e-mail-viewer.c:278
-#, fuzzy, c-format
-#| msgid "Important Messages"
+#, c-format
 msgid "Imported one message."
 msgid_plural "Imported %u messages."
-msgstr[0] "重要信息"
+msgstr[0] "已导入 %u 条信息。"
 
 #: ../src/mail/e-mail-viewer.c:507
-#, fuzzy
-#| msgid "Failed to retrieve message:"
 msgid "Failed to import message"
-msgstr "获取信息失败："
+msgstr "无法导入信息"
 
 #: ../src/mail/e-mail-viewer.c:568
-#, fuzzy, c-format
-#| msgid "Failed to retrieve message:"
+#, c-format
 msgid "Failed to print message: %s"
-msgstr "获取信息失败："
+msgstr "无法打印信息：%s"
 
 #: ../src/mail/e-mail-viewer.c:592
-#, fuzzy
-#| msgid "Open Message Filters"
 msgid "Open Message File"
-msgstr "打开邮件过滤器"
+msgstr "打开信息文件"
 
 #: ../src/mail/e-mail-viewer.c:605
 #, fuzzy
@@ -19821,23 +19758,17 @@ msgstr "全部文件(*)"
 
 #. Intentionally the "Mail Viewer" first, because it's more important than the message subject
 #: ../src/mail/e-mail-viewer.c:1570
-#, fuzzy, c-format
-#| msgid "Meeting — %s"
+#, c-format
 msgid "Mail Viewer — %s"
-msgstr "会议 — %s"
+msgstr "邮件浏览器 — %s"
 
 #: ../src/mail/e-mail-viewer.c:1733
-#, fuzzy
-#| msgid "Failed to send a message"
-#| msgid_plural "Failed to send %d of %d messages"
 msgid "Failed to load message"
-msgstr "无法发送 %d/%d 条信息"
+msgstr "无法加载信息"
 
 #: ../src/mail/e-mail-viewer.c:1961
-#, fuzzy
-#| msgid "I_mport…"
 msgid "Import…"
-msgstr "导入(_M)…"
+msgstr "导入…"
 
 #. Translators: Column header for a message subject
 #: ../src/mail/e-mail-viewer.c:2006
@@ -19854,28 +19785,21 @@ msgid "From"
 msgstr "来自"
 
 #: ../src/mail/e-mail-viewer.c:2204
-#, fuzzy
-#| msgid "I_mport…"
 msgid "_Import All…"
-msgstr "导入(_M)…"
+msgstr "导入全部(_I)…"
 
 #: ../src/mail/e-mail-viewer.c:2431
-#, fuzzy, c-format
-#| msgid "Folder “{0}” doesn’t contain any duplicate message."
+#, c-format
 msgid "File “%s” does not contain MIME message"
-msgstr "“{0}”文件夹中没有重复信息。"
+msgstr "“%s”文件中不包含 MIME 信息"
 
 #: ../src/mail/e-mail-viewer.c:2448
-#, fuzzy
-#| msgid "Loading…"
 msgid "Reading file…"
-msgstr "正在载入……"
+msgstr "正在读取文件……"
 
 #: ../src/mail/e-mail-viewer.c:2450
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to read file content"
-msgstr "删除联系人失败"
+msgstr "读取文件内容失败"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../src/mail/em-composer-utils.c:454
@@ -19906,19 +19830,17 @@ msgstr[0] ""
 "请考虑将收件人加入到密件副本字段。"
 
 #: ../src/mail/em-composer-utils.c:712
-#, fuzzy, c-format
-#| msgid "Attachment"
-#| msgid_plural "Attachments"
+#, c-format
 msgid "Attachment changed"
 msgid_plural "%d attachments changed"
-msgstr[0] "附件"
+msgstr[0] "%d 个附件已被修改"
 
 #: ../src/mail/em-composer-utils.c:717
 #, c-format
 msgid ""
 "Attachment “%s” changed after being added to the message. Do you want to "
 "send the message anyway?"
-msgstr ""
+msgstr "附件“%s”在被添加到消息中之后已被修改。您是否仍然想要发送该信息？"
 
 #: ../src/mail/em-composer-utils.c:720
 #, c-format
@@ -19928,7 +19850,7 @@ msgid ""
 msgid_plural ""
 "%d attachments changed after being added to the message. Do you want to send "
 "the message anyway?"
-msgstr[0] ""
+msgstr[0] "%d 个附件在被添加到消息中之后已被修改。您是否仍然想要发送该信息？"
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
@@ -20096,7 +20018,7 @@ msgstr "规则类型(_E)："
 
 #: ../src/mail/em-filter-rule.c:1008
 msgid "_For Account:"
-msgstr "对于帐号(_F)："
+msgstr "对于账号(_F)："
 
 #: ../src/mail/em-filter-rule.c:1093
 msgid "Add Ac_tion"
@@ -20494,46 +20416,36 @@ msgstr "勉强信任(_M)"
 #: ../src/mail/em-utils.c:2158
 msgctxt "trust"
 msgid "Trust _fully"
-msgstr ""
+msgstr "完全信任(_F)"
 
 #: ../src/mail/em-utils.c:2159
-#, fuzzy
-#| msgctxt "CamelTrust"
-#| msgid "Ultimately"
 msgctxt "trust"
 msgid "Trust _ultimately"
-msgstr "彻底的"
+msgstr "绝对信任(_U)"
 
 #: ../src/mail/em-utils.c:2198
-#, fuzzy, c-format
-#| msgctxt "reply-attribution"
-#| msgid "Re: %s"
+#, c-format
 msgid "Key ID: %s"
-msgstr "Re: %s"
+msgstr "密钥 ID：%s"
 
 #: ../src/mail/em-utils.c:2209
-#, fuzzy, c-format
-#| msgid "Fingerprint"
+#, c-format
 msgid "Fingerprint: %s"
-msgstr "指纹"
+msgstr "指纹：%s"
 
 #: ../src/mail/em-utils.c:2225
-#, fuzzy, c-format
-#| msgid "Created"
+#, c-format
 msgid "Created: %s"
-msgstr "创建时间"
+msgstr "创建时间：%s"
 
 #: ../src/mail/em-utils.c:2257
-#, fuzzy, c-format
-#| msgid "User: %s"
+#, c-format
 msgid "User ID: %s"
-msgstr "用户：%s"
+msgstr "用户 ID：%s"
 
 #: ../src/mail/em-utils.c:2278
-#, fuzzy
-#| msgid "Set or unset reminders for this event"
 msgid "Set trust level for the key:"
-msgstr "设置或取消此活动的提醒"
+msgstr "设置密钥的信任等级："
 
 #: ../src/mail/em-vfolder-editor.c:102
 msgid "Search _Folders"
@@ -20544,10 +20456,8 @@ msgid "Add Folder"
 msgstr "添加文件夹"
 
 #: ../src/mail/em-vfolder-editor-rule.c:754
-#, fuzzy
-#| msgid "Appearance"
 msgid "Customize Appearance"
-msgstr "外观"
+msgstr "自定义外观"
 
 #: ../src/mail/em-vfolder-editor-rule.c:840
 msgid "Search Folder Sources"
@@ -20747,17 +20657,13 @@ msgstr "跟随"
 
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
-#, fuzzy
-#| msgid "Pasting iCalendar data"
 msgid "Contain iCalendar Data"
-msgstr "粘贴 iCalendar 数据"
+msgstr "包含 iCalendar 数据"
 
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
-#, fuzzy
-#| msgid "Pasting iCalendar data"
 msgid "Do Not Contain iCalendar Data"
-msgstr "粘贴 iCalendar 数据"
+msgstr "不要包含 iCalendar 数据"
 
 #: ../src/mail/filtertypes.xml.in.h:54 ../src/mail/searchtypes.xml.in.h:56
 #: ../src/mail/vfoldertypes.xml.in.h:57
@@ -20842,10 +20748,8 @@ msgid "Set Label"
 msgstr "设置标签"
 
 #: ../src/mail/filtertypes.xml.in.h:77
-#, fuzzy
-#| msgid "Set Label"
 msgid "Unset Label"
-msgstr "设置标签"
+msgstr "取消设置标签"
 
 #: ../src/mail/filtertypes.xml.in.h:78
 msgid "Assign Color"
@@ -20936,7 +20840,7 @@ msgstr "选择要导入到哪个文件夹"
 
 #: ../src/mail/importers/evolution-mbox-importer.c:541
 msgid "Showing only first few messages, more will be imported"
-msgstr ""
+msgstr "目前仅显示前几条信息，更多的信心将稍后被导入"
 
 #: ../src/mail/importers/evolution-mbox-importer.c:594
 #: ../src/shell/e-shell-utils.c:166
@@ -21079,11 +20983,11 @@ msgstr "使用 Un_icode 字符表示表情"
 
 #: ../src/mail/mail-config.ui.h:13
 msgid "Always request rea_d receipt"
-msgstr "请求阅读收条(_D)"
+msgstr "请求已读回执(_D)"
 
 #: ../src/mail/mail-config.ui.h:14
 msgid "Always request Deli_very Status Notification"
-msgstr ""
+msgstr "总是请求送达状态通知(_V)"
 
 #: ../src/mail/mail-config.ui.h:15
 msgid "Encode filenames in an _Outlook/GMail way"
@@ -21139,7 +21043,7 @@ msgstr "为回复中引用的文本换行(_W)"
 
 #: ../src/mail/mail-config.ui.h:31
 msgid "_Attach multiple messages as separate files"
-msgstr ""
+msgstr "以单独的文件附加多条消息(_A)"
 
 #: ../src/mail/mail-config.ui.h:36
 msgctxt "ReplyForward"
@@ -21365,10 +21269,8 @@ msgid "F_all back to threading messages by subject"
 msgstr "默认按照主题对线索中的信息排序(_A)"
 
 #: ../src/mail/mail-config.ui.h:112
-#, fuzzy
-#| msgid "Show messages with all email headers"
 msgid "Group messages to _flat threads"
-msgstr "显示信息时显示所有信头"
+msgstr "将信息以扁平线索分组(_F)"
 
 #: ../src/mail/mail-config.ui.h:113
 msgid "Delete Mail"
@@ -21502,10 +21404,8 @@ msgid "_Delete junk messages"
 msgstr "删除垃圾信息(_D)"
 
 #: ../src/mail/mail-config.ui.h:148
-#, fuzzy
-#| msgid "Timeout for marking messages as seen"
 msgid "_Prompt before marking message as junk"
-msgstr "将信息标为已看的超时时长"
+msgstr "将信息标记为垃圾邮件之前提示(_P)"
 
 #: ../src/mail/mail-config.ui.h:149
 msgid "Junk Test Options"
@@ -21552,10 +21452,8 @@ msgstr "当用户试图一次打开超过十封信时提示"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:162
-#, fuzzy
-#| msgid "Marking messages as read…"
 msgid "Marking _all messages as read"
-msgstr "正在把信息标记为已读…"
+msgstr "正在把所有信息标记为已读…"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:164
@@ -22553,21 +22451,17 @@ msgid "Failed to generate message list"
 msgstr "生成消息列表失败"
 
 #: ../src/mail/mail.error.xml.h:220
-#, fuzzy
-#| msgid "Mark as _Junk"
 msgid "_Mark as Junk"
-msgstr "标记为垃圾(_J)"
+msgstr "标记为垃圾(_M)"
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../src/mail/mail.error.xml.h:222
-#, fuzzy
-#| msgid "Address “{0}” already exists."
 msgid "Label named “{0}” already exists"
-msgstr "地址“{0}”已经存在。"
+msgstr "标签“{0}”已经存在"
 
 #: ../src/mail/mail.error.xml.h:223
 msgid "Choose a different name, please."
-msgstr ""
+msgstr "请另选一个名称。"
 
 #: ../src/mail/mail.error.xml.h:224
 #, fuzzy
@@ -22576,10 +22470,8 @@ msgid "Do you wish to import OpenPGP key?"
 msgstr "您打算覆盖它吗？"
 
 #: ../src/mail/mail.error.xml.h:226
-#, fuzzy
-#| msgid "Failed to import certificate"
 msgid "Failed to import OpenPGP key"
-msgstr "导入证书失败"
+msgstr "导入 OpenPGP 密钥失败"
 
 #: ../src/mail/mail.error.xml.h:227
 #, fuzzy
@@ -22593,34 +22485,24 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:229
-#, fuzzy
-#| msgid "Sort"
 msgid "_Sort"
-msgstr "排序"
+msgstr "排序(_S)"
 
 #: ../src/mail/mail.error.xml.h:230
-#, fuzzy
-#| msgid "_Don’t lose formatting"
 msgid "_Don’t Sort"
-msgstr "不要丢弃格式(_D)"
+msgstr "不要排序(_D)"
 
 #: ../src/mail/mail.error.xml.h:231
-#, fuzzy
-#| msgid "_Always copy"
 msgid "_Always Sort"
-msgstr "永远复制(_A)"
+msgstr "总是排序(_A)"
 
 #: ../src/mail/mail.error.xml.h:232
-#, fuzzy
-#| msgid "N_ever copy"
 msgid "N_ever Sort"
-msgstr "永不复制(_E)"
+msgstr "永不排序(_E)"
 
 #: ../src/mail/mail.error.xml.h:233
-#, fuzzy
-#| msgid "Pretty Good Privacy (OpenPGP)"
 msgid "Send mail with Pretty Good Privacy (PGP) public key?"
-msgstr "PGP 加密 (OpenPGP)"
+msgstr "发送邮件时要附带优良保密协议（PGP）公钥吗？"
 
 #: ../src/mail/mail.error.xml.h:234
 msgid ""
@@ -22631,28 +22513,27 @@ msgid ""
 "This option is set for each mail account separately. You can find it in the "
 "Security tab of the mail account Properties."
 msgstr ""
+"该消息包含了您的 PGP 公钥，收件人可以用它对发送给您的消息进行加密或者验证由"
+"此 PGP 密钥作出的签名。\n"
+"\n"
+"该选项可以为每个邮件账号单独设置。您可以在邮件账户属性的安全选项卡中找到对应"
+"配置选项。"
 
 #: ../src/mail/mail.error.xml.h:237
-#, fuzzy
-#| msgid "ends with"
 msgid "_Send with Key"
-msgstr "结束于"
+msgstr "带公钥发送(_S)"
 
 #: ../src/mail/mail.error.xml.h:238
-#, fuzzy
-#| msgid "Send _without encryption"
 msgid "Send _without Key"
-msgstr "不加密发送(_W)"
+msgstr "不带公钥发送(_W)"
 
 #: ../src/mail/mail.error.xml.h:239
 msgid "_Always"
 msgstr "总是(_A)"
 
 #: ../src/mail/mail.error.xml.h:240
-#, fuzzy
-#| msgid "Never"
 msgid "_Never"
-msgstr "从不"
+msgstr "从不(_N)"
 
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
@@ -22860,10 +22741,8 @@ msgid "Recipients Mail"
 msgstr "收件人邮件"
 
 #: ../src/mail/message-list.etspec.h:27
-#, fuzzy
-#| msgid "Preview"
 msgid "Body Preview"
-msgstr "预览"
+msgstr "正文预览"
 
 #: ../src/mail/searchtypes.xml.in.h:23 ../src/mail/vfoldertypes.xml.in.h:23
 msgid "Any header"
@@ -22967,12 +22846,12 @@ msgstr ""
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:257
 msgid "Title Bar Mode"
-msgstr ""
+msgstr "标题栏模式"
 
 #. Translators: This is the GNOME project name; you probably do not want to translate it, apart of changing the mnemonic
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:268
 msgid "_GNOME"
-msgstr ""
+msgstr "_GNOME"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:294
 #, fuzzy
@@ -22982,16 +22861,12 @@ msgstr "显示只有图标的窗口按钮"
 
 #. Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:313
-#, fuzzy
-#| msgid "Standard"
 msgid "_Standard"
-msgstr "标准"
+msgstr "标准(_S)"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:341
-#, fuzzy
-#| msgid "Toolbar Style"
 msgid "Toolbar Icon Size"
-msgstr "工具栏样式"
+msgstr "工具栏图标尺寸"
 
 #. Translators: this is in a sense of "Look & Feel of the icons"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:352
@@ -23003,7 +22878,7 @@ msgstr "火箭外观"
 #. Translators: This is for "Icons Look: Autodetect"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:377
 msgid "Aut_odetect"
-msgstr ""
+msgstr "自动探测(_O)"
 
 #. Translators: This is for "Toolbar Icon Size: Small"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:390
@@ -23026,16 +22901,12 @@ msgid "Prefer _regular"
 msgstr ""
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:499
-#, fuzzy
-#| msgid "Layout style"
 msgid "Layout"
 msgstr "布局样式"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:510
-#, fuzzy
-#| msgid "_Show Menu Bar"
 msgid "Show M_enu Bar"
-msgstr "显示菜单栏(_S)"
+msgstr "显示菜单栏(_E)"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:523
 #: ../src/shell/e-shell-window-actions.c:1241
@@ -23048,10 +22919,8 @@ msgid "Show Side _Bar"
 msgstr "显示侧边栏(_B)"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:549
-#, fuzzy
-#| msgid "Show _Status Bar"
 msgid "Show Stat_us Bar"
-msgstr "显示状态栏(_S)"
+msgstr "显示状态栏(_U)"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:562
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:312
@@ -23092,7 +22961,7 @@ msgstr "谷歌"
 
 #: ../src/modules/addressbook/autocompletion-config.c:180
 msgid "Use system map _application, if available"
-msgstr ""
+msgstr "如果可用，使用系统地图应用程序(_A)"
 
 #: ../src/modules/addressbook/autocompletion-config.c:190
 msgid "Autocompletion"
@@ -23160,10 +23029,8 @@ msgstr "另存为 VCard"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:678
 #: ../src/modules/addressbook/e-book-shell-view.c:657
-#, fuzzy
-#| msgid "Print selected contacts"
 msgid "Retrieving selected contacts…"
-msgstr "打印选中的联系人"
+msgstr "正在获取选中的联系人…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1279
 msgid "Co_py All Contacts To…"
@@ -23489,10 +23356,8 @@ msgid "Choose a backup file to restore"
 msgstr "选择要恢复的备份文件"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:206
-#, fuzzy
-#| msgid "Backup _All"
 msgid "Backup Files"
-msgstr "全部备份(_A)"
+msgstr "备份文件"
 
 #. Keep the title identical to EMailConfigRestorePage
 #. * so it's only shown once in the assistant sidebar.
@@ -23502,10 +23367,9 @@ msgid "Restore from Backup"
 msgstr "从备份中恢复"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:352
-#, fuzzy, c-format
-#| msgid "Folder '%s' not found"
+#, c-format
 msgid "Program '%s' not found"
-msgstr "文件夹“%s”未找到"
+msgstr "程序“%s”未找到"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:316
 msgid "Select name of the Evolution backup file"
@@ -23663,16 +23527,12 @@ msgid "File “{0}” is not a valid Evolution backup file."
 msgstr "文件“{0}”不是有效的 Evolution 备份文件。"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
-#, fuzzy
-#| msgid "_Restore from a backup file:"
 msgid "Cannot restore from backup file"
-msgstr "从备份文件恢复(_R)："
+msgstr "无法从备份文件恢复"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:4
-#, fuzzy
-#| msgid "Cannot create Temporary File"
 msgid "Cannot create backup file"
-msgstr "无法创建临时保存文件"
+msgstr "无法创建备份文件"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Are you sure you want to close Evolution?"
@@ -24172,10 +24032,9 @@ msgstr "任务列表选择器"
 
 #. Translators: The '%s' is replaced with the time zone name, like "America/New York" or "UTC"
 #: ../src/modules/calendar/e-calendar-preferences.c:516
-#, fuzzy, c-format
-#| msgid "Use s_ystem time zone"
+#, c-format
 msgid "Use s_ystem time zone (%s)"
-msgstr "显示系统时区(_Y)"
+msgstr "使用系统时区（%s）"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:545
 msgid "Selected Calendars for Notifications of Reminders"
@@ -24397,7 +24256,7 @@ msgstr "允许直接编辑事件摘要(_W)"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:55
 msgid "Allow dra_g and drop of events"
-msgstr ""
+msgstr "允许事件的拖放(_G)"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:57
 msgid "View Options"
@@ -24879,10 +24738,8 @@ msgid "Make this Occurrence _Movable"
 msgstr "将此次发生变为可移动(_M)"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1574
-#, fuzzy
-#| msgid "Delete selected events"
 msgid "Edit the selected event"
-msgstr "删除选中的事件"
+msgstr "编辑选中的事件"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1593
 msgid "_Schedule Meeting…"
@@ -24991,16 +24848,12 @@ msgstr "发生不到 5 次"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:793
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1045
-#, fuzzy
-#| msgid "Category"
 msgid "Without Category"
-msgstr "类别"
+msgstr "未被分类"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1875
-#, fuzzy
-#| msgid "Event with no start date"
 msgid "Show events with no category set"
-msgstr "没有开始日期的事件"
+msgstr "显示没有设置类别的事件"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1897
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:817
@@ -25267,7 +25120,7 @@ msgstr "在备忘录下方显示备忘预览"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:795
 msgid "Show memos with no category set"
-msgstr ""
+msgstr "显示没有设置类别的备忘录"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:836
 msgid "Print the list of memos"
@@ -26029,10 +25882,8 @@ msgid "_Update Attendee Status"
 msgstr "更新与会者状态(_U)"
 
 #: ../src/modules/itip-formatter/itip-view.c:1344
-#, fuzzy
-#| msgid "Import"
 msgid "Im_port"
-msgstr "导入"
+msgstr "导入(_P)"
 
 #: ../src/modules/itip-formatter/itip-view.c:2107
 #: ../src/modules/itip-formatter/itip-view.c:2323
