@@ -21,98 +21,92 @@
 #ifndef E_BOOK_SHELL_VIEW_ACTIONS_H
 #define E_BOOK_SHELL_VIEW_ACTIONS_H
 
-#include <shell/e-shell-window-actions.h>
+#include <shell/e-shell-view.h>
 
 /* Address Book Actions */
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_COPY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-copy")
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_DELETE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-delete")
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_MOVE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-move")
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_PRINT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-print")
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_PRINT_PREVIEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-print-preview")
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_PROPERTIES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-properties")
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_REFRESH(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-refresh")
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_REFRESH_BACKEND(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-refresh-backend")
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_RENAME(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-rename")
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_SAVE_AS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-save-as")
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_STOP(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-stop")
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_MAP(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-map")
-#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_POPUP_MAP(window) \
-	E_SHELL_WINDOW_ACTION ((window), "address-book-popup-map")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_COPY(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-copy")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_DELETE(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-delete")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_MOVE(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-move")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_PRINT(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-print")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_PRINT_PREVIEW(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-print-preview")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_PROPERTIES(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-properties")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_REFRESH(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-refresh")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_REFRESH_BACKEND(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-refresh-backend")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_RENAME(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-rename")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_SAVE_AS(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-save-as")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_STOP(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-stop")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_MAP(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-map")
+#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_MAP_POPUP(view) \
+	E_SHELL_VIEW_ACTION ((view), "address-book-map-popup")
 
 /* Contact Actions */
-#define E_SHELL_WINDOW_ACTION_CONTACT_BULK_EDIT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-bulk-edit")
-#define E_SHELL_WINDOW_ACTION_CONTACT_COPY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-copy")
-#define E_SHELL_WINDOW_ACTION_CONTACT_DELETE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-delete")
-#define E_SHELL_WINDOW_ACTION_CONTACT_FIND(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-find")
-#define E_SHELL_WINDOW_ACTION_CONTACT_FORWARD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-forward")
-#define E_SHELL_WINDOW_ACTION_CONTACT_MOVE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-move")
-#define E_SHELL_WINDOW_ACTION_CONTACT_NEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-new")
-#define E_SHELL_WINDOW_ACTION_CONTACT_NEW_LIST(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-new-list")
-#define E_SHELL_WINDOW_ACTION_CONTACT_OPEN(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-open")
-#define E_SHELL_WINDOW_ACTION_CONTACT_PREVIEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-preview")
-#define E_SHELL_WINDOW_ACTION_CONTACT_PREVIEW_SHOW_MAPS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-preview-show-maps")
-#define E_SHELL_WINDOW_ACTION_CONTACT_PRINT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-print")
-#define E_SHELL_WINDOW_ACTION_CONTACT_SAVE_AS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-save-as")
-#define E_SHELL_WINDOW_ACTION_CONTACT_SEND_MESSAGE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-send-message")
-#define E_SHELL_WINDOW_ACTION_CONTACT_VIEW_CLASSIC(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-view-classic")
-#define E_SHELL_WINDOW_ACTION_CONTACT_VIEW_VERTICAL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-view-vertical")
+#define E_SHELL_VIEW_ACTION_CONTACT_BULK_EDIT(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-bulk-edit")
+#define E_SHELL_VIEW_ACTION_CONTACT_COPY(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-copy")
+#define E_SHELL_VIEW_ACTION_CONTACT_DELETE(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-delete")
+#define E_SHELL_VIEW_ACTION_CONTACT_FIND(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-find")
+#define E_SHELL_VIEW_ACTION_CONTACT_FORWARD(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-forward")
+#define E_SHELL_VIEW_ACTION_CONTACT_MOVE(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-move")
+#define E_SHELL_VIEW_ACTION_CONTACT_NEW(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-new")
+#define E_SHELL_VIEW_ACTION_CONTACT_NEW_LIST(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-new-list")
+#define E_SHELL_VIEW_ACTION_CONTACT_OPEN(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-open")
+#define E_SHELL_VIEW_ACTION_CONTACT_PREVIEW(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-preview")
+#define E_SHELL_VIEW_ACTION_CONTACT_PREVIEW_SHOW_MAPS(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-preview-show-maps")
+#define E_SHELL_VIEW_ACTION_CONTACT_PRINT(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-print")
+#define E_SHELL_VIEW_ACTION_CONTACT_SAVE_AS(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-save-as")
+#define E_SHELL_VIEW_ACTION_CONTACT_SEND_MESSAGE(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-send-message")
+#define E_SHELL_VIEW_ACTION_CONTACT_VIEW_CLASSIC(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-view-classic")
+#define E_SHELL_VIEW_ACTION_CONTACT_VIEW_VERTICAL(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-view-vertical")
 
 /* Search Actions */
-#define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_ADVANCED_HIDDEN(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-search-advanced-hidden")
-#define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_ANY_FIELD_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-search-any-field-contains")
-#define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_EMAIL_BEGINS_WITH(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-search-email-begins-with")
-#define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_EMAIL_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-search-email-contains")
-#define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_NAME_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-search-name-contains")
-#define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_PHONE_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-search-phone-contains")
+#define E_SHELL_VIEW_ACTION_CONTACT_SEARCH_ADVANCED_HIDDEN(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-search-advanced-hidden")
+#define E_SHELL_VIEW_ACTION_CONTACT_SEARCH_ANY_FIELD_CONTAINS(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-search-any-field-contains")
+#define E_SHELL_VIEW_ACTION_CONTACT_SEARCH_EMAIL_BEGINS_WITH(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-search-email-begins-with")
+#define E_SHELL_VIEW_ACTION_CONTACT_SEARCH_EMAIL_CONTAINS(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-search-email-contains")
+#define E_SHELL_VIEW_ACTION_CONTACT_SEARCH_NAME_CONTAINS(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-search-name-contains")
+#define E_SHELL_VIEW_ACTION_CONTACT_SEARCH_PHONE_CONTAINS(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-search-phone-contains")
 
 /* Sort Cards By Actions */
-#define E_SHELL_WINDOW_ACTION_CONTACT_CARDS_SORT_BY_MENU(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-cards-sort-by-menu")
-#define E_SHELL_WINDOW_ACTION_CONTACT_CARDS_SORT_BY_FILE_AS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-cards-sort-by-file-as")
-#define E_SHELL_WINDOW_ACTION_CONTACT_CARDS_SORT_BY_GIVEN_NAME(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-cards-sort-by-given-name")
-#define E_SHELL_WINDOW_ACTION_CONTACT_CARDS_SORT_BY_FAMILY_NAME(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contact-cards-sort-by-family-name")
-
-/* Action Groups */
-#define E_SHELL_WINDOW_ACTION_GROUP_CONTACTS(window) \
-	E_SHELL_WINDOW_ACTION_GROUP ((window), "contacts")
-#define E_SHELL_WINDOW_ACTION_GROUP_CONTACTS_FILTER(window) \
-	E_SHELL_WINDOW_ACTION_GROUP ((window), "contacts-filter")
+#define E_SHELL_VIEW_ACTION_CONTACT_CARDS_SORT_BY_MENU(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-cards-sort-by-menu")
+#define E_SHELL_VIEW_ACTION_CONTACT_CARDS_SORT_BY_FILE_AS(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-cards-sort-by-file-as")
+#define E_SHELL_VIEW_ACTION_CONTACT_CARDS_SORT_BY_GIVEN_NAME(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-cards-sort-by-given-name")
+#define E_SHELL_VIEW_ACTION_CONTACT_CARDS_SORT_BY_FAMILY_NAME(view) \
+	E_SHELL_VIEW_ACTION ((view), "contact-cards-sort-by-family-name")
 
 #endif /* E_BOOK_SHELL_VIEW_ACTIONS_H */

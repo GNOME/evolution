@@ -20,6 +20,8 @@
 
 #include "evolution-config.h"
 
+#include "mail/e-mail-paned-view.h"
+
 #include "e-mail-shell-view-private.h"
 
 enum {
@@ -471,6 +473,38 @@ mail_shell_view_get_vfolder_allow_expunge (EMailShellView *mail_shell_view)
 }
 
 static void
+mail_shell_view_notify_active_view_cb (GObject *object,
+				       GParamSpec *param,
+				       gpointer user_data)
+{
+	EMailShellView *self = user_data;
+	EMailDisplay *mail_display;
+	EUIManager *ui_manager;
+	GtkAccelGroup *accel_group;
+
+	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (e_mail_shell_content_get_mail_view (self->priv->mail_shell_content)));
+	if (!mail_display)
+		return;
+
+	ui_manager = e_web_view_get_ui_manager (E_WEB_VIEW (mail_display));
+	if (!ui_manager)
+		return;
+
+	accel_group = e_ui_manager_get_accel_group (ui_manager);
+
+	/* to enable attachment inline toggle actions' accels from the mail display (like "<Primary><Alt>1") */
+	if (e_shell_view_is_active (E_SHELL_VIEW (self))) {
+		if (!self->priv->web_view_accel_group_added) {
+			self->priv->web_view_accel_group_added = TRUE;
+			gtk_window_add_accel_group (GTK_WINDOW (object), accel_group);
+		}
+	} else if (self->priv->web_view_accel_group_added) {
+		self->priv->web_view_accel_group_added = FALSE;
+		gtk_window_remove_accel_group (GTK_WINDOW (object), accel_group);
+	}
+}
+
+static void
 mail_shell_view_set_property (GObject *object,
 			      guint property_id,
 			      const GValue *value,
@@ -526,45 +560,86 @@ mail_shell_view_finalize (GObject *object)
 static void
 mail_shell_view_constructed (GObject *object)
 {
+	EMailShellView *self = E_MAIL_SHELL_VIEW (object);
+	EShellView *shell_view = E_SHELL_VIEW (self);
+	EShellSearchbar *searchbar;
+	EMailView *mail_view;
+	EUIManager *ui_manager;
+	EActionComboBox *combo_box;
+	GObject *ui_item;
+
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
+
+	e_ui_manager_freeze (ui_manager);
+
+	self->priv->mail_shell_content = g_object_ref_sink (E_MAIL_SHELL_CONTENT (e_mail_shell_content_new (shell_view)));
+
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_shell_view_parent_class)->constructed (object);
 
 	e_mail_shell_view_private_constructed (E_MAIL_SHELL_VIEW (object));
 	e_mail_shell_view_cleanup_state_key_file (E_SHELL_VIEW (object));
-}
 
-static void
-mail_shell_view_toggled (EShellView *shell_view)
-{
-	EMailShellView *self = E_MAIL_SHELL_VIEW (shell_view);
-	EShellWindow *shell_window;
-	EMailReader *reader;
-	GtkUIManager *ui_manager;
-	const gchar *basename;
-	gboolean view_is_active;
+	mail_view = e_mail_shell_content_get_mail_view (self->priv->mail_shell_content);
+	searchbar = e_mail_shell_content_get_searchbar (self->priv->mail_shell_content);
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	view_is_active = e_shell_view_is_active (shell_view);
-	reader = E_MAIL_READER (e_mail_shell_content_get_mail_view (self->priv->mail_shell_content));
-	basename = E_MAIL_READER_UI_DEFINITION;
+	combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
+	e_action_combo_box_set_action (combo_box, ACTION (MAIL_SCOPE_ALL_ACCOUNTS));
+	e_shell_searchbar_set_scope_visible (searchbar, TRUE);
 
-	if (view_is_active && self->priv->merge_id == 0) {
-		self->priv->merge_id = e_load_ui_manager_definition (ui_manager, basename);
+	/* Advanced Search Action */
+	e_shell_searchbar_set_search_option (searchbar, ACTION (MAIL_SEARCH_ADVANCED_HIDDEN));
 
-		e_mail_reader_create_charset_menu (reader, ui_manager, self->priv->merge_id);
+	e_binding_bind_property (
+		ACTION (MAIL_PREVIEW), "active",
+		mail_view, "preview-visible",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-		/* This also fills the Label menu */
-		e_mail_reader_update_actions (reader, e_mail_reader_check_state (reader));
-	} else if (!view_is_active && self->priv->merge_id != 0) {
-		e_mail_reader_remove_ui (reader);
-		gtk_ui_manager_remove_ui (ui_manager, self->priv->merge_id);
-		gtk_ui_manager_ensure_update (ui_manager);
-		self->priv->merge_id = 0;
-	}
+	e_binding_bind_property (
+		ACTION (MAIL_SHOW_PREVIEW_TOOLBAR), "active",
+		mail_view, "preview-toolbar-visible",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	/* Chain up to parent's toggled() method. */
-	E_SHELL_VIEW_CLASS (e_mail_shell_view_parent_class)->toggled (shell_view);
+	e_binding_bind_property (
+		ACTION (MAIL_SHOW_DELETED), "active",
+		mail_view, "show-deleted",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		ACTION (MAIL_SHOW_JUNK), "active",
+		mail_view, "show-junk",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		ACTION (MAIL_THREADS_GROUP_BY), "active",
+		mail_view, "group-by-threads",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	/* Keep the sensitivity of "Create Search Folder from Search"
+	 * in sync with "Save Search" so that its only selectable when
+	 * showing search results. */
+	e_binding_bind_property (
+		E_SHELL_VIEW_ACTION (shell_view, "search-save"), "sensitive",
+		ACTION (MAIL_CREATE_SEARCH_FOLDER), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	/* WebKitGTK does not support print preview, thus hide the option from the menu;
+	   maybe it'll be supported in the future */
+	e_ui_action_set_visible (ACTION (MAIL_PRINT_PREVIEW), FALSE);
+
+	ui_item = e_ui_manager_create_item (ui_manager, "mail-preview-toolbar");
+	e_util_setup_toolbar_icon_size (GTK_TOOLBAR (ui_item), GTK_ICON_SIZE_SMALL_TOOLBAR);
+	e_mail_paned_view_take_preview_toolbar (E_MAIL_PANED_VIEW (e_mail_shell_content_get_mail_view (self->priv->mail_shell_content)), GTK_WIDGET (ui_item));
+
+	e_ui_manager_thaw (ui_manager);
+
+	e_signal_connect_notify_object (e_shell_view_get_shell_window (shell_view), "notify::active-view",
+		G_CALLBACK (mail_shell_view_notify_active_view_cb), self, 0);
 }
 
 static gchar *
@@ -727,10 +802,9 @@ mail_shell_view_custom_search (EShellView *shell_view,
 	if (custom_rule && custom_rule->threading == E_FILTER_THREAD_NONE &&
 	    custom_rule->grouping == E_FILTER_GROUP_ANY &&
 	    custom_rule->parts && custom_rule->parts->data) {
-		EShellWindow *shell_window = e_shell_view_get_shell_window (shell_view);
 		EShellSearchbar *searchbar = E_SHELL_SEARCHBAR (e_shell_view_get_searchbar (shell_view));
 		EFilterPart *part = custom_rule->parts->data;
-		GtkAction *search_action = NULL;
+		EUIAction *search_action = NULL;
 		gchar *search_text = NULL;
 
 		if (!custom_rule->parts->next && g_list_length (part->elements) == 2) {
@@ -863,7 +937,7 @@ mail_shell_view_custom_search (EShellView *shell_view,
 		if (search_action && search_text) {
 			e_shell_view_block_execute_search (shell_view);
 			e_shell_view_set_search_rule (shell_view, NULL);
-			gtk_action_activate (search_action);
+			g_action_activate (G_ACTION (search_action), NULL);
 			e_shell_searchbar_set_search_text (searchbar, search_text);
 			e_shell_view_unblock_execute_search (shell_view);
 			e_shell_view_execute_search (shell_view);
@@ -884,7 +958,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EMailShellView *self = E_MAIL_SHELL_VIEW (shell_view);
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
@@ -902,8 +975,9 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	CamelFolder *folder;
 	CamelService *service;
 	CamelStore *store;
-	GtkAction *action;
+	EUIAction *action;
 	EMailLabelListStore *label_store;
+	GVariant *state;
 	GtkTreePath *path;
 	GtkTreeIter tree_iter;
 	GString *string;
@@ -917,7 +991,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	const gchar *use_tag;
 	gint value;
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
@@ -941,7 +1014,9 @@ mail_shell_view_execute_search (EShellView *shell_view)
 		E_MAIL_UI_SESSION (session));
 
 	action = ACTION (MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
-	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
+	state = g_action_get_state (G_ACTION (action));
+	value = g_variant_get_int32 (state);
+	g_clear_pointer (&state, g_variant_unref);
 
 	text = e_shell_searchbar_get_search_text (searchbar);
 	if (value == MAIL_SEARCH_ADVANCED || text == NULL || *text == '\0') {
@@ -1144,13 +1219,10 @@ filter:
 			 * the label list store.  That's why we number
 			 * the label actions from zero. */
 			path = gtk_tree_path_new_from_indices (value, -1);
-			gtk_tree_model_get_iter (
-				GTK_TREE_MODEL (label_store),
-				&tree_iter, path);
+			g_warn_if_fail (gtk_tree_model_get_iter (GTK_TREE_MODEL (label_store), &tree_iter, path));
 			gtk_tree_path_free (path);
 
-			tag = e_mail_label_list_store_get_tag (
-				label_store, &tree_iter);
+			tag = e_mail_label_list_store_get_tag (label_store, &tree_iter);
 			use_tag = tag;
 			if (g_str_has_prefix (use_tag, "$Label"))
 				use_tag += 6;
@@ -1534,12 +1606,11 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellSidebar *shell_sidebar;
-	EShellWindow *shell_window;
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
 	EMailReader *reader;
 	EMailView *mail_view;
-	GtkAction *action;
+	EUIAction *action;
 	CamelStore *store = NULL;
 	GList *list, *link;
 	gchar *folder_name = NULL;
@@ -1563,10 +1634,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean any_store_is_subscribable = FALSE;
 
 	/* Chain up to parent's update_actions() method. */
-	E_SHELL_VIEW_CLASS (e_mail_shell_view_parent_class)->
-		update_actions (shell_view);
-
-	shell_window = e_shell_view_get_shell_window (shell_view);
+	E_SHELL_VIEW_CLASS (e_mail_shell_view_parent_class)->update_actions (shell_view);
 
 	mail_shell_view = E_MAIL_SHELL_VIEW (shell_view);
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
@@ -1645,100 +1713,186 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (MAIL_ACCOUNT_DISABLE);
 	sensitive = folder_is_store && store_can_be_disabled;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_ACCOUNT_EXPUNGE);
 	sensitive = folder_is_trash;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_ACCOUNT_EMPTY_JUNK);
 	sensitive = folder_is_junk;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_ACCOUNT_PROPERTIES);
 	sensitive = folder_is_store && !store_is_builtin;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_ACCOUNT_REFRESH);
 	sensitive = folder_is_store;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FLUSH_OUTBOX);
 	sensitive = folder_is_outbox;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_COPY);
 	sensitive = folder_is_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_DELETE);
 	sensitive = folder_is_selected && folder_can_be_deleted;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_EDIT_SORT_ORDER);
 	sensitive = folder_is_selected || folder_is_store;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_EXPUNGE);
 	sensitive = folder_is_selected && (!folder_is_virtual || mail_shell_view->priv->vfolder_allow_expunge);
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_MOVE);
 	sensitive = folder_is_selected && folder_can_be_deleted;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_NEW);
 	sensitive = folder_allows_children;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (ACTION (MAIL_FOLDER_NEW_FULL), sensitive);
 
 	action = ACTION (MAIL_FOLDER_PROPERTIES);
 	sensitive = folder_is_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_REFRESH);
 	sensitive = folder_is_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_RENAME);
 	sensitive =
 		folder_is_selected &&
 		folder_can_be_deleted;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_SELECT_THREAD);
 	sensitive = folder_is_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_SELECT_SUBTHREAD);
 	sensitive = folder_is_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_UNSUBSCRIBE);
 	sensitive =
 		folder_is_selected &&
 		store_is_subscribable &&
 		!folder_is_virtual;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_MARK_ALL_AS_READ);
 	sensitive = folder_is_selected && folder_has_unread;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_POPUP_FOLDER_MARK_ALL_AS_READ);
 	sensitive = folder_is_selected && folder_has_unread_rec;
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	action = ACTION (MAIL_MANAGE_SUBSCRIPTIONS);
 	sensitive = folder_is_store && store_is_subscribable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_TOOLS_SUBSCRIPTIONS);
 	sensitive = any_store_is_subscribable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	/* folder_is_store + folder_is_virtual == "Search Folders" */
 	action = ACTION (MAIL_VFOLDER_UNMATCHED_ENABLE);
-	gtk_action_set_visible (action, folder_is_store && folder_is_virtual);
+	e_ui_action_set_visible (action, folder_is_store && folder_is_virtual);
+}
+
+static gboolean
+e_mail_shell_view_ui_manager_create_item_cb (EUIManager *ui_manager,
+					     EUIElement *elem,
+					     EUIAction *action,
+					     EUIElementKind for_kind,
+					     GObject **out_item,
+					     gpointer user_data)
+{
+	EMailShellView *self = user_data;
+	const gchar *name;
+
+	g_return_val_if_fail (E_IS_MAIL_SHELL_VIEW (self), FALSE);
+
+	name = g_action_get_name (G_ACTION (action));
+
+	if (!g_str_has_prefix (name, "EMailShellView::"))
+		return FALSE;
+
+	#define is_action(_nm) (g_strcmp0 (name, (_nm)) == 0)
+
+	if (is_action ("EMailShellView::mail-send-receive")) {
+		*out_item = e_ui_manager_create_item_from_menu_model (ui_manager, elem, action, for_kind, G_MENU_MODEL (self->priv->send_receive_menu));
+	} else if (for_kind == E_UI_ELEMENT_KIND_MENU) {
+		g_warning ("%s: Unhandled menu action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_TOOLBAR) {
+		g_warning ("%s: Unhandled toolbar action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_HEADERBAR) {
+		g_warning ("%s: Unhandled headerbar action '%s'", G_STRFUNC, name);
+	} else {
+		g_warning ("%s: Unhandled element kind '%d' for action '%s'", G_STRFUNC, (gint) for_kind, name);
+	}
+
+	#undef is_action
+
+	return TRUE;
+}
+
+static gboolean
+e_mail_shell_view_ui_manager_ignore_accel_cb (EUIManager *ui_manager,
+					      EUIAction *action,
+					      gpointer user_data)
+{
+	EMailShellView *self = user_data;
+	EMailView *mail_view;
+	EShellContent *shell_content;
+
+	g_return_val_if_fail (E_IS_MAIL_SHELL_VIEW (self), FALSE);
+
+	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (self));
+	mail_view = e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (shell_content));
+
+	return e_mail_reader_ignore_accel (E_MAIL_READER (mail_view));
+}
+
+static GtkWidget *
+e_mail_shell_view_ref_shell_content (EShellView *shell_view)
+{
+	EMailShellView *self;
+
+	g_return_val_if_fail (E_IS_MAIL_SHELL_VIEW (shell_view), NULL);
+
+	self = E_MAIL_SHELL_VIEW (shell_view);
+
+	return g_object_ref (GTK_WIDGET (self->priv->mail_shell_content));
+}
+
+static void
+mail_shell_view_init_ui_data (EShellView *shell_view)
+{
+	EMailShellView *self;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (shell_view));
+
+	self = E_MAIL_SHELL_VIEW (shell_view);
+
+	g_signal_connect_object (e_shell_view_get_ui_manager (shell_view), "create-item",
+		G_CALLBACK (e_mail_shell_view_ui_manager_create_item_cb), shell_view, 0);
+	g_signal_connect_object (e_shell_view_get_ui_manager (shell_view), "ignore-accel",
+		G_CALLBACK (e_mail_shell_view_ui_manager_ignore_accel_cb), shell_view, 0);
+
+	e_mail_reader_init_ui_data (E_MAIL_READER (e_mail_shell_content_get_mail_view (self->priv->mail_shell_content)));
+	e_mail_shell_view_actions_init (self);
+	e_mail_shell_view_fill_send_receive_menu (self);
 }
 
 static void
@@ -1757,17 +1911,16 @@ e_mail_shell_view_class_init (EMailShellViewClass *class)
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = _("Mail");
 	shell_view_class->icon_name = "evolution-mail";
-	shell_view_class->ui_definition = "evolution-mail.ui";
+	shell_view_class->ui_definition = "evolution-mail.eui";
 	shell_view_class->ui_manager_id = "org.gnome.evolution.mail";
 	shell_view_class->search_context_type = EM_SEARCH_TYPE_CONTEXT;
-	shell_view_class->search_options = "/mail-search-options";
 	shell_view_class->search_rules = "searchtypes.xml";
-	shell_view_class->new_shell_content = e_mail_shell_content_new;
+	shell_view_class->new_shell_content = e_mail_shell_view_ref_shell_content;
 	shell_view_class->new_shell_sidebar = e_mail_shell_sidebar_new;
-	shell_view_class->toggled = mail_shell_view_toggled;
 	shell_view_class->custom_search = mail_shell_view_custom_search;
 	shell_view_class->execute_search = mail_shell_view_execute_search;
 	shell_view_class->update_actions = mail_shell_view_update_actions;
+	shell_view_class->init_ui_data = mail_shell_view_init_ui_data;
 
 	/* Ensure the GalView types we need are registered. */
 	g_type_ensure (GAL_TYPE_VIEW_ETABLE);

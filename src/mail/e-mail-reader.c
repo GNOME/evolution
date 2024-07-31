@@ -25,11 +25,6 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
-#ifdef HAVE_XFREE
-#include <X11/XF86keysym.h>
-#endif
-
-#include <shell/e-shell-headerbar.h>
 #include <shell/e-shell-utils.h>
 
 #include <libemail-engine/libemail-engine.h>
@@ -41,7 +36,6 @@
 #include "e-mail-backend.h"
 #include "e-mail-browser.h"
 #include "e-mail-enumtypes.h"
-#include "e-mail-label-action.h"
 #include "e-mail-label-dialog.h"
 #include "e-mail-label-list-store.h"
 #include "e-mail-notes.h"
@@ -108,8 +102,9 @@ struct _EMailReaderPrivate {
 
 	GSList *ongoing_operations; /* GCancellable * */
 
-	guint main_menu_label_merge_id;
-	guint popup_menu_label_merge_id;
+	GMenuModel *reply_group_menu;
+	GMenuModel *forward_as_menu;
+	GMenu *labels_menu;
 };
 
 enum {
@@ -162,13 +157,19 @@ mail_reader_private_free (EMailReaderPrivate *priv)
 		priv->retrieving_message = NULL;
 	}
 
-	g_slice_free (EMailReaderPrivate, priv);
+	g_clear_object (&priv->reply_group_menu);
+	g_clear_object (&priv->forward_as_menu);
+	g_clear_object (&priv->labels_menu);
+
+	g_free (priv);
 }
 
 static void
-action_mail_add_sender_cb (GtkAction *action,
-                           EMailReader *reader)
+action_mail_add_sender_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EShell *shell;
 	EMailBackend *backend;
 	EMailSession *session;
@@ -223,9 +224,11 @@ exit:
 }
 
 static void
-action_add_to_address_book_cb (GtkAction *action,
-                               EMailReader *reader)
+action_add_to_address_book_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EShell *shell;
 	EMailBackend *backend;
 	EMailDisplay *display;
@@ -285,32 +288,11 @@ exit:
 }
 
 static void
-action_mail_charset_cb (GtkRadioAction *action,
-                        GtkRadioAction *current,
-                        EMailReader *reader)
+action_mail_check_for_junk_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
-	EMailDisplay *display;
-	EMailFormatter *formatter;
-
-	if (action != current)
-		return;
-
-	display = e_mail_reader_get_mail_display (reader);
-	formatter = e_mail_display_get_formatter (display);
-
-	if (formatter != NULL) {
-		const gchar *charset;
-
-		/* Charset for "Default" action will be NULL. */
-		charset = g_object_get_data (G_OBJECT (action), "charset");
-		e_mail_formatter_set_charset (formatter, charset);
-	}
-}
-
-static void
-action_mail_check_for_junk_cb (GtkAction *action,
-                               EMailReader *reader)
-{
+	EMailReader *reader = user_data;
 	EMailBackend *backend;
 	EMailSession *session;
 	CamelFolder *folder;
@@ -449,9 +431,11 @@ mail_reader_manage_color_flag_on_selection (EMailReader *reader,
 }
 
 static void
-action_mail_color_assign_cb (GtkAction *action,
-			     EMailReader *reader)
+action_mail_color_assign_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkWidget *dialog;
 
 	dialog = gtk_color_chooser_dialog_new (NULL, e_mail_reader_get_window (reader));
@@ -478,16 +462,20 @@ action_mail_color_assign_cb (GtkAction *action,
 }
 
 static void
-action_mail_color_unset_cb (GtkAction *action,
-			    EMailReader *reader)
+action_mail_color_unset_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	mail_reader_manage_color_flag_on_selection (reader, NULL);
 }
 
 static void
-action_mail_copy_cb (GtkAction *action,
-                     EMailReader *reader)
+action_mail_copy_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	mail_reader_copy_or_move_selected_messages (reader, FALSE);
 }
 
@@ -528,9 +516,11 @@ mail_reader_replace_vee_folder_with_real (CamelFolder **inout_folder,
 }
 
 static void
-action_mail_edit_note_cb (GtkAction *action,
-			  EMailReader *reader)
+action_mail_edit_note_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	CamelFolder *folder;
 	GPtrArray *uids;
 
@@ -588,9 +578,11 @@ mail_delete_note_thread (EAlertSinkThreadJobData *job_data,
 }
 
 static void
-action_mail_delete_note_cb (GtkAction *action,
-			    EMailReader *reader)
+action_mail_delete_note_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	CamelFolder *folder;
 	GPtrArray *uids;
 
@@ -636,9 +628,11 @@ action_mail_delete_note_cb (GtkAction *action,
 }
 
 static void
-action_mail_delete_cb (GtkAction *action,
-                       EMailReader *reader)
+action_mail_delete_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	guint32 mask = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED;
 	guint32 set = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED;
 
@@ -658,37 +652,51 @@ action_mail_delete_cb (GtkAction *action,
 }
 
 static void
-action_mail_filter_on_mailing_list_cb (GtkAction *action,
-                                       EMailReader *reader)
+action_mail_filter_on_mailing_list_cb (EUIAction *action,
+				       GVariant *parameter,
+				       gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_create_filter_from_selected (reader, AUTO_MLIST);
 }
 
 static void
-action_mail_filter_on_recipients_cb (GtkAction *action,
-                                     EMailReader *reader)
+action_mail_filter_on_recipients_cb (EUIAction *action,
+				     GVariant *parameter,
+				     gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_create_filter_from_selected (reader, AUTO_TO);
 }
 
 static void
-action_mail_filter_on_sender_cb (GtkAction *action,
-                                 EMailReader *reader)
+action_mail_filter_on_sender_cb (EUIAction *action,
+				 GVariant *parameter,
+				 gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_create_filter_from_selected (reader, AUTO_FROM);
 }
 
 static void
-action_mail_filter_on_subject_cb (GtkAction *action,
-                                  EMailReader *reader)
+action_mail_filter_on_subject_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_create_filter_from_selected (reader, AUTO_SUBJECT);
 }
 
 static void
-action_mail_filters_apply_cb (GtkAction *action,
-                              EMailReader *reader)
+action_mail_filters_apply_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailBackend *backend;
 	EMailSession *session;
 	CamelFolder *folder;
@@ -709,30 +717,41 @@ action_mail_filters_apply_cb (GtkAction *action,
 }
 
 static void
-action_mail_remove_attachments_cb (GtkAction *action,
-                                   EMailReader *reader)
+action_mail_remove_attachments_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_remove_attachments (reader);
 }
 
 static void
-action_mail_remove_duplicates_cb (GtkAction *action,
-                                  EMailReader *reader)
+action_mail_remove_duplicates_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_remove_duplicates (reader);
 }
 
 static void
-action_mail_find_cb (GtkAction *action,
-                     EMailReader *reader)
+action_mail_find_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_show_search_bar (reader);
 }
 
 static void
-action_mail_flag_clear_cb (GtkAction *action,
-                           EMailReader *reader)
+action_mail_flag_clear_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
@@ -750,9 +769,11 @@ action_mail_flag_clear_cb (GtkAction *action,
 }
 
 static void
-action_mail_flag_completed_cb (GtkAction *action,
-                               EMailReader *reader)
+action_mail_flag_completed_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
@@ -770,9 +791,11 @@ action_mail_flag_completed_cb (GtkAction *action,
 }
 
 static void
-action_mail_flag_for_followup_cb (GtkAction *action,
-                                  EMailReader *reader)
+action_mail_flag_for_followup_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	CamelFolder *folder;
 	GPtrArray *uids;
 
@@ -788,9 +811,11 @@ action_mail_flag_for_followup_cb (GtkAction *action,
 }
 
 static void
-action_mail_forward_cb (GtkAction *action,
-                        EMailReader *reader)
+action_mail_forward_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkWindow *window;
 	GPtrArray *uids;
 
@@ -814,9 +839,11 @@ action_mail_forward_cb (GtkAction *action,
 }
 
 static void
-action_mail_forward_attached_cb (GtkAction *action,
-                                 EMailReader *reader)
+action_mail_forward_attached_cb (EUIAction *action,
+				 GVariant *parameter,
+				 gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkWindow *window;
 	GPtrArray *uids;
 
@@ -840,9 +867,11 @@ action_mail_forward_attached_cb (GtkAction *action,
 }
 
 static void
-action_mail_forward_inline_cb (GtkAction *action,
-                               EMailReader *reader)
+action_mail_forward_inline_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkWindow *window;
 	GPtrArray *uids;
 
@@ -866,9 +895,11 @@ action_mail_forward_inline_cb (GtkAction *action,
 }
 
 static void
-action_mail_forward_quoted_cb (GtkAction *action,
-                               EMailReader *reader)
+action_mail_forward_quoted_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkWindow *window;
 	GPtrArray *uids;
 
@@ -892,13 +923,16 @@ action_mail_forward_quoted_cb (GtkAction *action,
 }
 
 static void
-action_mail_label_change_more_cb (GtkAction *action,
-				  EMailReader *reader);
+action_mail_label_change_more_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data);
 
 static void
-action_mail_label_new_cb (GtkAction *action,
-                          EMailReader *reader)
+action_mail_label_new_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailLabelDialog *label_dialog;
 	EMailLabelListStore *label_store;
 	EMailBackend *backend;
@@ -975,9 +1009,11 @@ action_mail_label_new_cb (GtkAction *action,
 }
 
 static void
-action_mail_label_none_cb (GtkAction *action,
-                           EMailReader *reader)
+action_mail_label_none_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailBackend *backend;
 	EMailSession *session;
 	EMailLabelListStore *label_store;
@@ -1024,9 +1060,11 @@ action_mail_label_none_cb (GtkAction *action,
 }
 
 static void
-action_mail_load_images_cb (GtkAction *action,
-                            EMailReader *reader)
+action_mail_load_images_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailDisplay *display;
 
 	display = e_mail_reader_get_mail_display (reader);
@@ -1035,9 +1073,11 @@ action_mail_load_images_cb (GtkAction *action,
 }
 
 static void
-action_mail_mark_important_cb (GtkAction *action,
-                               EMailReader *reader)
+action_mail_mark_important_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	guint32 mask = CAMEL_MESSAGE_FLAGGED | CAMEL_MESSAGE_DELETED;
 	guint32 set = CAMEL_MESSAGE_FLAGGED;
 
@@ -1045,9 +1085,11 @@ action_mail_mark_important_cb (GtkAction *action,
 }
 
 static void
-action_mail_mark_junk_cb (GtkAction *action,
-                          EMailReader *reader)
+action_mail_mark_junk_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	guint32 mask =
 		CAMEL_MESSAGE_SEEN |
 		CAMEL_MESSAGE_JUNK |
@@ -1098,9 +1140,11 @@ action_mail_mark_junk_cb (GtkAction *action,
 }
 
 static void
-action_mail_mark_notjunk_cb (GtkAction *action,
-                             EMailReader *reader)
+action_mail_mark_notjunk_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	guint32 mask =
 		CAMEL_MESSAGE_JUNK |
 		CAMEL_MESSAGE_NOTJUNK |
@@ -1118,9 +1162,11 @@ action_mail_mark_notjunk_cb (GtkAction *action,
 }
 
 static void
-action_mail_mark_read_cb (GtkAction *action,
-                          EMailReader *reader)
+action_mail_mark_read_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	guint32 mask = CAMEL_MESSAGE_SEEN;
 	guint32 set = CAMEL_MESSAGE_SEEN;
 
@@ -1128,9 +1174,11 @@ action_mail_mark_read_cb (GtkAction *action,
 }
 
 static void
-action_mail_mark_unimportant_cb (GtkAction *action,
-                                 EMailReader *reader)
+action_mail_mark_unimportant_cb (EUIAction *action,
+				 GVariant *parameter,
+				 gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	guint32 mask = CAMEL_MESSAGE_FLAGGED;
 	guint32 set = 0;
 
@@ -1138,37 +1186,51 @@ action_mail_mark_unimportant_cb (GtkAction *action,
 }
 
 static void
-action_mail_mark_ignore_thread_sub_cb (GtkAction *action,
-					 EMailReader *reader)
+action_mail_mark_ignore_thread_sub_cb (EUIAction *action,
+				       GVariant *parameter,
+				       gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_mark_selected_ignore_thread (reader, E_IGNORE_THREAD_SUBSET_SET);
 }
 
 static void
-action_mail_mark_unignore_thread_sub_cb (GtkAction *action,
-					 EMailReader *reader)
+action_mail_mark_unignore_thread_sub_cb (EUIAction *action,
+					 GVariant *parameter,
+					 gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_mark_selected_ignore_thread (reader, E_IGNORE_THREAD_SUBSET_UNSET);
 }
 
 static void
-action_mail_mark_ignore_thread_whole_cb (GtkAction *action,
-					 EMailReader *reader)
+action_mail_mark_ignore_thread_whole_cb (EUIAction *action,
+					 GVariant *parameter,
+					 gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_mark_selected_ignore_thread (reader, E_IGNORE_THREAD_WHOLE_SET);
 }
 
 static void
-action_mail_mark_unignore_thread_whole_cb (GtkAction *action,
-					   EMailReader *reader)
+action_mail_mark_unignore_thread_whole_cb (EUIAction *action,
+					   GVariant *parameter,
+					   gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_mark_selected_ignore_thread (reader, E_IGNORE_THREAD_WHOLE_UNSET);
 }
 
 static void
-action_mail_mark_unread_cb (GtkAction *action,
-                            EMailReader *reader)
+action_mail_mark_unread_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkWidget *message_list;
 	EMFolderTreeModel *model;
 	CamelFolder *folder;
@@ -1196,9 +1258,11 @@ action_mail_mark_unread_cb (GtkAction *action,
 }
 
 static void
-action_mail_message_edit_cb (GtkAction *action,
-                             EMailReader *reader)
+action_mail_message_edit_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EShell *shell;
 	EMailBackend *backend;
 	ESourceRegistry *registry;
@@ -1261,9 +1325,11 @@ mail_reader_new_composer_created_cb (GObject *source_object,
 }
 
 static void
-action_mail_message_new_cb (GtkAction *action,
-                            EMailReader *reader)
+action_mail_message_new_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EShell *shell;
 	EMailBackend *backend;
 	EShellBackend *shell_backend;
@@ -1303,16 +1369,24 @@ action_mail_message_new_cb (GtkAction *action,
 }
 
 static void
-action_mail_message_open_cb (GtkAction *action,
-                             EMailReader *reader)
+action_mail_message_open_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
+	if (E_IS_MAIL_BROWSER (reader))
+		return;
+
 	e_mail_reader_open_selected_mail (reader);
 }
 
 static void
-action_mail_archive_cb (GtkAction *action,
-			EMailReader *reader)
+action_mail_archive_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	CamelFolder *folder;
 	EMailBackend *backend;
 	EMailSession *session;
@@ -1417,16 +1491,21 @@ action_mail_archive_cb (GtkAction *action,
 }
 
 static void
-action_mail_move_cb (GtkAction *action,
-                     EMailReader *reader)
+action_mail_move_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	mail_reader_copy_or_move_selected_messages (reader, TRUE);
 }
 
 static void
-action_mail_next_cb (GtkAction *action,
-                     EMailReader *reader)
+action_mail_next_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkWidget *message_list;
 	MessageListSelectDirection direction;
 	guint32 flags, mask;
@@ -1442,9 +1521,11 @@ action_mail_next_cb (GtkAction *action,
 }
 
 static void
-action_mail_next_important_cb (GtkAction *action,
-                               EMailReader *reader)
+action_mail_next_important_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkWidget *message_list;
 	MessageListSelectDirection direction;
 	guint32 flags, mask;
@@ -1460,9 +1541,11 @@ action_mail_next_important_cb (GtkAction *action,
 }
 
 static void
-action_mail_next_thread_cb (GtkAction *action,
-                            EMailReader *reader)
+action_mail_next_thread_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkWidget *message_list;
 
 	message_list = e_mail_reader_get_message_list (reader);
@@ -1526,16 +1609,21 @@ mail_reader_select_unread (EMailReader *reader,
 }
 
 static void
-action_mail_next_unread_cb (GtkAction *action,
-                            EMailReader *reader)
+action_mail_next_unread_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	mail_reader_select_unread (reader, TRUE);
 }
 
 static void
-action_mail_previous_cb (GtkAction *action,
-                         EMailReader *reader)
+action_mail_previous_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkWidget *message_list;
 	MessageListSelectDirection direction;
 	guint32 flags, mask;
@@ -1551,9 +1639,11 @@ action_mail_previous_cb (GtkAction *action,
 }
 
 static void
-action_mail_previous_important_cb (GtkAction *action,
-                                   EMailReader *reader)
+action_mail_previous_important_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkWidget *message_list;
 	MessageListSelectDirection direction;
 	guint32 flags, mask;
@@ -1569,9 +1659,11 @@ action_mail_previous_important_cb (GtkAction *action,
 }
 
 static void
-action_mail_previous_thread_cb (GtkAction *action,
-                                EMailReader *reader)
+action_mail_previous_thread_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkWidget *message_list;
 
 	message_list = e_mail_reader_get_message_list (reader);
@@ -1580,16 +1672,20 @@ action_mail_previous_thread_cb (GtkAction *action,
 }
 
 static void
-action_mail_previous_unread_cb (GtkAction *action,
-                                EMailReader *reader)
+action_mail_previous_unread_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	mail_reader_select_unread (reader, FALSE);
 }
 
 static void
-action_mail_print_cb (GtkAction *action,
-                      EMailReader *reader)
+action_mail_print_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkPrintOperationAction print_action;
 
 	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
@@ -1597,9 +1693,11 @@ action_mail_print_cb (GtkAction *action,
 }
 
 static void
-action_mail_print_preview_cb (GtkAction *action,
-                              EMailReader *reader)
+action_mail_print_preview_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkPrintOperationAction print_action;
 
 	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
@@ -1655,9 +1753,11 @@ mail_reader_redirect_cb (CamelFolder *folder,
 }
 
 static void
-action_mail_redirect_cb (GtkAction *action,
-                         EMailReader *reader)
+action_mail_redirect_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailReaderClosure *closure;
@@ -1788,9 +1888,11 @@ exit:
 }
 
 static void
-action_mail_reply_all_cb (GtkAction *action,
-                          EMailReader *reader)
+action_mail_reply_all_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GSettings *settings;
 	const gchar *key;
 	guint32 state;
@@ -1905,9 +2007,11 @@ action_mail_reply_alternative_got_message (GObject *source_object,
 }
 
 static void
-action_mail_reply_alternative_cb (GtkAction *action,
-				  EMailReader *reader)
+action_mail_reply_alternative_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailReaderClosure *closure;
@@ -1930,9 +2034,11 @@ action_mail_reply_alternative_cb (GtkAction *action,
 }
 
 static void
-action_mail_reply_group_cb (GtkAction *action,
-                            EMailReader *reader)
+action_mail_reply_group_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GSettings *settings;
 	gboolean reply_list;
 	guint32 state;
@@ -1951,13 +2057,16 @@ action_mail_reply_group_cb (GtkAction *action,
 		e_mail_reader_reply_to_message (
 			reader, NULL, E_MAIL_REPLY_TO_LIST);
 	} else
-		action_mail_reply_all_cb (action, reader);
+		action_mail_reply_all_cb (action, NULL, reader);
 }
 
 static void
-action_mail_reply_list_cb (GtkAction *action,
-                           EMailReader *reader)
+action_mail_reply_list_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_reply_to_message (reader, NULL, E_MAIL_REPLY_TO_LIST);
 }
 
@@ -2263,9 +2372,11 @@ exit:
 }
 
 static void
-action_mail_reply_sender_cb (GtkAction *action,
-                             EMailReader *reader)
+action_mail_reply_sender_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GSettings *settings;
 	gboolean ask_list_reply_to;
 	gboolean ask_private_list_reply;
@@ -2322,53 +2433,75 @@ action_mail_reply_sender_cb (GtkAction *action,
 }
 
 static void
-action_mail_reply_recipient_cb (GtkAction *action,
-                                EMailReader *reader)
+action_mail_reply_recipient_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_reply_to_message (reader, NULL, E_MAIL_REPLY_TO_RECIPIENT);
 }
 
 static void
-action_mail_save_as_cb (GtkAction *action,
-                        EMailReader *reader)
+action_mail_save_as_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_save_messages (reader);
 }
 
 static void
-action_mail_search_folder_from_mailing_list_cb (GtkAction *action,
-                                                EMailReader *reader)
+action_mail_search_folder_from_mailing_list_cb (EUIAction *action,
+						GVariant *parameter,
+						gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_create_vfolder_from_selected (reader, AUTO_MLIST);
 }
 
 static void
-action_mail_search_folder_from_recipients_cb (GtkAction *action,
-                                              EMailReader *reader)
+action_mail_search_folder_from_recipients_cb (EUIAction *action,
+					      GVariant *parameter,
+					      gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_create_vfolder_from_selected (reader, AUTO_TO);
 }
 
 static void
-action_mail_search_folder_from_sender_cb (GtkAction *action,
-                                          EMailReader *reader)
+action_mail_search_folder_from_sender_cb (EUIAction *action,
+					  GVariant *parameter,
+					  gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_create_vfolder_from_selected (reader, AUTO_FROM);
 }
 
 static void
-action_mail_search_folder_from_subject_cb (GtkAction *action,
-                                           EMailReader *reader)
+action_mail_search_folder_from_subject_cb (EUIAction *action,
+					   GVariant *parameter,
+					   gpointer user_data)
 {
+	EMailReader *reader = user_data;
+
 	e_mail_reader_create_vfolder_from_selected (reader, AUTO_SUBJECT);
 }
 
 static void
-action_mail_show_all_headers_cb (GtkToggleAction *action,
-                                 EMailReader *reader)
+action_mail_show_all_headers_cb (EUIAction *action,
+				 GVariant *parameter,
+				 gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailDisplay *display;
 	EMailFormatterMode mode;
+
+	e_ui_action_set_state (action, parameter);
 
 	display = e_mail_reader_get_mail_display (reader);
 
@@ -2379,7 +2512,7 @@ action_mail_show_all_headers_cb (GtkToggleAction *action,
 	if (mode == E_MAIL_FORMATTER_MODE_RAW)
 		return;
 
-	if (gtk_toggle_action_get_active (action))
+	if (e_ui_action_get_active (action))
 		mode = E_MAIL_FORMATTER_MODE_ALL_HEADERS;
 	else
 		mode = E_MAIL_FORMATTER_MODE_NORMAL;
@@ -2435,9 +2568,11 @@ mail_source_retrieved (GObject *source_object,
 }
 
 static void
-action_mail_show_source_cb (GtkAction *action,
-                            EMailReader *reader)
+action_mail_show_source_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailDisplay *display;
 	EMailBackend *backend;
 	GtkWidget *browser;
@@ -2506,9 +2641,11 @@ action_mail_show_source_cb (GtkAction *action,
 }
 
 static void
-action_mail_toggle_important_cb (GtkAction *action,
-                                 EMailReader *reader)
+action_mail_toggle_important_cb (EUIAction *action,
+				 GVariant *parameter,
+				 gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	guint ii;
@@ -2542,9 +2679,11 @@ action_mail_toggle_important_cb (GtkAction *action,
 }
 
 static void
-action_mail_undelete_cb (GtkAction *action,
-                         EMailReader *reader)
+action_mail_undelete_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	guint32 mask = CAMEL_MESSAGE_DELETED;
 	guint32 set = 0;
 
@@ -2552,9 +2691,11 @@ action_mail_undelete_cb (GtkAction *action,
 }
 
 static void
-action_mail_zoom_100_cb (GtkAction *action,
-                         EMailReader *reader)
+action_mail_zoom_100_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailDisplay *display;
 
 	display = e_mail_reader_get_mail_display (reader);
@@ -2563,9 +2704,11 @@ action_mail_zoom_100_cb (GtkAction *action,
 }
 
 static void
-action_mail_zoom_in_cb (GtkAction *action,
-                        EMailReader *reader)
+action_mail_zoom_in_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailDisplay *display;
 
 	display = e_mail_reader_get_mail_display (reader);
@@ -2574,9 +2717,11 @@ action_mail_zoom_in_cb (GtkAction *action,
 }
 
 static void
-action_mail_zoom_out_cb (GtkAction *action,
-                         EMailReader *reader)
+action_mail_zoom_out_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailDisplay *display;
 
 	display = e_mail_reader_get_mail_display (reader);
@@ -2585,22 +2730,26 @@ action_mail_zoom_out_cb (GtkAction *action,
 }
 
 static void
-action_mail_search_web_cb (GtkAction *action,
-			   EMailReader *reader)
+action_mail_search_web_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailDisplay *display;
-	GtkAction *wv_action;
+	EUIAction *wv_action;
 
 	display = e_mail_reader_get_mail_display (reader);
 	wv_action = e_web_view_get_action (E_WEB_VIEW (display), "search-web");
 
-	gtk_action_activate (wv_action);
+	g_action_activate (G_ACTION (wv_action), NULL);
 }
 
 static void
-action_search_folder_recipient_cb (GtkAction *action,
-                                   EMailReader *reader)
+action_search_folder_recipient_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailBackend *backend;
 	EMailSession *session;
 	EWebView *web_view;
@@ -2639,9 +2788,11 @@ action_search_folder_recipient_cb (GtkAction *action,
 }
 
 static void
-action_search_folder_sender_cb (GtkAction *action,
-                                EMailReader *reader)
+action_search_folder_sender_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailBackend *backend;
 	EMailSession *session;
 	EWebView *web_view;
@@ -2679,757 +2830,897 @@ action_search_folder_sender_cb (GtkAction *action,
 	camel_url_free (curl);
 }
 
-static GtkActionEntry mail_reader_entries[] = {
-
-	{ "mail-add-sender",
-	  NULL,
-	  N_("A_dd Sender to Address Book"),
-	  NULL,
-	  N_("Add sender to address book"),
-	  G_CALLBACK (action_mail_add_sender_cb) },
-
-	{ "mail-archive",
-	  "mail-archive",
-	  N_("_Archive"),
-	  "<Alt><Control>a",
-	  N_("Move selected messages to the Archive folder for the account"),
-	  G_CALLBACK (action_mail_archive_cb) },
-
-	{ "mail-check-for-junk",
-	  "mail-mark-junk",
-	  N_("Check for _Junk"),
-	  "<Control><Alt>j",
-	  N_("Filter the selected messages for junk status"),
-	  G_CALLBACK (action_mail_check_for_junk_cb) },
-
-	{ "mail-color-assign",
-	  NULL,
-	  N_("Assign C_olor…"),
-	  NULL,
-	  N_("Assign color for the selected messages"),
-	  G_CALLBACK (action_mail_color_assign_cb) },
-
-	{ "mail-color-unset",
-	  NULL,
-	  N_("Unse_t Color"),
-	  NULL,
-	  N_("Unset color for the selected messages"),
-	  G_CALLBACK (action_mail_color_unset_cb) },
-
-	{ "mail-copy",
-	  "mail-copy",
-	  N_("_Copy to Folder…"),
-	  "<Shift><Control>y",
-	  N_("Copy selected messages to another folder"),
-	  G_CALLBACK (action_mail_copy_cb) },
-
-	{ "mail-delete",
-	  "user-trash",
-	  N_("_Delete Message"),
-	  "<Control>d",
-	  N_("Mark the selected messages for deletion"),
-	  G_CALLBACK (action_mail_delete_cb) },
-
-	{ "mail-add-note",
-	  "evolution-memos",
-	  N_("_Add note…"),
-	  NULL,
-	  N_("Add a note for the selected message"),
-	  G_CALLBACK (action_mail_edit_note_cb) },
-
-	{ "mail-delete-note",
-	  NULL,
-	  N_("Delete no_te"),
-	  NULL,
-	  N_("Delete the note for the selected message"),
-	  G_CALLBACK (action_mail_delete_note_cb) },
-
-	{ "mail-edit-note",
-	  "evolution-memos",
-	  N_("_Edit note…"),
-	  NULL,
-	  N_("Edit a note for the selected message"),
-	  G_CALLBACK (action_mail_edit_note_cb) },
-
-	{ "mail-filter-rule-for-mailing-list",
-	  NULL,
-	  N_("Create a Filter Rule for Mailing _List…"),
-	  NULL,
-	  N_("Create a rule to filter messages to this mailing list"),
-	  G_CALLBACK (action_mail_filter_on_mailing_list_cb) },
-
-	{ "mail-filter-rule-for-recipients",
-	  NULL,
-	  N_("Create a Filter Rule for _Recipients…"),
-	  NULL,
-	  N_("Create a rule to filter messages to these recipients"),
-	  G_CALLBACK (action_mail_filter_on_recipients_cb) },
-
-	{ "mail-filter-rule-for-sender",
-	  NULL,
-	  N_("Create a Filter Rule for Se_nder…"),
-	  NULL,
-	  N_("Create a rule to filter messages from this sender"),
-	  G_CALLBACK (action_mail_filter_on_sender_cb) },
-
-	{ "mail-filter-rule-for-subject",
-	  NULL,
-	  N_("Create a Filter Rule for _Subject…"),
-	  NULL,
-	  N_("Create a rule to filter messages with this subject"),
-	  G_CALLBACK (action_mail_filter_on_subject_cb) },
-
-	{ "mail-filters-apply",
-	  "stock_mail-filters-apply",
-	  N_("A_pply Filters"),
-	  "<Control>y",
-	  N_("Apply filter rules to the selected messages"),
-	  G_CALLBACK (action_mail_filters_apply_cb) },
-
-	{ "mail-find",
-	  "edit-find",
-	  N_("_Find in Message…"),
-	  "<Shift><Control>f",
-	  N_("Search for text in the body of the displayed message"),
-	  G_CALLBACK (action_mail_find_cb) },
-
-	{ "mail-flag-clear",
-	  NULL,
-	  N_("_Clear Flag"),
-	  NULL,
-	  N_("Remove the follow-up flag from the selected messages"),
-	  G_CALLBACK (action_mail_flag_clear_cb) },
-
-	{ "mail-flag-completed",
-	  NULL,
-	  N_("_Flag Completed"),
-	  NULL,
-	  N_("Set the follow-up flag to completed on the selected messages"),
-	  G_CALLBACK (action_mail_flag_completed_cb) },
-
-	{ "mail-flag-for-followup",
-	  "stock_mail-flag-for-followup",
-	  N_("Follow _Up…"),
-	  "<Shift><Control>g",
-	  N_("Flag the selected messages for follow-up"),
-	  G_CALLBACK (action_mail_flag_for_followup_cb) },
-
-	{ "mail-forward",
-	  "mail-forward",
-	  N_("_Forward"),
-	  "<Control><Alt>f",
-	  N_("Forward the selected message to someone"),
-	  G_CALLBACK (action_mail_forward_cb) },
-
-	{ "mail-forward-attached",
-	  NULL,
-	  N_("_Attached"),
-	  NULL,
-	  N_("Forward the selected message to someone as an attachment"),
-	  G_CALLBACK (action_mail_forward_attached_cb) },
-
-	{ "mail-forward-attached-full",
-	  NULL,
-	  N_("Forward As _Attached"),
-	  NULL,
-	  N_("Forward the selected message to someone as an attachment"),
-	  G_CALLBACK (action_mail_forward_attached_cb) },
-
-	{ "mail-forward-inline",
-	  NULL,
-	  N_("_Inline"),
-	  NULL,
-	  N_("Forward the selected message in the body of a new message"),
-	  G_CALLBACK (action_mail_forward_inline_cb) },
-
-	{ "mail-forward-inline-full",
-	  NULL,
-	  N_("Forward As _Inline"),
-	  NULL,
-	  N_("Forward the selected message in the body of a new message"),
-	  G_CALLBACK (action_mail_forward_inline_cb) },
-
-	{ "mail-forward-quoted",
-	  NULL,
-	  N_("_Quoted"),
-	  NULL,
-	  N_("Forward the selected message quoted like a reply"),
-	  G_CALLBACK (action_mail_forward_quoted_cb) },
-
-	{ "mail-forward-quoted-full",
-	  NULL,
-	  N_("Forward As _Quoted"),
-	  NULL,
-	  N_("Forward the selected message quoted like a reply"),
-	  G_CALLBACK (action_mail_forward_quoted_cb) },
-
-	{ "mail-label-change-more",
-	  NULL,
-	  N_("Change _More Labels…"),
-	  "l",
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_label_change_more_cb) },
-
-	{ "mail-label-new",
-	  NULL,
-	  N_("_New Label"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_label_new_cb) },
-
-	{ "mail-label-none",
-	  NULL,
-	  /* Translators: "None" is used in the message label context menu.
-	   *              It removes all labels from the selected messages. */
-	  N_("N_one"),
-	  "0",
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_label_none_cb) },
-
-	{ "mail-load-images",
-	  "image-x-generic",
-	  N_("_Load Images"),
-	  "<Control>i",
-	  N_("Force images in HTML mail to be loaded"),
-	  G_CALLBACK (action_mail_load_images_cb) },
-
-	{ "mail-mark-ignore-thread-sub",
-	  NULL,
-	  N_("_Ignore Subthread"),
-	  NULL,
-	  N_("Mark new mails in a subthread as read automatically"),
-	  G_CALLBACK (action_mail_mark_ignore_thread_sub_cb) },
-
-	{ "mail-mark-ignore-thread-whole",
-	  NULL,
-	  N_("_Ignore Thread"),
-	  NULL,
-	  N_("Mark new mails in this thread as read automatically"),
-	  G_CALLBACK (action_mail_mark_ignore_thread_whole_cb) },
-
-	{ "mail-mark-important",
-	  "mail-mark-important",
-	  N_("_Important"),
-	  NULL,
-	  N_("Mark the selected messages as important"),
-	  G_CALLBACK (action_mail_mark_important_cb) },
-
-	{ "mail-mark-junk",
-	  "mail-mark-junk",
-	  N_("_Junk"),
-	  "<Control>j",
-	  N_("Mark the selected messages as junk"),
-	  G_CALLBACK (action_mail_mark_junk_cb) },
-
-	{ "mail-mark-notjunk",
-	  "mail-mark-notjunk",
-	  N_("_Not Junk"),
-	  "<Shift><Control>j",
-	  N_("Mark the selected messages as not being junk"),
-	  G_CALLBACK (action_mail_mark_notjunk_cb) },
-
-	{ "mail-mark-read",
-	  "mail-mark-read",
-	  N_("_Read"),
-	  "<Control>k",
-	  N_("Mark the selected messages as having been read"),
-	  G_CALLBACK (action_mail_mark_read_cb) },
-
-	{ "mail-mark-unignore-thread-sub",
-	  NULL,
-	  N_("Do not _Ignore Subthread"),
-	  NULL,
-	  N_("Do not mark new mails in a subthread as read automatically"),
-	  G_CALLBACK (action_mail_mark_unignore_thread_sub_cb) },
-
-	{ "mail-mark-unignore-thread-whole",
-	  NULL,
-	  N_("Do not _Ignore Thread"),
-	  NULL,
-	  N_("Do not mark new mails in this thread as read automatically"),
-	  G_CALLBACK (action_mail_mark_unignore_thread_whole_cb) },
-
-	{ "mail-mark-unimportant",
-	  NULL,
-	  N_("Uni_mportant"),
-	  NULL,
-	  N_("Mark the selected messages as unimportant"),
-	  G_CALLBACK (action_mail_mark_unimportant_cb) },
-
-	{ "mail-mark-unread",
-	  "mail-mark-unread",
-	  N_("_Unread"),
-	  "<Shift><Control>k",
-	  N_("Mark the selected messages as not having been read"),
-	  G_CALLBACK (action_mail_mark_unread_cb) },
-
-	{ "mail-message-edit",
-	  NULL,
-	  N_("_Edit as New Message…"),
-	  NULL,
-	  N_("Open the selected messages in the composer for editing"),
-	  G_CALLBACK (action_mail_message_edit_cb) },
-
-	{ "mail-message-new",
-	  "mail-message-new",
-	  N_("Compose _New Message"),
-	  "<Shift><Control>m",
-	  N_("Open a window for composing a mail message"),
-	  G_CALLBACK (action_mail_message_new_cb) },
-
-	{ "mail-message-open",
-	  NULL,
-	  N_("_Open in New Window"),
-	  "<Control>o",
-	  N_("Open the selected messages in a new window"),
-	  G_CALLBACK (action_mail_message_open_cb) },
-
-	{ "mail-move",
-	  "mail-move",
-	  N_("_Move to Folder…"),
-	  "<Shift><Control>v",
-	  N_("Move selected messages to another folder"),
-	  G_CALLBACK (action_mail_move_cb) },
-
-	{ "mail-next",
-	  "go-next",
-	  N_("_Next Message"),
-	  "<Control>Page_Down",
-	  N_("Display the next message"),
-	  G_CALLBACK (action_mail_next_cb) },
-
-	{ "mail-next-important",
-	  NULL,
-	  N_("Next _Important Message"),
-	  NULL,
-	  N_("Display the next important message"),
-	  G_CALLBACK (action_mail_next_important_cb) },
-
-	{ "mail-next-thread",
-	  NULL,
-	  N_("Next _Thread"),
-	  NULL,
-	  N_("Display the next thread"),
-	  G_CALLBACK (action_mail_next_thread_cb) },
-
-	{ "mail-next-unread",
-	  "go-jump",
-	  N_("Next _Unread Message"),
-	  "<Control>bracketright",
-	  N_("Display the next unread message"),
-	  G_CALLBACK (action_mail_next_unread_cb) },
-
-	{ "mail-previous",
-	  "go-previous",
-	  N_("_Previous Message"),
-	  "<Control>Page_Up",
-	  N_("Display the previous message"),
-	  G_CALLBACK (action_mail_previous_cb) },
-
-	{ "mail-previous-important",
-	  NULL,
-	  N_("Pr_evious Important Message"),
-	  NULL,
-	  N_("Display the previous important message"),
-	  G_CALLBACK (action_mail_previous_important_cb) },
-
-	{ "mail-previous-thread",
-	  NULL,
-	  N_("Previous T_hread"),
-	  NULL,
-	  N_("Display the previous thread"),
-	  G_CALLBACK (action_mail_previous_thread_cb) },
-
-	{ "mail-previous-unread",
-	  NULL,
-	  N_("P_revious Unread Message"),
-	  "<Control>bracketleft",
-	  N_("Display the previous unread message"),
-	  G_CALLBACK (action_mail_previous_unread_cb) },
-
-	{ "mail-print",
-	  "document-print",
-	  N_("_Print…"),
-	  "<Control>p",
-	  N_("Print this message"),
-	  G_CALLBACK (action_mail_print_cb) },
-
-	{ "mail-print-preview",
-	  "document-print-preview",
-	  N_("Pre_view…"),
-	  NULL,
-	  N_("Preview the message to be printed"),
-	  G_CALLBACK (action_mail_print_preview_cb) },
-
-	{ "mail-redirect",
-	  NULL,
-	  N_("Re_direct"),
-	  NULL,
-	  N_("Redirect (bounce) the selected message to someone"),
-	  G_CALLBACK (action_mail_redirect_cb) },
-
-	{ "mail-remove-attachments",
-	  "edit-delete",
-	  N_("Remo_ve Attachments"),
-	  NULL,
-	  N_("Remove attachments"),
-	  G_CALLBACK (action_mail_remove_attachments_cb) },
-
-	{ "mail-remove-duplicates",
-	   NULL,
-	   N_("Remove Du_plicate Messages"),
-	   NULL,
-	   N_("Checks selected messages for duplicates"),
-	   G_CALLBACK (action_mail_remove_duplicates_cb) },
-
-	{ "mail-reply-all",
-	  NULL,
-	  N_("Reply to _All"),
-	  "<Shift><Control>r",
-	  N_("Compose a reply to all the recipients of the selected message"),
-	  G_CALLBACK (action_mail_reply_all_cb) },
-
-	{ "mail-reply-alternative",
-	  NULL,
-	  N_("Al_ternative Reply…"),
-	  "<Alt><Control>r",
-	  N_("Choose reply options for the selected message"),
-	  G_CALLBACK (action_mail_reply_alternative_cb) },
-
-	{ "mail-reply-group",
-	  "mail-reply-all",
-	  N_("Group Reply"),
-	  "<Control>g",
-	  N_("Reply to the mailing list, or to all recipients"),
-	  G_CALLBACK (action_mail_reply_group_cb) },
-
-	{ "mail-reply-list",
-	  NULL,
-	  N_("Reply to _List"),
-	  "<Control>l",
-	  N_("Compose a reply to the mailing list of the selected message"),
-	  G_CALLBACK (action_mail_reply_list_cb) },
-
-	{ "mail-reply-sender",
-	  "mail-reply-sender",
-	  N_("_Reply to Sender"),
-	  "<Control>r",
-	  N_("Compose a reply to the sender of the selected message"),
-	  G_CALLBACK (action_mail_reply_sender_cb) },
-
-	{ "mail-reply-template",
-	  NULL,
-	  N_("Repl_y with Template"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-save-as",
-	  "document-save-as",
-	  N_("_Save to File…"),
-	  "<Control>s",
-	  N_("Save selected messages as an mbox file"),
-	  G_CALLBACK (action_mail_save_as_cb) },
-
-	{ "mail-search-web",
-	  NULL,
-	  N_("Search _Web…"),
-	  NULL,
-	  N_("Search the Web with the selected text"),
-	  G_CALLBACK (action_mail_search_web_cb) },
-
-	{ "mail-show-source",
-	  NULL,
-	  N_("_Message Source"),
-	  "<Control>u",
-	  N_("Show the raw email source of the message"),
-	  G_CALLBACK (action_mail_show_source_cb) },
-
-	{ "mail-toggle-important",
-	  NULL,
-	  NULL,  /* No menu item; key press only */
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_mail_toggle_important_cb) },
-
-	{ "mail-undelete",
-	  NULL,
-	  N_("_Undelete Message"),
-	  "<Shift><Control>d",
-	  N_("Undelete the selected messages"),
-	  G_CALLBACK (action_mail_undelete_cb) },
-
-	{ "mail-zoom-100",
-	  "zoom-original",
-	  N_("_Normal Size"),
-	  "<Control>0",
-	  N_("Reset the text to its original size"),
-	  G_CALLBACK (action_mail_zoom_100_cb) },
-
-	{ "mail-zoom-in",
-	  "zoom-in",
-	  N_("_Zoom In"),
-	  "<Control>plus",
-	  N_("Increase the text size"),
-	  G_CALLBACK (action_mail_zoom_in_cb) },
-
-	{ "mail-zoom-out",
-	  "zoom-out",
-	  N_("Zoom _Out"),
-	  "<Control>minus",
-	  N_("Decrease the text size"),
-	  G_CALLBACK (action_mail_zoom_out_cb) },
-
-	/*** Menus ***/
-
-	{ "mail-create-menu",
-	  NULL,
-	  N_("Cre_ate"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-encoding-menu",
-	  NULL,
-	  N_("Ch_aracter Encoding"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-forward-as-menu",
-	  NULL,
-	  N_("F_orward As"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-label-menu",
-	  NULL,
-	  N_("_Label"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-reply-group-menu",
-	  NULL,
-	  N_("_Group Reply"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-goto-menu",
-	  NULL,
-	  N_("_Go To"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-mark-as-menu",
-	  NULL,
-	  N_("Mar_k As"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-message-menu",
-	  NULL,
-	  N_("_Message"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-zoom-menu",
-	  NULL,
-	  N_("_Zoom"),
-	  NULL,
-	  NULL,
-	  NULL }
-};
-
-static GtkActionEntry mail_reader_search_folder_entries[] = {
-
-	{ "mail-search-folder-from-mailing-list",
-	  NULL,
-	  N_("Create a Search Folder from Mailing _List…"),
-	  NULL,
-	  N_("Create a search folder for this mailing list"),
-	  G_CALLBACK (action_mail_search_folder_from_mailing_list_cb) },
-
-	{ "mail-search-folder-from-recipients",
-	  NULL,
-	  N_("Create a Search Folder from Recipien_ts…"),
-	  NULL,
-	  N_("Create a search folder for these recipients"),
-	  G_CALLBACK (action_mail_search_folder_from_recipients_cb) },
-
-	{ "mail-search-folder-from-sender",
-	  NULL,
-	  N_("Create a Search Folder from Sen_der…"),
-	  NULL,
-	  N_("Create a search folder for this sender"),
-	  G_CALLBACK (action_mail_search_folder_from_sender_cb) },
-
-	{ "mail-search-folder-from-subject",
-	  NULL,
-	  N_("Create a Search Folder from S_ubject…"),
-	  NULL,
-	  N_("Create a search folder for this subject"),
-	  G_CALLBACK (action_mail_search_folder_from_subject_cb) },
-};
-
-static EPopupActionEntry mail_reader_popup_entries[] = {
-
-	{ "mail-popup-archive",
-	  NULL,
-	  "mail-archive" },
-
-	{ "mail-popup-color-assign",
-	  NULL,
-	  "mail-color-assign" },
-
-	{ "mail-popup-color-unset",
-	  NULL,
-	  "mail-color-unset" },
-
-	{ "mail-popup-copy",
-	  NULL,
-	  "mail-copy" },
-
-	{ "mail-popup-delete",
-	  NULL,
-	  "mail-delete" },
-
-	{ "mail-popup-add-note",
-	  NULL,
-	  "mail-add-note" },
-
-	{ "mail-popup-delete-note",
-	  NULL,
-	  "mail-delete-note" },
-
-	{ "mail-popup-edit-note",
-	  NULL,
-	  "mail-edit-note" },
-
-	{ "mail-popup-flag-clear",
-	  NULL,
-	  "mail-flag-clear" },
-
-	{ "mail-popup-flag-completed",
-	  NULL,
-	  "mail-flag-completed" },
-
-	{ "mail-popup-flag-for-followup",
-	  N_("Mark for Follo_w Up…"),
-	  "mail-flag-for-followup" },
-
-	{ "mail-popup-forward",
-	  NULL,
-	  "mail-forward" },
-
-	{ "mail-popup-mark-ignore-thread-sub",
-	  N_("_Ignore Subthread"),
-	  "mail-mark-ignore-thread-sub" },
-
-	{ "mail-popup-mark-ignore-thread-whole",
-	  N_("_Ignore Thread"),
-	  "mail-mark-ignore-thread-whole" },
-
-	{ "mail-popup-mark-important",
-	  N_("Mark as _Important"),
-	  "mail-mark-important" },
-
-	{ "mail-popup-mark-junk",
-	  N_("Mark as _Junk"),
-	  "mail-mark-junk" },
-
-	{ "mail-popup-mark-notjunk",
-	  N_("Mark as _Not Junk"),
-	  "mail-mark-notjunk" },
-
-	{ "mail-popup-mark-read",
-	  N_("Mar_k as Read"),
-	  "mail-mark-read" },
-
-	{ "mail-popup-mark-unignore-thread-sub",
-	  N_("Do not _Ignore Subthread"),
-	  "mail-mark-unignore-thread-sub" },
-
-	{ "mail-popup-mark-unignore-thread-whole",
-	  N_("Do not _Ignore Thread"),
-	  "mail-mark-unignore-thread-whole" },
-
-	{ "mail-popup-mark-unimportant",
-	  N_("Mark as Uni_mportant"),
-	  "mail-mark-unimportant" },
-
-	{ "mail-popup-mark-unread",
-	  N_("Mark as _Unread"),
-	  "mail-mark-unread" },
-
-	{ "mail-popup-message-edit",
-	  NULL,
-	  "mail-message-edit" },
-
-	{ "mail-popup-move",
-	  NULL,
-	  "mail-move" },
-
-	{ "mail-popup-print",
-	  NULL,
-	  "mail-print" },
-
-	{ "mail-popup-remove-attachments",
-	  NULL,
-	  "mail-remove-attachments" },
-
-	{ "mail-popup-remove-duplicates",
-	  NULL,
-	  "mail-remove-duplicates" },
-
-	{ "mail-popup-reply-all",
-	  NULL,
-	  "mail-reply-all" },
-
-	{ "mail-popup-reply-sender",
-	  NULL,
-	  "mail-reply-sender" },
-
-	{ "mail-popup-reply-template",
-	  NULL,
-	  "mail-reply-template" },
-
-	{ "mail-popup-save-as",
-	  NULL,
-	  "mail-save-as" },
-
-	{ "mail-popup-search-web",
-	  NULL,
-	  "mail-search-web" },
-
-	{ "mail-popup-undelete",
-	  NULL,
-	  "mail-undelete" }
-};
-
-static GtkToggleActionEntry mail_reader_toggle_entries[] = {
-
-	{ "mail-caret-mode",
-	  NULL,
-	  N_("_Caret Mode"),
-	  "F7",
-	  N_("Show a blinking cursor in the body of displayed messages"),
-	  NULL,  /* No callback required */
-	  FALSE },
-
-	{ "mail-show-all-headers",
-	  NULL,
-	  N_("All Message _Headers"),
-	  NULL,
-	  N_("Show messages with all email headers"),
-	  G_CALLBACK (action_mail_show_all_headers_cb),
-	  FALSE }
-};
+static void
+charset_menu_change_state_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
+{
+	EMailReader *self = user_data;
+	EMailFormatter *formatter;
+	EMailDisplay *mail_display;
+
+	g_return_if_fail (E_IS_MAIL_READER (self));
+
+	e_ui_action_set_state (action, parameter);
+
+	mail_display = e_mail_reader_get_mail_display (self);
+	formatter = mail_display ? e_mail_display_get_formatter (mail_display) : NULL;
+
+	if (formatter) {
+		const gchar *charset;
+
+		charset = g_variant_get_string (parameter, NULL);
+
+		/* Default value is an empty string in the GMenu, but a NULL for the formatter */
+		if (charset && !*charset)
+			charset = NULL;
+
+		e_mail_formatter_set_charset (formatter, charset);
+	}
+}
+
+static gboolean
+e_mail_reader_ui_manager_create_item_cb (EUIManager *ui_manager,
+					 EUIElement *elem,
+					 EUIAction *action,
+					 EUIElementKind for_kind,
+					 GObject **out_item,
+					 gpointer user_data)
+{
+	EMailReader *self = user_data;
+	EMailReaderPrivate *priv;
+	const gchar *name;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (self), FALSE);
+
+	name = g_action_get_name (G_ACTION (action));
+
+	if (!g_str_has_prefix (name, "EMailReader::"))
+		return FALSE;
+
+	priv = E_MAIL_READER_GET_PRIVATE (self);
+
+	#define is_action(_nm) (g_strcmp0 (name, (_nm)) == 0)
+
+	if (is_action ("EMailReader::mail-reply-group") ||
+	    is_action ("EMailReader::mail-forward-as-group")) {
+		EUIAction *tool_action;
+		GMenuModel *menu_model;
+
+		if (is_action ("EMailReader::mail-reply-group")) {
+			tool_action = e_ui_manager_get_action (ui_manager, "mail-reply-group");
+			menu_model = priv->reply_group_menu;
+		} else {
+			tool_action = e_ui_manager_get_action (ui_manager, "mail-forward");
+			menu_model = priv->forward_as_menu;
+		}
+
+		*out_item = e_ui_manager_create_item_from_menu_model (ui_manager, elem, tool_action, for_kind, menu_model);
+	} else if (for_kind == E_UI_ELEMENT_KIND_MENU) {
+		if (is_action ("EMailReader::charset-menu")) {
+			GMenu *charset_menu;
+			GMenuItem *menu_item;
+			EMailDisplay *mail_display;
+
+			charset_menu = g_menu_new ();
+
+			menu_item = g_menu_item_new (_("_Default"), NULL);
+			g_menu_item_set_action_and_target (menu_item, "mail.EMailReader::charset-menu", "s", "");
+			g_menu_append_item (charset_menu, menu_item);
+			g_clear_object (&menu_item);
+
+			e_charset_add_to_g_menu (charset_menu, "mail.EMailReader::charset-menu");
+
+			*out_item = G_OBJECT (g_menu_item_new_submenu (e_ui_action_get_label (action), G_MENU_MODEL (charset_menu)));
+
+			g_clear_object (&charset_menu);
+
+			mail_display = e_mail_reader_get_mail_display (self);
+
+			if (mail_display) {
+				EMailFormatter *formatter;
+
+				formatter = e_mail_display_get_formatter (mail_display);
+				if (formatter) {
+					const gchar *charset;
+
+					charset = e_mail_formatter_get_charset (formatter);
+					e_ui_action_set_state (action, g_variant_new_string (charset ? charset : ""));
+				} else {
+					e_ui_action_set_state (action, g_variant_new_string (""));
+				}
+			} else {
+				e_ui_action_set_state (action, g_variant_new_string (""));
+			}
+		} else if (is_action ("EMailReader::mail-label-actions")) {
+			*out_item = G_OBJECT (g_menu_item_new_section (NULL, G_MENU_MODEL (priv->labels_menu)));
+		} else {
+			g_warning ("%s: Unhandled menu action '%s'", G_STRFUNC, name);
+		}
+	} else if (for_kind == E_UI_ELEMENT_KIND_TOOLBAR) {
+		g_warning ("%s: Unhandled toolbar action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_HEADERBAR) {
+		g_warning ("%s: Unhandled headerbar action '%s'", G_STRFUNC, name);
+	} else {
+		g_warning ("%s: Unhandled element kind '%d' for action '%s'", G_STRFUNC, (gint) for_kind, name);
+	}
+
+	#undef is_action
+
+	return TRUE;
+}
+
+void
+e_mail_reader_init_ui_data_default (EMailReader *self)
+{
+	static const EUIActionEntry mail_entries[] = {
+
+		{ "mail-add-sender",
+		  NULL,
+		  N_("A_dd Sender to Address Book"),
+		  NULL,
+		  N_("Add sender to address book"),
+		  action_mail_add_sender_cb, NULL, NULL, NULL },
+
+		{ "mail-archive",
+		  "mail-archive",
+		  N_("_Archive"),
+		  "<Alt><Control>a",
+		  N_("Move selected messages to the Archive folder for the account"),
+		  action_mail_archive_cb, NULL, NULL, NULL },
+
+		{ "mail-check-for-junk",
+		  "mail-mark-junk",
+		  N_("Check for _Junk"),
+		  "<Control><Alt>j",
+		  N_("Filter the selected messages for junk status"),
+		  action_mail_check_for_junk_cb, NULL, NULL, NULL },
+
+		{ "mail-color-assign",
+		  NULL,
+		  N_("Assign C_olor…"),
+		  NULL,
+		  N_("Assign color for the selected messages"),
+		  action_mail_color_assign_cb, NULL, NULL, NULL },
+
+		{ "mail-color-unset",
+		  NULL,
+		  N_("Unse_t Color"),
+		  NULL,
+		  N_("Unset color for the selected messages"),
+		  action_mail_color_unset_cb, NULL, NULL, NULL },
+
+		{ "mail-copy",
+		  "mail-copy",
+		  N_("_Copy to Folder…"),
+		  "<Shift><Control>y",
+		  N_("Copy selected messages to another folder"),
+		  action_mail_copy_cb, NULL, NULL, NULL },
+
+		{ "mail-delete",
+		  "user-trash",
+		  N_("_Delete Message"),
+		  "<Control>d",
+		  N_("Mark the selected messages for deletion"),
+		  action_mail_delete_cb, NULL, NULL, NULL },
+
+		{ "mail-add-note",
+		  "evolution-memos",
+		  N_("_Add note…"),
+		  NULL,
+		  N_("Add a note for the selected message"),
+		  action_mail_edit_note_cb, NULL, NULL, NULL },
+
+		{ "mail-delete-note",
+		  NULL,
+		  N_("Delete no_te"),
+		  NULL,
+		  N_("Delete the note for the selected message"),
+		  action_mail_delete_note_cb, NULL, NULL, NULL },
+
+		{ "mail-edit-note",
+		  "evolution-memos",
+		  N_("_Edit note…"),
+		  NULL,
+		  N_("Edit a note for the selected message"),
+		  action_mail_edit_note_cb, NULL, NULL, NULL },
+
+		{ "mail-filter-rule-for-mailing-list",
+		  NULL,
+		  N_("Create a Filter Rule for Mailing _List…"),
+		  NULL,
+		  N_("Create a rule to filter messages to this mailing list"),
+		  action_mail_filter_on_mailing_list_cb, NULL, NULL, NULL },
+
+		{ "mail-filter-rule-for-recipients",
+		  NULL,
+		  N_("Create a Filter Rule for _Recipients…"),
+		  NULL,
+		  N_("Create a rule to filter messages to these recipients"),
+		  action_mail_filter_on_recipients_cb, NULL, NULL, NULL },
+
+		{ "mail-filter-rule-for-sender",
+		  NULL,
+		  N_("Create a Filter Rule for Se_nder…"),
+		  NULL,
+		  N_("Create a rule to filter messages from this sender"),
+		  action_mail_filter_on_sender_cb, NULL, NULL, NULL },
+
+		{ "mail-filter-rule-for-subject",
+		  NULL,
+		  N_("Create a Filter Rule for _Subject…"),
+		  NULL,
+		  N_("Create a rule to filter messages with this subject"),
+		  action_mail_filter_on_subject_cb, NULL, NULL, NULL },
+
+		{ "mail-filters-apply",
+		  "stock_mail-filters-apply",
+		  N_("A_pply Filters"),
+		  "<Control>y",
+		  N_("Apply filter rules to the selected messages"),
+		  action_mail_filters_apply_cb, NULL, NULL, NULL },
+
+		{ "mail-find",
+		  "edit-find",
+		  N_("_Find in Message…"),
+		  "<Shift><Control>f",
+		  N_("Search for text in the body of the displayed message"),
+		  action_mail_find_cb, NULL, NULL, NULL },
+
+		{ "mail-flag-clear",
+		  NULL,
+		  N_("_Clear Flag"),
+		  NULL,
+		  N_("Remove the follow-up flag from the selected messages"),
+		  action_mail_flag_clear_cb, NULL, NULL, NULL },
+
+		{ "mail-flag-completed",
+		  NULL,
+		  N_("_Flag Completed"),
+		  NULL,
+		  N_("Set the follow-up flag to completed on the selected messages"),
+		  action_mail_flag_completed_cb, NULL, NULL, NULL },
+
+		{ "mail-flag-for-followup",
+		  "stock_mail-flag-for-followup",
+		  N_("Follow _Up…"),
+		  "<Shift><Control>g",
+		  N_("Flag the selected messages for follow-up"),
+		  action_mail_flag_for_followup_cb, NULL, NULL, NULL },
+
+		{ "mail-flag-for-followup-full",
+		  "stock_mail-flag-for-followup",
+		  N_("Mark for Follo_w Up…"),
+		  NULL,
+		  N_("Flag the selected messages for follow-up"),
+		  action_mail_flag_for_followup_cb, NULL, NULL, NULL },
+
+		{ "mail-forward",
+		  "mail-forward",
+		  N_("_Forward"),
+		  "<Control><Alt>f",
+		  N_("Forward the selected message to someone"),
+		  action_mail_forward_cb, NULL, NULL, NULL },
+
+		{ "mail-forward-attached",
+		  NULL,
+		  N_("_Attached"),
+		  NULL,
+		  N_("Forward the selected message to someone as an attachment"),
+		  action_mail_forward_attached_cb, NULL, NULL, NULL },
+
+		{ "mail-forward-attached-full",
+		  NULL,
+		  N_("Forward As _Attached"),
+		  NULL,
+		  N_("Forward the selected message to someone as an attachment"),
+		  action_mail_forward_attached_cb, NULL, NULL, NULL },
+
+		{ "mail-forward-inline",
+		  NULL,
+		  N_("_Inline"),
+		  NULL,
+		  N_("Forward the selected message in the body of a new message"),
+		  action_mail_forward_inline_cb, NULL, NULL, NULL },
+
+		{ "mail-forward-inline-full",
+		  NULL,
+		  N_("Forward As _Inline"),
+		  NULL,
+		  N_("Forward the selected message in the body of a new message"),
+		  action_mail_forward_inline_cb, NULL, NULL, NULL },
+
+		{ "mail-forward-quoted",
+		  NULL,
+		  N_("_Quoted"),
+		  NULL,
+		  N_("Forward the selected message quoted like a reply"),
+		  action_mail_forward_quoted_cb, NULL, NULL, NULL },
+
+		{ "mail-forward-quoted-full",
+		  NULL,
+		  N_("Forward As _Quoted"),
+		  NULL,
+		  N_("Forward the selected message quoted like a reply"),
+		  action_mail_forward_quoted_cb, NULL, NULL, NULL },
+
+		{ "mail-label-change-more",
+		  NULL,
+		  N_("Change _More Labels…"),
+		  "l",
+		  NULL,
+		  action_mail_label_change_more_cb, NULL, NULL, NULL },
+
+		{ "mail-label-new",
+		  NULL,
+		  N_("_New Label"),
+		  NULL,
+		  NULL,
+		  action_mail_label_new_cb, NULL, NULL, NULL },
+
+		{ "mail-label-none",
+		  NULL,
+		  /* Translators: "None" is used in the message label context menu.
+		   *              It removes all labels from the selected messages. */
+		  N_("N_one"),
+		  "0",
+		  NULL,
+		  action_mail_label_none_cb, NULL, NULL, NULL },
+
+		{ "mail-load-images",
+		  "image-x-generic",
+		  N_("_Load Images"),
+		  "<Control>i",
+		  N_("Force images in HTML mail to be loaded"),
+		  action_mail_load_images_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-ignore-thread-sub",
+		  NULL,
+		  N_("_Ignore Subthread"),
+		  NULL,
+		  N_("Mark new mails in a subthread as read automatically"),
+		  action_mail_mark_ignore_thread_sub_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-ignore-thread-whole",
+		  NULL,
+		  N_("_Ignore Thread"),
+		  NULL,
+		  N_("Mark new mails in this thread as read automatically"),
+		  action_mail_mark_ignore_thread_whole_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-important",
+		  "mail-mark-important",
+		  N_("_Important"),
+		  NULL,
+		  N_("Mark the selected messages as important"),
+		  action_mail_mark_important_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-important-full",
+		  "mail-mark-important",
+		  N_("Mark as _Important"),
+		  NULL,
+		  N_("Mark the selected messages as important"),
+		  action_mail_mark_important_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-junk",
+		  "mail-mark-junk",
+		  N_("_Junk"),
+		  "<Control>j",
+		  N_("Mark the selected messages as junk"),
+		  action_mail_mark_junk_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-junk-full",
+		  "mail-mark-junk",
+		  N_("Mark as _Junk"),
+		  NULL,
+		  N_("Mark the selected messages as junk"),
+		  action_mail_mark_junk_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-notjunk",
+		  "mail-mark-notjunk",
+		  N_("_Not Junk"),
+		  "<Shift><Control>j",
+		  N_("Mark the selected messages as not being junk"),
+		  action_mail_mark_notjunk_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-notjunk-full",
+		  "mail-mark-notjunk",
+		  N_("Mark as _Not Junk"),
+		  NULL,
+		  N_("Mark the selected messages as not being junk"),
+		  action_mail_mark_notjunk_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-read",
+		  "mail-mark-read",
+		  N_("_Read"),
+		  "<Control>k",
+		  N_("Mark the selected messages as having been read"),
+		  action_mail_mark_read_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-read-full",
+		  "mail-mark-read",
+		  N_("Mar_k as Read"),
+		  "<Control>k",
+		  N_("Mark the selected messages as having been read"),
+		  action_mail_mark_read_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-unignore-thread-sub",
+		  NULL,
+		  N_("Do not _Ignore Subthread"),
+		  NULL,
+		  N_("Do not mark new mails in a subthread as read automatically"),
+		  action_mail_mark_unignore_thread_sub_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-unignore-thread-whole",
+		  NULL,
+		  N_("Do not _Ignore Thread"),
+		  NULL,
+		  N_("Do not mark new mails in this thread as read automatically"),
+		  action_mail_mark_unignore_thread_whole_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-unimportant",
+		  NULL,
+		  N_("Uni_mportant"),
+		  NULL,
+		  N_("Mark the selected messages as unimportant"),
+		  action_mail_mark_unimportant_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-unimportant-full",
+		  NULL,
+		  N_("Mark as Uni_mportant"),
+		  NULL,
+		  N_("Mark the selected messages as unimportant"),
+		  action_mail_mark_unimportant_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-unread",
+		  "mail-mark-unread",
+		  N_("_Unread"),
+		  "<Shift><Control>k",
+		  N_("Mark the selected messages as not having been read"),
+		  action_mail_mark_unread_cb, NULL, NULL, NULL },
+
+		{ "mail-mark-unread-full",
+		  "mail-mark-unread",
+		  N_("Mark as _Unread"),
+		  NULL,
+		  N_("Mark the selected messages as not having been read"),
+		  action_mail_mark_unread_cb, NULL, NULL, NULL },
+
+		{ "mail-message-edit",
+		  NULL,
+		  N_("_Edit as New Message…"),
+		  NULL,
+		  N_("Open the selected messages in the composer for editing"),
+		  action_mail_message_edit_cb, NULL, NULL, NULL },
+
+		{ "mail-message-new",
+		  "mail-message-new",
+		  N_("Compose _New Message"),
+		  "<Shift><Control>m",
+		  N_("Open a window for composing a mail message"),
+		  action_mail_message_new_cb, NULL, NULL, NULL },
+
+		{ "mail-message-open",
+		  NULL,
+		  N_("_Open in New Window"),
+		  "<Control>o",
+		  N_("Open the selected messages in a new window"),
+		  action_mail_message_open_cb, NULL, NULL, NULL },
+
+		{ "mail-move",
+		  "mail-move",
+		  N_("_Move to Folder…"),
+		  "<Shift><Control>v",
+		  N_("Move selected messages to another folder"),
+		  action_mail_move_cb, NULL, NULL, NULL },
+
+		{ "mail-next",
+		  "go-next",
+		  N_("_Next Message"),
+		  "<Control>Page_Down",
+		  N_("Display the next message"),
+		  action_mail_next_cb, NULL, NULL, NULL },
+
+		{ "mail-next-important",
+		  NULL,
+		  N_("Next _Important Message"),
+		  NULL,
+		  N_("Display the next important message"),
+		  action_mail_next_important_cb, NULL, NULL, NULL },
+
+		{ "mail-next-thread",
+		  NULL,
+		  N_("Next _Thread"),
+		  NULL,
+		  N_("Display the next thread"),
+		  action_mail_next_thread_cb, NULL, NULL, NULL },
+
+		{ "mail-next-unread",
+		  "go-jump",
+		  N_("Next _Unread Message"),
+		  "<Control>bracketright",
+		  N_("Display the next unread message"),
+		  action_mail_next_unread_cb, NULL, NULL, NULL },
+
+		{ "mail-previous",
+		  "go-previous",
+		  N_("_Previous Message"),
+		  "<Control>Page_Up",
+		  N_("Display the previous message"),
+		  action_mail_previous_cb, NULL, NULL, NULL },
+
+		{ "mail-previous-important",
+		  NULL,
+		  N_("Pr_evious Important Message"),
+		  NULL,
+		  N_("Display the previous important message"),
+		  action_mail_previous_important_cb, NULL, NULL, NULL },
+
+		{ "mail-previous-thread",
+		  NULL,
+		  N_("Previous T_hread"),
+		  NULL,
+		  N_("Display the previous thread"),
+		  action_mail_previous_thread_cb, NULL, NULL, NULL },
+
+		{ "mail-previous-unread",
+		  NULL,
+		  N_("P_revious Unread Message"),
+		  "<Control>bracketleft",
+		  N_("Display the previous unread message"),
+		  action_mail_previous_unread_cb, NULL, NULL, NULL },
+
+		{ "mail-print",
+		  "document-print",
+		  N_("_Print…"),
+		  "<Control>p",
+		  N_("Print this message"),
+		  action_mail_print_cb, NULL, NULL, NULL },
+
+		{ "mail-print-preview",
+		  "document-print-preview",
+		  N_("Pre_view…"),
+		  NULL,
+		  N_("Preview the message to be printed"),
+		  action_mail_print_preview_cb, NULL, NULL, NULL },
+
+		{ "mail-redirect",
+		  NULL,
+		  N_("Re_direct"),
+		  NULL,
+		  N_("Redirect (bounce) the selected message to someone"),
+		  action_mail_redirect_cb, NULL, NULL, NULL },
+
+		{ "mail-remove-attachments",
+		  "edit-delete",
+		  N_("Remo_ve Attachments"),
+		  NULL,
+		  N_("Remove attachments"),
+		  action_mail_remove_attachments_cb, NULL, NULL, NULL },
+
+		{ "mail-remove-duplicates",
+		   NULL,
+		   N_("Remove Du_plicate Messages"),
+		   NULL,
+		   N_("Checks selected messages for duplicates"),
+		   action_mail_remove_duplicates_cb, NULL, NULL, NULL },
+
+		{ "mail-reply-all",
+		  NULL,
+		  N_("Reply to _All"),
+		  "<Shift><Control>r",
+		  N_("Compose a reply to all the recipients of the selected message"),
+		  action_mail_reply_all_cb, NULL, NULL, NULL },
+
+		{ "mail-reply-alternative",
+		  NULL,
+		  N_("Al_ternative Reply…"),
+		  "<Alt><Control>r",
+		  N_("Choose reply options for the selected message"),
+		  action_mail_reply_alternative_cb, NULL, NULL, NULL },
+
+		{ "mail-reply-group",
+		  "mail-reply-all",
+		  N_("_Group Reply"),
+		  NULL,
+		  N_("Reply to the mailing list, or to all recipients"),
+		  action_mail_reply_group_cb, NULL, NULL, NULL },
+
+		{ "mail-reply-list",
+		  NULL,
+		  N_("Reply to _List"),
+		  "<Control>l",
+		  N_("Compose a reply to the mailing list of the selected message"),
+		  action_mail_reply_list_cb, NULL, NULL, NULL },
+
+		{ "mail-reply-sender",
+		  "mail-reply-sender",
+		  N_("_Reply to Sender"),
+		  "<Control>r",
+		  N_("Compose a reply to the sender of the selected message"),
+		  action_mail_reply_sender_cb, NULL, NULL, NULL },
+
+		{ "mail-save-as",
+		  "document-save-as",
+		  N_("_Save to File…"),
+		  "<Control>s",
+		  N_("Save selected messages as an mbox file"),
+		  action_mail_save_as_cb, NULL, NULL, NULL },
+
+		{ "mail-search-web",
+		  NULL,
+		  N_("Search _Web…"),
+		  NULL,
+		  N_("Search the Web with the selected text"),
+		  action_mail_search_web_cb, NULL, NULL, NULL },
+
+		{ "mail-show-source",
+		  NULL,
+		  N_("_Message Source"),
+		  "<Control>u",
+		  N_("Show the raw email source of the message"),
+		  action_mail_show_source_cb, NULL, NULL, NULL },
+
+		{ "mail-toggle-important",
+		  NULL,
+		  "Toggle important",  /* No menu item; key press only */
+		  NULL,
+		  NULL,
+		  action_mail_toggle_important_cb, NULL, NULL, NULL },
+
+		{ "mail-undelete",
+		  NULL,
+		  N_("_Undelete Message"),
+		  "<Shift><Control>d",
+		  N_("Undelete the selected messages"),
+		  action_mail_undelete_cb, NULL, NULL, NULL },
+
+		{ "mail-zoom-100",
+		  "zoom-original",
+		  N_("_Normal Size"),
+		  "<Control>0",
+		  N_("Reset the text to its original size"),
+		  action_mail_zoom_100_cb, NULL, NULL, NULL },
+
+		{ "mail-zoom-in",
+		  "zoom-in",
+		  N_("_Zoom In"),
+		  "<Control>plus",
+		  N_("Increase the text size"),
+		  action_mail_zoom_in_cb, NULL, NULL, NULL },
+
+		{ "mail-zoom-out",
+		  "zoom-out",
+		  N_("Zoom _Out"),
+		  "<Control>minus",
+		  N_("Decrease the text size"),
+		  action_mail_zoom_out_cb, NULL, NULL, NULL },
+
+		{ "mail-caret-mode",
+		  NULL,
+		  N_("_Caret Mode"),
+		  "F7",
+		  N_("Show a blinking cursor in the body of displayed messages"),
+		  NULL, NULL, "false", NULL },
+
+		{ "mail-show-all-headers",
+		  NULL,
+		  N_("All Message _Headers"),
+		  NULL,
+		  N_("Show messages with all email headers"),
+		  NULL, NULL, "false", action_mail_show_all_headers_cb },
+
+		/*** Menus ***/
+
+		{ "mail-create-menu", NULL, N_("Cre_ate"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "mail-forward-as-menu", NULL, N_("F_orward As"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "mail-label-menu", NULL, N_("_Label"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "mail-reply-group-menu", NULL, N_("_Group Reply"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "mail-goto-menu", NULL, N_("_Go To"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "mail-mark-as-menu", NULL, N_("Mar_k As"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "mail-message-menu", NULL, N_("_Message"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "mail-zoom-menu", NULL, N_("_Zoom"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "EMailReader::charset-menu", NULL, N_("Ch_aracter Encoding"), NULL, NULL, NULL, "s", "''", charset_menu_change_state_cb },
+		{ "EMailReader::mail-reply-group", NULL, N_("_Group Reply"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "EMailReader::mail-forward-as-group", NULL, N_("_Forward"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "EMailReader::mail-label-actions", NULL, N_("List of Labels"), NULL, NULL, NULL, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry search_folder_entries[] = {
+
+		{ "mail-search-folder-from-mailing-list",
+		  NULL,
+		  N_("Create a Search Folder from Mailing _List…"),
+		  NULL,
+		  N_("Create a search folder for this mailing list"),
+		  action_mail_search_folder_from_mailing_list_cb, NULL, NULL, NULL },
+
+		{ "mail-search-folder-from-recipients",
+		  NULL,
+		  N_("Create a Search Folder from Recipien_ts…"),
+		  NULL,
+		  N_("Create a search folder for these recipients"),
+		  action_mail_search_folder_from_recipients_cb, NULL, NULL, NULL },
+
+		{ "mail-search-folder-from-sender",
+		  NULL,
+		  N_("Create a Search Folder from Sen_der…"),
+		  NULL,
+		  N_("Create a search folder for this sender"),
+		  action_mail_search_folder_from_sender_cb, NULL, NULL, NULL },
+
+		{ "mail-search-folder-from-subject",
+		  NULL,
+		  N_("Create a Search Folder from S_ubject…"),
+		  NULL,
+		  N_("Create a search folder for this subject"),
+		  action_mail_search_folder_from_subject_cb, NULL, NULL, NULL },
+	};
+
+	const struct _name_pair {
+		const gchar *src_name;
+		const gchar *dst_name;
+	} name_pairs[] = {
+		{ "mail-flag-for-followup", "mail-flag-for-followup-full" },
+		{ "mail-forward-attached", "mail-forward-attached-full" },
+		{ "mail-forward-inline", "mail-forward-inline-full" },
+		{ "mail-forward-quoted", "mail-forward-quoted-full" },
+		{ "mail-mark-important", "mail-mark-important-full" },
+		{ "mail-mark-junk", "mail-mark-junk-full" },
+		{ "mail-mark-notjunk", "mail-mark-notjunk-full" },
+		{ "mail-mark-unimportant", "mail-mark-unimportant-full" },
+		{ "mail-mark-unread", "mail-mark-unread-full" }
+	};
+	EUIManager *ui_manager;
+	EMailReaderPrivate *priv;
+	EMailDisplay *display;
+	EUIAction *action;
+	GSettings *settings;
+	gint ii;
+	GError *local_error = NULL;
+
+	g_return_if_fail (E_IS_MAIL_READER (self));
+
+	ui_manager = e_mail_reader_get_ui_manager (self);
+	if (!ui_manager)
+		return;
+
+	display = e_mail_reader_get_mail_display (self);
+
+	g_signal_connect_object (ui_manager, "create-item",
+		G_CALLBACK (e_mail_reader_ui_manager_create_item_cb), self, 0);
+
+	e_ui_manager_add_actions (ui_manager, "mail", NULL,
+		mail_entries, G_N_ELEMENTS (mail_entries), self);
+	e_ui_manager_add_actions (ui_manager, "search-folders", NULL,
+		search_folder_entries, G_N_ELEMENTS (search_folder_entries), self);
+
+	for (ii = 0; ii < G_N_ELEMENTS (name_pairs); ii++) {
+		e_binding_bind_property (
+			e_ui_manager_get_action (ui_manager, name_pairs[ii].src_name), "sensitive",
+			e_ui_manager_get_action (ui_manager, name_pairs[ii].dst_name), "sensitive",
+			G_BINDING_SYNC_CREATE);
+	}
+
+	if (!e_ui_parser_merge_file (e_ui_manager_get_parser (ui_manager), "evolution-mail-reader.eui", &local_error))
+		g_warning ("%s: Failed to read %s file: %s", G_STRFUNC, "evolution-mail-reader.eui", local_error ? local_error->message : "Unknown error");
+
+	g_clear_error (&local_error);
+
+	priv = E_MAIL_READER_GET_PRIVATE (self);
+	priv->reply_group_menu = G_MENU_MODEL (e_ui_manager_create_item (ui_manager, "mail-reply-group-menu"));
+	priv->forward_as_menu = G_MENU_MODEL (e_ui_manager_create_item (ui_manager, "mail-forward-as-menu"));
+
+	action = e_mail_reader_get_action (self, "mail-delete");
+	e_ui_action_add_secondary_accel (action, "Delete");
+	e_ui_action_add_secondary_accel (action, "KP_Delete");
+
+	action = e_mail_reader_get_action (self, "mail-message-open");
+	e_ui_action_add_secondary_accel (action, "Return");
+	e_ui_action_add_secondary_accel (action, "KP_Enter");
+	e_ui_action_add_secondary_accel (action, "ISO_Enter");
+
+	action = e_mail_reader_get_action (self, "mail-next-unread");
+	e_ui_action_add_secondary_accel (action, "period");
+	e_ui_action_add_secondary_accel (action, "bracketright");
+
+	action = e_mail_reader_get_action (self, "mail-previous-unread");
+	e_ui_action_add_secondary_accel (action, "comma");
+	e_ui_action_add_secondary_accel (action, "bracketleft");
+
+	action = e_mail_reader_get_action (self, "mail-reply-all");
+	e_ui_action_add_secondary_accel (action, "Reply");
+
+	action = e_mail_reader_get_action (self, "mail-forward");
+	e_ui_action_add_secondary_accel (action, "MailForward");
+
+	action = e_mail_reader_get_action (self, "mail-toggle-important");
+	e_ui_action_add_secondary_accel (action, "exclam");
+
+	action = e_mail_reader_get_action (self, "mail-zoom-in");
+	e_ui_action_add_secondary_accel (action, "ZoomIn");
+
+	action = e_mail_reader_get_action (self, "mail-zoom-out");
+	e_ui_action_add_secondary_accel (action, "ZoomOut");
+
+	action = e_mail_reader_get_action (self, "mail-next-unread");
+	e_ui_action_add_secondary_accel (action, "<Primary>period");
+
+	action = e_mail_reader_get_action (self, "mail-previous-unread");
+	e_ui_action_add_secondary_accel (action, "<Primary>comma");
+
+	action = e_mail_reader_get_action (self, "mail-zoom-in");
+	e_ui_action_add_secondary_accel (action, "<Primary>equal");
+	e_ui_action_add_secondary_accel (action, "<Primary>KP_Add");
+
+	action = e_mail_reader_get_action (self, "mail-zoom-out");
+	e_ui_action_add_secondary_accel (action, "<Primary>KP_Subtract");
+
+	/* Bind GObject properties to GSettings keys. */
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	action = e_mail_reader_get_action (self, "mail-caret-mode");
+	g_settings_bind (
+		settings, "caret-mode",
+		action, "active", G_SETTINGS_BIND_DEFAULT);
+
+	action = e_mail_reader_get_action (self, "mail-show-all-headers");
+	g_settings_bind (
+		settings, "show-all-headers",
+		action, "active", G_SETTINGS_BIND_DEFAULT);
+
+	/* Mode change when viewing message source is ignored. */
+	if (e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_SOURCE ||
+	    e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_RAW) {
+		e_ui_action_set_sensitive (action, FALSE);
+		e_ui_action_set_visible (action, FALSE);
+	}
+
+	g_object_unref (settings);
+
+#ifndef G_OS_WIN32
+	/* Lockdown integration. */
+
+	settings = e_util_ref_settings ("org.gnome.desktop.lockdown");
+
+	action = e_mail_reader_get_action (self, "mail-print");
+	g_settings_bind (
+		settings, "disable-printing",
+		action, "visible",
+		G_SETTINGS_BIND_GET |
+		G_SETTINGS_BIND_NO_SENSITIVITY |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
+
+	action = e_mail_reader_get_action (self, "mail-print-preview");
+	g_settings_bind (
+		settings, "disable-printing",
+		action, "visible",
+		G_SETTINGS_BIND_GET |
+		G_SETTINGS_BIND_NO_SENSITIVITY |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
+
+	action = e_mail_reader_get_action (self, "mail-save-as");
+	g_settings_bind (
+		settings, "disable-save-to-disk",
+		action, "visible",
+		G_SETTINGS_BIND_GET |
+		G_SETTINGS_BIND_NO_SENSITIVITY |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
+
+	g_object_unref (settings);
+#endif
+
+	/* Bind properties. */
+
+	action = e_mail_reader_get_action (self, "mail-caret-mode");
+
+	e_binding_bind_property (
+		action, "active",
+		display, "caret-mode",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+}
 
 static void
 mail_reader_double_click_cb (EMailReader *reader,
@@ -3438,129 +3729,14 @@ mail_reader_double_click_cb (EMailReader *reader,
                              gint col,
                              GdkEvent *event)
 {
-	GtkAction *action;
+	EUIAction *action;
 
 	/* Ignore double clicks on columns that handle their own state. */
 	if (MESSAGE_LIST_COLUMN_IS_ACTIVE (col))
 		return;
 
 	action = e_mail_reader_get_action (reader, "mail-message-open");
-	gtk_action_activate (action);
-}
-
-static gboolean
-mail_reader_key_press_event_cb (EMailReader *reader,
-                                GdkEventKey *event)
-{
-	GtkAction *action;
-	const gchar *action_name;
-
-	if (!gtk_widget_has_focus (GTK_WIDGET (reader))) {
-		EMailDisplay *display;
-
-		display = e_mail_reader_get_mail_display (reader);
-		if (e_web_view_get_need_input (E_WEB_VIEW (display)) &&
-		    gtk_widget_has_focus (GTK_WIDGET (display)))
-			return FALSE;
-	}
-
-	if ((event->state & GDK_CONTROL_MASK) != 0)
-		goto ctrl;
-
-	/* <keyval> alone */
-	switch (event->keyval) {
-		case GDK_KEY_Delete:
-		case GDK_KEY_KP_Delete:
-			action_name = "mail-delete";
-			break;
-
-		case GDK_KEY_Return:
-		case GDK_KEY_KP_Enter:
-		case GDK_KEY_ISO_Enter:
-			if (E_IS_MAIL_BROWSER (reader))
-				return FALSE;
-
-			action_name = "mail-message-open";
-			break;
-
-		case GDK_KEY_period:
-		case GDK_KEY_bracketright:
-			action_name = "mail-next-unread";
-			break;
-
-		case GDK_KEY_comma:
-		case GDK_KEY_bracketleft:
-			action_name = "mail-previous-unread";
-			break;
-
-#ifdef HAVE_XFREE
-		case XF86XK_Reply:
-			action_name = "mail-reply-all";
-			break;
-
-		case XF86XK_MailForward:
-			action_name = "mail-forward";
-			break;
-#endif
-
-		case GDK_KEY_exclam:
-			action_name = "mail-toggle-important";
-			break;
-
-		case GDK_KEY_ZoomIn:
-			action_name = "mail-zoom-in";
-			break;
-
-		case GDK_KEY_ZoomOut:
-			action_name = "mail-zoom-out";
-			break;
-
-		default:
-			return FALSE;
-	}
-
-	goto exit;
-
-ctrl:
-
-	/* Ctrl + <keyval> */
-	switch (event->keyval) {
-		case GDK_KEY_period:
-			action_name = "mail-next-unread";
-			break;
-
-		case GDK_KEY_comma:
-			action_name = "mail-previous-unread";
-			break;
-
-		case GDK_KEY_equal:
-		case GDK_KEY_KP_Add:
-			action_name = "mail-zoom-in";
-			break;
-
-		case GDK_KEY_KP_Subtract:
-			action_name = "mail-zoom-out";
-			break;
-
-		default:
-			return FALSE;
-	}
-
-exit:
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_activate (action);
-
-	return TRUE;
-}
-
-static gint
-mail_reader_key_press_cb (EMailReader *reader,
-                          gint row,
-                          ETreePath path,
-                          gint col,
-                          GdkEvent *event)
-{
-	return mail_reader_key_press_event_cb (reader, &event->key);
+	g_action_activate (G_ACTION (action), NULL);
 }
 
 static gboolean
@@ -3892,34 +4068,6 @@ mail_reader_reload (EMailReader *reader)
 
 	mail_display = e_mail_reader_get_mail_display (reader);
 	e_mail_display_reload (mail_display);
-}
-
-static void
-mail_reader_remove_ui (EMailReader *reader)
-{
-	EMailReaderPrivate *priv;
-	GtkWindow *window;
-	GtkUIManager *ui_manager = NULL;
-
-	g_return_if_fail (E_IS_MAIL_READER (reader));
-
-	priv = E_MAIL_READER_GET_PRIVATE (reader);
-
-	if (!priv->main_menu_label_merge_id)
-		return;
-
-	window = e_mail_reader_get_window (reader);
-	g_return_if_fail (window != NULL);
-
-	if (E_IS_SHELL_WINDOW (window))
-		ui_manager = e_shell_window_get_ui_manager (E_SHELL_WINDOW (window));
-	else if (E_IS_MAIL_BROWSER (window))
-		ui_manager = e_mail_browser_get_ui_manager (E_MAIL_BROWSER (window));
-
-	g_return_if_fail (ui_manager != NULL);
-	g_return_if_fail (GTK_IS_UI_MANAGER (ui_manager));
-
-	gtk_ui_manager_remove_ui (ui_manager, priv->main_menu_label_merge_id);
 }
 
 static void
@@ -4501,9 +4649,11 @@ mail_reader_show_search_bar (EMailReader *reader)
 }
 
 static void
-action_mail_label_cb (GtkToggleAction *action,
-                      EMailReader *reader)
+action_mail_label_cb (EUIAction *action,
+		      GParamSpec *param,
+		      gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	const gchar *tag;
@@ -4520,7 +4670,7 @@ action_mail_label_cb (GtkToggleAction *action,
 
 	camel_folder_freeze (folder);
 	for (ii = 0; ii < uids->len; ii++) {
-		if (gtk_toggle_action_get_active (action))
+		if (e_ui_action_get_active (action))
 			camel_folder_set_message_user_flag (
 				folder, uids->pdata[ii], tag, TRUE);
 		else {
@@ -4622,7 +4772,7 @@ mail_reader_gather_labels_info (EMailReader *reader,
 }
 
 static void
-mail_reader_update_label_action (GtkToggleAction *action,
+mail_reader_update_label_action (EUIAction *action,
 				 GHashTable *labels_info, /* gchar * ~> guint */
 				 const gchar *label_tag)
 {
@@ -4642,8 +4792,8 @@ mail_reader_update_label_action (GtkToggleAction *action,
 	not_exists = (value & LABEL_NOTEXIST) != 0;
 
 	sensitive = !(exists && not_exists);
-	gtk_toggle_action_set_active (action, exists);
-	gtk_action_set_sensitive (GTK_ACTION (action), sensitive);
+	e_ui_action_set_active (action, exists);
+	e_ui_action_set_sensitive (action, sensitive);
 }
 
 static void
@@ -4653,50 +4803,33 @@ mail_reader_update_labels_menu (EMailReader *reader)
 	EMailLabelListStore *label_store;
 	EMailBackend *backend;
 	EMailSession *session;
-	GtkWindow *window;
-	GtkUIManager *ui_manager = NULL;
-	GtkActionGroup *action_group;
+	EUIManager *ui_manager = NULL;
+	EUIActionGroup *action_group;
 	GtkTreeIter iter;
 	GHashTable *labels_info; /* gchar * ~> guint { LABEL_EXISTS | LABEL_NOTEXIST | LABEL_UNKNOWN } */
 	GPtrArray *uids;
-	const gchar *main_menu_path, *popup_menu_path;
 	gboolean valid;
 	gint ii = 0;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
-	window = e_mail_reader_get_window (reader);
-	g_return_if_fail (window != NULL);
+	if (!priv->labels_menu)
+		return;
 
-	if (E_IS_SHELL_WINDOW (window))
-		ui_manager = e_shell_window_get_ui_manager (E_SHELL_WINDOW (window));
-	else if (E_IS_MAIL_BROWSER (window))
-		ui_manager = e_mail_browser_get_ui_manager (E_MAIL_BROWSER (window));
-
-	g_return_if_fail (ui_manager != NULL);
-	g_return_if_fail (GTK_IS_UI_MANAGER (ui_manager));
+	ui_manager = e_mail_reader_get_ui_manager (reader);
+	if (!ui_manager)
+		return;
 
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
 	label_store = e_mail_ui_session_get_label_store (E_MAIL_UI_SESSION (session));
 
-	action_group = e_mail_reader_get_action_group (reader, E_MAIL_READER_ACTION_GROUP_LABELS);
-	main_menu_path = "/main-menu/custom-menus/mail-message-menu/mail-mark-as-menu/mail-label-menu/mail-label-actions";
-	popup_menu_path = "/mail-message-popup/mail-label-menu/mail-label-actions";
+	action_group = e_ui_manager_get_action_group (ui_manager, "mail-labels");
 
-	/* Unmerge the previous menu items. */
-	if (priv->main_menu_label_merge_id)
-		gtk_ui_manager_remove_ui (ui_manager, priv->main_menu_label_merge_id);
-	else
-		priv->main_menu_label_merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+	e_ui_manager_freeze (ui_manager);
 
-	if (priv->popup_menu_label_merge_id)
-		gtk_ui_manager_remove_ui (ui_manager, priv->popup_menu_label_merge_id);
-	else
-		priv->popup_menu_label_merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-
-	e_action_group_remove_all_actions (action_group);
-	gtk_ui_manager_ensure_update (ui_manager);
+	g_menu_remove_all (priv->labels_menu);
+	e_ui_action_group_remove_all (action_group);
 
 	uids = e_mail_reader_get_selected_uids (reader);
 	labels_info = mail_reader_gather_labels_info (reader, label_store, uids);
@@ -4704,34 +4837,32 @@ mail_reader_update_labels_menu (EMailReader *reader)
 	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (label_store), &iter);
 
 	while (valid) {
-		EMailLabelAction *label_action;
-		GtkAction *action;
-		gchar *action_name;
-		gchar *stock_id;
+		EUIAction *action;
+		GMenuItem *menu_item;
+		gchar action_name[128];
+		gchar *icon_name;
 		gchar *label;
 		gchar *tag;
 
 		label = e_mail_label_list_store_get_name (label_store, &iter);
-		stock_id = e_mail_label_list_store_get_stock_id (label_store, &iter);
+		icon_name = e_mail_label_list_store_dup_icon_name (label_store, &iter);
 		tag = e_mail_label_list_store_get_tag (label_store, &iter);
-		action_name = g_strdup_printf ("mail-label-%d", ii);
 
-		/* XXX Add a tooltip! */
-		label_action = e_mail_label_action_new (action_name, label, NULL, stock_id);
+		g_warn_if_fail (g_snprintf (action_name, sizeof (action_name), "mail-label-%d", ii) < sizeof (action_name));
 
-		g_object_set_data_full (
-			G_OBJECT (label_action), "tag",
-			tag, (GDestroyNotify) g_free);
+		action = e_ui_action_new_stateful ("mail-labels", action_name, NULL, g_variant_new_boolean (FALSE));
+		e_ui_action_set_label (action, label);
+		if (icon_name && *icon_name)
+			e_ui_action_set_icon_name (action, icon_name);
+
+		g_object_set_data_full (G_OBJECT (action), "tag", tag, g_free);
 
 		/* Configure the action before we connect to signals. */
-		mail_reader_update_label_action (GTK_TOGGLE_ACTION (label_action), labels_info, tag);
+		mail_reader_update_label_action (action, labels_info, tag);
 
 		g_signal_connect (
-			label_action, "toggled",
+			action, "notify::active",
 			G_CALLBACK (action_mail_label_cb), reader);
-
-		/* The action group takes ownership of the action. */
-		action = GTK_ACTION (label_action);
 
 		if (ii + 1 < 10) {
 			gchar accel[5];
@@ -4739,31 +4870,28 @@ mail_reader_update_labels_menu (EMailReader *reader)
 			accel[0] = '1' + ii;
 			accel[1] = '\0';
 
-			gtk_action_group_add_action_with_accel (action_group, action, accel);
-		} else {
-			gtk_action_group_add_action (action_group, action);
+			e_ui_action_set_accel (action, accel);
 		}
-		g_object_unref (label_action);
 
-		gtk_ui_manager_add_ui (
-			ui_manager, priv->main_menu_label_merge_id, main_menu_path,
-			action_name, action_name, GTK_UI_MANAGER_AUTO, FALSE);
+		e_ui_action_group_add (action_group, action);
 
-		gtk_ui_manager_add_ui (
-			ui_manager, priv->popup_menu_label_merge_id, popup_menu_path,
-			action_name, action_name, GTK_UI_MANAGER_AUTO, FALSE);
+		menu_item = g_menu_item_new (NULL, NULL);
+		e_ui_manager_update_item_from_action (ui_manager, menu_item, action);
+		g_menu_append_item (priv->labels_menu, menu_item);
+		g_clear_object (&menu_item);
 
+		g_object_unref (action);
 		g_free (label);
-		g_free (stock_id);
-		g_free (action_name);
+		g_free (icon_name);
 
-		valid = gtk_tree_model_iter_next (
-			GTK_TREE_MODEL (label_store), &iter);
+		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (label_store), &iter);
 		ii++;
 	}
 
 	g_hash_table_destroy (labels_info);
 	g_ptr_array_unref (uids);
+
+	e_ui_manager_thaw (ui_manager);
 }
 
 static void
@@ -4867,9 +4995,11 @@ mail_label_change_more_set_none_clicked_cb (GtkWidget *button,
 }
 
 static void
-action_mail_label_change_more_cb (GtkAction *action,
-				  EMailReader *reader)
+action_mail_label_change_more_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	GtkBox *box;
 	GtkGrid *grid;
 	GtkWidget *widget, *popover;
@@ -4897,18 +5027,18 @@ action_mail_label_change_more_cb (GtkAction *action,
 	while (valid) {
 		GtkWidget *checkbox;
 		gchar *label;
-		gchar *stock_id;
+		gchar *icon_name;
 		gchar *tag;
 		guint value;
 		gboolean exists, not_exists;
 
 		label = e_mail_label_list_store_get_name (label_store, &iter);
-		stock_id = e_mail_label_list_store_get_stock_id (label_store, &iter);
+		icon_name = e_mail_label_list_store_dup_icon_name (label_store, &iter);
 		tag = e_mail_label_list_store_get_tag (label_store, &iter);
 
 		checkbox = gtk_check_button_new_with_mnemonic (label);
-		if (stock_id && *stock_id) {
-			gtk_button_set_image (GTK_BUTTON (checkbox), gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_MENU));
+		if (icon_name && *icon_name) {
+			gtk_button_set_image (GTK_BUTTON (checkbox), gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU));
 			gtk_button_set_always_show_image (GTK_BUTTON (checkbox), TRUE);
 		}
 		g_object_set_data_full (G_OBJECT (checkbox), "tag", tag, g_free);
@@ -4929,7 +5059,7 @@ action_mail_label_change_more_cb (GtkAction *action,
 		g_ptr_array_add (checkboxes, checkbox);
 
 		g_free (label);
-		g_free (stock_id);
+		g_free (icon_name);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
@@ -5048,8 +5178,7 @@ static void
 mail_reader_update_actions (EMailReader *reader,
                             guint32 state)
 {
-	GtkAction *action;
-	const gchar *action_name;
+	EUIAction *action;
 	gboolean sensitive;
 	EMailDisplay *mail_display;
 
@@ -5146,356 +5275,277 @@ mail_reader_update_actions (EMailReader *reader,
 		last_message_selected = row < 0 || row + 1 >= count;
 	}
 
-	action_name = "mail-add-sender";
 	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-add-sender");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-archive";
 	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-archive");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-check-for-junk";
 	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-check-for-junk");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-color-assign";
 	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-color-assign");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-color-unset";
 	sensitive = any_messages_selected && selection_has_color;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-color-unset");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-copy";
 	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-copy");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-create-menu";
 	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-create-menu");
+	e_ui_action_set_sensitive (action, sensitive);
 
 	/* If a single message is selected, let the user hit delete to
 	 * advance the cursor even if the message is already deleted. */
-	action_name = "mail-delete";
 	sensitive =
 		(single_message_selected ||
 		selection_has_undeleted_messages) &&
 		(state & E_MAIL_READER_FOLDER_IS_VTRASH) == 0;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-delete");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-add-note";
 	sensitive = single_message_selected && !selection_has_mail_note;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_visible (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-add-note");
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
-	action_name = "mail-edit-note";
 	sensitive = single_message_selected && selection_has_mail_note;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_visible (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-edit-note");
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
-	action_name = "mail-delete-note";
 	sensitive = single_message_selected && selection_has_mail_note;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_visible (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-delete-note");
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
-	action_name = "mail-filters-apply";
 	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-filters-apply");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-filter-rule-for-mailing-list";
 	sensitive = single_message_selected && selection_is_mailing_list;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-filter-rule-for-mailing-list");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-find";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	sensitive = single_message_selected && mail_display && gtk_widget_is_visible (GTK_WIDGET (mail_display));
+	action = e_mail_reader_get_action (reader, "mail-find");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-flag-clear";
 	sensitive = enable_flag_clear;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-flag-clear");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-flag-completed";
 	sensitive = enable_flag_completed;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-flag-completed");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-flag-for-followup";
 	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-flag-for-followup");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-forward";
 	sensitive = have_enabled_account && any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-forward");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-forward-attached";
 	sensitive = have_enabled_account && any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-forward-attached");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-forward-attached-full";
 	sensitive = have_enabled_account && any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-forward-as-menu");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-forward-as-menu";
-	sensitive = have_enabled_account && any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-forward-inline";
 	sensitive = have_enabled_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-forward-inline");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-forward-inline-full";
 	sensitive = have_enabled_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-forward-quoted");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-forward-quoted";
-	sensitive = have_enabled_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-forward-quoted-full";
-	sensitive = have_enabled_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-goto-menu";
 	sensitive = TRUE;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-goto-menu");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-load-images";
 	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-load-images");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-mark-as-menu";
 	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-mark-as-menu");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-mark-ignore-thread-sub";
 	sensitive = selection_has_notignore_thread_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_visible (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-mark-ignore-thread-sub");
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
-	action_name = "mail-mark-ignore-thread-whole";
 	sensitive = selection_has_notignore_thread_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_visible (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-mark-ignore-thread-whole");
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
-	action_name = "mail-mark-important";
 	sensitive = selection_has_unimportant_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-mark-important");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-mark-junk";
 	sensitive = selection_has_not_junk_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-mark-junk");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-mark-notjunk";
 	sensitive = selection_has_junk_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-mark-notjunk");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-mark-read";
 	sensitive = selection_has_unread_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-mark-read");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-mark-unignore-thread-sub";
 	sensitive = selection_has_ignore_thread_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_visible (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-mark-unignore-thread-sub");
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
-	action_name = "mail-mark-unignore-thread-whole";
 	sensitive = selection_has_ignore_thread_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_visible (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-mark-unignore-thread-whole");
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
-	action_name = "mail-mark-unimportant";
 	sensitive = selection_has_important_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-mark-unimportant");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-mark-unread";
 	sensitive = selection_has_read_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-mark-unread");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-message-edit";
 	sensitive = have_enabled_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-message-edit");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-message-new";
 	sensitive = have_enabled_account;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-message-new");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-message-open";
 	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-message-open");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-move";
 	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-move");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-next";
 	sensitive = any_messages_selected && !last_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-next");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-next-important";
 	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-next-important");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-next-thread";
 	sensitive = single_message_selected && !last_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-next-thread");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-next-unread";
 	sensitive = TRUE;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-next-unread");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-previous";
 	sensitive = any_messages_selected && !first_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-previous");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-previous-important";
 	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-previous-important");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-previous-unread";
 	sensitive = TRUE;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-previous-unread");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-previous-thread";
 	sensitive = any_messages_selected && !first_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-previous-thread");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-print";
 	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-print");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-print-preview";
 	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-print-preview");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-redirect";
 	sensitive = have_enabled_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-redirect");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-remove-attachments";
 	sensitive = any_messages_selected && selection_has_attachment_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-remove-attachments");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-remove-duplicates";
 	sensitive = multiple_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-remove-duplicates");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-reply-all";
 	sensitive = have_enabled_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-reply-all");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-reply-alternative";
 	sensitive = have_enabled_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-reply-alternative");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-reply-group";
 	sensitive = have_enabled_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-reply-group");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-reply-group-menu";
 	sensitive = have_enabled_account && any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-reply-group-menu");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-reply-list";
 	sensitive = have_enabled_account && single_message_selected &&
 		selection_is_mailing_list;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-reply-list");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-reply-sender";
 	sensitive = have_enabled_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-reply-sender");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-save-as";
 	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-save-as");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-show-source";
 	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-show-source");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-undelete";
 	sensitive = selection_has_deleted_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-undelete");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-zoom-100";
 	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-zoom-100");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-zoom-in";
 	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-zoom-in");
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action_name = "mail-zoom-out";
 	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	action = e_mail_reader_get_action (reader, "mail-zoom-out");
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = e_mail_reader_get_action (reader, "mail-search-web");
-	gtk_action_set_sensitive (action, single_message_selected &&
+	e_ui_action_set_sensitive (action, single_message_selected &&
 		mail_display && e_web_view_has_selection (E_WEB_VIEW (mail_display)));
 
 	mail_reader_update_labels_menu (reader);
@@ -5508,37 +5558,11 @@ mail_reader_close_on_delete_or_junk (EMailReader *reader)
 }
 
 static void
-mail_reader_init_charset_actions (EMailReader *reader,
-                                  GtkActionGroup *action_group)
-{
-	GtkRadioAction *default_action;
-	GSList *radio_group;
-
-	radio_group = e_charset_add_radio_actions (
-		action_group, "mail-charset-", NULL,
-		G_CALLBACK (action_mail_charset_cb), reader);
-
-	/* XXX Add a tooltip! */
-	default_action = gtk_radio_action_new (
-		"mail-charset-default", _("Default"), NULL, NULL, -1);
-
-	gtk_radio_action_set_group (default_action, radio_group);
-
-	g_signal_connect (
-		default_action, "changed",
-		G_CALLBACK (action_mail_charset_cb), reader);
-
-	gtk_action_group_add_action (
-		action_group, GTK_ACTION (default_action));
-
-	gtk_radio_action_set_current_value (default_action, -1);
-}
-
-static void
 e_mail_reader_default_init (EMailReaderInterface *iface)
 {
 	quark_private = g_quark_from_static_string ("e-mail-reader-private");
 
+	iface->init_ui_data = e_mail_reader_init_ui_data_default;
 	iface->get_alert_sink = mail_reader_get_alert_sink;
 	iface->get_selected_uids = mail_reader_get_selected_uids;
 	iface->get_selected_uids_with_collapsed_threads = mail_reader_get_selected_uids_with_collapsed_threads;
@@ -5553,7 +5577,6 @@ e_mail_reader_default_init (EMailReaderInterface *iface)
 	iface->update_actions = mail_reader_update_actions;
 	iface->close_on_delete_or_junk = mail_reader_close_on_delete_or_junk;
 	iface->reload = mail_reader_reload;
-	iface->remove_ui = mail_reader_remove_ui;
 
 	g_object_interface_install_property (
 		iface,
@@ -5672,17 +5695,11 @@ e_mail_reader_default_init (EMailReaderInterface *iface)
 }
 
 void
-e_mail_reader_init (EMailReader *reader,
-                    gboolean init_actions,
-                    gboolean connect_signals)
+e_mail_reader_init (EMailReader *reader)
 {
-	GtkActionGroup *action_group;
+	EMailReaderPrivate *priv;
 	GtkWidget *message_list;
-	GtkAction *action;
-	const gchar *action_name;
 	EMailDisplay *display;
-	EMenuToolAction *menu_tool_action, *menu_tool_action_first;
-	GSettings *settings;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
@@ -5690,276 +5707,35 @@ e_mail_reader_init (EMailReader *reader,
 	display = e_mail_reader_get_mail_display (reader);
 
 	/* Initialize a private struct. */
-	g_object_set_qdata_full (
-		G_OBJECT (reader), quark_private,
-		g_slice_new0 (EMailReaderPrivate),
-		(GDestroyNotify) mail_reader_private_free);
+	priv = g_new0 (EMailReaderPrivate, 1);
+	g_object_set_qdata_full (G_OBJECT (reader), quark_private, priv, (GDestroyNotify) mail_reader_private_free);
 
 	e_binding_bind_property (
 		reader, "group-by-threads",
 		message_list, "group-by-threads",
 		G_BINDING_SYNC_CREATE);
 
-	if (!init_actions)
-		goto connect_signals;
-
-	/* Add the "standard" EMailReader actions. */
-
-	action_group = e_mail_reader_get_action_group (
-		reader, E_MAIL_READER_ACTION_GROUP_STANDARD);
-
-	gtk_action_group_add_actions (
-		action_group, mail_reader_entries,
-		G_N_ELEMENTS (mail_reader_entries), reader);
-	e_action_group_add_popup_actions (
-		action_group, mail_reader_popup_entries,
-		G_N_ELEMENTS (mail_reader_popup_entries));
-	gtk_action_group_add_toggle_actions (
-		action_group, mail_reader_toggle_entries,
-		G_N_ELEMENTS (mail_reader_toggle_entries), reader);
-
-	mail_reader_init_charset_actions (reader, action_group);
-
-
-	/* The "mail-forward" action is special: it uses a GtkMenuToolButton
-	 * for its toolbar item type.  So we have to create it separately. */
-
-	menu_tool_action = e_menu_tool_action_new (
-		"toolbar-mail-forward", _("_Forward"),
-		_("Forward the selected message to someone"));
-
-	gtk_action_set_icon_name (GTK_ACTION (menu_tool_action), "mail-forward");
-	gtk_action_set_visible (GTK_ACTION (menu_tool_action), !e_util_get_use_header_bar ());
-
-	e_binding_bind_property (
-		e_mail_reader_get_action (reader, "mail-forward"), "sensitive",
-		menu_tool_action, "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	g_signal_connect (
-		menu_tool_action, "activate",
-		G_CALLBACK (action_mail_forward_cb), reader);
-
-	gtk_action_group_add_action_with_accel (
-		action_group, GTK_ACTION (menu_tool_action), "<Control><Alt>f");
-
-	menu_tool_action_first = menu_tool_action;
-
-	menu_tool_action = e_menu_tool_action_new (
-		"toolbar-mail-preview-forward", _("_Forward"),
-		_("Forward the selected message to someone"));
-
-	gtk_action_set_icon_name (GTK_ACTION (menu_tool_action), "mail-forward");
-	gtk_action_set_is_important (GTK_ACTION (menu_tool_action), TRUE);
-
-	g_signal_connect (
-		menu_tool_action, "activate",
-		G_CALLBACK (action_mail_forward_cb), reader);
-
-	gtk_action_group_add_action (action_group, GTK_ACTION (menu_tool_action));
-
-	e_binding_bind_property (
-		menu_tool_action_first, "sensitive",
-		menu_tool_action, "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	/* Likewise the "mail-reply-group" action. */
-
-	menu_tool_action = e_menu_tool_action_new (
-		/* Translators: "Group Reply" will reply either to a mailing list
-		 * (if possible and if that configuration option is enabled), or else
-		 * it will reply to all. The word "Group" was chosen because it covers
-		 * either of those, without too strongly implying one or the other. */
-		"toolbar-mail-reply-group", _("Group Reply"),
-		_("Reply to the mailing list, or to all recipients"));
-
-	gtk_action_set_icon_name (GTK_ACTION (menu_tool_action), "mail-reply-all");
-	gtk_action_set_visible (GTK_ACTION (menu_tool_action), !e_util_get_use_header_bar ());
-
-	e_binding_bind_property (
-		e_mail_reader_get_action (reader, "mail-reply-group"), "sensitive",
-		menu_tool_action, "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	g_signal_connect (
-		menu_tool_action, "activate",
-		G_CALLBACK (action_mail_reply_group_cb), reader);
-
-	gtk_action_group_add_action_with_accel (
-		action_group, GTK_ACTION (menu_tool_action), "<Control>g");
-
-	menu_tool_action_first = menu_tool_action;
-
-	menu_tool_action = e_menu_tool_action_new (
-		/* Translators: "Group Reply" will reply either to a mailing list
-		 * (if possible and if that configuration option is enabled), or else
-		 * it will reply to all. The word "Group" was chosen because it covers
-		 * either of those, without too strongly implying one or the other. */
-		"toolbar-mail-preview-reply-group", _("Group Reply"),
-		_("Reply to the mailing list, or to all recipients"));
-
-	gtk_action_set_icon_name (GTK_ACTION (menu_tool_action), "mail-reply-all");
-	gtk_action_set_is_important (GTK_ACTION (menu_tool_action), TRUE);
-
-	g_signal_connect (
-		menu_tool_action, "activate",
-		G_CALLBACK (action_mail_reply_group_cb), reader);
-
-	gtk_action_group_add_action (action_group, GTK_ACTION (menu_tool_action));
-
-	e_binding_bind_property (
-		menu_tool_action_first, "sensitive",
-		menu_tool_action, "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	/* Add EMailReader actions for Search Folders.  The action group
-	 * should be made invisible if Search Folders are disabled. */
-
-	action_group = e_mail_reader_get_action_group (
-		reader, E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS);
-
-	gtk_action_group_add_actions (
-		action_group, mail_reader_search_folder_entries,
-		G_N_ELEMENTS (mail_reader_search_folder_entries), reader);
-
-	display = e_mail_reader_get_mail_display (reader);
-
-	/* Bind GObject properties to GSettings keys. */
-
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-
-	action_name = "mail-caret-mode";
-	action = e_mail_reader_get_action (reader, action_name);
-	g_settings_bind (
-		settings, "caret-mode",
-		action, "active", G_SETTINGS_BIND_DEFAULT);
-
-	action_name = "mail-show-all-headers";
-	action = e_mail_reader_get_action (reader, action_name);
-	g_settings_bind (
-		settings, "show-all-headers",
-		action, "active", G_SETTINGS_BIND_DEFAULT);
-
-	/* Mode change when viewing message source is ignored. */
-	if (e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_SOURCE ||
-	    e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_RAW) {
-		gtk_action_set_sensitive (action, FALSE);
-		gtk_action_set_visible (action, FALSE);
-	}
-
-	g_object_unref (settings);
+	priv->labels_menu = g_menu_new ();
 
 	/* Fine tuning. */
 
-	action_name = "mail-delete";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_short_label (action, _("Delete"));
-
-	action_name = "toolbar-mail-forward";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_is_important (action, TRUE);
-
-	action_name = "toolbar-mail-reply-group";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_is_important (action, TRUE);
-
-	action_name = "mail-next";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_short_label (action, _("Next"));
-
-	action_name = "mail-previous";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_short_label (action, _("Previous"));
-
-	action_name = "mail-reply-all";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_is_important (action, TRUE);
-
-	action_name = "mail-reply-sender";
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_is_important (action, TRUE);
-	gtk_action_set_short_label (action, _("Reply"));
-
-	action_name = "add-to-address-book";
-	action = e_mail_display_get_action (display, action_name);
 	g_signal_connect (
-		action, "activate",
+		e_mail_display_get_action (display, "add-to-address-book"), "activate",
 		G_CALLBACK (action_add_to_address_book_cb), reader);
 
-	action_name = "send-reply";
-	action = e_mail_display_get_action (display, action_name);
 	g_signal_connect (
-		action, "activate",
+		e_mail_display_get_action (display, "send-reply"), "activate",
 		G_CALLBACK (action_mail_reply_recipient_cb), reader);
 
-	action_name = "search-folder-recipient";
-	action = e_mail_display_get_action (display, action_name);
 	g_signal_connect (
-		action, "activate",
+		e_mail_display_get_action (display, "search-folder-recipient"), "activate",
 		G_CALLBACK (action_search_folder_recipient_cb), reader);
 
-	action_name = "search-folder-sender";
-	action = e_mail_display_get_action (display, action_name);
 	g_signal_connect (
-		action, "activate",
+		e_mail_display_get_action (display, "search-folder-sender"), "activate",
 		G_CALLBACK (action_search_folder_sender_cb), reader);
 
-#ifndef G_OS_WIN32
-	/* Lockdown integration. */
-
-	settings = e_util_ref_settings ("org.gnome.desktop.lockdown");
-
-	action_name = "mail-print";
-	action = e_mail_reader_get_action (reader, action_name);
-	g_settings_bind (
-		settings, "disable-printing",
-		action, "visible",
-		G_SETTINGS_BIND_GET |
-		G_SETTINGS_BIND_NO_SENSITIVITY |
-		G_SETTINGS_BIND_INVERT_BOOLEAN);
-
-	action_name = "mail-print-preview";
-	action = e_mail_reader_get_action (reader, action_name);
-	g_settings_bind (
-		settings, "disable-printing",
-		action, "visible",
-		G_SETTINGS_BIND_GET |
-		G_SETTINGS_BIND_NO_SENSITIVITY |
-		G_SETTINGS_BIND_INVERT_BOOLEAN);
-
-	action_name = "mail-save-as";
-	action = e_mail_reader_get_action (reader, action_name);
-	g_settings_bind (
-		settings, "disable-save-to-disk",
-		action, "visible",
-		G_SETTINGS_BIND_GET |
-		G_SETTINGS_BIND_NO_SENSITIVITY |
-		G_SETTINGS_BIND_INVERT_BOOLEAN);
-
-	g_object_unref (settings);
-#endif
-
-	/* Bind properties. */
-
-	action_name = "mail-caret-mode";
-	action = e_mail_reader_get_action (reader, action_name);
-
-	e_binding_bind_property (
-		action, "active",
-		display, "caret-mode",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-connect_signals:
-
-	if (!connect_signals)
-		return;
-
 	/* Connect signals. */
-	g_signal_connect_swapped (
-		display, "key-press-event",
-		G_CALLBACK (mail_reader_key_press_event_cb), reader);
-
 	g_signal_connect_swapped (
 		display, "load-changed",
 		G_CALLBACK (mail_reader_load_changed_cb), reader);
@@ -6009,10 +5785,6 @@ connect_signals:
 	g_signal_connect_swapped (
 		message_list, "double-click",
 		G_CALLBACK (mail_reader_double_click_cb), reader);
-
-	g_signal_connect_swapped (
-		message_list, "key-press",
-		G_CALLBACK (mail_reader_key_press_cb), reader);
 
 	g_signal_connect_swapped (
 		message_list, "selection-change",
@@ -6340,50 +6112,65 @@ void
 e_mail_reader_update_actions (EMailReader *reader,
                               guint32 state)
 {
+	EUIManager *ui_manager;
+
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
+	ui_manager = e_mail_reader_get_ui_manager (reader);
+
+	if (ui_manager)
+		e_ui_manager_freeze (ui_manager);
+
 	g_signal_emit (reader, signals[UPDATE_ACTIONS], 0, state);
+
+	if (ui_manager)
+		e_ui_manager_thaw (ui_manager);
 }
 
-GtkAction *
-e_mail_reader_get_action (EMailReader *reader,
-                          const gchar *action_name)
+void
+e_mail_reader_init_ui_data (EMailReader *reader)
 {
-	GtkAction *action = NULL;
-	gint ii;
+	EMailReaderInterface *iface;
 
-	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
-	g_return_val_if_fail (action_name != NULL, NULL);
+	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	for (ii = 0; ii < E_MAIL_READER_NUM_ACTION_GROUPS; ii++) {
-		GtkActionGroup *group;
-
-		group = e_mail_reader_get_action_group (reader, ii);
-		action = gtk_action_group_get_action (group, action_name);
-
-		if (action != NULL)
-			break;
-	}
-
-	if (action == NULL)
-		g_critical (
-			"%s: action '%s' not found", G_STRFUNC, action_name);
-
-	return action;
+	iface = E_MAIL_READER_GET_INTERFACE (reader);
+	if (iface->init_ui_data != NULL)
+		iface->init_ui_data (reader);
 }
 
-GtkActionGroup *
-e_mail_reader_get_action_group (EMailReader *reader,
-                                EMailReaderActionGroup group)
+EUIManager *
+e_mail_reader_get_ui_manager (EMailReader *reader)
 {
 	EMailReaderInterface *iface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
 	iface = E_MAIL_READER_GET_INTERFACE (reader);
-	g_return_val_if_fail (iface->get_action_group != NULL, NULL);
+	g_return_val_if_fail (iface->get_ui_manager != NULL, NULL);
 
-	return iface->get_action_group (reader, group);
+	return iface->get_ui_manager (reader);
+}
+
+EUIAction *
+e_mail_reader_get_action (EMailReader *reader,
+                          const gchar *action_name)
+{
+	EUIAction *action;
+	EUIManager *ui_manager;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
+	g_return_val_if_fail (action_name != NULL, NULL);
+
+	ui_manager = e_mail_reader_get_ui_manager (reader);
+	if (!ui_manager)
+		return NULL;
+
+	action = e_ui_manager_get_action (ui_manager, action_name);
+	if (action == NULL)
+		g_critical ("%s: action '%s' not found", G_STRFUNC, action_name);
+
+	return action;
 }
 
 EAlertSink *
@@ -6451,36 +6238,28 @@ e_mail_reader_get_message_list (EMailReader *reader)
 	return iface->get_message_list (reader);
 }
 
-static void
-e_mail_reader_popup_menu_deactivate_cb (GtkMenu *popup_menu,
-					EMailReader *reader)
-{
-	g_return_if_fail (GTK_IS_MENU (popup_menu));
-
-	g_signal_handlers_disconnect_by_func (popup_menu, e_mail_reader_popup_menu_deactivate_cb, reader);
-	gtk_menu_detach (popup_menu);
-}
-
 GtkMenu *
 e_mail_reader_get_popup_menu (EMailReader *reader)
 {
-	EMailReaderInterface *iface;
+	EUIManager *ui_manager;
+	GObject *ui_object;
 	GtkMenu *menu;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
-	iface = E_MAIL_READER_GET_INTERFACE (reader);
-	g_return_val_if_fail (iface->get_popup_menu != NULL, NULL);
+	ui_manager = e_mail_reader_get_ui_manager (reader);
+	if (!ui_manager)
+		return NULL;
 
-	menu = iface->get_popup_menu (reader);
-	if (!gtk_menu_get_attach_widget (GTK_MENU (menu))) {
-		gtk_menu_attach_to_widget (GTK_MENU (menu),
-					   GTK_WIDGET (reader),
-					   NULL);
-		g_signal_connect (
-			menu, "deactivate",
-			G_CALLBACK (e_mail_reader_popup_menu_deactivate_cb), reader);
-	}
+	ui_object = e_ui_manager_create_item (ui_manager, "mail-preview-popup");
+	g_return_val_if_fail (G_IS_MENU_MODEL (ui_object), NULL);
+
+	menu = GTK_MENU (gtk_menu_new_from_model (G_MENU_MODEL (ui_object)));
+
+	g_clear_object (&ui_object);
+
+	gtk_menu_attach_to_widget (menu, GTK_WIDGET (reader), NULL);
+	e_util_connect_menu_detach_after_deactivate (menu);
 
 	return menu;
 }
@@ -6755,45 +6534,6 @@ e_mail_reader_set_delete_selects_previous (EMailReader *reader,
 }
 
 void
-e_mail_reader_create_charset_menu (EMailReader *reader,
-                                   GtkUIManager *ui_manager,
-                                   guint merge_id)
-{
-	GtkAction *action;
-	const gchar *action_name;
-	const gchar *path;
-	GSList *list;
-
-	g_return_if_fail (E_IS_MAIL_READER (reader));
-	g_return_if_fail (GTK_IS_UI_MANAGER (ui_manager));
-
-	action_name = "mail-charset-default";
-	action = e_mail_reader_get_action (reader, action_name);
-	g_return_if_fail (action != NULL);
-
-	list = gtk_radio_action_get_group (GTK_RADIO_ACTION (action));
-	list = g_slist_copy (list);
-	list = g_slist_remove (list, action);
-	list = g_slist_sort (list, (GCompareFunc) e_action_compare_by_label);
-
-	path = "/main-menu/view-menu/mail-message-view-actions/mail-encoding-menu";
-
-	while (list != NULL) {
-		action = list->data;
-
-		gtk_ui_manager_add_ui (
-			ui_manager, merge_id, path,
-			gtk_action_get_name (action),
-			gtk_action_get_name (action),
-			GTK_UI_MANAGER_AUTO, FALSE);
-
-		list = g_slist_delete_link (list, list);
-	}
-
-	gtk_ui_manager_ensure_update (ui_manager);
-}
-
-void
 e_mail_reader_show_search_bar (EMailReader *reader)
 {
 	g_return_if_fail (E_IS_MAIL_READER (reader));
@@ -6871,133 +6611,27 @@ e_mail_reader_reload (EMailReader *reader)
 	iface->reload (reader);
 }
 
-void
-e_mail_reader_remove_ui (EMailReader *reader)
+gboolean
+e_mail_reader_ignore_accel (EMailReader *reader)
 {
-	EMailReaderInterface *iface;
+	EMailDisplay *mail_display;
+	GtkWidget *toplevel;
 
-	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
 
-	iface = E_MAIL_READER_GET_INTERFACE (reader);
-	g_return_if_fail (iface->remove_ui != NULL);
+	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (reader));
 
-	iface->remove_ui (reader);
-}
+	if (!mail_display)
+		return FALSE;
 
-/**
- * e_mail_reader_create_reply_menu:
- * @reader: An #EMailReader
- *
- * Get reply menu
- *
- * Returns: (transfer full): A new #GtkMenu
- *
- * Since: 3.46
- **/
-GtkWidget *
-e_mail_reader_create_reply_menu (EMailReader *reader)
-{
-	GtkWindow *window;
-	GtkWidget *menu;
-	GtkAction *action;
-	GtkAccelGroup *accel_group;
-	GtkUIManager *ui_manager;
+	if (gtk_widget_has_focus (GTK_WIDGET (mail_display)) &&
+	    e_web_view_get_need_input (E_WEB_VIEW (mail_display)))
+		return TRUE;
 
-	menu = gtk_menu_new ();
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (mail_display));
 
-	window = e_mail_reader_get_window (reader);
-	g_return_val_if_fail (window != NULL, menu);
+	if (GTK_IS_WINDOW (toplevel))
+		return e_util_ignore_accel_for_focused (gtk_window_get_focus (GTK_WINDOW (toplevel)));
 
-	if (E_IS_SHELL_WINDOW (window))
-		ui_manager = e_shell_window_get_ui_manager (E_SHELL_WINDOW (window));
-	else if (E_IS_MAIL_BROWSER (window))
-		ui_manager = e_mail_browser_get_ui_manager (E_MAIL_BROWSER (window));
-	else
-		return menu;
-
-	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
-
-	action = e_mail_reader_get_action (reader, "mail-reply-all");
-	gtk_action_set_accel_group (action, accel_group);
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		gtk_action_create_menu_item (action));
-
-	action = e_mail_reader_get_action (reader, "mail-reply-list");
-	gtk_action_set_accel_group (action, accel_group);
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		gtk_action_create_menu_item (action));
-
-	action = e_mail_reader_get_action (reader, "mail-reply-alternative");
-	gtk_action_set_accel_group (action, accel_group);
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		gtk_action_create_menu_item (action));
-
-	gtk_widget_show_all (menu);
-
-	return menu;
-}
-
-/**
- * e_mail_reader_create_forward_menu:
- * @reader: An #EMailReader
- *
- * Get forward menu
- *
- * Returns: (transfer full): A new #GtkMenu
- *
- * Since: 3.46
- **/
-GtkWidget *
-e_mail_reader_create_forward_menu (EMailReader *reader)
-{
-	GtkWindow *window;
-	GtkWidget *menu;
-	GtkAction *action;
-	GtkAccelGroup *accel_group;
-	GtkUIManager *ui_manager;
-
-	menu = gtk_menu_new ();
-
-	window = e_mail_reader_get_window (reader);
-	g_return_val_if_fail (window != NULL, menu);
-
-	if (E_IS_SHELL_WINDOW (window))
-		ui_manager = e_shell_window_get_ui_manager (E_SHELL_WINDOW (window));
-	else if (E_IS_MAIL_BROWSER (window))
-		ui_manager = e_mail_browser_get_ui_manager (E_MAIL_BROWSER (window));
-	else
-		return menu;
-
-	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
-
-	action = e_mail_reader_get_action (reader, "mail-forward-attached-full");
-	gtk_action_set_accel_group (action, accel_group);
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		gtk_action_create_menu_item (action));
-
-	action = e_mail_reader_get_action (reader, "mail-forward-inline-full");
-	gtk_action_set_accel_group (action, accel_group);
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		gtk_action_create_menu_item (action));
-
-	action = e_mail_reader_get_action (reader, "mail-forward-quoted-full");
-	gtk_action_set_accel_group (action, accel_group);
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		gtk_action_create_menu_item (action));
-
-	action = e_mail_reader_get_action (reader, "mail-redirect");
-	gtk_action_set_accel_group (action, accel_group);
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		gtk_action_create_menu_item (action));
-
-	gtk_widget_show_all (menu);
-
-	return menu;
+	return FALSE;
 }

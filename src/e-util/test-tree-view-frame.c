@@ -18,7 +18,7 @@ delete_event_cb (GtkWidget *widget,
 
 static void
 action_add_cb (ETreeViewFrame *tree_view_frame,
-               GtkAction *action)
+	       EUIAction *action)
 {
 	GtkTreeView *tree_view;
 	GtkTreeModel *tree_model;
@@ -49,7 +49,7 @@ action_add_cb (ETreeViewFrame *tree_view_frame,
 
 static void
 action_remove_cb (ETreeViewFrame *tree_view_frame,
-                  GtkAction *action)
+		  EUIAction *action)
 {
 	GtkTreeView *tree_view;
 	GtkTreeModel *tree_model;
@@ -81,7 +81,7 @@ action_remove_cb (ETreeViewFrame *tree_view_frame,
 static void
 update_toolbar_actions_cb (ETreeViewFrame *tree_view_frame)
 {
-	GtkAction *action;
+	EUIAction *action;
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
 	gint n_selected_rows;
@@ -93,7 +93,7 @@ update_toolbar_actions_cb (ETreeViewFrame *tree_view_frame)
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_REMOVE);
-	gtk_action_set_sensitive (action, n_selected_rows > 0);
+	e_ui_action_set_sensitive (action, n_selected_rows > 0);
 }
 
 static void

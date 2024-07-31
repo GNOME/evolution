@@ -36,10 +36,6 @@
 #include "e-composer-actions.h"
 #include "e-composer-header-table.h"
 
-#ifdef HAVE_XFREE
-#include <X11/XF86keysym.h>
-#endif
-
 /* Shorthand, requires a variable named "composer". */
 #define ACTION(name)	(E_COMPOSER_ACTION_##name (composer))
 
@@ -65,9 +61,9 @@ struct _EMsgComposerPrivate {
 	EFocusTracker *focus_tracker;
 	GtkWindowGroup *window_group;
 
-	GtkActionGroup *async_actions;
-	GtkActionGroup *charset_actions;
-	GtkActionGroup *composer_actions;
+	GMenu *charset_menu;
+	EUIActionGroup *async_actions; /* owned by EHTMLEditor::ui-manager */
+	EUIActionGroup *composer_actions; /* owned by EHTMLEditor::ui-manager */
 
 	GPtrArray *extra_hdr_names;
 	GPtrArray *extra_hdr_values;
@@ -80,6 +76,7 @@ struct _EMsgComposerPrivate {
 	GtkWidget *address_dialog;
 
 	EMenuBar *menu_bar;
+	GtkWidget *menu_button; /* owned by menu_bar */
 
 	gchar *mime_type;
 	gchar *mime_body;
@@ -138,7 +135,6 @@ void		e_composer_private_finalize	(EMsgComposer *composer);
 /* Private Utilities */
 
 void		e_composer_actions_init		(EMsgComposer *composer);
-gchar *		e_composer_find_data_file	(const gchar *basename);
 gchar *		e_composer_get_default_charset	(void);
 gchar *		e_composer_decode_clue_value	(const gchar *encoded_value);
 gchar *		e_composer_encode_clue_value	(const gchar *decoded_value);

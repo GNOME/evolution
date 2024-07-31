@@ -24,6 +24,8 @@
 
 #include <gtk/gtk.h>
 
+#include <e-util/e-ui-action.h>
+
 /* Standard GObject macros */
 #define E_TYPE_TREE_VIEW_FRAME \
 	(e_tree_view_frame_get_type ())
@@ -74,7 +76,7 @@ struct _ETreeViewFrameClass {
 	/* Signals */
 	gboolean	(*toolbar_action_activate)
 					(ETreeViewFrame *tree_view_frame,
-					 GtkAction *action);
+					 EUIAction *action);
 	void		(*update_toolbar_actions)
 					(ETreeViewFrame *tree_view_frame);
 };
@@ -104,9 +106,9 @@ void		e_tree_view_frame_set_vscrollbar_policy
 					 GtkPolicyType vscrollbar_policy);
 void		e_tree_view_frame_insert_toolbar_action
 					(ETreeViewFrame *tree_view_frame,
-					 GtkAction *action,
+					 EUIAction *action,
 					 gint position);
-GtkAction *	e_tree_view_frame_lookup_toolbar_action
+EUIAction *	e_tree_view_frame_lookup_toolbar_action
 					(ETreeViewFrame *tree_view_frame,
 					 const gchar *action_name);
 void		e_tree_view_frame_update_toolbar_actions
@@ -115,4 +117,3 @@ void		e_tree_view_frame_update_toolbar_actions
 G_END_DECLS
 
 #endif /* E_TREE_VIEW_FRAME_H */
-

@@ -70,7 +70,6 @@ set(SOURCES
 	e-mail-folder-tweaks.c
 	e-mail-free-form-exp.c
 	e-mail-junk-options.c
-	e-mail-label-action.c
 	e-mail-label-dialog.c
 	e-mail-label-list-store.c
 	e-mail-label-manager.c
@@ -163,7 +162,6 @@ set(HEADERS
 	e-mail-folder-tweaks.h
 	e-mail-free-form-exp.h
 	e-mail-junk-options.h
-	e-mail-label-action.h
 	e-mail-label-dialog.h
 	e-mail-label-list-store.h
 	e-mail-label-manager.h

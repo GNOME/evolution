@@ -23,11 +23,12 @@
 #ifndef E_ACTION_COMBO_BOX_H
 #define E_ACTION_COMBO_BOX_H
 
-/* This is a GtkComboBox that is driven by a group of GtkRadioActions.
- * Just plug in a GtkRadioAction and the widget will handle the rest.
+/* This is a GtkComboBox that is driven by a group of an EUIAction.
+ * Just plug in an EUIAction and the widget will handle the rest.
  * (Based on GtkhtmlComboBox.) */
 
 #include <gtk/gtk.h>
+#include <e-util/e-ui-action.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ACTION_COMBO_BOX \
@@ -66,10 +67,10 @@ struct _EActionComboBoxClass {
 GType		e_action_combo_box_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_action_combo_box_new		(void);
 GtkWidget *	e_action_combo_box_new_with_action
-						(GtkRadioAction *action);
-GtkRadioAction *e_action_combo_box_get_action	(EActionComboBox *combo_box);
+						(EUIAction *action);
+EUIAction *	e_action_combo_box_get_action	(EActionComboBox *combo_box);
 void		e_action_combo_box_set_action	(EActionComboBox *combo_box,
-						 GtkRadioAction *action);
+						 EUIAction *action);
 gint		e_action_combo_box_get_current_value
 						(EActionComboBox *combo_box);
 void		e_action_combo_box_set_current_value

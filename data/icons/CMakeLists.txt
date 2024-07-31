@@ -58,6 +58,7 @@ set(private_icons
 	hicolor_apps_scalable_evolution-mail-symbolic.svg
 	hicolor_apps_scalable_evolution-memos-symbolic.svg
 	hicolor_apps_scalable_evolution-tasks-symbolic.svg
+	hicolor_apps_scalable_gcr-gnupg.svg
 	hicolor_apps_scalable_im-aim.svg
 	hicolor_apps_scalable_im-icq.svg
 	hicolor_apps_scalable_im-jabber.svg

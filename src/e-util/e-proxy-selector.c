@@ -170,7 +170,7 @@ proxy_selector_remove_source_cb (GObject *object,
 
 static gboolean
 proxy_selector_action_add_cb (EProxySelector *selector,
-                              GtkAction *action)
+			      EUIAction *action)
 {
 	AsyncContext *async_context;
 	ESourceRegistry *registry;
@@ -217,7 +217,7 @@ proxy_selector_action_add_cb (EProxySelector *selector,
 
 static gboolean
 proxy_selector_action_remove_cb (EProxySelector *selector,
-                                 GtkAction *action)
+				 EUIAction *action)
 {
 	ESource *selected_source;
 
@@ -457,7 +457,7 @@ proxy_selector_constructed (GObject *object)
 	GtkCellRenderer *renderer;
 	GtkTreeSelection *selection;
 	GtkListStore *list_store;
-	GtkAction *action;
+	EUIAction *action;
 	const gchar *tooltip;
 	gulong handler_id;
 
@@ -477,12 +477,12 @@ proxy_selector_constructed (GObject *object)
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_ADD);
 	tooltip = _("Create a new proxy profile");
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_REMOVE);
 	tooltip = _("Delete the selected proxy profile");
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	/* Configure the tree view column. */
 
@@ -524,7 +524,7 @@ proxy_selector_update_toolbar_actions (ETreeViewFrame *tree_view_frame)
 {
 	EProxySelector *selector;
 	ESource *selected;
-	GtkAction *action;
+	EUIAction *action;
 	gboolean sensitive;
 
 	selector = E_PROXY_SELECTOR (tree_view_frame);
@@ -533,7 +533,7 @@ proxy_selector_update_toolbar_actions (ETreeViewFrame *tree_view_frame)
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_REMOVE);
 	sensitive = e_source_get_removable (selected);
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	g_object_unref (selected);
 

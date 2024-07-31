@@ -109,14 +109,9 @@ guint32		e_comp_editor_get_flags		(ECompEditor *comp_editor);
 void		e_comp_editor_set_flags		(ECompEditor *comp_editor,
 						 guint32 flags);
 EFocusTracker *	e_comp_editor_get_focus_tracker	(ECompEditor *comp_editor);
-GtkUIManager *	e_comp_editor_get_ui_manager	(ECompEditor *comp_editor);
-GtkAction *	e_comp_editor_get_action	(ECompEditor *comp_editor,
+EUIManager *	e_comp_editor_get_ui_manager	(ECompEditor *comp_editor);
+EUIAction *	e_comp_editor_get_action	(ECompEditor *comp_editor,
 						 const gchar *action_name);
-GtkActionGroup *e_comp_editor_get_action_group	(ECompEditor *comp_editor,
-						 const gchar *group_name);
-GtkWidget *	e_comp_editor_get_managed_widget
-						(ECompEditor *comp_editor,
-						 const gchar *widget_path);
 const gchar *	e_comp_editor_get_alarm_email_address
 						(ECompEditor *comp_editor);
 void		e_comp_editor_set_alarm_email_address

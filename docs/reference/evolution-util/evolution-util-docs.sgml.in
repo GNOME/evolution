@@ -108,10 +108,8 @@
     <xi:include href="xml/e-color-combo.xml"/>
     <xi:include href="xml/e-content-editor.xml"/>
     <xi:include href="xml/e-emoticon.xml"/>
-    <xi:include href="xml/e-emoticon-action.xml"/>
     <xi:include href="xml/e-emoticon-chooser.xml"/>
     <xi:include href="xml/e-emoticon-chooser-menu.xml"/>
-    <xi:include href="xml/e-emoticon-tool-button.xml"/>
     <xi:include href="xml/e-html-editor.xml"/>
     <xi:include href="xml/e-html-editor-cell-dialog.xml"/>
     <xi:include href="xml/e-html-editor-dialog.xml"/>
@@ -253,6 +251,15 @@
   </chapter>
 
   <chapter>
+    <title>User Interface Manager</title>
+    <xi:include href="xml/e-ui-action.xml"/>
+    <xi:include href="xml/e-ui-action-group.xml"/>
+    <xi:include href="xml/e-ui-manager.xml"/>
+    <xi:include href="xml/e-ui-menu.xml"/>
+    <xi:include href="xml/e-ui-parser.xml"/>
+  </chapter>
+
+  <chapter>
     <title>(Unsorted Sections)</title>
     <xi:include href="xml/e-accounts-window.xml"/>
     <xi:include href="xml/e-action-combo-box.xml"/>
@@ -286,7 +293,6 @@
     <xi:include href="xml/e-map.xml"/>
     <xi:include href="xml/e-markdown-editor.xml"/>
     <xi:include href="xml/e-menu-bar.xml"/>
-    <xi:include href="xml/e-menu-tool-action.xml"/>
     <xi:include href="xml/e-menu-tool-button.xml"/>
     <xi:include href="xml/e-mktemp.xml"/>
     <xi:include href="xml/e-month-widget.xml"/>
@@ -301,7 +307,6 @@
     <xi:include href="xml/e-photo-source.xml"/>
     <xi:include href="xml/e-picture-gallery.xml"/>
     <xi:include href="xml/e-poolv.xml"/>
-    <xi:include href="xml/e-popup-action.xml"/>
     <xi:include href="xml/e-port-entry.xml"/>
     <xi:include href="xml/e-preferences-window.xml"/>
     <xi:include href="xml/e-preview-pane.xml"/>
@@ -332,6 +337,10 @@
   <index id="api-index-full">
     <title>Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3-56">
+    <title>Index of new symbols in 3.56</title>
+    <xi:include href="xml/api-index-3.56.xml"><xi:fallback /></xi:include>
   </index>
   <index id="api-index-3-54">
     <title>Index of new symbols in 3.54</title>

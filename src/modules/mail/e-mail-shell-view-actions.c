@@ -21,8 +21,9 @@
 #include "evolution-config.h"
 
 #include "mail/e-mail-folder-sort-order-dialog.h"
-
 #include "e-mail-shell-view-private.h"
+
+#include "e-mail-shell-view-actions.h"
 
 static void
 mail_shell_view_folder_created_cb (EMailFolderCreateDialog *dialog,
@@ -47,9 +48,11 @@ mail_shell_view_folder_created_cb (EMailFolderCreateDialog *dialog,
 }
 
 static void
-action_mail_account_disable_cb (GtkAction *action,
-                                EMailShellView *mail_shell_view)
+action_mail_account_disable_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -86,9 +89,11 @@ action_mail_account_disable_cb (GtkAction *action,
 }
 
 static void
-action_mail_account_properties_cb (GtkAction *action,
-                                   EMailShellView *mail_shell_view)
+action_mail_account_properties_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellSidebar *mail_shell_sidebar;
 	EShell *shell;
 	EShellView *shell_view;
@@ -157,9 +162,11 @@ account_refresh_folder_info_received_cb (GObject *source,
 }
 
 static void
-action_mail_account_refresh_cb (GtkAction *action,
-                                EMailShellView *mail_shell_view)
+action_mail_account_refresh_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
@@ -200,9 +207,11 @@ action_mail_account_refresh_cb (GtkAction *action,
 }
 
 static void
-action_mail_create_search_folder_cb (GtkAction *action,
-                                     EMailShellView *mail_shell_view)
+action_mail_create_search_folder_cb (EUIAction *action,
+				     GVariant *parameter,
+				     gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	EMailReader *reader;
 	EShellView *shell_view;
@@ -256,17 +265,21 @@ action_mail_create_search_folder_cb (GtkAction *action,
 }
 
 static void
-action_mail_attachment_bar_cb (GtkAction *action,
-			       EMailShellView *mail_shell_view)
+action_mail_attachment_bar_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailDisplay *mail_display;
 	EAttachmentView *attachment_view;
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
-	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (mail_shell_view->priv->mail_shell_content));
+	e_ui_action_set_state (action, parameter);
+
+	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (e_mail_shell_content_get_mail_view (mail_shell_view->priv->mail_shell_content)));
 	attachment_view = e_mail_display_get_attachment_view (mail_display);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action))) {
+	if (e_ui_action_get_active (action)) {
 		EAttachmentBar *bar;
 		EAttachmentStore *store;
 		guint num_attachments;
@@ -281,34 +294,22 @@ action_mail_attachment_bar_cb (GtkAction *action,
 }
 
 static void
-action_mail_show_preview_toolbar_cb (GtkAction *action,
-				     EShellView *shell_view)
+action_mail_to_do_bar_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
-	EShellWindow *shell_window;
-	GtkWidget *toolbar;
-
-	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (shell_view));
-
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	toolbar = e_shell_window_get_managed_widget (shell_window, "/mail-preview-toolbar");
-
-	if (toolbar)
-		gtk_widget_set_visible (toolbar, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-}
-
-static void
-action_mail_to_do_bar_cb (GtkAction *action,
-			  EShellView *shell_view)
-{
+	EShellView *shell_view = user_data;
 	EShellContent *shell_content;
 	GtkWidget *to_do_pane;
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (shell_view));
 
+	e_ui_action_set_state (action, parameter);
+
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	to_do_pane = e_mail_shell_content_get_to_do_pane (E_MAIL_SHELL_CONTENT (shell_content));
 
-	gtk_widget_set_visible (to_do_pane, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+	gtk_widget_set_visible (to_do_pane, e_ui_action_get_active (action));
 }
 
 static void
@@ -338,9 +339,11 @@ action_mail_download_finished_cb (CamelStore *store,
 }
 
 static void
-action_mail_download_cb (GtkAction *action,
-                         EMailShellView *mail_shell_view)
+action_mail_download_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	EMailView *mail_view;
 	EMailReader *reader;
@@ -391,9 +394,11 @@ action_mail_download_cb (GtkAction *action,
 }
 
 static void
-action_mail_flush_outbox_cb (GtkAction *action,
-                             EMailShellView *mail_shell_view)
+action_mail_flush_outbox_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EMailBackend *backend;
@@ -409,9 +414,11 @@ action_mail_flush_outbox_cb (GtkAction *action,
 }
 
 static void
-action_mail_folder_copy_cb (GtkAction *action,
-                            EMailShellView *mail_shell_view)
+action_mail_folder_copy_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellContent *shell_content;
 	EShellWindow *shell_window;
@@ -440,9 +447,11 @@ action_mail_folder_copy_cb (GtkAction *action,
 }
 
 static void
-action_mail_folder_delete_cb (GtkAction *action,
-                              EMailShellView *mail_shell_view)
+action_mail_folder_delete_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMailView *mail_view;
@@ -470,9 +479,11 @@ action_mail_folder_delete_cb (GtkAction *action,
 }
 
 static void
-action_mail_folder_edit_sort_order_cb (GtkAction *action,
-				       EMailShellView *mail_shell_view)
+action_mail_folder_edit_sort_order_cb (EUIAction *action,
+				       GVariant *parameter,
+				       gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailView *mail_view;
 	EMFolderTree *folder_tree;
 	CamelStore *store;
@@ -500,9 +511,11 @@ action_mail_folder_edit_sort_order_cb (GtkAction *action,
 }
 
 static void
-action_mail_folder_expunge_cb (GtkAction *action,
-                               EMailShellView *mail_shell_view)
+action_mail_folder_expunge_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMailView *mail_view;
@@ -538,9 +551,11 @@ action_mail_folder_expunge_cb (GtkAction *action,
 }
 
 static void
-action_mail_folder_empty_junk_cb (GtkAction *action,
-				  EMailShellView *mail_shell_view)
+action_mail_folder_empty_junk_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMailView *mail_view;
@@ -886,9 +901,11 @@ e_mail_shell_view_actions_mark_all_read (EMailShellView *mail_shell_view,
 }
 
 static void
-action_mail_folder_mark_all_as_read_cb (GtkAction *action,
-                                        EMailShellView *mail_shell_view)
+action_mail_folder_mark_all_as_read_cb (EUIAction *action,
+					GVariant *parameter,
+					gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	EMailReader *reader;
 	EMailView *mail_view;
@@ -918,9 +935,11 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 }
 
 static void
-action_mail_popup_folder_mark_all_as_read_cb (GtkAction *action,
-                                              EMailShellView *mail_shell_view)
+action_mail_popup_folder_mark_all_as_read_cb (EUIAction *action,
+					      GVariant *parameter,
+					      gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
 	CamelStore *store = NULL;
@@ -941,9 +960,11 @@ action_mail_popup_folder_mark_all_as_read_cb (GtkAction *action,
 }
 
 static void
-action_mail_folder_move_cb (GtkAction *action,
-                            EMailShellView *mail_shell_view)
+action_mail_folder_move_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellContent *shell_content;
 	EShellWindow *shell_window;
@@ -972,9 +993,11 @@ action_mail_folder_move_cb (GtkAction *action,
 }
 
 static void
-action_mail_folder_new_cb (GtkAction *action,
-                           EMailShellView *mail_shell_view)
+action_mail_folder_new_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EMailSession *session;
@@ -1013,9 +1036,11 @@ action_mail_folder_new_cb (GtkAction *action,
 }
 
 static void
-action_mail_folder_properties_cb (GtkAction *action,
-                                  EMailShellView *mail_shell_view)
+action_mail_folder_properties_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -1044,9 +1069,11 @@ action_mail_folder_properties_cb (GtkAction *action,
 }
 
 static void
-action_mail_folder_refresh_cb (GtkAction *action,
-                               EMailShellView *mail_shell_view)
+action_mail_folder_refresh_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMailView *mail_view;
@@ -1074,16 +1101,21 @@ action_mail_folder_refresh_cb (GtkAction *action,
 }
 
 static void
-action_mail_folder_rename_cb (GtkAction *action,
-                              EMailShellView *mail_shell_view)
+action_mail_folder_rename_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
+
 	e_mail_shell_view_rename_folder (mail_shell_view);
 }
 
 static void
-action_mail_folder_select_thread_cb (GtkAction *action,
-                                     EMailShellView *mail_shell_view)
+action_mail_folder_select_thread_cb (EUIAction *action,
+				     GVariant *parameter,
+				     gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
 	EMailReader *reader;
@@ -1099,9 +1131,11 @@ action_mail_folder_select_thread_cb (GtkAction *action,
 }
 
 static void
-action_mail_folder_select_subthread_cb (GtkAction *action,
-                                        EMailShellView *mail_shell_view)
+action_mail_folder_select_subthread_cb (EUIAction *action,
+					GVariant *parameter,
+					gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
 	EMailReader *reader;
@@ -1194,9 +1228,11 @@ mail_folder_unsubscribe_got_folder_cb (GObject *source_object,
 }
 
 static void
-action_mail_folder_unsubscribe_cb (GtkAction *action,
-                                   EMailShellView *mail_shell_view)
+action_mail_folder_unsubscribe_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMailView *mail_view;
@@ -1227,9 +1263,11 @@ action_mail_folder_unsubscribe_cb (GtkAction *action,
 }
 
 static void
-action_mail_global_expunge_cb (GtkAction *action,
-                               EMailShellView *mail_shell_view)
+action_mail_global_expunge_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
@@ -1248,9 +1286,11 @@ action_mail_global_expunge_cb (GtkAction *action,
 }
 
 static void
-action_mail_goto_folder_cb (GtkAction *action,
-			    EMailShellView *mail_shell_view)
+action_mail_goto_folder_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	CamelFolder *folder;
 	EMailReader *reader;
 	EMailView *mail_view;
@@ -1305,9 +1345,11 @@ action_mail_goto_folder_cb (GtkAction *action,
 }
 
 static void
-action_mail_send_receive_cb (GtkAction *action,
-                             EMailShellView *mail_shell_view)
+action_mail_send_receive_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
@@ -1325,9 +1367,11 @@ action_mail_send_receive_cb (GtkAction *action,
 }
 
 static void
-action_mail_send_receive_receive_all_cb (GtkAction *action,
-                                         EMailShellView *mail_shell_view)
+action_mail_send_receive_receive_all_cb (EUIAction *action,
+					 GVariant *parameter,
+					 gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
@@ -1345,9 +1389,11 @@ action_mail_send_receive_receive_all_cb (GtkAction *action,
 }
 
 static void
-action_mail_send_receive_send_all_cb (GtkAction *action,
-                                      EMailShellView *mail_shell_view)
+action_mail_send_receive_send_all_cb (EUIAction *action,
+				      GVariant *parameter,
+				      gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
 	EMailBackend *backend;
@@ -1419,23 +1465,31 @@ mail_shell_view_magic_spacebar (EMailShellView *mail_shell_view,
 }
 
 static void
-action_mail_smart_backward_cb (GtkAction *action,
-                               EMailShellView *mail_shell_view)
+action_mail_smart_backward_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
+
 	mail_shell_view_magic_spacebar (mail_shell_view, FALSE);
 }
 
 static void
-action_mail_smart_forward_cb (GtkAction *action,
-                              EMailShellView *mail_shell_view)
+action_mail_smart_forward_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
+
 	mail_shell_view_magic_spacebar (mail_shell_view, TRUE);
 }
 
 static void
-action_mail_stop_cb (GtkAction *action,
-                     EMailShellView *mail_shell_view)
+action_mail_stop_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
 
@@ -1446,9 +1500,11 @@ action_mail_stop_cb (GtkAction *action,
 }
 
 static void
-action_mail_threads_collapse_all_cb (GtkAction *action,
-                                     EMailShellView *mail_shell_view)
+action_mail_threads_collapse_all_cb (EUIAction *action,
+				     GVariant *parameter,
+				     gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
 	EMailReader *reader;
@@ -1464,9 +1520,11 @@ action_mail_threads_collapse_all_cb (GtkAction *action,
 }
 
 static void
-action_mail_threads_expand_all_cb (GtkAction *action,
-                                   EMailShellView *mail_shell_view)
+action_mail_threads_expand_all_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
 	EMailReader *reader;
@@ -1482,9 +1540,11 @@ action_mail_threads_expand_all_cb (GtkAction *action,
 }
 
 static void
-action_mail_tools_filters_cb (GtkAction *action,
-                              EMailShellView *mail_shell_view)
+action_mail_tools_filters_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellWindow *shell_window;
@@ -1507,9 +1567,11 @@ action_mail_tools_filters_cb (GtkAction *action,
 }
 
 static void
-action_mail_tools_search_folders_cb (GtkAction *action,
-                                     EMailShellView *mail_shell_view)
+action_mail_tools_search_folders_cb (EUIAction *action,
+				     GVariant *parameter,
+				     gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
@@ -1524,9 +1586,11 @@ action_mail_tools_search_folders_cb (GtkAction *action,
 }
 
 static void
-action_mail_tools_subscriptions_cb (GtkAction *action,
-                                    EMailShellView *mail_shell_view)
+action_mail_tools_subscriptions_cb (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	EMailShellView *mail_shell_view = user_data;
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
@@ -1555,655 +1619,461 @@ action_mail_tools_subscriptions_cb (GtkAction *action,
 	gtk_widget_destroy (dialog);
 }
 
-static void
-action_mail_view_cb (GtkRadioAction *action,
-                     GtkRadioAction *current,
-                     EMailShellView *mail_shell_view)
-{
-	EMailShellContent *mail_shell_content;
-	GtkOrientation orientation;
-	EMailView *mail_view;
-
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
-
-	switch (gtk_radio_action_get_current_value (action)) {
-		case 0:
-			orientation = GTK_ORIENTATION_VERTICAL;
-			break;
-		case 1:
-			orientation = GTK_ORIENTATION_HORIZONTAL;
-			break;
-		default:
-			g_return_if_reached ();
-	}
-
-	e_mail_view_set_orientation (mail_view, orientation);
-}
-
-static GtkActionEntry mail_entries[] = {
-
-	{ "mail-account-disable",
-	  NULL,
-	  N_("_Disable Account"),
-	  NULL,
-	  N_("Disable this account"),
-	  G_CALLBACK (action_mail_account_disable_cb) },
-
-	{ "mail-account-expunge",
-	  NULL,
-	  N_("_Empty Trash"),
-	  NULL,
-	  N_("Permanently remove all the deleted messages from all folders"),
-	  G_CALLBACK (action_mail_folder_expunge_cb) },
-
-	{ "mail-account-empty-junk",
-	  NULL,
-	  N_("Empty _Junk"),
-	  NULL,
-	  N_("Delete all Junk messages from all folders"),
-	  G_CALLBACK (action_mail_folder_empty_junk_cb) },
-
-	{ "mail-account-properties",
-	  "document-properties",
-	  N_("_Properties"),
-	  NULL,
-	  N_("Edit properties of this account"),
-	  G_CALLBACK (action_mail_account_properties_cb) },
-
-	{ "mail-account-refresh",
-	  "view-refresh",
-	  N_("_Refresh"),
-	  NULL,
-	  N_("Refresh list of folders of this account"),
-	  G_CALLBACK (action_mail_account_refresh_cb) },
-
-	{ "mail-download",
-	  NULL,
-	  N_("_Download Messages for Offline Usage"),
-	  NULL,
-	  N_("Download messages of accounts and folders marked for offline usage"),
-	  G_CALLBACK (action_mail_download_cb) },
-
-	{ "mail-flush-outbox",
-	  "mail-send",
-	  N_("Fl_ush Outbox"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_flush_outbox_cb) },
-
-	{ "mail-folder-copy",
-	  "folder-copy",
-	  N_("_Copy Folder To…"),
-	  NULL,
-	  N_("Copy the selected folder into another folder"),
-	  G_CALLBACK (action_mail_folder_copy_cb) },
-
-	{ "mail-folder-delete",
-	  "edit-delete",
-	  N_("_Delete"),
-	  NULL,
-	  N_("Permanently remove this folder"),
-	  G_CALLBACK (action_mail_folder_delete_cb) },
-
-	{ "mail-folder-edit-sort-order",
-	  NULL,
-	  N_("Edit Sort _Order…"),
-	  NULL,
-	  N_("Change sort order of the folders in the folder tree"),
-	  G_CALLBACK (action_mail_folder_edit_sort_order_cb) },
-
-	{ "mail-folder-expunge",
-	  NULL,
-	  N_("E_xpunge"),
-	  "<Control>e",
-	  N_("Permanently remove all deleted messages from this folder"),
-	  G_CALLBACK (action_mail_folder_expunge_cb) },
-
-	{ "mail-folder-mark-all-as-read",
-	  "mail-mark-read",
-	  N_("Mar_k All Messages as Read"),
-	  "<Control>slash",
-	  N_("Mark all messages in the folder as read"),
-	  G_CALLBACK (action_mail_folder_mark_all_as_read_cb) },
-
-	{ "mail-folder-move",
-	  "folder-move",
-	  N_("_Move Folder To…"),
-	  NULL,
-	  N_("Move the selected folder into another folder"),
-	  G_CALLBACK (action_mail_folder_move_cb) },
-
-	{ "mail-folder-new",
-	  "folder-new",
-	  /* Translators: An action caption to create a new mail folder */
-	  N_("_New…"),
-	  NULL,
-	  N_("Create a new folder for storing mail"),
-	  G_CALLBACK (action_mail_folder_new_cb) },
-
-	{ "mail-folder-properties",
-	  "document-properties",
-	  N_("_Properties"),
-	  NULL,
-	  N_("Change the properties of this folder"),
-	  G_CALLBACK (action_mail_folder_properties_cb) },
-
-	{ "mail-folder-refresh",
-	  "view-refresh",
-	  N_("_Refresh"),
-	  "F5",
-	  N_("Refresh the folder"),
-	  G_CALLBACK (action_mail_folder_refresh_cb) },
-
-	{ "mail-folder-rename",
-	  NULL,
-	  N_("_Rename…"),
-	  "F2",
-	  N_("Change the name of this folder"),
-	  G_CALLBACK (action_mail_folder_rename_cb) },
-
-	{ "mail-folder-select-thread",
-	  NULL,
-	  N_("Select Message _Thread"),
-	  "<Control>h",
-	  N_("Select all messages in the same thread as the selected message"),
-	  G_CALLBACK (action_mail_folder_select_thread_cb) },
-
-	{ "mail-folder-select-subthread",
-	  NULL,
-	  N_("Select Message S_ubthread"),
-	  "<Shift><Control>h",
-	  N_("Select all replies to the currently selected message"),
-	  G_CALLBACK (action_mail_folder_select_subthread_cb) },
-
-	{ "mail-folder-unsubscribe",
-	  NULL,
-	  N_("_Unsubscribe"),
-	  NULL,
-	  N_("Unsubscribe from the selected folder"),
-	  G_CALLBACK (action_mail_folder_unsubscribe_cb) },
-
-	{ "mail-global-expunge",
-	  NULL,
-	  N_("Empty _Trash"),
-	  NULL,
-	  N_("Permanently remove all the deleted messages from all accounts"),
-	  G_CALLBACK (action_mail_global_expunge_cb) },
-
-	{ "mail-goto-folder",
-	  NULL,
-	  N_("Go to _Folder"),
-	  "<Control>g",
-	  N_("Opens a dialog to select a folder to go to"),
-	  G_CALLBACK (action_mail_goto_folder_cb) },
-
-	/* This is the same as "mail-tools-subscriptions" but only
-	 * appears in the sidebar context menu when right-clicking
-	 * on a store that supports folder subscriptions.  No need
-	 * for a special callback because Folder->Subscriptions...
-	 * already tries to open the "Folder Subscriptions" dialog
-	 * according to the highlighted item in the sidebar, which
-	 * is exactly the behavior we want here. */
-	{ "mail-manage-subscriptions",
-	  NULL,
-	  N_("_Manage Subscriptions"),
-	  NULL,
-	  N_("Subscribe or unsubscribe to folders on remote servers"),
-	  G_CALLBACK (action_mail_tools_subscriptions_cb) },
-
-	{ "mail-popup-folder-mark-all-as-read",
-	  "mail-mark-read",
-	  N_("Mar_k All Messages as Read"),
-	  NULL,
-	  N_("Mark all messages in the folder as read"),
-	  G_CALLBACK (action_mail_popup_folder_mark_all_as_read_cb) },
-
-	{ "mail-send-receive",
-	  "mail-send-receive",
-	  N_("Send / _Receive"),
-	  "F12",
-	  N_("Send queued items and retrieve new items"),
-	  G_CALLBACK (action_mail_send_receive_cb) },
-
-        { "mail-send-receive-receive-all",
-	  NULL,
-	  N_("R_eceive All"),
-	  NULL,
-	  N_("Receive new items from all accounts"),
-	  G_CALLBACK (action_mail_send_receive_receive_all_cb) },
-
-        { "mail-send-receive-send-all",
-	  "mail-send",
-	  N_("_Send All"),
-	  NULL,
-	  N_("Send queued items in all accounts"),
-	  G_CALLBACK (action_mail_send_receive_send_all_cb) },
-
-        { "mail-send-receive-submenu",
-	  "mail-send-receive",
-	  N_("Send / _Receive"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-smart-backward",
-	  "go-up", /* In case a user adds it to the UI */
-	  NULL,  /* No menu item; key press only */
-	  "BackSpace",
-	  NULL,
-	  G_CALLBACK (action_mail_smart_backward_cb) },
-
-	{ "mail-smart-forward",
-	  "go-down", /* In case a user adds it to the UI */
-	  NULL,  /* No menu item; key press only */
-	  "space",
-	  NULL,
-	  G_CALLBACK (action_mail_smart_forward_cb) },
-
-	{ "mail-stop",
-	  "process-stop",
-	  N_("Cancel"),
-	  NULL,
-	  N_("Cancel the current mail operation"),
-	  G_CALLBACK (action_mail_stop_cb) },
-
-	{ "mail-threads-collapse-all",
-	  NULL,
-	  N_("Collapse All _Threads"),
-	  "<Shift><Control>b",
-	  N_("Collapse all message threads"),
-	  G_CALLBACK (action_mail_threads_collapse_all_cb) },
-
-	{ "mail-threads-expand-all",
-	  NULL,
-	  N_("E_xpand All Threads"),
-	  NULL,
-	  N_("Expand all message threads"),
-	  G_CALLBACK (action_mail_threads_expand_all_cb) },
-
-	{ "mail-tools-filters",
-	  NULL,
-	  N_("_Message Filters"),
-	  NULL,
-	  N_("Create or edit rules for filtering new mail"),
-	  G_CALLBACK (action_mail_tools_filters_cb) },
-
-	{ "mail-tools-subscriptions",
-	  NULL,
-	  N_("_Subscriptions…"),
-	  NULL,
-	  N_("Subscribe or unsubscribe to folders on remote servers"),
-	  G_CALLBACK (action_mail_tools_subscriptions_cb) },
-
-	/*** Menus ***/
-
-	{ "mail-folder-menu",
-	  NULL,
-	  N_("F_older"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-preview-menu",
-	  NULL,
-	  N_("_Preview"),
-	  NULL,
-	  NULL,
-	  NULL }
-};
-
-static GtkActionEntry search_folder_entries[] = {
-
-	{ "mail-create-search-folder",
-	  NULL,
-	  N_("C_reate Search Folder From Search…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_create_search_folder_cb) },
-
-	{ "mail-tools-search-folders",
-	  NULL,
-	  N_("Search F_olders"),
-	  NULL,
-	  N_("Create or edit search folder definitions"),
-	  G_CALLBACK (action_mail_tools_search_folders_cb) },
-};
-
-static EPopupActionEntry mail_popup_entries[] = {
-
-	{ "mail-popup-account-disable",
-	  NULL,
-	  "mail-account-disable" },
-
-	{ "mail-popup-account-expunge",
-	  NULL,
-	  "mail-account-expunge" },
-
-	{ "mail-popup-account-empty-junk",
-	  NULL,
-	  "mail-account-empty-junk" },
-
-	{ "mail-popup-account-refresh",
-	  NULL,
-	  "mail-account-refresh" },
-
-	{ "mail-popup-account-properties",
-	  NULL,
-	  "mail-account-properties" },
-
-	{ "mail-popup-flush-outbox",
-	  NULL,
-	  "mail-flush-outbox" },
-
-	{ "mail-popup-folder-copy",
-	  NULL,
-	  "mail-folder-copy" },
-
-	{ "mail-popup-folder-delete",
-	  NULL,
-	  "mail-folder-delete" },
-
-	{ "mail-popup-folder-move",
-	  NULL,
-	  "mail-folder-move" },
-
-	{ "mail-popup-folder-new",
-	  N_("_New Folder…"),
-	  "mail-folder-new" },
-
-	{ "mail-popup-folder-properties",
-	  NULL,
-	  "mail-folder-properties" },
-
-	{ "mail-popup-folder-refresh",
-	  NULL,
-	  "mail-folder-refresh" },
-
-	{ "mail-popup-folder-rename",
-	  NULL,
-	  "mail-folder-rename" },
-
-	{ "mail-popup-folder-unsubscribe",
-	  NULL,
-	  "mail-folder-unsubscribe" },
-
-	{ "mail-popup-manage-subscriptions",
-	  NULL,
-	  "mail-manage-subscriptions" }
-};
-
-static GtkToggleActionEntry mail_toggle_entries[] = {
-
-	{ "mail-preview",
-	  NULL,
-	  N_("Show Message _Preview"),
-	  "<Control>m",
-	  N_("Show message preview pane"),
-	  NULL,  /* Handled by property bindings */
-	  TRUE },
-
-	{ "mail-attachment-bar",
-	  NULL,
-	  N_("Show _Attachment Bar"),
-	  NULL,
-	  N_("Show Attachment Bar below the message preview pane when the message has attachments"),
-	  G_CALLBACK (action_mail_attachment_bar_cb),
-	  TRUE },
-
-	{ "mail-show-deleted",
-	  NULL,
-	  N_("Show _Deleted Messages"),
-	  NULL,
-	  N_("Show deleted messages with a line through them"),
-	  NULL,  /* Handled by property bindings */
-	  FALSE },
-
-	{ "mail-show-junk",
-	  NULL,
-	  N_("Show _Junk Messages"),
-	  NULL,
-	  N_("Show junk messages with a red line through them"),
-	  NULL,  /* Handled by property bindings */
-	  FALSE },
-
-	{ "mail-show-preview-toolbar",
-	  NULL,
-	  N_("Show _Preview Tool Bar"),
-	  NULL,
-	  N_("Show tool bar above the preview panel"),
-	  G_CALLBACK (action_mail_show_preview_toolbar_cb),
-	  TRUE },
-
-	{ "mail-threads-group-by",
-	  NULL,
-	  N_("_Group By Threads"),
-	  "<Control>t",
-	  N_("Threaded message list"),
-	  NULL,  /* Handled by property bindings */
-	  FALSE },
-
-	{ "mail-to-do-bar",
-	  NULL,
-	  N_("Show To _Do Bar"),
-	  NULL,
-	  N_("Show To Do bar with appointments and tasks"),
-	  G_CALLBACK (action_mail_to_do_bar_cb),
-	  TRUE },
-
-	{ "mail-vfolder-unmatched-enable",
-	  NULL,
-	  N_("_Unmatched Folder Enabled"),
-	  NULL,
-	  N_("Toggles whether Unmatched search folder is enabled"),
-	  NULL }
-};
-
-static GtkRadioActionEntry mail_view_entries[] = {
-
-	/* This action represents the initial active mail view.
-	 * It should not be visible in the UI, nor should it be
-	 * possible to switch to it from another shell view. */
-	{ "mail-view-initial",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  -1 },
-
-	{ "mail-view-classic",
-	  NULL,
-	  N_("_Classic View"),
-	  NULL,
-	  N_("Show message preview below the message list"),
-	  0 },
-
-	{ "mail-view-vertical",
-	  NULL,
-	  N_("_Vertical View"),
-	  NULL,
-	  N_("Show message preview alongside the message list"),
-	  1 }
-};
-
-static GtkRadioActionEntry mail_filter_entries[] = {
-
-	{ "mail-filter-all-messages",
-	  NULL,
-	  N_("All Messages"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_FILTER_ALL_MESSAGES },
-
-	{ "mail-filter-important-messages",
-	  "emblem-important",
-	  N_("Important Messages"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_FILTER_IMPORTANT_MESSAGES },
-
-	{ "mail-filter-last-5-days-messages",
-	  NULL,
-	  N_("Last 5 Days’ Messages"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_FILTER_LAST_5_DAYS_MESSAGES },
-
-	{ "mail-filter-messages-not-junk",
-	  "mail-mark-notjunk",
-	  N_("Messages Not Junk"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_FILTER_MESSAGES_NOT_JUNK },
-
-	{ "mail-filter-messages-with-attachments",
-	  "mail-attachment",
-	  N_("Messages with Attachments"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_FILTER_MESSAGES_WITH_ATTACHMENTS },
-
-	{ "mail-filter-messages-with-notes",
-	  "evolution-memos",
-	  N_("Messages with Notes"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_FILTER_MESSAGES_WITH_NOTES },
-
-	{ "mail-filter-no-label",
-	  NULL,
-	  N_("No Label"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_FILTER_NO_LABEL },
-
-	{ "mail-filter-read-messages",
-	  "mail-read",
-	  N_("Read Messages"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_FILTER_READ_MESSAGES },
-
-	{ "mail-filter-unread-messages",
-	  "mail-unread",
-	  N_("Unread Messages"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_FILTER_UNREAD_MESSAGES },
-
-	{ "mail-filter-message-thread",
-	  NULL,
-	  N_("Message Thread"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_FILTER_MESSAGE_THREAD }
-
-};
-
-static GtkRadioActionEntry mail_search_entries[] = {
-
-	{ "mail-search-advanced-hidden",
-	  NULL,
-	  N_("Advanced Search"),
-	  NULL,
-	  NULL,
-	  MAIL_SEARCH_ADVANCED },
-
-	{ "mail-search-body-contains",
-	  NULL,
-	  N_("Body contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SEARCH_BODY_CONTAINS },
-
-	{ "mail-search-free-form-expr",
-	  NULL,
-	  N_("Free form expression"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SEARCH_FREE_FORM_EXPR },
-
-	{ "mail-search-message-contains",
-	  NULL,
-	  N_("Message contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SEARCH_MESSAGE_CONTAINS },
-
-	{ "mail-search-recipients-contain",
-	  NULL,
-	  N_("Recipients contain"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SEARCH_RECIPIENTS_CONTAIN },
-
-	{ "mail-search-sender-contains",
-	  NULL,
-	  N_("Sender contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SEARCH_SENDER_CONTAINS },
-
-	{ "mail-search-subject-contains",
-	  NULL,
-	  N_("Subject contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SEARCH_SUBJECT_CONTAINS },
-
-	{ "mail-search-subject-or-addresses-contain",
-	  NULL,
-	  N_("Subject or Addresses contain"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN }
-};
-
-static GtkRadioActionEntry mail_scope_entries[] = {
-
-	{ "mail-scope-all-accounts",
-	  NULL,
-	  N_("All Accounts"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SCOPE_ALL_ACCOUNTS },
-
-	{ "mail-scope-current-account",
-	  NULL,
-	  N_("Current Account"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SCOPE_CURRENT_ACCOUNT },
-
-	{ "mail-scope-current-folder",
-	  NULL,
-	  N_("Current Folder"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SCOPE_CURRENT_FOLDER },
-
-	{ "mail-scope-current-folder-and-subfolders",
-	  NULL,
-	  N_("Current Folder and Subfolders"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SCOPE_CURRENT_FOLDER_AND_SUBFOLDERS }
-};
-
 void
 e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 {
-	EMailShellContent *mail_shell_content;
+	static const EUIActionEntry mail_entries[] = {
+
+		{ "mail-account-disable",
+		  NULL,
+		  N_("_Disable Account"),
+		  NULL,
+		  N_("Disable this account"),
+		  action_mail_account_disable_cb, NULL, NULL, NULL },
+
+		{ "mail-account-expunge",
+		  NULL,
+		  N_("_Empty Trash"),
+		  NULL,
+		  N_("Permanently remove all the deleted messages from all folders"),
+		  action_mail_folder_expunge_cb, NULL, NULL, NULL },
+
+		{ "mail-account-empty-junk",
+		  NULL,
+		  N_("Empty _Junk"),
+		  NULL,
+		  N_("Delete all Junk messages from all folders"),
+		  action_mail_folder_empty_junk_cb, NULL, NULL, NULL },
+
+		{ "mail-account-properties",
+		  "document-properties",
+		  N_("_Properties"),
+		  NULL,
+		  N_("Edit properties of this account"),
+		  action_mail_account_properties_cb, NULL, NULL, NULL },
+
+		{ "mail-account-refresh",
+		  "view-refresh",
+		  N_("_Refresh"),
+		  NULL,
+		  N_("Refresh list of folders of this account"),
+		  action_mail_account_refresh_cb, NULL, NULL, NULL },
+
+		{ "mail-download",
+		  NULL,
+		  N_("_Download Messages for Offline Usage"),
+		  NULL,
+		  N_("Download messages of accounts and folders marked for offline usage"),
+		  action_mail_download_cb, NULL, NULL, NULL },
+
+		{ "mail-flush-outbox",
+		  "mail-send",
+		  N_("Fl_ush Outbox"),
+		  NULL,
+		  NULL,
+		  action_mail_flush_outbox_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-copy",
+		  "folder-copy",
+		  N_("_Copy Folder To…"),
+		  NULL,
+		  N_("Copy the selected folder into another folder"),
+		  action_mail_folder_copy_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-delete",
+		  "edit-delete",
+		  N_("_Delete"),
+		  NULL,
+		  N_("Permanently remove this folder"),
+		  action_mail_folder_delete_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-edit-sort-order",
+		  NULL,
+		  N_("Edit Sort _Order…"),
+		  NULL,
+		  N_("Change sort order of the folders in the folder tree"),
+		  action_mail_folder_edit_sort_order_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-expunge",
+		  NULL,
+		  N_("E_xpunge"),
+		  "<Control>e",
+		  N_("Permanently remove all deleted messages from this folder"),
+		  action_mail_folder_expunge_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-mark-all-as-read",
+		  "mail-mark-read",
+		  N_("Mar_k All Messages as Read"),
+		  "<Control>slash",
+		  N_("Mark all messages in the folder as read"),
+		  action_mail_folder_mark_all_as_read_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-move",
+		  "folder-move",
+		  N_("_Move Folder To…"),
+		  NULL,
+		  N_("Move the selected folder into another folder"),
+		  action_mail_folder_move_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-new",
+		  "folder-new",
+		  /* Translators: An action caption to create a new mail folder */
+		  N_("_New…"),
+		  NULL,
+		  N_("Create a new folder for storing mail"),
+		  action_mail_folder_new_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-new-full",
+		  "folder-new",
+		  N_("_New Folder…"),
+		  NULL,
+		  N_("Create a new folder for storing mail"),
+		  action_mail_folder_new_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-properties",
+		  "document-properties",
+		  N_("_Properties"),
+		  NULL,
+		  N_("Change the properties of this folder"),
+		  action_mail_folder_properties_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-refresh",
+		  "view-refresh",
+		  N_("_Refresh"),
+		  "F5",
+		  N_("Refresh the folder"),
+		  action_mail_folder_refresh_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-rename",
+		  NULL,
+		  N_("_Rename…"),
+		  NULL,
+		  N_("Change the name of this folder"),
+		  action_mail_folder_rename_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-select-thread",
+		  NULL,
+		  N_("Select Message _Thread"),
+		  "<Control>h",
+		  N_("Select all messages in the same thread as the selected message"),
+		  action_mail_folder_select_thread_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-select-subthread",
+		  NULL,
+		  N_("Select Message S_ubthread"),
+		  "<Shift><Control>h",
+		  N_("Select all replies to the currently selected message"),
+		  action_mail_folder_select_subthread_cb, NULL, NULL, NULL },
+
+		{ "mail-folder-unsubscribe",
+		  NULL,
+		  N_("_Unsubscribe"),
+		  NULL,
+		  N_("Unsubscribe from the selected folder"),
+		  action_mail_folder_unsubscribe_cb, NULL, NULL, NULL },
+
+		{ "mail-global-expunge",
+		  NULL,
+		  N_("Empty _Trash"),
+		  NULL,
+		  N_("Permanently remove all the deleted messages from all accounts"),
+		  action_mail_global_expunge_cb, NULL, NULL, NULL },
+
+		{ "mail-goto-folder",
+		  NULL,
+		  N_("Go to _Folder"),
+		  "<Control>g",
+		  N_("Opens a dialog to select a folder to go to"),
+		  action_mail_goto_folder_cb, NULL, NULL, NULL },
+
+		/* This is the same as "mail-tools-subscriptions" but only
+		 * appears in the sidebar context menu when right-clicking
+		 * on a store that supports folder subscriptions.  No need
+		 * for a special callback because Folder->Subscriptions...
+		 * already tries to open the "Folder Subscriptions" dialog
+		 * according to the highlighted item in the sidebar, which
+		 * is exactly the behavior we want here. */
+		{ "mail-manage-subscriptions",
+		  NULL,
+		  N_("_Manage Subscriptions"),
+		  NULL,
+		  N_("Subscribe or unsubscribe to folders on remote servers"),
+		  action_mail_tools_subscriptions_cb, NULL, NULL, NULL },
+
+		{ "mail-popup-folder-mark-all-as-read",
+		  "mail-mark-read",
+		  N_("Mar_k All Messages as Read"),
+		  NULL,
+		  N_("Mark all messages in the folder as read"),
+		  action_mail_popup_folder_mark_all_as_read_cb, NULL, NULL, NULL },
+
+		{ "mail-send-receive",
+		  "mail-send-receive",
+		  N_("Send / _Receive"),
+		  "F12",
+		  N_("Send queued items and retrieve new items"),
+		  action_mail_send_receive_cb, NULL, NULL, NULL },
+
+		{ "mail-send-receive-receive-all",
+		  NULL,
+		  N_("R_eceive All"),
+		  NULL,
+		  N_("Receive new items from all accounts"),
+		  action_mail_send_receive_receive_all_cb, NULL, NULL, NULL },
+
+		{ "mail-send-receive-send-all",
+		  "mail-send",
+		  N_("_Send All"),
+		  NULL,
+		  N_("Send queued items in all accounts"),
+		  action_mail_send_receive_send_all_cb, NULL, NULL, NULL },
+
+		{ "mail-smart-backward",
+		  "go-up", /* In case a user adds it to the UI */
+		  "Mail smart backward",
+		  "BackSpace",
+		  NULL,
+		  action_mail_smart_backward_cb, NULL, NULL, NULL },
+
+		{ "mail-smart-forward",
+		  "go-down", /* In case a user adds it to the UI */
+		  "Mail smart forward",
+		  "space",
+		  NULL,
+		  action_mail_smart_forward_cb, NULL, NULL, NULL },
+
+		{ "mail-stop",
+		  "process-stop",
+		  N_("Cancel"),
+		  NULL,
+		  N_("Cancel the current mail operation"),
+		  action_mail_stop_cb, NULL, NULL, NULL },
+
+		{ "mail-threads-collapse-all",
+		  NULL,
+		  N_("Collapse All _Threads"),
+		  "<Shift><Control>b",
+		  N_("Collapse all message threads"),
+		  action_mail_threads_collapse_all_cb, NULL, NULL, NULL },
+
+		{ "mail-threads-expand-all",
+		  NULL,
+		  N_("E_xpand All Threads"),
+		  NULL,
+		  N_("Expand all message threads"),
+		  action_mail_threads_expand_all_cb, NULL, NULL, NULL },
+
+		{ "mail-tools-filters",
+		  NULL,
+		  N_("_Message Filters"),
+		  NULL,
+		  N_("Create or edit rules for filtering new mail"),
+		  action_mail_tools_filters_cb, NULL, NULL, NULL },
+
+		{ "mail-tools-subscriptions",
+		  NULL,
+		  N_("_Subscriptions…"),
+		  NULL,
+		  N_("Subscribe or unsubscribe to folders on remote servers"),
+		  action_mail_tools_subscriptions_cb, NULL, NULL, NULL },
+
+		/*** Menus ***/
+
+		{ "mail-folder-menu", NULL, N_("F_older"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "mail-preview-menu", NULL, N_("_Preview"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "EMailShellView::mail-send-receive", "mail-send-receive", N_("Send / _Receive"), NULL, NULL, NULL, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry search_folder_entries[] = {
+
+		{ "mail-create-search-folder",
+		  NULL,
+		  N_("C_reate Search Folder From Search…"),
+		  NULL,
+		  NULL,
+		  action_mail_create_search_folder_cb, NULL, NULL, NULL },
+
+		{ "mail-tools-search-folders",
+		  NULL,
+		  N_("Search F_olders"),
+		  NULL,
+		  N_("Create or edit search folder definitions"),
+		  action_mail_tools_search_folders_cb, NULL, NULL, NULL },
+	};
+
+	static const EUIActionEntry mail_toggle_entries[] = {
+
+		{ "mail-preview",
+		  NULL,
+		  N_("Show Message _Preview"),
+		  "<Control>m",
+		  N_("Show message preview pane"),
+		  NULL, NULL, "true", NULL /* Handled by property bindings */ },
+
+		{ "mail-attachment-bar",
+		  NULL,
+		  N_("Show _Attachment Bar"),
+		  NULL,
+		  N_("Show Attachment Bar below the message preview pane when the message has attachments"),
+		  NULL, NULL, "true", action_mail_attachment_bar_cb },
+
+		{ "mail-show-deleted",
+		  NULL,
+		  N_("Show _Deleted Messages"),
+		  NULL,
+		  N_("Show deleted messages with a line through them"),
+		  NULL, NULL, "false", NULL }, /* Handled by property bindings */
+
+		{ "mail-show-junk",
+		  NULL,
+		  N_("Show _Junk Messages"),
+		  NULL,
+		  N_("Show junk messages with a red line through them"),
+		  NULL, NULL, "false", NULL }, /* Handled by property bindings */
+
+		{ "mail-show-preview-toolbar",
+		  NULL,
+		  N_("Show _Preview Tool Bar"),
+		  NULL,
+		  N_("Show tool bar above the preview panel"),
+		  NULL, NULL, "true", NULL }, /* Handled by property bindings */
+
+		{ "mail-threads-group-by",
+		  NULL,
+		  N_("_Group By Threads"),
+		  "<Control>t",
+		  N_("Threaded message list"),
+		  NULL, NULL, "false", NULL }, /* Handled by property bindings */
+
+		{ "mail-to-do-bar",
+		  NULL,
+		  N_("Show To _Do Bar"),
+		  NULL,
+		  N_("Show To Do bar with appointments and tasks"),
+		  NULL, NULL, "true", action_mail_to_do_bar_cb },
+
+		{ "mail-vfolder-unmatched-enable",
+		  NULL,
+		  N_("_Unmatched Folder Enabled"),
+		  NULL,
+		  N_("Toggles whether Unmatched search folder is enabled"),
+		  NULL, NULL, "true", NULL }
+	};
+
+	static const EUIActionEnumEntry mail_view_entries[] = {
+
+		{ "mail-view-classic",
+		  NULL,
+		  N_("_Classic View"),
+		  NULL,
+		  N_("Show message preview below the message list"),
+		  NULL, 0 },
+
+		{ "mail-view-vertical",
+		  NULL,
+		  N_("_Vertical View"),
+		  NULL,
+		  N_("Show message preview alongside the message list"),
+		  NULL, 1 }
+	};
+
+	static const EUIActionEnumEntry mail_search_entries[] = {
+
+		{ "mail-search-advanced-hidden",
+		  NULL,
+		  N_("Advanced Search"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_SEARCH_ADVANCED },
+
+		{ "mail-search-body-contains",
+		  NULL,
+		  N_("Body contains"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_SEARCH_BODY_CONTAINS },
+
+		{ "mail-search-free-form-expr",
+		  NULL,
+		  N_("Free form expression"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_SEARCH_FREE_FORM_EXPR },
+
+		{ "mail-search-message-contains",
+		  NULL,
+		  N_("Message contains"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_SEARCH_MESSAGE_CONTAINS },
+
+		{ "mail-search-recipients-contain",
+		  NULL,
+		  N_("Recipients contain"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_SEARCH_RECIPIENTS_CONTAIN },
+
+		{ "mail-search-sender-contains",
+		  NULL,
+		  N_("Sender contains"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_SEARCH_SENDER_CONTAINS },
+
+		{ "mail-search-subject-contains",
+		  NULL,
+		  N_("Subject contains"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_SEARCH_SUBJECT_CONTAINS },
+
+		{ "mail-search-subject-or-addresses-contain",
+		  NULL,
+		  N_("Subject or Addresses contain"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN }
+	};
+
+	static const EUIActionEnumEntry mail_scope_entries[] = {
+
+		{ "mail-scope-all-accounts",
+		  NULL,
+		  N_("All Accounts"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_SCOPE_ALL_ACCOUNTS },
+
+		{ "mail-scope-current-account",
+		  NULL,
+		  N_("Current Account"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_SCOPE_CURRENT_ACCOUNT },
+
+		{ "mail-scope-current-folder",
+		  NULL,
+		  N_("Current Folder"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_SCOPE_CURRENT_FOLDER },
+
+		{ "mail-scope-current-folder-and-subfolders",
+		  NULL,
+		  N_("Current Folder and Subfolders"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_SCOPE_CURRENT_FOLDER_AND_SUBFOLDERS }
+	};
+
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
 	EShell *shell;
-	EShellSearchbar *searchbar;
-	EActionComboBox *combo_box;
-	EMailView *mail_view;
-	GtkActionGroup *action_group;
-	GtkAction *action;
-	GSettings *settings;
+	EUIManager *ui_manager;
+	GPtrArray *group;
+	guint ii;
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
@@ -2211,106 +2081,35 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
-
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
-	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
 
 	/* Mail Actions */
-	action_group = ACTION_GROUP (MAIL);
-	gtk_action_group_add_actions (
-		action_group, mail_entries,
-		G_N_ELEMENTS (mail_entries), mail_shell_view);
-	gtk_action_group_add_toggle_actions (
-		action_group, mail_toggle_entries,
-		G_N_ELEMENTS (mail_toggle_entries), mail_shell_view);
-	gtk_action_group_add_radio_actions (
-		action_group, mail_view_entries,
-		G_N_ELEMENTS (mail_view_entries), -1,
-		G_CALLBACK (action_mail_view_cb), mail_shell_view);
-	gtk_action_group_add_radio_actions (
-		action_group, mail_search_entries,
-		G_N_ELEMENTS (mail_search_entries),
-		-1, NULL, NULL);
-	gtk_action_group_add_radio_actions (
-		action_group, mail_scope_entries,
-		G_N_ELEMENTS (mail_scope_entries),
-		MAIL_SCOPE_CURRENT_FOLDER, NULL, NULL);
-	e_action_group_add_popup_actions (
-		action_group, mail_popup_entries,
-		G_N_ELEMENTS (mail_popup_entries));
-
-	/* WebKitGTK does not support print preview, thus hide the option from the menu;
-	   maybe it'll be supported in the future */
-	action = ACTION (MAIL_PRINT_PREVIEW);
-	gtk_action_set_visible (action, FALSE);
+	e_ui_manager_add_actions (ui_manager, "mail", NULL,
+		mail_entries, G_N_ELEMENTS (mail_entries), mail_shell_view);
+	e_ui_manager_add_actions (ui_manager, "mail", NULL,
+		mail_toggle_entries, G_N_ELEMENTS (mail_toggle_entries), mail_shell_view);
+	e_ui_manager_add_actions_enum (ui_manager, "mail", NULL,
+		mail_view_entries, G_N_ELEMENTS (mail_view_entries), mail_shell_view);
+	e_ui_manager_add_actions_enum (ui_manager, "mail", NULL,
+		mail_search_entries, G_N_ELEMENTS (mail_search_entries), mail_shell_view);
+	e_ui_manager_add_actions_enum (ui_manager, "mail", NULL,
+		mail_scope_entries, G_N_ELEMENTS (mail_scope_entries), mail_shell_view);
 
 	/* Search Folder Actions */
-	action_group = ACTION_GROUP (SEARCH_FOLDERS);
-	gtk_action_group_add_actions (
-		action_group, search_folder_entries,
-		G_N_ELEMENTS (search_folder_entries), mail_shell_view);
+	e_ui_manager_add_actions (ui_manager, "search-folders", NULL,
+		search_folder_entries, G_N_ELEMENTS (search_folder_entries), mail_shell_view);
 
-	action = ACTION (MAIL_SCOPE_ALL_ACCOUNTS);
-	combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
-	e_action_combo_box_set_action (combo_box, GTK_RADIO_ACTION (action));
-	e_shell_searchbar_set_scope_visible (searchbar, TRUE);
+	/* Add scopes into a radio group */
 
-	/* Advanced Search Action */
-	action = ACTION (MAIL_SEARCH_ADVANCED_HIDDEN);
-	gtk_action_set_visible (action, FALSE);
-	e_shell_searchbar_set_search_option (
-		searchbar, GTK_RADIO_ACTION (action));
+	group = g_ptr_array_sized_new (G_N_ELEMENTS (mail_scope_entries));
 
-	g_object_set (ACTION (MAIL_SEND_RECEIVE), "is-important", TRUE, NULL);
+	for (ii = 0; ii < G_N_ELEMENTS (mail_scope_entries); ii++) {
+		EUIAction *action = e_ui_manager_get_action (ui_manager, mail_scope_entries[ii].name);
 
-	/* Bind GObject properties for GSettings keys. */
-
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-
-	g_settings_bind (
-		settings, "show-deleted",
-		ACTION (MAIL_SHOW_DELETED), "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "show-junk",
-		ACTION (MAIL_SHOW_JUNK), "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "show-preview-toolbar",
-		ACTION (MAIL_SHOW_PREVIEW_TOOLBAR), "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "layout",
-		ACTION (MAIL_VIEW_VERTICAL), "current-value",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "enable-unmatched",
-		ACTION (MAIL_VFOLDER_UNMATCHED_ENABLE), "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "show-attachment-bar",
-		ACTION (MAIL_ATTACHMENT_BAR), "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	if (e_shell_window_is_main_instance (shell_window)) {
-		g_settings_bind (
-			settings, "show-to-do-bar",
-			ACTION (MAIL_TO_DO_BAR), "active",
-			G_SETTINGS_BIND_DEFAULT);
-	} else {
-		g_settings_bind (
-			settings, "show-to-do-bar-sub",
-			ACTION (MAIL_TO_DO_BAR), "active",
-			G_SETTINGS_BIND_DEFAULT);
+		e_ui_action_set_radio_group (action, group);
 	}
 
-	g_object_unref (settings);
+	g_clear_pointer (&group, g_ptr_array_unref);
 
 	/* Fine tuning. */
 
@@ -2336,18 +2135,6 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	e_binding_bind_property (
 		ACTION (MAIL_PREVIEW), "active",
-		mail_view, "preview-visible",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (MAIL_THREADS_GROUP_BY), "active",
-		mail_shell_content, "group-by-threads",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (MAIL_PREVIEW), "active",
 		ACTION (MAIL_VIEW_CLASSIC), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
@@ -2357,28 +2144,8 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
-		ACTION (MAIL_SHOW_DELETED), "active",
-		mail_view, "show-deleted",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (MAIL_SHOW_JUNK), "active",
-		mail_view, "show-junk",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
 		shell_backend, "busy",
 		ACTION (MAIL_STOP), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	/* Keep the sensitivity of "Create Search Folder from Search"
-	 * in sync with "Save Search" so that its only selectable when
-	 * showing search results. */
-	e_binding_bind_property (
-		ACTION (SEARCH_SAVE), "sensitive",
-		ACTION (MAIL_CREATE_SEARCH_FOLDER), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
@@ -2390,27 +2157,97 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 void
 e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
 {
+	static const EUIActionEnumEntry mail_filter_entries[] = {
+
+		{ "mail-filter-all-messages",
+		  NULL,
+		  N_("All Messages"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_FILTER_ALL_MESSAGES },
+
+		{ "mail-filter-important-messages",
+		  "emblem-important",
+		  N_("Important Messages"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_FILTER_IMPORTANT_MESSAGES },
+
+		{ "mail-filter-last-5-days-messages",
+		  NULL,
+		  N_("Last 5 Days’ Messages"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_FILTER_LAST_5_DAYS_MESSAGES },
+
+		{ "mail-filter-messages-not-junk",
+		  "mail-mark-notjunk",
+		  N_("Messages Not Junk"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_FILTER_MESSAGES_NOT_JUNK },
+
+		{ "mail-filter-messages-with-attachments",
+		  "mail-attachment",
+		  N_("Messages with Attachments"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_FILTER_MESSAGES_WITH_ATTACHMENTS },
+
+		{ "mail-filter-messages-with-notes",
+		  "evolution-memos",
+		  N_("Messages with Notes"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_FILTER_MESSAGES_WITH_NOTES },
+
+		{ "mail-filter-no-label",
+		  NULL,
+		  N_("No Label"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_FILTER_NO_LABEL },
+
+		{ "mail-filter-read-messages",
+		  "mail-read",
+		  N_("Read Messages"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_FILTER_READ_MESSAGES },
+
+		{ "mail-filter-unread-messages",
+		  "mail-unread",
+		  N_("Unread Messages"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_FILTER_UNREAD_MESSAGES },
+
+		{ "mail-filter-message-thread",
+		  NULL,
+		  N_("Message Thread"),
+		  NULL,
+		  NULL,
+		  NULL, MAIL_FILTER_MESSAGE_THREAD }
+	};
+
 	EMailShellContent *mail_shell_content;
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
 	EShellSearchbar *searchbar;
 	EMailLabelListStore *label_store;
 	EMailBackend *backend;
 	EMailSession *session;
 	EActionComboBox *combo_box;
-	GtkActionGroup *action_group;
-	GtkRadioAction *radio_action;
+	EUIActionGroup *action_group;
+	EUIAction *action;
 	GtkTreeIter iter;
-	GList *list;
-	GSList *group;
+	GPtrArray *radio_group;
 	gboolean valid;
-	gint ii = 0;
+	gint ii;
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	backend = E_MAIL_BACKEND (shell_backend);
@@ -2418,55 +2255,49 @@ e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
 	label_store = e_mail_ui_session_get_label_store (
 		E_MAIL_UI_SESSION (session));
 
-	action_group = ACTION_GROUP (MAIL_FILTER);
-	e_action_group_remove_all_actions (action_group);
+	action_group = e_ui_manager_get_action_group (e_shell_view_get_ui_manager (shell_view), "mail-filter");
+	e_ui_action_group_remove_all (action_group);
 
 	/* Add the standard filter actions.  No callback is needed
 	 * because changes in the EActionComboBox are detected and
 	 * handled by EShellSearchbar. */
-	gtk_action_group_add_radio_actions (
-		action_group, mail_filter_entries,
-		G_N_ELEMENTS (mail_filter_entries),
-		MAIL_FILTER_ALL_MESSAGES, NULL, NULL);
+	e_ui_manager_add_actions_enum (e_shell_view_get_ui_manager (shell_view),
+		e_ui_action_group_get_name (action_group), NULL,
+		mail_filter_entries, G_N_ELEMENTS (mail_filter_entries), NULL);
 
-	/* Retrieve the radio group from an action we just added. */
-	list = gtk_action_group_list_actions (action_group);
-	radio_action = GTK_RADIO_ACTION (list->data);
-	group = gtk_radio_action_get_group (radio_action);
-	g_list_free (list);
+	radio_group = g_ptr_array_new ();
 
-	valid = gtk_tree_model_get_iter_first (
-		GTK_TREE_MODEL (label_store), &iter);
+	for (ii = 0; ii < G_N_ELEMENTS (mail_filter_entries); ii++) {
+		action = e_ui_action_group_get_action (action_group, mail_filter_entries[ii].name);
+		e_ui_action_set_radio_group (action, radio_group);
+	}
+
+	ii = 0; /* start labels from zero, mail_shell_view_execute_search() expects it */
+	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (label_store), &iter);
 
 	while (valid) {
-		GtkAction *action;
-		gchar *action_name;
-		gchar *stock_id;
+		gchar action_name[128];
+		gchar *icon_name;
 		gchar *label;
 
-		label = e_mail_label_list_store_get_name (
-			label_store, &iter);
-		stock_id = e_mail_label_list_store_get_stock_id (
-			label_store, &iter);
+		label = e_mail_label_list_store_get_name (label_store, &iter);
+		icon_name = e_mail_label_list_store_dup_icon_name (label_store, &iter);
 
-		action_name = g_strdup_printf ("mail-filter-label-%d", ii);
-		radio_action = gtk_radio_action_new (
-			action_name, label, NULL, stock_id, ii);
-		g_free (action_name);
+		g_warn_if_fail (g_snprintf (action_name, sizeof (action_name), "mail-filter-label-%d", ii) < sizeof (action_name));
 
-		gtk_radio_action_set_group (radio_action, group);
-		group = gtk_radio_action_get_group (radio_action);
+		action = e_ui_action_new (e_ui_action_group_get_name (action_group), action_name, NULL);
+		e_ui_action_set_label (action, label);
+		e_ui_action_set_icon_name (action, icon_name);
+		e_ui_action_set_state (action, g_variant_new_int32 (ii));
+		e_ui_action_set_radio_group (action, radio_group);
 
-		/* The action group takes ownership of the action. */
-		action = GTK_ACTION (radio_action);
-		gtk_action_group_add_action (action_group, action);
-		g_object_unref (radio_action);
+		e_ui_action_group_add (action_group, action);
 
+		g_object_unref (action);
 		g_free (label);
-		g_free (stock_id);
+		g_free (icon_name);
 
-		valid = gtk_tree_model_iter_next (
-			GTK_TREE_MODEL (label_store), &iter);
+		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (label_store), &iter);
 		ii++;
 	}
 
@@ -2477,7 +2308,7 @@ e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
 	e_shell_view_block_execute_search (shell_view);
 
 	/* Use any action in the group; doesn't matter which. */
-	e_action_combo_box_set_action (combo_box, radio_action);
+	e_action_combo_box_set_action (combo_box, action);
 
 	ii = MAIL_FILTER_MESSAGES_NOT_JUNK;
 	e_action_combo_box_add_separator_after (combo_box, ii);

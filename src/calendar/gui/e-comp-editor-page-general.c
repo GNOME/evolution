@@ -92,43 +92,63 @@ ecep_general_set_column_visible (ECompEditorPageGeneral *page_general,
 }
 
 static void
-action_view_role_cb (GtkToggleAction *action,
-		     ECompEditorPageGeneral *page_general)
+action_view_role_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	ECompEditorPageGeneral *page_general = user_data;
+
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general));
+
+	e_ui_action_set_active (action, !e_ui_action_get_active (action));
 
 	ecep_general_set_column_visible (page_general, E_MEETING_STORE_ROLE_COL,
-		gtk_toggle_action_get_active (action));
+		e_ui_action_get_active (action));
 }
 
 static void
-action_view_rsvp_cb (GtkToggleAction *action,
-		     ECompEditorPageGeneral *page_general)
+action_view_rsvp_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	ECompEditorPageGeneral *page_general = user_data;
+
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general));
+
+	e_ui_action_set_active (action, !e_ui_action_get_active (action));
 
 	ecep_general_set_column_visible (page_general, E_MEETING_STORE_RSVP_COL,
-		gtk_toggle_action_get_active (action));
+		e_ui_action_get_active (action));
 }
 
 static void
-action_view_status_cb (GtkToggleAction *action,
-		       ECompEditorPageGeneral *page_general)
+action_view_status_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
+	ECompEditorPageGeneral *page_general = user_data;
+
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general));
+
+	e_ui_action_set_active (action, !e_ui_action_get_active (action));
 
 	ecep_general_set_column_visible (page_general, E_MEETING_STORE_STATUS_COL,
-		gtk_toggle_action_get_active (action));
+		e_ui_action_get_active (action));
 }
 
 static void
-action_view_type_cb (GtkToggleAction *action,
-		     ECompEditorPageGeneral *page_general)
+action_view_type_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	ECompEditorPageGeneral *page_general = user_data;
+
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general));
 
+	e_ui_action_set_active (action, !e_ui_action_get_active (action));
+
 	ecep_general_set_column_visible (page_general, E_MEETING_STORE_TYPE_COL,
-		gtk_toggle_action_get_active (action));
+		e_ui_action_get_active (action));
 }
 
 static void
@@ -682,76 +702,67 @@ static void
 ecep_general_init_ui (ECompEditorPageGeneral *page_general,
 		      ECompEditor *comp_editor)
 {
-	const gchar *ui =
-		"<ui>"
-		"  <menubar action='main-menu'>"
-		"    <menu action='view-menu'>"
-		"      <placeholder name='columns'>"
-		"        <menuitem action='view-role'/>"
-		"        <menuitem action='view-rsvp'/>"
-		"        <menuitem action='view-status'/>"
-		"        <menuitem action='view-type'/>"
-		"      </placeholder>"
-		"    </menu>"
-		"    <menu action='options-menu'>"
-		"      <placeholder name='toggles'>"
-		"        <menuitem action='option-attendees'/>"
-		"      </placeholder>"
-		"    </menu>"
-		"  </menubar>"
-		"</ui>";
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='view-menu'>"
+		      "<placeholder id='columns'>"
+			"<item action='view-role'/>"
+			"<item action='view-rsvp'/>"
+			"<item action='view-status'/>"
+			"<item action='view-type'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		    "<submenu action='options-menu'>"
+		      "<placeholder id='toggles'>"
+			"<item action='option-attendees' text_only='true'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
 
-	const GtkToggleActionEntry attendees_toggle_entry[] = {
-
+	static const EUIActionEntry attendees_toggle_entry[] = {
 		{ "option-attendees",
 		  NULL,
 		  N_("A_ttendees"),
 		  NULL,
 		  N_("Toggles whether the Attendees are displayed"),
-		  NULL,
-		  FALSE }
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state }
 	};
 
-	const GtkToggleActionEntry columns_toggle_entries[] = {
-
+	static const EUIActionEntry columns_toggle_entries[] = {
 		{ "view-role",
 		  NULL,
 		  N_("R_ole Field"),
 		  NULL,
 		  N_("Toggles whether the Role field is displayed"),
-		  G_CALLBACK (action_view_role_cb),
-		  TRUE },
+		  NULL, NULL, "true", action_view_role_cb },
 
 		{ "view-rsvp",
 		  NULL,
 		  N_("_RSVP"),
 		  NULL,
 		  N_("Toggles whether the RSVP field is displayed"),
-		  G_CALLBACK (action_view_rsvp_cb),
-		  TRUE },
+		  NULL, NULL, "true", action_view_rsvp_cb },
 
 		{ "view-status",
 		  NULL,
 		  N_("_Status Field"),
 		  NULL,
 		  N_("Toggles whether the Status field is displayed"),
-		  G_CALLBACK (action_view_status_cb),
-		  TRUE },
+		  NULL, NULL, "true", action_view_status_cb },
 
 		{ "view-type",
 		  NULL,
 		  N_("_Type Field"),
 		  NULL,
 		  N_("Toggles whether the Attendee Type is displayed"),
-		  G_CALLBACK (action_view_type_cb),
-		  TRUE }
+		  NULL, NULL, "true", action_view_type_cb }
 	};
 
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
-	GtkAction *action;
+	EUIManager *ui_manager;
+	EUIAction *action;
 	GSettings *settings;
-	GError *error = NULL;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general));
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
@@ -759,33 +770,16 @@ ecep_general_init_ui (ECompEditorPageGeneral *page_general,
 	settings = e_comp_editor_get_settings (comp_editor);
 	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
 
-	action_group = gtk_action_group_new ("columns");
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_toggle_actions (
-		action_group, columns_toggle_entries,
-		G_N_ELEMENTS (columns_toggle_entries), page_general);
-	gtk_ui_manager_insert_action_group (
-		ui_manager, action_group, 0);
+	e_ui_manager_add_actions (ui_manager, "columns", GETTEXT_PACKAGE,
+		columns_toggle_entries, G_N_ELEMENTS (columns_toggle_entries), page_general);
 
 	e_binding_bind_property (
 		page_general, "show-attendees",
-		action_group, "sensitive",
+		e_ui_manager_get_action_group (ui_manager, "columns"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_unref (action_group);
-
-	action_group = e_comp_editor_get_action_group (comp_editor, "individual");
-	gtk_action_group_add_toggle_actions (
-		action_group, attendees_toggle_entry,
-		G_N_ELEMENTS (attendees_toggle_entry), page_general);
-
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-
-	if (error) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "individual", GETTEXT_PACKAGE,
+		attendees_toggle_entry, G_N_ELEMENTS (attendees_toggle_entry), page_general, eui);
 
 	action = e_comp_editor_get_action (comp_editor, "option-attendees");
 	e_binding_bind_property (
@@ -798,24 +792,32 @@ ecep_general_init_ui (ECompEditorPageGeneral *page_general,
 		settings, "editor-show-role",
 		action, "active",
 		G_SETTINGS_BIND_DEFAULT);
+	ecep_general_set_column_visible (page_general, E_MEETING_STORE_ROLE_COL,
+		e_ui_action_get_active (action));
 
 	action = e_comp_editor_get_action (comp_editor, "view-rsvp");
 	g_settings_bind (
 		settings, "editor-show-rsvp",
 		action, "active",
 		G_SETTINGS_BIND_DEFAULT);
+	ecep_general_set_column_visible (page_general, E_MEETING_STORE_RSVP_COL,
+		e_ui_action_get_active (action));
 
 	action = e_comp_editor_get_action (comp_editor, "view-status");
 	g_settings_bind (
 		settings, "editor-show-status",
 		action, "active",
 		G_SETTINGS_BIND_DEFAULT);
+	ecep_general_set_column_visible (page_general, E_MEETING_STORE_STATUS_COL,
+		e_ui_action_get_active (action));
 
 	action = e_comp_editor_get_action (comp_editor, "view-type");
 	g_settings_bind (
 		settings, "editor-show-type",
 		action, "active",
 		G_SETTINGS_BIND_DEFAULT);
+	ecep_general_set_column_visible (page_general, E_MEETING_STORE_TYPE_COL,
+		e_ui_action_get_active (action));
 }
 
 static void
@@ -824,10 +826,10 @@ ecep_general_sensitize_widgets (ECompEditorPage *page,
 {
 	ECompEditorPageGeneral *page_general;
 	GtkTreeSelection *selection;
-	GtkAction *action;
 	gboolean sensitive, organizer_is_user, delegate, delegate_to_many = FALSE, read_only = TRUE, any_selected = FALSE;
 	ECompEditor *comp_editor;
 	ECalClient *client;
+	EUIAction *action;
 	guint32 flags;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page));
@@ -871,7 +873,7 @@ ecep_general_sensitize_widgets (ECompEditorPage *page,
 	gtk_widget_set_sensitive (page_general->priv->attendees_list_view, !read_only && !force_insensitive);
 
 	action = e_comp_editor_get_action (comp_editor, "option-attendees");
-	gtk_action_set_sensitive (action, !force_insensitive && !read_only);
+	e_ui_action_set_sensitive (action, !force_insensitive && !read_only);
 
 	if (page_general->priv->comp_color &&
 	    !e_comp_editor_property_part_get_sensitize_handled (page_general->priv->comp_color)) {

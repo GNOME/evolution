@@ -32,6 +32,9 @@
 #include <e-util/e-alert-bar.h>
 #include <e-util/e-content-editor.h>
 #include <e-util/e-focus-tracker.h>
+#include <e-util/e-ui-action.h>
+#include <e-util/e-ui-manager.h>
+#include <e-util/e-ui-menu.h>
 
 /* Standard GObject macros */
 #define E_TYPE_HTML_EDITOR \
@@ -53,6 +56,9 @@
 	((obj), E_TYPE_HTML_EDITOR, EHTMLEditorClass))
 
 #define E_HTML_EDITOR_MAX_INDENT_LEVEL 10
+
+#define E_HTML_EDITOR_UI_OBJECT_MAIN_MENU "main-menu"
+#define E_HTML_EDITOR_UI_OBJECT_MAIN_TOOLBAR "main-toolbar"
 
 G_BEGIN_DECLS
 
@@ -100,18 +106,11 @@ void		e_html_editor_set_mode		(EHTMLEditor *editor,
 void		e_html_editor_cancel_mode_change_content_update
 						(EHTMLEditor *editor);
 GtkBuilder *	e_html_editor_get_builder	(EHTMLEditor *editor);
-GtkUIManager *	e_html_editor_get_ui_manager	(EHTMLEditor *editor);
-GtkAction *	e_html_editor_get_action	(EHTMLEditor *editor,
+EUIManager *	e_html_editor_get_ui_manager	(EHTMLEditor *editor);
+EUIAction *	e_html_editor_get_action	(EHTMLEditor *editor,
 						 const gchar *action_name);
-GtkActionGroup *e_html_editor_get_action_group	(EHTMLEditor *editor,
-						 const gchar *group_name);
-GtkWidget *	e_html_editor_get_widget	(EHTMLEditor *editor,
-						 const gchar *widget_name);
-GtkWidget *	e_html_editor_get_managed_widget
-						(EHTMLEditor *editor,
-						 const gchar *widget_path);
-GtkWidget *	e_html_editor_get_style_combo_box
-						(EHTMLEditor *editor);
+gpointer	e_html_editor_get_ui_object	(EHTMLEditor *editor,
+						 const gchar *object_name);
 const gchar *	e_html_editor_get_filename	(EHTMLEditor *editor);
 void		e_html_editor_set_filename	(EHTMLEditor *editor,
 						 const gchar *filename);

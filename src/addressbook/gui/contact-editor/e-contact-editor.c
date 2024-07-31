@@ -242,36 +242,11 @@ struct _EContactEditorPrivate
 	GtkWidget *fullname_dialog;
 	GtkWidget *categories_dialog;
 
-	GtkUIManager *ui_manager;
+	EUIManager *ui_manager;
 	EFocusTracker *focus_tracker;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EContactEditor, e_contact_editor, EAB_TYPE_EDITOR)
-
-static GtkActionEntry undo_entries[] = {
-
-	{ "undo-menu",
-	  "Undo menu",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL }, /* just a fake undo menu, to get shortcuts working */
-
-	{ "undo",
-	  "edit-undo",
-	  N_("_Undo"),
-	  "<Control>z",
-	  N_("Undo"),
-	  NULL }, /* Handled by EFocusTracker */
-
-	{ "redo",
-	  "edit-redo",
-	  N_("_Redo"),
-	  "<Control>y",
-	  N_("Redo"),
-	  NULL } /* Handled by EFocusTracker */
-
-};
 
 static void
 connect_closure_free (ConnectClosure *connect_closure)
@@ -5244,56 +5219,66 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 static void
 e_contact_editor_constructed (GObject *object)
 {
-	const gchar *ui =
-		"<ui>"
-		"  <menubar name='undo-menubar'>"
-		"      <menu action='undo-menu'>"
-		"      <menuitem action='undo'/>"
-		"    <menuitem action='redo'/>"
-		"    </menu>"
-		"  </menubar>"
-		"</ui>";
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='undo-menubar'>"
+		    "<submenu action='undo-menu'>"
+		      "<item action='undo'/>"
+		      "<item action='redo'/>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry undo_entries[] = {
+		{ "undo-menu",
+		  NULL,
+		  "Undo menu",
+		  NULL,
+		  NULL,
+		  NULL }, /* just a fake undo menu, to get shortcuts working */
+
+		{ "undo",
+		  "edit-undo",
+		  N_("_Undo"),
+		  "<Control>z",
+		  N_("Undo"),
+		  NULL }, /* Handled by EFocusTracker */
+
+		{ "redo",
+		  "edit-redo",
+		  N_("_Redo"),
+		  "<Control>y",
+		  N_("Redo"),
+		  NULL } /* Handled by EFocusTracker */
+	};
+
 	EContactEditor *editor = E_CONTACT_EDITOR (object);
-	GtkActionGroup *action_group;
-	GtkAction *action;
-	GError *error = NULL;
+	EUIAction *action;
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_contact_editor_parent_class)->constructed (object);
 
 	editor->priv->focus_tracker = e_focus_tracker_new (GTK_WINDOW (editor->priv->app));
-	editor->priv->ui_manager = gtk_ui_manager_new ();
+	editor->priv->ui_manager = e_ui_manager_new ();
 
 	gtk_window_add_accel_group (
 		GTK_WINDOW (editor->priv->app),
-		gtk_ui_manager_get_accel_group (editor->priv->ui_manager));
+		e_ui_manager_get_accel_group (editor->priv->ui_manager));
 
 	e_signal_connect_notify (
 		editor->priv->focus_tracker, "notify::focus",
 		G_CALLBACK (contact_editor_focus_widget_changed_cb), editor);
 
-	action_group = gtk_action_group_new ("undo");
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (
-		action_group, undo_entries,
-		G_N_ELEMENTS (undo_entries), editor);
-	gtk_ui_manager_insert_action_group (
-		editor->priv->ui_manager, action_group, 0);
+	e_ui_manager_add_actions_with_eui_data (editor->priv->ui_manager, "undo", GETTEXT_PACKAGE,
+		undo_entries, G_N_ELEMENTS (undo_entries), editor, eui);
 
-	action = gtk_action_group_get_action (action_group, "undo");
+	e_ui_manager_add_action_groups_to_widget (editor->priv->ui_manager, editor->priv->app);
+
+	action = e_ui_manager_get_action (editor->priv->ui_manager, "undo");
 	e_focus_tracker_set_undo_action (editor->priv->focus_tracker, action);
 
-	action = gtk_action_group_get_action (action_group, "redo");
+	action = e_ui_manager_get_action (editor->priv->ui_manager, "redo");
 	e_focus_tracker_set_redo_action (editor->priv->focus_tracker, action);
-
-	g_object_unref (action_group);
-
-	gtk_ui_manager_add_ui_from_string (editor->priv->ui_manager, ui, -1, &error);
-	if (error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
 }
 
 static void

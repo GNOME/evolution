@@ -70,12 +70,6 @@ struct _CustomHeaderOptionsDialogClass {
 	void (* emch_response) (CustomHeaderOptionsDialog *esd, gint status);
 };
 
-typedef struct _EmailCustomHeaderWindow
-{
-	GdkWindow *epech_window;
-	CustomHeaderOptionsDialog *epech_dialog;
-}EmailCustomHeaderWindow;
-
 enum {
         MCH_RESPONSE,
         LAST_SIGNAL

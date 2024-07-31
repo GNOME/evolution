@@ -34,6 +34,7 @@
 #include "e-mail-account-store.h"
 #include "e-mail-reader-utils.h"
 #include "e-mail-ui-session.h"
+#include "e-mail-view.h"
 #include "em-event.h"
 #include "em-filter-rule.h"
 #include "em-utils.h"
@@ -504,10 +505,11 @@ mail_send_recv_send_fail_alert_response_cb (EAlert *alert,
 					    gpointer user_data)
 {
 	EShellView *shell_view;
-	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EMFolderTree *folder_tree = NULL;
 	EMailSession *session;
+	EMailReader *reader;
+	EMailView *mail_view = NULL;
 	CamelFolder *outbox;
 	GPtrArray *uids;
 
@@ -518,19 +520,22 @@ mail_send_recv_send_fail_alert_response_cb (EAlert *alert,
 	if (!shell_view)
 		return;
 
-	shell_content = e_shell_view_get_shell_content (shell_view);
+	g_object_get (e_shell_view_get_shell_content (shell_view), "mail-view", &mail_view, NULL);
+	g_return_if_fail (mail_view != NULL);
+
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
 	g_object_get (G_OBJECT (shell_sidebar), "folder-tree", &folder_tree, NULL);
 	g_return_if_fail (folder_tree != NULL);
 
+	reader = E_MAIL_READER (mail_view);
 	session = em_folder_tree_get_session (folder_tree);
 	outbox = e_mail_session_get_local_folder (session, E_MAIL_LOCAL_FOLDER_OUTBOX);
 
 	uids = g_object_get_data (G_OBJECT (alert), "message-uids");
 
 	if (uids && response_id == GTK_RESPONSE_APPLY) {
-		e_mail_reader_edit_messages (E_MAIL_READER (shell_content), outbox, uids, TRUE, TRUE);
+		e_mail_reader_edit_messages (reader, outbox, uids, TRUE, TRUE);
 	} else if (folder_tree) {
 		gchar *folder_uri;
 
@@ -542,7 +547,7 @@ mail_send_recv_send_fail_alert_response_cb (EAlert *alert,
 
 			em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
 
-			selected_folder = e_mail_reader_ref_folder (E_MAIL_READER (shell_content));
+			selected_folder = e_mail_reader_ref_folder (reader);
 
 			/* This makes sure the Outbox folder content is shown even
 			   when the On This Computer account is disabled */
@@ -553,7 +558,7 @@ mail_send_recv_send_fail_alert_response_cb (EAlert *alert,
 				gtk_tree_selection_unselect_all (selection);
 
 				em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
-				e_mail_reader_set_folder (E_MAIL_READER (shell_content), outbox);
+				e_mail_reader_set_folder (reader, outbox);
 			}
 
 			g_clear_object (&selected_folder);
@@ -563,6 +568,7 @@ mail_send_recv_send_fail_alert_response_cb (EAlert *alert,
 	}
 
 	g_clear_object (&folder_tree);
+	g_clear_object (&mail_view);
 }
 
 struct ReportErrorToUIData
@@ -598,7 +604,7 @@ report_error_to_ui_cb (gpointer user_data)
 			data->error->message ? data->error->message : _("Unknown error"), NULL);
 
 		if (data->send_failed_uids) {
-			GtkAction *action;
+			EUIAction *action;
 
 			if (data->send_failed_uids->len == 1) {
 				g_object_set_data_full (G_OBJECT (alert), "message-uids",
@@ -607,12 +613,14 @@ report_error_to_ui_cb (gpointer user_data)
 			}
 
 			if (data->send_failed_uids->len == 1) {
-				action = gtk_action_new ("send-failed-edit-action", _("Edit Message"), NULL, NULL);
+				action = e_ui_action_new ("mail-send-recv-map", "send-failed-edit-action", NULL);
+				e_ui_action_set_label (action, _("Edit Message"));
 				e_alert_add_action (alert, action, GTK_RESPONSE_APPLY, FALSE);
 				g_object_unref (action);
 			}
 
-			action = gtk_action_new ("send-failed-outbox-action", _("Open Outbox Folder"), NULL, NULL);
+			action = e_ui_action_new ("mail-send-recv-map", "send-failed-outbox-action", NULL);
+			e_ui_action_set_label (action, _("Open Outbox Folder"));
 			e_alert_add_action (alert, action, GTK_RESPONSE_REJECT, FALSE);
 			g_object_unref (action);
 

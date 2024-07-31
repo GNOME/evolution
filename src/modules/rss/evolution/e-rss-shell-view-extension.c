@@ -10,6 +10,7 @@
 #include <glib/gi18n-lib.h>
 
 #include "mail/e-mail-reader-utils.h"
+#include "mail/e-mail-view.h"
 #include "mail/em-folder-tree.h"
 #include "shell/e-shell-content.h"
 #include "shell/e-shell-view.h"
@@ -19,21 +20,12 @@
 
 #include "module-rss.h"
 
-static const gchar *mail_ui_def =
-	"<popup name=\"mail-folder-popup\">\n"
-	"  <placeholder name=\"mail-folder-popup-actions\">\n"
-	"    <menuitem action=\"e-rss-mail-folder-reload-action\"/>\n"
-	"  </placeholder>\n"
-	"</popup>\n";
-
 #define E_TYPE_RSS_SHELL_VIEW_EXTENSION (e_rss_shell_view_extension_get_type ())
 
 GType e_rss_shell_view_extension_get_type (void);
 
 typedef struct _ERssShellViewExtension {
 	EExtension parent;
-	guint current_ui_id;
-	gboolean actions_added;
 } ERssShellViewExtension;
 
 typedef struct _ERssShellViewExtensionClass {
@@ -97,11 +89,15 @@ e_rss_mail_folder_reload_got_folder_cb (GObject *source_object,
 
 	if (folder) {
 		EShellContent *shell_content;
+		EMailView *mail_view = NULL;
 
 		shell_content = e_shell_view_get_shell_content (shell_view);
+		g_object_get (shell_content, "mail-view", &mail_view, NULL);
 
-		e_mail_reader_refresh_folder (E_MAIL_READER (shell_content), folder);
+		if (mail_view)
+			e_mail_reader_refresh_folder (E_MAIL_READER (mail_view), folder);
 
+		g_clear_object (&mail_view);
 		g_object_unref (folder);
 	} else {
 		g_warning ("%s: Failed to get folder: %s", G_STRFUNC, error ? error->message : "Unknown error");
@@ -109,9 +105,11 @@ e_rss_mail_folder_reload_got_folder_cb (GObject *source_object,
 }
 
 static void
-action_rss_mail_folder_reload_cb (GtkAction *action,
-				  EShellView *shell_view)
+action_rss_mail_folder_reload_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	EShellView *shell_view = user_data;
 	CamelStore *store = NULL;
 	CamelRssStoreSummary *store_summary = NULL;
 	gchar *folder_path = NULL;
@@ -136,34 +134,27 @@ action_rss_mail_folder_reload_cb (GtkAction *action,
 }
 
 static void
-e_rss_shell_view_update_actions_cb (EShellView *shell_view,
-				    GtkActionEntry *entries)
+e_rss_shell_view_update_actions_cb (EShellView *shell_view)
 {
 	CamelStore *store = NULL;
-	EShellWindow *shell_window;
-	GtkActionGroup *action_group;
-	GtkAction *action;
-	GtkUIManager *ui_manager;
+	EUIAction *action;
 	gboolean is_rss_folder = FALSE;
 
 	is_rss_folder = e_rss_check_rss_folder_selected (shell_view, &store, NULL);
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	action_group = e_lookup_action_group (ui_manager, "mail");
-	action = gtk_action_group_get_action (action_group, "e-rss-mail-folder-reload-action");
+	action = e_shell_view_get_action (shell_view, "e-rss-mail-folder-reload-action");
 
 	if (action) {
-		gtk_action_set_visible (action, is_rss_folder);
+		e_ui_action_set_visible (action, is_rss_folder);
 
 		if (store) {
 			CamelSession *session;
 
 			session = camel_service_ref_session (CAMEL_SERVICE (store));
-			gtk_action_set_sensitive (action, session && camel_session_get_online (session));
+			e_ui_action_set_sensitive (action, session && camel_session_get_online (session));
 			g_clear_object (&session);
 		} else {
-			gtk_action_set_sensitive (action, FALSE);
+			e_ui_action_set_sensitive (action, FALSE);
 		}
 	}
 
@@ -171,82 +162,43 @@ e_rss_shell_view_update_actions_cb (EShellView *shell_view,
 }
 
 static void
-e_rss_shell_view_toggled_cb (EShellView *shell_view,
-			     ERssShellViewExtension *extension)
+e_rss_shell_view_extension_constructed (GObject *object)
 {
 	EShellViewClass *shell_view_class;
-	EShellWindow *shell_window;
-	GtkUIManager *ui_manager;
-	gboolean is_active, need_update;
-	GError *error = NULL;
+	EShellView *shell_view;
 
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-	g_return_if_fail (extension != NULL);
+	/* Chain up to parent's method */
+	G_OBJECT_CLASS (e_rss_shell_view_extension_parent_class)->constructed (object);
 
+	shell_view = E_SHELL_VIEW (e_extension_get_extensible (E_EXTENSION (object)));
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	g_return_if_fail (shell_view_class != NULL);
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	if (g_strcmp0 (shell_view_class->ui_manager_id, "org.gnome.evolution.mail") == 0) {
+		static const gchar *eui =
+			"<eui>"
+			  "<menu id='mail-folder-popup'>"
+			    "<placeholder id='mail-folder-popup-actions'>"
+			      "<item action='e-rss-mail-folder-reload-action'/>"
+			     "</placeholder>"
+			  "</menu>"
+			"</eui>";
 
-	need_update = extension->current_ui_id != 0;
-
-	if (extension->current_ui_id) {
-		gtk_ui_manager_remove_ui (ui_manager, extension->current_ui_id);
-		extension->current_ui_id = 0;
-	}
-
-	is_active = e_shell_view_is_active (shell_view);
-
-	if (!is_active || g_strcmp0 (shell_view_class->ui_manager_id, "org.gnome.evolution.mail") != 0) {
-		if (need_update)
-			gtk_ui_manager_ensure_update (ui_manager);
-
-		return;
-	}
-
-	if (!extension->actions_added) {
-		GtkActionEntry mail_folder_context_entries[] = {
+		static const EUIActionEntry entries[] = {
 			{ "e-rss-mail-folder-reload-action",
 			  NULL,
 			  N_("Re_load feed articles"),
 			  NULL,
 			  N_("Reload all feed articles from the server, updating existing and adding any missing"),
-			  G_CALLBACK (action_rss_mail_folder_reload_cb) }
+			  action_rss_mail_folder_reload_cb, NULL, NULL, NULL }
 		};
 
-		GtkActionGroup *action_group;
-
-		action_group = e_shell_window_get_action_group (shell_window, "mail");
-
-		e_action_group_add_actions_localized (
-			action_group, GETTEXT_PACKAGE,
-			mail_folder_context_entries, G_N_ELEMENTS (mail_folder_context_entries), shell_view);
+		e_ui_manager_add_actions_with_eui_data (e_shell_view_get_ui_manager (shell_view), "mail", GETTEXT_PACKAGE,
+			entries, G_N_ELEMENTS (entries), shell_view, eui);
 
 		g_signal_connect (shell_view, "update-actions",
 			G_CALLBACK (e_rss_shell_view_update_actions_cb), NULL);
-
-		extension->actions_added = TRUE;
 	}
-
-	extension->current_ui_id = gtk_ui_manager_add_ui_from_string (ui_manager, mail_ui_def, -1, &error);
-
-	if (error) {
-		g_warning ("%s: Failed to add ui definition: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
-
-	gtk_ui_manager_ensure_update (ui_manager);
-}
-
-static void
-e_rss_shell_view_extension_constructed (GObject *object)
-{
-	/* Chain up to parent's method */
-	G_OBJECT_CLASS (e_rss_shell_view_extension_parent_class)->constructed (object);
-
-	g_signal_connect_object (e_extension_get_extensible (E_EXTENSION (object)), "toggled",
-		G_CALLBACK (e_rss_shell_view_toggled_cb), object, 0);
 }
 
 static void

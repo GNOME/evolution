@@ -1,0 +1,216 @@
+<eui>
+  <headerbar id='main-headerbar'>
+    <start>
+      <item action='EMailShellView::mail-send-receive' label_priority='999999'/>
+    </start>
+    <end>
+      <item action='mail-reply-sender'/>
+      <item action='EMailReader::mail-reply-group'/>
+      <item action='EMailReader::mail-forward-as-group'/>
+    </end>
+  </headerbar>
+  <menu id='main-menu'>
+    <submenu action='file-menu'>
+      <placeholder id='mail-send-receiver'>
+        <item action='EMailShellView::mail-send-receive'/>
+      </placeholder>
+      <placeholder id='long-running-actions'>
+        <item action='mail-global-expunge'/>
+        <item action='mail-download'/>
+      </placeholder>
+    </submenu>
+    <submenu action='edit-menu'>
+      <placeholder id='administrative-actions'>
+        <item action='mail-tools-filters'/>
+        <item action='mail-tools-search-folders'/>
+      </placeholder>
+    </submenu>
+    <submenu action='view-menu'>
+      <submenu action='layout-menu'>
+        <placeholder id='view-layout-custom-menus'>
+          <item action='mail-show-preview-toolbar'/>
+          <item action='mail-to-do-bar'/>
+        </placeholder>
+      </submenu>
+      <placeholder id='view-custom-menus'>
+        <submenu action='mail-preview-menu'>
+          <item action='mail-preview'/>
+          <item action='mail-attachment-bar'/>
+          <separator/>
+          <item action='mail-view-classic' group='mail-view'/>
+          <item action='mail-view-vertical' group='mail-view'/>
+        </submenu>
+      </placeholder>
+      <separator/>
+      <placeholder id='mail-message-list-actions'>
+        <item action='mail-goto-folder'/>
+        <separator/>
+        <item action='mail-threads-group-by'/>
+        <item action='mail-threads-expand-all'/>
+        <item action='mail-threads-collapse-all'/>
+        <separator/>
+        <item action='mail-show-deleted'/>
+        <item action='mail-show-junk'/>
+      </placeholder>
+    </submenu>
+    <placeholder id='custom-menus'>
+      <submenu action='mail-folder-menu'>
+        <item action='mail-folder-new'/>
+        <item action='mail-tools-subscriptions'/>
+        <item action='mail-folder-unsubscribe'/>
+        <separator/>
+        <item action='mail-folder-edit-sort-order'/>
+        <separator/>
+        <item action='mail-folder-copy'/>
+        <item action='mail-folder-move'/>
+        <separator/>
+        <item action='mail-folder-select-thread'/>
+        <item action='mail-folder-select-subthread'/>
+        <item action='mail-folder-mark-all-as-read'/>
+        <item action='mail-folder-expunge'/>
+        <separator/>
+        <item action='mail-folder-rename'/>
+        <item action='mail-folder-refresh'/>
+        <item action='mail-folder-delete'/>
+        <separator/>
+        <item action='mail-folder-properties'/>
+      </submenu>
+    </placeholder>
+    <submenu action='search-menu'>
+      <placeholder id='search-actions'>
+        <item action='mail-create-search-folder'/>
+      </placeholder>
+    </submenu>
+  </menu>
+  <toolbar id='main-toolbar-with-headerbar'>
+    <placeholder id='toolbar-actions'/>
+    <separator/>
+    <placeholder id='mail-toolbar-common'/>
+    <item action='mail-stop'/>
+    <separator/>
+    <placeholder id='mail-toolbar-navigation'/>
+  </toolbar>
+  <toolbar id='main-toolbar-without-headerbar'>
+    <placeholder id='toolbar-actions'>
+      <item action='EMailShellView::mail-send-receive' important='true'/>
+    </placeholder>
+    <separator/>
+    <placeholder id='mail-toolbar-common'/>
+    <item action='mail-stop'/>
+    <separator/>
+    <placeholder id='mail-toolbar-navigation'/>
+  </toolbar>
+  <toolbar id='mail-preview-toolbar'>
+    <placeholder id='mail-toolbar-common'>
+      <item action='mail-reply-sender' important="true"/>
+      <item action='EMailReader::mail-reply-group' important="true"/>
+      <item action='EMailReader::mail-forward-as-group' important="true"/>
+      <separator/>
+      <item action='mail-delete'/>
+      <item action='mail-mark-junk'/>
+      <item action='mail-mark-notjunk'/>
+      <item action='mail-archive'/>
+      <item action='mail-load-images'/>
+    </placeholder>
+    <separator/>
+    <placeholder id='mail-toolbar-navigation'>
+      <item action='mail-previous'/>
+      <item action='mail-next'/>
+    </placeholder>
+  </toolbar>
+  <menu id='mail-folder-popup' is-popup='true'>
+    <placeholder id='mail-folder-popup-actions'/>
+    <item action='mail-folder-mark-all-as-read'/>
+    <separator/>
+    <item action='mail-folder-new-full'/>
+    <item action='mail-folder-copy'/>
+    <item action='mail-folder-move'/>
+    <separator/>
+    <item action='mail-folder-delete'/>
+    <separator/>
+    <item action='mail-folder-rename'/>
+    <item action='mail-folder-refresh'/>
+    <item action='mail-flush-outbox'/>
+    <item action='mail-account-refresh'/>
+    <item action='mail-manage-subscriptions'/>
+    <item action='mail-account-disable'/>
+    <item action='mail-vfolder-unmatched-enable'/>
+    <separator/>
+    <item action='mail-folder-unsubscribe'/>
+    <separator/>
+    <item action='mail-account-properties'/>
+    <item action='mail-folder-properties'/>
+    <separator/>
+    <item action='mail-account-empty-junk'/>
+    <item action='mail-account-expunge'/>
+  </menu>
+  <menu id='mail-message-popup' is-popup='true'>
+    <placeholder id='mail-message-popup-common-actions'/>
+    <separator/>
+    <item action='mail-delete'/>
+    <item action='mail-undelete'/>
+    <item action='mail-copy'/>
+    <item action='mail-move'/>
+    <item action='mail-archive'/>
+    <separator/>
+    <item action='mail-mark-read-full'/>
+    <item action='mail-mark-unread-full'/>
+    <item action='mail-mark-important-full'/>
+    <item action='mail-mark-unimportant-full'/>
+    <item action='mail-mark-junk-full'/>
+    <item action='mail-mark-notjunk-full'/>
+    <item action='mail-flag-for-followup-full'/>
+    <item action='mail-flag-clear'/>
+    <item action='mail-flag-completed'/>
+    <separator/>
+    <item action='mail-color-assign'/>
+    <item action='mail-color-unset'/>
+    <separator/>
+    <item action='mail-add-note'/>
+    <item action='mail-edit-note'/>
+    <item action='mail-delete-note'/>
+    <separator/>
+    <item action='mail-mark-ignore-thread-whole'/>
+    <item action='mail-mark-ignore-thread-sub'/>
+    <item action='mail-mark-unignore-thread-whole'/>
+    <item action='mail-mark-unignore-thread-sub'/>
+    <submenu action='mail-label-menu'>
+      <item action='mail-label-none'/>
+      <separator/>
+      <item action='EMailReader::mail-label-actions'/>
+      <separator/>
+      <item action='mail-label-new'/>
+      <item action='mail-label-change-more'/>
+    </submenu>
+    <separator/>
+    <submenu action='mail-create-menu'>
+      <placeholder id='mail-conversion-actions'/>
+      <separator/>
+      <item action='mail-filter-rule-for-subject'/>
+      <item action='mail-filter-rule-for-sender'/>
+      <item action='mail-filter-rule-for-recipients'/>
+      <item action='mail-filter-rule-for-mailing-list'/>
+      <separator/>
+      <item action='mail-search-folder-from-subject'/>
+      <item action='mail-search-folder-from-sender'/>
+      <item action='mail-search-folder-from-recipients'/>
+      <item action='mail-search-folder-from-mailing-list'/>
+    </submenu>
+  </menu>
+  <menu id='search-options'>
+    <item action='mail-search-advanced-hidden' group='search-options'/>
+    <item action='mail-search-subject-or-addresses-contain' group='search-options'/>
+    <item action='mail-search-subject-contains' group='search-options'/>
+    <item action='mail-search-sender-contains' group='search-options'/>
+    <item action='mail-search-recipients-contain' group='search-options'/>
+    <separator/>
+    <item action='mail-search-message-contains' group='search-options'/>
+    <item action='mail-search-body-contains' group='search-options'/>
+    <item action='mail-search-free-form-expr' group='search-options'/>
+    <separator/>
+    <item action='search-advanced'/>
+    <submenu action="saved-searches">
+      <item action='EShellView::saved-searches-list'/>
+    </submenu>
+  </menu>
+</eui>

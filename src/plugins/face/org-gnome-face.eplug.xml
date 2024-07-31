@@ -6,15 +6,7 @@
     <_description xml:space="preserve">Attach a small picture of your face to outgoing messages.</_description>
 
     <hook class="org.gnome.evolution.ui:1.0">
-      <ui-manager id="org.gnome.evolution.composer">
-        <menubar name='main-menu'>
-          <menu action='insert-menu'>
-            <placeholder name="insert-menu-top">
-	      <menuitem action="face-plugin"/>
-            </placeholder>
-          </menu>
-        </menubar>
-      </ui-manager>
+      <ui-manager id="org.gnome.evolution.composer"/>
     </hook>
 
     <hook class="org.gnome.evolution.mail.events:1.0">

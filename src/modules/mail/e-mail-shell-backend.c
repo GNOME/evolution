@@ -92,7 +92,7 @@ mbox_create_preview_cb (GObject *preview,
 	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (e_shell_get_default (), BACKEND_NAME));
 	g_return_if_fail (mail_backend != NULL);
 
-	display = E_MAIL_DISPLAY (e_mail_display_new (e_mail_backend_get_remote_content (mail_backend)));
+	display = E_MAIL_DISPLAY (e_mail_display_new (e_mail_backend_get_remote_content (mail_backend), NULL));
 	g_object_set_data_full (
 		preview, "mbox-imp-display",
 		g_object_ref (display), g_object_unref);
@@ -213,11 +213,10 @@ static void
 mail_shell_backend_mail_icon_cb (EShellWindow *shell_window,
                                  const gchar *icon_name)
 {
-	GtkAction *action;
+	EUIAction *action;
 
-	action = e_shell_window_get_shell_view_action (
-		shell_window, BACKEND_NAME);
-	gtk_action_set_icon_name (action, icon_name);
+	action = e_shell_window_get_shell_view_action (shell_window, BACKEND_NAME);
+	e_ui_action_set_icon_name (action, icon_name);
 }
 
 static void
@@ -243,9 +242,11 @@ mail_shell_backend_folder_created_cb (EMailFolderCreateDialog *dialog,
 }
 
 static void
-action_mail_folder_new_cb (GtkAction *action,
-                           EShellWindow *shell_window)
+action_mail_folder_new_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EShellWindow *shell_window = user_data;
 	EMFolderTree *folder_tree = NULL;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMailSession *session;
@@ -297,9 +298,11 @@ exit:
 }
 
 static void
-action_mail_account_new_cb (GtkAction *action,
-                            EShellWindow *shell_window)
+action_mail_account_new_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EShellWindow *shell_window = user_data;
 	EShell *shell;
 	EShellBackend *shell_backend;
 
@@ -348,9 +351,11 @@ action_mail_message_new_composer_created_cb (GObject *source_object,
 }
 
 static void
-action_mail_message_new_cb (GtkAction *action,
-                            EShellWindow *shell_window)
+action_mail_message_new_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EShellWindow *shell_window = user_data;
 	EShellView *shell_view;
 	EShell *shell;
 	ESourceRegistry *registry;
@@ -381,7 +386,8 @@ action_mail_message_new_cb (GtkAction *action,
 
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 
-	message_list = e_mail_reader_get_message_list (E_MAIL_READER (e_shell_view_get_shell_content (shell_view)));
+	message_list = e_mail_reader_get_message_list (E_MAIL_READER (
+		e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (e_shell_view_get_shell_content (shell_view)))));
 	if (message_list) {
 		MessageList *ml = MESSAGE_LIST (message_list);
 		GPtrArray *selected_uids;
@@ -406,33 +412,6 @@ action_mail_message_new_cb (GtkAction *action,
 
 	e_msg_composer_new (shell, action_mail_message_new_composer_created_cb, ncd);
 }
-
-static GtkActionEntry item_entries[] = {
-
-	{ "mail-message-new",
-	  "mail-message-new",
-	  NC_("New", "_Mail Message"),
-	  "<Shift><Control>m",
-	  N_("Compose a new mail message"),
-	  G_CALLBACK (action_mail_message_new_cb) }
-};
-
-static GtkActionEntry source_entries[] = {
-
-	{ "mail-account-new",
-	  "evolution-mail",
-	  NC_("New", "Mail Acco_unt"),
-	  NULL,
-	  N_("Create a new mail account"),
-	  G_CALLBACK (action_mail_account_new_cb) },
-
-	{ "mail-folder-new",
-	  "folder-new",
-	  NC_("New", "Mail _Folder"),
-	  NULL,
-	  N_("Create a new mail folder"),
-	  G_CALLBACK (action_mail_folder_new_cb) }
-};
 
 static void
 mail_shell_backend_sync_store_done_cb (CamelStore *store,
@@ -618,9 +597,8 @@ mail_shell_backend_search_mid (EMailShellBackend *mail_shell_backend,
 
 		if (shell_view) {
 			EShellSearchbar *shell_searchbar;
-			EShellWindow *shell_window = E_SHELL_WINDOW (window);
 			GString *expr;
-			GtkAction *action;
+			EUIAction *action;
 			gint ii;
 
 			shell_searchbar = e_mail_shell_content_get_searchbar (E_MAIL_SHELL_CONTENT (e_shell_view_get_shell_content (shell_view)));
@@ -639,13 +617,13 @@ mail_shell_backend_search_mid (EMailShellBackend *mail_shell_backend,
 			e_shell_view_block_execute_search (shell_view);
 
 			action = ACTION (MAIL_FILTER_ALL_MESSAGES);
-			gtk_action_activate (action);
+			g_action_activate (G_ACTION (action), NULL);
 
 			action = ACTION (MAIL_SEARCH_FREE_FORM_EXPR);
-			gtk_action_activate (action);
+			g_action_activate (G_ACTION (action), NULL);
 
 			action = ACTION (MAIL_SCOPE_ALL_ACCOUNTS);
-			gtk_action_activate (action);
+			g_action_activate (G_ACTION (action), NULL);
 
 			e_shell_view_set_search_rule (shell_view, NULL);
 			e_shell_searchbar_set_search_text (shell_searchbar, expr->str);
@@ -763,6 +741,31 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
                                     GtkWindow *window,
                                     EShellBackend *shell_backend)
 {
+	static const EUIActionEntry item_entries[] = {
+		{ "new-menu-mail-message-new",
+		  "mail-message-new",
+		  NC_("New", "_Mail Message"),
+		  "<Shift><Control>m",
+		  N_("Compose a new mail message"),
+		  action_mail_message_new_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry source_entries[] = {
+		{ "new-menu-mail-account-new",
+		  "evolution-mail",
+		  NC_("New", "Mail Acco_unt"),
+		  NULL,
+		  N_("Create a new mail account"),
+		  action_mail_account_new_cb, NULL, NULL, NULL },
+
+		{ "new-menu-mail-folder-new",
+		  "folder-new",
+		  NC_("New", "Mail _Folder"),
+		  NULL,
+		  N_("Create a new mail folder"),
+		  action_mail_folder_new_cb, NULL, NULL, NULL }
+	};
+
 	EShell *shell = E_SHELL (application);
 	EMailBackend *backend;
 	EMailSession *session;

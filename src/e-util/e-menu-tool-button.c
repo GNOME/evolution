@@ -20,136 +20,53 @@
 
 #include "evolution-config.h"
 
-#include "e-menu-tool-button.h"
 #include "e-misc-utils.h"
+#include "e-ui-manager.h"
+
+#include "e-menu-tool-button.h"
 
 struct _EMenuToolButtonPrivate {
 	gchar *prefer_item;
+	EUIManager *ui_manager;
 };
 
 enum {
 	PROP_0,
-	PROP_PREFER_ITEM
+	PROP_PREFER_ITEM,
+	PROP_UI_MANAGER
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMenuToolButton, e_menu_tool_button, GTK_TYPE_MENU_TOOL_BUTTON)
 
-static GtkWidget *
-menu_tool_button_clone_image (GtkWidget *source)
+static EUIAction *
+menu_tool_button_get_prefer_item_action (EMenuToolButton *self)
 {
-	GtkIconSize size;
-	GtkImageType image_type;
-	const gchar *icon_name;
-
-	/* XXX This isn't general purpose because it requires that the
-	 *     source image be using a named icon.  Somewhat surprised
-	 *     GTK+ doesn't offer something like this. */
-	image_type = gtk_image_get_storage_type (GTK_IMAGE (source));
-	g_return_val_if_fail (image_type == GTK_IMAGE_ICON_NAME, NULL);
-	gtk_image_get_icon_name (GTK_IMAGE (source), &icon_name, &size);
-
-	return gtk_image_new_from_icon_name (icon_name, size);
-}
-
-static GtkMenuItem *
-menu_tool_button_get_prefer_menu_item (GtkMenuToolButton *menu_tool_button)
-{
-	GtkWidget *menu;
-	GtkMenuItem *item = NULL;
-	GList *children;
-	const gchar *prefer_item;
-
-	menu = gtk_menu_tool_button_get_menu (menu_tool_button);
-	if (!GTK_IS_MENU (menu))
+	if (!self->priv->ui_manager ||
+	    !self->priv->prefer_item)
 		return NULL;
 
-	children = gtk_container_get_children (GTK_CONTAINER (menu));
-	if (children == NULL)
-		return NULL;
-
-	prefer_item = e_menu_tool_button_get_prefer_item (
-		E_MENU_TOOL_BUTTON (menu_tool_button));
-	if (prefer_item != NULL && *prefer_item != '\0') {
-		GtkAction *action;
-		GList *link;
-
-		for (link = children; link != NULL; link = g_list_next (link)) {
-			GtkWidget *child;
-			const gchar *name;
-
-			child = GTK_WIDGET (link->data);
-
-			if (!GTK_IS_MENU_ITEM (child))
-				continue;
-
-			action = gtk_activatable_get_related_action (
-				GTK_ACTIVATABLE (child));
-
-			if (action != NULL)
-				name = gtk_action_get_name (action);
-			else
-				name = gtk_widget_get_name (child);
-
-			if (g_strcmp0 (name, prefer_item) == 0) {
-				item = GTK_MENU_ITEM (child);
-				break;
-			}
-		}
-	}
-
-	if (item == NULL)
-		item = GTK_MENU_ITEM (children->data);
-
-	g_list_free (children);
-
-	return item;
+	return e_ui_manager_get_action (self->priv->ui_manager, self->priv->prefer_item);
 }
 
 static void
-menu_tool_button_update_button (GtkToolButton *tool_button)
+menu_tool_button_update_button (EMenuToolButton *self)
 {
-	GtkMenuItem *menu_item;
-	GtkMenuToolButton *menu_tool_button;
-	GtkImageMenuItem *image_menu_item;
-	GtkAction *action;
-	GtkWidget *image;
-	gchar *tooltip = NULL;
+	EUIAction *action;
+	gchar *label;
 
-	menu_tool_button = GTK_MENU_TOOL_BUTTON (tool_button);
-	menu_item = menu_tool_button_get_prefer_menu_item (menu_tool_button);
-	if (!GTK_IS_IMAGE_MENU_ITEM (menu_item))
+	action = menu_tool_button_get_prefer_item_action (self);
+
+	if (!action)
 		return;
 
-	image_menu_item = GTK_IMAGE_MENU_ITEM (menu_item);
-	image = gtk_image_menu_item_get_image (image_menu_item);
-	if (!GTK_IS_IMAGE (image))
-		return;
+	/* preserve the label */
+	label = g_strdup (gtk_tool_button_get_label (GTK_TOOL_BUTTON (self)));
 
-	image = menu_tool_button_clone_image (image);
-	gtk_tool_button_set_icon_widget (tool_button, image);
-	gtk_widget_show (image);
+	e_ui_manager_update_item_from_action (self->priv->ui_manager, self, action);
 
-	/* If the menu item is a proxy for a GtkAction, extract
-	 * the action's tooltip and use it as our own tooltip. */
-	action = gtk_activatable_get_related_action (
-		GTK_ACTIVATABLE (menu_item));
-	if (action != NULL)
-		g_object_get (action, "tooltip", &tooltip, NULL);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_button), tooltip);
-	g_free (tooltip);
-}
+	gtk_tool_button_set_label (GTK_TOOL_BUTTON (self), label);
 
-static void
-menu_tool_button_clicked (GtkToolButton *tool_button)
-{
-	GtkMenuItem *menu_item;
-	GtkMenuToolButton *menu_tool_button;
-
-	menu_tool_button = GTK_MENU_TOOL_BUTTON (tool_button);
-	menu_item = menu_tool_button_get_prefer_menu_item (menu_tool_button);
-
-	if (GTK_IS_MENU_ITEM (menu_item))
-		gtk_menu_item_activate (menu_item);
+	g_free (label);
 }
 
 static void
@@ -163,6 +80,11 @@ menu_tool_button_set_property (GObject *object,
 			e_menu_tool_button_set_prefer_item (
 				E_MENU_TOOL_BUTTON (object),
 				g_value_get_string (value));
+			return;
+
+		case PROP_UI_MANAGER:
+			g_clear_object (&E_MENU_TOOL_BUTTON (object)->priv->ui_manager);
+			E_MENU_TOOL_BUTTON (object)->priv->ui_manager = g_value_dup_object (value);
 			return;
 	}
 
@@ -181,6 +103,10 @@ menu_tool_button_get_property (GObject *object,
 				value, e_menu_tool_button_get_prefer_item (
 				E_MENU_TOOL_BUTTON (object)));
 			return;
+
+		case PROP_UI_MANAGER:
+			g_value_set_object (value, E_MENU_TOOL_BUTTON (object)->priv->ui_manager);
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -191,6 +117,7 @@ menu_tool_button_finalize (GObject *object)
 {
 	EMenuToolButton *self = E_MENU_TOOL_BUTTON (object);
 
+	g_clear_object (&self->priv->ui_manager);
 	g_free (self->priv->prefer_item);
 
 	/* Chain up to parent's finalize() method. */
@@ -201,15 +128,11 @@ static void
 e_menu_tool_button_class_init (EMenuToolButtonClass *class)
 {
 	GObjectClass *object_class;
-	GtkToolButtonClass *tool_button_class;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = menu_tool_button_set_property;
 	object_class->get_property = menu_tool_button_get_property;
 	object_class->finalize = menu_tool_button_finalize;
-
-	tool_button_class = GTK_TOOL_BUTTON_CLASS (class);
-	tool_button_class->clicked = menu_tool_button_clicked;
 
 	g_object_class_install_property (
 		object_class,
@@ -220,6 +143,16 @@ e_menu_tool_button_class_init (EMenuToolButtonClass *class)
 			"Name of an item to show instead of the first",
 			NULL,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_UI_MANAGER,
+		g_param_spec_object (
+			"ui-manager",
+			NULL,
+			NULL,
+			E_TYPE_UI_MANAGER,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
@@ -235,9 +168,13 @@ e_menu_tool_button_init (EMenuToolButton *button)
 }
 
 GtkToolItem *
-e_menu_tool_button_new (const gchar *label)
+e_menu_tool_button_new (const gchar *label,
+			EUIManager *ui_manager)
 {
-	return g_object_new (E_TYPE_MENU_TOOL_BUTTON, "label", label, NULL);
+	return g_object_new (E_TYPE_MENU_TOOL_BUTTON,
+		"label", label,
+		"ui-manager", ui_manager,
+		NULL);
 }
 
 const gchar *
@@ -259,6 +196,8 @@ e_menu_tool_button_set_prefer_item (EMenuToolButton *button,
 
 	g_free (button->priv->prefer_item);
 	button->priv->prefer_item = g_strdup (prefer_item);
+
+	menu_tool_button_update_button (button);
 
 	g_object_notify (G_OBJECT (button), "prefer-item");
 }

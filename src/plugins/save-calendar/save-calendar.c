@@ -34,12 +34,12 @@
 #include "format-handler.h"
 
 /* Plugin entry points */
-gboolean	calendar_save_as_init		(GtkUIManager *ui_manager,
-						 EShellView *shell_view);
-gboolean	memo_list_save_as_init		(GtkUIManager *ui_manager,
-						 EShellView *shell_view);
-gboolean	task_list_save_as_init		(GtkUIManager *ui_manager,
-						 EShellView *shell_view);
+gboolean	save_calendar_calendar_save_as_init	(EUIManager *ui_manager,
+							 EShellView *shell_view);
+gboolean	save_calendar_memo_list_save_as_init	(EUIManager *ui_manager,
+							 EShellView *shell_view);
+gboolean	save_calendar_task_list_save_as_init	(EUIManager *ui_manager,
+							 EShellView *shell_view);
 
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
@@ -306,139 +306,139 @@ save_general (EShellView *shell_view)
 }
 
 static void
-action_calendar_save_as_cb (GtkAction *action,
-                            EShellView *shell_view)
+action_calendar_save_as_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EShellView *shell_view = user_data;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
 	save_general (shell_view);
 }
 
 static void
-action_memo_list_save_as_cb (GtkAction *action,
-                             EShellView *shell_view)
+action_memo_list_save_as_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EShellView *shell_view = user_data;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
 	save_general (shell_view);
 }
 
 static void
-action_task_list_save_as_cb (GtkAction *action,
-                             EShellView *shell_view)
+action_task_list_save_as_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EShellView *shell_view = user_data;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
 	save_general (shell_view);
 }
 
-gboolean
-calendar_save_as_init (GtkUIManager *ui_manager,
-                       EShellView *shell_view)
+static void
+save_calendar_init_ui (EUIManager *ui_manager,
+		       EShellView *shell_view,
+		       const gchar *select_one_action_name,
+		       const EUIActionEntry *entry,
+		       const gchar *eui)
 {
-	EShellWindow *shell_window;
-	GtkActionGroup *action_group;
-	GtkAction *action, *select_one_action;
-	const gchar *tooltip;
-	const gchar *icon_name;
-	const gchar *name;
+	EUIAction *action, *select_one_action;
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	name = "calendar-save-as";
-	tooltip = _("Save the selected calendar to disk");
-	icon_name = "document-save-as";
-	action = gtk_action_new (name, _("Save _As"), tooltip, icon_name);
-
-	name = "lockdown-save-to-disk";
-	action_group = e_shell_window_get_action_group (shell_window, name);
-	gtk_action_group_add_action (action_group, action);
-
-	g_signal_connect (
-		action, "activate",
-		G_CALLBACK (action_calendar_save_as_cb), shell_view);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "lockdown-save-to-disk", NULL, entry, 1, shell_view, eui);
 
 	/* select-one is always sensitive, except when the clicked and the primary source differ */
-	select_one_action = e_shell_window_get_action (shell_window, "calendar-select-one");
+	select_one_action = e_ui_manager_get_action (ui_manager, select_one_action_name);
+	action = e_ui_manager_get_action (ui_manager, entry->name);
 
 	e_binding_bind_property (
 		select_one_action, "sensitive",
 		action, "visible",
 		G_BINDING_SYNC_CREATE);
+}
 
-	g_object_unref (action);
+gboolean
+save_calendar_calendar_save_as_init (EUIManager *ui_manager,
+				     EShellView *shell_view)
+{
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='calendar-popup'>"
+		    "<placeholder id='calendar-popup-actions'>"
+		      "<item action='calendar-save-as'/>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry entry = {
+		"calendar-save-as",
+		"document-save-as",
+		N_("Save _As"),
+		NULL,
+		N_("Save the selected calendar to disk"),
+		action_calendar_save_as_cb, NULL, NULL, NULL
+	};
+
+	save_calendar_init_ui (ui_manager, shell_view, "calendar-select-one", &entry, eui);
 
 	return TRUE;
 }
 
 gboolean
-memo_list_save_as_init (GtkUIManager *ui_manager,
-                        EShellView *shell_view)
+save_calendar_memo_list_save_as_init (EUIManager *ui_manager,
+				      EShellView *shell_view)
 {
-	EShellWindow *shell_window;
-	GtkActionGroup *action_group;
-	GtkAction *action, *select_one_action;
-	const gchar *tooltip;
-	const gchar *icon_name;
-	const gchar *name;
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='memo-list-popup'>"
+		    "<placeholder id='memo-list-popup-actions'>"
+		      "<item action='memo-list-save-as'/>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
+	static const EUIActionEntry entry = {
+		"memo-list-save-as",
+		"document-save-as",
+		N_("Save _As"),
+		NULL,
+		N_("Save the selected memo list to disk"),
+		action_memo_list_save_as_cb, NULL, NULL, NULL
+	};
 
-	name = "memo-list-save-as";
-	tooltip = _("Save the selected memo list to disk");
-	icon_name = "document-save-as";
-	action = gtk_action_new (name, _("Save _As"), tooltip, icon_name);
-
-	name = "lockdown-save-to-disk";
-	action_group = e_shell_window_get_action_group (shell_window, name);
-	gtk_action_group_add_action (action_group, action);
-
-	g_signal_connect (
-		action, "activate",
-		G_CALLBACK (action_memo_list_save_as_cb), shell_view);
-
-	/* select-one is always sensitive, except when the clicked and the primary source differ */
-	select_one_action = e_shell_window_get_action (shell_window, "memo-list-select-one");
-
-	e_binding_bind_property (
-		select_one_action, "sensitive",
-		action, "visible",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_unref (action);
+	save_calendar_init_ui (ui_manager, shell_view, "memo-list-select-one", &entry, eui);
 
 	return TRUE;
 }
 
 gboolean
-task_list_save_as_init (GtkUIManager *ui_manager,
-                        EShellView *shell_view)
+save_calendar_task_list_save_as_init (EUIManager *ui_manager,
+				      EShellView *shell_view)
 {
-	EShellWindow *shell_window;
-	GtkActionGroup *action_group;
-	GtkAction *action, *select_one_action;
-	const gchar *tooltip;
-	const gchar *icon_name;
-	const gchar *name;
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='task-list-popup'>"
+		    "<placeholder id='task-list-popup-actions'>"
+		      "<item action='task-list-save-as'/>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
+	static const EUIActionEntry entry = {
+		"task-list-save-as",
+		"document-save-as",
+		N_("Save _As"),
+		NULL,
+		N_("Save the selected task list to disk"),
+		action_task_list_save_as_cb, NULL, NULL, NULL
+	};
 
-	name = "task-list-save-as";
-	tooltip = _("Save the selected task list to disk");
-	icon_name = "document-save-as";
-	action = gtk_action_new (name, _("Save _As"), tooltip, icon_name);
-
-	name = "lockdown-save-to-disk";
-	action_group = e_shell_window_get_action_group (shell_window, name);
-	gtk_action_group_add_action (action_group, action);
-
-	g_signal_connect (
-		action, "activate",
-		G_CALLBACK (action_task_list_save_as_cb), shell_view);
-
-	/* select-one is always sensitive, except when the clicked and the primary source differ */
-	select_one_action = e_shell_window_get_action (shell_window, "task-list-select-one");
-
-	e_binding_bind_property (
-		select_one_action, "sensitive",
-		action, "visible",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_unref (action);
+	save_calendar_init_ui (ui_manager, shell_view, "task-list-select-one", &entry, eui);
 
 	return TRUE;
 }

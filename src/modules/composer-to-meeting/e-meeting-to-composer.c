@@ -335,9 +335,11 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 }
 
 static void
-action_meeting_to_composer_cb (GtkAction *action,
-			       ECompEditor *comp_editor)
+action_meeting_to_composer_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	ECompEditor *comp_editor = user_data;
 	ICalComponent *icomp;
 	ICalComponentKind kind;
 	const gchar *prompt_key;
@@ -364,43 +366,34 @@ action_meeting_to_composer_cb (GtkAction *action,
 static void
 e_meeting_to_composer_setup_ui (ECompEditor *comp_editor)
 {
-	const gchar *ui =
-		"<ui>"
-		"  <menubar action='main-menu'>"
-		"    <menu action='file-menu'>"
-		"      <placeholder name='custom-actions-placeholder'>"
-		"        <menuitem action='meeting-to-composer-action'/>"
-		"      </placeholder>"
-		"    </menu>"
-		"  </menubar>"
-		"</ui>";
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='file-menu'>"
+		      "<placeholder id='custom-actions-placeholder'>"
+			"<item action='meeting-to-composer-action'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
 
-	GtkActionEntry entries[] = {
+	static const EUIActionEntry entries[] = {
 		{ "meeting-to-composer-action",
 		  "mail-message-new",
 		  N_("Convert to M_essage"),
 		  NULL,
 		  N_("Convert to the mail message"),
-		  G_CALLBACK (action_meeting_to_composer_cb) }
+		  action_meeting_to_composer_cb, NULL, NULL, NULL }
 	};
 
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
-	GError *error = NULL;
+	EUIManager *ui_manager;
 
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 
 	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
-	action_group = e_comp_editor_get_action_group (comp_editor, "individual");
 
-	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), comp_editor);
-
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-
-	if (error) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "individual", GETTEXT_PACKAGE,
+		entries, G_N_ELEMENTS (entries), comp_editor, eui);
 }
 
 static void

@@ -1595,7 +1595,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	GSettings *settings;
 	EActionComboBox *action_combo_box;
 	ESourceRegistry *registry;
-	GtkRadioAction *radio_action;
 	GtkTreeView *view;
 	GtkListStore *store;
 	GtkTreeSelection *selection;
@@ -1645,10 +1644,9 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	widget = e_builder_get_widget (prefs->builder, "lblSendMode");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), GTK_WIDGET (action_combo_box));
-	radio_action = e_action_combo_box_get_action (action_combo_box);
 	g_settings_bind_with_mapping (
 		settings, "composer-mode",
-		radio_action, "current-value",
+		action_combo_box, "current-value",
 		G_SETTINGS_BIND_DEFAULT,
 		emcp_composer_mode_to_current_value_cb,
 		emcp_current_value_to_composer_mode_cb,

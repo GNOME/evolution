@@ -2010,9 +2010,12 @@ ecep_recurrence_fill_component (ECompEditorPage *page,
 }
 
 static void
-ecep_recurrence_select_page_cb (GtkAction *action,
-				ECompEditorPage *page)
+ecep_recurrence_select_page_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	ECompEditorPage *page = user_data;
+
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page));
 
 	e_comp_editor_page_select (page);
@@ -2021,44 +2024,39 @@ ecep_recurrence_select_page_cb (GtkAction *action,
 static void
 ecep_recurrence_setup_ui (ECompEditorPageRecurrence *page_recurrence)
 {
-	const gchar *ui =
-		"<ui>"
-		"  <menubar action='main-menu'>"
-		"    <menu action='options-menu'>"
-		"      <placeholder name='tabs'>"
-		"        <menuitem action='page-recurrence'/>"
-		"      </placeholder>"
-		"    </menu>"
-		"  </menubar>"
-		"</ui>";
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='options-menu'>"
+		      "<placeholder id='tabs'>"
+			"<item action='page-recurrence'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
 
-	const GtkActionEntry options_actions[] = {
+	static const EUIActionEntry options_actions[] = {
 		{ "page-recurrence",
 		  "stock_task-recurring",
 		  N_("R_ecurrence"),
 		  NULL,
 		  N_("Set or unset recurrence"),
-		  G_CALLBACK (ecep_recurrence_select_page_cb) }
+		  ecep_recurrence_select_page_cb, NULL, NULL, NULL }
 	};
 
 	ECompEditor *comp_editor;
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
-	GtkAction *action;
-	GError *error = NULL;
+	EUIManager *ui_manager;
+	EUIAction *action;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
 
 	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_recurrence));
 	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
-	action_group = e_comp_editor_get_action_group (comp_editor, "individual");
 
-	gtk_action_group_add_actions (action_group,
-		options_actions, G_N_ELEMENTS (options_actions), page_recurrence);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "individual", GETTEXT_PACKAGE,
+		options_actions, G_N_ELEMENTS (options_actions), page_recurrence, eui);
 
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-
-	action = gtk_action_group_get_action (action_group, "page-recurrence");
+	action = e_comp_editor_get_action (comp_editor, "page-recurrence");
 	if (action) {
 		e_binding_bind_property (
 			page_recurrence, "visible",
@@ -2067,11 +2065,6 @@ ecep_recurrence_setup_ui (ECompEditorPageRecurrence *page_recurrence)
 	}
 
 	g_clear_object (&comp_editor);
-
-	if (error) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
 }
 
 static void

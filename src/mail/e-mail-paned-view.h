@@ -69,6 +69,14 @@ void		e_mail_paned_view_hide_message_list_pane
 						(EMailPanedView *view,
 						 gboolean visible);
 GtkWidget *	e_mail_paned_view_get_preview	(EMailPanedView *view);
+gboolean	e_mail_paned_view_get_preview_toolbar_visible
+						(EMailPanedView *view);
+void		e_mail_paned_view_set_preview_toolbar_visible
+						(EMailPanedView *view,
+						 gboolean value);
+void		e_mail_paned_view_take_preview_toolbar
+						(EMailPanedView *self,
+						 GtkWidget *toolbar);
 
 G_END_DECLS
 

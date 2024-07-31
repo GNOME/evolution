@@ -1,0 +1,95 @@
+<eui>
+  <menu id='main-menu'>
+    <submenu action='file-menu'>
+      <placeholder id='file-actions'>
+        <item action='memo-open'/>
+        <item action='memo-save-as'/>
+      </placeholder>
+      <placeholder id='print-actions'>
+        <item action='memo-list-print-preview'/>
+        <item action='memo-list-print'/>
+      </placeholder>
+    </submenu>
+    <submenu action='edit-menu'>
+      <placeholder id='edit-actions'>
+        <item action='memo-delete'/>
+        <item action='memo-list-delete'/>
+        <separator/>
+        <item action='memo-find'/>
+      </placeholder>
+      <placeholder id='administrative-actions'>
+        <item action='categories'/>
+      </placeholder>
+    </submenu>
+    <submenu action='view-menu'>
+      <item action='memo-list-manage-groups'/>
+      <placeholder id='view-custom-menus'>
+        <submenu action='memo-preview-menu'>
+          <item action='memo-preview'/>
+          <separator/>
+          <item action='memo-view-classic' group="memo-view"/>
+          <item action='memo-view-vertical' group="memo-view"/>
+        </submenu>
+      </placeholder>
+    </submenu>
+  </menu>
+  <toolbar id='main-toolbar-with-headerbar' primary='true'>
+    <item action='cut-clipboard'/>
+    <item action='copy-clipboard'/>
+    <item action='paste-clipboard'/>
+    <separator/>
+    <item action='memo-list-print'/>
+    <item action='delete-selection'/>
+  </toolbar>
+  <toolbar id='main-toolbar-without-headerbar' primary='true'>
+    <item action='cut-clipboard'/>
+    <item action='copy-clipboard'/>
+    <item action='paste-clipboard'/>
+    <separator/>
+    <item action='memo-list-print'/>
+    <item action='delete-selection'/>
+  </toolbar>
+  <menu id='memo-popup' is-popup='true'>
+    <item action='memo-new'/>
+    <separator/>
+    <item action='memo-open'/>
+    <item action='memo-open-url'/>
+    <item action='memo-save-as'/>
+    <item action='memo-print'/>
+    <separator/>
+    <item action='cut-clipboard'/>
+    <item action='copy-clipboard'/>
+    <item action='paste-clipboard'/>
+    <separator/>
+    <item action='memo-forward'/>
+    <separator/>
+    <item action='delete-selection'/>
+  </menu>
+  <menu id='memo-list-popup' is-popup='true'>
+    <item action='memo-list-new'/>
+    <item action='memo-list-copy'/>
+    <item action='memo-list-rename'/>
+    <item action='memo-list-refresh'/>
+    <item action='memo-list-refresh-backend'/>
+    <separator/>
+    <item action='memo-list-delete'/>
+    <item action='memo-list-select-one'/>
+    <item action='memo-list-select-all'/>
+    <placeholder id='memo-list-actions'/>
+    <separator/>
+    <item action='memo-list-manage-groups-popup'/>
+    <separator/>
+    <item action='memo-list-properties'/>
+  </menu>
+  <menu id='search-options'>
+    <item action='memo-search-advanced-hidden' group='search-options'/>
+    <item action='memo-search-summary-contains' group='search-options'/>
+    <item action='memo-search-description-contains' group='search-options'/>
+    <item action='memo-search-any-field-contains' group='search-options'/>
+    <separator/>
+    <item action='search-advanced'/>
+    <submenu action="saved-searches">
+      <item action='EShellView::saved-searches-list'/>
+    </submenu>
+  </menu>
+</eui>

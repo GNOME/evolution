@@ -39,12 +39,12 @@ mail_label_tree_view_render_pixbuf (GtkTreeViewColumn *column,
                                     EMailLabelTreeView *tree_view)
 {
 	EMailLabelListStore *store;
-	gchar *stock_id;
+	gchar *icon_name;
 
 	store = E_MAIL_LABEL_LIST_STORE (model);
-	stock_id = e_mail_label_list_store_get_stock_id (store, iter);
-	g_object_set (renderer, "stock-id", stock_id, NULL);
-	g_free (stock_id);
+	icon_name = e_mail_label_list_store_dup_icon_name (store, iter);
+	g_object_set (renderer, "icon-name", icon_name, NULL);
+	g_free (icon_name);
 }
 
 static void

@@ -21,6 +21,7 @@
 #ifndef E_SHELL_SWITCHER_H
 #define E_SHELL_SWITCHER_H
 
+#include <e-util/e-util.h>
 #include <shell/e-shell-common.h>
 
 /* Standard GObject macros */
@@ -71,8 +72,8 @@ struct _EShellSwitcherClass {
 GType		e_shell_switcher_get_type	(void);
 GtkWidget *	e_shell_switcher_new		(void);
 void		e_shell_switcher_add_action	(EShellSwitcher *switcher,
-						 GtkAction      *switch_action,
-						 GtkAction      *new_window_action);
+						 EUIAction      *switch_action,
+						 EUIAction      *new_window_action);
 GtkToolbarStyle	e_shell_switcher_get_style	(EShellSwitcher *switcher);
 void		e_shell_switcher_set_style	(EShellSwitcher *switcher,
 						 GtkToolbarStyle style);

@@ -22,10 +22,10 @@
 #define E_SHELL_WINDOW_ACTIONS_H
 
 #define E_SHELL_WINDOW_ACTION(window, name) \
-	(e_shell_window_get_action (E_SHELL_WINDOW (window), (name)))
+	(e_shell_window_get_ui_action (E_SHELL_WINDOW (window), (name)))
 
 #define E_SHELL_WINDOW_ACTION_GROUP(window, name) \
-	(e_shell_window_get_action_group (E_SHELL_WINDOW (window), (name)))
+	(e_shell_window_get_ui_action_group (E_SHELL_WINDOW (window), (name)))
 
 /* Actions */
 #define E_SHELL_WINDOW_ACTION_ABOUT(window) \
@@ -42,14 +42,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "cut-clipboard")
 #define E_SHELL_WINDOW_ACTION_DELETE_SELECTION(window) \
 	E_SHELL_WINDOW_ACTION ((window), "delete-selection")
-#define E_SHELL_WINDOW_ACTION_GAL_CUSTOM_VIEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "gal-custom-view")
-#define E_SHELL_WINDOW_ACTION_GAL_CUSTOMIZE_VIEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "gal-customize-view")
-#define E_SHELL_WINDOW_ACTION_GAL_DELETE_VIEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "gal-delete-view")
-#define E_SHELL_WINDOW_ACTION_GAL_SAVE_CUSTOM_VIEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "gal-save-custom-view")
 #define E_SHELL_WINDOW_ACTION_IMPORT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "import")
 #define E_SHELL_WINDOW_ACTION_NEW_WINDOW(window) \
@@ -62,20 +54,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "preferences")
 #define E_SHELL_WINDOW_ACTION_QUIT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "quit")
-#define E_SHELL_WINDOW_ACTION_SEARCH_ADVANCED(window) \
-	E_SHELL_WINDOW_ACTION ((window), "search-advanced")
-#define E_SHELL_WINDOW_ACTION_SAVED_SEARCHES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "saved-searches")
-#define E_SHELL_WINDOW_ACTION_SEARCH_CLEAR(window) \
-	E_SHELL_WINDOW_ACTION ((window), "search-clear")
-#define E_SHELL_WINDOW_ACTION_SEARCH_EDIT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "search-edit")
-#define E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "search-options")
-#define E_SHELL_WINDOW_ACTION_SEARCH_QUICK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "search-quick")
-#define E_SHELL_WINDOW_ACTION_SEARCH_SAVE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "search-save")
 #define E_SHELL_WINDOW_ACTION_SELECT_ALL(window) \
 	E_SHELL_WINDOW_ACTION ((window), "select-all")
 #define E_SHELL_WINDOW_ACTION_SHORTCUTS(window) \
@@ -94,28 +72,14 @@
 	E_SHELL_WINDOW_ACTION ((window), "show-webkit-gpu")
 #define E_SHELL_WINDOW_ACTION_SUBMIT_BUG(window) \
 	E_SHELL_WINDOW_ACTION ((window), "submit-bug")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_INITIAL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-initial")
 #define E_SHELL_WINDOW_ACTION_SWITCHER_MENU(window) \
 	E_SHELL_WINDOW_ACTION ((window), "switcher-menu")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-style-both")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_ICONS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-style-icons")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_TEXT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-style-text")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_USER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-style-user")
 #define E_SHELL_WINDOW_ACTION_WORK_OFFLINE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "work-offline")
 #define E_SHELL_WINDOW_ACTION_WORK_ONLINE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "work-online")
 
 /* Action Groups */
-#define E_SHELL_WINDOW_ACTION_GROUP_CUSTOM_RULES(window) \
-	E_SHELL_WINDOW_ACTION_GROUP ((window), "custom-rules")
-#define E_SHELL_WINDOW_ACTION_GROUP_GAL_VIEW(window) \
-	E_SHELL_WINDOW_ACTION_GROUP ((window), "gal-view")
 #define E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_APPLICATION_HANDLERS(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "lockdown-application-handlers")
 #define E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_PRINTING(window) \
@@ -130,9 +94,5 @@
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "new-source")
 #define E_SHELL_WINDOW_ACTION_GROUP_SHELL(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "shell")
-#define E_SHELL_WINDOW_ACTION_GROUP_SWITCHER(window) \
-	E_SHELL_WINDOW_ACTION_GROUP ((window), "switcher")
-#define E_SHELL_WINDOW_ACTION_GROUP_NEW_WINDOW(window) \
-	E_SHELL_WINDOW_ACTION_GROUP ((window), "new-window")
 
 #endif /* E_SHELL_WINDOW_ACTIONS_H */

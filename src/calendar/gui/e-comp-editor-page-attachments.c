@@ -88,9 +88,11 @@ ecep_before_properties_popup_cb (EAttachmentView *view,
 }
 
 static void
-ecep_attachments_action_attach_cb (GtkAction *action,
-				   ECompEditorPageAttachments *page_attachments)
+ecep_attachments_action_attach_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	ECompEditorPageAttachments *page_attachments = user_data;
 	ECompEditor *comp_editor;
 	EAttachmentStore *store;
 
@@ -105,9 +107,12 @@ ecep_attachments_action_attach_cb (GtkAction *action,
 }
 
 static void
-ecep_attachments_select_page_cb (GtkAction *action,
-				 ECompEditorPage *page)
+ecep_attachments_select_page_cb (EUIAction *action,
+				 GVariant *parameter,
+				 gpointer user_data)
 {
+	ECompEditorPage *page = user_data;
+
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_ATTACHMENTS (page));
 
 	e_comp_editor_page_select (page);
@@ -256,7 +261,7 @@ ecep_attachments_sensitize_widgets (ECompEditorPage *page,
 				    gboolean force_insensitive)
 {
 	ECompEditor *comp_editor;
-	GtkAction *action;
+	EUIAction *action;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_ATTACHMENTS (page));
 
@@ -265,7 +270,7 @@ ecep_attachments_sensitize_widgets (ECompEditorPage *page,
 	comp_editor = e_comp_editor_page_ref_editor (page);
 
 	action = e_comp_editor_get_action (comp_editor, "attachments-attach");
-	gtk_action_set_sensitive (action, !force_insensitive);
+	e_ui_action_set_sensitive (action, !force_insensitive);
 
 	g_clear_object (&comp_editor);
 }
@@ -748,79 +753,66 @@ ecep_attachments_dispose (GObject *object)
 static void
 ecep_attachments_setup_ui (ECompEditorPageAttachments *page_attachments)
 {
-	const gchar *ui =
-		"<ui>"
-		"  <menubar action='main-menu'>"
-		"    <menu action='insert-menu'>"
-		"      <menuitem action='attachments-attach'/>"
-		"    </menu>"
-		"    <menu action='options-menu'>"
-		"      <placeholder name='tabs'>"
-		"        <menuitem action='page-attachments'/>"
-		"      </placeholder>"
-		"    </menu>"
-		"  </menubar>"
-		"</ui>";
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='insert-menu'>"
+		      "<item action='attachments-attach'/>"
+		    "</submenu>"
+		    "<submenu action='options-menu'>"
+		      "<placeholder id='tabs'>"
+			"<item action='page-attachments'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
 
-	GtkActionEntry editable_entries[] = {
+	static const EUIActionEntry editable_entries[] = {
 		{ "attachments-attach",
 		  "mail-attachment",
 		  N_("_Attachment…"),
 		  "<Control>m",
 		  N_("Attach a file"),
-		  G_CALLBACK (ecep_attachments_action_attach_cb) }
+		  ecep_attachments_action_attach_cb, NULL, NULL, NULL }
 	};
 
-	GtkActionEntry options_entries[] = {
+	static const EUIActionEntry options_entries[] = {
 		{ "page-attachments",
 		  "mail-attachment",
 		  N_("_Attachments"),
 		  NULL,
 		  N_("Show attachments"),
-		  G_CALLBACK (ecep_attachments_select_page_cb) }
+		  ecep_attachments_select_page_cb, NULL, NULL, NULL }
 	};
 
 	ECompEditor *comp_editor;
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
-	GtkAction *action;
-	GError *error = NULL;
+	EUIManager *ui_manager;
+	EUIAction *action;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_ATTACHMENTS (page_attachments));
 
 	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_attachments));
 	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
-	action_group = e_comp_editor_get_action_group (comp_editor, "editable");
 
-	gtk_action_group_add_actions (
-		action_group, editable_entries,
-		G_N_ELEMENTS (editable_entries), page_attachments);
+	e_ui_manager_add_actions (ui_manager, "editable", GETTEXT_PACKAGE,
+		editable_entries, G_N_ELEMENTS (editable_entries), page_attachments);
 
-	action = gtk_action_group_get_action (action_group, "attachments-attach");
+	action = e_comp_editor_get_action (comp_editor, "attachments-attach");
 
 	e_binding_bind_property (
 		page_attachments, "visible",
 		action, "visible",
 		G_BINDING_SYNC_CREATE);
 
-	action_group = e_comp_editor_get_action_group (comp_editor, "individual");
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "individual", GETTEXT_PACKAGE,
+		options_entries, G_N_ELEMENTS (options_entries), page_attachments, eui);
 
-	gtk_action_group_add_actions (
-		action_group, options_entries,
-		G_N_ELEMENTS (options_entries), page_attachments);
-
-	action = gtk_action_group_get_action (action_group, "page-attachments");
+	action = e_comp_editor_get_action (comp_editor, "page-attachments");
 
 	e_binding_bind_property (
 		page_attachments, "visible",
 		action, "visible",
 		G_BINDING_SYNC_CREATE);
-
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-	if (error != NULL) {
-		g_warning ("%s: Failed to add UI from string: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
 
 	g_clear_object (&comp_editor);
 }
@@ -830,11 +822,11 @@ ecep_attachments_constructed (GObject *object)
 {
 	ECompEditorPageAttachments *page_attachments;
 	ECompEditor *comp_editor;
+	EUIAction *action;
 	GSettings *settings;
 	GtkSizeGroup *size_group;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GtkAction *action;
 
 	G_OBJECT_CLASS (e_comp_editor_page_attachments_parent_class)->constructed (object);
 
@@ -939,7 +931,7 @@ ecep_attachments_constructed (GObject *object)
 	widget = gtk_button_new ();
 	action = e_attachment_view_get_action (E_ATTACHMENT_VIEW (page_attachments->priv->icon_view), "add-uri");
 	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
-	gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
+	e_ui_action_util_assign_to_widget (action, widget);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -950,7 +942,7 @@ ecep_attachments_constructed (GObject *object)
 	widget = gtk_button_new ();
 	action = e_attachment_view_get_action (E_ATTACHMENT_VIEW (page_attachments->priv->icon_view), "add");
 	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
-	gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
+	e_ui_action_util_assign_to_widget (action, widget);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

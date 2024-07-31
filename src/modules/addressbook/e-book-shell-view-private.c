@@ -122,7 +122,7 @@ static void
 popup_event (EShellView *shell_view,
              GdkEvent *button_event)
 {
-	e_book_shell_view_show_popup_menu (shell_view, "/contact-popup", button_event, NULL);
+	e_book_shell_view_show_popup_menu (shell_view, "contact-popup", button_event, NULL);
 }
 
 static void
@@ -377,7 +377,7 @@ book_shell_view_selector_popup_event_cb (EShellView *shell_view,
                                          ESource *clicked_source,
                                          GdkEvent *button_event)
 {
-	e_book_shell_view_show_popup_menu (shell_view, "/address-book-popup", button_event, clicked_source);
+	e_book_shell_view_show_popup_menu (shell_view, "address-book-popup", button_event, clicked_source);
 
 	return TRUE;
 }
@@ -433,14 +433,15 @@ book_shell_view_source_removed_cb (ESourceRegistry *registry,
 static void
 book_shell_view_notify_view_id_cb (EBookShellView *book_shell_view)
 {
+	EShellView *shell_view;
 	EBookShellContent *book_shell_content;
-	EShellWindow *shell_window;
 	EAddressbookView *address_view;
 	GalViewInstance *view_instance;
 	GalView *gl_view;
-	GtkAction *action;
+	EUIAction *action;
 	const gchar *view_id;
 
+	shell_view = E_SHELL_VIEW (book_shell_view);
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	address_view = e_book_shell_content_get_current_view (book_shell_content);
 	view_instance = e_addressbook_view_get_view_instance (address_view);
@@ -456,16 +457,49 @@ book_shell_view_notify_view_id_cb (EBookShellView *book_shell_view)
 
 	gal_view_instance_set_current_view_id (view_instance, view_id);
 
-	shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (book_shell_view));
 	gl_view = gal_view_instance_get_current_view (view_instance);
 
 	action = ACTION (CONTACT_CARDS_SORT_BY_MENU);
-	gtk_action_set_visible (action, GAL_IS_VIEW_MINICARD (gl_view));
+	e_ui_action_set_visible (action, GAL_IS_VIEW_MINICARD (gl_view));
+	e_ui_action_set_sensitive (action, e_ui_action_get_visible (action));
 
 	if (GAL_IS_VIEW_MINICARD (gl_view)) {
 		action = ACTION (CONTACT_CARDS_SORT_BY_FILE_AS);
-		gtk_radio_action_set_current_value (GTK_RADIO_ACTION (action), gal_view_minicard_get_sort_by (GAL_VIEW_MINICARD (gl_view)));
+		e_ui_action_set_state (action, g_variant_new_int32 (gal_view_minicard_get_sort_by (GAL_VIEW_MINICARD (gl_view))));
 	}
+}
+
+static void
+book_shell_view_contact_view_notify_state_cb (GObject *object,
+					      GParamSpec *param,
+					      gpointer user_data)
+{
+	GAction *action = G_ACTION (object);
+	EBookShellView *self = user_data;
+	EBookShellContent *book_shell_content;
+	GVariant *state;
+	GtkOrientable *orientable;
+	GtkOrientation orientation;
+
+	state = g_action_get_state (action);
+
+	book_shell_content = self->priv->book_shell_content;
+	orientable = GTK_ORIENTABLE (book_shell_content);
+
+	switch (g_variant_get_int32 (state)) {
+		case 0:
+			orientation = GTK_ORIENTATION_VERTICAL;
+			break;
+		case 1:
+			orientation = GTK_ORIENTATION_HORIZONTAL;
+			break;
+		default:
+			g_return_if_reached ();
+	}
+
+	gtk_orientable_set_orientation (orientable, orientation);
+
+	g_clear_pointer (&state, g_variant_unref);
 }
 
 void
@@ -496,7 +530,12 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellBackend *shell_backend;
+	EShellSearchbar *searchbar;
 	ESourceSelector *selector;
+	EPreviewPane *preview_pane;
+	EWebView *web_view;
+	EUIAction *action;
+	GSettings *settings;
 	gulong handler_id;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
@@ -505,9 +544,6 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
-
-	e_shell_window_add_action_group_full (shell_window, "contacts", "addressbook");
-	e_shell_window_add_action_group_full (shell_window, "contacts-filter", "addressbook");
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->book_shell_backend = E_BOOK_SHELL_BACKEND (g_object_ref (shell_backend));
@@ -556,7 +592,56 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 		(GHookFunc) e_book_shell_view_update_search_filter,
 		book_shell_view);
 
-	e_book_shell_view_actions_init (book_shell_view);
+	preview_pane = e_book_shell_content_get_preview_pane (book_shell_view->priv->book_shell_content);
+	web_view = e_preview_pane_get_web_view (preview_pane);
+	e_web_view_set_open_proxy (web_view, ACTION (CONTACT_OPEN));
+	e_web_view_set_print_proxy (web_view, ACTION (CONTACT_PRINT));
+	e_web_view_set_save_as_proxy (web_view, ACTION (CONTACT_SAVE_AS));
+
+	/* Advanced Search Action */
+	action = ACTION (CONTACT_SEARCH_ADVANCED_HIDDEN);
+	e_ui_action_set_visible (action, FALSE);
+	searchbar = e_book_shell_content_get_searchbar (book_shell_view->priv->book_shell_content);
+	e_shell_searchbar_set_search_option (searchbar, action);
+
+	/* Bind GObject properties to GSettings keys. */
+
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
+
+	g_settings_bind (
+		settings, "preview-show-maps",
+		ACTION (CONTACT_PREVIEW_SHOW_MAPS), "active",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	action = ACTION (CONTACT_PREVIEW);
+
+	g_settings_bind (
+		settings, "show-preview",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	e_binding_bind_property (
+		action, "active",
+		book_shell_view->priv->book_shell_content, "preview-visible",
+		G_BINDING_SYNC_CREATE);
+
+	action = ACTION (CONTACT_VIEW_VERTICAL);
+
+	g_settings_bind_with_mapping (
+		settings, "layout",
+		action, "state",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY,
+		e_shell_view_util_layout_to_state_cb,
+		e_shell_view_util_state_to_layout_cb, NULL, NULL);
+
+	g_object_unref (settings);
+
+	g_signal_connect_object (action, "notify::state",
+		G_CALLBACK (book_shell_view_contact_view_notify_state_cb), book_shell_view, 0);
+
+	/* to propagate the loaded state */
+	book_shell_view_contact_view_notify_state_cb (G_OBJECT (action), NULL, book_shell_view);
+
 	e_shell_view_block_execute_search (shell_view);
 	book_shell_view_activate_selected_source (book_shell_view, selector);
 	e_shell_view_unblock_execute_search (shell_view);

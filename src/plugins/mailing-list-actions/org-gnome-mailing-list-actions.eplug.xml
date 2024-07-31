@@ -10,48 +10,8 @@
     <_description>Perform common mailing list actions (subscribe, unsubscribe, etc.).</_description>
 
     <hook class="org.gnome.evolution.ui:1.0">
-      <ui-manager id="org.gnome.evolution.mail"
-                  callback="mail_shell_view_init">
-        <menubar name='main-menu'>
-          <placeholder name='custom-menus'>
-            <menu action='mail-message-menu'>
-              <placeholder name='mail-message-custom-menus'>
-                <menu action='mailing-list-menu'>
-                  <menuitem action='mailing-list-help'/>
-                  <menuitem action='mailing-list-subscribe'/>
-                  <menuitem action='mailing-list-unsubscribe'/>
-                  <menuitem action='mailing-list-post'/>
-                  <menuitem action='mailing-list-owner'/>
-                  <menuitem action='mailing-list-archive'/>
-		  <separator />
-                  <menuitem action='mailing-list-archived-at'/>
-                </menu>
-              </placeholder>
-            </menu>
-          </placeholder>
-        </menubar>
-      </ui-manager>
-      <ui-manager id="org.gnome.evolution.mail.browser"
-                  callback="mail_browser_init">
-        <menubar name='main-menu'>
-          <placeholder name='custom-menus'>
-            <menu action='mail-message-menu'>
-              <placeholder name='mail-message-custom-menus'>
-                <menu action='mailing-list-menu'>
-                  <menuitem action='mailing-list-help'/>
-                  <menuitem action='mailing-list-subscribe'/>
-                  <menuitem action='mailing-list-unsubscribe'/>
-                  <menuitem action='mailing-list-post'/>
-                  <menuitem action='mailing-list-owner'/>
-                  <menuitem action='mailing-list-archive'/>
-		  <separator />
-                  <menuitem action='mailing-list-archived-at'/>
-                </menu>
-              </placeholder>
-            </menu>
-          </placeholder>
-        </menubar>
-      </ui-manager>
+      <ui-manager id="org.gnome.evolution.mail" callback="mailing_list_actions_mail_shell_view_init"/>
+      <ui-manager id="org.gnome.evolution.mail.browser" callback="mailing_list_actions_mail_browser_init"/>
     </hook>
 
   </e-plugin>

@@ -565,7 +565,6 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSearchbar *searchbar;
-	EShellWindow *shell_window;
 	EBookShellView *book_shell_view;
 	GtkNotebook *notebook;
 	GtkWidget *child;
@@ -576,7 +575,6 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 
 	shell_content = E_SHELL_CONTENT (book_shell_content);
 	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	book_shell_view = E_BOOK_SHELL_VIEW (shell_view);
 	searchbar = e_book_shell_content_get_searchbar (book_shell_content);
@@ -593,8 +591,7 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 		GalViewInstance *view_instance;
 		GalView *gl_view;
 		EActionComboBox *combo_box;
-		GtkAction *action;
-		GtkRadioAction *radio_action;
+		EUIAction *action;
 		gint filter_id = 0, search_id = 0;
 		gchar *search_text = NULL;
 		EFilterRule *advanced_search = NULL;
@@ -608,8 +605,8 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 		combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
 		e_action_combo_box_set_current_value (combo_box, filter_id);
 
-		radio_action = e_shell_searchbar_get_search_option (searchbar);
-		gtk_radio_action_set_current_value (radio_action, search_id);
+		action = e_shell_searchbar_get_search_option (searchbar);
+		e_ui_action_set_state (action, g_variant_new_int32 (search_id));
 
 		e_shell_searchbar_set_search_text (searchbar, search_text);
 
@@ -626,11 +623,11 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 		gl_view = gal_view_instance_get_current_view (view_instance);
 
 		action = ACTION (CONTACT_CARDS_SORT_BY_MENU);
-		gtk_action_set_visible (action, GAL_IS_VIEW_MINICARD (gl_view));
+		e_ui_action_set_visible (action, GAL_IS_VIEW_MINICARD (gl_view));
 
 		if (GAL_IS_VIEW_MINICARD (gl_view)) {
 			action = ACTION (CONTACT_CARDS_SORT_BY_FILE_AS);
-			gtk_radio_action_set_current_value (GTK_RADIO_ACTION (action), gal_view_minicard_get_sort_by (GAL_VIEW_MINICARD (gl_view)));
+			e_ui_action_set_state (action, g_variant_new_int32 (gal_view_minicard_get_sort_by (GAL_VIEW_MINICARD (gl_view))));
 		}
 	}
 

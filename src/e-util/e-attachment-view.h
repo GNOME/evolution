@@ -27,6 +27,9 @@
 
 #include <gtk/gtk.h>
 #include <e-util/e-attachment-store.h>
+#include <e-util/e-ui-action.h>
+#include <e-util/e-ui-action-group.h>
+#include <e-util/e-ui-manager.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ATTACHMENT_VIEW \
@@ -104,8 +107,9 @@ struct _EAttachmentViewPrivate {
 	GdkDragAction drag_actions;
 
 	/* Popup Menu Management */
-	GtkUIManager *ui_manager;
-	guint merge_id;
+	EUIManager *ui_manager;
+	GMenu *open_with_apps_menu;
+	GHashTable *open_with_apps_hash; /* gint index ~> GAppInfo * */
 
 	/* Multi-DnD State */
 	GList *event_list;
@@ -228,17 +232,14 @@ void		e_attachment_view_drag_data_received
 						 guint time);
 
 /* Popup Menu Management */
-GtkAction *	e_attachment_view_get_action	(EAttachmentView *view,
+EUIAction *	e_attachment_view_get_action	(EAttachmentView *view,
 						 const gchar *action_name);
-GtkActionGroup *e_attachment_view_add_action_group
-						(EAttachmentView *view,
-						 const gchar *group_name);
-GtkActionGroup *e_attachment_view_get_action_group
+EUIActionGroup *e_attachment_view_get_action_group
 						(EAttachmentView *view,
 						 const gchar *group_name);
 GtkWidget *	e_attachment_view_get_popup_menu
 						(EAttachmentView *view);
-GtkUIManager *	e_attachment_view_get_ui_manager
+EUIManager *	e_attachment_view_get_ui_manager
 						(EAttachmentView *view);
 void		e_attachment_view_update_actions
 						(EAttachmentView *view);

@@ -24,7 +24,7 @@
 #include <gtk/gtk.h>
 
 static EEmoticon *
-emoticon_copy (EEmoticon *emoticon)
+emoticon_copy (const EEmoticon *emoticon)
 {
 	EEmoticon *copy;
 
@@ -62,8 +62,8 @@ e_emoticon_get_type (void)
 }
 
 gboolean
-e_emoticon_equal (EEmoticon *emoticon_a,
-                  EEmoticon *emoticon_b)
+e_emoticon_equal (const EEmoticon *emoticon_a,
+                  const EEmoticon *emoticon_b)
 {
 	if (((emoticon_a == NULL) && (emoticon_b != NULL)) ||
 	    ((emoticon_a != NULL) && (emoticon_b == NULL)))
@@ -88,7 +88,7 @@ e_emoticon_equal (EEmoticon *emoticon_a,
 }
 
 EEmoticon *
-e_emoticon_copy (EEmoticon *emoticon)
+e_emoticon_copy (const EEmoticon *emoticon)
 {
 	return g_boxed_copy (E_TYPE_EMOTICON, emoticon);
 }
@@ -100,7 +100,7 @@ e_emoticon_free (EEmoticon *emoticon)
 }
 
 gchar *
-e_emoticon_get_uri (EEmoticon *emoticon)
+e_emoticon_dup_uri (const EEmoticon *emoticon)
 {
 	GtkIconInfo *icon_info;
 	GtkIconTheme *icon_theme;
@@ -123,7 +123,7 @@ e_emoticon_get_uri (EEmoticon *emoticon)
 }
 
 const gchar *
-e_emoticon_get_name (EEmoticon *emoticon)
+e_emoticon_get_name (const EEmoticon *emoticon)
 {
 	return emoticon->icon_name;
 }

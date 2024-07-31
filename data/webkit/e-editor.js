@@ -2625,7 +2625,7 @@ EvoEditor.applyFontReset = function(record, isUndo)
 
 EvoEditor.replaceInheritFonts = function(undoRedoRecord, selectionUpdater, nodes)
 {
-	var ii;
+	var ii, changed = false;
 
 	if (!nodes)
 		nodes = document.querySelectorAll("FONT[face=inherit]");
@@ -2667,7 +2667,10 @@ EvoEditor.replaceInheritFonts = function(undoRedoRecord, selectionUpdater, nodes
 			}
 
 			node.remove();
+			changed = true;
 		} else {
+			if (node.hasAttribute ("face"))
+				changed = true;
 			node.removeAttribute("face");
 		}
 
@@ -2677,6 +2680,8 @@ EvoEditor.replaceInheritFonts = function(undoRedoRecord, selectionUpdater, nodes
 
 	if (undoRedoRecord && undoRedoRecord.changes)
 		undoRedoRecord.apply = EvoEditor.applyFontReset;
+
+	return changed;
 }
 
 EvoEditor.maybeReplaceInheritFonts = function()
@@ -2708,15 +2713,17 @@ EvoEditor.SetFontName = function(name)
 	if (!name || name == "")
 		name = "inherit";
 
-	var record, selectionUpdater = EvoSelection.CreateUpdaterObject(), bodyFontFamily;
+	var record, selectionUpdater = EvoSelection.CreateUpdaterObject(), bodyFontFamily, changed = false;
 
 	// to workaround https://bugs.webkit.org/show_bug.cgi?id=204622
 	bodyFontFamily = document.body.style.fontFamily;
 
 	record = EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, "SetFontName");
 	try {
-		if (!document.getSelection().isCollapsed && bodyFontFamily)
+		if (!document.getSelection().isCollapsed && bodyFontFamily) {
 			document.body.style.fontFamily = "";
+			changed = TRUE;
+		}
 
 		document.execCommand("FontName", false, name);
 
@@ -2732,19 +2739,22 @@ EvoEditor.SetFontName = function(name)
 
 			subrecord = EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "SetFontName", null, null, EvoEditor.CLAIM_CONTENT_FLAG_NONE);
 			try {
-				EvoEditor.replaceInheritFonts(subrecord, selectionUpdater);
+				changed = EvoEditor.replaceInheritFonts(subrecord, selectionUpdater);
 				selectionUpdater.restore();
 			} finally {
 				EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "SetFontName");
 			}
 		}
 	} finally {
-		if (bodyFontFamily && document.body.style.fontFamily != bodyFontFamily)
+		if (bodyFontFamily && document.body.style.fontFamily != bodyFontFamily) {
 			document.body.style.fontFamily = bodyFontFamily;
+			changed = true;
+		}
 
 		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_GROUP, "SetFontName");
 		EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
-		EvoEditor.EmitContentChanged();
+		if (changed)
+			EvoEditor.EmitContentChanged();
 
 		EvoEditor.removeEmptyStyleAttribute(document.body);
 	}

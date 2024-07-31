@@ -43,12 +43,12 @@ struct _EEmoticon {
 };
 
 GType		e_emoticon_get_type		(void) G_GNUC_CONST;
-gboolean	e_emoticon_equal		(EEmoticon *emoticon_a,
-						 EEmoticon *emoticon_b);
-EEmoticon *	e_emoticon_copy			(EEmoticon *emoticon);
+gboolean	e_emoticon_equal		(const EEmoticon *emoticon_a,
+						 const EEmoticon *emoticon_b);
+EEmoticon *	e_emoticon_copy			(const EEmoticon *emoticon);
 void		e_emoticon_free			(EEmoticon *emoticon);
-gchar *		e_emoticon_get_uri		(EEmoticon *emoticon);
-const gchar *	e_emoticon_get_name		(EEmoticon *emoticon);
+gchar *		e_emoticon_dup_uri		(const EEmoticon *emoticon);
+const gchar *	e_emoticon_get_name		(const EEmoticon *emoticon);
 
 G_END_DECLS
 

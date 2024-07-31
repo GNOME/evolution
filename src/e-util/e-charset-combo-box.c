@@ -20,24 +20,18 @@
 
 #include "evolution-config.h"
 
-#include "e-charset-combo-box.h"
-
 #include <glib/gi18n.h>
 
 #include "e-charset.h"
-#include "e-misc-utils.h"
 
-#define DEFAULT_CHARSET "UTF-8"
-#define OTHER_VALUE G_MAXINT
+#include "e-charset-combo-box.h"
 
-struct _ECharsetComboBoxPrivate {
-	GtkActionGroup *action_group;
-	GtkRadioAction *other_action;
-	GHashTable *charset_index;
+struct _ECharsetComboBox {
+	GtkComboBox parent;
 
 	/* Used when the user clicks Cancel in the character set
 	 * dialog. Reverts to the previous combo box setting. */
-	gint previous_index;
+	gchar *previous_id;
 
 	/* When setting the character set programmatically, this
 	 * prevents the custom character set dialog from running. */
@@ -49,7 +43,7 @@ enum {
 	PROP_CHARSET
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (ECharsetComboBox, e_charset_combo_box, E_TYPE_ACTION_COMBO_BOX)
+G_DEFINE_TYPE (ECharsetComboBox, e_charset_combo_box, GTK_TYPE_COMBO_BOX)
 
 static void
 charset_combo_box_entry_changed_cb (GtkEntry *entry,
@@ -70,7 +64,6 @@ charset_combo_box_run_dialog (ECharsetComboBox *combo_box)
 	GtkEntry *entry;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GObject *object;
 	gpointer parent;
 	const gchar *charset;
 
@@ -83,8 +76,7 @@ charset_combo_box_run_dialog (ECharsetComboBox *combo_box)
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (combo_box));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	object = G_OBJECT (combo_box->priv->other_action);
-	charset = g_object_get_data (object, "charset");
+	charset = combo_box->previous_id;
 
 	widget = gtk_dialog_new_with_buttons (
 		_("Character Encoding"), parent,
@@ -135,43 +127,64 @@ charset_combo_box_run_dialog (ECharsetComboBox *combo_box)
 	 * This will initialize the "OK" button to the proper state. */
 	gtk_entry_set_text (entry, charset);
 
-	if (gtk_dialog_run (dialog) != GTK_RESPONSE_OK) {
-		gint active;
+	if (gtk_dialog_run (dialog) == GTK_RESPONSE_OK) {
+		charset = gtk_entry_get_text (entry);
+		g_return_if_fail (charset != NULL && *charset != '\0');
 
+		/* for the cases where the user confirmed the choice without changing it,
+		   it will force to set the correct id (from Other...) on the combo box */
+		g_clear_pointer (&combo_box->previous_id, g_free);
+
+		e_charset_combo_box_set_charset (combo_box, charset);
+	} else {
 		/* Revert to the previously selected character set. */
-		combo_box->priv->block_dialog = TRUE;
-		active = combo_box->priv->previous_index;
-		gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), active);
-		combo_box->priv->block_dialog = FALSE;
-
-		goto exit;
+		combo_box->block_dialog = TRUE;
+		gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), combo_box->previous_id);
+		combo_box->block_dialog = FALSE;
 	}
 
-	charset = gtk_entry_get_text (entry);
-	g_return_if_fail (charset != NULL && *charset != '\0');
-
-	g_object_set_data_full (
-		object, "charset", g_strdup (charset),
-		(GDestroyNotify) g_free);
-
-exit:
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void
-charset_combo_box_notify_charset_cb (ECharsetComboBox *combo_box)
+charset_combo_box_changed (GtkComboBox *combo_box)
 {
-	GtkToggleAction *action;
+	ECharsetComboBox *self = E_CHARSET_COMBO_BOX (combo_box);
+	const gchar *charset;
 
-	action = GTK_TOGGLE_ACTION (combo_box->priv->other_action);
-	if (!gtk_toggle_action_get_active (action))
+	/* Chain up to parent's changed() method. */
+	if (GTK_COMBO_BOX_CLASS (e_charset_combo_box_parent_class)->changed)
+		GTK_COMBO_BOX_CLASS (e_charset_combo_box_parent_class)->changed (combo_box);
+
+	if (self->block_dialog)
 		return;
 
-	if (combo_box->priv->block_dialog)
-		return;
+	charset = e_charset_combo_box_get_charset (self);
 
-	/* "Other" action was selected by user. */
-	charset_combo_box_run_dialog (combo_box);
+	/* the "Other..." value is an empty string */
+	if (charset && !*charset) {
+		charset_combo_box_run_dialog (self);
+	} else {
+		g_clear_pointer (&self->previous_id, g_free);
+		self->previous_id = g_strdup (charset);
+
+		g_object_notify (G_OBJECT (self), "charset");
+	}
+}
+
+static gboolean
+charset_combo_box_is_row_separator (GtkTreeModel *model,
+				    GtkTreeIter *iter,
+				    gpointer user_data)
+{
+	gchar *charset = NULL;
+	gboolean separator;
+
+	gtk_tree_model_get (model, iter, E_CHARSET_COLUMN_VALUE, &charset, -1);
+	separator = (charset == NULL);
+	g_free (charset);
+
+	return separator;
 }
 
 static void
@@ -213,61 +226,10 @@ charset_combo_box_dispose (GObject *object)
 {
 	ECharsetComboBox *self = E_CHARSET_COMBO_BOX (object);
 
-	g_clear_object (&self->priv->action_group);
-	g_clear_object (&self->priv->other_action);
-
-	g_hash_table_remove_all (self->priv->charset_index);
+	g_clear_pointer (&self->previous_id, g_free);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_charset_combo_box_parent_class)->dispose (object);
-}
-
-static void
-charset_combo_box_finalize (GObject *object)
-{
-	ECharsetComboBox *self = E_CHARSET_COMBO_BOX (object);
-
-	g_hash_table_destroy (self->priv->charset_index);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_charset_combo_box_parent_class)->finalize (object);
-}
-
-static void
-charset_combo_box_constructed (GObject *object)
-{
-	ECharsetComboBox *self = E_CHARSET_COMBO_BOX (object);
-	GtkRadioAction *radio_action;
-	GSList *group;
-
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_charset_combo_box_parent_class)->constructed (object);
-
-	radio_action = self->priv->other_action;
-	group = gtk_radio_action_get_group (radio_action);
-
-	e_action_combo_box_set_action (
-		E_ACTION_COMBO_BOX (object), radio_action);
-
-	e_action_combo_box_add_separator_after (
-		E_ACTION_COMBO_BOX (object), g_slist_length (group));
-
-	e_signal_connect_notify (
-		object, "notify::charset",
-		G_CALLBACK (charset_combo_box_notify_charset_cb), NULL);
-}
-
-static void
-charset_combo_box_changed (GtkComboBox *combo_box)
-{
-	ECharsetComboBox *self = E_CHARSET_COMBO_BOX (combo_box);
-
-	/* Chain up to parent's changed() method. */
-	GTK_COMBO_BOX_CLASS (e_charset_combo_box_parent_class)->changed (combo_box);
-
-	/* Notify -before- updating previous index. */
-	g_object_notify (G_OBJECT (combo_box), "charset");
-	self->priv->previous_index = gtk_combo_box_get_active (combo_box);
 }
 
 static void
@@ -280,8 +242,6 @@ e_charset_combo_box_class_init (ECharsetComboBoxClass *class)
 	object_class->set_property = charset_combo_box_set_property;
 	object_class->get_property = charset_combo_box_get_property;
 	object_class->dispose = charset_combo_box_dispose;
-	object_class->finalize = charset_combo_box_finalize;
-	object_class->constructed = charset_combo_box_constructed;
 
 	combo_box_class = GTK_COMBO_BOX_CLASS (class);
 	combo_box_class->changed = charset_combo_box_changed;
@@ -293,56 +253,40 @@ e_charset_combo_box_class_init (ECharsetComboBoxClass *class)
 			"charset",
 			"Charset",
 			"The selected character set",
-			"UTF-8",
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			"",
+			G_PARAM_READWRITE));
 }
 
 static void
-e_charset_combo_box_init (ECharsetComboBox *combo_box)
+e_charset_combo_box_init (ECharsetComboBox *self)
 {
-	GtkActionGroup *action_group;
-	GtkRadioAction *radio_action;
-	GHashTable *charset_index;
-	GSList *group, *iter;
+	GtkComboBox *combo_box = GTK_COMBO_BOX (self);
+	GtkCellRenderer *renderer;
+	GtkListStore *list_store;
+	GtkTreeIter iter;
 
-	action_group = gtk_action_group_new ("charset-combo-box-internal");
+	list_store = e_charset_create_list_store ();
 
-	charset_index = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) g_object_unref);
+	/* separator, both label and value are NULL */
+	gtk_list_store_append (list_store, &iter);
 
-	combo_box->priv = e_charset_combo_box_get_instance_private (combo_box);
-	combo_box->priv->action_group = action_group;
-	combo_box->priv->charset_index = charset_index;
+	/* other option */
+	gtk_list_store_append (list_store, &iter);
+	gtk_list_store_set (list_store, &iter,
+		E_CHARSET_COLUMN_LABEL, _("Other…"),
+		E_CHARSET_COLUMN_VALUE, "",
+		-1);
 
-	group = e_charset_add_radio_actions (
-		action_group, "charset-", NULL, NULL, NULL);
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (self), renderer, TRUE);
+	gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (self), renderer, "text", E_CHARSET_COLUMN_LABEL);
 
-	/* Populate the character set index. */
-	for (iter = group; iter != NULL; iter = iter->next) {
-		GObject *object = iter->data;
-		const gchar *charset;
+	gtk_combo_box_set_row_separator_func (combo_box, charset_combo_box_is_row_separator, NULL, NULL);
 
-		charset = g_object_get_data (object, "charset");
-		g_return_if_fail (charset != NULL);
+	gtk_combo_box_set_model (combo_box, GTK_TREE_MODEL (list_store));
+	gtk_combo_box_set_id_column (combo_box, E_CHARSET_COLUMN_VALUE);
 
-		g_hash_table_insert (
-			charset_index, g_strdup (charset),
-			g_object_ref (object));
-	}
-
-	/* Note the "other" action is not included in the index. */
-
-	radio_action = gtk_radio_action_new (
-		"charset-other", _("Other…"), NULL, NULL, OTHER_VALUE);
-
-	g_object_set_data (G_OBJECT (radio_action), "charset", (gpointer) "");
-
-	gtk_radio_action_set_group (radio_action, group);
-
-	combo_box->priv->other_action = radio_action;
+	g_object_unref (list_store);
 }
 
 GtkWidget *
@@ -354,40 +298,53 @@ e_charset_combo_box_new (void)
 const gchar *
 e_charset_combo_box_get_charset (ECharsetComboBox *combo_box)
 {
-	GtkRadioAction *radio_action;
-
 	g_return_val_if_fail (E_IS_CHARSET_COMBO_BOX (combo_box), NULL);
 
-	radio_action = combo_box->priv->other_action;
-	radio_action = e_radio_action_get_current_action (radio_action);
-
-	return g_object_get_data (G_OBJECT (radio_action), "charset");
+	return gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box));
 }
 
 void
 e_charset_combo_box_set_charset (ECharsetComboBox *combo_box,
                                  const gchar *charset)
 {
-	GHashTable *charset_index;
-	GtkRadioAction *radio_action;
-
 	g_return_if_fail (E_IS_CHARSET_COMBO_BOX (combo_box));
 
 	if (charset == NULL || *charset == '\0')
 		charset = "UTF-8";
 
-	charset_index = combo_box->priv->charset_index;
-	radio_action = g_hash_table_lookup (charset_index, charset);
+	if (g_strcmp0 (charset, combo_box->previous_id) == 0)
+		return;
 
-	if (radio_action == NULL) {
-		radio_action = combo_box->priv->other_action;
-		g_object_set_data_full (
-			G_OBJECT (radio_action),
-			"charset", g_strdup (charset),
-			(GDestroyNotify) g_free);
+	combo_box->block_dialog = TRUE;
+
+	g_clear_pointer (&combo_box->previous_id, g_free);
+	combo_box->previous_id = g_strdup (charset);
+
+	if (!gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), charset)) {
+		GtkListStore *list_store;
+		GtkTreeIter iter;
+		gchar *escaped_name;
+		gchar **str_array;
+
+		/* Escape underlines in the character set name so
+		 * they're not treated as GtkLabel mnemonics. */
+		str_array = g_strsplit (charset, "_", -1);
+		escaped_name = g_strjoinv ("__", str_array);
+		g_strfreev (str_array);
+
+		list_store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box)));
+		gtk_list_store_prepend (list_store, &iter);
+		gtk_list_store_set (list_store, &iter,
+			E_CHARSET_COLUMN_LABEL, escaped_name,
+			E_CHARSET_COLUMN_VALUE, charset,
+			-1);
+
+		g_free (escaped_name);
+
+		gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), charset);
 	}
 
-	combo_box->priv->block_dialog = TRUE;
-	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (radio_action), TRUE);
-	combo_box->priv->block_dialog = FALSE;
+	g_object_notify (G_OBJECT (combo_box), "charset");
+
+	combo_box->block_dialog = FALSE;
 }

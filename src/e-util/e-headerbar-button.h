@@ -14,6 +14,9 @@
 
 #include <gtk/gtk.h>
 
+#include <e-util/e-ui-action.h>
+#include <e-util/e-ui-manager.h>
+
 /* Standard GObject macros */
 #define E_TYPE_HEADER_BAR_BUTTON \
 	(e_header_bar_button_get_type ())
@@ -49,11 +52,12 @@ struct _EHeaderBarButtonClass {
 };
 
 GType		e_header_bar_button_get_type		(void) G_GNUC_CONST;
-GtkWidget*	e_header_bar_button_new			(const gchar *label,
-							 GtkAction *action);
+GtkWidget *	e_header_bar_button_new			(const gchar *label,
+							 EUIAction *action,
+							 EUIManager *ui_manager);
 void		e_header_bar_button_add_action		(EHeaderBarButton *header_bar_button,
 							 const gchar *label,
-							 GtkAction *action);
+							 EUIAction *action);
 void		e_header_bar_button_take_menu		(EHeaderBarButton *header_bar_button,
 							 GtkWidget *menu);
 void		e_header_bar_button_css_add_class	(EHeaderBarButton *header_bar_button,

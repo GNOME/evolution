@@ -31,15 +31,6 @@ struct _EAttachmentHandlerImagePrivate {
 	gint placeholder;
 };
 
-static const gchar *ui =
-"<ui>"
-"  <popup name='context'>"
-"    <placeholder name='custom-actions'>"
-"      <menuitem action='image-set-as-background'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
 G_DEFINE_TYPE_WITH_PRIVATE (EAttachmentHandlerImage, e_attachment_handler_image, E_TYPE_ATTACHMENT_HANDLER)
 
 static void
@@ -102,9 +93,11 @@ exit:
 }
 
 static void
-action_image_set_as_background_cb (GtkAction *action,
-                                   EAttachmentHandler *handler)
+action_image_set_as_background_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
 	EAttachmentView *view;
 	EAttachment *attachment;
 	GFile *destination;
@@ -132,22 +125,12 @@ action_image_set_as_background_cb (GtkAction *action,
 	g_list_free (selected);
 }
 
-static GtkActionEntry standard_entries[] = {
-
-	{ "image-set-as-background",
-	  NULL,
-	  N_("Set as _Background"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_image_set_as_background_cb) }
-};
-
 static void
 attachment_handler_image_update_actions_cb (EAttachmentView *view,
                                             EAttachmentHandler *handler)
 {
 	EAttachment *attachment;
-	GtkActionGroup *action_group;
+	EUIActionGroup *action_group;
 	gchar *mime_type;
 	GList *selected;
 	gboolean visible = FALSE;
@@ -173,7 +156,7 @@ attachment_handler_image_update_actions_cb (EAttachmentView *view,
 
 exit:
 	action_group = e_attachment_view_get_action_group (view, "image");
-	gtk_action_group_set_visible (action_group, visible);
+	e_ui_action_group_set_visible (action_group, visible);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
@@ -182,11 +165,28 @@ exit:
 static void
 attachment_handler_image_constructed (GObject *object)
 {
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='context'>"
+		    "<placeholder id='custom-actions'>"
+		      "<item action='image-set-as-background'/>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry standard_entries[] = {
+
+		{ "image-set-as-background",
+		  NULL,
+		  N_("Set as _Background"),
+		  NULL,
+		  NULL,
+		  action_image_set_as_background_cb, NULL, NULL, NULL }
+	};
+
 	EAttachmentHandler *handler;
 	EAttachmentView *view;
-	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
-	GError *error = NULL;
+	EUIManager *ui_manager;
 
 	handler = E_ATTACHMENT_HANDLER (object);
 
@@ -194,19 +194,10 @@ attachment_handler_image_constructed (GObject *object)
 	G_OBJECT_CLASS (e_attachment_handler_image_parent_class)->constructed (object);
 
 	view = e_attachment_handler_get_view (handler);
-
-	action_group = e_attachment_view_add_action_group (view, "image");
-	gtk_action_group_add_actions (
-		action_group, standard_entries,
-		G_N_ELEMENTS (standard_entries), object);
-
 	ui_manager = e_attachment_view_get_ui_manager (view);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "image", NULL,
+		standard_entries, G_N_ELEMENTS (standard_entries), handler, eui);
 
 	g_signal_connect (
 		view, "update-actions",

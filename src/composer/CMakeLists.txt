@@ -1,9 +1,5 @@
 add_error_files(composer mail-composer.error)
 
-install(FILES evolution-composer.ui
-	DESTINATION ${uidir}
-)
-
 set(DEPENDENCIES
 	econtacteditor
 	econtactlisteditor

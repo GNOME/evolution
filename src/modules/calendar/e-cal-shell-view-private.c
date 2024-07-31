@@ -21,7 +21,8 @@
 #include "evolution-config.h"
 
 #include "e-util/e-util-private.h"
-#include <calendar/gui/e-cal-ops.h>
+#include "calendar/gui/e-cal-ops.h"
+#include "calendar/gui/e-year-view.h"
 
 #include "e-cal-shell-view-private.h"
 
@@ -83,9 +84,9 @@ cal_shell_view_popup_event_cb (EShellView *shell_view,
 	g_slist_free_full (selected, e_calendar_view_selection_data_free);
 
 	if (n_selected <= 0)
-		widget_path = "/calendar-empty-popup";
+		widget_path = "calendar-empty-popup";
 	else
-		widget_path = "/calendar-event-popup";
+		widget_path = "calendar-event-popup";
 
 	e_cal_base_shell_view_show_popup_menu (shell_view, widget_path, button_event, NULL);
 }
@@ -95,7 +96,7 @@ cal_shell_view_selector_popup_event_cb (EShellView *shell_view,
                                         ESource *clicked_source,
                                         GdkEvent *button_event)
 {
-	e_cal_base_shell_view_show_popup_menu (shell_view, "/calendar-popup", button_event, clicked_source);
+	e_cal_base_shell_view_show_popup_menu (shell_view, "calendar-popup", button_event, clicked_source);
 
 	return TRUE;
 }
@@ -106,7 +107,7 @@ cal_shell_view_memopad_popup_event_cb (EShellView *shell_view,
 {
 	e_cal_shell_view_memopad_actions_update (E_CAL_SHELL_VIEW (shell_view));
 
-	e_cal_base_shell_view_show_popup_menu (shell_view, "/calendar-memopad-popup", button_event, NULL);
+	e_cal_base_shell_view_show_popup_menu (shell_view, "calendar-memopad-popup", button_event, NULL);
 }
 
 static void
@@ -115,7 +116,7 @@ cal_shell_view_taskpad_popup_event_cb (EShellView *shell_view,
 {
 	e_cal_shell_view_taskpad_actions_update (E_CAL_SHELL_VIEW (shell_view));
 
-	e_cal_base_shell_view_show_popup_menu (shell_view, "/calendar-taskpad-popup", button_event, NULL);
+	e_cal_base_shell_view_show_popup_menu (shell_view, "calendar-taskpad-popup", button_event, NULL);
 }
 
 static void
@@ -307,55 +308,6 @@ cal_shell_view_taskpad_settings_changed_cb (GSettings *settings,
 	}
 }
 
-static void
-cal_shell_view_update_header_bar (ECalShellView *cal_shell_view)
-{
-	const gchar *items[] = {
-		"/main-toolbar/calendar-go-back",
-		"/main-toolbar/calendar-go-today",
-		"/main-toolbar/calendar-go-forward",
-		"/main-toolbar/calendar-go-forward-separator"
-	};
-	EShellWindow *shell_window;
-	EShellView *shell_view;
-	EShellHeaderBar *shell_headerbar = NULL;
-	GtkWidget *widget;
-	GtkAction *action;
-	gint ii;
-
-	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	widget = gtk_window_get_titlebar (GTK_WINDOW (shell_window));
-	if (E_IS_SHELL_HEADER_BAR (widget))
-		shell_headerbar = E_SHELL_HEADER_BAR (widget);
-
-	if (shell_headerbar)
-		e_shell_header_bar_clear (shell_headerbar, "e-cal-shell-view");
-
-	if (!e_util_get_use_header_bar () ||
-	    !e_shell_view_is_active (shell_view))
-		return;
-
-	action = ACTION (CALENDAR_GO_BACK);
-	widget = e_header_bar_button_new (NULL, action);
-	gtk_widget_set_name (widget, "e-cal-shell-view-buttons");
-	gtk_widget_show (widget);
-
-	action = ACTION (CALENDAR_GO_TODAY);
-	e_header_bar_button_add_action (E_HEADER_BAR_BUTTON (widget), NULL, action);
-
-	action = ACTION (CALENDAR_GO_FORWARD);
-	e_header_bar_button_add_action (E_HEADER_BAR_BUTTON (widget), NULL, action);
-
-	e_header_bar_pack_end (E_HEADER_BAR (shell_headerbar), widget, 0);
-
-	for (ii = 0; ii < G_N_ELEMENTS (items); ii++) {
-		widget = e_shell_window_get_managed_widget (shell_window, items[ii]);
-		if (widget)
-			gtk_widget_destroy (widget);
-	}
-}
-
 void
 e_cal_shell_view_private_init (ECalShellView *cal_shell_view)
 {
@@ -410,6 +362,36 @@ init_timezone_monitors (ECalShellView *view)
 	}
 }
 
+static void
+cal_shell_view_task_view_notify_state_cb (GObject *object,
+					  GParamSpec *param,
+					  gpointer user_data)
+{
+	GAction *action = G_ACTION (object);
+	ECalShellView *cal_shell_view = user_data;
+	EYearView *year_view;
+	GtkOrientation orientation;
+	GVariant *state;
+
+	year_view = E_YEAR_VIEW (cal_shell_view->priv->views[E_CAL_VIEW_KIND_YEAR].calendar_view);
+
+	state = g_action_get_state (action);
+
+	switch (g_variant_get_int32 (state)) {
+		case 0:
+			orientation = GTK_ORIENTATION_VERTICAL;
+			break;
+		case 1:
+			orientation = GTK_ORIENTATION_HORIZONTAL;
+			break;
+		default:
+			g_return_if_reached ();
+	}
+
+	e_year_view_set_preview_orientation (year_view, orientation);
+	g_clear_pointer (&state, g_variant_unref);
+}
+
 void
 e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 {
@@ -420,7 +402,10 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EShell *shell;
+	EShellSearchbar *searchbar;
 	ECalendar *calendar;
+	EUIAction *action;
+	GSettings *settings;
 	gulong handler_id;
 	gint ii;
 
@@ -430,9 +415,6 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
-
-	e_shell_window_add_action_group_full (shell_window, "calendar", "calendar");
-	e_shell_window_add_action_group_full (shell_window, "calendar-filter", "calendar");
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->cal_shell_backend = E_CAL_SHELL_BACKEND (g_object_ref (shell_backend));
@@ -445,12 +427,6 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	 * disconnect our signal handlers in dispose(). */
 	priv->client_cache = e_shell_get_client_cache (shell);
 	g_object_ref (priv->client_cache);
-
-	g_signal_connect_object (
-		cal_shell_view, "toggled",
-		G_CALLBACK (cal_shell_view_update_header_bar),
-		NULL,
-		G_CONNECT_AFTER);
 
 	handler_id = g_signal_connect (
 		priv->client_cache, "backend-error",
@@ -582,9 +558,57 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		G_CALLBACK (cal_shell_view_taskpad_settings_changed_cb), cal_shell_view);
 
 	init_timezone_monitors (cal_shell_view);
-	e_cal_shell_view_actions_init (cal_shell_view);
+
+	/* Advanced Search Action */
+	action = ACTION (CALENDAR_SEARCH_ADVANCED_HIDDEN);
+	e_ui_action_set_visible (action, FALSE);
+	searchbar = e_cal_shell_content_get_searchbar (cal_shell_view->priv->cal_shell_content);
+	e_shell_searchbar_set_search_option (searchbar, action);
+
+	e_binding_bind_property (
+		ACTION (CALENDAR_PREVIEW), "active",
+		cal_shell_view->priv->views[E_CAL_VIEW_KIND_YEAR].calendar_view, "preview-visible",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
 	e_cal_shell_view_update_sidebar (cal_shell_view);
 	e_cal_shell_view_update_search_filter (cal_shell_view);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+	g_settings_bind (
+		settings, "show-tag-vpane",
+		ACTION (CALENDAR_SHOW_TAG_VPANE), "active",
+		G_SETTINGS_BIND_GET | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	action = ACTION (CALENDAR_PREVIEW);
+
+	g_settings_bind (
+		settings, "year-show-preview",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	e_binding_bind_property (
+		action, "active",
+		priv->views[E_CAL_VIEW_KIND_YEAR].calendar_view, "preview-visible",
+		G_BINDING_SYNC_CREATE);
+
+	action = ACTION (CALENDAR_PREVIEW_VERTICAL);
+
+	g_settings_bind_with_mapping (
+		settings, "year-layout",
+		action, "state",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY,
+		e_shell_view_util_layout_to_state_cb,
+		e_shell_view_util_state_to_layout_cb, NULL, NULL);
+
+	g_clear_object (&settings);
+
+	g_signal_connect_object (action, "notify::state",
+		G_CALLBACK (cal_shell_view_task_view_notify_state_cb), cal_shell_view, 0);
+
+	/* to propagate the loaded state */
+	cal_shell_view_task_view_notify_state_cb (G_OBJECT (action), NULL, cal_shell_view);
 }
 
 void

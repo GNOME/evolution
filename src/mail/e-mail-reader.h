@@ -54,9 +54,6 @@
 	(G_TYPE_INSTANCE_GET_INTERFACE \
 	((obj), E_TYPE_MAIL_READER, EMailReaderInterface))
 
-/* Basename of the UI definition file. */
-#define E_MAIL_READER_UI_DEFINITION	"evolution-mail-reader.ui"
-
 G_BEGIN_DECLS
 
 typedef struct _EMailReader EMailReader;
@@ -98,15 +95,13 @@ enum {
 struct _EMailReaderInterface {
 	GTypeInterface parent_interface;
 
-	GtkActionGroup *
-			(*get_action_group)	(EMailReader *reader,
-						 EMailReaderActionGroup group);
+	void		(*init_ui_data)		(EMailReader *reader);
+	EUIManager *	(*get_ui_manager)	(EMailReader *reader);
 	EAlertSink *	(*get_alert_sink)	(EMailReader *reader);
 	EMailBackend *	(*get_backend)		(EMailReader *reader);
 	EMailDisplay *	(*get_mail_display)	(EMailReader *reader);
 	gboolean	(*get_hide_deleted)	(EMailReader *reader);
 	GtkWidget *	(*get_message_list)	(EMailReader *reader);
-	GtkMenu *	(*get_popup_menu)	(EMailReader *reader);
 	EPreviewPane *	(*get_preview_pane)	(EMailReader *reader);
 	GPtrArray *	(*get_selected_uids)	(EMailReader *reader);
 	GPtrArray *	(*get_selected_uids_with_collapsed_threads)
@@ -137,27 +132,25 @@ struct _EMailReaderInterface {
 	gboolean	(*close_on_delete_or_junk)
 						(EMailReader *reader);
 	void		(*reload)		(EMailReader *reader);
-	void		(*remove_ui)		(EMailReader *reader);
 
 	/* Padding for future expansion */
 	gpointer reserved[1];
 };
 
 GType		e_mail_reader_get_type		(void);
-void		e_mail_reader_init		(EMailReader *reader,
-						 gboolean init_actions,
-						 gboolean connect_signals);
+void		e_mail_reader_init		(EMailReader *reader);
 void		e_mail_reader_dispose		(EMailReader *reader);
 void		e_mail_reader_changed		(EMailReader *reader);
 guint32		e_mail_reader_check_state	(EMailReader *reader);
 EActivity *	e_mail_reader_new_activity	(EMailReader *reader);
 void		e_mail_reader_update_actions	(EMailReader *reader,
 						 guint32 state);
-GtkAction *	e_mail_reader_get_action	(EMailReader *reader,
+void		e_mail_reader_init_ui_data_default
+						(EMailReader *self);
+void		e_mail_reader_init_ui_data	(EMailReader *reader);
+EUIManager *	e_mail_reader_get_ui_manager	(EMailReader *reader);
+EUIAction *	e_mail_reader_get_action	(EMailReader *reader,
 						 const gchar *action_name);
-GtkActionGroup *
-		e_mail_reader_get_action_group	(EMailReader *reader,
-						 EMailReaderActionGroup group);
 EAlertSink *	e_mail_reader_get_alert_sink	(EMailReader *reader);
 EMailBackend *	e_mail_reader_get_backend	(EMailReader *reader);
 EMailDisplay *	e_mail_reader_get_mail_display	(EMailReader *reader);
@@ -200,10 +193,6 @@ gboolean	e_mail_reader_get_delete_selects_previous
 void		e_mail_reader_set_delete_selects_previous
 						(EMailReader *reader,
 						 gboolean delete_selects_previous);
-void		e_mail_reader_create_charset_menu
-						(EMailReader *reader,
-						 GtkUIManager *ui_manager,
-						 guint merge_id);
 void		e_mail_reader_show_search_bar	(EMailReader *reader);
 void		e_mail_reader_avoid_next_mark_as_seen
 						(EMailReader *reader);
@@ -213,10 +202,7 @@ void		e_mail_reader_composer_created	(EMailReader *reader,
 						 EMsgComposer *composer,
 						 CamelMimeMessage *message);
 void		e_mail_reader_reload		(EMailReader *reader);
-void		e_mail_reader_remove_ui		(EMailReader *reader);
-GtkWidget *	e_mail_reader_create_reply_menu	(EMailReader *reader);
-GtkWidget *	e_mail_reader_create_forward_menu
-						(EMailReader *reader);
+gboolean	e_mail_reader_ignore_accel	(EMailReader *reader);
 
 G_END_DECLS
 

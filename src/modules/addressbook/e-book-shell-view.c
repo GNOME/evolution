@@ -77,12 +77,19 @@ static void
 book_shell_view_constructed (GObject *object)
 {
 	EBookShellView *book_shell_view;
+	EUIManager *ui_manager;
+
+	ui_manager = e_shell_view_get_ui_manager (E_SHELL_VIEW (object));
+
+	e_ui_manager_freeze (ui_manager);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_book_shell_view_parent_class)->constructed (object);
 
 	book_shell_view = E_BOOK_SHELL_VIEW (object);
 	e_book_shell_view_private_constructed (book_shell_view);
+
+	e_ui_manager_thaw (ui_manager);
 }
 
 static void
@@ -90,12 +97,12 @@ book_shell_view_execute_search (EShellView *shell_view)
 {
 	EBookShellView *self;
 	EBookShellContent *book_shell_content;
-	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
-	GtkRadioAction *action;
+	EUIAction *action;
 	EAddressbookView *view;
+	GVariant *state;
 	gchar *query;
 	gchar *temp;
 	gchar *selected_category;
@@ -108,14 +115,15 @@ book_shell_view_execute_search (EShellView *shell_view)
 	if (self->priv->search_locked)
 		return;
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	book_shell_content = E_BOOK_SHELL_CONTENT (shell_content);
 	searchbar = e_book_shell_content_get_searchbar (book_shell_content);
 
-	action = GTK_RADIO_ACTION (ACTION (CONTACT_SEARCH_ANY_FIELD_CONTAINS));
-	search_id = gtk_radio_action_get_current_value (action);
+	action = ACTION (CONTACT_SEARCH_ANY_FIELD_CONTAINS);
+	state = g_action_get_state (G_ACTION (action));
+	search_id = g_variant_get_int32 (state);
+	g_clear_pointer (&state, g_variant_unref);
 
 	if (search_id == CONTACT_SEARCH_ADVANCED) {
 		query = e_shell_view_get_search_query (shell_view);
@@ -231,8 +239,7 @@ book_shell_view_update_actions (EShellView *shell_view)
 {
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	EShellWindow *shell_window;
-	GtkAction *action;
+	EUIAction *action;
 	const gchar *label;
 	gboolean sensitive;
 	guint32 state;
@@ -257,8 +264,6 @@ book_shell_view_update_actions (EShellView *shell_view)
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (e_book_shell_view_parent_class)->
 		update_actions (shell_view);
-
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	state = e_shell_content_check_state (shell_content);
@@ -301,120 +306,128 @@ book_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (ADDRESS_BOOK_COPY);
 	sensitive = has_primary_source;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_MOVE);
 	sensitive = has_primary_source && source_is_editable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_DELETE);
 	sensitive =
 		primary_source_is_removable ||
 		primary_source_is_remote_deletable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_PRINT);
 	sensitive = has_primary_source;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_PRINT_PREVIEW);
 	sensitive = has_primary_source;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_PROPERTIES);
 	sensitive = clicked_source_is_primary && primary_source_is_writable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_REFRESH);
 	sensitive = clicked_source_is_primary && refresh_supported;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_REFRESH_BACKEND);
 	sensitive = clicked_source_is_collection;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_RENAME);
 	sensitive = clicked_source_is_primary && (
 		primary_source_is_writable &&
 		!primary_source_in_collection);
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_SAVE_AS);
 	sensitive = has_primary_source;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action = ACTION (ADDRESS_BOOK_POPUP_MAP);
+	action = ACTION (ADDRESS_BOOK_MAP_POPUP);
 	sensitive = clicked_source_is_primary;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_STOP);
 	sensitive = source_is_busy;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_BULK_EDIT);
 	sensitive = any_contacts_selected && !selection_is_contact_list;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_COPY);
 	sensitive = any_contacts_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_DELETE);
 	sensitive = source_is_editable && any_contacts_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_FIND);
 	sensitive = single_contact_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_FORWARD);
 	sensitive = any_contacts_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 	if (multiple_contacts_selected)
 		label = _("_Forward Contacts");
 	else
 		label = _("_Forward Contact");
-	gtk_action_set_label (action, label);
+	e_ui_action_set_label (action, label);
 
 	action = ACTION (CONTACT_MOVE);
 	sensitive = source_is_editable && any_contacts_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_NEW);
 	sensitive = source_is_editable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_NEW_LIST);
 	sensitive = source_is_editable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_OPEN);
 	sensitive = any_contacts_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_PRINT);
 	sensitive = any_contacts_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_SAVE_AS);
 	sensitive = any_contacts_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_SEND_MESSAGE);
 	sensitive = any_contacts_selected && selection_has_email;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 	if (multiple_contacts_selected)
 		label = _("_Send Message to Contacts");
 	else if (selection_is_contact_list)
 		label = _("_Send Message to List");
 	else
 		label = _("_Send Message to Contact");
-	gtk_action_set_label (action, label);
+	e_ui_action_set_label (action, label);
 
 #ifndef ENABLE_CONTACT_MAPS
-	gtk_action_set_visible (ACTION (ADDRESS_BOOK_MAP), FALSE);
-	gtk_action_set_visible (ACTION (ADDRESS_BOOK_POPUP_MAP), FALSE);
+	e_ui_action_set_visible (ACTION (ADDRESS_BOOK_MAP), FALSE);
+	e_ui_action_set_visible (ACTION (ADDRESS_BOOK_MAP_POPUP), FALSE);
 #endif
+}
+
+static void
+book_shell_view_init_ui_data (EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_BOOK_SHELL_VIEW (shell_view));
+
+	e_book_shell_view_actions_init (E_BOOK_SHELL_VIEW (shell_view));
 }
 
 static void
@@ -437,14 +450,14 @@ e_book_shell_view_class_init (EBookShellViewClass *class)
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = _("Contacts");
 	shell_view_class->icon_name = "x-office-address-book";
-	shell_view_class->ui_definition = "evolution-contacts.ui";
+	shell_view_class->ui_definition = "evolution-contacts.eui";
 	shell_view_class->ui_manager_id = "org.gnome.evolution.contacts";
-	shell_view_class->search_options = "/contact-search-options";
 	shell_view_class->search_rules = "addresstypes.xml";
 	shell_view_class->new_shell_content = e_book_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_book_shell_sidebar_new;
 	shell_view_class->execute_search = book_shell_view_execute_search;
 	shell_view_class->update_actions = book_shell_view_update_actions;
+	shell_view_class->init_ui_data = book_shell_view_init_ui_data;
 
 	g_object_class_install_property (
 		object_class,

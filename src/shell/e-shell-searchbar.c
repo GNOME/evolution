@@ -47,7 +47,7 @@ struct _EShellSearchbarPrivate {
 
 	gpointer shell_view;  /* weak pointer */
 
-	GtkRadioAction *search_option;
+	EUIAction *search_option;
 	EFilterRule *search_rule;
 	GtkCssProvider *css_provider;
 
@@ -83,68 +83,76 @@ G_DEFINE_TYPE_WITH_CODE (EShellSearchbar, e_shell_searchbar, GTK_TYPE_BOX,
 	G_ADD_PRIVATE (EShellSearchbar)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
+static EUIAction *
+shell_searchbar_radio_action_get_current_action (EUIAction *group_action)
+{
+	GPtrArray *radio_group;
+	guint ii;
+
+	radio_group = e_ui_action_get_radio_group (group_action);
+
+	if (!radio_group)
+		return group_action;
+
+	for (ii = 0; ii < radio_group->len; ii++) {
+		EUIAction *action = g_ptr_array_index (radio_group, ii);
+
+		if (e_ui_action_get_active (action))
+			return action;
+	}
+
+	return group_action;
+}
+
 static void
-shell_searchbar_save_search_filter (EShellSearchbar *searchbar)
+shell_searchbar_save_current_action (EShellSearchbar *searchbar,
+				     const gchar *key,
+				     EUIAction *action)
 {
 	EShellView *shell_view;
-	EActionComboBox *action_combo_box;
-	GtkRadioAction *radio_action;
 	GKeyFile *key_file;
 	const gchar *action_name;
 	const gchar *state_group;
-	const gchar *key;
 
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
 	state_group = e_shell_searchbar_get_state_group (searchbar);
 	g_return_if_fail (state_group != NULL);
 
-	key = STATE_KEY_SEARCH_FILTER;
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
-	action_combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
-	radio_action = e_action_combo_box_get_action (action_combo_box);
+	if (action != NULL)
+		action = shell_searchbar_radio_action_get_current_action (action);
 
-	if (radio_action != NULL)
-		radio_action = e_radio_action_get_current_action (radio_action);
-
-	if (radio_action != NULL) {
-		action_name = gtk_action_get_name (GTK_ACTION (radio_action));
+	if (action) {
+		action_name = g_action_get_name (G_ACTION (action));
 		g_key_file_set_string (key_file, state_group, key, action_name);
-	} else
+	} else {
 		g_key_file_remove_key (key_file, state_group, key, NULL);
+	}
 
 	e_shell_view_set_state_dirty (shell_view);
 }
 
 static void
+shell_searchbar_save_search_filter (EShellSearchbar *searchbar)
+{
+	EActionComboBox *action_combo_box;
+	EUIAction *action;
+
+	action_combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
+	action = e_action_combo_box_get_action (action_combo_box);
+
+	shell_searchbar_save_current_action (searchbar, STATE_KEY_SEARCH_FILTER, action);
+}
+
+static void
 shell_searchbar_save_search_option (EShellSearchbar *searchbar)
 {
-	EShellView *shell_view;
-	GtkRadioAction *radio_action;
-	GKeyFile *key_file;
-	const gchar *action_name;
-	const gchar *state_group;
-	const gchar *key;
+	EUIAction *action;
 
-	shell_view = e_shell_searchbar_get_shell_view (searchbar);
-	state_group = e_shell_searchbar_get_state_group (searchbar);
-	g_return_if_fail (state_group != NULL);
+	action = e_shell_searchbar_get_search_option (searchbar);
 
-	key = STATE_KEY_SEARCH_OPTION;
-	key_file = e_shell_view_get_state_key_file (shell_view);
-
-	radio_action = e_shell_searchbar_get_search_option (searchbar);
-
-	if (radio_action != NULL)
-		radio_action = e_radio_action_get_current_action (radio_action);
-
-	if (radio_action != NULL) {
-		action_name = gtk_action_get_name (GTK_ACTION (radio_action));
-		g_key_file_set_string (key_file, state_group, key, action_name);
-	} else
-		g_key_file_remove_key (key_file, state_group, key, NULL);
-
-	e_shell_view_set_state_dirty (shell_view);
+	shell_searchbar_save_current_action (searchbar, STATE_KEY_SEARCH_OPTION, action);
 }
 
 static void
@@ -176,41 +184,19 @@ shell_searchbar_save_search_text (EShellSearchbar *searchbar)
 static void
 shell_searchbar_save_search_scope (EShellSearchbar *searchbar)
 {
-	EShellView *shell_view;
 	EActionComboBox *action_combo_box;
-	GtkRadioAction *radio_action;
-	GKeyFile *key_file;
-	const gchar *action_name;
-	const gchar *state_group;
-	const gchar *key;
-
-	shell_view = e_shell_searchbar_get_shell_view (searchbar);
-	state_group = e_shell_searchbar_get_state_group (searchbar);
-	g_return_if_fail (state_group != NULL);
-
-	key = STATE_KEY_SEARCH_SCOPE;
-	key_file = e_shell_view_get_state_key_file (shell_view);
+	EUIAction *action;
 
 	action_combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
-	radio_action = e_action_combo_box_get_action (action_combo_box);
+	action = e_action_combo_box_get_action (action_combo_box);
 
-	if (radio_action != NULL)
-		radio_action = e_radio_action_get_current_action (radio_action);
-
-	if (radio_action != NULL) {
-		action_name = gtk_action_get_name (GTK_ACTION (radio_action));
-		g_key_file_set_string (key_file, state_group, key, action_name);
-	} else
-		g_key_file_remove_key (key_file, state_group, key, NULL);
-
-	e_shell_view_set_state_dirty (shell_view);
+	shell_searchbar_save_current_action (searchbar, STATE_KEY_SEARCH_SCOPE, action);
 }
 
 static void
 shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	GtkWidget *widget;
 	const gchar *search_text;
 	gboolean sensitive;
@@ -220,7 +206,6 @@ shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 
 	widget = searchbar->priv->search_entry;
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 	search_text = e_shell_searchbar_get_search_text (searchbar);
 
 	sensitive =
@@ -253,13 +238,13 @@ shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 	}
 
 	if (e_shell_view_is_active (shell_view)) {
-		GtkAction *action;
+		EUIAction *action;
 
-		action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
-		gtk_action_set_sensitive (action, sensitive);
+		action = e_shell_view_get_action (shell_view, "search-clear");
+		e_ui_action_set_sensitive (action, sensitive);
 
-		action = E_SHELL_WINDOW_ACTION_SEARCH_SAVE (shell_window);
-		gtk_action_set_visible (action, sensitive && e_shell_view_get_search_rule (shell_view) != NULL);
+		action = e_shell_view_get_action (shell_view, "search-save");
+		e_ui_action_set_visible (action, sensitive && e_shell_view_get_search_rule (shell_view) != NULL);
 	}
 }
 
@@ -267,7 +252,8 @@ static void
 shell_searchbar_clear_search_cb (EShellView *shell_view,
                                  EShellSearchbar *searchbar)
 {
-	GtkRadioAction *search_option;
+	EUIAction *search_option;
+	GVariant *state;
 	gint current_value;
 
 	e_shell_searchbar_set_search_text (searchbar, NULL);
@@ -276,10 +262,13 @@ shell_searchbar_clear_search_cb (EShellView *shell_view,
 	if (search_option == NULL)
 		return;
 
+	state = g_action_get_state (G_ACTION (search_option));
+	current_value = state ? g_variant_get_int32 (state) : -1;
+	g_clear_pointer (&state, g_variant_unref);
+
 	/* Reset the search option if it's set to advanced search. */
-	current_value = gtk_radio_action_get_current_value (search_option);
 	if (current_value == SEARCH_OPTION_ADVANCED)
-		gtk_radio_action_set_current_value (search_option, 0);
+		e_ui_action_set_state (search_option, g_variant_new_int32 (0));
 }
 
 static void
@@ -287,14 +276,14 @@ shell_searchbar_custom_search_cb (EShellView *shell_view,
                                   EFilterRule *custom_rule,
                                   EShellSearchbar *searchbar)
 {
-	GtkRadioAction *search_option;
+	EUIAction *search_option;
 	gint value = SEARCH_OPTION_ADVANCED;
 
 	e_shell_searchbar_set_search_text (searchbar, NULL);
 
 	search_option = e_shell_searchbar_get_search_option (searchbar);
 	if (search_option != NULL)
-		gtk_radio_action_set_current_value (search_option, value);
+		e_ui_action_set_state (search_option, g_variant_new_int32 (value));
 }
 
 static void
@@ -341,44 +330,40 @@ static void
 shell_searchbar_entry_activate_cb (EShellSearchbar *searchbar)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GtkAction *action;
+	EUIAction *action;
 	const gchar *search_text;
 
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	search_text = e_shell_searchbar_get_search_text (searchbar);
 	if (search_text != NULL && *search_text != '\0')
-		action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
+		action = e_shell_view_get_action (shell_view, "search-quick");
 	else
-		action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
+		action = e_shell_view_get_action (shell_view, "search-clear");
 
-	gtk_action_activate (action);
+	g_action_activate (G_ACTION (action), NULL);
 }
 
 static void
 shell_searchbar_entry_changed_cb (EShellSearchbar *searchbar)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	const gchar *search_text;
 	gboolean sensitive;
 
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	search_text = e_shell_searchbar_get_search_text (searchbar);
 	sensitive = (search_text != NULL && *search_text != '\0');
 
 	if (e_shell_view_is_active (shell_view)) {
-		GtkAction *action;
+		EUIAction *action;
 
-		action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
-		gtk_action_set_sensitive (action, sensitive);
+		action = e_shell_view_get_action (shell_view, "search-quick");
+		e_ui_action_set_sensitive (action, sensitive);
 
-		action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
-		gtk_action_set_sensitive (action, sensitive ||
+		action = e_shell_view_get_action (shell_view, "search-clear");
+		e_ui_action_set_sensitive (action, sensitive ||
 			(searchbar->priv->active_search_text && *searchbar->priv->active_search_text) ||
 			e_shell_view_get_search_rule (shell_view) != NULL);
 	}
@@ -402,8 +387,7 @@ shell_searchbar_entry_icon_press_cb (EShellSearchbar *searchbar,
                                      GdkEvent *event)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GtkAction *action;
+	EUIAction *action;
 
 	/* Show the search options menu when the icon is pressed. */
 
@@ -411,10 +395,9 @@ shell_searchbar_entry_icon_press_cb (EShellSearchbar *searchbar,
 		return;
 
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	action = E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS (shell_window);
-	gtk_action_activate (action);
+	action = e_shell_view_get_action (shell_view, "search-options");
+	g_action_activate (G_ACTION (action), NULL);
 }
 
 static void
@@ -423,8 +406,7 @@ shell_searchbar_entry_icon_release_cb (EShellSearchbar *searchbar,
                                        GdkEvent *event)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GtkAction *action;
+	EUIAction *action;
 
 	/* Clear the search when the icon is pressed and released. */
 
@@ -432,10 +414,9 @@ shell_searchbar_entry_icon_release_cb (EShellSearchbar *searchbar,
 		return;
 
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
-	gtk_action_activate (action);
+	action = e_shell_view_get_action (shell_view, "search-clear");
+	g_action_activate (G_ACTION (action), NULL);
 }
 
 static gboolean
@@ -444,8 +425,7 @@ shell_searchbar_entry_key_press_cb (EShellSearchbar *searchbar,
                                     GtkWindow *entry)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GtkAction *action;
+	EUIAction *action;
 	guint mask;
 
 	mask = gtk_accelerator_get_default_mod_mask ();
@@ -456,30 +436,35 @@ shell_searchbar_entry_key_press_cb (EShellSearchbar *searchbar,
 		return FALSE;
 
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	action = E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS (shell_window);
-	gtk_action_activate (action);
+	action = e_shell_view_get_action (shell_view, "search-options");
+	g_action_activate (G_ACTION (action), NULL);
 
 	return TRUE;
 }
 
 static void
-shell_searchbar_option_changed_cb (GtkRadioAction *action,
-                                   GtkRadioAction *current,
-                                   EShellSearchbar *searchbar)
+shell_searchbar_option_notify_state_cb (EUIAction *action,
+					GParamSpec *param,
+					EShellSearchbar *searchbar)
 {
 	EShellView *shell_view;
+	EUIAction *current;
 	const gchar *search_text;
 	const gchar *label;
+	GVariant *state;
 	gint current_value;
 
-	shell_view = e_shell_searchbar_get_shell_view (searchbar);
+	state = g_action_get_state (G_ACTION (action));
+	current_value = state ? g_variant_get_int32 (state) : -1;
+	g_clear_pointer (&state, g_variant_unref);
 
-	label = gtk_action_get_label (GTK_ACTION (current));
+	shell_view = e_shell_searchbar_get_shell_view (searchbar);
+	current = shell_searchbar_radio_action_get_current_action (action);
+
+	label = e_ui_action_get_label (current);
 	e_shell_searchbar_set_search_hint (searchbar, label);
 
-	current_value = gtk_radio_action_get_current_value (current);
 	search_text = e_shell_searchbar_get_search_text (searchbar);
 
 	if (current_value != SEARCH_OPTION_ADVANCED) {
@@ -691,15 +676,12 @@ static void
 shell_searchbar_constructed (GObject *object)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
 	GtkSizeGroup *size_group;
-	GtkAction *action;
 	GtkWidget *widget;
 
 	searchbar = E_SHELL_SEARCHBAR (object);
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 	size_group = e_shell_view_get_size_group (shell_view);
 
 	g_signal_connect (
@@ -733,36 +715,6 @@ shell_searchbar_constructed (GObject *object)
 		gtk_widget_get_style_context (widget),
 		GTK_STYLE_PROVIDER (searchbar->priv->css_provider),
 		GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-
-	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
-
-	e_binding_bind_property (
-		action, "sensitive",
-		widget, "secondary-icon-sensitive",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
-		action, "icon-name",
-		widget, "secondary-icon-name",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
-		action, "tooltip",
-		widget, "secondary-icon-tooltip-text",
-		G_BINDING_SYNC_CREATE);
-
-	action = E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS (shell_window);
-
-	e_binding_bind_property (
-		action, "sensitive",
-		widget, "primary-icon-sensitive",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
-		action, "icon-name",
-		widget, "primary-icon-name",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
-		action, "tooltip",
-		widget, "primary-icon-tooltip-text",
-		G_BINDING_SYNC_CREATE);
 
 	widget = GTK_WIDGET (searchbar);
 	gtk_size_group_add_widget (size_group, widget);
@@ -842,7 +794,7 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 			"search-option",
 			NULL,
 			NULL,
-			GTK_TYPE_RADIO_ACTION,
+			E_TYPE_UI_ACTION,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -1095,6 +1047,47 @@ e_shell_searchbar_get_shell_view (EShellSearchbar *searchbar)
 	return E_SHELL_VIEW (searchbar->priv->shell_view);
 }
 
+void
+e_shell_searchbar_init_ui_data (EShellSearchbar *searchbar)
+{
+	EShellView *shell_view;
+	EUIAction *action;
+
+	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
+
+	shell_view = e_shell_searchbar_get_shell_view (searchbar);
+
+	action = e_shell_view_get_action (shell_view, "search-clear");
+
+	e_binding_bind_property (
+		action, "sensitive",
+		searchbar->priv->search_entry, "secondary-icon-sensitive",
+		G_BINDING_SYNC_CREATE);
+	e_binding_bind_property (
+		action, "icon-name",
+		searchbar->priv->search_entry, "secondary-icon-name",
+		G_BINDING_SYNC_CREATE);
+	e_binding_bind_property (
+		action, "tooltip",
+		searchbar->priv->search_entry, "secondary-icon-tooltip-text",
+		G_BINDING_SYNC_CREATE);
+
+	action = e_shell_view_get_action (shell_view, "search-options");
+
+	e_binding_bind_property (
+		action, "sensitive",
+		searchbar->priv->search_entry, "primary-icon-sensitive",
+		G_BINDING_SYNC_CREATE);
+	e_binding_bind_property (
+		action, "icon-name",
+		searchbar->priv->search_entry, "primary-icon-name",
+		G_BINDING_SYNC_CREATE);
+	e_binding_bind_property (
+		action, "tooltip",
+		searchbar->priv->search_entry, "primary-icon-tooltip-text",
+		G_BINDING_SYNC_CREATE);
+}
+
 EActionComboBox *
 e_shell_searchbar_get_filter_combo_box (EShellSearchbar *searchbar)
 {
@@ -1164,7 +1157,7 @@ e_shell_searchbar_set_search_hint (EShellSearchbar *searchbar,
 	g_object_notify (G_OBJECT (searchbar), "search-hint");
 }
 
-GtkRadioAction *
+EUIAction *
 e_shell_searchbar_get_search_option (EShellSearchbar *searchbar)
 {
 	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), NULL);
@@ -1174,7 +1167,7 @@ e_shell_searchbar_get_search_option (EShellSearchbar *searchbar)
 
 void
 e_shell_searchbar_set_search_option (EShellSearchbar *searchbar,
-                                     GtkRadioAction *search_option)
+				     EUIAction *search_option)
 {
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
@@ -1182,7 +1175,7 @@ e_shell_searchbar_set_search_option (EShellSearchbar *searchbar,
 		return;
 
 	if (search_option != NULL) {
-		g_return_if_fail (GTK_IS_RADIO_ACTION (search_option));
+		g_return_if_fail (E_IS_UI_ACTION (search_option));
 		g_object_ref (search_option);
 	}
 
@@ -1196,11 +1189,14 @@ e_shell_searchbar_set_search_option (EShellSearchbar *searchbar,
 
 	searchbar->priv->search_option = search_option;
 
-	if (search_option != NULL)
+	if (search_option != NULL) {
 		g_signal_connect (
-			search_option, "changed",
-			G_CALLBACK (shell_searchbar_option_changed_cb),
+			search_option, "notify::state",
+			G_CALLBACK (shell_searchbar_option_notify_state_cb),
 			searchbar);
+
+		shell_searchbar_option_notify_state_cb (search_option, NULL, searchbar);
+	}
 
 	g_object_notify (G_OBJECT (searchbar), "search-option");
 }
@@ -1342,15 +1338,14 @@ void
 e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	GKeyFile *key_file;
-	GtkAction *action;
+	EUIAction *action;
 	GtkWidget *widget;
 	const gchar *search_text;
 	const gchar *state_group;
 	const gchar *key;
 	gchar *string;
-	gint value = 0;
+	gint value;
 
 	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
 
@@ -1359,13 +1354,9 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 	g_return_if_fail (state_group != NULL);
 
 	key_file = e_shell_view_get_state_key_file (shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	/* Changing the combo boxes triggers searches, so block
 	 * the search action until the state is fully restored. */
-	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
-	gtk_action_block_activate (action);
-
 	e_shell_view_block_execute_search (shell_view);
 
 	e_shell_view_set_search_rule (shell_view, NULL);
@@ -1373,12 +1364,12 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 	key = STATE_KEY_SEARCH_FILTER;
 	string = g_key_file_get_string (key_file, state_group, key, NULL);
 	if (string != NULL && *string != '\0')
-		action = e_shell_window_get_action (shell_window, string);
+		action = e_shell_view_get_action (shell_view, string);
 	else
 		action = NULL;
-	if (GTK_IS_RADIO_ACTION (action))
-		gtk_action_activate (action);
-	else {
+	if (action) {
+		e_ui_action_set_active (action, TRUE);
+	} else {
 		/* Pick the first combo box item. */
 		widget = searchbar->priv->filter_combo_box;
 		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
@@ -1390,18 +1381,24 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 	key = STATE_KEY_SEARCH_OPTION;
 	string = g_key_file_get_string (key_file, state_group, key, NULL);
 	if (string != NULL && *string != '\0')
-		action = e_shell_window_get_action (shell_window, string);
+		action = e_shell_view_get_action (shell_view, string);
 	else
 		action = NULL;
-	if (GTK_IS_RADIO_ACTION (action))
-		g_object_get (action, "value", &value, NULL);
-	else
+	value = SEARCH_OPTION_ADVANCED;
+	if (action) {
+		GVariant *target;
+
+		target = e_ui_action_ref_target (action);
+		if (target)
+			value = g_variant_get_int32 (target);
+		g_clear_pointer (&target, g_variant_unref);
+	} else {
 		value = SEARCH_OPTION_ADVANCED;
+	}
 	if (value != SEARCH_OPTION_ADVANCED)
-		gtk_action_activate (action);
+		e_ui_action_set_active (action, TRUE);
 	else if (searchbar->priv->search_option != NULL)
-		gtk_radio_action_set_current_value (
-			searchbar->priv->search_option, 0);
+		e_ui_action_set_state (searchbar->priv->search_option, g_variant_new_int32 (0));
 	g_free (string);
 
 	key = STATE_KEY_SEARCH_TEXT;
@@ -1416,12 +1413,12 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 	key = STATE_KEY_SEARCH_SCOPE;
 	string = g_key_file_get_string (key_file, state_group, key, NULL);
 	if (string != NULL && *string != '\0')
-		action = e_shell_window_get_action (shell_window, string);
+		action = e_shell_view_get_action (shell_view, string);
 	else
 		action = NULL;
-	if (GTK_IS_RADIO_ACTION (action))
-		gtk_action_activate (action);
-	else {
+	if (action) {
+		e_ui_action_set_active (action, TRUE);
+	} else {
 		/* Pick the first combo box item. */
 		widget = searchbar->priv->scope_combo_box;
 		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
@@ -1429,9 +1426,6 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 	g_free (string);
 
 	e_shell_view_unblock_execute_search (shell_view);
-
-	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
-	gtk_action_unblock_activate (action);
 
 	/* Execute the search when we have time. */
 

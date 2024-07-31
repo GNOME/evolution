@@ -1972,7 +1972,7 @@ e_content_editor_insert_image (EContentEditor *editor,
 
 void
 e_content_editor_insert_emoticon (EContentEditor *editor,
-                                  EEmoticon *emoticon)
+                                  const EEmoticon *emoticon)
 {
 	EContentEditorInterface *iface;
 

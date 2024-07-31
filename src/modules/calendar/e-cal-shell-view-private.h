@@ -28,7 +28,6 @@
 
 #include <libecal/libecal.h>
 
-#include <shell/e-shell-headerbar.h>
 #include <shell/e-shell-utils.h>
 
 #include <calendar/gui/calendar-config.h>
@@ -46,11 +45,9 @@
 #include "e-cal-shell-content.h"
 #include "e-cal-shell-view-actions.h"
 
-/* Shorthand, requires a variable named "shell_window". */
+/* Shorthand, requires a variable named "shell_view". */
 #define ACTION(name) \
-	(E_SHELL_WINDOW_ACTION_##name (shell_window))
-#define ACTION_GROUP(name) \
-	(E_SHELL_WINDOW_ACTION_GROUP_##name (shell_window))
+	(E_SHELL_VIEW_ACTION_##name (shell_view))
 
 #define CHECK_NB	5
 

@@ -3527,15 +3527,15 @@ message_list_selectable_update_actions (ESelectable *selectable,
                                         gint n_clipboard_targets)
 {
 	ETreeTableAdapter *adapter;
-	GtkAction *action;
+	EUIAction *action;
 	gint row_count;
 
 	adapter = e_tree_get_table_adapter (E_TREE (selectable));
 	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
 
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
-	gtk_action_set_tooltip (action, _("Select all visible messages"));
-	gtk_action_set_sensitive (action, row_count > 0);
+	e_ui_action_set_tooltip (action, _("Select all visible messages"));
+	e_ui_action_set_sensitive (action, row_count > 0);
 }
 
 static void

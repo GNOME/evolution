@@ -33,13 +33,23 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (ECalShellView, e_cal_shell_view, E_TYPE_CAL_BASE
 	G_ADD_PRIVATE_DYNAMIC (ECalShellView))
 
 static void
+cal_shell_view_action_button_clicked_cb (GtkButton *button,
+					 gpointer user_data)
+{
+	GAction *action = user_data;
+
+	g_action_activate (action, NULL);
+}
+
+static void
 cal_shell_view_add_action_button (GtkBox *box,
-                                  GtkAction *action)
+				  EUIAction *action,
+				  EUIManager *ui_manager)
 {
 	GtkWidget *button, *icon;
 
 	button = gtk_button_new ();
-	icon = gtk_action_create_icon (action, GTK_ICON_SIZE_MENU);
+	icon = gtk_image_new_from_icon_name (e_ui_action_get_icon_name (action), GTK_ICON_SIZE_MENU);
 	gtk_image_set_pixel_size (GTK_IMAGE (icon), 16);
 	gtk_button_set_image (GTK_BUTTON (button), icon);
 	gtk_box_pack_start (box, button, FALSE, FALSE, 0);
@@ -60,9 +70,9 @@ cal_shell_view_add_action_button (GtkBox *box,
 		button, "tooltip-text",
 		G_BINDING_SYNC_CREATE);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		button, "clicked",
-		G_CALLBACK (gtk_action_activate), action);
+		G_CALLBACK (cal_shell_view_action_button_clicked_cb), action, 0);
 }
 
 static void
@@ -82,16 +92,16 @@ cal_shell_view_execute_search (EShellView *shell_view)
 {
 	ECalShellContent *cal_shell_content;
 	ECalBaseShellSidebar *cal_shell_sidebar;
-	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
 	ECalendar *calendar;
 	ECalDataModel *data_model;
-	GtkRadioAction *action;
+	EUIAction *action;
 	ICalTimezone *timezone;
 	ICalTime *current_time;
+	GVariant *state;
 	time_t start_range;
 	time_t end_range;
 	time_t now_time;
@@ -102,7 +112,6 @@ cal_shell_view_execute_search (EShellView *shell_view)
 
 	e_cal_shell_view_search_stop (E_CAL_SHELL_VIEW (shell_view));
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
@@ -117,8 +126,10 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	now_time = time_day_begin (i_cal_time_as_timet (current_time));
 	g_clear_object (&current_time);
 
-	action = GTK_RADIO_ACTION (ACTION (CALENDAR_SEARCH_ANY_FIELD_CONTAINS));
-	value = gtk_radio_action_get_current_value (action);
+	action = ACTION (CALENDAR_SEARCH_ANY_FIELD_CONTAINS);
+	state = g_action_get_state (G_ACTION (action));
+	value = g_variant_get_int32 (state);
+	g_clear_pointer (&state, g_variant_unref);
 
 	if (value == CALENDAR_SEARCH_ADVANCED) {
 		query = e_shell_view_get_search_query (shell_view);
@@ -222,8 +233,8 @@ cal_shell_view_execute_search (EShellView *shell_view)
 
 	if (range_search) {
 		/* Switch to list view and hide the date navigator. */
-		action = GTK_RADIO_ACTION (ACTION (CALENDAR_VIEW_LIST));
-		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+		action = ACTION (CALENDAR_VIEW_LIST);
+		e_ui_action_set_active (action, TRUE);
 		gtk_widget_hide (GTK_WIDGET (calendar));
 	} else {
 		ECalViewKind view_kind;
@@ -253,7 +264,6 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	ECalShellContent *cal_shell_content;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	EShellWindow *shell_window;
 	EShell *shell;
 	ESource *source;
 	ESourceRegistry *registry;
@@ -261,7 +271,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	EMemoTable *memo_table;
 	ETaskTable *task_table;
 	ECalDataModel *data_model;
-	GtkAction *action;
+	EUIAction *action;
 	gchar *data_filter;
 	gboolean is_searching;
 	gboolean is_list_view;
@@ -293,8 +303,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (e_cal_shell_view_parent_class)->update_actions (shell_view);
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
+	shell = e_shell_window_get_shell (e_shell_view_get_shell_window (shell_view));
 
 	registry = e_shell_get_registry (shell);
 	source = e_source_registry_ref_default_mail_identity (registry);
@@ -367,57 +376,57 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (CALENDAR_SELECT_ALL);
 	sensitive = clicked_source_is_primary && !all_sources_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_SELECT_ONE);
 	sensitive = clicked_source_is_primary;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_COPY);
 	sensitive = has_primary_source;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_DELETE);
 	sensitive =
 		primary_source_is_removable ||
 		primary_source_is_remote_deletable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_PRINT);
 	sensitive = TRUE;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_PRINT_PREVIEW);
 	sensitive = TRUE;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_PROPERTIES);
 	sensitive = clicked_source_is_primary && primary_source_is_writable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_REFRESH);
 	sensitive = clicked_source_is_primary && refresh_supported;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_REFRESH_BACKEND);
 	sensitive = clicked_source_is_collection;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_RENAME);
 	sensitive = clicked_source_is_primary &&
 		primary_source_is_writable &&
 		!primary_source_in_collection;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_SEARCH_PREV);
-	gtk_action_set_sensitive (action, is_searching && !is_list_view);
+	e_ui_action_set_sensitive (action, is_searching && !is_list_view);
 
 	action = ACTION (CALENDAR_SEARCH_NEXT);
-	gtk_action_set_sensitive (action, is_searching && !is_list_view);
+	e_ui_action_set_sensitive (action, is_searching && !is_list_view);
 
 	action = ACTION (CALENDAR_SEARCH_STOP);
 	sensitive = is_searching && self->priv->searching_activity != NULL;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_DELEGATE);
 	sensitive =
@@ -425,21 +434,21 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		selection_is_editable &&
 		selection_can_delegate &&
 		selection_is_meeting;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_DELETE);
 	sensitive =
 		any_events_selected &&
 		selection_is_editable &&
 		!selection_is_recurring;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_DELETE_OCCURRENCE);
 	sensitive =
 		any_events_selected &&
 		selection_is_editable &&
 		selection_is_recurring;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_DELETE_OCCURRENCE_THIS_AND_FUTURE);
 	sensitive =
@@ -447,18 +456,18 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		selection_is_editable &&
 		selection_is_recurring &&
 		this_and_future_supported;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_DELETE_OCCURRENCE_ALL);
 	sensitive =
 		any_events_selected &&
 		selection_is_editable &&
 		selection_is_recurring;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_FORWARD);
 	sensitive = single_event_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_OCCURRENCE_MOVABLE);
 	sensitive =
@@ -466,62 +475,62 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		selection_is_editable &&
 		selection_is_recurring &&
 		selection_is_instance;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_OPEN);
 	sensitive = single_event_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_EDIT_AS_NEW);
 	sensitive = single_event_selected &&
 		!selection_is_instance;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_PRINT);
 	sensitive = single_event_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_SAVE_AS);
 	sensitive = single_event_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_SCHEDULE);
 	sensitive =
 		single_event_selected &&
 		selection_is_editable &&
 		!selection_is_meeting;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_SCHEDULE_APPOINTMENT);
 	sensitive =
 		single_event_selected &&
 		selection_is_editable &&
 		selection_is_meeting;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_REPLY);
 	sensitive = single_event_selected && selection_is_meeting;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_REPLY_ALL);
 	sensitive = single_event_selected && selection_is_meeting;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
-	action = ACTION (EVENT_POPUP_MEETING_NEW);
-	gtk_action_set_visible (action, has_mail_identity);
+	action = ACTION (EVENT_MEETING_NEW);
+	e_ui_action_set_visible (action, has_mail_identity);
 
-	action = ACTION (EVENT_POPUP_RSVP_SUBMENU);
-	gtk_action_set_visible (action, selection_is_attendee);
+	action = ACTION (EVENT_RSVP_SUBMENU);
+	e_ui_action_set_visible (action, selection_is_attendee);
 
 	sensitive = selection_is_instance || selection_is_recurring;
-	gtk_action_set_visible (ACTION (EVENT_POPUP_RSVP_ACCEPT_1), sensitive);
-	gtk_action_set_visible (ACTION (EVENT_POPUP_RSVP_DECLINE_1), sensitive);
-	gtk_action_set_visible (ACTION (EVENT_POPUP_RSVP_TENTATIVE_1), sensitive);
+	e_ui_action_set_visible (ACTION (EVENT_RSVP_ACCEPT_1), sensitive);
+	e_ui_action_set_visible (ACTION (EVENT_RSVP_DECLINE_1), sensitive);
+	e_ui_action_set_visible (ACTION (EVENT_RSVP_TENTATIVE_1), sensitive);
 
-	gtk_action_set_sensitive (ACTION (CALENDAR_GO_BACK), !is_list_view);
-	gtk_action_set_sensitive (ACTION (CALENDAR_GO_FORWARD), !is_list_view);
-	gtk_action_set_sensitive (ACTION (CALENDAR_GO_TODAY), !is_list_view);
-	gtk_action_set_sensitive (ACTION (CALENDAR_JUMP_TO), !is_list_view);
+	e_ui_action_set_sensitive (ACTION (CALENDAR_GO_BACK), !is_list_view);
+	e_ui_action_set_sensitive (ACTION (CALENDAR_GO_FORWARD), !is_list_view);
+	e_ui_action_set_sensitive (ACTION (CALENDAR_GO_TODAY), !is_list_view);
+	e_ui_action_set_sensitive (ACTION (CALENDAR_JUMP_TO), !is_list_view);
 
 	if ((cal_view && e_calendar_view_is_editing (cal_view)) ||
 	    e_table_is_editing (E_TABLE (memo_table)) ||
@@ -529,24 +538,97 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		EFocusTracker *focus_tracker;
 
 		/* disable all clipboard actions, if any of the views is in editing mode */
-		focus_tracker = e_shell_window_get_focus_tracker (shell_window);
+		focus_tracker = e_shell_window_get_focus_tracker (e_shell_view_get_shell_window (shell_view));
 
 		action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
 		if (action)
-			gtk_action_set_sensitive (action, FALSE);
+			e_ui_action_set_sensitive (action, FALSE);
 
 		action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
 		if (action)
-			gtk_action_set_sensitive (action, FALSE);
+			e_ui_action_set_sensitive (action, FALSE);
 
 		action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
 		if (action)
-			gtk_action_set_sensitive (action, FALSE);
+			e_ui_action_set_sensitive (action, FALSE);
 
 		action = e_focus_tracker_get_delete_selection_action (focus_tracker);
 		if (action)
-			gtk_action_set_sensitive (action, FALSE);
+			e_ui_action_set_sensitive (action, FALSE);
 	}
+}
+
+static gboolean
+e_cal_shell_view_ui_manager_create_item_cb (EUIManager *manager,
+					    EUIElement *elem,
+					    EUIAction *action,
+					    EUIElementKind for_kind,
+					    GObject **out_item,
+					    gpointer user_data)
+{
+	ECalShellView *self = user_data;
+	const gchar *name;
+
+	g_return_val_if_fail (E_IS_CAL_SHELL_VIEW (self), FALSE);
+
+	name = g_action_get_name (G_ACTION (action));
+
+	if (!g_str_has_prefix (name, "ECalShellView::"))
+		return FALSE;
+
+	#define is_action(_nm) (g_strcmp0 (name, (_nm)) == 0)
+
+	if (for_kind == E_UI_ELEMENT_KIND_MENU) {
+		g_warning ("%s: Unhandled menu action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_TOOLBAR) {
+		g_warning ("%s: Unhandled toolbar action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_HEADERBAR) {
+		if (is_action ("ECalShellView::navigation-buttons")) {
+			EShellView *shell_view;
+			GtkWidget *widget;
+			EUIAction *btn_action;
+
+			shell_view = E_SHELL_VIEW (self);
+
+			btn_action = ACTION (CALENDAR_GO_BACK);
+			widget = e_header_bar_button_new (NULL, btn_action, manager);
+
+			btn_action = ACTION (CALENDAR_GO_TODAY);
+			e_header_bar_button_add_action (E_HEADER_BAR_BUTTON (widget), NULL, btn_action);
+
+			btn_action = ACTION (CALENDAR_GO_FORWARD);
+			e_header_bar_button_add_action (E_HEADER_BAR_BUTTON (widget), NULL, btn_action);
+
+			gtk_widget_show (widget);
+
+			*out_item = G_OBJECT (widget);
+		} else {
+			g_warning ("%s: Unhandled headerbar action '%s'", G_STRFUNC, name);
+		}
+	} else {
+		g_warning ("%s: Unhandled element kind '%d' for action '%s'", G_STRFUNC, (gint) for_kind, name);
+	}
+
+	#undef is_action
+
+	return TRUE;
+}
+
+static void
+cal_shell_view_init_ui_data (EShellView *shell_view)
+{
+	ECalShellView *cal_shell_view;
+
+	g_return_if_fail (E_IS_CAL_SHELL_VIEW (shell_view));
+
+	cal_shell_view = E_CAL_SHELL_VIEW (shell_view);
+
+	g_signal_connect_object (e_shell_view_get_ui_manager (shell_view), "create-item",
+		G_CALLBACK (e_cal_shell_view_ui_manager_create_item_cb), cal_shell_view, 0);
+
+	e_cal_shell_view_actions_init (cal_shell_view);
+	e_cal_shell_view_memopad_actions_init (cal_shell_view);
+	e_cal_shell_view_taskpad_actions_init (cal_shell_view);
 }
 
 static void
@@ -576,33 +658,33 @@ cal_shell_view_constructed (GObject *object)
 	EShellSearchbar *searchbar;
 	ECalShellView *cal_shell_view;
 	ECalShellContent *cal_shell_content;
+	EUIManager *ui_manager;
 	GtkWidget *container;
 	GtkWidget *widget;
 	gulong handler_id;
 
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_cal_shell_view_parent_class)->constructed (object);
-
 	cal_shell_view = E_CAL_SHELL_VIEW (object);
-	e_cal_shell_view_private_constructed (cal_shell_view);
-
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
+
+	e_ui_manager_freeze (ui_manager);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_cal_shell_view_parent_class)->constructed (object);
+
+	e_cal_shell_view_private_constructed (cal_shell_view);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
 	container = e_shell_searchbar_get_search_box (searchbar);
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-	gtk_style_context_add_class (
-		gtk_widget_get_style_context (widget), "linked");
-	cal_shell_view_add_action_button (
-		GTK_BOX (widget), ACTION (CALENDAR_SEARCH_PREV));
-	cal_shell_view_add_action_button (
-		GTK_BOX (widget), ACTION (CALENDAR_SEARCH_NEXT));
-	cal_shell_view_add_action_button (
-		GTK_BOX (widget), ACTION (CALENDAR_SEARCH_STOP));
+	gtk_style_context_add_class (gtk_widget_get_style_context (widget), "linked");
+	cal_shell_view_add_action_button (GTK_BOX (widget), ACTION (CALENDAR_SEARCH_PREV), ui_manager);
+	cal_shell_view_add_action_button (GTK_BOX (widget), ACTION (CALENDAR_SEARCH_NEXT), ui_manager);
+	cal_shell_view_add_action_button (GTK_BOX (widget), ACTION (CALENDAR_SEARCH_STOP), ui_manager);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -613,6 +695,8 @@ cal_shell_view_constructed (GObject *object)
 
 	cal_shell_view->priv->shell = g_object_ref (shell);
 	cal_shell_view->priv->prepare_for_quit_handler_id = handler_id;
+
+	e_ui_manager_thaw (ui_manager);
 }
 
 static void
@@ -630,14 +714,14 @@ e_cal_shell_view_class_init (ECalShellViewClass *class)
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = _("Calendar");
 	shell_view_class->icon_name = "x-office-calendar";
-	shell_view_class->ui_definition = "evolution-calendars.ui";
+	shell_view_class->ui_definition = "evolution-calendars.eui";
 	shell_view_class->ui_manager_id = "org.gnome.evolution.calendars";
-	shell_view_class->search_options = "/calendar-search-options";
 	shell_view_class->search_rules = "caltypes.xml";
 	shell_view_class->new_shell_content = e_cal_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_cal_base_shell_sidebar_new;
 	shell_view_class->execute_search = cal_shell_view_execute_search;
 	shell_view_class->update_actions = cal_shell_view_update_actions;
+	shell_view_class->init_ui_data = cal_shell_view_init_ui_data;
 
 	cal_base_shell_view_class = E_CAL_BASE_SHELL_VIEW_CLASS (class);
 	cal_base_shell_view_class->source_type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;

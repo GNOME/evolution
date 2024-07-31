@@ -28,9 +28,11 @@
 /* Much of this file is based on e-task-shell-view-actions.c. */
 
 static void
-action_calendar_taskpad_assign_cb (GtkAction *action,
-                                   ECalShellView *cal_shell_view)
+action_calendar_taskpad_assign_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
 	ECalModel *model;
@@ -57,9 +59,11 @@ action_calendar_taskpad_assign_cb (GtkAction *action,
 }
 
 static void
-action_calendar_taskpad_forward_cb (GtkAction *action,
-                                    ECalShellView *cal_shell_view)
+action_calendar_taskpad_forward_cb (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
@@ -86,9 +90,11 @@ action_calendar_taskpad_forward_cb (GtkAction *action,
 }
 
 static void
-action_calendar_taskpad_mark_complete_cb (GtkAction *action,
-                                          ECalShellView *cal_shell_view)
+action_calendar_taskpad_mark_complete_cb (EUIAction *action,
+					  GVariant *parameter,
+					  gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ETaskTable *task_table;
 	ECalModel *model;
@@ -109,9 +115,11 @@ action_calendar_taskpad_mark_complete_cb (GtkAction *action,
 }
 
 static void
-action_calendar_taskpad_mark_incomplete_cb (GtkAction *action,
-                                            ECalShellView *cal_shell_view)
+action_calendar_taskpad_mark_incomplete_cb (EUIAction *action,
+					    GVariant *parameter,
+					    gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ETaskTable *task_table;
 	ECalModel *model;
@@ -132,9 +140,11 @@ action_calendar_taskpad_mark_incomplete_cb (GtkAction *action,
 }
 
 static void
-action_calendar_taskpad_new_cb (GtkAction *action,
-                                ECalShellView *cal_shell_view)
+action_calendar_taskpad_new_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
@@ -158,9 +168,11 @@ action_calendar_taskpad_new_cb (GtkAction *action,
 }
 
 static void
-action_calendar_taskpad_open_cb (GtkAction *action,
-                                 ECalShellView *cal_shell_view)
+action_calendar_taskpad_open_cb (EUIAction *action,
+				 GVariant *parameter,
+				 gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
@@ -179,9 +191,11 @@ action_calendar_taskpad_open_cb (GtkAction *action,
 }
 
 static void
-action_calendar_taskpad_open_url_cb (GtkAction *action,
-                                     ECalShellView *cal_shell_view)
+action_calendar_taskpad_open_url_cb (EUIAction *action,
+				     GVariant *parameter,
+				     gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
@@ -211,9 +225,11 @@ action_calendar_taskpad_open_url_cb (GtkAction *action,
 }
 
 static void
-action_calendar_taskpad_print_cb (GtkAction *action,
-                                  ECalShellView *cal_shell_view)
+action_calendar_taskpad_print_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
@@ -243,9 +259,11 @@ action_calendar_taskpad_print_cb (GtkAction *action,
 }
 
 static void
-action_calendar_taskpad_save_as_cb (GtkAction *action,
-                                    ECalShellView *cal_shell_view)
+action_calendar_taskpad_save_as_cb (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -304,115 +322,107 @@ action_calendar_taskpad_save_as_cb (GtkAction *action,
 	g_object_unref (file);
 }
 
-static GtkActionEntry calendar_taskpad_entries[] = {
-
-	{ "calendar-taskpad-assign",
-	  "stock_task-assigned-to",
-	  N_("_Assign Task"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_taskpad_assign_cb) },
-
-	{ "calendar-taskpad-forward",
-	  "mail-forward",
-	  N_("_Forward as iCalendar…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_taskpad_forward_cb) },
-
-	{ "calendar-taskpad-mark-complete",
-	  NULL,
-	  N_("_Mark as Complete"),
-	  NULL,
-	  N_("Mark selected tasks as complete"),
-	  G_CALLBACK (action_calendar_taskpad_mark_complete_cb) },
-
-	{ "calendar-taskpad-mark-incomplete",
-	  NULL,
-	  N_("_Mark as Incomplete"),
-	  NULL,
-	  N_("Mark selected tasks as incomplete"),
-	  G_CALLBACK (action_calendar_taskpad_mark_incomplete_cb) },
-
-	{ "calendar-taskpad-new",
-	  "stock_task",
-	  N_("New _Task"),
-	  NULL,
-	  N_("Create a new task"),
-	  G_CALLBACK (action_calendar_taskpad_new_cb) },
-
-	{ "calendar-taskpad-open",
-	  "document-open",
-	  N_("_Open Task"),
-	  "<Control>o",
-	  N_("View the selected task"),
-	  G_CALLBACK (action_calendar_taskpad_open_cb) },
-
-	{ "calendar-taskpad-open-url",
-	  "applications-internet",
-	  N_("Open _Web Page"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_taskpad_open_url_cb) },
-};
-
-static GtkActionEntry lockdown_printing_entries[] = {
-
-	{ "calendar-taskpad-print",
-	  "document-print",
-	  N_("Print…"),
-	  NULL,
-	  N_("Print the selected task"),
-	  G_CALLBACK (action_calendar_taskpad_print_cb) }
-};
-
-static GtkActionEntry lockdown_save_to_disk_entries[] = {
-
-	{ "calendar-taskpad-save-as",
-	  "document-save-as",
-	  N_("_Save as iCalendar…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_taskpad_save_as_cb) }
-};
-
 void
-e_cal_shell_view_taskpad_actions_init (ECalShellView *cal_shell_view)
+e_cal_shell_view_taskpad_actions_init (ECalShellView *self)
 {
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GtkActionGroup *action_group;
+	static const EUIActionEntry calendar_taskpad_entries[] = {
 
-	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
+		{ "calendar-taskpad-assign",
+		  "stock_task-assigned-to",
+		  N_("_Assign Task"),
+		  NULL,
+		  NULL,
+		  action_calendar_taskpad_assign_cb, NULL, NULL, NULL },
+
+		{ "calendar-taskpad-forward",
+		  "mail-forward",
+		  N_("_Forward as iCalendar…"),
+		  NULL,
+		  NULL,
+		  action_calendar_taskpad_forward_cb, NULL, NULL, NULL },
+
+		{ "calendar-taskpad-mark-complete",
+		  NULL,
+		  N_("_Mark as Complete"),
+		  NULL,
+		  N_("Mark selected tasks as complete"),
+		  action_calendar_taskpad_mark_complete_cb, NULL, NULL, NULL },
+
+		{ "calendar-taskpad-mark-incomplete",
+		  NULL,
+		  N_("_Mark as Incomplete"),
+		  NULL,
+		  N_("Mark selected tasks as incomplete"),
+		  action_calendar_taskpad_mark_incomplete_cb, NULL, NULL, NULL },
+
+		{ "calendar-taskpad-new",
+		  "stock_task",
+		  N_("New _Task"),
+		  NULL,
+		  N_("Create a new task"),
+		  action_calendar_taskpad_new_cb, NULL, NULL, NULL },
+
+		{ "calendar-taskpad-open",
+		  "document-open",
+		  N_("_Open Task"),
+		  "<Control>o",
+		  N_("View the selected task"),
+		  action_calendar_taskpad_open_cb, NULL, NULL, NULL },
+
+		{ "calendar-taskpad-open-url",
+		  "applications-internet",
+		  N_("Open _Web Page"),
+		  NULL,
+		  NULL,
+		  action_calendar_taskpad_open_url_cb, NULL, NULL, NULL },
+	};
+
+	static const EUIActionEntry lockdown_printing_entries[] = {
+
+		{ "calendar-taskpad-print",
+		  "document-print",
+		  N_("Print…"),
+		  NULL,
+		  N_("Print the selected task"),
+		  action_calendar_taskpad_print_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry lockdown_save_to_disk_entries[] = {
+
+		{ "calendar-taskpad-save-as",
+		  "document-save-as",
+		  N_("_Save as iCalendar…"),
+		  NULL,
+		  NULL,
+		  action_calendar_taskpad_save_as_cb, NULL, NULL, NULL }
+	};
+
+	EShellView *shell_view;
+	EUIManager *ui_manager;
+
+	shell_view = E_SHELL_VIEW (self);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
 
 	/* Calendar Actions */
-	action_group = ACTION_GROUP (CALENDAR);
-	gtk_action_group_add_actions (
-		action_group, calendar_taskpad_entries,
-		G_N_ELEMENTS (calendar_taskpad_entries), cal_shell_view);
+	e_ui_manager_add_actions (ui_manager, "calendar", NULL,
+		calendar_taskpad_entries, G_N_ELEMENTS (calendar_taskpad_entries), self);
 
 	/* Lockdown Printing Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
-	gtk_action_group_add_actions (
-		action_group, lockdown_printing_entries,
-		G_N_ELEMENTS (lockdown_printing_entries), cal_shell_view);
+	e_ui_manager_add_actions (ui_manager, "lockdown-printing", NULL,
+		lockdown_printing_entries, G_N_ELEMENTS (lockdown_printing_entries), self);
 
 	/* Lockdown Save-to-Disk Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
-	gtk_action_group_add_actions (
-		action_group, lockdown_save_to_disk_entries,
-		G_N_ELEMENTS (lockdown_save_to_disk_entries), cal_shell_view);
+	e_ui_manager_add_actions (ui_manager, "lockdown-save-to-disk", NULL,
+		lockdown_save_to_disk_entries, G_N_ELEMENTS (lockdown_save_to_disk_entries), self);
 }
 
 void
 e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
-	EShellWindow *shell_window;
 	EShellView *shell_view;
 	ETaskTable *task_table;
-	GtkAction *action;
+	EUIAction *action;
 	GSList *list, *iter;
 	gboolean assignable = TRUE;
 	gboolean editable = TRUE;
@@ -423,7 +433,6 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 	gint n_incomplete = 0;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
@@ -458,35 +467,35 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 
 	action = ACTION (CALENDAR_TASKPAD_ASSIGN);
 	sensitive = (n_selected == 1) && editable && assignable;
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_FORWARD);
 	sensitive = (n_selected == 1);
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_MARK_COMPLETE);
 	sensitive = (n_selected > 0) && editable && (n_incomplete > 0);
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_MARK_INCOMPLETE);
 	sensitive = (n_selected > 0) && editable && (n_complete > 0);
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_OPEN);
 	sensitive = (n_selected == 1);
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_OPEN_URL);
 	sensitive = (n_selected == 1) && has_url;
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_PRINT);
 	sensitive = (n_selected == 1);
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_TASKPAD_SAVE_AS);
 	sensitive = (n_selected == 1);
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 }
 
 void

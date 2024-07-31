@@ -27,23 +27,20 @@
 #include "e-mail-viewer.h"
 
 struct _EMailViewerPrivate {
+	EUIManager *ui_manager;
 	GtkWidget *statusbar;
-	GtkMenuBar *real_menu_bar;
 	EMenuBar *e_menu_bar;
+	GtkWidget *menu_button;  /* owned by e_menu_bar */
 	GtkWidget *webview_preview;
 	EAlertBar *alert_bar;
 	EActivityBar *activity_bar;
 
+	EUIMenu *main_menu;
 	EMailBackend *backend;
 	GFile *file;
 	GCancellable *cancellable;
-	GtkBuilder *builder;
 	EMailDisplay *mail_display;
 	GtkWidget *preview_pane;
-	GActionMap *action_map;
-	GtkAccelGroup *accel_group;
-	GMenuItem *file_import;
-	gboolean has_menumultiple;
 	gboolean scan_from;
 };
 
@@ -514,7 +511,7 @@ mail_viewer_import (EMailViewer *self,
 }
 
 static void
-import_one_activated_cb (GSimpleAction *action,
+import_one_activated_cb (EUIAction *action,
 			 GVariant *parameter,
 			 gpointer user_data)
 {
@@ -536,7 +533,7 @@ import_one_activated_cb (GSimpleAction *action,
 }
 
 static void
-import_all_activated_cb (GSimpleAction *action,
+import_all_activated_cb (EUIAction *action,
 			 GVariant *parameter,
 			 gpointer user_data)
 {
@@ -576,7 +573,7 @@ mail_viewer_print_done_cb (GObject *source_object,
 }
 
 static void
-open_activated_cb (GSimpleAction *action,
+open_activated_cb (EUIAction *action,
 		   GVariant *parameter,
 		   gpointer user_data)
 {
@@ -627,7 +624,7 @@ open_activated_cb (GSimpleAction *action,
 }
 
 static void
-print_activated_cb (GSimpleAction *action,
+print_activated_cb (EUIAction *action,
 		    GVariant *parameter,
 		    gpointer user_data)
 {
@@ -645,7 +642,7 @@ print_activated_cb (GSimpleAction *action,
 }
 
 static void
-close_activated_cb (GSimpleAction *action,
+close_activated_cb (EUIAction *action,
 		    GVariant *parameter,
 		    gpointer user_data)
 {
@@ -657,7 +654,7 @@ close_activated_cb (GSimpleAction *action,
 }
 
 static void
-cut_activated_cb (GSimpleAction *action,
+cut_activated_cb (EUIAction *action,
 		  GVariant *parameter,
 		  gpointer user_data)
 {
@@ -669,7 +666,7 @@ cut_activated_cb (GSimpleAction *action,
 }
 
 static void
-copy_activated_cb (GSimpleAction *action,
+copy_activated_cb (EUIAction *action,
 		   GVariant *parameter,
 		   gpointer user_data)
 {
@@ -681,7 +678,7 @@ copy_activated_cb (GSimpleAction *action,
 }
 
 static void
-paste_activated_cb (GSimpleAction *action,
+paste_activated_cb (EUIAction *action,
 		    GVariant *parameter,
 		    gpointer user_data)
 {
@@ -693,7 +690,7 @@ paste_activated_cb (GSimpleAction *action,
 }
 
 static void
-select_all_activated_cb (GSimpleAction *action,
+select_all_activated_cb (EUIAction *action,
 			 GVariant *parameter,
 			 gpointer user_data)
 {
@@ -705,7 +702,7 @@ select_all_activated_cb (GSimpleAction *action,
 }
 
 static void
-find_activated_cb (GSimpleAction *action,
+find_activated_cb (EUIAction *action,
 		   GVariant *parameter,
 		   gpointer user_data)
 {
@@ -717,7 +714,7 @@ find_activated_cb (GSimpleAction *action,
 }
 
 static void
-load_images_activated_cb (GSimpleAction *action,
+load_images_activated_cb (EUIAction *action,
 			  GVariant *parameter,
 			  gpointer user_data)
 {
@@ -729,7 +726,7 @@ load_images_activated_cb (GSimpleAction *action,
 }
 
 static void
-activate_toggle_cb (GSimpleAction *action,
+activate_toggle_cb (EUIAction *action,
 		    GVariant *parameter,
 		    gpointer user_data)
 {
@@ -741,15 +738,7 @@ activate_toggle_cb (GSimpleAction *action,
 }
 
 static void
-activate_radio_cb (GSimpleAction *action,
-		   GVariant *parameter,
-		   gpointer user_data)
-{
-	g_action_change_state (G_ACTION (action), parameter);
-}
-
-static void
-all_headers_change_state_cb (GSimpleAction *action,
+all_headers_change_state_cb (EUIAction *action,
 			     GVariant *parameter,
 			     gpointer user_data)
 {
@@ -758,7 +747,7 @@ all_headers_change_state_cb (GSimpleAction *action,
 
 	g_return_if_fail (E_IS_MAIL_VIEWER (self));
 
-	g_simple_action_set_state (action, parameter);
+	e_ui_action_set_state (action, parameter);
 
 	mode = e_mail_display_get_mode (self->priv->mail_display);
 
@@ -771,7 +760,7 @@ all_headers_change_state_cb (GSimpleAction *action,
 }
 
 static void
-msg_source_change_state_cb (GSimpleAction *action,
+msg_source_change_state_cb (EUIAction *action,
 			    GVariant *parameter,
 			    gpointer user_data)
 {
@@ -779,28 +768,24 @@ msg_source_change_state_cb (GSimpleAction *action,
 
 	g_return_if_fail (E_IS_MAIL_VIEWER (self));
 
-	g_simple_action_set_state (action, parameter);
+	e_ui_action_set_state (action, parameter);
 
 	if (g_variant_get_boolean (parameter)) {
 		e_mail_display_set_mode (self->priv->mail_display, E_MAIL_FORMATTER_MODE_SOURCE);
 	} else {
-		GAction *all_headers_action;
-		GVariant *all_headers_value;
+		EUIAction *all_headers_action;
 
-		all_headers_action = g_action_map_lookup_action (self->priv->action_map, "all-headers");
-		all_headers_value = g_action_get_state (all_headers_action);
+		all_headers_action = e_ui_manager_get_action (self->priv->ui_manager, "all-headers");
 
-		if (all_headers_value && g_variant_get_boolean (all_headers_value))
+		if (e_ui_action_get_active (all_headers_action))
 			e_mail_display_set_mode (self->priv->mail_display, E_MAIL_FORMATTER_MODE_ALL_HEADERS);
 		else
 			e_mail_display_set_mode (self->priv->mail_display, E_MAIL_FORMATTER_MODE_NORMAL);
-
-		g_clear_pointer (&all_headers_value, g_variant_unref);
 	}
 }
 
 static void
-caret_mode_change_state_cb (GSimpleAction *action,
+caret_mode_change_state_cb (EUIAction *action,
 			    GVariant *parameter,
 			    gpointer user_data)
 {
@@ -808,13 +793,13 @@ caret_mode_change_state_cb (GSimpleAction *action,
 
 	g_return_if_fail (E_IS_MAIL_VIEWER (self));
 
-	g_simple_action_set_state (action, parameter);
+	e_ui_action_set_state (action, parameter);
 
 	e_web_view_set_caret_mode (E_WEB_VIEW (self->priv->mail_display), g_variant_get_boolean (parameter));
 }
 
 static void
-zoom_in_activated_cb (GSimpleAction *action,
+zoom_in_activated_cb (EUIAction *action,
 		      GVariant *parameter,
 		      gpointer user_data)
 {
@@ -826,7 +811,7 @@ zoom_in_activated_cb (GSimpleAction *action,
 }
 
 static void
-zoom_out_activated_cb (GSimpleAction *action,
+zoom_out_activated_cb (EUIAction *action,
 		       GVariant *parameter,
 		       gpointer user_data)
 {
@@ -838,7 +823,7 @@ zoom_out_activated_cb (GSimpleAction *action,
 }
 
 static void
-zoom_zero_activated_cb (GSimpleAction *action,
+zoom_zero_activated_cb (EUIAction *action,
 			GVariant *parameter,
 			gpointer user_data)
 {
@@ -850,7 +835,7 @@ zoom_zero_activated_cb (GSimpleAction *action,
 }
 
 static void
-charset_change_state_cb (GSimpleAction *action,
+charset_change_state_cb (EUIAction *action,
 			 GVariant *parameter,
 			 gpointer user_data)
 {
@@ -859,7 +844,7 @@ charset_change_state_cb (GSimpleAction *action,
 
 	g_return_if_fail (E_IS_MAIL_VIEWER (self));
 
-	g_simple_action_set_state (action, parameter);
+	e_ui_action_set_state (action, parameter);
 
 	formatter = e_mail_display_get_formatter (self->priv->mail_display);
 
@@ -868,7 +853,7 @@ charset_change_state_cb (GSimpleAction *action,
 
 		charset = g_variant_get_string (parameter, NULL);
 
-		/* Default value it an empty string in the GMenu, but a NULL for the formatter */
+		/* Default value is an empty string in the GMenu, but a NULL for the formatter */
 		if (charset && !*charset)
 			charset = NULL;
 
@@ -904,7 +889,7 @@ mail_viewer_edit_as_new_composer_created_cb (GObject *source_object,
 }
 
 static void
-edit_as_new_activated_cb (GSimpleAction *action,
+edit_as_new_activated_cb (EUIAction *action,
 			  GVariant *parameter,
 			  gpointer user_data)
 {
@@ -924,7 +909,7 @@ edit_as_new_activated_cb (GSimpleAction *action,
 }
 
 static void
-add_sender_activated_cb (GSimpleAction *action,
+add_sender_activated_cb (EUIAction *action,
 			 GVariant *parameter,
 			 gpointer user_data)
 {
@@ -992,7 +977,7 @@ mail_viewer_goto (EMailViewer *self,
 }
 
 static void
-go_to_next_activated_cb (GSimpleAction *action,
+go_to_next_activated_cb (EUIAction *action,
 			 GVariant *parameter,
 			 gpointer user_data)
 {
@@ -1004,7 +989,7 @@ go_to_next_activated_cb (GSimpleAction *action,
 }
 
 static void
-go_to_previous_activated_cb (GSimpleAction *action,
+go_to_previous_activated_cb (EUIAction *action,
 			     GVariant *parameter,
 			     gpointer user_data)
 {
@@ -1091,7 +1076,7 @@ mail_viewer_reply_message (EMailViewer *self,
 }
 
 static void
-reply_sender_activated_cb (GSimpleAction *action,
+reply_sender_activated_cb (EUIAction *action,
 			   GVariant *parameter,
 			   gpointer user_data)
 {
@@ -1103,7 +1088,7 @@ reply_sender_activated_cb (GSimpleAction *action,
 }
 
 static void
-reply_list_activated_cb (GSimpleAction *action,
+reply_list_activated_cb (EUIAction *action,
 			 GVariant *parameter,
 			 gpointer user_data)
 {
@@ -1115,7 +1100,7 @@ reply_list_activated_cb (GSimpleAction *action,
 }
 
 static void
-reply_all_activated_cb (GSimpleAction *action,
+reply_all_activated_cb (EUIAction *action,
 			GVariant *parameter,
 			gpointer user_data)
 {
@@ -1127,7 +1112,7 @@ reply_all_activated_cb (GSimpleAction *action,
 }
 
 static void
-reply_alt_activated_cb (GSimpleAction *action,
+reply_alt_activated_cb (EUIAction *action,
 			GVariant *parameter,
 			gpointer user_data)
 {
@@ -1198,7 +1183,7 @@ mail_viewer_forward_message (EMailViewer *self,
 }
 
 static void
-forward_activated_cb (GSimpleAction *action,
+forward_activated_cb (EUIAction *action,
 		      GVariant *parameter,
 		      gpointer user_data)
 {
@@ -1216,7 +1201,7 @@ forward_activated_cb (GSimpleAction *action,
 }
 
 static void
-forward_attached_activated_cb (GSimpleAction *action,
+forward_attached_activated_cb (EUIAction *action,
 			       GVariant *parameter,
 			       gpointer user_data)
 {
@@ -1228,7 +1213,7 @@ forward_attached_activated_cb (GSimpleAction *action,
 }
 
 static void
-forward_inline_activated_cb (GSimpleAction *action,
+forward_inline_activated_cb (EUIAction *action,
 			     GVariant *parameter,
 			     gpointer user_data)
 {
@@ -1240,7 +1225,7 @@ forward_inline_activated_cb (GSimpleAction *action,
 }
 
 static void
-forward_quoted_activated_cb (GSimpleAction *action,
+forward_quoted_activated_cb (EUIAction *action,
 			     GVariant *parameter,
 			     gpointer user_data)
 {
@@ -1274,7 +1259,7 @@ mail_viewer_redirect_composer_created_cb (GObject *source_object,
 }
 
 static void
-redirect_activated_cb (GSimpleAction *action,
+redirect_activated_cb (EUIAction *action,
 		       GVariant *parameter,
 		       gpointer user_data)
 {
@@ -1294,174 +1279,6 @@ redirect_activated_cb (GSimpleAction *action,
 }
 
 static void
-mail_viewer_init_actions (EMailViewer *self)
-{
-	GActionEntry actions[] = {
-		{ "import-one", import_one_activated_cb, NULL, NULL, NULL },
-		{ "import-all", import_all_activated_cb, NULL, NULL, NULL },
-		{ "open", open_activated_cb, NULL, NULL, NULL },
-		{ "print", print_activated_cb, NULL, NULL, NULL },
-		{ "close", close_activated_cb, NULL, NULL, NULL },
-		{ "cut", cut_activated_cb, NULL, NULL, NULL },
-		{ "copy", copy_activated_cb, NULL, NULL, NULL },
-		{ "paste", paste_activated_cb, NULL, NULL, NULL },
-		{ "select-all", select_all_activated_cb, NULL, NULL, NULL },
-		{ "find", find_activated_cb, NULL, NULL, NULL },
-		{ "load-images", load_images_activated_cb, NULL, NULL, NULL },
-		{ "all-headers", activate_toggle_cb, NULL, "false", all_headers_change_state_cb },
-		{ "msg-source", activate_toggle_cb, NULL, "false", msg_source_change_state_cb },
-		{ "caret-mode", activate_toggle_cb, NULL, "false", caret_mode_change_state_cb  },
-		{ "zoom-in", zoom_in_activated_cb, NULL, NULL, NULL },
-		{ "zoom-out", zoom_out_activated_cb, NULL, NULL, NULL },
-		{ "zoom-zero", zoom_zero_activated_cb, NULL, NULL, NULL },
-		{ "charset", activate_radio_cb, "s", "''", charset_change_state_cb },
-		{ "edit-as-new", edit_as_new_activated_cb, NULL, NULL, NULL },
-		{ "add-sender", add_sender_activated_cb, NULL, NULL, NULL },
-		{ "goto-next", go_to_next_activated_cb, NULL, NULL, NULL },
-		{ "goto-previous", go_to_previous_activated_cb, NULL, NULL, NULL },
-		{ "reply-sender", reply_sender_activated_cb, NULL, NULL, NULL },
-		{ "reply-list", reply_list_activated_cb, NULL, NULL, NULL },
-		{ "reply-all", reply_all_activated_cb, NULL, NULL, NULL },
-		{ "reply-alt", reply_alt_activated_cb, NULL, NULL, NULL },
-		{ "forward", forward_activated_cb, NULL, NULL, NULL },
-		{ "forward-attached", forward_attached_activated_cb, NULL, NULL, NULL },
-		{ "forward-inline", forward_inline_activated_cb, NULL, NULL, NULL },
-		{ "forward-quoted", forward_quoted_activated_cb, NULL, NULL, NULL },
-		{ "redirect", redirect_activated_cb, NULL, NULL, NULL }
-	};
-	GSimpleActionGroup *group;
-
-	group = g_simple_action_group_new ();
-
-	g_action_map_add_action_entries (G_ACTION_MAP (group), actions, G_N_ELEMENTS (actions), self);
-	gtk_widget_insert_action_group (GTK_WIDGET (self), "mail-viewer", G_ACTION_GROUP (group));
-
-	self->priv->action_map = G_ACTION_MAP (group);
-}
-
-static void
-mail_viewer_closure_accel_activate (GClosure *closure,
-				    GValue *return_value,
-				    guint n_param_values,
-				    const GValue *param_values,
-				    gpointer invocation_hint,
-				    gpointer marshal_data)
-{
-	GAction *action = G_ACTION (closure->data);
-
-	if (g_action_get_enabled (action)) {
-		const GVariantType *param_type;
-
-		param_type = g_action_get_parameter_type (action);
-		if (!param_type) {
-			g_action_activate (action, NULL);
-		} else if (param_type == G_VARIANT_TYPE_BOOLEAN) {
-			GVariant *current_value = g_action_get_state (action);
-			GVariant *new_value;
-
-			new_value = g_variant_new_boolean (current_value ? !g_variant_get_boolean (current_value) : TRUE);
-			g_variant_ref_sink (new_value);
-
-			g_action_activate (action, new_value);
-
-			g_clear_pointer (&current_value, g_variant_unref);
-			g_clear_pointer (&new_value, g_variant_unref);
-		} else {
-			g_warn_if_reached ();
-		}
-
-		/* accelerator was handled */
-		g_value_set_boolean (return_value, TRUE);
-	}
-}
-
-static void
-mail_viewer_traverse_menu_model (EMailViewer *self,
-				 GMenuModel *menu_model,
-				 gint item_index)
-{
-	GMenuLinkIter *iter;
-	gchar *accel_str = NULL;
-
-	if (g_menu_model_get_item_attribute (menu_model, item_index, "accel", "s", &accel_str)) {
-		gchar *action_name = NULL;
-
-		if (g_menu_model_get_item_attribute (menu_model, item_index, "action", "s", &action_name) && action_name) {
-			if (g_str_has_prefix (action_name, "mail-viewer.")) {
-				const gchar *after_dot = action_name + strlen ("mail-viewer.");
-				GAction *action = g_action_map_lookup_action (self->priv->action_map, after_dot);
-
-				if (action) {
-					guint key = 0;
-					GdkModifierType mods = 0;
-
-					gtk_accelerator_parse (accel_str, &key, &mods);
-
-					if (key != 0) {
-						GClosure *closure;
-
-						closure = g_closure_new_object (sizeof (GClosure), G_OBJECT (action));
-						g_closure_set_marshal (closure, mail_viewer_closure_accel_activate);
-
-						gtk_accel_group_connect (self->priv->accel_group, key, mods, GTK_ACCEL_LOCKED, closure);
-					}
-				}
-			}
-
-			g_free (action_name);
-		}
-
-		g_free (accel_str);
-	}
-
-	iter = g_menu_model_iterate_item_links (menu_model, item_index);
-	if (iter) {
-		while (g_menu_link_iter_next (iter)) {
-			GMenuModel *submenu_model = g_menu_link_iter_get_value (iter);
-			if (submenu_model) {
-				gint ii, n_items;
-
-				n_items = g_menu_model_get_n_items (submenu_model);
-
-				for (ii = 0; ii < n_items; ii++) {
-					mail_viewer_traverse_menu_model (self, submenu_model, ii);
-				}
-			}
-			g_clear_object (&submenu_model);
-		}
-
-		g_clear_object (&iter);
-	}
-}
-
-static void
-mail_viewer_init_accel_group (EMailViewer *self)
-{
-	GMenuModel *menu_model;
-	gint n_items, ii;
-
-	g_return_if_fail (self->priv->accel_group == NULL);
-
-	self->priv->accel_group = gtk_accel_group_new ();
-
-	menu_model = G_MENU_MODEL (gtk_builder_get_object (self->priv->builder, "menu"));
-	n_items = g_menu_model_get_n_items (menu_model);
-
-	for (ii = 0; ii < n_items; ii++) {
-		mail_viewer_traverse_menu_model (self, menu_model, ii);
-	}
-
-	menu_model = G_MENU_MODEL (gtk_builder_get_object (self->priv->builder, "goto-menu"));
-	n_items = g_menu_model_get_n_items (menu_model);
-
-	for (ii = 0; ii < n_items; ii++) {
-		mail_viewer_traverse_menu_model (self, menu_model, ii);
-	}
-
-	gtk_window_add_accel_group (GTK_WINDOW (self), self->priv->accel_group);
-}
-
-static void
 mail_viewer_update_actions (EMailViewer *self)
 {
 	const gchar *actions[] = {
@@ -1477,7 +1294,7 @@ mail_viewer_update_actions (EMailViewer *self)
 		"zoom-in",
 		"zoom-out",
 		"zoom-zero",
-		"charset",
+		"EMailViewer::charset-menu",
 		"edit-as-new",
 		"add-sender",
 		"reply-sender",
@@ -1489,20 +1306,22 @@ mail_viewer_update_actions (EMailViewer *self)
 		"forward-quoted",
 		"redirect"
 	};
-	GActionMap *action_map;
-	GAction *action;
+	CamelMimeMessage *msg;
+	EUIAction *action;
+	EUIManager *ui_manager;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
-	CamelMimeMessage *msg;
 	gboolean has_message = FALSE;
 	gboolean has_list_post_header = FALSE;
 	gboolean can_goto_next = FALSE;
 	gboolean can_goto_previous = FALSE;
 	guint ii;
 
-	action_map = self->priv->action_map;
-	if (!action_map)
+	ui_manager = self->priv->ui_manager;
+	if (!ui_manager)
 		return;
+
+	e_ui_menu_freeze (self->priv->main_menu);
 
 	msg = mail_viewer_get_current_message (self);
 	has_message = msg != NULL;
@@ -1529,18 +1348,20 @@ mail_viewer_update_actions (EMailViewer *self)
 	}
 
 	for (ii = 0; ii < G_N_ELEMENTS (actions); ii++) {
-		action = g_action_map_lookup_action (action_map, actions[ii]);
-		g_simple_action_set_enabled (G_SIMPLE_ACTION (action), has_message);
+		action = e_ui_manager_get_action (ui_manager, actions[ii]);
+		e_ui_action_set_sensitive (action, has_message);
 	}
 
-	action = g_action_map_lookup_action (action_map, "reply-list");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), has_message && has_list_post_header);
+	action = e_ui_manager_get_action (ui_manager, "reply-list");
+	e_ui_action_set_sensitive (action, has_message && has_list_post_header);
 
-	action = g_action_map_lookup_action (action_map, "goto-next");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), can_goto_next);
+	action = e_ui_manager_get_action (ui_manager, "goto-next");
+	e_ui_action_set_sensitive (action, can_goto_next);
 
-	action = g_action_map_lookup_action (action_map, "goto-previous");
-	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), can_goto_previous);
+	action = e_ui_manager_get_action (ui_manager, "goto-previous");
+	e_ui_action_set_sensitive (action, can_goto_previous);
+
+	e_ui_menu_thaw (self->priv->main_menu);
 }
 
 static void
@@ -1757,12 +1578,12 @@ mail_viewer_can_execute_editing_command_cb (GObject *source_object,
 					    GAsyncResult *result,
 					    gpointer user_data)
 {
-	GSimpleAction *action = user_data;
+	EUIAction *action = user_data;
 	gboolean can_do_command;
 
 	can_do_command = webkit_web_view_can_execute_editing_command_finish (WEBKIT_WEB_VIEW (source_object), result, NULL);
 
-	g_simple_action_set_enabled (action, can_do_command);
+	e_ui_action_set_sensitive (action, can_do_command);
 	g_object_unref (action);
 }
 
@@ -1773,62 +1594,375 @@ mail_viewer_update_clipboard_actions (EMailViewer *self)
 
 	if (self->priv->mail_display) {
 		WebKitWebView *web_view = WEBKIT_WEB_VIEW (self->priv->mail_display);
-		GAction *action;
+		EUIAction *action;
 
-		action = g_action_map_lookup_action (self->priv->action_map, "copy");
-		g_simple_action_set_enabled (G_SIMPLE_ACTION (action), e_web_view_has_selection (E_WEB_VIEW (web_view)));
+		action = e_ui_manager_get_action (self->priv->ui_manager, "copy");
+		e_ui_action_set_sensitive (action, e_web_view_has_selection (E_WEB_VIEW (web_view)));
 
-		action = g_action_map_lookup_action (self->priv->action_map, "cut");
+		action = e_ui_manager_get_action (self->priv->ui_manager, "cut");
 		webkit_web_view_can_execute_editing_command (web_view, WEBKIT_EDITING_COMMAND_CUT, NULL,
 			mail_viewer_can_execute_editing_command_cb, g_object_ref (action));
 
-		action = g_action_map_lookup_action (self->priv->action_map, "paste");
+		action = e_ui_manager_get_action (self->priv->ui_manager, "paste");
 		webkit_web_view_can_execute_editing_command (web_view, WEBKIT_EDITING_COMMAND_PASTE, NULL,
 			mail_viewer_can_execute_editing_command_cb, g_object_ref (action));
 	}
 }
 
 static gboolean
-mail_viewer_key_press_event_cb (GtkWidget *widget,
-				GdkEventKey *event)
+e_mail_viewer_ui_manager_create_item_cb (EUIManager *ui_manager,
+					 EUIElement *elem,
+					 EUIAction *action,
+					 EUIElementKind for_kind,
+					 GObject **out_item,
+					 gpointer user_data)
 {
-	EMailViewer *self = E_MAIL_VIEWER (widget);
-	GtkWidget *focused;
+	EMailViewer *self = user_data;
+	const gchar *name;
 
-	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0 ||
-	    event->keyval == GDK_KEY_Tab ||
-	    event->keyval == GDK_KEY_Return ||
-	    event->keyval == GDK_KEY_KP_Tab ||
-	    event->keyval == GDK_KEY_KP_Enter)
-		return event && e_mail_display_need_key_event (self->priv->mail_display, event);
+	g_return_val_if_fail (E_IS_MAIL_VIEWER (self), FALSE);
 
-	focused = gtk_window_get_focus (GTK_WINDOW (self));
+	name = g_action_get_name (G_ACTION (action));
 
-	if (focused && (GTK_IS_ENTRY (focused) || GTK_IS_EDITABLE (focused) ||
-	    (GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0))) {
-		gtk_widget_event (focused, (GdkEvent *) event);
-		return event->keyval != GDK_KEY_Escape;
+	if (!g_str_has_prefix (name, "EMailViewer::"))
+		return FALSE;
+
+	#define is_action(_nm) (g_strcmp0 (name, (_nm)) == 0)
+
+	if (for_kind == E_UI_ELEMENT_KIND_MENU) {
+		if (is_action ("EMailViewer::charset-menu")) {
+			GMenu *charset_menu;
+			GMenuItem *menu_item;
+
+			charset_menu = g_menu_new ();
+
+			menu_item = g_menu_item_new (_("_Default"), NULL);
+			g_menu_item_set_action_and_target (menu_item, "mail-viewer.EMailViewer::charset-menu", "s", "");
+			g_menu_append_item (charset_menu, menu_item);
+			g_clear_object (&menu_item);
+
+			e_charset_add_to_g_menu (charset_menu, "mail-viewer.EMailViewer::charset-menu");
+
+			*out_item = G_OBJECT (g_menu_item_new_submenu (e_ui_action_get_label (action), G_MENU_MODEL (charset_menu)));
+
+			g_clear_object (&charset_menu);
+
+			if (self->priv->mail_display) {
+				EMailFormatter *formatter;
+
+				formatter = e_mail_display_get_formatter (self->priv->mail_display);
+				if (formatter) {
+					const gchar *charset;
+
+					charset = e_mail_formatter_get_charset (formatter);
+					e_ui_action_set_state (action, g_variant_new_string (charset ? charset : ""));
+				} else {
+					e_ui_action_set_state (action, g_variant_new_string (""));
+				}
+			} else {
+				e_ui_action_set_state (action, g_variant_new_string (""));
+			}
+		} else {
+			g_warning ("%s: Unhandled menu action '%s'", G_STRFUNC, name);
+		}
+	} else if (for_kind == E_UI_ELEMENT_KIND_TOOLBAR) {
+		g_warning ("%s: Unhandled toolbar action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_HEADERBAR) {
+		if (is_action ("EMailViewer::menu-button"))
+			*out_item = G_OBJECT (g_object_ref (self->priv->menu_button));
+		else
+			g_warning ("%s: Unhandled headerbar action '%s'", G_STRFUNC, name);
+	} else {
+		g_warning ("%s: Unhandled element kind '%d' for action '%s'", G_STRFUNC, (gint) for_kind, name);
 	}
 
-	if (e_web_view_get_need_input (E_WEB_VIEW (self->priv->mail_display)) &&
-	    gtk_widget_has_focus (GTK_WIDGET (self->priv->mail_display))) {
-		gtk_widget_event (GTK_WIDGET (self->priv->mail_display), (GdkEvent *) event);
+	#undef is_action
+
+	return TRUE;
+}
+
+static gboolean
+e_mail_viewer_ui_manager_ignore_accel_cb (EUIManager *ui_amanger,
+					  EUIAction *action,
+					  gpointer user_data)
+{
+	EMailViewer *self = user_data;
+
+	g_return_val_if_fail (E_IS_MAIL_VIEWER (self), FALSE);
+
+	if (self->priv->mail_display &&
+	    gtk_widget_has_focus (GTK_WIDGET (self->priv->mail_display)) &&
+	    e_web_view_get_need_input (E_WEB_VIEW (self->priv->mail_display)))
 		return TRUE;
-	}
 
-	if (e_mail_display_need_key_event (self->priv->mail_display, event))
-		return TRUE;
+	return e_util_ignore_accel_for_focused (gtk_window_get_focus (GTK_WINDOW (self)));
+}
 
-	if (event->keyval == GDK_KEY_Escape) {
-		GAction *action;
+static void
+mail_viewer_init_ui_manager (EMailViewer *self)
+{
+	static const EUIActionEntry entries[] = {
+		{ "file-import",
+		  NULL,
+		  N_("_Import…"),
+		  NULL,
+		  NULL,
+		  import_all_activated_cb, NULL, NULL, NULL },
 
-		action = g_action_map_lookup_action (self->priv->action_map, "close");
-		g_action_activate (action, NULL);
+		{ "import-one",
+		  NULL,
+		  N_("_Import…"),
+		  NULL,
+		  NULL,
+		  import_one_activated_cb, NULL, NULL, NULL },
 
-		return TRUE;
-	}
+		{ "import-all",
+		   NULL,
+		   N_("_Import All…"),
+		   NULL,
+		   NULL,
+		   import_all_activated_cb, NULL, NULL, NULL },
 
-	return FALSE;
+		{ "open",
+		   "document-open",
+		   N_("_Open…"),
+		   "<Control>o",
+		   NULL,
+		   open_activated_cb, NULL, NULL, NULL },
+
+		{ "print",
+		   "document-print",
+		   N_("_Print"),
+		   "<Control>p",
+		   NULL,
+		   print_activated_cb, NULL, NULL, NULL },
+
+		{ "close",
+		   NULL,
+		   N_("_Close"),
+		   "<Control>w",
+		   NULL,
+		   close_activated_cb, NULL, NULL, NULL },
+
+		{ "cut",
+		   "edit-cut",
+		   N_("C_ut"),
+		   "<Control>x",
+		   NULL,
+		   cut_activated_cb, NULL, NULL, NULL },
+
+		{ "copy",
+		   "edit-copy",
+		   N_("_Copy"),
+		   "<Control>c",
+		   NULL,
+		   copy_activated_cb, NULL, NULL, NULL },
+
+		{ "paste",
+		   "edit-paste",
+		   N_("_Paste"),
+		   "<Control>v",
+		   NULL,
+		   paste_activated_cb, NULL, NULL, NULL },
+
+		{ "select-all",
+		   "edit-select-all",
+		   N_("_Select All"),
+		   NULL,
+		   NULL,
+		   select_all_activated_cb, NULL, NULL, NULL },
+
+		{ "find",
+		   "edit-find",
+		   N_("_Find in Message…"),
+		   "<Control><Shift>f",
+		   NULL,
+		   find_activated_cb, NULL, NULL, NULL },
+
+		{ "load-images",
+		   "image-x-generic",
+		   N_("_Load Images"),
+		   "<Control>i",
+		   NULL,
+		   load_images_activated_cb, NULL, NULL, NULL },
+
+		{ "all-headers",
+		   NULL,
+		   N_("All Message _Headers"),
+		   NULL,
+		   NULL,
+		   activate_toggle_cb, NULL, "false", all_headers_change_state_cb },
+
+		{ "msg-source",
+		   NULL,
+		   N_("Message _Source"),
+		   "<Control>u",
+		   NULL,
+		   activate_toggle_cb, NULL, "false", msg_source_change_state_cb },
+
+		{ "caret-mode",
+		   NULL,
+		   N_("_Caret Mode"),
+		   "F7",
+		   NULL,
+		   activate_toggle_cb, NULL, "false", caret_mode_change_state_cb  },
+
+		{ "zoom-in",
+		   "zoom-in",
+		   N_("_Zoom In"),
+		   "<Control>plus",
+		   NULL,
+		   zoom_in_activated_cb, NULL, NULL, NULL },
+
+		{ "zoom-out",
+		   "zoom-out",
+		   N_("Zoom _Out"),
+		   "<Control>minus",
+		   NULL,
+		   zoom_out_activated_cb, NULL, NULL, NULL },
+
+		{ "zoom-zero",
+		   "zoom-original",
+		   N_("_Normal Size"),
+		   "<Control>0",
+		   NULL,
+		   zoom_zero_activated_cb, NULL, NULL, NULL },
+
+		{ "EMailViewer::charset-menu",
+		   NULL,
+		   N_("Ch_aracter Encoding"),
+		   NULL,
+		   NULL,
+		   NULL, "s", "''", charset_change_state_cb },
+
+		{ "edit-as-new",
+		   NULL,
+		   N_("_Edit as New Message"),
+		   NULL,
+		   NULL,
+		   edit_as_new_activated_cb, NULL, NULL, NULL },
+
+		{ "add-sender",
+		   NULL,
+		   N_("A_dd Sender to Address Book"),
+		   NULL,
+		   NULL,
+		   add_sender_activated_cb, NULL, NULL, NULL },
+
+		{ "goto-next",
+		   "go-next",
+		   N_("Go to _Next Message"),
+		   "<Control>Page_Down",
+		   NULL,
+		   go_to_next_activated_cb, NULL, NULL, NULL },
+
+		{ "goto-previous",
+		   "go-previous",
+		   N_("Go to _Previous Message"),
+		   "<Control>Page_Up",
+		   NULL,
+		   go_to_previous_activated_cb, NULL, NULL, NULL },
+
+		{ "reply-sender",
+		   "mail-reply-sender",
+		   N_("_Reply to Sender"),
+		   "<Control>r",
+		   NULL,
+		   reply_sender_activated_cb, NULL, NULL, NULL },
+
+		{ "reply-list",
+		   NULL,
+		   N_("Reply to _List"),
+		   "<Control>l",
+		   NULL,
+		   reply_list_activated_cb, NULL, NULL, NULL },
+
+		{ "reply-all",
+		   "mail-reply-all",
+		   N_("Reply to _All"),
+		   "<Control><Shift>r",
+		   NULL,
+		   reply_all_activated_cb, NULL, NULL, NULL },
+
+		{ "reply-alt",
+		   NULL,
+		   N_("Al_ternative Reply…"),
+		   "<Control><Primary>r",
+		   NULL,
+		   reply_alt_activated_cb, NULL, NULL, NULL },
+
+		{ "forward",
+		   "mail-forward",
+		   N_("_Forward"),
+		   "<Control><Primary>f",
+		   NULL,
+		   forward_activated_cb, NULL, NULL, NULL },
+
+		{ "forward-attached",
+		   NULL,
+		   N_("_Attached"),
+		   NULL,
+		   NULL,
+		   forward_attached_activated_cb, NULL, NULL, NULL },
+
+		{ "forward-inline",
+		   NULL,
+		   N_("_Inline"),
+		   NULL,
+		   NULL,
+		   forward_inline_activated_cb, NULL, NULL, NULL },
+
+		{ "forward-quoted",
+		   NULL,
+		   N_("_Quoted"),
+		   NULL,
+		   NULL,
+		   forward_quoted_activated_cb, NULL, NULL, NULL },
+
+		{ "redirect",
+		   NULL,
+		   N_("Re_direct"),
+		   NULL,
+		   NULL,
+		   redirect_activated_cb, NULL, NULL, NULL },
+
+		/* menus */
+		{ "menu-file", NULL, N_("_File"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "menu-edit", NULL, N_("_Edit"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "menu-view", NULL, N_("_View"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "menu-zoom", NULL, N_("_Zoom"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "menu-charset", NULL, N_("Ch_aracter Encoding"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "menu-message", NULL, N_("_Message"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "menu-forward-as", NULL, N_("F_orward As"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "EMailViewer::menu-button", NULL, N_("Menu"), NULL, NULL, NULL, NULL, NULL, NULL }
+	};
+
+	EUIAction *action;
+	GError *local_error = NULL;
+
+	g_return_if_fail (self->priv->ui_manager == NULL);
+
+	self->priv->ui_manager = e_ui_manager_new ();
+
+	g_signal_connect_object (self->priv->ui_manager, "create-item",
+		G_CALLBACK (e_mail_viewer_ui_manager_create_item_cb), self, 0);
+	g_signal_connect_object (self->priv->ui_manager, "ignore-accel",
+		G_CALLBACK (e_mail_viewer_ui_manager_ignore_accel_cb), self, 0);
+
+	e_ui_manager_add_actions (self->priv->ui_manager, "mail-viewer", NULL, entries, G_N_ELEMENTS (entries), self);
+
+	e_ui_action_set_visible (e_ui_manager_get_action (self->priv->ui_manager, "import-all"), FALSE);
+
+	if (!e_ui_parser_merge_file (e_ui_manager_get_parser (self->priv->ui_manager), "evolution-mail-viewer.eui", &local_error))
+		g_critical ("%s: Failed to merge .eui data: %s", G_STRFUNC, local_error ? local_error->message : "Unknown error");
+
+	g_clear_error (&local_error);
+
+	action = e_ui_manager_get_action (self->priv->ui_manager, "close");
+	e_ui_action_add_secondary_accel (action, "Escape");
+
+	gtk_window_add_accel_group (GTK_WINDOW (self), e_ui_manager_get_accel_group (self->priv->ui_manager));
+	e_ui_manager_set_action_groups_widget (self->priv->ui_manager, GTK_WIDGET (self));
 }
 
 static void
@@ -1895,9 +2029,8 @@ mail_viewer_dispose (GObject *object)
 	}
 
 	g_clear_object (&self->priv->e_menu_bar);
-	g_clear_object (&self->priv->action_map);
-	g_clear_object (&self->priv->accel_group);
-	g_clear_object (&self->priv->file_import);
+	g_clear_object (&self->priv->main_menu);
+	g_clear_object (&self->priv->ui_manager);
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_mail_viewer_parent_class)->dispose (object);
@@ -1909,7 +2042,6 @@ mail_viewer_finalize (GObject *object)
 	EMailViewer *self = E_MAIL_VIEWER (object);
 
 	g_clear_object (&self->priv->backend);
-	g_clear_object (&self->priv->builder);
 	g_clear_object (&self->priv->file);
 
 	/* Chain up to parent's method. */
@@ -1922,11 +2054,10 @@ mail_viewer_constructed (GObject *object)
 	EMailViewer *self = E_MAIL_VIEWER (object);
 	EShell *shell;
 	EAttachmentStore *attachment_store;
-	GObject *menu_object;
+	GObject *ui_item;
 	GtkWidget *widget;
 	GtkWidget *content_box;
 	GtkWidget *mail_display;
-	GtkWidget *menu_button = NULL;
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
@@ -1942,28 +2073,20 @@ mail_viewer_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (self), content_box);
 	gtk_widget_show (content_box);
 
-	self->priv->builder = gtk_builder_new ();
-	e_load_ui_builder_definition (self->priv->builder, "evolution-mail-viewer.ui");
+	mail_viewer_init_ui_manager (self);
 
 	widget = gtk_statusbar_new ();
 	gtk_box_pack_end (GTK_BOX (content_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 	self->priv->statusbar = widget;
 
-	menu_object = gtk_builder_get_object (self->priv->builder, "menu");
-	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (menu_object));
+	ui_item = e_ui_manager_create_item (self->priv->ui_manager, "main-menu");
+	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (ui_item));
+	self->priv->main_menu = E_UI_MENU (ui_item);
+
 	gtk_box_pack_start (GTK_BOX (content_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
-	self->priv->real_menu_bar = GTK_MENU_BAR (widget);
-	self->priv->e_menu_bar = e_menu_bar_new (self->priv->real_menu_bar, GTK_WINDOW (self), &menu_button);
-	self->priv->has_menumultiple = FALSE;
-
-	self->priv->file_import = g_menu_item_new (_("Import…"), "mail-viewer.import-all");
-	menu_object = gtk_builder_get_object (self->priv->builder, "filesection");
-	g_menu_insert_item (G_MENU (menu_object), 0, self->priv->file_import);
-
-	menu_object = gtk_builder_get_object (self->priv->builder, "charset-submenu");
-	e_charset_add_to_g_menu (G_MENU (menu_object), "mail-viewer.charset");
+	self->priv->e_menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (self), &self->priv->menu_button);
 
 	widget = e_alert_bar_new ();
 	gtk_widget_set_margin_bottom (widget, 6);
@@ -1976,20 +2099,9 @@ mail_viewer_constructed (GObject *object)
 	self->priv->activity_bar = E_ACTIVITY_BAR (widget);
 
 	if (e_util_get_use_header_bar ()) {
-		GtkHeaderBar *header_bar;
-
-		widget = e_header_bar_new ();
-		header_bar = GTK_HEADER_BAR (widget);
-
-		if (menu_button)
-			e_header_bar_pack_end (E_HEADER_BAR (header_bar), menu_button, G_MAXUINT);
-
+		ui_item = e_ui_manager_create_item (self->priv->ui_manager, "main-headerbar");
+		widget = GTK_WIDGET (ui_item);
 		gtk_window_set_titlebar (GTK_WINDOW (self), widget);
-		gtk_widget_show (widget);
-	} else if (menu_button) {
-		g_object_ref_sink (menu_button);
-		gtk_widget_destroy (menu_button);
-		menu_button = NULL;
 	}
 
 	widget = e_web_view_preview_new ();
@@ -2024,7 +2136,7 @@ mail_viewer_constructed (GObject *object)
 		selection, "changed",
 		G_CALLBACK (mail_viewer_selection_changed_cb), self);
 
-	mail_display = e_mail_display_new (e_mail_backend_get_remote_content (self->priv->backend));
+	mail_display = e_mail_display_new (e_mail_backend_get_remote_content (self->priv->backend), NULL);
 
 	g_signal_connect_swapped (
 		mail_display, "status-message",
@@ -2063,15 +2175,12 @@ mail_viewer_constructed (GObject *object)
 		self->priv->mail_display, "notify::has-selection",
 		G_CALLBACK (mail_viewer_update_clipboard_actions), self, G_CONNECT_SWAPPED);
 
-	g_signal_connect (
-		self, "key-press-event",
-		G_CALLBACK (mail_viewer_key_press_event_cb), NULL);
-
-	mail_viewer_init_accel_group (self);
 	mail_viewer_update_actions (self);
 	mail_viewer_update_clipboard_actions (self);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
+	gtk_window_add_accel_group (GTK_WINDOW (self), e_ui_manager_get_accel_group (e_web_view_get_ui_manager (E_WEB_VIEW (mail_display))));
 }
 
 static void
@@ -2114,8 +2223,6 @@ e_mail_viewer_init (EMailViewer *self)
 		GTK_WINDOW (self),
 		"/org/gnome/evolution/mail/viewer-window/",
 		E_RESTORE_WINDOW_SIZE);
-
-	mail_viewer_init_actions (self);
 }
 
 EMailViewer *
@@ -2191,27 +2298,12 @@ mail_viewer_read_file_data_idle_cb (gpointer user_data)
 			}
 		}
 
-		if ((!needs_menumultiple) != (!self->priv->has_menumultiple)) {
-			GMenu *msgsubmenu, *filesection;
-
-			self->priv->has_menumultiple = needs_menumultiple;
-
-			msgsubmenu = G_MENU (gtk_builder_get_object (self->priv->builder, "msgsubmenu"));
-
-			if (needs_menumultiple) {
-				GObject *goto_menu = gtk_builder_get_object (self->priv->builder, "goto-menu");
-
-				g_menu_item_set_label (self->priv->file_import, _("_Import All…"));
-				g_menu_insert_section (msgsubmenu, 1, NULL, G_MENU_MODEL (goto_menu));
-			} else {
-				g_menu_item_set_label (self->priv->file_import, _("_Import…"));
-				g_menu_remove (msgsubmenu, 1);
-			}
-
-			filesection = G_MENU (gtk_builder_get_object (self->priv->builder, "filesection"));
-			g_menu_remove (filesection, 0);
-			g_menu_insert_item (filesection, 0, self->priv->file_import);
-		}
+		e_ui_menu_freeze (self->priv->main_menu);
+		e_ui_action_set_visible (e_ui_manager_get_action (self->priv->ui_manager, "file-import"), !needs_menumultiple);
+		e_ui_action_set_visible (e_ui_manager_get_action (self->priv->ui_manager, "import-all"), needs_menumultiple);
+		e_ui_action_set_visible (e_ui_manager_get_action (self->priv->ui_manager, "goto-previous"), needs_menumultiple);
+		e_ui_action_set_visible (e_ui_manager_get_action (self->priv->ui_manager, "goto-next"), needs_menumultiple);
+		e_ui_menu_thaw (self->priv->main_menu);
 	}
 
 	g_clear_object (&self);

@@ -1,0 +1,102 @@
+<eui>
+  <headerbar id='main-headerbar' type='gtk'>
+    <start>
+      <item action='send' icon_only='false' css_classes='suggested-action'/>
+      <item action='save-draft' icon_only='true' css_classes='flat'/>
+    </start>
+    <end>
+      <item action='prioritize-message' icon_only='true' css_classes='flat'/>
+      <item action='request-read-receipt' icon_only='true' css_classes='flat'/>
+      <item action='EMsgComposer::menu-button'/>
+    </end>
+  </headerbar>
+  <menu id='main-menu'>
+    <placeholder id='pre-edit-menu'>
+      <submenu action='file-menu'>
+        <item action='send'/>
+        <separator/>
+        <item action='new-message'/>
+        <placeholder id='custom-actions-placeholder'/>
+        <separator/>
+        <item action='save'/>
+        <item action='save-as'/>
+        <item action='save-draft'/>
+        <placeholder id='template-holder'/>
+        <separator/>
+        <placeholder id='external-editor-holder'/>
+        <separator/>
+        <item action='print-preview'/>
+        <item action='print'/>
+        <separator/>
+        <item action='close'/>
+      </submenu>
+    </placeholder>
+    <submenu action='edit-menu'>
+      <separator/>
+      <item action='preferences'/>
+    </submenu>
+    <placeholder id='pre-insert-menu'>
+      <submenu action='view-menu'>
+        <item action='view-from-override'/>
+        <item action='view-reply-to'/>
+        <item action='view-mail-followup-to'/>
+        <item action='view-mail-reply-to'/>
+        <item action='view-cc'/>
+        <item action='view-bcc'/>
+        <separator/>
+        <item action='picture-gallery'/>
+        <item action='toolbar-show-main'/>
+        <item action='toolbar-show-edit'/>
+        <separator/>
+        <item action='visually-wrap-long-lines'/>
+      </submenu>
+    </placeholder>
+    <submenu action='insert-menu'>
+      <placeholder id='insert-menu-top'>
+        <item action='attach'/>
+        <separator/>
+        <placeholder id='send-options'/>
+        <separator/>
+      </placeholder>
+    </submenu>
+    <submenu action='options-menu'>
+      <item action='pgp-sign' text_only='true'/>
+      <item action='pgp-encrypt' text_only='true'/>
+      <item action='smime-sign' text_only='true'/>
+      <item action='smime-encrypt' text_only='true'/>
+      <separator/>
+      <item action='request-read-receipt' text_only='true'/>
+      <item action='delivery-status-notification' text_only='true'/>
+      <item action='prioritize-message' text_only='true'/>
+      <separator/>
+      <item action='EMsgComposer::charset-menu'/>
+    </submenu>
+  </menu>
+  <toolbar id='main-toolbar-with-headerbar' primary='true'>
+    <separator/>
+    <item action='toolbar-pgp-sign'/>
+    <item action='toolbar-pgp-encrypt'/>
+    <item action='toolbar-smime-sign'/>
+    <item action='toolbar-smime-encrypt'/>
+  </toolbar>
+  <toolbar id='main-toolbar-without-headerbar' primary='true'>
+    <placeholder id='pre-main-toolbar'>
+      <item action='send' important='true'/>
+      <separator/>
+      <item action='save-draft'/>
+      <separator/>
+    </placeholder>
+    <separator/>
+    <item action='toolbar-prioritize-message'/>
+    <item action='toolbar-request-read-receipt'/>
+    <separator/>
+    <item action='toolbar-pgp-sign'/>
+    <item action='toolbar-pgp-encrypt'/>
+    <item action='toolbar-smime-sign'/>
+    <item action='toolbar-smime-encrypt'/>
+  </toolbar>
+  <toolbar id='html-toolbar'>
+    <separator/>
+    <item action='picture-gallery'/>
+  </toolbar>
+</eui>

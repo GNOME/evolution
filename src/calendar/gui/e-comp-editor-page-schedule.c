@@ -477,9 +477,12 @@ e_comp_editor_page_schedule_get_property (GObject *object,
 }
 
 static void
-ecep_schedule_select_page_cb (GtkAction *action,
-			      ECompEditorPage *page)
+ecep_schedule_select_page_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
+	ECompEditorPage *page = user_data;
+
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_SCHEDULE (page));
 
 	e_comp_editor_page_select (page);
@@ -488,47 +491,37 @@ ecep_schedule_select_page_cb (GtkAction *action,
 static void
 ecep_schedule_setup_ui (ECompEditorPageSchedule *page_schedule)
 {
-	const gchar *ui =
-		"<ui>"
-		"  <menubar action='main-menu'>"
-		"    <menu action='options-menu'>"
-		"      <placeholder name='tabs'>"
-		"        <menuitem action='page-schedule'/>"
-		"      </placeholder>"
-		"    </menu>"
-		"  </menubar>"
-		"</ui>";
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='options-menu'>"
+		      "<placeholder id='tabs'>"
+			"<item action='page-schedule'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
 
-	const GtkActionEntry options_actions[] = {
+	static const EUIActionEntry options_actions[] = {
 		{ "page-schedule",
 		  "query-free-busy",
 		  N_("_Schedule"),
 		  NULL,
 		  N_("Query free / busy information for the attendees"),
-		  G_CALLBACK (ecep_schedule_select_page_cb) }
+		  ecep_schedule_select_page_cb, NULL, NULL, NULL }
 	};
 
 	ECompEditor *comp_editor;
-	GtkUIManager *ui_manager;
-	GtkAction *action;
-	GtkActionGroup *action_group;
-	GError *error = NULL;
+	EUIManager *ui_manager;
+	EUIAction *action;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_SCHEDULE (page_schedule));
 
 	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_schedule));
 	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
-	action_group = e_comp_editor_get_action_group (comp_editor, "individual");
 
-	gtk_action_group_add_actions (action_group,
-		options_actions, G_N_ELEMENTS (options_actions), page_schedule);
-
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-
-	if (error) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "individual", GETTEXT_PACKAGE,
+		options_actions, G_N_ELEMENTS (options_actions), page_schedule, eui);
 
 	action = e_comp_editor_get_action (comp_editor, "page-schedule");
 	e_binding_bind_property (

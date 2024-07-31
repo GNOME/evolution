@@ -76,8 +76,7 @@ static void
 attachment_bar_update_status (EAttachmentBar *bar)
 {
 	EAttachmentStore *store;
-	GtkActivatable *activatable;
-	GtkAction *action;
+	EUIAction *action;
 	GtkLabel *label;
 	gint num_attachments;
 	guint64 total_size;
@@ -107,13 +106,11 @@ attachment_bar_update_status (EAttachmentBar *bar)
 	gtk_label_set_markup (label, markup);
 	g_free (markup);
 
-	activatable = GTK_ACTIVATABLE (bar->priv->save_all_button);
-	action = gtk_activatable_get_related_action (activatable);
-	gtk_action_set_visible (action, num_attachments > 1);
+	action = e_attachment_view_get_action (E_ATTACHMENT_VIEW (bar), "save-all");
+	e_ui_action_set_visible (action, num_attachments > 1);
 
-	activatable = GTK_ACTIVATABLE (bar->priv->save_one_button);
-	action = gtk_activatable_get_related_action (activatable);
-	gtk_action_set_visible (action, (num_attachments == 1));
+	action = e_attachment_view_get_action (E_ATTACHMENT_VIEW (bar), "save-one");
+	e_ui_action_set_visible (action, (num_attachments == 1));
 
 	g_free (display_size);
 }
@@ -667,7 +664,8 @@ e_attachment_bar_init (EAttachmentBar *bar)
 	GtkSizeGroup *size_group;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GtkAction *action;
+	EUIAction *action;
+	EUIManager *ui_manager;
 	GtkAdjustment *adjustment;
 
 	gtk_widget_set_name (GTK_WIDGET (bar), "e-attachment-bar");
@@ -738,7 +736,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 
 	container = GTK_WIDGET (bar);
 
-	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
 	bar->priv->content_area = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -762,24 +760,32 @@ e_attachment_bar_init (EAttachmentBar *bar)
 
 	/* The "Save All" button proxies the "save-all" action from
 	 * one of the two attachment views.  Doesn't matter which. */
-	widget = gtk_button_new ();
 	view = E_ATTACHMENT_VIEW (bar->priv->icon_view);
 	action = e_attachment_view_get_action (view, "save-all");
-	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
-	gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
+
+	widget = gtk_button_new_with_mnemonic (e_ui_action_get_label (action));
+	if (e_ui_action_get_icon_name (action))
+		gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new_from_icon_name (e_ui_action_get_icon_name (action), GTK_ICON_SIZE_BUTTON));
+	e_ui_action_util_assign_to_widget (action, widget);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	bar->priv->save_all_button = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	/* Same deal with the "Save" button. */
-	widget = gtk_button_new ();
 	view = E_ATTACHMENT_VIEW (bar->priv->icon_view);
 	action = e_attachment_view_get_action (view, "save-one");
-	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
-	gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
+
+	widget = gtk_button_new_with_mnemonic (e_ui_action_get_label (action));
+	if (e_ui_action_get_icon_name (action))
+		gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new_from_icon_name (e_ui_action_get_icon_name (action), GTK_ICON_SIZE_BUTTON));
+	e_ui_action_util_assign_to_widget (action, widget);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	bar->priv->save_one_button = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	/* needed to be able to click the buttons */
+	ui_manager = e_attachment_view_get_ui_manager (view);
+	e_ui_manager_add_action_groups_to_widget (ui_manager, container);
 
 	widget = gtk_alignment_new (1.0, 0.5, 0.0, 0.0);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);

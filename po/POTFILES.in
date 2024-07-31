@@ -22,7 +22,6 @@ data/org.gnome.evolution.spamassassin.gschema.xml.in
 data/org.gnome.evolution.text-highlight.gschema.xml.in
 data/org.gnome.Evolution.appdata.xml.in.in
 data/org.gnome.Evolution.desktop.in.in
-[type: gettext/glade]data/ui/evolution-mail-viewer.ui
 [type: gettext/glade]data/ui/evolution-shortcuts.ui
 data/views/addressbook/galview.xml
 data/views/calendar/galview.xml
@@ -244,7 +243,6 @@ src/e-util/e-online-button.c
 src/e-util/e-paned.c
 src/e-util/e-passwords.c
 src/e-util/e-plugin.c
-src/e-util/e-popup-action.c
 src/e-util/e-preferences-window.c
 src/e-util/e-print.c
 src/e-util/e-proxy-editor.c
@@ -548,7 +546,6 @@ src/plugins/templates/templates.c
 src/shell/e-shell-backend.c
 src/shell/e-shell.c
 src/shell/e-shell-content.c
-src/shell/e-shell-headerbar.c
 src/shell/e-shell-migrate.c
 src/shell/e-shell-searchbar.c
 src/shell/e-shell-switcher.c

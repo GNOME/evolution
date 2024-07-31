@@ -78,6 +78,7 @@ enum {
 enum {
 	UPDATE_ACTIONS,
 	SPELL_LANGUAGES_CHANGED,
+	AFTER_MODE_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -220,20 +221,57 @@ e_html_editor_util_dup_font_id (GtkComboBox *combo_box,
 	return id;
 }
 
+EHTMLEditorActionMenuPair *
+e_html_editor_action_menu_pair_new (EUIAction *action, /* (transfer full) */
+				    GMenu *menu) /* (transfer full) */
+{
+	EHTMLEditorActionMenuPair *data;
+
+	data = g_new0 (EHTMLEditorActionMenuPair, 1);
+	data->parent_menu_action = action;
+	data->submenu_items = menu;
+
+	return data;
+}
+
+void
+e_html_editor_action_menu_pair_free (gpointer ptr)
+{
+	EHTMLEditorActionMenuPair *data = ptr;
+
+	if (data) {
+		g_clear_object (&data->parent_menu_action);
+		g_clear_object (&data->submenu_items);
+		g_free (data);
+	}
+}
+
+void
+e_html_editor_emit_after_mode_changed (EHTMLEditor *self)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (self));
+
+	g_signal_emit (self, signals[AFTER_MODE_CHANGED], 0, NULL);
+}
+
 /* Action callback for context menu spelling suggestions.
  * XXX This should really be in e-html-editor-actions.c */
 static void
-action_context_spell_suggest_cb (GtkAction *action,
-                                 EHTMLEditor *editor)
+action_context_spell_suggest_cb (EUIAction *action,
+				 GVariant *parameter,
+                                 gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
 	EContentEditor *cnt_editor;
-	const gchar *word;
+	GVariant *state;
 
-	word = g_object_get_data (G_OBJECT (action), "word");
-	g_return_if_fail (word != NULL);
+	state = g_action_get_state (G_ACTION (action));
+	g_return_if_fail (state != NULL);
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	e_content_editor_replace_caret_word (cnt_editor, word);
+	e_content_editor_replace_caret_word (cnt_editor, g_variant_get_string (state, NULL));
+
+	g_clear_pointer (&state, g_variant_unref);
 }
 
 static void
@@ -242,27 +280,34 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor,
 {
 	EContentEditor *cnt_editor;
 	ESpellChecker *spell_checker;
-	GtkActionGroup *action_group;
-	GtkUIManager *manager;
+	EUIActionGroup *action_group;
+	GPtrArray *fill_actions;
 	gchar **suggestions;
-	const gchar *path;
+	const gchar *map_name;
 	guint count = 0;
 	guint length;
-	guint merge_id;
 	guint threshold;
 	gint ii;
+	gboolean had_any_before;
+
+	had_any_before = editor->priv->spell_suggest_actions->len > 0 || editor->priv->spell_suggest_more_actions->len > 0;
+
+	g_ptr_array_set_size (editor->priv->spell_suggest_actions, 0);
+	g_ptr_array_set_size (editor->priv->spell_suggest_more_actions, 0);
+
+	if (!caret_word || !*caret_word) {
+		if (had_any_before)
+			e_ui_menu_rebuild (editor->priv->main_menu);
+		return;
+	}
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	if (!caret_word || !*caret_word)
-		return;
-
 	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 	suggestions = e_spell_checker_get_guesses_for_word (spell_checker, caret_word);
-
-	path = "/context-menu/context-spell-suggest/";
-	manager = e_html_editor_get_ui_manager (editor);
 	action_group = editor->priv->suggestion_actions;
-	merge_id = editor->priv->spell_suggestions_merge_id;
+	map_name = e_ui_action_group_get_name (action_group);
+
+	fill_actions = editor->priv->spell_suggest_actions;
 
 	length = (suggestions != NULL) ? g_strv_length (suggestions) : 0;
 
@@ -278,55 +323,34 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor,
 
 	for (ii = 0; suggestions && suggestions[ii]; ii++) {
 		gchar *suggestion = suggestions[ii];
-		gchar *action_name;
-		gchar *action_label;
-		GtkAction *action;
-		GtkWidget *child;
-		GSList *proxies;
+		gchar action_name[128];
+		EUIAction *action;
 
 		/* Once we reach the threshold, put all subsequent
 		 * spelling suggestions in a secondary menu. */
 		if (count == threshold)
-			path = "/context-menu/context-more-suggestions-menu/";
+			fill_actions = editor->priv->spell_suggest_more_actions;
 
 		/* Action name just needs to be unique. */
-		action_name = g_strdup_printf ("suggest-%d", count++);
-		action_label = g_markup_printf_escaped ("<b>%s</b>", suggestion);
+		g_warn_if_fail (g_snprintf (action_name, sizeof (action_name), "suggest-%d", count++) < sizeof (action_name));
 
-		action = gtk_action_new (action_name, action_label, NULL, NULL);
-
-		g_object_set_data_full (
-			G_OBJECT (action), "word",
-			g_strdup (suggestion), g_free);
+		action = e_ui_action_new_stateful (map_name, action_name, NULL, g_variant_new_string (suggestion));
+		e_ui_action_set_label (action, suggestion);
 
 		g_signal_connect (
 			action, "activate",
 			G_CALLBACK (action_context_spell_suggest_cb), editor);
 
-		gtk_action_group_add_action (action_group, action);
-
-		gtk_ui_manager_add_ui (
-			manager, merge_id, path,
-			action_name, action_name,
-			GTK_UI_MANAGER_AUTO, FALSE);
-
-		/* XXX GtkAction offers no support for Pango markup,
-		 *     so we have to manually set "use-markup" on the
-		 *     child of the proxy widget. */
-		gtk_ui_manager_ensure_update (manager);
-		proxies = gtk_action_get_proxies (action);
-
-		if (proxies) {
-			child = gtk_bin_get_child (proxies->data);
-			g_object_set (child, "use-markup", TRUE, NULL);
-		}
-
-		g_free (action_name);
-		g_free (action_label);
+		e_ui_action_group_add (action_group, action);
+		/* the array assumes ownership of the action */
+		g_ptr_array_add (fill_actions, action);
 	}
 
 	g_strfreev (suggestions);
 	g_clear_object (&spell_checker);
+
+	if (had_any_before || count > 0)
+		e_ui_menu_rebuild (editor->priv->main_menu);
 }
 
 /* Helper for html_editor_update_actions() */
@@ -338,17 +362,23 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 	EContentEditor *cnt_editor;
 	ESpellChecker *spell_checker;
 	ESpellDictionary *dictionary = NULL;
-	GtkActionGroup *action_group;
-	GtkUIManager *manager;
+	EUIActionGroup *action_group;
+	EHTMLEditorActionMenuPair *action_menu_pair;
 	GList *list, *link;
-	gchar *path;
+	const gchar *map_name;
 	gint ii = 0;
-	guint merge_id;
+
+	action_menu_pair = g_hash_table_lookup (editor->priv->spell_suggest_menus_by_code, language_code);
+	g_return_if_fail (action_menu_pair != NULL);
+
+	g_menu_remove_all (action_menu_pair->submenu_items);
+
+	if (!caret_word || !*caret_word) {
+		e_ui_action_set_visible (action_menu_pair->parent_menu_action, FALSE);
+		return;
+	}
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	if (!caret_word || !*caret_word)
-		return;
-
 	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 
 	dictionary = e_spell_checker_ref_dictionary (spell_checker, language_code);
@@ -359,60 +389,43 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 		list = NULL;
 	}
 
-	manager = e_html_editor_get_ui_manager (editor);
 	action_group = editor->priv->suggestion_actions;
-	merge_id = editor->priv->spell_suggestions_merge_id;
-
-	path = g_strdup_printf (
-		"/context-menu/context-spell-suggest/"
-		"context-spell-suggest-%s-menu", language_code);
+	map_name = e_ui_action_group_get_name (action_group);
+	e_ui_action_set_visible (action_menu_pair->parent_menu_action, list != NULL);
 
 	for (link = list; link != NULL; link = g_list_next (link), ii++) {
 		gchar *suggestion = link->data;
-		gchar *action_name;
-		gchar *action_label;
-		GtkAction *action;
-		GtkWidget *child;
-		GSList *proxies;
+		gchar action_name[128];
+		EUIAction *action;
+		GMenuItem *menu_item;
 
 		/* Action name just needs to be unique. */
-		action_name = g_strdup_printf ("suggest-%s-%d", language_code, ii);
-		action_label = g_markup_printf_escaped ("%s", suggestion);
+		g_snprintf (action_name, sizeof (action_name), "suggest-%s-%d", language_code, ii);
 
-		action = gtk_action_new (action_name, action_label, NULL, NULL);
-
-		g_object_set_data_full (
-			G_OBJECT (action), "word",
-			g_strdup (suggestion), g_free);
+		action = e_ui_action_new_stateful (map_name, action_name, NULL, g_variant_new_string (suggestion));
+		e_ui_action_set_label (action, suggestion);
 
 		g_signal_connect (
 			action, "activate",
 			G_CALLBACK (action_context_spell_suggest_cb), editor);
 
-		gtk_action_group_add_action (action_group, action);
+		e_ui_action_group_add (action_group, action);
 
-		gtk_ui_manager_add_ui (
-			manager, merge_id, path,
-			action_name, action_name,
-			GTK_UI_MANAGER_AUTO, FALSE);
+		menu_item = g_menu_item_new (NULL, NULL);
+		e_ui_manager_update_item_from_action (editor->priv->ui_manager, menu_item, action);
+		/* to not look like a radio item */
+		g_menu_item_set_attribute (menu_item, G_MENU_ATTRIBUTE_TARGET, NULL);
 
-		/* XXX GtkAction offers no supports for Pango markup,
-		 *     so we have to manually set "use-markup" on the
-		 *     child of the proxy widget. */
-		gtk_ui_manager_ensure_update (manager);
-		proxies = gtk_action_get_proxies (action);
-		if (proxies && proxies->data) {
-			child = gtk_bin_get_child (proxies->data);
-			g_object_set (child, "use-markup", TRUE, NULL);
-		}
+		g_menu_append_item (action_menu_pair->submenu_items, menu_item);
 
-		g_free (action_name);
-		g_free (action_label);
+		g_clear_object (&menu_item);
+
+		if (link == list)
+			g_ptr_array_add (editor->priv->spell_suggest_actions, g_object_ref (action_menu_pair->parent_menu_action));
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_free);
 	g_clear_object (&spell_checker);
-	g_free (path);
 }
 
 void
@@ -427,22 +440,22 @@ e_html_editor_update_spell_actions (EHTMLEditor *editor)
 
 	count = e_spell_checker_count_active_languages (spell_checker);
 
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD), count == 1);
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), count > 1);
-	gtk_action_set_visible (ACTION (CONTEXT_SPELL_IGNORE), count > 0);
+	e_ui_action_set_visible (ACTION (CONTEXT_SPELL_ADD), count == 1);
+	e_ui_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), count > 1);
+	e_ui_action_set_visible (ACTION (CONTEXT_SPELL_IGNORE), count > 0);
 
-	gtk_action_set_sensitive (ACTION (SPELL_CHECK), count > 0);
-	gtk_action_set_sensitive (ACTION (LANGUAGE_MENU), e_spell_checker_count_available_dicts (spell_checker) > 0);
+	e_ui_action_set_sensitive (ACTION (SPELL_CHECK), count > 0);
+	e_ui_action_set_sensitive (ACTION (LANGUAGE_MENU), e_spell_checker_count_available_dicts (spell_checker) > 0);
 
 	g_clear_object (&spell_checker);
 }
 
 static void
-action_set_visible_and_sensitive (GtkAction *action,
+action_set_visible_and_sensitive (EUIAction *action,
                                   gboolean value)
 {
-	gtk_action_set_visible (action, value);
-	gtk_action_set_sensitive (action, value);
+	e_ui_action_set_visible (action, value);
+	e_ui_action_set_sensitive (action, value);
 }
 
 static void
@@ -453,13 +466,11 @@ html_editor_update_actions (EHTMLEditor *editor,
 {
 	EContentEditor *cnt_editor;
 	ESpellChecker *spell_checker;
-	GtkUIManager *manager;
-	GtkActionGroup *action_group;
-	GList *list;
+	GHashTableIter iter;
+	gpointer value = NULL;
 	gchar **languages = NULL;
 	guint ii, n_languages;
 	gboolean visible;
-	guint merge_id;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
@@ -492,8 +503,8 @@ html_editor_update_actions (EHTMLEditor *editor,
 		visible && !(flags & E_CONTENT_EDITOR_NODE_IS_TEXT_COLLAPSED));
 
 	visible =
-		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_IMAGE)) ||
-		gtk_action_get_visible (ACTION (CONTEXT_PROPERTIES_LINK)) ||
+		e_ui_action_get_visible (ACTION (CONTEXT_PROPERTIES_IMAGE)) ||
+		e_ui_action_get_visible (ACTION (CONTEXT_PROPERTIES_LINK)) ||
 		visible; /* text node under caret */
 	action_set_visible_and_sensitive (ACTION (CONTEXT_PROPERTIES_PARAGRAPH), visible);
 
@@ -521,24 +532,16 @@ html_editor_update_actions (EHTMLEditor *editor,
 
 	/********************** Spell Check Suggestions **********************/
 
-	manager = e_html_editor_get_ui_manager (editor);
-	action_group = editor->priv->suggestion_actions;
-
 	/* Remove the old content from the context menu. */
-	merge_id = editor->priv->spell_suggestions_merge_id;
-	if (merge_id > 0) {
-		gtk_ui_manager_remove_ui (manager, merge_id);
-		editor->priv->spell_suggestions_merge_id = 0;
+	g_hash_table_iter_init (&iter, editor->priv->spell_suggest_menus_by_code);
+	while (g_hash_table_iter_next (&iter, NULL, &value)) {
+		EHTMLEditorActionMenuPair *action_menu_pair = value;
+		e_ui_action_set_visible (action_menu_pair->parent_menu_action, FALSE);
+		g_menu_remove_all (action_menu_pair->submenu_items);
 	}
 
 	/* Clear the action group for spelling suggestions. */
-	list = gtk_action_group_list_actions (action_group);
-	while (list != NULL) {
-		GtkAction *action = list->data;
-
-		gtk_action_group_remove_action (action_group, action);
-		list = g_list_delete_link (list, list);
-	}
+	e_ui_action_group_remove_all (editor->priv->suggestion_actions);
 
 	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 	languages = e_spell_checker_list_active_languages (
@@ -554,8 +557,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 		}
 	}
 
-	action_group = editor->priv->spell_check_actions;
-	gtk_action_group_set_visible (action_group, visible);
+	e_ui_action_group_set_visible (editor->priv->spell_check_actions, visible);
 
 	g_clear_object (&spell_checker);
 
@@ -565,9 +567,6 @@ html_editor_update_actions (EHTMLEditor *editor,
 		return;
 	}
 
-	merge_id = gtk_ui_manager_new_merge_id (manager);
-	editor->priv->spell_suggestions_merge_id = merge_id;
-
 	/* Handle a single active language as a special case. */
 	if (n_languages == 1) {
 		html_editor_inline_spelling_suggestions (editor, caret_word);
@@ -576,6 +575,9 @@ html_editor_update_actions (EHTMLEditor *editor,
 		e_html_editor_update_spell_actions (editor);
 		return;
 	}
+
+	g_ptr_array_set_size (editor->priv->spell_suggest_actions, 0);
+	g_ptr_array_set_size (editor->priv->spell_suggest_more_actions, 0);
 
 	/* Add actions and context menu content for active languages. */
 	for (ii = 0; ii < n_languages; ii++)
@@ -643,16 +645,6 @@ context_menu_data_free (gpointer ptr)
 	}
 }
 
-static void
-html_editor_menu_deactivate_cb (GtkMenu *popup_menu,
-				gpointer user_data)
-{
-	g_return_if_fail (GTK_IS_MENU (popup_menu));
-
-	g_signal_handlers_disconnect_by_func (popup_menu, html_editor_menu_deactivate_cb, user_data);
-	gtk_menu_detach (popup_menu);
-}
-
 static gboolean
 html_editor_show_context_menu_idle_cb (gpointer user_data)
 {
@@ -663,21 +655,22 @@ html_editor_show_context_menu_idle_cb (gpointer user_data)
 
 	editor = g_weak_ref_get (cmd->editor_weakref);
 	if (editor) {
-		GtkWidget *menu;
+		GtkMenu *menu;
+		GObject *ui_item;
 
-		menu = e_html_editor_get_managed_widget (editor, "/context-menu");
-
+		e_ui_menu_freeze (editor->priv->main_menu);
 		g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, cmd->flags, cmd->caret_word, cmd->hover_uri);
+		e_ui_menu_thaw (editor->priv->main_menu);
 
-		if (!gtk_menu_get_attach_widget (GTK_MENU (menu))) {
-			gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
+		ui_item = e_ui_manager_create_item (editor->priv->ui_manager, "context-menu");
+		menu = GTK_MENU (gtk_menu_new_from_model (G_MENU_MODEL (ui_item)));
+		g_clear_object (&ui_item);
 
-			g_signal_connect (
-				menu, "deactivate",
-				G_CALLBACK (html_editor_menu_deactivate_cb), NULL);
-		}
+		gtk_menu_attach_to_widget (menu, GTK_WIDGET (editor), NULL);
 
-		gtk_menu_popup_at_pointer (GTK_MENU (menu), cmd->event);
+		e_util_connect_menu_detach_after_deactivate (menu);
+
+		gtk_menu_popup_at_pointer (menu, cmd->event);
 
 		g_object_unref (editor);
 	}
@@ -715,12 +708,16 @@ html_editor_find_ui_file (const gchar *basename)
 	g_return_val_if_fail (basename != NULL, NULL);
 
 	/* Support running directly from the source tree. */
-	filename = g_build_filename (".", basename, NULL);
+	filename = g_build_filename (".", "data", "ui", basename, NULL);
 	if (g_file_test (filename, G_FILE_TEST_EXISTS))
 		return filename;
 	g_free (filename);
 
-	/* XXX This is kinda broken. */
+	filename = g_build_filename ("..", "..", "..", "data", "ui", basename, NULL);
+	if (g_file_test (filename, G_FILE_TEST_EXISTS))
+		return filename;
+	g_free (filename);
+
 	filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
 	if (g_file_test (filename, G_FILE_TEST_EXISTS))
 		return filename;
@@ -743,7 +740,8 @@ html_editor_parent_changed (GtkWidget *widget,
 	if (GTK_IS_WINDOW (top_level)) {
 		gtk_window_add_accel_group (
 			GTK_WINDOW (top_level),
-			gtk_ui_manager_get_accel_group (editor->priv->manager));
+			e_ui_manager_get_accel_group (editor->priv->ui_manager));
+		e_ui_manager_set_action_groups_widget (editor->priv->ui_manager, top_level);
 	}
 }
 
@@ -807,6 +805,367 @@ e_html_editor_edit_html_toolbar_visible_cb (GBinding *binding,
 	visible = g_value_get_boolean (from_value);
 
 	g_value_set_boolean (to_value, visible && editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML);
+
+	return TRUE;
+}
+
+static gboolean
+e_html_editor_content_editor_font_name_to_combo_box (GBinding *binding,
+						     const GValue *from_value,
+						     GValue *to_value,
+						     gpointer user_data)
+{
+	gchar *id = NULL;
+
+	id = e_html_editor_util_dup_font_id (GTK_COMBO_BOX (g_binding_get_target (binding)), g_value_get_string (from_value));
+	g_value_take_string (to_value, id ? id : g_strdup (""));
+
+	return TRUE;
+}
+
+static void
+e_html_editor_unbind_and_unref (gpointer ptr)
+{
+	GBinding *binding = ptr;
+
+	if (binding) {
+		g_binding_unbind (binding);
+		g_object_unref (binding);
+	}
+}
+
+static void
+e_html_editor_bind_font_name_after_mode_changed_cb (EHTMLEditor *self,
+						    gpointer user_data)
+{
+	GtkWidget *widget = user_data;
+	EContentEditor *cnt_editor;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (self));
+	g_return_if_fail (GTK_IS_COMBO_BOX (widget));
+
+	cnt_editor = e_html_editor_get_content_editor (self);
+	if (cnt_editor) {
+		GBinding *binding;
+
+		binding = e_binding_bind_property_full (
+			cnt_editor, "font-name",
+			widget, "active-id",
+			G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL,
+			e_html_editor_content_editor_font_name_to_combo_box,
+			NULL,
+			NULL, NULL);
+		g_object_set_data_full (G_OBJECT (widget), "EHTMLEditor::binding", g_object_ref (binding),
+			e_html_editor_unbind_and_unref);
+
+		binding = e_binding_bind_property (
+			cnt_editor, "editable",
+			widget, "sensitive",
+			G_BINDING_SYNC_CREATE);
+		g_object_set_data_full (G_OBJECT (widget), "EHTMLEditor::binding-sensitive", g_object_ref (binding),
+			e_html_editor_unbind_and_unref);
+
+		gtk_widget_set_sensitive (widget, e_content_editor_is_editable (cnt_editor) && e_html_editor_get_mode (self) == E_CONTENT_EDITOR_MODE_HTML);
+	} else {
+		g_object_set_data (G_OBJECT (widget), "EHTMLEditor::binding", NULL);
+		g_object_set_data (G_OBJECT (widget), "EHTMLEditor::binding-sensitive", NULL);
+	}
+}
+
+static void
+e_html_editor_bind_color_combox_box (EHTMLEditor *self,
+				     GtkWidget *widget,
+				     const gchar *property_name)
+{
+	EContentEditor *cnt_editor;
+
+	cnt_editor = e_html_editor_get_content_editor (self);
+	if (cnt_editor) {
+		GBinding *binding;
+
+		binding = e_binding_bind_property (
+			widget, "current-color",
+			cnt_editor, property_name,
+			G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+		g_object_set_data_full (G_OBJECT (widget), "EHTMLEditor::binding", g_object_ref (binding),
+			e_html_editor_unbind_and_unref);
+
+		binding = e_binding_bind_property (
+			cnt_editor, "editable",
+			widget, "sensitive",
+			G_BINDING_SYNC_CREATE);
+		g_object_set_data_full (G_OBJECT (widget), "EHTMLEditor::binding-sensitive", g_object_ref (binding),
+			e_html_editor_unbind_and_unref);
+
+		gtk_widget_set_sensitive (widget, e_content_editor_is_editable (cnt_editor) && e_html_editor_get_mode (self) == E_CONTENT_EDITOR_MODE_HTML);
+	} else {
+		g_object_set_data (G_OBJECT (widget), "EHTMLEditor::binding", NULL);
+		g_object_set_data (G_OBJECT (widget), "EHTMLEditor::binding-sensitive", NULL);
+		gtk_widget_set_sensitive (widget, FALSE);
+	}
+}
+
+static void
+e_html_editor_bind_font_color_after_mode_changed_cb (EHTMLEditor *self,
+						     gpointer user_data)
+{
+	GtkWidget *widget = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (self));
+	g_return_if_fail (E_IS_COLOR_COMBO (widget));
+
+	e_html_editor_bind_color_combox_box (self, widget, "font-color");
+}
+
+static void
+e_html_editor_bind_background_color_after_mode_changed_cb (EHTMLEditor *self,
+							   gpointer user_data)
+{
+	GtkWidget *widget = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (self));
+	g_return_if_fail (E_IS_COLOR_COMBO (widget));
+
+	e_html_editor_bind_color_combox_box (self, widget, "background-color");
+}
+
+static GObject *
+e_html_editor_create_submenu_from_actions (EHTMLEditor *self,
+					   const gchar *label,
+					   GPtrArray *actions) /* EUIAction * */
+{
+	GMenuItem *submenu;
+	GMenu *menu;
+	guint ii, n_added = 0;
+
+	menu = g_menu_new ();
+
+	for (ii = 0; ii < actions->len; ii++) {
+		EUIAction *subaction = g_ptr_array_index (actions, ii);
+		GMenuItem *item;
+
+		if (!e_ui_action_is_visible (subaction))
+			continue;
+
+		item = g_menu_item_new (NULL, NULL);
+		e_ui_manager_update_item_from_action (self->priv->ui_manager, item, subaction);
+		/* to not look like a radio item */
+		g_menu_item_set_attribute (item, G_MENU_ATTRIBUTE_TARGET, NULL);
+		g_menu_append_item (menu, item);
+		g_clear_object (&item);
+
+		n_added++;
+	}
+
+	if (n_added) {
+		if (label)
+			submenu = g_menu_item_new_submenu (label, G_MENU_MODEL (menu));
+		else
+			submenu = g_menu_item_new_section (NULL, G_MENU_MODEL (menu));
+	} else {
+		submenu = NULL;
+	}
+
+	g_clear_object (&menu);
+
+	return submenu ? G_OBJECT (submenu) : NULL;
+}
+
+static GObject *
+e_html_editor_create_spell_add_menu (EHTMLEditor *self,
+				     EUIAction *action)
+{
+	return e_html_editor_create_submenu_from_actions (self, e_ui_action_get_label (action), self->priv->spell_add_actions);
+}
+
+static gboolean
+e_html_editor_spell_is_single_lang (EHTMLEditor *self)
+{
+	EContentEditor *cnt_editor;
+	ESpellChecker *spell_checker;
+	gboolean single_lang;
+
+	cnt_editor = e_html_editor_get_content_editor (self);
+	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
+	single_lang = spell_checker && e_spell_checker_count_active_languages (spell_checker) == 1;
+	g_clear_object (&spell_checker);
+
+	return single_lang;
+}
+
+static GObject *
+e_html_editor_create_spell_suggest (EHTMLEditor *self,
+				    EUIAction *action)
+{
+	GMenu *menu;
+	GMenuItem *item;
+	GHashTableIter iter;
+	GHashTable *submenu_by_action; /* EUIAction ~> GMenu */
+	gpointer value;
+	guint ii, n_added = 0;
+
+	if (e_html_editor_spell_is_single_lang (self))
+		return e_html_editor_create_submenu_from_actions (self, NULL, self->priv->spell_suggest_actions);
+
+	submenu_by_action = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	g_hash_table_iter_init (&iter, self->priv->spell_suggest_menus_by_code);
+	while (g_hash_table_iter_next (&iter, NULL, &value)) {
+		EHTMLEditorActionMenuPair *pair = value;
+
+		if (e_ui_action_is_visible (pair->parent_menu_action))
+			g_hash_table_insert (submenu_by_action, pair->parent_menu_action, pair->submenu_items);
+	}
+
+	menu = g_menu_new ();
+
+	for (ii = 0; ii < self->priv->spell_suggest_actions->len; ii++) {
+		EUIAction *subaction = g_ptr_array_index (self->priv->spell_suggest_actions, ii);
+		GMenuModel *submenu;
+
+		if (!e_ui_action_is_visible (subaction))
+			continue;
+
+		submenu = g_hash_table_lookup (submenu_by_action, subaction);
+		if (!submenu) {
+			g_warn_if_reached ();
+			continue;
+		}
+
+		item = g_menu_item_new_submenu (e_ui_action_get_label (subaction), submenu);
+		g_menu_append_item (menu, item);
+		g_clear_object (&item);
+
+		n_added++;
+	}
+
+	g_hash_table_destroy (submenu_by_action);
+
+	if (n_added)
+		item = g_menu_item_new_section (NULL, G_MENU_MODEL (menu));
+	else
+		item = NULL;
+
+	g_clear_object (&menu);
+
+	return item ? G_OBJECT (item) : NULL;
+}
+
+static GObject *
+e_html_editor_create_spell_suggest_more_menu (EHTMLEditor *self,
+					      EUIAction *action)
+{
+	if (!e_html_editor_spell_is_single_lang (self))
+		return NULL;
+
+	return e_html_editor_create_submenu_from_actions (self, e_ui_action_get_label (action), self->priv->spell_suggest_more_actions);
+}
+
+static gboolean
+e_html_editor_ui_manager_create_item_cb (EUIManager *ui_manager,
+					 EUIElement *elem,
+					 EUIAction *action,
+					 EUIElementKind for_kind,
+					 GObject **out_item,
+					 gpointer user_data)
+{
+	EHTMLEditor *self = user_data;
+	const gchar *name;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR (self), FALSE);
+
+	name = g_action_get_name (G_ACTION (action));
+
+	if (!g_str_has_prefix (name, "EHTMLEditor::"))
+		return FALSE;
+
+	#define is_action(_nm) (g_strcmp0 (name, (_nm)) == 0)
+
+	if (for_kind == E_UI_ELEMENT_KIND_MENU) {
+		if (is_action ("EHTMLEditor::recent-languages"))
+			*out_item = G_OBJECT (g_menu_item_new_section (NULL, G_MENU_MODEL (self->priv->recent_languages_menu)));
+		else if (is_action ("EHTMLEditor::all-languages"))
+			*out_item = G_OBJECT (g_menu_item_new_section (NULL, G_MENU_MODEL (self->priv->all_languages_menu)));
+		else if (is_action ("EHTMLEditor::context-spell-suggest"))
+			*out_item = e_html_editor_create_spell_suggest (self, action);
+		else if (is_action ("EHTMLEditor::context-spell-suggest-more-menu"))
+			*out_item = e_html_editor_create_spell_suggest_more_menu (self, action);
+		else if (is_action ("EHTMLEditor::context-spell-add-menu"))
+			*out_item = e_html_editor_create_spell_add_menu (self, action);
+		else if (is_action ("EHTMLEditor::insert-emoticon"))
+			*out_item = G_OBJECT (g_menu_item_new_submenu (e_ui_action_get_label (action), G_MENU_MODEL (self->priv->emoticon_menu)));
+		else
+			g_warning ("%s: Unhandled menu action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_TOOLBAR) {
+		GtkWidget *widget = NULL;
+		gboolean claimed = FALSE;
+
+		if (is_action ("EHTMLEditor::editing-mode")) {
+			widget = e_action_combo_box_new_with_action (E_HTML_EDITOR_ACTION_MODE_HTML (self));
+			gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+			gtk_widget_set_tooltip_text (widget, _("Editing Mode"));
+		} else if (is_action ("EHTMLEditor::paragraph-style")) {
+			widget = e_action_combo_box_new_with_action (E_HTML_EDITOR_ACTION_STYLE_NORMAL (self));
+			gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+			gtk_widget_set_tooltip_text (widget, _("Paragraph Style"));
+
+			/* Hide the items from the action combo box as well */
+			g_signal_connect_object (self, "after-mode-changed",
+				G_CALLBACK (e_action_combo_box_update_model), widget, G_CONNECT_SWAPPED);
+		} else if (is_action ("EHTMLEditor::font-name")) {
+			widget = e_html_editor_util_create_font_name_combo ();
+			gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+			gtk_widget_set_tooltip_text (widget, _("Font Name"));
+
+			g_signal_connect_object (self, "after-mode-changed",
+				G_CALLBACK (e_html_editor_bind_font_name_after_mode_changed_cb), widget, 0);
+			e_html_editor_bind_font_name_after_mode_changed_cb (self, widget);
+		} else if (is_action ("EHTMLEditor::font-size")) {
+			widget = e_action_combo_box_new_with_action (E_HTML_EDITOR_ACTION_SIZE_PLUS_ZERO (self));
+			gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+			gtk_widget_set_tooltip_text (widget, _("Font Size"));
+		} else if (is_action ("EHTMLEditor::font-color")) {
+			widget = e_color_combo_new ();
+			gtk_widget_set_tooltip_text (widget, _("Font Color"));
+
+			g_signal_connect_object (self, "after-mode-changed",
+				G_CALLBACK (e_html_editor_bind_font_color_after_mode_changed_cb), widget, 0);
+			e_html_editor_bind_font_color_after_mode_changed_cb (self, widget);
+		} else if (is_action ("EHTMLEditor::background-color")) {
+			GdkRGBA transparent = { 0, 0, 0, 0 };
+
+			widget = e_color_combo_new ();
+			e_color_combo_set_default_color (E_COLOR_COMBO (widget), &transparent);
+			e_color_combo_set_current_color (E_COLOR_COMBO (widget), &transparent);
+			e_color_combo_set_default_transparent (E_COLOR_COMBO (widget), TRUE);
+			gtk_widget_set_tooltip_text (widget, _("Background Color"));
+
+			g_signal_connect_object (self, "after-mode-changed",
+				G_CALLBACK (e_html_editor_bind_background_color_after_mode_changed_cb), widget, 0);
+			e_html_editor_bind_background_color_after_mode_changed_cb (self, widget);
+		} else {
+			g_warning ("%s: Unhandled toolbar action '%s'", G_STRFUNC, name);
+			claimed = TRUE;
+		}
+
+		if (widget) {
+			GtkToolItem *tool_item;
+
+			tool_item = gtk_tool_item_new ();
+			gtk_container_add (GTK_CONTAINER (tool_item), widget);
+			gtk_widget_show_all (GTK_WIDGET (tool_item));
+
+			*out_item = G_OBJECT (tool_item);
+		} else if (!claimed) {
+			g_warning ("%s: Did not get toolbar widget for '%s'", G_STRFUNC, name);
+		}
+	} else if (for_kind == E_UI_ELEMENT_KIND_HEADERBAR) {
+		g_warning ("%s: Unhandled headerbar action '%s'", G_STRFUNC, name);
+	} else {
+		g_warning ("%s: Unhandled element kind '%d' for action '%s'", G_STRFUNC, (gint) for_kind, name);
+	}
+
+	#undef is_action
 
 	return TRUE;
 }
@@ -875,10 +1234,9 @@ html_editor_constructed (GObject *object)
 	EHTMLEditor *editor = E_HTML_EDITOR (object);
 	EHTMLEditorPrivate *priv = editor->priv;
 	GSettings *settings;
-	GdkRGBA transparent = { 0, 0, 0, 0 };
 	GtkWidget *widget;
-	GtkToolbar *toolbar;
-	GtkToolItem *tool_item;
+	gchar *filename;
+	GError *local_error = NULL;
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_html_editor_parent_class)->constructed (object);
@@ -901,29 +1259,41 @@ html_editor_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, 4, 1, 1);
 	priv->content_editors_box = widget;
 
-	e_html_editor_actions_init (editor);
+	e_ui_manager_freeze (priv->ui_manager);
+
+	e_html_editor_actions_add_actions (editor);
 	priv->editor_layout_row = 2;
 
-	/* Tweak the main-toolbar style. */
-	widget = e_html_editor_get_managed_widget (editor, "/main-toolbar");
-	gtk_style_context_add_class (
-		gtk_widget_get_style_context (widget),
-		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
+	filename = html_editor_find_ui_file ("e-html-editor.eui");
+
+	if (!e_ui_parser_merge_file (e_ui_manager_get_parser (priv->ui_manager), filename, &local_error))
+		g_critical ("Couldn't load .eui file: %s", local_error ? local_error->message : "Unknown error");
+
+	g_free (filename);
+	g_clear_error (&local_error);
+
+	e_ui_manager_thaw (priv->ui_manager);
+
+	priv->main_menu = E_UI_MENU (e_ui_manager_create_item (editor->priv->ui_manager, "main-menu"));
+
+	if (e_util_get_use_header_bar ())
+		widget = GTK_WIDGET (e_ui_manager_create_item (editor->priv->ui_manager, "main-toolbar-with-headerbar"));
+	else
+		widget = GTK_WIDGET (e_ui_manager_create_item (editor->priv->ui_manager, "main-toolbar-without-headerbar"));
+	editor->priv->main_toolbar = g_object_ref_sink (widget);
 
 	/* Construct the editing toolbars. */
 
-	widget = e_html_editor_get_managed_widget (editor, "/edit-toolbar");
+	widget = GTK_WIDGET (e_ui_manager_create_item (editor->priv->ui_manager, "edit-toolbar"));
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
-	e_util_setup_toolbar_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_BUTTON);
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, 0, 1, 1);
 	priv->edit_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = e_html_editor_get_managed_widget (editor, "/html-toolbar");
+	widget = GTK_WIDGET (e_ui_manager_create_item (editor->priv->ui_manager, "html-toolbar"));
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
-	e_util_setup_toolbar_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_BUTTON);
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, 1, 1, 1);
 	priv->html_toolbar = g_object_ref (widget);
 
@@ -942,80 +1312,14 @@ html_editor_constructed (GObject *object)
 	priv->alert_bar = g_object_ref (widget);
 	/* EAlertBar controls its own visibility. */
 
+	e_ui_manager_freeze (priv->ui_manager);
+	/* do this only when the EUIMenu and others are available */
+	e_html_editor_actions_setup_actions (editor);
+	e_ui_manager_thaw (priv->ui_manager);
+
 	/* Have the default editor added (it's done inside the function) */
 	widget = GTK_WIDGET (e_html_editor_get_content_editor (editor));
 	gtk_widget_show (widget);
-
-	/* Add some combo boxes to the "edit" toolbar. */
-
-	toolbar = GTK_TOOLBAR (priv->edit_toolbar);
-
-	tool_item = gtk_tool_item_new ();
-	widget = e_action_combo_box_new_with_action (
-		GTK_RADIO_ACTION (ACTION (STYLE_NORMAL)));
-	gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
-	gtk_container_add (GTK_CONTAINER (tool_item), widget);
-	gtk_widget_set_tooltip_text (widget, _("Paragraph Style"));
-	gtk_toolbar_insert (toolbar, tool_item, 0);
-	priv->style_combo_box = g_object_ref (widget);
-	gtk_widget_show_all (GTK_WIDGET (tool_item));
-
-	tool_item = gtk_separator_tool_item_new ();
-	gtk_toolbar_insert (toolbar, tool_item, 0);
-	gtk_widget_show_all (GTK_WIDGET (tool_item));
-
-	tool_item = gtk_tool_item_new ();
-	widget = e_action_combo_box_new_with_action (
-		GTK_RADIO_ACTION (ACTION (MODE_HTML)));
-	gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
-	gtk_container_add (GTK_CONTAINER (tool_item), widget);
-	gtk_widget_set_tooltip_text (widget, _("Editing Mode"));
-	gtk_toolbar_insert (toolbar, tool_item, 0);
-	priv->mode_combo_box = g_object_ref (widget);
-	priv->mode_tool_item = g_object_ref (tool_item);
-	gtk_widget_show_all (GTK_WIDGET (tool_item));
-
-	/* Add some combo boxes to the "html" toolbar. */
-
-	toolbar = GTK_TOOLBAR (priv->html_toolbar);
-
-	tool_item = gtk_tool_item_new ();
-	widget = e_color_combo_new ();
-	gtk_container_add (GTK_CONTAINER (tool_item), widget);
-	gtk_widget_set_tooltip_text (widget, _("Font Color"));
-	gtk_toolbar_insert (toolbar, tool_item, 0);
-	priv->fg_color_combo_box = g_object_ref (widget);
-	gtk_widget_show_all (GTK_WIDGET (tool_item));
-
-	tool_item = gtk_tool_item_new ();
-	widget = e_color_combo_new ();
-	e_color_combo_set_default_color (E_COLOR_COMBO (widget), &transparent);
-	e_color_combo_set_current_color (E_COLOR_COMBO (widget), &transparent);
-	e_color_combo_set_default_transparent (E_COLOR_COMBO (widget), TRUE);
-	gtk_container_add (GTK_CONTAINER (tool_item), widget);
-	gtk_widget_set_tooltip_text (widget, _("Background Color"));
-	gtk_toolbar_insert (toolbar, tool_item, 1);
-	priv->bg_color_combo_box = g_object_ref (widget);
-	gtk_widget_show_all (GTK_WIDGET (tool_item));
-
-	tool_item = gtk_tool_item_new ();
-	widget = e_action_combo_box_new_with_action (
-		GTK_RADIO_ACTION (ACTION (SIZE_PLUS_ZERO)));
-	gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
-	gtk_container_add (GTK_CONTAINER (tool_item), widget);
-	gtk_widget_set_tooltip_text (widget, _("Font Size"));
-	gtk_toolbar_insert (toolbar, tool_item, 0);
-	priv->size_combo_box = g_object_ref (widget);
-	gtk_widget_show_all (GTK_WIDGET (tool_item));
-
-	tool_item = gtk_tool_item_new ();
-	widget = e_html_editor_util_create_font_name_combo ();
-	gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
-	gtk_container_add (GTK_CONTAINER (tool_item), widget);
-	gtk_widget_set_tooltip_text (widget, _("Font Name"));
-	gtk_toolbar_insert (toolbar, tool_item, 0);
-	priv->font_name_combo_box = g_object_ref (widget);
-	gtk_widget_show_all (GTK_WIDGET (tool_item));
 
 	e_binding_bind_property_full (
 		editor, "mode",
@@ -1085,15 +1389,24 @@ html_editor_dispose (GObject *object)
 	if (self->priv->mode_change_content_cancellable)
 		g_cancellable_cancel (self->priv->mode_change_content_cancellable);
 
-	g_clear_object (&self->priv->manager);
-	g_clear_object (&self->priv->core_actions);
-	g_clear_object (&self->priv->core_editor_actions);
-	g_clear_object (&self->priv->html_actions);
-	g_clear_object (&self->priv->context_actions);
-	g_clear_object (&self->priv->html_context_actions);
-	g_clear_object (&self->priv->language_actions);
-	g_clear_object (&self->priv->spell_check_actions);
-	g_clear_object (&self->priv->suggestion_actions);
+	g_clear_object (&self->priv->ui_manager);
+
+	self->priv->core_actions = NULL;
+	self->priv->core_editor_actions = NULL;
+	self->priv->html_actions = NULL;
+	self->priv->context_actions = NULL;
+	self->priv->html_context_actions = NULL;
+	self->priv->language_actions = NULL;
+	self->priv->spell_check_actions = NULL;
+	self->priv->suggestion_actions = NULL;
+
+	g_clear_object (&self->priv->emoticon_menu);
+	g_clear_object (&self->priv->recent_languages_menu);
+	g_clear_object (&self->priv->all_languages_menu);
+	g_clear_pointer (&self->priv->spell_suggest_actions, g_ptr_array_unref);
+	g_clear_pointer (&self->priv->spell_suggest_more_actions, g_ptr_array_unref);
+	g_clear_pointer (&self->priv->spell_add_actions, g_ptr_array_unref);
+	g_clear_pointer (&self->priv->spell_suggest_menus_by_code, g_hash_table_unref);
 
 	g_clear_object (&self->priv->main_menu);
 	g_clear_object (&self->priv->main_toolbar);
@@ -1103,14 +1416,6 @@ html_editor_dispose (GObject *object)
 	g_clear_object (&self->priv->alert_bar);
 	g_clear_object (&self->priv->edit_area);
 	g_clear_object (&self->priv->markdown_editor);
-
-	g_clear_object (&self->priv->fg_color_combo_box);
-	g_clear_object (&self->priv->bg_color_combo_box);
-	g_clear_object (&self->priv->mode_combo_box);
-	g_clear_object (&self->priv->mode_tool_item);
-	g_clear_object (&self->priv->size_combo_box);
-	g_clear_object (&self->priv->font_name_combo_box);
-	g_clear_object (&self->priv->style_combo_box);
 
 	g_clear_object (&self->priv->mode_change_content_cancellable);
 
@@ -1223,6 +1528,15 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+
+	signals[AFTER_MODE_CHANGED] = g_signal_new (
+		"after-mode-changed",
+		G_OBJECT_CLASS_TYPE (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		0,
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -1232,36 +1546,33 @@ e_html_editor_alert_sink_init (EAlertSinkInterface *interface)
 }
 
 static void
-e_html_editor_init (EHTMLEditor *editor)
+e_html_editor_init (EHTMLEditor *self)
 {
-	EHTMLEditorPrivate *priv;
-	gchar *filename;
-	GError *error = NULL;
+	self->priv = e_html_editor_get_instance_private (self);
+	self->priv->mode = E_CONTENT_EDITOR_MODE_HTML;
+	self->priv->ui_manager = e_ui_manager_new ();
+	self->priv->core_actions = e_ui_manager_get_action_group (self->priv->ui_manager, "core");
+	self->priv->core_editor_actions = e_ui_manager_get_action_group (self->priv->ui_manager, "core-editor");
+	self->priv->html_actions = e_ui_manager_get_action_group (self->priv->ui_manager, "html");
+	self->priv->context_actions = e_ui_manager_get_action_group (self->priv->ui_manager, "core-context");
+	self->priv->html_context_actions = e_ui_manager_get_action_group (self->priv->ui_manager, "html-context");
+	self->priv->language_actions = e_ui_manager_get_action_group (self->priv->ui_manager, "language");
+	self->priv->spell_check_actions = e_ui_manager_get_action_group (self->priv->ui_manager, "spell-check");
+	self->priv->suggestion_actions = e_ui_manager_get_action_group (self->priv->ui_manager, "suggestion");
+	self->priv->cid_parts = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, g_object_unref);
+	self->priv->content_editors = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
+	self->priv->content_editors_for_mode = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, NULL);
 
-	editor->priv = e_html_editor_get_instance_private (editor);
+	self->priv->emoticon_menu = g_menu_new ();
+	self->priv->recent_languages_menu = g_menu_new ();
+	self->priv->all_languages_menu = g_menu_new ();
+	self->priv->spell_suggest_actions = g_ptr_array_new_with_free_func (g_object_unref);
+	self->priv->spell_suggest_more_actions = g_ptr_array_new_with_free_func (g_object_unref);
+	self->priv->spell_add_actions = g_ptr_array_new_with_free_func (g_object_unref);
+	self->priv->spell_suggest_menus_by_code = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, e_html_editor_action_menu_pair_free);
 
-	priv = editor->priv;
-
-	priv->mode = E_CONTENT_EDITOR_MODE_HTML;
-	priv->manager = gtk_ui_manager_new ();
-	priv->core_actions = gtk_action_group_new ("core");
-	priv->core_editor_actions = gtk_action_group_new ("core-editor");
-	priv->html_actions = gtk_action_group_new ("html");
-	priv->context_actions = gtk_action_group_new ("core-context");
-	priv->html_context_actions = gtk_action_group_new ("html-context");
-	priv->language_actions = gtk_action_group_new ("language");
-	priv->spell_check_actions = gtk_action_group_new ("spell-check");
-	priv->suggestion_actions = gtk_action_group_new ("suggestion");
-	priv->cid_parts = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, g_object_unref);
-	priv->content_editors = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
-	priv->content_editors_for_mode = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, NULL);
-
-	filename = html_editor_find_ui_file ("e-html-editor-manager.ui");
-	if (!gtk_ui_manager_add_ui_from_file (priv->manager, filename, &error)) {
-		g_critical ("Couldn't load builder file: %s\n", error->message);
-		g_clear_error (&error);
-	}
-	g_free (filename);
+	g_signal_connect_object (self->priv->ui_manager, "create-item",
+		G_CALLBACK (e_html_editor_ui_manager_create_item_cb), self, 0);
 }
 
 static void
@@ -1793,6 +2104,8 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 	if (cnt_editor) {
 		gboolean editor_changed = cnt_editor != editor->priv->use_content_editor;
 
+		e_ui_manager_freeze (editor->priv->ui_manager);
+
 		if (editor_changed) {
 			EContentEditorInterface *iface;
 			gboolean is_focused = FALSE;
@@ -1824,18 +2137,11 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 
 				if (E_IS_MARKDOWN_EDITOR (editor->priv->use_content_editor)) {
 					EMarkdownEditor *markdown_editor;
-					GtkToolbar *toolbar;
 					GSettings *settings;
 
 					markdown_editor = E_MARKDOWN_EDITOR (editor->priv->use_content_editor);
 
 					e_markdown_editor_set_preview_mode (markdown_editor, FALSE);
-
-					toolbar = e_markdown_editor_get_action_toolbar (markdown_editor);
-					gtk_container_remove (GTK_CONTAINER (toolbar), GTK_WIDGET (editor->priv->mode_tool_item));
-
-					toolbar = GTK_TOOLBAR (editor->priv->edit_toolbar);
-					gtk_toolbar_insert (toolbar, editor->priv->mode_tool_item, 0);
 
 					settings = e_util_ref_settings ("org.gnome.evolution.mail");
 					if (g_settings_get_boolean (settings, "composer-show-edit-toolbar"))
@@ -1847,13 +2153,24 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 			gtk_widget_show (GTK_WIDGET (cnt_editor));
 
 			if (E_IS_MARKDOWN_EDITOR (cnt_editor)) {
-				GtkToolbar *toolbar;
+				if (!g_object_get_data (G_OBJECT (cnt_editor), "EHTMLEditor::has-editing-mode")) {
+					GtkToolbar *toolbar;
+					GtkToolItem *tool_item;
+					GtkWidget *widget;
 
-				toolbar = GTK_TOOLBAR (editor->priv->edit_toolbar);
-				gtk_container_remove (GTK_CONTAINER (toolbar), GTK_WIDGET (editor->priv->mode_tool_item));
+					g_object_set_data (G_OBJECT (cnt_editor), "EHTMLEditor::has-editing-mode", GINT_TO_POINTER (1));
 
-				toolbar = e_markdown_editor_get_action_toolbar (E_MARKDOWN_EDITOR (cnt_editor));
-				gtk_toolbar_insert (toolbar, editor->priv->mode_tool_item, 0);
+					widget = e_action_combo_box_new_with_action (ACTION (MODE_HTML));
+					gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+					gtk_widget_set_tooltip_text (widget, _("Editing Mode"));
+
+					tool_item = gtk_tool_item_new ();
+					gtk_container_add (GTK_CONTAINER (tool_item), widget);
+					gtk_widget_show_all (GTK_WIDGET (tool_item));
+
+					toolbar = e_markdown_editor_get_action_toolbar (E_MARKDOWN_EDITOR (cnt_editor));
+					gtk_toolbar_insert (toolbar, tool_item, 0);
+				}
 
 				gtk_widget_hide (GTK_WIDGET (editor->priv->edit_toolbar));
 			}
@@ -1865,7 +2182,7 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 			   support moving between misspelled words. */
 			iface = E_CONTENT_EDITOR_GET_IFACE (cnt_editor);
 
-			gtk_action_set_visible (e_html_editor_get_action (editor, "spell-check"),
+			e_ui_action_set_visible (ACTION (SPELL_CHECK),
 				iface && iface->spell_check_next_word && iface->spell_check_prev_word);
 
 			e_content_editor_clear_undo_redo_history (cnt_editor);
@@ -1886,6 +2203,8 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 
 		g_object_set (G_OBJECT (cnt_editor), "mode", mode, NULL);
 		g_object_notify (G_OBJECT (editor), "mode");
+
+		e_ui_manager_thaw (editor->priv->ui_manager);
 	}
 }
 
@@ -1915,14 +2234,16 @@ e_html_editor_cancel_mode_change_content_update (EHTMLEditor *editor)
  * e_html_editor_get_ui_manager:
  * @editor: an #EHTMLEditor
  *
- * Returns #GtkUIManager that manages all the actions in the @editor.
+ * Returns an #EUIManager that manages all the actions in the @editor.
+ *
+ * Returns: (transfer none): an internal #EUIManager
  */
-GtkUIManager *
+EUIManager *
 e_html_editor_get_ui_manager (EHTMLEditor *editor)
 {
 	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), NULL);
 
-	return editor->priv->manager;
+	return editor->priv->ui_manager;
 }
 
 /**
@@ -1930,95 +2251,55 @@ e_html_editor_get_ui_manager (EHTMLEditor *editor)
  * @editor: an #EHTMLEditor
  * @action_name: name of action to lookup and return
  *
- * Returns: A #GtkAction matching @action_name or @NULL if no such action exists.
+ * Gets action named @action_name from the internal #EUIManager.
+ *
+ * Returns: (transfer none) (nullable): an #EUIAction matching @action_name or
+ *    %NULL, if no such action exists
  */
-GtkAction *
+EUIAction *
 e_html_editor_get_action (EHTMLEditor *editor,
                           const gchar *action_name)
 {
-	GtkUIManager *manager;
-	GtkAction *action = NULL;
-	GList *list;
+	EUIManager *ui_manager;
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
-	manager = e_html_editor_get_ui_manager (editor);
-	list = gtk_ui_manager_get_action_groups (manager);
+	ui_manager = e_html_editor_get_ui_manager (editor);
 
-	while (list != NULL && action == NULL) {
-		GtkActionGroup *action_group = list->data;
-
-		action = gtk_action_group_get_action (
-			action_group, action_name);
-
-		list = g_list_next (list);
-	}
-
-	g_return_val_if_fail (action != NULL, NULL);
-
-	return action;
+	return e_ui_manager_get_action (ui_manager, action_name);
 }
 
 /**
- * e_html_editor_get_action_group:
+ * e_html_editor_get_ui_object:
  * @editor: an #EHTMLEditor
- * @group_name: name of action group to lookup and return
+ * @object_name: an object name to get
  *
- * Returns: A #GtkActionGroup matching @group_name or @NULL if not such action
- * group exists.
- */
-GtkActionGroup *
-e_html_editor_get_action_group (EHTMLEditor *editor,
-                                const gchar *group_name)
+ * Gets a UI object (usually a GtkWidget descendant) by its name.
+ * There are only few objects recognized, namely:
+ * E_HTML_EDITOR_UI_OBJECT_MAIN_MENU: the main menu as an #EUIMenu;
+ * E_HTML_EDITOR_UI_OBJECT_MAIN_TOOLBAR: the main toolbar as a #GtkToolbar.
+ *
+ * Returns: (transfer none) (nullable): the UI object named @object_name, or %NULL,
+ *    when the name is not recognized.
+ *
+ * Since: 3.56
+ **/
+gpointer
+e_html_editor_get_ui_object (EHTMLEditor *editor,
+			     const gchar *object_name)
 {
-	GtkUIManager *manager;
-	GList *list;
+	gpointer object = NULL;
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), NULL);
-	g_return_val_if_fail (group_name != NULL, NULL);
+	g_return_val_if_fail (object_name != NULL, NULL);
 
-	manager = e_html_editor_get_ui_manager (editor);
-	list = gtk_ui_manager_get_action_groups (manager);
+	if (g_strcmp0 (object_name, E_HTML_EDITOR_UI_OBJECT_MAIN_MENU) == 0)
+		object = editor->priv->main_menu;
+	else if (g_strcmp0 (object_name, E_HTML_EDITOR_UI_OBJECT_MAIN_TOOLBAR) == 0)
+		object = editor->priv->main_toolbar;
 
-	while (list != NULL) {
-		GtkActionGroup *action_group = list->data;
-		const gchar *name;
-
-		name = gtk_action_group_get_name (action_group);
-		if (strcmp (name, group_name) == 0)
-			return action_group;
-
-		list = g_list_next (list);
-	}
-
-	return NULL;
-}
-
-GtkWidget *
-e_html_editor_get_managed_widget (EHTMLEditor *editor,
-                                  const gchar *widget_path)
-{
-	GtkUIManager *manager;
-	GtkWidget *widget;
-
-	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), NULL);
-	g_return_val_if_fail (widget_path != NULL, NULL);
-
-	manager = e_html_editor_get_ui_manager (editor);
-	widget = gtk_ui_manager_get_widget (manager, widget_path);
-
-	g_return_val_if_fail (widget != NULL, NULL);
-
-	return widget;
-}
-
-GtkWidget *
-e_html_editor_get_style_combo_box (EHTMLEditor *editor)
-{
-	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), NULL);
-
-	return editor->priv->style_combo_box;
+	return object;
 }
 
 /**

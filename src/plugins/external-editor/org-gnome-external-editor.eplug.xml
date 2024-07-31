@@ -8,17 +8,7 @@
     <_description>Use an external editor to compose plain-text mail messages.</_description>
 
      <hook class="org.gnome.evolution.ui:1.0">
-       <ui-manager id="org.gnome.evolution.composer">
-         <menubar name='main-menu'>
-           <placeholder name='pre-edit-menu'>
-             <menu action='file-menu'>
-               <placeholder name="external-editor-holder">
-                 <menuitem action="ExternalEditor"/>
-               </placeholder>
-             </menu>
-           </placeholder>
-         </menubar>
-       </ui-manager>
+       <ui-manager id="org.gnome.evolution.composer"/>
      </hook>
 
   </e-plugin>

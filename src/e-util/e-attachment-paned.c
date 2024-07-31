@@ -553,7 +553,8 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 	GtkSizeGroup *size_group;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GtkAction *action;
+	EUIAction *action;
+	EUIManager *ui_manager;
 
 	paned->priv = e_attachment_paned_get_instance_private (paned);
 	paned->priv->model = e_attachment_store_new ();
@@ -650,13 +651,19 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 
 	/* The "Add Attachment" button proxies the "add" action from
 	 * one of the two attachment views.  Doesn't matter which. */
-	widget = gtk_button_new ();
 	view = E_ATTACHMENT_VIEW (paned->priv->icon_view);
 	action = e_attachment_view_get_action (view, "add");
-	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
-	gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
+
+	widget = gtk_button_new_with_mnemonic (e_ui_action_get_label (action));
+	if (e_ui_action_get_icon_name (action))
+		gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new_from_icon_name (e_ui_action_get_icon_name (action), GTK_ICON_SIZE_BUTTON));
+	e_ui_action_util_assign_to_widget (action, widget);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
+
+	/* needed to be able to click the button */
+	ui_manager = e_attachment_view_get_ui_manager (view);
+	e_ui_manager_add_action_groups_to_widget (ui_manager, container);
 
 	widget = gtk_combo_box_text_new ();
 	gtk_size_group_add_widget (size_group, widget);

@@ -33,7 +33,8 @@ static gboolean
 settings_mail_reader_idle_cb (EExtension *extension)
 {
 	EExtensible *extensible;
-	GtkActionGroup *action_group;
+	EUIManager *ui_manager;
+	EUIActionGroup *action_group;
 	ESourceRegistry *registry;
 	GSettings *settings;
 	ESource *source;
@@ -67,9 +68,8 @@ settings_mail_reader_idle_cb (EExtension *extension)
 
 	g_object_unref (settings);
 
-	action_group = e_mail_reader_get_action_group (
-		E_MAIL_READER (extensible),
-		E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS);
+	ui_manager = e_mail_reader_get_ui_manager (E_MAIL_READER (extensible));
+	action_group = e_ui_manager_get_action_group (ui_manager, "search-folders");
 
 	shell = e_shell_get_default ();
 	registry = e_shell_get_registry (shell);

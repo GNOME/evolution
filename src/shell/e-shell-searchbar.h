@@ -66,6 +66,7 @@ struct _EShellSearchbarClass {
 
 GType		e_shell_searchbar_get_type	(void);
 GtkWidget *	e_shell_searchbar_new		(EShellView *shell_view);
+void		e_shell_searchbar_init_ui_data	(EShellSearchbar *searchbar);
 EShellView *	e_shell_searchbar_get_shell_view
 						(EShellSearchbar *searchbar);
 EActionComboBox *
@@ -81,11 +82,11 @@ const gchar *	e_shell_searchbar_get_search_hint
 void		e_shell_searchbar_set_search_hint
 						(EShellSearchbar *searchbar,
 						 const gchar *search_hint);
-GtkRadioAction *e_shell_searchbar_get_search_option
+EUIAction *	e_shell_searchbar_get_search_option
 						(EShellSearchbar *searchbar);
 void		e_shell_searchbar_set_search_option
 						(EShellSearchbar *searchbar,
-						 GtkRadioAction *search_option);
+						 EUIAction *search_option);
 const gchar *	e_shell_searchbar_get_search_text
 						(EShellSearchbar *searchbar);
 void		e_shell_searchbar_set_search_text

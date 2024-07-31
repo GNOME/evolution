@@ -1,0 +1,70 @@
+<eui>
+  <headerbar id='main-headerbar' type='gtk'>
+    <start>
+      <item action='save-and-close' icon_only='false' css_classes='suggested-action'/>
+      <item action='save' icon_only='true'/>
+    </start>
+    <end>
+      <item action='menu-button'/>
+    </end>
+  </headerbar>
+  <menu id='main-menu'>
+    <submenu action='file-menu'>
+      <item action='save'/>
+      <item action='save-and-close'/>
+      <separator/>
+      <placeholder id='custom-actions-placeholder'/>
+      <separator/>
+      <item action='print-preview'/>
+      <item action='print'/>
+      <separator/>
+      <item action='close'/>
+    </submenu>
+    <submenu action='edit-menu'>
+      <item action='undo'/>
+      <item action='redo'/>
+      <separator/>
+      <item action='cut-clipboard'/>
+      <item action='copy-clipboard'/>
+      <item action='paste-clipboard'/>
+      <item action='delete-selection'/>
+      <separator/>
+      <item action='select-all'/>
+    </submenu>
+    <submenu action='view-menu'>
+      <item action='show-toolbar'/>
+      <placeholder id='parts'/>
+      <separator/>
+      <placeholder id='columns'/>
+    </submenu>
+    <submenu action='insert-menu'/>
+    <submenu action='options-menu'>
+      <placeholder id='tabs'/>
+      <separator/>
+      <placeholder id='toggles'/>
+    </submenu>
+    <submenu action='help-menu'>
+      <item action='help'/>
+    </submenu>
+  </menu>
+  <toolbar id='toolbar-with-headerbar' primary='true'>
+    <item action='print'/>
+    <separator/>
+    <item action='undo'/>
+    <item action='redo'/>
+    <separator/>
+    <placeholder id='content'/>
+    <placeholder id='after-content'/>
+  </toolbar>
+  <toolbar id='toolbar-without-headerbar' primary='true'>
+    <item action='save-and-close'/>
+    <item action='save'/>
+    <item action='print'/>
+    <separator/>
+    <item action='undo'/>
+    <item action='redo'/>
+    <separator/>
+    <placeholder id='content'/>
+    <placeholder id='after-content'/>
+  </toolbar>
+</eui>

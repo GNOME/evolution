@@ -178,7 +178,7 @@ ask_for_missing_attachment (EPlugin *ep,
 	gtk_widget_destroy (dialog);
 
 	if (response == GTK_RESPONSE_OK)
-		gtk_action_activate (E_COMPOSER_ACTION_ATTACH (window));
+		g_action_activate (G_ACTION (E_COMPOSER_ACTION_ATTACH (window)), NULL);
 
 	return response == GTK_RESPONSE_YES;
 }

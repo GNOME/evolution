@@ -20,6 +20,7 @@
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
 #include "mail/e-mail-browser.h"
+#include "mail/e-mail-reader.h"
 
 #include <libebackend/libebackend.h>
 
@@ -38,7 +39,7 @@ struct _EMailDisplayPopupPreferPlain {
 	gchar *iframe_src;
 	gchar *iframe_id;
 
-	GtkActionGroup *action_group;
+	EUIActionGroup *action_group;
 };
 
 struct _EMailDisplayPopupPreferPlainClass {
@@ -63,34 +64,12 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_DISPLAY_POPUP_EXTENSION,
 		e_mail_display_popup_extension_interface_init));
 
-static const gchar *ui_webview =
-"<ui>"
-"  <popup name='context'>"
-"    <placeholder name='custom-actions-2'>"
-"      <separator/>"
-"      <menuitem action='show-plain-text-part'/>"
-"      <menuitem action='show-text-html-part'/>"
-"      <separator/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
-static const gchar *ui_reader =
-"<ui>"
-"  <popup name='mail-preview-popup'>"
-"    <placeholder name='mail-preview-popup-actions'>"
-"      <separator/>"
-"      <menuitem action='show-plain-text-part'/>"
-"      <menuitem action='show-text-html-part'/>"
-"      <separator/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
 static void
-toggle_part (GtkAction *action,
-             EMailDisplayPopupExtension *extension)
+toggle_part (EUIAction *action,
+	     GVariant *parameter,
+	     gpointer user_data)
 {
+	EMailDisplayPopupExtension *extension = user_data;
 	EMailDisplayPopupPreferPlain *pp_extension = (EMailDisplayPopupPreferPlain *) extension;
 	GUri *guri;
 	GHashTable *query;
@@ -133,25 +112,6 @@ toggle_part (GtkAction *action,
 	g_free (uri);
 }
 
-GtkActionEntry entries[] = {
-
-	{ "show-plain-text-part",
-	   NULL,
-	   N_("Display plain text version"),
-	   NULL,
-	   N_("Display plain text version of multipart/alternative message"),
-	   NULL
-	},
-
-	{ "show-text-html-part",
-	  NULL,
-	  N_("Display HTML version"),
-	  NULL,
-	  N_("Display HTML version of multipart/alternative message"),
-	  NULL
-	}
-};
-
 const gint ID_LEN = G_N_ELEMENTS (".alternative-prefer-plain.");
 
 static void
@@ -186,49 +146,81 @@ set_popup_place (EMailDisplayPopupPreferPlain *extension,
 	}
 }
 
-static GtkActionGroup *
+static EUIActionGroup *
 create_group (EMailDisplayPopupExtension *extension)
 {
+	static const gchar *eui_webview =
+		"<eui>"
+		  "<menu id='context'>"
+		    "<placeholder id='custom-actions-2'>"
+		      "<separator/>"
+		      "<item action='show-plain-text-part'/>"
+		      "<item action='show-text-html-part'/>"
+		      "<separator/>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry entries[] = {
+
+		{ "show-plain-text-part",
+		   NULL,
+		   N_("Display plain text version"),
+		   NULL,
+		   N_("Display plain text version of multipart/alternative message"),
+		   toggle_part, NULL, NULL, NULL },
+
+		{ "show-text-html-part",
+		  NULL,
+		  N_("Display HTML version"),
+		  NULL,
+		  N_("Display HTML version of multipart/alternative message"),
+		   toggle_part, NULL, NULL, NULL }
+	};
+
 	EExtensible *extensible;
 	EWebView *web_view;
-	GtkUIManager *ui_manager;
-	GtkActionGroup *group;
-	GtkAction *action;
-	EShell *shell;
-	GtkWindow *shell_window;
+	EMailReader *mail_reader;
+	EUIManager *ui_manager;
+	EUIActionGroup *group;
 
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 	web_view = E_WEB_VIEW (extensible);
-
-	shell = e_shell_get_default ();
-	shell_window = e_shell_get_active_window (shell);
-	if (E_IS_SHELL_WINDOW (shell_window)) {
-		ui_manager = e_shell_window_get_ui_manager (E_SHELL_WINDOW (shell_window));
-	} else if (E_IS_MAIL_BROWSER (shell_window)) {
-		ui_manager = e_mail_browser_get_ui_manager (E_MAIL_BROWSER (shell_window));
-	} else {
-		return NULL;
-	}
-
-	group = gtk_action_group_new ("prefer-plain");
-	gtk_action_group_add_actions (group, entries, G_N_ELEMENTS (entries), NULL);
-
-	gtk_ui_manager_insert_action_group (ui_manager, group, 0);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui_reader, -1, NULL);
-
 	ui_manager = e_web_view_get_ui_manager (web_view);
-	gtk_ui_manager_insert_action_group (ui_manager, group, 0);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui_webview, -1, NULL);
+	g_return_val_if_fail (ui_manager != NULL, NULL);
 
-	action = gtk_action_group_get_action (group, "show-plain-text-part");
-	g_signal_connect (
-		action, "activate",
-		G_CALLBACK (toggle_part), extension);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "prefer-plain", NULL,
+		entries, G_N_ELEMENTS (entries), extension, eui_webview);
 
-	action = gtk_action_group_get_action (group, "show-text-html-part");
-	g_signal_connect (
-		action, "activate",
-		G_CALLBACK (toggle_part), extension);
+	group = e_ui_manager_get_action_group (ui_manager, "prefer-plain");
+
+	mail_reader = e_mail_display_ref_mail_reader (E_MAIL_DISPLAY (web_view));
+	if (mail_reader) {
+		static const gchar *eui_reader =
+			"<eui>"
+			  "<menu id='mail-preview-popup'>"
+			    "<placeholder id='mail-preview-popup-actions'>"
+			      "<separator/>"
+			      "<item action='show-plain-text-part'/>"
+			      "<item action='show-text-html-part'/>"
+			      "<separator/>"
+			    "</placeholder>"
+			  "</menu>"
+			"</eui>";
+
+		GError *local_error = NULL;
+
+		/* share the group with the reader */
+		ui_manager = e_mail_reader_get_ui_manager (mail_reader);
+
+		e_ui_manager_add_action_group (ui_manager, group);
+
+		if (!e_ui_parser_merge_data (e_ui_manager_get_parser (ui_manager), eui_reader, -1, &local_error))
+			g_critical ("%s: Failed to merge built-in UI definition: %s", G_STRFUNC, local_error ? local_error->message : "Unknown error");
+
+		g_clear_error (&local_error);
+		g_clear_object (&mail_reader);
+	}
 
 	return group;
 }
@@ -240,7 +232,7 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 {
 	EMailDisplay *display;
 	EMailDisplayPopupPreferPlain *pp_extension;
-	GtkAction *action;
+	EUIAction *action;
 	gchar *part_id, *pos, *prefix;
 	GUri *guri;
 	GHashTable *query;
@@ -269,7 +261,7 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 		guri = NULL;
 
 	if (!guri || !g_uri_get_query (guri)) {
-		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
+		e_ui_action_group_set_visible (pp_extension->action_group, FALSE);
 		if (guri)
 			g_uri_unref (guri);
 		return;
@@ -278,19 +270,19 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	query = soup_form_decode (g_uri_get_query (guri));
 	part_id = g_hash_table_lookup (query, "part_id");
 	if (part_id == NULL) {
-		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
+		e_ui_action_group_set_visible (pp_extension->action_group, FALSE);
 		goto out;
 	}
 
 	pos = strstr (part_id, ".alternative-prefer-plain.");
 	if (!pos) {
-		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
+		e_ui_action_group_set_visible (pp_extension->action_group, FALSE);
 		goto out;
 	}
 
 	/* Don't display the actions on any other than text/plain or text/html parts */
 	if (!strstr (pos, "plain_text") && !strstr (pos, "text_html")) {
-		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
+		e_ui_action_group_set_visible (pp_extension->action_group, FALSE);
 		goto out;
 	}
 
@@ -299,13 +291,11 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 
 	/* It is! Hide the menu action */
 	if (is_text_plain) {
-		action = gtk_action_group_get_action (
-			pp_extension->action_group, "show-plain-text-part");
-		gtk_action_set_visible (action, FALSE);
+		action = e_ui_action_group_get_action (pp_extension->action_group, "show-plain-text-part");
+		e_ui_action_set_visible (action, FALSE);
 	} else {
-		action = gtk_action_group_get_action (
-			pp_extension->action_group, "show-text-html-part");
-		gtk_action_set_visible (action, FALSE);
+		action = e_ui_action_group_get_action (pp_extension->action_group, "show-text-html-part");
+		e_ui_action_set_visible (action, FALSE);
 	}
 
 	/* Now check whether HTML version exists, if it does enable the action */
@@ -350,12 +340,11 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 		g_object_unref (g_queue_pop_head (&queue));
 
 	if (action_name) {
-		action = gtk_action_group_get_action (
-			pp_extension->action_group, action_name);
-		gtk_action_group_set_visible (pp_extension->action_group, TRUE);
-		gtk_action_set_visible (action, TRUE);
+		action = e_ui_action_group_get_action (pp_extension->action_group, action_name);
+		e_ui_action_group_set_visible (pp_extension->action_group, TRUE);
+		e_ui_action_set_visible (action, TRUE);
 	} else {
-		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
+		e_ui_action_group_set_visible (pp_extension->action_group, FALSE);
 	}
 
 	g_free (prefix);

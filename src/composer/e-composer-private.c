@@ -27,98 +27,18 @@
 #define GALLERY_INITIAL_HEIGHT 150
 
 static void
-composer_setup_charset_menu (EMsgComposer *composer)
-{
-	EHTMLEditor *editor;
-	GtkUIManager *ui_manager;
-	const gchar *path;
-	GList *list;
-	guint merge_id;
-
-	editor = e_msg_composer_get_editor (composer);
-	ui_manager = e_html_editor_get_ui_manager (editor);
-	path = "/main-menu/options-menu/charset-menu";
-	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-
-	list = gtk_action_group_list_actions (composer->priv->charset_actions);
-	list = g_list_sort (list, (GCompareFunc) e_action_compare_by_label);
-
-	while (list != NULL) {
-		GtkAction *action = list->data;
-
-		gtk_ui_manager_add_ui (
-			ui_manager, merge_id, path,
-			gtk_action_get_name (action),
-			gtk_action_get_name (action),
-			GTK_UI_MANAGER_AUTO, FALSE);
-
-		list = g_list_delete_link (list, list);
-	}
-
-	gtk_ui_manager_ensure_update (ui_manager);
-}
-
-static void
 composer_update_gallery_visibility (EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	GtkToggleAction *toggle_action;
 	gboolean gallery_active;
 	gboolean is_html;
 
 	editor = e_msg_composer_get_editor (composer);
 	is_html = e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_HTML;
+	gallery_active = e_ui_action_get_active (ACTION (PICTURE_GALLERY));
 
-	toggle_action = GTK_TOGGLE_ACTION (ACTION (PICTURE_GALLERY));
-	gallery_active = gtk_toggle_action_get_active (toggle_action);
-
-	if (is_html && gallery_active) {
-		gtk_widget_show (composer->priv->gallery_scrolled_window);
-		gtk_widget_show (composer->priv->gallery_icon_view);
-	} else {
-		gtk_widget_hide (composer->priv->gallery_scrolled_window);
-		gtk_widget_hide (composer->priv->gallery_icon_view);
-	}
-}
-
-static GtkWidget *
-composer_construct_header_bar (EMsgComposer *composer,
-			       GtkWidget *menu_button)
-{
-	GtkWidget *widget;
-	GtkWidget *button;
-	GtkHeaderBar *header_bar;
-
-	widget = gtk_header_bar_new ();
-	gtk_widget_show (widget);
-	header_bar = GTK_HEADER_BAR (widget);
-	gtk_header_bar_set_show_close_button (header_bar, TRUE);
-
-	if (menu_button)
-		gtk_header_bar_pack_end (header_bar, menu_button);
-
-	button = e_header_bar_button_new (_("Send"), ACTION (SEND));
-	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
-	e_header_bar_button_set_show_icon_only (E_HEADER_BAR_BUTTON (button), FALSE);
-	gtk_widget_show (button);
-	gtk_header_bar_pack_start (header_bar, button);
-
-	button = e_header_bar_button_new (NULL, ACTION (SAVE_DRAFT));
-	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "flat");
-	gtk_widget_show (button);
-	gtk_header_bar_pack_start (header_bar, button);
-
-	button = e_header_bar_button_new (NULL, ACTION (PRIORITIZE_MESSAGE));
-	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "flat");
-	gtk_widget_show (button);
-	gtk_header_bar_pack_end (header_bar, button);
-
-	button = e_header_bar_button_new (NULL, ACTION (REQUEST_READ_RECEIPT));
-	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "flat");
-	gtk_widget_show (button);
-	gtk_header_bar_pack_end (header_bar, button);
-
-	return widget;
+	gtk_widget_set_visible (composer->priv->gallery_scrolled_window, is_html && gallery_active);
+	gtk_widget_set_visible (composer->priv->gallery_icon_view, is_html && gallery_active);
 }
 
 static gchar *
@@ -220,6 +140,124 @@ e_composer_from_changed_cb (EComposerFromHeader *header,
 	}
 }
 
+static gchar *
+e_composer_find_data_file (const gchar *basename)
+{
+	gchar *filename;
+
+	g_return_val_if_fail (basename != NULL, NULL);
+
+	/* Support running directly from the source tree. */
+	filename = g_build_filename (".", basename, NULL);
+	if (g_file_test (filename, G_FILE_TEST_EXISTS))
+		return filename;
+	g_free (filename);
+
+	filename = g_build_filename (".", "data", "ui", basename, NULL);
+	if (g_file_test (filename, G_FILE_TEST_EXISTS))
+		return filename;
+	g_free (filename);
+
+	filename = g_build_filename ("..", "..", "..", "data", "ui", basename, NULL);
+	if (g_file_test (filename, G_FILE_TEST_EXISTS))
+		return filename;
+	g_free (filename);
+
+	filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
+	if (g_file_test (filename, G_FILE_TEST_EXISTS))
+		return filename;
+	g_free (filename);
+
+	g_critical ("Could not locate '%s'", basename);
+
+	return NULL;
+}
+
+static gboolean
+e_composer_ui_manager_create_item_cb (EUIManager *ui_manager,
+				      EUIElement *elem,
+				      EUIAction *action,
+				      EUIElementKind for_kind,
+				      GObject **out_item,
+				      gpointer user_data)
+{
+	EMsgComposer *self = user_data;
+	const gchar *name;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (self), FALSE);
+
+	name = g_action_get_name (G_ACTION (action));
+
+	if (!g_str_has_prefix (name, "EMsgComposer::"))
+		return FALSE;
+
+	#define is_action(_nm) (g_strcmp0 (name, (_nm)) == 0)
+
+	if (for_kind == E_UI_ELEMENT_KIND_MENU) {
+		if (is_action ("EMsgComposer::charset-menu"))
+			*out_item = G_OBJECT (g_menu_item_new_submenu (e_ui_action_get_label (action), G_MENU_MODEL (self->priv->charset_menu)));
+		else
+			g_warning ("%s: Unhandled menu action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_TOOLBAR) {
+		g_warning ("%s: Unhandled toolbar action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_HEADERBAR) {
+		if (is_action ("EMsgComposer::menu-button"))
+			*out_item = G_OBJECT (g_object_ref (self->priv->menu_button));
+		else
+			g_warning ("%s: Unhandled headerbar action '%s'", G_STRFUNC, name);
+	} else {
+		g_warning ("%s: Unhandled element kind '%d' for action '%s'", G_STRFUNC, (gint) for_kind, name);
+	}
+
+	#undef is_action
+
+	return TRUE;
+}
+
+static GIcon * /* (transfer full) */
+e_composer_mix_icons (const gchar *action_icon_name,
+		      const gchar *emblem_icon_name)
+{
+	GIcon *action_icon;
+	GIcon *temp_icon;
+	GEmblem *emblem;
+
+	temp_icon = g_themed_icon_new (emblem_icon_name);
+	emblem = g_emblem_new (temp_icon);
+	g_object_unref (temp_icon);
+
+	action_icon = g_themed_icon_new (action_icon_name);
+	temp_icon = g_emblemed_icon_new (action_icon, emblem);
+	g_object_unref (action_icon);
+
+	g_object_unref (emblem);
+
+	return temp_icon;
+}
+
+static gboolean
+e_composer_ui_manager_create_gicon_cb (EUIManager *manager,
+				       const gchar *name,
+				       GIcon **out_gicon,
+				       gpointer user_data)
+{
+	EMsgComposer *self = user_data;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (self), FALSE);
+
+	if (g_strcmp0 (name, "EMsgComposer::pgp-sign") == 0) {
+		/* Borrow a GnuPG icon from gcr to distinguish between GPG and S/MIME Sign/Encrypt actions */
+		*out_gicon = e_composer_mix_icons ("stock_signature", "gcr-gnupg");
+		return TRUE;
+	} else if (g_strcmp0 (name, "EMsgComposer::pgp-encrypt") == 0) {
+		/* Borrow a GnuPG icon from gcr to distinguish between GPG and S/MIME Sign/Encrypt actions */
+		*out_gicon = e_composer_mix_icons ("security-high", "gcr-gnupg");
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 void
 e_composer_private_constructed (EMsgComposer *composer)
 {
@@ -230,20 +268,25 @@ e_composer_private_constructed (EMsgComposer *composer)
 	EClientCache *client_cache;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	GtkUIManager *ui_manager;
-	GtkAction *action;
+	EUIManager *ui_manager;
+	EUIAction *action;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GtkWidget *menu_button = NULL;
 	GtkWindow *window;
 	GSettings *settings;
+	GObject *ui_item;
 	gchar *filename, *gallery_path;
 	guint ii;
-	GError *error = NULL;
+	GError *local_error = NULL;
 
 	editor = e_msg_composer_get_editor (composer);
 	ui_manager = e_html_editor_get_ui_manager (editor);
 	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	g_signal_connect_object (ui_manager, "create-item",
+		G_CALLBACK (e_composer_ui_manager_create_item_cb), composer, 0);
+	g_signal_connect_object (ui_manager, "create-gicon",
+		G_CALLBACK (e_composer_ui_manager_create_gicon_cb), composer, 0);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
@@ -255,9 +298,11 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->window_group = gtk_window_group_new ();
 	gtk_window_group_add_window (priv->window_group, window);
 
-	priv->async_actions = gtk_action_group_new ("async");
-	priv->charset_actions = gtk_action_group_new ("charset");
-	priv->composer_actions = gtk_action_group_new ("composer");
+	priv->async_actions = e_ui_manager_get_action_group (ui_manager, "async");
+	priv->composer_actions = e_ui_manager_get_action_group (ui_manager, "composer");
+
+	priv->charset_menu = g_menu_new ();
+	e_charset_add_to_g_menu (priv->charset_menu, "composer.EMsgComposer::charset-menu");
 
 	priv->extra_hdr_names = g_ptr_array_new ();
 	priv->extra_hdr_values = g_ptr_array_new ();
@@ -277,17 +322,15 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	e_composer_actions_init (composer);
 
-	filename = e_composer_find_data_file ("evolution-composer.ui");
-	gtk_ui_manager_add_ui_from_file (ui_manager, filename, &error);
+	filename = e_composer_find_data_file ("evolution-composer.eui");
+	if (!e_ui_parser_merge_file (e_ui_manager_get_parser (ui_manager), filename, &local_error)) {
+		g_critical ("%s: Failed to merge .eui data: %s", G_STRFUNC, local_error ? local_error->message : "Unknown error");
+	}
+	g_clear_error (&local_error);
 	g_free (filename);
 
-	composer_setup_charset_menu (composer);
-
-	if (error != NULL) {
-		/* Henceforth, bad things start happening. */
-		g_critical ("%s", error->message);
-		g_clear_error (&error);
-	}
+	action = e_ui_manager_get_action (ui_manager, "EMsgComposer::charset-menu");
+	e_ui_action_set_state (action, g_variant_new_string (priv->charset));
 
 	/* Configure an EFocusTracker to manage selection actions. */
 
@@ -304,44 +347,21 @@ e_composer_private_constructed (EMsgComposer *composer)
 	container = widget;
 
 	/* Construct the main menu and headerbar. */
+	ui_item = e_html_editor_get_ui_object (editor, E_HTML_EDITOR_UI_OBJECT_MAIN_MENU);
+	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (ui_item));
 
-	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
-	priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), window, &menu_button);
+	priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), window, &priv->menu_button);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 
 	if (e_util_get_use_header_bar ()) {
-		const gchar *items[] = {
-			"/main-toolbar/pre-main-toolbar/send",
-			"/main-toolbar/pre-main-toolbar/send-separator",
-			"/main-toolbar/pre-main-toolbar/save-draft",
-			"/main-toolbar/pre-main-toolbar/save-draft-separator",
-			"/main-toolbar/prioritize-message-separator",
-			"/main-toolbar/toolbar-prioritize-message",
-			"/main-toolbar/toolbar-request-read-receipt"
-		};
-		widget = composer_construct_header_bar (composer, menu_button);
+		ui_item = e_ui_manager_create_item (ui_manager, "main-headerbar");
+		widget = GTK_WIDGET (ui_item);
 		gtk_window_set_titlebar (window, widget);
-
-		/* Destroy items from the toolbar, which are in the header bar */
-		for (ii = 0; ii < G_N_ELEMENTS (items); ii++) {
-			widget = gtk_ui_manager_get_widget (ui_manager, items[ii]);
-			if (widget)
-				gtk_widget_destroy (widget);
-		}
-	} else {
-		/* We set the send button as important to have a label */
-		widget = gtk_ui_manager_get_widget (ui_manager, "/main-toolbar/pre-main-toolbar/send");
-		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (widget), TRUE);
-
-		if (menu_button) {
-			g_object_ref_sink (menu_button);
-			gtk_widget_destroy (menu_button);
-		}
 	}
 
-	widget = e_html_editor_get_managed_widget (editor, "/main-toolbar");
+	ui_item = e_html_editor_get_ui_object (editor, E_HTML_EDITOR_UI_OBJECT_MAIN_TOOLBAR);
+	widget = GTK_WIDGET (ui_item);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
 
 	e_binding_bind_property (
 		ACTION (TOOLBAR_SHOW_MAIN), "active",
@@ -422,7 +442,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 		G_CALLBACK (composer_update_gallery_visibility), composer);
 
 	g_signal_connect_swapped (
-		ACTION (PICTURE_GALLERY), "toggled",
+		ACTION (PICTURE_GALLERY), "notify::active",
 		G_CALLBACK (composer_update_gallery_visibility), composer);
 
 	/* Initial sync */
@@ -553,12 +573,13 @@ e_composer_private_dispose (EMsgComposer *composer)
 	g_clear_object (&composer->priv->attachment_paned);
 	g_clear_object (&composer->priv->focus_tracker);
 	g_clear_object (&composer->priv->window_group);
-	g_clear_object (&composer->priv->async_actions);
-	g_clear_object (&composer->priv->charset_actions);
-	g_clear_object (&composer->priv->composer_actions);
+	g_clear_object (&composer->priv->charset_menu);
 	g_clear_object (&composer->priv->gallery_scrolled_window);
 	g_clear_object (&composer->priv->redirect);
 	g_clear_object (&composer->priv->menu_bar);
+
+	composer->priv->async_actions = NULL;
+	composer->priv->composer_actions = NULL;
 }
 
 void
@@ -582,30 +603,6 @@ e_composer_private_finalize (EMsgComposer *composer)
 	g_free (composer->priv->previous_identity_uid);
 
 	g_clear_pointer (&composer->priv->content_hash, e_content_editor_util_free_content_hash);
-}
-
-gchar *
-e_composer_find_data_file (const gchar *basename)
-{
-	gchar *filename;
-
-	g_return_val_if_fail (basename != NULL, NULL);
-
-	/* Support running directly from the source tree. */
-	filename = g_build_filename (".", basename, NULL);
-	if (g_file_test (filename, G_FILE_TEST_EXISTS))
-		return filename;
-	g_free (filename);
-
-	/* XXX This is kinda broken. */
-	filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
-	if (g_file_test (filename, G_FILE_TEST_EXISTS))
-		return filename;
-	g_free (filename);
-
-	g_critical ("Could not locate '%s'", basename);
-
-	return NULL;
 }
 
 gchar *

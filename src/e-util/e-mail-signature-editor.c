@@ -34,7 +34,7 @@ typedef struct _AsyncContext AsyncContext;
 
 struct _EMailSignatureEditorPrivate {
 	EHTMLEditor *editor;
-	GtkActionGroup *action_group;
+	EUIActionGroup *action_group;
 	EFocusTracker *focus_tracker;
 	GCancellable *cancellable;
 	ESourceRegistry *registry;
@@ -44,6 +44,7 @@ struct _EMailSignatureEditorPrivate {
 	GtkWidget *entry;		/* not referenced */
 
 	EMenuBar *menu_bar;
+	GtkWidget *menu_button; /* owned by menu_bar */
 };
 
 struct _AsyncContext {
@@ -63,24 +64,6 @@ enum {
 	PROP_REGISTRY,
 	PROP_SOURCE
 };
-
-static const gchar *ui =
-"<ui>\n"
-"  <menubar name='main-menu'>\n"
-"    <placeholder name='pre-edit-menu'>\n"
-"      <menu action='file-menu'>\n"
-"        <menuitem action='save-and-close'/>\n"
-"        <separator/>"
-"        <menuitem action='close'/>\n"
-"      </menu>\n"
-"    </placeholder>\n"
-"  </menubar>\n"
-"  <toolbar name='main-toolbar'>\n"
-"    <placeholder name='pre-main-toolbar'>\n"
-"      <toolitem action='save-and-close'/>\n"
-"    </placeholder>\n"
-"  </toolbar>\n"
-"</ui>";
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMailSignatureEditor, e_mail_signature_editor, GTK_TYPE_WINDOW)
 
@@ -188,25 +171,27 @@ static gboolean
 mail_signature_editor_delete_event_cb (EMailSignatureEditor *editor,
                                        GdkEvent *event)
 {
-	GtkActionGroup *action_group;
-	GtkAction *action;
+	EUIAction *action;
 
-	action_group = editor->priv->action_group;
-	action = gtk_action_group_get_action (action_group, "close");
-	gtk_action_activate (action);
+	action = e_ui_action_group_get_action (editor->priv->action_group, "close");
+	g_action_activate (G_ACTION (action), NULL);
 
 	return TRUE;
 }
 
 static void
-action_close_cb (GtkAction *action,
-                 EMailSignatureEditor *window)
+action_close_cb (EUIAction *action,
+		 GVariant *parametr,
+		 gpointer user_data)
 {
+	EMailSignatureEditor *window = user_data;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	gboolean something_changed = FALSE;
 	const gchar *original_name;
 	const gchar *signature_name;
+
+	g_return_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (window));
 
 	editor = e_mail_signature_editor_get_editor (window);
 	cnt_editor = e_html_editor_get_content_editor (editor);
@@ -224,13 +209,10 @@ action_close_cb (GtkAction *action,
 			GTK_WINDOW (window),
 			"widgets:ask-signature-changed", NULL);
 		if (response == GTK_RESPONSE_YES) {
-			GtkActionGroup *action_group;
-			GtkAction *action2;
+			EUIAction *action2;
 
-			action_group = window->priv->action_group;
-			action2 = gtk_action_group_get_action (
-				action_group, "save-and-close");
-			gtk_action_activate (action2);
+			action2 = e_ui_action_group_get_action (window->priv->action_group, "save-and-close");
+			g_action_activate (G_ACTION (action2), NULL);
 			return;
 		} else if (response == GTK_RESPONSE_CANCEL)
 			return;
@@ -283,12 +265,16 @@ mail_signature_editor_commit_ready_cb (GObject *source_object,
 }
 
 static void
-action_save_and_close_cb (GtkAction *action,
-                          EMailSignatureEditor *editor)
+action_save_and_close_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EMailSignatureEditor *editor = user_data;
 	GtkEntry *entry;
 	ESource *source;
 	gchar *display_name;
+
+	g_return_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (editor));
 
 	entry = GTK_ENTRY (editor->priv->entry);
 	source = e_mail_signature_editor_get_source (editor);
@@ -322,29 +308,35 @@ action_save_and_close_cb (GtkAction *action,
 		mail_signature_editor_commit_ready_cb, NULL);
 }
 
-static GtkActionEntry entries[] = {
+static gboolean
+e_mail_signature_editor_ui_manager_create_item_cb (EUIManager *ui_manager,
+						   EUIElement *elem,
+						   EUIAction *action,
+						   EUIElementKind for_kind,
+						   GObject **out_item,
+						   gpointer user_data)
+{
+	EMailSignatureEditor *self = user_data;
+	const gchar *name;
 
-	{ "close",
-	  "window-close",
-	  N_("_Close"),
-	  "<Control>w",
-	  N_("Close"),
-	  G_CALLBACK (action_close_cb) },
+	g_return_val_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (self), FALSE);
 
-	{ "save-and-close",
-	  "document-save",
-	  N_("_Save and Close"),
-	  "<Control>Return",
-	  N_("Save and Close"),
-	  G_CALLBACK (action_save_and_close_cb) },
+	name = g_action_get_name (G_ACTION (action));
 
-	{ "file-menu",
-	  NULL,
-	  N_("_File"),
-	  NULL,
-	  NULL,
-	  NULL }
-};
+	if (!g_str_has_prefix (name, "EMailSignatureEditor::"))
+		return FALSE;
+
+	if (for_kind == E_UI_ELEMENT_KIND_HEADERBAR) {
+		if (g_str_equal (name, "EMailSignatureEditor::menu-button"))
+			*out_item = G_OBJECT (g_object_ref (self->priv->menu_button));
+		else
+			g_warning ("%s: Unhandled headerbar action '%s'", G_STRFUNC, name);
+	} else {
+		g_warning ("%s: Unhandled element kind '%d' for action '%s'", G_STRFUNC, (gint) for_kind, name);
+	}
+
+	return TRUE;
+}
 
 static void
 mail_signature_editor_set_editor (EMailSignatureEditor *editor,
@@ -503,22 +495,64 @@ mail_signature_editor_finalize (GObject *object)
 static void
 mail_signature_editor_constructed (GObject *object)
 {
+	static const gchar *eui =
+		"<eui>"
+		  "<headerbar id='main-headerbar' type='gtk'>"
+		    "<start>"
+		      "<item action='save-and-close' icon_only='false' css_classes='suggested-action'/>"
+		    "</start>"
+		    "<end>"
+		      "<item action='EMailSignatureEditor::menu-button'/>"
+		    "</end>"
+		  "</headerbar>"
+		  "<menu id='main-menu'>"
+		    "<placeholder id='pre-edit-menu'>"
+		      "<submenu action='file-menu'>"
+			"<item action='save-and-close'/>"
+		        "<separator/>"
+			"<item action='close'/>"
+		      "</submenu>"
+		    "</placeholder>"
+		  "</menu>"
+		  "<toolbar id='main-toolbar-without-headerbar'>"
+		    "<placeholder id='pre-main-toolbar'>"
+		      "<item action='save-and-close'/>"
+		    "</placeholder>"
+		  "</toolbar>"
+		"</eui>";
+
+	static const EUIActionEntry entries[] = {
+
+		{ "close",
+		  "window-close",
+		  N_("_Close"),
+		  "<Control>w",
+		  N_("Close"),
+		  action_close_cb, NULL, NULL, NULL },
+
+		{ "save-and-close",
+		  "document-save",
+		  N_("_Save and Close"),
+		  "<Control>Return",
+		  N_("Save and Close"),
+		  action_save_and_close_cb, NULL, NULL, NULL },
+
+		{ "file-menu", NULL, N_("_File"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "EMailSignatureEditor::menu-button", NULL, N_("Menu"), NULL, NULL, NULL, NULL, NULL, NULL }
+	};
+
 	EMailSignatureEditor *window;
-	GtkActionGroup *action_group;
 	EFocusTracker *focus_tracker;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	GtkUIManager *ui_manager;
+	EUIManager *ui_manager;
+	EUIAction *action;
 	ESource *source;
-	GtkAction *action;
+	GObject *ui_item;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GtkWidget *button;
 	GtkWidget *hbox;
-	GtkWidget *menu_button = NULL;
-	GtkHeaderBar *header_bar;
 	const gchar *display_name;
-	GError *error = NULL;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_signature_editor_parent_class)->constructed (object);
@@ -526,33 +560,21 @@ mail_signature_editor_constructed (GObject *object)
 	window = E_MAIL_SIGNATURE_EDITOR (object);
 	editor = e_mail_signature_editor_get_editor (window);
 	cnt_editor = e_html_editor_get_content_editor (editor);
-
 	ui_manager = e_html_editor_get_ui_manager (editor);
 
-	/* Because we are loading from a hard-coded string, there is
-	 * no chance of I/O errors.  Failure here implies a malformed
-	 * UI definition.  Full stop. */
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-	if (error != NULL)
-		g_error ("%s", error->message);
+	g_signal_connect_object (ui_manager, "create-item",
+		G_CALLBACK (e_mail_signature_editor_ui_manager_create_item_cb), window, 0);
 
-	action_group = gtk_action_group_new ("signature");
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (
-		action_group, entries,
-		G_N_ELEMENTS (entries), window);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	window->priv->action_group = g_object_ref (action_group);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "signature", GETTEXT_PACKAGE,
+		entries, G_N_ELEMENTS (entries), window, eui);
+	window->priv->action_group = g_object_ref (e_ui_manager_get_action_group (ui_manager, "signature"));
 
 	/* Hide page properties because it is not inherited in the mail. */
 	action = e_html_editor_get_action (editor, "properties-page");
-	gtk_action_set_visible (action, FALSE);
+	e_ui_action_set_visible (action, FALSE);
 
 	action = e_html_editor_get_action (editor, "context-properties-page");
-	gtk_action_set_visible (action, FALSE);
-
-	gtk_ui_manager_ensure_update (ui_manager);
+	e_ui_action_set_visible (action, FALSE);
 
 	gtk_window_set_default_size (GTK_WINDOW (window), -1, 440);
 
@@ -562,44 +584,29 @@ mail_signature_editor_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
-	window->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (window), &menu_button);
+	ui_item = e_ui_manager_create_item (ui_manager, "main-menu");
+	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (ui_item));
+	g_clear_object (&ui_item);
+
+	window->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (window), &window->priv->menu_button);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 
 	/* Construct the main menu and toolbar. */
 
 	if (e_util_get_use_header_bar ()) {
-		widget = gtk_header_bar_new ();
-		gtk_widget_show (widget);
-		header_bar = GTK_HEADER_BAR (widget);
-		gtk_header_bar_set_show_close_button (header_bar, TRUE);
-		gtk_header_bar_set_title (header_bar, _("Edit Signature"));
-		gtk_window_set_titlebar (GTK_WINDOW (window), widget);
+		ui_item = e_ui_manager_create_item (ui_manager, "main-headerbar");
+		widget = GTK_WIDGET (ui_item);
+		gtk_header_bar_set_title (GTK_HEADER_BAR (widget), _("Edit Signature"));
 
-		action = gtk_action_group_get_action (window->priv->action_group, "save-and-close");
-		button = e_header_bar_button_new (_("Save"), action);
-		e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
-		e_header_bar_button_set_show_icon_only (E_HEADER_BAR_BUTTON (button), FALSE);
-		gtk_widget_show (button);
-		gtk_header_bar_pack_start (header_bar, button);
-
-		if (menu_button)
-			gtk_header_bar_pack_end (header_bar, menu_button);
-
-		widget = e_html_editor_get_managed_widget (editor, "/main-toolbar/pre-main-toolbar/save-and-close");
-		gtk_widget_destroy (widget);
+		ui_item = e_ui_manager_create_item (ui_manager, "main-toolbar-with-headerbar");
 	} else {
 		gtk_window_set_title (GTK_WINDOW (window), _("Edit Signature"));
 
-		widget = e_html_editor_get_managed_widget (editor, "/main-toolbar");
-		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-		gtk_widget_show (widget);
-
-		if (menu_button) {
-			g_object_ref_sink (menu_button);
-			gtk_widget_destroy (menu_button);
-		}
+		ui_item = e_ui_manager_create_item (ui_manager, "main-toolbar-without-headerbar");
 	}
+
+	widget = GTK_WIDGET (ui_item);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 
 	/* Construct the signature name entry. */
 

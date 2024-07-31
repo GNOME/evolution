@@ -68,11 +68,10 @@ struct _CustomHeaderOptionsDialogPrivate {
 GType custom_header_options_dialog_get_type (void);
 static void epech_dialog_finalize (GObject *object);
 static void epech_setup_widgets (CustomHeaderOptionsDialog *mch);
-static gint epech_check_existing_composer_window (gconstpointer a, gconstpointer b);
 static void commit_changes (ConfigData *cd);
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
-gboolean e_plugin_ui_init (GtkUIManager *ui_manager, EMsgComposer *composer);
+gboolean e_plugin_ui_init (EUIManager *manager, EMsgComposer *composer);
 GtkWidget *org_gnome_email_custom_header_config_option (EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 G_DEFINE_TYPE_WITH_PRIVATE (CustomHeaderOptionsDialog, custom_header_options_dialog, G_TYPE_OBJECT)
@@ -428,110 +427,73 @@ epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog,
 }
 
 static void
-epech_custom_header_options_commit (EMsgComposer *comp,
+epech_custom_header_options_commit (EMsgComposer *composer,
                                     gpointer user_data)
 {
-	EMsgComposer *composer;
-	EmailCustomHeaderWindow *new_email_custom_header_window = NULL;
-	CustomHeaderOptionsDialog *current_dialog = NULL;
-
-	composer = (EMsgComposer *) user_data;
-
-	if (!user_data || !E_IS_MAIL_CUSTOM_HEADER_OPTIONS_DIALOG (user_data))
-		return;
-
-	new_email_custom_header_window = g_object_get_data ((GObject *) composer, "compowindow");
-
-	if (new_email_custom_header_window) {
-		current_dialog = new_email_custom_header_window->epech_dialog;
-	}
-
-	g_clear_pointer (&current_dialog, g_free);
-	g_clear_pointer (&new_email_custom_header_window, g_free);
-}
-
-static gint
-epech_check_existing_composer_window (gconstpointer compowindow,
-                                      gconstpointer other_compowindow)
-{
-	if ((compowindow) && (other_compowindow)) {
-		if (((EmailCustomHeaderWindow *) compowindow)->epech_window == (GdkWindow *) other_compowindow) {
-			return 0;
-		}
-	}
-
-	return -1;
+	g_object_set_data ((GObject *) composer, "epech_dialog", NULL);
 }
 
 static void
-destroy_compo_data (gpointer data)
+action_email_custom_header_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
-	EmailCustomHeaderWindow *compo_data = (EmailCustomHeaderWindow *) data;
-
-	g_free (compo_data);
-}
-
-static void
-action_email_custom_header_cb (GtkAction *action,
-                               EMsgComposer *composer)
-{
-	GtkUIManager *ui_manager;
-	GtkWidget *menuitem;
-	GdkWindow *window;
+	EMsgComposer *composer = user_data;
 	CustomHeaderOptionsDialog *dialog = NULL;
-	EmailCustomHeaderWindow *new_email_custom_header_window = NULL;
-	EHTMLEditor *editor;
 
-	editor = e_msg_composer_get_editor (composer);
-	ui_manager = e_html_editor_get_ui_manager (editor);
-	menuitem = gtk_ui_manager_get_widget (ui_manager, "/main-menu/insert-menu/insert-menu-top/Custom Header");
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	new_email_custom_header_window = g_object_get_data ((GObject *) composer, "compowindow");
+	dialog = g_object_get_data ((GObject *) composer, "epech_dialog");
 
-	window = gtk_widget_get_window (menuitem);
-	if (epech_check_existing_composer_window (new_email_custom_header_window,window) == 0) {
-		dialog = new_email_custom_header_window->epech_dialog;
-	} else {
+	if (!dialog) {
 		dialog = epech_dialog_new ();
 		if (dialog) {
-			new_email_custom_header_window = g_new0 (EmailCustomHeaderWindow, 1);
-			new_email_custom_header_window->epech_window = window;
-			new_email_custom_header_window->epech_dialog = dialog;
-			g_object_set_data_full ((GObject *) composer, "compowindow", new_email_custom_header_window, destroy_compo_data);
+			g_object_set_data ((GObject *) composer, "epech_dialog", dialog);
+
+			g_signal_connect (
+				dialog, "emch_response",
+				G_CALLBACK (epech_append_to_custom_header), composer);
+			g_signal_connect (
+				composer, "destroy",
+				G_CALLBACK (epech_custom_header_options_commit), composer);
 		}
 	}
 
 	epech_dialog_run (dialog, GTK_WIDGET (composer));
-	g_signal_connect (
-		dialog, "emch_response",
-		G_CALLBACK (epech_append_to_custom_header), composer);
-	g_signal_connect (
-		composer, "destroy",
-		G_CALLBACK (epech_custom_header_options_commit), composer);
 }
 
-static GtkActionEntry entries[] = {
-
-	{ "Custom Header",
-	  NULL,
-	  N_("_Custom Header"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_email_custom_header_cb) }
-};
-
 gboolean
-e_plugin_ui_init (GtkUIManager *ui_manager,
+e_plugin_ui_init (EUIManager *manager,
                   EMsgComposer *composer)
 {
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='insert-menu'>"
+		      "<placeholder id='insert-menu-top'>"
+			"<item action='custom-header'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
+	static const EUIActionEntry entries[] = {
+
+		{ "custom-header",
+		  NULL,
+		  N_("_Custom Header"),
+		  NULL,
+		  NULL,
+		  action_email_custom_header_cb, NULL, NULL, NULL }
+	};
+
 	EHTMLEditor *editor;
+	EUIManager *ui_manager;
 
 	editor = e_msg_composer_get_editor (composer);
+	ui_manager = e_html_editor_get_ui_manager (editor);
 
-	/* Add actions to the "composer" action group. */
-	gtk_action_group_add_actions (
-		e_html_editor_get_action_group (editor, "composer"),
-		entries, G_N_ELEMENTS (entries), composer);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "composer", GETTEXT_PACKAGE,
+		entries, G_N_ELEMENTS (entries), composer, eui);
 
 	return TRUE;
 }

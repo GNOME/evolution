@@ -14,17 +14,21 @@
 
 #include "evolution-config.h"
 
-#include "e-headerbar-button.h"
-#include "e-misc-utils.h"
-
 #include <glib/gi18n.h>
+
+#include "e-misc-utils.h"
+#include "e-ui-action.h"
+#include "e-ui-manager.h"
+
+#include "e-headerbar-button.h"
 
 struct _EHeaderBarButtonPrivate {
 	GtkWidget *labeled_button;
 	GtkWidget *icon_only_button;
 	GtkWidget *dropdown_button;
 
-	GtkAction *action;
+	EUIManager *ui_manager;
+	EUIAction *action;
 	gchar *label;
 	gchar *prefer_item;
 	gint last_labeled_button_width;
@@ -35,86 +39,52 @@ enum {
 	PROP_0,
 	PROP_PREFER_ITEM,
 	PROP_LABEL,
-	PROP_ACTION
+	PROP_ACTION,
+	PROP_UI_MANAGER
 };
 
 G_DEFINE_TYPE_WITH_CODE (EHeaderBarButton, e_header_bar_button, GTK_TYPE_BOX,
 	G_ADD_PRIVATE (EHeaderBarButton))
 
-static GtkAction *
+static EUIAction *
 header_bar_button_get_prefer_action (EHeaderBarButton *header_bar_button)
 {
-	GtkMenu *menu;
-	GList *children;
-	GtkAction *action = NULL;
-	GList *link;
-	const gchar *prefer_item;
-
-	if (header_bar_button->priv->dropdown_button == NULL)
+	if (!header_bar_button->priv->ui_manager ||
+	    !header_bar_button->priv->prefer_item)
 		return NULL;
 
-	menu = gtk_menu_button_get_popup ( GTK_MENU_BUTTON (header_bar_button->priv->dropdown_button));
-	g_return_val_if_fail (menu != NULL, NULL);
-
-	children = gtk_container_get_children (GTK_CONTAINER (menu));
-	g_return_val_if_fail (children != NULL, NULL);
-
-	prefer_item = header_bar_button->priv->prefer_item;
-
-	for (link = children; link != NULL; link = g_list_next (link)) {
-		GtkWidget *child;
-		const gchar *name;
-
-		child = GTK_WIDGET (link->data);
-
-		if (!GTK_IS_MENU_ITEM (child))
-			continue;
-
-		action = gtk_activatable_get_related_action (
-			GTK_ACTIVATABLE (child));
-
-		if (action == NULL)
-			continue;
-
-		name = gtk_action_get_name (action);
-
-		if (prefer_item == NULL ||
-				*prefer_item == '\0' ||
-				g_strcmp0 (name, prefer_item) == 0) {
-			break;
-		}
-	}
-
-	g_list_free (children);
-
-	return action;
+	return e_ui_manager_get_action (header_bar_button->priv->ui_manager, header_bar_button->priv->prefer_item);
 }
 
 static void
-header_bar_button_update_button_for_action (GtkButton *button,
-					    GtkAction *action)
+header_bar_button_update_button_for_action (EHeaderBarButton *self,
+					    GtkButton *button,
+					    EUIAction *action,
+					    EUIManager *ui_manager)
 {
-	GtkWidget *image;
 	GtkStyleContext *style_context;
-	const gchar *tooltip;
-	const gchar *icon_name;
+	const gchar *value;
 
 	g_return_if_fail (button != NULL);
 	g_return_if_fail (action != NULL);
 
-	tooltip = gtk_action_get_tooltip (action);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (button), tooltip);
+	if (ui_manager) {
+		const gchar *const_label = gtk_button_get_label (button);
+		gchar *revert_label = const_label ? e_str_without_underscores (const_label) : NULL;
+		gboolean revert_visible = gtk_widget_get_visible (GTK_WIDGET (button));
 
-	icon_name = gtk_action_get_icon_name (action);
-	if (icon_name == NULL) {
-		GIcon *icon = gtk_action_get_gicon (action);
-		image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_BUTTON);
+		e_ui_manager_update_item_from_action (ui_manager, button, action);
+
+		/* The e_ui_manager_update_item_from_action() sets also the label from the action,
+		   but the header bar buttons can have a different label and there can be buttons
+		   with icons only too. */
+		gtk_widget_set_visible (GTK_WIDGET (button), revert_visible);
+		gtk_button_set_label (button, revert_label);
+		g_free (revert_label);
 	} else {
-		image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON);
+		value = e_ui_action_get_tooltip (action);
+		gtk_widget_set_tooltip_text (GTK_WIDGET (button), value);
 	}
-	gtk_widget_set_margin_end (image, 2);
-	gtk_button_set_image (GTK_BUTTON (button), image);
-	gtk_widget_show (image);
 
 	/* Force text button class to fix some themes */
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (button));
@@ -124,7 +94,7 @@ header_bar_button_update_button_for_action (GtkButton *button,
 static void
 header_bar_button_update_button (EHeaderBarButton *header_bar_button)
 {
-	GtkAction *action;
+	EUIAction *action;
 
 	if (header_bar_button->priv->action == NULL)
 		action = header_bar_button_get_prefer_action (header_bar_button);
@@ -132,40 +102,15 @@ header_bar_button_update_button (EHeaderBarButton *header_bar_button)
 		action = header_bar_button->priv->action;
 
 	if (action != NULL) {
-		header_bar_button_update_button_for_action (
+		header_bar_button_update_button_for_action (header_bar_button,
 			GTK_BUTTON (header_bar_button->priv->labeled_button),
-			action);
+			action, header_bar_button->priv->ui_manager);
 		if (header_bar_button->priv->icon_only_button) {
-			header_bar_button_update_button_for_action (
+			header_bar_button_update_button_for_action (NULL,
 				GTK_BUTTON (header_bar_button->priv->icon_only_button),
-				action);
+				action, header_bar_button->priv->ui_manager);
 		}
 	}
-}
-
-static void
-header_bar_button_clicked (GtkWidget *button,
-			   gpointer user_data)
-{
-	EHeaderBarButton *header_bar_button = user_data;
-	GtkAction *action;
-
-	if (header_bar_button->priv->action == NULL)
-		action = header_bar_button_get_prefer_action (header_bar_button);
-	else
-		action = header_bar_button->priv->action;
-
-	if (action != NULL)
-		gtk_action_activate (action);
-}
-
-static void
-header_bar_button_action_activate_cb (GObject *button,
-				      gpointer user_data)
-{
-	GtkAction *action = user_data;
-
-	gtk_action_activate (action);
 }
 
 static void
@@ -178,119 +123,39 @@ header_bar_button_set_prefer_item (EHeaderBarButton *self,
 		return;
 
 	g_free (self->priv->prefer_item);
-
 	self->priv->prefer_item = g_strdup (prefer_item);
+
 	header_bar_button_update_button (self);
-}
-
-static gboolean
-header_bar_button_transform_sensitive_cb (GBinding *binding,
-					  const GValue *from_value,
-					  GValue *to_value,
-					  gpointer user_data)
-{
-	/* The GtkAction::sensitive property does not take into the consideration
-	   also the group's sensitivity, thus use the gtk_action_is_sensitive() function. */
-
-	g_value_set_boolean (to_value, gtk_action_is_sensitive (GTK_ACTION (g_binding_get_source (binding))));
-
-	return TRUE;
-}
-
-typedef struct _ToggleActionData {
-	GWeakRef *button_weakref;
-	gulong handler_id;
-} ToggleActionData;
-
-static void
-toggle_action_data_free (gpointer ptr,
-			 GClosure *closure)
-{
-	ToggleActionData *tad = ptr;
-
-	if (tad) {
-		e_weak_ref_free (tad->button_weakref);
-		g_free (tad);
-	}
-}
-
-static void
-header_button_action_notify_active_cb (GObject *action,
-				       GParamSpec *param,
-				       gpointer user_data)
-{
-	ToggleActionData *tad = user_data;
-	GtkToggleButton *button;
-	gboolean active = FALSE;
-
-	button = g_weak_ref_get (tad->button_weakref);
-	if (!button)
-		return;
-
-	g_object_get (action, "active", &active, NULL);
-
-	/* The "clicked" callback calls gtk_action_activate(), which, in case
-	   of the toggle action, means to flip the option, thus it calls a notification
-	   about action's 'active' property change, which leads back here, causing
-	   a busy loop though the signal handlers. Blocking the handler breaks the loop. */
-	if (tad->handler_id)
-		g_signal_handler_block (button, tad->handler_id);
-
-	if ((gtk_toggle_button_get_active (button) ? 1 : 0) != (active ? 1 : 0))
-		gtk_toggle_button_set_active (button, active);
-
-	if (tad->handler_id)
-		g_signal_handler_unblock (button, tad->handler_id);
-
-	g_clear_object (&button);
 }
 
 static GtkWidget *
 header_bar_button_add_action_button (EHeaderBarButton *header_bar_button,
 				     const gchar *label,
-				     GtkAction *action,
-				     GCallback clicked_cb,
-				     gpointer clicked_cb_user_data)
+				     EUIAction *action)
 {
 	GtkWidget *button;
-	gulong clicked_handler = 0;
 
-	if (GTK_IS_TOGGLE_ACTION (action))
-		button = gtk_toggle_button_new_with_label (label);
-	else
+	if (!action) {
 		button = gtk_button_new_with_label (label);
+	} else if (e_ui_action_get_radio_group (action)) {
+		button = gtk_toggle_button_new_with_label (label);
+	} else {
+		GVariant *state;
+
+		state = g_action_get_state (G_ACTION (action));
+
+		if (state && g_variant_is_of_type (state, G_VARIANT_TYPE_BOOLEAN))
+			button = gtk_toggle_button_new_with_label (label);
+		else
+			button = gtk_button_new_with_label (label);
+
+		g_clear_pointer (&state, g_variant_unref);
+	}
 
 	gtk_box_pack_start (GTK_BOX (header_bar_button), button, FALSE, FALSE, 0);
 
-	if (clicked_cb) {
-		clicked_handler = g_signal_connect_object (
-			button, "clicked", clicked_cb, clicked_cb_user_data, 0);
-	}
-
-	if (action) {
-		e_binding_bind_property_full (
-			action, "sensitive",
-			button, "sensitive",
-			G_BINDING_SYNC_CREATE,
-			header_bar_button_transform_sensitive_cb,
-			NULL, NULL, NULL);
-
-		if (GTK_IS_TOGGLE_ACTION (action)) {
-			ToggleActionData *tad;
-
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
-				gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-
-			tad = g_new0 (ToggleActionData, 1);
-			tad->button_weakref = e_weak_ref_new (button);
-			tad->handler_id = clicked_handler;
-
-			g_signal_connect_data (action, "notify::active",
-				G_CALLBACK (header_button_action_notify_active_cb), tad, toggle_action_data_free, 0);
-		}
-
-		header_bar_button_update_button_for_action (GTK_BUTTON (button), action);
-	}
+	if (action)
+		header_bar_button_update_button_for_action (header_bar_button, GTK_BUTTON (button), action, header_bar_button->priv->ui_manager);
 
 	return button;
 }
@@ -298,20 +163,19 @@ header_bar_button_add_action_button (EHeaderBarButton *header_bar_button,
 static void
 header_bar_button_add_action (EHeaderBarButton *header_bar_button,
 			      const gchar *label,
-			      GtkAction *action,
-			      GCallback clicked_cb,
-			      gpointer clicked_cb_user_data,
+			      EUIAction *action,
 			      GtkWidget **out_labeled_button,
 			      GtkWidget **out_icon_only_button)
 {
 	GtkWidget *labeled_button;
 	GtkWidget *icon_only_button;
 
-	labeled_button = header_bar_button_add_action_button (header_bar_button, label, action, clicked_cb, clicked_cb_user_data);
+	labeled_button = header_bar_button_add_action_button (header_bar_button, label, action);
 
 	if (label) {
-		icon_only_button = header_bar_button_add_action_button (header_bar_button, NULL, action, clicked_cb, clicked_cb_user_data);
+		icon_only_button = header_bar_button_add_action_button (header_bar_button, NULL, action);
 		gtk_widget_show (icon_only_button);
+		gtk_widget_hide (labeled_button);
 
 		e_binding_bind_property (
 			labeled_button, "sensitive",
@@ -342,6 +206,24 @@ header_bar_button_style_updated (GtkWidget *widget)
 }
 
 static void
+header_bar_button_show_all (GtkWidget *widget)
+{
+	/* visibility of the labeled/only-icon buttons already set, thus do not change them both */
+}
+
+static void
+header_bar_button_unmap (GtkWidget *widget)
+{
+	EHeaderBarButton *self = E_HEADER_BAR_BUTTON (widget);
+
+	/* Chain up to parent's method. */
+	GTK_WIDGET_CLASS (e_header_bar_button_parent_class)->unmap (widget);
+
+	self->priv->last_labeled_button_width = -1;
+	self->priv->last_icon_only_button_width = -1;
+}
+
+static void
 header_bar_button_set_property (GObject *object,
 				guint property_id,
 				const GValue *value,
@@ -360,9 +242,12 @@ header_bar_button_set_property (GObject *object,
 				header_bar_button->priv->label = g_value_dup_string (value);
 			return;
 		case PROP_ACTION:
-			header_bar_button->priv->action = g_value_get_object (value);
-			if (header_bar_button->priv->action != NULL)
-				g_object_ref (header_bar_button->priv->action);
+			g_clear_object (&header_bar_button->priv->action);
+			header_bar_button->priv->action = g_value_dup_object (value);
+			return;
+		case PROP_UI_MANAGER:
+			g_clear_object (&header_bar_button->priv->ui_manager);
+			header_bar_button->priv->ui_manager = g_value_dup_object (value);
 			return;
 	}
 
@@ -388,6 +273,9 @@ header_bar_button_get_property (GObject *object,
 		case PROP_ACTION:
 			g_value_set_object (value, header_bar_button->priv->action);
 			return;
+		case PROP_UI_MANAGER:
+			g_value_set_object (value, header_bar_button->priv->ui_manager);
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -405,8 +293,6 @@ header_bar_button_constructed (GObject *object)
 	header_bar_button_add_action (header_bar_button,
 		header_bar_button->priv->label,
 		header_bar_button->priv->action,
-		G_CALLBACK (header_bar_button_clicked),
-		header_bar_button,
 		&header_bar_button->priv->labeled_button,
 		&header_bar_button->priv->icon_only_button);
 
@@ -424,8 +310,8 @@ header_bar_button_finalize (GObject *object)
 	g_free (header_bar_button->priv->prefer_item);
 	g_free (header_bar_button->priv->label);
 
-	if (header_bar_button->priv->action != NULL)
-		g_object_unref (header_bar_button->priv->action);
+	g_clear_object (&header_bar_button->priv->action);
+	g_clear_object (&header_bar_button->priv->ui_manager);
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_header_bar_button_parent_class)->finalize (object);
@@ -445,6 +331,8 @@ e_header_bar_button_class_init (EHeaderBarButtonClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->style_updated = header_bar_button_style_updated;
+	widget_class->show_all = header_bar_button_show_all;
+	widget_class->unmap = header_bar_button_unmap;
 
 	g_object_class_install_property (
 		object_class,
@@ -473,7 +361,17 @@ e_header_bar_button_class_init (EHeaderBarButtonClass *class)
 			"action",
 			"Action",
 			"Button action",
-			GTK_TYPE_ACTION,
+			E_TYPE_UI_ACTION,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_UI_MANAGER,
+		g_param_spec_object (
+			"ui-manager",
+			"EUIManager",
+			NULL,
+			E_TYPE_UI_MANAGER,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 }
 
@@ -491,7 +389,9 @@ e_header_bar_button_init (EHeaderBarButton *self)
 
 /**
  * e_header_bar_button_new:
- * @action: An action overriding menu default action
+ * @label: a button label
+ * @action: an #EUIAction overriding menu default action
+ * @ui_manager: an #EUIManager to get an icon for the @action
  *
  * Creates a new #EHeaderBarButton labeled with @label.
  * If action is %NULL, button will use default preferred menu action if available,
@@ -499,15 +399,18 @@ e_header_bar_button_init (EHeaderBarButton *self)
  *
  * Returns: (transfer full): a new #EHeaderBarButton
  *
- * Since: 3.46
+ * Since: 3.56
  **/
-GtkWidget*
+GtkWidget *
 e_header_bar_button_new (const gchar *label,
-			 GtkAction *action)
+			 EUIAction *action,
+			 EUIManager *ui_manager)
 {
 	return g_object_new (E_TYPE_HEADER_BAR_BUTTON,
 		"label", label,
-		"action", action, NULL);
+		"action", action,
+		"ui-manager", ui_manager,
+		NULL);
 }
 
 /**
@@ -518,18 +421,18 @@ e_header_bar_button_new (const gchar *label,
  *
  * Adds a new button with a related action.
  *
- * Since: 3.46
+ * Since: 3.56
  **/
 void
 e_header_bar_button_add_action (EHeaderBarButton *header_bar_button,
 				const gchar *label,
-				GtkAction *action)
+				EUIAction *action)
 {
 	g_return_if_fail (E_IS_HEADER_BAR_BUTTON (header_bar_button));
-	g_return_if_fail (GTK_IS_ACTION (action));
+	g_return_if_fail (E_IS_UI_ACTION (action));
 
 	header_bar_button_add_action (header_bar_button, label, action,
-		G_CALLBACK (header_bar_button_action_activate_cb), action, NULL, NULL);
+		NULL, NULL);
 }
 
 /**
@@ -623,7 +526,7 @@ e_header_bar_button_css_add_class (EHeaderBarButton *header_bar_button,
  **/
 void
 e_header_bar_button_add_accelerator (EHeaderBarButton *header_bar_button,
-				     GtkAccelGroup* accel_group,
+				     GtkAccelGroup *accel_group,
 				     guint accel_key,
 				     GdkModifierType accel_mods,
 				     GtkAccelFlags accel_flags)

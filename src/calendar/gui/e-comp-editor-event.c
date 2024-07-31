@@ -53,16 +53,6 @@ struct _ECompEditorEventPrivate {
 G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorEvent, e_comp_editor_event, E_TYPE_COMP_EDITOR)
 
 static void
-ece_event_action_classification_cb (GtkRadioAction *action,
-				    GtkRadioAction *current,
-				    ECompEditorEvent *event_editor)
-{
-	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (event_editor));
-
-	e_comp_editor_set_changed (E_COMP_EDITOR (event_editor), TRUE);
-}
-
-static void
 ece_event_update_times (ECompEditorEvent *event_editor,
 			EDateEdit *date_edit,
 			gboolean change_end_datetime)
@@ -166,7 +156,7 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 {
 	ECompEditorEvent *event_editor;
 	gboolean is_organizer;
-	GtkAction *action;
+	EUIAction *action;
 	GtkWidget *widget;
 	guint32 flags;
 
@@ -197,18 +187,18 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 	#undef sensitize_part
 
 	action = e_comp_editor_get_action (comp_editor, "all-day-event");
-	gtk_action_set_sensitive (action, !force_insensitive);
+	e_ui_action_set_sensitive (action, !force_insensitive);
 
 	/* Disable radio items, instead of the whole submenu,
 	   to see the value with read-only events/calendars. */
 	action = e_comp_editor_get_action (comp_editor, "classify-private");
-	gtk_action_set_sensitive (action, !force_insensitive);
+	e_ui_action_set_sensitive (action, !force_insensitive);
 
 	action = e_comp_editor_get_action (comp_editor, "classify-confidential");
-	gtk_action_set_sensitive (action, !force_insensitive);
+	e_ui_action_set_sensitive (action, !force_insensitive);
 
 	action = e_comp_editor_get_action (comp_editor, "classify-public");
-	gtk_action_set_sensitive (action, !force_insensitive);
+	e_ui_action_set_sensitive (action, !force_insensitive);
 
 	if (event_editor->priv->insensitive_info_alert)
 		e_alert_response (event_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
@@ -387,10 +377,10 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 		    (g_strcmp0 (i_cal_timezone_get_location (zone), i_cal_timezone_get_location (cfg_zone)) != 0 ||
 		     g_strcmp0 (i_cal_timezone_get_tzid (zone), i_cal_timezone_get_tzid (cfg_zone)) != 0)) {
 			/* Show timezone part */
-			GtkAction *action;
+			EUIAction *action;
 
 			action = e_comp_editor_get_action (comp_editor, "view-timezone");
-			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+			e_ui_action_set_active (action, TRUE);
 		}
 	}
 
@@ -410,10 +400,10 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 			ICalComponent *component)
 {
 	ECompEditorEvent *event_editor;
+	EUIAction *action;
 	ICalTime *dtstart, *dtend;
 	ICalProperty *prop;
 	gboolean all_day_event = FALSE;
-	GtkAction *action;
 	guint32 flags;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (comp_editor));
@@ -513,7 +503,7 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 		g_object_unref (settings);
 	}
 
-	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+	e_ui_action_set_active (action, TRUE);
 
 	g_clear_object (&dtstart);
 	g_clear_object (&dtend);
@@ -537,10 +527,10 @@ ece_event_fill_component (ECompEditor *comp_editor,
 			  ICalComponent *component)
 {
 	ECompEditorEvent *event_editor;
-	gboolean date_valid, time_valid;
 	ICalProperty *dtstart_prop, *dtend_prop;
 	ICalProperty *prop;
 	ICalProperty_Class class_value;
+	gboolean date_valid, time_valid;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);
 	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
@@ -637,11 +627,9 @@ ece_event_fill_component (ECompEditor *comp_editor,
 	g_clear_object (&dtstart_prop);
 	g_clear_object (&dtend_prop);
 
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (
-		e_comp_editor_get_action (comp_editor, "classify-private"))))
+	if (e_ui_action_get_active (e_comp_editor_get_action (comp_editor, "classify-private")))
 		class_value = I_CAL_CLASS_PRIVATE;
-	else if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (
-		e_comp_editor_get_action (comp_editor, "classify-confidential"))))
+	else if (e_ui_action_get_active (e_comp_editor_get_action (comp_editor, "classify-confidential")))
 		class_value = I_CAL_CLASS_CONFIDENTIAL;
 	else
 		class_value = I_CAL_CLASS_PUBLIC;
@@ -674,7 +662,7 @@ ece_event_notify_target_client_cb (GObject *object,
 				   gpointer user_data)
 {
 	ECompEditorEvent *event_editor;
-	GtkAction *action;
+	EUIAction *action;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (object));
 
@@ -710,10 +698,10 @@ transform_toggle_to_timezone_visible_cb (GBinding *binding,
 					 gpointer user_data)
 {
 	ECompEditor *comp_editor = user_data;
-	GtkToggleAction *action = GTK_TOGGLE_ACTION (e_comp_editor_get_action (comp_editor, "view-timezone"));
+	EUIAction *action = e_comp_editor_get_action (comp_editor, "view-timezone");
 
 	g_value_set_boolean (to_value,
-		gtk_toggle_action_get_active (action) &&
+		e_ui_action_get_active (action) &&
 		(!g_value_get_boolean (from_value) || ece_event_client_needs_all_day_as_time (comp_editor)));
 
 	return TRUE;
@@ -735,128 +723,122 @@ transform_all_day_check_to_action_sensitive_cb (GBinding *binding,
 }
 
 static void
+ece_event_classification_radio_set_state_cb (EUIAction *action,
+					     GVariant *parameter,
+					     gpointer user_data)
+{
+	ECompEditor *self = user_data;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (self));
+
+	e_ui_action_set_state (action, parameter);
+
+	e_comp_editor_set_changed (self, TRUE);
+}
+
+static void
 ece_event_setup_ui (ECompEditorEvent *event_editor)
 {
-	const gchar *ui =
-		"<ui>"
-		"  <menubar action='main-menu'>"
-		"    <menu action='view-menu'>"
-		"      <placeholder name='parts'>"
-		"        <menuitem action='view-timezone'/>"
-		"        <menuitem action='view-categories'/>"
-		"      </placeholder>"
-		"    </menu>"
-		"    <menu action='options-menu'>"
-		"      <placeholder name='toggles'>"
-		"        <menuitem action='all-day-event'/>"
-		"        <menuitem action='show-time-busy'/>"
-		"        <menu action='classification-menu'>"
-		"          <menuitem action='classify-public'/>"
-		"          <menuitem action='classify-private'/>"
-		"          <menuitem action='classify-confidential'/>"
-		"        </menu>"
-		"      </placeholder>"
-		"    </menu>"
-		"  </menubar>"
-		"  <toolbar name='main-toolbar'>"
-		"    <placeholder name='content'>\n"
-		"      <toolitem action='all-day-event'/>\n"
-		"      <toolitem action='show-time-busy'/>\n"
-		"    </placeholder>"
-		"  </toolbar>"
-		"</ui>";
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='view-menu'>"
+		      "<placeholder id='parts'>"
+			"<item action='view-timezone' text_only='true'/>"
+			"<item action='view-categories' text_only='true'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		    "<submenu action='options-menu'>"
+		      "<placeholder id='toggles'>"
+			"<item action='all-day-event' text_only='true'/>"
+			"<item action='show-time-busy' text_only='true'/>"
+			"<submenu action='classification-menu'>"
+			  "<item action='classify-public' group='classification'/>"
+			  "<item action='classify-private' group='classification'/>"
+			  "<item action='classify-confidential' group='classification'/>"
+			"</submenu>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		  "<toolbar id='toolbar-with-headerbar'>"
+		    "<placeholder id='content'>"
+		      "<item action='all-day-event'/>"
+		      "<item action='show-time-busy'/>"
+		    "</placeholder>"
+		  "</toolbar>"
+		  "<toolbar id='toolbar-without-headerbar'>"
+		    "<placeholder id='content'>"
+		      "<item action='all-day-event'/>"
+		      "<item action='show-time-busy'/>"
+		    "</placeholder>"
+		  "</toolbar>"
+		"</eui>";
 
-	const GtkToggleActionEntry view_actions[] = {
+	static const EUIActionEntry entries[] = {
 		{ "view-categories",
 		  NULL,
 		  N_("_Categories"),
 		  NULL,
 		  N_("Toggles whether to display categories"),
-		  NULL,
-		  FALSE },
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
 
 		{ "view-timezone",
 		  "stock_timezone",
 		  N_("Time _Zone"),
 		  NULL,
 		  N_("Toggles whether the time zone is displayed"),
-		  NULL,
-		  FALSE },
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
 
 		{ "all-day-event",
 		  "stock_new-24h-appointment",
 		  N_("All _Day Event"),
 		  "<Control>Y",
 		  N_("Toggles whether to have All Day Event"),
-		  NULL,
-		  FALSE },
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
 
 		{ "show-time-busy",
 		  "dialog-error",
 		  N_("Show Time as _Busy"),
 		  NULL,
 		  N_("Toggles whether to show time as busy"),
-		  NULL,
-		  FALSE }
-	};
-
-	const GtkRadioActionEntry classification_radio_entries[] = {
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
 
 		{ "classify-public",
 		  NULL,
 		  N_("Pu_blic"),
 		  NULL,
 		  N_("Classify as public"),
-		  I_CAL_CLASS_PUBLIC },
+		  NULL, "s", "'public'", ece_event_classification_radio_set_state_cb },
 
 		{ "classify-private",
 		  NULL,
 		  N_("_Private"),
 		  NULL,
 		  N_("Classify as private"),
-		  I_CAL_CLASS_PRIVATE },
+		  NULL, "s", "'private'", ece_event_classification_radio_set_state_cb },
 
 		{ "classify-confidential",
 		  NULL,
 		  N_("_Confidential"),
 		  NULL,
 		  N_("Classify as confidential"),
-		  I_CAL_CLASS_CONFIDENTIAL }
+		  NULL, "s", "'confidential'", ece_event_classification_radio_set_state_cb }
 	};
 
 	ECompEditor *comp_editor;
 	GSettings *settings;
-	GtkUIManager *ui_manager;
-	GtkAction *action;
-	GtkActionGroup *action_group;
+	EUIManager *ui_manager;
+	EUIAction *action;
 	GtkWidget *widget;
-	GError *error = NULL;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (event_editor));
 
 	comp_editor = E_COMP_EDITOR (event_editor);
 	settings = e_comp_editor_get_settings (comp_editor);
 	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
-	action_group = e_comp_editor_get_action_group (comp_editor, "individual");
 
-	gtk_action_group_add_toggle_actions (action_group,
-		view_actions, G_N_ELEMENTS (view_actions), event_editor);
-
-	gtk_action_group_add_radio_actions (
-		action_group, classification_radio_entries,
-		G_N_ELEMENTS (classification_radio_entries),
-		I_CAL_CLASS_PUBLIC,
-		G_CALLBACK (ece_event_action_classification_cb), event_editor);
-
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-
-	e_plugin_ui_register_manager (ui_manager, "org.gnome.evolution.event-editor", event_editor);
-	e_plugin_ui_enable_manager (ui_manager, "org.gnome.evolution.event-editor");
-
-	if (error) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "individual", GETTEXT_PACKAGE,
+		entries, G_N_ELEMENTS (entries), event_editor, eui);
 
 	action = e_comp_editor_get_action (comp_editor, "view-categories");
 	e_binding_bind_property (

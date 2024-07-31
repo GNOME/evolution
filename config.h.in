@@ -66,9 +66,6 @@
 /* ISO codes prefix */
 #define ISO_CODES_PREFIX "@ISO_CODES_PREFIX@"
 
-/* defined if you have X11/XF86keysym.h */
-#cmakedefine HAVE_XFREE 1
-
 /* Define if TNEF attachments parser should be built */
 #cmakedefine ENABLE_YTNEF 1
 

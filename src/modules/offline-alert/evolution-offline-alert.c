@@ -104,7 +104,7 @@ offline_alert_window_added_cb (GtkApplication *application,
                                EOfflineAlert *extension)
 {
 	EShell *shell = E_SHELL (application);
-	GtkAction *action;
+	EUIAction *action;
 	const gchar *alert_id;
 
 	if (!E_IS_SHELL_WINDOW (window))

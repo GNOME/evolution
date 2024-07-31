@@ -47,6 +47,8 @@
 
 G_BEGIN_DECLS
 
+struct _EMailReader;
+
 typedef struct _EMailDisplay EMailDisplay;
 typedef struct _EMailDisplayClass EMailDisplayClass;
 typedef struct _EMailDisplayPrivate EMailDisplayPrivate;
@@ -61,7 +63,10 @@ struct _EMailDisplayClass {
 };
 
 GType		e_mail_display_get_type		(void) G_GNUC_CONST;
-GtkWidget *	e_mail_display_new		(EMailRemoteContent *remote_content);
+GtkWidget *	e_mail_display_new		(EMailRemoteContent *remote_content,
+						 struct _EMailReader *mail_reader);
+struct _EMailReader *
+		e_mail_display_ref_mail_reader	(EMailDisplay *display);
 EAttachmentStore *
 		e_mail_display_get_attachment_store
 						(EMailDisplay *display);
@@ -90,7 +95,7 @@ void		e_mail_display_set_headers_collapsed
 void		e_mail_display_load		(EMailDisplay *display,
 						 const gchar *msg_uri);
 void		e_mail_display_reload		(EMailDisplay *display);
-GtkAction *	e_mail_display_get_action	(EMailDisplay *display,
+EUIAction *	e_mail_display_get_action	(EMailDisplay *display,
 						 const gchar *action_name);
 void		e_mail_display_set_status	(EMailDisplay *display,
 						 const gchar *status);
@@ -111,8 +116,6 @@ void		e_mail_display_set_remote_content
 gboolean	e_mail_display_process_magic_spacebar
 						(EMailDisplay *display,
 						 gboolean towards_bottom);
-gboolean	e_mail_display_need_key_event	(EMailDisplay *mail_display,
-						 const GdkEventKey *event);
 gboolean	e_mail_display_get_skip_insecure_parts
 						(EMailDisplay *mail_display);
 

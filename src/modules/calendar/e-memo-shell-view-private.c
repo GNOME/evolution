@@ -29,7 +29,7 @@ static void
 memo_shell_view_table_popup_event_cb (EShellView *shell_view,
                                       GdkEvent *button_event)
 {
-	e_cal_base_shell_view_show_popup_menu (shell_view, "/memo-popup", button_event, NULL);
+	e_cal_base_shell_view_show_popup_menu (shell_view, "memo-popup", button_event, NULL);
 }
 
 static gboolean
@@ -37,7 +37,7 @@ memo_shell_view_selector_popup_event_cb (EShellView *shell_view,
                                          ESource *clicked_source,
                                          GdkEvent *button_event)
 {
-	e_cal_base_shell_view_show_popup_menu (shell_view, "/memo-list-popup", button_event, clicked_source);
+	e_cal_base_shell_view_show_popup_menu (shell_view, "memo-list-popup", button_event, clicked_source);
 
 	return TRUE;
 }
@@ -86,6 +86,37 @@ memo_shell_view_notify_view_id_cb (EShellView *shell_view)
 	gal_view_instance_set_current_view_id (view_instance, view_id);
 }
 
+static void
+memo_shell_view_task_view_notify_state_cb (GObject *object,
+					   GParamSpec *param,
+					   gpointer user_data)
+{
+	GAction *action = G_ACTION (object);
+	EMemoShellView *memo_shell_view = user_data;
+	EMemoShellContent *memo_shell_content;
+	GtkOrientable *orientable;
+	GtkOrientation orientation;
+	GVariant *state;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	orientable = GTK_ORIENTABLE (memo_shell_content);
+	state = g_action_get_state (action);
+
+	switch (g_variant_get_int32 (state)) {
+		case 0:
+			orientation = GTK_ORIENTATION_VERTICAL;
+			break;
+		case 1:
+			orientation = GTK_ORIENTATION_HORIZONTAL;
+			break;
+		default:
+			g_return_if_reached ();
+	}
+
+	gtk_orientable_set_orientation (orientable, orientation);
+	g_clear_pointer (&state, g_variant_unref);
+}
+
 void
 e_memo_shell_view_private_init (EMemoShellView *memo_shell_view)
 {
@@ -104,6 +135,11 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EShell *shell;
+	EShellSearchbar *searchbar;
+	EPreviewPane *preview_pane;
+	EWebView *web_view;
+	EUIAction *action;
+	GSettings *settings;
 	gulong handler_id;
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
@@ -112,9 +148,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
-
-	e_shell_window_add_action_group_full (shell_window, "memos", "memos");
-	e_shell_window_add_action_group_full (shell_window, "memos-filter", "memos");
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->memo_shell_backend = E_MEMO_SHELL_BACKEND (g_object_ref (shell_backend));
@@ -213,9 +246,53 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		(GHookFunc) e_memo_shell_view_update_search_filter,
 		memo_shell_view);
 
-	e_memo_shell_view_actions_init (memo_shell_view);
+	preview_pane = e_memo_shell_content_get_preview_pane (memo_shell_view->priv->memo_shell_content);
+	web_view = e_preview_pane_get_web_view (preview_pane);
+	e_web_view_set_open_proxy (web_view, ACTION (MEMO_OPEN));
+	e_web_view_set_print_proxy (web_view, ACTION (MEMO_PRINT));
+	e_web_view_set_save_as_proxy (web_view, ACTION (MEMO_SAVE_AS));
+
+	/* Advanced Search Action */
+	action = ACTION (MEMO_SEARCH_ADVANCED_HIDDEN);
+	e_ui_action_set_visible (action, FALSE);
+	searchbar = e_memo_shell_content_get_searchbar (memo_shell_view->priv->memo_shell_content);
+	e_shell_searchbar_set_search_option (searchbar, action);
+
 	e_memo_shell_view_update_sidebar (memo_shell_view);
 	e_memo_shell_view_update_search_filter (memo_shell_view);
+
+	/* Bind GObject properties to settings keys. */
+
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+	action = ACTION (MEMO_PREVIEW);
+
+	g_settings_bind (
+		settings, "show-memo-preview",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	e_binding_bind_property (
+		action, "active",
+		priv->memo_shell_content, "preview-visible",
+		G_BINDING_SYNC_CREATE);
+
+	action = ACTION (MEMO_VIEW_VERTICAL);
+
+	g_settings_bind_with_mapping (
+		settings, "memo-layout",
+		action, "state",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY,
+		e_shell_view_util_layout_to_state_cb,
+		e_shell_view_util_state_to_layout_cb, NULL, NULL);
+
+	g_object_unref (settings);
+
+	g_signal_connect_object (action, "notify::state",
+		G_CALLBACK (memo_shell_view_task_view_notify_state_cb), memo_shell_view, 0);
+
+	/* to propagate the loaded state */
+	memo_shell_view_task_view_notify_state_cb (G_OBJECT (action), NULL, memo_shell_view);
 }
 
 void

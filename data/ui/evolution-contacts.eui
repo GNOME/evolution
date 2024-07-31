@@ -1,0 +1,125 @@
+<eui>
+  <menu id='main-menu'>
+    <submenu action='file-menu'>
+      <placeholder id='file-actions'>
+        <item action='contact-open'/>
+        <item action='contact-save-as'/>
+        <item action='address-book-save-as'/>
+      </placeholder>
+      <placeholder id='print-actions'>
+        <item action='address-book-print-preview'/>
+        <item action='address-book-print'/>
+      </placeholder>
+    </submenu>
+    <submenu action='edit-menu'>
+      <placeholder id='edit-actions'>
+        <item action='contact-delete'/>
+        <item action='address-book-delete'/>
+        <separator/>
+        <item action='contact-find'/>
+      </placeholder>
+      <placeholder id='administrative-actions'>
+        <item action='categories'/>
+      </placeholder>
+    </submenu>
+    <submenu action='view-menu'>
+      <item action='address-book-manage-groups'/>
+      <submenu action='gal-view-menu'>
+        <placeholder id='gal-customize-view-placeholder'>
+          <submenu action='contact-cards-sort-by-menu'>
+            <item action='contact-cards-sort-by-file-as' group='contact-cards-sort'/>
+            <item action='contact-cards-sort-by-given-name' group='contact-cards-sort'/>
+            <item action='contact-cards-sort-by-family-name' group='contact-cards-sort'/>
+          </submenu>
+        </placeholder>
+      </submenu>
+      <placeholder id='view-custom-menus'>
+        <submenu action='contact-preview-menu'>
+          <item action='contact-preview'/>
+          <item action='contact-preview-show-maps'/>
+          <separator/>
+          <item action='contact-view-classic' group='contact-view'/>
+          <item action='contact-view-vertical' group='contact-view'/>
+        </submenu>
+      </placeholder>
+    </submenu>
+    <placeholder id='custom-menus'>
+      <submenu action='contact-actions-menu'>
+        <item action='contact-forward'/>
+        <item action='contact-send-message'/>
+        <item action='address-book-stop'/>
+        <separator/>
+        <item action='contact-copy'/>
+        <item action='contact-move'/>
+        <separator/>
+        <item action='contact-bulk-edit'/>
+        <separator/>
+        <item action='address-book-copy'/>
+        <item action='address-book-move'/>
+        <separator/>
+        <item action='address-book-map'/>
+        <separator/>
+        <item action='address-book-properties'/>
+      </submenu>
+    </placeholder>
+  </menu>
+  <toolbar id='main-toolbar-with-headerbar'>
+    <item action='address-book-print'/>
+    <item action='delete-selection'/>
+    <item action='address-book-stop'/>
+  </toolbar>
+  <toolbar id='main-toolbar-without-headerbar'>
+    <item action='address-book-print'/>
+    <item action='delete-selection'/>
+    <item action='address-book-stop'/>
+  </toolbar>
+  <menu id='address-book-popup' is-popup='true'>
+    <item action='address-book-new'/>
+    <item action='address-book-rename'/>
+    <item action='address-book-refresh'/>
+    <item action='address-book-refresh-backend'/>
+    <item action='address-book-save-as'/>
+    <separator/>
+    <item action='address-book-delete-popup'/>
+    <separator/>
+    <placeholder id='address-book-popup-actions'/>
+    <separator/>
+    <item action='address-book-manage-groups-popup'/>
+    <separator/>
+    <item action='address-book-map-popup'/>
+    <separator/>
+    <item action='address-book-properties-popup'/>
+  </menu>
+  <menu id='contact-popup' is-popup='true'>
+    <item action='contact-new'/>
+    <item action='contact-new-list'/>
+    <separator/>
+    <item action='contact-open'/>
+    <item action='contact-save-as'/>
+    <item action='contact-print'/>
+    <separator/>
+    <item action='cut-clipboard'/>
+    <item action='copy-clipboard'/>
+    <item action='paste-clipboard'/>
+    <separator/>
+    <item action='contact-copy'/>
+    <item action='contact-move'/>
+    <item action='contact-forward'/>
+    <item action='contact-send-message'/>
+    <separator/>
+    <item action='delete-selection'/>
+  </menu>
+  <menu id='search-options'>
+    <item action='contact-search-advanced-hidden' group='search-options'/>
+    <item action='contact-search-name-contains' group='search-options'/>
+    <item action='contact-search-email-begins-with' group='search-options'/>
+    <item action='contact-search-email-contains' group='search-options'/>
+    <item action='contact-search-phone-contains' group='search-options'/>
+    <item action='contact-search-any-field-contains' group='search-options'/>
+    <separator/>
+    <item action='search-advanced'/>
+    <submenu action="saved-searches">
+      <item action='EShellView::saved-searches-list'/>
+    </submenu>
+  </menu>
+</eui>

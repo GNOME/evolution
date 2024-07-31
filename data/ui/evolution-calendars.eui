@@ -1,0 +1,214 @@
+<eui>
+  <headerbar id='main-headerbar'>
+    <end>
+      <item action='ECalShellView::navigation-buttons'/>
+    </end>
+  </headerbar>
+  <menu id='main-menu'>
+    <submenu action='file-menu'>
+      <placeholder id='file-actions'>
+        <item action='event-open'/>
+        <item action='event-save-as'/>
+      </placeholder>
+      <placeholder id='print-actions'>
+        <item action='calendar-print-preview'/>
+        <item action='calendar-print'/>
+      </placeholder>
+    </submenu>
+    <submenu action='edit-menu'>
+      <placeholder id='edit-actions'>
+        <item action='event-delete'/>
+        <item action='event-delete-occurrence'/>
+        <item action='event-delete-occurrence-this-and-future'/>
+        <item action='event-delete-occurrence-all'/>
+        <item action='calendar-delete'/>
+      </placeholder>
+      <placeholder id='administrative-actions'>
+        <item action='categories'/>
+      </placeholder>
+    </submenu>
+    <submenu action='view-menu'>
+      <item action='calendar-go-today'/>
+      <item action='calendar-go-back'/>
+      <item action='calendar-go-forward'/>
+      <item action='calendar-jump-to'/>
+      <item action='calendar-manage-groups'/>
+      <submenu action='layout-menu'>
+        <placeholder id='view-layout-custom-menus'>
+          <item action='calendar-show-tag-vpane'/>
+        </placeholder>
+      </submenu>
+      <placeholder id='view-custom-menus'>
+        <submenu action='calendar-preview-menu'>
+          <item action='calendar-preview'/>
+          <separator/>
+          <item action='calendar-preview-horizontal' group='calendar-preview'/>
+          <item action='calendar-preview-vertical' group='calendar-preview'/>
+        </submenu>
+      </placeholder>
+    </submenu>
+    <placeholder id='custom-menus'>
+      <submenu action='calendar-actions-menu'>
+        <item action='calendar-purge'/>
+      </submenu>
+    </placeholder>
+    <submenu action='search-menu'>
+      <placeholder id='search-extra-actions'>
+        <separator/>
+        <item action='calendar-search-prev'/>
+        <item action='calendar-search-next'/>
+        <item action='calendar-search-stop'/>
+        <separator/>
+      </placeholder>
+    </submenu>
+  </menu>
+  <toolbar id='main-toolbar-with-headerbar' primary='true'>
+    <item action='calendar-print'/>
+    <item action='delete-selection'/>
+    <separator/>
+    <item action='calendar-jump-to'/>
+    <separator/>
+    <item action='calendar-view-day' important='true'/>
+    <item action='calendar-view-workweek' important='true'/>
+    <item action='calendar-view-week' important='true'/>
+    <item action='calendar-view-month' important='true'/>
+    <item action='calendar-view-year' important='true'/>
+    <item action='calendar-view-list' important='true'/>
+  </toolbar>
+  <toolbar id='main-toolbar-without-headerbar' primary='true'>
+    <item action='calendar-print'/>
+    <item action='delete-selection'/>
+    <separator/>
+    <item action='calendar-go-back'/>
+    <item action='calendar-go-today'/>
+    <item action='calendar-go-forward'/>
+    <separator/>
+    <item action='calendar-jump-to'/>
+    <separator/>
+    <item action='calendar-view-day' group='calendar-view' important='true'/>
+    <item action='calendar-view-workweek' group='calendar-view' important='true'/>
+    <item action='calendar-view-week' group='calendar-view' important='true'/>
+    <item action='calendar-view-month' group='calendar-view' important='true'/>
+    <item action='calendar-view-year' group='calendar-view' important='true'/>
+    <item action='calendar-view-list' group='calendar-view' important='true'/>
+  </toolbar>
+  <menu id='calendar-popup' is-popup='true'>
+    <item action='calendar-new'/>
+    <item action='calendar-copy'/>
+    <item action='calendar-rename'/>
+    <item action='calendar-refresh'/>
+    <item action='calendar-refresh-backend'/>
+    <separator/>
+    <item action='calendar-delete'/>
+    <item action='calendar-select-one'/>
+    <item action='calendar-select-all'/>
+    <placeholder id='calendar-popup-actions'/>
+    <separator/>
+    <item action='calendar-manage-groups-popup'/>
+    <separator/>
+    <item action='calendar-properties'/>
+  </menu>
+  <menu id='calendar-empty-popup' is-popup='true'>
+    <item action='event-new'/>
+    <item action='event-all-day-new'/>
+    <item action='event-meeting-new'/>
+    <separator/>
+    <item action='event-print'/>
+    <separator/>
+    <item action='paste-clipboard'/>
+    <separator/>
+    <submenu action='gal-view-menu'>
+      <item action='calendar-view-day' group='calendar-view'/>
+      <item action='calendar-view-workweek' group='calendar-view'/>
+      <item action='calendar-view-week' group='calendar-view'/>
+      <item action='calendar-view-month' group='calendar-view'/>
+      <item action='calendar-view-year' group='calendar-view'/>
+      <item action='calendar-view-list' group='calendar-view'/>
+    </submenu>
+    <item action='calendar-go-today'/>
+    <item action='calendar-jump-to'/>
+  </menu>
+  <menu id='calendar-event-popup' is-popup='true'>
+    <item action='event-open'/>
+    <item action='event-edit-as-new'/>
+    <item action='event-save-as'/>
+    <item action='event-print'/>
+    <separator/>
+    <submenu action='event-rsvp-submenu'>
+      <item action='event-rsvp-accept'/>
+      <item action='event-rsvp-tentative'/>
+      <item action='event-rsvp-decline'/>
+      <separator/>
+      <item action='event-rsvp-accept-1'/>
+      <item action='event-rsvp-tentative-1'/>
+      <item action='event-rsvp-decline-1'/>
+    </submenu>
+    <separator/>
+    <item action='cut-clipboard'/>
+    <item action='copy-clipboard'/>
+    <item action='paste-clipboard'/>
+    <separator/>
+    <item action='event-copy'/>
+    <item action='event-move'/>
+    <item action='event-delegate'/>
+    <item action='event-schedule'/>
+    <item action='event-schedule-appointment'/>
+    <item action='event-forward'/>
+    <item action='event-reply'/>
+    <item action='event-reply-all'/>
+    <separator/>
+    <item action='event-occurrence-movable'/>
+    <item action='event-delete'/>
+    <item action='event-delete-occurrence'/>
+    <item action='event-delete-occurrence-this-and-future'/>
+    <item action='event-delete-occurrence-all'/>
+    <separator/>
+    <placeholder id='event-popup-actions'/>
+  </menu>
+  <menu id='calendar-memopad-popup' is-popup='true'>
+    <item action='calendar-memopad-new'/>
+    <separator/>
+    <item action='calendar-memopad-open'/>
+    <item action='calendar-memopad-open-url'/>
+    <item action='calendar-memopad-save-as'/>
+    <item action='calendar-memopad-print'/>
+    <separator/>
+    <item action='cut-clipboard'/>
+    <item action='copy-clipboard'/>
+    <item action='paste-clipboard'/>
+    <separator/>
+    <item action='calendar-memopad-forward'/>
+    <separator/>
+    <item action='delete-selection'/>
+  </menu>
+  <menu id='calendar-taskpad-popup' is-popup='true'>
+    <item action='calendar-taskpad-new'/>
+    <separator/>
+    <item action='calendar-taskpad-open'/>
+    <item action='calendar-taskpad-open-url'/>
+    <item action='calendar-taskpad-save-as'/>
+    <item action='calendar-taskpad-print'/>
+    <separator/>
+    <item action='cut-clipboard'/>
+    <item action='copy-clipboard'/>
+    <item action='paste-clipboard'/>
+    <separator/>
+    <item action='calendar-taskpad-assign'/>
+    <item action='calendar-taskpad-forward'/>
+    <item action='calendar-taskpad-mark-complete'/>
+    <item action='calendar-taskpad-mark-incomplete'/>
+    <separator/>
+    <item action='delete-selection'/>
+  </menu>
+  <menu id='calendar-search-options'>
+    <item action='calendar-search-advanced-hidden' group='search-options'/>
+    <item action='calendar-search-summary-contains' group='search-options'/>
+    <item action='calendar-search-description-contains' group='search-options'/>
+    <item action='calendar-search-any-field-contains' group='search-options'/>
+    <separator/>
+    <item action='search-advanced'/>
+    <submenu action="saved-searches">
+      <item action='EShellView::saved-searches-list'/>
+    </submenu>
+  </menu>
+</eui>

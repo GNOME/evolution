@@ -27,6 +27,8 @@
 
 #include <gtk/gtk.h>
 
+#include <e-util/e-ui-action.h>
+
 /* Standard GObject macros */
 #define E_TYPE_FOCUS_TRACKER \
 	(e_focus_tracker_get_type ())
@@ -65,37 +67,37 @@ GType		e_focus_tracker_get_type	(void) G_GNUC_CONST;
 EFocusTracker *	e_focus_tracker_new		(GtkWindow *window);
 GtkWidget *	e_focus_tracker_get_focus	(EFocusTracker *focus_tracker);
 GtkWindow *	e_focus_tracker_get_window	(EFocusTracker *focus_tracker);
-GtkAction *	e_focus_tracker_get_cut_clipboard_action
+EUIAction *	e_focus_tracker_get_cut_clipboard_action
 						(EFocusTracker *focus_tracker);
 void		e_focus_tracker_set_cut_clipboard_action
 						(EFocusTracker *focus_tracker,
-						 GtkAction *cut_clipboard);
-GtkAction *	e_focus_tracker_get_copy_clipboard_action
+						 EUIAction *cut_clipboard);
+EUIAction *	e_focus_tracker_get_copy_clipboard_action
 						(EFocusTracker *focus_tracker);
 void		e_focus_tracker_set_copy_clipboard_action
 						(EFocusTracker *focus_tracker,
-						 GtkAction *copy_clipboard);
-GtkAction *	e_focus_tracker_get_paste_clipboard_action
+						 EUIAction *copy_clipboard);
+EUIAction *	e_focus_tracker_get_paste_clipboard_action
 						(EFocusTracker *focus_tracker);
 void		e_focus_tracker_set_paste_clipboard_action
 						(EFocusTracker *focus_tracker,
-						 GtkAction *paste_clipboard);
-GtkAction *	e_focus_tracker_get_delete_selection_action
+						 EUIAction *paste_clipboard);
+EUIAction *	e_focus_tracker_get_delete_selection_action
 						(EFocusTracker *focus_tracker);
 void		e_focus_tracker_set_delete_selection_action
 						(EFocusTracker *focus_tracker,
-						 GtkAction *delete_selection);
-GtkAction *	e_focus_tracker_get_select_all_action
+						 EUIAction *delete_selection);
+EUIAction *	e_focus_tracker_get_select_all_action
 						(EFocusTracker *focus_tracker);
 void		e_focus_tracker_set_select_all_action
 						(EFocusTracker *focus_tracker,
-						 GtkAction *select_all);
-GtkAction *	e_focus_tracker_get_undo_action	(EFocusTracker *focus_tracker);
+						 EUIAction *select_all);
+EUIAction *	e_focus_tracker_get_undo_action	(EFocusTracker *focus_tracker);
 void		e_focus_tracker_set_undo_action	(EFocusTracker *focus_tracker,
-						 GtkAction *undo);
-GtkAction *	e_focus_tracker_get_redo_action	(EFocusTracker *focus_tracker);
+						 EUIAction *undo);
+EUIAction *	e_focus_tracker_get_redo_action	(EFocusTracker *focus_tracker);
 void		e_focus_tracker_set_redo_action	(EFocusTracker *focus_tracker,
-						 GtkAction *redo);
+						 EUIAction *redo);
 void		e_focus_tracker_update_actions	(EFocusTracker *focus_tracker);
 void		e_focus_tracker_cut_clipboard	(EFocusTracker *focus_tracker);
 void		e_focus_tracker_copy_clipboard	(EFocusTracker *focus_tracker);

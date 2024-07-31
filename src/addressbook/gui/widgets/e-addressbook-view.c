@@ -956,7 +956,7 @@ addressbook_view_update_actions (ESelectable *selectable,
                                  gint n_clipboard_targets)
 {
 	EAddressbookView *view;
-	GtkAction *action;
+	EUIAction *action;
 	GtkTargetList *target_list;
 	gboolean can_paste = FALSE;
 	gboolean source_is_editable;
@@ -980,32 +980,32 @@ addressbook_view_update_actions (ESelectable *selectable,
 	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
 	sensitive = source_is_editable && (n_selected > 0);
 	tooltip = _("Cut selected contacts to the clipboard");
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
 	sensitive = (n_selected > 0);
 	tooltip = _("Copy selected contacts to the clipboard");
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
 	sensitive = source_is_editable && can_paste;
 	tooltip = _("Paste contacts from the clipboard");
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_delete_selection_action (focus_tracker);
 	sensitive = source_is_editable && (n_selected > 0);
 	tooltip = _("Delete selected contacts");
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
 	sensitive = (n_contacts > 0);
 	tooltip = _("Select all visible contacts");
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_tooltip (action, tooltip);
 }
 
 static void

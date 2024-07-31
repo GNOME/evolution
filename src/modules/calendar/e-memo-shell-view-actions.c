@@ -28,9 +28,11 @@
 #include "e-cal-shell-view.h"
 
 static void
-action_memo_delete_cb (GtkAction *action,
-                       EMemoShellView *memo_shell_view)
+action_memo_delete_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 
@@ -41,9 +43,11 @@ action_memo_delete_cb (GtkAction *action,
 }
 
 static void
-action_memo_find_cb (GtkAction *action,
-                     EMemoShellView *memo_shell_view)
+action_memo_find_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
 	EPreviewPane *preview_pane;
 
@@ -54,9 +58,11 @@ action_memo_find_cb (GtkAction *action,
 }
 
 static void
-action_memo_forward_cb (GtkAction *action,
-                        EMemoShellView *memo_shell_view)
+action_memo_forward_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
@@ -86,16 +92,21 @@ action_memo_forward_cb (GtkAction *action,
 }
 
 static void
-action_memo_list_copy_cb (GtkAction *action,
-			  EShellView *shell_view)
+action_memo_list_copy_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EShellView *shell_view = user_data;
+
 	e_cal_base_shell_view_copy_calendar (shell_view);
 }
 
 static void
-action_memo_list_delete_cb (GtkAction *action,
-                            EMemoShellView *memo_shell_view)
+action_memo_list_delete_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	ECalBaseShellSidebar *memo_shell_sidebar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
@@ -135,9 +146,11 @@ action_memo_list_delete_cb (GtkAction *action,
 }
 
 static void
-action_memo_list_manage_groups_cb (GtkAction *action,
-				   EMemoShellView *memo_shell_view)
+action_memo_list_manage_groups_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	EShellView *shell_view;
 	ESourceSelector *selector;
 
@@ -150,9 +163,11 @@ action_memo_list_manage_groups_cb (GtkAction *action,
 }
 
 static void
-action_memo_list_new_cb (GtkAction *action,
-                         EMemoShellView *memo_shell_view)
+action_memo_list_new_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -177,7 +192,7 @@ action_memo_list_new_cb (GtkAction *action,
 	gtk_window_set_transient_for (
 		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
 
-	icon_name = gtk_action_get_icon_name (action);
+	icon_name = e_ui_action_get_icon_name (action);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("New Memo List"));
@@ -186,9 +201,11 @@ action_memo_list_new_cb (GtkAction *action,
 }
 
 static void
-action_memo_list_print_cb (GtkAction *action,
-                           EMemoShellView *memo_shell_view)
+action_memo_list_print_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 
@@ -201,9 +218,11 @@ action_memo_list_print_cb (GtkAction *action,
 }
 
 static void
-action_memo_list_print_preview_cb (GtkAction *action,
-                                   EMemoShellView *memo_shell_view)
+action_memo_list_print_preview_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 
@@ -216,9 +235,11 @@ action_memo_list_print_preview_cb (GtkAction *action,
 }
 
 static void
-action_memo_list_properties_cb (GtkAction *action,
-                                EMemoShellView *memo_shell_view)
+action_memo_list_properties_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalBaseShellSidebar *memo_shell_sidebar;
@@ -249,7 +270,7 @@ action_memo_list_properties_cb (GtkAction *action,
 	gtk_window_set_transient_for (
 		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
 
-	icon_name = gtk_action_get_icon_name (action);
+	icon_name = e_ui_action_get_icon_name (action);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Memo List Properties"));
@@ -258,9 +279,11 @@ action_memo_list_properties_cb (GtkAction *action,
 }
 
 static void
-action_memo_list_refresh_cb (GtkAction *action,
-                             EMemoShellView *memo_shell_view)
+action_memo_list_refresh_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	ECalBaseShellSidebar *memo_shell_sidebar;
 	ESourceSelector *selector;
 	EClient *client = NULL;
@@ -288,9 +311,11 @@ action_memo_list_refresh_cb (GtkAction *action,
 }
 
 static void
-action_memo_list_refresh_backend_cb (GtkAction *action,
-				     EShellView *shell_view)
+action_memo_list_refresh_backend_cb (EUIAction *action,
+				     GVariant *parameter,
+				     gpointer user_data)
 {
+	EShellView *shell_view = user_data;
 	ESource *source;
 
 	g_return_if_fail (E_IS_MEMO_SHELL_VIEW (shell_view));
@@ -302,9 +327,11 @@ action_memo_list_refresh_backend_cb (GtkAction *action,
 }
 
 static void
-action_memo_list_rename_cb (GtkAction *action,
-                            EMemoShellView *memo_shell_view)
+action_memo_list_rename_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	ECalBaseShellSidebar *memo_shell_sidebar;
 	ESourceSelector *selector;
 
@@ -315,9 +342,11 @@ action_memo_list_rename_cb (GtkAction *action,
 }
 
 static void
-action_memo_list_select_all_cb (GtkAction *action,
-				EMemoShellView *memo_shell_view)
+action_memo_list_select_all_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	ECalBaseShellSidebar *memo_shell_sidebar;
 	ESourceSelector *selector;
 
@@ -328,9 +357,11 @@ action_memo_list_select_all_cb (GtkAction *action,
 }
 
 static void
-action_memo_list_select_one_cb (GtkAction *action,
-                                EMemoShellView *memo_shell_view)
+action_memo_list_select_one_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	ECalBaseShellSidebar *memo_shell_sidebar;
 	ESourceSelector *selector;
 	ESource *primary;
@@ -347,9 +378,11 @@ action_memo_list_select_one_cb (GtkAction *action,
 }
 
 static void
-action_memo_new_cb (GtkAction *action,
-                    EMemoShellView *memo_shell_view)
+action_memo_new_cb (EUIAction *action,
+		    GVariant *parameter,
+		    gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EMemoShellContent *memo_shell_content;
@@ -379,9 +412,11 @@ action_memo_new_cb (GtkAction *action,
 }
 
 static void
-action_memo_open_cb (GtkAction *action,
-                     EMemoShellView *memo_shell_view)
+action_memo_open_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
@@ -400,9 +435,11 @@ action_memo_open_cb (GtkAction *action,
 }
 
 static void
-action_memo_open_url_cb (GtkAction *action,
-                         EMemoShellView *memo_shell_view)
+action_memo_open_url_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EMemoShellContent *memo_shell_content;
@@ -434,21 +471,11 @@ action_memo_open_url_cb (GtkAction *action,
 }
 
 static void
-action_memo_preview_cb (GtkToggleAction *action,
-                        EMemoShellView *memo_shell_view)
+action_memo_print_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
-	EMemoShellContent *memo_shell_content;
-	gboolean visible;
-
-	memo_shell_content = memo_shell_view->priv->memo_shell_content;
-	visible = gtk_toggle_action_get_active (action);
-	e_memo_shell_content_set_preview_visible (memo_shell_content, visible);
-}
-
-static void
-action_memo_print_cb (GtkAction *action,
-                      EMemoShellView *memo_shell_view)
-{
+	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
@@ -478,9 +505,11 @@ action_memo_print_cb (GtkAction *action,
 }
 
 static void
-action_memo_save_as_cb (GtkAction *action,
-                        EMemoShellView *memo_shell_view)
+action_memo_save_as_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	EMemoShellView *memo_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -540,423 +569,245 @@ action_memo_save_as_cb (GtkAction *action,
 	g_object_unref (file);
 }
 
-static void
-action_memo_view_cb (GtkRadioAction *action,
-                     GtkRadioAction *current,
-                     EMemoShellView *memo_shell_view)
-{
-	EMemoShellContent *memo_shell_content;
-	GtkOrientable *orientable;
-	GtkOrientation orientation;
-
-	memo_shell_content = memo_shell_view->priv->memo_shell_content;
-	orientable = GTK_ORIENTABLE (memo_shell_content);
-
-	switch (gtk_radio_action_get_current_value (action)) {
-		case 0:
-			orientation = GTK_ORIENTATION_VERTICAL;
-			break;
-		case 1:
-			orientation = GTK_ORIENTATION_HORIZONTAL;
-			break;
-		default:
-			g_return_if_reached ();
-	}
-
-	gtk_orientable_set_orientation (orientable, orientation);
-}
-
-static GtkActionEntry memo_entries[] = {
-
-	{ "memo-delete",
-	  "edit-delete",
-	  N_("_Delete Memo"),
-	  NULL,
-	  N_("Delete selected memos"),
-	  G_CALLBACK (action_memo_delete_cb) },
-
-	{ "memo-find",
-	  "edit-find",
-	  N_("_Find in Memo…"),
-	  "<Shift><Control>f",
-	  N_("Search for text in the displayed memo"),
-	  G_CALLBACK (action_memo_find_cb) },
-
-	{ "memo-forward",
-	  "mail-forward",
-	  N_("_Forward as iCalendar…"),
-	  "<Control>f",
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_memo_forward_cb) },
-
-	{ "memo-list-copy",
-	  "edit-copy",
-	  N_("_Copy…"),
-	  "<Control>c",
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_memo_list_copy_cb) },
-
-	{ "memo-list-delete",
-	  "edit-delete",
-	  N_("D_elete Memo List"),
-	  NULL,
-	  N_("Delete the selected memo list"),
-	  G_CALLBACK (action_memo_list_delete_cb) },
-
-	{ "memo-list-manage-groups",
-	  NULL,
-	  N_("_Manage Memo List groups…"),
-	  NULL,
-	  N_("Manage Memo List groups order and visibility"),
-	  G_CALLBACK (action_memo_list_manage_groups_cb) },
-
-	{ "memo-list-new",
-	  "stock_notes",
-	  N_("_New Memo List"),
-	  NULL,
-	  N_("Create a new memo list"),
-	  G_CALLBACK (action_memo_list_new_cb) },
-
-	{ "memo-list-properties",
-	  "document-properties",
-	  N_("_Properties"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_memo_list_properties_cb) },
-
-	{ "memo-list-refresh",
-	  "view-refresh",
-	  N_("Re_fresh"),
-	  NULL,
-	  N_("Refresh the selected memo list"),
-	  G_CALLBACK (action_memo_list_refresh_cb) },
-
-	{ "memo-list-refresh-backend",
-	  "view-refresh",
-	  N_("Re_fresh list of account memo lists"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_memo_list_refresh_backend_cb) },
-
-	{ "memo-list-rename",
-	  NULL,
-	  N_("_Rename…"),
-	  "F2",
-	  N_("Rename the selected memo list"),
-	  G_CALLBACK (action_memo_list_rename_cb) },
-
-	{ "memo-list-select-one",
-	  "stock_check-filled",
-	  N_("Show _Only This Memo List"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_memo_list_select_one_cb) },
-
-	{ "memo-list-select-all",
-	  "stock_check-filled",
-	  N_("Sho_w All Memo Lists"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_memo_list_select_all_cb) },
-
-	{ "memo-new",
-	  "stock_insert-note",
-	  N_("New _Memo"),
-	  NULL,
-	  N_("Create a new memo"),
-	  G_CALLBACK (action_memo_new_cb) },
-
-	{ "memo-open",
-	  "document-open",
-	  N_("_Open Memo"),
-	  "<Control>o",
-	  N_("View the selected memo"),
-	  G_CALLBACK (action_memo_open_cb) },
-
-	{ "memo-open-url",
-	  "applications-internet",
-	  N_("Open _Web Page"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_memo_open_url_cb) },
-
-	/*** Menus ***/
-
-	{ "memo-preview-menu",
-	  NULL,
-	  N_("_Preview"),
-	  NULL,
-	  NULL,
-	  NULL }
-};
-
-static EPopupActionEntry memo_popup_entries[] = {
-
-	{ "memo-list-popup-copy",
-	  NULL,
-	  "memo-list-copy" },
-
-	{ "memo-list-popup-delete",
-	  N_("_Delete"),
-	  "memo-list-delete" },
-
-	{ "memo-list-popup-manage-groups",
-	  N_("_Manage groups…"),
-	  "memo-list-manage-groups" },
-
-	{ "memo-list-popup-properties",
-	  NULL,
-	  "memo-list-properties" },
-
-	{ "memo-list-popup-refresh",
-	  NULL,
-	  "memo-list-refresh" },
-
-	{ "memo-list-popup-refresh-backend",
-	  NULL,
-	  "memo-list-refresh-backend" },
-
-	{ "memo-list-popup-rename",
-	  NULL,
-	  "memo-list-rename" },
-
-	{ "memo-list-popup-select-all",
-	  NULL,
-	  "memo-list-select-all" },
-
-	{ "memo-list-popup-select-one",
-	  NULL,
-	  "memo-list-select-one" },
-
-	{ "memo-popup-forward",
-	  NULL,
-	  "memo-forward" },
-
-	{ "memo-popup-open",
-	  NULL,
-	  "memo-open" },
-
-	{ "memo-popup-open-url",
-	  NULL,
-	  "memo-open-url" }
-};
-
-static GtkToggleActionEntry memo_toggle_entries[] = {
-
-	{ "memo-preview",
-	  NULL,
-	  N_("Memo _Preview"),
-	  "<Control>m",
-	  N_("Show memo preview pane"),
-	  G_CALLBACK (action_memo_preview_cb),
-	  TRUE }
-};
-
-static GtkRadioActionEntry memo_view_entries[] = {
-
-	/* This action represents the initial active memo view.
-	 * It should not be visible in the UI, nor should it be
-	 * possible to switch to it from another shell view. */
-	{ "memo-view-initial",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  -1 },
-
-	{ "memo-view-classic",
-	  NULL,
-	  N_("_Classic View"),
-	  NULL,
-	  N_("Show memo preview below the memo list"),
-	  0 },
-
-	{ "memo-view-vertical",
-	  NULL,
-	  N_("_Vertical View"),
-	  NULL,
-	  N_("Show memo preview alongside the memo list"),
-	  1 }
-};
-
-static GtkRadioActionEntry memo_filter_entries[] = {
-
-	{ "memo-filter-any-category",
-	  NULL,
-	  N_("Any Category"),
-	  NULL,
-	  NULL,
-	  MEMO_FILTER_ANY_CATEGORY },
-
-	{ "memo-filter-unmatched",
-	  NULL,
-	  N_("Without Category"),
-	  NULL,
-	  N_("Show memos with no category set"),
-	  MEMO_FILTER_UNMATCHED }
-};
-
-static GtkRadioActionEntry memo_search_entries[] = {
-
-	{ "memo-search-advanced-hidden",
-	  NULL,
-	  N_("Advanced Search"),
-	  NULL,
-	  NULL,
-	  MEMO_SEARCH_ADVANCED },
-
-	{ "memo-search-any-field-contains",
-	  NULL,
-	  N_("Any field contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MEMO_SEARCH_ANY_FIELD_CONTAINS },
-
-	{ "memo-search-description-contains",
-	  NULL,
-	  N_("Description contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MEMO_SEARCH_DESCRIPTION_CONTAINS },
-
-	{ "memo-search-summary-contains",
-	  NULL,
-	  N_("Summary contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MEMO_SEARCH_SUMMARY_CONTAINS }
-};
-
-static GtkActionEntry lockdown_printing_entries[] = {
-
-	{ "memo-list-print",
-	  "document-print",
-	  N_("Print…"),
-	  "<Control>p",
-	  N_("Print the list of memos"),
-	  G_CALLBACK (action_memo_list_print_cb) },
-
-	{ "memo-list-print-preview",
-	  "document-print-preview",
-	  N_("Pre_view…"),
-	  NULL,
-	  N_("Preview the list of memos to be printed"),
-	  G_CALLBACK (action_memo_list_print_preview_cb) },
-
-	{ "memo-print",
-	  "document-print",
-	  N_("Print…"),
-	  NULL,
-	  N_("Print the selected memo"),
-	  G_CALLBACK (action_memo_print_cb) }
-};
-
-static EPopupActionEntry lockdown_printing_popup_entries[] = {
-
-	{ "memo-popup-print",
-	  NULL,
-	  "memo-print" }
-};
-
-static GtkActionEntry lockdown_save_to_disk_entries[] = {
-
-	{ "memo-save-as",
-	  "document-save-as",
-	  N_("_Save as iCalendar…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_memo_save_as_cb) },
-};
-
-static EPopupActionEntry lockdown_save_to_disk_popup_entries[] = {
-
-	{ "memo-popup-save-as",
-	  NULL,
-	  "memo-save-as" }
-};
-
 void
-e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
+e_memo_shell_view_actions_init (EMemoShellView *self)
 {
-	EMemoShellContent *memo_shell_content;
+	static const EUIActionEntry memo_entries[] = {
+
+		{ "memo-delete",
+		  "edit-delete",
+		  N_("_Delete Memo"),
+		  NULL,
+		  N_("Delete selected memos"),
+		  action_memo_delete_cb, NULL, NULL, NULL },
+
+		{ "memo-find",
+		  "edit-find",
+		  N_("_Find in Memo…"),
+		  "<Shift><Control>f",
+		  N_("Search for text in the displayed memo"),
+		  action_memo_find_cb, NULL, NULL, NULL },
+
+		{ "memo-forward",
+		  "mail-forward",
+		  N_("_Forward as iCalendar…"),
+		  "<Control>f",
+		  NULL,
+		  action_memo_forward_cb, NULL, NULL, NULL },
+
+		{ "memo-list-copy",
+		  "edit-copy",
+		  N_("_Copy…"),
+		  NULL,
+		  NULL,
+		  action_memo_list_copy_cb, NULL, NULL, NULL },
+
+		{ "memo-list-delete",
+		  "edit-delete",
+		  N_("D_elete Memo List"),
+		  NULL,
+		  N_("Delete the selected memo list"),
+		  action_memo_list_delete_cb, NULL, NULL, NULL },
+
+		{ "memo-list-manage-groups",
+		  NULL,
+		  N_("_Manage Memo List groups…"),
+		  NULL,
+		  N_("Manage Memo List groups order and visibility"),
+		  action_memo_list_manage_groups_cb, NULL, NULL, NULL },
+
+		{ "memo-list-manage-groups-popup",
+		  NULL,
+		  N_("_Manage groups…"),
+		  NULL,
+		  N_("Manage Memo List groups order and visibility"),
+		  action_memo_list_manage_groups_cb, NULL, NULL, NULL },
+
+		{ "memo-list-new",
+		  "stock_notes",
+		  N_("_New Memo List"),
+		  NULL,
+		  N_("Create a new memo list"),
+		  action_memo_list_new_cb, NULL, NULL, NULL },
+
+		{ "memo-list-properties",
+		  "document-properties",
+		  N_("_Properties"),
+		  NULL,
+		  NULL,
+		  action_memo_list_properties_cb, NULL, NULL, NULL },
+
+		{ "memo-list-refresh",
+		  "view-refresh",
+		  N_("Re_fresh"),
+		  NULL,
+		  N_("Refresh the selected memo list"),
+		  action_memo_list_refresh_cb, NULL, NULL, NULL },
+
+		{ "memo-list-refresh-backend",
+		  "view-refresh",
+		  N_("Re_fresh list of account memo lists"),
+		  NULL,
+		  NULL,
+		  action_memo_list_refresh_backend_cb, NULL, NULL, NULL },
+
+		{ "memo-list-rename",
+		  NULL,
+		  N_("_Rename…"),
+		  NULL,
+		  N_("Rename the selected memo list"),
+		  action_memo_list_rename_cb, NULL, NULL, NULL },
+
+		{ "memo-list-select-one",
+		  "stock_check-filled",
+		  N_("Show _Only This Memo List"),
+		  NULL,
+		  NULL,
+		  action_memo_list_select_one_cb, NULL, NULL, NULL },
+
+		{ "memo-list-select-all",
+		  "stock_check-filled",
+		  N_("Sho_w All Memo Lists"),
+		  NULL,
+		  NULL,
+		  action_memo_list_select_all_cb, NULL, NULL, NULL },
+
+		{ "memo-new",
+		  "stock_insert-note",
+		  N_("New _Memo"),
+		  NULL,
+		  N_("Create a new memo"),
+		  action_memo_new_cb, NULL, NULL, NULL },
+
+		{ "memo-open",
+		  "document-open",
+		  N_("_Open Memo"),
+		  "<Control>o",
+		  N_("View the selected memo"),
+		  action_memo_open_cb, NULL, NULL, NULL },
+
+		{ "memo-open-url",
+		  "applications-internet",
+		  N_("Open _Web Page"),
+		  NULL,
+		  NULL,
+		  action_memo_open_url_cb, NULL, NULL, NULL },
+
+		{ "memo-preview",
+		  NULL,
+		  N_("Memo _Preview"),
+		  "<Control>m",
+		  N_("Show memo preview pane"),
+		  NULL, NULL, "true", NULL },
+
+		/*** Menus ***/
+
+		{ "memo-preview-menu", NULL, N_("_Preview"), NULL, NULL, NULL, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEnumEntry memo_view_entries[] = {
+
+		{ "memo-view-classic",
+		  NULL,
+		  N_("_Classic View"),
+		  NULL,
+		  N_("Show memo preview below the memo list"),
+		  NULL, 0 },
+
+		{ "memo-view-vertical",
+		  NULL,
+		  N_("_Vertical View"),
+		  NULL,
+		  N_("Show memo preview alongside the memo list"),
+		  NULL, 1 }
+	};
+
+	static const EUIActionEnumEntry memo_search_entries[] = {
+
+		{ "memo-search-advanced-hidden",
+		  NULL,
+		  N_("Advanced Search"),
+		  NULL,
+		  NULL,
+		  NULL, MEMO_SEARCH_ADVANCED },
+
+		{ "memo-search-any-field-contains",
+		  NULL,
+		  N_("Any field contains"),
+		  NULL,
+		  NULL,
+		  NULL, MEMO_SEARCH_ANY_FIELD_CONTAINS },
+
+		{ "memo-search-description-contains",
+		  NULL,
+		  N_("Description contains"),
+		  NULL,
+		  NULL,
+		  NULL, MEMO_SEARCH_DESCRIPTION_CONTAINS },
+
+		{ "memo-search-summary-contains",
+		  NULL,
+		  N_("Summary contains"),
+		  NULL,
+		  NULL,
+		  NULL, MEMO_SEARCH_SUMMARY_CONTAINS }
+	};
+
+	static const EUIActionEntry lockdown_printing_entries[] = {
+
+		{ "memo-list-print",
+		  "document-print",
+		  N_("Print…"),
+		  "<Control>p",
+		  N_("Print the list of memos"),
+		  action_memo_list_print_cb, NULL, NULL, NULL },
+
+		{ "memo-list-print-preview",
+		  "document-print-preview",
+		  N_("Pre_view…"),
+		  NULL,
+		  N_("Preview the list of memos to be printed"),
+		  action_memo_list_print_preview_cb, NULL, NULL, NULL },
+
+		{ "memo-print",
+		  "document-print",
+		  N_("Print…"),
+		  NULL,
+		  N_("Print the selected memo"),
+		  action_memo_print_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry lockdown_save_to_disk_entries[] = {
+
+		{ "memo-save-as",
+		  "document-save-as",
+		  N_("_Save as iCalendar…"),
+		  NULL,
+		  NULL,
+		  action_memo_save_as_cb, NULL, NULL, NULL },
+	};
+
 	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EShellSearchbar *searchbar;
-	EPreviewPane *preview_pane;
-	EWebView *web_view;
-	GtkActionGroup *action_group;
-	GSettings *memo_settings;
-	GtkAction *action;
+	EUIManager *ui_manager;
 
-	shell_view = E_SHELL_VIEW (memo_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	memo_shell_content = memo_shell_view->priv->memo_shell_content;
-	searchbar = e_memo_shell_content_get_searchbar (memo_shell_content);
-	preview_pane = e_memo_shell_content_get_preview_pane (memo_shell_content);
-	web_view = e_preview_pane_get_web_view (preview_pane);
+	shell_view = E_SHELL_VIEW (self);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
 
 	/* Memo Actions */
-	action_group = ACTION_GROUP (MEMOS);
-	gtk_action_group_add_actions (
-		action_group, memo_entries,
-		G_N_ELEMENTS (memo_entries), memo_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, memo_popup_entries,
-		G_N_ELEMENTS (memo_popup_entries));
-	gtk_action_group_add_toggle_actions (
-		action_group, memo_toggle_entries,
-		G_N_ELEMENTS (memo_toggle_entries), memo_shell_view);
-	gtk_action_group_add_radio_actions (
-		action_group, memo_view_entries,
-		G_N_ELEMENTS (memo_view_entries), -1,
-		G_CALLBACK (action_memo_view_cb), memo_shell_view);
-	gtk_action_group_add_radio_actions (
-		action_group, memo_search_entries,
-		G_N_ELEMENTS (memo_search_entries),
-		-1, NULL, NULL);
-
-	/* Advanced Search Action */
-	action = ACTION (MEMO_SEARCH_ADVANCED_HIDDEN);
-	gtk_action_set_visible (action, FALSE);
-	e_shell_searchbar_set_search_option (
-		searchbar, GTK_RADIO_ACTION (action));
+	e_ui_manager_add_actions (ui_manager, "memos", NULL,
+		memo_entries, G_N_ELEMENTS (memo_entries), self);
+	e_ui_manager_add_actions_enum (ui_manager, "tasks", NULL,
+		memo_view_entries, G_N_ELEMENTS (memo_view_entries), self);
+	e_ui_manager_add_actions_enum (ui_manager, "tasks", NULL,
+		memo_search_entries, G_N_ELEMENTS (memo_search_entries), self);
 
 	/* Lockdown Printing Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
-	gtk_action_group_add_actions (
-		action_group, lockdown_printing_entries,
-		G_N_ELEMENTS (lockdown_printing_entries),
-		memo_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, lockdown_printing_popup_entries,
-		G_N_ELEMENTS (lockdown_printing_popup_entries));
+	e_ui_manager_add_actions (ui_manager, "lockdown-printing", NULL,
+		lockdown_printing_entries, G_N_ELEMENTS (lockdown_printing_entries), self);
 
 	/* Lockdown Save-to-Disk Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
-	gtk_action_group_add_actions (
-		action_group, lockdown_save_to_disk_entries,
-		G_N_ELEMENTS (lockdown_save_to_disk_entries),
-		memo_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, lockdown_save_to_disk_popup_entries,
-		G_N_ELEMENTS (lockdown_save_to_disk_popup_entries));
-
-	/* Bind GObject properties to settings keys. */
-
-	memo_settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-
-	g_settings_bind (
-		memo_settings, "show-memo-preview",
-		ACTION (MEMO_PREVIEW), "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		memo_settings, "memo-layout",
-		ACTION (MEMO_VIEW_VERTICAL), "current-value",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_object_unref (memo_settings);
+	e_ui_manager_add_actions (ui_manager, "lockdown-save-to-disk", NULL,
+		lockdown_save_to_disk_entries, G_N_ELEMENTS (lockdown_save_to_disk_entries), self);
 
 	/* Fine tuning. */
 
@@ -969,60 +820,70 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 		ACTION (MEMO_PREVIEW), "active",
 		ACTION (MEMO_VIEW_VERTICAL), "sensitive",
 		G_BINDING_SYNC_CREATE);
-
-	e_web_view_set_open_proxy (web_view, ACTION (MEMO_OPEN));
-	e_web_view_set_print_proxy (web_view, ACTION (MEMO_PRINT));
-	e_web_view_set_save_as_proxy (web_view, ACTION (MEMO_SAVE_AS));
 }
 
 void
 e_memo_shell_view_update_search_filter (EMemoShellView *memo_shell_view)
 {
+	static const EUIActionEnumEntry memo_filter_entries[] = {
+
+		{ "memo-filter-any-category",
+		  NULL,
+		  N_("Any Category"),
+		  NULL,
+		  NULL,
+		  NULL, MEMO_FILTER_ANY_CATEGORY },
+
+		{ "memo-filter-unmatched",
+		  NULL,
+		  N_("Without Category"),
+		  NULL,
+		  N_("Show memos with no category set"),
+		  NULL, MEMO_FILTER_UNMATCHED }
+	};
+
 	EMemoShellContent *memo_shell_content;
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
-	GtkActionGroup *action_group;
-	GtkRadioAction *radio_action;
+	EUIActionGroup *action_group;
+	EUIAction *action;
 	GList *list, *iter;
-	GSList *group;
+	GPtrArray *radio_group;
 	gint ii;
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	action_group = ACTION_GROUP (MEMOS_FILTER);
-	e_action_group_remove_all_actions (action_group);
+	action_group = e_ui_manager_get_action_group (e_shell_view_get_ui_manager (shell_view), "memos-filter");
+	e_ui_action_group_remove_all (action_group);
 
 	/* Add the standard filter actions.  No callback is needed
 	 * because changes in the EActionComboBox are detected and
 	 * handled by EShellSearchbar. */
-	gtk_action_group_add_radio_actions (
-		action_group, memo_filter_entries,
-		G_N_ELEMENTS (memo_filter_entries),
-		MEMO_FILTER_ANY_CATEGORY, NULL, NULL);
+	e_ui_manager_add_actions_enum (e_shell_view_get_ui_manager (shell_view),
+		e_ui_action_group_get_name (action_group), NULL,
+		memo_filter_entries, G_N_ELEMENTS (memo_filter_entries), NULL);
 
-	/* Retrieve the radio group from an action we just added. */
-	list = gtk_action_group_list_actions (action_group);
-	radio_action = GTK_RADIO_ACTION (list->data);
-	group = gtk_radio_action_get_group (radio_action);
-	g_list_free (list);
+	radio_group = g_ptr_array_new ();
 
+	for (ii = 0; ii < G_N_ELEMENTS (memo_filter_entries); ii++) {
+		action = e_ui_action_group_get_action (action_group, memo_filter_entries[ii].name);
+		e_ui_action_set_radio_group (action, radio_group);
+	}
 	/* Build the category actions. */
 
 	list = e_util_dup_searchable_categories ();
 	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
 		const gchar *category_name = iter->data;
 		gchar *filename;
-		GtkAction *action;
-		gchar *action_name;
+		gchar action_name[128];
 
-		action_name = g_strdup_printf (
-			"memo-filter-category-%d", ii);
-		radio_action = gtk_radio_action_new (
-			action_name, category_name, NULL, NULL, ii);
-		g_free (action_name);
+		g_warn_if_fail (g_snprintf (action_name, sizeof (action_name), "memo-filter-category-%d", ii) < sizeof (action_name));
+
+		action = e_ui_action_new (e_ui_action_group_get_name (action_group), action_name, NULL);
+		e_ui_action_set_label (action, category_name);
+		e_ui_action_set_state (action, g_variant_new_int32 (ii));
+		e_ui_action_set_radio_group (action, radio_group);
 
 		/* Convert the category icon file to a themed icon name. */
 		filename = e_categories_dup_icon_file_for (category_name);
@@ -1036,21 +897,16 @@ e_memo_shell_view_update_search_filter (EMemoShellView *memo_shell_view)
 			if ((cp = strrchr (basename, '.')) != NULL)
 				*cp = '\0';
 
-			g_object_set (
-				radio_action, "icon-name", basename, NULL);
+			e_ui_action_set_icon_name (action, basename);
 
 			g_free (basename);
 		}
 
 		g_free (filename);
 
-		gtk_radio_action_set_group (radio_action, group);
-		group = gtk_radio_action_get_group (radio_action);
+		e_ui_action_group_add (action_group, action);
 
-		/* The action group takes ownership of the action. */
-		action = GTK_ACTION (radio_action);
-		gtk_action_group_add_action (action_group, action);
-		g_object_unref (radio_action);
+		g_object_unref (action);
 	}
 	g_list_free_full (list, g_free);
 
@@ -1061,10 +917,12 @@ e_memo_shell_view_update_search_filter (EMemoShellView *memo_shell_view)
 	e_shell_view_block_execute_search (shell_view);
 
 	/* Use any action in the group; doesn't matter which. */
-	e_action_combo_box_set_action (combo_box, radio_action);
+	e_action_combo_box_set_action (combo_box, action);
 
 	ii = MEMO_FILTER_UNMATCHED;
 	e_action_combo_box_add_separator_after (combo_box, ii);
 
 	e_shell_view_unblock_execute_search (shell_view);
+
+	g_ptr_array_unref (radio_group);
 }

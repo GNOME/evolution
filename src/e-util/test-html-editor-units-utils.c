@@ -741,10 +741,14 @@ test_utils_html_equal (TestFixture *fixture,
 
 	script = e_web_view_jsc_printf_script (
 		"var EvoEditorTest = {};\n"
-		"EvoEditorTest.fixupBlockquotes = function(parent) {\n"
+		"EvoEditorTest.fixupElems = function(parent) {\n"
 		"	var ii, elems = parent.getElementsByTagName(\"BLOCKQUOTE\");\n"
 		"	for (ii = 0; ii < elems.length; ii++) {\n"
 		"		elems[ii].removeAttribute(\"spellcheck\");\n"
+		"	}\n"
+		"	elems = parent.getElementsByTagName(\"STYLE\");\n"
+		"	for (ii = elems.length; ii--;) {\n"
+		"		elems[ii].remove();\n"
 		"	}\n"
 		"}\n"
 		"EvoEditorTest.isHTMLEqual = function(html1, html2) {\n"
@@ -753,8 +757,8 @@ test_utils_html_equal (TestFixture *fixture,
 		"	elem2 = document.createElement(\"testHtmlEqual\");\n"
 		"	elem1.innerHTML = html1.replace(/&nbsp;/g, \" \").replace(/ /g, \" \");\n"
 		"	elem2.innerHTML = html2.replace(/&nbsp;/g, \" \").replace(/ /g, \" \");\n"
-		"	EvoEditorTest.fixupBlockquotes(elem1);\n"
-		"	EvoEditorTest.fixupBlockquotes(elem2);\n"
+		"	EvoEditorTest.fixupElems(elem1);\n"
+		"	EvoEditorTest.fixupElems(elem2);\n"
 		"	elem1.normalize();\n"
 		"	elem2.normalize();\n"
 		"	return elem1.isEqualNode(elem2);\n"
@@ -929,7 +933,7 @@ static gboolean
 test_utils_execute_action (TestFixture *fixture,
 			   const gchar *action_name)
 {
-	GtkAction *action;
+	EUIAction *action;
 
 	g_return_val_if_fail (fixture != NULL, FALSE);
 	g_return_val_if_fail (E_IS_HTML_EDITOR (fixture->editor), FALSE);
@@ -937,7 +941,11 @@ test_utils_execute_action (TestFixture *fixture,
 
 	action = e_html_editor_get_action (fixture->editor, action_name);
 	if (action) {
-		gtk_action_activate (action);
+		GVariant *target;
+
+		target = e_ui_action_ref_target (action);
+		g_action_activate (G_ACTION (action), target);
+		g_clear_pointer (&target, g_variant_unref);
 	} else {
 		g_warning ("%s: Failed to find action '%s'", G_STRFUNC, action_name);
 		return FALSE;

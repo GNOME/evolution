@@ -3522,7 +3522,9 @@ test_link_insert_dialog (TestFixture *fixture)
 		"type:a link example: \n"
 		"action:insert-link\n"
 		"type:http://www.gnome.org\n"
-		"seq:n\n",
+		"seq:A\n" /* Alt+A to press the "Add" button in the popover */
+		"type:a\n"
+		"seq:a\n",
 		HTML_PREFIX "<div>a link example: <a href=\"http://www.gnome.org\">http://www.gnome.org</a></div>" HTML_SUFFIX,
 		"a link example: http://www.gnome.org\n"))
 		g_test_fail ();
@@ -3531,13 +3533,17 @@ test_link_insert_dialog (TestFixture *fixture)
 static void
 test_link_insert_dialog_selection (TestFixture *fixture)
 {
+	test_utils_fixture_change_setting_string (fixture, "org.gnome.evolution.mail", "html-link-to-text", "none");
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:a link example: GNOME\n"
 		"seq:CSlsc\n"
 		"action:insert-link\n"
 		"type:http://www.gnome.org\n"
-		"seq:n\n",
+		"seq:A\n" /* Alt+A to press the "Add" button in the popover */
+		"type:a\n"
+		"seq:a\n",
 		HTML_PREFIX "<div>a link example: <a href=\"http://www.gnome.org\">GNOME</a></div>" HTML_SUFFIX,
 		"a link example: GNOME\n"))
 		g_test_fail ();
@@ -3557,6 +3563,8 @@ test_link_insert_typed (TestFixture *fixture)
 static void
 test_link_insert_typed_change_description (TestFixture *fixture)
 {
+	test_utils_fixture_change_setting_string (fixture, "org.gnome.evolution.mail", "html-link-to-text", "none");
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:www.gnome.org \n"
@@ -3566,7 +3574,9 @@ test_link_insert_typed_change_description (TestFixture *fixture)
 		"type:D\n"
 		"seq:a\n"
 		"type:GNOME\n"
-		"seq:n\n",
+		"seq:A\n" /* Alt+A to press the "Update" button in the popover */
+		"type:a\n"
+		"seq:a\n",
 		HTML_PREFIX "<div><a href=\"https://www.gnome.org\">GNOME</a> </div>" HTML_SUFFIX,
 		"GNOME \n"))
 		g_test_fail ();
@@ -3591,6 +3601,8 @@ test_link_insert_dialog_remove_link (TestFixture *fixture)
 static void
 test_link_insert_typed_append (TestFixture *fixture)
 {
+	test_utils_fixture_change_setting_string (fixture, "org.gnome.evolution.mail", "html-link-to-text", "none");
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:www.gnome.org \n"
@@ -3604,6 +3616,8 @@ test_link_insert_typed_append (TestFixture *fixture)
 static void
 test_link_insert_typed_remove (TestFixture *fixture)
 {
+	test_utils_fixture_change_setting_string (fixture, "org.gnome.evolution.mail", "html-link-to-text", "none");
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:www.gnome.org \n"

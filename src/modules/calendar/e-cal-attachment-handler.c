@@ -45,16 +45,6 @@ struct _ImportContext {
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (ECalAttachmentHandler, e_cal_attachment_handler, E_TYPE_ATTACHMENT_HANDLER, 0,
 	G_ADD_PRIVATE_DYNAMIC (ECalAttachmentHandler))
 
-static const gchar *ui =
-"<ui>"
-"  <popup name='context'>"
-"    <placeholder name='custom-actions'>"
-"      <menuitem action='import-to-calendar'/>"
-"      <menuitem action='import-to-tasks'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
 static ICalComponent *
 attachment_handler_get_component (EAttachment *attachment)
 {
@@ -390,108 +380,122 @@ attachment_handler_import_ical (EAttachmentHandler *handler,
 }
 
 static void
-attachment_handler_import_to_calendar (GtkAction *action,
-                                       EAttachmentHandler *handler)
+attachment_handler_import_to_calendar (EUIAction *action,
+				       GVariant *parameter,
+				       gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
+
 	attachment_handler_import_ical (handler, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, _("Select a Calendar"));
 }
 
 static void
-attachment_handler_import_to_memos (GtkAction *action,
-                                    EAttachmentHandler *handler)
+attachment_handler_import_to_memos (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
+
 	attachment_handler_import_ical (handler, E_CAL_CLIENT_SOURCE_TYPE_MEMOS, _("Select a Memo List"));
 }
 
 static void
-attachment_handler_import_to_tasks (GtkAction *action,
-                                    EAttachmentHandler *handler)
+attachment_handler_import_to_tasks (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
+
 	attachment_handler_import_ical (handler, E_CAL_CLIENT_SOURCE_TYPE_TASKS, _("Select a Task List"));
 }
-
-static GtkActionEntry standard_entries[] = {
-
-	{ "import-to-calendar",
-	  "stock_mail-import",
-	  N_("I_mport to Calendar"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (attachment_handler_import_to_calendar) },
-
-	{ "import-to-memos",
-	  "stock_mail-import",
-	  N_("I_mport to Memo List"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (attachment_handler_import_to_memos) },
-
-	{ "import-to-tasks",
-	  "stock_mail-import",
-	  N_("I_mport to Task List"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (attachment_handler_import_to_tasks) }
-};
 
 static void
 cal_attachment_handler_update_actions (EAttachmentView *view)
 {
-	EAttachment *attachment;
-	GtkAction *action;
+	EUIAction *action;
 	GList *selected;
-	ICalComponent *component;
-	ICalComponent *subcomponent;
-	ICalComponentKind kind;
 	gboolean is_vevent = FALSE;
 	gboolean is_vjournal = FALSE;
 	gboolean is_vtodo = FALSE;
 
 	selected = e_attachment_view_get_selected_attachments (view);
 
-	if (g_list_length (selected) != 1)
-		goto exit;
+	if (g_list_length (selected) == 1) {
+		EAttachment *attachment;
+		ICalComponent *component;
 
-	attachment = E_ATTACHMENT (selected->data);
-	component = attachment_handler_get_component (attachment);
+		attachment = E_ATTACHMENT (selected->data);
+		component = attachment_handler_get_component (attachment);
 
-	if (component == NULL)
-		goto exit;
+		if (component) {
+			ICalComponent *subcomponent;
+			ICalComponentKind kind;
 
-	subcomponent = i_cal_component_get_inner (component);
+			subcomponent = i_cal_component_get_inner (component);
 
-	if (subcomponent == NULL)
-		goto exit;
+			if (subcomponent != NULL) {
+				kind = i_cal_component_isa (subcomponent);
+				is_vevent = (kind == I_CAL_VEVENT_COMPONENT);
+				is_vjournal = (kind == I_CAL_VJOURNAL_COMPONENT);
+				is_vtodo = (kind == I_CAL_VTODO_COMPONENT);
 
-	kind = i_cal_component_isa (subcomponent);
-	is_vevent = (kind == I_CAL_VEVENT_COMPONENT);
-	is_vjournal = (kind == I_CAL_VJOURNAL_COMPONENT);
-	is_vtodo = (kind == I_CAL_VTODO_COMPONENT);
+				g_object_unref (subcomponent);
+			}
+		}
+	}
 
-	g_object_unref (subcomponent);
-
-exit:
 	action = e_attachment_view_get_action (view, "import-to-calendar");
-	gtk_action_set_visible (action, is_vevent);
+	e_ui_action_set_visible (action, is_vevent);
 
 	action = e_attachment_view_get_action (view, "import-to-memos");
-	gtk_action_set_visible (action, is_vjournal);
+	e_ui_action_set_visible (action, is_vjournal);
 
 	action = e_attachment_view_get_action (view, "import-to-tasks");
-	gtk_action_set_visible (action, is_vtodo);
+	e_ui_action_set_visible (action, is_vtodo);
 
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
+	g_list_free_full (selected, g_object_unref);
 }
 
 static void
 cal_attachment_handler_constructed (GObject *object)
 {
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='context'>"
+		    "<placeholder id='custom-actions'>"
+		      "<item action='import-to-calendar'/>"
+		      "<item action='import-to-tasks'/>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry standard_entries[] = {
+
+		{ "import-to-calendar",
+		  "stock_mail-import",
+		  N_("I_mport to Calendar"),
+		  NULL,
+		  NULL,
+		  attachment_handler_import_to_calendar, NULL, NULL, NULL },
+
+		{ "import-to-memos",
+		  "stock_mail-import",
+		  N_("I_mport to Memo List"),
+		  NULL,
+		  NULL,
+		  attachment_handler_import_to_memos, NULL, NULL, NULL },
+
+		{ "import-to-tasks",
+		  "stock_mail-import",
+		  N_("I_mport to Task List"),
+		  NULL,
+		  NULL,
+		  attachment_handler_import_to_tasks, NULL, NULL, NULL }
+	};
+
 	EAttachmentHandler *handler;
 	EAttachmentView *view;
-	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
-	GError *error = NULL;
+	EUIManager *ui_manager;
 
 	handler = E_ATTACHMENT_HANDLER (object);
 
@@ -499,19 +503,10 @@ cal_attachment_handler_constructed (GObject *object)
 	G_OBJECT_CLASS (e_cal_attachment_handler_parent_class)->constructed (object);
 
 	view = e_attachment_handler_get_view (handler);
-
-	action_group = e_attachment_view_add_action_group (view, "calendar");
-	gtk_action_group_add_actions (
-		action_group, standard_entries,
-		G_N_ELEMENTS (standard_entries), handler);
-
 	ui_manager = e_attachment_view_get_ui_manager (view);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "calendar", NULL,
+		standard_entries, G_N_ELEMENTS (standard_entries), handler, eui);
 
 	g_signal_connect (
 		view, "update_actions",

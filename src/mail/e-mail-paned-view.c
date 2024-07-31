@@ -41,7 +41,7 @@ struct _EMailPanedViewPrivate {
 	GtkWidget *scrolled_window;
 	GtkWidget *message_list;
 	GtkWidget *preview_pane;
-	GtkWidget *search_bar;
+	GtkWidget *preview_toolbar_box;
 
 	EMailDisplay *display;
 	GalViewInstance *view_instance;
@@ -57,6 +57,8 @@ struct _EMailPanedViewPrivate {
 	/* TRUE when folder had been just set */
 	gboolean folder_just_set;
 	gchar *last_selected_uid;
+
+	gboolean preview_toolbar_visible;
 };
 
 enum {
@@ -65,7 +67,8 @@ enum {
 	PROP_GROUP_BY_THREADS,
 	PROP_REPLY_STYLE,
 	PROP_MARK_SEEN_ALWAYS,
-	PROP_DELETE_SELECTS_PREVIOUS
+	PROP_DELETE_SELECTS_PREVIOUS,
+	PROP_PREVIEW_TOOLBAR_VISIBLE
 };
 
 #define STATE_KEY_GROUP_BY_THREADS	"GroupByThreads"
@@ -423,6 +426,12 @@ mail_paned_view_set_property (GObject *object,
 				E_MAIL_READER (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_PREVIEW_TOOLBAR_VISIBLE:
+			e_mail_paned_view_set_preview_toolbar_visible (
+				E_MAIL_PANED_VIEW (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -469,6 +478,13 @@ mail_paned_view_get_property (GObject *object,
 				e_mail_reader_get_delete_selects_previous (
 				E_MAIL_READER (object)));
 			return;
+
+		case PROP_PREVIEW_TOOLBAR_VISIBLE:
+			g_value_set_boolean (
+				value,
+				e_mail_paned_view_get_preview_toolbar_visible (
+				E_MAIL_PANED_VIEW (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -497,6 +513,7 @@ mail_paned_view_dispose (GObject *object)
 	}
 
 	g_clear_object (&self->priv->preview_pane);
+	g_clear_object (&self->priv->preview_toolbar_box);
 	g_clear_object (&self->priv->view_instance);
 
 	g_clear_pointer (&self->priv->last_selected_uid, g_free);
@@ -505,36 +522,6 @@ mail_paned_view_dispose (GObject *object)
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_paned_view_parent_class)->dispose (object);
-}
-
-static GtkActionGroup *
-mail_paned_view_get_action_group (EMailReader *reader,
-                                  EMailReaderActionGroup group)
-{
-	EMailView *view;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	const gchar *group_name;
-
-	view = E_MAIL_VIEW (reader);
-	shell_view = e_mail_view_get_shell_view (view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	switch (group) {
-		case E_MAIL_READER_ACTION_GROUP_STANDARD:
-			group_name = "mail";
-			break;
-		case E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS:
-			group_name = "search-folders";
-			break;
-		case E_MAIL_READER_ACTION_GROUP_LABELS:
-			group_name = "mail-labels";
-			break;
-		default:
-			g_return_val_if_reached (NULL);
-	}
-
-	return e_shell_window_get_action_group (shell_window, group_name);
 }
 
 static EAlertSink *
@@ -591,23 +578,14 @@ mail_paned_view_get_message_list (EMailReader *reader)
 	return paned_view->priv->message_list;
 }
 
-static GtkMenu *
-mail_paned_view_get_popup_menu (EMailReader *reader)
+static EUIManager *
+mail_paned_view_get_ui_manager (EMailReader *reader)
 {
-	EMailView *view;
 	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GtkUIManager *ui_manager;
-	GtkWidget *widget;
 
-	view = E_MAIL_VIEW (reader);
-	shell_view = e_mail_view_get_shell_view (view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_view = e_mail_view_get_shell_view (E_MAIL_VIEW (reader));
 
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	widget = gtk_ui_manager_get_widget (ui_manager, "/mail-preview-popup");
-
-	return GTK_MENU (widget);
+	return e_shell_view_get_ui_manager (shell_view);
 }
 
 static EPreviewPane *
@@ -799,7 +777,7 @@ mail_paned_view_constructed (GObject *object)
 	EMailView *view;
 	GtkWidget *message_list;
 	GtkWidget *container;
-	GtkWidget *widget, *toolbar;
+	GtkWidget *widget;
 
 	view = E_MAIL_VIEW (object);
 	shell_view = e_mail_view_get_shell_view (view);
@@ -812,6 +790,7 @@ mail_paned_view_constructed (GObject *object)
 	self->priv->display = g_object_new (E_TYPE_MAIL_DISPLAY,
 		"headers-collapsable", TRUE,
 		"remote-content", e_mail_backend_get_remote_content (backend),
+		"mail-reader", E_MAIL_READER (self),
 		NULL);
 
 	/* FIXME This should be an EMailPanedView property, so
@@ -877,12 +856,10 @@ mail_paned_view_constructed (GObject *object)
 	container = e_attachment_bar_get_content_area (E_ATTACHMENT_BAR (widget));
 	widget = e_preview_pane_new (E_WEB_VIEW (self->priv->display));
 
-	toolbar = e_shell_window_get_managed_widget (shell_window, "/mail-preview-toolbar");
-	if (toolbar) {
-		e_util_setup_toolbar_icon_size (GTK_TOOLBAR (toolbar), GTK_ICON_SIZE_SMALL_TOOLBAR);
-		gtk_style_context_add_class (gtk_widget_get_style_context (toolbar), GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
-		gtk_box_pack_start (GTK_BOX (container), toolbar, FALSE, FALSE, 0);
-	}
+	/* cannot ask the shell_view for the "mail-preview-toolbar" now, because its EUIManager is not loaded yet;
+	   postpone it to the e_mail_paned_view_take_preview_toolbar() function */
+	self->priv->preview_toolbar_box = g_object_ref_sink (gtk_box_new (GTK_ORIENTATION_VERTICAL, 0));
+	gtk_box_pack_start (GTK_BOX (container), GTK_WIDGET (self->priv->preview_toolbar_box), FALSE, FALSE, 0);
 
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 
@@ -896,7 +873,7 @@ mail_paned_view_constructed (GObject *object)
 
 	/* Message list customizations. */
 
-	e_mail_reader_init (E_MAIL_READER (object), FALSE, TRUE);
+	e_mail_reader_init (E_MAIL_READER (object));
 
 	reader = E_MAIL_READER (object);
 	message_list = e_mail_reader_get_message_list (reader);
@@ -1277,18 +1254,29 @@ e_mail_paned_view_class_init (EMailPanedViewClass *class)
 		object_class,
 		PROP_DELETE_SELECTS_PREVIOUS,
 		"delete-selects-previous");
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PREVIEW_TOOLBAR_VISIBLE,
+		g_param_spec_boolean (
+			"preview-toolbar-visible",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_EXPLICIT_NOTIFY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
 e_mail_paned_view_reader_init (EMailReaderInterface *iface)
 {
-	iface->get_action_group = mail_paned_view_get_action_group;
 	iface->get_alert_sink = mail_paned_view_get_alert_sink;
 	iface->get_backend = mail_paned_view_get_backend;
 	iface->get_mail_display = mail_paned_view_get_mail_display;
 	iface->get_hide_deleted = mail_paned_view_get_hide_deleted;
 	iface->get_message_list = mail_paned_view_get_message_list;
-	iface->get_popup_menu = mail_paned_view_get_popup_menu;
+	iface->get_ui_manager = mail_paned_view_get_ui_manager;
 	iface->get_preview_pane = mail_paned_view_get_preview_pane;
 	iface->get_window = mail_paned_view_get_window;
 	iface->set_folder = mail_paned_view_set_folder;
@@ -1336,3 +1324,38 @@ e_mail_paned_view_get_preview (EMailPanedView *view)
 	return GTK_WIDGET (mail_paned_view_get_mail_display (E_MAIL_READER (view)));
 }
 
+gboolean
+e_mail_paned_view_get_preview_toolbar_visible (EMailPanedView *view)
+{
+	g_return_val_if_fail (E_IS_MAIL_PANED_VIEW (view), FALSE);
+
+	return view->priv->preview_toolbar_visible;
+}
+
+void
+e_mail_paned_view_set_preview_toolbar_visible (EMailPanedView *view,
+					       gboolean value)
+{
+	g_return_if_fail (E_IS_MAIL_PANED_VIEW (view));
+
+	if (!view->priv->preview_toolbar_visible == !value)
+		return;
+
+	view->priv->preview_toolbar_visible = value;
+
+	gtk_widget_set_visible (view->priv->preview_toolbar_box, value);
+
+	g_object_notify (G_OBJECT (view), "preview-toolbar-visible");
+}
+
+void
+e_mail_paned_view_take_preview_toolbar (EMailPanedView *self,
+					GtkWidget *toolbar)
+{
+	g_return_if_fail (E_IS_MAIL_PANED_VIEW (self));
+	g_return_if_fail (GTK_IS_WIDGET (toolbar));
+
+	gtk_widget_set_visible (toolbar, TRUE);
+
+	gtk_box_pack_start (GTK_BOX (self->priv->preview_toolbar_box), toolbar, FALSE, FALSE, 0);
+}

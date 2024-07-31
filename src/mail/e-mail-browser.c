@@ -41,13 +41,14 @@
 
 struct _EMailBrowserPrivate {
 	EMailBackend *backend;
-	GtkUIManager *ui_manager;
+	EUIManager *ui_manager;
 	EFocusTracker *focus_tracker;
 
 	EMailFormatterMode display_mode;
 	EAutomaticActionPolicy close_on_reply_policy;
 
 	EMenuBar *menu_bar;
+	GtkWidget *menu_button; /* owned by menu_bar */
 	GtkWidget *main_toolbar;
 	GtkWidget *message_list;
 	GtkWidget *preview_pane;
@@ -73,33 +74,10 @@ enum {
 	PROP_MARK_SEEN_ALWAYS,
 	PROP_SHOW_DELETED,
 	PROP_SHOW_JUNK,
-	PROP_UI_MANAGER,
 	PROP_DELETE_SELECTS_PREVIOUS,
 	PROP_CLOSE_ON_DELETE_OR_JUNK
 };
 
-/* This is too trivial to put in a file.
- * It gets merged with the EMailReader UI. */
-static const gchar *ui =
-"<ui>"
-"  <menubar name='main-menu'>"
-"    <menu action='file-menu'>"
-"      <placeholder name='file-actions'/>"
-"      <placeholder name='print-actions'/>"
-"      <separator/>"
-"      <menuitem action='close'/>"
-"    </menu>"
-"    <menu action='edit-menu'>"
-"      <placeholder name='selection-actions'>"
-"        <menuitem action='cut-clipboard'/>"
-"        <menuitem action='copy-clipboard'/>"
-"        <menuitem action='paste-clipboard'/>"
-"        <separator/>"
-"        <menuitem action='select-all'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
 
 static void	e_mail_browser_reader_init
 					(EMailReaderInterface *iface);
@@ -110,29 +88,36 @@ G_DEFINE_TYPE_WITH_CODE (EMailBrowser, e_mail_browser, GTK_TYPE_WINDOW,
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void
-action_close_cb (GtkAction *action,
-                 EMailBrowser *browser)
+action_close_cb (EUIAction *action,
+		 GVariant *parameter,
+		 gpointer user_data)
 {
+	EMailBrowser *browser = user_data;
+
 	e_mail_browser_close (browser);
 }
 
 static void
-action_search_web_cb (GtkAction *action,
-		      EMailReader *reader)
+action_search_web_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailDisplay *display;
-	GtkAction *wv_action;
+	EUIAction *wv_action;
 
 	display = e_mail_reader_get_mail_display (reader);
 	wv_action = e_web_view_get_action (E_WEB_VIEW (display), "search-web");
 
-	gtk_action_activate (wv_action);
+	g_action_activate (G_ACTION (wv_action), NULL);
 }
 
 static void
-action_mail_smart_backward_cb (GtkAction *action,
-			       EMailReader *reader)
+action_mail_smart_backward_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailDisplay *mail_display;
 
 	mail_display = e_mail_reader_get_mail_display (reader);
@@ -141,177 +126,16 @@ action_mail_smart_backward_cb (GtkAction *action,
 }
 
 static void
-action_mail_smart_forward_cb (GtkAction *action,
-			      EMailReader *reader)
+action_mail_smart_forward_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailDisplay *mail_display;
 
 	mail_display = e_mail_reader_get_mail_display (reader);
 
 	e_mail_display_process_magic_spacebar (mail_display, TRUE);
-}
-
-static GtkActionEntry mail_browser_entries[] = {
-
-	{ "close",
-	  "window-close",
-	  N_("_Close"),
-	  "<Control>w",
-	  N_("Close this window"),
-	  G_CALLBACK (action_close_cb) },
-
-	{ "copy-clipboard",
-	  "edit-copy",
-	  N_("_Copy"),
-	  "<Control>c",
-	  N_("Copy the selection"),
-	  NULL },  /* Handled by EFocusTracker */
-
-	{ "cut-clipboard",
-	  "edit-cut",
-	  N_("Cu_t"),
-	  "<Control>x",
-	  N_("Cut the selection"),
-	  NULL },  /* Handled by EFocusTracker */
-
-	{ "paste-clipboard",
-	  "edit-paste",
-	  N_("_Paste"),
-	  "<Control>v",
-	  N_("Paste the clipboard"),
-	  NULL },  /* Handled by EFocusTracker */
-
-	{ "select-all",
-	  "edit-select-all",
-	  N_("Select _All"),
-	  NULL,
-	  N_("Select all text"),
-	  NULL },  /* Handled by EFocusTracker */
-
-	{ "search-web",
-	  NULL,
-	  N_("Search _Web…"),
-	  NULL,
-	  N_("Search the Web with the selected text"),
-	  G_CALLBACK (action_search_web_cb) },
-
-	/*** Menus ***/
-
-	{ "file-menu",
-	  NULL,
-	  N_("_File"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "edit-menu",
-	  NULL,
-	  N_("_Edit"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "view-menu",
-	  NULL,
-	  N_("_View"),
-	  NULL,
-	  NULL,
-	  NULL }
-};
-
-static GtkActionEntry mail_entries[] = {
-
-	{ "mail-smart-backward",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_mail_smart_backward_cb) },
-
-	{ "mail-smart-forward",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_mail_smart_forward_cb) },
-};
-
-static EPopupActionEntry mail_browser_popup_entries[] = {
-
-	{ "popup-copy-clipboard",
-	  NULL,
-	  "copy-clipboard" },
-
-	{ "popup-search-web",
-	  NULL,
-	  "search-web" }
-};
-
-static void
-mail_browser_menu_item_select_cb (EMailBrowser *browser,
-                                  GtkWidget *widget)
-{
-	GtkAction *action;
-	GtkActivatable *activatable;
-	GtkStatusbar *statusbar;
-	const gchar *tooltip;
-	guint context_id;
-	gpointer data;
-
-	activatable = GTK_ACTIVATABLE (widget);
-	action = gtk_activatable_get_related_action (activatable);
-	tooltip = gtk_action_get_tooltip (action);
-
-	data = g_object_get_data (G_OBJECT (widget), "context-id");
-	context_id = GPOINTER_TO_UINT (data);
-
-	if (tooltip == NULL)
-		return;
-
-	statusbar = GTK_STATUSBAR (browser->priv->statusbar);
-	gtk_statusbar_push (statusbar, context_id, tooltip);
-}
-
-static void
-mail_browser_menu_item_deselect_cb (EMailBrowser *browser,
-                                    GtkWidget *menu_item)
-{
-	GtkStatusbar *statusbar;
-	guint context_id;
-	gpointer data;
-
-	data = g_object_get_data (G_OBJECT (menu_item), "context-id");
-	context_id = GPOINTER_TO_UINT (data);
-
-	statusbar = GTK_STATUSBAR (browser->priv->statusbar);
-	gtk_statusbar_pop (statusbar, context_id);
-}
-
-static void
-mail_browser_connect_proxy_cb (EMailBrowser *browser,
-                               GtkAction *action,
-                               GtkWidget *proxy)
-{
-	GtkStatusbar *statusbar;
-	guint context_id;
-
-	if (!GTK_IS_MENU_ITEM (proxy))
-		return;
-
-	statusbar = GTK_STATUSBAR (browser->priv->statusbar);
-	context_id = gtk_statusbar_get_context_id (statusbar, G_STRFUNC);
-
-	g_object_set_data (
-		G_OBJECT (proxy), "context-id",
-		GUINT_TO_POINTER (context_id));
-
-	g_signal_connect_swapped (
-		proxy, "select",
-		G_CALLBACK (mail_browser_menu_item_select_cb), browser);
-
-	g_signal_connect_swapped (
-		proxy, "deselect",
-		G_CALLBACK (mail_browser_menu_item_deselect_cb), browser);
 }
 
 static void
@@ -398,11 +222,10 @@ mail_browser_popup_event_cb (EMailBrowser *browser,
 	if (e_web_view_get_cursor_image_src (web_view) != NULL)
 		return FALSE;
 
-	menu = e_mail_reader_get_popup_menu (reader);
-
 	state = e_mail_reader_check_state (reader);
 	e_mail_reader_update_actions (reader, state);
 
+	menu = e_mail_reader_get_popup_menu (reader);
 	gtk_menu_popup_at_pointer (menu, event);
 
 	return TRUE;
@@ -450,44 +273,27 @@ mail_browser_close_on_reply_response_cb (EAlert *alert,
 }
 
 static gboolean
-mail_browser_key_press_event_cb (GtkWindow *mail_browser,
-				 GdkEventKey *event)
+mail_browser_ui_manager_create_item_cb (EUIManager *manager,
+					EUIElement *elem,
+					EUIAction *action,
+					EUIElementKind for_kind,
+					GObject **out_item,
+					gpointer user_data)
 {
-	GtkWidget *focused;
-	EMailDisplay *mail_display;
+	EMailBrowser *self = user_data;
 
-	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (mail_browser));
+	g_return_val_if_fail (E_IS_MAIL_BROWSER (self), FALSE);
 
-	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0 ||
-	    event->keyval == GDK_KEY_Tab ||
-	    event->keyval == GDK_KEY_Return ||
-	    event->keyval == GDK_KEY_KP_Tab ||
-	    event->keyval == GDK_KEY_KP_Enter)
-		return event && e_mail_display_need_key_event (mail_display, event);
+	if (for_kind != E_UI_ELEMENT_KIND_HEADERBAR ||
+	    g_strcmp0 (g_action_get_name (G_ACTION (action)), "menu-button") != 0)
+		return FALSE;
 
-	focused = gtk_window_get_focus (mail_browser);
+	if (self->priv->menu_button)
+		*out_item = G_OBJECT (g_object_ref (self->priv->menu_button));
+	else
+		*out_item = NULL;
 
-	if (focused && (GTK_IS_ENTRY (focused) || GTK_IS_EDITABLE (focused) ||
-	    (GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0))) {
-		gtk_widget_event (focused, (GdkEvent *) event);
-		return event->keyval != GDK_KEY_Escape;
-	}
-
-	if (e_web_view_get_need_input (E_WEB_VIEW (mail_display)) &&
-	    gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
-		gtk_widget_event (GTK_WIDGET (mail_display), (GdkEvent *) event);
-		return TRUE;
-	}
-
-	if (e_mail_display_need_key_event (mail_display, event))
-		return TRUE;
-
-	if (event->keyval == GDK_KEY_Escape) {
-		e_mail_browser_close (E_MAIL_BROWSER (mail_browser));
-		return TRUE;
-	}
-
-	return FALSE;
+	return TRUE;
 }
 
 static void
@@ -505,56 +311,6 @@ mail_browser_set_display_mode (EMailBrowser *browser,
                                EMailFormatterMode display_mode)
 {
 	browser->priv->display_mode = display_mode;
-}
-
-static GtkWidget *
-mail_browser_construct_header_bar (EMailReader *reader,
-				   GtkWidget *menu_button)
-{
-	GtkWidget *widget;
-	GtkAction *action;
-	GtkHeaderBar *header_bar;
-	const gchar *action_name;
-
-	widget = e_header_bar_new ();
-	gtk_widget_show (widget);
-	header_bar = GTK_HEADER_BAR (widget);
-
-	if (menu_button)
-		e_header_bar_pack_end (E_HEADER_BAR (header_bar), menu_button, G_MAXUINT);
-
-	action_name = "mail-forward";
-	action = e_mail_reader_get_action (reader, action_name);
-	widget = e_header_bar_button_new (_("Forward"), action);
-	gtk_widget_set_name (widget, "e-mail-shell-view-forward");
-	e_header_bar_button_take_menu (
-		E_HEADER_BAR_BUTTON (widget),
-		e_mail_reader_create_forward_menu (reader));
-	gtk_widget_show (widget);
-
-	e_header_bar_pack_end (E_HEADER_BAR (header_bar), widget, 2);
-
-	action_name = "mail-reply-group";
-	action = e_mail_reader_get_action (reader, action_name);
-	widget = e_header_bar_button_new (_("Group Reply"), action);
-	gtk_widget_set_name (widget, "e-mail-shell-view-reply-group");
-	gtk_widget_show (widget);
-
-	e_header_bar_button_take_menu (
-		E_HEADER_BAR_BUTTON (widget),
-		e_mail_reader_create_reply_menu (reader));
-
-	e_header_bar_pack_end (E_HEADER_BAR (header_bar), widget, 1);
-
-	action_name = "mail-reply-sender";
-	action = e_mail_reader_get_action (reader, action_name);
-	widget = e_header_bar_button_new (_("Reply"), action);
-	gtk_widget_set_name (widget, "e-mail-shell-view-reply-sender");
-	gtk_widget_show (widget);
-
-	e_header_bar_pack_end (E_HEADER_BAR (header_bar), widget, 1);
-
-	return GTK_WIDGET (header_bar);
 }
 
 static void
@@ -704,13 +460,6 @@ mail_browser_get_property (GObject *object,
 				E_MAIL_BROWSER (object)));
 			return;
 
-		case PROP_UI_MANAGER:
-			g_value_set_object (
-				value,
-				e_mail_browser_get_ui_manager (
-				E_MAIL_BROWSER (object)));
-			return;
-
 		case PROP_MARK_SEEN_ALWAYS:
 			g_value_set_boolean (
 				value,
@@ -772,6 +521,104 @@ mail_browser_dispose (GObject *object)
 static void
 mail_browser_constructed (GObject *object)
 {
+	static const gchar *eui =
+		"<eui>"
+		  "<headerbar id='main-headerbar'>"
+		    "<end>"
+		      "<item action='mail-reply-sender'/>"
+		      "<item action='EMailReader::mail-reply-group'/>"
+		      "<item action='EMailReader::mail-forward-as-group'/>"
+		      "<item action='menu-button' order='999999'/>"
+		    "</end>"
+		  "</headerbar>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='file-menu'>"
+		      "<placeholder id='file-actions'/>"
+		      "<placeholder id='print-actions'/>"
+		      "<separator/>"
+		      "<item action='close'/>"
+		    "</submenu>"
+		    "<submenu action='edit-menu'>"
+		      "<placeholder id='selection-actions'>"
+			"<item action='cut-clipboard'/>"
+			"<item action='copy-clipboard'/>"
+			"<item action='paste-clipboard'/>"
+			"<separator/>"
+			"<item action='select-all'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry mail_browser_entries[] = {
+
+		{ "close",
+		  "window-close",
+		  N_("_Close"),
+		  "<Control>w",
+		  N_("Close this window"),
+		  action_close_cb, NULL, NULL, NULL },
+
+		{ "copy-clipboard",
+		  "edit-copy",
+		  N_("_Copy"),
+		  "<Control>c",
+		  N_("Copy the selection"),
+		  NULL, NULL, NULL, NULL },  /* Handled by EFocusTracker */
+
+		{ "cut-clipboard",
+		  "edit-cut",
+		  N_("Cu_t"),
+		  "<Control>x",
+		  N_("Cut the selection"),
+		  NULL, NULL, NULL, NULL },  /* Handled by EFocusTracker */
+
+		{ "paste-clipboard",
+		  "edit-paste",
+		  N_("_Paste"),
+		  "<Control>v",
+		  N_("Paste the clipboard"),
+		  NULL, NULL, NULL, NULL },  /* Handled by EFocusTracker */
+
+		{ "select-all",
+		  "edit-select-all",
+		  N_("Select _All"),
+		  NULL,
+		  N_("Select all text"),
+		  NULL, NULL, NULL, NULL },  /* Handled by EFocusTracker */
+
+		{ "search-web",
+		  NULL,
+		  N_("Search _Web…"),
+		  NULL,
+		  N_("Search the Web with the selected text"),
+		  action_search_web_cb, NULL, NULL, NULL },
+
+		/*** Menus ***/
+
+		{ "file-menu", NULL, N_("_File"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "edit-menu", NULL, N_("_Edit"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "view-menu", NULL, N_("_View"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "menu-button", NULL, N_("Menu"), NULL, NULL, NULL, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry mail_entries[] = {
+
+		{ "mail-smart-backward",
+		  "go-up",
+		  "mail smart backward",
+		  "BackSpace",
+		  NULL,
+		  action_mail_smart_backward_cb, NULL, NULL, NULL },
+
+		{ "mail-smart-forward",
+		  "go-down",
+		  "mail smart forward",
+		  "space",
+		  NULL,
+		  action_mail_smart_forward_cb, NULL, NULL, NULL },
+	};
+
 	EMailBrowser *browser;
 	EMailReader *reader;
 	EMailBackend *backend;
@@ -780,17 +627,11 @@ mail_browser_constructed (GObject *object)
 	EShell *shell;
 	EFocusTracker *focus_tracker;
 	EAttachmentStore *attachment_store;
-	GtkAccelGroup *accel_group;
-	GtkActionGroup *action_group;
-	GtkAction *action, *mail_action;
-	GtkUIManager *ui_manager;
+	EUIAction *action, *mail_action;
 	GtkWidget *container;
 	GtkWidget *display;
 	GtkWidget *widget;
-	GtkWidget *menu_button = NULL;
-	const gchar *domain;
-	const gchar *id;
-	guint merge_id;
+	GObject *ui_item;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_browser_parent_class)->constructed (object);
@@ -802,11 +643,6 @@ mail_browser_constructed (GObject *object)
 
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
-
-	ui_manager = gtk_ui_manager_new ();
-
-	browser->priv->ui_manager = ui_manager;
-	domain = GETTEXT_PACKAGE;
 
 	gtk_application_add_window (
 		GTK_APPLICATION (shell), GTK_WINDOW (object));
@@ -825,7 +661,7 @@ mail_browser_constructed (GObject *object)
 		browser->priv->message_list, "message-list-built",
 		G_CALLBACK (mail_browser_message_list_built_cb), object);
 
-	display = e_mail_display_new (e_mail_backend_get_remote_content (backend));
+	display = e_mail_display_new (e_mail_backend_get_remote_content (backend), E_MAIL_READER (browser));
 
 	e_mail_display_set_mode (
 		E_MAIL_DISPLAY (display),
@@ -843,77 +679,42 @@ mail_browser_constructed (GObject *object)
 	browser->priv->preview_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	action_group = gtk_action_group_new ("mail");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_action_group_add_actions (
-		action_group, mail_entries,
-		G_N_ELEMENTS (mail_entries), object);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	gtk_window_add_accel_group (GTK_WINDOW (browser), e_ui_manager_get_accel_group (e_web_view_get_ui_manager (E_WEB_VIEW (display))));
 
-	action_group = gtk_action_group_new (ACTION_GROUP_STANDARD);
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_action_group_add_actions (
-		action_group, mail_browser_entries,
-		G_N_ELEMENTS (mail_browser_entries), object);
-	e_action_group_add_popup_actions (
-		action_group, mail_browser_popup_entries,
-		G_N_ELEMENTS (mail_browser_popup_entries));
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	browser->priv->ui_manager = e_ui_manager_new ();
+
+	g_signal_connect (browser->priv->ui_manager, "create-item",
+		G_CALLBACK (mail_browser_ui_manager_create_item_cb), browser);
+	g_signal_connect_swapped (browser->priv->ui_manager, "ignore-accel",
+		G_CALLBACK (e_mail_reader_ignore_accel), browser);
+
+	e_mail_reader_init (reader);
+	e_mail_reader_init_ui_data (reader);
+
+	e_ui_manager_add_actions (browser->priv->ui_manager, "mail", NULL,
+		mail_entries, G_N_ELEMENTS (mail_entries), object);
+
+	e_ui_manager_add_actions_with_eui_data (browser->priv->ui_manager, ACTION_GROUP_STANDARD, NULL,
+		mail_browser_entries, G_N_ELEMENTS (mail_browser_entries), object, eui);
+
+	action = e_ui_manager_get_action (browser->priv->ui_manager, "close");
+	e_ui_action_add_secondary_accel (action, "Escape");
 
 	mail_action = e_web_view_get_action (E_WEB_VIEW (display), "search-web");
-	action = gtk_action_group_get_action (action_group, "search-web");
+	action = e_ui_manager_get_action (browser->priv->ui_manager, "search-web");
 
 	e_binding_bind_property (
 		mail_action, "sensitive",
 		action, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	/* For easy access.  Takes ownership of the reference. */
-	g_object_set_data_full (
-		object, ACTION_GROUP_STANDARD,
-		action_group, (GDestroyNotify) g_object_unref);
-
-	action_group = gtk_action_group_new (ACTION_GROUP_SEARCH_FOLDERS);
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-
-	/* For easy access.  Takes ownership of the reference. */
-	g_object_set_data_full (
-		object, ACTION_GROUP_SEARCH_FOLDERS,
-		action_group, (GDestroyNotify) g_object_unref);
-
-	action_group = gtk_action_group_new (ACTION_GROUP_LABELS);
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-
-	/* For easy access.  Takes ownership of the reference. */
-	g_object_set_data_full (
-		object, ACTION_GROUP_LABELS,
-		action_group, (GDestroyNotify) g_object_unref);
-
-	e_binding_bind_property (
-		display, "need-input",
-		action_group, "sensitive",
-		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
-
-	e_mail_reader_init (reader, TRUE, TRUE);
-
-	e_load_ui_manager_definition (ui_manager, E_MAIL_READER_UI_DEFINITION);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
-
-	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-	e_mail_reader_create_charset_menu (reader, ui_manager, merge_id);
-
-	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
-	gtk_window_add_accel_group (GTK_WINDOW (object), accel_group);
-
-	g_signal_connect_swapped (
-		ui_manager, "connect-proxy",
-		G_CALLBACK (mail_browser_connect_proxy_cb), object);
+	e_ui_manager_set_action_groups_widget (browser->priv->ui_manager, GTK_WIDGET (browser));
+	gtk_window_add_accel_group (GTK_WINDOW (browser), e_ui_manager_get_accel_group (browser->priv->ui_manager));
 
 	/* Configure an EFocusTracker to manage selection actions. */
 
 	focus_tracker = e_focus_tracker_new (GTK_WINDOW (object));
+
 	action = e_mail_reader_get_action (reader, "cut-clipboard");
 	e_focus_tracker_set_cut_clipboard_action (focus_tracker, action);
 	action = e_mail_reader_get_action (reader, "copy-clipboard");
@@ -922,6 +723,7 @@ mail_browser_constructed (GObject *object)
 	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
 	action = e_mail_reader_get_action (reader, "select-all");
 	e_focus_tracker_set_select_all_action (focus_tracker, action);
+
 	browser->priv->focus_tracker = focus_tracker;
 
 	/* Construct window widgets. */
@@ -937,32 +739,27 @@ mail_browser_constructed (GObject *object)
 	browser->priv->statusbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = gtk_ui_manager_get_widget (ui_manager, "/main-menu");
+	ui_item = e_ui_manager_create_item (browser->priv->ui_manager, "main-menu");
+	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (ui_item));
+	g_clear_object (&ui_item);
+
+	browser->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (browser), &browser->priv->menu_button);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	browser->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (browser), &menu_button);
 
 	if (e_util_get_use_header_bar ()) {
-		widget = mail_browser_construct_header_bar (reader, menu_button);
-		gtk_window_set_titlebar (GTK_WINDOW (object), widget);
+		ui_item = e_ui_manager_create_item (browser->priv->ui_manager, "main-headerbar");
+		widget = GTK_WIDGET (ui_item);
+		gtk_window_set_titlebar (GTK_WINDOW (browser), widget);
 
-		widget = gtk_ui_manager_get_widget (ui_manager, "/main-toolbar/mail-toolbar-common/mail-reply-sender");
-		if (widget)
-			gtk_widget_destroy (widget);
-	} else if (menu_button) {
-		g_object_ref_sink (menu_button);
-		gtk_widget_destroy (menu_button);
+		ui_item = e_ui_manager_create_item (browser->priv->ui_manager, "main-toolbar-with-headerbar");
+	} else {
+		ui_item = e_ui_manager_create_item (browser->priv->ui_manager, "main-toolbar-without-headerbar");
 	}
 
-	widget = gtk_ui_manager_get_widget (ui_manager, "/main-toolbar");
+	widget = GTK_WIDGET (ui_item);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	browser->priv->main_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
-
-	gtk_style_context_add_class (
-		gtk_widget_get_style_context (widget),
-		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
-
-	e_util_setup_toolbar_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_BUTTON);
 
 	attachment_store = e_mail_display_get_attachment_store (E_MAIL_DISPLAY (display));
 	widget = GTK_WIDGET (e_mail_display_get_attachment_view (E_MAIL_DISPLAY (display)));
@@ -980,9 +777,7 @@ mail_browser_constructed (GObject *object)
 		e_attachment_store_transform_num_attachments_to_visible_boolean,
 		NULL, NULL, NULL);
 
-	id = "org.gnome.evolution.mail.browser";
-	e_plugin_ui_register_manager (ui_manager, id, object);
-	e_plugin_ui_enable_manager (ui_manager, id);
+	e_plugin_ui_register_manager (browser->priv->ui_manager, "org.gnome.evolution.mail.browser", object);
 
 	action = e_mail_reader_get_action (reader, "mail-label-none");
 	e_binding_bind_property (
@@ -990,39 +785,12 @@ mail_browser_constructed (GObject *object)
 		action, "sensitive",
 		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 
-	g_signal_connect (
-		browser, "key-press-event",
-		G_CALLBACK (mail_browser_key_press_event_cb), NULL);
-
 	/* WebKitGTK does not support print preview, thus hide the option from the menu;
 	   maybe it'll be supported in the future */
 	action = e_mail_reader_get_action (reader, "mail-print-preview");
-	gtk_action_set_visible (action, FALSE);
+	e_ui_action_set_visible (action, FALSE);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
-}
-
-static GtkActionGroup *
-mail_browser_get_action_group (EMailReader *reader,
-                               EMailReaderActionGroup group)
-{
-	const gchar *group_name;
-
-	switch (group) {
-		case E_MAIL_READER_ACTION_GROUP_STANDARD:
-			group_name = ACTION_GROUP_STANDARD;
-			break;
-		case E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS:
-			group_name = ACTION_GROUP_SEARCH_FOLDERS;
-			break;
-		case E_MAIL_READER_ACTION_GROUP_LABELS:
-			group_name = ACTION_GROUP_LABELS;
-			break;
-		default:
-			g_return_val_if_reached (NULL);
-	}
-
-	return g_object_get_data (G_OBJECT (reader), group_name);
 }
 
 static EMailBackend *
@@ -1068,21 +836,12 @@ mail_browser_get_message_list (EMailReader *reader)
 	return self->priv->message_list;
 }
 
-static GtkMenu *
-mail_browser_get_popup_menu (EMailReader *reader)
+static EUIManager *
+mail_browser_get_ui_manager (EMailReader *reader)
 {
-	EMailBrowser *browser;
-	GtkUIManager *ui_manager;
-	GtkWidget *widget;
+	EMailBrowser *self = E_MAIL_BROWSER (reader);
 
-	browser = E_MAIL_BROWSER (reader);
-	ui_manager = e_mail_browser_get_ui_manager (browser);
-	if (!ui_manager)
-		return NULL;
-
-	widget = gtk_ui_manager_get_widget (ui_manager, "/mail-preview-popup");
-
-	return GTK_MENU (widget);
+	return self->priv->ui_manager;
 }
 
 static EPreviewPane *
@@ -1299,17 +1058,6 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_UI_MANAGER,
-		g_param_spec_object (
-			"ui-manager",
-			"UI Manager",
-			NULL,
-			GTK_TYPE_UI_MANAGER,
-			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_CLOSE_ON_DELETE_OR_JUNK,
 		g_param_spec_boolean (
 			"close-on-delete-or-junk",
@@ -1324,12 +1072,11 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 static void
 e_mail_browser_reader_init (EMailReaderInterface *iface)
 {
-	iface->get_action_group = mail_browser_get_action_group;
 	iface->get_backend = mail_browser_get_backend;
 	iface->get_mail_display = mail_browser_get_mail_display;
 	iface->get_hide_deleted = mail_browser_get_hide_deleted;
 	iface->get_message_list = mail_browser_get_message_list;
-	iface->get_popup_menu = mail_browser_get_popup_menu;
+	iface->get_ui_manager = mail_browser_get_ui_manager;
 	iface->get_preview_pane = mail_browser_get_preview_pane;
 	iface->get_window = mail_browser_get_window;
 	iface->set_message = mail_browser_set_message;
@@ -1487,14 +1234,6 @@ e_mail_browser_set_show_junk (EMailBrowser *browser,
 	browser->priv->show_junk = show_junk;
 
 	g_object_notify (G_OBJECT (browser), "show-junk");
-}
-
-GtkUIManager *
-e_mail_browser_get_ui_manager (EMailBrowser *browser)
-{
-	g_return_val_if_fail (E_IS_MAIL_BROWSER (browser), NULL);
-
-	return browser->priv->ui_manager;
 }
 
 gboolean

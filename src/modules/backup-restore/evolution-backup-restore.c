@@ -65,18 +65,6 @@ void e_module_unload (GTypeModule *type_module);
 GType evolution_backup_restore_assistant_get_type (void);
 GType evolution_backup_restore_menu_items_get_type (void);
 
-static const gchar *ui =
-"<ui>"
-"  <menubar name='main-menu'>"
-"    <menu action='file-menu'>"
-"      <placeholder name='file-actions'>"
-"        <menuitem action='settings-backup'/>"
-"        <menuitem action='settings-restore'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
 G_DEFINE_DYNAMIC_TYPE (
 	EvolutionBackupRestoreAssistant,
 	evolution_backup_restore_assistant,
@@ -281,9 +269,12 @@ is_xz_available (void)
 }
 
 static void
-action_settings_backup_cb (GtkAction *action,
-                           EShellWindow *shell_window)
+action_settings_backup_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EShellView *shell_view = user_data;
+	gpointer parent_window;
 	GFile *file;
 	GFile *parent;
 	GFileInfo *file_info;
@@ -301,9 +292,11 @@ action_settings_backup_cb (GtkAction *action,
 
 	g_free (tmp);
 
+	parent_window = e_shell_view_get_shell_window (shell_view);
+
 	if (!evolution_backup_restore_check_prog_exists ("tar", &error)) {
 		e_alert_run_dialog_for_args (
-			GTK_WINDOW (shell_window),
+			parent_window,
 			"org.gnome.backup-restore:cannot-backup",
 			error ? error->message : "Unknown error", NULL);
 		g_clear_error (&error);
@@ -312,7 +305,7 @@ action_settings_backup_cb (GtkAction *action,
 	}
 
 	file = e_shell_run_save_dialog (
-		e_shell_window_get_shell (shell_window),
+		e_shell_window_get_shell (e_shell_view_get_shell_window (shell_view)),
 		_("Select name of the Evolution backup file"),
 		suggest, has_xz ? "*.tar.xz;*.tar.gz" : "*.tar.gz",
 		set_local_only, has_xz ? suggest : NULL);
@@ -338,7 +331,7 @@ action_settings_backup_cb (GtkAction *action,
 	    (tmp && !g_str_has_suffix (tmp, ".xz") &&
 	    !evolution_backup_restore_check_prog_exists ("gzip", &error))) {
 		e_alert_run_dialog_for_args (
-			GTK_WINDOW (shell_window),
+			parent_window,
 			"org.gnome.backup-restore:cannot-backup",
 			error ? error->message : "Unknown error", NULL);
 		g_clear_error (&error);
@@ -373,7 +366,7 @@ action_settings_backup_cb (GtkAction *action,
 		gchar *path;
 
 		mask = dialog_prompt_user (
-			GTK_WINDOW (shell_window),
+			parent_window,
 			_("_Restart Evolution after backup"),
 			"org.gnome.backup-restore:backup-confirm", NULL);
 		if (mask & BR_OK) {
@@ -383,7 +376,7 @@ action_settings_backup_cb (GtkAction *action,
 		}
 	} else {
 		e_alert_run_dialog_for_args (
-			GTK_WINDOW (shell_window),
+			parent_window,
 			"org.gnome.backup-restore:insufficient-permissions",
 			NULL);
 	}
@@ -408,7 +401,7 @@ validate_backup_file_data_free (gpointer ptr)
 			guint32 mask;
 
 			mask = dialog_prompt_user (
-				GTK_WINDOW (vbf->shell_window),
+				vbf->shell_window ? GTK_WINDOW (vbf->shell_window) : NULL,
 				_("Re_start Evolution after restore"),
 				"org.gnome.backup-restore:restore-confirm", NULL);
 			if (mask & BR_OK)
@@ -447,17 +440,18 @@ validate_backup_file_thread (EAlertSinkThreadJobData *job_data,
 }
 
 static void
-action_settings_restore_cb (GtkAction *action,
-                            EShellWindow *shell_window)
+action_settings_restore_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EShellView *shell_view = user_data;
 	EActivity *activity;
-	EShellView *shell_view;
 	GFile *file;
 	gchar *path, *description;
 	ValidateBackupFileData *vbf;
 
 	file = e_shell_run_open_dialog (
-		e_shell_window_get_shell (shell_window),
+		e_shell_window_get_shell (e_shell_view_get_shell_window (shell_view)),
 		_("Select name of the Evolution backup file to restore"),
 		set_local_only, NULL);
 
@@ -466,11 +460,12 @@ action_settings_restore_cb (GtkAction *action,
 
 	path = g_file_get_path (file);
 
-	shell_view = e_shell_window_get_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
 	description = g_strdup_printf (_("Checking content of backup file “%s”, please wait…"), path);
 
 	vbf = g_slice_new0 (ValidateBackupFileData);
-	vbf->shell_window = g_object_ref (shell_window);
+	vbf->shell_window = e_shell_view_get_shell_window (shell_view);
+	if (vbf->shell_window)
+		g_object_ref (vbf->shell_window);
 	vbf->path = g_strdup (path);
 
 	activity = e_shell_view_submit_thread_job (shell_view, description, "org.gnome.backup-restore:invalid-backup", path,
@@ -483,23 +478,6 @@ action_settings_restore_cb (GtkAction *action,
 	g_free (description);
 	g_free (path);
 }
-
-static GtkActionEntry entries[] = {
-
-	{ "settings-backup",
-	  NULL,
-	  N_("_Back up Evolution Data…"),
-	  NULL,
-	  N_("Back up Evolution data and settings to an archive file"),
-	  G_CALLBACK (action_settings_backup_cb) },
-
-	{ "settings-restore",
-	  NULL,
-	  N_("R_estore Evolution Data…"),
-	  NULL,
-	  N_("Restore Evolution data and settings from an archive file"),
-	  G_CALLBACK (action_settings_restore_cb) }
-};
 
 static gboolean
 evolution_backup_restore_filename_to_visible (GBinding *binding,
@@ -605,34 +583,48 @@ evolution_backup_restore_assistant_init (EExtension *extension)
 static void
 evolution_backup_restore_menu_items_constructed (GObject *object)
 {
-	EExtension *extension;
-	EExtensible *extensible;
-	EShellWindow *shell_window;
-	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
-	GError *error = NULL;
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='file-menu'>"
+		      "<placeholder id='file-actions'>"
+			"<item action='settings-backup'/>"
+			"<item action='settings-restore'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
 
-	extension = E_EXTENSION (object);
-	extensible = e_extension_get_extensible (extension);
+	static const EUIActionEntry entries[] = {
+
+		{ "settings-backup",
+		  NULL,
+		  N_("_Back up Evolution Data…"),
+		  NULL,
+		  N_("Back up Evolution data and settings to an archive file"),
+		  action_settings_backup_cb, NULL, NULL },
+
+		{ "settings-restore",
+		  NULL,
+		  N_("R_estore Evolution Data…"),
+		  NULL,
+		  N_("Restore Evolution data and settings from an archive file"),
+		  action_settings_restore_cb, NULL, NULL }
+	};
+
+	EExtensible *extensible;
+	EShellView *shell_view;
+	EUIManager *ui_manager;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (evolution_backup_restore_menu_items_parent_class)->constructed (object);
 
-	shell_window = E_SHELL_WINDOW (extensible);
-	action_group = e_shell_window_get_action_group (shell_window, "shell");
+	extensible = e_extension_get_extensible (E_EXTENSION (object));
+	shell_view = E_SHELL_VIEW (extensible);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
 
-	/* Add actions to the "shell" action group. */
-	gtk_action_group_add_actions (
-		action_group, entries,
-		G_N_ELEMENTS (entries), shell_window);
-
-	/* Because we are loading from a hard-coded string, there is
-	 * no chance of I/O errors.  Failure here implies a malformed
-	 * UI definition.  Full stop. */
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-	if (error != NULL)
-		g_error ("%s", error->message);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "backup-restore", NULL,
+		entries, G_N_ELEMENTS (entries), shell_view, eui);
 }
 
 static void
@@ -645,7 +637,7 @@ evolution_backup_restore_menu_items_class_init (EExtensionClass *class)
 	object_class->constructed = evolution_backup_restore_menu_items_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
-	extension_class->extensible_type = E_TYPE_SHELL_WINDOW;
+	extension_class->extensible_type = E_TYPE_SHELL_VIEW;
 }
 
 static void
@@ -672,4 +664,3 @@ G_MODULE_EXPORT void
 e_module_unload (GTypeModule *type_module)
 {
 }
-

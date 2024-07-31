@@ -1,0 +1,60 @@
+<eui>
+  <headerbar id='main-headerbar' type='gtk'>
+    <end>
+      <item action='EMailViewer::menu-button'/>
+    </end>
+  </headerbar>
+  <menu id='main-menu'>
+    <submenu action='menu-file'>
+      <item action='file-import'/>
+      <item action='import-all'/>
+      <item action='open'/>
+      <item action='print'/>
+      <separator/>
+      <item action='close'/>
+    </submenu>
+    <submenu action='menu-edit'>
+      <item action='cut'/>
+      <item action='copy'/>
+      <item action='paste'/>
+      <separator/>
+      <item action='select-all'/>
+      <separator/>
+      <item action='find'/>
+    </submenu>
+    <submenu action='menu-view'>
+      <item action='load-images'/>
+      <item action='all-headers'/>
+      <item action='msg-source'/>
+      <item action='caret-mode'/>
+      <submenu action='menu-zoom'>
+        <item action='zoom-in'/>
+        <item action='zoom-out'/>
+        <item action='zoom-zero'/>
+      </submenu>
+      <separator/>
+      <item action='EMailViewer::charset-menu'/>
+    </submenu>
+    <submenu action="menu-message">
+      <item action='import-one'/>
+      <item action='edit-as-new'/>
+      <item action='add-sender'/>
+      <separator/>
+      <item action='goto-previous'/>
+      <item action='goto-next'/>
+      <separator/>
+      <item action='reply-sender'/>
+      <item action='reply-list'/>
+      <item action='reply-all'/>
+      <item action='reply-alt'/>
+      <item action='forward'/>
+      <submenu action='menu-forward-as'>
+        <item action='forward-attached'/>
+        <item action='forward-inline'/>
+        <item action='forward-quoted'/>
+        <separator/>
+        <item action='redirect'/>
+      </submenu>
+    </submenu>
+  </menu>
+</eui>

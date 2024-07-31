@@ -434,7 +434,7 @@ evo_editor_jsc_lookup_emoticon (const gchar *iconName,
 				jsc_value_object_set_property (object, "text", value);
 				g_clear_object (&value);
 
-				image_uri = e_emoticon_get_uri ((EEmoticon *) emoticon);
+				image_uri = e_emoticon_dup_uri (emoticon);
 
 				if (image_uri) {
 					value = jsc_value_new_string (jsc_context, image_uri);

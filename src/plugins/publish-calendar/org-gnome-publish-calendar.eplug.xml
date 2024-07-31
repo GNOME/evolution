@@ -9,15 +9,7 @@
 	<author name="David Trowbridge" email="trowbrds@cs.colorado.edu"/>
 	<!-- calendar main menu -->
         <hook class="org.gnome.evolution.ui:1.0">
-          <ui-manager id="org.gnome.evolution.calendars">
-            <menubar name='main-menu'>
-              <placeholder name='custom-menus'>
-                <menu action="calendar-actions-menu">
-                  <menuitem action="calendar-publish"/>
-                </menu>
-              </placeholder>
-            </menubar>
-          </ui-manager>
+          <ui-manager id="org.gnome.evolution.calendars"/>
         </hook>
 
 	<!-- config page -->

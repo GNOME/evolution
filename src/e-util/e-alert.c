@@ -34,8 +34,10 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include "e-alert.h"
 #include "e-alert-sink.h"
+#include "e-ui-action.h"
+
+#include "e-alert.h"
 
 #define d(x)
 
@@ -91,8 +93,8 @@ struct _EAlertPrivate {
 	gint default_response;
 	guint timeout_id;
 
-	/* It may occur to one that we could use a GtkActionGroup here,
-	 * but we need to preserve the button order and GtkActionGroup
+	/* It may occur to one that we could use a EUIActionGroup here,
+	 * but we need to preserve the button order and EUIActionGroup
 	 * uses a hash table, which does not preserve order. */
 	GQueue actions;
 
@@ -373,7 +375,8 @@ e_alert_load_tables (void)
 
 static void
 alert_action_activate (EAlert *alert,
-                       GtkAction *action)
+		       GVariant *parameter,
+                       EUIAction *action)
 {
 	GObject *object;
 	gpointer data;
@@ -552,7 +555,7 @@ alert_dispose (GObject *object)
 	}
 
 	while (!g_queue_is_empty (&alert->priv->actions)) {
-		GtkAction *action;
+		EUIAction *action;
 
 		action = g_queue_pop_head (&alert->priv->actions);
 		g_signal_handlers_disconnect_by_func (
@@ -604,23 +607,21 @@ alert_constructed (GObject *object)
 	/* Build actions out of the button definitions. */
 	button = definition->buttons;
 	while (button != NULL) {
-		GtkAction *action;
+		EUIAction *action;
 		gchar *action_name;
 
 		action_name = g_strdup_printf ("alert-response-%d", ii++);
 
 		if (button->stock_id != NULL) {
-			action = gtk_action_new (
-				action_name, NULL, NULL, button->stock_id);
-			e_alert_add_action (
-				alert, action, button->response_id, button->destructive);
+			action = e_ui_action_new ("alert-map", action_name, NULL);
+			e_ui_action_set_icon_name (action, button->stock_id);
+			e_alert_add_action (alert, action, button->response_id, button->destructive);
 			g_object_unref (action);
 
 		} else if (button->label != NULL) {
-			action = gtk_action_new (
-				action_name, button->label, NULL, NULL);
-			e_alert_add_action (
-				alert, action, button->response_id, button->destructive);
+			action = e_ui_action_new ("alert-map", action_name, NULL);
+			e_ui_action_set_label (action, button->label);
+			e_alert_add_action (alert, action, button->response_id, button->destructive);
 			g_object_unref (action);
 		}
 
@@ -937,12 +938,12 @@ e_alert_get_icon_name (EAlert *alert)
 
 void
 e_alert_add_action (EAlert *alert,
-                    GtkAction *action,
+                    EUIAction *action,
                     gint response_id,
 		    gboolean is_destructive)
 {
 	g_return_if_fail (E_IS_ALERT (alert));
-	g_return_if_fail (GTK_IS_ACTION (action));
+	g_return_if_fail (E_IS_UI_ACTION (action));
 
 	g_object_set_data (
 		G_OBJECT (action), "e-alert-response-id",
@@ -958,7 +959,7 @@ e_alert_add_action (EAlert *alert,
 	g_queue_push_tail (&alert->priv->actions, g_object_ref (action));
 }
 
-GList *
+GList * /* EUIAction * */
 e_alert_peek_actions (EAlert *alert)
 {
 	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
@@ -1063,19 +1064,48 @@ e_alert_submit_valist (EAlertSink *alert_sink,
 	g_object_unref (alert);
 }
 
-void
-e_alert_update_destructive_action_style (GtkAction *for_action,
-					 GtkWidget *button)
+static void
+alert_action_button_clicked_cb (GtkButton *button,
+				gpointer user_data)
 {
+	EUIAction *action = user_data;
+
+	g_action_activate (G_ACTION (action), NULL);
+}
+
+GtkWidget *
+e_alert_create_button_for_action (EUIAction *for_action)
+{
+	GtkWidget *widget;
 	GtkStyleContext *style_context;
 
-	g_return_if_fail (GTK_IS_ACTION (for_action));
-	g_return_if_fail (GTK_IS_WIDGET (button));
+	g_return_val_if_fail (E_IS_UI_ACTION (for_action), NULL);
 
-	style_context = gtk_widget_get_style_context (button);
+	/* action's icon-name is stock_id */
+	if (e_ui_action_get_icon_name (for_action)) {
+		widget = gtk_button_new_from_stock (e_ui_action_get_icon_name (for_action));
+		if (e_ui_action_get_label (for_action)) {
+			gtk_button_set_use_underline (GTK_BUTTON (widget), TRUE);
+			gtk_button_set_label (GTK_BUTTON (widget), e_ui_action_get_label (for_action));
+		}
+	} else {
+		widget = gtk_button_new_with_mnemonic (e_ui_action_get_label (for_action));
+	}
+
+	if (e_ui_action_get_tooltip (for_action))
+		gtk_widget_set_tooltip_text (widget, e_ui_action_get_tooltip (for_action));
+
+	gtk_widget_set_visible (widget, TRUE);
+
+	g_signal_connect_object (widget, "clicked",
+		G_CALLBACK (alert_action_button_clicked_cb), for_action, 0);
+
+	style_context = gtk_widget_get_style_context (widget);
 
 	if (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (for_action), "e-alert-is-destructive")) != 0)
 		gtk_style_context_add_class (style_context, "destructive-action");
 	else
 		gtk_style_context_remove_class (style_context, "destructive-action");
+
+	return widget;
 }

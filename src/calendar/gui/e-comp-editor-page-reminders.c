@@ -1677,9 +1677,12 @@ ecep_reminders_fill_component (ECompEditorPage *page,
 }
 
 static void
-ecep_reminders_select_page_cb (GtkAction *action,
-			       ECompEditorPage *page)
+ecep_reminders_select_page_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	ECompEditorPage *page = user_data;
+
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page));
 
 	e_comp_editor_page_select (page);
@@ -1688,44 +1691,39 @@ ecep_reminders_select_page_cb (GtkAction *action,
 static void
 ecep_reminders_setup_ui (ECompEditorPageReminders *page_reminders)
 {
-	const gchar *ui =
-		"<ui>"
-		"  <menubar action='main-menu'>"
-		"    <menu action='options-menu'>"
-		"      <placeholder name='tabs'>"
-		"        <menuitem action='page-reminders'/>"
-		"      </placeholder>"
-		"    </menu>"
-		"  </menubar>"
-		"</ui>";
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='options-menu'>"
+		      "<placeholder id='tabs'>"
+			"<item action='page-reminders'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
 
-	const GtkActionEntry options_actions[] = {
+	static const EUIActionEntry options_actions[] = {
 		{ "page-reminders",
 		  "appointment-soon",
 		  N_("_Reminders"),
 		  NULL,
 		  N_("Set or unset reminders"),
-		  G_CALLBACK (ecep_reminders_select_page_cb) }
+		  ecep_reminders_select_page_cb, NULL, NULL, NULL }
 	};
 
 	ECompEditor *comp_editor;
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
-	GtkAction *action;
-	GError *error = NULL;
+	EUIManager *ui_manager;
+	EUIAction *action;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
 
 	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_reminders));
 	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
-	action_group = e_comp_editor_get_action_group (comp_editor, "individual");
 
-	gtk_action_group_add_actions (action_group,
-		options_actions, G_N_ELEMENTS (options_actions), page_reminders);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "individual", GETTEXT_PACKAGE,
+		options_actions, G_N_ELEMENTS (options_actions), page_reminders, eui);
 
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-
-	action = gtk_action_group_get_action (action_group, "page-reminders");
+	action = e_comp_editor_get_action (comp_editor, "page-reminders");
 	if (action) {
 		e_binding_bind_property (
 			page_reminders, "visible",
@@ -1734,11 +1732,6 @@ ecep_reminders_setup_ui (ECompEditorPageReminders *page_reminders)
 	}
 
 	g_clear_object (&comp_editor);
-
-	if (error) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
 }
 
 static gboolean

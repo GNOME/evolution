@@ -42,27 +42,6 @@ static GtkTargetEntry target_table[] = {
 	{ (gchar *) "_NETSCAPE_URL", 0, 0 }
 };
 
-static const gchar *ui =
-"<ui>"
-"  <popup name='context'>"
-"    <menuitem action='cancel'/>"
-"    <menuitem action='reload'/>"
-"    <menuitem action='save-as'/>"
-"    <menuitem action='remove'/>"
-"    <menuitem action='properties'/>"
-"    <separator/>"
-"    <placeholder name='inline-actions'/>"
-"    <separator/>"
-"    <placeholder name='custom-actions'/>"
-"    <separator/>"
-"    <menuitem action='add'/>"
-"    <menuitem action='add-uri'/>"
-"    <separator/>"
-"    <placeholder name='open-actions'/>"
-"    <menuitem action='open-with'/>"
-"  </popup>"
-"</ui>";
-
 static gulong signals[LAST_SIGNAL];
 
 G_DEFINE_INTERFACE (
@@ -86,9 +65,11 @@ call_attachment_load_handle_error (GObject *source_object,
 }
 
 static void
-action_add_cb (GtkAction *action,
-               EAttachmentView *view)
+action_add_cb (EUIAction *action,
+	       GVariant *parameter,
+	       gpointer user_data)
 {
+	EAttachmentView *view = user_data;
 	EAttachmentStore *store;
 	gpointer parent;
 
@@ -163,9 +144,11 @@ attachment_popover_popup (EAttachmentView *view,
 }
 
 static void
-action_add_uri_cb (GtkAction *action,
-		   EAttachmentView *view)
+action_add_uri_cb (EUIAction *action,
+		   GVariant *parameter,
+		   gpointer user_data)
 {
+	EAttachmentView *view = user_data;
 	EAttachmentPopover *popover;
 	EAttachment *attachment;
 	GFileInfo *file_info;
@@ -197,9 +180,11 @@ action_add_uri_cb (GtkAction *action,
 }
 
 static void
-action_cancel_cb (GtkAction *action,
-                  EAttachmentView *view)
+action_cancel_cb (EUIAction *action,
+		  GVariant *parameter,
+		  gpointer user_data)
 {
+	EAttachmentView *view = user_data;
 	EAttachment *attachment;
 	GList *list;
 
@@ -214,9 +199,11 @@ action_cancel_cb (GtkAction *action,
 }
 
 static void
-action_open_with_cb (GtkAction *action,
-                     EAttachmentView *view)
+action_open_with_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	EAttachmentView *view = user_data;
 	EAttachment *attachment;
 	EAttachmentStore *store;
 	GtkWidget *dialog;
@@ -267,9 +254,12 @@ action_open_with_cb (GtkAction *action,
 }
 
 static void
-action_open_with_app_info_cb (GtkAction *action,
-                              EAttachmentView *view)
+action_open_with_app_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EAttachmentView *view = user_data;
+	EAttachmentViewPrivate *priv = e_attachment_view_get_private (view);
 	GAppInfo *app_info;
 	GtkTreePath *path;
 	GList *list;
@@ -278,18 +268,19 @@ action_open_with_app_info_cb (GtkAction *action,
 	g_return_if_fail (g_list_length (list) == 1);
 	path = list->data;
 
-	app_info = g_object_get_data (G_OBJECT (action), "app-info");
+	app_info = g_hash_table_lookup (priv->open_with_apps_hash, GINT_TO_POINTER (g_variant_get_int32 (parameter)));
 
 	e_attachment_view_open_path (view, path, app_info);
 
-	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
-	g_list_free (list);
+	g_list_free_full (list, (GDestroyNotify) gtk_tree_path_free);
 }
 
 static void
-action_properties_cb (GtkAction *action,
-                      EAttachmentView *view)
+action_properties_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	EAttachmentView *view = user_data;
 	EAttachment *attachment;
 	EAttachmentPopover *popover;
 	GList *list;
@@ -308,9 +299,11 @@ action_properties_cb (GtkAction *action,
 }
 
 static void
-action_reload_cb (GtkAction *action,
-		  EAttachmentView *view)
+action_reload_cb (EUIAction *action,
+		  GVariant *parameter,
+		  gpointer user_data)
 {
+	EAttachmentView *view = user_data;
 	GList *list, *link;
 	gpointer parent;
 
@@ -342,9 +335,12 @@ action_reload_cb (GtkAction *action,
 }
 
 static void
-action_remove_cb (GtkAction *action,
-                  EAttachmentView *view)
+action_remove_cb (EUIAction *action,
+		  GVariant *parameter,
+		  gpointer user_data)
 {
+	EAttachmentView *view = user_data;
+
 	e_attachment_view_remove_selected (view, FALSE);
 }
 
@@ -364,9 +360,11 @@ call_attachment_save_handle_error (GObject *source_object,
 }
 
 static void
-action_save_all_cb (GtkAction *action,
-                    EAttachmentView *view)
+action_save_all_cb (EUIAction *action,
+		    GVariant *parameter,
+		    gpointer user_data)
 {
+	EAttachmentView *view = user_data;
 	EAttachmentStore *store;
 	GList *list, *iter;
 	GFile *destination;
@@ -406,9 +404,11 @@ exit:
 }
 
 static void
-action_save_as_cb (GtkAction *action,
-                   EAttachmentView *view)
+action_save_as_cb (EUIAction *action,
+		   GVariant *parameter,
+		   gpointer user_data)
 {
+	EAttachmentView *view = user_data;
 	EAttachmentStore *store;
 	GList *list, *iter;
 	GFile *destination;
@@ -443,84 +443,6 @@ exit:
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
 }
-
-static GtkActionEntry standard_entries[] = {
-
-	{ "cancel",
-	  "process-stop",
-	  N_("_Cancel"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_cancel_cb) },
-
-	{ "open-with",
-	  NULL,
-	  N_("Open With Other Application…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_open_with_cb) },
-
-	{ "save-all",
-	  "document-save-as",
-	  N_("S_ave All"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_save_all_cb) },
-
-	{ "save-as",
-	  "document-save-as",
-	  N_("Sa_ve As"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_save_as_cb) },
-
-	/* Alternate "save-all" label, for when
-	 * the attachment store has one row. */
-	{ "save-one",
-	  "document-save-as",
-	  N_("Save _As"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_save_all_cb) },
-};
-
-static GtkActionEntry editable_entries[] = {
-
-	{ "add",
-	  "list-add",
-	  N_("A_dd Attachment…"),
-	  NULL,
-	  N_("Attach a file"),
-	  G_CALLBACK (action_add_cb) },
-
-	{ "add-uri",
-	  "emblem-web",
-	  N_("Add _URI…"),
-	  NULL,
-	  N_("Attach a URI"),
-	  G_CALLBACK (action_add_uri_cb) },
-
-	{ "properties",
-	  "document-properties",
-	  N_("_Properties"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_properties_cb) },
-
-	{ "reload",
-	  "view-refresh",
-	  N_("Re_load"),
-	  NULL,
-	  N_("Reload attachment content"),
-	  G_CALLBACK (action_reload_cb) },
-
-	{ "remove",
-	  "list-remove",
-	  N_("_Remove"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_remove_cb) }
-};
 
 static void
 attachment_view_handle_uri_with_title (EAttachmentView *view,
@@ -882,15 +804,42 @@ attachment_view_text_x_moz_url (EAttachmentView *view,
 	g_free (uri_with_title);
 }
 
+static gboolean
+e_attachment_view_ui_manager_create_item_cb (EUIManager *manager,
+					     EUIElement *elem,
+					     EUIAction *action,
+					     EUIElementKind for_kind,
+					     GObject **out_item,
+					     gpointer user_data)
+{
+	EAttachmentView *self = user_data;
+	EAttachmentViewPrivate *priv;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (self), FALSE);
+
+	if (for_kind != E_UI_ELEMENT_KIND_MENU ||
+	    g_strcmp0 (g_action_get_name (G_ACTION (action)), "EAttachmentView::open-with-app") != 0)
+		return FALSE;
+
+	priv = e_attachment_view_get_private (self);
+
+	if (priv->open_with_apps_menu)
+		*out_item = G_OBJECT (g_menu_item_new_section (NULL, G_MENU_MODEL (priv->open_with_apps_menu)));
+	else
+		*out_item = NULL;
+
+	return TRUE;
+}
+
 static void
 attachment_view_update_actions (EAttachmentView *view)
 {
 	EAttachmentViewPrivate *priv;
 	EAttachment *attachment;
-	GtkActionGroup *action_group;
-	GtkAction *action;
+	EUIAction *action;
 	GList *list, *iter;
 	guint n_selected;
+	gint op_id = 0;
 	gboolean busy = FALSE;
 	gboolean may_reload = FALSE;
 	gboolean is_uri = FALSE;
@@ -930,32 +879,29 @@ attachment_view_update_actions (EAttachmentView *view)
 	g_list_free_full (list, g_object_unref);
 
 	action = e_attachment_view_get_action (view, "cancel");
-	gtk_action_set_visible (action, busy);
+	e_ui_action_set_visible (action, busy);
 
 	action = e_attachment_view_get_action (view, "open-with");
-	gtk_action_set_visible (action, !busy && n_selected == 1 && !e_util_is_running_flatpak ());
+	e_ui_action_set_visible (action, !busy && n_selected == 1 && !e_util_is_running_flatpak ());
 
 	action = e_attachment_view_get_action (view, "properties");
-	gtk_action_set_visible (action, !busy && n_selected == 1);
+	e_ui_action_set_visible (action, !busy && n_selected == 1);
 
 	action = e_attachment_view_get_action (view, "reload");
-	gtk_action_set_visible (action, may_reload && !is_uri);
-	gtk_action_set_sensitive (action, !busy);
+	e_ui_action_set_visible (action, may_reload && !is_uri);
+	e_ui_action_set_sensitive (action, !busy);
 
 	action = e_attachment_view_get_action (view, "remove");
-	gtk_action_set_visible (action, !busy && n_selected > 0);
+	e_ui_action_set_visible (action, !busy && n_selected > 0);
 
 	action = e_attachment_view_get_action (view, "save-as");
-	gtk_action_set_visible (action, !busy && !is_uri && n_selected > 0);
+	e_ui_action_set_visible (action, !busy && !is_uri && n_selected > 0);
 
 	action = e_attachment_view_get_action (view, "add-uri");
-	gtk_action_set_visible (action, priv->allow_uri);
+	e_ui_action_set_visible (action, priv->allow_uri);
 
-	/* Clear out the "openwith" action group. */
-	gtk_ui_manager_remove_ui (priv->ui_manager, priv->merge_id);
-	action_group = e_attachment_view_get_action_group (view, "openwith");
-	e_action_group_remove_all_actions (action_group);
-	gtk_ui_manager_ensure_update (priv->ui_manager);
+	g_menu_remove_all (priv->open_with_apps_menu);
+	g_hash_table_remove_all (priv->open_with_apps_hash);
 
 	if (!attachment || busy) {
 		g_clear_object (&attachment);
@@ -969,12 +915,11 @@ attachment_view_update_actions (EAttachmentView *view)
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		GAppInfo *app_info = iter->data;
+		GMenuItem *menu_item;
 		GIcon *app_icon;
 		const gchar *app_id;
 		const gchar *app_name;
-		gchar *action_tooltip;
-		gchar *action_label;
-		gchar *action_name;
+		gchar *label;
 
 		if (app_info) {
 			app_id = g_app_info_get_id (app_info);
@@ -993,47 +938,23 @@ attachment_view_update_actions (EAttachmentView *view)
 		if (g_str_equal (app_id, "org.gnome.Evolution.desktop"))
 			continue;
 
-		action_name = g_strdup_printf ("open-with-%s", app_id);
+		if (app_info)
+			label = g_strdup_printf (_("Open With “%s”"), app_name);
+		else
+			label = g_strdup (_("Open With Default Application"));
 
-		if (app_info) {
-			action_label = g_strdup_printf (_("Open With “%s”"), app_name);
-			action_tooltip = g_strdup_printf (_("Open this attachment in %s"), app_name);
-		} else {
-			action_label = g_strdup (_("Open With Default Application"));
-			action_tooltip = g_strdup (_("Open this attachment in default application"));
-		}
+		menu_item = g_menu_item_new (label, NULL);
+		g_menu_item_set_action_and_target_value (menu_item, "standard.EAttachmentView::open-with-app", g_variant_new_int32 (op_id));
+		g_menu_item_set_icon (menu_item, app_icon);
+		g_menu_append_item (priv->open_with_apps_menu, menu_item);
+		g_clear_object (&menu_item);
 
-		action = gtk_action_new (
-			action_name, action_label, action_tooltip, NULL);
+		if (app_info)
+			g_hash_table_insert (priv->open_with_apps_hash, GINT_TO_POINTER (op_id),  g_object_ref (app_info));
 
-		gtk_action_set_gicon (action, app_icon);
+		op_id++;
 
-		if (app_info) {
-			g_object_set_data_full (
-				G_OBJECT (action),
-				"app-info", g_object_ref (app_info),
-				(GDestroyNotify) g_object_unref);
-		}
-
-		g_object_set_data_full (
-			G_OBJECT (action),
-			"attachment", g_object_ref (attachment),
-			(GDestroyNotify) g_object_unref);
-
-		g_signal_connect (
-			action, "activate",
-			G_CALLBACK (action_open_with_app_info_cb), view);
-
-		gtk_action_group_add_action (action_group, action);
-
-		gtk_ui_manager_add_ui (
-			priv->ui_manager, priv->merge_id,
-			"/context/open-actions", action_name,
-			action_name, GTK_UI_MANAGER_AUTO, FALSE);
-
-		g_free (action_name);
-		g_free (action_label);
-		g_free (action_tooltip);
+		g_free (label);
 
 		if (!app_info) {
 			list = g_list_remove (list, app_info);
@@ -1139,42 +1060,131 @@ e_attachment_view_default_init (EAttachmentViewInterface *iface)
 void
 e_attachment_view_init (EAttachmentView *view)
 {
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='context' is-popup='true'>"
+		    "<item action='cancel'/>"
+		    "<item action='reload'/>"
+		    "<item action='save-as'/>"
+		    "<item action='remove'/>"
+		    "<item action='properties'/>"
+		    "<separator/>"
+		    "<placeholder id='inline-actions'/>"
+		    "<separator/>"
+		    "<placeholder id='custom-actions'/>"
+		    "<separator/>"
+		    "<item action='add'/>"
+		    "<item action='add-uri'/>"
+		    "<separator/>"
+		    "<item action='EAttachmentView::open-with-app'/>"
+		    "<item action='open-with'/>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry standard_entries[] = {
+
+		{ "cancel",
+		  "process-stop",
+		  N_("_Cancel"),
+		  NULL,
+		  NULL,
+		  action_cancel_cb, NULL, NULL, NULL },
+
+		{ "open-with",
+		  NULL,
+		  N_("Open With Other Application…"),
+		  NULL,
+		  NULL,
+		  action_open_with_cb, NULL, NULL, NULL },
+
+		{ "save-all",
+		  "document-save-as",
+		  N_("S_ave All"),
+		  NULL,
+		  NULL,
+		  action_save_all_cb, NULL, NULL, NULL },
+
+		{ "save-as",
+		  "document-save-as",
+		  N_("Sa_ve As"),
+		  NULL,
+		  NULL,
+		  action_save_as_cb, NULL, NULL, NULL },
+
+		/* Alternate "save-all" label, for when
+		 * the attachment store has one row. */
+		{ "save-one",
+		  "document-save-as",
+		  N_("Save _As"),
+		  NULL,
+		  NULL,
+		  action_save_all_cb, NULL, NULL, NULL },
+
+		{ "EAttachmentView::open-with-app",
+		  NULL,
+		  N_("Open with…"),
+		  NULL,
+		  NULL,
+		  action_open_with_app_cb, "i", NULL, NULL }
+	};
+
+	static const EUIActionEntry editable_entries[] = {
+
+		{ "add",
+		  "list-add",
+		  N_("A_dd Attachment…"),
+		  NULL,
+		  N_("Attach a file"),
+		  action_add_cb, NULL, NULL, NULL },
+
+		{ "add-uri",
+		  "emblem-web",
+		  N_("Add _URI…"),
+		  NULL,
+		  N_("Attach a URI"),
+		  action_add_uri_cb, NULL, NULL, NULL },
+
+		{ "properties",
+		  "document-properties",
+		  N_("_Properties"),
+		  NULL,
+		  NULL,
+		  action_properties_cb, NULL, NULL, NULL },
+
+		{ "reload",
+		  "view-refresh",
+		  N_("Re_load"),
+		  NULL,
+		  N_("Reload attachment content"),
+		  action_reload_cb, NULL, NULL, NULL },
+
+		{ "remove",
+		  "list-remove",
+		  N_("_Remove"),
+		  NULL,
+		  NULL,
+		  action_remove_cb, NULL, NULL, NULL }
+	};
+
 	EAttachmentViewPrivate *priv;
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
-	GError *error = NULL;
 
 	priv = e_attachment_view_get_private (view);
 
-	ui_manager = gtk_ui_manager_new ();
-	priv->merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-	priv->ui_manager = ui_manager;
+	priv->ui_manager = e_ui_manager_new ();
+	priv->open_with_apps_menu = g_menu_new ();
+	priv->open_with_apps_hash = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
 
-	action_group = e_attachment_view_add_action_group (view, "standard");
+	e_ui_manager_add_actions_with_eui_data (priv->ui_manager, "standard", NULL,
+		standard_entries, G_N_ELEMENTS (standard_entries), view, eui);
 
-	gtk_action_group_add_actions (
-		action_group, standard_entries,
-		G_N_ELEMENTS (standard_entries), view);
-
-	action_group = e_attachment_view_add_action_group (view, "editable");
+	e_ui_manager_add_actions (priv->ui_manager, "editable", NULL,
+		editable_entries, G_N_ELEMENTS (editable_entries), view);
 
 	e_binding_bind_property (
 		view, "editable",
-		action_group, "visible",
+		e_ui_manager_get_action_group (priv->ui_manager, "editable"), "visible",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
-	gtk_action_group_add_actions (
-		action_group, editable_entries,
-		G_N_ELEMENTS (editable_entries), view);
-
-	e_attachment_view_add_action_group (view, "openwith");
-
-	/* Because we are loading from a hard-coded string, there is
-	 * no chance of I/O errors.  Failure here implies a malformed
-	 * UI definition.  Full stop. */
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-	if (error != NULL)
-		g_error ("%s", error->message);
 
 	attachment_view_init_drag_dest (view);
 
@@ -1205,6 +1215,11 @@ e_attachment_view_init (EAttachmentView *view)
 	g_signal_connect (
 		view, "drag-data-received",
 		G_CALLBACK (attachment_view_text_x_moz_url), NULL);
+
+	g_signal_connect (priv->ui_manager, "create-item",
+		G_CALLBACK (e_attachment_view_ui_manager_create_item_cb), view);
+
+	e_ui_manager_set_action_groups_widget (priv->ui_manager, GTK_WIDGET (view));
 }
 
 void
@@ -1215,6 +1230,8 @@ e_attachment_view_dispose (EAttachmentView *view)
 	priv = e_attachment_view_get_private (view);
 
 	g_clear_pointer (&priv->target_list, gtk_target_list_unref);
+	g_clear_pointer (&priv->open_with_apps_hash, g_hash_table_unref);
+	g_clear_object (&priv->open_with_apps_menu);
 	g_clear_object (&priv->ui_manager);
 }
 
@@ -2114,91 +2131,58 @@ e_attachment_view_drag_data_received (EAttachmentView *view,
 	gtk_drag_finish (drag_context, FALSE, FALSE, time);
 }
 
-GtkAction *
+EUIAction *
 e_attachment_view_get_action (EAttachmentView *view,
                               const gchar *action_name)
 {
-	GtkUIManager *ui_manager;
+	EUIManager *ui_manager;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
 	ui_manager = e_attachment_view_get_ui_manager (view);
 
-	return e_lookup_action (ui_manager, action_name);
+	return e_ui_manager_get_action (ui_manager, action_name);
 }
 
-GtkActionGroup *
-e_attachment_view_add_action_group (EAttachmentView *view,
-                                    const gchar *group_name)
-{
-	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
-	const gchar *domain;
-
-	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
-	g_return_val_if_fail (group_name != NULL, NULL);
-
-	ui_manager = e_attachment_view_get_ui_manager (view);
-	domain = GETTEXT_PACKAGE;
-
-	action_group = gtk_action_group_new (group_name);
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
-
-	return action_group;
-}
-
-GtkActionGroup *
+EUIActionGroup *
 e_attachment_view_get_action_group (EAttachmentView *view,
                                     const gchar *group_name)
 {
-	GtkUIManager *ui_manager;
+	EUIManager *ui_manager;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
 	g_return_val_if_fail (group_name != NULL, NULL);
 
 	ui_manager = e_attachment_view_get_ui_manager (view);
 
-	return e_lookup_action_group (ui_manager, group_name);
-}
-
-static void
-e_attachment_view_menu_deactivate_cb (GtkMenu *popup_menu,
-				      gpointer user_data)
-{
-	g_return_if_fail (GTK_IS_MENU (popup_menu));
-
-	g_signal_handlers_disconnect_by_func (popup_menu, e_attachment_view_menu_deactivate_cb, user_data);
-	gtk_menu_detach (popup_menu);
+	return e_ui_manager_get_action_group (ui_manager, group_name);
 }
 
 GtkWidget *
 e_attachment_view_get_popup_menu (EAttachmentView *view)
 {
-	GtkUIManager *ui_manager;
-	GtkWidget *menu;
+	EUIManager *ui_manager;
+	GObject *ui_object;
+	GtkMenu *menu;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
 
 	ui_manager = e_attachment_view_get_ui_manager (view);
-	menu = gtk_ui_manager_get_widget (ui_manager, "/context");
-	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
+	ui_object = e_ui_manager_create_item (ui_manager, "context");
+	g_return_val_if_fail (G_IS_MENU_MODEL (ui_object), NULL);
 
-	if (!gtk_menu_get_attach_widget (GTK_MENU (menu))) {
-		gtk_menu_attach_to_widget (GTK_MENU (menu),
-					   GTK_WIDGET (view),
-					   NULL);
-		g_signal_connect (
-			menu, "deactivate",
-			G_CALLBACK (e_attachment_view_menu_deactivate_cb), NULL);
-	}
+	menu = GTK_MENU (gtk_menu_new_from_model (G_MENU_MODEL (ui_object)));
 
-	return menu;
+	g_clear_object (&ui_object);
+
+	gtk_menu_attach_to_widget (menu, GTK_WIDGET (view), NULL);
+	e_util_connect_menu_detach_after_deactivate (menu);
+
+	return GTK_WIDGET (menu);
 }
 
-GtkUIManager *
+EUIManager *
 e_attachment_view_get_ui_manager (EAttachmentView *view)
 {
 	EAttachmentViewPrivate *priv;

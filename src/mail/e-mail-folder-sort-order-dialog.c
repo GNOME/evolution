@@ -36,7 +36,7 @@ struct _EMailFolderSortOrderDialogPrivate {
 	gboolean drag_changed;
 	GHashTable *drag_state; /* gchar *folder_uri ~> guint sort_order */
 
-	GtkAction *reset_current_level_action;
+	EUIAction *reset_current_level_action;
 };
 
 enum {
@@ -79,11 +79,12 @@ sort_order_dialog_selection_changed_cb (GtkTreeSelection *selection,
 		} while (!can && gtk_tree_model_iter_next (model, &iter));
 	}
 
-	gtk_action_set_sensitive (dialog->priv->reset_current_level_action, can);
+	e_ui_action_set_sensitive (dialog->priv->reset_current_level_action, can);
 }
 
 static void
-sort_order_dialog_reset_current_level_activate_cb (GtkAction *action,
+sort_order_dialog_reset_current_level_activate_cb (EUIAction *action,
+						   GVariant *parameter,
 						   gpointer user_data)
 {
 	EMailFolderSortOrderDialog *dialog = user_data;
@@ -129,7 +130,8 @@ sort_order_dialog_reset_current_level_activate_cb (GtkAction *action,
 }
 
 static void
-sort_order_dialog_reset_all_levels_activate_cb (GtkAction *action,
+sort_order_dialog_reset_all_levels_activate_cb (EUIAction *action,
+						GVariant *parameter,
 						gpointer user_data)
 {
 	EMailFolderSortOrderDialog *dialog = user_data;
@@ -675,7 +677,7 @@ e_mail_folder_sort_order_dialog_constructed (GObject *object)
 	ETreeViewFrame *tree_view_frame;
 	GtkTreeSelection *selection;
 	CamelSession *session;
-	GtkAction *action;
+	EUIAction *action;
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_mail_folder_sort_order_dialog_parent_class)->constructed (object);
@@ -721,15 +723,15 @@ e_mail_folder_sort_order_dialog_constructed (GObject *object)
 	gtk_widget_grab_focus (folder_tree);
 
 	action = e_tree_view_frame_lookup_toolbar_action (tree_view_frame, E_TREE_VIEW_FRAME_ACTION_ADD);
-	gtk_action_set_visible (action, FALSE);
+	e_ui_action_set_visible (action, FALSE);
 
 	action = e_tree_view_frame_lookup_toolbar_action (tree_view_frame, E_TREE_VIEW_FRAME_ACTION_REMOVE);
-	gtk_action_set_visible (action, FALSE);
+	e_ui_action_set_visible (action, FALSE);
 
-	action = gtk_action_new ("FolderSortOrder-reset-current",
-		_("Reset current level"),
-		_("Reset sort order in the current level to the defaults"),
-		NULL);
+	action = e_ui_action_new ("FolderSortOrder", "reset-current", NULL);
+	e_ui_action_set_label (action, _("Reset current level"));
+	e_ui_action_set_tooltip (action, _("Reset sort order in the current level to the defaults"));
+
 	dialog->priv->reset_current_level_action = action;
 
 	g_signal_connect (action, "activate",
@@ -737,10 +739,9 @@ e_mail_folder_sort_order_dialog_constructed (GObject *object)
 
 	e_tree_view_frame_insert_toolbar_action (tree_view_frame, action, 0);
 
-	action = gtk_action_new ("FolderSortOrder-reset-all",
-		_("Reset all levels"),
-		_("Reset sort order in all levels to their defaults"),
-		NULL);
+	action = e_ui_action_new ("FolderSortOrder", "reset-all", NULL);
+	e_ui_action_set_label (action, _("Reset all levels"));
+	e_ui_action_set_tooltip (action, _("Reset sort order in all levels to their defaults"));
 
 	g_signal_connect (action, "activate",
 		G_CALLBACK (sort_order_dialog_reset_all_levels_activate_cb), dialog);

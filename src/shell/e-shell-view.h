@@ -51,6 +51,9 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_SHELL_VIEW, EShellViewClass))
 
+#define E_SHELL_VIEW_ACTION(view, name) \
+	(e_shell_view_get_action (E_SHELL_VIEW (view), (name)))
+
 G_BEGIN_DECLS
 
 typedef struct _EShellView EShellView;
@@ -64,7 +67,7 @@ typedef struct _EShellViewPrivate EShellViewPrivate;
  * functions below.
  **/
 struct _EShellView {
-	GObject parent;
+	GtkBox parent;
 	EShellViewPrivate *priv;
 };
 
@@ -72,14 +75,14 @@ struct _EShellView {
  * EShellViewClass:
  * @parent_class:	The parent class structure.
  * @label:		The initial value for the switcher action's
- *			#GtkAction:label property.  See
- *			e_shell_view_get_action().
+ *			#EUIAction:label property.  See
+ *			e_shell_view_get_view_action().
  * @icon_name:		The initial value for the switcher action's
- *			#GtkAction:icon-name property.  See
- *			e_shell_view_get_action().
+ *			#EUIAction:icon-name property.  See
+ *			e_shell_view_get_view_action().
  * @ui_definition:	Base name of the UI definition file to add
  *			when the shell view is activated.
- * @ui_manager_id:	The #GtkUIManager ID for #EPluginUI.  Plugins
+ * @ui_manager_id:	The #EUIManager ID for #EPluginUI.  Plugins
  *			should use to this ID in their "eplug" files to
  *			add menu and toolbar items to the shell view.
  * @search_context_type:GType of the search context, which should be an
@@ -117,9 +120,6 @@ struct _EShellView {
  * @get_search_name:	Class method to obtain a suitable name for the
  *			current search criteria.  Subclasses should rarely
  *			need to override the default behavior.
- * @toggled:		Class method for the #EShellView::toggled signal.
- *			Subclasses should rarely need to override the
- *			default behavior.
  * @clear_search:	Class method for the #EShellView::clear-search
  *			signal.  The default method sets the
  *			#EShellView:search-rule to %NULL and then emits
@@ -135,11 +135,14 @@ struct _EShellView {
  * @update_actions:	Class method for the #EShellView::update-actions
  *			signal.  There is no default behavior; subclasses
  *			should override this.
+ * @init_ui_data:	Class method for the #EShellView::init-ui-data signal.
+ *			The subclasses can override it to add actions into
+ *			the view's UI manager.
  *
  * #EShellViewClass contains a number of important settings for subclasses.
  **/
 struct _EShellViewClass {
-	GObjectClass parent_class;
+	GtkBoxClass parent_class;
 
 	/* Initial switcher action values. */
 	const gchar *label;
@@ -148,7 +151,7 @@ struct _EShellViewClass {
 	/* Base name of the UI definition file. */
 	const gchar *ui_definition;
 
-	/* GtkUIManager identifier for use with EPluginUI.
+	/* EUIManager identifier for use with EPluginUI.
 	 * Usually "org.gnome.evolution.$(VIEW_NAME)". */
 	const gchar *ui_manager_id;
 
@@ -156,9 +159,6 @@ struct _EShellViewClass {
 	 * A unique instance is created for each subclass. */
 	GType search_context_type;
 	ERuleContext *search_context;
-
-	/* Widget path to the search options popup menu. */
-	const gchar *search_options;
 
 	/* Base name of the search rule definition file. */
 	const gchar *search_rules;
@@ -180,20 +180,43 @@ struct _EShellViewClass {
 	gchar *		(*get_search_name)	(EShellView *shell_view);
 
 	/* Signals */
-	void		(*toggled)		(EShellView *shell_view);
 	void		(*clear_search)		(EShellView *shell_view);
 	void		(*custom_search)	(EShellView *shell_view,
 						 EFilterRule *custom_rule);
 	void		(*execute_search)	(EShellView *shell_view);
 	void		(*update_actions)	(EShellView *shell_view);
+	void		(*init_ui_data)		(EShellView *shell_view);
 };
 
 GType		e_shell_view_get_type		(void);
 const gchar *	e_shell_view_get_name		(EShellView *shell_view);
-GtkAction *	e_shell_view_get_action		(EShellView *shell_view);
+EUIManager *	e_shell_view_get_ui_manager	(EShellView *shell_view);
+EUIAction *	e_shell_view_get_action		(EShellView *shell_view,
+						 const gchar *name);
+EUIAction *	e_shell_view_get_switcher_action(EShellView *shell_view);
 const gchar *	e_shell_view_get_title		(EShellView *shell_view);
 void		e_shell_view_set_title		(EShellView *shell_view,
 						 const gchar *title);
+gboolean	e_shell_view_get_menubar_visible(EShellView *shell_view);
+void		e_shell_view_set_menubar_visible(EShellView *shell_view,
+						 gboolean menubar_visible);
+gboolean	e_shell_view_get_sidebar_visible(EShellView *shell_view);
+void		e_shell_view_set_sidebar_visible(EShellView *shell_view,
+						 gboolean sidebar_visible);
+gboolean	e_shell_view_get_switcher_visible
+						(EShellView *shell_view);
+void		e_shell_view_set_switcher_visible
+						(EShellView *shell_view,
+						 gboolean switcher_visible);
+gboolean	e_shell_view_get_taskbar_visible(EShellView *shell_view);
+void		e_shell_view_set_taskbar_visible(EShellView *shell_view,
+						 gboolean taskbar_visible);
+gboolean	e_shell_view_get_toolbar_visible(EShellView *shell_view);
+void		e_shell_view_set_toolbar_visible(EShellView *shell_view,
+						 gboolean toolbar_visible);
+gint		e_shell_view_get_sidebar_width	(EShellView *shell_view);
+void		e_shell_view_set_sidebar_width	(EShellView *shell_view,
+						 gint width);
 const gchar *	e_shell_view_get_view_id	(EShellView *shell_view);
 void		e_shell_view_set_view_id	(EShellView *shell_view,
 						 const gchar *view_id);
@@ -220,6 +243,7 @@ EShellContent *	e_shell_view_get_shell_content	(EShellView *shell_view);
 EShellSidebar *	e_shell_view_get_shell_sidebar	(EShellView *shell_view);
 EShellTaskbar *	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
 EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
+GtkWidget *	e_shell_view_get_headerbar	(EShellView *shell_view);
 GKeyFile *	e_shell_view_get_state_key_file	(EShellView *shell_view);
 void		e_shell_view_set_state_dirty	(EShellView *shell_view);
 void		e_shell_view_save_state_immediately
@@ -238,7 +262,7 @@ void		e_shell_view_update_actions	(EShellView *shell_view);
 void		e_shell_view_update_actions_in_idle
 						(EShellView *shell_view);
 GtkWidget *	e_shell_view_show_popup_menu	(EShellView *shell_view,
-						 const gchar *widget_path,
+						 const gchar *menu_name,
 						 GdkEvent *button_event);
 void		e_shell_view_write_source	(EShellView *shell_view,
 						 ESource *source);
@@ -255,6 +279,15 @@ EActivity *	e_shell_view_submit_thread_job	(EShellView *shell_view,
 						 EAlertSinkThreadJobFunc func,
 						 gpointer user_data,
 						 GDestroyNotify free_user_data);
+
+gboolean	e_shell_view_util_layout_to_state_cb
+						(GValue *value,
+						 GVariant *variant,
+						 gpointer user_data);
+GVariant *	e_shell_view_util_state_to_layout_cb
+						(const GValue *value,
+						 const GVariantType *expected_type,
+						 gpointer user_data);
 
 G_END_DECLS
 

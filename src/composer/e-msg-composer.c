@@ -2136,7 +2136,7 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	ESourceSMIME *smime;
 	EComposerHeaderTable *table;
 	EContentEditor *cnt_editor;
-	GtkToggleAction *action;
+	EUIAction *action;
 	ESource *source;
 	gboolean active;
 	gboolean can_sign;
@@ -2200,25 +2200,25 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	   to be set, when the default account has it set, but the other not. */
 	composer_realized = gtk_widget_get_realized (GTK_WIDGET (composer));
 
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	active = composer_realized && gtk_toggle_action_get_active (action);
+	action = ACTION (PGP_SIGN);
+	active = composer_realized && e_ui_action_get_active (action);
 	active |= (can_sign && pgp_sign);
-	gtk_toggle_action_set_active (action, active);
+	e_ui_action_set_active (action, active);
 
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
-	active = composer_realized && gtk_toggle_action_get_active (action);
+	action = ACTION (PGP_ENCRYPT);
+	active = composer_realized && e_ui_action_get_active (action);
 	active |= pgp_encrypt;
-	gtk_toggle_action_set_active (action, active);
+	e_ui_action_set_active (action, active);
 
-	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-	active = composer_realized && gtk_toggle_action_get_active (action);
+	action = ACTION (SMIME_SIGN);
+	active = composer_realized && e_ui_action_get_active (action);
 	active |= (can_sign && smime_sign);
-	gtk_toggle_action_set_active (action, active);
+	e_ui_action_set_active (action, active);
 
-	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
-	active = composer_realized && gtk_toggle_action_get_active (action);
+	action = ACTION (SMIME_ENCRYPT);
+	active = composer_realized && e_ui_action_get_active (action);
 	active |= smime_encrypt;
-	gtk_toggle_action_set_active (action, active);
+	e_ui_action_set_active (action, active);
 
 	was_disable_signature = composer->priv->disable_signature;
 
@@ -2451,10 +2451,10 @@ msg_composer_delete_event_cb (EMsgComposer *composer)
 {
 	/* If the "async" action group is insensitive, it means an
 	 * asynchronous operation is in progress.  Block the event. */
-	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
+	if (!e_ui_action_group_get_sensitive (composer->priv->async_actions))
 		return TRUE;
 
-	gtk_action_activate (ACTION (CLOSE));
+	g_action_activate (G_ACTION (ACTION (CLOSE)), NULL);
 
 	return TRUE;
 }
@@ -2463,25 +2463,25 @@ static void
 msg_composer_realize_cb (EMsgComposer *composer)
 {
 	GSettings *settings;
-	GtkAction *action;
+	EUIAction *action;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	action = ACTION (TOOLBAR_PGP_SIGN);
-	if (gtk_action_get_visible (action) && !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
-		gtk_action_set_visible (action, FALSE);
+	if (e_ui_action_get_visible (action) && !e_ui_action_get_active (action))
+		e_ui_action_set_visible (action, FALSE);
 
 	action = ACTION (TOOLBAR_PGP_ENCRYPT);
-	if (gtk_action_get_visible (action) && !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
-		gtk_action_set_visible (action, FALSE);
+	if (e_ui_action_get_visible (action) && !e_ui_action_get_active (action))
+		e_ui_action_set_visible (action, FALSE);
 
 	action = ACTION (TOOLBAR_SMIME_SIGN);
-	if (gtk_action_get_visible (action) && !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
-		gtk_action_set_visible (action, FALSE);
+	if (e_ui_action_get_visible (action) && !e_ui_action_get_active (action))
+		e_ui_action_set_visible (action, FALSE);
 
 	action = ACTION (TOOLBAR_SMIME_ENCRYPT);
-	if (gtk_action_get_visible (action) && !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
-		gtk_action_set_visible (action, FALSE);
+	if (e_ui_action_get_visible (action) && !e_ui_action_get_active (action))
+		e_ui_action_set_visible (action, FALSE);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
@@ -2501,11 +2501,8 @@ msg_composer_realize_cb (EMsgComposer *composer)
 				key_id = e_source_openpgp_dup_key_id (e_source_get_extension (source, E_SOURCE_EXTENSION_OPENPGP));
 
 				if (key_id && *key_id) {
-					action = ACTION (TOOLBAR_PGP_SIGN);
-					gtk_action_set_visible (action, TRUE);
-
-					action = ACTION (TOOLBAR_PGP_ENCRYPT);
-					gtk_action_set_visible (action, TRUE);
+					e_ui_action_set_visible (ACTION (TOOLBAR_PGP_SIGN), TRUE);
+					e_ui_action_set_visible (ACTION (TOOLBAR_PGP_ENCRYPT), TRUE);
 				}
 
 				g_free (key_id);
@@ -2519,12 +2516,12 @@ msg_composer_realize_cb (EMsgComposer *composer)
 
 				certificate = e_source_smime_dup_signing_certificate (smime_extension);
 				if (certificate && *certificate)
-					gtk_action_set_visible (ACTION (TOOLBAR_SMIME_SIGN), TRUE);
+					e_ui_action_set_visible (ACTION (TOOLBAR_SMIME_SIGN), TRUE);
 				g_free (certificate);
 
 				certificate = e_source_smime_dup_encryption_certificate (smime_extension);
 				if (certificate && *certificate)
-					gtk_action_set_visible (ACTION (TOOLBAR_SMIME_ENCRYPT), TRUE);
+					e_ui_action_set_visible (ACTION (TOOLBAR_SMIME_ENCRYPT), TRUE);
 				g_free (certificate);
 			}
 
@@ -2548,7 +2545,7 @@ msg_composer_prepare_for_quit_cb (EShell *shell,
 		g_object_weak_ref (
 			G_OBJECT (composer), (GWeakNotify)
 			g_object_unref, activity);
-		gtk_action_activate (ACTION (SAVE_DRAFT));
+		g_action_activate (G_ACTION (ACTION (SAVE_DRAFT)), NULL);
 	}
 }
 
@@ -2780,13 +2777,12 @@ msg_composer_constructed (GObject *object)
 	EComposerHeaderTable *table;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	GtkUIManager *ui_manager;
-	GtkToggleAction *action;
+	EUIManager *ui_manager;
+	EUIAction *action;
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
 	gint n_targets;
 	GSettings *settings;
-	const gchar *id;
 	gboolean active;
 
 	/* Chain up to parent's constructed() method. */
@@ -2797,12 +2793,14 @@ msg_composer_constructed (GObject *object)
 	g_return_if_fail (E_IS_HTML_EDITOR (composer->priv->editor));
 
 	shell = e_msg_composer_get_shell (composer);
-
-	e_composer_private_constructed (composer);
-
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	ui_manager = e_html_editor_get_ui_manager (editor);
+
+	e_ui_manager_freeze (ui_manager);
+
+	e_composer_private_constructed (composer);
+
 	attachment_view = e_msg_composer_get_attachment_view (composer);
 	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
 
@@ -2848,13 +2846,13 @@ msg_composer_constructed (GObject *object)
 	/* FIXME This should be an EMsgComposer property. */
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
-	action = GTK_TOGGLE_ACTION (ACTION (REQUEST_READ_RECEIPT));
+	action = ACTION (REQUEST_READ_RECEIPT);
 	active = g_settings_get_boolean (settings, "composer-request-receipt");
-	gtk_toggle_action_set_active (action, active);
+	e_ui_action_set_active (action, active);
 
-	action = GTK_TOGGLE_ACTION (ACTION (DELIVERY_STATUS_NOTIFICATION));
+	action = ACTION (DELIVERY_STATUS_NOTIFICATION);
 	active = g_settings_get_boolean (settings, "composer-request-dsn");
-	gtk_toggle_action_set_active (action, active);
+	e_ui_action_set_active (action, active);
 
 	g_object_unref (settings);
 
@@ -2951,11 +2949,11 @@ msg_composer_constructed (GObject *object)
 
 	gtk_target_table_free (targets, n_targets);
 
-	id = "org.gnome.evolution.composer";
-	e_plugin_ui_register_manager (ui_manager, id, composer);
-	e_plugin_ui_enable_manager (ui_manager, id);
+	e_plugin_ui_register_manager (ui_manager, "org.gnome.evolution.composer", composer);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (composer));
+
+	e_ui_manager_thaw (ui_manager);
 
 	e_msg_composer_set_body_text (composer, "", TRUE);
 }
@@ -3057,18 +3055,6 @@ msg_composer_key_press_event (GtkWidget *widget,
 		e_composer_header_table_get_header (
 		e_msg_composer_get_header_table (composer),
 		E_COMPOSER_HEADER_SUBJECT)->input_widget;
-
-#ifdef HAVE_XFREE
-	if (event->keyval == XF86XK_Send) {
-		e_msg_composer_send (composer);
-		return TRUE;
-	}
-#endif /* HAVE_XFREE */
-
-	if (event->keyval == GDK_KEY_Escape) {
-		gtk_action_activate (ACTION (CLOSE));
-		return TRUE;
-	}
 
 	if (event->keyval == GDK_KEY_Tab && gtk_widget_is_focus (input_widget)) {
 		e_content_editor_grab_focus (cnt_editor);
@@ -3781,7 +3767,7 @@ handle_multipart_signed (EMsgComposer *composer,
 	CamelContentType *content_type;
 	CamelDataWrapper *content;
 	CamelMimePart *mime_part;
-	GtkToggleAction *action = NULL;
+	EUIAction *action = NULL;
 	const gchar *protocol;
 
 	content = CAMEL_DATA_WRAPPER (multipart);
@@ -3791,20 +3777,20 @@ handle_multipart_signed (EMsgComposer *composer,
 	if (protocol == NULL) {
 		action = NULL;
 	} else if (g_ascii_strcasecmp (protocol, "application/pgp-signature") == 0) {
-		if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN))) &&
-		    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT))))
-			action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
+		if (!e_ui_action_get_active (ACTION (SMIME_SIGN)) &&
+		    !e_ui_action_get_active (ACTION (SMIME_ENCRYPT)))
+			action = ACTION (PGP_SIGN);
 	} else if (g_ascii_strcasecmp (protocol, "application/pkcs7-signature") == 0 ||
 		   g_ascii_strcasecmp (protocol, "application/xpkcs7signature") == 0 ||
 		   g_ascii_strcasecmp (protocol, "application/xpkcs7-signature") == 0 ||
 		   g_ascii_strcasecmp (protocol, "application/x-pkcs7-signature") == 0) {
-		if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (PGP_SIGN))) &&
-		    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT))))
-			action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
+		if (!e_ui_action_get_active (ACTION (PGP_SIGN)) &&
+		    !e_ui_action_get_active (ACTION (PGP_ENCRYPT)))
+			action = ACTION (SMIME_SIGN);
 	}
 
 	if (action)
-		gtk_toggle_action_set_active (action, TRUE);
+		e_ui_action_set_active (action, TRUE);
 
 	mime_part = camel_multipart_get_part (
 		multipart, CAMEL_MULTIPART_SIGNED_CONTENT);
@@ -3881,28 +3867,28 @@ handle_multipart_encrypted (EMsgComposer *composer,
 	CamelMimePart *mime_part;
 	CamelSession *session;
 	CamelCipherValidity *valid;
-	GtkToggleAction *action = NULL;
+	EUIAction *action = NULL;
 	const gchar *protocol;
 
 	content_type = camel_mime_part_get_content_type (multipart);
 	protocol = camel_content_type_param (content_type, "protocol");
 
 	if (protocol && g_ascii_strcasecmp (protocol, "application/pgp-encrypted") == 0) {
-		if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN))) &&
-		    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT))))
-			action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
+		if (!e_ui_action_get_active (ACTION (SMIME_SIGN)) &&
+		    !e_ui_action_get_active (ACTION (SMIME_ENCRYPT)))
+			action = ACTION (PGP_ENCRYPT);
 	} else if (content_type && (
 		   camel_content_type_is (content_type, "application", "pkcs7-mime") ||
 		   camel_content_type_is (content_type, "application", "xpkcs7mime") ||
 		   camel_content_type_is (content_type, "application", "xpkcs7-mime") ||
 		   camel_content_type_is (content_type, "application", "x-pkcs7-mime"))) {
-		if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (PGP_SIGN))) &&
-		    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT))))
-			action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
+		if (!e_ui_action_get_active (ACTION (PGP_SIGN)) &&
+		    !e_ui_action_get_active (ACTION (PGP_ENCRYPT)))
+			action = ACTION (SMIME_ENCRYPT);
 	}
 
 	if (action)
-		gtk_toggle_action_set_active (action, TRUE);
+		e_ui_action_set_active (action, TRUE);
 
 	session = e_msg_composer_ref_session (composer);
 	cipher = camel_gpg_context_new (session);
@@ -4372,7 +4358,6 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	ESource *source = NULL;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	GtkToggleAction *action;
 	gchar *identity_uid;
 	gint len, i;
 	guint jj, jjlen;
@@ -4613,17 +4598,13 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 
 				e_html_editor_set_mode (editor, mode);
 			} else if (g_ascii_strcasecmp (flags[i], "pgp-sign") == 0) {
-				action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-				gtk_toggle_action_set_active (action, TRUE);
+				e_ui_action_set_active (ACTION (PGP_SIGN), TRUE);
 			} else if (g_ascii_strcasecmp (flags[i], "pgp-encrypt") == 0) {
-				action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
-				gtk_toggle_action_set_active (action, TRUE);
+				e_ui_action_set_active (ACTION (PGP_ENCRYPT), TRUE);
 			} else if (g_ascii_strcasecmp (flags[i], "smime-sign") == 0) {
-				action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-				gtk_toggle_action_set_active (action, TRUE);
+				e_ui_action_set_active (ACTION (SMIME_SIGN), TRUE);
 			} else if (g_ascii_strcasecmp (flags[i], "smime-encrypt") == 0) {
-				action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
-				gtk_toggle_action_set_active (action, TRUE);
+				e_ui_action_set_active (ACTION (SMIME_ENCRYPT), TRUE);
 			}
 		}
 		g_strfreev (flags);
@@ -4666,24 +4647,20 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	}
 
 	if (g_strcmp0 (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Request-DSN"), "1") == 0) {
-		action = GTK_TOGGLE_ACTION (ACTION (DELIVERY_STATUS_NOTIFICATION));
-		gtk_toggle_action_set_active (action, TRUE);
+		e_ui_action_set_active (ACTION (DELIVERY_STATUS_NOTIFICATION), TRUE);
 	}
 
 	/* Remove any other X-Evolution-* headers that may have been set */
 	camel_name_value_array_free (mail_tool_remove_xevolution_headers (message));
 
 	/* Check for receipt request */
-	if (camel_medium_get_header (
-		CAMEL_MEDIUM (message), "Disposition-Notification-To")) {
-		action = GTK_TOGGLE_ACTION (ACTION (REQUEST_READ_RECEIPT));
-		gtk_toggle_action_set_active (action, TRUE);
+	if (camel_medium_get_header (CAMEL_MEDIUM (message), "Disposition-Notification-To")) {
+		e_ui_action_set_active (ACTION (REQUEST_READ_RECEIPT), TRUE);
 	}
 
 	/* Check for mail priority */
 	if (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Priority")) {
-		action = GTK_TOGGLE_ACTION (ACTION (PRIORITIZE_MESSAGE));
-		gtk_toggle_action_set_active (action, TRUE);
+		e_ui_action_set_active (ACTION (PRIORITIZE_MESSAGE), TRUE);
 	}
 
 	/* set extra headers */
@@ -4756,9 +4733,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		    camel_content_type_is (content_type, "application", "xpkcs7-mime") ||
 		    camel_content_type_is (content_type, "application", "x-pkcs7-mime"))) {
 			#ifdef ENABLE_SMIME
-			gtk_toggle_action_set_active (
-				GTK_TOGGLE_ACTION (
-				ACTION (SMIME_ENCRYPT)), TRUE);
+			e_ui_action_set_active (ACTION (SMIME_ENCRYPT), TRUE);
 			is_smime_encrypted = TRUE;
 			#endif
 		}
@@ -5076,16 +5051,13 @@ msg_composer_alert_response_cb (EAlert *alert,
 {
 	if (response_id == GTK_RESPONSE_ACCEPT) {
 		EMsgComposer *composer = user_data;
-		GtkAction *action;
 
 		g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-		action = ACTION (PGP_ENCRYPT);
-		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), FALSE);
+		e_ui_action_set_active (ACTION (PGP_ENCRYPT), FALSE);
 
 		#ifdef ENABLE_SMIME
-		action = ACTION (SMIME_ENCRYPT);
-		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), FALSE);
+		e_ui_action_set_active (ACTION (SMIME_ENCRYPT), FALSE);
 		#endif
 
 		e_msg_composer_send (composer);
@@ -5110,9 +5082,10 @@ e_msg_composer_claim_no_build_message_error (EMsgComposer *composer,
 			alert = e_alert_new ("mail-composer:no-build-message", error->message, NULL);
 
 			if (is_send_op && g_error_matches (error, CAMEL_CIPHER_CONTEXT_ERROR, CAMEL_CIPHER_CONTEXT_ERROR_KEY_NOT_FOUND)) {
-				GtkAction *action;
+				EUIAction *action;
 
-				action = gtk_action_new ("msg-composer-alert-action-0", _("Send _without encryption"), NULL, NULL);
+				action = e_ui_action_new ("msg-composer-map", "msg-composer-alert-action-0", NULL);
+				e_ui_action_set_label (action, _("Send _without encryption"));
 				e_alert_add_action (alert, action, GTK_RESPONSE_ACCEPT, FALSE);
 				g_object_unref (action);
 
@@ -6043,13 +6016,8 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	priv->mime_type = g_strdup (mime_type);
 
 	if (!msg_composer_get_can_sign (composer)) {
-		GtkToggleAction *action;
-
-		action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-		gtk_toggle_action_set_active (action, FALSE);
-
-		action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-		gtk_toggle_action_set_active (action, FALSE);
+		e_ui_action_set_active (ACTION (PGP_SIGN), FALSE);
+		e_ui_action_set_active (ACTION (SMIME_SIGN), FALSE);
 	}
 }
 
@@ -6386,7 +6354,6 @@ e_msg_composer_get_message (EMsgComposer *composer,
                             gpointer user_data)
 {
 	GTask *task;
-	GtkAction *action;
 	ComposerFlags flags = 0;
 	EHTMLEditor *editor;
 
@@ -6398,33 +6365,26 @@ e_msg_composer_get_message (EMsgComposer *composer,
 	    e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML)
 		flags |= COMPOSER_FLAG_HTML_CONTENT;
 
-	action = ACTION (PRIORITIZE_MESSAGE);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (PRIORITIZE_MESSAGE)))
 		flags |= COMPOSER_FLAG_PRIORITIZE_MESSAGE;
 
-	action = ACTION (REQUEST_READ_RECEIPT);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (REQUEST_READ_RECEIPT)))
 		flags |= COMPOSER_FLAG_REQUEST_READ_RECEIPT;
 
-	action = ACTION (DELIVERY_STATUS_NOTIFICATION);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (DELIVERY_STATUS_NOTIFICATION)))
 		flags |= COMPOSER_FLAG_DELIVERY_STATUS_NOTIFICATION;
 
-	action = ACTION (PGP_SIGN);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (PGP_SIGN)))
 		flags |= COMPOSER_FLAG_PGP_SIGN;
 
-	action = ACTION (PGP_ENCRYPT);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (PGP_ENCRYPT)))
 		flags |= COMPOSER_FLAG_PGP_ENCRYPT;
 
 #ifdef ENABLE_SMIME
-	action = ACTION (SMIME_SIGN);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (SMIME_SIGN)))
 		flags |= COMPOSER_FLAG_SMIME_SIGN;
 
-	action = ACTION (SMIME_ENCRYPT);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (SMIME_ENCRYPT)))
 		flags |= COMPOSER_FLAG_SMIME_ENCRYPT;
 #endif
 
@@ -6512,40 +6472,32 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 {
 	GTask *task;
 	ComposerFlags flags = COMPOSER_FLAG_SAVE_DRAFT;
-	GtkAction *action;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	/* We want to save HTML content everytime when we save as draft */
 	flags |= COMPOSER_FLAG_SAVE_DRAFT;
 
-	action = ACTION (PRIORITIZE_MESSAGE);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (PRIORITIZE_MESSAGE)))
 		flags |= COMPOSER_FLAG_PRIORITIZE_MESSAGE;
 
-	action = ACTION (REQUEST_READ_RECEIPT);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (REQUEST_READ_RECEIPT)))
 		flags |= COMPOSER_FLAG_REQUEST_READ_RECEIPT;
 
-	action = ACTION (DELIVERY_STATUS_NOTIFICATION);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (DELIVERY_STATUS_NOTIFICATION)))
 		flags |= COMPOSER_FLAG_DELIVERY_STATUS_NOTIFICATION;
 
-	action = ACTION (PGP_SIGN);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (PGP_SIGN)))
 		flags |= COMPOSER_FLAG_PGP_SIGN;
 
-	action = ACTION (PGP_ENCRYPT);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (PGP_ENCRYPT)))
 		flags |= COMPOSER_FLAG_PGP_ENCRYPT;
 
 #ifdef ENABLE_SMIME
-	action = ACTION (SMIME_SIGN);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (SMIME_SIGN)))
 		flags |= COMPOSER_FLAG_SMIME_SIGN;
 
-	action = ACTION (SMIME_ENCRYPT);
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+	if (e_ui_action_get_active (ACTION (SMIME_ENCRYPT)))
 		flags |= COMPOSER_FLAG_SMIME_ENCRYPT;
 #endif
 
@@ -6785,7 +6737,7 @@ e_msg_composer_can_close (EMsgComposer *composer,
 
 	/* this means that there is an async operation running,
 	 * in which case the composer cannot be closed */
-	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
+	if (!e_ui_action_group_get_sensitive (composer->priv->async_actions))
 		return FALSE;
 
 	if (!e_content_editor_get_changed (cnt_editor) ||
@@ -6812,7 +6764,7 @@ e_msg_composer_can_close (EMsgComposer *composer,
 		case GTK_RESPONSE_YES:
 			e_msg_composer_request_close (composer);
 			if (can_save_draft)
-				gtk_action_activate (ACTION (SAVE_DRAFT));
+				g_action_activate (G_ACTION (ACTION (SAVE_DRAFT)), NULL);
 			break;
 
 		case GTK_RESPONSE_NO:
@@ -7113,8 +7065,8 @@ e_msg_composer_check_autocrypt (EMsgComposer *composer,
 	if (alert_bar)
 		e_alert_bar_remove_alert_by_tag (alert_bar, "mail-composer:info-autocrypt-header-too-large");
 
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN))) ||
-	    gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT)))) {
+	if (e_ui_action_get_active (ACTION (SMIME_SIGN)) ||
+	    e_ui_action_get_active (ACTION (SMIME_ENCRYPT))) {
 		/* Autocrypt is about GPG, thus ignore it when the user uses S/MIME */
 		return;
 	}
@@ -7206,8 +7158,8 @@ e_msg_composer_check_autocrypt (EMsgComposer *composer,
 
 	if (send_prefer_encrypt && sender_prefer_encrypt && msg_composer_get_can_sign (composer)) {
 		/* Set both sign & encrypt, not only encrypt */
-		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (ACTION (PGP_SIGN)), TRUE);
-		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT)), TRUE);
+		e_ui_action_set_active (ACTION (PGP_SIGN), TRUE);
+		e_ui_action_set_active (ACTION (PGP_ENCRYPT), TRUE);
 	}
 
 	g_free (from_email);
@@ -7223,19 +7175,10 @@ e_msg_composer_set_is_imip (EMsgComposer *composer,
 	composer->priv->is_imip = is_imip;
 
 	if (!msg_composer_get_can_sign (composer)) {
-		GtkToggleAction *action;
-
-		action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-		gtk_toggle_action_set_active (action, FALSE);
-
-		action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
-		gtk_toggle_action_set_active (action, FALSE);
-
-		action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-		gtk_toggle_action_set_active (action, FALSE);
-
-		action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
-		gtk_toggle_action_set_active (action, FALSE);
+		e_ui_action_set_active (ACTION (PGP_SIGN), FALSE);
+		e_ui_action_set_active (ACTION (PGP_ENCRYPT), FALSE);
+		e_ui_action_set_active (ACTION (SMIME_SIGN), FALSE);
+		e_ui_action_set_active (ACTION (SMIME_ENCRYPT), FALSE);
 	}
 }
 

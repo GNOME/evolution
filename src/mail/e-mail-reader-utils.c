@@ -1490,6 +1490,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 	for (ii = 0; ii < views->len; ii++) {
 		const gchar *uid = views->pdata[ii];
 		GtkWidget *browser;
+		EMailReader *browser_reader;
 		MessageList *ml;
 
 		if (prefer_existing) {
@@ -1504,17 +1505,16 @@ e_mail_reader_open_selected (EMailReader *reader)
 		}
 
 		browser = e_mail_browser_new (backend, E_MAIL_FORMATTER_MODE_NORMAL);
+		browser_reader = E_MAIL_READER (browser);
 
-		ml = MESSAGE_LIST (e_mail_reader_get_message_list (
-			E_MAIL_READER (browser)));
+		ml = MESSAGE_LIST (e_mail_reader_get_message_list (browser_reader));
 		message_list_freeze (ml);
 
-		e_mail_reader_set_folder (E_MAIL_READER (browser), folder);
-		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
+		e_mail_reader_set_folder (browser_reader, folder);
+		e_mail_reader_set_message (browser_reader, uid);
 
-		copy_tree_state (reader, E_MAIL_READER (browser));
-		e_mail_reader_set_group_by_threads (
-			E_MAIL_READER (browser),
+		copy_tree_state (reader, browser_reader);
+		e_mail_reader_set_group_by_threads (browser_reader,
 			e_mail_reader_get_group_by_threads (reader));
 
 		message_list_thaw (ml);
@@ -1524,7 +1524,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 	g_ptr_array_foreach (views, (GFunc) g_free, NULL);
 	g_ptr_array_free (views, TRUE);
 
-exit:
+ exit:
 	g_clear_object (&folder);
 	g_ptr_array_unref (uids);
 

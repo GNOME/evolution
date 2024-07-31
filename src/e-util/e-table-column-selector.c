@@ -217,7 +217,7 @@ table_column_selector_constructed (GObject *object)
 {
 	ETableColumnSelector *selector;
 	ETreeViewFrame *tree_view_frame;
-	GtkAction *action;
+	EUIAction *action;
 	GtkTreeView *tree_view;
 	GtkTreeModel *tree_model;
 	GtkTreeSelection *selection;
@@ -243,36 +243,36 @@ table_column_selector_constructed (GObject *object)
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_ADD);
-	gtk_action_set_visible (action, FALSE);
+	e_ui_action_set_visible (action, FALSE);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_REMOVE);
-	gtk_action_set_visible (action, FALSE);
+	e_ui_action_set_visible (action, FALSE);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_MOVE_TOP);
 	tooltip = _("Move selected column names to top");
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_MOVE_UP);
 	tooltip = _("Move selected column names up one row");
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_MOVE_DOWN);
 	tooltip = _("Move selected column names down one row");
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_MOVE_BOTTOM);
 	tooltip = _("Move selected column names to bottom");
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_SELECT_ALL);
 	tooltip = _("Select all column names");
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	/* Configure the tree view columns. */
 

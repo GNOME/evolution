@@ -19,7 +19,6 @@ set(SOURCES
 	e-shell-backend.c
 	e-shell-content.c
 	e-shell-enumtypes.c
-	e-shell-headerbar.c
 	e-shell-searchbar.c
 	e-shell-sidebar.c
 	e-shell-switcher.c
@@ -41,7 +40,6 @@ set(HEADERS
 	e-shell-backend.h
 	e-shell-common.h
 	e-shell-content.h
-	e-shell-headerbar.h
 	e-shell-searchbar.h
 	e-shell-sidebar.h
 	e-shell-switcher.h

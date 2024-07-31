@@ -55,7 +55,6 @@ struct _EMailLabelListStore {
 
 struct _EMailLabelListStoreClass {
 	GtkListStoreClass parent_class;
-	GtkIconFactory *icon_factory;
 };
 
 GType		e_mail_label_list_store_get_type	(void);
@@ -66,7 +65,7 @@ gchar *		e_mail_label_list_store_get_name	(EMailLabelListStore *store,
 gboolean	e_mail_label_list_store_get_color	(EMailLabelListStore *store,
 							 GtkTreeIter *iter,
 							 GdkColor *color);
-gchar *		e_mail_label_list_store_get_stock_id	(EMailLabelListStore *store,
+gchar *		e_mail_label_list_store_dup_icon_name	(EMailLabelListStore *store,
 							 GtkTreeIter *iter);
 gchar *		e_mail_label_list_store_get_tag		(EMailLabelListStore *store,
 							 GtkTreeIter *iter);

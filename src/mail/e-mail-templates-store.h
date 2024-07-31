@@ -23,6 +23,7 @@
 
 #include <camel/camel.h>
 #include <libedataserver/libedataserver.h>
+#include <e-util/e-util.h>
 #include <libemail-engine/libemail-engine.h>
 #include <mail/e-mail-account-store.h>
 #include <shell/e-shell-view.h>
@@ -89,14 +90,10 @@ EMailTemplatesStore *
 EMailAccountStore *
 		e_mail_templates_store_ref_account_store
 						(EMailTemplatesStore *templates_store);
-void		e_mail_templates_store_build_menu
+void		e_mail_templates_store_update_menu
 						(EMailTemplatesStore *templates_store,
-						 EShellView *shell_view,
-						 GtkUIManager *ui_manager,
-						 GtkActionGroup *action_group,
-						 const gchar *base_menu_path,
-						 const gchar *base_popup_path,
-						 guint merge_id,
+						 GMenu *menu_to_update,
+						 EUIManager *ui_manager,
 						 EMailTemplatesStoreActionFunc action_cb,
 						 gpointer action_cb_user_data);
 GtkTreeStore *	e_mail_templates_store_build_model

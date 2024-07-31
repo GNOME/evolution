@@ -5,32 +5,9 @@
     <_description>Save a calendar or task list to disk.</_description>
 
     <hook class="org.gnome.evolution.ui:1.0">
-      <ui-manager id="org.gnome.evolution.calendars"
-                  callback="calendar_save_as_init">
-        <popup name="calendar-popup">
-          <placeholder name="calendar-popup-actions">
-            <menuitem action="calendar-save-as"/>
-          </placeholder>
-        </popup>
-      </ui-manager>
-
-      <ui-manager id="org.gnome.evolution.memos"
-                  callback="memo_list_save_as_init">
-        <popup name="memo-list-popup">
-          <placeholder name="memo-list-popup-actions">
-            <menuitem action="memo-list-save-as"/>
-          </placeholder>
-        </popup>
-      </ui-manager>
-
-      <ui-manager id="org.gnome.evolution.tasks"
-                  callback="task_list_save_as_init">
-        <popup name="task-list-popup">
-          <placeholder name="task-list-popup-actions">
-            <menuitem action="task-list-save-as"/>
-          </placeholder>
-        </popup>
-      </ui-manager>
+      <ui-manager id="org.gnome.evolution.calendars" callback="save_calendar_calendar_save_as_init"/>
+      <ui-manager id="org.gnome.evolution.memos" callback="save_calendar_memo_list_save_as_init"/>
+      <ui-manager id="org.gnome.evolution.tasks" callback="save_calendar_task_list_save_as_init"/>
     </hook>
 
   </e-plugin>

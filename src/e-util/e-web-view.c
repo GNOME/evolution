@@ -35,9 +35,11 @@
 #include "e-file-request.h"
 #include "e-misc-utils.h"
 #include "e-plugin-ui.h"
-#include "e-popup-action.h"
 #include "e-selectable.h"
 #include "e-stock-request.h"
+#include "e-ui-action.h"
+#include "e-ui-action-group.h"
+#include "e-ui-manager.h"
 #include "e-web-view-jsc-utils.h"
 
 #include "e-web-view.h"
@@ -50,16 +52,16 @@ typedef struct _ElementClickedData {
 } ElementClickedData;
 
 struct _EWebViewPrivate {
-	GtkUIManager *ui_manager;
+	EUIManager *ui_manager;
 	gchar *selected_uri;
 	gchar *cursor_image_src;
 
 	GQueue highlights;
 	gboolean highlights_enabled;
 
-	GtkAction *open_proxy;
-	GtkAction *print_proxy;
-	GtkAction *save_as_proxy;
+	EUIAction *open_proxy;
+	EUIAction *print_proxy;
+	EUIAction *save_as_proxy;
 
 	/* Lockdown Options */
 	gboolean disable_printing;
@@ -138,33 +140,6 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-static const gchar *ui =
-"<ui>"
-"  <popup name='context'>"
-"    <menuitem action='copy-clipboard'/>"
-"    <menuitem action='search-web'/>"
-"    <separator/>"
-"    <placeholder name='custom-actions-1'>"
-"      <menuitem action='open'/>"
-"      <menuitem action='save-as'/>"
-"      <menuitem action='http-open'/>"
-"      <menuitem action='send-message'/>"
-"      <menuitem action='print'/>"
-"    </placeholder>"
-"    <placeholder name='custom-actions-2'>"
-"      <menuitem action='uri-copy'/>"
-"      <menuitem action='mailto-copy'/>"
-"      <menuitem action='mailto-copy-raw'/>"
-"      <menuitem action='image-copy'/>"
-"      <menuitem action='image-save'/>"
-"    </placeholder>"
-"    <placeholder name='custom-actions-3'/>"
-"    <separator/>"
-"    <menuitem action='select-all'/>"
-"    <placeholder name='inspect-menu' />"
-"  </popup>"
-"</ui>";
-
 /* Forward Declarations */
 static void e_web_view_alert_sink_init (EAlertSinkInterface *iface);
 static void e_web_view_selectable_init (ESelectableInterface *iface);
@@ -227,9 +202,12 @@ e_web_view_spell_settings_changed_cb (GSettings *settings,
 }
 
 static void
-action_copy_clipboard_cb (GtkAction *action,
-                          EWebView *web_view)
+action_copy_clipboard_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EWebView *web_view = user_data;
+
 	e_web_view_copy_clipboard (web_view);
 }
 
@@ -284,17 +262,22 @@ e_web_view_search_web_get_selection_cb (GObject *source,
 }
 
 static void
-action_search_web_cb (GtkAction *action,
-		      EWebView *web_view)
+action_search_web_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	EWebView *web_view = user_data;
+
 	e_web_view_jsc_get_selection (WEBKIT_WEB_VIEW (web_view), E_TEXT_FORMAT_PLAIN, web_view->priv->cancellable,
 		e_web_view_search_web_get_selection_cb, NULL);
 }
 
 static void
-action_http_open_cb (GtkAction *action,
-                     EWebView *web_view)
+action_http_open_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	EWebView *web_view = user_data;
 	const gchar *uri;
 	gpointer parent;
 
@@ -351,30 +334,41 @@ webview_mailto_copy (EWebView *web_view,
 }
 
 static void
-action_mailto_copy_cb (GtkAction *action,
-                       EWebView *web_view)
+action_mailto_copy_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
+	EWebView *web_view = user_data;
+
 	webview_mailto_copy (web_view, FALSE);
 }
 
 static void
-action_mailto_copy_raw_cb (GtkAction *action,
-			   EWebView *web_view)
+action_mailto_copy_raw_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EWebView *web_view = user_data;
+
 	webview_mailto_copy (web_view, TRUE);
 }
 
 static void
-action_select_all_cb (GtkAction *action,
-                      EWebView *web_view)
+action_select_all_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	EWebView *web_view = user_data;
+
 	e_web_view_select_all (web_view);
 }
 
 static void
-action_send_message_cb (GtkAction *action,
-                        EWebView *web_view)
+action_send_message_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	EWebView *web_view = user_data;
 	const gchar *uri;
 	gpointer parent;
 	gboolean handled;
@@ -393,9 +387,11 @@ action_send_message_cb (GtkAction *action,
 }
 
 static void
-action_uri_copy_cb (GtkAction *action,
-                    EWebView *web_view)
+action_uri_copy_cb (EUIAction *action,
+		    GVariant *parameter,
+		    gpointer user_data)
 {
+	EWebView *web_view = user_data;
 	GtkClipboard *clipboard;
 	const gchar *uri;
 
@@ -412,123 +408,56 @@ action_uri_copy_cb (GtkAction *action,
 }
 
 static void
-action_image_copy_cb (GtkAction *action,
-                      EWebView *web_view)
+action_image_copy_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	EWebView *web_view = user_data;
+
 	e_web_view_cursor_image_copy (web_view);
 }
 
 static void
-action_image_save_cb (GtkAction *action,
-                      EWebView *web_view)
+action_image_save_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	EWebView *web_view = user_data;
+
 	e_web_view_cursor_image_save (web_view);
 }
 
-static GtkActionEntry uri_entries[] = {
+static void
+action_open_cb (EUIAction *action,
+		GVariant *parameter,
+		gpointer user_data)
+{
+	EWebView *web_view = user_data;
 
-	{ "uri-copy",
-	  "edit-copy",
-	  N_("_Copy Link Location"),
-	  "<Control>c",
-	  N_("Copy the link to the clipboard"),
-	  G_CALLBACK (action_uri_copy_cb) }
-};
-
-static GtkActionEntry http_entries[] = {
-
-	{ "http-open",
-	  "emblem-web",
-	  N_("_Open Link in Browser"),
-	  NULL,
-	  N_("Open the link in a web browser"),
-	  G_CALLBACK (action_http_open_cb) }
-};
-
-static GtkActionEntry mailto_entries[] = {
-
-	{ "mailto-copy",
-	  "edit-copy",
-	  N_("_Copy Name and Email Address"),
-	  "<Control>c",
-	  N_("Copy the email address with the name to the clipboard"),
-	  G_CALLBACK (action_mailto_copy_cb) },
-
-	{ "mailto-copy-raw",
-	  "edit-copy",
-	  N_("Copy Only Email Add_ress"),
-	  NULL,
-	  N_("Copy only the email address without the name to the clipboard"),
-	  G_CALLBACK (action_mailto_copy_raw_cb) },
-
-	{ "send-message",
-	  "mail-message-new",
-	  N_("_Send New Message To…"),
-	  NULL,
-	  N_("Send a mail message to this address"),
-	  G_CALLBACK (action_send_message_cb) }
-};
-
-static GtkActionEntry image_entries[] = {
-
-	{ "image-copy",
-	  "edit-copy",
-	  N_("_Copy Image"),
-	  "<Control>c",
-	  N_("Copy the image to the clipboard"),
-	  G_CALLBACK (action_image_copy_cb) },
-
-	{ "image-save",
-	  "document-save",
-	  N_("Save _Image…"),
-	  "<Control>s",
-	  N_("Save the image to a file"),
-	  G_CALLBACK (action_image_save_cb) }
-};
-
-static GtkActionEntry selection_entries[] = {
-
-	{ "copy-clipboard",
-	  "edit-copy",
-	  N_("_Copy"),
-	  "<Control>c",
-	  N_("Copy the selection"),
-	  G_CALLBACK (action_copy_clipboard_cb) },
-
-	{ "search-web",
-	  NULL,
-	  N_("Search _Web…"),
-	  NULL,
-	  N_("Search the Web with the selected text"),
-	  G_CALLBACK (action_search_web_cb) }
-};
-
-static GtkActionEntry standard_entries[] = {
-
-	{ "select-all",
-	  "edit-select-all",
-	  N_("Select _All"),
-	  NULL,
-	  N_("Select all text and images"),
-	  G_CALLBACK (action_select_all_cb) }
-};
+	if (web_view->priv->open_proxy)
+		g_action_activate (G_ACTION (web_view->priv->open_proxy), NULL);
+}
 
 static void
-web_view_menu_item_select_cb (EWebView *web_view,
-                              GtkWidget *widget)
+action_print_cb (EUIAction *action,
+		 GVariant *parameter,
+		 gpointer user_data)
 {
-	GtkAction *action;
-	GtkActivatable *activatable;
-	const gchar *tooltip;
+	EWebView *web_view = user_data;
 
-	activatable = GTK_ACTIVATABLE (widget);
-	action = gtk_activatable_get_related_action (activatable);
-	tooltip = gtk_action_get_tooltip (action);
+	if (web_view->priv->print_proxy)
+		g_action_activate (G_ACTION (web_view->priv->print_proxy), NULL);
+}
 
-	if (tooltip == NULL)
-		return;
+static void
+action_save_as_cb (EUIAction *action,
+		   GVariant *parameter,
+		   gpointer user_data)
+{
+	EWebView *web_view = user_data;
 
-	e_web_view_status_message (web_view, tooltip);
+	if (web_view->priv->save_as_proxy)
+		g_action_activate (G_ACTION (web_view->priv->save_as_proxy), NULL);
 }
 
 static void
@@ -579,29 +508,6 @@ web_view_update_document_highlights (EWebView *web_view)
 			WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE,
 			G_MAXUINT);
 	}
-}
-
-static void
-web_view_menu_item_deselect_cb (EWebView *web_view)
-{
-	e_web_view_status_message (web_view, NULL);
-}
-
-static void
-web_view_connect_proxy_cb (EWebView *web_view,
-                           GtkAction *action,
-                           GtkWidget *proxy)
-{
-	if (!GTK_IS_MENU_ITEM (proxy))
-		return;
-
-	g_signal_connect_swapped (
-		proxy, "select",
-		G_CALLBACK (web_view_menu_item_select_cb), web_view);
-
-	g_signal_connect_swapped (
-		proxy, "deselect",
-		G_CALLBACK (web_view_menu_item_deselect_cb), web_view);
 }
 
 static void
@@ -1932,16 +1838,31 @@ web_view_stop_loading (EWebView *web_view)
 }
 
 static void
+e_web_view_update_action_from_proxy (EUIAction *action,
+				     EUIAction *proxy)
+{
+	e_ui_action_set_visible (action, proxy && e_ui_action_is_visible (proxy));
+
+	if (!e_ui_action_get_visible (action))
+		return;
+
+	e_ui_action_set_label (action, e_ui_action_get_label (proxy));
+	e_ui_action_set_icon_name (action, e_ui_action_get_icon_name (proxy));
+	e_ui_action_set_tooltip (action, e_ui_action_get_tooltip (proxy));
+	e_ui_action_set_sensitive (action, g_action_get_enabled (G_ACTION (proxy)));
+}
+
+static void
 web_view_update_actions (EWebView *web_view)
 {
-	GtkActionGroup *action_group;
+	EUIActionGroup *action_group;
+	EUIAction *action;
 	gboolean can_copy;
 	gboolean scheme_is_http = FALSE;
 	gboolean scheme_is_mailto = FALSE;
 	gboolean uri_is_valid = FALSE;
 	gboolean visible;
 	const gchar *cursor_image_src;
-	const gchar *group_name;
 	const gchar *uri;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
@@ -1967,20 +1888,17 @@ web_view_update_actions (EWebView *web_view)
 	}
 
 	/* Allow copying the URI even if it's malformed. */
-	group_name = "uri";
 	visible = (uri != NULL) && !scheme_is_mailto;
-	action_group = e_web_view_get_action_group (web_view, group_name);
-	gtk_action_group_set_visible (action_group, visible);
+	action_group = e_web_view_get_action_group (web_view, "uri");
+	e_ui_action_group_set_visible (action_group, visible);
 
-	group_name = "http";
 	visible = uri_is_valid && scheme_is_http;
-	action_group = e_web_view_get_action_group (web_view, group_name);
-	gtk_action_group_set_visible (action_group, visible);
+	action_group = e_web_view_get_action_group (web_view, "http");
+	e_ui_action_group_set_visible (action_group, visible);
 
-	group_name = "mailto";
 	visible = uri_is_valid && scheme_is_mailto;
-	action_group = e_web_view_get_action_group (web_view, group_name);
-	gtk_action_group_set_visible (action_group, visible);
+	action_group = e_web_view_get_action_group (web_view, "mailto");
+	e_ui_action_group_set_visible (action_group, visible);
 
 	if (visible) {
 		CamelURL *curl;
@@ -1989,13 +1907,12 @@ web_view_update_actions (EWebView *web_view)
 		if (curl) {
 			CamelInternetAddress *inet_addr;
 			const gchar *name = NULL, *email = NULL;
-			GtkAction *action;
 
 			inet_addr = camel_internet_address_new ();
 			camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
 
-			action = gtk_action_group_get_action (action_group, "mailto-copy-raw");
-			gtk_action_set_visible (action,
+			action = e_ui_action_group_get_action (action_group, "mailto-copy-raw");
+			e_ui_action_set_visible (action,
 				camel_internet_address_get (inet_addr, 0, &name, &email) &&
 				name && *name && email && *email);
 
@@ -2004,30 +1921,29 @@ web_view_update_actions (EWebView *web_view)
 		}
 	}
 
-	group_name = "image";
 	visible = (cursor_image_src != NULL);
-	action_group = e_web_view_get_action_group (web_view, group_name);
-	gtk_action_group_set_visible (action_group, visible);
+	action_group = e_web_view_get_action_group (web_view, "image");
+	e_ui_action_group_set_visible (action_group, visible);
 
-	group_name = "selection";
 	visible = can_copy;
-	action_group = e_web_view_get_action_group (web_view, group_name);
-	gtk_action_group_set_visible (action_group, visible);
+	action_group = e_web_view_get_action_group (web_view, "selection");
+	e_ui_action_group_set_visible (action_group, visible);
 
-	group_name = "standard";
 	visible = (uri == NULL);
-	action_group = e_web_view_get_action_group (web_view, group_name);
-	gtk_action_group_set_visible (action_group, visible);
+	action_group = e_web_view_get_action_group (web_view, "standard");
+	e_ui_action_group_set_visible (action_group, visible);
 
-	group_name = "lockdown-printing";
 	visible = (uri == NULL) && !web_view->priv->disable_printing;
-	action_group = e_web_view_get_action_group (web_view, group_name);
-	gtk_action_group_set_visible (action_group, visible);
+	action_group = e_web_view_get_action_group (web_view, "lockdown-printing");
+	e_ui_action_group_set_visible (action_group, visible);
 
-	group_name = "lockdown-save-to-disk";
 	visible = (uri == NULL) && !web_view->priv->disable_save_to_disk;
-	action_group = e_web_view_get_action_group (web_view, group_name);
-	gtk_action_group_set_visible (action_group, visible);
+	action_group = e_web_view_get_action_group (web_view, "lockdown-save-to-disk");
+	e_ui_action_group_set_visible (action_group, visible);
+
+	e_web_view_update_action_from_proxy (e_web_view_get_action (web_view, "open"), web_view->priv->open_proxy);
+	e_web_view_update_action_from_proxy (e_web_view_get_action (web_view, "print"), web_view->priv->print_proxy);
+	e_web_view_update_action_from_proxy (e_web_view_get_action (web_view, "save-as"), web_view->priv->save_as_proxy);
 }
 
 static void
@@ -2137,14 +2053,14 @@ web_view_submit_alert (EAlertSink *alert_sink,
 static void
 web_view_can_execute_editing_command_cb (WebKitWebView *webkit_web_view,
                                          GAsyncResult *result,
-                                         GtkAction *action)
+                                         EUIAction *action)
 {
 	gboolean can_do_command;
 
 	can_do_command = webkit_web_view_can_execute_editing_command_finish (
 		webkit_web_view, result, NULL);
 
-	gtk_action_set_sensitive (action, can_do_command);
+	e_ui_action_set_sensitive (action, can_do_command);
 	g_object_unref (action);
 }
 
@@ -2155,7 +2071,7 @@ web_view_selectable_update_actions (ESelectable *selectable,
                                     gint n_clipboard_targets)
 {
 	EWebView *web_view;
-	GtkAction *action;
+	EUIAction *action;
 	gboolean can_copy = FALSE;
 
 	web_view = E_WEB_VIEW (selectable);
@@ -2163,8 +2079,8 @@ web_view_selectable_update_actions (ESelectable *selectable,
 	can_copy = e_web_view_has_selection (web_view);
 
 	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
-	gtk_action_set_sensitive (action, can_copy);
-	gtk_action_set_tooltip (action, _("Copy the selection"));
+	e_ui_action_set_sensitive (action, can_copy);
+	e_ui_action_set_tooltip (action, _("Copy the selection"));
 
 	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
 	webkit_web_view_can_execute_editing_command (
@@ -2173,7 +2089,7 @@ web_view_selectable_update_actions (ESelectable *selectable,
 		NULL, /* cancellable */
 		(GAsyncReadyCallback) web_view_can_execute_editing_command_cb,
 		g_object_ref (action));
-	gtk_action_set_tooltip (action, _("Cut the selection"));
+	e_ui_action_set_tooltip (action, _("Cut the selection"));
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
 	webkit_web_view_can_execute_editing_command (
@@ -2182,11 +2098,11 @@ web_view_selectable_update_actions (ESelectable *selectable,
 		NULL, /* cancellable */
 		(GAsyncReadyCallback) web_view_can_execute_editing_command_cb,
 		g_object_ref (action));
-	gtk_action_set_tooltip (action, _("Paste the clipboard"));
+	e_ui_action_set_tooltip (action, _("Paste the clipboard"));
 
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
-	gtk_action_set_sensitive (action, TRUE);
-	gtk_action_set_tooltip (action, _("Select all text and images"));
+	e_ui_action_set_sensitive (action, TRUE);
+	e_ui_action_set_tooltip (action, _("Select all text and images"));
 }
 
 static void
@@ -2399,7 +2315,7 @@ e_web_view_class_init (EWebViewClass *class)
 			"open-proxy",
 			"Open Proxy",
 			NULL,
-			GTK_TYPE_ACTION,
+			E_TYPE_UI_ACTION,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -2409,7 +2325,7 @@ e_web_view_class_init (EWebViewClass *class)
 			"print-proxy",
 			"Print Proxy",
 			NULL,
-			GTK_TYPE_ACTION,
+			E_TYPE_UI_ACTION,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -2419,7 +2335,7 @@ e_web_view_class_init (EWebViewClass *class)
 			"save-as-proxy",
 			"Save As Proxy",
 			NULL,
-			GTK_TYPE_ACTION,
+			E_TYPE_UI_ACTION,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -2553,14 +2469,151 @@ e_web_view_selectable_init (ESelectableInterface *iface)
 static void
 e_web_view_init (EWebView *web_view)
 {
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
-	EPopupAction *popup_action;
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='context' is-popup='true'>"
+		    "<item action='copy-clipboard'/>"
+		    "<item action='search-web'/>"
+		    "<separator/>"
+		    "<placeholder id='custom-actions-1'>"
+		      "<item action='open'/>"
+		      "<item action='save-as'/>"
+		      "<item action='http-open'/>"
+		      "<item action='send-message'/>"
+		      "<item action='print'/>"
+		    "</placeholder>"
+		    "<placeholder id='custom-actions-2'>"
+		      "<item action='uri-copy'/>"
+		      "<item action='mailto-copy'/>"
+		      "<item action='mailto-copy-raw'/>"
+		      "<item action='image-copy'/>"
+		      "<item action='image-save'/>"
+		    "</placeholder>"
+		    "<placeholder id='custom-actions-3'/>"
+		    "<separator/>"
+		    "<item action='select-all'/>"
+		    "<placeholder id='inspect-menu' />"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry uri_entries[] = {
+
+		{ "uri-copy",
+		  "edit-copy",
+		  N_("_Copy Link Location"),
+		  "<Control>c",
+		  N_("Copy the link to the clipboard"),
+		  action_uri_copy_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry http_entries[] = {
+
+		{ "http-open",
+		  "emblem-web",
+		  N_("_Open Link in Browser"),
+		  NULL,
+		  N_("Open the link in a web browser"),
+		  action_http_open_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry mailto_entries[] = {
+
+		{ "mailto-copy",
+		  "edit-copy",
+		  N_("_Copy Name and Email Address"),
+		  "<Control>c",
+		  N_("Copy the email address with the name to the clipboard"),
+		  action_mailto_copy_cb, NULL, NULL, NULL },
+
+		{ "mailto-copy-raw",
+		  "edit-copy",
+		  N_("Copy Only Email Add_ress"),
+		  NULL,
+		  N_("Copy only the email address without the name to the clipboard"),
+		  action_mailto_copy_raw_cb, NULL, NULL, NULL },
+
+		{ "send-message",
+		  "mail-message-new",
+		  N_("_Send New Message To…"),
+		  NULL,
+		  N_("Send a mail message to this address"),
+		  action_send_message_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry image_entries[] = {
+
+		{ "image-copy",
+		  "edit-copy",
+		  N_("_Copy Image"),
+		  "<Control>c",
+		  N_("Copy the image to the clipboard"),
+		  action_image_copy_cb, NULL, NULL, NULL },
+
+		{ "image-save",
+		  "document-save",
+		  N_("Save _Image…"),
+		  "<Control>s",
+		  N_("Save the image to a file"),
+		  action_image_save_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry selection_entries[] = {
+
+		{ "copy-clipboard",
+		  "edit-copy",
+		  N_("_Copy"),
+		  "<Control>c",
+		  N_("Copy the selection"),
+		  action_copy_clipboard_cb, NULL, NULL, NULL },
+
+		{ "search-web",
+		  NULL,
+		  N_("Search _Web…"),
+		  NULL,
+		  N_("Search the Web with the selected text"),
+		  action_search_web_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry standard_entries[] = {
+
+		{ "open",
+		  NULL,
+		  N_("_Open"),
+		  NULL,
+		  NULL,
+		  action_open_cb, NULL, NULL, NULL },
+
+		{ "select-all",
+		  "edit-select-all",
+		  N_("Select _All"),
+		  NULL,
+		  N_("Select all text and images"),
+		  action_select_all_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry lockdown_printing_entries[] = {
+
+		{ "print",
+		  "document-print",
+		  N_("_Print"),
+		  NULL,
+		  NULL,
+		  action_print_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry lockdown_save_to_disk_entries[] = {
+
+		{ "save-as",
+		  "document-save-as",
+		  N_("Save _as…"),
+		  NULL,
+		  NULL,
+		  action_save_as_cb, NULL, NULL, NULL }
+	};
+
+	EUIManager *ui_manager;
 	GSettings *settings;
-	const gchar *domain = GETTEXT_PACKAGE;
-	const gchar *id;
 	gulong handler_id;
-	GError *error = NULL;
 
 	web_view->priv = e_web_view_get_instance_private (web_view);
 
@@ -2593,12 +2646,8 @@ e_web_view_init (EWebView *web_view)
 		web_view, "state-flags-changed",
 		G_CALLBACK (style_updated_cb), NULL);
 
-	ui_manager = gtk_ui_manager_new ();
+	ui_manager = e_ui_manager_new ();
 	web_view->priv->ui_manager = ui_manager;
-
-	g_signal_connect_swapped (
-		ui_manager, "connect-proxy",
-		G_CALLBACK (web_view_connect_proxy_cb), web_view);
 
 	settings = e_util_ref_settings ("org.gnome.desktop.interface");
 	web_view->priv->font_settings = g_object_ref (settings);
@@ -2612,116 +2661,30 @@ e_web_view_init (EWebView *web_view)
 	web_view->priv->monospace_font_name_changed_handler_id = handler_id;
 	g_object_unref (settings);
 
-	action_group = gtk_action_group_new ("uri");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
-
-	gtk_action_group_add_actions (
-		action_group, uri_entries,
-		G_N_ELEMENTS (uri_entries), web_view);
-
-	action_group = gtk_action_group_new ("http");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
-
-	gtk_action_group_add_actions (
-		action_group, http_entries,
-		G_N_ELEMENTS (http_entries), web_view);
-
-	action_group = gtk_action_group_new ("mailto");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
-
-	gtk_action_group_add_actions (
-		action_group, mailto_entries,
-		G_N_ELEMENTS (mailto_entries), web_view);
-
-	action_group = gtk_action_group_new ("image");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
-
-	gtk_action_group_add_actions (
-		action_group, image_entries,
-		G_N_ELEMENTS (image_entries), web_view);
-
-	action_group = gtk_action_group_new ("selection");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
-
-	gtk_action_group_add_actions (
-		action_group, selection_entries,
-		G_N_ELEMENTS (selection_entries), web_view);
-
-	action_group = gtk_action_group_new ("standard");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
-
-	gtk_action_group_add_actions (
-		action_group, standard_entries,
-		G_N_ELEMENTS (standard_entries), web_view);
-
-	popup_action = e_popup_action_new ("open");
-	gtk_action_group_add_action (action_group, GTK_ACTION (popup_action));
-	g_object_unref (popup_action);
-
-	e_binding_bind_property (
-		web_view, "open-proxy",
-		popup_action, "related-action",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
+	e_ui_manager_add_actions (ui_manager, "uri", NULL,
+		uri_entries, G_N_ELEMENTS (uri_entries), web_view);
+	e_ui_manager_add_actions (ui_manager, "http", NULL,
+		http_entries, G_N_ELEMENTS (http_entries), web_view);
+	e_ui_manager_add_actions (ui_manager, "mailto", NULL,
+		mailto_entries, G_N_ELEMENTS (mailto_entries), web_view);
+	e_ui_manager_add_actions (ui_manager, "image", NULL,
+		image_entries, G_N_ELEMENTS (image_entries), web_view);
+	e_ui_manager_add_actions (ui_manager, "selection", NULL,
+		selection_entries, G_N_ELEMENTS (selection_entries), web_view);
 	/* Support lockdown. */
-
-	action_group = gtk_action_group_new ("lockdown-printing");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
-
-	popup_action = e_popup_action_new ("print");
-	gtk_action_group_add_action (action_group, GTK_ACTION (popup_action));
-	g_object_unref (popup_action);
-
-	e_binding_bind_property (
-		web_view, "print-proxy",
-		popup_action, "related-action",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	action_group = gtk_action_group_new ("lockdown-save-to-disk");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
-
-	popup_action = e_popup_action_new ("save-as");
-	gtk_action_group_add_action (action_group, GTK_ACTION (popup_action));
-	g_object_unref (popup_action);
-
-	e_binding_bind_property (
-		web_view, "save-as-proxy",
-		popup_action, "related-action",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	/* Because we are loading from a hard-coded string, there is
-	 * no chance of I/O errors.  Failure here implies a malformed
-	 * UI definition.  Full stop. */
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-	if (error != NULL)
-		g_error ("%s", error->message);
-
-	id = "org.gnome.evolution.webview";
-	e_plugin_ui_register_manager (ui_manager, id, web_view);
-	e_plugin_ui_enable_manager (ui_manager, id);
+	e_ui_manager_add_actions (ui_manager, "lockdown-printing", NULL,
+		lockdown_printing_entries, G_N_ELEMENTS (lockdown_printing_entries), web_view);
+	e_ui_manager_add_actions (ui_manager, "lockdown-save-to-disk", NULL,
+		lockdown_save_to_disk_entries, G_N_ELEMENTS (lockdown_save_to_disk_entries), web_view);
+	/* finally add actions with the .eui data */
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "standard", NULL,
+		standard_entries, G_N_ELEMENTS (standard_entries), web_view, eui);
 
 	web_view->priv->element_clicked_cbs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_ptr_array_unref);
 
 	web_view->priv->cancellable = NULL;
+
+	e_ui_manager_set_action_groups_widget (ui_manager, GTK_WIDGET (web_view));
 }
 
 GtkWidget *
@@ -2982,7 +2945,7 @@ e_web_view_set_cursor_image_src (EWebView *web_view,
 	g_object_notify (G_OBJECT (web_view), "cursor-image-src");
 }
 
-GtkAction *
+EUIAction *
 e_web_view_get_open_proxy (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
@@ -2992,7 +2955,7 @@ e_web_view_get_open_proxy (EWebView *web_view)
 
 void
 e_web_view_set_open_proxy (EWebView *web_view,
-                           GtkAction *open_proxy)
+			   EUIAction *open_proxy)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
@@ -3000,7 +2963,7 @@ e_web_view_set_open_proxy (EWebView *web_view,
 		return;
 
 	if (open_proxy != NULL) {
-		g_return_if_fail (GTK_IS_ACTION (open_proxy));
+		g_return_if_fail (E_IS_UI_ACTION (open_proxy));
 		g_object_ref (open_proxy);
 	}
 
@@ -3023,7 +2986,7 @@ e_web_view_get_paste_target_list (EWebView *web_view)
 	return NULL;
 }
 
-GtkAction *
+EUIAction *
 e_web_view_get_print_proxy (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
@@ -3033,7 +2996,7 @@ e_web_view_get_print_proxy (EWebView *web_view)
 
 void
 e_web_view_set_print_proxy (EWebView *web_view,
-                            GtkAction *print_proxy)
+			    EUIAction *print_proxy)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
@@ -3041,7 +3004,7 @@ e_web_view_set_print_proxy (EWebView *web_view,
 		return;
 
 	if (print_proxy != NULL) {
-		g_return_if_fail (GTK_IS_ACTION (print_proxy));
+		g_return_if_fail (E_IS_UI_ACTION (print_proxy));
 		g_object_ref (print_proxy);
 	}
 
@@ -3053,7 +3016,7 @@ e_web_view_set_print_proxy (EWebView *web_view,
 	g_object_notify (G_OBJECT (web_view), "print-proxy");
 }
 
-GtkAction *
+EUIAction *
 e_web_view_get_save_as_proxy (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
@@ -3063,7 +3026,7 @@ e_web_view_get_save_as_proxy (EWebView *web_view)
 
 void
 e_web_view_set_save_as_proxy (EWebView *web_view,
-                              GtkAction *save_as_proxy)
+			      EUIAction *save_as_proxy)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
@@ -3071,7 +3034,7 @@ e_web_view_set_save_as_proxy (EWebView *web_view,
 		return;
 
 	if (save_as_proxy != NULL) {
-		g_return_if_fail (GTK_IS_ACTION (save_as_proxy));
+		g_return_if_fail (E_IS_UI_ACTION (save_as_proxy));
 		g_object_ref (save_as_proxy);
 	}
 
@@ -3151,32 +3114,32 @@ e_web_view_disable_highlights (EWebView *web_view)
 	web_view->priv->highlights_enabled = FALSE;
 }
 
-GtkAction *
+EUIAction *
 e_web_view_get_action (EWebView *web_view,
                        const gchar *action_name)
 {
-	GtkUIManager *ui_manager;
+	EUIManager *ui_manager;
 
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
 	ui_manager = e_web_view_get_ui_manager (web_view);
 
-	return e_lookup_action (ui_manager, action_name);
+	return e_ui_manager_get_action (ui_manager, action_name);
 }
 
-GtkActionGroup *
+EUIActionGroup *
 e_web_view_get_action_group (EWebView *web_view,
                              const gchar *group_name)
 {
-	GtkUIManager *ui_manager;
+	EUIManager *ui_manager;
 
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
 	g_return_val_if_fail (group_name != NULL, NULL);
 
 	ui_manager = e_web_view_get_ui_manager (web_view);
 
-	return e_lookup_action_group (ui_manager, group_name);
+	return e_ui_manager_get_action_group (ui_manager, group_name);
 }
 
 void
@@ -3291,7 +3254,7 @@ e_web_view_zoom_out (EWebView *web_view)
 		webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (web_view), zoom_level);
 }
 
-GtkUIManager *
+EUIManager *
 e_web_view_get_ui_manager (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
@@ -3299,54 +3262,28 @@ e_web_view_get_ui_manager (EWebView *web_view)
 	return web_view->priv->ui_manager;
 }
 
-static void
-e_web_view_popup_menu_deactivate_cb (GtkMenu *popup_menu,
-				     GtkWidget *web_view)
-{
-	g_return_if_fail (GTK_IS_MENU (popup_menu));
-
-	g_signal_handlers_disconnect_by_func (popup_menu, e_web_view_popup_menu_deactivate_cb, web_view);
-	gtk_menu_detach (popup_menu);
-}
-
-GtkWidget *
-e_web_view_get_popup_menu (EWebView *web_view)
-{
-	GtkUIManager *ui_manager;
-	GtkWidget *menu;
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-
-	ui_manager = e_web_view_get_ui_manager (web_view);
-	menu = gtk_ui_manager_get_widget (ui_manager, "/context");
-	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
-
-	g_warn_if_fail (!gtk_menu_get_attach_widget (GTK_MENU (menu)));
-
-	gtk_menu_attach_to_widget (GTK_MENU (menu),
-				   GTK_WIDGET (web_view),
-				   NULL);
-
-	g_signal_connect (
-		menu, "deactivate",
-		G_CALLBACK (e_web_view_popup_menu_deactivate_cb), web_view);
-
-	return menu;
-}
-
 void
 e_web_view_show_popup_menu (EWebView *web_view,
 			    GdkEvent *event)
 {
-	GtkWidget *menu;
+	EUIManager *ui_manager;
+	GtkMenu *menu;
+	GObject *ui_item;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	e_web_view_update_actions (web_view);
 
-	menu = e_web_view_get_popup_menu (web_view);
+	ui_manager = e_web_view_get_ui_manager (web_view);
+	ui_item = e_ui_manager_create_item (ui_manager, "context");
+	menu = GTK_MENU (gtk_menu_new_from_model (G_MENU_MODEL (ui_item)));
+	g_clear_object (&ui_item);
 
-	gtk_menu_popup_at_pointer (GTK_MENU (menu), event);
+	gtk_menu_attach_to_widget (menu, GTK_WIDGET (web_view), NULL);
+
+	e_util_connect_menu_detach_after_deactivate (menu);
+
+	gtk_menu_popup_at_pointer (menu, event);
 }
 
 /**

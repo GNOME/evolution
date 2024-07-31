@@ -41,11 +41,9 @@
 #include "e-task-shell-content.h"
 #include "e-task-shell-view-actions.h"
 
-/* Shorthand, requires a variable named "shell_window". */
+/* Shorthand, requires a variable named "shell_view". */
 #define ACTION(name) \
-	(E_SHELL_WINDOW_ACTION_##name (shell_window))
-#define ACTION_GROUP(name) \
-	(E_SHELL_WINDOW_ACTION_GROUP_##name (shell_window))
+	(E_SHELL_VIEW_ACTION_##name (shell_view))
 
 G_BEGIN_DECLS
 

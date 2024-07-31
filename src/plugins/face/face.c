@@ -479,10 +479,17 @@ face_change_image_in_composer_cb (GtkButton *button,
 }
 
 static void
-action_toggle_face_cb (GtkToggleAction *action,
-                       EMsgComposer *composer)
+action_toggle_face_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
-	if (gtk_toggle_action_get_active (action)) {
+	EMsgComposer *composer = user_data;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	e_ui_action_set_state (action, parameter);
+
+	if (e_ui_action_get_active (action)) {
 		gsize image_data_length = 0;
 		gchar *face = get_face_base64 ();
 
@@ -493,7 +500,7 @@ action_toggle_face_cb (GtkToggleAction *action,
 				g_object_unref (pixbuf);
 			} else {
 				/* cannot load a face image, uncheck the option */
-				gtk_toggle_action_set_active (action, FALSE);
+				e_ui_action_set_active (action, FALSE);
 			}
 		} else {
 			g_free (g_base64_decode (face, &image_data_length));
@@ -509,7 +516,7 @@ action_toggle_face_cb (GtkToggleAction *action,
 /* ----------------------------------------------------------------- */
 
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
-gboolean e_plugin_ui_init (GtkUIManager *ui_manager, EMsgComposer *composer);
+gboolean e_plugin_ui_init (EUIManager *manager, EMsgComposer *composer);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 void face_handle_send (EPlugin *ep, EMEventTargetComposer *target);
 
@@ -523,42 +530,47 @@ e_plugin_lib_enable (EPlugin *ep,
 }
 
 gboolean
-e_plugin_ui_init (GtkUIManager *ui_manager,
+e_plugin_ui_init (EUIManager *manager,
                   EMsgComposer *composer)
 {
-	EHTMLEditor *editor;
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='insert-menu'>"
+		      "<placeholder id='insert-menu-top'>"
+			"<item action='face-plugin'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
 
-	GtkToggleActionEntry entries[] = {
+	static const EUIActionEntry entries[] = {
 		{ "face-plugin",
 		NULL,
 		N_("Include _Face"),
 		NULL,
 		NULL,
-		G_CALLBACK (action_toggle_face_cb),
-		FALSE }
+		NULL, NULL, "false", action_toggle_face_cb }
 	};
 
-	if (get_include_face_by_default ()) {
-		gchar *face = get_face_base64 ();
-
-		/* activate it only if has a face image available */
-		entries[0].is_active = face && *face;
-
-		g_free (face);
-	}
+	EHTMLEditor *editor;
+	EUIManager *ui_manager;
 
 	editor = e_msg_composer_get_editor (composer);
+	ui_manager = e_html_editor_get_ui_manager (editor);
 
-	/* Add actions to the "composer" action group. */
-	gtk_action_group_add_toggle_actions (
-		e_html_editor_get_action_group (editor, "composer"),
-		entries, G_N_ELEMENTS (entries), composer);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "composer", GETTEXT_PACKAGE,
+		entries, G_N_ELEMENTS (entries), composer, eui);
 
-	if (entries[0].is_active) {
+	if (get_include_face_by_default ()) {
+		EUIAction *action;
 		gsize image_data_length = 0;
 		gchar *face = get_face_base64 ();
 
 		if (face) {
+			action = e_html_editor_get_action (editor, "face-plugin");
+			e_ui_action_set_active (action, TRUE);
+
 			g_free (g_base64_decode (face, &image_data_length));
 			g_free (face);
 		}
@@ -580,14 +592,14 @@ face_handle_send (EPlugin *ep,
                   EMEventTargetComposer *target)
 {
 	EHTMLEditor *editor;
-	GtkAction *action;
+	EUIAction *action;
 
 	editor = e_msg_composer_get_editor (target->composer);
 	action = e_html_editor_get_action (editor, "face-plugin");
 
 	g_return_if_fail (action != NULL);
 
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action))) {
+	if (e_ui_action_get_active (action)) {
 		gchar *face = get_face_base64 ();
 
 		if (face)

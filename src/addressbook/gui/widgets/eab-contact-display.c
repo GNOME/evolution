@@ -57,18 +57,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static const gchar *ui =
-"<ui>"
-"  <popup name='context'>"
-"    <placeholder name='custom-actions-1'>"
-"      <menuitem action='contact-send-message'/>"
-"    </placeholder>"
-"    <placeholder name='custom-actions-2'>"
-"      <menuitem action='contact-mailto-copy'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE_WITH_PRIVATE (EABContactDisplay, eab_contact_display, E_TYPE_WEB_VIEW)
@@ -90,9 +78,11 @@ contact_display_emit_send_message (EABContactDisplay *display,
 }
 
 static void
-action_contact_mailto_copy_cb (GtkAction *action,
-                               EABContactDisplay *display)
+action_contact_mailto_copy_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EABContactDisplay *display = user_data;
 	GtkClipboard *clipboard;
 	EWebView *web_view;
 	EContact *contact;
@@ -121,9 +111,11 @@ action_contact_mailto_copy_cb (GtkAction *action,
 }
 
 static void
-action_contact_send_message_cb (GtkAction *action,
-                                EABContactDisplay *display)
+action_contact_send_message_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EABContactDisplay *display = user_data;
 	EWebView *web_view;
 	const gchar *uri;
 	gint index;
@@ -135,23 +127,6 @@ action_contact_send_message_cb (GtkAction *action,
 	index = atoi (uri + strlen ("internal-mailto:"));
 	contact_display_emit_send_message (display, index);
 }
-
-static GtkActionEntry internal_mailto_entries[] = {
-
-	{ "contact-mailto-copy",
-	  "edit-copy",
-	  N_("Copy _Email Address"),
-	  "<Control>c",
-	  N_("Copy the email address to the clipboard"),
-	  G_CALLBACK (action_contact_mailto_copy_cb) },
-
-	{ "contact-send-message",
-	  "mail-message-new",
-	  N_("_Send New Message To…"),
-	  NULL,
-	  N_("Send a mail message to this address"),
-	  G_CALLBACK (action_contact_send_message_cb) }
-};
 
 static void
 load_contact (EABContactDisplay *display)
@@ -340,15 +315,14 @@ contact_display_content_loaded_cb (EWebView *web_view,
 static void
 contact_display_update_actions (EWebView *web_view)
 {
-	GtkActionGroup *action_group;
+	EUIActionGroup *action_group;
 	gboolean scheme_is_internal_mailto;
 	gboolean visible;
 	const gchar *group_name;
 	const gchar *uri;
 
 	/* Chain up to parent's update_actions() method. */
-	E_WEB_VIEW_CLASS (eab_contact_display_parent_class)->
-		update_actions (web_view);
+	E_WEB_VIEW_CLASS (eab_contact_display_parent_class)->update_actions (web_view);
 
 	uri = e_web_view_get_selected_uri (web_view);
 
@@ -358,14 +332,14 @@ contact_display_update_actions (EWebView *web_view)
 	/* Override how EWebView treats internal-mailto URIs. */
 	group_name = "uri";
 	action_group = e_web_view_get_action_group (web_view, group_name);
-	visible = gtk_action_group_get_visible (action_group);
+	visible = e_ui_action_group_get_visible (action_group);
 	visible &= !scheme_is_internal_mailto;
-	gtk_action_group_set_visible (action_group, visible);
+	e_ui_action_group_set_visible (action_group, visible);
 
 	group_name = "internal-mailto";
 	visible = scheme_is_internal_mailto;
 	action_group = e_web_view_get_action_group (web_view, group_name);
-	gtk_action_group_set_visible (action_group, visible);
+	e_ui_action_group_set_visible (action_group, visible);
 }
 
 static void
@@ -463,12 +437,38 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 static void
 eab_contact_display_init (EABContactDisplay *display)
 {
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='context'>"
+		    "<placeholder id='custom-actions-1'>"
+		      "<item action='contact-send-message'/>"
+		    "</placeholder>"
+		    "<placeholder id='custom-actions-2'>"
+		      "<item action='contact-mailto-copy'/>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry internal_mailto_entries[] = {
+
+		{ "contact-mailto-copy",
+		  "edit-copy",
+		  N_("Copy _Email Address"),
+		  "<Control>c",
+		  N_("Copy the email address to the clipboard"),
+		  action_contact_mailto_copy_cb, NULL, NULL, NULL },
+
+		{ "contact-send-message",
+		  "mail-message-new",
+		  N_("_Send New Message To…"),
+		  NULL,
+		  N_("Send a mail message to this address"),
+		  action_contact_send_message_cb, NULL, NULL, NULL }
+	};
+
 	EWebView *web_view;
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
+	EUIManager *ui_manager;
 	GSettings *settings;
-	const gchar *domain = GETTEXT_PACKAGE;
-	GError *error = NULL;
 
 	display->priv = eab_contact_display_get_instance_private (display);
 
@@ -486,21 +486,8 @@ eab_contact_display_init (EABContactDisplay *display)
 		web_view, "style-updated",
 		G_CALLBACK (load_contact), NULL);
 
-	action_group = gtk_action_group_new ("internal-mailto");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
-
-	gtk_action_group_add_actions (
-		action_group, internal_mailto_entries,
-		G_N_ELEMENTS (internal_mailto_entries), display);
-
-	/* Because we are loading from a hard-coded string, there is
-	 * no chance of I/O errors.  Failure here implies a malformed
-	 * UI definition.  Full stop. */
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-	if (error != NULL)
-		g_error ("%s", error->message);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "internal-mailto", NULL,
+		internal_mailto_entries, G_N_ELEMENTS (internal_mailto_entries), display, eui);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 	g_signal_connect_object (settings, "changed::preview-home-before-work",

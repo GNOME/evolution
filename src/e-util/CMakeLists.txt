@@ -8,7 +8,6 @@ add_error_files(e-util
 )
 
 set(uifiles
-	e-html-editor-manager.ui
 	e-send-options.ui
 	e-table-config.ui
 	e-timezone-dialog.ui
@@ -117,10 +116,8 @@ set(SOURCES
 	e-dialog-utils.c
 	e-dialog-widgets.c
 	e-ellipsized-combo-box-text.c
-	e-emoticon-action.c
 	e-emoticon-chooser-menu.c
 	e-emoticon-chooser.c
-	e-emoticon-tool-button.c
 	e-emoticon.c
 	e-event.c
 	e-file-request.c
@@ -175,7 +172,6 @@ set(SOURCES
 	e-markdown-utils.c
 	e-marshal.c
 	e-menu-bar.c
-	e-menu-tool-action.c
 	e-menu-tool-button.c
 	e-misc-utils.c
 	e-mktemp.c
@@ -194,7 +190,6 @@ set(SOURCES
 	e-plugin-ui.c
 	e-plugin.c
 	e-poolv.c
-	e-popup-action.c
 	e-popup-menu.c
 	e-port-entry.c
 	e-preferences-window.c
@@ -278,6 +273,11 @@ set(SOURCES
 	e-tree-table-adapter.c
 	e-tree-view-frame.c
 	e-tree.c
+	e-ui-action.c
+	e-ui-action-group.c
+	e-ui-manager.c
+	e-ui-menu.c
+	e-ui-parser.c
 	e-unicode.c
 	e-url-entry.c
 	e-util-private.h
@@ -402,10 +402,8 @@ set(HEADERS
 	e-dialog-utils.h
 	e-dialog-widgets.h
 	e-ellipsized-combo-box-text.h
-	e-emoticon-action.h
 	e-emoticon-chooser-menu.h
 	e-emoticon-chooser.h
-	e-emoticon-tool-button.h
 	e-emoticon.h
 	e-event.h
 	e-file-request.h
@@ -456,7 +454,6 @@ set(HEADERS
 	e-markdown-editor.h
 	e-markdown-utils.h
 	e-menu-bar.h
-	e-menu-tool-action.h
 	e-menu-tool-button.h
 	e-misc-utils.h
 	e-mktemp.h
@@ -475,7 +472,6 @@ set(HEADERS
 	e-plugin-ui.h
 	e-plugin.h
 	e-poolv.h
-	e-popup-action.h
 	e-popup-menu.h
 	e-port-entry.h
 	e-preferences-window.h
@@ -561,6 +557,11 @@ set(HEADERS
 	e-tree-table-adapter.h
 	e-tree-view-frame.h
 	e-tree.h
+	e-ui-action.h
+	e-ui-action-group.h
+	e-ui-manager.h
+	e-ui-menu.h
+	e-ui-parser.h
 	e-unicode.h
 	e-url-entry.h
 	e-util-enums.h

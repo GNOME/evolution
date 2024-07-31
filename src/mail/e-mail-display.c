@@ -40,6 +40,7 @@
 #include "e-http-request.h"
 #include "e-mail-display-popup-extension.h"
 #include "e-mail-notes.h"
+#include "e-mail-reader.h"
 #include "e-mail-request.h"
 #include "e-mail-ui-session.h"
 #include "em-composer-utils.h"
@@ -64,12 +65,13 @@ struct _EMailDisplayPrivate {
 	EAttachmentView *attachment_view;
 	GHashTable *attachment_flags; /* EAttachment * ~> guint bit-or of EAttachmentFlags */
 	GHashTable *cid_attachments; /* gchar *cid ~> EAttachemnt *; these are not part of the attachment store */
-	guint attachment_inline_ui_id;
-	guint open_with_ui_id;
 
-	GtkActionGroup *attachment_inline_group;
-	GtkActionGroup *attachment_accel_action_group;
-	GtkAccelGroup *attachment_accel_group;
+	GWeakRef mail_reader_weakref;
+
+	EUIActionGroup *attachment_inline_group;
+	EUIActionGroup *attachment_accel_action_group;
+	GMenu *open_with_apps_menu;
+	GHashTable *open_with_apps_hash; /* gchar *action_parameter ~> OpenWithData * */
 
 	EMailPartList *part_list;
 	EMailFormatterMode mode;
@@ -107,7 +109,8 @@ enum {
 	PROP_HEADERS_COLLAPSED,
 	PROP_MODE,
 	PROP_PART_LIST,
-	PROP_REMOTE_CONTENT
+	PROP_REMOTE_CONTENT,
+	PROP_MAIL_READER
 };
 
 enum {
@@ -125,80 +128,35 @@ G_DEFINE_TYPE_WITH_CODE (EMailDisplay, e_mail_display, E_TYPE_WEB_VIEW,
 	G_ADD_PRIVATE (EMailDisplay)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CID_RESOLVER, e_mail_display_cid_resolver_init))
 
-static const gchar *ui =
-"<ui>"
-"  <popup name='context'>"
-"    <placeholder name='custom-actions-1'>"
-"      <menuitem action='add-to-address-book'/>"
-"      <menuitem action='send-reply'/>"
-"    </placeholder>"
-"    <placeholder name='custom-actions-3'>"
-"      <menuitem action='allow-remote-content-site'/>"
-"      <menuitem action='load-remote-content-site'/>"
-"      <menuitem action='load-remote-content-this'/>"
-"      <menu action='search-folder-menu'>"
-"        <menuitem action='search-folder-recipient'/>"
-"        <menuitem action='search-folder-sender'/>"
-"      </menu>"
-"      <placeholder name='open-actions'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
+typedef struct _OpenWithData {
+	GAppInfo *app_info;
+	EAttachment *attachment;
+} OpenWithData;
 
-static GtkActionEntry mailto_entries[] = {
+static OpenWithData *
+open_with_data_new (GAppInfo *app_info,
+		    EAttachment *attachment)
+{
+	OpenWithData *data;
 
-	{ "add-to-address-book",
-	  "contact-new",
-	  N_("_Add to Address Book…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  NULL   /* Handled by EMailReader */ },
+	data = g_new0 (OpenWithData, 1);
+	data->app_info = app_info ? g_object_ref (app_info) : NULL;
+	data->attachment = g_object_ref (attachment);
 
-	{ "search-folder-recipient",
-	  NULL,
-	  N_("_To This Address"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  NULL   /* Handled by EMailReader */ },
+	return data;
+}
 
-	{ "search-folder-sender",
-	  NULL,
-	  N_("_From This Address"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  NULL   /* Handled by EMailReader */ },
+static void
+open_with_data_free (gpointer ptr)
+{
+	OpenWithData *data = ptr;
 
-	{ "send-reply",
-	  NULL,
-	  N_("Send _Reply To…"),
-	  NULL,
-	  N_("Send a reply message to this address"),
-	  NULL   /* Handled by EMailReader */ },
-
-	/*** Menus ***/
-
-	{ "search-folder-menu",
-	  "folder-saved-search",
-	  N_("Create Search _Folder"),
-	  NULL,
-	  NULL,
-	  NULL }
-};
-
-static const gchar *attachment_popup_ui =
-"<ui>"
-"  <popup name='context'>"
-"    <placeholder name='inline-actions'>"
-"      <menuitem action='zoom-to-100'/>"
-"      <menuitem action='zoom-to-window'/>"
-"      <menuitem action='show'/>"
-"      <menuitem action='show-all'/>"
-"      <separator/>"
-"      <menuitem action='hide'/>"
-"      <menuitem action='hide-all'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
+	if (data) {
+		g_clear_object (&data->app_info);
+		g_clear_object (&data->attachment);
+		g_free (data);
+	}
+}
 
 static void
 e_mail_display_claim_skipped_uri (EMailDisplay *mail_display,
@@ -721,108 +679,83 @@ mail_attachment_change_zoom (EMailDisplay *display,
 }
 
 static void
-action_attachment_show_cb (GtkAction *action,
-			   EMailDisplay *display)
+action_attachment_show_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EMailDisplay *display = user_data;
+
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
 	mail_display_change_attachment_visibility (display, FALSE, TRUE);
 }
 
 static void
-action_attachment_show_all_cb (GtkAction *action,
-			       EMailDisplay *display)
+action_attachment_show_all_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailDisplay *display = user_data;
+
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
 	mail_display_change_attachment_visibility (display, TRUE, TRUE);
 }
 
 static void
-action_attachment_hide_cb (GtkAction *action,
-			   EMailDisplay *display)
+action_attachment_hide_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EMailDisplay *display = user_data;
+
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
 	mail_display_change_attachment_visibility (display, FALSE, FALSE);
 }
 
 static void
-action_attachment_hide_all_cb (GtkAction *action,
-			       EMailDisplay *display)
+action_attachment_hide_all_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMailDisplay *display = user_data;
+
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
 	mail_display_change_attachment_visibility (display, TRUE, FALSE);
 }
 
 static void
-action_attachment_zoom_to_100_cb (GtkAction *action,
-				  EMailDisplay *display)
+action_attachment_zoom_to_100_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	EMailDisplay *display = user_data;
+
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
 	mail_attachment_change_zoom (display, TRUE);
 }
 
 static void
-action_attachment_zoom_to_window_cb (GtkAction *action,
-				     EMailDisplay *display)
+action_attachment_zoom_to_window_cb (EUIAction *action,
+				     GVariant *parameter,
+				     gpointer user_data)
 {
+	EMailDisplay *display = user_data;
+
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
 	mail_attachment_change_zoom (display, FALSE);
 }
 
-static GtkActionEntry attachment_inline_entries[] = {
-
-	{ "hide",
-	  NULL,
-	  N_("_Hide"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_attachment_hide_cb) },
-
-	{ "hide-all",
-	  NULL,
-	  N_("Hid_e All"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_attachment_hide_all_cb) },
-
-	{ "show",
-	  NULL,
-	  N_("_View Inline"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_attachment_show_cb) },
-
-	{ "show-all",
-	  NULL,
-	  N_("Vie_w All Inline"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_attachment_show_all_cb) },
-
-	{ "zoom-to-100",
-	  NULL,
-	  N_("_Zoom to 100%"),
-	  NULL,
-	  N_("Zoom the image to its natural size"),
-	  G_CALLBACK (action_attachment_zoom_to_100_cb) },
-
-	{ "zoom-to-window",
-	  NULL,
-	  N_("_Zoom to window"),
-	  NULL,
-	  N_("Zoom large images to not be wider than the window width"),
-	  G_CALLBACK (action_attachment_zoom_to_window_cb) }
-};
-
 static void
-mail_display_allow_remote_content_site_cb (GtkAction *action,
-					   EMailDisplay *display)
+mail_display_allow_remote_content_site_cb (EUIAction *action,
+					   GVariant *parameter,
+					   gpointer user_data)
 {
+	EMailDisplay *display = user_data;
 	EMailRemoteContent *remote_content;
 	GUri *img_uri;
 	const gchar *cursor_image_source;
@@ -848,9 +781,11 @@ mail_display_allow_remote_content_site_cb (GtkAction *action,
 }
 
 static void
-mail_display_load_remote_content_site_cb (GtkAction *action,
-					  EMailDisplay *display)
+mail_display_load_remote_content_site_cb (EUIAction *action,
+					  GVariant *parameter,
+					  gpointer user_data)
 {
+	EMailDisplay *display = user_data;
 	GUri *img_uri;
 	const gchar *cursor_image_source;
 
@@ -873,9 +808,11 @@ mail_display_load_remote_content_site_cb (GtkAction *action,
 }
 
 static void
-mail_display_load_remote_content_this_cb (GtkAction *action,
-					  EMailDisplay *display)
+mail_display_load_remote_content_this_cb (EUIAction *action,
+					  GVariant *parameter,
+					  gpointer user_data)
 {
+	EMailDisplay *display = user_data;
 	const gchar *cursor_image_source;
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
@@ -889,30 +826,6 @@ mail_display_load_remote_content_this_cb (GtkAction *action,
 		e_mail_display_reload (display);
 	}
 }
-
-static GtkActionEntry image_entries[] = {
-
-	{ "allow-remote-content-site",
-	  NULL,
-	  "Allow remote content from...", /* placeholder text, do not localize */
-	  NULL,
-	  NULL,
-	  G_CALLBACK (mail_display_allow_remote_content_site_cb) },
-
-	{ "load-remote-content-site",
-	  NULL,
-	  "Load remote content from...", /* placeholder text, do not localize */
-	  NULL,
-	  NULL,
-	  G_CALLBACK (mail_display_load_remote_content_site_cb) },
-
-	{ "load-remote-content-this",
-	  NULL,
-	  N_("Load this image"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (mail_display_load_remote_content_this_cb) }
-};
 
 static void
 call_attachment_save_handle_error (GObject *source_object,
@@ -970,16 +883,21 @@ mail_display_open_attachment (EMailDisplay *display,
 }
 
 static void
-action_attachment_toggle_cb (GtkAction *action,
-			     EMailDisplay *display)
+action_attachment_toggle_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EMailDisplay *display = user_data;
 	EAttachmentStore *store;
 	GList *attachments, *link;
 	const gchar *name;
 	guint index = ~0;
 	guint len, ii;
 
-	name = gtk_action_get_name (action);
+	if (!gtk_widget_is_visible (GTK_WIDGET (display)))
+		return;
+
+	name = g_action_get_name (G_ACTION (action));
 	g_return_if_fail (name != NULL);
 
 	len = strlen (name);
@@ -1033,79 +951,6 @@ action_attachment_toggle_cb (GtkAction *action,
 
 	g_list_free_full (attachments, g_object_unref);
 }
-
-static GtkActionEntry accel_entries[] = {
-
-	{ "attachment-toggle-all",
-	  NULL,
-	  NULL,
-	  "<Primary><Alt>0",
-	  NULL,
-	  G_CALLBACK (action_attachment_toggle_cb) },
-
-	{ "attachment-toggle-1",
-	  NULL,
-	  NULL,
-	  "<Primary><Alt>1",
-	  NULL,
-	  G_CALLBACK (action_attachment_toggle_cb) },
-
-	{ "attachment-toggle-2",
-	  NULL,
-	  NULL,
-	  "<Primary><Alt>2",
-	  NULL,
-	  G_CALLBACK (action_attachment_toggle_cb) },
-
-	{ "attachment-toggle-3",
-	  NULL,
-	  NULL,
-	  "<Primary><Alt>3",
-	  NULL,
-	  G_CALLBACK (action_attachment_toggle_cb) },
-
-	{ "attachment-toggle-4",
-	  NULL,
-	  NULL,
-	  "<Primary><Alt>4",
-	  NULL,
-	  G_CALLBACK (action_attachment_toggle_cb) },
-
-	{ "attachment-toggle-5",
-	  NULL,
-	  NULL,
-	  "<Primary><Alt>5",
-	  NULL,
-	  G_CALLBACK (action_attachment_toggle_cb) },
-
-	{ "attachment-toggle-6",
-	  NULL,
-	  NULL,
-	  "<Primary><Alt>6",
-	  NULL,
-	  G_CALLBACK (action_attachment_toggle_cb) },
-
-	{ "attachment-toggle-7",
-	  NULL,
-	  NULL,
-	  "<Primary><Alt>7",
-	  NULL,
-	  G_CALLBACK (action_attachment_toggle_cb) },
-
-	{ "attachment-toggle-8",
-	  NULL,
-	  NULL,
-	  "<Primary><Alt>8",
-	  NULL,
-	  G_CALLBACK (action_attachment_toggle_cb) },
-
-	{ "attachment-toggle-9",
-	  NULL,
-	  NULL,
-	  "<Primary><Alt>9",
-	  NULL,
-	  G_CALLBACK (action_attachment_toggle_cb) }
-};
 
 static EAttachment *
 mail_display_ref_attachment_from_element (EMailDisplay *display,
@@ -1185,8 +1030,8 @@ mail_display_attachment_expander_clicked_cb (EWebView *web_view,
 static void
 mail_display_attachment_inline_update_actions (EMailDisplay *display)
 {
-	GtkActionGroup *action_group;
-	GtkAction *action;
+	EUIActionGroup *action_group;
+	EUIAction *action;
 	GList *attachments, *link;
 	EAttachmentView *view;
 	guint n_shown = 0;
@@ -1245,43 +1090,42 @@ mail_display_attachment_inline_update_actions (EMailDisplay *display)
 	}
 	g_list_free_full (attachments, g_object_unref);
 
-	action = gtk_action_group_get_action (action_group, "show");
-	gtk_action_set_visible (action, can_show && !shown);
+	action = e_ui_action_group_get_action (action_group, "show");
+	e_ui_action_set_visible (action, can_show && !shown);
 
 	/* Show this action if there are multiple viewable
 	 * attachments, and at least one of them is hidden. */
 	visible = (n_shown + n_hidden > 1) && (n_hidden > 0);
-	action = gtk_action_group_get_action (action_group, "show-all");
-	gtk_action_set_visible (action, visible);
+	action = e_ui_action_group_get_action (action_group, "show-all");
+	e_ui_action_set_visible (action, visible);
 
-	action = gtk_action_group_get_action (action_group, "hide");
-	gtk_action_set_visible (action, can_show && shown);
+	action = e_ui_action_group_get_action (action_group, "hide");
+	e_ui_action_set_visible (action, can_show && shown);
 
 	/* Show this action if there are multiple viewable
 	 * attachments, and at least one of them is shown. */
 	visible = (n_shown + n_hidden > 1) && (n_shown > 0);
-	action = gtk_action_group_get_action (action_group, "hide-all");
-	gtk_action_set_visible (action, visible);
+	action = e_ui_action_group_get_action (action_group, "hide-all");
+	e_ui_action_set_visible (action, visible);
 
-	action = gtk_action_group_get_action (action_group, "zoom-to-100");
-	gtk_action_set_visible (action, can_show && shown && is_image && !zoomed_to_100);
+	action = e_ui_action_group_get_action (action_group, "zoom-to-100");
+	e_ui_action_set_visible (action, can_show && shown && is_image && !zoomed_to_100);
 
-	action = gtk_action_group_get_action (action_group, "zoom-to-window");
-	gtk_action_set_visible (action, can_show && shown && is_image && zoomed_to_100);
+	action = e_ui_action_group_get_action (action_group, "zoom-to-window");
+	e_ui_action_set_visible (action, can_show && shown && is_image && zoomed_to_100);
 }
 
 static void
-mail_display_attachment_menu_deactivate_cb (GtkMenuShell *menu,
-					    gpointer user_data)
+mail_display_attachment_menu_freed_cb (gpointer user_data,
+				       GObject *freed_menu)
 {
-	EMailDisplay *display = user_data;
+	EUIActionGroup *group = user_data;
 
-	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+	g_return_if_fail (E_IS_UI_ACTION_GROUP (group));
 
-	gtk_action_group_set_visible (display->priv->attachment_inline_group, FALSE);
+	e_ui_action_group_set_visible (group, FALSE);
 
-	g_signal_handlers_disconnect_by_func (menu,
-		G_CALLBACK (mail_display_attachment_menu_deactivate_cb), display);
+	g_clear_object (&group);
 }
 
 static void
@@ -1331,18 +1175,19 @@ mail_display_attachment_menu_clicked_cb (EWebView *web_view,
 	if (view && attachment) {
 		GtkWidget *popup_menu;
 
-		popup_menu = e_attachment_view_get_popup_menu (view);
-
-		g_signal_connect (
-			popup_menu, "deactivate",
-			G_CALLBACK (mail_display_attachment_menu_deactivate_cb), display);
-
 		mail_display_attachment_select_path (view, attachment);
 		mail_display_attachment_inline_update_actions (display);
-		gtk_action_group_set_visible (display->priv->attachment_inline_group, TRUE);
+		e_ui_action_group_set_visible (display->priv->attachment_inline_group, TRUE);
 
 		e_attachment_view_update_actions (view);
+
 		popup_menu = e_attachment_view_get_popup_menu (view);
+
+		e_ui_manager_add_action_groups_to_widget (e_web_view_get_ui_manager (web_view), popup_menu);
+		e_ui_manager_add_action_groups_to_widget (e_attachment_view_get_ui_manager (view), popup_menu);
+
+		g_object_weak_ref (G_OBJECT (popup_menu), mail_display_attachment_menu_freed_cb,
+			g_object_ref (display->priv->attachment_inline_group));
 
 		g_object_set (GTK_MENU (popup_menu),
 		              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
@@ -1631,6 +1476,53 @@ mail_display_content_loaded_cb (EWebView *web_view,
 }
 
 static void
+action_open_with_app_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
+{
+	EMailDisplay *self = user_data;
+	GAppInfo *app_info;
+	OpenWithData *data;
+	gpointer parent;
+
+	data = g_hash_table_lookup (self->priv->open_with_apps_hash, GINT_TO_POINTER (g_variant_get_int32 (parameter)));
+	g_return_if_fail (data != NULL);
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (self));
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+	app_info = data->app_info;
+
+	if (!app_info && !e_util_is_running_flatpak ()) {
+		GtkWidget *dialog;
+		GFileInfo *file_info;
+		const gchar *content_type;
+
+		file_info = e_attachment_ref_file_info (data->attachment);
+		g_return_if_fail (file_info != NULL);
+
+		content_type = g_file_info_get_content_type (file_info);
+
+		dialog = gtk_app_chooser_dialog_new_for_content_type (parent, 0, content_type);
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+			GtkAppChooser *app_chooser = GTK_APP_CHOOSER (dialog);
+			app_info = gtk_app_chooser_get_app_info (app_chooser);
+		}
+
+		gtk_widget_destroy (dialog);
+		g_object_unref (file_info);
+	} else if (app_info) {
+		g_object_ref (app_info);
+	}
+
+	if (app_info) {
+		e_attachment_open_async (data->attachment, app_info,
+			(GAsyncReadyCallback) e_attachment_open_handle_error, parent);
+		g_object_unref (app_info);
+	}
+}
+
+static void
 mail_display_set_property (GObject *object,
                            guint property_id,
                            const GValue *value,
@@ -1665,6 +1557,10 @@ mail_display_set_property (GObject *object,
 			e_mail_display_set_remote_content (
 				E_MAIL_DISPLAY (object),
 				g_value_get_object (value));
+			return;
+
+		case PROP_MAIL_READER:
+			g_weak_ref_set (&(E_MAIL_DISPLAY (object)->priv->mail_reader_weakref), g_value_get_object (value));
 			return;
 	}
 
@@ -1733,6 +1629,11 @@ mail_display_get_property (GObject *object,
 				e_mail_display_ref_remote_content (
 				E_MAIL_DISPLAY (object)));
 			return;
+
+		case PROP_MAIL_READER:
+			g_value_take_object (value,
+				e_mail_display_ref_mail_reader (E_MAIL_DISPLAY (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1777,7 +1678,6 @@ mail_display_dispose (GObject *object)
 	g_clear_object (&self->priv->attachment_view);
 	g_clear_object (&self->priv->attachment_inline_group);
 	g_clear_object (&self->priv->attachment_accel_action_group);
-	g_clear_object (&self->priv->attachment_accel_group);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->dispose (object);
@@ -1793,12 +1693,15 @@ mail_display_finalize (GObject *object)
 	g_mutex_lock (&self->priv->remote_content_lock);
 	g_clear_pointer (&self->priv->skipped_remote_content_sites, g_hash_table_destroy);
 	g_clear_pointer (&self->priv->temporary_allow_remote_content, g_hash_table_destroy);
+	g_clear_object (&self->priv->open_with_apps_menu);
+	g_clear_pointer (&self->priv->open_with_apps_hash, g_hash_table_unref);
 	g_slist_free_full (self->priv->insecure_part_ids, g_free);
 	g_hash_table_destroy (self->priv->attachment_flags);
 	g_hash_table_destroy (self->priv->cid_attachments);
 	g_clear_object (&self->priv->remote_content);
 	g_mutex_unlock (&self->priv->remote_content_lock);
 	g_mutex_clear (&self->priv->remote_content_lock);
+	g_weak_ref_clear (&self->priv->mail_reader_weakref);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->finalize (object);
@@ -1891,6 +1794,30 @@ mail_display_schedule_iframes_height_update_cb (WebKitUserContentManager *manage
 	mail_display_schedule_iframes_height_update (mail_display);
 }
 
+static gboolean
+e_mail_display_ui_manager_create_item_cb (EUIManager *manager,
+					  EUIElement *elem,
+					  EUIAction *action,
+					  EUIElementKind for_kind,
+					  GObject **out_item,
+					  gpointer user_data)
+{
+	EMailDisplay *self = user_data;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (self), FALSE);
+
+	if (for_kind != E_UI_ELEMENT_KIND_MENU ||
+	    g_strcmp0 (g_action_get_name (G_ACTION (action)), "EMailDisplay::open-with-app") != 0)
+		return FALSE;
+
+	if (self->priv->open_with_apps_menu)
+		*out_item = G_OBJECT (g_menu_item_new_section (NULL, G_MENU_MODEL (self->priv->open_with_apps_menu)));
+	else
+		*out_item = NULL;
+
+	return TRUE;
+}
+
 static void
 mail_display_constructed (GObject *object)
 {
@@ -1898,7 +1825,7 @@ mail_display_constructed (GObject *object)
 	WebKitUserContentManager *manager;
 	EWebView *web_view;
 	EMailDisplay *display;
-	GtkUIManager *ui_manager;
+	EUIManager *ui_manager;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->constructed (object);
@@ -1934,17 +1861,256 @@ mail_display_constructed (GObject *object)
 
 	ui_manager = e_attachment_view_get_ui_manager (display->priv->attachment_view);
 	if (ui_manager) {
-		GError *error = NULL;
+		static const gchar *attachment_popup_eui =
+			"<eui>"
+			  "<menu id='context'>"
+			    "<placeholder id='inline-actions'>"
+			      "<item action='zoom-to-100'/>"
+			      "<item action='zoom-to-window'/>"
+			      "<item action='show'/>"
+			      "<item action='show-all'/>"
+			      "<separator/>"
+			      "<item action='hide'/>"
+			      "<item action='hide-all'/>"
+			    "</placeholder>"
+			  "</menu>"
+			"</eui>";
 
-		gtk_ui_manager_insert_action_group (ui_manager, display->priv->attachment_inline_group, -1);
+		static const EUIActionEntry attachment_inline_entries[] = {
 
-		display->priv->attachment_inline_ui_id = gtk_ui_manager_add_ui_from_string (ui_manager,
-			attachment_popup_ui, -1, &error);
+			{ "hide",
+			  NULL,
+			  N_("_Hide"),
+			  NULL,
+			  NULL,
+			  action_attachment_hide_cb, NULL, NULL, NULL },
 
-		if (error) {
-			g_warning ("%s: Failed to read attachment_popup_ui: %s", G_STRFUNC, error->message);
-			g_clear_error (&error);
-		}
+			{ "hide-all",
+			  NULL,
+			  N_("Hid_e All"),
+			  NULL,
+			  NULL,
+			  action_attachment_hide_all_cb, NULL, NULL, NULL },
+
+			{ "show",
+			  NULL,
+			  N_("_View Inline"),
+			  NULL,
+			  NULL,
+			  action_attachment_show_cb, NULL, NULL, NULL },
+
+			{ "show-all",
+			  NULL,
+			  N_("Vie_w All Inline"),
+			  NULL,
+			  NULL,
+			  action_attachment_show_all_cb, NULL, NULL, NULL },
+
+			{ "zoom-to-100",
+			  NULL,
+			  N_("_Zoom to 100%"),
+			  NULL,
+			  N_("Zoom the image to its natural size"),
+			  action_attachment_zoom_to_100_cb, NULL, NULL, NULL },
+
+			{ "zoom-to-window",
+			  NULL,
+			  N_("_Zoom to window"),
+			  NULL,
+			  N_("Zoom large images to not be wider than the window width"),
+			  action_attachment_zoom_to_window_cb, NULL, NULL, NULL }
+		};
+
+		e_ui_manager_add_actions_with_eui_data (ui_manager, "e-mail-display-attachment-inline", NULL,
+			attachment_inline_entries, G_N_ELEMENTS (attachment_inline_entries), display, attachment_popup_eui);
+
+		display->priv->attachment_inline_group = g_object_ref (e_ui_manager_get_action_group (ui_manager, "e-mail-display-attachment-inline"));
+		e_ui_action_group_set_visible (display->priv->attachment_inline_group, FALSE);
+
+		gtk_widget_insert_action_group (GTK_WIDGET (display), e_ui_action_group_get_name (display->priv->attachment_inline_group),
+			G_ACTION_GROUP (display->priv->attachment_inline_group));
+	}
+
+	ui_manager = e_web_view_get_ui_manager (web_view);
+	if (ui_manager) {
+		static const gchar *eui =
+			"<eui>"
+			  "<menu id='context'>"
+			    "<placeholder id='custom-actions-1'>"
+			      "<item action='add-to-address-book'/>"
+			      "<item action='send-reply'/>"
+			    "</placeholder>"
+			    "<placeholder id='custom-actions-3'>"
+			      "<item action='allow-remote-content-site'/>"
+			      "<item action='load-remote-content-site'/>"
+			      "<item action='load-remote-content-this'/>"
+			      "<submenu action='search-folder-menu'>"
+				"<item action='search-folder-recipient'/>"
+				"<item action='search-folder-sender'/>"
+			      "</submenu>"
+			      "<item action='EMailDisplay::open-with-app'/>"
+			    "</placeholder>"
+			  "</menu>"
+			"</eui>";
+
+		static const EUIActionEntry accel_entries[] = {
+
+			{ "attachment-toggle-all",
+			  NULL,
+			  "Toggle Attachment All",
+			  "<Primary><Alt>0",
+			  NULL,
+			  action_attachment_toggle_cb, NULL, NULL, NULL },
+
+			{ "attachment-toggle-1",
+			  NULL,
+			  "Toggle Attachment 1",
+			  "<Primary><Alt>1",
+			  NULL,
+			  action_attachment_toggle_cb, NULL, NULL, NULL },
+
+			{ "attachment-toggle-2",
+			  NULL,
+			  "Toggle Attachment 2",
+			  "<Primary><Alt>2",
+			  NULL,
+			  action_attachment_toggle_cb, NULL, NULL, NULL },
+
+			{ "attachment-toggle-3",
+			  NULL,
+			  "Toggle Attachment 3",
+			  "<Primary><Alt>3",
+			  NULL,
+			  action_attachment_toggle_cb, NULL, NULL, NULL },
+
+			{ "attachment-toggle-4",
+			  NULL,
+			  "Toggle Attachment 4",
+			  "<Primary><Alt>4",
+			  NULL,
+			  action_attachment_toggle_cb, NULL, NULL, NULL },
+
+			{ "attachment-toggle-5",
+			  NULL,
+			  "Toggle Attachment 5",
+			  "<Primary><Alt>5",
+			  NULL,
+			  action_attachment_toggle_cb, NULL, NULL, NULL },
+
+			{ "attachment-toggle-6",
+			  NULL,
+			  "Toggle Attachment 6",
+			  "<Primary><Alt>6",
+			  NULL,
+			  action_attachment_toggle_cb, NULL, NULL, NULL },
+
+			{ "attachment-toggle-7",
+			  NULL,
+			  "Toggle Attachment 7",
+			  "<Primary><Alt>7",
+			  NULL,
+			  action_attachment_toggle_cb, NULL, NULL, NULL },
+
+			{ "attachment-toggle-8",
+			  NULL,
+			  "Toggle Attachment 8",
+			  "<Primary><Alt>8",
+			  NULL,
+			  action_attachment_toggle_cb, NULL, NULL, NULL },
+
+			{ "attachment-toggle-9",
+			  NULL,
+			  "Toggle Attachment 9",
+			  "<Primary><Alt>9",
+			  NULL,
+			  action_attachment_toggle_cb, NULL, NULL, NULL }
+		};
+
+		static const EUIActionEntry image_entries[] = {
+
+			{ "allow-remote-content-site",
+			  NULL,
+			  "Allow remote content from...", /* placeholder text, do not localize */
+			  NULL,
+			  NULL,
+			  mail_display_allow_remote_content_site_cb, NULL, NULL, NULL },
+
+			{ "load-remote-content-site",
+			  NULL,
+			  "Load remote content from...", /* placeholder text, do not localize */
+			  NULL,
+			  NULL,
+			  mail_display_load_remote_content_site_cb, NULL, NULL, NULL },
+
+			{ "load-remote-content-this",
+			  NULL,
+			  N_("Load this image"),
+			  NULL,
+			  NULL,
+			  mail_display_load_remote_content_this_cb, NULL, NULL, NULL }
+		};
+
+		static const EUIActionEntry mailto_entries[] = {
+
+			{ "add-to-address-book",
+			  "contact-new",
+			  N_("_Add to Address Book…"),
+			  NULL,
+			  NULL,
+			  NULL /* Handled by EMailReader */, NULL, NULL, NULL },
+
+			{ "search-folder-recipient",
+			  NULL,
+			  N_("_To This Address"),
+			  NULL,
+			  NULL,
+			  NULL /* Handled by EMailReader */, NULL, NULL, NULL },
+
+			{ "search-folder-sender",
+			  NULL,
+			  N_("_From This Address"),
+			  NULL,
+			  NULL,
+			  NULL /* Handled by EMailReader */, NULL, NULL, NULL },
+
+			{ "send-reply",
+			  NULL,
+			  N_("Send _Reply To…"),
+			  NULL,
+			  N_("Send a reply message to this address"),
+			  NULL /* Handled by EMailReader */, NULL, NULL, NULL },
+
+			/*** Menus ***/
+
+			{ "search-folder-menu",
+			  "folder-saved-search",
+			  N_("Create Search _Folder"),
+			  NULL,
+			  NULL,
+			  NULL, NULL, NULL, NULL },
+
+			{ "EMailDisplay::open-with-app",
+			  NULL,
+			  N_("Open with…"),
+			  NULL,
+			  NULL,
+			  action_open_with_app_cb, "i", NULL, NULL }
+		};
+
+		g_signal_connect (ui_manager, "create-item",
+			G_CALLBACK (e_mail_display_ui_manager_create_item_cb), display);
+
+		e_ui_manager_add_actions (ui_manager, "e-mail-display-attachment-accel", NULL,
+			accel_entries, G_N_ELEMENTS (accel_entries), display);
+		e_ui_manager_add_actions (ui_manager, "image", NULL,
+			image_entries, G_N_ELEMENTS (image_entries), display);
+		e_ui_manager_add_actions_with_eui_data (ui_manager, "mailto", NULL,
+			mailto_entries, G_N_ELEMENTS (mailto_entries), display, eui);
+
+		display->priv->attachment_accel_action_group = g_object_ref (e_ui_manager_get_action_group (ui_manager, "e-mail-display-attachment-accel"));
+
+		gtk_widget_insert_action_group (GTK_WIDGET (display), e_ui_action_group_get_name (display->priv->attachment_accel_action_group),
+			G_ACTION_GROUP (display->priv->attachment_accel_action_group));
 	}
 
 	manager = webkit_web_view_get_user_content_manager (WEBKIT_WEB_VIEW (object));
@@ -1982,8 +2148,7 @@ mail_display_style_updated (GtkWidget *widget)
 	mail_display_update_formatter_colors (display);
 
 	/* Chain up to parent's style_updated() method. */
-	GTK_WIDGET_CLASS (e_mail_display_parent_class)->
-		style_updated (widget);
+	GTK_WIDGET_CLASS (e_mail_display_parent_class)->style_updated (widget);
 }
 
 static gboolean
@@ -2028,60 +2193,13 @@ mail_display_image_exists_in_cache (const gchar *uri,
 }
 
 static void
-mail_display_action_open_with_app_info_cb (GtkAction *action,
-					   EMailDisplay *mail_display)
-{
-	EAttachment *attachment;
-	GAppInfo *app_info;
-	gpointer parent;
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (mail_display));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-	attachment = g_object_get_data (G_OBJECT (action), "attachment");
-	app_info = g_object_get_data (G_OBJECT (action), "app-info");
-
-	if (!app_info && !e_util_is_running_flatpak ()) {
-		GtkWidget *dialog;
-		GFileInfo *file_info;
-		const gchar *content_type;
-
-		file_info = e_attachment_ref_file_info (attachment);
-		g_return_if_fail (file_info != NULL);
-
-		content_type = g_file_info_get_content_type (file_info);
-
-		dialog = gtk_app_chooser_dialog_new_for_content_type (parent, 0, content_type);
-		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
-			GtkAppChooser *app_chooser = GTK_APP_CHOOSER (dialog);
-			app_info = gtk_app_chooser_get_app_info (app_chooser);
-		}
-
-		gtk_widget_destroy (dialog);
-		g_object_unref (file_info);
-	} else if (app_info) {
-		g_object_ref (app_info);
-	}
-
-	if (app_info) {
-		e_attachment_open_async (
-			attachment, app_info, (GAsyncReadyCallback)
-			e_attachment_open_handle_error, parent);
-		g_object_unref (app_info);
-	}
-}
-
-static void
 mai_display_fill_open_with (EWebView *web_view,
 			    const gchar *attachment_id)
 {
 	EMailDisplay *mail_display = E_MAIL_DISPLAY (web_view);
 	EAttachment *attachment;
-	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
 	GList *apps, *link;
-
-	g_warn_if_fail (mail_display->priv->open_with_ui_id == 0);
+	gint op_id = 0;
 
 	attachment = g_hash_table_lookup (mail_display->priv->cid_attachments, attachment_id);
 	if (attachment) {
@@ -2113,22 +2231,21 @@ mai_display_fill_open_with (EWebView *web_view,
 		g_hash_table_insert (mail_display->priv->cid_attachments, g_strdup (attachment_id), g_object_ref (attachment));
 	}
 
-	ui_manager = e_web_view_get_ui_manager (web_view);
-	action_group = e_web_view_get_action_group (web_view, "image");
 	apps = e_attachment_list_apps (attachment);
+
+	g_menu_remove_all (mail_display->priv->open_with_apps_menu);
+	g_hash_table_remove_all (mail_display->priv->open_with_apps_hash);
 
 	if (!apps && e_util_is_running_flatpak ())
 		apps = g_list_prepend (apps, NULL);
 
 	for (link = apps; link; link = g_list_next (link)) {
 		GAppInfo *app_info = link->data;
-		GtkAction *action;
+		GMenuItem *menu_item;
 		GIcon *app_icon;
 		const gchar *app_id;
 		const gchar *app_name;
-		gchar *action_tooltip;
-		gchar *action_label;
-		gchar *action_name;
+		gchar *label;
 
 		if (app_info) {
 			app_id = g_app_info_get_id (app_info);
@@ -2147,44 +2264,22 @@ mai_display_fill_open_with (EWebView *web_view,
 		if (g_str_equal (app_id, "org.gnome.Evolution.desktop"))
 			continue;
 
-		action_name = g_strdup_printf ("mail-display-open-with-%s", app_id);
+		if (app_info)
+			label = g_strdup_printf (_("Open With “%s”"), app_name);
+		else
+			label = g_strdup (_("Open With Default Application"));
 
-		if (app_info) {
-			action_label = g_strdup_printf (_("Open With “%s”"), app_name);
-			action_tooltip = g_strdup_printf (_("Open this attachment in %s"), app_name);
-		} else {
-			action_label = g_strdup (_("Open With Default Application"));
-			action_tooltip = g_strdup (_("Open this attachment in default application"));
-		}
+		menu_item = g_menu_item_new (label, NULL);
+		g_menu_item_set_action_and_target_value (menu_item, "e-mail-display-attachment-inline.EMailDisplay::open-with-app", g_variant_new_int32 (op_id));
+		g_menu_item_set_icon (menu_item, app_icon);
+		g_menu_append_item (mail_display->priv->open_with_apps_menu, menu_item);
+		g_clear_object (&menu_item);
 
-		action = gtk_action_new (action_name, action_label, action_tooltip, NULL);
+		g_hash_table_insert (mail_display->priv->open_with_apps_hash, GINT_TO_POINTER (op_id),  open_with_data_new (app_info, attachment));
 
-		gtk_action_set_gicon (action, app_icon);
+		op_id++;
 
-		if (app_info) {
-			g_object_set_data_full (G_OBJECT (action), "app-info",
-				g_object_ref (app_info), g_object_unref);
-		}
-
-		g_object_set_data_full (G_OBJECT (action), "attachment",
-			g_object_ref (attachment), g_object_unref);
-
-		g_signal_connect (action, "activate",
-			G_CALLBACK (mail_display_action_open_with_app_info_cb), mail_display);
-
-		gtk_action_group_add_action (action_group, action);
-
-		if (!mail_display->priv->open_with_ui_id)
-			mail_display->priv->open_with_ui_id = gtk_ui_manager_new_merge_id (ui_manager);
-
-		gtk_ui_manager_add_ui (
-			ui_manager, mail_display->priv->open_with_ui_id,
-			"/context/custom-actions-3/open-actions", action_name,
-			action_name, GTK_UI_MANAGER_AUTO, FALSE);
-
-		g_free (action_name);
-		g_free (action_label);
-		g_free (action_tooltip);
+		g_free (label);
 
 		if (!app_info) {
 			apps = g_list_remove (apps, app_info);
@@ -2193,26 +2288,16 @@ mai_display_fill_open_with (EWebView *web_view,
 	}
 
 	if (link != apps && !e_util_is_running_flatpak ()) {
-		GtkAction *action;
-		const gchar *action_name = "mail-display-open-with-other";
+		GMenuItem *menu_item;
 
-		action = gtk_action_new (action_name, _("Open With Other Application…"), NULL, NULL);
+		menu_item = g_menu_item_new (_("Open With Other Application…"), NULL);
+		g_menu_item_set_action_and_target_value (menu_item, "e-mail-display-attachment-inline.EMailDisplay::open-with-app", g_variant_new_int32 (op_id));
+		g_menu_append_item (mail_display->priv->open_with_apps_menu, menu_item);
+		g_clear_object (&menu_item);
 
-		g_object_set_data_full (G_OBJECT (action), "attachment",
-			g_object_ref (attachment), g_object_unref);
+		g_hash_table_insert (mail_display->priv->open_with_apps_hash, GINT_TO_POINTER (op_id), open_with_data_new (NULL, attachment));
 
-		g_signal_connect (action, "activate",
-			G_CALLBACK (mail_display_action_open_with_app_info_cb), mail_display);
-
-		gtk_action_group_add_action (action_group, action);
-
-		if (!mail_display->priv->open_with_ui_id)
-			mail_display->priv->open_with_ui_id = gtk_ui_manager_new_merge_id (ui_manager);
-
-		gtk_ui_manager_add_ui (
-			ui_manager, mail_display->priv->open_with_ui_id,
-			"/context/custom-actions-3/open-actions", action_name,
-			action_name, GTK_UI_MANAGER_AUTO, FALSE);
+		op_id++;
 	}
 
 	g_list_free_full (apps, g_object_unref);
@@ -2220,45 +2305,18 @@ mai_display_fill_open_with (EWebView *web_view,
 }
 
 static void
-mail_display_cleanup_open_with (EWebView *web_view)
-{
-	EMailDisplay *mail_display = E_MAIL_DISPLAY (web_view);
-	GtkActionGroup *action_group;
-	GList *actions, *link;
-
-	if (mail_display->priv->open_with_ui_id) {
-		GtkUIManager *ui_manager;
-
-		ui_manager = e_web_view_get_ui_manager (web_view);
-
-		gtk_ui_manager_remove_ui (ui_manager, mail_display->priv->open_with_ui_id);
-		mail_display->priv->open_with_ui_id = 0;
-	}
-
-	action_group = e_web_view_get_action_group (web_view, "image");
-	actions = gtk_action_group_list_actions (action_group);
-
-	for (link = actions; link; link = g_list_next (link)) {
-		GtkAction *action = link->data;
-		const gchar *name = gtk_action_get_name (action);
-		if (name && g_str_has_prefix (name, "mail-display-open-with-"))
-			gtk_action_group_remove_action (action_group, action);
-	}
-
-	g_list_free (actions);
-}
-
-static void
 mail_display_before_popup_event (EWebView *web_view,
 				 const gchar *uri)
 {
+	EMailDisplay *self = E_MAIL_DISPLAY (web_view);
 	const gchar *cursor_image_source;
 	gchar *popup_iframe_src = NULL, *popup_iframe_id = NULL;
 	GList *list, *link;
 
 	e_web_view_get_last_popup_place (web_view, &popup_iframe_src, &popup_iframe_id, NULL, NULL);
 
-	mail_display_cleanup_open_with (web_view);
+	g_menu_remove_all (self->priv->open_with_apps_menu);
+	g_hash_table_remove_all (self->priv->open_with_apps_hash);
 
 	list = e_extensible_list_extensions (E_EXTENSIBLE (web_view), E_TYPE_EXTENSION);
 
@@ -2273,7 +2331,7 @@ mail_display_before_popup_event (EWebView *web_view,
 
 	cursor_image_source = e_web_view_get_cursor_image_src (web_view);
 	if (cursor_image_source) {
-		GtkAction *action;
+		EUIAction *action;
 		GUri *img_uri;
 		gboolean img_is_available;
 		gboolean can_show;
@@ -2291,32 +2349,32 @@ mail_display_before_popup_event (EWebView *web_view,
 			g_ascii_strcasecmp (g_uri_get_scheme (img_uri), "evo-https") == 0);
 
 		action = e_web_view_get_action (web_view, "allow-remote-content-site");
-		gtk_action_set_sensitive (action, can_show);
-		gtk_action_set_visible (action, can_show);
+		e_ui_action_set_sensitive (action, can_show);
+		e_ui_action_set_visible (action, can_show);
 
 		if (can_show) {
 			gchar *label;
 
 			label = g_strdup_printf (_("Allow remote content from %s"), g_uri_get_host (img_uri));
-			gtk_action_set_label (action, label);
+			e_ui_action_set_label (action, label);
 			g_free (label);
 		}
 
 		action = e_web_view_get_action (web_view, "load-remote-content-site");
-		gtk_action_set_sensitive (action, can_show);
-		gtk_action_set_visible (action, can_show);
+		e_ui_action_set_sensitive (action, can_show);
+		e_ui_action_set_visible (action, can_show);
 
 		if (can_show) {
 			gchar *label;
 
 			label = g_strdup_printf (_("Load remote content from %s"), g_uri_get_host (img_uri));
-			gtk_action_set_label (action, label);
+			e_ui_action_set_label (action, label);
 			g_free (label);
 		}
 
 		action = e_web_view_get_action (web_view, "load-remote-content-this");
-		gtk_action_set_sensitive (action, can_show);
-		gtk_action_set_visible (action, can_show);
+		e_ui_action_set_sensitive (action, can_show);
+		e_ui_action_set_visible (action, can_show);
 
 		g_clear_pointer (&img_uri, g_uri_unref);
 	}
@@ -2924,6 +2982,18 @@ e_mail_display_class_init (EMailDisplayClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_MAIL_READER,
+		g_param_spec_object (
+			"mail-reader",
+			"a mail reader this instance is part of",
+			NULL,
+			E_TYPE_MAIL_READER,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
 	signals[REMOTE_CONTENT_CLICKED] = g_signal_new (
 		"remote-content-clicked",
 		G_TYPE_FROM_CLASS (class),
@@ -2948,45 +3018,21 @@ e_mail_display_class_init (EMailDisplayClass *class)
 static void
 e_mail_display_init (EMailDisplay *display)
 {
-	GtkUIManager *ui_manager;
-	GtkActionGroup *actions;
-	GList *acts_list, *link;
 	GSettings *settings;
 
 	display->priv = e_mail_display_get_instance_private (display);
 
+	g_weak_ref_init (&display->priv->mail_reader_weakref, NULL);
+
 	display->priv->attachment_store = E_ATTACHMENT_STORE (e_attachment_store_new ());
 	display->priv->attachment_flags = g_hash_table_new (g_direct_hash, g_direct_equal);
 	display->priv->cid_attachments = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
-	display->priv->attachment_inline_group = gtk_action_group_new ("e-mail-display-attachment-inline");
-	display->priv->attachment_accel_action_group = gtk_action_group_new ("e-mail-display-attachment-accel");
-	display->priv->attachment_accel_group = gtk_accel_group_new ();
+	display->priv->open_with_apps_menu = g_menu_new ();
+	display->priv->open_with_apps_hash = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, open_with_data_free);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	display->priv->skip_insecure_parts = !g_settings_get_boolean (settings, "show-insecure-parts");
 	g_object_unref (settings);
-
-	gtk_action_group_add_actions (
-		display->priv->attachment_inline_group, attachment_inline_entries,
-		G_N_ELEMENTS (attachment_inline_entries), display);
-	gtk_action_group_set_visible (display->priv->attachment_inline_group, FALSE);
-
-	gtk_action_group_set_accel_group (display->priv->attachment_accel_action_group,
-		display->priv->attachment_accel_group);
-
-	gtk_action_group_add_actions (
-		display->priv->attachment_accel_action_group, accel_entries,
-		G_N_ELEMENTS (accel_entries), display);
-
-	acts_list = gtk_action_group_list_actions (display->priv->attachment_accel_action_group);
-
-	for (link = acts_list; link; link = g_list_next (link)) {
-		GtkAction *action = link->data;
-
-		gtk_action_connect_accelerator (action);
-	}
-
-	g_list_free (acts_list);
 
 	g_signal_connect (display->priv->attachment_store, "attachment-added",
 		G_CALLBACK (mail_display_attachment_added_cb), display);
@@ -3043,19 +3089,6 @@ e_mail_display_init (EMailDisplay *display)
 	g_signal_connect (
 		display, "content-loaded",
 		G_CALLBACK (mail_display_content_loaded_cb), NULL);
-
-	actions = e_web_view_get_action_group (E_WEB_VIEW (display), "mailto");
-	gtk_action_group_add_actions (
-		actions, mailto_entries,
-		G_N_ELEMENTS (mailto_entries), display);
-
-	actions = e_web_view_get_action_group (E_WEB_VIEW (display), "image");
-	gtk_action_group_add_actions (
-		actions, image_entries,
-		G_N_ELEMENTS (image_entries), display);
-
-	ui_manager = e_web_view_get_ui_manager (E_WEB_VIEW (display));
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
 
 	g_mutex_init (&display->priv->remote_content_lock);
 	display->priv->remote_content = NULL;
@@ -3152,11 +3185,21 @@ e_mail_display_claim_attachment (EMailFormatter *formatter,
 }
 
 GtkWidget *
-e_mail_display_new (EMailRemoteContent *remote_content)
+e_mail_display_new (EMailRemoteContent *remote_content,
+		    EMailReader *mail_reader)
 {
 	return g_object_new (E_TYPE_MAIL_DISPLAY,
 		"remote-content", remote_content,
+		"mail-reader", mail_reader,
 		NULL);
+}
+
+EMailReader *
+e_mail_display_ref_mail_reader (EMailDisplay *display)
+{
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+
+	return g_weak_ref_get (&display->priv->mail_reader_weakref);
 }
 
 EAttachmentStore *
@@ -3535,11 +3578,11 @@ e_mail_display_reload (EMailDisplay *display)
 		(GSourceFunc) do_reload_display, display, NULL);
 }
 
-GtkAction *
+EUIAction *
 e_mail_display_get_action (EMailDisplay *display,
                            const gchar *action_name)
 {
-	GtkAction *action;
+	EUIAction *action;
 
 	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
@@ -3695,34 +3738,6 @@ e_mail_display_process_magic_spacebar (EMailDisplay *display,
 		towards_bottom);
 
 	return TRUE;
-}
-
-gboolean
-e_mail_display_need_key_event (EMailDisplay *mail_display,
-			       const GdkEventKey *event)
-{
-	GtkAccelGroup *accel_group;
-	GdkModifierType accel_mods;
-	GQuark accel_quark;
-	gchar *accel_name;
-
-	if (!event)
-		return FALSE;
-
-	g_return_val_if_fail (E_IS_MAIL_DISPLAY (mail_display), FALSE);
-
-	accel_group = gtk_action_group_get_accel_group (mail_display->priv->attachment_accel_action_group);
-
-	if (!accel_group)
-		return FALSE;
-
-	accel_mods = event->state & gtk_accelerator_get_default_mod_mask ();
-	accel_name = gtk_accelerator_name (event->keyval, accel_mods);
-	accel_quark = g_quark_from_string (accel_name);
-	g_free (accel_name);
-
-	return gtk_accel_group_activate (accel_group, accel_quark, G_OBJECT (mail_display),
-		event->keyval, accel_mods);
 }
 
 gboolean

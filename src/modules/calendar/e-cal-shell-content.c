@@ -785,15 +785,13 @@ cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
 
 	if (view_kind != E_CAL_VIEW_KIND_LIST) {
 		EShellView *shell_view;
-		EShellWindow *shell_window;
 
 		shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (cal_shell_content));
-		shell_window = e_shell_view_get_shell_window (shell_view);
 
 		/* Reset these two filters, because they force the List View */
-		if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (CALENDAR_FILTER_ACTIVE_APPOINTMENTS))) ||
-		    gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS))))
-			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (ACTION (CALENDAR_FILTER_ANY_CATEGORY)), TRUE);
+		if (e_ui_action_get_active (ACTION (CALENDAR_FILTER_ACTIVE_APPOINTMENTS)) ||
+		    e_ui_action_get_active (ACTION (CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS)))
+			e_ui_action_set_active (ACTION (CALENDAR_FILTER_ANY_CATEGORY), TRUE);
 	}
 
 	e_cal_shell_content_set_current_view_id (cal_shell_content, view_kind);
@@ -1556,11 +1554,14 @@ cal_shell_content_view_created (ECalBaseShellContent *cal_base_shell_content)
 	gal_view_instance_load (view_instance);
 
 	/* Keep the toolbar view buttons in sync with the calendar. */
-	e_binding_bind_property (
+	e_binding_bind_property_full (
 		cal_shell_content, "current-view-id",
-		ACTION (CALENDAR_VIEW_DAY), "current-value",
+		ACTION (CALENDAR_VIEW_DAY), "state",
 		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		G_BINDING_SYNC_CREATE,
+		e_ui_action_util_gvalue_to_enum_state,
+		e_ui_action_util_enum_state_to_gvalue,
+		NULL, NULL);
 
 	e_signal_connect_notify (
 		model, "notify::work-day-monday",
@@ -2264,7 +2265,6 @@ e_cal_shell_content_set_current_view_id (ECalShellContent *cal_shell_content,
 					 ECalViewKind view_kind)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	time_t start_time = -1, end_time = -1;
 	gint ii;
 
@@ -2336,9 +2336,8 @@ e_cal_shell_content_set_current_view_id (ECalShellContent *cal_shell_content,
 	cal_shell_content_switch_list_view (cal_shell_content, cal_shell_content->priv->current_view, view_kind);
 
 	shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (cal_shell_content));
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	gtk_action_set_sensitive (ACTION (CALENDAR_PREVIEW_MENU), view_kind == E_CAL_VIEW_KIND_YEAR);
+	e_ui_action_set_visible (ACTION (CALENDAR_PREVIEW_MENU), view_kind == E_CAL_VIEW_KIND_YEAR);
 
 	cal_shell_content->priv->current_view = view_kind;
 

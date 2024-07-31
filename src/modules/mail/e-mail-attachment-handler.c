@@ -36,29 +36,6 @@ struct _EMailAttachmentHandlerPrivate {
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailAttachmentHandler, e_mail_attachment_handler, E_TYPE_ATTACHMENT_HANDLER, 0,
 	G_ADD_PRIVATE_DYNAMIC (EMailAttachmentHandler))
 
-static const gchar *ui =
-"<ui>"
-"  <popup name='context'>"
-"    <placeholder name='custom-actions'>"
-"      <menuitem action='mail-import-pgp-key'/>"
-"      <separator/>"
-"      <menuitem action='mail-message-edit'/>"
-"      <separator/>"
-"      <menuitem action='mail-reply-sender'/>"
-"      <menuitem action='mail-reply-list'/>"
-"      <menuitem action='mail-reply-all'/>"
-"      <menuitem action='mail-forward'/>"
-"      <menu action='mail-forward-as-menu'>"
-"        <menuitem action='mail-forward-attached'/>"
-"        <menuitem action='mail-forward-inline'/>"
-"        <menuitem action='mail-forward-quoted'/>"
-"        <separator/>"
-"        <menuitem action='mail-redirect'/>"
-"      </menu>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
 /* Note: Do not use the info field. */
 static GtkTargetEntry target_table[] = {
 	{ (gchar *) "message/rfc822",	0, 0 },
@@ -249,9 +226,11 @@ mail_attachment_handler_forward_with_style (EAttachmentHandler *handler,
 }
 
 static void
-mail_attachment_handler_forward (GtkAction *action,
-                                 EAttachmentHandler *handler)
+mail_attachment_handler_forward (EUIAction *action,
+				 GVariant *parameter,
+				 gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
 	GSettings *settings;
 	EMailForwardStyle style;
 
@@ -287,30 +266,41 @@ mail_attachment_handler_reply (EAttachmentHandler *handler,
 }
 
 static void
-mail_attachment_handler_reply_all (GtkAction *action,
-                                   EAttachmentHandler *handler)
+mail_attachment_handler_reply_all (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
+
 	mail_attachment_handler_reply (handler, E_MAIL_REPLY_TO_ALL);
 }
 
 static void
-mail_attachment_handler_reply_list (GtkAction *action,
-                                    EAttachmentHandler *handler)
+mail_attachment_handler_reply_list (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
+
 	mail_attachment_handler_reply (handler, E_MAIL_REPLY_TO_LIST);
 }
 
 static void
-mail_attachment_handler_reply_sender (GtkAction *action,
-                                      EAttachmentHandler *handler)
+mail_attachment_handler_reply_sender (EUIAction *action,
+				      GVariant *parameter,
+				      gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
+
 	mail_attachment_handler_reply (handler, E_MAIL_REPLY_TO_SENDER);
 }
 
 static void
-mail_attachment_handler_message_edit (GtkAction *action,
-				      EAttachmentHandler *handler)
+mail_attachment_handler_message_edit (EUIAction *action,
+				      GVariant *parameter,
+				      gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
 	EMailAttachmentHandler *self = E_MAIL_ATTACHMENT_HANDLER (handler);
 	CamelMimeMessage *message;
 	CamelFolder *folder;
@@ -331,29 +321,40 @@ mail_attachment_handler_message_edit (GtkAction *action,
 }
 
 static void
-mail_attachment_handler_forward_attached (GtkAction *action,
-					  EAttachmentHandler *handler)
+mail_attachment_handler_forward_attached (EUIAction *action,
+					  GVariant *parameter,
+					  gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
+
 	mail_attachment_handler_forward_with_style (handler, E_MAIL_FORWARD_STYLE_ATTACHED);
 }
 static void
-mail_attachment_handler_forward_inline (GtkAction *action,
-					     EAttachmentHandler *handler)
+mail_attachment_handler_forward_inline (EUIAction *action,
+					GVariant *parameter,
+					gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
+
 	mail_attachment_handler_forward_with_style (handler, E_MAIL_FORWARD_STYLE_INLINE);
 }
 
 static void
-mail_attachment_handler_forward_quoted (GtkAction *action,
-					EAttachmentHandler *handler)
+mail_attachment_handler_forward_quoted (EUIAction *action,
+					GVariant *parameter,
+					gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
+
 	mail_attachment_handler_forward_with_style (handler, E_MAIL_FORWARD_STYLE_QUOTED);
 }
 
 static void
-mail_attachment_handler_redirect (GtkAction *action,
-				  EAttachmentHandler *handler)
+mail_attachment_handler_redirect (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
 	EMailAttachmentHandler *self = E_MAIL_ATTACHMENT_HANDLER (handler);
 	CamelMimeMessage *message;
 	CreateComposerData *ccd;
@@ -373,9 +374,11 @@ mail_attachment_handler_redirect (GtkAction *action,
 }
 
 static void
-action_mail_import_pgp_key_cb (GtkAction *action,
-			       EAttachmentHandler *handler)
+action_mail_import_pgp_key_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EAttachmentHandler *handler = user_data;
 	EAttachmentView *view;
 	EAttachment *attachment;
 	EAttachmentStore *store;
@@ -440,89 +443,6 @@ action_mail_import_pgp_key_cb (GtkAction *action,
 
 	g_clear_object (&part);
 }
-
-static GtkActionEntry standard_entries[] = {
-
-	{ "mail-forward",
-	  "mail-forward",
-	  N_("_Forward"),
-	  NULL,
-	  N_("Forward the selected message to someone"),
-	  G_CALLBACK (mail_attachment_handler_forward) },
-
-	{ "mail-reply-all",
-	  "mail-reply-all",
-	  N_("Reply to _All"),
-	  NULL,
-	  N_("Compose a reply to all the recipients of the selected message"),
-	  G_CALLBACK (mail_attachment_handler_reply_all) },
-
-	{ "mail-reply-list",
-	  NULL,
-	  N_("Reply to _List"),
-	  NULL,
-	  N_("Compose a reply to the mailing list of the selected message"),
-	  G_CALLBACK (mail_attachment_handler_reply_list) },
-
-	{ "mail-reply-sender",
-	  "mail-reply-sender",
-	  N_("_Reply to Sender"),
-	  NULL,
-	  N_("Compose a reply to the sender of the selected message"),
-	  G_CALLBACK (mail_attachment_handler_reply_sender) },
-
-	{ "mail-message-edit",
-	  NULL,
-	  N_("_Edit as New Message…"),
-	  NULL,
-	  N_("Open the selected messages in the composer for editing"),
-	  G_CALLBACK (mail_attachment_handler_message_edit) },
-
-	{ "mail-forward-as-menu",
-	  NULL,
-	  N_("F_orward As"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-forward-attached",
-	  NULL,
-	  N_("_Attached"),
-	  NULL,
-	  N_("Forward the selected message to someone as an attachment"),
-	  G_CALLBACK (mail_attachment_handler_forward_attached) },
-
-	{ "mail-forward-inline",
-	  NULL,
-	  N_("_Inline"),
-	  NULL,
-	  N_("Forward the selected message in the body of a new message"),
-	  G_CALLBACK (mail_attachment_handler_forward_inline) },
-
-	{ "mail-forward-quoted",
-	  NULL,
-	  N_("_Quoted"),
-	  NULL,
-	  N_("Forward the selected message quoted like a reply"),
-	  G_CALLBACK (mail_attachment_handler_forward_quoted) },
-
-	{ "mail-redirect",
-	  NULL,
-	  N_("Re_direct"),
-	  NULL,
-	  N_("Redirect (bounce) the selected message to someone"),
-	  G_CALLBACK (mail_attachment_handler_redirect) }
-};
-
-static GtkActionEntry custom_entries[] = {
-
-	{ "mail-import-pgp-key",
-	  "stock_signature",
-	  N_("Import OpenP_GP key…"),
-	  NULL,
-	  N_("Import Pretty Good Privacy (OpenPGP) key"),
-	  G_CALLBACK (action_mail_import_pgp_key_cb) }
-};
 
 static void
 call_attachment_load_handle_error (GObject *source_object,
@@ -773,8 +693,8 @@ mail_attachment_handler_update_actions (EAttachmentView *view,
 {
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
-	GtkActionGroup *action_group;
-	GtkAction *action;
+	EUIActionGroup *action_group;
+	EUIAction *action;
 	GList *selected;
 	gboolean visible = FALSE, has_list_post = FALSE, can_import_pgp_key = FALSE;
 
@@ -812,16 +732,15 @@ mail_attachment_handler_update_actions (EAttachmentView *view,
 
 exit:
 	action_group = e_attachment_view_get_action_group (view, "mail");
-	gtk_action_group_set_visible (action_group, visible);
+	e_ui_action_group_set_visible (action_group, visible);
 
-	action = gtk_action_group_get_action (action_group, "mail-reply-list");
-	gtk_action_set_visible (action, has_list_post);
+	action = e_ui_action_group_get_action (action_group, "mail-reply-list");
+	e_ui_action_set_visible (action, has_list_post);
 
 	action = e_attachment_view_get_action (view, "mail-import-pgp-key");
-	gtk_action_set_visible (action, can_import_pgp_key);
+	e_ui_action_set_visible (action, can_import_pgp_key);
 
-	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
-	g_list_free (selected);
+	g_list_free_full (selected, g_object_unref);
 }
 
 static void
@@ -838,16 +757,117 @@ mail_attachment_handler_dispose (GObject *object)
 static void
 mail_attachment_handler_constructed (GObject *object)
 {
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='context'>"
+		    "<placeholder id='custom-actions'>"
+		      "<item action='mail-import-pgp-key'/>"
+		      "<separator/>"
+		      "<item action='mail-message-edit'/>"
+		      "<separator/>"
+		      "<item action='mail-reply-sender'/>"
+		      "<item action='mail-reply-list'/>"
+		      "<item action='mail-reply-all'/>"
+		      "<item action='mail-forward'/>"
+		      "<submenu action='mail-forward-as-menu'>"
+			"<item action='mail-forward-attached'/>"
+			"<item action='mail-forward-inline'/>"
+			"<item action='mail-forward-quoted'/>"
+			"<separator/>"
+			"<item action='mail-redirect'/>"
+		      "</submenu>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry mail_entries[] = {
+
+		{ "mail-forward",
+		  "mail-forward",
+		  N_("_Forward"),
+		  NULL,
+		  N_("Forward the selected message to someone"),
+		  mail_attachment_handler_forward, NULL, NULL, NULL },
+
+		{ "mail-reply-all",
+		  "mail-reply-all",
+		  N_("Reply to _All"),
+		  NULL,
+		  N_("Compose a reply to all the recipients of the selected message"),
+		  mail_attachment_handler_reply_all, NULL, NULL, NULL },
+
+		{ "mail-reply-list",
+		  NULL,
+		  N_("Reply to _List"),
+		  NULL,
+		  N_("Compose a reply to the mailing list of the selected message"),
+		  mail_attachment_handler_reply_list, NULL, NULL, NULL },
+
+		{ "mail-reply-sender",
+		  "mail-reply-sender",
+		  N_("_Reply to Sender"),
+		  NULL,
+		  N_("Compose a reply to the sender of the selected message"),
+		  mail_attachment_handler_reply_sender, NULL, NULL, NULL },
+
+		{ "mail-message-edit",
+		  NULL,
+		  N_("_Edit as New Message…"),
+		  NULL,
+		  N_("Open the selected messages in the composer for editing"),
+		  mail_attachment_handler_message_edit, NULL, NULL, NULL },
+
+		{ "mail-forward-as-menu",
+		  NULL,
+		  N_("F_orward As"),
+		  NULL,
+		  NULL,
+		  NULL, NULL, NULL, NULL },
+
+		{ "mail-forward-attached",
+		  NULL,
+		  N_("_Attached"),
+		  NULL,
+		  N_("Forward the selected message to someone as an attachment"),
+		  mail_attachment_handler_forward_attached, NULL, NULL, NULL },
+
+		{ "mail-forward-inline",
+		  NULL,
+		  N_("_Inline"),
+		  NULL,
+		  N_("Forward the selected message in the body of a new message"),
+		  mail_attachment_handler_forward_inline, NULL, NULL, NULL },
+
+		{ "mail-forward-quoted",
+		  NULL,
+		  N_("_Quoted"),
+		  NULL,
+		  N_("Forward the selected message quoted like a reply"),
+		  mail_attachment_handler_forward_quoted, NULL, NULL, NULL },
+
+		{ "mail-redirect",
+		  NULL,
+		  N_("Re_direct"),
+		  NULL,
+		  N_("Redirect (bounce) the selected message to someone"),
+		  mail_attachment_handler_redirect, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry custom_entries[] = {
+
+		{ "mail-import-pgp-key",
+		  "stock_signature",
+		  N_("Import OpenP_GP key…"),
+		  NULL,
+		  N_("Import Pretty Good Privacy (OpenPGP) key"),
+		  action_mail_import_pgp_key_cb, NULL, NULL, NULL }
+	};
+
 	EMailAttachmentHandler *self = E_MAIL_ATTACHMENT_HANDLER (object);
 	EShell *shell;
 	EShellBackend *shell_backend;
-	EAttachmentHandler *handler;
 	EAttachmentView *view;
-	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
-	GError *error = NULL;
-
-	handler = E_ATTACHMENT_HANDLER (object);
+	EUIManager *ui_manager;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_attachment_handler_parent_class)->constructed (object);
@@ -856,40 +876,29 @@ mail_attachment_handler_constructed (GObject *object)
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 	self->priv->backend = E_MAIL_BACKEND (g_object_ref (shell_backend));
 
-	view = e_attachment_handler_get_view (handler);
-
-	action_group = e_attachment_view_add_action_group (view, "mail");
-	gtk_action_group_add_actions (
-		action_group, standard_entries,
-		G_N_ELEMENTS (standard_entries), handler);
-
-	action_group = e_attachment_view_add_action_group (view, "mail-custom");
-	gtk_action_group_add_actions (
-		action_group, custom_entries,
-		G_N_ELEMENTS (custom_entries), handler);
-
+	view = e_attachment_handler_get_view (E_ATTACHMENT_HANDLER (self));
 	ui_manager = e_attachment_view_get_ui_manager (view);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	e_ui_manager_add_actions (ui_manager, "mail", NULL,
+		mail_entries, G_N_ELEMENTS (mail_entries), self);
+
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "mail-custom", NULL,
+		custom_entries, G_N_ELEMENTS (custom_entries), self, eui);
 
 	g_signal_connect (
 		view, "update-actions",
 		G_CALLBACK (mail_attachment_handler_update_actions),
-		handler);
+		self);
 
 	g_signal_connect (
 		view, "drag-data-received",
 		G_CALLBACK (mail_attachment_handler_message_rfc822),
-		handler);
+		self);
 
 	g_signal_connect (
 		view, "drag-data-received",
 		G_CALLBACK (mail_attachment_handler_x_uid_list),
-		handler);
+		self);
 }
 
 static GdkDragAction

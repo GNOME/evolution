@@ -21,6 +21,7 @@
 #ifndef E_SHELL_WINDOW_H
 #define E_SHELL_WINDOW_H
 
+#include <e-util/e-util.h>
 #include <shell/e-shell.h>
 
 /* Standard GObject macros */
@@ -69,16 +70,6 @@ struct _EShellWindowClass {
 	void		(*close_alert)		(EShellWindow *shell_window);
 	void		(*shell_view_created)	(EShellWindow *shell_window,
 						 struct _EShellView *shell_view);
-
-	/* These are all protected methods.  Not for public use. */
-	GtkWidget *	(*construct_menubar)	(EShellWindow *shell_window);
-	GtkWidget *	(*construct_toolbar)	(EShellWindow *shell_window);
-	GtkWidget *	(*construct_sidebar)	(EShellWindow *shell_window);
-	GtkWidget *	(*construct_content)	(EShellWindow *shell_window);
-	GtkWidget *	(*construct_taskbar)	(EShellWindow *shell_window);
-	struct _EShellView *
-			(*create_shell_view)	(EShellWindow *shell_window,
-						 const gchar *view_name);
 };
 
 GType		e_shell_window_get_type		(void);
@@ -93,24 +84,17 @@ struct _EShellView *
 struct _EShellView *
 		e_shell_window_peek_shell_view	(EShellWindow *shell_window,
 						 const gchar *view_name);
-GtkAction *	e_shell_window_get_shell_view_action
+EUIAction *	e_shell_window_get_shell_view_action
 						(EShellWindow *shell_window,
 						 const gchar *view_name);
 GtkWidget *	e_shell_window_get_alert_bar	(EShellWindow *shell_window);
 EFocusTracker *	e_shell_window_get_focus_tracker
 						(EShellWindow *shell_window);
-GtkUIManager *	e_shell_window_get_ui_manager	(EShellWindow *shell_window);
-GtkAction *	e_shell_window_get_action	(EShellWindow *shell_window,
+EUIAction *	e_shell_window_get_ui_action	(EShellWindow *shell_window,
 						 const gchar *action_name);
-void		e_shell_window_add_action_group_full
+EUIActionGroup *e_shell_window_get_ui_action_group
 						(EShellWindow *shell_window,
-						 const gchar *group_name,
-						 const gchar *for_view_name);
-GtkActionGroup *e_shell_window_get_action_group	(EShellWindow *shell_window,
 						 const gchar *group_name);
-GtkWidget *	e_shell_window_get_managed_widget
-						(EShellWindow *shell_window,
-						 const gchar *widget_path);
 const gchar *	e_shell_window_get_active_view	(EShellWindow *shell_window);
 void		e_shell_window_set_active_view	(EShellWindow *shell_window,
 						 const gchar *view_name);
@@ -119,31 +103,6 @@ void		e_shell_window_set_safe_mode	(EShellWindow *shell_window,
 						 gboolean safe_mode);
 void		e_shell_window_add_action_group (EShellWindow *shell_window,
 						 const gchar *group_name);
-gboolean	e_shell_window_get_menubar_visible
-						(EShellWindow *shell_window);
-void		e_shell_window_set_menubar_visible
-						(EShellWindow *shell_window,
-						 gboolean menubar_visible);
-gboolean	e_shell_window_get_sidebar_visible
-						(EShellWindow *shell_window);
-void		e_shell_window_set_sidebar_visible
-						(EShellWindow *shell_window,
-						 gboolean sidebar_visible);
-gboolean	e_shell_window_get_switcher_visible
-						(EShellWindow *shell_window);
-void		e_shell_window_set_switcher_visible
-						(EShellWindow *shell_window,
-						 gboolean switcher_visible);
-gboolean	e_shell_window_get_taskbar_visible
-						(EShellWindow *shell_window);
-void		e_shell_window_set_taskbar_visible
-						(EShellWindow *shell_window,
-						 gboolean taskbar_visible);
-gboolean	e_shell_window_get_toolbar_visible
-						(EShellWindow *shell_window);
-void		e_shell_window_set_toolbar_visible
-						(EShellWindow *shell_window,
-						 gboolean toolbar_visible);
 
 /* Helper function to open clients from shell's client cache in a dedicated
    thread with a callback being called in the main thread */
@@ -159,20 +118,17 @@ void		e_shell_window_connect_client	(EShellWindow *shell_window,
 						 gpointer user_data,
 						 GDestroyNotify destroy_user_data);
 
-gboolean	e_shell_window_get_need_input	(EShellWindow *shell_window,
-						 GdkEventKey *event);
-
 /* These should be called from the shell backend's window_created() handler. */
 
 void		e_shell_window_register_new_item_actions
 						(EShellWindow *shell_window,
 						 const gchar *backend_name,
-						 GtkActionEntry *entries,
+						 const EUIActionEntry *entries,
 						 guint n_entries);
 void		e_shell_window_register_new_source_actions
 						(EShellWindow *shell_window,
 						 const gchar *backend_name,
-						 GtkActionEntry *entries,
+						 const EUIActionEntry *entries,
 						 guint n_entries);
 
 G_END_DECLS

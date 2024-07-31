@@ -475,13 +475,13 @@ composer_presend_check_recipients (EMsgComposer *composer,
 			"prompt-on-many-to-cc-recips",
 			"mail:ask-many-to-cc-recips",
 			head, msg, NULL)) {
-			GtkAction *action;
+			EUIAction *action;
 
 			g_free (head);
 			g_free (msg);
 
 			action = E_COMPOSER_ACTION_VIEW_BCC (composer);
-			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+			e_ui_action_set_active (action, TRUE);
 
 			goto finished;
 		}
@@ -2665,7 +2665,7 @@ static void
 emu_update_composers_security (EMsgComposer *composer,
                                guint32 validity_found)
 {
-	GtkAction *action;
+	EUIAction *action;
 	GSettings *settings;
 	gboolean sign_reply;
 
@@ -2681,34 +2681,34 @@ emu_update_composers_security (EMsgComposer *composer,
 		action = NULL;
 
 		if (validity_found & E_MAIL_PART_VALIDITY_SMIME) {
-			if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer))) &&
-			    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer))))
+			if (!e_ui_action_get_active (E_COMPOSER_ACTION_PGP_SIGN (composer)) &&
+			    !e_ui_action_get_active (E_COMPOSER_ACTION_PGP_ENCRYPT (composer)))
 				action = E_COMPOSER_ACTION_SMIME_SIGN (composer);
 		} else {
-			if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer))) &&
-			    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer))))
+			if (!e_ui_action_get_active (E_COMPOSER_ACTION_SMIME_SIGN (composer)) &&
+			    !e_ui_action_get_active (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer)))
 				action = E_COMPOSER_ACTION_PGP_SIGN (composer);
 		}
 
 		if (action)
-			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+			e_ui_action_set_active (action, TRUE);
 	}
 
 	if (validity_found & E_MAIL_PART_VALIDITY_ENCRYPTED) {
 		action = NULL;
 
 		if (validity_found & E_MAIL_PART_VALIDITY_SMIME) {
-			if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer))) &&
-			    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer))))
+			if (!e_ui_action_get_active (E_COMPOSER_ACTION_PGP_SIGN (composer)) &&
+			    !e_ui_action_get_active (E_COMPOSER_ACTION_PGP_ENCRYPT (composer)))
 				action = E_COMPOSER_ACTION_SMIME_ENCRYPT (composer);
 		} else {
-			if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer))) &&
-			    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer))))
+			if (!e_ui_action_get_active (E_COMPOSER_ACTION_SMIME_SIGN (composer)) &&
+			    !e_ui_action_get_active (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer)))
 				action = E_COMPOSER_ACTION_PGP_ENCRYPT (composer);
 		}
 
 		if (action)
-			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+			e_ui_action_set_active (action, TRUE);
 	}
 }
 
@@ -4422,6 +4422,24 @@ emcu_create_templates_combo (EShell *shell,
 	return combo;
 }
 
+static void
+emcu_add_editor_mode_unknown (EActionComboBox *mode_combo)
+{
+	EUIAction *existing_action, *new_action;
+	GPtrArray *existing_radio_group;
+
+	existing_action = e_action_combo_box_get_action (mode_combo);
+	existing_radio_group = e_ui_action_get_radio_group (existing_action);
+
+	new_action = e_ui_action_new_stateful (e_ui_action_get_map_name (existing_action),
+		"unknown", G_VARIANT_TYPE_INT32, g_variant_new_int32 (E_CONTENT_EDITOR_MODE_UNKNOWN));
+	e_ui_action_set_label (new_action, _("Use global setting"));
+	e_ui_action_set_radio_group (new_action, existing_radio_group);
+	e_ui_action_set_action_group (new_action, e_ui_action_get_action_group (existing_action));
+
+	g_object_unref (new_action);
+}
+
 /**
  * em_utils_reply_alternative:
  * @parent: (nullable): a parent #GtkWindow for the question dialog
@@ -4462,7 +4480,6 @@ em_utils_reply_alternative (GtkWindow *parent,
 	GtkLabel *sender_label, *list_label, *all_label;
 	GtkRadioButton *style_default, *style_attach, *style_inline, *style_quote, *style_no_quote;
 	EActionComboBox *mode_combo;
-	GtkRadioAction *radio_action, *html_mode_radio_action;
 	GtkToggleButton *bottom_posting;
 	GtkToggleButton *top_signature;
 	GtkCheckButton *apply_template;
@@ -4613,9 +4630,7 @@ em_utils_reply_alternative (GtkWindow *parent,
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	html_mode_radio_action = e_action_combo_box_get_action (mode_combo);
-	radio_action = gtk_radio_action_new ("unknown", _("Use global setting"), NULL, NULL, E_CONTENT_EDITOR_MODE_UNKNOWN);
-	gtk_radio_action_join_group (radio_action, html_mode_radio_action);
+	emcu_add_editor_mode_unknown (mode_combo);
 	e_action_combo_box_update_model (mode_combo);
 
 	/* One line gap between sections */
@@ -5504,7 +5519,7 @@ em_composer_utils_update_security (EMsgComposer *composer,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	if (validity_pgp_sum != 0 || validity_smime_sum != 0) {
-		GtkToggleAction *action;
+		EUIAction *action;
 		GSettings *settings;
 		gboolean sign_reply;
 
@@ -5514,25 +5529,25 @@ em_composer_utils_update_security (EMsgComposer *composer,
 
 		if ((validity_pgp_sum & E_MAIL_PART_VALIDITY_PGP) != 0) {
 			if (sign_reply && (validity_pgp_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
-				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer));
-				gtk_toggle_action_set_active (action, TRUE);
+				action = E_COMPOSER_ACTION_PGP_SIGN (composer);
+				e_ui_action_set_active (action, TRUE);
 			}
 
 			if ((validity_pgp_sum & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0) {
-				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer));
-				gtk_toggle_action_set_active (action, TRUE);
+				action = E_COMPOSER_ACTION_PGP_ENCRYPT (composer);
+				e_ui_action_set_active (action, TRUE);
 			}
 		}
 
 		if ((validity_smime_sum & E_MAIL_PART_VALIDITY_SMIME) != 0) {
 			if (sign_reply && (validity_smime_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
-				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer));
-				gtk_toggle_action_set_active (action, TRUE);
+				action = E_COMPOSER_ACTION_SMIME_SIGN (composer);
+				e_ui_action_set_active (action, TRUE);
 			}
 
 			if ((validity_smime_sum & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0) {
-				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer));
-				gtk_toggle_action_set_active (action, TRUE);
+				action = E_COMPOSER_ACTION_SMIME_ENCRYPT (composer);
+				e_ui_action_set_active (action, TRUE);
 			}
 		}
 	}

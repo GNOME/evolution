@@ -83,7 +83,7 @@ struct _EContentEditorInterface {
 							 const gchar *uri);
 
 	void		(*insert_emoticon)		(EContentEditor *editor,
-							 EEmoticon *emoticon);
+							 const EEmoticon *emoticon);
 
 	void		(*move_caret_on_coordinates)	(EContentEditor *editor,
 							 gint x,
@@ -586,7 +586,7 @@ void		e_content_editor_insert_image	(EContentEditor *editor,
 						 const gchar *uri);
 void		e_content_editor_insert_emoticon
 						(EContentEditor *editor,
-						 EEmoticon *emoticon);
+						 const EEmoticon *emoticon);
 
 void		e_content_editor_move_caret_on_coordinates
 						(EContentEditor *editor,

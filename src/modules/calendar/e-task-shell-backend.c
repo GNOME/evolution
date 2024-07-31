@@ -35,9 +35,11 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (ETaskShellBackend, e_task_shell_backend, E_TYPE_
 	G_ADD_PRIVATE_DYNAMIC (ETaskShellBackend))
 
 static void
-action_task_new_cb (GtkAction *action,
-                    EShellWindow *shell_window)
+action_task_new_cb (EUIAction *action,
+		    GVariant *parameter,
+		    gpointer user_data)
 {
+	EShellWindow *shell_window = user_data;
 	EShellView *shell_view;
 	ESource *selected_source = NULL;
 
@@ -53,44 +55,21 @@ action_task_new_cb (GtkAction *action,
 
 	e_cal_ops_new_component_editor (shell_window,
 		E_CAL_CLIENT_SOURCE_TYPE_TASKS, selected_source ? e_source_get_uid (selected_source) : NULL,
-		g_strcmp0 (gtk_action_get_name (action), "task-assigned-new") == 0);
+		g_strcmp0 (g_action_get_name (G_ACTION (action)), "task-assigned-new") == 0 ||
+		g_strcmp0 (g_action_get_name (G_ACTION (action)), "new-menu-task-assigned-new") == 0 );
 
 	g_clear_object (&selected_source);
 }
 
 static void
-action_task_list_new_cb (GtkAction *action,
-                         EShellWindow *shell_window)
+action_task_list_new_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EShellWindow *shell_window = user_data;
+
 	e_cal_base_shell_backend_util_new_source (shell_window, E_CAL_CLIENT_SOURCE_TYPE_TASKS);
 }
-
-static GtkActionEntry item_entries[] = {
-
-	{ "task-new",
-	  "stock_task",
-	  NC_("New", "_Task"),
-	  "<Shift><Control>t",
-	  N_("Create a new task"),
-	  G_CALLBACK (action_task_new_cb) },
-
-	{ "task-assigned-new",
-	  "stock_task-assigned-to",
-	  NC_("New", "Assigne_d Task"),
-	  "<Shift><Control>i",
-	  N_("Create a new assigned task"),
-	  G_CALLBACK (action_task_new_cb) }
-};
-
-static GtkActionEntry source_entries[] = {
-
-	{ "task-list-new",
-	  "stock_todo",
-	  NC_("New", "Tas_k List"),
-	  NULL,
-	  N_("Create a new task list"),
-	  G_CALLBACK (action_task_list_new_cb) }
-};
 
 static gboolean
 e_task_shell_backend_handle_uri (EShellBackend *shell_backend,
@@ -106,6 +85,31 @@ e_task_shell_backend_handle_uri (EShellBackend *shell_backend,
 static void
 e_task_shell_backend_class_init (ETaskShellBackendClass *class)
 {
+	static const EUIActionEntry item_entries[] = {
+		{ "new-menu-task-new",
+		  "stock_task",
+		  NC_("New", "_Task"),
+		  "<Shift><Control>t",
+		  N_("Create a new task"),
+		  action_task_new_cb, NULL, NULL, NULL },
+
+		{ "new-menu-task-assigned-new",
+		  "stock_task-assigned-to",
+		  NC_("New", "Assigne_d Task"),
+		  "<Shift><Control>i",
+		  N_("Create a new assigned task"),
+		  action_task_new_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry source_entries[] = {
+		{ "new-menu-task-list-new",
+		  "stock_todo",
+		  NC_("New", "Tas_k List"),
+		  NULL,
+		  N_("Create a new task list"),
+		  action_task_list_new_cb, NULL, NULL, NULL }
+	};
+
 	EShellBackendClass *shell_backend_class;
 	ECalBaseShellBackendClass *cal_base_shell_backend_class;
 

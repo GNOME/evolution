@@ -190,10 +190,10 @@ ece_task_update_timezone (ECompEditorTask *task_editor,
 		    (g_strcmp0 (i_cal_timezone_get_location (zone), i_cal_timezone_get_location (cfg_zone)) != 0 ||
 		     g_strcmp0 (i_cal_timezone_get_tzid (zone), i_cal_timezone_get_tzid (cfg_zone)) != 0)) {
 			/* Show timezone part */
-			GtkAction *action;
+			EUIAction *action;
 
 			action = e_comp_editor_get_action (comp_editor, "view-timezone");
-			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+			e_ui_action_set_active (action, TRUE);
 		}
 	}
 }
@@ -216,8 +216,8 @@ ece_task_notify_target_client_cb (GObject *object,
 	ECompEditorTask *task_editor;
 	ECompEditor *comp_editor;
 	ECalClient *cal_client;
+	EUIAction *action;
 	GtkWidget *edit_widget;
-	GtkAction *action;
 	gboolean date_only;
 	gboolean was_allday;
 	gboolean can_recur;
@@ -231,7 +231,7 @@ ece_task_notify_target_client_cb (GObject *object,
 	cal_client = e_comp_editor_get_target_client (comp_editor);
 
 	action = e_comp_editor_get_action (comp_editor, "all-day-task");
-	was_allday = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	was_allday = e_ui_action_get_active (action);
 
 	date_only = !cal_client || e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_TASK_DATE_ONLY);
 
@@ -243,14 +243,14 @@ ece_task_notify_target_client_cb (GObject *object,
 	gtk_widget_set_sensitive (edit_widget, !date_only);
 
 	action = e_comp_editor_get_action (comp_editor, "view-timezone");
-	gtk_action_set_sensitive (action, !date_only);
+	e_ui_action_set_sensitive (action, !date_only);
 
 	action = e_comp_editor_get_action (comp_editor, "all-day-task");
-	gtk_action_set_visible (action, !date_only);
+	e_ui_action_set_visible (action, !date_only);
 
 	if (was_allday) {
 		action = e_comp_editor_get_action (comp_editor, "all-day-task");
-		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+		e_ui_action_set_active (action, TRUE);
 	}
 
 	can_reminders = !cal_client || !e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_TASK_NO_ALARM);
@@ -531,7 +531,7 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 			    gboolean force_insensitive)
 {
 	ECompEditorTask *task_editor;
-	GtkAction *action;
+	EUIAction *action;
 	gboolean is_organizer;
 	guint32 flags;
 
@@ -544,7 +544,7 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 	task_editor = E_COMP_EDITOR_TASK (comp_editor);
 
 	action = e_comp_editor_get_action (comp_editor, "all-day-task");
-	gtk_action_set_sensitive (action, !force_insensitive);
+	e_ui_action_set_sensitive (action, !force_insensitive);
 
 	if (task_editor->priv->insensitive_info_alert)
 		e_alert_response (task_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
@@ -592,10 +592,10 @@ ece_task_fill_widgets (ECompEditor *comp_editor,
 	E_COMP_EDITOR_CLASS (e_comp_editor_task_parent_class)->fill_widgets (comp_editor, component);
 
 	if (force_allday) {
-		GtkAction *action;
+		EUIAction *action;
 
 		action = e_comp_editor_get_action (comp_editor, "all-day-task");
-		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+		e_ui_action_set_active (action, TRUE);
 	}
 }
 
@@ -774,81 +774,70 @@ ece_task_all_day_notify_active_cb (GObject *object,
 static void
 ece_task_setup_ui (ECompEditorTask *task_editor)
 {
-	const gchar *ui =
-		"<ui>"
-		"  <menubar action='main-menu'>"
-		"    <menu action='view-menu'>"
-		"      <placeholder name='parts'>"
-		"        <menuitem action='view-timezone'/>"
-		"        <menuitem action='view-categories'/>"
-		"      </placeholder>"
-		"    </menu>"
-		"    <menu action='options-menu'>"
-		"      <placeholder name='toggles'>"
-		"        <menuitem action='all-day-task'/>"
-		"      </placeholder>"
-		"    </menu>"
-		"  </menubar>"
-		"  <toolbar name='main-toolbar'>"
-		"    <placeholder name='content'>\n"
-		"      <toolitem action='all-day-task'/>\n"
-		"    </placeholder>"
-		"  </toolbar>"
-		"</ui>";
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='view-menu'>"
+		      "<placeholder id='parts'>"
+			"<item action='view-timezone' text_only='true'/>"
+			"<item action='view-categories' text_only='true'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		    "<submenu action='options-menu'>"
+		      "<placeholder id='toggles'>"
+			"<item action='all-day-task' text_only='true'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		  "<toolbar id='toolbar-with-headerbar'>"
+		    "<placeholder id='content'>"
+		      "<item action='all-day-task'/>"
+		    "</placeholder>"
+		  "</toolbar>"
+		  "<toolbar id='toolbar-without-headerbar'>"
+		    "<placeholder id='content'>"
+		      "<item action='all-day-task'/>"
+		    "</placeholder>"
+		  "</toolbar>"
+		"</eui>";
 
-	const GtkToggleActionEntry view_actions[] = {
+	static const EUIActionEntry view_actions[] = {
 		{ "view-categories",
 		  NULL,
 		  N_("_Categories"),
 		  NULL,
 		  N_("Toggles whether to display categories"),
-		  NULL,
-		  FALSE },
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
 
 		{ "view-timezone",
 		  "stock_timezone",
 		  N_("Time _Zone"),
 		  NULL,
 		  N_("Toggles whether the time zone is displayed"),
-		  NULL,
-		  FALSE },
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
 
 		{ "all-day-task",
 		  "stock_new-24h-appointment",
 		  N_("All _Day Task"),
 		  "<Control>Y",
 		  N_("Toggles whether to have All Day Task"),
-		  NULL,
-		  FALSE }
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state }
 	};
 
 	ECompEditor *comp_editor;
 	GSettings *settings;
-	GtkUIManager *ui_manager;
-	GtkAction *action;
-	GtkActionGroup *action_group;
+	EUIManager *ui_manager;
+	EUIAction *action;
 	GtkWidget *edit_widget;
-	GError *error = NULL;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_TASK (task_editor));
 
 	comp_editor = E_COMP_EDITOR (task_editor);
 	settings = e_comp_editor_get_settings (comp_editor);
 	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
-	action_group = e_comp_editor_get_action_group (comp_editor, "individual");
 
-	gtk_action_group_add_toggle_actions (action_group,
-		view_actions, G_N_ELEMENTS (view_actions), task_editor);
-
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-
-	e_plugin_ui_register_manager (ui_manager, "org.gnome.evolution.task-editor", task_editor);
-	e_plugin_ui_enable_manager (ui_manager, "org.gnome.evolution.task-editor");
-
-	if (error) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "individual", GETTEXT_PACKAGE,
+		view_actions, G_N_ELEMENTS (view_actions), task_editor, eui);
 
 	action = e_comp_editor_get_action (comp_editor, "view-timezone");
 	e_binding_bind_property (

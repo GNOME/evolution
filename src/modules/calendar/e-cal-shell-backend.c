@@ -41,9 +41,11 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (ECalShellBackend, e_cal_shell_backend, E_TYPE_CA
 	G_ADD_PRIVATE_DYNAMIC (ECalShellBackend))
 
 static void
-action_event_new_cb (GtkAction *action,
-                     EShellWindow *shell_window)
+action_event_new_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	EShellWindow *shell_window = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
@@ -54,9 +56,11 @@ action_event_new_cb (GtkAction *action,
 
 	shell = e_shell_window_get_shell (shell_window);
 
-	action_name = gtk_action_get_name (action);
-	is_all_day = g_strcmp0 (action_name, "event-all-day-new") == 0;
-	is_meeting = g_strcmp0 (action_name, "event-meeting-new") == 0;
+	action_name = g_action_get_name (G_ACTION (action));
+	is_all_day = g_strcmp0 (action_name, "event-all-day-new") == 0 ||
+		     g_strcmp0 (action_name, "new-menu-event-all-day-new") == 0;
+	is_meeting = g_strcmp0 (action_name, "event-meeting-new") == 0 ||
+		     g_strcmp0 (action_name, "new-menu-event-meeting-new") == 0;
 
 	/* With a 'calendar' active shell view pass the new appointment
 	 * request to it, thus the event will inherit selected time from
@@ -102,45 +106,14 @@ action_event_new_cb (GtkAction *action,
 }
 
 static void
-action_calendar_new_cb (GtkAction *action,
-                        EShellWindow *shell_window)
+action_calendar_new_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	EShellWindow *shell_window = user_data;
+
 	e_cal_base_shell_backend_util_new_source (shell_window, E_CAL_CLIENT_SOURCE_TYPE_EVENTS);
 }
-
-static GtkActionEntry item_entries[] = {
-
-	{ "event-new",
-	  "appointment-new",
-	  NC_("New", "_Appointment"),
-	  "<Shift><Control>a",
-	  N_("Create a new appointment"),
-	  G_CALLBACK (action_event_new_cb) },
-
-	{ "event-all-day-new",
-	  "stock_new-24h-appointment",
-	  NC_("New", "All Day A_ppointment"),
-	  NULL,
-	  N_("Create a new all-day appointment"),
-	  G_CALLBACK (action_event_new_cb) },
-
-	{ "event-meeting-new",
-	  "stock_people",
-	  NC_("New", "M_eeting"),
-	  "<Shift><Control>e",
-	  N_("Create a new meeting request"),
-	  G_CALLBACK (action_event_new_cb) }
-};
-
-static GtkActionEntry source_entries[] = {
-
-	{ "calendar-new",
-	  "x-office-calendar",
-	  NC_("New", "Cale_ndar"),
-	  NULL,
-	  N_("Create a new calendar"),
-	  G_CALLBACK (action_calendar_new_cb) }
-};
 
 static void
 cal_shell_backend_handle_uri_start_end_dates (EShellBackend *shell_backend,
@@ -288,6 +261,38 @@ cal_shell_backend_constructed (GObject *object)
 static void
 e_cal_shell_backend_class_init (ECalShellBackendClass *class)
 {
+	static const EUIActionEntry item_entries[] = {
+		{ "new-menu-event-new",
+		  "appointment-new",
+		  NC_("New", "_Appointment"),
+		  "<Shift><Control>a",
+		  N_("Create a new appointment"),
+		  action_event_new_cb, NULL, NULL, NULL },
+
+		{ "new-menu-event-all-day-new",
+		  "stock_new-24h-appointment",
+		  NC_("New", "All Day A_ppointment"),
+		  NULL,
+		  N_("Create a new all-day appointment"),
+		  action_event_new_cb, NULL, NULL, NULL },
+
+		{ "new-menu-event-meeting-new",
+		  "stock_people",
+		  NC_("New", "M_eeting"),
+		  "<Shift><Control>e",
+		  N_("Create a new meeting request"),
+		  action_event_new_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry source_entries[] = {
+		{ "new-menu-calendar-new",
+		  "x-office-calendar",
+		  NC_("New", "Cale_ndar"),
+		  NULL,
+		  N_("Create a new calendar"),
+		  action_calendar_new_cb, NULL, NULL, NULL }
+	};
+
 	GObjectClass *object_class;
 	EShellBackendClass *shell_backend_class;
 	ECalBaseShellBackendClass *cal_base_shell_backend_class;

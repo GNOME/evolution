@@ -100,10 +100,8 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-ellipsized-combo-box-text.h>
-#include <e-util/e-emoticon-action.h>
 #include <e-util/e-emoticon-chooser-menu.h>
 #include <e-util/e-emoticon-chooser.h>
-#include <e-util/e-emoticon-tool-button.h>
 #include <e-util/e-emoticon.h>
 #include <e-util/e-event.h>
 #include <e-util/e-file-request.h>
@@ -158,7 +156,6 @@
 #include <e-util/e-markdown-editor.h>
 #include <e-util/e-markdown-utils.h>
 #include <e-util/e-menu-bar.h>
-#include <e-util/e-menu-tool-action.h>
 #include <e-util/e-menu-tool-button.h>
 #include <e-util/e-misc-utils.h>
 #include <e-util/e-mktemp.h>
@@ -177,7 +174,6 @@
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-plugin.h>
 #include <e-util/e-poolv.h>
-#include <e-util/e-popup-action.h>
 #include <e-util/e-popup-menu.h>
 #include <e-util/e-port-entry.h>
 #include <e-util/e-preferences-window.h>
@@ -267,6 +263,11 @@
 #include <e-util/e-tree-table-adapter.h>
 #include <e-util/e-tree-view-frame.h>
 #include <e-util/e-tree.h>
+#include <e-util/e-ui-action.h>
+#include <e-util/e-ui-action-group.h>
+#include <e-util/e-ui-manager.h>
+#include <e-util/e-ui-menu.h>
+#include <e-util/e-ui-parser.h>
 #include <e-util/e-unicode.h>
 #include <e-util/e-url-entry.h>
 #include <e-util/e-util-enums.h>

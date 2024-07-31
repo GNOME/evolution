@@ -385,6 +385,15 @@ header_bar_realize (GtkWidget *widget)
 }
 
 static void
+header_bar_map (GtkWidget *widget)
+{
+	/* Chain up to parent's method. */
+	GTK_WIDGET_CLASS (e_header_bar_parent_class)->map (widget);
+
+	header_bar_update_buttons (E_HEADER_BAR (widget), -1);
+}
+
+static void
 header_bar_get_preferred_width (GtkWidget *in_widget,
 				gint *minimum_width,
 				gint *natural_width)
@@ -449,6 +458,8 @@ header_bar_constructed (GObject *object)
 	self->priv->end_buttons = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, BUTTON_SPACING);
 	gtk_header_bar_pack_end (GTK_HEADER_BAR (self), self->priv->end_buttons);
 	gtk_widget_show (self->priv->end_buttons);
+
+	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "titlebar");
 }
 
 static void
@@ -481,6 +492,7 @@ e_header_bar_class_init (EHeaderBarClass *klass)
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->size_allocate = header_bar_size_allocate;
 	widget_class->realize = header_bar_realize;
+	widget_class->map = header_bar_map;
 	widget_class->get_preferred_width = header_bar_get_preferred_width;
 
 	object_class = G_OBJECT_CLASS (klass);
@@ -564,6 +576,38 @@ e_header_bar_pack_end (EHeaderBar *self,
 	gtk_box_pack_end (GTK_BOX (self->priv->end_buttons), widget, FALSE, FALSE, 0);
 
 	header_bar_set_label_priority (self, widget, label_priority);
+}
+
+/**
+ * e_header_bar_remove_all:
+ * @self: an #EHeaderBar
+ *
+ * Removes all children of the @self added by e_header_bar_pack_start()
+ * and e_header_bar_pack_end().
+ *
+ * Since: 3.56
+ **/
+void
+e_header_bar_remove_all (EHeaderBar *self)
+{
+	GtkContainer *container;
+	GList *children, *link;
+
+	g_return_if_fail (E_IS_HEADER_BAR (self));
+
+	container = GTK_CONTAINER (self->priv->start_buttons);
+	children = gtk_container_get_children (container);
+	for (link = children; link; link = g_list_next (link)) {
+		gtk_container_remove (container, link->data);
+	}
+	g_list_free (children);
+
+	container = GTK_CONTAINER (self->priv->end_buttons);
+	children = gtk_container_get_children (container);
+	for (link = children; link; link = g_list_next (link)) {
+		gtk_container_remove (container, link->data);
+	}
+	g_list_free (children);
 }
 
 /**

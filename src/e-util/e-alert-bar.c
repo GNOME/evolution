@@ -170,7 +170,7 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	/* Add alert-specific buttons. */
 	link = e_alert_peek_actions (alert);
 	while (link != NULL) {
-		GtkAction *action = GTK_ACTION (link->data);
+		EUIAction *action = E_UI_ACTION (link->data);
 
 		/* These actions are already wired to trigger an
 		 * EAlert::response signal when activated, which
@@ -178,12 +178,9 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 		 * we can add buttons directly to the action
 		 * area without knowning their response IDs. */
 
-		widget = gtk_button_new ();
+		widget = e_alert_create_button_for_action (action);
 
-		gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
 		gtk_box_pack_end (GTK_BOX (action_area), widget, FALSE, FALSE, 0);
-
-		e_alert_update_destructive_action_style (action, widget);
 
 		link = g_list_next (link);
 	}

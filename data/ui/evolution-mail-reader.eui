@@ -1,0 +1,221 @@
+<eui>
+  <menu id='main-menu'>
+    <submenu action='file-menu'>
+      <placeholder id='file-actions'>
+        <item action='mail-save-as'/>
+      </placeholder>
+      <placeholder id='print-actions'>
+        <item action='mail-print-preview'/>
+        <item action='mail-print'/>
+      </placeholder>
+    </submenu>
+    <submenu action='edit-menu'>
+      <placeholder id='selection-actions'/>
+      <separator/>
+      <placeholder id='edit-actions'>
+        <item action='mail-delete'/>
+        <item action='mail-undelete'/>
+        <separator/>
+        <item action='mail-find'/>
+      </placeholder>
+    </submenu>
+    <submenu action='view-menu'>
+      <separator/>
+      <placeholder id='mail-message-list-actions'/>
+      <separator/>
+      <placeholder id='mail-message-view-actions'>
+        <item action='mail-load-images'/>
+        <item action='mail-show-all-headers'/>
+        <item action='mail-caret-mode'/>
+        <item action='mail-show-source'/>
+        <submenu action='mail-zoom-menu'>
+          <item action='mail-zoom-in'/>
+          <item action='mail-zoom-out'/>
+          <item action='mail-zoom-100'/>
+        </submenu>
+        <separator/>
+        <item action='EMailReader::charset-menu'/>
+      </placeholder>
+    </submenu>
+    <placeholder id='custom-menus'>
+      <submenu action='mail-message-menu'>
+        <item action='mail-message-new'/>
+        <item action='mail-message-open'/>
+        <item action='mail-message-edit'/>
+        <item action='mail-add-sender'/>
+        <separator/>
+        <submenu action='mail-goto-menu'>
+          <item action='mail-next'/>
+          <item action='mail-next-unread'/>
+          <item action='mail-next-important'/>
+          <item action='mail-next-thread'/>
+          <separator/>
+          <item action='mail-previous'/>
+          <item action='mail-previous-unread'/>
+          <item action='mail-previous-important'/>
+          <item action='mail-previous-thread'/>
+        </submenu>
+        <item action='mail-reply-sender'/>
+        <item action='mail-reply-list'/>
+        <item action='mail-reply-all'/>
+        <placeholder id='mail-reply-template'/>
+        <item action='mail-reply-alternative'/>
+        <item action='mail-forward'/>
+        <submenu action='mail-forward-as-menu'>
+          <item action='mail-forward-attached'/>
+          <item action='mail-forward-inline'/>
+          <item action='mail-forward-quoted'/>
+          <separator/>
+          <item action='mail-redirect'/>
+        </submenu>
+        <separator/>
+        <item action='mail-copy'/>
+        <item action='mail-move'/>
+        <item action='mail-archive'/>
+        <separator/>
+        <submenu action='mail-mark-as-menu'>
+          <item action='mail-mark-read'/>
+          <item action='mail-mark-unread'/>
+          <separator/>
+          <item action='mail-mark-important'/>
+          <item action='mail-mark-unimportant'/>
+          <separator/>
+          <item action='mail-mark-junk'/>
+          <item action='mail-mark-notjunk'/>
+          <separator/>
+          <item action='mail-flag-for-followup'/>
+          <item action='mail-flag-clear'/>
+          <item action='mail-flag-completed'/>
+          <separator/>
+          <item action='mail-color-assign'/>
+          <item action='mail-color-unset'/>
+          <separator/>
+          <submenu action='mail-label-menu'>
+            <item action='mail-label-none'/>
+            <separator/>
+            <item action='EMailReader::mail-label-actions'/>
+            <separator/>
+            <item action='mail-label-new'/>
+            <item action='mail-label-change-more'/>
+          </submenu>
+          <separator/>
+          <item action='mail-mark-ignore-thread-whole'/>
+          <item action='mail-mark-ignore-thread-sub'/>
+          <item action='mail-mark-unignore-thread-whole'/>
+          <item action='mail-mark-unignore-thread-sub'/>
+        </submenu>
+        <item action='mail-filters-apply'/>
+        <item action='mail-check-for-junk'/>
+        <item action='mail-remove-attachments'/>
+        <item action='mail-remove-duplicates'/>
+        <separator/>
+        <item action='mail-add-note'/>
+        <item action='mail-edit-note'/>
+        <item action='mail-delete-note'/>
+        <separator/>
+        <submenu action='mail-create-menu'>
+          <placeholder id='mail-conversion-actions'/>
+          <separator/>
+          <item action='mail-filter-rule-for-subject'/>
+          <item action='mail-filter-rule-for-sender'/>
+          <item action='mail-filter-rule-for-recipients'/>
+          <item action='mail-filter-rule-for-mailing-list'/>
+          <separator/>
+          <item action='mail-search-folder-from-subject'/>
+          <item action='mail-search-folder-from-sender'/>
+          <item action='mail-search-folder-from-recipients'/>
+          <item action='mail-search-folder-from-mailing-list'/>
+        </submenu>
+        <placeholder id='mail-message-custom-menus'/>
+      </submenu>
+    </placeholder>
+  </menu>
+  <toolbar id='main-toolbar-with-headerbar'>
+    <placeholder id='toolbar-actions'/>
+    <separator/>
+    <placeholder id='mail-toolbar-common'>
+      <item action='mail-print'/>
+      <item action='mail-delete'/>
+      <item action='mail-mark-junk'/>
+      <item action='mail-mark-notjunk'/>
+      <item action='mail-archive'/>
+      <item action='mail-load-images'/>
+    </placeholder>
+    <separator/>
+    <placeholder id='mail-toolbar-navigation'>
+      <item action='mail-previous'/>
+      <item action='mail-next'/>
+    </placeholder>
+  </toolbar>
+  <toolbar id='main-toolbar-without-headerbar'>
+    <placeholder id='toolbar-actions'/>
+    <separator/>
+    <placeholder id='mail-toolbar-common'>
+      <item action='mail-reply-sender' important='true'/>
+      <item action='EMailReader::mail-reply-group' important='true'/>
+      <item action='EMailReader::mail-forward-as-group' important='true'/>
+      <separator/>
+      <item action='mail-print'/>
+      <item action='mail-delete'/>
+      <item action='mail-mark-junk'/>
+      <item action='mail-mark-notjunk'/>
+      <item action='mail-archive'/>
+      <item action='mail-load-images'/>
+    </placeholder>
+    <separator/>
+    <placeholder id='mail-toolbar-navigation'>
+      <item action='mail-previous'/>
+      <item action='mail-next'/>
+    </placeholder>
+  </toolbar>
+  <menu id='mail-message-popup' is-popup='true'>
+    <placeholder id='mail-message-popup-common-actions'>
+      <item action='mail-reply-sender'/>
+      <item action='mail-reply-all'/>
+      <placeholder id='mail-reply-template'/>
+      <item action='mail-forward'/>
+      <separator/>
+      <item action='mail-message-edit'/>
+      <item action='mail-save-as'/>
+      <item action='mail-print'/>
+      <item action='mail-remove-attachments'/>
+      <item action='mail-remove-duplicates'/>
+    </placeholder>
+  </menu>
+  <menu id='mail-preview-popup' is-popup='true'>
+    <item action='copy-clipboard'/>
+    <item action='mail-search-web'/>
+    <separator/>
+    <item action='mail-reply-sender'/>
+    <item action='mail-reply-all'/>
+    <placeholder id='mail-reply-template'/>
+    <item action='mail-forward'/>
+    <separator/>
+    <item action='mail-message-edit'/>
+    <item action='mail-save-as'/>
+    <item action='mail-print'/>
+    <separator/>
+    <item action='mail-add-note'/>
+    <item action='mail-edit-note'/>
+    <item action='mail-delete-note'/>
+    <separator/>
+    <item action='mail-copy'/>
+    <item action='mail-move'/>
+    <item action='mail-archive'/>
+    <separator/>
+    <placeholder id='mail-preview-popup-actions'/>
+  </menu>
+  <menu id='mail-reply-group-menu'>
+    <item action='mail-reply-all'/>
+    <item action='mail-reply-list'/>
+    <placeholder id='mail-reply-template'/>
+    <item action='mail-reply-alternative'/>
+  </menu>
+  <menu id='mail-forward-as-menu'>
+    <item action='mail-forward-attached'/>
+    <item action='mail-forward-inline'/>
+    <item action='mail-forward-quoted'/>
+    <separator/>
+    <item action='mail-redirect'/>
+  </menu>
+</eui>

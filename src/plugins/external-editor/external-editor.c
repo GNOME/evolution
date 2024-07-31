@@ -43,7 +43,7 @@
 
 #define d(x)
 
-gboolean	e_plugin_ui_init		(GtkUIManager *manager,
+gboolean	e_plugin_ui_init		(EUIManager *manager,
 						 EMsgComposer *composer);
 GtkWidget *	e_plugin_lib_get_configure_widget
 						(EPlugin *epl);
@@ -146,27 +146,25 @@ enable_disable_composer (EMsgComposer *composer,
 {
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	GtkAction *action;
-	GtkActionGroup *action_group;
+	EUIActionGroup *action_group;
+	EUIManager *ui_manager;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
+	ui_manager = e_html_editor_get_ui_manager (editor);
 
 	e_content_editor_set_editable (cnt_editor, enable);
 
-	action = E_HTML_EDITOR_ACTION_EDIT_MENU (editor);
-	gtk_action_set_sensitive (action, enable);
+	e_ui_action_set_sensitive (E_HTML_EDITOR_ACTION_EDIT_MENU (editor), enable);
+	e_ui_action_set_sensitive (E_HTML_EDITOR_ACTION_FORMAT_MENU (editor), enable);
+	e_ui_action_set_sensitive (E_HTML_EDITOR_ACTION_INSERT_MENU (editor), enable);
 
-	action = E_HTML_EDITOR_ACTION_FORMAT_MENU (editor);
-	gtk_action_set_sensitive (action, enable);
+	g_return_if_fail (e_ui_manager_has_action_group (ui_manager, "composer"));
 
-	action = E_HTML_EDITOR_ACTION_INSERT_MENU (editor);
-	gtk_action_set_sensitive (action, enable);
-
-	action_group = e_html_editor_get_action_group (editor, "composer");
-	gtk_action_group_set_sensitive (action_group, enable);
+	action_group = e_ui_manager_get_action_group (ui_manager, "composer");
+	e_ui_action_group_set_sensitive (action_group, enable);
 }
 
 static void
@@ -452,14 +450,18 @@ launch_editor_content_ready_cb (GObject *source_object,
 }
 
 static void
-launch_editor (GtkAction *action,
-	       EMsgComposer *composer)
+launch_editor_cb (EUIAction *action,
+		  GVariant *parameter,
+		  gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
 	struct ExternalEditorData *eed;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 
 	d (printf ("\n\nexternal_editor plugin is launched \n\n"));
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	if (editor_running ()) {
 		d (printf ("not opening editor, because it's still running\n"));
@@ -482,15 +484,6 @@ launch_editor (GtkAction *action,
 	e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN, NULL, NULL,
 		launch_editor_content_ready_cb, eed);
 }
-
-static GtkActionEntry entries[] = {
-	{ "ExternalEditor",
-	  NULL,
-	  N_("Compose in External Editor"),
-	  "<Shift><Control>e",
-	  N_("Compose in External Editor"),
-	  G_CALLBACK (launch_editor) }
-};
 
 static gboolean
 key_press_cb (GtkWidget *widget,
@@ -519,7 +512,7 @@ key_press_cb (GtkWidget *widget,
 	if (!immediately)
 		return FALSE;
 
-	launch_editor (NULL, composer);
+	launch_editor_cb (NULL, NULL, composer);
 
 	return TRUE;
 }
@@ -551,19 +544,41 @@ delete_cb (GtkWidget *widget,
 }
 
 gboolean
-e_plugin_ui_init (GtkUIManager *manager,
+e_plugin_ui_init (EUIManager *manager,
                   EMsgComposer *composer)
 {
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<placeholder id='pre-edit-menu'>"
+		      "<submenu action='file-menu'>"
+			"<placeholder id='external-editor-holder'>"
+			  "<item action='external-editor'/>"
+			"</placeholder>"
+		      "</submenu>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry entries[] = {
+		{ "external-editor",
+		  NULL,
+		  N_("Compose in External Editor"),
+		  "<Shift><Control>e",
+		  N_("Compose in External Editor"),
+		  launch_editor_cb, NULL, NULL, NULL }
+	};
+
 	EHTMLEditor *editor;
+	EUIManager *ui_manager;
 	EContentEditor *cnt_editor;
 
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
+	ui_manager = e_html_editor_get_ui_manager (editor);
 
-	/* Add actions to the "composer" action group. */
-	gtk_action_group_add_actions (
-		e_html_editor_get_action_group (editor, "composer"),
-		entries, G_N_ELEMENTS (entries), composer);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "composer", GETTEXT_PACKAGE,
+		entries, G_N_ELEMENTS (entries), composer, eui);
 
 	g_signal_connect (
 		cnt_editor, "key_press_event",

@@ -24,6 +24,7 @@
 #include <gtk/gtk.h>
 
 #include <e-util/e-plugin.h>
+#include <e-util/e-ui-manager.h>
 
 /* Standard GObject macros */
 #define E_TYPE_PLUGIN_UI_HOOK \
@@ -61,18 +62,14 @@ struct _EPluginUIHookClass {
 
 /* Plugins with "org.gnome.evolution.ui" hooks should define a
  * function named e_plugin_ui_init() having this signature. */
-typedef gboolean	(*EPluginUIInitFunc)	(GtkUIManager *ui_manager,
+typedef gboolean	(*EPluginUIInitFunc)	(EUIManager *ui_manager,
 						 gpointer user_data);
 
 GType		e_plugin_ui_hook_get_type	(void) G_GNUC_CONST;
 
-void		e_plugin_ui_register_manager	(GtkUIManager *ui_manager,
+void		e_plugin_ui_register_manager	(EUIManager *ui_manager,
 						 const gchar *id,
 						 gpointer user_data);
-void		e_plugin_ui_enable_manager	(GtkUIManager *ui_manager,
-						 const gchar *id);
-void		e_plugin_ui_disable_manager	(GtkUIManager *ui_manager,
-						 const gchar *id);
 
 G_END_DECLS
 

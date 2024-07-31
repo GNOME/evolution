@@ -27,9 +27,11 @@
 #include <e-util/e-util.h>
 
 static void
-action_address_book_copy_cb (GtkAction *action,
-                             EBookShellView *book_shell_view)
+action_address_book_copy_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
@@ -41,9 +43,11 @@ action_address_book_copy_cb (GtkAction *action,
 }
 
 static void
-action_address_book_delete_cb (GtkAction *action,
-                               EBookShellView *book_shell_view)
+action_address_book_delete_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EBookShellSidebar *book_shell_sidebar;
@@ -83,9 +87,11 @@ action_address_book_delete_cb (GtkAction *action,
 }
 
 static void
-action_address_book_manage_groups_cb (GtkAction *action,
-				      EBookShellView *book_shell_view)
+action_address_book_manage_groups_cb (EUIAction *action,
+				      GVariant *parameter,
+				      gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EShellView *shell_view;
 	ESourceSelector *selector;
 
@@ -98,9 +104,11 @@ action_address_book_manage_groups_cb (GtkAction *action,
 }
 
 static void
-action_address_book_move_cb (GtkAction *action,
-                             EBookShellView *book_shell_view)
+action_address_book_move_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
@@ -112,9 +120,11 @@ action_address_book_move_cb (GtkAction *action,
 }
 
 static void
-action_address_book_new_cb (GtkAction *action,
-                            EBookShellView *book_shell_view)
+action_address_book_new_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ESourceRegistry *registry;
@@ -135,7 +145,7 @@ action_address_book_new_cb (GtkAction *action,
 	gtk_window_set_transient_for (
 		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
 
-	icon_name = gtk_action_get_icon_name (action);
+	icon_name = e_ui_action_get_icon_name (action);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("New Address Book"));
@@ -144,9 +154,11 @@ action_address_book_new_cb (GtkAction *action,
 }
 
 static void
-action_address_book_print_cb (GtkAction *action,
-                              EBookShellView *book_shell_view)
+action_address_book_print_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	GtkPrintOperationAction print_action;
@@ -160,9 +172,11 @@ action_address_book_print_cb (GtkAction *action,
 }
 
 static void
-action_address_book_print_preview_cb (GtkAction *action,
-                                      EBookShellView *book_shell_view)
+action_address_book_print_preview_cb (EUIAction *action,
+				      GVariant *parameter,
+				      gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	GtkPrintOperationAction print_action;
@@ -176,9 +190,11 @@ action_address_book_print_preview_cb (GtkAction *action,
 }
 
 static void
-action_address_book_properties_cb (GtkAction *action,
-                                   EBookShellView *book_shell_view)
+action_address_book_properties_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EBookShellSidebar *book_shell_sidebar;
@@ -207,7 +223,7 @@ action_address_book_properties_cb (GtkAction *action,
 	gtk_window_set_transient_for (
 		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
 
-	icon_name = gtk_action_get_icon_name (action);
+	icon_name = e_ui_action_get_icon_name (action);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
 
 	gtk_window_set_title (
@@ -257,9 +273,11 @@ address_book_refresh_done_cb (GObject *source_object,
 }
 
 static void
-action_address_book_refresh_cb (GtkAction *action,
-                                EBookShellView *book_shell_view)
+action_address_book_refresh_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellSidebar *book_shell_sidebar;
 	ESourceSelector *selector;
 	EClient *client = NULL;
@@ -354,9 +372,11 @@ book_shell_view_refresh_backend_done_cb (GObject *source_object,
 }
 
 static void
-action_address_book_refresh_backend_cb (GtkAction *action,
-					EShellView *shell_view)
+action_address_book_refresh_backend_cb (EUIAction *action,
+					GVariant *parameter,
+					gpointer user_data)
 {
+	EShellView *shell_view = user_data;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShell *shell;
@@ -488,10 +508,12 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 
 /* We need this function to he defined all the time. */
 static void
-action_address_book_map_cb (GtkAction *action,
-                            EBookShellView *book_shell_view)
+action_address_book_map_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
 #ifdef ENABLE_CONTACT_MAPS
+	EBookShellView *book_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
@@ -551,9 +573,11 @@ action_address_book_map_cb (GtkAction *action,
 }
 
 static void
-action_address_book_rename_cb (GtkAction *action,
-                               EBookShellView *book_shell_view)
+action_address_book_rename_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellSidebar *book_shell_sidebar;
 	ESourceSelector *selector;
 
@@ -564,9 +588,11 @@ action_address_book_rename_cb (GtkAction *action,
 }
 
 static void
-action_address_book_save_as_cb (GtkAction *action,
-                                EBookShellView *book_shell_view)
+action_address_book_save_as_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -643,9 +669,11 @@ exit:
 }
 
 static void
-action_address_book_stop_cb (GtkAction *action,
-                             EBookShellView *book_shell_view)
+action_address_book_stop_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
@@ -744,9 +772,11 @@ action_contact_bulk_edit_got_selected_cb (GObject *source_object,
 }
 
 static void
-action_contact_bulk_edit_cb (GtkAction *action,
-			     EBookShellView *book_shell_view)
+action_contact_bulk_edit_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EShellView *shell_view;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
@@ -776,9 +806,11 @@ action_contact_bulk_edit_cb (GtkAction *action,
 }
 
 static void
-action_contact_copy_cb (GtkAction *action,
-                        EBookShellView *book_shell_view)
+action_contact_copy_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
@@ -790,9 +822,11 @@ action_contact_copy_cb (GtkAction *action,
 }
 
 static void
-action_contact_delete_cb (GtkAction *action,
-                          EBookShellView *book_shell_view)
+action_contact_delete_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
@@ -804,9 +838,11 @@ action_contact_delete_cb (GtkAction *action,
 }
 
 static void
-action_contact_find_cb (GtkAction *action,
-                        EBookShellView *book_shell_view)
+action_contact_find_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellContent *book_shell_content;
 	EPreviewPane *preview_pane;
 
@@ -868,9 +904,11 @@ action_contact_forward_got_selected_cb (GObject *source_object,
 }
 
 static void
-action_contact_forward_cb (GtkAction *action,
-                           EBookShellView *book_shell_view)
+action_contact_forward_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -904,9 +942,11 @@ action_contact_forward_cb (GtkAction *action,
 }
 
 static void
-action_contact_move_cb (GtkAction *action,
-                        EBookShellView *book_shell_view)
+action_contact_move_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
@@ -918,9 +958,11 @@ action_contact_move_cb (GtkAction *action,
 }
 
 static void
-action_contact_new_cb (GtkAction *action,
-                       EBookShellView *book_shell_view)
+action_contact_new_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -949,9 +991,11 @@ action_contact_new_cb (GtkAction *action,
 }
 
 static void
-action_contact_new_list_cb (GtkAction *action,
-                            EBookShellView *book_shell_view)
+action_contact_new_list_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EShellView *shell_view;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
@@ -970,9 +1014,11 @@ action_contact_new_list_cb (GtkAction *action,
 }
 
 static void
-action_contact_open_cb (GtkAction *action,
-                        EBookShellView *book_shell_view)
+action_contact_open_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
@@ -984,33 +1030,27 @@ action_contact_open_cb (GtkAction *action,
 }
 
 static void
-action_contact_preview_cb (GtkToggleAction *action,
-                           EBookShellView *book_shell_view)
+action_contact_preview_show_maps_cb (EUIAction *action,
+				     GVariant *parameter,
+				     gpointer user_data)
 {
-	EBookShellContent *book_shell_content;
-	gboolean visible;
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	visible = gtk_toggle_action_get_active (action);
-	e_book_shell_content_set_preview_visible (book_shell_content, visible);
-}
-
-static void
-action_contact_preview_show_maps_cb (GtkToggleAction *action,
-                                     EBookShellView *book_shell_view)
-{
+	EBookShellView *book_shell_view = user_data;
 	EBookShellContent *book_shell_content;
 	gboolean show_maps;
 
+	e_ui_action_set_state (action, parameter);
+
 	book_shell_content = book_shell_view->priv->book_shell_content;
-	show_maps = gtk_toggle_action_get_active (action);
+	show_maps = e_ui_action_get_active (action);
 	e_book_shell_content_set_preview_show_maps (book_shell_content, show_maps);
 }
 
 static void
-action_contact_print_cb (GtkAction *action,
-                         EBookShellView *book_shell_view)
+action_contact_print_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	GtkPrintOperationAction print_action;
@@ -1101,9 +1141,11 @@ action_contact_save_as_got_selected_cb (GObject *source_object,
 }
 
 static void
-action_contact_save_as_cb (GtkAction *action,
-                           EBookShellView *book_shell_view)
+action_contact_save_as_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -1192,9 +1234,11 @@ action_contact_send_message_got_selected_cb (GObject *source_object,
 }
 
 static void
-action_contact_send_message_cb (GtkAction *action,
-                                EBookShellView *book_shell_view)
+action_contact_send_message_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EBookShellView *book_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -1228,558 +1272,409 @@ action_contact_send_message_cb (GtkAction *action,
 }
 
 static void
-action_contact_view_cb (GtkRadioAction *action,
-                        GtkRadioAction *current,
-                        EBookShellView *book_shell_view)
+action_contact_cards_sort_by_cb (EUIAction *action,
+				 GVariant *parameter,
+				 gpointer user_data)
 {
-	EBookShellContent *book_shell_content;
-	GtkOrientable *orientable;
-	GtkOrientation orientation;
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	orientable = GTK_ORIENTABLE (book_shell_content);
-
-	switch (gtk_radio_action_get_current_value (action)) {
-		case 0:
-			orientation = GTK_ORIENTATION_VERTICAL;
-			break;
-		case 1:
-			orientation = GTK_ORIENTATION_HORIZONTAL;
-			break;
-		default:
-			g_return_if_reached ();
-	}
-
-	gtk_orientable_set_orientation (orientable, orientation);
-}
-
-static void
-action_contact_cards_sort_by_cb (GtkRadioAction *action,
-				 GtkRadioAction *current,
-				 EBookShellView *book_shell_view)
-{
+	EBookShellView *self = user_data;
 	GalViewInstance *view_instance;
 	GalView *gl_view;
 	EAddressbookView *addr_view;
 
-	addr_view = e_book_shell_content_get_current_view (book_shell_view->priv->book_shell_content);
+	e_ui_action_set_state (action, parameter);
+
+	addr_view = e_book_shell_content_get_current_view (self->priv->book_shell_content);
 	view_instance = e_addressbook_view_get_view_instance (addr_view);
 	gl_view = gal_view_instance_get_current_view (view_instance);
 
 	if (GAL_IS_VIEW_MINICARD (gl_view))
-		gal_view_minicard_set_sort_by (GAL_VIEW_MINICARD (gl_view), gtk_radio_action_get_current_value (action));
+		gal_view_minicard_set_sort_by (GAL_VIEW_MINICARD (gl_view), g_variant_get_int32 (parameter));
 	else
 		g_warn_if_reached ();
 }
 
-static GtkActionEntry contact_entries[] = {
-
-	{ "address-book-copy",
-	  "edit-copy",
-	  N_("Co_py All Contacts To…"),
-	  NULL,
-	  N_("Copy the contacts of the selected address book to another"),
-	  G_CALLBACK (action_address_book_copy_cb) },
-
-	{ "address-book-delete",
-	  "edit-delete",
-	  N_("D_elete Address Book"),
-	  NULL,
-	  N_("Delete the selected address book"),
-	  G_CALLBACK (action_address_book_delete_cb) },
-
-	{ "address-book-manage-groups",
-	  NULL,
-	  N_("_Manage Address Book groups…"),
-	  NULL,
-	  N_("Manage task list groups order and visibility"),
-	  G_CALLBACK (action_address_book_manage_groups_cb) },
-
-	{ "address-book-move",
-	  "folder-move",
-	  N_("Mo_ve All Contacts To…"),
-	  NULL,
-	  N_("Move the contacts of the selected address book to another"),
-	  G_CALLBACK (action_address_book_move_cb) },
-
-	{ "address-book-new",
-	  "address-book-new",
-	  N_("_New Address Book"),
-	  NULL,
-	  N_("Create a new address book"),
-	  G_CALLBACK (action_address_book_new_cb) },
-
-	{ "address-book-properties",
-	  "document-properties",
-	  N_("Address _Book Properties"),
-	  NULL,
-	  N_("Show properties of the selected address book"),
-	  G_CALLBACK (action_address_book_properties_cb) },
-
-	{ "address-book-refresh",
-	  "view-refresh",
-	  N_("Re_fresh"),
-	  NULL,
-	  N_("Refresh the selected address book"),
-	  G_CALLBACK (action_address_book_refresh_cb) },
-
-	{ "address-book-refresh-backend",
-	  "view-refresh",
-	  N_("Re_fresh list of account address books"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_address_book_refresh_backend_cb) },
-
-	{ "address-book-map",
-	  NULL,
-	  N_("Address Book _Map"),
-	  NULL,
-	  N_("Show map with all contacts from selected address book"),
-	  G_CALLBACK (action_address_book_map_cb) },
-
-	{ "address-book-rename",
-	  NULL,
-	  N_("_Rename…"),
-	  "F2",
-	  N_("Rename the selected address book"),
-	  G_CALLBACK (action_address_book_rename_cb) },
-
-	{ "address-book-stop",
-	  "process-stop",
-	  N_("_Stop"),
-	  NULL,
-	  N_("Stop loading"),
-	  G_CALLBACK (action_address_book_stop_cb) },
-
-	{ "contact-bulk-edit",
-	  NULL,
-	  N_("_Bulk Edit…"),
-	  "<Control>b",
-	  N_("Edit selected contacts in a bulk"),
-	  G_CALLBACK (action_contact_bulk_edit_cb) },
-
-	{ "contact-copy",
-	  NULL,
-	  N_("_Copy Contact To…"),
-	  "<Control><Shift>y",
-	  N_("Copy selected contacts to another address book"),
-	  G_CALLBACK (action_contact_copy_cb) },
-
-	{ "contact-delete",
-	  "edit-delete",
-	  N_("_Delete Contact"),
-	  "<Control>d",
-	  N_("Delete selected contacts"),
-	  G_CALLBACK (action_contact_delete_cb) },
-
-	{ "contact-find",
-	  "edit-find",
-	  N_("_Find in Contact…"),
-	  "<Shift><Control>f",
-	  N_("Search for text in the displayed contact"),
-	  G_CALLBACK (action_contact_find_cb) },
-
-	{ "contact-forward",
-	  "mail-forward",
-	  N_("_Forward Contact…"),
-	  NULL,
-	  N_("Send selected contacts to another person"),
-	  G_CALLBACK (action_contact_forward_cb) },
-
-	{ "contact-move",
-	  NULL,
-	  N_("_Move Contact To…"),
-	  "<Control><Shift>v",
-	  N_("Move selected contacts to another address book"),
-	  G_CALLBACK (action_contact_move_cb) },
-
-	{ "contact-new",
-	  "contact-new",
-	  N_("_New Contact…"),
-	  NULL,
-	  N_("Create a new contact"),
-	  G_CALLBACK (action_contact_new_cb) },
-
-	{ "contact-new-list",
-	  "stock_contact-list",
-	  N_("New Contact _List…"),
-	  NULL,
-	  N_("Create a new contact list"),
-	  G_CALLBACK (action_contact_new_list_cb) },
-
-	{ "contact-open",
-	  NULL,
-	  N_("_Open Contact"),
-	  "<Control>o",
-	  N_("View the current contact"),
-	  G_CALLBACK (action_contact_open_cb) },
-
-	{ "contact-send-message",
-	  "mail-message-new",
-	  N_("_Send Message to Contact…"),
-	  NULL,
-	  N_("Send a message to the selected contacts"),
-	  G_CALLBACK (action_contact_send_message_cb) },
-
-	/*** Menus ***/
-
-	{ "contact-actions-menu",
-	  NULL,
-	  N_("_Actions"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "contact-preview-menu",
-	  NULL,
-	  N_("_Preview"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "contact-cards-sort-by-menu",
-	  NULL,
-	  N_("_Sort Cards By"),
-	  NULL,
-	  NULL,
-	  NULL },
-};
-
-static EPopupActionEntry contact_popup_entries[] = {
-
-	{ "address-book-popup-delete",
-	  N_("_Delete"),
-	  "address-book-delete" },
-
-	{ "address-book-popup-manage-groups",
-	  N_("_Manage groups…"),
-	  "address-book-manage-groups" },
-
-	{ "address-book-popup-properties",
-	  N_("_Properties"),
-	  "address-book-properties" },
-
-	{ "address-book-popup-refresh",
-	  NULL,
-	  "address-book-refresh" },
-
-	{ "address-book-popup-refresh-backend",
-	  NULL,
-	  "address-book-refresh-backend" },
-
-	{ "address-book-popup-map",
-	  N_("Address Book Map"),
-	  "address-book-map" },
-
-	{ "address-book-popup-rename",
-	  NULL,
-	  "address-book-rename" },
-
-	{ "contact-popup-copy",
-	  NULL,
-	  "contact-copy" },
-
-	{ "contact-popup-forward",
-	  NULL,
-	  "contact-forward" },
-
-	{ "contact-popup-move",
-	  NULL,
-	  "contact-move" },
-
-	{ "contact-popup-open",
-	  NULL,
-	  "contact-open" },
-
-	{ "contact-popup-send-message",
-	  NULL,
-	  "contact-send-message" },
-};
-
-static GtkToggleActionEntry contact_toggle_entries[] = {
-
-	{ "contact-preview",
-	  NULL,
-	  N_("Contact _Preview"),
-	  "<Control>m",
-	  N_("Show contact preview window"),
-	  G_CALLBACK (action_contact_preview_cb),
-	  TRUE },
-
-	{ "contact-preview-show-maps",
-	  NULL,
-	  N_("Show _Maps"),
-	  NULL,
-	  N_("Show maps in contact preview window"),
-	  G_CALLBACK (action_contact_preview_show_maps_cb),
-	  FALSE }
-};
-
-static GtkRadioActionEntry contact_view_entries[] = {
-
-	/* This action represents the initial active contact view.
-	 * It should not be visible in the UI, nor should it be
-	 * possible to switch to it from another shell view. */
-	{ "contact-view-initial",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  -1 },
-
-	{ "contact-view-classic",
-	  NULL,
-	  N_("_Classic View"),
-	  NULL,
-	  N_("Show contact preview below the contact list"),
-	  0 },
-
-	{ "contact-view-vertical",
-	  NULL,
-	  N_("_Vertical View"),
-	  NULL,
-	  N_("Show contact preview alongside the contact list"),
-	  1 }
-};
-
-static GtkRadioActionEntry contact_filter_entries[] = {
-
-	{ "contact-filter-any-category",
-	  NULL,
-	  N_("Any Category"),
-	  NULL,
-	  NULL,
-	  CONTACT_FILTER_ANY_CATEGORY },
-
-	{ "contact-filter-unmatched",
-	  NULL,
-	  N_("Unmatched"),
-	  NULL,
-	  NULL,
-	  CONTACT_FILTER_UNMATCHED }
-};
-
-static GtkRadioActionEntry contact_search_entries[] = {
-
-	{ "contact-search-advanced-hidden",
-	  NULL,
-	  N_("Advanced Search"),
-	  NULL,
-	  NULL,
-	  CONTACT_SEARCH_ADVANCED },
-
-	{ "contact-search-any-field-contains",
-	  NULL,
-	  N_("Any field contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  CONTACT_SEARCH_ANY_FIELD_CONTAINS },
-
-	{ "contact-search-email-begins-with",
-	  NULL,
-	  N_("Email begins with"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  CONTACT_SEARCH_EMAIL_BEGINS_WITH },
-
-	{ "contact-search-email-contains",
-	  NULL,
-	  N_("Email contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  CONTACT_SEARCH_EMAIL_CONTAINS },
-
-	{ "contact-search-phone-contains",
-	  NULL,
-	  N_("Phone contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  CONTACT_SEARCH_PHONE_CONTAINS },
-
-	{ "contact-search-name-contains",
-	  NULL,
-	  N_("Name contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  CONTACT_SEARCH_NAME_CONTAINS }
-};
-
-static GtkRadioActionEntry contact_cards_sort_by_entries[] = {
-
-	{ "contact-cards-sort-by-file-as",
-	  NULL,
-	  N_("_File Under"),
-	  NULL,
-	  NULL,
-	  E_CARDS_SORT_BY_FILE_AS },
-
-	{ "contact-cards-sort-by-given-name",
-	  NULL,
-	  N_("_Given Name"),
-	  NULL,
-	  NULL,
-	  E_CARDS_SORT_BY_GIVEN_NAME },
-
-	{ "contact-cards-sort-by-family-name",
-	  NULL,
-	  N_("Family _Name"),
-	  NULL,
-	  NULL,
-	  E_CARDS_SORT_BY_FAMILY_NAME },
-};
-
-static GtkActionEntry lockdown_printing_entries[] = {
-
-	{ "address-book-print",
-	  "document-print",
-	  N_("_Print…"),
-	  "<Control>p",
-	  N_("Print all shown contacts"),
-	  G_CALLBACK (action_address_book_print_cb) },
-
-	{ "address-book-print-preview",
-	  "document-print-preview",
-	  N_("Pre_view…"),
-	  NULL,
-	  N_("Preview the contacts to be printed"),
-	  G_CALLBACK (action_address_book_print_preview_cb) },
-
-	{ "contact-print",
-	  "document-print",
-	  N_("_Print…"),
-	  NULL,
-	  N_("Print selected contacts"),
-	  G_CALLBACK (action_contact_print_cb) }
-};
-
-static EPopupActionEntry lockdown_printing_popup_entries[] = {
-
-	{ "contact-popup-print",
-	  NULL,
-	  "contact-print" }
-};
-
-static GtkActionEntry lockdown_save_to_disk_entries[] = {
-
-	{ "address-book-save-as",
-	  "document-save-as",
-	  N_("S_ave Address Book as vCard"),
-	  NULL,
-	  N_("Save the contacts of the selected address book as a vCard"),
-	  G_CALLBACK (action_address_book_save_as_cb) },
-
-	{ "contact-save-as",
-	  "document-save-as",
-	  /* Translators: This is an action label */
-	  N_("_Save as vCard…"),
-	  NULL,
-	  N_("Save selected contacts as a vCard"),
-	  G_CALLBACK (action_contact_save_as_cb) }
-};
-
-static EPopupActionEntry lockdown_save_to_disk_popup_entries[] = {
-
-	{ "address-book-popup-save-as",
-	  /* Translators: This is an action label */
-	  N_("_Save as vCard…"),
-	  "address-book-save-as" },
-
-	{ "contact-popup-save-as",
-	  NULL,
-	  "contact-save-as" }
-};
-
 void
-e_book_shell_view_actions_init (EBookShellView *book_shell_view)
+e_book_shell_view_actions_init (EBookShellView *self)
 {
-	EBookShellContent *book_shell_content;
+	static const EUIActionEntry contact_entries[] = {
+
+		{ "address-book-copy",
+		  "edit-copy",
+		  N_("Co_py All Contacts To…"),
+		  NULL,
+		  N_("Copy the contacts of the selected address book to another"),
+		  action_address_book_copy_cb, NULL, NULL, NULL },
+
+		{ "address-book-delete",
+		  "edit-delete",
+		  N_("D_elete Address Book"),
+		  NULL,
+		  N_("Delete the selected address book"),
+		  action_address_book_delete_cb, NULL, NULL, NULL },
+
+		{ "address-book-delete-popup",
+		  "edit-delete",
+		  N_("_Delete"),
+		  NULL,
+		  N_("Delete the selected address book"),
+		  action_address_book_delete_cb, NULL, NULL, NULL },
+
+		{ "address-book-manage-groups",
+		  NULL,
+		  N_("_Manage Address Book groups…"),
+		  NULL,
+		  N_("Manage addres book groups order and visibility"),
+		  action_address_book_manage_groups_cb, NULL, NULL, NULL },
+
+		{ "address-book-manage-groups-popup",
+		  NULL,
+		  N_("_Manage groups…"),
+		  NULL,
+		  N_("Manage addres book groups order and visibility"),
+		  action_address_book_manage_groups_cb, NULL, NULL, NULL },
+
+		{ "address-book-move",
+		  "folder-move",
+		  N_("Mo_ve All Contacts To…"),
+		  NULL,
+		  N_("Move the contacts of the selected address book to another"),
+		  action_address_book_move_cb, NULL, NULL, NULL },
+
+		{ "address-book-new",
+		  "address-book-new",
+		  N_("_New Address Book"),
+		  NULL,
+		  N_("Create a new address book"),
+		  action_address_book_new_cb, NULL, NULL, NULL },
+
+		{ "address-book-properties",
+		  "document-properties",
+		  N_("Address _Book Properties"),
+		  NULL,
+		  N_("Show properties of the selected address book"),
+		  action_address_book_properties_cb, NULL, NULL, NULL },
+
+		{ "address-book-properties-popup",
+		  "document-properties",
+		  N_("_Properties"),
+		  NULL,
+		  N_("Show properties of the selected address book"),
+		  action_address_book_properties_cb, NULL, NULL, NULL },
+
+		{ "address-book-refresh",
+		  "view-refresh",
+		  N_("Re_fresh"),
+		  NULL,
+		  N_("Refresh the selected address book"),
+		  action_address_book_refresh_cb, NULL, NULL, NULL },
+
+		{ "address-book-refresh-backend",
+		  "view-refresh",
+		  N_("Re_fresh list of account address books"),
+		  NULL,
+		  NULL,
+		  action_address_book_refresh_backend_cb, NULL, NULL, NULL },
+
+		{ "address-book-map",
+		  NULL,
+		  N_("Address Book _Map"),
+		  NULL,
+		  N_("Show map with all contacts from selected address book"),
+		  action_address_book_map_cb, NULL, NULL, NULL },
+
+		{ "address-book-map-popup",
+		  NULL,
+		  N_("Address Book Map"),
+		  NULL,
+		  N_("Show map with all contacts from selected address book"),
+		  action_address_book_map_cb, NULL, NULL, NULL },
+
+		{ "address-book-rename",
+		  NULL,
+		  N_("_Rename…"),
+		  NULL,
+		  N_("Rename the selected address book"),
+		  action_address_book_rename_cb, NULL, NULL, NULL },
+
+		{ "address-book-stop",
+		  "process-stop",
+		  N_("_Stop"),
+		  NULL,
+		  N_("Stop loading"),
+		  action_address_book_stop_cb, NULL, NULL, NULL },
+
+		{ "contact-bulk-edit",
+		  NULL,
+		  N_("_Bulk Edit…"),
+		  "<Control>b",
+		  N_("Edit selected contacts in a bulk"),
+		  action_contact_bulk_edit_cb, NULL, NULL, NULL },
+
+		{ "contact-copy",
+		  NULL,
+		  N_("_Copy Contact To…"),
+		  "<Control><Shift>y",
+		  N_("Copy selected contacts to another address book"),
+		  action_contact_copy_cb, NULL, NULL, NULL },
+
+		{ "contact-delete",
+		  "edit-delete",
+		  N_("_Delete Contact"),
+		  "<Control>d",
+		  N_("Delete selected contacts"),
+		  action_contact_delete_cb, NULL, NULL, NULL },
+
+		{ "contact-find",
+		  "edit-find",
+		  N_("_Find in Contact…"),
+		  "<Shift><Control>f",
+		  N_("Search for text in the displayed contact"),
+		  action_contact_find_cb, NULL, NULL, NULL },
+
+		{ "contact-forward",
+		  "mail-forward",
+		  N_("_Forward Contact…"),
+		  NULL,
+		  N_("Send selected contacts to another person"),
+		  action_contact_forward_cb, NULL, NULL, NULL },
+
+		{ "contact-move",
+		  NULL,
+		  N_("_Move Contact To…"),
+		  "<Control><Shift>v",
+		  N_("Move selected contacts to another address book"),
+		  action_contact_move_cb, NULL, NULL, NULL },
+
+		{ "contact-new",
+		  "contact-new",
+		  N_("_New Contact…"),
+		  NULL,
+		  N_("Create a new contact"),
+		  action_contact_new_cb, NULL, NULL, NULL },
+
+		{ "contact-new-list",
+		  "stock_contact-list",
+		  N_("New Contact _List…"),
+		  NULL,
+		  N_("Create a new contact list"),
+		  action_contact_new_list_cb, NULL, NULL, NULL },
+
+		{ "contact-open",
+		  NULL,
+		  N_("_Open Contact"),
+		  "<Control>o",
+		  N_("View the current contact"),
+		  action_contact_open_cb, NULL, NULL, NULL },
+
+		{ "contact-send-message",
+		  "mail-message-new",
+		  N_("_Send Message to Contact…"),
+		  NULL,
+		  N_("Send a message to the selected contacts"),
+		  action_contact_send_message_cb, NULL, NULL, NULL },
+
+		/*** Menus ***/
+
+		{ "contact-actions-menu",
+		  NULL,
+		  N_("_Actions"),
+		  NULL,
+		  NULL,
+		  NULL, NULL, NULL, NULL },
+
+		{ "contact-preview-menu",
+		  NULL,
+		  N_("_Preview"),
+		  NULL,
+		  NULL,
+		  NULL, NULL, NULL, NULL },
+
+		{ "contact-cards-sort-by-menu",
+		  NULL,
+		  N_("_Sort Cards By"),
+		  NULL,
+		  NULL,
+		  NULL, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry contact_toggle_entries[] = {
+
+		{ "contact-preview",
+		  NULL,
+		  N_("Contact _Preview"),
+		  "<Control>m",
+		  N_("Show contact preview window"),
+		  NULL, NULL, "true", NULL },
+
+		{ "contact-preview-show-maps",
+		  NULL,
+		  N_("Show _Maps"),
+		  NULL,
+		  N_("Show maps in contact preview window"),
+		  NULL, NULL, "false", action_contact_preview_show_maps_cb }
+	};
+
+	static const EUIActionEnumEntry contact_view_entries[] = {
+
+		{ "contact-view-classic",
+		  NULL,
+		  N_("_Classic View"),
+		  NULL,
+		  N_("Show contact preview below the contact list"),
+		  NULL, 0 },
+
+		{ "contact-view-vertical",
+		  NULL,
+		  N_("_Vertical View"),
+		  NULL,
+		  N_("Show contact preview alongside the contact list"),
+		  NULL, 1 }
+	};
+
+	static const EUIActionEnumEntry contact_search_entries[] = {
+
+		{ "contact-search-advanced-hidden",
+		  NULL,
+		  N_("Advanced Search"),
+		  NULL,
+		  NULL,
+		  NULL, CONTACT_SEARCH_ADVANCED },
+
+		{ "contact-search-any-field-contains",
+		  NULL,
+		  N_("Any field contains"),
+		  NULL,
+		  NULL,
+		  NULL, CONTACT_SEARCH_ANY_FIELD_CONTAINS },
+
+		{ "contact-search-email-begins-with",
+		  NULL,
+		  N_("Email begins with"),
+		  NULL,
+		  NULL,
+		  NULL, CONTACT_SEARCH_EMAIL_BEGINS_WITH },
+
+		{ "contact-search-email-contains",
+		  NULL,
+		  N_("Email contains"),
+		  NULL,
+		  NULL,
+		  NULL, CONTACT_SEARCH_EMAIL_CONTAINS },
+
+		{ "contact-search-phone-contains",
+		  NULL,
+		  N_("Phone contains"),
+		  NULL,
+		  NULL,
+		  NULL, CONTACT_SEARCH_PHONE_CONTAINS },
+
+		{ "contact-search-name-contains",
+		  NULL,
+		  N_("Name contains"),
+		  NULL,
+		  NULL,
+		  NULL, CONTACT_SEARCH_NAME_CONTAINS }
+	};
+
+	static const EUIActionEnumEntry contact_cards_sort_by_entries[] = {
+
+		{ "contact-cards-sort-by-file-as",
+		  NULL,
+		  N_("_File Under"),
+		  NULL,
+		  NULL,
+		  action_contact_cards_sort_by_cb, E_CARDS_SORT_BY_FILE_AS },
+
+		{ "contact-cards-sort-by-given-name",
+		  NULL,
+		  N_("_Given Name"),
+		  NULL,
+		  NULL,
+		  action_contact_cards_sort_by_cb, E_CARDS_SORT_BY_GIVEN_NAME },
+
+		{ "contact-cards-sort-by-family-name",
+		  NULL,
+		  N_("Family _Name"),
+		  NULL,
+		  NULL,
+		  action_contact_cards_sort_by_cb, E_CARDS_SORT_BY_FAMILY_NAME },
+	};
+
+	static const EUIActionEntry lockdown_printing_entries[] = {
+
+		{ "address-book-print",
+		  "document-print",
+		  N_("_Print…"),
+		  "<Control>p",
+		  N_("Print all shown contacts"),
+		  action_address_book_print_cb, NULL, NULL, NULL },
+
+		{ "address-book-print-preview",
+		  "document-print-preview",
+		  N_("Pre_view…"),
+		  NULL,
+		  N_("Preview the contacts to be printed"),
+		  action_address_book_print_preview_cb, NULL, NULL, NULL },
+
+		{ "contact-print",
+		  "document-print",
+		  N_("_Print…"),
+		  NULL,
+		  N_("Print selected contacts"),
+		  action_contact_print_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry lockdown_save_to_disk_entries[] = {
+
+		{ "address-book-save-as",
+		  "document-save-as",
+		  N_("S_ave Address Book as vCard"),
+		  NULL,
+		  N_("Save the contacts of the selected address book as a vCard"),
+		  action_address_book_save_as_cb, NULL, NULL, NULL },
+
+		{ "address-book-save-as-popup",
+		  "document-save-as",
+		  /* Translators: This is an action label */
+		  N_("_Save as vCard…"),
+		  NULL,
+		  N_("Save the contacts of the selected address book as a vCard"),
+		  action_address_book_save_as_cb, NULL, NULL, NULL },
+
+		{ "contact-save-as",
+		  "document-save-as",
+		  /* Translators: This is an action label */
+		  N_("_Save as vCard…"),
+		  NULL,
+		  N_("Save selected contacts as a vCard"),
+		  action_contact_save_as_cb, NULL, NULL, NULL }
+	};
+
 	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EShellSearchbar *searchbar;
-	EPreviewPane *preview_pane;
-	EWebView *web_view;
-	GtkActionGroup *action_group;
-	GSettings *settings;
-	GtkAction *action;
+	EUIManager *ui_manager;
 
-	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	searchbar = e_book_shell_content_get_searchbar (book_shell_content);
-	preview_pane = e_book_shell_content_get_preview_pane (book_shell_content);
-	web_view = e_preview_pane_get_web_view (preview_pane);
+	shell_view = E_SHELL_VIEW (self);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
 
 	/* Contact Actions */
-	action_group = ACTION_GROUP (CONTACTS);
-	gtk_action_group_add_actions (
-		action_group, contact_entries,
-		G_N_ELEMENTS (contact_entries), book_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, contact_popup_entries,
-		G_N_ELEMENTS (contact_popup_entries));
-	gtk_action_group_add_toggle_actions (
-		action_group, contact_toggle_entries,
-		G_N_ELEMENTS (contact_toggle_entries), book_shell_view);
-	gtk_action_group_add_radio_actions (
-		action_group, contact_view_entries,
-		G_N_ELEMENTS (contact_view_entries), -1,
-		G_CALLBACK (action_contact_view_cb), book_shell_view);
-	gtk_action_group_add_radio_actions (
-		action_group, contact_search_entries,
-		G_N_ELEMENTS (contact_search_entries),
-		-1, NULL, NULL);
-	gtk_action_group_add_radio_actions (
-		action_group, contact_cards_sort_by_entries,
-		G_N_ELEMENTS (contact_cards_sort_by_entries), -1,
-		G_CALLBACK (action_contact_cards_sort_by_cb), book_shell_view);
-
-	/* Advanced Search Action */
-	action = ACTION (CONTACT_SEARCH_ADVANCED_HIDDEN);
-	gtk_action_set_visible (action, FALSE);
-	e_shell_searchbar_set_search_option (
-		searchbar, GTK_RADIO_ACTION (action));
+	e_ui_manager_add_actions (ui_manager, "contacts", NULL,
+		contact_entries, G_N_ELEMENTS (contact_entries), self);
+	e_ui_manager_add_actions (ui_manager, "contacts", NULL,
+		contact_toggle_entries, G_N_ELEMENTS (contact_toggle_entries), self);
+	e_ui_manager_add_actions_enum (ui_manager, "contacts", NULL,
+		contact_view_entries, G_N_ELEMENTS (contact_view_entries), self);
+	e_ui_manager_add_actions_enum (ui_manager, "contacts", NULL,
+		contact_search_entries, G_N_ELEMENTS (contact_search_entries), self);
+	e_ui_manager_add_actions_enum (ui_manager, "contacts", NULL,
+		contact_cards_sort_by_entries, G_N_ELEMENTS (contact_cards_sort_by_entries), self);
 
 	/* Lockdown Printing Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
-	gtk_action_group_add_actions (
-		action_group, lockdown_printing_entries,
-		G_N_ELEMENTS (lockdown_printing_entries),
-		book_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, lockdown_printing_popup_entries,
-		G_N_ELEMENTS (lockdown_printing_popup_entries));
+	e_ui_manager_add_actions (ui_manager, "lockdown-printing", NULL,
+		lockdown_printing_entries, G_N_ELEMENTS (lockdown_printing_entries), self);
 
 	/* Lockdown Save-to-Disk Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
-	gtk_action_group_add_actions (
-		action_group, lockdown_save_to_disk_entries,
-		G_N_ELEMENTS (lockdown_save_to_disk_entries),
-		book_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, lockdown_save_to_disk_popup_entries,
-		G_N_ELEMENTS (lockdown_save_to_disk_popup_entries));
-
-	/* Bind GObject properties to GSettings keys. */
-
-	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
-
-	g_settings_bind (
-		settings, "show-preview",
-		ACTION (CONTACT_PREVIEW), "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "layout",
-		ACTION (CONTACT_VIEW_VERTICAL), "current-value",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "preview-show-maps",
-		ACTION (CONTACT_PREVIEW_SHOW_MAPS), "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_object_unref (settings);
+	e_ui_manager_add_actions (ui_manager, "lockdown-save-to-disk", NULL,
+		lockdown_save_to_disk_entries, G_N_ELEMENTS (lockdown_save_to_disk_entries), self);
 
 	/* Fine tuning. */
 
@@ -1798,54 +1693,65 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 		ACTION (CONTACT_PREVIEW_SHOW_MAPS), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	e_web_view_set_open_proxy (web_view, ACTION (CONTACT_OPEN));
-	e_web_view_set_print_proxy (web_view, ACTION (CONTACT_PRINT));
-	e_web_view_set_save_as_proxy (web_view, ACTION (CONTACT_SAVE_AS));
-
 	/* Never show the action for the preview panel, the feature required
 	   WebKit1 functionality (gtk+ widgets inside webview).
 	   Re-enable once there is a good replacement.
 	   See also accum_address_map() in eab-contact-formatter.cpp.
 	*/
-	gtk_action_set_visible (ACTION (CONTACT_PREVIEW_SHOW_MAPS), FALSE);
+	e_ui_action_set_visible (ACTION (CONTACT_PREVIEW_SHOW_MAPS), FALSE);
 
 	/* Hide it from the start */
-	gtk_action_set_visible (ACTION (CONTACT_CARDS_SORT_BY_MENU), FALSE);
+	e_ui_action_set_visible (ACTION (CONTACT_CARDS_SORT_BY_MENU), FALSE);
 }
 
 void
 e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 {
+	static const EUIActionEnumEntry contact_filter_entries[] = {
+
+		{ "contact-filter-any-category",
+		  NULL,
+		  N_("Any Category"),
+		  NULL,
+		  NULL,
+		  NULL, CONTACT_FILTER_ANY_CATEGORY },
+
+		{ "contact-filter-unmatched",
+		  NULL,
+		  N_("Unmatched"),
+		  NULL,
+		  NULL,
+		  NULL, CONTACT_FILTER_UNMATCHED }
+	};
+
 	EBookShellContent *book_shell_content;
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
-	GtkActionGroup *action_group;
-	GtkRadioAction *radio_action;
+	EUIActionGroup *action_group;
+	EUIAction *action;
 	GList *list, *iter;
-	GSList *group;
+	GPtrArray *radio_group;
 	gint ii;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	action_group = ACTION_GROUP (CONTACTS_FILTER);
-	e_action_group_remove_all_actions (action_group);
+	action_group = e_ui_manager_get_action_group (e_shell_view_get_ui_manager (shell_view), "contacts-filter");
+	e_ui_action_group_remove_all (action_group);
 
 	/* Add the standard filter actions.  No callback is needed
 	 * because changes in the EActionComboBox are detected and
 	 * handled by EShellSearchbar. */
-	gtk_action_group_add_radio_actions (
-		action_group, contact_filter_entries,
-		G_N_ELEMENTS (contact_filter_entries),
-		CONTACT_FILTER_ANY_CATEGORY, NULL, NULL);
+	e_ui_manager_add_actions_enum (e_shell_view_get_ui_manager (shell_view),
+		e_ui_action_group_get_name (action_group), NULL,
+		contact_filter_entries, G_N_ELEMENTS (contact_filter_entries), NULL);
 
-	/* Retrieve the radio group from an action we just added. */
-	list = gtk_action_group_list_actions (action_group);
-	radio_action = GTK_RADIO_ACTION (list->data);
-	group = gtk_radio_action_get_group (radio_action);
-	g_list_free (list);
+	radio_group = g_ptr_array_new ();
+
+	for (ii = 0; ii < G_N_ELEMENTS (contact_filter_entries); ii++) {
+		action = e_ui_action_group_get_action (action_group, contact_filter_entries[ii].name);
+		e_ui_action_set_radio_group (action, radio_group);
+	}
 
 	/* Build the category actions. */
 
@@ -1853,14 +1759,14 @@ e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
 		const gchar *category_name = iter->data;
 		gchar *filename;
-		GtkAction *action;
-		gchar *action_name;
+		gchar action_name[128];
 
-		action_name = g_strdup_printf (
-			"contact-filter-category-%d", ii);
-		radio_action = gtk_radio_action_new (
-			action_name, category_name, NULL, NULL, ii);
-		g_free (action_name);
+		g_warn_if_fail (g_snprintf (action_name, sizeof (action_name), "contact-filter-category-%d", ii) < sizeof (action_name));
+
+		action = e_ui_action_new (e_ui_action_group_get_name (action_group), action_name, NULL);
+		e_ui_action_set_label (action, category_name);
+		e_ui_action_set_state (action, g_variant_new_int32 (ii));
+		e_ui_action_set_radio_group (action, radio_group);
 
 		/* Convert the category icon file to a themed icon name. */
 		filename = e_categories_dup_icon_file_for (category_name);
@@ -1874,21 +1780,16 @@ e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 			if ((cp = strrchr (basename, '.')) != NULL)
 				*cp = '\0';
 
-			g_object_set (
-				radio_action, "icon-name", basename, NULL);
+			e_ui_action_set_icon_name (action, basename);
 
 			g_free (basename);
 		}
 
 		g_free (filename);
 
-		gtk_radio_action_set_group (radio_action, group);
-		group = gtk_radio_action_get_group (radio_action);
+		e_ui_action_group_add (action_group, action);
 
-		/* The action group takes ownership of the action. */
-		action = GTK_ACTION (radio_action);
-		gtk_action_group_add_action (action_group, action);
-		g_object_unref (radio_action);
+		g_object_unref (action);
 	}
 	g_list_free_full (list, g_free);
 
@@ -1899,10 +1800,12 @@ e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 	e_shell_view_block_execute_search (shell_view);
 
 	/* Use any action in the group; doesn't matter which. */
-	e_action_combo_box_set_action (combo_box, radio_action);
+	e_action_combo_box_set_action (combo_box, action);
 
 	ii = CONTACT_FILTER_UNMATCHED;
 	e_action_combo_box_add_separator_after (combo_box, ii);
 
 	e_shell_view_unblock_execute_search (shell_view);
+
+	g_ptr_array_unref (radio_group);
 }

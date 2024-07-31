@@ -1,0 +1,108 @@
+<eui>
+  <headerbar id='main-headerbar'>
+    <start>
+      <item action='EShellView::new-menu' label_priority='999999'/>
+    </start>
+    <end>
+      <item action='EShellView::menu-button' order='999999'/>
+    </end>
+  </headerbar>
+  <menu id='main-menu'>
+    <submenu action='file-menu'>
+      <item action='EShellView::new-menu'/>
+      <item action='new-window'/>
+      <separator/>
+      <placeholder id='mail-send-receiver'/>
+      <placeholder id='file-actions'/>
+      <separator/>
+      <item action='import'/>
+      <separator/>
+      <item action='page-setup'/>
+      <placeholder id='print-actions'/>
+      <separator/>
+      <placeholder id='long-running-actions'/>
+      <item action='work-online'/>
+      <item action='work-offline'/>
+      <item action='close'/>
+      <item action='quit'/>
+    </submenu>
+    <submenu action='edit-menu'>
+      <placeholder id='selection-actions'>
+        <item action='cut-clipboard'/>
+        <item action='copy-clipboard'/>
+        <item action='paste-clipboard'/>
+        <separator/>
+        <item action='select-all'/>
+      </placeholder>
+      <separator/>
+      <placeholder id='edit-actions'/>
+      <separator/>
+      <item action='accounts'/>
+      <placeholder id='administrative-actions'/>
+      <item action='preferences'/>
+    </submenu>
+    <submenu action='view-menu'>
+      <submenu action='gal-view-menu'>
+        <item action='EShellView::gal-view-list'/>
+        <separator/>
+        <item action='gal-customize-view'/>
+        <placeholder id='gal-customize-view-placeholder'/>
+        <separator/>
+        <item action='gal-custom-view'/>
+        <item action='gal-save-custom-view'/>
+        <separator/>
+        <item action='gal-delete-view'/>
+      </submenu>
+      <submenu action='window-menu'>
+        <item action='EShellView::switch-to-list'/>
+      </submenu>
+      <submenu action='layout-menu'>
+        <item action='show-menubar'/>
+        <item action='show-toolbar'/>
+        <item action='show-taskbar'/>
+        <item action='show-sidebar'/>
+        <placeholder id='view-layout-custom-menus'/>
+      </submenu>
+      <placeholder id='view-custom-menus'/>
+      <submenu action='switcher-menu'>
+        <item action='switcher-style-both' group='switcher-style'/>
+        <item action='switcher-style-icons' group='switcher-style'/>
+        <item action='switcher-style-text' group='switcher-style'/>
+        <item action='switcher-style-user' group='switcher-style'/>
+        <separator/>
+        <item action='show-switcher'/>
+      </submenu>
+    </submenu>
+    <placeholder id='custom-menus'/>
+    <submenu action='search-menu'>
+      <item action='search-options'/>
+      <item action='search-quick'/>
+      <item action='search-clear'/>
+      <placeholder id='search-extra-actions'/>
+      <item action='search-advanced'/>
+      <separator/>
+      <item action='search-save'/>
+      <item action='search-edit'/>
+      <separator/>
+      <placeholder id='search-actions'/>
+      <separator/>
+      <item action='EShellView::saved-searches-list'/>
+    </submenu>
+    <submenu action='help-menu'>
+      <item action='contents'/>
+      <item action='shortcuts'/>
+      <separator/>
+      <item action='submit-bug'/>
+      <item action='show-webkit-gpu'/>
+      <separator/>
+      <item action='about'/>
+    </submenu>
+  </menu>
+  <toolbar id='main-toolbar-with-headerbar' primary='true'>
+    <placeholder id='toolbar-actions'/>
+  </toolbar>
+  <toolbar id='main-toolbar-without-headerbar' primary='true'>
+    <item action='EShellView::new-menu'/>
+    <placeholder id='toolbar-actions'/>
+  </toolbar>
+</eui>

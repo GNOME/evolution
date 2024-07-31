@@ -420,7 +420,7 @@ calendar_view_update_actions (ESelectable *selectable,
                               gint n_clipboard_targets)
 {
 	ECalendarView *view;
-	GtkAction *action;
+	EUIAction *action;
 	GtkTargetList *target_list;
 	GSList *selected, *link;
 	gboolean can_paste = FALSE;
@@ -463,26 +463,26 @@ calendar_view_update_actions (ESelectable *selectable,
 	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
 	sensitive = (n_selected > 0) && sources_are_editable && !is_editing;
 	tooltip = _("Cut selected events to the clipboard");
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
 	sensitive = (n_selected > 0) && !is_editing;
 	tooltip = _("Copy selected events to the clipboard");
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
 	sensitive = sources_are_editable && can_paste && !is_editing;
 	tooltip = _("Paste events from the clipboard");
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_focus_tracker_get_delete_selection_action (focus_tracker);
 	sensitive = (n_selected > 0) && sources_are_editable && !recurring && !is_editing;
 	tooltip = _("Delete selected events");
-	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_tooltip (action, tooltip);
 }
 
 static void

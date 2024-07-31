@@ -33,6 +33,7 @@
 #include "mail/e-mail-reader.h"
 #include "mail/e-mail-reader-utils.h"
 #include "mail/e-mail-ui-session.h"
+#include "mail/e-mail-view.h"
 #include "mail/e-mail-templates.h"
 #include "mail/e-mail-templates-store.h"
 #include "mail/em-composer-utils.h"
@@ -78,10 +79,12 @@ enum {
 
 GtkWidget *	e_plugin_lib_get_configure_widget
 						(EPlugin *plugin);
-gboolean	init_composer_actions		(GtkUIManager *ui_manager,
+gboolean	init_composer_actions		(EUIManager *ui_manager,
 						 EMsgComposer *composer);
-gboolean	init_shell_actions		(GtkUIManager *ui_manager,
-						 EShellWindow *shell_window);
+gboolean	init_mail_actions		(EUIManager *ui_manager,
+						 EShellView *shell_view);
+gboolean	init_mail_browser_actions	(EUIManager *ui_manager,
+						 EMailBrowser *mail_browser);
 gint		e_plugin_lib_enable		(EPlugin *plugin,
 						 gboolean enabled);
 
@@ -89,9 +92,12 @@ gint		e_plugin_lib_enable		(EPlugin *plugin,
 
 typedef struct _TemplatesData {
 	EMailTemplatesStore *templates_store;
+	EMailReader *mail_reader;
+	GMenu *reply_template_menu;
 	gulong changed_handler_id;
+	guint update_menu_id;
 	gboolean changed;
-	guint merge_id;
+	gboolean update_immediately;
 } TemplatesData;
 
 static void
@@ -105,7 +111,14 @@ templates_data_free (gpointer ptr)
 			td->changed_handler_id = 0;
 		}
 
+		if (td->update_menu_id) {
+			g_source_remove (td->update_menu_id);
+			td->update_menu_id = 0;
+		}
+
 		g_clear_object (&td->templates_store);
+		g_clear_object (&td->mail_reader);
+		g_clear_object (&td->reply_template_menu);
 		g_free (td);
 	}
 }
@@ -694,18 +707,15 @@ action_reply_with_template_cb (EMailTemplatesStore *templates_store,
 			       const gchar *template_message_uid,
 			       gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EActivity *activity;
 	AsyncContext *context;
 	GCancellable *cancellable;
 	CamelFolder *folder;
-	EShellView *shell_view = user_data;
-	EShellContent *shell_content;
-	EMailReader *reader;
 	GPtrArray *uids;
 	const gchar *message_uid;
 
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	reader = E_MAIL_READER (shell_content);
+	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL && uids->len == 1);
@@ -787,22 +797,16 @@ save_template_async_data_free (gpointer ptr)
 	if (sta) {
 		if (sta->templates_folder_uri && sta->new_message_uid) {
 			EHTMLEditor *editor;
-			GtkActionGroup *action_group;
-			GtkAction *action;
+			EUIAction *action;
 
 			e_msg_composer_set_header (sta->composer, "X-Evolution-Templates-Folder", sta->templates_folder_uri);
 			e_msg_composer_set_header (sta->composer, "X-Evolution-Templates-Message", sta->new_message_uid);
 
 			editor = e_msg_composer_get_editor (sta->composer);
-			action_group = e_html_editor_get_action_group (editor, "composer");
-
-			if (action_group) {
-				action = gtk_action_group_get_action (action_group, "template-replace");
-
-				if (action) {
-					gtk_action_set_visible (action, TRUE);
-					gtk_action_set_sensitive (action, TRUE);
-				}
+			action = e_html_editor_get_action (editor, "template-replace");
+			if (action) {
+				e_ui_action_set_visible (action, TRUE);
+				e_ui_action_set_sensitive (action, TRUE);
 			}
 		}
 
@@ -942,9 +946,14 @@ got_message_draft_cb (GObject *source_object,
 }
 
 static void
-action_template_replace_cb (GtkAction *action,
-			    EMsgComposer *composer)
+action_template_replace_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
 	/* XXX Pass a GCancellable */
 	e_msg_composer_get_message_draft (
 		composer, G_PRIORITY_DEFAULT, NULL,
@@ -952,107 +961,126 @@ action_template_replace_cb (GtkAction *action,
 }
 
 static void
-action_template_save_new_cb (GtkAction *action,
-			     EMsgComposer *composer)
+action_template_save_new_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
 	/* XXX Pass a GCancellable */
 	e_msg_composer_get_message_draft (
 		composer, G_PRIORITY_DEFAULT, NULL,
 		got_message_draft_cb, GINT_TO_POINTER (0));
 }
 
-static GtkActionEntry composer_entries[] = {
-
-	{ "template-replace",
-	  "document-save",
-	  N_("Save _Template"),
-	  "<Shift><Control>t",
-	  N_("Replace opened Template message"),
-	  G_CALLBACK (action_template_replace_cb) },
-
-	{ "template-save-new",
-	  "document-save",
-	  N_("Save as _New Template"),
-	  NULL,
-	  N_("Save as Template"),
-	  G_CALLBACK (action_template_save_new_cb) }
-};
-
 static void
 templates_composer_realize_cb (EMsgComposer *composer,
 			       gpointer user_data)
 {
 	EHTMLEditor *editor;
-	GtkActionGroup *action_group;
-	GtkAction *action;
+	EUIAction *action;
 	const gchar *existing_folder_uri;
 	const gchar *existing_message_uid;
 
 	editor = e_msg_composer_get_editor (composer);
-	action_group = e_html_editor_get_action_group (editor, "composer");
-	if (!action_group)
-		return;
-
-	action = gtk_action_group_get_action (action_group, "template-replace");
+	action = e_html_editor_get_action (editor, "template-replace");
 	if (!action)
 		return;
 
 	existing_folder_uri = e_msg_composer_get_header (composer, "X-Evolution-Templates-Folder", 0);
 	existing_message_uid = e_msg_composer_get_header (composer, "X-Evolution-Templates-Message", 0);
 
-	gtk_action_set_visible (action, existing_folder_uri && *existing_folder_uri && existing_message_uid && *existing_message_uid);
-	gtk_action_set_sensitive (action, gtk_action_get_visible (action));
+	e_ui_action_set_visible (action, existing_folder_uri && *existing_folder_uri && existing_message_uid && *existing_message_uid);
+	e_ui_action_set_sensitive (action, e_ui_action_get_visible (action));
 }
 
 static void
-templates_shell_view_update_actions_cb (EShellView *shell_view,
-					GtkActionGroup *action_group)
+templates_update_menu (TemplatesData *td)
+{
+	g_return_if_fail (td != NULL);
+
+	td->changed = FALSE;
+
+	e_mail_templates_store_update_menu (td->templates_store, td->reply_template_menu, e_mail_reader_get_ui_manager (td->mail_reader),
+		action_reply_with_template_cb, td->mail_reader);
+}
+
+static void
+templates_mail_reader_update_actions_cb (EMailReader *reader,
+					 guint state,
+					 gpointer user_data)
 {
 	TemplatesData *td;
+	gboolean sensitive;
 
 	if (!plugin_enabled)
 		return;
 
-	td = g_object_get_data (G_OBJECT (shell_view), TEMPLATES_DATA_KEY);
-	if (td) {
-		if (td->changed) {
-			EShellWindow *shell_window;
-			GtkUIManager *ui_manager;
+	td = g_object_get_data (G_OBJECT (reader), TEMPLATES_DATA_KEY);
+	if (td && td->changed)
+		templates_update_menu (td);
 
-			td->changed = FALSE;
+	sensitive = (state & E_MAIL_READER_SELECTION_SINGLE) != 0;
 
-			shell_window = e_shell_view_get_shell_window (shell_view);
-			ui_manager = e_shell_window_get_ui_manager (shell_window);
-
-			e_mail_templates_store_build_menu (td->templates_store, shell_view, ui_manager, action_group,
-				"/main-menu/custom-menus/mail-message-menu/mail-reply-template",
-				"/mail-message-popup/mail-message-popup-common-actions/mail-popup-reply-template",
-				td->merge_id,
-				action_reply_with_template_cb, shell_view);
-		}
-	}
-
-	gtk_action_group_set_sensitive (action_group, TRUE);
-	gtk_action_group_set_visible (action_group, TRUE);
+	e_ui_action_set_sensitive (e_mail_reader_get_action (reader, "EPluginTemplates::mail-reply-template"), sensitive);
+	e_ui_action_set_sensitive (e_mail_reader_get_action (reader, "template-use-this"), sensitive);
 }
 
 gboolean
-init_composer_actions (GtkUIManager *ui_manager,
+init_composer_actions (EUIManager *ui_manager,
                        EMsgComposer *composer)
 {
-	EHTMLEditor *editor;
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<placeholder id='pre-edit-menu'>"
+		      "<submenu action='file-menu'>"
+			"<placeholder id='template-holder'>"
+			  "<item action='template-replace'/>"
+			  "<item action='template-save-new'/>"
+			"</placeholder>"
+                      "</submenu>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
 
-	editor = e_msg_composer_get_editor (composer);
+	static const EUIActionEntry entries[] = {
+		{ "template-replace",
+		  "document-save",
+		  N_("Save _Template"),
+		  "<Shift><Control>t",
+		  N_("Replace opened Template message"),
+		  action_template_replace_cb, NULL, NULL, NULL },
 
-	/* Add actions to the "composer" action group. */
-	gtk_action_group_add_actions (
-		e_html_editor_get_action_group (editor, "composer"),
-		composer_entries, G_N_ELEMENTS (composer_entries), composer);
+		{ "template-save-new",
+		  "document-save",
+		  N_("Save as _New Template"),
+		  NULL,
+		  N_("Save as Template"),
+		  action_template_save_new_cb, NULL, NULL, NULL }
+	};
+
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "composer", GETTEXT_PACKAGE,
+		entries, G_N_ELEMENTS (entries), composer, eui);
 
 	g_signal_connect (composer, "realize",
 		G_CALLBACK (templates_composer_realize_cb), NULL);
 
 	return TRUE;
+}
+
+static gboolean
+templates_update_menu_timeout_cb (gpointer user_data)
+{
+	TemplatesData *td = user_data;
+
+	td->update_menu_id = 0;
+
+	templates_update_menu (td);
+
+	return G_SOURCE_REMOVE;
 }
 
 static void
@@ -1064,55 +1092,145 @@ templates_store_changed_cb (EMailTemplatesStore *templates_store,
 	g_return_if_fail (td != NULL);
 
 	td->changed = TRUE;
+
+	if (td->update_immediately && !td->update_menu_id)
+		td->update_menu_id = g_timeout_add (100, templates_update_menu_timeout_cb, td);
+}
+
+static gboolean
+templates_ui_manager_create_item_cb (EUIManager *ui_manager,
+				     EUIElement *elem,
+				     EUIAction *action,
+				     EUIElementKind for_kind,
+				     GObject **out_item,
+				     gpointer user_data)
+{
+	GMenuModel *reply_template_menu = user_data;
+	const gchar *name;
+
+	g_return_val_if_fail (G_IS_MENU (reply_template_menu), FALSE);
+
+	name = g_action_get_name (G_ACTION (action));
+
+	if (!g_str_has_prefix (name, "EPluginTemplates::"))
+		return FALSE;
+
+	#define is_action(_nm) (g_strcmp0 (name, (_nm)) == 0)
+
+	if (is_action ("EPluginTemplates::mail-reply-template")) {
+		*out_item = e_ui_manager_create_item_from_menu_model (ui_manager, elem, action, for_kind, reply_template_menu);
+	} else if (for_kind == E_UI_ELEMENT_KIND_MENU) {
+		g_warning ("%s: Unhandled menu action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_TOOLBAR) {
+		g_warning ("%s: Unhandled toolbar action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_HEADERBAR) {
+		g_warning ("%s: Unhandled headerbar action '%s'", G_STRFUNC, name);
+	} else {
+		g_warning ("%s: Unhandled element kind '%d' for action '%s'", G_STRFUNC, (gint) for_kind, name);
+	}
+
+	#undef is_action
+
+	return TRUE;
 }
 
 static void
-mail_shell_view_created_cb (EShellWindow *shell_window,
-                            EShellView *shell_view)
+init_actions_for_mail_backend (EMailBackend *mail_backend,
+			       EUIManager *ui_manager,
+			       EMailReader *mail_reader,
+			       gboolean update_immediately)
 {
-	EMailBackend *backend;
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<placeholder id='custom-menus'>"
+		      "<submenu action='mail-message-menu'>"
+			"<placeholder id='mail-reply-template'>"
+			  "<item action='EPluginTemplates::mail-reply-template'/>"
+			"</placeholder>"
+                      "</submenu>"
+		    "</placeholder>"
+		  "</menu>"
+		  "<menu id='mail-message-popup' is-popup='true'>"
+		    "<placeholder id='mail-message-popup-common-actions'>"
+		      "<placeholder id='mail-reply-template'>"
+			"<item action='EPluginTemplates::mail-reply-template'/>"
+		      "</placeholder>"
+		    "</placeholder>"
+		  "</menu>"
+		  "<menu id='mail-preview-popup' is-popup='true'>"
+		    "<placeholder id='mail-reply-template'>"
+		      "<item action='EPluginTemplates::mail-reply-template'/>"
+		    "</placeholder>"
+		  "</menu>"
+		  "<menu id='mail-reply-group-menu'>"
+		    "<placeholder id='mail-reply-template'>"
+		      "<item action='EPluginTemplates::mail-reply-template'/>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry entries[] = {
+		{ "EPluginTemplates::mail-reply-template", NULL, N_("Repl_y with Template"), NULL, NULL, NULL, NULL, NULL, NULL }
+	};
+
 	EMailSession *session;
-	EShellBackend *shell_backend;
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
 	TemplatesData *td;
 
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	e_shell_window_add_action_group_full (shell_window, "templates", "mail");
-	action_group = e_lookup_action_group (ui_manager, "templates");
-
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-
-	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
+	session = e_mail_backend_get_session (mail_backend);
 
 	td = g_new0 (TemplatesData, 1);
 	td->templates_store = e_mail_templates_store_ref_default (e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session)));
+	td->mail_reader = g_object_ref (mail_reader);
+	td->reply_template_menu = g_menu_new ();
 	td->changed_handler_id = g_signal_connect (td->templates_store, "changed", G_CALLBACK (templates_store_changed_cb), td);
-	td->merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	td->changed = TRUE;
+	td->update_immediately = update_immediately;
 
-	g_object_set_data_full (G_OBJECT (shell_view), TEMPLATES_DATA_KEY, td, templates_data_free);
+	g_object_set_data_full (G_OBJECT (mail_reader), TEMPLATES_DATA_KEY, td, templates_data_free);
 
-	g_signal_connect (
-		shell_view, "update-actions",
-		G_CALLBACK (templates_shell_view_update_actions_cb), action_group);
+	g_signal_connect_data (ui_manager, "create-item",
+		G_CALLBACK (templates_ui_manager_create_item_cb), g_object_ref (td->reply_template_menu),
+		(GClosureNotify) g_object_unref, 0);
+
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "templates", NULL,
+		entries, G_N_ELEMENTS (entries), td, eui);
+
+	templates_update_menu (td);
 }
 
 gboolean
-init_shell_actions (GtkUIManager *ui_manager,
-                    EShellWindow *shell_window)
+init_mail_actions (EUIManager *ui_manager,
+		   EShellView *shell_view)
 {
-	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+	EMailView *mail_view = NULL;
 
-	/* Be careful not to instantiate the mail view ourselves. */
-	shell_view = e_shell_window_peek_shell_view (shell_window, "mail");
-	if (shell_view != NULL)
-		mail_shell_view_created_cb (shell_window, shell_view);
-	else
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	g_object_get (shell_content, "mail-view", &mail_view, NULL);
+	if (mail_view) {
+		init_actions_for_mail_backend (E_MAIL_BACKEND (shell_backend), ui_manager, E_MAIL_READER (mail_view), FALSE);
+
 		g_signal_connect (
-			shell_window, "shell-view-created::mail",
-			G_CALLBACK (mail_shell_view_created_cb), NULL);
+			mail_view, "update-actions",
+			G_CALLBACK (templates_mail_reader_update_actions_cb), NULL);
+
+		g_clear_object (&mail_view);
+	}
+
+	return TRUE;
+}
+
+gboolean
+init_mail_browser_actions (EUIManager *ui_manager,
+			   EMailBrowser *mail_browser)
+{
+	EMailReader *reader = E_MAIL_READER (mail_browser);
+
+	init_actions_for_mail_backend (e_mail_reader_get_backend (reader), ui_manager, reader, TRUE);
 
 	return TRUE;
 }

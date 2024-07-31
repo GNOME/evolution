@@ -55,10 +55,10 @@ struct _ECalBaseShellBackend {
 struct _ECalBaseShellBackendClass {
 	EShellBackendClass parent_class;
 
-	GtkActionEntry *new_item_entries;
+	const EUIActionEntry *new_item_entries;
 	guint new_item_n_entries;
 
-	GtkActionEntry *source_entries;
+	const EUIActionEntry *source_entries;
 	guint source_n_entries;
 
 	gboolean (* handle_uri) (EShellBackend *shell_backend,

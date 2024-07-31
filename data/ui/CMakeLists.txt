@@ -1,11 +1,14 @@
-install(FILES	evolution-calendars.ui
-		evolution-contacts.ui
-		evolution-mail.ui
-		evolution-mail-reader.ui
-		evolution-mail-viewer.ui
-		evolution-memos.ui
-		evolution-shell.ui
-		evolution-tasks.ui
+install(FILES	e-comp-editor.eui
+		e-html-editor.eui
+		evolution-calendars.eui
+		evolution-composer.eui
+		evolution-contacts.eui
+		evolution-mail.eui
+		evolution-mail-reader.eui
+		evolution-mail-viewer.eui
+		evolution-memos.eui
+		evolution-shell.eui
+		evolution-tasks.eui
 		evolution-shortcuts.ui
 	DESTINATION ${uidir}
 )

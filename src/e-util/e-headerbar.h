@@ -54,6 +54,7 @@ void			e_header_bar_pack_start		(EHeaderBar *self,
 void			e_header_bar_pack_end		(EHeaderBar *self,
 							 GtkWidget *widget,
 							 guint label_priority);
+void			e_header_bar_remove_all		(EHeaderBar *self);
 GList *			e_header_bar_get_start_widgets	(EHeaderBar *self);
 GList *			e_header_bar_get_end_widgets	(EHeaderBar *self);
 

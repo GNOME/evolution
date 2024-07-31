@@ -123,7 +123,7 @@ ece_memo_notify_target_client_cb (GObject *object,
 	ECompEditorMemo *memo_editor;
 	ECompEditor *comp_editor;
 	ECalClient *cal_client;
-	GtkAction *action;
+	EUIAction *action;
 	GtkWidget *description_widget;
 	GtkTextBuffer *text_buffer;
 	gboolean supports_date;
@@ -163,10 +163,10 @@ ece_memo_notify_target_client_cb (GObject *object,
 		gtk_widget_hide (GTK_WIDGET (memo_editor->priv->attachments_page));
 
 		action = e_comp_editor_get_action (comp_editor, "view-categories");
-		gtk_action_set_sensitive (action, FALSE);
+		e_ui_action_set_sensitive (action, FALSE);
 
 		action = e_comp_editor_get_action (comp_editor, "option-attendees");
-		gtk_action_set_visible (action, FALSE);
+		e_ui_action_set_visible (action, FALSE);
 	} else {
 		supports_date = !cal_client || !e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_NO_MEMO_START_DATE);
 
@@ -185,10 +185,10 @@ ece_memo_notify_target_client_cb (GObject *object,
 		gtk_widget_show (GTK_WIDGET (memo_editor->priv->attachments_page));
 
 		action = e_comp_editor_get_action (comp_editor, "view-categories");
-		gtk_action_set_sensitive (action, TRUE);
+		e_ui_action_set_sensitive (action, TRUE);
 
 		action = e_comp_editor_get_action (comp_editor, "option-attendees");
-		gtk_action_set_visible (action, TRUE);
+		e_ui_action_set_visible (action, TRUE);
 	}
 }
 
@@ -241,53 +241,39 @@ ece_memo_sensitize_widgets (ECompEditor *comp_editor,
 static void
 ece_memo_setup_ui (ECompEditorMemo *memo_editor)
 {
-	const gchar *ui =
-		"<ui>"
-		"  <menubar action='main-menu'>"
-		"    <menu action='view-menu'>"
-		"      <placeholder name='parts'>"
-		"        <menuitem action='view-categories'/>"
-		"      </placeholder>"
-		"    </menu>"
-		"  </menubar>"
-		"</ui>";
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='view-menu'>"
+		      "<placeholder id='parts'>"
+			"<item action='view-categories' text_only='true'/>"
+		      "</placeholder>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
 
-	const GtkToggleActionEntry view_actions[] = {
+	static const EUIActionEntry view_actions[] = {
 		{ "view-categories",
 		  NULL,
 		  N_("_Categories"),
 		  NULL,
 		  N_("Toggles whether to display categories"),
-		  NULL,
-		  FALSE }
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state }
 	};
 
 	ECompEditor *comp_editor;
 	GSettings *settings;
-	GtkUIManager *ui_manager;
-	GtkAction *action;
-	GtkActionGroup *action_group;
-	GError *error = NULL;
+	EUIManager *ui_manager;
+	EUIAction *action;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_MEMO (memo_editor));
 
 	comp_editor = E_COMP_EDITOR (memo_editor);
 	settings = e_comp_editor_get_settings (comp_editor);
 	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
-	action_group = e_comp_editor_get_action_group (comp_editor, "individual");
 
-	gtk_action_group_add_toggle_actions (action_group,
-		view_actions, G_N_ELEMENTS (view_actions), memo_editor);
-
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-
-	e_plugin_ui_register_manager (ui_manager, "org.gnome.evolution.memo-editor", memo_editor);
-	e_plugin_ui_enable_manager (ui_manager, "org.gnome.evolution.memo-editor");
-
-	if (error) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "individual", GETTEXT_PACKAGE,
+		view_actions, G_N_ELEMENTS (view_actions), memo_editor, eui);
 
 	action = e_comp_editor_get_action (comp_editor, "view-categories");
 	e_binding_bind_property (

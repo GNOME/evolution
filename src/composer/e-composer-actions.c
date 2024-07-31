@@ -26,11 +26,15 @@
 #include <fcntl.h>
 
 static void
-action_attach_cb (GtkAction *action,
-                  EMsgComposer *composer)
+action_attach_cb (EUIAction *action,
+		  GVariant *parameter,
+		  gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
 	EAttachmentView *view;
 	EAttachmentStore *store;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	view = e_msg_composer_get_attachment_view (composer);
 	store = e_attachment_view_get_store (view);
@@ -39,25 +43,29 @@ action_attach_cb (GtkAction *action,
 }
 
 static void
-action_charset_cb (GtkRadioAction *action,
-                   GtkRadioAction *current,
-                   EMsgComposer *composer)
+action_charset_change_set_state_cb (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
-	const gchar *charset;
+	EMsgComposer *composer = user_data;
 
-	if (action != current)
-		return;
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	charset = g_object_get_data (G_OBJECT (action), "charset");
+	e_ui_action_set_state (action, parameter);
 
 	g_free (composer->priv->charset);
-	composer->priv->charset = g_strdup (charset);
+	composer->priv->charset = g_strdup (g_variant_get_string (parameter, NULL));
 }
 
 static void
-action_close_cb (GtkAction *action,
-                 EMsgComposer *composer)
+action_close_cb (EUIAction *action,
+		 GVariant *parameter,
+		 gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
 	if (e_msg_composer_can_close (composer, TRUE)) {
 		e_composer_emit_before_destroy (composer);
 		gtk_widget_destroy (GTK_WIDGET (composer));
@@ -82,10 +90,14 @@ action_new_message_composer_created_cb (GObject *source_object,
 }
 
 static void
-action_new_message_cb (GtkAction *action,
-                       EMsgComposer *composer)
+action_new_message_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
 	EShell *shell;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	shell = e_msg_composer_get_shell (composer);
 
@@ -105,26 +117,16 @@ composer_set_content_editor_changed (EMsgComposer *composer)
 }
 
 static void
-action_pgp_encrypt_cb (GtkToggleAction *action,
-                       EMsgComposer *composer)
+action_preferences_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
-	composer_set_content_editor_changed (composer);
-}
-
-static void
-action_pgp_sign_cb (GtkToggleAction *action,
-                    EMsgComposer *composer)
-{
-	composer_set_content_editor_changed (composer);
-}
-
-static void
-action_preferences_cb (GtkAction *action,
-                       EMsgComposer *composer)
-{
+	EMsgComposer *composer = user_data;
 	EShell *shell;
 	GtkWidget *preferences_window;
 	const gchar *page_name = "composer";
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	shell = e_msg_composer_get_shell (composer);
 	preferences_window = e_shell_get_preferences_window (shell);
@@ -143,20 +145,28 @@ action_preferences_cb (GtkAction *action,
 }
 
 static void
-action_print_cb (GtkAction *action,
-                 EMsgComposer *composer)
+action_print_cb (EUIAction *action,
+		 GVariant *parameter,
+		 gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
 	GtkPrintOperationAction print_action;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
 	e_msg_composer_print (composer, print_action);
 }
 
 static void
-action_print_preview_cb (GtkAction *action,
-                         EMsgComposer *composer)
+action_print_preview_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
 	GtkPrintOperationAction print_action;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
 	e_msg_composer_print (composer, print_action);
@@ -187,17 +197,21 @@ action_save_ready_cb (GObject *source_object,
 }
 
 static void
-action_save_cb (GtkAction *action,
-                EMsgComposer *composer)
+action_save_cb (EUIAction *action,
+		GVariant *parameter,
+		gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
 	EHTMLEditor *editor;
 	const gchar *filename;
 	gint fd;
 
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
 	editor = e_msg_composer_get_editor (composer);
 	filename = e_html_editor_get_filename (editor);
 	if (filename == NULL) {
-		gtk_action_activate (ACTION (SAVE_AS));
+		g_action_activate (G_ACTION (ACTION (SAVE_AS)), NULL);
 		return;
 	}
 
@@ -229,12 +243,16 @@ action_save_cb (GtkAction *action,
 }
 
 static void
-action_save_as_cb (GtkAction *action,
-                   EMsgComposer *composer)
+action_save_as_cb (EUIAction *action,
+		   GVariant *parameter,
+		   gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
 	EHTMLEditor *editor;
 	GtkFileChooserNative *native;
 	gchar *filename;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	native = gtk_file_chooser_native_new (
 		_("Save as…"), GTK_WINDOW (composer),
@@ -254,52 +272,58 @@ action_save_as_cb (GtkAction *action,
 		e_html_editor_set_filename (editor, filename);
 		g_free (filename);
 
-		gtk_action_activate (ACTION (SAVE));
+		g_action_activate (G_ACTION (ACTION (SAVE)), NULL);
 	}
 
 	g_object_unref (native);
 }
 
 static void
-action_save_draft_cb (GtkAction *action,
-                      EMsgComposer *composer)
+action_save_draft_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
 	e_msg_composer_save_to_drafts (composer);
 }
 
 static void
-action_send_cb (GtkAction *action,
-                EMsgComposer *composer)
+action_send_cb (EUIAction *action,
+		GVariant *parameter,
+		gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
 	e_msg_composer_send (composer);
 }
 
 static void
-action_smime_encrypt_cb (GtkToggleAction *action,
-                         EMsgComposer *composer)
+e_composer_set_action_state_with_changed_cb (EUIAction *action,
+					     GVariant *parameter,
+					     gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	e_ui_action_set_state (action, parameter);
 	composer_set_content_editor_changed (composer);
 }
 
 static void
-action_smime_sign_cb (GtkToggleAction *action,
-                      EMsgComposer *composer)
+composer_actions_toolbar_option_notify_active_cb (EUIAction *action,
+						  GParamSpec *param,
+						  gpointer user_data)
 {
-	composer_set_content_editor_changed (composer);
-}
-
-static void
-composer_actions_toolbar_option_toggled_cb (GtkToggleAction *toggle_action,
-					    EMsgComposer *composer)
-{
-	GtkAction *action;
-
-	action = GTK_ACTION (toggle_action);
-
 	/* Show the action only after the first time the option is used */
-	if (!gtk_action_get_visible (action) &&
-	    gtk_toggle_action_get_active (toggle_action))
-		gtk_action_set_visible (action, TRUE);
+	if (!e_ui_action_get_visible (action) &&
+	    e_ui_action_get_active (action))
+		e_ui_action_set_visible (action, TRUE);
 }
 
 static gboolean
@@ -318,285 +342,6 @@ composer_actions_accel_activate_cb (GtkAccelGroup *accel_group,
 	}
 	return FALSE;
 }
-
-static GtkActionEntry entries[] = {
-
-	{ "attach",
-          "mail-attachment",
-	  N_("_Attachment…"),
-	  "<Control>m",
-	  N_("Attach a file"),
-	  G_CALLBACK (action_attach_cb) },
-
-	{ "close",
-	  "window-close",
-	  N_("_Close"),
-	  "<Control>w",
-	  N_("Close the current file"),
-	  G_CALLBACK (action_close_cb) },
-
-	{ "new-message",
-	  "mail-message-new",
-	  N_("New _Message"),
-	  "<Control>n",
-	  N_("Open New Message window"),
-	  G_CALLBACK (action_new_message_cb) },
-
-	{ "preferences",
-	  "preferences-system",
-	  N_("_Preferences"),
-	  NULL,
-	  N_("Configure Evolution"),
-	  G_CALLBACK (action_preferences_cb) },
-
-	{ "save",
-	  "document-save",
-	  N_("_Save"),
-	  "<Shift><Control>s",
-	  N_("Save the current file"),
-	  G_CALLBACK (action_save_cb) },
-
-	{ "save-as",
-	  "document-save-as",
-	  N_("Save _As…"),
-	  NULL,
-	  N_("Save the current file with a different name"),
-	  G_CALLBACK (action_save_as_cb) },
-
-	/* Menus */
-
-	{ "charset-menu",
-	  NULL,
-	  N_("Character _Encoding"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "options-menu",
-	  NULL,
-	  N_("Option_s"),
-	  NULL,
-	  NULL,
-	  NULL }
-};
-
-static GtkActionEntry async_entries[] = {
-
-	{ "print",
-	  "document-print",
-	  N_("_Print…"),
-	  "<Control>p",
-	  NULL,
-	  G_CALLBACK (action_print_cb) },
-
-	{ "print-preview",
-	  "document-print-preview",
-	  N_("Print Pre_view"),
-	  "<Shift><Control>p",
-	  NULL,
-	  G_CALLBACK (action_print_preview_cb) },
-
-	{ "save-draft",
-	  "document-save",
-	  N_("Save as _Draft"),
-	  "<Control>s",
-	  N_("Save as draft"),
-	  G_CALLBACK (action_save_draft_cb) },
-
-	{ "send",
-	  "mail-send",
-	  N_("S_end"),
-	  "<Control>Return",
-	  N_("Send this message"),
-	  G_CALLBACK (action_send_cb) },
-};
-
-static GtkToggleActionEntry toggle_entries[] = {
-
-	{ "toolbar-show-main",
-	  NULL,
-	  N_("_Main toolbar"),
-	  NULL,
-	  N_("Main toolbar"),
-	  NULL,
-	  FALSE },
-
-	{ "toolbar-show-edit",
-	  NULL,
-	  N_("Edit _toolbar"),
-	  NULL,
-	  N_("Edit toolbar"),
-	  NULL,
-	  FALSE },
-
-	{ "pgp-encrypt",
-	  NULL,
-	  N_("PGP _Encrypt"),
-	  NULL,
-	  N_("Encrypt this message with PGP"),
-	  G_CALLBACK (action_pgp_encrypt_cb),
-	  FALSE },
-
-	{ "pgp-sign",
-	  NULL,
-	  N_("PGP _Sign"),
-	  NULL,
-	  N_("Sign this message with your PGP key"),
-	  G_CALLBACK (action_pgp_sign_cb),
-	  FALSE },
-
-	{ "picture-gallery",
-	  "emblem-photos",
-	  N_("_Picture Gallery"),
-	  NULL,
-	  N_("Show a collection of pictures that you can drag to your message"),
-	  NULL,  /* no callback */
-	  FALSE },
-
-	{ "prioritize-message",
-	  "mail-mark-important",
-	  N_("_Prioritize Message"),
-	  NULL,
-	  N_("Set the message priority to high"),
-	  NULL,  /* no callback */
-	  FALSE },
-
-	{ "request-read-receipt",
-	  "preferences-system-notifications",
-	  N_("Re_quest Read Receipt"),
-	  NULL,
-	  N_("Get delivery notification when your message is read"),
-	  NULL,  /* no callback */
-	  FALSE },
-
-	{ "delivery-status-notification",
-	  NULL,
-	  N_("Request _Delivery Status Notification"),
-	  NULL,
-	  N_("Get delivery status notification for the message"),
-	  NULL,  /* no callback */
-	  FALSE },
-
-	{ "smime-encrypt",
-	  NULL,
-	  N_("S/MIME En_crypt"),
-	  NULL,
-	  N_("Encrypt this message with S/MIME"),
-	  G_CALLBACK (action_smime_encrypt_cb),
-	  FALSE },
-
-	{ "smime-sign",
-	  NULL,
-	  N_("S/MIME Sig_n"),
-	  NULL,
-	  N_("Sign this message with your S/MIME Signature Certificate"),
-	  G_CALLBACK (action_smime_sign_cb),
-	  FALSE },
-
-	{ "toolbar-pgp-encrypt",
-	  "security-high",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  FALSE },
-
-	{ "toolbar-pgp-sign",
-	  "stock_signature",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  FALSE },
-
-	{ "toolbar-prioritize-message",
-	  "emblem-important",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  FALSE },
-
-	{ "toolbar-request-read-receipt",
-	  "mail-forward",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  FALSE },
-
-	{ "toolbar-smime-encrypt",
-	  "security-high",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  FALSE },
-
-	{ "toolbar-smime-sign",
-	  "stock_signature",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  FALSE },
-
-	{ "view-bcc",
-	  NULL,
-	  N_("_Bcc Field"),
-	  NULL,
-	  N_("Toggles whether the BCC field is displayed"),
-	  NULL,  /* Handled by property bindings */
-	  FALSE },
-
-	{ "view-cc",
-	  NULL,
-	  N_("_Cc Field"),
-	  NULL,
-	  N_("Toggles whether the CC field is displayed"),
-	  NULL,  /* Handled by property bindings */
-	  FALSE },
-
-	{ "view-from-override",
-	  NULL,
-	  N_("_From Override Field"),
-	  NULL,
-	  N_("Toggles whether the From override field to change name or email address is displayed"),
-	  NULL,  /* Handled by property bindings */
-	  FALSE },
-
-	{ "view-mail-followup-to",
-	  NULL,
-	  N_("Mail-Follow_up-To Field"),
-	  NULL,
-	  N_("Toggles whether the Mail-Followup-To field is displayed"),
-	  NULL,  /* Handled by property bindings */
-	  FALSE },
-
-	{ "view-mail-reply-to",
-	  NULL,
-	  N_("Mail-R_eply-To Field"),
-	  NULL,
-	  N_("Toggles whether the Mail-Reply-To field is displayed"),
-	  NULL,  /* Handled by property bindings */
-	  FALSE },
-
-	{ "view-reply-to",
-	  NULL,
-	  N_("_Reply-To Field"),
-	  NULL,
-	  N_("Toggles whether the Reply-To field is displayed"),
-	  NULL,  /* Handled by property bindings */
-	  FALSE },
-
-	{ "visually-wrap-long-lines",
-	  NULL,
-	  N_("Visually _Wrap Long Lines"),
-	  NULL,
-	  N_("Whether to visually wrap long lines of text to avoid horizontal scrolling"),
-	  NULL,
-	  FALSE }
-};
 
 static gboolean
 eca_transform_mode_html_to_boolean_cb (GBinding *binding,
@@ -630,15 +375,276 @@ eca_mode_to_bool_hide_in_markdown_cb (GBinding *binding,
 void
 e_composer_actions_init (EMsgComposer *composer)
 {
-	GtkActionGroup *action_group;
+	static const EUIActionEntry entries[] = {
+
+		{ "attach",
+		  "mail-attachment",
+		  N_("_Attachment…"),
+		  "<Control>m",
+		  N_("Attach a file"),
+		  action_attach_cb, NULL, NULL, NULL },
+
+		{ "close",
+		  "window-close",
+		  N_("_Close"),
+		  "<Control>w",
+		  N_("Close the current file"),
+		  action_close_cb, NULL, NULL, NULL },
+
+		{ "new-message",
+		  "mail-message-new",
+		  N_("New _Message"),
+		  "<Control>n",
+		  N_("Open New Message window"),
+		  action_new_message_cb, NULL, NULL, NULL },
+
+		{ "preferences",
+		  "preferences-system",
+		  N_("_Preferences"),
+		  NULL,
+		  N_("Configure Evolution"),
+		  action_preferences_cb, NULL, NULL, NULL },
+
+		{ "save",
+		  "document-save",
+		  N_("_Save"),
+		  "<Shift><Control>s",
+		  N_("Save the current file"),
+		  action_save_cb, NULL, NULL, NULL },
+
+		{ "save-as",
+		  "document-save-as",
+		  N_("Save _As…"),
+		  NULL,
+		  N_("Save the current file with a different name"),
+		  action_save_as_cb, NULL, NULL, NULL },
+
+		/* Menus */
+
+		{ "EMsgComposer::charset-menu",
+		  NULL,
+		  N_("Character _Encoding"),
+		  NULL,
+		  NULL,
+		  NULL, "s", "''", action_charset_change_set_state_cb },
+
+		{ "EMsgComposer::menu-button",
+		  NULL,
+		  N_("Menu"),
+		  NULL,
+		  NULL,
+		  NULL, NULL, NULL, NULL },
+
+		{ "options-menu",
+		  NULL,
+		  N_("Option_s"),
+		  NULL,
+		  NULL,
+		  NULL, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry async_entries[] = {
+
+		{ "print",
+		  "document-print",
+		  N_("_Print…"),
+		  "<Control>p",
+		  NULL,
+		  action_print_cb, NULL, NULL, NULL },
+
+		{ "print-preview",
+		  "document-print-preview",
+		  N_("Print Pre_view"),
+		  "<Shift><Control>p",
+		  NULL,
+		  action_print_preview_cb, NULL, NULL, NULL },
+
+		{ "save-draft",
+		  "document-save",
+		  N_("Save as _Draft"),
+		  "<Control>s",
+		  N_("Save as draft"),
+		  action_save_draft_cb, NULL, NULL, NULL },
+
+		{ "send",
+		  "mail-send",
+		  N_("S_end"),
+		  "<Control>Return",
+		  N_("Send this message"),
+		  action_send_cb, NULL, NULL, NULL },
+	};
+
+	static const EUIActionEntry toggle_entries[] = {
+
+		{ "toolbar-show-main",
+		  NULL,
+		  N_("_Main toolbar"),
+		  NULL,
+		  N_("Main toolbar"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "toolbar-show-edit",
+		  NULL,
+		  N_("Edit _toolbar"),
+		  NULL,
+		  N_("Edit toolbar"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "pgp-encrypt",
+		  NULL,
+		  N_("PGP _Encrypt"),
+		  NULL,
+		  N_("Encrypt this message with PGP"),
+		  NULL, NULL, "false", e_composer_set_action_state_with_changed_cb },
+
+		{ "pgp-sign",
+		  NULL,
+		  N_("PGP _Sign"),
+		  NULL,
+		  N_("Sign this message with your PGP key"),
+		  NULL, NULL, "false", e_composer_set_action_state_with_changed_cb },
+
+		{ "picture-gallery",
+		  "emblem-photos",
+		  N_("_Picture Gallery"),
+		  NULL,
+		  N_("Show a collection of pictures that you can drag to your message"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "prioritize-message",
+		  "mail-mark-important",
+		  N_("_Prioritize Message"),
+		  NULL,
+		  N_("Set the message priority to high"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "request-read-receipt",
+		  "preferences-system-notifications",
+		  N_("Re_quest Read Receipt"),
+		  NULL,
+		  N_("Get delivery notification when your message is read"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "delivery-status-notification",
+		  NULL,
+		  N_("Request _Delivery Status Notification"),
+		  NULL,
+		  N_("Get delivery status notification for the message"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "smime-encrypt",
+		  NULL,
+		  N_("S/MIME En_crypt"),
+		  NULL,
+		  N_("Encrypt this message with S/MIME"),
+		  NULL, NULL, "false", e_composer_set_action_state_with_changed_cb },
+
+		{ "smime-sign",
+		  NULL,
+		  N_("S/MIME Sig_n"),
+		  NULL,
+		  N_("Sign this message with your S/MIME Signature Certificate"),
+		  NULL, NULL, "false", e_composer_set_action_state_with_changed_cb },
+
+		{ "toolbar-pgp-encrypt",
+		  "gicon::EMsgComposer::pgp-encrypt",
+		  N_("PGP _Encrypt"),
+		  NULL,
+		  N_("Encrypt this message with PGP"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "toolbar-pgp-sign",
+		  "gicon::EMsgComposer::pgp-sign",
+		  N_("PGP _Sign"),
+		  NULL,
+		  N_("Sign this message with your PGP key"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "toolbar-prioritize-message",
+		  "emblem-important",
+		  N_("_Prioritize Message"),
+		  NULL,
+		  N_("Set the message priority to high"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "toolbar-request-read-receipt",
+		  "mail-forward",
+		  N_("Re_quest Read Receipt"),
+		  NULL,
+		  N_("Get delivery notification when your message is read"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "toolbar-smime-encrypt",
+		  "security-high",
+		  N_("S/MIME En_crypt"),
+		  NULL,
+		  N_("Encrypt this message with S/MIME"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "toolbar-smime-sign",
+		  "stock_signature",
+		  N_("S/MIME Sig_n"),
+		  NULL,
+		  N_("Sign this message with your S/MIME Signature Certificate"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "view-bcc",
+		  NULL,
+		  N_("_Bcc Field"),
+		  NULL,
+		  N_("Toggles whether the BCC field is displayed"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "view-cc",
+		  NULL,
+		  N_("_Cc Field"),
+		  NULL,
+		  N_("Toggles whether the CC field is displayed"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "view-from-override",
+		  NULL,
+		  N_("_From Override Field"),
+		  NULL,
+		  N_("Toggles whether the From override field to change name or email address is displayed"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "view-mail-followup-to",
+		  NULL,
+		  N_("Mail-Follow_up-To Field"),
+		  NULL,
+		  N_("Toggles whether the Mail-Followup-To field is displayed"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "view-mail-reply-to",
+		  NULL,
+		  N_("Mail-R_eply-To Field"),
+		  NULL,
+		  N_("Toggles whether the Mail-Reply-To field is displayed"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "view-reply-to",
+		  NULL,
+		  N_("_Reply-To Field"),
+		  NULL,
+		  N_("Toggles whether the Reply-To field is displayed"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "visually-wrap-long-lines",
+		  NULL,
+		  N_("Visually _Wrap Long Lines"),
+		  NULL,
+		  N_("Whether to visually wrap long lines of text to avoid horizontal scrolling"),
+		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state }
+	};
+
 	GtkAccelGroup *accel_group;
-	GtkUIManager *ui_manager;
+	EUIManager *ui_manager;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	gboolean visible;
 	GSettings *settings;
-	GtkAction *action;
-	GIcon *gcr_gnupg_icon;
+	EUIAction *action;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -647,56 +653,27 @@ e_composer_actions_init (EMsgComposer *composer)
 	ui_manager = e_html_editor_get_ui_manager (editor);
 
 	/* Composer Actions */
-	action_group = composer->priv->composer_actions;
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (
-		action_group, entries,
-		G_N_ELEMENTS (entries), composer);
-	gtk_action_group_add_toggle_actions (
-		action_group, toggle_entries,
-		G_N_ELEMENTS (toggle_entries), composer);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	e_ui_manager_add_actions (ui_manager, "composer", GETTEXT_PACKAGE,
+		entries, G_N_ELEMENTS (entries), composer);
+	e_ui_manager_add_actions (ui_manager, "composer", GETTEXT_PACKAGE,
+		toggle_entries, G_N_ELEMENTS (toggle_entries), composer);
 
 	/* Asynchronous Actions */
-	action_group = composer->priv->async_actions;
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (
-		action_group, async_entries,
-		G_N_ELEMENTS (async_entries), composer);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	e_ui_manager_add_actions (ui_manager, "async", GETTEXT_PACKAGE,
+		async_entries, G_N_ELEMENTS (async_entries), composer);
 
-	/* Character Set Actions */
-	action_group = composer->priv->charset_actions;
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
-	e_charset_add_radio_actions (
-		action_group, "charset-", composer->priv->charset,
-		G_CALLBACK (action_charset_cb), composer);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	action = e_ui_manager_get_action (ui_manager, "close");
+	e_ui_action_add_secondary_accel (action, "Escape");
 
-	/* Fine Tuning */
-
-	g_object_set (
-		ACTION (ATTACH), "short-label", _("Attach"), NULL);
-
-	g_object_set (
-		ACTION (PICTURE_GALLERY), "is-important", TRUE, NULL);
-
-	g_object_set (
-		ACTION (SAVE_DRAFT), "short-label", _("Save Draft"), NULL);
+	action = e_ui_manager_get_action (ui_manager, "send");
+	e_ui_action_add_secondary_accel (action, "Send");
 
 	#define init_toolbar_option(x, always_visible)	\
-		gtk_action_set_visible (ACTION (TOOLBAR_ ## x), always_visible); \
+		e_ui_action_set_visible (ACTION (TOOLBAR_ ## x), always_visible); \
 		e_binding_bind_property ( \
 			ACTION (x), "active", \
 			ACTION (TOOLBAR_ ## x), "active", \
 			G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL); \
-		e_binding_bind_property ( \
-			ACTION (x), "label", \
-			ACTION (TOOLBAR_ ## x), "label", \
-			G_BINDING_SYNC_CREATE); \
 		e_binding_bind_property ( \
 			ACTION (x), "tooltip", \
 			ACTION (TOOLBAR_ ## x), "tooltip", \
@@ -705,8 +682,8 @@ e_composer_actions_init (EMsgComposer *composer)
 			ACTION (x), "sensitive", \
 			ACTION (TOOLBAR_ ## x), "sensitive", \
 			G_BINDING_SYNC_CREATE); \
-		g_signal_connect (ACTION (TOOLBAR_ ## x), "toggled", \
-			G_CALLBACK (composer_actions_toolbar_option_toggled_cb), composer);
+		g_signal_connect (ACTION (TOOLBAR_ ## x), "notify::active", \
+			G_CALLBACK (composer_actions_toolbar_option_notify_active_cb), composer);
 
 	init_toolbar_option (PGP_SIGN, FALSE);
 	init_toolbar_option (PGP_ENCRYPT, FALSE);
@@ -732,35 +709,6 @@ e_composer_actions_init (EMsgComposer *composer)
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
-
-	/* Borrow a GnuPG icon from gcr to distinguish between GPG and S/MIME Sign/Encrypt actions */
-	gcr_gnupg_icon = g_themed_icon_new ("gcr-gnupg");
-	if (gcr_gnupg_icon) {
-		GIcon *temp_icon;
-		GIcon *action_icon;
-		GEmblem *emblem;
-
-		emblem = g_emblem_new (gcr_gnupg_icon);
-
-		action = ACTION (TOOLBAR_PGP_SIGN);
-		action_icon = g_themed_icon_new (gtk_action_get_icon_name (action));
-		temp_icon = g_emblemed_icon_new (action_icon, emblem);
-		g_object_unref (action_icon);
-
-		gtk_action_set_gicon (action, temp_icon);
-		g_object_unref (temp_icon);
-
-		action = ACTION (TOOLBAR_PGP_ENCRYPT);
-		action_icon = g_themed_icon_new (gtk_action_get_icon_name (action));
-		temp_icon = g_emblemed_icon_new (action_icon, emblem);
-		g_object_unref (action_icon);
-
-		gtk_action_set_gicon (action, temp_icon);
-		g_object_unref (temp_icon);
-
-		g_object_unref (emblem);
-		g_object_unref (gcr_gnupg_icon);
-	}
 
 	e_binding_bind_property_full (
 		editor, "mode",
@@ -812,10 +760,10 @@ e_composer_actions_init (EMsgComposer *composer)
 	visible = FALSE;
 #endif
 
-	gtk_action_set_visible (ACTION (SMIME_ENCRYPT), visible);
-	gtk_action_set_visible (ACTION (SMIME_SIGN), visible);
+	e_ui_action_set_visible (ACTION (SMIME_ENCRYPT), visible);
+	e_ui_action_set_visible (ACTION (SMIME_SIGN), visible);
 
-	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
+	accel_group = e_ui_manager_get_accel_group (ui_manager);
 	g_signal_connect (accel_group, "accel-activate",
 		G_CALLBACK (composer_actions_accel_activate_cb), composer);
 }

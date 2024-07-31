@@ -37,17 +37,17 @@ static void
 task_shell_view_execute_search (EShellView *shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
-	GtkRadioAction *action;
+	EUIAction *action;
 	ECalComponentPreview *task_preview;
 	EPreviewPane *preview_pane;
 	ETaskTable *task_table;
 	EWebView *web_view;
 	ECalModel *model;
 	ECalDataModel *data_model;
+	GVariant *state;
 	ICalTimezone *timezone;
 	ICalTime *current_time;
 	time_t start_range;
@@ -58,7 +58,6 @@ task_shell_view_execute_search (EShellView *shell_view)
 	gchar *temp;
 	gint value;
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
@@ -73,8 +72,10 @@ task_shell_view_execute_search (EShellView *shell_view)
 	now_time = time_day_begin (i_cal_time_as_timet (current_time));
 	g_clear_object (&current_time);
 
-	action = GTK_RADIO_ACTION (ACTION (TASK_SEARCH_ANY_FIELD_CONTAINS));
-	value = gtk_radio_action_get_current_value (action);
+	action = ACTION (TASK_SEARCH_ANY_FIELD_CONTAINS);
+	state = g_action_get_state (G_ACTION (action));
+	value = g_variant_get_int32 (state);
+	g_clear_pointer (&state, g_variant_unref);
 
 	if (value == TASK_SEARCH_ADVANCED) {
 		query = e_shell_view_get_search_query (shell_view);
@@ -272,8 +273,7 @@ task_shell_view_update_actions (EShellView *shell_view)
 {
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	EShellWindow *shell_window;
-	GtkAction *action;
+	EUIAction *action;
 	const gchar *label;
 	gboolean sensitive;
 	guint32 state;
@@ -299,8 +299,6 @@ task_shell_view_update_actions (EShellView *shell_view)
 
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (e_task_shell_view_parent_class)->update_actions (shell_view);
-
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	state = e_shell_content_check_state (shell_content);
@@ -346,108 +344,116 @@ task_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (TASK_LIST_SELECT_ALL);
 	sensitive = clicked_source_is_primary && !all_sources_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_SELECT_ONE);
 	sensitive = clicked_source_is_primary;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_ASSIGN);
 	sensitive =
 		single_task_selected && sources_are_editable &&
 		selection_is_assignable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_BULK_EDIT);
 	sensitive = any_tasks_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_DELETE);
 	sensitive = any_tasks_selected && sources_are_editable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 	if (multiple_tasks_selected)
 		label = _("Delete Tasks");
 	else
 		label = _("Delete Task");
-	gtk_action_set_label (action, label);
+	e_ui_action_set_label (action, label);
 
 	action = ACTION (TASK_FIND);
 	sensitive = single_task_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_FORWARD);
 	sensitive = single_task_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_COPY);
 	sensitive = has_primary_source;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_DELETE);
 	sensitive =
 		primary_source_is_removable ||
 		primary_source_is_remote_deletable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_PRINT);
 	sensitive = has_primary_source;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_PRINT_PREVIEW);
 	sensitive = has_primary_source;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_PROPERTIES);
 	sensitive = clicked_source_is_primary && primary_source_is_writable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_REFRESH);
 	sensitive = clicked_source_is_primary && refresh_supported;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_REFRESH_BACKEND);
 	sensitive = clicked_source_is_collection;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_RENAME);
 	sensitive = clicked_source_is_primary &&
 		primary_source_is_writable &&
 		!primary_source_in_collection;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_MARK_COMPLETE);
 	sensitive =
 		any_tasks_selected &&
 		sources_are_editable &&
 		some_tasks_incomplete;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_MARK_INCOMPLETE);
 	sensitive =
 		any_tasks_selected &&
 		sources_are_editable &&
 		some_tasks_complete;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_OPEN);
 	sensitive = single_task_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_OPEN_URL);
 	sensitive = single_task_selected && selection_has_url;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_PRINT);
 	sensitive = single_task_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_PURGE);
 	sensitive = sources_are_editable;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_SAVE_AS);
 	sensitive = single_task_selected;
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_sensitive (action, sensitive);
+}
+
+static void
+task_shell_view_init_ui_data (EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_TASK_SHELL_VIEW (shell_view));
+
+	e_task_shell_view_actions_init (E_TASK_SHELL_VIEW (shell_view));
 }
 
 static void
@@ -505,10 +511,18 @@ task_shell_view_finalize (GObject *object)
 static void
 task_shell_view_constructed (GObject *object)
 {
+	EUIManager *ui_manager;
+
+	ui_manager = e_shell_view_get_ui_manager (E_SHELL_VIEW (object));
+
+	e_ui_manager_freeze (ui_manager);
+
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_task_shell_view_parent_class)->constructed (object);
 
 	e_task_shell_view_private_constructed (E_TASK_SHELL_VIEW (object));
+
+	e_ui_manager_thaw (ui_manager);
 }
 
 static void
@@ -528,14 +542,14 @@ e_task_shell_view_class_init (ETaskShellViewClass *class)
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = _("Tasks");
 	shell_view_class->icon_name = "evolution-tasks";
-	shell_view_class->ui_definition = "evolution-tasks.ui";
+	shell_view_class->ui_definition = "evolution-tasks.eui";
 	shell_view_class->ui_manager_id = "org.gnome.evolution.tasks";
-	shell_view_class->search_options = "/task-search-options";
 	shell_view_class->search_rules = "tasktypes.xml";
 	shell_view_class->new_shell_content = e_task_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_cal_base_shell_sidebar_new;
 	shell_view_class->execute_search = task_shell_view_execute_search;
 	shell_view_class->update_actions = task_shell_view_update_actions;
+	shell_view_class->init_ui_data = task_shell_view_init_ui_data;
 
 	cal_base_shell_view_class = E_CAL_BASE_SHELL_VIEW_CLASS (class);
 	cal_base_shell_view_class->source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;

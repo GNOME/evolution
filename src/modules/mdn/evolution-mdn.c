@@ -429,9 +429,12 @@ mdn_notify_sender (ESource *identity_source,
 }
 
 static void
-mdn_notify_action_cb (GtkAction *action,
-                      MdnContext *context)
+mdn_notify_action_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	MdnContext *context = user_data;
+
 	mdn_notify_sender (
 		context->source,
 		context->reader,
@@ -523,7 +526,7 @@ mdn_message_loaded_cb (EMailReader *reader,
 
 	if (response_policy == E_MDN_RESPONSE_POLICY_ASK) {
 		MdnContext *context;
-		GtkAction *action;
+		EUIAction *action;
 		gchar *tooltip;
 
 		context = g_slice_new0 (MdnContext);
@@ -542,10 +545,9 @@ mdn_message_loaded_cb (EMailReader *reader,
 			_("Send a read receipt to “%s”"),
 			context->notify_to);
 
-		action = gtk_action_new (
-			"notify-sender",  /* name doesn't matter */
-			_("_Notify Sender"),
-			tooltip, NULL);
+		action = e_ui_action_new ("mdn-map", "notify-sender", NULL);
+		e_ui_action_set_label (action, _("_Notify Sender"));
+		e_ui_action_set_tooltip (action, tooltip);
 
 		g_signal_connect_data (
 			action, "activate",

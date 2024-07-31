@@ -28,9 +28,11 @@
 /* Much of this file is based on e-memo-shell-view-actions.c. */
 
 static void
-action_calendar_memopad_forward_cb (GtkAction *action,
-                                    ECalShellView *cal_shell_view)
+action_calendar_memopad_forward_cb (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
@@ -57,9 +59,11 @@ action_calendar_memopad_forward_cb (GtkAction *action,
 }
 
 static void
-action_calendar_memopad_new_cb (GtkAction *action,
-                                ECalShellView *cal_shell_view)
+action_calendar_memopad_new_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
@@ -83,9 +87,11 @@ action_calendar_memopad_new_cb (GtkAction *action,
 }
 
 static void
-action_calendar_memopad_open_cb (GtkAction *action,
-                                 ECalShellView *cal_shell_view)
+action_calendar_memopad_open_cb (EUIAction *action,
+				 GVariant *parameter,
+				 gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
@@ -104,9 +110,11 @@ action_calendar_memopad_open_cb (GtkAction *action,
 }
 
 static void
-action_calendar_memopad_open_url_cb (GtkAction *action,
-                                     ECalShellView *cal_shell_view)
+action_calendar_memopad_open_url_cb (EUIAction *action,
+				     GVariant *parameter,
+				     gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
@@ -137,9 +145,11 @@ action_calendar_memopad_open_url_cb (GtkAction *action,
 }
 
 static void
-action_calendar_memopad_print_cb (GtkAction *action,
-                                  ECalShellView *cal_shell_view)
+action_calendar_memopad_print_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
@@ -169,9 +179,11 @@ action_calendar_memopad_print_cb (GtkAction *action,
 }
 
 static void
-action_calendar_memopad_save_as_cb (GtkAction *action,
-                                    ECalShellView *cal_shell_view)
+action_calendar_memopad_save_as_cb (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -231,101 +243,92 @@ action_calendar_memopad_save_as_cb (GtkAction *action,
 	g_object_unref (file);
 }
 
-static GtkActionEntry calendar_memopad_entries[] = {
-
-	{ "calendar-memopad-forward",
-	  "mail-forward",
-	  N_("_Forward as iCalendar…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_memopad_forward_cb) },
-
-	{ "calendar-memopad-new",
-	  "stock_insert-note",
-	  N_("New _Memo"),
-	  NULL,
-	  N_("Create a new memo"),
-	  G_CALLBACK (action_calendar_memopad_new_cb) },
-
-	{ "calendar-memopad-open",
-	  "document-open",
-	  N_("_Open Memo"),
-	  "<Control>o",
-	  N_("View the selected memo"),
-	  G_CALLBACK (action_calendar_memopad_open_cb) },
-
-	{ "calendar-memopad-open-url",
-	  "applications-internet",
-	  N_("Open _Web Page"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_memopad_open_url_cb) },
-};
-
-static GtkActionEntry lockdown_printing_entries[] = {
-
-	{ "calendar-memopad-print",
-	  "document-print",
-	  N_("Print…"),
-	  NULL,
-	  N_("Print the selected memo"),
-	  G_CALLBACK (action_calendar_memopad_print_cb) }
-};
-
-static GtkActionEntry lockdown_save_to_disk_entries[] = {
-
-	{ "calendar-memopad-save-as",
-	  "document-save-as",
-	  N_("_Save as iCalendar…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_memopad_save_as_cb) }
-};
-
 void
-e_cal_shell_view_memopad_actions_init (ECalShellView *cal_shell_view)
+e_cal_shell_view_memopad_actions_init (ECalShellView *self)
 {
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GtkActionGroup *action_group;
+	static const EUIActionEntry calendar_memopad_entries[] = {
 
-	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
+		{ "calendar-memopad-forward",
+		  "mail-forward",
+		  N_("_Forward as iCalendar…"),
+		  NULL,
+		  NULL,
+		  action_calendar_memopad_forward_cb, NULL, NULL, NULL },
+
+		{ "calendar-memopad-new",
+		  "stock_insert-note",
+		  N_("New _Memo"),
+		  NULL,
+		  N_("Create a new memo"),
+		  action_calendar_memopad_new_cb, NULL, NULL, NULL },
+
+		{ "calendar-memopad-open",
+		  "document-open",
+		  N_("_Open Memo"),
+		  "<Control>o",
+		  N_("View the selected memo"),
+		  action_calendar_memopad_open_cb, NULL, NULL, NULL },
+
+		{ "calendar-memopad-open-url",
+		  "applications-internet",
+		  N_("Open _Web Page"),
+		  NULL,
+		  NULL,
+		  action_calendar_memopad_open_url_cb, NULL, NULL, NULL },
+	};
+
+	static const EUIActionEntry lockdown_printing_entries[] = {
+
+		{ "calendar-memopad-print",
+		  "document-print",
+		  N_("Print…"),
+		  NULL,
+		  N_("Print the selected memo"),
+		  action_calendar_memopad_print_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry lockdown_save_to_disk_entries[] = {
+
+		{ "calendar-memopad-save-as",
+		  "document-save-as",
+		  N_("_Save as iCalendar…"),
+		  NULL,
+		  NULL,
+		  action_calendar_memopad_save_as_cb, NULL, NULL, NULL }
+	};
+
+	EShellView *shell_view;
+	EUIManager *ui_manager;
+
+	shell_view = E_SHELL_VIEW (self);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
 
 	/* Calendar Actions */
-	action_group = ACTION_GROUP (CALENDAR);
-	gtk_action_group_add_actions (
-		action_group, calendar_memopad_entries,
-		G_N_ELEMENTS (calendar_memopad_entries), cal_shell_view);
+	e_ui_manager_add_actions (ui_manager, "calendar", NULL,
+		calendar_memopad_entries, G_N_ELEMENTS (calendar_memopad_entries), self);
 
 	/* Lockdown Printing Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
-	gtk_action_group_add_actions (
-		action_group, lockdown_printing_entries,
-		G_N_ELEMENTS (lockdown_printing_entries), cal_shell_view);
+	e_ui_manager_add_actions (ui_manager, "lockdown-printing", NULL,
+		lockdown_printing_entries, G_N_ELEMENTS (lockdown_printing_entries), self);
 
 	/* Lockdown Save-to-Disk Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
-	gtk_action_group_add_actions (
-		action_group, lockdown_save_to_disk_entries,
-		G_N_ELEMENTS (lockdown_save_to_disk_entries), cal_shell_view);
+	e_ui_manager_add_actions (ui_manager, "lockdown-save-to-disk", NULL,
+		lockdown_save_to_disk_entries, G_N_ELEMENTS (lockdown_save_to_disk_entries), self);
 }
 
 void
 e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
-	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EMemoTable *memo_table;
-	GtkAction *action;
+	EUIAction *action;
 	GSList *list, *iter;
 	gboolean has_url = FALSE;
 	gboolean sensitive;
 	gint n_selected;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
@@ -342,23 +345,23 @@ e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 
 	action = ACTION (CALENDAR_MEMOPAD_FORWARD);
 	sensitive = (n_selected == 1);
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_MEMOPAD_OPEN);
 	sensitive = (n_selected == 1);
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_MEMOPAD_OPEN_URL);
 	sensitive = (n_selected == 1) && has_url;
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_MEMOPAD_PRINT);
 	sensitive = (n_selected == 1);
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	action = ACTION (CALENDAR_MEMOPAD_SAVE_AS);
 	sensitive = (n_selected == 1);
-	gtk_action_set_visible (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 }
 
 void

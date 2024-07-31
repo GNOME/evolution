@@ -50,9 +50,10 @@ struct _EMailNotesEditor {
 	EHTMLEditor *editor; /* not referenced */
 	EAttachmentPaned *attachment_paned; /* not referenced */
 	EFocusTracker *focus_tracker;
-	GtkActionGroup *action_group;
+	EUIActionGroup *action_group;
 	GBinding *attachment_paned_binding;
 	EMenuBar *menu_bar;
+	GtkWidget *menu_button; /* owned by menu_bar */
 
 	gboolean had_message;
 	CamelMimeMessage *message;
@@ -616,10 +617,10 @@ e_mail_notes_retrieve_message_done (gpointer ptr)
 		activity_bar = e_html_editor_get_activity_bar (notes_editor->editor);
 		e_activity_bar_set_activity (activity_bar, NULL);
 	} else {
-		GtkAction *action;
+		EUIAction *action;
 
-		action = gtk_action_group_get_action (notes_editor->action_group, "save-and-close");
-		gtk_action_set_sensitive (action, FALSE);
+		action = e_ui_action_group_get_action (notes_editor->action_group, "save-and-close");
+		e_ui_action_set_sensitive (action, FALSE);
 	}
 
 	g_object_unref (notes_editor);
@@ -629,12 +630,10 @@ static gboolean
 mail_notes_editor_delete_event_cb (EMailNotesEditor *notes_editor,
 				   GdkEvent *event)
 {
-	GtkActionGroup *action_group;
-	GtkAction *action;
+	EUIAction *action;
 
-	action_group = notes_editor->action_group;
-	action = gtk_action_group_get_action (action_group, "close");
-	gtk_action_activate (action);
+	action = e_ui_action_group_get_action (notes_editor->action_group, "close");
+	g_action_activate (G_ACTION (action), NULL);
 
 	return TRUE;
 }
@@ -646,7 +645,7 @@ notes_editor_update_editable_on_notify_cb (GObject *object,
 {
 	EActivityBar *activity_bar;
 	EContentEditor *cnt_editor;
-	GtkAction *action;
+	EUIAction *action;
 	gboolean can_edit;
 
 	g_return_if_fail (E_IS_MAIL_NOTES_EDITOR (notes_editor));
@@ -657,8 +656,8 @@ notes_editor_update_editable_on_notify_cb (GObject *object,
 
 	g_object_set (cnt_editor, "editable", can_edit, NULL);
 
-	action = gtk_action_group_get_action (notes_editor->action_group, "save-and-close");
-	gtk_action_set_sensitive (action, can_edit);
+	action = e_ui_action_group_get_action (notes_editor->action_group, "save-and-close");
+	e_ui_action_set_sensitive (action, can_edit);
 }
 
 static gboolean
@@ -797,11 +796,15 @@ e_mail_notes_replace_note (CamelMimeMessage *message,
 }
 
 static void
-action_close_cb (GtkAction *action,
-		 EMailNotesEditor *notes_editor)
+action_close_cb (EUIAction *action,
+		 GVariant *parameter,
+		 gpointer user_data)
 {
+	EMailNotesEditor *notes_editor = user_data;
 	EContentEditor *cnt_editor;
 	gboolean something_changed = FALSE;
+
+	g_return_if_fail (E_IS_MAIL_NOTES_EDITOR (notes_editor));
 
 	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
 
@@ -814,12 +817,8 @@ action_close_cb (GtkAction *action,
 			GTK_WINDOW (notes_editor),
 			"mail:ask-mail-note-changed", NULL);
 		if (response == GTK_RESPONSE_YES) {
-			GtkActionGroup *action_group;
-
-			action_group = notes_editor->action_group;
-			action = gtk_action_group_get_action (
-				action_group, "save-and-close");
-			gtk_action_activate (action);
+			action = e_ui_action_group_get_action (notes_editor->action_group, "save-and-close");
+			g_action_activate (G_ACTION (action), NULL);
 			return;
 		} else if (response == GTK_RESPONSE_CANCEL)
 			return;
@@ -949,9 +948,11 @@ mail_notes_get_content_ready_cb (GObject *source_object,
 }
 
 static void
-action_save_and_close_cb (GtkAction *action,
-			  EMailNotesEditor *notes_editor)
+action_save_and_close_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EMailNotesEditor *notes_editor = user_data;
 	SaveAndCloseData *scd;
 	EActivity *activity;
 	EContentEditor *cnt_editor;
@@ -1079,65 +1080,97 @@ set_preformatted_block_format_on_load_finished_cb (EContentEditor *cnt_editor,
 		G_CALLBACK (set_preformatted_block_format_on_load_finished_cb), NULL);
 }
 
+static gboolean
+e_mail_notes_editor_ui_manager_create_item_cb (EUIManager *ui_manager,
+					       EUIElement *elem,
+					       EUIAction *action,
+					       EUIElementKind for_kind,
+					       GObject **out_item,
+					       gpointer user_data)
+{
+	EMailNotesEditor *self = user_data;
+	const gchar *name;
+
+	g_return_val_if_fail (E_IS_MAIL_NOTES_EDITOR (self), FALSE);
+
+	name = g_action_get_name (G_ACTION (action));
+
+	if (!g_str_has_prefix (name, "EMailNotes::"))
+		return FALSE;
+
+	if (for_kind == E_UI_ELEMENT_KIND_HEADERBAR) {
+		if (g_str_equal (name, "EMailNotes::menu-button"))
+			*out_item = G_OBJECT (g_object_ref (self->menu_button));
+		else
+			g_warning ("%s: Unhandled headerbar action '%s'", G_STRFUNC, name);
+	} else {
+		g_warning ("%s: Unhandled element kind '%d' for action '%s'", G_STRFUNC, (gint) for_kind, name);
+	}
+
+	return TRUE;
+}
+
 static EMailNotesEditor *
 e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 				     GtkWindow *parent,
 				     CamelFolder *folder,
 				     const gchar *uid)
 {
-	const gchar *ui =
-		"<ui>\n"
-		"  <menubar name='main-menu'>\n"
-		"    <placeholder name='pre-edit-menu'>\n"
-		"      <menu action='file-menu'>\n"
-		"        <menuitem action='save-and-close'/>\n"
-		"        <separator/>"
-		"        <menuitem action='close'/>\n"
-		"      </menu>\n"
-		"    </placeholder>\n"
-		"  </menubar>\n"
-		"  <toolbar name='main-toolbar'>\n"
-		"    <placeholder name='pre-main-toolbar'>\n"
-		"      <toolitem action='save-and-close'/>\n"
-		"    </placeholder>\n"
-		"  </toolbar>\n"
-		"</ui>";
+	static const gchar *eui =
+		"<eui>"
+		  "<headerbar id='main-headerbar' type='gtk'>"
+		    "<start>"
+		      "<item action='save-and-close' icon_only='false' css_classes='suggested-action'/>"
+		    "</start>"
+		    "<end>"
+		      "<item action='EMailNotes::menu-button'/>"
+		    "</end>"
+		  "</headerbar>"
+		  "<menu id='main-menu'>"
+		    "<placeholder id='pre-edit-menu'>"
+		      "<submenu action='file-menu'>"
+			"<item action='save-and-close'/>"
+			"<separator/>"
+			"<item action='close'/>"
+		      "</submenu>"
+		    "</placeholder>"
+		  "</menu>"
+		  "<toolbar id='main-toolbar-without-headerbar'>"
+		    "<placeholder id='pre-main-toolbar'>"
+		      "<item action='save-and-close'/>"
+		    "</placeholder>"
+		  "</toolbar>"
+		"</eui>";
 
-	GtkActionEntry entries[] = {
+	static const EUIActionEntry entries[] = {
 
 		{ "close",
 		  "window-close",
 		  N_("_Close"),
 		  "<Control>w",
 		  N_("Close"),
-		  G_CALLBACK (action_close_cb) },
+		  action_close_cb, NULL, NULL, NULL },
 
 		{ "save-and-close",
 		  "document-save",
 		  N_("_Save and Close"),
 		  "<Control>Return",
 		  N_("Save and Close"),
-		  G_CALLBACK (action_save_and_close_cb) },
+		  action_save_and_close_cb, NULL, NULL, NULL },
 
-		{ "file-menu",
-		  NULL,
-		  N_("_File"),
-		  NULL,
-		  NULL,
-		  NULL }
+		{ "file-menu", NULL, N_("_File"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "EMailNotes::menu-button", NULL, N_("Menu"), NULL, NULL, NULL, NULL, NULL, NULL }
 	};
 
 	EMailNotesEditor *notes_editor;
 	EContentEditor *cnt_editor;
 	EFocusTracker *focus_tracker;
 	EActivityBar *activity_bar;
-	GtkUIManager *ui_manager;
-	GtkWidget *widget, *content, *button, *menu_button = NULL;
-	GtkActionGroup *action_group;
-	GtkAction *action;
-	GtkHeaderBar *header_bar;
+	EUIManager *ui_manager;
+	EUIAction *action;
+	GtkWidget *widget, *content;
 	GSettings *settings;
-	GError *local_error = NULL;
+	GObject *ui_item;
 
 	notes_editor = g_object_new (E_TYPE_MAIL_NOTES_EDITOR, NULL);
 
@@ -1159,66 +1192,44 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
 	ui_manager = e_html_editor_get_ui_manager (notes_editor->editor);
 
-	/* Because we are loading from a hard-coded string, there is
-	 * no chance of I/O errors.  Failure here implies a malformed
-	 * UI definition.  Full stop. */
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &local_error);
-	if (local_error != NULL)
-		g_error ("%s: Failed to load built-in UI definition: %s", G_STRFUNC, local_error->message);
+	g_signal_connect_object (ui_manager, "create-item",
+		G_CALLBACK (e_mail_notes_editor_ui_manager_create_item_cb), notes_editor, 0);
 
-	action_group = gtk_action_group_new ("notes");
-	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), notes_editor);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	notes_editor->action_group = g_object_ref (action_group);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "notes", GETTEXT_PACKAGE,
+		entries, G_N_ELEMENTS (entries), notes_editor, eui);
+	notes_editor->action_group = g_object_ref (e_ui_manager_get_action_group (ui_manager, "notes"));
 
 	/* Hide page properties because it is not inherited in the mail. */
 	action = e_html_editor_get_action (notes_editor->editor, "properties-page");
-	gtk_action_set_visible (action, FALSE);
+	e_ui_action_set_visible (action, FALSE);
 
 	action = e_html_editor_get_action (notes_editor->editor, "context-properties-page");
-	gtk_action_set_visible (action, FALSE);
-
-	gtk_ui_manager_ensure_update (ui_manager);
+	e_ui_action_set_visible (action, FALSE);
 
 	/* Construct the window content. */
 
-	widget = e_html_editor_get_managed_widget (notes_editor->editor, "/main-menu");
-	notes_editor->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (notes_editor), &menu_button);
+	ui_item = e_ui_manager_create_item (ui_manager, "main-menu");
+	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (ui_item));
+	g_clear_object (&ui_item);
+
+	notes_editor->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (notes_editor), &notes_editor->menu_button);
 	gtk_box_pack_start (GTK_BOX (content), widget, FALSE, FALSE, 0);
 
 	if (e_util_get_use_header_bar ()) {
-		widget = gtk_header_bar_new ();
-		gtk_widget_show (widget);
-		header_bar = GTK_HEADER_BAR (widget);
-		gtk_header_bar_set_show_close_button (header_bar, TRUE);
-		gtk_header_bar_set_title (header_bar, _("Edit Message Note"));
+		ui_item = e_ui_manager_create_item (ui_manager, "main-headerbar");
+		widget = GTK_WIDGET (ui_item);
+		gtk_header_bar_set_title (GTK_HEADER_BAR (widget), _("Edit Message Note"));
 		gtk_window_set_titlebar (GTK_WINDOW (notes_editor), widget);
 
-		action = gtk_action_group_get_action (notes_editor->action_group, "save-and-close");
-		button = e_header_bar_button_new (_("Save"), action);
-		e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
-		e_header_bar_button_set_show_icon_only (E_HEADER_BAR_BUTTON (button), FALSE);
-		gtk_widget_show (button);
-		gtk_header_bar_pack_start (header_bar, button);
-
-		widget = e_html_editor_get_managed_widget (notes_editor->editor, "/main-toolbar/pre-main-toolbar/save-and-close");
-		gtk_widget_destroy (widget);
-
-		if (menu_button)
-			gtk_header_bar_pack_end (header_bar, menu_button);
+		ui_item = e_ui_manager_create_item (ui_manager, "main-toolbar-with-headerbar");
 	} else {
 		gtk_window_set_title (GTK_WINDOW (notes_editor), _("Edit Message Note"));
 
-		widget = e_html_editor_get_managed_widget (notes_editor->editor, "/main-toolbar");
-		gtk_box_pack_start (GTK_BOX (content), widget, FALSE, FALSE, 0);
-		gtk_widget_show (widget);
-
-		if (menu_button) {
-			g_object_ref_sink (menu_button);
-			gtk_widget_destroy (menu_button);
-		}
+		ui_item = e_ui_manager_create_item (ui_manager, "main-toolbar-without-headerbar");
 	}
+
+	widget = GTK_WIDGET (ui_item);
+	gtk_box_pack_start (GTK_BOX (content), widget, FALSE, FALSE, 0);
 
 	widget = GTK_WIDGET (notes_editor->editor);
 	g_object_set (G_OBJECT (widget),

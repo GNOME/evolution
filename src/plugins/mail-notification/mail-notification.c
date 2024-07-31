@@ -36,14 +36,15 @@
 
 #include <time.h>
 
-#include <mail/e-mail-account-store.h>
-#include <mail/e-mail-backend.h>
-#include <mail/e-mail-ui-session.h>
-#include <mail/em-utils.h>
-#include <mail/em-event.h>
-#include <mail/em-folder-tree.h>
-#include <mail/message-list.h>
-#include <shell/e-shell-view.h>
+#include "mail/e-mail-account-store.h"
+#include "mail/e-mail-backend.h"
+#include "mail/e-mail-ui-session.h"
+#include "mail/e-mail-view.h"
+#include "mail/em-utils.h"
+#include "mail/em-event.h"
+#include "mail/em-folder-tree.h"
+#include "mail/message-list.h"
+#include "shell/e-shell-view.h"
 
 #ifdef HAVE_LIBNOTIFY
 #include <libnotify/notify.h>
@@ -415,11 +416,9 @@ notify_default_action_cb (NotifyNotification *notification,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
-	EMailReader *shell_reader;
 	EMFolderTree *folder_tree;
-	MessageList *message_list;
+	EUIAction *action;
 	GtkApplication *application;
-	GtkAction *action;
 	GList *list, *fallback = NULL;
 
 	shell = e_shell_get_default ();
@@ -453,8 +452,8 @@ notify_default_action_cb (NotifyNotification *notification,
 
 	/* Switch to the mail view. */
 	shell_view = e_shell_window_get_shell_view (shell_window, "mail");
-	action = e_shell_view_get_action (shell_view);
-	gtk_action_activate (action);
+	action = e_shell_view_get_switcher_action (shell_view);
+	g_action_activate (G_ACTION (action), NULL);
 
 	/* Select the latest folder with new mail. */
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
@@ -462,10 +461,18 @@ notify_default_action_cb (NotifyNotification *notification,
 	em_folder_tree_set_selected (folder_tree, data->folder_uri, FALSE);
 
 	if (data->msg_uid) {
-		/* Select the message. */
-		shell_reader = E_MAIL_READER (e_shell_view_get_shell_content (shell_view));
-		message_list = MESSAGE_LIST (e_mail_reader_get_message_list (shell_reader));
-		message_list_select_uid (message_list, data->msg_uid, TRUE);
+		EMailView *mail_view = NULL;
+
+		g_object_get (e_shell_view_get_shell_content (shell_view), "mail-view", &mail_view, NULL);
+		if (mail_view) {
+			MessageList *message_list;
+
+			/* Select the message. */
+			message_list = MESSAGE_LIST (e_mail_reader_get_message_list (E_MAIL_READER (mail_view)));
+			message_list_select_uid (message_list, data->msg_uid, TRUE);
+
+			g_clear_object (&mail_view);
+		}
 	}
 
 	remove_notification ();

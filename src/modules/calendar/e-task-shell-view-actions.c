@@ -29,9 +29,11 @@
 #include "e-cal-shell-view.h"
 
 static void
-action_task_assign_cb (GtkAction *action,
-                       ETaskShellView *task_shell_view)
+action_task_assign_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
@@ -52,9 +54,11 @@ action_task_assign_cb (GtkAction *action,
 }
 
 static void
-action_task_bulk_edit_cb (GtkAction *action,
-			  ETaskShellView *task_shell_view)
+action_task_bulk_edit_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
 	GtkWidget *bulk_edit;
@@ -74,9 +78,11 @@ action_task_bulk_edit_cb (GtkAction *action,
 }
 
 static void
-action_task_delete_cb (GtkAction *action,
-                       ETaskShellView *task_shell_view)
+action_task_delete_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
 
@@ -87,9 +93,11 @@ action_task_delete_cb (GtkAction *action,
 }
 
 static void
-action_task_find_cb (GtkAction *action,
-                     ETaskShellView *task_shell_view)
+action_task_find_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	EPreviewPane *preview_pane;
 
@@ -100,9 +108,11 @@ action_task_find_cb (GtkAction *action,
 }
 
 static void
-action_task_forward_cb (GtkAction *action,
-                        ETaskShellView *task_shell_view)
+action_task_forward_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
@@ -132,16 +142,21 @@ action_task_forward_cb (GtkAction *action,
 }
 
 static void
-action_task_list_copy_cb (GtkAction *action,
-			  EShellView *shell_view)
+action_task_list_copy_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EShellView *shell_view = user_data;
+
 	e_cal_base_shell_view_copy_calendar (shell_view);
 }
 
 static void
-action_task_list_delete_cb (GtkAction *action,
-                            ETaskShellView *task_shell_view)
+action_task_list_delete_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ECalBaseShellSidebar *task_shell_sidebar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
@@ -181,9 +196,11 @@ action_task_list_delete_cb (GtkAction *action,
 }
 
 static void
-action_task_list_manage_groups_cb (GtkAction *action,
-				   ETaskShellView *task_shell_view)
+action_task_list_manage_groups_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	EShellView *shell_view;
 	ESourceSelector *selector;
 
@@ -197,9 +214,11 @@ action_task_list_manage_groups_cb (GtkAction *action,
 
 
 static void
-action_task_list_new_cb (GtkAction *action,
-                         ETaskShellView *task_shell_view)
+action_task_list_new_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -224,7 +243,7 @@ action_task_list_new_cb (GtkAction *action,
 	gtk_window_set_transient_for (
 		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
 
-	icon_name = gtk_action_get_icon_name (action);
+	icon_name = e_ui_action_get_icon_name (action);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("New Task List"));
@@ -233,9 +252,11 @@ action_task_list_new_cb (GtkAction *action,
 }
 
 static void
-action_task_list_print_cb (GtkAction *action,
-                           ETaskShellView *task_shell_view)
+action_task_list_print_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
 
@@ -248,9 +269,11 @@ action_task_list_print_cb (GtkAction *action,
 }
 
 static void
-action_task_list_print_preview_cb (GtkAction *action,
-                                   ETaskShellView *task_shell_view)
+action_task_list_print_preview_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
 
@@ -263,9 +286,11 @@ action_task_list_print_preview_cb (GtkAction *action,
 }
 
 static void
-action_task_list_properties_cb (GtkAction *action,
-                                ETaskShellView *task_shell_view)
+action_task_list_properties_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalBaseShellSidebar *task_shell_sidebar;
@@ -296,7 +321,7 @@ action_task_list_properties_cb (GtkAction *action,
 	gtk_window_set_transient_for (
 		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
 
-	icon_name = gtk_action_get_icon_name (action);
+	icon_name = e_ui_action_get_icon_name (action);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Task List Properties"));
@@ -305,9 +330,11 @@ action_task_list_properties_cb (GtkAction *action,
 }
 
 static void
-action_task_list_refresh_cb (GtkAction *action,
-                             ETaskShellView *task_shell_view)
+action_task_list_refresh_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ECalBaseShellSidebar *task_shell_sidebar;
 	ESourceSelector *selector;
 	EClient *client = NULL;
@@ -335,9 +362,11 @@ action_task_list_refresh_cb (GtkAction *action,
 }
 
 static void
-action_task_list_refresh_backend_cb (GtkAction *action,
-				     EShellView *shell_view)
+action_task_list_refresh_backend_cb (EUIAction *action,
+				     GVariant *parameter,
+				     gpointer user_data)
 {
+	EShellView *shell_view = user_data;
 	ESource *source;
 
 	g_return_if_fail (E_IS_TASK_SHELL_VIEW (shell_view));
@@ -349,9 +378,11 @@ action_task_list_refresh_backend_cb (GtkAction *action,
 }
 
 static void
-action_task_list_rename_cb (GtkAction *action,
-                            ETaskShellView *task_shell_view)
+action_task_list_rename_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ECalBaseShellSidebar *task_shell_sidebar;
 	ESourceSelector *selector;
 
@@ -362,9 +393,11 @@ action_task_list_rename_cb (GtkAction *action,
 }
 
 static void
-action_task_list_select_all_cb (GtkAction *action,
-				ETaskShellView *task_shell_view)
+action_task_list_select_all_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ECalBaseShellSidebar *task_shell_sidebar;
 	ESourceSelector *selector;
 
@@ -375,9 +408,11 @@ action_task_list_select_all_cb (GtkAction *action,
 }
 
 static void
-action_task_list_select_one_cb (GtkAction *action,
-                                ETaskShellView *task_shell_view)
+action_task_list_select_one_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ECalBaseShellSidebar *task_shell_sidebar;
 	ESourceSelector *selector;
 	ESource *primary;
@@ -394,9 +429,11 @@ action_task_list_select_one_cb (GtkAction *action,
 }
 
 static void
-action_task_mark_complete_cb (GtkAction *action,
-                              ETaskShellView *task_shell_view)
+action_task_mark_complete_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
 	ECalModel *model;
@@ -417,9 +454,11 @@ action_task_mark_complete_cb (GtkAction *action,
 }
 
 static void
-action_task_mark_incomplete_cb (GtkAction *action,
-                                ETaskShellView *task_shell_view)
+action_task_mark_incomplete_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
 	ECalModel *model;
@@ -440,9 +479,11 @@ action_task_mark_incomplete_cb (GtkAction *action,
 }
 
 static void
-action_task_new_cb (GtkAction *action,
-                    ETaskShellView *task_shell_view)
+action_task_new_cb (EUIAction *action,
+		    GVariant *parameter,
+		    gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ETaskShellContent *task_shell_content;
@@ -472,9 +513,11 @@ action_task_new_cb (GtkAction *action,
 }
 
 static void
-action_task_open_cb (GtkAction *action,
-                     ETaskShellView *task_shell_view)
+action_task_open_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
@@ -493,9 +536,11 @@ action_task_open_cb (GtkAction *action,
 }
 
 static void
-action_task_open_url_cb (GtkAction *action,
-                         ETaskShellView *task_shell_view)
+action_task_open_url_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ETaskShellContent *task_shell_content;
@@ -526,21 +571,11 @@ action_task_open_url_cb (GtkAction *action,
 }
 
 static void
-action_task_preview_cb (GtkToggleAction *action,
-                        ETaskShellView *task_shell_view)
+action_task_print_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
-	ETaskShellContent *task_shell_content;
-	gboolean visible;
-
-	task_shell_content = task_shell_view->priv->task_shell_content;
-	visible = gtk_toggle_action_get_active (action);
-	e_task_shell_content_set_preview_visible (task_shell_content, visible);
-}
-
-static void
-action_task_print_cb (GtkAction *action,
-                      ETaskShellView *task_shell_view)
-{
+	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
@@ -570,9 +605,11 @@ action_task_print_cb (GtkAction *action,
 }
 
 static void
-action_task_purge_cb (GtkAction *action,
-                      ETaskShellView *task_shell_view)
+action_task_purge_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkWidget *content_area;
@@ -620,9 +657,11 @@ purge:
 }
 
 static void
-action_task_save_as_cb (GtkAction *action,
-                        ETaskShellView *task_shell_view)
+action_task_save_as_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	ETaskShellView *task_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -682,540 +721,281 @@ action_task_save_as_cb (GtkAction *action,
 	g_object_unref (file);
 }
 
-static void
-action_task_view_cb (GtkRadioAction *action,
-                     GtkRadioAction *current,
-                     ETaskShellView *task_shell_view)
-{
-	ETaskShellContent *task_shell_content;
-	GtkOrientable *orientable;
-	GtkOrientation orientation;
-
-	task_shell_content = task_shell_view->priv->task_shell_content;
-	orientable = GTK_ORIENTABLE (task_shell_content);
-
-	switch (gtk_radio_action_get_current_value (action)) {
-		case 0:
-			orientation = GTK_ORIENTATION_VERTICAL;
-			break;
-		case 1:
-			orientation = GTK_ORIENTATION_HORIZONTAL;
-			break;
-		default:
-			g_return_if_reached ();
-	}
-
-	gtk_orientable_set_orientation (orientable, orientation);
-}
-
-static GtkActionEntry task_entries[] = {
-
-	{ "task-assign",
-	  "stock_task-assigned-to",
-	  N_("_Assign Task"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_task_assign_cb) },
-
-	{ "task-bulk-edit",
-	  NULL,
-	  N_("_Bulk Edit…"),
-	  "<Control>b",
-	  N_("Edit selected tasks in a bulk"),
-	  G_CALLBACK (action_task_bulk_edit_cb) },
-
-	{ "task-delete",
-	  "edit-delete",
-	  N_("_Delete Task"),
-	  NULL,
-	  N_("Delete selected tasks"),
-	  G_CALLBACK (action_task_delete_cb) },
-
-	{ "task-find",
-	  "edit-find",
-	  N_("_Find in Task…"),
-	  "<Shift><Control>f",
-	  N_("Search for text in the displayed task"),
-	  G_CALLBACK (action_task_find_cb) },
-
-	{ "task-forward",
-	  "mail-forward",
-	  N_("_Forward as iCalendar…"),
-	  "<Control>f",
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_task_forward_cb) },
-
-	{ "task-list-copy",
-	  "edit-copy",
-	  N_("_Copy…"),
-	  "<Control>c",
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_task_list_copy_cb) },
-
-	{ "task-list-delete",
-	  "edit-delete",
-	  N_("D_elete Task List"),
-	  NULL,
-	  N_("Delete the selected task list"),
-	  G_CALLBACK (action_task_list_delete_cb) },
-
-	{ "task-list-manage-groups",
-	  NULL,
-	  N_("_Manage Task List groups…"),
-	  NULL,
-	  N_("Manage task list groups order and visibility"),
-	  G_CALLBACK (action_task_list_manage_groups_cb) },
-
-	{ "task-list-new",
-	  "stock_todo",
-	  N_("_New Task List"),
-	  NULL,
-	  N_("Create a new task list"),
-	  G_CALLBACK (action_task_list_new_cb) },
-
-	{ "task-list-properties",
-	  "document-properties",
-	  N_("_Properties"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_task_list_properties_cb) },
-
-	{ "task-list-refresh",
-	  "view-refresh",
-	  N_("Re_fresh"),
-	  NULL,
-	  N_("Refresh the selected task list"),
-	  G_CALLBACK (action_task_list_refresh_cb) },
-
-	{ "task-list-refresh-backend",
-	  "view-refresh",
-	  N_("Re_fresh list of account task lists"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_task_list_refresh_backend_cb) },
-
-	{ "task-list-rename",
-	  NULL,
-	  N_("_Rename…"),
-	  "F2",
-	  N_("Rename the selected task list"),
-	  G_CALLBACK (action_task_list_rename_cb) },
-
-	{ "task-list-select-all",
-	  "stock_check-filled",
-	  N_("Sho_w All Task Lists"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_task_list_select_all_cb) },
-
-	{ "task-list-select-one",
-	  "stock_check-filled",
-	  N_("Show _Only This Task List"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_task_list_select_one_cb) },
-
-	{ "task-mark-complete",
-	  NULL,
-	  N_("_Mark as Complete"),
-	  "<Control>k",
-	  N_("Mark selected tasks as complete"),
-	  G_CALLBACK (action_task_mark_complete_cb) },
-
-	{ "task-mark-incomplete",
-	  NULL,
-	  N_("Mar_k as Incomplete"),
-	  NULL,
-	  N_("Mark selected tasks as incomplete"),
-	  G_CALLBACK (action_task_mark_incomplete_cb) },
-
-	{ "task-new",
-	  "stock_task",
-	  N_("New _Task"),
-	  NULL,
-	  N_("Create a new task"),
-	  G_CALLBACK (action_task_new_cb) },
-
-	{ "task-open",
-	  "document-open",
-	  N_("_Open Task"),
-	  "<Control>o",
-	  N_("View the selected task"),
-	  G_CALLBACK (action_task_open_cb) },
-
-	{ "task-open-url",
-	  "applications-internet",
-	  N_("Open _Web Page"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_task_open_url_cb) },
-
-	{ "task-purge",
-	  NULL,
-	  N_("Purg_e"),
-	  "<Control>e",
-	  N_("Delete completed tasks"),
-	  G_CALLBACK (action_task_purge_cb) },
-
-	/*** Menus ***/
-
-	{ "task-actions-menu",
-	  NULL,
-	  N_("_Actions"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "task-preview-menu",
-	  NULL,
-	  N_("_Preview"),
-	  NULL,
-	  NULL,
-	  NULL }
-};
-
-static EPopupActionEntry task_popup_entries[] = {
-
-	{ "task-list-popup-copy",
-	  NULL,
-	  "task-list-copy" },
-
-	{ "task-list-popup-delete",
-	  N_("_Delete"),
-	  "task-list-delete" },
-
-	{ "task-list-popup-manage-groups",
-	  N_("_Manage groups…"),
-	  "task-list-manage-groups" },
-
-	{ "task-list-popup-properties",
-	  NULL,
-	  "task-list-properties" },
-
-	{ "task-list-popup-refresh",
-	  NULL,
-	  "task-list-refresh" },
-
-	{ "task-list-popup-refresh-backend",
-	  NULL,
-	  "task-list-refresh-backend" },
-
-	{ "task-list-popup-rename",
-	  NULL,
-	  "task-list-rename" },
-
-	{ "task-list-popup-select-all",
-	  NULL,
-	  "task-list-select-all" },
-
-	{ "task-list-popup-select-one",
-	  NULL,
-	  "task-list-select-one" },
-
-	{ "task-popup-assign",
-	  NULL,
-	  "task-assign" },
-
-	{ "task-popup-forward",
-	  NULL,
-	  "task-forward" },
-
-	{ "task-popup-mark-complete",
-	  NULL,
-	  "task-mark-complete" },
-
-	{ "task-popup-mark-incomplete",
-	  NULL,
-	  "task-mark-incomplete" },
-
-	{ "task-popup-open",
-	  NULL,
-	  "task-open" },
-
-	{ "task-popup-open-url",
-	  NULL,
-	  "task-open-url" }
-};
-
-static GtkToggleActionEntry task_toggle_entries[] = {
-
-	{ "task-preview",
-	  NULL,
-	  N_("Task _Preview"),
-	  "<Control>m",
-	  N_("Show task preview pane"),
-	  G_CALLBACK (action_task_preview_cb),
-	  TRUE }
-};
-
-static GtkRadioActionEntry task_view_entries[] = {
-
-	/* This action represents the inital active memo view.
-	 * It should not be visible in the UI, nor should it be
-	 * possible to switch to it from another shell view. */
-	{ "task-view-initial",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  -1 },
-
-	{ "task-view-classic",
-	  NULL,
-	  N_("_Classic View"),
-	  NULL,
-	  N_("Show task preview below the task list"),
-	  0 },
-
-	{ "task-view-vertical",
-	  NULL,
-	  N_("_Vertical View"),
-	  NULL,
-	  N_("Show task preview alongside the task list"),
-	  1 }
-};
-
-static GtkRadioActionEntry task_filter_entries[] = {
-
-	{ "task-filter-active-tasks",
-	  NULL,
-	  N_("Active Tasks"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  TASK_FILTER_ACTIVE_TASKS },
-
-	{ "task-filter-any-category",
-	  NULL,
-	  N_("Any Category"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  TASK_FILTER_ANY_CATEGORY },
-
-	{ "task-filter-cancelled-tasks",
-	  NULL,
-	  N_("Cancelled Tasks"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  TASK_FILTER_CANCELLED_TASKS },
-
-	{ "task-filter-completed-tasks",
-	  NULL,
-	  N_("Completed Tasks"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  TASK_FILTER_COMPLETED_TASKS },
-
-	{ "task-filter-uncompleted-tasks",
-	  NULL,
-	  N_("Uncompleted Tasks"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  TASK_FILTER_UNCOMPLETED_TASKS },
-
-	{ "task-filter-scheduled-tasks",
-	  NULL,
-	  N_("Scheduled Tasks"),
-	  NULL,
-	  N_("Show scheduled tasks, aka those with a Due date"),
-	  TASK_FILTER_SCHEDULED_TASKS },
-
-	{ "task-filter-next-7-days-tasks",
-	  NULL,
-	  N_("Next 7 Days’ Tasks"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  TASK_FILTER_NEXT_7_DAYS_TASKS },
-
-	{ "task-filter-overdue-tasks",
-	  NULL,
-	  N_("Overdue Tasks"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  TASK_FILTER_OVERDUE_TASKS },
-
-	{ "task-filter-tasks-with-attachments",
-	  NULL,
-	  N_("Tasks with Attachments"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  TASK_FILTER_TASKS_WITH_ATTACHMENTS },
-
-	{ "task-filter-unmatched",
-	  NULL,
-	  N_("Without Category"),
-	  NULL,
-	  N_("Show tasks with no category set"),
-	  TASK_FILTER_UNMATCHED },
-
-	{ "task-filter-started",
-	  NULL,
-	  N_("Started Tasks"),
-	  NULL,
-	  N_("Filters for tasks that either do not have a start date or the start date is earlier than the time the filter is selected at"),
-	  TASK_FILTER_STARTED }
-};
-
-static GtkRadioActionEntry task_search_entries[] = {
-
-	{ "task-search-advanced-hidden",
-	  NULL,
-	  N_("Advanced Search"),
-	  NULL,
-	  NULL,
-	  TASK_SEARCH_ADVANCED },
-
-	{ "task-search-any-field-contains",
-          NULL,
-	  N_("Any field contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  TASK_SEARCH_ANY_FIELD_CONTAINS },
-
-	{ "task-search-description-contains",
-	  NULL,
-	  N_("Description contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  TASK_SEARCH_DESCRIPTION_CONTAINS },
-
-	{ "task-search-summary-contains",
-	  NULL,
-	  N_("Summary contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  TASK_SEARCH_SUMMARY_CONTAINS }
-};
-
-static GtkActionEntry lockdown_printing_entries[] = {
-
-	{ "task-list-print",
-	  "document-print",
-	  N_("Print…"),
-	  "<Control>p",
-	  N_("Print the list of tasks"),
-	  G_CALLBACK (action_task_list_print_cb) },
-
-	{ "task-list-print-preview",
-	  "document-print-preview",
-	  N_("Pre_view…"),
-	  NULL,
-	  N_("Preview the list of tasks to be printed"),
-	  G_CALLBACK (action_task_list_print_preview_cb) },
-
-	{ "task-print",
-	  "document-print",
-	  N_("Print…"),
-	  NULL,
-	  N_("Print the selected task"),
-	  G_CALLBACK (action_task_print_cb) }
-};
-
-static EPopupActionEntry lockdown_printing_popup_entries[] = {
-
-	{ "task-popup-print",
-	  NULL,
-	  "task-print" }
-};
-
-static GtkActionEntry lockdown_save_to_disk_entries[] = {
-
-	{ "task-save-as",
-	  "document-save-as",
-	  N_("_Save as iCalendar…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_task_save_as_cb) }
-};
-
-static EPopupActionEntry lockdown_save_to_disk_popup_entries[] = {
-
-	{ "task-popup-save-as",
-	  NULL,
-	  "task-save-as" },
-};
-
 void
-e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
+e_task_shell_view_actions_init (ETaskShellView *self)
 {
-	ETaskShellContent *task_shell_content;
+	static const EUIActionEntry task_entries[] = {
+
+		{ "task-assign",
+		  "stock_task-assigned-to",
+		  N_("_Assign Task"),
+		  NULL,
+		  NULL,
+		  action_task_assign_cb, NULL, NULL, NULL },
+
+		{ "task-bulk-edit",
+		  NULL,
+		  N_("_Bulk Edit…"),
+		  "<Control>b",
+		  N_("Edit selected tasks in a bulk"),
+		  action_task_bulk_edit_cb, NULL, NULL, NULL },
+
+		{ "task-delete",
+		  "edit-delete",
+		  N_("_Delete Task"),
+		  NULL,
+		  N_("Delete selected tasks"),
+		  action_task_delete_cb, NULL, NULL, NULL },
+
+		{ "task-find",
+		  "edit-find",
+		  N_("_Find in Task…"),
+		  "<Shift><Control>f",
+		  N_("Search for text in the displayed task"),
+		  action_task_find_cb, NULL, NULL, NULL },
+
+		{ "task-forward",
+		  "mail-forward",
+		  N_("_Forward as iCalendar…"),
+		  "<Control>f",
+		  NULL,
+		  action_task_forward_cb, NULL, NULL, NULL },
+
+		{ "task-list-copy",
+		  "edit-copy",
+		  N_("_Copy…"),
+		  NULL,
+		  NULL,
+		  action_task_list_copy_cb, NULL, NULL, NULL },
+
+		{ "task-list-delete",
+		  "edit-delete",
+		  N_("D_elete Task List"),
+		  NULL,
+		  N_("Delete the selected task list"),
+		  action_task_list_delete_cb, NULL, NULL, NULL },
+
+		{ "task-list-manage-groups",
+		  NULL,
+		  N_("_Manage Task List groups…"),
+		  NULL,
+		  N_("Manage task list groups order and visibility"),
+		  action_task_list_manage_groups_cb, NULL, NULL, NULL },
+
+		{ "task-list-manage-groups-popup",
+		  NULL,
+		  N_("_Manage groups…"),
+		  NULL,
+		  N_("Manage task list groups order and visibility"),
+		  action_task_list_manage_groups_cb, NULL, NULL, NULL },
+
+		{ "task-list-new",
+		  "stock_todo",
+		  N_("_New Task List"),
+		  NULL,
+		  N_("Create a new task list"),
+		  action_task_list_new_cb, NULL, NULL, NULL },
+
+		{ "task-list-properties",
+		  "document-properties",
+		  N_("_Properties"),
+		  NULL,
+		  NULL,
+		  action_task_list_properties_cb, NULL, NULL, NULL },
+
+		{ "task-list-refresh",
+		  "view-refresh",
+		  N_("Re_fresh"),
+		  NULL,
+		  N_("Refresh the selected task list"),
+		  action_task_list_refresh_cb, NULL, NULL, NULL },
+
+		{ "task-list-refresh-backend",
+		  "view-refresh",
+		  N_("Re_fresh list of account task lists"),
+		  NULL,
+		  NULL,
+		  action_task_list_refresh_backend_cb, NULL, NULL, NULL },
+
+		{ "task-list-rename",
+		  NULL,
+		  N_("_Rename…"),
+		  NULL,
+		  N_("Rename the selected task list"),
+		  action_task_list_rename_cb, NULL, NULL, NULL },
+
+		{ "task-list-select-all",
+		  "stock_check-filled",
+		  N_("Sho_w All Task Lists"),
+		  NULL,
+		  NULL,
+		  action_task_list_select_all_cb, NULL, NULL, NULL },
+
+		{ "task-list-select-one",
+		  "stock_check-filled",
+		  N_("Show _Only This Task List"),
+		  NULL,
+		  NULL,
+		  action_task_list_select_one_cb, NULL, NULL, NULL },
+
+		{ "task-mark-complete",
+		  NULL,
+		  N_("_Mark as Complete"),
+		  "<Control>k",
+		  N_("Mark selected tasks as complete"),
+		  action_task_mark_complete_cb, NULL, NULL, NULL },
+
+		{ "task-mark-incomplete",
+		  NULL,
+		  N_("Mar_k as Incomplete"),
+		  NULL,
+		  N_("Mark selected tasks as incomplete"),
+		  action_task_mark_incomplete_cb, NULL, NULL, NULL },
+
+		{ "task-new",
+		  "stock_task",
+		  N_("New _Task"),
+		  NULL,
+		  N_("Create a new task"),
+		  action_task_new_cb, NULL, NULL, NULL },
+
+		{ "task-open",
+		  "document-open",
+		  N_("_Open Task"),
+		  "<Control>o",
+		  N_("View the selected task"),
+		  action_task_open_cb, NULL, NULL, NULL },
+
+		{ "task-open-url",
+		  "applications-internet",
+		  N_("Open _Web Page"),
+		  NULL,
+		  NULL,
+		  action_task_open_url_cb, NULL, NULL, NULL },
+
+		{ "task-purge",
+		  NULL,
+		  N_("Purg_e"),
+		  "<Control>e",
+		  N_("Delete completed tasks"),
+		  action_task_purge_cb, NULL, NULL, NULL },
+
+		{ "task-preview",
+		  NULL,
+		  N_("Task _Preview"),
+		  "<Control>m",
+		  N_("Show task preview pane"),
+		  NULL, NULL, "true", NULL },
+
+		/*** Menus ***/
+
+		{ "task-actions-menu", NULL, N_("_Actions"), NULL, NULL, NULL },
+		{ "task-preview-menu", NULL, N_("_Preview"), NULL, NULL, NULL }
+	};
+
+	static const EUIActionEnumEntry task_view_entries[] = {
+
+		{ "task-view-classic",
+		  NULL,
+		  N_("_Classic View"),
+		  NULL,
+		  N_("Show task preview below the task list"),
+		  NULL, 0 },
+
+		{ "task-view-vertical",
+		  NULL,
+		  N_("_Vertical View"),
+		  NULL,
+		  N_("Show task preview alongside the task list"),
+		  NULL, 1 }
+	};
+
+	static const EUIActionEnumEntry task_search_entries[] = {
+
+		{ "task-search-advanced-hidden",
+		  NULL,
+		  N_("Advanced Search"),
+		  NULL,
+		  NULL,
+		  NULL, TASK_SEARCH_ADVANCED },
+
+		{ "task-search-any-field-contains",
+		  NULL,
+		  N_("Any field contains"),
+		  NULL,
+		  NULL,
+		  NULL, TASK_SEARCH_ANY_FIELD_CONTAINS },
+
+		{ "task-search-description-contains",
+		  NULL,
+		  N_("Description contains"),
+		  NULL,
+		  NULL,
+		  NULL, TASK_SEARCH_DESCRIPTION_CONTAINS },
+
+		{ "task-search-summary-contains",
+		  NULL,
+		  N_("Summary contains"),
+		  NULL,
+		  NULL,
+		  NULL, TASK_SEARCH_SUMMARY_CONTAINS }
+	};
+
+	static const EUIActionEntry lockdown_printing_entries[] = {
+
+		{ "task-list-print",
+		  "document-print",
+		  N_("Print…"),
+		  "<Control>p",
+		  N_("Print the list of tasks"),
+		  action_task_list_print_cb, NULL, NULL, NULL },
+
+		{ "task-list-print-preview",
+		  "document-print-preview",
+		  N_("Pre_view…"),
+		  NULL,
+		  N_("Preview the list of tasks to be printed"),
+		  action_task_list_print_preview_cb, NULL, NULL, NULL },
+
+		{ "task-print",
+		  "document-print",
+		  N_("Print…"),
+		  NULL,
+		  N_("Print the selected task"),
+		  action_task_print_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry lockdown_save_to_disk_entries[] = {
+
+		{ "task-save-as",
+		  "document-save-as",
+		  N_("_Save as iCalendar…"),
+		  NULL,
+		  NULL,
+		  action_task_save_as_cb, NULL, NULL, NULL }
+	};
+
 	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EShellSearchbar *searchbar;
-	EPreviewPane *preview_pane;
-	EWebView *web_view;
-	GtkActionGroup *action_group;
-	GSettings *settings;
-	GtkAction *action;
+	EUIManager *ui_manager;
 
-	shell_view = E_SHELL_VIEW (task_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	task_shell_content = task_shell_view->priv->task_shell_content;
-	searchbar = e_task_shell_content_get_searchbar (task_shell_content);
-	preview_pane = e_task_shell_content_get_preview_pane (task_shell_content);
-	web_view = e_preview_pane_get_web_view (preview_pane);
+	shell_view = E_SHELL_VIEW (self);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
 
 	/* Task Actions */
-	action_group = ACTION_GROUP (TASKS);
-	gtk_action_group_add_actions (
-		action_group, task_entries,
-		G_N_ELEMENTS (task_entries), task_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, task_popup_entries,
-		G_N_ELEMENTS (task_popup_entries));
-	gtk_action_group_add_toggle_actions (
-		action_group, task_toggle_entries,
-		G_N_ELEMENTS (task_toggle_entries), task_shell_view);
-	gtk_action_group_add_radio_actions (
-		action_group, task_view_entries,
-		G_N_ELEMENTS (task_view_entries), -1,
-		G_CALLBACK (action_task_view_cb), task_shell_view);
-	gtk_action_group_add_radio_actions (
-		action_group, task_search_entries,
-		G_N_ELEMENTS (task_search_entries),
-		-1, NULL, NULL);
-
-	/* Advanced Search Action */
-	action = ACTION (TASK_SEARCH_ADVANCED_HIDDEN);
-	gtk_action_set_visible (action, FALSE);
-	e_shell_searchbar_set_search_option (
-		searchbar, GTK_RADIO_ACTION (action));
+	e_ui_manager_add_actions (ui_manager, "tasks", NULL,
+		task_entries, G_N_ELEMENTS (task_entries), self);
+	e_ui_manager_add_actions_enum (ui_manager, "tasks", NULL,
+		task_view_entries, G_N_ELEMENTS (task_view_entries), self);
+	e_ui_manager_add_actions_enum (ui_manager, "tasks", NULL,
+		task_search_entries, G_N_ELEMENTS (task_search_entries), self);
 
 	/* Lockdown Printing Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
-	gtk_action_group_add_actions (
-		action_group, lockdown_printing_entries,
-		G_N_ELEMENTS (lockdown_printing_entries),
-		task_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, lockdown_printing_popup_entries,
-		G_N_ELEMENTS (lockdown_printing_popup_entries));
+	e_ui_manager_add_actions (ui_manager, "lockdown-printing", NULL,
+		lockdown_printing_entries, G_N_ELEMENTS (lockdown_printing_entries), self);
 
 	/* Lockdown Save-to-Disk Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
-	gtk_action_group_add_actions (
-		action_group, lockdown_save_to_disk_entries,
-		G_N_ELEMENTS (lockdown_save_to_disk_entries),
-		task_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, lockdown_save_to_disk_popup_entries,
-		G_N_ELEMENTS (lockdown_save_to_disk_popup_entries));
-
-	/* Bind GObject properties to settings keys. */
-
-	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-
-	g_settings_bind (
-		settings, "show-task-preview",
-		ACTION (TASK_PREVIEW), "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "task-layout",
-		ACTION (TASK_VIEW_VERTICAL), "current-value",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_object_unref (settings);
+	e_ui_manager_add_actions (ui_manager, "lockdown-save-to-disk", NULL,
+		lockdown_save_to_disk_entries, G_N_ELEMENTS (lockdown_save_to_disk_entries), self);
 
 	/* Fine tuning. */
 
@@ -1228,45 +1008,119 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 		ACTION (TASK_PREVIEW), "active",
 		ACTION (TASK_VIEW_VERTICAL), "sensitive",
 		G_BINDING_SYNC_CREATE);
-
-	e_web_view_set_open_proxy (web_view, ACTION (TASK_OPEN));
-	e_web_view_set_print_proxy (web_view, ACTION (TASK_PRINT));
-	e_web_view_set_save_as_proxy (web_view, ACTION (TASK_SAVE_AS));
 }
 
 void
 e_task_shell_view_update_search_filter (ETaskShellView *task_shell_view)
 {
+	static const EUIActionEnumEntry task_filter_entries[] = {
+
+		{ "task-filter-active-tasks",
+		  NULL,
+		  N_("Active Tasks"),
+		  NULL,
+		  NULL,
+		  NULL, TASK_FILTER_ACTIVE_TASKS },
+
+		{ "task-filter-any-category",
+		  NULL,
+		  N_("Any Category"),
+		  NULL,
+		  NULL,
+		  NULL, TASK_FILTER_ANY_CATEGORY },
+
+		{ "task-filter-cancelled-tasks",
+		  NULL,
+		  N_("Cancelled Tasks"),
+		  NULL,
+		  NULL,
+		  NULL, TASK_FILTER_CANCELLED_TASKS },
+
+		{ "task-filter-completed-tasks",
+		  NULL,
+		  N_("Completed Tasks"),
+		  NULL,
+		  NULL,
+		  NULL, TASK_FILTER_COMPLETED_TASKS },
+
+		{ "task-filter-uncompleted-tasks",
+		  NULL,
+		  N_("Uncompleted Tasks"),
+		  NULL,
+		  NULL,
+		  NULL, TASK_FILTER_UNCOMPLETED_TASKS },
+
+		{ "task-filter-scheduled-tasks",
+		  NULL,
+		  N_("Scheduled Tasks"),
+		  NULL,
+		  N_("Show scheduled tasks, aka those with a Due date"),
+		  NULL, TASK_FILTER_SCHEDULED_TASKS },
+
+		{ "task-filter-next-7-days-tasks",
+		  NULL,
+		  N_("Next 7 Days’ Tasks"),
+		  NULL,
+		  NULL,
+		  NULL, TASK_FILTER_NEXT_7_DAYS_TASKS },
+
+		{ "task-filter-overdue-tasks",
+		  NULL,
+		  N_("Overdue Tasks"),
+		  NULL,
+		  NULL,
+		  NULL, TASK_FILTER_OVERDUE_TASKS },
+
+		{ "task-filter-tasks-with-attachments",
+		  NULL,
+		  N_("Tasks with Attachments"),
+		  NULL,
+		  NULL,
+		  NULL, TASK_FILTER_TASKS_WITH_ATTACHMENTS },
+
+		{ "task-filter-unmatched",
+		  NULL,
+		  N_("Without Category"),
+		  NULL,
+		  N_("Show tasks with no category set"),
+		  NULL, TASK_FILTER_UNMATCHED },
+
+		{ "task-filter-started",
+		  NULL,
+		  N_("Started Tasks"),
+		  NULL,
+		  N_("Filters for tasks that either do not have a start date or the start date is earlier than the time the filter is selected at"),
+		  NULL, TASK_FILTER_STARTED }
+	};
+
 	ETaskShellContent *task_shell_content;
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
-	GtkActionGroup *action_group;
-	GtkRadioAction *radio_action;
+	EUIActionGroup *action_group;
+	EUIAction *action;
 	GList *list, *iter;
-	GSList *group;
+	GPtrArray *radio_group;
 	gint ii;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	action_group = ACTION_GROUP (TASKS_FILTER);
-	e_action_group_remove_all_actions (action_group);
+	action_group = e_ui_manager_get_action_group (e_shell_view_get_ui_manager (shell_view), "tasks-filter");
+	e_ui_action_group_remove_all (action_group);
 
 	/* Add the standard filter actions.  No callback is needed
 	 * because changes in the EActionComboBox are detected and
 	 * handled by EShellSearchbar. */
-	gtk_action_group_add_radio_actions (
-		action_group, task_filter_entries,
-		G_N_ELEMENTS (task_filter_entries),
-		TASK_FILTER_ANY_CATEGORY, NULL, NULL);
+	e_ui_manager_add_actions_enum (e_shell_view_get_ui_manager (shell_view),
+		e_ui_action_group_get_name (action_group), NULL,
+		task_filter_entries, G_N_ELEMENTS (task_filter_entries), NULL);
 
-	/* Retrieve the radio group from an action we just added. */
-	list = gtk_action_group_list_actions (action_group);
-	radio_action = GTK_RADIO_ACTION (list->data);
-	group = gtk_radio_action_get_group (radio_action);
-	g_list_free (list);
+	radio_group = g_ptr_array_new ();
+
+	for (ii = 0; ii < G_N_ELEMENTS (task_filter_entries); ii++) {
+		action = e_ui_action_group_get_action (action_group, task_filter_entries[ii].name);
+		e_ui_action_set_radio_group (action, radio_group);
+	}
 
 	/* Build the category actions. */
 
@@ -1274,14 +1128,14 @@ e_task_shell_view_update_search_filter (ETaskShellView *task_shell_view)
 	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
 		const gchar *category_name = iter->data;
 		gchar *filename;
-		GtkAction *action;
-		gchar *action_name;
+		gchar action_name[128];
 
-		action_name = g_strdup_printf (
-			"task-filter-category-%d", ii);
-		radio_action = gtk_radio_action_new (
-			action_name, category_name, NULL, NULL, ii);
-		g_free (action_name);
+		g_warn_if_fail (g_snprintf (action_name, sizeof (action_name), "task-filter-category-%d", ii) < sizeof (action_name));
+
+		action = e_ui_action_new (e_ui_action_group_get_name (action_group), action_name, NULL);
+		e_ui_action_set_label (action, category_name);
+		e_ui_action_set_state (action, g_variant_new_int32 (ii));
+		e_ui_action_set_radio_group (action, radio_group);
 
 		/* Convert the category icon file to a themed icon name. */
 		filename = e_categories_dup_icon_file_for (category_name);
@@ -1295,21 +1149,16 @@ e_task_shell_view_update_search_filter (ETaskShellView *task_shell_view)
 			if ((cp = strrchr (basename, '.')) != NULL)
 				*cp = '\0';
 
-			g_object_set (
-				radio_action, "icon-name", basename, NULL);
+			e_ui_action_set_icon_name (action, basename);
 
 			g_free (basename);
 		}
 
 		g_free (filename);
 
-		gtk_radio_action_set_group (radio_action, group);
-		group = gtk_radio_action_get_group (radio_action);
+		e_ui_action_group_add (action_group, action);
 
-		/* The action group takes ownership of the action. */
-		action = GTK_ACTION (radio_action);
-		gtk_action_group_add_action (action_group, action);
-		g_object_unref (radio_action);
+		g_object_unref (action);
 	}
 	g_list_free_full (list, g_free);
 
@@ -1320,7 +1169,7 @@ e_task_shell_view_update_search_filter (ETaskShellView *task_shell_view)
 	e_shell_view_block_execute_search (shell_view);
 
 	/* Use any action in the group; doesn't matter which. */
-	e_action_combo_box_set_action (combo_box, radio_action);
+	e_action_combo_box_set_action (combo_box, action);
 
 	ii = TASK_FILTER_UNMATCHED;
 	e_action_combo_box_add_separator_after (combo_box, ii);
@@ -1329,4 +1178,6 @@ e_task_shell_view_update_search_filter (ETaskShellView *task_shell_view)
 	e_action_combo_box_add_separator_after (combo_box, ii);
 
 	e_shell_view_unblock_execute_search (shell_view);
+
+	g_ptr_array_unref (radio_group);
 }

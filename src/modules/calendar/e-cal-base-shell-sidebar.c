@@ -658,16 +658,14 @@ cal_base_shell_sidebar_get_property (GObject *object,
 
 static void
 e_cal_base_shell_sidebar_update_calendar_margin_cb (GObject *object,
-													GParamSpec *pspec,
-													gpointer *user_data)
+						    GParamSpec *pspec,
+						    gpointer *user_data)
 {
-	EShellWindow *shell_window;
-	GtkWidget *calendar;
+	EShellView *shell_view = E_SHELL_VIEW (object);
+	GtkWidget *calendar = GTK_WIDGET (user_data);
 	gboolean switcher_visible;
 
-	shell_window = E_SHELL_WINDOW (object);
-	calendar = GTK_WIDGET (user_data);
-	switcher_visible = e_shell_window_get_switcher_visible (shell_window);
+	switcher_visible = e_shell_view_get_switcher_visible (shell_view);
 
 	if (switcher_visible)
 		gtk_widget_set_margin_bottom (calendar, 0);
@@ -794,7 +792,7 @@ cal_base_shell_sidebar_constructed (GObject *object)
 
 	e_drag_dest_add_calendar_targets (GTK_WIDGET (cal_base_shell_sidebar->priv->selector));
 
-	g_signal_connect (shell_window,
+	g_signal_connect (shell_view,
 		"notify::switcher-visible", G_CALLBACK (e_cal_base_shell_sidebar_update_calendar_margin_cb),
 		widget);
 

@@ -531,245 +531,6 @@ e_restore_window (GtkWindow *window,
 }
 
 /**
- * e_lookup_action:
- * @ui_manager: a #GtkUIManager
- * @action_name: the name of an action
- *
- * Returns the first #GtkAction named @action_name by traversing the
- * list of action groups in @ui_manager.  If no such action exists, the
- * function emits a critical warning before returning %NULL, since this
- * probably indicates a programming error and most code is not prepared
- * to deal with lookup failures.
- *
- * Returns: the first #GtkAction named @action_name
- **/
-GtkAction *
-e_lookup_action (GtkUIManager *ui_manager,
-                 const gchar *action_name)
-{
-	GtkAction *action = NULL;
-	GList *iter;
-
-	g_return_val_if_fail (GTK_IS_UI_MANAGER (ui_manager), NULL);
-	g_return_val_if_fail (action_name != NULL, NULL);
-
-	iter = gtk_ui_manager_get_action_groups (ui_manager);
-
-	while (iter != NULL) {
-		GtkActionGroup *action_group = iter->data;
-
-		action = gtk_action_group_get_action (
-			action_group, action_name);
-		if (action != NULL)
-			return action;
-
-		iter = g_list_next (iter);
-	}
-
-	g_critical ("%s: action '%s' not found", G_STRFUNC, action_name);
-
-	return NULL;
-}
-
-/**
- * e_lookup_action_group:
- * @ui_manager: a #GtkUIManager
- * @group_name: the name of an action group
- *
- * Returns the #GtkActionGroup in @ui_manager named @group_name.  If no
- * such action group exists, the function emits a critical warnings before
- * returning %NULL, since this probably indicates a programming error and
- * most code is not prepared to deal with lookup failures.
- *
- * Returns: the #GtkActionGroup named @group_name
- **/
-GtkActionGroup *
-e_lookup_action_group (GtkUIManager *ui_manager,
-                       const gchar *group_name)
-{
-	GList *iter;
-
-	g_return_val_if_fail (GTK_IS_UI_MANAGER (ui_manager), NULL);
-	g_return_val_if_fail (group_name != NULL, NULL);
-
-	iter = gtk_ui_manager_get_action_groups (ui_manager);
-
-	while (iter != NULL) {
-		GtkActionGroup *action_group = iter->data;
-		const gchar *name;
-
-		name = gtk_action_group_get_name (action_group);
-		if (strcmp (name, group_name) == 0)
-			return action_group;
-
-		iter = g_list_next (iter);
-	}
-
-	g_critical ("%s: action group '%s' not found", G_STRFUNC, group_name);
-
-	return NULL;
-}
-
-/**
- * e_action_compare_by_label:
- * @action1: a #GtkAction
- * @action2: a #GtkAction
- *
- * Compares the labels for @action1 and @action2 using g_utf8_collate().
- *
- * Returns: &lt; 0 if @action1 compares before @action2, 0 if they
- *          compare equal, &gt; 0 if @action1 compares after @action2
- **/
-gint
-e_action_compare_by_label (GtkAction *action1,
-                           GtkAction *action2)
-{
-	gchar *label1;
-	gchar *label2;
-	gint result;
-
-	/* XXX This is horribly inefficient but will generally only be
-	 *     used on short lists of actions during UI construction. */
-
-	if (action1 == action2)
-		return 0;
-
-	g_object_get (action1, "label", &label1, NULL);
-	g_object_get (action2, "label", &label2, NULL);
-
-	result = g_utf8_collate (label1, label2);
-
-	g_free (label1);
-	g_free (label2);
-
-	return result;
-}
-
-/**
- * e_action_group_remove_all_actions:
- * @action_group: a #GtkActionGroup
- *
- * Removes all actions from the action group.
- **/
-void
-e_action_group_remove_all_actions (GtkActionGroup *action_group)
-{
-	GList *list, *iter;
-
-	/* XXX I've proposed this function for inclusion in GTK+.
-	 *     GtkActionGroup stores actions in an internal hash
-	 *     table and can do this more efficiently by calling
-	 *     g_hash_table_remove_all().
-	 *
-	 *     http://bugzilla.gnome.org/show_bug.cgi?id=550485 */
-
-	g_return_if_fail (GTK_IS_ACTION_GROUP (action_group));
-
-	list = gtk_action_group_list_actions (action_group);
-	for (iter = list; iter != NULL; iter = iter->next)
-		gtk_action_group_remove_action (action_group, iter->data);
-	g_list_free (list);
-}
-
-/**
- * e_radio_action_get_current_action:
- * @radio_action: a #GtkRadioAction
- *
- * Returns the currently active member of the group to which @radio_action
- * belongs.
- *
- * Returns: the currently active group member
- **/
-GtkRadioAction *
-e_radio_action_get_current_action (GtkRadioAction *radio_action)
-{
-	GSList *group;
-	gint current_value;
-
-	g_return_val_if_fail (GTK_IS_RADIO_ACTION (radio_action), NULL);
-
-	group = gtk_radio_action_get_group (radio_action);
-	current_value = gtk_radio_action_get_current_value (radio_action);
-
-	while (group != NULL) {
-		gint value;
-
-		radio_action = GTK_RADIO_ACTION (group->data);
-		g_object_get (radio_action, "value", &value, NULL);
-
-		if (value == current_value)
-			return radio_action;
-
-		group = g_slist_next (group);
-	}
-
-	return NULL;
-}
-
-/**
- * e_action_group_add_actions_localized:
- * @action_group: a #GtkActionGroup to add @entries to
- * @translation_domain: a translation domain to use
- *    to translate label and tooltip strings in @entries
- * @entries: (array length=n_entries): an array of action descriptions
- * @n_entries: the number of entries
- * @user_data: data to pass to the action callbacks
- *
- * Adds #GtkAction-s defined by @entries to @action_group, with action's
- * label and tooltip localized in the given translation domain, instead
- * of the domain set on the @action_group.
- *
- * Since: 3.4
- **/
-void
-e_action_group_add_actions_localized (GtkActionGroup *action_group,
-                                      const gchar *translation_domain,
-                                      const GtkActionEntry *entries,
-                                      guint n_entries,
-                                      gpointer user_data)
-{
-	GtkActionGroup *tmp_group;
-	GList *list, *iter;
-	gint ii;
-
-	g_return_if_fail (action_group != NULL);
-	g_return_if_fail (entries != NULL);
-	g_return_if_fail (n_entries > 0);
-	g_return_if_fail (translation_domain != NULL);
-	g_return_if_fail (*translation_domain);
-
-	tmp_group = gtk_action_group_new ("temporary-group");
-	gtk_action_group_set_translation_domain (tmp_group, translation_domain);
-	gtk_action_group_add_actions (tmp_group, entries, n_entries, user_data);
-
-	list = gtk_action_group_list_actions (tmp_group);
-	for (iter = list; iter != NULL; iter = iter->next) {
-		GtkAction *action = GTK_ACTION (iter->data);
-		const gchar *action_name;
-
-		g_object_ref (action);
-
-		action_name = gtk_action_get_name (action);
-
-		for (ii = 0; ii < n_entries; ii++) {
-			if (g_strcmp0 (entries[ii].name, action_name) == 0) {
-				gtk_action_group_remove_action (
-					tmp_group, action);
-				gtk_action_group_add_action_with_accel (
-					action_group, action,
-					entries[ii].accelerator);
-				break;
-			}
-		}
-
-		g_object_unref (action);
-	}
-
-	g_list_free (list);
-	g_object_unref (tmp_group);
-}
-
-/**
  * e_builder_get_widget:
  * @builder: a #GtkBuilder
  * @widget_name: name of a widget in @builder
@@ -834,102 +595,6 @@ e_load_ui_builder_definition (GtkBuilder *builder,
 		g_error ("%s: %s", basename, error->message);
 		g_warn_if_reached ();
 	}
-}
-
-static gdouble
-e_get_ui_manager_definition_file_version (const gchar *filename)
-{
-	xmlDocPtr doc;
-	xmlNode *root;
-	gdouble version = -1.0;
-
-	g_return_val_if_fail (filename != NULL, version);
-
-	doc = e_xml_parse_file (filename);
-	if (!doc)
-		return version;
-
-	root = xmlDocGetRootElement (doc);
-	if (root && g_strcmp0 ((const gchar *) root->name, "ui") == 0) {
-		version = e_xml_get_double_prop_by_name_with_default (root, (const xmlChar *) "evolution-ui-version", -1.0);
-	}
-
-	xmlFreeDoc (doc);
-
-	return version;
-}
-
-static gchar *
-e_pick_ui_manager_definition_file (const gchar *basename)
-{
-	gchar *system_filename, *user_filename;
-	gdouble system_version, user_version;
-
-	g_return_val_if_fail (basename != NULL, NULL);
-
-	system_filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
-	user_filename = g_build_filename (e_get_user_config_dir (), "ui", basename, NULL);
-
-	if (!g_file_test (user_filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR)) {
-		g_free (user_filename);
-
-		return system_filename;
-	}
-
-	user_version = e_get_ui_manager_definition_file_version (user_filename);
-	system_version = e_get_ui_manager_definition_file_version (system_filename);
-
-	/* Versions are equal and the system version is a positive number */
-	if (user_version - system_version >= -1e-9 &&
-	    user_version - system_version <= 1e-9 &&
-	    system_version > 1e-9) {
-		g_free (system_filename);
-
-		return user_filename;
-	}
-
-	g_warning ("User's UI file '%s' version (%.1f) doesn't match expected version (%.1f), skipping it. Either correct the version or remove the file.",
-		user_filename, user_version, system_version);
-
-	g_free (user_filename);
-
-	return system_filename;
-}
-
-/**
- * e_load_ui_manager_definition:
- * @ui_manager: a #GtkUIManager
- * @basename: basename of the UI definition file
- *
- * Loads a UI definition into @ui_manager from Evolution's UI directory.
- * Failure here is fatal, since the application can't function without
- * its UI definitions.
- *
- * Returns: The merge ID for the merged UI.  The merge ID can be used to
- *          unmerge the UI with gtk_ui_manager_remove_ui().
- **/
-guint
-e_load_ui_manager_definition (GtkUIManager *ui_manager,
-                              const gchar *basename)
-{
-	gchar *filename;
-	guint merge_id;
-	GError *error = NULL;
-
-	g_return_val_if_fail (GTK_IS_UI_MANAGER (ui_manager), 0);
-	g_return_val_if_fail (basename != NULL, 0);
-
-	filename = e_pick_ui_manager_definition_file (basename);
-	merge_id = gtk_ui_manager_add_ui_from_file (
-		ui_manager, filename, &error);
-	g_free (filename);
-
-	if (error != NULL) {
-		g_error ("%s: %s", basename, error->message);
-		g_warn_if_reached ();
-	}
-
-	return merge_id;
 }
 
 /* Helper for e_categories_add_change_hook() */
@@ -5164,4 +4829,100 @@ e_util_call_malloc_trim_limited (void)
 		last_called = now;
 		e_util_call_malloc_trim ();
 	}
+}
+
+static gboolean
+e_util_detach_menu_on_idle_cb (gpointer user_data)
+{
+	GtkMenu *menu = user_data;
+
+	gtk_menu_detach (menu);
+
+	return G_SOURCE_REMOVE;
+}
+
+static void
+e_util_menu_deactivate_cb (GtkMenu *menu,
+			   gpointer user_data)
+{
+	g_return_if_fail (GTK_IS_MENU (menu));
+
+	g_signal_handlers_disconnect_by_func (menu, e_util_menu_deactivate_cb, user_data);
+
+	g_idle_add_full (G_PRIORITY_LOW, e_util_detach_menu_on_idle_cb, g_object_ref (menu), g_object_unref);
+}
+
+/**
+ * e_util_connect_menu_detach_after_deactivate:
+ * @menu: a #GtkMenu
+ *
+ * Connects a signal handler on a "deactivate" signal of the @menu and
+ * calls gtk_menu_detach() after the handler is invoked, which can cause
+ * destroy of the @menu.
+ *
+ * As the #GAction-s are not executed immediately by the GTK, the detach can be
+ * called only later, not in the deactivate signal handler. This function makes
+ * it simpler and consistent to detach (and possibly free) the @menu after the user
+ * dismisses it either by clicking elsewhere or by picking an item from it.
+ *
+ * Since: 3.56
+ **/
+void
+e_util_connect_menu_detach_after_deactivate (GtkMenu *menu)
+{
+	g_return_if_fail (GTK_IS_MENU (menu));
+
+	g_signal_connect (
+		menu, "deactivate",
+		G_CALLBACK (e_util_menu_deactivate_cb), NULL);
+}
+
+/**
+ * e_util_ignore_accel_for_focused:
+ * @focused: (nullable): a focused #GtkWidget, or %NULL
+ *
+ * Returns whether an accel key press should be ignored, due to the @focused
+ * might use it. Returns %FALSE, when the @focused is %NULL.
+ *
+ * Returns: whether an accel key press should be ignored
+ *
+ * Since: 3.56
+ **/
+gboolean
+e_util_ignore_accel_for_focused (GtkWidget *focused)
+{
+	if (!focused)
+		return FALSE;
+
+	if ((GTK_IS_ENTRY (focused) || GTK_IS_EDITABLE (focused) ||
+	    (GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0))) {
+		GdkEvent *event;
+		gboolean ignore = TRUE;
+
+		event = gtk_get_current_event ();
+		if (event) {
+			GdkModifierType modifs = 0;
+			guint keyval = 0;
+			gboolean can_process;
+
+			/* multi-key presses are always allowed */
+			can_process = gdk_event_get_state (event, &modifs) &&
+				(modifs & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0;
+
+			if (!can_process && gdk_event_get_keyval (event, &keyval)) {
+				/* function keys are allowed (they are used as shortcuts in the mail view) */
+				can_process = keyval == GDK_KEY_F1 || keyval == GDK_KEY_F2 || keyval == GDK_KEY_F3 || keyval == GDK_KEY_F4 ||
+					keyval == GDK_KEY_F5 || keyval == GDK_KEY_F6 || keyval == GDK_KEY_F7 || keyval == GDK_KEY_F8 ||
+					keyval == GDK_KEY_F9 || keyval == GDK_KEY_F10 || keyval == GDK_KEY_F11 || keyval == GDK_KEY_F12;
+			}
+
+			g_clear_pointer (&event, gdk_event_free);
+
+			ignore = !can_process;
+		}
+
+		return ignore;
+	}
+
+	return FALSE;
 }

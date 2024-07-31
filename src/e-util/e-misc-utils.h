@@ -60,27 +60,9 @@ void		e_display_help			(GtkWindow *parent,
 void		e_restore_window		(GtkWindow *window,
 						 const gchar *settings_path,
 						 ERestoreWindowFlags flags);
-GtkAction *	e_lookup_action			(GtkUIManager *ui_manager,
-						 const gchar *action_name);
-GtkActionGroup *e_lookup_action_group		(GtkUIManager *ui_manager,
-						 const gchar *group_name);
-gint		e_action_compare_by_label	(GtkAction *action1,
-						 GtkAction *action2);
-void		e_action_group_remove_all_actions
-						(GtkActionGroup *action_group);
-GtkRadioAction *e_radio_action_get_current_action
-						(GtkRadioAction *radio_action);
-void		e_action_group_add_actions_localized
-						(GtkActionGroup *action_group,
-						 const gchar *translation_domain,
-						 const GtkActionEntry *entries,
-						 guint n_entries,
-						 gpointer user_data);
 GtkWidget *	e_builder_get_widget		(GtkBuilder *builder,
 						 const gchar *widget_name);
 void		e_load_ui_builder_definition	(GtkBuilder *builder,
-						 const gchar *basename);
-guint		e_load_ui_manager_definition	(GtkUIManager *ui_manager,
 						 const gchar *basename);
 void		e_categories_add_change_hook	(GHookFunc func,
 						 gpointer object);
@@ -360,6 +342,9 @@ void		e_open_map_uri			(GtkWindow *parent,
 gboolean	e_util_link_requires_reference	(const gchar *href,
 						 const gchar *text);
 void		e_util_call_malloc_trim_limited	(void);
+void		e_util_connect_menu_detach_after_deactivate
+						(GtkMenu *menu);
+gboolean	e_util_ignore_accel_for_focused	(GtkWidget *focused);
 
 G_END_DECLS
 

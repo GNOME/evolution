@@ -1,0 +1,214 @@
+<eui>
+  <menu id='main-menu'>
+    <placeholder id='pre-file-menu'/>
+    <submenu action='file-menu'/>
+    <placeholder id='pre-edit-menu'/>
+    <submenu action='edit-menu'>
+      <placeholder id='edit-menu-top'/>
+      <item action='undo'/>
+      <item action='redo'/>
+      <separator/>
+      <item action='cut'/>
+      <item action='copy'/>
+      <item action='paste'/>
+      <item action='paste-quote'/>
+      <item action='paste-as-text'/>
+      <separator/>
+      <item action='select-all'/>
+      <separator/>
+      <item action='show-find'/>
+      <item action='find-again'/>
+      <item action='show-replace'/>
+      <separator/>
+      <placeholder id='pre-spell-check'/>
+      <item action='spell-check'/>
+      <submenu action='language-menu'>
+        <item action='EHTMLEditor::recent-languages'/>
+        <item action='EHTMLEditor::all-languages'/>
+      </submenu>
+    </submenu>
+    <placeholder id='pre-insert-menu'>
+      <submenu action='view-menu'>
+        <placeholder id='view-menu-top'/>
+        <placeholder id='view-menu-custom'/>
+        <separator/>
+      </submenu>
+    </placeholder>
+    <submenu action='insert-menu'>
+      <placeholder id='insert-menu-top'/>
+      <item action='insert-image'/>
+      <item action='insert-link'/>
+      <item action='insert-rule'/>
+      <item action='insert-table'/>
+      <item action='insert-text-file'/>
+      <item action='insert-html-file'/>
+      <item action='EHTMLEditor::insert-emoticon'/>
+      <item action='insert-emoji'/>
+    </submenu>
+    <placeholder id='pre-format-menu'/>
+    <submenu action='format-menu'>
+      <placeholder id='format-menu-top'/>
+      <item action='mode-html' group='mode'/>
+      <item action='mode-plain' group='mode'/>
+      <item action='mode-markdown-plain' group='mode'/>
+      <item action='mode-markdown-html' group='mode'/>
+      <item action='mode-markdown' group='mode'/>
+      <separator/>
+      <submenu action='font-style-menu'>
+        <item action='bold'/>
+        <item action='italic'/>
+        <item action='underline'/>
+        <item action='strikethrough'/>
+        <separator/>
+        <item action='superscript'/>
+        <item action='subscript'/>
+      </submenu>
+      <submenu action='font-size-menu'>
+        <item action='size-minus-two' group="font-size"/>
+        <item action='size-minus-one' group="font-size"/>
+        <item action='size-plus-zero' group="font-size"/>
+        <item action='size-plus-one' group="font-size"/>
+        <item action='size-plus-two' group="font-size"/>
+        <item action='size-plus-three' group="font-size"/>
+        <item action='size-plus-four' group="font-size"/>
+      </submenu>
+      <separator/>
+      <submenu action='paragraph-style-menu'>
+        <item action='style-normal' group='style'/>
+        <item action='style-preformat' group='style'/>
+        <item action='style-address' group='style'/>
+        <separator/>
+        <item action='style-h1' group='style'/>
+        <item action='style-h2' group='style'/>
+        <item action='style-h3' group='style'/>
+        <item action='style-h4' group='style'/>
+        <item action='style-h5' group='style'/>
+        <item action='style-h6' group='style'/>
+        <separator/>
+        <item action='style-list-bullet' group='style'/>
+        <item action='style-list-roman' group='style'/>
+        <item action='style-list-number' group='style'/>
+        <item action='style-list-alpha' group='style'/>
+      </submenu>
+      <submenu action='justify-menu'>
+        <item action='justify-left' group='justify'/>
+        <item action='justify-center' group='justify'/>
+        <item action='justify-right' group='justify'/>
+        <item action='justify-fill' group='justify'/>
+      </submenu>
+      <separator/>
+      <item action='indent'/>
+      <item action='unindent'/>
+      <item action='wrap-lines'/>
+      <separator/>
+      <item action='properties-page'/>
+    </submenu>
+  </menu>
+  <toolbar id='main-toolbar-with-headerbar' primary='true'>
+    <placeholder id='pre-main-toolbar'/>
+    <item action='undo'/>
+    <item action='redo'/>
+    <separator/>
+    <item action='cut'/>
+    <item action='copy'/>
+    <item action='paste'/>
+    <separator/>
+    <item action='show-find'/>
+    <item action='show-replace'/>
+  </toolbar>
+  <toolbar id='main-toolbar-without-headerbar' primary='true'>
+    <placeholder id='pre-main-toolbar'/>
+    <item action='undo'/>
+    <item action='redo'/>
+    <separator/>
+    <item action='cut'/>
+    <item action='copy'/>
+    <item action='paste'/>
+    <separator/>
+    <item action='show-find'/>
+    <item action='show-replace'/>
+  </toolbar>
+  <toolbar id='edit-toolbar'>
+    <item action='EHTMLEditor::editing-mode'/>
+    <separator/>
+    <item action='EHTMLEditor::paragraph-style'/>
+    <separator/>
+    <item action='justify-left'/>
+    <item action='justify-center'/>
+    <item action='justify-right'/>
+    <item action='justify-fill'/>
+    <separator/>
+    <item action='unindent'/>
+    <item action='indent'/>
+    <separator/>
+    <item action='insert-emoji-toolbar'/>
+  </toolbar>
+  <toolbar id='html-toolbar'>
+    <item action='EHTMLEditor::font-name'/>
+    <item action='EHTMLEditor::font-size'/>
+    <item action='EHTMLEditor::font-color'/>
+    <item action='EHTMLEditor::background-color'/>
+    <separator/>
+    <item action='bold'/>
+    <item action='italic'/>
+    <item action='underline'/>
+    <item action='strikethrough'/>
+    <separator/>
+    <item action='insert-image'/>
+    <item action='insert-link'/>
+    <item action='insert-rule'/>
+    <item action='insert-table'/>
+  </toolbar>
+  <menu id='context-menu' is-popup='true'>
+    <item action='EHTMLEditor::context-spell-suggest'/>
+    <item action='EHTMLEditor::context-spell-suggest-more-menu'/>
+    <separator/>
+    <item action='context-spell-ignore'/>
+    <item action='EHTMLEditor::context-spell-add-menu'/>
+    <item action='context-spell-add'/>
+    <separator/>
+    <item action='undo'/>
+    <item action='redo'/>
+    <separator/>
+    <item action='cut'/>
+    <item action='copy'/>
+    <item action='paste'/>
+    <item action='paste-quote'/>
+    <item action='paste-as-text'/>
+    <separator/>
+    <item action='context-copy-link'/>
+    <item action='context-open-link'/>
+    <item action='context-insert-link'/>
+    <item action='context-remove-link'/>
+    <separator/>
+    <item action='context-delete-hrule'/>
+    <item action='context-delete-image'/>
+    <separator/>
+    <submenu action='context-properties-menu'>
+      <item action='context-properties-text'/>
+      <item action='context-properties-link'/>
+      <item action='context-properties-rule'/>
+      <item action='context-properties-image'/>
+      <item action='context-properties-paragraph'/>
+      <item action='context-properties-cell'/>
+      <item action='context-properties-table'/>
+      <item action='context-properties-page'/>
+    </submenu>
+    <separator/>
+    <submenu action='context-insert-table-menu'>
+      <item action='context-insert-row-above'/>
+      <item action='context-insert-row-below'/>
+      <separator/>
+      <item action='context-insert-column-before'/>
+      <item action='context-insert-column-after'/>
+    </submenu>
+    <submenu action='context-delete-table-menu'>
+      <item action='context-delete-table'/>
+      <item action='context-delete-row'/>
+      <item action='context-delete-column'/>
+      <item action='context-delete-cell'/>
+    </submenu>
+    <separator/>
+    <item action='insert-emoji-toolbar'/>
+  </menu>
+</eui>

@@ -26,8 +26,6 @@
 #include <glib/gi18n.h>
 #include <camel/camel-search-private.h>  /* for camel_search_word */
 
-#include "shell/e-shell-headerbar.h"
-
 #include <mail/e-mail-folder-create-dialog.h>
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-reader-utils.h>
@@ -50,11 +48,9 @@
 #include "e-mail-shell-sidebar.h"
 #include "e-mail-shell-view-actions.h"
 
-/* Shorthand, requires a variable named "shell_window". */
+/* Shorthand, requires a variable named "shell_view". */
 #define ACTION(name) \
-	(E_SHELL_WINDOW_ACTION_##name (shell_window))
-#define ACTION_GROUP(name) \
-	(E_SHELL_WINDOW_ACTION_GROUP_##name (shell_window))
+	(E_SHELL_VIEW_ACTION_##name (shell_view))
 
 /* ETable Specifications */
 #define ETSPEC_FILENAME		"message-list.etspec"
@@ -113,9 +109,6 @@ struct _EMailShellViewPrivate {
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 
-	/* For UI merging and unmerging. */
-	guint merge_id;
-
 	/* Filter rules correspond to the search entry menu. */
 	EFilterRule *search_rules[MAIL_NUM_SEARCH_RULES];
 
@@ -125,17 +118,17 @@ struct _EMailShellViewPrivate {
 	/* For opening the selected folder. */
 	GCancellable *opening_folder;
 
+	GMenu *send_receive_menu;
+
 	/* Search folders for interactive search. */
 	CamelVeeFolder *search_folder_and_subfolders;
 	CamelVeeFolder *search_account_all;
 	CamelVeeFolder *search_account_current;
 	GCancellable *search_account_cancel;
 
-	GtkToolItem *send_receive_tool_item;
-	GtkToolItem *send_receive_tool_separator;
-
 	gboolean vfolder_allow_expunge;
 	gboolean ignore_folder_popup_selection_done;
+	gboolean web_view_accel_group_added;
 
 	/* Selected UIDs for MAIL_FILTER_MESSAGE_THREAD filter */
 	GSList *selected_uids;
@@ -154,13 +147,13 @@ void		e_mail_shell_view_private_finalize
 
 void		e_mail_shell_view_actions_init
 					(EMailShellView *mail_shell_view);
+void		e_mail_shell_view_fill_send_receive_menu
+					(EMailShellView *self);
 void		e_mail_shell_view_restore_state
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_update_search_filter
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_update_sidebar
-					(EMailShellView *mail_shell_view);
-void		e_mail_shell_view_update_send_receive_menus
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_rename_folder
 					(EMailShellView *mail_shell_view);

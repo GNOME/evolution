@@ -74,7 +74,7 @@
 #define E_HTML_EDITOR_ACTION_CONTEXT_SPELL_ADD(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-spell-add")
 #define E_HTML_EDITOR_ACTION_CONTEXT_SPELL_ADD_MENU(editor) \
-	E_HTML_EDITOR_ACTION ((editor), "context-spell-add-menu")
+	E_HTML_EDITOR_ACTION ((editor), "EHTMLEditor::context-spell-add-menu")
 #define E_HTML_EDITOR_ACTION_CONTEXT_SPELL_IGNORE(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-spell-ignore")
 #define E_HTML_EDITOR_ACTION_COPY(editor) \

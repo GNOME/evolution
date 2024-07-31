@@ -20,6 +20,7 @@
 #include <shell/e-shell.h>
 #include <shell/e-shell-window.h>
 #include "mail/e-mail-browser.h"
+#include "mail/e-mail-reader.h"
 
 #include <libebackend/libebackend.h>
 
@@ -32,9 +33,13 @@
 typedef struct _EMailDisplayPopupTextHighlight {
 	EExtension parent;
 
-	GtkActionGroup *action_group;
+	EUIAction *menu_action_webview;
+	EUIAction *item_action_webview;
+	EUIAction *menu_action_reader;
+	EUIAction *item_action_reader;
+	GMenu *menu;
 
-	volatile gint updating;
+	gint updating;
 	gchar *iframe_src;
 	gchar *iframe_id;
 } EMailDisplayPopupTextHighlight;
@@ -59,53 +64,6 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 		E_TYPE_MAIL_DISPLAY_POPUP_EXTENSION,
 		e_mail_display_popup_extension_interface_init));
 
-static const gchar *ui =
-"<ui>"
-"  <popup name='context'>"
-"    <placeholder name='custom-actions-2'>"
-"      <separator />"
-"      <menu action='format-as-menu'>"
-"	 <placeholder name='format-as-actions' />"
-"	 <menu action='format-as-other-menu'>"
-"	 </menu>"
-"      </menu>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
-static const gchar *ui_reader =
-"<ui>"
-"  <popup name='mail-preview-popup'>"
-"    <placeholder name='mail-preview-popup-actions'>"
-"      <separator />"
-"      <menu action='format-as-menu'>"
-"	 <placeholder name='format-as-actions' />"
-"	 <menu action='format-as-other-menu'>"
-"	 </menu>"
-"      </menu>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
-static GtkActionEntry entries[] = {
-
-	{ "format-as-menu",
-	  NULL,
-	  N_("_Format as…"),
-	  NULL,
-	  NULL,
-	  NULL
-	},
-
-	{ "format-as-other-menu",
-	  NULL,
-	  N_("_Other languages"),
-	  NULL,
-	  NULL,
-	  NULL
-	}
-};
-
 static void
 set_popup_place (EMailDisplayPopupTextHighlight *extension,
 		 const gchar *iframe_src,
@@ -123,22 +81,22 @@ set_popup_place (EMailDisplayPopupTextHighlight *extension,
 }
 
 static void
-reformat (GtkAction *old,
-          GtkAction *action,
-          gpointer user_data)
+text_hightlight_format_as_menu_item_set_state_cb (EUIAction *action,
+						  GVariant *parameter,
+						  gpointer user_data)
 {
-	EMailDisplayPopupTextHighlight *th_extension;
+	EMailDisplayPopupTextHighlight *self = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (user_data);
 	GUri *guri;
 	GHashTable *query;
 	gchar *uri, *query_str;
 
-	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (user_data);
+	e_ui_action_set_state (action, parameter);
 
-	if (g_atomic_int_get (&th_extension->updating))
+	if (g_atomic_int_get (&self->updating))
 		return;
 
-	if (th_extension->iframe_src)
-		guri = g_uri_parse (th_extension->iframe_src, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	if (self->iframe_src)
+		guri = g_uri_parse (self->iframe_src, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 	else
 		guri = NULL;
 
@@ -151,15 +109,12 @@ reformat (GtkAction *old,
 	}
 
 	query = soup_form_decode (g_uri_get_query (guri));
-	g_hash_table_replace (
-		query, g_strdup ("__formatas"), (gpointer) gtk_action_get_name (action));
-	g_hash_table_replace (
-		query, g_strdup ("mime_type"), (gpointer) "text/plain");
-	g_hash_table_replace (
-		query, g_strdup ("__force_highlight"), (gpointer) "true");
+	g_hash_table_replace (query, g_strdup ("__formatas"), (gpointer) g_variant_get_string (parameter, NULL));
+	g_hash_table_replace (query, g_strdup ("mime_type"), (gpointer) "text/plain");
+	g_hash_table_replace (query, g_strdup ("__force_highlight"), (gpointer) "true");
 
 	#ifdef HAVE_MARKDOWN
-	if (g_strcmp0 (gtk_action_get_name (action), "markdown") == 0) {
+	if (g_strcmp0 (g_variant_get_string (parameter, NULL), "markdown") == 0) {
 		g_hash_table_remove (query, "__formatas");
 		g_hash_table_remove (query, "__force_highlight");
 		g_hash_table_replace (query, g_strdup ("mime_type"), (gpointer) "text/markdown");
@@ -174,124 +129,123 @@ reformat (GtkAction *old,
 	uri = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
 	g_uri_unref (guri);
 
-	e_web_view_set_iframe_src (E_WEB_VIEW (e_extension_get_extensible (E_EXTENSION (th_extension))),
-		th_extension->iframe_id, uri);
+	e_web_view_set_iframe_src (E_WEB_VIEW (e_extension_get_extensible (E_EXTENSION (self))),
+		self->iframe_id, uri);
 
 	g_free (uri);
 }
 
-static GtkActionGroup *
-create_group (EMailDisplayPopupExtension *extension)
+static gboolean
+text_highlight_ui_manager_create_item_cb (EUIManager *ui_manager,
+					  EUIElement *elem,
+					  EUIAction *action,
+					  EUIElementKind for_kind,
+					  GObject **out_item,
+					  gpointer user_data)
 {
+	GMenuModel *format_as_menu = user_data;
+	const gchar *name;
+
+	g_return_val_if_fail (G_IS_MENU (format_as_menu), FALSE);
+
+	name = g_action_get_name (G_ACTION (action));
+
+	if (!g_str_has_prefix (name, "EPluginTextHighlight::"))
+		return FALSE;
+
+	#define is_action(_nm) (g_strcmp0 (name, (_nm)) == 0)
+
+	if (is_action ("EPluginTextHighlight::format-as-menu")) {
+		*out_item = e_ui_manager_create_item_from_menu_model (ui_manager, elem, action, for_kind, format_as_menu);
+	} else if (for_kind == E_UI_ELEMENT_KIND_MENU) {
+		g_warning ("%s: Unhandled menu action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_TOOLBAR) {
+		g_warning ("%s: Unhandled toolbar action '%s'", G_STRFUNC, name);
+	} else if (for_kind == E_UI_ELEMENT_KIND_HEADERBAR) {
+		g_warning ("%s: Unhandled headerbar action '%s'", G_STRFUNC, name);
+	} else {
+		g_warning ("%s: Unhandled element kind '%d' for action '%s'", G_STRFUNC, (gint) for_kind, name);
+	}
+
+	#undef is_action
+
+	return TRUE;
+}
+
+static void
+create_actions (EMailDisplayPopupExtension *extension)
+{
+	static const gchar *eui_webview =
+		"<eui>"
+		  "<menu id='context'>"
+		    "<placeholder id='custom-actions-2'>"
+		      "<separator/>"
+		      "<item action='EPluginTextHighlight::format-as-menu'/>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry entries[] = {
+		{ "format-as-menu-item",
+		   NULL,
+		   N_("_Format as…"),
+		   NULL,
+		   NULL,
+		   NULL, "s", "'txt'", text_hightlight_format_as_menu_item_set_state_cb },
+
+		{ "EPluginTextHighlight::format-as-menu", NULL, N_("_Format as…"), NULL, NULL, NULL, NULL, NULL, NULL }
+	};
+
+	EMailDisplayPopupTextHighlight *self = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (extension);
 	EExtensible *extensible;
+	EUIManager *ui_manager;
+	EUIActionGroup *group;
 	EWebView *web_view;
-	GtkUIManager *ui_manager, *shell_ui_manager;
-	GtkActionGroup *group;
-	EShell *shell;
-	GtkWindow *shell_window;
-	gint i;
-	gsize len;
-	guint merge_id, shell_merge_id;
-	Language *languages;
-	GSList *radio_group;
-	gint action_index;
+	EMailReader *mail_reader;
 
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 	web_view = E_WEB_VIEW (extensible);
-
 	ui_manager = e_web_view_get_ui_manager (web_view);
-	shell = e_shell_get_default ();
-	shell_window = e_shell_get_active_window (shell);
-	if (E_IS_SHELL_WINDOW (shell_window)) {
-		shell_ui_manager = e_shell_window_get_ui_manager (E_SHELL_WINDOW (shell_window));
-	} else if (E_IS_MAIL_BROWSER (shell_window)) {
-		shell_ui_manager = e_mail_browser_get_ui_manager (E_MAIL_BROWSER (shell_window));
-	} else {
-		return NULL;
+	g_return_if_fail (ui_manager != NULL);
+
+	g_signal_connect_data (ui_manager, "create-item",
+		G_CALLBACK (text_highlight_ui_manager_create_item_cb), g_object_ref (self->menu),
+		(GClosureNotify) g_object_unref, 0);
+
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "EPluginTextHighlight", NULL,
+		entries, G_N_ELEMENTS (entries), extension, eui_webview);
+
+	group = e_ui_manager_get_action_group (ui_manager, "EPluginTextHighlight");
+	self->menu_action_webview = g_object_ref (e_ui_action_group_get_action (group, "EPluginTextHighlight::format-as-menu"));
+	self->item_action_webview = g_object_ref (e_ui_action_group_get_action (group, "format-as-menu-item"));
+
+	mail_reader = e_mail_display_ref_mail_reader (E_MAIL_DISPLAY (web_view));
+	if (mail_reader) {
+		static const gchar *eui_reader =
+			"<eui>"
+			  "<menu id='mail-preview-popup'>"
+			    "<placeholder id='mail-previewXXX-popup-actions'>"
+			      "<separator/>"
+			      "<item action='EPluginTextHighlight::format-as-menu'/>"
+			    "</placeholder>"
+			  "</menu>"
+			"</eui>";
+
+		ui_manager = e_mail_reader_get_ui_manager (mail_reader);
+
+		g_signal_connect_data (ui_manager, "create-item",
+			G_CALLBACK (text_highlight_ui_manager_create_item_cb), g_object_ref (self->menu),
+			(GClosureNotify) g_object_unref, 0);
+
+		e_ui_manager_add_actions_with_eui_data (ui_manager, "EPluginTextHighlight", NULL,
+			entries, G_N_ELEMENTS (entries), extension, eui_reader);
+
+		group = e_ui_manager_get_action_group (ui_manager, "EPluginTextHighlight");
+		self->menu_action_reader = g_object_ref (e_ui_action_group_get_action (group, "EPluginTextHighlight::format-as-menu"));
+		self->item_action_reader = g_object_ref (e_ui_action_group_get_action (group, "format-as-menu-item"));
+
+		g_clear_object (&mail_reader);
 	}
-
-	group = gtk_action_group_new ("format-as");
-	gtk_action_group_add_actions (group, entries, G_N_ELEMENTS (entries), NULL);
-
-	gtk_ui_manager_insert_action_group (ui_manager, group, 0);
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
-
-	gtk_ui_manager_insert_action_group (shell_ui_manager, group, 0);
-	gtk_ui_manager_add_ui_from_string (shell_ui_manager, ui_reader, -1, NULL);
-
-	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-	shell_merge_id = gtk_ui_manager_new_merge_id (shell_ui_manager);
-
-	languages = get_default_langauges (&len);
-	radio_group = NULL;
-	action_index = 0;
-	for (i = 0; i < len; i++) {
-
-		GtkRadioAction *action;
-		action = gtk_radio_action_new (
-				languages[i].action_name,
-				languages[i].action_label,
-				NULL, NULL, action_index);
-		action_index++;
-		gtk_action_group_add_action (group, GTK_ACTION (action));
-		if (radio_group)
-			gtk_radio_action_set_group (action, radio_group);
-		else
-			g_signal_connect (
-				action, "changed",
-				G_CALLBACK (reformat), extension);
-		radio_group = gtk_radio_action_get_group (action);
-
-		g_object_unref (action);
-
-		gtk_ui_manager_add_ui (
-			ui_manager, merge_id,
-			"/context/custom-actions-2/format-as-menu/format-as-actions",
-			languages[i].action_name, languages[i].action_name,
-			GTK_UI_MANAGER_AUTO, FALSE);
-
-		gtk_ui_manager_add_ui (
-			shell_ui_manager, shell_merge_id,
-			"/mail-preview-popup/mail-preview-popup-actions/format-as-menu/format-as-actions",
-			languages[i].action_name, languages[i].action_name,
-			GTK_UI_MANAGER_AUTO, FALSE);
-	}
-
-	languages = get_additinal_languages (&len);
-	for (i = 0; i < len; i++) {
-		GtkRadioAction *action;
-
-		action = gtk_radio_action_new (
-				languages[i].action_name,
-				languages[i].action_label,
-				NULL, NULL, action_index);
-		action_index++;
-		gtk_action_group_add_action (group, GTK_ACTION (action));
-
-		if (radio_group)
-			gtk_radio_action_set_group (action, radio_group);
-		else
-			g_signal_connect (
-				action, "changed",
-				G_CALLBACK (reformat), extension);
-		radio_group = gtk_radio_action_get_group (action);
-
-		g_object_unref (action);
-
-		gtk_ui_manager_add_ui (
-			ui_manager, merge_id,
-			"/context/custom-actions-2/format-as-menu/format-as-other-menu",
-			languages[i].action_name, languages[i].action_name,
-			GTK_UI_MANAGER_AUTO, FALSE);
-
-		gtk_ui_manager_add_ui (
-			shell_ui_manager, shell_merge_id,
-			"/mail-preview-popup/mail-preview-popup-actions/format-as-menu/format-as-other-menu",
-			languages[i].action_name, languages[i].action_name,
-			GTK_UI_MANAGER_AUTO, FALSE);
-	}
-
-	return group;
 }
 
 static gboolean
@@ -316,9 +270,9 @@ update_actions (EMailDisplayPopupExtension *extension,
 
 	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (extension);
 
-	if (!th_extension->action_group) {
-		th_extension->action_group = create_group (extension);
-		if (!th_extension->action_group)
+	if (!th_extension->menu_action_webview) {
+		create_actions (extension);
+		if (!th_extension->menu_action_webview)
 			return;
 	}
 
@@ -328,9 +282,12 @@ update_actions (EMailDisplayPopupExtension *extension,
 	 * then try to check what formatter it's using at the moment and set
 	 * it as active in the popup menu */
 	if (th_extension->iframe_src && strstr (th_extension->iframe_src, ".text-highlight") != NULL) {
+		GVariant *state = NULL;
 		GUri *guri;
-		gtk_action_group_set_visible (
-			th_extension->action_group, TRUE);
+
+		e_ui_action_set_visible (th_extension->menu_action_webview, TRUE);
+		if (th_extension->menu_action_reader)
+			e_ui_action_set_visible (th_extension->menu_action_reader, TRUE);
 
 		guri = g_uri_parse (th_extension->iframe_src, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 		if (guri && g_uri_get_query (guri)) {
@@ -344,27 +301,29 @@ update_actions (EMailDisplayPopupExtension *extension,
 				highlighter = g_hash_table_lookup (query, "__formatas");
 			}
 
-			if (highlighter && *highlighter) {
-				GtkAction *action = gtk_action_group_get_action (
-					th_extension->action_group, highlighter);
-				if (action) {
-					gint value;
-					g_atomic_int_add (&th_extension->updating, 1);
-					g_object_get (
-						G_OBJECT (action), "value",
-						&value, NULL);
-					gtk_radio_action_set_current_value (
-						GTK_RADIO_ACTION (action), value);
-					g_atomic_int_add (&th_extension->updating, -1);
-				}
-			}
+			if (highlighter && *highlighter)
+				state = g_variant_new_string (highlighter);
+
 			g_hash_table_destroy (query);
 		}
 
 		if (guri)
 			g_uri_unref (guri);
+
+		if (!state)
+			state = g_variant_new_string ("txt");
+
+		g_variant_ref_sink (state);
+		g_atomic_int_add (&th_extension->updating, 1);
+		e_ui_action_set_state (th_extension->item_action_webview, state);
+		if (th_extension->item_action_reader)
+			e_ui_action_set_state (th_extension->item_action_reader, state);
+		g_atomic_int_add (&th_extension->updating, -1);
+		g_variant_unref (state);
 	} else {
-		gtk_action_group_set_visible (th_extension->action_group, FALSE);
+		e_ui_action_set_visible (th_extension->menu_action_webview, FALSE);
+		if (th_extension->menu_action_reader)
+			e_ui_action_set_visible (th_extension->menu_action_reader, FALSE);
 	}
 }
 
@@ -375,7 +334,11 @@ e_mail_display_popup_text_highlight_finalize (GObject *object)
 
 	extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (object);
 
-	g_clear_object (&extension->action_group);
+	g_clear_object (&extension->menu_action_webview);
+	g_clear_object (&extension->menu_action_reader);
+	g_clear_object (&extension->item_action_webview);
+	g_clear_object (&extension->item_action_reader);
+	g_clear_object (&extension->menu);
 	g_free (extension->iframe_src);
 	g_free (extension->iframe_id);
 
@@ -418,7 +381,37 @@ e_mail_display_popup_text_highlight_class_finalize (EMailDisplayPopupTextHighlig
 static void
 e_mail_display_popup_text_highlight_init (EMailDisplayPopupTextHighlight *extension)
 {
-	extension->action_group = NULL;
-	extension->iframe_src = NULL;
-	extension->iframe_id = NULL;
+	Language *languages;
+	GMenu *others_menu;
+	gsize ii, len;
+
+	extension->menu = g_menu_new ();
+
+	languages = get_default_langauges (&len);
+	for (ii = 0; ii < len; ii++) {
+		gchar *detailed_action;
+
+		detailed_action = g_strdup_printf ("EPluginTextHighlight.format-as-menu-item('%s')", languages[ii].action_name);
+
+		g_menu_append (extension->menu, languages[ii].action_label, detailed_action);
+
+		g_free (detailed_action);
+	}
+
+	others_menu = g_menu_new ();
+
+	languages = get_additinal_languages (&len);
+	for (ii = 0; ii < len; ii++) {
+		gchar *detailed_action;
+
+		detailed_action = g_strdup_printf ("EPluginTextHighlight.format-as-menu-item('%s')", languages[ii].action_name);
+
+		g_menu_append (others_menu, languages[ii].action_label, detailed_action);
+
+		g_free (detailed_action);
+	}
+
+	g_menu_append_submenu (extension->menu, N_("_Other languages"), G_MENU_MODEL (others_menu));
+
+	g_clear_object (&others_menu);
 }

@@ -223,7 +223,6 @@ setup_build_flags(${ENABLE_MAINTAINER_MODE})
 set(MATH_LDFLAGS -lm)
 
 CHECK_INCLUDE_FILE(sys/wait.h HAVE_SYS_WAIT_H)
-CHECK_INCLUDE_FILE(X11/XF86keysym.h HAVE_XFREE)
 CHECK_FUNCTION_EXISTS(nl_langinfo HAVE_NL_LANGINFO)
 
 # ******************************

@@ -31,6 +31,9 @@
 #include <webkit2/webkit2.h>
 #include <e-util/e-activity.h>
 #include <e-util/e-content-request.h>
+#include <e-util/e-ui-action.h>
+#include <e-util/e-ui-action-group.h>
+#include <e-util/e-ui-manager.h>
 
 /* Standard GObject macros */
 #define E_TYPE_WEB_VIEW \
@@ -181,17 +184,17 @@ void		e_web_view_set_selected_uri	(EWebView *web_view,
 const gchar *	e_web_view_get_cursor_image_src	(EWebView *web_view);
 void		e_web_view_set_cursor_image_src	(EWebView *web_view,
 						 const gchar *src_uri);
-GtkAction *	e_web_view_get_open_proxy	(EWebView *web_view);
+EUIAction *	e_web_view_get_open_proxy	(EWebView *web_view);
 void		e_web_view_set_open_proxy	(EWebView *web_view,
-						 GtkAction *open_proxy);
+						 EUIAction *open_proxy);
 GtkTargetList *	e_web_view_get_paste_target_list
 						(EWebView *web_view);
-GtkAction *	e_web_view_get_print_proxy	(EWebView *web_view);
+EUIAction *	e_web_view_get_print_proxy	(EWebView *web_view);
 void		e_web_view_set_print_proxy	(EWebView *web_view,
-						 GtkAction *print_proxy);
-GtkAction *	e_web_view_get_save_as_proxy	(EWebView *web_view);
+						 EUIAction *print_proxy);
+EUIAction *	e_web_view_get_save_as_proxy	(EWebView *web_view);
 void		e_web_view_set_save_as_proxy	(EWebView *web_view,
-						 GtkAction *save_as_proxy);
+						 EUIAction *save_as_proxy);
 void		e_web_view_get_last_popup_place	(EWebView *web_view,
 						 gchar **out_iframe_src,
 						 gchar **out_iframe_id,
@@ -202,9 +205,9 @@ void		e_web_view_add_highlight	(EWebView *web_view,
 void		e_web_view_clear_highlights	(EWebView *web_view);
 void		e_web_view_update_highlights	(EWebView *web_view);
 void		e_web_view_disable_highlights	(EWebView *web_view);
-GtkAction *	e_web_view_get_action		(EWebView *web_view,
+EUIAction *	e_web_view_get_action		(EWebView *web_view,
 						 const gchar *action_name);
-GtkActionGroup *e_web_view_get_action_group	(EWebView *web_view,
+EUIActionGroup *e_web_view_get_action_group	(EWebView *web_view,
 						 const gchar *group_name);
 void		e_web_view_copy_clipboard	(EWebView *web_view);
 void		e_web_view_cut_clipboard	(EWebView *web_view);
@@ -217,8 +220,7 @@ void		e_web_view_unselect_all		(EWebView *web_view);
 void		e_web_view_zoom_100		(EWebView *web_view);
 void		e_web_view_zoom_in		(EWebView *web_view);
 void		e_web_view_zoom_out		(EWebView *web_view);
-GtkUIManager *	e_web_view_get_ui_manager	(EWebView *web_view);
-GtkWidget *	e_web_view_get_popup_menu	(EWebView *web_view);
+EUIManager *	e_web_view_get_ui_manager	(EWebView *web_view);
 void		e_web_view_show_popup_menu	(EWebView *web_view,
 						 GdkEvent *event);
 EActivity *	e_web_view_new_activity		(EWebView *web_view);

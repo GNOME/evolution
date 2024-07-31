@@ -6,24 +6,16 @@
 		<author name="Ashish Shrivastava" email="shashish@novell.com"/>
                 <!-- For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added -->
 		<_description>Add custom headers to outgoing mail messages.</_description>
-
-		<hook class="org.gnome.evolution.ui:1.0">
-			<ui-manager id="org.gnome.evolution.composer">
-				<menubar name='main-menu'>
-					<menu action='insert-menu'>
-						<placeholder name="insert-menu-top">
-							<menuitem action="Custom Header"/>
-						</placeholder>
-					</menu>
-				</menubar>
-			</ui-manager>
-		</hook>
 		
 		<hook class="org.gnome.evolution.mail.config:1.0">
                         <group target="prefs" id="org.gnome.evolution.mail.composerPrefs">
                                 <item type="section" path="00.general/10.alerts/" factory="org_gnome_email_custom_header_config_option"/>
                         </group>
                 </hook>
+
+		<hook class="org.gnome.evolution.ui:1.0">
+			<ui-manager id="org.gnome.evolution.composer"/>
+		</hook>
 
 	</e-plugin>
 </e-plugin-list>

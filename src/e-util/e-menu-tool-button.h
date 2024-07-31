@@ -31,6 +31,8 @@
 
 #include <gtk/gtk.h>
 
+#include <e-util/e-ui-manager.h>
+
 /* Standard GObject macros */
 #define E_TYPE_MENU_TOOL_BUTTON \
 	(e_menu_tool_button_get_type ())
@@ -66,7 +68,8 @@ struct _EMenuToolButtonClass {
 };
 
 GType		e_menu_tool_button_get_type	(void) G_GNUC_CONST;
-GtkToolItem *	e_menu_tool_button_new		(const gchar *label);
+GtkToolItem *	e_menu_tool_button_new		(const gchar *label,
+						 EUIManager *ui_manager);
 const gchar *	e_menu_tool_button_get_prefer_item
 						(EMenuToolButton *button);
 void		e_menu_tool_button_set_prefer_item

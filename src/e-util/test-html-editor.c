@@ -31,41 +31,6 @@
    which prints a constructed message, like within the message preview. */
 /* #define ENABLE_PRINT */
 
-static const gchar *file_ui =
-"<ui>\n"
-"  <menubar name='main-menu'>\n"
-"    <menu action='file-menu'>\n"
-"     <menuitem action='new-editor'/>\n"
-"     <separator/>\n"
-"     <menuitem action='save'/>\n"
-"     <menuitem action='save-as'/>\n"
-#ifdef ENABLE_PRINT
-"     <separator/>\n"
-"     <menuitem action='print-preview'/>\n"
-"     <menuitem action='print'/>\n"
-#endif /* ENABLE_PRINT */
-"     <separator/>\n"
-"     <menuitem action='disable-editor'/>\n"
-"     <separator/>\n"
-"     <menuitem action='quit'/>\n"
-"    </menu>\n"
-"  </menubar>\n"
-"</ui>";
-
-static const gchar *view_ui =
-"<ui>\n"
-"  <menubar name='main-menu'>\n"
-"    <menu action='view-menu'>\n"
-"     <menuitem action='view-html-output'/>\n"
-"     <menuitem action='view-html-source'/>\n"
-"     <menuitem action='view-plain-source'/>\n"
-"     <menuitem action='view-draft-source'/>\n"
-"     <separator/>\n"
-"     <menuitem action='view-webkit-inspector'/>\n"
-"    </menu>\n"
-"  </menubar>\n"
-"</ui>";
-
 enum {
 	GET_CONTENT_PLAIN,
 	GET_CONTENT_HTML,
@@ -291,32 +256,52 @@ view_source_dialog (EHTMLEditor *editor,
 }
 
 static void
-action_new_editor_cb (GtkAction *action,
-		      EHTMLEditor *editor)
+action_new_editor_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
 	create_new_editor ();
 }
 
 #ifdef ENABLE_PRINT
 static void
-action_print_cb (GtkAction *action,
-                 EHTMLEditor *editor)
+action_print_cb (EUIAction *action,
+		 GVariant *parameter,
+		 gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
 	print (editor, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
-action_print_preview_cb (GtkAction *action,
-                         EHTMLEditor *editor)
+action_print_preview_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
 	print (editor, GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
 #endif /* ENABLE_PRINT */
 
 static void
-action_quit_cb (GtkAction *action,
-                EHTMLEditor *editor)
+action_quit_cb (EUIAction *action,
+		GVariant *parameter,
+		gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
 	gtk_main_quit ();
 }
 
@@ -333,11 +318,15 @@ html_editor_save_done_cb (GObject *source_object,
 }
 
 static void
-action_save_cb (GtkAction *action,
-                EHTMLEditor *editor)
+action_save_cb (EUIAction *action,
+		GVariant *parameter,
+		gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
 	const gchar *filename;
 	gboolean as_html;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
 	if (e_html_editor_get_filename (editor) == NULL)
 		if (save_dialog (editor) == GTK_RESPONSE_CANCEL)
@@ -350,11 +339,15 @@ action_save_cb (GtkAction *action,
 }
 
 static void
-action_save_as_cb (GtkAction *action,
-                   EHTMLEditor *editor)
+action_save_as_cb (EUIAction *action,
+		   GVariant *parameter,
+		   gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
 	const gchar *filename;
 	gboolean as_html;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
 	if (save_dialog (editor) == GTK_RESPONSE_CANCEL)
 		return;
@@ -366,49 +359,77 @@ action_save_as_cb (GtkAction *action,
 }
 
 static void
-action_toggle_editor (GtkAction *action,
-                      EHTMLEditor *editor)
+action_toggle_editor (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
 	EContentEditor *cnt_editor;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	e_content_editor_set_editable (cnt_editor, !e_content_editor_is_editable (cnt_editor));
 }
 
 static void
-action_view_html_output (GtkAction *action,
-                         EHTMLEditor *editor)
+action_view_html_output (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
 	view_source_dialog (editor, _("HTML Output"), GET_CONTENT_HTML, FALSE);
 }
 
 static void
-action_view_html_source (GtkAction *action,
-                         EHTMLEditor *editor)
+action_view_html_source (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
 	view_source_dialog (editor, _("HTML Source"), GET_CONTENT_HTML, TRUE);
 }
 
 static void
-action_view_plain_source (GtkAction *action,
-                          EHTMLEditor *editor)
+action_view_plain_source (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
 	view_source_dialog (editor, _("Plain Source"), GET_CONTENT_PLAIN, FALSE);
 }
 
 static void
-action_view_draft_source (GtkAction *action,
-			  EHTMLEditor *editor)
+action_view_draft_source (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
 	view_source_dialog (editor, _("Draft"), GET_CONTENT_DRAFT, TRUE);
 }
 
 static void
-action_view_inspector (GtkAction *action,
-                       EHTMLEditor *editor)
+action_view_inspector (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
-	WebKitWebInspector *inspector;
+	EHTMLEditor *editor = user_data;
 	EContentEditor *cnt_editor;
+	WebKitWebInspector *inspector;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	if (WEBKIT_IS_WEB_VIEW (cnt_editor)) {
@@ -418,111 +439,6 @@ action_view_inspector (GtkAction *action,
 		g_print ("Cannot show the inspector, the content editor is not a WebKitWebView descendant\n");
 	}
 }
-
-static GtkActionEntry file_entries[] = {
-	{ "new-editor",
-	  "document-new",
-	  N_("_New editor"),
-	  "<Control>N",
-	  NULL,
-	  G_CALLBACK (action_new_editor_cb) },
-
-#ifdef ENABLE_PRINT
-	{ "print",
-	  "document-print",
-	  N_("_Print…"),
-	  "<Control>p",
-	  NULL,
-	  G_CALLBACK (action_print_cb) },
-
-	{ "print-preview",
-	  "document-print-preview",
-	  N_("Print Pre_view"),
-	  "<Control><Shift>p",
-	  NULL,
-	  G_CALLBACK (action_print_preview_cb) },
-#endif /* ENABLE_PRINT */
-
-	{ "quit",
-	  "application-exit",
-	  N_("_Quit"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_quit_cb) },
-
-	{ "save",
-	  "document-save",
-	  N_("_Save"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_save_cb) },
-
-	{ "save-as",
-	  "document-save-as",
-	  N_("Save _As…"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_save_as_cb) },
-
-	{ "disable-editor",
-	  NULL,
-	  N_("Disable/Enable Editor"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_toggle_editor) },
-
-	{ "file-menu",
-	  NULL,
-	  N_("_File"),
-	  NULL,
-	  NULL,
-	  NULL }
-};
-
-static GtkActionEntry view_entries[] = {
-
-	{ "view-html-output",
-	  NULL,
-	  N_("HTML _Output"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_view_html_output) },
-
-	{ "view-html-source",
-	  NULL,
-	  N_("_HTML Source"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_view_html_source) },
-
-	{ "view-plain-source",
-	  NULL,
-	  N_("_Plain Source"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_view_plain_source) },
-
-	{ "view-draft-source",
-	  NULL,
-	  N_("_Draft Source"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_view_draft_source) },
-
-	{ "view-webkit-inspector",
-	  NULL,
-	  N_("Inspector"),
-	  NULL,
-	  "<Control><Shift>I",
-	  G_CALLBACK (action_view_inspector) },
-
-	{ "view-menu",
-	  NULL,
-	  N_("_View"),
-	  NULL,
-	  NULL,
-	  NULL }
-};
 
 static guint glob_editors = 0;
 static const gchar *glob_prefill_body = NULL;
@@ -543,10 +459,144 @@ create_new_editor_cb (GObject *source_object,
 		      GAsyncResult *result,
 		      gpointer user_data)
 {
-	GtkActionGroup *action_group;
-	GtkUIManager *manager;
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<submenu action='file-menu'>"
+		      "<item action='new-editor'/>"
+		      "<separator/>"
+		      "<item action='save'/>"
+		      "<item action='save-as'/>"
+		#ifdef ENABLE_PRINT
+		      "<separator/>"
+		      "<item action='print-preview'/>"
+		      "<item action='print'/>"
+		#endif /* ENABLE_PRINT */
+		      "<separator/>"
+		      "<item action='disable-editor'/>"
+		      "<separator/>"
+		      "<item action='quit'/>"
+		    "</submenu>"
+		    "<submenu action='view-menu'>"
+		      "<item action='view-html-output'/>"
+		      "<item action='view-html-source'/>"
+		      "<item action='view-plain-source'/>"
+		      "<item action='view-draft-source'/>"
+		      "<separator/>"
+		      "<item action='view-webkit-inspector'/>"
+		    "</submenu>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry file_entries[] = {
+		{ "new-editor",
+		  "document-new",
+		  N_("_New editor"),
+		  "<Control>n",
+		  NULL,
+		  action_new_editor_cb, NULL, NULL, NULL },
+
+	#ifdef ENABLE_PRINT
+		{ "print",
+		  "document-print",
+		  N_("_Print…"),
+		  "<Control>p",
+		  NULL,
+		  action_print_cb, NULL, NULL, NULL },
+
+		{ "print-preview",
+		  "document-print-preview",
+		  N_("Print Pre_view"),
+		  "<Control><Shift>p",
+		  NULL,
+		  action_print_preview_cb, NULL, NULL, NULL },
+	#endif /* ENABLE_PRINT */
+
+		{ "quit",
+		  "application-exit",
+		  N_("_Quit"),
+		  NULL,
+		  NULL,
+		  action_quit_cb, NULL, NULL, NULL },
+
+		{ "save",
+		  "document-save",
+		  N_("_Save"),
+		  NULL,
+		  NULL,
+		  action_save_cb, NULL, NULL, NULL },
+
+		{ "save-as",
+		  "document-save-as",
+		  N_("Save _As…"),
+		  NULL,
+		  NULL,
+		  action_save_as_cb, NULL, NULL, NULL },
+
+		{ "disable-editor",
+		  NULL,
+		  N_("Disable/Enable Editor"),
+		  NULL,
+		  NULL,
+		  action_toggle_editor, NULL, NULL, NULL },
+
+		{ "file-menu",
+		  NULL,
+		  N_("_File"),
+		  NULL,
+		  NULL,
+		  NULL }
+	};
+
+	static const EUIActionEntry view_entries[] = {
+
+		{ "view-html-output",
+		  NULL,
+		  N_("HTML _Output"),
+		  NULL,
+		  NULL,
+		  action_view_html_output, NULL, NULL, NULL },
+
+		{ "view-html-source",
+		  NULL,
+		  N_("_HTML Source"),
+		  NULL,
+		  NULL,
+		  action_view_html_source, NULL, NULL, NULL },
+
+		{ "view-plain-source",
+		  NULL,
+		  N_("_Plain Source"),
+		  NULL,
+		  NULL,
+		  action_view_plain_source, NULL, NULL, NULL },
+
+		{ "view-draft-source",
+		  NULL,
+		  N_("_Draft Source"),
+		  NULL,
+		  NULL,
+		  action_view_draft_source, NULL, NULL, NULL },
+
+		{ "view-webkit-inspector",
+		  NULL,
+		  N_("Inspector"),
+		  NULL,
+		  "<Control><Shift>I",
+		  action_view_inspector, NULL, NULL, NULL },
+
+		{ "view-menu",
+		  NULL,
+		  N_("_View"),
+		  NULL,
+		  NULL,
+		  NULL, NULL, NULL, NULL }
+	};
+
+	EUIManager *ui_manager;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GObject *ui_object;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	EFocusTracker *focus_tracker;
@@ -562,6 +612,14 @@ create_new_editor_cb (GObject *source_object,
 
 	editor = E_HTML_EDITOR (widget);
 	cnt_editor = e_html_editor_get_content_editor (editor);
+	ui_manager = e_html_editor_get_ui_manager (editor);
+
+	e_ui_manager_freeze (ui_manager);
+
+	e_ui_manager_add_actions (ui_manager, "file", GETTEXT_PACKAGE, file_entries, G_N_ELEMENTS (file_entries), editor);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "view", GETTEXT_PACKAGE, view_entries, G_N_ELEMENTS (view_entries), editor, eui);
+
+	e_ui_manager_thaw (ui_manager);
 
 	g_object_set (G_OBJECT (editor),
 		"halign", GTK_ALIGN_FILL,
@@ -609,11 +667,13 @@ create_new_editor_cb (GObject *source_object,
 
 	container = widget;
 
-	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
+	ui_object = e_html_editor_get_ui_object (editor, E_HTML_EDITOR_UI_OBJECT_MAIN_MENU);
+	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (ui_object));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	widget = e_html_editor_get_managed_widget (editor, "/main-toolbar");
+	ui_object = e_html_editor_get_ui_object (editor, E_HTML_EDITOR_UI_OBJECT_MAIN_TOOLBAR);
+	widget = GTK_WIDGET (ui_object);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -623,38 +683,12 @@ create_new_editor_cb (GObject *source_object,
 
 	gtk_widget_grab_focus (GTK_WIDGET (cnt_editor));
 
-	manager = e_html_editor_get_ui_manager (editor);
-
-	gtk_ui_manager_add_ui_from_string (manager, file_ui, -1, &error);
-	handle_error (&error);
-
-	gtk_ui_manager_add_ui_from_string (manager, view_ui, -1, &error);
-	handle_error (&error);
-
-	action_group = gtk_action_group_new ("file");
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (
-		action_group, file_entries,
-		G_N_ELEMENTS (file_entries), editor);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
-
-	action_group = gtk_action_group_new ("view");
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (
-		action_group, view_entries,
-		G_N_ELEMENTS (view_entries), editor);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
-
 	if (!WEBKIT_IS_WEB_VIEW (cnt_editor)) {
-		GtkAction *action;
+		EUIAction *action;
 
 		action = e_html_editor_get_action (editor, "view-webkit-inspector");
-		gtk_action_set_visible (action, FALSE);
+		e_ui_action_set_visible (action, FALSE);
 	}
-
-	gtk_ui_manager_ensure_update (manager);
 
 	if (glob_prefill_body) {
 		e_content_editor_insert_content (cnt_editor, glob_prefill_body, E_CONTENT_EDITOR_INSERT_REPLACE_ALL |

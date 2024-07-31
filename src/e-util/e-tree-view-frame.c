@@ -40,57 +40,57 @@
 /**
  * E_TREE_VIEW_FRAME_ACTION_ADD:
  *
- * The #GtkAction name for the "add" toolbar button.
+ * The #EUIAction name for the "add" toolbar button.
  *
- * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #GtkAction.
+ * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #EUAction.
  **/
 
 /**
  * E_TREE_VIEW_FRAME_ACTION_REMOVE:
  *
- * The #GtkAction name for the "remove" toolbar button.
+ * The #EUIAction name for the "remove" toolbar button.
  *
- * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #GtkAction.
+ * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #EUIAction.
  **/
 
 /**
  * E_TREE_VIEW_FRAME_ACTION_MOVE_TOP:
  *
- * The #GtkAction name for the "move selected items to top" button.
+ * The #EUIAction name for the "move selected items to top" button.
  *
- * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #GtkAction.
+ * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #EUIAction.
  **/
 
 /**
  * E_TREE_VIEW_FRAME_ACTION_MOVE_UP:
  *
- * The #GtkAction name for the "move selected items up" button.
+ * The #EUIAction name for the "move selected items up" button.
  *
- * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #GtkAction.
+ * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #EUIAction.
  **/
 
 /**
  * E_TREE_VIEW_FRAME_ACTION_MOVE_DOWN:
  *
- * The #GtkAction name for the "move selected items down" button.
+ * The #EUIAction name for the "move selected items down" button.
  *
- * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #GtkAction.
+ * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #EUIAction.
  **/
 
 /**
  * E_TREE_VIEW_FRAME_ACTION_MOVE_BOTTOM:
  *
- * The #GtkAction name for the "move selected items to bottom" button.
+ * The #EUIAction name for the "move selected items to bottom" button.
  *
- * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #GtkAction.
+ * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #EUIAction.
  **/
 
 /**
  * E_TREE_VIEW_FRAME_ACTION_SELECT_ALL:
  *
- * The #GtkAction name for the "select all" button.
+ * The #EUIAction name for the "select all" button.
  *
- * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #GtkAction.
+ * Use e_tree_view_frame_lookup_toolbar_action() to obtain the #EUIAction.
  **/
 
 struct _ETreeViewFramePrivate {
@@ -102,7 +102,7 @@ struct _ETreeViewFramePrivate {
 	GtkWidget *scrolled_window;
 	GtkWidget *inline_toolbar;
 
-	GHashTable *tool_item_ht;
+	GHashTable *actions_ht; /* gchar *name ~> EUIAction * */
 
 	GtkPolicyType hscrollbar_policy;
 	GtkPolicyType vscrollbar_policy;
@@ -135,19 +135,15 @@ tree_view_frame_append_action (ETreeViewFrame *tree_view_frame,
                                const gchar *action_name,
                                const gchar *icon_name)
 {
-	GtkAction *action;
-	GIcon *icon;
+	EUIAction *action;
 
-	icon = g_themed_icon_new_with_default_fallbacks (icon_name);
+	action = e_ui_action_new ("tree-view-frame", action_name, NULL);
 
-	action = g_object_new (
-		GTK_TYPE_ACTION,
-		"name", action_name, "gicon", icon, NULL);
+	e_ui_action_set_icon_name (action, icon_name);
 
 	e_tree_view_frame_insert_toolbar_action (tree_view_frame, action, -1);
 
 	g_object_unref (action);
-	g_object_unref (icon);
 }
 
 static void
@@ -397,23 +393,6 @@ tree_view_frame_action_select_all (ETreeViewFrame *tree_view_frame)
 }
 
 static void
-tree_view_frame_action_activate_cb (GtkAction *action,
-                                    ETreeViewFrame *tree_view_frame)
-{
-	GQuark detail;
-	const gchar *action_name;
-	gboolean handled = FALSE;
-
-	action_name = gtk_action_get_name (action);
-	detail = g_quark_from_string (action_name);
-
-	g_signal_emit (
-		tree_view_frame,
-		signals[TOOLBAR_ACTION_ACTIVATE], detail,
-		action, &handled);
-}
-
-static void
 tree_view_frame_notify_reorderable_cb (GtkTreeView *tree_view,
                                        GParamSpec *pspec,
                                        ETreeViewFrame *tree_view_frame)
@@ -520,7 +499,7 @@ tree_view_frame_dispose (GObject *object)
 	g_clear_object (&self->priv->scrolled_window);
 	g_clear_object (&self->priv->inline_toolbar);
 
-	g_hash_table_remove_all (self->priv->tool_item_ht);
+	g_hash_table_remove_all (self->priv->actions_ht);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_tree_view_frame_parent_class)->dispose (object);
@@ -531,7 +510,7 @@ tree_view_frame_finalize (GObject *object)
 {
 	ETreeViewFrame *self = E_TREE_VIEW_FRAME (object);
 
-	g_hash_table_destroy (self->priv->tool_item_ht);
+	g_hash_table_destroy (self->priv->actions_ht);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_tree_view_frame_parent_class)->finalize (object);
@@ -625,11 +604,11 @@ tree_view_frame_constructed (GObject *object)
 
 static gboolean
 tree_view_frame_toolbar_action_activate (ETreeViewFrame *tree_view_frame,
-                                         GtkAction *action)
+					 EUIAction *action)
 {
 	const gchar *action_name;
 
-	action_name = gtk_action_get_name (action);
+	action_name = g_action_get_name (G_ACTION (action));
 	g_return_val_if_fail (action_name != NULL, FALSE);
 
 	if (g_str_equal (action_name, E_TREE_VIEW_FRAME_ACTION_MOVE_TOP)) {
@@ -663,7 +642,7 @@ tree_view_frame_toolbar_action_activate (ETreeViewFrame *tree_view_frame,
 static void
 tree_view_frame_update_toolbar_actions (ETreeViewFrame *tree_view_frame)
 {
-	GtkAction *action;
+	EUIAction *action;
 	GtkTreeView *tree_view;
 	GtkTreeModel *tree_model;
 	GtkTreeSelection *selection;
@@ -696,36 +675,36 @@ tree_view_frame_update_toolbar_actions (ETreeViewFrame *tree_view_frame)
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_MOVE_TOP);
 	visible = gtk_tree_view_get_reorderable (tree_view);
 	sensitive = (n_selected_rows > 0 && !first_row_selected);
-	gtk_action_set_visible (action, visible);
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, visible);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_MOVE_UP);
 	visible = gtk_tree_view_get_reorderable (tree_view);
 	sensitive = (n_selected_rows > 0 && !first_row_selected);
-	gtk_action_set_visible (action, visible);
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, visible);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_MOVE_DOWN);
 	visible = gtk_tree_view_get_reorderable (tree_view);
 	sensitive = (n_selected_rows > 0 && !last_row_selected);
-	gtk_action_set_visible (action, visible);
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, visible);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_MOVE_BOTTOM);
 	visible = gtk_tree_view_get_reorderable (tree_view);
 	sensitive = (n_selected_rows > 0 && !last_row_selected);
-	gtk_action_set_visible (action, visible);
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, visible);
+	e_ui_action_set_sensitive (action, sensitive);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_SELECT_ALL);
 	visible = (selection_mode == GTK_SELECTION_MULTIPLE);
 	sensitive = (n_selected_rows < n_rows);
-	gtk_action_set_visible (action, visible);
-	gtk_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, visible);
+	e_ui_action_set_sensitive (action, sensitive);
 }
 
 static void
@@ -740,10 +719,8 @@ e_tree_view_frame_class_init (ETreeViewFrameClass *class)
 	object_class->finalize = tree_view_frame_finalize;
 	object_class->constructed = tree_view_frame_constructed;
 
-	class->toolbar_action_activate =
-		tree_view_frame_toolbar_action_activate;
-	class->update_toolbar_actions =
-		tree_view_frame_update_toolbar_actions;
+	class->toolbar_action_activate = tree_view_frame_toolbar_action_activate;
+	class->update_toolbar_actions = tree_view_frame_update_toolbar_actions;
 
 	g_object_class_install_property (
 		object_class,
@@ -800,12 +777,12 @@ e_tree_view_frame_class_init (ETreeViewFrameClass *class)
 	/**
 	 * ETreeViewFrame::toolbar-action-activate:
 	 * @tree_view_frame: the #ETreeViewFrame that received the signal
-	 * @action: the #GtkAction that was activated
+	 * @action: the #EUIAction that was activated
 	 *
 	 * Emitted when a toolbar action is activated.
 	 *
 	 * This signal supports "::detail" appendices to the signal name,
-	 * where the "detail" part is the #GtkAction #GtkAction:name.  So
+	 * where the "detail" part is the action name.  So
 	 * you can connect a signal handler to a particular action.
 	 **/
 	signals[TOOLBAR_ACTION_ACTIVATE] = g_signal_new (
@@ -818,15 +795,15 @@ e_tree_view_frame_class_init (ETreeViewFrameClass *class)
 		g_signal_accumulator_true_handled,
 		NULL, NULL,
 		G_TYPE_BOOLEAN, 1,
-		GTK_TYPE_ACTION);
+		E_TYPE_UI_ACTION);
 
 	/**
 	 * ETreeViewFrame::update-toolbar-actions:
 	 * @tree_view_frame: the #ETreeViewFrame that received the signal
 	 *
 	 * Requests toolbar actions be updated, usually in response to a
-	 * #GtkTreeSelection change.  Handlers should update #GtkAction
-	 * properties like #GtkAction:visible and #GtkAction:sensitive
+	 * #GtkTreeSelection change.  Handlers should update action
+	 * properties like #EUIAction:visible and #EUIAction:sensitive
 	 * based on the current #ETreeViewFrame:tree-view state.
 	 **/
 	signals[UPDATE_TOOLBAR_ACTIONS] = g_signal_new (
@@ -843,17 +820,8 @@ e_tree_view_frame_class_init (ETreeViewFrameClass *class)
 static void
 e_tree_view_frame_init (ETreeViewFrame *tree_view_frame)
 {
-	GHashTable *tool_item_ht;
-
-	tool_item_ht = g_hash_table_new_full (
-		(GHashFunc) g_str_hash,
-		(GEqualFunc) g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) g_object_unref);
-
 	tree_view_frame->priv = e_tree_view_frame_get_instance_private (tree_view_frame);
-
-	tree_view_frame->priv->tool_item_ht = tool_item_ht;
+	tree_view_frame->priv->actions_ht = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_object_unref);
 }
 
 /**
@@ -1067,10 +1035,32 @@ e_tree_view_frame_set_vscrollbar_policy (ETreeViewFrame *tree_view_frame,
 	g_object_notify (G_OBJECT (tree_view_frame), "vscrollbar-policy");
 }
 
+static void
+tree_view_frame_tool_item_clicked_cb (GtkToolButton *tool_button,
+				      gpointer user_data)
+{
+	ETreeViewFrame *self = user_data;
+	EUIAction *action;
+	GQuark detail;
+	const gchar *action_name;
+	gboolean handled = FALSE;
+
+	action = g_object_get_data (G_OBJECT (tool_button), "tree-view-frame-action");
+	g_return_if_fail (action != NULL);
+
+	action_name = g_action_get_name (G_ACTION (action));
+	detail = g_quark_from_string (action_name);
+
+	g_signal_emit (self, signals[TOOLBAR_ACTION_ACTIVATE], detail, action, &handled);
+
+	if (!handled)
+		g_action_activate (G_ACTION (action), NULL);
+}
+
 /**
  * e_tree_view_frame_insert_toolbar_action:
  * @tree_view_frame: an #ETreeViewFrame
- * @action: a #GtkAction
+ * @action: an #EUIAction
  * @position: the position of the new action
  *
  * Generates a #GtkToolItem from @action and inserts it into the inline
@@ -1080,74 +1070,80 @@ e_tree_view_frame_set_vscrollbar_policy (ETreeViewFrame *tree_view_frame,
  **/
 void
 e_tree_view_frame_insert_toolbar_action (ETreeViewFrame *tree_view_frame,
-                                         GtkAction *action,
-                                         gint position)
+					 EUIAction *action,
+					 gint position)
 {
 	GtkToolbar *toolbar;
-	GtkWidget *tool_item;
-	GHashTable *tool_item_ht;
+	GtkToolItem *tool_item;
 	const gchar *action_name;
 
 	g_return_if_fail (E_IS_TREE_VIEW_FRAME (tree_view_frame));
-	g_return_if_fail (GTK_IS_ACTION (action));
+	g_return_if_fail (E_IS_UI_ACTION (action));
 
-	action_name = gtk_action_get_name (action);
+	action_name = g_action_get_name (G_ACTION (action));
 	g_return_if_fail (action_name != NULL);
 
-	tool_item_ht = tree_view_frame->priv->tool_item_ht;
 	toolbar = GTK_TOOLBAR (tree_view_frame->priv->inline_toolbar);
 
-	if (g_hash_table_contains (tool_item_ht, action_name)) {
-		g_warning (
-			"%s: Duplicate action name '%s'",
-			G_STRFUNC, action_name);
+	if (g_hash_table_contains (tree_view_frame->priv->actions_ht, action_name)) {
+		g_warning ("%s: Duplicate action name '%s'", G_STRFUNC, action_name);
 		return;
 	}
 
-	tool_item = gtk_action_create_tool_item (action);
-	g_return_if_fail (GTK_IS_TOOL_ITEM (tool_item));
+	tool_item = gtk_tool_button_new (NULL, NULL);
+	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), e_ui_action_get_icon_name (action));
+	gtk_tool_button_set_use_underline (GTK_TOOL_BUTTON (tool_item), TRUE);
+	g_object_set_data_full (G_OBJECT (tool_item), "tree-view-frame-action",
+		g_object_ref (action), g_object_unref);
+
+	e_binding_bind_property (
+		action, "label",
+		tool_item, "label",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		action, "tooltip",
+		tool_item, "tooltip-text",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		action, "sensitive",
+		tool_item, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		action, "visible",
+		tool_item, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	gtk_toolbar_insert (toolbar, GTK_TOOL_ITEM (tool_item), position);
 
-	g_hash_table_insert (
-		tool_item_ht,
-		g_strdup (action_name),
-		g_object_ref (tool_item));
+	g_hash_table_insert (tree_view_frame->priv->actions_ht, (gpointer) g_action_get_name (G_ACTION (action)), g_object_ref (action));
 
 	g_signal_connect (
-		action, "activate",
-		G_CALLBACK (tree_view_frame_action_activate_cb),
+		tool_item, "clicked",
+		G_CALLBACK (tree_view_frame_tool_item_clicked_cb),
 		tree_view_frame);
 }
 
 /**
  * e_tree_view_frame_lookup_toolbar_action:
  * @tree_view_frame: an #ETreeViewFrame
- * @action_name: a #GtkAction name
+ * @action_name: an #EUIAction name
  *
  * Returns the toolbar action named @action_name, or %NULL if no such
  * toolbar action exists.
  *
- * Returns: a #GtkAction, or %NULL
+ * Returns: an #EUIAction, or %NULL
  **/
-GtkAction *
+EUIAction *
 e_tree_view_frame_lookup_toolbar_action (ETreeViewFrame *tree_view_frame,
                                          const gchar *action_name)
 {
-	GHashTable *tool_item_ht;
-	GtkActivatable *activatable;
-	GtkAction *action = NULL;
-
 	g_return_val_if_fail (E_IS_TREE_VIEW_FRAME (tree_view_frame), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
-	tool_item_ht = tree_view_frame->priv->tool_item_ht;
-	activatable = g_hash_table_lookup (tool_item_ht, action_name);
-
-	if (GTK_IS_ACTIVATABLE (activatable))
-		action = gtk_activatable_get_related_action (activatable);
-
-	return action;
+	return g_hash_table_lookup (tree_view_frame->priv->actions_ht, action_name);
 }
 
 /**
@@ -1165,4 +1161,3 @@ e_tree_view_frame_update_toolbar_actions (ETreeViewFrame *tree_view_frame)
 
 	g_signal_emit (tree_view_frame, signals[UPDATE_TOOLBAR_ACTIONS], 0);
 }
-

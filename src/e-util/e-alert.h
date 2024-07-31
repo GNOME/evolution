@@ -31,6 +31,8 @@
 #include <stdarg.h>
 #include <gtk/gtk.h>
 
+#include <e-util/e-ui-action.h>
+
 /* Standard GObject macros */
 #define E_TYPE_ALERT \
 	(e_alert_get_type ())
@@ -101,10 +103,10 @@ void		e_alert_set_secondary_text	(EAlert *alert,
 						 const gchar *secondary_text);
 const gchar *	e_alert_get_icon_name		(EAlert *alert);
 void		e_alert_add_action		(EAlert *alert,
-						 GtkAction *action,
+						 EUIAction *action,
 						 gint response_id,
 						 gboolean is_destructive);
-GList *		e_alert_peek_actions		(EAlert *alert);
+GList *		e_alert_peek_actions		(EAlert *alert); /* EUIAction * */
 void		e_alert_add_widget		(EAlert *alert,
 						 GtkWidget *widget);
 GList *		e_alert_peek_widgets		(EAlert *alert);
@@ -121,9 +123,7 @@ void		e_alert_submit			(struct _EAlertSink *alert_sink,
 void		e_alert_submit_valist		(struct _EAlertSink *alert_sink,
 						 const gchar *tag,
 						 va_list va);
-void		e_alert_update_destructive_action_style
-						(GtkAction *for_action,
-						 GtkWidget *button);
+GtkWidget *	e_alert_create_button_for_action(EUIAction *for_action);
 
 G_END_DECLS
 

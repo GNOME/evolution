@@ -28,14 +28,13 @@
 
 G_BEGIN_DECLS
 
-GSList *	e_charset_add_radio_actions	(GtkActionGroup *action_group,
-						 const gchar *action_prefix,
-						 const gchar *default_charset,
-						 GCallback callback,
-						 gpointer user_data);
-
 void		e_charset_add_to_g_menu		(GMenu *menu,
 						 const gchar *action_name);
+
+#define E_CHARSET_COLUMN_LABEL	0
+#define E_CHARSET_COLUMN_VALUE 	1
+
+GtkListStore *	e_charset_create_list_store	(void);
 
 G_END_DECLS
 

@@ -251,8 +251,7 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 	mail_shell_view = E_MAIL_SHELL_VIEW (shell_view);
 	mail_shell_view->priv->ignore_folder_popup_selection_done = FALSE;
 
-	menu = e_shell_view_show_popup_menu (
-		shell_view, "/mail-folder-popup", button_event);
+	menu = e_shell_view_show_popup_menu (shell_view, "mail-folder-popup", button_event);
 
 	g_signal_connect_object (
 		menu, "selection-done",
@@ -261,75 +260,9 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 }
 
 static gboolean
-mail_shell_view_process_key_press_event (EMailShellView *mail_shell_view,
-					 GdkEventKey *event,
-					 gboolean pass_event)
-{
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EShellContent *shell_content;
-	EMailView *mail_view;
-	EMailDisplay *mail_display;
-
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	mail_view = e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (shell_content));
-	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (mail_view));
-
-	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0)
-		return event && e_mail_display_need_key_event (mail_display, event);
-
-	if (e_shell_window_get_need_input (shell_window, event))
-		return FALSE;
-
-	if (e_web_view_get_need_input (E_WEB_VIEW (mail_display)) &&
-	    gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
-		if (pass_event)
-			gtk_widget_event (GTK_WIDGET (mail_display), (GdkEvent *) event);
-
-		return pass_event;
-	}
-
-	return e_mail_display_need_key_event (mail_display, event);
-}
-
-static gboolean
-mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
-                                    GdkEventKey *event)
-{
-	return mail_shell_view_process_key_press_event (mail_shell_view, event, FALSE);
-}
-
-static gboolean
-mail_shell_window_key_press_event_cb (EMailShellView *mail_shell_view,
-				      GdkEventKey *event,
-				      EShellWindow *shell_window)
-{
-	if (!e_shell_view_is_active (E_SHELL_VIEW (mail_shell_view)))
-		return FALSE;
-
-	return mail_shell_view_process_key_press_event (mail_shell_view, event, TRUE);
-}
-
-static gboolean
-mail_shell_view_message_list_key_press_cb (EMailShellView *mail_shell_view,
-                                           gint row,
-                                           ETreePath path,
-                                           gint col,
-                                           GdkEvent *event)
-{
-	return mail_shell_view_key_press_event_cb (
-		mail_shell_view, &event->key);
-}
-
-static gboolean
 mail_shell_view_message_list_popup_menu_cb (EShellView *shell_view)
 {
-	const gchar *widget_path;
-
-	widget_path = "/mail-message-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, NULL);
+	e_shell_view_show_popup_menu (shell_view, "mail-message-popup", NULL);
 
 	return TRUE;
 }
@@ -341,10 +274,7 @@ mail_shell_view_message_list_right_click_cb (EShellView *shell_view,
                                              gint col,
                                              GdkEvent *button_event)
 {
-	const gchar *widget_path;
-
-	widget_path = "/mail-message-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
+	e_shell_view_show_popup_menu (shell_view, "mail-message-popup", button_event);
 
 	return TRUE;
 }
@@ -373,10 +303,10 @@ mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
 	if (e_web_view_get_cursor_image_src (E_WEB_VIEW (display)) != NULL)
 		return FALSE;
 
-	menu = e_mail_reader_get_popup_menu (reader);
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	e_shell_view_update_actions (shell_view);
 
+	menu = e_mail_reader_get_popup_menu (reader);
 	gtk_menu_popup_at_pointer (menu, event);
 
 	return TRUE;
@@ -401,15 +331,8 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
 	e_mail_shell_view_update_sidebar (mail_shell_view);
 
 	/* Connect if its not connected already */
-	if (g_signal_handler_find (
-		message_list, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
-		mail_shell_view_message_list_key_press_cb, NULL))
+	if (g_signal_handler_find (message_list, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, mail_shell_view_message_list_popup_menu_cb, NULL))
 		return;
-
-	g_signal_connect_object (
-		message_list, "key-press",
-		G_CALLBACK (mail_shell_view_message_list_key_press_cb),
-		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
 		message_list, "popup-menu",
@@ -419,11 +342,6 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
 	g_signal_connect_object (
 		message_list, "right-click",
 		G_CALLBACK (mail_shell_view_message_list_right_click_cb),
-		mail_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
-		display, "key-press-event",
-		G_CALLBACK (mail_shell_view_key_press_event_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
@@ -504,12 +422,45 @@ mail_shell_view_search_filter_changed_cb (EMailShellView *mail_shell_view)
 	e_mail_reader_avoid_next_mark_as_seen (E_MAIL_READER (mail_view));
 }
 
+static void
+e_mail_shell_view_mail_view_notify_cb (GObject *object,
+				       GParamSpec *param,
+				       gpointer user_data)
+{
+	GAction *action = G_ACTION (object);
+	EMailShellView *mail_shell_view = user_data;
+	EMailShellContent *mail_shell_content;
+	GtkOrientation orientation;
+	EMailView *mail_view;
+	GVariant *state;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+	state = g_action_get_state (G_ACTION (action));
+
+	switch (g_variant_get_int32 (state)) {
+		case 0:
+			orientation = GTK_ORIENTATION_VERTICAL;
+			break;
+		case 1:
+			orientation = GTK_ORIENTATION_HORIZONTAL;
+			break;
+		default:
+			g_return_if_reached ();
+	}
+
+	e_mail_view_set_orientation (mail_view, orientation);
+	g_clear_pointer (&state, g_variant_unref);
+}
+
 void
 e_mail_shell_view_private_init (EMailShellView *mail_shell_view)
 {
 	e_signal_connect_notify (
 		mail_shell_view, "notify::view-id",
 		G_CALLBACK (mail_shell_view_notify_view_id_cb), NULL);
+
+	mail_shell_view->priv->send_receive_menu = g_menu_new ();
 }
 
 void
@@ -530,6 +481,8 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EActionComboBox *combo_box;
 	ERuleContext *context;
 	EFilterRule *rule = NULL;
+	EUIAction *action;
+	EUIManager *ui_manager;
 	GtkTreeSelection *selection;
 	GtkWidget *message_list;
 	GSettings *settings;
@@ -550,21 +503,23 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell = e_shell_window_get_shell (shell_window);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
+
+	e_ui_manager_freeze (ui_manager);
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 	label_store = e_mail_ui_session_get_label_store (
 		E_MAIL_UI_SESSION (session));
 
-	e_shell_window_add_action_group_full (shell_window, "mail", "mail");
-	e_shell_window_add_action_group_full (shell_window, "mail-filter", "mail");
-	e_shell_window_add_action_group_full (shell_window, "mail-labels", "mail");
-	e_shell_window_add_action_group_full (shell_window, "search-folders", "mail");
-
 	/* Cache these to avoid lots of awkward casting. */
 	priv->mail_shell_backend = E_MAIL_SHELL_BACKEND (g_object_ref (shell_backend));
-	priv->mail_shell_content = E_MAIL_SHELL_CONTENT (g_object_ref (shell_content));
 	priv->mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (g_object_ref (shell_sidebar));
+
+	/* this is set from the EMaiLShellView::contructed() method, because it's needed in the init_ui_data(),
+	   to have available actions from the EMailReader, which is called from the EShellView::contructed(),
+	   thus before this private_constructed() function  */
+	g_warn_if_fail (priv->mail_shell_content != NULL);
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -574,7 +529,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 
-	reader = E_MAIL_READER (shell_content);
+	reader = E_MAIL_READER (mail_view);
 	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -599,11 +554,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	g_signal_connect_object (
 		folder_tree, "popup-event",
 		G_CALLBACK (mail_shell_view_folder_tree_popup_event_cb),
-		mail_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
-		message_list, "key-press",
-		G_CALLBACK (mail_shell_view_message_list_key_press_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
@@ -643,11 +593,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		display, "key-press-event",
-		G_CALLBACK (mail_shell_view_key_press_event_cb),
-		mail_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
 		display, "popup-event",
 		G_CALLBACK (mail_shell_view_popup_event_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
@@ -656,16 +601,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		display, "status-message",
 		G_CALLBACK (e_shell_taskbar_set_message),
 		shell_taskbar, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
-		mail_shell_view, "toggled",
-		G_CALLBACK (e_mail_shell_view_update_send_receive_menus),
-		mail_shell_view, G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
-		shell_window, "key-press-event",
-		G_CALLBACK (mail_shell_window_key_press_event_cb),
-		mail_shell_view, G_CONNECT_SWAPPED);
 
 	/* Need to keep the handler ID so we can disconnect it in
 	 * dispose().  The shell outlives us and we don't want it
@@ -676,22 +611,75 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 			G_CALLBACK (mail_shell_view_prepare_for_quit_cb),
 			mail_shell_view, G_CONNECT_SWAPPED);
 
-	e_mail_reader_init (reader, TRUE, FALSE);
-	e_mail_shell_view_actions_init (mail_shell_view);
+	/* Advanced Search Action */
+	action = ACTION (MAIL_SEARCH_ADVANCED_HIDDEN);
+	e_ui_action_set_visible (action, FALSE);
+	searchbar = e_mail_shell_content_get_searchbar (mail_shell_view->priv->mail_shell_content);
+	e_shell_searchbar_set_search_option (searchbar, action);
+
 	e_mail_shell_view_update_search_filter (mail_shell_view);
 
-	/* This binding must come after e_mail_reader_init(). */
-	e_binding_bind_property (
-		shell_content, "group-by-threads",
-		mail_view, "group-by-threads",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+	/* Bind GObject properties for GSettings keys. */
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	g_settings_bind (
+		settings, "show-deleted",
+		ACTION (MAIL_SHOW_DELETED), "active",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	g_settings_bind (
+		settings, "show-junk",
+		ACTION (MAIL_SHOW_JUNK), "active",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	g_settings_bind (
+		settings, "show-preview-toolbar",
+		ACTION (MAIL_SHOW_PREVIEW_TOOLBAR), "active",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	action = ACTION (MAIL_VIEW_VERTICAL);
+
+	g_settings_bind_with_mapping (
+		settings, "layout",
+		action, "state",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY,
+		e_shell_view_util_layout_to_state_cb,
+		e_shell_view_util_state_to_layout_cb, NULL, NULL);
+
+	g_signal_connect_object (action, "notify::state",
+		G_CALLBACK (e_mail_shell_view_mail_view_notify_cb), mail_shell_view, 0);
+
+	/* to propagate the loaded state */
+	e_mail_shell_view_mail_view_notify_cb (G_OBJECT (action), NULL, mail_shell_view);
+
+	g_settings_bind (
+		settings, "enable-unmatched",
+		ACTION (MAIL_VFOLDER_UNMATCHED_ENABLE), "active",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	g_settings_bind (
+		settings, "show-attachment-bar",
+		ACTION (MAIL_ATTACHMENT_BAR), "active",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	if (e_shell_window_is_main_instance (shell_window)) {
+		g_settings_bind (
+			settings, "show-to-do-bar",
+			ACTION (MAIL_TO_DO_BAR), "active",
+			G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+	} else {
+		g_settings_bind (
+			settings, "show-to-do-bar-sub",
+			ACTION (MAIL_TO_DO_BAR), "active",
+			G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+	}
+
 	g_settings_bind (
 		settings, "vfolder-allow-expunge",
 		mail_shell_view, "vfolder-allow-expunge",
-		G_SETTINGS_BIND_GET);
+		G_SETTINGS_BIND_GET | G_SETTINGS_BIND_NO_SENSITIVITY);
+
 	g_clear_object (&settings);
 
 	/* Populate built-in rules for search entry popup menu.
@@ -709,6 +697,8 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	/* Now that we're all set up, simulate selecting a folder. */
 	g_signal_emit_by_name (selection, "changed");
+
+	e_ui_manager_thaw (ui_manager);
 }
 
 void
@@ -735,6 +725,7 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 	g_clear_object (&priv->mail_shell_backend);
 	g_clear_object (&priv->mail_shell_content);
 	g_clear_object (&priv->mail_shell_sidebar);
+	g_clear_object (&priv->send_receive_menu);
 
 	for (ii = 0; ii < MAIL_NUM_SEARCH_RULES; ii++)
 		g_clear_object (&priv->search_rules[ii]);
@@ -884,15 +875,12 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	/* If no folder is selected, reset the sidebar banners
 	 * to their default values and stop. */
 	if (folder == NULL) {
-		GtkAction *action;
-		gchar *label;
+		EUIAction *action;
 
-		action = e_shell_view_get_action (shell_view);
+		action = e_shell_view_get_switcher_action (shell_view);
 
-		g_object_get (action, "label", &label, NULL);
 		e_shell_sidebar_set_secondary_text (shell_sidebar, NULL);
-		e_shell_view_set_title (shell_view, label);
-		g_free (label);
+		e_shell_view_set_title (shell_view, e_ui_action_get_label (action));
 
 		return;
 	}
@@ -1053,12 +1041,10 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 }
 
 typedef struct {
-	GtkMenuShell *menu;
+	GMenu *section;
 	CamelSession *session;
 	EMailAccountStore *account_store;
-
-	/* GtkMenuItem -> CamelService */
-	GHashTable *menu_items;
+	EUIManager *ui_manager;
 
 	/* Signal handlers */
 	gulong service_added_id;
@@ -1118,38 +1104,63 @@ send_receive_can_use_service (EMailAccountStore *account_store,
 	return enabled && !builtin;
 }
 
-static GtkMenuItem *
-send_receive_find_menu_item (SendReceiveData *data,
-                             gpointer service)
+static gint
+send_receive_find_menu_index (SendReceiveData *data,
+			      CamelService *service)
 {
-	GHashTableIter iter;
-	gpointer menu_item;
-	gpointer candidate;
+	GMenuModel *menu_model;
+	const gchar *uid;
+	const gchar *prefix = "mail-send-receive.mail-send-receive-service-";
+	guint prefix_len = strlen (prefix);
+	gint ii, n_items;
 
-	g_hash_table_iter_init (&iter, data->menu_items);
+	menu_model = G_MENU_MODEL (data->section);
+	n_items = g_menu_model_get_n_items (menu_model);
+	uid = camel_service_get_uid (service);
 
-	while (g_hash_table_iter_next (&iter, &menu_item, &candidate))
-		if (service == candidate)
-			return GTK_MENU_ITEM (menu_item);
+	for (ii = 0; ii < n_items; ii++) {
+		GVariant *attr;
+		const gchar *action_name_with_uid;
 
-	return NULL;
+		attr = g_menu_model_get_item_attribute_value (menu_model, ii, G_MENU_ATTRIBUTE_ACTION, G_VARIANT_TYPE_STRING);
+		action_name_with_uid = attr ? g_variant_get_string (attr, NULL) : NULL;
+
+		if (action_name_with_uid &&
+		    g_str_has_prefix (action_name_with_uid, prefix) &&
+		    g_strcmp0 (uid, action_name_with_uid + prefix_len) == 0) {
+			g_clear_pointer (&attr, g_variant_unref);
+			return ii;
+		}
+
+		g_clear_pointer (&attr, g_variant_unref);
+	}
+
+	return -1;
 }
 
 static void
-send_receive_account_item_activate_cb (GtkMenuItem *menu_item,
-                                       SendReceiveData *data)
+send_receive_service_activated_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	CamelSession *session = user_data;
 	CamelService *service;
+	GVariant *state;
 
-	service = g_hash_table_lookup (data->menu_items, menu_item);
+	state = g_action_get_state (G_ACTION (action));
+	service = camel_session_ref_service (session, g_variant_get_string (state, NULL));
+	g_clear_pointer (&state, g_variant_unref);
+
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	mail_receive_service (service);
+
+	g_clear_object (&service);
 }
 
 typedef struct _EMenuItemSensitivityData {
-	GObject *service;
-	GtkWidget *menu_item;
+	EUIAction *action;
+	gboolean is_online;
 } EMenuItemSensitivityData;
 
 static void
@@ -1160,8 +1171,7 @@ free_menu_item_sensitivity_data (gpointer ptr)
 	if (!data)
 		return;
 
-	g_object_unref (data->service);
-	g_object_unref (data->menu_item);
+	g_object_unref (data->action);
 	g_slice_free (EMenuItemSensitivityData, data);
 }
 
@@ -1169,30 +1179,31 @@ static gboolean
 update_menu_item_sensitivity_cb (gpointer user_data)
 {
 	EMenuItemSensitivityData *data = user_data;
-	gboolean is_online = FALSE;
 
 	g_return_val_if_fail (data != NULL, FALSE);
 
-	g_object_get (data->service, "online", &is_online, NULL);
-
-	gtk_widget_set_sensitive (data->menu_item, is_online);
+	e_ui_action_set_sensitive (data->action, data->is_online);
 
 	return FALSE;
 }
 
 static void
-service_online_state_changed_cb (GObject *service,
+service_online_state_changed_cb (GObject *object,
 				 GParamSpec *param,
-				 GtkWidget *menu_item)
+				 gpointer user_data)
 {
+	EUIAction *action = user_data;
 	EMenuItemSensitivityData *data;
+	gboolean is_online = FALSE;
 
-	g_return_if_fail (G_IS_OBJECT (service));
-	g_return_if_fail (GTK_IS_WIDGET (menu_item));
+	g_return_if_fail (CAMEL_IS_SESSION (object) || CAMEL_IS_SERVICE (object));
+	g_return_if_fail (E_IS_UI_ACTION (action));
+
+	g_object_get (object, "online", &is_online, NULL);
 
 	data = g_slice_new0 (EMenuItemSensitivityData);
-	data->service = g_object_ref (service);
-	data->menu_item = g_object_ref (menu_item);
+	data->action = g_object_ref (action);
+	data->is_online = is_online;
 
 	g_idle_add_full (G_PRIORITY_HIGH_IDLE, update_menu_item_sensitivity_cb, data, free_menu_item_sensitivity_data);
 }
@@ -1202,68 +1213,75 @@ send_receive_add_to_menu (SendReceiveData *data,
                           CamelService *service,
                           gint position)
 {
-	GtkWidget *menu_item;
 	CamelProvider *provider;
+	EUIAction *action;
+	GMenuItem *item;
+	gchar *action_name;
 
-	if (send_receive_find_menu_item (data, service) != NULL)
+	if (send_receive_find_menu_index (data, service) >= 0)
 		return;
 
 	provider = camel_service_get_provider (service);
+	action_name = g_strconcat ("mail-send-receive-service-", camel_service_get_uid (service), NULL);
 
-	menu_item = gtk_menu_item_new ();
-	gtk_widget_show (menu_item);
+	action = e_ui_action_new ("mail-send-receive", action_name, NULL);
+	e_ui_action_set_state (action, g_variant_new_string (camel_service_get_uid (service)));
+
+	g_free (action_name);
 
 	e_binding_bind_property (
 		service, "display-name",
-		menu_item, "label",
+		action, "label",
 		G_BINDING_SYNC_CREATE);
+
+	g_signal_connect_object (action, "activate",
+		G_CALLBACK (send_receive_service_activated_cb), data->session, 0);
+
+	e_ui_manager_add_action (data->ui_manager, "mail-send-receive", action, NULL, NULL, NULL);
+
+	item = g_menu_item_new (NULL, NULL);
+	e_ui_manager_update_item_from_action (data->ui_manager, item, action);
+
+	if (position < 0)
+		g_menu_append_item (data->section, item);
+	else
+		g_menu_insert_item (data->section, position, item);
+
+	g_clear_object (&item);
 
 	if (provider && (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0) {
 		gpointer object;
+		gboolean is_online = FALSE;
 
 		if (CAMEL_IS_OFFLINE_STORE (service))
 			object = g_object_ref (service);
 		else
 			object = camel_service_ref_session (service);
 
+		g_object_get (object, "online", &is_online, NULL);
+
 		e_signal_connect_notify_object (
 			object, "notify::online",
-			G_CALLBACK (service_online_state_changed_cb), menu_item,
+			G_CALLBACK (service_online_state_changed_cb), action,
 			0);
+
+		e_ui_action_set_sensitive (action, is_online);
 
 		g_object_unref (object);
 	}
 
-	g_hash_table_insert (
-		data->menu_items, menu_item,
-		g_object_ref (service));
-
-	g_signal_connect (
-		menu_item, "activate",
-		G_CALLBACK (send_receive_account_item_activate_cb), data);
-
-	/* Position is with respect to the sorted list of CamelService-s,
-	 * not menu item position. */
-	if (position < 0)
-		gtk_menu_shell_append (data->menu, menu_item);
-	else
-		gtk_menu_shell_insert (data->menu, menu_item, position + 4);
-}
-
-static void
-send_receive_gather_services (gpointer menu_item,
-                              gpointer service,
-                              gpointer queue)
-{
-	g_queue_push_head (queue, service);
+	g_clear_object (&action);
 }
 
 static gint
-sort_services_cb (gconstpointer service1,
-                  gconstpointer service2,
+sort_services_cb (gconstpointer pservice1,
+                  gconstpointer pservice2,
                   gpointer account_store)
 {
-	return e_mail_account_store_compare_services (account_store, CAMEL_SERVICE (service1), CAMEL_SERVICE (service2));
+	CamelService *service1 = *((CamelService **) pservice1);
+	CamelService *service2 = *((CamelService **) pservice2);
+
+	return e_mail_account_store_compare_services (account_store, service1, service2);
 }
 
 static void
@@ -1271,20 +1289,49 @@ send_receive_menu_service_added_cb (EMailAccountStore *account_store,
                                     CamelService *service,
                                     SendReceiveData *data)
 {
-	GQueue *services;
+	EUIActionGroup *action_group;
+	GPtrArray *actions;
+	GPtrArray *services;
+	guint position = G_MAXUINT;
 
 	if (!send_receive_can_use_service (account_store, service, NULL))
 		return;
 
-	services = g_queue_new ();
+	action_group = e_ui_manager_get_action_group (data->ui_manager, "mail-send-receive");
+	actions = e_ui_action_group_list_actions (action_group);
 
-	g_queue_push_head (services, service);
-	g_hash_table_foreach (data->menu_items, send_receive_gather_services, services);
-	g_queue_sort (services, sort_services_cb, account_store);
+	services = g_ptr_array_new_full (1 + (actions ? actions->len : 0), g_object_unref);
+	g_ptr_array_add (services, g_object_ref (service));
 
-	send_receive_add_to_menu (data, service, g_queue_index (services, service));
+	if (actions) {
+		guint ii;
 
-	g_queue_free (services);
+		for (ii = 0; ii < actions->len; ii++) {
+			EUIAction *action = g_ptr_array_index (actions, ii);
+			GVariant *state;
+
+			state = g_action_get_state (G_ACTION (action));
+			if (state) {
+				CamelService *action_service;
+
+				action_service = camel_session_ref_service (data->session, g_variant_get_string (state, NULL));
+				if (action_service)
+					g_ptr_array_add (services, action_service);
+
+				g_clear_pointer (&state, g_variant_unref);
+			}
+		}
+	}
+
+	g_ptr_array_sort_with_data (services, sort_services_cb, account_store);
+
+	if (!g_ptr_array_find (services, service, &position))
+		position = -1;
+
+	send_receive_add_to_menu (data, service, position);
+
+	g_clear_pointer (&actions, g_ptr_array_unref);
+	g_clear_pointer (&services, g_ptr_array_unref);
 }
 
 static void
@@ -1292,17 +1339,21 @@ send_receive_menu_service_removed_cb (EMailAccountStore *account_store,
                                       CamelService *service,
                                       SendReceiveData *data)
 {
-	GtkMenuItem *menu_item;
+	EUIActionGroup *action_group;
+	gint index;
 
-	menu_item = send_receive_find_menu_item (data, service);
-	if (menu_item == NULL)
-		return;
+	action_group = e_ui_manager_get_action_group (data->ui_manager, "mail");
+	if (action_group) {
+		gchar *action_name;
 
-	g_hash_table_remove (data->menu_items, menu_item);
+		action_name = g_strconcat ("mail-send-receive-service-", camel_service_get_uid (service), NULL);
+		e_ui_action_group_remove_by_name (action_group, action_name);
+		g_free (action_name);
+	}
 
-	gtk_container_remove (
-		GTK_CONTAINER (data->menu),
-		GTK_WIDGET (menu_item));
+	index = send_receive_find_menu_index (data, service);
+	if (index >= 0)
+		g_menu_remove (data->section, index);
 }
 
 static void
@@ -1313,17 +1364,16 @@ send_receive_data_free (SendReceiveData *data)
 	g_signal_handler_disconnect (data->account_store, data->service_enabled_id);
 	g_signal_handler_disconnect (data->account_store, data->service_disabled_id);
 
-	g_object_unref (data->session);
-	g_object_unref (data->account_store);
-
-	g_hash_table_destroy (data->menu_items);
+	g_clear_object (&data->session);
+	g_clear_object (&data->account_store);
+	g_clear_object (&data->ui_manager);
 
 	g_slice_free (SendReceiveData, data);
 }
 
 static SendReceiveData *
 send_receive_data_new (EMailShellView *mail_shell_view,
-                       GtkWidget *menu)
+		       GMenu *section)
 {
 	SendReceiveData *data;
 	EShellView *shell_view;
@@ -1337,19 +1387,13 @@ send_receive_data_new (EMailShellView *mail_shell_view,
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-	account_store = e_mail_ui_session_get_account_store (
-		E_MAIL_UI_SESSION (session));
+	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
 	data = g_slice_new0 (SendReceiveData);
-	data->menu = GTK_MENU_SHELL (menu);  /* do not reference */
+	data->section = section;  /* do not reference */
 	data->session = CAMEL_SESSION (g_object_ref (session));
 	data->account_store = g_object_ref (account_store);
-
-	data->menu_items = g_hash_table_new_full (
-		(GHashFunc) g_direct_hash,
-		(GEqualFunc) g_direct_equal,
-		(GDestroyNotify) NULL,
-		(GDestroyNotify) g_object_unref);
+	data->ui_manager = g_object_ref (e_shell_view_get_ui_manager (shell_view));
 
 	data->service_added_id = g_signal_connect (
 		account_store, "service-added",
@@ -1364,69 +1408,69 @@ send_receive_data_new (EMailShellView *mail_shell_view,
 		account_store, "service-disabled",
 		G_CALLBACK (send_receive_menu_service_removed_cb), data);
 
-	g_object_weak_ref (
-		G_OBJECT (menu), (GWeakNotify)
-		send_receive_data_free, data);
+	g_object_weak_ref (G_OBJECT (shell_view), (GWeakNotify) send_receive_data_free, data);
 
 	return data;
 }
 
-static GtkWidget *
-create_send_receive_submenu (EMailShellView *mail_shell_view)
+void
+e_mail_shell_view_fill_send_receive_menu (EMailShellView *self)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
 	EMailAccountStore *account_store;
 	EMailBackend *backend;
 	EMailSession *session;
-	GtkWidget *menu;
-	GtkAccelGroup *accel_group;
-	GtkUIManager *ui_manager;
-	GtkAction *action;
+	EUIManager *ui_manager;
+	EUIAction *action;
+	EUIActionGroup *action_group;
+	GMenu *section;
+	GMenuItem *item;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	SendReceiveData *data;
 
-	g_return_val_if_fail (mail_shell_view != NULL, NULL);
+	g_return_if_fail (self != NULL);
 
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_view = E_SHELL_VIEW (self);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
+	action_group = e_ui_manager_get_action_group (ui_manager, "mail-send-receive");
 
-	menu = gtk_menu_new ();
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
+	e_ui_manager_freeze (ui_manager);
 
-	action = e_shell_window_get_action (shell_window, "mail-send-receive");
-	gtk_action_set_accel_group (action, accel_group);
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		gtk_action_create_menu_item (action));
+	g_menu_remove_all (self->priv->send_receive_menu);
+	e_ui_action_group_remove_all (action_group);
 
-	action = e_shell_window_get_action (
-		shell_window, "mail-send-receive-receive-all");
-	gtk_action_set_accel_group (action, accel_group);
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		gtk_action_create_menu_item (action));
+	section = g_menu_new ();
 
-	action = e_shell_window_get_action (
-		shell_window, "mail-send-receive-send-all");
-	gtk_action_set_accel_group (action, accel_group);
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		gtk_action_create_menu_item (action));
+	action = ACTION (MAIL_SEND_RECEIVE);
+	item = g_menu_item_new (NULL, NULL);
+	e_ui_manager_update_item_from_action (ui_manager, item, action);
+	g_menu_append_item (section, item);
+	g_clear_object (&item);
 
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		gtk_separator_menu_item_new ());
+	action = ACTION (MAIL_SEND_RECEIVE_RECEIVE_ALL);
+	item = g_menu_item_new (NULL, NULL);
+	e_ui_manager_update_item_from_action (ui_manager, item, action);
+	g_menu_append_item (section, item);
+	g_clear_object (&item);
 
-	data = send_receive_data_new (mail_shell_view, menu);
+	action = ACTION (MAIL_SEND_RECEIVE_SEND_ALL);
+	item = g_menu_item_new (NULL, NULL);
+	e_ui_manager_update_item_from_action (ui_manager, item, action);
+	g_menu_append_item (section, item);
+	g_clear_object (&item);
+
+	g_menu_append_section (self->priv->send_receive_menu, NULL, G_MENU_MODEL (section));
+	g_clear_object (&section);
+
+	section = g_menu_new ();
+	data = send_receive_data_new (self, section);
 
 	model = GTK_TREE_MODEL (account_store);
 	if (gtk_tree_model_get_iter_first (model, &iter)) {
@@ -1448,156 +1492,10 @@ create_send_receive_submenu (EMailShellView *mail_shell_view)
 		} while (gtk_tree_model_iter_next (model, &iter));
 	}
 
-	gtk_widget_show_all (menu);
+	g_menu_append_section (self->priv->send_receive_menu, NULL, G_MENU_MODEL (section));
+	g_clear_object (&section);
 
-	return menu;
-}
-
-void
-e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
-{
-	EMailShellContent *mail_shell_content;
-	EShellWindow *shell_window;
-	EShellView *shell_view;
-	EMailView *mail_view;
-	EShellHeaderBar *shell_headerbar = NULL;
-	GtkWidget *widget;
-	GtkAction *action;
-	const gchar *action_name;
-	const gchar *widget_path;
-
-	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
-
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	widget = gtk_window_get_titlebar (GTK_WINDOW (shell_window));
-	if (E_IS_SHELL_HEADER_BAR (widget))
-		shell_headerbar = E_SHELL_HEADER_BAR (widget);
-
-	if (shell_headerbar)
-		e_shell_header_bar_clear (shell_headerbar, "e-mail-shell-view");
-
-	if (!e_shell_view_is_active (shell_view)) {
-		if (mail_shell_view->priv->send_receive_tool_item) {
-			GtkWidget *toolbar;
-
-			toolbar = e_shell_window_get_managed_widget (
-				shell_window, "/main-toolbar");
-			g_return_if_fail (toolbar != NULL);
-
-			gtk_container_remove (
-				GTK_CONTAINER (toolbar),
-				GTK_WIDGET (mail_shell_view->priv->send_receive_tool_item));
-			gtk_container_remove (
-				GTK_CONTAINER (toolbar),
-				GTK_WIDGET (mail_shell_view->priv->send_receive_tool_separator));
-
-			mail_shell_view->priv->send_receive_tool_item = NULL;
-			mail_shell_view->priv->send_receive_tool_separator = NULL;
-		}
-		return;
-	}
-
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
-
-	widget_path =
-		"/main-menu/file-menu"
-		"/mail-send-receiver/mail-send-receive-submenu";
-	widget = e_shell_window_get_managed_widget (shell_window, widget_path);
-	if (widget != NULL)
-		gtk_menu_item_set_submenu (
-			GTK_MENU_ITEM (widget),
-			create_send_receive_submenu (mail_shell_view));
-
-	if (e_util_get_use_header_bar ()) {
-		widget = e_header_bar_button_new (_("Send / Receive"), ACTION (MAIL_SEND_RECEIVE));
-		gtk_widget_set_name (widget, "e-mail-shell-view-send-receive");
-		e_header_bar_button_take_menu (
-			E_HEADER_BAR_BUTTON (widget),
-			create_send_receive_submenu (mail_shell_view));
-		gtk_widget_show (widget);
-
-		e_header_bar_pack_start (E_HEADER_BAR (shell_headerbar), widget, 2);
-
-		action_name = "mail-forward";
-		action = e_mail_reader_get_action (E_MAIL_READER (mail_view), action_name);
-		widget = e_header_bar_button_new (_("Forward"), action);
-		gtk_widget_set_name (widget, "e-mail-shell-view-forward");
-		e_header_bar_button_take_menu (
-			E_HEADER_BAR_BUTTON (widget),
-			e_mail_reader_create_forward_menu (E_MAIL_READER (mail_view)));
-		gtk_widget_show (widget);
-
-		e_header_bar_pack_end (E_HEADER_BAR (shell_headerbar), widget, 3);
-
-		action_name = "mail-reply-group";
-		action = e_mail_reader_get_action (E_MAIL_READER (mail_view), action_name);
-		widget = e_header_bar_button_new (_("Group Reply"), action);
-		gtk_widget_set_name (widget, "e-mail-shell-view-reply-group");
-		gtk_widget_show (widget);
-
-		e_header_bar_button_take_menu (
-			E_HEADER_BAR_BUTTON (widget),
-			e_mail_reader_create_reply_menu (E_MAIL_READER (mail_view)));
-
-		e_header_bar_pack_end (E_HEADER_BAR (shell_headerbar), widget, 1);
-
-		action_name = "mail-reply-sender";
-		action = e_mail_reader_get_action (E_MAIL_READER (mail_view), action_name);
-		widget = e_header_bar_button_new (_("Reply"), action);
-		gtk_widget_set_name (widget, "e-mail-shell-view-reply-sender");
-		gtk_widget_show (widget);
-
-		e_header_bar_pack_end (E_HEADER_BAR (shell_headerbar), widget, 1);
-
-		widget = e_shell_window_get_managed_widget (shell_window, "/main-toolbar/mail-toolbar-common/mail-reply-sender");
-		if (widget)
-			gtk_widget_destroy (widget);
-
-		widget = e_shell_window_get_managed_widget (shell_window, "/main-toolbar/mail-toolbar-common/toolbar-mail-forward-separator");
-		if (widget)
-			gtk_widget_destroy (widget);
-	} else {
-		if (!mail_shell_view->priv->send_receive_tool_item) {
-			GtkWidget *toolbar;
-			GtkToolItem *tool_item;
-			gint index;
-
-			toolbar = e_shell_window_get_managed_widget (shell_window, "/main-toolbar");
-			g_return_if_fail (toolbar != NULL);
-
-			widget_path = "/main-toolbar/toolbar-actions/mail-send-receiver";
-			widget = e_shell_window_get_managed_widget (shell_window, widget_path);
-			g_return_if_fail (widget != NULL);
-
-			index = gtk_toolbar_get_item_index (
-				GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (widget));
-
-			tool_item = gtk_separator_tool_item_new ();
-			gtk_toolbar_insert (GTK_TOOLBAR (toolbar), tool_item, index);
-			gtk_widget_show (GTK_WIDGET (tool_item));
-			mail_shell_view->priv->send_receive_tool_separator = tool_item;
-
-			tool_item = GTK_TOOL_ITEM (
-				e_menu_tool_button_new (_("Send / Receive")));
-			gtk_tool_item_set_is_important (tool_item, TRUE);
-			gtk_toolbar_insert (GTK_TOOLBAR (toolbar), tool_item, index);
-			gtk_widget_show (GTK_WIDGET (tool_item));
-			mail_shell_view->priv->send_receive_tool_item = tool_item;
-
-			e_binding_bind_property (
-				ACTION (MAIL_SEND_RECEIVE), "sensitive",
-				tool_item, "sensitive",
-				G_BINDING_SYNC_CREATE);
-		}
-
-		if (mail_shell_view->priv->send_receive_tool_item) {
-			gtk_menu_tool_button_set_menu (
-				GTK_MENU_TOOL_BUTTON (mail_shell_view->priv->send_receive_tool_item),
-				create_send_receive_submenu (mail_shell_view));
-		}
-	}
+	e_ui_manager_thaw (ui_manager);
 }
 
 static void

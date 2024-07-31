@@ -23,7 +23,6 @@
 #include "calendar/gui/e-cal-dialogs.h"
 #include "calendar/gui/e-cal-ops.h"
 #include "calendar/gui/e-comp-editor.h"
-#include "calendar/gui/e-year-view.h"
 #include "calendar/gui/itip-utils.h"
 #include "calendar/gui/print.h"
 
@@ -31,22 +30,22 @@
 #include "e-cal-shell-view-private.h"
 #include "e-cal-shell-view.h"
 
-/* This is for radio action groups whose value is persistent.  We
- * initialize it to a bogus value to ensure a "changed" signal is
- * emitted when a valid value is restored. */
-#define BOGUS_INITIAL_VALUE G_MININT
-
 static void
-action_calendar_copy_cb (GtkAction *action,
-			 EShellView *shell_view)
+action_calendar_copy_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EShellView *shell_view = user_data;
+
 	e_cal_base_shell_view_copy_calendar (shell_view);
 }
 
 static void
-action_calendar_delete_cb (GtkAction *action,
-                           ECalShellView *cal_shell_view)
+action_calendar_delete_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalBaseShellSidebar *cal_shell_sidebar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
@@ -86,33 +85,41 @@ action_calendar_delete_cb (GtkAction *action,
 }
 
 static void
-action_calendar_go_back_cb (GtkAction *action,
-                            ECalShellView *cal_shell_view)
+action_calendar_go_back_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
-	e_cal_shell_content_move_view_range (
-		cal_shell_view->priv->cal_shell_content, E_CALENDAR_VIEW_MOVE_PREVIOUS, 0);
+	ECalShellView *cal_shell_view = user_data;
+
+	e_cal_shell_content_move_view_range (cal_shell_view->priv->cal_shell_content, E_CALENDAR_VIEW_MOVE_PREVIOUS, 0);
 }
 
 static void
-action_calendar_go_forward_cb (GtkAction *action,
-                               ECalShellView *cal_shell_view)
+action_calendar_go_forward_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
-	e_cal_shell_content_move_view_range (
-		cal_shell_view->priv->cal_shell_content, E_CALENDAR_VIEW_MOVE_NEXT, 0);
+	ECalShellView *cal_shell_view = user_data;
+
+	e_cal_shell_content_move_view_range (cal_shell_view->priv->cal_shell_content, E_CALENDAR_VIEW_MOVE_NEXT, 0);
 }
 
 static void
-action_calendar_go_today_cb (GtkAction *action,
-                             ECalShellView *cal_shell_view)
+action_calendar_go_today_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
-	e_cal_shell_content_move_view_range (
-		cal_shell_view->priv->cal_shell_content, E_CALENDAR_VIEW_MOVE_TO_TODAY, 0);
+	ECalShellView *cal_shell_view = user_data;
+
+	e_cal_shell_content_move_view_range (cal_shell_view->priv->cal_shell_content, E_CALENDAR_VIEW_MOVE_TO_TODAY, 0);
 }
 
 static void
-action_calendar_jump_to_cb (GtkAction *action,
-                            ECalShellView *cal_shell_view)
+action_calendar_jump_to_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalDataModel *data_model;
 	ECalShellContent *cal_shell_content;
 	EShellWindow *shell_window;
@@ -133,9 +140,11 @@ action_calendar_jump_to_cb (GtkAction *action,
 }
 
 static void
-action_calendar_manage_groups_cb (GtkAction *action,
-				  ECalShellView *cal_shell_view)
+action_calendar_manage_groups_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShellView *shell_view;
 	ESourceSelector *selector;
 
@@ -148,9 +157,11 @@ action_calendar_manage_groups_cb (GtkAction *action,
 }
 
 static void
-action_calendar_new_cb (GtkAction *action,
-                        ECalShellView *cal_shell_view)
+action_calendar_new_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -175,7 +186,7 @@ action_calendar_new_cb (GtkAction *action,
 	gtk_window_set_transient_for (
 		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
 
-	icon_name = gtk_action_get_icon_name (action);
+	icon_name = e_ui_action_get_icon_name (action);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("New Calendar"));
@@ -234,23 +245,31 @@ cal_shell_view_actions_print_or_preview (ECalShellView *cal_shell_view,
 }
 
 static void
-action_calendar_print_cb (GtkAction *action,
-                          ECalShellView *cal_shell_view)
+action_calendar_print_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
+
 	cal_shell_view_actions_print_or_preview (cal_shell_view, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
-action_calendar_print_preview_cb (GtkAction *action,
-                                  ECalShellView *cal_shell_view)
+action_calendar_print_preview_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
+
 	cal_shell_view_actions_print_or_preview (cal_shell_view, GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
 
 static void
-action_calendar_properties_cb (GtkAction *action,
-                               ECalShellView *cal_shell_view)
+action_calendar_properties_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalBaseShellSidebar *cal_shell_sidebar;
@@ -281,7 +300,7 @@ action_calendar_properties_cb (GtkAction *action,
 	gtk_window_set_transient_for (
 		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
 
-	icon_name = gtk_action_get_icon_name (action);
+	icon_name = e_ui_action_get_icon_name (action);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Calendar Properties"));
@@ -290,9 +309,11 @@ action_calendar_properties_cb (GtkAction *action,
 }
 
 static void
-action_calendar_purge_cb (GtkAction *action,
-                          ECalShellView *cal_shell_view)
+action_calendar_purge_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
@@ -362,9 +383,11 @@ action_calendar_purge_cb (GtkAction *action,
 }
 
 static void
-action_calendar_refresh_cb (GtkAction *action,
-                           ECalShellView *cal_shell_view)
+action_calendar_refresh_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalBaseShellSidebar *cal_shell_sidebar;
 	ESourceSelector *selector;
 	EClient *client = NULL;
@@ -392,9 +415,11 @@ action_calendar_refresh_cb (GtkAction *action,
 }
 
 static void
-action_calendar_refresh_backend_cb (GtkAction *action,
-				    EShellView *shell_view)
+action_calendar_refresh_backend_cb (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	EShellView *shell_view = user_data;
 	ESource *source;
 
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (shell_view));
@@ -406,9 +431,11 @@ action_calendar_refresh_backend_cb (GtkAction *action,
 }
 
 static void
-action_calendar_rename_cb (GtkAction *action,
-                           ECalShellView *cal_shell_view)
+action_calendar_rename_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalBaseShellSidebar *cal_shell_sidebar;
 	ESourceSelector *selector;
 
@@ -419,30 +446,41 @@ action_calendar_rename_cb (GtkAction *action,
 }
 
 static void
-action_calendar_search_next_cb (GtkAction *action,
-                                ECalShellView *cal_shell_view)
+action_calendar_search_next_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
+
 	e_cal_shell_view_search_events (cal_shell_view, TRUE);
 }
 
 static void
-action_calendar_search_prev_cb (GtkAction *action,
-                                ECalShellView *cal_shell_view)
+action_calendar_search_prev_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
+
 	e_cal_shell_view_search_events (cal_shell_view, FALSE);
 }
 
 static void
-action_calendar_search_stop_cb (GtkAction *action,
-                                ECalShellView *cal_shell_view)
+action_calendar_search_stop_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
+
 	e_cal_shell_view_search_stop (cal_shell_view);
 }
 
 static void
-action_calendar_select_all_cb (GtkAction *action,
-			       ECalShellView *cal_shell_view)
+action_calendar_select_all_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalBaseShellSidebar *cal_shell_sidebar;
 	ESourceSelector *selector;
 
@@ -453,9 +491,11 @@ action_calendar_select_all_cb (GtkAction *action,
 }
 
 static void
-action_calendar_select_one_cb (GtkAction *action,
-                               ECalShellView *cal_shell_view)
+action_calendar_select_one_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalBaseShellSidebar *cal_shell_sidebar;
 	ESourceSelector *selector;
 	ESource *primary;
@@ -472,16 +512,19 @@ action_calendar_select_one_cb (GtkAction *action,
 }
 
 static void
-action_calendar_view_cb (GtkRadioAction *action,
-                         GtkRadioAction *current,
-                         ECalShellView *cal_shell_view)
+action_calendar_view_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShellView *shell_view;
 	ECalViewKind view_kind;
 	const gchar *view_id;
 
+	e_ui_action_set_state (action, parameter);
+
 	shell_view = E_SHELL_VIEW (cal_shell_view);
-	view_kind = gtk_radio_action_get_current_value (action);
+	view_kind = g_variant_get_int32 (parameter);
 
 	switch (view_kind) {
 		case E_CAL_VIEW_KIND_DAY:
@@ -513,30 +556,6 @@ action_calendar_view_cb (GtkRadioAction *action,
 	}
 
 	e_shell_view_set_view_id (shell_view, view_id);
-}
-
-static void
-action_calendar_preview_cb (GtkRadioAction *action,
-			    GtkRadioAction *current,
-			    ECalShellView *cal_shell_view)
-{
-	GtkOrientation orientation;
-	EYearView *year_view;
-
-	year_view = E_YEAR_VIEW (cal_shell_view->priv->views[E_CAL_VIEW_KIND_YEAR].calendar_view);
-
-	switch (gtk_radio_action_get_current_value (action)) {
-		case 0:
-			orientation = GTK_ORIENTATION_VERTICAL;
-			break;
-		case 1:
-			orientation = GTK_ORIENTATION_HORIZONTAL;
-			break;
-		default:
-			g_return_if_reached ();
-	}
-
-	e_year_view_set_preview_orientation (year_view, orientation);
 }
 
 static void
@@ -614,23 +633,31 @@ cal_shell_view_transfer_selected (ECalShellView *cal_shell_view,
 }
 
 static void
-action_event_copy_cb (GtkAction *action,
-                      ECalShellView *cal_shell_view)
+action_event_copy_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
+
 	cal_shell_view_transfer_selected (cal_shell_view, FALSE);
 }
 
 static void
-action_event_move_cb (GtkAction *action,
-                      ECalShellView *cal_shell_view)
+action_event_move_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
+
 	cal_shell_view_transfer_selected (cal_shell_view, TRUE);
 }
 
 static void
-action_event_delegate_cb (GtkAction *action,
-                          ECalShellView *cal_shell_view)
+action_event_delegate_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ESourceRegistry *registry;
 	ECalShellContent *cal_shell_content;
 	ECalendarView *calendar_view;
@@ -723,9 +750,11 @@ action_event_delegate_cb (GtkAction *action,
 }
 
 static void
-action_event_delete_cb (GtkAction *action,
-                        ECalShellView *cal_shell_view)
+action_event_delete_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalendarView *calendar_view;
 
@@ -736,9 +765,11 @@ action_event_delete_cb (GtkAction *action,
 }
 
 static void
-action_event_delete_occurrence_cb (GtkAction *action,
-                                   ECalShellView *cal_shell_view)
+action_event_delete_occurrence_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalendarView *calendar_view;
 
@@ -749,9 +780,11 @@ action_event_delete_occurrence_cb (GtkAction *action,
 }
 
 static void
-action_event_delete_occurrence_this_and_future_cb (GtkAction *action,
-						   ECalShellView *cal_shell_view)
+action_event_delete_occurrence_this_and_future_cb (EUIAction *action,
+						   GVariant *parameter,
+						   gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalendarView *calendar_view;
 
@@ -762,9 +795,11 @@ action_event_delete_occurrence_this_and_future_cb (GtkAction *action,
 }
 
 static void
-action_event_forward_cb (GtkAction *action,
-                         ECalShellView *cal_shell_view)
+action_event_forward_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalendarView *calendar_view;
 	ECalendarViewSelectionData *sel_data;
@@ -795,9 +830,11 @@ action_event_forward_cb (GtkAction *action,
 }
 
 static void
-action_event_popup_new_cb (GtkAction *action,
-			   ECalShellView *cal_shell_view)
+action_event_new_cb (EUIAction *action,
+		     GVariant *parameter,
+		     gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalendarView *calendar_view;
 	const gchar *action_name;
@@ -806,9 +843,9 @@ action_event_popup_new_cb (GtkAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
 
-	action_name = gtk_action_get_name (action);
-	is_all_day = g_strcmp0 (action_name, "event-popup-all-day-new") == 0;
-	is_meeting = g_strcmp0 (action_name, "event-popup-meeting-new") == 0;
+	action_name = g_action_get_name (G_ACTION (action));
+	is_all_day = g_strcmp0 (action_name, "event-all-day-new") == 0;
+	is_meeting = g_strcmp0 (action_name, "event-meeting-new") == 0;
 
 	e_calendar_view_new_appointment (calendar_view,
 		(is_all_day ? E_NEW_APPOINTMENT_FLAG_ALL_DAY : 0) |
@@ -817,9 +854,11 @@ action_event_popup_new_cb (GtkAction *action,
 }
 
 static void
-action_event_popup_rsvp_response_cb (GtkAction *action,
-				     ECalShellView *cal_shell_view)
+action_event_rsvp_response_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalendarView *calendar_view;
 	ECalendarViewSelectionData *sel_data;
@@ -834,16 +873,16 @@ action_event_popup_rsvp_response_cb (GtkAction *action,
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
-	action_name = gtk_action_get_name (action);
+	action_name = g_action_get_name (G_ACTION (action));
 
-	if (g_strcmp0 (action_name, "event-popup-rsvp-accept") == 0 ||
-	    g_strcmp0 (action_name, "event-popup-rsvp-accept-1") == 0)
+	if (g_strcmp0 (action_name, "event-rsvp-accept") == 0 ||
+	    g_strcmp0 (action_name, "event-rsvp-accept-1") == 0)
 		partstat = I_CAL_PARTSTAT_ACCEPTED;
-	else if (g_strcmp0 (action_name, "event-popup-rsvp-decline") == 0 ||
-		 g_strcmp0 (action_name, "event-popup-rsvp-decline-1") == 0)
+	else if (g_strcmp0 (action_name, "event-rsvp-decline") == 0 ||
+		 g_strcmp0 (action_name, "event-rsvp-decline-1") == 0)
 		partstat = I_CAL_PARTSTAT_DECLINED;
-	else if (g_strcmp0 (action_name, "event-popup-rsvp-tentative") == 0 ||
-		 g_strcmp0 (action_name, "event-popup-rsvp-tentative-1") == 0)
+	else if (g_strcmp0 (action_name, "event-rsvp-tentative") == 0 ||
+		 g_strcmp0 (action_name, "event-rsvp-tentative-1") == 0)
 		partstat = I_CAL_PARTSTAT_TENTATIVE;
 	else {
 		g_warning ("%s: Do not know what to do with '%s'", G_STRFUNC, action_name);
@@ -920,9 +959,11 @@ make_movable_thread (EAlertSinkThreadJobData *job_data,
 }
 
 static void
-action_event_occurrence_movable_cb (GtkAction *action,
-                                    ECalShellView *cal_shell_view)
+action_event_occurrence_movable_cb (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalModel *model;
 	ECalendarView *calendar_view;
@@ -1013,9 +1054,11 @@ action_event_occurrence_movable_cb (GtkAction *action,
 }
 
 static void
-action_event_open_cb (GtkAction *action,
-                      ECalShellView *cal_shell_view)
+action_event_open_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalendarView *view;
 
@@ -1026,9 +1069,11 @@ action_event_open_cb (GtkAction *action,
 }
 
 static void
-action_event_edit_as_new_cb (GtkAction *action,
-			     ECalShellView *cal_shell_view)
+action_event_edit_as_new_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalendarView *calendar_view;
 	ECalendarViewSelectionData *sel_data;
@@ -1064,9 +1109,11 @@ action_event_edit_as_new_cb (GtkAction *action,
 }
 
 static void
-action_event_print_cb (GtkAction *action,
-                       ECalShellView *cal_shell_view)
+action_event_print_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalendarView *calendar_view;
 	ECalendarViewSelectionData *sel_data;
@@ -1134,23 +1181,31 @@ cal_shell_view_actions_reply (ECalShellView *cal_shell_view,
 }
 
 static void
-action_event_reply_cb (GtkAction *action,
-                       ECalShellView *cal_shell_view)
+action_event_reply_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
+
 	cal_shell_view_actions_reply (cal_shell_view, FALSE);
 }
 
 static void
-action_event_reply_all_cb (GtkAction *action,
-                           ECalShellView *cal_shell_view)
+action_event_reply_all_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
+
 	cal_shell_view_actions_reply (cal_shell_view, TRUE);
 }
 
 static void
-action_event_save_as_cb (GtkAction *action,
-                         ECalShellView *cal_shell_view)
+action_event_save_as_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -1255,16 +1310,21 @@ edit_event_as (ECalShellView *cal_shell_view,
 }
 
 static void
-action_event_schedule_cb (GtkAction *action,
-                          ECalShellView *cal_shell_view)
+action_event_schedule_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
+
 	edit_event_as (cal_shell_view, TRUE);
 }
 
 static void
-quit_calendar_cb (GtkAction *action,
-                  ECalShellView *cal_shell_view)
+quit_calendar_cb (EUIAction *action,
+		  GVariant *parameter,
+		  gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GdkWindow *window;
@@ -1284,833 +1344,593 @@ quit_calendar_cb (GtkAction *action,
 }
 
 static void
-action_event_schedule_appointment_cb (GtkAction *action,
-                                      ECalShellView *cal_shell_view)
+action_event_schedule_appointment_cb (EUIAction *action,
+				      GVariant *parameter,
+				      gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
+
 	edit_event_as (cal_shell_view, FALSE);
 }
 
 static void
-action_calendar_show_tag_vpane_cb (GtkAction *action,
-				   ECalShellView *cal_shell_view)
+action_calendar_show_tag_vpane_cb (EUIAction *action,
+				   GVariant *parameter,
+				   gpointer user_data)
 {
+	ECalShellView *cal_shell_view = user_data;
+
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
 
-	e_cal_shell_content_set_show_tag_vpane (cal_shell_view->priv->cal_shell_content, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+	e_cal_shell_content_set_show_tag_vpane (cal_shell_view->priv->cal_shell_content, e_ui_action_get_active (action));
 }
 
-static GtkActionEntry calendar_entries[] = {
-
-	{ "calendar-copy",
-	  "edit-copy",
-	  N_("_Copy…"),
-	  "<Control>c",
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_copy_cb) },
-
-	{ "calendar-delete",
-	  "edit-delete",
-	  N_("D_elete Calendar"),
-	  NULL,
-	  N_("Delete the selected calendar"),
-	  G_CALLBACK (action_calendar_delete_cb) },
-
-	{ "calendar-go-back",
-	  "go-previous",
-	  N_("Previous"),
-	  "<Control>Page_Up",
-	  N_("Go Back"),
-	  G_CALLBACK (action_calendar_go_back_cb) },
-
-	{ "calendar-go-forward",
-	  "go-next",
-	  N_("Next"),
-	  "<Control>Page_Down",
-	  N_("Go Forward"),
-	  G_CALLBACK (action_calendar_go_forward_cb) },
-
-	{ "calendar-go-today",
-	  "go-today",
-	  N_("Select _Today"),
-	  "<Control>t",
-	  N_("Select today"),
-	  G_CALLBACK (action_calendar_go_today_cb) },
-
-	{ "calendar-jump-to",
-	  "go-jump",
-	  N_("Select _Date"),
-	  "<Control>g",
-	  N_("Select a specific date"),
-	  G_CALLBACK (action_calendar_jump_to_cb) },
-
-	{ "calendar-manage-groups",
-	  NULL,
-	  N_("_Manage Calendar groups…"),
-	  NULL,
-	  N_("Manage Calendar groups order and visibility"),
-	  G_CALLBACK (action_calendar_manage_groups_cb) },
-
-	{ "calendar-new",
-	  "x-office-calendar",
-	  N_("_New Calendar"),
-	  NULL,
-	  N_("Create a new calendar"),
-	  G_CALLBACK (action_calendar_new_cb) },
-
-	{ "calendar-properties",
-	  "document-properties",
-	  N_("_Properties"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_properties_cb) },
-
-	{ "calendar-purge",
-	  NULL,
-	  N_("Purg_e"),
-	  "<Control>e",
-	  N_("Purge old appointments and meetings"),
-	  G_CALLBACK (action_calendar_purge_cb) },
-
-	{ "calendar-refresh",
-	  "view-refresh",
-	  N_("Re_fresh"),
-	  NULL,
-	  N_("Refresh the selected calendar"),
-	  G_CALLBACK (action_calendar_refresh_cb) },
-
-	{ "calendar-refresh-backend",
-	  "view-refresh",
-	  N_("Re_fresh list of account calendars"),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_calendar_refresh_backend_cb) },
-
-	{ "calendar-rename",
-	  NULL,
-	  N_("_Rename…"),
-	  "F2",
-	  N_("Rename the selected calendar"),
-	  G_CALLBACK (action_calendar_rename_cb) },
-
-	{ "calendar-search-next",
-	  "go-next",
-	  N_("Find _Next"),
-	  "<Control><Shift>n",
-	  N_("Find next occurrence of the current search string"),
-	  G_CALLBACK (action_calendar_search_next_cb) },
-
-	{ "calendar-search-prev",
-	  "go-previous",
-	  N_("Find _Previous"),
-	  "<Control><Shift>p",
-	  N_("Find previous occurrence of the current search string"),
-	  G_CALLBACK (action_calendar_search_prev_cb) },
-
-	{ "calendar-search-stop",
-	  "process-stop",
-	  N_("Stop _Running Search"),
-	  NULL,
-	  N_("Stop currently running search"),
-	  G_CALLBACK (action_calendar_search_stop_cb) },
-
-	{ "calendar-select-all",
-	  "stock_check-filled",
-	  N_("Sho_w All Calendars"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_select_all_cb) },
-
-	{ "calendar-select-one",
-	  "stock_check-filled",
-	  N_("Show _Only This Calendar"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_select_one_cb) },
-
-	{ "event-copy",
-	  NULL,
-	  N_("Cop_y to Calendar…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_copy_cb) },
-
-	{ "event-delegate",
-	  NULL,
-	  N_("_Delegate Meeting…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_delegate_cb) },
-
-	{ "event-delete",
-	  "edit-delete",
-	  N_("_Delete"),
-	  "<Control>d",
-	  N_("Delete selected events"),
-	  G_CALLBACK (action_event_delete_cb) },
-
-	{ "event-delete-occurrence",
-	  "edit-delete",
-	  N_("Delete This _Occurrence"),
-	  NULL,
-	  N_("Delete this occurrence"),
-	  G_CALLBACK (action_event_delete_occurrence_cb) },
-
-	{ "event-delete-occurrence-this-and-future",
-	  "edit-delete",
-	  N_("Delete This and F_uture Occurrences"),
-	  NULL,
-	  N_("Delete this and any future occurrences"),
-	  G_CALLBACK (action_event_delete_occurrence_this_and_future_cb) },
-
-	{ "event-delete-occurrence-all",
-	  "edit-delete",
-	  N_("Delete All Occ_urrences"),
-	  NULL,
-	  N_("Delete all occurrences"),
-	  G_CALLBACK (action_event_delete_cb) },
-
-	{ "event-edit-as-new",
-	  NULL,
-	  N_("Edit as Ne_w…"),
-	  NULL,
-	  N_("Edit the selected event as new"),
-	  G_CALLBACK (action_event_edit_as_new_cb) },
-
-	{ "event-popup-all-day-new",
-	  "stock_new-24h-appointment",
-	  N_("New All Day _Event…"),
-	  NULL,
-	  N_("Create a new all day event"),
-	  G_CALLBACK (action_event_popup_new_cb) },
-
-	{ "event-forward",
-	  "mail-forward",
-	  N_("_Forward as iCalendar…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_forward_cb) },
-
-	{ "event-popup-meeting-new",
-	  "stock_people",
-	  N_("New _Meeting…"),
-	  NULL,
-	  N_("Create a new meeting"),
-	  G_CALLBACK (action_event_popup_new_cb) },
-
-	{ "event-popup-rsvp-submenu",
-	  NULL,
-	  N_("Send _RSVP"),
-	  NULL,
-	  N_("Send a meeting response"),
-	  NULL },
-
-	{ "event-popup-rsvp-accept",
-	  NULL,
-	  N_("_Accept"),
-	  NULL,
-	  N_("Accept meeting request"),
-	  G_CALLBACK (action_event_popup_rsvp_response_cb) },
-
-	{ "event-popup-rsvp-accept-1",
-	  NULL,
-	  N_("A_ccept this instance"),
-	  NULL,
-	  N_("Accept meeting request for selected instance only"),
-	  G_CALLBACK (action_event_popup_rsvp_response_cb) },
-
-	{ "event-popup-rsvp-decline",
-	  NULL,
-	  N_("_Decline"),
-	  NULL,
-	  N_("Decline meeting request"),
-	  G_CALLBACK (action_event_popup_rsvp_response_cb) },
-
-	{ "event-popup-rsvp-decline-1",
-	  NULL,
-	  N_("D_ecline this instance"),
-	  NULL,
-	  N_("Decline meeting request for selected instance only"),
-	  G_CALLBACK (action_event_popup_rsvp_response_cb) },
-
-	{ "event-popup-rsvp-tentative",
-	  NULL,
-	  N_("_Tentatively accept"),
-	  NULL,
-	  N_("Tentatively accept meeting request"),
-	  G_CALLBACK (action_event_popup_rsvp_response_cb) },
-
-	{ "event-popup-rsvp-tentative-1",
-	  NULL,
-	  N_("Te_ntatively accept this instance"),
-	  NULL,
-	  N_("Tentatively accept meeting request for selected instance only"),
-	  G_CALLBACK (action_event_popup_rsvp_response_cb) },
-
-	{ "event-move",
-	  NULL,
-	  N_("Mo_ve to Calendar…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_move_cb) },
-
-	{ "event-popup-new",
-	  "appointment-new",
-	  N_("New _Appointment…"),
-	  NULL,
-	  N_("Create a new appointment"),
-	  G_CALLBACK (action_event_popup_new_cb) },
-
-	{ "event-occurrence-movable",
-	  NULL,
-	  N_("Make this Occurrence _Movable"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_occurrence_movable_cb) },
-
-	{ "event-open",
-	  "document-open",
-	  N_("_Open…"),
-	  "<Control>o",
-	  N_("Edit the selected event"),
-	  G_CALLBACK (action_event_open_cb) },
-
-	{ "event-reply",
-	  "mail-reply-sender",
-	  N_("_Reply"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_reply_cb) },
-
-	{ "event-reply-all",
-	  "mail-reply-all",
-	  N_("Reply to _All"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_reply_all_cb) },
-
-	{ "event-schedule",
-	  NULL,
-	  N_("_Schedule Meeting…"),
-	  NULL,
-	  N_("Converts an appointment to a meeting"),
-	  G_CALLBACK (action_event_schedule_cb) },
-
-	{ "event-schedule-appointment",
-	  NULL,
-	  N_("Conv_ert to Appointment…"),
-	  NULL,
-	  N_("Converts a meeting to an appointment"),
-	  G_CALLBACK (action_event_schedule_appointment_cb) },
-
-	{ "quit-calendar",
-	  "window-close",
-	  N_("Quit"),
-	  "<Control>w",
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (quit_calendar_cb) },
-
-	/*** Menus ***/
-
-	{ "calendar-actions-menu",
-	  NULL,
-	  N_("_Actions"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "calendar-preview-menu",
-	  NULL,
-	  N_("_Preview"),
-	  NULL,
-	  NULL,
-	  NULL }
-};
-
-static EPopupActionEntry calendar_popup_entries[] = {
-
-	/* FIXME No equivalent main menu items for the any of the calendar
-	 *       popup menu items and for many of the event popup menu items.
-	 *       This is an accessibility issue. */
-
-	{ "calendar-popup-copy",
-	  NULL,
-	  "calendar-copy" },
-
-	{ "calendar-popup-delete",
-	  N_("_Delete"),
-	  "calendar-delete" },
-
-	{ "calendar-popup-go-today",
-	  NULL,
-	  "calendar-go-today" },
-
-	{ "calendar-popup-jump-to",
-	  NULL,
-	  "calendar-jump-to" },
-
-	{ "calendar-popup-manage-groups",
-	  N_("_Manage groups…"),
-	  "calendar-manage-groups" },
-
-	{ "calendar-popup-properties",
-	  NULL,
-	  "calendar-properties" },
-
-	{ "calendar-popup-refresh",
-	  NULL,
-	  "calendar-refresh" },
-
-	{ "calendar-popup-refresh-backend",
-	  NULL,
-	  "calendar-refresh-backend" },
-
-	{ "calendar-popup-rename",
-	  NULL,
-	  "calendar-rename" },
-
-	{ "calendar-popup-select-all",
-	  NULL,
-	  "calendar-select-all" },
-
-	{ "calendar-popup-select-one",
-	  NULL,
-	  "calendar-select-one" },
-
-	{ "event-popup-copy",
-	  NULL,
-	  "event-copy" },
-
-	{ "event-popup-delegate",
-	  NULL,
-	  "event-delegate" },
-
-	{ "event-popup-delete",
-	  NULL,
-	  "event-delete" },
-
-	{ "event-popup-delete-occurrence",
-	  NULL,
-	  "event-delete-occurrence" },
-
-	{ "event-popup-delete-occurrence-this-and-future",
-	  NULL,
-	  "event-delete-occurrence-this-and-future" },
-
-	{ "event-popup-delete-occurrence-all",
-	  NULL,
-	  "event-delete-occurrence-all" },
-
-	{ "event-popup-edit-as-new",
-	  NULL,
-	  "event-edit-as-new" },
-
-	{ "event-popup-forward",
-	  NULL,
-	  "event-forward" },
-
-	{ "event-popup-move",
-	  NULL,
-	  "event-move" },
-
-	{ "event-popup-occurrence-movable",
-	  NULL,
-	  "event-occurrence-movable" },
-
-	{ "event-popup-open",
-	  NULL,
-	  "event-open" },
-
-	{ "event-popup-reply",
-	  NULL,
-	  "event-reply" },
-
-	{ "event-popup-reply-all",
-	  NULL,
-	  "event-reply-all" },
-
-	{ "event-popup-schedule",
-	  NULL,
-	  "event-schedule" },
-
-	{ "event-popup-schedule-appointment",
-	  NULL,
-	  "event-schedule-appointment" }
-};
-
-static GtkToggleActionEntry calendar_toggle_entries[] = {
-
-	{ "calendar-preview",
-	  NULL,
-	  N_("Show Event _Preview"),
-	  NULL,
-	  N_("Show event preview pane"),
-	  NULL,  /* Handled by property bindings */
-	  TRUE },
-
-	{ "calendar-show-tag-vpane",
-	  NULL,
-	  N_("Show T_asks and Memos pane"),
-	  NULL,
-	  N_("Show Tasks and Memos pane"),
-	  G_CALLBACK (action_calendar_show_tag_vpane_cb),
-	  TRUE }
-};
-
-static GtkRadioActionEntry calendar_view_entries[] = {
-
-	/* This action represents the initial calendar view.
-	 * It should not be visible in the UI, nor should it be
-	 * possible to switch to it from another calendar view. */
-	{ "calendar-view-initial",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  BOGUS_INITIAL_VALUE },
-
-	{ "calendar-view-day",
-	  "view-calendar-day",
-	  N_("Day"),
-	  "<Control>y",
-	  N_("Show one day"),
-	  E_CAL_VIEW_KIND_DAY },
-
-	{ "calendar-view-list",
-	  "view-calendar-list",
-	  N_("List"),
-	  "<Control>l",
-	  N_("Show as list"),
-	  E_CAL_VIEW_KIND_LIST },
-
-	{ "calendar-view-month",
-	  "view-calendar-month",
-	  N_("Month"),
-	  "<Control>m",
-	  N_("Show one month"),
-	  E_CAL_VIEW_KIND_MONTH },
-
-	{ "calendar-view-week",
-	  "view-calendar-week",
-	  N_("Week"),
-	  "<Control>k",
-	  N_("Show one week"),
-	  E_CAL_VIEW_KIND_WEEK },
-
-	{ "calendar-view-workweek",
-	  "view-calendar-workweek",
-	  N_("Work Week"),
-	  "<Control>j",
-	  N_("Show one work week"),
-	  E_CAL_VIEW_KIND_WORKWEEK },
-
-	{ "calendar-view-year",
-	  "view-calendar-year",
-	  N_("Year"),
-	  NULL,
-	  N_("Show as year"),
-	  E_CAL_VIEW_KIND_YEAR }
-};
-
-static GtkRadioActionEntry calendar_preview_entries[] = {
-
-	/* This action represents the initial active preview.
-	 * It should not be visible in the UI, nor should it be
-	 * possible to switch to it from another shell view. */
-	{ "calendar-preview-initial",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  BOGUS_INITIAL_VALUE },
-
-	{ "calendar-preview-horizontal",
-	  NULL,
-	  N_("_Horizontal View"),
-	  NULL,
-	  N_("Show event preview below the calendar"),
-	  0 },
-
-	{ "calendar-preview-vertical",
-	  NULL,
-	  N_("_Vertical View"),
-	  NULL,
-	  N_("Show event preview alongside the calendar"),
-	  1 }
-};
-
-static GtkRadioActionEntry calendar_filter_entries[] = {
-
-	{ "calendar-filter-active-appointments",
-	  NULL,
-	  N_("Active Appointments"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  CALENDAR_FILTER_ACTIVE_APPOINTMENTS },
-
-	{ "calendar-filter-any-category",
-	  NULL,
-	  N_("Any Category"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  CALENDAR_FILTER_ANY_CATEGORY },
-
-	{ "calendar-filter-next-7-days-appointments",
-	  NULL,
-	  N_("Next 7 Days’ Appointments"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS },
-
-	{ "calendar-filter-occurs-less-than-5-times",
-	  NULL,
-	  N_("Occurs Less Than 5 Times"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  CALENDAR_FILTER_OCCURS_LESS_THAN_5_TIMES },
-
-	{ "calendar-filter-unmatched",
-	  NULL,
-	  N_("Without Category"),
-	  NULL,
-	  N_("Show events with no category set"),
-	  CALENDAR_FILTER_UNMATCHED }
-};
-
-static GtkRadioActionEntry calendar_search_entries[] = {
-
-	{ "calendar-search-advanced-hidden",
-	  NULL,
-	  N_("Advanced Search"),
-	  NULL,
-	  NULL,
-	  CALENDAR_SEARCH_ADVANCED },
-
-	{ "calendar-search-any-field-contains",
-	  NULL,
-	  N_("Any field contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  CALENDAR_SEARCH_ANY_FIELD_CONTAINS },
-
-	{ "calendar-search-description-contains",
-	  NULL,
-	  N_("Description contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  CALENDAR_SEARCH_DESCRIPTION_CONTAINS },
-
-	{ "calendar-search-summary-contains",
-	  NULL,
-	  N_("Summary contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  CALENDAR_SEARCH_SUMMARY_CONTAINS }
-};
-
-static GtkActionEntry lockdown_printing_entries[] = {
-
-	{ "calendar-print",
-	  "document-print",
-	  N_("Print…"),
-	  "<Control>p",
-	  N_("Print this calendar"),
-	  G_CALLBACK (action_calendar_print_cb) },
-
-	{ "calendar-print-preview",
-	  "document-print-preview",
-	  N_("Pre_view…"),
-	  NULL,
-	  N_("Preview the calendar to be printed"),
-	  G_CALLBACK (action_calendar_print_preview_cb) },
-
-	{ "event-print",
-	  "document-print",
-	  N_("Print…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_print_cb) }
-};
-
-static EPopupActionEntry lockdown_printing_popup_entries[] = {
-
-	{ "event-popup-print",
-	  NULL,
-	  "event-print" }
-};
-
-static GtkActionEntry lockdown_save_to_disk_entries[] = {
-
-	{ "event-save-as",
-	  "document-save-as",
-	  N_("_Save as iCalendar…"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_save_as_cb) },
-};
-
-static EPopupActionEntry lockdown_save_to_disk_popup_entries[] = {
-
-	{ "event-popup-save-as",
-	  NULL,
-	  "event-save-as" },
-};
-
 void
-e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
+e_cal_shell_view_actions_init (ECalShellView *self)
 {
-	ECalShellContent *cal_shell_content;
+	static const EUIActionEntry calendar_entries[] = {
+
+		{ "calendar-copy",
+		  "edit-copy",
+		  N_("_Copy…"),
+		  NULL,
+		  NULL,
+		  action_calendar_copy_cb, NULL, NULL, NULL },
+
+		{ "calendar-delete",
+		  "edit-delete",
+		  N_("D_elete Calendar"),
+		  NULL,
+		  N_("Delete the selected calendar"),
+		  action_calendar_delete_cb, NULL, NULL, NULL },
+
+		{ "calendar-go-back",
+		  "go-previous",
+		  N_("Previous"),
+		  "<Control>Page_Up",
+		  N_("Go Back"),
+		  action_calendar_go_back_cb, NULL, NULL, NULL },
+
+		{ "calendar-go-forward",
+		  "go-next",
+		  N_("Next"),
+		  "<Control>Page_Down",
+		  N_("Go Forward"),
+		  action_calendar_go_forward_cb, NULL, NULL, NULL },
+
+		{ "calendar-go-today",
+		  "go-today",
+		  N_("Select _Today"),
+		  "<Control>t",
+		  N_("Select today"),
+		  action_calendar_go_today_cb, NULL, NULL, NULL },
+
+		{ "calendar-jump-to",
+		  "go-jump",
+		  N_("Select _Date"),
+		  "<Control>g",
+		  N_("Select a specific date"),
+		  action_calendar_jump_to_cb, NULL, NULL, NULL },
+
+		{ "calendar-manage-groups",
+		  NULL,
+		  N_("_Manage Calendar groups…"),
+		  NULL,
+		  N_("Manage Calendar groups order and visibility"),
+		  action_calendar_manage_groups_cb, NULL, NULL, NULL },
+
+		{ "calendar-manage-groups-popup",
+		  NULL,
+		  N_("_Manage groups…"),
+		  NULL,
+		  N_("Manage Calendar groups order and visibility"),
+		  action_calendar_manage_groups_cb, NULL, NULL, NULL },
+
+		{ "calendar-new",
+		  "x-office-calendar",
+		  N_("_New Calendar"),
+		  NULL,
+		  N_("Create a new calendar"),
+		  action_calendar_new_cb, NULL, NULL, NULL },
+
+		{ "calendar-properties",
+		  "document-properties",
+		  N_("_Properties"),
+		  NULL,
+		  NULL,
+		  action_calendar_properties_cb, NULL, NULL, NULL },
+
+		{ "calendar-purge",
+		  NULL,
+		  N_("Purg_e"),
+		  "<Control>e",
+		  N_("Purge old appointments and meetings"),
+		  action_calendar_purge_cb, NULL, NULL, NULL },
+
+		{ "calendar-refresh",
+		  "view-refresh",
+		  N_("Re_fresh"),
+		  NULL,
+		  N_("Refresh the selected calendar"),
+		  action_calendar_refresh_cb, NULL, NULL, NULL },
+
+		{ "calendar-refresh-backend",
+		  "view-refresh",
+		  N_("Re_fresh list of account calendars"),
+		  NULL,
+		  NULL,
+		  action_calendar_refresh_backend_cb, NULL, NULL, NULL },
+
+		{ "calendar-rename",
+		  NULL,
+		  N_("_Rename…"),
+		  NULL,
+		  N_("Rename the selected calendar"),
+		  action_calendar_rename_cb, NULL, NULL, NULL },
+
+		{ "calendar-search-next",
+		  "go-next",
+		  N_("Find _Next"),
+		  "<Control><Shift>n",
+		  N_("Find next occurrence of the current search string"),
+		  action_calendar_search_next_cb, NULL, NULL, NULL },
+
+		{ "calendar-search-prev",
+		  "go-previous",
+		  N_("Find _Previous"),
+		  "<Control><Shift>p",
+		  N_("Find previous occurrence of the current search string"),
+		  action_calendar_search_prev_cb, NULL, NULL, NULL },
+
+		{ "calendar-search-stop",
+		  "process-stop",
+		  N_("Stop _Running Search"),
+		  NULL,
+		  N_("Stop currently running search"),
+		  action_calendar_search_stop_cb, NULL, NULL, NULL },
+
+		{ "calendar-select-all",
+		  "stock_check-filled",
+		  N_("Sho_w All Calendars"),
+		  NULL,
+		  NULL,
+		  action_calendar_select_all_cb, NULL, NULL, NULL },
+
+		{ "calendar-select-one",
+		  "stock_check-filled",
+		  N_("Show _Only This Calendar"),
+		  NULL,
+		  NULL,
+		  action_calendar_select_one_cb, NULL, NULL, NULL },
+
+		{ "event-copy",
+		  NULL,
+		  N_("Cop_y to Calendar…"),
+		  NULL,
+		  NULL,
+		  action_event_copy_cb, NULL, NULL, NULL },
+
+		{ "event-delegate",
+		  NULL,
+		  N_("_Delegate Meeting…"),
+		  NULL,
+		  NULL,
+		  action_event_delegate_cb, NULL, NULL, NULL },
+
+		{ "event-delete",
+		  "edit-delete",
+		  N_("_Delete"),
+		  "<Control>d",
+		  N_("Delete selected events"),
+		  action_event_delete_cb, NULL, NULL, NULL },
+
+		{ "event-delete-occurrence",
+		  "edit-delete",
+		  N_("Delete This _Occurrence"),
+		  NULL,
+		  N_("Delete this occurrence"),
+		  action_event_delete_occurrence_cb, NULL, NULL, NULL },
+
+		{ "event-delete-occurrence-this-and-future",
+		  "edit-delete",
+		  N_("Delete This and F_uture Occurrences"),
+		  NULL,
+		  N_("Delete this and any future occurrences"),
+		  action_event_delete_occurrence_this_and_future_cb, NULL, NULL, NULL },
+
+		{ "event-delete-occurrence-all",
+		  "edit-delete",
+		  N_("Delete All Occ_urrences"),
+		  NULL,
+		  N_("Delete all occurrences"),
+		  action_event_delete_cb, NULL, NULL, NULL },
+
+		{ "event-edit-as-new",
+		  NULL,
+		  N_("Edit as Ne_w…"),
+		  NULL,
+		  N_("Edit the selected event as new"),
+		  action_event_edit_as_new_cb, NULL, NULL, NULL },
+
+		{ "event-all-day-new",
+		  "stock_new-24h-appointment",
+		  N_("New All Day _Event…"),
+		  NULL,
+		  N_("Create a new all day event"),
+		  action_event_new_cb, NULL, NULL, NULL },
+
+		{ "event-forward",
+		  "mail-forward",
+		  N_("_Forward as iCalendar…"),
+		  NULL,
+		  NULL,
+		  action_event_forward_cb, NULL, NULL, NULL },
+
+		{ "event-meeting-new",
+		  "stock_people",
+		  N_("New _Meeting…"),
+		  NULL,
+		  N_("Create a new meeting"),
+		  action_event_new_cb, NULL, NULL, NULL },
+
+		{ "event-rsvp-accept",
+		  NULL,
+		  N_("_Accept"),
+		  NULL,
+		  N_("Accept meeting request"),
+		  action_event_rsvp_response_cb, NULL, NULL, NULL },
+
+		{ "event-rsvp-accept-1",
+		  NULL,
+		  N_("A_ccept this instance"),
+		  NULL,
+		  N_("Accept meeting request for selected instance only"),
+		  action_event_rsvp_response_cb, NULL, NULL, NULL },
+
+		{ "event-rsvp-decline",
+		  NULL,
+		  N_("_Decline"),
+		  NULL,
+		  N_("Decline meeting request"),
+		  action_event_rsvp_response_cb, NULL, NULL, NULL },
+
+		{ "event-rsvp-decline-1",
+		  NULL,
+		  N_("D_ecline this instance"),
+		  NULL,
+		  N_("Decline meeting request for selected instance only"),
+		  action_event_rsvp_response_cb, NULL, NULL, NULL },
+
+		{ "event-rsvp-tentative",
+		  NULL,
+		  N_("_Tentatively accept"),
+		  NULL,
+		  N_("Tentatively accept meeting request"),
+		  action_event_rsvp_response_cb, NULL, NULL, NULL },
+
+		{ "event-rsvp-tentative-1",
+		  NULL,
+		  N_("Te_ntatively accept this instance"),
+		  NULL,
+		  N_("Tentatively accept meeting request for selected instance only"),
+		  action_event_rsvp_response_cb, NULL, NULL, NULL },
+
+		{ "event-move",
+		  NULL,
+		  N_("Mo_ve to Calendar…"),
+		  NULL,
+		  NULL,
+		  action_event_move_cb, NULL, NULL, NULL },
+
+		{ "event-new",
+		  "appointment-new",
+		  N_("New _Appointment…"),
+		  NULL,
+		  N_("Create a new appointment"),
+		  action_event_new_cb, NULL, NULL, NULL },
+
+		{ "event-occurrence-movable",
+		  NULL,
+		  N_("Make this Occurrence _Movable"),
+		  NULL,
+		  NULL,
+		  action_event_occurrence_movable_cb, NULL, NULL, NULL },
+
+		{ "event-open",
+		  "document-open",
+		  N_("_Open…"),
+		  "<Control>o",
+		  N_("Edit the selected event"),
+		  action_event_open_cb, NULL, NULL, NULL },
+
+		{ "event-reply",
+		  "mail-reply-sender",
+		  N_("_Reply"),
+		  NULL,
+		  NULL,
+		  action_event_reply_cb, NULL, NULL, NULL },
+
+		{ "event-reply-all",
+		  "mail-reply-all",
+		  N_("Reply to _All"),
+		  NULL,
+		  NULL,
+		  action_event_reply_all_cb, NULL, NULL, NULL },
+
+		{ "event-schedule",
+		  NULL,
+		  N_("_Schedule Meeting…"),
+		  NULL,
+		  N_("Converts an appointment to a meeting"),
+		  action_event_schedule_cb, NULL, NULL, NULL },
+
+		{ "event-schedule-appointment",
+		  NULL,
+		  N_("Conv_ert to Appointment…"),
+		  NULL,
+		  N_("Converts a meeting to an appointment"),
+		  action_event_schedule_appointment_cb, NULL, NULL, NULL },
+
+		{ "quit-calendar",
+		  "window-close",
+		  N_("Quit"),
+		  "<Control>w",
+		  NULL,
+		  quit_calendar_cb, NULL, NULL, NULL },
+
+		{ "calendar-preview",
+		  NULL,
+		  N_("Event _Preview"),
+		  NULL,
+		  N_("Show event preview pane"),
+		  NULL, NULL, "true", NULL },  /* Handled by property bindings */
+
+		{ "calendar-show-tag-vpane",
+		  NULL,
+		  N_("Show T_asks and Memos pane"),
+		  NULL,
+		  N_("Show Tasks and Memos pane"),
+		  action_calendar_show_tag_vpane_cb, NULL, "true", NULL },
+
+		/*** Menus ***/
+
+		{ "calendar-actions-menu", NULL, N_("_Actions"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "calendar-preview-menu", NULL, N_("_Preview"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "event-rsvp-submenu", NULL, N_("Send _RSVP"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "ECalShellView::navigation-buttons", NULL, N_("Navigation buttons"), NULL, NULL, NULL, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEnumEntry calendar_view_entries[] = {
+
+		{ "calendar-view-day",
+		  "view-calendar-day",
+		  N_("Day"),
+		  "<Control>y",
+		  N_("Show one day"),
+		  action_calendar_view_cb, E_CAL_VIEW_KIND_DAY },
+
+		{ "calendar-view-list",
+		  "view-calendar-list",
+		  N_("List"),
+		  "<Control>l",
+		  N_("Show as list"),
+		  action_calendar_view_cb, E_CAL_VIEW_KIND_LIST },
+
+		{ "calendar-view-month",
+		  "view-calendar-month",
+		  N_("Month"),
+		  "<Control>m",
+		  N_("Show one month"),
+		  action_calendar_view_cb, E_CAL_VIEW_KIND_MONTH },
+
+		{ "calendar-view-week",
+		  "view-calendar-week",
+		  N_("Week"),
+		  "<Control>k",
+		  N_("Show one week"),
+		  action_calendar_view_cb, E_CAL_VIEW_KIND_WEEK },
+
+		{ "calendar-view-workweek",
+		  "view-calendar-workweek",
+		  N_("Work Week"),
+		  "<Control>j",
+		  N_("Show one work week"),
+		  action_calendar_view_cb, E_CAL_VIEW_KIND_WORKWEEK },
+
+		{ "calendar-view-year",
+		  "view-calendar-year",
+		  N_("Year"),
+		  NULL,
+		  N_("Show as year"),
+		  action_calendar_view_cb, E_CAL_VIEW_KIND_YEAR }
+	};
+
+	static const EUIActionEnumEntry calendar_preview_entries[] = {
+
+		{ "calendar-preview-horizontal",
+		  NULL,
+		  N_("_Classic View"),
+		  NULL,
+		  N_("Show event preview below the calendar"),
+		  NULL, 0 },
+
+		{ "calendar-preview-vertical",
+		  NULL,
+		  N_("_Vertical View"),
+		  NULL,
+		  N_("Show event preview alongside the calendar"),
+		  NULL, 1 }
+	};
+
+	static const EUIActionEnumEntry calendar_search_entries[] = {
+
+		{ "calendar-search-advanced-hidden",
+		  NULL,
+		  N_("Advanced Search"),
+		  NULL,
+		  NULL,
+		  NULL, CALENDAR_SEARCH_ADVANCED },
+
+		{ "calendar-search-any-field-contains",
+		  NULL,
+		  N_("Any field contains"),
+		  NULL,
+		  NULL,
+		  NULL, CALENDAR_SEARCH_ANY_FIELD_CONTAINS },
+
+		{ "calendar-search-description-contains",
+		  NULL,
+		  N_("Description contains"),
+		  NULL,
+		  NULL,
+		  NULL, CALENDAR_SEARCH_DESCRIPTION_CONTAINS },
+
+		{ "calendar-search-summary-contains",
+		  NULL,
+		  N_("Summary contains"),
+		  NULL,
+		  NULL,
+		  NULL, CALENDAR_SEARCH_SUMMARY_CONTAINS }
+	};
+
+	static const EUIActionEntry lockdown_printing_entries[] = {
+
+		{ "calendar-print",
+		  "document-print",
+		  N_("Print…"),
+		  "<Control>p",
+		  N_("Print this calendar"),
+		  action_calendar_print_cb, NULL, NULL, NULL },
+
+		{ "calendar-print-preview",
+		  "document-print-preview",
+		  N_("Pre_view…"),
+		  NULL,
+		  N_("Preview the calendar to be printed"),
+		  action_calendar_print_preview_cb, NULL, NULL, NULL },
+
+		{ "event-print",
+		  "document-print",
+		  N_("Print…"),
+		  NULL,
+		  NULL,
+		  action_event_print_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry lockdown_save_to_disk_entries[] = {
+
+		{ "event-save-as",
+		  "document-save-as",
+		  N_("_Save as iCalendar…"),
+		  NULL,
+		  NULL,
+		  action_event_save_as_cb, NULL, NULL, NULL },
+	};
+
 	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EShellSearchbar *searchbar;
-	GtkActionGroup *action_group;
-	GtkAction *action;
-	GSettings *settings;
+	EUIManager *ui_manager;
 
-	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
+	shell_view = E_SHELL_VIEW (self);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
 
 	/* Calendar Actions */
-	action_group = ACTION_GROUP (CALENDAR);
-	gtk_action_group_add_actions (
-		action_group, calendar_entries,
-		G_N_ELEMENTS (calendar_entries), cal_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, calendar_popup_entries,
-		G_N_ELEMENTS (calendar_popup_entries));
-	gtk_action_group_add_toggle_actions (
-		action_group, calendar_toggle_entries,
-		G_N_ELEMENTS (calendar_toggle_entries), cal_shell_view);
-	gtk_action_group_add_radio_actions (
-		action_group, calendar_view_entries,
-		G_N_ELEMENTS (calendar_view_entries), BOGUS_INITIAL_VALUE,
-		G_CALLBACK (action_calendar_view_cb), cal_shell_view);
-	gtk_action_group_add_radio_actions (
-		action_group, calendar_preview_entries,
-		G_N_ELEMENTS (calendar_preview_entries), BOGUS_INITIAL_VALUE,
-		G_CALLBACK (action_calendar_preview_cb), cal_shell_view);
-	gtk_action_group_add_radio_actions (
-		action_group, calendar_search_entries,
-		G_N_ELEMENTS (calendar_search_entries),
-		-1, NULL, NULL);
-
-	/* Advanced Search Action */
-	action = ACTION (CALENDAR_SEARCH_ADVANCED_HIDDEN);
-	gtk_action_set_visible (action, FALSE);
-	if (searchbar)
-		e_shell_searchbar_set_search_option (
-			searchbar, GTK_RADIO_ACTION (action));
+	e_ui_manager_add_actions (ui_manager, "calendar", NULL,
+		calendar_entries, G_N_ELEMENTS (calendar_entries), self);
+	e_ui_manager_add_actions_enum (ui_manager, "calendar", NULL,
+		calendar_view_entries, G_N_ELEMENTS (calendar_view_entries), self);
+	e_ui_manager_add_actions_enum (ui_manager, "calendar", NULL,
+		calendar_preview_entries, G_N_ELEMENTS (calendar_preview_entries), self);
+	e_ui_manager_add_actions_enum (ui_manager, "calendar", NULL,
+		calendar_search_entries, G_N_ELEMENTS (calendar_search_entries), self);
 
 	/* Lockdown Printing Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
-	gtk_action_group_add_actions (
-		action_group, lockdown_printing_entries,
-		G_N_ELEMENTS (lockdown_printing_entries), cal_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, lockdown_printing_popup_entries,
-		G_N_ELEMENTS (lockdown_printing_popup_entries));
+	e_ui_manager_add_actions (ui_manager, "lockdown-printing", NULL,
+		lockdown_printing_entries, G_N_ELEMENTS (lockdown_printing_entries), self);
 
 	/* Lockdown Save-to-Disk Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
-	gtk_action_group_add_actions (
-		action_group, lockdown_save_to_disk_entries,
-		G_N_ELEMENTS (lockdown_save_to_disk_entries), cal_shell_view);
-	e_action_group_add_popup_actions (
-		action_group, lockdown_save_to_disk_popup_entries,
-		G_N_ELEMENTS (lockdown_save_to_disk_popup_entries));
-
-	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-
-	g_settings_bind (
-		settings, "year-layout",
-		ACTION (CALENDAR_PREVIEW_VERTICAL), "current-value",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_clear_object (&settings);
-
-	/* Fine tuning. */
-
-	action = ACTION (CALENDAR_GO_TODAY);
-	gtk_action_set_short_label (action, _("Today"));
-
-	action = ACTION (CALENDAR_JUMP_TO);
-	gtk_action_set_short_label (action, _("Go To"));
-
-	action = ACTION (CALENDAR_VIEW_DAY);
-	gtk_action_set_is_important (action, TRUE);
-
-	action = ACTION (CALENDAR_VIEW_LIST);
-	gtk_action_set_is_important (action, TRUE);
-
-	action = ACTION (CALENDAR_VIEW_MONTH);
-	gtk_action_set_is_important (action, TRUE);
-
-	action = ACTION (CALENDAR_VIEW_WEEK);
-	gtk_action_set_is_important (action, TRUE);
-
-	action = ACTION (CALENDAR_VIEW_WORKWEEK);
-	gtk_action_set_is_important (action, TRUE);
-
-	action = ACTION (CALENDAR_SHOW_TAG_VPANE);
-	g_settings_bind (
-		cal_shell_view->priv->settings, "show-tag-vpane",
-		action, "active",
-		G_SETTINGS_BIND_GET);
-
-	action = ACTION (CALENDAR_VIEW_YEAR);
-	gtk_action_set_is_important (action, TRUE);
-
-	g_settings_bind (
-		cal_shell_view->priv->settings, "year-show-preview",
-		ACTION (CALENDAR_PREVIEW), "active",
-		G_SETTINGS_BIND_DEFAULT);
+	e_ui_manager_add_actions (ui_manager, "lockdown-save-to-disk", NULL,
+		lockdown_save_to_disk_entries, G_N_ELEMENTS (lockdown_save_to_disk_entries), self);
 
 	e_binding_bind_property (
 		ACTION (CALENDAR_PREVIEW), "active",
-		cal_shell_view->priv->views[E_CAL_VIEW_KIND_YEAR].calendar_view, "preview-visible",
-		G_BINDING_BIDIRECTIONAL |
+		ACTION (CALENDAR_PREVIEW_VERTICAL), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	/* Initialize the memo and task pad actions. */
-	e_cal_shell_view_memopad_actions_init (cal_shell_view);
-	e_cal_shell_view_taskpad_actions_init (cal_shell_view);
+	e_binding_bind_property (
+		ACTION (CALENDAR_PREVIEW), "active",
+		ACTION (CALENDAR_PREVIEW_HORIZONTAL), "sensitive",
+		G_BINDING_SYNC_CREATE);
 }
 
 void
 e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 {
+	static const EUIActionEnumEntry calendar_filter_entries[] = {
+
+		{ "calendar-filter-active-appointments",
+		  NULL,
+		  N_("Active Appointments"),
+		  NULL,
+		  NULL,
+		  NULL, CALENDAR_FILTER_ACTIVE_APPOINTMENTS },
+
+		{ "calendar-filter-any-category",
+		  NULL,
+		  N_("Any Category"),
+		  NULL,
+		  NULL,
+		  NULL, CALENDAR_FILTER_ANY_CATEGORY },
+
+		{ "calendar-filter-next-7-days-appointments",
+		  NULL,
+		  N_("Next 7 Days’ Appointments"),
+		  NULL,
+		  NULL,
+		  NULL, CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS },
+
+		{ "calendar-filter-occurs-less-than-5-times",
+		  NULL,
+		  N_("Occurs Less Than 5 Times"),
+		  NULL,
+		  NULL,
+		  NULL, CALENDAR_FILTER_OCCURS_LESS_THAN_5_TIMES },
+
+		{ "calendar-filter-unmatched",
+		  NULL,
+		  N_("Without Category"),
+		  NULL,
+		  N_("Show events with no category set"),
+		  NULL, CALENDAR_FILTER_UNMATCHED }
+	};
+
 	ECalShellContent *cal_shell_content;
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
-	GtkActionGroup *action_group;
-	GtkRadioAction *radio_action;
+	EUIActionGroup *action_group;
+	EUIAction *action;
 	GList *list, *iter;
-	GSList *group;
+	GPtrArray *radio_group;
 	gint ii;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	action_group = ACTION_GROUP (CALENDAR_FILTER);
-	e_action_group_remove_all_actions (action_group);
+	action_group = e_ui_manager_get_action_group (e_shell_view_get_ui_manager (shell_view), "calendar-filter");
+	e_ui_action_group_remove_all (action_group);
 
 	/* Add the standard filter actions.  No callback is needed
 	 * because changes in the EActionComboBox are detected and
 	 * handled by EShellSearchbar. */
-	gtk_action_group_add_radio_actions (
-		action_group, calendar_filter_entries,
-		G_N_ELEMENTS (calendar_filter_entries),
-		CALENDAR_FILTER_ANY_CATEGORY, NULL, NULL);
+	e_ui_manager_add_actions_enum (e_shell_view_get_ui_manager (shell_view),
+		e_ui_action_group_get_name (action_group), NULL,
+		calendar_filter_entries, G_N_ELEMENTS (calendar_filter_entries), NULL);
 
-	/* Retrieve the radio group from an action we just added. */
-	list = gtk_action_group_list_actions (action_group);
-	radio_action = GTK_RADIO_ACTION (list->data);
-	group = gtk_radio_action_get_group (radio_action);
-	g_list_free (list);
+	radio_group = g_ptr_array_new ();
+
+	for (ii = 0; ii < G_N_ELEMENTS (calendar_filter_entries); ii++) {
+		action = e_ui_action_group_get_action (action_group, calendar_filter_entries[ii].name);
+		e_ui_action_set_radio_group (action, radio_group);
+	}
 
 	/* Build the category actions. */
 
@@ -2118,14 +1938,14 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
 		const gchar *category_name = iter->data;
 		gchar *filename;
-		GtkAction *action;
-		gchar *action_name;
+		gchar action_name[128];
 
-		action_name = g_strdup_printf (
-			"calendar-filter-category-%d", ii);
-		radio_action = gtk_radio_action_new (
-			action_name, category_name, NULL, NULL, ii);
-		g_free (action_name);
+		g_warn_if_fail (g_snprintf (action_name, sizeof (action_name), "calendar-filter-category-%d", ii) < sizeof (action_name));
+
+		action = e_ui_action_new (e_ui_action_group_get_name (action_group), action_name, NULL);
+		e_ui_action_set_label (action, category_name);
+		e_ui_action_set_state (action, g_variant_new_int32 (ii));
+		e_ui_action_set_radio_group (action, radio_group);
 
 		/* Convert the category icon file to a themed icon name. */
 		filename = e_categories_dup_icon_file_for (category_name);
@@ -2139,21 +1959,16 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 			if ((cp = strrchr (basename, '.')) != NULL)
 				*cp = '\0';
 
-			g_object_set (
-				radio_action, "icon-name", basename, NULL);
+			e_ui_action_set_icon_name (action, basename);
 
 			g_free (basename);
 		}
 
 		g_free (filename);
 
-		gtk_radio_action_set_group (radio_action, group);
-		group = gtk_radio_action_get_group (radio_action);
+		e_ui_action_group_add (action_group, action);
 
-		/* The action group takes ownership of the action. */
-		action = GTK_ACTION (radio_action);
-		gtk_action_group_add_action (action_group, action);
-		g_object_unref (radio_action);
+		g_object_unref (action);
 	}
 	g_list_free_full (list, g_free);
 
@@ -2165,7 +1980,7 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 		e_shell_view_block_execute_search (shell_view);
 
 		/* Use any action in the group; doesn't matter which. */
-		e_action_combo_box_set_action (combo_box, radio_action);
+		e_action_combo_box_set_action (combo_box, action);
 
 		ii = CALENDAR_FILTER_UNMATCHED;
 		e_action_combo_box_add_separator_after (combo_box, ii);
@@ -2175,4 +1990,6 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 
 		e_shell_view_unblock_execute_search (shell_view);
 	}
+
+	g_ptr_array_unref (radio_group);
 }

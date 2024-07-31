@@ -149,43 +149,35 @@ mail_label_list_store_ensure_defaults (EMailLabelListStore *store)
 }
 
 static gchar *
-mail_label_list_store_get_stock_id (EMailLabelListStore *store,
-                                    const gchar *color_spec)
+mail_label_list_store_dup_icon_name (EMailLabelListStore *store,
+				     const gchar *color_spec)
 {
-	EMailLabelListStoreClass *class;
-	GtkIconFactory *icon_factory;
-	GdkColor color;
-	gchar *stock_id;
+	GtkIconTheme *icon_theme;
+	GdkRGBA rgba = { 0, };
+	gchar *icon_name;
 
-	class = E_MAIL_LABEL_LIST_STORE_GET_CLASS (store);
-	icon_factory = class->icon_factory;
-
-	if (!gdk_color_parse (color_spec, &color))
+	if (!gdk_rgba_parse (&rgba, color_spec))
 		return NULL;
 
-	stock_id = g_strdup_printf ("evolution-label-%s", color_spec);
+	icon_theme = gtk_icon_theme_get_default ();
+	icon_name = g_strdup_printf ("evolution-label-%s", color_spec);
 
-	/* Themes need not be taken into account here.
-	 * It's just a solid block of a user-chosen color. */
-	if (gtk_icon_factory_lookup (icon_factory, stock_id) == NULL) {
-		GtkIconSet *icon_set;
+	/* It's just a solid block of a user-chosen color. */
+	if (!gtk_icon_theme_has_icon (icon_theme, icon_name)) {
 		GdkPixbuf *pixbuf;
 		guint32 pixel;
 
-		pixel = (e_color_to_value (&color) & 0xffffff) << 8;
+		pixel = (e_rgba_to_value (&rgba) & 0xffffff) << 8;
 
-		pixbuf = gdk_pixbuf_new (
-			GDK_COLORSPACE_RGB, FALSE, 8, 16, 16);
+		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, 16, 16);
 		gdk_pixbuf_fill (pixbuf, pixel);
 
-		icon_set = gtk_icon_set_new_from_pixbuf (pixbuf);
-		gtk_icon_factory_add (icon_factory, stock_id, icon_set);
-		gtk_icon_set_unref (icon_set);
+		gtk_icon_theme_add_builtin_icon (icon_name, 16, pixbuf);
 
 		g_object_unref (pixbuf);
 	}
 
-	return stock_id;
+	return icon_name;
 }
 
 static void
@@ -400,9 +392,6 @@ e_mail_label_list_store_class_init (EMailLabelListStoreClass *class)
 	object_class->finalize = mail_label_list_store_finalize;
 	object_class->constructed = mail_label_list_store_constructed;
 
-	class->icon_factory = gtk_icon_factory_new ();
-	gtk_icon_factory_add_default (class->icon_factory);
-
 	signals[CHANGED] = g_signal_new (
 		"changed",
 		G_OBJECT_CLASS_TYPE (class),
@@ -506,8 +495,8 @@ e_mail_label_list_store_get_color (EMailLabelListStore *store,
 }
 
 gchar *
-e_mail_label_list_store_get_stock_id (EMailLabelListStore *store,
-                                      GtkTreeIter *iter)
+e_mail_label_list_store_dup_icon_name (EMailLabelListStore *store,
+				       GtkTreeIter *iter)
 {
 	gchar *encoded;
 	gchar *result;
@@ -522,7 +511,7 @@ e_mail_label_list_store_get_stock_id (EMailLabelListStore *store,
 	strv = g_strsplit_set (encoded, ":|", 3);
 
 	if (g_strv_length (strv) >= 2)
-		result = mail_label_list_store_get_stock_id (store, strv[1]);
+		result = mail_label_list_store_dup_icon_name (store, strv[1]);
 	else
 		result = NULL;
 

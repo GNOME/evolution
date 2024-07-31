@@ -2312,7 +2312,7 @@ webkit_editor_move_caret_on_coordinates (EContentEditor *editor,
 
 static void
 webkit_editor_insert_emoticon (EContentEditor *editor,
-                               EEmoticon *emoticon)
+                               const EEmoticon *emoticon)
 {
 	EWebKitEditor *wk_editor;
 	GSettings *settings;
@@ -2329,7 +2329,7 @@ webkit_editor_insert_emoticon (EContentEditor *editor,
 		text = emoticon->unicode_character;
 	} else {
 		text = emoticon->text_face;
-		image_uri = e_emoticon_get_uri (emoticon);
+		image_uri = e_emoticon_dup_uri (emoticon);
 
 		if (image_uri) {
 			width = 16;

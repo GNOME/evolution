@@ -344,9 +344,11 @@ compose_to_meeting_content_ready_cb (GObject *source_object,
 }
 
 static void
-action_composer_to_meeting_cb (GtkAction *action,
-			       EMsgComposer *composer)
+action_composer_to_meeting_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	EMsgComposer *composer = user_data;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	EActivity *activity;
@@ -373,47 +375,38 @@ action_composer_to_meeting_cb (GtkAction *action,
 static void
 e_composer_to_meeting_setup_ui (EMsgComposer *composer)
 {
-	const gchar *ui =
-		"<ui>"
-		"  <menubar action='main-menu'>"
-		"    <placeholder name='pre-edit-menu'>"
-		"      <menu action='file-menu'>"
-		"        <placeholder name='custom-actions-placeholder'>"
-		"          <menuitem action='composer-to-meeting-action'/>"
-		"        </placeholder>"
-		"      </menu>"
-		"    </placeholder>"
-		"  </menubar>"
-		"</ui>";
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<placeholder id='pre-edit-menu'>"
+		      "<submenu action='file-menu'>"
+			"<placeholder id='custom-actions-placeholder'>"
+			  "<item action='composer-to-meeting-action'/>"
+			"</placeholder>"
+		      "</submenu>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
 
-	GtkActionEntry entries[] = {
+	static const EUIActionEntry entries[] = {
 		{ "composer-to-meeting-action",
 		  "stock_people",
 		  N_("Convert to M_eeting"),
 		  NULL,
 		  N_("Convert the message to a meeting request"),
-		  G_CALLBACK (action_composer_to_meeting_cb) }
+		  action_composer_to_meeting_cb, NULL, NULL, NULL }
 	};
 
 	EHTMLEditor *editor;
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
-	GError *error = NULL;
+	EUIManager *ui_manager;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
 	ui_manager = e_html_editor_get_ui_manager (editor);
-	action_group = e_html_editor_get_action_group (editor, "composer");
 
-	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), composer);
-
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-
-	if (error) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "composer", GETTEXT_PACKAGE,
+		entries, G_N_ELEMENTS (entries), composer, eui);
 }
 
 static void

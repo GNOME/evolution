@@ -37,9 +37,11 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMemoShellBackend, e_memo_shell_backend, E_TYPE_
 	G_ADD_PRIVATE_DYNAMIC (EMemoShellBackend))
 
 static void
-action_memo_new_cb (GtkAction *action,
-                    EShellWindow *shell_window)
+action_memo_new_cb (EUIAction *action,
+		    GVariant *parameter,
+		    gpointer user_data)
 {
+	EShellWindow *shell_window = user_data;
 	EShellView *shell_view;
 	ESource *selected_source = NULL;
 
@@ -55,44 +57,21 @@ action_memo_new_cb (GtkAction *action,
 
 	e_cal_ops_new_component_editor (shell_window,
 		E_CAL_CLIENT_SOURCE_TYPE_MEMOS, selected_source ? e_source_get_uid (selected_source) : NULL,
-		g_strcmp0 (gtk_action_get_name (action), "memo-shared-new") == 0);
+		g_strcmp0 (g_action_get_name (G_ACTION (action)), "memo-shared-new") == 0 ||
+		g_strcmp0 (g_action_get_name (G_ACTION (action)), "new-menu-memo-shared-new") == 0);
 
 	g_clear_object (&selected_source);
 }
 
 static void
-action_memo_list_new_cb (GtkAction *action,
-                         EShellWindow *shell_window)
+action_memo_list_new_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
+	EShellWindow *shell_window = user_data;
+
 	e_cal_base_shell_backend_util_new_source (shell_window, E_CAL_CLIENT_SOURCE_TYPE_MEMOS);
 }
-
-static GtkActionEntry item_entries[] = {
-
-	{ "memo-new",
-	  "stock_insert-note",
-	  NC_("New", "Mem_o"),
-	  "<Shift><Control>o",
-	  N_("Create a new memo"),
-	  G_CALLBACK (action_memo_new_cb) },
-
-	{ "memo-shared-new",
-	  "stock_insert-note",
-	  NC_("New", "_Shared Memo"),
-	  "<Shift><Control>u",
-	  N_("Create a new shared memo"),
-	  G_CALLBACK (action_memo_new_cb) }
-};
-
-static GtkActionEntry source_entries[] = {
-
-	{ "memo-list-new",
-	  "stock_notes",
-	  NC_("New", "Memo Li_st"),
-	  NULL,
-	  N_("Create a new memo list"),
-	  G_CALLBACK (action_memo_list_new_cb) }
-};
 
 static gboolean
 e_memo_shell_backend_handle_uri (EShellBackend *shell_backend,
@@ -108,6 +87,31 @@ e_memo_shell_backend_handle_uri (EShellBackend *shell_backend,
 static void
 e_memo_shell_backend_class_init (EMemoShellBackendClass *class)
 {
+	static const EUIActionEntry item_entries[] = {
+		{ "new-menu-memo-new",
+		  "stock_insert-note",
+		  NC_("New", "Mem_o"),
+		  "<Shift><Control>o",
+		  N_("Create a new memo"),
+		  action_memo_new_cb, NULL, NULL },
+
+		{ "new-menu-memo-shared-new",
+		  "stock_insert-note",
+		  NC_("New", "_Shared Memo"),
+		  "<Shift><Control>u",
+		  N_("Create a new shared memo"),
+		  action_memo_new_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry source_entries[] = {
+		{ "new-menu-memo-list-new",
+		  "stock_notes",
+		  NC_("New", "Memo Li_st"),
+		  NULL,
+		  N_("Create a new memo list"),
+		  action_memo_list_new_cb, NULL, NULL, NULL }
+	};
+
 	EShellBackendClass *shell_backend_class;
 	ECalBaseShellBackendClass *cal_base_shell_backend_class;
 

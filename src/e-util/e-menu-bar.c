@@ -153,6 +153,7 @@ menu_bar_dispose (GObject *menu_bar)
 		self->priv->delayed_hide_id = 0;
 	}
 
+	g_clear_object (&self->priv->inner_menu_bar);
 	g_clear_object (&self->priv->menu_button);
 
 	/* Chain up to parent's method. */
@@ -204,11 +205,11 @@ static gboolean
 delayed_hide_cb (gpointer user_data)
 {
 	EMenuBar *self = user_data;
-	GtkWidget *widget = GTK_WIDGET (self->priv->inner_menu_bar);
+	GtkWidget *widget = self->priv->inner_menu_bar;
 
 	self->priv->delayed_hide_id = 0;
 
-	if (!self->priv->visible &&
+	if (!self->priv->visible && widget &&
 	    !self->priv->delayed_show_id) {
 		if (gtk_widget_get_visible (widget) &&
 		    !gtk_menu_shell_get_selected_item (GTK_MENU_SHELL (self->priv->inner_menu_bar)))
@@ -302,7 +303,7 @@ e_menu_bar_new (GtkMenuBar *inner_menu_bar,
 	g_return_val_if_fail (GTK_IS_WINDOW (window), NULL);
 
 	self = g_object_new (E_TYPE_MENU_BAR, NULL);
-	self->priv->inner_menu_bar = GTK_WIDGET (inner_menu_bar);
+	self->priv->inner_menu_bar = GTK_WIDGET (g_object_ref_sink (inner_menu_bar));
 
 	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 	g_signal_connect_object (

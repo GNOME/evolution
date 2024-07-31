@@ -1592,9 +1592,6 @@ categories_icon_theme_hack (void)
 	gchar *filename;
 	gchar *dirname;
 
-	/* XXX Allow the category icons to be referenced as named
-	 *     icons, since GtkAction does not support GdkPixbufs. */
-
 	icon_theme = gtk_icon_theme_get_default ();
 	dirnames = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 

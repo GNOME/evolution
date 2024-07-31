@@ -36,33 +36,48 @@
 #include <e-util/e-html-editor-spell-check-dialog.h>
 #include <e-util/e-html-editor-table-dialog.h>
 #include <e-util/e-html-editor-text-dialog.h>
+#include <e-util/e-ui-manager.h>
+#include <e-util/e-ui-menu.h>
 #include <e-util/e-util-enumtypes.h>
 
-#ifdef HAVE_XFREE
-#include <X11/XF86keysym.h>
-#endif
-
 #define ACTION(name) (E_HTML_EDITOR_ACTION_##name (editor))
-#define WIDGET(name) (E_HTML_EDITOR_WIDGETS_##name (editor))
 
 G_BEGIN_DECLS
+
+typedef struct _EHTMLEditorActionMenuPair {
+	EUIAction *parent_menu_action; /* to control visibility of the parent menu item (submenu) */
+	GMenu *submenu_items; /* actual items of the submenu */
+} EHTMLEditorActionMenuPair;
+
+EHTMLEditorActionMenuPair *
+		e_html_editor_action_menu_pair_new	(EUIAction *action, /* (transfer full) */
+							 GMenu *menu); /* (transfer full) */
+void		e_html_editor_action_menu_pair_free	(gpointer ptr);
 
 struct _EHTMLEditorPrivate {
 	EContentEditorMode mode;
 
 	GtkWidget *content_editors_box;
 
-	GtkUIManager *manager;
-	GtkActionGroup *core_actions;
-	GtkActionGroup *core_editor_actions;
-	GtkActionGroup *html_actions;
-	GtkActionGroup *context_actions;
-	GtkActionGroup *html_context_actions;
-	GtkActionGroup *language_actions;
-	GtkActionGroup *spell_check_actions;
-	GtkActionGroup *suggestion_actions;
+	EUIManager *ui_manager;
+	EUIActionGroup *core_actions; /* owned by priv->manager */
+	EUIActionGroup *core_editor_actions; /* owned by priv->manager */
+	EUIActionGroup *html_actions; /* owned by priv->manager */
+	EUIActionGroup *context_actions; /* owned by priv->manager */
+	EUIActionGroup *html_context_actions; /* owned by priv->manager */
+	EUIActionGroup *language_actions; /* owned by priv->manager */
+	EUIActionGroup *spell_check_actions; /* owned by priv->manager */
+	EUIActionGroup *suggestion_actions; /* owned by priv->manager */
 
-	GtkWidget *main_menu;
+	GMenu *emoticon_menu;
+	GMenu *recent_languages_menu;
+	GMenu *all_languages_menu;
+	GPtrArray *spell_suggest_actions; /* EUIAction; to fill a GMenu */
+	GPtrArray *spell_suggest_more_actions; /* EUIAction; to fill a GMenu */
+	GPtrArray *spell_add_actions; /* EUIAction, to fill a GMenu */
+	GHashTable *spell_suggest_menus_by_code; /* gchar *dictionary-code ~> EHTMLEditorActionMenuPair * */
+
+	EUIMenu *main_menu;
 	GtkWidget *main_toolbar;
 	GtkWidget *edit_toolbar;
 	GtkWidget *html_toolbar;
@@ -83,16 +98,10 @@ struct _EHTMLEditorPrivate {
 	GtkWidget *cell_dialog;
 	GtkWidget *spell_check_dialog;
 
-	GtkWidget *fg_color_combo_box;
-	GtkWidget *bg_color_combo_box;
-	GtkWidget *mode_combo_box;
-	GtkToolItem *mode_tool_item;
-	GtkWidget *size_combo_box;
-	GtkWidget *style_combo_box;
-	GtkWidget *font_name_combo_box;
 	GtkWidget *scrolled_window;
 
 	GtkWidget *emoji_chooser;
+	GtkWidget *emoticon_chooser;
 
 	GHashTable *cid_parts; /* gchar *cid: URI ~> CamelMimePart * */
 	GHashTable *content_editors; /* gchar *name ~> EContentEditor * */
@@ -105,9 +114,6 @@ struct _EHTMLEditorPrivate {
 	gulong subscript_notify_id;
 	gulong superscript_notify_id;
 
-	guint spell_suggestions_merge_id;
-	guint recent_spell_languages_merge_id;
-
 	gint editor_layout_row;
 
 	gboolean paste_plain_prefer_pre;
@@ -115,7 +121,10 @@ struct _EHTMLEditorPrivate {
 	gchar *context_hover_uri;
 };
 
-void		e_html_editor_actions_init	(EHTMLEditor *editor);
+void		e_html_editor_actions_add_actions
+						(EHTMLEditor *editor);
+void		e_html_editor_actions_setup_actions
+						(EHTMLEditor *editor);
 void		e_html_editor_actions_bind	(EHTMLEditor *editor);
 void		e_html_editor_actions_unbind	(EHTMLEditor *editor);
 void		e_html_editor_actions_update_spellcheck_languages_menu
@@ -130,6 +139,8 @@ gchar *		e_html_editor_util_dup_font_id	(GtkComboBox *combo_box,
 gboolean	e_html_editor_has_editor_for_mode
 						(EHTMLEditor *editor,
 						 EContentEditorMode mode);
+void		e_html_editor_emit_after_mode_changed
+						(EHTMLEditor *self);
 
 G_END_DECLS
 

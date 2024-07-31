@@ -720,6 +720,53 @@ typedef enum {
 	E_HTML_LINK_TO_TEXT_REFERENCE_WITHOUT_LABEL = 3
 } EHTMLLinkToText;
 
+/**
+ * EUIElementKind:
+ * @E_UI_ELEMENT_KIND_UNKNOWN: the kind is not known; used to indicate an error
+ * @E_UI_ELEMENT_KIND_ROOT: a root, aka toplevel, element; it contains elements for headerbar, toolbar and menu usually
+ * @E_UI_ELEMENT_KIND_HEADERBAR: a headerbar element
+ * @E_UI_ELEMENT_KIND_TOOLBAR: a toolbar element
+ * @E_UI_ELEMENT_KIND_MENU: a menu element
+ * @E_UI_ELEMENT_KIND_SUBMENU: a submenu of a menu element
+ * @E_UI_ELEMENT_KIND_PLACEHOLDER: a placeholder, into which can be added other elements
+ * @E_UI_ELEMENT_KIND_SEPARATOR: a separator element
+ * @E_UI_ELEMENT_KIND_START: a list of items to be packed at the start of a headerbar
+ * @E_UI_ELEMENT_KIND_END: a list of items to be packed at the end of a headerbar
+ * @E_UI_ELEMENT_KIND_ITEM: an item
+ *
+ * The UI element kinds. Depending on the kind, only respective functions can be
+ * called for the element.
+ *
+ * Since: 3.56
+ **/
+typedef enum _EUIElementKind {
+	E_UI_ELEMENT_KIND_UNKNOWN,
+	E_UI_ELEMENT_KIND_ROOT,
+	E_UI_ELEMENT_KIND_HEADERBAR,
+	E_UI_ELEMENT_KIND_TOOLBAR,
+	E_UI_ELEMENT_KIND_MENU,
+	E_UI_ELEMENT_KIND_SUBMENU,
+	E_UI_ELEMENT_KIND_PLACEHOLDER,
+	E_UI_ELEMENT_KIND_SEPARATOR,
+	E_UI_ELEMENT_KIND_START,
+	E_UI_ELEMENT_KIND_END,
+	E_UI_ELEMENT_KIND_ITEM
+} EUIElementKind;
+
+/**
+ * EUIParserExportFlags:
+ * @E_UI_PARSER_EXPORT_FLAG_NONE: no flag set
+ * @E_UI_PARSER_EXPORT_FLAG_INDENT: indent the output; when not set a single line of text is exported
+ *
+ * Set of flags to influence output of the e_ui_parser_export().
+ *
+ * Since: 3.56
+ **/
+typedef enum _EUIParserExportFlags {  /*< flags >*/
+	E_UI_PARSER_EXPORT_FLAG_NONE	= 0,
+	E_UI_PARSER_EXPORT_FLAG_INDENT	= 1 << 0
+} EUIParserExportFlags;
+
 G_END_DECLS
 
 #endif /* E_UTIL_ENUMS_H */

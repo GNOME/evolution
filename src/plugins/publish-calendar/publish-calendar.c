@@ -1082,9 +1082,11 @@ error_queue_add (gchar *description,
 }
 
 static void
-action_calendar_publish_cb (GtkAction *action,
-                            EShellView *shell_view)
+action_calendar_publish_cb (EUIAction *action,
+			    GVariant *parameter,
+                            gpointer user_data)
 {
+	/* EShellView *shell_view = user_data; */
 	GThread *thread = NULL;
 	GError *error = NULL;
 
@@ -1099,31 +1101,35 @@ action_calendar_publish_cb (GtkAction *action,
 	}
 }
 
-static GtkActionEntry entries[] = {
-
-	{ "calendar-publish",
-	  NULL,
-	  N_("_Publish Calendar Information"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_publish_cb) }
-};
-
-gboolean e_plugin_ui_init (GtkUIManager *ui_manager, EShellView *shell_view);
+gboolean e_plugin_ui_init (EUIManager *ui_manager, EShellView *shell_view);
 
 gboolean
-e_plugin_ui_init (GtkUIManager *ui_manager,
+e_plugin_ui_init (EUIManager *ui_manager,
                   EShellView *shell_view)
 {
-	EShellWindow *shell_window;
-	GtkActionGroup *action_group;
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<placeholder id='custom-menus'>"
+		      "<submenu action='calendar-actions-menu'>"
+			"<item action='calendar-publish'/>"
+		      "</submenu>"
+		    "</placeholder>"
+		   "</menu>"
+		"</eui>";
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	action_group = e_shell_window_get_action_group (shell_window, "calendar");
+	static const EUIActionEntry entries[] = {
 
-	gtk_action_group_add_actions (
-		action_group, entries,
-		G_N_ELEMENTS (entries), shell_view);
+		{ "calendar-publish",
+		  NULL,
+		  N_("_Publish Calendar Information"),
+		  NULL,
+		  NULL,
+		  action_calendar_publish_cb, NULL, NULL, NULL }
+	};
+
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "calendar", NULL,
+		entries, G_N_ELEMENTS (entries), shell_view, eui);
 
 	return TRUE;
 }

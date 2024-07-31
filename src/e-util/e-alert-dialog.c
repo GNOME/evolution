@@ -144,12 +144,12 @@ alert_dialog_constructed (GObject *object)
 	/* Add buttons from actions. */
 	link = e_alert_peek_actions (alert);
 	if (!link && !e_alert_peek_widgets (alert)) {
-		GtkAction *action;
+		EUIAction *action;
 
 		/* Make sure there is at least one action,
 		 * thus the dialog can be closed. */
-		action = gtk_action_new (
-			"alert-response-0", _("_Dismiss"), NULL, NULL);
+		action = e_ui_action_new ("alert-dialog-map", "alert-response-0", NULL);
+		e_ui_action_set_label (action, _("_Dismiss"));
 		e_alert_add_action (alert, action, GTK_RESPONSE_CLOSE, FALSE);
 		g_object_unref (action);
 
@@ -158,7 +158,7 @@ alert_dialog_constructed (GObject *object)
 
 	while (link != NULL) {
 		GtkWidget *button;
-		GtkAction *action = GTK_ACTION (link->data);
+		EUIAction *action = E_UI_ACTION (link->data);
 		gpointer data;
 
 		/* These actions are already wired to trigger an
@@ -168,13 +168,10 @@ alert_dialog_constructed (GObject *object)
 		 * area without knowing their response IDs.
 		 * (XXX Well, kind of.  See below.) */
 
-		button = gtk_button_new ();
+		button = e_alert_create_button_for_action (action);
 
 		gtk_widget_set_can_default (button, TRUE);
-		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), action);
 		gtk_box_pack_end (GTK_BOX (action_area), button, FALSE, FALSE, 0);
-
-		e_alert_update_destructive_action_style (action, button);
 
 		/* This is set in e_alert_add_action(). */
 		data = g_object_get_data (G_OBJECT (action), "e-alert-response-id");

@@ -1,0 +1,109 @@
+<eui>
+  <menu id='main-menu'>
+    <submenu action='file-menu'>
+      <placeholder id='file-actions'>
+        <item action='task-open'/>
+        <item action='task-save-as'/>
+      </placeholder>
+      <placeholder id='print-actions'>
+        <item action='task-list-print-preview'/>
+        <item action='task-list-print'/>
+      </placeholder>
+    </submenu>
+    <submenu action='edit-menu'>
+      <placeholder id='edit-actions'>
+        <item action='task-delete'/>
+        <item action='task-list-delete'/>
+        <separator/>
+        <item action='task-find'/>
+        <separator/>
+        <item action='task-mark-complete'/>
+        <item action='task-mark-incomplete'/>
+      </placeholder>
+      <placeholder id='administrative-actions'>
+        <item action='categories'/>
+      </placeholder>
+    </submenu>
+    <submenu action='view-menu'>
+      <item action='task-list-manage-groups'/>
+      <placeholder id='view-custom-menus'>
+        <submenu action='task-preview-menu'>
+          <item action='task-preview'/>
+          <separator/>
+          <item action='task-view-classic' group='task-view'/>
+          <item action='task-view-vertical' group='task-view'/>
+        </submenu>
+      </placeholder>
+    </submenu>
+    <placeholder id='custom-menus'>
+      <submenu action='task-actions-menu'>
+        <item action='task-purge'/>
+        <item action='task-assign'/>
+        <item action='task-forward'/>
+        <item action='task-bulk-edit'/>
+      </submenu>
+    </placeholder>
+  </menu>
+  <toolbar id='main-toolbar-with-headerbar' primary='true'>
+    <item action='cut-clipboard'/>
+    <item action='copy-clipboard'/>
+    <item action='paste-clipboard'/>
+    <separator/>
+    <item action='task-print'/>
+    <item action='delete-selection'/>
+  </toolbar>
+  <toolbar id='main-toolbar-without-headerbar' primary='true'>
+    <item action='cut-clipboard'/>
+    <item action='copy-clipboard'/>
+    <item action='paste-clipboard'/>
+    <separator/>
+    <item action='task-print'/>
+    <item action='delete-selection'/>
+  </toolbar>
+  <menu id='task-popup' is-popup='true'>
+    <item action='task-new'/>
+    <separator/>
+    <item action='task-open'/>
+    <item action='task-open-url'/>
+    <item action='task-save-as'/>
+    <item action='task-print'/>
+    <separator/>
+    <item action='cut-clipboard'/>
+    <item action='copy-clipboard'/>
+    <item action='paste-clipboard'/>
+    <separator/>
+    <item action='task-assign'/>
+    <item action='task-forward'/>
+    <item action='task-mark-complete'/>
+    <item action='task-mark-incomplete'/>
+    <separator/>
+    <item action='delete-selection'/>
+  </menu>
+  <menu id='task-list-popup' is-popup='true'>
+    <item action='task-list-new'/>
+    <item action='task-list-copy'/>
+    <item action='task-list-rename'/>
+    <item action='task-list-refresh'/>
+    <item action='task-list-refresh-backend'/>
+    <separator/>
+    <item action='task-list-delete'/>
+    <item action='task-list-select-one'/>
+    <item action='task-list-select-all'/>
+    <placeholder id='task-list-popup-actions'/>
+    <separator/>
+    <item action='task-list-manage-groups-popup'/>
+    <separator/>
+    <item action='task-list-properties'/>
+  </menu>
+  <menu id='search-options'>
+    <item action='task-search-advanced-hidden' group='search-options'/>
+    <item action='task-search-summary-contains' group='search-options'/>
+    <item action='task-search-description-contains' group='search-options'/>
+    <item action='task-search-any-field-contains' group='search-options'/>
+    <separator/>
+    <item action='search-advanced'/>
+    <submenu action="saved-searches">
+      <item action='EShellView::saved-searches-list'/>
+    </submenu>
+  </menu>
+</eui>

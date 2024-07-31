@@ -26,14 +26,12 @@
 
 #include "evolution-config.h"
 
-#include "e-shell-switcher.h"
-
 #include <glib/gi18n.h>
 #include <libebackend/libebackend.h>
 
 #include <e-util/e-util.h>
 
-#include "e-shell-window-private.h"
+#include "e-shell-switcher.h"
 
 #define H_PADDING 6
 #define V_PADDING 6
@@ -588,20 +586,20 @@ tool_item_get_button (GtkWidget *widget)
 static gboolean
 tool_item_button_cb (GtkWidget *internal_widget,
                      GdkEvent *button_event,
-                     GtkAction *action)
+                     EUIAction *action)
 {
 	guint32 my_mods = GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK |
 		GDK_SUPER_MASK | GDK_HYPER_MASK | GDK_META_MASK;
 	GdkModifierType event_state = 0;
 	guint event_button = 0;
 
-	g_return_val_if_fail (GTK_IS_ACTION (action), FALSE);
+	g_return_val_if_fail (E_IS_UI_ACTION (action), FALSE);
 
 	gdk_event_get_button (button_event, &event_button);
 	gdk_event_get_state (button_event, &event_state);
 
 	if (event_button == 2 || (event_button == 1 && (event_state & my_mods) == GDK_SHIFT_MASK)) {
-		gtk_action_activate (action);
+		g_action_activate (G_ACTION (action), NULL);
 		return TRUE;
 	}
 
@@ -611,8 +609,8 @@ tool_item_button_cb (GtkWidget *internal_widget,
 /**
  * e_shell_switcher_add_action:
  * @switcher: an #EShellSwitcher
- * @switch_action: a #GtkAction
- * @new_window_action: a #GtkAction
+ * @switch_action: an #EUIAction
+ * @new_window_action: an #EUIAction
  *
  * Adds a button to @switcher that proxies for @switcher_action.
  * Switcher buttons appear in the order they were added. A middle
@@ -623,48 +621,59 @@ tool_item_button_cb (GtkWidget *internal_widget,
  **/
 void
 e_shell_switcher_add_action (EShellSwitcher *switcher,
-                             GtkAction *switch_action,
-                             GtkAction *new_window_action)
+                             EUIAction *switch_action,
+                             EUIAction *new_window_action)
 {
 	GtkWidget *widget;
 	GtkButton *button;
+	GtkToolItem *tool_item;
 	GSettings *settings;
+	GVariant *target;
+	const gchar *view_name;
 	gchar **strv;
 	gint ii;
 	gboolean skip = FALSE;
 
 	g_return_if_fail (E_IS_SHELL_SWITCHER (switcher));
-	g_return_if_fail (GTK_IS_ACTION (switch_action));
-	g_return_if_fail (GTK_IS_ACTION (new_window_action));
+	g_return_if_fail (E_IS_UI_ACTION (switch_action));
+	g_return_if_fail (E_IS_UI_ACTION (new_window_action));
 
 	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 	strv = g_settings_get_strv (settings, "buttons-hide");
 	g_clear_object (&settings);
 
-	for (ii = 0; strv && strv[ii] && !skip; ii++) {
-		gchar *name;
+	target = e_ui_action_ref_target (switch_action);
+	view_name = g_variant_get_string (target, NULL);
 
-		name = g_strdup_printf (E_SHELL_SWITCHER_FORMAT, strv[ii]);
-		skip = g_strcmp0 (name, gtk_action_get_name (switch_action)) == 0;
-		g_free (name);
+	for (ii = 0; strv && strv[ii] && !skip; ii++) {
+		skip = g_strcmp0 (view_name, strv[ii]) == 0;
 	}
 
+	g_clear_pointer (&target, g_variant_unref);
 	g_strfreev (strv);
 
 	if (skip)
 		return;
 
 	g_object_ref (switch_action);
-	widget = gtk_action_create_tool_item (switch_action);
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (widget), TRUE);
+	tool_item = gtk_toggle_tool_button_new ();
+	gtk_tool_item_set_is_important (tool_item, TRUE);
+	gtk_tool_button_set_label (GTK_TOOL_BUTTON (tool_item), e_ui_action_get_label (switch_action));
+	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), e_ui_action_get_icon_name (switch_action));
+
+	widget = GTK_WIDGET (tool_item);
+	gtk_widget_set_tooltip_text (widget, e_ui_action_get_tooltip (switch_action));
 	gtk_widget_show (widget);
 
+	e_ui_action_util_assign_to_widget (switch_action, widget);
+
 	button = tool_item_get_button (widget);
-	if (button != NULL)
-		g_signal_connect (
+	if (button != NULL) {
+		g_signal_connect_object (
 			button, "button-release-event",
 			G_CALLBACK (tool_item_button_cb),
-			new_window_action);
+			new_window_action, 0);
+	}
 
 	gtk_widget_set_visible (widget, switcher->priv->toolbar_visible);
 

@@ -122,7 +122,7 @@ mail_print_config_headers_constructed (GObject *object)
 {
 	EMailPrintConfigHeaders *config;
 	ETreeViewFrame *tree_view_frame;
-	GtkAction *action;
+	EUIAction *action;
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
 	GtkTreeViewColumn *column;
@@ -145,36 +145,36 @@ mail_print_config_headers_constructed (GObject *object)
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_ADD);
-	gtk_action_set_visible (action, FALSE);
+	e_ui_action_set_visible (action, FALSE);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_REMOVE);
-	gtk_action_set_visible (action, FALSE);
+	e_ui_action_set_visible (action, FALSE);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_MOVE_TOP);
 	tooltip = _("Move selected headers to top");
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_MOVE_UP);
 	tooltip = _("Move selected headers up one row");
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_MOVE_DOWN);
 	tooltip = _("Move selected headers down one row");
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_MOVE_BOTTOM);
 	tooltip = _("Move selected headers to bottom");
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		tree_view_frame, E_TREE_VIEW_FRAME_ACTION_SELECT_ALL);
 	tooltip = _("Select all headers");
-	gtk_action_set_tooltip (action, tooltip);
+	e_ui_action_set_tooltip (action, tooltip);
 
 	/* Configure the tree view columns. */
 

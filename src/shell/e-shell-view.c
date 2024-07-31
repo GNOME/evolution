@@ -52,12 +52,31 @@ struct _EShellViewPrivate {
 	gulong view_instance_changed_handler_id;
 	gulong view_instance_loaded_handler_id;
 
+	EUIManager *ui_manager;
+	GtkWidget *headerbar;
+	EMenuBar *menu_bar;
+	GtkWidget *menu_button; /* owned by menu_bar */
+	GtkWidget *switcher;
+	GtkWidget *tooltip_label;
+	GtkWidget *status;
+
+	GMenu *new_menu;
+	GMenu *gal_view_list_menu;
+	GMenu *saved_searches_menu;
+
+	guint sidebar_visible : 1;
+	guint switcher_visible : 1;
+	guint taskbar_visible : 1;
+	guint toolbar_visible : 1;
+	guint accel_group_added : 1;
+	gint sidebar_width;
+
 	gchar *title;
 	gchar *view_id;
 	gint page_num;
 	guint merge_id;
 
-	GtkAction *action;
+	EUIAction *switcher_action;
 	GtkSizeGroup *size_group;
 	GtkWidget *shell_content;
 	GtkWidget *shell_sidebar;
@@ -75,7 +94,7 @@ struct _EShellViewPrivate {
 
 enum {
 	PROP_0,
-	PROP_ACTION,
+	PROP_SWITCHER_ACTION,
 	PROP_PAGE_NUM,
 	PROP_SEARCHBAR,
 	PROP_SEARCH_RULE,
@@ -87,15 +106,21 @@ enum {
 	PROP_STATE_KEY_FILE,
 	PROP_TITLE,
 	PROP_VIEW_ID,
-	PROP_VIEW_INSTANCE
+	PROP_VIEW_INSTANCE,
+	PROP_MENUBAR_VISIBLE,
+	PROP_SIDEBAR_VISIBLE,
+	PROP_SWITCHER_VISIBLE,
+	PROP_TASKBAR_VISIBLE,
+	PROP_TOOLBAR_VISIBLE,
+	PROP_SIDEBAR_WIDTH
 };
 
 enum {
-	TOGGLED,
 	CLEAR_SEARCH,
 	CUSTOM_SEARCH,
 	EXECUTE_SEARCH,
 	UPDATE_ACTIONS,
+	INIT_UI_DATA,
 	LAST_SIGNAL
 };
 
@@ -347,28 +372,1206 @@ e_shell_view_save_state_immediately (EShellView *shell_view)
 }
 
 static void
-shell_view_emit_toggled (EShellView *shell_view)
+shell_view_online_button_clicked_cb (EOnlineButton *button,
+				     gpointer user_data)
 {
-	g_signal_emit (shell_view, signals[TOGGLED], 0);
+	EShellView *self = user_data;
+	EUIAction *action;
+
+	if (e_online_button_get_online (button))
+		action = e_ui_manager_get_action (self->priv->ui_manager, "work-offline");
+	else
+		action = e_ui_manager_get_action (self->priv->ui_manager, "work-online");
+
+	g_action_activate (G_ACTION (action), NULL);
+}
+
+static gint
+shell_view_sort_by_action_label_cmp (gconstpointer aa,
+				     gconstpointer bb)
+{
+	const EUIAction *action1 = *((EUIAction **) aa);
+	const EUIAction *action2 = *((EUIAction **) bb);
+
+	if (action1 == action2)
+		return 0;
+
+	return g_utf8_collate (e_ui_action_get_label ((EUIAction *) action1), e_ui_action_get_label ((EUIAction *) action2));
 }
 
 static void
-shell_view_set_action (EShellView *shell_view,
-                       GtkAction *action)
+shell_view_extract_actions (const gchar *for_view,
+			    GPtrArray *source_array,
+			    GPtrArray *destination_array)
 {
-	gchar *label;
+	guint ii, from_index = destination_array->len;
 
-	g_return_if_fail (shell_view->priv->action == NULL);
+	/* Pick out the actions from the source list that are tagged
+	 * as belonging to the for_view EShellView and move them to the
+	 * destination list. */
 
-	shell_view->priv->action = g_object_ref (action);
+	/* Example: Suppose [A] and [C] are tagged for this EShellView.
+	 *
+	 *        source_list = [A] -> [B] -> [C]
+	 *                       ^             ^
+	 *                       |             |
+	 *         match_list = [ ] --------> [ ]
+	 *
+	 *
+	 *   destination_list = [1] -> [2]  (other actions)
+	 */
+	for (ii = 0; ii < source_array->len; ii++) {
+		EUIAction *action = g_ptr_array_index (source_array, ii);
+		const gchar *backend_name;
 
-	g_object_get (action, "label", &label, NULL);
-	e_shell_view_set_title (shell_view, label);
-	g_free (label);
+		backend_name = g_object_get_data (G_OBJECT (action), "backend-name");
 
-	g_signal_connect_swapped (
-		action, "toggled",
-		G_CALLBACK (shell_view_emit_toggled), shell_view);
+		if (g_strcmp0 (backend_name, for_view) != 0)
+			continue;
+
+		if (g_object_get_data (G_OBJECT (action), "primary"))
+			g_ptr_array_insert (destination_array, from_index++, g_object_ref (action));
+		else
+			g_ptr_array_add (destination_array, g_object_ref (action));
+
+		/* destination_list = [1] -> [2] -> [A] -> [C] */
+		g_ptr_array_remove_index (source_array, ii);
+		ii--;
+	}
+}
+
+static gboolean
+shell_view_button_style_to_state_cb (GValue *value,
+				     GVariant *variant,
+				     gpointer user_data)
+{
+	GtkToolbarStyle style = -1;
+	const gchar *string = g_variant_get_string (variant, NULL);
+
+	if (string != NULL) {
+		if (strcmp (string, "icons") == 0)
+			style = GTK_TOOLBAR_ICONS;
+		else if (strcmp (string, "text") == 0)
+			style = GTK_TOOLBAR_TEXT;
+		else if (strcmp (string, "both") == 0)
+			style = GTK_TOOLBAR_BOTH_HORIZ;
+		else
+			style = -1;
+	}
+
+	g_value_set_variant (value, g_variant_new_int32 (style));
+
+	return TRUE;
+}
+
+static GVariant *
+shell_view_state_to_button_style_cb (const GValue *value,
+				     const GVariantType *expected_type,
+				     gpointer user_data)
+{
+	GVariant *var_value = g_value_get_variant (value);
+	const gchar *string;
+
+	switch (var_value ? g_variant_get_int32 (var_value) : -1) {
+		case GTK_TOOLBAR_ICONS:
+			string = "icons";
+			break;
+
+		case GTK_TOOLBAR_TEXT:
+			string = "text";
+			break;
+
+		case GTK_TOOLBAR_BOTH:
+		case GTK_TOOLBAR_BOTH_HORIZ:
+			string = "both";
+			break;
+
+		default:
+			string = "toolbar";
+			break;
+	}
+
+	return g_variant_new_string (string);
+}
+
+static void
+shell_view_add_actions_as_section (EShellView *self,
+				   GMenu *new_menu,
+				   GPtrArray *actions)
+{
+	GMenu *items_menu;
+	GMenuItem *item;
+	guint ii;
+
+	if (!actions || !actions->len)
+		return;
+
+	items_menu = g_menu_new ();
+
+	for (ii = 0; ii < actions->len; ii++) {
+		EUIAction *action = g_ptr_array_index (actions, ii);
+
+		item = g_menu_item_new (NULL, NULL);
+		e_ui_manager_update_item_from_action (self->priv->ui_manager, item, action);
+		g_menu_append_item (items_menu, item);
+		g_clear_object (&item);
+	}
+
+	g_menu_append_section (new_menu, NULL, G_MENU_MODEL (items_menu));
+
+	g_clear_object (&items_menu);
+}
+
+static void
+shell_view_populate_new_menu (EShellView *self)
+{
+	EShellBackend *shell_backend;
+	EShellBackendClass *shell_backend_class;
+	GPtrArray *new_item_actions;
+	GPtrArray *new_source_actions;
+	GPtrArray *view_actions;
+	const gchar *backend_name;
+
+	shell_backend = e_shell_view_get_shell_backend (self);
+	shell_backend_class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	g_return_if_fail (shell_backend_class != NULL);
+
+	e_ui_manager_freeze (self->priv->ui_manager);
+
+	backend_name = shell_backend_class->name;
+
+	/* Get sorted lists of "new item" and "new source" actions. */
+
+	new_item_actions = e_ui_action_group_list_actions (e_ui_manager_get_action_group (self->priv->ui_manager, "new-item"));
+	g_ptr_array_sort (new_item_actions, shell_view_sort_by_action_label_cmp);
+
+	new_source_actions = e_ui_action_group_list_actions (e_ui_manager_get_action_group (self->priv->ui_manager, "new-source"));
+	g_ptr_array_sort (new_source_actions, shell_view_sort_by_action_label_cmp);
+
+	/* Give priority to actions that belong to this shell view. */
+
+	view_actions = g_ptr_array_new_with_free_func (g_object_unref);
+
+	shell_view_extract_actions (backend_name, new_item_actions, view_actions);
+	shell_view_extract_actions (backend_name, new_source_actions, view_actions);
+
+	g_menu_remove_all (self->priv->new_menu);
+
+	/* Construct the menu with the layout. */
+
+	shell_view_add_actions_as_section (self, self->priv->new_menu, view_actions);
+	shell_view_add_actions_as_section (self, self->priv->new_menu, new_item_actions);
+	shell_view_add_actions_as_section (self, self->priv->new_menu, new_source_actions);
+
+	g_clear_pointer (&new_item_actions, g_ptr_array_unref);
+	g_clear_pointer (&new_source_actions, g_ptr_array_unref);
+	g_clear_pointer (&view_actions, g_ptr_array_unref);
+
+	e_ui_manager_thaw (self->priv->ui_manager);
+}
+
+static GtkWidget *
+shell_view_construct_taskbar (EShellView *self)
+{
+	EShell *shell;
+	GtkWidget *box;
+	GtkWidget *status_area;
+	GtkWidget *online_button;
+	GtkWidget *tooltip_label;
+	GtkStyleContext *style_context;
+	gint height;
+
+	shell = e_shell_window_get_shell (self->priv->shell_window);
+
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
+	gtk_container_set_border_width (GTK_CONTAINER (box), 3);
+	gtk_widget_show (box);
+
+	status_area = gtk_frame_new (NULL);
+	style_context = gtk_widget_get_style_context (status_area);
+	gtk_style_context_add_class (style_context, "taskbar");
+	gtk_container_add (GTK_CONTAINER (status_area), box);
+
+	e_binding_bind_property (
+		self, "taskbar-visible",
+		status_area, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	/* Make the status area as large as the task bar. */
+	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
+	gtk_widget_set_size_request (status_area, -1, (height * 2) + 6);
+
+	online_button = e_online_button_new ();
+	gtk_box_pack_start (GTK_BOX (box), online_button, FALSE, TRUE, 0);
+	gtk_widget_show (online_button);
+
+	e_binding_bind_property (
+		shell, "online",
+		online_button, "online",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		shell, "network-available",
+		online_button, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_signal_connect (
+		online_button, "clicked",
+		G_CALLBACK (shell_view_online_button_clicked_cb),
+		self);
+
+	tooltip_label = gtk_label_new ("");
+	gtk_misc_set_alignment (GTK_MISC (tooltip_label), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (box), tooltip_label, TRUE, TRUE, 0);
+	self->priv->tooltip_label = g_object_ref (tooltip_label);
+	gtk_widget_hide (tooltip_label);
+
+	gtk_box_pack_start (GTK_BOX (box), self->priv->shell_taskbar, TRUE, TRUE, 0);
+	gtk_widget_show (self->priv->shell_taskbar);
+
+	e_binding_bind_property (
+		self->priv->shell_taskbar, "height-request",
+		self->priv->tooltip_label, "height-request",
+		G_BINDING_SYNC_CREATE);
+
+	return status_area;
+}
+
+static gboolean
+e_shell_view_ui_manager_ignore_accel_cb (EUIManager *manager,
+					 EUIAction *action,
+					 gpointer user_data)
+{
+	EShellView *self = user_data;
+	gboolean ignore = FALSE;
+
+	if (!e_shell_view_is_active (self))
+		ignore = TRUE;
+
+	return ignore;
+}
+
+static void
+action_custom_rule_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
+{
+	EShellView *self = user_data;
+	EFilterRule *rule;
+
+	rule = g_object_get_data (G_OBJECT (action), "rule");
+	g_return_if_fail (E_IS_FILTER_RULE (rule));
+
+	e_shell_view_custom_search (self, rule);
+}
+
+static void
+shell_view_update_search_menu (EShellView *self)
+{
+	EShellViewClass *shell_view_class;
+	ERuleContext *context;
+	EFilterRule *rule;
+	EUIActionGroup *action_group;
+	const gchar *source;
+	gint ii = 0;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (self));
+
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (self);
+	context = shell_view_class->search_context;
+
+	source = E_FILTER_SOURCE_INCOMING;
+
+	e_ui_manager_freeze (self->priv->ui_manager);
+
+	action_group = e_ui_manager_get_action_group (self->priv->ui_manager, "custom-rules");
+	e_ui_action_group_remove_all (action_group);
+
+	g_menu_remove_all (self->priv->saved_searches_menu);
+	e_ui_action_group_remove_all (action_group);
+
+	rule = e_rule_context_next_rule (context, NULL, source);
+	while (rule != NULL) {
+		EUIAction *action;
+		GMenuItem *menu_item;
+		gchar action_name[128];
+		gchar *label, *label_numbered = NULL;
+
+		g_warn_if_fail (g_snprintf (action_name, sizeof (action_name), "custom-rule-%d", ii) < sizeof (action_name));
+		label = e_str_without_underscores (rule->name);
+		if (ii < 10)
+			label_numbered = g_strdup_printf ("_%d. %s", ++ii, label);
+		else
+			ii++;
+
+		action = e_ui_action_new (e_ui_action_group_get_name (action_group), action_name, NULL);
+		e_ui_action_set_label (action, label_numbered ? label_numbered : label);
+		e_ui_action_set_tooltip (action, _("Execute these search parameters"));
+
+		e_ui_action_group_add (action_group, action);
+
+		g_object_set_data_full (G_OBJECT (action), "rule", g_object_ref (rule), g_object_unref);
+
+		g_signal_connect_object (action, "activate",
+			G_CALLBACK (action_custom_rule_cb), self, 0);
+
+		menu_item = g_menu_item_new (NULL, NULL);
+		e_ui_manager_update_item_from_action (self->priv->ui_manager, menu_item, action);
+		g_menu_append_item (self->priv->saved_searches_menu, menu_item);
+		g_clear_object (&menu_item);
+
+		g_object_unref (action);
+		g_free (label_numbered);
+		g_free (label);
+
+		rule = e_rule_context_next_rule (context, rule, source);
+	}
+
+	e_ui_manager_thaw (self->priv->ui_manager);
+}
+
+static void
+action_search_advanced_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
+{
+	EShellView *self = user_data;
+	EShellContent *shell_content;
+
+	shell_content = e_shell_view_get_shell_content (self);
+
+	e_shell_content_run_advanced_search_dialog (shell_content);
+	shell_view_update_search_menu (self);
+}
+
+static void
+action_search_clear_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
+{
+	EShellView *self = user_data;
+
+	e_shell_view_clear_search (self);
+}
+
+static void
+action_search_edit_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
+{
+	EShellView *self = user_data;
+	EShellContent *shell_content;
+
+	shell_content = e_shell_view_get_shell_content (self);
+
+	e_shell_content_run_edit_searches_dialog (shell_content);
+	shell_view_update_search_menu (self);
+}
+
+static void
+search_options_selection_cancel_cb (GtkMenuShell *menu,
+				    EShellView *self);
+
+static void
+search_options_selection_done_cb (GtkMenuShell *menu,
+				  EShellView *self)
+{
+	EShellSearchbar *search_bar;
+
+	/* disconnect first */
+	g_signal_handlers_disconnect_by_func (menu, search_options_selection_done_cb, self);
+	g_signal_handlers_disconnect_by_func (menu, search_options_selection_cancel_cb, self);
+
+	g_return_if_fail (E_IS_SHELL_VIEW (self));
+
+	search_bar = E_SHELL_SEARCHBAR (e_shell_view_get_searchbar (self));
+	e_shell_searchbar_search_entry_grab_focus (search_bar);
+}
+
+static void
+search_options_selection_cancel_cb (GtkMenuShell *menu,
+				    EShellView *self)
+{
+	/* only disconnect both functions, thus the selection-done is not called */
+	g_signal_handlers_disconnect_by_func (menu, search_options_selection_done_cb, self);
+	g_signal_handlers_disconnect_by_func (menu, search_options_selection_cancel_cb, self);
+}
+
+static void
+action_search_options_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
+{
+	EShellView *self = user_data;
+	EShellSearchbar *search_bar;
+	GtkWidget *popup_menu;
+
+	search_bar = E_SHELL_SEARCHBAR (e_shell_view_get_searchbar (self));
+	if (!e_shell_searchbar_search_entry_has_focus (search_bar)) {
+		e_shell_searchbar_search_entry_grab_focus (search_bar);
+		return;
+	}
+
+	popup_menu = e_shell_view_show_popup_menu (self, "search-options", NULL);
+
+	if (popup_menu) {
+		g_return_if_fail (GTK_IS_MENU_SHELL (popup_menu));
+
+		g_signal_connect_object (popup_menu, "selection-done",
+			G_CALLBACK (search_options_selection_done_cb), self, 0);
+		g_signal_connect_object (popup_menu, "cancel",
+			G_CALLBACK (search_options_selection_cancel_cb), self, 0);
+	}
+}
+
+static void
+action_search_quick_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
+{
+	EShellView *self = user_data;
+
+	e_shell_view_execute_search (self);
+}
+
+static void
+action_search_save_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
+{
+	EShellView *self = user_data;
+	EShellContent *shell_content;
+
+	shell_content = e_shell_view_get_shell_content (self);
+
+	e_shell_content_run_save_search_dialog (shell_content);
+	shell_view_update_search_menu (self);
+}
+
+static void
+action_gal_delete_view_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
+{
+	EShellView *self = user_data;
+	GalViewInstance *view_instance;
+	gchar *gal_view_id;
+	gint index = -1;
+
+	view_instance = e_shell_view_get_view_instance (self);
+	g_return_if_fail (view_instance != NULL);
+
+	/* XXX This is kinda cumbersome.  The view collection API
+	 *     should be using only view ID's, not index numbers. */
+	gal_view_id = gal_view_instance_get_current_view_id (view_instance);
+	if (gal_view_id != NULL) {
+		index = gal_view_collection_get_view_index_by_id (
+			view_instance->collection, gal_view_id);
+		g_free (gal_view_id);
+	}
+
+	gal_view_collection_delete_view (view_instance->collection, index);
+
+	gal_view_collection_save (view_instance->collection);
+}
+
+static void shell_view_update_view_menu (EShellView *self);
+
+static void
+action_gal_view_cb (EUIAction *action,
+		    GParamSpec *parm,
+		    gpointer user_data)
+{
+	EShellView *self = user_data;
+	GVariant *state;
+	const gchar *view_id;
+
+	state = g_action_get_state (G_ACTION (action));
+
+	view_id = g_variant_get_string (state, NULL);
+
+	e_shell_view_set_view_id (self, view_id);
+
+	g_clear_pointer (&state, g_variant_unref);
+
+	shell_view_update_view_menu (self);
+}
+
+static void
+action_gal_save_custom_view_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
+{
+	EShellView *self = user_data;
+	GalViewInstance *view_instance;
+
+	view_instance = e_shell_view_get_view_instance (self);
+
+	gal_view_instance_save_as (view_instance);
+}
+
+static void
+action_gal_customize_view_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
+{
+	EShellView *self = user_data;
+	GalViewInstance *view_instance;
+	GalView *gal_view;
+
+	view_instance = e_shell_view_get_view_instance (self);
+
+	gal_view = gal_view_instance_get_current_view (view_instance);
+
+	if (GAL_IS_VIEW_ETABLE (gal_view)) {
+		GalViewEtable *etable_view = GAL_VIEW_ETABLE (gal_view);
+		ETable *etable;
+
+		etable = gal_view_etable_get_table (etable_view);
+
+		if (etable) {
+			e_table_customize_view (etable);
+		} else {
+			ETree *etree;
+
+			etree = gal_view_etable_get_tree (etable_view);
+
+			if (etree)
+				e_tree_customize_view (etree);
+		}
+	}
+}
+
+static EUIAction * /* (transfer none) */
+shell_view_get_prefer_new_item_action (EShellView *self)
+{
+	EShellBackend *shell_backend;
+	EUIAction *action = NULL;
+	const gchar *prefer_new_item;
+
+	shell_backend = e_shell_view_get_shell_backend (self);
+	prefer_new_item = e_shell_backend_get_prefer_new_item (shell_backend);
+
+	if (prefer_new_item)
+		action = e_shell_view_get_action (self, prefer_new_item);
+
+	if (!action) {
+		EShellBackendClass *shell_backend_class;
+		GPtrArray *new_item_actions;
+		const gchar *backend_name;
+		guint ii;
+
+		shell_backend_class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+		g_return_val_if_fail (shell_backend_class != NULL, NULL);
+
+		backend_name = shell_backend_class->name;
+
+		new_item_actions = e_ui_action_group_list_actions (e_ui_manager_get_action_group (self->priv->ui_manager, "new-item"));
+		g_ptr_array_sort (new_item_actions, shell_view_sort_by_action_label_cmp);
+
+		for (ii = 0; ii < new_item_actions->len; ii++) {
+			EUIAction *new_item_action = g_ptr_array_index (new_item_actions, ii);
+			const gchar *action_backend_name;
+
+			action_backend_name = g_object_get_data (G_OBJECT (new_item_action), "backend-name");
+
+			/* pick the primary action or the first action in the list */
+			if (g_strcmp0 (action_backend_name, backend_name) == 0) {
+				if (g_object_get_data (G_OBJECT (new_item_action), "primary")) {
+					action = new_item_action;
+					break;
+				} else if (!action) {
+					action = new_item_action;
+				}
+			}
+		}
+
+		g_clear_pointer (&new_item_actions, g_ptr_array_unref);
+	}
+
+	g_return_val_if_fail (action != NULL, NULL);
+
+	return action;
+}
+
+static void
+action_shell_view_new_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
+{
+	EShellView *self = user_data;
+	EUIAction *new_item_action;
+
+	new_item_action = shell_view_get_prefer_new_item_action (self);
+	g_return_if_fail (new_item_action != NULL);
+
+	g_action_activate (G_ACTION (new_item_action), NULL);
+}
+
+static void
+shell_view_init_ui_data (EShellView *self)
+{
+	static const EUIActionEntry search_entries[] = {
+
+		{ "search-advanced",
+		  NULL,
+		  N_("_Advanced Search…"),
+		  NULL,
+		  N_("Construct a more advanced search"),
+		  action_search_advanced_cb, NULL, NULL, NULL },
+
+		{ "search-clear",
+		  "edit-clear",
+		  N_("_Clear"),
+		  "<Control><Shift>q",
+		  N_("Clear the current search parameters"),
+		  action_search_clear_cb, NULL, NULL, NULL },
+
+		{ "search-edit",
+		  NULL,
+		  N_("_Edit Saved Searches…"),
+		  NULL,
+		  N_("Manage your saved searches"),
+		  action_search_edit_cb, NULL, NULL, NULL },
+
+		{ "search-options",
+		  "edit-find",
+		  N_("_Find"),
+		  "<Control>f",
+		  N_("Click here to change the search type"),
+		  action_search_options_cb, NULL, NULL, NULL },
+
+		{ "search-quick",
+		  "edit-find",
+		  N_("_Find Now"),
+		  NULL,
+		  N_("Execute the current search parameters"),
+		  action_search_quick_cb, NULL, NULL, NULL },
+
+		{ "search-save",
+		  NULL,
+		  N_("_Save Search…"),
+		  NULL,
+		  N_("Save the current search parameters"),
+		  action_search_save_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry show_entries[] = {
+
+		{ "show-menubar",
+		  NULL,
+		  N_("Show _Menu Bar"),
+		  NULL,
+		  N_("Show the menu bar"),
+		  NULL, NULL, "true", NULL },
+
+		{ "show-sidebar",
+		  NULL,
+		  N_("Show Side _Bar"),
+		  "F9",
+		  N_("Show the side bar"),
+		  NULL, NULL, "true", NULL },
+
+		{ "show-switcher",
+		  NULL,
+		  N_("Show _Buttons"),
+		  NULL,
+		  N_("Show the switcher buttons"),
+		  NULL, NULL, "true", NULL },
+
+		{ "show-taskbar",
+		  NULL,
+		  N_("Show _Status Bar"),
+		  NULL,
+		  N_("Show the status bar"),
+		  NULL, NULL, "true", NULL },
+
+		{ "show-toolbar",
+		  NULL,
+		  N_("Show _Tool Bar"),
+		  NULL,
+		  N_("Show the tool bar"),
+		  NULL, NULL, "true", NULL }
+	};
+
+	static const EUIActionEntry custom_entries[] = {
+
+		{ "gal-delete-view",
+		  NULL,
+		  N_("Delete Current View"),
+		  NULL,
+		  NULL,  /* Set in update_view_menu */
+		  action_gal_delete_view_cb, NULL, NULL, NULL },
+
+		{ "gal-save-custom-view",
+		  NULL,
+		  N_("Save Custom View…"),
+		  NULL,
+		  N_("Save current custom view"),
+		  action_gal_save_custom_view_cb, NULL, NULL, NULL },
+
+		{ "gal-customize-view",
+		  NULL,
+		  N_("Custo_mize Current View…"),
+		  NULL,
+		  NULL,
+		  action_gal_customize_view_cb, NULL, NULL, NULL },
+
+		{ "gal-custom-view",
+		  NULL,
+		  N_("Custom View"),
+		  NULL,
+		  N_("Current view is a customized view"),
+		  NULL, "s", "''", NULL },
+
+		{ "EShellView::new-menu",
+		  "document-new",
+		  N_("_New"),
+		  NULL,
+		  NULL,
+		  action_shell_view_new_cb, NULL, NULL, NULL },
+
+		/*** Menus ***/
+
+		{ "gal-view-menu", NULL, N_("C_urrent View"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "saved-searches", NULL, N_("Saved searches"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "EShellView::gal-view-list", NULL, N_("List of available views"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "EShellView::menu-button", NULL, N_("Menu"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "EShellView::saved-searches-list", NULL, N_("List of saved searches"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "EShellView::switch-to-list", NULL, N_("List of views"), NULL, NULL, NULL, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEnumEntry shell_switcher_style_entries[] = {
+
+		{ "switcher-style-icons",
+		  NULL,
+		  N_("_Icons Only"),
+		  NULL,
+		  N_("Display window buttons with icons only"),
+		  NULL, GTK_TOOLBAR_ICONS },
+
+		{ "switcher-style-text",
+		  NULL,
+		  N_("_Text Only"),
+		  NULL,
+		  N_("Display window buttons with text only"),
+		  NULL, GTK_TOOLBAR_TEXT },
+
+		{ "switcher-style-both",
+		  NULL,
+		  N_("Icons _and Text"),
+		  NULL,
+		  N_("Display window buttons with icons and text"),
+		  NULL, GTK_TOOLBAR_BOTH_HORIZ },
+
+		{ "switcher-style-user",
+		  NULL,
+		  N_("Tool_bar Style"),
+		  NULL,
+		  N_("Display window buttons using the desktop toolbar setting"),
+		  NULL, -1 }
+	};
+
+	EShellViewClass *shell_view_class;
+	EUIActionGroup *action_group;
+	EUIAction *action;
+	GError *local_error = NULL;
+
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (self);
+	g_return_if_fail (shell_view_class != NULL);
+
+	e_ui_manager_add_actions (self->priv->ui_manager, "search-entries", NULL,
+		search_entries, G_N_ELEMENTS (search_entries), self);
+	e_ui_manager_add_actions (self->priv->ui_manager, "show-entries", NULL,
+		show_entries, G_N_ELEMENTS (show_entries), self);
+	e_ui_manager_add_actions (self->priv->ui_manager, "custom-entries", NULL,
+		custom_entries, G_N_ELEMENTS (custom_entries), self);
+	e_ui_manager_add_actions_enum (self->priv->ui_manager, "custom-entries", NULL,
+		shell_switcher_style_entries, G_N_ELEMENTS (shell_switcher_style_entries), self);
+
+	action_group = e_ui_action_group_new ("gal-view");
+	e_ui_manager_add_action_group (self->priv->ui_manager, action_group);
+	g_clear_object (&action_group);
+
+	action = e_ui_manager_get_action (self->priv->ui_manager, "gal-custom-view");
+	g_signal_connect_object (action, "notify::state",
+		G_CALLBACK (action_gal_view_cb), self, 0);
+
+	e_shell_window_init_ui_data (self->priv->shell_window, self);
+	shell_view_populate_new_menu (self);
+
+	if (self->priv->searchbar && E_IS_SHELL_SEARCHBAR (self->priv->searchbar))
+		e_shell_searchbar_init_ui_data (E_SHELL_SEARCHBAR (self->priv->searchbar));
+
+	g_signal_emit (self, signals[INIT_UI_DATA], 0);
+
+	/* Fine tuning. */
+	e_ui_action_set_sensitive (e_ui_manager_get_action (self->priv->ui_manager, "search-quick"), FALSE);
+
+	e_binding_bind_property (
+		self, "menubar-visible",
+		e_ui_manager_get_action (self->priv->ui_manager, "show-menubar"), "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		self, "sidebar-visible",
+		e_ui_manager_get_action (self->priv->ui_manager, "show-sidebar"), "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		self, "switcher-visible",
+		e_ui_manager_get_action (self->priv->ui_manager, "show-switcher"), "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		self, "taskbar-visible",
+		e_ui_manager_get_action (self->priv->ui_manager, "show-taskbar"), "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		self, "toolbar-visible",
+		e_ui_manager_get_action (self->priv->ui_manager, "show-toolbar"), "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		e_ui_manager_get_action (self->priv->ui_manager, "show-sidebar"), "active",
+		e_ui_manager_get_action (self->priv->ui_manager, "show-switcher"), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		e_ui_manager_get_action (self->priv->ui_manager, "show-sidebar"), "active",
+		e_ui_manager_get_action (self->priv->ui_manager, "switcher-style-both"), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		e_ui_manager_get_action (self->priv->ui_manager, "show-sidebar"), "active",
+		e_ui_manager_get_action (self->priv->ui_manager, "switcher-style-icons"), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		e_ui_manager_get_action (self->priv->ui_manager, "show-sidebar"), "active",
+		e_ui_manager_get_action (self->priv->ui_manager, "switcher-style-text"), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		e_ui_manager_get_action (self->priv->ui_manager, "show-sidebar"), "active",
+		e_ui_manager_get_action (self->priv->ui_manager, "switcher-style-user"), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		e_ui_manager_get_action (self->priv->ui_manager, "show-sidebar"), "active",
+		e_ui_manager_get_action (self->priv->ui_manager, "switcher-menu"), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	if (!e_ui_parser_merge_file (e_ui_manager_get_parser (self->priv->ui_manager), shell_view_class->ui_definition, &local_error))
+		g_warning ("%s: Failed to read %s file: %s", G_STRFUNC, shell_view_class->ui_definition, local_error ? local_error->message : "Unknown error");
+
+	g_clear_error (&local_error);
+
+	g_signal_connect_object (self->priv->shell_window, "update-new-menu",
+		G_CALLBACK (shell_view_populate_new_menu), self, G_CONNECT_SWAPPED);
+}
+
+static void
+shell_view_menubar_deactivate_cb (GtkWidget *menu_bar,
+				  gpointer user_data)
+{
+	EShellView *self = user_data;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (self));
+
+	if (!e_shell_view_get_menubar_visible (self))
+		gtk_widget_hide (menu_bar);
+}
+
+static void
+shell_view_set_switcher_action (EShellView *shell_view,
+				EUIAction *action)
+{
+	g_return_if_fail (shell_view->priv->switcher_action == NULL);
+	g_return_if_fail (E_IS_UI_ACTION (action));
+
+	shell_view->priv->switcher_action = g_object_ref (action);
+
+	e_shell_view_set_title (shell_view, e_ui_action_get_label (action));
+}
+
+static void
+shell_view_switcher_style_cb (EUIAction *action,
+			      GParamSpec *param,
+			      gpointer user_data)
+{
+	EShellSwitcher *switcher = user_data;
+	GtkToolbarStyle style;
+	GVariant *state;
+
+	state = g_action_get_state (G_ACTION (action));
+	style = g_variant_get_int32 (state);
+	g_clear_pointer (&state, g_variant_unref);
+
+	switch (style) {
+		case GTK_TOOLBAR_ICONS:
+		case GTK_TOOLBAR_TEXT:
+		case GTK_TOOLBAR_BOTH:
+		case GTK_TOOLBAR_BOTH_HORIZ:
+			e_shell_switcher_set_style (switcher, style);
+			break;
+
+		default:
+			e_shell_switcher_unset_style (switcher);
+			break;
+	}
+}
+
+static gboolean
+shell_view_ui_manager_create_item_cb (EUIManager *manager,
+				      EUIElement *elem,
+				      EUIAction *action,
+				      EUIElementKind for_kind,
+				      GObject **out_item,
+				      gpointer user_data)
+{
+	EShellView *self = user_data;
+	const gchar *name;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (self), FALSE);
+
+	name = g_action_get_name (G_ACTION (action));
+
+	if (!g_str_has_prefix (name, "EShellView::"))
+		return FALSE;
+
+	#define is_action(_nm) (g_strcmp0 (name, (_nm)) == 0)
+
+	if (for_kind == E_UI_ELEMENT_KIND_MENU) {
+		if (is_action ("EShellView::new-menu")) {
+			*out_item = G_OBJECT (g_menu_item_new_submenu (e_ui_action_get_label (action), G_MENU_MODEL (self->priv->new_menu)));
+			g_menu_item_set_attribute (G_MENU_ITEM (*out_item), "icon", "s", e_ui_action_get_icon_name (action));
+		} else if (is_action ("EShellView::gal-view-list")) {
+			*out_item = G_OBJECT (g_menu_item_new_section (NULL, G_MENU_MODEL (self->priv->gal_view_list_menu)));
+		} else if (is_action ("EShellView::saved-searches-list")) {
+			*out_item = G_OBJECT (g_menu_item_new_section (NULL, G_MENU_MODEL (self->priv->saved_searches_menu)));
+		} else if (is_action ("EShellView::switch-to-list")) {
+			GMenuModel *menu_model = self->priv->shell_window ? e_shell_window_ref_switch_to_menu_model (self->priv->shell_window) : NULL;
+			if (menu_model)
+				*out_item = G_OBJECT (g_menu_item_new_section (NULL, menu_model));
+		} else {
+			g_warning ("%s: Unhandled menu action '%s'", G_STRFUNC, name);
+		}
+	} else if (for_kind == E_UI_ELEMENT_KIND_TOOLBAR) {
+		GtkWidget *widget = NULL;
+		gboolean claimed = FALSE;
+
+		if (is_action ("EShellView::new-menu")) {
+			EShellBackend *shell_backend;
+			GtkToolItem *tool_item;
+			GtkWidget *menu;
+
+			menu = gtk_menu_new_from_model (G_MENU_MODEL (self->priv->new_menu));
+			tool_item = e_menu_tool_button_new (C_("toolbar-button", "New"), manager);
+			gtk_tool_item_set_is_important (tool_item, TRUE);
+			gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tool_item), menu);
+			gtk_widget_set_visible (GTK_WIDGET (tool_item), TRUE);
+
+			shell_backend = e_shell_view_get_shell_backend (self);
+
+			e_binding_bind_property (shell_backend, "prefer-new-item",
+				tool_item, "prefer-item",
+				G_BINDING_SYNC_CREATE);
+
+			*out_item = G_OBJECT (tool_item);
+		} else {
+			g_warning ("%s: Unhandled toolbar action '%s'", G_STRFUNC, name);
+			claimed = TRUE;
+		}
+
+		if (widget) {
+			GtkToolItem *tool_item;
+
+			tool_item = gtk_tool_item_new ();
+			gtk_container_add (GTK_CONTAINER (tool_item), widget);
+			gtk_widget_show_all (GTK_WIDGET (tool_item));
+
+			*out_item = G_OBJECT (tool_item);
+		} else if (!claimed && !*out_item) {
+			g_warning ("%s: Did not get toolbar widget for '%s'", G_STRFUNC, name);
+		}
+	} else if (for_kind == E_UI_ELEMENT_KIND_HEADERBAR) {
+		if (is_action ("EShellView::new-menu")) {
+			GtkWidget *button;
+			GtkWidget *menu;
+			EShellBackend *shell_backend;
+
+			menu = gtk_menu_new_from_model (G_MENU_MODEL (self->priv->new_menu));
+			button = e_header_bar_button_new (C_("toolbar-button", "New"), NULL, manager);
+			e_header_bar_button_take_menu (E_HEADER_BAR_BUTTON (button), menu);
+			gtk_widget_set_visible (GTK_WIDGET (button), TRUE);
+
+			shell_backend = e_shell_view_get_shell_backend (self);
+
+			e_binding_bind_property (shell_backend, "prefer-new-item",
+				button, "prefer-item",
+				G_BINDING_SYNC_CREATE);
+
+			*out_item = G_OBJECT (button);
+		} else if (is_action ("EShellView::menu-button")) {
+			*out_item = G_OBJECT (g_object_ref (self->priv->menu_button));
+		} else {
+			g_warning ("%s: Unhandled headerbar action '%s'", G_STRFUNC, name);
+		}
+	} else {
+		g_warning ("%s: Unhandled element kind '%d' for action '%s'", G_STRFUNC, (gint) for_kind, name);
+	}
+
+	#undef is_action
+
+	return TRUE;
+}
+
+static void
+shell_view_update_view_menu (EShellView *self)
+{
+	EShellViewClass *shell_view_class;
+	EUIActionGroup *action_group;
+	EUIAction *action;
+	GPtrArray *radio_group;
+	GalViewCollection *view_collection;
+	GalViewInstance *view_instance;
+	gboolean visible;
+	const gchar *view_id;
+	gchar *delete_tooltip = NULL;
+	gboolean view_exists = FALSE;
+	gboolean delete_visible = FALSE;
+	gint count, ii;
+
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (self);
+	g_return_if_fail (shell_view_class != NULL);
+
+	view_collection = shell_view_class->view_collection;
+	view_id = e_shell_view_get_view_id (self);
+	g_return_if_fail (view_collection != NULL);
+
+	action_group = e_ui_manager_get_action_group (self->priv->ui_manager, "gal-view");
+
+	e_ui_manager_freeze (self->priv->ui_manager);
+
+	g_menu_remove_all (self->priv->gal_view_list_menu);
+	e_ui_action_group_remove_all (action_group);
+
+	/* We have a view ID, so forge ahead. */
+	count = gal_view_collection_get_count (view_collection);
+
+	radio_group = g_ptr_array_sized_new (1 + count);
+
+	/* Prevent spurious activations. */
+	action = e_ui_manager_get_action (self->priv->ui_manager, "gal-custom-view");
+	g_signal_handlers_block_matched (
+		action, G_SIGNAL_MATCH_FUNC, 0, 0,
+		NULL, action_gal_view_cb, NULL);
+
+	/* first unset, because overriding the group is considered a code error */
+	e_ui_action_set_radio_group (action, NULL);
+	e_ui_action_set_radio_group (action, radio_group);
+
+	/* Add a menu item for each view collection item. */
+	for (ii = 0; ii < count; ii++) {
+		GalViewCollectionItem *item;
+		GMenuItem *menu_item;
+		gchar action_name[128];
+		gchar *tooltip, *title;
+
+		item = gal_view_collection_get_view_item (view_collection, ii);
+
+		g_warn_if_fail (g_snprintf (action_name, sizeof (action_name), "gal-view-%d", ii) < sizeof (action_name));
+		title = e_str_without_underscores (item->title);
+		tooltip = g_strdup_printf (_("Select view: %s"), title);
+
+		action = e_ui_action_new_stateful (e_ui_action_group_get_name (action_group), action_name,
+			G_VARIANT_TYPE_STRING, g_variant_new_string (item->id));
+		e_ui_action_set_label (action, title);
+		e_ui_action_set_tooltip (action, tooltip);
+		if (item->built_in && item->accelerator)
+			e_ui_action_set_accel (action, item->accelerator);
+		e_ui_action_set_radio_group (action, radio_group);
+
+		if (g_strcmp0 (item->id, view_id) == 0) {
+			view_exists = TRUE;
+			g_free (delete_tooltip);
+			delete_tooltip = g_strdup_printf (_("Delete view: %s"), title);
+			delete_visible = (!item->built_in);
+		}
+
+		e_ui_action_group_add (action_group, action);
+
+		menu_item = g_menu_item_new (NULL, NULL);
+		e_ui_manager_update_item_from_action (self->priv->ui_manager, menu_item, action);
+		g_menu_append_item (self->priv->gal_view_list_menu, menu_item);
+		g_clear_object (&menu_item);
+
+		g_free (tooltip);
+		g_free (title);
+	}
+
+	action = e_ui_manager_get_action (self->priv->ui_manager, "gal-custom-view");
+	e_ui_action_set_state (action, g_variant_new_string (view_exists ? view_id : ""));
+	visible = e_ui_action_get_active (action);
+	e_ui_action_set_visible (action, visible);
+
+	g_signal_handlers_unblock_matched (
+		action, G_SIGNAL_MATCH_FUNC, 0, 0,
+		NULL, action_gal_view_cb, NULL);
+
+	action = e_ui_manager_get_action (self->priv->ui_manager, "gal-save-custom-view");
+	e_ui_action_set_visible (action, visible);
+
+	view_instance = e_shell_view_get_view_instance (self);
+	visible = view_instance && gal_view_instance_get_current_view (view_instance) &&
+		GAL_IS_VIEW_ETABLE (gal_view_instance_get_current_view (view_instance));
+	action = e_ui_manager_get_action (self->priv->ui_manager, "gal-customize-view");
+	e_ui_action_set_visible (action, visible);
+
+	action = e_ui_manager_get_action (self->priv->ui_manager, "gal-delete-view");
+	e_ui_action_set_tooltip (action, delete_tooltip);
+	e_ui_action_set_visible (action, delete_visible);
+
+	e_ui_manager_thaw (self->priv->ui_manager);
+
+	g_ptr_array_unref (radio_group);
+	g_free (delete_tooltip);
+}
+
+static void
+shell_view_notify_active_view_cb (GObject *object,
+				  GParamSpec *param,
+				  gpointer user_data)
+{
+	EShellView *self = user_data;
+	GtkAccelGroup *accel_group;
+
+	if (!self->priv->ui_manager)
+		return;
+
+	accel_group = e_ui_manager_get_accel_group (self->priv->ui_manager);
+
+	/* Different views can use the same accelerator for their actions.
+	   The gtk+ finds the first accel group with the accelerator and
+	   activates it, but it does not go to other groups, if the chosen
+	   one cannot be activated due to the view being inactive (in
+	   the EUIManager::ignore-accel callback). */
+	if (e_shell_view_is_active (self)) {
+		if (!self->priv->accel_group_added) {
+			self->priv->accel_group_added = TRUE;
+			gtk_window_add_accel_group (GTK_WINDOW (object), accel_group);
+		}
+	} else if (self->priv->accel_group_added) {
+		self->priv->accel_group_added = FALSE;
+		gtk_window_remove_accel_group (GTK_WINDOW (object), accel_group);
+	}
 }
 
 static void
@@ -392,8 +1595,8 @@ shell_view_set_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ACTION:
-			shell_view_set_action (
+		case PROP_SWITCHER_ACTION:
+			shell_view_set_switcher_action (
 				E_SHELL_VIEW (object),
 				g_value_get_object (value));
 			return;
@@ -433,6 +1636,42 @@ shell_view_set_property (GObject *object,
 				E_SHELL_VIEW (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_MENUBAR_VISIBLE:
+			e_shell_view_set_menubar_visible (
+				E_SHELL_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_SIDEBAR_VISIBLE:
+			e_shell_view_set_sidebar_visible (
+				E_SHELL_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_SWITCHER_VISIBLE:
+			e_shell_view_set_switcher_visible (
+				E_SHELL_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_TASKBAR_VISIBLE:
+			e_shell_view_set_taskbar_visible (
+				E_SHELL_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_TOOLBAR_VISIBLE:
+			e_shell_view_set_toolbar_visible (
+				E_SHELL_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_SIDEBAR_WIDTH:
+			e_shell_view_set_sidebar_width (
+				E_SHELL_VIEW (object),
+				g_value_get_int (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -445,9 +1684,9 @@ shell_view_get_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ACTION:
+		case PROP_SWITCHER_ACTION:
 			g_value_set_object (
-				value, e_shell_view_get_action (
+				value, e_shell_view_get_switcher_action (
 				E_SHELL_VIEW (object)));
 			return;
 
@@ -522,6 +1761,42 @@ shell_view_get_property (GObject *object,
 				value, e_shell_view_get_view_instance (
 				E_SHELL_VIEW (object)));
 			return;
+
+		case PROP_MENUBAR_VISIBLE:
+			g_value_set_boolean (
+				value, e_shell_view_get_menubar_visible (
+				E_SHELL_VIEW (object)));
+			return;
+
+		case PROP_SIDEBAR_VISIBLE:
+			g_value_set_boolean (
+				value, e_shell_view_get_sidebar_visible (
+				E_SHELL_VIEW (object)));
+			return;
+
+		case PROP_SWITCHER_VISIBLE:
+			g_value_set_boolean (
+				value, e_shell_view_get_switcher_visible (
+				E_SHELL_VIEW (object)));
+			return;
+
+		case PROP_TASKBAR_VISIBLE:
+			g_value_set_boolean (
+				value, e_shell_view_get_taskbar_visible (
+				E_SHELL_VIEW (object)));
+			return;
+
+		case PROP_TOOLBAR_VISIBLE:
+			g_value_set_boolean (
+				value, e_shell_view_get_toolbar_visible (
+				E_SHELL_VIEW (object)));
+			return;
+
+		case PROP_SIDEBAR_WIDTH:
+			g_value_set_int (
+				value, e_shell_view_get_sidebar_width (
+				E_SHELL_VIEW (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -581,6 +1856,11 @@ shell_view_dispose (GObject *object)
 	g_clear_object (&self->priv->searchbar);
 	g_clear_object (&self->priv->search_rule);
 	g_clear_object (&self->priv->preferences_window);
+	g_clear_object (&self->priv->ui_manager);
+	g_clear_object (&self->priv->new_menu);
+	g_clear_object (&self->priv->gal_view_list_menu);
+	g_clear_object (&self->priv->saved_searches_menu);
+	g_clear_object (&self->priv->headerbar);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_view_parent_class)->dispose (object);
@@ -607,19 +1887,37 @@ shell_view_constructed (GObject *object)
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
 	EShellViewClass *shell_view_class;
+	EUIAction *action;
 	GtkWidget *widget;
+	GtkPaned *paned;
+	GSettings *settings;
+	GObject *ui_item;
 	gulong handler_id;
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_shell_view_parent_class)->constructed (object);
 
 	shell_view = E_SHELL_VIEW (object);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	g_return_if_fail (shell_view_class != NULL);
 
+	e_ui_manager_freeze (shell_view->priv->ui_manager);
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (shell_view), GTK_ORIENTATION_VERTICAL);
+	gtk_box_set_spacing (GTK_BOX (shell_view), 0);
+
+	g_signal_connect (shell_view->priv->ui_manager, "ignore-accel",
+		G_CALLBACK (e_shell_view_ui_manager_ignore_accel_cb), shell_view);
+
+	e_ui_manager_set_action_groups_widget (shell_view->priv->ui_manager, GTK_WIDGET (shell_view));
+
+	e_signal_connect_notify_object (shell_view->priv->shell_window, "notify::active-view",
+		G_CALLBACK (shell_view_notify_active_view_cb), shell_view, 0);
+
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	shell_view_load_state (shell_view);
-
-	/* Invoke factory methods. */
 
 	/* Create the taskbar widget first so the content and
 	 * sidebar widgets can access it during construction. */
@@ -644,6 +1942,80 @@ shell_view_constructed (GObject *object)
 	g_object_unref (shell_view->priv->size_group);
 	shell_view->priv->size_group = NULL;
 
+	shell_view_init_ui_data (shell_view);
+
+	ui_item = e_ui_manager_create_item (shell_view->priv->ui_manager, "main-menu");
+	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (ui_item));
+	g_clear_object (&ui_item);
+
+	shell_view->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (shell_view->priv->shell_window), &shell_view->priv->menu_button);
+	gtk_box_pack_start (GTK_BOX (shell_view), widget, FALSE, FALSE, 0);
+
+	g_signal_connect_object (widget, "deactivate",
+		G_CALLBACK (shell_view_menubar_deactivate_cb), shell_view, 0);
+
+	if (e_util_get_use_header_bar ()) {
+		ui_item = e_ui_manager_create_item (shell_view->priv->ui_manager, "main-headerbar");
+		shell_view->priv->headerbar = g_object_ref_sink (GTK_WIDGET (ui_item));
+
+		ui_item = e_ui_manager_create_item (shell_view->priv->ui_manager, "main-toolbar-with-headerbar");
+	} else {
+		ui_item = e_ui_manager_create_item (shell_view->priv->ui_manager, "main-toolbar-without-headerbar");
+	}
+
+	widget = GTK_WIDGET (ui_item);
+	gtk_box_pack_start (GTK_BOX (shell_view), widget, FALSE, FALSE, 0);
+
+	e_binding_bind_property (
+		shell_view, "toolbar-visible",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	widget = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_box_pack_start (GTK_BOX (shell_view), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	paned = GTK_PANED (widget);
+
+	e_binding_bind_property (shell_view, "sidebar-width",
+		paned, "position",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+
+	widget = shell_view_construct_taskbar (shell_view);
+	gtk_box_pack_start (GTK_BOX (shell_view), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = e_shell_switcher_new ();
+	shell_view->priv->switcher = g_object_ref_sink (widget);
+
+	e_binding_bind_property (
+		shell_view, "sidebar-visible",
+		shell_view->priv->switcher, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		shell_view, "switcher-visible",
+		shell_view->priv->switcher, "toolbar-visible",
+		G_BINDING_SYNC_CREATE);
+
+	gtk_container_add (GTK_CONTAINER (shell_view->priv->switcher), shell_view->priv->shell_sidebar);
+
+	g_object_set (shell_view->priv->shell_content,
+		"hexpand", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		NULL);
+
+	gtk_paned_pack1 (paned, widget, FALSE, FALSE);
+	gtk_paned_pack2 (paned, shell_view->priv->shell_content, TRUE, FALSE);
+
+	e_shell_window_fill_switcher_actions (shell_view->priv->shell_window, shell_view->priv->ui_manager,
+		E_SHELL_SWITCHER (shell_view->priv->switcher));
+
+	shell_view_update_view_menu (shell_view);
+	shell_view_update_search_menu (shell_view);
+
 	/* Update actions whenever the Preferences window is closed. */
 	widget = e_shell_get_preferences_window (shell);
 	shell_view->priv->preferences_window = g_object_ref (widget);
@@ -652,10 +2024,35 @@ shell_view_constructed (GObject *object)
 		G_CALLBACK (e_shell_view_update_actions_in_idle), shell_view);
 	shell_view->priv->preferences_hide_handler_id = handler_id;
 
+	/* it's okay to connect the signal on one of them only,
+	   because they are in a group */
+	action = e_ui_manager_get_action (shell_view->priv->ui_manager, "switcher-style-icons");
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	g_settings_bind_with_mapping (settings, "buttons-style",
+		action, "state",
+		G_SETTINGS_BIND_DEFAULT,
+		shell_view_button_style_to_state_cb,
+		shell_view_state_to_button_style_cb,
+		NULL, NULL);
+	g_clear_object (&settings);
+
+	g_signal_connect_object (action, "notify::state",
+		G_CALLBACK (shell_view_switcher_style_cb), shell_view->priv->switcher, 0);
+	shell_view_switcher_style_cb (action, NULL, shell_view->priv->switcher);
+
+	e_signal_connect_notify (
+		shell_view, "notify::view-id",
+		G_CALLBACK (shell_view_update_view_menu), NULL);
+
+	/* Register the EUIManager ID for the shell view. */
+	e_plugin_ui_register_manager (shell_view->priv->ui_manager, shell_view_class->ui_manager_id, shell_view);
+
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_shell_view_parent_class)->constructed (object);
+	if (shell_view->priv->headerbar)
+		e_ui_manager_add_action_groups_to_widget (shell_view->priv->ui_manager, shell_view->priv->headerbar);
+
+	e_ui_manager_thaw (shell_view->priv->ui_manager);
 }
 
 static GtkWidget *
@@ -697,42 +2094,6 @@ shell_view_get_search_name (EShellView *shell_view)
 }
 
 static void
-shell_view_toggled (EShellView *shell_view)
-{
-	EShellViewPrivate *priv = shell_view->priv;
-	EShellViewClass *shell_view_class;
-	EShellWindow *shell_window;
-	GtkUIManager *ui_manager;
-	const gchar *basename, *id;
-	gboolean view_is_active;
-
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	g_return_if_fail (shell_view_class != NULL);
-
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	view_is_active = e_shell_view_is_active (shell_view);
-	basename = shell_view_class->ui_definition;
-	id = shell_view_class->ui_manager_id;
-
-	if (view_is_active && priv->merge_id == 0) {
-		priv->merge_id = e_load_ui_manager_definition (
-			ui_manager, basename);
-		e_plugin_ui_enable_manager (ui_manager, id);
-	} else if (!view_is_active && priv->merge_id != 0) {
-		e_plugin_ui_disable_manager (ui_manager, id);
-		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
-		gtk_ui_manager_ensure_update (ui_manager);
-		priv->merge_id = 0;
-	}
-
-	gtk_ui_manager_ensure_update (ui_manager);
-
-	if (view_is_active)
-		e_shell_window_update_search_menu (shell_window);
-}
-
-static void
 shell_view_clear_search (EShellView *shell_view)
 {
 	e_shell_view_set_search_rule (shell_view, NULL);
@@ -752,8 +2113,8 @@ shell_view_update_actions (EShellView *shell_view)
 {
 	EShellWindow *shell_window;
 	EFocusTracker *focus_tracker;
-	GtkAction *action;
-	GtkActionGroup *action_group;
+	EUIAction *action;
+	EUIActionGroup *action_group;
 
 	g_return_if_fail (e_shell_view_is_active (shell_view));
 
@@ -762,11 +2123,11 @@ shell_view_update_actions (EShellView *shell_view)
 
 	e_focus_tracker_update_actions (focus_tracker);
 
-	action_group = E_SHELL_WINDOW_ACTION_GROUP_CUSTOM_RULES (shell_window);
-	gtk_action_group_set_sensitive (action_group, TRUE);
+	action_group = e_ui_manager_get_action_group (shell_view->priv->ui_manager, "custom-rules");
+	e_ui_action_group_set_sensitive (action_group, TRUE);
 
-	action = E_SHELL_WINDOW_ACTION_SEARCH_ADVANCED (shell_window);
-	gtk_action_set_sensitive (action, TRUE);
+	action = e_ui_manager_get_action (shell_view->priv->ui_manager, "search-advanced");
+	e_ui_action_set_sensitive (action, TRUE);
 }
 
 static void
@@ -777,6 +2138,8 @@ e_shell_view_class_init (EShellViewClass *class)
 	e_shell_view_parent_class = g_type_class_peek_parent (class);
 	if (EShellView_private_offset != 0)
 		g_type_class_adjust_private_offset (class, &EShellView_private_offset);
+
+	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (class), "EShellView");
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = shell_view_set_property;
@@ -796,24 +2159,25 @@ e_shell_view_class_init (EShellViewClass *class)
 	class->construct_searchbar = shell_view_construct_searchbar;
 	class->get_search_name = shell_view_get_search_name;
 
-	class->toggled = shell_view_toggled;
 	class->clear_search = shell_view_clear_search;
 	class->custom_search = shell_view_custom_search;
 	class->update_actions = shell_view_update_actions;
 
 	/**
-	 * EShellView:action:
+	 * EShellView:switcher-action:
 	 *
-	 * The #GtkRadioAction registered with #EShellSwitcher.
+	 * The #EUIAction registered with #EShellSwitcher.
+	 *
+	 * Since: 3.56
 	 **/
 	g_object_class_install_property (
 		object_class,
-		PROP_ACTION,
+		PROP_SWITCHER_ACTION,
 		g_param_spec_object (
-			"action",
+			"switcher-action",
 			"Switcher Action",
 			"The switcher action for this shell view",
-			GTK_TYPE_RADIO_ACTION,
+			E_TYPE_UI_ACTION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
@@ -1002,27 +2366,113 @@ e_shell_view_class_init (EShellViewClass *class)
 			G_PARAM_READWRITE));
 
 	/**
-	 * EShellView::toggled
-	 * @shell_view: the #EShellView which emitted the signal
+	 * EShellView:menubar-visible
 	 *
-	 * Emitted when @shell_view is activated or deactivated.
-	 * Use e_shell_view_is_active() to find out which event has
-	 * occurred.  The shell view being deactivated is always
-	 * notified before the shell view being activated.
+	 * Whether the menu bar is visible.
 	 *
-	 * By default, #EShellView adds the UI definition file
-	 * given in the <structfield>ui_definition</structfield>
-	 * field of #EShellViewClass on activation, and removes the
-	 * UI definition on deactivation.
+	 * Since: 3.56
 	 **/
-	signals[TOGGLED] = g_signal_new (
-		"toggled",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_FIRST,
-		G_STRUCT_OFFSET (EShellViewClass, toggled),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
+	g_object_class_install_property (
+		object_class,
+		PROP_MENUBAR_VISIBLE,
+		g_param_spec_boolean (
+			"menubar-visible",
+			"Menubar Visible",
+			"Whether the shell view's menu bar is visible",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EShellView:sidebar-visible
+	 *
+	 * Whether the side bar is visible.
+	 *
+	 * Since: 3.56
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_SIDEBAR_VISIBLE,
+		g_param_spec_boolean (
+			"sidebar-visible",
+			"Sidebar Visible",
+			"Whether the shell view's side bar is visible",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EShellView:switcher-visible
+	 *
+	 * Whether the switcher buttons are visible.
+	 *
+	 * Since: 3.56
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_SWITCHER_VISIBLE,
+		g_param_spec_boolean (
+			"switcher-visible",
+			"Switcher Visible",
+			"Whether the shell view's switcher buttons are visible",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EShellView:taskbar-visible
+	 *
+	 * Whether the task bar is visible.
+	 *
+	 * Since: 3.56
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_TASKBAR_VISIBLE,
+		g_param_spec_boolean (
+			"taskbar-visible",
+			"Taskbar Visible",
+			"Whether the shell view's task bar is visible",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EShellView:toolbar-visible
+	 *
+	 * Whether the tool bar is visible.
+	 *
+	 * Since: 3.56
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_TOOLBAR_VISIBLE,
+		g_param_spec_boolean (
+			"toolbar-visible",
+			"Toolbar Visible",
+			"Whether the shell view's tool bar is visible",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EShellView:sidebar-width
+	 *
+	 * Width of the side bar, in pixels.
+	 *
+	 * Since: 3.56
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_SIDEBAR_WIDTH,
+		g_param_spec_int (
+			"sidebar-width",
+			"Sidebar Width",
+			"Width of the side bar, in pixels",
+			0, G_MAXINT, 128,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellView::clear-search
@@ -1082,10 +2532,10 @@ e_shell_view_class_init (EShellViewClass *class)
 	 * #EShellView subclasses should override the
 	 * <structfield>update_actions</structfield> method in
 	 * #EShellViewClass to update sensitivities, labels, or any
-	 * other aspect of the #GtkAction<!-- -->s they have registered.
+	 * other aspect of the actions they have registered.
 	 *
 	 * Plugins can also connect to this signal to be notified
-	 * when to update their own #GtkAction<!-- -->s.
+	 * when to update their own actions.
 	 **/
 	signals[UPDATE_ACTIONS] = g_signal_new (
 		"update-actions",
@@ -1095,13 +2545,37 @@ e_shell_view_class_init (EShellViewClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+
+	/**
+	 * EShellView::init-ui-data
+	 * @shell_view: the #EShellView which emitted the signal
+	 *
+	 * #EShellView subclasses should override the
+	 * <structfield>init_ui_data</structfield> method in
+	 * #EShellViewClass to add any actions and UI definitions.
+	 * The @shell_view automatically adds UI definition from
+	 * <structfield>ui_definition</structfield> class property
+	 * after this signal is emitted.
+	 *
+	 * Since: 3.56
+	 **/
+	signals[INIT_UI_DATA] = g_signal_new (
+		"init-ui-data",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EShellViewClass, init_ui_data),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
 e_shell_view_init (EShellView *shell_view,
                    EShellViewClass *class)
 {
-	GtkSizeGroup *size_group;
+	GtkStyleContext *style_context;
+	GtkCssProvider *provider;
+	GError *local_error = NULL;
 
 	/* XXX Our use of GInstanceInitFunc's 'class' parameter
 	 *     prevents us from using G_DEFINE_ABSTRACT_TYPE. */
@@ -1112,12 +2586,30 @@ e_shell_view_init (EShellView *shell_view,
 	if (class->view_collection == NULL)
 		shell_view_init_view_collection (class);
 
-	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
-
 	shell_view->priv = e_shell_view_get_instance_private (shell_view);
 	shell_view->priv->main_thread = g_thread_self ();
 	shell_view->priv->state_key_file = g_key_file_new ();
-	shell_view->priv->size_group = size_group;
+	shell_view->priv->size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
+	shell_view->priv->ui_manager = e_ui_manager_new ();
+	shell_view->priv->new_menu = g_menu_new ();
+	shell_view->priv->gal_view_list_menu = g_menu_new ();
+	shell_view->priv->saved_searches_menu = g_menu_new ();
+
+	provider = gtk_css_provider_new ();
+
+	if (!gtk_css_provider_load_from_data (provider, "EShellView { padding:0px; margin:0px; border:0px; }", -1, &local_error))
+		g_critical ("%s: Failed to load CSS data: %s", G_STRFUNC, local_error ? local_error->message : "Unknown error");
+
+	g_clear_error (&local_error);
+
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (shell_view));
+	gtk_style_context_add_provider (style_context, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	g_clear_object (&provider);
+
+	gtk_widget_set_visible (GTK_WIDGET (shell_view), TRUE);
+
+	g_signal_connect (shell_view->priv->ui_manager, "create-item",
+		G_CALLBACK (shell_view_ui_manager_create_item_cb), shell_view);
 }
 
 GType
@@ -1146,7 +2638,7 @@ e_shell_view_get_type (void)
 		};
 
 		type = g_type_register_static (
-			G_TYPE_OBJECT, "EShellView",
+			GTK_TYPE_BOX, "EShellView",
 			&type_info, G_TYPE_FLAG_ABSTRACT);
 
 		EShellView_private_offset = g_type_add_instance_private (type, sizeof (EShellViewPrivate));
@@ -1171,37 +2663,85 @@ e_shell_view_get_type (void)
 const gchar *
 e_shell_view_get_name (EShellView *shell_view)
 {
-	GtkAction *action;
+	EUIAction *action;
+	GVariant *target;
+	const gchar *view_name;
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	action = e_shell_view_get_action (shell_view);
+	action = e_shell_view_get_switcher_action (shell_view);
+	target = e_ui_action_ref_target (action);
+	view_name = g_variant_get_string (target, NULL);
+	/* technically speaking, the `view_name` can vanish after the following line, but
+	   the `target` is left unchanged and alive together with the `action`, which
+	   the `shell_view` owns */
+	g_clear_pointer (&target, g_variant_unref);
 
-	/* Switcher actions have a secret "view-name" data value.
-	 * This gets set in e_shell_window_create_switcher_actions(). */
-	return g_object_get_data (G_OBJECT (action), "view-name");
+	return view_name;
+}
+
+/**
+ * e_shell_view_get_ui_manager:
+ * @shell_view: an #EShellView
+ *
+ * Returns the view's #EUIManager. It can be used to add UI elemenrs
+ * related to the @shell_view itself.
+ *
+ * Returns: (transfer none): the view's UI manager
+ *
+ * Since: 3.56
+ **/
+EUIManager *
+e_shell_view_get_ui_manager (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->ui_manager;
 }
 
 /**
  * e_shell_view_get_action:
  * @shell_view: an #EShellView
+ * @name: action name to get
+ *
+ * Returns an @EUIAction named @name.
+ *
+ * Returns: (transfer none) (nullable): an @EUIAction named @name, or %NULL,
+ *    when no such exists
+ *
+ * Since: 3.56
+ **/
+EUIAction *
+e_shell_view_get_action (EShellView *shell_view,
+			 const gchar *name)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return e_ui_manager_get_action (shell_view->priv->ui_manager, name);
+}
+
+/**
+ * e_shell_view_get_switcher_action:
+ * @shell_view: an #EShellView
  *
  * Returns the switcher action for @shell_view.
  *
- * An #EShellWindow creates a #GtkRadioAction for each registered subclass
+ * An #EShellWindow creates an #EUIAction for each registered subclass
  * of #EShellView.  This action gets passed to the #EShellSwitcher, which
  * displays a button that proxies the action.  The icon at the top of the
  * sidebar also proxies the action.  When @shell_view is active, the
  * action's icon becomes the #EShellWindow icon.
  *
- * Returns: the switcher action for @shell_view
+ * Returns: (transfer none): the switcher action for @shell_view
+ *
+ * Since: 3.56
  **/
-GtkAction *
-e_shell_view_get_action (EShellView *shell_view)
+EUIAction *
+e_shell_view_get_switcher_action (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return shell_view->priv->action;
+	return shell_view->priv->switcher_action;
 }
 
 /**
@@ -1249,6 +2789,295 @@ e_shell_view_set_title (EShellView *shell_view,
 	shell_view->priv->title = g_strdup (title);
 
 	g_object_notify (G_OBJECT (shell_view), "title");
+}
+
+static void
+shell_view_menubar_info_response_cb (EAlert *alert,
+				     gint response_id,
+				     gpointer user_data)
+{
+	GWeakRef *weakref = user_data;
+
+	g_return_if_fail (weakref != NULL);
+
+	if (response_id == GTK_RESPONSE_APPLY) {
+		EShellView *shell_view;
+
+		shell_view = g_weak_ref_get (weakref);
+		if (shell_view) {
+			e_shell_view_set_menubar_visible (shell_view, TRUE);
+			g_object_unref (shell_view);
+		}
+	}
+}
+
+/**
+ * e_shell_view_get_menubar_visible:
+ * @shell_view: an #EShellView
+ *
+ * Returns %TRUE if @shell_view<!-- -->'s menu bar is visible.
+ *
+ * Returns: %TRUE is the menu bar is visible
+ *
+ * Since: 3.56
+ **/
+gboolean
+e_shell_view_get_menubar_visible (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+
+	return shell_view->priv->menu_bar &&
+		e_menu_bar_get_visible (shell_view->priv->menu_bar);
+}
+
+/**
+ * e_shell_view_set_menubar_visible:
+ * @shell_view: an #EShellView
+ * @menubar_visible: whether the menu bar should be visible
+ *
+ * Makes @shell_view<!-- -->'s menu bar visible or invisible.
+ *
+ * Since: 3.56
+ **/
+void
+e_shell_view_set_menubar_visible (EShellView *shell_view,
+				  gboolean menubar_visible)
+{
+	GSettings *settings;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if ((e_shell_view_get_menubar_visible (shell_view) ? 1 : 0) == (menubar_visible ? 1 : 0))
+		return;
+
+	e_menu_bar_set_visible (shell_view->priv->menu_bar, menubar_visible);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	if (!menubar_visible &&
+	    g_settings_get_boolean (settings, e_shell_window_is_main_instance (shell_view->priv->shell_window) ? "menubar-visible" : "menubar-visible-sub")) {
+		/* The menu bar had been just hidden. Show a hint how to enable it. */
+		EShellContent *shell_content;
+		EAlert *alert;
+
+		shell_content = e_shell_view_get_shell_content (shell_view);
+
+		alert = e_alert_new ("shell:menubar-hidden", NULL);
+
+		g_signal_connect_data (alert, "response", G_CALLBACK (shell_view_menubar_info_response_cb),
+			e_weak_ref_new (shell_view), (GClosureNotify) e_weak_ref_free, 0);
+
+		e_alert_sink_submit_alert (E_ALERT_SINK (shell_content), alert);
+		e_alert_start_timer (alert, 30);
+		g_object_unref (alert);
+	}
+	g_object_unref (settings);
+
+	g_object_notify (G_OBJECT (shell_view), "menubar-visible");
+}
+
+/**
+ * e_shell_view_get_sidebar_visible:
+ * @shell_view: an #EShellView
+ *
+ * Returns %TRUE if @shell_view<!-- -->'s side bar is visible.
+ *
+ * Returns: %TRUE is the side bar is visible
+ *
+ * Since: 3.56
+ **/
+gboolean
+e_shell_view_get_sidebar_visible (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+
+	return shell_view->priv->sidebar_visible;
+}
+
+/**
+ * e_shell_view_set_sidebar_visible:
+ * @shell_view: an #EShellView
+ * @sidebar_visible: whether the side bar should be visible
+ *
+ * Makes @shell_view<!-- -->'s side bar visible or invisible.
+ *
+ * Since: 3.56
+ **/
+void
+e_shell_view_set_sidebar_visible (EShellView *shell_view,
+				  gboolean sidebar_visible)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (shell_view->priv->sidebar_visible == sidebar_visible)
+		return;
+
+	shell_view->priv->sidebar_visible = sidebar_visible;
+
+	g_object_notify (G_OBJECT (shell_view), "sidebar-visible");
+}
+
+/**
+ * e_shell_view_get_switcher_visible:
+ * @shell_view: an #EShellView
+ *
+ * Returns %TRUE if @shell_view<!-- -->'s switcher buttons are visible.
+ *
+ * Returns: %TRUE is the switcher buttons are visible
+ *
+ * Since: 3.56
+ **/
+gboolean
+e_shell_view_get_switcher_visible (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+
+	return shell_view->priv->switcher_visible;
+}
+
+/**
+ * e_shell_view_set_switcher_visible:
+ * @shell_view: an #EShellView
+ * @switcher_visible: whether the switcher buttons should be visible
+ *
+ * Makes @shell_view<!-- -->'s switcher buttons visible or invisible.
+ *
+ * Since: 3.56
+ **/
+void
+e_shell_view_set_switcher_visible (EShellView *shell_view,
+				   gboolean switcher_visible)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (shell_view->priv->switcher_visible == switcher_visible)
+		return;
+
+	shell_view->priv->switcher_visible = switcher_visible;
+
+	g_object_notify (G_OBJECT (shell_view), "switcher-visible");
+}
+
+/**
+ * e_shell_view_get_taskbar_visible:
+ * @shell_view: an #EShellView
+ *
+ * Returns %TRUE if @shell_view<!-- -->'s task bar is visible.
+ *
+ * Returns: %TRUE is the task bar is visible
+ *
+ * Since: 3.56
+ **/
+gboolean
+e_shell_view_get_taskbar_visible (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+
+	return shell_view->priv->taskbar_visible;
+}
+
+/**
+ * e_shell_view_set_taskbar_visible:
+ * @shell_view: an #EShellView
+ * @taskbar_visible: whether the task bar should be visible
+ *
+ * Makes @shell_view<!-- -->'s task bar visible or invisible.
+ *
+ * Since: 3.56
+ **/
+void
+e_shell_view_set_taskbar_visible (EShellView *shell_view,
+				  gboolean taskbar_visible)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (shell_view->priv->taskbar_visible == taskbar_visible)
+		return;
+
+	shell_view->priv->taskbar_visible = taskbar_visible;
+
+	g_object_notify (G_OBJECT (shell_view), "taskbar-visible");
+}
+
+/**
+ * e_shell_view_get_toolbar_visible:
+ * @shell_view: an #EShellView
+ *
+ * Returns %TRUE if @shell_view<!-- -->'s tool bar is visible.
+ *
+ * Returns: %TRUE if the tool bar is visible
+ *
+ * Since: 3.56
+ **/
+gboolean
+e_shell_view_get_toolbar_visible (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+
+	return shell_view->priv->toolbar_visible;
+}
+
+/**
+ * e_shell_view_set_toolbar_visible:
+ * @shell_view: an #EShellView
+ * @toolbar_visible: whether the tool bar should be visible
+ *
+ * Makes @shell_view<!-- -->'s tool bar visible or invisible.
+ *
+ * Since: 3.56
+ **/
+void
+e_shell_view_set_toolbar_visible (EShellView *shell_view,
+				  gboolean toolbar_visible)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (shell_view->priv->toolbar_visible == toolbar_visible)
+		return;
+
+	shell_view->priv->toolbar_visible = toolbar_visible;
+
+	g_object_notify (G_OBJECT (shell_view), "toolbar-visible");
+}
+
+/**
+ * e_shell_view_get_sidebar_width:
+ * @shell_view: an #EShellView
+ *
+ * Gets width of the sidebar, in pixels.
+ *
+ * Returns: width of the side bar, in pixels
+ *
+ * Since: 3.56
+ **/
+gint
+e_shell_view_get_sidebar_width (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), 0);
+
+	return shell_view->priv->sidebar_width;
+}
+
+/**
+ * e_shell_view_set_sidebar_width:
+ * @shell_view: an #EShellView
+ * @width: width in pixels
+ *
+ * Sets width of the sidebar, in pixels.
+ *
+ * Since: 3.56
+ **/
+void
+e_shell_view_set_sidebar_width (EShellView *shell_view,
+				gint width)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (shell_view->priv->sidebar_width == width)
+		return;
+
+	shell_view->priv->sidebar_width = width;
+
+	g_object_notify (G_OBJECT (shell_view), "sidebar-width");
 }
 
 /**
@@ -1420,6 +3249,25 @@ e_shell_view_get_shell_window (EShellView *shell_view)
 }
 
 /**
+ * e_shell_view_get_headerbar:
+ * @shell_view: an #EShellView
+ *
+ * Returns a header bar widget for the @shell_view.
+ *
+ * Returns: (transfer none) (nullable): a header bar widget for the @shell_view,
+ *    or #NULL, when none is needed for it.
+ *
+ * Since: 3.56
+ **/
+GtkWidget *
+e_shell_view_get_headerbar (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->headerbar;
+}
+
+/**
  * e_shell_view_is_active:
  * @shell_view: an #EShellView
  *
@@ -1427,21 +3275,21 @@ e_shell_view_get_shell_window (EShellView *shell_view)
  * visible in its #EShellWindow.  An #EShellWindow can only display one
  * shell view at a time.
  *
- * Technically this just checks the #GtkToggleAction:active property of
- * the shell view's switcher action.  See e_shell_view_get_action().
+ * Technically this just checks the shell view's switcher action "active" property.
+ * See e_shell_view_get_switcher_action().
  *
  * Returns: %TRUE if @shell_view is active
  **/
 gboolean
 e_shell_view_is_active (EShellView *shell_view)
 {
-	GtkAction *action;
+	EUIAction *action;
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
 
-	action = e_shell_view_get_action (shell_view);
+	action = e_shell_view_get_switcher_action (shell_view);
 
-	return gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	return e_ui_action_get_active (action);
 }
 
 /**
@@ -1861,7 +3709,7 @@ e_shell_view_is_execute_search_blocked (EShellView *shell_view)
  *
  * #EShellView subclasses should implement the
  * <structfield>update_actions</structfield> method in #EShellViewClass
- * to update the various #GtkAction<!-- -->s based on the current
+ * to update the various actions based on the current
  * #EShellSidebar and #EShellContent selections.  The
  * #EShellView::update-actions signal is typically emitted just before
  * showing a popup menu or just after the user selects an item in the
@@ -1878,7 +3726,11 @@ e_shell_view_update_actions (EShellView *shell_view)
 			shell_view->priv->update_actions_idle_id = 0;
 		}
 
+		e_ui_manager_freeze (shell_view->priv->ui_manager);
+
 		g_signal_emit (shell_view, signals[UPDATE_ACTIONS], 0);
+
+		e_ui_manager_thaw (shell_view->priv->ui_manager);
 	}
 }
 
@@ -1916,20 +3768,10 @@ e_shell_view_update_actions_in_idle (EShellView *shell_view)
 			shell_view_call_update_actions_idle, shell_view);
 }
 
-static void
-e_shell_view_popup_menu_deactivate (GtkMenu *popup_menu,
-				    gpointer user_data)
-{
-	g_return_if_fail (GTK_IS_MENU (popup_menu));
-
-	g_signal_handlers_disconnect_by_func (popup_menu, e_shell_view_popup_menu_deactivate, user_data);
-	gtk_menu_detach (popup_menu);
-}
-
 /**
  * e_shell_view_show_popup_menu:
  * @shell_view: an #EShellView
- * @widget_path: path in the UI definition
+ * @menu_name: name of the menu in the UI definition
  * @button_event: a #GdkEvent, or %NULL
  *
  * Displays a context-sensitive (or "popup") menu that is described in
@@ -1940,35 +3782,50 @@ e_shell_view_popup_menu_deactivate (GtkMenu *popup_menu,
  * showing the menu to give @shell_view and any plugins that extend
  * @shell_view a chance to update the menu's actions.
  *
- * Returns: the popup menu being displayed
+ * The returned #GtkMenu is automatically destroyed once the user
+ * either selects an item from it or when it's dismissed.
+ *
+ * Returns: (transfer none): the popup menu being displayed
+ *
+ * Since: 3.56
  **/
 GtkWidget *
 e_shell_view_show_popup_menu (EShellView *shell_view,
-                              const gchar *widget_path,
+                              const gchar *menu_name,
                               GdkEvent *button_event)
 {
-	EShellWindow *shell_window;
-	GtkWidget *menu;
+	GObject *ui_item;
+	GtkWidget *widget;
+	GtkMenu *menu;
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	e_shell_view_update_actions (shell_view);
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	menu = e_shell_window_get_managed_widget (shell_window, widget_path);
-	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
+	ui_item = e_ui_manager_create_item (shell_view->priv->ui_manager, menu_name);
 
-	if (!gtk_menu_get_attach_widget (GTK_MENU (menu))) {
-		gtk_menu_attach_to_widget (GTK_MENU (menu),
-					   GTK_WIDGET (shell_window),
-					   NULL);
-
-		g_signal_connect (menu, "deactivate", G_CALLBACK (e_shell_view_popup_menu_deactivate), NULL);
+	if (!ui_item) {
+		g_warning ("%s: Cannot find menu '%s' in %s", G_STRFUNC, menu_name, G_OBJECT_TYPE_NAME (shell_view));
+		return NULL;
 	}
 
-	gtk_menu_popup_at_pointer (GTK_MENU (menu), button_event);
+	if (!G_IS_MENU_MODEL (ui_item)) {
+		g_warning ("%s: Object '%s' is not a GMenuItem, but %s instead", G_STRFUNC, menu_name, G_OBJECT_TYPE_NAME (ui_item));
+		g_clear_object (&ui_item);
+		return NULL;
+	}
 
-	return menu;
+	widget = gtk_menu_new_from_model (G_MENU_MODEL (ui_item));
+	g_clear_object (&ui_item);
+
+	menu = GTK_MENU (widget);
+
+	gtk_menu_attach_to_widget (menu, GTK_WIDGET (shell_view), NULL);
+	e_util_connect_menu_detach_after_deactivate (menu);
+
+	gtk_menu_popup_at_pointer (menu, button_event);
+
+	return widget;
 }
 
 /**
@@ -2129,4 +3986,24 @@ e_shell_view_submit_thread_job (EShellView *shell_view,
 		e_shell_backend_add_activity (shell_backend, activity);
 
 	return activity;
+}
+
+gboolean
+e_shell_view_util_layout_to_state_cb (GValue *value,
+				      GVariant *variant,
+				      gpointer user_data)
+{
+	g_value_set_variant (value, variant);
+	return TRUE;
+}
+
+GVariant *
+e_shell_view_util_state_to_layout_cb (const GValue *value,
+				      const GVariantType *expected_type,
+				      gpointer user_data)
+{
+	GVariant *var = g_value_get_variant (value);
+	if (var)
+		g_variant_ref_sink (var);
+	return var;
 }

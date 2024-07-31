@@ -28,18 +28,19 @@
 
 #include <e-util/e-util.h>
 
-#include <shell/e-shell-view.h>
-#include <shell/e-shell-window.h>
-#include <shell/e-shell-window-actions.h>
+#include "shell/e-shell-view.h"
+#include "shell/e-shell-window.h"
+#include "shell/e-shell-window-actions.h"
 
-#include <composer/e-msg-composer.h>
+#include "composer/e-msg-composer.h"
 
-#include <mail/e-mail-browser.h>
-#include <mail/e-mail-reader.h>
-#include <mail/em-composer-utils.h>
-#include <mail/em-config.h>
-#include <mail/em-utils.h>
-#include <mail/message-list.h>
+#include "mail/e-mail-browser.h"
+#include "mail/e-mail-reader.h"
+#include "mail/e-mail-view.h"
+#include "mail/em-composer-utils.h"
+#include "mail/em-config.h"
+#include "mail/em-utils.h"
+#include "mail/message-list.h"
 
 /* EAlert Message IDs */
 #define MESSAGE_PREFIX			"org.gnome.mailing-list-actions:"
@@ -81,11 +82,14 @@ const EmlaActionHeader emla_action_headers[] = {
 	{ EMLA_ACTION_ARCHIVED_AT, FALSE, "Archived-At" }
 };
 
-gboolean	mail_browser_init		(GtkUIManager *ui_manager,
+gboolean	mailing_list_actions_mail_browser_init
+						(EUIManager *ui_manager,
 						 EMailBrowser *browser);
-gboolean	mail_shell_view_init		(GtkUIManager *ui_manager,
+gboolean	mailing_list_actions_mail_shell_view_init
+						(EUIManager *ui_manager,
 						 EShellView *shell_view);
-gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+gint		e_plugin_lib_enable		(EPlugin *ep,
+						 gint enable);
 
 gint
 e_plugin_lib_enable (EPlugin *ep,
@@ -362,131 +366,87 @@ emla_list_action (EMailReader *reader,
 }
 
 static void
-action_mailing_list_archive_cb (GtkAction *action,
-                                EMailReader *reader)
+action_mailing_list_archive_cb (EUIAction *action,
+				GVariant *parameter,
+				gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	emla_list_action (reader, EMLA_ACTION_ARCHIVE);
 }
 
 static void
-action_mailing_list_archived_at_cb (GtkAction *action,
-				    EMailReader *reader)
+action_mailing_list_archived_at_cb (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	emla_list_action (reader, EMLA_ACTION_ARCHIVED_AT);
 }
 
 static void
-action_mailing_list_help_cb (GtkAction *action,
-                             EMailReader *reader)
+action_mailing_list_help_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	emla_list_action (reader, EMLA_ACTION_HELP);
 }
 
 static void
-action_mailing_list_owner_cb (GtkAction *action,
-                              EMailReader *reader)
+action_mailing_list_owner_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	emla_list_action (reader, EMLA_ACTION_OWNER);
 }
 
 static void
-action_mailing_list_post_cb (GtkAction *action,
-                             EMailReader *reader)
+action_mailing_list_post_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	emla_list_action (reader, EMLA_ACTION_POST);
 }
 
 static void
-action_mailing_list_subscribe_cb (GtkAction *action,
-                                  EMailReader *reader)
+action_mailing_list_subscribe_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	emla_list_action (reader, EMLA_ACTION_SUBSCRIBE);
 }
 
 static void
-action_mailing_list_unsubscribe_cb (GtkAction *action,
-                                    EMailReader *reader)
+action_mailing_list_unsubscribe_cb (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	emla_list_action (reader, EMLA_ACTION_UNSUBSCRIBE);
 }
-
-static GtkActionEntry mailing_list_entries[] = {
-
-	{ "mailing-list-archive",
-	  NULL,
-	  N_("Get List _Archive"),
-	  NULL,
-	  N_("Get an archive of the list this message belongs to"),
-	  G_CALLBACK (action_mailing_list_archive_cb) },
-
-	{ "mailing-list-archived-at",
-	  NULL,
-	  N_("Copy _Message Archive URL"),
-	  NULL,
-	  N_("Copy direct URL for the selected message in its archive"),
-	  G_CALLBACK (action_mailing_list_archived_at_cb) },
-
-	{ "mailing-list-help",
-	  NULL,
-	  N_("Get List _Usage Information"),
-	  NULL,
-	  N_("Get information about the usage of the list this message belongs to"),
-	  G_CALLBACK (action_mailing_list_help_cb) },
-
-	{ "mailing-list-owner",
-	  NULL,
-	  N_("Contact List _Owner"),
-	  NULL,
-	  N_("Contact the owner of the mailing list this message belongs to"),
-	  G_CALLBACK (action_mailing_list_owner_cb) },
-
-	{ "mailing-list-post",
-	  NULL,
-	  N_("_Post Message to List"),
-	  NULL,
-	  N_("Post a message to the mailing list this message belongs to"),
-	  G_CALLBACK (action_mailing_list_post_cb) },
-
-	{ "mailing-list-subscribe",
-	  NULL,
-	  N_("_Subscribe to List"),
-	  NULL,
-	  N_("Subscribe to the mailing list this message belongs to"),
-	  G_CALLBACK (action_mailing_list_subscribe_cb) },
-
-	{ "mailing-list-unsubscribe",
-	  NULL,
-	  N_("_Unsubscribe from List"),
-	  NULL,
-	  N_("Unsubscribe from the mailing list this message belongs to"),
-	  G_CALLBACK (action_mailing_list_unsubscribe_cb) },
-
-	/*** Menus ***/
-
-	{ "mailing-list-menu",
-	  NULL,
-	  N_("Mailing _List"),
-	  NULL,
-	  NULL,
-	  NULL }
-};
 
 static void
 update_actions_cb (EMailReader *reader,
                    guint32 state,
-                   GtkActionGroup *action_group)
+                   EUIManager *ui_manager)
 {
+	EUIActionGroup *action_group;
 	gboolean sensitive;
+
+	action_group = e_ui_manager_get_action_group (ui_manager, "mailing-list");
 
 	sensitive = (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST) != 0
 		 && (state & E_MAIL_READER_SELECTION_SINGLE) != 0;
-	gtk_action_group_set_sensitive (action_group, sensitive);
+
+	e_ui_action_group_set_sensitive (action_group, sensitive);
 
 	if (sensitive) {
 		EMailDisplay *mail_display;
 		EMailPartList *part_list;
 		CamelMimeMessage *message;
-		GtkAction *action;
 
 		mail_display = e_mail_reader_get_mail_display (reader);
 		part_list = mail_display ? e_mail_display_get_part_list (mail_display) : NULL;
@@ -499,39 +459,108 @@ update_actions_cb (EMailReader *reader,
 			sensitive = header && *header;
 		}
 
-		action = gtk_action_group_get_action (action_group, "mailing-list-archived-at");
-		gtk_action_set_sensitive (action, message && sensitive);
+		e_ui_action_set_sensitive (e_ui_action_group_get_action (action_group, "mailing-list-archived-at"), message && sensitive);
 	}
 }
 
 static void
 setup_actions (EMailReader *reader,
-               GtkUIManager *ui_manager)
+               EUIManager *ui_manager)
 {
-	GtkActionGroup *action_group;
-	const gchar *domain = GETTEXT_PACKAGE;
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='main-menu'>"
+		    "<placeholder id='custom-menus'>"
+		      "<submenu action='mail-message-menu'>"
+			"<placeholder id='mail-message-custom-menus'>"
+			  "<submenu action='mailing-list-menu'>"
+			    "<item action='mailing-list-help'/>"
+			    "<item action='mailing-list-subscribe'/>"
+			    "<item action='mailing-list-unsubscribe'/>"
+			    "<item action='mailing-list-post'/>"
+			    "<item action='mailing-list-owner'/>"
+			    "<item action='mailing-list-archive'/>"
+			    "<separator />"
+			    "<item action='mailing-list-archived-at'/>"
+			  "</submenu>"
+			"</placeholder>"
+		      "</submenu>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
 
-	action_group = gtk_action_group_new ("mailing-list");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_action_group_add_actions (
-		action_group, mailing_list_entries,
-		G_N_ELEMENTS (mailing_list_entries), reader);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
+	static const EUIActionEntry entries[] = {
 
-	/* GtkUIManager now owns the action group reference.
-	 * The signal we're connecting to will only be emitted
-	 * during the GtkUIManager's lifetime, so the action
-	 * group will not disappear on us. */
+		{ "mailing-list-archive",
+		  NULL,
+		  N_("Get List _Archive"),
+		  NULL,
+		  N_("Get an archive of the list this message belongs to"),
+		  action_mailing_list_archive_cb, NULL, NULL, NULL },
 
-	g_signal_connect (
+		{ "mailing-list-archived-at",
+		  NULL,
+		  N_("Copy _Message Archive URL"),
+		  NULL,
+		  N_("Copy direct URL for the selected message in its archive"),
+		  action_mailing_list_archived_at_cb, NULL, NULL, NULL },
+
+		{ "mailing-list-help",
+		  NULL,
+		  N_("Get List _Usage Information"),
+		  NULL,
+		  N_("Get information about the usage of the list this message belongs to"),
+		  action_mailing_list_help_cb, NULL, NULL, NULL },
+
+		{ "mailing-list-owner",
+		  NULL,
+		  N_("Contact List _Owner"),
+		  NULL,
+		  N_("Contact the owner of the mailing list this message belongs to"),
+		  action_mailing_list_owner_cb, NULL, NULL, NULL },
+
+		{ "mailing-list-post",
+		  NULL,
+		  N_("_Post Message to List"),
+		  NULL,
+		  N_("Post a message to the mailing list this message belongs to"),
+		  action_mailing_list_post_cb, NULL, NULL, NULL },
+
+		{ "mailing-list-subscribe",
+		  NULL,
+		  N_("_Subscribe to List"),
+		  NULL,
+		  N_("Subscribe to the mailing list this message belongs to"),
+		  action_mailing_list_subscribe_cb, NULL, NULL, NULL },
+
+		{ "mailing-list-unsubscribe",
+		  NULL,
+		  N_("_Unsubscribe from List"),
+		  NULL,
+		  N_("Unsubscribe from the mailing list this message belongs to"),
+		  action_mailing_list_unsubscribe_cb, NULL, NULL, NULL },
+
+		/*** Menus ***/
+
+		{ "mailing-list-menu",
+		  NULL,
+		  N_("Mailing _List"),
+		  NULL,
+		  NULL,
+		  NULL, NULL, NULL, NULL }
+	};
+
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "mailing-list", NULL,
+		entries, G_N_ELEMENTS (entries), reader, eui);
+
+	g_signal_connect_object (
 		reader, "update-actions",
-		G_CALLBACK (update_actions_cb), action_group);
+		G_CALLBACK (update_actions_cb), ui_manager, 0);
 }
 
 gboolean
-mail_browser_init (GtkUIManager *ui_manager,
-                   EMailBrowser *browser)
+mailing_list_actions_mail_browser_init (EUIManager *ui_manager,
+					EMailBrowser *browser)
 {
 	setup_actions (E_MAIL_READER (browser), ui_manager);
 
@@ -539,14 +568,19 @@ mail_browser_init (GtkUIManager *ui_manager,
 }
 
 gboolean
-mail_shell_view_init (GtkUIManager *ui_manager,
-                      EShellView *shell_view)
+mailing_list_actions_mail_shell_view_init (EUIManager *ui_manager,
+					   EShellView *shell_view)
 {
 	EShellContent *shell_content;
+	EMailView *mail_view = NULL;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
+	g_object_get (shell_content, "mail-view", &mail_view, NULL);
 
-	setup_actions (E_MAIL_READER (shell_content), ui_manager);
+	if (mail_view) {
+		setup_actions (E_MAIL_READER (mail_view), ui_manager);
+		g_clear_object (&mail_view);
+	}
 
 	return TRUE;
 }

@@ -32,7 +32,6 @@
 
 #include "shell/e-shell.h"
 #include "shell/e-shell-content.h"
-#include "shell/e-shell-headerbar.h"
 #include "shell/e-shell-view.h"
 #include "shell/e-shell-searchbar.h"
 #include "shell/e-shell-switcher.h"
@@ -45,11 +44,7 @@
 #define ACTION_GROUP(name) \
 	(E_SHELL_WINDOW_ACTION_GROUP_##name (shell_window))
 
-/* Format for switcher action names.
- * The last part is the shell view name.
- * (e.g. switch-to-mail, switch-to-calendar) */
-#define E_SHELL_SWITCHER_FORMAT   "switch-to-%s"
-#define E_SHELL_NEW_WINDOW_FORMAT "new-%s-window"
+#define E_SHELL_SWITCHER_FORMAT "switch-to-%s"
 
 G_BEGIN_DECLS
 
@@ -60,27 +55,19 @@ struct _EShellWindowPrivate {
 	/*** UI Management ***/
 
 	EFocusTracker *focus_tracker;
-	GtkUIManager *ui_manager;
-	guint custom_rule_merge_id;
-	guint gal_view_merge_id;
+	GHashTable *action_groups; /* gchar *name ~> EUIActionGroup * */
 
 	/*** Shell Views ***/
 
 	GHashTable *loaded_views;
-	const gchar *active_view;
-	GHashTable *action_groups_by_view;
+	gchar active_view[32];
+	GMenu *switch_to_menu;
 
 	/*** Widgetry ***/
 
+	GtkBox *headerbar_box;
 	GtkWidget *alert_bar;
-	GtkWidget *content_pane;
-	GtkWidget *content_notebook;
-	GtkWidget *sidebar_notebook;
-	GtkWidget *switcher;
-	GtkWidget *tooltip_label;
-	GtkWidget *status_notebook;
-	GtkWidget *headerbar;
-	EMenuBar *menu_bar;
+	GtkNotebook *views_notebook;
 
 	/* Shell signal handlers. */
 	GArray *signal_handler_ids;
@@ -88,10 +75,6 @@ struct _EShellWindowPrivate {
 	gchar *geometry;
 
 	guint safe_mode : 1;
-	guint sidebar_visible : 1;
-	guint switcher_visible : 1;
-	guint taskbar_visible : 1;
-	guint toolbar_visible : 1;
 	guint is_main_instance : 1;
 
 	GSList *postponed_alerts; /* EAlert * */
@@ -105,19 +88,20 @@ void		e_shell_window_private_finalize	(EShellWindow *shell_window);
 
 /* Private Utilities */
 
-void		e_shell_window_actions_init	(EShellWindow *shell_window);
+void		e_shell_window_actions_constructed
+						(EShellWindow *shell_window);
+void		e_shell_window_init_ui_data	(EShellWindow *shell_window,
+						 EShellView *shell_view);
+void		e_shell_window_fill_switcher_actions
+						(EShellWindow *shell_window,
+						 EUIManager *ui_manager,
+						 EShellSwitcher *switcher);
 void		e_shell_window_switch_to_view	(EShellWindow *shell_window,
 						 const gchar *view_name);
-GtkWidget *	e_shell_window_create_new_menu	(EShellWindow *shell_window);
-void		e_shell_window_create_switcher_actions
-						(EShellWindow *shell_window);
-void		e_shell_window_update_gal_view	(EShellWindow *shell_window);
 void		e_shell_window_update_icon	(EShellWindow *shell_window);
 void		e_shell_window_update_title	(EShellWindow *shell_window);
-void		e_shell_window_update_new_menu	(EShellWindow *shell_window);
-void		e_shell_window_update_view_menu	(EShellWindow *shell_window);
-void		e_shell_window_update_search_menu
-						(EShellWindow *shell_window);
+GMenuModel *	e_shell_window_ref_switch_to_menu_model
+						(EShellWindow *self);
 
 G_END_DECLS
 

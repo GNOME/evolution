@@ -201,9 +201,6 @@ cal_base_shell_backend_constructed (GObject *object)
 	EShell *shell;
 	EShellBackend *shell_backend;
 
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_cal_base_shell_backend_parent_class)->constructed (object);
-
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
 
@@ -216,6 +213,9 @@ cal_base_shell_backend_constructed (GObject *object)
 		shell, "window-added",
 		G_CALLBACK (cal_base_shell_backend_window_added_cb),
 		shell_backend);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_cal_base_shell_backend_parent_class)->constructed (object);
 }
 
 static void

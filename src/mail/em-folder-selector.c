@@ -408,8 +408,8 @@ folder_selector_folder_created_cb (EMailFolderCreateDialog *dialog,
 
 static void
 folder_selector_action_add_cb (ETreeViewFrame *tree_view_frame,
-                               GtkAction *action,
-                               EMFolderSelector *selector)
+			       EUIAction *action,
+			       EMFolderSelector *selector)
 {
 	GtkWidget *new_dialog;
 	EMailSession *session;
@@ -579,7 +579,7 @@ folder_selector_constructed (GObject *object)
 	EMFolderSelector *selector;
 	EMailSession *session;
 	EMFolderTreeModel *model;
-	GtkAction *action;
+	EUIAction *action;
 	GtkWidget *content_area;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -707,12 +707,12 @@ folder_selector_constructed (GObject *object)
 	action = e_tree_view_frame_lookup_toolbar_action (
 		E_TREE_VIEW_FRAME (selector->priv->tree_view_frame),
 		E_TREE_VIEW_FRAME_ACTION_ADD);
-	gtk_action_set_tooltip (action, _("Create a new folder"));
+	e_ui_action_set_tooltip (action, _("Create a new folder"));
 
 	action = e_tree_view_frame_lookup_toolbar_action (
 		E_TREE_VIEW_FRAME (selector->priv->tree_view_frame),
 		E_TREE_VIEW_FRAME_ACTION_REMOVE);
-	gtk_action_set_visible (action, FALSE);
+	e_ui_action_set_visible (action, FALSE);
 }
 
 static void

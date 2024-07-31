@@ -154,9 +154,11 @@ exit:
 }
 
 static void
-action_contact_new_cb (GtkAction *action,
-                       EShellWindow *shell_window)
+action_contact_new_cb (EUIAction *action,
+		       GVariant *parameter,
+		       gpointer user_data)
 {
+	EShellWindow *shell_window = user_data;
 	EShell *shell;
 	ESource *source = NULL;
 	ESourceRegistry *registry;
@@ -198,15 +200,17 @@ action_contact_new_cb (GtkAction *action,
 	}
 
 	/* Use a callback function appropriate for the action. */
-	action_name = gtk_action_get_name (action);
-	if (strcmp (action_name, "contact-new") == 0)
+	action_name = g_action_get_name (G_ACTION (action));
+	if (g_strcmp0 (action_name, "contact-new") == 0 ||
+	    g_strcmp0 (action_name, "new-menu-contact-new") == 0)
 		e_client_cache_get_client (
 			client_cache, source,
 			E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
 			NULL,
 			book_shell_backend_new_contact_cb,
 			g_object_ref (shell_window));
-	if (strcmp (action_name, "contact-new-list") == 0)
+	if (g_strcmp0 (action_name, "contact-new-list") == 0 ||
+	    g_strcmp0 (action_name, "new-menu-contact-new-list") == 0)
 		e_client_cache_get_client (
 			client_cache, source,
 			E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
@@ -218,9 +222,11 @@ action_contact_new_cb (GtkAction *action,
 }
 
 static void
-action_address_book_new_cb (GtkAction *action,
-                            EShellWindow *shell_window)
+action_address_book_new_cb (EUIAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
+	EShellWindow *shell_window = user_data;
 	EShell *shell;
 	ESourceRegistry *registry;
 	GtkWidget *config;
@@ -244,40 +250,13 @@ action_address_book_new_cb (GtkAction *action,
 	gtk_window_set_transient_for (
 		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
 
-	icon_name = gtk_action_get_icon_name (action);
+	icon_name = e_ui_action_get_icon_name (action);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("New Address Book"));
 
 	gtk_widget_show (dialog);
 }
-
-static GtkActionEntry item_entries[] = {
-
-	{ "contact-new",
-	  "contact-new",
-	  NC_("New", "_Contact"),
-	  "<Shift><Control>c",
-	  N_("Create a new contact"),
-	  G_CALLBACK (action_contact_new_cb) },
-
-	{ "contact-new-list",
-	  "stock_contact-list",
-	  NC_("New", "Contact _List"),
-	  "<Shift><Control>l",
-	  N_("Create a new contact list"),
-	  G_CALLBACK (action_contact_new_cb) }
-};
-
-static GtkActionEntry source_entries[] = {
-
-	{ "address-book-new",
-	  "address-book-new",
-	  NC_("New", "Address _Book"),
-	  NULL,
-	  N_("Create a new address book"),
-	  G_CALLBACK (action_address_book_new_cb) }
-};
 
 static gboolean
 book_shell_backend_init_preferences (EShell *shell)
@@ -566,6 +545,31 @@ static void
 book_shell_backend_window_added_cb (EShellBackend *shell_backend,
                                     GtkWindow *window)
 {
+	static const EUIActionEntry item_entries[] = {
+		{ "new-menu-contact-new",
+		  "contact-new",
+		  NC_("New", "_Contact"),
+		  "<Shift><Control>c",
+		  N_("Create a new contact"),
+		  action_contact_new_cb, NULL, NULL, NULL },
+
+		{ "new-menu-contact-new-list",
+		  "stock_contact-list",
+		  NC_("New", "Contact _List"),
+		  "<Shift><Control>l",
+		  N_("Create a new contact list"),
+		  action_contact_new_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry source_entries[] = {
+		{ "new-menu-address-book-new",
+		  "address-book-new",
+		  NC_("New", "Address _Book"),
+		  NULL,
+		  N_("Create a new address book"),
+		  action_address_book_new_cb, NULL, NULL, NULL }
+	};
+
 	const gchar *backend_name;
 
 	if (!E_IS_SHELL_WINDOW (window))

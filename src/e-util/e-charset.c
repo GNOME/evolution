@@ -112,155 +112,36 @@ static ECharset charsets[] = {
 	{ "ISO-8859-15", E_CHARSET_WESTERN_EUROPEAN_NEW, NULL },
 };
 
-/**
- * e_charset_add_radio_actions:
- * @action_group: a #GtkActionGroup
- * @action_prefix: a prefix for action names, or %NULL
- * @default_charset: the default character set, or %NULL to use the
- *                   locale character set
- * @callback: a callback function for actions in the group, or %NULL
- * @user_data: user data to be passed to @callback, or %NULL
- *
- * Adds a set of #GtkRadioActions for available character sets to
- * @action_group.  The @default_charset (or locale character set if
- * @default_charset is %NULL) will be added first, and selected by
- * default (except that ISO-8859-1 will always be used instead of
- * US-ASCII).  Any other character sets of the same language class as
- * the default will be added next, followed by the remaining character
- * sets.
- *
- * Returns: the radio action group
- **/
-GSList *
-e_charset_add_radio_actions (GtkActionGroup *action_group,
-                             const gchar *action_prefix,
-                             const gchar *default_charset,
-                             GCallback callback,
-                             gpointer user_data)
+static gchar *
+e_charset_labelize (const ECharset *charset)
 {
-	GtkRadioAction *action = NULL;
-	GSList *group = NULL;
-	const gchar *locale_charset;
-	gint def, ii;
+	gchar *escaped_name;
+	gchar *charset_label;
+	gchar **str_array;
 
-	g_return_val_if_fail (GTK_IS_ACTION_GROUP (action_group), NULL);
+	/* Escape underlines in the character set name so
+	 * they're not treated as GtkLabel mnemonics. */
+	str_array = g_strsplit (charset->name, "_", -1);
+	escaped_name = g_strjoinv ("__", str_array);
+	g_strfreev (str_array);
 
-	if (action_prefix == NULL)
-		action_prefix = "";
+	if (charset->subclass != NULL)
+		charset_label = g_strdup_printf (
+			"%s, %s (%s)",
+			gettext (classnames[charset->class]),
+			gettext (charset->subclass),
+			escaped_name);
+	else if (charsets->class != E_CHARSET_UNKNOWN)
+		charset_label = g_strdup_printf (
+			"%s (%s)",
+			gettext (classnames[charset->class]),
+			escaped_name);
+	else
+		charset_label = g_steal_pointer (&escaped_name);
 
-	g_get_charset (&locale_charset);
-	if (!g_ascii_strcasecmp (locale_charset, "US-ASCII"))
-		locale_charset = "ISO-8859-1";
+	g_free (escaped_name);
 
-	if (default_charset == NULL)
-		default_charset = locale_charset;
-	for (def = 0; def < G_N_ELEMENTS (charsets); def++)
-		if (!g_ascii_strcasecmp (charsets[def].name, default_charset))
-			break;
-
-	for (ii = 0; ii < G_N_ELEMENTS (charsets); ii++) {
-		const gchar *charset_name;
-		gchar *action_name;
-		gchar *escaped_name;
-		gchar *charset_label;
-		gchar **str_array;
-
-		charset_name = charsets[ii].name;
-		action_name = g_strconcat (action_prefix, charset_name, NULL);
-
-		/* Escape underlines in the character set name so
-		 * they're not treated as GtkLabel mnemonics. */
-		str_array = g_strsplit (charset_name, "_", -1);
-		escaped_name = g_strjoinv ("__", str_array);
-		g_strfreev (str_array);
-
-		if (charsets[ii].subclass != NULL)
-			charset_label = g_strdup_printf (
-				"%s, %s (%s)",
-				gettext (classnames[charsets[ii].class]),
-				gettext (charsets[ii].subclass),
-				escaped_name);
-		else if (charsets[ii].class != E_CHARSET_UNKNOWN)
-			charset_label = g_strdup_printf (
-				"%s (%s)",
-				gettext (classnames[charsets[ii].class]),
-				escaped_name);
-		else
-			charset_label = g_strdup (escaped_name);
-
-		/* XXX Add a tooltip! */
-		action = gtk_radio_action_new (
-			action_name, charset_label, NULL, NULL, ii);
-
-		/* Character set name is static so no need to free it. */
-		g_object_set_data (
-			G_OBJECT (action), "charset",
-			(gpointer) charset_name);
-
-		gtk_radio_action_set_group (action, group);
-		group = gtk_radio_action_get_group (action);
-
-		if (callback != NULL)
-			g_signal_connect (
-				action, "changed", callback, user_data);
-
-		gtk_action_group_add_action (
-			action_group, GTK_ACTION (action));
-
-		g_object_unref (action);
-
-		g_free (action_name);
-		g_free (escaped_name);
-		g_free (charset_label);
-	}
-
-	if (def == G_N_ELEMENTS (charsets)) {
-		const gchar *charset_name;
-		gchar *action_name;
-		gchar *charset_label;
-		gchar **str_array;
-
-		charset_name = default_charset;
-		action_name = g_strconcat (action_prefix, charset_name, NULL);
-
-		/* Escape underlines in the character set name so
-		 * they're not treated as GtkLabel mnemonics. */
-		str_array = g_strsplit (charset_name, "_", -1);
-		charset_label = g_strjoinv ("__", str_array);
-		g_strfreev (str_array);
-
-		/* XXX Add a tooltip! */
-		action = gtk_radio_action_new (
-			action_name, charset_label, NULL, NULL, def);
-
-		/* Character set name may NOT be static,
-		 * so we do need to duplicate the string. */
-		g_object_set_data_full (
-			G_OBJECT (action), "charset",
-			g_strdup (charset_name),
-			(GDestroyNotify) g_free);
-
-		gtk_radio_action_set_group (action, group);
-		group = gtk_radio_action_get_group (action);
-
-		if (callback != NULL)
-			g_signal_connect (
-				action, "changed", callback, user_data);
-
-		gtk_action_group_add_action (
-			action_group, GTK_ACTION (action));
-
-		g_object_unref (action);
-
-		g_free (action_name);
-		g_free (charset_label);
-	}
-
-	/* Any of the actions in the action group will do. */
-	if (action != NULL)
-		gtk_radio_action_set_current_value (action, def);
-
-	return group;
+	return charset_label;
 }
 
 /**
@@ -274,7 +155,7 @@ e_charset_add_radio_actions (GtkActionGroup *action_group,
  *
  * This does not add a "Default" option.
  *
- * Since: 3.54
+ * Since: 3.56
  **/
 void
 e_charset_add_to_g_menu (GMenu *menu,
@@ -291,31 +172,10 @@ e_charset_add_to_g_menu (GMenu *menu,
 	for (ii = 0; ii < G_N_ELEMENTS (charsets); ii++) {
 		GMenuItem *menu_item;
 		const gchar *charset_name;
-		gchar *escaped_name;
 		gchar *charset_label;
-		gchar **str_array;
 
 		charset_name = charsets[ii].name;
-
-		/* Escape underlines in the character set name so
-		 * they're not treated as GtkLabel mnemonics. */
-		str_array = g_strsplit (charset_name, "_", -1);
-		escaped_name = g_strjoinv ("__", str_array);
-		g_strfreev (str_array);
-
-		if (charsets[ii].subclass != NULL)
-			charset_label = g_strdup_printf (
-				"%s, %s (%s)",
-				gettext (classnames[charsets[ii].class]),
-				gettext (charsets[ii].subclass),
-				escaped_name);
-		else if (charsets[ii].class != E_CHARSET_UNKNOWN)
-			charset_label = g_strdup_printf (
-				"%s (%s)",
-				gettext (classnames[charsets[ii].class]),
-				escaped_name);
-		else
-			charset_label = g_strdup (escaped_name);
+		charset_label = e_charset_labelize (&(charsets[ii]));
 
 		menu_item = g_menu_item_new (charset_label, NULL);
 		g_menu_item_set_action_and_target (menu_item, action_name, "s", charset_name);
@@ -323,11 +183,49 @@ e_charset_add_to_g_menu (GMenu *menu,
 
 		g_object_unref (menu_item);
 
-		g_free (escaped_name);
 		g_free (charset_label);
 	}
 
 	g_menu_append_section (menu, NULL, G_MENU_MODEL (section));
 
 	g_clear_object (&section);
+}
+
+/**
+ * e_charset_create_list_store:
+ *
+ * Creates a new #GtkListStore containing two columns, E_CHARSET_COLUMN_LABEL with the label
+ * of the charset, to be shown tin the GUI, and E_CHARSET_COLUMN_VALUE with the actual
+ * charset value.
+ *
+ * Returns: (transfer full): newly created #GtkListStore
+ *
+ * Since: 3.56
+ **/
+GtkListStore *
+e_charset_create_list_store (void)
+{
+	GtkListStore *list_store;
+	guint ii;
+
+	list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+
+	for (ii = 0; ii < G_N_ELEMENTS (charsets); ii++) {
+		GtkTreeIter iter;
+		const gchar *charset_name;
+		gchar *charset_label;
+
+		charset_name = charsets[ii].name;
+		charset_label = e_charset_labelize (&(charsets[ii]));
+
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter,
+			E_CHARSET_COLUMN_LABEL, charset_label,
+			E_CHARSET_COLUMN_VALUE, charset_name,
+			-1);
+
+		g_free (charset_label);
+	}
+
+	return list_store;
 }

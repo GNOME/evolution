@@ -52,9 +52,10 @@ struct _ECompEditorPrivate {
 	guint32 flags;
 
 	EMenuBar *menu_bar;
+	GtkWidget *menu_button; /* owned by menu_bar */
 
 	EFocusTracker *focus_tracker;
-	GtkUIManager *ui_manager;
+	EUIManager *ui_manager;
 
 	GSList *pages; /* ECompEditorPage * */
 	gulong show_attendees_handler_id;
@@ -130,11 +131,25 @@ ece_restore_focus (ECompEditor *comp_editor)
 	}
 }
 
+static EUIActionGroup *
+ece_get_action_group (ECompEditor *comp_editor,
+		      const gchar *group_name)
+{
+	EUIManager *ui_manager;
+
+	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
+	g_return_val_if_fail (group_name != NULL, NULL);
+
+	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
+
+	return e_ui_manager_get_action_group (ui_manager, group_name);
+}
+
 static void
 e_comp_editor_enable (ECompEditor *comp_editor,
 		      gboolean enable)
 {
-	GtkActionGroup *group;
+	EUIActionGroup *group;
 	GtkWidget *current_focus;
 
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
@@ -143,14 +158,14 @@ e_comp_editor_enable (ECompEditor *comp_editor,
 
 	gtk_widget_set_sensitive (GTK_WIDGET (comp_editor->priv->content), enable);
 
-	group = e_comp_editor_get_action_group (comp_editor, "individual");
-	gtk_action_group_set_sensitive (group, enable);
+	group = ece_get_action_group (comp_editor, "individual");
+	e_ui_action_group_set_sensitive (group, enable);
 
-	group = e_comp_editor_get_action_group (comp_editor, "core");
-	gtk_action_group_set_sensitive (group, enable);
+	group = ece_get_action_group (comp_editor, "core");
+	e_ui_action_group_set_sensitive (group, enable);
 
-	group = e_comp_editor_get_action_group (comp_editor, "editable");
-	gtk_action_group_set_sensitive (group, enable);
+	group = ece_get_action_group (comp_editor, "editable");
+	e_ui_action_group_set_sensitive (group, enable);
 
 	if (enable) {
 		e_comp_editor_sensitize_widgets (comp_editor);
@@ -1433,27 +1448,32 @@ e_comp_editor_prompt_and_save_changes (ECompEditor *comp_editor,
 }
 
 static void
-action_close_cb (GtkAction *action,
-                 ECompEditor *comp_editor)
+action_close_cb (EUIAction *action,
+		 GVariant *parameter,
+		 gpointer user_data)
 {
-	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
+	ECompEditor *self = user_data;
 
-	if (e_comp_editor_prompt_and_save_changes (comp_editor, TRUE))
-		e_comp_editor_close (comp_editor);
+	g_return_if_fail (E_IS_COMP_EDITOR (self));
+
+	if (e_comp_editor_prompt_and_save_changes (self, TRUE))
+		e_comp_editor_close (self);
 }
 
 static void
-action_help_cb (GtkAction *action,
-                ECompEditor *comp_editor)
+action_help_cb (EUIAction *action,
+		GVariant *parameter,
+		gpointer user_data)
 {
+	ECompEditor *self = user_data;
 	ECompEditorClass *klass;
 
-	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
+	g_return_if_fail (E_IS_COMP_EDITOR (self));
 
-	klass = E_COMP_EDITOR_GET_CLASS (comp_editor);
+	klass = E_COMP_EDITOR_GET_CLASS (self);
 	g_return_if_fail (klass->help_section != NULL);
 
-	e_display_help (GTK_WINDOW (comp_editor), klass->help_section);
+	e_display_help (GTK_WINDOW (self), klass->help_section);
 }
 
 static void
@@ -1485,31 +1505,51 @@ ece_print_or_preview (ECompEditor *comp_editor,
 }
 
 static void
-action_print_cb (GtkAction *action,
-                 ECompEditor *comp_editor)
+action_print_cb (EUIAction *action,
+		 GVariant *parameter,
+		 gpointer user_data)
 {
-	ece_print_or_preview (comp_editor, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+	ECompEditor *self = user_data;
+
+	g_return_if_fail (E_IS_COMP_EDITOR (self));
+
+	ece_print_or_preview (self, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
-action_print_preview_cb (GtkAction *action,
-                         ECompEditor *comp_editor)
+action_print_preview_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
 {
-	ece_print_or_preview (comp_editor, GTK_PRINT_OPERATION_ACTION_PREVIEW);
+	ECompEditor *self = user_data;
+
+	g_return_if_fail (E_IS_COMP_EDITOR (self));
+
+	ece_print_or_preview (self, GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
 
 static void
-action_save_cb (GtkAction *action,
-                ECompEditor *comp_editor)
+action_save_cb (EUIAction *action,
+		GVariant *parameter,
+		gpointer user_data)
 {
-	e_comp_editor_save_and_close (comp_editor, FALSE);
+	ECompEditor *self = user_data;
+
+	g_return_if_fail (E_IS_COMP_EDITOR (self));
+
+	e_comp_editor_save_and_close (self, FALSE);
 }
 
 static void
-action_save_and_close_cb (GtkAction *action,
-                          ECompEditor *comp_editor)
+action_save_and_close_cb (EUIAction *action,
+			  GVariant *parameter,
+			  gpointer user_data)
 {
-	e_comp_editor_save_and_close (comp_editor, TRUE);
+	ECompEditor *self = user_data;
+
+	g_return_if_fail (E_IS_COMP_EDITOR (self));
+
+	e_comp_editor_save_and_close (self, TRUE);
 }
 
 static gboolean
@@ -1697,7 +1737,7 @@ static void
 ece_sensitize_widgets (ECompEditor *comp_editor,
 		       gboolean force_insensitive)
 {
-	GtkActionGroup *group;
+	EUIActionGroup *group;
 	GSList *link;
 
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
@@ -1712,11 +1752,11 @@ ece_sensitize_widgets (ECompEditor *comp_editor,
 		e_comp_editor_page_sensitize_widgets (page, force_insensitive);
 	}
 
-	group = e_comp_editor_get_action_group (comp_editor, "individual");
-	gtk_action_group_set_sensitive (group, !force_insensitive);
+	group = ece_get_action_group (comp_editor, "individual");
+	e_ui_action_group_set_sensitive (group, !force_insensitive);
 
-	group = e_comp_editor_get_action_group (comp_editor, "editable");
-	gtk_action_group_set_sensitive (group, !force_insensitive);
+	group = ece_get_action_group (comp_editor, "editable");
+	e_ui_action_group_set_sensitive (group, !force_insensitive);
 }
 
 static void
@@ -1836,7 +1876,7 @@ comp_editor_delete_event (GtkWidget *widget,
 
 	/* It's disabled when the component is being saved */
 	if (gtk_widget_get_sensitive (GTK_WIDGET (comp_editor->priv->content)))
-		action_close_cb (NULL, comp_editor);
+		action_close_cb (NULL, NULL, comp_editor);
 
 	return TRUE;
 }
@@ -1853,10 +1893,10 @@ comp_editor_key_press_event (GtkWidget *widget,
 
 	if (event->keyval == GDK_KEY_Escape &&
 	    !e_alert_bar_close_alert (comp_editor->priv->alert_bar)) {
-		GtkAction *action;
+		EUIAction *action;
 
 		action = e_comp_editor_get_action (comp_editor, "close");
-		gtk_action_activate (action);
+		g_action_activate (G_ACTION (action), NULL);
 
 		return TRUE;
 	}
@@ -1950,38 +1990,54 @@ e_comp_editor_set_shell (ECompEditor *comp_editor,
 	comp_editor->priv->shell = g_object_ref (shell);
 }
 
-static GtkWidget *
-comp_editor_construct_header_bar (ECompEditor *comp_editor,
-				  GtkWidget *menu_button)
+static gboolean
+comp_editor_ui_manager_create_item_cb (EUIManager *manager,
+				       EUIElement *elem,
+				       EUIAction *action,
+				       EUIElementKind for_kind,
+				       GObject **out_item,
+				       gpointer user_data)
 {
-	GtkWidget *widget;
-	GtkWidget *button;
-	GtkAction *action;
-	GtkHeaderBar *header_bar;
+	ECompEditor *self = user_data;
 
-	widget = gtk_header_bar_new ();
-	gtk_widget_show (widget);
-	header_bar = GTK_HEADER_BAR (widget);
-	gtk_header_bar_set_show_close_button (header_bar, TRUE);
+	g_return_val_if_fail (E_IS_COMP_EDITOR (self), FALSE);
 
-	if (menu_button)
-		gtk_header_bar_pack_end (header_bar, menu_button);
+	if (for_kind != E_UI_ELEMENT_KIND_HEADERBAR ||
+	    g_strcmp0 (g_action_get_name (G_ACTION (action)), "menu-button") != 0)
+		return FALSE;
 
-	action = e_comp_editor_get_action (comp_editor, "save-and-close");
+	if (self->priv->menu_button)
+		*out_item = G_OBJECT (g_object_ref (self->priv->menu_button));
+	else
+		*out_item = NULL;
 
-	button = e_header_bar_button_new (_("Save and Close"), action);
-	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
-	e_header_bar_button_set_show_icon_only (E_HEADER_BAR_BUTTON (button), FALSE);
-	gtk_widget_show (button);
-	gtk_header_bar_pack_start (header_bar, button);
+	return TRUE;
+}
 
-	action = e_comp_editor_get_action (comp_editor, "save");
+static gboolean
+comp_editor_ui_manager_create_gicon_cb (EUIManager *manager,
+					const gchar *name,
+					GIcon **out_gicon)
+{
+	GIcon *icon;
+	GIcon *emblemed_icon;
+	GEmblem *emblem;
 
-	button = e_header_bar_button_new (NULL, action);
-	gtk_widget_show (button);
-	gtk_header_bar_pack_start (header_bar, button);
+	if (g_strcmp0 (name, "ECompEditor::save-and-close") != 0)
+		return FALSE;
 
-	return widget;
+	icon = g_themed_icon_new ("window-close");
+	emblemed_icon = g_themed_icon_new ("document-save");
+	emblem = g_emblem_new (emblemed_icon);
+	g_object_unref (emblemed_icon);
+
+	emblemed_icon = g_emblemed_icon_new (icon, emblem);
+	g_object_unref (emblem);
+	g_object_unref (icon);
+
+	*out_gicon = emblemed_icon;
+
+	return TRUE;
 }
 
 static void
@@ -2139,137 +2195,91 @@ e_comp_editor_get_property (GObject *object,
 static void
 e_comp_editor_constructed (GObject *object)
 {
-	const gchar *ui =
-		"<ui>"
-		"  <menubar action='main-menu'>"
-		"    <menu action='file-menu'>"
-		"      <menuitem action='save'/>"
-		"      <menuitem action='save-and-close'/>"
-		"      <separator/>"
-		"      <placeholder name='custom-actions-placeholder'/>"
-		"      <separator/>"
-		"      <menuitem action='print-preview'/>"
-		"      <menuitem action='print'/>"
-		"      <separator/>"
-		"      <menuitem action='close'/>"
-		"    </menu>"
-		"    <menu action='edit-menu'>"
-		"      <menuitem action='undo'/>"
-		"      <menuitem action='redo'/>"
-		"      <separator/>"
-		"      <menuitem action='cut-clipboard'/>"
-		"      <menuitem action='copy-clipboard'/>"
-		"      <menuitem action='paste-clipboard'/>"
-		"      <menuitem action='delete-selection'/>"
-		"      <separator/>"
-		"      <menuitem action='select-all'/>"
-		"    </menu>"
-		"    <menu action='view-menu'>"
-		"      <menuitem action='show-toolbar'/>"
-		"      <placeholder name='parts'/>"
-		"      <separator />"
-		"      <placeholder name='columns'/>"
-		"    </menu>"
-		"    <menu action='insert-menu'/>"
-		"    <menu action='options-menu'>"
-		"      <placeholder name='tabs'/>"
-		"      <placeholder name='toggles'/>"
-		"    </menu>"
-		"    <menu action='help-menu'>"
-		"      <menuitem action='help'/>"
-		"    </menu>"
-		"  </menubar>"
-		"  <toolbar name='main-toolbar'>"
-		"    <toolitem action='save-and-close'/>"
-		"    <toolitem action='save'/>"
-		"    <toolitem action='print'/>"
-		"    <separator/>"
-		"    <toolitem action='undo'/>"
-		"    <toolitem action='redo'/>"
-		"    <separator/>"
-		"    <placeholder name='content'/>"
-		"    <placeholder name='after-content'/>"
-		"  </toolbar>"
-		"</ui>";
-
-	GtkActionEntry core_entries[] = {
+	static const EUIActionEntry core_entries[] = {
 
 		{ "close",
 		  "window-close",
 		  N_("_Close"),
 		  "<Control>w",
 		  N_("Close the current window"),
-		  G_CALLBACK (action_close_cb) },
+		  action_close_cb, NULL, NULL, NULL },
 
 		{ "copy-clipboard",
 		  "edit-copy",
 		  N_("_Copy"),
 		  "<Control>c",
 		  N_("Copy the selection"),
-		  NULL },  /* Handled by EFocusTracker */
+		  NULL, NULL, NULL, NULL },  /* Handled by EFocusTracker */
 
 		{ "cut-clipboard",
 		  "edit-cut",
 		  N_("Cu_t"),
 		  "<Control>x",
 		  N_("Cut the selection"),
-		  NULL },  /* Handled by EFocusTracker */
+		  NULL, NULL, NULL, NULL },  /* Handled by EFocusTracker */
 
 		{ "delete-selection",
 		  "edit-delete",
 		  N_("_Delete"),
 		  NULL,
 		  N_("Delete the selection"),
-		  NULL },  /* Handled by EFocusTracker */
+		  NULL, NULL, NULL, NULL },  /* Handled by EFocusTracker */
 
 		{ "help",
 		  "help-browser",
 		  N_("_Help"),
 		  "F1",
 		  N_("View help"),
-		  G_CALLBACK (action_help_cb) },
+		  action_help_cb, NULL, NULL, NULL },
 
 		{ "paste-clipboard",
 		  "edit-paste",
 		  N_("_Paste"),
 		  "<Control>v",
 		  N_("Paste the clipboard"),
-		  NULL },  /* Handled by EFocusTracker */
+		  NULL, NULL, NULL, NULL },  /* Handled by EFocusTracker */
 
 		{ "print",
 		  "document-print",
 		  N_("_Print…"),
 		  "<Control>p",
 		  NULL,
-		  G_CALLBACK (action_print_cb) },
+		  action_print_cb, NULL, NULL, NULL },
 
 		{ "print-preview",
 		  "document-print-preview",
 		  N_("Pre_view…"),
 		  NULL,
 		  NULL,
-		  G_CALLBACK (action_print_preview_cb) },
+		  action_print_preview_cb, NULL, NULL, NULL },
 
 		{ "select-all",
 		  "edit-select-all",
 		  N_("Select _All"),
 		  "<Control>a",
 		  N_("Select all text"),
-		  NULL },  /* Handled by EFocusTracker */
+		  NULL, NULL, NULL, NULL },  /* Handled by EFocusTracker */
+
+		{ "show-toolbar",
+		  NULL,
+		  N_("Show _toolbar"),
+		  NULL,
+		  NULL,
+		  NULL, NULL, "true", (EUIActionFunc) e_ui_action_set_state },
 
 		{ "undo",
 		  "edit-undo",
 		  N_("_Undo"),
 		  "<Control>z",
 		  N_("Undo"),
-		  NULL },  /* Handled by EFocusTracker */
+		  NULL, NULL, NULL, NULL },  /* Handled by EFocusTracker */
 
 		{ "redo",
 		  "edit-redo",
 		  N_("_Redo"),
 		  "<Control>y",
 		  N_("Redo"),
-		  NULL },  /* Handled by EFocusTracker */
+		  NULL, NULL, NULL, NULL },  /* Handled by EFocusTracker */
 
 		/* Menus */
 
@@ -2278,85 +2288,82 @@ e_comp_editor_constructed (GObject *object)
 		  N_("_Classification"),
 		  NULL,
 		  NULL,
-		  NULL },
+		  NULL, NULL, NULL, NULL },
 
 		{ "edit-menu",
 		  NULL,
 		  N_("_Edit"),
 		  NULL,
 		  NULL,
-		  NULL },
+		  NULL, NULL, NULL, NULL },
 
 		{ "file-menu",
 		  NULL,
 		  N_("_File"),
 		  NULL,
 		  NULL,
-		  NULL },
+		  NULL, NULL, NULL, NULL },
 
 		{ "help-menu",
 		  NULL,
 		  N_("_Help"),
 		  NULL,
 		  NULL,
-		  NULL },
+		  NULL, NULL, NULL, NULL },
 
 		{ "insert-menu",
 		  NULL,
 		  N_("_Insert"),
 		  NULL,
 		  NULL,
-		  NULL },
+		  NULL, NULL, NULL, NULL },
+
+		{ "menu-button",
+		  NULL,
+		  N_("Menu"),
+		  NULL,
+		  NULL,
+		  NULL, NULL, NULL, NULL },
 
 		{ "options-menu",
 		  NULL,
 		  N_("_Options"),
 		  NULL,
 		  NULL,
-		  NULL },
+		  NULL, NULL, NULL, NULL },
 
 		{ "view-menu",
 		  NULL,
 		  N_("_View"),
 		  NULL,
 		  NULL,
-		  NULL }
+		  NULL, NULL, NULL, NULL }
 	};
 
-	GtkActionEntry editable_entries[] = {
+	static const EUIActionEntry editable_entries[] = {
 
 		{ "save",
 		  "document-save",
 		  N_("_Save"),
 		  "<Control>s",
 		  N_("Save current changes"),
-		  G_CALLBACK (action_save_cb) },
+		  action_save_cb, NULL, NULL, NULL },
 
 		{ "save-and-close",
-		  NULL,
+		  "gicon::ECompEditor::save-and-close",
 		  N_("Save and Close"),
 		  "<Control>Return",
 		  N_("Save current changes and close editor"),
-		  G_CALLBACK (action_save_and_close_cb) }
-	};
-
-	GtkToggleActionEntry toggle_entries[] = {
-		{ "show-toolbar",
-		  NULL,
-		  N_("Show _toolbar"),
-		  NULL,
-		  NULL,
-		  NULL },
+		  action_save_and_close_cb, NULL, NULL, NULL }
 	};
 
 	ECompEditor *comp_editor = E_COMP_EDITOR (object);
+	GObject *ui_item;
 	GtkWidget *widget;
-	GtkWidget *menu_button = NULL;
 	GtkBox *vbox;
-	GtkAction *action;
-	GtkActionGroup *action_group;
+	EUIAction *action;
 	EFocusTracker *focus_tracker;
-	GError *error = NULL;
+	GError *local_error = NULL;
 
 	G_OBJECT_CLASS (e_comp_editor_parent_class)->constructed (object);
 
@@ -2364,89 +2371,51 @@ e_comp_editor_constructed (GObject *object)
 		G_CALLBACK (e_util_check_gtk_bindings_in_key_press_event_cb), NULL);
 
 	comp_editor->priv->calendar_settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-	comp_editor->priv->ui_manager = gtk_ui_manager_new ();
+	comp_editor->priv->ui_manager = e_ui_manager_new ();
+
+	g_signal_connect (comp_editor->priv->ui_manager, "create-item",
+		G_CALLBACK (comp_editor_ui_manager_create_item_cb), comp_editor);
+	g_signal_connect (comp_editor->priv->ui_manager, "create-gicon",
+		G_CALLBACK (comp_editor_ui_manager_create_gicon_cb), comp_editor);
 
 	gtk_window_add_accel_group (
 		GTK_WINDOW (comp_editor),
-		gtk_ui_manager_get_accel_group (comp_editor->priv->ui_manager));
+		e_ui_manager_get_accel_group (comp_editor->priv->ui_manager));
 
 	/* Setup Action Groups */
 
-	action_group = gtk_action_group_new ("individual");
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
-	gtk_ui_manager_insert_action_group (
-		comp_editor->priv->ui_manager, action_group, 0);
-	g_object_unref (action_group);
+	e_ui_manager_add_actions (comp_editor->priv->ui_manager, "core", GETTEXT_PACKAGE,
+		core_entries, G_N_ELEMENTS (core_entries), comp_editor);
 
-	action_group = gtk_action_group_new ("core");
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (
-		action_group, core_entries,
-		G_N_ELEMENTS (core_entries), comp_editor);
-	gtk_ui_manager_insert_action_group (
-		comp_editor->priv->ui_manager, action_group, 0);
-	g_object_unref (action_group);
+	e_ui_manager_add_actions (comp_editor->priv->ui_manager, "editable", GETTEXT_PACKAGE,
+		editable_entries, G_N_ELEMENTS (editable_entries), comp_editor);
 
-	action_group = gtk_action_group_new ("editable");
-	gtk_action_group_set_translation_domain (
-		action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (
-		action_group, editable_entries,
-		G_N_ELEMENTS (editable_entries), comp_editor);
-	gtk_ui_manager_insert_action_group (
-		comp_editor->priv->ui_manager, action_group, 0);
-	g_object_unref (action_group);
+	e_ui_manager_set_action_groups_widget (comp_editor->priv->ui_manager, GTK_WIDGET (comp_editor));
 
-	action = gtk_action_group_get_action (action_group, "save-and-close");
+	action = e_comp_editor_get_action (comp_editor, "save-and-close");
 	if (action) {
-		GtkAction *save_action;
-		GIcon *icon;
-		GIcon *emblemed_icon;
-		GEmblem *emblem;
+		EUIAction *save_action;
 
-		icon = g_themed_icon_new ("window-close");
-		emblemed_icon = g_themed_icon_new ("document-save");
-		emblem = g_emblem_new (emblemed_icon);
-		g_object_unref (emblemed_icon);
+		save_action = e_comp_editor_get_action (comp_editor, "save");
 
-		emblemed_icon = g_emblemed_icon_new (icon, emblem);
-		g_object_unref (emblem);
-		g_object_unref (icon);
-
-		gtk_action_set_gicon (action, emblemed_icon);
-
-		g_object_unref (emblemed_icon);
-
-		save_action = gtk_action_group_get_action (action_group, "save");
 		e_binding_bind_property (
 			save_action, "sensitive",
 			action, "sensitive",
 			G_BINDING_SYNC_CREATE);
 	}
 
-	action_group = gtk_action_group_new ("toggle");
-	gtk_action_group_add_toggle_actions (
-		action_group, toggle_entries,
-		G_N_ELEMENTS (toggle_entries), comp_editor);
-	gtk_ui_manager_insert_action_group (
-		comp_editor->priv->ui_manager, action_group, 0);
-	g_object_unref (action_group);
-
-	action = gtk_action_group_get_action (action_group, "show-toolbar");
+	action = e_comp_editor_get_action (comp_editor, "show-toolbar");
 	if (action) {
 		g_settings_bind (
-		       comp_editor->priv->calendar_settings, "editor-show-toolbar",
-		       action, "active",
-		       G_SETTINGS_BIND_DEFAULT);
+			comp_editor->priv->calendar_settings, "editor-show-toolbar",
+			action, "active",
+			G_SETTINGS_BIND_DEFAULT);
 	}
 
-	gtk_ui_manager_add_ui_from_string (comp_editor->priv->ui_manager, ui, -1, &error);
-	if (error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-	}
+	if (!e_ui_parser_merge_file (e_ui_manager_get_parser (comp_editor->priv->ui_manager), "e-comp-editor.eui", &local_error))
+		g_warning ("%s: Failed to read e-comp-editor.eui file: %s", G_STRFUNC, local_error ? local_error->message : "Unknown error");
+
+	g_clear_error (&local_error);
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	g_object_set (G_OBJECT (widget),
@@ -2462,34 +2431,25 @@ e_comp_editor_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (comp_editor), widget);
 
 	/* Construct the main menu and headerbar. */
-	widget = e_comp_editor_get_managed_widget (comp_editor, "/main-menu");
-	comp_editor->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (comp_editor), &menu_button);
+	ui_item = e_ui_manager_create_item (comp_editor->priv->ui_manager, "main-menu");
+	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (ui_item));
+	g_clear_object (&ui_item);
+
+	comp_editor->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (comp_editor), &comp_editor->priv->menu_button);
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
 
 	if (e_util_get_use_header_bar ()) {
-		widget = comp_editor_construct_header_bar (comp_editor, menu_button);
+		ui_item = e_ui_manager_create_item (comp_editor->priv->ui_manager, "main-headerbar");
+		widget = GTK_WIDGET (ui_item);
 		gtk_window_set_titlebar (GTK_WINDOW (comp_editor), widget);
 
-		/* Destroy items from the toolbar, which are in the header bar */
-		widget = e_comp_editor_get_managed_widget (comp_editor, "/main-toolbar/save-and-close");
-		gtk_widget_destroy (widget);
-
-		widget = e_comp_editor_get_managed_widget (comp_editor, "/main-toolbar/save");
-		gtk_widget_destroy (widget);
-	} else if (menu_button) {
-		g_object_ref_sink (menu_button);
-		gtk_widget_destroy (menu_button);
+		ui_item = e_ui_manager_create_item (comp_editor->priv->ui_manager, "toolbar-with-headerbar");
+	} else {
+		ui_item = e_ui_manager_create_item (comp_editor->priv->ui_manager, "toolbar-without-headerbar");
 	}
 
-	widget = e_comp_editor_get_managed_widget (comp_editor, "/main-toolbar");
+	widget = GTK_WIDGET (ui_item);
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	e_util_setup_toolbar_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_BUTTON);
-
-	gtk_style_context_add_class (
-		gtk_widget_get_style_context (widget),
-		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
 
 	g_settings_bind (
 		comp_editor->priv->calendar_settings, "editor-show-toolbar",
@@ -2564,7 +2524,7 @@ e_comp_editor_constructed (GObject *object)
 
 	/* Desensitize the "save" action. */
 	action = e_comp_editor_get_action (comp_editor, "save");
-	gtk_action_set_sensitive (action, FALSE);
+	e_ui_action_set_sensitive (action, FALSE);
 
 	e_binding_bind_property (comp_editor, "changed", action, "sensitive", 0);
 
@@ -2619,6 +2579,7 @@ e_comp_editor_dispose (GObject *object)
 	g_clear_object (&comp_editor->priv->validation_alert);
 	g_clear_object (&comp_editor->priv->menu_bar);
 
+	comp_editor->priv->menu_button = NULL;
 	comp_editor->priv->activity_bar = NULL;
 
 	opened_editors = g_slist_remove (opened_editors, comp_editor);
@@ -3075,7 +3036,7 @@ e_comp_editor_get_focus_tracker (ECompEditor *comp_editor)
 	return comp_editor->priv->focus_tracker;
 }
 
-GtkUIManager *
+EUIManager *
 e_comp_editor_get_ui_manager (ECompEditor *comp_editor)
 {
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
@@ -3083,49 +3044,18 @@ e_comp_editor_get_ui_manager (ECompEditor *comp_editor)
 	return comp_editor->priv->ui_manager;
 }
 
-GtkAction *
+EUIAction *
 e_comp_editor_get_action (ECompEditor *comp_editor,
 			  const gchar *action_name)
 {
-	GtkUIManager *ui_manager;
+	EUIManager *ui_manager;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
 	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
 
-	return e_lookup_action (ui_manager, action_name);
-}
-
-GtkActionGroup *
-e_comp_editor_get_action_group (ECompEditor *comp_editor,
-				const gchar *group_name)
-{
-	GtkUIManager *ui_manager;
-
-	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
-	g_return_val_if_fail (group_name != NULL, NULL);
-
-	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
-
-	return e_lookup_action_group (ui_manager, group_name);
-}
-
-GtkWidget *
-e_comp_editor_get_managed_widget (ECompEditor *comp_editor,
-				  const gchar *widget_path)
-{
-	GtkUIManager *ui_manager;
-	GtkWidget *widget;
-
-	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
-	g_return_val_if_fail (widget_path != NULL, NULL);
-
-	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
-	widget = gtk_ui_manager_get_widget (ui_manager, widget_path);
-	g_return_val_if_fail (widget != NULL, NULL);
-
-	return widget;
+	return e_ui_manager_get_action (ui_manager, action_name);
 }
 
 static gchar *
