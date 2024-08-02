@@ -1,3 +1,17 @@
+Evolution 3.52.4 2024-08-02
+---------------------------
+
+Bug Fixes:
+	I#2529 - Tooltips in Month view not always shown
+	I#2794 - Mail: Print to File keeps previous file name
+	I#2795 - Tooltips only sometimes displayed in Task and Memos Pane
+
+Miscellaneous:
+	EWebView: Just loaded remote images may be left invisible
+
+Translations:
+	Boyuan Yang (zh_CN)
+
 Evolution 3.52.3 2024-06-28
 ---------------------------
 
