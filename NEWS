@@ -1,3 +1,41 @@
+Evolution 3.53.2 2024-08-02
+---------------------------
+
+Bug Fixes:
+	I#1866 - Ability to identify which domain a blocked remote image is related to
+	I#1909 - Support custom icon and text color also for Search Folders
+	I#1940 - Remove multiple CC warning if they are sharing common domain
+	I#2292 - Allow internal anchor links in HTML mail composer
+	I#2529 - Tooltips in Month view not always shown
+	I#2780 - Enhance "junk-test" to return also "inconclusive" value
+	I#2790 - "Thread by Subject" option not propagated to Search Folders
+	I#2794 - Mail: Print to File keeps previous file name
+	I#2795 - Tooltips only sometimes displayed in Task and Memos Pane
+	I#2797 - Outgoing filter: Source account condition never succeeds
+	I#2798 - MessageList: Parents of collapsed threads do not show labels properly
+	I#2799 - itip-formatter: Use open-map: link for the Location field
+	I#2805 - Mark for Follow Up dialog ignores date format setting
+	I#2808 - publish-calendar: Fails to mount destination directory
+
+Miscellaneous:
+	CI: Update OpenLDAP version
+	CI: Update dependencies in the Flatpak manifest
+	CI: Add language switcher into the generated help/ pages
+	flaptak: Update dependencies in the build strict for the development version
+	EWebView: Just loaded remote images may be left invisible
+	EToDoPane: Robust open of a calendar client
+	Calendar: Correct indent of some options in the Preferences
+	help: Mention the Switcher buttons appearance can be changed in the menu
+
+Translations:
+	Anders Jonsson (sv)
+	Boyuan Yang (zh_CN)
+	Daniel Șerbănescu (ro)
+	Ekaterine Papava (ka)
+	Jürgen Benvenuti (de)
+	Martin (sl)
+	Yuri Chornoivan (uk)
+
 Evolution 3.53.1 2024-06-28
 ---------------------------
 
