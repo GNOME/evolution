@@ -22,13 +22,14 @@
 # Jeff bai <jeffbai@aosc.xyz>, 2016.
 # Dingzhong Chen <wsxy162@gmail.com>, 2015-2021.
 # lumingzh <lumingzh@qq.com>, 2022.
+# Haolin Xue <tzbkk@outlook.com>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-07-27 20:30+0000\n"
-"PO-Revision-Date: 2024-07-27 17:23-0400\n"
+"POT-Creation-Date: 2024-08-06 16:20+0000\n"
+"PO-Revision-Date: 2024-08-10 10:43-0400\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -36,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 3.4.4\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
@@ -1091,13 +1092,13 @@ msgstr "这将影响到日视图、工作周视图、周视图和月视图。"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
 msgid ""
 "Value to preselect when sending an event with attendees with reminders set."
-msgstr ""
+msgstr "向设置提醒的与会者发送事件时的预选值。"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
 msgid ""
 "This remembers the last value of \"Send my reminders with this event\" "
 "option and uses it the next time."
-msgstr ""
+msgstr "这会记住“发送我有关此事件的提醒”选项的最后一个值，并在下次使用该值。"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -1402,51 +1403,39 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 msgid "Show “Reply To” field when sending a mail message"
-msgstr "发送邮件时显示“Reply To”(回复至)域"
+msgstr "发送邮件时显示“回复至”域"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
 msgid ""
 "Show the “Reply To” field when sending a mail message. This is controlled "
 "from the View menu when a mail account is chosen."
 msgstr ""
-"在发送邮件信息时显示“Reply To”域。在选定了一个邮件帐号时可以在查看菜单中控制"
-"此功能。"
+"在发送邮件信息时显示“回复至”域。在选定了一个邮件帐号时可以在查看菜单中控制此"
+"功能。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
-#, fuzzy
-#| msgid "Show “Reply To” field when sending a mail message"
 msgid "Show “Mail-Followup-To” field when sending a mail message"
-msgstr "发送邮件时显示“Reply To”(回复至)域"
+msgstr "发送邮件时显示“跟随至（Mail-Followup-To）”域"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
-#, fuzzy
-#| msgid ""
-#| "Show the “Reply To” field when sending a mail message. This is controlled "
-#| "from the View menu when a mail account is chosen."
 msgid ""
 "Show the “Mail-Followup-To” field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
 msgstr ""
-"在发送邮件信息时显示“Reply To”域。在选定了一个邮件帐号时可以在查看菜单中控制"
-"此功能。"
+"在发送邮件信息时显示“跟随至（Mail-Followup-To）”域。在选定了一个邮件账号时可"
+"以在查看菜单中控制此功能。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
-#, fuzzy
-#| msgid "Show “Reply To” field when sending a mail message"
 msgid "Show “Mail-Reply-To” field when sending a mail message"
-msgstr "发送邮件时显示“Reply To”(回复至)域"
+msgstr "发送邮件时显示“回复至（Mail-Reply-To）”域"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
-#, fuzzy
-#| msgid ""
-#| "Show the “Reply To” field when sending a mail message. This is controlled "
-#| "from the View menu when a mail account is chosen."
 msgid ""
 "Show the “Mail-Reply-To” field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
 msgstr ""
-"在发送邮件信息时显示“Reply To”域。在选定了一个邮件帐号时可以在查看菜单中控制"
-"此功能。"
+"在发送邮件信息时显示“回复至（Mail-Reply-To）”域。在选定了一个邮件帐号时可以在"
+"查看菜单中控制此功能。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
 msgid "Show “From” field when posting to a newsgroup"
@@ -1473,40 +1462,28 @@ msgstr ""
 "中控制此功能。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
-#, fuzzy
-#| msgid "Show “From” field when posting to a newsgroup"
 msgid "Show “Mail-Followup-To” field when posting to a newsgroup"
-msgstr "在发送内容到新闻组时显示发件人域"
+msgstr "在发送内容到新闻组时显示“跟随至”域"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
-#, fuzzy
-#| msgid ""
-#| "Show the “From” field when posting to a newsgroup. This is controlled "
-#| "from the View menu when a news account is chosen."
 msgid ""
 "Show the “Mail-Followup-To” field when posting to a newsgroup. This is "
 "controlled from the View menu when a news account is chosen."
 msgstr ""
-"在发送内容到新闻组时显示发件人域。在选定了一个新闻组帐号时可以在查看菜单中控"
-"制此功能。"
+"在发送内容到新闻组时显示“跟随至”域。在选定了一个新闻组帐号时可以在查看菜单中"
+"控制此功能。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
-#, fuzzy
-#| msgid "Show “Reply To” field when posting to a newsgroup"
 msgid "Show “Mail-Reply-To” field when posting to a newsgroup"
-msgstr "在发送内容到新闻组时显示“Reply To”(回复至)域"
+msgstr "在发送内容到新闻组时显示“回复至（Mail-Reply-To）”域"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
-#, fuzzy
-#| msgid ""
-#| "Show the “Reply To” field when posting to a newsgroup. This is controlled "
-#| "from the View menu when a news account is chosen."
 msgid ""
 "Show the “Mail-Reply-To” field when posting to a newsgroup. This is "
 "controlled from the View menu when a news account is chosen."
 msgstr ""
-"在发送内容到新闻组时显示“Reply To”域。在选定了一个新闻组帐号时可以在查看菜单"
-"中控制此功能。"
+"在发送内容到新闻组时显示“回复至（Mail-Reply-To）”域。在选定了一个新闻组帐号时"
+"可以在查看菜单中控制此功能。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Digitally sign replies when the original message is signed"
@@ -1603,7 +1580,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
 msgid "Ignore list Reply-To:"
-msgstr "忽略邮件列表“回复至”域："
+msgstr "忽略邮件列表“回复至（Reply-To）”域："
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
 msgid ""
@@ -1636,7 +1613,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "List of localized “Re” separators"
-msgstr "本地化的“Re”列表"
+msgstr "本地化的“Re”分隔符列表"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid ""
@@ -2800,17 +2777,13 @@ msgid "Show Subject above Sender in Messages column"
 msgstr "在“邮件”列中的发件人上方显示主题"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
-#, fuzzy
-#| msgid ""
-#| "Whether to show Subject above Sender (From/To) in the Messages column, "
-#| "usually shown in the Vertical/Wide view of the message list"
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list. Change of this "
 "option requires restart of the Evolution."
 msgstr ""
 "是否在“邮件”列中显示发件人（发件人/收件人）上方的主题，通常显示在邮件列表的垂"
-"直/宽视图中"
+"直/宽视图中。修改此选项需要重启 Evolution 。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
 msgid "Visually wrap long lines in composer"
@@ -2985,22 +2958,23 @@ msgid ""
 "Whether the markdown composer should sanitize input text also for the "
 "'Markdown as Plain text' mode"
 msgstr ""
+"Markdown 编辑器是否应该清理（sanitize）包括 'Markdown as Plain text' 模式在内"
+"的输入文本"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:343
 msgid ""
 "Disabling the sanitization allows to use the Markdown editor as a very "
 "simple text editor without mangling the input text."
 msgstr ""
+"禁用清理（sanitize）允许以不修改输入文本的简单方式使用 Markdown 编辑器。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:344
 msgid "Show unread count in folder tree"
 msgstr "在文件夹树中显示未读计数"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:345
-#, fuzzy
-#| msgid "Change sort order of the folders in the folder tree"
 msgid "Show unread count beside the folder name in the folder tree."
-msgstr "更改文件夹树中文件夹的排序顺序"
+msgstr "在目录树中显示目录旁的未读计数。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:346
 msgid "Show insecure parts by default"
@@ -3027,24 +3001,28 @@ msgid ""
 "label href\"; 'reference-without-label' - show href as reference to the end "
 "of the text without label, like: \"label [1] ...... [1] href\""
 msgstr ""
+"可能的值： 'none' - 不在纯文本存储 href ； 'inline' - 在文本旁显示 href ，例"
+"如： \"label &lt;href&gt;\" ； 'reference' - 在文末显示引文 href ，例如： "
+"\"label [1] ...... [1] label href\" ；  'reference-without-label' - 在文末显"
+"示无标签的引文 href ，例如： \"label [1] ...... [1] href\""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:350
 msgid ""
 "Whether click on a header in the message list can change sort order by the "
 "clicked column."
-msgstr ""
+msgstr "单击邮件列表中的标题是否可以更改单击列后的排序顺序。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
-#, fuzzy
-#| msgid "Save selected messages as an mbox file"
 msgid "Attach multiple messages as separate files"
-msgstr "把选中信息另存为 mbox 格式文件"
+msgstr "以单独文件附加多条信息"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
 msgid ""
 "When attaching multiple messages at once, attach them as separate files "
 "(when set to 'true'), instead of a single mbox file."
 msgstr ""
+"一次附加多条消息时，请将它们作为单独的文件附加（设置为 'true' 时），而不是单"
+"个 mbox 文件。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
 msgid "(Deprecated) Default forward style"
@@ -3098,8 +3076,8 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
 msgstr ""
-"该键已在 3.10 版本中弃用，不应再使用。请转用 \"browser-close-on-reply-policy"
-"\"。"
+"该键已在 3.10 版本中弃用，不应再使用。请转用 \"browser-close-on-reply-"
+"policy\"。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:363
 msgid "Prompt before send when attachment changed on the disk"
@@ -3228,7 +3206,7 @@ msgstr "在邮件编辑器中按键时自动启动编辑器。"
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:1
 msgid "Insert Face picture by default"
-msgstr "按默认方式插入头像图片(_I)"
+msgstr "按默认方式插入头像图片"
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:2
 msgid ""
@@ -3265,16 +3243,14 @@ msgid ""
 msgstr "设置为 true 则在可用时显示发送者提供的邀请描述"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:7
-#, fuzzy
-#| msgid "Play audio attachments directly in mail messages."
 msgid "Whether to attach components in mail messages"
-msgstr "直接在邮件信息里播放音频附件"
+msgstr "是否在邮件消息中附加组件"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:8
 msgid ""
 "Attach components in mail messages like meeting invitations or responses, "
 "instead of saving them as a body alternative"
-msgstr ""
+msgstr "在邮件消息中附加组件（如会议邀请或回复），而不是将它们保存为正文的替代"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -3286,11 +3262,11 @@ msgstr "是否只通知收件箱文件夹中的新信息。"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:3
 msgid "Enable D-Bus messages."
-msgstr "启用 D-Bus 信息。"
+msgstr "启用 D-Bus 消息。"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:4
 msgid "Generates a D-Bus message when new mail messages arrive."
-msgstr "新邮件到达时生成 D-Bus 信息。"
+msgstr "新邮件到达时生成 D-Bus 消息。"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:5
 msgid "Enable icon in notification area."
@@ -3337,7 +3313,8 @@ msgstr "待播放的声音文件名。"
 msgid ""
 "Sound file to be played when new messages arrive, if “notify-sound-play-"
 "file” is “true”."
-msgstr "有新信息时要播放的声音，若“notify-sound-play-file”选项为“true”。"
+msgstr ""
+"有新信息时要播放的声音，若“notify-sound-play-file”选项为“true”才会播放。"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
 msgid "Whether to play a sound file."
@@ -3416,10 +3393,8 @@ msgstr ""
 "分，而发件人必须是完整的地址，与邮件的发件人地址完全匹配。"
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:4
-#, fuzzy
-#| msgid "List of assignments for recipient and the address to be used with it"
 msgid "List of assignments for an account, which recipients it accepts"
-msgstr "分配的收件人列表及其用于的地址"
+msgstr "分配的账户列表及其接受的收件人"
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
@@ -3455,7 +3430,7 @@ msgstr "GtkFileChooser 对话框的起始文件夹。"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7
 msgid "Compression format used by autoar"
-msgstr "autoar 使用的压缩格式"
+msgstr "Autoar 使用的压缩格式"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:8
 msgid ""
@@ -3464,7 +3439,7 @@ msgstr "使用 autoar 压缩附件的目录时使用的压缩格式。"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
 msgid "Compression filter used by autoar"
-msgstr "autoar 使用的压缩过滤器"
+msgstr "Autoar 使用的压缩过滤器"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
 msgid ""
@@ -3495,7 +3470,7 @@ msgstr "启用快捷模式"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
 msgid "Flag that enables a much simplified user interface."
-msgstr "用于启用简洁用户界面的标识。"
+msgstr "用于启用更简洁的用户界面的标识。"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
 msgid "List of button names to hide in the window switcher"
@@ -3633,7 +3608,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:44
 msgid "Override toolbar icon size"
-msgstr ""
+msgstr "覆盖工具栏图标大小"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:45
 msgid ""
@@ -3641,46 +3616,46 @@ msgid ""
 "decide what is the best icon size for the toolbar. Changing the option "
 "requires application restart."
 msgstr ""
+"控制工具栏图标的大小。“default” 值让系统/代码决定工具栏的最佳图标大小。更改该"
+"选项需要重新启动应用程序。"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:46
-#, fuzzy
-#| msgid "Whether to show phone numbers in the editor"
 msgid "Whether to use header bar in the application"
-msgstr "是否在编辑器中显示电话号码"
+msgstr "是否在应用中使用标题栏"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:47
 msgid ""
 "When enabled, adds buttons to the header bar. This applies to dialogs as "
 "well. Changing the option requires application restart."
 msgstr ""
+"启用后，将按钮添加到标题栏。这也适用于对话框。更改该选项需要重新启动应用程"
+"序。"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:48
-#, fuzzy
-#| msgid "Whether to show notes in the editor"
 msgid "Whether to use icon-only buttons in the header bar"
-msgstr "是否在编辑器中显示便笺"
+msgstr "是否在标题栏使用仅有图标的按钮"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:49
 msgid ""
 "When enabled, uses icon-only buttons in the header bar. Otherwise some "
 "buttons can show also text when there's enough space."
 msgstr ""
+"启用后，在标题栏中使用仅有图标的按钮。否则，当有足够的空间时，某些按钮也可以"
+"显示文本。"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:50
-#, fuzzy
-#| msgid "Whether to show maps in preview pane"
 msgid "Whether the markdown editor show have live preview"
-msgstr "是否在预览窗格中显示地图"
+msgstr "Markdown 编辑器是否有实时预览"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:51
 msgid ""
 "When enabled, the markdown editor shows a preview beside the editing text "
 "and updates it as the user types."
-msgstr ""
+msgstr "启用后，markdown 编辑器会在编辑文本旁边显示预览，并在用户键入时更新。"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:52
 msgid "Whether to prefer symbolic icons"
-msgstr "是否偏好符号图标"
+msgstr "是否偏好象征图标"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:53
 msgid ""
@@ -3689,10 +3664,13 @@ msgid ""
 "the symbolic icons cannot be used when the icon theme does not provide them. "
 "Similarly the color icons cannot be used, when they are not available."
 msgstr ""
+"控制应用程序是否应首选象征图标。 “auto” 值检测图标主题是否正在使用象征图标。"
+"请注意，当图标主题不提供象征图标时，不能使用象征图标。同样，当颜色图标不可用"
+"时，不能使用颜色图标。"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:54
 msgid "Custom command to convert markdown into HTML"
-msgstr ""
+msgstr "将 markdown 转换为 HTML 的自定义命令"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:55
 msgid ""
@@ -3703,12 +3681,18 @@ msgid ""
 "very often, even as the user types, thus make sure it'll not be slow, "
 "because it can block the application."
 msgstr ""
+"如果不为空，可以包含一个命令，该命令将用于将 markdown 转换为 HTML。它还可以包"
+"含其他参数，但不能包含 shell 变量等。预计该命令会从 stdin 读取 markdown，并"
+"将 HTML 数据写入 stdout。该命令可以非常频繁地调用，即使在用户键入时也是如此，"
+"因此请确保它不会很慢，因为它可能会阻碍应用程序。"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:56
 msgid ""
 "Additional argument to use with markdown-to-html-command when want to get "
 "source position in the output HTML"
 msgstr ""
+"当想要在输出 HTML 中获取源位置时，与 markdown-to-html-command 一起使用的附加"
+"参数"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:57
 msgid ""
@@ -3717,6 +3701,9 @@ msgid ""
 "command command line to include them. It can be empty when not supported by "
 "that command."
 msgstr ""
+"Markdown 编辑器也可以要求获取源位置作为额外的 “data-sourcepos” 属性，然后将此"
+"参数添加到 markdown-to-html-command 命令行以包含它们。当该命令不支持时，它可"
+"以为空。"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -3754,7 +3741,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
 msgid "Whether the text-highlight module is enabled"
-msgstr "text-highlight 模块是否被启用"
+msgstr "Text-highlight 模块是否被启用"
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:2
 msgid "Theme name to use, defaults to “bclear”"
@@ -4287,8 +4274,6 @@ msgid "Mark selected messages as not junk"
 msgstr "把选中信息标记为不是垃圾信息"
 
 #: ../data/ui/evolution-shortcuts.ui.h:37
-#, fuzzy
-#| msgid "Flag the selected messages for follow-up"
 msgctxt "shortcut window"
 msgid "Flag selected messages for follow-up"
 msgstr "为选中信息添加跟随标志"
@@ -4314,8 +4299,6 @@ msgid "Reply to all recipients"
 msgstr "回复给所有收件人"
 
 #: ../data/ui/evolution-shortcuts.ui.h:42
-#, fuzzy
-#| msgid "Alternative Reply"
 msgctxt "shortcut window"
 msgid "Alternative reply"
 msgstr "备选回复"
@@ -6290,13 +6273,11 @@ msgstr "家庭地址街道"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:49
 msgid "Home Address Extended"
-msgstr ""
+msgstr "家庭地址拓展"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:50
-#, fuzzy
-#| msgid "New Address Book"
 msgid "Home Address PO Box"
-msgstr "新地址簿"
+msgstr "家庭地址邮政信箱"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:51
 msgid "Home Address City"
@@ -6307,94 +6288,68 @@ msgid "Home Address Zip/Postal code"
 msgstr "家庭地址邮政编码"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:53
-#, fuzzy
-#| msgid "_State/Province:"
 msgid "Home Address State/Province"
-msgstr "州/省(_S)："
+msgstr "家庭地址州/省"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:54
-#, fuzzy
-#| msgid "Addressbook Contact"
 msgid "Home Address Country"
-msgstr "地址簿联系人"
+msgstr "家庭地址国家"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:55
-#, fuzzy
-#| msgid "Web Addresses"
 msgid "Work Address Street"
-msgstr "网络地址"
+msgstr "工作地址街道"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:56
 msgid "Work Address Extended"
-msgstr ""
+msgstr "工作地址拓展"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:57
-#, fuzzy
-#| msgid "Address Book"
 msgid "Work Address PO Box"
-msgstr "地址簿"
+msgstr "工作地址邮政信箱"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:58
-#, fuzzy
-#| msgid "Web Addresses"
 msgid "Work Address City"
-msgstr "网络地址"
+msgstr "工作地址城市"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:59
-#, fuzzy
-#| msgid "_Zip/Postal Code:"
 msgid "Work Address Zip/Postal code"
-msgstr "邮政编码(_Z)："
+msgstr "工作地址邮政编码"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:60
-#, fuzzy
-#| msgid "_State/Province:"
 msgid "Work Address State/Province"
-msgstr "州/省(_S)："
+msgstr "工作地址州/省"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:61
-#, fuzzy
-#| msgid "Addressbook Contact"
 msgid "Work Address Country"
-msgstr "地址簿联系人"
+msgstr "工作地址国家"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:62
-#, fuzzy
-#| msgid "Web Addresses"
 msgid "Other Address Street"
-msgstr "网络地址"
+msgstr "其他地址街道"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:63
 msgid "Other Address Extended"
-msgstr ""
+msgstr "其他地址拓展"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:64
-#, fuzzy
-#| msgid "New Address Book"
 msgid "Other Address PO Box"
-msgstr "新地址簿"
+msgstr "其他邮政信箱"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:65
 msgid "Other Address City"
-msgstr ""
+msgstr "其他城市"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:66
-#, fuzzy
-#| msgid "_Zip/Postal Code:"
 msgid "Other Address Zip/Postal code"
-msgstr "邮政编码(_Z)："
+msgstr "其他邮政编码"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:67
-#, fuzzy
-#| msgid "_State/Province:"
 msgid "Other Address State/Province"
-msgstr "州/省(_S)："
+msgstr "其他州/省"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:68
-#, fuzzy
-#| msgid "Addressbook Contact"
 msgid "Other Address Country"
-msgstr "地址簿联系人"
+msgstr "其他国家"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:659
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:246
@@ -6412,11 +6367,10 @@ msgid "Co_untry:"
 msgstr "国家/地区(_U)："
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:913
-#, fuzzy, c-format
-#| msgid "Modifying a task"
+#, c-format
 msgid "Modify a contact"
 msgid_plural "Modify %u contacts"
-msgstr[0] "修改任务"
+msgstr[0] "修改 %u 个联系人"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:918
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:616
@@ -6424,17 +6378,12 @@ msgid "Select values to be modified."
 msgstr "选择要修改的值。"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1097
-#, fuzzy
-#| msgctxt "Job"
-#| msgid "_Title:"
 msgid "_Title:"
 msgstr "职位头衔(_T):"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1101
-#, fuzzy
-#| msgid "_Company:"
 msgid "Compa_ny:"
-msgstr "公司(_C)："
+msgstr "公司(_N)："
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1148
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:735
@@ -6447,39 +6396,21 @@ msgid "Ca_ncel"
 msgstr "取消(_N)"
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:84
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Search for the Contact\n"
-#| "\n"
-#| "or double-click here to create a new Contact."
 msgid ""
 "Search for the Contact\n"
 "\n"
 "or double-click here to create a new Contact."
 msgstr ""
-"\n"
-"\n"
 "搜索联系人\n"
 "\n"
 "或在此双击以创建新联系人。"
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:86
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view.\n"
-#| "\n"
-#| "Double-click here to create a new Contact."
 msgid ""
 "There are no items to show in this view.\n"
 "\n"
 "Double-click here to create a new Contact."
 msgstr ""
-"\n"
-"\n"
 "本视图中没有可显示的项。\n"
 "\n"
 "请在此双击以创建新联系人。"
@@ -6489,16 +6420,8 @@ msgid "Search for the Contact."
 msgstr "搜索联系人。"
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:91
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view."
 msgid "There are no items to show in this view."
-msgstr ""
-"\n"
-"\n"
-"本视图中没有可显示的项。"
+msgstr "本视图中没有可显示的项。"
 
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:359
 msgid "Contacts Map"
@@ -6724,20 +6647,14 @@ msgid "_Send Notice"
 msgstr "发送通知(_S)"
 
 #: ../src/calendar/calendar.error.xml.h:5
-#, fuzzy
-#| msgid "Would you like to send all the participants a cancellation notice?"
 msgid "Would you like to send the organizer a deletion notice?"
-msgstr "您是否想要给全部出席者发送取消通知？"
+msgstr "您是否想要给组织者发送删除通知？"
 
 #: ../src/calendar/calendar.error.xml.h:6
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the memo has been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the meeting "
 "has been deleted."
-msgstr "如果您不发送取消通知，其他出席者可能不知道备忘已经删除。"
+msgstr "如果您不发送删除通知，组织者可能不知道会议已经删除。"
 
 #: ../src/calendar/calendar.error.xml.h:7
 #: ../src/calendar/gui/e-cal-dialogs.c:750
@@ -6751,36 +6668,30 @@ msgid ""
 msgstr "此会议的全部信息将被删除，且无法恢复。"
 
 #: ../src/calendar/calendar.error.xml.h:10
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the meeting is canceled."
 msgid ""
 "All information on this meeting will be deleted and can not be restored. If "
 "you do not send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
-msgstr "如果您不发送取消通知，其他出席者也许不知道会议已经取消。"
+msgstr ""
+"此会议的全部信息将被删除，且无法恢复。如果您不发送取消通知，其他出席者也许不"
+"知道会议被取消。"
 
 #: ../src/calendar/calendar.error.xml.h:11
-#, fuzzy
-#| msgid "_Send Notice"
 msgid "_Delete and Sent Notice"
-msgstr "发送通知(_S)"
+msgstr "删除并发送通知(_D)"
 
 #: ../src/calendar/calendar.error.xml.h:12
 msgid "Delete _without Notice"
-msgstr ""
+msgstr "删除，不发送通知(_W)"
 
 #: ../src/calendar/calendar.error.xml.h:13
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the memo has been deleted."
 msgid ""
 "All information on this meeting will be deleted and can not be restored. If "
 "you do not send a deletion notice, the organizer may not know the meeting "
 "has been deleted."
-msgstr "如果您不发送取消通知，其他出席者可能不知道备忘已经删除。"
+msgstr ""
+"此会议的全部信息将被删除，且无法恢复。如果您不发送取消通知，组织者也许不知道"
+"会议已经删除。"
 
 #: ../src/calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete the meeting titled “{0}”?"
@@ -6793,14 +6704,10 @@ msgid ""
 msgstr "如果您不发送取消通知，其他出席者可能不知道任务已经删除。"
 
 #: ../src/calendar/calendar.error.xml.h:16
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the task has been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the task "
 "has been deleted."
-msgstr "如果您不发送取消通知，其他出席者可能不知道任务已经删除。"
+msgstr "如果您不发送删除通知，组织者可能不知道任务已经删除。"
 
 #: ../src/calendar/calendar.error.xml.h:17
 #: ../src/calendar/gui/e-cal-dialogs.c:753
@@ -6823,20 +6730,14 @@ msgid ""
 msgstr "如果您不发送取消通知，其他出席者可能不知道备忘已经删除。"
 
 #: ../src/calendar/calendar.error.xml.h:21
-#, fuzzy
-#| msgid "Would you like to send a cancellation notice for this memo?"
 msgid "Would you like to send a deletion notice for this memo?"
-msgstr "您是否想要为此备忘发送取消通知？"
+msgstr "您是否想要为此备忘发送删除通知？"
 
 #: ../src/calendar/calendar.error.xml.h:22
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the memo has been deleted."
 msgid ""
 "If you do not send a deletion notice, the organizer may not know the memo "
 "has been deleted."
-msgstr "如果您不发送取消通知，其他出席者可能不知道备忘已经删除。"
+msgstr "如果您不发送删除通知，组织者可能不知道备忘已经删除。"
 
 #: ../src/calendar/calendar.error.xml.h:23
 #: ../src/calendar/gui/e-cal-dialogs.c:756
@@ -7771,10 +7672,8 @@ msgstr "位置："
 #: ../src/calendar/gui/comp-util.c:2780
 #: ../src/modules/itip-formatter/itip-view.c:2102
 #: ../src/modules/itip-formatter/itip-view.c:2308
-#, fuzzy
-#| msgid "Location:"
 msgid "GEO Location:"
-msgstr "位置："
+msgstr "地理位置："
 
 #: ../src/calendar/gui/comp-util.c:2805
 #: ../src/modules/itip-formatter/itip-view.c:2110
@@ -8313,10 +8212,9 @@ msgstr "%Y年%-m月%-d日"
 #: ../src/calendar/gui/e-day-view.c:3282
 #: ../src/calendar/gui/e-day-view-top-item.c:845
 #: ../src/calendar/gui/e-week-view-main-item.c:223
-#, fuzzy, c-format
-#| msgid "%d %b"
+#, c-format
 msgid "%d %b"
-msgstr "%B%-d日"
+msgstr "%d %b"
 
 #: ../src/calendar/gui/e-calendar-view.c:1252
 msgid "%A %d %b %Y"
@@ -8332,10 +8230,9 @@ msgstr "%Y年%-m月%-d日%A"
 #: ../src/calendar/gui/e-day-view.c:3266
 #: ../src/calendar/gui/e-day-view-top-item.c:841
 #: ../src/calendar/gui/e-week-view-main-item.c:209
-#, fuzzy, c-format
-#| msgid "%a %d %b"
+#, c-format
 msgid "%a %d %b"
-msgstr "%-m月%-d日%A"
+msgstr "%a %d %b"
 
 #: ../src/calendar/gui/e-calendar-view.c:1255
 #: ../src/calendar/gui/e-calendar-view.c:1257
@@ -10445,7 +10342,7 @@ msgstr "无法预约资源，新事件与其它事件冲突。"
 
 #: ../src/calendar/gui/itip-utils.c:1399
 msgid "Unable to book a resource, error: "
-msgstr "无法预约资源，错误："
+msgstr "无法预约资源，错误： "
 
 #: ../src/calendar/gui/itip-utils.c:1593
 msgid "You must be an attendee of the event."
@@ -10576,7 +10473,7 @@ msgstr "备忘"
 
 #: ../src/calendar/gui/print.c:3669
 msgid "Attendees: "
-msgstr "出席者："
+msgstr "出席者： "
 
 #: ../src/calendar/gui/print.c:3708
 #, c-format
@@ -10610,7 +10507,7 @@ msgstr "类别：%s"
 
 #: ../src/calendar/gui/print.c:3803
 msgid "Contacts: "
-msgstr "联系人："
+msgstr "联系人： "
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:11
 msgid "Not Started"
@@ -12592,25 +12489,19 @@ msgstr "切换发件人覆盖字段是否改变姓名或电子邮件的显示"
 
 #: ../src/composer/e-composer-actions.c:570
 msgid "Mail-Follow_up-To Field"
-msgstr ""
+msgstr "跟随至域"
 
 #: ../src/composer/e-composer-actions.c:572
-#, fuzzy
-#| msgid "Toggles whether the Reply-To field is displayed"
 msgid "Toggles whether the Mail-Followup-To field is displayed"
-msgstr "是否显示回复域"
+msgstr "是否显示跟随至域"
 
 #: ../src/composer/e-composer-actions.c:578
-#, fuzzy
-#| msgid "_Reply-To Field"
 msgid "Mail-R_eply-To Field"
-msgstr "回复至域(_R)"
+msgstr "回复至域(_E)"
 
 #: ../src/composer/e-composer-actions.c:580
-#, fuzzy
-#| msgid "Toggles whether the Reply-To field is displayed"
 msgid "Toggles whether the Mail-Reply-To field is displayed"
-msgstr "是否显示回复域"
+msgstr "是否显示回复至（Mail-Reply-To）域"
 
 #: ../src/composer/e-composer-actions.c:586
 msgid "_Reply-To Field"
@@ -12618,7 +12509,7 @@ msgstr "回复至域(_R)"
 
 #: ../src/composer/e-composer-actions.c:588
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "是否显示回复域"
+msgstr "是否显示回复至（Reply-To）域"
 
 #: ../src/composer/e-composer-actions.c:594
 msgid "Visually _Wrap Long Lines"
@@ -12665,17 +12556,15 @@ msgstr "发件人(_O)："
 
 #: ../src/composer/e-composer-header-table.c:875
 msgid "_Reply-To:"
-msgstr "回复到(_R)："
+msgstr "回复至(_R)："
 
 #: ../src/composer/e-composer-header-table.c:879
 msgid "Mail-Followu_p-To:"
-msgstr ""
+msgstr "跟随至："
 
 #: ../src/composer/e-composer-header-table.c:883
-#, fuzzy
-#| msgid "_Reply-To:"
 msgid "Mail-Repl_y-To:"
-msgstr "回复到(_R)："
+msgstr "回复至(_Y)："
 
 #: ../src/composer/e-composer-header-table.c:888
 msgid "_To:"
@@ -12728,20 +12617,16 @@ msgid ""
 msgstr "无法对寄出的信息加密：未对此帐号设置加密证书"
 
 #: ../src/composer/e-msg-composer.c:1644
-#, fuzzy
-#| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve text/plain processed content"
-msgstr "获取信息失败："
+msgstr "获取 text/plain 格式内容失败"
 
 #: ../src/composer/e-msg-composer.c:1768
 msgid "Failed to retrieve draft content"
 msgstr "获取草稿内容失败"
 
 #: ../src/composer/e-msg-composer.c:1781
-#, fuzzy
-#| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve HTML processed content"
-msgstr "获取信息失败："
+msgstr "获取 HTML 格式内容失败"
 
 #: ../src/composer/e-msg-composer.c:2093 ../src/composer/e-msg-composer.c:2832
 msgid "Compose Message"
@@ -13467,7 +13352,7 @@ msgstr "不支持的签名格式"
 #: ../src/em-format/e-mail-part-headers.c:40
 #: ../src/modules/mail/em-mailer-prefs.c:72
 msgid "Reply-To"
-msgstr "回复至"
+msgstr "回复至（Reply-To）"
 
 #: ../src/em-format/e-mail-part-headers.c:45 ../src/e-util/e-dateedit.c:607
 #: ../src/e-util/e-dateedit.c:630 ../src/mail/message-list.etspec.h:7
@@ -13578,7 +13463,7 @@ msgstr "任务列表(_T)"
 
 #: ../src/e-util/e-accounts-window.c:1692
 msgid "Evolution Accounts"
-msgstr "Evolution 帐号"
+msgstr "Evolution 账号"
 
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -13657,7 +13542,7 @@ msgstr "消除(_D)"
 
 #: ../src/e-util/e-alert-sink.c:244
 msgid "Failed to create a thread: "
-msgstr "创建会话失败："
+msgstr "创建会话失败： "
 
 #. To Translators: This text is set as a description of an attached
 #. * message when, for example, attaching it to a composer. When the
@@ -13768,7 +13653,7 @@ msgstr "添加附件"
 #: ../src/e-util/e-attachment-store.c:659
 #: ../src/e-util/e-attachment-store.c:661
 msgid "A_ttach"
-msgstr "附件(_T)"
+msgstr "附加(_T)"
 
 #: ../src/e-util/e-attachment-store.c:686
 msgid "_Suggest automatic display of attachment"
@@ -14273,11 +14158,11 @@ msgstr "正在查找 LDAP 服务器的搜索库…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1371
 msgid "Failed to store password: "
-msgstr "无法存储密码："
+msgstr "无法存储密码： "
 
 #: ../src/e-util/e-collection-account-wizard.c:1381
 msgid "Failed to create sources: "
-msgstr "未能创建源："
+msgstr "未能创建源： "
 
 #: ../src/e-util/e-collection-account-wizard.c:1551
 msgid "Saving account settings, please wait…"
@@ -14710,7 +14595,7 @@ msgstr "现在"
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: ../src/e-util/e-filter-datespec.c:132
 msgid "%d-%b-%Y"
-msgstr "%Y-%m-%d"
+msgstr "%d-%b-%Y"
 
 #: ../src/e-util/e-filter-datespec.c:289
 msgid "Select a time to compare against"
@@ -17212,13 +17097,11 @@ msgstr "事件"
 
 #: ../src/e-util/e-webdav-browser.c:542
 msgid "Scheduling Inbox"
-msgstr ""
+msgstr "规划收件箱"
 
 #: ../src/e-util/e-webdav-browser.c:547
-#, fuzzy
-#| msgid "Keep in Outbox"
 msgid "Scheduling Outbox"
-msgstr "保留在发件箱"
+msgstr "规划发件箱"
 
 #: ../src/e-util/e-webdav-browser.c:610 ../src/mail/e-mail-viewer.c:1731
 #: ../src/mail/e-mail-viewer.c:2438 ../src/mail/em-folder-tree-model.c:1618
@@ -17568,8 +17451,6 @@ msgid "Rule Name"
 msgstr "规则名称"
 
 #: ../src/e-util/filter.ui.h:27
-#, fuzzy
-#| msgid "Skip duplicates"
 msgid "Du_plicate"
 msgstr "跳过重复"
 
@@ -18330,16 +18211,12 @@ msgid "Choose a folder for junk messages."
 msgstr "选择垃圾信息的文件夹。"
 
 #: ../src/mail/e-mail-config-defaults-page.c:872
-#, fuzzy
-#| msgid "_Junk Folder:"
 msgid "Restore _Not-Junk to Folder:"
-msgstr "垃圾信息文件夹(_J)："
+msgstr "恢复非垃圾信息到文件夹(_N)："
 
 #: ../src/mail/e-mail-config-defaults-page.c:873
-#, fuzzy
-#| msgid "Choose a folder for junk messages."
 msgid "Choose a folder to restore not-junk messages from the Junk folder to."
-msgstr "选择垃圾信息的文件夹。"
+msgstr "选择恢复非垃圾信息的文件夹。"
 
 #: ../src/mail/e-mail-config-defaults-page.c:1006
 msgid "Defaults"
@@ -18978,7 +18855,7 @@ msgstr "不再询问(_D)。"
 
 #: ../src/mail/e-mail-reader.c:2219
 msgid "_Always ignore Reply-To: for mailing lists."
-msgstr "总是忽略对于邮件列表的“回复至”域(_A)。"
+msgstr "总是忽略对于邮件列表的“回复至（Reply-To）”域(_A)。"
 
 #: ../src/mail/e-mail-reader.c:2423
 msgid "Failed to retrieve message:"
@@ -19168,7 +19045,7 @@ msgstr "作为引用转发(_Q)"
 
 #: ../src/mail/e-mail-reader.c:2868
 msgid "Change _More Labels…"
-msgstr ""
+msgstr "改变更多标签(_M)…"
 
 #: ../src/mail/e-mail-reader.c:2875
 msgid "_New Label"
@@ -19548,23 +19425,17 @@ msgid "Retrieving message"
 msgstr "正在获取信息"
 
 #: ../src/mail/e-mail-reader.c:4994
-#, fuzzy
-#| msgid "Edit a note for the selected message"
 msgid "Modify labels for selected message"
 msgid_plural "Modify labels for selected messages"
-msgstr[0] "编辑选中消息的便笺"
+msgstr[0] "编辑选中消息的标签"
 
 #: ../src/mail/e-mail-reader.c:5002
-#, fuzzy
-#| msgid "Save Selected"
 msgid "Set _Selected"
-msgstr "保存选中"
+msgstr "保存选中(_S)"
 
 #: ../src/mail/e-mail-reader.c:5008
-#, fuzzy
-#| msgid "_None"
 msgid "Set _None"
-msgstr "无(_N)"
+msgstr "设为无(_N)"
 
 #: ../src/mail/e-mail-reader.c:5856 ../src/mail/filtertypes.xml.in.h:74
 msgid "Delete"
@@ -19722,7 +19593,7 @@ msgstr "导入(_I)"
 
 #: ../src/mail/e-mail-viewer.c:274
 msgid "Could not import any message"
-msgstr "无法导入任何信息。"
+msgstr "无法导入任何信息"
 
 #: ../src/mail/e-mail-viewer.c:278
 #, c-format
@@ -19744,11 +19615,8 @@ msgid "Open Message File"
 msgstr "打开信息文件"
 
 #: ../src/mail/e-mail-viewer.c:605
-#, fuzzy
-#| msgctxt "New"
-#| msgid "_Mail Message"
 msgid "Mail Messages"
-msgstr "信息(_M)"
+msgstr "信息"
 
 #: ../src/mail/e-mail-viewer.c:612
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:211
@@ -19867,7 +19735,7 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
-"在 ${Year}-${Month}-${Day}${WeekdayName}的 ${24Hour}:${Minute} "
+"在 ${Year}-${Month}-${Day}${AbbrevWeekdayName}的 ${24Hour}:${Minute} "
 "${TimeZone}，${Sender}写道："
 
 #: ../src/mail/em-composer-utils.c:2322
@@ -20296,7 +20164,7 @@ msgstr "退订全部(_A)"
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
-msgstr[0] "%d 封未读，"
+msgstr[0] "%d 封未读， "
 
 #: ../src/mail/em-subscription-editor.c:1324
 #: ../src/modules/mail/e-mail-shell-view-private.c:1014
@@ -20650,10 +20518,8 @@ msgstr "未完成"
 
 #: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
 #: ../src/mail/vfoldertypes.xml.in.h:50
-#, fuzzy
-#| msgid "Follow Up"
 msgid "Follow Up Due By"
-msgstr "跟随"
+msgstr "跟随截止至"
 
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
@@ -20718,7 +20584,7 @@ msgstr "不是垃圾信息"
 
 #: ../src/mail/filtertypes.xml.in.h:66
 msgid "Inconclusive whether Message is Junk"
-msgstr ""
+msgstr "无法确定是否为垃圾信息"
 
 #: ../src/mail/filtertypes.xml.in.h:67 ../src/mail/vfoldertypes.xml.in.h:60
 msgid "Message Location"
@@ -20781,8 +20647,6 @@ msgid "Unset Status"
 msgstr "取消状态"
 
 #: ../src/mail/filtertypes.xml.in.h:85
-#, fuzzy
-#| msgid "Mark as _Junk"
 msgid "Learn as Junk"
 msgstr "标记为垃圾(_J)"
 
@@ -21027,7 +20891,7 @@ msgstr "仅在新邮件中包含签名(_G)"
 
 #: ../src/mail/mail-config.ui.h:27
 msgid "Ig_nore Reply-To: for mailing lists"
-msgstr "忽略邮件列表的“Reply-To”(_N)"
+msgstr "忽略邮件列表的回复至（Reply-To）(_N)"
 
 #: ../src/mail/mail-config.ui.h:28
 msgid "Gro_up Reply goes only to mailing list, if possible"
@@ -21129,20 +20993,16 @@ msgstr "在编写器格式从 HTML 更改为纯文本之前(_F)"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:66
-#, fuzzy
-#| msgid "Sending a message with _recipients not entered as mail addresses"
 msgid "Sending a message with _attachments which changed since being attached"
-msgstr "发送只填写了密件抄送收件人的信息时(_B)"
+msgstr "发送附件自附加后发生变动的信息时(_A)"
 
 #: ../src/mail/mail-config.ui.h:67
-#, fuzzy
-#| msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgid "Sending an _HTML mail to contacts that do not want them"
-msgstr "发送给不想接收 HTML 的联系人时提示(_P)"
+msgstr "发送给不想接收 HTML 的联系人时(_H)"
 
 #: ../src/mail/mail-config.ui.h:68
 msgid "Addresses or domains which accept HTML messages:"
-msgstr ""
+msgstr "接受 HTML 信息的地址或域名："
 
 #: ../src/mail/mail-config.ui.h:72
 msgid "Confirmations"
@@ -21424,19 +21284,13 @@ msgid "Check cu_stom headers for junk"
 msgstr "检查自定义信头以判别垃圾信息(_S)"
 
 #: ../src/mail/mail-config.ui.h:154
-#, fuzzy
-#| msgid ""
-#| "To help avoid email accidents and embarrassments, ask for confirmation "
-#| "before taking the following checkmarked actions:"
 msgid "Ask for confirmation before taking the following checkmarked actions:"
-msgstr "为了帮助避免电子邮件意外和问题，在采取以下勾选的操作前请求确认："
+msgstr "在采取以下勾选的操作前请求确认："
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:156
-#, fuzzy
-#| msgid "Check whether Evolution is the default mailer"
 msgid "Check whether Evolution is the _default mailer"
-msgstr "检查 Evolution 是否是默认邮件程序"
+msgstr "检查 Evolution 是否是默认邮件程序(_D)"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:158
@@ -21445,43 +21299,33 @@ msgstr "清空废件箱(_T)"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:160
-#, fuzzy
-#| msgid "Prompt when user tries to open 10 or more messages at once"
 msgid "Tries to _open 10 or more messages at once"
-msgstr "当用户试图一次打开超过十封信时提示"
+msgstr "试图一次打开超过十封信时(_O)"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:162
 msgid "Marking _all messages as read"
-msgstr "正在把所有信息标记为已读…"
+msgstr "正在将所有信息标记为已读"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:164
-#, fuzzy
-#| msgid "Prompt when deleting messages in search folder"
 msgid "Deleting messages in _search folder"
-msgstr "删除搜索文件夹中的信息时提示"
+msgstr "删除搜索文件夹中的信息时(_S)"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:166
-#, fuzzy
-#| msgid "Copy folder in folder tree."
 msgid "Copy _folder by Drag & Drop in folder tree"
-msgstr "复制文件夹树中的文件夹。"
+msgstr "通过在文件夹树中拖放来复制文件夹(_F)"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:168
-#, fuzzy
-#| msgid "Move folder in folder tree."
 msgid "_Move folder by Drag & Drop in folder tree"
-msgstr "移动文件夹树中的文件夹。"
+msgstr "通过在文件夹树中拖放来移动文件夹(_M)"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:170
-#, fuzzy
-#| msgid "Show messages with all email headers"
 msgid "Sort message list on _header click"
-msgstr "显示信息时显示所有信头"
+msgstr "单击标题时对信息列表进行排序"
 
 #: ../src/mail/mail-config.ui.h:171
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
@@ -21624,7 +21468,7 @@ msgstr ""
 "\n"
 "许多邮件系统会在只有密件抄送收件人的信息中添加 Apparently-To 头。如果添加了这"
 "个邮件头，将在您的信息中列出您的全部收件人。为了避免这种情况，您应该至少填入"
-"一个 To: 或 CC: 收件人。"
+"一个 To: 或 CC: 收件人。 "
 
 #: ../src/mail/mail.error.xml.h:15
 msgid ""
@@ -22464,25 +22308,21 @@ msgid "Choose a different name, please."
 msgstr "请另选一个名称。"
 
 #: ../src/mail/mail.error.xml.h:224
-#, fuzzy
-#| msgid "Do you wish to overwrite it?"
 msgid "Do you wish to import OpenPGP key?"
-msgstr "您打算覆盖它吗？"
+msgstr "您想要导入 OpenPGP 密钥吗？"
 
 #: ../src/mail/mail.error.xml.h:226
 msgid "Failed to import OpenPGP key"
 msgstr "导入 OpenPGP 密钥失败"
 
 #: ../src/mail/mail.error.xml.h:227
-#, fuzzy
-#| msgid "Change sort order of the folders in the folder tree"
 msgid "Change sort order of the message list?"
-msgstr "更改文件夹树中文件夹的排序顺序"
+msgstr "更改消息列表的排序顺序？"
 
 #: ../src/mail/mail.error.xml.h:228
 msgid ""
 "Click in the list headers usually changes sort order. Choose what to do."
-msgstr ""
+msgstr "单击列表标题通常会更改排序顺序。选择要执行的操作。"
 
 #: ../src/mail/mail.error.xml.h:229
 msgid "_Sort"
@@ -22854,10 +22694,8 @@ msgid "_GNOME"
 msgstr "_GNOME"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:294
-#, fuzzy
-#| msgid "Display window buttons with icons only"
 msgid "Use buttons with _icons only"
-msgstr "显示只有图标的窗口按钮"
+msgstr "使用只有图标的窗口按钮(_I)"
 
 #. Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:313
@@ -22870,10 +22708,8 @@ msgstr "工具栏图标尺寸"
 
 #. Translators: this is in a sense of "Look & Feel of the icons"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:352
-#, fuzzy
-#| msgid "Retro Look"
 msgid "Icons Look"
-msgstr "火箭外观"
+msgstr "图标外观"
 
 #. Translators: This is for "Icons Look: Autodetect"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:377
@@ -22883,22 +22719,22 @@ msgstr "自动探测(_O)"
 #. Translators: This is for "Toolbar Icon Size: Small"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:390
 msgid "Sm_all"
-msgstr ""
+msgstr "小(_A)"
 
 #. Translators: This is for "Icons Look: Prefer symbolic"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:401
 msgid "_Prefer symbolic"
-msgstr ""
+msgstr "偏好象征(_P)"
 
 #. Translators: This is for "Toolbar Icon Size: Large"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:413
 msgid "_Large"
-msgstr ""
+msgstr "大(_L)"
 
 #. Translators: This is for "Icons Look: Prefer regular"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:424
 msgid "Prefer _regular"
-msgstr ""
+msgstr "偏好常规(_R)"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:499
 msgid "Layout"
@@ -23118,16 +22954,12 @@ msgstr "停止载入"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1356
 #: ../src/modules/calendar/e-task-shell-view-actions.c:722
-#, fuzzy
-#| msgid "_Edit note…"
 msgid "_Bulk Edit…"
-msgstr "编辑便笺(_E)…"
+msgstr "批量编辑(_B)…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
-#, fuzzy
-#| msgid "List of selected task lists"
 msgid "Edit selected contacts in a bulk"
-msgstr "已选中任务列表列表"
+msgstr "批量编辑选中的内容"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1363
 msgid "_Copy Contact To…"
@@ -23196,10 +23028,8 @@ msgid "_Actions"
 msgstr "操作(_A)"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1442
-#, fuzzy
-#| msgid "_Sort By"
 msgid "_Sort Cards By"
-msgstr "排序方式(_S)"
+msgstr "排列名片(_S)"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1455
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
@@ -23265,22 +23095,16 @@ msgid "Advanced Search"
 msgstr "高级搜索"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1611
-#, fuzzy
-#| msgid "_File under:"
 msgid "_File Under"
-msgstr "存档为(_F)："
+msgstr "存档为(_F)"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1618
-#, fuzzy
-#| msgid "Given Name"
 msgid "_Given Name"
-msgstr "名"
+msgstr "名(_G)"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1625
-#, fuzzy
-#| msgid "Family Name"
 msgid "Family _Name"
-msgstr "姓"
+msgstr "姓(_N)"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1637
 msgid "Print all shown contacts"
@@ -23444,7 +23268,7 @@ msgstr "备份 Evolution 数据(邮件、联系人、日历、任务、备忘)"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:604
 msgid "Checking validity of the archive"
-msgstr ""
+msgstr "检查归档有效性"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:611
 msgid "Back up complete"
@@ -23478,7 +23302,7 @@ msgstr "重新加载注册服务"
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1176
 #, c-format
 msgid "Failed to verify the backup file “%s”, the archive is broken."
-msgstr ""
+msgstr "验证备份文件 \"%s\" 失败，此归档已破损。"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1277
 msgid "Evolution Back Up"
@@ -23580,11 +23404,11 @@ msgstr "选中的文件夹不可写。"
 #: ../src/modules/bogofilter/evolution-bogofilter.c:158
 #, c-format
 msgid "Failed to spawn Bogofilter (%s): "
-msgstr "无法生成 Bogofilter (%s)："
+msgstr "无法生成 Bogofilter (%s)： "
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:176
 msgid "Failed to stream mail message content to Bogofilter: "
-msgstr "无法将邮件信息内容通过流传送给 Bogofilter："
+msgstr "无法将邮件信息内容通过流传送给 Bogofilter： "
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:225
 msgid "Bogofilter either crashed or failed to process a mail message"
@@ -24054,7 +23878,7 @@ msgstr "操作后删除信息(_D)"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:670
 msgid "Delete _meeting from calendar on Decline"
-msgstr ""
+msgstr "点击取消以从日历中删除会议"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:673
 msgid "_Preserve existing reminder by default"
@@ -24065,10 +23889,8 @@ msgid "_Show invitation description provided by the sender"
 msgstr "显示发送者提供的邀请描述(_S)"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:687
-#, fuzzy
-#| msgid "Play audio attachments directly in mail messages."
 msgid "_Always attach components in mail messages"
-msgstr "直接在邮件信息里播放音频附件"
+msgstr "始终在邮件消息中附加组件(_A)"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:709
 #: ../src/modules/calendar/e-calendar-preferences.c:740
@@ -24396,17 +24218,13 @@ msgstr "在每个周年/生日前"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:100
-#, fuzzy
-#| msgid "Show a _reminder"
 msgid "Show a r_eminder"
 msgstr "显示一条提醒(_R)"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:102
-#, fuzzy
-#| msgid "Moving an event into the calendar “%s”"
 msgid "before every event in chosen calendars"
-msgstr "正在将事件移至日历“%s”"
+msgstr "在所选日历的所有事件之前"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:103
 msgid "Select the sources for reminder notification:"
@@ -24647,10 +24465,8 @@ msgid "Edit as Ne_w…"
 msgstr "编辑为新(_W)…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1476
-#, fuzzy
-#| msgid "Print the selected task"
 msgid "Edit the selected event as new"
-msgstr "打印选中的任务"
+msgstr "以新事件编辑选中的事件"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1481
 msgid "New All Day _Event…"
@@ -25189,10 +25005,8 @@ msgid "Do not ask me again"
 msgstr "不要再次询问"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:724
-#, fuzzy
-#| msgid "List of selected task lists"
 msgid "Edit selected tasks in a bulk"
-msgstr "已选中任务列表列表"
+msgstr "批量编辑选中的任务"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:729
 msgid "_Delete Task"
@@ -25303,10 +25117,8 @@ msgid "Tasks with Attachments"
 msgstr "有附件的任务"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1047
-#, fuzzy
-#| msgid "_Show Tasks without Due date"
 msgid "Show tasks with no category set"
-msgstr "显示无到期日期的人物(_S)"
+msgstr "显示未设置分类的任务"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1052
 msgid "Started Tasks"
@@ -25615,10 +25427,8 @@ msgid "%s has published the following meeting information:"
 msgstr "%s 发布了会议信息："
 
 #: ../src/modules/itip-formatter/itip-view.c:493
-#, fuzzy
-#| msgid "%s has published the following meeting information:"
 msgid "The following meeting information has been published:"
-msgstr "%s 发布了会议信息："
+msgstr "如下会议信息已发布："
 
 #: ../src/modules/itip-formatter/itip-view.c:499
 #, c-format
@@ -25708,10 +25518,8 @@ msgid "%s has published the following task:"
 msgstr "%s 发布了下列任务："
 
 #: ../src/modules/itip-formatter/itip-view.c:587
-#, fuzzy
-#| msgid "%s has published the following meeting information:"
 msgid "The following task has been published:"
-msgstr "%s 发布了会议信息："
+msgstr "如下任务已发布："
 
 #: ../src/modules/itip-formatter/itip-view.c:593
 #, c-format
@@ -25802,10 +25610,8 @@ msgid "%s has published the following memo:"
 msgstr "%s 发布了下列备忘："
 
 #: ../src/modules/itip-formatter/itip-view.c:680
-#, fuzzy
-#| msgid "%s has published the following meeting information:"
 msgid "The following memo has been published:"
-msgstr "%s 发布了会议信息："
+msgstr "如下备忘录已发布："
 
 #: ../src/modules/itip-formatter/itip-view.c:686
 #, c-format
@@ -25901,10 +25707,8 @@ msgstr "隐藏发送者提供的描述"
 
 #. RSVP area
 #: ../src/modules/itip-formatter/itip-view.c:2234
-#, fuzzy
-#| msgid "Send reply to sender"
 msgid "Send reply to organizer"
-msgstr "回复发件人"
+msgstr "回复组织者"
 
 #. Updates
 #: ../src/modules/itip-formatter/itip-view.c:2249
@@ -26109,22 +25913,19 @@ msgid "Sent to memo list “%s” as cancelled"
 msgstr "将备忘录列表“%s”发送为已取消"
 
 #: ../src/modules/itip-formatter/itip-view.c:5472
-#, fuzzy, c-format
-#| msgid "Opening calendar “%s”"
+#, c-format
 msgid "Imported to calendar “%s”"
-msgstr "正在打开日历“%s”"
+msgstr "导入到日历“%s”"
 
 #: ../src/modules/itip-formatter/itip-view.c:5477
-#, fuzzy, c-format
-#| msgid "Opening task list “%s”"
+#, c-format
 msgid "Imported to task list “%s”"
-msgstr "正在打开任务列表“%s”"
+msgstr "导入到任务列表“%s”"
 
 #: ../src/modules/itip-formatter/itip-view.c:5482
-#, fuzzy, c-format
-#| msgid "Opening memo list “%s”"
+#, c-format
 msgid "Imported to memo list “%s”"
-msgstr "打开备忘录“%s”"
+msgstr "导入到备忘录列表“%s”"
 
 #: ../src/modules/itip-formatter/itip-view.c:5501
 msgid "Saving changes to the calendar. Please wait…"
@@ -26447,16 +26248,12 @@ msgid "Add Ca_lendar and Tasks to this account"
 msgstr "添加日历和任务到此帐号(_L)"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:521
-#, fuzzy
-#| msgid "Open PGP key"
 msgid "Import OpenP_GP key…"
-msgstr "打开 PGP 密钥"
+msgstr "导入 OpenPGP 密钥(_G)…"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:523
-#, fuzzy
-#| msgid "Pretty Good Privacy (OpenPGP)"
 msgid "Import Pretty Good Privacy (OpenPGP) key"
-msgstr "PGP 加密 (OpenPGP)"
+msgstr "导入 PGP (OpenPGP) 密钥"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:732
 #, c-format
@@ -26562,7 +26359,7 @@ msgstr "无"
 #: ../src/modules/mail/e-mail-shell-backend.c:1554
 msgctxt "label"
 msgid "All"
-msgstr ""
+msgstr "所有"
 
 #. Translators: Meaning "any configured addressbook included in autocompletion" in the filter dialog
 #: ../src/modules/mail/e-mail-shell-backend.c:1842
@@ -26848,16 +26645,12 @@ msgid "Show junk messages with a red line through them"
 msgstr "使用红色删除线标记垃圾信息"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1972
-#, fuzzy
-#| msgid "Show _Tool Bar"
 msgid "Show _Preview Tool Bar"
-msgstr "显示工具栏(_T)"
+msgstr "显示预览工具栏(_P)"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1974
-#, fuzzy
-#| msgid "Show event preview pane"
 msgid "Show tool bar above the preview panel"
-msgstr "显示事件预览窗格"
+msgstr "在预览面板上显示工具栏"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1980
 msgid "_Group By Threads"
@@ -26967,7 +26760,7 @@ msgstr "帐号搜索"
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
-msgstr[0] "已选中 %d 个，"
+msgstr[0] "已选中 %d 个， "
 
 #: ../src/modules/mail/e-mail-shell-view-private.c:936
 #: ../src/modules/mail/e-mail-shell-view-private.c:953
@@ -27034,10 +26827,8 @@ msgid "Send immediately"
 msgstr "立即发送"
 
 #: ../src/modules/mail/em-composer-prefs.c:1686
-#, fuzzy
-#| msgid "Send after 5 minutes"
 msgid "Send after 1 minute"
-msgstr "5 分钟后发送"
+msgstr "1 分钟后发送"
 
 #: ../src/modules/mail/em-composer-prefs.c:1687
 msgid "Send after 5 minutes"
@@ -27082,8 +26873,6 @@ msgstr "包含值"
 #. Translators: This is a column caption, in which a mail header name is shown.
 #. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
 #: ../src/modules/mail/em-mailer-prefs.c:2231
-#, fuzzy
-#| msgid "Header"
 msgctxt "UserHeaders"
 msgid "Header"
 msgstr "页眉"
@@ -27092,8 +26881,6 @@ msgstr "页眉"
 #. it's the text the header is presented in the GUI, aka a user friendly name
 #. of the header. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
 #: ../src/modules/mail/em-mailer-prefs.c:2245
-#, fuzzy
-#| msgid "Title"
 msgctxt "UserHeaders"
 msgid "Title"
 msgstr "头衔"
@@ -27287,10 +27074,9 @@ msgid "Invalid Feed URL “%s”."
 msgstr "无效订阅网址“%s”。"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:320
-#, fuzzy, c-format
-#| msgid "Pipe to Bogofilter failed, error code: %d."
+#, c-format
 msgid "Failed to download feeds, error code %d (%s)"
-msgstr "建立到 Bogofilter 的管道失败，错误代码：%d"
+msgstr "下载订阅失败，错误代码 %d (%s)"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:470
 #, c-format
@@ -27392,89 +27178,69 @@ msgid "C_ontent:"
 msgstr "目录(_O)："
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1148
-#, fuzzy
-#| msgid "Importing Files"
 msgid "Import RSS Feeds"
-msgstr "导入文件"
+msgstr "导入 RSS 订阅"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1148
 msgid "Export RSS Feeds"
-msgstr ""
+msgstr "导出 RSS 订阅"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1151
-#, fuzzy
-#| msgid "Import"
 msgid "Export"
-msgstr "导入"
+msgstr "导出"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1155
-#, fuzzy
-#| msgid "HTML file"
 msgid "OPML files"
-msgstr "HTML 文件"
+msgstr "OPML 文件"
 
 #. Translators: This is a default file name for exported RSS feeds.
 #. Keep the extension (".opml") as is, translate only the "feeds" word, if needed.
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1164
 msgid "feeds.opml"
-msgstr ""
+msgstr "feeds.opml"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1252
-#, fuzzy
-#| msgid "Failed to fetch feed icon: %s"
 msgid "Failed to export RSS feeds: "
-msgstr "获取订阅图标失败：%s"
+msgstr "导出 RSS 订阅失败： "
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1278
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to read file content: "
-msgstr "删除联系人失败"
+msgstr "读取文件内容失败： "
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1345
-#, fuzzy
-#| msgid "Failed to fetch feed icon: %s"
 msgid "Failed to add feed: "
-msgstr "获取订阅图标失败：%s"
+msgstr "添加订阅失败： "
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1390
-#, fuzzy
-#| msgctxt "EmojiChooser"
-#| msgid "No Results Found"
 msgid "No RSS feeds found"
-msgstr "未找到结果"
+msgstr "未找到 RSS 订阅"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1392
 msgid "No new RSS feeds imported"
-msgstr ""
+msgstr "没有导入的 RSS 新订阅"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1395
-#, fuzzy, c-format
-#| msgid "Importer Type"
+#, c-format
 msgid "Imported %d feed"
 msgid_plural "Imported %d feeds"
-msgstr[0] "导入器类型"
+msgstr[0] "导入 %d 订阅"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1399
 msgid "Failed to import data, the file does not contain valid OPML data."
-msgstr ""
+msgstr "导入数据失败，文件不包含有效的 OPML 数据。"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1404
 msgid "Failed to parse file content. Expected is an OPML file."
-msgstr ""
+msgstr "解析文件内容失败。应为 OPML 文件。"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1652
-#, fuzzy
-#| msgid "_Download feed enclosures"
 msgid "Download _feed enclosures"
-msgstr "下载订阅附件(_D)"
+msgstr "下载订阅附件(_F)"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1671
-#, fuzzy
-#| msgid "Do not download enclosures larger than"
 msgid "Do not download e_nclosures larger than"
-msgstr "不要下载附件若大于"
+msgstr "不要下载附件若大于(_N)"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1694
@@ -27490,10 +27256,8 @@ msgid "Content"
 msgstr "目录"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1829
-#, fuzzy
-#| msgid "I_mport"
 msgid "E_xport"
-msgstr "导入(_M)"
+msgstr "导入(_X)"
 
 #: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:212
 msgid "Re_load feed articles"
@@ -27508,20 +27272,20 @@ msgstr "从服务器重新加载所有订阅文章，更新现有的并添加缺
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
-msgstr "无法启动 SpamAssassin (%s)："
+msgstr "无法启动 SpamAssassin (%s)： "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:211
 msgid "Failed to stream mail message content to SpamAssassin: "
-msgstr "无法将邮件信息内容通过流传送给 SpamAssassin："
+msgstr "无法将邮件信息内容通过流传送给 SpamAssassin： "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:230
 #, c-format
 msgid "Failed to write “%s” to SpamAssassin: "
-msgstr "无法将“%s”写入 SpamAssassin："
+msgstr "无法将“%s”写入 SpamAssassin： "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:258
 msgid "Failed to read output from SpamAssassin: "
-msgstr "读取 SpamAssassin 输出失败："
+msgstr "读取 SpamAssassin 输出失败： "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:313
 msgid "SpamAssassin either crashed or failed to process a mail message"
@@ -27851,16 +27615,13 @@ msgid "Display the part as an addressbook contact"
 msgstr "将该部分显示为地址簿联系人"
 
 #: ../src/modules/webkit-editor/e-webkit-editor.c:2244
-#, fuzzy
-#| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve message content"
-msgstr "获取信息失败："
+msgstr "获取信息内容失败"
 
 #: ../src/modules/webkit-editor/e-webkit-editor.c:5668
-#, fuzzy, c-format
-#| msgid "Go to the section %s of the message"
+#, c-format
 msgid "Ctrl-click to go to the section “%s” of the message"
-msgstr "转到信息的 %s 部分"
+msgstr "Ctrl 加单击来转到信息的 “%s” 部分"
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
 #: ../src/modules/webkit-editor/e-webkit-editor.c:5671
@@ -28053,7 +27814,7 @@ msgstr "自定义信头"
 
 #: ../src/plugins/external-editor/external-editor.c:108
 msgid "Command to be executed to launch the editor: "
-msgstr "调用编辑器要执行的命令："
+msgstr "调用编辑器要执行的命令： "
 
 #: ../src/plugins/external-editor/external-editor.c:109
 msgid ""
@@ -28890,10 +28651,6 @@ msgid "Confirm sender address"
 msgstr "确认发件人地址"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:2
-#, fuzzy
-#| msgid ""
-#| "The message contains recipient “{0}” for which it is set up to use sender "
-#| "account “{1}”, but the account “{2}” is used instead."
 msgid ""
 "The message contains recipient “{0}” for which it is set to use sender "
 "account “{1}”, but the account “{2}” is used instead."
@@ -28906,22 +28663,14 @@ msgid "_Send Anyway"
 msgstr "仍然发送(_S)"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:5
-#, fuzzy
-#| msgid "Confirm sender address"
 msgid "Confirm recipient address"
-msgstr "确认发件人地址"
+msgstr "确认收件人地址"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:6
-#, fuzzy
-#| msgid ""
-#| "The message contains recipient “{0}” for which it is set up to use sender "
-#| "account “{1}”, but the account “{2}” is used instead."
 msgid ""
 "The message contains recipient “{0}”, which does not match recipient pattern "
 "“{1}” for the account “{2}”."
-msgstr ""
-"信息包含了收件人“{0}”，已设置对其使用发件人帐号“{1}”，但实际使用的帐号"
-"为“{2}”。"
+msgstr "信息包含了收件人“{0}”，账户“{2}”不符合收件人模式“{1}”。"
 
 #: ../src/plugins/sender-validation/sender-validation.c:653
 msgid ""
@@ -28930,6 +28679,9 @@ msgid ""
 "org” will warn when a recipient containing “@company.org” is not used with "
 "the “me@company.org” account."
 msgstr ""
+"设置应将哪个帐户用于特定收件人模式。\n"
+"例如，将帐户“me@company.org”的收件人设置为“@company.org”，若未使用帐"
+"户“me@company.org”发送给包含“@company.org”的收件人，将发出警告。"
 
 #: ../src/plugins/sender-validation/sender-validation.c:711
 msgid "Recipient Contains"
@@ -28946,12 +28698,13 @@ msgid ""
 "will warn when any of the recipients does not contain “@company.org” when "
 "sending with the “me@company.org” account."
 msgstr ""
+"设置哪些收件人模式可用于特定帐户。\n"
+"例如，为账户“me@company.org”设置收件人“@company.org”，在使用帐户“me@company."
+"org”发送时，若任何一个收件人不包含“@company.org”，则发出警告。"
 
 #: ../src/plugins/sender-validation/sender-validation.c:831
-#, fuzzy
-#| msgid "Recipients contain"
 msgid "Allow Recipients Which Contain"
-msgstr "收件人含有"
+msgstr "允许收件人含有"
 
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:2
 msgid ""
@@ -28967,22 +28720,16 @@ msgid "Saving message template"
 msgstr "正在保存消息模板"
 
 #: ../src/plugins/templates/templates.c:968
-#, fuzzy
-#| msgid "Save as _Template"
 msgid "Save _Template"
-msgstr "另存为模板(_T)"
+msgstr "保存模板(_T)"
 
 #: ../src/plugins/templates/templates.c:970
-#, fuzzy
-#| msgid "Remove duplicate messages?"
 msgid "Replace opened Template message"
-msgstr "移除重复的信息？"
+msgstr "替换打开的模板消息"
 
 #: ../src/plugins/templates/templates.c:975
-#, fuzzy
-#| msgid "Save as _Template"
 msgid "Save as _New Template"
-msgstr "另存为模板(_T)"
+msgstr "另存为新模板(_N)"
 
 #: ../src/plugins/templates/templates.c:977
 msgid "Save as Template"
@@ -29037,7 +28784,7 @@ msgstr "忽略网络是否可用"
 #: ../src/shell/e-shell.c:2034
 msgid ""
 "Forcibly shut down Evolution and background Evolution-Data-Server processes"
-msgstr ""
+msgstr "强制关闭 Evolution 和后台 Evolution-Data-Server 进程"
 
 #: ../src/shell/e-shell.c:2037
 msgid "Disable loading of any plugins."
@@ -29052,10 +28799,8 @@ msgid "Import URIs or filenames given as rest of arguments."
 msgstr "导入 URI 或者给定文件名作为剩余参数。"
 
 #: ../src/shell/e-shell.c:2045
-#, fuzzy
-#| msgid "Import URIs or filenames given as rest of arguments."
 msgid "View URIs or filenames given as rest of arguments."
-msgstr "导入 URI 或者给定文件名作为剩余参数。"
+msgstr "浏览 URI 或者给定文件名作为剩余参数。"
 
 #: ../src/shell/e-shell.c:2047
 msgid "Request a running Evolution process to quit"
@@ -29115,11 +28860,8 @@ msgid "i_n"
 msgstr "在(_N)"
 
 #: ../src/shell/e-shell-utils.c:169
-#, fuzzy
-#| msgctxt "New"
-#| msgid "_Mail Message"
 msgid "Mail Message (eml)"
-msgstr "信息(_M)"
+msgstr "信息（eml）"
 
 #: ../src/shell/e-shell-utils.c:172
 msgid "vCard (.vcf)"
@@ -29138,12 +28880,17 @@ msgstr ""
 "Funda Wang <fundawang0zheng@gmail.com>, 2010\n"
 "Aron Xu <aronxu@gnome.org>, 2010\n"
 "du baodao <centerpoint@139.com>, 2010\n"
+"李炜 <lw124124@gmail.com>, 2011\n"
 "Tong Hui <tonghuix@gmail.com>, 2014, 2015, 2016\n"
+"Wylmer Wang <wantinghard@gmail.com>, 2011, 2012, 2014\n"
+"tuhaihe <1132321739qq@gmail.com>, 2012\n"
+"甘露(Gan Lu) <rhythm.gan@gmail.com>，2013\n"
 "Mingye Wang <arthur2e5@aosc.xyz>, 2015\n"
 "Jeff Bai <jeffbai@aosc.xyz>, 2015, 2016\n"
 "Dingzhong Chen <wsxy162@gmail.com>, 2015, 2016\n"
 "Weiyi Xu <xuweiyi0923@gmail.com>, 2020\n"
-"Merrick Zhang <anphorea@gmail.com>, 2020"
+"Merrick Zhang <anphorea@gmail.com>, 2020\n"
+"Haolin Xue <tzbkk@outlook.com>, 2024"
 
 #: ../src/shell/e-shell-utils.c:363
 msgid "Website"
@@ -30307,7 +30054,6 @@ msgstr "导入的证书"
 #~ msgid "New Contact List"
 #~ msgstr "新建联系人列表"
 
-#, c-format
 #~ msgid "current address book folder %s has %d card"
 #~ msgid_plural "current address book folder %s has %d cards"
 #~ msgstr[0] "当前地址簿文件夹 %s 有 %d 张名片"
@@ -31444,13 +31190,13 @@ msgstr "导入的证书"
 #~ msgstr "极限"
 
 #~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and \"Subject"
-#~ "\" lines in the \"Messages\" column in vertical view"
+#~ "Determines whether to use the same fonts for both \"From\" and "
+#~ "\"Subject\" lines in the \"Messages\" column in vertical view"
 #~ msgstr "决定是否在竖直视图中对“信息”列的“发件人”和“主题”行使用相同的字体。"
 
 #~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and \"Subject"
-#~ "\" lines in the \"Messages\" column in vertical view."
+#~ "Determines whether to use the same fonts for both \"From\" and "
+#~ "\"Subject\" lines in the \"Messages\" column in vertical view."
 #~ msgstr "决定是否在竖直视图中对“信息”列的“发件人”和“主题”行使用相同的字体。"
 
 #~ msgid "Itip Formatter"
@@ -32723,9 +32469,9 @@ msgstr "导入的证书"
 #~ msgid ""
 #~ "Initial maximize state of the \"Folder Subscriptions\" window. The value "
 #~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Folder Subscriptions"
-#~ "\" window cannot be maximized. This key exists only as an implementation "
-#~ "detail."
+#~ "particular value is not used by Evolution since the \"Folder "
+#~ "Subscriptions\" window cannot be maximized. This key exists only as an "
+#~ "implementation detail."
 #~ msgstr ""
 #~ "“文件夹订阅”窗口的最大化初始状态。当用户最大化或取消最大化窗口时会更新该"
 #~ "值，这个值是不会被 Evolution 使用的，因为“过滤器编辑器”窗口无法最大化。这"
@@ -32849,9 +32595,9 @@ msgstr "导入的证书"
 #~ msgid ""
 #~ "Initial maximize state of the \"Search Folder Editor\" window. The value "
 #~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Search Folder Editor"
-#~ "\" window cannot be maximized. This key exists only as an implementation "
-#~ "detail."
+#~ "particular value is not used by Evolution since the \"Search Folder "
+#~ "Editor\" window cannot be maximized. This key exists only as an "
+#~ "implementation detail."
 #~ msgstr ""
 #~ "“搜索文件夹编辑器”窗口的最大化初始状态。当用户最大化或取消最大化窗口时会更"
 #~ "新该值，这个值是不会被 Evolution 使用的，因为“搜索文件夹编辑器”窗口无法最"
@@ -33130,8 +32876,8 @@ msgstr "导入的证书"
 #~ msgstr "是否在任务视图中隐藏已完成的任务。"
 
 #~ msgid ""
-#~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
-#~ "\"."
+#~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or "
+#~ "\"days\"."
 #~ msgstr "决定是否隐藏任务的单位，可为“minutes”，“hours”或“days”。"
 
 #~ msgid "Number of units for determining when to hide tasks."
@@ -35646,9 +35392,8 @@ msgstr "导入的证书"
 #~ msgid "Message Fonts"
 #~ msgstr "信息字体"
 
-#, fuzzy
 #~ msgid "Shell Module"
-#~ msgstr "选择模式"
+#~ msgstr "Shell 模块"
 
 #~ msgid "Show Hidde_n Messages"
 #~ msgstr "显示隐藏的信息(_N)"
