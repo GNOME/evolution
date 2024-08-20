@@ -306,7 +306,7 @@ main_get_filter_driver (CamelSession *session,
 	if (add_junk_test) {
 		/* implicit junk check as 1st rule */
 		camel_filter_driver_add_rule (
-			driver, "Junk check", "(= junk-test 1)",
+			driver, "Junk check", "(= (junk-test) 1)",
 			"(begin (set-system-flag \"junk\"))");
 	}
 

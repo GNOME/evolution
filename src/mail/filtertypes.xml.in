@@ -687,15 +687,15 @@
   <input type="optionlist" name="retval-type">
    <option value="is-junk">
     <_title>Message is Junk</_title>
-    <code>(= junk-test 1)</code>
+    <code>(= (junk-test) 1)</code>
    </option>
    <option value="is-not-junk">
     <_title>Message is not Junk</_title>
-    <code>(not (= junk-test 1))</code>
+    <code>(not (= (junk-test) 1))</code>
    </option>
    <option value="is-inconclusive">
     <_title>Inconclusive whether Message is Junk</_title>
-    <code>(= junk-test 2)</code>
+    <code>(= (junk-test) 2)</code>
    </option>
   </input>
  </part>
