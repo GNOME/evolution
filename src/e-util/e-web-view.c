@@ -449,16 +449,16 @@ static GtkActionEntry mailto_entries[] = {
 
 	{ "mailto-copy",
 	  "edit-copy",
-	  N_("_Copy Email Address"),
+	  N_("_Copy Name and Email Address"),
 	  "<Control>c",
-	  N_("Copy the email address to the clipboard"),
+	  N_("Copy the email address with the name to the clipboard"),
 	  G_CALLBACK (action_mailto_copy_cb) },
 
 	{ "mailto-copy-raw",
 	  "edit-copy",
-	  N_("Copy _Raw Email Address"),
+	  N_("Copy Only Email Add_ress"),
 	  NULL,
-	  N_("Copy the raw email address to the clipboard"),
+	  N_("Copy only the email address without the name to the clipboard"),
 	  G_CALLBACK (action_mailto_copy_raw_cb) },
 
 	{ "send-message",
