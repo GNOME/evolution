@@ -354,10 +354,7 @@ e_display_help (GtkWindow *parent,
 	if (e_misc_utils_is_help_package_installed (&yelp_info)) {
 		uri = g_string_new ("help:" PACKAGE);
 	} else {
-		uri = g_string_new ("https://help.gnome.org/users/" PACKAGE "/");
-		/*  Use '/stable/' until https://bugzilla.gnome.org/show_bug.cgi?id=785522 is fixed */
-		g_string_append (uri, "stable/");
-		/* g_string_append_printf (uri, "%d.%d", EDS_MAJOR_VERSION, EDS_MINOR_VERSION); */
+		uri = g_string_new ("https://gnome.pages.gitlab.gnome.org/evolution/help");
 	}
 
 	timestamp = gtk_get_current_event_time ();
