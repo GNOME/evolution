@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-07-26 12:19+0000\n"
-"PO-Revision-Date: 2024-07-26 15:28+0200\n"
+"POT-Creation-Date: 2024-08-20 12:01+0000\n"
+"PO-Revision-Date: 2024-08-20 16:58+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -4833,7 +4833,7 @@ msgstr "Možnosti"
 msgid "_Save"
 msgstr "_Shrani"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15 ../src/e-util/e-misc-utils.c:3661
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15 ../src/e-util/e-misc-utils.c:3658
 msgid "Image"
 msgstr "Slika"
 
@@ -5593,7 +5593,7 @@ msgstr "imenik Evolution"
 msgid "Copy _Email Address"
 msgstr "Kopiraj _elektronski naslov"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:145 ../src/e-util/e-web-view.c:454
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:145
 msgid "Copy the email address to the clipboard"
 msgstr "Kopira elektronski naslov v odložišče"
 
@@ -5605,7 +5605,7 @@ msgstr "Pošlji novo _sporočilo za …"
 msgid "Send a mail message to this address"
 msgstr "Pošlji poštno sporočilo na ta naslov"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:274 ../src/e-util/e-misc-utils.c:4766
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:274 ../src/e-util/e-misc-utils.c:4763
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kliknite za pošiljanje pošte osebi %s"
@@ -7528,7 +7528,7 @@ msgid "Completed: %s"
 msgstr "Končano: %s"
 
 #: ../src/calendar/gui/comp-util.c:2413 ../src/calendar/gui/e-to-do-pane.c:617
-#: ../src/e-util/e-misc-utils.c:4849 ../src/e-util/e-text.c:567 ../src/e-util/e-web-view.c:4319
+#: ../src/e-util/e-misc-utils.c:4846 ../src/e-util/e-text.c:567 ../src/e-util/e-web-view.c:4319
 msgid "…"
 msgstr "…"
 
@@ -8463,9 +8463,9 @@ msgstr "Čas začetka ni veljaven čas"
 #: ../src/calendar/gui/e-comp-editor.c:347 ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-markdown-utils.c:189
 #: ../src/e-util/e-markdown-utils.c:199 ../src/e-util/e-markdown-utils.c:209
-#: ../src/e-util/e-misc-utils.c:4095 ../src/e-util/e-misc-utils.c:4103
-#: ../src/e-util/e-misc-utils.c:4111 ../src/e-util/e-misc-utils.c:4146
-#: ../src/e-util/e-misc-utils.c:4159 ../src/e-util/e-misc-utils.c:4173
+#: ../src/e-util/e-misc-utils.c:4092 ../src/e-util/e-misc-utils.c:4100
+#: ../src/e-util/e-misc-utils.c:4108 ../src/e-util/e-misc-utils.c:4143
+#: ../src/e-util/e-misc-utils.c:4156 ../src/e-util/e-misc-utils.c:4170
 #: ../src/mail/e-mail-autoconfig.c:1130 ../src/mail/e-mail-display.c:3083
 #: ../src/mail/e-mail-notes.c:931 ../src/mail/e-mail-reader.c:3710
 #: ../src/mail/e-mail-reader-utils.c:817 ../src/mail/e-mail-viewer.c:568
@@ -15892,35 +15892,35 @@ msgstr "Razčlenjevanje ukazne vrstice »%s« je spodletelo: %s"
 msgid "Could not open the link."
 msgstr "Ni mogoče odpreti povezave."
 
-#: ../src/e-util/e-misc-utils.c:404
+#: ../src/e-util/e-misc-utils.c:401
 msgid "Could not display help for Evolution."
 msgstr "Ni mogoče prikazati pomoči."
 
-#: ../src/e-util/e-misc-utils.c:2616
+#: ../src/e-util/e-misc-utils.c:2613
 #, c-format
 msgid "Opening calendar “%s”"
 msgstr "Poteka odpiranje koledarja »%s«"
 
-#: ../src/e-util/e-misc-utils.c:2619
+#: ../src/e-util/e-misc-utils.c:2616
 #, c-format
 msgid "Opening memo list “%s”"
 msgstr "Poteka odpiranje seznama opomnikov »%s«"
 
-#: ../src/e-util/e-misc-utils.c:2622
+#: ../src/e-util/e-misc-utils.c:2619
 #, c-format
 msgid "Opening task list “%s”"
 msgstr "Poteka odpiranje seznama nalog »%s«"
 
-#: ../src/e-util/e-misc-utils.c:2625
+#: ../src/e-util/e-misc-utils.c:2622
 #, c-format
 msgid "Opening address book “%s”"
 msgstr "Poteka odpiranje imenika »%s«"
 
-#: ../src/e-util/e-misc-utils.c:3498 ../src/modules/mailto-handler/evolution-mailto-handler.c:146
+#: ../src/e-util/e-misc-utils.c:3495 ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_Ne pokaži več tega sporočila"
 
-#: ../src/e-util/e-misc-utils.c:4082
+#: ../src/e-util/e-misc-utils.c:4079
 msgid ""
 "This address book server might be unreachable or the server name may be misspelled or your "
 "network connection could be down."
@@ -15928,27 +15928,27 @@ msgstr ""
 "Strežnik imenika morda ni dosegljiv, morda je ime strežnika napačno črkovano ali pa je "
 "povezava z omrežjem prekinjena."
 
-#: ../src/e-util/e-misc-utils.c:4094
+#: ../src/e-util/e-misc-utils.c:4091
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Nastavljanje različice protokola na LDAPv3 je spodletelo (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4102 ../src/e-util/e-misc-utils.c:4110
+#: ../src/e-util/e-misc-utils.c:4099 ../src/e-util/e-misc-utils.c:4107
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "Nastavljanje možnosti preteka časa je spodletelo (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4145
+#: ../src/e-util/e-misc-utils.c:4142
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Uporaba STARTTLS (%d) je spodletelo: %s"
 
-#: ../src/e-util/e-misc-utils.c:4158
+#: ../src/e-util/e-misc-utils.c:4155
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Overitev na strežniku LDAP (%d) je spodletela: %s"
 
-#: ../src/e-util/e-misc-utils.c:4172
+#: ../src/e-util/e-misc-utils.c:4169
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support this functionality "
@@ -15961,7 +15961,7 @@ msgstr ""
 "\n"
 "Napaka (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4183
+#: ../src/e-util/e-misc-utils.c:4180
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support this functionality "
 "or it may be misconfigured. Ask your administrator for supported search bases."
@@ -15969,12 +15969,12 @@ msgstr ""
 "Strežnik LDAP morda uporablja starejšo različico LDAP, ki ne podpira te zmožnosti ali pa je "
 "napačno nastavljen. Za podprto iskalno zbirko se obrnite na sistemskega skrbnika."
 
-#: ../src/e-util/e-misc-utils.c:4216
+#: ../src/e-util/e-misc-utils.c:4213
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Program ni kodno pretvorjen s podporo za LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4541
+#: ../src/e-util/e-misc-utils.c:4538
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -15982,31 +15982,31 @@ msgstr "Neznan nabor (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4550
+#: ../src/e-util/e-misc-utils.c:4547
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4771
+#: ../src/e-util/e-misc-utils.c:4768
 #, c-format
 msgid "Click to call %s"
 msgstr "Kliknite za klicanje %s"
 
-#: ../src/e-util/e-misc-utils.c:4773
+#: ../src/e-util/e-misc-utils.c:4770
 msgid "Click to hide/unhide addresses"
 msgstr "Kliknite za skritje/prikaz naslovov"
 
-#: ../src/e-util/e-misc-utils.c:4786
+#: ../src/e-util/e-misc-utils.c:4783
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Skoči na %s del sporočila"
 
-#: ../src/e-util/e-misc-utils.c:4788
+#: ../src/e-util/e-misc-utils.c:4785
 msgid "Go to the beginning of the message"
 msgstr "Skoči na začetek del sporočila"
 
-#: ../src/e-util/e-misc-utils.c:4794
+#: ../src/e-util/e-misc-utils.c:4791
 #, c-format
 msgid "Click to open %s"
 msgstr "Kliknite za odpiranje %s"
@@ -17021,16 +17021,20 @@ msgid "_Copy Link Location"
 msgstr "_Kopiraj mesto povezave"
 
 #: ../src/e-util/e-web-view.c:452
-msgid "_Copy Email Address"
-msgstr "Kopiraj _elektronski naslov"
+msgid "_Copy Name and Email Address"
+msgstr "_Kopiraj ime in elektronski naslov"
+
+#: ../src/e-util/e-web-view.c:454
+msgid "Copy the email address with the name to the clipboard"
+msgstr "Kopira elektronski naslov z imenom v odložišče"
 
 #: ../src/e-util/e-web-view.c:459
-msgid "Copy _Raw Email Address"
-msgstr "Kopiraj le _elektronski naslov"
+msgid "Copy Only Email Add_ress"
+msgstr "Kopiraj samo elektronski _naslov"
 
 #: ../src/e-util/e-web-view.c:461
-msgid "Copy the raw email address to the clipboard"
-msgstr "Kopiraj elektronski naslov v odložišče"
+msgid "Copy only the email address without the name to the clipboard"
+msgstr "Kopira samo elektronski naslov brez imena v odložišče"
 
 #: ../src/e-util/e-web-view.c:476
 msgid "_Copy Image"
