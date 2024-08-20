@@ -41,16 +41,21 @@ static void
 action_accounts_cb (GtkAction *action,
 		    EShellWindow *shell_window)
 {
-	ESourceRegistry *registry;
-	EShell *shell;
-	GtkWidget *accounts_window;
+	static GtkWidget *accounts_window = NULL;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	shell = e_shell_window_get_shell (shell_window);
-	registry = e_shell_get_registry (shell);
+	if (!accounts_window) {
+		ESourceRegistry *registry;
+		EShell *shell;
 
-	accounts_window = e_accounts_window_new (registry);
+		shell = e_shell_window_get_shell (shell_window);
+		registry = e_shell_get_registry (shell);
+
+		accounts_window = e_accounts_window_new (registry);
+
+		g_object_weak_ref (G_OBJECT (accounts_window), (GWeakNotify) g_nullify_pointer, &accounts_window);
+	}
 
 	e_accounts_window_show_with_parent (E_ACCOUNTS_WINDOW (accounts_window), GTK_WINDOW (shell_window));
 }
