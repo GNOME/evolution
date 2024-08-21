@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-07-26 12:19+0000\n"
-"PO-Revision-Date: 2024-08-16 21:12+0200\n"
+"POT-Creation-Date: 2024-08-21 18:11+0000\n"
+"PO-Revision-Date: 2024-08-22 00:26+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -1099,9 +1099,9 @@ msgid ""
 "View) places the preview pane below the calendar. “1” (Vertical View) places "
 "the preview pane next to the calendar."
 msgstr ""
-"Az elrendezési stílus megadja az előnézet ablaktábla elhelyezését. A "
-"„0” (vízszintes nézet) az előnézet ablaktáblát a naptár alá, az "
-"„1” (függőleges nézet) pedig a naptár mellé helyezi."
+"Az elrendezési stílus megadja az előnézet ablaktábla elhelyezését. A „0” "
+"(vízszintes nézet) az előnézet ablaktáblát a naptár alá, az „1” (függőleges "
+"nézet) pedig a naptár mellé helyezi."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
 msgid "Year view horizontal preview position"
@@ -2698,8 +2698,8 @@ msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
 msgstr ""
-"Három lehetséges értéke van: „0” (hiba), „1” (figyelmeztetés), "
-"„2” (hibakeresési üzenetek)."
+"Három lehetséges értéke van: „0” (hiba), „1” (figyelmeztetés), „2” "
+"(hibakeresési üzenetek)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "Show original “Date” header value."
@@ -3396,7 +3396,9 @@ msgstr ""
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
-msgstr "['melléklet','mellékelem','mellékelve','csatolom','csatolva','csatolás','csatolmány']"
+msgstr ""
+"['melléklet','mellékelem','mellékelve','csatolom','csatolva','csatolás','csato"
+"lmány']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -3823,9 +3825,9 @@ msgid ""
 "Valid values are “mail”, “addressbook”, “calendar”, “tasks” and “memos”. "
 "Change of this requires restart of the application."
 msgstr ""
-"Az érvényes értékek: „mail” (levél), „calendar” (naptár), "
-"„tasks” (feladatok) és „memos” (feljegyzések). A megváltoztatása az "
-"alkalmazás újraindítását igényli."
+"Az érvényes értékek: „mail” (levél), „calendar” (naptár), „tasks” "
+"(feladatok) és „memos” (feljegyzések). A megváltoztatása az alkalmazás "
+"újraindítását igényli."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 msgid "Window buttons are visible"
@@ -3845,9 +3847,9 @@ msgid ""
 "If “toolbar” is set, the style of the buttons is determined by the GNOME "
 "toolbar setting."
 msgstr ""
-"Az ablak gombjainak stílusa. Lehetséges értékek: „text” (szöveg), "
-"„icons” (ikonok), „both” (mindkettő), „toolbar” (eszköztár). Ha a „toolbar” "
-"van beállítva, a gombok stílusa a GNOME hasonló beállításához igazodik."
+"Az ablak gombjainak stílusa. Lehetséges értékek: „text” (szöveg), „icons” "
+"(ikonok), „both” (mindkettő), „toolbar” (eszköztár). Ha a „toolbar” van "
+"beállítva, a gombok stílusa a GNOME hasonló beállításához igazodik."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
 msgid "Menubar is visible"
@@ -4256,7 +4258,7 @@ msgstr "Ugrás a _következő üzenethez"
 #: ../src/calendar/gui/e-comp-editor.c:2292
 #: ../src/e-util/e-html-editor-actions.c:1195
 #: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-browser.c:202
-#: ../src/mail/e-mail-notes.c:1124 ../src/shell/e-shell-window-actions.c:1130
+#: ../src/mail/e-mail-notes.c:1124 ../src/shell/e-shell-window-actions.c:1135
 msgid "_File"
 msgstr "_Fájl"
 
@@ -4285,7 +4287,7 @@ msgstr "_Nyomtatás"
 #: ../src/mail/e-mail-notes.c:1110 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1519
 #: ../src/mail/em-subscription-editor.c:1734
-#: ../src/shell/e-shell-window-actions.c:946
+#: ../src/shell/e-shell-window-actions.c:951
 #: ../src/smime/gui/certificate-manager.c:2124
 msgid "_Close"
 msgstr "_Bezárás"
@@ -4308,7 +4310,7 @@ msgstr "_Bezárás"
 #: ../src/plugins/sender-validation/sender-validation.c:694
 #: ../src/plugins/sender-validation/sender-validation.c:805
 #: ../src/plugins/templates/templates.c:475
-#: ../src/shell/e-shell-window-actions.c:1123 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:1128 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "S_zerkesztés"
 
@@ -4321,7 +4323,7 @@ msgstr "Ki_vágás"
 #: ../src/calendar/gui/e-comp-editor.c:2206 ../src/e-util/e-focus-tracker.c:798
 #: ../src/e-util/e-html-editor-actions.c:1144 ../src/e-util/e-text.c:2064
 #: ../src/e-util/e-web-view.c:493 ../src/mail/e-mail-browser.c:165
-#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:967
+#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:972
 msgid "_Copy"
 msgstr "_Másolás"
 
@@ -4329,7 +4331,7 @@ msgstr "_Másolás"
 #: ../data/ui/evolution-mail-viewer.ui.h:10
 #: ../src/calendar/gui/e-comp-editor.c:2234 ../src/e-util/e-focus-tracker.c:803
 #: ../src/e-util/e-html-editor-actions.c:1158 ../src/e-util/e-text.c:2076
-#: ../src/mail/e-mail-browser.c:179 ../src/shell/e-shell-window-actions.c:1002
+#: ../src/mail/e-mail-browser.c:179 ../src/shell/e-shell-window-actions.c:1007
 msgid "_Paste"
 msgstr "_Beillesztés"
 
@@ -4344,7 +4346,7 @@ msgstr "Ke_resés üzenetben…"
 #: ../data/ui/evolution-mail-viewer.ui.h:13
 #: ../src/calendar/gui/e-comp-editor.c:2320
 #: ../src/e-util/e-html-editor-actions.c:1237 ../src/mail/e-mail-browser.c:216
-#: ../src/shell/e-shell-window-actions.c:1173
+#: ../src/shell/e-shell-window-actions.c:1178
 #: ../src/smime/gui/certificate-manager.c:1588 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Nézet"
@@ -5280,7 +5282,7 @@ msgid "_Save"
 msgstr "M_entés"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/e-util/e-misc-utils.c:3661
+#: ../src/e-util/e-misc-utils.c:3658
 msgid "Image"
 msgstr "Kép"
 
@@ -5746,7 +5748,7 @@ msgstr "Érvénytelen névjegy."
 #: ../src/calendar/gui/e-comp-editor.c:2299
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:1137
+#: ../src/shell/e-shell-window-actions.c:1142
 msgid "_Help"
 msgstr "_Súgó"
 
@@ -6071,7 +6073,6 @@ msgid "Copy _Email Address"
 msgstr "E-mail _cím másolása"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:145
-#: ../src/e-util/e-web-view.c:454
 msgid "Copy the email address to the clipboard"
 msgstr "Az e-mail-cím másolása a vágólapra"
 
@@ -6086,7 +6087,7 @@ msgid "Send a mail message to this address"
 msgstr "Levél küldése erre a címre"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:274
-#: ../src/e-util/e-misc-utils.c:4766
+#: ../src/e-util/e-misc-utils.c:4763
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kattintson új levél küldéséhez a(z) %s címre"
@@ -6512,7 +6513,7 @@ msgstr "Biztos benne, hogy törli a névjegyet (%s)?"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:700
 #: ../src/modules/calendar/e-task-shell-view-actions.c:884
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1644
-#: ../src/shell/e-shell-window-actions.c:981
+#: ../src/shell/e-shell-window-actions.c:986
 #: ../src/smime/gui/certificate-manager.c:1598 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Törlés"
@@ -6835,7 +6836,7 @@ msgstr "_Nagyítás"
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:432
 #: ../src/e-util/e-html-editor-actions.c:2326
 #: ../src/e-util/e-html-editor-find-dialog.c:235
-#: ../src/shell/e-shell-window-actions.c:1058
+#: ../src/shell/e-shell-window-actions.c:1063
 msgid "_Find"
 msgstr "_Keresés"
 
@@ -8102,7 +8103,7 @@ msgid "Completed: %s"
 msgstr "Befejezve: %s"
 
 #: ../src/calendar/gui/comp-util.c:2413 ../src/calendar/gui/e-to-do-pane.c:617
-#: ../src/e-util/e-misc-utils.c:4849 ../src/e-util/e-text.c:567
+#: ../src/e-util/e-misc-utils.c:4846 ../src/e-util/e-text.c:567
 #: ../src/e-util/e-web-view.c:4319
 msgid "…"
 msgstr "…"
@@ -8672,7 +8673,7 @@ msgstr "%Y. %b. %-d."
 #: ../src/calendar/gui/e-week-view-main-item.c:223
 #, c-format
 msgid "%d %b"
-msgstr "%b. %-d."
+msgstr "%2$b. %1$d."
 
 #: ../src/calendar/gui/e-calendar-view.c:1252
 msgid "%A %d %b %Y"
@@ -8690,7 +8691,7 @@ msgstr "%Y. %b. %-d. %A"
 #: ../src/calendar/gui/e-week-view-main-item.c:209
 #, c-format
 msgid "%a %d %b"
-msgstr "%b. %-d. %a."
+msgstr "%3$b. %2$d. %1$a."
 
 #: ../src/calendar/gui/e-calendar-view.c:1255
 #: ../src/calendar/gui/e-calendar-view.c:1257
@@ -9065,10 +9066,10 @@ msgstr "A kezdés időpontja érvénytelen"
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-markdown-utils.c:189 ../src/e-util/e-markdown-utils.c:199
-#: ../src/e-util/e-markdown-utils.c:209 ../src/e-util/e-misc-utils.c:4095
-#: ../src/e-util/e-misc-utils.c:4103 ../src/e-util/e-misc-utils.c:4111
-#: ../src/e-util/e-misc-utils.c:4146 ../src/e-util/e-misc-utils.c:4159
-#: ../src/e-util/e-misc-utils.c:4173 ../src/mail/e-mail-autoconfig.c:1130
+#: ../src/e-util/e-markdown-utils.c:209 ../src/e-util/e-misc-utils.c:4092
+#: ../src/e-util/e-misc-utils.c:4100 ../src/e-util/e-misc-utils.c:4108
+#: ../src/e-util/e-misc-utils.c:4143 ../src/e-util/e-misc-utils.c:4156
+#: ../src/e-util/e-misc-utils.c:4170 ../src/mail/e-mail-autoconfig.c:1130
 #: ../src/mail/e-mail-display.c:3083 ../src/mail/e-mail-notes.c:931
 #: ../src/mail/e-mail-reader.c:3710 ../src/mail/e-mail-reader-utils.c:817
 #: ../src/mail/e-mail-viewer.c:568 ../src/mail/e-mail-viewer.c:1741
@@ -10105,27 +10106,27 @@ msgstr "A jelenlegi ablak bezárása"
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:305
 #: ../src/e-util/e-focus-tracker.c:799 ../src/e-util/e-web-view.c:495
 #: ../src/e-util/e-web-view.c:2167 ../src/mail/e-mail-browser.c:167
-#: ../src/shell/e-shell-window-actions.c:969
+#: ../src/shell/e-shell-window-actions.c:974
 msgid "Copy the selection"
 msgstr "A kijelölés másolása"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2213 ../src/e-util/e-focus-tracker.c:793
 #: ../src/e-util/e-html-editor-actions.c:1151 ../src/e-util/e-text.c:2050
-#: ../src/mail/e-mail-browser.c:172 ../src/shell/e-shell-window-actions.c:974
+#: ../src/mail/e-mail-browser.c:172 ../src/shell/e-shell-window-actions.c:979
 msgid "Cu_t"
 msgstr "_Kivágás"
 
 #: ../src/calendar/gui/e-comp-editor.c:2215 ../src/e-util/e-focus-tracker.c:189
 #: ../src/e-util/e-focus-tracker.c:245 ../src/e-util/e-focus-tracker.c:299
 #: ../src/e-util/e-focus-tracker.c:794 ../src/e-util/e-web-view.c:2176
-#: ../src/mail/e-mail-browser.c:174 ../src/shell/e-shell-window-actions.c:976
+#: ../src/mail/e-mail-browser.c:174 ../src/shell/e-shell-window-actions.c:981
 msgid "Cut the selection"
 msgstr "A kijelölés kivágása"
 
 #: ../src/calendar/gui/e-comp-editor.c:2222 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:809
-#: ../src/shell/e-shell-window-actions.c:983
+#: ../src/shell/e-shell-window-actions.c:988
 msgid "Delete the selection"
 msgstr "A kijelölés törlése"
 
@@ -10136,7 +10137,7 @@ msgstr "Súgó megjelenítése"
 #: ../src/calendar/gui/e-comp-editor.c:2236 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:311
 #: ../src/e-util/e-focus-tracker.c:804 ../src/e-util/e-web-view.c:2185
-#: ../src/mail/e-mail-browser.c:181 ../src/shell/e-shell-window-actions.c:1004
+#: ../src/mail/e-mail-browser.c:181 ../src/shell/e-shell-window-actions.c:1009
 msgid "Paste the clipboard"
 msgstr "A vágólap tartalmának beillesztése"
 
@@ -10157,13 +10158,13 @@ msgstr "_Előnézet…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2255 ../src/e-util/e-focus-tracker.c:813
 #: ../src/e-util/e-html-editor-actions.c:1172 ../src/e-util/e-web-view.c:510
-#: ../src/mail/e-mail-browser.c:186 ../src/shell/e-shell-window-actions.c:1079
+#: ../src/mail/e-mail-browser.c:186 ../src/shell/e-shell-window-actions.c:1084
 msgid "Select _All"
 msgstr "Ö_sszes kijelölése"
 
 #: ../src/calendar/gui/e-comp-editor.c:2257 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:814
-#: ../src/mail/e-mail-browser.c:188 ../src/shell/e-shell-window-actions.c:1081
+#: ../src/mail/e-mail-browser.c:188 ../src/shell/e-shell-window-actions.c:1086
 msgid "Select all text"
 msgstr "A teljes szöveg kijelölése"
 
@@ -12835,12 +12836,12 @@ msgid "Open New Message window"
 msgstr "Az Új üzenet ablak megnyitása"
 
 #: ../src/composer/e-composer-actions.c:347
-#: ../src/shell/e-shell-window-actions.c:1016
+#: ../src/shell/e-shell-window-actions.c:1021
 msgid "_Preferences"
 msgstr "B_eállítások"
 
 #: ../src/composer/e-composer-actions.c:349
-#: ../src/shell/e-shell-window-actions.c:1018
+#: ../src/shell/e-shell-window-actions.c:1023
 msgid "Configure Evolution"
 msgstr "Az Evolution beállítása"
 
@@ -16688,36 +16689,36 @@ msgstr "Nem sikerült feldolgozni a(z) „%s” parancssort: %s"
 msgid "Could not open the link."
 msgstr "Nem nyitható meg a hivatkozás."
 
-#: ../src/e-util/e-misc-utils.c:404
+#: ../src/e-util/e-misc-utils.c:401
 msgid "Could not display help for Evolution."
 msgstr "Nem jeleníthető meg az Evolution súgója."
 
-#: ../src/e-util/e-misc-utils.c:2616
+#: ../src/e-util/e-misc-utils.c:2613
 #, c-format
 msgid "Opening calendar “%s”"
 msgstr "„%s” naptár megnyitása"
 
-#: ../src/e-util/e-misc-utils.c:2619
+#: ../src/e-util/e-misc-utils.c:2616
 #, c-format
 msgid "Opening memo list “%s”"
 msgstr "„%s” feljegyzéslista megnyitása"
 
-#: ../src/e-util/e-misc-utils.c:2622
+#: ../src/e-util/e-misc-utils.c:2619
 #, c-format
 msgid "Opening task list “%s”"
 msgstr "„%s” feladatlista megnyitása"
 
-#: ../src/e-util/e-misc-utils.c:2625
+#: ../src/e-util/e-misc-utils.c:2622
 #, c-format
 msgid "Opening address book “%s”"
 msgstr "„%s” címjegyzék megnyitása"
 
-#: ../src/e-util/e-misc-utils.c:3498
+#: ../src/e-util/e-misc-utils.c:3495
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_Ne mutassa ezt többé"
 
-#: ../src/e-util/e-misc-utils.c:4082
+#: ../src/e-util/e-misc-utils.c:4079
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -16725,27 +16726,27 @@ msgstr ""
 "A címjegyzék-kiszolgáló nem érhető el, elgépelte a nevét vagy a hálózati "
 "kapcsolata nem működik."
 
-#: ../src/e-util/e-misc-utils.c:4094
+#: ../src/e-util/e-misc-utils.c:4091
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Nem sikerült a protokollverzió beállítása LDAPv3-ra (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4102 ../src/e-util/e-misc-utils.c:4110
+#: ../src/e-util/e-misc-utils.c:4099 ../src/e-util/e-misc-utils.c:4107
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "Nem sikerült beállítani a kapcsolat időtúllépési beállítását (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4145
+#: ../src/e-util/e-misc-utils.c:4142
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Nem sikerült a STARTTLS (%d) használata: %s"
 
-#: ../src/e-util/e-misc-utils.c:4158
+#: ../src/e-util/e-misc-utils.c:4155
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Nem sikerült a hitelesítés az LDAP-kiszolgálónál (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4172
+#: ../src/e-util/e-misc-utils.c:4169
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -16760,7 +16761,7 @@ msgstr ""
 "\n"
 "Részletes hiba (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4183
+#: ../src/e-util/e-misc-utils.c:4180
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -16770,12 +16771,12 @@ msgstr ""
 "támogatja ezt a működést vagy rosszul van beállítva. Kérdezze meg a "
 "rendszergazdát, mely keresési kiindulópontok támogatottak."
 
-#: ../src/e-util/e-misc-utils.c:4216
+#: ../src/e-util/e-misc-utils.c:4213
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Az Evolution LDAP támogatás nélkül lett lefordítva"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4541
+#: ../src/e-util/e-misc-utils.c:4538
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -16783,31 +16784,31 @@ msgstr "Ismeretlen (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4550
+#: ../src/e-util/e-misc-utils.c:4547
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4771
+#: ../src/e-util/e-misc-utils.c:4768
 #, c-format
 msgid "Click to call %s"
 msgstr "Kattintson %s felhívásához"
 
-#: ../src/e-util/e-misc-utils.c:4773
+#: ../src/e-util/e-misc-utils.c:4770
 msgid "Click to hide/unhide addresses"
 msgstr "Kattintson ide a címek megjelenítéséhez/rejtéséhez"
 
-#: ../src/e-util/e-misc-utils.c:4786
+#: ../src/e-util/e-misc-utils.c:4783
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Ugrás az üzenet %s szakaszához"
 
-#: ../src/e-util/e-misc-utils.c:4788
+#: ../src/e-util/e-misc-utils.c:4785
 msgid "Go to the beginning of the message"
 msgstr "Ugrás az üzenet kezdetéhez"
 
-#: ../src/e-util/e-misc-utils.c:4794
+#: ../src/e-util/e-misc-utils.c:4791
 #, c-format
 msgid "Click to open %s"
 msgstr "Kattintson a(z) %s megnyitásához"
@@ -17651,7 +17652,7 @@ msgid "Format Column_s…"
 msgstr "Oszlopok _formázása…"
 
 #: ../src/e-util/e-table-header-item.c:1666
-#: ../src/shell/e-shell-window-actions.c:1310
+#: ../src/shell/e-shell-window-actions.c:1315
 msgid "Custo_mize Current View…"
 msgstr "Aktuális nézet _testreszabása…"
 
@@ -17863,16 +17864,24 @@ msgid "_Copy Link Location"
 msgstr "Hivatkozás _címének másolása"
 
 #: ../src/e-util/e-web-view.c:452
-msgid "_Copy Email Address"
-msgstr "E-mail _cím másolása"
+#| msgid "_Copy Email Address"
+msgid "_Copy Name and Email Address"
+msgstr "Név és e-mail-cím _másolása"
+
+#: ../src/e-util/e-web-view.c:454
+#| msgid "Copy the email address to the clipboard"
+msgid "Copy the email address with the name to the clipboard"
+msgstr "Az e-mail-cím másolása névvel a vágólapra"
 
 #: ../src/e-util/e-web-view.c:459
-msgid "Copy _Raw Email Address"
-msgstr "_Nyers e-mail-cím másolása"
+#| msgid "_Copy Email Address"
+msgid "Copy Only Email Add_ress"
+msgstr "_Csak e-mail-cím másolása"
 
 #: ../src/e-util/e-web-view.c:461
-msgid "Copy the raw email address to the clipboard"
-msgstr "A nyers e-mail-cím másolása a vágólapra"
+#| msgid "Copy the email address to the clipboard"
+msgid "Copy only the email address without the name to the clipboard"
+msgstr "Csak az e-mail-cím másolása név nélkül a vágólapra"
 
 #: ../src/e-util/e-web-view.c:476
 msgid "_Copy Image"
@@ -18615,9 +18624,9 @@ msgstr "POP3 kiszolgáló"
 msgid "SMTP server"
 msgstr "SMTP kiszolgáló"
 
-#: ../src/mail/e-mail-browser.c:160 ../src/shell/e-shell-window-actions.c:941
-#: ../src/shell/e-shell-window-actions.c:948
-#: ../src/shell/e-shell-window-actions.c:955
+#: ../src/mail/e-mail-browser.c:160 ../src/shell/e-shell-window-actions.c:946
+#: ../src/shell/e-shell-window-actions.c:953
+#: ../src/shell/e-shell-window-actions.c:960
 msgid "Close this window"
 msgstr "A jelenlegi ablak bezárása"
 
@@ -19104,7 +19113,7 @@ msgstr "Válasszon"
 
 #: ../src/mail/e-mail-config-security-page.c:766
 #: ../src/mail/e-mail-config-security-page.c:864
-#: ../src/shell/e-shell-window-actions.c:1044
+#: ../src/shell/e-shell-window-actions.c:1049
 msgid "_Clear"
 msgstr "_Törlés"
 
@@ -23539,12 +23548,12 @@ msgid "Show M_enu Bar"
 msgstr "_Menüsáv megjelenítése"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:523
-#: ../src/shell/e-shell-window-actions.c:1241
+#: ../src/shell/e-shell-window-actions.c:1246
 msgid "Show _Tool Bar"
 msgstr "Es_zköztár megjelenítése"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:536
-#: ../src/shell/e-shell-window-actions.c:1217
+#: ../src/shell/e-shell-window-actions.c:1222
 msgid "Show Side _Bar"
 msgstr "Oldal_sáv megjelenítése"
 
@@ -29840,304 +29849,304 @@ msgstr "Weboldal"
 msgid "Saving user interface state"
 msgstr "Felhasználói felület állapotának mentése"
 
-#: ../src/shell/e-shell-window-actions.c:354
+#: ../src/shell/e-shell-window-actions.c:359
 msgid "Categories Editor"
 msgstr "Kategóriaszerkesztő"
 
-#: ../src/shell/e-shell-window-actions.c:674
+#: ../src/shell/e-shell-window-actions.c:679
 msgid "Bug Buddy is not installed."
 msgstr "A Bug Buddy nincs telepítve."
 
-#: ../src/shell/e-shell-window-actions.c:675
+#: ../src/shell/e-shell-window-actions.c:680
 msgid "Bug Buddy could not be run."
 msgstr "Nem futtatható a Bug Buddy."
 
-#: ../src/shell/e-shell-window-actions.c:915
+#: ../src/shell/e-shell-window-actions.c:920
 msgid "Collect_ion Account"
 msgstr "Gyűjtemény_fiók"
 
-#: ../src/shell/e-shell-window-actions.c:917
+#: ../src/shell/e-shell-window-actions.c:922
 msgid "Create a new collection account"
 msgstr "Új gyűjteményfiók létrehozása"
 
-#: ../src/shell/e-shell-window-actions.c:925
+#: ../src/shell/e-shell-window-actions.c:930
 msgid "_About"
 msgstr "_Névjegy"
 
-#: ../src/shell/e-shell-window-actions.c:927
+#: ../src/shell/e-shell-window-actions.c:932
 msgid "Show information about Evolution"
 msgstr "Információk megjelenítése az Evolutionről"
 
-#: ../src/shell/e-shell-window-actions.c:932
+#: ../src/shell/e-shell-window-actions.c:937
 msgid "_Accounts"
 msgstr "_Fiókok"
 
-#: ../src/shell/e-shell-window-actions.c:934
+#: ../src/shell/e-shell-window-actions.c:939
 msgid "Configure Evolution Accounts"
 msgstr "Evolution fiókok beállítása"
 
-#: ../src/shell/e-shell-window-actions.c:939
-#: ../src/shell/e-shell-window-actions.c:953
+#: ../src/shell/e-shell-window-actions.c:944
+#: ../src/shell/e-shell-window-actions.c:958
 msgid "_Close Window"
 msgstr "Ablak _bezárása"
 
-#: ../src/shell/e-shell-window-actions.c:960
+#: ../src/shell/e-shell-window-actions.c:965
 msgid "_Contents"
 msgstr "_Tartalom"
 
-#: ../src/shell/e-shell-window-actions.c:962
+#: ../src/shell/e-shell-window-actions.c:967
 msgid "Open the Evolution User Guide"
 msgstr "Az Evolution felhasználói kézikönyvének megnyitása"
 
-#: ../src/shell/e-shell-window-actions.c:988
+#: ../src/shell/e-shell-window-actions.c:993
 msgid "I_mport…"
 msgstr "I_mportálás…"
 
-#: ../src/shell/e-shell-window-actions.c:990
+#: ../src/shell/e-shell-window-actions.c:995
 msgid "Import data from other programs"
 msgstr "Adatok importálása más programokból"
 
-#: ../src/shell/e-shell-window-actions.c:995
+#: ../src/shell/e-shell-window-actions.c:1000
 msgid "New _Window"
 msgstr "Új _ablak"
 
-#: ../src/shell/e-shell-window-actions.c:997
+#: ../src/shell/e-shell-window-actions.c:1002
 msgid "Create a new window displaying this view"
 msgstr "A nézetet megjelenítő új ablak létrehozása"
 
-#: ../src/shell/e-shell-window-actions.c:1009
+#: ../src/shell/e-shell-window-actions.c:1014
 msgid "Available Cate_gories"
 msgstr "Rendelke_zésre álló kategóriák"
 
-#: ../src/shell/e-shell-window-actions.c:1011
+#: ../src/shell/e-shell-window-actions.c:1016
 msgid "Manage available categories"
 msgstr "Rendelkezésre álló kategóriák kezelése"
 
-#: ../src/shell/e-shell-window-actions.c:1023
+#: ../src/shell/e-shell-window-actions.c:1028
 msgid "_Quit"
 msgstr "_Kilépés"
 
-#: ../src/shell/e-shell-window-actions.c:1025
+#: ../src/shell/e-shell-window-actions.c:1030
 msgid "Exit the program"
 msgstr "Kilépés a programból"
 
-#: ../src/shell/e-shell-window-actions.c:1030
+#: ../src/shell/e-shell-window-actions.c:1035
 msgid "_Saved Searches"
 msgstr "_Mentett keresések"
 
-#: ../src/shell/e-shell-window-actions.c:1037
+#: ../src/shell/e-shell-window-actions.c:1042
 msgid "_Advanced Search…"
 msgstr "_Speciális keresés…"
 
-#: ../src/shell/e-shell-window-actions.c:1039
+#: ../src/shell/e-shell-window-actions.c:1044
 msgid "Construct a more advanced search"
 msgstr "Speciális keresés összeállítása"
 
-#: ../src/shell/e-shell-window-actions.c:1046
+#: ../src/shell/e-shell-window-actions.c:1051
 msgid "Clear the current search parameters"
 msgstr "Keresési paraméterek törlése"
 
-#: ../src/shell/e-shell-window-actions.c:1051
+#: ../src/shell/e-shell-window-actions.c:1056
 msgid "_Edit Saved Searches…"
 msgstr "_Mentett keresések szerkesztése…"
 
-#: ../src/shell/e-shell-window-actions.c:1053
+#: ../src/shell/e-shell-window-actions.c:1058
 msgid "Manage your saved searches"
 msgstr "Mentett keresések kezelése"
 
-#: ../src/shell/e-shell-window-actions.c:1060
+#: ../src/shell/e-shell-window-actions.c:1065
 msgid "Click here to change the search type"
 msgstr "Kattintson ide a keresési típus megváltoztatásához"
 
-#: ../src/shell/e-shell-window-actions.c:1065
+#: ../src/shell/e-shell-window-actions.c:1070
 msgid "_Find Now"
 msgstr "_Keresés most"
 
-#: ../src/shell/e-shell-window-actions.c:1067
+#: ../src/shell/e-shell-window-actions.c:1072
 msgid "Execute the current search parameters"
 msgstr "Keresés a jelenlegi paraméterekkel"
 
-#: ../src/shell/e-shell-window-actions.c:1072
+#: ../src/shell/e-shell-window-actions.c:1077
 msgid "_Save Search…"
 msgstr "_Keresés mentése…"
 
-#: ../src/shell/e-shell-window-actions.c:1074
+#: ../src/shell/e-shell-window-actions.c:1079
 msgid "Save the current search parameters"
 msgstr "A jelenlegi paraméterek mentése"
 
-#: ../src/shell/e-shell-window-actions.c:1086
+#: ../src/shell/e-shell-window-actions.c:1091
 msgid "_Keyboard Shortcuts"
 msgstr "_Gyorsbillentyűk"
 
-#: ../src/shell/e-shell-window-actions.c:1088
+#: ../src/shell/e-shell-window-actions.c:1093
 msgid "Show keyboard shortcuts"
 msgstr "Gyorsbillentyűk megjelenítése"
 
-#: ../src/shell/e-shell-window-actions.c:1093
+#: ../src/shell/e-shell-window-actions.c:1098
 msgid "Show _WebKit GPU information"
 msgstr "_WebKit GPU információk megjelenítése"
 
-#: ../src/shell/e-shell-window-actions.c:1095
+#: ../src/shell/e-shell-window-actions.c:1100
 msgid "Show WebKit GPU information page in the preview panel"
 msgstr "WebKit GPU információs oldal megjelenítése az előnézet panelen"
 
-#: ../src/shell/e-shell-window-actions.c:1100
+#: ../src/shell/e-shell-window-actions.c:1105
 msgid "Submit _Bug Report…"
 msgstr "_Hibajelentés elküldése…"
 
-#: ../src/shell/e-shell-window-actions.c:1102
+#: ../src/shell/e-shell-window-actions.c:1107
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Hibajelentés elküldése a Bug Buddy segítségével"
 
-#: ../src/shell/e-shell-window-actions.c:1107
+#: ../src/shell/e-shell-window-actions.c:1112
 msgid "_Work Offline"
 msgstr "K_apcsolat nélküli munka"
 
-#: ../src/shell/e-shell-window-actions.c:1109
+#: ../src/shell/e-shell-window-actions.c:1114
 msgid "Put Evolution into offline mode"
 msgstr "Az Evolution kapcsolat nélküli módba tétele"
 
-#: ../src/shell/e-shell-window-actions.c:1114
+#: ../src/shell/e-shell-window-actions.c:1119
 msgid "_Work Online"
 msgstr "M_unka a hálózatban"
 
-#: ../src/shell/e-shell-window-actions.c:1116
+#: ../src/shell/e-shell-window-actions.c:1121
 msgid "Put Evolution into online mode"
 msgstr "Az Evolution online módba állítása"
 
-#: ../src/shell/e-shell-window-actions.c:1144
+#: ../src/shell/e-shell-window-actions.c:1149
 msgid "Lay_out"
 msgstr "_Elrendezés"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../src/shell/e-shell-window-actions.c:1152
+#: ../src/shell/e-shell-window-actions.c:1157
 msgid "_New"
 msgstr "Ú_j"
 
-#: ../src/shell/e-shell-window-actions.c:1159
+#: ../src/shell/e-shell-window-actions.c:1164
 msgid "_Search"
 msgstr "_Keresés"
 
-#: ../src/shell/e-shell-window-actions.c:1166
+#: ../src/shell/e-shell-window-actions.c:1171
 msgid "_Switcher Appearance"
 msgstr "Váltó_gombok megjelenése"
 
-#: ../src/shell/e-shell-window-actions.c:1180
+#: ../src/shell/e-shell-window-actions.c:1185
 msgid "_Window"
 msgstr "_Ablak"
 
-#: ../src/shell/e-shell-window-actions.c:1209
+#: ../src/shell/e-shell-window-actions.c:1214
 msgid "Show _Menu Bar"
 msgstr "_Menüsáv megjelenítése"
 
-#: ../src/shell/e-shell-window-actions.c:1211
+#: ../src/shell/e-shell-window-actions.c:1216
 msgid "Show the menu bar"
 msgstr "Menüsáv megjelenítése"
 
-#: ../src/shell/e-shell-window-actions.c:1219
+#: ../src/shell/e-shell-window-actions.c:1224
 msgid "Show the side bar"
 msgstr "Oldalsáv megjelenítése"
 
-#: ../src/shell/e-shell-window-actions.c:1225
+#: ../src/shell/e-shell-window-actions.c:1230
 msgid "Show _Buttons"
 msgstr "_Gombok megjelenítése"
 
-#: ../src/shell/e-shell-window-actions.c:1227
+#: ../src/shell/e-shell-window-actions.c:1232
 msgid "Show the switcher buttons"
 msgstr "A váltógombok megjelenítése"
 
-#: ../src/shell/e-shell-window-actions.c:1233
+#: ../src/shell/e-shell-window-actions.c:1238
 msgid "Show _Status Bar"
 msgstr "Álla_potsor megjelenítése"
 
-#: ../src/shell/e-shell-window-actions.c:1235
+#: ../src/shell/e-shell-window-actions.c:1240
 msgid "Show the status bar"
 msgstr "Az állapotsor megjelenítése"
 
-#: ../src/shell/e-shell-window-actions.c:1243
+#: ../src/shell/e-shell-window-actions.c:1248
 msgid "Show the tool bar"
 msgstr "Az eszköztár megjelenítése"
 
-#: ../src/shell/e-shell-window-actions.c:1265
+#: ../src/shell/e-shell-window-actions.c:1270
 msgid "_Icons Only"
 msgstr "_Csak ikonok"
 
-#: ../src/shell/e-shell-window-actions.c:1267
+#: ../src/shell/e-shell-window-actions.c:1272
 msgid "Display window buttons with icons only"
 msgstr "Ablakgombok megjelenítése csak ikonokkal"
 
-#: ../src/shell/e-shell-window-actions.c:1272
+#: ../src/shell/e-shell-window-actions.c:1277
 msgid "_Text Only"
 msgstr "Csak _szöveg"
 
-#: ../src/shell/e-shell-window-actions.c:1274
+#: ../src/shell/e-shell-window-actions.c:1279
 msgid "Display window buttons with text only"
 msgstr "Ablakgombok megjelenítése csak szöveggel"
 
-#: ../src/shell/e-shell-window-actions.c:1279
+#: ../src/shell/e-shell-window-actions.c:1284
 msgid "Icons _and Text"
 msgstr "_Ikonok és szöveg"
 
-#: ../src/shell/e-shell-window-actions.c:1281
+#: ../src/shell/e-shell-window-actions.c:1286
 msgid "Display window buttons with icons and text"
 msgstr "Ablakgombok megjelenítése ikonokkal és szöveggel"
 
-#: ../src/shell/e-shell-window-actions.c:1286
+#: ../src/shell/e-shell-window-actions.c:1291
 msgid "Tool_bar Style"
 msgstr "Esz_köztár stílusa"
 
-#: ../src/shell/e-shell-window-actions.c:1288
+#: ../src/shell/e-shell-window-actions.c:1293
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Ablakgombok megjelenítése a GNOME beállításait használva"
 
-#: ../src/shell/e-shell-window-actions.c:1296
+#: ../src/shell/e-shell-window-actions.c:1301
 msgid "Delete Current View"
 msgstr "Jelenlegi nézet törlése"
 
-#: ../src/shell/e-shell-window-actions.c:1303
+#: ../src/shell/e-shell-window-actions.c:1308
 msgid "Save Custom View…"
 msgstr "Egyéni nézet mentése…"
 
-#: ../src/shell/e-shell-window-actions.c:1305
+#: ../src/shell/e-shell-window-actions.c:1310
 msgid "Save current custom view"
 msgstr "Jelenlegi egyéni nézet mentése"
 
-#: ../src/shell/e-shell-window-actions.c:1319
+#: ../src/shell/e-shell-window-actions.c:1324
 msgid "C_urrent View"
 msgstr "Jelenlegi _nézet"
 
-#: ../src/shell/e-shell-window-actions.c:1329
+#: ../src/shell/e-shell-window-actions.c:1334
 msgid "Custom View"
 msgstr "Egyéni nézet"
 
-#: ../src/shell/e-shell-window-actions.c:1331
+#: ../src/shell/e-shell-window-actions.c:1336
 msgid "Current view is a customized view"
 msgstr "A jelenlegi nézet személyre szabott nézet"
 
-#: ../src/shell/e-shell-window-actions.c:1339
+#: ../src/shell/e-shell-window-actions.c:1344
 msgid "Page Set_up…"
 msgstr "_Oldalbeállítás…"
 
-#: ../src/shell/e-shell-window-actions.c:1341
+#: ../src/shell/e-shell-window-actions.c:1346
 msgid "Change the page settings for your current printer"
 msgstr "Az aktuális nyomtató oldalbeállításainak módosítása"
 
-#: ../src/shell/e-shell-window-actions.c:1716
+#: ../src/shell/e-shell-window-actions.c:1721
 #, c-format
 msgid "Switch to %s"
 msgstr "Váltás erre: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1840
+#: ../src/shell/e-shell-window-actions.c:1845
 #, c-format
 msgid "Select view: %s"
 msgstr "Válasszon nézetet: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1857
+#: ../src/shell/e-shell-window-actions.c:1862
 #, c-format
 msgid "Delete view: %s"
 msgstr "Nézet törlése: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1972
+#: ../src/shell/e-shell-window-actions.c:1977
 msgid "Execute these search parameters"
 msgstr "Ezen keresési paraméterek végrehajtása"
 
