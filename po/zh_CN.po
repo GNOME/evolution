@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-08-06 16:20+0000\n"
-"PO-Revision-Date: 2024-08-10 10:43-0400\n"
+"POT-Creation-Date: 2024-08-20 12:01+0000\n"
+"PO-Revision-Date: 2024-08-23 09:11-0400\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 2.4.3\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
@@ -3076,8 +3076,8 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
 msgstr ""
-"该键已在 3.10 版本中弃用，不应再使用。请转用 \"browser-close-on-reply-"
-"policy\"。"
+"该键已在 3.10 版本中弃用，不应再使用。请转用 \"browser-close-on-reply-policy"
+"\"。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:363
 msgid "Prompt before send when attachment changed on the disk"
@@ -4895,7 +4895,7 @@ msgid "_Save"
 msgstr "保存(_S)"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/e-util/e-misc-utils.c:3661
+#: ../src/e-util/e-misc-utils.c:3658
 msgid "Image"
 msgstr "图像"
 
@@ -5685,7 +5685,6 @@ msgid "Copy _Email Address"
 msgstr "复制电子邮件地址(_E)"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:145
-#: ../src/e-util/e-web-view.c:454
 msgid "Copy the email address to the clipboard"
 msgstr "复制电子邮件地址到剪贴板"
 
@@ -5700,7 +5699,7 @@ msgid "Send a mail message to this address"
 msgstr "发送一个邮件信息到这个地址"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:274
-#: ../src/e-util/e-misc-utils.c:4766
+#: ../src/e-util/e-misc-utils.c:4763
 #, c-format
 msgid "Click to mail %s"
 msgstr "单击以给 %s 发送邮件"
@@ -7645,7 +7644,7 @@ msgid "Completed: %s"
 msgstr "完成：%s"
 
 #: ../src/calendar/gui/comp-util.c:2413 ../src/calendar/gui/e-to-do-pane.c:617
-#: ../src/e-util/e-misc-utils.c:4849 ../src/e-util/e-text.c:567
+#: ../src/e-util/e-misc-utils.c:4846 ../src/e-util/e-text.c:567
 #: ../src/e-util/e-web-view.c:4319
 msgid "…"
 msgstr "…"
@@ -8591,10 +8590,10 @@ msgstr "开始时间无效"
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-markdown-utils.c:189 ../src/e-util/e-markdown-utils.c:199
-#: ../src/e-util/e-markdown-utils.c:209 ../src/e-util/e-misc-utils.c:4095
-#: ../src/e-util/e-misc-utils.c:4103 ../src/e-util/e-misc-utils.c:4111
-#: ../src/e-util/e-misc-utils.c:4146 ../src/e-util/e-misc-utils.c:4159
-#: ../src/e-util/e-misc-utils.c:4173 ../src/mail/e-mail-autoconfig.c:1130
+#: ../src/e-util/e-markdown-utils.c:209 ../src/e-util/e-misc-utils.c:4092
+#: ../src/e-util/e-misc-utils.c:4100 ../src/e-util/e-misc-utils.c:4108
+#: ../src/e-util/e-misc-utils.c:4143 ../src/e-util/e-misc-utils.c:4156
+#: ../src/e-util/e-misc-utils.c:4170 ../src/mail/e-mail-autoconfig.c:1130
 #: ../src/mail/e-mail-display.c:3083 ../src/mail/e-mail-notes.c:931
 #: ../src/mail/e-mail-reader.c:3710 ../src/mail/e-mail-reader-utils.c:817
 #: ../src/mail/e-mail-viewer.c:568 ../src/mail/e-mail-viewer.c:1741
@@ -16100,62 +16099,62 @@ msgstr "解析命令行“%s”失败：%s"
 msgid "Could not open the link."
 msgstr "无法打开链接。"
 
-#: ../src/e-util/e-misc-utils.c:404
+#: ../src/e-util/e-misc-utils.c:401
 msgid "Could not display help for Evolution."
 msgstr "无法显示 Evolution 的帮助。"
 
-#: ../src/e-util/e-misc-utils.c:2616
+#: ../src/e-util/e-misc-utils.c:2613
 #, c-format
 msgid "Opening calendar “%s”"
 msgstr "正在打开日历“%s”"
 
-#: ../src/e-util/e-misc-utils.c:2619
+#: ../src/e-util/e-misc-utils.c:2616
 #, c-format
 msgid "Opening memo list “%s”"
 msgstr "打开备忘录“%s”"
 
-#: ../src/e-util/e-misc-utils.c:2622
+#: ../src/e-util/e-misc-utils.c:2619
 #, c-format
 msgid "Opening task list “%s”"
 msgstr "正在打开任务列表“%s”"
 
-#: ../src/e-util/e-misc-utils.c:2625
+#: ../src/e-util/e-misc-utils.c:2622
 #, c-format
 msgid "Opening address book “%s”"
 msgstr "正在打开地址簿“%s”"
 
-#: ../src/e-util/e-misc-utils.c:3498
+#: ../src/e-util/e-misc-utils.c:3495
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "不再显示此信息(_D)"
 
-#: ../src/e-util/e-misc-utils.c:4082
+#: ../src/e-util/e-misc-utils.c:4079
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr "此地址簿服务器不可达，或服务器名称拼错，又或者您的网络连接已断。"
 
-#: ../src/e-util/e-misc-utils.c:4094
+#: ../src/e-util/e-misc-utils.c:4091
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "无法将协议版本设置为 LDAPv3(%d)：%s"
 
-#: ../src/e-util/e-misc-utils.c:4102 ../src/e-util/e-misc-utils.c:4110
+#: ../src/e-util/e-misc-utils.c:4099 ../src/e-util/e-misc-utils.c:4107
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "无法设置连接超时选项(%d)：%s"
 
-#: ../src/e-util/e-misc-utils.c:4145
+#: ../src/e-util/e-misc-utils.c:4142
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "无法使用 STARTTLS（%d）：%s"
 
-#: ../src/e-util/e-misc-utils.c:4158
+#: ../src/e-util/e-misc-utils.c:4155
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "与 LDAP 服务器认证失败 (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4172
+#: ../src/e-util/e-misc-utils.c:4169
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -16169,7 +16168,7 @@ msgstr ""
 "\n"
 "详细错误(%d)：%s"
 
-#: ../src/e-util/e-misc-utils.c:4183
+#: ../src/e-util/e-misc-utils.c:4180
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -16178,12 +16177,12 @@ msgstr ""
 "此 LDAP 服务器可能使用较早版本的 LDAP，所以无法支持此功能，或者是配置错误。请"
 "询问您的管理员有关支持的搜索基础一事。"
 
-#: ../src/e-util/e-misc-utils.c:4216
+#: ../src/e-util/e-misc-utils.c:4213
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution 编译时未提供 LDAP 支持"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4541
+#: ../src/e-util/e-misc-utils.c:4538
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -16191,31 +16190,31 @@ msgstr "未知 (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4550
+#: ../src/e-util/e-misc-utils.c:4547
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4771
+#: ../src/e-util/e-misc-utils.c:4768
 #, c-format
 msgid "Click to call %s"
 msgstr "单击以呼叫 %s"
 
-#: ../src/e-util/e-misc-utils.c:4773
+#: ../src/e-util/e-misc-utils.c:4770
 msgid "Click to hide/unhide addresses"
 msgstr "单击可隐藏/显示地址"
 
-#: ../src/e-util/e-misc-utils.c:4786
+#: ../src/e-util/e-misc-utils.c:4783
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "转到信息的 %s 部分"
 
-#: ../src/e-util/e-misc-utils.c:4788
+#: ../src/e-util/e-misc-utils.c:4785
 msgid "Go to the beginning of the message"
 msgstr "转到信息的开头"
 
-#: ../src/e-util/e-misc-utils.c:4794
+#: ../src/e-util/e-misc-utils.c:4791
 #, c-format
 msgid "Click to open %s"
 msgstr "单击以打开 %s"
@@ -17229,16 +17228,20 @@ msgid "_Copy Link Location"
 msgstr "复制链接位置(_C)"
 
 #: ../src/e-util/e-web-view.c:452
-msgid "_Copy Email Address"
-msgstr "复制电子邮件地址(_C)"
+msgid "_Copy Name and Email Address"
+msgstr "复制姓名和电子邮件地址(_C)"
+
+#: ../src/e-util/e-web-view.c:454
+msgid "Copy the email address with the name to the clipboard"
+msgstr "将带有姓名的电子邮件地址复制到剪贴板"
 
 #: ../src/e-util/e-web-view.c:459
-msgid "Copy _Raw Email Address"
-msgstr "复制原始电子邮件地址(_R)"
+msgid "Copy Only Email Add_ress"
+msgstr "仅复制电子邮件地址(_R)"
 
 #: ../src/e-util/e-web-view.c:461
-msgid "Copy the raw email address to the clipboard"
-msgstr "复制原始电子邮件地址到剪贴板"
+msgid "Copy only the email address without the name to the clipboard"
+msgstr "只将电子邮件地址复制到剪贴板，不包括姓名"
 
 #: ../src/e-util/e-web-view.c:476
 msgid "_Copy Image"
@@ -29863,6 +29866,12 @@ msgstr "无法写存储到磁盘，错误码：%i"
 msgid "Imported Certificate"
 msgstr "导入的证书"
 
+#~ msgid "Copy _Raw Email Address"
+#~ msgstr "复制原始电子邮件地址(_R)"
+
+#~ msgid "Copy the raw email address to the clipboard"
+#~ msgstr "复制原始电子邮件地址到剪贴板"
+
 #, fuzzy
 #~| msgid "Modifying a task"
 #~ msgid "M_odify tasks"
@@ -31190,13 +31199,13 @@ msgstr "导入的证书"
 #~ msgstr "极限"
 
 #~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and "
-#~ "\"Subject\" lines in the \"Messages\" column in vertical view"
+#~ "Determines whether to use the same fonts for both \"From\" and \"Subject"
+#~ "\" lines in the \"Messages\" column in vertical view"
 #~ msgstr "决定是否在竖直视图中对“信息”列的“发件人”和“主题”行使用相同的字体。"
 
 #~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and "
-#~ "\"Subject\" lines in the \"Messages\" column in vertical view."
+#~ "Determines whether to use the same fonts for both \"From\" and \"Subject"
+#~ "\" lines in the \"Messages\" column in vertical view."
 #~ msgstr "决定是否在竖直视图中对“信息”列的“发件人”和“主题”行使用相同的字体。"
 
 #~ msgid "Itip Formatter"
@@ -32469,9 +32478,9 @@ msgstr "导入的证书"
 #~ msgid ""
 #~ "Initial maximize state of the \"Folder Subscriptions\" window. The value "
 #~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Folder "
-#~ "Subscriptions\" window cannot be maximized. This key exists only as an "
-#~ "implementation detail."
+#~ "particular value is not used by Evolution since the \"Folder Subscriptions"
+#~ "\" window cannot be maximized. This key exists only as an implementation "
+#~ "detail."
 #~ msgstr ""
 #~ "“文件夹订阅”窗口的最大化初始状态。当用户最大化或取消最大化窗口时会更新该"
 #~ "值，这个值是不会被 Evolution 使用的，因为“过滤器编辑器”窗口无法最大化。这"
@@ -32595,9 +32604,9 @@ msgstr "导入的证书"
 #~ msgid ""
 #~ "Initial maximize state of the \"Search Folder Editor\" window. The value "
 #~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Search Folder "
-#~ "Editor\" window cannot be maximized. This key exists only as an "
-#~ "implementation detail."
+#~ "particular value is not used by Evolution since the \"Search Folder Editor"
+#~ "\" window cannot be maximized. This key exists only as an implementation "
+#~ "detail."
 #~ msgstr ""
 #~ "“搜索文件夹编辑器”窗口的最大化初始状态。当用户最大化或取消最大化窗口时会更"
 #~ "新该值，这个值是不会被 Evolution 使用的，因为“搜索文件夹编辑器”窗口无法最"
@@ -32876,8 +32885,8 @@ msgstr "导入的证书"
 #~ msgstr "是否在任务视图中隐藏已完成的任务。"
 
 #~ msgid ""
-#~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or "
-#~ "\"days\"."
+#~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
+#~ "\"."
 #~ msgstr "决定是否隐藏任务的单位，可为“minutes”，“hours”或“days”。"
 
 #~ msgid "Number of units for determining when to hide tasks."
