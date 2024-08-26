@@ -205,7 +205,8 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 			/* strftime format %a = abbreviated weekday name,
 			 * %d = day of month, %b = abbreviated month name.
 			 * You can change the order but don't change the
-			 * specifiers or add anything. */
+			 * specifiers or add anything.
+			 * xgettext:no-c-format */
 			format_string = _("%a %d %b");
 	}
 	if (!format_string && show_month_name) {
@@ -219,7 +220,8 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 		    + week_view->abbr_month_widths[month - 1] < max_width)
 			/* strftime format %d = day of month, %b = abbreviated
 			 * month name. You can change the order but don't
-			 * change the specifiers or add anything. */
+			 * change the specifiers or add anything.
+			 * xgettext:no-c-format */
 			format_string = _("%d %b");
 	}
 

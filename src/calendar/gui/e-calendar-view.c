@@ -1238,6 +1238,7 @@ calendar_view_get_description_text (ECalendarView *cal_view)
 				e_utf8_strftime (start_buffer, sizeof (start_buffer), "%d", &start_tm);
 				e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%d %b %Y"), &end_tm);
 			} else {
+				/* xgettext:no-c-format */
 				e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%d %b"), &start_tm);
 				e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%d %b %Y"), &end_tm);
 			}
@@ -1251,6 +1252,7 @@ calendar_view_get_description_text (ECalendarView *cal_view)
 			start_tm.tm_mday == end_tm.tm_mday) {
 			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%A %d %b %Y"), &start_tm);
 		} else if (start_tm.tm_year == end_tm.tm_year) {
+			/* xgettext:no-c-format */
 			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%a %d %b"), &start_tm);
 			e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%a %d %b %Y"), &end_tm);
 		} else {

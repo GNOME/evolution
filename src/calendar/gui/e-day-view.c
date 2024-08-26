@@ -3262,7 +3262,8 @@ e_day_view_recalc_cell_sizes (EDayView *day_view)
 	date_tm.tm_wday = day_view->longest_abbreviated_weekday_name;
 	date_tm.tm_isdst = -1;
 	/* strftime format %a = abbreviated weekday name, %d = day of month,
-	 * %b = abbreviated month name. Don't use any other specifiers. */
+	 * %b = abbreviated month name. Don't use any other specifiers.
+	 * xgettext:no-c-format */
 	e_utf8_strftime (buffer, sizeof (buffer), _("%a %d %b"), &date_tm);
 	pango_layout_set_text (layout, buffer, -1);
 	pango_layout_get_pixel_size (layout, &pango_width, NULL);
@@ -3278,7 +3279,8 @@ e_day_view_recalc_cell_sizes (EDayView *day_view)
 	date_tm.tm_wday = 0;
 	date_tm.tm_isdst = -1;
 	/* strftime format %d = day of month, %b = abbreviated month name.
-	 * Don't use any other specifiers. */
+	 * Don't use any other specifiers.
+	 * xgettext:no-c-format */
 	e_utf8_strftime (buffer, sizeof (buffer), _("%d %b"), &date_tm);
 	pango_layout_set_text (layout, buffer, -1);
 	pango_layout_get_pixel_size (layout, &pango_width, NULL);

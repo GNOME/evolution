@@ -837,11 +837,13 @@ e_day_view_top_item_get_day_label (EDayView *day_view,
 		format = _("%A %d %B");
 	else if (day_view->date_format == E_DAY_VIEW_DATE_ABBREVIATED)
 		/* strftime format %a = abbreviated weekday name, %d = day of month,
-		 * %b = abbreviated month name. Don't use any other specifiers. */
+		 * %b = abbreviated month name. Don't use any other specifiers.
+		 * xgettext:no-c-format */
 		format = _("%a %d %b");
 	else if (day_view->date_format == E_DAY_VIEW_DATE_NO_WEEKDAY)
 		/* strftime format %d = day of month, %b = abbreviated month name.
-		 * Don't use any other specifiers. */
+		 * Don't use any other specifiers.
+		 * xgettext:no-c-format */
 		format = _("%d %b");
 	else
 		format = "%d";
