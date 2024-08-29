@@ -18,6 +18,7 @@ add_dependencies(ewebextension
 
 target_compile_definitions(ewebextension PRIVATE
 	-DG_LOG_DOMAIN=\"ewebextension\"
+	-DEVOLUTION_LOCALEDIR=\"${LOCALE_INSTALL_DIR}\"
 	-DEVOLUTION_WEBKITDATADIR=\"${webkitdatadir}\"
 )
 

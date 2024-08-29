@@ -18,6 +18,8 @@
 
 #include "evolution-config.h"
 
+#include <glib/gi18n-lib.h>
+
 #include "e-web-extension.h"
 
 /* Forward declaration */
@@ -29,6 +31,10 @@ webkit_web_extension_initialize_with_user_data (WebKitWebExtension *wk_extension
 						GVariant *user_data)
 {
 	EWebExtension *extension;
+
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain (GETTEXT_PACKAGE);
 
 	extension = e_web_extension_get ();
 
