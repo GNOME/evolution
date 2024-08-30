@@ -1,3 +1,27 @@
+Evolution 3.53.3 2024-08-30
+---------------------------
+
+Bug Fixes:
+	I#2818 - Permit only one instance of “Evolution Accounts” window
+	I#2823 - Translations of the concepts "email" and "raw email" are difficult for users
+	I#2824 - Mail: junk-test not called since I#2780
+	I#2838 - Translations in WebExtension do not work
+	M!136 - Calendar: Fix gettext format problems (Anders Jonsson)
+
+Miscellaneous:
+	help: Open the latest help web pages when help not available locally
+
+Translations:
+	Asier Sarasua Garmendia (eu)
+	Balázs Úr (hu)
+	Boyuan Yang (zh_CN)
+	Bruce Cowan (en_GB)
+	Ekaterine Papava (ka)
+	Haolin Xue (zh_CN)
+	Martin (sl)
+	Sabri Ünal (tr)
+	Yuri Chornoivan (uk)
+
 Evolution 3.53.2 2024-08-02
 ---------------------------
 
