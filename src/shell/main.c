@@ -281,6 +281,9 @@ main (gint argc,
 		g_setenv ("WEBKIT_FORCE_SANDBOX", "0", FALSE);
 	}
 
+	/* To pair the app with the desktop file */
+	g_set_prgname ("org.gnome.Evolution");
+
 	/* Pre-cache list of supported locales */
 	e_util_enum_supported_locales ();
 
