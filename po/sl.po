@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-08-20 12:01+0000\n"
-"PO-Revision-Date: 2024-08-20 16:58+0200\n"
+"POT-Creation-Date: 2024-09-04 05:42+0000\n"
+"PO-Revision-Date: 2024-09-04 16:17+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -3868,7 +3868,7 @@ msgstr "Pojdi na _naslednje sporočilo"
 #: ../data/ui/evolution-mail-viewer.ui.h:3 ../src/calendar/gui/e-comp-editor.c:2292
 #: ../src/e-util/e-html-editor-actions.c:1195 ../src/e-util/e-mail-signature-editor.c:343
 #: ../src/mail/e-mail-browser.c:202 ../src/mail/e-mail-notes.c:1124
-#: ../src/shell/e-shell-window-actions.c:1130
+#: ../src/shell/e-shell-window-actions.c:1135
 msgid "_File"
 msgstr "_Datoteka"
 
@@ -3889,7 +3889,7 @@ msgstr "_Natisni"
 #: ../src/e-util/e-table-field-chooser-dialog.c:197 ../src/mail/e-mail-browser.c:158
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:754 ../src/mail/e-mail-notes.c:1110
 #: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1519
-#: ../src/mail/em-subscription-editor.c:1734 ../src/shell/e-shell-window-actions.c:946
+#: ../src/mail/em-subscription-editor.c:1734 ../src/shell/e-shell-window-actions.c:951
 #: ../src/smime/gui/certificate-manager.c:2124
 msgid "_Close"
 msgstr "_Zapri"
@@ -3907,7 +3907,7 @@ msgstr "_Zapri"
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../src/plugins/sender-validation/sender-validation.c:694
 #: ../src/plugins/sender-validation/sender-validation.c:805
-#: ../src/plugins/templates/templates.c:475 ../src/shell/e-shell-window-actions.c:1123
+#: ../src/plugins/templates/templates.c:475 ../src/shell/e-shell-window-actions.c:1128
 #: ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "_Uredi"
@@ -3920,7 +3920,7 @@ msgstr "_Izreži"
 #: ../data/ui/evolution-mail-viewer.ui.h:9 ../src/calendar/gui/e-comp-editor.c:2206
 #: ../src/e-util/e-focus-tracker.c:798 ../src/e-util/e-html-editor-actions.c:1144
 #: ../src/e-util/e-text.c:2064 ../src/e-util/e-web-view.c:493 ../src/mail/e-mail-browser.c:165
-#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:967
+#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:972
 msgid "_Copy"
 msgstr "_Kopiraj"
 
@@ -3928,7 +3928,7 @@ msgstr "_Kopiraj"
 #: ../data/ui/evolution-mail-viewer.ui.h:10 ../src/calendar/gui/e-comp-editor.c:2234
 #: ../src/e-util/e-focus-tracker.c:803 ../src/e-util/e-html-editor-actions.c:1158
 #: ../src/e-util/e-text.c:2076 ../src/mail/e-mail-browser.c:179
-#: ../src/shell/e-shell-window-actions.c:1002
+#: ../src/shell/e-shell-window-actions.c:1007
 msgid "_Paste"
 msgstr "_Prilepi"
 
@@ -3942,7 +3942,7 @@ msgstr "_Najdi v sporočilu …"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:13 ../src/calendar/gui/e-comp-editor.c:2320
 #: ../src/e-util/e-html-editor-actions.c:1237 ../src/mail/e-mail-browser.c:216
-#: ../src/shell/e-shell-window-actions.c:1173 ../src/smime/gui/certificate-manager.c:1588
+#: ../src/shell/e-shell-window-actions.c:1178 ../src/smime/gui/certificate-manager.c:1588
 #: ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "Po_gled"
@@ -4996,14 +4996,14 @@ msgstr "Ob_letnica:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1912
+#: ../src/calendar/gui/e-calendar-view.c:1914
 msgid "Anniversary"
 msgstr "Obletnica"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1911
+#: ../src/calendar/gui/e-calendar-view.c:1913
 msgid "Birthday"
 msgstr "Rojstni dan"
 
@@ -5287,7 +5287,7 @@ msgstr "Neveljaven stik."
 #: ../src/calendar/gui/e-comp-editor.c:2227 ../src/calendar/gui/e-comp-editor.c:2299
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:1137
+#: ../src/shell/e-shell-window-actions.c:1142
 msgid "_Help"
 msgstr "Pomo_č"
 
@@ -6027,7 +6027,7 @@ msgstr "Ali ste prepričani, da želite izbrisati stik (%s)?"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1640
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:700
 #: ../src/modules/calendar/e-task-shell-view-actions.c:884
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1644 ../src/shell/e-shell-window-actions.c:981
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1644 ../src/shell/e-shell-window-actions.c:986
 #: ../src/smime/gui/certificate-manager.c:1598 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Izbriši"
@@ -6356,7 +6356,7 @@ msgstr "_Približaj"
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:432
 #: ../src/e-util/e-html-editor-actions.c:2326 ../src/e-util/e-html-editor-find-dialog.c:235
-#: ../src/shell/e-shell-window-actions.c:1058
+#: ../src/shell/e-shell-window-actions.c:1063
 msgid "_Find"
 msgstr "_Najdi"
 
@@ -6597,7 +6597,7 @@ msgstr ""
 "odpovedano."
 
 #: ../src/calendar/calendar.error.xml.h:11
-msgid "_Delete and Sent Notice"
+msgid "_Delete and Send Notice"
 msgstr "_Izbriši in pošlji obvestilo"
 
 #: ../src/calendar/calendar.error.xml.h:12
@@ -8061,8 +8061,8 @@ msgstr "Ni mogoče najti ustreznega seznama."
 msgid "Pasting iCalendar data"
 msgstr "Poteka dodajanje podatkov iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:1239 ../src/calendar/gui/e-calendar-view.c:1242
-#: ../src/calendar/gui/e-calendar-view.c:1245 ../src/calendar/gui/e-calendar-view.c:1246
+#: ../src/calendar/gui/e-calendar-view.c:1239 ../src/calendar/gui/e-calendar-view.c:1243
+#: ../src/calendar/gui/e-calendar-view.c:1246 ../src/calendar/gui/e-calendar-view.c:1247
 msgid "%d %b %Y"
 msgstr "%d.%m.%Y"
 
@@ -8071,13 +8071,13 @@ msgstr "%d.%m.%Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1241 ../src/calendar/gui/e-day-view.c:3282
-#: ../src/calendar/gui/e-day-view-top-item.c:845 ../src/calendar/gui/e-week-view-main-item.c:223
-#, c-format
+#: ../src/calendar/gui/e-calendar-view.c:1242 ../src/calendar/gui/e-day-view.c:3284
+#: ../src/calendar/gui/e-day-view-top-item.c:847 ../src/calendar/gui/e-week-view-main-item.c:225
+#, no-c-format
 msgid "%d %b"
 msgstr "%d. %b."
 
-#: ../src/calendar/gui/e-calendar-view.c:1252
+#: ../src/calendar/gui/e-calendar-view.c:1253
 msgid "%A %d %b %Y"
 msgstr "%A %d.%m.%Y"
 
@@ -8087,14 +8087,14 @@ msgstr "%A %d.%m.%Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1254 ../src/calendar/gui/e-day-view.c:3266
-#: ../src/calendar/gui/e-day-view-top-item.c:841 ../src/calendar/gui/e-week-view-main-item.c:209
-#, c-format
+#: ../src/calendar/gui/e-calendar-view.c:1256 ../src/calendar/gui/e-day-view.c:3267
+#: ../src/calendar/gui/e-day-view-top-item.c:842 ../src/calendar/gui/e-week-view-main-item.c:210
+#, no-c-format
 msgid "%a %d %b"
 msgstr "%a, %d. %b."
 
-#: ../src/calendar/gui/e-calendar-view.c:1255 ../src/calendar/gui/e-calendar-view.c:1257
-#: ../src/calendar/gui/e-calendar-view.c:1258
+#: ../src/calendar/gui/e-calendar-view.c:1257 ../src/calendar/gui/e-calendar-view.c:1259
+#: ../src/calendar/gui/e-calendar-view.c:1260
 msgid "%a %d %b %Y"
 msgstr "%a %d.%b.%Y"
 
@@ -8102,7 +8102,7 @@ msgstr "%a %d.%b.%Y"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1931
+#: ../src/calendar/gui/e-calendar-view.c:1933
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -9459,27 +9459,27 @@ msgstr "Zapri trenutno okno"
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:305
 #: ../src/e-util/e-focus-tracker.c:799 ../src/e-util/e-web-view.c:495
 #: ../src/e-util/e-web-view.c:2167 ../src/mail/e-mail-browser.c:167
-#: ../src/shell/e-shell-window-actions.c:969
+#: ../src/shell/e-shell-window-actions.c:974
 msgid "Copy the selection"
 msgstr "Kopira izbor"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2213 ../src/e-util/e-focus-tracker.c:793
 #: ../src/e-util/e-html-editor-actions.c:1151 ../src/e-util/e-text.c:2050
-#: ../src/mail/e-mail-browser.c:172 ../src/shell/e-shell-window-actions.c:974
+#: ../src/mail/e-mail-browser.c:172 ../src/shell/e-shell-window-actions.c:979
 msgid "Cu_t"
 msgstr "_Izreži"
 
 #: ../src/calendar/gui/e-comp-editor.c:2215 ../src/e-util/e-focus-tracker.c:189
 #: ../src/e-util/e-focus-tracker.c:245 ../src/e-util/e-focus-tracker.c:299
 #: ../src/e-util/e-focus-tracker.c:794 ../src/e-util/e-web-view.c:2176
-#: ../src/mail/e-mail-browser.c:174 ../src/shell/e-shell-window-actions.c:976
+#: ../src/mail/e-mail-browser.c:174 ../src/shell/e-shell-window-actions.c:981
 msgid "Cut the selection"
 msgstr "Izreže izbor"
 
 #: ../src/calendar/gui/e-comp-editor.c:2222 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:809
-#: ../src/shell/e-shell-window-actions.c:983
+#: ../src/shell/e-shell-window-actions.c:988
 msgid "Delete the selection"
 msgstr "Izbriše izbor"
 
@@ -9490,7 +9490,7 @@ msgstr "Poglejte pomoč"
 #: ../src/calendar/gui/e-comp-editor.c:2236 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:311
 #: ../src/e-util/e-focus-tracker.c:804 ../src/e-util/e-web-view.c:2185
-#: ../src/mail/e-mail-browser.c:181 ../src/shell/e-shell-window-actions.c:1004
+#: ../src/mail/e-mail-browser.c:181 ../src/shell/e-shell-window-actions.c:1009
 msgid "Paste the clipboard"
 msgstr "Prilepi iz odložišča"
 
@@ -9510,13 +9510,13 @@ msgstr "_Predogled …"
 
 #: ../src/calendar/gui/e-comp-editor.c:2255 ../src/e-util/e-focus-tracker.c:813
 #: ../src/e-util/e-html-editor-actions.c:1172 ../src/e-util/e-web-view.c:510
-#: ../src/mail/e-mail-browser.c:186 ../src/shell/e-shell-window-actions.c:1079
+#: ../src/mail/e-mail-browser.c:186 ../src/shell/e-shell-window-actions.c:1084
 msgid "Select _All"
 msgstr "Izberi _vse"
 
 #: ../src/calendar/gui/e-comp-editor.c:2257 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:814
-#: ../src/mail/e-mail-browser.c:188 ../src/shell/e-shell-window-actions.c:1081
+#: ../src/mail/e-mail-browser.c:188 ../src/shell/e-shell-window-actions.c:1086
 msgid "Select all text"
 msgstr "Izberi vse besedilo"
 
@@ -9556,7 +9556,7 @@ msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3987
+#: ../src/calendar/gui/e-day-view.c:3989
 #, c-format
 msgid "Week %d"
 msgstr "Teden %d"
@@ -10024,7 +10024,7 @@ msgstr "%s (%s)"
 #. strftime format %d = day of month, %B = full
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-week-view-main-item.c:217 ../src/calendar/gui/print.c:2128
+#: ../src/calendar/gui/e-week-view-main-item.c:218 ../src/calendar/gui/print.c:2128
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -12162,11 +12162,11 @@ msgstr "Novo _sporočilo"
 msgid "Open New Message window"
 msgstr "Odpre okno novega sporočila"
 
-#: ../src/composer/e-composer-actions.c:347 ../src/shell/e-shell-window-actions.c:1016
+#: ../src/composer/e-composer-actions.c:347 ../src/shell/e-shell-window-actions.c:1021
 msgid "_Preferences"
 msgstr "_Možnosti"
 
-#: ../src/composer/e-composer-actions.c:349 ../src/shell/e-shell-window-actions.c:1018
+#: ../src/composer/e-composer-actions.c:349 ../src/shell/e-shell-window-actions.c:1023
 msgid "Configure Evolution"
 msgstr "Nastavitve programa Evolution"
 
@@ -16812,7 +16812,7 @@ msgstr "Najboljše _prileganje"
 msgid "Format Column_s…"
 msgstr "_Oblikuj _stolpce …"
 
-#: ../src/e-util/e-table-header-item.c:1666 ../src/shell/e-shell-window-actions.c:1310
+#: ../src/e-util/e-table-header-item.c:1666 ../src/shell/e-shell-window-actions.c:1315
 msgid "Custo_mize Current View…"
 msgstr "_Prilagodi trenutni pogled …"
 
@@ -17754,8 +17754,8 @@ msgstr "Strežnik POP3"
 msgid "SMTP server"
 msgstr "Strežnik SMTP"
 
-#: ../src/mail/e-mail-browser.c:160 ../src/shell/e-shell-window-actions.c:941
-#: ../src/shell/e-shell-window-actions.c:948 ../src/shell/e-shell-window-actions.c:955
+#: ../src/mail/e-mail-browser.c:160 ../src/shell/e-shell-window-actions.c:946
+#: ../src/shell/e-shell-window-actions.c:953 ../src/shell/e-shell-window-actions.c:960
 msgid "Close this window"
 msgstr "Zapri okno"
 
@@ -18213,7 +18213,7 @@ msgid "Select"
 msgstr "Izberi"
 
 #: ../src/mail/e-mail-config-security-page.c:766 ../src/mail/e-mail-config-security-page.c:864
-#: ../src/shell/e-shell-window-actions.c:1044
+#: ../src/shell/e-shell-window-actions.c:1049
 msgid "_Clear"
 msgstr "Po_čisti"
 
@@ -22551,12 +22551,12 @@ msgid "Show M_enu Bar"
 msgstr "Pokaži _menijsko vrstico"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:523
-#: ../src/shell/e-shell-window-actions.c:1241
+#: ../src/shell/e-shell-window-actions.c:1246
 msgid "Show _Tool Bar"
 msgstr "Pokaži orodno vrs_tico"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:536
-#: ../src/shell/e-shell-window-actions.c:1217
+#: ../src/shell/e-shell-window-actions.c:1222
 msgid "Show Side _Bar"
 msgstr "Pokaži s_transko vrstico"
 
@@ -28729,303 +28729,303 @@ msgstr "Spletna stran"
 msgid "Saving user interface state"
 msgstr "Shranjevanje stanja uporabniškega vmesnika"
 
-#: ../src/shell/e-shell-window-actions.c:354
+#: ../src/shell/e-shell-window-actions.c:359
 msgid "Categories Editor"
 msgstr "Urejevalnik kategorij"
 
-#: ../src/shell/e-shell-window-actions.c:674
+#: ../src/shell/e-shell-window-actions.c:679
 msgid "Bug Buddy is not installed."
 msgstr "Program Bug Buddy ni nameščen."
 
-#: ../src/shell/e-shell-window-actions.c:675
+#: ../src/shell/e-shell-window-actions.c:680
 msgid "Bug Buddy could not be run."
 msgstr "Programa Bug buddy ni mogoče zagnati."
 
-#: ../src/shell/e-shell-window-actions.c:915
+#: ../src/shell/e-shell-window-actions.c:920
 msgid "Collect_ion Account"
 msgstr "_Zbirni račun"
 
-#: ../src/shell/e-shell-window-actions.c:917
+#: ../src/shell/e-shell-window-actions.c:922
 msgid "Create a new collection account"
 msgstr "Ustvari nov zbirni račun"
 
-#: ../src/shell/e-shell-window-actions.c:925
+#: ../src/shell/e-shell-window-actions.c:930
 msgid "_About"
 msgstr "_O programu"
 
-#: ../src/shell/e-shell-window-actions.c:927
+#: ../src/shell/e-shell-window-actions.c:932
 msgid "Show information about Evolution"
 msgstr "Pokaži podatke o programu Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:932
+#: ../src/shell/e-shell-window-actions.c:937
 msgid "_Accounts"
 msgstr "_Računi"
 
-#: ../src/shell/e-shell-window-actions.c:934
+#: ../src/shell/e-shell-window-actions.c:939
 msgid "Configure Evolution Accounts"
 msgstr "Nastavitve računov Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:939 ../src/shell/e-shell-window-actions.c:953
+#: ../src/shell/e-shell-window-actions.c:944 ../src/shell/e-shell-window-actions.c:958
 msgid "_Close Window"
 msgstr "_Zapri okno"
 
-#: ../src/shell/e-shell-window-actions.c:960
+#: ../src/shell/e-shell-window-actions.c:965
 msgid "_Contents"
 msgstr "_Vsebina"
 
-#: ../src/shell/e-shell-window-actions.c:962
+#: ../src/shell/e-shell-window-actions.c:967
 msgid "Open the Evolution User Guide"
 msgstr "Odpre uporabniško pomoč programa"
 
-#: ../src/shell/e-shell-window-actions.c:988
+#: ../src/shell/e-shell-window-actions.c:993
 msgid "I_mport…"
 msgstr "_Uvozi …"
 
-#: ../src/shell/e-shell-window-actions.c:990
+#: ../src/shell/e-shell-window-actions.c:995
 msgid "Import data from other programs"
 msgstr "Uvozi podatke iz drugih programov"
 
-#: ../src/shell/e-shell-window-actions.c:995
+#: ../src/shell/e-shell-window-actions.c:1000
 msgid "New _Window"
 msgstr "Novo _okno"
 
-#: ../src/shell/e-shell-window-actions.c:997
+#: ../src/shell/e-shell-window-actions.c:1002
 msgid "Create a new window displaying this view"
 msgstr "Ustvari novo okno s prikazom tega pogleda"
 
-#: ../src/shell/e-shell-window-actions.c:1009
+#: ../src/shell/e-shell-window-actions.c:1014
 msgid "Available Cate_gories"
 msgstr "Razpoložljive _kategorije"
 
-#: ../src/shell/e-shell-window-actions.c:1011
+#: ../src/shell/e-shell-window-actions.c:1016
 msgid "Manage available categories"
 msgstr "Upravljanje z razpoložljivimi kategorijami"
 
-#: ../src/shell/e-shell-window-actions.c:1023
+#: ../src/shell/e-shell-window-actions.c:1028
 msgid "_Quit"
 msgstr "_Končaj"
 
-#: ../src/shell/e-shell-window-actions.c:1025
+#: ../src/shell/e-shell-window-actions.c:1030
 msgid "Exit the program"
 msgstr "Izhod iz programa"
 
-#: ../src/shell/e-shell-window-actions.c:1030
+#: ../src/shell/e-shell-window-actions.c:1035
 msgid "_Saved Searches"
 msgstr "_Shranjena iskanja"
 
-#: ../src/shell/e-shell-window-actions.c:1037
+#: ../src/shell/e-shell-window-actions.c:1042
 msgid "_Advanced Search…"
 msgstr "_Napredno iskanje …"
 
-#: ../src/shell/e-shell-window-actions.c:1039
+#: ../src/shell/e-shell-window-actions.c:1044
 msgid "Construct a more advanced search"
 msgstr "Sestavljanje naprednejšega iskanja"
 
-#: ../src/shell/e-shell-window-actions.c:1046
+#: ../src/shell/e-shell-window-actions.c:1051
 msgid "Clear the current search parameters"
 msgstr "Počisti trenutne parametre iskanja"
 
-#: ../src/shell/e-shell-window-actions.c:1051
+#: ../src/shell/e-shell-window-actions.c:1056
 msgid "_Edit Saved Searches…"
 msgstr "_Uredi shranjena iskanja …"
 
-#: ../src/shell/e-shell-window-actions.c:1053
+#: ../src/shell/e-shell-window-actions.c:1058
 msgid "Manage your saved searches"
 msgstr "Upravljanje s shranjenimi iskanji"
 
-#: ../src/shell/e-shell-window-actions.c:1060
+#: ../src/shell/e-shell-window-actions.c:1065
 msgid "Click here to change the search type"
 msgstr "Kliknite tukaj za zamenjavo vrste iskanja"
 
-#: ../src/shell/e-shell-window-actions.c:1065
+#: ../src/shell/e-shell-window-actions.c:1070
 msgid "_Find Now"
 msgstr "_Najdi zdaj"
 
-#: ../src/shell/e-shell-window-actions.c:1067
+#: ../src/shell/e-shell-window-actions.c:1072
 msgid "Execute the current search parameters"
 msgstr "Izvedi trenutna parametre iskanja"
 
-#: ../src/shell/e-shell-window-actions.c:1072
+#: ../src/shell/e-shell-window-actions.c:1077
 msgid "_Save Search…"
 msgstr "_Shrani iskanje …"
 
-#: ../src/shell/e-shell-window-actions.c:1074
+#: ../src/shell/e-shell-window-actions.c:1079
 msgid "Save the current search parameters"
 msgstr "Shrani trenutne parametre iskanja"
 
-#: ../src/shell/e-shell-window-actions.c:1086
+#: ../src/shell/e-shell-window-actions.c:1091
 msgid "_Keyboard Shortcuts"
 msgstr "_Tipkovne bližnjice"
 
-#: ../src/shell/e-shell-window-actions.c:1088
+#: ../src/shell/e-shell-window-actions.c:1093
 msgid "Show keyboard shortcuts"
 msgstr "Pokaži tipkovne bližnjice‫"
 
-#: ../src/shell/e-shell-window-actions.c:1093
+#: ../src/shell/e-shell-window-actions.c:1098
 msgid "Show _WebKit GPU information"
 msgstr "Pokaži podatke _WebKit GPU"
 
-#: ../src/shell/e-shell-window-actions.c:1095
+#: ../src/shell/e-shell-window-actions.c:1100
 msgid "Show WebKit GPU information page in the preview panel"
 msgstr "Pokaži podrobnosti strani GPU WebKit v oknu predogleda"
 
-#: ../src/shell/e-shell-window-actions.c:1100
+#: ../src/shell/e-shell-window-actions.c:1105
 msgid "Submit _Bug Report…"
 msgstr "Pošlji _poročilo o hrošču …"
 
-#: ../src/shell/e-shell-window-actions.c:1102
+#: ../src/shell/e-shell-window-actions.c:1107
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Pošlji poročilo o hrošču z uporabo progama Bug buddy"
 
-#: ../src/shell/e-shell-window-actions.c:1107
+#: ../src/shell/e-shell-window-actions.c:1112
 msgid "_Work Offline"
 msgstr "_Delo brez povezave"
 
-#: ../src/shell/e-shell-window-actions.c:1109
+#: ../src/shell/e-shell-window-actions.c:1114
 msgid "Put Evolution into offline mode"
 msgstr "Nadaljuje v načinu brez povezave"
 
-#: ../src/shell/e-shell-window-actions.c:1114
+#: ../src/shell/e-shell-window-actions.c:1119
 msgid "_Work Online"
 msgstr "_Delo s povezavo"
 
-#: ../src/shell/e-shell-window-actions.c:1116
+#: ../src/shell/e-shell-window-actions.c:1121
 msgid "Put Evolution into online mode"
 msgstr "Nadaljuje v povezanem načinu"
 
-#: ../src/shell/e-shell-window-actions.c:1144
+#: ../src/shell/e-shell-window-actions.c:1149
 msgid "Lay_out"
 msgstr "Razp_oreditev"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../src/shell/e-shell-window-actions.c:1152
+#: ../src/shell/e-shell-window-actions.c:1157
 msgid "_New"
 msgstr "_Novo"
 
-#: ../src/shell/e-shell-window-actions.c:1159
+#: ../src/shell/e-shell-window-actions.c:1164
 msgid "_Search"
 msgstr "I_skanje"
 
-#: ../src/shell/e-shell-window-actions.c:1166
+#: ../src/shell/e-shell-window-actions.c:1171
 msgid "_Switcher Appearance"
 msgstr "Videz _preklopnika"
 
-#: ../src/shell/e-shell-window-actions.c:1180
+#: ../src/shell/e-shell-window-actions.c:1185
 msgid "_Window"
 msgstr "_Okno"
 
-#: ../src/shell/e-shell-window-actions.c:1209
+#: ../src/shell/e-shell-window-actions.c:1214
 msgid "Show _Menu Bar"
 msgstr "Pokaži menijsko _vrstico"
 
-#: ../src/shell/e-shell-window-actions.c:1211
+#: ../src/shell/e-shell-window-actions.c:1216
 msgid "Show the menu bar"
 msgstr "Pokaži menijsko vrstico"
 
-#: ../src/shell/e-shell-window-actions.c:1219
+#: ../src/shell/e-shell-window-actions.c:1224
 msgid "Show the side bar"
 msgstr "Pokaže stransko vrstico"
 
-#: ../src/shell/e-shell-window-actions.c:1225
+#: ../src/shell/e-shell-window-actions.c:1230
 msgid "Show _Buttons"
 msgstr "Pokaži _gumbe"
 
-#: ../src/shell/e-shell-window-actions.c:1227
+#: ../src/shell/e-shell-window-actions.c:1232
 msgid "Show the switcher buttons"
 msgstr "Pokaže preklopne gumbe"
 
-#: ../src/shell/e-shell-window-actions.c:1233
+#: ../src/shell/e-shell-window-actions.c:1238
 msgid "Show _Status Bar"
 msgstr "Pokaži vrstico _stanja"
 
-#: ../src/shell/e-shell-window-actions.c:1235
+#: ../src/shell/e-shell-window-actions.c:1240
 msgid "Show the status bar"
 msgstr "Pokaže vrstico stanja"
 
-#: ../src/shell/e-shell-window-actions.c:1243
+#: ../src/shell/e-shell-window-actions.c:1248
 msgid "Show the tool bar"
 msgstr "Pokaže orodno vrstico"
 
-#: ../src/shell/e-shell-window-actions.c:1265
+#: ../src/shell/e-shell-window-actions.c:1270
 msgid "_Icons Only"
 msgstr "Le _ikone"
 
-#: ../src/shell/e-shell-window-actions.c:1267
+#: ../src/shell/e-shell-window-actions.c:1272
 msgid "Display window buttons with icons only"
 msgstr "Pokaže gumbe okna le z ikonami"
 
-#: ../src/shell/e-shell-window-actions.c:1272
+#: ../src/shell/e-shell-window-actions.c:1277
 msgid "_Text Only"
 msgstr "_Le besedilo"
 
-#: ../src/shell/e-shell-window-actions.c:1274
+#: ../src/shell/e-shell-window-actions.c:1279
 msgid "Display window buttons with text only"
 msgstr "Pokaže gumbe okna le z besedilom"
 
-#: ../src/shell/e-shell-window-actions.c:1279
+#: ../src/shell/e-shell-window-actions.c:1284
 msgid "Icons _and Text"
 msgstr "I_kone in besedilo"
 
-#: ../src/shell/e-shell-window-actions.c:1281
+#: ../src/shell/e-shell-window-actions.c:1286
 msgid "Display window buttons with icons and text"
 msgstr "Pokaže gumbe okna z ikonami in besedilom"
 
-#: ../src/shell/e-shell-window-actions.c:1286
+#: ../src/shell/e-shell-window-actions.c:1291
 msgid "Tool_bar Style"
 msgstr "Slog orodne _vrstice"
 
-#: ../src/shell/e-shell-window-actions.c:1288
+#: ../src/shell/e-shell-window-actions.c:1293
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Pokaži gumbe okna z uporabo nastavitev orodnih vrstic namizja"
 
-#: ../src/shell/e-shell-window-actions.c:1296
+#: ../src/shell/e-shell-window-actions.c:1301
 msgid "Delete Current View"
 msgstr "Izbriši trenutni pogled"
 
-#: ../src/shell/e-shell-window-actions.c:1303
+#: ../src/shell/e-shell-window-actions.c:1308
 msgid "Save Custom View…"
 msgstr "Shrani pogled po meri …"
 
-#: ../src/shell/e-shell-window-actions.c:1305
+#: ../src/shell/e-shell-window-actions.c:1310
 msgid "Save current custom view"
 msgstr "Shrani trenutni pogled po meri"
 
-#: ../src/shell/e-shell-window-actions.c:1319
+#: ../src/shell/e-shell-window-actions.c:1324
 msgid "C_urrent View"
 msgstr "Tren_utni pogled"
 
-#: ../src/shell/e-shell-window-actions.c:1329
+#: ../src/shell/e-shell-window-actions.c:1334
 msgid "Custom View"
 msgstr "Pogled po meri"
 
-#: ../src/shell/e-shell-window-actions.c:1331
+#: ../src/shell/e-shell-window-actions.c:1336
 msgid "Current view is a customized view"
 msgstr "Trenutni pogled je prilagojen"
 
-#: ../src/shell/e-shell-window-actions.c:1339
+#: ../src/shell/e-shell-window-actions.c:1344
 msgid "Page Set_up…"
 msgstr "Nastavitev _strani …"
 
-#: ../src/shell/e-shell-window-actions.c:1341
+#: ../src/shell/e-shell-window-actions.c:1346
 msgid "Change the page settings for your current printer"
 msgstr "Spremeni nastavitve strani pred tiskanjem"
 
-#: ../src/shell/e-shell-window-actions.c:1716
+#: ../src/shell/e-shell-window-actions.c:1721
 #, c-format
 msgid "Switch to %s"
 msgstr "Preklopi na %s"
 
-#: ../src/shell/e-shell-window-actions.c:1840
+#: ../src/shell/e-shell-window-actions.c:1845
 #, c-format
 msgid "Select view: %s"
 msgstr "Izbor pogleda: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1857
+#: ../src/shell/e-shell-window-actions.c:1862
 #, c-format
 msgid "Delete view: %s"
 msgstr "Izbriši pogled: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1972
+#: ../src/shell/e-shell-window-actions.c:1977
 msgid "Execute these search parameters"
 msgstr "Izvedi te parametre iskanja"
 
