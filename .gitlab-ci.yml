@@ -40,6 +40,11 @@ flatpak:
       - ".flatpak-builder/build/${FLATPAK_MODULE}/CMakeFiles/CMakeError.log"
       - ".flatpak-builder/build/${FLATPAK_MODULE}/CMakeFiles/CMakeOutput.log"
       - ".flatpak-builder/build/${FLATPAK_MODULE}/help/"
+      - ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-mail-composer/html/"
+      - ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-mail-engine/html/"
+      - ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-mail-formatter/html/"
+      - ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-shell/html/"
+      - ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-util/html/"
     expire_in: 14 days
 
 pages:
@@ -54,8 +59,10 @@ pages:
     - |
       dnf install -qy yelp-tools gcc glib2-devel
       export PUBDIR=$(pwd)/public/help
+      export DOCSDIR=$(pwd)/public/docs
       LANGLINKS=" "
       mkdir -p $PUBDIR
+      mkdir -p $DOCSDIR
       for d in ".flatpak-builder/build/${FLATPAK_MODULE}/help/"*
       do
         if [ -d "$d" ] && [ $(basename $d) != "CMakeFiles" ]; then
@@ -74,9 +81,15 @@ pages:
       done
       gcc `pkg-config --cflags --libs glib-2.0` .gitlab-ci/update-help.c -g -O0 -o update-help
       ./update-help $PUBDIR
-      echo "Go to Evolution <a href='https://gitlab.gnome.org/GNOME/evolution/-/wikis'>Wiki pages</a> or the <a href='help/'>user documentation</a> (${LANGLINKS})">$(pwd)/public/index.html
+      echo "Go to Evolution <a href='https://gitlab.gnome.org/GNOME/evolution/-/wikis'>Wiki pages</a> or the <a href='help/'>user documentation</a> (${LANGLINKS})<br><br>Developer documentation is <a href='docs/'>here</a>">$(pwd)/public/index.html
       mkdir $(pwd)/public/YahooOAuth2
       echo "Wait a bit, please...<br><br>The page URL contains an authorization code, which can be copied into the credentials prompt dialog.">$(pwd)/public/YahooOAuth2/index.html
+      mv ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-mail-composer/html" $DOCSDIR/evolution-mail-composer
+      mv ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-mail-engine/html" $DOCSDIR/evolution-mail-engine
+      mv ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-mail-formatter/html" $DOCSDIR/evolution-mail-formatter
+      mv ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-shell/html" $DOCSDIR/evolution-shell
+      mv ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-util/html" $DOCSDIR/evolution-util
+      echo "<h4>Developer documentation for Evolution libraries</h4><a href='evolution-mail-composer'>evolution-mail-composer</a><br><a href='evolution-mail-engine'>evolution-mail-engine</a><br><a href='evolution-mail-formatter'>evolution-mail-formatter</a><br><a href='evolution-shell'>evolution-shell</a><br><a href='evolution-util'>evolution-util</a><br>" >$DOCSDIR/index.html
   artifacts:
     paths:
     - public
