@@ -42,39 +42,39 @@
     <title>Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
   </index>
-  <index id="api-index-3-54" role="3.54">
+  <index id="api-index-3-54">
     <title>Index of new symbols in 3.54</title>
     <xi:include href="xml/api-index-3.54.xml"><xi:fallback /></xi:include>
   </index>
-  <index id="api-index-3-46" role="3.46">
+  <index id="api-index-3-46">
     <title>Index of new symbols in 3.46</title>
     <xi:include href="xml/api-index-3.46.xml"><xi:fallback /></xi:include>
   </index>
-  <index id="api-index-3-42" role="3.42">
+  <index id="api-index-3-42">
     <title>Index of new symbols in 3.42</title>
     <xi:include href="xml/api-index-3.42.xml"><xi:fallback /></xi:include>
   </index>
-  <index id="api-index-3-34" role="3.34">
+  <index id="api-index-3-34">
     <title>Index of new symbols in 3.34</title>
     <xi:include href="xml/api-index-3.34.xml"><xi:fallback /></xi:include>
   </index>
-  <index id="api-index-3-32" role="3.32">
+  <index id="api-index-3-32">
     <title>Index of new symbols in 3.32</title>
     <xi:include href="xml/api-index-3.32.xml"><xi:fallback /></xi:include>
   </index>
-  <index id="api-index-3-24" role="3.24">
+  <index id="api-index-3-24">
     <title>Index of new symbols in 3.24</title>
     <xi:include href="xml/api-index-3.24.xml"><xi:fallback /></xi:include>
   </index>
-  <index id="api-index-3-16" role="3.16">
+  <index id="api-index-3-16">
     <title>Index of new symbols in 3.16</title>
     <xi:include href="xml/api-index-3.16.xml"><xi:fallback /></xi:include>
   </index>
-  <index id="api-index-3-10" role="3.10">
+  <index id="api-index-3-10">
     <title>Index of new symbols in 3.10</title>
     <xi:include href="xml/api-index-3.10.xml"><xi:fallback /></xi:include>
   </index>
-  <index id="api-index-3-4" role="3.4">
+  <index id="api-index-3-4">
     <title>Index of new symbols in 3.4</title>
     <xi:include href="xml/api-index-3.4.xml"><xi:fallback /></xi:include>
   </index>
