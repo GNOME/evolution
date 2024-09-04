@@ -26,7 +26,7 @@
     <_primary>Are you sure you want to delete this meeting?</_primary>
     <_secondary>All information on this meeting will be deleted and can not be restored. If you do not send a cancellation notice, the other participants may not know the meeting is canceled.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
-    <button _label="_Delete and Sent Notice" response="GTK_RESPONSE_APPLY" destructive="true"/>
+    <button _label="_Delete and Send Notice" response="GTK_RESPONSE_APPLY" destructive="true"/>
     <button _label="Delete _without Notice" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
@@ -34,7 +34,7 @@
     <_primary>Are you sure you want to delete this meeting?</_primary>
     <_secondary>All information on this meeting will be deleted and can not be restored. If you do not send a deletion notice, the organizer may not know the meeting has been deleted.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
-    <button _label="_Delete and Sent Notice" response="GTK_RESPONSE_APPLY" destructive="true"/>
+    <button _label="_Delete and Send Notice" response="GTK_RESPONSE_APPLY" destructive="true"/>
     <button _label="Delete _without Notice" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
@@ -42,7 +42,7 @@
     <_primary>Are you sure you want to delete the meeting titled “{0}”?</_primary>
     <_secondary>All information on this meeting will be deleted and can not be restored. If you do not send a cancellation notice, the other participants may not know the meeting is canceled.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
-    <button _label="_Delete and Sent Notice" response="GTK_RESPONSE_APPLY" destructive="true"/>
+    <button _label="_Delete and Send Notice" response="GTK_RESPONSE_APPLY" destructive="true"/>
     <button _label="Delete _without Notice" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
@@ -50,7 +50,7 @@
     <_primary>Are you sure you want to delete the meeting titled “{0}”?</_primary>
     <_secondary>All information on this meeting will be deleted and can not be restored. If you do not send a deletion notice, the organizer may not know the meeting has been deleted.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
-    <button _label="_Delete and Sent Notice" response="GTK_RESPONSE_APPLY" destructive="true"/>
+    <button _label="_Delete and Send Notice" response="GTK_RESPONSE_APPLY" destructive="true"/>
     <button _label="Delete _without Notice" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
