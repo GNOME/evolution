@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-08-21 18:11+0000\n"
-"PO-Revision-Date: 2024-08-22 00:26+0200\n"
+"POT-Creation-Date: 2024-09-04 15:41+0000\n"
+"PO-Revision-Date: 2024-09-06 15:33+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -5446,14 +5446,14 @@ msgstr "É_vforduló:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1912
+#: ../src/calendar/gui/e-calendar-view.c:1914
 msgid "Anniversary"
 msgstr "Évforduló"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1911
+#: ../src/calendar/gui/e-calendar-view.c:1913
 msgid "Birthday"
 msgstr "Születésnap"
 
@@ -7083,7 +7083,8 @@ msgstr ""
 "fog tudni a találkozó lemondásáról."
 
 #: ../src/calendar/calendar.error.xml.h:11
-msgid "_Delete and Sent Notice"
+#| msgid "_Delete and Sent Notice"
+msgid "_Delete and Send Notice"
 msgstr "_Törlés és értesítés küldése"
 
 #: ../src/calendar/calendar.error.xml.h:12
@@ -8656,9 +8657,9 @@ msgid "Pasting iCalendar data"
 msgstr "iCalendar adatok beillesztése"
 
 #: ../src/calendar/gui/e-calendar-view.c:1239
-#: ../src/calendar/gui/e-calendar-view.c:1242
-#: ../src/calendar/gui/e-calendar-view.c:1245
+#: ../src/calendar/gui/e-calendar-view.c:1243
 #: ../src/calendar/gui/e-calendar-view.c:1246
+#: ../src/calendar/gui/e-calendar-view.c:1247
 msgid "%d %b %Y"
 msgstr "%Y. %b. %-d."
 
@@ -8667,15 +8668,15 @@ msgstr "%Y. %b. %-d."
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1241
-#: ../src/calendar/gui/e-day-view.c:3282
-#: ../src/calendar/gui/e-day-view-top-item.c:845
-#: ../src/calendar/gui/e-week-view-main-item.c:223
-#, c-format
+#: ../src/calendar/gui/e-calendar-view.c:1242
+#: ../src/calendar/gui/e-day-view.c:3284
+#: ../src/calendar/gui/e-day-view-top-item.c:847
+#: ../src/calendar/gui/e-week-view-main-item.c:225
+#, no-c-format
 msgid "%d %b"
 msgstr "%2$b. %1$d."
 
-#: ../src/calendar/gui/e-calendar-view.c:1252
+#: ../src/calendar/gui/e-calendar-view.c:1253
 msgid "%A %d %b %Y"
 msgstr "%Y. %b. %-d. %A"
 
@@ -8685,17 +8686,17 @@ msgstr "%Y. %b. %-d. %A"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1254
-#: ../src/calendar/gui/e-day-view.c:3266
-#: ../src/calendar/gui/e-day-view-top-item.c:841
-#: ../src/calendar/gui/e-week-view-main-item.c:209
-#, c-format
+#: ../src/calendar/gui/e-calendar-view.c:1256
+#: ../src/calendar/gui/e-day-view.c:3267
+#: ../src/calendar/gui/e-day-view-top-item.c:842
+#: ../src/calendar/gui/e-week-view-main-item.c:210
+#, no-c-format
 msgid "%a %d %b"
 msgstr "%3$b. %2$d. %1$a."
 
-#: ../src/calendar/gui/e-calendar-view.c:1255
 #: ../src/calendar/gui/e-calendar-view.c:1257
-#: ../src/calendar/gui/e-calendar-view.c:1258
+#: ../src/calendar/gui/e-calendar-view.c:1259
+#: ../src/calendar/gui/e-calendar-view.c:1260
 msgid "%a %d %b %Y"
 msgstr "%Y. %b. %-d. %a."
 
@@ -8703,7 +8704,7 @@ msgstr "%Y. %b. %-d. %a."
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1931
+#: ../src/calendar/gui/e-calendar-view.c:1933
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -10207,7 +10208,7 @@ msgid "%A %d %B"
 msgstr "%B %d %A"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3987
+#: ../src/calendar/gui/e-day-view.c:3989
 #, c-format
 msgid "Week %d"
 msgstr "%d. hét"
@@ -10703,7 +10704,7 @@ msgstr "%s (%s)"
 #. strftime format %d = day of month, %B = full
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-week-view-main-item.c:217
+#: ../src/calendar/gui/e-week-view-main-item.c:218
 #: ../src/calendar/gui/print.c:2128
 msgid "%d %B"
 msgstr "%B %d"
@@ -17864,22 +17865,18 @@ msgid "_Copy Link Location"
 msgstr "Hivatkozás _címének másolása"
 
 #: ../src/e-util/e-web-view.c:452
-#| msgid "_Copy Email Address"
 msgid "_Copy Name and Email Address"
 msgstr "Név és e-mail-cím _másolása"
 
 #: ../src/e-util/e-web-view.c:454
-#| msgid "Copy the email address to the clipboard"
 msgid "Copy the email address with the name to the clipboard"
 msgstr "Az e-mail-cím másolása névvel a vágólapra"
 
 #: ../src/e-util/e-web-view.c:459
-#| msgid "_Copy Email Address"
 msgid "Copy Only Email Add_ress"
 msgstr "_Csak e-mail-cím másolása"
 
 #: ../src/e-util/e-web-view.c:461
-#| msgid "Copy the email address to the clipboard"
 msgid "Copy only the email address without the name to the clipboard"
 msgstr "Csak az e-mail-cím másolása név nélkül a vágólapra"
 
@@ -30841,3 +30838,4 @@ msgstr "Nem írható a tároló lemezre, hibakód: %i"
 #: ../src/smime/lib/e-pkcs12.c:471
 msgid "Imported Certificate"
 msgstr "Importált tanúsítvány"
+
