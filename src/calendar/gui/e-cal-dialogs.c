@@ -135,7 +135,7 @@ e_cal_dialogs_delete_with_comment (GtkWindow *parent,
 			if (has_attendees && ask_send_notice && organizer_is_user)
 				id = "calendar:prompt-delete-meeting-with-notice-organizer";
 			else if (has_attendees && ask_send_notice && attendee_is_user)
-				id = "calendar:prompt-delete-meeting-with-notice-atendee";
+				id = "calendar:prompt-delete-meeting-with-notice-attendee";
 			else if (has_attendees)
 				id = "calendar:prompt-delete-meeting";
 			else
