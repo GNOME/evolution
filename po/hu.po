@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-09 12:57+0000\n"
-"PO-Revision-Date: 2024-03-10 23:20+0100\n"
+"POT-Creation-Date: 2024-09-04 15:40+0000\n"
+"PO-Revision-Date: 2024-09-06 15:37+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -312,14 +312,14 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 msgid "Compress weekends in month view"
-msgstr "A hétvégék összenyomása a hónapnézetben"
+msgstr "A hétvégék összenyomása a hónap nézetben"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:8
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday"
 msgstr ""
-"Hétvégék tömörítése a hónapnézetben ki/be. Ez a szombatot és a vasárnapot "
+"Hétvégék tömörítése a hónap nézetben ki/be. Ez a szombatot és a vasárnapot "
 "egy hétköznap helyén jeleníti meg"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:9
@@ -340,7 +340,7 @@ msgstr "Értekezletek és feladatok tisztításakor megerősítés kérése ki/b
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:13
 msgid "Month view vertical pane position"
-msgstr "A függőleges ablaktábla pozíciója a hónapnézetben"
+msgstr "A függőleges ablaktábla pozíciója a hónap nézetben"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:14
 msgid ""
@@ -464,19 +464,19 @@ msgstr "A munkanap befejeződési ideje vasárnap"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:40
 msgid "The second timezone for a Day View"
-msgstr "A napnézet második időzónája"
+msgstr "A nap nézet második időzónája"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
 msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a “timezone” key"
 msgstr ""
-"Megjeleníti a másodlagos időzónát a napnézetben. Az érték hasonló a "
+"Megjeleníti a másodlagos időzónát a nap nézetben. Az érték hasonló a "
 "„timezone” kulcsban használthoz"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:42
 msgid "Recently used second time zones in a Day View"
-msgstr "Nemrég használt másodlagos időzónák egy napnézetben"
+msgstr "Nemrég használt másodlagos időzónák egy nap nézetben"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:43
 msgid "List of recently used second time zones in a Day View"
@@ -639,11 +639,11 @@ msgstr "Az utolsó emlékeztető futásának ideje, time_t struktúraként"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
 msgid "Marcus Bains Line Color — Day View"
-msgstr "A Marcus Bains vonal színe – Nap nézet"
+msgstr "A Marcus Bains vonal színe – nap nézet"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
 msgid "Color to draw the Marcus Bains line in the Day View"
-msgstr "A Marcus Bains vonal megrajzolása ezzel a színnel a Nap nézetben"
+msgstr "A Marcus Bains vonal megrajzolása ezzel a színnel a nap nézetben"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
 msgid "Marcus Bains Line Color — Time bar"
@@ -699,7 +699,7 @@ msgstr "Feljegyzés-előnézet ablaktábla pozíciója vízszintes tájolás ese
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "Month view horizontal pane position"
-msgstr "A hónapnézet vízszintes ablaktáblájának pozíciója"
+msgstr "A hónap nézet vízszintes ablaktáblájának pozíciója"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid ""
@@ -707,26 +707,26 @@ msgid ""
 "calendar and task list in the month view, in pixels"
 msgstr ""
 "A vízszintes panel pozíciója a dátumnavigátor naptár és a feladatlista "
-"között, képpontokban, hónapnézet esetén"
+"között, képpontokban, hónap nézet esetén"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
 msgid "Scroll Month View by a week, not by a month"
-msgstr "A hónapnézet egy héttel gördüljön, ne egy hónappal"
+msgstr "A hónap nézet egy héttel gördüljön, ne egy hónappal"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "Whether to scroll a Month View by a week, not by a month"
-msgstr "A hónapnézet egy héttel gördüljön-e egy hónap helyett"
+msgstr "A hónap nézet egy héttel gördüljön-e egy hónap helyett"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 msgid "Let the Month View start with the current week"
-msgstr "A hónapnézet a jelenlegi héttel kezdődjön"
+msgstr "A hónap nézet a jelenlegi héttel kezdődjön"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid ""
 "Whether the month view should show weeks starting with the current week "
 "instead of the first week of the month."
 msgstr ""
-"A hónapnézet a jelenlegi héttel kezdődő heteket jelenítsen-e meg a hónap "
+"A hónap nézet a jelenlegi héttel kezdődő heteket jelenítsen-e meg a hónap "
 "első hete helyett."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
@@ -811,19 +811,23 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid "Show appointment end times in week and month views"
-msgstr "Értekezletek végpontjának megjelenítése a heti és a hónapnézetben"
+msgstr ""
+"Értekezletek befejezési idejének megjelenítése a hét nézetben és a hónap "
+"nézetben"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "Whether to display the end time of events in the week and month views"
-msgstr "Események végének megjelenítése a heti és a hónapnézetekben"
+msgstr ""
+"Események befejezési idejének megjelenítése a hét nézetben és a hónap "
+"nézetben"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Show appointment icons in the month view"
-msgstr "Értekezlet ikonok megjelenítése a hónapnézetben"
+msgstr "Értekezlet ikonok megjelenítése a hónap nézetben"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 msgid "Whether to show icons of events in the month view"
-msgstr "Megjelenjenek-e az események ikonjai a hónapnézetben"
+msgstr "Megjelenjenek-e az események ikonjai a hónap nézetben"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid "Show the memo preview pane"
@@ -849,8 +853,8 @@ msgstr ""
 msgid ""
 "Show week numbers in Day View, Work Week View, Year view and Date Navigator"
 msgstr ""
-"Hetek számának megjelenítése a nap, munkahét és év nézetekben, illetve a "
-"dátumnavigátorban"
+"Hetek számának megjelenítése a nap nézetben, a munkahét nézetben és év "
+"nézetben, illetve a dátumnavigátorban"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 msgid "Whether to show week numbers in various places in the Calendar"
@@ -947,7 +951,7 @@ msgstr "Időosztások"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
 msgid "Intervals shown in Day and Work Week views, in minutes"
-msgstr "A Nap és Munkahét nézetben megjelenítendő időközök, percekben"
+msgstr "A nap és munkahét nézetben megjelenítendő időközök, percekben"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
 msgid "Timezone"
@@ -1041,15 +1045,15 @@ msgid ""
 "Whether to order days in the Week View from left to right, rather than from "
 "top to bottom."
 msgstr ""
-"A Hét nézetben a napok balról jobbra rendezése, fentről lefelé helyett."
+"A hét nézetben a napok balról jobbra rendezése, fentről lefelé helyett."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
 msgid ""
 "Allow direct edit of event Summary when clicking on it in the Day, Work "
 "Week, Week or Month view."
 msgstr ""
-"Közvetlen szerkesztés engedélyezése az esemény Összegzésénél, ha rákattint a "
-"Nap, Munkahét, Hét vagy Hónap nézetben."
+"Közvetlen szerkesztés engedélyezése az esemény összegzésénél, ha rákattint a "
+"nap, munkahét, hét vagy hónap nézetben."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
 msgid "User-defined reminder times, in minutes"
@@ -1095,9 +1099,9 @@ msgid ""
 "View) places the preview pane below the calendar. “1” (Vertical View) places "
 "the preview pane next to the calendar."
 msgstr ""
-"Az elrendezési stílus megadja az előnézet ablaktábla elhelyezését. A "
-"„0” (vízszintes nézet) az előnézet ablaktáblát a naptár alá, az "
-"„1” (függőleges nézet) pedig a naptár mellé helyezi."
+"Az elrendezési stílus megadja az előnézet ablaktábla elhelyezését. A „0” "
+"(vízszintes nézet) az előnézet ablaktáblát a naptár alá, az „1” (függőleges "
+"nézet) pedig a naptár mellé helyezi."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
 msgid "Year view horizontal preview position"
@@ -1824,22 +1828,18 @@ msgstr ""
 "szerepel az üzenetben."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
-#| msgid "Convert UTC time in reply credits to local time"
 msgid "Convert time in reply credits to local time"
 msgstr "A válaszadatokban lévő idő átalakítása helyi időre"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
-#| msgid ""
-#| "Whether the time in reply credits should be converted to local time when "
-#| "it’s in UTC in the message."
 msgid ""
 "Whether the time in reply credits should be converted to local time. This "
 "converts any time, not only UTC times, for which “composer-reply-credits-utc-"
 "to-localtime” can be used."
 msgstr ""
-"Át kell-e alakítani a válaszadatokban lévő időt helyi időre. Ez bármilyen"
-" időt átvált, nem csak azokat az UTC időket, amelyekre a"
-" „composer-reply-credits-utc-to-localtime” használható."
+"Át kell-e alakítani a válaszadatokban lévő időt helyi időre. Ez bármilyen "
+"időt átvált, nem csak azokat az UTC időket, amelyekre a „composer-reply-"
+"credits-utc-to-localtime” használható."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Use user date format in reply credits"
@@ -2620,8 +2620,8 @@ msgid ""
 "It's a complementary option for “prompt-on-unwanted-html”, containing list "
 "of addresses, which accept HTML messages."
 msgstr ""
-"Ez a „prompt-on-unwanted-html” kiegészítő beállítása, amely a HTML üzeneteket"
-" elfogadó címek listáját tartalmazza."
+"Ez a „prompt-on-unwanted-html” kiegészítő beállítása, amely a HTML "
+"üzeneteket elfogadó címek listáját tartalmazza."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid ""
@@ -2669,8 +2669,8 @@ msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
 msgstr ""
-"Három lehetséges értéke van: „0” (hiba), „1” (figyelmeztetés), "
-"„2” (hibakeresési üzenetek)."
+"Három lehetséges értéke van: „0” (hiba), „1” (figyelmeztetés), „2” "
+"(hibakeresési üzenetek)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "Show original “Date” header value."
@@ -3270,8 +3270,8 @@ msgid ""
 "Whether click on a header in the message list can change sort order by the "
 "clicked column."
 msgstr ""
-"Az üzenetlistában egy fejlécre történő kattintás megváltoztathatja-e a"
-" rendezési sorrendet a kattintott oszlop szerint."
+"Az üzenetlistában egy fejlécre történő kattintás megváltoztathatja-e a "
+"rendezési sorrendet a kattintott oszlop szerint."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
 msgid "(Deprecated) Default forward style"
@@ -3746,7 +3746,7 @@ msgid ""
 msgstr "Az autoar által a csatolt könyvtárakhoz használt tömörítési szűrő."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/e-shell.c:1976
+#: ../src/shell/e-shell.c:2004
 msgid "Start in offline mode"
 msgstr "Indítás kapcsolat nélküli módban"
 
@@ -3784,9 +3784,9 @@ msgid ""
 "Valid values are “mail”, “addressbook”, “calendar”, “tasks” and “memos”. "
 "Change of this requires restart of the application."
 msgstr ""
-"Az érvényes értékek: „mail” (levél), „calendar” (naptár), "
-"„tasks” (feladatok) és „memos” (feljegyzések). A megváltoztatása az "
-"alkalmazás újraindítását igényli."
+"Az érvényes értékek: „mail” (levél), „calendar” (naptár), „tasks” "
+"(feladatok) és „memos” (feljegyzések). A megváltoztatása az alkalmazás "
+"újraindítását igényli."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 msgid "Window buttons are visible"
@@ -3806,9 +3806,9 @@ msgid ""
 "If “toolbar” is set, the style of the buttons is determined by the GNOME "
 "toolbar setting."
 msgstr ""
-"Az ablak gombjainak stílusa. Lehetséges értékek: „text” (szöveg), "
-"„icons” (ikonok), „both” (mindkettő), „toolbar” (eszköztár). Ha a „toolbar” "
-"van beállítva, a gombok stílusa a GNOME hasonló beállításához igazodik."
+"Az ablak gombjainak stílusa. Lehetséges értékek: „text” (szöveg), „icons” "
+"(ikonok), „both” (mindkettő), „toolbar” (eszköztár). Ha a „toolbar” van "
+"beállítva, a gombok stílusa a GNOME hasonló beállításához igazodik."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
 msgid "Menubar is visible"
@@ -3948,7 +3948,6 @@ msgstr ""
 "újraindítását igényli."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:48
-#| msgid "Whether to show notes in the editor"
 msgid "Whether to use icon-only buttons in the header bar"
 msgstr "Használjon-e csak ikont tartalmazó gombokat a fejlécsávban"
 
@@ -3957,9 +3956,9 @@ msgid ""
 "When enabled, uses icon-only buttons in the header bar. Otherwise some "
 "buttons can show also text when there's enough space."
 msgstr ""
-"Ha engedélyezve van, akkor a csak ikont tartalmazó gombokat használja a"
-" fejlécsávban. Különben egyes gombok szöveget is megjeleníthetnek, ha van"
-" elég hely."
+"Ha engedélyezve van, akkor a csak ikont tartalmazó gombokat használja a "
+"fejlécsávban. Különben egyes gombok szöveget is megjeleníthetnek, ha van "
+"elég hely."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:50
 msgid "Whether the markdown editor show have live preview"
@@ -4047,7 +4046,7 @@ msgstr ""
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
-#: ../src/mail/e-mail-browser.c:1340
+#: ../src/mail/e-mail-browser.c:1345
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:265
 msgid "Evolution"
@@ -4153,7 +4152,7 @@ msgid "Memos"
 msgstr "Feljegyzések"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:617 ../src/calendar/gui/print.c:2481
+#: ../src/calendar/gui/e-task-table.c:617 ../src/calendar/gui/print.c:2478
 #: ../src/calendar/importers/icalendar-importer.c:74
 #: ../src/calendar/importers/icalendar-importer.c:1136
 #: ../src/e-util/e-webdav-browser.c:529
@@ -4216,8 +4215,6 @@ msgid "Open the Evolution user guide"
 msgstr "Az Evolution felhasználói kézikönyvének megnyitása"
 
 #: ../data/ui/evolution-shortcuts.ui.h:11
-#| msgctxt "shortcut window"
-#| msgid "Clear search bar"
 msgctxt "shortcut window"
 msgid "Focus search bar"
 msgstr "Fókuszálás a keresési sávra"
@@ -4308,27 +4305,21 @@ msgid "Scroll down"
 msgstr "Görgetés le"
 
 #: ../data/ui/evolution-shortcuts.ui.h:29
-#| msgctxt "New"
-#| msgid "_Mail Message"
 msgctxt "shortcut window"
 msgid "Mail Message"
 msgstr "Üzenet küldése"
 
 #: ../data/ui/evolution-shortcuts.ui.h:30
-#| msgid "Copy selected messages to another folder"
 msgctxt "shortcut window"
 msgid "Copy selected messages to folder"
 msgstr "Kijelölt üzenetek másolása egy mappába"
 
 #: ../data/ui/evolution-shortcuts.ui.h:31
-#| msgid "Move selected messages to another folder"
 msgctxt "shortcut window"
 msgid "Move selected messages to folder"
 msgstr "Kijelölt üzenetek áthelyezése egy mappába"
 
 #: ../data/ui/evolution-shortcuts.ui.h:32
-#| msgctxt "shortcut window"
-#| msgid "Forward selected messages"
 msgctxt "shortcut window"
 msgid "Archive selected messages"
 msgstr "Kijelölt üzenetek archiválása"
@@ -4344,19 +4335,16 @@ msgid "Mark selected messages as unread"
 msgstr "Kijelölt üzenetek megjelölése olvasatlanként"
 
 #: ../data/ui/evolution-shortcuts.ui.h:35
-#| msgid "Mark the selected messages as junk"
 msgctxt "shortcut window"
 msgid "Mark selected messages as junk"
 msgstr "Kijelölt üzenetek megjelölése levélszemétként"
 
 #: ../data/ui/evolution-shortcuts.ui.h:36
-#| msgid "Mark the selected messages as junk"
 msgctxt "shortcut window"
 msgid "Mark selected messages as not junk"
 msgstr "Kijelölt üzenetek megjelölése nem levélszemétként"
 
 #: ../data/ui/evolution-shortcuts.ui.h:37
-#| msgid "Flag the selected messages for follow-up"
 msgctxt "shortcut window"
 msgid "Flag selected messages for follow-up"
 msgstr "Kijelölt üzenetek megjelölése nyomon követésre"
@@ -4382,19 +4370,16 @@ msgid "Reply to all recipients"
 msgstr "Válasz az összes címzettnek"
 
 #: ../data/ui/evolution-shortcuts.ui.h:42
-#| msgid "Alternative Reply"
 msgctxt "shortcut window"
 msgid "Alternative reply"
 msgstr "Alternatív válasz"
 
 #: ../data/ui/evolution-shortcuts.ui.h:43
-#| msgid "Delete Mail"
 msgctxt "shortcut window"
 msgid "Delete mail"
 msgstr "Levél törlése"
 
 #: ../data/ui/evolution-shortcuts.ui.h:44
-#| msgid "Delete Mail"
 msgctxt "shortcut window"
 msgid "Undelete mail"
 msgstr "Levél törlésének visszavonása"
@@ -4437,12 +4422,12 @@ msgstr "Ugrás dátumra"
 #: ../data/ui/evolution-shortcuts.ui.h:52
 msgctxt "shortcut window"
 msgid "Day View"
-msgstr "Napnézet"
+msgstr "Nap nézet"
 
 #: ../data/ui/evolution-shortcuts.ui.h:53
 msgctxt "shortcut window"
 msgid "Work Week View"
-msgstr "Munkahét-nézet"
+msgstr "Munkahét nézet"
 
 #: ../data/ui/evolution-shortcuts.ui.h:54
 msgctxt "shortcut window"
@@ -4460,8 +4445,6 @@ msgid "List View"
 msgstr "Listanézet"
 
 #: ../data/ui/evolution-shortcuts.ui.h:57
-#| msgid "Deleting an event"
-#| msgid_plural "Deleting %d events"
 msgctxt "shortcut window"
 msgid "Delete event"
 msgstr "Esemény törlése"
@@ -4482,7 +4465,6 @@ msgid "Create a new contact list"
 msgstr "Új címlista létrehozása"
 
 #: ../data/ui/evolution-shortcuts.ui.h:61
-#| msgid "_Delete Contact"
 msgctxt "shortcut window"
 msgid "Delete contact"
 msgstr "Névjegy törlése"
@@ -4502,11 +4484,11 @@ msgstr "Cé_g szerint"
 
 #: ../data/views/calendar/galview.xml.h:1
 msgid "_Day View"
-msgstr "_Napnézet"
+msgstr "_Nap nézet"
 
 #: ../data/views/calendar/galview.xml.h:2
 msgid "_Work Week View"
-msgstr "_Munkahét-nézet"
+msgstr "_Munkahét nézet"
 
 #: ../data/views/calendar/galview.xml.h:3
 msgid "W_eek View"
@@ -4514,7 +4496,7 @@ msgstr "Hé_t nézet"
 
 #: ../data/views/calendar/galview.xml.h:4
 msgid "_Month View"
-msgstr "_Hónapnézet"
+msgstr "_Hónap nézet"
 
 #: ../data/views/calendar/galview.xml.h:5
 msgid "_Year View"
@@ -4681,7 +4663,6 @@ msgid ""
 msgstr "A kijelölt kép túl nagy. Szeretné átméretezni és tárolni?"
 
 #: ../src/addressbook/addressbook.error.xml.h:24
-#| msgid "An expected image size is up to 96 x 96 pixels."
 msgid "An expected image size is up to 1024 x 1024 pixels."
 msgstr "Egy elvárt képméret legfeljebb 1024×1024 képpont."
 
@@ -5489,7 +5470,7 @@ msgstr "_Súgó"
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418
 #: ../src/shell/e-shell-content.c:612 ../src/shell/e-shell-content.c:718
-#: ../src/shell/main.c:107 ../src/smime/gui/certificate-manager.c:1274
+#: ../src/shell/main.c:111 ../src/smime/gui/certificate-manager.c:1274
 #: ../src/smime/gui/e-cert-selector.c:229 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "_OK"
@@ -5969,7 +5950,7 @@ msgid "Blog"
 msgstr "Blog"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
-#: ../src/e-util/e-mail-signature-editor.c:640
+#: ../src/e-util/e-mail-signature-editor.c:644
 msgid "Unnamed"
 msgstr "Névtelen"
 
@@ -6477,14 +6458,11 @@ msgid "Failed to save changes"
 msgstr "A változtatások mentése meghiúsult"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:831
-#| msgid "_Country:"
 msgid "Co_untry:"
 msgstr "_Ország:"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:913
 #, c-format
-#| msgid "Modify a task"
-#| msgid_plural "Modify %u tasks"
 msgid "Modify a contact"
 msgid_plural "Modify %u contacts"
 msgstr[0] "Egy névjegy módosítása"
@@ -6492,24 +6470,19 @@ msgstr[1] "%u névjegy módosítása"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:918
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:616
-#| msgid "Select properties to be modified."
 msgid "Select values to be modified."
 msgstr "Módosítandó értékek kiválasztása."
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1097
-#| msgctxt "Job"
-#| msgid "_Title:"
 msgid "_Title:"
 msgstr "_Megszólítás:"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1101
-#| msgid "_Company:"
 msgid "Compa_ny:"
 msgstr "_Cég:"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1148
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:735
-#| msgid "M_odify tasks"
 msgid "M_odify"
 msgstr "Mód_osítás"
 
@@ -6564,7 +6537,7 @@ msgstr "Kicsin_yítés"
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:432
 #: ../src/e-util/e-html-editor-actions.c:2326
-#: ../src/e-util/e-html-editor-find-dialog.c:234
+#: ../src/e-util/e-html-editor-find-dialog.c:235
 #: ../src/shell/e-shell-window-actions.c:1058
 msgid "_Find"
 msgstr "_Keresés"
@@ -7733,18 +7706,18 @@ msgstr "Állapot"
 #. String to use in 12-hour time format for times in the morning.
 #: ../src/calendar/gui/comp-util.c:2077 ../src/calendar/gui/e-day-view.c:2346
 #: ../src/calendar/gui/e-to-do-pane.c:269
-#: ../src/calendar/gui/e-week-view.c:1968 ../src/calendar/gui/print.c:1111
-#: ../src/calendar/gui/print.c:1130 ../src/calendar/gui/print.c:2702
-#: ../src/calendar/gui/print.c:2722
+#: ../src/calendar/gui/e-week-view.c:1970 ../src/calendar/gui/print.c:1109
+#: ../src/calendar/gui/print.c:1128 ../src/calendar/gui/print.c:2699
+#: ../src/calendar/gui/print.c:2719
 msgid "am"
 msgstr "de"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../src/calendar/gui/comp-util.c:2081 ../src/calendar/gui/e-day-view.c:2349
 #: ../src/calendar/gui/e-to-do-pane.c:273
-#: ../src/calendar/gui/e-week-view.c:1971 ../src/calendar/gui/print.c:1116
-#: ../src/calendar/gui/print.c:1132 ../src/calendar/gui/print.c:2707
-#: ../src/calendar/gui/print.c:2724
+#: ../src/calendar/gui/e-week-view.c:1973 ../src/calendar/gui/print.c:1114
+#: ../src/calendar/gui/print.c:1130 ../src/calendar/gui/print.c:2704
+#: ../src/calendar/gui/print.c:2721
 msgid "pm"
 msgstr "du"
 
@@ -7809,8 +7782,8 @@ msgid "…"
 msgstr "…"
 
 #. Translators: Default attachment filename.
-#: ../src/calendar/gui/comp-util.c:2617 ../src/e-util/e-attachment.c:2442
-#: ../src/e-util/e-attachment.c:3095 ../src/e-util/e-attachment.c:3545
+#: ../src/calendar/gui/comp-util.c:2617 ../src/e-util/e-attachment.c:2447
+#: ../src/e-util/e-attachment.c:3100 ../src/e-util/e-attachment.c:3550
 #: ../src/e-util/e-attachment-store.c:900
 msgid "attachment.dat"
 msgstr "melléklet.dat"
@@ -7830,7 +7803,6 @@ msgstr "Hely:"
 #: ../src/calendar/gui/comp-util.c:2780
 #: ../src/modules/itip-formatter/itip-view.c:2087
 #: ../src/modules/itip-formatter/itip-view.c:2293
-#| msgid "Location:"
 msgid "GEO Location:"
 msgstr "Földrajzi hely:"
 
@@ -7981,7 +7953,7 @@ msgstr "Nem tartozik hozzá esemény."
 #: ../src/calendar/gui/ea-day-view.c:119
 #, c-format
 msgid "Work Week View: %s. %s"
-msgstr "Munkahét-nézet: %s. %s"
+msgstr "Munkahét nézet: %s. %s"
 
 #. To translators: First %s is the day, for example "Thursday July
 #. 13th, 2006". Second %s is the number of events on this day, for
@@ -7989,7 +7961,7 @@ msgstr "Munkahét-nézet: %s. %s"
 #: ../src/calendar/gui/ea-day-view.c:126
 #, c-format
 msgid "Day View: %s. %s"
-msgstr "Napnézet: %s. %s"
+msgstr "Nap nézet: %s. %s"
 
 #: ../src/calendar/gui/ea-day-view.c:155
 msgid "calendar view for a work week"
@@ -8112,7 +8084,7 @@ msgstr "%s ismeretlen kiváltó okra"
 #: ../src/calendar/gui/ea-week-view.c:112
 #, c-format
 msgid "Month View: %s. %s"
-msgstr "Hónapnézet: %s. %s"
+msgstr "Hónap nézet: %s. %s"
 
 #: ../src/calendar/gui/ea-week-view.c:117
 #, c-format
@@ -8135,7 +8107,6 @@ msgstr[0] "Feladat módosítása"
 msgstr[1] "%u feladat módosítása"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:649
-#| msgid "General"
 msgid "_General"
 msgstr "Á_ltalános"
 
@@ -8358,8 +8329,10 @@ msgstr "%Y. %b. %-d."
 #: ../src/calendar/gui/e-day-view.c:3282
 #: ../src/calendar/gui/e-day-view-top-item.c:845
 #: ../src/calendar/gui/e-week-view-main-item.c:223
+#, c-format
+#| msgid "%d %b"
 msgid "%d %b"
-msgstr "%b %d"
+msgstr "%2$b. %1$d."
 
 #: ../src/calendar/gui/e-calendar-view.c:1229
 msgid "%A %d %b %Y"
@@ -8375,8 +8348,10 @@ msgstr "%Y. %b. %-d. %A"
 #: ../src/calendar/gui/e-day-view.c:3266
 #: ../src/calendar/gui/e-day-view-top-item.c:841
 #: ../src/calendar/gui/e-week-view-main-item.c:209
+#, c-format
+#| msgid "%a %d %b"
 msgid "%a %d %b"
-msgstr "%b %d %a"
+msgstr "%3$b. %2$d. %1$a."
 
 #: ../src/calendar/gui/e-calendar-view.c:1232
 #: ../src/calendar/gui/e-calendar-view.c:1234
@@ -8433,7 +8408,7 @@ msgstr "Utoljára módosítva"
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:9
 #: ../src/calendar/gui/e-memo-table.etspec.h:8
 #: ../src/calendar/gui/e-task-table.etspec.h:16
-#: ../src/em-format/e-mail-formatter-source.c:118
+#: ../src/em-format/e-mail-formatter-source.c:164
 msgid "Source"
 msgstr "Forrás"
 
@@ -8455,8 +8430,8 @@ msgstr "Típus"
 #: ../src/calendar/gui/e-meeting-list-view.c:185
 #: ../src/calendar/gui/e-meeting-store.c:131
 #: ../src/calendar/gui/e-meeting-store.c:166
-#: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1300
-#: ../src/calendar/gui/print.c:1317 ../src/e-util/e-charset.c:49
+#: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1298
+#: ../src/calendar/gui/print.c:1315 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:4027
 #: ../src/modules/itip-formatter/itip-view.c:7149
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
@@ -8754,15 +8729,15 @@ msgstr "A kezdés időpontja érvénytelen"
 #: ../src/e-util/e-misc-utils.c:4111 ../src/e-util/e-misc-utils.c:4146
 #: ../src/e-util/e-misc-utils.c:4159 ../src/e-util/e-misc-utils.c:4173
 #: ../src/mail/e-mail-autoconfig.c:1130 ../src/mail/e-mail-display.c:2914
-#: ../src/mail/e-mail-notes.c:929 ../src/mail/e-mail-reader.c:3699
+#: ../src/mail/e-mail-notes.c:931 ../src/mail/e-mail-reader.c:3699
 #: ../src/mail/e-mail-reader-utils.c:818 ../src/mail/em-composer-utils.c:4192
 #: ../src/mail/em-composer-utils.c:4215 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/modules/mail/e-mail-attachment-handler.c:432
 #: ../src/plugins/face/face.c:175
-#: ../src/plugins/mail-to-task/mail-to-task.c:996 ../src/shell/e-shell.c:1226
-#: ../src/shell/e-shell.c:1251 ../src/smime/gui/certificate-manager.c:349
+#: ../src/plugins/mail-to-task/mail-to-task.c:996 ../src/shell/e-shell.c:1238
+#: ../src/shell/e-shell.c:1263 ../src/smime/gui/certificate-manager.c:349
 #: ../src/smime/lib/e-cert-db.c:109
 #, c-format
 msgid "Unknown error"
@@ -8942,13 +8917,13 @@ msgstr[0] "Melléklet"
 msgstr[1] "Mellékletek"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:234
-#: ../src/e-util/e-attachment.c:2642
+#: ../src/e-util/e-attachment.c:2647
 #, c-format
 msgid "Could not load “%s”"
 msgstr "„%s” nem tölthető be"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:236
-#: ../src/e-util/e-attachment.c:2645
+#: ../src/e-util/e-attachment.c:2650
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Nem tölthető be a melléklet"
@@ -9797,7 +9772,7 @@ msgstr "Változtatások mentése…"
 
 #: ../src/calendar/gui/e-comp-editor.c:1964
 #: ../src/calendar/gui/e-comp-editor.c:2329
-#: ../src/e-util/e-mail-signature-editor.c:334 ../src/mail/e-mail-notes.c:1117
+#: ../src/e-util/e-mail-signature-editor.c:338 ../src/mail/e-mail-notes.c:1119
 msgid "Save and Close"
 msgstr "Mentés és bezárás"
 
@@ -9806,13 +9781,13 @@ msgstr "Mentés és bezárás"
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1786
 #: ../src/e-util/e-html-editor-dialog.c:181
-#: ../src/e-util/e-mail-signature-editor.c:325
+#: ../src/e-util/e-mail-signature-editor.c:329
 #: ../src/e-util/e-name-selector-dialog.c:532
 #: ../src/e-util/e-preferences-window.c:323
 #: ../src/e-util/e-table-field-chooser-dialog.c:197
 #: ../src/mail/e-mail-browser.c:158
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:754
-#: ../src/mail/e-mail-notes.c:1108 ../src/mail/em-filter-editor.c:45
+#: ../src/mail/e-mail-notes.c:1110 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1519
 #: ../src/mail/em-subscription-editor.c:1734
 #: ../src/shell/e-shell-window-actions.c:946
@@ -9911,8 +9886,8 @@ msgstr "_Besorolás"
 
 #: ../src/calendar/gui/e-comp-editor.c:2284
 #: ../src/e-util/e-html-editor-actions.c:1195
-#: ../src/e-util/e-mail-signature-editor.c:339 ../src/mail/e-mail-browser.c:202
-#: ../src/mail/e-mail-notes.c:1122 ../src/shell/e-shell-window-actions.c:1130
+#: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-browser.c:202
+#: ../src/mail/e-mail-notes.c:1124 ../src/shell/e-shell-window-actions.c:1130
 msgid "_File"
 msgstr "_Fájl"
 
@@ -9953,7 +9928,7 @@ msgstr "_Eszköztár megjelenítése"
 #: ../src/calendar/gui/e-day-view.c:3249
 #: ../src/calendar/gui/e-day-view-top-item.c:837
 #: ../src/calendar/gui/e-week-view-main-item.c:200
-#: ../src/calendar/gui/print.c:2152
+#: ../src/calendar/gui/print.c:2149
 msgid "%A %d %B"
 msgstr "%B %d %A"
 
@@ -10051,51 +10026,51 @@ msgstr "Résztvevők"
 #: ../src/calendar/gui/e-meeting-list-view.c:167
 #: ../src/calendar/gui/e-meeting-store.c:106
 #: ../src/calendar/gui/e-meeting-store.c:123
-#: ../src/calendar/gui/e-meeting-store.c:1064 ../src/calendar/gui/print.c:1296
+#: ../src/calendar/gui/e-meeting-store.c:1064 ../src/calendar/gui/print.c:1294
 msgid "Individual"
 msgstr "Egyén"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:168
 #: ../src/calendar/gui/e-meeting-store.c:108
-#: ../src/calendar/gui/e-meeting-store.c:125 ../src/calendar/gui/print.c:1297
+#: ../src/calendar/gui/e-meeting-store.c:125 ../src/calendar/gui/print.c:1295
 #: ../src/e-util/e-table-config.ui.h:1
 msgid "Group"
 msgstr "Csoport"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:169
 #: ../src/calendar/gui/e-meeting-store.c:110
-#: ../src/calendar/gui/e-meeting-store.c:127 ../src/calendar/gui/print.c:1298
+#: ../src/calendar/gui/e-meeting-store.c:127 ../src/calendar/gui/print.c:1296
 msgid "Resource"
 msgstr "Erőforrás"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:170
 #: ../src/calendar/gui/e-meeting-store.c:112
-#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1299
+#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1297
 msgid "Room"
 msgstr "Szoba"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:181
 #: ../src/calendar/gui/e-meeting-store.c:141
-#: ../src/calendar/gui/e-meeting-store.c:158 ../src/calendar/gui/print.c:1313
+#: ../src/calendar/gui/e-meeting-store.c:158 ../src/calendar/gui/print.c:1311
 msgid "Chair"
 msgstr "Levezető"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:182
 #: ../src/calendar/gui/e-meeting-store.c:143
 #: ../src/calendar/gui/e-meeting-store.c:160
-#: ../src/calendar/gui/e-meeting-store.c:1065 ../src/calendar/gui/print.c:1314
+#: ../src/calendar/gui/e-meeting-store.c:1065 ../src/calendar/gui/print.c:1312
 msgid "Required Participant"
 msgstr "Szükséges résztvevők"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:183
 #: ../src/calendar/gui/e-meeting-store.c:145
-#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1315
+#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1313
 msgid "Optional Participant"
 msgstr "Esetleges résztvevő"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:184
 #: ../src/calendar/gui/e-meeting-store.c:147
-#: ../src/calendar/gui/e-meeting-store.c:164 ../src/calendar/gui/print.c:1316
+#: ../src/calendar/gui/e-meeting-store.c:164 ../src/calendar/gui/print.c:1314
 msgid "Non-Participant"
 msgstr "Nem vesz részt"
 
@@ -10247,24 +10222,24 @@ msgstr "Közönséges név"
 msgid "Language"
 msgstr "Nyelv"
 
-#: ../src/calendar/gui/e-memo-table.c:660
+#: ../src/calendar/gui/e-memo-table.c:662
 msgid "Cut selected memos to the clipboard"
 msgstr "Kijelölt feljegyzések kivágása a vágólapra"
 
-#: ../src/calendar/gui/e-memo-table.c:666
+#: ../src/calendar/gui/e-memo-table.c:668
 msgid "Copy selected memos to the clipboard"
 msgstr "Kijelölt feljegyzések másolása a vágólapra"
 
-#: ../src/calendar/gui/e-memo-table.c:672
+#: ../src/calendar/gui/e-memo-table.c:674
 msgid "Paste memos from the clipboard"
 msgstr "Feljegyzések beillesztése a vágólapról"
 
-#: ../src/calendar/gui/e-memo-table.c:678
+#: ../src/calendar/gui/e-memo-table.c:680
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:575
 msgid "Delete selected memos"
 msgstr "Kijelölt feljegyzések törlése"
 
-#: ../src/calendar/gui/e-memo-table.c:684
+#: ../src/calendar/gui/e-memo-table.c:686
 msgid "Select all visible memos"
 msgstr "Az összes látható feljegyzés kijelölése"
 
@@ -10287,24 +10262,24 @@ msgstr "Nincs meghatározva"
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../src/calendar/gui/e-task-table.c:843
+#: ../src/calendar/gui/e-task-table.c:845
 msgid "Cut selected tasks to the clipboard"
 msgstr "Kijelölt feladatok kivágása a vágólapra"
 
-#: ../src/calendar/gui/e-task-table.c:849
+#: ../src/calendar/gui/e-task-table.c:851
 msgid "Copy selected tasks to the clipboard"
 msgstr "Kijelölt feladatok másolása a vágólapra"
 
-#: ../src/calendar/gui/e-task-table.c:855
+#: ../src/calendar/gui/e-task-table.c:857
 msgid "Paste tasks from the clipboard"
 msgstr "Feladatok beillesztése a vágólapról"
 
-#: ../src/calendar/gui/e-task-table.c:861
+#: ../src/calendar/gui/e-task-table.c:863
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
 msgid "Delete selected tasks"
 msgstr "Kijelölt feladatok törlése"
 
-#: ../src/calendar/gui/e-task-table.c:867
+#: ../src/calendar/gui/e-task-table.c:869
 msgid "Select all visible tasks"
 msgstr "Az összes látható feladat kijelölése"
 
@@ -10393,7 +10368,6 @@ msgstr "Határidő nélküli feladatok"
 #. It doesn't matter which data-model is picked, because it's used
 #. only for thread creation and manipulation, not for its content.
 #: ../src/calendar/gui/e-to-do-pane.c:2296
-#| msgid "Mark selected tasks as complete"
 msgid "Marking a task as complete"
 msgstr "Feladat megjelölése készként"
 
@@ -10421,7 +10395,6 @@ msgid "_Open…"
 msgstr "_Megnyitás…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2381
-#| msgid "_Mark as Complete"
 msgid "Mark Task as _Complete"
 msgstr "Feladat megjelölés _készként"
 
@@ -10452,7 +10425,7 @@ msgstr "Teendő"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3877
+#: ../src/calendar/gui/e-week-view.c:3885
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -10462,7 +10435,7 @@ msgstr "%s (%s)"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-week-view-main-item.c:217
-#: ../src/calendar/gui/print.c:2131
+#: ../src/calendar/gui/print.c:2128
 msgid "%d %B"
 msgstr "%B %d"
 
@@ -10655,37 +10628,37 @@ msgstr[1] "%d másodperc"
 #. Translators: These are workday abbreviations,
 #. * e.g. Su=Sunday and Th=thursday
 #. G_DATE_MONDAY
-#: ../src/calendar/gui/print.c:765
+#: ../src/calendar/gui/print.c:763
 msgid "Mo"
 msgstr "H"
 
 #. G_DATE_TUESDAY
-#: ../src/calendar/gui/print.c:766
+#: ../src/calendar/gui/print.c:764
 msgid "Tu"
 msgstr "K"
 
 #. G_DATE_WEDNESDAY
-#: ../src/calendar/gui/print.c:767
+#: ../src/calendar/gui/print.c:765
 msgid "We"
 msgstr "Sze"
 
 #. G_DATE_THURSDAY
-#: ../src/calendar/gui/print.c:768
+#: ../src/calendar/gui/print.c:766
 msgid "Th"
 msgstr "Cs"
 
 #. G_DATE_FRIDAY
-#: ../src/calendar/gui/print.c:769
+#: ../src/calendar/gui/print.c:767
 msgid "Fr"
 msgstr "P"
 
 #. G_DATE_SATURDAY
-#: ../src/calendar/gui/print.c:770
+#: ../src/calendar/gui/print.c:768
 msgid "Sa"
 msgstr "Szo"
 
 #. G_DATE_SUNDAY
-#: ../src/calendar/gui/print.c:771
+#: ../src/calendar/gui/print.c:769
 msgid "Su"
 msgstr "V"
 
@@ -12620,7 +12593,6 @@ msgid "Character _Encoding"
 msgstr "_Karakterkódolás"
 
 #: ../src/composer/e-composer-actions.c:377
-#| msgid "Options"
 msgid "Option_s"
 msgstr "_Beállítások"
 
@@ -12888,17 +12860,14 @@ msgstr ""
 "titkosításhoz ehhez a postafiókhoz"
 
 #: ../src/composer/e-msg-composer.c:1643
-#| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Nem sikerült lekérni az egyszerű szöveg feldolgozott tartalmát"
 
 #: ../src/composer/e-msg-composer.c:1767
-#| msgid "Failed to read file content: "
 msgid "Failed to retrieve draft content"
 msgstr "Nem sikerült lekérni a piszkozat tartalmát"
 
 #: ../src/composer/e-msg-composer.c:1780
-#| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve HTML processed content"
 msgstr "Nem sikerült lekérni a HTML feldolgozott tartalmát"
 
@@ -13257,32 +13226,32 @@ msgstr "Zenelejátszó"
 msgid "Play the attachment in embedded audio player"
 msgstr "A melléklet lejátszása a beágyazott zenelejátszóval"
 
-#: ../src/em-format/e-mail-formatter-headers.c:109
+#: ../src/em-format/e-mail-formatter-headers.c:110
 #: ../src/em-format/e-mail-part-headers.c:39
 #: ../src/mail/e-mail-tag-editor.c:190 ../src/mail/message-list.etspec.h:5
 #: ../src/modules/mail/em-mailer-prefs.c:71
 msgid "From"
 msgstr "Feladó"
 
-#: ../src/em-format/e-mail-formatter-headers.c:134
+#: ../src/em-format/e-mail-formatter-headers.c:135
 msgid "(no subject)"
 msgstr "(nincs tárgy)"
 
-#: ../src/em-format/e-mail-formatter-headers.c:150
-#: ../src/em-format/e-mail-formatter-headers.c:520
+#: ../src/em-format/e-mail-formatter-headers.c:151
+#: ../src/em-format/e-mail-formatter-headers.c:521
 #: ../src/mail/e-mail-remote-content-popover.c:381
 msgid "Remote content download had been blocked for this message."
 msgstr "A távoli tartalom letöltése blokkolva lett ennél az üzenetnél."
 
-#: ../src/em-format/e-mail-formatter-headers.c:156
-#: ../src/em-format/e-mail-formatter-headers.c:526
+#: ../src/em-format/e-mail-formatter-headers.c:157
+#: ../src/em-format/e-mail-formatter-headers.c:527
 msgid "Import OpenPGP key provided in this message"
 msgstr "Az üzenetben megadott OpenPGP-kulcs importálása"
 
 #. Translators: This message suggests to the recipients
 #. * that the sender of the mail is different from the one
 #. * listed in From field.
-#: ../src/em-format/e-mail-formatter-headers.c:365
+#: ../src/em-format/e-mail-formatter-headers.c:366
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Ezt az üzenetet %s küldte %s nevében"
@@ -13513,7 +13482,7 @@ msgstr "Titkosítás"
 msgid "Encrypted by:"
 msgstr "Titkosította:"
 
-#: ../src/em-format/e-mail-formatter-source.c:119
+#: ../src/em-format/e-mail-formatter-source.c:165
 msgid "Display source of a MIME part"
 msgstr "Forrás megjelenítése MIME részként"
 
@@ -13864,43 +13833,43 @@ msgstr "A szál létrehozása meghiúsult: "
 #. * message when, for example, attaching it to a composer. When the
 #. * message to be attached has also filled Subject, then this text is
 #. * of form "Attached message - Subject", otherwise it's left as is.
-#: ../src/e-util/e-attachment.c:1155
+#: ../src/e-util/e-attachment.c:1160
 msgid "Attached message"
 msgstr "Mellékelt üzenet"
 
-#: ../src/e-util/e-attachment.c:2257 ../src/e-util/e-attachment.c:3251
+#: ../src/e-util/e-attachment.c:2262 ../src/e-util/e-attachment.c:3256
 #: ../src/mail/em-utils.c:2307
 msgid "Operation was cancelled"
 msgstr "A művelet megszakítva"
 
-#: ../src/e-util/e-attachment.c:2524 ../src/e-util/e-attachment.c:3605
+#: ../src/e-util/e-attachment.c:2529 ../src/e-util/e-attachment.c:3610
 msgid "A load operation is already in progress"
 msgstr "Már folyamatban van betöltési művelet"
 
-#: ../src/e-util/e-attachment.c:2532 ../src/e-util/e-attachment.c:3613
+#: ../src/e-util/e-attachment.c:2537 ../src/e-util/e-attachment.c:3618
 msgid "A save operation is already in progress"
 msgstr "Már folyamatban van mentési művelet"
 
-#: ../src/e-util/e-attachment.c:2878
+#: ../src/e-util/e-attachment.c:2883
 #, c-format
 msgid "Could not open “%s”"
 msgstr "„%s” nem nyitható meg"
 
-#: ../src/e-util/e-attachment.c:2881
+#: ../src/e-util/e-attachment.c:2886
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Nem nyitható meg a melléklet"
 
-#: ../src/e-util/e-attachment.c:3622
+#: ../src/e-util/e-attachment.c:3627
 msgid "Attachment contents not loaded"
 msgstr "A melléklet tartalma nincs betöltve"
 
-#: ../src/e-util/e-attachment.c:3713
+#: ../src/e-util/e-attachment.c:3718
 #, c-format
 msgid "Could not save “%s”"
 msgstr "„%s” nem menthető"
 
-#: ../src/e-util/e-attachment.c:3716
+#: ../src/e-util/e-attachment.c:3721
 #, c-format
 msgid "Could not save the attachment"
 msgstr "A melléklet nem menthető"
@@ -13941,7 +13910,6 @@ msgid "_URI:"
 msgstr "_URI:"
 
 #: ../src/e-util/e-attachment-popover.c:323
-#| msgid "_File name:"
 msgid "_Filename:"
 msgstr "_Fájlnév:"
 
@@ -13954,12 +13922,10 @@ msgstr "_Leírás:"
 
 #: ../src/e-util/e-attachment-popover.c:375
 #: ../src/e-util/e-mail-signature-script-dialog.c:458
-#| msgid "MIME Type:"
 msgid "_MIME Type:"
 msgstr "_MIME-típus:"
 
 #: ../src/e-util/e-attachment-popover.c:411
-#| msgid "_Suggest automatic display of attachment"
 msgid "Suggest _automatic display of attachment"
 msgstr "Javasolja a melléklet _automatikus megjelenítését"
 
@@ -14026,12 +13992,10 @@ msgid "A_dd Attachment…"
 msgstr "_Melléklet hozzáadása…"
 
 #: ../src/e-util/e-attachment-view.c:498
-#| msgid "_Add note…"
 msgid "Add _URI…"
 msgstr "_URI hozzáadása…"
 
 #: ../src/e-util/e-attachment-view.c:500
-#| msgid "Attach a file"
 msgid "Attach a URI"
 msgstr "URI csatolása"
 
@@ -14225,7 +14189,7 @@ msgid "popup list"
 msgstr "felbukkanó lista"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138
-#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2181
+#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2180
 msgid "?"
 msgstr "?"
 
@@ -15852,7 +15816,7 @@ msgstr "Kis- és _nagybetű"
 msgid "_Wrap Search"
 msgstr "_Keresés körbe"
 
-#: ../src/e-util/e-html-editor-find-dialog.c:252
+#: ../src/e-util/e-html-editor-find-dialog.c:253
 msgid "Find"
 msgstr "Keresés"
 
@@ -16087,46 +16051,46 @@ msgstr "Csere"
 msgid "<b>Suggestions for “%s”</b>"
 msgstr "<b>Javaslatok ehhez: „%s”</b>"
 
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:375
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:374
 msgid "<b>Suggestions</b>"
 msgstr "<b>Javaslatok</b>"
 
 #. Replace
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:410
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:409
 msgid "Replace"
 msgstr "Csere"
 
 #. Replace All
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:419
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:418
 msgid "Replace All"
 msgstr "Összes cseréje"
 
 #. Ignore
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:428
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:427
 #: ../src/mail/mail.error.xml.h:116
 msgid "Ignore"
 msgstr "Kihagy"
 
 #. Skip
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:437
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:436
 msgid "Skip"
 msgstr "Kihagyás"
 
 #. Back
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:446
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:445
 msgid "Back"
 msgstr "Vissza"
 
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:455
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:454
 msgid "<b>Dictionary</b>"
 msgstr "<b>Szótár</b>"
 
 #. Add Word button
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:475
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:474
 msgid "Add word"
 msgstr "Szó hozzáadása"
 
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:492
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:491
 #: ../src/mail/mail-config.ui.h:44
 msgid "Spell Checking"
 msgstr "Helyesírás-ellenőrzés"
@@ -16309,24 +16273,24 @@ msgstr "nap"
 msgid "Autogenerated"
 msgstr "Automatikusan létrehozott"
 
-#: ../src/e-util/e-mail-signature-editor.c:327 ../src/mail/e-mail-notes.c:1110
+#: ../src/e-util/e-mail-signature-editor.c:331 ../src/mail/e-mail-notes.c:1112
 msgid "Close"
 msgstr "Bezárás"
 
-#: ../src/e-util/e-mail-signature-editor.c:332 ../src/mail/e-mail-notes.c:1115
+#: ../src/e-util/e-mail-signature-editor.c:336 ../src/mail/e-mail-notes.c:1117
 msgid "_Save and Close"
 msgstr "_Mentés és bezárás"
 
-#: ../src/e-util/e-mail-signature-editor.c:572
-#: ../src/e-util/e-mail-signature-editor.c:588
+#: ../src/e-util/e-mail-signature-editor.c:576
+#: ../src/e-util/e-mail-signature-editor.c:592
 msgid "Edit Signature"
 msgstr "Aláírás szerkesztése"
 
-#: ../src/e-util/e-mail-signature-editor.c:576 ../src/mail/e-mail-notes.c:1197
+#: ../src/e-util/e-mail-signature-editor.c:580 ../src/mail/e-mail-notes.c:1199
 msgid "Save"
 msgstr "Mentés"
 
-#: ../src/e-util/e-mail-signature-editor.c:614
+#: ../src/e-util/e-mail-signature-editor.c:618
 msgid "_Signature Name:"
 msgstr "_Aláírás neve:"
 
@@ -16352,12 +16316,10 @@ msgstr ""
 "Az itt megadott név csak megjelenítés célját szolgálja."
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:414
-#| msgid "S_cript:"
 msgid "Sc_ript:"
 msgstr "_Parancsfájl:"
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:489
-#| msgid "Aut_odetect"
 msgid "Auto-detect"
 msgstr "Automatikus felismerés"
 
@@ -17249,11 +17211,11 @@ msgstr "_Minden mező törlése"
 msgid "_Show field in View"
 msgstr "Mező _megjelenítése a nézetben"
 
-#: ../src/e-util/e-table-config.ui.h:6 ../src/e-util/e-table-header-item.c:1779
+#: ../src/e-util/e-table-config.ui.h:6 ../src/e-util/e-table-header-item.c:1783
 msgid "Ascending"
 msgstr "Növekvő"
 
-#: ../src/e-util/e-table-config.ui.h:7 ../src/e-util/e-table-header-item.c:1779
+#: ../src/e-util/e-table-config.ui.h:7 ../src/e-util/e-table-header-item.c:1783
 msgid "Descending"
 msgstr "Csökkenő"
 
@@ -17344,61 +17306,61 @@ msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d elem)"
 msgstr[1] "%s (%d elem)"
 
-#: ../src/e-util/e-table-header-item.c:1597
+#: ../src/e-util/e-table-header-item.c:1601
 msgid "Customize Current View"
-msgstr "Aktuális nézet testreszabása"
+msgstr "Aktuális nézet személyre szabása"
 
-#: ../src/e-util/e-table-header-item.c:1629
+#: ../src/e-util/e-table-header-item.c:1633
 msgid "Sort _Ascending"
 msgstr "_Növekvő sorrend"
 
-#: ../src/e-util/e-table-header-item.c:1632
+#: ../src/e-util/e-table-header-item.c:1636
 msgid "Sort _Descending"
 msgstr "_Csökkenő sorrend"
 
-#: ../src/e-util/e-table-header-item.c:1635
+#: ../src/e-util/e-table-header-item.c:1639
 msgid "_Reset sort"
 msgstr "_Sorrend visszaállítása"
 
-#: ../src/e-util/e-table-header-item.c:1638
+#: ../src/e-util/e-table-header-item.c:1642
 msgid "Group By This _Field"
 msgstr "Cs_oportosítás mező szerint"
 
-#: ../src/e-util/e-table-header-item.c:1641
+#: ../src/e-util/e-table-header-item.c:1645
 msgid "Group By _Box"
 msgstr "Csoportosítás _dobozok szerint"
 
-#: ../src/e-util/e-table-header-item.c:1645
+#: ../src/e-util/e-table-header-item.c:1649
 msgid "Remove This _Column"
 msgstr "Oszlo_p eltávolítása"
 
-#: ../src/e-util/e-table-header-item.c:1648
+#: ../src/e-util/e-table-header-item.c:1652
 msgid "Add a C_olumn…"
 msgstr "_Oszlop hozzáadása…"
 
-#: ../src/e-util/e-table-header-item.c:1652
+#: ../src/e-util/e-table-header-item.c:1656
 msgid "A_lignment"
 msgstr "_Igazítás"
 
-#: ../src/e-util/e-table-header-item.c:1655
+#: ../src/e-util/e-table-header-item.c:1659
 msgid "B_est Fit"
 msgstr "_Legjobb illeszkedés"
 
-#: ../src/e-util/e-table-header-item.c:1658
+#: ../src/e-util/e-table-header-item.c:1662
 msgid "Format Column_s…"
 msgstr "Oszlopok _formázása…"
 
-#: ../src/e-util/e-table-header-item.c:1662
+#: ../src/e-util/e-table-header-item.c:1666
 #: ../src/shell/e-shell-window-actions.c:1310
 msgid "Custo_mize Current View…"
 msgstr "Aktuális nézet _testreszabása…"
 
-#: ../src/e-util/e-table-header-item.c:1729
+#: ../src/e-util/e-table-header-item.c:1733
 msgid "_Sort By"
 msgstr "_Rendezés"
 
 #. Custom
-#: ../src/e-util/e-table-header-item.c:1752
+#: ../src/e-util/e-table-header-item.c:1756
 msgid "_Custom"
 msgstr "_Egyéni"
 
@@ -17950,14 +17912,14 @@ msgstr "A fájl eltávolításra került."
 msgid "Removing attachments"
 msgstr "Mellékletek eltávolítása"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1584
+#: ../src/libemail-engine/e-mail-folder-utils.c:1632
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "%d üzenet mentése"
 msgstr[1] "%d üzenet mentése"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1973
+#: ../src/libemail-engine/e-mail-folder-utils.c:2053
 #, c-format
 msgid "Invalid folder URI “%s”"
 msgstr "Érvénytelen mappa URI („%s”)"
@@ -19125,27 +19087,27 @@ msgstr ""
 msgid "Color"
 msgstr "Színek"
 
-#: ../src/mail/e-mail-notes.c:360 ../src/mail/e-mail-notes.c:779
+#: ../src/mail/e-mail-notes.c:362 ../src/mail/e-mail-notes.c:781
 msgid "Message Note"
 msgstr "Üzenetfeljegyzés"
 
-#: ../src/mail/e-mail-notes.c:697
+#: ../src/mail/e-mail-notes.c:699
 msgid "Cannot find message in its folder summary"
 msgstr "Az üzenet nem található a mappája összesítésében"
 
-#: ../src/mail/e-mail-notes.c:924
+#: ../src/mail/e-mail-notes.c:926
 msgid "Failed to convert text to message"
 msgstr "A szöveg üzenetté alakítása sikertelen"
 
-#: ../src/mail/e-mail-notes.c:938 ../src/mail/e-mail-notes.c:963
+#: ../src/mail/e-mail-notes.c:940 ../src/mail/e-mail-notes.c:965
 msgid "Storing changes…"
 msgstr "Változtatások eltárolása…"
 
-#: ../src/mail/e-mail-notes.c:1193 ../src/mail/e-mail-notes.c:1209
+#: ../src/mail/e-mail-notes.c:1195 ../src/mail/e-mail-notes.c:1211
 msgid "Edit Message Note"
 msgstr "Üzenetfeljegyzés szerkesztése"
 
-#: ../src/mail/e-mail-notes.c:1321
+#: ../src/mail/e-mail-notes.c:1323
 msgid "Retrieving message…"
 msgstr "Üzenet letöltése…"
 
@@ -20004,7 +19966,7 @@ msgstr ""
 "A távoli tartalmat letöltheti kézileg, vagy megjegyeztetheti a távoli "
 "tartalom letöltését ehhez a feladóhoz vagy oldalhoz."
 
-#: ../src/mail/e-mail-request.c:290
+#: ../src/mail/e-mail-request.c:292
 msgid "The message has no text content."
 msgstr "Az üzenetnek nincs szöveges tartalma."
 
@@ -20413,7 +20375,6 @@ msgid "<click here to select a folder>"
 msgstr "<kattintson ide a mappa kiválasztásához>"
 
 #: ../src/mail/em-folder-selector.c:609
-#| msgid "Search Folders"
 msgid "Search for folder…"
 msgstr "Mappa keresése…"
 
@@ -20463,12 +20424,12 @@ msgstr "%s mappa áthelyezése"
 msgid "Copying folder %s"
 msgstr "%s mappa másolása"
 
-#: ../src/mail/em-folder-tree.c:2401 ../src/mail/message-list.c:2643
+#: ../src/mail/em-folder-tree.c:2401 ../src/mail/message-list.c:2642
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Üzenetek áthelyezése a(z) %s mappába"
 
-#: ../src/mail/em-folder-tree.c:2405 ../src/mail/message-list.c:2645
+#: ../src/mail/em-folder-tree.c:2405 ../src/mail/message-list.c:2644
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Üzenetek másolása a(z) %s mappába"
@@ -21409,7 +21370,6 @@ msgstr ""
 "Üzenet küldése olyan _mellékletekkel, amelyek megváltoztak a csatolás óta"
 
 #: ../src/mail/mail-config.ui.h:66
-#| msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgid "Sending an _HTML mail to contacts that do not want them"
 msgstr "_HTML üzenet küldése olyan címzetteknek, akik nem kérnek ilyet"
 
@@ -21743,7 +21703,6 @@ msgstr "Mappa át_helyezése fogd és vidd módon a mappafában"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:169
-#| msgid "Show messages with all email headers"
 msgid "Sort message list on _header click"
 msgstr "Üzenetlista rendezése a _fejlécre kattintáskor"
 
@@ -22807,7 +22766,6 @@ msgid "Failed to import OpenPGP key"
 msgstr "Nem sikerült importálni az OpenPGP-kulcsot"
 
 #: ../src/mail/mail.error.xml.h:227
-#| msgid "Change sort order of the folders in the folder tree"
 msgid "Change sort order of the message list?"
 msgstr "Megváltoztatja az üzenetlista rendezési sorrendjét?"
 
@@ -22815,31 +22773,26 @@ msgstr "Megváltoztatja az üzenetlista rendezési sorrendjét?"
 msgid ""
 "Click in the list headers usually changes sort order. Choose what to do."
 msgstr ""
-"A lista fejléceire való kattintás általában megváltoztatja a rendezési"
-" sorrendet. Válassza ki, hogy mit szeretne tenni."
+"A lista fejléceire való kattintás általában megváltoztatja a rendezési "
+"sorrendet. Válassza ki, hogy mit szeretne tenni."
 
 #: ../src/mail/mail.error.xml.h:229
-#| msgid "Sort"
 msgid "_Sort"
 msgstr "_Rendezés"
 
 #: ../src/mail/mail.error.xml.h:230
-#| msgid "_Don’t lose formatting"
 msgid "_Don’t Sort"
 msgstr "_Ne rendezzen"
 
 #: ../src/mail/mail.error.xml.h:231
-#| msgid "_Always copy"
 msgid "_Always Sort"
 msgstr "_Mindig rendezzen"
 
 #: ../src/mail/mail.error.xml.h:232
-#| msgid "N_ever copy"
 msgid "N_ever Sort"
 msgstr "_Soha ne rendezzen"
 
 #: ../src/mail/mail.error.xml.h:233
-#| msgid "Import Pretty Good Privacy (OpenPGP) key"
 msgid "Send mail with Pretty Good Privacy (PGP) public key?"
 msgstr "Pretty Good Privacy (PGP) nyilvános kulccsal küldi a levelet?"
 
@@ -22852,30 +22805,26 @@ msgid ""
 "This option is set for each mail account separately. You can find it in the "
 "Security tab of the mail account Properties."
 msgstr ""
-"Az üzenet tartalmazza az Ön nyilvános PGP-kulcsát, amelyet a címzettek az"
-" Önnek küldött üzenetek titkosításához vagy az ezzel a PGP-kulccsal készített"
-" aláírások ellenőrzéséhez használhatnak.\n"
+"Az üzenet tartalmazza az Ön nyilvános PGP-kulcsát, amelyet a címzettek az "
+"Önnek küldött üzenetek titkosításához vagy az ezzel a PGP-kulccsal készített "
+"aláírások ellenőrzéséhez használhatnak.\n"
 "\n"
-"Ez a beállítás minden egyes postafiókhoz külön-külön kerül beállításra. A"
-" postafiók tulajdonságainak Biztonság lapján találhatja meg."
+"Ez a beállítás minden egyes postafiókhoz külön-külön kerül beállításra. A "
+"postafiók tulajdonságainak Biztonság lapján találhatja meg."
 
 #: ../src/mail/mail.error.xml.h:237
-#| msgid "ends with"
 msgid "_Send with Key"
 msgstr "_Küldés kulccsal"
 
 #: ../src/mail/mail.error.xml.h:238
-#| msgid "Send _without encryption"
 msgid "Send _without Key"
 msgstr "Küldés kulcs _nélkül"
 
 #: ../src/mail/mail.error.xml.h:239
-#| msgid "Always"
 msgid "_Always"
 msgstr "_Mindig"
 
 #: ../src/mail/mail.error.xml.h:240
-#| msgid "Never"
 msgid "_Never"
 msgstr "_Soha"
 
@@ -22978,57 +22927,57 @@ msgstr "Üzenetlista létrehozása"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2189
+#: ../src/mail/message-list.c:2188
 #: ../src/modules/itip-formatter/itip-view.c:286
 msgid "Today %l:%M %p"
 msgstr "Ma %H:%M"
 
-#: ../src/mail/message-list.c:2198
+#: ../src/mail/message-list.c:2197
 msgid "Yesterday %l:%M %p"
 msgstr "Tegnap %H:%M"
 
-#: ../src/mail/message-list.c:2210
+#: ../src/mail/message-list.c:2209
 msgid "%a %l:%M %p"
 msgstr "%a. %H:%M"
 
-#: ../src/mail/message-list.c:2218
+#: ../src/mail/message-list.c:2217
 msgid "%b %d %l:%M %p"
 msgstr "%b. %-d. %H:%M"
 
-#: ../src/mail/message-list.c:2220
+#: ../src/mail/message-list.c:2219
 msgid "%b %d %Y"
 msgstr "%Y. %b. %-d."
 
-#: ../src/mail/message-list.c:3088 ../src/mail/message-list.etspec.h:24
+#: ../src/mail/message-list.c:3087 ../src/mail/message-list.etspec.h:24
 msgid "User Header 1"
 msgstr "1. felhasználói fejléc"
 
-#: ../src/mail/message-list.c:3089 ../src/mail/message-list.etspec.h:25
+#: ../src/mail/message-list.c:3088 ../src/mail/message-list.etspec.h:25
 msgid "User Header 2"
 msgstr "2. felhasználói fejléc"
 
-#: ../src/mail/message-list.c:3090 ../src/mail/message-list.etspec.h:26
+#: ../src/mail/message-list.c:3089 ../src/mail/message-list.etspec.h:26
 msgid "User Header 3"
 msgstr "3. felhasználói fejléc"
 
-#: ../src/mail/message-list.c:3533
+#: ../src/mail/message-list.c:3532
 msgid "Select all visible messages"
 msgstr "Az összes látható üzenet kijelölése"
 
-#: ../src/mail/message-list.c:4371 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4370 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Üzenetek"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5763
+#: ../src/mail/message-list.c:5762
 msgid "Follow-up"
 msgstr "Nyomon követés"
 
-#: ../src/mail/message-list.c:6509 ../src/mail/message-list.c:6953
+#: ../src/mail/message-list.c:6508 ../src/mail/message-list.c:6952
 msgid "Generating message list…"
 msgstr "Üzenetlista létrehozása…"
 
-#: ../src/mail/message-list.c:6512
+#: ../src/mail/message-list.c:6511
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -23040,7 +22989,7 @@ msgstr ""
 "új keresés futtatásával a Keresés → Törlés menüpont kiválasztásával vagy a "
 "fenti lekérdezés módosításával."
 
-#: ../src/mail/message-list.c:6519
+#: ../src/mail/message-list.c:6518
 msgid "There are no messages in this folder."
 msgstr "Ebben a mappában nincsenek üzenetek."
 
@@ -23200,7 +23149,6 @@ msgid "_GNOME"
 msgstr "_GNOME"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:294
-#| msgid "Display window buttons with icons only"
 msgid "Use buttons with _icons only"
 msgstr "Csak _ikonokat tartalmazó gombok használata"
 
@@ -23466,7 +23414,6 @@ msgid "_Bulk Edit…"
 msgstr "_Tömeges szerkesztés…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
-#| msgid "Edit selected tasks in a bulk"
 msgid "Edit selected contacts in a bulk"
 msgstr "Kijelölt névjegyek tömeges szerkesztése"
 
@@ -24598,15 +24545,17 @@ msgstr "Időo_sztások:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:57
 msgid "_Show appointment end times in week and month view"
-msgstr "Értekezletek _végpontjának megjelenítése a heti és a hónapnézetben"
+msgstr ""
+"Értekezletek _befejezési idejének megjelenítése a hét nézetben és a hónap "
+"nézetben"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Show appointment _icons in the month view"
-msgstr "Értekezletek _ikonjának megjelenítése a hónapnézetben"
+msgstr "Értekezletek _ikonjának megjelenítése a hónap nézetben"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:59
 msgid "_Compress weekends in month view"
-msgstr "A hétvégék össze_nyomása a hónapnézetben"
+msgstr "A hétvégék össze_nyomása a hónap nézetben"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:60
 msgid "Show week _numbers"
@@ -24618,15 +24567,15 @@ msgstr "_Ismétlődő események megjelenítése dőlt betűvel a bal alsó napt
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:62
 msgid "Sc_roll Month View by a week"
-msgstr "_Hónapnézet gördítése egy héttel"
+msgstr "_Hónap nézet gördítése egy héttel"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:63
 msgid "Start Month View with the c_urrent week"
-msgstr "A hónapnézet kezdése a _jelenlegi héttel"
+msgstr "A hónap nézet kezdése a _jelenlegi héttel"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:64
 msgid "Order days in Week View from _left to right"
-msgstr "A Hét nézetben a napok _balról jobbra rendezése"
+msgstr "A hét nézetben a napok _balról jobbra rendezése"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:65
 msgid "Allo_w direct edit of event Summary"
@@ -24730,13 +24679,11 @@ msgstr "minden évforduló/születésnap előtt"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:99
-#| msgid "Show a _reminder"
 msgid "Show a r_eminder"
 msgstr "_Emlékeztető megjelenítése"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every event in chosen calendars"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:101
-#| msgid "Moving an event into the calendar “%s”"
 msgid "before every event in chosen calendars"
 msgstr "minden esemény előtt a kiválasztott naptárakban"
 
@@ -24983,7 +24930,6 @@ msgid "Edit as Ne_w…"
 msgstr "Sze_rkesztés újként…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1476
-#| msgid "Print the selected task"
 msgid "Edit the selected event as new"
 msgstr "A kijelölt esemény szerkesztése újként"
 
@@ -25074,7 +25020,6 @@ msgid "Make this Occurrence _Movable"
 msgstr "Ezen előfordulás _mozgathatóvá tétele"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1574
-#| msgid "Delete selected events"
 msgid "Edit the selected event"
 msgstr "A kijelölt esemény szerkesztése"
 
@@ -25688,11 +25633,11 @@ msgstr "Átalakítás _találkozóvá"
 msgid "Convert the message to a meeting request"
 msgstr "Üzenet átalakítása találkozó-összehívási kéréssé"
 
-#: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:379
+#: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:381
 msgid "Convert to M_essage"
 msgstr "Átalakítás ü_zenetté"
 
-#: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:381
+#: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:383
 msgid "Convert to the mail message"
 msgstr "Átalakítás levélüzenetté"
 
@@ -28209,7 +28154,6 @@ msgid "Display the part as an addressbook contact"
 msgstr "A rész megjelenítése címjegyzékbeli névjegyként"
 
 #: ../src/modules/webkit-editor/e-webkit-editor.c:2244
-#| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve message content"
 msgstr "Nem sikerült lekérni az üzenet tartalmát"
 
@@ -29388,33 +29332,33 @@ msgstr "Me_ntés új sablonként"
 msgid "Save as Template"
 msgstr "Mentés sablonként"
 
-#: ../src/shell/e-shell.c:354
+#: ../src/shell/e-shell.c:375
 msgid "Preparing to go offline…"
 msgstr "Felkészülés kapcsolat nélküli munkára…"
 
-#: ../src/shell/e-shell.c:383
+#: ../src/shell/e-shell.c:404
 msgid "Preparing to go online…"
 msgstr "Felkészülés online munkára…"
 
-#: ../src/shell/e-shell.c:491
+#: ../src/shell/e-shell.c:503
 msgid "Preparing to quit"
 msgstr "Felkészülés a kilépésre"
 
-#: ../src/shell/e-shell.c:497
+#: ../src/shell/e-shell.c:509
 msgid "Preparing to quit…"
 msgstr "Felkészülés a kilépésre…"
 
-#: ../src/shell/e-shell.c:1079
+#: ../src/shell/e-shell.c:1091
 msgid "Open _Settings"
 msgstr "_Beállítások megnyitása"
 
-#: ../src/shell/e-shell.c:1288
+#: ../src/shell/e-shell.c:1300
 msgid "Credentials are required to connect to the destination host."
 msgstr "Hitelesítési adatok szükségesek a célgéphez való kapcsolódáshoz."
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/e-shell.c:1970
+#: ../src/shell/e-shell.c:1998
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
@@ -29422,43 +29366,43 @@ msgstr ""
 "Az Evolution indítása a megadott komponenssel. A lehetséges értékek: „mail”, "
 "„calendar”, „contacts”, „tasks” és „memos”"
 
-#: ../src/shell/e-shell.c:1974
+#: ../src/shell/e-shell.c:2002
 msgid "Apply the given geometry to the main window"
 msgstr "Az adott geometria alkalmazása a főablakra"
 
-#: ../src/shell/e-shell.c:1978
+#: ../src/shell/e-shell.c:2006
 msgid "Start in online mode"
 msgstr "Indítás online módban"
 
-#: ../src/shell/e-shell.c:1980
+#: ../src/shell/e-shell.c:2008
 msgid "Ignore network availability"
 msgstr "Hálózat elérhetőségének figyelmen kívül hagyása"
 
-#: ../src/shell/e-shell.c:1983
+#: ../src/shell/e-shell.c:2011
 msgid ""
 "Forcibly shut down Evolution and background Evolution-Data-Server processes"
 msgstr ""
-"Az Evolution és a háttérben futó Evolution-Data-Server folyamatok"
-" kényszerített leállítása"
+"Az Evolution és a háttérben futó Evolution-Data-Server folyamatok "
+"kényszerített leállítása"
 
-#: ../src/shell/e-shell.c:1986
+#: ../src/shell/e-shell.c:2014
 msgid "Disable loading of any plugins."
 msgstr "Minden bővítmény betöltésének kikapcsolása."
 
-#: ../src/shell/e-shell.c:1988
+#: ../src/shell/e-shell.c:2016
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr ""
 "A levelező, névjegyek és feladatok előnézeti ablaktáblájának letiltása."
 
-#: ../src/shell/e-shell.c:1992
+#: ../src/shell/e-shell.c:2020
 msgid "Import URIs or filenames given as rest of arguments."
-msgstr "A többi argumentumban megadott URI-címek vagy fájlnevek importálása."
+msgstr "A többi argumentumként megadott URI-k vagy fájlnevek importálása."
 
-#: ../src/shell/e-shell.c:1994
+#: ../src/shell/e-shell.c:2022
 msgid "Request a running Evolution process to quit"
 msgstr "Futó Evolution folyamat kilépésre kérése"
 
-#: ../src/shell/e-shell.c:2104
+#: ../src/shell/e-shell.c:2132
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -29467,7 +29411,7 @@ msgstr ""
 "%s: az --online és az --offline kapcsoló nem használható egyszerre.\n"
 "  Adja ki az „%s --help” parancsot további információk megtekintéséhez.\n"
 
-#: ../src/shell/e-shell.c:2110
+#: ../src/shell/e-shell.c:2138
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -29814,7 +29758,7 @@ msgstr "Egyéni nézet"
 
 #: ../src/shell/e-shell-window-actions.c:1331
 msgid "Current view is a customized view"
-msgstr "A jelenlegi egy egyéni nézet"
+msgstr "A jelenlegi nézet személyre szabott nézet"
 
 #: ../src/shell/e-shell-window-actions.c:1339
 msgid "Page Set_up…"
@@ -29844,13 +29788,13 @@ msgid "Execute these search parameters"
 msgstr "Ezen keresési paraméterek végrehajtása"
 
 #. Translators: This is used for the main window title.
-#: ../src/shell/e-shell-window-private.c:771
+#: ../src/shell/e-shell-window-private.c:779
 #, c-format
 msgid "%s — Evolution"
 msgstr "%s — Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../src/shell/main.c:122
+#: ../src/shell/main.c:126
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -29888,7 +29832,7 @@ msgstr ""
 "Reméljük, élvezni fogja kemény munkánk eredményét, és várjuk\n"
 "hozzájárulását!\n"
 
-#: ../src/shell/main.c:147
+#: ../src/shell/main.c:151
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -29896,11 +29840,11 @@ msgstr ""
 "Köszönettel\n"
 "Az Evolution Csapat\n"
 
-#: ../src/shell/main.c:153
+#: ../src/shell/main.c:157
 msgid "Do not tell me again"
 msgstr "Ne jelenítse meg többé"
 
-#: ../src/shell/main.c:241
+#: ../src/shell/main.c:245
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
@@ -30534,3 +30478,4 @@ msgstr "Nem írható a tároló lemezre, hibakód: %i"
 #: ../src/smime/lib/e-pkcs12.c:471
 msgid "Imported Certificate"
 msgstr "Importált tanúsítvány"
+
