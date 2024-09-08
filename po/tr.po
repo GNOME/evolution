@@ -1,6 +1,6 @@
 # Turkish translation of Evolution.
 # Copyright (C) 2004-2024 Evolution's COPYRIGHT HOLDER
-# This file is distributed under the same licence as the Evolution package.
+# This file is distributed under the same license as the Evolution package.
 #
 # Görkem Çetin <gorkem@kde.org>, 2004.
 # Baris Cicek <baris@teamforce.name.tr>, 2004, 2005, 2006, 2008, 2009.
@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-08-26 09:09+0000\n"
-"PO-Revision-Date: 2024-09-02 08:00+0300\n"
+"POT-Creation-Date: 2024-09-04 15:41+0000\n"
+"PO-Revision-Date: 2024-09-08 08:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -1145,19 +1145,22 @@ msgid ""
 "This influences the Day view, the Work Week view, the Week view and the "
 "Month view."
 msgstr ""
-"Bu Gün görünümünü, Çalışma Haftası görünümünü, Hafta görünümünü ve "
-"Ay görünümünü etkiler."
+"Bu Gün görünümünü, Çalışma Haftası görünümünü, Hafta görünümünü ve Ay "
+"görünümünü etkiler."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
 msgid ""
 "Value to preselect when sending an event with attendees with reminders set."
 msgstr ""
+"Katılımcılı olayı ayarlı anımsatıcılarla gönderirken önceden seçilecek değer."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
 msgid ""
 "This remembers the last value of \"Send my reminders with this event\" "
 "option and uses it the next time."
 msgstr ""
+"Bu, \"SAnımsatmalarımı bu olayla birlikte gönder\" seçeneğinin son değerini "
+"anımsar ve bir sonrakinde kullanır."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -7001,20 +7004,17 @@ msgstr ""
 "yüklenemeyecek."
 
 #: ../src/calendar/calendar.error.xml.h:10
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the meeting is canceled."
 msgid ""
 "All information on this meeting will be deleted and can not be restored. If "
 "you do not send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
-"Eğer iptal bildirimi göndermezseniz, diğer katılımcılar toplantının iptal "
-"olduğunu bilemeyebilirler."
+"Bu toplantı üstündeki tüm bilgi silinecek ve kurtarılamayacak. Eğer "
+"iptal bildirimi göndermezseniz, diğer katılımcılar toplantının iptal "
+"edildiğini bilemeyebilir."
 
 #: ../src/calendar/calendar.error.xml.h:11
-msgid "_Delete and Sent Notice"
+msgid "_Delete and Send Notice"
 msgstr "_Sil ve Bildirim Gönder"
 
 #: ../src/calendar/calendar.error.xml.h:12
@@ -7022,15 +7022,12 @@ msgid "Delete _without Notice"
 msgstr "_Bildirimsiz Sil"
 
 #: ../src/calendar/calendar.error.xml.h:13
-#, fuzzy
-#| msgid ""
-#| "If you do not send a deletion notice, the organizer may not know the "
-#| "meeting has been deleted."
 msgid ""
 "All information on this meeting will be deleted and can not be restored. If "
 "you do not send a deletion notice, the organizer may not know the meeting "
 "has been deleted."
 msgstr ""
+"Bu toplantı üstündeki tüm bilgi silinecek ve kurtarılamayacak. "
 "Eğer silinme bildirimi göndermezseniz, düzenleyen toplantının silindiğini "
 "bilemeyebilir."
 
@@ -8544,7 +8541,7 @@ msgstr "Tüm Seferlerde"
 #: ../src/calendar/gui/e-cal-dialogs.c:1429
 #: ../src/calendar/gui/e-cal-dialogs.c:1519
 msgid "Send my reminders with this event"
-msgstr "Hatırlatmalarımı bu olayla birlikte gönder"
+msgstr "Anımsatmalarımı bu olayla birlikte gönder"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:1434
 #: ../src/calendar/gui/e-cal-dialogs.c:1524
@@ -18714,7 +18711,7 @@ msgstr "Gereksiz iletiler için klasör seç."
 
 #: ../src/mail/e-mail-config-defaults-page.c:872
 msgid "Restore _Not-Junk to Folder:"
-msgstr ""
+msgstr "_Önemsiz Olmayanları Klasöre Geri Yükle:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:873
 msgid "Choose a folder to restore not-junk messages from the Junk folder to."
@@ -19256,7 +19253,7 @@ msgid ""
 "as mnemonic identifier in menu."
 msgstr ""
 "Not: Etiket adlarındaki alt çizgiler\n"
-"menülerde hatırlatıcı belirteç olarak kullanılır."
+"menülerde anımsatıcı belirteç olarak kullanılır."
 
 #: ../src/mail/e-mail-label-tree-view.c:81
 msgid "Color"
@@ -20089,10 +20086,8 @@ msgid "Failed to open file “%s”: %s"
 msgstr "“%s” dosyası açılamadı: %s"
 
 #: ../src/mail/e-mail-viewer.c:202
-#, fuzzy
-#| msgid "Failed to insert text file."
 msgid "Failed to seek to offset in file"
-msgstr "Metin dosyası eklenemedi."
+msgstr "Dosyadaki ofsete gidilemedi."
 
 #: ../src/mail/e-mail-viewer.c:222
 msgid "Import to Folder"
@@ -26333,11 +26328,11 @@ msgstr "Zamanı _boş olarak göster"
 
 #: ../src/modules/itip-formatter/itip-view.c:2254
 msgid "_Preserve my reminder"
-msgstr "Hatırlatıcımı _sakla"
+msgstr "Anımsatıcımı _sakla"
 
 #: ../src/modules/itip-formatter/itip-view.c:2255
 msgid "_Inherit reminder"
-msgstr "_Hatırlatıcıyı benzet"
+msgstr "_Anımsatıcıyı benzet"
 
 #: ../src/modules/itip-formatter/itip-view.c:2502
 msgid "_Tasks:"
@@ -29542,8 +29537,7 @@ msgstr "vCard (.vcf)"
 msgid "translator-credits"
 msgstr ""
 "Emin Tufan Çetin <etcetin@gmail.com>\n"
-"Muhammet Kara <muhammetk@gmail.com>\n"
-"Barış Çiçek <baris@teamforce.name.tr>"
+"Muhammet Kara <muhammetk@gmail.com>"
 
 #: ../src/shell/e-shell-utils.c:363
 msgid "Website"
