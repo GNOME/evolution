@@ -73,8 +73,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-08-20 12:01+0000\n"
-"PO-Revision-Date: 2024-08-25 15:45+0200\n"
+"POT-Creation-Date: 2024-09-09 17:22+0000\n"
+"PO-Revision-Date: 2024-09-09 19:25+0200\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -4279,7 +4279,7 @@ msgstr "Gå til _næste brev"
 #: ../src/calendar/gui/e-comp-editor.c:2292
 #: ../src/e-util/e-html-editor-actions.c:1195
 #: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-browser.c:202
-#: ../src/mail/e-mail-notes.c:1124 ../src/shell/e-shell-window-actions.c:1130
+#: ../src/mail/e-mail-notes.c:1124 ../src/shell/e-shell-window-actions.c:1135
 msgid "_File"
 msgstr "_Fil"
 
@@ -4308,7 +4308,7 @@ msgstr "_Udskriv"
 #: ../src/mail/e-mail-notes.c:1110 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1519
 #: ../src/mail/em-subscription-editor.c:1734
-#: ../src/shell/e-shell-window-actions.c:946
+#: ../src/shell/e-shell-window-actions.c:951
 #: ../src/smime/gui/certificate-manager.c:2124
 msgid "_Close"
 msgstr "_Luk"
@@ -4331,7 +4331,7 @@ msgstr "_Luk"
 #: ../src/plugins/sender-validation/sender-validation.c:694
 #: ../src/plugins/sender-validation/sender-validation.c:805
 #: ../src/plugins/templates/templates.c:475
-#: ../src/shell/e-shell-window-actions.c:1123 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:1128 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "R_edigér"
 
@@ -4344,7 +4344,7 @@ msgstr "K_lip"
 #: ../src/calendar/gui/e-comp-editor.c:2206 ../src/e-util/e-focus-tracker.c:798
 #: ../src/e-util/e-html-editor-actions.c:1144 ../src/e-util/e-text.c:2064
 #: ../src/e-util/e-web-view.c:493 ../src/mail/e-mail-browser.c:165
-#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:967
+#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:972
 msgid "_Copy"
 msgstr "_Kopiér"
 
@@ -4352,7 +4352,7 @@ msgstr "_Kopiér"
 #: ../data/ui/evolution-mail-viewer.ui.h:10
 #: ../src/calendar/gui/e-comp-editor.c:2234 ../src/e-util/e-focus-tracker.c:803
 #: ../src/e-util/e-html-editor-actions.c:1158 ../src/e-util/e-text.c:2076
-#: ../src/mail/e-mail-browser.c:179 ../src/shell/e-shell-window-actions.c:1002
+#: ../src/mail/e-mail-browser.c:179 ../src/shell/e-shell-window-actions.c:1007
 msgid "_Paste"
 msgstr "_Indsæt"
 
@@ -4367,7 +4367,7 @@ msgstr "_Søg efter i brev …"
 #: ../data/ui/evolution-mail-viewer.ui.h:13
 #: ../src/calendar/gui/e-comp-editor.c:2320
 #: ../src/e-util/e-html-editor-actions.c:1237 ../src/mail/e-mail-browser.c:216
-#: ../src/shell/e-shell-window-actions.c:1173
+#: ../src/shell/e-shell-window-actions.c:1178
 #: ../src/smime/gui/certificate-manager.c:1588 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Vis"
@@ -5470,14 +5470,14 @@ msgstr "_Mærkedag:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1912
+#: ../src/calendar/gui/e-calendar-view.c:1914
 msgid "Anniversary"
 msgstr "Mærkedag"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1911
+#: ../src/calendar/gui/e-calendar-view.c:1913
 msgid "Birthday"
 msgstr "Fødselsdag"
 
@@ -5772,7 +5772,7 @@ msgstr "Ugyldig kontaktperson."
 #: ../src/calendar/gui/e-comp-editor.c:2299
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:1137
+#: ../src/shell/e-shell-window-actions.c:1142
 msgid "_Help"
 msgstr "_Hjælp"
 
@@ -6538,7 +6538,7 @@ msgstr "Er du sikker på, at du vil slette denne kontaktpersonen (%s)?"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:700
 #: ../src/modules/calendar/e-task-shell-view-actions.c:884
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1644
-#: ../src/shell/e-shell-window-actions.c:981
+#: ../src/shell/e-shell-window-actions.c:986
 #: ../src/smime/gui/certificate-manager.c:1598 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Slet"
@@ -6861,7 +6861,7 @@ msgstr "Zoom _ind"
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:432
 #: ../src/e-util/e-html-editor-actions.c:2326
 #: ../src/e-util/e-html-editor-find-dialog.c:235
-#: ../src/shell/e-shell-window-actions.c:1058
+#: ../src/shell/e-shell-window-actions.c:1063
 msgid "_Find"
 msgstr "_Søg"
 
@@ -7108,7 +7108,7 @@ msgstr ""
 "måske ikke få det at vide."
 
 #: ../src/calendar/calendar.error.xml.h:11
-msgid "_Delete and Sent Notice"
+msgid "_Delete and Send Notice"
 msgstr "_Slet og send besked"
 
 #: ../src/calendar/calendar.error.xml.h:12
@@ -8684,9 +8684,9 @@ msgid "Pasting iCalendar data"
 msgstr "Indsætter iCalendar-data"
 
 #: ../src/calendar/gui/e-calendar-view.c:1239
-#: ../src/calendar/gui/e-calendar-view.c:1242
-#: ../src/calendar/gui/e-calendar-view.c:1245
+#: ../src/calendar/gui/e-calendar-view.c:1243
 #: ../src/calendar/gui/e-calendar-view.c:1246
+#: ../src/calendar/gui/e-calendar-view.c:1247
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -8695,15 +8695,15 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1241
-#: ../src/calendar/gui/e-day-view.c:3282
-#: ../src/calendar/gui/e-day-view-top-item.c:845
-#: ../src/calendar/gui/e-week-view-main-item.c:223
-#, c-format
+#: ../src/calendar/gui/e-calendar-view.c:1242
+#: ../src/calendar/gui/e-day-view.c:3284
+#: ../src/calendar/gui/e-day-view-top-item.c:847
+#: ../src/calendar/gui/e-week-view-main-item.c:225
+#, no-c-format
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1252
+#: ../src/calendar/gui/e-calendar-view.c:1253
 msgid "%A %d %b %Y"
 msgstr "%A, %d. %b %Y"
 
@@ -8713,17 +8713,17 @@ msgstr "%A, %d. %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1254
-#: ../src/calendar/gui/e-day-view.c:3266
-#: ../src/calendar/gui/e-day-view-top-item.c:841
-#: ../src/calendar/gui/e-week-view-main-item.c:209
-#, c-format
+#: ../src/calendar/gui/e-calendar-view.c:1256
+#: ../src/calendar/gui/e-day-view.c:3267
+#: ../src/calendar/gui/e-day-view-top-item.c:842
+#: ../src/calendar/gui/e-week-view-main-item.c:210
+#, no-c-format
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1255
 #: ../src/calendar/gui/e-calendar-view.c:1257
-#: ../src/calendar/gui/e-calendar-view.c:1258
+#: ../src/calendar/gui/e-calendar-view.c:1259
+#: ../src/calendar/gui/e-calendar-view.c:1260
 msgid "%a %d %b %Y"
 msgstr "%a, %d. %b %Y"
 
@@ -8731,7 +8731,7 @@ msgstr "%a, %d. %b %Y"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1931
+#: ../src/calendar/gui/e-calendar-view.c:1933
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -10125,27 +10125,27 @@ msgstr "Luk det aktive vindue"
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:305
 #: ../src/e-util/e-focus-tracker.c:799 ../src/e-util/e-web-view.c:495
 #: ../src/e-util/e-web-view.c:2167 ../src/mail/e-mail-browser.c:167
-#: ../src/shell/e-shell-window-actions.c:969
+#: ../src/shell/e-shell-window-actions.c:974
 msgid "Copy the selection"
 msgstr "Kopier det valgte"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2213 ../src/e-util/e-focus-tracker.c:793
 #: ../src/e-util/e-html-editor-actions.c:1151 ../src/e-util/e-text.c:2050
-#: ../src/mail/e-mail-browser.c:172 ../src/shell/e-shell-window-actions.c:974
+#: ../src/mail/e-mail-browser.c:172 ../src/shell/e-shell-window-actions.c:979
 msgid "Cu_t"
 msgstr "K_lip"
 
 #: ../src/calendar/gui/e-comp-editor.c:2215 ../src/e-util/e-focus-tracker.c:189
 #: ../src/e-util/e-focus-tracker.c:245 ../src/e-util/e-focus-tracker.c:299
 #: ../src/e-util/e-focus-tracker.c:794 ../src/e-util/e-web-view.c:2176
-#: ../src/mail/e-mail-browser.c:174 ../src/shell/e-shell-window-actions.c:976
+#: ../src/mail/e-mail-browser.c:174 ../src/shell/e-shell-window-actions.c:981
 msgid "Cut the selection"
 msgstr "Klip det markerede"
 
 #: ../src/calendar/gui/e-comp-editor.c:2222 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:809
-#: ../src/shell/e-shell-window-actions.c:983
+#: ../src/shell/e-shell-window-actions.c:988
 msgid "Delete the selection"
 msgstr "Slet det markerede"
 
@@ -10156,7 +10156,7 @@ msgstr "Vis hjælp"
 #: ../src/calendar/gui/e-comp-editor.c:2236 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:311
 #: ../src/e-util/e-focus-tracker.c:804 ../src/e-util/e-web-view.c:2185
-#: ../src/mail/e-mail-browser.c:181 ../src/shell/e-shell-window-actions.c:1004
+#: ../src/mail/e-mail-browser.c:181 ../src/shell/e-shell-window-actions.c:1009
 msgid "Paste the clipboard"
 msgstr "Indsæt udklipsholderen"
 
@@ -10177,13 +10177,13 @@ msgstr "Forhånds_visning …"
 
 #: ../src/calendar/gui/e-comp-editor.c:2255 ../src/e-util/e-focus-tracker.c:813
 #: ../src/e-util/e-html-editor-actions.c:1172 ../src/e-util/e-web-view.c:510
-#: ../src/mail/e-mail-browser.c:186 ../src/shell/e-shell-window-actions.c:1079
+#: ../src/mail/e-mail-browser.c:186 ../src/shell/e-shell-window-actions.c:1084
 msgid "Select _All"
 msgstr "Markér _alt"
 
 #: ../src/calendar/gui/e-comp-editor.c:2257 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:814
-#: ../src/mail/e-mail-browser.c:188 ../src/shell/e-shell-window-actions.c:1081
+#: ../src/mail/e-mail-browser.c:188 ../src/shell/e-shell-window-actions.c:1086
 msgid "Select all text"
 msgstr "Vælg hele teksten"
 
@@ -10226,7 +10226,7 @@ msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3987
+#: ../src/calendar/gui/e-day-view.c:3989
 #, c-format
 msgid "Week %d"
 msgstr "Uge %d"
@@ -10722,7 +10722,7 @@ msgstr "%s (%s)"
 #. strftime format %d = day of month, %B = full
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-week-view-main-item.c:217
+#: ../src/calendar/gui/e-week-view-main-item.c:218
 #: ../src/calendar/gui/print.c:2128
 msgid "%d %B"
 msgstr "%d %B"
@@ -12857,12 +12857,12 @@ msgid "Open New Message window"
 msgstr "Åbn vinduet “Nyt brev”"
 
 #: ../src/composer/e-composer-actions.c:347
-#: ../src/shell/e-shell-window-actions.c:1016
+#: ../src/shell/e-shell-window-actions.c:1021
 msgid "_Preferences"
 msgstr "_Indstillinger"
 
 #: ../src/composer/e-composer-actions.c:349
-#: ../src/shell/e-shell-window-actions.c:1018
+#: ../src/shell/e-shell-window-actions.c:1023
 msgid "Configure Evolution"
 msgstr "Konfigurér Evolution"
 
@@ -17652,7 +17652,7 @@ msgid "Format Column_s…"
 msgstr "Formatér kolonne_r …"
 
 #: ../src/e-util/e-table-header-item.c:1666
-#: ../src/shell/e-shell-window-actions.c:1310
+#: ../src/shell/e-shell-window-actions.c:1315
 msgid "Custo_mize Current View…"
 msgstr "_Tilpas aktuel oversigt …"
 
@@ -18621,9 +18621,9 @@ msgstr "POP3-server"
 msgid "SMTP server"
 msgstr "SMTP-server"
 
-#: ../src/mail/e-mail-browser.c:160 ../src/shell/e-shell-window-actions.c:941
-#: ../src/shell/e-shell-window-actions.c:948
-#: ../src/shell/e-shell-window-actions.c:955
+#: ../src/mail/e-mail-browser.c:160 ../src/shell/e-shell-window-actions.c:946
+#: ../src/shell/e-shell-window-actions.c:953
+#: ../src/shell/e-shell-window-actions.c:960
 msgid "Close this window"
 msgstr "Luk dette vindue"
 
@@ -18870,8 +18870,7 @@ msgstr "Gendan _ikkespam til mappe:"
 #: ../src/mail/e-mail-config-defaults-page.c:873
 msgid "Choose a folder to restore not-junk messages from the Junk folder to."
 msgstr ""
-"Vælg en mappe, hvor breve som ikke er spam, skal flyttes til fra "
-"spammappen."
+"Vælg en mappe, hvor breve som ikke er spam, skal flyttes til fra spammappen."
 
 #: ../src/mail/e-mail-config-defaults-page.c:1006
 msgid "Defaults"
@@ -19103,7 +19102,7 @@ msgstr "Vælg"
 
 #: ../src/mail/e-mail-config-security-page.c:766
 #: ../src/mail/e-mail-config-security-page.c:864
-#: ../src/shell/e-shell-window-actions.c:1044
+#: ../src/shell/e-shell-window-actions.c:1049
 msgid "_Clear"
 msgstr "_Tøm"
 
@@ -23522,12 +23521,12 @@ msgid "Show M_enu Bar"
 msgstr "Vis _menulinje"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:523
-#: ../src/shell/e-shell-window-actions.c:1241
+#: ../src/shell/e-shell-window-actions.c:1246
 msgid "Show _Tool Bar"
 msgstr "Vis _værktøjslinje"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:536
-#: ../src/shell/e-shell-window-actions.c:1217
+#: ../src/shell/e-shell-window-actions.c:1222
 msgid "Show Side _Bar"
 msgstr "Vis side_panel"
 
@@ -29827,305 +29826,305 @@ msgstr "Websted"
 msgid "Saving user interface state"
 msgstr "Gemmer tilstand af brugergrænsefladen"
 
-#: ../src/shell/e-shell-window-actions.c:354
+#: ../src/shell/e-shell-window-actions.c:359
 msgid "Categories Editor"
 msgstr "Kategoriredigering"
 
-#: ../src/shell/e-shell-window-actions.c:674
+#: ../src/shell/e-shell-window-actions.c:679
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy er ikke installeret."
 
-#: ../src/shell/e-shell-window-actions.c:675
+#: ../src/shell/e-shell-window-actions.c:680
 msgid "Bug Buddy could not be run."
 msgstr "Bug Buddy kunne ikke køres."
 
-#: ../src/shell/e-shell-window-actions.c:915
+#: ../src/shell/e-shell-window-actions.c:920
 msgid "Collect_ion Account"
 msgstr "Sa_mlingskonto"
 
-#: ../src/shell/e-shell-window-actions.c:917
+#: ../src/shell/e-shell-window-actions.c:922
 msgid "Create a new collection account"
 msgstr "Opret en ny samlingskonto"
 
-#: ../src/shell/e-shell-window-actions.c:925
+#: ../src/shell/e-shell-window-actions.c:930
 msgid "_About"
 msgstr "_Om"
 
-#: ../src/shell/e-shell-window-actions.c:927
+#: ../src/shell/e-shell-window-actions.c:932
 msgid "Show information about Evolution"
 msgstr "Vis information om Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:932
+#: ../src/shell/e-shell-window-actions.c:937
 msgid "_Accounts"
 msgstr "_Konti"
 
-#: ../src/shell/e-shell-window-actions.c:934
+#: ../src/shell/e-shell-window-actions.c:939
 msgid "Configure Evolution Accounts"
 msgstr "Konfigurér Evolution-konti"
 
-#: ../src/shell/e-shell-window-actions.c:939
-#: ../src/shell/e-shell-window-actions.c:953
+#: ../src/shell/e-shell-window-actions.c:944
+#: ../src/shell/e-shell-window-actions.c:958
 msgid "_Close Window"
 msgstr "_Luk vindue"
 
-#: ../src/shell/e-shell-window-actions.c:960
+#: ../src/shell/e-shell-window-actions.c:965
 msgid "_Contents"
 msgstr "_Indhold"
 
-#: ../src/shell/e-shell-window-actions.c:962
+#: ../src/shell/e-shell-window-actions.c:967
 msgid "Open the Evolution User Guide"
 msgstr "Åbn Evolutions brugervejledning"
 
-#: ../src/shell/e-shell-window-actions.c:988
+#: ../src/shell/e-shell-window-actions.c:993
 msgid "I_mport…"
 msgstr "I_mportér …"
 
-#: ../src/shell/e-shell-window-actions.c:990
+#: ../src/shell/e-shell-window-actions.c:995
 msgid "Import data from other programs"
 msgstr "Importér data fra andre programmer"
 
-#: ../src/shell/e-shell-window-actions.c:995
+#: ../src/shell/e-shell-window-actions.c:1000
 msgid "New _Window"
 msgstr "Nyt _vindue"
 
-#: ../src/shell/e-shell-window-actions.c:997
+#: ../src/shell/e-shell-window-actions.c:1002
 msgid "Create a new window displaying this view"
 msgstr "Opret et nyt vindue som har denne visning"
 
-#: ../src/shell/e-shell-window-actions.c:1009
+#: ../src/shell/e-shell-window-actions.c:1014
 msgid "Available Cate_gories"
 msgstr "Tilgængelige kate_gorier"
 
-#: ../src/shell/e-shell-window-actions.c:1011
+#: ../src/shell/e-shell-window-actions.c:1016
 msgid "Manage available categories"
 msgstr "Håndtér tilgængelige kategorier"
 
-#: ../src/shell/e-shell-window-actions.c:1023
+#: ../src/shell/e-shell-window-actions.c:1028
 msgid "_Quit"
 msgstr "_Afslut"
 
-#: ../src/shell/e-shell-window-actions.c:1025
+#: ../src/shell/e-shell-window-actions.c:1030
 msgid "Exit the program"
 msgstr "Afslut programmet"
 
-#: ../src/shell/e-shell-window-actions.c:1030
+#: ../src/shell/e-shell-window-actions.c:1035
 msgid "_Saved Searches"
 msgstr "_Gemte søgninger"
 
-#: ../src/shell/e-shell-window-actions.c:1037
+#: ../src/shell/e-shell-window-actions.c:1042
 msgid "_Advanced Search…"
 msgstr "_Avanceret søgning …"
 
-#: ../src/shell/e-shell-window-actions.c:1039
+#: ../src/shell/e-shell-window-actions.c:1044
 msgid "Construct a more advanced search"
 msgstr "Konstruer en mere avanceret søgning"
 
-#: ../src/shell/e-shell-window-actions.c:1046
+#: ../src/shell/e-shell-window-actions.c:1051
 msgid "Clear the current search parameters"
 msgstr "Ryd de aktuelle søgeparametre"
 
-#: ../src/shell/e-shell-window-actions.c:1051
+#: ../src/shell/e-shell-window-actions.c:1056
 msgid "_Edit Saved Searches…"
 msgstr "_Redigér gemte søgninger …"
 
-#: ../src/shell/e-shell-window-actions.c:1053
+#: ../src/shell/e-shell-window-actions.c:1058
 msgid "Manage your saved searches"
 msgstr "Håndtér dine gemte søgninger"
 
-#: ../src/shell/e-shell-window-actions.c:1060
+#: ../src/shell/e-shell-window-actions.c:1065
 msgid "Click here to change the search type"
 msgstr "Klik her for at ændre søgningstypen"
 
-#: ../src/shell/e-shell-window-actions.c:1065
+#: ../src/shell/e-shell-window-actions.c:1070
 msgid "_Find Now"
 msgstr "_Søg nu"
 
-#: ../src/shell/e-shell-window-actions.c:1067
+#: ../src/shell/e-shell-window-actions.c:1072
 msgid "Execute the current search parameters"
 msgstr "Udfør de aktuelle søgeparametre"
 
-#: ../src/shell/e-shell-window-actions.c:1072
+#: ../src/shell/e-shell-window-actions.c:1077
 msgid "_Save Search…"
 msgstr "_Gem søgning …"
 
-#: ../src/shell/e-shell-window-actions.c:1074
+#: ../src/shell/e-shell-window-actions.c:1079
 msgid "Save the current search parameters"
 msgstr "Gem de aktuelle søgeparametre"
 
-#: ../src/shell/e-shell-window-actions.c:1086
+#: ../src/shell/e-shell-window-actions.c:1091
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastaturgenveje"
 
-#: ../src/shell/e-shell-window-actions.c:1088
+#: ../src/shell/e-shell-window-actions.c:1093
 msgid "Show keyboard shortcuts"
 msgstr "Vis tastaturgenveje"
 
-#: ../src/shell/e-shell-window-actions.c:1093
+#: ../src/shell/e-shell-window-actions.c:1098
 msgid "Show _WebKit GPU information"
 msgstr "Vis GPU-information for _WebKit"
 
-#: ../src/shell/e-shell-window-actions.c:1095
+#: ../src/shell/e-shell-window-actions.c:1100
 msgid "Show WebKit GPU information page in the preview panel"
 msgstr "Vis GPU-information for _WebKit i forhåndsvisningspanelet"
 
-#: ../src/shell/e-shell-window-actions.c:1100
+#: ../src/shell/e-shell-window-actions.c:1105
 msgid "Submit _Bug Report…"
 msgstr "Indsend _fejlrapport …"
 
-#: ../src/shell/e-shell-window-actions.c:1102
+#: ../src/shell/e-shell-window-actions.c:1107
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Indsend en fejlrapport med Bug Buddy"
 
-#: ../src/shell/e-shell-window-actions.c:1107
+#: ../src/shell/e-shell-window-actions.c:1112
 msgid "_Work Offline"
 msgstr "Ar_bejd offline"
 
-#: ../src/shell/e-shell-window-actions.c:1109
+#: ../src/shell/e-shell-window-actions.c:1114
 msgid "Put Evolution into offline mode"
 msgstr "Sæt Evolution i offline-tilstand"
 
-#: ../src/shell/e-shell-window-actions.c:1114
+#: ../src/shell/e-shell-window-actions.c:1119
 msgid "_Work Online"
 msgstr "_Arbejd online"
 
-#: ../src/shell/e-shell-window-actions.c:1116
+#: ../src/shell/e-shell-window-actions.c:1121
 msgid "Put Evolution into online mode"
 msgstr "Sæt Evolution i online-tilstand"
 
-#: ../src/shell/e-shell-window-actions.c:1144
+#: ../src/shell/e-shell-window-actions.c:1149
 msgid "Lay_out"
 msgstr "La_yout"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../src/shell/e-shell-window-actions.c:1152
+#: ../src/shell/e-shell-window-actions.c:1157
 msgid "_New"
 msgstr "_Ny"
 
-#: ../src/shell/e-shell-window-actions.c:1159
+#: ../src/shell/e-shell-window-actions.c:1164
 msgid "_Search"
 msgstr "_Søg"
 
-#: ../src/shell/e-shell-window-actions.c:1166
+#: ../src/shell/e-shell-window-actions.c:1171
 msgid "_Switcher Appearance"
 msgstr "V_ælger-udseende"
 
-#: ../src/shell/e-shell-window-actions.c:1180
+#: ../src/shell/e-shell-window-actions.c:1185
 msgid "_Window"
 msgstr "_Vindue"
 
-#: ../src/shell/e-shell-window-actions.c:1209
+#: ../src/shell/e-shell-window-actions.c:1214
 msgid "Show _Menu Bar"
 msgstr "Vis _menulinje"
 
-#: ../src/shell/e-shell-window-actions.c:1211
+#: ../src/shell/e-shell-window-actions.c:1216
 msgid "Show the menu bar"
 msgstr "Vis menulinjen"
 
-#: ../src/shell/e-shell-window-actions.c:1219
+#: ../src/shell/e-shell-window-actions.c:1224
 msgid "Show the side bar"
 msgstr "Vis sidepanelet"
 
-#: ../src/shell/e-shell-window-actions.c:1225
+#: ../src/shell/e-shell-window-actions.c:1230
 msgid "Show _Buttons"
 msgstr "Vis _knapper"
 
-#: ../src/shell/e-shell-window-actions.c:1227
+#: ../src/shell/e-shell-window-actions.c:1232
 msgid "Show the switcher buttons"
 msgstr "Vis omskifteknapperne"
 
-#: ../src/shell/e-shell-window-actions.c:1233
+#: ../src/shell/e-shell-window-actions.c:1238
 msgid "Show _Status Bar"
 msgstr "Vis stat_uslinje"
 
-#: ../src/shell/e-shell-window-actions.c:1235
+#: ../src/shell/e-shell-window-actions.c:1240
 msgid "Show the status bar"
 msgstr "Vis statuslinjen"
 
-#: ../src/shell/e-shell-window-actions.c:1243
+#: ../src/shell/e-shell-window-actions.c:1248
 msgid "Show the tool bar"
 msgstr "Vis værktøjslinjen"
 
-#: ../src/shell/e-shell-window-actions.c:1265
+#: ../src/shell/e-shell-window-actions.c:1270
 msgid "_Icons Only"
 msgstr "Kun _ikoner"
 
-#: ../src/shell/e-shell-window-actions.c:1267
+#: ../src/shell/e-shell-window-actions.c:1272
 msgid "Display window buttons with icons only"
 msgstr "Vis vinduesknapper kun med ikoner"
 
-#: ../src/shell/e-shell-window-actions.c:1272
+#: ../src/shell/e-shell-window-actions.c:1277
 msgid "_Text Only"
 msgstr "Kun _tekst"
 
-#: ../src/shell/e-shell-window-actions.c:1274
+#: ../src/shell/e-shell-window-actions.c:1279
 msgid "Display window buttons with text only"
 msgstr "Vis vinduesknapper kun med tekst"
 
-#: ../src/shell/e-shell-window-actions.c:1279
+#: ../src/shell/e-shell-window-actions.c:1284
 msgid "Icons _and Text"
 msgstr "Ikoner _og tekst"
 
-#: ../src/shell/e-shell-window-actions.c:1281
+#: ../src/shell/e-shell-window-actions.c:1286
 msgid "Display window buttons with icons and text"
 msgstr "Vis vinduesknapper med ikoner og tekst"
 
-#: ../src/shell/e-shell-window-actions.c:1286
+#: ../src/shell/e-shell-window-actions.c:1291
 msgid "Tool_bar Style"
 msgstr "Værktøjs_linjestil"
 
-#: ../src/shell/e-shell-window-actions.c:1288
+#: ../src/shell/e-shell-window-actions.c:1293
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Vis vinduesknapper vha. indstillingerne for skrivebordets værktøjslinje"
 
-#: ../src/shell/e-shell-window-actions.c:1296
+#: ../src/shell/e-shell-window-actions.c:1301
 msgid "Delete Current View"
 msgstr "Slet nuværende oversigt"
 
-#: ../src/shell/e-shell-window-actions.c:1303
+#: ../src/shell/e-shell-window-actions.c:1308
 msgid "Save Custom View…"
 msgstr "Gem tilpasset oversigt …"
 
-#: ../src/shell/e-shell-window-actions.c:1305
+#: ../src/shell/e-shell-window-actions.c:1310
 msgid "Save current custom view"
 msgstr "Gem nuværende tilpassede oversigt"
 
-#: ../src/shell/e-shell-window-actions.c:1319
+#: ../src/shell/e-shell-window-actions.c:1324
 msgid "C_urrent View"
 msgstr "_Aktuel oversigt"
 
-#: ../src/shell/e-shell-window-actions.c:1329
+#: ../src/shell/e-shell-window-actions.c:1334
 msgid "Custom View"
 msgstr "Tilpasset oversigt"
 
-#: ../src/shell/e-shell-window-actions.c:1331
+#: ../src/shell/e-shell-window-actions.c:1336
 msgid "Current view is a customized view"
 msgstr "Nuværende oversigt er en tilpasset oversigt"
 
-#: ../src/shell/e-shell-window-actions.c:1339
+#: ../src/shell/e-shell-window-actions.c:1344
 msgid "Page Set_up…"
 msgstr "Side_opsætning …"
 
-#: ../src/shell/e-shell-window-actions.c:1341
+#: ../src/shell/e-shell-window-actions.c:1346
 msgid "Change the page settings for your current printer"
 msgstr "Ændr sideindstillingerne for din aktuelle printer"
 
-#: ../src/shell/e-shell-window-actions.c:1716
+#: ../src/shell/e-shell-window-actions.c:1721
 #, c-format
 msgid "Switch to %s"
 msgstr "Skift til %s"
 
-#: ../src/shell/e-shell-window-actions.c:1840
+#: ../src/shell/e-shell-window-actions.c:1845
 #, c-format
 msgid "Select view: %s"
 msgstr "Vælg oversigt: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1857
+#: ../src/shell/e-shell-window-actions.c:1862
 #, c-format
 msgid "Delete view: %s"
 msgstr "Slet oversigt: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1972
+#: ../src/shell/e-shell-window-actions.c:1977
 msgid "Execute these search parameters"
 msgstr "Udfør disse søgeparametre"
 
