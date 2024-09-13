@@ -1,3 +1,26 @@
+Evolution 3.54.0 2024-09-13
+---------------------------
+
+Bug Fixes:
+	I#2840 - Calendar: Correct typos "Sent Notice" -> "Send Notice"
+	I#2845 - Typo in code eab-contact
+	I#2846 - Calendar: Correct typo in error message id
+	M!137 - Set prgname to application ID (Balló György)
+
+Miscellaneous:
+	docs: Correct developer documentation to install API indexes
+	CI: Export also developer documentation into the web pages
+
+Translations:
+	Alan Mortensen (da)
+	Anders Jonsson (sv)
+	Balázs Úr (hu)
+	Emin Tufan Çetin (tr)
+	Jürgen Benvenuti (de)
+	Martin (sl)
+	Sabri Ünal (tr)
+	Yuri Chornoivan (uk)
+
 Evolution 3.53.3 2024-08-30
 ---------------------------
 
