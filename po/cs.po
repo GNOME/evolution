@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-03-11 06:42+0000\n"
-"PO-Revision-Date: 2024-03-12 14:54+0100\n"
+"POT-Creation-Date: 2024-04-09 16:49+0000\n"
+"PO-Revision-Date: 2024-09-18 23:58+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
@@ -305,8 +305,8 @@ msgstr "Jednotky připomínky narozenin a výročí"
 msgid ""
 "Units for a birthday or anniversary reminder, “minutes”, “hours” or “days”"
 msgstr ""
-"Jednotky pro připomínku narozenin a výročí, „minutes“ (minuty), "
-"„hours“ (hodiny) nebo „days“ (dny)"
+"Jednotky pro připomínku narozenin a výročí, „minutes“ (minuty), „hours“ "
+"(hodiny) nebo „days“ (dny)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 msgid "Compress weekends in month view"
@@ -893,8 +893,8 @@ msgid ""
 "list. “1” (Vertical View) places the preview pane next to the task list"
 msgstr ""
 "Styl rozložení určuje, kde je umístěn panel náhledu vzhledem k seznamu "
-"úkolů. „0“ (klasické zobrazení) umísťuje panel náhledu pod seznam úkolů. "
-"„1“ (svislé zobrazení) umísťuje panel náhledu vedle seznam úkolů"
+"úkolů. „0“ (klasické zobrazení) umísťuje panel náhledu pod seznam úkolů. „1“ "
+"(svislé zobrazení) umísťuje panel náhledu vedle seznam úkolů"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Task preview pane position (vertical)"
@@ -1661,15 +1661,15 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
-"Některé poštovní konference nastavují položku hlavičky „Komu "
-"odpovědět“ (Reply-To) na fiktivní uživatele směřující odpovědi do "
-"konference, i když se dotazují pošťáka Evolution, zda se má vytvořit "
-"soukromá odpověď. Nastavením této volby na ZAPNUTO se zkusí takovéto "
-"hlavičky „Komu odpovědět“ ignorovat tím, že budete dotázání. Pokud použijete "
-"akci soukromé odpovědi, bude odpověď soukromá, avšak pokud použijete akci "
-"„Odpovědět do konference“, budete dotázáni. Prakticky to funguje tak, že se "
-"srovnávají údaje hlavičky „Reply-To“ (Komu odpovědět) a „List-"
-"Post“ (Příjemci konference), jestli jsou tytéž."
+"Některé poštovní konference nastavují položku hlavičky „Komu odpovědět“ "
+"(Reply-To) na fiktivní uživatele směřující odpovědi do konference, i když se "
+"dotazují pošťáka Evolution, zda se má vytvořit soukromá odpověď. Nastavením "
+"této volby na ZAPNUTO se zkusí takovéto hlavičky „Komu odpovědět“ ignorovat "
+"tím, že budete dotázání. Pokud použijete akci soukromé odpovědi, bude "
+"odpověď soukromá, avšak pokud použijete akci „Odpovědět do konference“, "
+"budete dotázáni. Prakticky to funguje tak, že se srovnávají údaje hlavičky "
+"„Reply-To“ (Komu odpovědět) a „List-Post“ (Příjemci konference), jestli jsou "
+"tytéž."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "List of localized “Re”"
@@ -2141,8 +2141,8 @@ msgid ""
 "message list."
 msgstr ""
 "Styl rozložení určuje, kde je umístěn panel náhledu vzhledem k seznamu "
-"zpráv. „0“ (klasické zobrazení) umísťuje panel náhledu pod seznam zpráv. "
-"„1“ (svislé zobrazení) umísťuje panel náhledu vedle seznamu zpráv."
+"zpráv. „0“ (klasické zobrazení) umísťuje panel náhledu pod seznam zpráv. „1“ "
+"(svislé zobrazení) umísťuje panel náhledu vedle seznamu zpráv."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Variable width font"
@@ -8363,7 +8363,7 @@ msgstr "Naposledy změněno"
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:9
 #: ../src/calendar/gui/e-memo-table.etspec.h:8
 #: ../src/calendar/gui/e-task-table.etspec.h:16
-#: ../src/em-format/e-mail-formatter-source.c:118
+#: ../src/em-format/e-mail-formatter-source.c:164
 msgid "Source"
 msgstr "Zdroj"
 
@@ -13452,7 +13452,7 @@ msgstr "Šifrování"
 msgid "Encrypted by:"
 msgstr "Šifrováno: "
 
-#: ../src/em-format/e-mail-formatter-source.c:119
+#: ../src/em-format/e-mail-formatter-source.c:165
 msgid "Display source of a MIME part"
 msgstr "Zobrazit zdroj části MIME"
 
@@ -17873,7 +17873,7 @@ msgstr "Soubor byl odstraněn."
 msgid "Removing attachments"
 msgstr "Odstraňují se přílohy"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1584
+#: ../src/libemail-engine/e-mail-folder-utils.c:1632
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
@@ -17881,7 +17881,7 @@ msgstr[0] "Ukládá se %d zpráva"
 msgstr[1] "Ukládají se %d zprávy"
 msgstr[2] "Ukládá se %d zpráv"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1973
+#: ../src/libemail-engine/e-mail-folder-utils.c:2053
 #, c-format
 msgid "Invalid folder URI “%s”"
 msgstr "Neplatná adresa URI složky: „%s“"
@@ -29304,8 +29304,8 @@ msgid ""
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
 msgstr ""
 "Spustit Evolution se zobrazením vybrané komponenty. K dispozici jsou volby "
-"„mail“ (pošta), „calendar“ (kalendář), „contacts“ (kontakty), "
-"„tasks“ (úkoly) a „memos“ (poznámky)."
+"„mail“ (pošta), „calendar“ (kalendář), „contacts“ (kontakty), „tasks“ "
+"(úkoly) a „memos“ (poznámky)."
 
 #: ../src/shell/e-shell.c:1974
 msgid "Apply the given geometry to the main window"
@@ -29335,7 +29335,7 @@ msgstr "Zakázat panel náhledu pošty, kontaktů a úloh."
 
 #: ../src/shell/e-shell.c:1992
 msgid "Import URIs or filenames given as rest of arguments."
-msgstr "Importovat adresu URI nebo názvy souborů dané jako zbytek argumentů."
+msgstr "Importovat adresy URI nebo názvy souborů dané jako zbytek argumentů."
 
 #: ../src/shell/e-shell.c:1994
 msgid "Request a running Evolution process to quit"
