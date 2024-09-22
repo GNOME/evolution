@@ -36,14 +36,14 @@
       <p>Select the type <gui>CalDAV</gui>.</p>
     </item>
     <item>
+      <p>To discover the calendars, announced by the server, enter the server address as <gui>URL</gui> and optionally <gui>User</gui>, then click on <gui style="button">Find Calendars</gui>. Select a calendar and <gui>User mail</gui>.
+         This prefills the fields <gui>Name</gui>, <gui>Color</gui>, <gui>URL</gui> and (see below) <gui>Email</gui>. The step is optional, and you can overwrite all discovered settings.</p>
+    </item>
+    <item>
       <p>Enter a name that you prefer.</p>
     </item>
     <item>
       <p>Optionally choose a color that you prefer.</p>
-    </item>
-    <item>
-      <p>Choose if you want to be able to view the content also when being
-      offline.</p>
     </item>
     <item>
       <p>Enter the address in the <gui>URL</gui> field.</p>
@@ -53,7 +53,12 @@
       securely.</p>
     </item>
     <item>
-      <p>Enter your username and your email address.</p>
+      <p>Enter your username and email address. When a meeting is created in the calendar, this email address is prefilled as Organizer.</p>
+    </item>
+    <item>
+      <p>When a meeting is created, modified or deleted, a notification can be sent to the other parties of the meeting.
+      If <gui>Server handles meeting invitations</gui> is selected, <app>Evolution</app> uploads the meeting and assumes
+      that the server informs other parties. When the option is not selected, <app>Evolution</app> sends an email.</p>
     </item>
     <item>
       <p>Click <gui style="button">OK</gui>.</p>
@@ -62,4 +67,8 @@
 
   <p>The calendar will be added to the list of calendars in <app>Evolution</app>.</p>
 
+  <section>
+    <title>Collection accounts</title>
+    <p>Different types of mail, addressbooks, calendars, task and memo lists, belonging to the same user, can be added in one step by utilizing a <link xref="intro-account-types#collection-account">Collection account</link>.</p>
+  </section>
 </page>

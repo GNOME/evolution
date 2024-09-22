@@ -13,10 +13,10 @@
 
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
-    <desc>Using an online Webcal/WebDAV calendar.</desc>
+    <desc>Using an online Webcal/HTTP calendar.</desc>
   </info>
 
-  <title>Using a WebDAV calendar</title>
+  <title>Using a Webcal calendar</title>
 
   <p>Calendars of this type are read-only.</p>
 

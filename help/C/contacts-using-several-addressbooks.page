@@ -28,4 +28,8 @@
   <p>You can also use address books that are not on your computer, such as on
   the internet (e.g. Google) or in a local network (e.g. LDAP).</p>
 
+  <section>
+    <title>Collection accounts</title>
+    <p>Different types of mail, addressbooks, calendars, task and memo lists, belonging to the same user, can be added in one step, by utilizing a <link xref="intro-account-types#collection-account">Collection account</link>.</p>
+  </section>
 </page>

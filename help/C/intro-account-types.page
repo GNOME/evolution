@@ -1,0 +1,57 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      xmlns:e="http://projectmallard.org/experimental/"
+      xmlns:if="http://projectmallard.org/if/1.0/"
+      xmlns:ui="http://projectmallard.org/ui/1.0/"
+      type="topic" id="intro-account-types">
+
+  <info>
+    <desc>Read what data can be managed.</desc>
+
+    <link type="guide" xref="index#getting-started"/>
+
+    <revision pkgversion="3.28.2" version="0.9" date="2024-09-22" status="stub"/>
+    <credit type="author">
+      <name its:translate="no">Дилян Палаузов</name>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+  </info>
+
+  <title>What account types are supported</title>
+
+  <p><app>Evolution</app> supports these types of accounts:</p>
+  <list>
+    <item>
+      <p>Email access — <link xref="intro-first-run#receiving">receiving</link> and <link xref="intro-first-run#sending">sending</link></p>
+    </item>
+    <item>
+      <p><link xref="contacts-using-several-addressbooks">Contacts</link></p>
+    </item>
+    <item>
+      <p><link xref="calendar-using-several-calendars">Calendars</link>, <link xref="tasks-using-several-tasklists">Tasks and Memos</link></p>
+    </item>
+    <item>
+      <p>Collection accounts</p>
+    </item>
+    <item>
+      <p>RSS feeds</p>
+    </item>
+  </list>
+
+<section id="collection-account">
+  <title>Collection Account</title>
+  <p>This account type can for a single user name bind several data sources together - Email (like IMAP, POP3, SMTP), Contacts (like CardDAV, LDAP), Calendars (like CalDAV), Task Lists, Memo Lists. Some of these, like CalDAV or CardDAV accounts, can add all the address books, calendars, task lists or memo lists from the server and keep them in sync with the content advertised by the server.</p>
+  <p>To setup this account type, select <guiseq><gui>File</gui><gui>New</gui><gui>Collection account</gui></guiseq>. To discover only sources, not requiring authentication, leave <gui>Email Address or User name</gui> empty and fill <guiseq><gui>Advanced options</gui><gui>Server</gui></guiseq>.</p>
+</section>
+<section id="rss">
+  <title>RSS feeds</title>
+  <p>To configure an RSS feed select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>News and Blogs</gui></guiseq>.</p>
+</section>
+<section id="evolution-accounts">
+  <title>The Evolution Accounts window</title>
+  <p>An overview of all configured <gui>Evolution Accounts</gui> is available under <guiseq><gui>Edit</gui><gui>Accounts</gui></guiseq>.</p>
+  <p>Each Collection account shows there its own Mail Accounts, Address Books, Calendars, Memo Lists and Task Lists, as announced by the server. Unfolding each type allows to enable or disable the local synchronization for that source.</p>
+  <p>For enabled Collection accounts with CalDAV and CardDAV sources the <gui style="button">Refresh</gui> button fetches the list of remote sources locally and requests from the server the color and name of the WebDAV collections. If they were modified remotely, but not locally, the local name and color are synchronized from the server. The list of the sources is refreshed daily.</p>
+</section>
+</page>

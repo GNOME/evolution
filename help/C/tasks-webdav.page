@@ -2,7 +2,7 @@
       type="topic" id="tasks-webdav">
 
   <info>
-    <desc>Using an online WebDAV task list or memo list.</desc>
+    <desc>Using an online HTTP task list or memo list.</desc>
     
     <link type="guide" xref="tasks-using-several-tasklists"/>
 
@@ -17,7 +17,7 @@
 
   </info>
 
-<title>Using a WebDAV task or memo list</title>
+<title>Using a HTTP task or memo list</title>
 
 <p>Lists of this type are read-only.</p>
 

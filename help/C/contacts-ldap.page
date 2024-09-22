@@ -41,24 +41,26 @@
       <gui>Address Book</gui></guiseq>.</p>
     </item>
     <item>
-      <p>In the <gui>General</gui> tab, select the type
+      <p>In the <gui>Type</gui> field, select
       <gui>On LDAP Servers</gui>.</p>
     </item>
     <item>
       <p>Enter a name that you prefer.</p>
     </item>
     <item>
-      <p>Enter the address of the server, the port number (the default number
-      is 389) and whether you want to connect securely.</p>
+      <p>In the <gui>Connecting to LDAP</gui> tab:</p>
+      <list>
+        <item>
+          <p>Enter the address of the server, the port number (the default number
+          is 389) and whether you want to connect securely.</p>
+        </item>
+        <item>
+          <p>Define the login method and your username.</p>
+        </item>
+      </list>
     </item>
     <item>
-      <p>Define the login method and your username.</p>
-    </item>
-    <item>
-      <p>Click <gui style="button">OK</gui>.</p>
-    </item>
-    <item>
-      <p>In the <gui>Details</gui> tab you can define the following
+      <p>In the <gui>Using LDAP</gui> tab you define the following
       settings:</p>
       <list>
         <item>
@@ -100,16 +102,16 @@
           </list>
         </item>
         <item>
-	  <p>Timeout (minutes): The maximum time <app>Evolution</app> attempts
-	  to download data from the server before giving up.</p>
-        </item>
-        <item>
 	  <p>Download Limit: The maximum number of results for a given search.
 	  Most servers refuse to send more than 500 contacts, but you can set
 	  the number lower if you want to shorten downloads for very broad
-	  searches.</p>
+	  searches. This option is ignored, if <gui>Copy book content locally
+	  for offline operation</gui> is checked.</p>
         </item>
       </list>
+    </item>
+    <item>
+      <p>Click <gui style="button">OK</gui>.</p>
     </item>
   </steps>
 
