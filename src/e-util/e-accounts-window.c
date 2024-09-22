@@ -781,6 +781,7 @@ accounts_window_update_enabled (EAccountsWindow *accounts_window,
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model = NULL;
+	ESource *source2;
 
 	g_return_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window));
 	g_return_if_fail (E_IS_SOURCE (source));
@@ -789,6 +790,13 @@ accounts_window_update_enabled (EAccountsWindow *accounts_window,
 		return;
 
 	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, COLUMN_BOOL_ENABLED, enabled, -1);
+
+	source2 = e_accounts_window_ref_selected_source (accounts_window);
+	if (source == source2) {
+		gtk_widget_set_sensitive (accounts_window->priv->refresh_backend_button,
+			enabled && e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION));
+	}
+	g_clear_object (&source2);
 }
 
 static void
@@ -1091,7 +1099,7 @@ accounts_window_selection_changed_cb (GtkTreeSelection *selection,
 	gtk_widget_set_sensitive (accounts_window->priv->edit_button, (editing_flags & E_SOURCE_EDITING_FLAG_CAN_EDIT) != 0);
 	gtk_widget_set_sensitive (accounts_window->priv->delete_button, (editing_flags & E_SOURCE_EDITING_FLAG_CAN_DELETE) != 0);
 	gtk_widget_set_sensitive (accounts_window->priv->refresh_backend_button,
-		source && e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION));
+		source && e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION) && e_source_get_enabled (source));
 
 	g_signal_emit (accounts_window, signals[SELECTION_CHANGED], 0, source);
 
