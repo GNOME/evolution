@@ -122,7 +122,7 @@ e_html_editor_link_popover_show (GtkWidget *widget)
 	e_content_editor_link_get_properties (cnt_editor, &href, &text, &name);
 	if ((href && *href) || (name && *name)) {
 		gtk_entry_set_text (GTK_ENTRY (self->uri_entry), href);
-		gtk_button_set_label (GTK_BUTTON (self->save_button), _("_Update"));
+		gtk_button_set_label (GTK_BUTTON (self->save_button), _("Upd_ate"));
 	} else {
 		gtk_button_set_label (GTK_BUTTON (self->save_button), _("_Add"));
 	}
