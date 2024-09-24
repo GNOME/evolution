@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-09-04 05:42+0000\n"
-"PO-Revision-Date: 2024-09-04 16:17+0200\n"
+"POT-Creation-Date: 2024-09-24 14:54+0000\n"
+"PO-Revision-Date: 2024-09-24 21:33+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -3883,7 +3883,7 @@ msgstr "_Natisni"
 
 #. == Button box ==
 #: ../data/ui/evolution-mail-viewer.ui.h:6 ../src/calendar/gui/e-comp-editor.c:2199
-#: ../src/composer/e-composer-actions.c:333 ../src/e-util/e-accounts-window.c:1786
+#: ../src/composer/e-composer-actions.c:333 ../src/e-util/e-accounts-window.c:1794
 #: ../src/e-util/e-html-editor-dialog.c:181 ../src/e-util/e-mail-signature-editor.c:329
 #: ../src/e-util/e-name-selector-dialog.c:532 ../src/e-util/e-preferences-window.c:323
 #: ../src/e-util/e-table-field-chooser-dialog.c:197 ../src/mail/e-mail-browser.c:158
@@ -3896,7 +3896,7 @@ msgstr "_Zapri"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:7 ../src/calendar/gui/e-comp-editor-page-general.c:1527
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2318
-#: ../src/calendar/gui/e-comp-editor.c:2285 ../src/e-util/e-accounts-window.c:1753
+#: ../src/calendar/gui/e-comp-editor.c:2285 ../src/e-util/e-accounts-window.c:1761
 #: ../src/e-util/e-html-editor-actions.c:1188 ../src/e-util/e-mail-signature-manager.c:345
 #: ../src/e-util/e-webdav-browser.c:2881 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:718 ../src/mail/e-mail-browser.c:209
@@ -4585,7 +4585,7 @@ msgstr "Stik s tem naslovom že obstaja. Ali želite vseeno dodati novo vizitko 
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1519 ../src/e-util/e-accounts-window.c:1571
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1519 ../src/e-util/e-accounts-window.c:1579
 #: ../src/e-util/e-html-editor-link-popover.c:127 ../src/e-util/e-html-editor-link-popover.c:299
 #: ../src/e-util/e-mail-signature-manager.c:315 ../src/e-util/e-name-selector-dialog.c:1006
 #: ../src/e-util/filter.ui.h:25 ../src/mail/e-mail-account-manager.c:709
@@ -6019,7 +6019,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Ali ste prepričani, da želite izbrisati stik (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1856
-#: ../src/calendar/gui/e-comp-editor.c:2220 ../src/e-util/e-accounts-window.c:1761
+#: ../src/calendar/gui/e-comp-editor.c:2220 ../src/e-util/e-accounts-window.c:1769
 #: ../src/e-util/e-focus-tracker.c:808 ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2888 ../src/mail/e-mail-account-manager.c:727
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1451
@@ -8149,7 +8149,7 @@ msgstr "Izvorna koda"
 
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:11 ../src/calendar/gui/e-meeting-list-view.c:638
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4 ../src/calendar/gui/e-memo-table.etspec.h:3
-#: ../src/calendar/gui/e-task-table.etspec.h:3 ../src/e-util/e-accounts-window.c:1451
+#: ../src/calendar/gui/e-task-table.etspec.h:3 ../src/e-util/e-accounts-window.c:1459
 #: ../src/e-util/e-attachment-tree-view.c:209 ../src/e-util/e-collection-account-wizard.c:2082
 #: ../src/e-util/e-webdav-browser.c:2555 ../src/mail/e-mail-account-tree-view.c:151
 msgid "Type"
@@ -13212,31 +13212,31 @@ msgid "evolution calendar item"
 msgstr "predmet koledarja evolution"
 
 #: ../src/e-util/e-accounts-window.c:555 ../src/e-util/e-accounts-window.c:672
-#: ../src/e-util/e-accounts-window.c:902 ../src/modules/mail/e-mail-shell-backend.c:1167
+#: ../src/e-util/e-accounts-window.c:910 ../src/modules/mail/e-mail-shell-backend.c:1167
 msgid "Mail Accounts"
 msgstr "Poštni računi"
 
 #: ../src/e-util/e-accounts-window.c:562 ../src/e-util/e-accounts-window.c:708
-#: ../src/e-util/e-accounts-window.c:916
+#: ../src/e-util/e-accounts-window.c:924
 msgid "Address Books"
 msgstr "Imenik"
 
 #: ../src/e-util/e-accounts-window.c:568 ../src/e-util/e-accounts-window.c:709
-#: ../src/e-util/e-accounts-window.c:917 ../src/modules/calendar/e-calendar-preferences.ui.h:104
+#: ../src/e-util/e-accounts-window.c:925 ../src/modules/calendar/e-calendar-preferences.ui.h:104
 msgid "Calendars"
 msgstr "Koledarji"
 
 #: ../src/e-util/e-accounts-window.c:574 ../src/e-util/e-accounts-window.c:710
-#: ../src/e-util/e-accounts-window.c:918
+#: ../src/e-util/e-accounts-window.c:926
 msgid "Memo Lists"
 msgstr "Seznam opomnikov"
 
 #: ../src/e-util/e-accounts-window.c:580 ../src/e-util/e-accounts-window.c:711
-#: ../src/e-util/e-accounts-window.c:919 ../src/modules/calendar/e-calendar-preferences.ui.h:105
+#: ../src/e-util/e-accounts-window.c:927 ../src/modules/calendar/e-calendar-preferences.ui.h:105
 msgid "Task Lists"
 msgstr "Seznam nalog"
 
-#: ../src/e-util/e-accounts-window.c:1407 ../src/e-util/filter.ui.h:23
+#: ../src/e-util/e-accounts-window.c:1415 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:77 ../src/modules/mail/em-composer-prefs.c:1735
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
 #: ../src/plugins/mail-notification/mail-notification.c:1193
@@ -13244,49 +13244,49 @@ msgstr "Seznam nalog"
 msgid "Enabled"
 msgstr "Omogočeno"
 
-#: ../src/e-util/e-accounts-window.c:1423 ../src/mail/e-mail-account-tree-view.c:101
+#: ../src/e-util/e-accounts-window.c:1431 ../src/mail/e-mail-account-tree-view.c:101
 #: ../src/plugins/mail-notification/mail-notification.c:1209
 msgid "Account Name"
 msgstr "Ime računa"
 
-#: ../src/e-util/e-accounts-window.c:1490
+#: ../src/e-util/e-accounts-window.c:1498
 msgid "Collection _Account"
 msgstr "_Zbirni račun"
 
-#: ../src/e-util/e-accounts-window.c:1491
+#: ../src/e-util/e-accounts-window.c:1499
 msgid "_Mail Account"
 msgstr "_Poštni računi"
 
-#: ../src/e-util/e-accounts-window.c:1492
+#: ../src/e-util/e-accounts-window.c:1500
 msgid "Address _Book"
 msgstr "_Imenik"
 
-#: ../src/e-util/e-accounts-window.c:1493
+#: ../src/e-util/e-accounts-window.c:1501
 msgid "_Calendar"
 msgstr "_Koledar"
 
-#: ../src/e-util/e-accounts-window.c:1494
+#: ../src/e-util/e-accounts-window.c:1502
 msgid "M_emo List"
 msgstr "Seznam _opomnikov"
 
-#: ../src/e-util/e-accounts-window.c:1495
+#: ../src/e-util/e-accounts-window.c:1503
 msgid "_Task List"
 msgstr "Seznam _nalog"
 
-#: ../src/e-util/e-accounts-window.c:1692
+#: ../src/e-util/e-accounts-window.c:1700
 msgid "Evolution Accounts"
 msgstr "Računi Evolution"
 
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1769 ../src/e-util/e-webdav-browser.c:2899
+#: ../src/e-util/e-accounts-window.c:1777 ../src/e-util/e-webdav-browser.c:2899
 #: ../src/mail/em-subscription-editor.c:1948 ../src/modules/mail/e-mail-shell-view-actions.c:1616
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1694
 msgid "_Refresh"
 msgstr "_Osveži"
 
-#: ../src/e-util/e-accounts-window.c:1770
+#: ../src/e-util/e-accounts-window.c:1778
 msgid "Initiates refresh of account sources"
 msgstr "Izvede osvežitev virov računa"
 
@@ -15390,10 +15390,9 @@ msgstr "_Preizkusni naslov URL …"
 msgid "Image Properties"
 msgstr "Lastnosti slike"
 
-#: ../src/e-util/e-html-editor-link-popover.c:125 ../src/modules/itip-formatter/itip-view.c:1341
-#: ../src/smime/gui/certificate-manager.c:1603
-msgid "_Update"
-msgstr "_Posodobi"
+#: ../src/e-util/e-html-editor-link-popover.c:125
+msgid "Upd_ate"
+msgstr "Posodo_bi"
 
 #: ../src/e-util/e-html-editor-link-popover.c:196
 msgid "Link Properties"
@@ -25492,6 +25491,10 @@ msgstr "_Pošlji podatke"
 #: ../src/modules/itip-formatter/itip-view.c:1338
 msgid "_Update Attendee Status"
 msgstr "_Posodobi stanje udeleženca"
+
+#: ../src/modules/itip-formatter/itip-view.c:1341 ../src/smime/gui/certificate-manager.c:1603
+msgid "_Update"
+msgstr "_Posodobi"
 
 #: ../src/modules/itip-formatter/itip-view.c:1344
 msgid "Im_port"
