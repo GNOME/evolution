@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-09-04 15:41+0000\n"
-"PO-Revision-Date: 2024-09-04 20:09+0300\n"
+"POT-Creation-Date: 2024-09-24 14:54+0000\n"
+"PO-Revision-Date: 2024-09-24 19:20+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4291,7 +4291,7 @@ msgstr "_Надрукувати"
 #: ../data/ui/evolution-mail-viewer.ui.h:6
 #: ../src/calendar/gui/e-comp-editor.c:2199
 #: ../src/composer/e-composer-actions.c:333
-#: ../src/e-util/e-accounts-window.c:1786
+#: ../src/e-util/e-accounts-window.c:1794
 #: ../src/e-util/e-html-editor-dialog.c:181
 #: ../src/e-util/e-mail-signature-editor.c:329
 #: ../src/e-util/e-name-selector-dialog.c:532
@@ -4311,7 +4311,7 @@ msgstr "_Закрити"
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1527
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2318
 #: ../src/calendar/gui/e-comp-editor.c:2285
-#: ../src/e-util/e-accounts-window.c:1753
+#: ../src/e-util/e-accounts-window.c:1761
 #: ../src/e-util/e-html-editor-actions.c:1188
 #: ../src/e-util/e-mail-signature-manager.c:345
 #: ../src/e-util/e-webdav-browser.c:2881 ../src/e-util/filter.ui.h:26
@@ -5016,7 +5016,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1519
-#: ../src/e-util/e-accounts-window.c:1571
+#: ../src/e-util/e-accounts-window.c:1579
 #: ../src/e-util/e-html-editor-link-popover.c:127
 #: ../src/e-util/e-html-editor-link-popover.c:299
 #: ../src/e-util/e-mail-signature-manager.c:315
@@ -6516,7 +6516,7 @@ msgstr "Вилучити цей контакт (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1856
 #: ../src/calendar/gui/e-comp-editor.c:2220
-#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-focus-tracker.c:808
+#: ../src/e-util/e-accounts-window.c:1769 ../src/e-util/e-focus-tracker.c:808
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2888
 #: ../src/mail/e-mail-account-manager.c:727
@@ -7105,7 +7105,6 @@ msgstr ""
 "зустріч скасовано."
 
 #: ../src/calendar/calendar.error.xml.h:11
-#| msgid "_Delete and Sent Notice"
 msgid "_Delete and Send Notice"
 msgstr "Вилучити і _надіслати сповіщення"
 
@@ -8783,7 +8782,7 @@ msgstr "Джерело"
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3
-#: ../src/e-util/e-accounts-window.c:1451
+#: ../src/e-util/e-accounts-window.c:1459
 #: ../src/e-util/e-attachment-tree-view.c:209
 #: ../src/e-util/e-collection-account-wizard.c:2082
 #: ../src/e-util/e-webdav-browser.c:2555
@@ -14030,34 +14029,34 @@ msgid "evolution calendar item"
 msgstr "елемент календаря Evolution"
 
 #: ../src/e-util/e-accounts-window.c:555 ../src/e-util/e-accounts-window.c:672
-#: ../src/e-util/e-accounts-window.c:902
+#: ../src/e-util/e-accounts-window.c:910
 #: ../src/modules/mail/e-mail-shell-backend.c:1167
 msgid "Mail Accounts"
 msgstr "Облікові записи"
 
 #: ../src/e-util/e-accounts-window.c:562 ../src/e-util/e-accounts-window.c:708
-#: ../src/e-util/e-accounts-window.c:916
+#: ../src/e-util/e-accounts-window.c:924
 msgid "Address Books"
 msgstr "Адресні книги"
 
 #: ../src/e-util/e-accounts-window.c:568 ../src/e-util/e-accounts-window.c:709
-#: ../src/e-util/e-accounts-window.c:917
+#: ../src/e-util/e-accounts-window.c:925
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:104
 msgid "Calendars"
 msgstr "Календарі"
 
 #: ../src/e-util/e-accounts-window.c:574 ../src/e-util/e-accounts-window.c:710
-#: ../src/e-util/e-accounts-window.c:918
+#: ../src/e-util/e-accounts-window.c:926
 msgid "Memo Lists"
 msgstr "Списки приміток"
 
 #: ../src/e-util/e-accounts-window.c:580 ../src/e-util/e-accounts-window.c:711
-#: ../src/e-util/e-accounts-window.c:919
+#: ../src/e-util/e-accounts-window.c:927
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:105
 msgid "Task Lists"
 msgstr "Списки завдань"
 
-#: ../src/e-util/e-accounts-window.c:1407 ../src/e-util/filter.ui.h:23
+#: ../src/e-util/e-accounts-window.c:1415 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:77
 #: ../src/modules/mail/em-composer-prefs.c:1735
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
@@ -14066,51 +14065,51 @@ msgstr "Списки завдань"
 msgid "Enabled"
 msgstr "Активно"
 
-#: ../src/e-util/e-accounts-window.c:1423
+#: ../src/e-util/e-accounts-window.c:1431
 #: ../src/mail/e-mail-account-tree-view.c:101
 #: ../src/plugins/mail-notification/mail-notification.c:1209
 msgid "Account Name"
 msgstr "Назва облікового запису"
 
-#: ../src/e-util/e-accounts-window.c:1490
+#: ../src/e-util/e-accounts-window.c:1498
 msgid "Collection _Account"
 msgstr "_Обліковий запис-збірка"
 
-#: ../src/e-util/e-accounts-window.c:1491
+#: ../src/e-util/e-accounts-window.c:1499
 msgid "_Mail Account"
 msgstr "Обліковий запис _пошти"
 
-#: ../src/e-util/e-accounts-window.c:1492
+#: ../src/e-util/e-accounts-window.c:1500
 msgid "Address _Book"
 msgstr "Адресна _книга"
 
-#: ../src/e-util/e-accounts-window.c:1493
+#: ../src/e-util/e-accounts-window.c:1501
 msgid "_Calendar"
 msgstr "_Календар"
 
-#: ../src/e-util/e-accounts-window.c:1494
+#: ../src/e-util/e-accounts-window.c:1502
 msgid "M_emo List"
 msgstr "Список _приміток"
 
-#: ../src/e-util/e-accounts-window.c:1495
+#: ../src/e-util/e-accounts-window.c:1503
 msgid "_Task List"
 msgstr "Список _завдань"
 
-#: ../src/e-util/e-accounts-window.c:1692
+#: ../src/e-util/e-accounts-window.c:1700
 msgid "Evolution Accounts"
 msgstr "Облікові записи Evolution"
 
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1769 ../src/e-util/e-webdav-browser.c:2899
+#: ../src/e-util/e-accounts-window.c:1777 ../src/e-util/e-webdav-browser.c:2899
 #: ../src/mail/em-subscription-editor.c:1948
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1616
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1694
 msgid "_Refresh"
 msgstr "_Оновити"
 
-#: ../src/e-util/e-accounts-window.c:1770
+#: ../src/e-util/e-accounts-window.c:1778
 msgid "Initiates refresh of account sources"
 msgstr "Ініціює оновлення джерел облікових записів"
 
@@ -16279,10 +16278,8 @@ msgid "Image Properties"
 msgstr "Властивості зображення"
 
 #: ../src/e-util/e-html-editor-link-popover.c:125
-#: ../src/modules/itip-formatter/itip-view.c:1341
-#: ../src/smime/gui/certificate-manager.c:1603
-msgid "_Update"
-msgstr "_Оновити"
+msgid "Upd_ate"
+msgstr "О_новити"
 
 #: ../src/e-util/e-html-editor-link-popover.c:196
 msgid "Link Properties"
@@ -26663,6 +26660,11 @@ msgstr "Надіслати _інформацію"
 #: ../src/modules/itip-formatter/itip-view.c:1338
 msgid "_Update Attendee Status"
 msgstr "_Оновити стан учасника"
+
+#: ../src/modules/itip-formatter/itip-view.c:1341
+#: ../src/smime/gui/certificate-manager.c:1603
+msgid "_Update"
+msgstr "_Оновити"
 
 #: ../src/modules/itip-formatter/itip-view.c:1344
 msgid "Im_port"
