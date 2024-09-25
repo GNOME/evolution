@@ -54,8 +54,8 @@
  </steps>
 <note style="tip">
   <p>If the error message "xdg-settings: command not found" is shown, you need to install the package <sys>xdg-utils</sys>.</p>
-    <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
-      <if:when test="action:install">
+  <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
+    <if:when test="action:install">
       <p><link action="install:xdg-utils" style="button">Install xdg-utils</link></p>
     </if:when>
   </if:choose>

@@ -29,8 +29,8 @@
 
 <note style="info package">
   <p>You might need to install <sys>hunspell</sys> and/or <sys>enchant</sys> to perform these steps.</p>
-    <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
-      <if:when test="action:install">
+  <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
+    <if:when test="action:install">
       <p><link action="install:hunspell" href="http://hunspell.sourceforge.net/" style="button">Install hunspell</link></p>
       <p><link action="install:enchant" href="http://www.abisource.com/projects/enchant/" style="button">Install enchant</link></p>
     </if:when>

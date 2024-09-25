@@ -41,8 +41,8 @@
 
 <note style="info package">
   <p>You might need to install <app>Bogofilter</app> or <app>SpamAssassin</app> to perform these steps.</p>
-    <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
-      <if:when test="action:install">
+  <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
+    <if:when test="action:install">
       <p><link action="install:bogofilter" href="http://bogofilter.sourceforge.net/" style="button">Install bogofilter</link></p>
       <p><link action="install:spamassassin" href="http://spamassassin.apache.org/" style="button">Install spamassassin</link></p>
     </if:when>

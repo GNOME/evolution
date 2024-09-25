@@ -25,8 +25,8 @@
 
 <note style="info package">
   <p>You might need to install the <sys>dconf-editor</sys> package to perform these steps.</p>
-    <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
-      <if:when test="action:install">
+  <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
+    <if:when test="action:install">
       <p><link action="install:dconf-editor" href="https://ftp.gnome.org/pub/gnome/sources/dconf/" style="button">Install dconf-editor</link></p>
     </if:when>
   </if:choose>
