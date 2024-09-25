@@ -111,7 +111,7 @@
   <p>This requires having the <sys>evolution-ews</sys> package installed.</p>
   <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
     <if:when test="action:install">
-      <p><link action="install:evolution-ews" href="https://wiki.gnome.org/Apps/Evolution#Get_the_Source_Code" style="button">Install evolution-ews</link></p>
+      <p><link action="install:evolution-ews" href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home#get-the-source-code" style="button">Install evolution-ews</link></p>
     </if:when>
   </if:choose>
 </note>
@@ -136,7 +136,7 @@
   <p>This requires having the <sys>evolution-mapi</sys> package installed.</p>
   <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
     <if:when test="action:install">
-      <p><link action="install:evolution-mapi" href="https://wiki.gnome.org/Apps/Evolution#Get_the_Source_Code" style="button">Install evolution-mapi</link></p>
+      <p><link action="install:evolution-mapi" href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home#get-the-source-code" style="button">Install evolution-mapi</link></p>
     </if:when>
   </if:choose>
 </note>

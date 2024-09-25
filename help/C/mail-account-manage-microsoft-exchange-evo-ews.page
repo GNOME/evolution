@@ -25,7 +25,7 @@
 <p>Mail accounts can be added by choosing <guiseq><gui>File</gui><gui>New</gui><gui>Mail Account</gui></guiseq> or via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Add</gui></guiseq>. The steps are mostly the same as for the <link xref="intro-first-run">First-Run Assistant</link>, except for not getting asked whether to import data from other applications or to restore from a backup file.</p>
 <p>Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui></guiseq> or by right-clicking on the respective top-level node in the folder list and choosing <gui>Properties</gui>.</p>
 
-<note style="tip"><p>See also the <link href="https://wiki.gnome.org/Apps/Evolution/EWS/OAuth2">documentation how to set up and troubleshoot OAuth2</link> authentication.</p></note>
+<note style="tip"><p>See also the <link href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/EWS-OAuth2">documentation how to set up and troubleshoot OAuth2</link> authentication.</p></note>
 
 <p>The following settings are available when editing an existing account:</p>
 

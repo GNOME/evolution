@@ -28,7 +28,7 @@
 <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
   <if:when test="action:install">
     <note style="info package">
-      <p><link action="install:evolution-ews" href="https://wiki.gnome.org/Apps/Evolution#Get_the_Source_Code" style="button">Install evolution-ews</link></p>
+      <p><link action="install:evolution-ews" href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home#get-the-source-code" style="button">Install evolution-ews</link></p>
     </note>
   </if:when>
 </if:choose>
@@ -38,7 +38,7 @@
 <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
   <if:when test="action:install">
     <note style="info package">
-      <p><link action="install:evolution-mapi" href="https://wiki.gnome.org/Apps/Evolution#Get_the_Source_Code" style="button">Install evolution-mapi</link></p>
+      <p><link action="install:evolution-mapi" href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home#get-the-source-code" style="button">Install evolution-mapi</link></p>
     </note>
   </if:when>
 </if:choose>
