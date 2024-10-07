@@ -27,8 +27,10 @@
 
   <title>Calendar Publishing</title>
 
-  <p>In order to make one of your calendars available to the public, you can
-  define calendars to be uploaded to a web server under
+  <p>In order to make one of your calendars available to the public, enable the
+  Calendar Publishing plugin from <guiseq><gui>Edit</gui><gui>Preferences</gui>
+  <gui>Plugins</gui></guiseq> and restart <app>Evolution</app> to activate it.</p>
+  <p>You can define calendars to be uploaded to a web server under
   <guiseq><gui>Edit</gui><gui>Preferences</gui>
   <gui>Calendar and Tasks</gui>
   <gui>Publishing Information</gui>
@@ -43,6 +45,6 @@
 
   <p>To immediately publish calendar information, click
   <guiseq><gui>Actions</gui><gui>Publish Calendar Information</gui></guiseq> in
-  the calendar.</p>
+  the calendar window.</p>
 
 </page>
