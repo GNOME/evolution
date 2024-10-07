@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2024-07-08 11:55+0000\n"
-"PO-Revision-Date: 2024-07-09 12:46+0300\n"
-"Last-Translator: Fracture dept <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
+"POT-Creation-Date: 2024-10-07 10:22+0000\n"
+"PO-Revision-Date: 2024-10-07 17:49+0300\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -520,7 +520,7 @@ msgstr ""
 "<gui>Адреси</gui><gui>Вільний/зайнятий</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:90 C/calendar-publishing.page:40
+#: C/calendar-free-busy.page:90 C/calendar-publishing.page:42
 msgid ""
 "You can publish Calendar and Free/Busy information to a WebDAV server, FTP "
 "server, a remote machine through SSH or to any other web server with HTTP "
@@ -1319,21 +1319,45 @@ msgstr "Публікація календарів"
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:30
+#| msgid ""
+#| "In order to make one of your calendars available to the public, you can "
+#| "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
+#| "Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
+#| "guiseq>."
 msgid ""
-"In order to make one of your calendars available to the public, you can "
-"define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
-"Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
-"guiseq>."
+"In order to make one of your calendars available to the public, enable the "
+"Calendar Publishing plugin from <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui> <gui>Plugins</gui></guiseq> and restart <app>Evolution</app> to "
+"activate it."
 msgstr ""
-"Щоб зробити один з ваших календарів загальнодоступним, ви можете визначити "
+"Щоб зробити один з ваших календарів загальнодоступним, увімкніть додаток"
+" оприлюднення календарів за допомогою пункту меню <guiseq><gui>Зміни</gui><"
+"gui>Параметри</gui> <gui>Додатки</gui></guiseq> і перезапустіть <app"
+">Evolution</app>, щоб задіяти його."
+
+#. (itstool) path: page/p
+#: C/calendar-publishing.page:33
+#| msgid ""
+#| "In order to make one of your calendars available to the public, you can "
+#| "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
+#| "Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
+#| "guiseq>."
+msgid ""
+"You can define calendars to be uploaded to a web server under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> "
+"<gui>Publishing Information</gui> <gui>Locations</gui><gui "
+"style=\"button\">Add</gui></guiseq>."
+msgstr ""
+"Ви можете визначити "
 "календарі, які вивантажуватимуться на вебсервер, за допомогою кнопки "
 "<guiseq><gui>Зміни</gui><gui>Параметри</gui> <gui>Календар та завдання</gui> "
 "<gui>Оприлюднення інформації</gui> <gui>Адреси</gui><gui "
 "style=\"button\">Додати</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:37
+#: C/calendar-publishing.page:39
 msgid ""
 "You can specify the online location, the frequency of publishing, which "
 "calendar(s) to publish, and authentication information for uploading."
@@ -1342,10 +1366,13 @@ msgstr ""
 "оприлюднення та дані для розпізнавання при оприлюдненні."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:44
+#: C/calendar-publishing.page:46
+#| msgid ""
+#| "To immediately publish calendar information, click <guiseq><gui>Actions</"
+#| "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
-"gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
+"gui><gui>Publish Calendar Information</gui></guiseq> in the calendar window."
 msgstr ""
 "Щоб негайно оприлюднити дані календаря, натисніть <guiseq><gui>Дії</"
 "gui><gui>Публікувати відомості календаря</gui></guiseq> на панелі календаря."
@@ -5302,9 +5329,6 @@ msgstr "Перемикач"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:79
-#| msgid ""
-#| "The switcher at the bottom of the side bar lets you switch between the "
-#| "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks."
 msgid ""
 "The switcher at the bottom of the side bar lets you switch between the "
 "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks. The "
@@ -5314,9 +5338,9 @@ msgid ""
 msgstr ""
 "За допомогою перемикача у нижній частині бічної панелі ви можете "
 "перемикатися між інструментами <app>Evolution</app>: пошта, контакти, "
-"календарі, примітки і завдання. Вигляд перемикача, зокрема те, чи буде"
-" взагалі показано кнопки, можна змінити за допомогою меню <guiseq><gui"
-">Перегляд</gui><gui>Вигляд перемикача</gui></guiseq>."
+"календарі, примітки і завдання. Вигляд перемикача, зокрема те, чи буде "
+"взагалі показано кнопки, можна змінити за допомогою меню "
+"<guiseq><gui>Перегляд</gui><gui>Вигляд перемикача</gui></guiseq>."
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:80
