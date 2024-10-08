@@ -1041,6 +1041,7 @@ gnome_canvas_item_i2c_matrix (GnomeCanvasItem *item,
                               cairo_matrix_t *matrix)
 {
 	cairo_matrix_t i2w, w2c;
+	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
 	gnome_canvas_item_i2w_matrix (item, &i2w);
 	gnome_canvas_w2c_matrix (item->canvas, &w2c);
@@ -1215,6 +1216,8 @@ gnome_canvas_item_get_bounds (GnomeCanvasItem *item,
 void
 gnome_canvas_item_request_update (GnomeCanvasItem *item)
 {
+	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
+
 	if (item->flags & GNOME_CANVAS_ITEM_NEED_UPDATE)
 		return;
 
@@ -3173,12 +3176,14 @@ gnome_canvas_get_item_at (GnomeCanvas *canvas,
 static void
 gnome_canvas_request_update (GnomeCanvas *canvas)
 {
+	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 	GNOME_CANVAS_GET_CLASS (canvas)->request_update (canvas);
 }
 
 static void
 gnome_canvas_request_update_real (GnomeCanvas *canvas)
 {
+	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 	if (canvas->need_update)
 		return;
 
