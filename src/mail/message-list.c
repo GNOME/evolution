@@ -6538,13 +6538,14 @@ message_list_regen_done_cb (GObject *source_object,
 	EActivity *activity;
 	ETree *tree;
 	ETreeTableAdapter *adapter;
-	gboolean was_searching, is_searching;
+	gboolean was_searching, is_searching, has_error;
 	gint row_count;
 	const gchar *start_selection_uid = NULL, *last_row_uid = NULL; /* These are in Camel's string pool */
 	GError *local_error = NULL;
 
 	message_list = MESSAGE_LIST (source_object);
-	regen_data = g_task_propagate_pointer (G_TASK (result), &local_error);
+	regen_data = g_task_get_task_data (G_TASK (result));
+	has_error = g_task_propagate_boolean (G_TASK (result), &local_error);
 
 	/* Withdraw our RegenData from the private struct, if it hasn't
 	 * already been replaced.  We have exclusive access to it now. */
@@ -6561,7 +6562,7 @@ message_list_regen_done_cb (GObject *source_object,
 		g_clear_error (&local_error);
 		return;
 
-	} else if (local_error != NULL) {
+	} else if (has_error) {
 		EAlertSink *alert_sink = e_activity_get_alert_sink (activity);
 		gboolean handled = FALSE;
 
