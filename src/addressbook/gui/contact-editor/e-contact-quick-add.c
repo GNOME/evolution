@@ -517,7 +517,7 @@ build_quick_add_dialog (QuickAdd *qa)
 
 	label = gtk_label_new_with_mnemonic (_("_Full name"));
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, qa->name_entry);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 
 	gtk_table_attach (
 		table, label,
@@ -530,7 +530,7 @@ build_quick_add_dialog (QuickAdd *qa)
 
 	label = gtk_label_new_with_mnemonic (_("E_mail"));
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, qa->email_entry);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 
 	gtk_table_attach (
 		table, label,
@@ -543,7 +543,7 @@ build_quick_add_dialog (QuickAdd *qa)
 
 	label = gtk_label_new_with_mnemonic (_("_Select Address Book"));
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, qa->combo_box);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 
 	gtk_table_attach (
 		table, label,

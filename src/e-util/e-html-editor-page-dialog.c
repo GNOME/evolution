@@ -392,7 +392,7 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 	/* == Colors == */
 	widget = gtk_label_new (_("Colors"));
 	gtk_label_set_attributes (GTK_LABEL (widget), bold);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
@@ -465,7 +465,7 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 
 	widget = gtk_label_new (_("Text"));
 	gtk_label_set_attributes (GTK_LABEL (widget), bold);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
@@ -490,7 +490,7 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 	/* == Background Image == */
 	widget = gtk_label_new (_("Background Image"));
 	gtk_label_set_attributes (GTK_LABEL (widget), bold);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 4, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());

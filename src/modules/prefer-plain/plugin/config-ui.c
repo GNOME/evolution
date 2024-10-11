@@ -125,7 +125,7 @@ prefer_plain_page_factory (EPlugin *epl,
 	gtk_label_set_mnemonic_widget (GTK_LABEL (dropdown_label), (GtkWidget *) dropdown);
 
 	info = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (info), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (info), 0);
 	gtk_label_set_line_wrap (GTK_LABEL (info), TRUE);
 	gtk_label_set_width_chars (GTK_LABEL (info), 40);
 	gtk_label_set_max_width_chars (GTK_LABEL (info), 60);

@@ -646,7 +646,7 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 	str = g_strdup_printf ("<span weight=\"bold\">%s</span>", _("General"));
 	gtk_label_set_markup (GTK_LABEL (frame_label), str);
 	g_free (str);
-	gtk_misc_set_alignment (GTK_MISC (frame_label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (frame_label), 0);
 	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
 
 	/* Indent/padding */
@@ -709,7 +709,7 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 	str = g_strdup_printf ("<span weight=\"bold\">%s</span>", _("Conflict Search"));
 	gtk_label_set_markup (GTK_LABEL (frame_label), str);
 	g_free (str);
-	gtk_misc_set_alignment (GTK_MISC (frame_label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (frame_label), 0);
 	gtk_box_pack_start (GTK_BOX (frame), frame_label, FALSE, FALSE, 0);
 
 	/* Indent/padding */
@@ -722,7 +722,7 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 
 	/* Source selector */
 	label = gtk_label_new (_("Select the calendars to search for meeting conflicts"));
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), label, FALSE, FALSE, 0);
 
 	scrolledwin = gtk_scrolled_window_new (NULL, NULL);

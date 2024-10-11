@@ -230,7 +230,7 @@ e_html_editor_hrule_dialog_init (EHTMLEditorHRuleDialog *dialog)
 	/* == Size == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Size</b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
@@ -282,7 +282,7 @@ e_html_editor_hrule_dialog_init (EHTMLEditorHRuleDialog *dialog)
 	/* == Style == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Style</b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());

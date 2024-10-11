@@ -65,7 +65,7 @@ mail_label_action_menu_item_realize_cb (GtkWidget *menu_item)
 
 	widget = gtk_label_new (NULL);
 	gtk_label_set_use_underline (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 

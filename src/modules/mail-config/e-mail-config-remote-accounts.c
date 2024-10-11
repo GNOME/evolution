@@ -200,7 +200,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	markup = g_markup_printf_escaped ("<b>%s</b>", text);
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (parent), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 	g_free (markup);
@@ -215,7 +215,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	container = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Server:"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
 	gtk_widget_show (widget);
 
@@ -250,7 +250,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	remote_backend->port_error_image = widget;  /* do not reference */
 
 	widget = gtk_label_new_with_mnemonic (_("User_name:"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 
@@ -275,7 +275,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	widget = gtk_label_new (markup);
 	gtk_widget_set_margin_top (widget, 6);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (parent), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 	g_free (markup);
@@ -326,7 +326,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	widget = gtk_label_new (markup);
 	gtk_widget_set_margin_top (widget, 6);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (parent), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 	g_free (markup);

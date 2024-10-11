@@ -2105,7 +2105,7 @@ collection_account_wizard_constructed (GObject *object)
 	markup = g_markup_printf_escaped ("<b>%s</b>", _("Account Information"));
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_widget_set_margin_bottom (widget, 12);
 	gtk_grid_attach (grid, widget, 0, 0, 2, 1);
 	gtk_widget_show (widget);
@@ -2113,7 +2113,7 @@ collection_account_wizard_constructed (GObject *object)
 
 	label = gtk_label_new_with_mnemonic (_("_Name:"));
 	gtk_widget_set_margin_left (label, 12);
-	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 1.0);
 	gtk_grid_attach (grid, label, 0, 1, 1, 1);
 	gtk_widget_show (label);
 
@@ -2130,7 +2130,7 @@ collection_account_wizard_constructed (GObject *object)
 		G_CALLBACK (collection_account_wizard_notify_can_run), wizard);
 
 	widget = gtk_label_new ("The above name will be used to identify this account.\nUse for example, “Work” or “Personal”.");
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (grid, widget, 1, 2, 1, 1);
 	gtk_widget_show (widget);
 

@@ -372,7 +372,7 @@ e_html_editor_spell_check_dialog_init (EHTMLEditorSpellCheckDialog *dialog)
 	/* == Suggestions == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Suggestions</b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 0, 2, 1);
 	dialog->priv->suggestion_label = widget;
 
@@ -452,7 +452,8 @@ e_html_editor_spell_check_dialog_init (EHTMLEditorSpellCheckDialog *dialog)
 	/* Dictionary label */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Dictionary</b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
+	gtk_label_set_yalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 6, 2, 1);
 
 	/* Dictionaries combo */

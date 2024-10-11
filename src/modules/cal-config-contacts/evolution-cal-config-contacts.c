@@ -69,7 +69,7 @@ cal_config_contacts_insert_widgets (ESourceConfigBackend *backend,
 	container = widget;
 
 	widget = gtk_label_new (_("Choose which address books to use."));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 

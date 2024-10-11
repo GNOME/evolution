@@ -1020,7 +1020,7 @@ get_widget (EFilterRule *fr,
 	msg = g_strdup_printf ("<b>%s</b>", _("Then"));
 	label = gtk_label_new (msg);
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 	gtk_container_add (GTK_CONTAINER (widget), label);
 	g_free (msg);
 

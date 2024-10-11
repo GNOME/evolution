@@ -379,7 +379,7 @@ add_text_row (GtkTable *table,
 
 	label = gtk_label_new (description);
 	gtk_widget_show (label);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 	gtk_table_attach (
 		table, label, 0, 1, row, row + 1,
 		GTK_FILL, 0, 0, 0);
@@ -390,7 +390,7 @@ add_text_row (GtkTable *table,
 		gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_MIDDLE);
 	}
 	gtk_widget_show (label);
-	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 1.0);
 	gtk_table_attach (
 		table, label, 1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, 0, 0, 0);

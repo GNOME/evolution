@@ -3726,7 +3726,7 @@ e_calendar_item_show_popup_menu (ECalendarItem *calitem,
 			gtk_container_add (GTK_CONTAINER (submenu), menuitem);
 
 			label = gtk_label_new (name);
-			gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+			gtk_label_set_xalign (GTK_LABEL (label), 0);
 			gtk_widget_show (label);
 			gtk_container_add (GTK_CONTAINER (menuitem), label);
 
