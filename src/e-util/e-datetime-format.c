@@ -658,7 +658,7 @@ e_datetime_format_add_setup_widget (GtkWidget *table,
 	gtk_table_attach ((GtkTable *) table, align, 1, 2, row, row + 1, 0, 0, 2, 0);
 
 	preview = gtk_label_new ("");
-	gtk_misc_set_alignment (GTK_MISC (preview), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (preview), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (preview), PANGO_ELLIPSIZE_END);
 	gtk_table_attach ((GtkTable *) table, preview, 2, 3, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 2, 0);
 

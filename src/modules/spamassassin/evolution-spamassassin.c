@@ -535,7 +535,7 @@ spam_assassin_new_config_widget (EMailJunkFilter *junk_filter)
 	markup = g_markup_printf_escaped (
 		"<b>%s</b>", _("SpamAssassin Options"));
 	widget = gtk_label_new (markup);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
@@ -565,7 +565,7 @@ spam_assassin_new_config_widget (EMailJunkFilter *junk_filter)
 		_("This will make SpamAssassin more reliable, but slower."));
 	widget = gtk_label_new (markup);
 	gtk_widget_set_margin_left (widget, 36);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);

@@ -293,7 +293,7 @@ import_assistant_file_page_init (EImportAssistant *import_assistant)
 	container = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("F_ilename:"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 1, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_table_attach (
 		GTK_TABLE (container), widget,
 		0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
@@ -317,7 +317,7 @@ import_assistant_file_page_init (EImportAssistant *import_assistant)
 	row++;
 
 	widget = gtk_label_new_with_mnemonic (_("File _type:"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 1, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_table_attach (
 		GTK_TABLE (container), widget,
 		0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
@@ -345,7 +345,7 @@ import_assistant_file_page_init (EImportAssistant *import_assistant)
 	row++;
 
 	widget = gtk_label_new_with_mnemonic (_("Pre_view:"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 1, 0);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_table_attach (
 		GTK_TABLE (container), widget,
 		0, 1, row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
@@ -516,7 +516,7 @@ import_assistant_simple_page_init (EImportAssistant *import_assistant)
 	container = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("File _type:"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 1, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_table_attach (
 		GTK_TABLE (container), widget,
 		0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
@@ -606,7 +606,7 @@ prepare_intelligent_page (GtkAssistant *assistant,
 		gtk_widget_show (label);
 		g_free (str);
 
-		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
+		gtk_label_set_xalign (GTK_LABEL (label), 0);
 
 		gtk_table_attach (
 			GTK_TABLE (table), label,
@@ -1389,7 +1389,7 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		page = gtk_label_new ("");
 		gtk_label_set_line_wrap (GTK_LABEL (page), TRUE);
 		gtk_label_set_width_chars (GTK_LABEL (page), 20);
-		gtk_misc_set_alignment (GTK_MISC (page), 0.0, 0.5);
+		gtk_label_set_xalign (GTK_LABEL (page), 0);
 		gtk_misc_set_padding (GTK_MISC (page), 12, 12);
 		gtk_label_set_text (GTK_LABEL (page), _(
 			"Welcome to the Evolution Import Assistant.\n"
@@ -1443,7 +1443,6 @@ import_assistant_construct (EImportAssistant *import_assistant)
 
 		/* Finish page */
 		page = gtk_label_new ("");
-		gtk_misc_set_alignment (GTK_MISC (page), 0.5, 0.5);
 		gtk_label_set_text (
 			GTK_LABEL (page), _("Click “Apply” to "
 			"begin importing the file into Evolution."));

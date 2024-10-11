@@ -760,7 +760,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	label = gtk_label_new_with_mnemonic (_("_Start time:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), (mts->start_date_edit));
 
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 	gtk_table_attach (
 		GTK_TABLE (table), label,
 		0, 1, 0, 1, GTK_FILL, 0, 4, 0);
@@ -789,7 +789,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	label = gtk_label_new_with_mnemonic (_("_End time:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), (mts->end_date_edit));
 
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 	gtk_table_attach (
 		GTK_TABLE (table), label,
 		0, 1, 1, 2, GTK_FILL, 0, 4, 0);
@@ -856,7 +856,7 @@ e_meeting_time_selector_add_key_color (EMeetingTimeSelector *mts,
 	gtk_widget_show (darea);
 
 	label = gtk_label_new (label_text);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 6);
 	gtk_widget_show (label);
 

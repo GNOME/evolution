@@ -2357,12 +2357,14 @@ e_day_view_init (EDayView *day_view)
 
 	widget = gtk_label_new (NULL);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 1.0);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
+	gtk_label_set_yalign (GTK_LABEL (widget), 1.0);
 	day_view->priv->timezone_name_1_label = widget;
 
 	widget = gtk_label_new (NULL);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 1.0);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
+	gtk_label_set_yalign (GTK_LABEL (widget), 1.0);
 	day_view->priv->timezone_name_2_label = widget;
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);

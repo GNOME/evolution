@@ -415,7 +415,7 @@ em_folder_selection_button_init (EMFolderSelectionButton *emfsb)
 
 	emfsb->priv->label = gtk_label_new ("");
 	gtk_label_set_justify (GTK_LABEL (emfsb->priv->label), GTK_JUSTIFY_LEFT);
-	gtk_misc_set_alignment (GTK_MISC (emfsb->priv->label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (emfsb->priv->label), 0);
 	gtk_box_pack_start (GTK_BOX (box), emfsb->priv->label, TRUE, TRUE, 0);
 	gtk_widget_show (emfsb->priv->label);
 

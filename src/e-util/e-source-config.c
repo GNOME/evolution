@@ -998,7 +998,7 @@ e_source_config_init (ESourceConfig *config)
 	 * both up-to-date because it makes the logic simpler. */
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
 	config->priv->type_label = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
@@ -1012,7 +1012,7 @@ e_source_config_init (ESourceConfig *config)
 	 * is a collection member (new sources never are). */
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
 	config->priv->name_label = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
@@ -1093,7 +1093,7 @@ e_source_config_insert_widget (ESourceConfig *config,
 		G_BINDING_SYNC_CREATE);
 
 	label = gtk_label_new (caption);
-	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 1);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
 	gtk_size_group_add_widget (config->priv->size_group, label);
 	gtk_widget_show (label);

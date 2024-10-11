@@ -477,7 +477,7 @@ mail_config_service_page_constructed (GObject *object)
 
 	widget = gtk_label_new_with_mnemonic (_("Server _Type:"));
 	gtk_widget_set_margin_right (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
 	gtk_widget_show (widget);
 
@@ -501,7 +501,7 @@ mail_config_service_page_constructed (GObject *object)
 
 	widget = gtk_label_new (NULL);
 	gtk_widget_set_hexpand (widget, TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
 	gtk_grid_attach (GTK_GRID (container), widget, 2, 0, 1, 1);
 	page->priv->type_label = widget;  /* not referenced */
@@ -509,14 +509,15 @@ mail_config_service_page_constructed (GObject *object)
 
 	widget = gtk_label_new (_("Description:"));
 	gtk_widget_set_margin_right (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.0);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
+	gtk_label_set_yalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 2, 1);
 	page->priv->desc_label = widget;  /* not referenced */
 	gtk_widget_show (widget);

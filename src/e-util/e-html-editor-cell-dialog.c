@@ -397,7 +397,7 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	/* == Scope == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Scope</b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
@@ -448,7 +448,7 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	/* == Alignment & Behavior == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Alignment &amp; Behavior</b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
@@ -517,7 +517,7 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	/* == Layout == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Layout</b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 4, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
@@ -589,7 +589,7 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	/* == Background == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Background</b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 6, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());

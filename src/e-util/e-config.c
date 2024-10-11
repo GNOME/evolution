@@ -1123,7 +1123,7 @@ config_hook_section_factory (EConfig *config,
 
 		label = gtk_label_new (markup);
 		gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-		gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+		gtk_label_set_xalign (GTK_LABEL (label), 0);
 		gtk_widget_show (label);
 
 		g_free (markup);

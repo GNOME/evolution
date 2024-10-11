@@ -479,7 +479,7 @@ e_shell_taskbar_init (EShellTaskbar *shell_taskbar)
 	widget = gtk_label_new (NULL);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_box_pack_start (GTK_BOX (shell_taskbar), widget, TRUE, TRUE, 0);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	shell_taskbar->priv->label = g_object_ref (widget);
 	gtk_widget_hide (widget);
 

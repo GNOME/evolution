@@ -202,7 +202,7 @@ cal_config_local_insert_widgets (ESourceConfigBackend *backend,
 		markup = g_markup_printf_escaped ("<b>%s</b>", _("iCalendar File"));
 		widget = gtk_label_new (markup);
 		gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+		gtk_label_set_xalign (GTK_LABEL (widget), 0);
 		gtk_container_add (GTK_CONTAINER (container), widget);
 		gtk_widget_show (widget);
 		g_free (markup);

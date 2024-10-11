@@ -452,7 +452,7 @@ mail_config_security_page_constructed (GObject *object)
 	markup = g_markup_printf_escaped ("<b>%s</b>", text);
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
 	gtk_widget_show (widget);
 	g_free (markup);
@@ -484,7 +484,7 @@ mail_config_security_page_constructed (GObject *object)
 	markup = g_markup_printf_escaped ("<b>%s</b>", text);
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 2, 1);
 	gtk_widget_show (widget);
 	g_free (markup);
@@ -493,7 +493,7 @@ mail_config_security_page_constructed (GObject *object)
 	widget = gtk_label_new_with_mnemonic (text);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 
@@ -526,7 +526,7 @@ mail_config_security_page_constructed (GObject *object)
 	widget = gtk_label_new_with_mnemonic (text);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
 	gtk_widget_show (widget);
 
@@ -725,7 +725,7 @@ mail_config_security_page_constructed (GObject *object)
 	markup = g_markup_printf_escaped ("<b>%s</b>", text);
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 4, 1);
 	gtk_widget_show (widget);
 	g_free (markup);
@@ -734,7 +734,7 @@ mail_config_security_page_constructed (GObject *object)
 	widget = gtk_label_new_with_mnemonic (text);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 
@@ -776,7 +776,7 @@ mail_config_security_page_constructed (GObject *object)
 	widget = gtk_label_new_with_mnemonic (text);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
 	gtk_widget_show (widget);
 
@@ -832,7 +832,7 @@ mail_config_security_page_constructed (GObject *object)
 	widget = gtk_label_new_with_mnemonic (text);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 1, 1);
 	gtk_widget_show (widget);
 

@@ -884,7 +884,7 @@ build_dialog (GtkWindow *parent,
 		gtk_widget_set_margin_bottom (cancel_button, 12);
 
 		/* g_object_set(data->label, "bold", TRUE, NULL); */
-		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
+		gtk_label_set_xalign (GTK_LABEL (label), 0);
 
 		gtk_widget_set_hexpand (label, TRUE);
 		gtk_widget_set_halign (label, GTK_ALIGN_FILL);
@@ -963,7 +963,7 @@ build_dialog (GtkWindow *parent,
 		cancel_button = e_dialog_button_new_with_icon ("process-stop", _("_Cancel"));
 		gtk_widget_set_valign (cancel_button, GTK_ALIGN_END);
 
-		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
+		gtk_label_set_xalign (GTK_LABEL (label), 0);
 
 		gtk_widget_set_hexpand (label, TRUE);
 		gtk_widget_set_halign (label, GTK_ALIGN_FILL);

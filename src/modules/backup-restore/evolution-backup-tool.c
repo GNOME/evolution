@@ -1337,14 +1337,13 @@ main (gint argc,
 
 		widget = gtk_image_new_from_icon_name (
 			"edit-copy", GTK_ICON_SIZE_DIALOG);
-		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
 		gtk_widget_show (widget);
 
 		gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 3);
 		g_object_set (
 			G_OBJECT (widget),
-			"halign", GTK_ALIGN_FILL,
-			"valign", GTK_ALIGN_FILL,
+			"halign", GTK_ALIGN_START,
+			"valign", GTK_ALIGN_START,
 			"vexpand", TRUE,
 			NULL);
 
@@ -1362,7 +1361,8 @@ main (gint argc,
 		widget = gtk_label_new (markup);
 		gtk_label_set_line_wrap (GTK_LABEL (widget), FALSE);
 		gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
+		gtk_label_set_xalign (GTK_LABEL (widget), 0);
+		gtk_label_set_yalign (GTK_LABEL (widget), 0);
 		gtk_widget_show (widget);
 		g_free (markup);
 
@@ -1380,7 +1380,7 @@ main (gint argc,
 		widget = gtk_label_new (markup);
 		gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 		gtk_label_set_width_chars (GTK_LABEL (widget), 20);
-		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+		gtk_label_set_xalign (GTK_LABEL (widget), 0);
 		gtk_widget_show (widget);
 		g_free (markup);
 
@@ -1398,7 +1398,7 @@ main (gint argc,
 			markup = g_markup_printf_escaped ("<i>%s</i>", str);
 			widget = gtk_label_new (markup);
 			gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-			gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+			gtk_label_set_xalign (GTK_LABEL (widget), 0);
 			g_free (markup);
 			g_free (str);
 

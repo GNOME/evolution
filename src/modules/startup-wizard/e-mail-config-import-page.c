@@ -188,7 +188,7 @@ mail_config_import_page_constructed (GObject *object)
 	text = _("Please select the information "
 		 "that you would like to import:");
 	widget = gtk_label_new (text);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -216,7 +216,8 @@ mail_config_import_page_constructed (GObject *object)
 
 		from_text = g_strdup_printf (_("From %s:"), importer->name);
 		widget = gtk_label_new (from_text);
-		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
+		gtk_label_set_xalign (GTK_LABEL (widget), 0);
+		gtk_label_set_yalign (GTK_LABEL (widget), 0);
 		gtk_grid_attach (GTK_GRID (container), widget, 0, row, 1, 1);
 		gtk_widget_show (widget);
 

@@ -260,7 +260,7 @@ name_selector_dialog_constructed (GObject *object)
 	gtk_widget_show (show_contacts_label);
 	gtk_container_add (GTK_CONTAINER (name_selector_grid), show_contacts_label);
 	gtk_label_set_use_markup (GTK_LABEL (show_contacts_label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (show_contacts_label), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (show_contacts_label), 0);
 	g_free (tmp_str);
 
 	hgrid = g_object_new (
@@ -292,14 +292,14 @@ name_selector_dialog_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (show_contacts_grid), AddressBookLabel, 0, 0, 1, 1);
 	gtk_widget_set_halign (AddressBookLabel, GTK_ALIGN_FILL);
 	gtk_label_set_justify (GTK_LABEL (AddressBookLabel), GTK_JUSTIFY_CENTER);
-	gtk_misc_set_alignment (GTK_MISC (AddressBookLabel), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (AddressBookLabel), 0);
 
 	label_category = gtk_label_new_with_mnemonic (_("Cat_egory:"));
 	gtk_widget_show (label_category);
 	gtk_grid_attach (GTK_GRID (show_contacts_grid), label_category, 0, 1, 1, 1);
 	gtk_widget_set_halign (label_category, GTK_ALIGN_FILL);
 	gtk_label_set_justify (GTK_LABEL (label_category), GTK_JUSTIFY_CENTER);
-	gtk_misc_set_alignment (GTK_MISC (label_category), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label_category), 0);
 
 	hgrid = g_object_new (
 		GTK_TYPE_GRID,
@@ -322,7 +322,7 @@ name_selector_dialog_constructed (GObject *object)
 	gtk_widget_show (label_search);
 	gtk_grid_attach (GTK_GRID (show_contacts_grid), label_search, 0, 2, 1, 1);
 	gtk_widget_set_halign (label_search, GTK_ALIGN_FILL);
-	gtk_misc_set_alignment (GTK_MISC (label_search), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label_search), 0);
 
 	source_menu_hgrid = g_object_new (
 		GTK_TYPE_GRID,
@@ -351,7 +351,7 @@ name_selector_dialog_constructed (GObject *object)
 	gtk_widget_show (label_contacts);
 	gtk_container_add (GTK_CONTAINER (name_selector_grid), label_contacts);
 	gtk_label_set_use_markup (GTK_LABEL (label_contacts), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (label_contacts), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label_contacts), 0);
 	g_free (tmp_str);
 
 	scrolledwindow0 = gtk_scrolled_window_new (NULL, NULL);
@@ -414,7 +414,7 @@ name_selector_dialog_constructed (GObject *object)
 	gtk_widget_show (status_message);
 	gtk_container_add (GTK_CONTAINER (name_selector_grid), status_message);
 	gtk_label_set_use_markup (GTK_LABEL (status_message), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (status_message), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (status_message), 0);
 	gtk_misc_set_padding (GTK_MISC (status_message), 0, 3);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (AddressBookLabel), source_menu_hgrid);
@@ -1027,7 +1027,8 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 
 	gtk_size_group_add_widget (name_selector_dialog->priv->dest_label_size_group, GTK_WIDGET (section.label));
 
-	gtk_misc_set_alignment (GTK_MISC (section.label), 0.0, 0.0);
+	gtk_label_set_xalign (GTK_LABEL (section.label), 0);
+	gtk_label_set_yalign (GTK_LABEL (section.label), 0);
 	gtk_container_add (GTK_CONTAINER (hgrid), GTK_WIDGET (section.label));
 
 	/* Treeview in a scrolled window */

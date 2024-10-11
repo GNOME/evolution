@@ -326,7 +326,7 @@ e_activity_proxy_init (EActivityProxy *proxy)
 		G_BINDING_INVERT_BOOLEAN);
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	proxy->priv->label = widget;

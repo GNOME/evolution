@@ -552,7 +552,7 @@ book_config_ldap_insert_notebook_widget (GtkWidget *vbox,
 	gtk_widget_show (hbox);
 
 	label = gtk_label_new (caption);
-	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 1.0);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
 	gtk_size_group_add_widget (size_group, label);
 	gtk_widget_show (label);
@@ -638,7 +638,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	container = widget;
 
 	widget = gtk_label_new (_("Server Information"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
@@ -714,7 +714,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	container = widget;
 
 	widget = gtk_label_new (_("Authentication"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
@@ -802,7 +802,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	container = widget;
 
 	widget = gtk_label_new (_("Searching"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
@@ -880,7 +880,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	container = widget;
 
 	widget = gtk_label_new (_("Downloading"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);

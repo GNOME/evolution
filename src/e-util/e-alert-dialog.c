@@ -205,7 +205,8 @@ alert_dialog_constructed (GObject *object)
 	container = widget;
 
 	widget = e_alert_create_image (alert, GTK_ICON_SIZE_DIALOG);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	gtk_widget_set_valign (widget, GTK_ALIGN_START);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -231,7 +232,8 @@ alert_dialog_constructed (GObject *object)
 	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
 	gtk_label_set_width_chars (GTK_LABEL (widget), 40);
 	gtk_label_set_max_width_chars (GTK_LABEL (widget), 60);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
+	gtk_label_set_yalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_set_can_focus (widget, FALSE);
 	gtk_widget_show (widget);
@@ -241,7 +243,8 @@ alert_dialog_constructed (GObject *object)
 	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
 	gtk_label_set_width_chars (GTK_LABEL (widget), 60);
 	gtk_label_set_max_width_chars (GTK_LABEL (widget), 80);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
+	gtk_label_set_yalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_set_can_focus (widget, FALSE);
 	gtk_widget_show (widget);
