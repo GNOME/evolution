@@ -6363,9 +6363,7 @@ message_list_regen_thread (GTask *task,
 	}
 
 exit_successfully:
-	g_task_return_pointer (task,
-		regen_data_ref (regen_data),
-		(GDestroyNotify) regen_data_unref);
+	g_task_return_boolean (task, TRUE);
 exit:
 	if (searchuids != NULL)
 		camel_folder_search_free (folder, searchuids);
@@ -6544,7 +6542,8 @@ message_list_regen_done_cb (GObject *source_object,
 	GError *local_error = NULL;
 
 	message_list = MESSAGE_LIST (source_object);
-	regen_data = g_task_propagate_pointer (G_TASK (result), &local_error);
+	regen_data = g_task_get_task_data (G_TASK (result));
+	g_task_propagate_boolean (G_TASK (result), &local_error);
 
 	/* Withdraw our RegenData from the private struct, if it hasn't
 	 * already been replaced.  We have exclusive access to it now. */
@@ -6913,8 +6912,6 @@ message_list_regen_done_cb (GObject *source_object,
 				0, CAMEL_MESSAGE_SEEN);
 		}
 	}
-
-	g_clear_pointer (&regen_data, regen_data_unref);
 }
 
 static gboolean
