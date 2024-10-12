@@ -130,7 +130,6 @@ static void
 cal_source_config_constructed (GObject *object)
 {
 	ECalSourceConfig *self;
-	ESource *default_source;
 	ESource *original_source;
 	ESourceConfig *config;
 	GtkWidget *widget;
@@ -164,25 +163,26 @@ cal_source_config_constructed (GObject *object)
 
 	widget = gtk_check_button_new_with_label (label);
 	self->priv->default_button = g_object_ref_sink (widget);
-	gtk_widget_show (widget);
 
-	default_source = cal_source_config_ref_default (config);
 	original_source = e_source_config_get_original_source (config);
-
-	if (original_source != NULL) {
-		gboolean active;
-
-		active = e_source_equal (original_source, default_source);
-		g_object_set (self->priv->default_button, "active", active, NULL);
-	}
-
-	g_object_unref (default_source);
-
 	e_source_config_insert_widget (
 		config, NULL, _("Color:"), self->priv->color_button);
 
-	e_source_config_insert_widget (
-		config, NULL, NULL, self->priv->default_button);
+	if (!original_source || !e_util_guess_source_is_readonly (original_source)) {
+		gtk_widget_show (widget);
+
+		if (original_source != NULL) {
+			gboolean active;
+			ESource *default_source;
+
+			default_source = cal_source_config_ref_default (config);
+			active = e_source_equal (original_source, default_source);
+			g_object_set (self->priv->default_button, "active", active, NULL);
+			g_object_unref (default_source);
+		}
+		e_source_config_insert_widget (
+			config, NULL, NULL, self->priv->default_button);
+	}
 }
 
 static const gchar *
