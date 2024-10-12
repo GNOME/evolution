@@ -108,7 +108,7 @@ cal_config_caldav_run_dialog (GtkButton *button,
 
 	switch (source_type) {
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-		supports_filter = E_WEBDAV_DISCOVER_SUPPORTS_EVENTS;
+		supports_filter = E_WEBDAV_DISCOVER_SUPPORTS_EVENTS | E_WEBDAV_DISCOVER_SUPPORTS_CALENDAR_AUTO_SCHEDULE;
 		title = _("Choose a Calendar");
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
@@ -116,7 +116,7 @@ cal_config_caldav_run_dialog (GtkButton *button,
 		title = _("Choose a Memo List");
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-		supports_filter = E_WEBDAV_DISCOVER_SUPPORTS_TASKS;
+		supports_filter = E_WEBDAV_DISCOVER_SUPPORTS_TASKS | E_WEBDAV_DISCOVER_SUPPORTS_CALENDAR_AUTO_SCHEDULE;
 		title = _("Choose a Task List");
 		break;
 	default:

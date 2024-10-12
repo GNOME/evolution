@@ -536,7 +536,10 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 			}
 			if (rd->resource->kind == E_WEBDAV_RESOURCE_KIND_CALENDAR) {
 				icon_name = "x-office-calendar";
-				g_string_prepend (type_info, _("Calendar"));
+				if ((rd->resource->supports & E_WEBDAV_DISCOVER_SUPPORTS_CALENDAR_AUTO_SCHEDULE) != 0)
+					g_string_prepend (type_info, _("Calendar handling meeting invitations"));
+				else
+					g_string_prepend (type_info, _("Calendar"));
 			} else if (rd->resource->kind == E_WEBDAV_RESOURCE_KIND_SCHEDULE_INBOX) {
 				icon_name = "mail-inbox";
 				g_string_prepend (type_info, _("Scheduling Inbox"));
@@ -931,6 +934,9 @@ webdav_browser_gather_href_resources_sync (EWebDAVBrowser *webdav_browser,
 				   there might not be any login errors here, but even if, then bad luck. */
 				if (e_webdav_session_options_sync (session, resource->href, &capabilities, &allows, cancellable, NULL)) {
 					editing_flags = webdav_browser_options_to_editing_flags (capabilities, allows);
+					if (capabilities && g_hash_table_contains (capabilities, E_WEBDAV_CAPABILITY_CALENDAR_AUTO_SCHEDULE))
+						resource->supports |= E_WEBDAV_DISCOVER_SUPPORTS_CALENDAR_AUTO_SCHEDULE;
+
 				}
 
 				if (capabilities)
