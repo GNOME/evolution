@@ -272,7 +272,8 @@ add_cert_table (GString *html,
 
 				ec = e_cert_new (CERT_DupCertificate (info->cert_data));
 
-				if (!secure_button_smime_cert_exists (info->email, ec)) {
+				if (validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY ||
+				    !secure_button_smime_cert_exists (info->email, ec)) {
 					e_util_markup_append_escaped (html,
 						"&nbsp;<button type=\"button\" class=\"secure-button-import-certificate\" id=\"%s.%p\" value=\"%p:%p:%p\">%s</button>",
 						e_mail_part_get_id (part), info->cert_data, part, validity, info->cert_data, _("Import Certificate"));
