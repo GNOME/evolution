@@ -5725,6 +5725,24 @@ webkit_editor_button_press_event (GtkWidget *widget,
 }
 
 static gboolean
+webkit_editor_button_release_event (GtkWidget *widget,
+				    GdkEventButton *event)
+{
+	if (event->button == 2) {
+		/* WebKitGTK 2.46.1 changed the middle-click paste behavior and moved
+		   the paste handler from the button-press event into the button-release
+		   event, which causes double paste of the clipboard content. As the paste
+		   is handled in the webkit_editor_button_press_event() above, make sure
+		   the release handler is not called here regardless whether the user
+		   uses the changed WebkitGTK or not. */
+		return TRUE;
+	}
+
+	/* Chain up to parent's method. */
+	return GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->button_release_event (widget, event);
+}
+
+static gboolean
 webkit_editor_key_press_event (GtkWidget *widget,
                                GdkEventKey *event)
 {
@@ -5814,6 +5832,7 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = webkit_editor_button_press_event;
+	widget_class->button_release_event = webkit_editor_button_release_event;
 	widget_class->key_press_event = webkit_editor_key_press_event;
 
 	g_object_class_override_property (
