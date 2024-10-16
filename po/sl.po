@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-09-24 14:54+0000\n"
-"PO-Revision-Date: 2024-09-24 21:33+0200\n"
+"POT-Creation-Date: 2024-10-16 13:08+0000\n"
+"PO-Revision-Date: 2024-10-16 23:36+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -3794,7 +3794,7 @@ msgstr "Sestavljalnik sporočil"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
 #: ../src/e-util/e-collection-account-wizard.c:872 ../src/e-util/e-send-options.c:537
-#: ../src/e-util/e-webdav-browser.c:539 ../src/modules/calendar/e-cal-shell-view-actions.c:200
+#: ../src/e-util/e-webdav-browser.c:542 ../src/modules/calendar/e-cal-shell-view-actions.c:200
 #: ../src/modules/calendar/e-cal-shell-view.c:631
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
 msgid "Calendar"
@@ -3898,7 +3898,7 @@ msgstr "_Zapri"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2318
 #: ../src/calendar/gui/e-comp-editor.c:2285 ../src/e-util/e-accounts-window.c:1761
 #: ../src/e-util/e-html-editor-actions.c:1188 ../src/e-util/e-mail-signature-manager.c:345
-#: ../src/e-util/e-webdav-browser.c:2881 ../src/e-util/filter.ui.h:26
+#: ../src/e-util/e-webdav-browser.c:2887 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:718 ../src/mail/e-mail-browser.c:209
 #: ../src/mail/e-mail-label-manager.c:381 ../src/mail/em-folder-properties.c:1394
 #: ../src/mail/mail-config.ui.h:70 ../src/modules/rss/evolution/e-rss-preferences.c:1806
@@ -4429,11 +4429,11 @@ msgstr "Za š_irok pogled"
 msgid "As Sent Folder for Wi_de View"
 msgstr "Kot mapa Poslano za Širok pogle_d"
 
-#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2636
+#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2642
 msgid "_Memos"
 msgstr "_Opomniki"
 
-#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2640
+#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2646
 #: ../src/plugins/pst-import/pst-importer.c:571
 msgid "_Tasks"
 msgstr "_Naloge"
@@ -4825,7 +4825,7 @@ msgstr "Možnosti"
 #: ../src/calendar/calendar.error.xml.h:56 ../src/calendar/gui/e-comp-editor.c:2330
 #: ../src/composer/e-composer-actions.c:242 ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:834 ../src/e-util/e-attachment-store.c:841
-#: ../src/e-util/e-mail-signature-script-dialog.c:344 ../src/e-util/e-webdav-browser.c:2664
+#: ../src/e-util/e-mail-signature-script-dialog.c:344 ../src/e-util/e-webdav-browser.c:2670
 #: ../src/e-util/e-web-view.c:4133 ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:920 ../src/shell/e-shell-content.c:611
 #: ../src/shell/e-shell-utils.c:133 ../src/smime/gui/certificate-manager.c:642
@@ -5492,7 +5492,7 @@ msgid "Error removing list"
 msgstr "Napaka med odstranjevanjem seznama"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../src/em-format/e-mail-formatter-print.c:50 ../src/e-util/e-webdav-browser.c:2526
+#: ../src/em-format/e-mail-formatter-print.c:50 ../src/e-util/e-webdav-browser.c:2532
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92 ../src/mail/e-mail-label-tree-view.c:91
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1744
@@ -6021,7 +6021,7 @@ msgstr "Ali ste prepričani, da želite izbrisati stik (%s)?"
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1856
 #: ../src/calendar/gui/e-comp-editor.c:2220 ../src/e-util/e-accounts-window.c:1769
 #: ../src/e-util/e-focus-tracker.c:808 ../src/e-util/evolution-source-viewer.c:800
-#: ../src/e-util/e-webdav-browser.c:2888 ../src/mail/e-mail-account-manager.c:727
+#: ../src/e-util/e-webdav-browser.c:2894 ../src/mail/e-mail-account-manager.c:727
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1451
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1446
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1640
@@ -6276,7 +6276,7 @@ msgid "Saving changes, please wait…"
 msgstr "Poteka shranjevanje sprememb, počakajte …"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:661
-#: ../src/calendar/gui/e-bulk-edit-tasks.c:248 ../src/e-util/e-webdav-browser.c:1953
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:248 ../src/e-util/e-webdav-browser.c:1959
 msgid "Failed to save changes"
 msgstr "Shranjevanje sprememb je spodletelo"
 
@@ -7533,14 +7533,14 @@ msgid "…"
 msgstr "…"
 
 #. Translators: Default attachment filename.
-#: ../src/calendar/gui/comp-util.c:2617 ../src/e-util/e-attachment.c:2447
-#: ../src/e-util/e-attachment.c:3100 ../src/e-util/e-attachment.c:3550
+#: ../src/calendar/gui/comp-util.c:2617 ../src/e-util/e-attachment.c:2428
+#: ../src/e-util/e-attachment.c:2993 ../src/e-util/e-attachment.c:3551
 #: ../src/e-util/e-attachment-store.c:900
 msgid "attachment.dat"
 msgstr "priloga.dat"
 
 #: ../src/calendar/gui/comp-util.c:2734 ../src/e-util/e-filter-rule.c:1034
-#: ../src/mail/e-mail-config-page.c:124
+#: ../src/mail/e-mail-config-page.c:115
 msgid "Untitled"
 msgstr "Neimenovano"
 
@@ -8151,7 +8151,7 @@ msgstr "Izvorna koda"
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4 ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3 ../src/e-util/e-accounts-window.c:1459
 #: ../src/e-util/e-attachment-tree-view.c:209 ../src/e-util/e-collection-account-wizard.c:2082
-#: ../src/e-util/e-webdav-browser.c:2555 ../src/mail/e-mail-account-tree-view.c:151
+#: ../src/e-util/e-webdav-browser.c:2561 ../src/mail/e-mail-account-tree-view.c:151
 msgid "Type"
 msgstr "Vrsta"
 
@@ -8468,7 +8468,7 @@ msgstr "Čas začetka ni veljaven čas"
 #: ../src/e-util/e-misc-utils.c:4156 ../src/e-util/e-misc-utils.c:4170
 #: ../src/mail/e-mail-autoconfig.c:1130 ../src/mail/e-mail-display.c:3083
 #: ../src/mail/e-mail-notes.c:931 ../src/mail/e-mail-reader.c:3710
-#: ../src/mail/e-mail-reader-utils.c:817 ../src/mail/e-mail-viewer.c:568
+#: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:568
 #: ../src/mail/e-mail-viewer.c:1741 ../src/mail/e-mail-viewer.c:2403
 #: ../src/mail/e-mail-viewer.c:2416 ../src/mail/em-composer-utils.c:4279
 #: ../src/mail/em-composer-utils.c:4302 ../src/mail/mail-send-recv.c:598
@@ -8638,12 +8638,12 @@ msgstr[1] "Priloga"
 msgstr[2] "Prilogi"
 msgstr[3] "Priloge"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:234 ../src/e-util/e-attachment.c:2647
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:234 ../src/e-util/e-attachment.c:2602
 #, c-format
 msgid "Could not load “%s”"
 msgstr "Ni mogoče naložiti »%s«"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:236 ../src/e-util/e-attachment.c:2650
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:236 ../src/e-util/e-attachment.c:2605
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Ni mogoče naložiti priloge"
@@ -9365,7 +9365,7 @@ msgid "Show time as _busy"
 msgstr "Pokaži čas kot _zaseden"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2695 ../src/e-util/e-webdav-browser.c:2604
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2695 ../src/e-util/e-webdav-browser.c:2610
 msgctxt "ECompEditor"
 msgid "None"
 msgstr "Brez"
@@ -9442,7 +9442,7 @@ msgstr "priloga"
 msgid "Sending notifications to attendees…"
 msgstr "Poteka pošiljanje obvestil udeležencem …"
 
-#: ../src/calendar/gui/e-comp-editor.c:1047 ../src/e-util/e-webdav-browser.c:1952
+#: ../src/calendar/gui/e-comp-editor.c:1047 ../src/e-util/e-webdav-browser.c:1958
 msgid "Saving changes…"
 msgstr "Poteka shranjevanje sprememb …"
 
@@ -12352,7 +12352,7 @@ msgstr "Shrani osnutek"
 
 #: ../src/composer/e-composer-from-header.c:108 ../src/e-util/e-collection-account-wizard.c:2114
 #: ../src/e-util/e-html-editor-link-popover.c:261
-#: ../src/e-util/e-mail-signature-script-dialog.c:382 ../src/e-util/e-webdav-browser.c:2583
+#: ../src/e-util/e-mail-signature-script-dialog.c:382 ../src/e-util/e-webdav-browser.c:2589
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:540 ../src/mail/e-mail-config-summary-page.c:312
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:298
@@ -12996,20 +12996,20 @@ msgstr ""
 msgid "View Certificate"
 msgstr "Poglej potrdilo"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:278
+#: ../src/em-format/e-mail-formatter-secure-button.c:279
 msgid "Import Certificate"
 msgstr "Uvozi potrdilo"
 
 #. image
-#: ../src/em-format/e-mail-formatter-secure-button.c:321
+#: ../src/em-format/e-mail-formatter-secure-button.c:322
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:413
+#: ../src/em-format/e-mail-formatter-secure-button.c:414
 msgid "Digital Signature"
 msgstr "Digitalni podpis"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:419
+#: ../src/em-format/e-mail-formatter-secure-button.c:420
 msgid "Signer:"
 msgid_plural "Signers:"
 msgstr[0] "Podpisniki"
@@ -13017,11 +13017,11 @@ msgstr[1] "Podpisnik"
 msgstr[2] "Podpisnika"
 msgstr[3] "Podpisniki"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:430
+#: ../src/em-format/e-mail-formatter-secure-button.c:431
 msgid "Encryption"
 msgstr "Šifriranje"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:435
+#: ../src/em-format/e-mail-formatter-secure-button.c:436
 msgid "Encrypted by:"
 msgstr "Šifrirano:"
 
@@ -13280,7 +13280,7 @@ msgstr "Računi Evolution"
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1777 ../src/e-util/e-webdav-browser.c:2899
+#: ../src/e-util/e-accounts-window.c:1777 ../src/e-util/e-webdav-browser.c:2905
 #: ../src/mail/em-subscription-editor.c:1948 ../src/modules/mail/e-mail-shell-view-actions.c:1616
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1694
 msgid "_Refresh"
@@ -13364,39 +13364,39 @@ msgstr "Ustvarjanje niti je spodletelo: "
 msgid "Attached message"
 msgstr "Priloženo sporočilo"
 
-#: ../src/e-util/e-attachment.c:2262 ../src/e-util/e-attachment.c:3256
+#: ../src/e-util/e-attachment.c:2238 ../src/e-util/e-attachment.c:3176
 #: ../src/mail/em-utils.c:2321
 msgid "Operation was cancelled"
 msgstr "Opravilo je preklicano"
 
-#: ../src/e-util/e-attachment.c:2529 ../src/e-util/e-attachment.c:3610
+#: ../src/e-util/e-attachment.c:2507 ../src/e-util/e-attachment.c:3616
 msgid "A load operation is already in progress"
 msgstr "Dejanje nalaganja je že v teku"
 
-#: ../src/e-util/e-attachment.c:2537 ../src/e-util/e-attachment.c:3618
+#: ../src/e-util/e-attachment.c:2516 ../src/e-util/e-attachment.c:3625
 msgid "A save operation is already in progress"
 msgstr "Dejanje shranjevanja je že v teku"
 
-#: ../src/e-util/e-attachment.c:2883
+#: ../src/e-util/e-attachment.c:2838
 #, c-format
 msgid "Could not open “%s”"
 msgstr "Ni mogoče odpreti »%s«"
 
-#: ../src/e-util/e-attachment.c:2886
+#: ../src/e-util/e-attachment.c:2841
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Ni mogoče odpreti priloge"
 
-#: ../src/e-util/e-attachment.c:3627
+#: ../src/e-util/e-attachment.c:3635
 msgid "Attachment contents not loaded"
 msgstr "Vsebina priloge ni naložena"
 
-#: ../src/e-util/e-attachment.c:3718
+#: ../src/e-util/e-attachment.c:3723
 #, c-format
 msgid "Could not save “%s”"
 msgstr "Ni mogoče shraniti »%s«"
 
-#: ../src/e-util/e-attachment.c:3721
+#: ../src/e-util/e-attachment.c:3726
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Ni mogoče shraniti priloge"
@@ -13438,7 +13438,7 @@ msgid "_Filename:"
 msgstr "_Ime datoteke:"
 
 #: ../src/e-util/e-attachment-popover.c:349 ../src/e-util/e-html-editor-image-dialog.c:593
-#: ../src/e-util/e-html-editor-link-popover.c:235 ../src/e-util/e-webdav-browser.c:2644
+#: ../src/e-util/e-html-editor-link-popover.c:235 ../src/e-util/e-webdav-browser.c:2650
 msgid "_Description:"
 msgstr "_Opis:"
 
@@ -13603,19 +13603,19 @@ msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%B %Y"
 
-#: ../src/e-util/e-cal-source-config.c:151
+#: ../src/e-util/e-cal-source-config.c:150
 msgid "Mark as default calendar"
 msgstr "Označi kot privzet koledar"
 
-#: ../src/e-util/e-cal-source-config.c:154
+#: ../src/e-util/e-cal-source-config.c:153
 msgid "Mark as default task list"
 msgstr "Označi kot privzet seznam nalog"
 
-#: ../src/e-util/e-cal-source-config.c:157
+#: ../src/e-util/e-cal-source-config.c:156
 msgid "Mark as default memo list"
 msgstr "Označi kot privzet seznam opomnikov"
 
-#: ../src/e-util/e-cal-source-config.c:182
+#: ../src/e-util/e-cal-source-config.c:169
 msgid "Color:"
 msgstr "Barva:"
 
@@ -13931,7 +13931,7 @@ msgstr "_Geslo:"
 msgid "_Remember password"
 msgstr "Za_pomni si geslo"
 
-#: ../src/e-util/e-collection-account-wizard.c:868 ../src/e-util/e-webdav-browser.c:552
+#: ../src/e-util/e-collection-account-wizard.c:868 ../src/e-util/e-webdav-browser.c:555
 msgid "Collection"
 msgstr "Zbirka"
 
@@ -15597,7 +15597,7 @@ msgid "_Padding:"
 msgstr "_Polnjenje:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:661 ../src/e-util/e-html-editor-text-dialog.c:239
-#: ../src/e-util/e-webdav-browser.c:2593
+#: ../src/e-util/e-webdav-browser.c:2599
 msgid "_Color:"
 msgstr "_Barva:"
 
@@ -16421,7 +16421,7 @@ msgstr "Vrsta:"
 msgid "Name:"
 msgstr "Ime:"
 
-#: ../src/e-util/e-source-config.c:806 ../src/e-util/e-webdav-browser.c:1885
+#: ../src/e-util/e-source-config.c:806 ../src/e-util/e-webdav-browser.c:1891
 msgid "Name cannot be empty"
 msgstr "Polje imena ne more biti prazno"
 
@@ -16886,132 +16886,136 @@ msgstr "Imenik"
 msgid "Events"
 msgstr "Dogodki"
 
-#: ../src/e-util/e-webdav-browser.c:542
+#: ../src/e-util/e-webdav-browser.c:540
+msgid "Calendar handling meeting invitations"
+msgstr "Vabila za sestanke obravnava koledar"
+
+#: ../src/e-util/e-webdav-browser.c:545
 msgid "Scheduling Inbox"
 msgstr "Načrtovanje prejetega"
 
-#: ../src/e-util/e-webdav-browser.c:547
+#: ../src/e-util/e-webdav-browser.c:550
 msgid "Scheduling Outbox"
 msgstr "Načrtovanje odhodne pošte"
 
-#: ../src/e-util/e-webdav-browser.c:610 ../src/mail/e-mail-viewer.c:1731
+#: ../src/e-util/e-webdav-browser.c:613 ../src/mail/e-mail-viewer.c:1731
 #: ../src/mail/e-mail-viewer.c:2438 ../src/mail/em-folder-tree-model.c:1618
 #: ../src/mail/em-folder-tree-model.c:2006
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:893
 msgid "Loading…"
 msgstr "Poteka nalaganje …"
 
-#: ../src/e-util/e-webdav-browser.c:1470
+#: ../src/e-util/e-webdav-browser.c:1476
 msgid "Searching collection children…"
 msgstr "Poteka iskanje predmetov zbirke …"
 
-#: ../src/e-util/e-webdav-browser.c:1472
+#: ../src/e-util/e-webdav-browser.c:1478
 msgid "Failed to search for collection children"
 msgstr "Iskanje predmetov zbirke je spodletelo."
 
-#: ../src/e-util/e-webdav-browser.c:1506
+#: ../src/e-util/e-webdav-browser.c:1512
 msgid "Searching for user home, please wait…"
 msgstr "Poteka iskanje uporabniške mape. Počakajte …"
 
-#: ../src/e-util/e-webdav-browser.c:1508
+#: ../src/e-util/e-webdav-browser.c:1514
 msgid "Failed to search for user home"
 msgstr "Iskanje osebne mape uporabnika je spodletelo."
 
-#: ../src/e-util/e-webdav-browser.c:1901
+#: ../src/e-util/e-webdav-browser.c:1907
 msgid "At least one component type should be set"
 msgstr "Določen mora biti vsaj en nabor vrste"
 
-#: ../src/e-util/e-webdav-browser.c:1920
+#: ../src/e-util/e-webdav-browser.c:1926
 msgid "Failed to get selected collection HREF"
 msgstr "Pridobivanje naslova HREF izbrane zbirke je spodletelo"
 
-#: ../src/e-util/e-webdav-browser.c:1955
+#: ../src/e-util/e-webdav-browser.c:1961
 msgid "Creating new book…"
 msgstr "Poteka ustvarjanje nove knjige …"
 
-#: ../src/e-util/e-webdav-browser.c:1956
+#: ../src/e-util/e-webdav-browser.c:1962
 msgid "Failed to create new book"
 msgstr "Ustvarjanje nove knjige je spodletelo"
 
-#: ../src/e-util/e-webdav-browser.c:1958
+#: ../src/e-util/e-webdav-browser.c:1964
 msgid "Creating new calendar…"
 msgstr "Poteka ustvarjanje novega koledarja …"
 
-#: ../src/e-util/e-webdav-browser.c:1959
+#: ../src/e-util/e-webdav-browser.c:1965
 msgid "Failed to create new calendar"
 msgstr "Ustvarjanje novega koledarja je spodletelo."
 
-#: ../src/e-util/e-webdav-browser.c:1961
+#: ../src/e-util/e-webdav-browser.c:1967
 msgid "Creating new collection…"
 msgstr "Poteka ustvarjanje nove zbirke …"
 
-#: ../src/e-util/e-webdav-browser.c:1962
+#: ../src/e-util/e-webdav-browser.c:1968
 msgid "Failed to create new collection"
 msgstr "Ustvarjanje nove zbirke je spodletelo"
 
-#: ../src/e-util/e-webdav-browser.c:2114
+#: ../src/e-util/e-webdav-browser.c:2120
 msgid "It is not allowed to create book under another book or calendar"
 msgstr "Ni dovoljeno ustvariti knjige znotraj druge knjige ali koledarja."
 
 #. if (button == webdav_browser->priv->create_calendar_button)
-#: ../src/e-util/e-webdav-browser.c:2116
+#: ../src/e-util/e-webdav-browser.c:2122
 msgid "It is not allowed to create calendar under another book or calendar"
 msgstr "Ni dovoljeno ustvariti koledarja znotraj druge knjige ali koledarja."
 
-#: ../src/e-util/e-webdav-browser.c:2361
+#: ../src/e-util/e-webdav-browser.c:2367
 msgid "Deleting book…"
 msgstr "Poteka brisanje knjige …"
 
-#: ../src/e-util/e-webdav-browser.c:2362
+#: ../src/e-util/e-webdav-browser.c:2368
 msgid "Failed to delete book"
 msgstr "Brisanje knjige je spodletelo"
 
-#: ../src/e-util/e-webdav-browser.c:2365
+#: ../src/e-util/e-webdav-browser.c:2371
 msgid "Deleting calendar…"
 msgstr "Poteka brisanje koledarja …"
 
-#: ../src/e-util/e-webdav-browser.c:2366
+#: ../src/e-util/e-webdav-browser.c:2372
 msgid "Failed to delete calendar"
 msgstr "Brisanje koledarja je spodletelo"
 
-#: ../src/e-util/e-webdav-browser.c:2369
+#: ../src/e-util/e-webdav-browser.c:2375
 msgid "Deleting collection…"
 msgstr "Poteka brisanje zbirke …"
 
-#: ../src/e-util/e-webdav-browser.c:2370
+#: ../src/e-util/e-webdav-browser.c:2376
 msgid "Failed to delete collection"
 msgstr "Brisanje zbirke je spodletelo"
 
 #. Translators: It's 'order' as 'sorting order'
-#: ../src/e-util/e-webdav-browser.c:2610
+#: ../src/e-util/e-webdav-browser.c:2616
 msgid "_Order:"
 msgstr "_Razvrstitev:"
 
-#: ../src/e-util/e-webdav-browser.c:2620
+#: ../src/e-util/e-webdav-browser.c:2626
 msgid "Use -1 to not set the sort order"
 msgstr "Vrednost -1 onemogoči razvrščanje"
 
-#: ../src/e-util/e-webdav-browser.c:2626
+#: ../src/e-util/e-webdav-browser.c:2632
 msgid "For Components:"
 msgstr "Za enote:"
 
-#: ../src/e-util/e-webdav-browser.c:2632
+#: ../src/e-util/e-webdav-browser.c:2638
 msgid "_Events"
 msgstr "_Dogodki"
 
-#: ../src/e-util/e-webdav-browser.c:2825
+#: ../src/e-util/e-webdav-browser.c:2831
 msgid "WebDAV server:"
 msgstr "Strežnik WebDAV:"
 
-#: ../src/e-util/e-webdav-browser.c:2860
+#: ../src/e-util/e-webdav-browser.c:2866
 msgid "Create _Book"
 msgstr "_Ustvari knjigo"
 
-#: ../src/e-util/e-webdav-browser.c:2867
+#: ../src/e-util/e-webdav-browser.c:2873
 msgid "Create _Calendar"
 msgstr "Ustvari _koledar"
 
-#: ../src/e-util/e-webdav-browser.c:2874
+#: ../src/e-util/e-webdav-browser.c:2880
 msgid "Create Collectio_n"
 msgstr "Ustvari _zbirko"
 
@@ -17336,17 +17340,17 @@ msgstr "Ni mogoče shraniti datoteke s podpisom."
 msgid "Could not get selected text."
 msgstr "Ni mogoče pridobiti izbranega besedila."
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:106
+#: ../src/libemail-engine/e-mail-folder-utils.c:114
 #, c-format
 msgid "Saving message to folder “%s”"
 msgstr "Poteka shranjevanje sporočila v mapo »%s«"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:563
+#: ../src/libemail-engine/e-mail-folder-utils.c:561
 msgid "Forwarded messages"
 msgstr "Posredovana sporočila"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:673
-#: ../src/libemail-engine/e-mail-folder-utils.c:935
+#: ../src/libemail-engine/e-mail-folder-utils.c:659
+#: ../src/libemail-engine/e-mail-folder-utils.c:904
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
@@ -17355,29 +17359,29 @@ msgstr[1] "Pridobivanje %d sporočila"
 msgstr[2] "Pridobivanje %d sporočil"
 msgstr[3] "Pridobivanje %d sporočil"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:775
+#: ../src/libemail-engine/e-mail-folder-utils.c:761
 msgid "Scanning messages for duplicates"
 msgstr "Preiskovanje podvojenih sporočil"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1148
+#: ../src/libemail-engine/e-mail-folder-utils.c:1100
 #, c-format
 msgid "Removing folder “%s”"
 msgstr "Poteka odstranjevanje mape »%s«"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1329
+#: ../src/libemail-engine/e-mail-folder-utils.c:1274
 #, c-format
 msgid "File “%s” has been removed."
 msgstr "Datoteka »%s« je odstranjena."
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1333
+#: ../src/libemail-engine/e-mail-folder-utils.c:1278
 msgid "File has been removed."
 msgstr "Datoteka je odstranjena."
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1411
+#: ../src/libemail-engine/e-mail-folder-utils.c:1356
 msgid "Removing attachments"
 msgstr "Odstranjevanje prilog"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1632
+#: ../src/libemail-engine/e-mail-folder-utils.c:1564
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
@@ -17386,13 +17390,13 @@ msgstr[1] "Shranjevanje %d sporočila"
 msgstr[2] "Shranjevanje %d sporočil"
 msgstr[3] "Shranjevanje %d sporočil"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:2053
+#: ../src/libemail-engine/e-mail-folder-utils.c:1972
 #, c-format
 msgid "Invalid folder URI “%s”"
 msgstr "Neveljaven naslov URI mape »%s«"
 
 #. Some local folders
-#: ../src/libemail-engine/e-mail-session.c:117 ../src/mail/em-folder-properties.c:1505
+#: ../src/libemail-engine/e-mail-session.c:113 ../src/mail/em-folder-properties.c:1505
 #: ../src/mail/em-folder-tree-model.c:1531 ../src/mail/em-folder-tree-model.c:1561
 #: ../src/mail/importers/kmail-libs.c:138 ../src/modules/mail/e-mail-shell-view-private.c:1027
 #: ../src/modules/mail/e-mail-shell-view-private.c:1038
@@ -17400,87 +17404,87 @@ msgid "Inbox"
 msgstr "Prejeto"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../src/libemail-engine/e-mail-session.c:118 ../src/mail/em-folder-tree-model.c:1525
+#: ../src/libemail-engine/e-mail-session.c:114 ../src/mail/em-folder-tree-model.c:1525
 #: ../src/mail/em-folder-tree-model.c:1565 ../src/mail/importers/kmail-libs.c:144
 #: ../src/modules/mail/e-mail-shell-view-private.c:1025
 msgid "Drafts"
 msgstr "Osnutki"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../src/libemail-engine/e-mail-session.c:119 ../src/mail/em-folder-tree-model.c:1537
+#: ../src/libemail-engine/e-mail-session.c:115 ../src/mail/em-folder-tree-model.c:1537
 #: ../src/mail/importers/kmail-libs.c:140 ../src/modules/mail/e-mail-shell-view-private.c:1029
 msgid "Outbox"
 msgstr "Odhodni predal"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../src/libemail-engine/e-mail-session.c:120 ../src/mail/em-folder-tree-model.c:1542
+#: ../src/libemail-engine/e-mail-session.c:116 ../src/mail/em-folder-tree-model.c:1542
 #: ../src/mail/em-folder-tree-model.c:1564 ../src/mail/importers/kmail-libs.c:142
 #: ../src/modules/mail/e-mail-shell-view-private.c:1031
 msgid "Sent"
 msgstr "Poslano"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../src/libemail-engine/e-mail-session.c:121 ../src/mail/em-folder-tree-model.c:1527
+#: ../src/libemail-engine/e-mail-session.c:117 ../src/mail/em-folder-tree-model.c:1527
 #: ../src/mail/importers/kmail-libs.c:146 ../src/modules/mail/e-mail-shell-view-private.c:1033
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
 msgstr "Predloge"
 
-#: ../src/libemail-engine/e-mail-session.c:1500
+#: ../src/libemail-engine/e-mail-session.c:1492
 #, c-format
 msgid "User cancelled operation"
 msgstr "Uporabnik je preklical opravilo"
 
-#: ../src/libemail-engine/e-mail-session.c:1732
+#: ../src/libemail-engine/e-mail-session.c:1724
 #, c-format
 msgid "No destination address provided, forwarding of the message has been cancelled."
 msgstr "Ciljni naslov ni določen, posredovanje sporočila je preklicano."
 
-#: ../src/libemail-engine/e-mail-session.c:1752
+#: ../src/libemail-engine/e-mail-session.c:1744
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr "Najdene ni nobene istovetnosti za uporabo, posredovanje sporočila je preklicano."
 
-#: ../src/libemail-engine/e-mail-session.c:1955
+#: ../src/libemail-engine/e-mail-session.c:1947
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr "Pripadajočega vira za storitev z UID »%s« ni mogoče najti."
 
-#: ../src/libemail-engine/e-mail-session.c:2075
+#: ../src/libemail-engine/e-mail-session.c:2067
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr "Poteka preverjanje potrdil S/MIME prejemnikov v imenikih …"
 
-#: ../src/libemail-engine/e-mail-session.c:2077
+#: ../src/libemail-engine/e-mail-session.c:2069
 msgid "Looking up recipient PGP keys in address books…"
 msgstr "Poteka preverjanje ključev PGP v imenikih …"
 
-#: ../src/libemail-engine/e-mail-session.c:3122
+#: ../src/libemail-engine/e-mail-session.c:3062
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "Čakanje na »%s«"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:528
+#: ../src/libemail-engine/e-mail-session-utils.c:512
 msgid "No mail transport service available"
 msgstr "Na voljo ni nobene storitve za dostop do pošte"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:621 ../src/libemail-engine/mail-ops.c:712
+#: ../src/libemail-engine/e-mail-session-utils.c:605 ../src/libemail-engine/mail-ops.c:712
 #, c-format
 msgid "Posting message to “%s”"
 msgstr "Poteka objavljanje sporočila na »%s«"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:660 ../src/libemail-engine/mail-ops.c:751
+#: ../src/libemail-engine/e-mail-session-utils.c:644 ../src/libemail-engine/mail-ops.c:751
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Uveljavljanje izhodnih filtrov ni uspelo: %s"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:693
-#: ../src/libemail-engine/e-mail-session-utils.c:728 ../src/libemail-engine/mail-ops.c:779
+#: ../src/libemail-engine/e-mail-session-utils.c:677
+#: ../src/libemail-engine/e-mail-session-utils.c:712 ../src/libemail-engine/mail-ops.c:779
 #: ../src/libemail-engine/mail-ops.c:814
 #, c-format
 msgid "Storing sent message to “%s”"
 msgstr "Poteka shranjevanje sporočila v »%s«"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:717 ../src/libemail-engine/mail-ops.c:803
+#: ../src/libemail-engine/e-mail-session-utils.c:701 ../src/libemail-engine/mail-ops.c:803
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -17489,27 +17493,28 @@ msgstr ""
 "Pripenjanje v %s je spodletelo: %s\n"
 "Sporočilo bo pripeto v krajevno mapo »Poslano«."
 
-#: ../src/libemail-engine/e-mail-session-utils.c:747 ../src/libemail-engine/mail-ops.c:831
+#: ../src/libemail-engine/e-mail-session-utils.c:731 ../src/libemail-engine/mail-ops.c:831
 #, c-format
 msgid "Failed to append to local “Sent” folder: %s"
 msgstr "Pripenjanje v krajevno mapo »Poslano« je spodletelo: %s"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:944 ../src/libemail-engine/mail-ops.c:1027
+#. This gets popped in async_context_free().
+#: ../src/libemail-engine/e-mail-session-utils.c:930 ../src/libemail-engine/mail-ops.c:1027
 #: ../src/libemail-engine/mail-ops.c:1139 ../src/mail/mail-send-recv.c:665
 msgid "Sending message"
 msgstr "Pošiljanje sporočila"
 
-#: ../src/libemail-engine/e-mail-store-utils.c:188
+#: ../src/libemail-engine/e-mail-store-utils.c:165
 #, c-format
 msgid "Disconnecting from “%s”"
 msgstr "Prekinjanje povezave s strežnikom »%s«"
 
-#: ../src/libemail-engine/e-mail-store-utils.c:264 ../src/mail/e-mail-backend.c:1051
+#: ../src/libemail-engine/e-mail-store-utils.c:231 ../src/mail/e-mail-backend.c:1051
 #, c-format
 msgid "Reconnecting to “%s”"
 msgstr "Ponovno povezovanje s strežnikom »%s«"
 
-#: ../src/libemail-engine/e-mail-store-utils.c:349 ../src/mail/mail-send-recv.c:1086
+#: ../src/libemail-engine/e-mail-store-utils.c:311 ../src/mail/mail-send-recv.c:1086
 #, c-format
 msgid "Preparing account “%s” for offline"
 msgstr "Pripravljanje računa »%s« za delo brez povezave"
@@ -19215,43 +19220,43 @@ msgstr "Naprej"
 msgid "Previous"
 msgstr "Predhodni"
 
-#: ../src/mail/e-mail-reader-utils.c:156
+#: ../src/mail/e-mail-reader-utils.c:154
 msgid "Do not warn me again"
 msgstr "Ne opozori več"
 
-#: ../src/mail/e-mail-reader-utils.c:644
+#: ../src/mail/e-mail-reader-utils.c:642
 #, c-format
 msgid "Deleting messages in Junk folder “%s”…"
 msgstr "Poteka brisanje sporočil iz mape vsiljene pošte »%s« …"
 
-#: ../src/mail/e-mail-reader-utils.c:739
+#: ../src/mail/e-mail-reader-utils.c:737
 #, c-format
 msgid "Refreshing folder “%s”"
 msgstr "Osveževanje mape »%s«"
 
-#: ../src/mail/e-mail-reader-utils.c:1346
+#: ../src/mail/e-mail-reader-utils.c:1344
 msgid "Marking thread to be ignored"
 msgstr "Označevanje niti kot prezrte"
 
-#: ../src/mail/e-mail-reader-utils.c:1350
+#: ../src/mail/e-mail-reader-utils.c:1348
 msgid "Unmarking thread from being ignored"
 msgstr "Odstranjevanje oznake niti kot prezrte"
 
-#: ../src/mail/e-mail-reader-utils.c:1354
+#: ../src/mail/e-mail-reader-utils.c:1352
 msgid "Marking subthread to be ignored"
 msgstr "Označevanje podrejene niti kot prezrte"
 
-#: ../src/mail/e-mail-reader-utils.c:1358
+#: ../src/mail/e-mail-reader-utils.c:1356
 msgid "Unmarking subthread from being ignored"
 msgstr "Odstranjevanje oznake podrejene niti kot prezrte"
 
-#: ../src/mail/e-mail-reader-utils.c:1606
+#: ../src/mail/e-mail-reader-utils.c:1604
 msgid "Printing"
 msgstr "Tiskanje"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../src/mail/e-mail-reader-utils.c:1838
+#: ../src/mail/e-mail-reader-utils.c:1836
 #, c-format
 msgid "Folder “%s” contains %u duplicate message. Are you sure you want to delete it?"
 msgid_plural "Folder “%s” contains %u duplicate messages. Are you sure you want to delete them?"
@@ -19260,7 +19265,7 @@ msgstr[1] "V mapi »%s« je %u podvojeno sporočilo. Ali ste prepričani, da ga 
 msgstr[2] "V mapi »%s« sta %u podvojeni sporočili. Ali ste prepričani, da ju želite izbrisati?"
 msgstr[3] "V mapi »%s« so %u podvojena sporočila. Ali ste prepričani, da jih želite izbrisati?"
 
-#: ../src/mail/e-mail-reader-utils.c:3126
+#: ../src/mail/e-mail-reader-utils.c:3124
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Shrani sporočila"
@@ -19273,7 +19278,7 @@ msgstr[3] "Shrani sporočila"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3147
+#: ../src/mail/e-mail-reader-utils.c:3145
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Sporočila"
@@ -19281,7 +19286,7 @@ msgstr[1] "Sporočilo"
 msgstr[2] "Sporočili"
 msgstr[3] "Sporočila"
 
-#: ../src/mail/e-mail-reader-utils.c:3585
+#: ../src/mail/e-mail-reader-utils.c:3581
 msgid "Parsing message"
 msgstr "Razčlenjevanje sporočila"
 
@@ -22334,7 +22339,7 @@ msgstr "Sporočila"
 msgid "Follow-up"
 msgstr "Navezava"
 
-#: ../src/mail/message-list.c:6513 ../src/mail/message-list.c:6957
+#: ../src/mail/message-list.c:6513 ../src/mail/message-list.c:6952
 msgid "Generating message list…"
 msgstr "Ustvarjanje seznama sporočil …"
 
