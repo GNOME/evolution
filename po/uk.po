@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-09-24 14:54+0000\n"
-"PO-Revision-Date: 2024-09-24 19:20+0300\n"
+"POT-Creation-Date: 2024-10-16 13:08+0000\n"
+"PO-Revision-Date: 2024-10-16 17:46+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4190,7 +4190,7 @@ msgstr "Редактор повідомлень"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
 #: ../src/e-util/e-collection-account-wizard.c:872
-#: ../src/e-util/e-send-options.c:537 ../src/e-util/e-webdav-browser.c:539
+#: ../src/e-util/e-send-options.c:537 ../src/e-util/e-webdav-browser.c:542
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:200
 #: ../src/modules/calendar/e-cal-shell-view.c:631
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
@@ -4314,7 +4314,7 @@ msgstr "_Закрити"
 #: ../src/e-util/e-accounts-window.c:1761
 #: ../src/e-util/e-html-editor-actions.c:1188
 #: ../src/e-util/e-mail-signature-manager.c:345
-#: ../src/e-util/e-webdav-browser.c:2881 ../src/e-util/filter.ui.h:26
+#: ../src/e-util/e-webdav-browser.c:2887 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:718 ../src/mail/e-mail-browser.c:209
 #: ../src/mail/e-mail-label-manager.c:381
 #: ../src/mail/em-folder-properties.c:1394 ../src/mail/mail-config.ui.h:70
@@ -4851,11 +4851,11 @@ msgstr "_Широкий вигляд"
 msgid "As Sent Folder for Wi_de View"
 msgstr "Як тека надісланих повідомлень _широкий вигляд"
 
-#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2636
+#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2642
 msgid "_Memos"
 msgstr "_Примітки"
 
-#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2640
+#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2646
 #: ../src/plugins/pst-import/pst-importer.c:571
 msgid "_Tasks"
 msgstr "_Завдання"
@@ -5285,7 +5285,7 @@ msgstr "Параметри"
 #: ../src/e-util/e-attachment-store.c:834
 #: ../src/e-util/e-attachment-store.c:841
 #: ../src/e-util/e-mail-signature-script-dialog.c:344
-#: ../src/e-util/e-webdav-browser.c:2664 ../src/e-util/e-web-view.c:4133
+#: ../src/e-util/e-webdav-browser.c:2670 ../src/e-util/e-web-view.c:4133
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:920
 #: ../src/shell/e-shell-content.c:611 ../src/shell/e-shell-utils.c:133
@@ -5970,7 +5970,7 @@ msgstr "Помилка при вилученні списку"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../src/em-format/e-mail-formatter-print.c:50
-#: ../src/e-util/e-webdav-browser.c:2526
+#: ../src/e-util/e-webdav-browser.c:2532
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:91
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
@@ -6518,7 +6518,7 @@ msgstr "Вилучити цей контакт (%s)?"
 #: ../src/calendar/gui/e-comp-editor.c:2220
 #: ../src/e-util/e-accounts-window.c:1769 ../src/e-util/e-focus-tracker.c:808
 #: ../src/e-util/evolution-source-viewer.c:800
-#: ../src/e-util/e-webdav-browser.c:2888
+#: ../src/e-util/e-webdav-browser.c:2894
 #: ../src/mail/e-mail-account-manager.c:727
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1451
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1446
@@ -6776,7 +6776,7 @@ msgstr "Збереження внесених змін, зачекайте…"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:661
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:248
-#: ../src/e-util/e-webdav-browser.c:1953
+#: ../src/e-util/e-webdav-browser.c:1959
 msgid "Failed to save changes"
 msgstr "Не вдалося зберегти зміни"
 
@@ -8128,14 +8128,14 @@ msgid "…"
 msgstr "…"
 
 #. Translators: Default attachment filename.
-#: ../src/calendar/gui/comp-util.c:2617 ../src/e-util/e-attachment.c:2447
-#: ../src/e-util/e-attachment.c:3100 ../src/e-util/e-attachment.c:3550
+#: ../src/calendar/gui/comp-util.c:2617 ../src/e-util/e-attachment.c:2428
+#: ../src/e-util/e-attachment.c:2993 ../src/e-util/e-attachment.c:3551
 #: ../src/e-util/e-attachment-store.c:900
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
 #: ../src/calendar/gui/comp-util.c:2734 ../src/e-util/e-filter-rule.c:1034
-#: ../src/mail/e-mail-config-page.c:124
+#: ../src/mail/e-mail-config-page.c:115
 msgid "Untitled"
 msgstr "Без заголовку"
 
@@ -8785,7 +8785,7 @@ msgstr "Джерело"
 #: ../src/e-util/e-accounts-window.c:1459
 #: ../src/e-util/e-attachment-tree-view.c:209
 #: ../src/e-util/e-collection-account-wizard.c:2082
-#: ../src/e-util/e-webdav-browser.c:2555
+#: ../src/e-util/e-webdav-browser.c:2561
 #: ../src/mail/e-mail-account-tree-view.c:151
 msgid "Type"
 msgstr "Тип"
@@ -9121,7 +9121,7 @@ msgstr "Час початку — недійсний час"
 #: ../src/e-util/e-misc-utils.c:4143 ../src/e-util/e-misc-utils.c:4156
 #: ../src/e-util/e-misc-utils.c:4170 ../src/mail/e-mail-autoconfig.c:1130
 #: ../src/mail/e-mail-display.c:3083 ../src/mail/e-mail-notes.c:931
-#: ../src/mail/e-mail-reader.c:3710 ../src/mail/e-mail-reader-utils.c:817
+#: ../src/mail/e-mail-reader.c:3710 ../src/mail/e-mail-reader-utils.c:815
 #: ../src/mail/e-mail-viewer.c:568 ../src/mail/e-mail-viewer.c:1741
 #: ../src/mail/e-mail-viewer.c:2403 ../src/mail/e-mail-viewer.c:2416
 #: ../src/mail/em-composer-utils.c:4279 ../src/mail/em-composer-utils.c:4302
@@ -9311,13 +9311,13 @@ msgstr[2] "Долучень"
 msgstr[3] "Долучення"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:234
-#: ../src/e-util/e-attachment.c:2647
+#: ../src/e-util/e-attachment.c:2602
 #, c-format
 msgid "Could not load “%s”"
 msgstr "Не вдалося завантажити «%s»"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:236
-#: ../src/e-util/e-attachment.c:2650
+#: ../src/e-util/e-attachment.c:2605
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Не вдалося завантажити долучення"
@@ -10055,7 +10055,7 @@ msgstr "Показувати час як _зайнятий"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:2695
-#: ../src/e-util/e-webdav-browser.c:2604
+#: ../src/e-util/e-webdav-browser.c:2610
 msgctxt "ECompEditor"
 msgid "None"
 msgstr "Жодного"
@@ -10141,7 +10141,7 @@ msgid "Sending notifications to attendees…"
 msgstr "Надсилання сповіщення учасникам…"
 
 #: ../src/calendar/gui/e-comp-editor.c:1047
-#: ../src/e-util/e-webdav-browser.c:1952
+#: ../src/e-util/e-webdav-browser.c:1958
 msgid "Saving changes…"
 msgstr "Збереження змін…"
 
@@ -13096,7 +13096,7 @@ msgstr "Зберегти _чернетку"
 #: ../src/e-util/e-collection-account-wizard.c:2114
 #: ../src/e-util/e-html-editor-link-popover.c:261
 #: ../src/e-util/e-mail-signature-script-dialog.c:382
-#: ../src/e-util/e-webdav-browser.c:2583
+#: ../src/e-util/e-webdav-browser.c:2589
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:540
 #: ../src/mail/e-mail-config-summary-page.c:312
@@ -13803,20 +13803,20 @@ msgstr ""
 msgid "View Certificate"
 msgstr "Переглянути сертифікат"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:278
+#: ../src/em-format/e-mail-formatter-secure-button.c:279
 msgid "Import Certificate"
 msgstr "Імпортувати сертифікат"
 
 #. image
-#: ../src/em-format/e-mail-formatter-secure-button.c:321
+#: ../src/em-format/e-mail-formatter-secure-button.c:322
 msgid "Details"
 msgstr "Подробиці"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:413
+#: ../src/em-format/e-mail-formatter-secure-button.c:414
 msgid "Digital Signature"
 msgstr "Цифровий підпис"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:419
+#: ../src/em-format/e-mail-formatter-secure-button.c:420
 msgid "Signer:"
 msgid_plural "Signers:"
 msgstr[0] "Власники підпису:"
@@ -13824,11 +13824,11 @@ msgstr[1] "Власники підпису:"
 msgstr[2] "Власники підпису:"
 msgstr[3] "Власник підпису:"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:430
+#: ../src/em-format/e-mail-formatter-secure-button.c:431
 msgid "Encryption"
 msgstr "Шифрування"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:435
+#: ../src/em-format/e-mail-formatter-secure-button.c:436
 msgid "Encrypted by:"
 msgstr "Зашифровано:"
 
@@ -14102,7 +14102,7 @@ msgstr "Облікові записи Evolution"
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1777 ../src/e-util/e-webdav-browser.c:2899
+#: ../src/e-util/e-accounts-window.c:1777 ../src/e-util/e-webdav-browser.c:2905
 #: ../src/mail/em-subscription-editor.c:1948
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1616
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1694
@@ -14189,39 +14189,39 @@ msgstr "Помилка при створенні гілки: "
 msgid "Attached message"
 msgstr "Долучене повідомлення"
 
-#: ../src/e-util/e-attachment.c:2262 ../src/e-util/e-attachment.c:3256
+#: ../src/e-util/e-attachment.c:2238 ../src/e-util/e-attachment.c:3176
 #: ../src/mail/em-utils.c:2321
 msgid "Operation was cancelled"
 msgstr "Операцію було відмінено"
 
-#: ../src/e-util/e-attachment.c:2529 ../src/e-util/e-attachment.c:3610
+#: ../src/e-util/e-attachment.c:2507 ../src/e-util/e-attachment.c:3616
 msgid "A load operation is already in progress"
 msgstr "Виконується операція завантаження"
 
-#: ../src/e-util/e-attachment.c:2537 ../src/e-util/e-attachment.c:3618
+#: ../src/e-util/e-attachment.c:2516 ../src/e-util/e-attachment.c:3625
 msgid "A save operation is already in progress"
 msgstr "Виконується операція зберігання"
 
-#: ../src/e-util/e-attachment.c:2883
+#: ../src/e-util/e-attachment.c:2838
 #, c-format
 msgid "Could not open “%s”"
 msgstr "Не вдалося відкрити «%s»"
 
-#: ../src/e-util/e-attachment.c:2886
+#: ../src/e-util/e-attachment.c:2841
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Не вдалося відкрити долучення"
 
-#: ../src/e-util/e-attachment.c:3627
+#: ../src/e-util/e-attachment.c:3635
 msgid "Attachment contents not loaded"
 msgstr "Вміст долучення не завантажено"
 
-#: ../src/e-util/e-attachment.c:3718
+#: ../src/e-util/e-attachment.c:3723
 #, c-format
 msgid "Could not save “%s”"
 msgstr "Не вдалося зберегти «%s»"
 
-#: ../src/e-util/e-attachment.c:3721
+#: ../src/e-util/e-attachment.c:3726
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Не можу зберегти долучення"
@@ -14268,7 +14268,7 @@ msgstr "_Назва файла:"
 #: ../src/e-util/e-attachment-popover.c:349
 #: ../src/e-util/e-html-editor-image-dialog.c:593
 #: ../src/e-util/e-html-editor-link-popover.c:235
-#: ../src/e-util/e-webdav-browser.c:2644
+#: ../src/e-util/e-webdav-browser.c:2650
 msgid "_Description:"
 msgstr "_Опис:"
 
@@ -14437,19 +14437,19 @@ msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%B %Y"
 
-#: ../src/e-util/e-cal-source-config.c:151
+#: ../src/e-util/e-cal-source-config.c:150
 msgid "Mark as default calendar"
 msgstr "Зазначити як типовий календар"
 
-#: ../src/e-util/e-cal-source-config.c:154
+#: ../src/e-util/e-cal-source-config.c:153
 msgid "Mark as default task list"
 msgstr "Зазначити як типовий список завдань"
 
-#: ../src/e-util/e-cal-source-config.c:157
+#: ../src/e-util/e-cal-source-config.c:156
 msgid "Mark as default memo list"
 msgstr "Зазначити як типовий список приміток"
 
-#: ../src/e-util/e-cal-source-config.c:182
+#: ../src/e-util/e-cal-source-config.c:169
 msgid "Color:"
 msgstr "Колір:"
 
@@ -14771,7 +14771,7 @@ msgid "_Remember password"
 msgstr "_Запам'ятати пароль"
 
 #: ../src/e-util/e-collection-account-wizard.c:868
-#: ../src/e-util/e-webdav-browser.c:552
+#: ../src/e-util/e-webdav-browser.c:555
 msgid "Collection"
 msgstr "Колекція"
 
@@ -16490,7 +16490,7 @@ msgstr "_Заповнення:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:661
 #: ../src/e-util/e-html-editor-text-dialog.c:239
-#: ../src/e-util/e-webdav-browser.c:2593
+#: ../src/e-util/e-webdav-browser.c:2599
 msgid "_Color:"
 msgstr "_Колір:"
 
@@ -17341,7 +17341,7 @@ msgstr "Тип:"
 msgid "Name:"
 msgstr "Назва:"
 
-#: ../src/e-util/e-source-config.c:806 ../src/e-util/e-webdav-browser.c:1885
+#: ../src/e-util/e-source-config.c:806 ../src/e-util/e-webdav-browser.c:1891
 msgid "Name cannot be empty"
 msgstr "Назва не може бути порожня"
 
@@ -17824,133 +17824,138 @@ msgstr "Адресна книга"
 msgid "Events"
 msgstr "Події"
 
-#: ../src/e-util/e-webdav-browser.c:542
+#: ../src/e-util/e-webdav-browser.c:540
+#| msgid "Server handles meeting invitations"
+msgid "Calendar handling meeting invitations"
+msgstr "Обробка запрошень на зібрання за допомогою календаря"
+
+#: ../src/e-util/e-webdav-browser.c:545
 msgid "Scheduling Inbox"
 msgstr "Плануємо «Вхідні»"
 
-#: ../src/e-util/e-webdav-browser.c:547
+#: ../src/e-util/e-webdav-browser.c:550
 msgid "Scheduling Outbox"
 msgstr "Плануємо «Вихідні»"
 
-#: ../src/e-util/e-webdav-browser.c:610 ../src/mail/e-mail-viewer.c:1731
+#: ../src/e-util/e-webdav-browser.c:613 ../src/mail/e-mail-viewer.c:1731
 #: ../src/mail/e-mail-viewer.c:2438 ../src/mail/em-folder-tree-model.c:1618
 #: ../src/mail/em-folder-tree-model.c:2006
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:893
 msgid "Loading…"
 msgstr "Завантаження…"
 
-#: ../src/e-util/e-webdav-browser.c:1470
+#: ../src/e-util/e-webdav-browser.c:1476
 msgid "Searching collection children…"
 msgstr "Пошук складових збірки…"
 
-#: ../src/e-util/e-webdav-browser.c:1472
+#: ../src/e-util/e-webdav-browser.c:1478
 msgid "Failed to search for collection children"
 msgstr "Не вдалося здійснити пошук складових колекції"
 
-#: ../src/e-util/e-webdav-browser.c:1506
+#: ../src/e-util/e-webdav-browser.c:1512
 msgid "Searching for user home, please wait…"
 msgstr "Пошук домівки користувача, будь ласка, зачекайте…"
 
-#: ../src/e-util/e-webdav-browser.c:1508
+#: ../src/e-util/e-webdav-browser.c:1514
 msgid "Failed to search for user home"
 msgstr "Не вдалося знайти домівку користувача"
 
-#: ../src/e-util/e-webdav-browser.c:1901
+#: ../src/e-util/e-webdav-browser.c:1907
 msgid "At least one component type should be set"
 msgstr "Має бути визначений принаймні один тип компонента"
 
-#: ../src/e-util/e-webdav-browser.c:1920
+#: ../src/e-util/e-webdav-browser.c:1926
 msgid "Failed to get selected collection HREF"
 msgstr "Не вдалося отримати HREF вибраної збірки"
 
-#: ../src/e-util/e-webdav-browser.c:1955
+#: ../src/e-util/e-webdav-browser.c:1961
 msgid "Creating new book…"
 msgstr "Створення нової книги…"
 
-#: ../src/e-util/e-webdav-browser.c:1956
+#: ../src/e-util/e-webdav-browser.c:1962
 msgid "Failed to create new book"
 msgstr "Не вдалося створити нову книгу"
 
-#: ../src/e-util/e-webdav-browser.c:1958
+#: ../src/e-util/e-webdav-browser.c:1964
 msgid "Creating new calendar…"
 msgstr "Створення нового календаря…"
 
-#: ../src/e-util/e-webdav-browser.c:1959
+#: ../src/e-util/e-webdav-browser.c:1965
 msgid "Failed to create new calendar"
 msgstr "Не вдалося створити новий календар"
 
-#: ../src/e-util/e-webdav-browser.c:1961
+#: ../src/e-util/e-webdav-browser.c:1967
 msgid "Creating new collection…"
 msgstr "Створення нової збірки…"
 
-#: ../src/e-util/e-webdav-browser.c:1962
+#: ../src/e-util/e-webdav-browser.c:1968
 msgid "Failed to create new collection"
 msgstr "Не вдалося створити нову збірку"
 
-#: ../src/e-util/e-webdav-browser.c:2114
+#: ../src/e-util/e-webdav-browser.c:2120
 msgid "It is not allowed to create book under another book or calendar"
 msgstr "Не дозволяється створювати книги під іншою книгою чи календарем"
 
 #. if (button == webdav_browser->priv->create_calendar_button)
-#: ../src/e-util/e-webdav-browser.c:2116
+#: ../src/e-util/e-webdav-browser.c:2122
 msgid "It is not allowed to create calendar under another book or calendar"
 msgstr "Не дозволяється створювати календар під іншою книгою чи календарем"
 
-#: ../src/e-util/e-webdav-browser.c:2361
+#: ../src/e-util/e-webdav-browser.c:2367
 msgid "Deleting book…"
 msgstr "Вилучення книги…"
 
-#: ../src/e-util/e-webdav-browser.c:2362
+#: ../src/e-util/e-webdav-browser.c:2368
 msgid "Failed to delete book"
 msgstr "Не вдалося вилучити книгу"
 
-#: ../src/e-util/e-webdav-browser.c:2365
+#: ../src/e-util/e-webdav-browser.c:2371
 msgid "Deleting calendar…"
 msgstr "Вилучення календаря…"
 
-#: ../src/e-util/e-webdav-browser.c:2366
+#: ../src/e-util/e-webdav-browser.c:2372
 msgid "Failed to delete calendar"
 msgstr "Не вдалося вилучити календар"
 
-#: ../src/e-util/e-webdav-browser.c:2369
+#: ../src/e-util/e-webdav-browser.c:2375
 msgid "Deleting collection…"
 msgstr "Вилучення збірки…"
 
-#: ../src/e-util/e-webdav-browser.c:2370
+#: ../src/e-util/e-webdav-browser.c:2376
 msgid "Failed to delete collection"
 msgstr "Не вдалося вилучити збірку"
 
 #. Translators: It's 'order' as 'sorting order'
-#: ../src/e-util/e-webdav-browser.c:2610
+#: ../src/e-util/e-webdav-browser.c:2616
 msgid "_Order:"
 msgstr "П_орядок:"
 
-#: ../src/e-util/e-webdav-browser.c:2620
+#: ../src/e-util/e-webdav-browser.c:2626
 msgid "Use -1 to not set the sort order"
 msgstr ""
 "Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
 
-#: ../src/e-util/e-webdav-browser.c:2626
+#: ../src/e-util/e-webdav-browser.c:2632
 msgid "For Components:"
 msgstr "Для компонентів:"
 
-#: ../src/e-util/e-webdav-browser.c:2632
+#: ../src/e-util/e-webdav-browser.c:2638
 msgid "_Events"
 msgstr "_Події"
 
-#: ../src/e-util/e-webdav-browser.c:2825
+#: ../src/e-util/e-webdav-browser.c:2831
 msgid "WebDAV server:"
 msgstr "Сервер WebDAV:"
 
-#: ../src/e-util/e-webdav-browser.c:2860
+#: ../src/e-util/e-webdav-browser.c:2866
 msgid "Create _Book"
 msgstr "Створити _книгу"
 
-#: ../src/e-util/e-webdav-browser.c:2867
+#: ../src/e-util/e-webdav-browser.c:2873
 msgid "Create _Calendar"
 msgstr "Створити _календар"
 
-#: ../src/e-util/e-webdav-browser.c:2874
+#: ../src/e-util/e-webdav-browser.c:2880
 msgid "Create Collectio_n"
 msgstr "Створити з_бірку"
 
@@ -18278,17 +18283,17 @@ msgstr "Неможливо зберегти підпис."
 msgid "Could not get selected text."
 msgstr "Не вдалося отримати позначений фрагмент тексту."
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:106
+#: ../src/libemail-engine/e-mail-folder-utils.c:114
 #, c-format
 msgid "Saving message to folder “%s”"
 msgstr "Збереження повідомлення у теку «%s»"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:563
+#: ../src/libemail-engine/e-mail-folder-utils.c:561
 msgid "Forwarded messages"
 msgstr "Переслані повідомлення"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:673
-#: ../src/libemail-engine/e-mail-folder-utils.c:935
+#: ../src/libemail-engine/e-mail-folder-utils.c:659
+#: ../src/libemail-engine/e-mail-folder-utils.c:904
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
@@ -18297,29 +18302,29 @@ msgstr[1] "Отримання %d повідомлень"
 msgstr[2] "Отримання %d повідомлень"
 msgstr[3] "Отримання %d повідомлення"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:775
+#: ../src/libemail-engine/e-mail-folder-utils.c:761
 msgid "Scanning messages for duplicates"
 msgstr "Сканування листів на повторення"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1148
+#: ../src/libemail-engine/e-mail-folder-utils.c:1100
 #, c-format
 msgid "Removing folder “%s”"
 msgstr "Вилучення теки «%s»"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1329
+#: ../src/libemail-engine/e-mail-folder-utils.c:1274
 #, c-format
 msgid "File “%s” has been removed."
 msgstr "Файл «%s» був успішно вилучений."
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1333
+#: ../src/libemail-engine/e-mail-folder-utils.c:1278
 msgid "File has been removed."
 msgstr "Файл вилучено."
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1411
+#: ../src/libemail-engine/e-mail-folder-utils.c:1356
 msgid "Removing attachments"
 msgstr "Вилучення долучень"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:1632
+#: ../src/libemail-engine/e-mail-folder-utils.c:1564
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
@@ -18328,13 +18333,13 @@ msgstr[1] "Збереження %d повідомлень"
 msgstr[2] "Збереження %d повідомлень"
 msgstr[3] "Збереження %d повідомлення"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:2053
+#: ../src/libemail-engine/e-mail-folder-utils.c:1972
 #, c-format
 msgid "Invalid folder URI “%s”"
 msgstr "Неправильний URI теки «%s»"
 
 #. Some local folders
-#: ../src/libemail-engine/e-mail-session.c:117
+#: ../src/libemail-engine/e-mail-session.c:113
 #: ../src/mail/em-folder-properties.c:1505
 #: ../src/mail/em-folder-tree-model.c:1531
 #: ../src/mail/em-folder-tree-model.c:1561
@@ -18345,7 +18350,7 @@ msgid "Inbox"
 msgstr "Вхідні"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../src/libemail-engine/e-mail-session.c:118
+#: ../src/libemail-engine/e-mail-session.c:114
 #: ../src/mail/em-folder-tree-model.c:1525
 #: ../src/mail/em-folder-tree-model.c:1565
 #: ../src/mail/importers/kmail-libs.c:144
@@ -18354,7 +18359,7 @@ msgid "Drafts"
 msgstr "Чернетки"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../src/libemail-engine/e-mail-session.c:119
+#: ../src/libemail-engine/e-mail-session.c:115
 #: ../src/mail/em-folder-tree-model.c:1537
 #: ../src/mail/importers/kmail-libs.c:140
 #: ../src/modules/mail/e-mail-shell-view-private.c:1029
@@ -18362,7 +18367,7 @@ msgid "Outbox"
 msgstr "Вихідні"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../src/libemail-engine/e-mail-session.c:120
+#: ../src/libemail-engine/e-mail-session.c:116
 #: ../src/mail/em-folder-tree-model.c:1542
 #: ../src/mail/em-folder-tree-model.c:1564
 #: ../src/mail/importers/kmail-libs.c:142
@@ -18371,7 +18376,7 @@ msgid "Sent"
 msgstr "Надіслані"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../src/libemail-engine/e-mail-session.c:121
+#: ../src/libemail-engine/e-mail-session.c:117
 #: ../src/mail/em-folder-tree-model.c:1527
 #: ../src/mail/importers/kmail-libs.c:146
 #: ../src/modules/mail/e-mail-shell-view-private.c:1033
@@ -18379,67 +18384,67 @@ msgstr "Надіслані"
 msgid "Templates"
 msgstr "Шаблони"
 
-#: ../src/libemail-engine/e-mail-session.c:1500
+#: ../src/libemail-engine/e-mail-session.c:1492
 #, c-format
 msgid "User cancelled operation"
 msgstr "Користувач скасував операцію"
 
-#: ../src/libemail-engine/e-mail-session.c:1732
+#: ../src/libemail-engine/e-mail-session.c:1724
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "Пересилання листа скасовано, бо не вказано кінцеву адресу."
 
-#: ../src/libemail-engine/e-mail-session.c:1752
+#: ../src/libemail-engine/e-mail-session.c:1744
 #, c-format
 msgid ""
 "No identity found to use, forwarding of the message has been cancelled."
 msgstr "Пересилання листа скасовано, бо не знайдено тотожності."
 
-#: ../src/libemail-engine/e-mail-session.c:1955
+#: ../src/libemail-engine/e-mail-session.c:1947
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr ""
 "Відповідне джерело для служби із унікальним ідентифікатором «%s» не знайдено"
 
-#: ../src/libemail-engine/e-mail-session.c:2075
+#: ../src/libemail-engine/e-mail-session.c:2067
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr "Триває пошук сертифікатів отримувача S/MIME в адресних книгах…"
 
-#: ../src/libemail-engine/e-mail-session.c:2077
+#: ../src/libemail-engine/e-mail-session.c:2069
 msgid "Looking up recipient PGP keys in address books…"
 msgstr "Триває пошук ключів PGP отримувача в адресних книгах…"
 
-#: ../src/libemail-engine/e-mail-session.c:3122
+#: ../src/libemail-engine/e-mail-session.c:3062
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "Очікування на «%s»"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:528
+#: ../src/libemail-engine/e-mail-session-utils.c:512
 msgid "No mail transport service available"
 msgstr "Немає доступної поштової служби"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:621
+#: ../src/libemail-engine/e-mail-session-utils.c:605
 #: ../src/libemail-engine/mail-ops.c:712
 #, c-format
 msgid "Posting message to “%s”"
 msgstr "Публікація повідомлення на «%s»"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:660
+#: ../src/libemail-engine/e-mail-session-utils.c:644
 #: ../src/libemail-engine/mail-ops.c:751
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Не вдалося застосувати фільтри на виході: %s"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:693
-#: ../src/libemail-engine/e-mail-session-utils.c:728
+#: ../src/libemail-engine/e-mail-session-utils.c:677
+#: ../src/libemail-engine/e-mail-session-utils.c:712
 #: ../src/libemail-engine/mail-ops.c:779 ../src/libemail-engine/mail-ops.c:814
 #, c-format
 msgid "Storing sent message to “%s”"
 msgstr "Збереження надісланого повідомлення у «%s»"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:717
+#: ../src/libemail-engine/e-mail-session-utils.c:701
 #: ../src/libemail-engine/mail-ops.c:803
 #, c-format
 msgid ""
@@ -18449,30 +18454,31 @@ msgstr ""
 "Не вдалося додати до %s: %s\n"
 "Натомість додаємо до локальної теки «Надіслані»."
 
-#: ../src/libemail-engine/e-mail-session-utils.c:747
+#: ../src/libemail-engine/e-mail-session-utils.c:731
 #: ../src/libemail-engine/mail-ops.c:831
 #, c-format
 msgid "Failed to append to local “Sent” folder: %s"
 msgstr "Не вдалося додати до локальної теки «Надіслані»: %s"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:944
+#. This gets popped in async_context_free().
+#: ../src/libemail-engine/e-mail-session-utils.c:930
 #: ../src/libemail-engine/mail-ops.c:1027
 #: ../src/libemail-engine/mail-ops.c:1139 ../src/mail/mail-send-recv.c:665
 msgid "Sending message"
 msgstr "Надсилається повідомлення"
 
-#: ../src/libemail-engine/e-mail-store-utils.c:188
+#: ../src/libemail-engine/e-mail-store-utils.c:165
 #, c-format
 msgid "Disconnecting from “%s”"
 msgstr "Від'єднання від «%s»"
 
-#: ../src/libemail-engine/e-mail-store-utils.c:264
+#: ../src/libemail-engine/e-mail-store-utils.c:231
 #: ../src/mail/e-mail-backend.c:1051
 #, c-format
 msgid "Reconnecting to “%s”"
 msgstr "Повторне з'єднання з «%s»"
 
-#: ../src/libemail-engine/e-mail-store-utils.c:349
+#: ../src/libemail-engine/e-mail-store-utils.c:311
 #: ../src/mail/mail-send-recv.c:1086
 #, c-format
 msgid "Preparing account “%s” for offline"
@@ -20234,43 +20240,43 @@ msgstr "Далі"
 msgid "Previous"
 msgstr "Попереднє"
 
-#: ../src/mail/e-mail-reader-utils.c:156
+#: ../src/mail/e-mail-reader-utils.c:154
 msgid "Do not warn me again"
 msgstr "Більше не попереджати"
 
-#: ../src/mail/e-mail-reader-utils.c:644
+#: ../src/mail/e-mail-reader-utils.c:642
 #, c-format
 msgid "Deleting messages in Junk folder “%s”…"
 msgstr "Вилучення повідомлень у теці спаму «%s»"
 
-#: ../src/mail/e-mail-reader-utils.c:739
+#: ../src/mail/e-mail-reader-utils.c:737
 #, c-format
 msgid "Refreshing folder “%s”"
 msgstr "Оновлення теки «%s»"
 
-#: ../src/mail/e-mail-reader-utils.c:1346
+#: ../src/mail/e-mail-reader-utils.c:1344
 msgid "Marking thread to be ignored"
 msgstr "Зазначення гілки як нехтувану"
 
-#: ../src/mail/e-mail-reader-utils.c:1350
+#: ../src/mail/e-mail-reader-utils.c:1348
 msgid "Unmarking thread from being ignored"
 msgstr "Зазначення гілки як не нехтувану"
 
-#: ../src/mail/e-mail-reader-utils.c:1354
+#: ../src/mail/e-mail-reader-utils.c:1352
 msgid "Marking subthread to be ignored"
 msgstr "Зазначення підгілки як нехтувану"
 
-#: ../src/mail/e-mail-reader-utils.c:1358
+#: ../src/mail/e-mail-reader-utils.c:1356
 msgid "Unmarking subthread from being ignored"
 msgstr "Зазначення підгілки як не нехтувану"
 
-#: ../src/mail/e-mail-reader-utils.c:1606
+#: ../src/mail/e-mail-reader-utils.c:1604
 msgid "Printing"
 msgstr "Друкування"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../src/mail/e-mail-reader-utils.c:1838
+#: ../src/mail/e-mail-reader-utils.c:1836
 #, c-format
 msgid ""
 "Folder “%s” contains %u duplicate message. Are you sure you want to delete "
@@ -20287,7 +20293,7 @@ msgstr[2] ""
 msgstr[3] ""
 "Тека «%s» містить %u дублікатів повідомлення. Ви дійсно бажаєте їх вилучити?"
 
-#: ../src/mail/e-mail-reader-utils.c:3126
+#: ../src/mail/e-mail-reader-utils.c:3124
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Зберегти повідомлення"
@@ -20300,7 +20306,7 @@ msgstr[3] "Зберегти повідомлення"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3147
+#: ../src/mail/e-mail-reader-utils.c:3145
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Повідомлення"
@@ -20308,7 +20314,7 @@ msgstr[1] "Повідомлення"
 msgstr[2] "Повідомлення"
 msgstr[3] "Повідомлення"
 
-#: ../src/mail/e-mail-reader-utils.c:3585
+#: ../src/mail/e-mail-reader-utils.c:3581
 msgid "Parsing message"
 msgstr "Розбирання листа"
 
@@ -23466,7 +23472,7 @@ msgstr "Повідомлення"
 msgid "Follow-up"
 msgstr "Відповісти"
 
-#: ../src/mail/message-list.c:6513 ../src/mail/message-list.c:6957
+#: ../src/mail/message-list.c:6513 ../src/mail/message-list.c:6952
 msgid "Generating message list…"
 msgstr "Створення списку повідомлень…"
 
