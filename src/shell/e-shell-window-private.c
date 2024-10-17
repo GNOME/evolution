@@ -575,7 +575,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		g_free (priv->geometry);
 		priv->geometry = NULL;
 	} else {
-		gtk_window_set_default_size (window, 640, 480);
+		gtk_window_set_default_size (window, 1440, 900);
 		e_restore_window (
 			window, "/org/gnome/evolution/shell/window/",
 			E_RESTORE_WINDOW_SIZE | E_RESTORE_WINDOW_POSITION);
