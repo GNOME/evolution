@@ -1,3 +1,18 @@
+Evolution 3.54.1 2024-10-18
+---------------------------
+
+Bug Fixes:
+	I#2878 - Missing sender's S/MIME certificate import button
+
+Miscellaneous:
+	libgnomecanvas: Add few checks for argument validity
+	WebKitGTK 2.46.1: Middle mouse button inserts primary clipboard twice
+
+Translations:
+	Ekaterine Papava (ka)
+	Jürgen Benvenuti (de)
+	Piotr Drąg (pl)
+
 Evolution 3.54.0 2024-09-13
 ---------------------------
 
