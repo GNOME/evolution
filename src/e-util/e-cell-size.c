@@ -80,7 +80,7 @@ e_cell_size_init (ECellSize *e_cell_size)
  * @justify: Justification of the string in the cell.
  *
  * Creates a new ECell renderer that can be used to render file sizes
- * that that come from the model.  The value returned from the model
+ * that come from the model.  The value returned from the model
  * is interpreted as being a time_t.
  *
  * The ECellSize object support a large set of properties that can be
