@@ -92,7 +92,7 @@ test_iconv (void)
 {
 	char *jp = (char *) "\x1B\x24\x42\x46\x7C\x4B\x5C\x38\x6C";
 	const char *utf8 = "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E";
-	char *transbuf = malloc (10), *trans = transbuf;
+	char transbuf[32], *trans = transbuf;
 	iconv_t cd;
 	size_t jp_len = strlen (jp), utf8_len = 10;
 	size_t utf8_real_len = strlen (utf8);
