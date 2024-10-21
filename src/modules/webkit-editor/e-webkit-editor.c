@@ -109,6 +109,7 @@ struct _EWebKitEditorPrivate {
 
 	guint32 style_flags;
 	guint32 temporary_style_flags; /* that's for collapsed selection, format changes only after something is typed */
+	guint32 last_button_press_time_ms;
 	gint indent_level;
 
 	GdkRGBA *background_color;
@@ -5687,10 +5688,32 @@ webkit_editor_button_press_event (GtkWidget *widget,
 	wk_editor = E_WEBKIT_EDITOR (widget);
 
 	if (event->button == 2) {
-		if ((event->state & GDK_SHIFT_MASK) != 0) {
-			paste_primary_clipboard_quoted (E_CONTENT_EDITOR (widget));
-		} else if (!e_content_editor_emit_paste_primary_clipboard (E_CONTENT_EDITOR (widget)))
-			webkit_editor_paste_primary (E_CONTENT_EDITOR( (widget)));
+		if (event->type == GDK_BUTTON_PRESS) {
+			if (event->time) {
+				GtkSettings *settings;
+				guint32 last_button_press_time_ms;
+
+				last_button_press_time_ms = wk_editor->priv->last_button_press_time_ms;
+
+				settings = gtk_settings_get_for_screen (gtk_widget_get_screen (widget));
+				if (settings) {
+					gint double_click_time_ms = 0;
+
+					g_object_get (G_OBJECT (settings), "gtk-double-click-time", &double_click_time_ms, NULL);
+
+					/* it's too early, double-click or triple-click event will follow */
+					if (double_click_time_ms >= event->time - last_button_press_time_ms)
+						return TRUE;
+				}
+
+				wk_editor->priv->last_button_press_time_ms = event->time;
+			}
+
+			if ((event->state & GDK_SHIFT_MASK) != 0) {
+				paste_primary_clipboard_quoted (E_CONTENT_EDITOR (widget));
+			} else if (!e_content_editor_emit_paste_primary_clipboard (E_CONTENT_EDITOR (widget)))
+				webkit_editor_paste_primary (E_CONTENT_EDITOR( (widget)));
+		}
 
 		return TRUE;
 	}
