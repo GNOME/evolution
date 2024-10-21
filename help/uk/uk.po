@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2024-10-07 10:22+0000\n"
-"PO-Revision-Date: 2024-10-07 17:49+0300\n"
+"POT-Creation-Date: 2024-10-21 09:43+0000\n"
+"PO-Revision-Date: 2024-10-21 21:09+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -249,38 +249,46 @@ msgstr ""
 "gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:36
+#: C/calendar-caldav.page:36 C/tasks-caldav.page:25
 msgid "Select the type <gui>CalDAV</gui>."
 msgstr "Виберіть тип <gui>CalDAV</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:39 C/calendar-google.page:40 C/calendar-local.page:34
+#: C/calendar-caldav.page:39
+msgid ""
+"To discover the calendars, announced by the server, enter the server address "
+"as <gui>URL</gui> and optionally <gui>User</gui>, then click on <gui "
+"style=\"button\">Find Calendars</gui>. Select a calendar and <gui>User mail</"
+"gui>. This prefills the fields <gui>Name</gui>, <gui>Color</gui>, <gui>URL</"
+"gui> and (see below) <gui>Email</gui>. The step is optional, and you can "
+"overwrite all discovered settings."
+msgstr ""
+"Щоб виявити календарі, оголошені сервером, введіть адресу сервера у полі <"
+"gui>URL</gui> і, якщо треба, <gui>Користувач</gui>, а потім натисніть <gui"
+" style=\"button\">Знайти календарі</gui>. Виберіть календар і <gui>Пошту"
+" користувача</gui>. У результаті буде попередньо заповнено поля <gui>Назва<"
+"/gui>, <gui>Колір</gui>, <gui>URL</gui> та (див. нижче) <gui>Ел.пошта</gui>."
+" Цей крок необов’язковий, і ви можете перезаписати всі виявлені налаштування."
+
+#. (itstool) path: item/p
+#: C/calendar-caldav.page:43 C/calendar-google.page:40 C/calendar-local.page:34
 #: C/calendar-weather.page:36 C/calendar-webdav.page:35
 #: C/contacts-google.page:35 C/contacts-ldap.page:48 C/contacts-local.page:34
-#: C/contacts-using-contact-lists.page:48 C/tasks-caldav.page:26
+#: C/contacts-using-contact-lists.page:48 C/tasks-caldav.page:30
 #: C/tasks-local.page:26 C/tasks-webdav.page:28
 msgid "Enter a name that you prefer."
 msgstr "Введіть бажану для вас назву."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:42 C/calendar-google.page:43 C/calendar-local.page:37
-#: C/calendar-weather.page:39 C/calendar-webdav.page:38 C/tasks-caldav.page:27
+#: C/calendar-caldav.page:46 C/calendar-google.page:43 C/calendar-local.page:37
+#: C/calendar-weather.page:39 C/calendar-webdav.page:38 C/tasks-caldav.page:31
 #: C/tasks-local.page:27 C/tasks-webdav.page:29
 msgid "Optionally choose a color that you prefer."
 msgstr "Якщо хочете, виберіть бажаний колір."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:45 C/calendar-google.page:46
-#: C/calendar-weather.page:42 C/calendar-webdav.page:41
-#: C/contacts-google.page:38
-msgid ""
-"Choose if you want to be able to view the content also when being offline."
-msgstr ""
-"Виберіть, чи хочете ви мати можливість переглядати дані у автономному режимі."
-
-#. (itstool) path: item/p
 #: C/calendar-caldav.page:49 C/calendar-webdav.page:45
-#: C/mail-composer-html-link.page:28 C/tasks-caldav.page:29
+#: C/mail-composer-html-link.page:28 C/tasks-caldav.page:32
 #: C/tasks-webdav.page:31
 msgid "Enter the address in the <gui>URL</gui> field."
 msgstr "Введіть адресу у поле <gui>URL</gui>."
@@ -288,7 +296,7 @@ msgstr "Введіть адресу у поле <gui>URL</gui>."
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:52 C/calendar-weather.page:49
 #: C/calendar-webdav.page:48 C/contacts-google.page:45
-#: C/mail-sending-options-smtp.page:38 C/tasks-caldav.page:30
+#: C/mail-sending-options-smtp.page:38 C/tasks-caldav.page:33
 #: C/tasks-webdav.page:32
 msgid ""
 "Choose <gui>Use a secure connection</gui> if you want to connect securely."
@@ -297,14 +305,34 @@ msgstr ""
 "захистити з'єднання."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:56 C/tasks-caldav.page:31
-msgid "Enter your username and your email address."
-msgstr "Введіть ваше ім'я користувача і вашу адресу електронної пошти."
+#: C/calendar-caldav.page:56
+msgid ""
+"Enter your username and email address. When a meeting is created in the "
+"calendar, this email address is prefilled as Organizer."
+msgstr ""
+"Введіть своє ім'я користувача та адресу електронної пошти. Якщо запис"
+" зустрічі створюють у календарі, цю адресу електронної пошти буде попередньо"
+" вписано до поля «Організатор»."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:59 C/calendar-google.page:55 C/calendar-local.page:46
+#: C/calendar-caldav.page:59
+msgid ""
+"When a meeting is created, modified or deleted, a notification can be sent "
+"to the other parties of the meeting. If <gui>Server handles meeting "
+"invitations</gui> is selected, <app>Evolution</app> uploads the meeting and "
+"assumes that the server informs other parties. When the option is not "
+"selected, <app>Evolution</app> sends an email."
+msgstr ""
+"При створенні, внесенні змін та вилученні запису зустрічі можна надіслати"
+" сповіщення іншим учасникам зустрічі. Якщо позначено пункт <gui>Сервер"
+" обробляє запрошення на зустріч</gui>, <app>Evolution</app> вивантажує запис"
+" зустрічі і припускає, що сервер інформує інших учасників. Якщо цей пункт не"
+" позначено, <app>Evolution</app> надсилає електронний лист самостійно."
+
+#. (itstool) path: item/p
+#: C/calendar-caldav.page:64 C/calendar-google.page:55 C/calendar-local.page:46
 #: C/calendar-meetings-delegating.page:41 C/calendar-weather.page:56
-#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:58
+#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:114
 #: C/contacts-local.page:37 C/contacts-usage-add-contact.page:43
 #: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
 #: C/mail-attachments-sending.page:32
@@ -313,17 +341,36 @@ msgstr "Введіть ваше ім'я користувача і вашу ад�
 #: C/mail-encryption-gpg-signing-encrypting.page:40
 #: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
 #: C/mail-filters.page:71 C/mail-search-folders-add.page:47
-#: C/tasks-caldav.page:32 C/tasks-local.page:28 C/tasks-webdav.page:34
+#: C/tasks-caldav.page:40 C/tasks-local.page:28 C/tasks-webdav.page:34
 #: C/using-categories.page:51 C/using-categories.page:53
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Натисніть кнопку <gui style=\"button\">Гаразд</gui>."
 
 #. (itstool) path: page/p
-#: C/calendar-caldav.page:63 C/calendar-google.page:59 C/calendar-local.page:50
+#: C/calendar-caldav.page:68 C/calendar-google.page:59 C/calendar-local.page:50
 #: C/calendar-weather.page:60 C/calendar-webdav.page:59
 msgid ""
 "The calendar will be added to the list of calendars in <app>Evolution</app>."
 msgstr "Календар буде додано до списку календарів в <app>Evolution</app>."
+
+#. (itstool) path: section/title
+#: C/calendar-caldav.page:71 C/contacts-using-several-addressbooks.page:32
+#: C/tasks-caldav.page:46
+#| msgid "Common Account Types"
+msgid "Collection accounts"
+msgstr "Облікові записи збірок"
+
+#. (itstool) path: section/p
+#: C/calendar-caldav.page:72 C/tasks-caldav.page:47
+msgid ""
+"Different types of mail, addressbooks, calendars, task and memo lists, "
+"belonging to the same user, can be added in one step by utilizing a <link "
+"xref=\"intro-account-types#collection-account\">Collection account</link>."
+msgstr ""
+"Різні типи пошти, адресних книг, календарів, списків завдань і приміток, що"
+" належать одному користувачеві, можна додавати за один крок, за допомогою <"
+"link xref=\"intro-account-types#collection-account\">облікового запису"
+" збірки</link>."
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
@@ -590,6 +637,14 @@ msgstr "Користування календарем Google"
 #: C/calendar-google.page:37 C/contacts-google.page:32
 msgid "Select the type <gui>Google</gui>."
 msgstr "Виберіть тип <gui>Google</gui>."
+
+#. (itstool) path: item/p
+#: C/calendar-google.page:46 C/calendar-weather.page:42
+#: C/calendar-webdav.page:41 C/contacts-google.page:38
+msgid ""
+"Choose if you want to be able to view the content also when being offline."
+msgstr ""
+"Виберіть, чи хочете ви мати можливість переглядати дані у автономному режимі."
 
 #. (itstool) path: item/p
 #: C/calendar-google.page:49 C/contacts-google.page:42
@@ -1319,41 +1374,28 @@ msgstr "Публікація календарів"
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:30
-#| msgid ""
-#| "In order to make one of your calendars available to the public, you can "
-#| "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
-#| "Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
-#| "guiseq>."
 msgid ""
 "In order to make one of your calendars available to the public, enable the "
 "Calendar Publishing plugin from <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui> <gui>Plugins</gui></guiseq> and restart <app>Evolution</app> to "
 "activate it."
 msgstr ""
-"Щоб зробити один з ваших календарів загальнодоступним, увімкніть додаток"
-" оприлюднення календарів за допомогою пункту меню <guiseq><gui>Зміни</gui><"
-"gui>Параметри</gui> <gui>Додатки</gui></guiseq> і перезапустіть <app"
-">Evolution</app>, щоб задіяти його."
+"Щоб зробити один з ваших календарів загальнодоступним, увімкніть додаток "
+"оприлюднення календарів за допомогою пункту меню <guiseq><gui>Зміни</"
+"gui><gui>Параметри</gui> <gui>Додатки</gui></guiseq> і перезапустіть "
+"<app>Evolution</app>, щоб задіяти його."
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:33
-#| msgid ""
-#| "In order to make one of your calendars available to the public, you can "
-#| "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
-#| "Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
-#| "guiseq>."
 msgid ""
 "You can define calendars to be uploaded to a web server under "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> "
 "<gui>Publishing Information</gui> <gui>Locations</gui><gui "
 "style=\"button\">Add</gui></guiseq>."
 msgstr ""
-"Ви можете визначити "
-"календарі, які вивантажуватимуться на вебсервер, за допомогою кнопки "
-"<guiseq><gui>Зміни</gui><gui>Параметри</gui> <gui>Календар та завдання</gui> "
-"<gui>Оприлюднення інформації</gui> <gui>Адреси</gui><gui "
+"Ви можете визначити календарі, які вивантажуватимуться на вебсервер, за "
+"допомогою кнопки <guiseq><gui>Зміни</gui><gui>Параметри</gui> <gui>Календар "
+"та завдання</gui> <gui>Оприлюднення інформації</gui> <gui>Адреси</gui><gui "
 "style=\"button\">Додати</gui></guiseq>."
 
 #. (itstool) path: page/p
@@ -1367,9 +1409,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:46
-#| msgid ""
-#| "To immediately publish calendar information, click <guiseq><gui>Actions</"
-#| "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar window."
@@ -1816,16 +1855,18 @@ msgstr "Виберіть одиницю виміру температури."
 
 #. (itstool) path: info/desc
 #: C/calendar-webdav.page:16
-msgid "Using an online Webcal/WebDAV calendar."
-msgstr "Користування календарем Webcal/WebDAV у мережі."
+#| msgid "Using an online Webcal/WebDAV calendar."
+msgid "Using an online Webcal/HTTP calendar."
+msgstr "Користування календарем Webcal/HTTP у мережі."
 
 #. (itstool) path: page/title
 #: C/calendar-webdav.page:19
-msgid "Using a WebDAV calendar"
-msgstr "Користування календарем WebDAV"
+#| msgid "Using a WebDAV calendar"
+msgid "Using a Webcal calendar"
+msgstr "Користування календарем Webcal"
 
 #. (itstool) path: item/p
-#: C/calendar-webdav.page:32 C/tasks-caldav.page:25 C/tasks-webdav.page:27
+#: C/calendar-webdav.page:32 C/tasks-webdav.page:27
 msgid "Select the type <gui>On the Web</gui>."
 msgstr "Виберіть тип <gui>У інтернеті</gui>."
 
@@ -2049,13 +2090,19 @@ msgstr "Додавання адресної книги LDAP"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:44
-msgid ""
-"In the <gui>General</gui> tab, select the type <gui>On LDAP Servers</gui>."
-msgstr ""
-"На вкладці <gui>Загальне</gui> виберіть тип <gui>На серверах LDAP</gui>."
+#| msgid ""
+#| "In the <gui>General</gui> tab, select the type <gui>On LDAP Servers</gui>."
+msgid "In the <gui>Type</gui> field, select <gui>On LDAP Servers</gui>."
+msgstr "У полі <gui>Тип</gui> виберіть <gui>На серверах LDAP</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:51
+#| msgid "Click the <gui>Configuration</gui> tab."
+msgid "In the <gui>Connecting to LDAP</gui> tab:"
+msgstr "На вкладці <gui>З'єднання з LDAP</gui>:"
+
+#. (itstool) path: item/p
+#: C/contacts-ldap.page:54
 msgid ""
 "Enter the address of the server, the port number (the default number is 389) "
 "and whether you want to connect securely."
@@ -2064,17 +2111,19 @@ msgstr ""
 "слід встановлювати з'єднання із захистом передавання даних."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:55
+#: C/contacts-ldap.page:58
 msgid "Define the login method and your username."
 msgstr "Вкажіть спосіб входу та ваше ім'я користувача."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:61
-msgid "In the <gui>Details</gui> tab you can define the following settings:"
-msgstr "На вкладці <gui>Подробиці</gui> ви можете визначити такі параметри:"
+#: C/contacts-ldap.page:63
+#| msgid "In the <gui>Details</gui> tab you can define the following settings:"
+msgid "In the <gui>Using LDAP</gui> tab you define the following settings:"
+msgstr ""
+"На вкладці <gui>Використання LDAP</gui> ви можете визначити такі параметри:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:65
+#: C/contacts-ldap.page:67
 msgid ""
 "Search Base: The search base is the starting point for a directory search. "
 "Contact your system administrator for information about the correct settings."
@@ -2084,27 +2133,27 @@ msgstr ""
 "правильним."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:70
+#: C/contacts-ldap.page:72
 msgid "Search Scope: The search scope is the breadth of a given search."
 msgstr "Область пошуку: область пошуку визначає діапазон пошуку."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:71
+#: C/contacts-ldap.page:73
 msgid "The following options are available:"
 msgstr "Можна скористатися одним з таких варіантів:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:74
+#: C/contacts-ldap.page:76
 msgid "One Level: Searches one entry below the Search Base."
 msgstr "Один рівень: шукати у базі пошуку і на один запис під нею."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:77
+#: C/contacts-ldap.page:79
 msgid "Subtree: Searches the Search Base and all entries below it."
 msgstr "Піддерево: шукати у базі пошуку і усіх записах під нею."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:82
+#: C/contacts-ldap.page:84
 msgid ""
 "Search Filter: The search filter can be set here for all the LDAP queries. "
 "For example:"
@@ -2113,17 +2162,17 @@ msgstr ""
 "Приклад:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:86
+#: C/contacts-ldap.page:88
 msgid "<code>ObjectClass=*</code>: Lists all the objects from the server."
 msgstr "<code>ObjectClass=*</code>: вивести список усіх об'єктів з сервера."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:90
+#: C/contacts-ldap.page:92
 msgid "<code>ObjectClass=User</code>: Lists only the users."
 msgstr "<code>ObjectClass=User</code>: вивести список лише користувачів."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:93
+#: C/contacts-ldap.page:95
 msgid ""
 "<code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: "
 "Retrieves the User and Contact List objects."
@@ -2132,7 +2181,7 @@ msgstr ""
 "отримати об'єкти списку користувачів і контактів."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:97
+#: C/contacts-ldap.page:99
 msgid ""
 "<code>(&amp;(mail=*)(ObjectClass=*))</code>: Lists the objects associated "
 "with the email addresses."
@@ -2141,40 +2190,38 @@ msgstr ""
 "пов'язано із адресами електронної пошти."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:103
-msgid ""
-"Timeout (minutes): The maximum time <app>Evolution</app> attempts to "
-"download data from the server before giving up."
-msgstr ""
-"Час очікування (у хвилинах): максимальний час, протягом якого "
-"<app>Evolution</app> намагатиметься отримати дані з сервера, перш ніж "
-"припинити спроби."
-
-#. (itstool) path: item/p
-#: C/contacts-ldap.page:107
+#: C/contacts-ldap.page:105
+#| msgid ""
+#| "Download Limit: The maximum number of results for a given search. Most "
+#| "servers refuse to send more than 500 contacts, but you can set the number "
+#| "lower if you want to shorten downloads for very broad searches."
 msgid ""
 "Download Limit: The maximum number of results for a given search. Most "
 "servers refuse to send more than 500 contacts, but you can set the number "
-"lower if you want to shorten downloads for very broad searches."
+"lower if you want to shorten downloads for very broad searches. This option "
+"is ignored, if <gui>Copy book content locally for offline operation</gui> is "
+"checked."
 msgstr ""
 "Обмеження: максимальна кількість результатів вказаного пошуку. Більшість "
 "серверів відмовляється надсилати понад 500 контактів, але ви можете вказати "
-"менше значення, щоб скоротити обсяг даних для дуже широких пошуків."
+"менше значення, щоб скоротити обсяг даних для дуже широких пошуків. Цей"
+" пункт буде проігноровано, якщо позначено пункт <gui>Скопіювати книгу"
+" локально для автономної роботи</gui>."
 
 #. (itstool) path: note/p
-#: C/contacts-ldap.page:117
+#: C/contacts-ldap.page:119
 msgid "If you are unsure about some settings, ask your system administrator."
 msgstr ""
 "Якщо ви не певні щодо значень якихось із параметрів, зв'яжіться із "
 "адміністратором вашої системи."
 
 #. (itstool) path: section/title
-#: C/contacts-ldap.page:124
+#: C/contacts-ldap.page:126
 msgid "Differences to local address books"
 msgstr "Відмінності від локальних адресних книг"
 
 #. (itstool) path: section/p
-#: C/contacts-ldap.page:126
+#: C/contacts-ldap.page:128
 msgid ""
 "LDAP address books work like local address books on your computer, with the "
 "following exceptions:"
@@ -2183,7 +2230,7 @@ msgstr ""
 "комп'ютері із такими виключеннями:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:131
+#: C/contacts-ldap.page:133
 msgid ""
 "Network folders are only available when you are connected to the network. If "
 "you use a laptop or have a modem connection, you might want to copy or cache "
@@ -2197,7 +2244,7 @@ msgstr ""
 "локальних адресних книг."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:137
+#: C/contacts-ldap.page:139
 msgid ""
 "You can also mark the network folder for offline usage. To mark the folder, "
 "right-click the folder, click <gui>Properties</gui> and select <gui>Copy "
@@ -2209,7 +2256,7 @@ msgstr ""
 "<gui>Скопіювати вміст теки на локальну машину для _автономної роботи</gui>."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:142
+#: C/contacts-ldap.page:144
 msgid ""
 "To prevent excess network traffic, <app>Evolution</app> does not normally "
 "load data from the LDAP server upon opening."
@@ -2219,7 +2266,7 @@ msgstr ""
 "програми."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:146
+#: C/contacts-ldap.page:148
 msgid ""
 "Depending on your server settings, you might not be able to edit all the "
 "fields in a contact stored on an LDAP server. Some servers prohibit some or "
@@ -2682,6 +2729,18 @@ msgstr ""
 "Ви також можете скористатися адресними книгами, які не зберігаються на "
 "вашому комп'ютері, зокрема календарями у інтернеті (наприклад у Google) і у "
 "локальній мережі (наприклад у LDAP)."
+
+#. (itstool) path: section/p
+#: C/contacts-using-several-addressbooks.page:33
+msgid ""
+"Different types of mail, addressbooks, calendars, task and memo lists, "
+"belonging to the same user, can be added in one step, by utilizing a <link "
+"xref=\"intro-account-types#collection-account\">Collection account</link>."
+msgstr ""
+"Різні типи пошти, адресних книг, календарів, списків завдань і приміток, що"
+" належать одному користувачеві, можна додавати за один крок, за допомогою <"
+"link xref=\"intro-account-types#collection-account\">облікового запису"
+" збірки</link>."
 
 #. (itstool) path: info/desc
 #: C/credits.page:5
@@ -4380,12 +4439,18 @@ msgstr "Це потребує встановлення пакунка <sys>evolu
 #. (itstool) path: when/p
 #. (itstool) path: note/p
 #: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:31
+#| msgid ""
+#| "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
+#| "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</"
+#| "link>"
 msgid ""
-"<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
-"Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
+"<link action=\"install:evolution-ews\" href=\"https://gitlab.gnome.org/GNOME/"
+"evolution/-/wikis/home#get-the-source-code\" style=\"button\">Install "
+"evolution-ews</link>"
 msgstr ""
-"<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
-"Evolution#Get_the_Source_Code\" style=\"button\">Встановлення evolution-ews</"
+"<link action=\"install:evolution-ews\" href=\"https://gitlab.gnome.org/GNOME/"
+"evolution/-/wikis/home#get-the-source-code\" style=\"button\">Встановлення"
+" evolution-ews</"
 "link>"
 
 #. (itstool) path: section/title
@@ -4426,13 +4491,18 @@ msgstr "Це потребує встановлення пакунка <sys>evolu
 #. (itstool) path: when/p
 #. (itstool) path: note/p
 #: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:41
+#| msgid ""
+#| "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/"
+#| "Apps/Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-"
+#| "mapi</link>"
 msgid ""
-"<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
-"Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
-"link>"
+"<link action=\"install:evolution-mapi\" href=\"https://gitlab.gnome.org/"
+"GNOME/evolution/-/wikis/home#get-the-source-code\" style=\"button\">Install "
+"evolution-mapi</link>"
 msgstr ""
-"<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
-"Evolution#Get_the_Source_Code\" style=\"button\">Встановлення evolution-"
+"<link action=\"install:evolution-mapi\""
+" href=\"https://gitlab.gnome.org/GNOME/evolution/-/wikis/home#get-the-source-"
+"code\" style=\"button\">Встановлення evolution-"
 "mapi</link>"
 
 #. (itstool) path: section/title
@@ -6277,13 +6347,18 @@ msgstr "Параметри облікового запису Web Services Exchan
 
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:28
+#| msgid ""
+#| "See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
+#| "OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
+#| "authentication."
 msgid ""
-"See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
-"OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
+"See also the <link href=\"https://gitlab.gnome.org/GNOME/evolution/-/wikis/"
+"EWS-OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
 "authentication."
 msgstr ""
-"Ознайомтеся також із <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
-"OAuth2\">документацією щодо налаштовування і діагностики розпізнавання "
+"Ознайомтеся також із <link href=\"https://gitlab.gnome.org/GNOME/evolution/-/"
+"wikis/EWS-OAuth2\">документацією щодо налаштовування і діагностики"
+" розпізнавання "
 "OAuth2</link>."
 
 #. (itstool) path: info/title
@@ -15020,13 +15095,52 @@ msgstr ""
 "gui><gui>Список приміток</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/tasks-caldav.page:28 C/tasks-webdav.page:30
-msgid "Choose if you want to be able to view the content also while offline."
+#: C/tasks-caldav.page:27
+msgid ""
+"To discover the task lists or memo lists, announced by the server, enter the "
+"server address as <gui>URL</gui> and optionally <gui>User</gui>, then click "
+"on <gui style=\"button\">Find Task Lists</gui>/<gui style=\"button\">Find "
+"Memo Lists</gui>. Select a task or memo list and <gui>User mail</gui>. This "
+"prefills the fields <gui>Name</gui>, <gui>Color</gui>, <gui>URL</gui> and "
+"(see below) <gui>Email</gui>. The step is optional, and you can overwrite "
+"all discovered settings."
 msgstr ""
-"Виберіть, чи хочете ви мати можливість переглядати дані у автономному режимі."
+"Щоб виявити списки завдань або приміток, оголошені сервером, введіть адресу"
+" сервера у полі <gui>URL</gui> і, якщо треба, <gui>Користувач</gui>, а потім"
+" натисніть <gui style=\"button\">Знайти списки завдань</gui> або <gui"
+" style=\"button\">Знайти списки приміток</gui>. Виберіть список завдань або"
+" приміток і <gui>Пошту користувача</gui>. У результаті буде попередньо"
+" заповнено поля <gui>Назва</gui>, <gui>Колір</gui>, <gui>URL</gui> та (див."
+" нижче) <gui>Ел.пошта</gui>. Цей крок необов’язковий, і ви можете"
+" перезаписати всі виявлені налаштування."
+
+#. (itstool) path: item/p
+#: C/tasks-caldav.page:34
+msgid ""
+"Enter your username and email address. When an assigned task is created in "
+"the task list, this email address is prefilled as Organizer."
+msgstr ""
+"Введіть своє ім'я користувача та адресу електронної пошти. Якщо запис"
+" пов'язаного завдання створюють у списку завдань, цю адресу електронної"
+" пошти буде попередньо вписано до поля «Організатор»."
+
+#. (itstool) path: item/p
+#: C/tasks-caldav.page:36
+msgid ""
+"When an assigned task is created, modified or deleted, a notification can be "
+"sent to the other parties. If <gui>Server handles meeting invitations</gui> "
+"is selected, <app>Evolution</app> uploads the task and assumes that the "
+"server informs other parties. When the option is not selected, "
+"<app>Evolution</app> sends an email."
+msgstr ""
+"При створенні, внесенні змін та вилученні запису пов'язаного завдання можна"
+" надіслати сповіщення іншим учасникам. Якщо позначено пункт <gui>Сервер"
+" обробляє запрошення на зустріч</gui>, <app>Evolution</app> вивантажує запис"
+" завдання і припускає, що сервер інформує інших учасників. Якщо цей пункт не"
+" позначено, <app>Evolution</app> надсилає електронний лист самостійно."
 
 #. (itstool) path: page/p
-#: C/tasks-caldav.page:35 C/tasks-local.page:31
+#: C/tasks-caldav.page:43 C/tasks-local.page:31
 msgid ""
 "The task list will be added to the list of task lists in <app>Evolution</"
 "app>."
@@ -15372,18 +15486,26 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/tasks-webdav.page:5
-msgid "Using an online WebDAV task list or memo list."
-msgstr "Користування списком завдань або приміток WebDAV у мережі."
+#| msgid "Using an online CalDAV task list or memo list."
+msgid "Using an online HTTP task list or memo list."
+msgstr "Користування списком завдань або списком приміток HTTP у мережі."
 
 #. (itstool) path: page/title
 #: C/tasks-webdav.page:20
-msgid "Using a WebDAV task or memo list"
-msgstr "Користування списками завдань або приміток WebDAV"
+#| msgid "Using a CalDAV task or memo list"
+msgid "Using a HTTP task or memo list"
+msgstr "Користування списками завдань або приміток HTTP"
 
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:22
 msgid "Lists of this type are read-only."
 msgstr "Списки цього типу є придатними лише до читання."
+
+#. (itstool) path: item/p
+#: C/tasks-webdav.page:30
+msgid "Choose if you want to be able to view the content also while offline."
+msgstr ""
+"Виберіть, чи хочете ви мати можливість переглядати дані у автономному режимі."
 
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:37
@@ -16019,6 +16141,23 @@ msgstr ""
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Натисніть <_:gui-1/>."
+
+#~ msgid "Enter your username and your email address."
+#~ msgstr "Введіть ваше ім'я користувача і вашу адресу електронної пошти."
+
+#~ msgid ""
+#~ "Timeout (minutes): The maximum time <app>Evolution</app> attempts to "
+#~ "download data from the server before giving up."
+#~ msgstr ""
+#~ "Час очікування (у хвилинах): максимальний час, протягом якого "
+#~ "<app>Evolution</app> намагатиметься отримати дані з сервера, перш ніж "
+#~ "припинити спроби."
+
+#~ msgid "Using an online WebDAV task list or memo list."
+#~ msgstr "Користування списком завдань або приміток WebDAV у мережі."
+
+#~ msgid "Using a WebDAV task or memo list"
+#~ msgstr "Користування списками завдань або приміток WebDAV"
 
 #~ msgid ""
 #~ "<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-"
