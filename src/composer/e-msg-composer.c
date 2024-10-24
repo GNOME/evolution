@@ -2262,13 +2262,11 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
                                          EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EContentEditor *cnt_editor;
 
 	if (targets == NULL || n_targets < 0)
 		return;
 
 	editor = e_msg_composer_get_editor (composer);
-	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	if (e_html_editor_get_mode (editor) != E_CONTENT_EDITOR_MODE_HTML &&
 	    gtk_targets_include_image (targets, n_targets, TRUE)) {
@@ -2280,22 +2278,6 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 		e_composer_paste_uris (composer, clipboard);
 		return;
 	}
-
-	/* Order is important here to ensure common use cases are
-	 * handled correctly.  See GNOME bug #603715 for details. */
-	if (gtk_targets_include_text (targets, n_targets) ||
-	    e_targets_include_html (targets, n_targets)) {
-		if (composer->priv->last_signal_was_paste_primary) {
-			e_content_editor_paste_primary (cnt_editor);
-		} else
-			e_content_editor_paste (cnt_editor);
-		return;
-	}
-
-	if (composer->priv->last_signal_was_paste_primary) {
-		e_content_editor_paste_primary (cnt_editor);
-	} else
-		e_content_editor_paste (cnt_editor);
 }
 
 static gboolean
@@ -2307,8 +2289,6 @@ msg_composer_paste_primary_clipboard_cb (EContentEditor *cnt_editor,
 	gint n_targets;
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
-
-	composer->priv->last_signal_was_paste_primary = TRUE;
 
 	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
 		msg_composer_paste_clipboard_targets_cb (clipboard, targets, n_targets, composer);
@@ -2327,8 +2307,6 @@ msg_composer_paste_clipboard_cb (EContentEditor *cnt_editor,
 	gint n_targets;
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-
-	composer->priv->last_signal_was_paste_primary = FALSE;
 
 	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
 		msg_composer_paste_clipboard_targets_cb (clipboard, targets, n_targets, composer);
