@@ -572,7 +572,9 @@ e_attachment_store_get_total_size (EAttachmentStore *store)
 
 		file_info = e_attachment_ref_file_info (attachment);
 		if (file_info != NULL) {
-			total_size += g_file_info_get_size (file_info);
+			/* URL attachments do not have the size */
+			if (g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_SIZE))
+				total_size += g_file_info_get_size (file_info);
 			g_object_unref (file_info);
 		}
 	}
@@ -892,7 +894,7 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 		attachment = attachment_list->data;
 		file_info = e_attachment_ref_file_info (attachment);
 
-		if (file_info != NULL)
+		if (file_info != NULL && g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME))
 			name = g_file_info_get_display_name (file_info);
 
 		if (name == NULL)

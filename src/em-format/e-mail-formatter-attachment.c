@@ -147,7 +147,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 				E_MAIL_PART_ATTACHMENT (part));
 
 			file_info = e_attachment_ref_file_info (attachment);
-			if (file_info)
+			if (file_info && g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME))
 				display_name = g_file_info_get_display_name (file_info);
 			else
 				display_name = "";

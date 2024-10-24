@@ -197,7 +197,10 @@ ecep_attachments_attachment_loaded_cb (EAttachment *attachment,
 		const gchar *uid;
 		const gchar *prefer_filename;
 
-		display_name = g_file_info_get_display_name (file_info);
+		if (g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME))
+			display_name = g_file_info_get_display_name (file_info);
+		else
+			display_name = NULL;
 		uid = g_object_get_data (G_OBJECT (attachment), "uid");
 		prefer_filename = g_object_get_data (G_OBJECT (attachment), "prefer-filename");
 
@@ -225,7 +228,7 @@ ecep_attachments_attachment_loaded_cb (EAttachment *attachment,
 
 			comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_attachments));
 
-			if (file_info)
+			if (file_info && g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME))
 				display_name = g_file_info_get_display_name (file_info);
 			else
 				display_name = NULL;

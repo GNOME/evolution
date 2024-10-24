@@ -264,10 +264,16 @@ attachment_update_file_info_columns_idle_cb (gpointer weak_ref)
 		goto exit;
 
 	content_type = g_file_info_get_content_type (file_info);
-	size = g_file_info_get_size (file_info);
+	if (g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_SIZE))
+		size = g_file_info_get_size (file_info);
+	else
+		size = 0;
 
 	content_desc = g_content_type_get_description (content_type);
-	display_size = g_format_size (size);
+	if (size > 0)
+		display_size = g_format_size (size);
+	else
+		display_size = NULL;
 
 	description = e_attachment_dup_description (attachment);
 	if (description == NULL || *description == '\0') {
@@ -347,8 +353,8 @@ attachment_update_icon_column_idle_cb (gpointer weak_ref)
 		/* add the reference here, thus the create_system_thumbnail() can unref the *icon. */
 		if (icon)
 			g_object_ref (icon);
-		thumbnail_path = g_file_info_get_attribute_byte_string (
-			file_info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
+		if (g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH))
+			thumbnail_path = g_file_info_get_attribute_byte_string (file_info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
 	}
 
 	if (e_attachment_is_mail_note (attachment)) {
@@ -1689,7 +1695,10 @@ e_attachment_dup_description (EAttachment *attachment)
 		return NULL;
 
 	attribute = G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION;
-	protected = g_file_info_get_attribute_string (file_info, attribute);
+	if (g_file_info_has_attribute (file_info, attribute))
+		protected = g_file_info_get_attribute_string (file_info, attribute);
+	else
+		protected = NULL;
 	duplicate = g_strdup (protected);
 
 	g_object_unref (file_info);
@@ -1712,7 +1721,10 @@ e_attachment_dup_thumbnail_path (EAttachment *attachment)
 		return NULL;
 
 	attribute = G_FILE_ATTRIBUTE_THUMBNAIL_PATH;
-	protected = g_file_info_get_attribute_string (file_info, attribute);
+	if (g_file_info_has_attribute (file_info, attribute))
+		protected = g_file_info_get_attribute_string (file_info, attribute);
+	else
+		protected = NULL;
 	duplicate = g_strdup (protected);
 
 	g_object_unref (file_info);
@@ -1817,7 +1829,10 @@ e_attachment_list_apps (EAttachment *attachment)
 		g_clear_object (&file);
 	}
 
-	display_name = g_file_info_get_display_name (file_info);
+	if (g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME))
+		display_name = g_file_info_get_display_name (file_info);
+	else
+		display_name = NULL;
 
 	if (!app_info_list) {
 		const gchar *content_type;
@@ -2053,21 +2068,25 @@ attachment_load_finish (GTask *task)
 	g_object_unref (wrapper);
 	g_free (mime_type);
 
-	display_name = g_file_info_get_display_name (file_info);
-	if (display_name != NULL)
-		camel_mime_part_set_filename (mime_part, display_name);
+	if (g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME)) {
+		display_name = g_file_info_get_display_name (file_info);
+		if (display_name != NULL)
+			camel_mime_part_set_filename (mime_part, display_name);
+	}
 
-	description = g_file_info_get_attribute_string (file_info,
-		G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION);
-	if (description != NULL)
-		camel_mime_part_set_description (mime_part, description);
+	if (g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION)) {
+		description = g_file_info_get_attribute_string (file_info, G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION);
+		if (description != NULL)
+			camel_mime_part_set_description (mime_part, description);
+	}
 
 	disposition = e_attachment_get_disposition (attachment);
 	if (disposition != NULL)
 		camel_mime_part_set_disposition (mime_part, disposition);
 
 	/* Correctly report the size of zero length special files. */
-	if (g_file_info_get_size (file_info) == 0)
+	if (!g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_SIZE) ||
+	    g_file_info_get_size (file_info) == 0)
 		g_file_info_set_size (file_info, size);
 
 	attachment_load_finish_common (attachment, mime_part, file_info);
@@ -2592,7 +2611,7 @@ e_attachment_load_handle_error (EAttachment *attachment,
 
 	file_info = e_attachment_ref_file_info (attachment);
 
-	if (file_info != NULL)
+	if (file_info != NULL && g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME))
 		display_name = g_file_info_get_display_name (file_info);
 	else
 		display_name = NULL;
@@ -2828,7 +2847,7 @@ e_attachment_open_handle_error (EAttachment *attachment,
 
 	file_info = e_attachment_ref_file_info (attachment);
 
-	if (file_info != NULL)
+	if (file_info != NULL && g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME))
 		display_name = g_file_info_get_display_name (file_info);
 	else
 		display_name = NULL;
@@ -2986,7 +3005,7 @@ attachment_save_new_candidate (EAttachment *attachment, SaveContext *save_contex
 
 	file_info = e_attachment_ref_file_info (attachment);
 
-	if (file_info != NULL)
+	if (file_info != NULL && g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME))
 		display_name = g_file_info_get_display_name (file_info);
 	if (display_name == NULL)
 		/* Translators: Default attachment filename. */
@@ -3545,7 +3564,7 @@ attachment_save_query_info_cb (GObject *source_object,
 
 			suggested = NULL;
 			info = e_attachment_ref_file_info (attachment);
-			if (info != NULL)
+			if (info != NULL && g_file_info_has_attribute (info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME))
 				suggested = g_file_info_get_display_name (info);
 			if (suggested == NULL)
 				suggested = _("attachment.dat");
@@ -3713,7 +3732,7 @@ e_attachment_save_handle_error (EAttachment *attachment,
 
 	file_info = e_attachment_ref_file_info (attachment);
 
-	if (file_info != NULL)
+	if (file_info != NULL && g_file_info_has_attribute (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME))
 		display_name = g_file_info_get_display_name (file_info);
 	else
 		display_name = NULL;
