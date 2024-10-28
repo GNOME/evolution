@@ -49,15 +49,12 @@ Primii pași
 
 Raportarea erorilor
 
-	Erorile trebuie raportate la adresa https://gitlab.gnome.org/GNOME/evolution/issues.
+	Erorile trebuie raportate la adresa https://gitlab.gnome.org/GNOME/evolution/-/issues.
 
 Mai multe informații
 
-	Vă puteți abona la lista de discuții a utilizatorilor Evolution
-	de la adresa https://mail.gnome.org/mailman/listinfo/evolution-list.
-
 	Informațiile despre proiectul Evolution sunt disponibile la
-	https://wiki.gnome.org/Apps/Evolution
+	https://gitlab.gnome.org/GNOME/evolution/-/wikis/home
 
 
 Cu stimă,
@@ -122,7 +119,7 @@ Primii pași
 Raportarea erorilor
 </h2>
 <blockquote>
-	Erorile trebuie raportate la adresa <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
+	Erorile trebuie raportate la adresa <a href="https://gitlab.gnome.org/GNOME/evolution/-/issues">https://gitlab.gnome.org/GNOME/evolution/-/issues</a>.
 <br><br>
 </blockquote> 
 
@@ -131,11 +128,8 @@ Mai multe informații
 </h2>
 
 <blockquote>
-	Vă puteți abona la lista de discuții a utilizatorilor Evolution
-	de la adresa <a href="https://mail.gnome.org/mailman/listinfo/evolution-list">https://mail.gnome.org/mailman/listinfo/evolution-list</a>.
-
 	Informațiile despre proiectul Evolution sunt disponibile la
-	<a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a>.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</a>.
 
 <br><br>	
 </blockquote>

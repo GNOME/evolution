@@ -55,16 +55,12 @@ Per cominciare
 Segnalazione bug
 
 	I bug dovrebbero essere segnalati sul sito
-	https://gitlab.gnome.org/GNOME/evolution/issues. 
+	https://gitlab.gnome.org/GNOME/evolution/-/issues. 
 
 Maggiori informazioni
 
-	È possibile effettuare la sottoscrizione alla mailing list
-	degli utenti di Evolution (in inglese) presso
-	https://mail.gnome.org/mailman/listinfo/evolution-list.
-
 	Altre informazioni sul progetto Evolution sono disponibili
-	 presso https://wiki.gnome.org/Apps/Evolution 
+	 presso https://gitlab.gnome.org/GNOME/evolution/-/wikis/home 
 	
 
 Sinceramente Vostro,
@@ -133,7 +129,7 @@ Per cominciare
 Segnalazione bug
 </h2>
 <blockquote>
-	I bug dovrebbero essere segnalati sul sito <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
+	I bug dovrebbero essere segnalati sul sito <a href="https://gitlab.gnome.org/GNOME/evolution/-/issues">https://gitlab.gnome.org/GNOME/evolution/-/issues</a>.
 <br><br>
 </blockquote> 
 
@@ -142,12 +138,8 @@ Maggiori informazioni
 </h2>
 
 <blockquote>
-	È possibile effettuare la sottoscrizione alla mailing list
-	degli utenti di Evolution (in inglese) presso
-	<a href="https://mail.gnome.org/mailman/listinfo/evolution-list">https://mail.gnome.org/mailman/listinfo/evolution-list</a>.
-
 	Altre informazioni sul progetto Evolution sono disponibili
-	<a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a>.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</a>.
 <br><br>
 </blockquote>
 

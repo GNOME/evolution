@@ -50,14 +50,11 @@ Content-Transfer-Encoding: 8bit
 
 버그 보고하기
 
-	버그는 https://gitlab.gnome.org/GNOME/evolution/issues 사이트에 보고해 주십시오.
+	버그는 https://gitlab.gnome.org/GNOME/evolution/-/issues 사이트에 보고해 주십시오.
 
 기타 정보
 
-	https://mail.gnome.org/mailman/listinfo/evolution-list 페이지에서
-	에볼루션 사용자 메일링 리스트에 가입할 수 있습니다.
-
-	https://wiki.gnome.org/Apps/Evolution 사이트에 에볼루션
+	https://gitlab.gnome.org/GNOME/evolution/-/wikis/home 사이트에 에볼루션
 	프로젝트에 대한 정보가 있습니다.
 
 에볼루션 팀 드림.
@@ -121,7 +118,7 @@ Content-Type: text/html; charset=utf-8
 버그 보고하기
 </h2>
 <blockquote>
-	버그는 <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a> 사이트에 보고해 주십시오.
+	버그는 <a href="https://gitlab.gnome.org/GNOME/evolution/-/issues">https://gitlab.gnome.org/GNOME/evolution/-/issues</a> 사이트에 보고해 주십시오.
 <br><br>
 </blockquote> 
 
@@ -130,10 +127,7 @@ Content-Type: text/html; charset=utf-8
 </h2>
 
 <blockquote>
-	<a href="https://mail.gnome.org/mailman/listinfo/evolution-list">https://mail.gnome.org/mailman/listinfo/evolution-list</a> 페이지에서
-	에볼루션 사용자 메일링 리스트에 가입할 수 있습니다.
-
-	<a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a> 사이트에 에볼루션
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</a> 사이트에 에볼루션
 	프로젝트에 대한 정보가 있습니다.
 <br><br>
 </blockquote>

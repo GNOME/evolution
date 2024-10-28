@@ -49,15 +49,12 @@ Kezdeti lépések
 
 Hibajelentés
 
-	Az alkalmazás hibái a https://gitlab.gnome.org/GNOME/evolution/issues oldalon jelenthetők be.
+	Az alkalmazás hibái a https://gitlab.gnome.org/GNOME/evolution/-/issues oldalon jelenthetők be.
 
 További információk
 
-	Az Evolution felhasználók (angol nyelvű) levelezőlistájára a
-	https://mail.gnome.org/mailman/listinfo/evolution-list címen iratkozhat fel.
-
 	Az Evolution projekttel kapcsolatos információk a
-	https://wiki.gnome.org/Apps/Evolution címen érhetők el.
+	https://gitlab.gnome.org/GNOME/evolution/-/wikis/home címen érhetők el.
 
 
 Tisztelettel,
@@ -123,7 +120,7 @@ Kezdeti lépések
 Hibajelentés
 </h2>
 <blockquote>
-Az alkalmazás hibái a <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a> oldalon jelenthetők be.
+Az alkalmazás hibái a <a href="https://gitlab.gnome.org/GNOME/evolution/-/issues">https://gitlab.gnome.org/GNOME/evolution/-/issues</a> oldalon jelenthetők be.
 <br><br>
 </blockquote> 
 
@@ -132,11 +129,8 @@ További információk
 </h2>
 
 <blockquote>
-	Az Evolution felhasználók (angol nyelvű) levelezőlistájára a
-	<a href="https://mail.gnome.org/mailman/listinfo/evolution-list">https://mail.gnome.org/mailman/listinfo/evolution-list</a> címen iratkozhat fel.
-
 	Az Evolution projekttel kapcsolatos információk a
-	<a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a> címen érhetők el.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</a> címen érhetők el.
 <br><br>
 </blockquote>
 

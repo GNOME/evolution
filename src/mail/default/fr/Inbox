@@ -49,15 +49,12 @@ Introduction
 
 Rapport de bogues
 
-        Les bogues doivent êtres signalés sur https://gitlab.gnome.org/GNOME/evolution/issues.
+        Les bogues doivent êtres signalés sur https://gitlab.gnome.org/GNOME/evolution/-/issues.
 
 Informations supplémentaires
 
-        Vous pouvez vous inscrire à la liste de diffusion anglophone des
-        utilisateurs d'Evolution à
-        https://mail.gnome.org/mailman/listinfo/evolution-list. Des
-        informations sur le projet Evolution sont disponibles à
-        https://wiki.gnome.org/Apps/Evolution
+        Des informations sur le projet Evolution sont disponibles à
+        https://gitlab.gnome.org/GNOME/evolution/-/wikis/home
 
 
 Cordialement,
@@ -105,12 +102,12 @@ Content-Type: text/html; charset=utf-8
 
 <H2>Rapport de bogues</H2>
 <BLOCKQUOTE>
-    Les bogues doivent &#234;tres signal&#233;s sur <A HREF="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</A>.
+    Les bogues doivent &#234;tres signal&#233;s sur <A HREF="https://gitlab.gnome.org/GNOME/evolution/-/issues">https://gitlab.gnome.org/GNOME/evolution/-/issues</A>.
 </BLOCKQUOTE>
 
 <H2>Informations suppl&#233;mentaires</H2>
 <BLOCKQUOTE>
-    Vous pouvez vous inscrire &#224; la liste de diffusion anglophone des utilisateurs d'Evolution &#224; <A HREF="https://mail.gnome.org/mailman/listinfo/evolution-list">https://mail.gnome.org/mailman/listinfo/evolution-list</A>. Des informations sur le projet Evolution sont disponibles &#224; <A HREF="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</A>.
+    Des informations sur le projet Evolution sont disponibles &#224; <A HREF="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</A>.
 <BR><BR>
 </BLOCKQUOTE>
 

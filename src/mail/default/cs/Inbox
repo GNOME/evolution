@@ -50,15 +50,12 @@ Začínáme
 Hlášení chyb
 
 	Chyby by měly být hlášeny na
-	https://gitlab.gnome.org/GNOME/evolution/issues
+	https://gitlab.gnome.org/GNOME/evolution/-/issues
 
 Více informací
 
-	Můžete se přihlásit do poštovní konference uživatelů Evolutionu na
-	https://mail.gnome.org/mailman/listinfo/evolution-list.
-
 	Informace o projektu Evolution jsou dostupné na
-	https://wiki.gnome.org/Apps/Evolution
+	https://gitlab.gnome.org/GNOME/evolution/-/wikis/home
 
 
 S pozdravem
@@ -125,8 +122,8 @@ Hlášení chyb
 </h2>
 <blockquote>
 	Chyby by měly být hlášeny na
-	<a href="https://gitlab.gnome.org/GNOME/evolution/issues">
-	https://gitlab.gnome.org/GNOME/evolution/issues</a>.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/issues">
+	https://gitlab.gnome.org/GNOME/evolution/-/issues</a>.
 <br><br>
 </blockquote> 
 
@@ -134,14 +131,10 @@ Hlášení chyb
 Více informací
 </h2>
 
-<blockquote>	
-	Můžete se přihlásit do poštovní konference uživatelů Evolutionu na
-	<a href="https://mail.gnome.org/mailman/listinfo/evolution-list">
-	https://mail.gnome.org/mailman/listinfo/evolution-list</a>.
-
+<blockquote>
 	Informace o projektu Evolution jsou dostupné na
-	<a href="https://wiki.gnome.org/Apps/Evolution">
-	https://wiki.gnome.org/Apps/Evolution</a>.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home"
+	>https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</a>.
 <br><br>	
 </blockquote>
 

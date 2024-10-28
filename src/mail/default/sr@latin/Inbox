@@ -50,15 +50,12 @@ Prvi koraci
 
 Prijava grešaka
 
-    Sve greške možete prijaviti na https://gitlab.gnome.org/GNOME/evolution/issues.
+    Sve greške možete prijaviti na https://gitlab.gnome.org/GNOME/evolution/-/issues.
 
 Više informacija
 
-    Možete se prijaviti na dopisnu listu korisnika Evolucije (engl.) na
-    https://mail.gnome.org/mailman/listinfo/evolution-list.
-
     Više o projektu Evolucije (engl.) pronađite na
-    https://wiki.gnome.org/Apps/Evolution
+    https://gitlab.gnome.org/GNOME/evolution/-/wikis/home
 
 
 S poštovanjem,
@@ -124,7 +121,7 @@ Prvi koraci
 Prijava grešaka
 </h2>
 <blockquote>
-	Sve greške možete prijaviti na <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
+	Sve greške možete prijaviti na <a href="https://gitlab.gnome.org/GNOME/evolution/-/issues">https://gitlab.gnome.org/GNOME/evolution/-/issues</a>.
 <br><br>
 </blockquote> 
 
@@ -133,11 +130,8 @@ Više informacija
 </h2>
 
 <blockquote>
-	Možete se prijaviti na dopisnu listu korisnika Evolucije (engl.) na
-	<a href="https://mail.gnome.org/mailman/listinfo/evolution-list">https://mail.gnome.org/mailman/listinfo/evolution-list</a>.
-
 	Više o projektu Evolucije (engl.) pronađite na
-	<a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a>.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</a>.
 <br><br>
 </blockquote>
 
