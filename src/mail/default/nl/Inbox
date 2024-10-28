@@ -50,14 +50,12 @@ Aan de slag
 
 Fouten rapporteren
 
-	Fouten moeten gerapporteerd worden op https://gitlab.gnome.org/GNOME/evolution/issues.
+	Fouten moeten gerapporteerd worden op https://gitlab.gnome.org/GNOME/evolution/-/issues.
 
 Meer informatie
 
-	U kunt kunt u abonneren op de (engelstalige) gebruikerslijst van 
-	Evolution op https://mail.gnome.org/mailman/listinfo/evolution-list.
 	Informatie over het Evolution project is beschikbaar op 
-	https://wiki.gnome.org/Apps/Evolution
+	https://gitlab.gnome.org/GNOME/evolution/-/wikis/home
 
 
 Hoogachtend,
@@ -124,7 +122,7 @@ Fouten rapporteren
 </h2>
 <blockquote>
 	Fouten moeten gerapporteerd worden op
-	 <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
+	 <a href="https://gitlab.gnome.org/GNOME/evolution/-/issues">https://gitlab.gnome.org/GNOME/evolution/-/issues</a>.
 <br><br>
 </blockquote> 
 
@@ -133,11 +131,8 @@ Meer informatie
 </h2>
 
 <blockquote>
-	U kunt kunt u abonneren op de (Engelstalige) gebruikerslijst van 
-	Evolution op <a href="https://mail.gnome.org/mailman/listinfo/evolution-list">https://mail.gnome.org/mailman/listinfo/evolution-list</a>.
-
 	Informatie over het Evolution project is beschikbaar op
-	<a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a>.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</a>.
 <br><br>
 </blockquote>
 

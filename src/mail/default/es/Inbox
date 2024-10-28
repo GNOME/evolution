@@ -51,16 +51,13 @@ Introducción
 
 Información de errores
 
-        Los errores se deben notificar en https://gitlab.gnome.org/GNOME/evolution/issues.
+        Los errores se deben notificar en https://gitlab.gnome.org/GNOME/evolution/-/issues.
 
 
 Más información
 
-        Puede suscribirse a la lista de correo de usuarios de Evolution
-        en https://mail.gnome.org/mailman/listinfo/evolution-list. 
-
 	La información acerca del proyecto Evolution está disponible en
-        https://wiki.gnome.org/Apps/Evolution
+        https://gitlab.gnome.org/GNOME/evolution/-/wikis/home
 
 Con afecto,
 El equipo de Evolution
@@ -125,7 +122,7 @@ Introducci&#243;n
 Informaci&#243;n de errores
 </h2>
 <blockquote>
-	 Los errores se deben notificar en el Bugzilla de GNOME en <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
+	 Los errores se deben notificar en el Bugzilla de GNOME en <a href="https://gitlab.gnome.org/GNOME/evolution/-/issues">https://gitlab.gnome.org/GNOME/evolution/-/issues</a>.
 <br><br>
 </blockquote> 
 
@@ -134,12 +131,9 @@ M&#225;s informaci&#243;n
 </h2>
 
 <blockquote>
-	Puede suscribirse a la lista de correo de usuarios de Evolution en
-	<a href="https://mail.gnome.org/mailman/listinfo/evolution-list">https://mail.gnome.org/mailman/listinfo/evolution-list</a>.
-
 	La informaci&#243;n acerca del proyecto Evolution est&#225;
 	disponible en&nbsp;
-	<a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a>.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</a>.
 <br><br>
 </blockquote>
 
