@@ -52,15 +52,12 @@ Com començar
 
 Com informar sobre errors
 
-	Els errors s'haurien d'enviar a https://gitlab.gnome.org/GNOME/evolution/issues.
+	Els errors s'haurien d'enviar a https://gitlab.gnome.org/GNOME/evolution/-/issues.
 
 Més informació
 
-	Us podeu subscriure a la llista de correu dels usuaris de
-	l'Evolution a http://mail.gnome.org/mailman/evolution-list.
-
 	Trobareu més informació sobre el projecte de l'Evolution
-	a https://wiki.gnome.org/Apps/Evolution
+	a https://gitlab.gnome.org/GNOME/evolution/-/wikis/home.
 
 
 Atentament,
@@ -126,7 +123,7 @@ Com començar
 Com informar sobre errors
 </h2>
 <blockquote>
-	Els errors s'haurien d'enviar a <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
+	Els errors s'haurien d'enviar a <a href="https://gitlab.gnome.org/GNOME/evolution/-/issues">https://gitlab.gnome.org/GNOME/evolution/-/issues</a>.
 <br><br>
 </blockquote> 
 
@@ -136,10 +133,7 @@ Més informació
 
 <blockquote>
 	Trobareu més informació sobre el projecte de l'Evolution
-	a <a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a>.
-	
-	Us podeu subscriure a la llista de correu dels usuaris de
-	l'Evolution a <a href="https://mail.gnome.org/mailman/listinfo/evolution-list">https://mail.gnome.org/mailman/listinfo/evolution-list</a>.
+	a <a href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</a>.
 <br><br>
 </blockquote>
 

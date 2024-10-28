@@ -49,15 +49,12 @@ Os Primeiros Passos
 
 Relatar Erros
 
-	Erros deverão ser relatados em https://gitlab.gnome.org/GNOME/evolution/issues (em inglês).
+	Erros deverão ser relatados em https://gitlab.gnome.org/GNOME/evolution/-/issues (em inglês).
 
 Mais Informações
 
-	Poderá subscrever a lista de distribuição de utilizadores do Evolution em
-	https://mail.gnome.org/mailman/listinfo/evolution-list.
-
 	Informação sobreo o projecto Evolution encontra-se disponível em
-	https://wiki.gnome.org/Apps/Evolution
+	https://gitlab.gnome.org/GNOME/evolution/-/wikis/home
 
 
 Com os nossos melhores cumprimentos,
@@ -151,7 +148,7 @@ Novas Funcionalidades
 Relatar Erros
 </h2>
 <blockquote>
-	Erros deverão ser relatados em <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a> (em inglês).
+	Erros deverão ser relatados em <a href="https://gitlab.gnome.org/GNOME/evolution/-/issues">https://gitlab.gnome.org/GNOME/evolution/-/issues</a> (em inglês).
 <br><br>
 </blockquote> 
 
@@ -160,11 +157,8 @@ Mais Informações
 </h2>
 
 <blockquote>
-	Poderá subscrever a lista de distribuição de utilizadores do Evolution em
-	<a href="https://mail.gnome.org/mailman/listinfo/evolution-list">https://mail.gnome.org/mailman/listinfo/evolution-list</a>.
-
 	Informação sobreo o projecto Evolution encontra-se disponível em
-	<a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a>.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</a>.
 <br><br>	
 </blockquote>
 

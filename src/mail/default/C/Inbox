@@ -51,15 +51,12 @@ Getting Started
 Bug Reporting
 
 	Bugs should be reported to
-	https://gitlab.gnome.org/GNOME/evolution/issues.
+	https://gitlab.gnome.org/GNOME/evolution/-/issues.
 
 More Information
 
-	You can subscribe to the Evolution users mailing list at
-	https://mail.gnome.org/mailman/listinfo/evolution-list.
-
 	Information on the Evolution project is available at
-	https://wiki.gnome.org/Apps/Evolution.
+	https://gitlab.gnome.org/GNOME/evolution/-/wikis/home.
 
 
 Yours Sincerely,
@@ -126,7 +123,7 @@ Bug Reporting
 </h2>
 <blockquote>
 	Bugs should be reported to
-	<a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/issues">https://gitlab.gnome.org/GNOME/evolution/-/issues</a>.
 <br><br>
 </blockquote> 
 
@@ -135,11 +132,8 @@ More Information
 </h2>
 
 <blockquote>
-	You can subscribe to the Evolution users mailing list at
-	<a href="https://lists.gnome.org/mailman/listinfo/evolution-list">https://lists.gnome.org/mailman/listinfo/evolution-list</a>.
-
 	Information on the Evolution project is available at
-	<a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a>.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</a>.
 <br><br>	
 </blockquote>
 

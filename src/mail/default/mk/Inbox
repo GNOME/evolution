@@ -67,15 +67,12 @@ Content-Transfer-Encoding: 7bit
 
 Пријавување на грешки
 
-	Грешки се пријавуваат на https://gitlab.gnome.org/GNOME/evolution/issues.
+	Грешки се пријавуваат на https://gitlab.gnome.org/GNOME/evolution/-/issues.
 
 Повеќе информации
 
-	Можете да се зачлените на поштенската листа на корисници на Еволушн
-	https://mail.gnome.org/mailman/listinfo/evolution-list.
-
 	Повеќе информации за проектот Еволушн можете да најдете на
-	https://wiki.gnome.org/Apps/Evolution
+	https://gitlab.gnome.org/GNOME/evolution/-/wikis/home
 
 
 Искрено Ваши,
@@ -182,19 +179,15 @@ Content-Type: text/html; charset=utf-8
 
 <h2>Пријавување на грешки</h2>
 <blockquote>
-	Грешки се пријавуваат на <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
+	Грешки се пријавуваат на <a href="https://gitlab.gnome.org/GNOME/evolution/-/issues">https://gitlab.gnome.org/GNOME/evolution/-/issues</a>.
 <br><br>
 </blockquote> 
 
 <h2>Повеќе информации</h2>
 
 <blockquote>
-	Можете да се зачлените на поштенската листа на корисници на Еволушн
-	<a
-	href="https://mail.gnome.org/mailman/listinfo/evolution-list">https://mail.gnome.org/mailman/listinfo/evolution-list</a>.
-
 	Повеќе информации за проектот Еволушн можете да најдете на
-	<a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a>.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/home">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</a>.
 <br><br>
 </blockquote>
 
