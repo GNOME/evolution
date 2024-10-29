@@ -2255,65 +2255,64 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	e_msg_composer_check_autocrypt (composer, NULL);
 }
 
-static void
-msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
-                                         GdkAtom *targets,
-                                         gint n_targets,
-                                         EMsgComposer *composer)
+static gboolean
+msg_composer_paste_clipboard_targets (EMsgComposer *composer,
+				      GtkClipboard *clipboard,
+				      GdkAtom *targets,
+				      gint n_targets)
 {
 	EHTMLEditor *editor;
 
 	if (targets == NULL || n_targets < 0)
-		return;
+		return FALSE;
 
 	editor = e_msg_composer_get_editor (composer);
 
 	if (e_html_editor_get_mode (editor) != E_CONTENT_EDITOR_MODE_HTML &&
 	    gtk_targets_include_image (targets, n_targets, TRUE)) {
 		e_composer_paste_image (composer, clipboard);
-		return;
+		return TRUE;
 	}
 
 	if (gtk_targets_include_uri (targets, n_targets)) {
 		e_composer_paste_uris (composer, clipboard);
-		return;
+		return TRUE;
 	}
+
+	return FALSE;
+}
+
+static gboolean
+msg_composer_paste_clipboard (EMsgComposer *composer,
+			      GdkAtom selection)
+{
+	GtkClipboard *clipboard;
+	GdkAtom *targets = NULL;
+	gint n_targets;
+	gboolean handled = FALSE;
+
+	clipboard = gtk_clipboard_get (selection);
+
+	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
+		handled = msg_composer_paste_clipboard_targets (composer, clipboard, targets, n_targets);
+		g_free (targets);
+	}
+
+	return handled;
 }
 
 static gboolean
 msg_composer_paste_primary_clipboard_cb (EContentEditor *cnt_editor,
                                          EMsgComposer *composer)
 {
-	GtkClipboard *clipboard;
-	GdkAtom *targets = NULL;
-	gint n_targets;
-
-	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
-
-	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
-		msg_composer_paste_clipboard_targets_cb (clipboard, targets, n_targets, composer);
-		g_free (targets);
-	}
-
-	return TRUE;
+	return msg_composer_paste_clipboard (composer, GDK_SELECTION_PRIMARY);
 }
 
 static gboolean
 msg_composer_paste_clipboard_cb (EContentEditor *cnt_editor,
                                  EMsgComposer *composer)
 {
-	GtkClipboard *clipboard;
-	GdkAtom *targets = NULL;
-	gint n_targets;
-
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-
-	if (gtk_clipboard_wait_for_targets (clipboard, &targets, &n_targets)) {
-		msg_composer_paste_clipboard_targets_cb (clipboard, targets, n_targets, composer);
-		g_free (targets);
-	}
-
-	return TRUE;
+	return msg_composer_paste_clipboard (composer, GDK_SELECTION_CLIPBOARD);
 }
 
 static void
