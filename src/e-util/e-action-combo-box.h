@@ -1,4 +1,3 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-action-combo-box.h
  *
  * Copyright (C) 2008 Novell, Inc.

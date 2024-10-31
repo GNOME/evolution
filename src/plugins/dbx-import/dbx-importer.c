@@ -1,4 +1,3 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* dbx-importer.c
  *
  * Author: David Woodhouse <dwmw2@infradead.org>

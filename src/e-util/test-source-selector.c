@@ -1,4 +1,3 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* test-source-selector.c - Test program for the ESourceSelector widget.
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)

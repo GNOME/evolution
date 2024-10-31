@@ -1,4 +1,3 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * SPDX-FileCopyrightText: (C) 2021 Red Hat (www.redhat.com)
  * SPDX-License-Identifier: LGPL-2.1-or-later

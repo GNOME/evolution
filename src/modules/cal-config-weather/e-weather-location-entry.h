@@ -1,4 +1,3 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Taken from libgweather 3, due to it being gone in the libgweather 4
  *
  * SPDX-FileCopyrightText: (C) 2008 Red Hat, Inc. (www.redhat.com)

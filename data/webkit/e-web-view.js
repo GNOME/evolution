@@ -1,4 +1,3 @@
-/* -*- Mode: javascript; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Copyright (C) 2019 Red Hat (www.redhat.com)
  *

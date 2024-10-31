@@ -1,5 +1,3 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /* e-name-selector-dialog.c - Dialog that lets user pick EDestinations.
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)

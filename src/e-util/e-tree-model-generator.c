@@ -1,5 +1,3 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /* e-tree-model-generator.c - Model wrapper that permutes underlying rows.
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
