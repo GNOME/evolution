@@ -1831,7 +1831,8 @@ e_mail_shell_view_ui_manager_create_item_cb (EUIManager *ui_manager,
 	#define is_action(_nm) (g_strcmp0 (name, (_nm)) == 0)
 
 	if (is_action ("EMailShellView::mail-send-receive")) {
-		*out_item = e_ui_manager_create_item_from_menu_model (ui_manager, elem, action, for_kind, G_MENU_MODEL (self->priv->send_receive_menu));
+		EUIAction *button_action = e_ui_manager_get_action (ui_manager, "mail-send-receive");
+		*out_item = e_ui_manager_create_item_from_menu_model (ui_manager, elem, button_action, for_kind, G_MENU_MODEL (self->priv->send_receive_menu));
 	} else if (for_kind == E_UI_ELEMENT_KIND_MENU) {
 		g_warning ("%s: Unhandled menu action '%s'", G_STRFUNC, name);
 	} else if (for_kind == E_UI_ELEMENT_KIND_TOOLBAR) {
