@@ -2092,6 +2092,56 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		str = camel_message_info_get_from (msg_info);
 		return sanitize_addresses (str, col != COL_SENDER_MAIL);
 	}
+	case COL_CORRESPONDENTS: {
+		/* Check whether the From address is one of the enabled configured accounts and
+		   if so, then consider the message as being sent, not received; this fails when
+		   sending from one configured account to another configured account, thus first
+		   guess no received date is a sent mail, which does not work for some providers,
+		   like Maildir, which sets the received date from the filename. Trying address
+		   of the account of the selected folder won't work for On This Computer folders.
+		   In other words, this is a pure guess, which has many counter cases. */
+		const gchar *key_name = "evo-correspondents-is-sent";
+		gint is_sent;
+
+		if (camel_message_info_get_date_received (msg_info) <= 0) {
+			is_sent = 1;
+		} else {
+			/* cache the result, to not convert & check against all accounts each paint request of the message list */
+			is_sent = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (msg_info), key_name));
+		}
+
+		if (is_sent == 0) {
+			is_sent = -1;
+
+			str = camel_message_info_get_from (msg_info);
+
+			if (str && *str) {
+				CamelInternetAddress *addr;
+				const gchar *email = NULL;
+
+				addr = camel_internet_address_new ();
+
+				if (camel_address_decode (CAMEL_ADDRESS (addr), str) > 0 &&
+				    camel_internet_address_get (addr, 0, NULL, &email) &&
+				    email && *email &&
+				    em_utils_address_is_user (e_mail_session_get_registry (session), email, TRUE))
+					is_sent = 1;
+
+				g_clear_object (&addr);
+			}
+
+			g_object_set_data (G_OBJECT (msg_info), key_name, GINT_TO_POINTER (is_sent));
+		}
+
+		if (is_sent == 1)
+			str = camel_message_info_get_to (msg_info);
+		else if (is_sent == -1)
+			str = camel_message_info_get_from (msg_info);
+		else
+			g_warn_if_reached ();
+
+		return (gpointer) (str ? str : "");
+	}
 	case COL_LABELS:{
 		struct LabelsData ld;
 		GString *result = g_string_new ("");
@@ -3783,6 +3833,7 @@ message_list_duplicate_value (ETreeModel *tree_model,
 		case COL_USER_HEADER_3:
 		case COL_BODY_PREVIEW:
 		case COL_SUBJECT_WITH_BODY_PREVIEW:
+		case COL_CORRESPONDENTS:
 			return g_strdup (value);
 
 		case COL_SENT:
@@ -3831,6 +3882,7 @@ message_list_free_value (ETreeModel *tree_model,
 		case COL_SUBJECT_TRIMMED:
 		case COL_COLOUR:
 		case COL_ITALIC:
+		case COL_CORRESPONDENTS:
 			break;
 
 		case COL_UID:
@@ -3890,6 +3942,7 @@ message_list_initialize_value (ETreeModel *tree_model,
 		case COL_USER_HEADER_3:
 		case COL_BODY_PREVIEW:
 		case COL_SUBJECT_WITH_BODY_PREVIEW:
+		case COL_CORRESPONDENTS:
 			return NULL;
 
 		case COL_LOCATION:
@@ -3947,7 +4000,8 @@ message_list_value_is_empty (ETreeModel *tree_model,
 		case COL_USER_HEADER_3:
 		case COL_BODY_PREVIEW:
 		case COL_SUBJECT_WITH_BODY_PREVIEW:
-			return !(value && *(gchar *) value);
+		case COL_CORRESPONDENTS:
+			return !(value && *((gchar *) value));
 
 		default:
 			g_return_val_if_reached (FALSE);
@@ -4011,6 +4065,7 @@ message_list_value_to_string (ETreeModel *tree_model,
 		case COL_USER_HEADER_3:
 		case COL_BODY_PREVIEW:
 		case COL_SUBJECT_WITH_BODY_PREVIEW:
+		case COL_CORRESPONDENTS:
 			return g_strdup (value);
 
 		default:

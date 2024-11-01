@@ -41,6 +41,7 @@
   <ETableColumn model_col="27" _title="User Header 2" expansion="0.0" minimum_width="32" resizable="true" cell="render_text" compare="string" search="string"/>
   <ETableColumn model_col="28" _title="User Header 3" expansion="0.0" minimum_width="32" resizable="true" cell="render_text" compare="string" search="string"/>
   <ETableColumn model_col="29" _title="Body Preview" expansion="1.0" minimum_width="32" resizable="true" cell="render_text" compare="string" search="string"/>
+  <ETableColumn model_col="30" _title="Correspondents" expansion="1.0" minimum_width="32" resizable="true" cell="render_text" compare="address_compare" search="string"/>
 
   <ETableState>
     <column source="0"/> <column source="3"/> <column source="1"/>
