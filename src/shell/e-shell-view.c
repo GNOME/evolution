@@ -1067,9 +1067,9 @@ shell_view_init_ui_data (EShellView *self)
 
 		{ "show-sidebar",
 		  NULL,
-		  N_("Show Side _Bar"),
+		  N_("Show Side_bar"),
 		  "F9",
-		  N_("Show the side bar"),
+		  N_("Show the sidebar"),
 		  NULL, NULL, "true", NULL },
 
 		{ "show-switcher",
@@ -2386,7 +2386,7 @@ e_shell_view_class_init (EShellViewClass *class)
 	/**
 	 * EShellView:sidebar-visible
 	 *
-	 * Whether the side bar is visible.
+	 * Whether the sidebar is visible.
 	 *
 	 * Since: 3.56
 	 **/
@@ -2396,7 +2396,7 @@ e_shell_view_class_init (EShellViewClass *class)
 		g_param_spec_boolean (
 			"sidebar-visible",
 			"Sidebar Visible",
-			"Whether the shell view's side bar is visible",
+			"Whether the shell view's sidebar is visible",
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
@@ -2458,7 +2458,7 @@ e_shell_view_class_init (EShellViewClass *class)
 	/**
 	 * EShellView:sidebar-width
 	 *
-	 * Width of the side bar, in pixels.
+	 * Width of the sidebar, in pixels.
 	 *
 	 * Since: 3.56
 	 **/
@@ -2468,7 +2468,7 @@ e_shell_view_class_init (EShellViewClass *class)
 		g_param_spec_int (
 			"sidebar-width",
 			"Sidebar Width",
-			"Width of the side bar, in pixels",
+			"Width of the sidebar, in pixels",
 			0, G_MAXINT, 128,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
@@ -2879,9 +2879,9 @@ e_shell_view_set_menubar_visible (EShellView *shell_view,
  * e_shell_view_get_sidebar_visible:
  * @shell_view: an #EShellView
  *
- * Returns %TRUE if @shell_view<!-- -->'s side bar is visible.
+ * Returns %TRUE if @shell_view<!-- -->'s sidebar is visible.
  *
- * Returns: %TRUE is the side bar is visible
+ * Returns: %TRUE is the sidebar is visible
  *
  * Since: 3.56
  **/
@@ -2896,9 +2896,9 @@ e_shell_view_get_sidebar_visible (EShellView *shell_view)
 /**
  * e_shell_view_set_sidebar_visible:
  * @shell_view: an #EShellView
- * @sidebar_visible: whether the side bar should be visible
+ * @sidebar_visible: whether the sidebar should be visible
  *
- * Makes @shell_view<!-- -->'s side bar visible or invisible.
+ * Makes @shell_view<!-- -->'s sidebar visible or invisible.
  *
  * Since: 3.56
  **/
@@ -3045,7 +3045,7 @@ e_shell_view_set_toolbar_visible (EShellView *shell_view,
  *
  * Gets width of the sidebar, in pixels.
  *
- * Returns: width of the side bar, in pixels
+ * Returns: width of the sidebar, in pixels
  *
  * Since: 3.56
  **/

@@ -306,9 +306,9 @@ action_quit_cb (EUIAction *action,
  * E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR:
  * @window: an #EShellWindow
  *
- * This toggle action controls whether the side bar is visible.
+ * This toggle action controls whether the sidebar is visible.
  *
- * Main menu item: View -> Layout -> Show Side Bar
+ * Main menu item: View -> Layout -> Show Sidebar
  **/
 
 /**

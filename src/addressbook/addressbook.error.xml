@@ -128,7 +128,7 @@
   <error id="error-read-only" type="error" default="GTK_RESPONSE_YES">
     <_primary>Cannot add new contact</_primary>
     <!-- For Translators: {0} is the name of the address book source -->
-    <_secondary>“{0}” is a read-only address book and cannot be modified. Please select a different address book from the side bar in the Contacts view.</_secondary>
+    <_secondary>“{0}” is a read-only address book and cannot be modified. Please select a different address book from the sidebar in the Contacts view.</_secondary>
   </error>
 
   <error id="error-still-opening" type="error" default="GTK_RESPONSE_YES">

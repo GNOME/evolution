@@ -350,7 +350,7 @@
     <key name="side-bar-search" type="b">
       <default>true</default>
       <_summary>Enable or disable type ahead search feature</_summary>
-      <_description>Enable the side bar search feature to allow interactive searching of folder names.</_description>
+      <_description>Enable the sidebar search feature to allow interactive searching of folder names.</_description>
     </key>
     <key name="magic-spacebar" type="b">
       <default>true</default>
