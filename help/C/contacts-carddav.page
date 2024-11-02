@@ -1,0 +1,50 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="contacts-carddav">
+
+  <info>
+    <link type="guide" xref="contacts-using-several-addressbooks"/>
+
+    <revision pkgversion="3.55" version="0.1" date="2024-11-02" status="final"/>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Using an online CardDAV address book.</desc>
+  </info>
+
+  <title>Using a CardDAV address book</title>
+
+  <p>To add such an address book, perform the following steps:</p>
+
+  <steps>
+    <item>
+      <p>Click
+      <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></guiseq>.</p>
+    </item>
+    <item>
+      <p>Select the type <gui>CardDAV</gui>.</p>
+    </item>
+    <item>
+      <p>To discover the address books, announced by the server, enter the server address as <gui>URL</gui> and optionally <gui>User</gui>, then click on <gui style="button">Find Address Books</gui>. Select the address book.
+         This prefills the fields <gui>Name</gui> and <gui>URL</gui>. The step is optional, and you can overwrite all the discovered settings.</p>
+    </item>
+    <item>
+      <p>Enter a name that you prefer.</p>
+    </item>
+    <item>
+      <p>Enter the address in the <gui>URL</gui> field.</p>
+    </item>
+    <item>
+      <p>Choose <gui>Use a secure connection</gui> if you want to connect
+      securely.</p>
+    </item>
+    <item>
+      <p>Enter your username.</p>
+    </item>
+    <item>
+      <p>Click <gui style="button">OK</gui>.</p>
+    </item>
+  </steps>
+
+  <p>The address book will be added to the list of address books in <app>Evolution</app>, <app>GNOME Contacts</app>.</p>
+</page>

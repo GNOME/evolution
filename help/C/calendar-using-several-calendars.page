@@ -35,7 +35,7 @@
   appointments, you can be sure to avoid conflicts, while keeping a minimum of
   clutter in your view.</p>
 
-  <p>Appointments for each calendar appear in different color.</p>
+  <p>Appointments for each calendar appear in a different color.</p>
 
   <p>You can also use calendars that are not on your computer, such as on the
   internet or in a local network.</p>
@@ -44,5 +44,5 @@
   <link href="http://icalshare.com">icalshare.com website</link> has an
   extensive list of shared online calendars, including national and religious
   holidays, phases of the moon, sports, and local and regional events.</p>
-
+  <p>New events and meetings are created in the selected calendar in the Calendar window. If no calendar is selected, new events are created in the default calendar.</p>
 </page>

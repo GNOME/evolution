@@ -52,6 +52,16 @@
   <title>The Evolution Accounts window</title>
   <p>An overview of all configured <gui>Evolution Accounts</gui> is available under <guiseq><gui>Edit</gui><gui>Accounts</gui></guiseq>.</p>
   <p>Each Collection account shows there its own Mail Accounts, Address Books, Calendars, Memo Lists and Task Lists, as announced by the server. Unfolding each type allows to enable or disable the local synchronization for that source.</p>
-  <p>For enabled Collection accounts with CalDAV and CardDAV sources the <gui style="button">Refresh</gui> button fetches the list of remote sources locally and requests from the server the color and name of the WebDAV collections. If they were modified remotely, but not locally, the local name and color are synchronized from the server. The list of the sources is refreshed daily.</p>
+  <p>For enabled Collection accounts with CalDAV and CardDAV sources the <gui style="button">Refresh</gui> button fetches the list of remote sources locally and requests from the server the color and name of the WebDAV collections. If they were modified remotely, but not locally, the local name and color are synchronized from the server. The list of the sources is refreshed implicitly daily.</p>
+  <p>When a WebDAV-based account is selected, the <gui>Browse</gui> button displays the WebDAV editor.</p>
+</section>
+<section id="webdav-editor">
+  <title>The WebDAV Editor</title>
+  <p>WebDAV is the common protocol for CalDAV, CardDAV, Notes.
+     A WebDAV collection is a directory, which can contain events, contacts, other collections.
+     The WebDAV editor shows the collections, announced by the server, and allows editing some of their properties on the server.
+     It allows creating new address books, calendars and general collections.
+     Servers might enforce restrictions, like prohibiting the creation of a calendar beneath another calendar or preventing changing some properties.
+     A single WebDAV calendar can store events, tasks, memos.</p>
 </section>
 </page>

@@ -25,7 +25,7 @@
 <item><p>Select the type <gui>CalDAV</gui>.</p></item>
 <item>
    <p>To discover the task lists or memo lists, announced by the server, enter the server address as <gui>URL</gui> and optionally <gui>User</gui>, then click on <gui style="button">Find Task Lists</gui>/<gui style="button">Find Memo Lists</gui>. Select a task or memo list and <gui>User mail</gui>.
-   This prefills the fields <gui>Name</gui>, <gui>Color</gui>, <gui>URL</gui> and (see below) <gui>Email</gui>. The step is optional, and you can overwrite all discovered settings.</p>
+   This prefills the fields <gui>Name</gui>, <gui>Color</gui>, <gui>URL</gui> and (see below) <gui>Email</gui>. The step is optional, and you can overwrite all the discovered settings.</p>
 </item>
 <item><p>Enter a name that you prefer.</p></item>
 <item><p>Optionally choose a color that you prefer.</p></item>
@@ -44,6 +44,6 @@
 
   <section>
     <title>Collection accounts</title>
-    <p>Different types of mail, addressbooks, calendars, task and memo lists, belonging to the same user, can be added in one step by utilizing a <link xref="intro-account-types#collection-account">Collection account</link>.</p>
+    <p>Different types of mail, address books, calendars, task and memo lists, belonging to the same user, can be added in one step by utilizing a <link xref="intro-account-types#collection-account">Collection account</link>.</p>
   </section>
 </page>

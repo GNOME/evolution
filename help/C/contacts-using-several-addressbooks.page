@@ -27,9 +27,10 @@
 
   <p>You can also use address books that are not on your computer, such as on
   the internet (e.g. Google) or in a local network (e.g. LDAP).</p>
+  <p>New contacts are created in the selected address book in the Contacts window. If no address book is selected, new contacts are created in the default address book.</p>
 
   <section>
     <title>Collection accounts</title>
-    <p>Different types of mail, addressbooks, calendars, task and memo lists, belonging to the same user, can be added in one step, by utilizing a <link xref="intro-account-types#collection-account">Collection account</link>.</p>
+    <p>Different types of mail, address books, calendars, task and memo lists, belonging to the same user, can be added in one step, by utilizing a <link xref="intro-account-types#collection-account">Collection account</link>.</p>
   </section>
 </page>
