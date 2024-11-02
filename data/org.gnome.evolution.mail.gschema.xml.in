@@ -649,13 +649,13 @@
     </key>
     <key name="prompt-on-folder-drop-copy" type="s">
       <default>'ask'</default>
-      <_summary>Asks whether to copy a folder by drag &amp; drop in the folder tree</_summary>
-      <_description>Possible values are: “never” — do not allow copy with drag &amp; drop of folders in folder tree, “always” — allow copy with drag &amp; drop of folders in folder tree without asking, or “ask” — (or any other value) will ask user.</_description>
+      <_summary>Asks whether to copy a folder by drag-and-drop in the folder tree</_summary>
+      <_description>Possible values are: “never” — do not allow copy with drag-and-drop of folders in folder tree, “always” — allow copy with drag-and-drop of folders in folder tree without asking, or “ask” — (or any other value) will ask user.</_description>
     </key>
     <key name="prompt-on-folder-drop-move" type="s">
       <default>'ask'</default>
-      <_summary>Asks whether to move a folder by drag &amp; drop in the folder tree</_summary>
-      <_description>Possible values are: “never” — do not allow move with drag &amp; drop of folders in folder tree, “always” — allow move with drag &amp; drop of folders in folder tree without asking, or “ask” — (or any other value) will ask user.</_description>
+      <_summary>Asks whether to move a folder by drag-and-drop in the folder tree</_summary>
+      <_description>Possible values are: “never” — do not allow move with drag-and-drop of folders in folder tree, “always” — allow move with drag-and-drop of folders in folder tree without asking, or “ask” — (or any other value) will ask user.</_description>
     </key>
     <key name="prompt-on-private-list-reply" type="b">
       <default>true</default>

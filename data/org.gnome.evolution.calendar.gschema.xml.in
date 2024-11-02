@@ -526,7 +526,7 @@
     </key>
     <key name="allow-event-dnd" type="b">
       <default>true</default>
-      <_summary>Allow drag and drop of events in the Calendar.</_summary>
+      <_summary>Allow drag-and-drop of events in the Calendar.</_summary>
       <_description>This influences the Day view, the Work Week view, the Week view and the Month view.</_description>
     </key>
     <key name="send-reminder-with-event" type="b">

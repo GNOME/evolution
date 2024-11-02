@@ -883,7 +883,7 @@
         </child>
         <child>
           <object class="GtkCheckButton" id="allow_event_dnd">
-            <property name="label" translatable="yes">Allow dra_g and drop of events</property>
+            <property name="label" translatable="yes">Allow dra_g-and-drop of events</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>

@@ -3987,7 +3987,7 @@
         </child>
         <child>
           <object class="GtkCheckButton" id="chk-prompt-on-folder-drop-copy">
-            <property name="label" translatable="yes" comments="This is in the context of: Ask for confirmation before...">Copy _folder by Drag &amp; Drop in folder tree</property>
+            <property name="label" translatable="yes" comments="This is in the context of: Ask for confirmation before...">Copy _folder by drag-and-drop in folder tree</property>
             <property name="margin-start">12</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -4004,7 +4004,7 @@
         </child>
         <child>
           <object class="GtkCheckButton" id="chk-prompt-on-folder-drop-move">
-            <property name="label" translatable="yes" comments="This is in the context of: Ask for confirmation before...">_Move folder by Drag &amp; Drop in folder tree</property>
+            <property name="label" translatable="yes" comments="This is in the context of: Ask for confirmation before...">_Move folder by drag-and-drop in folder tree</property>
             <property name="margin-start">12</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
