@@ -334,7 +334,7 @@ color_combo_set_property (GObject *object,
 		case PROP_PALETTE:
 			e_color_combo_set_palette (
 				E_COLOR_COMBO (object),
-				g_value_get_object (value));
+				g_value_get_pointer (value));
 			return;
 
 		case PROP_POPUP_SHOWN:
@@ -379,7 +379,7 @@ color_combo_get_property (GObject *object,
 			return;
 
 		case PROP_PALETTE:
-			g_value_set_object (value, e_color_combo_get_palette (self));
+			g_value_set_pointer (value, e_color_combo_get_palette (self));
 			return;
 
 		case PROP_POPUP_SHOWN:
