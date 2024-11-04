@@ -517,45 +517,10 @@ action_calendar_view_cb (EUIAction *action,
 			 gpointer user_data)
 {
 	ECalShellView *cal_shell_view = user_data;
-	EShellView *shell_view;
-	ECalViewKind view_kind;
-	const gchar *view_id;
 
 	e_ui_action_set_state (action, parameter);
 
-	shell_view = E_SHELL_VIEW (cal_shell_view);
-	view_kind = g_variant_get_int32 (parameter);
-
-	switch (view_kind) {
-		case E_CAL_VIEW_KIND_DAY:
-			view_id = "Day_View";
-			break;
-
-		case E_CAL_VIEW_KIND_WORKWEEK:
-			view_id = "Work_Week_View";
-			break;
-
-		case E_CAL_VIEW_KIND_WEEK:
-			view_id = "Week_View";
-			break;
-
-		case E_CAL_VIEW_KIND_MONTH:
-			view_id = "Month_View";
-			break;
-
-		case E_CAL_VIEW_KIND_YEAR:
-			view_id = "Year_View";
-			break;
-
-		case E_CAL_VIEW_KIND_LIST:
-			view_id = "List_View";
-			break;
-
-		default:
-			g_return_if_reached ();
-	}
-
-	e_shell_view_set_view_id (shell_view, view_id);
+	e_cal_shell_view_set_view_id_from_view_kind (cal_shell_view, g_variant_get_int32 (parameter));
 }
 
 static void

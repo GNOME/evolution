@@ -758,3 +758,43 @@ e_cal_shell_view_type_register (GTypeModule *type_module)
 	 *     order to register types from a separate compilation unit. */
 	e_cal_shell_view_register_type (type_module);
 }
+
+void
+e_cal_shell_view_set_view_id_from_view_kind (ECalShellView *self,
+					     ECalViewKind view_kind)
+{
+	const gchar *view_id = NULL;
+
+	g_return_if_fail (E_IS_CAL_SHELL_VIEW (self));
+
+	switch (view_kind) {
+		case E_CAL_VIEW_KIND_DAY:
+			view_id = "Day_View";
+			break;
+
+		case E_CAL_VIEW_KIND_WORKWEEK:
+			view_id = "Work_Week_View";
+			break;
+
+		case E_CAL_VIEW_KIND_WEEK:
+			view_id = "Week_View";
+			break;
+
+		case E_CAL_VIEW_KIND_MONTH:
+			view_id = "Month_View";
+			break;
+
+		case E_CAL_VIEW_KIND_YEAR:
+			view_id = "Year_View";
+			break;
+
+		case E_CAL_VIEW_KIND_LIST:
+			view_id = "List_View";
+			break;
+
+		default:
+			g_return_if_reached ();
+	}
+
+	e_shell_view_set_view_id (E_SHELL_VIEW (self), view_id);
+}

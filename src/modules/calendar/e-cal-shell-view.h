@@ -20,6 +20,7 @@
 
 #include <e-util/e-util.h>
 #include "e-cal-base-shell-view.h"
+#include "e-cal-shell-content.h"
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_SHELL_VIEW \
@@ -57,6 +58,9 @@ struct _ECalShellViewClass {
 
 GType		e_cal_shell_view_get_type		(void);
 void		e_cal_shell_view_type_register		(GTypeModule *type_module);
+void		e_cal_shell_view_set_view_id_from_view_kind
+							(ECalShellView *self,
+							 ECalViewKind view_kind);
 
 G_END_DECLS
 

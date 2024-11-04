@@ -289,9 +289,10 @@ e_cal_shell_content_change_view (ECalShellContent *cal_shell_content,
 	    g_date_compare (&cal_shell_content->priv->view_end, view_end) == 0) {
 		ECalendarItem *calitem = e_calendar_get_item (calendar);
 
-		if (view_changed)
+		if (view_changed) {
 			cal_shell_content_update_model_and_current_view_times (
 				cal_shell_content, model, calitem, view_start_tt, view_end_tt, view_start, view_end);
+		}
 
 		g_signal_handler_block (calitem, cal_shell_content->priv->datepicker_range_moved_id);
 		g_signal_handler_block (calitem, cal_shell_content->priv->datepicker_selection_changed_id);
@@ -300,15 +301,13 @@ e_cal_shell_content_change_view (ECalShellContent *cal_shell_content,
 
 		g_signal_handler_unblock (calitem, cal_shell_content->priv->datepicker_range_moved_id);
 		g_signal_handler_unblock (calitem, cal_shell_content->priv->datepicker_selection_changed_id);
+	} else {
+		cal_shell_content->priv->view_start = *view_start;
+		cal_shell_content->priv->view_end = *view_end;
 
-		return;
+		cal_shell_content_update_model_and_current_view_times (
+			cal_shell_content, model, e_calendar_get_item (calendar), view_start_tt, view_end_tt, view_start, view_end);
 	}
-
-	cal_shell_content->priv->view_start = *view_start;
-	cal_shell_content->priv->view_end = *view_end;
-
-	cal_shell_content_update_model_and_current_view_times (
-		cal_shell_content, model, e_calendar_get_item (calendar), view_start_tt, view_end_tt, view_start, view_end);
 }
 
 static void
@@ -2345,6 +2344,7 @@ e_cal_shell_content_set_current_view_id (ECalShellContent *cal_shell_content,
 
 	gtk_widget_queue_draw (GTK_WIDGET (cal_shell_content->priv->views[cal_shell_content->priv->current_view]));
 
+	e_cal_shell_view_set_view_id_from_view_kind (E_CAL_SHELL_VIEW (shell_view), cal_shell_content->priv->current_view);
 	e_shell_view_update_actions (shell_view);
 	e_cal_shell_view_update_sidebar (E_CAL_SHELL_VIEW (shell_view));
 }
