@@ -872,6 +872,32 @@ e_html_editor_bind_font_name_after_mode_changed_cb (EHTMLEditor *self,
 	}
 }
 
+static gboolean
+e_html_editor_current_color_to_cnt_editor_cb (GBinding *binding,
+					      const GValue *from_value,
+					      GValue *to_value,
+					      gpointer user_data)
+{
+	GdkRGBA *from_rgba = g_value_get_boxed (from_value);
+
+	if (from_rgba) {
+		EColorCombo *color_combo = E_COLOR_COMBO (g_binding_dup_source (binding));
+		GdkRGBA def_rgba = { 0, };
+
+		e_color_combo_get_default_color (color_combo, &def_rgba);
+
+		/* the default color means no special color to set */
+		if (gdk_rgba_equal (&def_rgba, from_rgba))
+			from_rgba = NULL;
+
+		g_clear_object (&color_combo);
+	}
+
+	g_value_set_boxed (to_value, from_rgba);
+
+	return TRUE;
+}
+
 static void
 e_html_editor_bind_color_combox_box (EHTMLEditor *self,
 				     GtkWidget *widget,
@@ -883,10 +909,13 @@ e_html_editor_bind_color_combox_box (EHTMLEditor *self,
 	if (cnt_editor) {
 		GBinding *binding;
 
-		binding = e_binding_bind_property (
+		binding = e_binding_bind_property_full (
 			widget, "current-color",
 			cnt_editor, property_name,
-			G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+			G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL,
+			e_html_editor_current_color_to_cnt_editor_cb,
+			NULL,
+			NULL, NULL);
 		g_object_set_data_full (G_OBJECT (widget), "EHTMLEditor::binding", g_object_ref (binding),
 			e_html_editor_unbind_and_unref);
 
