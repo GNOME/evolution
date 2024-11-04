@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-10-31 19:57+0000\n"
-"PO-Revision-Date: 2024-11-01 10:23+0100\n"
+"POT-Creation-Date: 2024-11-04 06:57+0000\n"
+"PO-Revision-Date: 2024-11-04 10:49+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -3833,7 +3833,7 @@ msgstr "Sestavi sporočilo"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:10 ../src/e-util/e-send-options.c:529
 #: ../src/mail/importers/elm-importer.c:330 ../src/mail/importers/kmail-importer.c:249
-#: ../src/mail/importers/pine-importer.c:423 ../src/modules/mail/e-mail-shell-view.c:1912
+#: ../src/mail/importers/pine-importer.c:423 ../src/modules/mail/e-mail-shell-view.c:1913
 #: ../src/smime/gui/certificate-manager.c:1608
 msgid "Mail"
 msgstr "Pošta"
@@ -13556,7 +13556,7 @@ msgid "popup list"
 msgstr "pojavni seznam"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138 ../src/e-util/e-cell-date.c:158
-#: ../src/mail/message-list.c:2185
+#: ../src/mail/message-list.c:2235
 msgid "?"
 msgstr "?"
 
@@ -19836,12 +19836,12 @@ msgstr "Premikanje mape %s"
 msgid "Copying folder %s"
 msgstr "Kopiranje mape %s"
 
-#: ../src/mail/em-folder-tree.c:2401 ../src/mail/message-list.c:2647
+#: ../src/mail/em-folder-tree.c:2401 ../src/mail/message-list.c:2697
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Premikanje sporočil v mapo %s"
 
-#: ../src/mail/em-folder-tree.c:2405 ../src/mail/message-list.c:2649
+#: ../src/mail/em-folder-tree.c:2405 ../src/mail/message-list.c:2699
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopiranje sporočil v mapo %s"
@@ -22259,56 +22259,56 @@ msgstr "Ustvarjanje seznama sporočil"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2193 ../src/modules/itip-formatter/itip-view.c:286
+#: ../src/mail/message-list.c:2243 ../src/modules/itip-formatter/itip-view.c:286
 msgid "Today %l:%M %p"
 msgstr "Danes %H.%M"
 
-#: ../src/mail/message-list.c:2202
+#: ../src/mail/message-list.c:2252
 msgid "Yesterday %l:%M %p"
 msgstr "Včeraj %H.%M"
 
-#: ../src/mail/message-list.c:2214
+#: ../src/mail/message-list.c:2264
 msgid "%a %l:%M %p"
 msgstr "%a %H.%M"
 
-#: ../src/mail/message-list.c:2222
+#: ../src/mail/message-list.c:2272
 msgid "%b %d %l:%M %p"
 msgstr "%d. %m. %H.%M"
 
-#: ../src/mail/message-list.c:2224
+#: ../src/mail/message-list.c:2274
 msgid "%b %d %Y"
 msgstr "%d. %m. %Y"
 
-#: ../src/mail/message-list.c:3092 ../src/mail/message-list.etspec.h:24
+#: ../src/mail/message-list.c:3142 ../src/mail/message-list.etspec.h:24
 msgid "User Header 1"
 msgstr "Uporabniška glava 1"
 
-#: ../src/mail/message-list.c:3093 ../src/mail/message-list.etspec.h:25
+#: ../src/mail/message-list.c:3143 ../src/mail/message-list.etspec.h:25
 msgid "User Header 2"
 msgstr "Uporabniška glava 2"
 
-#: ../src/mail/message-list.c:3094 ../src/mail/message-list.etspec.h:26
+#: ../src/mail/message-list.c:3144 ../src/mail/message-list.etspec.h:26
 msgid "User Header 3"
 msgstr "Uporabniška glava 3"
 
-#: ../src/mail/message-list.c:3537
+#: ../src/mail/message-list.c:3587
 msgid "Select all visible messages"
 msgstr "Izberi vsa vidna sporočila"
 
-#: ../src/mail/message-list.c:4375 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4430 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Sporočila"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5767
+#: ../src/mail/message-list.c:5822
 msgid "Follow-up"
 msgstr "Navezava"
 
-#: ../src/mail/message-list.c:6513 ../src/mail/message-list.c:6952
+#: ../src/mail/message-list.c:6568 ../src/mail/message-list.c:7007
 msgid "Generating message list…"
 msgstr "Ustvarjanje seznama sporočil …"
 
-#: ../src/mail/message-list.c:6516
+#: ../src/mail/message-list.c:6571
 msgid ""
 "No message satisfies your search criteria. Change search criteria by selecting a new Show "
 "message filter from the drop down list above or by running a new search either by clearing it "
@@ -22317,7 +22317,7 @@ msgstr ""
 "Ni sporočil, ki ustrezajo iskalnemu nizu. Spremenite kriterije z izbiro možnosti prikaza "
 "filtrov sporočil iz spustnega seznama, ali pa z zagonom novega iskanja."
 
-#: ../src/mail/message-list.c:6523
+#: ../src/mail/message-list.c:6578
 msgid "There are no messages in this folder."
 msgstr "V tej mapi ni sporočil ..."
 
@@ -22364,6 +22364,10 @@ msgstr "Elektronski naslovi prejemnikov"
 #: ../src/mail/message-list.etspec.h:27
 msgid "Body Preview"
 msgstr "Predogled telesa"
+
+#: ../src/mail/message-list.etspec.h:28
+msgid "Correspondents"
+msgstr "Dopisovalci"
 
 #: ../src/mail/searchtypes.xml.in.h:23 ../src/mail/vfoldertypes.xml.in.h:23
 msgid "Any header"
