@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-11-04 20:07+0000\n"
-"PO-Revision-Date: 2024-11-04 21:57+0100\n"
+"POT-Creation-Date: 2024-11-05 08:26+0000\n"
+"PO-Revision-Date: 2024-11-05 10:29+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -2317,48 +2317,34 @@ msgstr ""
 "sporočila trajno izbriše in ne zgolj odstrani iz zadetkov iskanja."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
-#, fuzzy
-#| msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgid "Asks whether to copy a folder by drag-and-drop in the folder tree"
 msgstr ""
-"Možnost zahteva potrditev pred kopiranjem mape z načinom povleci in spusti v drevesni "
-"strukturi map."
+"Zahteva potrditev pred kopiranjem mape z načinom povleci-in -pusti v drevesni strukturi map."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
-#, fuzzy
-#| msgid ""
-#| "Possible values are: “never” — do not allow copy with drag &amp; drop of folders in folder "
-#| "tree, “always” — allow copy with drag &amp; drop of folders in folder tree without asking, "
-#| "or “ask” — (or any other value) will ask user."
 msgid ""
 "Possible values are: “never” — do not allow copy with drag-and-drop of folders in folder tree, "
 "“always” — allow copy with drag-and-drop of folders in folder tree without asking, or “ask” — "
 "(or any other value) will ask user."
 msgstr ""
-"Mogoče vrednosti so: »nikoli« – ne dovoli kopiranja map z načinom povleci in spusti v drevesu "
-"map, »vedno« – dovoli kopiranje map z načinom povleci in spusti v drevesu map brez poziva in "
-"»vprašaj« – (ali katerakoli druga vrednost), pri kateri je zahtevan odziv uporabnika."
+"Mogoče vrednosti so: »nikoli« – ne dovoli kopiranja map z načinom povleci-in-spusti v drevesu "
+"map, »vedno« – dovoli kopiranje map z načinom povleci-in-spusti v drevesu map brez poziva in "
+"»vprašaj« – (ali poljubna druga vrednost), pri kateri je zahtevan odziv uporabnika."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
-#, fuzzy
-#| msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgid "Asks whether to move a folder by drag-and-drop in the folder tree"
-msgstr "Vpraša za možnost premikanja mape z načinom povleci in spusti v drevesu map"
+msgstr ""
+"Zahteva potrditev pred premikanjem mape z načinom povleci-in-spusti v drevesni strukturi map."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
-#, fuzzy
-#| msgid ""
-#| "Possible values are: “never” — do not allow move with drag &amp; drop of folders in folder "
-#| "tree, “always” — allow move with drag &amp; drop of folders in folder tree without asking, "
-#| "or “ask” — (or any other value) will ask user."
 msgid ""
 "Possible values are: “never” — do not allow move with drag-and-drop of folders in folder tree, "
 "“always” — allow move with drag-and-drop of folders in folder tree without asking, or “ask” — "
 "(or any other value) will ask user."
 msgstr ""
-"Mogoče vrednosti so: »nikoli« – ne dovoli premikanja map z načinom povleci in spusti v drevesu "
-"map, »vedno« – dovoli premikanje map z načinom povleci in spusti v drevesu map brez poziva in "
-"»vprašaj« – (ali katerakoli druga vrednost), pri kateri je zahtevan odziv uporabnika."
+"Možne vrednosti so: »nikoli« – ne dovoli premikanja map z načinom povleci-in-spusti v drevesu "
+"map, »vedno« – dovoli premikanje map z načinom povleci-in-spusti v drevesu map brez poziva in "
+"»vprašaj« – (ali poljubna druga vrednost), pri kateri je zahtevan odziv uporabnika."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Prompt when replying privately to list messages"
@@ -13722,7 +13708,7 @@ msgid "_Look Up"
 msgstr "_Poišči:"
 
 #: ../src/e-util/e-collection-account-wizard.c:111
-#: ../src/e-util/e-collection-account-wizard.c:279 ../src/e-util/e-search-bar.c:665
+#: ../src/e-util/e-collection-account-wizard.c:279 ../src/e-util/e-search-bar.c:666
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:84
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:243
 msgid "_Next"
@@ -13732,7 +13718,7 @@ msgstr "_Naprej"
 msgid "New Collection Account"
 msgstr "Nov zbirni račun"
 
-#: ../src/e-util/e-collection-account-wizard.c:259 ../src/e-util/e-search-bar.c:653
+#: ../src/e-util/e-collection-account-wizard.c:259 ../src/e-util/e-search-bar.c:654
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:77
 msgid "_Previous"
 msgstr "_Predhodni"
@@ -16094,40 +16080,45 @@ msgstr "Uredi pravilo"
 msgid "Copy of %s"
 msgstr "Kopiranje %s"
 
-#: ../src/e-util/e-search-bar.c:78
+#. Translators: The '%u' is the actual number of the matches found
+#: ../src/e-util/e-search-bar.c:79
 #, c-format
-msgid "Matches: %u"
-msgstr "Zadetki: %u"
+msgid "No matches"
+msgid_plural "%u matches"
+msgstr[0] "%u zadetkov"
+msgstr[1] "%u zadetek"
+msgstr[2] "%u zadetka"
+msgstr[3] "%u zadetki"
 
-#: ../src/e-util/e-search-bar.c:608
+#: ../src/e-util/e-search-bar.c:609
 msgid "Close the find bar"
 msgstr "Zapri vrstico iskanja"
 
-#: ../src/e-util/e-search-bar.c:617
+#: ../src/e-util/e-search-bar.c:618
 msgid "Fin_d:"
 msgstr "_Najdi:"
 
-#: ../src/e-util/e-search-bar.c:629
+#: ../src/e-util/e-search-bar.c:630
 msgid "Clear the search"
 msgstr "Počisti iskanje"
 
-#: ../src/e-util/e-search-bar.c:656
+#: ../src/e-util/e-search-bar.c:657
 msgid "Find the previous occurrence of the phrase"
 msgstr "Najde predhodno ponovitev izraza"
 
-#: ../src/e-util/e-search-bar.c:668
+#: ../src/e-util/e-search-bar.c:669
 msgid "Find the next occurrence of the phrase"
 msgstr "Najde naslednjo ponovitev izraza"
 
-#: ../src/e-util/e-search-bar.c:677
+#: ../src/e-util/e-search-bar.c:678
 msgid "Mat_ch case"
 msgstr "_Upoštevaj velikost črk"
 
-#: ../src/e-util/e-search-bar.c:705
+#: ../src/e-util/e-search-bar.c:706
 msgid "Reached bottom of page, continued from top"
 msgstr "Doseženo je dno strani, nadaljevanje z vrha"
 
-#: ../src/e-util/e-search-bar.c:727
+#: ../src/e-util/e-search-bar.c:728
 msgid "Reached top of page, continued from bottom"
 msgstr "Dosežen je bil vrh strani, nadaljevanje z dna"
 
@@ -21107,17 +21098,13 @@ msgstr "Ob brisanju sporočil v _iskalni mapi"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:166
-#, fuzzy
-#| msgid "Copy _folder by Drag & Drop in folder tree"
 msgid "Copy _folder by drag-and-drop in folder tree"
-msgstr "Ob _kopiranju mape s povleci in spusti v drevesu map"
+msgstr "_Kopiraj mapo s povleci-in-spusti v drevesu map"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:168
-#, fuzzy
-#| msgid "_Move folder by Drag & Drop in folder tree"
 msgid "_Move folder by drag-and-drop in folder tree"
-msgstr "Ob premikanju _mape s povleci in spusti v drevesu map"
+msgstr "Premakni _mapo s povleci-in-spusti v drevesu map"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:170
