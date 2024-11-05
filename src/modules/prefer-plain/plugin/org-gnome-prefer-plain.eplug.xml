@@ -7,7 +7,7 @@
     _name="Prefer Plain Text">
 
 
-    <_description>View mail messages as plain text, even if they contain HTML content.</_description>
+    <_description>Allows to view mail messages as plain text, even if they contain HTML. To modify the options switch to the Mail Preferences section → HTML Messages tab → Plain Text Mode group.</_description>
     <author name="Michael Zucchi" email="NotZed@Ximian.com"/>
 
 
