@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2024-10-21 09:43+0000\n"
-"PO-Revision-Date: 2024-10-21 21:09+0300\n"
+"POT-Creation-Date: 2024-11-05 14:23+0000\n"
+"PO-Revision-Date: 2024-11-05 16:34+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -255,20 +255,27 @@ msgstr "Виберіть тип <gui>CalDAV</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:39
+#| msgid ""
+#| "To discover the calendars, announced by the server, enter the server "
+#| "address as <gui>URL</gui> and optionally <gui>User</gui>, then click on "
+#| "<gui style=\"button\">Find Calendars</gui>. Select a calendar and "
+#| "<gui>User mail</gui>. This prefills the fields <gui>Name</gui>, "
+#| "<gui>Color</gui>, <gui>URL</gui> and (see below) <gui>Email</gui>. The "
+#| "step is optional, and you can overwrite all discovered settings."
 msgid ""
 "To discover the calendars, announced by the server, enter the server address "
 "as <gui>URL</gui> and optionally <gui>User</gui>, then click on <gui "
 "style=\"button\">Find Calendars</gui>. Select a calendar and <gui>User mail</"
 "gui>. This prefills the fields <gui>Name</gui>, <gui>Color</gui>, <gui>URL</"
 "gui> and (see below) <gui>Email</gui>. The step is optional, and you can "
-"overwrite all discovered settings."
+"overwrite all the discovered settings."
 msgstr ""
-"Щоб виявити календарі, оголошені сервером, введіть адресу сервера у полі <"
-"gui>URL</gui> і, якщо треба, <gui>Користувач</gui>, а потім натисніть <gui"
-" style=\"button\">Знайти календарі</gui>. Виберіть календар і <gui>Пошту"
-" користувача</gui>. У результаті буде попередньо заповнено поля <gui>Назва<"
-"/gui>, <gui>Колір</gui>, <gui>URL</gui> та (див. нижче) <gui>Ел.пошта</gui>."
-" Цей крок необов’язковий, і ви можете перезаписати всі виявлені налаштування."
+"Щоб виявити календарі, оголошені сервером, введіть адресу сервера у полі "
+"<gui>URL</gui> і, якщо треба, <gui>Користувач</gui>, а потім натисніть <gui "
+"style=\"button\">Знайти календарі</gui>. Виберіть календар і <gui>Пошту "
+"користувача</gui>. У результаті буде попередньо заповнено поля <gui>Назва</"
+"gui>, <gui>Колір</gui>, <gui>URL</gui> та (див. нижче) <gui>Ел.пошта</gui>. "
+"Цей крок необов’язковий, і ви можете перезаписати всі виявлені налаштування."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:43 C/calendar-google.page:40 C/calendar-local.page:34
@@ -310,9 +317,9 @@ msgid ""
 "Enter your username and email address. When a meeting is created in the "
 "calendar, this email address is prefilled as Organizer."
 msgstr ""
-"Введіть своє ім'я користувача та адресу електронної пошти. Якщо запис"
-" зустрічі створюють у календарі, цю адресу електронної пошти буде попередньо"
-" вписано до поля «Організатор»."
+"Введіть своє ім'я користувача та адресу електронної пошти. Якщо запис "
+"зустрічі створюють у календарі, цю адресу електронної пошти буде попередньо "
+"вписано до поля «Організатор»."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:59
@@ -323,11 +330,11 @@ msgid ""
 "assumes that the server informs other parties. When the option is not "
 "selected, <app>Evolution</app> sends an email."
 msgstr ""
-"При створенні, внесенні змін та вилученні запису зустрічі можна надіслати"
-" сповіщення іншим учасникам зустрічі. Якщо позначено пункт <gui>Сервер"
-" обробляє запрошення на зустріч</gui>, <app>Evolution</app> вивантажує запис"
-" зустрічі і припускає, що сервер інформує інших учасників. Якщо цей пункт не"
-" позначено, <app>Evolution</app> надсилає електронний лист самостійно."
+"При створенні, внесенні змін та вилученні запису зустрічі можна надіслати "
+"сповіщення іншим учасникам зустрічі. Якщо позначено пункт <gui>Сервер "
+"обробляє запрошення на зустріч</gui>, <app>Evolution</app> вивантажує запис "
+"зустрічі і припускає, що сервер інформує інших учасників. Якщо цей пункт не "
+"позначено, <app>Evolution</app> надсилає електронний лист самостійно."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:64 C/calendar-google.page:55 C/calendar-local.page:46
@@ -354,23 +361,26 @@ msgid ""
 msgstr "Календар буде додано до списку календарів в <app>Evolution</app>."
 
 #. (itstool) path: section/title
-#: C/calendar-caldav.page:71 C/contacts-using-several-addressbooks.page:32
+#: C/calendar-caldav.page:71 C/contacts-using-several-addressbooks.page:33
 #: C/tasks-caldav.page:46
-#| msgid "Common Account Types"
 msgid "Collection accounts"
 msgstr "Облікові записи збірок"
 
 #. (itstool) path: section/p
 #: C/calendar-caldav.page:72 C/tasks-caldav.page:47
+#| msgid ""
+#| "Different types of mail, addressbooks, calendars, task and memo lists, "
+#| "belonging to the same user, can be added in one step by utilizing a <link "
+#| "xref=\"intro-account-types#collection-account\">Collection account</link>."
 msgid ""
-"Different types of mail, addressbooks, calendars, task and memo lists, "
+"Different types of mail, address books, calendars, task and memo lists, "
 "belonging to the same user, can be added in one step by utilizing a <link "
 "xref=\"intro-account-types#collection-account\">Collection account</link>."
 msgstr ""
-"Різні типи пошти, адресних книг, календарів, списків завдань і приміток, що"
-" належать одному користувачеві, можна додавати за один крок, за допомогою <"
-"link xref=\"intro-account-types#collection-account\">облікового запису"
-" збірки</link>."
+"Різні типи пошти, адресних книг, календарів, списків завдань і приміток, що "
+"належать одному користувачеві, можна додавати за один крок, за допомогою "
+"<link xref=\"intro-account-types#collection-account\">облікового запису "
+"збірки</link>."
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
@@ -959,9 +969,13 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:52
+#| msgid ""
+#| "You can also select an arbitrary range of days in the small calendar in "
+#| "the side bar. To do this, select the days that you want to view in your "
+#| "calendar."
 msgid ""
 "You can also select an arbitrary range of days in the small calendar in the "
-"side bar. To do this, select the days that you want to view in your calendar."
+"sidebar. To do this, select the days that you want to view in your calendar."
 msgstr ""
 "Ви також можете вибрати довільний діапазон днів за допомогою невеличкого "
 "календаря на бічній панелі. Для цього виберіть дні, дані яких ви хочете "
@@ -1777,10 +1791,18 @@ msgstr "Використання декількох календарів"
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:30
+#| msgid ""
+#| "You can have multiple calendars and overlay them one over the other. For "
+#| "example, you might have a schedule of events for work, one for home, and "
+#| "one for your favorite sports team. The side bar lists those calendars, "
+#| "and you can select or deselect the boxes next to them to show and hide "
+#| "the appointments in your calendar view. By hiding and showing different "
+#| "sets of appointments, you can be sure to avoid conflicts, while keeping a "
+#| "minimum of clutter in your view."
 msgid ""
 "You can have multiple calendars and overlay them one over the other. For "
 "example, you might have a schedule of events for work, one for home, and one "
-"for your favorite sports team. The side bar lists those calendars, and you "
+"for your favorite sports team. The sidebar lists those calendars, and you "
 "can select or deselect the boxes next to them to show and hide the "
 "appointments in your calendar view. By hiding and showing different sets of "
 "appointments, you can be sure to avoid conflicts, while keeping a minimum of "
@@ -1798,7 +1820,8 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:38
-msgid "Appointments for each calendar appear in different color."
+#| msgid "Appointments for each calendar appear in different color."
+msgid "Appointments for each calendar appear in a different color."
 msgstr "Зустрічі різних календарів буде показано різними кольорами."
 
 #. (itstool) path: page/p
@@ -1822,6 +1845,17 @@ msgstr ""
 "наведено широкий список інтернет-календарів спільного використання, до яких "
 "включено державні та релігійні свята, фази місяця, спортивні, а також "
 "місцеві та регіональні події."
+
+#. (itstool) path: page/p
+#: C/calendar-using-several-calendars.page:47
+msgid ""
+"New events and meetings are created in the selected calendar in the Calendar "
+"window. If no calendar is selected, new events are created in the default "
+"calendar."
+msgstr ""
+"Нові записи подій та нарад буде створено у позначеному у вікні календаря"
+" календарі. Якщо не позначено жоден календар, записи нових подій буде"
+" створено у типовому календарі."
 
 #. (itstool) path: info/desc
 #: C/calendar-weather.page:17
@@ -1855,13 +1889,11 @@ msgstr "Виберіть одиницю виміру температури."
 
 #. (itstool) path: info/desc
 #: C/calendar-webdav.page:16
-#| msgid "Using an online Webcal/WebDAV calendar."
 msgid "Using an online Webcal/HTTP calendar."
 msgstr "Користування календарем Webcal/HTTP у мережі."
 
 #. (itstool) path: page/title
 #: C/calendar-webdav.page:19
-#| msgid "Using a WebDAV calendar"
 msgid "Using a Webcal calendar"
 msgstr "Користування календарем Webcal"
 
@@ -2032,7 +2064,8 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/contacts-google.page:21
-msgid "Using a Google addressbook"
+#| msgid "Using a Google addressbook"
+msgid "Using a Google address book"
 msgstr "Користування адресною книгою Google"
 
 #. (itstool) path: page/p
@@ -2090,14 +2123,11 @@ msgstr "Додавання адресної книги LDAP"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:44
-#| msgid ""
-#| "In the <gui>General</gui> tab, select the type <gui>On LDAP Servers</gui>."
 msgid "In the <gui>Type</gui> field, select <gui>On LDAP Servers</gui>."
 msgstr "У полі <gui>Тип</gui> виберіть <gui>На серверах LDAP</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:51
-#| msgid "Click the <gui>Configuration</gui> tab."
 msgid "In the <gui>Connecting to LDAP</gui> tab:"
 msgstr "На вкладці <gui>З'єднання з LDAP</gui>:"
 
@@ -2117,7 +2147,6 @@ msgstr "Вкажіть спосіб входу та ваше ім'я корис�
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:63
-#| msgid "In the <gui>Details</gui> tab you can define the following settings:"
 msgid "In the <gui>Using LDAP</gui> tab you define the following settings:"
 msgstr ""
 "На вкладці <gui>Використання LDAP</gui> ви можете визначити такі параметри:"
@@ -2191,10 +2220,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:105
-#| msgid ""
-#| "Download Limit: The maximum number of results for a given search. Most "
-#| "servers refuse to send more than 500 contacts, but you can set the number "
-#| "lower if you want to shorten downloads for very broad searches."
 msgid ""
 "Download Limit: The maximum number of results for a given search. Most "
 "servers refuse to send more than 500 contacts, but you can set the number "
@@ -2204,9 +2229,9 @@ msgid ""
 msgstr ""
 "Обмеження: максимальна кількість результатів вказаного пошуку. Більшість "
 "серверів відмовляється надсилати понад 500 контактів, але ви можете вказати "
-"менше значення, щоб скоротити обсяг даних для дуже широких пошуків. Цей"
-" пункт буде проігноровано, якщо позначено пункт <gui>Скопіювати книгу"
-" локально для автономної роботи</gui>."
+"менше значення, щоб скоротити обсяг даних для дуже широких пошуків. Цей "
+"пункт буде проігноровано, якщо позначено пункт <gui>Скопіювати книгу "
+"локально для автономної роботи</gui>."
 
 #. (itstool) path: note/p
 #: C/contacts-ldap.page:119
@@ -2328,7 +2353,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:38
-msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
+#| msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
+msgid "Choose an address book and click <gui style=\"button\">Define</gui>."
 msgstr ""
 "Виберіть адресну книгу і натисніть кнопку <gui style=\"button\">Визначити</"
 "gui>."
@@ -2376,9 +2402,13 @@ msgstr "Упорядкування, сортування та групуванн
 
 #. (itstool) path: page/p
 #: C/contacts-organizing.page:23
+#| msgid ""
+#| "There are several ways how to organize your contacts. You can use several "
+#| "addressbooks and categories, and for conveniently sending messages to a "
+#| "group of people contact lists are available."
 msgid ""
 "There are several ways how to organize your contacts. You can use several "
-"addressbooks and categories, and for conveniently sending messages to a "
+"address books and categories, and for conveniently sending messages to a "
 "group of people contact lists are available."
 msgstr ""
 "Існує декілька способів упорядковування ваших записів контактів. Ви можете "
@@ -2709,9 +2739,14 @@ msgstr "Додавання і створення адресних книг"
 
 #. (itstool) path: page/p
 #: C/contacts-using-several-addressbooks.page:23
+#| msgid ""
+#| "You can have multiple address books. For example, you might have one "
+#| "address book for work related contacts and one for private contacts. The "
+#| "side bar lists those address books, and you can select which address book "
+#| "is shown."
 msgid ""
 "You can have multiple address books. For example, you might have one address "
-"book for work related contacts and one for private contacts. The side bar "
+"book for work related contacts and one for private contacts. The sidebar "
 "lists those address books, and you can select which address book is shown."
 msgstr ""
 "Ви можете користуватися одночасно декількома адресними книгами. Наприклад, "
@@ -2730,17 +2765,33 @@ msgstr ""
 "вашому комп'ютері, зокрема календарями у інтернеті (наприклад у Google) і у "
 "локальній мережі (наприклад у LDAP)."
 
-#. (itstool) path: section/p
-#: C/contacts-using-several-addressbooks.page:33
+#. (itstool) path: page/p
+#: C/contacts-using-several-addressbooks.page:30
 msgid ""
-"Different types of mail, addressbooks, calendars, task and memo lists, "
+"New contacts are created in the selected address book in the Contacts "
+"window. If no address book is selected, new contacts are created in the "
+"default address book."
+msgstr ""
+"Нові записи контактів буде створено у позначеній у вікні контактів адресній"
+" книзі. Якщо не позначено жодної адресної книги, записи нових контактів буде"
+" створено у типовій адресній книзі."
+
+#. (itstool) path: section/p
+#: C/contacts-using-several-addressbooks.page:34
+#| msgid ""
+#| "Different types of mail, addressbooks, calendars, task and memo lists, "
+#| "belonging to the same user, can be added in one step, by utilizing a "
+#| "<link xref=\"intro-account-types#collection-account\">Collection account</"
+#| "link>."
+msgid ""
+"Different types of mail, address books, calendars, task and memo lists, "
 "belonging to the same user, can be added in one step, by utilizing a <link "
 "xref=\"intro-account-types#collection-account\">Collection account</link>."
 msgstr ""
-"Різні типи пошти, адресних книг, календарів, списків завдань і приміток, що"
-" належать одному користувачеві, можна додавати за один крок, за допомогою <"
-"link xref=\"intro-account-types#collection-account\">облікового запису"
-" збірки</link>."
+"Різні типи пошти, адресних книг, календарів, списків завдань і приміток, що "
+"належать одному користувачеві, можна додавати за один крок, за допомогою "
+"<link xref=\"intro-account-types#collection-account\">облікового запису "
+"збірки</link>."
 
 #. (itstool) path: info/desc
 #: C/credits.page:5
@@ -4439,19 +4490,14 @@ msgstr "Це потребує встановлення пакунка <sys>evolu
 #. (itstool) path: when/p
 #. (itstool) path: note/p
 #: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:31
-#| msgid ""
-#| "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
-#| "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</"
-#| "link>"
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://gitlab.gnome.org/GNOME/"
 "evolution/-/wikis/home#get-the-source-code\" style=\"button\">Install "
 "evolution-ews</link>"
 msgstr ""
 "<link action=\"install:evolution-ews\" href=\"https://gitlab.gnome.org/GNOME/"
-"evolution/-/wikis/home#get-the-source-code\" style=\"button\">Встановлення"
-" evolution-ews</"
-"link>"
+"evolution/-/wikis/home#get-the-source-code\" style=\"button\">Встановлення "
+"evolution-ews</link>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -4491,19 +4537,14 @@ msgstr "Це потребує встановлення пакунка <sys>evolu
 #. (itstool) path: when/p
 #. (itstool) path: note/p
 #: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:41
-#| msgid ""
-#| "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/"
-#| "Apps/Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-"
-#| "mapi</link>"
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://gitlab.gnome.org/"
 "GNOME/evolution/-/wikis/home#get-the-source-code\" style=\"button\">Install "
 "evolution-mapi</link>"
 msgstr ""
-"<link action=\"install:evolution-mapi\""
-" href=\"https://gitlab.gnome.org/GNOME/evolution/-/wikis/home#get-the-source-"
-"code\" style=\"button\">Встановлення evolution-"
-"mapi</link>"
+"<link action=\"install:evolution-mapi\" href=\"https://gitlab.gnome.org/"
+"GNOME/evolution/-/wikis/home#get-the-source-code\" "
+"style=\"button\">Встановлення evolution-mapi</link>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -5399,8 +5440,14 @@ msgstr "Перемикач"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:79
+#| msgid ""
+#| "The switcher at the bottom of the side bar lets you switch between the "
+#| "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks. "
+#| "The appearance of the Switcher, including whether the buttons should be "
+#| "shown at all, can be changed in the menu <guiseq><gui>View</"
+#| "gui><gui>Switcher Appearance</gui></guiseq>."
 msgid ""
-"The switcher at the bottom of the side bar lets you switch between the "
+"The switcher at the bottom of the sidebar lets you switch between the "
 "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks. The "
 "appearance of the Switcher, including whether the buttons should be shown at "
 "all, can be changed in the menu <guiseq><gui>View</gui><gui>Switcher "
@@ -5414,9 +5461,13 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:80
+#| msgid ""
+#| "You can disable the folder list and the switcher side bar by toggling "
+#| "<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> "
+#| "or pressing <key>F9</key>."
 msgid ""
-"You can disable the folder list and the switcher side bar by toggling "
-"<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> or "
+"You can disable the folder list and the switcher sidebar by toggling "
+"<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Sidebar</gui></guiseq> or "
 "pressing <key>F9</key>."
 msgstr ""
 "Ви можете вимкнути список тек та бічну панель перемикача за допомогою пункту "
@@ -6347,19 +6398,14 @@ msgstr "Параметри облікового запису Web Services Exchan
 
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:28
-#| msgid ""
-#| "See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
-#| "OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
-#| "authentication."
 msgid ""
 "See also the <link href=\"https://gitlab.gnome.org/GNOME/evolution/-/wikis/"
 "EWS-OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
 "authentication."
 msgstr ""
 "Ознайомтеся також із <link href=\"https://gitlab.gnome.org/GNOME/evolution/-/"
-"wikis/EWS-OAuth2\">документацією щодо налаштовування і діагностики"
-" розпізнавання "
-"OAuth2</link>."
+"wikis/EWS-OAuth2\">документацією щодо налаштовування і діагностики "
+"розпізнавання OAuth2</link>."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
@@ -15096,6 +15142,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/tasks-caldav.page:27
+#| msgid ""
+#| "To discover the task lists or memo lists, announced by the server, enter "
+#| "the server address as <gui>URL</gui> and optionally <gui>User</gui>, then "
+#| "click on <gui style=\"button\">Find Task Lists</gui>/<gui "
+#| "style=\"button\">Find Memo Lists</gui>. Select a task or memo list and "
+#| "<gui>User mail</gui>. This prefills the fields <gui>Name</gui>, "
+#| "<gui>Color</gui>, <gui>URL</gui> and (see below) <gui>Email</gui>. The "
+#| "step is optional, and you can overwrite all discovered settings."
 msgid ""
 "To discover the task lists or memo lists, announced by the server, enter the "
 "server address as <gui>URL</gui> and optionally <gui>User</gui>, then click "
@@ -15103,16 +15157,16 @@ msgid ""
 "Memo Lists</gui>. Select a task or memo list and <gui>User mail</gui>. This "
 "prefills the fields <gui>Name</gui>, <gui>Color</gui>, <gui>URL</gui> and "
 "(see below) <gui>Email</gui>. The step is optional, and you can overwrite "
-"all discovered settings."
+"all the discovered settings."
 msgstr ""
-"Щоб виявити списки завдань або приміток, оголошені сервером, введіть адресу"
-" сервера у полі <gui>URL</gui> і, якщо треба, <gui>Користувач</gui>, а потім"
-" натисніть <gui style=\"button\">Знайти списки завдань</gui> або <gui"
-" style=\"button\">Знайти списки приміток</gui>. Виберіть список завдань або"
-" приміток і <gui>Пошту користувача</gui>. У результаті буде попередньо"
-" заповнено поля <gui>Назва</gui>, <gui>Колір</gui>, <gui>URL</gui> та (див."
-" нижче) <gui>Ел.пошта</gui>. Цей крок необов’язковий, і ви можете"
-" перезаписати всі виявлені налаштування."
+"Щоб виявити списки завдань або приміток, оголошені сервером, введіть адресу "
+"сервера у полі <gui>URL</gui> і, якщо треба, <gui>Користувач</gui>, а потім "
+"натисніть <gui style=\"button\">Знайти списки завдань</gui> або <gui "
+"style=\"button\">Знайти списки приміток</gui>. Виберіть список завдань або "
+"приміток і <gui>Пошту користувача</gui>. У результаті буде попередньо "
+"заповнено поля <gui>Назва</gui>, <gui>Колір</gui>, <gui>URL</gui> та (див. "
+"нижче) <gui>Ел.пошта</gui>. Цей крок необов’язковий, і ви можете "
+"перезаписати всі виявлені налаштування."
 
 #. (itstool) path: item/p
 #: C/tasks-caldav.page:34
@@ -15120,9 +15174,9 @@ msgid ""
 "Enter your username and email address. When an assigned task is created in "
 "the task list, this email address is prefilled as Organizer."
 msgstr ""
-"Введіть своє ім'я користувача та адресу електронної пошти. Якщо запис"
-" пов'язаного завдання створюють у списку завдань, цю адресу електронної"
-" пошти буде попередньо вписано до поля «Організатор»."
+"Введіть своє ім'я користувача та адресу електронної пошти. Якщо запис "
+"пов'язаного завдання створюють у списку завдань, цю адресу електронної пошти "
+"буде попередньо вписано до поля «Організатор»."
 
 #. (itstool) path: item/p
 #: C/tasks-caldav.page:36
@@ -15133,11 +15187,11 @@ msgid ""
 "server informs other parties. When the option is not selected, "
 "<app>Evolution</app> sends an email."
 msgstr ""
-"При створенні, внесенні змін та вилученні запису пов'язаного завдання можна"
-" надіслати сповіщення іншим учасникам. Якщо позначено пункт <gui>Сервер"
-" обробляє запрошення на зустріч</gui>, <app>Evolution</app> вивантажує запис"
-" завдання і припускає, що сервер інформує інших учасників. Якщо цей пункт не"
-" позначено, <app>Evolution</app> надсилає електронний лист самостійно."
+"При створенні, внесенні змін та вилученні запису пов'язаного завдання можна "
+"надіслати сповіщення іншим учасникам. Якщо позначено пункт <gui>Сервер "
+"обробляє запрошення на зустріч</gui>, <app>Evolution</app> вивантажує запис "
+"завдання і припускає, що сервер інформує інших учасників. Якщо цей пункт не "
+"позначено, <app>Evolution</app> надсилає електронний лист самостійно."
 
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:43 C/tasks-local.page:31
@@ -15453,10 +15507,17 @@ msgstr "Користування декількома списками завд�
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:22
+#| msgid ""
+#| "You can have multiple task or memo lists and choose which of your lists "
+#| "get displayed. For example, you might have tasks for work, tasks for "
+#| "home, and tasks for the singing club of which you are a member. The side "
+#| "bar shows these lists, and you can select or deselect any of the boxes "
+#| "next to them to show and hide the corresponding tasks or memos in your "
+#| "view."
 msgid ""
 "You can have multiple task or memo lists and choose which of your lists get "
 "displayed. For example, you might have tasks for work, tasks for home, and "
-"tasks for the singing club of which you are a member. The side bar shows "
+"tasks for the singing club of which you are a member. The sidebar shows "
 "these lists, and you can select or deselect any of the boxes next to them to "
 "show and hide the corresponding tasks or memos in your view."
 msgstr ""
@@ -15469,8 +15530,10 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:24
+#| msgid ""
+#| "Tasks and memos from each task or memo list appear as different colors."
 msgid ""
-"Tasks and memos from each task or memo list appear as different colors."
+"Tasks and memos from each task or memo list appear in a different color."
 msgstr ""
 "Завдання і примітки з кожного зі списків завдань або приміток буде показано "
 "різними кольорами."
@@ -15484,15 +15547,24 @@ msgstr ""
 "Ви також можете скористатися списками, які не зберігаються на вашому "
 "комп'ютері, зокрема списками в інтернеті."
 
+#. (itstool) path: page/p
+#: C/tasks-using-several-tasklists.page:27
+msgid ""
+"New tasks are created in the selected task list in the Tasks window. If no "
+"list is selected, new tasks are created in the default task list. Likewise "
+"for memos."
+msgstr ""
+"Нові записи завдань буде створено у позначеному у вікні завдань списку"
+" завдань. Якщо не позначено жодного списку завдань, записи нових завдань"
+" буде створено у типовому списку завдань. Те саме стосується приміток."
+
 #. (itstool) path: info/desc
 #: C/tasks-webdav.page:5
-#| msgid "Using an online CalDAV task list or memo list."
 msgid "Using an online HTTP task list or memo list."
 msgstr "Користування списком завдань або списком приміток HTTP у мережі."
 
 #. (itstool) path: page/title
 #: C/tasks-webdav.page:20
-#| msgid "Using a CalDAV task or memo list"
 msgid "Using a HTTP task or memo list"
 msgstr "Користування списками завдань або приміток HTTP"
 
