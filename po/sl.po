@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-11-05 08:26+0000\n"
-"PO-Revision-Date: 2024-11-05 10:29+0100\n"
+"POT-Creation-Date: 2024-11-05 13:48+0000\n"
+"PO-Revision-Date: 2024-11-05 14:54+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -1776,8 +1776,8 @@ msgid "Enable or disable type ahead search feature"
 msgstr "Omogoči ali onemogoči možnost iskanja med tipkanjem"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
-msgid "Enable the side bar search feature to allow interactive searching of folder names."
-msgstr "Omogoči zmožnost iskanja v stranski vrstici za vzajemno iskanje imen map."
+msgid "Enable the sidebar search feature to allow interactive searching of folder names."
+msgstr "Omogoči zmožnost iskanja v stranski vrstici za interaktivno iskanje imen map."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid "Enable or disable magic space bar"
@@ -4443,7 +4443,7 @@ msgstr "Ni mogoče dodati novega stika"
 #: ../src/addressbook/addressbook.error.xml.h:43
 msgid ""
 "“{0}” is a read-only address book and cannot be modified. Please select a different address "
-"book from the side bar in the Contacts view."
+"book from the sidebar in the Contacts view."
 msgstr ""
 "Imenik »{0}« je označen le za branje in ga ni mogoče spreminjati. Izberite drug imenik iz "
 "stranske vrstice v pogledu stikov."
@@ -13708,7 +13708,7 @@ msgid "_Look Up"
 msgstr "_Poišči:"
 
 #: ../src/e-util/e-collection-account-wizard.c:111
-#: ../src/e-util/e-collection-account-wizard.c:279 ../src/e-util/e-search-bar.c:666
+#: ../src/e-util/e-collection-account-wizard.c:279 ../src/e-util/e-search-bar.c:672
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:84
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:243
 msgid "_Next"
@@ -13718,7 +13718,7 @@ msgstr "_Naprej"
 msgid "New Collection Account"
 msgstr "Nov zbirni račun"
 
-#: ../src/e-util/e-collection-account-wizard.c:259 ../src/e-util/e-search-bar.c:654
+#: ../src/e-util/e-collection-account-wizard.c:259 ../src/e-util/e-search-bar.c:660
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:77
 msgid "_Previous"
 msgstr "_Predhodni"
@@ -16080,45 +16080,49 @@ msgstr "Uredi pravilo"
 msgid "Copy of %s"
 msgstr "Kopiranje %s"
 
-#. Translators: The '%u' is the actual number of the matches found
-#: ../src/e-util/e-search-bar.c:79
-#, c-format
+#: ../src/e-util/e-search-bar.c:78
 msgid "No matches"
+msgstr "Ni zadetkov"
+
+#. Translators: The '%u' is the actual number of the matches found
+#: ../src/e-util/e-search-bar.c:83
+#, c-format
+msgid "%u match"
 msgid_plural "%u matches"
 msgstr[0] "%u zadetkov"
 msgstr[1] "%u zadetek"
 msgstr[2] "%u zadetka"
 msgstr[3] "%u zadetki"
 
-#: ../src/e-util/e-search-bar.c:609
+#: ../src/e-util/e-search-bar.c:615
 msgid "Close the find bar"
 msgstr "Zapri vrstico iskanja"
 
-#: ../src/e-util/e-search-bar.c:618
+#: ../src/e-util/e-search-bar.c:624
 msgid "Fin_d:"
 msgstr "_Najdi:"
 
-#: ../src/e-util/e-search-bar.c:630
+#: ../src/e-util/e-search-bar.c:636
 msgid "Clear the search"
 msgstr "Počisti iskanje"
 
-#: ../src/e-util/e-search-bar.c:657
+#: ../src/e-util/e-search-bar.c:663
 msgid "Find the previous occurrence of the phrase"
 msgstr "Najde predhodno ponovitev izraza"
 
-#: ../src/e-util/e-search-bar.c:669
+#: ../src/e-util/e-search-bar.c:675
 msgid "Find the next occurrence of the phrase"
 msgstr "Najde naslednjo ponovitev izraza"
 
-#: ../src/e-util/e-search-bar.c:678
+#: ../src/e-util/e-search-bar.c:684
 msgid "Mat_ch case"
 msgstr "_Upoštevaj velikost črk"
 
-#: ../src/e-util/e-search-bar.c:706
+#: ../src/e-util/e-search-bar.c:712
 msgid "Reached bottom of page, continued from top"
 msgstr "Doseženo je dno strani, nadaljevanje z vrha"
 
-#: ../src/e-util/e-search-bar.c:728
+#: ../src/e-util/e-search-bar.c:734
 msgid "Reached top of page, continued from bottom"
 msgstr "Dosežen je bil vrh strani, nadaljevanje z dna"
 
@@ -22534,7 +22538,6 @@ msgid "Show _Tool Bar"
 msgstr "Pokaži orodno vrs_tico"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:536
-#: ../src/shell/e-shell-view.c:1070
 msgid "Show Side _Bar"
 msgstr "Pokaži s_transko vrstico"
 
@@ -26866,8 +26869,13 @@ msgid "Plain Text Mode"
 msgstr "Način običajnega besedila"
 
 #: ../src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:4
-msgid "View mail messages as plain text, even if they contain HTML content."
-msgstr "Ogled vsebine sporočil kot običajno besedilo, neodvisno od oblikovanja HTML."
+msgid ""
+"Allows to view mail messages as plain text, even if they contain HTML. To modify the options "
+"switch to the Mail Preferences section → HTML Messages tab → Plain Text Mode group."
+msgstr ""
+"Omogoča ogled poštnih sporočil kot navadnega besedila, tudi če vsebujejo HTML. Če želite "
+"spremeniti možnosti, preklopite na razdelek Nastavitve pošte → zavihek Sporočila HTML → "
+"skupina Način navadnega besedila."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:132
 #, c-format
@@ -28770,8 +28778,12 @@ msgstr "Pokaži menijsko _vrstico"
 msgid "Show the menu bar"
 msgstr "Pokaži menijsko vrstico"
 
+#: ../src/shell/e-shell-view.c:1070
+msgid "Show Side_bar"
+msgstr "Pokaži s_transko vrstico"
+
 #: ../src/shell/e-shell-view.c:1072
-msgid "Show the side bar"
+msgid "Show the sidebar"
 msgstr "Pokaže stransko vrstico"
 
 #: ../src/shell/e-shell-view.c:1077
