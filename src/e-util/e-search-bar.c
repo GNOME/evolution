@@ -75,7 +75,8 @@ search_bar_update_matches (ESearchBar *search_bar,
 
 	matches_label = search_bar->priv->matches_label;
 
-	text = g_strdup_printf (_("Matches: %u"), matches);
+	/* Translators: The '%u' is the actual number of the matches found */
+	text = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "No matches", "%u matches", matches), matches);
 	gtk_label_set_text (GTK_LABEL (matches_label), text);
 	gtk_widget_show (matches_label);
 	g_free (text);
