@@ -71,15 +71,21 @@ search_bar_update_matches (ESearchBar *search_bar,
                            guint matches)
 {
 	GtkWidget *matches_label;
-	gchar *text;
 
 	matches_label = search_bar->priv->matches_label;
 
-	/* Translators: The '%u' is the actual number of the matches found */
-	text = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "No matches", "%u matches", matches), matches);
-	gtk_label_set_text (GTK_LABEL (matches_label), text);
+	if (!matches) {
+		gtk_label_set_text (GTK_LABEL (matches_label), _("No matches"));
+	} else {
+		gchar *text;
+
+		/* Translators: The '%u' is the actual number of the matches found */
+		text = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "%u match", "%u matches", matches), matches);
+		gtk_label_set_text (GTK_LABEL (matches_label), text);
+		g_free (text);
+	}
+
 	gtk_widget_show (matches_label);
-	g_free (text);
 }
 
  static void
