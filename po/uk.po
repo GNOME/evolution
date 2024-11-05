@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-11-04 19:28+0000\n"
-"PO-Revision-Date: 2024-11-04 22:06+0200\n"
+"POT-Creation-Date: 2024-11-05 13:55+0000\n"
+"PO-Revision-Date: 2024-11-05 16:17+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1148,7 +1148,6 @@ msgstr ""
 "теми. Якщо хочете вказати колір, скористайтеся форматом «#ЧЧЗЗСС»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
-#| msgid "Allow drag and drop of events in the Calendar."
 msgid "Allow drag-and-drop of events in the Calendar."
 msgstr "Дозволити перетягування зі скиданням для записів подій у календарі."
 
@@ -1936,8 +1935,11 @@ msgid "Enable or disable type ahead search feature"
 msgstr "Увімкнути чи вимкнути "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+#| msgid ""
+#| "Enable the side bar search feature to allow interactive searching of "
+#| "folder names."
 msgid ""
-"Enable the side bar search feature to allow interactive searching of folder "
+"Enable the sidebar search feature to allow interactive searching of folder "
 "names."
 msgstr ""
 "Увімкнути функцію пошуку бічної панелі, для інтерактивного пошуку назв тек."
@@ -2533,16 +2535,10 @@ msgstr ""
 "вилучення його з результатів пошуку."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
-#| msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgid "Asks whether to copy a folder by drag-and-drop in the folder tree"
 msgstr "Запитує, чи копіювати теку через перетягування у дереві тек"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
-#| msgid ""
-#| "Possible values are: “never” — do not allow copy with drag &amp; drop of "
-#| "folders in folder tree, “always” — allow copy with drag &amp; drop of "
-#| "folders in folder tree without asking, or “ask” — (or any other value) "
-#| "will ask user."
 msgid ""
 "Possible values are: “never” — do not allow copy with drag-and-drop of "
 "folders in folder tree, “always” — allow copy with drag-and-drop of folders "
@@ -2553,16 +2549,10 @@ msgstr ""
 "значення) запитувати користувача."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
-#| msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgid "Asks whether to move a folder by drag-and-drop in the folder tree"
 msgstr "Запитує, чи перемістити теку через перетягування у дереві тек"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
-#| msgid ""
-#| "Possible values are: “never” — do not allow move with drag &amp; drop of "
-#| "folders in folder tree, “always” — allow move with drag &amp; drop of "
-#| "folders in folder tree without asking, or “ask” — (or any other value) "
-#| "will ask user."
 msgid ""
 "Possible values are: “never” — do not allow move with drag-and-drop of "
 "folders in folder tree, “always” — allow move with drag-and-drop of folders "
@@ -4875,9 +4865,12 @@ msgstr "Не вдалося додати новий контакт"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:43
+#| msgid ""
+#| "“{0}” is a read-only address book and cannot be modified. Please select a "
+#| "different address book from the side bar in the Contacts view."
 msgid ""
 "“{0}” is a read-only address book and cannot be modified. Please select a "
-"different address book from the side bar in the Contacts view."
+"different address book from the sidebar in the Contacts view."
 msgstr ""
 "«{0}» є джерелом адресної книги, доступним лише для читання. Виберіть іншу "
 "адресну книгу з бічної панелі у режимі перегляду «Контакти»."
@@ -14565,7 +14558,7 @@ msgstr "_Шукати"
 
 #: ../src/e-util/e-collection-account-wizard.c:111
 #: ../src/e-util/e-collection-account-wizard.c:279
-#: ../src/e-util/e-search-bar.c:665
+#: ../src/e-util/e-search-bar.c:672
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:84
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:243
 msgid "_Next"
@@ -14576,7 +14569,7 @@ msgid "New Collection Account"
 msgstr "Новий обліковий запис-збірка"
 
 #: ../src/e-util/e-collection-account-wizard.c:259
-#: ../src/e-util/e-search-bar.c:653
+#: ../src/e-util/e-search-bar.c:660
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:77
 msgid "_Previous"
 msgstr "П_опереднє"
@@ -17025,39 +17018,49 @@ msgid "Copy of %s"
 msgstr "Копія %s"
 
 #: ../src/e-util/e-search-bar.c:78
-#, c-format
-msgid "Matches: %u"
-msgstr "Збігів: %u"
+#| msgid "No match found"
+msgid "No matches"
+msgstr "Немає відповідників"
 
-#: ../src/e-util/e-search-bar.c:608
+#. Translators: The '%u' is the actual number of the matches found
+#: ../src/e-util/e-search-bar.c:83
+#, c-format
+msgid "%u match"
+msgid_plural "%u matches"
+msgstr[0] "%u відповідник"
+msgstr[1] "%u відповідники"
+msgstr[2] "%u відповідників"
+msgstr[3] "%u відповідник"
+
+#: ../src/e-util/e-search-bar.c:615
 msgid "Close the find bar"
 msgstr "Закрити рядок пошуку"
 
-#: ../src/e-util/e-search-bar.c:617
+#: ../src/e-util/e-search-bar.c:624
 msgid "Fin_d:"
 msgstr "З_найти:"
 
-#: ../src/e-util/e-search-bar.c:629
+#: ../src/e-util/e-search-bar.c:636
 msgid "Clear the search"
 msgstr "Очистити пошук"
 
-#: ../src/e-util/e-search-bar.c:656
+#: ../src/e-util/e-search-bar.c:663
 msgid "Find the previous occurrence of the phrase"
 msgstr "Знайти попереднє входження фрази"
 
-#: ../src/e-util/e-search-bar.c:668
+#: ../src/e-util/e-search-bar.c:675
 msgid "Find the next occurrence of the phrase"
 msgstr "Знайти наступне входження фрази"
 
-#: ../src/e-util/e-search-bar.c:677
+#: ../src/e-util/e-search-bar.c:684
 msgid "Mat_ch case"
 msgstr "Збігається _регістр"
 
-#: ../src/e-util/e-search-bar.c:705
+#: ../src/e-util/e-search-bar.c:712
 msgid "Reached bottom of page, continued from top"
 msgstr "Досягнуто кінця сторінки, починаю згори"
 
-#: ../src/e-util/e-search-bar.c:727
+#: ../src/e-util/e-search-bar.c:734
 msgid "Reached top of page, continued from bottom"
 msgstr "Досягнуто верху сторінки, починаю знизу"
 
@@ -22180,13 +22183,11 @@ msgstr "Вилученні повідомлень у те_ці пошуку"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:166
-#| msgid "Copy _folder by Drag & Drop in folder tree"
 msgid "Copy _folder by drag-and-drop in folder tree"
 msgstr "Копіюванні _теки перетягуванням зі скиданням у дереві тек"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:168
-#| msgid "_Move folder by Drag & Drop in folder tree"
 msgid "_Move folder by drag-and-drop in folder tree"
 msgstr "При п_ереміщенні теки перетягуванням зі скиданням у дереві тек"
 
@@ -23525,7 +23526,6 @@ msgid "Body Preview"
 msgstr "Попередній перегляд вмісту"
 
 #: ../src/mail/message-list.etspec.h:28
-#| msgid "For Components:"
 msgid "Correspondents"
 msgstr "Кореспонденти"
 
@@ -23695,7 +23695,6 @@ msgid "Show _Tool Bar"
 msgstr "Показати панель _інструментів"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:536
-#: ../src/shell/e-shell-view.c:1070
 msgid "Show Side _Bar"
 msgstr "Показати _бічну панель"
 
@@ -25036,7 +25035,6 @@ msgid "Allo_w direct edit of event Summary"
 msgstr "Доз_волити пряме редагування Звіту події"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:55
-#| msgid "Allow dra_g and drop of events"
 msgid "Allow dra_g-and-drop of events"
 msgstr "Дозволити п_еретягування зі скиданням для подій"
 
@@ -28112,10 +28110,15 @@ msgid "Plain Text Mode"
 msgstr "Режим звичайного тексту"
 
 #: ../src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:4
-msgid "View mail messages as plain text, even if they contain HTML content."
+msgid ""
+"Allows to view mail messages as plain text, even if they contain HTML. To "
+"modify the options switch to the Mail Preferences section → HTML Messages "
+"tab → Plain Text Mode group."
 msgstr ""
-"Переглядати повідомлення як звичайний текст, навіть якщо вони містять "
-"гіпертекстову розмітку"
+"Надає змогу переглядати поштові повідомлення у форматі звичайного тексту,"
+" навіть якщо у них міститься код HTML. Щоб змінити параметри перегляду,"
+" перемкніться до розділу «Параметри пошти → вкладка «Повідомлення HTML» →"
+" група «Режим звичайного тексту»»."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:132
 #, c-format
@@ -30074,8 +30077,14 @@ msgstr "Показати панель _меню"
 msgid "Show the menu bar"
 msgstr "Показати панель меню"
 
+#: ../src/shell/e-shell-view.c:1070
+#| msgid "Show Side _Bar"
+msgid "Show Side_bar"
+msgstr "Показати _бічну панель"
+
 #: ../src/shell/e-shell-view.c:1072
-msgid "Show the side bar"
+#| msgid "Show the side bar"
+msgid "Show the sidebar"
 msgstr "Показати бічну панель"
 
 #: ../src/shell/e-shell-view.c:1077
@@ -31021,6 +31030,15 @@ msgstr "Неможливо записати сховище на диск, код
 #: ../src/smime/lib/e-pkcs12.c:470
 msgid "Imported Certificate"
 msgstr "Імпортований сертифікат"
+
+#, c-format
+#~ msgid "Matches: %u"
+#~ msgstr "Збігів: %u"
+
+#~ msgid "View mail messages as plain text, even if they contain HTML content."
+#~ msgstr ""
+#~ "Переглядати повідомлення як звичайний текст, навіть якщо вони містять "
+#~ "гіпертекстову розмітку"
 
 #~ msgid "Attach"
 #~ msgstr "Долучити"
