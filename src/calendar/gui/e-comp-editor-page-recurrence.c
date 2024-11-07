@@ -990,6 +990,7 @@ ecep_recurrence_make_recurrence_special (ECompEditorPageRecurrence *page_recurre
 	}
 }
 
+#ifndef HAVE_I_CAL_RECURRENCE_GET_BY
 /* Counts the elements in the by_xxx fields of an ICalRecurrence */
 static gint
 ecep_recurrence_count_by_xxx_and_free (GArray *array) /* gshort */
@@ -1008,6 +1009,7 @@ ecep_recurrence_count_by_xxx_and_free (GArray *array) /* gshort */
 
 	return ii;
 }
+#endif
 
 /* Creates the special contents for "ending until" (end date) recurrences */
 static void
@@ -1331,28 +1333,72 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 
 		ii = 0;
 
-		if (e_weekday_chooser_get_selected (chooser, G_DATE_SUNDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_SUNDAY)) {
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, ii + 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, ii++, I_CAL_SUNDAY_WEEKDAY);
+			#else
 			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_SUNDAY_WEEKDAY);
+			#endif
+		}
 
-		if (e_weekday_chooser_get_selected (chooser, G_DATE_MONDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_MONDAY)) {
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, ii + 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, ii++, I_CAL_MONDAY_WEEKDAY);
+			#else
 			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_MONDAY_WEEKDAY);
+			#endif
+		}
 
-		if (e_weekday_chooser_get_selected (chooser, G_DATE_TUESDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_TUESDAY)) {
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, ii + 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, ii++, I_CAL_TUESDAY_WEEKDAY);
+			#else
 			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_TUESDAY_WEEKDAY);
+			#endif
+		}
 
-		if (e_weekday_chooser_get_selected (chooser, G_DATE_WEDNESDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_WEDNESDAY)) {
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, ii + 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, ii++, I_CAL_WEDNESDAY_WEEKDAY);
+			#else
 			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_WEDNESDAY_WEEKDAY);
+			#endif
+		}
 
-		if (e_weekday_chooser_get_selected (chooser, G_DATE_THURSDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_THURSDAY)) {
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, ii + 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, ii++, I_CAL_THURSDAY_WEEKDAY);
+			#else
 			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_THURSDAY_WEEKDAY);
+			#endif
+		}
 
-		if (e_weekday_chooser_get_selected (chooser, G_DATE_FRIDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_FRIDAY)) {
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, ii + 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, ii++, I_CAL_FRIDAY_WEEKDAY);
+			#else
 			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_FRIDAY_WEEKDAY);
+			#endif
+		}
 
-		if (e_weekday_chooser_get_selected (chooser, G_DATE_SATURDAY))
+		if (e_weekday_chooser_get_selected (chooser, G_DATE_SATURDAY)) {
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, ii + 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, ii++, I_CAL_SATURDAY_WEEKDAY);
+			#else
 			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_SATURDAY_WEEKDAY);
+			#endif
+		}
 
+		#ifndef HAVE_I_CAL_RECURRENCE_GET_BY
 		i_cal_recurrence_set_by_day (recur, ii, I_CAL_RECURRENCE_ARRAY_MAX);
+		#endif
 
 		break;
 	}
@@ -1360,6 +1406,7 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 	case I_CAL_MONTHLY_RECURRENCE: {
 		enum month_num_options month_num;
 		enum month_day_options month_day;
+		gshort short_value;
 
 		g_return_if_fail (ecep_recurrence_get_box_first_child (page_recurrence->priv->recr_interval_special_box) != NULL);
 		g_return_if_fail (page_recurrence->priv->month_day_combo != NULL);
@@ -1380,47 +1427,103 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 		switch (month_day) {
 		case MONTH_DAY_NTH:
 			if (month_num == MONTH_NUM_INVALID)
-				i_cal_recurrence_set_by_month_day (recur, 0, -1);
+				short_value = -1;
 			else
-				i_cal_recurrence_set_by_month_day (recur, 0, page_recurrence->priv->month_index);
+				short_value = page_recurrence->priv->month_index;
+
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_MONTH_DAY, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_MONTH_DAY, 0, short_value);
+			#else
+			i_cal_recurrence_set_by_month_day (recur, 0, short_value);
+			#endif
 			break;
 
 		/* Outlook 2000 uses BYDAY=TU;BYSETPOS=2, and will not
 		 * accept BYDAY=2TU. So we now use the same as Outlook
 		 * by default. */
 		case MONTH_DAY_MON:
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, 0, I_CAL_MONDAY_WEEKDAY);
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_SET_POS, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_SET_POS, 0, month_num);
+			#else
 			i_cal_recurrence_set_by_day (recur, 0, I_CAL_MONDAY_WEEKDAY);
 			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
+			#endif
 			break;
 
 		case MONTH_DAY_TUE:
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, 0, I_CAL_TUESDAY_WEEKDAY);
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_SET_POS, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_SET_POS, 0, month_num);
+			#else
 			i_cal_recurrence_set_by_day (recur, 0, I_CAL_TUESDAY_WEEKDAY);
 			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
+			#endif
 			break;
 
 		case MONTH_DAY_WED:
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, 0, I_CAL_WEDNESDAY_WEEKDAY);
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_SET_POS, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_SET_POS, 0, month_num);
+			#else
 			i_cal_recurrence_set_by_day (recur, 0, I_CAL_WEDNESDAY_WEEKDAY);
 			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
+			#endif
 			break;
 
 		case MONTH_DAY_THU:
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, 0, I_CAL_THURSDAY_WEEKDAY);
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_SET_POS, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_SET_POS, 0, month_num);
+			#else
 			i_cal_recurrence_set_by_day (recur, 0, I_CAL_THURSDAY_WEEKDAY);
 			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
+			#endif
 			break;
 
 		case MONTH_DAY_FRI:
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, 0, I_CAL_FRIDAY_WEEKDAY);
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_SET_POS, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_SET_POS, 0, month_num);
+			#else
 			i_cal_recurrence_set_by_day (recur, 0, I_CAL_FRIDAY_WEEKDAY);
 			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
+			#endif
 			break;
 
 		case MONTH_DAY_SAT:
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, 0, I_CAL_SATURDAY_WEEKDAY);
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_SET_POS, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_SET_POS, 0, month_num);
+			#else
 			i_cal_recurrence_set_by_day (recur, 0, I_CAL_SATURDAY_WEEKDAY);
 			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
+			#endif
 			break;
 
 		case MONTH_DAY_SUN:
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_DAY, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_DAY, 0, I_CAL_SUNDAY_WEEKDAY);
+			i_cal_recurrence_resize_by_array (recur, I_CAL_BY_SET_POS, 1);
+			i_cal_recurrence_set_by (recur, I_CAL_BY_SET_POS, 0, month_num);
+			#else
 			i_cal_recurrence_set_by_day (recur, 0, I_CAL_SUNDAY_WEEKDAY);
 			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
+			#endif
 			break;
 
 		default:
@@ -1627,6 +1730,17 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 
 	/* Any unusual values? */
 
+	#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+	n_by_second = i_cal_recurrence_get_by_array_size (rrule, I_CAL_BY_SECOND);
+	n_by_minute = i_cal_recurrence_get_by_array_size (rrule, I_CAL_BY_MINUTE);
+	n_by_hour = i_cal_recurrence_get_by_array_size (rrule, I_CAL_BY_HOUR);
+	n_by_day = i_cal_recurrence_get_by_array_size (rrule, I_CAL_BY_DAY);
+	n_by_month_day = i_cal_recurrence_get_by_array_size (rrule, I_CAL_BY_MONTH_DAY);
+	n_by_year_day = i_cal_recurrence_get_by_array_size (rrule, I_CAL_BY_YEAR_DAY);
+	n_by_week_no = i_cal_recurrence_get_by_array_size (rrule, I_CAL_BY_WEEK_NO);
+	n_by_month = i_cal_recurrence_get_by_array_size (rrule, I_CAL_BY_MONTH);
+	n_by_set_pos = i_cal_recurrence_get_by_array_size (rrule, I_CAL_BY_SET_POS);
+	#else
 	n_by_second = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_second_array (rrule));
 	n_by_minute = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_minute_array (rrule));
 	n_by_hour = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_hour_array (rrule));
@@ -1636,6 +1750,7 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 	n_by_week_no = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_week_no_array (rrule));
 	n_by_month = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_month_array (rrule));
 	n_by_set_pos = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_set_pos_array (rrule));
+	#endif
 
 	if (n_by_second != 0 ||
 	    n_by_minute != 0 ||
@@ -1677,12 +1792,19 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 
 		day_mask = 0;
 
-		for (ii = 0; ii < 8 && i_cal_recurrence_get_by_day (rrule, ii) != I_CAL_RECURRENCE_ARRAY_MAX; ii++) {
+		for (ii = 0; ii < n_by_day; ii++) {
 			ICalRecurrenceWeekday weekday;
+			gshort byday;
 			gint pos;
 
-			weekday = i_cal_recurrence_day_day_of_week (i_cal_recurrence_get_by_day (rrule, ii));
-			pos = i_cal_recurrence_day_position (i_cal_recurrence_get_by_day (rrule, ii));
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			byday = i_cal_recurrence_get_by (rrule, I_CAL_BY_DAY, ii);
+			#else
+			byday = i_cal_recurrence_get_by_day (rrule, ii);
+			#endif
+
+			weekday = i_cal_recurrence_day_day_of_week (byday);
+			pos = i_cal_recurrence_day_position (byday);
 
 			if (pos != 0)
 				goto custom;
@@ -1745,7 +1867,12 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 			if (n_by_set_pos != 0)
 				goto custom;
 
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			nth = i_cal_recurrence_get_by (rrule, I_CAL_BY_MONTH_DAY, 0);
+			#else
 			nth = i_cal_recurrence_get_by_month_day (rrule, 0);
+			#endif
+
 			if (nth < 1 && nth != -1)
 				goto custom;
 
@@ -1767,19 +1894,30 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 		} else if (n_by_day == 1) {
 			ICalRecurrenceWeekday weekday;
 			gint pos;
+			gshort byday;
 			enum month_day_options month_day;
 
 			/* Outlook 2000 uses BYDAY=TU;BYSETPOS=2, and will not
 			 * accept BYDAY=2TU. So we now use the same as Outlook
 			 * by default. */
 
-			weekday = i_cal_recurrence_day_day_of_week (i_cal_recurrence_get_by_day (rrule, 0));
-			pos = i_cal_recurrence_day_position (i_cal_recurrence_get_by_day (rrule, 0));
+			#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+			byday = i_cal_recurrence_get_by (rrule, I_CAL_BY_DAY, 0);
+			#else
+			byday = i_cal_recurrence_get_by_day (rrule, 0);
+			#endif
+
+			weekday = i_cal_recurrence_day_day_of_week (byday);
+			pos = i_cal_recurrence_day_position (byday);
 
 			if (pos == 0) {
 				if (n_by_set_pos != 1)
 					goto custom;
+				#ifdef HAVE_I_CAL_RECURRENCE_GET_BY
+				pos = i_cal_recurrence_get_by (rrule, I_CAL_BY_SET_POS, 0);
+				#else
 				pos = i_cal_recurrence_get_by_set_pos (rrule, 0);
+				#endif
 			} else if (pos < 0) {
 				goto custom;
 			}

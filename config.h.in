@@ -119,3 +119,6 @@
 
 /* Define if markdown support is enabled */
 #cmakedefine HAVE_MARKDOWN 1
+
+/* Define if libical-glib has i_cal_recurrence_get_by() */
+#cmakedefine HAVE_I_CAL_RECURRENCE_GET_BY 1

@@ -756,6 +756,25 @@ if(ENABLE_MARKDOWN)
 endif(ENABLE_MARKDOWN)
 
 # ******************************
+# libical-glib API changes
+# ******************************
+
+set(CMAKE_REQUIRED_DEFINITIONS ${EVOLUTION_DATA_SERVER_CFLAGS})
+set(CMAKE_REQUIRED_INCLUDES ${EVOLUTION_DATA_SERVER_INCLUDE_DIRS})
+set(CMAKE_REQUIRED_LIBRARIES ${EVOLUTION_DATA_SERVER_LDFLAGS})
+
+CHECK_C_SOURCE_COMPILES("#define LIBICAL_GLIB_UNSTABLE_API 1
+			#include <libical-glib/libical-glib.h>
+			int main(void) {
+				i_cal_recurrence_get_by (NULL, I_CAL_BY_MONTH, 0);
+				return 0;
+			}" HAVE_I_CAL_RECURRENCE_GET_BY)
+
+unset(CMAKE_REQUIRED_DEFINITIONS)
+unset(CMAKE_REQUIRED_INCLUDES)
+unset(CMAKE_REQUIRED_LIBRARIES)
+
+# ******************************
 # news-to-appdata
 # ******************************
 
