@@ -1455,14 +1455,14 @@ e_cal_shell_view_actions_init (ECalShellView *self)
 		  action_calendar_search_stop_cb, NULL, NULL, NULL },
 
 		{ "calendar-select-all",
-		  "stock_check-filled",
+		  "stock_check-filled-symbolic",
 		  N_("Sho_w All Calendars"),
 		  NULL,
 		  NULL,
 		  action_calendar_select_all_cb, NULL, NULL, NULL },
 
 		{ "calendar-select-one",
-		  "stock_check-filled",
+		  "stock_check-filled-symbolic",
 		  N_("Show _Only This Calendar"),
 		  NULL,
 		  NULL,

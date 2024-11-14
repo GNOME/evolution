@@ -204,6 +204,7 @@ set(private_icons
 	hicolor_status_32x32_online.svg
 	hicolor_status_scalable_rss.svg
 	hicolor_status_scalable_rss-symbolic.svg
+	hicolor_status_scalable_stock_check-filled-symbolic.svg
 )
 
 # These icons were in gnome-icon-theme prior to GNOME 2.30.
@@ -264,7 +265,6 @@ set(stock_private_icons
 	hicolor_actions_48x48_stock_people.png
 	hicolor_actions_48x48_stock_timezone.png
 	hicolor_actions_48x48_stock_todo.png
-	hicolor_status_16x16_stock_check-filled.png
 	hicolor_status_16x16_stock_score-high.png
 	hicolor_status_16x16_stock_score-higher.png
 	hicolor_status_16x16_stock_score-highest.png

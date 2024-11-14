@@ -659,14 +659,14 @@ e_memo_shell_view_actions_init (EMemoShellView *self)
 		  action_memo_list_rename_cb, NULL, NULL, NULL },
 
 		{ "memo-list-select-one",
-		  "stock_check-filled",
+		  "stock_check-filled-symbolic",
 		  N_("Show _Only This Memo List"),
 		  NULL,
 		  NULL,
 		  action_memo_list_select_one_cb, NULL, NULL, NULL },
 
 		{ "memo-list-select-all",
-		  "stock_check-filled",
+		  "stock_check-filled-symbolic",
 		  N_("Sho_w All Memo Lists"),
 		  NULL,
 		  NULL,

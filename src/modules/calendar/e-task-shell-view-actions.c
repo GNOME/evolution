@@ -825,14 +825,14 @@ e_task_shell_view_actions_init (ETaskShellView *self)
 		  action_task_list_rename_cb, NULL, NULL, NULL },
 
 		{ "task-list-select-all",
-		  "stock_check-filled",
+		  "stock_check-filled-symbolic",
 		  N_("Sho_w All Task Lists"),
 		  NULL,
 		  NULL,
 		  action_task_list_select_all_cb, NULL, NULL, NULL },
 
 		{ "task-list-select-one",
-		  "stock_check-filled",
+		  "stock_check-filled-symbolic",
 		  N_("Show _Only This Task List"),
 		  NULL,
 		  NULL,
