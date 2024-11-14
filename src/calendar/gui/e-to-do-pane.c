@@ -1561,13 +1561,23 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 		iso_end = isodate_from_time_t (tt_end);
 		if (to_do_pane->priv->show_no_duedate_tasks) {
 			if (to_do_pane->priv->show_completed_tasks) {
-				tasks_filter = g_strdup ("#t");
+				tasks_filter = g_strdup_printf (
+					"(or"
+					   " (not (has-due?))"
+					   " (due-in-time-range? (make-time \"%s\") (make-time \"%s\"))"
+					")",
+					iso_begin_all, iso_end);
 			} else {
-				tasks_filter = g_strdup (
+				tasks_filter = g_strdup_printf (
 					"(and"
-					" (not (is-completed?))"
-					" (not (contains? \"status\" \"CANCELLED\"))"
-					")");
+					 " (not (is-completed?))"
+					 " (not (contains? \"status\" \"CANCELLED\"))"
+					 " (or"
+					   " (not (has-due?))"
+					   " (due-in-time-range? (make-time \"%s\") (make-time \"%s\"))"
+					  ")"
+					")",
+					iso_begin_all, iso_end);
 			}
 		} else if (to_do_pane->priv->show_completed_tasks) {
 			tasks_filter = g_strdup_printf (
