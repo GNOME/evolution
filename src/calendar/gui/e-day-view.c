@@ -5762,7 +5762,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 
 	e_cal_component_commit_sequence (comp);
 
-	e_cal_ops_modify_component (model, client, e_cal_component_get_icalcomponent (comp),
+	e_cal_ops_modify_component (e_cal_model_get_data_model (model), client, e_cal_component_get_icalcomponent (comp),
 		mod, E_CAL_OPS_SEND_FLAG_ASK | E_CAL_OPS_SEND_FLAG_IS_NEW_COMPONENT);
 
  out:
@@ -5896,7 +5896,7 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	e_cal_component_commit_sequence (comp);
 
-	e_cal_ops_modify_component (model, client, e_cal_component_get_icalcomponent (comp), mod,
+	e_cal_ops_modify_component (e_cal_model_get_data_model (model), client, e_cal_component_get_icalcomponent (comp), mod,
 		(send == GTK_RESPONSE_YES ? E_CAL_OPS_SEND_FLAG_SEND : E_CAL_OPS_SEND_FLAG_DONT_SEND) |
 		(strip_alarms ? E_CAL_OPS_SEND_FLAG_STRIP_ALARMS : 0) |
 		(only_new_attendees ? E_CAL_OPS_SEND_FLAG_ONLY_NEW_ATTENDEES : 0));
@@ -7903,7 +7903,7 @@ e_day_view_change_event_time (EDayView *day_view,
 
 	e_cal_component_commit_sequence (comp);
 
-	e_cal_ops_modify_component (model, client, e_cal_component_get_icalcomponent (comp),
+	e_cal_ops_modify_component (e_cal_model_get_data_model (model), client, e_cal_component_get_icalcomponent (comp),
 		mod, E_CAL_OPS_SEND_FLAG_ASK | E_CAL_OPS_SEND_FLAG_IS_NEW_COMPONENT);
 
 out:
@@ -8218,7 +8218,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 			} else if (e_cal_component_is_instance (comp))
 				mod = E_CAL_OBJ_MOD_THIS;
 
-			e_cal_ops_modify_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
+			e_cal_ops_modify_component (e_cal_model_get_data_model (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view))),
 				client, e_cal_component_get_icalcomponent (comp), mod, E_CAL_OPS_SEND_FLAG_ASK);
 		}
 
@@ -9503,7 +9503,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 				e_cal_ops_create_component (model, client, e_cal_component_get_icalcomponent (comp),
 					e_calendar_view_component_created_cb, g_object_ref (day_view), g_object_unref);
 			} else {
-				e_cal_ops_modify_component (model, client, e_cal_component_get_icalcomponent (comp), mod,
+				e_cal_ops_modify_component (e_cal_model_get_data_model (model), client, e_cal_component_get_icalcomponent (comp), mod,
 					(send == GTK_RESPONSE_YES ? E_CAL_OPS_SEND_FLAG_SEND : E_CAL_OPS_SEND_FLAG_DONT_SEND) |
 					(strip_alarms ? E_CAL_OPS_SEND_FLAG_STRIP_ALARMS : 0) |
 					(only_new_attendees ? E_CAL_OPS_SEND_FLAG_ONLY_NEW_ATTENDEES : 0));
@@ -9744,7 +9744,7 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 				e_cal_ops_create_component (model, client, e_cal_component_get_icalcomponent (comp),
 					e_calendar_view_component_created_cb, g_object_ref (day_view), g_object_unref);
 			} else {
-				e_cal_ops_modify_component (model, client, e_cal_component_get_icalcomponent (comp), mod,
+				e_cal_ops_modify_component (e_cal_model_get_data_model (model), client, e_cal_component_get_icalcomponent (comp), mod,
 					(send == GTK_RESPONSE_YES ? E_CAL_OPS_SEND_FLAG_SEND : E_CAL_OPS_SEND_FLAG_DONT_SEND) |
 					(strip_alarms ? E_CAL_OPS_SEND_FLAG_STRIP_ALARMS : 0) |
 					(only_new_attendees ? E_CAL_OPS_SEND_FLAG_ONLY_NEW_ATTENDEES : 0));

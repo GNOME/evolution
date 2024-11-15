@@ -38,7 +38,7 @@
 #include "e-cal-ops.h"
 
 static void
-cal_ops_manage_send_component (ECalModel *model,
+cal_ops_manage_send_component (ECalDataModel *data_model,
 			       ECalClient *client,
 			       ICalComponent *icomp,
 			       ECalObjModType mod,
@@ -47,7 +47,7 @@ cal_ops_manage_send_component (ECalModel *model,
 	ECalComponent *comp;
 	ESourceRegistry *registry;
 
-	g_return_if_fail (E_IS_CAL_MODEL (model));
+	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 	g_return_if_fail (I_CAL_IS_COMPONENT (icomp));
 
@@ -58,7 +58,7 @@ cal_ops_manage_send_component (ECalModel *model,
 	if (!comp)
 		return;
 
-	registry = e_cal_model_get_registry (model);
+	registry = e_cal_data_model_get_registry (data_model);
 
 	if (itip_organizer_is_user (registry, comp, client)) {
 		gboolean strip_alarms = (send_flags & E_CAL_OPS_SEND_FLAG_STRIP_ALARMS) != 0;
@@ -71,7 +71,7 @@ cal_ops_manage_send_component (ECalModel *model,
 				&strip_alarms, &only_new_attendees);
 
 		if (can_send)
-			itip_send_component_with_model (model, I_CAL_METHOD_REQUEST, comp, client,
+			itip_send_component_with_model (data_model, I_CAL_METHOD_REQUEST, comp, client,
 				NULL, NULL, NULL,
 				(strip_alarms ? E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS : 0) |
 				(only_new_attendees ? E_ITIP_SEND_COMPONENT_FLAG_ONLY_NEW_ATTENDEES : 0) |
@@ -83,6 +83,7 @@ cal_ops_manage_send_component (ECalModel *model,
 
 typedef struct {
 	ECalModel *model;
+	ECalDataModel *data_model;
 	ECalClient *client;
 	ICalComponent *icomp;
 	ECalObjModType mod;
@@ -121,7 +122,12 @@ basic_operation_data_free (gpointer ptr)
 			}
 
 			if (bod->is_modify && bod->icomp && (bod->send_flags & E_CAL_OPS_SEND_FLAG_DONT_SEND) == 0) {
-				cal_ops_manage_send_component (bod->model, bod->client, bod->icomp, bod->mod, bod->send_flags);
+				ECalDataModel *data_model = bod->data_model;
+
+				if (!data_model)
+					data_model = e_cal_model_get_data_model (bod->model);
+
+				cal_ops_manage_send_component (data_model, bod->client, bod->icomp, bod->mod, bod->send_flags);
 			}
 
 			if (bod->get_default_comp_cb && bod->icomp) {
@@ -132,6 +138,7 @@ basic_operation_data_free (gpointer ptr)
 		}
 
 		g_clear_object (&bod->model);
+		g_clear_object (&bod->data_model);
 		g_clear_object (&bod->client);
 		g_clear_object (&bod->icomp);
 		g_free (bod->for_client_uid);
@@ -281,7 +288,7 @@ cal_ops_modify_component_thread (EAlertSinkThreadJobData *job_data,
 
 /**
  * e_cal_ops_modify_component:
- * @model: an #ECalModel
+ * @data_model: an #ECalDataModel
  * @client: an #ECalClient
  * @icomp: an #ICalComponent
  * @mod: a mode to use for modification of the component
@@ -295,13 +302,12 @@ cal_ops_modify_component_thread (EAlertSinkThreadJobData *job_data,
  * Since: 3.16
  **/
 void
-e_cal_ops_modify_component (ECalModel *model,
+e_cal_ops_modify_component (ECalDataModel *data_model,
 			    ECalClient *client,
 			    ICalComponent *icomp,
 			    ECalObjModType mod,
 			    ECalOpsSendFlags send_flags)
 {
-	ECalDataModel *data_model;
 	ESource *source;
 	const gchar *description;
 	const gchar *alert_ident;
@@ -309,7 +315,7 @@ e_cal_ops_modify_component (ECalModel *model,
 	BasicOperationData *bod;
 	GCancellable *cancellable;
 
-	g_return_if_fail (E_IS_CAL_MODEL (model));
+	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 	g_return_if_fail (I_CAL_IS_COMPONENT (icomp));
 
@@ -331,11 +337,10 @@ e_cal_ops_modify_component (ECalModel *model,
 			return;
 	}
 
-	data_model = e_cal_model_get_data_model (model);
 	source = e_client_get_source (E_CLIENT (client));
 
 	bod = basic_operation_data_new ();
-	bod->model = g_object_ref (model);
+	bod->data_model = g_object_ref (data_model);
 	bod->client = g_object_ref (client);
 	bod->icomp = i_cal_component_clone (icomp);
 	bod->mod = mod;
@@ -343,9 +348,9 @@ e_cal_ops_modify_component (ECalModel *model,
 	bod->is_modify = TRUE;
 
 	cal_comp_util_maybe_ensure_allday_timezone_properties (client, bod->icomp,
-		e_cal_model_get_timezone (model));
+		e_cal_data_model_get_timezone (data_model));
 
-	display_name = e_util_get_source_full_name (e_cal_model_get_registry (model), source);
+	display_name = e_util_get_source_full_name (e_cal_data_model_get_registry (data_model), source);
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
 		display_name, cal_ops_modify_component_thread,
 		bod, basic_operation_data_free);
@@ -386,7 +391,7 @@ cal_ops_remove_component_thread (EAlertSinkThreadJobData *job_data,
 
 /**
  * e_cal_ops_remove_component:
- * @model: an #ECalModel
+ * @data_model: an #ECalDataModel
  * @client: an #ECalClient
  * @uid: a UID of the component to remove
  * @rid: (allow none): a recurrence ID of the component; can be #NULL
@@ -404,7 +409,7 @@ cal_ops_remove_component_thread (EAlertSinkThreadJobData *job_data,
  * Since: 3.16
  **/
 void
-e_cal_ops_remove_component (ECalModel *model,
+e_cal_ops_remove_component (ECalDataModel *data_model,
 			    ECalClient *client,
 			    const gchar *uid,
 			    const gchar *rid,
@@ -412,7 +417,6 @@ e_cal_ops_remove_component (ECalModel *model,
 			    gboolean check_detached_instance,
 			    ECalOperationFlags op_flags)
 {
-	ECalDataModel *data_model;
 	ESource *source;
 	const gchar *description;
 	const gchar *alert_ident;
@@ -420,7 +424,7 @@ e_cal_ops_remove_component (ECalModel *model,
 	BasicOperationData *bod;
 	GCancellable *cancellable;
 
-	g_return_if_fail (E_IS_CAL_MODEL (model));
+	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 	g_return_if_fail (uid != NULL);
 
@@ -442,11 +446,10 @@ e_cal_ops_remove_component (ECalModel *model,
 			return;
 	}
 
-	data_model = e_cal_model_get_data_model (model);
 	source = e_client_get_source (E_CLIENT (client));
 
 	bod = basic_operation_data_new ();
-	bod->model = g_object_ref (model);
+	bod->data_model = g_object_ref (data_model);
 	bod->client = g_object_ref (client);
 	bod->uid = g_strdup (uid);
 	bod->rid = g_strdup (rid);
@@ -454,7 +457,7 @@ e_cal_ops_remove_component (ECalModel *model,
 	bod->check_detached_instance = check_detached_instance;
 	bod->op_flags = op_flags;
 
-	display_name = e_util_get_source_full_name (e_cal_model_get_registry (model), source);
+	display_name = e_util_get_source_full_name (e_cal_data_model_get_registry (data_model), source);
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
 		display_name, cal_ops_remove_component_thread,
 		bod, basic_operation_data_free);

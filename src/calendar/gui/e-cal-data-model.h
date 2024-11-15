@@ -83,7 +83,8 @@ typedef GCancellable * (* ECalDataModelSubmitThreadJobFunc)
 						 GDestroyNotify free_user_data);
 
 GType		e_cal_data_model_get_type	(void);
-ECalDataModel *	e_cal_data_model_new		(ECalDataModelSubmitThreadJobFunc func,
+ECalDataModel *	e_cal_data_model_new		(ESourceRegistry *registry,
+						 ECalDataModelSubmitThreadJobFunc func,
 						 GObject *func_responder);
 ECalDataModel * e_cal_data_model_new_clone	(ECalDataModel *src_data_model);
 GCancellable *	e_cal_data_model_submit_thread_job
@@ -94,6 +95,8 @@ GCancellable *	e_cal_data_model_submit_thread_job
 						 EAlertSinkThreadJobFunc func,
 						 gpointer user_data,
 						 GDestroyNotify free_user_data);
+ESourceRegistry *
+		e_cal_data_model_get_registry	(ECalDataModel *data_model);
 gboolean	e_cal_data_model_get_disposing	(ECalDataModel *data_model);
 void		e_cal_data_model_set_disposing	(ECalDataModel *data_model,
 						 gboolean disposing);

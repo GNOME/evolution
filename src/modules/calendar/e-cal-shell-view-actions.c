@@ -786,7 +786,7 @@ action_event_forward_cb (EUIAction *action,
 	component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	g_return_if_fail (component != NULL);
 
-	itip_send_component_with_model (e_calendar_view_get_model (calendar_view),
+	itip_send_component_with_model (e_cal_model_get_data_model (e_calendar_view_get_model (calendar_view)),
 		I_CAL_METHOD_PUBLISH, component, client,
 		NULL, NULL, NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT | E_ITIP_SEND_COMPONENT_FLAG_AS_ATTACHMENT);
 
@@ -874,7 +874,7 @@ action_event_rsvp_response_cb (EUIAction *action,
 				e_cal_util_component_has_recurrences (clone)) &&
 				!g_str_has_suffix (action_name, "-1");
 
-	itip_send_component_with_model (model, I_CAL_METHOD_REPLY,
+	itip_send_component_with_model (e_cal_model_get_data_model (model), I_CAL_METHOD_REPLY,
 		comp, client, NULL, NULL, NULL,
 		E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS |
 		(ensure_master_object ? E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT : 0) |
@@ -1344,7 +1344,7 @@ e_cal_shell_view_actions_init (ECalShellView *self)
 
 		{ "calendar-delete",
 		  "edit-delete",
-		  N_("D_elete Calendar"),
+		  N_("D_elete Calendar…"),
 		  NULL,
 		  N_("Delete the selected calendar"),
 		  action_calendar_delete_cb, NULL, NULL, NULL },
@@ -1484,28 +1484,28 @@ e_cal_shell_view_actions_init (ECalShellView *self)
 
 		{ "event-delete",
 		  "edit-delete",
-		  N_("_Delete"),
+		  N_("_Delete…"),
 		  "<Control>d",
 		  N_("Delete selected events"),
 		  action_event_delete_cb, NULL, NULL, NULL },
 
 		{ "event-delete-occurrence",
 		  "edit-delete",
-		  N_("Delete This _Occurrence"),
+		  N_("Delete This _Occurrence…"),
 		  NULL,
 		  N_("Delete this occurrence"),
 		  action_event_delete_occurrence_cb, NULL, NULL, NULL },
 
 		{ "event-delete-occurrence-this-and-future",
 		  "edit-delete",
-		  N_("Delete This and F_uture Occurrences"),
+		  N_("Delete This and F_uture Occurrences…"),
 		  NULL,
 		  N_("Delete this and any future occurrences"),
 		  action_event_delete_occurrence_this_and_future_cb, NULL, NULL, NULL },
 
 		{ "event-delete-occurrence-all",
 		  "edit-delete",
-		  N_("Delete All Occ_urrences"),
+		  N_("Delete All Occ_urrences…"),
 		  NULL,
 		  N_("Delete all occurrences"),
 		  action_event_delete_cb, NULL, NULL, NULL },

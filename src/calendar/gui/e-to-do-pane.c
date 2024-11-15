@@ -2092,40 +2092,6 @@ etdp_open_selected_cb (GtkMenuItem *item,
 	g_clear_object (&comp);
 }
 
-typedef struct _RemoveOperationData {
-	ECalClient *client;
-	gchar *uid;
-	gchar *rid;
-	ECalObjModType mod;
-	ECalOperationFlags op_flags;
-} RemoveOperationData;
-
-static void
-remove_operation_data_free (gpointer ptr)
-{
-	RemoveOperationData *rod = ptr;
-
-	if (rod) {
-		g_clear_object (&rod->client);
-		g_free (rod->uid);
-		g_free (rod->rid);
-		g_slice_free (RemoveOperationData, rod);
-	}
-}
-
-static void
-etdp_remove_component_thread (EAlertSinkThreadJobData *job_data,
-			      gpointer user_data,
-			      GCancellable *cancellable,
-			      GError **error)
-{
-	RemoveOperationData *rod = user_data;
-
-	g_return_if_fail (rod != NULL);
-
-	e_cal_client_remove_object_sync (rod->client, rod->uid, rod->rid, rod->mod, rod->op_flags, cancellable, error);
-}
-
 static void
 etdp_delete_common (EToDoPane *to_do_pane,
 		    ECalObjModType mod)
@@ -2136,86 +2102,19 @@ etdp_delete_common (EToDoPane *to_do_pane,
 	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
 
 	if (etdp_get_tree_view_selected_one (to_do_pane, &client, &comp) && client && comp) {
-		ECalOperationFlags op_flags = E_CAL_OPERATION_FLAG_NONE;
-		ESourceRegistry *registry;
-		const gchar *description;
-		const gchar *alert_ident;
-		gchar *display_name;
-		GCancellable *cancellable;
-		ESource *source;
-		RemoveOperationData *rod;
-		ECalComponentId *id;
+		GtkWindow *parent_window;
+		GtkWidget *toplevel;
 
-		id = e_cal_component_get_id (comp);
-		g_return_if_fail (id != NULL);
-
-		if (!e_cal_dialogs_delete_component (comp, FALSE, 1, e_cal_component_get_vtype (comp), GTK_WIDGET (to_do_pane))) {
-			e_cal_component_id_free (id);
-			g_clear_object (&client);
-			g_clear_object (&comp);
-			return;
-		}
-
-		registry = e_client_cache_ref_registry (to_do_pane->priv->client_cache);
-
-		if (itip_has_any_attendees (comp)) {
-			gboolean organizer_is_user;
-
-			organizer_is_user = itip_organizer_is_user (registry, comp, client);
-
-			if (organizer_is_user ||
-			    itip_sentby_is_user (registry, comp, client) ||
-			    (e_cal_client_check_save_schedules (client) && itip_attendee_is_user (registry, comp, client))) {
-				GtkWindow *parent_window;
-
-				parent_window = (GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (to_do_pane));
-
-				if (!e_cal_dialogs_cancel_component (parent_window, client, comp, FALSE, organizer_is_user))
-					op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
-			}
-		}
-
-		g_clear_object (&registry);
-
-		switch (e_cal_client_get_source_type (client)) {
-			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-				description = _("Removing an event");
-				alert_ident = "calendar:failed-remove-event";
-				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-				description = _("Removing a memo");
-				alert_ident = "calendar:failed-remove-memo";
-				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-				description = _("Removing a task");
-				alert_ident = "calendar:failed-remove-task";
-				break;
-			default:
-				g_warn_if_reached ();
-				return;
-		}
+		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (to_do_pane));
+		parent_window = GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL;
 
 		if (!e_cal_component_is_instance (comp))
 			mod = E_CAL_OBJ_MOD_ALL;
 
-		rod = g_slice_new0 (RemoveOperationData);
-		rod->client = g_object_ref (client);
-		rod->uid = g_strdup (e_cal_component_id_get_uid (id));
-		rod->rid = mod == E_CAL_OBJ_MOD_ALL ? NULL : g_strdup (e_cal_component_id_get_rid (id));
-		rod->mod = mod;
-		rod->op_flags = op_flags;
-
-		source = e_client_get_source (E_CLIENT (client));
-		display_name = e_util_get_source_full_name (e_source_registry_watcher_get_registry (to_do_pane->priv->watcher), source);
-
 		/* It doesn't matter which data-model is picked, because it's used
 		   only for thread creation and manipulation, not for its content. */
-		cancellable = e_cal_data_model_submit_thread_job (to_do_pane->priv->events_data_model, description, alert_ident,
-			display_name, etdp_remove_component_thread, rod, remove_operation_data_free);
-
-		e_cal_component_id_free (id);
-		g_clear_object (&cancellable);
-		g_free (display_name);
+		cal_comp_util_remove_component (parent_window, to_do_pane->priv->events_data_model,
+			client, comp, mod, TRUE);
 	}
 
 	g_clear_object (&client);
@@ -2687,6 +2586,7 @@ e_to_do_pane_constructed (GObject *object)
 	EToDoPane *to_do_pane = E_TO_DO_PANE (object);
 	EShellView *shell_view;
 	EShell *shell;
+	ESourceRegistry *registry;
 	GtkGrid *grid;
 	GtkWidget *widget;
 	GtkCellRenderer *renderer;
@@ -2703,11 +2603,12 @@ e_to_do_pane_constructed (GObject *object)
 
 	shell_view = e_to_do_pane_ref_shell_view (to_do_pane);
 	shell = e_shell_backend_get_shell (e_shell_view_get_shell_backend (shell_view));
+	registry = e_shell_get_registry (shell);
 
 	to_do_pane->priv->client_cache = g_object_ref (e_shell_get_client_cache (shell));
-	to_do_pane->priv->watcher = e_source_registry_watcher_new (e_shell_get_registry (shell), NULL);
+	to_do_pane->priv->watcher = e_source_registry_watcher_new (registry, NULL);
 	to_do_pane->priv->source_changed_id =
-		g_signal_connect (e_source_registry_watcher_get_registry (to_do_pane->priv->watcher), "source-changed",
+		g_signal_connect (registry, "source-changed",
 			G_CALLBACK (etdp_source_changed_cb), to_do_pane);
 
 	g_signal_connect (to_do_pane->priv->watcher, "filter",
@@ -2832,8 +2733,8 @@ e_to_do_pane_constructed (GObject *object)
 
 	gtk_widget_show_all (GTK_WIDGET (grid));
 
-	to_do_pane->priv->events_data_model = e_cal_data_model_new (e_to_do_pane_submit_thread_job, G_OBJECT (to_do_pane));
-	to_do_pane->priv->tasks_data_model = e_cal_data_model_new (e_to_do_pane_submit_thread_job, G_OBJECT (to_do_pane));
+	to_do_pane->priv->events_data_model = e_cal_data_model_new (registry, e_to_do_pane_submit_thread_job, G_OBJECT (to_do_pane));
+	to_do_pane->priv->tasks_data_model = e_cal_data_model_new (registry, e_to_do_pane_submit_thread_job, G_OBJECT (to_do_pane));
 	to_do_pane->priv->time_checker_id = g_timeout_add_seconds (60, etdp_check_time_cb, to_do_pane);
 
 	e_cal_data_model_set_expand_recurrences (to_do_pane->priv->events_data_model, TRUE);

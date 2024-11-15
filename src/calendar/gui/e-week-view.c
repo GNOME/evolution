@@ -4789,7 +4789,7 @@ e_week_view_change_event_time (EWeekView *week_view,
 
 	e_cal_component_commit_sequence (comp);
 
-	e_cal_ops_modify_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)),
+	e_cal_ops_modify_component (e_cal_model_get_data_model (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view))),
 		client, e_cal_component_get_icalcomponent (comp),
 		mod, E_CAL_OPS_SEND_FLAG_ASK | E_CAL_OPS_SEND_FLAG_IS_NEW_COMPONENT);
 
@@ -5013,7 +5013,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 				mod = E_CAL_OBJ_MOD_THIS;
 
 			e_cal_component_commit_sequence (comp);
-			e_cal_ops_modify_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)),
+			e_cal_ops_modify_component (e_cal_model_get_data_model (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view))),
 				client, e_cal_component_get_icalcomponent (comp), mod, E_CAL_OPS_SEND_FLAG_ASK);
 		}
 	}

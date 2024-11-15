@@ -442,7 +442,13 @@ e_cal_base_shell_content_prepare_for_quit (ECalBaseShellContent *cal_base_shell_
 ECalDataModel *
 e_cal_base_shell_content_create_new_data_model (ECalBaseShellContent *cal_base_shell_content)
 {
+	EShellView *shell_view;
+	ESourceRegistry *registry;
+
 	g_return_val_if_fail (E_IS_CAL_BASE_SHELL_CONTENT (cal_base_shell_content), NULL);
 
-	return e_cal_data_model_new (cal_base_shell_content_submit_data_model_thread_job, G_OBJECT (cal_base_shell_content));
+	shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (cal_base_shell_content));
+	registry = e_shell_get_registry (e_shell_window_get_shell (e_shell_view_get_shell_window (shell_view)));
+
+	return e_cal_data_model_new (registry, cal_base_shell_content_submit_data_model_thread_job, G_OBJECT (cal_base_shell_content));
 }

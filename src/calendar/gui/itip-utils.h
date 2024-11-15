@@ -21,7 +21,7 @@
 
 #include <string.h>
 #include <libecal/libecal.h>
-#include <calendar/gui/e-cal-model.h>
+#include <calendar/gui/e-cal-data-model.h>
 
 G_BEGIN_DECLS
 
@@ -79,7 +79,7 @@ gboolean	itip_send_comp_sync		(ESourceRegistry *registry,
 						 gboolean only_new_attendees,
 						 GCancellable *cancellable,
 						 GError **error);
-void		itip_send_component_with_model	(ECalModel *model,
+void		itip_send_component_with_model	(ECalDataModel *model,
 						 ICalPropertyMethod method,
 						 ECalComponent *send_comp,
 						 ECalClient *cal_client,

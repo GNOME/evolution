@@ -2505,7 +2505,7 @@ cal_comp_util_move_component_by_days (GtkWindow *parent,
 
 		e_cal_component_commit_sequence (comp_copy);
 
-		e_cal_ops_modify_component (model, client, e_cal_component_get_icalcomponent (comp_copy), mod,
+		e_cal_ops_modify_component (e_cal_model_get_data_model (model), client, e_cal_component_get_icalcomponent (comp_copy), mod,
 			(send == GTK_RESPONSE_YES ? E_CAL_OPS_SEND_FLAG_SEND : E_CAL_OPS_SEND_FLAG_DONT_SEND) |
 			(strip_alarms ? E_CAL_OPS_SEND_FLAG_STRIP_ALARMS : 0) |
 			(only_new_attendees ? E_CAL_OPS_SEND_FLAG_ONLY_NEW_ATTENDEES : 0));
@@ -3263,4 +3263,154 @@ cal_comp_util_write_to_html (GString *html_buffer,
 	}
 
 	g_string_append (html_buffer, "</table>");
+}
+
+void
+cal_comp_util_remove_component (GtkWindow *parent_window,
+				ECalDataModel *data_model,
+				ECalClient *client,
+				ECalComponent *comp,
+				ECalObjModType mod,
+				gboolean confirm_event_delete)
+{
+	ESourceRegistry *registry;
+	ICalComponent *icalcomp;
+	ICalTime *itt_start = NULL, *itt_end = NULL;
+	time_t instance_start;
+	gboolean do_delete = TRUE;
+	gboolean organizer_is_user;
+	gboolean attendee_is_user;
+	gboolean can_send_notice = FALSE;
+	gboolean only_occurrence = mod == E_CAL_OBJ_MOD_THIS || mod == E_CAL_OBJ_MOD_THIS_AND_FUTURE;
+
+	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
+	g_return_if_fail (E_IS_CAL_CLIENT (client));
+	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
+
+	registry = e_cal_data_model_get_registry (data_model);
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+
+	cal_comp_get_instance_times (client, icalcomp,
+		e_cal_data_model_get_timezone (data_model),
+		&itt_start, &itt_end, NULL);
+
+	instance_start = itt_start ? i_cal_time_as_timet_with_zone (itt_start,
+		i_cal_time_get_timezone (itt_start)) : 0;
+
+	g_clear_object (&itt_start);
+	g_clear_object (&itt_end);
+
+	if (!only_occurrence && !e_cal_client_check_recurrences_no_master (client))
+		e_cal_component_set_recurid (comp, NULL);
+
+	organizer_is_user = itip_organizer_is_user (registry, comp, client);
+	attendee_is_user = itip_attendee_is_user (registry, comp, client);
+
+	if (confirm_event_delete || itip_has_any_attendees (comp))
+		do_delete = e_cal_dialogs_delete_with_comment (parent_window, client, comp, organizer_is_user, attendee_is_user, &can_send_notice);
+
+	if (do_delete) {
+		ECalOperationFlags op_flags = E_CAL_OPERATION_FLAG_NONE;
+		const gchar *uid;
+		gchar *rid;
+
+		rid = e_cal_component_get_recurid_as_string (comp);
+
+		if (itip_has_any_attendees (comp) && (organizer_is_user ||
+		    itip_sentby_is_user (registry, comp, client))) {
+			if (can_send_notice) {
+				if (only_occurrence && !e_cal_component_is_instance (comp)) {
+					ECalComponentRange *range;
+					ECalComponentDateTime *dtstart;
+
+					dtstart = e_cal_component_get_dtstart (comp);
+					i_cal_time_set_is_date (e_cal_component_datetime_get_value (dtstart), 1);
+
+					/* set the recurrence ID of the object we send */
+					range = e_cal_component_range_new_take (mod == E_CAL_OBJ_MOD_THIS_AND_FUTURE ?
+						E_CAL_COMPONENT_RANGE_THISFUTURE : E_CAL_COMPONENT_RANGE_SINGLE, dtstart);
+					e_cal_component_set_recurid (comp, range);
+
+					e_cal_component_range_free (range);
+				} else if (only_occurrence && mod == E_CAL_OBJ_MOD_THIS_AND_FUTURE) {
+					ECalComponentRange *range;
+
+					range = e_cal_component_get_recurid (comp);
+					e_cal_component_range_set_kind (range, E_CAL_COMPONENT_RANGE_THISFUTURE);
+					e_cal_component_set_recurid (comp, range);
+					e_cal_component_range_free (range);
+				}
+
+				itip_send_component_with_model (data_model, I_CAL_METHOD_CANCEL,
+					comp, client, NULL, NULL,
+					NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS);
+
+				/* attendees will know by the above cancel message */
+				op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
+			} else {
+				op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
+			}
+		} else if (attendee_is_user) {
+			if (can_send_notice && !e_cal_client_check_save_schedules (client)) {
+				itip_send_component_with_model (data_model, I_CAL_METHOD_CANCEL,
+					comp, client, NULL, NULL,
+					NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS);
+				/* attendees will know by the above cancel message */
+				op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
+			} else if (!can_send_notice) {
+				op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
+			}
+		}
+
+		uid = e_cal_component_get_uid (comp);
+		if (!uid || !*uid) {
+			g_free (rid);
+			return;
+		}
+
+		if (only_occurrence) {
+			if (e_cal_component_is_instance (comp)) {
+				e_cal_ops_remove_component (data_model, client, uid, rid, mod, FALSE, op_flags);
+			} else {
+				ICalTime *instance_rid;
+				ICalTimezone *zone = NULL;
+				ECalComponentDateTime *dt;
+
+				dt = e_cal_component_get_dtstart (comp);
+
+				if (dt && e_cal_component_datetime_get_tzid (dt)) {
+					GError *local_error = NULL;
+
+					if (!e_cal_client_get_timezone_sync (client,
+						e_cal_component_datetime_get_tzid (dt), &zone, NULL, &local_error))
+						zone = NULL;
+
+					if (local_error != NULL) {
+						zone = e_cal_data_model_get_timezone (data_model);
+						g_clear_error (&local_error);
+					}
+				} else {
+					zone = e_cal_data_model_get_timezone (data_model);
+				}
+
+				e_cal_component_datetime_free (dt);
+
+				instance_rid = i_cal_time_new_from_timet_with_zone (
+					instance_start,
+					TRUE, zone ? zone : i_cal_timezone_get_utc_timezone ());
+				e_cal_util_remove_instances_ex (icalcomp, instance_rid, mod,
+					e_cal_client_tzlookup_cb, client);
+				e_cal_ops_modify_component (data_model, client, icalcomp,
+					E_CAL_OBJ_MOD_THIS, E_CAL_OPS_SEND_FLAG_DONT_SEND);
+
+				g_clear_object (&instance_rid);
+			}
+		} else if (e_cal_util_component_is_instance (icalcomp) ||
+			   e_cal_util_component_has_recurrences (icalcomp))
+			e_cal_ops_remove_component (data_model, client, uid, rid, E_CAL_OBJ_MOD_ALL, FALSE, op_flags);
+		else
+			e_cal_ops_remove_component (data_model, client, uid, NULL, E_CAL_OBJ_MOD_THIS, FALSE, op_flags);
+
+		g_free (rid);
+	}
 }

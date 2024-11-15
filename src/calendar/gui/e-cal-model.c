@@ -1681,7 +1681,7 @@ cal_model_set_value_at (ETableModel *etm,
 		break;
 	}
 
-	e_cal_ops_modify_component (model, comp_data->client, comp_data->icalcomp, mod, E_CAL_OPS_SEND_FLAG_DONT_SEND);
+	e_cal_ops_modify_component (e_cal_model_get_data_model (model), comp_data->client, comp_data->icalcomp, mod, E_CAL_OPS_SEND_FLAG_DONT_SEND);
 }
 
 static gboolean
@@ -4100,7 +4100,7 @@ e_cal_model_modify_component (ECalModel *model,
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data));
 
-	e_cal_ops_modify_component (model, comp_data->client, comp_data->icalcomp, mod, E_CAL_OPS_SEND_FLAG_ASK);
+	e_cal_ops_modify_component (e_cal_model_get_data_model (model), comp_data->client, comp_data->icalcomp, mod, E_CAL_OPS_SEND_FLAG_ASK);
 }
 
 void

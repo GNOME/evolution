@@ -51,7 +51,7 @@ action_calendar_memopad_forward_cb (EUIAction *action,
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 	g_return_if_fail (comp != NULL);
 
-	itip_send_component_with_model (e_memo_table_get_model (memo_table),
+	itip_send_component_with_model (e_cal_model_get_data_model (e_memo_table_get_model (memo_table)),
 		I_CAL_METHOD_PUBLISH, comp, comp_data->client,
 		NULL, NULL, NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT);
 

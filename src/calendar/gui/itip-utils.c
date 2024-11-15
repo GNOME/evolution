@@ -37,6 +37,7 @@
 
 #include "calendar-config.h"
 #include "comp-util.h"
+#include "e-cal-data-model.h"
 
 #include "itip-utils.h"
 
@@ -2456,7 +2457,7 @@ itip_send_component_thread (EAlertSinkThreadJobData *job_data,
 }
 
 void
-itip_send_component_with_model (ECalModel *model,
+itip_send_component_with_model (ECalDataModel *data_model,
 				ICalPropertyMethod method,
 				ECalComponent *send_comp,
 				ECalClient *cal_client,
@@ -2466,7 +2467,6 @@ itip_send_component_with_model (ECalModel *model,
 				EItipSendComponentFlags flags)
 {
 	ESourceRegistry *registry;
-	ECalDataModel *data_model;
 	ESource *source;
 	const gchar *alert_ident = NULL;
 	const gchar *description = NULL;
@@ -2474,7 +2474,7 @@ itip_send_component_with_model (ECalModel *model,
 	GCancellable *cancellable;
 	ItipSendComponentData *isc;
 
-	g_return_if_fail (E_IS_CAL_MODEL (model));
+	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
 	g_return_if_fail (E_IS_CAL_CLIENT (cal_client));
 
 	switch (e_cal_client_get_source_type (cal_client)) {
@@ -2495,8 +2495,7 @@ itip_send_component_with_model (ECalModel *model,
 			break;
 	}
 
-	registry = e_cal_model_get_registry (model);
-	data_model = e_cal_model_get_data_model (model);
+	registry = e_cal_data_model_get_registry (data_model);
 	source = e_client_get_source (E_CLIENT (cal_client));
 
 	isc = g_slice_new0 (ItipSendComponentData);

@@ -29,6 +29,7 @@
 
 struct _ECalDataModelPrivate {
 	GThread *main_thread;
+	ESourceRegistry *registry;
 	ECalDataModelSubmitThreadJobFunc submit_thread_job_func;
 	GWeakRef *submit_thread_job_responder;
 	GThreadPool *thread_pool;
@@ -56,7 +57,8 @@ enum {
 	PROP_0,
 	PROP_EXPAND_RECURRENCES,
 	PROP_TIMEZONE,
-	PROP_SKIP_CANCELLED
+	PROP_SKIP_CANCELLED,
+	PROP_REGISTRY
 };
 
 enum {
@@ -1951,6 +1953,19 @@ cal_data_model_update_time_range (ECalDataModel *data_model)
 }
 
 static void
+cal_data_model_set_registry (ECalDataModel *self,
+			     ESourceRegistry *registry)
+{
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+
+	if (self->priv->registry == registry)
+		return;
+
+	g_clear_object (&self->priv->registry);
+	self->priv->registry = g_object_ref (registry);
+}
+
+static void
 cal_data_model_set_property (GObject *object,
 			     guint property_id,
 			     const GValue *value,
@@ -1973,6 +1988,12 @@ cal_data_model_set_property (GObject *object,
 			e_cal_data_model_set_skip_cancelled (
 				E_CAL_DATA_MODEL (object),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_REGISTRY:
+			cal_data_model_set_registry (
+				E_CAL_DATA_MODEL (object),
+				g_value_get_object (value));
 			return;
 	}
 
@@ -2006,6 +2027,13 @@ cal_data_model_get_property (GObject *object,
 				e_cal_data_model_get_skip_cancelled (
 				E_CAL_DATA_MODEL (object)));
 			return;
+
+		case PROP_REGISTRY:
+			g_value_set_object (
+				value,
+				e_cal_data_model_get_registry (
+				E_CAL_DATA_MODEL (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -2034,6 +2062,7 @@ cal_data_model_finalize (GObject *object)
 	g_free (data_model->priv->filter);
 	g_free (data_model->priv->full_filter);
 	g_clear_object (&data_model->priv->zone);
+	g_clear_object (&data_model->priv->registry);
 
 	e_weak_ref_free (data_model->priv->submit_thread_job_responder);
 	g_rec_mutex_clear (&data_model->priv->props_lock);
@@ -2083,6 +2112,16 @@ e_cal_data_model_class_init (ECalDataModelClass *class)
 			FALSE,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_REGISTRY,
+		g_param_spec_object (
+			"registry",
+			"Registry",
+			NULL,
+			E_TYPE_SOURCE_REGISTRY,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
 	signals[VIEW_STATE_CHANGED] = g_signal_new (
 		"view-state-changed",
 		G_TYPE_FROM_CLASS (class),
@@ -2120,6 +2159,7 @@ e_cal_data_model_init (ECalDataModel *data_model)
 
 /**
  * e_cal_data_model_new:
+ * @registry: an #ESourceRegistry instance
  * @func: a function to be called when the data model needs to create
  *    a thread job within UI
  * @func_responder: (allow none): a responder for @func, which is passed
@@ -2133,14 +2173,15 @@ e_cal_data_model_init (ECalDataModel *data_model)
  * Since: 3.16
  **/
 ECalDataModel *
-e_cal_data_model_new (ECalDataModelSubmitThreadJobFunc func,
+e_cal_data_model_new (ESourceRegistry *registry,
+		      ECalDataModelSubmitThreadJobFunc func,
 		      GObject *func_responder)
 {
 	ECalDataModel *data_model;
 
 	g_return_val_if_fail (func != NULL, NULL);
 
-	data_model = g_object_new (E_TYPE_CAL_DATA_MODEL, NULL);
+	data_model = g_object_new (E_TYPE_CAL_DATA_MODEL, "registry", registry, NULL);
 	data_model->priv->submit_thread_job_func = func;
 	data_model->priv->submit_thread_job_responder = e_weak_ref_new (func_responder);
 
@@ -2170,7 +2211,7 @@ e_cal_data_model_new_clone (ECalDataModel *src_data_model)
 	func_responder = g_weak_ref_get (src_data_model->priv->submit_thread_job_responder);
 	g_return_val_if_fail (func_responder != NULL, NULL);
 
-	clone = e_cal_data_model_new (src_data_model->priv->submit_thread_job_func, func_responder);
+	clone = e_cal_data_model_new (src_data_model->priv->registry, src_data_model->priv->submit_thread_job_func, func_responder);
 
 	g_clear_object (&func_responder);
 
@@ -2189,6 +2230,24 @@ e_cal_data_model_new_clone (ECalDataModel *src_data_model)
 	g_list_free_full (clients, g_object_unref);
 
 	return clone;
+}
+
+/**
+ * e_cal_data_model_get_registry:
+ * @data_model: an #ECalDataModel
+ *
+ * Returns an #ESourceRegistry instance the @data_model was created with.
+ *
+ * Returns: (transfer none): an #ESourceRegistry instance
+ *
+ * Since: 3.56
+ **/
+ESourceRegistry *
+e_cal_data_model_get_registry (ECalDataModel *data_model)
+{
+	g_return_val_if_fail (E_IS_CAL_DATA_MODEL (data_model), FALSE);
+
+	return data_model->priv->registry;
 }
 
 /**

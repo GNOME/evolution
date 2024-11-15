@@ -237,5 +237,11 @@ void		cal_comp_util_write_to_html	(GString *html_buffer,
 						 ECalComponent *comp,
 						 ICalTimezone *zone,
 						 ECompToHTMLFlags flags);
+void		cal_comp_util_remove_component	(GtkWindow *parent_window, /* for question dialog */
+						 ECalDataModel *data_model, /* used to submit thread job */
+						 ECalClient *client,
+						 ECalComponent *comp,
+						 ECalObjModType mod,
+						 gboolean confirm_event_delete); /* meetings are always asked */
 
 #endif
