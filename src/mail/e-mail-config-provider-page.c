@@ -88,7 +88,7 @@ mail_config_provider_page_add_section (GtkBox *main_box,
 
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (main_box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -309,7 +309,7 @@ mail_config_provider_page_add_entry (GtkBox *main_box,
 	gtk_widget_show (hbox);
 
 	label = gtk_label_new_with_mnemonic (entry->text);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	gtk_widget_show (label);
 
@@ -349,7 +349,7 @@ mail_config_provider_page_add_label (GtkBox *main_box,
 	gtk_widget_show (hbox);
 
 	label = gtk_label_new (entry->text);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	gtk_widget_show (label);
 
@@ -387,7 +387,7 @@ mail_config_provider_page_add_options (GtkBox *main_box,
 	gtk_widget_show (hbox);
 
 	label = gtk_label_new_with_mnemonic (entry->text);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	gtk_widget_show (label);
 
@@ -645,7 +645,7 @@ mail_config_provider_page_add_widgets (EMailConfigProviderPage *page,
 	markup = g_markup_printf_escaped ("<b>%s</b>", text);
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (main_box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 	g_free (markup);

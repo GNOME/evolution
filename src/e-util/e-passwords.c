@@ -513,12 +513,11 @@ ep_ask_password (EPassMsg *msg)
 	/* Password Image */
 	widget = gtk_image_new_from_icon_name (
 		"dialog-password", GTK_ICON_SIZE_DIALOG);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
 	g_object_set (
 		G_OBJECT (widget),
-		"halign", GTK_ALIGN_FILL,
+		"halign", GTK_ALIGN_START,
 		"vexpand", TRUE,
-		"valign", GTK_ALIGN_FILL,
+		"valign", GTK_ALIGN_START,
 		NULL);
 	gtk_widget_show (widget);
 
@@ -529,7 +528,7 @@ ep_ask_password (EPassMsg *msg)
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 	gtk_label_set_markup (GTK_LABEL (widget), msg->prompt);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	g_object_set (
 		G_OBJECT (widget),
 		"hexpand", TRUE,

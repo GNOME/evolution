@@ -255,7 +255,7 @@ build_test_window (void)
 	grid = widget;
 
 	widget = gtk_label_new ("Tree view selection mode:");
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_widget_set_halign (GTK_WIDGET (widget), GTK_ALIGN_END);
 	gtk_grid_attach (GTK_GRID (grid), widget, 0, 0, 1, 1);
 	gtk_widget_show (widget);
@@ -286,7 +286,7 @@ build_test_window (void)
 		NULL, (GDestroyNotify) NULL);
 
 	widget = gtk_label_new ("Horizontal scrollbar policy:");
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_widget_set_halign (GTK_WIDGET (widget), GTK_ALIGN_END);
 	gtk_grid_attach (GTK_GRID (grid), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
@@ -314,7 +314,7 @@ build_test_window (void)
 		NULL, (GDestroyNotify) NULL);
 
 	widget = gtk_label_new ("Vertical scrollbar policy:");
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_widget_set_halign (GTK_WIDGET (widget), GTK_ALIGN_END);
 	gtk_grid_attach (GTK_GRID (grid), widget, 0, 2, 1, 1);
 	gtk_widget_show (widget);

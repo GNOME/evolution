@@ -264,7 +264,7 @@ e_categories_editor_init (ECategoriesEditor *editor)
 	gtk_widget_set_halign (label_header, GTK_ALIGN_FILL);
 	gtk_grid_attach (grid, label_header, 0, 0, 1, 1);
 	gtk_label_set_justify (GTK_LABEL (label_header), GTK_JUSTIFY_CENTER);
-	gtk_misc_set_alignment (GTK_MISC (label_header), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label_header), 0);
 
 	entry_categories = gtk_entry_new ();
 	gtk_widget_set_hexpand (entry_categories, TRUE);
@@ -275,7 +275,7 @@ e_categories_editor_init (ECategoriesEditor *editor)
 	gtk_widget_set_halign (label2, GTK_ALIGN_FILL);
 	gtk_grid_attach (grid, label2, 0, 2, 1, 1);
 	gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_CENTER);
-	gtk_misc_set_alignment (GTK_MISC (label2), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label2), 0);
 
 	scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
 	g_object_set (

@@ -1760,7 +1760,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	widget = gtk_label_new_with_mnemonic (_("_Account:"));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), editor->priv->combo_box);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
 	gtk_widget_show (widget);
 
@@ -1790,7 +1790,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	widget = gtk_label_new_with_mnemonic (_("Sho_w items that contain:"));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), editor->priv->entry);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 

@@ -461,7 +461,7 @@ proxy_preferences_constructed (GObject *object)
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_widget_set_valign (widget, GTK_ALIGN_START);
 	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 1);
 	gtk_widget_show (widget);
 

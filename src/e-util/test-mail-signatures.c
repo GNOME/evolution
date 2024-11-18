@@ -140,7 +140,7 @@ main (gint argc,
 
 	widget = gtk_label_new ("<b>EMailSignatureComboBox</b>");
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -184,7 +184,7 @@ main (gint argc,
 
 	widget = gtk_label_new ("<b>EMailSignatureManager</b>");
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

@@ -466,7 +466,7 @@ alert_bar_constructed (GObject *object)
 	container = content_area;
 
 	widget = gtk_image_new ();
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.5, 0.0);
+	gtk_widget_set_valign (widget, GTK_ALIGN_START);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	self->priv->image = widget;
 	gtk_widget_show (widget);
@@ -490,7 +490,7 @@ alert_bar_constructed (GObject *object)
 	gtk_label_set_line_wrap_mode (GTK_LABEL (widget), PANGO_WRAP_WORD_CHAR);
 	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
 	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	self->priv->message_label = widget;

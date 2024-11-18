@@ -3887,7 +3887,7 @@ e_source_selector_manage_groups (ESourceSelector *selector)
 	w = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (w), txt);
 	g_free (txt);
-	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (w), 0);
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 2);
 
 	pbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);

@@ -621,7 +621,7 @@ shell_view_construct_taskbar (EShellView *self)
 		self);
 
 	tooltip_label = gtk_label_new ("");
-	gtk_misc_set_alignment (GTK_MISC (tooltip_label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (tooltip_label), 0);
 	gtk_box_pack_start (GTK_BOX (box), tooltip_label, TRUE, TRUE, 0);
 	self->priv->tooltip_label = g_object_ref (tooltip_label);
 	gtk_widget_hide (tooltip_label);

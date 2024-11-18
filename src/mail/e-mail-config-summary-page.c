@@ -286,7 +286,7 @@ mail_config_summary_page_constructed (GObject *object)
 	text = _("This is a summary of the settings which will be used "
 		 "to access your mail.");
 	widget = gtk_label_new (text);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -304,7 +304,7 @@ mail_config_summary_page_constructed (GObject *object)
 	markup = g_markup_printf_escaped ("<b>%s</b>", text);
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 2, 1);
 	gtk_widget_show (widget);
 	g_free (markup);
@@ -312,7 +312,7 @@ mail_config_summary_page_constructed (GObject *object)
 	text = _("_Name:");
 	widget = gtk_label_new_with_mnemonic (text);
 	gtk_widget_set_margin_left (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 
@@ -333,7 +333,7 @@ mail_config_summary_page_constructed (GObject *object)
 	text = _("The above name will be used to identify this account.\n"
 		 "Use for example, “Work” or “Personal”.");
 	widget = gtk_label_new (text);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
 	gtk_widget_show (widget);
 
@@ -351,7 +351,7 @@ mail_config_summary_page_constructed (GObject *object)
 	markup = g_markup_printf_escaped ("<b>%s</b>", text);
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 3, 1);
 	gtk_widget_show (widget);
 	g_free (markup);
@@ -359,12 +359,12 @@ mail_config_summary_page_constructed (GObject *object)
 	text = _("Full Name:");
 	widget = gtk_label_new (text);
 	gtk_widget_set_margin_left (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 2, 1);
 	page->priv->name_label = GTK_LABEL (widget);
@@ -373,12 +373,12 @@ mail_config_summary_page_constructed (GObject *object)
 	text = _("Email Address:");
 	widget = gtk_label_new (text);
 	gtk_widget_set_margin_left (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 2, 1);
 	page->priv->address_label = GTK_LABEL (widget);
@@ -391,7 +391,7 @@ mail_config_summary_page_constructed (GObject *object)
 	gtk_widget_set_margin_top (widget, 6);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 3, 1, 1);
 	gtk_widget_show (widget);
 	g_free (markup);
@@ -403,7 +403,7 @@ mail_config_summary_page_constructed (GObject *object)
 	gtk_widget_set_margin_top (widget, 6);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 2, 3, 1, 1);
 	gtk_widget_show (widget);
 	g_free (markup);
@@ -411,19 +411,19 @@ mail_config_summary_page_constructed (GObject *object)
 	text = _("Server Type:");
 	widget = gtk_label_new (text);
 	gtk_widget_set_margin_left (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 1, 1);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 4, 1, 1);
 	page->priv->recv_backend_label = GTK_LABEL (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_grid_attach (GTK_GRID (container), widget, 2, 4, 1, 1);
 	page->priv->send_backend_label = GTK_LABEL (widget);
@@ -432,19 +432,19 @@ mail_config_summary_page_constructed (GObject *object)
 	text = _("Server:");
 	widget = gtk_label_new (text);
 	gtk_widget_set_margin_left (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 1, 1);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 5, 1, 1);
 	page->priv->recv_host_label = GTK_LABEL (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_grid_attach (GTK_GRID (container), widget, 2, 5, 1, 1);
 	page->priv->send_host_label = GTK_LABEL (widget);
@@ -453,19 +453,19 @@ mail_config_summary_page_constructed (GObject *object)
 	text = _("Username:");
 	widget = gtk_label_new (text);
 	gtk_widget_set_margin_left (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 6, 1, 1);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 6, 1, 1);
 	page->priv->recv_user_label = GTK_LABEL (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_grid_attach (GTK_GRID (container), widget, 2, 6, 1, 1);
 	page->priv->send_user_label = GTK_LABEL (widget);
@@ -474,19 +474,19 @@ mail_config_summary_page_constructed (GObject *object)
 	text = _("Security:");
 	widget = gtk_label_new (text);
 	gtk_widget_set_margin_left (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 7, 1, 1);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 7, 1, 1);
 	page->priv->recv_security_label = GTK_LABEL (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_grid_attach (GTK_GRID (container), widget, 2, 7, 1, 1);
 	page->priv->send_security_label = GTK_LABEL (widget);

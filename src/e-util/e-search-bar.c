@@ -712,7 +712,7 @@ e_search_bar_init (ESearchBar *search_bar)
 		_("Reached bottom of page, continued from top"));
 	gtk_label_set_ellipsize (
 		GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
@@ -734,7 +734,7 @@ e_search_bar_init (ESearchBar *search_bar)
 		_("Reached top of page, continued from bottom"));
 	gtk_label_set_ellipsize (
 		GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 

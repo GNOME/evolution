@@ -58,7 +58,7 @@ html_editor_paragraph_dialog_constructed (GObject *object)
 	/* == General == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>General</b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
@@ -81,7 +81,7 @@ html_editor_paragraph_dialog_constructed (GObject *object)
 	/* == Alignment == */
 	widget = gtk_label_new ("");
 	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Alignment</b>"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());

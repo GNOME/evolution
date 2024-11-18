@@ -1115,7 +1115,7 @@ filter_rule_get_widget (EFilterRule *rule,
 			_("Find items that meet the following conditions"));
 		label = gtk_label_new (text);
 		gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-		gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+		gtk_label_set_xalign (GTK_LABEL (label), 0);
 		gtk_container_add (GTK_CONTAINER (vgrid), label);
 		g_free (text);
 	}

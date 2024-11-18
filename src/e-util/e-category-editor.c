@@ -197,7 +197,7 @@ e_category_editor_init (ECategoryEditor *editor)
 
 	label_name = gtk_label_new_with_mnemonic (_("Category _Name"));
 	gtk_widget_set_halign (label_name, GTK_ALIGN_FILL);
-	gtk_misc_set_alignment (GTK_MISC (label_name), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label_name), 0);
 	gtk_grid_attach (grid_category_properties, label_name, 0, 0, 1, 1);
 
 	category_name = gtk_entry_new ();
@@ -210,7 +210,7 @@ e_category_editor_init (ECategoryEditor *editor)
 
 	label_icon = gtk_label_new_with_mnemonic (_("Category _Icon"));
 	gtk_widget_set_halign (label_icon, GTK_ALIGN_FILL);
-	gtk_misc_set_alignment (GTK_MISC (label_icon), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label_icon), 0);
 	gtk_grid_attach (grid_category_properties, label_icon, 0, 1, 1, 1);
 
 	if (chooser_dialog) {

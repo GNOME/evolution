@@ -206,7 +206,7 @@ composer_header_constructed (GObject *object)
 		label = widget;
 	}
 
-	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (label), 1.0);
 
 	header->title_widget = g_object_ref_sink (widget);
 

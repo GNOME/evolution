@@ -316,7 +316,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (0), 0, 0);
 
-		gtk_misc_set_alignment (GTK_MISC (priv->header_type_name_label), 0, 0.5);
+		gtk_label_set_xalign (GTK_LABEL (priv->header_type_name_label), 0);
 		gtk_widget_show (priv->header_type_name_label);
 		sub_combo_box.header_value_combo_box = gtk_combo_box_text_new ();
 		g_array_append_val (priv->combo_box_header_value, sub_combo_box);

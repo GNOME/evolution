@@ -261,7 +261,7 @@ mail_config_yahoo_summary_constructed (GObject *object)
 	markup = g_markup_printf_escaped ("<b>%s</b>", text);
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 2, 1);
 	gtk_widget_show (widget);
 	g_free (markup);

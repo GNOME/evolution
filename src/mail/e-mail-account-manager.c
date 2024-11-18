@@ -138,7 +138,7 @@ mail_account_manager_build_goa_message (EMailAccountManager *manager)
 		"the Online Accounts service."));
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
@@ -226,7 +226,7 @@ mail_account_manager_build_uoa_message (EMailAccountManager *manager)
 		"the Online Accounts service."));
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
@@ -691,7 +691,7 @@ mail_account_manager_constructed (GObject *object)
 
 	widget = gtk_label_new (
 		_("You can drag and drop account names to reorder them."));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 

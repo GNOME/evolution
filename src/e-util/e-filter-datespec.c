@@ -416,7 +416,6 @@ filter_datespec_get_widget (EFilterElement *element)
 	GtkWidget *button;
 
 	fds->priv->label_button = gtk_label_new ("");
-	gtk_misc_set_alignment (GTK_MISC (fds->priv->label_button), 0.5, 0.5);
 	set_button (fds);
 
 	button = gtk_button_new ();

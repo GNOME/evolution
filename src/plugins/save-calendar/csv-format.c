@@ -552,7 +552,8 @@ create_options_widget (FormatHandler *handler)
 	gtk_table_set_row_spacings (GTK_TABLE (table), 5);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 5);
 	label = gtk_label_new_with_mnemonic (_("_Value delimiter:"));
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.0);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
+	gtk_label_set_yalign (GTK_LABEL (label), 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), d->delimiter_entry);
 	gtk_table_attach (
 		GTK_TABLE (table), label, 0, 1, 0, 1,
@@ -563,7 +564,8 @@ create_options_widget (FormatHandler *handler)
 		(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 		(GtkAttachOptions) (0), 0, 0);
 	label = gtk_label_new_with_mnemonic (_("_Record delimiter:"));
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.0);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
+	gtk_label_set_yalign (GTK_LABEL (label), 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), d->newline_entry);
 	gtk_table_attach (
 		GTK_TABLE (table), label, 0, 1, 1, 2,
@@ -574,7 +576,8 @@ create_options_widget (FormatHandler *handler)
 		(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 		(GtkAttachOptions) (0), 0, 0);
 	label = gtk_label_new_with_mnemonic (_("_Encapsulate values with:"));
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.0);
+	gtk_label_set_xalign (GTK_LABEL (label), 0);
+	gtk_label_set_yalign (GTK_LABEL (label), 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), d->quote_entry);
 	gtk_table_attach (
 		GTK_TABLE (table), label, 0, 1, 2, 3,

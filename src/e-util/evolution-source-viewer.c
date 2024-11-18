@@ -792,7 +792,7 @@ source_viewer_constructed (GObject *object)
 	gtk_label_set_attributes (GTK_LABEL (widget), bold);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	viewer->viewing_label = widget;  /* do not reference */
 	gtk_widget_show (widget);
@@ -821,7 +821,7 @@ source_viewer_constructed (GObject *object)
 	widget = gtk_label_new (NULL);
 	gtk_label_set_attributes (GTK_LABEL (widget), bold);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	viewer->deleting_label = widget;  /* do not reference */
 	gtk_widget_show (widget);
