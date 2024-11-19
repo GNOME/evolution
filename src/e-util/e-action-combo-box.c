@@ -391,8 +391,10 @@ action_combo_box_changed (GtkComboBox *combo_box)
 
 	model = gtk_combo_box_get_model (combo_box);
 	gtk_tree_model_get (model, &iter, COLUMN_ACTION, &action, -1);
-	if (action != NULL)
+	if (action != NULL) {
 		e_ui_action_set_active (action, TRUE);
+		g_object_notify (G_OBJECT (combo_box), "current-value");
+	}
 	g_object_unref (action);
 }
 
