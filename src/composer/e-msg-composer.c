@@ -987,7 +987,7 @@ composer_get_recipient_certificate_cb (EMailSession *session,
 					gboolean usable;
 
 					nss_cert = CERT_DecodeCertFromPackage (value->str, value->len);
-					usable = nss_cert && (nss_cert->keyUsage & certificateUsageEmailRecipient) != 0;
+					usable = nss_cert && (nss_cert->keyUsage & (KU_KEY_ENCIPHERMENT | KU_DATA_ENCIPHERMENT)) != 0;
 					if (nss_cert)
 						CERT_DestroyCertificate (nss_cert);
 

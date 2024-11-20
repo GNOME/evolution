@@ -362,8 +362,8 @@ static struct {
 	const gchar *text;
 } usageinfo[] = {
 	/* x509 certificate usage types */
-	{ certificateUsageEmailSigner, N_("Sign") },
-	{ certificateUsageEmailRecipient, N_("Encrypt") },
+	{ KU_DIGITAL_SIGNATURE, N_("Sign") },
+	{ KU_KEY_ENCIPHERMENT | KU_DATA_ENCIPHERMENT, N_("Encrypt") },
 };
 
 const gchar *
