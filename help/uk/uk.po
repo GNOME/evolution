@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2024-11-05 14:23+0000\n"
-"PO-Revision-Date: 2024-11-05 16:34+0200\n"
+"POT-Creation-Date: 2024-11-20 09:46+0000\n"
+"PO-Revision-Date: 2024-11-20 19:11+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -255,13 +255,6 @@ msgstr "Виберіть тип <gui>CalDAV</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:39
-#| msgid ""
-#| "To discover the calendars, announced by the server, enter the server "
-#| "address as <gui>URL</gui> and optionally <gui>User</gui>, then click on "
-#| "<gui style=\"button\">Find Calendars</gui>. Select a calendar and "
-#| "<gui>User mail</gui>. This prefills the fields <gui>Name</gui>, "
-#| "<gui>Color</gui>, <gui>URL</gui> and (see below) <gui>Email</gui>. The "
-#| "step is optional, and you can overwrite all discovered settings."
 msgid ""
 "To discover the calendars, announced by the server, enter the server address "
 "as <gui>URL</gui> and optionally <gui>User</gui>, then click on <gui "
@@ -368,10 +361,6 @@ msgstr "Облікові записи збірок"
 
 #. (itstool) path: section/p
 #: C/calendar-caldav.page:72 C/tasks-caldav.page:47
-#| msgid ""
-#| "Different types of mail, addressbooks, calendars, task and memo lists, "
-#| "belonging to the same user, can be added in one step by utilizing a <link "
-#| "xref=\"intro-account-types#collection-account\">Collection account</link>."
 msgid ""
 "Different types of mail, address books, calendars, task and memo lists, "
 "belonging to the same user, can be added in one step by utilizing a <link "
@@ -969,10 +958,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:52
-#| msgid ""
-#| "You can also select an arbitrary range of days in the small calendar in "
-#| "the side bar. To do this, select the days that you want to view in your "
-#| "calendar."
 msgid ""
 "You can also select an arbitrary range of days in the small calendar in the "
 "sidebar. To do this, select the days that you want to view in your calendar."
@@ -1791,14 +1776,6 @@ msgstr "Використання декількох календарів"
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:30
-#| msgid ""
-#| "You can have multiple calendars and overlay them one over the other. For "
-#| "example, you might have a schedule of events for work, one for home, and "
-#| "one for your favorite sports team. The side bar lists those calendars, "
-#| "and you can select or deselect the boxes next to them to show and hide "
-#| "the appointments in your calendar view. By hiding and showing different "
-#| "sets of appointments, you can be sure to avoid conflicts, while keeping a "
-#| "minimum of clutter in your view."
 msgid ""
 "You can have multiple calendars and overlay them one over the other. For "
 "example, you might have a schedule of events for work, one for home, and one "
@@ -1820,7 +1797,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:38
-#| msgid "Appointments for each calendar appear in different color."
 msgid "Appointments for each calendar appear in a different color."
 msgstr "Зустрічі різних календарів буде показано різними кольорами."
 
@@ -1853,9 +1829,9 @@ msgid ""
 "window. If no calendar is selected, new events are created in the default "
 "calendar."
 msgstr ""
-"Нові записи подій та нарад буде створено у позначеному у вікні календаря"
-" календарі. Якщо не позначено жоден календар, записи нових подій буде"
-" створено у типовому календарі."
+"Нові записи подій та нарад буде створено у позначеному у вікні календаря "
+"календарі. Якщо не позначено жоден календар, записи нових подій буде "
+"створено у типовому календарі."
 
 #. (itstool) path: info/desc
 #: C/calendar-weather.page:17
@@ -2064,7 +2040,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/contacts-google.page:21
-#| msgid "Using a Google addressbook"
 msgid "Using a Google address book"
 msgstr "Користування адресною книгою Google"
 
@@ -2353,7 +2328,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:38
-#| msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
 msgid "Choose an address book and click <gui style=\"button\">Define</gui>."
 msgstr ""
 "Виберіть адресну книгу і натисніть кнопку <gui style=\"button\">Визначити</"
@@ -2402,10 +2376,6 @@ msgstr "Упорядкування, сортування та групуванн
 
 #. (itstool) path: page/p
 #: C/contacts-organizing.page:23
-#| msgid ""
-#| "There are several ways how to organize your contacts. You can use several "
-#| "addressbooks and categories, and for conveniently sending messages to a "
-#| "group of people contact lists are available."
 msgid ""
 "There are several ways how to organize your contacts. You can use several "
 "address books and categories, and for conveniently sending messages to a "
@@ -2739,11 +2709,6 @@ msgstr "Додавання і створення адресних книг"
 
 #. (itstool) path: page/p
 #: C/contacts-using-several-addressbooks.page:23
-#| msgid ""
-#| "You can have multiple address books. For example, you might have one "
-#| "address book for work related contacts and one for private contacts. The "
-#| "side bar lists those address books, and you can select which address book "
-#| "is shown."
 msgid ""
 "You can have multiple address books. For example, you might have one address "
 "book for work related contacts and one for private contacts. The sidebar "
@@ -2772,17 +2737,12 @@ msgid ""
 "window. If no address book is selected, new contacts are created in the "
 "default address book."
 msgstr ""
-"Нові записи контактів буде створено у позначеній у вікні контактів адресній"
-" книзі. Якщо не позначено жодної адресної книги, записи нових контактів буде"
-" створено у типовій адресній книзі."
+"Нові записи контактів буде створено у позначеній у вікні контактів адресній "
+"книзі. Якщо не позначено жодної адресної книги, записи нових контактів буде "
+"створено у типовій адресній книзі."
 
 #. (itstool) path: section/p
 #: C/contacts-using-several-addressbooks.page:34
-#| msgid ""
-#| "Different types of mail, addressbooks, calendars, task and memo lists, "
-#| "belonging to the same user, can be added in one step, by utilizing a "
-#| "<link xref=\"intro-account-types#collection-account\">Collection account</"
-#| "link>."
 msgid ""
 "Different types of mail, address books, calendars, task and memo lists, "
 "belonging to the same user, can be added in one step, by utilizing a <link "
@@ -5440,12 +5400,6 @@ msgstr "Перемикач"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:79
-#| msgid ""
-#| "The switcher at the bottom of the side bar lets you switch between the "
-#| "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks. "
-#| "The appearance of the Switcher, including whether the buttons should be "
-#| "shown at all, can be changed in the menu <guiseq><gui>View</"
-#| "gui><gui>Switcher Appearance</gui></guiseq>."
 msgid ""
 "The switcher at the bottom of the sidebar lets you switch between the "
 "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks. The "
@@ -5461,10 +5415,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:80
-#| msgid ""
-#| "You can disable the folder list and the switcher side bar by toggling "
-#| "<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> "
-#| "or pressing <key>F9</key>."
 msgid ""
 "You can disable the folder list and the switcher sidebar by toggling "
 "<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Sidebar</gui></guiseq> or "
@@ -7766,16 +7716,21 @@ msgstr ""
 #. might want to indicate in your translation text that the link is in
 #. English.
 #: C/mail-composer-from-field-override.page:24
+#| msgid ""
+#| "This functionality can be useful for <link href=\"https://en.wikipedia."
+#| "org/wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> "
+#| "and <link href=\"https://en.wikipedia.org/wiki/"
+#| "Email_address#Address_tags\">sub-addressing</link>."
 msgid ""
 "This functionality can be useful for <link href=\"https://en.wikipedia.org/"
 "wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> and "
-"<link href=\"https://en.wikipedia.org/wiki/Email_address#Address_tags\">sub-"
-"addressing</link>."
+"<link href=\"https://en.wikipedia.org/wiki/Email_address#Sub-"
+"addressing\">sub-addressing</link>."
 msgstr ""
 "Ця функціональна можливість може бути корисною для <link href=\"https://en."
 "wikipedia.org/wiki/Qmail#Innovations\">поштових скриньок-замінників при "
-"використанні qmail</link> та <link href=\"https://en.wikipedia.org/wiki/"
-"Email_address#Address_tags\">використанні підадрес</link>."
+"використанні qmail</link> та <link href=\"https://en.wikipedia.org/wiki/Email"
+"_address#Sub-addressing\">використанні підадрес</link>."
 
 #. (itstool) path: note/p
 #. Translators: If no Wikipedia article exists for your language and you
@@ -15142,14 +15097,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/tasks-caldav.page:27
-#| msgid ""
-#| "To discover the task lists or memo lists, announced by the server, enter "
-#| "the server address as <gui>URL</gui> and optionally <gui>User</gui>, then "
-#| "click on <gui style=\"button\">Find Task Lists</gui>/<gui "
-#| "style=\"button\">Find Memo Lists</gui>. Select a task or memo list and "
-#| "<gui>User mail</gui>. This prefills the fields <gui>Name</gui>, "
-#| "<gui>Color</gui>, <gui>URL</gui> and (see below) <gui>Email</gui>. The "
-#| "step is optional, and you can overwrite all discovered settings."
 msgid ""
 "To discover the task lists or memo lists, announced by the server, enter the "
 "server address as <gui>URL</gui> and optionally <gui>User</gui>, then click "
@@ -15507,13 +15454,6 @@ msgstr "Користування декількома списками завд�
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:22
-#| msgid ""
-#| "You can have multiple task or memo lists and choose which of your lists "
-#| "get displayed. For example, you might have tasks for work, tasks for "
-#| "home, and tasks for the singing club of which you are a member. The side "
-#| "bar shows these lists, and you can select or deselect any of the boxes "
-#| "next to them to show and hide the corresponding tasks or memos in your "
-#| "view."
 msgid ""
 "You can have multiple task or memo lists and choose which of your lists get "
 "displayed. For example, you might have tasks for work, tasks for home, and "
@@ -15530,8 +15470,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:24
-#| msgid ""
-#| "Tasks and memos from each task or memo list appear as different colors."
 msgid ""
 "Tasks and memos from each task or memo list appear in a different color."
 msgstr ""
@@ -15554,9 +15492,9 @@ msgid ""
 "list is selected, new tasks are created in the default task list. Likewise "
 "for memos."
 msgstr ""
-"Нові записи завдань буде створено у позначеному у вікні завдань списку"
-" завдань. Якщо не позначено жодного списку завдань, записи нових завдань"
-" буде створено у типовому списку завдань. Те саме стосується приміток."
+"Нові записи завдань буде створено у позначеному у вікні завдань списку "
+"завдань. Якщо не позначено жодного списку завдань, записи нових завдань буде "
+"створено у типовому списку завдань. Те саме стосується приміток."
 
 #. (itstool) path: info/desc
 #: C/tasks-webdav.page:5
