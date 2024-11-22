@@ -1,3 +1,22 @@
+Evolution 3.54.2 2024-11-22
+---------------------------
+
+Bug Fixes:
+	I#2886 - Composer: Possible crash on paste
+	I#2897 - Correct certificate key usage constants
+	I#2902 - ToDo bar sometimes does not display due tasks
+
+Miscellaneous:
+	Default inbox email: Update URIs, remove link to defunct mailing list (Andre Klapper)
+
+Translations:
+	Alexandre Franke (fr)
+	Andika Triwidada (id)
+	Daniel Rusek (cs)
+	Juliano de Souza Camargo (pt_BR)
+	Милош Поповић (sr)
+	Милош Поповић (sr@latin)
+
 Evolution 3.54.1 2024-10-18
 ---------------------------
 
