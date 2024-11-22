@@ -46,6 +46,10 @@
     <title>API Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
   </index>
+  <index id="api-index-3-56">
+    <title>Index of new symbols in 3.56</title>
+    <xi:include href="xml/api-index-3.56.xml"><xi:fallback /></xi:include>
+  </index>
   <index id="api-index-3-50">
     <title>Index of new symbols in 3.50</title>
     <xi:include href="xml/api-index-3.50.xml"><xi:fallback /></xi:include>

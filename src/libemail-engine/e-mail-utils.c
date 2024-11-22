@@ -1033,8 +1033,20 @@ em_utils_sender_is_user (ESourceRegistry *registry,
 /* cannot use camel_header_param_list_decode(), because it doesn't
    like '@' in the 'addr' param, and it's kinda strict, thus have
    here a relaxed form of the decoder */
-static CamelHeaderParam *
-emu_decode_autocrypt_header (const gchar *value)
+/**
+ * em_utils_decode_autocrypt_header_value:
+ * @value: the raw 'Autocrypt' header value
+ *
+ * Parses the raw 'Autocrypt' header value into CamelHeaderParam.
+ * Free the returned data with the camel_header_param_list_free(),
+ * when no longer needed.
+ *
+ * Returns: (transfer full) (nullable): parsed 'Autocrypt' header value
+ *
+ * Since: 3.56
+ **/
+CamelHeaderParam *
+em_utils_decode_autocrypt_header_value (const gchar *value)
 {
 	CamelHeaderParam *params = NULL, *last = NULL;
 	gchar *unfolded, *ptr, *from;
@@ -1166,7 +1178,7 @@ em_utils_decode_autocrypt_header (CamelMimeMessage *message,
 		if (!value)
 			continue;
 
-		params = emu_decode_autocrypt_header (value);
+		params = em_utils_decode_autocrypt_header_value (value);
 		if (!params)
 			continue;
 

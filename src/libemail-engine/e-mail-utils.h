@@ -97,6 +97,9 @@ gboolean	em_utils_address_is_user	(ESourceRegistry *registry,
 gboolean	em_utils_sender_is_user		(ESourceRegistry *registry,
 						 CamelMimeMessage *message,
 						 gboolean only_enabled_accounts);
+CamelHeaderParam *
+		em_utils_decode_autocrypt_header_value
+						(const gchar *value);
 gboolean	em_utils_decode_autocrypt_header(CamelMimeMessage *message,
 						 guint index,
 						 gboolean *out_prefer_encrypt,

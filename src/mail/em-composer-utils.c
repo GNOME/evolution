@@ -756,14 +756,44 @@ composer_presend_check_autocrypt_wanted (EMsgComposer *composer,
 					 EMailSession *session)
 {
 	EComposerHeaderTable *table;
+	const gchar *value;
 	gchar *identity_uid;
 	gboolean ask_send_public_key = TRUE;
 	gboolean can_send = TRUE;
 
-	if (!e_msg_composer_get_header (composer, "Autocrypt", 0))
-		return TRUE;
-
 	table = e_msg_composer_get_header_table (composer);
+
+	value = e_msg_composer_get_header (composer, "Autocrypt", 0);
+	if (value && *value) {
+		CamelHeaderParam *params, *param;
+		gboolean removed = FALSE;
+
+		params = em_utils_decode_autocrypt_header_value (value);
+		if (params) {
+			for (param = params; param; param = param->next) {
+				if (!param->name || !param->value)
+					continue;
+				if (g_ascii_strcasecmp (param->name, "addr") == 0) {
+					const gchar *from = e_composer_header_table_get_from_address (table);
+					/* the user could change the From address in the "From Field Override",
+					   the remove the header when the two do not match */
+					if (!from || g_ascii_strcasecmp (from, param->value) != 0) {
+						e_msg_composer_remove_header (composer, "Autocrypt");
+						removed = TRUE;
+					}
+					break;
+				}
+			}
+
+			camel_header_param_list_free (params);
+		}
+
+		if (removed)
+			return TRUE;
+	} else {
+		return TRUE;
+	}
+
 	identity_uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
 	if (identity_uid) {
 		ESource *source;
