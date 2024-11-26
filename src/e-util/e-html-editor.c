@@ -38,6 +38,7 @@
 #include "e-misc-utils.h"
 #include "e-simple-async-result.h"
 #include "e-util-enumtypes.h"
+#include "e-ui-customize-dialog.h"
 
 #define MARKDOWN_EDITOR_NAME "markdown"
 
@@ -667,7 +668,6 @@ html_editor_show_context_menu_idle_cb (gpointer user_data)
 		g_clear_object (&ui_item);
 
 		gtk_menu_attach_to_widget (menu, GTK_WIDGET (editor), NULL);
-
 		e_util_connect_menu_detach_after_deactivate (menu);
 
 		gtk_menu_popup_at_pointer (menu, cmd->event);
@@ -1200,6 +1200,27 @@ e_html_editor_ui_manager_create_item_cb (EUIManager *ui_manager,
 }
 
 static void
+e_html_editor_customize_toolbar_activate_cb (GtkWidget *toolbar,
+					     const gchar *id,
+					     gpointer user_data)
+{
+	EHTMLEditor *self = user_data;
+	EUICustomizeDialog *dialog;
+	GtkWidget *toplevel;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (self));
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (self));
+
+	dialog = e_ui_customize_dialog_new (GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL);
+
+	e_ui_customize_dialog_add_customizer (dialog, e_ui_manager_get_customizer (self->priv->ui_manager));
+	e_ui_customize_dialog_run (dialog, id);
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+static void
 html_editor_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
@@ -1262,9 +1283,11 @@ html_editor_constructed (GObject *object)
 {
 	EHTMLEditor *editor = E_HTML_EDITOR (object);
 	EHTMLEditorPrivate *priv = editor->priv;
+	EUICustomizer *customizer;
 	GSettings *settings;
 	GtkWidget *widget;
 	gchar *filename;
+	const gchar *toolbar_id;
 	GError *local_error = NULL;
 
 	/* Chain up to parent's method. */
@@ -1293,6 +1316,7 @@ html_editor_constructed (GObject *object)
 	e_html_editor_actions_add_actions (editor);
 	priv->editor_layout_row = 2;
 
+	customizer = e_ui_manager_get_customizer (priv->ui_manager);
 	filename = html_editor_find_ui_file ("e-html-editor.eui");
 
 	if (!e_ui_parser_merge_file (e_ui_manager_get_parser (priv->ui_manager), filename, &local_error))
@@ -1305,11 +1329,18 @@ html_editor_constructed (GObject *object)
 
 	priv->main_menu = E_UI_MENU (e_ui_manager_create_item (editor->priv->ui_manager, "main-menu"));
 
+	e_ui_customizer_register (customizer, "main-menu", NULL);
+	e_ui_customizer_register (customizer, "context-menu", _("Context Menu"));
+
 	if (e_util_get_use_header_bar ())
-		widget = GTK_WIDGET (e_ui_manager_create_item (editor->priv->ui_manager, "main-toolbar-with-headerbar"));
+		toolbar_id = "main-toolbar-with-headerbar";
 	else
-		widget = GTK_WIDGET (e_ui_manager_create_item (editor->priv->ui_manager, "main-toolbar-without-headerbar"));
+		toolbar_id = "main-toolbar-without-headerbar";
+	widget = GTK_WIDGET (e_ui_manager_create_item (editor->priv->ui_manager, toolbar_id));
 	editor->priv->main_toolbar = g_object_ref_sink (widget);
+	e_ui_customizer_register (customizer, toolbar_id, _("Main Toolbar"));
+	e_ui_customizer_util_attach_toolbar_context_menu (widget, toolbar_id,
+		e_html_editor_customize_toolbar_activate_cb, editor);
 
 	/* Construct the editing toolbars. */
 
@@ -1319,12 +1350,18 @@ html_editor_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, 0, 1, 1);
 	priv->edit_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
+	e_ui_customizer_register (customizer, "edit-toolbar", _("Edit Toolbar"));
+	e_ui_customizer_util_attach_toolbar_context_menu (widget, "edit-toolbar",
+		e_html_editor_customize_toolbar_activate_cb, editor);
 
 	widget = GTK_WIDGET (e_ui_manager_create_item (editor->priv->ui_manager, "html-toolbar"));
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, 1, 1, 1);
 	priv->html_toolbar = g_object_ref (widget);
+	e_ui_customizer_register (customizer, "html-toolbar", _("HTML Toolbar"));
+	e_ui_customizer_util_attach_toolbar_context_menu (widget, "html-toolbar",
+		e_html_editor_customize_toolbar_activate_cb, editor);
 
 	/* Construct the activity bar. */
 
@@ -1579,7 +1616,7 @@ e_html_editor_init (EHTMLEditor *self)
 {
 	self->priv = e_html_editor_get_instance_private (self);
 	self->priv->mode = E_CONTENT_EDITOR_MODE_HTML;
-	self->priv->ui_manager = e_ui_manager_new ();
+	self->priv->ui_manager = e_ui_manager_new (e_ui_customizer_util_dup_filename_for_component ("html-editor"));
 	self->priv->core_actions = e_ui_manager_get_action_group (self->priv->ui_manager, "core");
 	self->priv->core_editor_actions = e_ui_manager_get_action_group (self->priv->ui_manager, "core-editor");
 	self->priv->html_actions = e_ui_manager_get_action_group (self->priv->ui_manager, "html");

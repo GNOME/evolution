@@ -1941,7 +1941,7 @@ mail_viewer_init_ui_manager (EMailViewer *self)
 
 	g_return_if_fail (self->priv->ui_manager == NULL);
 
-	self->priv->ui_manager = e_ui_manager_new ();
+	self->priv->ui_manager = e_ui_manager_new (NULL);
 
 	g_signal_connect_object (self->priv->ui_manager, "create-item",
 		G_CALLBACK (e_mail_viewer_ui_manager_create_item_cb), self, 0);
@@ -1959,6 +1959,20 @@ mail_viewer_init_ui_manager (EMailViewer *self)
 
 	action = e_ui_manager_get_action (self->priv->ui_manager, "close");
 	e_ui_action_add_secondary_accel (action, "Escape");
+
+	e_ui_manager_set_actions_usable_for_kinds (self->priv->ui_manager, E_UI_ELEMENT_KIND_MENU,
+		"menu-file",
+		"menu-edit",
+		"menu-view",
+		"menu-zoom",
+		"menu-charset",
+		"menu-message",
+		"menu-forward-as",
+		"EMailViewer::charset-menu",
+		NULL);
+
+	action = e_ui_manager_get_action (self->priv->ui_manager, "EMailViewer::menu-button");
+	e_ui_action_set_usable_for_kinds (action, E_UI_ELEMENT_KIND_HEADERBAR);
 
 	gtk_window_add_accel_group (GTK_WINDOW (self), e_ui_manager_get_accel_group (self->priv->ui_manager));
 	e_ui_manager_set_action_groups_widget (self->priv->ui_manager, GTK_WIDGET (self));

@@ -1291,7 +1291,7 @@ shell_window_register_actions (EShellWindow *shell_window,
 
 	backend_name = g_intern_string (backend_name);
 
-	ui_manager = e_ui_manager_new ();
+	ui_manager = e_ui_manager_new (NULL);
 
 	e_ui_manager_add_actions (ui_manager, e_ui_action_group_get_name (dest_action_group), NULL, entries, n_entries, shell_window);
 

@@ -265,6 +265,8 @@
 #include <e-util/e-tree.h>
 #include <e-util/e-ui-action.h>
 #include <e-util/e-ui-action-group.h>
+#include <e-util/e-ui-customize-dialog.h>
+#include <e-util/e-ui-customizer.h>
 #include <e-util/e-ui-manager.h>
 #include <e-util/e-ui-menu.h>
 #include <e-util/e-ui-parser.h>

@@ -326,6 +326,7 @@ static void
 memo_shell_view_constructed (GObject *object)
 {
 	EUIManager *ui_manager;
+	EUICustomizer *customizer;
 
 	ui_manager = e_shell_view_get_ui_manager (E_SHELL_VIEW (object));
 
@@ -337,6 +338,10 @@ memo_shell_view_constructed (GObject *object)
 	e_memo_shell_view_private_constructed (E_MEMO_SHELL_VIEW (object));
 
 	e_ui_manager_thaw (ui_manager);
+
+	customizer = e_ui_manager_get_customizer (ui_manager);
+	e_ui_customizer_register (customizer, "memo-popup", _("Memo Context Menu"));
+	e_ui_customizer_register (customizer, "memo-list-popup", _("Memo List Context Menu"));
 }
 
 static void

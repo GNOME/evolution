@@ -622,6 +622,7 @@ static void
 cal_shell_view_init_ui_data (EShellView *shell_view)
 {
 	ECalShellView *cal_shell_view;
+	EUIAction *action;
 
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (shell_view));
 
@@ -633,6 +634,9 @@ cal_shell_view_init_ui_data (EShellView *shell_view)
 	e_cal_shell_view_actions_init (cal_shell_view);
 	e_cal_shell_view_memopad_actions_init (cal_shell_view);
 	e_cal_shell_view_taskpad_actions_init (cal_shell_view);
+
+	action = e_ui_manager_get_action (e_shell_view_get_ui_manager (shell_view), "ECalShellView::navigation-buttons");
+	e_ui_action_set_usable_for_kinds (action, E_UI_ELEMENT_KIND_HEADERBAR);
 }
 
 static void
@@ -663,6 +667,7 @@ cal_shell_view_constructed (GObject *object)
 	ECalShellView *cal_shell_view;
 	ECalShellContent *cal_shell_content;
 	EUIManager *ui_manager;
+	EUICustomizer *customizer;
 	GtkWidget *container;
 	GtkWidget *widget;
 	gulong handler_id;
@@ -701,6 +706,13 @@ cal_shell_view_constructed (GObject *object)
 	cal_shell_view->priv->prepare_for_quit_handler_id = handler_id;
 
 	e_ui_manager_thaw (ui_manager);
+
+	customizer = e_ui_manager_get_customizer (ui_manager);
+	e_ui_customizer_register (customizer, "calendar-popup", _("Calendar Context Menu"));
+	e_ui_customizer_register (customizer, "calendar-event-popup", _("Event Context Menu"));
+	e_ui_customizer_register (customizer, "calendar-memopad-popup", _("Memo Context Menu"));
+	e_ui_customizer_register (customizer, "calendar-taskpad-popup", _("Task Context Menu"));
+	e_ui_customizer_register (customizer, "calendar-empty-popup", _("No Event Context Menu"));
 }
 
 static void

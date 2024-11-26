@@ -51,6 +51,8 @@ struct _ECompEditorPrivate {
 	ICalComponent *component;
 	guint32 flags;
 
+	const gchar *toolbar_id;
+
 	EMenuBar *menu_bar;
 	GtkWidget *menu_button; /* owned by menu_bar */
 
@@ -1461,6 +1463,36 @@ action_close_cb (EUIAction *action,
 }
 
 static void
+e_comp_editor_customize_toolbar_activate_cb (GtkWidget *toolbar,
+					     const gchar *id,
+					     gpointer user_data)
+{
+	ECompEditor *self = user_data;
+	EUICustomizeDialog *dialog;
+
+	g_return_if_fail (E_IS_COMP_EDITOR (self));
+
+	dialog = e_ui_customize_dialog_new (GTK_WINDOW (self));
+
+	e_ui_customize_dialog_add_customizer (dialog, e_ui_manager_get_customizer (self->priv->ui_manager));
+	e_ui_customize_dialog_run (dialog, id);
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+static void
+action_customize_toolbar_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
+{
+	ECompEditor *self = user_data;
+
+	g_return_if_fail (E_IS_COMP_EDITOR (self));
+
+	e_comp_editor_customize_toolbar_activate_cb (NULL, self->priv->toolbar_id, self);
+}
+
+static void
 action_help_cb (EUIAction *action,
 		GVariant *parameter,
 		gpointer user_data)
@@ -2211,6 +2243,13 @@ e_comp_editor_constructed (GObject *object)
 		  N_("Copy the selection"),
 		  NULL, NULL, NULL, NULL },  /* Handled by EFocusTracker */
 
+		{ "customize-toolbar",
+		  NULL,
+		  N_("_Customize Toolbar…"),
+		  NULL,
+		  N_("Customize actions in the toolbar"),
+		  action_customize_toolbar_cb, NULL, NULL, NULL },
+
 		{ "cut-clipboard",
 		  "edit-cut",
 		  N_("Cu_t"),
@@ -2362,7 +2401,9 @@ e_comp_editor_constructed (GObject *object)
 	GtkWidget *widget;
 	GtkBox *vbox;
 	EUIAction *action;
+	EUICustomizer *customizer;
 	EFocusTracker *focus_tracker;
+	const gchar *toolbar_id;
 	GError *local_error = NULL;
 
 	G_OBJECT_CLASS (e_comp_editor_parent_class)->constructed (object);
@@ -2371,7 +2412,7 @@ e_comp_editor_constructed (GObject *object)
 		G_CALLBACK (e_util_check_gtk_bindings_in_key_press_event_cb), NULL);
 
 	comp_editor->priv->calendar_settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-	comp_editor->priv->ui_manager = e_ui_manager_new ();
+	comp_editor->priv->ui_manager = e_ui_manager_new (e_ui_customizer_util_dup_filename_for_component ("comp-editor"));
 
 	g_signal_connect (comp_editor->priv->ui_manager, "create-item",
 		G_CALLBACK (comp_editor_ui_manager_create_item_cb), comp_editor);
@@ -2391,6 +2432,19 @@ e_comp_editor_constructed (GObject *object)
 		editable_entries, G_N_ELEMENTS (editable_entries), comp_editor);
 
 	e_ui_manager_set_action_groups_widget (comp_editor->priv->ui_manager, GTK_WIDGET (comp_editor));
+
+	e_ui_manager_set_actions_usable_for_kinds (comp_editor->priv->ui_manager, E_UI_ELEMENT_KIND_HEADERBAR,
+		"menu-button",
+		NULL);
+	e_ui_manager_set_actions_usable_for_kinds (comp_editor->priv->ui_manager, E_UI_ELEMENT_KIND_MENU,
+		"classification-menu",
+		"edit-menu",
+		"file-menu",
+		"help-menu",
+		"insert-menu",
+		"options-menu",
+		"view-menu",
+		NULL);
 
 	action = e_comp_editor_get_action (comp_editor, "save-and-close");
 	if (action) {
@@ -2430,10 +2484,14 @@ e_comp_editor_constructed (GObject *object)
 
 	gtk_container_add (GTK_CONTAINER (comp_editor), widget);
 
+	customizer = e_ui_manager_get_customizer (comp_editor->priv->ui_manager);
+
 	/* Construct the main menu and headerbar. */
 	ui_item = e_ui_manager_create_item (comp_editor->priv->ui_manager, "main-menu");
 	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (ui_item));
 	g_clear_object (&ui_item);
+
+	e_ui_customizer_register (customizer, "main-menu", NULL);
 
 	comp_editor->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (comp_editor), &comp_editor->priv->menu_button);
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
@@ -2443,12 +2501,21 @@ e_comp_editor_constructed (GObject *object)
 		widget = GTK_WIDGET (ui_item);
 		gtk_window_set_titlebar (GTK_WINDOW (comp_editor), widget);
 
-		ui_item = e_ui_manager_create_item (comp_editor->priv->ui_manager, "toolbar-with-headerbar");
+		e_ui_customizer_register (customizer, "main-headerbar", NULL);
+
+		toolbar_id = "toolbar-with-headerbar";
 	} else {
-		ui_item = e_ui_manager_create_item (comp_editor->priv->ui_manager, "toolbar-without-headerbar");
+		toolbar_id = "toolbar-without-headerbar";
 	}
 
+	comp_editor->priv->toolbar_id = toolbar_id;
+
+	ui_item = e_ui_manager_create_item (comp_editor->priv->ui_manager, toolbar_id);
+	e_ui_customizer_register (customizer, toolbar_id, NULL);
+
 	widget = GTK_WIDGET (ui_item);
+	e_ui_customizer_util_attach_toolbar_context_menu (widget, toolbar_id,
+		e_comp_editor_customize_toolbar_activate_cb, comp_editor);
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
 
 	g_settings_bind (
@@ -2532,8 +2599,6 @@ e_comp_editor_constructed (GObject *object)
 	g_signal_connect (comp_editor, "unrealize", G_CALLBACK (comp_editor_unrealize_cb), NULL);
 
 	gtk_application_add_window (GTK_APPLICATION (comp_editor->priv->shell), GTK_WINDOW (comp_editor));
-
-	e_extensible_load_extensions (E_EXTENSIBLE (comp_editor));
 }
 
 static void

@@ -2476,6 +2476,37 @@ e_html_editor_actions_add_actions (EHTMLEditor *editor)
 	/* Context Menu Actions (spell check only) */
 	e_ui_manager_add_actions (ui_manager, "spell-check", NULL,
 		spell_context_entries, G_N_ELEMENTS (spell_context_entries), editor);
+
+	e_ui_manager_set_actions_usable_for_kinds (ui_manager, E_UI_ELEMENT_KIND_MENU,
+		"EHTMLEditor::recent-languages",
+		"EHTMLEditor::all-languages",
+		"EHTMLEditor::context-spell-suggest",
+		"EHTMLEditor::context-spell-suggest-more-menu",
+		"EHTMLEditor::context-spell-add-menu",
+		"EHTMLEditor::insert-emoticon",
+		"edit-menu",
+		"file-menu",
+		"format-menu",
+		"paragraph-style-menu",
+		"insert-menu",
+		"justify-menu",
+		"language-menu",
+		"view-menu",
+		"font-size-menu",
+		"font-style-menu",
+		"context-delete-table-menu",
+		"context-insert-table-menu",
+		"context-properties-menu",
+		NULL);
+
+	e_ui_manager_set_actions_usable_for_kinds (ui_manager, E_UI_ELEMENT_KIND_TOOLBAR,
+		"EHTMLEditor::editing-mode",
+		"EHTMLEditor::paragraph-style",
+		"EHTMLEditor::font-name",
+		"EHTMLEditor::font-size",
+		"EHTMLEditor::font-color",
+		"EHTMLEditor::background-color",
+		NULL);
 }
 
 void
@@ -2587,7 +2618,7 @@ e_html_editor_util_new_mode_combobox (void)
 	GPtrArray *actions;
 	GtkWidget *widget;
 
-	ui_manager = e_ui_manager_new ();
+	ui_manager = e_ui_manager_new (NULL);
 
 	e_ui_manager_add_actions_enum (ui_manager, "core-mode-entries", NULL,
 		core_mode_entries, G_N_ELEMENTS (core_mode_entries), NULL);

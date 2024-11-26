@@ -342,7 +342,7 @@ as if you had clicked on it.</p>
 
 <section id="change-keyboard-shortcuts">
 <title>Changing keyboard shortcuts</title>
-<note style="advanced"><p>Advanced users can customize keyboard shortcuts by editing <file>$HOME/.config/evolution/accels</file>.</p><p>See <link href="https://major.io/2015/11/27/custom-keyboard-shortcuts-for-evolution-in-gnome/">this blog post</link> for more information.</p></note>
+<note style="advanced"><p>Keyboard shortcuts can be changed in <guiseq><gui>View</gui><gui>Layout</gui><gui>Customize…</gui></guiseq>. See the <link xref="customize-ui-items">Customizing user interface</link> section for more information.</p></note>
 </section>
 
 </page>

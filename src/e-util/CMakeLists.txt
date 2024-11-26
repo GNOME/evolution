@@ -275,6 +275,8 @@ set(SOURCES
 	e-tree.c
 	e-ui-action.c
 	e-ui-action-group.c
+	e-ui-customize-dialog.c
+	e-ui-customizer.c
 	e-ui-manager.c
 	e-ui-menu.c
 	e-ui-parser.c
@@ -559,6 +561,8 @@ set(HEADERS
 	e-tree.h
 	e-ui-action.h
 	e-ui-action-group.h
+	e-ui-customize-dialog.h
+	e-ui-customizer.h
 	e-ui-manager.h
 	e-ui-menu.h
 	e-ui-parser.h

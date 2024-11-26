@@ -567,6 +567,9 @@ mail_signature_editor_constructed (GObject *object)
 
 	e_ui_manager_add_actions_with_eui_data (ui_manager, "signature", GETTEXT_PACKAGE,
 		entries, G_N_ELEMENTS (entries), window, eui);
+
+	e_ui_action_set_usable_for_kinds (e_ui_manager_get_action (ui_manager, "EMailSignatureEditor::menu-button"), E_UI_ELEMENT_KIND_HEADERBAR);
+
 	window->priv->action_group = g_object_ref (e_ui_manager_get_action_group (ui_manager, "signature"));
 
 	/* Hide page properties because it is not inherited in the mail. */

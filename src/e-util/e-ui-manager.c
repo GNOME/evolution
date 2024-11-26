@@ -13,6 +13,7 @@
 #include "e-headerbar-button.h"
 #include "e-misc-utils.h"
 #include "e-ui-action.h"
+#include "e-ui-customizer.h"
 #include "e-ui-menu.h"
 #include "e-ui-parser.h"
 #include "e-util-enumtypes.h"
@@ -48,15 +49,25 @@ struct _EUIManager {
 	GObject parent;
 
 	EUIParser *parser;
+	EUICustomizer *customizer;
 	GtkAccelGroup *accel_group;
 	GHashTable *action_groups; /* gchar * ~> EUIActionGroup * */
 	GHashTable *gicons; /* gchar * ~> GIcon * */
 	GHashTable *groups; /* gchar * ~> GPtrArray * { EUIAction }; used for radio groups */
 
+	CamelWeakRefGroup *self_weak_ref_group; /* self, aka EUIManager */
+	GHashTable *shortcut_actions; /* EUIManagerShortcutDef ~> GPtrArray { EUIAction } */
+
 	GWeakRef action_groups_widget;
 
 	guint frozen;
 	gboolean changed_while_frozen;
+};
+
+enum {
+	PROP_0,
+	PROP_CUSTOMIZER_FILENAME,
+	N_PROPS
 };
 
 enum {
@@ -69,6 +80,7 @@ enum {
 	N_SIGNALS
 };
 
+static GParamSpec *properties[N_PROPS] = { NULL, };
 static guint signals[N_SIGNALS] = { 0, };
 
 G_DEFINE_TYPE (EUIManager, e_ui_manager, G_TYPE_OBJECT)
@@ -132,6 +144,8 @@ e_ui_manager_gather_groups (EUIManager *self)
 
 	g_hash_table_remove_all (self->groups);
 
+	/* the groups are gathered from the app data, not from the user customizations,
+	   because the user custommizations can have missing this information */
 	e_ui_manager_gather_groups_recr (self, e_ui_parser_get_root (self->parser));
 
 	/* update the state, thus there's only one (or none) group item selected */
@@ -155,24 +169,132 @@ e_ui_manager_gather_groups (EUIManager *self)
 }
 
 static void
-e_ui_manager_changed (EUIManager *self)
-{
-	if (self->frozen) {
-		self->changed_while_frozen = TRUE;
-		return;
-	}
-
-	e_ui_manager_gather_groups (self);
-	g_signal_emit (self, signals[SIGNAL_CHANGED], 0, NULL);
-}
-
-static void
 e_ui_manager_parser_changed_cb (EUIParser *parser,
 				gpointer user_data)
 {
 	EUIManager *self = user_data;
 
 	e_ui_manager_changed (self);
+}
+
+static void
+e_ui_manager_connect_accel_cb (EUIManager *self,
+			       EUIAction *action,
+			       const gchar *accel,
+			       gpointer user_data);
+
+static void
+e_ui_manager_disconnect_accel_cb (EUIManager *self,
+				  EUIAction *action,
+				  const gchar *accel,
+				  gpointer user_data);
+
+static gboolean
+e_ui_manager_accel_activated_cb (GtkAccelGroup *accel_group,
+				 GObject *acceleratable,
+				 guint key,
+				 GdkModifierType mods,
+				 gpointer user_data);
+
+static void
+e_ui_manager_customizer_accels_changed_cb (EUICustomizer *customizer,
+					   const gchar *action_name,
+					   GPtrArray *old_accels,
+					   GPtrArray *new_accels,
+					   gpointer user_data)
+{
+	EUIManager *self = user_data;
+	EUIAction *action;
+	const gchar *accel;
+	guint ii;
+
+	action = e_ui_manager_get_action (self, action_name);
+	if (!action)
+		return;
+
+	if (old_accels) {
+		for (ii = 0; ii < old_accels->len; ii++) {
+			accel = g_ptr_array_index (old_accels, ii);
+			if (accel && *accel)
+				e_ui_manager_disconnect_accel_cb (self, action, accel, NULL);
+		}
+	} else {
+		GPtrArray *secondary_accels;
+
+		accel = e_ui_action_get_accel (action);
+		if (accel && *accel)
+			e_ui_manager_disconnect_accel_cb (self, action, accel, NULL);
+
+		secondary_accels = e_ui_action_get_secondary_accels (action);
+		for (ii = 0; secondary_accels && ii < secondary_accels->len; ii++) {
+			accel = g_ptr_array_index (secondary_accels, ii);
+			if (accel && *accel)
+				e_ui_manager_disconnect_accel_cb (self, action, accel, NULL);
+		}
+	}
+
+	if (new_accels) {
+		for (ii = 0; ii < new_accels->len; ii++) {
+			accel = g_ptr_array_index (new_accels, ii);
+			if (accel && *accel)
+				e_ui_manager_connect_accel_cb (self, action, accel, NULL);
+		}
+	} else {
+		GPtrArray *secondary_accels;
+
+		accel = e_ui_action_get_accel (action);
+		if (accel && *accel)
+			e_ui_manager_connect_accel_cb (self, action, accel, NULL);
+
+		secondary_accels = e_ui_action_get_secondary_accels (action);
+		for (ii = 0; secondary_accels && ii < secondary_accels->len; ii++) {
+			accel = g_ptr_array_index (secondary_accels, ii);
+			if (accel && *accel)
+				e_ui_manager_connect_accel_cb (self, action, accel, NULL);
+		}
+	}
+}
+
+static void
+e_ui_manager_set_property (GObject *object,
+			   guint prop_id,
+			   const GValue *value,
+			   GParamSpec *pspec)
+{
+	EUIManager *self = E_UI_MANAGER (object);
+
+	switch (prop_id) {
+	case PROP_CUSTOMIZER_FILENAME:
+		g_clear_object (&self->customizer);
+		self->customizer = g_object_new (E_TYPE_UI_CUSTOMIZER,
+			"filename", g_value_get_string (value),
+			"manager", self,
+			NULL);
+		g_signal_connect_object (self->customizer, "accels-changed",
+			G_CALLBACK (e_ui_manager_customizer_accels_changed_cb), self, 0);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
+	}
+}
+
+static void
+e_ui_manager_get_property (GObject *object,
+			   guint prop_id,
+			   GValue *value,
+			   GParamSpec *pspec)
+{
+	EUIManager *self = E_UI_MANAGER (object);
+
+	switch (prop_id) {
+	case PROP_CUSTOMIZER_FILENAME:
+		g_value_set_string (value, self->customizer ? e_ui_customizer_get_filename (self->customizer) : NULL);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
+	}
 }
 
 static void
@@ -191,10 +313,13 @@ e_ui_manager_finalize (GObject *object)
 	EUIManager *self = E_UI_MANAGER (object);
 
 	g_clear_object (&self->parser);
+	g_clear_object (&self->customizer);
 	g_clear_object (&self->accel_group);
 	g_clear_pointer (&self->action_groups, g_hash_table_unref);
 	g_clear_pointer (&self->gicons, g_hash_table_unref);
 	g_clear_pointer (&self->groups, g_hash_table_unref);
+	g_clear_pointer (&self->self_weak_ref_group, camel_weak_ref_group_unref);
+	g_clear_pointer (&self->shortcut_actions, g_hash_table_unref);
 	g_weak_ref_clear (&self->action_groups_widget);
 
 	G_OBJECT_CLASS (e_ui_manager_parent_class)->finalize (object);
@@ -206,8 +331,26 @@ e_ui_manager_class_init (EUIManagerClass *klass)
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (klass);
+	object_class->set_property = e_ui_manager_set_property;
+	object_class->get_property = e_ui_manager_get_property;
 	object_class->dispose = e_ui_manager_dispose;
 	object_class->finalize = e_ui_manager_finalize;
+
+	/**
+	 * EUIManager:customizer-filename:
+	 *
+	 * A file name, into which the customizations are saved and loaded from.
+	 * It can be %NULL, when the customizations are disabled.
+	 *
+	 * Since: 3.56
+	 **/
+	properties[PROP_CUSTOMIZER_FILENAME] = g_param_spec_string ("customizer-filename", NULL, NULL, NULL,
+		G_PARAM_READWRITE |
+		G_PARAM_CONSTRUCT_ONLY |
+		G_PARAM_STATIC_STRINGS |
+		G_PARAM_EXPLICIT_NOTIFY);
+
+	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
 
 	/* void		changed		(EUIManager *manager); */
 	/**
@@ -383,6 +526,10 @@ e_ui_manager_init (EUIManager *self)
 	self->action_groups = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_object_unref);
 	self->gicons = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	self->groups = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_ptr_array_unref);
+	self->shortcut_actions = g_hash_table_new_full (e_ui_manager_shortcut_def_hash, e_ui_manager_shortcut_def_equal, g_free, (GDestroyNotify) g_ptr_array_unref);
+	self->self_weak_ref_group = camel_weak_ref_group_new ();
+
+	camel_weak_ref_group_set (self->self_weak_ref_group, self);
 
 	g_signal_connect_object (self->parser, "changed",
 		G_CALLBACK (e_ui_manager_parser_changed_cb), self, 0);
@@ -390,17 +537,30 @@ e_ui_manager_init (EUIManager *self)
 
 /**
  * e_ui_manager_new:
+ * @customizer_filename: (nullable) (transfer full): an optional #EUICustomizer filename, or %NULL
  *
  * Creates a new #EUIManager. Use g_object_unref() to free it, when no longer needed.
+ *
+ * The @customizer_filename, if not %NULL, is a full path to a file where
+ * UI customization are stored. If not set, the UI manager will not allow
+ * the customizations. The function assumes ownership of the string.
  *
  * Returns: (transfer full): a new #EUIManager
  *
  * Since: 3.56
  **/
 EUIManager *
-e_ui_manager_new (void)
+e_ui_manager_new (gchar *customizer_filename)
 {
-	return g_object_new (E_TYPE_UI_MANAGER, NULL);
+	EUIManager *self;
+
+	self = g_object_new (E_TYPE_UI_MANAGER,
+		"customizer-filename", customizer_filename,
+		NULL);
+
+	g_free (customizer_filename);
+
+	return self;
 }
 
 /**
@@ -420,6 +580,25 @@ e_ui_manager_get_parser (EUIManager *self)
 	g_return_val_if_fail (E_IS_UI_MANAGER (self), NULL);
 
 	return self->parser;
+}
+
+/**
+ * e_ui_manager_get_customizer:
+ * @self: an #EUIManager
+ *
+ * Gets an #EUICustomizer for the @self.
+ *
+ * Returns: (transfer none) (nullable): an #EUICustomizer, or %NULL,
+ *   when customizations are disabled
+ *
+ * Since: 3.56
+ **/
+EUICustomizer *
+e_ui_manager_get_customizer (EUIManager *self)
+{
+	g_return_val_if_fail (E_IS_UI_MANAGER (self), NULL);
+
+	return self->customizer;
 }
 
 /**
@@ -511,6 +690,30 @@ e_ui_manager_is_frozen (EUIManager *self)
 	return self->frozen > 0;
 }
 
+/**
+ * e_ui_manager_changed:
+ * @self: an #EUIManager
+ *
+ * Let the @self know that something changed, indicating
+ * the UI parts should be regenerated. In case the @self
+ * is frozen, the regeneration is done once it's unfrozen.
+ *
+ * Since: 3.56
+ **/
+void
+e_ui_manager_changed (EUIManager *self)
+{
+	g_return_if_fail (E_IS_UI_MANAGER (self));
+
+	if (self->frozen) {
+		self->changed_while_frozen = TRUE;
+		return;
+	}
+
+	e_ui_manager_gather_groups (self);
+	g_signal_emit (self, signals[SIGNAL_CHANGED], 0, NULL);
+}
+
 static gboolean
 e_ui_manager_can_process_accel (EUIManager *self,
 				EUIAction *action)
@@ -527,50 +730,69 @@ e_ui_manager_can_process_accel (EUIManager *self,
 	return !ignore;
 }
 
-typedef struct _EAccelClosure {
-	GClosure parent;
-	EUIManager *manager; /* not referenced */
-} EAccelClosure;
-
-static void
-e_ui_manager_closure_accel_activate (GClosure *closure,
-				     GValue *return_value,
-				     guint n_param_values,
-				     const GValue *param_values,
-				     gpointer invocation_hint,
-				     gpointer marshal_data)
+static gboolean
+e_ui_manager_accel_activated_cb (GtkAccelGroup *accel_group,
+				 GObject *acceleratable,
+				 guint key,
+				 GdkModifierType mods,
+				 gpointer user_data)
 {
-	GAction *action = G_ACTION (closure->data);
-	EAccelClosure *accel_closure = (EAccelClosure *) closure;
+	CamelWeakRefGroup *weak_ref_group = user_data;
+	EUIManager *self = camel_weak_ref_group_get (weak_ref_group);
+	EUIManagerShortcutDef sdef = { 0, 0 };
+	GPtrArray *actions;
+	gboolean handled = FALSE;
 
-	if (e_ui_manager_can_process_accel (accel_closure->manager, E_UI_ACTION (action))) {
-		const GVariantType *param_type;
+	if (!self)
+		return FALSE;
 
-		param_type = g_action_get_parameter_type (action);
-		if (!param_type) {
-			g_action_activate (action, NULL);
-		} else if (param_type == G_VARIANT_TYPE_BOOLEAN) {
-			GVariant *current_value = g_action_get_state (action);
-			GVariant *new_value;
+	sdef.key = key;
+	sdef.mods = mods;
 
-			new_value = g_variant_new_boolean (current_value ? !g_variant_get_boolean (current_value) : TRUE);
-			g_variant_ref_sink (new_value);
+	actions = g_hash_table_lookup (self->shortcut_actions, &sdef);
 
-			g_action_activate (action, new_value);
+	if (actions) {
+		guint ii;
 
-			g_clear_pointer (&current_value, g_variant_unref);
-			g_clear_pointer (&new_value, g_variant_unref);
-		} else {
-			GVariant *target;
+		for (ii = 0; ii < actions->len; ii++) {
+			GAction *action = g_ptr_array_index (actions, ii);
 
-			target = e_ui_action_ref_target (E_UI_ACTION (action));
-			g_action_activate (action, target);
-			g_clear_pointer (&target, g_variant_unref);
+			if (e_ui_manager_can_process_accel (self, E_UI_ACTION (action))) {
+				const GVariantType *param_type;
+
+				param_type = g_action_get_parameter_type (action);
+				if (!param_type) {
+					g_action_activate (action, NULL);
+				} else if (param_type == G_VARIANT_TYPE_BOOLEAN) {
+					GVariant *current_value = g_action_get_state (action);
+					GVariant *new_value;
+
+					new_value = g_variant_new_boolean (current_value ? !g_variant_get_boolean (current_value) : TRUE);
+					g_variant_ref_sink (new_value);
+
+					g_action_activate (action, new_value);
+
+					g_clear_pointer (&current_value, g_variant_unref);
+					g_clear_pointer (&new_value, g_variant_unref);
+				} else {
+					GVariant *target;
+
+					target = e_ui_action_ref_target (E_UI_ACTION (action));
+					g_action_activate (action, target);
+					g_clear_pointer (&target, g_variant_unref);
+				}
+
+				handled = TRUE;
+				break;
+			}
 		}
-
-		/* accelerator was handled */
-		g_value_set_boolean (return_value, TRUE);
+	} else {
+		g_warning ("%s: No action found for key 0x%x and mods 0x%x", G_STRFUNC, key, mods);
 	}
+
+	g_clear_object (&self);
+
+	return handled;
 }
 
 static void
@@ -579,27 +801,49 @@ e_ui_manager_connect_accel_cb (EUIManager *self,
 			       const gchar *accel,
 			       gpointer user_data)
 {
-	guint key = 0;
-	GdkModifierType mods = 0;
+	EUIManagerShortcutDef sdef = { 0, 0 };
 
 	g_return_if_fail (E_IS_UI_MANAGER (self));
 
 	if (!self->accel_group || !accel || !*accel)
 		return;
 
-	gtk_accelerator_parse (accel, &key, &mods);
+	gtk_accelerator_parse (accel, &sdef.key, &sdef.mods);
 
-	if (key != 0) {
-		GClosure *closure;
-		EAccelClosure *accel_closure;
+	if (sdef.key != 0) {
+		GPtrArray *actions;
+		guint ii;
 
-		closure = g_closure_new_object (sizeof (GClosure), G_OBJECT (action));
-		g_closure_set_marshal (closure, e_ui_manager_closure_accel_activate);
+		actions = g_hash_table_lookup (self->shortcut_actions, &sdef);
 
-		accel_closure = (EAccelClosure *) closure;
-		accel_closure->manager = self;
+		if (!actions) {
+			EUIManagerShortcutDef *sdef_ptr;
+			GClosure *closure;
 
-		gtk_accel_group_connect (self->accel_group, key, mods, GTK_ACCEL_LOCKED, closure);
+			sdef_ptr = g_new0 (EUIManagerShortcutDef, 1);
+			sdef_ptr->key = sdef.key;
+			sdef_ptr->mods = sdef.mods;
+
+			actions = g_ptr_array_new_with_free_func (g_object_unref);
+			g_hash_table_insert (self->shortcut_actions, sdef_ptr, actions);
+
+			closure = g_cclosure_new (G_CALLBACK (e_ui_manager_accel_activated_cb),
+				camel_weak_ref_group_ref (self->self_weak_ref_group),
+				(GClosureNotify) camel_weak_ref_group_unref);
+
+			gtk_accel_group_connect (self->accel_group, sdef.key, sdef.mods, GTK_ACCEL_LOCKED, closure);
+		}
+
+		for (ii = 0; ii < actions->len; ii++) {
+			EUIAction *known_action = g_ptr_array_index (actions, ii);
+
+			if (action == known_action)
+				break;
+		}
+
+		/* not in the list yet */
+		if (ii >= actions->len)
+			g_ptr_array_add (actions, g_object_ref (action));
 	} else {
 		EUIActionGroup *action_group = e_ui_action_get_action_group (action);
 
@@ -609,25 +853,43 @@ e_ui_manager_connect_accel_cb (EUIManager *self,
 	}
 }
 
-
 static void
 e_ui_manager_disconnect_accel_cb (EUIManager *self,
 				  EUIAction *action,
 				  const gchar *accel,
 				  gpointer user_data)
 {
-	guint key = 0;
-	GdkModifierType mods = 0;
+	EUIManagerShortcutDef sdef = { 0, 0 };
 
 	g_return_if_fail (E_IS_UI_MANAGER (self));
 
 	if (!self->accel_group || !accel || !*accel)
 		return;
 
-	gtk_accelerator_parse (accel, &key, &mods);
+	gtk_accelerator_parse (accel, &sdef.key, &sdef.mods);
 
-	if (key != 0)
-		gtk_accel_group_disconnect_key (self->accel_group, key, mods);
+	if (sdef.key != 0) {
+		GPtrArray *actions;
+
+		actions = g_hash_table_lookup (self->shortcut_actions, &sdef);
+
+		if (actions) {
+			guint ii;
+
+			for (ii = 0; ii < actions->len; ii++) {
+				EUIAction *known_action = g_ptr_array_index (actions, ii);
+
+				if (known_action == action) {
+					g_ptr_array_remove_index (actions, ii);
+					if (!actions->len) {
+						g_hash_table_remove (self->shortcut_actions, &sdef);
+						gtk_accel_group_disconnect_key (self->accel_group, sdef.key, sdef.mods);
+					}
+					break;
+				}
+			}
+		}
+	}
 }
 
 static void
@@ -639,18 +901,27 @@ e_ui_manager_foreach_action_accel (EUIManager *self,
 						 gpointer user_data),
 				   gpointer user_data)
 {
-	GPtrArray *secondary_accels;
+	GPtrArray *custom_accels, *secondary_accels;
 	const gchar *accel;
+	guint offset = 0;
 
-	accel = e_ui_action_get_accel (action);
+	custom_accels = self->customizer ? e_ui_customizer_get_accels (self->customizer, g_action_get_name (G_ACTION (action))) : NULL;
+
+	accel = custom_accels && custom_accels->len > 0 ? g_ptr_array_index (custom_accels, 0) : NULL;
+	if (!accel && !custom_accels)
+		accel = e_ui_action_get_accel (action);
 	if (accel && *accel)
 		func (self, action, accel, user_data);
 
-	secondary_accels = e_ui_action_get_secondary_accels (action);
+	secondary_accels = custom_accels;
+	if (secondary_accels)
+		offset = 1;
+	else
+		secondary_accels = e_ui_action_get_secondary_accels (action);
 	if (secondary_accels) {
 		guint ii;
 
-		for (ii = 0; ii < secondary_accels->len; ii++) {
+		for (ii = offset; ii < secondary_accels->len; ii++) {
 			accel = g_ptr_array_index (secondary_accels, ii);
 
 			if (accel && *accel)
@@ -1122,6 +1393,38 @@ e_ui_manager_add_action_group (EUIManager *self,
 }
 
 /**
+ * e_ui_manager_list_action_groups:
+ * @self: an #EUIManager
+ *
+ * Lists all action groups added into the @self.
+ *
+ * Returns: (transfer container) (element-type EUIActionGroup): a #GPtrArray of an #EUIActionGroup groups
+ *
+ * Since: 3.56
+ **/
+GPtrArray *
+e_ui_manager_list_action_groups (EUIManager *self)
+{
+	GPtrArray *groups;
+	GHashTableIter iter;
+	gpointer value = NULL;
+
+	g_return_val_if_fail (E_IS_UI_MANAGER (self), NULL);
+
+	groups = g_ptr_array_new_full (g_hash_table_size (self->action_groups), g_object_unref);
+
+	g_hash_table_iter_init (&iter, self->action_groups);
+	while (g_hash_table_iter_next (&iter, NULL, &value)) {
+		EUIActionGroup *group = value;
+
+		if (group)
+			g_ptr_array_add (groups, g_object_ref (group));
+	}
+
+	return groups;
+}
+
+/**
  * e_ui_manager_get_action:
  * @self: an #EUIManager
  * @name: an action name
@@ -1353,15 +1656,36 @@ e_ui_manager_create_item_one (EUIManager *self,
 	return item;
 }
 
+static EUIElement *
+eum_get_ui_element (EUIManager *self,
+		    const gchar *id,
+		    gboolean *out_is_customized)
+{
+	EUIElement *elem = NULL;
+
+	*out_is_customized = FALSE;
+
+	if (self->customizer)
+		elem = e_ui_customizer_get_element (self->customizer, id);
+
+	if (!elem && e_ui_parser_get_root (self->parser))
+		elem = e_ui_element_get_child_by_id (e_ui_parser_get_root (self->parser), id);
+	else
+		*out_is_customized = TRUE;
+
+	return elem;
+}
+
 static void
-emu_traverse_headerbar_rec (EUIManager *self,
+eum_traverse_headerbar_rec (EUIManager *self,
 			    EHeaderBar *eheaderbar,
 			    GtkHeaderBar *gtkheaderbar,
 			    EUIElement *parent_elem,
 			    gboolean add_to_start,
 			    GHashTable *groups,
 			    gboolean *inout_need_separator,
-			    gboolean *inout_any_added)
+			    gboolean *inout_any_added,
+			    gboolean is_customized)
 {
 	guint ii, len;
 
@@ -1432,7 +1756,7 @@ emu_traverse_headerbar_rec (EUIManager *self,
 							gtk_header_bar_pack_end (gtkheaderbar, GTK_WIDGET (item));
 					}
 				}
-			} else {
+			} else if (!is_customized) {
 				g_warning ("%s: Cannot find action '%s' for an item", G_STRFUNC, e_ui_element_item_get_action (elem));
 			}
 			break;
@@ -1440,7 +1764,7 @@ emu_traverse_headerbar_rec (EUIManager *self,
 			*inout_need_separator = *inout_any_added;
 			break;
 		case E_UI_ELEMENT_KIND_PLACEHOLDER:
-			emu_traverse_headerbar_rec (self, eheaderbar, gtkheaderbar, elem, add_to_start, groups, inout_need_separator, inout_any_added);
+			eum_traverse_headerbar_rec (self, eheaderbar, gtkheaderbar, elem, add_to_start, groups, inout_need_separator, inout_any_added, is_customized);
 			break;
 		default:
 			g_warn_if_reached ();
@@ -1450,10 +1774,11 @@ emu_traverse_headerbar_rec (EUIManager *self,
 }
 
 static void
-emu_traverse_headerbar (EUIManager *self,
+eum_traverse_headerbar (EUIManager *self,
 			EHeaderBar *eheaderbar,
 			GtkHeaderBar *gtkheaderbar,
-			EUIElement *elem)
+			EUIElement *elem,
+			gboolean is_customized)
 {
 	GHashTable *groups; /* gpointer group ~> GSList ** */
 	gboolean need_separator = FALSE;
@@ -1468,9 +1793,9 @@ emu_traverse_headerbar (EUIManager *self,
 
 		if (e_ui_element_get_kind (subelem) == E_UI_ELEMENT_KIND_START ||
 		    e_ui_element_get_kind (subelem) == E_UI_ELEMENT_KIND_END) {
-			emu_traverse_headerbar_rec (self, eheaderbar, gtkheaderbar, subelem,
+			eum_traverse_headerbar_rec (self, eheaderbar, gtkheaderbar, subelem,
 				e_ui_element_get_kind (subelem) == E_UI_ELEMENT_KIND_START,
-				groups, &need_separator, &any_added);
+				groups, &need_separator, &any_added, is_customized);
 		} else {
 			g_warn_if_reached ();
 		}
@@ -1480,34 +1805,59 @@ emu_traverse_headerbar (EUIManager *self,
 }
 
 static void
-emu_headerbar_handle_changed_cb (EUIManager *self,
+eum_headerbar_handle_changed_cb (EUIManager *self,
 				 gpointer user_data)
 {
-	EHeaderBar *headerbar = user_data;
+	GtkWidget *widget = user_data;
+	EHeaderBar *eheaderbar = NULL;
+	GtkHeaderBar *gtkheaderbar = NULL;
 	EUIElement *elem;
 	const gchar *id;
+	gboolean is_customized = FALSE;
 
 	g_return_if_fail (E_IS_UI_MANAGER (self));
-	g_return_if_fail (E_IS_HEADER_BAR (headerbar));
 
-	e_header_bar_remove_all (headerbar);
+	if (E_IS_HEADER_BAR (widget)) {
+		eheaderbar = E_HEADER_BAR (widget);
+	} else if (GTK_IS_HEADER_BAR (widget)) {
+		gtkheaderbar = GTK_HEADER_BAR (widget);
+	} else {
+		g_warning ("%s: Expected EHeaderBar or GtkHeaderBar, but received '%s' instead", G_STRFUNC, G_OBJECT_TYPE_NAME (widget));
+		return;
+	}
 
-	id = gtk_widget_get_name (GTK_WIDGET (headerbar));
+	if (eheaderbar) {
+		e_header_bar_remove_all (eheaderbar);
+	} else {
+		GtkContainer *container = GTK_CONTAINER (gtkheaderbar);
+		GList *children, *link;
+
+		children = gtk_container_get_children (container);
+		for (link = children; link; link = g_list_next (link)) {
+			GtkWidget *child = link->data;
+			gtk_container_remove (container, child);
+		}
+
+		g_list_free (children);
+	}
+
+	id = gtk_widget_get_name (widget);
 	g_return_if_fail (id != NULL);
 	g_return_if_fail (e_ui_parser_get_root (self->parser) != NULL);
 
-	elem = e_ui_element_get_child_by_id (e_ui_parser_get_root (self->parser), id);
+	elem = eum_get_ui_element (self, id, &is_customized);
 	if (!elem) {
 		g_warning ("%s: Cannot find item with id '%s'", G_STRFUNC, id);
 		return;
 	}
 
-	emu_traverse_headerbar (self, headerbar, NULL, elem);
+	eum_traverse_headerbar (self, eheaderbar, gtkheaderbar, elem, is_customized);
 }
 
 static GObject *
 e_ui_manager_create_item_for_headerbar (EUIManager *self,
-					EUIElement *elem)
+					EUIElement *elem,
+					gboolean is_customized)
 {
 	GtkWidget *widget;
 
@@ -1521,31 +1871,31 @@ e_ui_manager_create_item_for_headerbar (EUIManager *self,
 
 		gtk_header_bar_set_show_close_button (gtkheaderbar, TRUE);
 
-		emu_traverse_headerbar (self, NULL, gtkheaderbar, elem);
+		eum_traverse_headerbar (self, NULL, gtkheaderbar, elem, is_customized);
 	} else {
 		EHeaderBar *eheaderbar;
 
 		widget = e_header_bar_new ();
 		eheaderbar = E_HEADER_BAR (widget);
 
-		g_signal_connect_object (self, "changed",
-			G_CALLBACK (emu_headerbar_handle_changed_cb), eheaderbar, 0);
-
-		emu_traverse_headerbar (self, eheaderbar, NULL, elem);
+		eum_traverse_headerbar (self, eheaderbar, NULL, elem, is_customized);
 	}
 
 	gtk_widget_set_name (widget, e_ui_element_get_id (elem));
+	g_signal_connect_object (self, "changed",
+		G_CALLBACK (eum_headerbar_handle_changed_cb), widget, 0);
 
 	return G_OBJECT (widget);
 }
 
 static void
-emu_traverse_toolbar_rec (EUIManager *self,
+eum_traverse_toolbar_rec (EUIManager *self,
 			  GtkToolbar *toolbar,
 			  EUIElement *parent_elem,
 			  GHashTable *groups,
 			  gboolean *inout_need_separator,
-			  gboolean *inout_any_added)
+			  gboolean *inout_any_added,
+			  gboolean is_customized)
 {
 	guint ii, len;
 
@@ -1585,7 +1935,7 @@ emu_traverse_toolbar_rec (EUIManager *self,
 						g_clear_object (&item);
 					}
 				}
-			} else {
+			} else if (!is_customized) {
 				g_warning ("%s: Cannot find action '%s' for an item", G_STRFUNC, e_ui_element_item_get_action (elem));
 			}
 			break;
@@ -1593,7 +1943,7 @@ emu_traverse_toolbar_rec (EUIManager *self,
 			*inout_need_separator = *inout_any_added;
 			break;
 		case E_UI_ELEMENT_KIND_PLACEHOLDER:
-			emu_traverse_toolbar_rec (self, toolbar, elem, groups, inout_need_separator, inout_any_added);
+			eum_traverse_toolbar_rec (self, toolbar, elem, groups, inout_need_separator, inout_any_added, is_customized);
 			break;
 		default:
 			g_warn_if_reached ();
@@ -1603,9 +1953,10 @@ emu_traverse_toolbar_rec (EUIManager *self,
 }
 
 static void
-emu_traverse_toolbar (EUIManager *self,
+eum_traverse_toolbar (EUIManager *self,
 		      GtkToolbar *toolbar,
-		      EUIElement *elem)
+		      EUIElement *elem,
+		      gboolean is_customized)
 {
 	GHashTable *groups; /* gpointer group ~> GSList ** */
 	gboolean need_separator = FALSE;
@@ -1613,19 +1964,20 @@ emu_traverse_toolbar (EUIManager *self,
 
 	groups = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
 
-	emu_traverse_toolbar_rec (self, toolbar, elem, groups, &need_separator, &any_added);
+	eum_traverse_toolbar_rec (self, toolbar, elem, groups, &need_separator, &any_added, is_customized);
 
 	g_hash_table_destroy (groups);
 }
 
 static void
-emu_toolbar_handle_changed_cb (EUIManager *self,
+eum_toolbar_handle_changed_cb (EUIManager *self,
 			       gpointer user_data)
 {
 	GtkContainer *toolbar = user_data;
 	GList *children, *link;
 	EUIElement *elem;
 	const gchar *id;
+	gboolean is_customized = FALSE;
 
 	g_return_if_fail (E_IS_UI_MANAGER (self));
 	g_return_if_fail (GTK_IS_TOOLBAR (toolbar));
@@ -1641,18 +1993,19 @@ emu_toolbar_handle_changed_cb (EUIManager *self,
 	g_return_if_fail (id != NULL);
 	g_return_if_fail (e_ui_parser_get_root (self->parser) != NULL);
 
-	elem = e_ui_element_get_child_by_id (e_ui_parser_get_root (self->parser), id);
+	elem = eum_get_ui_element (self, id, &is_customized);
 	if (!elem) {
 		g_warning ("%s: Cannot find item with id '%s'", G_STRFUNC, id);
 		return;
 	}
 
-	emu_traverse_toolbar (self, GTK_TOOLBAR (toolbar), elem);
+	eum_traverse_toolbar (self, GTK_TOOLBAR (toolbar), elem, is_customized);
 }
 
 static GObject *
 e_ui_manager_create_item_for_toolbar (EUIManager *self,
-				      EUIElement *elem)
+				      EUIElement *elem,
+				      gboolean is_customized)
 {
 	GtkToolbar *toolbar;
 
@@ -1669,9 +2022,9 @@ e_ui_manager_create_item_for_toolbar (EUIManager *self,
 	e_util_setup_toolbar_icon_size (toolbar, GTK_ICON_SIZE_BUTTON);
 
 	g_signal_connect_object (self, "changed",
-		G_CALLBACK (emu_toolbar_handle_changed_cb), toolbar, 0);
+		G_CALLBACK (eum_toolbar_handle_changed_cb), toolbar, 0);
 
-	emu_traverse_toolbar (self, toolbar, elem);
+	eum_traverse_toolbar (self, toolbar, elem, is_customized);
 
 	return G_OBJECT (toolbar);
 }
@@ -1682,7 +2035,8 @@ eum_traverse_menu (EUIManager *self,
 		   EUIElement *parent_elem,
 		   GMenu *parent_menu,
 		   gboolean is_popup,
-		   GMenu **inout_section)
+		   GMenu **inout_section,
+		   gboolean is_customized)
 {
 	GMenu *section = *inout_section;
 	guint ii, len;
@@ -1709,7 +2063,7 @@ eum_traverse_menu (EUIManager *self,
 
 					submenu = g_menu_new ();
 
-					eum_traverse_menu (self, ui_menu, elem, submenu, is_popup, &subsection);
+					eum_traverse_menu (self, ui_menu, elem, submenu, is_popup, &subsection, is_customized);
 
 					if (subsection && g_menu_model_get_n_items (G_MENU_MODEL (subsection)) > 0)
 						g_menu_append_section (submenu, NULL, G_MENU_MODEL (subsection));
@@ -1732,7 +2086,7 @@ eum_traverse_menu (EUIManager *self,
 
 					g_clear_object (&submenu);
 				}
-			} else {
+			} else if (!is_customized) {
 				g_warning ("%s: Cannot find action '%s' for a submenu", G_STRFUNC, e_ui_element_submenu_get_action (elem));
 			}
 			break;
@@ -1758,7 +2112,7 @@ eum_traverse_menu (EUIManager *self,
 						g_clear_object (&item);
 					}
 				}
-			} else {
+			} else if (!is_customized) {
 				g_warning ("%s: Cannot find action '%s' for an item", G_STRFUNC, e_ui_element_item_get_action (elem));
 			}
 			break;
@@ -1773,7 +2127,7 @@ eum_traverse_menu (EUIManager *self,
 			g_clear_object (&section);
 			break;
 		case E_UI_ELEMENT_KIND_PLACEHOLDER:
-			eum_traverse_menu (self, ui_menu, elem, parent_menu, is_popup, &section);
+			eum_traverse_menu (self, ui_menu, elem, parent_menu, is_popup, &section, is_customized);
 			break;
 		default:
 			g_warn_if_reached ();
@@ -1828,12 +2182,13 @@ e_ui_manager_create_item (EUIManager *self,
 {
 	EUIElement *elem;
 	GObject *object = NULL;
+	gboolean is_customized = FALSE;
 
 	g_return_val_if_fail (E_IS_UI_MANAGER (self), NULL);
 	g_return_val_if_fail (id != NULL, NULL);
 	g_return_val_if_fail (e_ui_parser_get_root (self->parser) != NULL, NULL);
 
-	elem = e_ui_element_get_child_by_id (e_ui_parser_get_root (self->parser), id);
+	elem = eum_get_ui_element (self, id, &is_customized);
 	if (!elem) {
 		g_warning ("%s: Cannot find item with id '%s'", G_STRFUNC, id);
 		return NULL;
@@ -1841,10 +2196,10 @@ e_ui_manager_create_item (EUIManager *self,
 
 	switch (e_ui_element_get_kind (elem)) {
 	case E_UI_ELEMENT_KIND_HEADERBAR:
-		object = e_ui_manager_create_item_for_headerbar (self, elem);
+		object = e_ui_manager_create_item_for_headerbar (self, elem, is_customized);
 		break;
 	case E_UI_ELEMENT_KIND_TOOLBAR:
-		object = e_ui_manager_create_item_for_toolbar (self, elem);
+		object = e_ui_manager_create_item_for_toolbar (self, elem, is_customized);
 		break;
 	case E_UI_ELEMENT_KIND_MENU:
 		object = e_ui_manager_create_item_for_menu (self, elem);
@@ -1878,13 +2233,14 @@ e_ui_manager_fill_menu (EUIManager *self,
 {
 	EUIElement *elem;
 	GMenu *section = NULL;
+	gboolean is_customized = FALSE;
 
 	g_return_if_fail (E_IS_UI_MANAGER (self));
 	g_return_if_fail (id != NULL);
 	g_return_if_fail (E_IS_UI_MENU (ui_menu));
 	g_return_if_fail (e_ui_parser_get_root (self->parser) != NULL);
 
-	elem = e_ui_element_get_child_by_id (e_ui_parser_get_root (self->parser), id);
+	elem = eum_get_ui_element (self, id, &is_customized);
 	if (!elem) {
 		g_warning ("%s: Cannot find menu with id '%s'", G_STRFUNC, id);
 		return;
@@ -1896,7 +2252,7 @@ e_ui_manager_fill_menu (EUIManager *self,
 		return;
 	}
 
-	eum_traverse_menu (self, ui_menu, elem, NULL, e_ui_element_menu_get_is_popup (elem), &section);
+	eum_traverse_menu (self, ui_menu, elem, NULL, e_ui_element_menu_get_is_popup (elem), &section, is_customized);
 
 	if (section && g_menu_model_get_n_items (G_MENU_MODEL (section)) > 0)
 		e_ui_menu_append_section (ui_menu, G_MENU_MODEL (section));
@@ -1955,7 +2311,8 @@ e_ui_manager_create_named_binding (EUIManager *self,
 }
 
 static void
-e_ui_manager_synchro_menu_item_attribute (EUIAction *action,
+e_ui_manager_synchro_menu_item_attribute (EUIManager *self,
+					  EUIAction *action,
 					  const gchar *prop_name,
 					  GMenuItem *item)
 {
@@ -1965,21 +2322,79 @@ e_ui_manager_synchro_menu_item_attribute (EUIAction *action,
 		value = e_ui_action_get_label (action);
 		g_menu_item_set_label (item, value ? value : "");
 	} else if (g_strcmp0 (prop_name, "accel") == 0) {
-		value = e_ui_action_get_accel (action);
-		g_menu_item_set_attribute (item, "accel", value ? "s" : NULL, value);
+		gboolean has_customized = FALSE;
+
+		value = NULL;
+		if (self->customizer) {
+			GPtrArray *custom_accels;
+
+			custom_accels = e_ui_customizer_get_accels (self->customizer, g_action_get_name (G_ACTION (action)));
+			if (custom_accels && custom_accels->len > 0)
+				value = g_ptr_array_index (custom_accels, 0);
+			has_customized = custom_accels != NULL;
+		}
+		if (!value && !has_customized)
+			value = e_ui_action_get_accel (action);
+		g_menu_item_set_attribute (item, "accel", (value && *value) ? "s" : NULL, value);
 	} else {
 		g_warning ("%s: Unhandled property '%s'", G_STRFUNC, prop_name);
+	}
+}
+
+typedef struct _MenuItemData {
+	GWeakRef manager_weakref; /* EUIManager * */
+	GWeakRef item_weakref; /* GMenuItem * */
+} MenuItemData;
+
+static MenuItemData *
+menu_item_data_new (EUIManager *self,
+		    GMenuItem *item)
+{
+	MenuItemData *data;
+
+	data = g_new0 (MenuItemData, 1);
+	g_weak_ref_init (&data->manager_weakref, self);
+	g_weak_ref_init (&data->item_weakref, item);
+
+	return data;
+}
+
+static void
+menu_item_data_free (gpointer ptr,
+		     GClosure *unused)
+{
+	MenuItemData *data = ptr;
+
+	if (data) {
+		g_weak_ref_clear (&data->manager_weakref);
+		g_weak_ref_clear (&data->item_weakref);
+		g_free (data);
 	}
 }
 
 static void
 e_ui_manager_synchro_menu_item_attribute_cb (EUIAction *action,
 					     GParamSpec *param,
-					     GMenuItem *item)
+					     gpointer user_data)
 {
+	MenuItemData *data = user_data;
+	EUIManager *self;
+	GMenuItem *item;
+
 	g_return_if_fail (param != NULL);
 
-	e_ui_manager_synchro_menu_item_attribute (action, param->name, item);
+	if (g_strcmp0 (param->name, "label") != 0 &&
+	    g_strcmp0 (param->name, "accel") != 0)
+		return;
+
+	self = g_weak_ref_get (&data->manager_weakref);
+	item = g_weak_ref_get (&data->item_weakref);
+
+	if (self && item)
+		e_ui_manager_synchro_menu_item_attribute (self, action, param->name, item);
+
+	g_clear_object (&item);
+	g_clear_object (&self);
 }
 
 /**
@@ -2024,15 +2439,15 @@ e_ui_manager_update_item_from_action (EUIManager *self,
 	if (G_IS_MENU_ITEM (item)) {
 		g_menu_item_set_action_and_target_value (item, action_name_full, param_type && target ? target : NULL);
 
-		g_signal_handlers_disconnect_by_func (action, G_CALLBACK (e_ui_manager_synchro_menu_item_attribute_cb), item);
+		g_signal_handlers_disconnect_matched (action, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+			G_CALLBACK (e_ui_manager_synchro_menu_item_attribute_cb), NULL);
 
-		g_signal_connect_object (action, "notify::label",
-			G_CALLBACK (e_ui_manager_synchro_menu_item_attribute_cb), item, 0);
-		g_signal_connect_object (action, "notify::accel",
-			G_CALLBACK (e_ui_manager_synchro_menu_item_attribute_cb), item, 0);
+		g_signal_connect_data (action, "notify",
+			G_CALLBACK (e_ui_manager_synchro_menu_item_attribute_cb),
+			menu_item_data_new (self, item), menu_item_data_free, 0);
 
-		e_ui_manager_synchro_menu_item_attribute (action, "label", item);
-		e_ui_manager_synchro_menu_item_attribute (action, "accel", item);
+		e_ui_manager_synchro_menu_item_attribute (self, action, "label", item);
+		e_ui_manager_synchro_menu_item_attribute (self, action, "accel", item);
 
 		value = e_ui_action_get_icon_name (action);
 		if (value) {
@@ -2225,4 +2640,181 @@ e_ui_manager_create_item_from_menu_model (EUIManager *self,
 	}
 
 	return item;
+}
+
+/**
+ * e_ui_manager_set_actions_usable_for_kinds:
+ * @self: an #EUIManager
+ * @kinds: a bit-or of #EUIElementKind to set
+ * @first_action_name: name of the first action
+ * @...: (null-terminated): NULL-terminated list of additional action names
+ *
+ * Sets "usable-for-kinds" @kinds to one or more actions identified by their name.
+ *
+ * The @kinds can contain only %E_UI_ELEMENT_KIND_HEADERBAR,
+ * %E_UI_ELEMENT_KIND_TOOLBAR and %E_UI_ELEMENT_KIND_MENU.
+ *
+ * See e_ui_manager_set_entries_usable_for_kinds(),
+ *    e_ui_manager_set_enum_entries_usable_for_kinds()
+ *
+ * Since: 3.56
+ **/
+void
+e_ui_manager_set_actions_usable_for_kinds (EUIManager *self,
+					   guint32 kinds,
+					   const gchar *first_action_name,
+					   ...)
+{
+	va_list va;
+	const gchar *action_name;
+
+	g_return_if_fail (E_IS_UI_MANAGER (self));
+	g_return_if_fail ((kinds & (~(E_UI_ELEMENT_KIND_HEADERBAR | E_UI_ELEMENT_KIND_TOOLBAR | E_UI_ELEMENT_KIND_MENU))) == 0);
+
+	va_start (va, first_action_name);
+
+	action_name = first_action_name;
+	while (action_name) {
+		EUIAction *action;
+
+		action = e_ui_manager_get_action (self, action_name);
+		if (action)
+			e_ui_action_set_usable_for_kinds (action, kinds);
+		else
+			g_warning ("%s: Cannot find action '%s'", G_STRFUNC, action_name);
+
+		action_name = va_arg (va, const gchar *);
+	}
+
+	va_end (va);
+}
+
+/**
+ * e_ui_manager_set_entries_usable_for_kinds:
+ * @self: an #EUIManager
+ * @kinds: a bit-or of #EUIElementKind to set
+ * @entries: action entries to be added, as #EUIActionEntry array
+ * @n_entries: how many items @entries has, or -1 when NULL-terminated
+ *
+ * Sets "usable-for-kinds" @kinds to all of the actions in the @entries.
+ *
+ * The @kinds can contain only %E_UI_ELEMENT_KIND_HEADERBAR,
+ * %E_UI_ELEMENT_KIND_TOOLBAR and %E_UI_ELEMENT_KIND_MENU.
+ *
+ * See e_ui_manager_set_enum_entries_usable_for_kinds(),
+ *    e_ui_manager_set_actions_usable_for_kinds()
+ *
+ * Since: 3.56
+ **/
+void
+e_ui_manager_set_entries_usable_for_kinds (EUIManager *self,
+					   guint32 kinds,
+					   const EUIActionEntry *entries,
+					   gint n_entries)
+{
+	gint ii;
+
+	g_return_if_fail (E_IS_UI_MANAGER (self));
+	g_return_if_fail ((kinds & (~(E_UI_ELEMENT_KIND_HEADERBAR | E_UI_ELEMENT_KIND_TOOLBAR | E_UI_ELEMENT_KIND_MENU))) == 0);
+	g_return_if_fail (entries != NULL);
+
+	for (ii = 0; n_entries < 0 ? entries[ii].name != NULL : ii < n_entries; ii++) {
+		const EUIActionEntry *entry = &(entries[ii]);
+		EUIAction *action;
+
+		action = e_ui_manager_get_action (self, entry->name);
+		if (action)
+			e_ui_action_set_usable_for_kinds (action, kinds);
+		else
+			g_warning ("%s: Cannot find action '%s'", G_STRFUNC, entry->name);
+	}
+}
+
+/**
+ * e_ui_manager_set_enum_entries_usable_for_kinds:
+ * @self: an #EUIManager
+ * @kinds: a bit-or of #EUIElementKind to set
+ * @entries: action entries to be added, as #EUIActionEnumEntry array
+ * @n_entries: how many items @entries has, or -1 when NULL-terminated
+ *
+ * Sets "usable-for-kinds" @kinds to all of the actions in the @entries.
+ *
+ * The @kinds can contain only %E_UI_ELEMENT_KIND_HEADERBAR,
+ * %E_UI_ELEMENT_KIND_TOOLBAR and %E_UI_ELEMENT_KIND_MENU.
+ *
+ * See e_ui_manager_set_entries_usable_for_kinds(),
+ *    e_ui_manager_set_actions_usable_for_kinds()
+ *
+ * Since: 3.56
+ **/
+void
+e_ui_manager_set_enum_entries_usable_for_kinds (EUIManager *self,
+						guint32 kinds,
+						const EUIActionEnumEntry *entries,
+						gint n_entries)
+{
+	gint ii;
+
+	g_return_if_fail (E_IS_UI_MANAGER (self));
+	g_return_if_fail ((kinds & (~(E_UI_ELEMENT_KIND_HEADERBAR | E_UI_ELEMENT_KIND_TOOLBAR | E_UI_ELEMENT_KIND_MENU))) == 0);
+	g_return_if_fail (entries != NULL);
+
+	for (ii = 0; n_entries < 0 ? entries[ii].name != NULL : ii < n_entries; ii++) {
+		const EUIActionEnumEntry *entry = &(entries[ii]);
+		EUIAction *action;
+
+		action = e_ui_manager_get_action (self, entry->name);
+		if (action)
+			e_ui_action_set_usable_for_kinds (action, kinds);
+		else
+			g_warning ("%s: Cannot find action '%s'", G_STRFUNC, entry->name);
+	}
+}
+
+/**
+ * e_ui_manager_shortcut_def_hash:
+ * @ptr: an #EUIManagerShortcutDef
+ *
+ * Returns a hash value of the #EUIManagerShortcutDef.
+ *
+ * Returns: a hash value of the #EUIManagerShortcutDef
+ *
+ * Since: 3.56
+ **/
+guint
+e_ui_manager_shortcut_def_hash (gconstpointer ptr)
+{
+	const EUIManagerShortcutDef *sd = ptr;
+
+	if (!ptr)
+		return 0;
+
+	return g_int_hash (&sd->key) + g_int_hash (&sd->mods);
+}
+
+/**
+ * e_ui_manager_shortcut_def_equal:
+ * @ptr1: an #EUIManagerShortcutDef
+ * @ptr2: an #EUIManagerShortcutDef
+ *
+ * Returns whether the two #EUIManagerShortcutDef equal.
+ *
+ * Returns: whether the two #EUIManagerShortcutDef equal
+ *
+ * Since: 3.56
+ **/
+gboolean
+e_ui_manager_shortcut_def_equal (gconstpointer ptr1,
+				 gconstpointer ptr2)
+{
+	const EUIManagerShortcutDef *sd1 = ptr1;
+	const EUIManagerShortcutDef *sd2 = ptr2;
+
+	if (sd1 == sd2)
+		return TRUE;
+
+	if (!sd1 || !sd2)
+		return FALSE;
+
+	return sd1->key == sd2->key && sd1->mods == sd2->mods;
 }

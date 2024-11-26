@@ -22,6 +22,18 @@ G_DECLARE_FINAL_TYPE (EUIParser, e_ui_parser, E, UI_PARSER, GObject)
 
 typedef struct _EUIElement EUIElement;
 
+#define E_TYPE_UI_ELEMENT e_ui_element_get_type ()
+GType		e_ui_element_get_type		(void) G_GNUC_CONST;
+EUIElement *	e_ui_element_copy		(const EUIElement *src);
+void		e_ui_element_free		(EUIElement *self);
+EUIElement *	e_ui_element_new_separator	(void);
+void		e_ui_element_add_child		(EUIElement *self,
+						 EUIElement *child);
+gboolean	e_ui_element_remove_child	(EUIElement *self,
+						 EUIElement *child);
+gboolean	e_ui_element_remove_child_by_id	(EUIElement *self,
+						 const gchar *id);
+
 /* generic EUIElement functions, usable for any element */
 EUIElementKind	e_ui_element_get_kind		(const EUIElement *self);
 const gchar *	e_ui_element_get_id		(const EUIElement *self);
@@ -43,6 +55,8 @@ gboolean	e_ui_element_toolbar_get_primary(const EUIElement *self);
 guint		e_ui_element_item_get_label_priority
 						(const EUIElement *self);
 gint		e_ui_element_item_get_order	(const EUIElement *self);
+void		e_ui_element_item_set_order	(EUIElement *self,
+						 gint order);
 gboolean	e_ui_element_item_get_icon_only_is_set
 						(const EUIElement *self);
 gboolean	e_ui_element_item_get_icon_only (const EUIElement *self);
@@ -66,6 +80,12 @@ gboolean	e_ui_parser_merge_data		(EUIParser *self,
 						 GError **error);
 void		e_ui_parser_clear		(EUIParser *self);
 EUIElement *	e_ui_parser_get_root		(EUIParser *self);
+EUIElement *	e_ui_parser_create_root		(EUIParser *self);
+GPtrArray *	e_ui_parser_get_accels		(EUIParser *self, /* gchar * */
+						 const gchar *action_name);
+void		e_ui_parser_take_accels		(EUIParser *self,
+						 const gchar *action_name,
+						 GPtrArray *accels); /* gchar * */
 gchar *		e_ui_parser_export		(EUIParser *self,
 						 EUIParserExportFlags flags);
 

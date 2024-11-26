@@ -1009,6 +1009,16 @@ action_shell_view_new_cb (EUIAction *action,
 }
 
 static void
+action_shell_view_customize_toolbar_cb (EUIAction *action,
+					GVariant *parameter,
+					gpointer user_data)
+{
+	EShellView *self = user_data;
+
+	e_shell_view_run_ui_customize_dialog (self, NULL);
+}
+
+static void
 shell_view_init_ui_data (EShellView *self)
 {
 	static const EUIActionEntry search_entries[] = {
@@ -1131,6 +1141,13 @@ shell_view_init_ui_data (EShellView *self)
 		  NULL,
 		  action_shell_view_new_cb, NULL, NULL, NULL },
 
+		{ "customize-ui",
+		  NULL,
+		  N_("Customi_ze…"),
+		  NULL,
+		  N_("Customize user interface, like toolbar content and shortcuts"),
+		  action_shell_view_customize_toolbar_cb, NULL, NULL, NULL },
+
 		/*** Menus ***/
 
 		{ "gal-view-menu", NULL, N_("C_urrent View"), NULL, NULL, NULL, NULL, NULL, NULL },
@@ -1196,6 +1213,17 @@ shell_view_init_ui_data (EShellView *self)
 	action = e_ui_manager_get_action (self->priv->ui_manager, "gal-custom-view");
 	g_signal_connect_object (action, "notify::state",
 		G_CALLBACK (action_gal_view_cb), self, 0);
+
+	e_ui_manager_set_actions_usable_for_kinds (self->priv->ui_manager, E_UI_ELEMENT_KIND_MENU,
+		"gal-view-menu",
+		"saved-searches",
+		"EShellView::gal-view-list",
+		"EShellView::saved-searches-list",
+		"EShellView::switch-to-list",
+		NULL);
+
+	action = e_ui_manager_get_action (self->priv->ui_manager, "EShellView::menu-button");
+	e_ui_action_set_usable_for_kinds (action, E_UI_ELEMENT_KIND_HEADERBAR);
 
 	e_shell_window_init_ui_data (self->priv->shell_window, self);
 	shell_view_populate_new_menu (self);
@@ -1574,6 +1602,53 @@ shell_view_notify_active_view_cb (GObject *object,
 	}
 }
 
+/**
+ * e_shell_view_run_ui_customize_dialog:
+ * @self: an #EShellView
+ * @id: (nullable): optional ID of the part to be preselected, or %NULL
+ *
+ * Runs an #EUICustomizeDialog with optionally preselected part @id.
+ *
+ * Since: 3.56
+ **/
+void
+e_shell_view_run_ui_customize_dialog (EShellView *self,
+				      const gchar *id)
+{
+	EShellViewClass *klass;
+	EShellWindow *shell_window;
+	EUICustomizeDialog *dialog;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (self));
+
+	klass = E_SHELL_VIEW_GET_CLASS (self);
+	g_return_if_fail (klass != NULL);
+
+	shell_window = e_shell_view_get_shell_window (self);
+	dialog = e_ui_customize_dialog_new (shell_window ? GTK_WINDOW (shell_window) : NULL);
+
+	e_ui_customize_dialog_add_customizer (dialog, e_ui_manager_get_customizer (self->priv->ui_manager));
+
+	if (klass->add_ui_customizers)
+		klass->add_ui_customizers (self, dialog);
+
+	e_ui_customize_dialog_run (dialog, id);
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+static void
+e_shell_view_customize_toolbar_activate_cb (GtkWidget *toolbar,
+					    const gchar *id,
+					    gpointer user_data)
+{
+	EShellView *self = user_data;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (self));
+
+	e_shell_view_run_ui_customize_dialog (self, id);
+}
+
 static void
 shell_view_set_shell_window (EShellView *shell_view,
                              EShellWindow *shell_window)
@@ -1888,11 +1963,13 @@ shell_view_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShellViewClass *shell_view_class;
 	EUIAction *action;
+	EUICustomizer *customizer;
 	GtkWidget *widget;
 	GtkPaned *paned;
 	GSettings *settings;
 	GObject *ui_item;
 	gulong handler_id;
+	const gchar *toolbar_id;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_shell_view_parent_class)->constructed (object);
@@ -1902,6 +1979,8 @@ shell_view_constructed (GObject *object)
 	g_return_if_fail (shell_view_class != NULL);
 
 	e_ui_manager_freeze (shell_view->priv->ui_manager);
+
+	customizer = e_ui_manager_get_customizer (shell_view->priv->ui_manager);
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (shell_view), GTK_ORIENTATION_VERTICAL);
 	gtk_box_set_spacing (GTK_BOX (shell_view), 0);
@@ -1948,6 +2027,8 @@ shell_view_constructed (GObject *object)
 	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (ui_item));
 	g_clear_object (&ui_item);
 
+	e_ui_customizer_register (customizer, "main-menu", NULL);
+
 	shell_view->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (shell_view->priv->shell_window), &shell_view->priv->menu_button);
 	gtk_box_pack_start (GTK_BOX (shell_view), widget, FALSE, FALSE, 0);
 
@@ -1958,13 +2039,20 @@ shell_view_constructed (GObject *object)
 		ui_item = e_ui_manager_create_item (shell_view->priv->ui_manager, "main-headerbar");
 		shell_view->priv->headerbar = g_object_ref_sink (GTK_WIDGET (ui_item));
 
-		ui_item = e_ui_manager_create_item (shell_view->priv->ui_manager, "main-toolbar-with-headerbar");
+		e_ui_customizer_register (customizer, "main-headerbar", NULL);
+
+		toolbar_id = "main-toolbar-with-headerbar";
 	} else {
-		ui_item = e_ui_manager_create_item (shell_view->priv->ui_manager, "main-toolbar-without-headerbar");
+		toolbar_id = "main-toolbar-without-headerbar";
 	}
 
+	ui_item = e_ui_manager_create_item (shell_view->priv->ui_manager, toolbar_id);
 	widget = GTK_WIDGET (ui_item);
 	gtk_box_pack_start (GTK_BOX (shell_view), widget, FALSE, FALSE, 0);
+
+	e_ui_customizer_register (customizer, toolbar_id, NULL);
+	e_ui_customizer_util_attach_toolbar_context_menu (widget, toolbar_id,
+		e_shell_view_customize_toolbar_activate_cb, shell_view);
 
 	e_binding_bind_property (
 		shell_view, "toolbar-visible",
@@ -2573,9 +2661,13 @@ static void
 e_shell_view_init (EShellView *shell_view,
                    EShellViewClass *class)
 {
+	EShellBackendClass *backend_class;
 	GtkStyleContext *style_context;
 	GtkCssProvider *provider;
 	GError *local_error = NULL;
+
+	backend_class = E_SHELL_BACKEND_GET_CLASS (class->shell_backend);
+	g_return_if_fail (backend_class != NULL);
 
 	/* XXX Our use of GInstanceInitFunc's 'class' parameter
 	 *     prevents us from using G_DEFINE_ABSTRACT_TYPE. */
@@ -2590,7 +2682,7 @@ e_shell_view_init (EShellView *shell_view,
 	shell_view->priv->main_thread = g_thread_self ();
 	shell_view->priv->state_key_file = g_key_file_new ();
 	shell_view->priv->size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
-	shell_view->priv->ui_manager = e_ui_manager_new ();
+	shell_view->priv->ui_manager = e_ui_manager_new (e_ui_customizer_util_dup_filename_for_component (backend_class->name));
 	shell_view->priv->new_menu = g_menu_new ();
 	shell_view->priv->gal_view_list_menu = g_menu_new ();
 	shell_view->priv->saved_searches_menu = g_menu_new ();

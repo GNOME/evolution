@@ -2111,6 +2111,11 @@ mail_display_constructed (GObject *object)
 
 		gtk_widget_insert_action_group (GTK_WIDGET (display), e_ui_action_group_get_name (display->priv->attachment_accel_action_group),
 			G_ACTION_GROUP (display->priv->attachment_accel_action_group));
+
+		e_ui_manager_set_actions_usable_for_kinds (ui_manager, E_UI_ELEMENT_KIND_MENU,
+			"EMailDisplay::open-with-app",
+			"search-folder-menu",
+			NULL);
 	}
 
 	manager = webkit_web_view_get_user_content_manager (WEBKIT_WEB_VIEW (object));

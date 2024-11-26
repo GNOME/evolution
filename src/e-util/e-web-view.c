@@ -1544,12 +1544,250 @@ e_web_view_need_input_changed_cb (WebKitUserContentManager *manager,
 }
 
 static void
+e_web_view_test_change_and_update_fonts_cb (EWebView *web_view,
+					    const gchar *key,
+					    GSettings *settings)
+{
+	GVariant *new_value, *old_value;
+
+	new_value = g_settings_get_value (settings, key);
+	old_value = g_hash_table_lookup (web_view->priv->old_settings, key);
+
+	if (!new_value || !old_value || !g_variant_equal (new_value, old_value)) {
+		if (new_value)
+			g_hash_table_insert (web_view->priv->old_settings, g_strdup (key), new_value);
+		else
+			g_hash_table_remove (web_view->priv->old_settings, key);
+
+		e_web_view_update_fonts (web_view);
+	} else if (new_value) {
+		g_variant_unref (new_value);
+	}
+}
+
+static void
+web_view_init_ui (EWebView *web_view)
+{
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='context' is-popup='true'>"
+		    "<item action='copy-clipboard'/>"
+		    "<item action='search-web'/>"
+		    "<separator/>"
+		    "<placeholder id='custom-actions-1'>"
+		      "<item action='open'/>"
+		      "<item action='save-as'/>"
+		      "<item action='http-open'/>"
+		      "<item action='send-message'/>"
+		      "<item action='print'/>"
+		    "</placeholder>"
+		    "<placeholder id='custom-actions-2'>"
+		      "<item action='uri-copy'/>"
+		      "<item action='mailto-copy'/>"
+		      "<item action='mailto-copy-raw'/>"
+		      "<item action='image-copy'/>"
+		      "<item action='image-save'/>"
+		    "</placeholder>"
+		    "<placeholder id='custom-actions-3'/>"
+		    "<separator/>"
+		    "<item action='select-all'/>"
+		    "<placeholder id='inspect-menu' />"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry uri_entries[] = {
+
+		{ "uri-copy",
+		  "edit-copy",
+		  N_("_Copy Link Location"),
+		  NULL,
+		  N_("Copy the link to the clipboard"),
+		  action_uri_copy_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry http_entries[] = {
+
+		{ "http-open",
+		  "emblem-web",
+		  N_("_Open Link in Browser"),
+		  NULL,
+		  N_("Open the link in a web browser"),
+		  action_http_open_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry mailto_entries[] = {
+
+		{ "mailto-copy",
+		  "edit-copy",
+		  N_("_Copy Name and Email Address"),
+		  NULL,
+		  N_("Copy the email address with the name to the clipboard"),
+		  action_mailto_copy_cb, NULL, NULL, NULL },
+
+		{ "mailto-copy-raw",
+		  "edit-copy",
+		  N_("Copy Only Email Add_ress"),
+		  NULL,
+		  N_("Copy only the email address without the name to the clipboard"),
+		  action_mailto_copy_raw_cb, NULL, NULL, NULL },
+
+		{ "send-message",
+		  "mail-message-new",
+		  N_("_Send New Message To…"),
+		  NULL,
+		  N_("Send a mail message to this address"),
+		  action_send_message_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry image_entries[] = {
+
+		{ "image-copy",
+		  "edit-copy",
+		  N_("_Copy Image"),
+		  NULL,
+		  N_("Copy the image to the clipboard"),
+		  action_image_copy_cb, NULL, NULL, NULL },
+
+		{ "image-save",
+		  "document-save",
+		  N_("Save _Image…"),
+		  "<Control>s",
+		  N_("Save the image to a file"),
+		  action_image_save_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry selection_entries[] = {
+
+		{ "copy-clipboard",
+		  "edit-copy",
+		  N_("_Copy"),
+		  NULL,
+		  N_("Copy the selection"),
+		  action_copy_clipboard_cb, NULL, NULL, NULL },
+
+		{ "search-web",
+		  NULL,
+		  N_("Search _Web…"),
+		  NULL,
+		  N_("Search the Web with the selected text"),
+		  action_search_web_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry standard_entries[] = {
+
+		{ "open",
+		  NULL,
+		  N_("_Open"),
+		  NULL,
+		  NULL,
+		  action_open_cb, NULL, NULL, NULL },
+
+		{ "select-all",
+		  "edit-select-all",
+		  N_("Select _All"),
+		  NULL,
+		  N_("Select all text and images"),
+		  action_select_all_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry lockdown_printing_entries[] = {
+
+		{ "print",
+		  "document-print",
+		  N_("_Print"),
+		  NULL,
+		  NULL,
+		  action_print_cb, NULL, NULL, NULL }
+	};
+
+	static const EUIActionEntry lockdown_save_to_disk_entries[] = {
+
+		{ "save-as",
+		  "document-save-as",
+		  N_("Save _as…"),
+		  NULL,
+		  NULL,
+		  action_save_as_cb, NULL, NULL, NULL }
+	};
+
+	EUIManager *ui_manager;
+	GSettings *settings;
+	gulong handler_id;
+	const gchar *klass_name;
+
+	klass_name = G_OBJECT_TYPE_NAME (web_view);
+	if (klass_name && *klass_name) {
+		GString *filename;
+		guint ii;
+
+		filename = g_string_new (klass_name);
+		for (ii = 0; ii < filename->len; ii++) {
+			const gchar chr = filename->str[ii];
+
+			if (g_ascii_isupper (chr)) {
+				filename->str[ii] = g_ascii_tolower (chr);
+				if (ii > 0) {
+					g_string_insert_c (filename, ii, '-');
+					ii++;
+				}
+			}
+		}
+
+		ui_manager = e_ui_manager_new (e_ui_customizer_util_dup_filename_for_component (filename->str));
+
+		g_string_free (filename, TRUE);
+	} else {
+		ui_manager = e_ui_manager_new (NULL);
+	}
+	web_view->priv->ui_manager = ui_manager;
+
+	settings = e_util_ref_settings ("org.gnome.desktop.interface");
+	web_view->priv->font_settings = g_object_ref (settings);
+	handler_id = g_signal_connect_swapped (
+		settings, "changed::font-name",
+		G_CALLBACK (e_web_view_test_change_and_update_fonts_cb), web_view);
+	web_view->priv->font_name_changed_handler_id = handler_id;
+	handler_id = g_signal_connect_swapped (
+		settings, "changed::monospace-font-name",
+		G_CALLBACK (e_web_view_test_change_and_update_fonts_cb), web_view);
+	web_view->priv->monospace_font_name_changed_handler_id = handler_id;
+	g_object_unref (settings);
+
+	e_ui_manager_add_actions (ui_manager, "uri", NULL,
+		uri_entries, G_N_ELEMENTS (uri_entries), web_view);
+	e_ui_manager_add_actions (ui_manager, "http", NULL,
+		http_entries, G_N_ELEMENTS (http_entries), web_view);
+	e_ui_manager_add_actions (ui_manager, "mailto", NULL,
+		mailto_entries, G_N_ELEMENTS (mailto_entries), web_view);
+	e_ui_manager_add_actions (ui_manager, "image", NULL,
+		image_entries, G_N_ELEMENTS (image_entries), web_view);
+	e_ui_manager_add_actions (ui_manager, "selection", NULL,
+		selection_entries, G_N_ELEMENTS (selection_entries), web_view);
+	/* Support lockdown. */
+	e_ui_manager_add_actions (ui_manager, "lockdown-printing", NULL,
+		lockdown_printing_entries, G_N_ELEMENTS (lockdown_printing_entries), web_view);
+	e_ui_manager_add_actions (ui_manager, "lockdown-save-to-disk", NULL,
+		lockdown_save_to_disk_entries, G_N_ELEMENTS (lockdown_save_to_disk_entries), web_view);
+	/* finally add actions with the .eui data */
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "standard", NULL,
+		standard_entries, G_N_ELEMENTS (standard_entries), web_view, eui);
+
+	web_view->priv->element_clicked_cbs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_ptr_array_unref);
+
+	web_view->priv->cancellable = NULL;
+
+	e_ui_manager_set_action_groups_widget (ui_manager, GTK_WIDGET (web_view));
+}
+
+static void
 web_view_constructed (GObject *object)
 {
 	WebKitSettings *web_settings;
 	WebKitUserContentManager *manager;
 	EWebView *web_view = E_WEB_VIEW (object);
 	GSettings *settings;
+
+	web_view_init_ui (web_view);
 
 #ifndef G_OS_WIN32
 	settings = e_util_ref_settings ("org.gnome.desktop.lockdown");
@@ -2130,28 +2368,6 @@ web_view_selectable_select_all (ESelectable *selectable)
 }
 
 static void
-e_web_view_test_change_and_update_fonts_cb (EWebView *web_view,
-					    const gchar *key,
-					    GSettings *settings)
-{
-	GVariant *new_value, *old_value;
-
-	new_value = g_settings_get_value (settings, key);
-	old_value = g_hash_table_lookup (web_view->priv->old_settings, key);
-
-	if (!new_value || !old_value || !g_variant_equal (new_value, old_value)) {
-		if (new_value)
-			g_hash_table_insert (web_view->priv->old_settings, g_strdup (key), new_value);
-		else
-			g_hash_table_remove (web_view->priv->old_settings, key);
-
-		e_web_view_update_fonts (web_view);
-	} else if (new_value) {
-		g_variant_unref (new_value);
-	}
-}
-
-static void
 web_view_toplevel_event_after_cb (GtkWidget *widget,
 				  GdkEvent *event,
 				  EWebView *web_view)
@@ -2469,152 +2685,6 @@ e_web_view_selectable_init (ESelectableInterface *iface)
 static void
 e_web_view_init (EWebView *web_view)
 {
-	static const gchar *eui =
-		"<eui>"
-		  "<menu id='context' is-popup='true'>"
-		    "<item action='copy-clipboard'/>"
-		    "<item action='search-web'/>"
-		    "<separator/>"
-		    "<placeholder id='custom-actions-1'>"
-		      "<item action='open'/>"
-		      "<item action='save-as'/>"
-		      "<item action='http-open'/>"
-		      "<item action='send-message'/>"
-		      "<item action='print'/>"
-		    "</placeholder>"
-		    "<placeholder id='custom-actions-2'>"
-		      "<item action='uri-copy'/>"
-		      "<item action='mailto-copy'/>"
-		      "<item action='mailto-copy-raw'/>"
-		      "<item action='image-copy'/>"
-		      "<item action='image-save'/>"
-		    "</placeholder>"
-		    "<placeholder id='custom-actions-3'/>"
-		    "<separator/>"
-		    "<item action='select-all'/>"
-		    "<placeholder id='inspect-menu' />"
-		  "</menu>"
-		"</eui>";
-
-	static const EUIActionEntry uri_entries[] = {
-
-		{ "uri-copy",
-		  "edit-copy",
-		  N_("_Copy Link Location"),
-		  NULL,
-		  N_("Copy the link to the clipboard"),
-		  action_uri_copy_cb, NULL, NULL, NULL }
-	};
-
-	static const EUIActionEntry http_entries[] = {
-
-		{ "http-open",
-		  "emblem-web",
-		  N_("_Open Link in Browser"),
-		  NULL,
-		  N_("Open the link in a web browser"),
-		  action_http_open_cb, NULL, NULL, NULL }
-	};
-
-	static const EUIActionEntry mailto_entries[] = {
-
-		{ "mailto-copy",
-		  "edit-copy",
-		  N_("_Copy Name and Email Address"),
-		  NULL,
-		  N_("Copy the email address with the name to the clipboard"),
-		  action_mailto_copy_cb, NULL, NULL, NULL },
-
-		{ "mailto-copy-raw",
-		  "edit-copy",
-		  N_("Copy Only Email Add_ress"),
-		  NULL,
-		  N_("Copy only the email address without the name to the clipboard"),
-		  action_mailto_copy_raw_cb, NULL, NULL, NULL },
-
-		{ "send-message",
-		  "mail-message-new",
-		  N_("_Send New Message To…"),
-		  NULL,
-		  N_("Send a mail message to this address"),
-		  action_send_message_cb, NULL, NULL, NULL }
-	};
-
-	static const EUIActionEntry image_entries[] = {
-
-		{ "image-copy",
-		  "edit-copy",
-		  N_("_Copy Image"),
-		  NULL,
-		  N_("Copy the image to the clipboard"),
-		  action_image_copy_cb, NULL, NULL, NULL },
-
-		{ "image-save",
-		  "document-save",
-		  N_("Save _Image…"),
-		  "<Control>s",
-		  N_("Save the image to a file"),
-		  action_image_save_cb, NULL, NULL, NULL }
-	};
-
-	static const EUIActionEntry selection_entries[] = {
-
-		{ "copy-clipboard",
-		  "edit-copy",
-		  N_("_Copy"),
-		  NULL,
-		  N_("Copy the selection"),
-		  action_copy_clipboard_cb, NULL, NULL, NULL },
-
-		{ "search-web",
-		  NULL,
-		  N_("Search _Web…"),
-		  NULL,
-		  N_("Search the Web with the selected text"),
-		  action_search_web_cb, NULL, NULL, NULL }
-	};
-
-	static const EUIActionEntry standard_entries[] = {
-
-		{ "open",
-		  NULL,
-		  N_("_Open"),
-		  NULL,
-		  NULL,
-		  action_open_cb, NULL, NULL, NULL },
-
-		{ "select-all",
-		  "edit-select-all",
-		  N_("Select _All"),
-		  NULL,
-		  N_("Select all text and images"),
-		  action_select_all_cb, NULL, NULL, NULL }
-	};
-
-	static const EUIActionEntry lockdown_printing_entries[] = {
-
-		{ "print",
-		  "document-print",
-		  N_("_Print"),
-		  NULL,
-		  NULL,
-		  action_print_cb, NULL, NULL, NULL }
-	};
-
-	static const EUIActionEntry lockdown_save_to_disk_entries[] = {
-
-		{ "save-as",
-		  "document-save-as",
-		  N_("Save _as…"),
-		  NULL,
-		  NULL,
-		  action_save_as_cb, NULL, NULL, NULL }
-	};
-
-	EUIManager *ui_manager;
-	GSettings *settings;
-	gulong handler_id;
-
 	web_view->priv = e_web_view_get_instance_private (web_view);
 
 	web_view->priv->highlights_enabled = TRUE;
@@ -2645,46 +2715,6 @@ e_web_view_init (EWebView *web_view)
 	g_signal_connect (
 		web_view, "state-flags-changed",
 		G_CALLBACK (style_updated_cb), NULL);
-
-	ui_manager = e_ui_manager_new ();
-	web_view->priv->ui_manager = ui_manager;
-
-	settings = e_util_ref_settings ("org.gnome.desktop.interface");
-	web_view->priv->font_settings = g_object_ref (settings);
-	handler_id = g_signal_connect_swapped (
-		settings, "changed::font-name",
-		G_CALLBACK (e_web_view_test_change_and_update_fonts_cb), web_view);
-	web_view->priv->font_name_changed_handler_id = handler_id;
-	handler_id = g_signal_connect_swapped (
-		settings, "changed::monospace-font-name",
-		G_CALLBACK (e_web_view_test_change_and_update_fonts_cb), web_view);
-	web_view->priv->monospace_font_name_changed_handler_id = handler_id;
-	g_object_unref (settings);
-
-	e_ui_manager_add_actions (ui_manager, "uri", NULL,
-		uri_entries, G_N_ELEMENTS (uri_entries), web_view);
-	e_ui_manager_add_actions (ui_manager, "http", NULL,
-		http_entries, G_N_ELEMENTS (http_entries), web_view);
-	e_ui_manager_add_actions (ui_manager, "mailto", NULL,
-		mailto_entries, G_N_ELEMENTS (mailto_entries), web_view);
-	e_ui_manager_add_actions (ui_manager, "image", NULL,
-		image_entries, G_N_ELEMENTS (image_entries), web_view);
-	e_ui_manager_add_actions (ui_manager, "selection", NULL,
-		selection_entries, G_N_ELEMENTS (selection_entries), web_view);
-	/* Support lockdown. */
-	e_ui_manager_add_actions (ui_manager, "lockdown-printing", NULL,
-		lockdown_printing_entries, G_N_ELEMENTS (lockdown_printing_entries), web_view);
-	e_ui_manager_add_actions (ui_manager, "lockdown-save-to-disk", NULL,
-		lockdown_save_to_disk_entries, G_N_ELEMENTS (lockdown_save_to_disk_entries), web_view);
-	/* finally add actions with the .eui data */
-	e_ui_manager_add_actions_with_eui_data (ui_manager, "standard", NULL,
-		standard_entries, G_N_ELEMENTS (standard_entries), web_view, eui);
-
-	web_view->priv->element_clicked_cbs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_ptr_array_unref);
-
-	web_view->priv->cancellable = NULL;
-
-	e_ui_manager_set_action_groups_widget (ui_manager, GTK_WIDGET (web_view));
 }
 
 GtkWidget *
@@ -3280,7 +3310,6 @@ e_web_view_show_popup_menu (EWebView *web_view,
 	g_clear_object (&ui_item);
 
 	gtk_menu_attach_to_widget (menu, GTK_WIDGET (web_view), NULL);
-
 	e_util_connect_menu_detach_after_deactivate (menu);
 
 	gtk_menu_popup_at_pointer (menu, event);

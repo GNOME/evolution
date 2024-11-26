@@ -1170,15 +1170,22 @@ e_attachment_view_init (EAttachmentView *view)
 
 	priv = e_attachment_view_get_private (view);
 
-	priv->ui_manager = e_ui_manager_new ();
+	priv->ui_manager = e_ui_manager_new (NULL);
 	priv->open_with_apps_menu = g_menu_new ();
 	priv->open_with_apps_hash = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
+
+	g_signal_connect (priv->ui_manager, "create-item",
+		G_CALLBACK (e_attachment_view_ui_manager_create_item_cb), view);
 
 	e_ui_manager_add_actions_with_eui_data (priv->ui_manager, "standard", NULL,
 		standard_entries, G_N_ELEMENTS (standard_entries), view, eui);
 
 	e_ui_manager_add_actions (priv->ui_manager, "editable", NULL,
 		editable_entries, G_N_ELEMENTS (editable_entries), view);
+
+	e_ui_manager_set_actions_usable_for_kinds (priv->ui_manager, E_UI_ELEMENT_KIND_MENU,
+		"EAttachmentView::open-with-app",
+		NULL);
 
 	e_binding_bind_property (
 		view, "editable",
@@ -1215,9 +1222,6 @@ e_attachment_view_init (EAttachmentView *view)
 	g_signal_connect (
 		view, "drag-data-received",
 		G_CALLBACK (attachment_view_text_x_moz_url), NULL);
-
-	g_signal_connect (priv->ui_manager, "create-item",
-		G_CALLBACK (e_attachment_view_ui_manager_create_item_cb), view);
 
 	e_ui_manager_set_action_groups_widget (priv->ui_manager, GTK_WIDGET (view));
 }

@@ -891,13 +891,17 @@ e_comp_editor_task_constructed (GObject *object)
 	ECompEditorPage *page;
 	ECompEditorPropertyPart *part, *summary;
 	EFocusTracker *focus_tracker;
+	EUIManager *ui_manager;
 	GtkWidget *edit_widget;
 
 	G_OBJECT_CLASS (e_comp_editor_task_parent_class)->constructed (object);
 
 	task_editor = E_COMP_EDITOR_TASK (object);
 	comp_editor = E_COMP_EDITOR (task_editor);
+	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
 	focus_tracker = e_comp_editor_get_focus_tracker (comp_editor);
+
+	e_ui_manager_freeze (ui_manager);
 
 	page = e_comp_editor_page_general_new (comp_editor,
 		_("_List:"), E_SOURCE_EXTENSION_TASK_LIST,
@@ -1016,6 +1020,10 @@ e_comp_editor_task_constructed (GObject *object)
 		G_CALLBACK (ece_task_notify_source_client_cb), NULL);
 	g_signal_connect (comp_editor, "notify::target-client",
 		G_CALLBACK (ece_task_notify_target_client_cb), NULL);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (comp_editor));
+
+	e_ui_manager_thaw (ui_manager);
 }
 
 static void

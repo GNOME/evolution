@@ -1199,6 +1199,9 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 		entries, G_N_ELEMENTS (entries), notes_editor, eui);
 	notes_editor->action_group = g_object_ref (e_ui_manager_get_action_group (ui_manager, "notes"));
 
+	e_ui_action_set_usable_for_kinds (e_ui_manager_get_action (ui_manager, "EMailNotes::menu-button"), E_UI_ELEMENT_KIND_HEADERBAR);
+	e_ui_action_set_usable_for_kinds (e_ui_manager_get_action (ui_manager, "file-menu"), E_UI_ELEMENT_KIND_MENU);
+
 	/* Hide page properties because it is not inherited in the mail. */
 	action = e_html_editor_get_action (notes_editor->editor, "properties-page");
 	e_ui_action_set_visible (action, FALSE);

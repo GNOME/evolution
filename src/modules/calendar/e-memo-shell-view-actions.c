@@ -820,6 +820,9 @@ e_memo_shell_view_actions_init (EMemoShellView *self)
 		ACTION (MEMO_PREVIEW), "active",
 		ACTION (MEMO_VIEW_VERTICAL), "sensitive",
 		G_BINDING_SYNC_CREATE);
+
+	e_ui_manager_set_enum_entries_usable_for_kinds (ui_manager, 0,
+		memo_search_entries, G_N_ELEMENTS (memo_search_entries));
 }
 
 void

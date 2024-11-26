@@ -297,6 +297,24 @@ mail_browser_ui_manager_create_item_cb (EUIManager *manager,
 }
 
 static void
+e_mail_browser_customize_toolbar_activate_cb (GtkWidget *toolbar,
+					      const gchar *id,
+					      gpointer user_data)
+{
+	EMailBrowser *self = user_data;
+	EUICustomizeDialog *dialog;
+
+	g_return_if_fail (E_IS_MAIL_BROWSER (self));
+
+	dialog = e_ui_customize_dialog_new (GTK_WINDOW (self));
+
+	e_ui_customize_dialog_add_customizer (dialog, e_ui_manager_get_customizer (self->priv->ui_manager));
+	e_ui_customize_dialog_run (dialog, id);
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+static void
 mail_browser_set_backend (EMailBrowser *browser,
                           EMailBackend *backend)
 {
@@ -524,6 +542,7 @@ mail_browser_constructed (GObject *object)
 	static const gchar *eui =
 		"<eui>"
 		  "<headerbar id='main-headerbar'>"
+		    "<start/>"
 		    "<end>"
 		      "<item action='mail-reply-sender'/>"
 		      "<item action='EMailReader::mail-reply-group'/>"
@@ -628,10 +647,12 @@ mail_browser_constructed (GObject *object)
 	EFocusTracker *focus_tracker;
 	EAttachmentStore *attachment_store;
 	EUIAction *action, *mail_action;
+	EUICustomizer *customizer;
 	GtkWidget *container;
 	GtkWidget *display;
 	GtkWidget *widget;
 	GObject *ui_item;
+	const gchar *toolbar_id;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_browser_parent_class)->constructed (object);
@@ -681,7 +702,7 @@ mail_browser_constructed (GObject *object)
 
 	gtk_window_add_accel_group (GTK_WINDOW (browser), e_ui_manager_get_accel_group (e_web_view_get_ui_manager (E_WEB_VIEW (display))));
 
-	browser->priv->ui_manager = e_ui_manager_new ();
+	browser->priv->ui_manager = e_ui_manager_new (e_ui_customizer_util_dup_filename_for_component ("mail-browser"));
 
 	g_signal_connect (browser->priv->ui_manager, "create-item",
 		G_CALLBACK (mail_browser_ui_manager_create_item_cb), browser);
@@ -699,6 +720,15 @@ mail_browser_constructed (GObject *object)
 
 	action = e_ui_manager_get_action (browser->priv->ui_manager, "close");
 	e_ui_action_add_secondary_accel (action, "Escape");
+
+	action = e_ui_manager_get_action (browser->priv->ui_manager, "menu-button");
+	e_ui_action_set_usable_for_kinds (action, E_UI_ELEMENT_KIND_HEADERBAR);
+
+	e_ui_manager_set_actions_usable_for_kinds (browser->priv->ui_manager, E_UI_ELEMENT_KIND_MENU,
+		"file-menu",
+		"edit-menu",
+		"view-menu",
+		NULL);
 
 	mail_action = e_web_view_get_action (E_WEB_VIEW (display), "search-web");
 	action = e_ui_manager_get_action (browser->priv->ui_manager, "search-web");
@@ -739,6 +769,8 @@ mail_browser_constructed (GObject *object)
 	browser->priv->statusbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	customizer = e_ui_manager_get_customizer (browser->priv->ui_manager);
+
 	ui_item = e_ui_manager_create_item (browser->priv->ui_manager, "main-menu");
 	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (ui_item));
 	g_clear_object (&ui_item);
@@ -746,20 +778,29 @@ mail_browser_constructed (GObject *object)
 	browser->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (browser), &browser->priv->menu_button);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 
+	e_ui_customizer_register (customizer, "main-menu", NULL);
+
 	if (e_util_get_use_header_bar ()) {
 		ui_item = e_ui_manager_create_item (browser->priv->ui_manager, "main-headerbar");
 		widget = GTK_WIDGET (ui_item);
 		gtk_window_set_titlebar (GTK_WINDOW (browser), widget);
 
-		ui_item = e_ui_manager_create_item (browser->priv->ui_manager, "main-toolbar-with-headerbar");
+		e_ui_customizer_register (customizer, "main-headerbar", NULL);
+
+		toolbar_id = "main-toolbar-with-headerbar";
 	} else {
-		ui_item = e_ui_manager_create_item (browser->priv->ui_manager, "main-toolbar-without-headerbar");
+		toolbar_id = "main-toolbar-without-headerbar";
 	}
 
+	ui_item = e_ui_manager_create_item (browser->priv->ui_manager, toolbar_id);
 	widget = GTK_WIDGET (ui_item);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	browser->priv->main_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	e_ui_customizer_register (customizer, toolbar_id, _("Main Toolbar"));
+	e_ui_customizer_util_attach_toolbar_context_menu (widget, toolbar_id,
+		e_mail_browser_customize_toolbar_activate_cb, browser);
 
 	attachment_store = e_mail_display_get_attachment_store (E_MAIL_DISPLAY (display));
 	widget = GTK_WIDGET (e_mail_display_get_attachment_view (E_MAIL_DISPLAY (display)));

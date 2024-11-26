@@ -104,6 +104,9 @@ gboolean	e_ui_action_get_active		(EUIAction *self);
 void		e_ui_action_set_active		(EUIAction *self,
 						 gboolean active);
 void		e_ui_action_emit_changed	(EUIAction *self);
+guint32		e_ui_action_get_usable_for_kinds(EUIAction *self);
+void		e_ui_action_set_usable_for_kinds(EUIAction *self,
+						 guint32 kinds);
 
 gboolean	e_ui_action_util_gvalue_to_enum_state
 						(GBinding *binding,

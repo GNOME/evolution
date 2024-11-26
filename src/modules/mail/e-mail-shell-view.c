@@ -558,12 +558,25 @@ mail_shell_view_finalize (GObject *object)
 }
 
 static void
+mail_shell_view_customize_toolbar_activate_cb (GtkWidget *toolbar,
+					       const gchar *id,
+					       gpointer user_data)
+{
+	EMailShellView *self = user_data;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (self));
+
+	e_shell_view_run_ui_customize_dialog (E_SHELL_VIEW (self), id);
+}
+
+static void
 mail_shell_view_constructed (GObject *object)
 {
 	EMailShellView *self = E_MAIL_SHELL_VIEW (object);
 	EShellView *shell_view = E_SHELL_VIEW (self);
 	EShellSearchbar *searchbar;
 	EMailView *mail_view;
+	EUICustomizer *customizer;
 	EUIManager *ui_manager;
 	EActionComboBox *combo_box;
 	GObject *ui_item;
@@ -632,9 +645,19 @@ mail_shell_view_constructed (GObject *object)
 	   maybe it'll be supported in the future */
 	e_ui_action_set_visible (ACTION (MAIL_PRINT_PREVIEW), FALSE);
 
+	customizer = e_ui_manager_get_customizer (ui_manager);
+
 	ui_item = e_ui_manager_create_item (ui_manager, "mail-preview-toolbar");
 	e_util_setup_toolbar_icon_size (GTK_TOOLBAR (ui_item), GTK_ICON_SIZE_SMALL_TOOLBAR);
 	e_mail_paned_view_take_preview_toolbar (E_MAIL_PANED_VIEW (e_mail_shell_content_get_mail_view (self->priv->mail_shell_content)), GTK_WIDGET (ui_item));
+
+	e_ui_customizer_util_attach_toolbar_context_menu (GTK_WIDGET (ui_item), "mail-preview-toolbar",
+		mail_shell_view_customize_toolbar_activate_cb, self);
+
+	e_ui_customizer_register (customizer, "mail-preview-toolbar", _("Preview Toolbar"));
+	e_ui_customizer_register (customizer, "mail-preview-popup", _("Preview Context Menu"));
+	e_ui_customizer_register (customizer, "mail-folder-popup", _("Folder Context Menu"));
+	e_ui_customizer_register (customizer, "mail-message-popup", _("Message Context Menu"));
 
 	e_ui_manager_thaw (ui_manager);
 
@@ -1903,6 +1926,25 @@ mail_shell_view_init_ui_data (EShellView *shell_view)
 }
 
 static void
+mail_shell_view_add_ui_customizers (EShellView *shell_view,
+				    EUICustomizeDialog *dialog)
+{
+	EMailShellView *self;
+	EMailReader *reader;
+	EMailDisplay *mail_display;
+	EUIManager *ui_manager;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (shell_view));
+
+	self = E_MAIL_SHELL_VIEW (shell_view);
+	reader = E_MAIL_READER (e_mail_shell_content_get_mail_view (self->priv->mail_shell_content));
+	mail_display = e_mail_reader_get_mail_display (reader);
+	ui_manager = e_web_view_get_ui_manager (E_WEB_VIEW (mail_display));
+
+	e_ui_customize_dialog_add_customizer (dialog, e_ui_manager_get_customizer (ui_manager));
+}
+
+static void
 e_mail_shell_view_class_init (EMailShellViewClass *class)
 {
 	GObjectClass *object_class;
@@ -1928,6 +1970,7 @@ e_mail_shell_view_class_init (EMailShellViewClass *class)
 	shell_view_class->execute_search = mail_shell_view_execute_search;
 	shell_view_class->update_actions = mail_shell_view_update_actions;
 	shell_view_class->init_ui_data = mail_shell_view_init_ui_data;
+	shell_view_class->add_ui_customizers = mail_shell_view_add_ui_customizers;
 
 	/* Ensure the GalView types we need are registered. */
 	g_type_ensure (GAL_TYPE_VIEW_ETABLE);

@@ -778,7 +778,7 @@ e_shell_window_actions_constructed (EShellWindow *shell_window)
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	ui_manager = e_ui_manager_new ();
+	ui_manager = e_ui_manager_new (NULL);
 
 	action_group_name = "shell";
 	e_ui_manager_add_actions (ui_manager, action_group_name, NULL,
@@ -791,6 +791,17 @@ e_shell_window_actions_constructed (EShellWindow *shell_window)
 		shell_lockdown_print_setup_entries, G_N_ELEMENTS (shell_lockdown_print_setup_entries), shell_window);
 	action_group = e_ui_manager_get_action_group (ui_manager, action_group_name);
 	g_hash_table_insert (shell_window->priv->action_groups, g_strdup (action_group_name), g_object_ref (action_group));
+
+	e_ui_manager_set_actions_usable_for_kinds (ui_manager, E_UI_ELEMENT_KIND_MENU,
+		"edit-menu",
+		"file-menu",
+		"help-menu",
+		"layout-menu",
+		"search-menu",
+		"switcher-menu",
+		"view-menu",
+		"window-menu",
+		NULL);
 
 	g_clear_object (&ui_manager);
 
@@ -995,7 +1006,7 @@ e_shell_window_create_views_actions (EShellWindow *shell_window)
 	group = NULL;
 	shell = e_shell_window_get_shell (shell_window);
 	list = e_shell_get_shell_backends (shell);
-	tmp_ui_manager = e_ui_manager_new ();
+	tmp_ui_manager = e_ui_manager_new (NULL);
 
 	/* Construct a group of radio actions from the various EShellView
 	 * subclasses. */

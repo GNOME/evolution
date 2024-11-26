@@ -1,5 +1,6 @@
 <eui>
   <headerbar id='main-headerbar' type='gtk'>
+    <start/>
     <end>
       <item action='EMailViewer::menu-button'/>
     </end>

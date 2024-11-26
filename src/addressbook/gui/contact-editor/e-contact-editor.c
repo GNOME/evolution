@@ -5259,7 +5259,7 @@ e_contact_editor_constructed (GObject *object)
 	G_OBJECT_CLASS (e_contact_editor_parent_class)->constructed (object);
 
 	editor->priv->focus_tracker = e_focus_tracker_new (GTK_WINDOW (editor->priv->app));
-	editor->priv->ui_manager = e_ui_manager_new ();
+	editor->priv->ui_manager = e_ui_manager_new (NULL);
 
 	gtk_window_add_accel_group (
 		GTK_WINDOW (editor->priv->app),

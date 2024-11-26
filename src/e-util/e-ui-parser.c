@@ -72,6 +72,10 @@
      <separator/>
      <item action='item3'/>
    </toolbar>
+   <accels action='item1'>
+     <accel value="&lt;Control&gt;1"/>
+     <accel value="&lt;Control&gt;n"/>
+   </accels>
  </eui>
 */
 
@@ -145,6 +149,8 @@ struct _EUIElement {
 	} data;
 };
 
+G_DEFINE_BOXED_TYPE (EUIElement, e_ui_element, e_ui_element_copy, e_ui_element_free)
+
 static EUIElement *
 e_ui_element_new (EUIElementKind kind,
 		  const gchar *id)
@@ -166,7 +172,69 @@ e_ui_element_new (EUIElementKind kind,
 	return self;
 }
 
-static void
+/**
+ * e_ui_element_copy:
+ * @src: an #EUIElement to create a copy of
+ *
+ * Creates a copy of the @src. Free the returned pointer
+ * with e_ui_element_free(), when no longer needed.
+ * The function does nothing when the @src is NULL.
+ *
+ * This does not copy the @src children, it only copies the @src itself.
+ *
+ * Returns: (transfer full) (nullable): copy of the @src, or %NULL, when the @src is %NULL
+ *
+ * Since: 3.56
+ **/
+EUIElement *
+e_ui_element_copy (const EUIElement *src)
+{
+	EUIElement *des;
+
+	if (!src)
+		return NULL;
+
+	des = e_ui_element_new (src->kind, src->id);
+
+	switch (src->kind) {
+	case E_UI_ELEMENT_KIND_HEADERBAR:
+		des->data.headerbar.use_gtk_type = src->data.headerbar.use_gtk_type;
+		break;
+	case E_UI_ELEMENT_KIND_TOOLBAR:
+		des->data.toolbar.primary = src->data.toolbar.primary;
+		break;
+	case E_UI_ELEMENT_KIND_MENU:
+		des->data.menu.is_popup = src->data.menu.is_popup;
+		break;
+	case E_UI_ELEMENT_KIND_SUBMENU:
+		des->data.submenu.action = g_strdup (src->data.submenu.action);
+		break;
+	case E_UI_ELEMENT_KIND_ITEM:
+		des->data.item.label_priority = src->data.item.label_priority;
+		des->data.item.order = src->data.item.order;
+		des->data.item.icon_only = src->data.item.icon_only;
+		des->data.item.text_only = src->data.item.text_only;
+		des->data.item.important = src->data.item.important;
+		des->data.item.css_classes = g_strdup (src->data.item.css_classes);
+		des->data.item.action = g_strdup (src->data.item.action);
+		des->data.item.group = g_strdup (src->data.item.group);
+		break;
+	default:
+		break;
+	}
+
+	return des;
+}
+
+/**
+ * e_ui_element_free:
+ * @self: (nullable) (transfer full): an #EUIElement
+ *
+ * Frees the @self. The function does nothing when the @self is %NULL.
+ *
+ * Since: 3.56
+ **/
+void
 e_ui_element_free (EUIElement *self)
 {
 	if (!self)
@@ -186,17 +254,104 @@ e_ui_element_free (EUIElement *self)
 	g_free (self);
 }
 
-static void
-e_ui_element_add_child (EUIElement *parent,
-			EUIElement *child /* (transfer full) */)
+/**
+ * e_ui_element_new_separator:
+ *
+ * Creates a new #EUIElement of kind %E_UI_ELEMENT_KIND_SEPARATOR.
+ * Free it with e_ui_element_free(), when no longer needed.
+ *
+ * Returns: (transfer full): a new separator #EUIElement
+ *
+ * Since: 3.56
+ **/
+EUIElement *
+e_ui_element_new_separator (void)
 {
-	g_return_if_fail (parent != NULL);
+	return e_ui_element_new (E_UI_ELEMENT_KIND_SEPARATOR, NULL);
+}
+
+/**
+ * e_ui_element_add_child:
+ * @self: an #EUIElement to add the child to
+ * @child: (transfer full): the child to add
+ *
+ * Adds a new @child into the @self. The function assumes
+ * ownership of the @child.
+ *
+ * Since: 3.56
+ **/
+void
+e_ui_element_add_child (EUIElement *self,
+			EUIElement *child)
+{
+	g_return_if_fail (self != NULL);
 	g_return_if_fail (child != NULL);
 
-	if (!parent->children)
-		parent->children = g_ptr_array_new_with_free_func ((GDestroyNotify) e_ui_element_free);
+	if (!self->children)
+		self->children = g_ptr_array_new_with_free_func ((GDestroyNotify) e_ui_element_free);
 
-	g_ptr_array_add (parent->children, child);
+	g_ptr_array_add (self->children, child);
+}
+
+/**
+ * e_ui_element_remove_child:
+ * @self: an #EUIElement
+ * @child: a direct child to remove
+ *
+ * Removes a direct @child from the children of the @self.
+ *
+ * See e_ui_element_remove_child_by_id().
+ *
+ * Returns: whether the @child had been removed; if it is, it is also freed
+ *
+ * Since: 3.56
+ **/
+gboolean
+e_ui_element_remove_child (EUIElement *self,
+			   EUIElement *child)
+{
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (child != NULL, FALSE);
+
+	if (!self->children)
+		return FALSE;
+
+	return g_ptr_array_remove (self->children, child);
+}
+
+/**
+ * e_ui_element_remove_child_by_id:
+ * @self: an #EUIElement
+ * @id: a direct child ID to be removed
+ *
+ * Removes a direct child of the @self with ID @id.
+ *
+ * Returns: whether the child with the ID @id had been removed; if it is, it is also freed
+ *
+ * Since: 3.56
+ **/
+gboolean
+e_ui_element_remove_child_by_id (EUIElement *self,
+				 const gchar *id)
+{
+	guint ii;
+
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (id != NULL, FALSE);
+
+	if (!self->children)
+		return FALSE;
+
+	for (ii = 0; ii < self->children->len; ii++) {
+		EUIElement *elem = g_ptr_array_index (self->children, ii);
+
+		if (elem && g_strcmp0 (elem->id, id) == 0) {
+			g_ptr_array_remove_index (self->children, ii);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
 }
 
 /**
@@ -310,7 +465,8 @@ e_ui_element_get_child_by_id (EUIElement *self,
 static void
 e_ui_element_export (const EUIElement *self,
 		     GString *str,
-		     gint indent)
+		     gint indent,
+		     GHashTable *accels)
 {
 	if (!self)
 		return;
@@ -320,7 +476,7 @@ e_ui_element_export (const EUIElement *self,
 
 	g_string_append_printf (str, "<%s", e_ui_element_kind_to_string (self->kind));
 
-	if (self->id)
+	if (self->id && self->kind != E_UI_ELEMENT_KIND_START && self->kind != E_UI_ELEMENT_KIND_END)
 		e_util_markup_append_escaped (str, " id='%s'", self->id);
 
 	if (self->kind == E_UI_ELEMENT_KIND_MENU) {
@@ -354,7 +510,7 @@ e_ui_element_export (const EUIElement *self,
 			g_string_append_printf (str, " order='%d'", self->data.item.order);
 	}
 
-	if (self->children) {
+	if (self->children || (accels && g_hash_table_size (accels) > 0)) {
 		guint ii;
 
 		g_string_append_c (str, '>');
@@ -362,13 +518,66 @@ e_ui_element_export (const EUIElement *self,
 		if (indent >= 0)
 			g_string_append_c (str, '\n');
 
-		for (ii = 0; ii < self->children->len; ii++) {
+		for (ii = 0; self->children && ii < self->children->len; ii++) {
 			const EUIElement *subelem = g_ptr_array_index (self->children, ii);
-			e_ui_element_export (subelem, str, indent >= 0 ? indent + 1 : indent);
+			e_ui_element_export (subelem, str, indent >= 0 ? indent + 1 : indent, NULL);
 		}
 
 		if (indent >= 0)
+			indent++;
+
+		if (indent > 0)
 			g_string_append_printf (str, "%*s", indent * 2, "");
+
+		if (accels) {
+			GHashTableIter iter;
+			gpointer key = NULL, value = NULL;
+			guint n_left = g_hash_table_size (accels);
+
+			g_hash_table_iter_init (&iter, accels);
+			while (g_hash_table_iter_next (&iter, &key, &value)) {
+				const gchar *action = key;
+				GPtrArray *accels_array = value;
+
+				/* the 'accels_array' can have 0 elements, to unset all accels for the action */
+				if (action && *action && accels_array) {
+					e_util_markup_append_escaped (str, "<accels action='%s'", action);
+
+					if (accels_array->len > 0) {
+						g_string_append_c (str, '>');
+						if (indent >= 0)
+							g_string_append_c (str, '\n');
+						for (ii = 0; ii < accels_array->len; ii++) {
+							const gchar *accel = g_ptr_array_index (accels_array, ii);
+							if (accel && *accel) {
+								if (indent >= 0)
+									g_string_append_printf (str, "%*s", (indent + 1) * 2, "");
+
+								e_util_markup_append_escaped (str, "<accel value='%s'/>", accel);
+
+								if (indent >= 0)
+									g_string_append_c (str, '\n');
+							}
+						}
+						if (indent > 0)
+							g_string_append_printf (str, "%*s", indent * 2, "");
+						g_string_append (str, "</accels>");
+					} else {
+						g_string_append (str, "/>");
+					}
+
+					if (indent >= 0) {
+						n_left--;
+						if (!n_left && indent > 0)
+							indent--;
+						g_string_append_printf (str, "\n%*s", indent * 2, "");
+					}
+				}
+			}
+		}
+
+		if (indent > 0)
+			indent--;
 
 		g_string_append_printf (str, "</%s>", e_ui_element_kind_to_string (self->kind));
 	} else {
@@ -517,6 +726,28 @@ e_ui_element_item_get_order (const EUIElement *self)
 	g_return_val_if_fail (self->kind == E_UI_ELEMENT_KIND_ITEM, 0);
 
 	return self->data.item.order;
+}
+
+/**
+ * e_ui_element_item_set_order:
+ * @self: an #EUIElement
+ * @order: the value to set
+ *
+ * Sets an order of the button in the header bar. See e_ui_element_item_get_order()
+ * for more information.
+ *
+ * This can be called only on elements of kind %E_UI_ELEMENT_KIND_ITEM.
+ *
+ * Since: 3.56
+ **/
+void
+e_ui_element_item_set_order (EUIElement *self,
+			     gint order)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (self->kind == E_UI_ELEMENT_KIND_ITEM);
+
+	self->data.item.order = order;
 }
 
 /**
@@ -709,10 +940,12 @@ struct _EUIParser {
 	GObject parent;
 
 	EUIElement *root;
+	GHashTable *accels; /* GPtrArray { gchar * } */
 };
 
 enum {
 	SIGNAL_CHANGED,
+	SIGNAL_ACCELS_CHANGED,
 	N_SIGNALS
 };
 
@@ -726,6 +959,7 @@ e_ui_parser_finalize (GObject *object)
 	EUIParser *self = E_UI_PARSER (object);
 
 	g_clear_pointer (&self->root, e_ui_element_free);
+	g_clear_pointer (&self->accels, g_hash_table_unref);
 
 	G_OBJECT_CLASS (e_ui_parser_parent_class)->finalize (object);
 }
@@ -753,6 +987,35 @@ e_ui_parser_class_init (EUIParserClass *klass)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0,
 		G_TYPE_NONE);
+
+	/* void   (* accels_changed)	(EUIParser *parser,
+					 const gchar *action_name,
+					 GPtrArray *old_accels,
+					 GPtrArray *new_accels); */
+	/**
+	 * EUIParser::accels-changed:
+	 * @parser: an #EUIParser
+	 * @action_name: an action name
+	 * @old_accels: (element-type utf8) (nullable): accels used before the change, or %NULL
+	 * @new_accels: (element-type utf8) (nullable): accels used after the change, or %NULL
+	 *
+	 * Emitted when the settings for the accels change. When the @old_accels
+	 * is %NULL, the there had not been set any accels for the @action_name
+	 * yet. When the @new_accels is %NULL, the accels for the @action_name had
+	 * been removed. For the %NULL the accels defined on the #EUIAction should
+	 * be used.
+	 *
+	 * Since: 3.56
+	 **/
+	signals[SIGNAL_ACCELS_CHANGED] = g_signal_new ("accels-changed",
+		E_TYPE_UI_PARSER,
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		0, NULL, NULL,
+		NULL,
+		G_TYPE_NONE, 3,
+		G_TYPE_STRING,
+		G_TYPE_PTR_ARRAY,
+		G_TYPE_PTR_ARRAY);
 }
 
 static void
@@ -824,8 +1087,6 @@ static EUIElement * /* (transfer full) */
 ui_parser_xml_read_item_element (const gchar *element_name,
 				 const gchar **attribute_names,
 				 const gchar **attribute_values,
-				 gboolean for_headerbar,
-				 gboolean for_menu,
 				 GError **error)
 {
 	EUIElement *ui_elem;
@@ -839,45 +1100,29 @@ ui_parser_xml_read_item_element (const gchar *element_name,
 	const gchar *order = NULL;
 	gint order_index = 0;
 
-	if (for_headerbar) {
-		if (!g_markup_collect_attributes (element_name, attribute_names, attribute_values, error,
-			G_MARKUP_COLLECT_STRING, "action", &action,
-			G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "group", &group,
-			G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "css_classes", &css_classes,
-			G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "label_priority", &label_priority,
-			G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "icon_only", &icon_only,
-			G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "order", &order,
-			G_MARKUP_COLLECT_INVALID))
+	if (!g_markup_collect_attributes (element_name, attribute_names, attribute_values, error,
+		G_MARKUP_COLLECT_STRING, "action", &action,
+		G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "group", &group,
+		G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "css_classes", &css_classes,
+		G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "label_priority", &label_priority, /* for headerbar */
+		G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "icon_only", &icon_only, /* for headerbar */
+		G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "order", &order, /* for headerbar */
+		G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "text_only", &text_only, /* for menu */
+		G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "important", &important, /* for toolbar */
+		G_MARKUP_COLLECT_INVALID))
+		return NULL;
+
+	if (order && *order) {
+		gchar *endptr = NULL;
+
+		order_index = (gint) g_ascii_strtoll (order, &endptr, 10);
+		if (!order_index && endptr == order) {
+			g_set_error (error, G_MARKUP_ERROR, G_MARKUP_ERROR_INVALID_CONTENT,
+				"Element <%s> can have optional 'order' attribute of type integer, but the value '%s' is not a valid integer", element_name, order);
 			return NULL;
-
-		if (order && *order) {
-			gchar *endptr = NULL;
-
-			order_index = (gint) g_ascii_strtoll (order, &endptr, 10);
-			if (!order_index && endptr == order) {
-				g_set_error (error, G_MARKUP_ERROR, G_MARKUP_ERROR_INVALID_CONTENT,
-					"Element <%s> can have optional 'order' attribute of type integer, but the value '%s' is not a valid integer", element_name, order);
-				return NULL;
-			}
-		} else {
-			order = NULL;
 		}
-	} else if (for_menu) {
-		if (!g_markup_collect_attributes (element_name, attribute_names, attribute_values, error,
-			G_MARKUP_COLLECT_STRING, "action", &action,
-			G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "group", &group,
-			G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "css_classes", &css_classes,
-			G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "text_only", &text_only,
-			G_MARKUP_COLLECT_INVALID))
-			return NULL;
 	} else {
-		if (!g_markup_collect_attributes (element_name, attribute_names, attribute_values, error,
-			G_MARKUP_COLLECT_STRING, "action", &action,
-			G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "group", &group,
-			G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "css_classes", &css_classes,
-			G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "important", &important,
-			G_MARKUP_COLLECT_INVALID))
-			return NULL;
+		order = NULL;
 	}
 
 	if (icon_only && *icon_only &&
@@ -931,6 +1176,7 @@ ui_parser_xml_read_item_element (const gchar *element_name,
 
 typedef struct _ParseData {
 	EUIParser *self;
+	GPtrArray *reading_accels;
 	GSList *elems_stack;
 	gboolean changed;
 } ParseData;
@@ -941,8 +1187,6 @@ ui_parser_xml_handle_item_separator_placeholder (ParseData *pd,
 						 const gchar *element_name,
 						 const gchar **attribute_names,
 						 const gchar **attribute_values,
-						 gboolean item_for_headerbar,
-						 gboolean item_for_menu,
 						 GError **error)
 {
 	EUIElement *ui_elem = NULL, *parent_ui_elem;
@@ -951,7 +1195,7 @@ ui_parser_xml_handle_item_separator_placeholder (ParseData *pd,
 	parent_ui_elem = pd->elems_stack->data;
 
 	if (g_strcmp0 (element_name, "item") == 0) {
-		ui_elem = ui_parser_xml_read_item_element (element_name, attribute_names, attribute_values, item_for_headerbar, item_for_menu, error);
+		ui_elem = ui_parser_xml_read_item_element (element_name, attribute_names, attribute_values, error);
 		if (!ui_elem)
 			return TRUE;
 	} else if (g_strcmp0 (element_name, "separator") == 0) {
@@ -1002,7 +1246,7 @@ ui_parser_xml_handle_menu_submenu_start_element (ParseData *pd,
 	EUIElement *ui_elem = NULL, *parent_ui_elem;
 	const gchar *id = NULL, *action = NULL;
 
-	if (ui_parser_xml_handle_item_separator_placeholder (pd, element_name, attribute_names, attribute_values, FALSE, TRUE, error))
+	if (ui_parser_xml_handle_item_separator_placeholder (pd, element_name, attribute_names, attribute_values, error))
 		return;
 
 	if (g_strcmp0 (element_name, "submenu") == 0) {
@@ -1206,6 +1450,65 @@ ui_parser_xml_handle_start_end (ParseData *pd,
 }
 
 static void
+ui_parser_xml_handle_accel (ParseData *pd,
+			    const gchar *element_name,
+			    const gchar **attribute_names,
+			    const gchar **attribute_values,
+			    GError **error)
+{
+	const gchar *value = NULL;
+
+	g_return_if_fail (pd->reading_accels != NULL);
+
+	if (g_strcmp0 (element_name, "accel") != 0) {
+		g_set_error (error, G_MARKUP_ERROR, G_MARKUP_ERROR_UNKNOWN_ELEMENT,
+			"Unknown element <%s>, expected <accel>", element_name);
+		return;
+	}
+
+	if (!g_markup_collect_attributes (element_name, attribute_names, attribute_values, error,
+		G_MARKUP_COLLECT_STRING, "value", &value,
+		G_MARKUP_COLLECT_INVALID))
+		return;
+
+	if (value && *value)
+		g_ptr_array_add (pd->reading_accels, g_strdup (value));
+}
+
+static void
+ui_parser_xml_handle_accels (ParseData *pd,
+			     const gchar *element_name,
+			     const gchar **attribute_names,
+			     const gchar **attribute_values,
+			     GError **error)
+{
+	const gchar *action = NULL;
+
+	g_return_if_fail (pd->reading_accels == NULL);
+
+	if (g_strcmp0 (element_name, "accels") != 0) {
+		g_set_error (error, G_MARKUP_ERROR, G_MARKUP_ERROR_UNKNOWN_ELEMENT,
+			"Unknown element <%s>, expected <accels>", element_name);
+		return;
+	}
+
+	if (!g_markup_collect_attributes (element_name, attribute_names, attribute_values, error,
+		G_MARKUP_COLLECT_STRING, "action", &action,
+		G_MARKUP_COLLECT_INVALID))
+		return;
+
+	if (action && *action) {
+		/* empty array is okay too, it removes in-code defined accels for the action */
+		pd->reading_accels = g_ptr_array_new_with_free_func (g_free);
+
+		if (!pd->self->accels)
+			pd->self->accels = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_ptr_array_unref);
+
+		g_hash_table_insert (pd->self->accels, g_strdup (action), pd->reading_accels);
+	}
+}
+
+static void
 ui_parser_xml_start_element (GMarkupParseContext *context,
 			     const gchar *element_name,
 			     const gchar **attribute_names,
@@ -1249,17 +1552,21 @@ ui_parser_xml_start_element (GMarkupParseContext *context,
 		stack_link = stack_link->next;
 	}
 
-	if (parent_kind == E_UI_ELEMENT_KIND_ROOT) {
+	if (pd->reading_accels) {
+		ui_parser_xml_handle_accel (pd, element_name, attribute_names, attribute_values, error);
+	} else if (g_strcmp0 (element_name, "accels") == 0) {
+		ui_parser_xml_handle_accels (pd, element_name, attribute_names, attribute_values, error);
+	} else if (parent_kind == E_UI_ELEMENT_KIND_ROOT) {
 		ui_parser_xml_handle_subroot_start_element (pd, element_name, attribute_names, attribute_values, error);
 	} else if (parent_kind == E_UI_ELEMENT_KIND_HEADERBAR) {
 		ui_parser_xml_handle_start_end (pd, element_name, attribute_names, attribute_values, error);
 	} else if (parent_kind == E_UI_ELEMENT_KIND_START || parent_kind == E_UI_ELEMENT_KIND_END) {
-		if (!ui_parser_xml_handle_item_separator_placeholder (pd, element_name, attribute_names, attribute_values, TRUE, FALSE, error)) {
+		if (!ui_parser_xml_handle_item_separator_placeholder (pd, element_name, attribute_names, attribute_values, error)) {
 			g_set_error (error, G_MARKUP_ERROR, G_MARKUP_ERROR_UNKNOWN_ELEMENT,
 				"Unknown element <%s>, expected <item>, <separator> or <placeholder>", element_name);
 		}
 	} else if (parent_kind == E_UI_ELEMENT_KIND_TOOLBAR) {
-		if (!ui_parser_xml_handle_item_separator_placeholder (pd, element_name, attribute_names, attribute_values, FALSE, FALSE, error)) {
+		if (!ui_parser_xml_handle_item_separator_placeholder (pd, element_name, attribute_names, attribute_values, error)) {
 			g_set_error (error, G_MARKUP_ERROR, G_MARKUP_ERROR_UNKNOWN_ELEMENT,
 				"Unknown element <%s>, expected <item>, <separator> or <placeholder>", element_name);
 		}
@@ -1293,7 +1600,12 @@ ui_parser_xml_end_element (GMarkupParseContext *context,
 			pd->elems_stack = g_slist_remove (pd->elems_stack, pd->elems_stack->data);
 		}
 	} else if (g_strcmp0 (element_name, "item") == 0 ||
-		   g_strcmp0 (element_name, "separator") == 0) {
+		   g_strcmp0 (element_name, "separator") == 0 ||
+		   g_strcmp0 (element_name, "accel") == 0) {
+	} else if (g_strcmp0 (element_name, "accels") == 0) {
+		if (!pd->reading_accels)
+			g_set_error (error, G_MARKUP_ERROR, G_MARKUP_ERROR_PARSE, "Unexpected element end <%s>", element_name);
+		pd->reading_accels = NULL;
 	} else if (pd->elems_stack) {
 		EUIElementKind expect_kind = E_UI_ELEMENT_KIND_UNKNOWN;
 
@@ -1378,6 +1690,7 @@ e_ui_parser_merge_data (EUIParser *self,
 	g_return_val_if_fail (data != NULL, FALSE);
 
 	pd.self = self;
+	pd.reading_accels = NULL;
 	pd.elems_stack = NULL;
 	pd.changed = FALSE;
 
@@ -1432,6 +1745,102 @@ e_ui_parser_get_root (EUIParser *self)
 }
 
 /**
+ * e_ui_parser_create_root:
+ * @self: and #EUIParser
+ *
+ * Clears any current content of the @self and create a new root element,
+ * which will be used by the @self.
+ *
+ * Returns: (transfer none): a new root element of the @self
+ *
+ * Since: 3.56
+ **/
+EUIElement *
+e_ui_parser_create_root (EUIParser *self)
+{
+	g_return_val_if_fail (E_IS_UI_PARSER (self), NULL);
+
+	e_ui_parser_clear (self);
+
+	self->root = e_ui_element_new (E_UI_ELEMENT_KIND_ROOT, NULL);
+
+	return self->root;
+}
+
+/**
+ * e_ui_parser_get_accels:
+ * @self: an #EUIParser
+ * @action_name: an action name
+ *
+ * Returns an array of the defined accelerators for the @action_name, to be used
+ * instead of those defined in the code. An empty array means no accels to be used,
+ * while a %NULL means no accels had been set for the @action_name.
+ *
+ * The first item of the returned array is meant as the main accelerator,
+ * while the following are secondary accelerators.
+ *
+ * Returns: (nullable) (transfer none) (element-type utf8): a #GPtrArray with
+ *    the accelerators for the @action_name, or %NULL
+ *
+ * Since: 3.56
+ **/
+GPtrArray *
+e_ui_parser_get_accels (EUIParser *self,
+			const gchar *action_name)
+{
+	g_return_val_if_fail (E_IS_UI_PARSER (self), NULL);
+	g_return_val_if_fail (action_name != NULL, NULL);
+
+	if (!self->accels)
+		return NULL;
+
+	return g_hash_table_lookup (self->accels, action_name);
+}
+
+/**
+ * e_ui_parser_take_accels:
+ * @self: an #EUIParser
+ * @action_name: an action name
+ * @accels: (nullable) (transfer full) (element-type utf8): accelerators to use, or %NULL to unset
+ *
+ * Sets the @accels as the accelerators for the action @action_name.
+ * Use %NULL to unset any previous values.
+ *
+ * The function assumes ownership of the @accels.
+ *
+ * Since: 3.56
+ **/
+void
+e_ui_parser_take_accels (EUIParser *self,
+			 const gchar *action_name,
+			 GPtrArray *accels)
+{
+	GPtrArray *old_accels;
+
+	g_return_if_fail (E_IS_UI_PARSER (self));
+	g_return_if_fail (action_name != NULL);
+
+	if (!self->accels && !accels)
+		return;
+
+	if (!self->accels)
+		self->accels = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_ptr_array_unref);
+
+	old_accels = g_hash_table_lookup (self->accels, action_name);
+	if (old_accels)
+		g_ptr_array_ref (old_accels);
+
+	if (!accels)
+		g_hash_table_remove (self->accels, action_name);
+	else
+		g_hash_table_insert (self->accels, g_strdup (action_name), accels);
+
+	g_signal_emit (self, signals[SIGNAL_ACCELS_CHANGED], 0, action_name, old_accels, accels, NULL);
+
+	g_clear_pointer (&old_accels, g_ptr_array_unref);
+}
+
+/**
  * e_ui_parser_export:
  * @self: an #EUIParser
  * @flags: a bit-or of #EUIParserExportFlags flags
@@ -1454,12 +1863,16 @@ e_ui_parser_export (EUIParser *self,
 
 	g_return_val_if_fail (E_IS_UI_PARSER (self), NULL);
 
-	if (!self->root)
+	if ((!self->root || !e_ui_element_get_n_children (self->root)) &&
+	    (!self->accels || !g_hash_table_size (self->accels)))
 		return NULL;
 
-	str = g_string_new ("");
+	if (!self->root)
+		self->root = e_ui_element_new (E_UI_ELEMENT_KIND_ROOT, NULL);
 
-	e_ui_element_export (self->root, str, (flags & E_UI_PARSER_EXPORT_FLAG_INDENT) ? 0 : -1);
+	str = g_string_sized_new (1024);
+
+	e_ui_element_export (self->root, str, (flags & E_UI_PARSER_EXPORT_FLAG_INDENT) ? 0 : -1, self->accels);
 
 	if (!(flags & E_UI_PARSER_EXPORT_FLAG_INDENT))
 		g_string_append_c (str, '\n');

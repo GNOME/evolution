@@ -52,7 +52,6 @@ typedef enum {
 typedef void	(*EForeachFunc)			(gint model_row,
 						 gpointer closure);
 
-const gchar *	e_get_accels_filename		(void);
 void		e_show_uri			(GtkWindow *parent,
 						 const gchar *uri);
 void		e_display_help			(GtkWindow *parent,

@@ -1,5 +1,6 @@
 <eui>
   <headerbar id='main-headerbar'>
+    <start/>
     <end>
       <item action='ECalShellView::navigation-buttons'/>
     </end>

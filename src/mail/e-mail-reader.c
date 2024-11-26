@@ -3595,6 +3595,19 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 	e_ui_manager_add_actions (ui_manager, "search-folders", NULL,
 		search_folder_entries, G_N_ELEMENTS (search_folder_entries), self);
 
+	e_ui_manager_set_actions_usable_for_kinds (ui_manager, E_UI_ELEMENT_KIND_MENU,
+		"mail-create-menu",
+		"mail-forward-as-menu",
+		"mail-label-menu",
+		"mail-reply-group-menu",
+		"mail-goto-menu",
+		"mail-mark-as-menu",
+		"mail-message-menu",
+		"mail-zoom-menu",
+		"EMailReader::charset-menu",
+		"EMailReader::mail-label-actions",
+		NULL);
+
 	for (ii = 0; ii < G_N_ELEMENTS (name_pairs); ii++) {
 		e_binding_bind_property (
 			e_ui_manager_get_action (ui_manager, name_pairs[ii].src_name), "sensitive",

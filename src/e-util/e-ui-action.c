@@ -125,6 +125,7 @@ struct _EUIAction {
 	EUIActionGroup *action_group;
 	gboolean sensitive;
 	gboolean visible;
+	guint32 usable_for_kinds;
 };
 
 static void e_ui_action_action_iface_init (GActionInterface *iface);
@@ -736,6 +737,7 @@ e_ui_action_init (EUIAction *self)
 {
 	self->sensitive = TRUE;
 	self->visible = TRUE;
+	self->usable_for_kinds = E_UI_ELEMENT_KIND_HEADERBAR | E_UI_ELEMENT_KIND_TOOLBAR | E_UI_ELEMENT_KIND_MENU;
 }
 
 /**
@@ -1347,7 +1349,7 @@ e_ui_action_add_secondary_accel (EUIAction *self,
  * Gets an array of the secondary accelarators for the @self. The caller should
  * not modify the array in any way.
  *
- * Returns: (nullable) (transfer container) (element-type utf-8): an array
+ * Returns: (nullable) (transfer none) (element-type utf8): an array
  *    of the secondary accelerator strings for the @self, or %NULL, when none is set
  *
  * Since: 3.56
@@ -1641,6 +1643,50 @@ e_ui_action_emit_changed (EUIAction *self)
 	g_return_if_fail (E_IS_UI_ACTION (self));
 
 	g_signal_emit (self, signals[SIGNAL_CHANGED], 0, NULL);
+}
+
+/**
+ * e_ui_action_get_usable_for_kinds:
+ * @self: an #EUIAction
+ *
+ * Returns bit-or of #EUIElementKind, for which the action can be used.
+ * Only the %E_UI_ELEMENT_KIND_HEADERBAR, %E_UI_ELEMENT_KIND_TOOLBAR
+ * and %E_UI_ELEMENT_KIND_MENU are considered.
+ *
+ * By default, the @self can be used for all these kinds.
+ *
+ * Returns: bit-or of #EUIElementKind
+ *
+ * Since: 3.56
+ **/
+guint32
+e_ui_action_get_usable_for_kinds (EUIAction *self)
+{
+	g_return_val_if_fail (E_IS_UI_ACTION (self), 0);
+
+	return self->usable_for_kinds;
+}
+
+/**
+ * e_ui_action_set_usable_for_kinds:
+ * @self: an #EUIAction
+ * @kinds: a bit-or of #EUIElementKind
+ *
+ * Sets which #EUIElementKind -s the @self can be used for.
+ * Only the %E_UI_ELEMENT_KIND_HEADERBAR, %E_UI_ELEMENT_KIND_TOOLBAR
+ * and %E_UI_ELEMENT_KIND_MENU are considered.
+ *
+ * By default, the @self can be used for all these kinds.
+ *
+ * Since: 3.56
+ **/
+void
+e_ui_action_set_usable_for_kinds (EUIAction *self,
+				  guint32 kinds)
+{
+	g_return_if_fail (E_IS_UI_ACTION (self));
+
+	self->usable_for_kinds = kinds;
 }
 
 /**

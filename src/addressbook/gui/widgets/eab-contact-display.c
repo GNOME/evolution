@@ -158,6 +158,49 @@ load_contact (EABContactDisplay *display)
 }
 
 static void
+contact_display_web_process_terminated_cb (EABContactDisplay *display,
+					   WebKitWebProcessTerminationReason reason)
+{
+	EAlertSink *alert_sink;
+
+	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
+
+	/* Cannot use the EWebView, because it places the alerts inside itself */
+	alert_sink = e_shell_utils_find_alternate_alert_sink (GTK_WIDGET (display));
+	if (alert_sink)
+		e_alert_submit (alert_sink, "addressbook:webkit-web-process-crashed", NULL);
+}
+
+static void
+contact_display_content_loaded_cb (EWebView *web_view,
+				   const gchar *iframe_id,
+				   gpointer user_data)
+{
+	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (web_view));
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
+		"Evo.VCardBind(%s);", iframe_id);
+}
+
+static void
+eab_contact_display_settings_changed_cb (GSettings *settings,
+					 const gchar *key,
+					 gpointer user_data)
+{
+	EABContactDisplay *display = user_data;
+	gboolean home_before_work;
+
+	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
+
+	home_before_work = g_settings_get_boolean (settings, "preview-home-before-work");
+
+	if (display->priv->contact && (home_before_work ? 1 : 0) != (display->priv->home_before_work ? 1 : 0)) {
+		display->priv->home_before_work = home_before_work;
+		load_contact (display);
+	}
+}
+
+static void
 contact_display_set_property (GObject *object,
                               guint property_id,
                               const GValue *value,
@@ -213,6 +256,70 @@ contact_display_get_property (GObject *object,
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+contact_display_contructed (GObject *object)
+{
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='context'>"
+		    "<placeholder id='custom-actions-1'>"
+		      "<item action='contact-send-message'/>"
+		    "</placeholder>"
+		    "<placeholder id='custom-actions-2'>"
+		      "<item action='contact-mailto-copy'/>"
+		    "</placeholder>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry internal_mailto_entries[] = {
+
+		{ "contact-mailto-copy",
+		  "edit-copy",
+		  N_("Copy _Email Address"),
+		  NULL,
+		  N_("Copy the email address to the clipboard"),
+		  action_contact_mailto_copy_cb, NULL, NULL, NULL },
+
+		{ "contact-send-message",
+		  "mail-message-new",
+		  N_("_Send New Message To…"),
+		  NULL,
+		  N_("Send a mail message to this address"),
+		  action_contact_send_message_cb, NULL, NULL, NULL }
+	};
+
+	EABContactDisplay *display = EAB_CONTACT_DISPLAY (object);
+	EWebView *web_view;
+	EUIManager *ui_manager;
+	GSettings *settings;
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (eab_contact_display_parent_class)->constructed (object);
+
+	web_view = E_WEB_VIEW (display);
+	ui_manager = e_web_view_get_ui_manager (web_view);
+
+	g_signal_connect (
+		display, "web-process-terminated",
+		G_CALLBACK (contact_display_web_process_terminated_cb), NULL);
+
+	g_signal_connect (
+		web_view, "content-loaded",
+		G_CALLBACK (contact_display_content_loaded_cb), NULL);
+	g_signal_connect (
+		web_view, "style-updated",
+		G_CALLBACK (load_contact), NULL);
+
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "internal-mailto", NULL,
+		internal_mailto_entries, G_N_ELEMENTS (internal_mailto_entries), display, eui);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
+	g_signal_connect_object (settings, "changed::preview-home-before-work",
+		G_CALLBACK (eab_contact_display_settings_changed_cb), display, 0);
+	display->priv->home_before_work = g_settings_get_boolean (settings, "preview-home-before-work");
+	g_clear_object (&settings);
 }
 
 static void
@@ -302,17 +409,6 @@ contact_display_link_clicked (EWebView *web_view,
 }
 
 static void
-contact_display_content_loaded_cb (EWebView *web_view,
-				   const gchar *iframe_id,
-				   gpointer user_data)
-{
-	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (web_view));
-
-	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
-		"Evo.VCardBind(%s);", iframe_id);
-}
-
-static void
 contact_display_update_actions (EWebView *web_view)
 {
 	EUIActionGroup *action_group;
@@ -343,38 +439,6 @@ contact_display_update_actions (EWebView *web_view)
 }
 
 static void
-contact_display_web_process_terminated_cb (EABContactDisplay *display,
-					   WebKitWebProcessTerminationReason reason)
-{
-	EAlertSink *alert_sink;
-
-	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
-
-	/* Cannot use the EWebView, because it places the alerts inside itself */
-	alert_sink = e_shell_utils_find_alternate_alert_sink (GTK_WIDGET (display));
-	if (alert_sink)
-		e_alert_submit (alert_sink, "addressbook:webkit-web-process-crashed", NULL);
-}
-
-static void
-eab_contact_display_settings_changed_cb (GSettings *settings,
-					 const gchar *key,
-					 gpointer user_data)
-{
-	EABContactDisplay *display = user_data;
-	gboolean home_before_work;
-
-	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
-
-	home_before_work = g_settings_get_boolean (settings, "preview-home-before-work");
-
-	if (display->priv->contact && (home_before_work ? 1 : 0) != (display->priv->home_before_work ? 1 : 0)) {
-		display->priv->home_before_work = home_before_work;
-		load_contact (display);
-	}
-}
-
-static void
 eab_contact_display_class_init (EABContactDisplayClass *class)
 {
 	GObjectClass *object_class;
@@ -383,6 +447,7 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = contact_display_set_property;
 	object_class->get_property = contact_display_get_property;
+	object_class->constructed = contact_display_contructed;
 	object_class->dispose = contact_display_dispose;
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
@@ -437,63 +502,7 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 static void
 eab_contact_display_init (EABContactDisplay *display)
 {
-	static const gchar *eui =
-		"<eui>"
-		  "<menu id='context'>"
-		    "<placeholder id='custom-actions-1'>"
-		      "<item action='contact-send-message'/>"
-		    "</placeholder>"
-		    "<placeholder id='custom-actions-2'>"
-		      "<item action='contact-mailto-copy'/>"
-		    "</placeholder>"
-		  "</menu>"
-		"</eui>";
-
-	static const EUIActionEntry internal_mailto_entries[] = {
-
-		{ "contact-mailto-copy",
-		  "edit-copy",
-		  N_("Copy _Email Address"),
-		  NULL,
-		  N_("Copy the email address to the clipboard"),
-		  action_contact_mailto_copy_cb, NULL, NULL, NULL },
-
-		{ "contact-send-message",
-		  "mail-message-new",
-		  N_("_Send New Message To…"),
-		  NULL,
-		  N_("Send a mail message to this address"),
-		  action_contact_send_message_cb, NULL, NULL, NULL }
-	};
-
-	EWebView *web_view;
-	EUIManager *ui_manager;
-	GSettings *settings;
-
 	display->priv = eab_contact_display_get_instance_private (display);
-
-	web_view = E_WEB_VIEW (display);
-	ui_manager = e_web_view_get_ui_manager (web_view);
-
-	g_signal_connect (
-		display, "web-process-terminated",
-		G_CALLBACK (contact_display_web_process_terminated_cb), NULL);
-
-	g_signal_connect (
-		web_view, "content-loaded",
-		G_CALLBACK (contact_display_content_loaded_cb), NULL);
-	g_signal_connect (
-		web_view, "style-updated",
-		G_CALLBACK (load_contact), NULL);
-
-	e_ui_manager_add_actions_with_eui_data (ui_manager, "internal-mailto", NULL,
-		internal_mailto_entries, G_N_ELEMENTS (internal_mailto_entries), display, eui);
-
-	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
-	g_signal_connect_object (settings, "changed::preview-home-before-work",
-		G_CALLBACK (eab_contact_display_settings_changed_cb), display, 0);
-	display->priv->home_before_work = g_settings_get_boolean (settings, "preview-home-before-work");
-	g_clear_object (&settings);
 }
 
 GtkWidget *

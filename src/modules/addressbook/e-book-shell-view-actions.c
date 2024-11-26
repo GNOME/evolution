@@ -1702,6 +1702,12 @@ e_book_shell_view_actions_init (EBookShellView *self)
 
 	/* Hide it from the start */
 	e_ui_action_set_visible (ACTION (CONTACT_CARDS_SORT_BY_MENU), FALSE);
+
+	e_ui_manager_set_enum_entries_usable_for_kinds (ui_manager, E_UI_ELEMENT_KIND_MENU,
+		contact_cards_sort_by_entries, G_N_ELEMENTS (contact_cards_sort_by_entries));
+
+	e_ui_manager_set_enum_entries_usable_for_kinds (ui_manager, 0,
+		contact_search_entries, G_N_ELEMENTS (contact_search_entries));
 }
 
 void

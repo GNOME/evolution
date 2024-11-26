@@ -902,13 +902,17 @@ e_comp_editor_event_constructed (GObject *object)
 	EFocusTracker *focus_tracker;
 	EMeetingStore *meeting_store;
 	ENameSelector *name_selector;
+	EUIManager *ui_manager;
 	GtkWidget *widget;
 
 	G_OBJECT_CLASS (e_comp_editor_event_parent_class)->constructed (object);
 
 	event_editor = E_COMP_EDITOR_EVENT (object);
 	comp_editor = E_COMP_EDITOR (event_editor);
+	ui_manager = e_comp_editor_get_ui_manager (comp_editor);
 	focus_tracker = e_comp_editor_get_focus_tracker (comp_editor);
+
+	e_ui_manager_freeze (ui_manager);
 
 	page = e_comp_editor_page_general_new (comp_editor,
 		_("_Calendar:"), E_SOURCE_EXTENSION_CALENDAR,
@@ -1044,6 +1048,10 @@ e_comp_editor_event_constructed (GObject *object)
 
 	g_signal_connect (comp_editor, "notify::target-client",
 		G_CALLBACK (ece_event_notify_target_client_cb), NULL);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (comp_editor));
+
+	e_ui_manager_thaw (ui_manager);
 }
 
 static void

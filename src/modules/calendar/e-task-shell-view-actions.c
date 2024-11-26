@@ -1008,6 +1008,9 @@ e_task_shell_view_actions_init (ETaskShellView *self)
 		ACTION (TASK_PREVIEW), "active",
 		ACTION (TASK_VIEW_VERTICAL), "sensitive",
 		G_BINDING_SYNC_CREATE);
+
+	e_ui_manager_set_enum_entries_usable_for_kinds (ui_manager, 0,
+		task_search_entries, G_N_ELEMENTS (task_search_entries));
 }
 
 void

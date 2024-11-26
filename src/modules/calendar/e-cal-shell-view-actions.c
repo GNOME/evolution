@@ -1825,6 +1825,9 @@ e_cal_shell_view_actions_init (ECalShellView *self)
 		ACTION (CALENDAR_PREVIEW), "active",
 		ACTION (CALENDAR_PREVIEW_HORIZONTAL), "sensitive",
 		G_BINDING_SYNC_CREATE);
+
+	e_ui_manager_set_enum_entries_usable_for_kinds (ui_manager, 0,
+		calendar_search_entries, G_N_ELEMENTS (calendar_search_entries));
 }
 
 void

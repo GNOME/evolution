@@ -138,6 +138,8 @@ struct _EShellView {
  * @init_ui_data:	Class method for the #EShellView::init-ui-data signal.
  *			The subclasses can override it to add actions into
  *			the view's UI manager.
+ * @add_ui_customizers:	Class method to add any additional EUICustomizer-s into
+ *                      the #EUICustomizeDialog within e_shell_view_run_ui_customize_dialog(). It can be NULL.
  *
  * #EShellViewClass contains a number of important settings for subclasses.
  **/
@@ -186,6 +188,8 @@ struct _EShellViewClass {
 	void		(*execute_search)	(EShellView *shell_view);
 	void		(*update_actions)	(EShellView *shell_view);
 	void		(*init_ui_data)		(EShellView *shell_view);
+	void		(*add_ui_customizers)	(EShellView *shell_view,
+						 EUICustomizeDialog *dialog);
 };
 
 GType		e_shell_view_get_type		(void);
@@ -279,6 +283,9 @@ EActivity *	e_shell_view_submit_thread_job	(EShellView *shell_view,
 						 EAlertSinkThreadJobFunc func,
 						 gpointer user_data,
 						 GDestroyNotify free_user_data);
+void		e_shell_view_run_ui_customize_dialog
+						(EShellView *self,
+						 const gchar *id);
 
 gboolean	e_shell_view_util_layout_to_state_cb
 						(GValue *value,

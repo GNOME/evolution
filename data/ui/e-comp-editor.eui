@@ -30,6 +30,8 @@
       <item action='delete-selection'/>
       <separator/>
       <item action='select-all'/>
+      <separator/>
+      <item action='customize-toolbar'/>
     </submenu>
     <submenu action='view-menu'>
       <item action='show-toolbar'/>

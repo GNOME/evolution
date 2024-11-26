@@ -78,6 +78,7 @@ book_shell_view_constructed (GObject *object)
 {
 	EBookShellView *book_shell_view;
 	EUIManager *ui_manager;
+	EUICustomizer *customizer;
 
 	ui_manager = e_shell_view_get_ui_manager (E_SHELL_VIEW (object));
 
@@ -90,6 +91,10 @@ book_shell_view_constructed (GObject *object)
 	e_book_shell_view_private_constructed (book_shell_view);
 
 	e_ui_manager_thaw (ui_manager);
+
+	customizer = e_ui_manager_get_customizer (ui_manager);
+	e_ui_customizer_register (customizer, "address-book-popup", _("Address Book Context Menu"));
+	e_ui_customizer_register (customizer, "contact-popup", _("Contact Context Menu"));
 }
 
 static void

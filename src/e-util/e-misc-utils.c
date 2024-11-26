@@ -207,27 +207,6 @@ window_unmap_cb (GtkWindow *window,
 }
 
 /**
- * e_get_accels_filename:
- *
- * Returns the name of the user data file containing custom keyboard
- * accelerator specifications.
- *
- * Returns: filename for accelerator specifications
- **/
-const gchar *
-e_get_accels_filename (void)
-{
-	static gchar *filename = NULL;
-
-	if (G_UNLIKELY (filename == NULL)) {
-		const gchar *config_dir = e_get_user_config_dir ();
-		filename = g_build_filename (config_dir, "accels", NULL);
-	}
-
-	return filename;
-}
-
-/**
  * e_show_uri:
  * @parent: a parent #GtkWindow or %NULL
  * @uri: the URI to show
@@ -4836,7 +4815,10 @@ e_util_detach_menu_on_idle_cb (gpointer user_data)
 {
 	GtkMenu *menu = user_data;
 
-	gtk_menu_detach (menu);
+	/* it can be NULL when the menu is closed by clicking on a menu item and
+	   non-NULL when the menu is dismissed without picking any item */
+	if (gtk_menu_get_attach_widget (menu))
+		gtk_menu_detach (menu);
 
 	return G_SOURCE_REMOVE;
 }
@@ -4858,7 +4840,7 @@ e_util_menu_deactivate_cb (GtkMenu *menu,
  *
  * Connects a signal handler on a "deactivate" signal of the @menu and
  * calls gtk_menu_detach() after the handler is invoked, which can cause
- * destroy of the @menu.
+ * destroy of the @menu. The @menu should be already attached to a widget.
  *
  * As the #GAction-s are not executed immediately by the GTK, the detach can be
  * called only later, not in the deactivate signal handler. This function makes
@@ -4871,6 +4853,7 @@ void
 e_util_connect_menu_detach_after_deactivate (GtkMenu *menu)
 {
 	g_return_if_fail (GTK_IS_MENU (menu));
+	g_return_if_fail (gtk_menu_get_attach_widget (menu) != NULL);
 
 	g_signal_connect (
 		menu, "deactivate",

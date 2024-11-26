@@ -330,8 +330,6 @@ main (gint argc,
 		gtk_icon_theme_prepend_search_path (icon_theme, EVOLUTION_ICONDIR_IN_PREFIX);
 		#endif
 
-		gtk_accel_map_load (e_get_accels_filename ());
-
 		#ifdef DEVELOPMENT
 		settings = e_util_ref_settings ("org.gnome.evolution.shell");
 		skip_warning_dialog = g_settings_get_boolean (
@@ -390,9 +388,6 @@ main (gint argc,
 		if (e_file_lock_get_pid () == getpid ())
 			e_file_lock_destroy ();
 	}
-
-	if (!is_remote)
-		gtk_accel_map_save (e_get_accels_filename ());
 
 	e_misc_util_free_global_memory ();
 

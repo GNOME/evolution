@@ -254,6 +254,8 @@
     <title>User Interface Manager</title>
     <xi:include href="xml/e-ui-action.xml"/>
     <xi:include href="xml/e-ui-action-group.xml"/>
+    <xi:include href="xml/e-ui-customize-dialog.xml"/>
+    <xi:include href="xml/e-ui-customizer.xml"/>
     <xi:include href="xml/e-ui-manager.xml"/>
     <xi:include href="xml/e-ui-menu.xml"/>
     <xi:include href="xml/e-ui-parser.xml"/>

@@ -2152,6 +2152,12 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		shell, "online",
 		ACTION (MAIL_DOWNLOAD), "sensitive",
 		G_BINDING_SYNC_CREATE);
+
+	e_ui_manager_set_enum_entries_usable_for_kinds (ui_manager, 0,
+		mail_search_entries, G_N_ELEMENTS (mail_search_entries));
+
+	e_ui_manager_set_enum_entries_usable_for_kinds (ui_manager, 0,
+		mail_scope_entries, G_N_ELEMENTS (mail_scope_entries));
 }
 
 void

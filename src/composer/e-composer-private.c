@@ -329,6 +329,11 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	action = e_ui_manager_get_action (ui_manager, "EMsgComposer::charset-menu");
 	e_ui_action_set_state (action, g_variant_new_string (priv->charset));
+	e_ui_action_set_usable_for_kinds (action, E_UI_ELEMENT_KIND_MENU);
+
+	e_ui_manager_set_actions_usable_for_kinds (ui_manager, E_UI_ELEMENT_KIND_HEADERBAR,
+		"EMsgComposer::menu-button",
+		NULL);
 
 	/* Configure an EFocusTracker to manage selection actions. */
 
@@ -355,6 +360,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 		ui_item = e_ui_manager_create_item (ui_manager, "main-headerbar");
 		widget = GTK_WIDGET (ui_item);
 		gtk_window_set_titlebar (window, widget);
+
+		e_ui_customizer_register (e_ui_manager_get_customizer (ui_manager), "main-headerbar", NULL);
 	}
 
 	ui_item = e_html_editor_get_ui_object (editor, E_HTML_EDITOR_UI_OBJECT_MAIN_TOOLBAR);

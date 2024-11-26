@@ -18,23 +18,15 @@
     <desc>Moving and changing tool bar buttons, menu entries, and keyboard shortcuts.</desc>
   </info>
 
-  <title>Customizing tool bar and menu items</title>
+  <title>Customizing user interface</title>
 
-<note style="warning">
-<p>These steps are for tech savvy users. These steps are not suitable for average users.</p>
-</note>
+<p><app>Evolution</app> allows to customize its menus, tool bars and shortcuts in <guiseq><gui>View</gui><gui>Layout</gui><gui>Customize…</gui></guiseq>.
+The toolbars which can be customized offer a context menu option to do so.</p>
 
-<p><app>Evolution</app> offers no graphical interface to customize its tool bars or items in menus.</p>
+<p>The <gui>Customize User Interface</gui> dialog allows to add, remove and reorder the items in the toolbars. Use either the buttons beside the layout tree or drag and drop the items.</p>
 
-<p>Advanced users can experiment by exploring and editing the corresponding system-wide file(s) under <file>$PREFIX/share/evolution/ui/</file>.</p>
+<p>Beside the <gui>Layout</gui> customization, it's possible to change also <gui>Shortcuts</gui> for the actions. One action can have multiple shortcuts.</p>
 
-<p>Copy those files with the file ending <file>.ui</file> which you would like to modify to your personal configuration folder <file>$HOME/.config/evolution/ui/</file>.
-Modify the files in your personal configuration folder so the next <app>Evolution</app> software update will not overwrite your changes.</p>
-
-<p>Changing the order of tool bar/menu items in some <file>.ui</file> files may not affect their displayed order in <app>Evolution</app>. As a workaround, the attribute <code>position='top'</code> can be added to some elements (e.g. <code>toolitem</code> and non-empty <code>placeholder</code> elements), which will place them before other items in the group and cause them to be displayed according to their order in the <file>.ui</file> file. This attribute may need to be added to all items in a group to achieve the overall desired item order.</p>
-
-<p>The modified files will be used if the <code>evolution-ui-version</code> attribute of the root <code>ui</code> element matches the version of the default files provided by <app>Evolution</app>.</p>
-
-<p>To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> while <app>Evolution</app> is not running. Commented lines start with a <code>;</code> character and will be ignored. Not all shortcuts can be changed though.</p>
+<p>The changes in the dialog are saved when it's closed and the user interface is updated accordingly.</p>
 
 </page>

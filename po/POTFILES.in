@@ -283,6 +283,8 @@ src/e-util/e-timezone-dialog.c
 [type: gettext/glade]src/e-util/e-timezone-dialog.ui
 src/e-util/e-tree.c
 src/e-util/e-tree-selection-model.c
+src/e-util/e-ui-customize-dialog.c
+src/e-util/e-ui-customizer.c
 src/e-util/e-url-entry.c
 src/e-util/evolution-source-viewer.c
 src/e-util/e-webdav-browser.c
