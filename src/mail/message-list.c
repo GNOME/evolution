@@ -2137,8 +2137,10 @@ ml_tree_value_at_ex (ETreeModel *etm,
 			str = camel_message_info_get_to (msg_info);
 		else if (is_sent == -1)
 			str = camel_message_info_get_from (msg_info);
-		else
+		else {
 			g_warn_if_reached ();
+			str = NULL;
+		}
 
 		return (gpointer) (str ? str : "");
 	}
