@@ -178,6 +178,13 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	state = e_shell_content_check_state (shell_content);
 
+	if (e_memo_shell_content_get_preview_visible (E_MEMO_SHELL_CONTENT (shell_content))) {
+		EPreviewPane *preview_pane;
+
+		preview_pane = e_memo_shell_content_get_preview_pane (E_MEMO_SHELL_CONTENT (shell_content));
+		e_web_view_update_actions (e_preview_pane_get_web_view (preview_pane));
+	}
+
 	single_memo_selected =
 		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_SINGLE);
 	multiple_memos_selected =

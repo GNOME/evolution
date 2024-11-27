@@ -2501,7 +2501,7 @@ e_web_view_init (EWebView *web_view)
 		{ "uri-copy",
 		  "edit-copy",
 		  N_("_Copy Link Location"),
-		  "<Control>c",
+		  NULL,
 		  N_("Copy the link to the clipboard"),
 		  action_uri_copy_cb, NULL, NULL, NULL }
 	};
@@ -2521,7 +2521,7 @@ e_web_view_init (EWebView *web_view)
 		{ "mailto-copy",
 		  "edit-copy",
 		  N_("_Copy Name and Email Address"),
-		  "<Control>c",
+		  NULL,
 		  N_("Copy the email address with the name to the clipboard"),
 		  action_mailto_copy_cb, NULL, NULL, NULL },
 
@@ -2545,7 +2545,7 @@ e_web_view_init (EWebView *web_view)
 		{ "image-copy",
 		  "edit-copy",
 		  N_("_Copy Image"),
-		  "<Control>c",
+		  NULL,
 		  N_("Copy the image to the clipboard"),
 		  action_image_copy_cb, NULL, NULL, NULL },
 
@@ -2562,7 +2562,7 @@ e_web_view_init (EWebView *web_view)
 		{ "copy-clipboard",
 		  "edit-copy",
 		  N_("_Copy"),
-		  "<Control>c",
+		  NULL,
 		  N_("Copy the selection"),
 		  action_copy_clipboard_cb, NULL, NULL, NULL },
 

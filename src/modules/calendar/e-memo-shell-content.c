@@ -683,6 +683,8 @@ e_memo_shell_content_set_preview_visible (EMemoShellContent *memo_shell_content,
 		memo_shell_content_cursor_change_cb (
 			memo_shell_content, 0,
 			E_TABLE (memo_shell_content->priv->memo_table));
+
+		e_web_view_update_actions (e_preview_pane_get_web_view (E_PREVIEW_PANE (memo_shell_content->priv->preview_pane)));
 	}
 
 	g_object_notify (G_OBJECT (memo_shell_content), "preview-visible");

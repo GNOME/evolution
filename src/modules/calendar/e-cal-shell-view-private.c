@@ -454,7 +454,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 
 		handler_id = g_signal_connect_swapped (
 			calendar_view, "selection-changed",
-			G_CALLBACK (e_shell_view_update_actions),
+			G_CALLBACK (e_shell_view_update_actions_in_idle),
 			cal_shell_view);
 		priv->views[ii].selection_changed_handler_id = handler_id;
 

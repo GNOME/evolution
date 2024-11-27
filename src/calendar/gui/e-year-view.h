@@ -56,6 +56,7 @@ gboolean	e_year_view_get_use_24hour_format	(EYearView *self);
 void		e_year_view_set_highlight_today		(EYearView *self,
 							 gboolean value);
 gboolean	e_year_view_get_highlight_today		(EYearView *self);
+void		e_year_view_update_actions		(EYearView *self);
 
 G_END_DECLS
 

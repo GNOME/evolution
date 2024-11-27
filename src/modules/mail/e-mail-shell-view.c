@@ -1610,6 +1610,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	EMFolderTreeModel *model;
 	EMailReader *reader;
 	EMailView *mail_view;
+	EMailDisplay *display;
 	EUIAction *action;
 	CamelStore *store = NULL;
 	GList *list, *link;
@@ -1641,6 +1642,11 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	reader = E_MAIL_READER (mail_view);
+
+	display = e_mail_reader_get_mail_display (reader);
+	if (gtk_widget_is_visible (GTK_WIDGET (display)))
+		e_web_view_update_actions (E_WEB_VIEW (display));
+
 	state = e_mail_reader_check_state (reader);
 	e_mail_reader_update_actions (reader, state);
 

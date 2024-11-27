@@ -154,7 +154,7 @@ selection_change (EBookShellView *book_shell_view,
 		}
 	}
 
-	e_shell_view_update_actions (shell_view);
+	e_shell_view_update_actions_in_idle (shell_view);
 
 	e_book_shell_content_set_preview_contact (book_shell_content, contact);
 
@@ -320,7 +320,7 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 
 		g_signal_connect_object (
 			widget, "command-state-change",
-			G_CALLBACK (e_shell_view_update_actions),
+			G_CALLBACK (e_shell_view_update_actions_in_idle),
 			book_shell_view, G_CONNECT_SWAPPED);
 
 		g_signal_connect_object (

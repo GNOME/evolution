@@ -268,6 +268,9 @@ book_shell_view_update_actions (EShellView *shell_view)
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	state = e_shell_content_check_state (shell_content);
 
+	if (e_book_shell_content_get_preview_visible (E_BOOK_SHELL_CONTENT (shell_content)))
+		e_web_view_update_actions (e_preview_pane_get_web_view (e_book_shell_content_get_preview_pane (E_BOOK_SHELL_CONTENT (shell_content))));
+
 	single_contact_selected =
 		(state & E_BOOK_SHELL_CONTENT_SELECTION_SINGLE);
 	multiple_contacts_selected =

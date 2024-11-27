@@ -24,6 +24,7 @@
 
 #include "calendar/gui/ea-calendar.h"
 #include "calendar/gui/calendar-view.h"
+#include "calendar/gui/e-year-view.h"
 
 #include "e-cal-base-shell-sidebar.h"
 #include "e-cal-shell-content.h"
@@ -556,6 +557,9 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		if (action)
 			e_ui_action_set_sensitive (action, FALSE);
 	}
+
+	if (E_IS_YEAR_VIEW (cal_view))
+		e_year_view_update_actions (E_YEAR_VIEW (cal_view));
 }
 
 static gboolean

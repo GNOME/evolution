@@ -698,6 +698,9 @@ e_book_shell_content_set_preview_visible (EBookShellContent *book_shell_content,
 
 	book_shell_content->priv->preview_visible = preview_visible;
 
+	if (preview_visible && book_shell_content->priv->preview_pane)
+		e_web_view_update_actions (e_preview_pane_get_web_view (E_PREVIEW_PANE (book_shell_content->priv->preview_pane)));
+
 	g_object_notify (G_OBJECT (book_shell_content), "preview-visible");
 }
 

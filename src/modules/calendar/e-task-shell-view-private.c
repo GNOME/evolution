@@ -308,7 +308,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 
 	handler_id = g_signal_connect_swapped (
 		priv->task_table, "selection-change",
-		G_CALLBACK (e_shell_view_update_actions),
+		G_CALLBACK (e_shell_view_update_actions_in_idle),
 		task_shell_view);
 	priv->selection_change_2_handler_id = handler_id;
 

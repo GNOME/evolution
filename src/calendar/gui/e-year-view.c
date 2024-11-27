@@ -2272,6 +2272,8 @@ e_year_view_set_preview_visible (EYearView *self,
 	else
 		e_cal_component_preview_clear (self->priv->preview);
 
+	e_year_view_update_actions (self);
+
 	g_object_notify_by_pspec (G_OBJECT (self), obj_props[PROP_PREVIEW_VISIBLE]);
 }
 
@@ -2398,4 +2400,13 @@ e_year_view_get_highlight_today (EYearView *self)
 	g_return_val_if_fail (E_IS_YEAR_VIEW (self), FALSE);
 
 	return self->priv->highlight_today;
+}
+
+void
+e_year_view_update_actions (EYearView *self)
+{
+	g_return_if_fail (E_IS_YEAR_VIEW (self));
+
+	if (e_year_view_get_preview_visible (self))
+		e_web_view_update_actions (E_WEB_VIEW (self->priv->preview));
 }

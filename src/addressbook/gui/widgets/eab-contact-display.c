@@ -244,11 +244,11 @@ contact_display_hovering_over_link (EWebView *web_view,
 		name = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 		if (name == NULL)
 			e_contact_get_const (contact, E_CONTACT_FULL_NAME);
-		g_return_if_fail (name != NULL);
-
-		message = g_strdup_printf (_("Click to mail %s"), name);
-		e_web_view_status_message (web_view, message);
-		g_free (message);
+		if (name) {
+			message = g_strdup_printf (_("Click to mail %s"), name);
+			e_web_view_status_message (web_view, message);
+			g_free (message);
+		}
 
 		handled = TRUE;
 	} else if (uri && g_str_has_prefix (uri, "open-map:")) {
@@ -454,7 +454,7 @@ eab_contact_display_init (EABContactDisplay *display)
 		{ "contact-mailto-copy",
 		  "edit-copy",
 		  N_("Copy _Email Address"),
-		  "<Control>c",
+		  NULL,
 		  N_("Copy the email address to the clipboard"),
 		  action_contact_mailto_copy_cb, NULL, NULL, NULL },
 
