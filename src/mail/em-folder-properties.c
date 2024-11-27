@@ -545,7 +545,8 @@ emfp_get_folder_item (EConfig *ec,
 		CamelFolderQuotaInfo *quota = context->quota_info;
 
 		for (info = quota; info; info = info->next) {
-			gchar *descr;
+			gchar *descr, *text, *lefts_str, *total_str;
+			guint64 lefts;
 			gint procs;
 
 			/* should not happen, but anyway... */
@@ -563,10 +564,25 @@ emfp_get_folder_item (EConfig *ec,
 			procs = (gint) ((((gdouble) info->used) /
 				((gdouble) info->total)) * 100.0 + 0.5);
 
-			row = add_numbered_row (
-				GTK_TABLE (table), row,
-				descr, "%d%%", procs);
+			lefts = info->total - info->used;
 
+			if (info->name && g_ascii_strcasecmp (info->name, "STORAGE") == 0) {
+				lefts_str = g_format_size (lefts * 1024);
+				total_str = g_format_size (info->total * 1024);
+			} else {
+				lefts_str = g_strdup_printf ("%" G_GUINT64_FORMAT, lefts);
+				total_str = g_strdup_printf ("%" G_GUINT64_FORMAT, info->total);
+			}
+
+			/* Translators: the string is related to a quota usage, constructing a text like "50% (500 KB of 1 MB lefts)" */
+			text = g_strdup_printf (_("%d%% (%s of %s lefts)"), procs, lefts_str, total_str);
+
+			g_free (lefts_str);
+			g_free (total_str);
+
+			row = add_text_row (GTK_TABLE (table), row, descr, text, FALSE);
+
+			g_free (text);
 			g_free (descr);
 		}
 	}
