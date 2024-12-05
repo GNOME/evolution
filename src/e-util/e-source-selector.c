@@ -723,6 +723,7 @@ source_selector_load_sources_status (ESourceSelector *selector,
 				gtk_tree_store_set (tree_store, &child,
 					COLUMN_NAME, sdc->display_name,
 					COLUMN_CHILD_DATA, sdc->child_data,
+					COLUMN_WEIGHT, PANGO_WEIGHT_NORMAL,
 					-1);
 
 				if (sdc->selected) {
@@ -4187,6 +4188,7 @@ e_source_selector_add_source_child (ESourceSelector *selector,
 	gtk_tree_store_set (tree_store, &child,
 		COLUMN_NAME, display_name,
 		COLUMN_CHILD_DATA, child_data,
+		COLUMN_WEIGHT, PANGO_WEIGHT_NORMAL,
 		-1);
 }
 
