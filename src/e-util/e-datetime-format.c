@@ -607,7 +607,7 @@ unref_setup_keyfile (gpointer ptr)
 
 /**
  * e_datetime_format_add_setup_widget:
- * @table: Where to attach widgets. Requires 3 columns.
+ * @grid: Where to attach widgets. Requires 3 columns.
  * @row: On which row to attach.
  * @component: Component identifier for the format. Cannot be empty nor NULL.
  * @part: Part in the component, can be NULL or empty string.
@@ -619,7 +619,7 @@ unref_setup_keyfile (gpointer ptr)
  * on user's changes.
  **/
 void
-e_datetime_format_add_setup_widget (GtkWidget *table,
+e_datetime_format_add_setup_widget (GtkGrid *grid,
                                     gint row,
                                     const gchar *component,
                                     const gchar *part,
@@ -627,10 +627,10 @@ e_datetime_format_add_setup_widget (GtkWidget *table,
                                     const gchar *caption)
 {
 	GtkListStore *store;
-	GtkWidget *label, *combo, *preview, *align;
+	GtkWidget *label, *combo, *preview;
 	gchar *key;
 
-	g_return_if_fail (table != NULL);
+	g_return_if_fail (GTK_IS_GRID (grid));
 	g_return_if_fail (row >= 0);
 	g_return_if_fail (component != NULL);
 	g_return_if_fail (*component != 0);
@@ -638,6 +638,7 @@ e_datetime_format_add_setup_widget (GtkWidget *table,
 	key = gen_key (component, part, kind);
 
 	label = gtk_label_new_with_mnemonic (caption ? caption : _("Format:"));
+	gtk_label_set_xalign (GTK_LABEL (label), 1.0);
 
 	store = gtk_list_store_new (1, G_TYPE_STRING);
 	combo = g_object_new (
@@ -651,16 +652,13 @@ e_datetime_format_add_setup_widget (GtkWidget *table,
 	fill_combo_formats (combo, key, kind);
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, combo);
 
-	align = gtk_alignment_new (0.0, 0.5, 0.0, 0.0);
-	gtk_container_add (GTK_CONTAINER (align), combo);
-
-	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row + 1, 0, 0, 2, 0);
-	gtk_table_attach ((GtkTable *) table, align, 1, 2, row, row + 1, 0, 0, 2, 0);
+	gtk_grid_attach (grid, label, 0, row, 1, 1);
+	gtk_grid_attach (grid, combo, 1, row, 1, 1);
 
 	preview = gtk_label_new ("");
 	gtk_label_set_xalign (GTK_LABEL (preview), 0);
 	gtk_label_set_ellipsize (GTK_LABEL (preview), PANGO_ELLIPSIZE_END);
-	gtk_table_attach ((GtkTable *) table, preview, 2, 3, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 2, 0);
+	gtk_grid_attach (grid, preview, 2, row, 1, 1);
 
 	if (!setup_keyfile) {
 		gchar *filename;
@@ -685,7 +683,7 @@ e_datetime_format_add_setup_widget (GtkWidget *table,
 
 	update_preview_widget (combo);
 
-	gtk_widget_show_all (table);
+	gtk_widget_show_all (GTK_WIDGET (grid));
 }
 
 gchar *

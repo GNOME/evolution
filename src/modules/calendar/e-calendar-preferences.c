@@ -758,7 +758,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	GObject *object;
 	GtkWidget *toplevel;
 	GtkWidget *widget;
-	GtkWidget *table;
+	GtkGrid *grid;
 	GSList *l;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
@@ -1242,9 +1242,9 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		G_SETTINGS_BIND_DEFAULT);
 
 	/* date/time format */
-	table = e_builder_get_widget (prefs->priv->builder, "datetime_format_table");
-	e_datetime_format_add_setup_widget (table, 0, "calendar", "table",  DTFormatKindDateTime, _("Ti_me and date:"));
-	e_datetime_format_add_setup_widget (table, 1, "calendar", "table",  DTFormatKindDate, _("_Date only:"));
+	grid = GTK_GRID (e_builder_get_widget (prefs->priv->builder, "datetime_format_grid"));
+	e_datetime_format_add_setup_widget (grid, 0, "calendar", "table",  DTFormatKindDateTime, _("Ti_me and date:"));
+	e_datetime_format_add_setup_widget (grid, 1, "calendar", "table",  DTFormatKindDate, _("_Date only:"));
 
 	/* Hook up and add the toplevel widget */
 

@@ -1825,7 +1825,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	GHashTable *default_header_hash;
 	GtkWidget *toplevel;
 	GtkWidget *container;
-	GtkWidget *table;
+	GtkGrid *grid;
 	GtkWidget *widget;
 	GtkTreeModel *tree_model;
 	GtkTreeSelection *selection;
@@ -2256,14 +2256,14 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	emmp_user_headers_changed_cb (prefs->priv->eds_settings, NULL, prefs);
 
 	/* date/time format */
-	table = e_builder_get_widget (prefs->priv->builder, "datetime-format-table");
+	grid = GTK_GRID (e_builder_get_widget (prefs->priv->builder, "datetime-format-grid"));
 	/* To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list */
-	e_datetime_format_add_setup_widget (table, 0, "mail", "table",  DTFormatKindDateTime, _("_Table column:"));
+	e_datetime_format_add_setup_widget (grid, 0, "mail", "table",  DTFormatKindDateTime, _("_Table column:"));
 	/* To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview */
-	e_datetime_format_add_setup_widget (table, 1, "mail", "header", DTFormatKindDateTime, _("_Date header:"));
+	e_datetime_format_add_setup_widget (grid, 1, "mail", "header", DTFormatKindDateTime, _("_Date header:"));
 	widget = gtk_check_button_new_with_mnemonic (_("Show _original header value"));
 	gtk_widget_show (widget);
-	gtk_table_attach ((GtkTable *) table, widget, 0, 3, 2, 3, GTK_EXPAND | GTK_FILL, 0, 12, 0);
+	gtk_grid_attach (grid, widget, 0, 2, 3, 1);
 	g_settings_bind (
 		settings, "show-real-date",
 		widget, "active",

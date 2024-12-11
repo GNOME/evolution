@@ -117,10 +117,11 @@ get_general_page (EConfig *config,
 
 	itembox = add_section (vbox, _("Date/Time Format"), FALSE);
 
-	widget = gtk_table_new (1, 3, FALSE);
+	widget = gtk_grid_new ();
+	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
 	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
 	e_datetime_format_add_setup_widget (
-		widget, 0, "addressbook", "table",
+		GTK_GRID (widget), 0, "addressbook", "table",
 		DTFormatKindDateTime, _("_Table column:"));
 	gtk_widget_show (widget);
 

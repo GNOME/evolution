@@ -3475,54 +3475,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkAlignment" id="datetime-format-alignment">
+              <object class="GtkGrid" id="datetime-format-grid">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
-                <child>
-                  <object class="GtkTable" id="datetime-format-table">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="n_columns">3</property>
-                    <property name="row_spacing">6</property>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                  </object>
-                </child>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">6</property>
+                <property name="margin-start">12</property>
               </object>
               <packing>
                 <property name="expand">False</property>

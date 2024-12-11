@@ -42,7 +42,7 @@ gchar *		e_datetime_format_dup_config_filename
 						(void);
 void		e_datetime_format_free_memory	(void);
 void		e_datetime_format_add_setup_widget
-						(GtkWidget *table,
+						(GtkGrid *grid,
 						 gint row,
 						 const gchar *component,
 						 const gchar *part,

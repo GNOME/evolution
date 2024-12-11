@@ -780,29 +780,11 @@
               </packing>
             </child>
             <child>
-              <object class="GtkTable" id="datetime_format_table">
+              <object class="GtkGrid" id="datetime_format_grid">
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">6</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="n_columns">3</property>
-                <property name="row_spacing">6</property>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
               </object>
               <packing>
                 <property name="expand">True</property>
