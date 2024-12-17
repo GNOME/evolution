@@ -105,44 +105,35 @@ Please select a follow up action from the “Flag” menu.</property>
       </packing>
     </child>
     <child>
-      <object class="GtkTable" id="table2">
+      <object class="GtkGrid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="n_rows">3</property>
-        <property name="n_columns">3</property>
-        <property name="column_spacing">6</property>
-        <property name="row_spacing">6</property>
+        <property name="column-spacing">6</property>
+        <property name="row-spacing">6</property>
         <child>
-          <placeholder/>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label3">
+          <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">_Flag:</property>
             <property name="use_underline">True</property>
-            <property name="justify">center</property>
-            <property name="xalign">0</property>
+            <property name="xalign">1</property>
           </object>
           <packing>
-            <property name="x_options">GTK_FILL</property>
-            <property name="y_options"/>
+            <property name="top-attach">0</property>
+            <property name="left-attach">0</property>
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label4">
+          <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">_Due By:</property>
             <property name="use_underline">True</property>
-            <property name="justify">center</property>
-            <property name="xalign">0</property>
+            <property name="xalign">1</property>
           </object>
           <packing>
-            <property name="top_attach">1</property>
-            <property name="bottom_attach">2</property>
-            <property name="x_options">GTK_FILL</property>
-            <property name="y_options"/>
+            <property name="top-attach">1</property>
+            <property name="left-attach">0</property>
           </packing>
         </child>
         <child>
@@ -151,11 +142,8 @@ Please select a follow up action from the “Flag” menu.</property>
             <property name="visible">True</property>
           </object>
           <packing>
-            <property name="left_attach">1</property>
-            <property name="right_attach">2</property>
-            <property name="top_attach">1</property>
-            <property name="bottom_attach">2</property>
-            <property name="y_options">GTK_FILL</property>
+            <property name="top-attach">1</property>
+            <property name="left-attach">1</property>
           </packing>
         </child>
         <child>
@@ -168,18 +156,15 @@ Please select a follow up action from the “Flag” menu.</property>
             <property name="draw_indicator">True</property>
           </object>
           <packing>
-            <property name="left_attach">1</property>
-            <property name="right_attach">2</property>
-            <property name="top_attach">2</property>
-            <property name="bottom_attach">3</property>
-            <property name="x_options">GTK_FILL</property>
-            <property name="y_options"/>
+            <property name="top-attach">2</property>
+            <property name="left-attach">1</property>
           </packing>
         </child>
         <child>
           <object class="GtkComboBox" id="combo">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="hexpand">True</property>
             <property name="model">combo_model</property>
             <property name="has_entry">True</property>
             <property name="entry_text_column">0</property>
@@ -190,10 +175,8 @@ Please select a follow up action from the “Flag” menu.</property>
             </child>
           </object>
           <packing>
-            <property name="left_attach">1</property>
-            <property name="right_attach">2</property>
-            <property name="x_options">GTK_FILL</property>
-            <property name="y_options"/>
+            <property name="top-attach">0</property>
+            <property name="left-attach">1</property>
           </packing>
         </child>
       </object>
