@@ -65,12 +65,12 @@ typedef struct _ETreeClass ETreeClass;
 typedef struct _ETreePrivate ETreePrivate;
 
 struct _ETree {
-	GtkTable parent;
+	GtkGrid parent;
 	ETreePrivate *priv;
 };
 
 struct _ETreeClass {
-	GtkTableClass parent_class;
+	GtkGridClass parent_class;
 
 	void		(*cursor_change)	(ETree *tree,
 						 gint row,
