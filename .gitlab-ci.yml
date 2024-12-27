@@ -1,6 +1,19 @@
 stages:
   - test
   - pages
+  - tarball
+  - release
+
+variables:
+  TARBALL_PATH_PREFIX: ${CI_PROJECT_NAME}-${CI_COMMIT_TAG}
+  TARBALL_NAME: ${TARBALL_PATH_PREFIX}.tar.xz
+
+include:
+  - component: gitlab.gnome.org/GNOME/citemplates/release-service@master
+    inputs:
+      job-stage: release
+      dist-job-name: "tarball"
+      tarball-artifact-path: "${TARBALL_NAME}"
 
 flatpak:
   image: "quay.io/gnome_infrastructure/gnome-runtime-images:gnome-master"
@@ -95,3 +108,20 @@ pages:
     - public
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+
+tarball:
+  stage: tarball
+  image: "quay.io/gnome_infrastructure/gnome-runtime-images:gnome-master"
+  dependencies:
+    - flatpak
+  allow_failure: false
+  script:
+    - git config --global --add safe.directory `pwd`
+    - git archive --prefix=${TARBALL_PATH_PREFIX}/ HEAD | xz -z > ${TARBALL_NAME}
+  artifacts:
+    name: "${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}"
+    expire_in: 14 days
+    paths:
+      - "${TARBALL_NAME}"
+  rules:
+    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED
