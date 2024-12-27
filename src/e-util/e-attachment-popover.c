@@ -192,10 +192,8 @@ e_attachment_popover_refresh (EAttachmentPopover *self)
 }
 
 static void
-e_attachment_popover_save_changes_clicked_cb (GtkButton *button,
-					      gpointer user_data)
+e_attachment_popover_save_changes_cb (EAttachmentPopover *self)
 {
-	EAttachmentPopover *self = user_data;
 	CamelMimePart *mime_part;
 	GFileInfo *file_info;
 
@@ -345,6 +343,9 @@ e_attachment_popover_constructed (GObject *object)
 
 	self->filename_entry = widget;
 
+	g_signal_connect_swapped (widget, "activate",
+		G_CALLBACK (e_attachment_popover_save_changes_cb), self);
+
 	widget = gtk_label_new_with_mnemonic (_("_Description:"));
 	g_object_set (widget,
 		"visible", TRUE,
@@ -370,6 +371,9 @@ e_attachment_popover_constructed (GObject *object)
 	row++;
 
 	self->description_entry = widget;
+
+	g_signal_connect_swapped (widget, "activate",
+		G_CALLBACK (e_attachment_popover_save_changes_cb), self);
 
 	widget = gtk_label_new_with_mnemonic (_("_MIME Type:"));
 	g_object_set (widget,
@@ -434,8 +438,8 @@ e_attachment_popover_constructed (GObject *object)
 
 	gtk_popover_set_default_widget (GTK_POPOVER (self), widget);
 
-	g_signal_connect (widget, "clicked",
-		G_CALLBACK (e_attachment_popover_save_changes_clicked_cb), self);
+	g_signal_connect_swapped (widget, "clicked",
+		G_CALLBACK (e_attachment_popover_save_changes_cb), self);
 
 	g_signal_connect_swapped (self->uri_entry, "changed",
 		G_CALLBACK (e_attachment_popover_sensitize_save_button), self);
