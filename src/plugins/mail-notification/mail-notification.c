@@ -453,7 +453,7 @@ notify_default_action_cb (NotifyNotification *notification,
 	/* Switch to the mail view. */
 	shell_view = e_shell_window_get_shell_view (shell_window, "mail");
 	action = e_shell_view_get_switcher_action (shell_view);
-	g_action_activate (G_ACTION (action), NULL);
+	e_ui_action_set_active (action, TRUE);
 
 	/* Select the latest folder with new mail. */
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
