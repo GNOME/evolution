@@ -1,3 +1,76 @@
+Evolution 3.55.1 2025-01-03
+---------------------------
+
+* Evolution replaced deprecated GtkUIManager with its own EUIManager and related
+  structures. Some API changed too. Plugins/modules should be ported accordingly.
+
+Bug Fixes:
+	I#2803 - Mail: Add a 'Correspondents' column to the message list
+	I#2834 - Account Editor: Disable Refresh button for disabled accounts (Дилян Палаузов)
+	I#2843 - ToDo bar meeting deletion differs from Calendar view
+	I#2856 - publish-calendar: Settings UI does not resize with window
+	I#2878 - Missing sender's S/MIME certificate import button
+	I#2882 - shell: Increase default window size to 1440x900 (Jordan Petridis)
+	I#2886 - Composer: Possible crash on paste
+	I#2890 - icons: stock_check-filled is dark in the dark theme
+	I#2891 - Calendar: Current view menu not always updated
+	I#2892 - e-html-editor: Check EColorCombo::default-color before using it
+	I#2893 - prefer-plain: Reword plugin description (Дилян Палаузов)
+	I#2895 - "Matches" needs clarification
+	I#2897 - Correct certificate key usage constants
+	I#2902 - ToDo bar sometimes does not display due tasks
+	I#2905 - Autocrypt header uses wrong email address
+	I#2907 - Ctrl+C does not Copy from the Mail preview
+	I#2910 - Display absolute account quota usage / total
+	M!138 - help: Mention Collection accounts, RSS feeds, the Evolution Accounts (Дилян Палаузов)
+	M!141 - message-list: Access RegenData from GTask task_data (Corentin Noël)
+	M!143 - cal-config-caldav: request checks for DAV:calendar-auto-schedule (Дилян Палаузов)
+	M!144 - ECalSourceConfig: Read-only calendars cannot be default (Дилян Палаузов)
+	M!147 - Set project-wide emacs formatting rules (Дилян Палаузов)
+	M!148 - help: Add CardDAV address book documentation (Дилян Палаузов)
+	M!151 - e-datetime-format: Port from GtkTable to GtkGrid (Corentin Noël)
+	M!152 - Allow customization of the menus, toolbars and shortcuts in the GUI
+	eds-I#570 - Adapt to libical icalrecurrencetype changes
+
+Miscellaneous:
+	HTMLEditorLinkPopover: Change button label to not clash on mnemonic
+	build: Update CMake uninstall file
+	libgnomecanvas: Add few checks for argument validity
+	Port to GTask from GSimpleAsyncResult (Corentin Noël)
+	WebKitGTK 2.46.1: Middle mouse button inserts primary clipboard twice
+	iconv-detect: Fix a memory leak detected by Coverity Scan
+	e-cell-size.c: typo (Дилян Палаузов)
+	webkit-editor: Middle mouse button double-click pastes text twice
+	Guard most of the g_file_info_get_...() calls with checks for attribute existence
+	Default inbox email: Update URIs, remove link to defunct mailing list (Andre Klapper)
+	Mail: Fix 'Send/Receive' button on the toolbar/headerbar
+	strings: harmonize drag-and-drop spelling (Alexandre Franke)
+	e-color-combo: Correct GObject property get/set type for the 'palette' property
+	Sidebar is one word (Дилян Палаузов)
+	Replace GtkMisc with GtkLabel.x/yalign (Corentin Noël)
+	EActionComboBox: User change not always notified to the listeners
+	message-list: Avoid possible use of an uninitialized variable
+	ESourceSelector: Source child drawn in too thin font
+	mail-notification: Fix switch to the 'mail' view
+	help: Clarifications on Calendar Publishing (Дилян Палаузов)
+	help: Update wiki.gnome.org hyperlinks (Дилян Палаузов)
+	help: Sidebar is one word (Дилян Палаузов)
+	help: Update a Wikipedia URI anchor (Andre Klapper)
+
+Translations:
+	Alexandre Franke (fr)
+	Andika Triwidada (id)
+	Daniel Rusek (cs)
+	Ekaterine Papava (ka)
+	Jean-Marc Tissières (fr)
+	Juliano de Souza Camargo (pt_BR)
+	Jürgen Benvenuti (de)
+	Martin (sl)
+	Милош Поповић (sr)
+	Piotr Drąg (pl)
+	Robin Mehdee (bn)
+	Yuri Chornoivan (uk)
+
 Evolution 3.54.0 2024-09-13
 ---------------------------
 
