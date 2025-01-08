@@ -15,14 +15,14 @@
     <button _label="_Send Notice" response="GTK_RESPONSE_YES"/>
   </error>
 
-  <error id="prompt-delete-meeting" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-meeting" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to delete this meeting?</_primary>
     <_secondary>All information on this meeting will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
-  <error id="prompt-delete-meeting-with-notice-organizer" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-meeting-with-notice-organizer" type="question" default="GTK_RESPONSE_APPLY">
     <_primary>Are you sure you want to delete this meeting?</_primary>
     <_secondary>All information on this meeting will be deleted and can not be restored. If you do not send a cancellation notice, the other participants may not know the meeting is canceled.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
@@ -30,7 +30,7 @@
     <button _label="Delete _without Notice" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
-  <error id="prompt-delete-meeting-with-notice-attendee" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-meeting-with-notice-attendee" type="question" default="GTK_RESPONSE_APPLY">
     <_primary>Are you sure you want to delete this meeting?</_primary>
     <_secondary>All information on this meeting will be deleted and can not be restored. If you do not send a deletion notice, the organizer may not know the meeting has been deleted.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
@@ -38,7 +38,7 @@
     <button _label="Delete _without Notice" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
-  <error id="prompt-delete-titled-meeting-with-notice-organizer" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-titled-meeting-with-notice-organizer" type="question" default="GTK_RESPONSE_APPLY">
     <_primary>Are you sure you want to delete the meeting titled “{0}”?</_primary>
     <_secondary>All information on this meeting will be deleted and can not be restored. If you do not send a cancellation notice, the other participants may not know the meeting is canceled.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
@@ -46,7 +46,7 @@
     <button _label="Delete _without Notice" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
-  <error id="prompt-delete-titled-meeting-with-notice-attendee" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-titled-meeting-with-notice-attendee" type="question" default="GTK_RESPONSE_APPLY">
     <_primary>Are you sure you want to delete the meeting titled “{0}”?</_primary>
     <_secondary>All information on this meeting will be deleted and can not be restored. If you do not send a deletion notice, the organizer may not know the meeting has been deleted.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
@@ -68,7 +68,7 @@
     <button _label="_Send Notice" response="GTK_RESPONSE_YES"/>
   </error>
 
-  <error id="prompt-delete-task" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-task" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to delete this task?</_primary>
     <_secondary>All information on this task will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
@@ -89,21 +89,21 @@
     <button _label="_Send Notice" response="GTK_RESPONSE_YES"/>
   </error>
 
-  <error id="prompt-delete-memo" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-memo" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to delete this memo?</_primary>
     <_secondary>All information on this memo will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
-  <error id="prompt-delete-titled-meeting" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-titled-meeting" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to delete the meeting titled “{0}”?</_primary>
     <_secondary>All information on this meeting will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
-  <error id="prompt-delete-titled-appointment" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-titled-appointment" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to delete the appointment titled “{0}”?</_primary>
     <_secondary>All information on this appointment will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
@@ -117,35 +117,35 @@
     <button stock="gtk-delete" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
-  <error id="prompt-delete-named-task" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-named-task" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to delete the “{0}” task?</_primary>
     <_secondary>All information on this task will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
-  <error id="prompt-delete-named-memo" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-named-memo" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to delete the memo “{0}”?</_primary>
     <_secondary>All information in this memo will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
-  <error id="prompt-delete-appointments" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-appointments" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to delete these {0} appointments?</_primary>
     <_secondary>All information on these appointments will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
-  <error id="prompt-delete-tasks" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-tasks" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to delete these {0} tasks?</_primary>
     <_secondary>All information on these tasks will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
-  <error id="prompt-delete-memos" type="question" default="GTK_RESPONSE_NO">
+  <error id="prompt-delete-memos" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to delete these {0} memos?</_primary>
     <_secondary>All information in these memos will be deleted and can not be restored.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>

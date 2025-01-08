@@ -104,14 +104,14 @@ The reported error was “{0}”.</_secondary>
     <button _label="Use _Default" response="GTK_RESPONSE_YES"/>
   </error>
 
-  <error id="ask-expunge" type="question" default="GTK_RESPONSE_CANCEL">
+  <error id="ask-expunge" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to permanently remove all the deleted messages in folder “{0}”?</_primary>
     <_secondary xml:space="preserve">If you continue, you will not be able to recover these messages.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Expunge" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
-  <error id="ask-empty-trash" type="warning" default="GTK_RESPONSE_CANCEL">
+  <error id="ask-empty-trash" type="warning" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to permanently remove all the deleted messages in all folders?</_primary>
     <_secondary xml:space="preserve">If you continue, you will not be able to recover these messages.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
@@ -645,7 +645,7 @@ in the folder will be available in offline mode.</_secondary>
     <_secondary>A WebKitWebProcess crashed when displaying the signature. You can try again by moving to another signature and back. If the issue persists, please file a bug report in GNOME GitLab.</_secondary>
   </error>
 
-  <error id="ask-empty-junk" type="warning" default="GTK_RESPONSE_CANCEL">
+  <error id="ask-empty-junk" type="warning" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to delete all the messages in the Junk folder?</_primary>
     <_secondary xml:space="preserve">These messages will be shown in the Trash folder, where they can be permanently deleted later.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>

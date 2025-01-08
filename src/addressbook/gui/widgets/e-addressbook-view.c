@@ -1855,6 +1855,7 @@ addressbook_view_confirm_delete (GtkWindow *parent,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("_Delete"), GTK_RESPONSE_ACCEPT,
 		NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 
