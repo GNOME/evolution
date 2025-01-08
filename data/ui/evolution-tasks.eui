@@ -67,6 +67,7 @@
     <item action='task-open-url'/>
     <item action='task-save-as'/>
     <item action='task-print'/>
+    <item action='task-bulk-edit'/>
     <separator/>
     <item action='cut-clipboard'/>
     <item action='copy-clipboard'/>

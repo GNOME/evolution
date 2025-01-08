@@ -97,6 +97,7 @@
     <item action='contact-open'/>
     <item action='contact-save-as'/>
     <item action='contact-print'/>
+    <item action='contact-bulk-edit'/>
     <separator/>
     <item action='cut-clipboard'/>
     <item action='copy-clipboard'/>
