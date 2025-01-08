@@ -760,6 +760,11 @@ tree_table_adapter_dispose (GObject *object)
 {
 	ETreeTableAdapter *self = E_TREE_TABLE_ADAPTER (object);
 
+	if (self->priv->resort_idle_id) {
+		g_source_remove (self->priv->resort_idle_id);
+		self->priv->resort_idle_id = 0;
+	}
+
 	if (self->priv->pre_change_handler_id > 0) {
 		g_signal_handler_disconnect (
 			self->priv->source_model,
@@ -822,11 +827,6 @@ static void
 tree_table_adapter_finalize (GObject *object)
 {
 	ETreeTableAdapter *self = E_TREE_TABLE_ADAPTER (object);
-
-	if (self->priv->resort_idle_id) {
-		g_source_remove (self->priv->resort_idle_id);
-		self->priv->resort_idle_id = 0;
-	}
 
 	if (self->priv->root) {
 		kill_gnode (self->priv->root, self);

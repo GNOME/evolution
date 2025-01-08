@@ -25,7 +25,7 @@
 typedef struct _ColumnData ColumnData;
 
 struct _ETableSortInfoPrivate {
-	GWeakRef specification;
+	ETableSpecification *specification;
 	GArray *groupings;
 	GArray *sortings;
 	gboolean can_group;
@@ -223,7 +223,10 @@ table_sort_info_set_specification (ETableSortInfo *sort_info,
 {
 	g_return_if_fail (E_IS_TABLE_SPECIFICATION (specification));
 
-	g_weak_ref_set (&sort_info->priv->specification, specification);
+	if (sort_info->priv->specification != specification) {
+		g_clear_object (&sort_info->priv->specification);
+		sort_info->priv->specification = g_object_ref (specification);
+	}
 }
 
 static void
@@ -266,7 +269,7 @@ table_sort_info_dispose (GObject *object)
 {
 	ETableSortInfo *self = E_TABLE_SORT_INFO (object);
 
-	g_weak_ref_set (&self->priv->specification, NULL);
+	g_clear_object (&self->priv->specification);
 
 	g_array_set_size (self->priv->groupings, 0);
 	g_array_set_size (self->priv->sortings, 0);
@@ -436,7 +439,10 @@ e_table_sort_info_ref_specification (ETableSortInfo *sort_info)
 {
 	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), NULL);
 
-	return g_weak_ref_get (&sort_info->priv->specification);
+	if (sort_info->priv->specification)
+		return g_object_ref (sort_info->priv->specification);
+
+	return NULL;
 }
 
 gboolean
