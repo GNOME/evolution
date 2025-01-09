@@ -73,8 +73,6 @@
 
 #define AUTOCONFIG_BASE_URI "https://autoconfig.thunderbird.net/v1.1/"
 
-#define FAKE_EVOLUTION_USER_STRING "EVOLUTIONUSER"
-
 #define ERROR_IS_NOT_FOUND(error) \
 	(g_error_matches ((error), E_SOUP_SESSION_ERROR, SOUP_STATUS_NOT_FOUND))
 
@@ -226,63 +224,22 @@ mail_autoconfig_parse_end_element (GMarkupParseContext *context,
 	}
 }
 
-/* Returns NULL when not being there */
-static gchar *
-mail_autoconfig_replace_case_insensitive (const gchar *text,
-					  const gchar *before,
-					  const gchar *after)
-{
-	const gchar *p, *next;
-	GString *str;
-	gint find_len;
-
-	if (!text)
-		return NULL;
-
-	find_len = strlen (before);
-	str = g_string_new ("");
-
-	p = text;
-	while (next = camel_strstrcase (p, before), next) {
-		if (p < next)
-			g_string_append_len (str, p, next - p);
-
-		if (after && *after)
-			g_string_append (str, after);
-
-		p = next + find_len;
-	}
-
-	if (p == text) {
-		g_string_free (str, TRUE);
-		return NULL;
-	}
-
-	g_string_append (str, p);
-
-	return g_string_free (str, FALSE);
-}
-
 static void
 mail_autoconfig_parse_text (GMarkupParseContext *context,
-                            const gchar *in_text,
-                            gsize in_text_length,
+                            const gchar *text,
+                            gsize text_length,
                             gpointer user_data,
                             GError **error)
 {
 	ParserClosure *closure = user_data;
 	EMailAutoconfigPrivate *priv;
-	const gchar *element_name, *text;
-	gchar *to_free;
+	const gchar *element_name;
 	GString *string;
 
 	priv = closure->autoconfig->priv;
 
 	if (closure->result == NULL && closure->custom_params == NULL)
 		return;
-
-	to_free = mail_autoconfig_replace_case_insensitive (in_text, FAKE_EVOLUTION_USER_STRING, priv->email_local_part);
-	text = to_free ? to_free : in_text;
 
 	/* Perform the following text substitutions:
 	 *
@@ -447,7 +404,6 @@ mail_autoconfig_parse_text (GMarkupParseContext *context,
 	}
 
 	g_string_free (string, TRUE);
-	g_free (to_free);
 }
 
 static GMarkupParser mail_autoconfig_parser = {
@@ -526,6 +482,11 @@ mail_autoconfig_lookup_uri_sync (EMailAutoconfig *autoconfig,
 
 	success = SOUP_STATUS_IS_SUCCESSFUL (soup_message_get_status (soup_message));
 
+	if (camel_debug ("autoconfig")) {
+		printf ("mail-autoconfig: URI:'%s' success:%d n-bytes-returned:%" G_GUINT64_FORMAT "\n",
+			uri, success, data ? (guint64) g_bytes_get_size (data) : (guint64) 0);
+	}
+
 	if (success && data) {
 		GMarkupParseContext *context;
 		ParserClosure closure;
@@ -573,6 +534,7 @@ mail_autoconfig_lookup_uri_sync (EMailAutoconfig *autoconfig,
 static gboolean
 mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
                         const gchar *domain,
+			const gchar *email,
 			const gchar *emailmd5,
                         GCancellable *cancellable,
                         GError **error)
@@ -582,6 +544,7 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 	SoupSession *soup_session;
 	gulong cancel_id = 0;
 	gchar *uri;
+	gchar *email_escaped;
 	gboolean success = FALSE;
 
 	registry = e_mail_autoconfig_get_registry (autoconfig);
@@ -594,6 +557,8 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 
 	g_object_unref (proxy_source);
 
+	email_escaped = g_uri_escape_string (email, NULL, FALSE);
+
 	if (G_IS_CANCELLABLE (cancellable))
 		cancel_id = g_cancellable_connect (
 			cancellable,
@@ -603,26 +568,26 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 
 	/* First try user configuration in autoconfig.$DOMAIN URL and ignore error */
 	if (!success && ((error && !*error && !g_cancellable_set_error_if_cancelled (cancellable, error)) || !g_cancellable_is_cancelled (cancellable))) {
-		uri = g_strconcat ("https://autoconfig.", domain, "/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, "&emailmd5=", emailmd5, NULL);
+		uri = g_strconcat ("https://autoconfig.", domain, "/mail/config-v1.1.xml?emailaddress=", email_escaped, "&emailmd5=", emailmd5, NULL);
 		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, NULL);
 		g_free (uri);
 	}
 
 	if (!success && ((error && !*error && !g_cancellable_set_error_if_cancelled (cancellable, error)) || !g_cancellable_is_cancelled (cancellable))) {
-		uri = g_strconcat ("http://autoconfig.", domain, "/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, "&emailmd5=", emailmd5, NULL);
+		uri = g_strconcat ("http://autoconfig.", domain, "/mail/config-v1.1.xml?emailaddress=", email_escaped, "&emailmd5=", emailmd5, NULL);
 		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, NULL);
 		g_free (uri);
 	}
 
 	/* Then with $DOMAIN/.well-known/autoconfig/ and ignore error */
 	if (!success && ((error && !*error && !g_cancellable_set_error_if_cancelled (cancellable, error)) || !g_cancellable_is_cancelled (cancellable))) {
-		uri = g_strconcat ("https://", domain, "/.well-known/autoconfig/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, "&emailmd5=", emailmd5, NULL);
+		uri = g_strconcat ("https://", domain, "/.well-known/autoconfig/mail/config-v1.1.xml?emailaddress=", email_escaped, "&emailmd5=", emailmd5, NULL);
 		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, NULL);
 		g_free (uri);
 	}
 
 	if (!success && ((error && !*error && !g_cancellable_set_error_if_cancelled (cancellable, error)) || !g_cancellable_is_cancelled (cancellable))) {
-		uri = g_strconcat ("http://", domain, "/.well-known/autoconfig/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, "&emailmd5=", emailmd5, NULL);
+		uri = g_strconcat ("http://", domain, "/.well-known/autoconfig/mail/config-v1.1.xml?emailaddress=", email_escaped, "&emailmd5=", emailmd5, NULL);
 		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, NULL);
 		g_free (uri);
 	}
@@ -638,6 +603,7 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 		g_cancellable_disconnect (cancellable, cancel_id);
 
 	g_object_unref (soup_session);
+	g_free (email_escaped);
 
 	return success;
 }
@@ -1074,7 +1040,7 @@ mail_autoconfig_initable_init (GInitable *initable,
 
 	/* First try the email address domain verbatim. */
 	success = mail_autoconfig_lookup (
-		autoconfig, domain, emailmd5, cancellable, &local_error);
+		autoconfig, domain, email_address, emailmd5, cancellable, &local_error);
 
 	g_warn_if_fail (
 		(success && local_error == NULL) ||
@@ -1112,7 +1078,7 @@ mail_autoconfig_initable_init (GInitable *initable,
 		g_clear_error (&local_error);
 
 		success = mail_autoconfig_lookup (
-			autoconfig, cp, emailmd5, cancellable, &local_error);
+			autoconfig, cp, email_address, emailmd5, cancellable, &local_error);
 
 		g_warn_if_fail (
 			(success && local_error == NULL) ||
