@@ -576,7 +576,7 @@ task_table_constructed (GObject *object)
 
 	e_table_extras_add_icon_name (extras, "icon", "stock_task");
 
-	e_table_extras_add_icon_name (extras, "complete", "stock_check-filled");
+	e_table_extras_add_icon_name (extras, "complete", "stock_check-filled-symbolic");
 
 	/* Set background column for the checkbox */
 	cell = e_table_extras_get_cell (extras, "checkbox");
