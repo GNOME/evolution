@@ -286,12 +286,14 @@ addressbook_view_card_event_cb (EContactCardBox *box,
 				e_contact_card_box_set_focused_index (box, child_index);
 			}
 			addressbook_view_emit_popup_event (view, event);
+			return TRUE;
 		}
 		break;
 	case GDK_KEY_PRESS:
 		if (((event->key.state & GDK_SHIFT_MASK) != 0 && event->key.keyval == GDK_KEY_F10) ||
 		    ((event->key.state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK)) == 0 && event->key.keyval == GDK_KEY_Menu)) {
 			addressbook_view_emit_popup_event (view, event);
+			return TRUE;
 		}
 		break;
 	default:
