@@ -580,6 +580,7 @@ mail_shell_view_constructed (GObject *object)
 	EUIManager *ui_manager;
 	EActionComboBox *combo_box;
 	GObject *ui_item;
+	GtkWidget *to_do_pane;
 
 	ui_manager = e_shell_view_get_ui_manager (shell_view);
 
@@ -612,6 +613,14 @@ mail_shell_view_constructed (GObject *object)
 	e_binding_bind_property (
 		ACTION (MAIL_SHOW_PREVIEW_TOOLBAR), "active",
 		mail_view, "preview-toolbar-visible",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	to_do_pane = e_mail_shell_content_get_to_do_pane (self->priv->mail_shell_content);
+
+	e_binding_bind_property (
+		ACTION (MAIL_TO_DO_BAR), "active",
+		to_do_pane, "visible",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 

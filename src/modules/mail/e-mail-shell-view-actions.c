@@ -294,25 +294,6 @@ action_mail_attachment_bar_cb (EUIAction *action,
 }
 
 static void
-action_mail_to_do_bar_cb (EUIAction *action,
-			  GVariant *parameter,
-			  gpointer user_data)
-{
-	EShellView *shell_view = user_data;
-	EShellContent *shell_content;
-	GtkWidget *to_do_pane;
-
-	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (shell_view));
-
-	e_ui_action_set_state (action, parameter);
-
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	to_do_pane = e_mail_shell_content_get_to_do_pane (E_MAIL_SHELL_CONTENT (shell_content));
-
-	gtk_widget_set_visible (to_do_pane, e_ui_action_get_active (action));
-}
-
-static void
 action_mail_download_finished_cb (CamelStore *store,
                                   GAsyncResult *result,
                                   EActivity *activity)
@@ -1950,7 +1931,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		  N_("Show To _Do Bar"),
 		  NULL,
 		  N_("Show To Do bar with appointments and tasks"),
-		  NULL, NULL, "true", action_mail_to_do_bar_cb },
+		  NULL, NULL, "true", NULL }, /* Handled by property bindings */
 
 		{ "mail-vfolder-unmatched-enable",
 		  NULL,
