@@ -2,12 +2,12 @@
 # Copyright (C) 2020 evolution's COPYRIGHT HOLDER
 # This file is distributed under the same license as the evolution package.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023, 2024.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2024-11-20 09:46+0000\n"
-"PO-Revision-Date: 2024-11-20 19:11+0200\n"
+"POT-Creation-Date: 2025-01-11 00:25+0000\n"
+"PO-Revision-Date: 2025-01-11 11:57+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2845,95 +2845,52 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/customize-ui-items.page:21
-msgid "Customizing tool bar and menu items"
-msgstr "Налаштовування панелі інструментів та пунктів меню"
-
-#. (itstool) path: note/p
-#: C/customize-ui-items.page:24
-msgid ""
-"These steps are for tech savvy users. These steps are not suitable for "
-"average users."
-msgstr ""
-"Ці кроки призначено для технічного грамотних користувачів. Звичайним "
-"користувачам не варто їх виконувати."
+msgid "Customizing user interface"
+msgstr "Налаштовування інтерфейсу користувача"
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:27
+#: C/customize-ui-items.page:23
 msgid ""
-"<app>Evolution</app> offers no graphical interface to customize its tool "
-"bars or items in menus."
+"<app>Evolution</app> allows to customize its menus, tool bars and shortcuts "
+"in <guiseq><gui>View</gui><gui>Layout</gui><gui>Customize…</gui></guiseq>. "
+"The toolbars which can be customized offer a context menu option to do so."
 msgstr ""
-"У <app>Evolution</app> не передбачено графічного інтерфейсу для "
-"налаштовування панелей інструментів та пунктів меню програми."
+"У <app>Evolution</app> можливе налаштовування меню, панелей інструментів та"
+" клавіатурних скорочень за допомогою пункту <guiseq><gui>Перегляд</gui><gui"
+">Компонування</gui><gui>Налаштувати…</gui></guiseq>. На панелях"
+" інструментів, які можна налаштувати, передбачено пункт контекстного меню"
+" для налаштовування."
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:29
+#: C/customize-ui-items.page:26
 msgid ""
-"Advanced users can experiment by exploring and editing the corresponding "
-"system-wide file(s) under <file>$PREFIX/share/evolution/ui/</file>."
+"The <gui>Customize User Interface</gui> dialog allows to add, remove and "
+"reorder the items in the toolbars. Use either the buttons beside the layout "
+"tree or drag and drop the items."
 msgstr ""
-"Досвідчені користувачі можуть поекспериментувати — знайти і відредагувати "
-"відповідні загальносистемні файли у <file>$PREFIX/share/evolution/ui/</file>."
+"За допомогою діалогового вікна <gui>Налаштувати інтерфейс користувача</gui>"
+" можна додавати, вилучати і перевпорядковувати пункти на панелях"
+" інструментів. Або скористайтеся кнопками з боків ієрархії компонування, або"
+" перетягніть пункти і скиньте їх у потрібні місця."
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:31
+#: C/customize-ui-items.page:28
 msgid ""
-"Copy those files with the file ending <file>.ui</file> which you would like "
-"to modify to your personal configuration folder <file>$HOME/.config/"
-"evolution/ui/</file>. Modify the files in your personal configuration folder "
-"so the next <app>Evolution</app> software update will not overwrite your "
-"changes."
+"Beside the <gui>Layout</gui> customization, it's possible to change also "
+"<gui>Shortcuts</gui> for the actions. One action can have multiple shortcuts."
 msgstr ""
-"Скопіюйте ті файли із суфіксом назви <file>.ui</file>, до яких ви хочете "
-"внести зміни до вашої особистої теки налаштувань <file>$HOME/.config/"
-"evolution/ui/</file>. Внесіть зміни до файлів у вашій особистій теці "
-"налаштувань, щоб під час наступних оновлень пакунків <app>Evolution</app> "
-"ваші зміни не було перезаписано файлами з пакунка."
+"Окрім налаштовування <gui>Компонування</gui>, можна змінювати <gui"
+">Скорочення</gui> для дій. Для однієї дії можна визначити декілька"
+" клавіатурних скорочень."
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:34
+#: C/customize-ui-items.page:30
 msgid ""
-"Changing the order of tool bar/menu items in some <file>.ui</file> files may "
-"not affect their displayed order in <app>Evolution</app>. As a workaround, "
-"the attribute <code>position='top'</code> can be added to some elements (e."
-"g. <code>toolitem</code> and non-empty <code>placeholder</code> elements), "
-"which will place them before other items in the group and cause them to be "
-"displayed according to their order in the <file>.ui</file> file. This "
-"attribute may need to be added to all items in a group to achieve the "
-"overall desired item order."
+"The changes in the dialog are saved when it's closed and the user interface "
+"is updated accordingly."
 msgstr ""
-"Зміна порядку пунктів панелі інструментів або меню у деяких файлах <file>."
-"ui</file> може ніяк не вплинути на порядок показу їх в <app>Evolution</app>. "
-"Щоб розв'язати цю проблему, можна додати атрибут <code>position='top'</code> "
-"до деяких елементів (наприклад елементів <code>toolitem</code> і непорожніх "
-"<code>placeholder</code>). Таке додавання призведе до розташування цих "
-"елементів перед іншими елементами у групі і показу їх у порядку, у якому їх "
-"вказано у файлі <file>.ui</file>. Для досягнення бажаного порядку пунктів "
-"може виникнути потреба у додаванні цього атрибута до всіх записів у групі."
-
-#. (itstool) path: page/p
-#: C/customize-ui-items.page:36
-msgid ""
-"The modified files will be used if the <code>evolution-ui-version</code> "
-"attribute of the root <code>ui</code> element matches the version of the "
-"default files provided by <app>Evolution</app>."
-msgstr ""
-"Змінені файли буде використано, якщо атрибут <code>evolution-ui-version</"
-"code> кореневого елемента <code>ui</code> відповідає версії типових файлів, "
-"які є частиною пакунків <app>Evolution</app>."
-
-#. (itstool) path: page/p
-#: C/customize-ui-items.page:38
-msgid ""
-"To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
-"while <app>Evolution</app> is not running. Commented lines start with a "
-"<code>;</code> character and will be ignored. Not all shortcuts can be "
-"changed though."
-msgstr ""
-"Щоб внести зміни до клавіатурних скорочень, відредагуйте файл <file>~/."
-"config/evolution/accels</file>, доки <app>Evolution</app> не запущено. "
-"Закоментовані рядки, які починаються із символу <code>;</code>, буде "
-"проігноровано. Втім, змінити можна не усі клавіатурні скорочення."
+"Зміни у діалоговому вікні буде збережено під час його закриття, а інтерфейс"
+" користувача буде оновлено відповідним чином."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -5239,21 +5196,14 @@ msgstr "Внесення змін до клавіатурних скорочен
 #. (itstool) path: note/p
 #: C/intro-keyboard-shortcuts.page:345
 msgid ""
-"Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
-"config/evolution/accels</file>."
+"Keyboard shortcuts can be changed in <guiseq><gui>View</gui><gui>Layout</"
+"gui><gui>Customize…</gui></guiseq>. See the <link xref=\"customize-ui-"
+"items\">Customizing user interface</link> section for more information."
 msgstr ""
-"Досвідчені користувачі можуть налаштувати клавіатурні скорочення за "
-"допомогою редагування файла <file>$HOME/.config/evolution/accels</file>."
-
-#. (itstool) path: note/p
-#: C/intro-keyboard-shortcuts.page:345
-msgid ""
-"See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
-"evolution-in-gnome/\">this blog post</link> for more information."
-msgstr ""
-"Щоб дізнатися більше, ознайомтеся із <link href=\"https://major."
-"io/2015/11/27/custom-keyboard-shortcuts-for-evolution-in-gnome/\">цим "
-"дописом у блозі</link>."
+"Клавіатурні скорочення можна змінити за допомогою пункту меню <guiseq><gui"
+">Перегляд</gui><gui>Компонування</gui><gui>Налаштувати…</gui></guiseq>. Див."
+" розділ <link xref=\"customize-ui-items\">Налаштовування інтерфейсу"
+" користувача</link>, щоб дізнатися більше."
 
 #. (itstool) path: info/desc
 #: C/intro-main-window.page:5
@@ -7716,11 +7666,6 @@ msgstr ""
 #. might want to indicate in your translation text that the link is in
 #. English.
 #: C/mail-composer-from-field-override.page:24
-#| msgid ""
-#| "This functionality can be useful for <link href=\"https://en.wikipedia."
-#| "org/wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> "
-#| "and <link href=\"https://en.wikipedia.org/wiki/"
-#| "Email_address#Address_tags\">sub-addressing</link>."
 msgid ""
 "This functionality can be useful for <link href=\"https://en.wikipedia.org/"
 "wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> and "
@@ -7729,8 +7674,8 @@ msgid ""
 msgstr ""
 "Ця функціональна можливість може бути корисною для <link href=\"https://en."
 "wikipedia.org/wiki/Qmail#Innovations\">поштових скриньок-замінників при "
-"використанні qmail</link> та <link href=\"https://en.wikipedia.org/wiki/Email"
-"_address#Sub-addressing\">використанні підадрес</link>."
+"використанні qmail</link> та <link href=\"https://en.wikipedia.org/wiki/"
+"Email_address#Sub-addressing\">використанні підадрес</link>."
 
 #. (itstool) path: note/p
 #. Translators: If no Wikipedia article exists for your language and you
@@ -16151,6 +16096,99 @@ msgstr ""
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Натисніть <_:gui-1/>."
+
+#~ msgid "Customizing tool bar and menu items"
+#~ msgstr "Налаштовування панелі інструментів та пунктів меню"
+
+#~ msgid ""
+#~ "These steps are for tech savvy users. These steps are not suitable for "
+#~ "average users."
+#~ msgstr ""
+#~ "Ці кроки призначено для технічного грамотних користувачів. Звичайним "
+#~ "користувачам не варто їх виконувати."
+
+#~ msgid ""
+#~ "<app>Evolution</app> offers no graphical interface to customize its tool "
+#~ "bars or items in menus."
+#~ msgstr ""
+#~ "У <app>Evolution</app> не передбачено графічного інтерфейсу для "
+#~ "налаштовування панелей інструментів та пунктів меню програми."
+
+#~ msgid ""
+#~ "Advanced users can experiment by exploring and editing the corresponding "
+#~ "system-wide file(s) under <file>$PREFIX/share/evolution/ui/</file>."
+#~ msgstr ""
+#~ "Досвідчені користувачі можуть поекспериментувати — знайти і відредагувати "
+#~ "відповідні загальносистемні файли у <file>$PREFIX/share/evolution/ui/</"
+#~ "file>."
+
+#~ msgid ""
+#~ "Copy those files with the file ending <file>.ui</file> which you would "
+#~ "like to modify to your personal configuration folder <file>$HOME/.config/"
+#~ "evolution/ui/</file>. Modify the files in your personal configuration "
+#~ "folder so the next <app>Evolution</app> software update will not "
+#~ "overwrite your changes."
+#~ msgstr ""
+#~ "Скопіюйте ті файли із суфіксом назви <file>.ui</file>, до яких ви хочете "
+#~ "внести зміни до вашої особистої теки налаштувань <file>$HOME/.config/"
+#~ "evolution/ui/</file>. Внесіть зміни до файлів у вашій особистій теці "
+#~ "налаштувань, щоб під час наступних оновлень пакунків <app>Evolution</app> "
+#~ "ваші зміни не було перезаписано файлами з пакунка."
+
+#~ msgid ""
+#~ "Changing the order of tool bar/menu items in some <file>.ui</file> files "
+#~ "may not affect their displayed order in <app>Evolution</app>. As a "
+#~ "workaround, the attribute <code>position='top'</code> can be added to "
+#~ "some elements (e.g. <code>toolitem</code> and non-empty "
+#~ "<code>placeholder</code> elements), which will place them before other "
+#~ "items in the group and cause them to be displayed according to their "
+#~ "order in the <file>.ui</file> file. This attribute may need to be added "
+#~ "to all items in a group to achieve the overall desired item order."
+#~ msgstr ""
+#~ "Зміна порядку пунктів панелі інструментів або меню у деяких файлах <file>."
+#~ "ui</file> може ніяк не вплинути на порядок показу їх в <app>Evolution</"
+#~ "app>. Щоб розв'язати цю проблему, можна додати атрибут "
+#~ "<code>position='top'</code> до деяких елементів (наприклад елементів "
+#~ "<code>toolitem</code> і непорожніх <code>placeholder</code>). Таке "
+#~ "додавання призведе до розташування цих елементів перед іншими елементами "
+#~ "у групі і показу їх у порядку, у якому їх вказано у файлі <file>.ui</"
+#~ "file>. Для досягнення бажаного порядку пунктів може виникнути потреба у "
+#~ "додаванні цього атрибута до всіх записів у групі."
+
+#~ msgid ""
+#~ "The modified files will be used if the <code>evolution-ui-version</code> "
+#~ "attribute of the root <code>ui</code> element matches the version of the "
+#~ "default files provided by <app>Evolution</app>."
+#~ msgstr ""
+#~ "Змінені файли буде використано, якщо атрибут <code>evolution-ui-version</"
+#~ "code> кореневого елемента <code>ui</code> відповідає версії типових "
+#~ "файлів, які є частиною пакунків <app>Evolution</app>."
+
+#~ msgid ""
+#~ "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</"
+#~ "file> while <app>Evolution</app> is not running. Commented lines start "
+#~ "with a <code>;</code> character and will be ignored. Not all shortcuts "
+#~ "can be changed though."
+#~ msgstr ""
+#~ "Щоб внести зміни до клавіатурних скорочень, відредагуйте файл <file>~/."
+#~ "config/evolution/accels</file>, доки <app>Evolution</app> не запущено. "
+#~ "Закоментовані рядки, які починаються із символу <code>;</code>, буде "
+#~ "проігноровано. Втім, змінити можна не усі клавіатурні скорочення."
+
+#~ msgid ""
+#~ "Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
+#~ "config/evolution/accels</file>."
+#~ msgstr ""
+#~ "Досвідчені користувачі можуть налаштувати клавіатурні скорочення за "
+#~ "допомогою редагування файла <file>$HOME/.config/evolution/accels</file>."
+
+#~ msgid ""
+#~ "See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-"
+#~ "for-evolution-in-gnome/\">this blog post</link> for more information."
+#~ msgstr ""
+#~ "Щоб дізнатися більше, ознайомтеся із <link href=\"https://major."
+#~ "io/2015/11/27/custom-keyboard-shortcuts-for-evolution-in-gnome/\">цим "
+#~ "дописом у блозі</link>."
 
 #~ msgid "Enter your username and your email address."
 #~ msgstr "Введіть ваше ім'я користувача і вашу адресу електронної пошти."
