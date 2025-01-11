@@ -1,8 +1,8 @@
 # Swedish messages for Evolution manual.
-# Copyright © 2007-2024 Free Software Foundation, Inc.
+# Copyright © 2007-2025 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Sebastian Rasmussen <sebras@gmail.com>, 2016, 2018.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
 # Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
 msgid ""
@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2024-07-08 12:27+0000\n"
-"PO-Revision-Date: 2024-07-15 15:20+0200\n"
+"POT-Creation-Date: 2024-12-01 09:00+0000\n"
+"PO-Revision-Date: 2025-01-11 01:14+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -257,37 +257,46 @@ msgstr ""
 "guiseq>."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:36
+#: C/calendar-caldav.page:36 C/tasks-caldav.page:25
 msgid "Select the type <gui>CalDAV</gui>."
 msgstr "Välj typen <gui>CalDAV</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:39 C/calendar-google.page:40 C/calendar-local.page:34
+#: C/calendar-caldav.page:39
+msgid ""
+"To discover the calendars, announced by the server, enter the server address "
+"as <gui>URL</gui> and optionally <gui>User</gui>, then click on <gui "
+"style=\"button\">Find Calendars</gui>. Select a calendar and <gui>User mail</"
+"gui>. This prefills the fields <gui>Name</gui>, <gui>Color</gui>, <gui>URL</"
+"gui> and (see below) <gui>Email</gui>. The step is optional, and you can "
+"overwrite all the discovered settings."
+msgstr ""
+"För att upptäcka kalendrarna som annonseras av servern, ange serveradressen "
+"som <gui>URL</gui> och valfritt <gui>Användare</gui>, klicka sedan på <gui "
+"style=\"button\">Sök kalendrar</gui>. Välj en kalender och <gui>Användar-e-"
+"post</gui>. Detta förifyller fälten <gui>Namn</gui>, <gui>Färg</gui>, "
+"<gui>URL</gui> och (se nedan) <gui>E-post</gui>. Steget är valfritt, och du "
+"kan skriva över alla de identifierade inställningarna."
+
+#. (itstool) path: item/p
+#: C/calendar-caldav.page:43 C/calendar-google.page:40 C/calendar-local.page:34
 #: C/calendar-weather.page:36 C/calendar-webdav.page:35
 #: C/contacts-google.page:35 C/contacts-ldap.page:48 C/contacts-local.page:34
-#: C/contacts-using-contact-lists.page:48 C/tasks-caldav.page:26
+#: C/contacts-using-contact-lists.page:48 C/tasks-caldav.page:30
 #: C/tasks-local.page:26 C/tasks-webdav.page:28
 msgid "Enter a name that you prefer."
 msgstr "Ange ett namn du föredrar."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:42 C/calendar-google.page:43 C/calendar-local.page:37
-#: C/calendar-weather.page:39 C/calendar-webdav.page:38 C/tasks-caldav.page:27
+#: C/calendar-caldav.page:46 C/calendar-google.page:43 C/calendar-local.page:37
+#: C/calendar-weather.page:39 C/calendar-webdav.page:38 C/tasks-caldav.page:31
 #: C/tasks-local.page:27 C/tasks-webdav.page:29
 msgid "Optionally choose a color that you prefer."
 msgstr "Du kan välja en valfri färg du gillar."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:45 C/calendar-google.page:46
-#: C/calendar-weather.page:42 C/calendar-webdav.page:41
-#: C/contacts-google.page:38
-msgid ""
-"Choose if you want to be able to view the content also when being offline."
-msgstr "Välj om du vill kunna visa innehåll även när du är frånkopplad."
-
-#. (itstool) path: item/p
 #: C/calendar-caldav.page:49 C/calendar-webdav.page:45
-#: C/mail-composer-html-link.page:28 C/tasks-caldav.page:29
+#: C/mail-composer-html-link.page:28 C/tasks-caldav.page:32
 #: C/tasks-webdav.page:31
 msgid "Enter the address in the <gui>URL</gui> field."
 msgstr "Ange adressen i <gui>URL</gui>-fältet."
@@ -295,21 +304,40 @@ msgstr "Ange adressen i <gui>URL</gui>-fältet."
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:52 C/calendar-weather.page:49
 #: C/calendar-webdav.page:48 C/contacts-google.page:45
-#: C/mail-sending-options-smtp.page:38 C/tasks-caldav.page:30
+#: C/mail-sending-options-smtp.page:38 C/tasks-caldav.page:33
 #: C/tasks-webdav.page:32
 msgid ""
 "Choose <gui>Use a secure connection</gui> if you want to connect securely."
 msgstr "Välj <gui>Använd en säker anslutning</gui> om du vill ansluta säkert."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:56 C/tasks-caldav.page:31
-msgid "Enter your username and your email address."
-msgstr "Ange ditt användarnamn och din e-postadress."
+#: C/calendar-caldav.page:56
+msgid ""
+"Enter your username and email address. When a meeting is created in the "
+"calendar, this email address is prefilled as Organizer."
+msgstr ""
+"Ange ditt användarnamn och e-postadress. När ett sammanträde skapas i "
+"kalendern förifylls denna e-postadress som Organisatör."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:59 C/calendar-google.page:55 C/calendar-local.page:46
+#: C/calendar-caldav.page:59
+msgid ""
+"When a meeting is created, modified or deleted, a notification can be sent "
+"to the other parties of the meeting. If <gui>Server handles meeting "
+"invitations</gui> is selected, <app>Evolution</app> uploads the meeting and "
+"assumes that the server informs other parties. When the option is not "
+"selected, <app>Evolution</app> sends an email."
+msgstr ""
+"När ett sammanträde skapas, ändras eller tas bort kan en avisering skickas "
+"till de andra parterna i sammanträdet. Om <gui>Servern hanterar "
+"sammanträdesinbjudningar</gui> är valt skickar <app>Evolution</app> "
+"sammanträdet och antar att servern informerar andra parter. När alternativet "
+"inte är valt skickar <app>Evolution</app> ett e-postmeddelande."
+
+#. (itstool) path: item/p
+#: C/calendar-caldav.page:64 C/calendar-google.page:55 C/calendar-local.page:46
 #: C/calendar-meetings-delegating.page:41 C/calendar-weather.page:56
-#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:58
+#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:114
 #: C/contacts-local.page:37 C/contacts-usage-add-contact.page:43
 #: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
 #: C/mail-attachments-sending.page:32
@@ -318,19 +346,36 @@ msgstr "Ange ditt användarnamn och din e-postadress."
 #: C/mail-encryption-gpg-signing-encrypting.page:40
 #: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
 #: C/mail-filters.page:71 C/mail-search-folders-add.page:47
-#: C/tasks-caldav.page:32 C/tasks-local.page:28 C/tasks-webdav.page:34
+#: C/tasks-caldav.page:40 C/tasks-local.page:28 C/tasks-webdav.page:34
 #: C/using-categories.page:51 C/using-categories.page:53
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Klicka på <gui style=\"button\">OK</gui>."
 
 #. (itstool) path: page/p
-#: C/calendar-caldav.page:63 C/calendar-google.page:59 C/calendar-local.page:50
+#: C/calendar-caldav.page:68 C/calendar-google.page:59 C/calendar-local.page:50
 #: C/calendar-weather.page:60 C/calendar-webdav.page:59
 msgid ""
 "The calendar will be added to the list of calendars in <app>Evolution</app>."
 msgstr ""
 "Kalendern kommer att läggas till i listan över kalendrar i <app>Evolution</"
 "app>."
+
+#. (itstool) path: section/title
+#: C/calendar-caldav.page:71 C/contacts-using-several-addressbooks.page:33
+#: C/tasks-caldav.page:46
+msgid "Collection accounts"
+msgstr "Samlingskonton"
+
+#. (itstool) path: section/p
+#: C/calendar-caldav.page:72 C/tasks-caldav.page:47
+msgid ""
+"Different types of mail, address books, calendars, task and memo lists, "
+"belonging to the same user, can be added in one step by utilizing a <link "
+"xref=\"intro-account-types#collection-account\">Collection account</link>."
+msgstr ""
+"Olika typer av e-post, adressböcker, kalendrar, uppgifts- och memolistor som "
+"tillhör samma användare kan läggas till i ett steg genom att använda ett "
+"<link xref=\"intro-account-types#collection-account\">samlingskonto</link>."
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
@@ -523,7 +568,7 @@ msgstr ""
 "Upptagen</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:90 C/calendar-publishing.page:40
+#: C/calendar-free-busy.page:90 C/calendar-publishing.page:42
 msgid ""
 "You can publish Calendar and Free/Busy information to a WebDAV server, FTP "
 "server, a remote machine through SSH or to any other web server with HTTP "
@@ -594,6 +639,13 @@ msgstr "Användning av en Google-kalender"
 #: C/calendar-google.page:37 C/contacts-google.page:32
 msgid "Select the type <gui>Google</gui>."
 msgstr "Välj typen <gui>Google</gui>."
+
+#. (itstool) path: item/p
+#: C/calendar-google.page:46 C/calendar-weather.page:42
+#: C/calendar-webdav.page:41 C/contacts-google.page:38
+msgid ""
+"Choose if you want to be able to view the content also when being offline."
+msgstr "Välj om du vill kunna visa innehåll även när du är frånkopplad."
 
 #. (itstool) path: item/p
 #: C/calendar-google.page:49 C/contacts-google.page:42
@@ -900,7 +952,7 @@ msgstr ""
 #: C/calendar-layout-views.page:52
 msgid ""
 "You can also select an arbitrary range of days in the small calendar in the "
-"side bar. To do this, select the days that you want to view in your calendar."
+"sidebar. To do this, select the days that you want to view in your calendar."
 msgstr ""
 "Du kan också välja ett valfritt intervall av dagar i den mindre kalendern i "
 "sidopanelen. För att göra detta, välj dagarna du vill visa i din kalender."
@@ -1178,7 +1230,7 @@ msgid ""
 "Click <gui>View</gui> in the menu bar to show or hide the <gui>Type</gui>, "
 "<gui>Role</gui>, <gui>Status</gui>, and <gui>RSVP</gui> fields."
 msgstr ""
-"Klicka på <gui>Visa</gui> i menyfältet för att visa eller gömma fälten "
+"Klicka på <gui>Visa</gui> i menyfältet för att visa eller dölja fälten "
 "<gui>Typ</gui>, <gui>Roll</gui>, <gui>Status</gui> och <gui>OSA</gui>."
 
 #. (itstool) path: item/p
@@ -1313,20 +1365,31 @@ msgstr "Kalenderpublicering"
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:30
 msgid ""
-"In order to make one of your calendars available to the public, you can "
-"define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
-"Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
-"guiseq>."
+"In order to make one of your calendars available to the public, enable the "
+"Calendar Publishing plugin from <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui> <gui>Plugins</gui></guiseq> and restart <app>Evolution</app> to "
+"activate it."
 msgstr ""
-"För att göra en av dina kalendrar tillgängliga publikt kan du definiera "
-"kalendrar som ska skickas upp till en webbserver under "
+"För att göra en av dina kalendrar tillgängliga publikt kan du aktivera "
+"insticksmodulen för kalenderpublicering från <guiseq><gui>Redigera</"
+"gui><gui>Inställningar</gui> <gui>Insticksmoduler</gui></guiseq> och starta "
+"om <app>Evolution</app> för att aktivera den."
+
+#. (itstool) path: page/p
+#: C/calendar-publishing.page:33
+msgid ""
+"You can define calendars to be uploaded to a web server under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> "
+"<gui>Publishing Information</gui> <gui>Locations</gui><gui "
+"style=\"button\">Add</gui></guiseq>."
+msgstr ""
+"Du kan definiera kalendrar som ska skickas upp till en webbserver under "
 "<guiseq><gui>Redigera</gui><gui>Inställningar</gui> <gui>Kalender och "
 "uppgifter</gui> <gui>Publiceringsinformation</gui> <gui>Platser</gui><gui "
 "style=\"button\">Lägg till</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:37
+#: C/calendar-publishing.page:39
 msgid ""
 "You can specify the online location, the frequency of publishing, which "
 "calendar(s) to publish, and authentication information for uploading."
@@ -1335,14 +1398,14 @@ msgstr ""
 "ska publiceras och autentiseringsinformation för uppsändningen."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:44
+#: C/calendar-publishing.page:46
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
-"gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
+"gui><gui>Publish Calendar Information</gui></guiseq> in the calendar window."
 msgstr ""
 "För att omedelbart publicera kalenderinformation, klicka på "
 "<guiseq><gui>Åtgärder</gui><gui>Publicera kalenderinformation</gui></guiseq> "
-"i kalendern."
+"i kalenderfönstret."
 
 #. (itstool) path: info/desc
 #: C/calendar-recurrence.page:23
@@ -1695,7 +1758,7 @@ msgstr "Användning av flera kalendrar"
 msgid ""
 "You can have multiple calendars and overlay them one over the other. For "
 "example, you might have a schedule of events for work, one for home, and one "
-"for your favorite sports team. The side bar lists those calendars, and you "
+"for your favorite sports team. The sidebar lists those calendars, and you "
 "can select or deselect the boxes next to them to show and hide the "
 "appointments in your calendar view. By hiding and showing different sets of "
 "appointments, you can be sure to avoid conflicts, while keeping a minimum of "
@@ -1704,14 +1767,14 @@ msgstr ""
 "Du kan ha flera kalendrar och lägga dem ovanpå varandra. Du kan till exempel "
 "ha ett schema med evenemang för jobb, ett för hemmet och ett för ditt "
 "favoritlag i någon sport. Sidopanelen listar de kalendrarna och du kan "
-"markera eller avmarkera rutorna intill dem för att visa eller gömma mötena i "
-"din kalendervy. Genom att gömma och visa olika uppsättningar av möten kan du "
+"markera eller avmarkera rutorna intill dem för att visa eller dölja mötena i "
+"din kalendervy. Genom att dölja och visa olika uppsättningar av möten kan du "
 "vara säker på att undvika konflikter medan du samtidigt minimerar "
 "plottrigheten i din vy."
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:38
-msgid "Appointments for each calendar appear in different color."
+msgid "Appointments for each calendar appear in a different color."
 msgstr "Möten för varje kalender visas i olika färger."
 
 #. (itstool) path: page/p
@@ -1731,10 +1794,21 @@ msgid ""
 "and religious holidays, phases of the moon, sports, and local and regional "
 "events."
 msgstr ""
-"Till exempel har <link href=\"http://icalshare.com\">webbplatsen icalshare."
-"com</link> en omfattande lista över delade nätkalendrar, inklusive "
+"Till exempel har <link href=\"http://icalshare.com\">webbplatsen "
+"icalshare.com</link> en omfattande lista över delade nätkalendrar, inklusive "
 "nationella och religiösa helger, månfaser, sport och lokala och regionala "
 "evenemang."
+
+#. (itstool) path: page/p
+#: C/calendar-using-several-calendars.page:47
+msgid ""
+"New events and meetings are created in the selected calendar in the Calendar "
+"window. If no calendar is selected, new events are created in the default "
+"calendar."
+msgstr ""
+"Nya evenemang och sammanträden skapas i den valda kalendern i "
+"kalenderfönstret. Om ingen kalender valts skapas nya evenemang i "
+"standardkalendern."
 
 #. (itstool) path: info/desc
 #: C/calendar-weather.page:17
@@ -1768,16 +1842,16 @@ msgstr "Välj temperaturenheten."
 
 #. (itstool) path: info/desc
 #: C/calendar-webdav.page:16
-msgid "Using an online Webcal/WebDAV calendar."
-msgstr "Användning av en nätbaserad Webcal/WebDAV-kalender."
+msgid "Using an online Webcal/HTTP calendar."
+msgstr "Användning av en nätbaserad Webcal/HTTP-kalender."
 
 #. (itstool) path: page/title
 #: C/calendar-webdav.page:19
-msgid "Using a WebDAV calendar"
-msgstr "Användning av en WebDAV-kalender"
+msgid "Using a Webcal calendar"
+msgstr "Användning av en Webcal-kalender"
 
 #. (itstool) path: item/p
-#: C/calendar-webdav.page:32 C/tasks-caldav.page:25 C/tasks-webdav.page:27
+#: C/calendar-webdav.page:32 C/tasks-webdav.page:27
 msgid "Select the type <gui>On the Web</gui>."
 msgstr "Välj typen <gui>På nätet</gui>."
 
@@ -1940,7 +2014,7 @@ msgstr "Använd den nätbaserade adressboken från ditt Google-konto."
 
 #. (itstool) path: page/title
 #: C/contacts-google.page:21
-msgid "Using a Google addressbook"
+msgid "Using a Google address book"
 msgstr "Användning av en Google-adressbok"
 
 #. (itstool) path: page/p
@@ -2000,12 +2074,16 @@ msgstr "Lägga till en LDAP-adressbok"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:44
-msgid ""
-"In the <gui>General</gui> tab, select the type <gui>On LDAP Servers</gui>."
-msgstr "I fliken <gui>Allmänt</gui>, välj typen <gui>På LDAP-servrar</gui>."
+msgid "In the <gui>Type</gui> field, select <gui>On LDAP Servers</gui>."
+msgstr "I fältet <gui>Typ</gui>, välj <gui>På LDAP-servrar</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:51
+msgid "In the <gui>Connecting to LDAP</gui> tab:"
+msgstr "I fliken <gui>Ansluter till LDAP</gui>:"
+
+#. (itstool) path: item/p
+#: C/contacts-ldap.page:54
 msgid ""
 "Enter the address of the server, the port number (the default number is 389) "
 "and whether you want to connect securely."
@@ -2014,17 +2092,18 @@ msgstr ""
 "huruvida du vill ansluta säkert."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:55
+#: C/contacts-ldap.page:58
 msgid "Define the login method and your username."
 msgstr "Definiera inloggningsmetod och ditt användarnamn."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:61
-msgid "In the <gui>Details</gui> tab you can define the following settings:"
-msgstr "I fliken <gui>Detaljer</gui> kan du definiera följande inställningar:"
+#: C/contacts-ldap.page:63
+msgid "In the <gui>Using LDAP</gui> tab you define the following settings:"
+msgstr ""
+"I fliken <gui>Använder LDAP</gui> kan du definiera följande inställningar:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:65
+#: C/contacts-ldap.page:67
 msgid ""
 "Search Base: The search base is the starting point for a directory search. "
 "Contact your system administrator for information about the correct settings."
@@ -2033,27 +2112,27 @@ msgstr ""
 "systemadministratör för information om korrekta inställningar."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:70
+#: C/contacts-ldap.page:72
 msgid "Search Scope: The search scope is the breadth of a given search."
 msgstr "Sökomfattning: Sökomfattningen är bredden på en given sökning."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:71
+#: C/contacts-ldap.page:73
 msgid "The following options are available:"
 msgstr "Följande alternativ är tillgängliga:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:74
+#: C/contacts-ldap.page:76
 msgid "One Level: Searches one entry below the Search Base."
 msgstr "En nivå: Genomsöker en nivå under sökbasen."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:77
+#: C/contacts-ldap.page:79
 msgid "Subtree: Searches the Search Base and all entries below it."
 msgstr "Underträd: Genomsöker sökbasen och alla poster under den."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:82
+#: C/contacts-ldap.page:84
 msgid ""
 "Search Filter: The search filter can be set here for all the LDAP queries. "
 "For example:"
@@ -2062,17 +2141,17 @@ msgstr ""
 "exempel:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:86
+#: C/contacts-ldap.page:88
 msgid "<code>ObjectClass=*</code>: Lists all the objects from the server."
 msgstr "<code>ObjectClass=*</code>: Listar alla objekt på servern."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:90
+#: C/contacts-ldap.page:92
 msgid "<code>ObjectClass=User</code>: Lists only the users."
 msgstr "<code>ObjectClass=User</code>: Listar bara användarna."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:93
+#: C/contacts-ldap.page:95
 msgid ""
 "<code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: "
 "Retrieves the User and Contact List objects."
@@ -2081,7 +2160,7 @@ msgstr ""
 "användar- och kontaktlist-objekten."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:97
+#: C/contacts-ldap.page:99
 msgid ""
 "<code>(&amp;(mail=*)(ObjectClass=*))</code>: Lists the objects associated "
 "with the email addresses."
@@ -2090,38 +2169,33 @@ msgstr ""
 "associerade med e-postadresserna."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:103
-msgid ""
-"Timeout (minutes): The maximum time <app>Evolution</app> attempts to "
-"download data from the server before giving up."
-msgstr ""
-"Tidsgräns (minuter): Den längsta tiden <app>Evolution</app> försöker hämta "
-"data från servern innan det ger upp."
-
-#. (itstool) path: item/p
-#: C/contacts-ldap.page:107
+#: C/contacts-ldap.page:105
 msgid ""
 "Download Limit: The maximum number of results for a given search. Most "
 "servers refuse to send more than 500 contacts, but you can set the number "
-"lower if you want to shorten downloads for very broad searches."
+"lower if you want to shorten downloads for very broad searches. This option "
+"is ignored, if <gui>Copy book content locally for offline operation</gui> is "
+"checked."
 msgstr ""
 "Hämtningsbegränsning: Maximalt antal resultat för en given sökning. De "
 "flesta servrar vägrar att skicka fler än 500 kontakter, men du kan ställa in "
-"antalet lägre om du vill korta ner hämtningarna för väldigt breda sökningar."
+"antalet lägre om du vill korta ner hämtningarna för väldigt breda sökningar. "
+"Detta alternativ ignoreras om <gui>Kopiera bokinnehåll lokalt för "
+"frånkopplad användning</gui> är ikryssat."
 
 #. (itstool) path: note/p
-#: C/contacts-ldap.page:117
+#: C/contacts-ldap.page:119
 msgid "If you are unsure about some settings, ask your system administrator."
 msgstr ""
 "Om du är osäker på vad vissa inställningar är, fråga din systemadministratör."
 
 #. (itstool) path: section/title
-#: C/contacts-ldap.page:124
+#: C/contacts-ldap.page:126
 msgid "Differences to local address books"
 msgstr "Skillnaden mot lokala adressböcker"
 
 #. (itstool) path: section/p
-#: C/contacts-ldap.page:126
+#: C/contacts-ldap.page:128
 msgid ""
 "LDAP address books work like local address books on your computer, with the "
 "following exceptions:"
@@ -2130,7 +2204,7 @@ msgstr ""
 "följande undantag:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:131
+#: C/contacts-ldap.page:133
 msgid ""
 "Network folders are only available when you are connected to the network. If "
 "you use a laptop or have a modem connection, you might want to copy or cache "
@@ -2143,7 +2217,7 @@ msgstr ""
 "släppa dina önskade kontakter i den lokala adressboken."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:137
+#: C/contacts-ldap.page:139
 msgid ""
 "You can also mark the network folder for offline usage. To mark the folder, "
 "right-click the folder, click <gui>Properties</gui> and select <gui>Copy "
@@ -2154,7 +2228,7 @@ msgstr ""
 "välj <gui>Kopiera mappinnehåll lokalt för frånkopplad användning</gui>."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:142
+#: C/contacts-ldap.page:144
 msgid ""
 "To prevent excess network traffic, <app>Evolution</app> does not normally "
 "load data from the LDAP server upon opening."
@@ -2163,7 +2237,7 @@ msgstr ""
 "normalt data från LDAP-servern vid uppstart."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:146
+#: C/contacts-ldap.page:148
 msgid ""
 "Depending on your server settings, you might not be able to edit all the "
 "fields in a contact stored on an LDAP server. Some servers prohibit some or "
@@ -2223,7 +2297,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:38
-msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
+msgid "Choose an address book and click <gui style=\"button\">Define</gui>."
 msgstr "Välj en adressbok och klicka på <gui style=\"button\">Definiera</gui>."
 
 #. (itstool) path: page/p
@@ -2270,7 +2344,7 @@ msgstr "Sortera, organisera och gruppera dina kontakter"
 #: C/contacts-organizing.page:23
 msgid ""
 "There are several ways how to organize your contacts. You can use several "
-"addressbooks and categories, and for conveniently sending messages to a "
+"address books and categories, and for conveniently sending messages to a "
 "group of people contact lists are available."
 msgstr ""
 "Det finns flera sätt att organisera dina kontakter. Du kan använda flera "
@@ -2534,7 +2608,7 @@ msgid ""
 "Choose whether you want to hide the email addresses when you send a message "
 "to the list."
 msgstr ""
-"Välj huruvida du vill gömma e-postadresser när du skickar ett meddelande "
+"Välj huruvida du vill dölja e-postadresser när du skickar ett meddelande "
 "till listan."
 
 #. (itstool) path: item/p
@@ -2592,7 +2666,7 @@ msgstr "Lägga till och skapa adressböcker"
 #: C/contacts-using-several-addressbooks.page:23
 msgid ""
 "You can have multiple address books. For example, you might have one address "
-"book for work related contacts and one for private contacts. The side bar "
+"book for work related contacts and one for private contacts. The sidebar "
 "lists those address books, and you can select which address book is shown."
 msgstr ""
 "Du kan ha flera adressböcker. Du kan till exempel ha en adressbok för "
@@ -2607,6 +2681,27 @@ msgid ""
 msgstr ""
 "Du kan också använda adressböcker som inte finns på din dator, utan till "
 "exempel på internet (t.ex. Google) eller på ett lokalt nätverk (t.ex. LDAP)."
+
+#. (itstool) path: page/p
+#: C/contacts-using-several-addressbooks.page:30
+msgid ""
+"New contacts are created in the selected address book in the Contacts "
+"window. If no address book is selected, new contacts are created in the "
+"default address book."
+msgstr ""
+"Nya kontakter skapas i den valda adressboken i kontaktfönstret. Om ingen "
+"adressbok valts skapas nya kontakter i standardadressboken."
+
+#. (itstool) path: section/p
+#: C/contacts-using-several-addressbooks.page:34
+msgid ""
+"Different types of mail, address books, calendars, task and memo lists, "
+"belonging to the same user, can be added in one step, by utilizing a <link "
+"xref=\"intro-account-types#collection-account\">Collection account</link>."
+msgstr ""
+"Olika typer av e-post, adressböcker, kalendrar, uppgifts- och memolistor som "
+"tillhör samma användare kan läggas till i ett steg genom att använda ett "
+"<link xref=\"intro-account-types#collection-account\">samlingskonto</link>."
 
 #. (itstool) path: info/desc
 #: C/credits.page:5
@@ -2750,11 +2845,11 @@ msgstr ""
 msgid ""
 "Changing the order of tool bar/menu items in some <file>.ui</file> files may "
 "not affect their displayed order in <app>Evolution</app>. As a workaround, "
-"the attribute <code>position='top'</code> can be added to some elements (e."
-"g. <code>toolitem</code> and non-empty <code>placeholder</code> elements), "
-"which will place them before other items in the group and cause them to be "
-"displayed according to their order in the <file>.ui</file> file. This "
-"attribute may need to be added to all items in a group to achieve the "
+"the attribute <code>position='top'</code> can be added to some elements "
+"(e.g. <code>toolitem</code> and non-empty <code>placeholder</code> "
+"elements), which will place them before other items in the group and cause "
+"them to be displayed according to their order in the <file>.ui</file> file. "
+"This attribute may need to be added to all items in a group to achieve the "
 "overall desired item order."
 msgstr ""
 "Att ändra ordningen på objekt i verktygsfält/menyer i några <file>.ui</file>-"
@@ -2862,10 +2957,10 @@ msgstr "<file>$HOME/.config/dconf</file>"
 #: C/data-storage.page:44
 msgid ""
 "This location also includes settings of other applications. To output only "
-"Evolution related data on the screen, the <link href=\"https://developer."
-"gnome.org/dconf/\"><app>Dconf</app></link> commands <cmd>dconf dump /org/"
-"gnome/evolution/</cmd> and <cmd>dconf dump /org/gnome/evolution-data-server/"
-"</cmd> can be used."
+"Evolution related data on the screen, the <link href=\"https://"
+"developer.gnome.org/dconf/\"><app>Dconf</app></link> commands <cmd>dconf "
+"dump /org/gnome/evolution/</cmd> and <cmd>dconf dump /org/gnome/evolution-"
+"data-server/</cmd> can be used."
 msgstr ""
 "Denna plats inkluderar också inställningar för flera andra program. För att "
 "endast mata ut Evolution-relaterade data på skärmen kan <link href=\"https://"
@@ -2973,8 +3068,8 @@ msgid ""
 "help.gnome.org/users/gnome-help/stable/net-default-browser\">the GNOME "
 "Desktop Help</link>."
 msgstr ""
-"Se <link xref=\"help:gnome-help/net-default-browser\" href=\"https://help."
-"gnome.org/users/gnome-help/stable/net-default-browser\">GNOMEs "
+"Se <link xref=\"help:gnome-help/net-default-browser\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/net-default-browser\">GNOMEs "
 "skrivbordshjälp</link>."
 
 #. (itstool) path: choose/p
@@ -3018,8 +3113,8 @@ msgid ""
 "help.gnome.org/users/gnome-help/stable/net-default-email\">the GNOME Desktop "
 "Help</link>."
 msgstr ""
-"Se <link xref=\"help:gnome-help/net-default-email\" href=\"https://help."
-"gnome.org/users/gnome-help/stable/net-default-email\">GNOMEs "
+"Se <link xref=\"help:gnome-help/net-default-email\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/net-default-email\">GNOMEs "
 "skrivbordshjälp</link>."
 
 #. (itstool) path: section/title
@@ -3031,8 +3126,8 @@ msgstr "Avancerade alternativ"
 #: C/default-browser.page:89
 msgid ""
 "If you have a technical background you can also tweak these settings by "
-"defining scheme-handlers in <file>$HOME/.local/share/applications/mimeapps."
-"list</file>."
+"defining scheme-handlers in <file>$HOME/.local/share/applications/"
+"mimeapps.list</file>."
 msgstr ""
 "Om du har en teknisk bakgrund kan du också justera dessa inställningar genom "
 "att definiera schemahanterare i <file>$HOME/.local/share/applications/"
@@ -3220,10 +3315,11 @@ msgid ""
 "gui><gui>Save as mbox…</gui></guiseq> or right-click on the message and "
 "click <gui>Save as mbox…</gui>."
 msgstr ""
-"För att spara ett e-postmeddelande som en fil i <link href=\"https://en."
-"wikipedia.org/wiki/Mbox\">mbox</link>-format, markera ett e-postmeddelande "
-"och klicka på <guiseq><gui>Arkiv</gui><gui>Spara som mbox…</gui></guiseq> "
-"eller högerklicka på meddelandet och klicka på <gui>Spara som mbox…</gui>."
+"För att spara ett e-postmeddelande som en fil i <link href=\"https://"
+"en.wikipedia.org/wiki/Mbox\">mbox</link>-format, markera ett e-"
+"postmeddelande och klicka på <guiseq><gui>Arkiv</gui><gui>Spara som mbox…</"
+"gui></guiseq> eller högerklicka på meddelandet och klicka på <gui>Spara som "
+"mbox…</gui>."
 
 #. (itstool) path: page/p
 #: C/exporting-data-mail.page:24
@@ -3288,9 +3384,9 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:28
 msgid ""
-"You cannot print an email to a printer. This is a <link href=\"https://bugs."
-"webkit.org/show_bug.cgi?id=192748\">limitation of the underlying WebKitGTK "
-"library</link>."
+"You cannot print an email to a printer. This is a <link href=\"https://"
+"bugs.webkit.org/show_bug.cgi?id=192748\">limitation of the underlying "
+"WebKitGTK library</link>."
 msgstr ""
 "Du kan inte skriva ut ett e-postmeddelande till en skrivare. Detta är en "
 "<link href=\"https://bugs.webkit.org/show_bug.cgi?id=192748\">begränsning i "
@@ -3408,8 +3504,8 @@ msgstr ""
 #: C/import-apps-mozilla.page:34
 msgid ""
 "If you would like to import <app>Thunderbird/Lightning</app> calendar data, "
-"you may be able to export your <app>Thunderbird</app> events as an <file>."
-"ical</file>/<file>.ics</file> file first, and import these files into "
+"you may be able to export your <app>Thunderbird</app> events as an "
+"<file>.ical</file>/<file>.ics</file> file first, and import these files into "
 "<app>Evolution</app>. This is required as <app>Thunderbird</app> stores its "
 "calendar data in a non-standard database format."
 msgstr ""
@@ -4267,12 +4363,13 @@ msgstr "Detta kräver att paketet <sys>evolution-ews</sys> är installerat."
 #. (itstool) path: note/p
 #: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:31
 msgid ""
-"<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
-"Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
+"<link action=\"install:evolution-ews\" href=\"https://gitlab.gnome.org/GNOME/"
+"evolution/-/wikis/home#get-the-source-code\" style=\"button\">Install "
+"evolution-ews</link>"
 msgstr ""
-"<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
-"Evolution#Get_the_Source_Code\" style=\"button\">Installera evolution-ews</"
-"link>"
+"<link action=\"install:evolution-ews\" href=\"https://gitlab.gnome.org/GNOME/"
+"evolution/-/wikis/home#get-the-source-code\" style=\"button\">Installera "
+"evolution-ews</link>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -4314,13 +4411,13 @@ msgstr "Detta kräver att paketet <sys>evolution-mapi</sys> är installerat."
 #. (itstool) path: note/p
 #: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:41
 msgid ""
-"<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
-"Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
-"link>"
+"<link action=\"install:evolution-mapi\" href=\"https://gitlab.gnome.org/"
+"GNOME/evolution/-/wikis/home#get-the-source-code\" style=\"button\">Install "
+"evolution-mapi</link>"
 msgstr ""
-"<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
-"Evolution#Get_the_Source_Code\" style=\"button\">Installera evolution-mapi</"
-"link>"
+"<link action=\"install:evolution-mapi\" href=\"https://gitlab.gnome.org/"
+"GNOME/evolution/-/wikis/home#get-the-source-code\" "
+"style=\"button\">Installera evolution-mapi</link>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -5047,8 +5144,8 @@ msgstr "Ändra tangentbordsgenvägar"
 #. (itstool) path: note/p
 #: C/intro-keyboard-shortcuts.page:345
 msgid ""
-"Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
-"config/evolution/accels</file>."
+"Advanced users can customize keyboard shortcuts by editing "
+"<file>$HOME/.config/evolution/accels</file>."
 msgstr ""
 "Avancerade användare kan anpassa tangentbordsgenvägar genom att redigera "
 "<file>$HOME/.config/evolution/accels</file>."
@@ -5208,7 +5305,7 @@ msgstr "Växlare"
 #. (itstool) path: item/p
 #: C/intro-main-window.page:79
 msgid ""
-"The switcher at the bottom of the side bar lets you switch between the "
+"The switcher at the bottom of the sidebar lets you switch between the "
 "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks. The "
 "appearance of the Switcher, including whether the buttons should be shown at "
 "all, can be changed in the menu <guiseq><gui>View</gui><gui>Switcher "
@@ -5222,8 +5319,8 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/intro-main-window.page:80
 msgid ""
-"You can disable the folder list and the switcher side bar by toggling "
-"<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> or "
+"You can disable the folder list and the switcher sidebar by toggling "
+"<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Sidebar</gui></guiseq> or "
 "pressing <key>F9</key>."
 msgstr ""
 "Du kan inaktivera mapplistan och sidopanelen med växlaren genom att slå om "
@@ -6136,11 +6233,11 @@ msgstr "Inställningar för Exchange Web Services-konto"
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:28
 msgid ""
-"See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
-"OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
+"See also the <link href=\"https://gitlab.gnome.org/GNOME/evolution/-/wikis/"
+"EWS-OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
 "authentication."
 msgstr ""
-"Se även <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
+"Se även <link href=\"https://gitlab.gnome.org/GNOME/evolution/-/wikis/EWS-"
 "OAuth2\">dokumentationen på hur du konfigurerar och felsöker OAuth2-"
 "autentisering</link>."
 
@@ -6303,9 +6400,9 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/mail-account-manage-microsoft-exchange.page:48
 msgid ""
-"For topics not covered here please refer to the <link href=\"https://help."
-"gnome.org/users/evolution/2.32/usage-exchange.html\">old <app>Evolution</"
-"app> manual</link>."
+"For topics not covered here please refer to the <link href=\"https://"
+"help.gnome.org/users/evolution/2.32/usage-exchange.html\">old "
+"<app>Evolution</app> manual</link>."
 msgstr ""
 "För ämnen som inte täcks in här, se den <link href=\"https://help.gnome.org/"
 "users/evolution/2.32/usage-exchange.html\">gamla <app>Evolution</app>-"
@@ -7073,8 +7170,8 @@ msgstr ""
 #. Translators: Do NOT translate the variable names inside the ${brackets}!
 #: C/mail-composer-change-quotation-string.page:43
 msgid ""
-"The default string in English is: <code>\"On ${AbbrevWeekdayName}, ${Year}-"
-"${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
+"The default string in English is: <code>\"On ${AbbrevWeekdayName}, ${Year}-$"
+"{Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
 msgstr ""
 "På svenska är standardsträngen: <code>”${AbbrevWeekdayName} ${Year}-${Month}-"
 "${Day} klockan ${24Hour}:${Minute} ${TimeZone} skrev ${Sender}:”</code>"
@@ -7470,13 +7567,13 @@ msgstr ""
 msgid ""
 "This functionality can be useful for <link href=\"https://en.wikipedia.org/"
 "wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> and "
-"<link href=\"https://en.wikipedia.org/wiki/Email_address#Address_tags\">sub-"
-"addressing</link>."
+"<link href=\"https://en.wikipedia.org/wiki/Email_address#Sub-"
+"addressing\">sub-addressing</link>."
 msgstr ""
-"Denna funktionalitet kan vara användbar för <link href=\"https://en."
-"wikipedia.org/wiki/Qmail#Innovations\">brevlådor med jokertecken vid "
+"Denna funktionalitet kan vara användbar för <link href=\"https://"
+"en.wikipedia.org/wiki/Qmail#Innovations\">brevlådor med jokertecken vid "
 "användning av qmail</link> och <link href=\"https://en.wikipedia.org/wiki/"
-"Email_address#Address_tags\">underadressering</link>."
+"Email_address#Sub-addressing\">underadressering</link>."
 
 #. (itstool) path: note/p
 #. Translators: If no Wikipedia article exists for your language and you
@@ -9556,14 +9653,14 @@ msgstr "Skapa en GPG-nyckel"
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-create-key.page:24
 msgid ""
-"Before you can get or send GPG encrypted mail, you need to <link xref=\"help:"
-"seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/"
-"pgp-create\">generate your public and private keys with GPG</link>. After "
-"doing so and <link xref=\"mail-encryption-gpg-set-up\">setting up "
-"<app>Evolution</app> to use the key</link>, you need to <link xref=\"help:"
-"seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahorse/stable/"
-"pgp-publish\">share your public key with your friends to allow them sending "
-"you encrypted messages</link>."
+"Before you can get or send GPG encrypted mail, you need to <link "
+"xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/"
+"seahorse/stable/pgp-create\">generate your public and private keys with GPG</"
+"link>. After doing so and <link xref=\"mail-encryption-gpg-set-up\">setting "
+"up <app>Evolution</app> to use the key</link>, you need to <link "
+"xref=\"help:seahorse/pgp-publish\" href=\"https://help.gnome.org/users/"
+"seahorse/stable/pgp-publish\">share your public key with your friends to "
+"allow them sending you encrypted messages</link>."
 msgstr ""
 "Innan du kan hämta eller skicka GPG-krypterad e-post måste du <link "
 "xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/"
@@ -11090,19 +11187,19 @@ msgstr "Flyttad e-post visas fortfarande i originalmappen"
 #. (itstool) path: page/p
 #: C/mail-moving-emails.page:26
 msgid ""
-"If your IMAP mail server does not yet support <link href=\"https://tools."
-"ietf.org/html/rfc6851\">IMAP's \"move\" feature</link> which was introduced "
-"in January 2013, <app>Evolution</app> \"moves\" messages by copying and "
-"deleting emails. Deleting means \"marking messages for deletion\" so all the "
-"original messages are retained until you expunge the emails marked for "
-"deletion."
+"If your IMAP mail server does not yet support <link href=\"https://"
+"tools.ietf.org/html/rfc6851\">IMAP's \"move\" feature</link> which was "
+"introduced in January 2013, <app>Evolution</app> \"moves\" messages by "
+"copying and deleting emails. Deleting means \"marking messages for "
+"deletion\" so all the original messages are retained until you expunge the "
+"emails marked for deletion."
 msgstr ""
-"Om din IMAP e-postserver ännu inte har stöd för <link href=\"https://tools."
-"ietf.org/html/rfc6851\">IMAP:s funktion ”flytta”</link> som introducerades i "
-"Januari 2013, kommer <app>Evolution</app> att ”flytta” meddelanden genom att "
-"kopiera och ta bort e-post. Ta bort innebär ”markera meddelanden för "
-"borttagning” så alla originalmeddelanden behålls tills du tömmer e-"
-"postmeddelandena som markerats för borttagning."
+"Om din IMAP e-postserver ännu inte har stöd för <link href=\"https://"
+"tools.ietf.org/html/rfc6851\">IMAP:s funktion ”flytta”</link> som "
+"introducerades i Januari 2013, kommer <app>Evolution</app> att ”flytta” "
+"meddelanden genom att kopiera och ta bort e-post. Ta bort innebär ”markera "
+"meddelanden för borttagning” så alla originalmeddelanden behålls tills du "
+"tömmer e-postmeddelandena som markerats för borttagning."
 
 #. (itstool) path: page/p
 #: C/mail-moving-emails.page:28
@@ -11314,12 +11411,12 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:38
 msgid ""
-"See <link xref=\"help:gnome-help/shell-notifications\" href=\"https://help."
-"gnome.org/users/gnome-help/stable/shell-notifications\">the GNOME Desktop "
-"Help</link> for more information."
+"See <link xref=\"help:gnome-help/shell-notifications\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/shell-notifications\">the GNOME "
+"Desktop Help</link> for more information."
 msgstr ""
-"Se <link xref=\"help:gnome-help/shell-notifications\" href=\"https://help."
-"gnome.org/users/gnome-help/stable/shell-notifications\">GNOMEs "
+"Se <link xref=\"help:gnome-help/shell-notifications\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/shell-notifications\">GNOMEs "
 "skrivbordshjälp</link> för mer information."
 
 #. (itstool) path: info/desc
@@ -11704,8 +11801,8 @@ msgstr ""
 #: C/mail-receiving-options-pop.page:52
 msgid ""
 "The option <gui>Disable support for all POP3 extensions</gui> is only useful "
-"when accessing old or misconfigured mail servers. <link href=\"https://tools."
-"ietf.org/html/rfc2449\">POP3 extensions</link> provide enhanced "
+"when accessing old or misconfigured mail servers. <link href=\"https://"
+"tools.ietf.org/html/rfc2449\">POP3 extensions</link> provide enhanced "
 "functionality, however only some servers support them. In case of problems "
 "with receiving mail, enabling this setting might help."
 msgstr ""
@@ -11828,9 +11925,9 @@ msgid ""
 msgstr ""
 "För att spara e-postmeddelanden i filformatet PDF, välj <guiseq><gui>Arkiv</"
 "gui><gui>Skriv ut</gui></guiseq> och välj sedan <gui>Skriv ut till fil</"
-"gui>. Se <link xref=\"help:gnome-help/printing\" href=\"https://help.gnome."
-"org/users/gnome-help/stable/printing\">skrivbordshjälpen</link> för allmän "
-"information om utskrifter."
+"gui>. Se <link xref=\"help:gnome-help/printing\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/printing\">skrivbordshjälpen</link> "
+"för allmän information om utskrifter."
 
 #. (itstool) path: note/p
 #: C/mail-save-as-pdf.page:25
@@ -12567,17 +12664,17 @@ msgstr "Det finns tre specialtaggar som kräver särskild notation. De är:"
 msgid ""
 "which allows to create specialized expressions. The default (the most outer) "
 "conjunction is <code>and</code>. To change it to <code>or</code> enclose the "
-"whole filter into <code>or:(....)</code>. For example: <code>f:Bugzilla t:"
-"John</code> filters all messages which contains <code>Bugzilla</code> in the "
-"From and <code>John</code> in the To, while <code>or:(f:Bugzilla t:John)</"
-"code> filters messages from Bugzilla or addressed to John."
+"whole filter into <code>or:(....)</code>. For example: <code>f:Bugzilla "
+"t:John</code> filters all messages which contains <code>Bugzilla</code> in "
+"the From and <code>John</code> in the To, while <code>or:(f:Bugzilla "
+"t:John)</code> filters messages from Bugzilla or addressed to John."
 msgstr ""
 "som låter dig skapa specialiserade uttryck. Standardhopsättningen (den mest "
 "yttre) är <code>and</code>. För att ändra den till <code>or</code> stoppar "
-"du in hela filtret i <code>or:(....)</code>. Exempel: <code>f:Bugzilla t:"
-"John</code> filtrerar alla meddelanden som innehåller <code>Bugzilla</code> "
-"i From och <code>John</code> i To, medan <code>or:(f:Bugzilla t:John)</code> "
-"filtrerar meddelanden från Bugzilla eller som adresserats till John."
+"du in hela filtret i <code>or:(....)</code>. Exempel: <code>f:Bugzilla "
+"t:John</code> filtrerar alla meddelanden som innehåller <code>Bugzilla</"
+"code> i From och <code>John</code> i To, medan <code>or:(f:Bugzilla t:John)</"
+"code> filtrerar meddelanden från Bugzilla eller som adresserats till John."
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:121
@@ -14301,10 +14398,10 @@ msgid ""
 "If the problem persists and you are sure you have not clicked the icon, but "
 "you can still reach the network from other apps on your system (browsers, "
 "FTP, SSH, ping etc.) it may be that your network connection is not properly "
-"configured. For more information please take a look at the <link xref=\"help:"
-"gnome-help/net-problem\" href=\"https://help.gnome.org/users/gnome-help/"
-"stable/net-problem\">Desktop help</link> or seek help from your distribution "
-"support forums, mailing lists etc."
+"configured. For more information please take a look at the <link "
+"xref=\"help:gnome-help/net-problem\" href=\"https://help.gnome.org/users/"
+"gnome-help/stable/net-problem\">Desktop help</link> or seek help from your "
+"distribution support forums, mailing lists etc."
 msgstr ""
 "Om problemet kvarstår och du är säker på att du inte har klickat på ikonen "
 "men du kan nå nätverket från andra program på ditt system (webbläsare, FTP, "
@@ -14601,8 +14698,8 @@ msgid ""
 msgstr ""
 "Många distributioner tillhandahåller programmet <app><link href=\"https://"
 "syncevolution.org/\">SyncEvolution</link></app> som kan användas i "
-"kombination med enheter som har stöd för <link href=\"https://en.wikipedia."
-"org/wiki/SyncML\">SyncML</link>."
+"kombination med enheter som har stöd för <link href=\"https://"
+"en.wikipedia.org/wiki/SyncML\">SyncML</link>."
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:25
@@ -14662,12 +14759,50 @@ msgstr ""
 "guiseq>."
 
 #. (itstool) path: item/p
-#: C/tasks-caldav.page:28 C/tasks-webdav.page:30
-msgid "Choose if you want to be able to view the content also while offline."
-msgstr "Välj om du vill kunna visa innehållet även när du är frånkopplad."
+#: C/tasks-caldav.page:27
+msgid ""
+"To discover the task lists or memo lists, announced by the server, enter the "
+"server address as <gui>URL</gui> and optionally <gui>User</gui>, then click "
+"on <gui style=\"button\">Find Task Lists</gui>/<gui style=\"button\">Find "
+"Memo Lists</gui>. Select a task or memo list and <gui>User mail</gui>. This "
+"prefills the fields <gui>Name</gui>, <gui>Color</gui>, <gui>URL</gui> and "
+"(see below) <gui>Email</gui>. The step is optional, and you can overwrite "
+"all the discovered settings."
+msgstr ""
+"För att upptäcka uppgiftslistorna eller memolistorna som annonseras av "
+"servern, ange serveradressen som <gui>URL</gui> och valfritt <gui>Användare</"
+"gui>, klicka sedan på <gui style=\"button\">Sök uppgiftslistor</gui>/<gui "
+"style=\"button\">Sök memolistor</gui>. Välj en uppgifts- eller memolista och "
+"<gui>Användar-e-post</gui>. Detta förifyller fälten <gui>Namn</gui>, "
+"<gui>Färg</gui>, <gui>URL</gui> och (se nedan) <gui>E-post</gui>. Steget är "
+"valfritt, och du kan skriva över alla de identifierade inställningarna."
+
+#. (itstool) path: item/p
+#: C/tasks-caldav.page:34
+msgid ""
+"Enter your username and email address. When an assigned task is created in "
+"the task list, this email address is prefilled as Organizer."
+msgstr ""
+"Ange ditt användarnamn och e-postadress. När en tilldelad uppgift skapas i "
+"kalendern förifylls denna e-postadress som Organisatör."
+
+#. (itstool) path: item/p
+#: C/tasks-caldav.page:36
+msgid ""
+"When an assigned task is created, modified or deleted, a notification can be "
+"sent to the other parties. If <gui>Server handles meeting invitations</gui> "
+"is selected, <app>Evolution</app> uploads the task and assumes that the "
+"server informs other parties. When the option is not selected, "
+"<app>Evolution</app> sends an email."
+msgstr ""
+"När en tilldelad uppgift skapas, ändras eller tas bort kan en avisering "
+"skickas till de andra parterna. Om <gui>Servern hanterar "
+"sammanträdesinbjudningar</gui> är valt skickar <app>Evolution</app> "
+"uppgiften och antar att servern informerar andra parter. När alternativet "
+"inte är valt skickar <app>Evolution</app> ett e-postmeddelande."
 
 #. (itstool) path: page/p
-#: C/tasks-caldav.page:35 C/tasks-local.page:31
+#: C/tasks-caldav.page:43 C/tasks-local.page:31
 msgid ""
 "The task list will be added to the list of task lists in <app>Evolution</"
 "app>."
@@ -14720,7 +14855,7 @@ msgstr "Välj färg för de som ska redan är försenade."
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:34
 msgid "Hide completed tasks after:"
-msgstr "Göm färdigställda uppgifter efter:"
+msgstr "Dölj färdigställda uppgifter efter:"
 
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:35
@@ -14729,7 +14864,7 @@ msgid ""
 "measured in days, hours, or minutes. If you do not select this option, "
 "completed tasks remain in your task list, marked as complete."
 msgstr ""
-"Välj detta alternativ för att låta färdigställda uppgifter gömmas efter en "
+"Välj detta alternativ för att låta färdigställda uppgifter döljas efter en "
 "tid mätt i dagar, timmar eller minuter. Om du inte väljer detta alternativ "
 "kommer färdigställda uppgifter att kvarstå i din uppgiftslista, markerade "
 "som färdigställda."
@@ -14977,7 +15112,7 @@ msgstr "Användning av flera uppgiftslistor eller memolistor"
 msgid ""
 "You can have multiple task or memo lists and choose which of your lists get "
 "displayed. For example, you might have tasks for work, tasks for home, and "
-"tasks for the singing club of which you are a member. The side bar shows "
+"tasks for the singing club of which you are a member. The sidebar shows "
 "these lists, and you can select or deselect any of the boxes next to them to "
 "show and hide the corresponding tasks or memos in your view."
 msgstr ""
@@ -14985,11 +15120,12 @@ msgstr ""
 "som visas. Du kan till exempel ha uppgifter för arbetet, uppgifter för "
 "hemmet och uppgifter för sångkören du är medlem i. Sidopanelen visar dessa "
 "listor och du kan markera eller avmarkera boxarna intill dem för att visa "
-"och gömma motsvarande uppgifter eller memon i din vy."
+"och dölja motsvarande uppgifter eller memon i din vy."
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:24
-msgid "Tasks and memos from each task or memo list appear as different colors."
+msgid ""
+"Tasks and memos from each task or memo list appear in a different color."
 msgstr ""
 "Uppgifter och memon från varje uppgifts- eller memolista visas med olika "
 "färger."
@@ -15003,20 +15139,36 @@ msgstr ""
 "Du kan också använda listor som inte finns på din dator, exempelvis sådana "
 "som finns på nätet."
 
+#. (itstool) path: page/p
+#: C/tasks-using-several-tasklists.page:27
+msgid ""
+"New tasks are created in the selected task list in the Tasks window. If no "
+"list is selected, new tasks are created in the default task list. Likewise "
+"for memos."
+msgstr ""
+"Nya uppgifter skapas i den valda uppgiftslistan i uppgiftsfönstret. Om ingen "
+"lista valts skapas nya uppgifter i standarduppgiftslistan. Samma sak för "
+"memon."
+
 #. (itstool) path: info/desc
 #: C/tasks-webdav.page:5
-msgid "Using an online WebDAV task list or memo list."
-msgstr "Användning av en nätbaserad WebDAV-uppgiftslista eller -memolista."
+msgid "Using an online HTTP task list or memo list."
+msgstr "Användning av en nätbaserad HTTP-uppgiftslista eller memolista."
 
 #. (itstool) path: page/title
 #: C/tasks-webdav.page:20
-msgid "Using a WebDAV task or memo list"
-msgstr "Användning av en WebDAV-uppgifts- eller memolista"
+msgid "Using a HTTP task or memo list"
+msgstr "Användning av en HTTP-uppgiftslista eller memolista"
 
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:22
 msgid "Lists of this type are read-only."
 msgstr "Listor av denna typ är skrivskyddade."
+
+#. (itstool) path: item/p
+#: C/tasks-webdav.page:30
+msgid "Choose if you want to be able to view the content also while offline."
+msgstr "Välj om du vill kunna visa innehållet även när du är frånkopplad."
 
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:37
@@ -15241,9 +15393,10 @@ msgid ""
 "If a message uses a header more than once, <_:app-1/> pays attention only to "
 "the first instance, even if the message defines the header differently the "
 "second time. For example, if a message declares the Resent-From: header as "
-"\"engineering@example.com\" and then restates it as \"marketing@example."
-"com\", <_:app-2/> filters as though the second declaration did not occur. To "
-"filter on messages that use headers multiple times, use a regular expression."
+"\"engineering@example.com\" and then restates it as "
+"\"marketing@example.com\", <_:app-2/> filters as though the second "
+"declaration did not occur. To filter on messages that use headers multiple "
+"times, use a regular expression."
 msgstr ""
 "Om ett meddelande använder en rubrik mer än en gång kommer <_:app-1/> bara "
 "att uppmärksamma den den första gången, även om meddelandet definierar "
@@ -15280,8 +15433,8 @@ msgid ""
 "in the Scheme language used to define <_:link-1/> in <_:app-2/>."
 msgstr ""
 "(Endast för programmerare) Matcha ett meddelande enligt ett uttryck du "
-"skriver i språket Scheme som används för att definiera <_:link-1/> i <_:"
-"app-2/>."
+"skriver i språket Scheme som används för att definiera <_:link-1/> i "
+"<_:app-2/>."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:31
@@ -15551,8 +15704,8 @@ msgstr "Q"
 #. (itstool) path: section/p
 #: C/xinclude-searching.xml:15
 msgid ""
-"To clear your search view and get back to the default view, click the <_:"
-"gui-1/> icon in the search string field, or choose <_:guiseq-2/> from the "
+"To clear your search view and get back to the default view, click the "
+"<_:gui-1/> icon in the search string field, or choose <_:guiseq-2/> from the "
 "menubar. You can also press <_:keyseq-3/> to clear the search."
 msgstr ""
 "För att tömma din sökvy och gå tillbaka till standardvyn, klicka på ikonen "
@@ -15592,8 +15745,8 @@ msgid ""
 "from the <_:gui-4/> menu."
 msgstr ""
 "För att spara dina sökresultat, klicka antingen på <_:gui-1/> i stället för "
-"<_:gui-2/> i Sökdialogen, eller om sökresultaten redan visas, välj <_:"
-"guiseq-3/>. Från och med nu kommer denna sökning att vara direkt åtkomlig "
+"<_:gui-2/> i Sökdialogen, eller om sökresultaten redan visas, välj "
+"<_:guiseq-3/>. Från och med nu kommer denna sökning att vara direkt åtkomlig "
 "från menyn <_:gui-4/>."
 
 #. (itstool) path: section/title
@@ -15635,6 +15788,22 @@ msgstr "Redigera titeln eller sökvillkoren från dialogrutan."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicka på <_:gui-1/>."
+
+#~ msgid "Enter your username and your email address."
+#~ msgstr "Ange ditt användarnamn och din e-postadress."
+
+#~ msgid ""
+#~ "Timeout (minutes): The maximum time <app>Evolution</app> attempts to "
+#~ "download data from the server before giving up."
+#~ msgstr ""
+#~ "Tidsgräns (minuter): Den längsta tiden <app>Evolution</app> försöker "
+#~ "hämta data från servern innan det ger upp."
+
+#~ msgid "Using an online WebDAV task list or memo list."
+#~ msgstr "Användning av en nätbaserad WebDAV-uppgiftslista eller -memolista."
+
+#~ msgid "Using a WebDAV task or memo list"
+#~ msgstr "Användning av en WebDAV-uppgifts- eller memolista"
 
 #~ msgid ""
 #~ "<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-"
@@ -15679,9 +15848,9 @@ msgstr "Klicka på <_:gui-1/>."
 #~ "id=550796#c10\">combine numerous conditions by using the <gui>Free form "
 #~ "expression</gui> syntax</link>."
 #~ msgstr ""
-#~ "Avancerade användare kan <link href=\"https://bugzilla.gnome.org/show_bug."
-#~ "cgi?id=550796#c10\">kombinera många villkor genom att använda syntaxen "
-#~ "för <gui>Friformsuttryck</gui></link>."
+#~ "Avancerade användare kan <link href=\"https://bugzilla.gnome.org/"
+#~ "show_bug.cgi?id=550796#c10\">kombinera många villkor genom att använda "
+#~ "syntaxen för <gui>Friformsuttryck</gui></link>."
 
 #~ msgid ""
 #~ "Color chooser for text. The box displays the current text color. To "
@@ -15894,8 +16063,9 @@ msgstr "Klicka på <_:gui-1/>."
 #~ "visible true</cmd> to reenable it."
 #~ msgstr ""
 #~ "Om du någonsin döljer menyraden av misstag kan du öppna ett "
-#~ "terminalprogram och köra kommandot <cmd>gsettings set org.gnome.evolution."
-#~ "shell menubar-visible true</cmd> för att aktivera den på nytt."
+#~ "terminalprogram och köra kommandot <cmd>gsettings set "
+#~ "org.gnome.evolution.shell menubar-visible true</cmd> för att aktivera den "
+#~ "på nytt."
 
 #~ msgid ""
 #~ "In case it is not listed already, click <gui style=\"button\">Browse…</"
