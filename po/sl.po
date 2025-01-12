@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2025-01-11 00:19+0000\n"
-"PO-Revision-Date: 2025-01-12 11:36+0100\n"
+"PO-Revision-Date: 2025-01-12 16:30+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -16750,23 +16750,21 @@ msgid "Timezone drop-down combination box"
 msgstr "Spustni meni časovnih pasov"
 
 #: ../src/e-util/e-ui-customize-dialog.c:584
-#, fuzzy
-#| msgid "_Use the same fonts as other applications"
 msgid "_Unset from other action"
 msgid_plural "_Unset from other actions"
-msgstr[0] "_Uporabi enake pisave kot drugi programi"
-msgstr[1] "_Uporabi enake pisave kot drugi programi"
-msgstr[2] "_Uporabi enake pisave kot drugi programi"
-msgstr[3] "_Uporabi enake pisave kot drugi programi"
+msgstr[0] "_Odvzami z drugih dogodkov"
+msgstr[1] "_Odvzami z drugega dogodka"
+msgstr[2] "_Odvzami z drugih dogodkov"
+msgstr[3] "_Odvzami z drugih dogodkov"
 
 #: ../src/e-util/e-ui-customize-dialog.c:636
-#, fuzzy, c-format
+#, c-format
 msgid "Shortcut is used by other %u action"
 msgid_plural "Shortcut is used by other %u actions"
-msgstr[0] "Bližnjico uporabljajo drugi %u dejanja"
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Bližnjico uporablja drugih %u dejanj"
+msgstr[1] "Bližnjico uporablja drugo %u dejanje"
+msgstr[2] "Bližnjico uporabljata drugi %u dejanji"
+msgstr[3] "Bližnjico uporabljajo druga %u dejanja"
 
 #: ../src/e-util/e-ui-customize-dialog.c:645
 #, c-format
@@ -16853,10 +16851,8 @@ msgid "Failed to save changes."
 msgstr "Shranjevanje sprememb je spodletelo"
 
 #: ../src/e-util/e-ui-customizer.c:434
-#, fuzzy
-#| msgid "Header"
 msgid "Headerbar"
-msgstr "Glava"
+msgstr "Glavna vrstica"
 
 #: ../src/e-util/e-ui-customizer.c:437
 msgid "Toolbar"
@@ -24660,18 +24656,16 @@ msgid "Event Context Menu"
 msgstr "Kontekstni meni dogodka"
 
 #: ../src/modules/calendar/e-cal-shell-view.c:713 ../src/modules/calendar/e-memo-shell-view.c:343
-#, fuzzy
 msgid "Memo Context Menu"
-msgstr "Kontekstni meni Memo"
+msgstr "Kontekstni meni opomnika"
 
 #: ../src/modules/calendar/e-cal-shell-view.c:714 ../src/modules/calendar/e-task-shell-view.c:536
 msgid "Task Context Menu"
 msgstr "Kontekstni meni opravila"
 
 #: ../src/modules/calendar/e-cal-shell-view.c:715
-#, fuzzy
 msgid "No Event Context Menu"
-msgstr "Brez kontekstnega menija dogodka"
+msgstr "Kontekstni meni za nič dogodkov"
 
 #. Translators: Default filename part saving a memo to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
@@ -24921,7 +24915,6 @@ msgid "Delete Memo"
 msgstr "Izbriši opomnik"
 
 #: ../src/modules/calendar/e-memo-shell-view.c:344
-#, fuzzy
 msgid "Memo List Context Menu"
 msgstr "Kontekstni meni seznama opomnikov"
 
@@ -29029,9 +29022,8 @@ msgid "Customi_ze…"
 msgstr "Prila_godi ..."
 
 #: ../src/shell/e-shell-view.c:1148
-#, fuzzy
 msgid "Customize user interface, like toolbar content and shortcuts"
-msgstr "Prilagajanje uporabniškega vmesnika, kot so vsebina orodne vrstice in bližnjice"
+msgstr "Prilagodite uporabniški vmesnik, npr. vsebino orodne vrstice in bližnjice"
 
 #. ** Menus **
 #: ../src/shell/e-shell-view.c:1153
