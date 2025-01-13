@@ -658,8 +658,16 @@ e_shell_switcher_add_action (EShellSwitcher *switcher,
 	g_object_ref (switch_action);
 	tool_item = gtk_toggle_tool_button_new ();
 	gtk_tool_item_set_is_important (tool_item, TRUE);
-	gtk_tool_button_set_label (GTK_TOOL_BUTTON (tool_item), e_ui_action_get_label (switch_action));
-	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), e_ui_action_get_icon_name (switch_action));
+
+	e_binding_bind_property (
+		switch_action, "label",
+		tool_item, "label",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		switch_action, "icon-name",
+		tool_item, "icon-name",
+		G_BINDING_SYNC_CREATE);
 
 	widget = GTK_WIDGET (tool_item);
 	gtk_widget_set_tooltip_text (widget, e_ui_action_get_tooltip (switch_action));
