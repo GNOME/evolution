@@ -645,8 +645,15 @@ e_shell_view_ui_manager_ignore_accel_cb (EUIManager *manager,
 	EShellView *self = user_data;
 	gboolean ignore = FALSE;
 
-	if (!e_shell_view_is_active (self))
+	if (e_shell_view_is_active (self)) {
+		GtkWidget *toplevel;
+
+		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (self));
+		if (GTK_IS_WINDOW (toplevel))
+			ignore = e_util_ignore_accel_for_focused (gtk_window_get_focus (GTK_WINDOW (toplevel)));
+	} else {
 		ignore = TRUE;
+	}
 
 	return ignore;
 }
