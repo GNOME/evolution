@@ -391,7 +391,7 @@ e_pkcs12_export_to_file (GList *certs,
 		goto error;
 	}
 
-	srv = SEC_PKCS12AddPasswordIntegrity (p12exp, &password, SEC_OID_SHA1);
+	srv = SEC_PKCS12AddPasswordIntegrity (p12exp, &password, SEC_OID_SHA512);
 	if (srv != SECSuccess)  {
 		gint err_code = PORT_GetError();
 		*error = g_error_new (E_PKCS12_ERROR, E_PKCS12_ERROR_NSS_FAILED, _("Unable to setup password integrity, err_code: %i"), err_code);
@@ -401,7 +401,7 @@ e_pkcs12_export_to_file (GList *certs,
 	for (link = certs; link; link = g_list_next (link)) {
 		keySafe = NULL,	certSafe = NULL;
 		keySafe = SEC_PKCS12CreateUnencryptedSafe (p12exp);
-		certSafe = SEC_PKCS12CreatePasswordPrivSafe (p12exp, &password, SEC_OID_PKCS12_V2_PBE_WITH_SHA1_AND_40_BIT_RC2_CBC);
+		certSafe = SEC_PKCS12CreatePasswordPrivSafe (p12exp, &password, SEC_OID_AES_256_CBC);
 		if (!keySafe || !certSafe) {
 			gint err_code = PORT_GetError();
 			*error = g_error_new (E_PKCS12_ERROR, E_PKCS12_ERROR_NSS_FAILED, _("Unable to create safe bag, err_code: %i"), err_code);
@@ -418,7 +418,7 @@ e_pkcs12_export_to_file (GList *certs,
 				NULL    /* void *keyNestedDest*/,
 				PR_TRUE /* PRBool shroudKey */,
 				&password /* SECItem *pwItem */,
-				SEC_OID_PKCS12_V2_PBE_WITH_SHA1_AND_3KEY_TRIPLE_DES_CBC/* SECOidTag algorithm */,
+				SEC_OID_AES_256_CBC /* SECOidTag algorithm */,
 				save_chain /* includeCertChain */);
 		if (srv != SECSuccess) {
 			gint err_code = PORT_GetError ();
