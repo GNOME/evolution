@@ -105,7 +105,7 @@ enum {
 #define GNOME_CANVAS_ITEM_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_ITEM, GnomeCanvasItemClass))
 
 struct _GnomeCanvasItem {
-	GObject object;
+	GInitiallyUnowned object;
 
 	/* Parent canvas for this item */
 	GnomeCanvas *canvas;
@@ -125,7 +125,7 @@ struct _GnomeCanvasItem {
 };
 
 struct _GnomeCanvasItemClass {
-	GObjectClass parent_class;
+	GInitiallyUnownedClass parent_class;
 
 	/* Tell the item to update itself.  The flags are from the update flags
 	 * defined above.  The item should update its internal state from its
