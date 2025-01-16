@@ -210,7 +210,7 @@ e_online_button_set_online (EOnlineButton *button,
 		icon_theme, icon_name, GTK_ICON_SIZE_BUTTON, 0);
 	filename = gtk_icon_info_get_filename (icon_info);
 	online_button_update_icon (image, filename);
-	gtk_icon_info_free (icon_info);
+	g_object_unref (icon_info);
 
 	g_object_notify (G_OBJECT (button), "online");
 }

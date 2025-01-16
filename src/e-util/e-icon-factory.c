@@ -87,7 +87,7 @@ e_icon_factory_get_icon_filename (const gchar *icon_name,
 	if (icon_info != NULL) {
 		filename = g_strdup (
 			gtk_icon_info_get_filename (icon_info));
-		gtk_icon_info_free (icon_info);
+		g_object_unref (icon_info);
 	}
 
 	return filename;

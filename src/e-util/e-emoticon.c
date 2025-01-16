@@ -116,7 +116,7 @@ e_emoticon_dup_uri (const EEmoticon *emoticon)
 	if (filename != NULL) {
 		uri = g_filename_to_uri (filename, NULL, NULL);
 	}
-	gtk_icon_info_free (icon_info);
+	g_object_unref (icon_info);
 	g_return_val_if_fail (uri != NULL, NULL);
 
 	return uri;
