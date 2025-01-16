@@ -26,7 +26,6 @@ set(HEADERS
 	gailcanvastextfactory.h
 	gailcanvaswidget.h
 	gailcanvaswidgetfactory.h
-	gnome-canvas-i18n.h
 	gnome-canvas-pixbuf.h
 	gnome-canvas-rect.h
 	gnome-canvas-text.h

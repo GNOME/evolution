@@ -79,12 +79,12 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
+#include <glib/gi18n-lib.h>
 #include <gdk/gdkprivate.h>
 #include <gtk/gtk.h>
 #include <cairo-gobject.h>
 #include "gailcanvas.h"
 #include "gnome-canvas.h"
-#include "gnome-canvas-i18n.h"
 #include "gnome-canvas-util.h"
 
 /* We must run our idle update handler *before* GDK wants to redraw. */

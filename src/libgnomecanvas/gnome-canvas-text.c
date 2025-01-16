@@ -35,10 +35,10 @@
 
 #include <math.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
 #include "gnome-canvas-text.h"
 
 #include "gnome-canvas-util.h"
-#include "gnome-canvas-i18n.h"
 
 /* Object argument IDs */
 enum {
