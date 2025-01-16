@@ -99,7 +99,7 @@ icon_available (const gchar *icon)
 	icon_theme = gtk_icon_theme_get_default ();
 	icon_info = gtk_icon_theme_lookup_icon (icon_theme, icon, 16, 0);
 	if (icon_info != NULL)
-		gtk_icon_info_free (icon_info);
+		g_object_unref (icon_info);
 
 	return icon_info != NULL;
 }

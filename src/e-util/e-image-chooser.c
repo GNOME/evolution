@@ -322,7 +322,7 @@ image_chooser_set_icon_name (EImageChooser *chooser,
 
 	filename = gtk_icon_info_get_filename (icon_info);
 	e_image_chooser_set_from_file (chooser, filename);
-	gtk_icon_info_free (icon_info);
+	g_object_unref (icon_info);
 }
 
 static void

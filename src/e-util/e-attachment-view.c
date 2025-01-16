@@ -1914,7 +1914,7 @@ e_attachment_view_drag_begin (EAttachmentView *view,
 				g_error_free (error);
 			}
 
-			gtk_icon_info_free (icon_info);
+			g_object_unref (icon_info);
 		}
 
 		g_object_unref (icon);

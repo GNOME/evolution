@@ -179,7 +179,7 @@ process_stock_request_idle_cb (gpointer user_data)
 				}
 			}
 
-			gtk_icon_info_free (icon_info);
+			g_object_unref (icon_info);
 		} else if (g_strcmp0 (g_uri_get_host (guri), "x-evolution-arrow-down") == 0) {
 			GdkPixbuf *pixbuf;
 			GdkRGBA rgba;
