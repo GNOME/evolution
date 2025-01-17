@@ -184,7 +184,7 @@ static void row_deleted_cb (GtkTreeModel *model, GtkTreePath *path, gpointer dat
 
 static void free_busy_schedule_refresh_cb (EMeetingTimeSelector *mts);
 
-G_DEFINE_TYPE_WITH_CODE (EMeetingTimeSelector, e_meeting_time_selector, GTK_TYPE_TABLE,
+G_DEFINE_TYPE_WITH_CODE (EMeetingTimeSelector, e_meeting_time_selector, GTK_TYPE_GRID,
 	G_ADD_PRIVATE (EMeetingTimeSelector)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
@@ -334,7 +334,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
                                    EMeetingStore *ems)
 {
 	GtkWidget *hbox, *vbox, *separator, *label, *grid, *sw;
-	GtkWidget *alignment, *child_hbox, *arrow, *menuitem;
+	GtkWidget *child_hbox, *arrow, *menuitem;
 	GtkWidget *child;
 	GtkAdjustment *adjustment;
 	GtkScrollable *scrollable;
@@ -369,9 +369,10 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	mts->auto_scroll_timeout_id = 0;
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_table_attach (
-		GTK_TABLE (mts),
-		vbox, 0, 1, 0, 2, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+	gtk_widget_set_margin_end (vbox, 4);
+	gtk_grid_attach (
+		GTK_GRID (mts),
+		vbox, 0, 0, 1, 2);
 	gtk_widget_show (vbox);
 
 	mts->attendees_vbox_spacer = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -414,6 +415,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	gtk_widget_show (GTK_WIDGET (mts->list_view));
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_set_margin_top (sw, 4);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
 	gtk_widget_set_child_visible (
@@ -429,7 +431,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 		G_CALLBACK (sort_info_changed_cb), mts);
 #endif
 
-	gtk_box_pack_start (GTK_BOX (mts->attendees_vbox), GTK_WIDGET (sw), TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (mts->attendees_vbox), GTK_WIDGET (sw), TRUE, TRUE, 0);
 
 	/* The free/busy information */
 	mts->display_top = gnome_canvas_new ();
@@ -440,21 +442,22 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 		mts->day_width * E_MEETING_TIME_SELECTOR_DAYS_SHOWN,
 		mts->row_height * 3);
 	/* Add some horizontal padding for the shadow around the display. */
-	gtk_table_attach (
-		GTK_TABLE (mts), mts->display_top,
-		1, 4, 0, 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (
+		GTK_GRID (mts), mts->display_top,
+		1, 0, 3, 1);
 	gtk_widget_show (mts->display_top);
 	g_signal_connect (
 		mts->display_top, "realize",
 		G_CALLBACK (e_meeting_time_selector_on_canvas_realized), mts);
 
 	mts->display_main = gnome_canvas_new ();
+	gtk_widget_set_hexpand (mts->display_main, TRUE);
+	gtk_widget_set_vexpand (mts->display_main, TRUE);
 	e_meeting_time_selector_update_main_canvas_scroll_region (mts);
 	/* Add some horizontal padding for the shadow around the display. */
-	gtk_table_attach (
-		GTK_TABLE (mts), mts->display_main,
-		1, 4, 1, 2,
-		GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_grid_attach (
+		GTK_GRID (mts), mts->display_main,
+		1, 1, 3, 1);
 	gtk_widget_show (mts->display_main);
 	g_signal_connect (
 		mts->display_main, "realize",
@@ -484,18 +487,18 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	mts->hscrollbar = gtk_scrollbar_new (
 		GTK_ORIENTATION_HORIZONTAL, adjustment);
 	gtk_adjustment_set_step_increment (adjustment, mts->day_width);
-	gtk_table_attach (
-		GTK_TABLE (mts), mts->hscrollbar,
-		1, 4, 2, 3, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (
+		GTK_GRID (mts), mts->hscrollbar,
+		1, 2, 3, 1);
 	gtk_widget_show (mts->hscrollbar);
 
 	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	mts->vscrollbar = gtk_scrollbar_new (
 		GTK_ORIENTATION_VERTICAL, adjustment);
 	gtk_adjustment_set_step_increment (adjustment, mts->row_height);
-	gtk_table_attach (
-		GTK_TABLE (mts), mts->vscrollbar,
-		4, 5, 1, 2, 0, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_grid_attach (
+		GTK_GRID (mts), mts->vscrollbar,
+		4, 1, 1, 1);
 	gtk_widget_show (mts->vscrollbar);
 
 	/* Create the item in the top canvas. */
@@ -514,9 +517,11 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 
 	/* Create the hbox containing the color key. */
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
-	gtk_table_attach (
-		GTK_TABLE (mts), hbox,
-		1, 4, 3, 4, GTK_FILL, 0, 0, 8);
+	gtk_widget_set_valign (hbox, GTK_ALIGN_CENTER);
+	gtk_widget_set_halign (hbox, GTK_ALIGN_START);
+	gtk_grid_attach (
+		GTK_GRID (mts), hbox,
+		1, 3, 4, 1);
 	gtk_widget_show (hbox);
 
 	e_meeting_time_selector_add_key_color (mts, hbox, _("Tentative"), &mts->busy_colors[E_MEETING_FREE_BUSY_TENTATIVE]);
@@ -527,27 +532,30 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 		NULL);
 
 	separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_table_attach (
-		GTK_TABLE (mts), separator,
-		0, 5, 4, 5, GTK_FILL, 0, 6, 6);
+	gtk_widget_set_margin_top (separator, 12);
+	gtk_widget_set_margin_bottom (separator, 12);
+	gtk_grid_attach (
+		GTK_GRID (mts), separator,
+		0, 4, 5, 1);
 	gtk_widget_show (separator);
 
 	/* Create the Invite Others & Options buttons on the left. */
-	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
-	gtk_table_attach (
-		GTK_TABLE (mts), hbox,
-		0, 1, 3, 4, GTK_FILL, 0, 0, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_widget_set_margin_end (hbox, 6);
+	gtk_grid_attach (
+		GTK_GRID (mts), hbox,
+		0, 3, 1, 1);
 	gtk_widget_show (hbox);
 
 	mts->add_attendees_button = e_dialog_button_new_with_icon ("go-jump", _("Atte_ndees…"));
-	gtk_box_pack_start (GTK_BOX (hbox), mts->add_attendees_button, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), mts->add_attendees_button, TRUE, TRUE, 0);
 	gtk_widget_show (mts->add_attendees_button);
 	g_signal_connect (
 		mts->add_attendees_button, "clicked",
 		G_CALLBACK (e_meeting_time_selector_on_invite_others_button_clicked), mts);
 
 	mts->options_button = gtk_button_new ();
-	gtk_box_pack_start (GTK_BOX (hbox), mts->options_button, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), mts->options_button, TRUE, TRUE, 0);
 	gtk_widget_show (mts->options_button);
 
 	g_signal_connect (
@@ -619,10 +627,12 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	gtk_widget_show (menuitem);
 
 	/* Create the 3 AutoPick buttons on the left. */
-	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-	gtk_table_attach (
-		GTK_TABLE (mts), hbox,
-		0, 1, 5, 6, GTK_FILL, 0, 0, 0);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_widget_set_margin_end (hbox, 6);
+	gtk_widget_set_valign (hbox, GTK_ALIGN_CENTER);
+	gtk_grid_attach (
+		GTK_GRID (mts), hbox,
+		0, 5, 1, 1);
 	gtk_widget_show (hbox);
 
 	mts->autopick_down_button = gtk_button_new_with_label ("");
@@ -632,24 +642,23 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	gtk_widget_add_accelerator (
 		mts->autopick_down_button, "clicked", mts->accel_group,
 		accel_key, GDK_MOD1_MASK | GDK_SHIFT_MASK, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), mts->autopick_down_button, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), mts->autopick_down_button, TRUE, TRUE, 0);
 	gtk_widget_show (mts->autopick_down_button);
 	g_signal_connect (
 		mts->autopick_down_button, "clicked",
 		G_CALLBACK (e_meeting_time_selector_on_prev_button_clicked), mts);
 
 	mts->autopick_button = gtk_button_new ();
-	gtk_box_pack_start (GTK_BOX (hbox), mts->autopick_button, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), mts->autopick_button, TRUE, TRUE, 0);
 	gtk_widget_show (mts->autopick_button);
 
 	child_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_container_add (GTK_CONTAINER (mts->autopick_button), child_hbox);
 	gtk_widget_show (child_hbox);
 
-	label = gtk_label_new ("");
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("_Autopick"));
+	label = gtk_label_new_with_mnemonic (_("_Autopick"));
 	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (label));
-	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 0);
 	gtk_widget_show (label);
 	gtk_widget_add_accelerator (
 		mts->autopick_button, "clicked", mts->accel_group,
@@ -669,7 +678,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	gtk_widget_add_accelerator (
 		mts->autopick_up_button, "clicked", mts->accel_group,
 		accel_key, GDK_MOD1_MASK | GDK_SHIFT_MASK, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), mts->autopick_up_button, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), mts->autopick_up_button, TRUE, TRUE, 0);
 	gtk_widget_show (mts->autopick_up_button);
 	g_signal_connect (
 		mts->autopick_up_button, "clicked",
@@ -729,9 +738,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	grid = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (grid), 4);
 	gtk_grid_set_column_spacing (GTK_GRID (grid), 4);
-	gtk_table_attach (
-		GTK_TABLE (mts), grid,
-		1, 4, 5, 6, GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (
+		GTK_GRID (mts), grid,
+		1, 5, 3, 1);
 	gtk_widget_show (grid);
 
 	mts->start_date_edit = e_date_edit_new ();
@@ -783,9 +792,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	gtk_label_set_xalign (GTK_LABEL (label), 0);
 	gtk_grid_attach (GTK_GRID (grid), label, 0, 1, 1, 1);
 	gtk_widget_show (label);
-
-	gtk_table_set_col_spacing (GTK_TABLE (mts), 0, 4);
-	gtk_table_set_row_spacing (GTK_TABLE (mts), 4, 12);
 
 	/* Allocate the colors. */
 	e_meeting_time_selector_alloc_named_color (mts, "snow", &mts->bg_color);
