@@ -333,7 +333,7 @@ void
 e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
                                    EMeetingStore *ems)
 {
-	GtkWidget *hbox, *vbox, *separator, *label, *table, *sw;
+	GtkWidget *hbox, *vbox, *separator, *label, *grid, *sw;
 	GtkWidget *alignment, *child_hbox, *arrow, *menuitem;
 	GtkWidget *child;
 	GtkAdjustment *adjustment;
@@ -726,16 +726,13 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	gtk_widget_show (menuitem);
 
 	/* Create the date entry fields on the right. */
-	alignment = gtk_alignment_new (0.0, 0.5, 0, 0);
+	grid = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID (grid), 4);
+	gtk_grid_set_column_spacing (GTK_GRID (grid), 4);
 	gtk_table_attach (
-		GTK_TABLE (mts), alignment,
+		GTK_TABLE (mts), grid,
 		1, 4, 5, 6, GTK_FILL, 0, 0, 0);
-	gtk_widget_show (alignment);
-
-	table = gtk_table_new (2, 2, FALSE);
-	gtk_table_set_row_spacings (GTK_TABLE (table), 4);
-	gtk_container_add (GTK_CONTAINER (alignment), table);
-	gtk_widget_show (table);
+	gtk_widget_show (grid);
 
 	mts->start_date_edit = e_date_edit_new ();
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), mts->start_date_edit);
@@ -749,9 +746,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	}
 	e_date_edit_set_show_time (E_DATE_EDIT (mts->start_date_edit), TRUE);
 
-	gtk_table_attach (
-		GTK_TABLE (table), mts->start_date_edit,
-		1, 2, 0, 1, GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), mts->start_date_edit, 1, 0, 1, 1);
 	gtk_widget_show (mts->start_date_edit);
 	g_signal_connect (
 		mts->start_date_edit, "changed",
@@ -761,9 +756,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), (mts->start_date_edit));
 
 	gtk_label_set_xalign (GTK_LABEL (label), 0);
-	gtk_table_attach (
-		GTK_TABLE (table), label,
-		0, 1, 0, 1, GTK_FILL, 0, 4, 0);
+	gtk_grid_attach (GTK_GRID (grid), label, 0, 0, 1, 1);
 	gtk_widget_show (label);
 
 	mts->end_date_edit = e_date_edit_new ();
@@ -778,9 +771,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	}
 	e_date_edit_set_show_time (E_DATE_EDIT (mts->end_date_edit), TRUE);
 
-	gtk_table_attach (
-		GTK_TABLE (table), mts->end_date_edit,
-		1, 2, 1, 2, GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), mts->end_date_edit, 1, 1, 1, 1);
 	gtk_widget_show (mts->end_date_edit);
 	g_signal_connect (
 		mts->end_date_edit, "changed",
@@ -790,9 +781,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), (mts->end_date_edit));
 
 	gtk_label_set_xalign (GTK_LABEL (label), 0);
-	gtk_table_attach (
-		GTK_TABLE (table), label,
-		0, 1, 1, 2, GTK_FILL, 0, 4, 0);
+	gtk_grid_attach (GTK_GRID (grid), label, 0, 1, 1, 1);
 	gtk_widget_show (label);
 
 	gtk_table_set_col_spacing (GTK_TABLE (mts), 0, 4);
