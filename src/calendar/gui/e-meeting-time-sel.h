@@ -104,9 +104,9 @@ typedef struct _EMeetingTimeSelectorClass EMeetingTimeSelectorClass;
 typedef struct _EMeetingTimeSelectorPrivate EMeetingTimeSelectorPrivate;
 
 struct _EMeetingTimeSelector {
-	/* We subclass a GtkTable which makes it easy to add extra widgets
-	 * if neccesary. */
-	GtkTable table;
+	/* We subclass a GtkGrid which makes it easy to add extra widgets
+	 * if necessary. */
+	GtkGrid table;
 
 	EMeetingTimeSelectorPrivate *priv;
 
@@ -264,7 +264,7 @@ struct _EMeetingTimeSelector {
 };
 
 struct _EMeetingTimeSelectorClass {
-	GtkTableClass parent_class;
+	GtkGridClass parent_class;
 
 	void (* changed) (EMeetingTimeSelector *mts);
 };
