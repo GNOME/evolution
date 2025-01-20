@@ -45,11 +45,6 @@ enum {
 	PROP_STATE
 };
 
-enum {
-	COLUMN_ITEM,
-	COLUMN_VALUE
-};
-
 static guint e_table_config_signals[LAST_SIGNAL] = { 0, };
 
 static void
@@ -139,83 +134,6 @@ e_table_config_class_init (ETableConfigClass *class)
 			NULL,
 			E_TYPE_TABLE_STATE,
 			G_PARAM_READABLE));
-}
-
-static void
-configure_combo_box_add (GtkComboBox *combo_box,
-                         const gchar *item,
-                         const gchar *value)
-{
-	GtkTreeRowReference *reference;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GHashTable *index;
-	GtkTreeIter iter;
-
-	model = gtk_combo_box_get_model (combo_box);
-	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-
-	gtk_list_store_set (
-		GTK_LIST_STORE (model), &iter,
-		COLUMN_ITEM, item, COLUMN_VALUE, value, -1);
-
-	index = g_object_get_data (G_OBJECT (combo_box), "index");
-	g_return_if_fail (index != NULL);
-
-	/* Add an entry to the tree model index. */
-	path = gtk_tree_model_get_path (model, &iter);
-	reference = gtk_tree_row_reference_new (model, path);
-	g_return_if_fail (reference != NULL);
-	g_hash_table_insert (index, g_strdup (value), reference);
-	gtk_tree_path_free (path);
-}
-
-static gchar *
-configure_combo_box_get_active (GtkComboBox *combo_box)
-{
-	GtkTreeIter iter;
-	gchar *value = NULL;
-
-	if (gtk_combo_box_get_active_iter (combo_box, &iter))
-		gtk_tree_model_get (
-			gtk_combo_box_get_model (combo_box), &iter,
-			COLUMN_VALUE, &value, -1);
-
-	if (value != NULL && *value == '\0') {
-		g_free (value);
-		value = NULL;
-	}
-
-	return value;
-}
-
-static void
-configure_combo_box_set_active (GtkComboBox *combo_box,
-                                const gchar *value)
-{
-	GtkTreeRowReference *reference;
-	GHashTable *index;
-
-	index = g_object_get_data (G_OBJECT (combo_box), "index");
-	g_return_if_fail (index != NULL);
-
-	reference = g_hash_table_lookup (index, value);
-	if (reference != NULL) {
-		GtkTreeModel *model;
-		GtkTreePath *path;
-		GtkTreeIter iter;
-
-		model = gtk_tree_row_reference_get_model (reference);
-		path = gtk_tree_row_reference_get_path (reference);
-
-		if (path == NULL)
-			return;
-
-		if (gtk_tree_model_get_iter (model, &iter, path))
-			gtk_combo_box_set_active_iter (combo_box, &iter);
-
-		gtk_tree_path_free (path);
-	}
 }
 
 static ETableColumnSpecification *
@@ -336,7 +254,7 @@ update_sort_and_group_config_dialog (ETableConfig *config,
 		}
 
 		/* Set the text */
-		configure_combo_box_set_active (
+		gtk_combo_box_set_active_id (
 			GTK_COMBO_BOX (widgets[i].combo), text);
 
 		g_signal_handler_unblock (
@@ -626,39 +544,6 @@ dialog_response (GtkWidget *dialog,
 	}
 }
 
-/*
- * Invoked by the GtkBuilder auto-connect code
- */
-static GtkWidget *
-e_table_proxy_gtk_combo_text_new (void)
-{
-	GtkCellRenderer *renderer;
-	GtkListStore *store;
-	GtkWidget *combo_box;
-	GHashTable *index;
-
-	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
-	combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
-	g_object_unref (store);
-
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (
-		GTK_CELL_LAYOUT (combo_box), renderer, FALSE);
-	gtk_cell_layout_add_attribute (
-		GTK_CELL_LAYOUT (combo_box), renderer, "text", COLUMN_ITEM);
-
-	/* Embed a reverse-lookup index into the widget. */
-	index = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) gtk_tree_row_reference_free);
-	g_object_set_data_full (
-		G_OBJECT (combo_box), "index", index,
-		(GDestroyNotify) g_hash_table_destroy);
-
-	return combo_box;
-}
-
 static void
 connect_button (ETableConfig *config,
                 GtkBuilder *builder,
@@ -679,11 +564,11 @@ sort_combo_changed (GtkComboBox *combo_box,
 	ETableSortInfo *sort_info = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->sort[0];
 	gint idx = sort - base;
-	gchar *s;
+	const gchar *s;
 
-	s = configure_combo_box_get_active (combo_box);
+	s = gtk_combo_box_get_active_id (combo_box);
 
-	if (s != NULL) {
+	if (s != NULL && *s != '\0') {
 		ETableColumnSpecification *column;
 		GtkToggleButton *toggle_button;
 		GtkSortType sort_type;
@@ -691,12 +576,10 @@ sort_combo_changed (GtkComboBox *combo_box,
 		column = find_column_spec_by_name (config->source_spec, s);
 		if (column == NULL) {
 			g_warning ("sort: This should not happen (%s)", s);
-			g_free (s);
 			return;
 		}
 
-		toggle_button = GTK_TOGGLE_BUTTON (
-			config->sort[idx].radio_ascending);
+		toggle_button = GTK_TOGGLE_BUTTON (sort->radio_ascending);
 		if (gtk_toggle_button_get_active (toggle_button))
 			sort_type = GTK_SORT_ASCENDING;
 		else
@@ -710,8 +593,6 @@ sort_combo_changed (GtkComboBox *combo_box,
 		e_table_sort_info_sorting_truncate (sort_info, idx);
 		update_sort_and_group_config_dialog (config, TRUE);
 	}
-
-	g_free (s);
 }
 
 static void
@@ -743,25 +624,14 @@ configure_sort_dialog (ETableConfig *config,
 	GSList *l;
 	gint i;
 
-	const gchar *algs[] = {
-		"alignment4",
-		"alignment3",
-		"alignment2",
-		"alignment1",
-		NULL
-	};
-
 	for (i = 0; i < 4; i++) {
 		gchar buffer[80];
 
 		snprintf (buffer, sizeof (buffer), "sort-combo-%d", i + 1);
-		config->sort[i].combo = e_table_proxy_gtk_combo_text_new ();
-		gtk_widget_show (GTK_WIDGET (config->sort[i].combo));
-		gtk_container_add (
-			GTK_CONTAINER (e_builder_get_widget (
-			builder, algs[i])), config->sort[i].combo);
-		configure_combo_box_add (
-			GTK_COMBO_BOX (config->sort[i].combo), "", "");
+		config->sort[i].combo =
+			e_builder_get_widget (builder, buffer);
+		gtk_combo_box_text_append (
+			GTK_COMBO_BOX_TEXT (config->sort[i].combo), "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-sort-%d", i + 1);
 		config->sort[i].frames =
@@ -786,9 +656,9 @@ configure_sort_dialog (ETableConfig *config,
 		gchar *label = l->data;
 
 		for (i = 0; i < 4; i++) {
-			configure_combo_box_add (
-				GTK_COMBO_BOX (config->sort[i].combo),
-				dgettext (config->domain, label), label);
+			gtk_combo_box_text_append (
+				GTK_COMBO_BOX_TEXT (config->sort[i].combo),
+				label, dgettext (config->domain, label));
 		}
 	}
 
@@ -816,11 +686,11 @@ group_combo_changed (GtkComboBox *combo_box,
 	ETableSortInfo *sort_info = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->group[0];
 	gint idx = group - base;
-	gchar *s;
+	const gchar *s;
 
-	s = configure_combo_box_get_active (combo_box);
+	s = gtk_combo_box_get_active_id (combo_box);
 
-	if (s != NULL) {
+	if (s != NULL && *s != '\0') {
 		ETableColumnSpecification *column;
 		GtkToggleButton *toggle_button;
 		GtkSortType sort_type;
@@ -828,12 +698,11 @@ group_combo_changed (GtkComboBox *combo_box,
 		column = find_column_spec_by_name (config->source_spec, s);
 		if (column == NULL) {
 			g_warning ("grouping: this should not happen, %s", s);
-			g_free (s);
 			return;
 		}
 
 		toggle_button = GTK_TOGGLE_BUTTON (
-			config->group[idx].radio_ascending);
+			group->radio_ascending);
 		if (gtk_toggle_button_get_active (toggle_button))
 			sort_type = GTK_SORT_ASCENDING;
 		else
@@ -847,8 +716,6 @@ group_combo_changed (GtkComboBox *combo_box,
 		e_table_sort_info_grouping_truncate (sort_info, idx);
 		update_sort_and_group_config_dialog (config, FALSE);
 	}
-
-	g_free (s);
 }
 
 static void
@@ -877,20 +744,16 @@ configure_group_dialog (ETableConfig *config,
 {
 	GSList *l;
 	gint i;
-	const gchar *vboxes[] = {"vbox7", "vbox9", "vbox11", "vbox13", NULL};
 
 	for (i = 0; i < 4; i++) {
 		gchar buffer[80];
 
 		snprintf (buffer, sizeof (buffer), "group-combo-%d", i + 1);
-		config->group[i].combo = e_table_proxy_gtk_combo_text_new ();
-		gtk_widget_show (GTK_WIDGET (config->group[i].combo));
-		gtk_box_pack_start (
-			GTK_BOX (e_builder_get_widget (builder, vboxes[i])),
-			config->group[i].combo, FALSE, FALSE, 0);
+		config->group[i].combo =
+			e_builder_get_widget (builder, buffer);
 
-		configure_combo_box_add (
-			GTK_COMBO_BOX (config->group[i].combo), "", "");
+		gtk_combo_box_text_append (
+			GTK_COMBO_BOX_TEXT (config->group[i].combo), "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-group-%d", i + 1);
 		config->group[i].frames =
@@ -921,9 +784,9 @@ configure_group_dialog (ETableConfig *config,
 		gchar *label = l->data;
 
 		for (i = 0; i < 4; i++) {
-			configure_combo_box_add (
-				GTK_COMBO_BOX (config->group[i].combo),
-				dgettext (config->domain, label), label);
+			gtk_combo_box_text_append (
+				GTK_COMBO_BOX_TEXT (config->group[i].combo),
+				label, dgettext (config->domain, label));
 		}
 	}
 
