@@ -64,7 +64,7 @@ enum {
 	PROP_MAIL_REPLY_TO
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (EComposerHeaderTable, e_composer_header_table, GTK_TYPE_TABLE)
+G_DEFINE_TYPE_WITH_PRIVATE (EComposerHeaderTable, e_composer_header_table, GTK_TYPE_GRID)
 
 static void
 g_value_set_destinations (GValue *value,
@@ -852,7 +852,6 @@ composer_header_table_constructed (GObject *object)
 	EComposerHeader *header;
 	GtkWidget *widget;
 	guint ii;
-	gint row_padding;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_composer_header_table_parent_class)->constructed (object);
@@ -920,11 +919,8 @@ composer_header_table_constructed (GObject *object)
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), table->priv->signature_combo_box);
 	table->priv->signature_label = g_object_ref_sink (widget);
-
-	/* Use "ypadding" instead of "row-spacing" because some rows may
-	 * be invisible and we don't want spacing around them. */
-
-	row_padding = 3;
+	gtk_grid_set_column_spacing (GTK_GRID (object), 6);
+	gtk_grid_set_row_spacing (GTK_GRID (object), 4);
 
 	for (ii = 0; ii < G_N_ELEMENTS (table->priv->headers); ii++) {
 		gint row = ii;
@@ -932,14 +928,15 @@ composer_header_table_constructed (GObject *object)
 		if (ii > E_COMPOSER_HEADER_FROM)
 			row++;
 
-		gtk_table_attach (
-			GTK_TABLE (object),
-			table->priv->headers[ii]->title_widget, 0, 1,
-			row, row + 1, GTK_FILL, GTK_FILL, 0, row_padding);
-		gtk_table_attach (
-			GTK_TABLE (object),
-			table->priv->headers[ii]->input_widget, 1, 4,
-			row, row + 1, GTK_FILL | GTK_EXPAND, 0, 0, row_padding);
+		gtk_grid_attach (
+			GTK_GRID (object),
+			table->priv->headers[ii]->title_widget,
+			0, row, 1, 1);
+		gtk_grid_attach (
+			GTK_GRID (object),
+			table->priv->headers[ii]->input_widget,
+			1, row, 3, 1);
+		gtk_widget_set_hexpand (table->priv->headers[ii]->input_widget, TRUE);
 	}
 
 	ii = E_COMPOSER_HEADER_FROM;
@@ -948,7 +945,7 @@ composer_header_table_constructed (GObject *object)
 	gtk_container_child_set (
 		GTK_CONTAINER (object),
 		table->priv->headers[ii]->input_widget,
-		"right-attach", 2, NULL);
+		"width", 1, NULL);
 
 	e_binding_bind_property (
 		table->priv->headers[ii]->input_widget, "visible",
@@ -961,21 +958,21 @@ composer_header_table_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	/* Now add the signature stuff. */
-	gtk_table_attach (
-		GTK_TABLE (object),
+	gtk_grid_attach (
+		GTK_GRID (object),
 		table->priv->signature_label,
-		2, 3, ii, ii + 1, 0, 0, 0, row_padding);
-	gtk_table_attach (
-		GTK_TABLE (object),
+		2, ii, 1, 1);
+	gtk_grid_attach (
+		GTK_GRID (object),
 		table->priv->signature_combo_box,
-		3, 4, ii, ii + 1, 0, 0, 0, row_padding);
+		3, ii, 1, 1);
 
 	from_header = E_COMPOSER_FROM_HEADER (e_composer_header_table_get_header (table, E_COMPOSER_HEADER_FROM));
 
-	gtk_table_attach (
-		GTK_TABLE (object),
-		from_header->override_widget, 1, 2,
-		ii + 1, ii + 2, GTK_FILL, GTK_FILL, 0, row_padding);
+	gtk_grid_attach (
+		GTK_GRID (object),
+		from_header->override_widget,
+		1, ii + 1, 1, 1);
 
 	/* Initialize the headers. */
 	composer_header_table_from_changed_cb (table);
@@ -1149,14 +1146,9 @@ composer_header_table_realize_cb (EComposerHeaderTable *table)
 static void
 e_composer_header_table_init (EComposerHeaderTable *table)
 {
-	gint rows;
-
 	table->priv = e_composer_header_table_get_instance_private (table);
 
-	rows = G_N_ELEMENTS (table->priv->headers);
-	gtk_table_resize (GTK_TABLE (table), rows, 4);
-	gtk_table_set_row_spacings (GTK_TABLE (table), 0);
-	gtk_table_set_col_spacings (GTK_TABLE (table), 6);
+	gtk_grid_set_column_spacing (GTK_GRID (table), 6);
 
 	/* postpone name_selector loading, do that only when really needed */
 	g_signal_connect (

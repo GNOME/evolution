@@ -104,16 +104,11 @@ composer_from_header_constructed (GObject *object)
 	header->input_widget = g_object_ref_sink (widget);
 
 	grid = gtk_grid_new ();
-	gtk_grid_set_column_homogeneous (GTK_GRID (grid), FALSE);
+	gtk_grid_set_column_spacing (GTK_GRID (grid), 6);
 	label = gtk_label_new_with_mnemonic (_("_Name:"));
 	gtk_grid_attach (GTK_GRID (grid), label, 0, 0, 1, 1);
 	name = gtk_entry_new ();
-	g_object_set (G_OBJECT (name),
-		"hexpand", TRUE,
-		"halign", GTK_ALIGN_FILL,
-		"margin-left", 2,
-		"margin-right", 2,
-		NULL);
+	gtk_widget_set_hexpand (name, TRUE);
 	gtk_grid_attach (GTK_GRID (grid), name, 1, 0, 1, 1);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), name);
 	gtk_widget_show (label);
@@ -122,12 +117,7 @@ composer_from_header_constructed (GObject *object)
 	label = gtk_label_new_with_mnemonic (_("_Address:"));
 	gtk_grid_attach (GTK_GRID (grid), label, 2, 0, 1, 1);
 	address = gtk_entry_new ();
-	g_object_set (G_OBJECT (address),
-		"hexpand", TRUE,
-		"halign", GTK_ALIGN_FILL,
-		"margin-left", 2,
-		"margin-right", 0,
-		NULL);
+	gtk_widget_set_hexpand (address, TRUE);
 	gtk_grid_attach (GTK_GRID (grid), address, 3, 0, 1, 1);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), address);
 	gtk_widget_show (label);

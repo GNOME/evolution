@@ -61,12 +61,12 @@ typedef enum {
 } EComposerHeaderType;
 
 struct _EComposerHeaderTable {
-	GtkTable parent;
+	GtkGrid parent;
 	EComposerHeaderTablePrivate *priv;
 };
 
 struct _EComposerHeaderTableClass {
-	GtkTableClass parent_class;
+	GtkGridClass parent_class;
 };
 
 GType		e_composer_header_table_get_type (void);
