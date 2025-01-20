@@ -242,11 +242,9 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkTable" id="table83">
+                              <object class="GtkGrid">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="n_rows">3</property>
-                                <property name="n_columns">4</property>
                                 <property name="column_spacing">6</property>
                                 <property name="row_spacing">6</property>
                                 <child>
@@ -259,10 +257,8 @@
                                     <property name="xalign">1</property>
                                   </object>
                                   <packing>
+                                    <property name="top_attach">0</property>
                                     <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -270,14 +266,14 @@
                                     <property name="name">fullname</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
                                     <accessibility>
                                       <relation type="labelled-by" target="button-fullname"/>
                                     </accessibility>
                                   </object>
                                   <packing>
+                                    <property name="top_attach">0</property>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -291,9 +287,7 @@
                                   </object>
                                   <packing>
                                     <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
+                                    <property name="left_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -306,11 +300,7 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
                                     <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -323,25 +313,22 @@
                                   </object>
                                   <packing>
                                     <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
+                                    <property name="left_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkEntry" id="entry-categories">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
                                     <accessibility>
                                       <relation type="labelled-by" target="button-categories"/>
                                     </accessibility>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">4</property>
                                     <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="y_options"/>
+                                    <property name="width">3</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -349,11 +336,11 @@
                                     <property name="name">nickname</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
                                   </object>
                                   <packing>
+                                    <property name="top_attach">0</property>
                                     <property name="left_attach">3</property>
-                                    <property name="right_attach">4</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -364,11 +351,7 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">3</property>
-                                    <property name="right_attach">4</property>
                                     <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options">GTK_FILL</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -380,8 +363,8 @@
                                     <property name="use_underline">True</property>
                                   </object>
                                   <packing>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -400,11 +383,7 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options">GTK_FILL</property>
                                   </packing>
                                 </child>
                               </object>
@@ -726,12 +705,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <child>
-                              <object class="GtkTable" id="table87">
+                              <object class="GtkGrid">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="border_width">12</property>
-                                <property name="n_rows">5</property>
-                                <property name="n_columns">2</property>
+                                <property name="margin">12</property>
                                 <property name="column_spacing">6</property>
                                 <property name="row_spacing">6</property>
                                 <child>
@@ -744,8 +721,8 @@
                                     <property name="xalign">0</property>
                                   </object>
                                   <packing>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -758,10 +735,8 @@
                                     <property name="xalign">0</property>
                                   </object>
                                   <packing>
+                                    <property name="left_attach">0</property>
                                     <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -774,10 +749,8 @@
                                     <property name="xalign">0</property>
                                   </object>
                                   <packing>
+                                    <property name="left_attach">0</property>
                                     <property name="top_attach">3</property>
-                                    <property name="bottom_attach">4</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -790,15 +763,14 @@
                                     <property name="xalign">0</property>
                                   </object>
                                   <packing>
+                                    <property name="left_attach">0</property>
                                     <property name="top_attach">4</property>
-                                    <property name="bottom_attach">5</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="EUrlEntry" type-func="e_url_entry_get_type" id="entry-homepage">
                                     <property name="visible">True</property>
+                                    <property name="hexpand">True</property>
                                     <child internal-child="accessible">
                                       <object class="AtkObject" id="entry-homepage-atkobject">
                                         <property name="AtkObject::accessible-name" translatable="yes">Home Page:</property>
@@ -807,13 +779,13 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="y_options">GTK_FILL</property>
+                                    <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="EUrlEntry" type-func="e_url_entry_get_type" id="entry-caluri">
                                     <property name="visible">True</property>
+                                    <property name="hexpand">True</property>
                                     <child internal-child="accessible">
                                       <object class="AtkObject" id="entry-caluri-atkobject">
                                         <property name="AtkObject::accessible-name" translatable="yes">Calendar:</property>
@@ -822,15 +794,13 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="y_options">GTK_FILL</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="EUrlEntry" type-func="e_url_entry_get_type" id="entry-fburl">
                                     <property name="visible">True</property>
+                                    <property name="hexpand">True</property>
                                     <child internal-child="accessible">
                                       <object class="AtkObject" id="entry-fburl-atkobject">
                                         <property name="AtkObject::accessible-name" translatable="yes">Free/Busy:</property>
@@ -839,15 +809,13 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="top_attach">3</property>
-                                    <property name="bottom_attach">4</property>
-                                    <property name="y_options">GTK_FILL</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="EUrlEntry" type-func="e_url_entry_get_type" id="entry-videourl">
                                     <property name="visible">True</property>
+                                    <property name="hexpand">True</property>
                                     <child internal-child="accessible">
                                       <object class="AtkObject" id="entry-videourl-atkobject">
                                         <property name="AtkObject::accessible-name" translatable="yes">Video Chat:</property>
@@ -856,10 +824,7 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="top_attach">4</property>
-                                    <property name="bottom_attach">5</property>
-                                    <property name="y_options">GTK_FILL</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -872,15 +837,14 @@
                                     <property name="xalign">0</property>
                                   </object>
                                   <packing>
+                                    <property name="left_attach">0</property>
                                     <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="EUrlEntry" type-func="e_url_entry_get_type" id="entry-weblog">
                                     <property name="visible">True</property>
+                                    <property name="hexpand">True</property>
                                     <child internal-child="accessible">
                                       <object class="AtkObject" id="entry-weblog-atkobject">
                                         <property name="AtkObject::accessible-name" translatable="yes" comments="Translators: an accessibility name">Blog:</property>
@@ -889,11 +853,7 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options">GTK_FILL</property>
                                   </packing>
                                 </child>
                               </object>
@@ -920,20 +880,12 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <child>
-                              <object class="GtkTable" id="table88">
+                              <object class="GtkGrid">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="border_width">12</property>
-                                <property name="n_rows">4</property>
-                                <property name="n_columns">4</property>
+                                <property name="margin">12</property>
                                 <property name="column_spacing">6</property>
                                 <property name="row_spacing">6</property>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
                                 <child>
                                   <object class="GtkLabel" id="label-profession">
                                     <property name="visible">True</property>
@@ -944,26 +896,22 @@
                                     <property name="xalign">0</property>
                                   </object>
                                   <packing>
+                                    <property name="left_attach">0</property>
                                     <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkEntry" id="entry-profession">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
                                     <accessibility>
                                       <relation type="labelled-by" target="label-profession"/>
                                     </accessibility>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -977,27 +925,21 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
                                     <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkEntry" id="entry-jobtitle">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
                                     <accessibility>
                                       <relation type="labelled-by" target="label-jobtitle"/>
                                     </accessibility>
                                   </object>
                                   <packing>
                                     <property name="left_attach">3</property>
-                                    <property name="right_attach">4</property>
                                     <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -1010,26 +952,22 @@
                                     <property name="xalign">0</property>
                                   </object>
                                   <packing>
+                                    <property name="left_attach">0</property>
                                     <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkEntry" id="entry-company">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
                                     <accessibility>
                                       <relation type="labelled-by" target="label-company"/>
                                     </accessibility>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -1043,27 +981,21 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
                                     <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkEntry" id="entry-department">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
                                     <accessibility>
                                       <relation type="labelled-by" target="label-department"/>
                                     </accessibility>
                                   </object>
                                   <packing>
                                     <property name="left_attach">3</property>
-                                    <property name="right_attach">4</property>
                                     <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -1076,26 +1008,22 @@
                                     <property name="xalign">0</property>
                                   </object>
                                   <packing>
+                                    <property name="left_attach">0</property>
                                     <property name="top_attach">3</property>
-                                    <property name="bottom_attach">4</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkEntry" id="entry-office">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
                                     <accessibility>
                                       <relation type="labelled-by" target="label-office"/>
                                     </accessibility>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="top_attach">3</property>
-                                    <property name="bottom_attach">4</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -1108,22 +1036,22 @@
                                     <property name="xalign">0</property>
                                   </object>
                                   <packing>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkEntry" id="entry-manager">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
                                     <accessibility>
                                       <relation type="labelled-by" target="label-manager"/>
                                     </accessibility>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="y_options"/>
+                                    <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1137,23 +1065,21 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
+                                    <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkEntry" id="entry-assistant">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
                                     <accessibility>
                                       <relation type="labelled-by" target="label-assistant"/>
                                     </accessibility>
                                   </object>
                                   <packing>
                                     <property name="left_attach">3</property>
-                                    <property name="right_attach">4</property>
-                                    <property name="y_options"/>
+                                    <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                               </object>
@@ -1180,20 +1106,12 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <child>
-                              <object class="GtkTable" id="table89">
+                              <object class="GtkGrid">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="border_width">12</property>
-                                <property name="n_rows">2</property>
-                                <property name="n_columns">4</property>
+                                <property name="margin">12</property>
                                 <property name="column_spacing">6</property>
                                 <property name="row_spacing">6</property>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
                                 <child>
                                   <object class="GtkLabel" id="label-spouse">
                                     <property name="visible">True</property>
@@ -1205,23 +1123,21 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
+                                    <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkEntry" id="entry-spouse">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
                                     <accessibility>
                                       <relation type="labelled-by" target="label-spouse"/>
                                     </accessibility>
                                   </object>
                                   <packing>
                                     <property name="left_attach">3</property>
-                                    <property name="right_attach">4</property>
-                                    <property name="y_options"/>
+                                    <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1234,10 +1150,8 @@
                                     <property name="xalign">0</property>
                                   </object>
                                   <packing>
+                                    <property name="left_attach">0</property>
                                     <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -1250,8 +1164,8 @@
                                     <property name="xalign">1</property>
                                   </object>
                                   <packing>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"/>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1269,9 +1183,7 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options">GTK_FILL</property>
+                                    <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1289,11 +1201,7 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options">GTK_FILL</property>
                                   </packing>
                                 </child>
                               </object>
@@ -1382,19 +1290,11 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>
-                                      <object class="GtkTable" id="table-home-address">
+                                      <object class="GtkGrid" id="grid-home-address">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">4</property>
-                                        <property name="n_columns">4</property>
                                         <property name="column_spacing">6</property>
                                         <property name="row_spacing">6</property>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
                                         <child>
                                           <object class="GtkScrolledWindow" id="scrolledwindow-home-address">
                                             <property name="width_request">193</property>
@@ -1402,6 +1302,7 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="shadow_type">in</property>
+                                            <property name="hexpand">True</property>
                                             <child>
                                               <object class="GtkTextView" id="textview-home-address">
                                                 <property name="height_request">25</property>
@@ -1417,21 +1318,19 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options">GTK_FILL</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="height">3</property>
                                           </packing>
                                         </child>
                                         <child>
                                           <object class="GtkEntry" id="entry-home-city">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
-                                            <property name="right_attach">4</property>
-                                            <property name="y_options"/>
+                                            <property name="top_attach">0</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1446,22 +1345,18 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
+                                            <property name="top_attach">0</property>
                                           </packing>
                                         </child>
                                         <child>
                                           <object class="GtkEntry" id="entry-home-zip">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
-                                            <property name="right_attach">4</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1475,11 +1370,7 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1487,13 +1378,11 @@
                                             <property name="width_request">256</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
-                                            <property name="right_attach">4</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1507,11 +1396,7 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1519,13 +1404,11 @@
                                             <property name="width_request">163</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
-                                            <property name="right_attach">4</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1540,11 +1423,7 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1552,13 +1431,11 @@
                                             <property name="width_request">100</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1571,10 +1448,8 @@
                                             <property name="xalign">1</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">0</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1587,8 +1462,8 @@
                                             <property name="xalign">1</property>
                                           </object>
                                           <packing>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">0</property>
                                           </packing>
                                         </child>
                                       </object>
@@ -1643,19 +1518,11 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>
-                                      <object class="GtkTable" id="table-work-address">
+                                      <object class="GtkGrid" id="grid-work-address">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">4</property>
-                                        <property name="n_columns">4</property>
                                         <property name="column_spacing">6</property>
                                         <property name="row_spacing">6</property>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
                                         <child>
                                           <object class="GtkScrolledWindow" id="scrolledwindow-work-address">
                                             <property name="width_request">193</property>
@@ -1663,6 +1530,7 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="shadow_type">in</property>
+                                            <property name="hexpand">True</property>
                                             <child>
                                               <object class="GtkTextView" id="textview-work-address">
                                                 <property name="height_request">25</property>
@@ -1678,21 +1546,19 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options">GTK_FILL</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="height">3</property>
                                           </packing>
                                         </child>
                                         <child>
                                           <object class="GtkEntry" id="entry-work-city">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
-                                            <property name="right_attach">4</property>
-                                            <property name="y_options"/>
+                                            <property name="top_attach">0</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1707,9 +1573,7 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
+                                            <property name="top_attach">0</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1722,21 +1586,19 @@
                                             <property name="xalign">1</property>
                                           </object>
                                           <packing>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">0</property>
                                           </packing>
                                         </child>
                                         <child>
                                           <object class="GtkEntry" id="entry-work-zip">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
-                                            <property name="right_attach">4</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1750,11 +1612,7 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1762,13 +1620,11 @@
                                             <property name="width_request">256</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
-                                            <property name="right_attach">4</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1782,11 +1638,7 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1794,13 +1646,11 @@
                                             <property name="width_request">163</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
-                                            <property name="right_attach">4</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1815,11 +1665,7 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1827,13 +1673,11 @@
                                             <property name="width_request">100</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1846,10 +1690,8 @@
                                             <property name="xalign">1</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">0</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                       </object>
@@ -1902,28 +1744,20 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>
-                                      <object class="GtkTable" id="table-other-address">
+                                      <object class="GtkGrid" id="grid-other-address">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">4</property>
-                                        <property name="n_columns">4</property>
                                         <property name="column_spacing">6</property>
                                         <property name="row_spacing">6</property>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
                                         <child>
                                           <object class="GtkEntry" id="entry-other-city">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
-                                            <property name="right_attach">4</property>
-                                            <property name="y_options"/>
+                                            <property name="top_attach">0</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1938,9 +1772,7 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
+                                            <property name="top_attach">0</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1953,21 +1785,19 @@
                                             <property name="xalign">1</property>
                                           </object>
                                           <packing>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
+                                            <property name="left_attach">0</property>
+                                            <property name="top_attach">0</property>
                                           </packing>
                                         </child>
                                         <child>
                                           <object class="GtkEntry" id="entry-other-zip">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
-                                            <property name="right_attach">4</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1981,11 +1811,7 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
                                             <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -1993,13 +1819,11 @@
                                             <property name="width_request">256</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
-                                            <property name="right_attach">4</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -2013,11 +1837,7 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
                                             <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -2025,13 +1845,11 @@
                                             <property name="width_request">163</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
-                                            <property name="right_attach">4</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -2046,11 +1864,7 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -2058,13 +1872,11 @@
                                             <property name="width_request">100</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="hexpand">True</property>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -2077,10 +1889,8 @@
                                             <property name="xalign">1</property>
                                           </object>
                                           <packing>
+                                            <property name="left_attach">0</property>
                                             <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"/>
                                           </packing>
                                         </child>
                                         <child>
@@ -2090,6 +1900,7 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="shadow_type">in</property>
+                                            <property name="hexpand">True</property>
                                             <child>
                                               <object class="GtkTextView" id="textview-other-address">
                                                 <property name="height_request">25</property>
@@ -2105,10 +1916,8 @@
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options">GTK_FILL</property>
+                                            <property name="top_attach">0</property>
+                                            <property name="height">3</property>
                                           </packing>
                                         </child>
                                       </object>
