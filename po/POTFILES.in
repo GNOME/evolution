@@ -253,8 +253,6 @@ src/e-util/e-rule-editor.c
 src/e-util/e-search-bar.c
 src/e-util/e-selection-model-array.c
 src/e-util/e-selection-model.c
-src/e-util/e-send-options.c
-[type: gettext/glade]src/e-util/e-send-options.ui
 src/e-util/e-source-config.c
 src/e-util/e-source-config-dialog.c
 src/e-util/e-source-selector.c

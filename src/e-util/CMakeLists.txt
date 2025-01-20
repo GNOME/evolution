@@ -8,7 +8,6 @@ add_error_files(e-util
 )
 
 set(uifiles
-	e-send-options.ui
 	e-table-config.ui
 	e-timezone-dialog.ui
 	filter.ui
@@ -211,7 +210,6 @@ set(SOURCES
 	e-selection-model-simple.c
 	e-selection-model.c
 	e-selection.c
-	e-send-options.c
 	e-simple-async-result.c
 	e-sorter-array.c
 	e-sorter.c
@@ -495,7 +493,6 @@ set(HEADERS
 	e-selection-model-simple.h
 	e-selection-model.h
 	e-selection.h
-	e-send-options.h
 	e-simple-async-result.h
 	e-sorter-array.h
 	e-sorter.h
