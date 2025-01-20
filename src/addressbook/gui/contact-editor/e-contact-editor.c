@@ -4901,7 +4901,7 @@ setup_tab_order (GtkBuilder *builder)
 	}
 */
 
-	container = e_builder_get_widget (builder, "table-home-address");
+	container = e_builder_get_widget (builder, "grid-home-address");
 	gtk_container_get_focus_chain (GTK_CONTAINER (container), &list);
 
 	list = add_to_tab_order (list, builder, "scrolledwindow-home-address");
@@ -4915,7 +4915,7 @@ setup_tab_order (GtkBuilder *builder)
 	gtk_container_set_focus_chain (GTK_CONTAINER (container), list);
 	g_list_free (list);
 
-	container = e_builder_get_widget (builder, "table-work-address");
+	container = e_builder_get_widget (builder, "grid-work-address");
 	gtk_container_get_focus_chain (GTK_CONTAINER (container), &list);
 
 	list = add_to_tab_order (list, builder, "scrolledwindow-work-address");
@@ -4929,7 +4929,7 @@ setup_tab_order (GtkBuilder *builder)
 	gtk_container_set_focus_chain (GTK_CONTAINER (container), list);
 	g_list_free (list);
 
-	container = e_builder_get_widget (builder, "table-other-address");
+	container = e_builder_get_widget (builder, "grid-other-address");
 	gtk_container_get_focus_chain (GTK_CONTAINER (container), &list);
 
 	list = add_to_tab_order (list, builder, "scrolledwindow-other-address");
