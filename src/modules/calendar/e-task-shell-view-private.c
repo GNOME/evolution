@@ -432,11 +432,13 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		priv->task_shell_content, "preview-visible",
 		G_BINDING_SYNC_CREATE);
 
-	action = ACTION (TASK_VIEW_VERTICAL);
+	/* use the "classic" action, because it's the first in the group and
+	   the group is not set yet, due to the UI manager being frozen */
+	action = ACTION (TASK_VIEW_CLASSIC);
 
 	g_settings_bind_with_mapping (
 		settings, "task-layout",
-		ACTION (TASK_VIEW_VERTICAL), "state",
+		action, "state",
 		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY,
 		e_shell_view_util_layout_to_state_cb,
 		e_shell_view_util_state_to_layout_cb, NULL, NULL);

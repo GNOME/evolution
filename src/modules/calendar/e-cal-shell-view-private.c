@@ -593,7 +593,9 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		priv->views[E_CAL_VIEW_KIND_YEAR].calendar_view, "preview-visible",
 		G_BINDING_SYNC_CREATE);
 
-	action = ACTION (CALENDAR_PREVIEW_VERTICAL);
+	/* use the "horizontal" action, because it's the first in the group and
+	   the group is not set yet, due to the UI manager being frozen */
+	action = ACTION (CALENDAR_PREVIEW_HORIZONTAL);
 
 	g_settings_bind_with_mapping (
 		settings, "year-layout",

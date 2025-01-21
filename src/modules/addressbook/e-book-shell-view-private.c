@@ -625,7 +625,9 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 		book_shell_view->priv->book_shell_content, "preview-visible",
 		G_BINDING_SYNC_CREATE);
 
-	action = ACTION (CONTACT_VIEW_VERTICAL);
+	/* use the "classic" action, because it's the first in the group and
+	   the group is not set yet, due to the UI manager being frozen */
+	action = ACTION (CONTACT_VIEW_CLASSIC);
 
 	g_settings_bind_with_mapping (
 		settings, "layout",

@@ -277,7 +277,9 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		priv->memo_shell_content, "preview-visible",
 		G_BINDING_SYNC_CREATE);
 
-	action = ACTION (MEMO_VIEW_VERTICAL);
+	/* use the "classic" action, because it's the first in the group and
+	   the group is not set yet, due to the UI manager being frozen */
+	action = ACTION (MEMO_VIEW_CLASSIC);
 
 	g_settings_bind_with_mapping (
 		settings, "memo-layout",

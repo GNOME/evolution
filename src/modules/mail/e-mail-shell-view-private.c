@@ -638,7 +638,9 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		ACTION (MAIL_SHOW_PREVIEW_TOOLBAR), "active",
 		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
 
-	action = ACTION (MAIL_VIEW_VERTICAL);
+	/* use the "classic" action, because it's the first in the group and
+	   the group is not set yet, due to the UI manager being frozen */
+	action = ACTION (MAIL_VIEW_CLASSIC);
 
 	g_settings_bind_with_mapping (
 		settings, "layout",
