@@ -853,10 +853,6 @@ setup_gui (ETableConfig *config)
 		if (w)
 			gtk_widget_hide (w);
 
-		w = e_builder_get_widget (builder, "label3");
-		if (w)
-			gtk_widget_hide (w);
-
 		w = config->group_label;
 		if (w)
 			gtk_widget_hide (w);
