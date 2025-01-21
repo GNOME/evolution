@@ -1265,7 +1265,7 @@ setup_custom_widgets (EContactListEditor *editor)
 	GtkWidget *combo_box;
 	ENameSelectorEntry *name_selector_entry;
 	GtkWidget *old, *parent;
-	guint ba = 0, la = 0, ra = 0, ta = 0, xo = 0, xp = 0, yo = 0, yp = 0;
+	guint la = 0, ta = 0, w = 0, h = 0;
 
 	g_return_if_fail (editor != NULL);
 
@@ -1293,14 +1293,10 @@ setup_custom_widgets (EContactListEditor *editor)
 
 	gtk_container_child_get (
 		GTK_CONTAINER (parent), old,
-		"bottom-attach", &ba,
 		"left-attach", &la,
-		"right-attach", &ra,
 		"top-attach", &ta,
-		"x-options", &xo,
-		"x-padding", &xp,
-		"y-options", &yo,
-		"y-padding", &yp,
+		"width", &w,
+		"height", &h,
 		NULL);
 
 	/* only hide it... */
@@ -1309,9 +1305,9 @@ setup_custom_widgets (EContactListEditor *editor)
 	/* ... and place the new name selector to the
 	 * exact place as is the old one in UI file */
 	gtk_widget_show (GTK_WIDGET (name_selector_entry));
-	gtk_table_attach (
-		GTK_TABLE (parent), GTK_WIDGET (name_selector_entry),
-		la, ra, ta, ba, xo, yo, xp, yp);
+	gtk_grid_attach (
+		GTK_GRID (parent), GTK_WIDGET (name_selector_entry),
+		la, ta, w, h);
 	editor->priv->email_entry = name_selector_entry;
 
 	e_name_selector_entry_set_contact_editor_func (
@@ -2033,3 +2029,4 @@ e_contact_list_editor_set_editable (EContactListEditor *editor,
 
 	g_object_notify (G_OBJECT (editor), "editable");
 }
+
