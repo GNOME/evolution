@@ -279,8 +279,8 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 	CustomSubHeader *temp_header_value_ptr;
 	HeaderValueComboBox sub_combo_box = {NULL};
 	HeaderValueComboBox *sub_combo_box_ptr;
-	gint sub_index,row_combo,column_combo;
-	gint header_section_id,sub_type_index,row,column;
+	gint sub_index,row_combo;
+	gint header_section_id,sub_type_index,row;
 	gint i;
 	const gchar *str;
 	static const gchar *security_field = NC_("email-custom-header-Security", "Security:");
@@ -299,39 +299,35 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 	priv = mch->priv;
 	priv->combo_box_header_value = g_array_new (TRUE, FALSE, sizeof (HeaderValueComboBox));
 
-	for (header_section_id = 0,row = 0,column = 1;
-		header_section_id < priv->email_custom_header_details->len; header_section_id++,row++,column++) {
+	for (header_section_id = 0,row = 0;
+		header_section_id < priv->email_custom_header_details->len; header_section_id++,row++) {
 
 		/* To create an empty label widget. Text will be added dynamically. */
-		priv->header_type_name_label = gtk_label_new ("");
+		priv->header_type_name_label = gtk_label_new (NULL);
 		temp_header_ptr = &g_array_index (priv->email_custom_header_details, EmailCustomHeaderDetails,header_section_id);
 		str = (temp_header_ptr->header_type_value)->str;
 		if (strcmp (str, security_field) == 0)
 			str = g_dpgettext2 (GETTEXT_PACKAGE, "email-custom-header-Security", security_field);
 		gtk_label_set_markup (GTK_LABEL (priv->header_type_name_label), str);
 
-		gtk_table_attach (
-			GTK_TABLE (priv->header_table),
-			priv->header_type_name_label, 0, 1, row, column,
-			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			(GtkAttachOptions) (0), 0, 0);
+		gtk_grid_attach (
+			GTK_GRID (priv->header_table),
+			priv->header_type_name_label, 0, row, 1, 1);
 
-		gtk_label_set_xalign (GTK_LABEL (priv->header_type_name_label), 0);
+		gtk_label_set_xalign (GTK_LABEL (priv->header_type_name_label), 1);
 		gtk_widget_show (priv->header_type_name_label);
 		sub_combo_box.header_value_combo_box = gtk_combo_box_text_new ();
 		g_array_append_val (priv->combo_box_header_value, sub_combo_box);
 	}
 
-	for (sub_index = 0,row_combo = 0,column_combo = 1; sub_index < priv->combo_box_header_value->len;
-		sub_index++,row_combo++,column_combo++) {
+	for (sub_index = 0,row_combo = 0; sub_index < priv->combo_box_header_value->len;
+		sub_index++,row_combo++) {
 		temp = &g_array_index (priv->email_custom_header_details, EmailCustomHeaderDetails,sub_index);
 
 		sub_combo_box_ptr = &g_array_index (priv->combo_box_header_value, HeaderValueComboBox,sub_index);
-		gtk_table_attach (
-			GTK_TABLE (priv->header_table),
-			sub_combo_box_ptr->header_value_combo_box, 1, 2, row_combo, column_combo,
-			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			(GtkAttachOptions) (GTK_FILL), 0, 0);
+		gtk_grid_attach (
+			GTK_GRID (priv->header_table),
+			sub_combo_box_ptr->header_value_combo_box, 1, row_combo, 1, 1);
 
 		for (sub_type_index = 0; sub_type_index < temp->number_of_subtype_header; sub_type_index++) {
 			temp_header_value_ptr = &g_array_index (temp->sub_header_type_value, CustomSubHeader,sub_type_index);
@@ -353,6 +349,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 			/* Translators: "None" as an email custom header option in a dialog invoked by Insert->Custom Header from Composer,
 			 * indicating the header will not be added to a mail message */
 			C_("email-custom-header", "None"));
+		gtk_widget_set_hexpand (sub_combo_box_ptr->header_value_combo_box, TRUE);
 		gtk_widget_show (sub_combo_box_ptr->header_value_combo_box);
 	}
 }
