@@ -50,12 +50,12 @@ typedef struct _EMailLabelManagerClass EMailLabelManagerClass;
 typedef struct _EMailLabelManagerPrivate EMailLabelManagerPrivate;
 
 struct _EMailLabelManager {
-	GtkTable parent;
+	GtkGrid parent;
 	EMailLabelManagerPrivate *priv;
 };
 
 struct _EMailLabelManagerClass {
-	GtkTableClass parent_class;
+	GtkGridClass parent_class;
 
 	void		(*add_label)		(EMailLabelManager *manager);
 	void		(*edit_label)		(EMailLabelManager *manager);

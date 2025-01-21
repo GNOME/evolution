@@ -49,7 +49,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE_WITH_PRIVATE (EMailLabelManager, e_mail_label_manager, GTK_TYPE_TABLE)
+G_DEFINE_TYPE_WITH_PRIVATE (EMailLabelManager, e_mail_label_manager, GTK_TYPE_GRID)
 
 static void
 mail_label_manager_selection_changed_cb (EMailLabelManager *manager,
@@ -315,21 +315,20 @@ e_mail_label_manager_init (EMailLabelManager *manager)
 
 	manager->priv = e_mail_label_manager_get_instance_private (manager);
 
-	gtk_table_resize (GTK_TABLE (manager), 2, 2);
-	gtk_table_set_col_spacings (GTK_TABLE (manager), 6);
-	gtk_table_set_row_spacings (GTK_TABLE (manager), 12);
+	gtk_grid_set_column_spacing (GTK_GRID (manager), 6);
+	gtk_grid_set_row_spacing (GTK_GRID (manager), 12);
 
 	container = GTK_WIDGET (manager);
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_widget_set_vexpand (widget, TRUE);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_table_attach (
-		GTK_TABLE (container), widget, 0, 1, 0, 1,
-		GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -353,18 +352,14 @@ e_mail_label_manager_init (EMailLabelManager *manager)
 		_("Note: Underscore in the label name is used\n"
 		"as mnemonic identifier in menu."));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_CENTER);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		0, 1, 1, 2, 0, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 
 	widget = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
 	gtk_button_box_set_layout (
 		GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_START);
 	gtk_box_set_spacing (GTK_BOX (widget), 6);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		1, 2, 0, 2, 0, GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 2);
 	gtk_widget_show (widget);
 
 	container = widget;
