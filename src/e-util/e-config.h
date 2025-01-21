@@ -119,12 +119,12 @@ enum _e_config_target_change_t {
  * The content of the section will be a GtkBox.  If a factory is used
  * then it is up to the factory method to create the section and add
  * it to the parent page, and return a GtkBox for following sections.
- * @E_CONFIG_SECTION_TABLE: A table section.  The same as an
- * @E_CONFIG_SECTION but the content object is a GtkTable instead.
+ * @E_CONFIG_SECTION_GRID: A table section.  The same as an
+ * @E_CONFIG_SECTION but the content object is a GtkGrid instead.
  * @E_CONFIG_ITEM: A configuration item.  It must have a parent
  * section defined in the configuration system.
- * @E_CONFIG_ITEM_TABLE: A configuration item with a parent
- * @E_CONFIG_SECTION_TABLE.
+ * @E_CONFIG_ITEM_GRID: A configuration item with a parent
+ * @E_CONFIG_SECTION_GRID.
  *
  * A configuration item type for each configuration item added to the
  * EConfig object.  These are merged from all contributors to the
@@ -139,9 +139,9 @@ enum _e_config_t {
 
 	E_CONFIG_PAGE,
 	E_CONFIG_SECTION,
-	E_CONFIG_SECTION_TABLE,
+	E_CONFIG_SECTION_GRID,
 	E_CONFIG_ITEM,
-	E_CONFIG_ITEM_TABLE	/* only allowed in table sections */
+	E_CONFIG_ITEM_GRID	/* only allowed in grid sections */
 };
 
 /**

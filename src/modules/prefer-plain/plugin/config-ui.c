@@ -99,6 +99,7 @@ prefer_plain_page_factory (EPlugin *epl,
 		return data->old;
 
 	check = gtk_check_button_new_with_mnemonic (_("Show s_uppressed HTML parts as attachments"));
+	gtk_widget_set_halign (check, GTK_ALIGN_START);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), epp_show_suppressed);
 	gtk_widget_show (check);
 	g_signal_connect (
@@ -118,6 +119,7 @@ prefer_plain_page_factory (EPlugin *epl,
 	gtk_combo_box_set_model (dropdown, (GtkTreeModel *) store);
 	/*gtk_combo_box_set_active(dropdown, -1);*/
 	gtk_combo_box_set_active (dropdown, epp_mode);
+	gtk_widget_set_hexpand (GTK_WIDGET (dropdown), TRUE);
 	gtk_widget_show ((GtkWidget *) dropdown);
 
 	dropdown_label = gtk_label_new_with_mnemonic (_("HTML _Mode"));
@@ -137,13 +139,13 @@ prefer_plain_page_factory (EPlugin *epl,
 		dropdown, "changed",
 		G_CALLBACK (epp_mode_changed), info);
 
-	g_object_get (data->parent, "n-rows", &i, NULL);
-	gtk_table_attach ((GtkTable *) data->parent, check, 0, 2, i, i + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_table_attach ((GtkTable *) data->parent, dropdown_label, 0, 1, i + 1, i + 2, 0, 0, 0, 0);
-	gtk_table_attach ((GtkTable *) data->parent, (GtkWidget *) dropdown, 1, 2, i + 1, i + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_table_attach ((GtkTable *) data->parent, info, 1, 2, i + 2, i + 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_grid_attach_next_to (GTK_GRID (data->parent), check, NULL, GTK_POS_BOTTOM, 2, 1);
+	gtk_container_child_get (GTK_CONTAINER (data->parent), check, "top-attach", &i, NULL);
+	gtk_grid_attach (GTK_GRID (data->parent), dropdown_label, 0, i + 1, 1, 1);
+	gtk_grid_attach (GTK_GRID (data->parent), (GtkWidget *) dropdown, 1, i + 1, 1, 1);
+	gtk_grid_attach (GTK_GRID (data->parent), info, 1, i + 2, 1, 1);
 
-	/* since this isnt dynamic, we don't need to track each item */
+	/* since this isn't dynamic, we don't need to track each item */
 
 	return (GtkWidget *) dropdown;
 }

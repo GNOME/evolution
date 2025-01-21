@@ -61,7 +61,7 @@ struct _widget_node {
 	EConfigItem *item;
 	GtkWidget *widget; /* widget created by the factory, if any */
 	GtkWidget *frame; /* if created by us */
-	GtkWidget *real_frame; /* used for sections and section tables, this is the real GtkFrame (whereas "frame" above is the internal vbox/table) */
+	GtkWidget *real_frame; /* used for sections and section grids, this is the real GtkFrame (whereas "frame" above is the internal vbox/grid) */
 
 	guint empty:1;		/* set if empty (i.e. hidden) */
 };
@@ -358,7 +358,7 @@ ec_rebuild (EConfig *config)
 		    && sectionnode->frame != NULL
 		    && (item->type == E_CONFIG_PAGE
 			|| item->type == E_CONFIG_SECTION
-			|| item->type == E_CONFIG_SECTION_TABLE)) {
+			|| item->type == E_CONFIG_SECTION_GRID)) {
 			if ((sectionnode->empty = (itemno == 0 || n_visible_widgets == 0))) {
 				if (sectionnode->real_frame)
 					gtk_widget_hide (sectionnode->real_frame);
@@ -477,7 +477,7 @@ ec_rebuild (EConfig *config)
 					G_CALLBACK (ec_widget_destroyed), wn);
 			break;
 		case E_CONFIG_SECTION:
-		case E_CONFIG_SECTION_TABLE:
+		case E_CONFIG_SECTION_GRID:
 			/* The section factory is always called with
 			 * the parent vbox object.  Even for assistant pages. */
 			if (page == NULL) {
@@ -522,7 +522,7 @@ ec_rebuild (EConfig *config)
 
 				if (section
 				    && ((item->type == E_CONFIG_SECTION && !GTK_IS_BOX (section))
-					|| (item->type == E_CONFIG_SECTION_TABLE && !GTK_IS_TABLE (section))))
+					|| (item->type == E_CONFIG_SECTION_GRID && !GTK_IS_GRID (section))))
 					g_warning ("EConfig section type is wrong");
 			} else {
 				GtkWidget *frame;
@@ -549,9 +549,9 @@ ec_rebuild (EConfig *config)
 				if (item->type == E_CONFIG_SECTION)
 					section = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 				else {
-					section = gtk_table_new (1, 1, FALSE);
-					gtk_table_set_col_spacings ((GtkTable *) section, 6);
-					gtk_table_set_row_spacings ((GtkTable *) section, 6);
+					section = gtk_grid_new ();
+					gtk_grid_set_column_spacing (GTK_GRID (section), 6);
+					gtk_grid_set_row_spacing (GTK_GRID (section), 6);
 				}
 
 				gtk_widget_set_margin_top (section, 6);
@@ -583,21 +583,21 @@ ec_rebuild (EConfig *config)
 			sectionnode = wn;
 			break;
 		case E_CONFIG_ITEM:
-		case E_CONFIG_ITEM_TABLE:
+		case E_CONFIG_ITEM_GRID:
 			/* generated sections never retain their widgets on a rebuild */
 			if (sectionnode && sectionnode->item->factory == NULL)
 				wn->widget = NULL;
 
 			/* ITEMs are called with the section parent.
 			 * The type depends on the section type,
-			 * either a GtkTable, or a GtkVBox */
+			 * either a GtkGrid, or a GtkVBox */
 			w = NULL;
 			if (section == NULL) {
 				wn->widget = NULL;
 				wn->frame = NULL;
 				g_warning ("EConfig item has no parent section: %s", item->path);
 			} else if ((item->type == E_CONFIG_ITEM && !GTK_IS_BOX (section))
-				 || (item->type == E_CONFIG_ITEM_TABLE && !GTK_IS_TABLE (section)))
+				 || (item->type == E_CONFIG_ITEM_GRID && !GTK_IS_GRID (section)))
 				g_warning ("EConfig item parent type is incorrect: %s", item->path);
 			else if (item->factory)
 				w = item->factory (
@@ -986,9 +986,9 @@ static const EPluginHookTargetKey config_hook_item_types[] = {
 
 	{ "page", E_CONFIG_PAGE },
 	{ "section", E_CONFIG_SECTION },
-	{ "section_table", E_CONFIG_SECTION_TABLE },
+	{ "section_grid", E_CONFIG_SECTION_GRID },
 	{ "item", E_CONFIG_ITEM },
-	{ "item_table", E_CONFIG_ITEM_TABLE },
+	{ "item_grid", E_CONFIG_ITEM_GRID },
 	{ NULL },
 };
 
@@ -1150,10 +1150,10 @@ config_hook_section_factory (EConfig *config,
 			widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 			break;
 
-		case E_CONFIG_SECTION_TABLE:
-			widget = gtk_table_new (1, 1, FALSE);
-			gtk_table_set_col_spacings (GTK_TABLE (widget), 6);
-			gtk_table_set_row_spacings (GTK_TABLE (widget), 6);
+		case E_CONFIG_SECTION_GRID:
+			widget = gtk_grid_new ();
+			gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
+			gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 			break;
 
 		default:
@@ -1192,7 +1192,7 @@ config_hook_construct_item (EPluginHook *eph,
 		item->factory = config_hook_widget_factory;
 	else if (item->type == E_CONFIG_SECTION)
 		item->factory = (EConfigItemFactoryFunc) config_hook_section_factory;
-	else if (item->type == E_CONFIG_SECTION_TABLE)
+	else if (item->type == E_CONFIG_SECTION_GRID)
 		item->factory = (EConfigItemFactoryFunc) config_hook_section_factory;
 
 	d (printf ("   path=%s label=%s factory=%s\n", item->path, item->label, (gchar *) item->user_data));

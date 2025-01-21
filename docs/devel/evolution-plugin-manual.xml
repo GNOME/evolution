@@ -1240,7 +1240,7 @@
 	  specific order, each containing a number of titled sections in a specific
 	  order, each containing a number of items.  The variations are that
 	  the top-level widget may be a GtkNotebook or a GnomeDruid; and each
-	  section may instrument a GtkBox, or a GtkTable.  The definition of
+	  section may instrument a GtkBox, or a GtkGrid.  The definition of
 	  the available hooks will define what form they take.
 	</para>
 	<para>
@@ -1283,7 +1283,7 @@
   commit="function spec"?
   abort="function spec"?>
   <item
-   type="book | druid | page | page_start | page_finish | section | section_table | item"
+   type="book | druid | page | page_start | page_finish | section | section_grid | item | item_grid"
    path="/absolute/path"
    label="name" | factory="function  spec"
   /> *
@@ -1492,7 +1492,7 @@
 	  <para>
 	    In this case the plugin has merely added a new section on the
 	    bottom of the HTML Mail settings page.  When the factory is called
-	    the plugin has a parent GtkTable (in this case, it could be a VBox)
+	    the plugin has a parent GtkGrid (in this case, it could be a VBox)
 	    and borderless frame already defined, and it just has to
 	    instantiate its own control widgets, add them to the table, and
 	    return one of the widgets.  The returned widget is used later if

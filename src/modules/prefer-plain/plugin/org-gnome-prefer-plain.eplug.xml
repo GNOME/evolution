@@ -16,8 +16,8 @@
       <group target="prefs" id="org.gnome.evolution.mail.prefs">
 	<!-- we could also just insert our own items from a section factory, -->
 	<!-- but then we also need to create our own section frame -->
-	<item type="section_table" path="10.html/80.mode" _label="Plain Text Mode"/>
-	<item type="item_table" path="10.html/80.mode/00.mode" factory="prefer_plain_page_factory"/>
+	<item type="section_grid" path="10.html/80.mode" _label="Plain Text Mode"/>
+	<item type="item_grid" path="10.html/80.mode/00.mode" factory="prefer_plain_page_factory"/>
       </group>
     </hook>
 
