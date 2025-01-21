@@ -48,8 +48,8 @@ set(PROJECT_DISTCONFIGURE_PARAMS
 )
 
 # Keep these two definitions in agreement.
-set(glib_minimum_version 2.66)
-set(glib_encoded_version GLIB_VERSION_2_66)
+set(glib_minimum_version 2.70)
+set(glib_encoded_version GLIB_VERSION_2_70)
 
 # Keep these two definitions in agreement.
 set(gdk_minimum_version 3.22)
