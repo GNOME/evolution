@@ -225,7 +225,7 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	title = gtk_window_get_title (GTK_WINDOW (widget));
 	gtk_window_set_title (GTK_WINDOW (e_contact_editor_fullname), title);
 
-	widget = e_builder_get_widget (builder, "table-checkfullname");
+	widget = e_builder_get_widget (builder, "grid-checkfullname");
 	parent = gtk_widget_get_parent (widget);
 	g_object_ref (widget);
 	gtk_container_remove (GTK_CONTAINER (parent), widget);
