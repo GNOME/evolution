@@ -4840,7 +4840,6 @@ e_msg_composer_setup_redirect (EMsgComposer *composer,
 	e_composer_header_table_set_subject (table, subject);
 
 	gtk_widget_hide (GTK_WIDGET (e_composer_header_table_get_signature_combo_box (table)));
-	gtk_table_set_col_spacings (GTK_TABLE (table), 0);
 
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
