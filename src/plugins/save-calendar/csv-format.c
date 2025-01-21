@@ -532,10 +532,7 @@ do_save_calendar_csv (FormatHandler *handler,
 static GtkWidget *
 create_options_widget (FormatHandler *handler)
 {
-	GtkWidget *table = gtk_table_new (4, 2, FALSE), *label = NULL,
-		  *csv_options = gtk_expander_new_with_mnemonic (
-			_("A_dvanced options for the CSV format")),
-		  *vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	GtkWidget *grid, *label, *csv_options;
 	CsvPluginData *d = handler->data;
 
 	d->delimiter_entry = gtk_entry_new ();
@@ -543,56 +540,45 @@ create_options_widget (FormatHandler *handler)
 	d->quote_entry = gtk_entry_new ();
 	d->header_check = gtk_check_button_new_with_mnemonic (
 		_("Prepend a _header"));
+	gtk_widget_set_halign (d->header_check, GTK_ALIGN_START);
 
 	/* Advanced CSV options */
 	gtk_entry_set_text (GTK_ENTRY (d->delimiter_entry), ", ");
 	gtk_entry_set_text (GTK_ENTRY (d->quote_entry), "\"");
 	gtk_entry_set_text (GTK_ENTRY (d->newline_entry), "\\n");
 
-	gtk_table_set_row_spacings (GTK_TABLE (table), 5);
-	gtk_table_set_col_spacings (GTK_TABLE (table), 5);
+	grid = gtk_grid_new ();
+	gtk_widget_set_margin_start (grid, 6);
+	gtk_widget_set_margin_end (grid, 6);
+	gtk_widget_set_margin_top (grid, 6);
+	gtk_grid_attach (GTK_GRID (grid), d->header_check, 0, 0, 6, 1);
+	gtk_grid_set_row_spacing (GTK_GRID (grid), 6);
+	gtk_grid_set_column_spacing (GTK_GRID (grid), 3);
 	label = gtk_label_new_with_mnemonic (_("_Value delimiter:"));
-	gtk_label_set_xalign (GTK_LABEL (label), 0);
-	gtk_label_set_yalign (GTK_LABEL (label), 0);
+	gtk_widget_set_halign (label, GTK_ALIGN_END);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), d->delimiter_entry);
-	gtk_table_attach (
-		GTK_TABLE (table), label, 0, 1, 0, 1,
-		(GtkAttachOptions) (GTK_FILL),
-		(GtkAttachOptions) (0), 0, 0);
-	gtk_table_attach (
-		GTK_TABLE (table), d->delimiter_entry, 1, 2, 0, 1,
-		(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-		(GtkAttachOptions) (0), 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), label, 0, 1, 1, 1);
+	gtk_grid_attach (GTK_GRID (grid), d->delimiter_entry, 1, 1, 1, 1);
 	label = gtk_label_new_with_mnemonic (_("_Record delimiter:"));
-	gtk_label_set_xalign (GTK_LABEL (label), 0);
-	gtk_label_set_yalign (GTK_LABEL (label), 0);
+	gtk_widget_set_halign (label, GTK_ALIGN_END);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), d->newline_entry);
-	gtk_table_attach (
-		GTK_TABLE (table), label, 0, 1, 1, 2,
-		(GtkAttachOptions) (GTK_FILL),
-		(GtkAttachOptions) (0), 0, 0);
-	gtk_table_attach (
-		GTK_TABLE (table), d->newline_entry, 1, 2, 1, 2,
-		(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-		(GtkAttachOptions) (0), 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), label, 0, 2, 1, 1);
+	gtk_grid_attach (GTK_GRID (grid), d->newline_entry, 1, 2, 1, 1);
 	label = gtk_label_new_with_mnemonic (_("_Encapsulate values with:"));
-	gtk_label_set_xalign (GTK_LABEL (label), 0);
-	gtk_label_set_yalign (GTK_LABEL (label), 0);
+	gtk_widget_set_halign (label, GTK_ALIGN_END);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), d->quote_entry);
-	gtk_table_attach (
-		GTK_TABLE (table), label, 0, 1, 2, 3,
-		(GtkAttachOptions) (GTK_FILL),
-		(GtkAttachOptions) (0), 0, 0);
-	gtk_table_attach (
-		GTK_TABLE (table), d->quote_entry, 1, 2, 2, 3,
-		(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-		(GtkAttachOptions) (0), 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), label, 0, 3, 1, 1);
+	gtk_grid_attach (GTK_GRID (grid), d->quote_entry, 1, 3, 1, 1);
 
-	gtk_box_pack_start (GTK_BOX (vbox), d->header_check, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), table, TRUE, TRUE, 0);
-	gtk_widget_show_all (vbox);
+	gtk_widget_show_all (grid);
 
-	gtk_container_add (GTK_CONTAINER (csv_options), vbox);
+	csv_options = gtk_expander_new_with_mnemonic (
+			_("A_dvanced options for the CSV format")),
+	gtk_widget_set_margin_start (csv_options, 6);
+	gtk_widget_set_margin_end (csv_options, 6);
+	gtk_widget_set_margin_top (csv_options, 6);
+	gtk_widget_set_margin_bottom (csv_options, 6);
+	gtk_container_add (GTK_CONTAINER (csv_options), grid);
 
 	return csv_options;
 }
