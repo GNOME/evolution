@@ -365,7 +365,7 @@ mail_identity_combo_box_changed_cb (GtkComboBox *combo_box,
 }
 
 static gint
-add_text_row (GtkTable *table,
+add_text_row (GtkGrid *grid,
 	      gint row,
 	      const gchar *description,
 	      const gchar *text,
@@ -373,16 +373,14 @@ add_text_row (GtkTable *table,
 {
 	GtkWidget *label;
 
-	g_return_val_if_fail (table != NULL, row);
+	g_return_val_if_fail (grid != NULL, row);
 	g_return_val_if_fail (description != NULL, row);
 	g_return_val_if_fail (text != NULL, row);
 
 	label = gtk_label_new (description);
 	gtk_widget_show (label);
 	gtk_label_set_xalign (GTK_LABEL (label), 0);
-	gtk_table_attach (
-		table, label, 0, 1, row, row + 1,
-		GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (grid, label, 0, row, 1, 1);
 
 	label = gtk_label_new (text);
 	if (selectable) {
@@ -391,15 +389,14 @@ add_text_row (GtkTable *table,
 	}
 	gtk_widget_show (label);
 	gtk_label_set_xalign (GTK_LABEL (label), 1.0);
-	gtk_table_attach (
-		table, label, 1, 2, row, row + 1,
-		GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_widget_set_hexpand (label, TRUE);
+	gtk_grid_attach (grid, label, 1, row, 1, 1);
 
 	return row + 1;
 }
 
 static gint
-add_numbered_row (GtkTable *table,
+add_numbered_row (GtkGrid *grid,
                   gint row,
                   const gchar *description,
                   const gchar *format,
@@ -407,13 +404,13 @@ add_numbered_row (GtkTable *table,
 {
 	gchar *str;
 
-	g_return_val_if_fail (table != NULL, row);
+	g_return_val_if_fail (grid != NULL, row);
 	g_return_val_if_fail (description != NULL, row);
 	g_return_val_if_fail (format != NULL, row);
 
 	str = g_strdup_printf (format, num);
 
-	row = add_text_row (table, row, description, str, FALSE);
+	row = add_text_row (grid, row, description, str, FALSE);
 
 	g_free (str);
 
@@ -479,7 +476,7 @@ emfp_get_folder_item (EConfig *ec,
 {
 	GObjectClass *class;
 	GParamSpec **properties;
-	GtkWidget *widget, *table;
+	GtkWidget *widget, *grid;
 	AsyncContext *context = data;
 	guint ii, n_properties;
 	gint row = 0;
@@ -501,11 +498,11 @@ emfp_get_folder_item (EConfig *ec,
 	if (old)
 		return old;
 
-	table = gtk_table_new (2, 2, FALSE);
-	gtk_table_set_row_spacings ((GtkTable *) table, 6);
-	gtk_table_set_col_spacings ((GtkTable *) table, 12);
-	gtk_widget_show (table);
-	gtk_box_pack_start ((GtkBox *) parent, table, TRUE, TRUE, 0);
+	grid = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID (grid), 6);
+	gtk_grid_set_column_spacing (GTK_GRID (grid), 12);
+	gtk_widget_show (grid);
+	gtk_box_pack_start ((GtkBox *) parent, grid, TRUE, TRUE, 0);
 
 	store = camel_folder_get_parent_store (context->folder);
 	folder_name = camel_folder_get_full_name (context->folder);
@@ -515,14 +512,14 @@ emfp_get_folder_item (EConfig *ec,
 
 		path = g_strconcat (camel_service_get_display_name (CAMEL_SERVICE (store)), "/",
 			camel_folder_get_full_display_name (context->folder), NULL);
-		row = add_text_row (GTK_TABLE (table), row, _("Path:"), path, TRUE);
+		row = add_text_row (GTK_GRID (grid), row, _("Path:"), path, TRUE);
 		g_free (path);
 	}
 
 	/* To be on the safe side, ngettext is used here,
 	 * see e.g. comment #3 at bug 272567 */
 	row = add_numbered_row (
-		GTK_TABLE (table), row,
+		GTK_GRID (grid), row,
 		ngettext (
 			"Unread messages:",
 			"Unread messages:",
@@ -533,7 +530,7 @@ emfp_get_folder_item (EConfig *ec,
 	/* To be on the safe side, ngettext is used here,
 	 * see e.g. comment #3 at bug 272567 */
 	row = add_numbered_row (
-		GTK_TABLE (table), row,
+		GTK_GRID (grid), row,
 		ngettext (
 			"Total messages:",
 			"Total messages:",
@@ -580,7 +577,7 @@ emfp_get_folder_item (EConfig *ec,
 			g_free (lefts_str);
 			g_free (total_str);
 
-			row = add_text_row (GTK_TABLE (table), row, descr, text, FALSE);
+			row = add_text_row (GTK_GRID (grid), row, descr, text, FALSE);
 
 			g_free (text);
 			g_free (descr);
@@ -632,6 +629,7 @@ emfp_get_folder_item (EConfig *ec,
 		switch (properties[ii]->value_type) {
 			case G_TYPE_BOOLEAN:
 				widget = gtk_check_button_new_with_mnemonic (blurb);
+				gtk_widget_set_hexpand (widget, TRUE);
 				e_binding_bind_property (
 					context->folder,
 					properties[ii]->name,
@@ -639,10 +637,7 @@ emfp_get_folder_item (EConfig *ec,
 					G_BINDING_BIDIRECTIONAL |
 					G_BINDING_SYNC_CREATE);
 				gtk_widget_show (widget);
-				gtk_table_attach (
-					GTK_TABLE (table), widget,
-					0, 2, row, row + 1,
-					GTK_FILL | GTK_EXPAND, 0, 0, 0);
+				gtk_grid_attach (GTK_GRID (grid), widget, 0, row, 2, 1);
 				row++;
 				break;
 			default:
@@ -674,6 +669,7 @@ emfp_get_folder_item (EConfig *ec,
 					}
 
 					widget = gtk_check_button_new_with_mnemonic (blurb);
+					gtk_widget_set_hexpand (widget, TRUE);
 
 					g_object_set (G_OBJECT (widget),
 						"inconsistent", set_inconsistent,
@@ -688,10 +684,7 @@ emfp_get_folder_item (EConfig *ec,
 						tsd, three_state_data_free, 0);
 
 					gtk_widget_show (widget);
-					gtk_table_attach (
-						GTK_TABLE (table), widget,
-						0, 2, row, row + 1,
-						GTK_FILL | GTK_EXPAND, 0, 0, 0);
+					gtk_grid_attach (GTK_GRID (grid), widget, 0, row, 2, 1);
 					row++;
 				} else {
 					g_warn_if_reached ();
@@ -703,10 +696,7 @@ emfp_get_folder_item (EConfig *ec,
 	if (has_mark_seen && has_mark_seen_timeout) {
 		widget = e_dialog_new_mark_seen_box (context->folder);
 
-		gtk_table_attach (
-			GTK_TABLE (table), widget,
-			0, 2, row, row + 1,
-			GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		gtk_grid_attach (GTK_GRID (grid), widget, 0, row, 2, 1);
 		row++;
 	}
 
@@ -718,12 +708,10 @@ emfp_get_folder_item (EConfig *ec,
 	/* Translators: Label of a combo with a list of configured accounts where a user can
 	   choose which account to use as the sender when composing a message in this folder */
 	label = gtk_label_new_with_mnemonic (_("_Send Account Override:"));
+	gtk_widget_set_hexpand (label, TRUE);
 	gtk_widget_set_halign (label, GTK_ALIGN_START);
 	gtk_widget_show (label);
-	gtk_table_attach (
-		GTK_TABLE (table), label,
-		0, 2, row, row + 1,
-		GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), label, 0, row, 2, 1);
 	row++;
 
 	widget = g_object_new (
@@ -731,19 +719,17 @@ emfp_get_folder_item (EConfig *ec,
 		"registry", registry,
 		"allow-none", TRUE,
 		"allow-aliases", TRUE,
+		"hexpand", TRUE,
 		NULL);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	gtk_widget_set_margin_start (widget, 12);
 	gtk_widget_show (widget);
-	gtk_table_attach (
-		GTK_TABLE (table), widget,
-		0, 2, row, row + 1,
-		GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (grid), widget, 0, row, 2, 1);
 	row++;
 
 	shell = e_shell_get_default ();
 	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
-	g_return_val_if_fail (mail_backend != NULL, table);
+	g_return_val_if_fail (mail_backend != NULL, grid);
 
 	account_override = e_mail_backend_get_send_account_override (mail_backend);
 	folder_uri = e_mail_folder_uri_from_folder (context->folder);
@@ -760,7 +746,7 @@ emfp_get_folder_item (EConfig *ec,
 
 	g_free (account_uid);
 
-	return table;
+	return grid;
 }
 
 static GtkWidget *
