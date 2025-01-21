@@ -1239,7 +1239,7 @@ static EMConfigItem emmp_items[] = {
 	/* no subvbox for section { E_CONFIG_PAGE, "30.headers/00.headers", "vbox199", emmp_widget_glade }, */
 	{ E_CONFIG_PAGE, (gchar *) "40.junk", (gchar *) "vboxJunk", emmp_widget_glade },
 	/* no subvbox for section { E_CONFIG_SECTION, "40.junk/00.general", xxx, emmp_widget_glade } */
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.junk/10.options", (gchar *) "junk-general-table", emmp_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.junk/10.options", (gchar *) "junk-general-grid", emmp_widget_glade },
 };
 
 static void

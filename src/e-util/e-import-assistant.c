@@ -283,9 +283,9 @@ import_assistant_file_page_init (EImportAssistant *import_assistant)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	widget = gtk_table_new (2, 2, FALSE);
-	gtk_table_set_row_spacings (GTK_TABLE (widget), 2);
-	gtk_table_set_col_spacings (GTK_TABLE (widget), 10);
+	widget = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID (widget), 2);
+	gtk_grid_set_column_spacing (GTK_GRID (widget), 10);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 8);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
@@ -294,19 +294,16 @@ import_assistant_file_page_init (EImportAssistant *import_assistant)
 
 	widget = gtk_label_new_with_mnemonic (_("F_ilename:"));
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, row, 1, 1);
 	gtk_widget_show (widget);
 
 	label = widget;
 
 	widget = gtk_file_chooser_button_new (
 		_("Select a file"), GTK_FILE_CHOOSER_ACTION_OPEN);
+	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
-	gtk_table_attach (
-		GTK_TABLE (container), widget, 1, 2,
-		row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, row, 1, 1);
 	import_assistant->priv->file_page.filename = widget;
 	gtk_widget_show (widget);
 
@@ -318,9 +315,7 @@ import_assistant_file_page_init (EImportAssistant *import_assistant)
 
 	widget = gtk_label_new_with_mnemonic (_("File _type:"));
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, row, 1, 1);
 	gtk_widget_show (widget);
 
 	label = widget;
@@ -328,10 +323,9 @@ import_assistant_file_page_init (EImportAssistant *import_assistant)
 	store = gtk_list_store_new (
 		3, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_POINTER);
 	widget = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget,1, row, 1, 1);
 	import_assistant->priv->file_page.filetype = widget;
 	gtk_widget_show (widget);
 	g_object_unref (store);
@@ -346,18 +340,17 @@ import_assistant_file_page_init (EImportAssistant *import_assistant)
 
 	widget = gtk_label_new_with_mnemonic (_("Pre_view:"));
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		0, 1, row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_widget_set_valign (widget, GTK_ALIGN_START);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, row, 1, 1);
 
 	label = widget;
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_widget_set_vexpand (widget, TRUE);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, row, 1, 1);
 	import_assistant->priv->file_page.preview_scrolled_window = widget;
 
 	e_binding_bind_property (widget, "visible", label, "visible", G_BINDING_DEFAULT);
@@ -505,9 +498,9 @@ import_assistant_simple_page_init (EImportAssistant *import_assistant)
 	gtk_widget_show (widget);
 	import_assistant->priv->simple_page.actionlabel = widget;
 
-	widget = gtk_table_new (2, 1, FALSE);
-	gtk_table_set_row_spacings (GTK_TABLE (widget), 2);
-	gtk_table_set_col_spacings (GTK_TABLE (widget), 10);
+	widget = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID (widget), 2);
+	gtk_grid_set_column_spacing (GTK_GRID (widget), 10);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 8);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 	gtk_widget_show (widget);
@@ -517,9 +510,7 @@ import_assistant_simple_page_init (EImportAssistant *import_assistant)
 
 	widget = gtk_label_new_with_mnemonic (_("File _type:"));
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, row, 1, 1);
 	gtk_widget_show (widget);
 
 	label = widget;
@@ -528,9 +519,7 @@ import_assistant_simple_page_init (EImportAssistant *import_assistant)
 		3, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_POINTER);
 	widget = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
-	gtk_table_attach (
-		GTK_TABLE (container), widget,
-		1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, row, 1, 1);
 	import_assistant->priv->simple_page.filetype = widget;
 	gtk_widget_show (widget);
 	g_object_unref (store);
@@ -552,7 +541,7 @@ prepare_intelligent_page (GtkAssistant *assistant,
 {
 	EImportAssistant *self;
 	GSList *l;
-	GtkWidget *table;
+	GtkWidget *grid;
 	gint row;
 	ImportSelectionPage *page;
 
@@ -592,7 +581,7 @@ prepare_intelligent_page (GtkAssistant *assistant,
 		return;
 	}
 
-	table = gtk_table_new (g_slist_length (l), 2, FALSE);
+	grid = gtk_grid_new ();
 	row = 0;
 	for (; l; l = l->next) {
 		EImportImporter *eii = l->data;
@@ -608,18 +597,14 @@ prepare_intelligent_page (GtkAssistant *assistant,
 
 		gtk_label_set_xalign (GTK_LABEL (label), 0);
 
-		gtk_table_attach (
-			GTK_TABLE (table), label,
-			0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
+		gtk_grid_attach (GTK_GRID (grid), label, 0, row, 1, 1);
 		if (w)
-			gtk_table_attach (
-				GTK_TABLE (table), w,
-				1, 2, row, row + 1, GTK_FILL, 0, 3, 0);
+			gtk_grid_attach (GTK_GRID (grid), w, 1, row, 1, 1);
 		row++;
 	}
 
-	gtk_widget_show (table);
-	gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
+	gtk_widget_show (grid);
+	gtk_box_pack_start (GTK_BOX (vbox), grid, FALSE, FALSE, 0);
 
 	gtk_assistant_set_page_complete (assistant, vbox, TRUE);
 }
