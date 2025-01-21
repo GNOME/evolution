@@ -78,7 +78,7 @@ typedef enum {
 } ETableCursorLoc;
 
 struct _ETable {
-	GtkTable parent;
+	GtkGrid parent;
 
 	ETablePrivate *priv;
 
@@ -183,7 +183,7 @@ struct _ETable {
 };
 
 struct _ETableClass {
-	GtkTableClass parent_class;
+	GtkGridClass parent_class;
 
 	void		(*cursor_change)	(ETable *et,
 						 gint row);

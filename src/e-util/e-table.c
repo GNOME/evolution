@@ -176,7 +176,7 @@ static void scroll_on (ETable *et, guint scroll_direction);
 
 static void e_table_scrollable_init (GtkScrollableInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (ETable, e_table, GTK_TYPE_TABLE,
+G_DEFINE_TYPE_WITH_CODE (ETable, e_table, GTK_TYPE_GRID,
 			 G_ADD_PRIVATE (ETable)
 			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, e_table_scrollable_init))
 
@@ -560,8 +560,6 @@ e_table_init (ETable *e_table)
 
 	gtk_widget_set_can_focus (GTK_WIDGET (e_table), TRUE);
 
-	gtk_table_set_homogeneous (GTK_TABLE (e_table), FALSE);
-
 	e_table->sort_info = NULL;
 	e_table->group_info_change_id = 0;
 	e_table->sort_info_change_id = 0;
@@ -718,6 +716,7 @@ e_table_setup_header (ETable *e_table)
 {
 	gchar *pointer;
 	e_table->header_canvas = GNOME_CANVAS (e_canvas_new ());
+	gtk_widget_set_hexpand (GTK_WIDGET (e_table->header_canvas), TRUE);
 	gtk_style_context_add_class (
 		gtk_widget_get_style_context (GTK_WIDGET (e_table->header_canvas)),
 		"table-header");
@@ -1473,6 +1472,8 @@ e_table_setup_table (ETable *e_table,
 	GdkColor color;
 
 	e_table->table_canvas = GNOME_CANVAS (e_canvas_new ());
+	gtk_widget_set_hexpand (GTK_WIDGET (e_table->table_canvas), TRUE);
+	gtk_widget_set_vexpand (GTK_WIDGET (e_table->table_canvas), TRUE);
 	g_signal_connect (
 		e_table->table_canvas, "size_allocate",
 		G_CALLBACK (table_canvas_size_allocate), e_table);
@@ -1883,19 +1884,14 @@ et_real_construct (ETable *e_table,
 
 	if (!specification->no_headers) {
 		/* The header */
-		gtk_table_attach (
-			GTK_TABLE (e_table), GTK_WIDGET (e_table->header_canvas),
-			0, 1, 0 + row, 1 + row,
-			GTK_FILL | GTK_EXPAND,
-			GTK_FILL, 0, 0);
+		gtk_grid_attach (
+			GTK_GRID (e_table), GTK_WIDGET (e_table->header_canvas),
+			0, row, 1, 1);
 		row++;
 	}
-	gtk_table_attach (
-		GTK_TABLE (e_table), GTK_WIDGET (e_table->table_canvas),
-		0, 1, 0 + row, 1 + row,
-		GTK_FILL | GTK_EXPAND,
-		GTK_FILL | GTK_EXPAND,
-		0, 0);
+	gtk_grid_attach (
+		GTK_GRID (e_table), GTK_WIDGET (e_table->table_canvas),
+		0, row, 1, 1);
 
 	g_object_unref (ete);
 

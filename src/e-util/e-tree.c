@@ -261,7 +261,7 @@ static void context_destroyed (gpointer data, GObject *ctx);
 
 static void e_tree_scrollable_init (GtkScrollableInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (ETree, e_tree, GTK_TYPE_TABLE,
+G_DEFINE_TYPE_WITH_CODE (ETree, e_tree, GTK_TYPE_GRID,
 	G_ADD_PRIVATE (ETree)
 	G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, e_tree_scrollable_init))
 
@@ -602,8 +602,6 @@ e_tree_init (ETree *tree)
 {
 	gtk_widget_set_can_focus (GTK_WIDGET (tree), TRUE);
 
-	gtk_table_set_homogeneous (GTK_TABLE (tree), FALSE);
-
 	tree->priv = e_tree_get_instance_private (tree);
 
 	tree->priv->alternating_row_colors = 1;
@@ -734,6 +732,7 @@ e_tree_setup_header (ETree *tree)
 	gchar *pointer;
 
 	widget = e_canvas_new ();
+	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_style_context_add_class (
 		gtk_widget_get_style_context (widget), "table-header");
 	gtk_widget_set_can_focus (widget, FALSE);
@@ -1319,6 +1318,8 @@ e_tree_setup_table (ETree *tree)
 	GdkColor color;
 
 	tree->priv->table_canvas = GNOME_CANVAS (e_canvas_new ());
+	gtk_widget_set_hexpand (GTK_WIDGET (tree->priv->table_canvas), TRUE);
+	gtk_widget_set_vexpand (GTK_WIDGET (tree->priv->table_canvas), TRUE);
 	g_signal_connect (
 		tree->priv->table_canvas, "size_allocate",
 		G_CALLBACK (tree_canvas_size_allocate), tree);
@@ -1666,22 +1667,17 @@ et_real_construct (ETree *tree,
 		/*
 		 * The header
 		 */
-		gtk_table_attach (
-			GTK_TABLE (tree),
+		gtk_grid_attach (
+			GTK_GRID (tree),
 			GTK_WIDGET (tree->priv->header_canvas),
-			0, 1, 0 + row, 1 + row,
-			GTK_FILL | GTK_EXPAND,
-			GTK_FILL, 0, 0);
+			0, row, 1, 1);
 		row++;
 	}
 
-	gtk_table_attach (
-		GTK_TABLE (tree),
+	gtk_grid_attach (
+		GTK_GRID (tree),
 		GTK_WIDGET (tree->priv->table_canvas),
-		0, 1, 0 + row, 1 + row,
-		GTK_FILL | GTK_EXPAND,
-		GTK_FILL | GTK_EXPAND,
-		0, 0);
+		0, row, 1, 1);
 
 	g_object_unref (ete);
 
