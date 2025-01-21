@@ -51,7 +51,7 @@ main (gint argc,
 {
 	GtkWidget *window;
 	EDateEdit *dedit;
-	GtkWidget *table, *button;
+	GtkWidget *grid, *button;
 
 	gtk_init (&argc, &argv);
 
@@ -67,18 +67,18 @@ main (gint argc,
 		window, "delete_event",
 		G_CALLBACK (delete_event_cb), window);
 
-	table = gtk_table_new (3, 3, FALSE);
-	gtk_table_set_row_spacings (GTK_TABLE (table), 4);
-	gtk_table_set_col_spacings (GTK_TABLE (table), 4);
-	gtk_widget_show (table);
+	grid = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID (grid), 4);
+	gtk_grid_set_column_spacing (GTK_GRID (grid), 4);
+	gtk_widget_show (grid);
 
-	gtk_container_add (GTK_CONTAINER (window), table);
+	gtk_container_add (GTK_CONTAINER (window), grid);
 
 	/* EDateEdit 1. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
-	gtk_table_attach (
-		GTK_TABLE (table), GTK_WIDGET (dedit),
-		0, 1, 0, 1, GTK_FILL, GTK_EXPAND, 0, 0);
+	gtk_grid_attach (
+		GTK_GRID (grid), GTK_WIDGET (dedit),
+		0, 0, 1, 1);
 	gtk_widget_show (GTK_WIDGET (dedit));
 
 #if 0
@@ -95,9 +95,9 @@ main (gint argc,
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
-	gtk_table_attach (
-		GTK_TABLE (table), button,
-		1, 2, 0, 1, 0, 0, 0, 0);
+	gtk_grid_attach (
+		GTK_GRID (grid), button,
+		1, 0, 1, 1);
 	gtk_widget_show (button);
 	g_signal_connect (
 		button, "clicked",
@@ -105,9 +105,9 @@ main (gint argc,
 
 	/* EDateEdit 2. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
-	gtk_table_attach (
-		GTK_TABLE (table), (GtkWidget *) dedit,
-		0, 1, 1, 2, GTK_FILL, GTK_EXPAND, 0, 0);
+	gtk_grid_attach (
+		GTK_GRID (grid), (GtkWidget *) dedit,
+		0, 1, 1, 1);
 	gtk_widget_show ((GtkWidget *) (dedit));
 	e_date_edit_set_week_start_day (dedit, 1);
 	e_date_edit_set_show_week_numbers (dedit, TRUE);
@@ -129,9 +129,9 @@ main (gint argc,
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
-	gtk_table_attach (
-		GTK_TABLE (table), button,
-		1, 2, 1, 2, 0, 0, 0, 0);
+	gtk_grid_attach (
+		GTK_GRID (grid), button,
+		1, 1, 1, 1);
 	gtk_widget_show (button);
 	g_signal_connect (
 		button, "clicked",
@@ -139,9 +139,9 @@ main (gint argc,
 
 	/* EDateEdit 3. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
-	gtk_table_attach (
-		GTK_TABLE (table), (GtkWidget *) dedit,
-		0, 1, 2, 3, GTK_FILL, GTK_EXPAND, 0, 0);
+	gtk_grid_attach (
+		GTK_GRID (grid), (GtkWidget *) dedit,
+		0, 2, 1, 1);
 	gtk_widget_show ((GtkWidget *) (dedit));
 	e_date_edit_set_week_start_day (dedit, 1);
 	e_date_edit_set_show_week_numbers (dedit, TRUE);
@@ -163,18 +163,18 @@ main (gint argc,
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
-	gtk_table_attach (
-		GTK_TABLE (table), button,
-		1, 2, 2, 3, 0, 0, 0, 0);
+	gtk_grid_attach (
+		GTK_GRID (grid), button,
+		1, 2, 1, 1);
 	gtk_widget_show (button);
 	g_signal_connect (
 		button, "clicked",
 		G_CALLBACK (on_get_date_clicked), dedit);
 
 	button = gtk_button_new_with_label ("Toggle 24-hour");
-	gtk_table_attach (
-		GTK_TABLE (table), button,
-		2, 3, 2, 3, 0, 0, 0, 0);
+	gtk_grid_attach (
+		GTK_GRID (grid), button,
+		2, 2, 1, 1);
 	gtk_widget_show (button);
 	g_signal_connect (
 		button, "clicked",
