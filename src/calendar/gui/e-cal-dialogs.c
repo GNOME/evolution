@@ -1331,18 +1331,17 @@ static GtkWidget *
 add_checkbox (GtkBox *where,
               const gchar *caption)
 {
-	GtkWidget *checkbox, *align;
+	GtkWidget *checkbox;
 
 	g_return_val_if_fail (where != NULL, NULL);
 	g_return_val_if_fail (caption != NULL, NULL);
 
 	checkbox = gtk_check_button_new_with_mnemonic (caption);
-	align = gtk_alignment_new (0.0, 0.5, 0.0, 0.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (align), 0, 0, 12, 12);
-	gtk_container_add (GTK_CONTAINER (align), checkbox);
+	gtk_widget_set_margin_start (checkbox, 12);
+	gtk_widget_set_margin_end (checkbox, 12);
+	gtk_widget_set_halign (checkbox, GTK_ALIGN_START);
+	gtk_box_pack_start (where, checkbox, TRUE, TRUE, 2);
 	gtk_widget_show (checkbox);
-	gtk_box_pack_start (where, align, TRUE, TRUE, 2);
-	gtk_widget_show (align);
 
 	return checkbox;
 }

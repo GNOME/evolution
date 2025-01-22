@@ -881,12 +881,10 @@ make_tree_view_for_section (ENameSelectorDialog *name_selector_dialog,
 static void
 setup_section_button (ENameSelectorDialog *name_selector_dialog,
                       GtkButton *button,
-                      double halign,
                       const gchar *label_text,
                       const gchar *icon_name,
                       gboolean icon_before_label)
 {
-	GtkWidget *alignment;
 	GtkWidget *hgrid;
 	GtkWidget *label;
 	GtkWidget *image;
@@ -895,9 +893,6 @@ setup_section_button (ENameSelectorDialog *name_selector_dialog,
 		name_selector_dialog->priv->button_size_group,
 		GTK_WIDGET (button));
 
-	alignment = gtk_alignment_new (halign, 0.5, 0.0, 0.0);
-	gtk_container_add (GTK_CONTAINER (button), GTK_WIDGET (alignment));
-
 	hgrid = g_object_new (
 		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
@@ -905,7 +900,7 @@ setup_section_button (ENameSelectorDialog *name_selector_dialog,
 		"column-spacing", 2,
 		NULL);
 	gtk_widget_show (hgrid);
-	gtk_container_add (GTK_CONTAINER (alignment), hgrid);
+	gtk_container_add (GTK_CONTAINER (button), hgrid);
 
 	label = gtk_label_new_with_mnemonic (label_text);
 	gtk_widget_show (label);
@@ -930,7 +925,6 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 {
 	Section            section;
 	GtkWidget	  *vgrid;
-	GtkWidget	  *alignment;
 	GtkWidget	  *scrollwin;
 	SelData		  *data;
 	GtkTreeSelection  *selection;
@@ -985,11 +979,6 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 		section.remove_button, "clicked",
 		G_CALLBACK (remove_button_clicked), data);
 
-	/* Alignment and vgrid for the add/remove buttons */
-
-	alignment = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-	gtk_container_add (GTK_CONTAINER (section.section_grid), alignment);
-
 	vgrid = g_object_new (
 		GTK_TYPE_GRID,
 		"orientation", GTK_ORIENTATION_VERTICAL,
@@ -997,15 +986,15 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 		"row-spacing", 6,
 		NULL);
 
-	gtk_container_add (GTK_CONTAINER (alignment), vgrid);
+	gtk_container_add (GTK_CONTAINER (section.section_grid), vgrid);
 
 	/* "Add" button */
 	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (section.transfer_button));
-	setup_section_button (name_selector_dialog, section.transfer_button, 0.7, _("_Add"), "go-next", FALSE);
+	setup_section_button (name_selector_dialog, section.transfer_button, _("_Add"), "go-next", FALSE);
 
 	/* "Remove" button */
 	gtk_container_add (GTK_CONTAINER (vgrid), GTK_WIDGET (section.remove_button));
-	setup_section_button (name_selector_dialog, section.remove_button, 0.5, _("_Remove"), "go-previous", TRUE);
+	setup_section_button (name_selector_dialog, section.remove_button, _("_Remove"), "go-previous", TRUE);
 	gtk_widget_set_sensitive (GTK_WIDGET (section.remove_button), FALSE);
 
 	/* hgrid for label and scrolled window. This is a separate hgrid, instead

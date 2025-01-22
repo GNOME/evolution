@@ -106,17 +106,11 @@ charset_combo_box_run_dialog (ECharsetComboBox *combo_box)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 0, 0, 12, 0);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
 	widget = gtk_entry_new ();
+	gtk_widget_set_margin_start (widget, 12);
 	entry = GTK_ENTRY (widget);
 	gtk_entry_set_activates_default (entry, TRUE);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	g_signal_connect (

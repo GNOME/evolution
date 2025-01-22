@@ -486,29 +486,16 @@ proxy_preferences_constructed (GObject *object)
 		widget, "source",
 		G_BINDING_SYNC_CREATE);
 
-	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_widget_set_vexpand (widget, TRUE);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	/* Nested containers to control multiple levels of visibility. */
-
-	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_widget_set_vexpand (widget, TRUE);
-	gtk_container_add (GTK_CONTAINER (container), widget);
 
 	e_binding_bind_property (
 		preferences, "show-advanced",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
-
-	container = widget;
-
-	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-	gtk_container_add (GTK_CONTAINER (container), widget);
 
 	container = widget;
 

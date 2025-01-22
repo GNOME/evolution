@@ -23,9 +23,6 @@
 
 struct _EMailConfigImportProgressPagePrivate {
 	EActivity *activity;
-	GtkWidget *progress_bar;   /* not referenced */
-	GtkWidget *cancelled_msg;  /* not referenced */
-	GtkWidget *completed_msg;  /* not referenced */
 };
 
 enum {
@@ -151,6 +148,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 	GtkWidget *container;
 	GtkWidget *widget;
 	GtkWidget *main_box;
+	GtkWidget *completed_msg;
 	EActivity *activity;
 
 	page = E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE (object);
@@ -172,14 +170,13 @@ mail_config_import_progress_page_constructed (GObject *object)
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
 
 	/* Just a spacer. */
-	widget = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
+	widget = gtk_grid_new ();
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_box_pack_start (GTK_BOX (main_box), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
 	widget = gtk_progress_bar_new ();
 	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
-	page->priv->progress_bar = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
 	e_binding_bind_object_text_property (
@@ -202,22 +199,12 @@ mail_config_import_progress_page_constructed (GObject *object)
 
 	container = widget;
 
-	widget = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_widget_set_halign (widget, GTK_ALIGN_CENTER);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	page->priv->cancelled_msg = widget;  /* not referenced */
-
-	e_binding_bind_property_full (
-		activity, "state",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE,
-		mail_config_import_progress_page_is_cancelled,
-		NULL,
-		NULL, (GDestroyNotify) NULL);
-
-	widget = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	page->priv->completed_msg = widget;  /* not referenced */
 	gtk_widget_show (widget);
+
+	completed_msg = widget;
 
 	e_binding_bind_property_full (
 		activity, "state",
@@ -227,11 +214,18 @@ mail_config_import_progress_page_constructed (GObject *object)
 		NULL,
 		NULL, (GDestroyNotify) NULL);
 
-	container = page->priv->cancelled_msg;
-
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_set_halign (widget, GTK_ALIGN_CENTER);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
+
+	e_binding_bind_property_full (
+		activity, "state",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE,
+		mail_config_import_progress_page_is_cancelled,
+		NULL,
+		NULL, (GDestroyNotify) NULL);
 
 	container = widget;
 
@@ -243,13 +237,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	container = page->priv->completed_msg;
-
-	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
+	container = completed_msg;
 
 	widget = gtk_image_new_from_icon_name (
 		"emblem-default", GTK_ICON_SIZE_MENU);

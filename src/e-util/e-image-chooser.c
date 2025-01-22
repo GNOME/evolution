@@ -436,13 +436,9 @@ e_image_chooser_init (EImageChooser *chooser)
 
 	container = widget;
 
-	widget = gtk_alignment_new (0, 0, 0, 0);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
 	widget = gtk_image_new ();
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	gtk_widget_set_valign (widget, GTK_ALIGN_START);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	chooser->priv->image = g_object_ref (widget);
 	gtk_widget_show (widget);

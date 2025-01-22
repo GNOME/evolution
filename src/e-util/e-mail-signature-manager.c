@@ -255,15 +255,9 @@ mail_signature_manager_constructed (GObject *object)
 
 	container = GTK_WIDGET (manager);
 
-	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 0, 12, 0, 0);
-	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
-	gtk_widget_show (widget);
-
-	container = widget;
-
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_set_margin_bottom (widget, 12);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
 	gtk_widget_show (widget);
 
 	container = hbox = widget;

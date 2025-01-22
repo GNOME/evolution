@@ -39,7 +39,6 @@ static void
 mail_config_lookup_page_constructed (GObject *object)
 {
 	EMailConfigLookupPage *page;
-	GtkWidget *container;
 	GtkWidget *main_box, *widget;
 	const gchar *text;
 
@@ -51,15 +50,11 @@ mail_config_lookup_page_constructed (GObject *object)
 	main_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_widget_set_valign (main_box, GTK_ALIGN_FILL);
 
-	widget = gtk_alignment_new (0.5, 0.5, 0.5, 0.5);
-	gtk_box_pack_start (GTK_BOX (main_box), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
 	widget = e_spinner_new ();
+	gtk_widget_set_halign (widget, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
 	e_spinner_start (E_SPINNER (widget));
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
 	text = _("Looking up account details…");

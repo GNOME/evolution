@@ -554,14 +554,13 @@ ec_rebuild (EConfig *config)
 					gtk_table_set_row_spacings ((GtkTable *) section, 6);
 				}
 
+				gtk_widget_set_margin_top (section, 6);
+				gtk_widget_set_margin_start (section, 12);
 				frame = g_object_new (
 					gtk_frame_get_type (),
 					"shadow_type", GTK_SHADOW_NONE,
 					"label_widget", label,
-					"child", g_object_new (gtk_alignment_get_type (),
-					"left_padding", 12,
-					"top_padding", 6,
-					"child", section, NULL),
+					"child", section,
 					NULL);
 				gtk_widget_show_all (frame);
 				gtk_box_pack_start ((GtkBox *) page, frame, TRUE, TRUE, 0);
@@ -1146,13 +1145,6 @@ config_hook_section_factory (EConfig *config,
 
 	parent = widget;
 
-	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 6, 0, 12, 0);
-	gtk_container_add (GTK_CONTAINER (parent), widget);
-	gtk_widget_show (widget);
-
-	parent = widget;
-
 	switch (item->type) {
 		case E_CONFIG_SECTION:
 			widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
@@ -1168,6 +1160,8 @@ config_hook_section_factory (EConfig *config,
 			g_return_val_if_reached (NULL);
 	}
 
+	gtk_widget_set_margin_top (widget, 6);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_container_add (GTK_CONTAINER (parent), widget);
 	gtk_widget_show (widget);
 

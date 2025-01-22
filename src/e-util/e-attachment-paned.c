@@ -689,14 +689,10 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 	paned->priv->show_hide_label = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = gtk_alignment_new (0.5, 0.5, 0.0, 1.0);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_set_halign (widget, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;

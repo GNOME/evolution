@@ -922,11 +922,13 @@ simple_filetype_changed_cb (GtkComboBox *combo_box,
 			self->priv->import, (EImportTarget *)
 			page->target, page->importer);
 
-	page->control = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_widget_show (page->control);
-	gtk_container_add (GTK_CONTAINER (page->control), control);
+	gtk_widget_set_halign (control, GTK_ALIGN_START);
+	gtk_widget_set_valign (control, GTK_ALIGN_START);
+	gtk_box_pack_start (GTK_BOX (vbox), control, TRUE, TRUE, 0);
+	gtk_widget_show (control);
 
-	gtk_box_pack_start (GTK_BOX (vbox), page->control, TRUE, TRUE, 0);
+	page->control = control;
+
 	gtk_assistant_set_page_complete (assistant, vbox, TRUE);
 }
 

@@ -1342,14 +1342,10 @@ e_source_config_add_refresh_interval (ESourceConfig *config,
 	extension_name = E_SOURCE_EXTENSION_REFRESH;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	widget = gtk_alignment_new (0.0, 0.5, 0.0, 0.0);
-	e_source_config_insert_widget (config, scratch_source, NULL, widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	e_source_config_insert_widget (config, scratch_source, NULL, widget);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -1578,14 +1574,10 @@ e_source_config_add_timeout_interval_for_webdav (ESourceConfig *config,
 
 	extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
 
-	widget = gtk_alignment_new (0.0, 0.5, 0.0, 0.0);
-	e_source_config_insert_widget (config, scratch_source, NULL, widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	e_source_config_insert_widget (config, scratch_source, NULL, widget);
 	gtk_widget_show (widget);
 
 	container = widget;

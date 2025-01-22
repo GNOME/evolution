@@ -60,17 +60,11 @@ cal_config_contacts_insert_widgets (ESourceConfigBackend *backend,
 	config = e_source_config_backend_get_config (backend);
 	registry = e_source_config_get_registry (config);
 
-	/* Extra padding between the selector and the options above. */
-	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 12, 0, 0, 0);
-	e_source_config_insert_widget (config, scratch_source, NULL, widget);
-	gtk_widget_show (widget);
-
-	container = widget;
 
 	widget = gtk_label_new (_("Choose which address books to use."));
+	gtk_widget_set_margin_top (widget, 12);
 	gtk_label_set_xalign (GTK_LABEL (widget), 0);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	e_source_config_insert_widget (config, scratch_source, NULL, widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_scrolled_window_new (NULL, NULL);

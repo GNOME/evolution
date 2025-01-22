@@ -97,7 +97,6 @@ show_development_warning (void)
 	GtkWidget *label;
 	GtkWidget *warning_dialog;
 	GtkWidget *checkbox;
-	GtkWidget *alignment;
 	gboolean skip;
 	gchar *text;
 
@@ -156,11 +155,9 @@ show_development_warning (void)
 	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 
 	checkbox = gtk_check_button_new_with_label (_("Do not tell me again"));
+	gtk_widget_set_halign (checkbox, GTK_ALIGN_START);
 
-	alignment = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
-
-	gtk_container_add (GTK_CONTAINER (alignment), checkbox);
-	gtk_box_pack_start (GTK_BOX (vbox), alignment, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), checkbox, TRUE, TRUE, 0);
 
 	gtk_widget_show_all (warning_dialog);
 
