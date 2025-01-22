@@ -2420,7 +2420,7 @@ customize_dialog_new_layout_add_button (EUICustomizeDialog *self)
 
 	gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 2);
 
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+	arrow = gtk_image_new_from_icon_name ("pan-down-symbolic", GTK_ICON_SIZE_BUTTON);
 	gtk_box_pack_start (GTK_BOX (box), arrow, FALSE, FALSE, 2);
 
 	gtk_widget_show_all (button);

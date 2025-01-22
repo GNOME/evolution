@@ -586,7 +586,7 @@ create_children (EDateEdit *dedit)
 {
 	EDateEditPrivate *priv;
 	ECalendar *calendar;
-	GtkWidget *frame, *arrow;
+	GtkWidget *frame;
 	GtkWidget *vbox, *bbox;
 	GtkWidget *child;
 	AtkObject *a11y;
@@ -618,7 +618,7 @@ create_children (EDateEdit *dedit)
 		priv->date_entry, "focus_out_event",
 		G_CALLBACK (on_date_entry_focus_out), dedit);
 
-	priv->date_button = gtk_button_new ();
+	priv->date_button = gtk_button_new_from_icon_name ("pan-down-symbolic", GTK_ICON_SIZE_BUTTON);
 	g_signal_connect (
 		priv->date_button, "clicked",
 		G_CALLBACK (on_date_button_clicked), dedit);
@@ -628,10 +628,6 @@ create_children (EDateEdit *dedit)
 	a11y = gtk_widget_get_accessible (priv->date_button);
 	atk_object_set_description (a11y, _("Click this button to show a calendar"));
 	atk_object_set_name (a11y, _("Date"));
-
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
-	gtk_container_add (GTK_CONTAINER (priv->date_button), arrow);
-	gtk_widget_show (arrow);
 
 	if (priv->show_date) {
 		gtk_widget_show (priv->date_entry);

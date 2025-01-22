@@ -28,7 +28,6 @@
 
 struct _EColorComboPrivate {
 	GtkWidget *color_frame;		/* not referenced */
-	GtkWidget *arrow;		/* not referenced */
 
 	GtkWidget *popover;
 	GtkWidget *default_button;	/* not referenced */
@@ -555,9 +554,8 @@ e_color_combo_init (EColorCombo *combo)
 	widget = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 
-	widget = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+	widget = gtk_image_new_from_icon_name ("pan-down-symbolic", GTK_ICON_SIZE_BUTTON);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
-	combo->priv->arrow = widget;  /* do not reference */
 
 	gtk_widget_show_all (container);
 

@@ -146,20 +146,21 @@ calitem_month_width_changed_cb (ECalendarItem *item,
 }
 
 static GtkWidget *
-e_calendar_create_button (GtkArrowType arrow_type)
+e_calendar_create_button (gboolean start_arrow)
 {
-	GtkWidget *button, *pixmap;
+	GtkWidget *button;
 	GtkCssProvider *css_provider;
 	GtkStyleContext *style_context;
 	GError *error = NULL;
+	const gchar *icon_name;
 
-	button = gtk_button_new ();
-	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+	if (start_arrow)
+		icon_name = "pan-start-symbolic";
+	else
+		icon_name = "pan-end-symbolic";
+
+	button = gtk_button_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (button);
-
-	pixmap = gtk_arrow_new (arrow_type, GTK_SHADOW_NONE);
-	gtk_widget_show (pixmap);
-	gtk_container_add (GTK_CONTAINER (button), pixmap);
 
 	css_provider = gtk_css_provider_new ();
 	gtk_css_provider_load_from_data (css_provider,
@@ -169,6 +170,7 @@ e_calendar_create_button (GtkArrowType arrow_type)
 		" padding: 0px;"
 		"}", -1, &error);
 	style_context = gtk_widget_get_style_context (button);
+	gtk_style_context_add_class (style_context, "flat");
 	if (error == NULL) {
 		gtk_style_context_add_class (style_context, "ecalendar");
 		gtk_style_context_add_provider (
@@ -285,7 +287,7 @@ e_calendar_init (ECalendar *cal)
 		G_CALLBACK (e_calendar_calc_min_column_width), cal);
 
 	/* Create the arrow buttons to move to the previous/next month. */
-	button = e_calendar_create_button (GTK_ARROW_LEFT);
+	button = e_calendar_create_button (TRUE);
 	g_signal_connect_swapped (
 		button, "pressed",
 		G_CALLBACK (e_calendar_on_prev_pressed), cal);
@@ -304,7 +306,7 @@ e_calendar_init (ECalendar *cal)
 	a11y = gtk_widget_get_accessible (button);
 	atk_object_set_name (a11y, _("Previous month"));
 
-	button = e_calendar_create_button (GTK_ARROW_RIGHT);
+	button = e_calendar_create_button (FALSE);
 	g_signal_connect_swapped (
 		button, "pressed",
 		G_CALLBACK (e_calendar_on_next_pressed), cal);
@@ -324,7 +326,7 @@ e_calendar_init (ECalendar *cal)
 	atk_object_set_name (a11y, _("Next month"));
 
 	/* Create the arrow buttons to move to the previous/next year. */
-	button = e_calendar_create_button (GTK_ARROW_LEFT);
+	button = e_calendar_create_button (TRUE);
 	g_signal_connect_swapped (
 		button, "pressed",
 		G_CALLBACK (e_calendar_on_prev_year_pressed), cal);
@@ -343,7 +345,7 @@ e_calendar_init (ECalendar *cal)
 	a11y = gtk_widget_get_accessible (button);
 	atk_object_set_name (a11y, _("Previous year"));
 
-	button = e_calendar_create_button (GTK_ARROW_RIGHT);
+	button = e_calendar_create_button (FALSE);
 	g_signal_connect_swapped (
 		button, "pressed",
 		G_CALLBACK (e_calendar_on_next_year_pressed), cal);

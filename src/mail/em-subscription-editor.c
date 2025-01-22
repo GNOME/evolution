@@ -1830,8 +1830,9 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 
 	container = box = widget;
 
-	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
+	gtk_style_context_add_class (gtk_widget_get_style_context (widget), "linked");
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -1847,10 +1848,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 		widget, "clicked",
 		G_CALLBACK (subscription_editor_subscribe), editor);
 
-	widget = gtk_button_new ();
-	gtk_button_set_image (
-		GTK_BUTTON (widget),
-		gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE));
+	widget = gtk_button_new_from_icon_name ("pan-down-symbolic", GTK_ICON_SIZE_BUTTON);
 	editor->priv->subscribe_arrow = widget;
 	gtk_widget_show (widget);
 
@@ -1876,7 +1874,8 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 
 	container = box;
 
-	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_style_context_add_class (gtk_widget_get_style_context (widget), "linked");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 	gtk_widget_show (widget);
 
@@ -1893,10 +1892,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 		widget, "clicked",
 		G_CALLBACK (subscription_editor_unsubscribe), editor);
 
-	widget = gtk_button_new ();
-	gtk_button_set_image (
-		GTK_BUTTON (widget),
-		gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE));
+	widget = gtk_button_new_from_icon_name ("pan-down-symbolic", GTK_ICON_SIZE_BUTTON);
 	editor->priv->unsubscribe_arrow = widget;
 	gtk_widget_show (widget);
 

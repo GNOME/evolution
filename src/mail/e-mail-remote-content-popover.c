@@ -328,7 +328,7 @@ create_remote_content_alert_button (EMailReader *reader)
 	g_signal_connect (button, "button-press-event",
 		G_CALLBACK (options_remote_content_button_press_cb), reader);
 
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+	arrow = gtk_image_new_from_icon_name ("pan-down-symbolic", GTK_ICON_SIZE_BUTTON);
 	gtk_container_add (GTK_CONTAINER (button), arrow);
 
 	gtk_widget_show_all (box);

@@ -1585,7 +1585,7 @@ accounts_window_create_add_button (EAccountsWindow *accounts_window)
 
 	gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 2);
 
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+	arrow = gtk_image_new_from_icon_name ("pan-down-symbolic", GTK_ICON_SIZE_BUTTON);
 	gtk_box_pack_start (GTK_BOX (box), arrow, FALSE, FALSE, 2);
 
 	g_signal_connect (button, "clicked",
