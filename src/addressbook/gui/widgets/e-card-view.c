@@ -484,7 +484,7 @@ e_card_view_constructed (GObject *object)
 {
 	ECardView *self = E_CARD_VIEW (object);
 	GtkBox *box;
-	GtkWidget *widget;
+	GtkWidget *widget, *scrolled;
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_card_view_parent_class)->constructed (object);
@@ -518,12 +518,19 @@ e_card_view_constructed (GObject *object)
 	widget = e_alphabet_box_new ();
 	g_object_set (widget,
 		"visible", TRUE,
-		"halign", GTK_ALIGN_FILL,
-		"hexpand", FALSE,
-		"valign", GTK_ALIGN_FILL,
-		"vexpand", FALSE,
+		"margin-start", 4,
 		NULL);
-	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+
+	scrolled = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (scrolled,
+		"visible", TRUE,
+		"hscrollbar-policy", GTK_POLICY_NEVER,
+		"overlay-scrolling", FALSE,
+		"vexpand", TRUE,
+		NULL);
+	gtk_container_add (GTK_CONTAINER (scrolled), widget);
+
+	gtk_box_pack_start (box, scrolled, FALSE, FALSE, 0);
 
 	self->priv->alphabet_box = E_ALPHABET_BOX (widget);
 
