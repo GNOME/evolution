@@ -111,8 +111,7 @@ empe_msg_rfc822_parse (EMailParserExtension *extension,
 	g_string_truncate (part_id, len);
 
 	if (e_mail_part_is_attachment (message))
-		e_mail_parser_wrap_as_attachment (
-			eparser, message, part_id, out_mail_parts);
+		e_mail_parser_wrap_as_attachment (eparser, message, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, out_mail_parts);
 
 	return TRUE;
 }

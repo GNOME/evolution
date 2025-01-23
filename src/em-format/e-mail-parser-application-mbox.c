@@ -65,7 +65,7 @@ empe_app_mbox_add_message (EMailParser *parser,
 		cancellable, &work_queue);
 
 	/* Wrap every message as attachment */
-	e_mail_parser_wrap_as_attachment (parser, opart, part_id, &work_queue);
+	e_mail_parser_wrap_as_attachment (parser, opart, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, &work_queue);
 
 	/* Inline all messages in mbox */
 	if (!g_queue_is_empty (&work_queue)) {

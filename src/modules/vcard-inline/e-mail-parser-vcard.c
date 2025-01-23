@@ -117,8 +117,7 @@ empe_vcard_parse (EMailParserExtension *extension,
 
 	g_queue_push_tail (&work_queue, vcard_part);
 
-	e_mail_parser_wrap_as_attachment (
-		parser, part, part_id, &work_queue);
+	e_mail_parser_wrap_as_attachment (parser, part, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, &work_queue);
 
 	e_queue_transfer (&work_queue, out_mail_parts);
 

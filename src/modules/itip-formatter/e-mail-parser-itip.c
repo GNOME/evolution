@@ -96,7 +96,7 @@ empe_itip_wrap_attachment (EMailParser *parser,
 	dw = camel_medium_get_content (CAMEL_MEDIUM (opart));
 	camel_data_wrapper_set_encoding (dw, CAMEL_TRANSFER_ENCODING_BASE64);
 
-	e_mail_parser_wrap_as_attachment (parser, opart, part_id, queue);
+	e_mail_parser_wrap_as_attachment (parser, opart, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, queue);
 
 	g_clear_object (&param);
 	g_object_unref (opart);
@@ -206,8 +206,7 @@ empe_itip_parse (EMailParserExtension *extension,
 	disposition = camel_mime_part_get_content_disposition (part);
 	if (disposition &&
 	    (g_strcmp0 (disposition->disposition, "attachment") == 0)) {
-		e_mail_parser_wrap_as_attachment (
-			parser, part, part_id, &work_queue);
+		e_mail_parser_wrap_as_attachment (parser, part, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, &work_queue);
 	}
 
 	e_queue_transfer (&work_queue, out_mail_parts);

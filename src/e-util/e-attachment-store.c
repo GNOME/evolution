@@ -20,9 +20,6 @@
 
 #include "evolution-config.h"
 
-#include "e-attachment-store.h"
-#include "e-icon-factory.h"
-
 #include <errno.h>
 #include <glib/gi18n.h>
 
@@ -31,8 +28,12 @@
 #include <gnome-autoar/autoar-gtk.h>
 #endif
 
-#include "e-mktemp.h"
+#include "e-attachment-bar.h"
+#include "e-icon-factory.h"
 #include "e-misc-utils.h"
+#include "e-mktemp.h"
+
+#include "e-attachment-store.h"
 
 struct _EAttachmentStorePrivate {
 	GHashTable *attachment_index;
@@ -1006,12 +1007,23 @@ e_attachment_store_transform_num_attachments_to_visible_boolean (GBinding *bindi
 								 GValue *to_value,
 								 gpointer user_data)
 {
+	gboolean visible;
+
 	g_return_val_if_fail (from_value != NULL, FALSE);
 	g_return_val_if_fail (to_value != NULL, FALSE);
 	g_return_val_if_fail (G_VALUE_HOLDS_UINT (from_value), FALSE);
 	g_return_val_if_fail (G_VALUE_HOLDS_BOOLEAN (to_value), FALSE);
 
-	g_value_set_boolean (to_value, g_value_get_uint (from_value) != 0);
+	visible = g_value_get_uint (from_value) != 0;
+
+	if (!visible) {
+		GObject *target = g_binding_dup_target (binding);
+
+		if (E_IS_ATTACHMENT_BAR (target))
+			visible = e_attachment_bar_get_n_possible_attachments (E_ATTACHMENT_BAR (target)) > 0;
+	}
+
+	g_value_set_boolean (to_value, visible);
 
 	return TRUE;
 }

@@ -64,7 +64,7 @@ struct _EMailDisplayPrivate {
 	EAttachmentStore *attachment_store;
 	EAttachmentView *attachment_view;
 	GHashTable *attachment_flags; /* EAttachment * ~> guint bit-or of EAttachmentFlags */
-	GHashTable *cid_attachments; /* gchar *cid ~> EAttachemnt *; these are not part of the attachment store */
+	GHashTable *cid_attachments; /* gchar *cid ~> EAttachment *; these are not part of the attachment store */
 
 	GWeakRef mail_reader_weakref;
 
@@ -1329,6 +1329,7 @@ mail_display_load_changed_cb (WebKitWebView *wk_web_view,
 		display->priv->magic_spacebar_state = 0;
 		e_mail_display_cleanup_skipped_uris (display);
 		e_attachment_store_remove_all (display->priv->attachment_store);
+		e_attachment_bar_clear_possible_attachments (E_ATTACHMENT_BAR (display->priv->attachment_view));
 		g_hash_table_remove_all (display->priv->cid_attachments);
 	}
 }
@@ -3160,6 +3161,11 @@ e_mail_display_claim_attachment (EMailFormatter *formatter,
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	if (e_attachment_get_is_possible (attachment)) {
+		e_attachment_bar_add_possible_attachment (E_ATTACHMENT_BAR (display->priv->attachment_view), attachment);
+		return;
+	}
 
 	attachments = e_attachment_store_get_attachments (display->priv->attachment_store);
 

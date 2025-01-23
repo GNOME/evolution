@@ -308,8 +308,7 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 		    (!e_mail_part_get_is_attachment (mail_part) ||
 		     mail_part->is_hidden)) {
 
-			e_mail_parser_wrap_as_attachment (
-				parser, subpart, part_id, &work_queue);
+			e_mail_parser_wrap_as_attachment (parser, subpart, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, &work_queue);
 
 		/* Force messages to be expandable */
 		} else if ((mail_part == NULL && !handled) ||
@@ -317,8 +316,7 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 		     mail_part != NULL &&
 		     !e_mail_part_get_is_attachment (mail_part))) {
 
-			e_mail_parser_wrap_as_attachment (
-				parser, subpart, part_id, &work_queue);
+			e_mail_parser_wrap_as_attachment (parser, subpart, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, &work_queue);
 
 			mail_part = g_queue_peek_head (&work_queue);
 

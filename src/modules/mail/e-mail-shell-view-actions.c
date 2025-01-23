@@ -287,7 +287,7 @@ action_mail_attachment_bar_cb (EUIAction *action,
 		bar = E_ATTACHMENT_BAR (attachment_view);
 		store = e_attachment_bar_get_store (bar);
 		num_attachments = e_attachment_store_get_num_attachments (store);
-		e_attachment_bar_set_attachments_visible (bar, num_attachments > 0);
+		e_attachment_bar_set_attachments_visible (bar, num_attachments > 0 || e_attachment_bar_get_n_possible_attachments (bar) > 0);
 	} else {
 		e_attachment_bar_set_attachments_visible (E_ATTACHMENT_BAR (attachment_view), FALSE);
 	}

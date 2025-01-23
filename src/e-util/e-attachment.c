@@ -72,6 +72,7 @@ struct _EAttachmentPrivate {
 	guint saving : 1;
 	guint initially_shown : 1;
 	guint may_reload : 1;
+	guint is_possible : 1;
 
 	guint save_self      : 1;
 	guint save_extracted : 1;
@@ -103,7 +104,8 @@ enum {
 	PROP_SAVING,
 	PROP_INITIALLY_SHOWN,
 	PROP_SIGNED,
-	PROP_MAY_RELOAD
+	PROP_MAY_RELOAD,
+	PROP_IS_POSSIBLE
 };
 
 enum {
@@ -674,6 +676,12 @@ attachment_set_property (GObject *object,
 				E_ATTACHMENT (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_IS_POSSIBLE:
+			e_attachment_set_is_possible (
+				E_ATTACHMENT (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -788,6 +796,13 @@ attachment_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_attachment_get_may_reload (
+				E_ATTACHMENT (object)));
+			return;
+
+		case PROP_IS_POSSIBLE:
+			g_value_set_boolean (
+				value,
+				e_attachment_get_is_possible (
 				E_ATTACHMENT (object)));
 			return;
 	}
@@ -1009,6 +1024,17 @@ e_attachment_class_init (EAttachmentClass *class)
 		g_param_spec_boolean (
 			"may-reload",
 			"May Reload",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_IS_POSSIBLE,
+		g_param_spec_boolean (
+			"is-possible",
+			"Is Possible",
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE |
@@ -1970,6 +1996,30 @@ e_attachment_get_may_reload (EAttachment *attachment)
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
 
 	return attachment->priv->may_reload;
+}
+
+/* This is meant only for the EMailDisplay, to mark "possible" attachments,
+   which are not necessarily real attachments, like inline images with a file name. */
+void
+e_attachment_set_is_possible (EAttachment *attachment,
+			      gboolean is_possible)
+{
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	if ((!attachment->priv->is_possible) == (!is_possible))
+		return;
+
+	attachment->priv->is_possible = is_possible;
+
+	g_object_notify (G_OBJECT (attachment), "is-possible");
+}
+
+gboolean
+e_attachment_get_is_possible (EAttachment *attachment)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+
+	return attachment->priv->is_possible;
 }
 
 /************************* e_attachment_load_async() *************************/

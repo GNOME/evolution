@@ -83,6 +83,13 @@ void		e_attachment_bar_set_attachments_visible
 						 gboolean value);
 gboolean	e_attachment_bar_get_attachments_visible
 						(EAttachmentBar *bar);
+void		e_attachment_bar_add_possible_attachment
+						(EAttachmentBar *self,
+						 EAttachment *attachment);
+void		e_attachment_bar_clear_possible_attachments
+						(EAttachmentBar *self);
+guint		e_attachment_bar_get_n_possible_attachments
+						(EAttachmentBar *self);
 
 G_END_DECLS
 

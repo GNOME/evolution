@@ -87,6 +87,11 @@ typedef enum { /*< flags >*/
 	E_MAIL_PART_VALIDITY_VERIFIED = 1 << 5
 } EMailPartValidityFlags;
 
+typedef enum { /*< flags >*/
+	E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE = 0,
+	E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_IS_POSSIBLE = 1 << 0
+} EMailParserWrapAttachmentFlags;
+
 G_END_DECLS
 
 #endif /* E_MAIL_FORMATTER_ENUMS_H */

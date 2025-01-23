@@ -32,6 +32,7 @@
 #define NUM_VIEWS 2
 
 struct _EAttachmentBarPrivate {
+	GPtrArray *possible_attachments; /* EAttachment *; these are not part of the attachment store, but can be added */
 	GtkTreeModel *model;
 	GtkWidget *content_area;
 	GtkWidget *attachments_area;
@@ -48,6 +49,9 @@ struct _EAttachmentBarPrivate {
 	GtkWidget *save_one_button;
 	GtkWidget *icon_scrolled_window; /* not referenced */
 	GtkWidget *tree_scrolled_window; /* not referenced */
+	GtkWidget *menu_button;
+	EUIAction *show_possible_action;
+	EUIAction *hide_possible_action;
 
 	gint active_view;
 	guint expanded : 1;
@@ -71,6 +75,54 @@ static void	e_attachment_bar_interface_init
 G_DEFINE_TYPE_WITH_CODE (EAttachmentBar, e_attachment_bar, GTK_TYPE_PANED,
 	G_ADD_PRIVATE (EAttachmentBar)
 	G_IMPLEMENT_INTERFACE (E_TYPE_ATTACHMENT_VIEW, e_attachment_bar_interface_init))
+
+static void
+attachment_bar_show_hide_possible (EAttachmentBar *self,
+				   gboolean show)
+{
+	EAttachmentStore *store;
+	guint ii;
+
+	if (!self->priv->possible_attachments || !self->priv->possible_attachments->len) {
+		e_ui_action_set_visible (self->priv->show_possible_action, FALSE);
+		e_ui_action_set_visible (self->priv->hide_possible_action, FALSE);
+		return;
+	}
+
+	e_ui_action_set_visible (self->priv->show_possible_action, !show);
+	e_ui_action_set_visible (self->priv->hide_possible_action, show);
+
+	store = e_attachment_bar_get_store (self);
+
+	for (ii = 0; ii < self->priv->possible_attachments->len; ii++) {
+		EAttachment *attach = g_ptr_array_index (self->priv->possible_attachments, ii);
+
+		if (show)
+			e_attachment_store_add_attachment (store, attach);
+		else
+			e_attachment_store_remove_attachment (store, attach);
+	}
+}
+
+static void
+action_show_possible_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
+{
+	EAttachmentBar *self = user_data;
+
+	attachment_bar_show_hide_possible (self, TRUE);
+}
+
+static void
+action_hide_possible_cb (EUIAction *action,
+			 GVariant *parameter,
+			 gpointer user_data)
+{
+	EAttachmentBar *self = user_data;
+
+	attachment_bar_show_hide_possible (self, FALSE);
+}
 
 static void
 attachment_bar_update_status (EAttachmentBar *bar)
@@ -317,6 +369,7 @@ attachment_bar_dispose (GObject *object)
 {
 	EAttachmentBar *self = E_ATTACHMENT_BAR (object);
 
+	g_clear_pointer (&self->priv->possible_attachments, g_ptr_array_unref);
 	g_clear_object (&self->priv->model);
 	g_clear_object (&self->priv->content_area);
 	g_clear_object (&self->priv->attachments_area);
@@ -331,6 +384,9 @@ attachment_bar_dispose (GObject *object)
 	g_clear_object (&self->priv->status_label);
 	g_clear_object (&self->priv->save_all_button);
 	g_clear_object (&self->priv->save_one_button);
+	g_clear_object (&self->priv->menu_button);
+	g_clear_object (&self->priv->show_possible_action);
+	g_clear_object (&self->priv->hide_possible_action);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_attachment_bar_parent_class)->dispose (object);
@@ -660,17 +716,43 @@ e_attachment_bar_interface_init (EAttachmentViewInterface *iface)
 static void
 e_attachment_bar_init (EAttachmentBar *bar)
 {
+	static const gchar *eui =
+		"<eui>"
+		  "<menu id='attach-bar-menu' is-popup='true'>"
+		    "<item action='attach-bar-show-possible'/>"
+		    "<item action='attach-bar-hide-possible'/>"
+		  "</menu>"
+		"</eui>";
+
+	static const EUIActionEntry entries[] = {
+		{ "attach-bar-show-possible",
+		  NULL,
+		  N_("_Show Inline Parts in Attachments"),
+		  NULL,
+		  NULL,
+		  action_show_possible_cb, NULL, NULL, NULL },
+
+		{ "attach-bar-hide-possible",
+		  NULL,
+		  N_("_Hide Inline Parts in Attachments"),
+		  NULL,
+		  NULL,
+		  action_hide_possible_cb, NULL, NULL, NULL }
+	};
+
 	EAttachmentView *view;
 	GtkSizeGroup *size_group;
 	GtkWidget *container;
 	GtkWidget *widget;
 	EUIAction *action;
 	EUIManager *ui_manager;
+	GObject *ui_object;
 	GtkAdjustment *adjustment;
 
 	gtk_widget_set_name (GTK_WIDGET (bar), "e-attachment-bar");
 
 	bar->priv = e_attachment_bar_get_instance_private (bar);
+	bar->priv->possible_attachments = g_ptr_array_new_with_free_func (g_object_unref);
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (bar), GTK_ORIENTATION_VERTICAL);
 
@@ -785,13 +867,26 @@ e_attachment_bar_init (EAttachmentBar *bar)
 
 	/* needed to be able to click the buttons */
 	ui_manager = e_attachment_view_get_ui_manager (view);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "attach-bar", NULL,
+		entries, G_N_ELEMENTS (entries), bar, eui);
 	e_ui_manager_add_action_groups_to_widget (ui_manager, container);
 
-	widget = gtk_alignment_new (1.0, 0.5, 0.0, 0.0);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
+	bar->priv->show_possible_action = g_object_ref (e_ui_manager_get_action (ui_manager, "attach-bar-show-possible"));
+	bar->priv->hide_possible_action = g_object_ref (e_ui_manager_get_action (ui_manager, "attach-bar-hide-possible"));
 
-	container = widget;
+	widget = gtk_menu_button_new ();
+	gtk_menu_button_set_use_popover (GTK_MENU_BUTTON (widget), FALSE);
+	gtk_menu_button_set_direction (GTK_MENU_BUTTON (widget), GTK_ARROW_NONE);
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	bar->priv->menu_button = g_object_ref (widget);
+	/* no possible attachments after create */
+	gtk_widget_set_visible (widget, FALSE);
+	e_ui_action_set_visible (bar->priv->show_possible_action, FALSE);
+	e_ui_action_set_visible (bar->priv->hide_possible_action, FALSE);
+
+	ui_object = e_ui_manager_create_item (ui_manager, "attach-bar-menu");
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (bar->priv->menu_button), G_MENU_MODEL (ui_object));
+	g_clear_object (&ui_object);
 
 	widget = gtk_combo_box_text_new ();
 	gtk_size_group_add_widget (size_group, widget);
@@ -799,7 +894,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 		GTK_COMBO_BOX_TEXT (widget), _("Icon View"));
 	gtk_combo_box_text_append_text (
 		GTK_COMBO_BOX_TEXT (widget), _("List View"));
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	bar->priv->combo_box = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -953,4 +1048,56 @@ e_attachment_bar_get_attachments_visible (EAttachmentBar *bar)
 	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), FALSE);
 
 	return bar->priv->info_vbox && gtk_widget_get_visible (bar->priv->info_vbox);
+}
+
+void
+e_attachment_bar_add_possible_attachment (EAttachmentBar *self,
+					  EAttachment *attachment)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_BAR (self));
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	if (!g_ptr_array_find (self->priv->possible_attachments, attachment, NULL)) {
+		g_ptr_array_add (self->priv->possible_attachments, g_object_ref (attachment));
+		if (self->priv->possible_attachments->len == 1) {
+			EAttachmentStore *store;
+
+			gtk_widget_set_visible (self->priv->menu_button, TRUE);
+			e_ui_action_set_visible (self->priv->show_possible_action, TRUE);
+			e_ui_action_set_visible (self->priv->hide_possible_action, FALSE);
+
+			/* this can change visibility of the attachment bar, which is tracked through the store */
+			store = e_attachment_bar_get_store (self);
+			if (store)
+				g_object_notify (G_OBJECT (store), "num-attachments");
+		}
+	}
+}
+
+void
+e_attachment_bar_clear_possible_attachments (EAttachmentBar *self)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_BAR (self));
+
+	if (self->priv->possible_attachments->len > 0) {
+		EAttachmentStore *store;
+
+		g_ptr_array_set_size (self->priv->possible_attachments, 0);
+		gtk_widget_set_visible (self->priv->menu_button, FALSE);
+		e_ui_action_set_visible (self->priv->show_possible_action, FALSE);
+		e_ui_action_set_visible (self->priv->hide_possible_action, FALSE);
+
+		/* this can change visibility of the attachment bar, which is tracked through the store */
+		store = e_attachment_bar_get_store (self);
+		if (store)
+			g_object_notify (G_OBJECT (store), "num-attachments");
+	}
+}
+
+guint
+e_attachment_bar_get_n_possible_attachments (EAttachmentBar *self)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (self), 0);
+
+	return self->priv->possible_attachments->len;
 }

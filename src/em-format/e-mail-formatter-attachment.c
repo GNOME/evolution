@@ -107,6 +107,11 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 
 		e_mail_formatter_claim_attachment (formatter, attachment);
 
+		if (e_attachment_get_is_possible (attachment)) {
+			g_object_unref (attachment);
+			return TRUE;
+		}
+
 		g_object_unref (attachment);
 	}
 

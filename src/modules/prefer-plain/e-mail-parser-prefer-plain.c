@@ -207,8 +207,7 @@ make_part_attachment (EMailParser *parser,
 
 		g_queue_push_tail (&work_queue, mail_part);
 
-		e_mail_parser_wrap_as_attachment (
-			parser, part, part_id, &work_queue);
+		e_mail_parser_wrap_as_attachment (parser, part, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, &work_queue);
 
 		if (!was_attachment && !force_html)
 			mark_parts_not_printable (&work_queue);
@@ -600,9 +599,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 					inner_part = e_mail_part_ref_mime_part (html_mail_part);
 
 					if (inner_part) {
-						e_mail_parser_wrap_as_attachment (
-							parser, inner_part, part_id,
-							&suppressed_queue);
+						e_mail_parser_wrap_as_attachment (parser, inner_part, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, &suppressed_queue);
 
 						mark_parts_not_printable (&suppressed_queue);
 
@@ -624,8 +621,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 			e_mail_parser_parse_part (
 				parser, sp, part_id,
 				cancellable, &attachments_queue);
-			e_mail_parser_wrap_as_attachment (
-				parser, sp, part_id, &attachments_queue);
+			e_mail_parser_wrap_as_attachment (parser, sp, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, &attachments_queue);
 		}
 	}
 

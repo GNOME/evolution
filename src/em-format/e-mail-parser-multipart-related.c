@@ -174,7 +174,12 @@ empe_mp_related_parse (EMailParserExtension *extension,
 				sub_partidlen = part_id->len;
 				g_string_append_printf (part_id, ".subpart.%d", subpart_index);
 
-				e_mail_parser_wrap_as_attachment (parser, body_part, part_id, &work_queue);
+				if (allow_as_attachment && e_mail_part_utils_body_refers (html_body, cid))
+					mail_part->is_hidden = TRUE;
+
+				e_mail_parser_wrap_as_attachment (parser, body_part, part_id,
+					allow_as_attachment ? E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_IS_POSSIBLE : E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE,
+					&work_queue);
 
 				g_string_truncate (part_id, sub_partidlen);
 			}

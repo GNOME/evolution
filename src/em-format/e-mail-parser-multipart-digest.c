@@ -99,8 +99,7 @@ empe_mp_digest_parse (EMailParserExtension *extension,
 
 			/* Force the message to be collapsable */
 			if (wrap_as_attachment)
-				e_mail_parser_wrap_as_attachment (
-					parser, subpart, part_id, &work_queue);
+				e_mail_parser_wrap_as_attachment (parser, subpart, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, &work_queue);
 
 			mail_part = g_queue_peek_head (&work_queue);
 

@@ -112,7 +112,7 @@ empe_msg_deliverystatus_parse (EMailParserExtension *extension,
 
 	/* The only reason for having a separate parser for
 	 * message/delivery-status is to display the part as an attachment */
-	e_mail_parser_wrap_as_attachment (ml_parser, part, part_id, &work_queue);
+	e_mail_parser_wrap_as_attachment (ml_parser, part, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, &work_queue);
 
 	if (!show_inline) {
 		GSettings *settings;

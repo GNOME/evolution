@@ -758,8 +758,7 @@ e_mail_parser_parse_part_as (EMailParser *parser,
 	parsers = e_mail_parser_get_parsers (parser, mime_type);
 
 	if (parsers == NULL) {
-		e_mail_parser_wrap_as_attachment (
-			parser, part, part_id, out_mail_parts);
+		e_mail_parser_wrap_as_attachment (parser, part, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, out_mail_parts);
 		return TRUE;
 	}
 
@@ -854,6 +853,7 @@ void
 e_mail_parser_wrap_as_attachment (EMailParser *parser,
                                   CamelMimePart *part,
                                   GString *part_id,
+				  EMailParserWrapAttachmentFlags flags,
                                   GQueue *parts_queue)
 {
 	EMailPartAttachment *empa;
@@ -920,6 +920,7 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	e_attachment_set_can_show (
 		attachment,
 		extensions && !g_queue_is_empty (extensions));
+	e_attachment_set_is_possible (attachment, (flags & E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_IS_POSSIBLE) != 0);
 
 	/* Try to guess size of the attachments */
 	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
@@ -979,7 +980,7 @@ e_mail_parser_wrap_as_non_expandable_attachment (EMailParser *parser,
 	g_return_if_fail (part_id != NULL);
 	g_return_if_fail (out_parts_queue != NULL);
 
-	e_mail_parser_wrap_as_attachment (parser, part, part_id, &work_queue);
+	e_mail_parser_wrap_as_attachment (parser, part, part_id, E_MAIL_PARSER_WRAP_ATTACHMENT_FLAG_NONE, &work_queue);
 
 	head = g_queue_peek_head_link (&work_queue);
 

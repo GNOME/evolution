@@ -138,6 +138,9 @@ gboolean	e_attachment_check_file_changed	(EAttachment *attachment,
 void		e_attachment_set_may_reload	(EAttachment *attachment,
 						 gboolean may_reload);
 gboolean	e_attachment_get_may_reload	(EAttachment *attachment);
+void		e_attachment_set_is_possible	(EAttachment *attachment,
+						 gboolean is_possible);
+gboolean	e_attachment_get_is_possible	(EAttachment *attachment);
 
 /* Asynchronous Operations */
 void		e_attachment_load_async		(EAttachment *attachment,

@@ -247,6 +247,11 @@ void		e_attachment_view_position_popover
 						(EAttachmentView *view,
 						 GtkPopover *popover,
 						 EAttachment *attachment);
+void		e_attachment_view_add_possible_attachment
+						(EAttachmentView *view,
+						 EAttachment *attachment);
+void		e_attachment_view_clear_possible_attachments
+						(EAttachmentView *view);
 
 G_END_DECLS
 

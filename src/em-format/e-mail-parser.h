@@ -106,6 +106,7 @@ void		e_mail_parser_wrap_as_attachment
 						(EMailParser *parser,
 						 CamelMimePart *part,
 						 GString *part_id,
+						 EMailParserWrapAttachmentFlags flags,
 						 GQueue *parts_queue);
 void		e_mail_parser_wrap_as_non_expandable_attachment
 						(EMailParser *parser,

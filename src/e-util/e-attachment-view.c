@@ -1246,11 +1246,8 @@ e_attachment_view_finalize (EAttachmentView *view)
 
 	priv = e_attachment_view_get_private (view);
 
-	g_list_foreach (priv->event_list, (GFunc) gdk_event_free, NULL);
-	g_list_free (priv->event_list);
-
-	g_list_foreach (priv->selected, (GFunc) g_object_unref, NULL);
-	g_list_free (priv->selected);
+	g_list_free_full (priv->event_list, (GDestroyNotify) gdk_event_free);
+	g_list_free_full (priv->selected, g_object_unref);
 }
 
 EAttachmentViewPrivate *
