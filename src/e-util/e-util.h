@@ -187,8 +187,6 @@
 #include <e-util/e-proxy-link-selector.h>
 #include <e-util/e-proxy-preferences.h>
 #include <e-util/e-proxy-selector.h>
-#include <e-util/e-reflow-model.h>
-#include <e-util/e-reflow.h>
 #include <e-util/e-rule-context.h>
 #include <e-util/e-rule-editor.h>
 #ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT

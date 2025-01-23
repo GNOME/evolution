@@ -228,8 +228,6 @@
     <xi:include href="xml/e-text-model.xml"/>
     <xi:include href="xml/e-text-event-processor.xml"/>
     <xi:include href="xml/e-text-event-processor-emacs-like.xml"/>
-    <xi:include href="xml/e-reflow.xml"/>
-    <xi:include href="xml/e-reflow-model.xml"/>
   </chapter>
 
   <chapter>

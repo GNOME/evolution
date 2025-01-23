@@ -200,8 +200,6 @@ set(SOURCES
 	e-proxy-link-selector.c
 	e-proxy-preferences.c
 	e-proxy-selector.c
-	e-reflow-model.c
-	e-reflow.c
 	e-rule-context.c
 	e-rule-editor.c
 	e-search-bar.c
@@ -483,8 +481,6 @@ set(HEADERS
 	e-proxy-link-selector.h
 	e-proxy-preferences.h
 	e-proxy-selector.h
-	e-reflow-model.h
-	e-reflow.h
 	e-rule-context.h
 	e-rule-editor.h
 	e-search-bar.h
