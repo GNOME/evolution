@@ -303,8 +303,8 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tree_view), FALSE);
 
-	gtk_scrolled_window_add_with_viewport (
-		GTK_SCROLLED_WINDOW (scrolled_window), tree_view);
+	gtk_container_add (
+		GTK_CONTAINER (scrolled_window), tree_view);
 	gtk_container_set_focus_vadjustment (
 		GTK_CONTAINER (tree_view),
 		gtk_scrolled_window_get_vadjustment (

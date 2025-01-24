@@ -805,8 +805,7 @@ build_dialog (GtkWindow *parent,
 	gtk_widget_set_size_request (scrolled_window, 50, 50);
 
 	container = gtk_dialog_get_content_area (gd);
-	gtk_scrolled_window_add_with_viewport (
-		GTK_SCROLLED_WINDOW (scrolled_window), wgrid);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), wgrid);
 	gtk_box_pack_start (
 		GTK_BOX (container), scrolled_window, TRUE, TRUE, 0);
 	gtk_widget_show (scrolled_window);

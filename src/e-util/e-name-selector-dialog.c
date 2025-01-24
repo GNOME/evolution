@@ -371,8 +371,7 @@ name_selector_dialog_constructed (GObject *object)
 		"column-spacing", 12,
 		NULL);
 	gtk_widget_show (hgrid);
-	gtk_scrolled_window_add_with_viewport (
-		GTK_SCROLLED_WINDOW (scrolledwindow0), hgrid);
+	gtk_container_add (GTK_CONTAINER (scrolledwindow0), hgrid);
 
 	label = gtk_label_new ("");
 	gtk_widget_show (label);

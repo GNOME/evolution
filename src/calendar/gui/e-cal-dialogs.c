@@ -786,7 +786,7 @@ e_cal_dialogs_prompt_retract (GtkWidget *parent,
 	gtk_scrolled_window_set_policy ((GtkScrolledWindow *) sw, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	entry = gtk_text_view_new ();
-	gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *) sw, entry);
+	gtk_container_add (GTK_CONTAINER (sw), entry);
 	gtk_label_set_mnemonic_widget ((GtkLabel *) label, entry);
 	gtk_container_add (GTK_CONTAINER (frame), sw);
 

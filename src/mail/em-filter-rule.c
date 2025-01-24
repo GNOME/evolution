@@ -1077,8 +1077,8 @@ get_widget (EFilterRule *fr,
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolledwindow),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_add_with_viewport (
-		GTK_SCROLLED_WINDOW (scrolledwindow), GTK_WIDGET (parts_grid));
+	gtk_container_add (
+		GTK_CONTAINER (scrolledwindow), GTK_WIDGET (parts_grid));
 
 	gtk_widget_set_hexpand (scrolledwindow, TRUE);
 	gtk_widget_set_halign (scrolledwindow, GTK_ALIGN_FILL);

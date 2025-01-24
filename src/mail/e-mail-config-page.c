@@ -171,7 +171,7 @@ e_mail_config_page_set_content (EMailConfigPage *page,
 	scrolled = GTK_SCROLLED_WINDOW (page);
 
 	if (content)
-		gtk_scrolled_window_add_with_viewport (scrolled, content);
+		gtk_container_add (GTK_CONTAINER (scrolled), content);
 
 	gtk_scrolled_window_set_policy (scrolled, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (scrolled, GTK_SHADOW_NONE);

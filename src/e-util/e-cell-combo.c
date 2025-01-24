@@ -169,8 +169,8 @@ e_cell_combo_init (ECellCombo *ecc)
 	selection = gtk_tree_view_get_selection (
 		GTK_TREE_VIEW (ecc->popup_tree_view));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	gtk_scrolled_window_add_with_viewport (
-		GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window),
+	gtk_container_add (
+		GTK_CONTAINER (ecc->popup_scrolled_window),
 		ecc->popup_tree_view);
 	gtk_container_set_focus_vadjustment (
 		GTK_CONTAINER (ecc->popup_tree_view),

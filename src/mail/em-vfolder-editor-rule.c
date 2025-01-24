@@ -930,7 +930,7 @@ get_widget (EFilterRule *fr,
 	column = gtk_tree_view_get_column (GTK_TREE_VIEW (tree_view), 0);
 	gtk_tree_view_column_set_expand (column, TRUE);
 
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), tree_view);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), tree_view);
 
 	vgrid = gtk_grid_new ();
 	g_object_set (

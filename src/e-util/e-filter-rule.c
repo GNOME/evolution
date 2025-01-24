@@ -1200,8 +1200,7 @@ filter_rule_get_widget (EFilterRule *rule,
 		GTK_SCROLLED_WINDOW (scrolledwindow),
 		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-	gtk_scrolled_window_add_with_viewport (
-		GTK_SCROLLED_WINDOW (scrolledwindow), GTK_WIDGET (parts_grid));
+	gtk_container_add (GTK_CONTAINER (scrolledwindow), GTK_WIDGET (parts_grid));
 
 	gtk_widget_set_vexpand (scrolledwindow, TRUE);
 	gtk_widget_set_valign (scrolledwindow, GTK_ALIGN_FILL);
