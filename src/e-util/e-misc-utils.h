@@ -287,9 +287,6 @@ void		e_util_init_main_thread		(GThread *thread);
 gboolean	e_util_is_main_thread		(GThread *thread);
 gchar *		e_util_save_image_from_clipboard
 						(GtkClipboard *clipboard);
-gboolean	e_util_check_gtk_bindings_in_key_press_event_cb
-						(GtkWidget *widget,
-						 GdkEvent *event);
 void		e_util_save_file_chooser_folder	(GtkFileChooser *file_chooser);
 void		e_util_load_file_chooser_folder	(GtkFileChooser *file_chooser);
 gboolean	e_util_get_webkit_developer_mode_enabled
