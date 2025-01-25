@@ -4544,7 +4544,7 @@ em_utils_reply_alternative (GtkWindow *parent,
 	gtk_box_pack_start (vbox, GTK_WIDGET (grid), TRUE, TRUE, 0);
 
 	#define add_with_indent(x, _cols) \
-		gtk_widget_set_margin_left (GTK_WIDGET (x), 12); \
+		gtk_widget_set_margin_start (GTK_WIDGET (x), 12); \
 		gtk_grid_attach (grid, GTK_WIDGET (x), 0, row, (_cols), 1); \
 		row++;
 

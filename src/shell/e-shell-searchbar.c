@@ -916,7 +916,7 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	box = GTK_BOX (searchbar);
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 

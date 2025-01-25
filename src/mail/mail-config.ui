@@ -1397,8 +1397,8 @@
           <object class="GtkFrame" id="sao-folders-frame">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">12</property>
-            <property name="margin_right">6</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">6</property>
             <property name="margin_top">6</property>
             <property name="margin_bottom">6</property>
             <property name="hexpand">True</property>
@@ -1421,8 +1421,8 @@
                       <object class="GtkButtonBox" id="sao-folders-bbox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">30</property>
-                        <property name="margin_right">30</property>
+                        <property name="margin_start">30</property>
+                        <property name="margin_end">30</property>
                         <property name="spacing">2</property>
                         <property name="layout_style">center</property>
                         <child>
@@ -1494,8 +1494,8 @@
               <object class="GtkLabel" id="sao-folders-frame-label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">6</property>
-                <property name="margin_right">6</property>
+                <property name="margin_start">6</property>
+                <property name="margin_end">6</property>
                 <property name="label" translatable="yes" comments="Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides">Use for Folders</property>
               </object>
             </child>
@@ -1509,8 +1509,8 @@
           <object class="GtkFrame" id="sao-recipients-frame">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">6</property>
-            <property name="margin_right">6</property>
+            <property name="margin_start">6</property>
+            <property name="margin_end">6</property>
             <property name="margin_top">6</property>
             <property name="margin_bottom">6</property>
             <property name="hexpand">True</property>
@@ -1618,8 +1618,8 @@
               <object class="GtkLabel" id="sao-recipients-frame-label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">6</property>
-                <property name="margin_right">6</property>
+                <property name="margin_start">6</property>
+                <property name="margin_end">6</property>
                 <property name="label" translatable="yes" comments="Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides">Use for Recipients</property>
               </object>
             </child>
@@ -1633,8 +1633,8 @@
           <object class="GtkFrame" id="sao-account-frame">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">12</property>
-            <property name="margin_right">6</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">6</property>
             <property name="margin_top">6</property>
             <property name="margin_bottom">6</property>
             <property name="hexpand">True</property>
@@ -1674,8 +1674,8 @@
               <object class="GtkLabel" id="sao-account-label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">6</property>
-                <property name="margin_right">6</property>
+                <property name="margin_start">6</property>
+                <property name="margin_end">6</property>
                 <property name="label" translatable="yes" comments="Translators: Label of a frame with a list of configured accounts in Send account overrides">Account</property>
               </object>
             </child>
@@ -1707,8 +1707,8 @@
           <object class="GtkLabel" id="sao-info-label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">12</property>
-            <property name="margin_right">6</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">6</property>
             <property name="margin_top">6</property>
             <property name="margin_bottom">6</property>
             <property name="label" translatable="yes">Assign which account should be used as a send account for respective folders or recipients, an override for usual send account detection. List of recipients can contain partial addresses or names. The name and the address parts are compared separately.</property>
@@ -1727,7 +1727,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
-            <property name="margin_left">12</property>
+            <property name="margin_start">12</property>
             <property name="use_underline">True</property>
             <property name="xalign">0</property>
             <property name="draw_indicator">True</property>
@@ -2773,7 +2773,7 @@
           <object class="GtkBox" id="RCAllowBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">12</property>
+            <property name="margin_start">12</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <property name="baseline_position">top</property>
@@ -2873,8 +2873,8 @@
               <object class="GtkSeparator" id="RCAllowSeparator">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">2</property>
-                <property name="margin_right">2</property>
+                <property name="margin_start">2</property>
+                <property name="margin_end">2</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -3172,7 +3172,7 @@
                 <property name="use_underline">True</property>
                 <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
-                <property name="margin-left">12</property>
+                <property name="margin-start">12</property>
               </object>
               <packing>
                 <property name="expand">False</property>

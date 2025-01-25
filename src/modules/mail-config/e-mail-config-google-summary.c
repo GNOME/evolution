@@ -298,7 +298,7 @@ mail_config_google_summary_constructed (GObject *object)
 	text = _("Add Ca_lendar to this account");
 	widget = gtk_check_button_new_with_mnemonic (text);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	extension->priv->calendar_toggle = widget;  /* not referenced */
 	gtk_widget_show (widget);
@@ -307,7 +307,7 @@ mail_config_google_summary_constructed (GObject *object)
 		text = _("Add Con_tacts to this account");
 		widget = gtk_check_button_new_with_mnemonic (text);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-		gtk_widget_set_margin_left (widget, 12);
+		gtk_widget_set_margin_start (widget, 12);
 		gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
 		extension->priv->contacts_toggle = widget;  /* not referenced */
 		gtk_widget_show (widget);
@@ -325,7 +325,7 @@ mail_config_google_summary_constructed (GObject *object)
 
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	if (mail_config_google_summary_is_oauth2_supported ())
 		gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 1, 1);

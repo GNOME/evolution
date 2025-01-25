@@ -404,7 +404,7 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	/* Scope: cell */
 	widget = gtk_radio_button_new_with_mnemonic (NULL, _("C_ell"));
@@ -455,7 +455,7 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	/* Horizontal */
 	widget = gtk_combo_box_text_new ();
@@ -524,7 +524,7 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 5, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	/* Width */
 	widget = gtk_check_button_new_with_mnemonic (_("_Width"));
@@ -596,7 +596,7 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 7, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	/* Color */
 	widget = e_color_combo_new ();

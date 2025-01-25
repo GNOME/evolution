@@ -155,7 +155,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	g_free (markup);
 
 	widget = gtk_grid_new ();
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
 	gtk_box_pack_start (GTK_BOX (parent), widget, FALSE, FALSE, 0);
@@ -217,7 +217,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	g_free (markup);
 
 	widget = gtk_grid_new ();
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
 	gtk_box_pack_start (GTK_BOX (parent), widget, FALSE, FALSE, 0);
@@ -273,7 +273,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		G_BINDING_SYNC_CREATE);
 
 	widget = gtk_grid_new ();
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
 	gtk_box_pack_start (GTK_BOX (parent), widget, FALSE, FALSE, 0);

@@ -69,8 +69,8 @@ mail_config_provider_page_handle_dependency (CamelSettings *settings,
 		binding_flags);
 
 	/* Further indent the widget to show its dependency. */
-	margin = gtk_widget_get_margin_left (widget);
-	gtk_widget_set_margin_left (widget, margin + DEPENDENCY_MARGIN);
+	margin = gtk_widget_get_margin_start (widget);
+	gtk_widget_set_margin_start (widget, margin + DEPENDENCY_MARGIN);
 }
 
 static void
@@ -109,7 +109,7 @@ mail_config_provider_page_add_checkbox (GtkBox *main_box,
 	g_return_if_fail (entry->text != NULL);
 
 	widget = gtk_check_button_new_with_mnemonic (entry->text);
-	gtk_widget_set_margin_left (widget, STANDARD_MARGIN);
+	gtk_widget_set_margin_start (widget, STANDARD_MARGIN);
 	gtk_box_pack_start (main_box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -244,7 +244,7 @@ mail_config_provider_page_add_checkspin (GtkBox *main_box,
 	}
 
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
-	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
+	gtk_widget_set_margin_start (hbox, STANDARD_MARGIN);
 	gtk_box_pack_start (main_box, hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
@@ -304,7 +304,7 @@ mail_config_provider_page_add_entry (GtkBox *main_box,
 
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_set_spacing (GTK_BOX (hbox), 6);
-	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
+	gtk_widget_set_margin_start (hbox, STANDARD_MARGIN);
 	gtk_box_pack_start (main_box, hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
@@ -344,7 +344,7 @@ mail_config_provider_page_add_label (GtkBox *main_box,
 
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_set_spacing (GTK_BOX (hbox), 6);
-	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
+	gtk_widget_set_margin_start (hbox, STANDARD_MARGIN);
 	gtk_box_pack_start (main_box, hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
@@ -382,7 +382,7 @@ mail_config_provider_page_add_options (GtkBox *main_box,
 
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_set_spacing (GTK_BOX (hbox), 6);
-	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
+	gtk_widget_set_margin_start (hbox, STANDARD_MARGIN);
 	gtk_box_pack_start (main_box, hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
@@ -454,7 +454,7 @@ mail_config_provider_page_add_placeholder (GtkBox *main_box,
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_set_name (hbox, entry->name);
 	gtk_box_set_spacing (GTK_BOX (hbox), 6);
-	gtk_widget_set_margin_left (hbox, STANDARD_MARGIN);
+	gtk_widget_set_margin_start (hbox, STANDARD_MARGIN);
 	gtk_box_pack_start (main_box, hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
@@ -471,7 +471,7 @@ mail_config_provider_page_add_advanced_section (GtkBox *main_box,
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_set_spacing (GTK_BOX (vbox), 6);
-	gtk_widget_set_margin_left (vbox, STANDARD_MARGIN);
+	gtk_widget_set_margin_start (vbox, STANDARD_MARGIN);
 	gtk_widget_show (vbox);
 
 	label = entry->text;
@@ -651,7 +651,7 @@ mail_config_provider_page_add_widgets (EMailConfigProviderPage *page,
 	g_free (markup);
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_widget_set_margin_left (widget, STANDARD_MARGIN);
+	gtk_widget_set_margin_start (widget, STANDARD_MARGIN);
 	gtk_box_pack_start (main_box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

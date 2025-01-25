@@ -417,7 +417,7 @@ mail_config_composing_page_constructed (GObject *object)
 
 	text = _("Alway_s carbon-copy (cc) to:");
 	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 2, 1);
 	gtk_widget_show (widget);
@@ -426,7 +426,7 @@ mail_config_composing_page_constructed (GObject *object)
 
 	widget = gtk_entry_new ();
 	gtk_widget_set_hexpand (widget, TRUE);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 2, 1);
 	gtk_widget_show (widget);
@@ -442,7 +442,7 @@ mail_config_composing_page_constructed (GObject *object)
 
 	text = _("Always _blind carbon-copy (bcc) to:");
 	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 2, 1);
 	gtk_widget_show (widget);
@@ -451,7 +451,7 @@ mail_config_composing_page_constructed (GObject *object)
 
 	widget = gtk_entry_new ();
 	gtk_widget_set_hexpand (widget, TRUE);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 2, 1);
 	gtk_widget_show (widget);
@@ -468,7 +468,7 @@ mail_config_composing_page_constructed (GObject *object)
 	text = _("Re_ply style:");
 	widget = gtk_label_new_with_mnemonic (text);
 	gtk_widget_set_hexpand (widget, FALSE);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 1, 1);
 	gtk_widget_show (widget);
@@ -495,7 +495,7 @@ mail_config_composing_page_constructed (GObject *object)
 
 	widget = gtk_label_new_with_mnemonic (_("Lang_uage:"));
 	gtk_widget_set_hexpand (widget, FALSE);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_widget_set_tooltip_text (widget, _("Language for Reply and Forward attribution text"));
 	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 6, 1, 1);
@@ -523,14 +523,14 @@ mail_config_composing_page_constructed (GObject *object)
 		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
 
 	widget = gtk_check_button_new_with_mnemonic (_("Start _typing at the bottom"));
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	mail_config_composing_page_setup_three_state_value (composition_ext, "start-bottom", widget);
 
 	widget = gtk_check_button_new_with_mnemonic (_("_Keep signature above the original message"));
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -557,7 +557,7 @@ mail_config_composing_page_constructed (GObject *object)
 
 	text = _("S_end message receipts:");
 	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);

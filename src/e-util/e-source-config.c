@@ -1509,7 +1509,7 @@ e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
 
 	widget = gtk_button_new_with_mnemonic (
 		_("Unset _trust for SSL/TLS certificate"));
-	gtk_widget_set_margin_left (widget, collection_source ? 0 : 24);
+	gtk_widget_set_margin_start (widget, collection_source ? 0 : 24);
 	e_source_config_insert_widget (config, scratch_source, NULL, widget);
 	gtk_widget_show (widget);
 

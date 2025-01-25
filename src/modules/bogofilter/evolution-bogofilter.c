@@ -377,7 +377,7 @@ bogofilter_new_config_widget (EMailJunkFilter *junk_filter)
 
 	widget = gtk_check_button_new_with_mnemonic (
 		_("Convert message text to _Unicode"));
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

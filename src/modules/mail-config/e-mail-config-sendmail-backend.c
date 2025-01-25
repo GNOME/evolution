@@ -63,7 +63,7 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	g_free (markup);
 
 	widget = gtk_grid_new ();
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
 	gtk_box_pack_start (GTK_BOX (parent), widget, FALSE, FALSE, 0);
@@ -75,7 +75,7 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	use_custom_binary_check = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Custom binary:"));
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	label = GTK_LABEL (widget);
 
@@ -98,7 +98,7 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	use_custom_args_check = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("Cus_tom arguments:"));
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 1, 1);
 	label = GTK_LABEL (widget);
 

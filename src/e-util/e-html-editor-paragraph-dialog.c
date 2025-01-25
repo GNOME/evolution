@@ -65,7 +65,7 @@ html_editor_paragraph_dialog_constructed (GObject *object)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	/* Style */
 	widget = e_action_combo_box_new_with_action (e_html_editor_get_action (editor, "style-normal"));
@@ -88,7 +88,7 @@ html_editor_paragraph_dialog_constructed (GObject *object)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	/* Left */
 	widget = gtk_toggle_button_new_with_label (_("_Left"));

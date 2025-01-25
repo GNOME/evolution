@@ -1295,7 +1295,7 @@ mail_cert_edit_trust (GtkWidget *parent,
 
 	#define add_radio(_radio, _title, _trust) G_STMT_START { \
 		_radio = gtk_radio_button_new_with_mnemonic (runknown ? gtk_radio_button_get_group (GTK_RADIO_BUTTON (runknown)) : NULL, _title); \
-		gtk_widget_set_margin_left (_radio, 12); \
+		gtk_widget_set_margin_start (_radio, 12); \
 		if (camel_cert->trust == (_trust)) \
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_radio), TRUE); \
 		gtk_grid_attach (grid, _radio, 0, row, 1, 1); \

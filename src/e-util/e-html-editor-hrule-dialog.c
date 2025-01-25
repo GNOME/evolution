@@ -236,7 +236,7 @@ e_html_editor_hrule_dialog_init (EHTMLEditorHRuleDialog *dialog)
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_set_row_spacing (grid, 5);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
 
 	/* Width */
@@ -288,7 +288,7 @@ e_html_editor_hrule_dialog_init (EHTMLEditorHRuleDialog *dialog)
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_set_row_spacing (grid, 5);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
 
 	/* Alignment */

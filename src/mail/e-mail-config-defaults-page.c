@@ -660,7 +660,7 @@ mail_config_defaults_page_constructed (GObject *object)
 
 	text = _("Draft Messages _Folder:");
 	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, row, 1, 1);
@@ -688,7 +688,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	text = _("Sent _Messages Folder:");
 	widget = gtk_label_new_with_mnemonic (text);
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, row, 1, 1);
 	gtk_widget_show (widget);
@@ -760,7 +760,7 @@ mail_config_defaults_page_constructed (GObject *object)
 
 	text = _("Archi_ve Folder:");
 	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, row, 1, 1);
@@ -786,7 +786,7 @@ mail_config_defaults_page_constructed (GObject *object)
 
 	text = _("_Templates Folder:");
 	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, row, 1, 1);

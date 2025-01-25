@@ -740,7 +740,7 @@ source_viewer_constructed (GObject *object)
 
 	widget = gtk_notebook_new ();
 	gtk_widget_set_margin_top (widget, 3);
-	gtk_widget_set_margin_right (widget, 3);
+	gtk_widget_set_margin_end (widget, 3);
 	gtk_widget_set_margin_bottom (widget, 3);
 	/* leave left margin at zero */
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
