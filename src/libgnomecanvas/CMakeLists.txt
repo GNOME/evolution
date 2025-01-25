@@ -4,13 +4,10 @@ set(SOURCES
 	gailcanvasgroupfactory.c
 	gailcanvasitem.c
 	gailcanvasitemfactory.c
-	gailcanvastext.c
-	gailcanvastextfactory.c
 	gailcanvaswidget.c
 	gailcanvaswidgetfactory.c
 	gnome-canvas-pixbuf.c
 	gnome-canvas-rect.c
-	gnome-canvas-text.c
 	gnome-canvas-util.c
 	gnome-canvas-widget.c
 	gnome-canvas.c
@@ -22,13 +19,10 @@ set(HEADERS
 	gailcanvasgroupfactory.h
 	gailcanvasitem.h
 	gailcanvasitemfactory.h
-	gailcanvastext.h
-	gailcanvastextfactory.h
 	gailcanvaswidget.h
 	gailcanvaswidgetfactory.h
 	gnome-canvas-pixbuf.h
 	gnome-canvas-rect.h
-	gnome-canvas-text.h
 	gnome-canvas-util.h
 	gnome-canvas-widget.h
 	gnome-canvas.h
