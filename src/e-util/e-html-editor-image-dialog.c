@@ -550,7 +550,7 @@ e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	file_filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (file_filter, _("Images"));
@@ -605,7 +605,7 @@ e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	/* Width */
 	widget = gtk_spin_button_new_with_range (1, G_MAXUINT, 1);
@@ -729,7 +729,7 @@ e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 6, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	widget = gtk_entry_new ();
 	gtk_grid_attach (grid, widget, 1 ,0, 1, 1);

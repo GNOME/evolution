@@ -501,7 +501,7 @@ e_html_editor_table_dialog_init (EHTMLEditorTableDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	/* Rows */
 	widget = gtk_spin_button_new_with_range (1, G_MAXINT, 1);
@@ -541,7 +541,7 @@ e_html_editor_table_dialog_init (EHTMLEditorTableDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	/* Width */
 	widget = gtk_check_button_new_with_mnemonic (_("_Width:"));
@@ -645,7 +645,7 @@ e_html_editor_table_dialog_init (EHTMLEditorTableDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 5, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	/* Color */
 	widget = e_color_combo_new ();

@@ -276,7 +276,7 @@ mail_junk_options_constructed (GObject *object)
 
 	widget = gtk_label_new (_("Junk filtering software:"));
 	gtk_label_set_xalign (GTK_LABEL (widget), 0);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_attach (GTK_GRID (object), widget, 0, 0, 1, 1);
 	self->priv->label = widget;  /* not referenced */
 	gtk_widget_show (widget);

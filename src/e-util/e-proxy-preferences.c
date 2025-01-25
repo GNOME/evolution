@@ -475,7 +475,7 @@ proxy_preferences_constructed (GObject *object)
 	pango_attr_list_unref (attr_list);
 
 	widget = e_proxy_editor_new (registry);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_widget_set_valign (widget, GTK_ALIGN_START);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
 	preferences->priv->proxy_editor = widget;  /* do not reference */
@@ -488,7 +488,7 @@ proxy_preferences_constructed (GObject *object)
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_widget_set_halign (widget, GTK_ALIGN_START);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_widget_set_vexpand (widget, TRUE);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
 

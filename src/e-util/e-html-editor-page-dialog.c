@@ -399,7 +399,7 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	/* Text */
 	widget = e_color_combo_new ();
@@ -472,7 +472,7 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	widget = e_html_editor_util_create_font_name_combo ();
 	g_signal_connect_swapped (
@@ -497,7 +497,7 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 5, 1, 1);
-	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+	gtk_widget_set_margin_start (GTK_WIDGET (grid), 10);
 
 	/* Template */
 	widget = gtk_combo_box_text_new ();

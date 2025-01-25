@@ -2111,7 +2111,7 @@ collection_account_wizard_constructed (GObject *object)
 	g_free (markup);
 
 	label = gtk_label_new_with_mnemonic (_("_Name:"));
-	gtk_widget_set_margin_left (label, 12);
+	gtk_widget_set_margin_start (label, 12);
 	gtk_label_set_xalign (GTK_LABEL (label), 1.0);
 	gtk_grid_attach (grid, label, 0, 1, 1, 1);
 	gtk_widget_show (label);

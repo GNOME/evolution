@@ -145,7 +145,7 @@ main (gint argc,
 	gtk_widget_show (widget);
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
@@ -189,7 +189,7 @@ main (gint argc,
 	gtk_widget_show (widget);
 
 	widget = e_mail_signature_manager_new (registry);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 

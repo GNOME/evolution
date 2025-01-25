@@ -459,7 +459,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("_Do not sign meeting requests (for Outlook compatibility)");
 	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 
@@ -491,7 +491,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("OpenPGP _Key ID:");
 	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
@@ -524,7 +524,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("Si_gning algorithm:");
 	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
@@ -565,7 +565,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("Al_ways sign outgoing messages when using this account");
 	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 2, 1);
 	gtk_widget_show (widget);
 
@@ -577,7 +577,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("Always enc_rypt outgoing messages when using this account");
 	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 2, 1);
 	gtk_widget_show (widget);
 
@@ -589,7 +589,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("Always encrypt to _myself when sending encrypted messages");
 	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 2, 1);
 	gtk_widget_show (widget);
 
@@ -732,7 +732,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("Sig_ning certificate:");
 	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
@@ -774,7 +774,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("Signing _algorithm:");
 	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
@@ -815,7 +815,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("Always sign outgoing messages when using this account");
 	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 4, 1);
 	gtk_widget_show (widget);
 
@@ -830,7 +830,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("Encryption certificate:");
 	widget = gtk_label_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 1, 1);
@@ -872,7 +872,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("Always encrypt outgoing messages when using this account");
 	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 4, 1);
 	gtk_widget_show (widget);
 
@@ -884,7 +884,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("Always encrypt to myself when sending encrypted messages");
 	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 6, 4, 1);
 	gtk_widget_show (widget);
 

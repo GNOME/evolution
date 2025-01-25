@@ -838,7 +838,7 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 		"halign", GTK_ALIGN_START,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_START,
-		"margin-right", 12,
+		"margin-end", 12,
 		NULL);
 	gtk_container_add (container, widget);
 

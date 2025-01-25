@@ -476,7 +476,7 @@ mail_config_service_page_constructed (GObject *object)
 	pango_attr_list_insert (attr_list, attr);
 
 	widget = gtk_label_new_with_mnemonic (_("Server _Type:"));
-	gtk_widget_set_margin_right (widget, 12);
+	gtk_widget_set_margin_end (widget, 12);
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
 	gtk_widget_show (widget);
@@ -508,7 +508,7 @@ mail_config_service_page_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (_("Description:"));
-	gtk_widget_set_margin_right (widget, 12);
+	gtk_widget_set_margin_end (widget, 12);
 	gtk_label_set_xalign (GTK_LABEL (widget), 1.0);
 	gtk_label_set_yalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);

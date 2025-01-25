@@ -919,8 +919,8 @@ ecep_attachments_constructed (GObject *object)
 	container = widget;
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_widget_set_margin_right (widget, 6);
-	gtk_widget_set_margin_left (widget, 6);
+	gtk_widget_set_margin_end (widget, 6);
+	gtk_widget_set_margin_start (widget, 6);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

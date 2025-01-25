@@ -733,7 +733,7 @@ emfp_get_folder_item (EConfig *ec,
 		"allow-aliases", TRUE,
 		NULL);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_widget_show (widget);
 	gtk_table_attach (
 		GTK_TABLE (table), widget,
@@ -965,7 +965,7 @@ emfp_get_autoarchive_item (EConfig *ec,
 		NULL);
 
 	label = gtk_label_new ("");
-	g_object_set (G_OBJECT (label), "margin-left", 12, NULL);
+	g_object_set (G_OBJECT (label), "margin-start", 12, NULL);
 	gtk_grid_attach (grid, label, 0, 1, 1, 3);
 
 	/* Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]" */
@@ -1401,7 +1401,7 @@ emfp_get_labels_item (EConfig *ec,
 
 	widget = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_START);
-	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_margin_start (widget, 12);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 
 	add_btn = e_dialog_button_new_with_icon ("list-add", _("_Add"));
