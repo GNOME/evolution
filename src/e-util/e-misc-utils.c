@@ -3334,13 +3334,6 @@ e_util_save_image_from_clipboard (GtkClipboard *clipboard)
 	return uri;
 }
 
-static void
-e_util_stop_signal_emission_cb (gpointer instance,
-				const gchar *signal_name)
-{
-	g_signal_stop_emission_by_name (instance, signal_name);
-}
-
 /**
  * e_util_save_file_chooser_folder:
  * @file_chooser: a #GtkFileChooser
