@@ -140,6 +140,10 @@ void		em_utils_print_part_list	(EMailPartList *part_list,
 gboolean	em_utils_print_part_list_finish	(GObject *source_object,
 						 GAsyncResult *result,
 						 GError **error);
+gchar *		em_utils_select_folder_for_copy_move_message
+						(GtkWindow *parent,
+						 gboolean is_move,
+						 CamelFolder *folder); /* optional */
 
 G_END_DECLS
 

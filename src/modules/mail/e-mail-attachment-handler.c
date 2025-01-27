@@ -320,6 +320,130 @@ mail_attachment_handler_message_edit (EUIAction *action,
 	e_msg_composer_new (shell, mail_attachment_handler_composer_created_cb, ccd);
 }
 
+static EAlertSink *
+mail_attachment_handler_find_alert_sink (EMailAttachmentHandler *self)
+{
+	GtkWidget *parent, *mail_reader = NULL;
+	EAlertSink *alert_sink = NULL;
+	EAttachmentView *view;
+
+	view = e_attachment_handler_get_view (E_ATTACHMENT_HANDLER (self));
+
+	for (parent = gtk_widget_get_parent (GTK_WIDGET (view)); parent && !alert_sink; parent = gtk_widget_get_parent (parent)) {
+		if (E_IS_ALERT_SINK (parent))
+			alert_sink = E_ALERT_SINK (parent);
+		if (E_IS_MAIL_READER (parent))
+			mail_reader = parent;
+	}
+
+	if (!alert_sink && mail_reader)
+		alert_sink = e_mail_reader_get_alert_sink (E_MAIL_READER (mail_reader));
+
+	return alert_sink ? alert_sink : NULL;
+}
+
+typedef struct _SaveToFolderData {
+	EMailSession *session;
+	CamelMimeMessage *message;
+	gchar *dest_folder_uri;
+} SaveToFolderData;
+
+static void
+save_to_folder_data_free (gpointer ptr)
+{
+	SaveToFolderData *stf = ptr;
+
+	if (stf) {
+		g_clear_object (&stf->session);
+		g_clear_object (&stf->message);
+		g_free (stf->dest_folder_uri);
+		g_free (stf);
+	}
+}
+
+static void
+mail_attachment_handler_save_to_folder_thread_cb (EAlertSinkThreadJobData *job_data,
+						  gpointer user_data,
+						  GCancellable *cancellable,
+						  GError **error)
+{
+	SaveToFolderData *stf = user_data;
+	CamelFolder *folder;
+	gchar *full_display_name;
+
+	folder = e_mail_session_uri_to_folder_sync (stf->session, stf->dest_folder_uri,
+		CAMEL_STORE_FOLDER_CREATE, cancellable, error);
+	if (!folder)
+		return;
+
+	full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
+	camel_operation_push_message (
+		cancellable,
+		_("Saving message to folder “%s”"),
+		full_display_name ? full_display_name : camel_folder_get_display_name (folder));
+	g_free (full_display_name);
+
+	camel_folder_append_message_sync (folder, stf->message, NULL, NULL, cancellable, error);
+
+	g_clear_object (&folder);
+}
+
+static void
+mail_attachment_handler_message_save_to_folder (EUIAction *action,
+						GVariant *parameter,
+						gpointer user_data)
+{
+	EAttachmentHandler *handler = user_data;
+	EMailAttachmentHandler *self = E_MAIL_ATTACHMENT_HANDLER (handler);
+	CamelMimeMessage *message;
+	GtkWidget *widget;
+	gchar *dest_folder_uri;
+
+	message = mail_attachment_handler_get_selected_message (handler);
+	g_return_if_fail (message != NULL);
+
+	widget = gtk_widget_get_toplevel (GTK_WIDGET (e_attachment_handler_get_view (handler)));
+
+	dest_folder_uri = em_utils_select_folder_for_copy_move_message (GTK_IS_WINDOW (widget) ? GTK_WINDOW (widget) : NULL, FALSE, NULL);
+	if (dest_folder_uri) {
+		EAlertSink *alert_sink;
+
+		alert_sink = mail_attachment_handler_find_alert_sink (self);
+
+		if (alert_sink) {
+			EActivity *activity;
+			EMailSession *session;
+			SaveToFolderData *stf;
+
+			session = e_mail_backend_get_session (self->priv->backend);
+
+			stf = g_new0 (SaveToFolderData, 1);
+			stf->session = g_object_ref (session);
+			stf->message = g_steal_pointer (&message);
+			stf->dest_folder_uri = g_steal_pointer (&dest_folder_uri);
+
+			activity = e_alert_sink_submit_thread_job (
+				alert_sink,
+				_("Saving message…"),
+				"system:generic-error",
+				_("Failed to save message to folder."),
+				mail_attachment_handler_save_to_folder_thread_cb,
+				stf,
+				save_to_folder_data_free);
+
+			if (activity) {
+				e_shell_backend_add_activity (E_SHELL_BACKEND (self->priv->backend), activity);
+				g_clear_object (&activity);
+			}
+		} else {
+			g_warning ("Failed to get alert sink");
+		}
+	}
+
+	g_clear_object (&message);
+	g_free (dest_folder_uri);
+}
+
 static void
 mail_attachment_handler_forward_attached (EUIAction *action,
 					  GVariant *parameter,
@@ -407,13 +531,14 @@ action_mail_import_pgp_key_cb (EUIAction *action,
 	part = e_attachment_ref_mime_part (attachment);
 
 	if (part) {
+		EMailAttachmentHandler *self = E_MAIL_ATTACHMENT_HANDLER (handler);
 		CamelMimePart *mime_part;
 		CamelSession *session;
 		CamelStream *stream;
 		GByteArray *buffer;
 		GError *error = NULL;
 
-		session = CAMEL_SESSION (e_mail_backend_get_session (E_MAIL_ATTACHMENT_HANDLER (handler)->priv->backend));
+		session = CAMEL_SESSION (e_mail_backend_get_session (self->priv->backend));
 		mime_part = e_attachment_ref_mime_part (attachment);
 
 		buffer = g_byte_array_new ();
@@ -424,15 +549,12 @@ action_mail_import_pgp_key_cb (EUIAction *action,
 
 		if (!em_utils_import_pgp_key (parent_window, session, buffer->data, buffer->len, &error) &&
 		    !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-			GtkWidget *parent, *alert_sink = NULL;
+			EAlertSink *alert_sink;
 
-			for (parent = gtk_widget_get_parent (GTK_WIDGET (view)); parent && !alert_sink; parent = gtk_widget_get_parent (parent)) {
-				if (E_IS_ALERT_SINK (parent))
-					alert_sink = parent;
-			}
+			alert_sink = mail_attachment_handler_find_alert_sink (self);
 
 			if (alert_sink)
-				e_alert_submit (E_ALERT_SINK (alert_sink), "mail:error-import-pgp-key", error ? error->message : _("Unknown error"), NULL);
+				e_alert_submit (alert_sink, "mail:error-import-pgp-key", error ? error->message : _("Unknown error"), NULL);
 			else
 				g_warning ("Failed to import PGP key: %s", error ? error->message : "Unknown error");
 		}
@@ -764,6 +886,7 @@ mail_attachment_handler_constructed (GObject *object)
 		      "<item action='mail-import-pgp-key'/>"
 		      "<separator/>"
 		      "<item action='mail-message-edit'/>"
+		      "<item action='mail-message-save-to-folder'/>"
 		      "<separator/>"
 		      "<item action='mail-reply-sender'/>"
 		      "<item action='mail-reply-list'/>"
@@ -816,6 +939,13 @@ mail_attachment_handler_constructed (GObject *object)
 		  NULL,
 		  N_("Open the selected messages in the composer for editing"),
 		  mail_attachment_handler_message_edit, NULL, NULL, NULL },
+
+		{ "mail-message-save-to-folder",
+		  "mail-copy",
+		  N_("Save Message to _Folder…"),
+		  NULL,
+		  N_("Save the message attachment to a chosen folder"),
+		  mail_attachment_handler_message_save_to_folder, NULL, NULL, NULL },
 
 		{ "mail-forward-as-menu",
 		  NULL,

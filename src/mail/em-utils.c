@@ -51,6 +51,7 @@
 #include "em-composer-utils.h"
 #include "em-filter-editor.h"
 #include "em-folder-properties.h"
+#include "em-folder-selector.h"
 
 #include "em-utils.h"
 
@@ -2487,4 +2488,75 @@ em_utils_print_part_list_finish (GObject *source_object,
 	g_return_val_if_fail (E_IS_MAIL_PRINTER (source_object), FALSE);
 
 	return e_mail_printer_print_finish (E_MAIL_PRINTER (source_object), result, error);
+}
+
+gchar *
+em_utils_select_folder_for_copy_move_message (GtkWindow *parent,
+					      gboolean is_move,
+					      CamelFolder *folder)
+{
+	/* Remembers the previously selected folder when transferring messages. */
+	static gchar default_xfer_messages_uri[512] = { 0, };
+
+	EMFolderSelector *selector;
+	EMFolderTree *folder_tree;
+	EMFolderTreeModel *model;
+	GSettings *settings;
+	GtkWidget *dialog;
+	gchar *res_uri = NULL;
+
+	model = em_folder_tree_model_get_default ();
+
+	dialog = em_folder_selector_new (parent, model);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), is_move ? _("Move to Folder") : _("Copy to Folder"));
+
+	selector = EM_FOLDER_SELECTOR (dialog);
+	em_folder_selector_set_can_create (selector, TRUE);
+	em_folder_selector_set_default_button_label (selector, is_move ? _("_Move") : _("C_opy"));
+
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+
+	em_folder_tree_set_excluded (
+		folder_tree,
+		EMFT_EXCLUDE_NOSELECT |
+		EMFT_EXCLUDE_VIRTUAL |
+		EMFT_EXCLUDE_VTRASH);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	if (!g_settings_get_boolean (settings, "copy-move-to-folder-preserve-expand"))
+		gtk_tree_view_expand_all (GTK_TREE_VIEW (folder_tree));
+
+	g_clear_object (&settings);
+
+	em_folder_selector_maybe_collapse_archive_folders (selector);
+
+	if (*default_xfer_messages_uri) {
+		em_folder_tree_set_selected (folder_tree, default_xfer_messages_uri, FALSE);
+	} else if (folder) {
+		gchar *furi = e_mail_folder_uri_from_folder (folder);
+
+		if (furi) {
+			em_folder_tree_set_selected (folder_tree, furi, FALSE);
+			g_free (furi);
+		}
+	}
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		const gchar *uri;
+
+		uri = em_folder_selector_get_selected_uri (EM_FOLDER_SELECTOR (dialog));
+
+		if (uri) {
+			if (g_snprintf (default_xfer_messages_uri, sizeof (default_xfer_messages_uri), "%s", uri) >= sizeof (default_xfer_messages_uri))
+				default_xfer_messages_uri[0] = '\0';
+
+			res_uri = g_strdup (uri);
+		}
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	return res_uri;
 }
