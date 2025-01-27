@@ -266,7 +266,7 @@ ece_get_mime_attach_list (ECompEditor *comp_editor)
 
 		camel_data_wrapper_decode_to_stream_sync (
 			wrapper, stream, NULL, NULL);
-		buffer = g_memdup (byte_array->data, byte_array->len);
+		buffer = g_memdup2 (byte_array->data, byte_array->len);
 
 		camel_mime_part_set_content_id (mime_part, NULL);
 

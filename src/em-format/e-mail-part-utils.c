@@ -430,7 +430,7 @@ e_mail_part_animation_extract_frame (GBytes *bytes,
 	if ((bytes_size < 0x331)
 	    || (memcmp (bytes_data, GIF_HEADER, GIF_HEADER_LEN) != 0)
 	    || (memcmp (&bytes_data[0x310], GIF_APPEXT, GIF_APPEXT_LEN) != 0)) {
-		*out_frame = g_memdup (bytes_data, bytes_size);
+		*out_frame = g_memdup2 (bytes_data, bytes_size);
 		*out_len = bytes_size;
 		return;
 	}
@@ -440,7 +440,7 @@ e_mail_part_animation_extract_frame (GBytes *bytes,
 	gdk_pixbuf_loader_close (loader, NULL);
 	animation = gdk_pixbuf_loader_get_animation (loader);
 	if (!animation) {
-		*out_frame = g_memdup (bytes_data, bytes_size);
+		*out_frame = g_memdup2 (bytes_data, bytes_size);
 		*out_len = bytes_size;
 		g_object_unref (loader);
 		return;
@@ -449,7 +449,7 @@ e_mail_part_animation_extract_frame (GBytes *bytes,
 	/* Extract first frame */
 	frame_buf = gdk_pixbuf_animation_get_static_image (animation);
 	if (!frame_buf) {
-		*out_frame = g_memdup (bytes_data, bytes_size);
+		*out_frame = g_memdup2 (bytes_data, bytes_size);
 		*out_len = bytes_size;
 		g_object_unref (loader);
 		g_object_unref (animation);
