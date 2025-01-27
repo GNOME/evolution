@@ -1057,7 +1057,7 @@ e_attachment_bar_add_possible_attachment (EAttachmentBar *self,
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (self));
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
-	if (!g_ptr_array_find (self->priv->possible_attachments, attachment, NULL)) {
+	if (self->priv->possible_attachments && !g_ptr_array_find (self->priv->possible_attachments, attachment, NULL)) {
 		g_ptr_array_add (self->priv->possible_attachments, g_object_ref (attachment));
 		if (self->priv->possible_attachments->len == 1) {
 			EAttachmentStore *store;
@@ -1079,7 +1079,7 @@ e_attachment_bar_clear_possible_attachments (EAttachmentBar *self)
 {
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (self));
 
-	if (self->priv->possible_attachments->len > 0) {
+	if (self->priv->possible_attachments && self->priv->possible_attachments->len > 0) {
 		EAttachmentStore *store;
 
 		g_ptr_array_set_size (self->priv->possible_attachments, 0);
@@ -1099,5 +1099,5 @@ e_attachment_bar_get_n_possible_attachments (EAttachmentBar *self)
 {
 	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (self), 0);
 
-	return self->priv->possible_attachments->len;
+	return self->priv->possible_attachments ? self->priv->possible_attachments->len : 0;
 }
