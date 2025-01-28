@@ -383,12 +383,13 @@ mail_ffe_body (const gchar *word,
 
 static gboolean
 mail_ffe_decode_date_time (const gchar *word,
-			   GTimeVal *tv)
+			   gint64 *unix_time)
 {
 	struct tm tm;
+	GDateTime *datetime;
 
 	g_return_val_if_fail (word != NULL, FALSE);
-	g_return_val_if_fail (tv != NULL, FALSE);
+	g_return_val_if_fail (unix_time != NULL, FALSE);
 
 	/* YYYY-MM-DD */
 	if (strlen (word) == 10 && word[4] == '-' && word[7] == '-') {
@@ -398,28 +399,28 @@ mail_ffe_decode_date_time (const gchar *word,
 		mm = atoi (word + 5);
 		dd = atoi (word + 8);
 
-		if (g_date_valid_dmy (dd, mm, yy)) {
-			GDate *date;
-
-			date = g_date_new_dmy (dd, mm, yy);
-			g_date_to_struct_tm (date, &tm);
-			g_date_free (date);
-
-			tv->tv_sec = mktime (&tm);
-			tv->tv_usec = 0;
-
+		datetime = g_date_time_new_local (yy, mm, dd, 0, 0, 0);
+		if (datetime) {
+			*unix_time = g_date_time_to_unix (datetime);
+			g_date_time_unref (datetime);
 			return TRUE;
 		}
 	}
 
-	if (g_time_val_from_iso8601 (word, tv))
+	datetime = g_date_time_new_from_iso8601 (word, NULL);
+	if (datetime) {
+		*unix_time = g_date_time_to_unix (datetime);
+		g_date_time_unref (datetime);
 		return TRUE;
+	}
 
+	memset (&tm, 0, sizeof (tm));
 	if (e_time_parse_date_and_time (word, &tm) == E_TIME_PARSE_OK ||
 	    e_time_parse_date (word, &tm) == E_TIME_PARSE_OK) {
-		tv->tv_sec = mktime (&tm);
-		tv->tv_usec = 0;
-
+		datetime = g_date_time_new_local (1900 + tm.tm_year, 1 + tm.tm_mon, tm.tm_mday,
+			tm.tm_hour, tm.tm_min, tm.tm_sec);
+		*unix_time = g_date_time_to_unix (datetime);
+		g_date_time_unref (datetime);
 		return TRUE;
 	}
 
@@ -434,7 +435,7 @@ mail_ffe_process_date (const gchar *get_date_fnc,
 	gint64 rel_days;
 	gchar *endptr = NULL;
 	const gchar *op = ">";
-	GTimeVal tv;
+	gint64 unix_time;
 
 	g_return_val_if_fail (get_date_fnc != NULL, NULL);
 
@@ -454,10 +455,10 @@ mail_ffe_process_date (const gchar *get_date_fnc,
 			rel_days < 0 ? "+" : "-", (rel_days < 0 ? -1 : 1) * rel_days * 24 * 60 * 60);
 	}
 
-	if (!mail_ffe_decode_date_time (word, &tv))
+	if (!mail_ffe_decode_date_time (word, &unix_time))
 		return g_strdup_printf ("(%s (compare-date (%s) (get-current-date)) 0)", op, get_date_fnc);
 
-	return g_strdup_printf ("(%s (compare-date (%s) %" G_GINT64_FORMAT ") 0)", op, get_date_fnc, (gint64) tv.tv_sec);
+	return g_strdup_printf ("(%s (compare-date (%s) %" G_GINT64_FORMAT ") 0)", op, get_date_fnc, unix_time);
 }
 
 static gchar *
