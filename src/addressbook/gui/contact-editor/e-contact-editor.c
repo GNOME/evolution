@@ -3911,9 +3911,10 @@ init_all (EContactEditor *editor)
 
 	if (requisition.width > 0 && requisition.height > 0) {
 		GtkWidget *window;
-		GdkScreen *screen;
+		GdkDisplay *display;
+		GdkMonitor *monitor;
 		GdkRectangle monitor_area;
-		gint x = 0, y = 0, monitor, width, height;
+		gint x = 0, y = 0, width, height;
 
 		window = editor->priv->app;
 
@@ -3921,18 +3922,11 @@ init_all (EContactEditor *editor)
 		width = tab_req.width - 320 + 24;
 		height = tab_req.height - 240 + 24;
 
-		screen = gtk_window_get_screen (GTK_WINDOW (window));
+		display = gtk_widget_get_display (window);
 		gtk_window_get_position (GTK_WINDOW (window), &x, &y);
 
-		monitor = gdk_screen_get_monitor_at_point (screen, x, y);
-
-		if (monitor < 0)
-			monitor = 0;
-
-		if (monitor >= gdk_screen_get_n_monitors (screen))
-			monitor = 0;
-
-		gdk_screen_get_monitor_workarea (screen, monitor, &monitor_area);
+		monitor = gdk_display_get_monitor_at_point (display, x, y);
+		gdk_monitor_get_workarea (monitor, &monitor_area);
 
 		if (requisition.width > monitor_area.width - width)
 			requisition.width = monitor_area.width - width;

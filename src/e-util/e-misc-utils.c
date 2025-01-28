@@ -423,23 +423,18 @@ e_restore_window (GtkWindow *window,
 	data->flags = flags;
 
 	if (flags & E_RESTORE_WINDOW_SIZE) {
-		GdkScreen *screen;
+		GdkDisplay *display;
+		GdkMonitor *monitor;
 		GdkRectangle monitor_area;
-		gint x, y, width, height, monitor;
+		gint x, y, width, height;
 
 		x = g_settings_get_int (settings, "x");
 		y = g_settings_get_int (settings, "y");
 
-		screen = gtk_window_get_screen (window);
-		monitor = gdk_screen_get_monitor_at_point (screen, x, y);
-		if (monitor < 0)
-			monitor = 0;
+		display = gtk_widget_get_display (GTK_WIDGET (window));
+		monitor = gdk_display_get_monitor_at_point (display, x, y);
 
-		if (monitor >= gdk_screen_get_n_monitors (screen))
-			monitor = 0;
-
-		gdk_screen_get_monitor_workarea (
-			screen, monitor, &monitor_area);
+		gdk_monitor_get_workarea (monitor, &monitor_area);
 
 		width = g_settings_get_int (settings, "width");
 		height = g_settings_get_int (settings, "height");
@@ -3513,18 +3508,16 @@ e_util_resize_window_for_screen (GtkWindow *window,
 	}
 
 	if (content_width > 0 && content_height > 0 && width > 0 && height > 0) {
-		GdkScreen *screen;
+		GdkDisplay *display;
+		GdkMonitor *monitor;
 		GdkRectangle monitor_area;
-		gint x = 0, y = 0, monitor;
+		gint x = 0, y = 0;
 
-		screen = gtk_window_get_screen (GTK_WINDOW (window));
+		display = gtk_widget_get_display (GTK_WIDGET (window));
 		gtk_window_get_position (GTK_WINDOW (window), &x, &y);
 
-		monitor = gdk_screen_get_monitor_at_point (screen, x, y);
-		if (monitor < 0 || monitor >= gdk_screen_get_n_monitors (screen))
-			monitor = 0;
-
-		gdk_screen_get_monitor_workarea (screen, monitor, &monitor_area);
+		monitor = gdk_display_get_monitor_at_point (display, x, y);
+		gdk_monitor_get_workarea (monitor, &monitor_area);
 
 		/* When the children are packed inside the window then influence the window
 		   size too, thus subtract it, if possible. */
@@ -4388,13 +4381,15 @@ void
 e_util_ensure_scrolled_window_height (GtkScrolledWindow *scrolled_window)
 {
 	GtkWidget *toplevel;
-	GdkScreen *screen;
+	GdkDisplay *display;
+	GdkMonitor *monitor;
+	GdkRectangle workarea;
 	gint toplevel_height, scw_height, require_scw_height = 0, max_height;
 
 	g_return_if_fail (GTK_IS_SCROLLED_WINDOW (scrolled_window));
 
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (scrolled_window));
-	if (!toplevel || !gtk_widget_is_toplevel (toplevel))
+	toplevel = gtk_widget_get_ancestor (GTK_WIDGET (scrolled_window), GTK_TYPE_WINDOW);
+	if (!toplevel)
 		return;
 
 	scw_height = gtk_widget_get_allocated_height (GTK_WIDGET (scrolled_window));
@@ -4409,26 +4404,15 @@ e_util_ensure_scrolled_window_height (GtkScrolledWindow *scrolled_window)
 		return;
 	}
 
-	if (!GTK_IS_WINDOW (toplevel) ||
-	    !gtk_widget_get_window (toplevel))
+	if (!gtk_widget_get_window (toplevel))
 		return;
 
-	screen = gtk_window_get_screen (GTK_WINDOW (toplevel));
-	if (screen) {
-		gint monitor;
-		GdkRectangle workarea;
+	display = gtk_widget_get_display (toplevel);
+	monitor = gdk_display_get_monitor_at_window (display, gtk_widget_get_window (toplevel));
+	gdk_monitor_get_workarea (monitor, &workarea);
 
-		monitor = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (toplevel));
-		if (monitor < 0)
-			monitor = 0;
-
-		gdk_screen_get_monitor_workarea (screen, monitor, &workarea);
-
-		/* can enlarge up to 4 / 5 monitor's work area height */
-		max_height = workarea.height * 4 / 5;
-	} else {
-		return;
-	}
+	/* can enlarge up to 4 / 5 monitor's work area height */
+	max_height = workarea.height * 4 / 5;
 
 	toplevel_height = gtk_widget_get_allocated_height (toplevel);
 	if (toplevel_height + require_scw_height - scw_height > max_height)

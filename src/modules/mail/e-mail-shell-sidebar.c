@@ -272,40 +272,24 @@ mail_shell_sidebar_constructed (GObject *object)
 static gint
 guess_screen_width (EMailShellSidebar *sidebar)
 {
-	GtkWidget *widget;
-	GdkScreen *screen;
-	gint screen_width;
+	GtkWidget *widget = GTK_WIDGET (sidebar);
+	GdkDisplay *display;
+	GtkWidget *toplevel;
+	GdkRectangle rect;
 
-	widget = GTK_WIDGET (sidebar);
+	display = gtk_widget_get_display (widget);
+	toplevel = gtk_widget_get_toplevel (widget);
+	if (toplevel && gtk_widget_get_realized (toplevel)) {
+		GdkMonitor *monitor;
 
-	screen_width = 0;
+		monitor = gdk_display_get_monitor_at_window (
+			display, gtk_widget_get_window (toplevel));
+		gdk_monitor_get_workarea (monitor, &rect);
 
-	screen = gtk_widget_get_screen (widget);
-	if (screen) {
-		GtkWidget *toplevel;
-		gint monitor;
-		GdkRectangle rect;
-
-		toplevel = gtk_widget_get_toplevel (widget);
-		if (toplevel && gtk_widget_get_realized (toplevel))
-			monitor = gdk_screen_get_monitor_at_window (
-				screen, gtk_widget_get_window (toplevel));
-		else {
-			/* We don't know in which monitor the window manager
-			 * will put us.  So we will just use the geometry of
-			 * the first monitor.
-			 */
-			monitor = 0;
-		}
-
-		gdk_screen_get_monitor_geometry (screen, monitor, &rect);
-		screen_width = rect.width;
+		return rect.width;
 	}
 
-	if (screen_width == 0)
-		screen_width = 1024;
-
-	return screen_width;
+	return 1024;
 }
 
 static void
