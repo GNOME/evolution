@@ -1131,11 +1131,11 @@ e_html_editor_ui_manager_create_item_cb (EUIManager *ui_manager,
 
 		if (is_action ("EHTMLEditor::editing-mode")) {
 			widget = e_action_combo_box_new_with_action (E_HTML_EDITOR_ACTION_MODE_HTML (self));
-			gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+			gtk_widget_set_focus_on_click (widget, FALSE);
 			gtk_widget_set_tooltip_text (widget, _("Editing Mode"));
 		} else if (is_action ("EHTMLEditor::paragraph-style")) {
 			widget = e_action_combo_box_new_with_action (E_HTML_EDITOR_ACTION_STYLE_NORMAL (self));
-			gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+			gtk_widget_set_focus_on_click (widget, FALSE);
 			gtk_widget_set_tooltip_text (widget, _("Paragraph Style"));
 
 			/* Hide the items from the action combo box as well */
@@ -1143,7 +1143,7 @@ e_html_editor_ui_manager_create_item_cb (EUIManager *ui_manager,
 				G_CALLBACK (e_action_combo_box_update_model), widget, G_CONNECT_SWAPPED);
 		} else if (is_action ("EHTMLEditor::font-name")) {
 			widget = e_html_editor_util_create_font_name_combo ();
-			gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+			gtk_widget_set_focus_on_click (widget, FALSE);
 			gtk_widget_set_tooltip_text (widget, _("Font Name"));
 
 			g_signal_connect_object (self, "after-mode-changed",
@@ -1151,7 +1151,7 @@ e_html_editor_ui_manager_create_item_cb (EUIManager *ui_manager,
 			e_html_editor_bind_font_name_after_mode_changed_cb (self, widget);
 		} else if (is_action ("EHTMLEditor::font-size")) {
 			widget = e_action_combo_box_new_with_action (E_HTML_EDITOR_ACTION_SIZE_PLUS_ZERO (self));
-			gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+			gtk_widget_set_focus_on_click (widget, FALSE);
 			gtk_widget_set_tooltip_text (widget, _("Font Size"));
 		} else if (is_action ("EHTMLEditor::font-color")) {
 			widget = e_color_combo_new ();
@@ -2227,7 +2227,7 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 					g_object_set_data (G_OBJECT (cnt_editor), "EHTMLEditor::has-editing-mode", GINT_TO_POINTER (1));
 
 					widget = e_action_combo_box_new_with_action (ACTION (MODE_HTML));
-					gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+					gtk_widget_set_focus_on_click (widget, FALSE);
 					gtk_widget_set_tooltip_text (widget, _("Editing Mode"));
 
 					tool_item = gtk_tool_item_new ();

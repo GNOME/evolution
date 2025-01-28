@@ -2647,7 +2647,7 @@ e_html_editor_util_new_mode_combobox (void)
 	action = e_ui_action_group_get_action (action_group, "mode-html");
 
 	widget = e_action_combo_box_new_with_action (action);
-	gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+	gtk_widget_set_focus_on_click (widget, FALSE);
 	gtk_widget_set_tooltip_text (widget, _("Editing Mode"));
 
 	g_object_set_data_full (G_OBJECT (widget), "core-mode-entries-action-group", action_group, g_object_unref);
