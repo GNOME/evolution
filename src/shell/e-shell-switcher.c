@@ -584,9 +584,9 @@ tool_item_get_button (GtkWidget *widget)
 }
 
 static gboolean
-tool_item_button_cb (GtkWidget *internal_widget,
-                     GdkEvent *button_event,
-                     EUIAction *action)
+tool_item_button_release_cb (GtkWidget *button,
+			     GdkEvent *button_event,
+			     EUIAction *action)
 {
 	guint32 my_mods = GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK |
 		GDK_SUPER_MASK | GDK_HYPER_MASK | GDK_META_MASK;
@@ -599,11 +599,27 @@ tool_item_button_cb (GtkWidget *internal_widget,
 	gdk_event_get_state (button_event, &event_state);
 
 	if (event_button == 2 || (event_button == 1 && (event_state & my_mods) == GDK_SHIFT_MASK)) {
-		g_action_activate (G_ACTION (action), NULL);
+		GVariant *target;
+
+		target = e_ui_action_ref_target (action);
+		g_action_activate (G_ACTION (action), target);
+		g_clear_pointer (&target, g_variant_unref);
+
 		return TRUE;
 	}
 
-	return FALSE;
+	/* switch to the chosen view - cannot 'return FALSE' below, because it "unpushes"
+	   the button when the user clicks on an already pushed (active) button */
+	if (GTK_IS_TOGGLE_BUTTON (button)) {
+		GtkWidget *parent;
+
+		parent = gtk_widget_get_parent (button);
+
+		if (GTK_IS_TOGGLE_TOOL_BUTTON (parent))
+			gtk_toggle_tool_button_set_active (GTK_TOGGLE_TOOL_BUTTON (parent), TRUE);
+	}
+
+	return TRUE;
 }
 
 /**
@@ -679,7 +695,7 @@ e_shell_switcher_add_action (EShellSwitcher *switcher,
 	if (button != NULL) {
 		g_signal_connect_object (
 			button, "button-release-event",
-			G_CALLBACK (tool_item_button_cb),
+			G_CALLBACK (tool_item_button_release_cb),
 			new_window_action, 0);
 	}
 
