@@ -1605,15 +1605,15 @@ webkit_editor_update_styles (EContentEditor *editor)
 	g_object_set (
 		G_OBJECT (settings),
 		"default-font-size",
-		e_util_normalize_font_size (
-			GTK_WIDGET (wk_editor), pango_font_description_get_size (vw) / PANGO_SCALE),
+		webkit_settings_font_size_to_pixels (
+			pango_font_description_get_size (vw) / PANGO_SCALE),
 		"default-font-family",
 		pango_font_description_get_family (vw),
 		"monospace-font-family",
 		pango_font_description_get_family (ms),
 		"default-monospace-font-size",
-		e_util_normalize_font_size (
-			GTK_WIDGET (wk_editor), pango_font_description_get_size (ms) / PANGO_SCALE),
+		webkit_settings_font_size_to_pixels (
+			pango_font_description_get_size (ms) / PANGO_SCALE),
 		NULL);
 
 	manager = webkit_web_view_get_user_content_manager (WEBKIT_WEB_VIEW (wk_editor));

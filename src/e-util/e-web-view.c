@@ -3659,15 +3659,15 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 	g_object_set (
 		wk_settings,
 		"default-font-size",
-		e_util_normalize_font_size (
-			view_widget, pango_font_description_get_size (vw) / PANGO_SCALE),
+		webkit_settings_font_size_to_pixels (
+			pango_font_description_get_size (vw) / PANGO_SCALE),
 		"default-font-family",
 		pango_font_description_get_family (vw),
 		"monospace-font-family",
 		pango_font_description_get_family (ms),
 		"default-monospace-font-size",
-		e_util_normalize_font_size (
-			view_widget, pango_font_description_get_size (ms) / PANGO_SCALE),
+		webkit_settings_font_size_to_pixels (
+			pango_font_description_get_size (ms) / PANGO_SCALE),
 		NULL);
 
 	manager = webkit_web_view_get_user_content_manager (WEBKIT_WEB_VIEW (view_widget));
