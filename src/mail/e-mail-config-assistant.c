@@ -417,13 +417,14 @@ mail_config_assistant_provider_page_visible (GBinding *binding,
 	GObject *target_object;
 	gboolean visible;
 
-	target_object = g_binding_get_target (binding);
+	target_object = g_binding_dup_target (binding);
 	page = E_MAIL_CONFIG_PROVIDER_PAGE (target_object);
 	page_backend = e_mail_config_provider_page_get_backend (page);
 
 	active_backend = g_value_get_object (source_value);
 	visible = (page_backend == active_backend);
 	g_value_set_boolean (target_value, visible);
+	g_clear_object (&target_object);
 
 	return TRUE;
 }

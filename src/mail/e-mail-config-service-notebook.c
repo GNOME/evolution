@@ -78,7 +78,7 @@ mail_config_service_notebook_page_num_to_backend (GBinding *binding,
 	gint page_num;
 
 	/* The binding's source and target are the same instance. */
-	notebook = GTK_NOTEBOOK (g_binding_get_source (binding));
+	notebook = GTK_NOTEBOOK (g_binding_dup_source (binding));
 
 	page_num = g_value_get_int (source_value);
 	child = gtk_notebook_get_nth_page (notebook, page_num);
@@ -90,6 +90,7 @@ mail_config_service_notebook_page_num_to_backend (GBinding *binding,
 		backend = NULL;
 
 	g_value_set_object (target_value, backend);
+	g_clear_object (&notebook);
 
 	return TRUE;
 }
@@ -105,7 +106,7 @@ mail_config_service_notebook_backend_to_page_num (GBinding *binding,
 	gint n_pages, ii;
 
 	/* The binding's source and target are the same instance. */
-	notebook = GTK_NOTEBOOK (g_binding_get_source (binding));
+	notebook = GTK_NOTEBOOK (g_binding_dup_source (binding));
 
 	backend = g_value_get_object (source_value);
 	n_pages = gtk_notebook_get_n_pages (notebook);
@@ -120,9 +121,12 @@ mail_config_service_notebook_backend_to_page_num (GBinding *binding,
 
 		if (backend == candidate) {
 			g_value_set_int (target_value, ii);
+			g_clear_object (&notebook);
 			return TRUE;
 		}
 	}
+
+	g_clear_object (&notebook);
 
 	return FALSE;
 }

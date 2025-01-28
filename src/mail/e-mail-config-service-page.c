@@ -252,7 +252,7 @@ mail_config_service_page_id_to_backend (GBinding *binding,
 	GObject *source_object;
 	const gchar *backend_name;
 
-	source_object = g_binding_get_source (binding);
+	source_object = g_binding_dup_source (binding);
 	backend_name = g_value_get_string (source_value);
 
 	if (backend_name != NULL)
@@ -261,6 +261,7 @@ mail_config_service_page_id_to_backend (GBinding *binding,
 			backend_name);
 
 	g_value_set_object (target_value, backend);
+	g_clear_object (&source_object);
 
 	return TRUE;
 }

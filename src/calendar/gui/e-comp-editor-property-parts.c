@@ -351,7 +351,7 @@ ecepp_location_text_to_icon_visible (GBinding *binding,
 
 	g_value_set_boolean (target_value, text && *text);
 
-	object = g_binding_get_target (binding);
+	object = g_binding_dup_target (binding);
 
 	if (E_IS_URL_ENTRY (object)) {
 		GtkEntry *entry = GTK_ENTRY (object);
@@ -361,6 +361,8 @@ ecepp_location_text_to_icon_visible (GBinding *binding,
 		else
 			gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_SECONDARY, _("Click here to open map"));
 	}
+
+	g_clear_object (&object);
 
 	return TRUE;
 }
