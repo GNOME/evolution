@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2025-01-27 09:58+0000\n"
-"PO-Revision-Date: 2025-01-28 22:13+0200\n"
+"PO-Revision-Date: 2025-01-28 22:15+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -27317,10 +27317,9 @@ msgid "Save Message to _Folder…"
 msgstr "Збереження повідомлення до _теки…"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:947
-#, fuzzy
 #| msgid "Save s_ent messages into the Sent folder"
 msgid "Save the message attachment to a chosen folder"
-msgstr "Зберігати _надіслані повідомлення до теки «Надіслані»"
+msgstr "Зберегти долучення до повідомлення до вибраної теки"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:990
 msgid "Import OpenP_GP key…"
