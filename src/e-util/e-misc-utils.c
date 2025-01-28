@@ -221,7 +221,6 @@ e_show_uri (GtkWindow *parent,
             const gchar *uri)
 {
 	GtkWidget *dialog;
-	GdkScreen *screen = NULL;
 	gchar *scheme;
 	GError *error = NULL;
 	guint32 timestamp;
@@ -230,20 +229,16 @@ e_show_uri (GtkWindow *parent,
 	g_return_if_fail (uri != NULL);
 
 	timestamp = gtk_get_current_event_time ();
-
-	if (parent != NULL)
-		screen = gtk_widget_get_screen (GTK_WIDGET (parent));
-
 	scheme = g_uri_parse_scheme (uri);
 
 	if (!scheme || !*scheme) {
 		gchar *schemed_uri;
 
 		schemed_uri = g_strconcat ("http://", uri, NULL);
-		success = gtk_show_uri (screen, schemed_uri, timestamp, &error);
+		success = gtk_show_uri_on_window (parent, schemed_uri, timestamp, &error);
 		g_free (schemed_uri);
 	} else {
-		success = gtk_show_uri (screen, uri, timestamp, &error);
+		success = gtk_show_uri_on_window (parent, uri, timestamp, &error);
 	}
 
 	g_free (scheme);
@@ -326,7 +321,6 @@ e_display_help (GtkWindow *parent,
 	GAppInfo *yelp_info = NULL;
 	GString *uri;
 	GtkWidget *dialog;
-	GdkScreen *screen = NULL;
 	GError *error = NULL;
 	guint32 timestamp;
 
@@ -337,9 +331,6 @@ e_display_help (GtkWindow *parent,
 	}
 
 	timestamp = gtk_get_current_event_time ();
-
-	if (parent != NULL)
-		screen = gtk_widget_get_screen (GTK_WIDGET (parent));
 
 	if (link_id != NULL) {
 		g_string_append_c (uri, '/');
@@ -353,10 +344,10 @@ e_display_help (GtkWindow *parent,
 
 		uris = g_list_prepend (NULL, uri->str);
 
-		if (parent && screen) {
+		if (parent) {
 			GdkAppLaunchContext *gdk_context;
 
-			gdk_context = gdk_display_get_app_launch_context (gdk_screen_get_display (screen));
+			gdk_context = gdk_display_get_app_launch_context (gtk_widget_get_display (GTK_WIDGET (parent)));
 
 			if (gdk_context)
 				context = G_APP_LAUNCH_CONTEXT (gdk_context);
@@ -369,7 +360,7 @@ e_display_help (GtkWindow *parent,
 
 		if (success)
 			goto exit;
-	} else if (gtk_show_uri (screen, uri->str, timestamp, &error)) {
+	} else if (gtk_show_uri_on_window (parent, uri->str, timestamp, &error)) {
 		goto exit;
 	}
 
