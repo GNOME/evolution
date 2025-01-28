@@ -1428,7 +1428,7 @@ secure_to_port_cb (GBinding *binding,
 	GObject *authentication_extension;
 	guint16 port;
 
-	authentication_extension = g_binding_get_target (binding);
+	authentication_extension = g_binding_dup_target (binding);
 
 	port = e_source_authentication_get_port (
 		E_SOURCE_AUTHENTICATION (authentication_extension));
@@ -1437,6 +1437,7 @@ secure_to_port_cb (GBinding *binding,
 		port = g_value_get_boolean (source_value) ? 443 : 80;
 
 	g_value_set_uint (target_value, port);
+	g_clear_object (&authentication_extension);
 
 	return TRUE;
 }

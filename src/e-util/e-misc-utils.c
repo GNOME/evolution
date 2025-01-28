@@ -2575,7 +2575,7 @@ e_binding_transform_text_to_uri (GBinding *binding,
 	if (!uri)
 		uri = g_uri_build (G_URI_FLAGS_NONE, "http", NULL, NULL, -1, "", NULL, NULL);
 
-	source_binding = g_binding_get_source (binding);
+	source_binding = g_binding_dup_source (binding);
 
 	if (E_IS_SOURCE_EXTENSION (source_binding)) {
 		ESource *source = NULL;
@@ -2594,6 +2594,7 @@ e_binding_transform_text_to_uri (GBinding *binding,
 	}
 
 	g_value_take_boxed (target_value, uri);
+	g_clear_object (&source_binding);
 
 	return TRUE;
 }
@@ -2627,8 +2628,9 @@ e_binding_transform_uri_to_text (GBinding *binding,
 		GObject *target;
 
 		text = NULL;
-		target = g_binding_get_target (binding);
+		target = g_binding_dup_target (binding);
 		g_object_get (target, g_binding_get_target_property (binding), &text, NULL);
+		g_clear_object (&target);
 
 		if (!text || !*text) {
 			g_free (text);

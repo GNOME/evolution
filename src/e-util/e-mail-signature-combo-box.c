@@ -94,9 +94,10 @@ mail_signature_combo_box_identity_to_signature (GBinding *binding,
 	const gchar *extension_name;
 
 	/* Source and target are the same object. */
-	source_object = g_binding_get_source (binding);
+	source_object = g_binding_dup_source (binding);
 	combo_box = E_MAIL_SIGNATURE_COMBO_BOX (source_object);
 	registry = e_mail_signature_combo_box_get_registry (combo_box);
+	g_clear_object (&source_object);
 
 	identity_uid = g_value_get_string (source_value);
 	if (identity_uid == NULL)

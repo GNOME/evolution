@@ -151,12 +151,13 @@ book_config_ldap_port_to_active (GBinding *binding,
 		GtkWidget *entry;
 		gchar *text;
 
-		target = g_binding_get_target (binding);
+		target = g_binding_dup_target (binding);
 		entry = gtk_bin_get_child (GTK_BIN (target));
 
 		text = g_strdup_printf ("%u", port);
 		gtk_entry_set_text (GTK_ENTRY (entry), text);
 		g_free (text);
+		g_clear_object (&target);
 	}
 
 	return TRUE;
@@ -201,9 +202,10 @@ book_config_ldap_active_to_port (GBinding *binding,
 		const gchar *text;
 		glong v_long;
 
-		target = g_binding_get_target (binding);
+		target = g_binding_dup_target (binding);
 		entry = gtk_bin_get_child (GTK_BIN (target));
 		text = gtk_entry_get_text (GTK_ENTRY (entry));
+		g_clear_object (&target);
 
 		v_long = text ? strtol (text, NULL, 10) : 0;
 		if (v_long != 0 && v_long == CLAMP (v_long, 0, G_MAXUINT16))

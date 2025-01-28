@@ -327,14 +327,16 @@ edw_three_state_to_sensitive_cb (GBinding *binding,
 				 gpointer user_data)
 {
 	CamelThreeState value;
+	GObject *source = g_binding_dup_source (binding);
 
-	if (CAMEL_IS_FOLDER (g_binding_get_source (binding))) {
+	if (CAMEL_IS_FOLDER (source)) {
 		value = g_value_get_enum (from_value);
 	} else {
 		value = edw_three_state_source_to_camel (g_value_get_enum (from_value));
 	}
 
 	g_value_set_boolean (to_value, value == CAMEL_THREE_STATE_ON);
+	g_clear_object (&source);
 
 	return TRUE;
 }
