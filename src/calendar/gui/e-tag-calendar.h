@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef TAG_CALENDAR_H
-#define TAG_CALENDAR_H
+#ifndef E_TAG_CALENDAR_H
+#define E_TAG_CALENDAR_H
 
 #include <libecal/libecal.h>
 #include <e-util/e-util.h>

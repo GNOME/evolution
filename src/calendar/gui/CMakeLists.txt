@@ -74,6 +74,7 @@ set(SOURCES
 	e-month-view.c
 	e-select-names-editable.c
 	e-select-names-renderer.c
+	e-tag-calendar.c
 	e-task-table.c
 	e-to-do-pane.c
 	e-week-view.c
@@ -87,7 +88,6 @@ set(SOURCES
 	itip-utils.c
 	misc.c
 	print.c
-	tag-calendar.c
 	ea-calendar.c
 	ea-calendar-helpers.c
 	ea-cal-view.c
@@ -153,6 +153,7 @@ set(HEADERS
 	e-month-view.h
 	e-select-names-editable.h
 	e-select-names-renderer.h
+	e-tag-calendar.h
 	e-task-table.h
 	e-to-do-pane.h
 	e-week-view-event-item.h
@@ -166,7 +167,6 @@ set(HEADERS
 	itip-utils.h
 	misc.h
 	print.h
-	tag-calendar.h
 	ea-calendar.h
 	ea-calendar-helpers.h
 	ea-cal-view.h

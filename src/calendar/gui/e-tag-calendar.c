@@ -29,7 +29,7 @@
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "e-cal-data-model-subscriber.h"
-#include "tag-calendar.h"
+#include "e-tag-calendar.h"
 
 struct _ETagCalendarPrivate
 {

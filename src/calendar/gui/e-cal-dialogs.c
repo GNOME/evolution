@@ -29,7 +29,7 @@
 
 #include "calendar-config.h"
 #include "itip-utils.h"
-#include "tag-calendar.h"
+#include "e-tag-calendar.h"
 
 #include "e-cal-dialogs.h"
 

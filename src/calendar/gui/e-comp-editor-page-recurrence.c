@@ -35,7 +35,7 @@
 #include "e-comp-editor-page-general.h"
 #include "e-date-time-list.h"
 #include "e-weekday-chooser.h"
-#include "tag-calendar.h"
+#include "e-tag-calendar.h"
 
 #include "e-comp-editor-page-recurrence.h"
 
