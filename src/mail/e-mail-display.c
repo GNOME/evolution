@@ -548,8 +548,8 @@ mail_display_iframes_height_update_cb (gpointer user_data)
 	return G_SOURCE_REMOVE;
 }
 
-static void
-mail_display_schedule_iframes_height_update (EMailDisplay *mail_display)
+void
+e_mail_display_schedule_iframes_height_update (EMailDisplay *mail_display)
 {
 	if (mail_display_can_use_frame_flattening ())
 		return;
@@ -1473,7 +1473,7 @@ mail_display_content_loaded_cb (EWebView *web_view,
 		}
 	}
 
-	mail_display_schedule_iframes_height_update (mail_display);
+	e_mail_display_schedule_iframes_height_update (mail_display);
 }
 
 static void
@@ -1792,7 +1792,7 @@ mail_display_schedule_iframes_height_update_cb (WebKitUserContentManager *manage
 
 	g_return_if_fail (mail_display != NULL);
 
-	mail_display_schedule_iframes_height_update (mail_display);
+	e_mail_display_schedule_iframes_height_update (mail_display);
 }
 
 static gboolean
@@ -3068,7 +3068,7 @@ e_mail_display_init (EMailDisplay *display)
 
 	g_signal_connect (
 		display, "resource-loaded",
-		G_CALLBACK (mail_display_schedule_iframes_height_update), NULL);
+		G_CALLBACK (e_mail_display_schedule_iframes_height_update), NULL);
 
 	g_signal_connect_after (
 		display, "drag-data-get",

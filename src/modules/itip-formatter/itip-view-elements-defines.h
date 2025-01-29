@@ -63,6 +63,8 @@
 #define BUTTON_UPDATE_ATTENDEE_STATUS "button_update_attendee_status"
 #define BUTTON_SAVE "button_save"
 #define BUTTON_IMPORT "button_import"
+#define BUTTON_IMPORT_BARE "button_import_bare"
+#define BUTTON_IMPORT_BARE_HINT "button_import_bare_hint"
 
 #define TABLE_UPPER_ITIP_INFO "table_upper_itip_info"
 #define TABLE_LOWER_ITIP_INFO "table_lower_itip_info"

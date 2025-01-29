@@ -1529,7 +1529,8 @@ var EvoItip = {
 	CHECKBOX_INHERIT_ALARM : "checkbox_inherit_alarm",
 	CHECKBOX_UPDATE : "checkbox_update",
 	CHECKBOX_FREE_TIME : "checkbox_free_time",
-	TABLE_ROW_BUTTONS : "table_row_buttons"
+	TABLE_ROW_BUTTONS : "table_row_buttons",
+	BUTTON_IMPORT_BARE : "button_import_bare"
 };
 
 EvoItip.alarmCheckClickedCb = function(check1)
@@ -1839,6 +1840,10 @@ EvoItip.SetButtonsDisabled = function(iframe_id, disabled)
 		elem.disabled = disabled;
 
 	elem = doc.getElementById(EvoItip.TEXTAREA_RSVP_COMMENT);
+	if (elem)
+		elem.disabled = disabled;
+
+	elem = doc.getElementById(EvoItip.BUTTON_IMPORT_BARE);
 	if (elem)
 		elem.disabled = disabled;
 

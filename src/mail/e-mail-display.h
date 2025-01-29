@@ -118,6 +118,8 @@ gboolean	e_mail_display_process_magic_spacebar
 						 gboolean towards_bottom);
 gboolean	e_mail_display_get_skip_insecure_parts
 						(EMailDisplay *mail_display);
+void		e_mail_display_schedule_iframes_height_update
+						(EMailDisplay *mail_display);
 
 G_END_DECLS
 

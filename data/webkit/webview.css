@@ -221,13 +221,13 @@ th.rtl {
   font-weight: bold;
 }
 
-#table_row_buttons button {
+#table_row_buttons button, .table_row_buttons button {
   line-height: 28px;
   min-width: 150px;
   white-space: nowrap;
 }
 
-#table_row_buttons img {
+#table_row_buttons img, .table_row_buttons img {
   padding-right: 5px;
   vertical-align: middle;
 }

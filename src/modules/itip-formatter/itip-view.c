@@ -37,6 +37,7 @@
 
 #include <mail/em-config.h>
 #include <mail/em-utils.h>
+#include <mail/e-mail-display.h>
 #include <em-format/e-mail-formatter-utils.h>
 #include <em-format/e-mail-part-utils.h>
 
@@ -1265,7 +1266,14 @@ buttons_table_write_button (GString *buffer,
                             const gchar *icon,
                             ItipViewResponse response)
 {
-	gchar *access_key, *html_label;
+	gchar *access_key, *html_label, *hint = NULL;
+	const gchar *colspan = "";
+
+	if (response == ITIP_VIEW_RESPONSE_IMPORT_BARE) {
+		hint = g_markup_printf_escaped (" <span id='" BUTTON_IMPORT_BARE_HINT "' style='font-size:smaller;' hidden>%s</span>",
+			_("Imported event will have removed the organizer and all the attendees."));
+		colspan = " colspan='11'";
+	}
 
 	html_label = e_mail_formatter_parse_html_mnemonics (label, &access_key);
 
@@ -1279,23 +1287,23 @@ buttons_table_write_button (GString *buffer,
 
 		g_string_append_printf (
 			buffer,
-			"<td><button class=\"itip-button\" type=\"button\" name=\"%s\" value=\"%p:%d\" id=\"%s\" accesskey=\"%s\" hidden disabled>"
+			"<td%s><button class=\"itip-button\" type=\"button\" name=\"%s\" value=\"%p:%d\" id=\"%s\" accesskey=\"%s\" hidden disabled>"
 			"<div><img src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\"> <span>%s</span></div>"
-			"</button></td>\n",
-			name, itip_part_ptr, response, name, access_key ? access_key : "" , icon,
-			GTK_ICON_SIZE_BUTTON, icon_width, icon_height, html_label);
+			"</button>%s</td>\n",
+			colspan, name, itip_part_ptr, response, name, access_key ? access_key : "" , icon,
+			GTK_ICON_SIZE_BUTTON, icon_width, icon_height, html_label, hint ? hint : "");
 	} else {
 		g_string_append_printf (
 			buffer,
-			"<td><button class=\"itip-button\" type=\"button\" name=\"%s\" value=\"%p:%d\" id=\"%s\" accesskey=\"%s\" hidden disabled>"
+			"<td%s><button class=\"itip-button\" type=\"button\" name=\"%s\" value=\"%p:%d\" id=\"%s\" accesskey=\"%s\" hidden disabled>"
 			"<div><span>%s</span></div>"
-			"</button></td>\n",
-			name, itip_part_ptr, response, name, access_key ? access_key : "" , html_label);
+			"</button>%s</td>\n",
+			colspan, name, itip_part_ptr, response, name, access_key ? access_key : "" , html_label, hint ? hint : "");
 	}
 
 	g_free (html_label);
-
 	g_free (access_key);
+	g_free (hint);
 }
 
 static void
@@ -1343,6 +1351,11 @@ append_buttons_table (GString *buffer,
 	buttons_table_write_button (
 		buffer, itip_part_ptr, BUTTON_IMPORT, _("Im_port"),
 		NULL, ITIP_VIEW_RESPONSE_IMPORT);
+
+	g_string_append (buffer, "</tr><tr class='" TABLE_ROW_BUTTONS "'>");
+	buttons_table_write_button (
+		buffer, itip_part_ptr, BUTTON_IMPORT_BARE, _("Im_port as Event"),
+		NULL, ITIP_VIEW_RESPONSE_IMPORT_BARE);
 
 	g_string_append (buffer, "</tr></table>");
 }
@@ -2392,6 +2405,57 @@ itip_view_new (const gchar *part_id,
 	return view;
 }
 
+static void
+itip_view_update_import_bare_options (ItipView *self)
+{
+	ICalProperty *prop;
+	gchar *cal_email = NULL;
+	gboolean show = FALSE;
+
+	if ((self->priv->method != I_CAL_METHOD_PUBLISH && self->priv->method != I_CAL_METHOD_REQUEST) ||
+	    !self->priv->current_client ||
+	    !self->priv->ical_comp ||
+	    !e_client_check_capability (E_CLIENT (self->priv->current_client), E_CAL_STATIC_CAPABILITY_USER_IS_ORGANIZER_ONLY) ||
+	    !e_cal_util_component_has_attendee (self->priv->ical_comp) ||
+	    !e_cal_util_component_has_organizer (self->priv->ical_comp) ||
+	    i_cal_component_isa (self->priv->ical_comp) != I_CAL_VEVENT_COMPONENT ||
+	    !e_client_get_backend_property_sync (E_CLIENT (self->priv->current_client), E_CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &cal_email, self->priv->cancellable, NULL)) {
+		hide_element (self, BUTTON_IMPORT_BARE, TRUE);
+		hide_element (self, BUTTON_IMPORT_BARE_HINT, TRUE);
+		enable_button (self, BUTTON_IMPORT_BARE, FALSE);
+		enable_button (self, BUTTON_IMPORT_BARE_HINT, FALSE);
+		return;
+	}
+
+	prop = i_cal_component_get_first_property (self->priv->ical_comp, I_CAL_ORGANIZER_PROPERTY);
+	if (prop) {
+		const gchar *orgnzr_email;
+
+		orgnzr_email = i_cal_property_get_organizer (prop);
+		show = orgnzr_email && cal_email && !e_cal_util_email_addresses_equal (orgnzr_email, cal_email);
+
+		g_clear_object (&prop);
+	}
+
+	hide_element (self, BUTTON_IMPORT_BARE, !show);
+	hide_element (self, BUTTON_IMPORT_BARE_HINT, !show);
+	enable_button (self, BUTTON_IMPORT_BARE, show);
+	enable_button (self, BUTTON_IMPORT_BARE_HINT, show);
+
+	g_free (cal_email);
+
+	if (show) {
+		EWebView *web_view;
+
+		web_view = itip_view_ref_web_view (self);
+
+		if (E_IS_MAIL_DISPLAY (web_view))
+			e_mail_display_schedule_iframes_height_update (E_MAIL_DISPLAY (web_view));
+
+		g_clear_object (&web_view);
+	}
+}
+
 void
 itip_view_set_mode (ItipView *view,
                     ItipViewMode mode)
@@ -2424,6 +2488,8 @@ itip_view_set_mode (ItipView *view,
 			if (view->priv->needs_decline)
 				show_button (view, BUTTON_DECLINE);
 			show_button (view, BUTTON_ACCEPT);
+
+			itip_view_update_import_bare_options (view);
 		} else {
 			show_button (view, BUTTON_IMPORT);
 		}
@@ -4185,6 +4251,7 @@ itip_view_cal_opened_cb (GObject *source_object,
 
 	view->priv->current_client = E_CAL_CLIENT (g_object_ref (client));
 
+	itip_view_update_import_bare_options (view);
 	set_buttons_sensitive (view);
 
 exit:
@@ -4426,7 +4493,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 
 		itip_view_set_show_keep_alarm_check (view, fd->keep_alarm_check);
 
-		view->priv->current_client = cal_client;
+		itip_view_update_import_bare_options (view);
 
 		/* Provide extra info, since its not in the component */
 		/* FIXME Check sequence number of meeting? */
@@ -5464,6 +5531,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 		}
 		break;
 	case ITIP_VIEW_RESPONSE_IMPORT:
+	case ITIP_VIEW_RESPONSE_IMPORT_BARE:
 		switch (e_cal_client_get_source_type (client)) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 		default:
@@ -5704,7 +5772,8 @@ update_item (ItipView *view,
 }
 
 static void
-import_item (ItipView *view)
+import_item (ItipView *view,
+	     gboolean bare_import)
 {
 	ICalComponent *main_comp_clone;
 	ICalComponent *subcomp;
@@ -5723,14 +5792,20 @@ import_item (ItipView *view)
 
 		if ((child_kind == I_CAL_VEVENT_COMPONENT ||
 		    child_kind == I_CAL_VJOURNAL_COMPONENT ||
-		    child_kind == I_CAL_VTODO_COMPONENT) &&
-		    e_cal_util_component_has_property (subcomp, I_CAL_ATTACH_PROPERTY)) {
-			ECalComponent *comp;
+		    child_kind == I_CAL_VTODO_COMPONENT)) {
+			if (bare_import) {
+				e_cal_util_component_remove_property_by_kind (subcomp, I_CAL_ORGANIZER_PROPERTY, TRUE);
+				e_cal_util_component_remove_property_by_kind (subcomp, I_CAL_ATTENDEE_PROPERTY, TRUE);
+			}
 
-			comp = e_cal_component_new_from_icalcomponent (g_object_ref (subcomp));
-			if (comp) {
-				itip_view_add_attachments_from_message (view, comp);
-				g_clear_object (&comp);
+			if (e_cal_util_component_has_property (subcomp, I_CAL_ATTACH_PROPERTY)) {
+				ECalComponent *comp;
+
+				comp = e_cal_component_new_from_icalcomponent (g_object_ref (subcomp));
+				if (comp) {
+					itip_view_add_attachments_from_message (view, comp);
+					g_clear_object (&comp);
+				}
 			}
 		}
 
@@ -5740,7 +5815,7 @@ import_item (ItipView *view)
 
 	g_clear_object (&iter);
 
-	view->priv->update_item_response = ITIP_VIEW_RESPONSE_IMPORT;
+	view->priv->update_item_response = bare_import ? ITIP_VIEW_RESPONSE_IMPORT_BARE : ITIP_VIEW_RESPONSE_IMPORT;
 
 	e_cal_client_receive_objects (
 		view->priv->current_client,
@@ -6793,7 +6868,8 @@ view_response_cb (ItipView *view,
 				idle_open_cb, g_object_ref (view), g_object_unref);
 			return;
 		case ITIP_VIEW_RESPONSE_IMPORT:
-			import_item (view);
+		case ITIP_VIEW_RESPONSE_IMPORT_BARE:
+			import_item (view, response == ITIP_VIEW_RESPONSE_IMPORT_BARE);
 			break;
 		default:
 			break;
