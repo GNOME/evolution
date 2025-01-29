@@ -72,7 +72,7 @@ struct _EContactEditorDynTableClass {
 	/* defaults to GtkEntiy */
 	GtkWidget*	(*widget_create)	(EContactEditorDynTable *dyntable);
 
-	/* defaults to string_is_empty(txt) */
+	/* defaults to e_str_is_empty(txt) */
 	gboolean	(*widget_is_empty)	(EContactEditorDynTable *dyntable,
 						 GtkWidget *w);
 

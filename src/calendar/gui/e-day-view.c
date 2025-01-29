@@ -45,7 +45,6 @@
 #include "e-day-view-top-item.h"
 #include "ea-calendar.h"
 #include "itip-utils.h"
-#include "misc.h"
 #include "ea-day-view.h"
 
 /* The minimum amount of space wanted on each side of the date string. */
@@ -8103,7 +8102,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	client = event->comp_data->client;
 	on_server = !event->comp_data->is_new_component;
 
-	if (string_is_empty (text) && !on_server) {
+	if (e_str_is_empty (text) && !on_server) {
 		const gchar *uid;
 
 		uid = e_cal_component_get_uid (comp);
@@ -8125,7 +8124,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 			e_day_view_update_event_label (
 				day_view, day,
 				event_num);
-	} else if ((summary && e_cal_component_text_get_value (summary)) || !string_is_empty (text)) {
+	} else if ((summary && e_cal_component_text_get_value (summary)) || !e_str_is_empty (text)) {
 		ICalComponent *icomp = e_cal_component_get_icalcomponent (comp);
 
 		if (summary)

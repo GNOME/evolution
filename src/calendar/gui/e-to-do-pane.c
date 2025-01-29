@@ -30,7 +30,6 @@
 #include "e-cal-dialogs.h"
 #include "e-cal-ops.h"
 #include "itip-utils.h"
-#include "misc.h"
 
 #include "e-to-do-pane.h"
 
@@ -345,6 +344,53 @@ etdp_dup_component_summary (ICalComponent *icomp)
 		summary = g_strdup ("");
 
 	return summary;
+}
+
+static gchar *
+calculate_time (time_t start,
+                time_t end)
+{
+	time_t difference = end - start;
+	gchar *str;
+	gint   hours, minutes;
+	gchar *times[5];
+	gchar *joined;
+	gint   i;
+
+	i = 0;
+	if (difference >= 24 * 3600) {
+		gint days;
+
+		days = difference / (24 * 3600);
+		difference %= (24 * 3600);
+
+		times[i++] = g_strdup_printf (ngettext ("%d day", "%d days", days), days);
+	}
+	if (difference >= 3600) {
+		hours = difference / 3600;
+		difference %= 3600;
+
+		times[i++] = g_strdup_printf (ngettext ("%d hour", "%d hours", hours), hours);
+	}
+	if (difference >= 60) {
+		minutes = difference / 60;
+		difference %= 60;
+
+		times[i++] = g_strdup_printf (ngettext ("%d minute", "%d minutes", minutes), minutes);
+	}
+	if (i == 0 || difference != 0) {
+		/* TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third") */
+		times[i++] = g_strdup_printf (ngettext ("%d second", "%d seconds", difference), (gint) difference);
+	}
+
+	times[i] = NULL;
+	joined = g_strjoinv (" ", times);
+	str = g_strconcat ("(", joined, ")", NULL);
+	while (i > 0)
+		g_free (times[--i]);
+	g_free (joined);
+
+	return str;
 }
 
 static gboolean

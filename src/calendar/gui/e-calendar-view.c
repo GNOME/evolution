@@ -42,7 +42,6 @@
 #include "e-day-view.h"
 #include "e-month-view.h"
 #include "itip-utils.h"
-#include "misc.h"
 
 #define X_EVOLUTION_CLIENT_UID "X-EVOLUTION-CLIENT-UID"
 

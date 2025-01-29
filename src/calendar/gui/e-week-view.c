@@ -44,7 +44,6 @@
 #include "e-week-view-titles-item.h"
 #include "ea-calendar.h"
 #include "itip-utils.h"
-#include "misc.h"
 #include "ea-week-view.h"
 
 #define E_WEEK_VIEW_SMALL_FONT_PTSIZE 7
@@ -4907,7 +4906,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	client = event->comp_data->client;
 	on_server = !event->comp_data->is_new_component;
 
-	if (string_is_empty (text) && !on_server) {
+	if (e_str_is_empty (text) && !on_server) {
 		uid = e_cal_component_get_uid (comp);
 		g_signal_handlers_disconnect_by_func (item, e_week_view_on_text_item_event, week_view);
 		e_week_view_foreach_event_with_uid (week_view, uid,
@@ -4930,7 +4929,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 		if (!e_week_view_is_one_day_event (week_view, event_num))
 			e_week_view_reshape_event_span (week_view, event_num, span_num);
-	} else if ((summary && e_cal_component_text_get_value (summary)) || !string_is_empty (text)) {
+	} else if ((summary && e_cal_component_text_get_value (summary)) || !e_str_is_empty (text)) {
 		ICalComponent *icomp = e_cal_component_get_icalcomponent (comp);
 
 		e_cal_component_text_free (summary);

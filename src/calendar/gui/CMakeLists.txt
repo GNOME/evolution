@@ -87,7 +87,6 @@ set(SOURCES
 	e-year-view.c
 	gal-calendar-view.c
 	itip-utils.c
-	misc.c
 	ea-calendar.c
 	ea-calendar-helpers.c
 	ea-cal-view.c
@@ -166,7 +165,6 @@ set(HEADERS
 	e-year-view.h
 	gal-calendar-view.h
 	itip-utils.h
-	misc.h
 	ea-calendar.h
 	ea-calendar-helpers.h
 	ea-cal-view.h
