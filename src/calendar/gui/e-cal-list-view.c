@@ -37,7 +37,6 @@
 #include "comp-util.h"
 #include "itip-utils.h"
 #include "calendar-config.h"
-#include "misc.h"
 
 struct _ECalListViewPrivate {
 	/* The main display table */

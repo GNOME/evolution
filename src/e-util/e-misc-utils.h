@@ -83,6 +83,7 @@ gchar *		e_str_without_underscores	(const gchar *string);
 GString *	e_str_replace_string		(const gchar *text,
 						 const gchar *find,
 						 const gchar *replace);
+gboolean	e_str_is_empty			(const gchar *value);
 gint		e_str_compare			(gconstpointer x,
 						 gconstpointer y);
 gint		e_str_case_compare		(gconstpointer x,

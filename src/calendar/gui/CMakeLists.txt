@@ -85,7 +85,6 @@ set(SOURCES
 	e-timezone-entry.c
 	e-year-view.c
 	itip-utils.c
-	misc.c
 	print.c
 	tag-calendar.c
 	ea-calendar.c
@@ -164,7 +163,6 @@ set(HEADERS
 	e-timezone-entry.h
 	e-year-view.h
 	itip-utils.h
-	misc.h
 	print.h
 	tag-calendar.h
 	ea-calendar.h

@@ -31,7 +31,6 @@
 #include "calendar-config.h"
 #include "e-cal-model-tasks.h"
 #include "e-cell-date-edit-text.h"
-#include "misc.h"
 
 struct _ECalModelTasksPrivate {
 	gboolean highlight_due_today;
@@ -472,7 +471,7 @@ set_geo (ECalModelComponent *comp_data,
 
 	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_GEO_PROPERTY);
 
-	if (string_is_empty (value)) {
+	if (e_str_is_empty (value)) {
 		if (prop) {
 			i_cal_component_remove_property (comp_data->icalcomp, prop);
 			g_object_unref (prop);
@@ -590,7 +589,7 @@ set_url (ECalModelComponent *comp_data,
 
 	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_URL_PROPERTY);
 
-	if (string_is_empty (value)) {
+	if (e_str_is_empty (value)) {
 		if (prop) {
 			i_cal_component_remove_property (comp_data->icalcomp, prop);
 			g_object_unref (prop);
@@ -614,7 +613,7 @@ set_location (ECalModelComponent *comp_data,
 
 	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_LOCATION_PROPERTY);
 
-	if (string_is_empty (value)) {
+	if (e_str_is_empty (value)) {
 		if (prop) {
 			i_cal_component_remove_property (comp_data->icalcomp, prop);
 			g_object_unref (prop);
@@ -1108,7 +1107,7 @@ cal_model_tasks_value_is_empty (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_STATUS :
 	case E_CAL_MODEL_TASKS_FIELD_URL :
 	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
-		return string_is_empty (value);
+		return e_str_is_empty (value);
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
 	case E_CAL_MODEL_TASKS_FIELD_ESTIMATED_DURATION:

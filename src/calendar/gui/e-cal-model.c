@@ -36,7 +36,6 @@
 #include "e-cal-dialogs.h"
 #include "e-cal-ops.h"
 #include "itip-utils.h"
-#include "misc.h"
 
 #include "e-cal-model.h"
 
@@ -514,7 +513,7 @@ set_summary (ECalModelComponent *comp_data,
 
 	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_SUMMARY_PROPERTY);
 
-	if (string_is_empty (value)) {
+	if (e_str_is_empty (value)) {
 		if (prop) {
 			i_cal_component_remove_property (comp_data->icalcomp, prop);
 			g_clear_object (&prop);
@@ -1835,12 +1834,12 @@ cal_model_value_is_empty (ETableModel *etm,
 		if (priv->default_category && value && strcmp (priv->default_category, value) == 0)
 			return TRUE;
 		else
-			return string_is_empty (value);
+			return e_str_is_empty (value);
 	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 	case E_CAL_MODEL_FIELD_SUMMARY :
 	case E_CAL_MODEL_FIELD_SOURCE:
-		return string_is_empty (value);
+		return e_str_is_empty (value);
 	case E_CAL_MODEL_FIELD_DTSTART :
 	case E_CAL_MODEL_FIELD_CREATED :
 	case E_CAL_MODEL_FIELD_LASTMODIFIED :

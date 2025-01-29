@@ -30,7 +30,6 @@
 #include "e-cal-dialogs.h"
 #include "e-cal-ops.h"
 #include "itip-utils.h"
-#include "misc.h"
 
 #include "e-to-do-pane.h"
 
@@ -498,12 +497,17 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 			etdp_itt_to_zone (ittend, (dtend && e_cal_component_datetime_get_value (dtend)) ?
 				e_cal_component_datetime_get_tzid (dtend) : e_cal_component_datetime_get_tzid (dt), client, default_zone);
 
-			strstart = etdp_format_date_time (client, default_zone, ittstart, NULL);
-			strduration = calculate_time (i_cal_time_as_timet (ittstart), i_cal_time_as_timet (ittend));
-
 			g_string_append_c (tooltip, '\n');
-			/* Translators: It will display "Time: StartDateAndTime (Duration)" */
-			etdp_append_to_string_escaped (tooltip, _("Time: %s %s"), strstart, strduration);
+
+			strstart = etdp_format_date_time (client, default_zone, ittstart, NULL);
+			strduration = e_cal_util_seconds_to_string (i_cal_time_as_timet (ittend) - i_cal_time_as_timet (ittstart));
+			if (strduration && *strduration) {
+				/* Translators: It will display "Time: StartDateAndTime (Duration)" */
+				etdp_append_to_string_escaped (tooltip, _("Time: %s (%s)"), strstart, strduration);
+			} else {
+				/* Translators: It will display "Time: StartDateAndTime" */
+				etdp_append_to_string_escaped (tooltip, _("Time: %s"), strstart, NULL);
+			}
 
 			g_free (strduration);
 			g_free (strstart);
