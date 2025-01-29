@@ -46,7 +46,6 @@
 #include "ea-calendar.h"
 #include "itip-utils.h"
 #include "misc.h"
-#include "print.h"
 #include "ea-day-view.h"
 
 /* The minimum amount of space wanted on each side of the date string. */

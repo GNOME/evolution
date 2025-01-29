@@ -45,7 +45,6 @@
 #include "ea-calendar.h"
 #include "itip-utils.h"
 #include "misc.h"
-#include "print.h"
 #include "ea-week-view.h"
 
 #define E_WEEK_VIEW_SMALL_FONT_PTSIZE 7

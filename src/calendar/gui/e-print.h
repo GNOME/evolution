@@ -21,8 +21,8 @@
  *
  */
 
-#ifndef PRINT_H
-#define PRINT_H
+#ifndef E_PRINT_H
+#define E_PRINT_H
 
 #include <e-util/e-util.h>
 
@@ -36,17 +36,17 @@ typedef enum {
 	E_PRINT_VIEW_LIST
 } EPrintView;
 
-void		print_calendar			(ECalendarView *cal_view,
+void		e_print_calendar		(ECalendarView *cal_view,
 						 ETable *tasks_table,
 						 EPrintView print_view_type,
 						 GtkPrintOperationAction action,
 						 time_t start);
-void		print_comp			(ECalComponent *comp,
+void		e_print_comp			(ECalComponent *comp,
 						 ECalClient *cal_client,
 						 ICalTimezone *zone,
 						 gboolean use_24_hour_format,
 						 GtkPrintOperationAction action);
-void		print_table			(ETable *table,
+void		e_print_table			(ETable *table,
 						 const gchar *dialog_title,
 						 const gchar *print_header,
 						 GtkPrintOperationAction action);

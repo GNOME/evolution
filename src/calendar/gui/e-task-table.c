@@ -44,7 +44,6 @@
 #include "e-cell-date-edit-text.h"
 #include "e-cell-estimated-duration.h"
 #include "itip-utils.h"
-#include "print.h"
 #include "misc.h"
 
 struct _ETaskTablePrivate {

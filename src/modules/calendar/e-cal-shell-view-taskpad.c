@@ -249,7 +249,7 @@ action_calendar_taskpad_print_cb (EUIAction *action,
 	/* XXX We only print the first selected task. */
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 
-	print_comp (
+	e_print_comp (
 		comp, comp_data->client,
 		e_cal_model_get_timezone (model),
 		e_cal_model_get_use_24_hour_format (model),

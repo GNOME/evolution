@@ -25,7 +25,7 @@
 
 #include "evolution-config.h"
 
-#include "print.h"
+#include "e-print.h"
 
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -3518,11 +3518,11 @@ print_calendar_draw_page (GtkPrintOperation *operation,
 }
 
 void
-print_calendar (ECalendarView *cal_view,
-		ETable *tasks_table,
-		EPrintView print_view_type,
-                GtkPrintOperationAction action,
-                time_t start)
+e_print_calendar (ECalendarView *cal_view,
+                  ETable *tasks_table,
+                  EPrintView print_view_type,
+                  GtkPrintOperationAction action,
+                  time_t start)
 {
 	GtkPrintOperation *operation;
 	PrintCalItem *pci;
@@ -3897,11 +3897,11 @@ print_comp_begin_print (GtkPrintOperation *operation,
 }
 
 void
-print_comp (ECalComponent *comp,
-            ECalClient *cal_client,
-            ICalTimezone *zone,
-            gboolean use_24_hour_format,
-            GtkPrintOperationAction action)
+e_print_comp (ECalComponent *comp,
+              ECalClient *cal_client,
+              ICalTimezone *zone,
+              gboolean use_24_hour_format,
+              GtkPrintOperationAction action)
 {
 	GtkPrintOperation *operation;
 	PrintCompItem *pci;
@@ -4012,10 +4012,10 @@ print_table_draw_page (GtkPrintOperation *operation,
 }
 
 void
-print_table (ETable *table,
-             const gchar *dialog_title,
-             const gchar *print_header,
-             GtkPrintOperationAction action)
+e_print_table (ETable *table,
+               const gchar *dialog_title,
+               const gchar *print_header,
+               GtkPrintOperationAction action)
 {
 	GtkPrintOperation *operation;
 	EPrintable *printable;

@@ -72,6 +72,7 @@ set(SOURCES
 	e-meeting-utils.c
 	e-memo-table.c
 	e-month-view.c
+	e-print.c
 	e-select-names-editable.c
 	e-select-names-renderer.c
 	e-tag-calendar.c
@@ -87,7 +88,6 @@ set(SOURCES
 	e-year-view.c
 	itip-utils.c
 	misc.c
-	print.c
 	ea-calendar.c
 	ea-calendar-helpers.c
 	ea-cal-view.c
@@ -151,6 +151,7 @@ set(HEADERS
 	e-meeting-utils.h
 	e-memo-table.h
 	e-month-view.h
+	e-print.h
 	e-select-names-editable.h
 	e-select-names-renderer.h
 	e-tag-calendar.h
@@ -166,7 +167,6 @@ set(HEADERS
 	e-year-view.h
 	itip-utils.h
 	misc.h
-	print.h
 	ea-calendar.h
 	ea-calendar-helpers.h
 	ea-cal-view.h

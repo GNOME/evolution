@@ -33,7 +33,7 @@
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-component-preview.h"
 #include "calendar/gui/e-cal-model-tasks.h"
-#include "calendar/gui/print.h"
+#include "calendar/gui/e-print.h"
 
 #include "e-cal-base-shell-sidebar.h"
 

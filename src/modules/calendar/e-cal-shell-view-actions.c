@@ -24,7 +24,7 @@
 #include "calendar/gui/e-cal-ops.h"
 #include "calendar/gui/e-comp-editor.h"
 #include "calendar/gui/itip-utils.h"
-#include "calendar/gui/print.h"
+#include "calendar/gui/e-print.h"
 
 #include "e-cal-base-shell-view.h"
 #include "e-cal-shell-view-private.h"
@@ -208,7 +208,7 @@ cal_shell_view_actions_print_or_preview (ECalShellView *cal_shell_view,
 		ETable *table;
 
 		table = e_cal_list_view_get_table (E_CAL_LIST_VIEW (cal_view));
-		print_table (table, _("Print"), _("Calendar"), print_action);
+		e_print_table (table, _("Print"), _("Calendar"), print_action);
 	} else {
 		EPrintView print_view_type;
 		ETable *tasks_table;
@@ -240,7 +240,7 @@ cal_shell_view_actions_print_or_preview (ECalShellView *cal_shell_view,
 
 		g_warn_if_fail (e_calendar_view_get_selected_time_range (cal_view, &start, &end));
 
-		print_calendar (cal_view, tasks_table, print_view_type, print_action, start);
+		e_print_calendar (cal_view, tasks_table, print_view_type, print_action, start);
 	}
 }
 
@@ -1101,7 +1101,7 @@ action_event_print_cb (EUIAction *action,
 
 	component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 
-	print_comp (
+	e_print_comp (
 		component, client,
 		e_cal_model_get_timezone (model),
 		e_cal_model_get_use_24_hour_format (model),

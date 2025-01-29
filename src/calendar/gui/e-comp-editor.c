@@ -27,8 +27,8 @@
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "e-cal-dialogs.h"
+#include "e-print.h"
 #include "itip-utils.h"
-#include "print.h"
 
 #include "e-comp-editor-page-general.h"
 #include "e-comp-editor-page-attachments.h"
@@ -1527,7 +1527,7 @@ ece_print_or_preview (ECompEditor *comp_editor,
 	comp = e_cal_component_new_from_icalcomponent (component);
 	g_return_if_fail (comp != NULL);
 
-	print_comp (comp,
+	e_print_comp (comp,
 		e_comp_editor_get_target_client (comp_editor),
 		calendar_config_get_icaltimezone (),
 		calendar_config_get_24_hour_format (),

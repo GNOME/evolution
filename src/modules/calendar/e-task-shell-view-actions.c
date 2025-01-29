@@ -263,7 +263,7 @@ action_task_list_print_cb (EUIAction *action,
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	print_table (
+	e_print_table (
 		E_TABLE (task_table), _("Print Tasks"), _("Tasks"),
 		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
@@ -280,7 +280,7 @@ action_task_list_print_preview_cb (EUIAction *action,
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	print_table (
+	e_print_table (
 		E_TABLE (task_table), _("Print Tasks"), _("Tasks"),
 		GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
@@ -595,7 +595,7 @@ action_task_print_cb (EUIAction *action,
 	/* XXX We only print the first selected task. */
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 
-	print_comp (
+	e_print_comp (
 		comp, comp_data->client,
 		e_cal_model_get_timezone (model),
 		e_cal_model_get_use_24_hour_format (model),
