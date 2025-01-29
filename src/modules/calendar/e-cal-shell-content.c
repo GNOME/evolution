@@ -22,7 +22,6 @@
 #include <glib/gi18n-lib.h>
 
 #include "calendar/gui/calendar-config.h"
-#include "calendar/gui/calendar-view.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-list-view.h"
 #include "calendar/gui/e-cal-model-calendar.h"
@@ -34,6 +33,7 @@
 #include "calendar/gui/e-tag-calendar.h"
 #include "calendar/gui/e-week-view.h"
 #include "calendar/gui/e-year-view.h"
+#include "calendar/gui/gal-calendar-view.h"
 #include "calendar/gui/itip-utils.h"
 
 #include "e-cal-base-shell-sidebar.h"

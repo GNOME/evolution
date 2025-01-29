@@ -23,8 +23,8 @@
 #include "e-cal-shell-view-private.h"
 
 #include "calendar/gui/ea-calendar.h"
-#include "calendar/gui/calendar-view.h"
 #include "calendar/gui/e-year-view.h"
+#include "calendar/gui/gal-calendar-view.h"
 
 #include "e-cal-base-shell-sidebar.h"
 #include "e-cal-shell-content.h"

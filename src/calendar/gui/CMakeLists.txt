@@ -26,7 +26,6 @@ set(DEPENDENCIES
 
 set(SOURCES
 	calendar-config.c
-	calendar-view.c
 	comp-util.c
 	e-alarm-list.c
 	e-bulk-edit-tasks.c
@@ -86,6 +85,7 @@ set(SOURCES
 	e-weekday-chooser.c
 	e-timezone-entry.c
 	e-year-view.c
+	gal-calendar-view.c
 	itip-utils.c
 	misc.c
 	ea-calendar.c
@@ -104,7 +104,6 @@ set(SOURCES
 set(HEADERS
 	calendar-config.h
 	calendar-config-keys.h
-	calendar-view.h
 	comp-util.h
 	e-alarm-list.h
 	e-bulk-edit-tasks.h
@@ -165,6 +164,7 @@ set(HEADERS
 	e-weekday-chooser.h
 	e-timezone-entry.h
 	e-year-view.h
+	gal-calendar-view.h
 	itip-utils.h
 	misc.h
 	ea-calendar.h

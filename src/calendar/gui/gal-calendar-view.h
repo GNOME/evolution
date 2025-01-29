@@ -1,5 +1,5 @@
 /*
- * calendar-view.h
+ * gal-calendar-view.h
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -15,8 +15,8 @@
  *
  */
 
-#ifndef CALENDAR_VIEW_H
-#define CALENDAR_VIEW_H
+#ifndef GAL_CALENDAR_VIEW_H
+#define GAL_CALENDAR_VIEW_H
 
 #include <e-util/e-util.h>
 
@@ -57,4 +57,4 @@ GType		gal_view_calendar_year_get_type		(void) G_GNUC_CONST;
 
 G_END_DECLS
 
-#endif /* CALENDAR_VIEW_H */
+#endif /* GAL_CALENDAR_VIEW_H */
