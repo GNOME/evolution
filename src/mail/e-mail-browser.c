@@ -32,8 +32,8 @@
 
 #include "e-mail-reader.h"
 #include "e-mail-reader-utils.h"
+#include "e-message-list.h"
 #include "em-folder-tree-model.h"
-#include "message-list.h"
 
 #define ACTION_GROUP_STANDARD		"action-group-standard"
 #define ACTION_GROUP_SEARCH_FOLDERS	"action-group-search-folders"
@@ -191,12 +191,12 @@ close_on_idle_cb (gpointer browser)
 
 static void
 mail_browser_message_list_built_cb (EMailBrowser *browser,
-                                    MessageList *message_list)
+                                    EMessageList *message_list)
 {
 	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
-	if (message_list_count (message_list) == 0)
+	if (e_message_list_count (message_list) == 0)
 		/* Prioritize ahead of GTK+ redraws. */
 		g_idle_add_full (
 			G_PRIORITY_HIGH_IDLE,
@@ -671,7 +671,7 @@ mail_browser_constructed (GObject *object)
 	/* The message list is a widget, but it is not shown in the browser.
 	 * Unfortunately, the widget is inseparable from its model, and the
 	 * model is all we need. */
-	browser->priv->message_list = message_list_new (session);
+	browser->priv->message_list = e_message_list_new (session);
 	g_object_ref_sink (browser->priv->message_list);
 
 	g_signal_connect_swapped (

@@ -35,7 +35,6 @@
 #include "em-folder-tree-model.h"
 #include "em-composer-utils.h"
 #include "em-utils.h"
-#include "message-list.h"
 
 struct _EMailFolderPanePrivate {
 	gint placeholder;

@@ -37,7 +37,6 @@
 #include "mail/e-mail-browser.h"
 #include "mail/e-mail-view.h"
 #include "mail/em-utils.h"
-#include "mail/message-list.h"
 
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"

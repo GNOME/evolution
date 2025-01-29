@@ -57,7 +57,7 @@
 #define localtime_r(tp,tmp) (localtime(tp)?(*(tmp)=*localtime(tp),(tmp)):0)
 #endif
 
-#include "message-list.h"
+#include "e-message-list.h"
 
 #define d(x)
 #define t(x)
@@ -75,7 +75,7 @@ struct _MLSelection {
 	CamelFolder *folder;
 };
 
-struct _MessageListPrivate {
+struct _EMessageListPrivate {
 	GtkWidget *invisible;	/* 4 selection */
 
 	EMailSession *session;
@@ -148,7 +148,7 @@ struct _RegenData {
 	volatile gint ref_count;
 
 	EActivity *activity;
-	MessageList *message_list;
+	EMessageList *message_list;
 	ETableSortInfo *sort_info;
 	ETableHeader *full_header;
 
@@ -204,11 +204,11 @@ static void	message_list_selectable_init
 static void	message_list_tree_model_init
 					(ETreeModelInterface *iface);
 static gboolean	message_list_get_hide_deleted
-					(MessageList *message_list,
+					(EMessageList *message_list,
 					 CamelFolder *folder);
 
-G_DEFINE_TYPE_WITH_CODE (MessageList, message_list, E_TYPE_TREE,
-	G_ADD_PRIVATE (MessageList)
+G_DEFINE_TYPE_WITH_CODE (EMessageList, e_message_list, E_TYPE_TREE,
+	G_ADD_PRIVATE (EMessageList)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, message_list_selectable_init)
 	G_IMPLEMENT_INTERFACE (E_TYPE_TREE_MODEL, message_list_tree_model_init))
@@ -278,22 +278,22 @@ static void	on_cursor_activated_cmd		(ETree *tree,
 						 GNode *node,
 						 gpointer user_data);
 static void	on_selection_changed_cmd	(ETree *tree,
-						 MessageList *message_list);
+						 EMessageList *message_list);
 static gint	on_click			(ETree *tree,
 						 gint row,
 						 GNode *node,
 						 gint col,
 						 GdkEvent *event,
-						 MessageList *message_list);
+						 EMessageList *message_list);
 
-static void	mail_regen_list			(MessageList *message_list,
+static void	mail_regen_list			(EMessageList *message_list,
 						 const gchar *search,
 						 CamelFolderChangeInfo *folder_changes);
-static void	mail_regen_cancel		(MessageList *message_list);
+static void	mail_regen_cancel		(EMessageList *message_list);
 
 static void	clear_info			(gchar *key,
 						 GNode *node,
-						 MessageList *message_list);
+						 EMessageList *message_list);
 
 enum {
 	MESSAGE_SELECTED,
@@ -466,7 +466,7 @@ extended_g_node_insert (GNode *parent,
 }
 
 static RegenData *
-regen_data_new (MessageList *message_list,
+regen_data_new (EMessageList *message_list,
                 GCancellable *cancellable)
 {
 	RegenData *regen_data;
@@ -484,7 +484,7 @@ regen_data_new (MessageList *message_list,
 	regen_data->ref_count = 1;
 	regen_data->activity = g_object_ref (activity);
 	regen_data->message_list = g_object_ref (message_list);
-	regen_data->folder = message_list_ref_folder (message_list);
+	regen_data->folder = e_message_list_ref_folder (message_list);
 	regen_data->last_row = -1;
 
 	if (adapter) {
@@ -502,7 +502,7 @@ regen_data_new (MessageList *message_list,
 
 	g_mutex_init (&regen_data->select_lock);
 
-	session = message_list_get_session (message_list);
+	session = e_message_list_get_session (message_list);
 	e_mail_ui_session_add_activity (E_MAIL_UI_SESSION (session), activity);
 
 	g_object_unref (activity);
@@ -566,7 +566,7 @@ regen_data_unref (RegenData *regen_data)
 }
 
 static RegenData *
-message_list_ref_regen_data (MessageList *message_list)
+message_list_ref_regen_data (EMessageList *message_list)
 {
 	RegenData *regen_data = NULL;
 
@@ -581,7 +581,7 @@ message_list_ref_regen_data (MessageList *message_list)
 }
 
 static void
-message_list_tree_model_freeze (MessageList *message_list)
+message_list_tree_model_freeze (EMessageList *message_list)
 {
 	if (message_list->priv->tree_model_frozen == 0)
 		e_tree_model_pre_change (E_TREE_MODEL (message_list));
@@ -590,7 +590,7 @@ message_list_tree_model_freeze (MessageList *message_list)
 }
 
 static void
-message_list_tree_model_thaw (MessageList *message_list)
+message_list_tree_model_thaw (EMessageList *message_list)
 {
 	if (message_list->priv->tree_model_frozen > 0)
 		message_list->priv->tree_model_frozen--;
@@ -602,7 +602,7 @@ message_list_tree_model_thaw (MessageList *message_list)
 }
 
 static GNode *
-message_list_tree_model_insert (MessageList *message_list,
+message_list_tree_model_insert (EMessageList *message_list,
                                 GNode *parent,
                                 gint position,
                                 gpointer data)
@@ -637,7 +637,7 @@ message_list_tree_model_insert (MessageList *message_list,
 }
 
 static void
-message_list_tree_model_remove (MessageList *message_list,
+message_list_tree_model_remove (EMessageList *message_list,
                                 GNode *node)
 {
 	ETreeModel *tree_model;
@@ -721,7 +721,7 @@ filter_size (gint size)
 
 /* Gets the uid of the message displayed at a given view row */
 static const gchar *
-get_message_uid (MessageList *message_list,
+get_message_uid (EMessageList *message_list,
                  GNode *node)
 {
 	g_return_val_if_fail (node != NULL, NULL);
@@ -734,7 +734,7 @@ get_message_uid (MessageList *message_list,
  * view row.
  */
 static CamelMessageInfo *
-get_message_info (MessageList *message_list,
+get_message_info (EMessageList *message_list,
                   GNode *node)
 {
 	g_return_val_if_fail (node != NULL, NULL);
@@ -744,7 +744,7 @@ get_message_info (MessageList *message_list,
 }
 
 static const gchar *
-get_normalised_string (MessageList *message_list,
+get_normalised_string (EMessageList *message_list,
                        CamelMessageInfo *info,
                        gint col)
 {
@@ -824,7 +824,7 @@ get_normalised_string (MessageList *message_list,
 }
 
 static void
-clear_selection (MessageList *message_list,
+clear_selection (EMessageList *message_list,
                  struct _MLSelection *selection)
 {
 	g_clear_pointer (&selection->uids, g_ptr_array_unref);
@@ -929,7 +929,7 @@ ml_get_last_tree_node (GNode *node,
 }
 
 static GNode *
-ml_search_forward (MessageList *message_list,
+ml_search_forward (EMessageList *message_list,
                    gint start,
                    gint end,
                    guint32 flags,
@@ -968,7 +968,7 @@ ml_search_forward (MessageList *message_list,
 }
 
 static GNode *
-ml_search_backward (MessageList *message_list,
+ml_search_backward (EMessageList *message_list,
                     gint start,
                     gint end,
                     guint32 flags,
@@ -1022,8 +1022,8 @@ ml_search_backward (MessageList *message_list,
 }
 
 static GNode *
-ml_search_path (MessageList *message_list,
-                MessageListSelectDirection direction,
+ml_search_path (EMessageList *message_list,
+                EMessageListSelectDirection direction,
                 guint32 flags,
                 guint32 mask)
 {
@@ -1049,17 +1049,17 @@ ml_search_path (MessageList *message_list,
 	if (row == -1)
 		return NULL;
 
-	include_collapsed = (direction & MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED) != 0;
+	include_collapsed = (direction & E_MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED) != 0;
 
-	if ((direction & MESSAGE_LIST_SELECT_DIRECTION) == MESSAGE_LIST_SELECT_NEXT)
+	if ((direction & E_MESSAGE_LIST_SELECT_DIRECTION) == E_MESSAGE_LIST_SELECT_NEXT)
 		node = ml_search_forward (
 			message_list, row, row_count - 1, flags, mask, include_collapsed, TRUE);
 	else
 		node = ml_search_backward (
 			message_list, row, 0, flags, mask, include_collapsed, TRUE);
 
-	if (node == NULL && (direction & MESSAGE_LIST_SELECT_WRAP)) {
-		if ((direction & MESSAGE_LIST_SELECT_DIRECTION) == MESSAGE_LIST_SELECT_NEXT)
+	if (node == NULL && (direction & E_MESSAGE_LIST_SELECT_WRAP)) {
+		if ((direction & E_MESSAGE_LIST_SELECT_DIRECTION) == E_MESSAGE_LIST_SELECT_NEXT)
 			node = ml_search_forward (
 				message_list, 0, row, flags, mask, include_collapsed, FALSE);
 		else
@@ -1071,7 +1071,7 @@ ml_search_path (MessageList *message_list,
 }
 
 static void
-select_node (MessageList *message_list,
+select_node (EMessageList *message_list,
              GNode *node)
 {
 	ETree *tree;
@@ -1092,16 +1092,16 @@ select_node (MessageList *message_list,
 
 /**
  * message_list_select:
- * @message_list: a MessageList
+ * @message_list: a EMessageList
  * @direction: the direction to search in
  * @flags: a set of flag values
  * @mask: a mask for comparing against @flags
  *
  * This moves the message list selection to a suitable row. @flags and
  * @mask combine to specify what constitutes a suitable row. @direction is
- * %MESSAGE_LIST_SELECT_NEXT if it should find the next matching
- * message, or %MESSAGE_LIST_SELECT_PREVIOUS if it should find the
- * previous. %MESSAGE_LIST_SELECT_WRAP is an option bit which specifies the
+ * %E_MESSAGE_LIST_SELECT_NEXT if it should find the next matching
+ * message, or %E_MESSAGE_LIST_SELECT_PREVIOUS if it should find the
+ * previous. %E_MESSAGE_LIST_SELECT_WRAP is an option bit which specifies the
  * search should wrap.
  *
  * If no suitable row is found, the selection will be
@@ -1110,14 +1110,14 @@ select_node (MessageList *message_list,
  * Returns %TRUE if a new message has been selected or %FALSE otherwise.
  **/
 gboolean
-message_list_select (MessageList *message_list,
-                     MessageListSelectDirection direction,
+e_message_list_select (EMessageList *message_list,
+                     EMessageListSelectDirection direction,
                      guint32 flags,
                      guint32 mask)
 {
 	GNode *node;
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	node = ml_search_path (message_list, direction, flags, mask);
 	if (node != NULL) {
@@ -1145,12 +1145,12 @@ message_list_select (MessageList *message_list,
  * Return value:
  **/
 gboolean
-message_list_can_select (MessageList *message_list,
-                         MessageListSelectDirection direction,
+e_message_list_can_select (EMessageList *message_list,
+                         EMessageListSelectDirection direction,
                          guint32 flags,
                          guint32 mask)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	return ml_search_path (message_list, direction, flags, mask) != NULL;
 }
@@ -1163,16 +1163,16 @@ message_list_can_select (MessageList *message_list,
  * Selects the message with the given UID.
  **/
 void
-message_list_select_uid (MessageList *message_list,
+e_message_list_select_uid (EMessageList *message_list,
                          const gchar *uid,
                          gboolean with_fallback)
 {
-	MessageListPrivate *priv;
+	EMessageListPrivate *priv;
 	GHashTable *uid_nodemap;
 	GNode *node = NULL;
 	RegenData *regen_data = NULL;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	priv = message_list->priv;
 	uid_nodemap = message_list->uid_nodemap;
@@ -1244,7 +1244,7 @@ message_list_select_uid (MessageList *message_list,
 }
 
 void
-message_list_select_next_thread (MessageList *message_list)
+e_message_list_select_next_thread (EMessageList *message_list)
 {
 	ETreeTableAdapter *adapter;
 	GNode *node;
@@ -1252,7 +1252,7 @@ message_list_select_next_thread (MessageList *message_list)
 	gint row;
 	gint ii;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if (message_list->cursor_uid == NULL)
 		return;
@@ -1281,7 +1281,7 @@ message_list_select_next_thread (MessageList *message_list)
 }
 
 void
-message_list_select_prev_thread (MessageList *message_list)
+e_message_list_select_prev_thread (EMessageList *message_list)
 {
 	ETreeTableAdapter *adapter;
 	GNode *node;
@@ -1289,7 +1289,7 @@ message_list_select_prev_thread (MessageList *message_list)
 	gint row;
 	gint ii;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if (message_list->cursor_uid == NULL)
 		return;
@@ -1325,17 +1325,17 @@ message_list_select_prev_thread (MessageList *message_list)
 }
 
 /**
- * message_list_select_all:
+ * e_message_list_select_all:
  * @message_list: Message List widget
  *
  * Selects all messages in the message list.
  **/
 void
-message_list_select_all (MessageList *message_list)
+e_message_list_select_all (EMessageList *message_list)
 {
 	RegenData *regen_data = NULL;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	regen_data = message_list_ref_regen_data (message_list);
 
@@ -1355,7 +1355,7 @@ message_list_select_all (MessageList *message_list)
 }
 
 typedef struct thread_select_info {
-	MessageList *message_list;
+	EMessageList *message_list;
 	GPtrArray *paths;
 } thread_select_info_t;
 
@@ -1372,7 +1372,7 @@ select_thread_node (ETreeModel *model,
 }
 
 static void
-select_thread (MessageList *message_list,
+select_thread (EMessageList *message_list,
                ETreeForeachFunc selector)
 {
 	ETree *tree;
@@ -1421,9 +1421,9 @@ thread_select_foreach (ETreePath path,
  * Selects all messages in the current thread (based on cursor).
  **/
 void
-message_list_select_thread (MessageList *message_list)
+e_message_list_select_thread (EMessageList *message_list)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	select_thread (message_list, thread_select_foreach);
 }
@@ -1449,34 +1449,34 @@ subthread_select_foreach (ETreePath path,
  * Selects all messages in the current subthread (based on cursor).
  **/
 void
-message_list_select_subthread (MessageList *message_list)
+e_message_list_select_subthread (EMessageList *message_list)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	select_thread (message_list, subthread_select_foreach);
 }
 
 void
-message_list_copy (MessageList *message_list,
+e_message_list_copy (EMessageList *message_list,
                    gboolean cut)
 {
-	MessageListPrivate *priv;
+	EMessageListPrivate *priv;
 	GPtrArray *uids;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	priv = message_list->priv;
 
 	clear_selection (message_list, &priv->clipboard);
 
-	uids = message_list_get_selected_with_collapsed_threads (message_list);
+	uids = e_message_list_get_selected_with_collapsed_threads (message_list);
 
 	if (uids->len > 0) {
 		if (cut) {
 			CamelFolder *folder;
 			gint i;
 
-			folder = message_list_ref_folder (message_list);
+			folder = e_message_list_ref_folder (message_list);
 
 			camel_folder_freeze (folder);
 
@@ -1494,7 +1494,7 @@ message_list_copy (MessageList *message_list,
 		}
 
 		priv->clipboard.uids = g_ptr_array_ref (uids);
-		priv->clipboard.folder = message_list_ref_folder (message_list);
+		priv->clipboard.folder = e_message_list_ref_folder (message_list);
 
 		gtk_selection_owner_set (
 			priv->invisible,
@@ -1510,9 +1510,9 @@ message_list_copy (MessageList *message_list,
 }
 
 void
-message_list_paste (MessageList *message_list)
+e_message_list_paste (EMessageList *message_list)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	gtk_selection_convert (
 		message_list->priv->invisible,
@@ -1522,7 +1522,7 @@ message_list_paste (MessageList *message_list)
 }
 
 static void
-for_node_and_subtree_if_collapsed (MessageList *message_list,
+for_node_and_subtree_if_collapsed (EMessageList *message_list,
                                    GNode *node,
                                    CamelMessageInfo *mi,
                                    ETreePathFunc func,
@@ -1731,7 +1731,7 @@ add_all_labels_foreach (ETreeModel *etm,
 
 static const gchar *
 get_trimmed_subject (CamelMessageInfo *info,
-		     MessageList *message_list)
+		     EMessageList *message_list)
 {
 	const gchar *subject;
 	const gchar *mlist;
@@ -1799,13 +1799,13 @@ ml_tree_value_at_ex (ETreeModel *etm,
                      GNode *node,
                      gint col,
                      CamelMessageInfo *msg_info,
-                     MessageList *message_list)
+                     EMessageList *message_list)
 {
 	EMailSession *session;
 	const gchar *str;
 	guint32 flags;
 
-	session = message_list_get_session (message_list);
+	session = e_message_list_get_session (message_list);
 
 	g_return_val_if_fail (msg_info != NULL, NULL);
 
@@ -2472,15 +2472,15 @@ message_list_create_extras (GSettings *mail_settings)
 }
 
 static gboolean
-message_list_is_searching (MessageList *message_list)
+message_list_is_searching (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	return message_list->search && *message_list->search;
 }
 
 static void
-save_tree_state (MessageList *message_list,
+save_tree_state (EMessageList *message_list,
                  CamelFolder *folder)
 {
 	ETreeTableAdapter *adapter;
@@ -2502,7 +2502,7 @@ save_tree_state (MessageList *message_list,
 }
 
 static void
-load_tree_state (MessageList *message_list,
+load_tree_state (EMessageList *message_list,
                  CamelFolder *folder,
                  xmlDoc *expand_state)
 {
@@ -2529,13 +2529,13 @@ load_tree_state (MessageList *message_list,
 }
 
 void
-message_list_save_state (MessageList *message_list)
+e_message_list_save_state (EMessageList *message_list)
 {
 	CamelFolder *folder;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
-	folder = message_list_ref_folder (message_list);
+	folder = e_message_list_ref_folder (message_list);
 
 	if (folder != NULL) {
 		save_tree_state (message_list, folder);
@@ -2544,14 +2544,14 @@ message_list_save_state (MessageList *message_list)
 }
 
 static void
-message_list_setup_etree (MessageList *message_list)
+message_list_setup_etree (EMessageList *message_list)
 {
 	CamelFolder *folder;
 
 	/* Build the spec based on the folder, and possibly
 	 * from a saved file.   Otherwise, leave default. */
 
-	folder = message_list_ref_folder (message_list);
+	folder = e_message_list_ref_folder (message_list);
 
 	if (folder != NULL) {
 		gint data = 1;
@@ -2576,7 +2576,7 @@ ml_selection_get (GtkWidget *widget,
                   GtkSelectionData *data,
                   guint info,
                   guint time_stamp,
-                  MessageList *message_list)
+                  EMessageList *message_list)
 {
 	struct _MLSelection *selection;
 
@@ -2599,9 +2599,9 @@ ml_selection_get (GtkWidget *widget,
 static gboolean
 ml_selection_clear_event (GtkWidget *widget,
                           GdkEventSelection *event,
-                          MessageList *message_list)
+                          EMessageList *message_list)
 {
-	MessageListPrivate *p = message_list->priv;
+	EMessageListPrivate *p = message_list->priv;
 
 	clear_selection (message_list, &p->clipboard);
 
@@ -2612,7 +2612,7 @@ static void
 ml_selection_received (GtkWidget *widget,
                        GtkSelectionData *selection_data,
                        guint time,
-                       MessageList *message_list)
+                       EMessageList *message_list)
 {
 	EMailSession *session;
 	CamelFolder *folder;
@@ -2625,8 +2625,8 @@ ml_selection_received (GtkWidget *widget,
 		return;
 	}
 
-	folder = message_list_ref_folder (message_list);
-	session = message_list_get_session (message_list);
+	folder = e_message_list_ref_folder (message_list);
+	session = e_message_list_get_session (message_list);
 
 	/* FIXME Not passing a GCancellable or GError here. */
 	em_utils_selection_get_uidlist (
@@ -2644,13 +2644,13 @@ ml_tree_drag_data_get (ETree *tree,
                        GtkSelectionData *data,
                        guint info,
                        guint time,
-                       MessageList *message_list)
+                       EMessageList *message_list)
 {
 	CamelFolder *folder;
 	GPtrArray *uids;
 
-	folder = message_list_ref_folder (message_list);
-	uids = message_list_get_selected_with_collapsed_threads (message_list);
+	folder = e_message_list_ref_folder (message_list);
+	uids = e_message_list_get_selected_with_collapsed_threads (message_list);
 
 	if (uids->len > 0) {
 		switch (info) {
@@ -2678,7 +2678,7 @@ struct _drop_msg {
 	GtkSelectionData *selection;
 
 	CamelFolder *folder;
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	guint32 action;
 	guint info;
@@ -2708,7 +2708,7 @@ ml_drop_async_exec (struct _drop_msg *m,
 {
 	EMailSession *session;
 
-	session = message_list_get_session (m->message_list);
+	session = e_message_list_get_session (m->message_list);
 
 	switch (m->info) {
 	case DND_X_UID_LIST:
@@ -2778,7 +2778,7 @@ ml_tree_drag_data_received (ETree *tree,
                             GtkSelectionData *selection_data,
                             guint info,
                             guint time,
-                            MessageList *message_list)
+                            EMessageList *message_list)
 {
 	CamelFolder *folder;
 	struct _drop_msg *m;
@@ -2789,7 +2789,7 @@ ml_tree_drag_data_received (ETree *tree,
 	if (gtk_selection_data_get_length (selection_data) == -1)
 		return;
 
-	folder = message_list_ref_folder (message_list);
+	folder = e_message_list_ref_folder (message_list);
 	if (folder == NULL)
 		return;
 
@@ -2842,7 +2842,7 @@ ml_tree_drag_motion (ETree *tree,
                      gint x,
                      gint y,
                      guint time,
-                     MessageList *message_list)
+                     EMessageList *message_list)
 {
 	GList *targets;
 	GdkDragAction action, actions = 0;
@@ -2924,7 +2924,7 @@ static gboolean
 message_list_update_actions_idle_cb (gpointer user_data)
 {
 	GWeakRef *weak_ref = user_data;
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	g_return_val_if_fail (weak_ref != NULL, FALSE);
 
@@ -2942,9 +2942,9 @@ message_list_update_actions_idle_cb (gpointer user_data)
 }
 
 static void
-message_list_schedule_update_actions (MessageList *message_list)
+message_list_schedule_update_actions (EMessageList *message_list)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if (!message_list->priv->update_actions_idle_id) {
 		message_list->priv->update_actions_idle_id =
@@ -2956,7 +2956,7 @@ message_list_schedule_update_actions (MessageList *message_list)
 static void
 on_model_row_changed (ETableModel *model,
                       gint row,
-                      MessageList *message_list)
+                      EMessageList *message_list)
 {
 	message_list->priv->any_row_changed = TRUE;
 
@@ -2966,13 +2966,13 @@ on_model_row_changed (ETableModel *model,
 
 static gboolean
 ml_tree_sorting_changed (ETreeTableAdapter *adapter,
-                         MessageList *message_list)
+                         EMessageList *message_list)
 {
 	gboolean group_by_threads;
 
 	g_return_val_if_fail (message_list != NULL, FALSE);
 
-	group_by_threads = message_list_get_group_by_threads (message_list);
+	group_by_threads = e_message_list_get_group_by_threads (message_list);
 
 	if (group_by_threads && message_list->frozen == 0) {
 
@@ -2991,12 +2991,12 @@ ml_get_new_mail_bg_color (ETableItem *item,
 			  gint row,
 			  gint col,
 			  GdkRGBA *inout_background,
-			  MessageList *message_list)
+			  EMessageList *message_list)
 {
 	CamelMessageInfo *msg_info;
 	ETreePath path;
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 	g_return_val_if_fail (inout_background != NULL, FALSE);
 
 	if (!message_list->priv->new_mail_bg_color || row < 0)
@@ -3023,11 +3023,11 @@ ml_get_bg_color_cb (ETableItem *item,
 		    gint row,
 		    gint col,
 		    GdkRGBA *inout_background,
-		    MessageList *message_list)
+		    EMessageList *message_list)
 {
 	gboolean was_set = FALSE;
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 	g_return_val_if_fail (inout_background != NULL, FALSE);
 
 	if (row < 0)
@@ -3055,11 +3055,11 @@ ml_get_bg_color_cb (ETableItem *item,
 }
 
 static void
-ml_style_updated_cb (MessageList *message_list)
+ml_style_updated_cb (EMessageList *message_list)
 {
 	GdkRGBA *new_mail_fg_color = NULL;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	g_clear_pointer (&message_list->priv->new_mail_bg_color, gdk_rgba_free);
 	g_clear_pointer (&message_list->priv->new_mail_fg_color, g_free);
@@ -3082,7 +3082,7 @@ message_list_get_preferred_width (GtkWidget *widget,
 				  gint *out_natural_width)
 {
 	/* Chain up to parent's method. */
-	GTK_WIDGET_CLASS (message_list_parent_class)->get_preferred_width (widget, out_minimum_width, out_natural_width);
+	GTK_WIDGET_CLASS (e_message_list_parent_class)->get_preferred_width (widget, out_minimum_width, out_natural_width);
 
 	if (out_minimum_width && *out_minimum_width < 50)
 		*out_minimum_width = 50;
@@ -3097,10 +3097,10 @@ message_list_localized_re_changed_cb (GSettings *settings,
 				      const gchar *key,
 				      gpointer user_data)
 {
-	MessageList *message_list = user_data;
+	EMessageList *message_list = user_data;
 	gchar *prefixes;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	g_mutex_lock (&message_list->priv->re_prefixes_lock);
 
@@ -3117,9 +3117,9 @@ message_list_localized_re_separators_changed_cb (GSettings *settings,
 						 const gchar *key,
 						 gpointer user_data)
 {
-	MessageList *message_list = user_data;
+	EMessageList *message_list = user_data;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	g_mutex_lock (&message_list->priv->re_prefixes_lock);
 
@@ -3139,13 +3139,13 @@ message_list_user_headers_changed_cb (GSettings *settings,
 				      const gchar *key,
 				      gpointer user_data)
 {
-	/* Do it this way, to reuse the localized strings from the message-list.etspec */
+	/* Do it this way, to reuse the localized strings from the e-message-list.etspec */
 	const gchar *default_titles[] = {
 		N_("User Header 1"),
 		N_("User Header 2"),
 		N_("User Header 3")
 	};
-	MessageList *message_list = user_data;
+	EMessageList *message_list = user_data;
 	ETableSpecification *spec;
 	GnomeCanvasItem *header_item;
 	ETableHeader *header;
@@ -3153,7 +3153,7 @@ message_list_user_headers_changed_cb (GSettings *settings,
 	gboolean changed = FALSE;
 	guint ii, jj;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 	#ifdef ENABLE_MAINTAINER_MODE
 	g_warn_if_fail (G_N_ELEMENTS (default_titles) == CAMEL_UTILS_MAX_USER_HEADERS);
 	#endif
@@ -3250,7 +3250,7 @@ message_list_header_click_can_sort_cb (ETree *tree,
 				       gboolean *out_header_click_can_sort,
 				       gpointer user_data)
 {
-	MessageList *message_list = MESSAGE_LIST (tree);
+	EMessageList *message_list = E_MESSAGE_LIST (tree);
 	EAutomaticActionPolicy policy;
 
 	policy = g_settings_get_enum (message_list->priv->mail_settings, "message-list-sort-on-header-click");
@@ -3289,7 +3289,7 @@ message_list_header_click_can_sort_cb (ETree *tree,
 }
 
 static void
-message_list_set_session (MessageList *message_list,
+message_list_set_session (EMessageList *message_list,
                           EMailSession *session)
 {
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
@@ -3306,56 +3306,56 @@ message_list_set_property (GObject *object,
 {
 	switch (property_id) {
 		case PROP_FOLDER:
-			message_list_set_folder (
-				MESSAGE_LIST (object),
+			e_message_list_set_folder (
+				E_MESSAGE_LIST (object),
 				g_value_get_object (value));
 			return;
 
 		case PROP_GROUP_BY_THREADS:
-			message_list_set_group_by_threads (
-				MESSAGE_LIST (object),
+			e_message_list_set_group_by_threads (
+				E_MESSAGE_LIST (object),
 				g_value_get_boolean (value));
 			return;
 
 		case PROP_SESSION:
 			message_list_set_session (
-				MESSAGE_LIST (object),
+				E_MESSAGE_LIST (object),
 				g_value_get_object (value));
 			return;
 
 		case PROP_SHOW_DELETED:
-			message_list_set_show_deleted (
-				MESSAGE_LIST (object),
+			e_message_list_set_show_deleted (
+				E_MESSAGE_LIST (object),
 				g_value_get_boolean (value));
 			return;
 
 		case PROP_SHOW_JUNK:
-			message_list_set_show_junk (
-				MESSAGE_LIST (object),
+			e_message_list_set_show_junk (
+				E_MESSAGE_LIST (object),
 				g_value_get_boolean (value));
 			return;
 
 		case PROP_THREAD_LATEST:
-			message_list_set_thread_latest (
-				MESSAGE_LIST (object),
+			e_message_list_set_thread_latest (
+				E_MESSAGE_LIST (object),
 				g_value_get_boolean (value));
 			return;
 
 		case PROP_THREAD_SUBJECT:
-			message_list_set_thread_subject (
-				MESSAGE_LIST (object),
+			e_message_list_set_thread_subject (
+				E_MESSAGE_LIST (object),
 				g_value_get_boolean (value));
 			return;
 
 		case PROP_THREAD_COMPRESS:
-			message_list_set_thread_compress (
-				MESSAGE_LIST (object),
+			e_message_list_set_thread_compress (
+				E_MESSAGE_LIST (object),
 				g_value_get_boolean (value));
 			return;
 
 		case PROP_THREAD_FLAT:
-			message_list_set_thread_flat (
-				MESSAGE_LIST (object),
+			e_message_list_set_thread_flat (
+				E_MESSAGE_LIST (object),
 				g_value_get_boolean (value));
 			return;
 	}
@@ -3373,78 +3373,78 @@ message_list_get_property (GObject *object,
 		case PROP_COPY_TARGET_LIST:
 			g_value_set_boxed (
 				value,
-				message_list_get_copy_target_list (
-				MESSAGE_LIST (object)));
+				e_message_list_get_copy_target_list (
+				E_MESSAGE_LIST (object)));
 			return;
 
 		case PROP_FOLDER:
 			g_value_take_object (
 				value,
-				message_list_ref_folder (
-				MESSAGE_LIST (object)));
+				e_message_list_ref_folder (
+				E_MESSAGE_LIST (object)));
 			return;
 
 		case PROP_GROUP_BY_THREADS:
 			g_value_set_boolean (
 				value,
-				message_list_get_group_by_threads (
-				MESSAGE_LIST (object)));
+				e_message_list_get_group_by_threads (
+				E_MESSAGE_LIST (object)));
 			return;
 
 		case PROP_PASTE_TARGET_LIST:
 			g_value_set_boxed (
 				value,
-				message_list_get_paste_target_list (
-				MESSAGE_LIST (object)));
+				e_message_list_get_paste_target_list (
+				E_MESSAGE_LIST (object)));
 			return;
 
 		case PROP_SESSION:
 			g_value_set_object (
 				value,
-				message_list_get_session (
-				MESSAGE_LIST (object)));
+				e_message_list_get_session (
+				E_MESSAGE_LIST (object)));
 			return;
 
 		case PROP_SHOW_DELETED:
 			g_value_set_boolean (
 				value,
-				message_list_get_show_deleted (
-				MESSAGE_LIST (object)));
+				e_message_list_get_show_deleted (
+				E_MESSAGE_LIST (object)));
 			return;
 
 		case PROP_SHOW_JUNK:
 			g_value_set_boolean (
 				value,
-				message_list_get_show_junk (
-				MESSAGE_LIST (object)));
+				e_message_list_get_show_junk (
+				E_MESSAGE_LIST (object)));
 			return;
 
 		case PROP_THREAD_LATEST:
 			g_value_set_boolean (
 				value,
-				message_list_get_thread_latest (
-				MESSAGE_LIST (object)));
+				e_message_list_get_thread_latest (
+				E_MESSAGE_LIST (object)));
 			return;
 
 		case PROP_THREAD_SUBJECT:
 			g_value_set_boolean (
 				value,
-				message_list_get_thread_subject (
-				MESSAGE_LIST (object)));
+				e_message_list_get_thread_subject (
+				E_MESSAGE_LIST (object)));
 			return;
 
 		case PROP_THREAD_COMPRESS:
 			g_value_set_boolean (
 				value,
-				message_list_get_thread_compress (
-				MESSAGE_LIST (object)));
+				e_message_list_get_thread_compress (
+				E_MESSAGE_LIST (object)));
 			return;
 
 		case PROP_THREAD_FLAT:
 			g_value_set_boolean (
 				value,
-				message_list_get_thread_flat (
-				MESSAGE_LIST (object)));
+				e_message_list_get_thread_flat (
+				E_MESSAGE_LIST (object)));
 			return;
 	}
 
@@ -3454,8 +3454,8 @@ message_list_get_property (GObject *object,
 static void
 message_list_dispose (GObject *object)
 {
-	MessageList *message_list = MESSAGE_LIST (object);
-	MessageListPrivate *priv;
+	EMessageList *message_list = E_MESSAGE_LIST (object);
+	EMessageListPrivate *priv;
 
 	priv = message_list->priv;
 
@@ -3526,13 +3526,13 @@ message_list_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (message_list_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_message_list_parent_class)->dispose (object);
 }
 
 static void
 message_list_finalize (GObject *object)
 {
-	MessageList *message_list = MESSAGE_LIST (object);
+	EMessageList *message_list = E_MESSAGE_LIST (object);
 	guint ii;
 
 	g_hash_table_destroy (message_list->normalised_hash);
@@ -3560,14 +3560,14 @@ message_list_finalize (GObject *object)
 	}
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (message_list_parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_message_list_parent_class)->finalize (object);
 }
 
 static void
 message_list_constructed (GObject *object)
 {
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (message_list_parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_message_list_parent_class)->constructed (object);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
@@ -3593,13 +3593,13 @@ message_list_selectable_update_actions (ESelectable *selectable,
 static void
 message_list_selectable_select_all (ESelectable *selectable)
 {
-	message_list_select_all (MESSAGE_LIST (selectable));
+	e_message_list_select_all (E_MESSAGE_LIST (selectable));
 }
 
 static ETreePath
 message_list_get_root (ETreeModel *tree_model)
 {
-	MessageList *message_list = MESSAGE_LIST (tree_model);
+	EMessageList *message_list = E_MESSAGE_LIST (tree_model);
 
 	return message_list->priv->tree_model_root;
 }
@@ -3666,11 +3666,11 @@ static guint
 message_list_depth (ETreeModel *tree_model,
                     ETreePath path)
 {
-	MessageList *message_list = MESSAGE_LIST (tree_model);
+	EMessageList *message_list = E_MESSAGE_LIST (tree_model);
 	guint depth;
 
-	if (message_list_get_thread_compress (message_list) &&
-	    !message_list_get_thread_flat (message_list)) {
+	if (e_message_list_get_thread_compress (message_list) &&
+	    !e_message_list_get_thread_flat (message_list)) {
 		GNode *node = ((GNode *) path);
 
 		depth = 1;
@@ -3692,7 +3692,7 @@ message_list_depth (ETreeModel *tree_model,
 static gboolean
 message_list_get_expanded_default (ETreeModel *tree_model)
 {
-	MessageList *message_list = MESSAGE_LIST (tree_model);
+	EMessageList *message_list = E_MESSAGE_LIST (tree_model);
 
 	return message_list->priv->expanded_default;
 }
@@ -3725,9 +3725,9 @@ static ETreePath
 message_list_get_node_by_id (ETreeModel *tree_model,
                              const gchar *save_id)
 {
-	MessageList *message_list;
+	EMessageList *message_list;
 
-	message_list = MESSAGE_LIST (tree_model);
+	message_list = E_MESSAGE_LIST (tree_model);
 
 	if (!strcmp (save_id, "root"))
 		return e_tree_model_get_root (tree_model);
@@ -3740,12 +3740,12 @@ message_list_sort_value_at (ETreeModel *tree_model,
                             ETreePath path,
                             gint col)
 {
-	MessageList *message_list;
+	EMessageList *message_list;
 	GNode *path_node;
 	struct LatestData ld;
 	gint64 *res;
 
-	message_list = MESSAGE_LIST (tree_model);
+	message_list = E_MESSAGE_LIST (tree_model);
 
 	if (!(col == COL_SENT || col == COL_RECEIVED))
 		return e_tree_model_value_at (tree_model, path, col);
@@ -3776,11 +3776,11 @@ message_list_value_at (ETreeModel *tree_model,
                        ETreePath path,
                        gint col)
 {
-	MessageList *message_list;
+	EMessageList *message_list;
 	CamelMessageInfo *msg_info;
 	gpointer result;
 
-	message_list = MESSAGE_LIST (tree_model);
+	message_list = E_MESSAGE_LIST (tree_model);
 
 	if (!path || G_NODE_IS_ROOT ((GNode *) path))
 		return NULL;
@@ -4077,7 +4077,7 @@ message_list_value_to_string (ETreeModel *tree_model,
 }
 
 static void
-message_list_class_init (MessageListClass *class)
+e_message_list_class_init (EMessageListClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
@@ -4101,7 +4101,7 @@ message_list_class_init (MessageListClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_preferred_width = message_list_get_preferred_width;
 
-	gtk_widget_class_set_css_name (widget_class, "MessageList");
+	gtk_widget_class_set_css_name (widget_class, "EMessageList");
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = message_list_set_property;
@@ -4251,9 +4251,9 @@ message_list_class_init (MessageListClass *class)
 
 	signals[MESSAGE_SELECTED] = g_signal_new (
 		"message_selected",
-		MESSAGE_LIST_TYPE,
+		E_TYPE_MESSAGE_LIST,
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (MessageListClass, message_selected),
+		G_STRUCT_OFFSET (EMessageListClass, message_selected),
 		NULL,
 		NULL,
 		g_cclosure_marshal_VOID__STRING,
@@ -4262,9 +4262,9 @@ message_list_class_init (MessageListClass *class)
 
 	signals[MESSAGE_LIST_BUILT] = g_signal_new (
 		"message_list_built",
-		MESSAGE_LIST_TYPE,
+		E_TYPE_MESSAGE_LIST,
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (MessageListClass, message_list_built),
+		G_STRUCT_OFFSET (EMessageListClass, message_list_built),
 		NULL,
 		NULL,
 		g_cclosure_marshal_VOID__VOID,
@@ -4272,9 +4272,9 @@ message_list_class_init (MessageListClass *class)
 
 	signals[UPDATE_ACTIONS] = g_signal_new (
 		"update-actions",
-		MESSAGE_LIST_TYPE,
+		E_TYPE_MESSAGE_LIST,
 		G_SIGNAL_RUN_LAST,
-		0, /* G_STRUCT_OFFSET (MessageListClass, update_actions), */
+		0, /* G_STRUCT_OFFSET (EMessageListClass, update_actions), */
 		NULL,
 		NULL,
 		g_cclosure_marshal_VOID__VOID,
@@ -4314,13 +4314,13 @@ message_list_tree_model_init (ETreeModelInterface *iface)
 }
 
 static void
-message_list_init (MessageList *message_list)
+e_message_list_init (EMessageList *message_list)
 {
-	MessageListPrivate *p;
+	EMessageListPrivate *p;
 	GtkTargetList *target_list;
 	GdkAtom matom;
 
-	message_list->priv = message_list_get_instance_private (message_list);
+	message_list->priv = e_message_list_get_instance_private (message_list);
 
 	message_list->normalised_hash = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -4389,7 +4389,7 @@ message_list_init (MessageList *message_list)
 }
 
 static void
-message_list_construct (MessageList *message_list)
+message_list_construct (EMessageList *message_list)
 {
 	ETreeTableAdapter *adapter;
 	ETableSpecification *specification;
@@ -4405,7 +4405,7 @@ message_list_construct (MessageList *message_list)
 	message_list->extras = message_list_create_extras (message_list->priv->mail_settings);
 
 	etspecfile = g_build_filename (
-		EVOLUTION_ETSPECDIR, "message-list.etspec", NULL);
+		EVOLUTION_ETSPECDIR, "e-message-list.etspec", NULL);
 	specification = e_table_specification_new (etspecfile, &local_error);
 
 	/* Failure here is fatal. */
@@ -4498,25 +4498,25 @@ message_list_construct (MessageList *message_list)
  * Returns a new message-list widget.
  **/
 GtkWidget *
-message_list_new (EMailSession *session)
+e_message_list_new (EMailSession *session)
 {
 	GtkWidget *message_list;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
 	message_list = g_object_new (
-		message_list_get_type (),
+		E_TYPE_MESSAGE_LIST,
 		"session", session, NULL);
 
-	message_list_construct (MESSAGE_LIST (message_list));
+	message_list_construct (E_MESSAGE_LIST (message_list));
 
 	return message_list;
 }
 
 EMailSession *
-message_list_get_session (MessageList *message_list)
+e_message_list_get_session (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), NULL);
 
 	return message_list->priv->session;
 }
@@ -4524,13 +4524,13 @@ message_list_get_session (MessageList *message_list)
 static void
 clear_info (gchar *key,
             GNode *node,
-            MessageList *message_list)
+            EMessageList *message_list)
 {
 	g_clear_object (&node->data);
 }
 
 static void
-clear_tree (MessageList *message_list,
+clear_tree (EMessageList *message_list,
             gboolean tfree)
 {
 	ETreeModel *tree_model;
@@ -4547,7 +4547,7 @@ clear_tree (MessageList *message_list,
 	tree_model = E_TREE_MODEL (message_list);
 
 	/* we also reset the uid_rowmap since it is no longer useful/valid anyway */
-	folder = message_list_ref_folder (message_list);
+	folder = e_message_list_ref_folder (message_list);
 	if (folder != NULL)
 		g_hash_table_foreach (
 			message_list->uid_nodemap,
@@ -4646,7 +4646,7 @@ folder_store_supports_vjunk_folder (CamelFolder *folder)
 }
 
 static gboolean
-message_list_get_hide_junk (MessageList *message_list,
+message_list_get_hide_junk (EMessageList *message_list,
                             CamelFolder *folder)
 {
 	guint32 folder_flags;
@@ -4654,7 +4654,7 @@ message_list_get_hide_junk (MessageList *message_list,
 	if (folder == NULL)
 		return FALSE;
 
-	if (message_list_get_show_junk (message_list))
+	if (e_message_list_get_show_junk (message_list))
 		return FALSE;
 
 	if (!folder_store_supports_vjunk_folder (folder))
@@ -4678,8 +4678,8 @@ message_list_get_hide_junk (MessageList *message_list,
 }
 
 static gboolean
-message_list_get_hide_deleted (MessageList *message_list,
-                               CamelFolder *folder)
+message_list_get_hide_deleted (EMessageList *message_list,
+                                 CamelFolder *folder)
 {
 	CamelStore *store;
 	gboolean non_trash_folder;
@@ -4687,7 +4687,7 @@ message_list_get_hide_deleted (MessageList *message_list,
 	if (folder == NULL)
 		return FALSE;
 
-	if (message_list_get_show_deleted (message_list))
+	if (e_message_list_get_show_deleted (message_list))
 		return FALSE;
 
 	store = camel_folder_get_parent_store (folder);
@@ -4709,7 +4709,7 @@ message_list_get_hide_deleted (MessageList *message_list,
 /* Check if the given node is selectable in the current message list,
  * which depends on the type of the folder (normal, junk, trash). */
 static gboolean
-is_node_selectable (MessageList *message_list,
+is_node_selectable (EMessageList *message_list,
 		    CamelMessageInfo *info,
 		    GHashTable *removed_uids)
 {
@@ -4729,7 +4729,7 @@ is_node_selectable (MessageList *message_list,
 	if (removed_uids && g_hash_table_contains (removed_uids, camel_message_info_get_uid (info)))
 		return FALSE;
 
-	folder = message_list_ref_folder (message_list);
+	folder = e_message_list_ref_folder (message_list);
 	g_return_val_if_fail (folder != NULL, FALSE);
 
 	store_has_vjunk = folder_store_supports_vjunk_folder (folder);
@@ -4777,7 +4777,7 @@ is_node_selectable (MessageList *message_list,
  * actually no assurance that we'll find something that will still be
  * there next time, but its probably going to work most of the time. */
 static gchar *
-find_next_selectable (MessageList *message_list,
+find_next_selectable (EMessageList *message_list,
 		      GHashTable *removed_uids)
 {
 	ETreeTableAdapter *adapter;
@@ -4841,7 +4841,7 @@ find_next_selectable (MessageList *message_list,
 }
 
 static GNode *
-ml_uid_nodemap_insert (MessageList *message_list,
+ml_uid_nodemap_insert (EMessageList *message_list,
                        CamelMessageInfo *info,
                        GNode *parent,
                        gint row)
@@ -4887,7 +4887,7 @@ ml_uid_nodemap_insert (MessageList *message_list,
 /* only call if we have a tree model */
 /* builds the tree structure */
 
-static void	build_subtree			(MessageList *message_list,
+static void	build_subtree			(EMessageList *message_list,
 						 GNode *parent,
 						 CamelFolderThreadNode *c,
 						 gboolean thread_flat,
@@ -4895,7 +4895,7 @@ static void	build_subtree			(MessageList *message_list,
 						 gint *row);
 
 static void
-build_tree (MessageList *message_list,
+build_tree (EMessageList *message_list,
             CamelFolderThread *thread,
 	    gboolean thread_flat,
 	    gboolean thread_latest,
@@ -4957,7 +4957,7 @@ build_tree (MessageList *message_list,
 }
 
 static void
-build_subtree (MessageList *message_list,
+build_subtree (EMessageList *message_list,
                GNode *parent,
                CamelFolderThreadNode *c,
 	       gboolean thread_flat,
@@ -4999,7 +4999,7 @@ build_subtree (MessageList *message_list,
 }
 
 static void
-build_flat (MessageList *message_list,
+build_flat (EMessageList *message_list,
             GPtrArray *summary,
             gboolean folder_changed,
 	    GHashTable *removed_uids)
@@ -5018,7 +5018,7 @@ build_flat (MessageList *message_list,
 	if (message_list->cursor_uid != NULL)
 		saveuid = find_next_selectable (message_list, removed_uids);
 
-	selected = message_list_get_selected (message_list);
+	selected = e_message_list_get_selected (message_list);
 
 	message_list_tree_model_freeze (message_list);
 
@@ -5032,7 +5032,7 @@ build_flat (MessageList *message_list,
 
 	message_list_tree_model_thaw (message_list);
 
-	message_list_set_selected (message_list, selected);
+	e_message_list_set_selected (message_list, selected);
 
 	g_ptr_array_unref (selected);
 
@@ -5063,7 +5063,7 @@ build_flat (MessageList *message_list,
 }
 
 static void
-message_list_change_first_visible_parent (MessageList *message_list,
+message_list_change_first_visible_parent (EMessageList *message_list,
                                           GNode *node)
 {
 	ETreeModel *tree_model;
@@ -5086,7 +5086,7 @@ message_list_change_first_visible_parent (MessageList *message_list,
 
 static CamelFolderChangeInfo *
 mail_folder_hide_by_flag (CamelFolder *folder,
-                          MessageList *message_list,
+                          EMessageList *message_list,
                           CamelFolderChangeInfo *changes,
                           gint flag)
 {
@@ -5139,7 +5139,7 @@ mail_folder_hide_by_flag (CamelFolder *folder,
 static void
 message_list_folder_changed (CamelFolder *folder,
 			     CamelFolderChangeInfo *changes,
-			     MessageList *message_list)
+			     EMessageList *message_list)
 {
 	CamelFolderChangeInfo *altered_changes = NULL;
 	RegenData *regen_data;
@@ -5147,7 +5147,7 @@ message_list_folder_changed (CamelFolder *folder,
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (changes != NULL);
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if (message_list->priv->destroyed)
 		return;
@@ -5233,7 +5233,7 @@ message_list_folder_changed (CamelFolder *folder,
 typedef struct _FolderChangedData {
 	GWeakRef *folder; /* CamelFolder * */
 	CamelFolderChangeInfo *changes;
-	GWeakRef *message_list; /* MessageList * */
+	GWeakRef *message_list; /* EMessageList * */
 } FolderChangedData;
 
 static void
@@ -5254,7 +5254,7 @@ message_list_folder_changed_timeout_cb (gpointer user_data)
 {
 	FolderChangedData *fcd = user_data;
 	CamelFolder *folder;
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	g_return_val_if_fail (fcd != NULL, FALSE);
 
@@ -5273,7 +5273,7 @@ message_list_folder_changed_timeout_cb (gpointer user_data)
 static void
 message_list_folder_changed_cb (CamelFolder *folder,
 				CamelFolderChangeInfo *changes,
-				MessageList *message_list)
+				EMessageList *message_list)
 {
 	if (message_list->priv->destroyed)
 		return;
@@ -5296,13 +5296,13 @@ message_list_folder_changed_cb (CamelFolder *folder,
 }
 
 CamelFolder *
-message_list_ref_folder (MessageList *message_list)
+e_message_list_ref_folder (EMessageList *message_list)
 {
 	CamelFolder *folder = NULL;
 
 	/* XXX Do we need a property lock to guard this? */
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), NULL);
 
 	if (message_list->priv->folder != NULL)
 		folder = g_object_ref (message_list->priv->folder);
@@ -5311,19 +5311,19 @@ message_list_ref_folder (MessageList *message_list)
 }
 
 /**
- * message_list_set_folder:
+ * e_message_list_set_folder:
  * @message_list: Message List widget
  * @folder: folder backend to be set
  *
  * Sets @folder to be the backend folder for @message_list.
  **/
 void
-message_list_set_folder (MessageList *message_list,
-                         CamelFolder *folder)
+e_message_list_set_folder (EMessageList *message_list,
+                           CamelFolder *folder)
 {
 	/* XXX Do we need a property lock to guard this? */
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if (folder == message_list->priv->folder)
 		return;
@@ -5443,43 +5443,43 @@ message_list_set_folder (MessageList *message_list,
 }
 
 GtkTargetList *
-message_list_get_copy_target_list (MessageList *message_list)
+e_message_list_get_copy_target_list (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), NULL);
 
 	return message_list->priv->copy_target_list;
 }
 
 GtkTargetList *
-message_list_get_paste_target_list (MessageList *message_list)
+e_message_list_get_paste_target_list (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), NULL);
 
 	return message_list->priv->paste_target_list;
 }
 
 void
-message_list_set_expanded_default (MessageList *message_list,
-                                   gboolean expanded_default)
+e_message_list_set_expanded_default (EMessageList *message_list,
+                                     gboolean expanded_default)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	message_list->priv->expanded_default = expanded_default;
 }
 
 gboolean
-message_list_get_group_by_threads (MessageList *message_list)
+e_message_list_get_group_by_threads (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	return message_list->priv->group_by_threads;
 }
 
 void
-message_list_set_group_by_threads (MessageList *message_list,
-                                   gboolean group_by_threads)
+e_message_list_set_group_by_threads (EMessageList *message_list,
+                                     gboolean group_by_threads)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if (group_by_threads == message_list->priv->group_by_threads)
 		return;
@@ -5497,18 +5497,18 @@ message_list_set_group_by_threads (MessageList *message_list,
 }
 
 gboolean
-message_list_get_show_deleted (MessageList *message_list)
+e_message_list_get_show_deleted (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	return message_list->priv->show_deleted;
 }
 
 void
-message_list_set_show_deleted (MessageList *message_list,
-                               gboolean show_deleted)
+e_message_list_set_show_deleted (EMessageList *message_list,
+                                 gboolean show_deleted)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if (show_deleted == message_list->priv->show_deleted)
 		return;
@@ -5525,18 +5525,18 @@ message_list_set_show_deleted (MessageList *message_list,
 }
 
 gboolean
-message_list_get_show_junk (MessageList *message_list)
+e_message_list_get_show_junk (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	return message_list->priv->show_junk;
 }
 
 void
-message_list_set_show_junk (MessageList *message_list,
-			    gboolean show_junk)
+e_message_list_set_show_junk (EMessageList *message_list,
+			      gboolean show_junk)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if (show_junk == message_list->priv->show_junk)
 		return;
@@ -5553,18 +5553,18 @@ message_list_set_show_junk (MessageList *message_list,
 }
 
 gboolean
-message_list_get_thread_latest (MessageList *message_list)
+e_message_list_get_thread_latest (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	return message_list->priv->thread_latest;
 }
 
 void
-message_list_set_thread_latest (MessageList *message_list,
-                                gboolean thread_latest)
+e_message_list_set_thread_latest (EMessageList *message_list,
+                                  gboolean thread_latest)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if (thread_latest == message_list->priv->thread_latest)
 		return;
@@ -5575,18 +5575,18 @@ message_list_set_thread_latest (MessageList *message_list,
 }
 
 gboolean
-message_list_get_thread_subject (MessageList *message_list)
+e_message_list_get_thread_subject (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	return message_list->priv->thread_subject;
 }
 
 void
-message_list_set_thread_subject (MessageList *message_list,
-                                 gboolean thread_subject)
+e_message_list_set_thread_subject (EMessageList *message_list,
+                                   gboolean thread_subject)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if (thread_subject == message_list->priv->thread_subject)
 		return;
@@ -5597,18 +5597,18 @@ message_list_set_thread_subject (MessageList *message_list,
 }
 
 gboolean
-message_list_get_thread_compress (MessageList *message_list)
+e_message_list_get_thread_compress (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	return message_list->priv->thread_compress;
 }
 
 void
-message_list_set_thread_compress (MessageList *message_list,
-				  gboolean thread_compress)
+e_message_list_set_thread_compress (EMessageList *message_list,
+				    gboolean thread_compress)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if ((thread_compress ? 1 : 0) == (message_list->priv->thread_compress ? 1 : 0))
 		return;
@@ -5621,18 +5621,18 @@ message_list_set_thread_compress (MessageList *message_list,
 }
 
 gboolean
-message_list_get_thread_flat (MessageList *message_list)
+e_message_list_get_thread_flat (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	return message_list->priv->thread_flat;
 }
 
 void
-message_list_set_thread_flat (MessageList *message_list,
-			      gboolean thread_flat)
+e_message_list_set_thread_flat (EMessageList *message_list,
+			        gboolean thread_flat)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if ((thread_flat ? 1 : 0) == (message_list->priv->thread_flat ? 1 : 0))
 		return;
@@ -5650,18 +5650,18 @@ message_list_set_thread_flat (MessageList *message_list,
 }
 
 gboolean
-message_list_get_regen_selects_unread (MessageList *message_list)
+e_message_list_get_regen_selects_unread (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	return message_list->priv->regen_selects_unread;
 }
 
 void
-message_list_set_regen_selects_unread (MessageList *message_list,
-				       gboolean regen_selects_unread)
+e_message_list_set_regen_selects_unread (EMessageList *message_list,
+				         gboolean regen_selects_unread)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if ((regen_selects_unread ? 1 : 0) == (message_list->priv->regen_selects_unread ? 1 : 0))
 		return;
@@ -5672,7 +5672,7 @@ message_list_set_regen_selects_unread (MessageList *message_list,
 static gboolean
 on_cursor_activated_idle (gpointer data)
 {
-	MessageList *message_list = data;
+	EMessageList *message_list = data;
 	ESelectionModel *esm;
 	gint selected;
 
@@ -5702,7 +5702,7 @@ on_cursor_activated_cmd (ETree *tree,
                          GNode *node,
                          gpointer user_data)
 {
-	MessageList *message_list = MESSAGE_LIST (user_data);
+	EMessageList *message_list = E_MESSAGE_LIST (user_data);
 	const gchar *new_uid;
 
 	if (node == NULL || G_NODE_IS_ROOT (node))
@@ -5733,16 +5733,16 @@ on_cursor_activated_cmd (ETree *tree,
 
 static void
 on_selection_changed_cmd (ETree *tree,
-                          MessageList *message_list)
+                          EMessageList *message_list)
 {
 	GPtrArray *uids = NULL;
 	const gchar *newuid;
 	guint selected_count;
 	GNode *cursor;
 
-	selected_count = message_list_selected_count (message_list);
+	selected_count = e_message_list_selected_count (message_list);
 	if (selected_count == 1) {
-		uids = message_list_get_selected (message_list);
+		uids = e_message_list_get_selected (message_list);
 
 		if (uids->len == 1)
 			newuid = g_ptr_array_index (uids, 0);
@@ -5781,7 +5781,7 @@ on_click (ETree *tree,
           GNode *node,
           gint col,
           GdkEvent *event,
-          MessageList *list)
+          EMessageList *list)
 {
 	CamelFolder *folder;
 	CamelMessageInfo *info;
@@ -5799,7 +5799,7 @@ on_click (ETree *tree,
 	if (!(info = get_message_info (list, node)))
 		return FALSE;
 
-	folder = message_list_ref_folder (list);
+	folder = e_message_list_ref_folder (list);
 	g_return_val_if_fail (folder != NULL, FALSE);
 
 	if (col == COL_FOLLOWUP_FLAG_STATUS) {
@@ -5872,7 +5872,7 @@ on_click (ETree *tree,
 }
 
 struct _ml_selected_data {
-	MessageList *message_list;
+	EMessageList *message_list;
 	ETreeTableAdapter *adapter;
 	gboolean with_collapsed_threads;
 	GPtrArray *uids;
@@ -5915,7 +5915,7 @@ ml_getselected_cb (GNode *node,
 }
 
 static GPtrArray *
-message_list_get_selected_full (MessageList *message_list,
+message_list_get_selected_full (EMessageList *message_list,
 				gboolean with_collapsed_threads)
 {
 	CamelFolder *folder;
@@ -5926,7 +5926,7 @@ message_list_get_selected_full (MessageList *message_list,
 		NULL
 	};
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), NULL);
 
 	data.adapter = e_tree_get_table_adapter (E_TREE (message_list));
 	data.with_collapsed_threads = with_collapsed_threads;
@@ -5939,7 +5939,7 @@ message_list_get_selected_full (MessageList *message_list,
 		E_TREE_SELECTION_MODEL (selection),
 		(ETreeForeachFunc) ml_getselected_cb, &data);
 
-	folder = message_list_ref_folder (message_list);
+	folder = e_message_list_ref_folder (message_list);
 
 	if (folder != NULL && data.uids->len > 0)
 		camel_folder_sort_uids (folder, data.uids);
@@ -5950,27 +5950,27 @@ message_list_get_selected_full (MessageList *message_list,
 }
 
 GPtrArray *
-message_list_get_selected (MessageList *message_list)
+e_message_list_get_selected (EMessageList *message_list)
 {
 	return message_list_get_selected_full (message_list, FALSE);
 }
 
 GPtrArray *
-message_list_get_selected_with_collapsed_threads (MessageList *message_list)
+e_message_list_get_selected_with_collapsed_threads (EMessageList *message_list)
 {
 	return message_list_get_selected_full (message_list, TRUE);
 }
 
 void
-message_list_set_selected (MessageList *message_list,
-                           GPtrArray *uids)
+e_message_list_set_selected (EMessageList *message_list,
+                             GPtrArray *uids)
 {
 	gint i;
 	ETreeSelectionModel *etsm;
 	GNode *node;
 	GPtrArray *paths;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	paths = g_ptr_array_new ();
 	etsm = (ETreeSelectionModel *)
@@ -6002,8 +6002,8 @@ ml_sort_uids_cb (gconstpointer a,
 }
 
 void
-message_list_sort_uids (MessageList *message_list,
-                        GPtrArray *uids)
+e_message_list_sort_uids (EMessageList *message_list,
+                          GPtrArray *uids)
 {
 	struct ml_sort_uids_data *data;
 	GPtrArray *array;
@@ -6012,7 +6012,7 @@ message_list_sort_uids (MessageList *message_list,
 	gint ii;
 
 	g_return_if_fail (message_list != NULL);
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 	g_return_if_fail (uids != NULL);
 
 	if (uids->len <= 1)
@@ -6047,7 +6047,7 @@ message_list_sort_uids (MessageList *message_list,
 }
 
 struct ml_count_data {
-	MessageList *message_list;
+	EMessageList *message_list;
 	guint count;
 };
 
@@ -6062,11 +6062,11 @@ ml_getcount_cb (GNode *node,
 }
 
 guint
-message_list_count (MessageList *message_list)
+e_message_list_count (EMessageList *message_list)
 {
 	struct ml_count_data data = { message_list, 0 };
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), 0);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), 0);
 
 	e_tree_path_foreach (
 		E_TREE (message_list),
@@ -6076,27 +6076,27 @@ message_list_count (MessageList *message_list)
 }
 
 guint
-message_list_selected_count (MessageList *message_list)
+e_message_list_selected_count (EMessageList *message_list)
 {
 	ESelectionModel *selection;
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), 0);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), 0);
 
 	selection = e_tree_get_selection_model (E_TREE (message_list));
 	return  e_selection_model_selected_count (selection);
 }
 
 void
-message_list_freeze (MessageList *message_list)
+e_message_list_freeze (EMessageList *message_list)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 	message_list->frozen++;
 }
 
 void
-message_list_thaw (MessageList *message_list)
+e_message_list_thaw (EMessageList *message_list)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 	g_return_if_fail (message_list->frozen != 0);
 
 	message_list->frozen--;
@@ -6118,11 +6118,11 @@ message_list_thaw (MessageList *message_list)
 
 /* set whether we are in threaded view or flat view */
 void
-message_list_set_threaded_expand_all (MessageList *message_list)
+e_message_list_set_threaded_expand_all (EMessageList *message_list)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
-	if (message_list_get_group_by_threads (message_list)) {
+	if (e_message_list_get_group_by_threads (message_list)) {
 		message_list->expand_all = 1;
 
 		if (message_list->frozen == 0)
@@ -6133,11 +6133,11 @@ message_list_set_threaded_expand_all (MessageList *message_list)
 }
 
 void
-message_list_set_threaded_collapse_all (MessageList *message_list)
+e_message_list_set_threaded_collapse_all (EMessageList *message_list)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
-	if (message_list_get_group_by_threads (message_list)) {
+	if (e_message_list_get_group_by_threads (message_list)) {
 		message_list->collapse_all = 1;
 
 		if (message_list->frozen == 0)
@@ -6148,12 +6148,12 @@ message_list_set_threaded_collapse_all (MessageList *message_list)
 }
 
 void
-message_list_set_search (MessageList *message_list,
-                         const gchar *search)
+e_message_list_set_search (EMessageList *message_list,
+                           const gchar *search)
 {
 	RegenData *current_regen_data;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	current_regen_data = message_list_ref_regen_data (message_list);
 
@@ -6179,7 +6179,7 @@ message_list_set_search (MessageList *message_list,
 }
 
 static void
-message_list_regen_tweak_search_results (MessageList *message_list,
+message_list_regen_tweak_search_results (EMessageList *message_list,
                                          GPtrArray *search_results,
                                          CamelFolder *folder,
                                          gboolean folder_changed,
@@ -6245,7 +6245,7 @@ message_list_regen_thread (GTask *task,
                            gpointer task_data,
                            GCancellable *cancellable)
 {
-	MessageList *message_list;
+	EMessageList *message_list;
 	RegenData *regen_data;
 	GPtrArray *uids, *searchuids = NULL;
 	CamelMessageInfo *info;
@@ -6257,7 +6257,7 @@ message_list_regen_thread (GTask *task,
 	gboolean hide_junk;
 	GError *local_error = NULL;
 
-	message_list = MESSAGE_LIST (source_object);
+	message_list = E_MESSAGE_LIST (source_object);
 	regen_data = task_data;
 
 	if (g_task_return_error_if_cancelled (task))
@@ -6398,7 +6398,7 @@ message_list_regen_thread (GTask *task,
 		 * CamelFolderThread during regen post-processing.
 		 *
 		 * We're committed at this point so keep our own
-		 * reference in case the MessageList's reference
+		 * reference in case the EMessageList's reference
 		 * gets invalidated before regen post-processing. */
 		regen_data->thread_tree = thread_tree;
 
@@ -6432,7 +6432,7 @@ exit:
 }
 
 static gint
-message_list_correct_row_for_remove (MessageList *message_list,
+message_list_correct_row_for_remove (EMessageList *message_list,
 				     gint row,
 				     GHashTable *removed_uids)
 {
@@ -6443,7 +6443,7 @@ message_list_correct_row_for_remove (MessageList *message_list,
 	gboolean done = FALSE;
 	gint round;
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), row);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), row);
 
 	if (!removed_uids)
 		return row;
@@ -6493,7 +6493,7 @@ message_list_correct_row_for_remove (MessageList *message_list,
 }
 
 static gint
-message_list_correct_row_for_remove_in_selection (MessageList *message_list,
+message_list_correct_row_for_remove_in_selection (EMessageList *message_list,
 						  gint row,
 						  GHashTable *removed_uids)
 {
@@ -6503,7 +6503,7 @@ message_list_correct_row_for_remove_in_selection (MessageList *message_list,
 	guint ii;
 	gint best_row = row, best_dist = -1;
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), row);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), row);
 
 	if (!removed_uids)
 		return row;
@@ -6513,7 +6513,7 @@ message_list_correct_row_for_remove_in_selection (MessageList *message_list,
 	if (!node || !g_hash_table_contains (removed_uids, get_message_uid (message_list, node)))
 		return row;
 
-	selected = message_list_get_selected (message_list);
+	selected = e_message_list_get_selected (message_list);
 	if (!selected)
 		return row;
 
@@ -6540,7 +6540,7 @@ message_list_correct_row_for_remove_in_selection (MessageList *message_list,
 }
 
 static void
-message_list_update_tree_text (MessageList *message_list)
+message_list_update_tree_text (EMessageList *message_list)
 {
 	ETreeTableAdapter *adapter;
 	ETree *tree;
@@ -6548,7 +6548,7 @@ message_list_update_tree_text (MessageList *message_list)
 	gboolean have_search_expr;
 	gint row_count;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 	g_return_if_fail (e_util_is_main_thread (g_thread_self ()));
 
 	if (!gtk_widget_is_visible (GTK_WIDGET (message_list)))
@@ -6566,7 +6566,7 @@ message_list_update_tree_text (MessageList *message_list)
 
 	if (row_count > 0) {
 		info_message = NULL;
-	} else if (message_list_is_setting_up_search_folder (message_list)) {
+	} else if (e_message_list_is_setting_up_search_folder (message_list)) {
 		info_message = _("Generating message list…");
 	} else if (have_search_expr) {
 		info_message =
@@ -6588,7 +6588,7 @@ message_list_regen_done_cb (GObject *source_object,
                             GAsyncResult *result,
                             gpointer user_data)
 {
-	MessageList *message_list;
+	EMessageList *message_list;
 	RegenData *regen_data;
 	EActivity *activity;
 	ETree *tree;
@@ -6598,7 +6598,7 @@ message_list_regen_done_cb (GObject *source_object,
 	const gchar *start_selection_uid = NULL, *last_row_uid = NULL; /* These are in Camel's string pool */
 	GError *local_error = NULL;
 
-	message_list = MESSAGE_LIST (source_object);
+	message_list = E_MESSAGE_LIST (source_object);
 	regen_data = g_task_get_task_data (G_TASK (result));
 	g_task_propagate_boolean (G_TASK (result), &local_error);
 
@@ -6714,7 +6714,7 @@ message_list_regen_done_cb (GObject *source_object,
 		if (message_list->cursor_uid != NULL)
 			saveuid = find_next_selectable (message_list, regen_data->removed_uids);
 
-		selected = message_list_get_selected (message_list);
+		selected = e_message_list_get_selected (message_list);
 
 		/* Show the cursor unless we're responding to a
 		 * "folder-changed" signal from our CamelFolder. */
@@ -6753,7 +6753,7 @@ message_list_regen_done_cb (GObject *source_object,
 
 		e_table_item_freeze (table_item);
 
-		message_list_set_selected (message_list, selected);
+		e_message_list_set_selected (message_list, selected);
 		g_ptr_array_unref (selected);
 
 		/* Show the cursor unless we're responding to a
@@ -6772,7 +6772,7 @@ message_list_regen_done_cb (GObject *source_object,
 			saveuid = g_strdup (message_list->cursor_uid);
 		}
 
-		if (message_list_selected_count (message_list) > 1) {
+		if (e_message_list_selected_count (message_list) > 1) {
 			g_free (saveuid);
 		} else if (saveuid) {
 			GNode *node;
@@ -6840,10 +6840,10 @@ message_list_regen_done_cb (GObject *source_object,
 	}
 
 	if (regen_data->select_all) {
-		message_list_select_all (message_list);
+		e_message_list_select_all (message_list);
 
 	} else if (regen_data->select_uid != NULL) {
-		message_list_select_uid (
+		e_message_list_select_uid (
 			message_list,
 			regen_data->select_uid,
 			regen_data->select_use_fallback);
@@ -6852,7 +6852,7 @@ message_list_regen_done_cb (GObject *source_object,
 		GNode *node = NULL;
 		gint sel_count;
 
-		sel_count = message_list_selected_count (message_list);
+		sel_count = e_message_list_selected_count (message_list);
 
 		/* It can be that multi-select start and/or end had been removed, in which
 		   case "clamp" the new start/end according to start/end of the restored
@@ -6861,7 +6861,7 @@ message_list_regen_done_cb (GObject *source_object,
 		if (sel_count > 0) {
 			GPtrArray *selected;
 
-			selected = message_list_get_selected (message_list);
+			selected = e_message_list_get_selected (message_list);
 
 			if (selected && selected->len) {
 				guint ii;
@@ -6906,7 +6906,7 @@ message_list_regen_done_cb (GObject *source_object,
 						/* This also deselects rows */
 						select_node (message_list, node);
 
-						message_list_set_selected (message_list, selected);
+						e_message_list_set_selected (message_list, selected);
 						e_tree_selection_model_set_selection_start_row (E_TREE_SELECTION_MODEL (e_tree_get_selection_model (tree)), min_row);
 					}
 				}
@@ -6964,8 +6964,8 @@ message_list_regen_done_cb (GObject *source_object,
 		}
 
 		if (call_select) {
-			message_list_select (MESSAGE_LIST (message_list), MESSAGE_LIST_SELECT_NEXT |
-				MESSAGE_LIST_SELECT_WRAP | MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
+			e_message_list_select (E_MESSAGE_LIST (message_list), E_MESSAGE_LIST_SELECT_NEXT |
+				E_MESSAGE_LIST_SELECT_WRAP | E_MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
 				0, CAMEL_MESSAGE_SEEN);
 		}
 	}
@@ -6976,7 +6976,7 @@ message_list_regen_idle_cb (gpointer user_data)
 {
 	GTask *task;
 	RegenData *regen_data;
-	MessageList *message_list;
+	EMessageList *message_list;
 	ETreeTableAdapter *adapter;
 	gboolean searching;
 	gint row_count;
@@ -6988,16 +6988,16 @@ message_list_regen_idle_cb (gpointer user_data)
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 
-	/* Capture MessageList state to use for this regen. */
+	/* Capture EMessageList state to use for this regen. */
 
-	regen_data->group_by_threads = message_list_get_group_by_threads (message_list);
-	regen_data->thread_subject = message_list_get_thread_subject (message_list);
-	regen_data->thread_flat = message_list_get_thread_flat (message_list);
-	regen_data->thread_latest = message_list_get_thread_latest (message_list);
-	regen_data->select_unread = message_list_get_regen_selects_unread (message_list);
+	regen_data->group_by_threads = e_message_list_get_group_by_threads (message_list);
+	regen_data->thread_subject = e_message_list_get_thread_subject (message_list);
+	regen_data->thread_flat = e_message_list_get_thread_flat (message_list);
+	regen_data->thread_latest = e_message_list_get_thread_latest (message_list);
+	regen_data->select_unread = e_message_list_get_regen_selects_unread (message_list);
 
 	if (regen_data->select_unread)
-		message_list_set_regen_selects_unread (message_list, FALSE);
+		e_message_list_set_regen_selects_unread (message_list, FALSE);
 
 	searching = message_list_is_searching (message_list);
 
@@ -7013,7 +7013,7 @@ message_list_regen_idle_cb (gpointer user_data)
 		if (message_list->priv->any_row_changed) {
 			/* Something changed.  If it was an expand
 			 * state change, then save the expand state. */
-			message_list_save_state (message_list);
+			e_message_list_save_state (message_list);
 		} else {
 			/* Remember the expand state and restore it
 			 * after regen. */
@@ -7037,7 +7037,7 @@ message_list_regen_idle_cb (gpointer user_data)
 }
 
 static void
-mail_regen_cancel (MessageList *message_list)
+mail_regen_cancel (EMessageList *message_list)
 {
 	RegenData *regen_data = NULL;
 
@@ -7061,7 +7061,7 @@ mail_regen_cancel (MessageList *message_list)
 }
 
 static void
-mail_regen_list (MessageList *message_list,
+mail_regen_list (EMessageList *message_list,
                  const gchar *search,
                  CamelFolderChangeInfo *folder_changes)
 {
@@ -7167,7 +7167,7 @@ mail_regen_list (MessageList *message_list,
 	/* Set the RegenData immediately, but start the actual regen
 	 * operation from an idle callback.  That way the caller has
 	 * the remainder of this main loop iteration to make further
-	 * MessageList changes without triggering additional regens. */
+	 * EMessageList changes without triggering additional regens. */
 
 	message_list->priv->regen_data = regen_data_ref (new_regen_data);
 
@@ -7195,10 +7195,10 @@ exit:
 }
 
 gboolean
-message_list_contains_uid (MessageList *message_list,
-			   const gchar *uid)
+e_message_list_contains_uid (EMessageList *message_list,
+			     const gchar *uid)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	if (!uid || !*uid || !message_list->priv->folder)
 		return FALSE;
@@ -7207,26 +7207,26 @@ message_list_contains_uid (MessageList *message_list,
 }
 
 void
-message_list_inc_setting_up_search_folder (MessageList *message_list)
+e_message_list_inc_setting_up_search_folder (EMessageList *message_list)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	g_atomic_int_add (&message_list->priv->setting_up_search_folder, 1);
 }
 
 void
-message_list_dec_setting_up_search_folder (MessageList *message_list)
+e_message_list_dec_setting_up_search_folder (EMessageList *message_list)
 {
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
 	if (g_atomic_int_dec_and_test (&message_list->priv->setting_up_search_folder))
 		message_list_update_tree_text (message_list);
 }
 
 gboolean
-message_list_is_setting_up_search_folder (MessageList *message_list)
+e_message_list_is_setting_up_search_folder (EMessageList *message_list)
 {
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	return g_atomic_int_get (&message_list->priv->setting_up_search_folder) > 0;
 }

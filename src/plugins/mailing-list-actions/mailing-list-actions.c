@@ -40,7 +40,6 @@
 #include "mail/em-composer-utils.h"
 #include "mail/em-config.h"
 #include "mail/em-utils.h"
-#include "mail/message-list.h"
 
 /* EAlert Message IDs */
 #define MESSAGE_PREFIX			"org.gnome.mailing-list-actions:"

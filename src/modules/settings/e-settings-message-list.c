@@ -17,28 +17,28 @@
 
 #include "e-settings-message-list.h"
 
-#include <mail/message-list.h>
+#include <mail/e-message-list.h>
 
 G_DEFINE_DYNAMIC_TYPE (
 	ESettingsMessageList,
 	e_settings_message_list,
 	E_TYPE_EXTENSION)
 
-static MessageList *
+static EMessageList *
 settings_message_list_get_extensible (ESettingsMessageList *extension)
 {
 	EExtensible *extensible;
 
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 
-	return MESSAGE_LIST (extensible);
+	return E_MESSAGE_LIST (extensible);
 }
 
 static void
 settings_message_list_constructed (GObject *object)
 {
 	ESettingsMessageList *extension;
-	MessageList *message_list;
+	EMessageList *message_list;
 	GSettings *settings;
 
 	extension = E_SETTINGS_MESSAGE_LIST (object);
@@ -83,7 +83,7 @@ settings_message_list_constructed (GObject *object)
 
 	/* This setting only controls the initial message list
 	 * state when in threaded mode, so just apply it here. */
-	message_list_set_expanded_default (
+	e_message_list_set_expanded_default (
 		message_list,
 		g_settings_get_boolean (settings, "thread-expand"));
 
@@ -103,7 +103,7 @@ e_settings_message_list_class_init (ESettingsMessageListClass *class)
 	object_class->constructed = settings_message_list_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
-	extension_class->extensible_type = MESSAGE_LIST_TYPE;
+	extension_class->extensible_type = E_TYPE_MESSAGE_LIST;
 }
 
 static void

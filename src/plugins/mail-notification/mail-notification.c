@@ -40,10 +40,10 @@
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-ui-session.h"
 #include "mail/e-mail-view.h"
+#include "mail/e-message-list.h"
 #include "mail/em-utils.h"
 #include "mail/em-event.h"
 #include "mail/em-folder-tree.h"
-#include "mail/message-list.h"
 #include "shell/e-shell-view.h"
 
 #ifdef HAVE_LIBNOTIFY
@@ -465,11 +465,11 @@ notify_default_action_cb (NotifyNotification *notification,
 
 		g_object_get (e_shell_view_get_shell_content (shell_view), "mail-view", &mail_view, NULL);
 		if (mail_view) {
-			MessageList *message_list;
+			EMessageList *message_list;
 
 			/* Select the message. */
-			message_list = MESSAGE_LIST (e_mail_reader_get_message_list (E_MAIL_READER (mail_view)));
-			message_list_select_uid (message_list, data->msg_uid, TRUE);
+			message_list = E_MESSAGE_LIST (e_mail_reader_get_message_list (E_MAIL_READER (mail_view)));
+			e_message_list_select_uid (message_list, data->msg_uid, TRUE);
 
 			g_clear_object (&mail_view);
 		}

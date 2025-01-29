@@ -31,8 +31,8 @@
 #include <mail/e-mail-paned-view.h>
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-reader-utils.h>
+#include <mail/e-message-list.h>
 #include <mail/em-utils.h>
-#include <mail/message-list.h>
 
 #include "e-mail-shell-backend.h"
 #include "e-mail-shell-view-actions.h"
@@ -272,7 +272,7 @@ mail_shell_content_focus_search_results (EShellContent *shell_content)
 
 	/* This can be called also when the window is showing, to focus default
 	   widget, in which case do not skip the gtk_widget_grab_focus() call. */
-	if (!message_list || (MESSAGE_LIST (message_list)->just_set_folder &&
+	if (!message_list || (E_MESSAGE_LIST (message_list)->just_set_folder &&
 	    gtk_widget_get_mapped (GTK_WIDGET (shell_window)) &&
 	    gtk_window_get_focus (GTK_WINDOW (shell_window))))
 		return;

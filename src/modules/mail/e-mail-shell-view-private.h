@@ -31,6 +31,7 @@
 #include <mail/e-mail-reader-utils.h>
 #include <mail/e-mail-sidebar.h>
 #include <mail/e-mail-ui-session.h>
+#include <mail/e-message-list.h>
 #include <mail/em-composer-utils.h>
 #include <mail/em-folder-properties.h>
 #include <mail/em-folder-selector.h>
@@ -41,7 +42,6 @@
 #include <mail/mail-autofilter.h>
 #include <mail/mail-send-recv.h>
 #include <mail/mail-vfolder-ui.h>
-#include <mail/message-list.h>
 
 #include "e-mail-shell-backend.h"
 #include "e-mail-shell-content.h"
@@ -53,7 +53,7 @@
 	(E_SHELL_VIEW_ACTION_##name (shell_view))
 
 /* ETable Specifications */
-#define ETSPEC_FILENAME		"message-list.etspec"
+#define ETSPEC_FILENAME		"e-message-list.etspec"
 
 /* State File Keys */
 #define STATE_KEY_SEARCH_FILTER		"SearchFilter"

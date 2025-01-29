@@ -38,7 +38,6 @@
 #include "mail/e-mail-templates-store.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-utils.h"
-#include "mail/message-list.h"
 
 #include "composer/e-msg-composer.h"
 

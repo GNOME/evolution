@@ -22,11 +22,11 @@
 
 #include <libebackend/libebackend.h>
 
-#include <mail/em-utils.h>
 #include <mail/e-mail-reader.h>
-#include <mail/mail-send-recv.h>
-#include <mail/message-list.h>
+#include <mail/e-message-list.h>
 #include <mail/em-composer-utils.h>
+#include <mail/em-utils.h>
+#include <mail/mail-send-recv.h>
 
 #define MDN_USER_FLAG "receipt-handled"
 
@@ -454,13 +454,13 @@ static void
 mdn_mail_reader_changed_cb (EMailReader *reader,
                             EMdn *mdn)
 {
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = E_MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 
-	if (!message_list || message_list_selected_count (message_list) != 1)
+	if (!message_list || e_message_list_selected_count (message_list) != 1)
 		mdn_remove_alert (mdn);
 }
 

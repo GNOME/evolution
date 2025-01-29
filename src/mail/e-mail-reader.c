@@ -43,6 +43,7 @@
 #include "e-mail-remote-content-popover.h"
 #include "e-mail-ui-session.h"
 #include "e-mail-view.h"
+#include "e-message-list.h"
 #include "em-composer-utils.h"
 #include "em-event.h"
 #include "em-folder-selector.h"
@@ -50,7 +51,6 @@
 #include "em-utils.h"
 #include "mail-autofilter.h"
 #include "mail-vfolder-ui.h"
-#include "message-list.h"
 
 #define E_MAIL_READER_GET_PRIVATE(obj) \
 	((EMailReaderPrivate *) g_object_get_qdata \
@@ -1184,9 +1184,9 @@ action_mail_mark_unread_cb (EUIAction *action,
 
 	n_marked = e_mail_reader_mark_selected (reader, mask, set);
 
-	if (MESSAGE_LIST (message_list)->seen_id != 0) {
-		g_source_remove (MESSAGE_LIST (message_list)->seen_id);
-		MESSAGE_LIST (message_list)->seen_id = 0;
+	if (E_MESSAGE_LIST (message_list)->seen_id != 0) {
+		g_source_remove (E_MESSAGE_LIST (message_list)->seen_id);
+		E_MESSAGE_LIST (message_list)->seen_id = 0;
 	}
 
 	folder = e_mail_reader_ref_folder (reader);
@@ -1292,7 +1292,7 @@ action_mail_message_new_cb (EUIAction *action,
 
 		message_list = e_mail_reader_get_message_list (reader);
 		if (message_list)
-			selected_uid = MESSAGE_LIST (message_list)->cursor_uid;
+			selected_uid = E_MESSAGE_LIST (message_list)->cursor_uid;
 	}
 
 	shell_backend = E_SHELL_BACKEND (backend);
@@ -1449,17 +1449,17 @@ action_mail_next_cb (EUIAction *action,
 {
 	EMailReader *reader = user_data;
 	GtkWidget *message_list;
-	MessageListSelectDirection direction;
+	EMessageListSelectDirection direction;
 	guint32 flags, mask;
 
-	direction = MESSAGE_LIST_SELECT_NEXT;
+	direction = E_MESSAGE_LIST_SELECT_NEXT;
 	flags = 0;
 	mask = 0;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select (
-		MESSAGE_LIST (message_list), direction, flags, mask);
+	e_message_list_select (
+		E_MESSAGE_LIST (message_list), direction, flags, mask);
 }
 
 static void
@@ -1469,17 +1469,17 @@ action_mail_next_important_cb (EUIAction *action,
 {
 	EMailReader *reader = user_data;
 	GtkWidget *message_list;
-	MessageListSelectDirection direction;
+	EMessageListSelectDirection direction;
 	guint32 flags, mask;
 
-	direction = MESSAGE_LIST_SELECT_NEXT | MESSAGE_LIST_SELECT_WRAP;
+	direction = E_MESSAGE_LIST_SELECT_NEXT | E_MESSAGE_LIST_SELECT_WRAP;
 	flags = CAMEL_MESSAGE_FLAGGED;
 	mask = CAMEL_MESSAGE_FLAGGED;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select (
-		MESSAGE_LIST (message_list), direction, flags, mask);
+	e_message_list_select (
+		E_MESSAGE_LIST (message_list), direction, flags, mask);
 }
 
 static void
@@ -1492,7 +1492,7 @@ action_mail_next_thread_cb (EUIAction *action,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_next_thread (MESSAGE_LIST (message_list));
+	e_message_list_select_next_thread (E_MESSAGE_LIST (message_list));
 }
 
 static void
@@ -1500,19 +1500,19 @@ mail_reader_select_unread (EMailReader *reader,
 			   gboolean move_forward)
 {
 	GtkWidget *message_list;
-	MessageListSelectDirection direction;
+	EMessageListSelectDirection direction;
 	guint32 flags, mask;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	direction = (move_forward ? MESSAGE_LIST_SELECT_NEXT : MESSAGE_LIST_SELECT_PREVIOUS) |
-		    MESSAGE_LIST_SELECT_WRAP | MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED;
+	direction = (move_forward ? E_MESSAGE_LIST_SELECT_NEXT : E_MESSAGE_LIST_SELECT_PREVIOUS) |
+		    E_MESSAGE_LIST_SELECT_WRAP | E_MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED;
 	flags = 0;
 	mask = CAMEL_MESSAGE_SEEN;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	if (!message_list_select (MESSAGE_LIST (message_list), direction, flags, mask)) {
+	if (!e_message_list_select (E_MESSAGE_LIST (message_list), direction, flags, mask)) {
 		GtkWindow *window;
 
 		window = e_mail_reader_get_window (reader);
@@ -1541,7 +1541,7 @@ mail_reader_select_unread (EMailReader *reader,
 						selected = em_folder_tree_select_prev_path (folder_tree, TRUE);
 
 					if (selected)
-						message_list_set_regen_selects_unread (MESSAGE_LIST (message_list), TRUE);
+						e_message_list_set_regen_selects_unread (E_MESSAGE_LIST (message_list), TRUE);
 				}
 
 				g_clear_object (&folder_tree);
@@ -1567,17 +1567,17 @@ action_mail_previous_cb (EUIAction *action,
 {
 	EMailReader *reader = user_data;
 	GtkWidget *message_list;
-	MessageListSelectDirection direction;
+	EMessageListSelectDirection direction;
 	guint32 flags, mask;
 
-	direction = MESSAGE_LIST_SELECT_PREVIOUS;
+	direction = E_MESSAGE_LIST_SELECT_PREVIOUS;
 	flags = 0;
 	mask = 0;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select (
-		MESSAGE_LIST (message_list), direction, flags, mask);
+	e_message_list_select (
+		E_MESSAGE_LIST (message_list), direction, flags, mask);
 }
 
 static void
@@ -1587,17 +1587,17 @@ action_mail_previous_important_cb (EUIAction *action,
 {
 	EMailReader *reader = user_data;
 	GtkWidget *message_list;
-	MessageListSelectDirection direction;
+	EMessageListSelectDirection direction;
 	guint32 flags, mask;
 
-	direction = MESSAGE_LIST_SELECT_PREVIOUS | MESSAGE_LIST_SELECT_WRAP;
+	direction = E_MESSAGE_LIST_SELECT_PREVIOUS | E_MESSAGE_LIST_SELECT_WRAP;
 	flags = CAMEL_MESSAGE_FLAGGED;
 	mask = CAMEL_MESSAGE_FLAGGED;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select (
-		MESSAGE_LIST (message_list), direction, flags, mask);
+	e_message_list_select (
+		E_MESSAGE_LIST (message_list), direction, flags, mask);
 }
 
 static void
@@ -1610,7 +1610,7 @@ action_mail_previous_thread_cb (EUIAction *action,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_prev_thread (MESSAGE_LIST (message_list));
+	e_message_list_select_prev_thread (E_MESSAGE_LIST (message_list));
 }
 
 static void
@@ -1708,7 +1708,7 @@ action_mail_redirect_cb (EUIAction *action,
 	const gchar *message_uid;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	message_uid = MESSAGE_LIST (message_list)->cursor_uid;
+	message_uid = E_MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (message_uid != NULL);
 
 	/* Open the message asynchronously. */
@@ -1858,7 +1858,7 @@ action_mail_reply_all_cb (EUIAction *action,
 		const gchar *message_uid;
 
 		message_list = e_mail_reader_get_message_list (reader);
-		message_uid = MESSAGE_LIST (message_list)->cursor_uid;
+		message_uid = E_MESSAGE_LIST (message_list)->cursor_uid;
 		g_return_if_fail (message_uid != NULL);
 
 		activity = e_mail_reader_new_activity (reader);
@@ -1961,7 +1961,7 @@ action_mail_reply_alternative_cb (EUIAction *action,
 	const gchar *message_uid;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	message_uid = MESSAGE_LIST (message_list)->cursor_uid;
+	message_uid = E_MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (message_uid != NULL);
 
 	activity = e_mail_reader_new_activity (reader);
@@ -2349,7 +2349,7 @@ action_mail_reply_sender_cb (EUIAction *action,
 		const gchar *message_uid;
 
 		message_list = e_mail_reader_get_message_list (reader);
-		message_uid = MESSAGE_LIST (message_list)->cursor_uid;
+		message_uid = E_MESSAGE_LIST (message_list)->cursor_uid;
 		g_return_if_fail (message_uid != NULL);
 
 		activity = e_mail_reader_new_activity (reader);
@@ -2525,7 +2525,7 @@ action_mail_show_source_cb (EUIAction *action,
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailReaderClosure *closure;
-	MessageList *ml;
+	EMessageList *ml;
 
 	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_ref_folder (reader);
@@ -2547,12 +2547,12 @@ action_mail_show_source_cb (EUIAction *action,
 	}
 
 	browser = e_mail_browser_new (backend, E_MAIL_FORMATTER_MODE_SOURCE);
-	ml = MESSAGE_LIST (e_mail_reader_get_message_list (E_MAIL_READER (browser)));
+	ml = E_MESSAGE_LIST (e_mail_reader_get_message_list (E_MAIL_READER (browser)));
 
-	message_list_freeze (ml);
+	e_message_list_freeze (ml);
 	e_mail_reader_set_folder (E_MAIL_READER (browser), folder);
 	e_mail_reader_set_message (E_MAIL_READER (browser), message_uid);
-	message_list_thaw (ml);
+	e_message_list_thaw (ml);
 
 	display = e_mail_reader_get_mail_display (E_MAIL_READER (browser));
 
@@ -3687,7 +3687,7 @@ mail_reader_double_click_cb (EMailReader *reader,
 	EUIAction *action;
 
 	/* Ignore double clicks on columns that handle their own state. */
-	if (MESSAGE_LIST_COLUMN_IS_ACTIVE (col))
+	if (E_MESSAGE_LIST_COLUMN_IS_ACTIVE (col))
 		return;
 
 	action = e_mail_reader_get_action (reader, "mail-message-open");
@@ -3714,16 +3714,16 @@ mail_reader_message_seen_cb (gpointer user_data)
 	parts = e_mail_display_get_part_list (display);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	/* zero the timeout id now, if it was not rescheduled */
-	if (g_source_get_id (g_main_current_source ()) == MESSAGE_LIST (message_list)->seen_id)
-		MESSAGE_LIST (message_list)->seen_id = 0;
+	if (g_source_get_id (g_main_current_source ()) == E_MESSAGE_LIST (message_list)->seen_id)
+		E_MESSAGE_LIST (message_list)->seen_id = 0;
 
 	if (e_tree_is_dragging (E_TREE (message_list)))
 		return FALSE;
 
-	current_uid = MESSAGE_LIST (message_list)->cursor_uid;
+	current_uid = E_MESSAGE_LIST (message_list)->cursor_uid;
 	uid_is_current &= (g_strcmp0 (current_uid, message_uid) == 0);
 
 	if (parts != NULL)
@@ -3743,13 +3743,13 @@ static void
 schedule_timeout_mark_seen (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = E_MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 	g_return_if_fail (message_list != NULL);
 
 	if (message_list->cursor_uid) {
@@ -3764,7 +3764,7 @@ schedule_timeout_mark_seen (EMailReader *reader)
 		timeout_closure->reader = g_object_ref (reader);
 		timeout_closure->message_uid = g_strdup (message_list->cursor_uid);
 
-		MESSAGE_LIST (message_list)->seen_id =
+		E_MESSAGE_LIST (message_list)->seen_id =
 			e_named_timeout_add_full (
 				G_PRIORITY_DEFAULT, priv->schedule_mark_seen_interval,
 				mail_reader_message_seen_cb,
@@ -3853,12 +3853,12 @@ static void
 maybe_schedule_timeout_mark_seen (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
-	MessageList *message_list;
+	EMessageList *message_list;
 	gboolean schedule_timeout;
 	gint timeout_interval = -1;
 	const gchar *message_uid;
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = E_MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 
 	message_uid = message_list->cursor_uid;
 	if (message_uid == NULL ||
@@ -3883,14 +3883,14 @@ static gboolean
 discard_timeout_mark_seen_cb (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	g_return_val_if_fail (reader != NULL, FALSE);
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 	priv->schedule_mark_seen = FALSE;
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = E_MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 	g_return_val_if_fail (message_list != NULL, FALSE);
 
 	if (message_list->seen_id > 0) {
@@ -4133,13 +4133,13 @@ mail_reader_message_selected_timeout_cb (gpointer user_data)
 	display = e_mail_reader_get_mail_display (reader);
 	parts = e_mail_display_get_part_list (display);
 
-	cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
+	cursor_uid = E_MESSAGE_LIST (message_list)->cursor_uid;
 	if (parts != NULL)
 		format_uid = e_mail_part_list_get_message_uid (parts);
 	else
 		format_uid = NULL;
 
-	if (MESSAGE_LIST (message_list)->last_sel_single) {
+	if (E_MESSAGE_LIST (message_list)->last_sel_single) {
 		GtkWidget *widget;
 		gboolean display_visible;
 		gboolean selected_uid_changed;
@@ -4199,7 +4199,7 @@ mail_reader_message_selected_cb (EMailReader *reader,
                                  const gchar *message_uid)
 {
 	EMailReaderPrivate *priv;
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
@@ -4219,14 +4219,14 @@ mail_reader_message_selected_cb (EMailReader *reader,
 			priv->did_try_to_open_message = TRUE;
 	}
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = E_MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 	if (message_list) {
 		EMailPartList *parts;
 		const gchar *cursor_uid, *format_uid;
 
 		parts = e_mail_display_get_part_list (e_mail_reader_get_mail_display (reader));
 
-		cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
+		cursor_uid = E_MESSAGE_LIST (message_list)->cursor_uid;
 		if (parts != NULL)
 			format_uid = e_mail_part_list_get_message_uid (parts);
 		else
@@ -4246,7 +4246,7 @@ mail_reader_message_selected_cb (EMailReader *reader,
 		message_list->seen_id = 0;
 	}
 
-	if (message_list_selected_count (message_list) != 1) {
+	if (e_message_list_selected_count (message_list) != 1) {
 		EMailDisplay *display;
 
 		display = e_mail_reader_get_mail_display (reader);
@@ -4270,7 +4270,7 @@ mail_reader_message_selected_cb (EMailReader *reader,
 static void
 mail_reader_message_cursor_change_cb (EMailReader *reader)
 {
-	MessageList *message_list;
+	EMessageList *message_list;
 	EMailReaderPrivate *priv;
 
 	g_return_if_fail (reader != NULL);
@@ -4278,7 +4278,7 @@ mail_reader_message_cursor_change_cb (EMailReader *reader)
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 	g_return_if_fail (priv != NULL);
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = E_MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 	g_return_if_fail (message_list != NULL);
 
 	if (message_list->seen_id == 0 &&
@@ -4292,20 +4292,20 @@ static void
 mail_reader_emit_folder_loaded (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = E_MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 
-	if (priv && (message_list_count (message_list) <= 0 ||
-	    message_list_selected_count (message_list) <= 0))
+	if (priv && (e_message_list_count (message_list) <= 0 ||
+	    e_message_list_selected_count (message_list) <= 0))
 		priv->avoid_next_mark_as_seen = FALSE;
 
 	g_signal_emit (reader, signals[FOLDER_LOADED], 0);
 }
 
 static void
-mail_reader_message_list_built_cb (MessageList *message_list,
+mail_reader_message_list_built_cb (EMessageList *message_list,
 				   EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
@@ -4346,7 +4346,7 @@ mail_reader_get_selected_uids (EMailReader *reader)
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	return message_list_get_selected (MESSAGE_LIST (message_list));
+	return e_message_list_get_selected (E_MESSAGE_LIST (message_list));
 }
 
 static GPtrArray *
@@ -4356,7 +4356,7 @@ mail_reader_get_selected_uids_with_collapsed_threads (EMailReader *reader)
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	return message_list_get_selected_with_collapsed_threads (MESSAGE_LIST (message_list));
+	return e_message_list_get_selected_with_collapsed_threads (E_MESSAGE_LIST (message_list));
 }
 
 static CamelFolder *
@@ -4366,7 +4366,7 @@ mail_reader_ref_folder (EMailReader *reader)
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	return message_list_ref_folder (MESSAGE_LIST (message_list));
+	return e_message_list_ref_folder (E_MESSAGE_LIST (message_list));
 }
 
 static void
@@ -4411,7 +4411,7 @@ mail_reader_set_folder (EMailReader *reader,
 		if (CAMEL_IS_VEE_FOLDER (folder))
 			mail_sync_folder (folder, FALSE, NULL, NULL);
 
-		message_list_set_folder (MESSAGE_LIST (message_list), folder);
+		e_message_list_set_folder (E_MESSAGE_LIST (message_list), folder);
 
 		mail_reader_emit_folder_loaded (reader);
 	}
@@ -4433,8 +4433,8 @@ mail_reader_set_message (EMailReader *reader,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_uid (
-		MESSAGE_LIST (message_list), message_uid, FALSE);
+	e_message_list_select_uid (
+		E_MESSAGE_LIST (message_list), message_uid, FALSE);
 }
 
 static void
@@ -4563,9 +4563,9 @@ mail_reader_message_loaded (EMailReader *reader,
 	/* Reset the shell view icon. */
 	e_shell_event (shell, "mail-icon", (gpointer) "evolution-mail");
 
-	if (MESSAGE_LIST (message_list)->seen_id > 0) {
-		g_source_remove (MESSAGE_LIST (message_list)->seen_id);
-		MESSAGE_LIST (message_list)->seen_id = 0;
+	if (E_MESSAGE_LIST (message_list)->seen_id > 0) {
+		g_source_remove (E_MESSAGE_LIST (message_list)->seen_id);
+		E_MESSAGE_LIST (message_list)->seen_id = 0;
 	}
 
 	/* Determine whether to mark the message as read. */
@@ -5207,12 +5207,12 @@ mail_reader_update_actions (EMailReader *reader,
 	mail_display = e_mail_reader_get_mail_display (reader);
 
 	if (any_messages_selected) {
-		MessageList *message_list;
+		EMessageList *message_list;
 		gint row = -1, count = -1;
 		ETreeTableAdapter *etta;
 		ETreePath node = NULL;
 
-		message_list = MESSAGE_LIST (
+		message_list = E_MESSAGE_LIST (
 			e_mail_reader_get_message_list (reader));
 		etta = e_tree_get_table_adapter (E_TREE (message_list));
 
@@ -5806,15 +5806,15 @@ e_mail_reader_dispose (EMailReader *reader)
 void
 e_mail_reader_changed (EMailReader *reader)
 {
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	g_signal_emit (reader, signals[CHANGED], 0);
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = E_MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 
-	if (!message_list || message_list_selected_count (message_list) != 1)
+	if (!message_list || e_message_list_selected_count (message_list) != 1)
 		mail_reader_remove_followup_alert (reader);
 }
 
@@ -6500,14 +6500,14 @@ void
 e_mail_reader_avoid_next_mark_as_seen (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	g_return_if_fail (reader != NULL);
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 	g_return_if_fail (priv != NULL);
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = E_MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 	g_return_if_fail (message_list != NULL);
 
 	priv->avoid_next_mark_as_seen = TRUE;

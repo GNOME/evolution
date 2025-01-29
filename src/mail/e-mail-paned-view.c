@@ -27,9 +27,9 @@
 
 #include <libemail-engine/libemail-engine.h>
 
-#include "em-utils.h"
-#include "message-list.h"
 #include "e-mail-reader-utils.h"
+#include "e-message-list.h"
+#include "em-utils.h"
 
 #include "e-mail-paned-view.h"
 
@@ -120,12 +120,12 @@ mail_paned_view_save_boolean (EMailView *view,
 }
 
 static gboolean
-mail_paned_view_message_list_is_empty (MessageList *message_list)
+mail_paned_view_message_list_is_empty (EMessageList *message_list)
 {
 	ETreeModel *model;
 	ETreePath root;
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), TRUE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), TRUE);
 
 	model = e_tree_get_model (E_TREE (message_list));
 	if (!model)
@@ -140,7 +140,7 @@ mail_paned_view_message_list_is_empty (MessageList *message_list)
 
 static void
 mail_paned_view_message_list_built_cb (EMailView *view,
-                                       MessageList *message_list)
+                                       EMessageList *message_list)
 {
 	EMailPanedView *self = E_MAIL_PANED_VIEW (view);
 	EShellView *shell_view;
@@ -152,7 +152,7 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 	ensure_message_selected = self->priv->folder_just_set;
 	self->priv->folder_just_set = FALSE;
 
-	folder = message_list_ref_folder (message_list);
+	folder = e_message_list_ref_folder (message_list);
 
 	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -174,13 +174,13 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 
 		/* This is for regen when setting filter, or when folder changed or such */
 		if (!ensure_message_selected &&
-		    !message_list_selected_count (message_list) &&
+		    !e_message_list_selected_count (message_list) &&
 		    !mail_paned_view_message_list_is_empty (message_list)) {
 			ensure_message_selected = TRUE;
 			with_fallback = FALSE;
 
 			if (self->priv->last_selected_uid &&
-			    message_list_contains_uid (message_list, self->priv->last_selected_uid)) {
+			    e_message_list_contains_uid (message_list, self->priv->last_selected_uid)) {
 				g_free (uid);
 				uid = g_strdup (self->priv->last_selected_uid);
 			}
@@ -190,7 +190,7 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 		   over the stored message. The _set_folder() makes sure to unset
 		   priv->last_selected_uid, when it's not from this folder. */
 		if (ensure_message_selected && !uid && self->priv->last_selected_uid &&
-		    message_list_contains_uid (message_list, self->priv->last_selected_uid)) {
+		    e_message_list_contains_uid (message_list, self->priv->last_selected_uid)) {
 			uid = g_strdup (self->priv->last_selected_uid);
 		}
 
@@ -209,12 +209,12 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 			g_free (folder_uri);
 		}
 
-		if (ensure_message_selected && !message_list_contains_uid (message_list, uid) &&
+		if (ensure_message_selected && !e_message_list_contains_uid (message_list, uid) &&
 		    e_mail_reader_get_mark_seen_always (E_MAIL_READER (view)))
 			e_mail_reader_unset_folder_just_selected (E_MAIL_READER (view));
 
 		if (ensure_message_selected)
-			message_list_select_uid (message_list, uid, with_fallback);
+			e_message_list_select_uid (message_list, uid, with_fallback);
 
 		g_free (uid);
 	}
@@ -225,7 +225,7 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 static void
 mail_paned_view_message_selected_cb (EMailView *view,
                                      const gchar *message_uid,
-                                     MessageList *message_list)
+                                     EMessageList *message_list)
 {
 	EShellView *shell_view;
 	CamelFolder *folder;
@@ -234,7 +234,7 @@ mail_paned_view_message_selected_cb (EMailView *view,
 	gchar *folder_uri;
 	gchar *group_name;
 
-	folder = message_list_ref_folder (message_list);
+	folder = e_message_list_ref_folder (message_list);
 
 	/* This also gets triggered when selecting a store name on
 	 * the sidebar such as "On This Computer", in which case
@@ -679,7 +679,7 @@ mail_paned_view_set_folder (EMailReader *reader,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_freeze (MESSAGE_LIST (message_list));
+	e_message_list_freeze (E_MESSAGE_LIST (message_list));
 
 	/* Chain up to interface's default set_folder() method. */
 	default_interface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
@@ -744,7 +744,7 @@ mail_paned_view_set_folder (EMailReader *reader,
 	g_free (group_name);
 
 exit:
-	message_list_thaw (MESSAGE_LIST (message_list));
+	e_message_list_thaw (E_MESSAGE_LIST (message_list));
 
 	g_object_unref (settings);
 }
@@ -832,7 +832,7 @@ mail_paned_view_constructed (GObject *object)
 
 	container = widget;
 
-	widget = message_list_new (session);
+	widget = e_message_list_new (session);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	self->priv->message_list = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -1137,7 +1137,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 
 			/* XXX This only stashes the filename in the view.
 			 *     The state file is not actually loaded until
-			 *     the MessageList is attached to the view. */
+			 *     the EMessageList is attached to the view. */
 			gal_view_load (gal_view, state_filename);
 
 			gal_view_instance_set_custom_view (
@@ -1183,7 +1183,7 @@ mail_paned_view_set_preview_visible (EMailView *view,
 
 		reader = E_MAIL_READER (view);
 		message_list = e_mail_reader_get_message_list (reader);
-		cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
+		cursor_uid = E_MESSAGE_LIST (message_list)->cursor_uid;
 
 		if (cursor_uid != NULL)
 			e_mail_reader_set_message (reader, cursor_uid);

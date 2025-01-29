@@ -6,7 +6,7 @@ add_custom_xml_files(mail ${privdatadir} filter .in ""
 	vfoldertypes.xml
 )
 
-install(FILES message-list.etspec
+install(FILES e-message-list.etspec
 	DESTINATION ${etspecdir}
 )
 
@@ -94,6 +94,7 @@ set(SOURCES
 	e-mail-ui-session.c
 	e-mail-view.c
 	e-mail-viewer.c
+	e-message-list.c
 	em-composer-utils.c
 	em-config.c
 	em-event.c
@@ -118,7 +119,6 @@ set(SOURCES
 	mail-autofilter.c
 	mail-send-recv.c
 	mail-vfolder-ui.c
-	message-list.c
 	${CMAKE_CURRENT_BINARY_DIR}/e-mail-enumtypes.c
 )
 
@@ -186,6 +186,7 @@ set(HEADERS
 	e-mail-ui-session.h
 	e-mail-view.h
 	e-mail-viewer.h
+	e-message-list.h
 	em-composer-utils.h
 	em-config.h
 	em-event.h
@@ -210,7 +211,6 @@ set(HEADERS
 	mail-autofilter.h
 	mail-send-recv.h
 	mail-vfolder-ui.h
-	message-list.h
 	${CMAKE_CURRENT_BINARY_DIR}/e-mail-enumtypes.h
 )
 

@@ -41,11 +41,11 @@
 #include "e-mail-browser.h"
 #include "e-mail-printer.h"
 #include "e-mail-display.h"
+#include "e-message-list.h"
 #include "em-composer-utils.h"
 #include "em-utils.h"
 #include "mail-autofilter.h"
 #include "mail-vfolder-ui.h"
-#include "message-list.h"
 
 #define d(x)
 
@@ -1406,7 +1406,7 @@ copy_tree_state (EMailReader *src_reader,
 	e_tree_set_state_object (E_TREE (des_mlist), state);
 	g_object_unref (state);
 
-	message_list_set_search (MESSAGE_LIST (des_mlist), MESSAGE_LIST (src_mlist)->search);
+	e_message_list_set_search (E_MESSAGE_LIST (des_mlist), E_MESSAGE_LIST (src_mlist)->search);
 }
 
 guint
@@ -1491,7 +1491,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 		const gchar *uid = views->pdata[ii];
 		GtkWidget *browser;
 		EMailReader *browser_reader;
-		MessageList *ml;
+		EMessageList *ml;
 
 		if (prefer_existing) {
 			EMailBrowser *mail_browser;
@@ -1507,8 +1507,8 @@ e_mail_reader_open_selected (EMailReader *reader)
 		browser = e_mail_browser_new (backend, E_MAIL_FORMATTER_MODE_NORMAL);
 		browser_reader = E_MAIL_READER (browser);
 
-		ml = MESSAGE_LIST (e_mail_reader_get_message_list (browser_reader));
-		message_list_freeze (ml);
+		ml = E_MESSAGE_LIST (e_mail_reader_get_message_list (browser_reader));
+		e_message_list_freeze (ml);
 
 		e_mail_reader_set_folder (browser_reader, folder);
 		e_mail_reader_set_message (browser_reader, uid);
@@ -1517,7 +1517,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 		e_mail_reader_set_group_by_threads (browser_reader,
 			e_mail_reader_get_group_by_threads (reader));
 
-		message_list_thaw (ml);
+		e_message_list_thaw (ml);
 		gtk_widget_show (browser);
 	}
 
@@ -1669,12 +1669,12 @@ e_mail_reader_print (EMailReader *reader,
 {
 	EActivity *activity;
 	GCancellable *cancellable;
-	MessageList *message_list;
+	EMessageList *message_list;
 	AsyncContext *async_context;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = E_MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 
 	activity = e_mail_reader_new_activity (reader);
 	cancellable = e_activity_get_cancellable (activity);
@@ -2774,7 +2774,7 @@ e_mail_reader_utils_get_selection_or_message (EMailReader *reader,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	uid = MESSAGE_LIST (message_list)->cursor_uid;
+	uid = E_MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
 
 	smd = g_slice_new0 (SelectionOrMessageData);
@@ -3105,7 +3105,7 @@ e_mail_reader_save_messages (EMailReader *reader)
 		GtkWidget *message_list;
 
 		message_list = e_mail_reader_get_message_list (reader);
-		message_list_sort_uids (MESSAGE_LIST (message_list), uids);
+		e_message_list_sort_uids (E_MESSAGE_LIST (message_list), uids);
 		file_format = E_MAIL_READER_SAVE_TO_FILE_FORMAT_MBOX;
 	} else {
 		GSettings *settings;
@@ -3219,14 +3219,14 @@ e_mail_reader_select_next_message (EMailReader *reader,
 	hide_deleted = e_mail_reader_get_hide_deleted (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	success = message_list_select (
-		MESSAGE_LIST (message_list),
-		MESSAGE_LIST_SELECT_NEXT, 0, 0);
+	success = e_message_list_select (
+		E_MESSAGE_LIST (message_list),
+		E_MESSAGE_LIST_SELECT_NEXT, 0, 0);
 
 	if (!success && (hide_deleted || or_else_previous))
-		message_list_select (
-			MESSAGE_LIST (message_list),
-			MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
+		e_message_list_select (
+			E_MESSAGE_LIST (message_list),
+			E_MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
 }
 
 void
@@ -3242,14 +3242,14 @@ e_mail_reader_select_previous_message (EMailReader *reader,
 	hide_deleted = e_mail_reader_get_hide_deleted (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	success = message_list_select (
-		MESSAGE_LIST (message_list),
-		MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
+	success = e_message_list_select (
+		E_MESSAGE_LIST (message_list),
+		E_MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
 
 	if (!success && (hide_deleted || or_else_next))
-		message_list_select (
-			MESSAGE_LIST (message_list),
-			MESSAGE_LIST_SELECT_NEXT, 0, 0);
+		e_message_list_select (
+			E_MESSAGE_LIST (message_list),
+			E_MESSAGE_LIST_SELECT_NEXT, 0, 0);
 }
 
 /* Helper for e_mail_reader_create_filter_from_selected() */
@@ -3624,10 +3624,10 @@ e_mail_reader_utils_get_mark_seen_setting (EMailReader *reader,
 
 		message_list_widget = e_mail_reader_get_message_list (reader);
 
-		if (IS_MESSAGE_LIST (message_list_widget)) {
-			MessageList *message_list;
+		if (E_IS_MESSAGE_LIST (message_list_widget)) {
+			EMessageList *message_list;
 
-			message_list = MESSAGE_LIST (message_list_widget);
+			message_list = E_MESSAGE_LIST (message_list_widget);
 
 			if (message_list->cursor_uid) {
 				CamelMessageInfo *nfo;

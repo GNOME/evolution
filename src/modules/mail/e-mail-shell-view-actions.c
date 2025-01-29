@@ -1108,7 +1108,7 @@ action_mail_folder_select_thread_cb (EUIAction *action,
 	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_thread (MESSAGE_LIST (message_list));
+	e_message_list_select_thread (E_MESSAGE_LIST (message_list));
 }
 
 static void
@@ -1128,7 +1128,7 @@ action_mail_folder_select_subthread_cb (EUIAction *action,
 	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_subthread (MESSAGE_LIST (message_list));
+	e_message_list_select_subthread (E_MESSAGE_LIST (message_list));
 }
 
 static gboolean
@@ -1421,15 +1421,15 @@ mail_shell_view_magic_spacebar (EMailShellView *mail_shell_view,
 	g_object_unref (settings);
 
 	if (!e_mail_display_process_magic_spacebar (display, move_forward)) {
-		guint32 direction = move_forward ? MESSAGE_LIST_SELECT_NEXT : MESSAGE_LIST_SELECT_PREVIOUS;
+		guint32 direction = move_forward ? E_MESSAGE_LIST_SELECT_NEXT : E_MESSAGE_LIST_SELECT_PREVIOUS;
 		gboolean selected;
 
 		if (!magic_spacebar)
 			return;
 
-		if (message_list_select (MESSAGE_LIST (message_list),
-		    direction | MESSAGE_LIST_SELECT_WRAP |
-		    MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
+		if (e_message_list_select (E_MESSAGE_LIST (message_list),
+		    direction | E_MESSAGE_LIST_SELECT_WRAP |
+		    E_MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
 		    0, CAMEL_MESSAGE_SEEN))
 			return;
 
@@ -1439,7 +1439,7 @@ mail_shell_view_magic_spacebar (EMailShellView *mail_shell_view,
 			selected = em_folder_tree_select_prev_path (folder_tree, TRUE);
 
 		if (selected)
-			message_list_set_regen_selects_unread (MESSAGE_LIST (message_list), TRUE);
+			e_message_list_set_regen_selects_unread (E_MESSAGE_LIST (message_list), TRUE);
 
 		gtk_widget_grab_focus (message_list);
 	}
@@ -1497,7 +1497,7 @@ action_mail_threads_collapse_all_cb (EUIAction *action,
 	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_set_threaded_collapse_all (MESSAGE_LIST (message_list));
+	e_message_list_set_threaded_collapse_all (E_MESSAGE_LIST (message_list));
 }
 
 static void
@@ -1517,7 +1517,7 @@ action_mail_threads_expand_all_cb (EUIAction *action,
 	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_set_threaded_expand_all (MESSAGE_LIST (message_list));
+	e_message_list_set_threaded_expand_all (E_MESSAGE_LIST (message_list));
 }
 
 static void

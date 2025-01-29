@@ -22,7 +22,7 @@
 #define E_MAIL_READER_H
 
 /* XXX Anjal uses a different message list widget than Evolution, so
- *     avoid including <mail/message-list.h> in this file.  This makes
+ *     avoid including <mail/e-message-list.h> in this file.  This makes
  *     the get_message_list() method a little awkward since it returns
  *     a GtkWidget pointer which almost always has to be type casted. */
 

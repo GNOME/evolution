@@ -209,7 +209,7 @@ mail_shell_view_match_folder_tree_and_message_list_folder (EMailShellView *mail_
 	 * method gets the folder from the message list is supposed to be
 	 * a hidden implementation detail, and we want to explicitly get
 	 * the folder URI from the message list here. */
-	folder = message_list_ref_folder (MESSAGE_LIST (message_list));
+	folder = e_message_list_ref_folder (E_MESSAGE_LIST (message_list));
 	if (folder != NULL) {
 		list_uri = e_mail_folder_uri_from_folder (folder);
 		g_object_unref (folder);
@@ -373,7 +373,7 @@ mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
 
 	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
-	message_list_save_state (MESSAGE_LIST (message_list));
+	e_message_list_save_state (E_MESSAGE_LIST (message_list));
 
 	/* Do not sync folder content here, it's duty of EMailBackend,
 	 * which does it for all accounts */
@@ -817,7 +817,7 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	message_list = e_mail_reader_get_message_list (reader);
 
 	/* Avoid loading search state unnecessarily. */
-	if ((!tmp && IS_MESSAGE_LIST (message_list) && MESSAGE_LIST (message_list)->just_set_folder) ||
+	if ((!tmp && E_IS_MESSAGE_LIST (message_list) && E_MESSAGE_LIST (message_list)->just_set_folder) ||
 	    g_strcmp0 (new_state_group, old_state_group) != 0) {
 		e_shell_searchbar_set_state_group (searchbar, new_state_group);
 		e_shell_searchbar_load_state (searchbar);
@@ -845,7 +845,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	CamelFolderInfoFlags flags = 0;
 	CamelFolderSummary *folder_summary;
 	MailFolderCache *folder_cache;
-	MessageList *message_list;
+	EMessageList *message_list;
 	guint selected_count;
 	GString *buffer, *title_short = NULL;
 	gboolean store_is_local, is_inbox;
@@ -903,8 +903,8 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	num_visible = camel_folder_summary_get_visible_count (folder_summary);
 
 	buffer = g_string_sized_new (256);
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
-	selected_count = message_list_selected_count (message_list);
+	message_list = E_MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	selected_count = e_message_list_selected_count (message_list);
 
 	if (selected_count > 1)
 		g_string_append_printf (

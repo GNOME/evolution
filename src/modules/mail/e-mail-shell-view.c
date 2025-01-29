@@ -107,7 +107,7 @@ add_folders_from_store (GList **folders,
 typedef struct {
 	MailMsg base;
 
-	MessageList *message_list;
+	EMessageList *message_list;
 	CamelFolder *folder;
 	GCancellable *cancellable;
 	GList *stores_list;
@@ -149,7 +149,7 @@ search_results_exec (SearchResultsMsg *msg,
 static void
 search_results_done (SearchResultsMsg *msg)
 {
-	message_list_dec_setting_up_search_folder (msg->message_list);
+	e_message_list_dec_setting_up_search_folder (msg->message_list);
 }
 
 static void
@@ -169,7 +169,7 @@ static MailMsgInfo search_results_setup_info = {
 };
 
 static gint
-mail_shell_view_setup_search_results_folder (MessageList *message_list,
+mail_shell_view_setup_search_results_folder (EMessageList *message_list,
 					     CamelFolder *folder,
                                              GList *stores,
                                              GCancellable *cancellable)
@@ -185,7 +185,7 @@ mail_shell_view_setup_search_results_folder (MessageList *message_list,
 	msg->cancellable = cancellable;
 	msg->stores_list = stores;
 
-	message_list_inc_setting_up_search_folder (message_list);
+	e_message_list_inc_setting_up_search_folder (message_list);
 
 	id = msg->base.seq;
 	mail_msg_slow_ordered_push (msg);
@@ -196,7 +196,7 @@ mail_shell_view_setup_search_results_folder (MessageList *message_list,
 typedef struct {
 	MailMsg base;
 
-	MessageList *message_list;
+	EMessageList *message_list;
 	CamelFolder *vfolder;
 	GCancellable *cancellable;
 	CamelFolder *root_folder;
@@ -269,7 +269,7 @@ search_results_with_subfolders_exec (SearchResultsWithSubfoldersMsg *msg,
 static void
 search_results_with_subfolders_done (SearchResultsWithSubfoldersMsg *msg)
 {
-	message_list_dec_setting_up_search_folder (msg->message_list);
+	e_message_list_dec_setting_up_search_folder (msg->message_list);
 }
 
 static void
@@ -289,7 +289,7 @@ static MailMsgInfo search_results_with_subfolders_setup_info = {
 };
 
 static gint
-mail_shell_view_setup_search_results_folder_and_subfolders (MessageList *message_list,
+mail_shell_view_setup_search_results_folder_and_subfolders (EMessageList *message_list,
 							    CamelFolder *vfolder,
 							    CamelFolder *root_folder,
 							    GCancellable *cancellable)
@@ -306,7 +306,7 @@ mail_shell_view_setup_search_results_folder_and_subfolders (MessageList *message
 	msg->cancellable = cancellable;
 	msg->root_folder = g_object_ref (root_folder);
 
-	message_list_inc_setting_up_search_folder (message_list);
+	e_message_list_inc_setting_up_search_folder (message_list);
 
 	id = msg->base.seq;
 	mail_msg_slow_ordered_push (msg);
@@ -330,7 +330,7 @@ mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_freeze (MESSAGE_LIST (message_list));
+	e_message_list_freeze (E_MESSAGE_LIST (message_list));
 
 	e_mail_reader_set_folder (reader, folder);
 	view_instance = e_mail_view_get_view_instance (mail_view);
@@ -348,7 +348,7 @@ mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
 		g_object_unref (state);
 	}
 
-	message_list_thaw (MESSAGE_LIST (message_list));
+	e_message_list_thaw (E_MESSAGE_LIST (message_list));
 }
 
 static void
@@ -1389,7 +1389,7 @@ filter:
 	self->priv->search_account_cancel = camel_operation_new ();
 
 	mail_shell_view_setup_search_results_folder_and_subfolders (
-		MESSAGE_LIST (message_list),
+		E_MESSAGE_LIST (message_list),
 		CAMEL_FOLDER (search_folder), folder,
 		self->priv->search_account_cancel);
 
@@ -1464,7 +1464,7 @@ all_accounts_setup:
 
 	/* This takes ownership of the stores list. */
 	mail_shell_view_setup_search_results_folder (
-		MESSAGE_LIST (message_list),
+		E_MESSAGE_LIST (message_list),
 		CAMEL_FOLDER (search_folder), list,
 		self->priv->search_account_cancel);
 
@@ -1549,7 +1549,7 @@ current_accout_setup:
 
 	/* This takes ownership of the stores list. */
 	mail_shell_view_setup_search_results_folder (
-		MESSAGE_LIST (message_list),
+		E_MESSAGE_LIST (message_list),
 		CAMEL_FOLDER (search_folder), list,
 		self->priv->search_account_cancel);
 
@@ -1564,7 +1564,7 @@ execute:
 
 	/* Finally, execute the search. */
 
-	message_list_set_search (MESSAGE_LIST (message_list), query);
+	e_message_list_set_search (E_MESSAGE_LIST (message_list), query);
 
 	e_mail_view_set_search_strings (mail_view, search_strings);
 
