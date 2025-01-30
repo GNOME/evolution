@@ -45,7 +45,6 @@
 #include "e-cell-estimated-duration.h"
 #include "itip-utils.h"
 #include "print.h"
-#include "misc.h"
 
 struct _ETaskTablePrivate {
 	gpointer shell_view;  /* weak pointer */
@@ -1382,7 +1381,6 @@ hide_completed_rows_ready (GObject *source_object,
 	ECalClient *cal_client;
 	GSList *m, *objects = NULL;
 	gboolean changed = FALSE;
-	gint pos;
 	GPtrArray *comp_objects;
 	GError *error = NULL;
 
@@ -1424,14 +1422,15 @@ hide_completed_rows_ready (GObject *source_object,
 
 		comp_data = e_cal_model_get_component_for_client_and_uid (model, cal_client, id);
 		if (comp_data != NULL) {
-			e_table_model_pre_change (E_TABLE_MODEL (model));
-			pos = get_position_in_array (
-				comp_objects, comp_data);
-			if (g_ptr_array_remove (comp_objects, comp_data))
+			guint pos;
+
+			if (g_ptr_array_find (comp_objects, comp_data, &pos)) {
+				e_table_model_pre_change (E_TABLE_MODEL (model));
+				g_ptr_array_remove_index (comp_objects, pos);
 				g_object_unref (comp_data);
-			e_table_model_row_deleted (
-				E_TABLE_MODEL (model), pos);
-			changed = TRUE;
+				e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
+				changed = TRUE;
+			}
 		}
 		e_cal_component_id_free (id);
 		g_object_unref (comp);

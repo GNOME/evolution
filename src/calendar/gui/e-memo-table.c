@@ -42,7 +42,6 @@
 #include "e-cell-date-edit-text.h"
 #include "itip-utils.h"
 #include "print.h"
-#include "misc.h"
 
 struct _EMemoTablePrivate {
 	gpointer shell_view;  /* weak pointer */

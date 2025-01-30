@@ -17,6 +17,8 @@
 
 #include "e-contact-editor-dyntable.h"
 
+#include "e-util/e-util.h"
+
 struct _EContactEditorDynTablePrivate {
 
 	/* absolute max, dyntable will ignore the rest */
@@ -656,22 +658,12 @@ default_impl_widget_is_empty (EContactEditorDynTable *dyntable,
                               GtkWidget *w)
 {
 	GtkEntry *e;
-	const gchar *data;
-	gchar * dup;
-	size_t len = -1;
 
 	e = GTK_ENTRY(w);
 	if (0 == gtk_entry_get_text_length (e))
 		return TRUE;
 
-	data = gtk_entry_get_text (e);
-
-	dup = g_strdup (data);
-	g_strchug (dup);
-	len = strlen (dup);
-	g_free (dup);
-
-	return len <= 0;
+	return e_str_is_empty (gtk_entry_get_text (e));
 }
 
 static void

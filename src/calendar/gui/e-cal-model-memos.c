@@ -28,7 +28,6 @@
 #include <glib/gi18n.h>
 #include "e-cal-model-memos.h"
 #include "e-cell-date-edit-text.h"
-#include "misc.h"
 
 #define d(x) (x)
 
@@ -240,7 +239,7 @@ cal_model_memos_value_is_empty (ETableModel *etm,
 
 	switch (col) {
 	case E_CAL_MODEL_MEMOS_FIELD_STATUS:
-		return string_is_empty (value);
+		return e_str_is_empty (value);
 	}
 
 	return TRUE;

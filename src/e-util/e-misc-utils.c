@@ -942,6 +942,39 @@ e_str_replace_string (const gchar *text,
 	return g_string_append (str, p);
 }
 
+/**
+ * e_str_is_empty:
+ * @value: A string.
+ *
+ * Returns whether a string is %NULL, the empty string, or completely made up of
+ * whitespace characters.
+ *
+ * Returns: %TRUE if the string is empty, %FALSE otherwise.
+ *
+ * Since: 3.56
+ **/
+gboolean
+e_str_is_empty (const gchar *value)
+{
+	const gchar *p;
+	gboolean empty;
+
+	empty = TRUE;
+
+	if (value) {
+		p = value;
+		while (*p) {
+			if (!isspace ((guchar) *p)) {
+				empty = FALSE;
+				break;
+			}
+			p++;
+		}
+	}
+
+	return empty;
+}
+
 gint
 e_str_compare (gconstpointer x,
                gconstpointer y)
