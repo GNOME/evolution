@@ -294,13 +294,13 @@ mail_parser_prefer_plain_convert_jsc_call_done_cb (GObject *source,
 						   GAsyncResult *result,
 						   gpointer user_data)
 {
-	WebKitJavascriptResult *js_result;
+	JSCValue *value;
 	AsyncContext *async_context = user_data;
 	GError *error = NULL;
 
 	g_return_if_fail (async_context != NULL);
 
-	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (source), result, &error);
+	value = webkit_web_view_evaluate_javascript_finish (WEBKIT_WEB_VIEW (source), result, &error);
 
 	if (error) {
 		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
@@ -311,11 +311,9 @@ mail_parser_prefer_plain_convert_jsc_call_done_cb (GObject *source,
 		g_clear_error (&error);
 	}
 
-	if (js_result) {
+	if (value) {
 		JSCException *exception;
-		JSCValue *value;
 
-		value = webkit_javascript_result_get_js_value (js_result);
 		exception = jsc_context_get_exception (jsc_value_get_context (value));
 
 		if (exception) {
@@ -325,7 +323,7 @@ mail_parser_prefer_plain_convert_jsc_call_done_cb (GObject *source,
 			async_context->text_output = jsc_value_to_string (value);
 		}
 
-		webkit_javascript_result_unref (js_result);
+		g_clear_object (&value);
 	}
 
 	g_clear_object (&async_context->web_view);
@@ -371,8 +369,9 @@ mail_parser_prefer_plain_convert_text (gpointer user_data)
 
 	g_object_unref (settings);
 
-	webkit_web_view_run_javascript (async_context->web_view, script, async_context->cancellable,
-		mail_parser_prefer_plain_convert_jsc_call_done_cb, async_context);
+	webkit_web_view_evaluate_javascript (async_context->web_view, script, -1, NULL, NULL,
+		async_context->cancellable, mail_parser_prefer_plain_convert_jsc_call_done_cb,
+		async_context);
 
 	g_free (script);
 

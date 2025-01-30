@@ -82,7 +82,7 @@ set(libpst_minimum_version 0.6.54)
 set(libsecret_minimum_version 0.5)
 set(libxml_minimum_version 2.7.3)
 set(shared_mime_info_minimum_version 0.22)
-set(webkit2gtk_minimum_version 2.34.0)
+set(webkit2gtk_minimum_version 2.40.0)
 set(sqlite_minimum_version 3.7.17)
 
 # Optional Packages

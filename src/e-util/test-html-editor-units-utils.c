@@ -689,21 +689,17 @@ test_html_equal_done_cb (GObject *source_object,
 			 gpointer user_data)
 {
 	HTMLEqualData *hed = user_data;
-	WebKitJavascriptResult *js_result;
 	JSCException *exception;
 	JSCValue *js_value;
 	GError *error = NULL;
 
 	g_return_if_fail (hed != NULL);
 
-	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
+	js_value = webkit_web_view_evaluate_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
 
 	g_assert_no_error (error);
 	g_clear_error (&error);
 
-	g_assert_nonnull (js_result);
-
-	js_value = webkit_javascript_result_get_js_value (js_result);
 	g_assert_nonnull (js_value);
 	g_assert_true (jsc_value_is_boolean (js_value));
 
@@ -716,7 +712,7 @@ test_html_equal_done_cb (GObject *source_object,
 		jsc_context_clear_exception (jsc_value_get_context (js_value));
 	}
 
-	webkit_javascript_result_unref (js_result);
+	g_object_unref (js_value);
 
 	test_utils_async_call_finish (hed->async_data);
 }
@@ -768,8 +764,8 @@ test_utils_html_equal (TestFixture *fixture,
 	hed.async_data = test_utils_async_call_prepare ();
 	hed.equal = FALSE;
 
-	webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (cnt_editor), script, NULL,
-		test_html_equal_done_cb, &hed);
+	webkit_web_view_evaluate_javascript (WEBKIT_WEB_VIEW (cnt_editor), script, -1,
+		NULL, NULL, NULL, test_html_equal_done_cb, &hed);
 
 	test_utils_async_call_wait (hed.async_data, 10);
 
@@ -1336,21 +1332,17 @@ test_utils_insert_signature_done_cb (GObject *source_object,
 				     gpointer user_data)
 {
 	gpointer async_data = user_data;
-	WebKitJavascriptResult *js_result;
 	JSCException *exception;
 	JSCValue *js_value;
 	GError *error = NULL;
 
 	g_return_if_fail (async_data != NULL);
 
-	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
+	js_value = webkit_web_view_evaluate_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
 
 	g_assert_no_error (error);
 	g_clear_error (&error);
 
-	g_assert_nonnull (js_result);
-
-	js_value = webkit_javascript_result_get_js_value (js_result);
 	g_assert_nonnull (js_value);
 
 	exception = jsc_context_get_exception (jsc_value_get_context (js_value));
@@ -1360,7 +1352,7 @@ test_utils_insert_signature_done_cb (GObject *source_object,
 		jsc_context_clear_exception (jsc_value_get_context (js_value));
 	}
 
-	webkit_javascript_result_unref (js_result);
+	g_object_unref (js_value);
 
 	test_utils_async_call_finish (async_data);
 }
@@ -1393,8 +1385,8 @@ test_utils_insert_signature (TestFixture *fixture,
 
 	async_data = test_utils_async_call_prepare ();
 
-	webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (cnt_editor), script, NULL,
-		test_utils_insert_signature_done_cb, async_data);
+	webkit_web_view_evaluate_javascript (WEBKIT_WEB_VIEW (cnt_editor), script, -1,
+		NULL, NULL, NULL, test_utils_insert_signature_done_cb, async_data);
 
 	test_utils_async_call_wait (async_data, 10);
 

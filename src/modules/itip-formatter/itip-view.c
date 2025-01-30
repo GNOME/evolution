@@ -988,12 +988,12 @@ itip_view_get_state_cb (GObject *source_object,
 
 	view = g_weak_ref_get (wkrf);
 	if (view) {
-		WebKitJavascriptResult *js_result;
+		JSCValue *value;
 		GError *error = NULL;
 
 		g_clear_pointer (&view->priv->state_rsvp_comment, g_free);
 
-		js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
+		value = webkit_web_view_evaluate_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
 
 		if (error) {
 			if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
@@ -1004,11 +1004,9 @@ itip_view_get_state_cb (GObject *source_object,
 			g_clear_error (&error);
 		}
 
-		if (js_result) {
+		if (value) {
 			JSCException *exception;
-			JSCValue *value;
 
-			value = webkit_javascript_result_get_js_value (js_result);
 			exception = jsc_context_get_exception (jsc_value_get_context (value));
 
 			if (exception) {
@@ -1024,7 +1022,7 @@ itip_view_get_state_cb (GObject *source_object,
 			view->priv->state_keep_alarm_check = e_web_view_jsc_get_object_property_boolean (value, "keep-alarm-check", FALSE);
 			view->priv->state_inherit_alarm_check = e_web_view_jsc_get_object_property_boolean (value, "inherit-alarm-check", FALSE);
 
-			webkit_javascript_result_unref (js_result);
+			g_clear_object (&value);
 
 			g_signal_emit (view, signals[RESPONSE], 0, view->priv->state_response_id);
 		}
@@ -1067,8 +1065,9 @@ itip_view_itip_button_clicked_cb (EWebView *web_view,
 
 		script = e_web_view_jsc_printf_script ("EvoItip.GetState(%s);", view->priv->part_id);
 
-		webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (web_view),
-			script, e_web_view_get_cancellable (web_view), itip_view_get_state_cb, e_weak_ref_new (view));
+		webkit_web_view_evaluate_javascript (WEBKIT_WEB_VIEW (web_view), script, -1,
+			NULL, NULL, e_web_view_get_cancellable (web_view), itip_view_get_state_cb,
+			e_weak_ref_new (view));
 
 		g_free (script);
 	}

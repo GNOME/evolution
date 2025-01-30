@@ -215,12 +215,12 @@ test_utils_jsc_call_done_cb (GObject *source_object,
 			     gpointer user_data)
 {
 	gchar *script = user_data;
-	WebKitJavascriptResult *js_result;
+	JSCValue *value;
 	GError *error = NULL;
 
 	g_return_if_fail (script != NULL);
 
-	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
+	value = webkit_web_view_evaluate_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
 
 	if (error) {
 		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
@@ -231,11 +231,9 @@ test_utils_jsc_call_done_cb (GObject *source_object,
 		g_clear_error (&error);
 	}
 
-	if (js_result) {
+	if (value) {
 		JSCException *exception;
-		JSCValue *value;
 
-		value = webkit_javascript_result_get_js_value (js_result);
 		exception = jsc_context_get_exception (jsc_value_get_context (value));
 
 		if (exception) {
@@ -243,7 +241,7 @@ test_utils_jsc_call_done_cb (GObject *source_object,
 			jsc_context_clear_exception (jsc_value_get_context (value));
 		}
 
-		webkit_javascript_result_unref (js_result);
+		g_clear_object (&value);
 	}
 
 	g_free (script);
@@ -261,12 +259,12 @@ test_utils_jsc_call_sync_done_cb (GObject *source_object,
 				  gpointer user_data)
 {
 	JSCCallData *jcd = user_data;
-	WebKitJavascriptResult *js_result;
+	JSCValue *value;
 	GError *error = NULL;
 
 	g_return_if_fail (jcd != NULL);
 
-	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
+	value = webkit_web_view_evaluate_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
 
 	if (error) {
 		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
@@ -277,11 +275,9 @@ test_utils_jsc_call_sync_done_cb (GObject *source_object,
 		g_clear_error (&error);
 	}
 
-	if (js_result) {
+	if (value) {
 		JSCException *exception;
-		JSCValue *value;
 
-		value = webkit_javascript_result_get_js_value (js_result);
 		exception = jsc_context_get_exception (jsc_value_get_context (value));
 
 		if (exception) {
@@ -291,7 +287,7 @@ test_utils_jsc_call_sync_done_cb (GObject *source_object,
 			*(jcd->out_result) = value ? g_object_ref (value) : NULL;
 		}
 
-		webkit_javascript_result_unref (js_result);
+		g_clear_object (&value);
 	}
 
 	test_flag_set (jcd->fixture->flag);
@@ -305,7 +301,7 @@ test_utils_jsc_call (TestFixture *fixture,
 	g_return_if_fail (fixture->web_view != NULL);
 	g_return_if_fail (script != NULL);
 
-	webkit_web_view_run_javascript (fixture->web_view, script, NULL, test_utils_jsc_call_done_cb, g_strdup (script));
+	webkit_web_view_evaluate_javascript (fixture->web_view, script, -1, NULL, NULL, NULL, test_utils_jsc_call_done_cb, g_strdup (script));
 }
 
 static void
@@ -326,7 +322,7 @@ test_utils_jsc_call_sync (TestFixture *fixture,
 	jcd.script = script;
 	jcd.out_result = out_result;
 
-	webkit_web_view_run_javascript (fixture->web_view, script, NULL, test_utils_jsc_call_sync_done_cb, &jcd);
+	webkit_web_view_evaluate_javascript (fixture->web_view, script, -1, NULL, NULL, NULL, test_utils_jsc_call_sync_done_cb, &jcd);
 
 	test_utils_wait (fixture);
 }

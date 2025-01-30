@@ -275,11 +275,11 @@ webkit_editor_jsc_call_done_cb (GObject *source,
 				GAsyncResult *result,
 				gpointer user_data)
 {
-	WebKitJavascriptResult *js_result;
+	JSCValue *value;
 	JSCCallData *jcd = user_data;
 	GError *error = NULL;
 
-	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (source), result, &error);
+	value = webkit_web_view_evaluate_javascript_finish (WEBKIT_WEB_VIEW (source), result, &error);
 
 	if (error) {
 		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
@@ -290,11 +290,9 @@ webkit_editor_jsc_call_done_cb (GObject *source,
 		g_clear_error (&error);
 	}
 
-	if (js_result) {
+	if (value) {
 		JSCException *exception;
-		JSCValue *value;
 
-		value = webkit_javascript_result_get_js_value (js_result);
 		exception = jsc_context_get_exception (jsc_value_get_context (value));
 
 		if (exception) {
@@ -304,7 +302,7 @@ webkit_editor_jsc_call_done_cb (GObject *source,
 			jcd->result = g_object_ref (value);
 		}
 
-		webkit_javascript_result_unref (js_result);
+		g_clear_object (&value);
 	}
 
 	e_webkit_editor_flag_set (jcd->flag);
@@ -328,8 +326,8 @@ webkit_editor_call_jsc_sync (EWebKitEditor *wk_editor,
 	jcd.flag = g_object_new (e_webkit_editor_flag_get_type (), NULL);
 	jcd.result = NULL;
 
-	webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (wk_editor), jcd.script, wk_editor->priv->cancellable,
-		webkit_editor_jsc_call_done_cb, &jcd);
+	webkit_web_view_evaluate_javascript (WEBKIT_WEB_VIEW (wk_editor), jcd.script, -1, NULL,
+		NULL, wk_editor->priv->cancellable, webkit_editor_jsc_call_done_cb, &jcd);
 
 	if (!jcd.flag->is_set) {
 		GMainLoop *loop;
@@ -2113,7 +2111,8 @@ webkit_editor_get_content (EContentEditor *editor,
 	cid_uid_prefix = camel_header_msgid_generate (inline_images_from_domain ? inline_images_from_domain : "");
 	script = e_web_view_jsc_printf_script ("EvoEditor.GetContent(%d, %s, %s)", flags, cid_uid_prefix, DEFAULT_CSS_STYLE);
 
-	webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (editor), script, cancellable, callback, user_data);
+	webkit_web_view_evaluate_javascript (WEBKIT_WEB_VIEW (editor), script, -1, NULL, NULL,
+		cancellable, callback, user_data);
 
 	g_free (cid_uid_prefix);
 	g_free (script);
@@ -2124,35 +2123,30 @@ webkit_editor_get_content_finish (EContentEditor *editor,
 				  GAsyncResult *result,
 				  GError **error)
 {
-	WebKitJavascriptResult *js_result;
+	JSCValue *value;
 	EContentEditorContentHash *content_hash = NULL;
 	GError *local_error = NULL;
 
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (editor), NULL);
 	g_return_val_if_fail (result != NULL, NULL);
 
-	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (editor), result, &local_error);
+	value = webkit_web_view_evaluate_javascript_finish (WEBKIT_WEB_VIEW (editor), result, &local_error);
 
 	if (local_error) {
 		g_propagate_error (error, local_error);
-
-		if (js_result)
-			webkit_javascript_result_unref (js_result);
-
+		g_clear_object (&value);
 		return NULL;
 	}
 
-	if (js_result) {
+	if (value) {
 		JSCException *exception;
-		JSCValue *value;
 
-		value = webkit_javascript_result_get_js_value (js_result);
 		exception = jsc_context_get_exception (jsc_value_get_context (value));
 
 		if (exception) {
 			g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "EvoEditor.GetContent() call failed: %s", jsc_exception_get_message (exception));
 			jsc_context_clear_exception (jsc_value_get_context (value));
-			webkit_javascript_result_unref (js_result);
+			g_clear_object (&value);
 			return NULL;
 		}
 
@@ -2245,7 +2239,7 @@ webkit_editor_get_content_finish (EContentEditor *editor,
 			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, _("Failed to retrieve message content"));
 		}
 
-		webkit_javascript_result_unref (js_result);
+		g_clear_object (&value);
 	}
 
 	return content_hash;

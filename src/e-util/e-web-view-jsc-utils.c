@@ -256,11 +256,11 @@ ewv_jsc_call_done_cb (GObject *source,
 		      GAsyncResult *result,
 		      gpointer user_data)
 {
-	WebKitJavascriptResult *js_result;
+	JSCValue *value;
 	gchar *script = user_data;
 	GError *error = NULL;
 
-	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (source), result, &error);
+	value = webkit_web_view_evaluate_javascript_finish (WEBKIT_WEB_VIEW (source), result, &error);
 
 	if (error) {
 		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
@@ -271,11 +271,9 @@ ewv_jsc_call_done_cb (GObject *source,
 		g_clear_error (&error);
 	}
 
-	if (js_result) {
+	if (value) {
 		JSCException *exception;
-		JSCValue *value;
 
-		value = webkit_javascript_result_get_js_value (js_result);
 		exception = jsc_context_get_exception (jsc_value_get_context (value));
 
 		if (exception) {
@@ -283,7 +281,7 @@ ewv_jsc_call_done_cb (GObject *source,
 			jsc_context_clear_exception (jsc_value_get_context (value));
 		}
 
-		webkit_javascript_result_unref (js_result);
+		g_clear_object (&value);
 	}
 
 	g_free (script);
@@ -317,7 +315,7 @@ e_web_view_jsc_run_script_take (WebKitWebView *web_view,
 	g_return_if_fail (WEBKIT_IS_WEB_VIEW (web_view));
 	g_return_if_fail (script != NULL);
 
-	webkit_web_view_run_javascript (web_view, script, cancellable, ewv_jsc_call_done_cb, script);
+	webkit_web_view_evaluate_javascript (web_view, script, -1, NULL, NULL, cancellable, ewv_jsc_call_done_cb, script);
 }
 
 void
@@ -485,7 +483,7 @@ ewv_jsc_get_content_finish (WebKitWebView *web_view,
 			    GSList **out_texts,
 			    GError **error)
 {
-	WebKitJavascriptResult *js_result;
+	JSCValue *value;
 	GError *local_error = NULL;
 
 	g_return_val_if_fail (WEBKIT_IS_WEB_VIEW (web_view), FALSE);
@@ -494,28 +492,22 @@ ewv_jsc_get_content_finish (WebKitWebView *web_view,
 
 	*out_texts = NULL;
 
-	js_result = webkit_web_view_run_javascript_finish (web_view, result, &local_error);
+	value = webkit_web_view_evaluate_javascript_finish (web_view, result, &local_error);
 
 	if (local_error) {
 		g_propagate_error (error, local_error);
-
-		if (js_result)
-			webkit_javascript_result_unref (js_result);
-
+		g_clear_object (&value);
 		return FALSE;
 	}
 
-	if (js_result) {
+	if (value) {
 		JSCException *exception;
-		JSCValue *value;
-
-		value = webkit_javascript_result_get_js_value (js_result);
 		exception = jsc_context_get_exception (jsc_value_get_context (value));
 
 		if (exception) {
 			g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Call failed: %s", jsc_exception_get_message (exception));
 			jsc_context_clear_exception (jsc_value_get_context (value));
-			webkit_javascript_result_unref (js_result);
+			g_clear_object (&value);
 			return FALSE;
 		}
 
@@ -526,7 +518,7 @@ ewv_jsc_get_content_finish (WebKitWebView *web_view,
 			*out_texts = g_slist_prepend (*out_texts, e_web_view_jsc_get_object_property_string (value, "plain", NULL));
 		}
 
-		webkit_javascript_result_unref (js_result);
+		g_clear_object (&value);
 	}
 
 	return TRUE;
@@ -545,7 +537,7 @@ e_web_view_jsc_get_selection (WebKitWebView *web_view,
 
 	script = e_web_view_jsc_printf_script ("Evo.GetSelection(%d)", format);
 
-	webkit_web_view_run_javascript (web_view, script, cancellable, callback, user_data);
+	webkit_web_view_evaluate_javascript (web_view, script, -1, NULL, NULL, cancellable, callback, user_data);
 
 	g_free (script);
 }
@@ -577,7 +569,7 @@ e_web_view_jsc_get_document_content (WebKitWebView *web_view,
 
 	script = e_web_view_jsc_printf_script ("Evo.GetDocumentContent(%s,%d)", iframe_id, format);
 
-	webkit_web_view_run_javascript (web_view, script, cancellable, callback, user_data);
+	webkit_web_view_evaluate_javascript (web_view, script, -1, NULL, NULL, cancellable, callback, user_data);
 
 	g_free (script);
 }
@@ -612,7 +604,7 @@ e_web_view_jsc_get_element_content (WebKitWebView *web_view,
 
 	script = e_web_view_jsc_printf_script ("Evo.GetElementContent(%s,%s,%d,%x)", iframe_id, element_id, format, use_outer_html);
 
-	webkit_web_view_run_javascript (web_view, script, cancellable, callback, user_data);
+	webkit_web_view_evaluate_javascript (web_view, script, -1, NULL, NULL, cancellable, callback, user_data);
 
 	g_free (script);
 }
@@ -644,7 +636,7 @@ e_web_view_jsc_get_element_from_point (WebKitWebView *web_view,
 
 	script = e_web_view_jsc_printf_script ("Evo.GetElementFromPoint(%d,%d)", xx, yy);
 
-	webkit_web_view_run_javascript (web_view, script, cancellable, callback, user_data);
+	webkit_web_view_evaluate_javascript (web_view, script, -1, NULL, NULL, cancellable, callback, user_data);
 
 	g_free (script);
 }
@@ -658,7 +650,7 @@ e_web_view_jsc_get_element_from_point_finish (WebKitWebView *web_view,
 					      gchar **out_element_id,
 					      GError **error)
 {
-	WebKitJavascriptResult *js_result;
+	JSCValue *value;
 	GError *local_error = NULL;
 
 	g_return_val_if_fail (WEBKIT_IS_WEB_VIEW (web_view), FALSE);
@@ -671,28 +663,23 @@ e_web_view_jsc_get_element_from_point_finish (WebKitWebView *web_view,
 	if (out_element_id)
 		*out_element_id = NULL;
 
-	js_result = webkit_web_view_run_javascript_finish (web_view, result, &local_error);
+	value = webkit_web_view_evaluate_javascript_finish (web_view, result, &local_error);
 
 	if (local_error) {
 		g_propagate_error (error, local_error);
-
-		if (js_result)
-			webkit_javascript_result_unref (js_result);
-
+		g_clear_object (&value);
 		return FALSE;
 	}
 
-	if (js_result) {
+	if (value) {
 		JSCException *exception;
-		JSCValue *value;
 
-		value = webkit_javascript_result_get_js_value (js_result);
 		exception = jsc_context_get_exception (jsc_value_get_context (value));
 
 		if (exception) {
 			g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Call failed: %s", jsc_exception_get_message (exception));
 			jsc_context_clear_exception (jsc_value_get_context (value));
-			webkit_javascript_result_unref (js_result);
+			g_clear_object (&value);
 			return FALSE;
 		}
 
@@ -707,7 +694,7 @@ e_web_view_jsc_get_element_from_point_finish (WebKitWebView *web_view,
 			g_warn_if_reached ();
 		}
 
-		webkit_javascript_result_unref (js_result);
+		g_clear_object (&value);
 	}
 
 	return TRUE;
