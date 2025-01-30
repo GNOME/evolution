@@ -341,10 +341,6 @@
     <title>Index of new symbols in 3.56</title>
     <xi:include href="xml/api-index-3.56.xml"><xi:fallback /></xi:include>
   </index>
-  <index id="api-index-3-54">
-    <title>Index of new symbols in 3.54</title>
-    <xi:include href="xml/api-index-3.54.xml"><xi:fallback /></xi:include>
-  </index>
   <index id="api-index-3-52">
     <title>Index of new symbols in 3.52</title>
     <xi:include href="xml/api-index-3.52.xml"><xi:fallback /></xi:include>
@@ -432,10 +428,6 @@
   <index id="api-index-3-6">
     <title>Index of new symbols in 3.6</title>
     <xi:include href="xml/api-index-3.6.xml"><xi:fallback /></xi:include>
-  </index>
-  <index id="api-index-3-4">
-    <title>Index of new symbols in 3.4</title>
-    <xi:include href="xml/api-index-3.4.xml"><xi:fallback /></xi:include>
   </index>
   <index id="api-index-3-2">
     <title>Index of new symbols in 3.2</title>
