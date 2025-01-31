@@ -65,8 +65,7 @@
  * text			string			RW		The string of the text label
  * bold                 boolean                 RW              Bold?
  * justification	GtkJustification	RW		Justification for multiline text
- * fill_color		string			W		X color specification for text
- * fill_color_gdk	GdkColor*		RW		Pointer to an allocated GdkColor
+ * fill-color		GdkRGBA*		RW		Color specification for text
  * clip_width		gdouble			RW		Width of clip rectangle
  * clip_height		gdouble			RW		Height of clip rectangle
  * clip			boolean			RW		Use clipping rectangle?
@@ -141,7 +140,7 @@ struct _EText {
 	gint width;                      /* Rendered text width in pixels */
 	gint height;			/* Rendered text height in pixels */
 
-	guint32 rgba;			/* RGBA color for text */
+	GdkRGBA rgba;			/* RGBA color for text */
 	gboolean rgba_set;		/* whether RGBA is set */
 
 	gchar *ellipsis;                 /* The ellipsis characters.  NULL = "...". */

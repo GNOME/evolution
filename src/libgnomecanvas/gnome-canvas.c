@@ -143,8 +143,8 @@ gnome_canvas_item_init (GnomeCanvasItem *item)
  * @parent: The parent group for the new item.
  * @type: The object type of the item.
  * @first_arg_name: A list of object argument name/value pairs, NULL-terminated,
- * used to configure the item.  For example, "fill_color", "black",
- * "width_units", 5.0, NULL.
+ * used to configure the item.  For example, "fill-color", &black, "width_units",
+ * 5.0, NULL.
  * @Varargs:
  *
  * Creates a new canvas item with @parent as its parent group.  The item is

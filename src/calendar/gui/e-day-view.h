@@ -316,7 +316,7 @@ struct _EDayView {
 	GdkPixbuf *attach_icon;
 
 	/* Colors for drawing. */
-	GdkColor colors[E_DAY_VIEW_COLOR_LAST];
+	GdkRGBA colors[E_DAY_VIEW_COLOR_LAST];
 
 	/* The normal & resizing cursors. */
 	GdkCursor *normal_cursor;

@@ -449,6 +449,9 @@ static ETableGroupContainerChildNode *
 create_child_node (ETableGroupContainer *etgc,
                    gpointer val)
 {
+	const GdkRGBA grey70 = { .red = 0.7, .green = 0.7, .blue = 0.7, .alpha = 1.0 };
+	const GdkRGBA grey50 = { .red = 0.5, .green = 0.5, .blue = 0.5, .alpha = 1.0 };
+	const GdkRGBA black = { .red = 0.0, .green = 0.0, .blue = 0.0, .alpha = 1.0 };
 	ETableGroup *child;
 	ETableGroupContainerChildNode *child_node;
 	ETableGroup *etg = E_TABLE_GROUP (etgc);
@@ -457,13 +460,13 @@ create_child_node (ETableGroupContainer *etgc,
 	child_node->rect = gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (etgc),
 		gnome_canvas_rect_get_type (),
-		"fill_color", "grey70",
-		"outline_color", "grey50",
+		"fill-color", &grey70,
+		"outline-color", &grey50,
 		NULL);
 	child_node->text = gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (etgc),
 		e_text_get_type (),
-		"fill_color", "black",
+		"fill-color", &black,
 		NULL);
 	child = e_table_group_new (
 		GNOME_CANVAS_GROUP (etgc), etg->full_header,

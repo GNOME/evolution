@@ -101,7 +101,7 @@ e_cell_date_init (ECellDate *ecd)
  * in the model that will be used to flag whether the date should be
  * rendered with strikeout, underline, or bolded.  In the case of the
  * "color_column" argument, the column in the model is expected to
- * have a string that can be parsed by gdk_color_parse().
+ * have a string that can be parsed by gdk_rgba_parse().
  *
  * Returns: an ECell object that can be used to render dates.
  */

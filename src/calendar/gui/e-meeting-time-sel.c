@@ -86,14 +86,14 @@ enum {
 static gint signals[LAST_SIGNAL] = { 0 };
 
 static void e_meeting_time_selector_alloc_named_color (EMeetingTimeSelector * mts,
-						       const gchar *name, GdkColor *c);
+						       const gchar *name, GdkRGBA *c);
 static void e_meeting_time_selector_add_key_color (EMeetingTimeSelector * mts,
 						   GtkWidget *hbox,
 						   gchar *label_text,
-						   GdkColor *color);
+						   GdkRGBA *color);
 static gint e_meeting_time_selector_draw_key_color (GtkWidget *darea,
 						      cairo_t *cr,
-						      GdkColor *color);
+						      GdkRGBA *color);
 static void e_meeting_time_selector_options_menu_detacher (GtkWidget *widget,
 							   GtkMenu   *menu);
 static void e_meeting_time_selector_autopick_menu_detacher (GtkWidget *widget,
@@ -836,7 +836,7 @@ static void
 e_meeting_time_selector_add_key_color (EMeetingTimeSelector *mts,
                                        GtkWidget *hbox,
                                        gchar *label_text,
-                                       GdkColor *color)
+                                       GdkRGBA *color)
 {
 	GtkWidget *child_hbox, *darea, *label;
 
@@ -863,7 +863,7 @@ e_meeting_time_selector_add_key_color (EMeetingTimeSelector *mts,
 static gint
 e_meeting_time_selector_draw_key_color (GtkWidget *darea,
                                         cairo_t *cr,
-                                        GdkColor *color)
+                                        GdkRGBA *color)
 {
 	EMeetingTimeSelector * mts;
 	GtkAllocation allocation;
@@ -883,7 +883,7 @@ e_meeting_time_selector_draw_key_color (GtkWidget *darea,
 		(gdouble) allocation.height);
 
 	if (color) {
-		gdk_cairo_set_source_color (cr, color);
+		gdk_cairo_set_source_rgba (cr, color);
 	} else {
 		cairo_set_source (cr, mts->no_info_pattern);
 	}
@@ -899,12 +899,12 @@ e_meeting_time_selector_draw_key_color (GtkWidget *darea,
 static void
 e_meeting_time_selector_alloc_named_color (EMeetingTimeSelector *mts,
                                            const gchar *name,
-                                           GdkColor *c)
+                                           GdkRGBA *c)
 {
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (c != NULL);
 
-	if (!gdk_color_parse (name, c))
+	if (!gdk_rgba_parse (c, name))
 		g_warning ("Failed to parse color: %s\n", name);
 }
 
@@ -981,7 +981,7 @@ e_meeting_time_selector_create_no_info_pattern (EMeetingTimeSelector *mts)
 {
 	cairo_surface_t *surface;
 	cairo_pattern_t *pattern;
-	GdkColor color;
+	GdkRGBA color = { .red = 1.0, .green = 1.0, .blue = 1.0, .alpha = 1.0 };
 	cairo_t *cr;
 
 	surface = gdk_window_create_similar_surface (
@@ -989,15 +989,10 @@ e_meeting_time_selector_create_no_info_pattern (EMeetingTimeSelector *mts)
 		CAIRO_CONTENT_COLOR, 8, 8);
 	cr = cairo_create (surface);
 
-	color.pixel = 0;
-	color.red = 0xFFFF;
-	color.green = 0xFFFF;
-	color.blue = 0xFFFF;
-
-	gdk_cairo_set_source_color (cr, &color);
+	gdk_cairo_set_source_rgba (cr, &color);
 	cairo_paint (cr);
 
-	gdk_cairo_set_source_color (cr, &mts->grid_color);
+	gdk_cairo_set_source_rgba (cr, &mts->grid_color);
 	cairo_set_line_width (cr, 1.0);
 	cairo_move_to (cr, -1,  5);
 	cairo_line_to (cr,  9, -5);

@@ -86,8 +86,6 @@ enum {
 	PROP_X_OFFSET,
 	PROP_Y_OFFSET,
 	PROP_FILL_COLOR,
-	PROP_FILL_COLOR_GDK,
-	PROP_FILL_COLOR_RGBA,
 	PROP_TEXT_WIDTH,
 	PROP_TEXT_HEIGHT,
 	PROP_EDITABLE,
@@ -586,8 +584,7 @@ e_text_set_property (GObject *object,
 {
 	GnomeCanvasItem *item;
 	EText *text;
-	GdkColor color = { 0, 0, 0, 0, };
-	GdkColor *pcolor;
+	GdkRGBA *rgba;
 
 	gboolean needs_update = 0;
 	gboolean needs_reflow = 0;
@@ -740,36 +737,16 @@ e_text_set_property (GObject *object,
 		break;
 
 	case PROP_FILL_COLOR:
-		if (g_value_get_string (value) &&
-		    !gdk_color_parse (g_value_get_string (value), &color)) {
-			g_warning ("%s: Failed to parse color '%s'", G_STRFUNC, g_value_get_string (value));
+		rgba = g_value_get_boxed (value);
+		if (rgba) {
+			text->rgba = *rgba;
+			text->rgba_set = TRUE;
+		} else if (text->rgba_set) {
+			text->rgba_set = FALSE;
+		} else {
 			break;
 		}
 
-		text->rgba = ((e_color_to_value (&color) & 0xffffff) << 8) | 0xff;
-		text->rgba_set = TRUE;
-		text->needs_redraw = 1;
-		needs_update = 1;
-		break;
-
-	case PROP_FILL_COLOR_GDK:
-		pcolor = g_value_get_boxed (value);
-		if (pcolor) {
-			color = *pcolor;
-		}
-
-		text->rgba = ((e_color_to_value (&color) & 0xffffff) << 8) | 0xff;
-		text->rgba_set = TRUE;
-		text->needs_redraw = 1;
-		needs_update = 1;
-		break;
-
-	case PROP_FILL_COLOR_RGBA:
-		text->rgba = g_value_get_uint (value);
-		color.red = ((text->rgba >> 24) & 0xff) * 0x101;
-		color.green = ((text->rgba >> 16) & 0xff) * 0x101;
-		color.blue = ((text->rgba >> 8) & 0xff) * 0x101;
-		text->rgba_set = TRUE;
 		text->needs_redraw = 1;
 		needs_update = 1;
 		break;
@@ -947,10 +924,6 @@ e_text_get_property (GObject *object,
 
 	case PROP_Y_OFFSET:
 		g_value_set_double (value, text->yofs);
-		break;
-
-	case PROP_FILL_COLOR_RGBA:
-		g_value_set_uint (value, text->rgba);
 		break;
 
 	case PROP_TEXT_WIDTH:
@@ -1235,12 +1208,7 @@ e_text_draw (GnomeCanvasItem *item,
 		e_utils_get_theme_color (widget, backdrop ? "theme_unfocused_fg_color,theme_fg_color" : "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &rgba);
 		gdk_cairo_set_source_rgba (cr, &rgba);
 	} else {
-		cairo_set_source_rgba (
-			cr,
-			((text->rgba >> 24) & 0xff) / 255.0,
-			((text->rgba >> 16) & 0xff) / 255.0,
-			((text->rgba >> 8) & 0xff) / 255.0,
-			( text->rgba & 0xff) / 255.0);
+		gdk_cairo_set_source_rgba (cr, &text->rgba);
 	}
 
 	/* Insert preedit text only when im_context signals are connected &
@@ -3094,32 +3062,12 @@ e_text_class_init (ETextClass *class)
 	g_object_class_install_property (
 		gobject_class,
 		PROP_FILL_COLOR,
-		g_param_spec_string (
-			"fill_color",
-			"Fill color",
-			"Fill color",
-			NULL,
-			G_PARAM_WRITABLE));
-
-	g_object_class_install_property (
-		gobject_class,
-		PROP_FILL_COLOR_GDK,
 		g_param_spec_boxed (
-			"fill_color_gdk",
-			"GDK fill color",
-			"GDK fill color",
-			GDK_TYPE_COLOR,
+			"fill-color",
+			"Fill color",
+			"Fill color",
+			GDK_TYPE_RGBA,
 			G_PARAM_WRITABLE));
-
-	g_object_class_install_property (
-		gobject_class,
-		PROP_FILL_COLOR_RGBA,
-		g_param_spec_uint (
-			"fill_color_rgba",
-			"GDK fill color",
-			"GDK fill color",
-			0, G_MAXUINT, 0,
-			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		gobject_class,

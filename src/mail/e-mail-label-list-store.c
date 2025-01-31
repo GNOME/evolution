@@ -467,7 +467,7 @@ e_mail_label_list_store_get_name (EMailLabelListStore *store,
 gboolean
 e_mail_label_list_store_get_color (EMailLabelListStore *store,
                                    GtkTreeIter *iter,
-                                   GdkColor *color)
+                                   GdkRGBA *color)
 {
 	gchar *encoded;
 	gchar **strv;
@@ -484,7 +484,7 @@ e_mail_label_list_store_get_color (EMailLabelListStore *store,
 	strv = g_strsplit_set (encoded, ":|", 3);
 
 	if (g_strv_length (strv) >= 2)
-		valid = gdk_color_parse (strv[1], color);
+		valid = gdk_rgba_parse (color, strv[1]);
 	else
 		valid = FALSE;
 
@@ -582,7 +582,7 @@ void
 e_mail_label_list_store_set (EMailLabelListStore *store,
                              GtkTreeIter *iter,
                              const gchar *name,
-                             const GdkColor *color)
+                             const GdkRGBA *color)
 {
 	e_mail_label_list_store_set_with_tag (store, iter, NULL, name, color);
 }
@@ -593,7 +593,7 @@ e_mail_label_list_store_set_with_tag (EMailLabelListStore *store,
 				      GtkTreeIter *iter,
 				      const gchar *tag,
 				      const gchar *name,
-				      const GdkColor *color)
+				      const GdkRGBA *color)
 {
 	gchar *encoded;
 	gchar *label_color;
@@ -603,7 +603,7 @@ e_mail_label_list_store_set_with_tag (EMailLabelListStore *store,
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (color != NULL);
 
-	label_color = gdk_color_to_string (color);
+	label_color = gdk_rgba_to_string (color);
 
 	if (iter != NULL)
 		label_tag = e_mail_label_list_store_get_tag (store, iter);

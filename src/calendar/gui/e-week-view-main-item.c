@@ -57,7 +57,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	gchar buffer[128], *format_string;
 	gint month, day_of_month, max_width;
 	GDateWeekday weekday;
-	GdkColor *bg_color;
+	GdkRGBA *bg_color;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
@@ -118,7 +118,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS];
 
 	cairo_save (cr);
-	gdk_cairo_set_source_color (cr, bg_color);
+	gdk_cairo_set_source_rgba (cr, bg_color);
 	cairo_rectangle (cr, x, y, width, height);
 	cairo_fill (cr);
 	cairo_restore (cr);
@@ -130,7 +130,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	bottom_edge = y + height - 1;
 
 	cairo_save (cr);
-	gdk_cairo_set_source_color (cr,  &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
+	gdk_cairo_set_source_rgba (cr,  &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
 	cairo_set_line_width (cr, 0.5);
 	cairo_move_to (cr, right_edge + 0.5, y);
 	cairo_line_to (cr, right_edge + 0.5, bottom_edge);
@@ -148,10 +148,10 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 		selected = FALSE;
 	if (selected) {
 		if (gtk_widget_has_focus (GTK_WIDGET (week_view))) {
-			gdk_cairo_set_source_color (
+			gdk_cairo_set_source_rgba (
 				cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
 		} else {
-			gdk_cairo_set_source_color (
+			gdk_cairo_set_source_rgba (
 				cr, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED]);
 		}
 
@@ -227,18 +227,18 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 
 	cairo_save (cr);
 	if (selected) {
-		gdk_cairo_set_source_color (
+		gdk_cairo_set_source_rgba (
 			cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
 	} else if (multi_week_view) {
 		if (today) {
-			gdk_cairo_set_source_color (
+			gdk_cairo_set_source_rgba (
 				cr, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
 		} else {
-			gdk_cairo_set_source_color (
+			gdk_cairo_set_source_rgba (
 				cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
 		}
 	} else {
-		gdk_cairo_set_source_color (
+		gdk_cairo_set_source_rgba (
 			cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
 	}
 
@@ -275,7 +275,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	/* Draw the line under the date. */
 	if (!multi_week_view) {
 		cairo_save (cr);
-		gdk_cairo_set_source_color (
+		gdk_cairo_set_source_rgba (
 			cr, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
 		cairo_set_line_width (cr, 0.7);
 		cairo_move_to (cr, x + E_WEEK_VIEW_DATE_LINE_L_PAD, line_y);

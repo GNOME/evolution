@@ -64,7 +64,7 @@ gchar *		e_mail_label_list_store_get_name	(EMailLabelListStore *store,
 							 GtkTreeIter *iter);
 gboolean	e_mail_label_list_store_get_color	(EMailLabelListStore *store,
 							 GtkTreeIter *iter,
-							 GdkColor *color);
+							 GdkRGBA *color);
 gchar *		e_mail_label_list_store_dup_icon_name	(EMailLabelListStore *store,
 							 GtkTreeIter *iter);
 gchar *		e_mail_label_list_store_get_tag		(EMailLabelListStore *store,
@@ -72,12 +72,12 @@ gchar *		e_mail_label_list_store_get_tag		(EMailLabelListStore *store,
 void		e_mail_label_list_store_set		(EMailLabelListStore *store,
 							 GtkTreeIter *iter,
 							 const gchar *name,
-							 const GdkColor *color);
+							 const GdkRGBA *color);
 void		e_mail_label_list_store_set_with_tag	(EMailLabelListStore *store,
 							 GtkTreeIter *iter,
 							 const gchar *tag,
 							 const gchar *name,
-							 const GdkColor *color);
+							 const GdkRGBA *color);
 gboolean	e_mail_label_list_store_lookup		(EMailLabelListStore *store,
 							 const gchar *tag,
 							 GtkTreeIter *iter);

@@ -1214,15 +1214,15 @@ changed_idle (gpointer data)
 static void
 et_canvas_style_updated (GtkWidget *widget)
 {
-	GdkColor color;
+	GdkRGBA color;
 
 	GTK_WIDGET_CLASS (e_table_parent_class)->style_updated (widget);
 
-	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
+	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
 
 	gnome_canvas_item_set (
 		E_TABLE (widget)->white_item,
-		"fill_color_gdk", &color,
+		"fill-color", &color,
 		NULL);
 }
 
@@ -1231,15 +1231,15 @@ et_canvas_realize (GtkWidget *canvas,
                    ETable *e_table)
 {
 	GtkWidget *widget;
-	GdkColor color;
+	GdkRGBA color;
 
 	widget = GTK_WIDGET (e_table->table_canvas);
 
-	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
+	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
 
 	gnome_canvas_item_set (
 		e_table->white_item,
-		"fill_color_gdk", &color,
+		"fill-color", &color,
 		NULL);
 
 	CHECK_HORIZONTAL (e_table);
@@ -1469,7 +1469,7 @@ e_table_setup_table (ETable *e_table,
                      ETableModel *model)
 {
 	GtkWidget *widget;
-	GdkColor color;
+	GdkRGBA color;
 
 	e_table->table_canvas = GNOME_CANVAS (e_canvas_new ());
 	gtk_widget_set_hexpand (GTK_WIDGET (e_table->table_canvas), TRUE);
@@ -1517,12 +1517,12 @@ e_table_setup_table (ETable *e_table,
 
 	gtk_widget_show (widget);
 
-	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
+	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
 
 	e_table->white_item = gnome_canvas_item_new (
 		gnome_canvas_root (e_table->table_canvas),
 		e_canvas_background_get_type (),
-		"fill_color_gdk", &color,
+		"fill-color", &color,
 		NULL);
 
 	g_signal_connect (
@@ -2656,15 +2656,14 @@ e_table_drag_highlight (ETable *table,
 		y += gtk_adjustment_get_value (adjustment);
 
 		if (table->drop_highlight == NULL) {
-			GdkColor fg;
+			GdkRGBA fg;
 
-			e_utils_get_theme_color_color (GTK_WIDGET (table), "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
+			e_utils_get_theme_color (GTK_WIDGET (table), "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
 
 			table->drop_highlight = gnome_canvas_item_new (
 				gnome_canvas_root (table->table_canvas),
 				gnome_canvas_rect_get_type (),
-				"fill_color", NULL,
-				"outline_color_gdk", &fg,
+				"outline-color", &fg,
 				NULL);
 		}
 		gnome_canvas_item_set (

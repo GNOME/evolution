@@ -207,31 +207,31 @@ calendar_preferences_map_index_to_time_divisions (const GValue *value,
 	return NULL;
 }
 
+
 static gboolean
-calendar_preferences_map_string_to_gdk_color (GValue *value,
-                                              GVariant *variant,
-                                              gpointer user_data)
+calendar_preferences_map_string_to_gdk_rgba (GValue *value,
+                                             GVariant *variant,
+                                             gpointer user_data)
 {
-	GdkColor color;
+	GdkRGBA rgba;
 	const gchar *string;
-	gboolean success = FALSE;
 
 	string = g_variant_get_string (variant, NULL);
-	if (gdk_color_parse (string, &color)) {
-		g_value_set_boxed (value, &color);
-		success = TRUE;
+	if (gdk_rgba_parse (&rgba, string)) {
+		g_value_set_boxed (value, &rgba);
+		return TRUE;
 	}
 
-	return success;
+	return FALSE;
 }
 
 static GVariant *
-calendar_preferences_map_gdk_color_to_string (const GValue *value,
-                                              const GVariantType *expected_type,
-                                              gpointer user_data)
+calendar_preferences_map_gdk_rgba_to_string (const GValue *value,
+                                             const GVariantType *expected_type,
+                                             gpointer user_data)
 {
 	GVariant *variant;
-	const GdkColor *color;
+	const GdkRGBA *color;
 
 	color = g_value_get_boxed (value);
 	if (color == NULL) {
@@ -239,7 +239,7 @@ calendar_preferences_map_gdk_color_to_string (const GValue *value,
 	} else {
 		gchar *string;
 
-		string = gdk_color_to_string (color);
+		string = gdk_rgba_to_string (color);
 		variant = g_variant_new_string (string);
 		g_free (string);
 	}
@@ -1113,10 +1113,10 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	widget = e_builder_get_widget (prefs->priv->builder, "tasks_due_today_color");
 	g_settings_bind_with_mapping (
 		settings, "task-due-today-color",
-		widget, "color",
+		widget, "rgba",
 		G_SETTINGS_BIND_DEFAULT,
-		calendar_preferences_map_string_to_gdk_color,
-		calendar_preferences_map_gdk_color_to_string,
+		calendar_preferences_map_string_to_gdk_rgba,
+		calendar_preferences_map_gdk_rgba_to_string,
 		NULL, (GDestroyNotify) NULL);
 	g_settings_bind (
 		settings, "task-due-today-highlight",
@@ -1132,10 +1132,10 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	widget = e_builder_get_widget (prefs->priv->builder, "tasks_overdue_color");
 	g_settings_bind_with_mapping (
 		settings, "task-overdue-color",
-		widget, "color",
+		widget, "rgba",
 		G_SETTINGS_BIND_DEFAULT,
-		calendar_preferences_map_string_to_gdk_color,
-		calendar_preferences_map_gdk_color_to_string,
+		calendar_preferences_map_string_to_gdk_rgba,
+		calendar_preferences_map_gdk_rgba_to_string,
 		NULL, (GDestroyNotify) NULL);
 	g_settings_bind (
 		settings, "task-overdue-highlight",

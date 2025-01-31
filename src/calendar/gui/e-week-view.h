@@ -266,7 +266,7 @@ struct _EWeekView {
 	GdkPixbuf *meeting_icon;
 
 	/* Colors for drawing. */
-	GdkColor colors[E_WEEK_VIEW_COLOR_LAST];
+	GdkRGBA colors[E_WEEK_VIEW_COLOR_LAST];
 
 	/* The normal & resizing cursors. */
 	GdkCursor *normal_cursor;

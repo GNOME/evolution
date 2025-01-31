@@ -77,7 +77,7 @@ typedef enum {
 	guint16 end_minute; \
 	guint different_timezone : 1; \
 	gboolean is_editable; \
-	GdkColor *color; \
+	GdkRGBA *color; \
 	gint x,y;
 
 typedef struct {
@@ -272,7 +272,7 @@ void		draw_curved_rectangle		(cairo_t *cr,
 						 gdouble rect_height,
 						 gdouble radius);
 
-GdkColor	get_today_background		(GdkColor event_background);
+GdkRGBA		get_today_background		(GdkRGBA event_background);
 
 gboolean	e_calendar_view_is_editing	(ECalendarView *cal_view);
 gboolean	e_calendar_view_get_allow_direct_summary_edit

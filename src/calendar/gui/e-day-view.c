@@ -714,28 +714,18 @@ e_day_view_recalc_main_canvas_size (EDayView *day_view)
 	}
 }
 
-static GdkColor
+static GdkRGBA
 e_day_view_get_text_color (EDayView *day_view,
                            EDayViewEvent *event)
 {
-	GdkColor color;
 	GdkRGBA rgba;
 
-	if (is_comp_data_valid (event) &&
-	    e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data, &rgba)) {
-	} else {
-		gdouble	cc = 65535.0;
-
-		rgba.red = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].red / cc;
-		rgba.green = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green / cc;
-		rgba.blue = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].blue / cc;
-		rgba.alpha = 1.0;
+	if (!is_comp_data_valid (event) ||
+	    !e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data, &rgba)) {
+		rgba = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND];
 	}
 
-	rgba = e_utils_get_text_color_for_background (&rgba);
-	e_rgba_to_color (&rgba, &color);
-
-	return color;
+	return e_utils_get_text_color_for_background (&rgba);
 }
 
 /* Returns the selected time range. */
@@ -1457,7 +1447,7 @@ day_view_update_style_settings (EDayView *day_view)
 	gint week_day, event_num;
 	GtkAdjustment *adjustment;
 	EDayViewEvent *event;
-	GdkColor color;
+	GdkRGBA rgba;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
@@ -1467,10 +1457,10 @@ day_view_update_style_settings (EDayView *day_view)
 		for (event_num = 0; event_num < day_view->events[week_day]->len; event_num++) {
 			event = &g_array_index (day_view->events[week_day], EDayViewEvent, event_num);
 			if (event->canvas_item) {
-				color = e_day_view_get_text_color (day_view, event);
+				rgba = e_day_view_get_text_color (day_view, event);
 				gnome_canvas_item_set (
 					event->canvas_item,
-					"fill_color_gdk", &color,
+					"fill-color", &rgba,
 					NULL);
 			}
 		}
@@ -1478,10 +1468,10 @@ day_view_update_style_settings (EDayView *day_view)
 	for (event_num = 0; event_num < day_view->long_events->len; event_num++) {
 		event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
 		if (event->canvas_item) {
-			color = e_day_view_get_text_color (day_view, event);
+			rgba = e_day_view_get_text_color (day_view, event);
 			gnome_canvas_item_set (
 				event->canvas_item,
-				"fill_color_gdk", &color,
+				"fill-color", &rgba,
 				NULL);
 		}
 	}
@@ -1650,20 +1640,20 @@ day_view_realize (GtkWidget *widget)
 	/* Set the canvas item colors. */
 	gnome_canvas_item_set (
 		day_view->drag_long_event_rect_item,
-		"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND],
-		"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
+		"fill-color", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND],
+		"outline-color", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
 		NULL);
 
 	gnome_canvas_item_set (
 		day_view->drag_rect_item,
-		"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND],
-		"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
+		"fill-color", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND],
+		"outline-color", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
 		NULL);
 
 	gnome_canvas_item_set (
 		day_view->drag_bar_item,
-		"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
-		"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
+		"fill-color", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
+		"outline-color", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
 		NULL);
 }
 
@@ -2259,6 +2249,7 @@ static void
 e_day_view_init (EDayView *day_view)
 {
 	gint day;
+	GdkRGBA black_rgba = { .red = 0.0, .green = 0.0, .blue = 0.0, .alpha = 1.0 };
 	GnomeCanvasGroup *canvas_group;
 	GtkAdjustment *adjustment;
 	GtkScrollable *scrollable;
@@ -2511,7 +2502,7 @@ e_day_view_init (EDayView *day_view)
 			"clip", TRUE,
 			"max_lines", 1,
 			"editable", TRUE,
-			"fill_color_rgba", GNOME_CANVAS_COLOR (0, 0, 0),
+			"fill-color", &black_rgba,
 			NULL);
 	gnome_canvas_item_hide (day_view->drag_long_event_item);
 
@@ -2624,7 +2615,7 @@ e_day_view_init (EDayView *day_view)
 			"line_wrap", TRUE,
 			"clip", TRUE,
 			"editable", TRUE,
-			"fill_color_rgba", GNOME_CANVAS_COLOR (0, 0, 0),
+			"fill-color", &black_rgba,
 			NULL);
 	gnome_canvas_item_hide (day_view->drag_item);
 
@@ -3118,19 +3109,19 @@ e_day_view_set_colors (EDayView *day_view)
 	e_utils_shade_color (&bg_bg, &dark_bg, E_UTILS_DARKNESS_MULT);
 	e_utils_shade_color (&bg_bg, &light_bg, E_UTILS_LIGHTNESS_MULT);
 
-	e_rgba_to_color (&base_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
-	e_rgba_to_color (&bg_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
-	e_rgba_to_color (&selected_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED]);
-	e_rgba_to_color (&unfocused_selected_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED]);
-	e_rgba_to_color (&dark_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
-	e_rgba_to_color (&dark_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
-	e_rgba_to_color (&selected_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED]);
-	e_rgba_to_color (&light_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID]);
-	e_rgba_to_color (&selected_bg, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
-	e_rgba_to_color (&base_bg, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND]);
-	e_rgba_to_color (&dark_bg, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER]);
-	e_rgba_to_color (&base_bg, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
-	e_rgba_to_color (&dark_bg, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
+	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING] = base_bg;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING] = bg_bg;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED] = selected_bg;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED] = unfocused_selected_bg;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID] = dark_bg;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS] = dark_bg;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED] = selected_bg;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID] = light_bg;
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR] = selected_bg;
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND] = base_bg;
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER] = dark_bg;
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND] = base_bg;
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER] = dark_bg;
 
 	if (!day_view->priv->today_background_color)
 		day_view->colors[E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY] = get_today_background (day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
@@ -3138,8 +3129,9 @@ e_day_view_set_colors (EDayView *day_view)
 	bg_bg.red = 0.5;
 	bg_bg.green = 1.0;
 	bg_bg.blue = 1.0;
+	bg_bg.alpha = 1.0;
 
-	e_rgba_to_color (&bg_bg, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
+	day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE] = bg_bg;
 }
 
 static void
@@ -6301,10 +6293,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	}
 
 	if (!event->canvas_item) {
-		GdkColor color;
+		GdkRGBA rgba;
 
-		color = e_day_view_get_text_color (day_view, event);
-
+		rgba = e_day_view_get_text_color (day_view, event);
 		event->canvas_item =
 			gnome_canvas_item_new (
 				GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root),
@@ -6313,7 +6304,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 				"max_lines", 1,
 				"editable", TRUE,
 				"use_ellipsis", TRUE,
-				"fill_color_gdk", &color,
+				"fill-color", &rgba,
 				"im_context", E_CANVAS (day_view->top_canvas)->im_context,
 				NULL);
 		g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));
@@ -6498,10 +6489,9 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		}
 
 		if (!event->canvas_item) {
-			GdkColor color;
+			GdkRGBA rgba;
 
-			color = e_day_view_get_text_color (day_view, event);
-
+			rgba = e_day_view_get_text_color (day_view, event);
 			event->canvas_item = gnome_canvas_item_new (
 				GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root),
 				e_text_get_type (),
@@ -6509,7 +6499,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 				"editable", TRUE,
 				"clip", TRUE,
 				"use_ellipsis", TRUE,
-				"fill_color_gdk", &color,
+				"fill-color", &rgba,
 				"im_context", E_CANVAS (day_view->main_canvas)->im_context,
 				NULL);
 			g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));

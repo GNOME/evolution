@@ -1098,24 +1098,15 @@ static void
 emfp_update_label_row (GtkTreeModel *model,
 		       GtkTreeIter *iter,
 		       const gchar *name,
-		       const GdkColor *color)
+		       const GdkRGBA *color)
 {
-	GdkRGBA rgba;
-
 	g_return_if_fail (GTK_IS_LIST_STORE (model));
 	g_return_if_fail (iter != NULL);
 	g_return_if_fail (!name || *name);
 
-	if (color) {
-		rgba.red = color->red / 65535.0;
-		rgba.green = color->green / 65535.0;
-		rgba.blue = color->blue / 65535.0;
-		rgba.alpha = 1.0;
-	}
-
 	gtk_list_store_set (GTK_LIST_STORE (model), iter,
 		1, name,
-		2, color ? &rgba : NULL,
+		2, color,
 		-1);
 }
 
@@ -1178,7 +1169,7 @@ emfp_labels_action (GtkWidget *parent,
 			gtk_window_set_title (GTK_WINDOW (dialog), _("Add Label"));
 
 			while (repeat) {
-				GdkColor label_color;
+				GdkRGBA label_color;
 				const gchar *label_name;
 
 				repeat = FALSE;
@@ -1209,7 +1200,7 @@ emfp_labels_action (GtkWidget *parent,
 			EMailLabelDialog *label_dialog;
 			GtkWidget *dialog;
 			const gchar *new_name;
-			GdkColor label_color;
+			GdkRGBA label_color;
 			gchar *label_name;
 			gboolean repeat = TRUE;
 
@@ -1349,17 +1340,8 @@ emfp_get_labels_item (EConfig *ec,
 			continue;
 
 		if (e_mail_label_list_store_lookup (label_store, tag, &label_iter)) {
-			GdkColor color;
-
 			label_name = e_mail_label_list_store_get_name (label_store, &label_iter);
-			has_label_color = e_mail_label_list_store_get_color (label_store, &label_iter, &color);
-
-			if (has_label_color) {
-				rgba.red = color.red / 65535.0;
-				rgba.green = color.green / 65535.0;
-				rgba.blue = color.blue / 65535.0;
-				rgba.alpha = 1.0;
-			}
+			has_label_color = e_mail_label_list_store_get_color (label_store, &label_iter, &rgba);
 		}
 
 		gtk_list_store_append (list_store, &iter);

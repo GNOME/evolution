@@ -883,7 +883,7 @@ action_mail_label_new_cb (EUIAction *action,
 	GtkTreeIter iter;
 	GtkWidget *dialog;
 	GPtrArray *uids;
-	GdkColor label_color;
+	GdkRGBA label_color;
 	const gchar *label_name;
 	gchar *label_tag;
 	gint n_children;

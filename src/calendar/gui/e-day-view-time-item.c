@@ -271,8 +271,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 	PangoContext *context;
 	PangoFontMetrics *large_font_metrics, *small_font_metrics;
 	GtkWidget *widget;
-	GdkRGBA fg, dark;
-	GdkColor mb_color;
+	GdkRGBA fg, dark, mb_color;
 
 	time_item = E_DAY_VIEW_TIME_ITEM (canvas_item);
 	day_view = e_day_view_time_item_get_day_view (time_item);
@@ -414,7 +413,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 		gint marcus_bains_y;
 
 		cairo_save (cr);
-		gdk_cairo_set_source_color (
+		gdk_cairo_set_source_rgba (
 			cr, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
 
 		marcus_bains_time_bar_color =
@@ -422,8 +421,8 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 		if (marcus_bains_time_bar_color == NULL)
 			marcus_bains_time_bar_color = "";
 
-		if (gdk_color_parse (marcus_bains_time_bar_color, &mb_color)) {
-			gdk_cairo_set_source_color (cr, &mb_color);
+		if (gdk_rgba_parse (&mb_color, marcus_bains_time_bar_color)) {
+			gdk_cairo_set_source_rgba (cr, &mb_color);
 		} else {
 			mb_color = day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE];
 		}
@@ -454,8 +453,8 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 
 		mb_color = day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE];
 
-		if (gdk_color_parse (marcus_bains_time_bar_color, &mb_color))
-			gdk_cairo_set_source_color (cr, &mb_color);
+		if (gdk_rgba_parse (&mb_color, marcus_bains_time_bar_color))
+			gdk_cairo_set_source_rgba (cr, &mb_color);
 	}
 
 	/* Step through each row, drawing the times and the horizontal lines
@@ -512,7 +511,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 
 			cairo_save (cr);
 			if (show_midnight_date)
-				gdk_cairo_set_source_color (cr, &mb_color);
+				gdk_cairo_set_source_rgba (cr, &mb_color);
 			else
 				gdk_cairo_set_source_rgba (cr, &fg);
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), NULL);
@@ -554,7 +553,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 
 				cairo_save (cr);
 				if (show_midnight_date)
-					gdk_cairo_set_source_color (cr, &mb_color);
+					gdk_cairo_set_source_rgba (cr, &mb_color);
 				else
 					gdk_cairo_set_source_rgba (cr, &fg);
 				layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), NULL);
@@ -603,7 +602,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 
 				cairo_save (cr);
 				if (show_midnight_date)
-					gdk_cairo_set_source_color (cr, &mb_color);
+					gdk_cairo_set_source_rgba (cr, &mb_color);
 				else
 					gdk_cairo_set_source_rgba (cr, &fg);
 				layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), NULL);

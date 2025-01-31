@@ -24,12 +24,10 @@ G_BEGIN_DECLS
  *
  * name			type			read/write	description
  * ------------------------------------------------------------------------------------------
- * fill_color		string			W		X color specification for fill color,
+ * fill-color		GdkRGBA*		RW		Allocated GdkRGBA for fill color,
  *								or NULL pointer for no color (transparent).
- * fill_color_gdk	GdkColor*		RW		Allocated GdkColor for fill.
- * outline_color	string			W		X color specification for outline color,
+ * outline-color	GdkRGBA*		RW		Allocated GdkRGBA for outline color,
  *								or NULL pointer for no color (transparent).
- * outline_color_gdk	GdkColor*		RW		Allocated GdkColor for outline.
  * width_pixels		uint			RW		Width of the outline in pixels.  The outline will
  *								not be scaled when the canvas zoom factor is changed.
  * width_units		gdouble			RW		Width of the outline in canvas units.  The outline

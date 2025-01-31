@@ -42,20 +42,6 @@ G_BEGIN_DECLS
 /* "Small" value used by canvas stuff */
 #define GNOME_CANVAS_EPSILON 1e-10
 
-/* Macros for building colors that fit in a 32-bit integer.  The values are in
- * [0, 255].
- */
-
-#define GNOME_CANVAS_COLOR(r, g, b) ((((guint) (r) & 0xffu) << 24) \
-				     | (((guint) (g) & 0xffu) << 16) \
-				     | (((guint) (b) & 0xffu) << 8) \
-				     | 0xffu)
-
-#define GNOME_CANVAS_COLOR_A(r, g, b, a) ((((guint) (r) & 0xffu) << 24) \
-					  | (((guint) (g) & 0xffu) << 16) \
-					  | (((guint) (b) & 0xffu) << 8) \
-					  | ((guint) (a) & 0xffu))
-
 typedef struct _GnomeCanvas           GnomeCanvas;
 typedef struct _GnomeCanvasClass      GnomeCanvasClass;
 typedef struct _GnomeCanvasItem       GnomeCanvasItem;

@@ -186,6 +186,7 @@ create_content (GnomeCanvas **canvas)
 static void
 e_table_field_chooser_init (ETableFieldChooser *etfc)
 {
+	const GdkRGBA white = { .red = 1.0, .green = 1.0, .blue = 1.0, .alpha = 1.0 };
 	GtkWidget *widget;
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (etfc), GTK_ORIENTATION_VERTICAL);
@@ -205,7 +206,7 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 		"y1", (gdouble) 0,
 		"x2", (gdouble) 100,
 		"y2", (gdouble) 100,
-		"fill_color", "white",
+		"fill-color", &white,
 		NULL);
 
 	etfc->item = gnome_canvas_item_new (
