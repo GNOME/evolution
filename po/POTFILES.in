@@ -108,7 +108,6 @@ src/calendar/gui/e-week-view-main-item.c
 src/calendar/gui/e-year-view.c
 src/calendar/gui/itip-utils.c
 src/calendar/gui/memotypes.xml.in
-src/calendar/gui/misc.c
 src/calendar/gui/print.c
 src/calendar/gui/tasktypes.xml.in
 src/calendar/importers/icalendar-importer.c
