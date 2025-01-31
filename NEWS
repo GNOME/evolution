@@ -1,3 +1,65 @@
+Evolution 3.55.2 2025-01-31
+---------------------------
+
+Bug Fixes:
+	I#2384 - Mail: Show inline images with 'name' as attachments
+	I#2829 - Apply changes in attachment properties popover with Enter (Vishruth-Thimmaiah)
+	I#2926 - Change default button in delete confirmation dialog
+	I#2932 - S/MIME: Backup certificate with stronger/better algorithm
+	I#2938 - Expose the "Bulk Edit..." in the contextual menu
+	I#2941 - mail-autoconfig: Use real user e-mail in the request
+	I#2943 - ETableSortInfo: Have a strong reference on the ETableSpecification
+	I#2948 - Mail: "To Do" bar is always shown after restart
+	I#2952 - Mail: Allow save of a message attachment to a mail folder
+	M!153 - mail-dialogs: Use GtkGrid instead of GtkTable (Corentin Noël)
+	M!155 - canvas: Actually subclass GInitiallyUnowned (Corentin Noël)
+	M!156 - libgnomecanvas: Remove gnome-canvas-i18n.h (Corentin Noël)
+	M!157 - Replace all occurences of gtk_icon_info_free (Corentin Noël)
+	M!158 - EMeetingTimeSelector: Subclass GtkGrid (Corentin Noël)
+	M!158 - EMeetingTimeSelector: Use a GtkGrid for the time selector (Corentin Noël)
+	M!159 - EComposerHeaderTable: Make it a GtkGrid subclass (Corentin Noël)
+	M!159 - EContactEditor: Use GtkGrid instead of GtkTable (Corentin Noël)
+	M!159 - EContactQuickAdd: Use GtkGrid instead of GtkTable (Corentin Noël)
+	M!161 - Remove ESendOptionsDialog (Corentin Noël)
+	M!162 - ETableConfig: Use GtkComboboxText directly (Corentin Noël)
+	M!163 - Use GtkGrid instead of GtkTable (Corentin Noël)
+	M!164 - Require GLib 2.70 (Corentin Noël)
+	M!165 - Get rid of GtkAlignment in the code (Corentin Noël)
+	M!166 - EAlphabetBox: Base the widget on GtkListBox (Corentin Noël)
+	M!167 - Replace GtkArrow with images (Corentin Noël)
+	M!169 - Remove e_util_check_gtk_bindings_in_key_press_event_cb (Corentin Noël)
+	M!170 - Remove the use of gtk_scrolled_window_add_with_viewport (Corentin Noël)
+	M!172 - EWeekdayChooser: Switch to native GTK widgets (Corentin Noël)
+	M!173 - Replace g_memdup with g_memdup2 (Corentin Noël)
+	M!174 - Do not use GTimeVal (Corentin Noël)
+	M!175 - Avoid the use of g_binding_get_source/target (Corentin Noël)
+	M!176 - Replace gtk_combo_box_set_focus_on_click with gtk_widget_set_focus_on_click (Corentin Noël)
+	M!178 - Use webkit_settings_font_size_to_pixels to set font size (Corentin Noël)
+	M!181 - Remove calendar/gui/misc.c|.h (Corentin Noël)
+	ews-I#295 - itip-formatter: Import of forwarded meeting as bare event
+
+Miscellaneous:
+	ETaskTable: Use "stock_check-filled-symbolic" icon name
+	EAddressbookView: Context menu could be shown twice in the Minicard view
+	Switcher button icon does not change when action's icon name changes
+	EShellView: Do not process accels when search entry is focused
+	Preview layout setting does not stick after app restart
+	Remove e-reflow and e-reflow-model (Corentin Noël)
+	EAttachmentBar: Verify 'possible_attachments" is non-NULL before using it
+	Replace  margin-left/right with margin-start/end (Corentin Noël)
+	e-misc-utils: Remove unused e_util_stop_signal_emission_cb()
+	Use gtk_show_uri_on_window instead of gtk_show_uri (Corentin Noël)
+	EShellSwitcher: Cannot create a new window by a switcher button press
+	docs: Remove index references for versions not in the code any more
+
+Translations:
+	Anders Jonsson (sv)
+	Boyuan Yang (zh_CN)
+	Ekaterine Papava (ka)
+	Martin (sl)
+	Quentin PAGÈS (oc)
+	Yuri Chornoivan (uk)
+
 Evolution 3.55.1 2025-01-03
 ---------------------------
 
