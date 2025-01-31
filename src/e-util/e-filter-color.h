@@ -58,7 +58,7 @@ struct _EFilterColor {
 	EFilterElement parent;
 	EFilterColorPrivate *priv;
 
-	GdkColor color;
+	GdkRGBA color;
 };
 
 struct _EFilterColorClass {

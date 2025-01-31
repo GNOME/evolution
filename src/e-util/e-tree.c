@@ -1183,15 +1183,15 @@ et_build_item (ETree *tree)
 static void
 et_canvas_style_updated (GtkWidget *widget)
 {
-	GdkColor color;
+	GdkRGBA color;
 
 	GTK_WIDGET_CLASS (e_tree_parent_class)->style_updated (widget);
 
-	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
+	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
 
 	gnome_canvas_item_set (
 		E_TREE (widget)->priv->white_item,
-		"fill_color_gdk", &color,
+		"fill-color", &color,
 		NULL);
 }
 
@@ -1315,7 +1315,7 @@ static void
 e_tree_setup_table (ETree *tree)
 {
 	GtkWidget *widget;
-	GdkColor color;
+	GdkRGBA color;
 
 	tree->priv->table_canvas = GNOME_CANVAS (e_canvas_new ());
 	gtk_widget_set_hexpand (GTK_WIDGET (tree->priv->table_canvas), TRUE);
@@ -1368,12 +1368,12 @@ e_tree_setup_table (ETree *tree)
 
 	gtk_widget_show (widget);
 
-	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
+	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
 
 	tree->priv->white_item = gnome_canvas_item_new (
 		gnome_canvas_root (tree->priv->table_canvas),
 		e_canvas_background_get_type (),
-		"fill_color_gdk", &color,
+		"fill-color", &color,
 		NULL);
 
 	g_signal_connect (

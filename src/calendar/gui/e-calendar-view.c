@@ -1882,21 +1882,23 @@ draw_curved_rectangle (cairo_t *cr,
 
 /* returns either light or dark yellow, based on the base_background,
  * which is the default background color */
-GdkColor
-get_today_background (const GdkColor base_background)
+GdkRGBA
+get_today_background (const GdkRGBA base_background)
 {
-	GdkColor res = base_background;
+	GdkRGBA res = base_background;
 
-	if (res.red > 0x7FFF) {
+	if (res.red > 0.5) {
 		/* light yellow for a light theme */
-		res.red = 0xFFFF;
-		res.green = 0xFFFF;
-		res.blue = 0xC0C0;
+		res.red = 1.0;
+		res.green = 1.0;
+		res.blue = 0.75;
+		res.alpha = 1.0;
 	} else {
 		/* dark yellow for a dark theme */
-		res.red = 0x3F3F;
-		res.green = 0x3F3F;
-		res.blue = 0x0000;
+		res.red = 0.25;
+		res.green = 0.25;
+		res.blue = 0.0;
+		res.alpha = 1.0;
 	}
 
 	return res;

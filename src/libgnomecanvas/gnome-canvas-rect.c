@@ -42,8 +42,8 @@ struct _GnomeCanvasRectPrivate {
 
 	gdouble line_width;		/* Width of outline, in user coords */
 
-	guint32 fill_rgba;		/* Fill color, RGBA */
-	guint32 outline_rgba;		/* Outline color, RGBA */
+	GdkRGBA fill_rgba;		/* Fill color, RGBA */
+	GdkRGBA outline_rgba;		/* Outline color, RGBA */
 
 	cairo_line_cap_t cap;		/* Cap style for line */
 	cairo_line_join_t join;		/* Join style for line */
@@ -62,11 +62,7 @@ enum {
 	PROP_X2,
 	PROP_Y2,
 	PROP_FILL_COLOR,
-	PROP_FILL_COLOR_GDK,
-	PROP_FILL_COLOR_RGBA,
 	PROP_OUTLINE_COLOR,
-	PROP_OUTLINE_COLOR_GDK,
-	PROP_OUTLINE_COLOR_RGBA,
 	PROP_LINE_WIDTH,
 	PROP_CAP_STYLE,
 	PROP_JOIN_STYLE,
@@ -80,22 +76,6 @@ static void   gnome_canvas_rect_bounds      (GnomeCanvasItem *item,
 
 G_DEFINE_TYPE_WITH_PRIVATE (GnomeCanvasRect, gnome_canvas_rect, GNOME_TYPE_CANVAS_ITEM)
 
-static guint32
-get_rgba_from_color (GdkColor *color)
-{
-	guint32 rr, gg, bb, aa;
-
-	rr = 0xFF * color->red / 65535.0;
-	gg = 0xFF * color->green / 65535.0;
-	bb = 0xFF * color->blue / 65535.0;
-	aa = 0xFF;
-
-	return (rr & 0xFFu) << 24 |
-		(gg & 0xFFu) << 16 |
-		(bb & 0xFFu) << 8 |
-		(aa & 0xFFu);
-}
-
 static gboolean
 gnome_canvas_rect_setup_for_fill (GnomeCanvasRect *rect,
                                   cairo_t *cr)
@@ -103,12 +83,7 @@ gnome_canvas_rect_setup_for_fill (GnomeCanvasRect *rect,
 	if (!rect->priv->fill_set)
 		return FALSE;
 
-	cairo_set_source_rgba (
-		cr,
-		((rect->priv->fill_rgba >> 24) & 0xff) / 255.0,
-		((rect->priv->fill_rgba >> 16) & 0xff) / 255.0,
-		((rect->priv->fill_rgba >> 8) & 0xff) / 255.0,
-		( rect->priv->fill_rgba & 0xff) / 255.0);
+	gdk_cairo_set_source_rgba (cr, &rect->priv->fill_rgba);
 	cairo_set_fill_rule (cr, rect->priv->wind);
 
 	return TRUE;
@@ -121,12 +96,7 @@ gnome_canvas_rect_setup_for_stroke (GnomeCanvasRect *rect,
 	if (!rect->priv->outline_set)
 		return FALSE;
 
-	cairo_set_source_rgba (
-		cr,
-		((rect->priv->outline_rgba >> 24) & 0xff) / 255.0,
-		((rect->priv->outline_rgba >> 16) & 0xff) / 255.0,
-		((rect->priv->outline_rgba >> 8) & 0xff) / 255.0,
-		( rect->priv->outline_rgba & 0xff) / 255.0);
+	gdk_cairo_set_source_rgba (cr, &rect->priv->outline_rgba);
 	cairo_set_line_width (cr, rect->priv->line_width);
 	cairo_set_line_cap (cr, rect->priv->cap);
 	cairo_set_line_join (cr, rect->priv->join);
@@ -147,9 +117,7 @@ gnome_canvas_rect_set_property (GObject *object,
 	GnomeCanvasItem *item;
 	GnomeCanvasRect *rect;
 	GnomeCanvasRectPrivate *priv;
-	GdkColor color;
-	GdkColor *colorptr;
-	const gchar *color_string;
+	GdkRGBA *rgba;
 
 	item = GNOME_CANVAS_ITEM (object);
 	rect = GNOME_CANVAS_RECT (object);
@@ -177,79 +145,27 @@ gnome_canvas_rect_set_property (GObject *object,
 		break;
 
 	case PROP_FILL_COLOR:
-		color_string = g_value_get_string (value);
-		if (color_string != NULL) {
-			if (!gdk_color_parse (color_string, &color)) {
-				g_warning (
-					"Failed to parse color '%s'",
-					color_string);
-				break;
-			}
+		rgba = g_value_get_boxed (value);
+		if (rgba != NULL) {
+			priv->fill_rgba = *rgba;
 			priv->fill_set = TRUE;
-			priv->fill_rgba = get_rgba_from_color (&color);
 		} else if (priv->fill_set)
 			priv->fill_set = FALSE;
 		else
 			break;
-
-		gnome_canvas_item_request_update (item);
-		break;
-
-	case PROP_FILL_COLOR_GDK:
-		colorptr = g_value_get_boxed (value);
-		if (colorptr != NULL) {
-			priv->fill_set = TRUE;
-			priv->fill_rgba = get_rgba_from_color (colorptr);
-		} else if (priv->fill_set)
-			priv->fill_set = FALSE;
-		else
-			break;
-
-		gnome_canvas_item_request_update (item);
-		break;
-
-	case PROP_FILL_COLOR_RGBA:
-		priv->fill_set = TRUE;
-		priv->fill_rgba = g_value_get_uint (value);
 
 		gnome_canvas_item_request_update (item);
 		break;
 
 	case PROP_OUTLINE_COLOR:
-		color_string = g_value_get_string (value);
-		if (color_string != NULL) {
-			if (!gdk_color_parse (color_string, &color)) {
-				g_warning (
-					"Failed to parse color '%s'",
-					color_string);
-				break;
-			}
+		rgba = g_value_get_boxed (value);
+		if (rgba != NULL) {
+			priv->outline_rgba = *rgba;
 			priv->outline_set = TRUE;
-			priv->outline_rgba = get_rgba_from_color (&color);
 		} else if (priv->outline_set)
 			priv->outline_set = FALSE;
 		else
 			break;
-
-		gnome_canvas_item_request_update (item);
-		break;
-
-	case PROP_OUTLINE_COLOR_GDK:
-		colorptr = g_value_get_boxed (value);
-		if (colorptr != NULL) {
-			priv->outline_set = TRUE;
-			priv->outline_rgba = get_rgba_from_color (colorptr);
-		} else if (priv->outline_set)
-			priv->outline_set = FALSE;
-		else
-			break;
-
-		gnome_canvas_item_request_update (item);
-		break;
-
-	case PROP_OUTLINE_COLOR_RGBA:
-		priv->outline_set = TRUE;
-		priv->outline_rgba = g_value_get_uint (value);
 
 		gnome_canvas_item_request_update (item);
 		break;
@@ -316,14 +232,6 @@ gnome_canvas_rect_get_property (GObject *object,
 
 	case PROP_Y2:
 		g_value_set_double (value, priv->y2);
-		break;
-
-	case PROP_FILL_COLOR_RGBA:
-		g_value_set_uint (value, priv->fill_rgba);
-		break;
-
-	case PROP_OUTLINE_COLOR_RGBA:
-		g_value_set_uint (value, priv->outline_rgba);
 		break;
 
 	case PROP_WIND:
@@ -555,66 +463,22 @@ gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_FILL_COLOR,
-		g_param_spec_string (
-			"fill_color",
-			NULL,
-			NULL,
-			NULL,
-			G_PARAM_WRITABLE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_FILL_COLOR_GDK,
 		g_param_spec_boxed (
-			"fill_color_gdk",
+			"fill-color",
 			NULL,
 			NULL,
-			GDK_TYPE_COLOR,
+			GDK_TYPE_RGBA,
 			G_PARAM_WRITABLE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_FILL_COLOR_RGBA,
-		g_param_spec_uint (
-			"fill_color_rgba",
-			NULL,
-			NULL,
-			0,
-			G_MAXUINT,
-			0,
-			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
 		PROP_OUTLINE_COLOR,
-		g_param_spec_string (
-			"outline_color",
-			NULL,
-			NULL,
-			NULL,
-			G_PARAM_WRITABLE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_OUTLINE_COLOR_GDK,
 		g_param_spec_boxed (
-			"outline_color_gdk",
+			"outline-color",
 			NULL,
 			NULL,
-			GDK_TYPE_COLOR,
+			GDK_TYPE_RGBA,
 			G_PARAM_WRITABLE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_OUTLINE_COLOR_RGBA,
-		g_param_spec_uint (
-			"outline_rgba",
-			NULL,
-			NULL,
-			0,
-			G_MAXUINT,
-			0,
-			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -698,8 +562,8 @@ gnome_canvas_rect_init (GnomeCanvasRect *rect)
 
 	rect->priv->line_width = 1.0;
 
-	rect->priv->fill_rgba = 0x0000003f;
-	rect->priv->outline_rgba = 0x0000007f;
+	rect->priv->fill_rgba.alpha = 0.25;
+	rect->priv->outline_rgba.alpha = 0.5;
 
 	rect->priv->cap = CAIRO_LINE_CAP_BUTT;
 	rect->priv->join = CAIRO_LINE_JOIN_MITER;

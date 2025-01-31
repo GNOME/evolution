@@ -167,14 +167,14 @@ struct _EMeetingTimeSelector {
 	GtkWidget *end_date_edit;
 
 	/* Colors. */
-	GdkColor bg_color;
-	GdkColor all_attendees_bg_color;
-	GdkColor meeting_time_bg_color;
-	GdkColor attendee_list_bg_color;
-	GdkColor grid_color;
-	GdkColor grid_shadow_color;
-	GdkColor grid_unused_color;
-	GdkColor busy_colors[E_MEETING_FREE_BUSY_LAST];
+	GdkRGBA bg_color;
+	GdkRGBA all_attendees_bg_color;
+	GdkRGBA meeting_time_bg_color;
+	GdkRGBA attendee_list_bg_color;
+	GdkRGBA grid_color;
+	GdkRGBA grid_shadow_color;
+	GdkRGBA grid_unused_color;
+	GdkRGBA busy_colors[E_MEETING_FREE_BUSY_LAST];
 
         /* The pattern used for attendees with no data. */
         cairo_pattern_t *no_info_pattern;

@@ -94,7 +94,7 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 		event->comp_data, &bg_color)) {
 		gdk_cairo_set_source_rgba (cr, &bg_color);
 	} else {
-		gdk_cairo_set_source_color (
+		gdk_cairo_set_source_rgba (
 			cr, &day_view->colors
 			[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
 	}
@@ -107,7 +107,7 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 	cairo_restore (cr);
 
 	cairo_save (cr);
-	gdk_cairo_set_source_color (
+	gdk_cairo_set_source_rgba (
 		cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
 	cairo_move_to (cr, x, y);
 	cairo_line_to (cr, x + w, c1);
@@ -176,10 +176,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 		return;
 
 	if (!e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data, &bg_rgba)) {
-		bg_rgba.red = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red / 65535.0;
-		bg_rgba.green = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].green / 65535.0;
-		bg_rgba.blue = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].blue / 65535.0;
-		bg_rgba.alpha = 1.0;
+		bg_rgba = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND];
 	}
 
 	if (draw_flat_events) {
@@ -630,7 +627,7 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	if (!show_dates) {
 		/* Clear the main area background. */
 		cairo_save (cr);
-		gdk_cairo_set_source_color (
+		gdk_cairo_set_source_rgba (
 			cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
 		cairo_rectangle (
 			cr, left_edge - x, - y,
@@ -656,7 +653,7 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 				rect_h = canvas_height - 1 - rect_y;
 
 				cairo_save (cr);
-				gdk_cairo_set_source_color (
+				gdk_cairo_set_source_rgba (
 					cr, &day_view->colors
 					[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED]);
 				cairo_rectangle (
@@ -733,7 +730,7 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 			/* Draw the lines between each column. */
 			if (day != 0) {
 				cairo_save (cr);
-				gdk_cairo_set_source_color (
+				gdk_cairo_set_source_rgba (
 					cr, &day_view->colors
 					[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID]);
 				cairo_move_to (

@@ -80,7 +80,7 @@ mail_label_dialog_get_property (GObject *object,
                                 GValue *value,
                                 GParamSpec *pspec)
 {
-	GdkColor color;
+	GdkRGBA color;
 
 	switch (property_id) {
 		case PROP_LABEL_COLOR:
@@ -150,7 +150,7 @@ e_mail_label_dialog_class_init (EMailLabelDialogClass *class)
 			"label-color",
 			"Label Color",
 			NULL,
-			GDK_TYPE_COLOR,
+			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -261,7 +261,7 @@ e_mail_label_dialog_set_label_name (EMailLabelDialog *dialog,
 
 void
 e_mail_label_dialog_get_label_color (EMailLabelDialog *dialog,
-                                     GdkColor *label_color)
+                                     GdkRGBA *label_color)
 {
 	GtkColorSelection *colorsel;
 
@@ -270,12 +270,12 @@ e_mail_label_dialog_get_label_color (EMailLabelDialog *dialog,
 
 	colorsel = GTK_COLOR_SELECTION (dialog->priv->colorsel);
 
-	gtk_color_selection_get_current_color (colorsel, label_color);
+	gtk_color_selection_get_current_rgba (colorsel, label_color);
 }
 
 void
 e_mail_label_dialog_set_label_color (EMailLabelDialog *dialog,
-                                     const GdkColor *label_color)
+                                     const GdkRGBA *label_color)
 {
 	GtkColorSelection *colorsel;
 
@@ -284,7 +284,7 @@ e_mail_label_dialog_set_label_color (EMailLabelDialog *dialog,
 
 	colorsel = GTK_COLOR_SELECTION (dialog->priv->colorsel);
 
-	gtk_color_selection_set_current_color (colorsel, label_color);
+	gtk_color_selection_set_current_rgba (colorsel, label_color);
 
 	g_object_notify (G_OBJECT (dialog), "label-color");
 }

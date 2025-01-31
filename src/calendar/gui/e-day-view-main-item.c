@@ -143,7 +143,7 @@ day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *main_item,
 
 			if (bar_y1 < height && bar_y2 > 0 && bar_y2 > bar_y1 && can_draw_in_region (draw_region, grid_x, bar_y1, E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1)) {
 				cairo_save (cr);
-				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND]);
+				gdk_cairo_set_source_rgba (cr, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND]);
 
 				if (first) {
 					GdkRGBA rgba;
@@ -228,7 +228,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	if (!can_draw_in_region (draw_region, item_x, item_y, item_w, item_h))
 		return;
 
-	gdk_cairo_set_source_color (
+	gdk_cairo_set_source_rgba (
 		cr,
 		&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
@@ -390,7 +390,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_set_source_rgb (cr, 1, 1, 1);
 			cairo_fill (cr);
 
-			gdk_cairo_set_source_color (
+			gdk_cairo_set_source_rgba (
 				cr,
 				&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 
@@ -509,7 +509,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 	/* Draw the right edge of the vertical bar. */
 	cairo_save (cr);
-	gdk_cairo_set_source_color (
+	gdk_cairo_set_source_rgba (
 		cr,
 		&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 	cairo_set_line_width (cr, 0.7);
@@ -518,7 +518,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	cairo_stroke (cr);
 	cairo_restore (cr);
 
-	gdk_cairo_set_source_color (
+	gdk_cairo_set_source_rgba (
 		cr,
 		&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
@@ -628,7 +628,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		}
 	}
 
-	gdk_cairo_set_source_color (
+	gdk_cairo_set_source_rgba (
 		cr,
 		&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
@@ -939,7 +939,7 @@ day_view_main_item_draw_events_in_vbars (EDayViewMainItem *main_item,
 
 		cairo_save (cr);
 
-		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND]);
+		gdk_cairo_set_source_rgba (cr, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND]);
 
 		if (e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data, &bg_rgba)) {
 			gdk_cairo_set_source_rgba (cr, &bg_rgba);
@@ -1123,7 +1123,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 			if (can_draw_in_region (draw_region, day_x, 0 - y, day_w, work_day_start_y - (0 - y))) {
 				cairo_save (cr);
-				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
+				gdk_cairo_set_source_rgba (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
 				cairo_set_line_width (cr, 0.5);
 				cairo_rectangle (cr, day_x, 0 - y, day_w, work_day_start_y - (0 - y));
 				cairo_fill (cr);
@@ -1139,7 +1139,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 			if (can_draw_in_region (draw_region, day_x, work_day_start_y, day_w, work_day_end_y - work_day_start_y)) {
 				cairo_save (cr);
-				gdk_cairo_set_source_color (cr, &day_view->colors[today ? E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY : E_DAY_VIEW_COLOR_BG_WORKING]);
+				gdk_cairo_set_source_rgba (cr, &day_view->colors[today ? E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY : E_DAY_VIEW_COLOR_BG_WORKING]);
 				cairo_rectangle (cr, day_x, work_day_start_y, day_w, work_day_end_y - work_day_start_y);
 				cairo_fill (cr);
 				cairo_restore (cr);
@@ -1147,14 +1147,14 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 			if (can_draw_in_region (draw_region, day_x, work_day_end_y, day_w, height - work_day_end_y)) {
 				cairo_save (cr);
-				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
+				gdk_cairo_set_source_rgba (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
 				cairo_rectangle (cr, day_x, work_day_end_y, day_w, height - work_day_end_y);
 				cairo_fill (cr);
 				cairo_restore (cr);
 			}
 		} else if (can_draw_in_region (draw_region, day_x, 0, day_w, height)) {
 			cairo_save (cr);
-			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
+			gdk_cairo_set_source_rgba (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
 			cairo_rectangle (cr, day_x, 0, day_w, height);
 			cairo_fill (cr);
 			cairo_restore (cr);
@@ -1189,7 +1189,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 			if (can_draw_in_region (draw_region, rect_x, rect_y, rect_width, rect_height)) {
 				cairo_save (cr);
-				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED]);
+				gdk_cairo_set_source_rgba (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED]);
 				cairo_rectangle (cr, rect_x, rect_y, rect_width, rect_height);
 				cairo_fill (cr);
 				cairo_restore (cr);
@@ -1202,7 +1202,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	grid_x2 = day_view->day_offsets[days_shown] - x;
 
 	cairo_save (cr);
-	gdk_cairo_set_source_color (
+	gdk_cairo_set_source_rgba (
 		cr,
 		&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 
@@ -1229,14 +1229,14 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 			continue;
 		cairo_save (cr);
 
-		gdk_cairo_set_source_color (
+		gdk_cairo_set_source_rgba (
 			cr,
 			&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 		cairo_move_to (cr, grid_x1, grid_y1);
 		cairo_line_to (cr, grid_x1, grid_y2);
 		cairo_stroke (cr);
 
-		gdk_cairo_set_source_color (
+		gdk_cairo_set_source_rgba (
 			cr,
 			&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 
@@ -1244,7 +1244,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		cairo_line_to (cr, grid_x1 + E_DAY_VIEW_BAR_WIDTH - 1, grid_y2);
 		cairo_stroke (cr);
 
-		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
+		gdk_cairo_set_source_rgba (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
 
 		cairo_rectangle (
 			cr, grid_x1 + 1, grid_y1,
@@ -1276,10 +1276,10 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		ICalTime *time_now, *day_start;
 		const gchar *marcus_bains_day_view_color;
 		gint marcus_bains_y;
-		GdkColor mb_color;
+		GdkRGBA mb_color;
 
 		cairo_save (cr);
-		gdk_cairo_set_source_color (
+		gdk_cairo_set_source_rgba (
 			cr,
 			&day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
 
@@ -1288,8 +1288,8 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		if (marcus_bains_day_view_color == NULL)
 			marcus_bains_day_view_color = "";
 
-		if (gdk_color_parse (marcus_bains_day_view_color, &mb_color))
-			gdk_cairo_set_source_color (cr, &mb_color);
+		if (gdk_rgba_parse (&mb_color, marcus_bains_day_view_color))
+			gdk_cairo_set_source_rgba (cr, &mb_color);
 
 		time_now = i_cal_time_new_current_with_zone (zone);
 

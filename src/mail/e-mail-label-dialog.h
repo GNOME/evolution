@@ -66,10 +66,10 @@ void		e_mail_label_dialog_set_label_name
 						 const gchar *label_name);
 void		e_mail_label_dialog_get_label_color
 						(EMailLabelDialog *dialog,
-						 GdkColor *label_color);
+						 GdkRGBA *label_color);
 void		e_mail_label_dialog_set_label_color
 						(EMailLabelDialog *dialog,
-						 const GdkColor *label_color);
+						 const GdkRGBA *label_color);
 
 G_END_DECLS
 

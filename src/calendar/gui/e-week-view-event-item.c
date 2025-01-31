@@ -584,7 +584,7 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
 	cairo_restore (cr);
 
 	cairo_save (cr);
-	gdk_cairo_set_source_color (
+	gdk_cairo_set_source_rgba (
 		cr, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
 
 	/* If the height is odd we can use the same central point for both
@@ -798,12 +798,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 
 	if (!e_cal_model_get_rgba_for_component (model, event->comp_data, &bg_rgba)) {
-		gdouble cc = 65535.0;
-
-		bg_rgba.red = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red / cc;
-		bg_rgba.green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green / cc;
-		bg_rgba.blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue / cc;
-		bg_rgba.alpha = 1.0;
+		bg_rgba = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND];
 	}
 
 	if (one_day_event) {
@@ -998,13 +993,13 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 				y1, -3, y2 - y1 + 1, draw_region);
 		} else if (can_draw_in_region (draw_region, rect_x, y1, 1, y2 - y1)) {
 			EWeekViewColors wvc;
-			GdkColor *color;
+			GdkRGBA *color;
 
 			wvc = E_WEEK_VIEW_COLOR_EVENT_BORDER;
 			color = &week_view->colors[wvc];
 
 			cairo_save (cr);
-			gdk_cairo_set_source_color (cr, color);
+			gdk_cairo_set_source_rgba (cr, color);
 			cairo_set_line_width (cr, 0.7);
 			cairo_move_to (cr, rect_x, y1);
 			cairo_line_to (cr, rect_x, y2);
@@ -1019,13 +1014,13 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 				y1, 3, y2 - y1 + 1, draw_region);
 		} else if (can_draw_in_region (draw_region, rect_x2, y2, 1, 1)) {
 			EWeekViewColors wvc;
-			GdkColor *color;
+			GdkRGBA *color;
 
 			wvc = E_WEEK_VIEW_COLOR_EVENT_BORDER;
 			color = &week_view->colors[wvc];
 
 			cairo_save (cr);
-			gdk_cairo_set_source_color (cr, color);
+			gdk_cairo_set_source_rgba (cr, color);
 			cairo_set_line_width (cr, 0.7);
 			/* rect_x2 is used uninitialized here */
 			cairo_move_to (cr, rect_x2, y1);

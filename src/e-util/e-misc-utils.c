@@ -1034,29 +1034,6 @@ e_int_compare (gconstpointer x,
 }
 
 /**
- * e_color_to_value:
- * @color: a #GdkColor
- *
- * Converts a #GdkColor to a 24-bit RGB color value.
- *
- * Returns: a 24-bit color value
- **/
-guint32
-e_color_to_value (const GdkColor *color)
-{
-	GdkRGBA rgba;
-
-	g_return_val_if_fail (color != NULL, 0);
-
-	rgba.red = color->red / 65535.0;
-	rgba.green = color->green / 65535.0;
-	rgba.blue = color->blue / 65535.0;
-	rgba.alpha = 0.0;
-
-	return e_rgba_to_value (&rgba);
-}
-
-/**
  * e_rgba_to_value:
  * @rgba: a #GdkRGBA
  *
@@ -1081,26 +1058,6 @@ e_rgba_to_value (const GdkRGBA *rgba)
 		((((red & 0xFFu) << 16) |
 		((green & 0xFFu) << 8) |
 		(blue & 0xFFu)) & 0xffffffu);
-}
-
-/**
- * e_rgba_to_color:
- * @rgba: a source #GdkRGBA
- * @color: a destination #GdkColor
- *
- * Converts @rgba into @color, but loses the alpha channel from @rgba.
- **/
-void
-e_rgba_to_color (const GdkRGBA *rgba,
-		 GdkColor *color)
-{
-	g_return_if_fail (rgba != NULL);
-	g_return_if_fail (color != NULL);
-
-	color->pixel = 0;
-	color->red = rgba->red * 65535.0;
-	color->green = rgba->green * 65535.0;
-	color->blue = rgba->blue * 65535.0;
 }
 
 /**
@@ -1144,34 +1101,6 @@ e_utils_get_theme_color (GtkWidget *widget,
 	g_strfreev (names);
 
 	g_warn_if_fail (gdk_rgba_parse (rgba, fallback_color_ident));
-}
-
-/**
- * e_utils_get_theme_color_color:
- * @widget: a #GtkWidget instance
- * @color_names: comma-separated theme color names
- * @fallback_color_ident: fallback color identificator, in a format for gdk_rgba_parse()
- * @color: where to store the read color
- *
- * The same as e_utils_get_theme_color(), only populates  #GdkColor,
- * instead of #GdkRGBA.
- **/
-void
-e_utils_get_theme_color_color (GtkWidget *widget,
-			       const gchar *color_names,
-			       const gchar *fallback_color_ident,
-			       GdkColor *color)
-{
-	GdkRGBA rgba;
-
-	g_return_if_fail (GTK_IS_WIDGET (widget));
-	g_return_if_fail (color_names != NULL);
-	g_return_if_fail (fallback_color_ident != NULL);
-	g_return_if_fail (color != NULL);
-
-	e_utils_get_theme_color (widget, color_names, fallback_color_ident, &rgba);
-
-	e_rgba_to_color (&rgba, color);
 }
 
 /* This is copied from gtk+ sources */
@@ -2388,11 +2317,11 @@ e_util_open_client_sync (EAlertSinkThreadJobData *job_data,
 /**
  * e_binding_transform_color_to_string:
  * @binding: a #GBinding
- * @source_value: a #GValue of type #GDK_TYPE_COLOR
+ * @source_value: a #GValue of type #GDK_TYPE_RGBA
  * @target_value: a #GValue of type #G_TYPE_STRING
  * @not_used: not used
  *
- * Transforms a #GdkColor value to a color string specification.
+ * Transforms a #GdkRGBA value to a color string specification.
  *
  * Returns: %TRUE always
  **/
@@ -2402,7 +2331,7 @@ e_binding_transform_color_to_string (GBinding *binding,
                                      GValue *target_value,
                                      gpointer not_used)
 {
-	const GdkColor *color;
+	const GdkRGBA *color;
 	gchar *string;
 
 	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
@@ -2411,16 +2340,8 @@ e_binding_transform_color_to_string (GBinding *binding,
 	if (!color) {
 		g_value_set_string (target_value, "");
 	} else {
-		/* encode color manually, because css styles expect colors in #rrggbb,
-		 * not in #rrrrggggbbbb, which is a result of gdk_color_to_string()
-		*/
-		string = g_strdup_printf (
-			"#%02x%02x%02x",
-			(gint) color->red * 256 / 65536,
-			(gint) color->green * 256 / 65536,
-			(gint) color->blue * 256 / 65536);
-		g_value_set_string (target_value, string);
-		g_free (string);
+		string = gdk_rgba_to_string (color);
+		g_value_take_string (target_value, g_steal_pointer (&string));
 	}
 
 	return TRUE;
@@ -2430,10 +2351,10 @@ e_binding_transform_color_to_string (GBinding *binding,
  * e_binding_transform_string_to_color:
  * @binding: a #GBinding
  * @source_value: a #GValue of type #G_TYPE_STRING
- * @target_value: a #GValue of type #GDK_TYPE_COLOR
+ * @target_value: a #GValue of type #GDK_TYPE_RGBA
  * @not_used: not used
  *
- * Transforms a color string specification to a #GdkColor.
+ * Transforms a color string specification to a #GdkRGBA.
  *
  * Returns: %TRUE if color string specification was valid
  **/
@@ -2443,19 +2364,18 @@ e_binding_transform_string_to_color (GBinding *binding,
                                      GValue *target_value,
                                      gpointer not_used)
 {
-	GdkColor color;
+	GdkRGBA color;
 	const gchar *string;
-	gboolean success = FALSE;
 
 	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
 
 	string = g_value_get_string (source_value);
-	if (gdk_color_parse (string, &color)) {
+	if (gdk_rgba_parse (&color, string)) {
 		g_value_set_boxed (target_value, &color);
-		success = TRUE;
+		return TRUE;
 	}
 
-	return success;
+	return FALSE;
 }
 
 /**

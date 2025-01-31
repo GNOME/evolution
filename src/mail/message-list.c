@@ -1969,7 +1969,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 			if (g_hash_table_size (ld.labels_tag2iter) == 1) {
 				GHashTableIter iter;
 				GtkTreeIter *label_defn;
-				GdkColor colour_val;
+				GdkRGBA colour_val;
 				gchar *colour_alloced;
 
 				/* Extract the single label from the hashtable. */
@@ -1978,7 +1978,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 					e_mail_label_list_store_get_color (ld.store, label_defn, &colour_val);
 
 					/* XXX Hack to avoid returning an allocated string. */
-					colour_alloced = gdk_color_to_string (&colour_val);
+					colour_alloced = gdk_rgba_to_string (&colour_val);
 					colour = g_intern_string (colour_alloced);
 					g_free (colour_alloced);
 				}
@@ -1994,7 +1994,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 
 						tag = e_mail_label_list_store_get_tag (ld.store, &titer);
 						if (tag && g_hash_table_contains (ld.labels_tag2iter, tag)) {
-							GdkColor colour_val;
+							GdkRGBA colour_val;
 
 							g_free (tag);
 
@@ -2002,7 +2002,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 								gchar *colour_alloced;
 
 								/* XXX Hack to avoid returning an allocated string. */
-								colour_alloced = gdk_color_to_string (&colour_val);
+								colour_alloced = gdk_rgba_to_string (&colour_val);
 								colour = g_intern_string (colour_alloced);
 								g_free (colour_alloced);
 							}

@@ -3402,8 +3402,8 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 	gboolean clean_ms = FALSE, clean_vw = FALSE;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
 	gchar fsbuff[G_ASCII_DTOSTR_BUF_SIZE];
-	GdkColor *link = NULL;
-	GdkColor *visited = NULL;
+	GdkRGBA *link = NULL;
+	GdkRGBA *visited = NULL;
 	GString *stylesheet;
 	GtkStyleContext *context;
 	PangoFontDescription *ms, *vw;
@@ -3497,6 +3497,7 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 		styles[pango_font_description_get_style (ms)]);
 
 	if (view_widget) {
+		gchar *link_str, *visited_str;
 		context = gtk_widget_get_style_context (view_widget);
 		gtk_style_context_get_style (
 			context,
@@ -3505,70 +3506,56 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			NULL);
 
 		if (link == NULL) {
-			GdkRGBA rgba;
 			GtkStateFlags state;
 
-			link = g_slice_new0 (GdkColor);
-			link->blue = G_MAXINT16;
-
-			rgba.alpha = 1;
-			rgba.red = 0;
-			rgba.green = 0;
-			rgba.blue = 1;
-
+			link = g_new0 (GdkRGBA, 1);
 			state = gtk_style_context_get_state (context);
 			state = state & (~(GTK_STATE_FLAG_VISITED | GTK_STATE_FLAG_LINK));
 			state = state | GTK_STATE_FLAG_LINK;
 
 			gtk_style_context_save (context);
 			gtk_style_context_set_state (context, state);
-			gtk_style_context_get_color (context, state, &rgba);
+			gtk_style_context_get_color (context, state, link);
 			gtk_style_context_restore (context);
-
-			e_rgba_to_color (&rgba, link);
 		}
 
 		if (visited == NULL) {
-			GdkRGBA rgba;
 			GtkStateFlags state;
 
-			visited = g_slice_new0 (GdkColor);
-			visited->red = G_MAXINT16;
-
-			rgba.alpha = 1;
-			rgba.red = 1;
-			rgba.green = 0;
-			rgba.blue = 0;
-
+			visited = g_new0 (GdkRGBA, 1);
 			state = gtk_style_context_get_state (context);
 			state = state & (~(GTK_STATE_FLAG_VISITED | GTK_STATE_FLAG_LINK));
 			state = state | GTK_STATE_FLAG_VISITED;
 
 			gtk_style_context_save (context);
 			gtk_style_context_set_state (context, state);
-			gtk_style_context_get_color (context, state, &rgba);
+			gtk_style_context_get_color (context, state, visited);
 			gtk_style_context_restore (context);
-
-			e_rgba_to_color (&rgba, visited);
 		}
+
+		link_str = gdk_rgba_to_string (link);
+		gdk_rgba_free (link);
+
+		visited_str = gdk_rgba_to_string (visited);
+		gdk_rgba_free (visited);
 
 		g_string_append_printf (
 			stylesheet,
 			"span.navigable, div.navigable, p.navigable {\n"
-			"  color: #%06x;\n"
+			"  color: %s;\n"
 			"}\n"
 			"a {\n"
-			"  color: #%06x;\n"
+			"  color: %s;\n"
 			"}\n"
 			"a:visited {\n"
-			"  color: #%06x;\n"
+			"  color: %s;\n"
 			"}\n",
-			e_color_to_value (link),
-			e_color_to_value (link),
-			e_color_to_value (visited));
+			link_str,
+			link_str,
+			visited_str);
 
-		gdk_color_free (link);
-		gdk_color_free (visited);
+		g_free (link_str);
+		g_free (visited_str);
 
 		g_string_append (
 			stylesheet,

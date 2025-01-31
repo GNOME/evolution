@@ -757,7 +757,7 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 			"text-color",
 			"Text Color",
 			NULL,
-			GDK_TYPE_COLOR,
+			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 

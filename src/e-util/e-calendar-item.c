@@ -140,13 +140,13 @@ static void	e_calendar_item_get_day_style	(ECalendarItem *calitem,
 						 gboolean selected,
 						 gboolean has_focus,
 						 gboolean drop_target,
-						 GdkColor **bg_color,
-						 GdkColor **fg_color,
-						 GdkColor **box_color,
+						 GdkRGBA **bg_color,
+						 GdkRGBA **fg_color,
+						 GdkRGBA **box_color,
 						 gboolean *bold,
 						 gboolean *italic,
-						 GdkColor *local_bg_color,
-						 GdkColor *local_fg_color);
+						 GdkRGBA *local_bg_color,
+						 GdkRGBA *local_fg_color);
 static void	e_calendar_item_check_selection_end
 						(ECalendarItem *calitem,
 						 gint start_month,
@@ -1559,7 +1559,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 	GnomeCanvasItem *item;
 	GtkWidget *widget;
 	PangoFontDescription *font_desc;
-	GdkColor *bg_color, *fg_color, *box_color;
+	GdkRGBA *bg_color, *fg_color, *box_color;
 	GdkRGBA rgba;
 	struct tm today_tm;
 	time_t t;
@@ -1705,7 +1705,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 
 		for (dcol = 0; dcol < 7; dcol++) {
 			if (draw_day) {
-				GdkColor local_bg_color, local_fg_color;
+				GdkRGBA local_bg_color, local_fg_color;
 
 				day_x = cells_x +
 					((gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
@@ -1779,7 +1779,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 				/* Draw the background, if set. */
 				if (bg_color) {
 					cairo_save (cr);
-					gdk_cairo_set_source_color (cr, bg_color);
+					gdk_cairo_set_source_rgba (cr, bg_color);
 					cairo_rectangle (
 						cr, day_x , day_y,
 						calitem->cell_width,
@@ -1791,7 +1791,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 				/* Draw the box, if set. */
 				if (box_color) {
 					cairo_save (cr);
-					gdk_cairo_set_source_color (cr, box_color);
+					gdk_cairo_set_source_rgba (cr, box_color);
 					cairo_rectangle (
 						cr, day_x , day_y,
 						calitem->cell_width - 1,
@@ -1825,7 +1825,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 
 				cairo_save (cr);
 				if (fg_color) {
-					gdk_cairo_set_source_color (
+					gdk_cairo_set_source_rgba (
 						cr, fg_color);
 				} else {
 					e_utils_get_theme_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &rgba);
@@ -2285,13 +2285,13 @@ e_calendar_item_get_day_style (ECalendarItem *calitem,
                                gboolean selected,
                                gboolean has_focus,
                                gboolean drop_target,
-                               GdkColor **bg_color,
-                               GdkColor **fg_color,
-                               GdkColor **box_color,
+                               GdkRGBA **bg_color,
+                               GdkRGBA **fg_color,
+                               GdkRGBA **box_color,
                                gboolean *bold,
                                gboolean *italic,
-			       GdkColor *local_bg_color,
-			       GdkColor *local_fg_color)
+			       GdkRGBA *local_bg_color,
+			       GdkRGBA *local_fg_color)
 {
 	GtkWidget *widget;
 
@@ -2311,7 +2311,7 @@ e_calendar_item_get_day_style (ECalendarItem *calitem,
 
 	if (prev_or_next_month) {
 		*fg_color = local_fg_color;
-		e_utils_get_theme_color_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, local_fg_color);
+		e_utils_get_theme_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, local_fg_color);
 	}
 
 	if (selected) {
@@ -2319,21 +2319,21 @@ e_calendar_item_get_day_style (ECalendarItem *calitem,
 		*fg_color = local_fg_color;
 
 		if (has_focus) {
-			e_utils_get_theme_color_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, local_bg_color);
-			e_utils_get_theme_color_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, local_fg_color);
+			e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, local_bg_color);
+			e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, local_fg_color);
 		} else {
-			GdkColor base_bg;
+			GdkRGBA base_bg;
 
-			e_utils_get_theme_color_color (widget, "theme_unfocused_selected_bg_color,theme_selected_bg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR, local_bg_color);
-			e_utils_get_theme_color_color (widget, "theme_unfocused_selected_fg_color,theme_selected_fg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_FG_COLOR, local_fg_color);
+			e_utils_get_theme_color (widget, "theme_unfocused_selected_bg_color,theme_selected_bg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR, local_bg_color);
+			e_utils_get_theme_color (widget, "theme_unfocused_selected_fg_color,theme_selected_fg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_FG_COLOR, local_fg_color);
 
-			e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &base_bg);
+			e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &base_bg);
 
 			if (local_bg_color->red == base_bg.red &&
 			    local_bg_color->green == base_bg.green &&
 			    local_bg_color->blue == base_bg.blue) {
-				e_utils_get_theme_color_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, local_bg_color);
-				e_utils_get_theme_color_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, local_fg_color);
+				e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, local_bg_color);
+				e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, local_fg_color);
 			}
 		}
 	}
@@ -3546,11 +3546,11 @@ e_calendar_item_style_updated (GtkWidget *widget,
 	if (gdk_rgba_equal (&selected_bg, &unfocused_selected_bg))
 		e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &selected_bg);
 
-	e_rgba_to_color (&selected_bg, &calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX]);
-	e_rgba_to_color (&base_bg, &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG]);
-	e_rgba_to_color (&unfocused_selected_bg, &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED]);
-	e_rgba_to_color (&fg, &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG]);
-	e_rgba_to_color (&fg, &calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG]);
+	calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX] = selected_bg;
+	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG] = base_bg;
+	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED] = unfocused_selected_bg;
+	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG] = fg;
+	calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG] = fg;
 
 	e_calendar_item_recalc_sizes (calitem);
 }

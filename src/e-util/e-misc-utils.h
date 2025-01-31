@@ -92,22 +92,13 @@ gint		e_collate_compare		(gconstpointer x,
 						 gconstpointer y);
 gint		e_int_compare                   (gconstpointer x,
 						 gconstpointer y);
-guint32		e_color_to_value		(const GdkColor *color);
 
 guint32		e_rgba_to_value			(const GdkRGBA *rgba);
-
-void		e_rgba_to_color			(const GdkRGBA *rgba,
-						 GdkColor *color);
 
 void		e_utils_get_theme_color		(GtkWidget *widget,
 						 const gchar *color_names,
 						 const gchar *fallback_color_ident,
 						 GdkRGBA *rgba);
-
-void		e_utils_get_theme_color_color	(GtkWidget *widget,
-						 const gchar *color_names,
-						 const gchar *fallback_color_ident,
-						 GdkColor *color);
 
 #define E_UTILS_LIGHTNESS_MULT	1.3
 #define E_UTILS_DARKNESS_MULT	0.7
