@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-01-29 11:29+0000\n"
-"PO-Revision-Date: 2025-01-29 19:06+0200\n"
+"POT-Creation-Date: 2025-01-31 11:45+0000\n"
+"PO-Revision-Date: 2025-01-31 17:48+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4238,7 +4238,7 @@ msgid "Mail"
 msgstr "Пошта"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
-#: ../src/calendar/gui/e-memo-table.c:435 ../src/e-util/e-webdav-browser.c:527
+#: ../src/calendar/gui/e-memo-table.c:434 ../src/e-util/e-webdav-browser.c:527
 #: ../src/modules/calendar/e-cal-shell-content.c:1941
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:216
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:233
@@ -4247,7 +4247,7 @@ msgid "Memos"
 msgstr "Примітки"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:617 ../src/calendar/gui/print.c:2478
+#: ../src/calendar/gui/e-task-table.c:616 ../src/calendar/gui/print.c:2478
 #: ../src/calendar/importers/icalendar-importer.c:74
 #: ../src/calendar/importers/icalendar-importer.c:1196
 #: ../src/e-util/e-webdav-browser.c:528
@@ -5076,7 +5076,7 @@ msgid "_Save"
 msgstr "З_берегти"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/e-util/e-misc-utils.c:3259
+#: ../src/e-util/e-misc-utils.c:3292
 msgid "Image"
 msgstr "Зображення"
 
@@ -5240,14 +5240,14 @@ msgstr "_Річниця:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1779
+#: ../src/calendar/gui/e-calendar-view.c:1778
 msgid "Anniversary"
 msgstr "Річниця"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1778
+#: ../src/calendar/gui/e-calendar-view.c:1777
 msgid "Birthday"
 msgstr "День народження"
 
@@ -5882,7 +5882,7 @@ msgid "Send a mail message to this address"
 msgstr "Перетворити виділене повідомлення на завдання"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:355
-#: ../src/e-util/e-misc-utils.c:4265
+#: ../src/e-util/e-misc-utils.c:4298
 #, c-format
 msgid "Click to mail %s"
 msgstr "Клацніть, щоб надіслати лист %s"
@@ -7610,25 +7610,25 @@ msgid "Classification"
 msgstr "Класифікація"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:9
-#: ../src/calendar/gui/e-cal-list-view.c:287
-#: ../src/calendar/gui/e-cal-model.c:285 ../src/calendar/gui/e-cal-model.c:293
-#: ../src/calendar/gui/e-task-table.c:437
+#: ../src/calendar/gui/e-cal-list-view.c:286
+#: ../src/calendar/gui/e-cal-model.c:284 ../src/calendar/gui/e-cal-model.c:292
+#: ../src/calendar/gui/e-task-table.c:436
 #: ../src/calendar/gui/memotypes.xml.in.h:10
 msgid "Public"
 msgstr "Загальне"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
 #: ../src/calendar/gui/comp-util.c:2950
-#: ../src/calendar/gui/e-cal-list-view.c:288
-#: ../src/calendar/gui/e-cal-model.c:295 ../src/calendar/gui/e-task-table.c:438
+#: ../src/calendar/gui/e-cal-list-view.c:287
+#: ../src/calendar/gui/e-cal-model.c:294 ../src/calendar/gui/e-task-table.c:437
 #: ../src/calendar/gui/memotypes.xml.in.h:11
 msgid "Private"
 msgstr "Приватне"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
 #: ../src/calendar/gui/comp-util.c:2953
-#: ../src/calendar/gui/e-cal-list-view.c:289
-#: ../src/calendar/gui/e-cal-model.c:297 ../src/calendar/gui/e-task-table.c:439
+#: ../src/calendar/gui/e-cal-list-view.c:288
+#: ../src/calendar/gui/e-cal-model.c:296 ../src/calendar/gui/e-task-table.c:438
 #: ../src/calendar/gui/memotypes.xml.in.h:12
 #: ../src/e-util/e-html-editor-page-dialog.c:112
 msgid "Confidential"
@@ -7833,18 +7833,18 @@ msgid "Status"
 msgstr "Стан"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2077 ../src/calendar/gui/e-day-view.c:2345
-#: ../src/calendar/gui/e-to-do-pane.c:269
-#: ../src/calendar/gui/e-week-view.c:1970 ../src/calendar/gui/print.c:1109
+#: ../src/calendar/gui/comp-util.c:2077 ../src/calendar/gui/e-day-view.c:2344
+#: ../src/calendar/gui/e-to-do-pane.c:268
+#: ../src/calendar/gui/e-week-view.c:1969 ../src/calendar/gui/print.c:1109
 #: ../src/calendar/gui/print.c:1128 ../src/calendar/gui/print.c:2699
 #: ../src/calendar/gui/print.c:2719
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2081 ../src/calendar/gui/e-day-view.c:2348
-#: ../src/calendar/gui/e-to-do-pane.c:273
-#: ../src/calendar/gui/e-week-view.c:1973 ../src/calendar/gui/print.c:1114
+#: ../src/calendar/gui/comp-util.c:2081 ../src/calendar/gui/e-day-view.c:2347
+#: ../src/calendar/gui/e-to-do-pane.c:272
+#: ../src/calendar/gui/e-week-view.c:1972 ../src/calendar/gui/print.c:1114
 #: ../src/calendar/gui/print.c:1130 ../src/calendar/gui/print.c:2704
 #: ../src/calendar/gui/print.c:2721
 msgid "pm"
@@ -7872,7 +7872,7 @@ msgstr "Організатор: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2257
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
-#: ../src/calendar/gui/e-to-do-pane.c:402 ../src/calendar/gui/print.c:3649
+#: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3649
 #, c-format
 msgid "Location: %s"
 msgstr "Адреса: %s"
@@ -7885,27 +7885,27 @@ msgstr "Початок: %s (%s)"
 
 #. Translators: It will display "Start: ActualStartDateAndTime"
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2316 ../src/calendar/gui/e-to-do-pane.c:432
+#: ../src/calendar/gui/comp-util.c:2316 ../src/calendar/gui/e-to-do-pane.c:431
 #, c-format
 msgid "Start: %s"
 msgstr "Початок: %s"
 
 #. Translators: It's for a task due date, it will display "Due: DateAndTime"
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2351 ../src/calendar/gui/e-to-do-pane.c:454
+#: ../src/calendar/gui/comp-util.c:2351 ../src/calendar/gui/e-to-do-pane.c:453
 #, c-format
 msgid "Due: %s"
 msgstr "До: %s"
 
 #. Translators: It's for a task completed date, it will display "Completed: DateAndTime"
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/comp-util.c:2376 ../src/calendar/gui/e-to-do-pane.c:468
+#: ../src/calendar/gui/comp-util.c:2376 ../src/calendar/gui/e-to-do-pane.c:467
 #, c-format
 msgid "Completed: %s"
 msgstr "Завершено: %s"
 
-#: ../src/calendar/gui/comp-util.c:2413 ../src/calendar/gui/e-to-do-pane.c:617
-#: ../src/e-util/e-misc-utils.c:4348 ../src/e-util/e-text.c:566
+#: ../src/calendar/gui/comp-util.c:2413 ../src/calendar/gui/e-to-do-pane.c:621
+#: ../src/e-util/e-misc-utils.c:4381 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4285
 msgid "…"
 msgstr "…"
@@ -7978,18 +7978,18 @@ msgstr "Стан:"
 msgid "Categories:"
 msgstr "Категорії:"
 
-#: ../src/calendar/gui/comp-util.c:2937 ../src/calendar/gui/e-task-table.c:463
+#: ../src/calendar/gui/comp-util.c:2937 ../src/calendar/gui/e-task-table.c:462
 #: ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/mail/message-list.c:330
 msgid "High"
 msgstr "Високий"
 
-#: ../src/calendar/gui/comp-util.c:2939 ../src/calendar/gui/e-cal-model.c:1879
-#: ../src/calendar/gui/e-task-table.c:464
+#: ../src/calendar/gui/comp-util.c:2939 ../src/calendar/gui/e-cal-model.c:1878
+#: ../src/calendar/gui/e-task-table.c:463
 #: ../src/calendar/gui/tasktypes.xml.in.h:21 ../src/mail/message-list.c:329
 msgid "Normal"
 msgstr "Звичайний"
 
-#: ../src/calendar/gui/comp-util.c:2941 ../src/calendar/gui/e-task-table.c:465
+#: ../src/calendar/gui/comp-util.c:2941 ../src/calendar/gui/e-task-table.c:464
 #: ../src/calendar/gui/tasktypes.xml.in.h:22 ../src/mail/message-list.c:328
 msgid "Low"
 msgstr "Низький"
@@ -8414,54 +8414,54 @@ msgstr "Надіслати мої нагадування з цією подіє�
 msgid "Notify new attendees _only"
 msgstr "Сповідати _лише нових учасників"
 
-#: ../src/calendar/gui/e-calendar-view.c:330
+#: ../src/calendar/gui/e-calendar-view.c:329
 msgid "Cut selected events to the clipboard"
 msgstr "Вирізати виділені події у буфер обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:336
+#: ../src/calendar/gui/e-calendar-view.c:335
 msgid "Copy selected events to the clipboard"
 msgstr "Копіювати виділені події у буфер обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:342
+#: ../src/calendar/gui/e-calendar-view.c:341
 msgid "Paste events from the clipboard"
 msgstr "Вставити події з буфера обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:348
+#: ../src/calendar/gui/e-calendar-view.c:347
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1489
 msgid "Delete selected events"
 msgstr "Вилучити вибрані події"
 
-#: ../src/calendar/gui/e-calendar-view.c:854
+#: ../src/calendar/gui/e-calendar-view.c:853
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "Вставлений текст не містить дійсних даних iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:865
+#: ../src/calendar/gui/e-calendar-view.c:864
 #: ../src/calendar/gui/e-cal-ops.c:1590
 msgid "Default calendar not found"
 msgstr "Типовий календар не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:870
+#: ../src/calendar/gui/e-calendar-view.c:869
 #: ../src/calendar/gui/e-cal-ops.c:1593
 msgid "Default memo list not found"
 msgstr "Типовий список приміток не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:875
+#: ../src/calendar/gui/e-calendar-view.c:874
 #: ../src/calendar/gui/e-cal-ops.c:1596
 msgid "Default task list not found"
 msgstr "Типовий список завдань не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:982
+#: ../src/calendar/gui/e-calendar-view.c:981
 msgid "No suitable component found"
 msgstr "Не знайдено належний модель"
 
-#: ../src/calendar/gui/e-calendar-view.c:1047
+#: ../src/calendar/gui/e-calendar-view.c:1046
 msgid "Pasting iCalendar data"
 msgstr "Вставлення даних iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:1104
-#: ../src/calendar/gui/e-calendar-view.c:1108
+#: ../src/calendar/gui/e-calendar-view.c:1103
+#: ../src/calendar/gui/e-calendar-view.c:1107
+#: ../src/calendar/gui/e-calendar-view.c:1110
 #: ../src/calendar/gui/e-calendar-view.c:1111
-#: ../src/calendar/gui/e-calendar-view.c:1112
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -8470,15 +8470,15 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1107
-#: ../src/calendar/gui/e-day-view.c:3285
+#: ../src/calendar/gui/e-calendar-view.c:1106
+#: ../src/calendar/gui/e-day-view.c:3284
 #: ../src/calendar/gui/e-day-view-top-item.c:847
 #: ../src/calendar/gui/e-week-view-main-item.c:225
 #, no-c-format
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1118
+#: ../src/calendar/gui/e-calendar-view.c:1117
 msgid "%A %d %b %Y"
 msgstr "%A, %d %b %Y"
 
@@ -8488,17 +8488,17 @@ msgstr "%A, %d %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1121
-#: ../src/calendar/gui/e-day-view.c:3268
+#: ../src/calendar/gui/e-calendar-view.c:1120
+#: ../src/calendar/gui/e-day-view.c:3267
 #: ../src/calendar/gui/e-day-view-top-item.c:842
 #: ../src/calendar/gui/e-week-view-main-item.c:210
 #, no-c-format
 msgid "%a %d %b"
 msgstr "%a, %d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1122
+#: ../src/calendar/gui/e-calendar-view.c:1121
+#: ../src/calendar/gui/e-calendar-view.c:1123
 #: ../src/calendar/gui/e-calendar-view.c:1124
-#: ../src/calendar/gui/e-calendar-view.c:1125
 msgid "%a %d %b %Y"
 msgstr "%a, %d %b %Y"
 
@@ -8506,13 +8506,13 @@ msgstr "%a, %d %b %Y"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1798
+#: ../src/calendar/gui/e-calendar-view.c:1797
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
 msgstr "%s (%d)"
 
-#: ../src/calendar/gui/e-cal-list-view.c:113
+#: ../src/calendar/gui/e-cal-list-view.c:112
 #, c-format
 msgid "%d appointment"
 msgid_plural "%d appointments"
@@ -8521,7 +8521,7 @@ msgstr[1] "%d зустрічі"
 msgstr[2] "%d зустрічей"
 msgstr[3] "%d зустріч"
 
-#: ../src/calendar/gui/e-cal-list-view.c:117
+#: ../src/calendar/gui/e-cal-list-view.c:116
 #: ../src/modules/calendar/e-memo-shell-view-private.c:444
 #: ../src/modules/calendar/e-task-shell-view-private.c:653
 #, c-format
@@ -8570,7 +8570,7 @@ msgstr "Джерело"
 msgid "Type"
 msgstr "Тип"
 
-#: ../src/calendar/gui/e-cal-model.c:299
+#: ../src/calendar/gui/e-cal-model.c:298
 #: ../src/calendar/gui/e-meeting-list-view.c:171
 #: ../src/calendar/gui/e-meeting-list-view.c:185
 #: ../src/calendar/gui/e-meeting-store.c:131
@@ -8583,58 +8583,58 @@ msgstr "Тип"
 msgid "Unknown"
 msgstr "Невідоме"
 
-#: ../src/calendar/gui/e-cal-model.c:1365 ../src/calendar/gui/e-cal-ops.c:636
+#: ../src/calendar/gui/e-cal-model.c:1364 ../src/calendar/gui/e-cal-ops.c:636
 #: ../src/calendar/gui/e-cal-ops.c:1275
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:385
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Джерела з унікальним ідентифікатором «%s» не знайдено"
 
-#: ../src/calendar/gui/e-cal-model.c:1476 ../src/calendar/gui/e-cal-ops.c:202
+#: ../src/calendar/gui/e-cal-model.c:1475 ../src/calendar/gui/e-cal-ops.c:202
 #: ../src/calendar/gui/e-cal-ops.c:1392
 msgid "Creating an event"
 msgstr "Створення події"
 
-#: ../src/calendar/gui/e-cal-model.c:1480 ../src/calendar/gui/e-cal-ops.c:206
+#: ../src/calendar/gui/e-cal-model.c:1479 ../src/calendar/gui/e-cal-ops.c:206
 #: ../src/calendar/gui/e-cal-ops.c:1396
 msgid "Creating a memo"
 msgstr "Створення примітки"
 
-#: ../src/calendar/gui/e-cal-model.c:1484 ../src/calendar/gui/e-cal-ops.c:210
+#: ../src/calendar/gui/e-cal-model.c:1483 ../src/calendar/gui/e-cal-ops.c:210
 #: ../src/calendar/gui/e-cal-ops.c:1400
 msgid "Creating a task"
 msgstr "Створення завдання"
 
-#: ../src/calendar/gui/e-cal-model.c:1881
+#: ../src/calendar/gui/e-cal-model.c:1880
 msgid "Recurring"
 msgstr "Періодично"
 
-#: ../src/calendar/gui/e-cal-model.c:1883
+#: ../src/calendar/gui/e-cal-model.c:1882
 msgid "Assigned"
 msgstr "Прив'язано"
 
-#: ../src/calendar/gui/e-cal-model.c:1886
-#: ../src/calendar/gui/e-cal-model-tasks.c:1151
+#: ../src/calendar/gui/e-cal-model.c:1885
+#: ../src/calendar/gui/e-cal-model-tasks.c:1150
 msgid "Yes"
 msgstr "Так"
 
-#: ../src/calendar/gui/e-cal-model.c:1886
-#: ../src/calendar/gui/e-cal-model-tasks.c:1151
+#: ../src/calendar/gui/e-cal-model.c:1885
+#: ../src/calendar/gui/e-cal-model-tasks.c:1150
 msgid "No"
 msgstr "Ні"
 
-#: ../src/calendar/gui/e-cal-model-calendar.c:91
-#: ../src/calendar/gui/e-task-table.c:522
+#: ../src/calendar/gui/e-cal-model-calendar.c:90
+#: ../src/calendar/gui/e-task-table.c:521
 msgid "Free"
 msgstr "Вільний"
 
-#: ../src/calendar/gui/e-cal-model-calendar.c:94
+#: ../src/calendar/gui/e-cal-model-calendar.c:93
 #: ../src/calendar/gui/e-meeting-time-sel.c:528
-#: ../src/calendar/gui/e-task-table.c:523
+#: ../src/calendar/gui/e-task-table.c:522
 msgid "Busy"
 msgstr "Зайнятий"
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:459
+#: ../src/calendar/gui/e-cal-model-tasks.c:458
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -8644,7 +8644,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:556
+#: ../src/calendar/gui/e-cal-model-tasks.c:555
 msgid "In Progress"
 msgstr "Виконується"
 
@@ -8896,10 +8896,10 @@ msgstr "Час початку — недійсний час"
 #: ../src/composer/e-composer-actions.c:189
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-markdown-utils.c:188 ../src/e-util/e-markdown-utils.c:198
-#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:3594
-#: ../src/e-util/e-misc-utils.c:3602 ../src/e-util/e-misc-utils.c:3610
-#: ../src/e-util/e-misc-utils.c:3645 ../src/e-util/e-misc-utils.c:3658
-#: ../src/e-util/e-misc-utils.c:3672 ../src/e-util/e-ui-customize-dialog.c:3499
+#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:3627
+#: ../src/e-util/e-misc-utils.c:3635 ../src/e-util/e-misc-utils.c:3643
+#: ../src/e-util/e-misc-utils.c:3678 ../src/e-util/e-misc-utils.c:3691
+#: ../src/e-util/e-misc-utils.c:3705 ../src/e-util/e-ui-customize-dialog.c:3499
 #: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3122
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3841
 #: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
@@ -10124,7 +10124,7 @@ msgstr "Зберегти поточні зміни і закрити редак�
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../src/calendar/gui/e-day-view.c:3250
+#: ../src/calendar/gui/e-day-view.c:3249
 #: ../src/calendar/gui/e-day-view-top-item.c:837
 #: ../src/calendar/gui/e-week-view-main-item.c:200
 #: ../src/calendar/gui/print.c:2149
@@ -10132,7 +10132,7 @@ msgid "%A %d %B"
 msgstr "%A, %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3990
+#: ../src/calendar/gui/e-day-view.c:3989
 #, c-format
 msgid "Week %d"
 msgstr "%d тиждень"
@@ -10420,24 +10420,24 @@ msgstr "Загальна назва"
 msgid "Language"
 msgstr "Мова"
 
-#: ../src/calendar/gui/e-memo-table.c:662
+#: ../src/calendar/gui/e-memo-table.c:661
 msgid "Cut selected memos to the clipboard"
 msgstr "Вирізати виділені примітки в буфер обміну"
 
-#: ../src/calendar/gui/e-memo-table.c:668
+#: ../src/calendar/gui/e-memo-table.c:667
 msgid "Copy selected memos to the clipboard"
 msgstr "Копіювати виділені примітки в буфер обміну"
 
-#: ../src/calendar/gui/e-memo-table.c:674
+#: ../src/calendar/gui/e-memo-table.c:673
 msgid "Paste memos from the clipboard"
 msgstr "Вставити примітку з буфера обміну"
 
-#: ../src/calendar/gui/e-memo-table.c:680
+#: ../src/calendar/gui/e-memo-table.c:679
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:581
 msgid "Delete selected memos"
 msgstr "Вилучити вибрані примітки"
 
-#: ../src/calendar/gui/e-memo-table.c:686
+#: ../src/calendar/gui/e-memo-table.c:685
 msgid "Select all visible memos"
 msgstr "Виділити всі видимі примітки"
 
@@ -10445,7 +10445,7 @@ msgstr "Виділити всі видимі примітки"
 msgid "Click to add a memo"
 msgstr "Клацніть, щоб додати примітку"
 
-#: ../src/calendar/gui/e-task-table.c:466
+#: ../src/calendar/gui/e-task-table.c:465
 #: ../src/calendar/gui/tasktypes.xml.in.h:23
 msgid "Undefined"
 msgstr "Невизначено"
@@ -10454,29 +10454,29 @@ msgstr "Невизначено"
 #. * %d is the actual value, %% is replaced with a percent sign.
 #. * Result values will be 0%, 10%, 20%, ... 100%
 #.
-#: ../src/calendar/gui/e-task-table.c:495
+#: ../src/calendar/gui/e-task-table.c:494
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../src/calendar/gui/e-task-table.c:845
+#: ../src/calendar/gui/e-task-table.c:844
 msgid "Cut selected tasks to the clipboard"
 msgstr "Вирізати виділені завдання у буфер обміну"
 
-#: ../src/calendar/gui/e-task-table.c:851
+#: ../src/calendar/gui/e-task-table.c:850
 msgid "Copy selected tasks to the clipboard"
 msgstr "Копіювати виділені завдання у буфер обміну"
 
-#: ../src/calendar/gui/e-task-table.c:857
+#: ../src/calendar/gui/e-task-table.c:856
 msgid "Paste tasks from the clipboard"
 msgstr "Вставити завдання з буферу обміну"
 
-#: ../src/calendar/gui/e-task-table.c:863
+#: ../src/calendar/gui/e-task-table.c:862
 #: ../src/modules/calendar/e-task-shell-view-actions.c:747
 msgid "Delete selected tasks"
 msgstr "Вилучити вибрані завдання"
 
-#: ../src/calendar/gui/e-task-table.c:869
+#: ../src/calendar/gui/e-task-table.c:868
 msgid "Select all visible tasks"
 msgstr "Виділити всі видимі завдання"
 
@@ -10540,90 +10540,98 @@ msgstr "Вибрати часовий пояс"
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
 #: ../src/calendar/gui/e-to-do-pane.c:506
 #, c-format
-msgid "Time: %s %s"
-msgstr "Час: %s %s"
+#| msgid "Time: %s %s"
+msgid "Time: %s (%s)"
+msgstr "Час: %s (%s)"
+
+#. Translators: It will display "Time: StartDateAndTime"
+#: ../src/calendar/gui/e-to-do-pane.c:509
+#, c-format
+#| msgid "Time: %s %s"
+msgid "Time: %s"
+msgstr "Час: %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1659 ../src/e-util/e-cell-date-edit.c:338
+#: ../src/calendar/gui/e-to-do-pane.c:1663 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:237
 #: ../src/modules/itip-formatter/itip-view.c:273
 msgid "Today"
 msgstr "Сьогодні"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1661
+#: ../src/calendar/gui/e-to-do-pane.c:1665
 #: ../src/e-util/e-datetime-format.c:248
 #: ../src/modules/itip-formatter/itip-view.c:301
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1671
+#: ../src/calendar/gui/e-to-do-pane.c:1675
 msgid "Tasks without Due date"
 msgstr "Завдання без терміну виконання"
 
 #. It doesn't matter which data-model is picked, because it's used
 #. only for thread creation and manipulation, not for its content.
-#: ../src/calendar/gui/e-to-do-pane.c:2216
+#: ../src/calendar/gui/e-to-do-pane.c:2220
 msgid "Marking a task as complete"
 msgstr "Позначаємо завдання як виконане"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2254
+#: ../src/calendar/gui/e-to-do-pane.c:2258
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1592
 msgid "New _Appointment…"
 msgstr "Створити з_устріч…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2262
+#: ../src/calendar/gui/e-to-do-pane.c:2266
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1536
 msgid "New _Meeting…"
 msgstr "С_творити зібрання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2270
+#: ../src/calendar/gui/e-to-do-pane.c:2274
 msgid "New _Task…"
 msgstr "Створити за_вдання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2278
+#: ../src/calendar/gui/e-to-do-pane.c:2282
 msgid "_New Assigned Task…"
 msgstr "С_творити пов'язане завдання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2291 ../src/mail/e-mail-viewer.c:1727
+#: ../src/calendar/gui/e-to-do-pane.c:2295 ../src/mail/e-mail-viewer.c:1727
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1606
 msgid "_Open…"
 msgstr "_Відкрити…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2301
+#: ../src/calendar/gui/e-to-do-pane.c:2305
 msgid "Mark Task as _Complete"
 msgstr "Поз_начити завдання як виконане"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2315
+#: ../src/calendar/gui/e-to-do-pane.c:2319
 msgid "_Delete This Instance…"
 msgstr "Ви_лучити цей екземпляр…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2324
+#: ../src/calendar/gui/e-to-do-pane.c:2328
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1501
 msgid "Delete This and F_uture Occurrences…"
 msgstr "Вилучити цей і _майбутні екземпляри…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2333
+#: ../src/calendar/gui/e-to-do-pane.c:2337
 msgid "D_elete All Instances…"
 msgstr "Ви_лучити усі екземпляри…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2341
+#: ../src/calendar/gui/e-to-do-pane.c:2345
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1487
 msgid "_Delete…"
 msgstr "В_илучити…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2359
+#: ../src/calendar/gui/e-to-do-pane.c:2363
 msgid "_Show Tasks without Due date"
 msgstr "_Показувати завдання без терміну виконання"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2640
+#: ../src/calendar/gui/e-to-do-pane.c:2644
 msgid "To Do"
 msgstr "Зробити"
 
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3886
+#: ../src/calendar/gui/e-week-view.c:3885
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -10795,43 +10803,6 @@ msgstr "Надсилання завдання"
 #: ../src/calendar/gui/itip-utils.c:2691
 msgid "Original Appointment"
 msgstr "Початкова зустріч"
-
-#: ../src/calendar/gui/misc.c:95
-#, c-format
-msgid "%d day"
-msgid_plural "%d days"
-msgstr[0] "%d день"
-msgstr[1] "%d дні"
-msgstr[2] "%d днів"
-msgstr[3] "%d день"
-
-#: ../src/calendar/gui/misc.c:101
-#, c-format
-msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] "%d година"
-msgstr[1] "%d години"
-msgstr[2] "%d годин"
-msgstr[3] "%d година"
-
-#: ../src/calendar/gui/misc.c:107
-#, c-format
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] "%d хвилина"
-msgstr[1] "%d хвилини"
-msgstr[2] "%d хвилин"
-msgstr[3] "%d хвилина"
-
-#. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
-#: ../src/calendar/gui/misc.c:111
-#, c-format
-msgid "%d second"
-msgid_plural "%d seconds"
-msgstr[0] "%d секунда"
-msgstr[1] "%d секунди"
-msgstr[2] "%d секунд"
-msgstr[3] "%d секунда"
 
 #. G_DATE_BAD_WEEKDAY
 #. Translators: These are workday abbreviations,
@@ -16700,32 +16671,32 @@ msgstr "Не вдалося відкрити посилання."
 msgid "Could not display help for Evolution."
 msgstr "Не вдалося показати довідку Evolution."
 
-#: ../src/e-util/e-misc-utils.c:2248
+#: ../src/e-util/e-misc-utils.c:2281
 #, c-format
 msgid "Opening calendar “%s”"
 msgstr "Відкриття календаря «%s»"
 
-#: ../src/e-util/e-misc-utils.c:2251
+#: ../src/e-util/e-misc-utils.c:2284
 #, c-format
 msgid "Opening memo list “%s”"
 msgstr "Відкриття списку приміток «%s»"
 
-#: ../src/e-util/e-misc-utils.c:2254
+#: ../src/e-util/e-misc-utils.c:2287
 #, c-format
 msgid "Opening task list “%s”"
 msgstr "Відкриття списку завдань «%s»"
 
-#: ../src/e-util/e-misc-utils.c:2257
+#: ../src/e-util/e-misc-utils.c:2290
 #, c-format
 msgid "Opening address book “%s”"
 msgstr "Відкриття адресної книги «%s»"
 
-#: ../src/e-util/e-misc-utils.c:3096
+#: ../src/e-util/e-misc-utils.c:3129
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_Не показувати це повідомлення знову."
 
-#: ../src/e-util/e-misc-utils.c:3581
+#: ../src/e-util/e-misc-utils.c:3614
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -16733,27 +16704,27 @@ msgstr ""
 "Можливо, цей сервер адресної книги недосяжний, або неправильно вказана назва "
 "сервера, або ж мережне з'єднання вимкнено."
 
-#: ../src/e-util/e-misc-utils.c:3593
+#: ../src/e-util/e-misc-utils.c:3626
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Не вдалося встановити версію протоколу LDAPv3 (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3601 ../src/e-util/e-misc-utils.c:3609
+#: ../src/e-util/e-misc-utils.c:3634 ../src/e-util/e-misc-utils.c:3642
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "Не вдалося встановити параметр часу очікування на з'єднання (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3644
+#: ../src/e-util/e-misc-utils.c:3677
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Не вдалося скористатися STARTTLS (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3657
+#: ../src/e-util/e-misc-utils.c:3690
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Не вдалося пройти розпізнавання на сервері LDAP (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3671
+#: ../src/e-util/e-misc-utils.c:3704
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -16769,7 +16740,7 @@ msgstr ""
 "\n"
 "Подробиці помилки (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3682
+#: ../src/e-util/e-misc-utils.c:3715
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -16779,12 +16750,12 @@ msgstr ""
 "цю функціональність, або він може бути неправильно налаштований. Спитайте у "
 "вашого системного адміністратора які бази пошуку підтримуються."
 
-#: ../src/e-util/e-misc-utils.c:3715
+#: ../src/e-util/e-misc-utils.c:3748
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution було зібрано без підтримки LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4040
+#: ../src/e-util/e-misc-utils.c:4073
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -16792,31 +16763,31 @@ msgstr "Невідома (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4049
+#: ../src/e-util/e-misc-utils.c:4082
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4270
+#: ../src/e-util/e-misc-utils.c:4303
 #, c-format
 msgid "Click to call %s"
 msgstr "Клацніть, щоб подзвонити %s"
 
-#: ../src/e-util/e-misc-utils.c:4272
+#: ../src/e-util/e-misc-utils.c:4305
 msgid "Click to hide/unhide addresses"
 msgstr "Клацніть, щоб показати/сховати адреси "
 
-#: ../src/e-util/e-misc-utils.c:4285
+#: ../src/e-util/e-misc-utils.c:4318
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Перейти до розділу %s повідомлення"
 
-#: ../src/e-util/e-misc-utils.c:4287
+#: ../src/e-util/e-misc-utils.c:4320
 msgid "Go to the beginning of the message"
 msgstr "Перейти до початку повідомлення"
 
-#: ../src/e-util/e-misc-utils.c:4293
+#: ../src/e-util/e-misc-utils.c:4326
 #, c-format
 msgid "Click to open %s"
 msgstr "Клацніть, щоб відкрити %s"
@@ -26665,8 +26636,8 @@ msgstr "Час завершення:"
 #: ../src/modules/itip-formatter/itip-view.c:1274
 msgid "Imported event will have removed the organizer and all the attendees."
 msgstr ""
-"Імпортування події призведе до вилучення записів організатора та усіх"
-" учасників."
+"Імпортування події призведе до вилучення записів організатора та усіх "
+"учасників."
 
 #
 #: ../src/modules/itip-formatter/itip-view.c:1322
@@ -26711,7 +26682,6 @@ msgid "Im_port"
 msgstr "І_мпорт"
 
 #: ../src/modules/itip-formatter/itip-view.c:1357
-#| msgid "Importing an event"
 msgid "Im_port as Event"
 msgstr "І_мпортувати як подію"
 
@@ -31105,6 +31075,38 @@ msgstr "Неможливо записати сховище на диск, код
 #: ../src/smime/lib/e-pkcs12.c:470
 msgid "Imported Certificate"
 msgstr "Імпортований сертифікат"
+
+#, c-format
+#~ msgid "%d day"
+#~ msgid_plural "%d days"
+#~ msgstr[0] "%d день"
+#~ msgstr[1] "%d дні"
+#~ msgstr[2] "%d днів"
+#~ msgstr[3] "%d день"
+
+#, c-format
+#~ msgid "%d hour"
+#~ msgid_plural "%d hours"
+#~ msgstr[0] "%d година"
+#~ msgstr[1] "%d години"
+#~ msgstr[2] "%d годин"
+#~ msgstr[3] "%d година"
+
+#, c-format
+#~ msgid "%d minute"
+#~ msgid_plural "%d minutes"
+#~ msgstr[0] "%d хвилина"
+#~ msgstr[1] "%d хвилини"
+#~ msgstr[2] "%d хвилин"
+#~ msgstr[3] "%d хвилина"
+
+#, c-format
+#~ msgid "%d second"
+#~ msgid_plural "%d seconds"
+#~ msgstr[0] "%d секунда"
+#~ msgstr[1] "%d секунди"
+#~ msgstr[2] "%d секунд"
+#~ msgstr[3] "%d секунда"
 
 #~ msgid "When de_leted:"
 #~ msgstr "Коли в_идалено"
