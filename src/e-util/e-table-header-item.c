@@ -530,6 +530,7 @@ ethi_add_drop_marker (ETableHeaderItem *ethi,
 static void
 ethi_add_destroy_marker (ETableHeaderItem *ethi)
 {
+	GdkRGBA rgba;
 	gdouble x1;
 
 	if (ethi->remove_item)
@@ -539,6 +540,10 @@ ethi_add_destroy_marker (ETableHeaderItem *ethi)
 	if (ethi->drag_col > 0)
 		x1 += ethi->group_indent_width;
 
+	rgba.red = 1.0;
+	rgba.green = 0.0;
+	rgba.blue = 0.0;
+	rgba.alpha = 0.5;
 	ethi->remove_item = gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (GNOME_CANVAS_ITEM (ethi)->canvas->root),
 		gnome_canvas_rect_get_type (),
@@ -548,7 +553,7 @@ ethi_add_destroy_marker (ETableHeaderItem *ethi)
 			ethi->eth, ethi->drag_col, ethi->drag_col + 1) - 2,
 
 		"y2", (gdouble) ethi->height - 2,
-		"fill_color_rgba", 0xFF000080,
+		"fill-color", &rgba,
 		NULL);
 }
 

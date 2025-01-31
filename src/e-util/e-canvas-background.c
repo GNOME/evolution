@@ -41,7 +41,7 @@
 #define d(x)
 
 struct _ECanvasBackgroundPrivate {
-	guint rgba;		/* Fill color, RGBA */
+	GdkRGBA rgba;		/* Fill color, RGBA */
 };
 
 /* workaround for avoiding API broken */
@@ -58,8 +58,6 @@ static guint ecb_signals[LAST_SIGNAL] = { 0, };
 enum {
 	PROP_0,
 	PROP_FILL_COLOR,
-	PROP_FILL_COLOR_GDK,
-	PROP_FILL_COLOR_RGBA,
 };
 
 static void
@@ -105,55 +103,21 @@ ecb_set_property (GObject *object,
 {
 	ECanvasBackground *ecb;
 
-	GdkColor color = { 0, 0, 0, 0, };
-	GdkColor *pcolor;
+	GdkRGBA *rgba;
 
 	ecb = E_CANVAS_BACKGROUND (object);
 
 	switch (property_id) {
 	case PROP_FILL_COLOR:
-		if (g_value_get_string (value) &&
-		    gdk_color_parse (g_value_get_string (value), &color)) {
-			ecb->priv->rgba = ((e_color_to_value (&color) & 0xffffff) << 8) | 0xff;
-		}
-		break;
-
-	case PROP_FILL_COLOR_GDK:
-		pcolor = g_value_get_boxed (value);
-		if (pcolor) {
-			color = *pcolor;
+		rgba = g_value_get_boxed (value);
+		if (rgba) {
+			ecb->priv->rgba = *rgba;
 		}
 
-		ecb->priv->rgba = ((e_color_to_value (&color) & 0xffffff) << 8) | 0xff;
 		break;
-
-	case PROP_FILL_COLOR_RGBA:
-		ecb->priv->rgba = g_value_get_uint (value);
-		break;
-
 	}
 
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));
-}
-
-static void
-ecb_get_property (GObject *object,
-                  guint property_id,
-                  GValue *value,
-                  GParamSpec *pspec)
-{
-	ECanvasBackground *ecb;
-
-	ecb = E_CANVAS_BACKGROUND (object);
-
-	switch (property_id) {
-	case PROP_FILL_COLOR_RGBA:
-		g_value_set_uint (value, ecb->priv->rgba);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
 }
 
 static void
@@ -173,12 +137,7 @@ ecb_draw (GnomeCanvasItem *item,
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
 
 	cairo_save (cr);
-	cairo_set_source_rgba (
-		cr,
-		((ecb->priv->rgba >> 24) & 0xff) / 255.0,
-		((ecb->priv->rgba >> 16) & 0xff) / 255.0,
-		((ecb->priv->rgba >> 8) & 0xff) / 255.0,
-		( ecb->priv->rgba & 0xff) / 255.0);
+	gdk_cairo_set_source_rgba (cr, &ecb->priv->rgba);
 	cairo_paint (cr);
 	cairo_restore (cr);
 }
@@ -209,7 +168,6 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 	GObjectClass *object_class = G_OBJECT_CLASS (ecb_class);
 
 	object_class->set_property = ecb_set_property;
-	object_class->get_property = ecb_get_property;
 
 	item_class->update = ecb_update;
 	item_class->draw = ecb_draw;
@@ -221,32 +179,12 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 	g_object_class_install_property (
 		object_class,
 		PROP_FILL_COLOR,
-		g_param_spec_string (
-			"fill_color",
-			"Fill color",
-			"Fill color",
-			NULL,
-			G_PARAM_WRITABLE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_FILL_COLOR_GDK,
 		g_param_spec_boxed (
-			"fill_color_gdk",
-			"GDK fill color",
-			"GDK fill color",
-			GDK_TYPE_COLOR,
+			"fill-color",
+			"Fill color",
+			"Fill color",
+			GDK_TYPE_RGBA,
 			G_PARAM_WRITABLE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_FILL_COLOR_RGBA,
-		g_param_spec_uint (
-			"fill_color_rgba",
-			"GDK fill color",
-			"GDK fill color",
-			0, G_MAXUINT, 0,
-			G_PARAM_READWRITE));
 
 	ecb_signals[STYLE_UPDATED] = g_signal_new (
 		"style_updated",

@@ -1799,42 +1799,6 @@ webkit_editor_page_get_font_name (EContentEditor *editor)
 }
 
 static void
-get_color_from_context (GtkStyleContext *context,
-                        const gchar *name,
-                        GdkRGBA *out_color)
-{
-	GdkColor *color = NULL;
-
-	gtk_style_context_get_style (context, name, &color, NULL);
-
-	if (color == NULL) {
-		gboolean is_visited = strstr (name, "visited") != NULL;
-		GtkStateFlags state;
-
-		out_color->alpha = 1;
-		out_color->red = is_visited ? 1 : 0;
-		out_color->green = 0;
-		out_color->blue = is_visited ? 0 : 1;
-
-		state = gtk_style_context_get_state (context);
-		state = state & (~(GTK_STATE_FLAG_VISITED | GTK_STATE_FLAG_LINK));
-		state = state | (is_visited ? GTK_STATE_FLAG_VISITED : GTK_STATE_FLAG_LINK);
-
-		gtk_style_context_save (context);
-		gtk_style_context_set_state (context, state);
-		gtk_style_context_get_color (context, state, out_color);
-		gtk_style_context_restore (context);
-	} else {
-		out_color->alpha = 1;
-		out_color->red = ((gdouble) color->red) / G_MAXUINT16;
-		out_color->green = ((gdouble) color->green) / G_MAXUINT16;
-		out_color->blue = ((gdouble) color->blue) / G_MAXUINT16;
-
-		gdk_color_free (color);
-	}
-}
-
-static void
 webkit_editor_style_updated (EWebKitEditor *wk_editor,
 			     gboolean force)
 {
@@ -1881,8 +1845,8 @@ webkit_editor_style_updated (EWebKitEditor *wk_editor,
 		gdk_rgba_parse (&fgcolor, E_UTILS_DEFAULT_THEME_FG_COLOR);
 	}
 
-	get_color_from_context (style_context, "link-color", &link_color);
-	get_color_from_context (style_context, "visited-link-color", &vlink_color);
+	gtk_style_context_get_color (style_context, state_flags | GTK_STATE_FLAG_LINK, &link_color);
+	gtk_style_context_get_color (style_context, state_flags | GTK_STATE_FLAG_VISITED, &vlink_color);
 
 	if (!force &&
 	    gdk_rgba_equal (&bgcolor, &wk_editor->priv->theme_bgcolor) &&

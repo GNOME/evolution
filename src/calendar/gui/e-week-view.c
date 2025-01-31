@@ -972,29 +972,17 @@ week_view_constructed (GObject *object)
 		G_CALLBACK (timezone_changed_cb), object);
 }
 
-static GdkColor
+static GdkRGBA
 e_week_view_get_text_color (EWeekView *week_view,
                             EWeekViewEvent *event)
 {
-	GdkColor color;
 	GdkRGBA rgba;
-
-	if (is_comp_data_valid (event) &&
-	    e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), event->comp_data, &rgba)) {
-	} else {
-		gdouble	cc = 65535.0;
-
-		rgba.red = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red / cc;
-		rgba.green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green / cc;
-		rgba.blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue / cc;
-		rgba.alpha = 1.0;
-
+	if (!is_comp_data_valid (event) ||
+	    !e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), event->comp_data, &rgba)) {
+		rgba = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND];
 	}
 
-	rgba = e_utils_get_text_color_for_background (&rgba);
-	e_rgba_to_color (&rgba, &color);
-
-	return color;
+	return e_utils_get_text_color_for_background (&rgba);
 }
 
 static void
@@ -1026,13 +1014,13 @@ week_view_update_style_settings (EWeekView *week_view)
 					event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 
 				if (event) {
-					GdkColor text_color;
+					GdkRGBA text_color;
 
 					text_color = e_week_view_get_text_color (week_view, event);
 
 					gnome_canvas_item_set (
 						span->text_item,
-						"fill_color_gdk", &text_color,
+						"fill-color", &text_color,
 						NULL);
 				}
 			}
@@ -2124,24 +2112,13 @@ e_week_view_new (ECalModel *model)
 	return g_object_new (E_TYPE_WEEK_VIEW, "model", model, NULL);
 }
 
-static GdkColor
-color_inc (GdkColor c,
-           gint amount)
+static GdkRGBA
+color_inc (GdkRGBA c,
+           gdouble amount)
 {
-	#define dec(x) \
-		if (x + amount >= 0 \
-		    && x + amount <= 0xFFFF) \
-			x += amount; \
-		else if (amount <= 0) \
-			x = 0; \
-		else \
-			x = 0xFFFF;
-
-	dec (c.red);
-	dec (c.green);
-	dec (c.blue);
-
-	#undef dec
+	c.red = CLAMP (c.red + amount, 0.0, 1.0);
+	c.green = CLAMP (c.green + amount, 0.0, 1.0);
+	c.blue = CLAMP (c.blue + amount, 0.0, 1.0);
 
 	return c;
 }
@@ -2162,21 +2139,21 @@ e_week_view_set_colors (EWeekView *week_view)
 	e_utils_shade_color (&bg_bg, &dark_bg, E_UTILS_DARKNESS_MULT);
 	e_utils_shade_color (&bg_bg, &light_bg, E_UTILS_LIGHTNESS_MULT);
 
-	e_rgba_to_color (&bg_bg, &week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS]);
-	e_rgba_to_color (&base_bg, &week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS]);
-	e_rgba_to_color (&base_bg, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
-	e_rgba_to_color (&dark_bg, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
-	e_rgba_to_color (&text_fg, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT]);
-	e_rgba_to_color (&dark_bg, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
-	e_rgba_to_color (&selected_bg, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
-	e_rgba_to_color (&unfocused_selected_bg, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED]);
-	e_rgba_to_color (&text_fg, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
-	e_rgba_to_color (&selected_fg, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
-	e_rgba_to_color (&selected_bg, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
+	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS] = bg_bg;
+	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS] = base_bg;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND] = base_bg;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER] = dark_bg;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT] = text_fg;
+	week_view->colors[E_WEEK_VIEW_COLOR_GRID] = dark_bg;
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED] = selected_bg;
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED] = unfocused_selected_bg;
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES] = text_fg;
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED] = selected_fg;
+	week_view->colors[E_WEEK_VIEW_COLOR_TODAY] = selected_bg;
 
 	if (!week_view->priv->today_background_color)
 		week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND] = get_today_background (week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
-	week_view->colors[E_WEEK_VIEW_COLOR_MONTH_NONWORKING_DAY] = color_inc (week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS], -0x0A0A);
+	week_view->colors[E_WEEK_VIEW_COLOR_MONTH_NONWORKING_DAY] = color_inc (week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS], -0.04);
 }
 
 static void
@@ -4034,7 +4011,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	/* Create the text item if necessary. */
 	if (!span->text_item) {
 		gchar *summary;
-		GdkColor color;
+		GdkRGBA color;
 
 		color = e_week_view_get_text_color (week_view, event);
 		summary = dup_comp_summary (event->comp_data->client, event->comp_data->icalcomp);
@@ -4048,7 +4025,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 				"editable", TRUE,
 				"text", summary ? summary : "",
 				"use_ellipsis", TRUE,
-				"fill_color_gdk", &color,
+				"fill-color", &color,
 				"im_context", E_CANVAS (week_view->main_canvas)->im_context,
 				NULL);
 

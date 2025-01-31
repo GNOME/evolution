@@ -760,7 +760,7 @@ cal_model_tasks_get_color_for_component (ECalModel *model,
 	tasks = E_CAL_MODEL_TASKS (model);
 
 	/* XXX ECalModel's get_color_for_component() method should really
-	 *     get a GdkColor instead of a color specification string. */
+	 *     get a GdkRGBA instead of a color specification string. */
 
 	switch (get_due_status (tasks, comp_data)) {
 	case E_CAL_MODEL_TASKS_DUE_TODAY:

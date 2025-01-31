@@ -99,9 +99,9 @@ typedef void (*ECalendarItemStyleCallback)   (ECalendarItem	*calitem,
 					      gboolean		 selected,
 					      gboolean		 has_focus,
 					      gboolean		 drop_target,
-					      GdkColor	       **bg_color,
-					      GdkColor	       **fg_color,
-					      GdkColor	       **box_color,
+					      GdkRGBA	       **bg_color,
+					      GdkRGBA	       **fg_color,
+					      GdkRGBA	       **box_color,
 					      gboolean		*bold,
 					      gboolean		*italic,
 					      gpointer		 data);
@@ -258,7 +258,7 @@ struct _ECalendarItem {
 	GDestroyNotify time_callback_destroy;
 
 	/* Colors for drawing. */
-	GdkColor colors[E_CALENDAR_ITEM_COLOR_LAST];
+	GdkRGBA colors[E_CALENDAR_ITEM_COLOR_LAST];
 
 	/* Our idle handler for emitting signals. */
 	gint signal_emission_idle_id;

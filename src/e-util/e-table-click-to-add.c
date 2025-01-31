@@ -77,23 +77,23 @@ static void
 etcta_style_updated (ETableClickToAdd *etcta)
 {
 	GtkWidget *widget;
-	GdkColor fg, bg;
+	GdkRGBA fg, bg;
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etcta)->canvas);
 
-	e_utils_get_theme_color_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg);
-	e_utils_get_theme_color_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &bg);
+	e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg);
+	e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &bg);
 
 	if (etcta->rect)
 		gnome_canvas_item_set (
 			etcta->rect,
-			"fill_color_gdk", &bg,
+			"fill-color", &bg,
 			NULL);
 
 	if (etcta->text)
 		gnome_canvas_item_set (
 			etcta->text,
-			"fill_color_gdk", &fg,
+			"fill-color", &fg,
 			NULL);
 }
 
@@ -254,12 +254,12 @@ static void
 create_rect_and_text (ETableClickToAdd *etcta)
 {
 	GtkWidget *widget;
-	GdkColor fg, bg;
+	GdkRGBA fg, bg;
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etcta)->canvas);
 
-	e_utils_get_theme_color_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg);
-	e_utils_get_theme_color_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &bg);
+	e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg);
+	e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &bg);
 
 	if (!etcta->rect)
 		etcta->rect = gnome_canvas_item_new (
@@ -269,7 +269,7 @@ create_rect_and_text (ETableClickToAdd *etcta)
 			"y1", (gdouble) 1,
 			"x2", (gdouble) etcta->width,
 			"y2", (gdouble) etcta->height,
-			"fill_color_gdk", &bg,
+			"fill-color", &bg,
 			NULL);
 
 	if (!etcta->text)
@@ -278,7 +278,7 @@ create_rect_and_text (ETableClickToAdd *etcta)
 			e_text_get_type (),
 			"text", etcta->message ? etcta->message : "",
 			"width", etcta->width - 4,
-			"fill_color_gdk", &fg,
+			"fill-color", &fg,
 			NULL);
 }
 

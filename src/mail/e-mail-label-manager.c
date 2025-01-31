@@ -138,7 +138,7 @@ mail_label_manager_add_label (EMailLabelManager *manager)
 	GtkTreeModel *model;
 	GtkWidget *dialog;
 	gpointer parent;
-	GdkColor label_color;
+	GdkRGBA label_color;
 	const gchar *label_name;
 	gboolean repeat = TRUE;
 
@@ -187,7 +187,7 @@ mail_label_manager_edit_label (EMailLabelManager *manager)
 	GtkTreeIter iter;
 	GtkWidget *dialog;
 	GtkWidget *parent;
-	GdkColor label_color;
+	GdkRGBA label_color;
 	const gchar *new_name;
 	gchar *label_name;
 	gboolean repeat = TRUE;
