@@ -296,7 +296,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			"--include-style",
 			"--inline-css",
 			"--encoding=none",
-			"--failsafe",
+			"--force",
 			NULL };
 
 		if (!emfe_text_highlight_formatter_is_enabled ()) {
