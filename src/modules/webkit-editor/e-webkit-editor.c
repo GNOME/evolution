@@ -4943,7 +4943,7 @@ webkit_editor_get_property (GObject *object,
 			return;
 
 		case PROP_LINK_TO_TEXT:
-			g_value_set_boolean (value,
+			g_value_set_enum (value,
 				webkit_editor_get_link_to_text (E_WEBKIT_EDITOR (object)));
 			return;
 	}
