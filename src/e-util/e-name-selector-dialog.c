@@ -409,12 +409,15 @@ name_selector_dialog_constructed (GObject *object)
 	gtk_widget_show (destination_vgrid);
 	gtk_container_add (GTK_CONTAINER (hgrid), destination_vgrid);
 
-	status_message = gtk_label_new ("");
-	gtk_widget_show (status_message);
+	status_message = g_object_new (
+		GTK_TYPE_LABEL,
+		"margin-top", 3,
+		"margin-bottom", 3,
+		"use-markup", TRUE,
+		"visible", TRUE,
+		"xalign", 0.0,
+		NULL);
 	gtk_container_add (GTK_CONTAINER (name_selector_grid), status_message);
-	gtk_label_set_use_markup (GTK_LABEL (status_message), TRUE);
-	gtk_label_set_xalign (GTK_LABEL (status_message), 0);
-	gtk_misc_set_padding (GTK_MISC (status_message), 0, 3);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (AddressBookLabel), source_menu_hgrid);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label_category), combobox_category);

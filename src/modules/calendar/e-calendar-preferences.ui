@@ -1564,8 +1564,8 @@
           <object class="GtkAlignment" id="alignment1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="bottom_padding">10</property>
-            <property name="left_padding">10</property>
+            <property name="margin-bottom">10</property>
+            <property name="margin-start">10</property>
             <child>
               <object class="GtkVBox" id="alarm_options_vbox">
                 <property name="visible">True</property>
@@ -1995,7 +1995,7 @@
           <object class="GtkAlignment" id="default-freebusy-alignment">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="left_padding">12</property>
+            <property name="margin-start">12</property>
             <child>
               <object class="GtkVBox" id="default-freebusy-vbox">
                 <property name="visible">True</property>

@@ -1373,16 +1373,20 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		/* complex import assistant pages */
 
 		/* Start page */
-		page = gtk_label_new ("");
-		gtk_label_set_line_wrap (GTK_LABEL (page), TRUE);
-		gtk_label_set_width_chars (GTK_LABEL (page), 20);
-		gtk_label_set_xalign (GTK_LABEL (page), 0);
-		gtk_misc_set_padding (GTK_MISC (page), 12, 12);
-		gtk_label_set_text (GTK_LABEL (page), _(
-			"Welcome to the Evolution Import Assistant.\n"
-			"With this assistant you will be guided through the "
-			"process of importing external files into Evolution."));
-		gtk_widget_show (page);
+		page = g_object_new (GTK_TYPE_LABEL,
+			"line-wrap", TRUE,
+			"width-chars", 20,
+			"xalign", 0.0,
+			"margin-start", 12,
+			"margin-end", 12,
+			"margin-top", 12,
+			"margin-bottom", 12,
+			"text", _(
+				"Welcome to the Evolution Import Assistant.\n"
+				"With this assistant you will be guided through the "
+				"process of importing external files into Evolution."),
+			"visible", TRUE,
+			NULL);
 
 		gtk_assistant_append_page (assistant, page);
 		gtk_assistant_set_page_title (

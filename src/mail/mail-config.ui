@@ -202,7 +202,7 @@
               <object class="GtkAlignment" id="default-behavior-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkVBox" id="default-behavior-vbox">
                     <property name="visible">True</property>
@@ -483,7 +483,7 @@
               <object class="GtkAlignment" id="replies-and-forwards-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkGrid">
                     <property name="visible">True</property>
@@ -789,7 +789,7 @@
               <object class="GtkAlignment" id="signature-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <placeholder/>
                 </child>
@@ -858,7 +858,7 @@
               <object class="GtkAlignment" id="languages-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkGrid" id="languages-grid">
                     <property name="visible">True</property>
@@ -960,7 +960,7 @@
               <object class="GtkAlignment" id="spell-options-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkVBox" id="spell-options-vbox">
                     <property name="visible">True</property>
@@ -1040,7 +1040,7 @@
           <object class="GtkAlignment" id="confirmation-alignment">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="left_padding">12</property>
+            <property name="margin-start">12</property>
             <child>
               <object class="GtkVBox" id="confirmation-vbox">
                 <property name="visible">True</property>
@@ -1389,10 +1389,10 @@
               <object class="GtkAlignment" id="sao-folders-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="top_padding">6</property>
-                <property name="bottom_padding">6</property>
-                <property name="left_padding">6</property>
-                <property name="right_padding">6</property>
+                <property name="margin-top">6</property>
+                <property name="margin-bottom">6</property>
+                <property name="margin-start">6</property>
+                <property name="margin-end">6</property>
                 <child>
                   <object class="GtkGrid" id="sao-folders-grid">
                     <property name="visible">True</property>
@@ -1501,10 +1501,10 @@
               <object class="GtkAlignment" id="sao-recipients-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="top_padding">6</property>
-                <property name="bottom_padding">6</property>
-                <property name="left_padding">6</property>
-                <property name="right_padding">6</property>
+                <property name="margin-top">6</property>
+                <property name="margin-bottom">6</property>
+                <property name="margin-start">6</property>
+                <property name="margin-end">6</property>
                 <child>
                   <object class="GtkGrid" id="sao-recipients-grid">
                     <property name="visible">True</property>
@@ -1624,10 +1624,10 @@
               <object class="GtkAlignment" id="sao-account-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="top_padding">6</property>
-                <property name="bottom_padding">6</property>
-                <property name="left_padding">6</property>
-                <property name="right_padding">6</property>
+                <property name="margin-top">6</property>
+                <property name="margin-bottom">6</property>
+                <property name="margin-start">6</property>
+                <property name="margin-end">6</property>
                 <child>
                   <object class="GtkScrolledWindow" id="soa-account-scrolledwindow">
                     <property name="visible">True</property>
@@ -1834,7 +1834,7 @@
               <object class="GtkAlignment" id="start-up-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkVBox" id="start-up-vbox">
                     <property name="visible">True</property>
@@ -1937,7 +1937,7 @@
               <object class="GtkAlignment" id="message-display-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkVBox" id="message-display-vbox">
                     <property name="visible">True</property>
@@ -1963,7 +1963,7 @@
                       <object class="GtkAlignment" id="custom-font-alignment">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="left_padding">24</property>
+                        <property name="margin-start">24</property>
                         <child>
                           <object class="GtkGrid">
                             <property name="visible">True</property>
@@ -2325,7 +2325,7 @@
               <object class="GtkAlignment" id="delete-mail-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkVBox" id="delete-mail-vbox">
                     <property name="visible">True</property>
@@ -2466,7 +2466,7 @@
               <object class="GtkAlignment" id="archive-mail-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkVBox" id="archive-mail-vbox">
                     <property name="visible">True</property>
@@ -2563,7 +2563,7 @@
               <object class="GtkAlignment" id="html-general-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkVBox" id="html-general-vbox">
                     <property name="visible">True</property>
@@ -2642,7 +2642,7 @@
               <object class="GtkAlignment" id="loading-images-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkVBox" id="loading-images-vbox">
                     <property name="visible">True</property>
@@ -2990,7 +2990,7 @@
           <object class="GtkAlignment" id="labels-alignment">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="left_padding">12</property>
+            <property name="margin-start">12</property>
             <child>
               <placeholder/>
             </child>
@@ -3050,7 +3050,7 @@
               <object class="GtkAlignment" id="photograph-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkVBox" id="photograph-vbox">
                     <property name="visible">True</property>
@@ -3148,7 +3148,7 @@
               <object class="GtkAlignment" id="message-headers-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkHBox" id="message-headers-hbox">
                     <property name="visible">True</property>
@@ -3302,7 +3302,7 @@
               <object class="GtkAlignment" id="user-headers-alignment">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
+                <property name="margin-start">12</property>
                 <child>
                   <object class="GtkHBox" id="user-headers-hbox">
                     <property name="visible">True</property>
