@@ -169,7 +169,7 @@
                   <object class="GtkAlignment" id="members-alignment">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="left_padding">12</property>
+                    <property name="margin-start">12</property>
                     <child>
                       <object class="GtkGrid" id="members-grid">
                         <property name="visible">True</property>

@@ -131,11 +131,12 @@
       <object class="GtkHSeparator" id="hseparator1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="margin-top">1</property>
+        <property name="margin-bottom">1</property>
       </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">True</property>
-        <property name="padding">1</property>
         <property name="position">1</property>
       </packing>
     </child>
@@ -248,8 +249,8 @@ a time relative to when filtering occurs.</property>
               <object class="GtkAlignment" id="alignment1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="top_padding">5</property>
-                <property name="left_padding">58</property>
+                <property name="margin-top">5</property>
+                <property name="margin-start">58</property>
                 <child>
                   <object class="GtkHBox" id="hbox6">
                     <property name="visible">True</property>
@@ -312,7 +313,6 @@ a time relative to when filtering occurs.</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="padding">2</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -638,7 +638,6 @@ a time relative to when filtering occurs.</property>
       <packing>
         <property name="expand">True</property>
         <property name="fill">True</property>
-        <property name="padding">3</property>
         <property name="position">2</property>
       </packing>
     </child>
