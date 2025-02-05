@@ -907,8 +907,6 @@ simple_filetype_changed_cb (GtkComboBox *combo_box,
 			self->priv->import, (EImportTarget *)
 			page->target, page->importer);
 
-	gtk_widget_set_halign (control, GTK_ALIGN_START);
-	gtk_widget_set_valign (control, GTK_ALIGN_START);
 	gtk_box_pack_start (GTK_BOX (vbox), control, TRUE, TRUE, 0);
 	gtk_widget_show (control);
 
