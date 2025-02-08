@@ -1,5 +1,5 @@
 stages:
-  - test
+  - build
   - pages
   - tarball
   - release
@@ -15,9 +15,74 @@ include:
       dist-job-name: "tarball"
       tarball-artifact-path: "${TARBALL_NAME}"
 
+fedora:
+  image: registry.gitlab.gnome.org/gnome/evolution/fedora:v1
+  stage: build
+  script:
+    - export BASE_BRANCH=master
+    - export SOURCE=$PWD
+    - export PREFIX=$HOME/_prefix
+    - export DEPS=$PWD/_deps
+    - mkdir $PREFIX
+    - mkdir $DEPS
+    - pushd po/ >/dev/null && export TXT=`intltool-update -m 2>&1` && popd >/dev/null
+    - if [ ! -z "$TXT" ]; then echo -e "\\033[1;31m" 1>&2; echo "$TXT" 1>&2; echo -e "\\033[0m" 1>&2; exit 1; fi
+    - export LD_LIBRARY_PATH="$PREFIX/lib:$PREFIX/lib64"
+    - export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig:$PREFIX/lib64/pkgconfig:$PREFIX/share/pkgconfig"
+    - export GSETTINGS_SCHEMA_DIR="$PREFIX/share/glib-2.0/schemas"
+    - cd $DEPS
+    - git clone --depth=1 --branch $BASE_BRANCH https://gitlab.gnome.org/GNOME/evolution-data-server.git
+    - cd $DEPS/evolution-data-server
+    - mkdir _build && cd _build
+    - cmake -G "Ninja" \
+            -DCMAKE_BUILD_TYPE=Release
+            -DCMAKE_INSTALL_PREFIX=$PREFIX
+            -DENABLE_GOA=ON
+            -DENABLE_EXAMPLES=OFF
+            -DENABLE_TESTS=OFF
+            -DENABLE_INTROSPECTION=OFF
+            -DENABLE_VALA_BINDINGS=OFF
+            -DENABLE_INSTALLED_TESTS=OFF
+            -DENABLE_GTK_DOC=OFF
+            -DWITH_PRIVATE_DOCS=OFF
+            -DWITH_LIBDB=OFF
+            -DWITH_PHONENUMBER=OFF
+            ..
+    - ninja
+    - ninja install
+    - cd $SOURCE
+    - mkdir _build && cd _build
+    - cmake -G "Ninja" \
+            -DCMAKE_BUILD_TYPE=Release
+            -DCMAKE_INSTALL_PREFIX=$PREFIX
+            -DENABLE_GTK_DOC=ON
+            -DENABLE_CONTACT_MAPS=OFF
+            -DENABLE_INSTALLED_TESTS=ON
+            -DWITH_HELP=ON
+            ..
+    - ninja
+    - ninja install
+    - cd $SOURCE
+    - mkdir _prefix
+    - cp -r $PREFIX/share/help/ _prefix/help
+    - xvfb-run -a -s "-screen 0 1024x768x24" bash ./.gitlab-ci/run-tests.sh
+    - cp $DEPS/evolution-data-server/_build/evolution-data-server-config.h $DEPS/
+  artifacts:
+    name: "${CI_PROJECT_NAME}-${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}"
+    when: always
+    paths:
+      - "_build/evolution-config.h"
+      - "_deps/evolution-data-server-config.h"
+      - "_prefix/help/"
+      - "_build/docs/reference/evolution-mail-composer/html/"
+      - "_build/docs/reference/evolution-mail-engine/html/"
+      - "_build/docs/reference/evolution-mail-formatter/html/"
+      - "_build/docs/reference/evolution-shell/html/"
+      - "_build/docs/reference/evolution-util/html/"
+
 flatpak:
   image: "quay.io/gnome_infrastructure/gnome-runtime-images:gnome-master"
-  stage: test
+  stage: build
   tags:
     - flatpak
   variables:
@@ -26,6 +91,7 @@ flatpak:
     FLATPAK_MODULE: "evolution"
     APP_ID: "org.gnome.Evolution.Devel"
     RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
+  when: manual
   before_script:
     - export PATH="/usr/lib/ccache:$PATH"
     - export CCACHE_BASEDIR="$PWD"
@@ -35,9 +101,7 @@ flatpak:
     - jq -M 'del((.modules[] | select(.name=="evolution")).sources[0].branch)' ${MANIFEST_PATH} > tmp.json && mv tmp.json ${MANIFEST_PATH}
     - jq -M '(.modules[] | select(.name=="evolution")).sources[0].commit = env.CI_COMMIT_SHA' ${MANIFEST_PATH} > tmp.json && mv tmp.json ${MANIFEST_PATH}
 
-    - >
-      xvfb-run -a -s "-screen 0 1024x768x24"
-      flatpak-builder --keep-build-dirs --user --disable-rofiles-fuse flatpak_app --repo=repo --ccache ${BRANCH:+--default-branch=$BRANCH} ${MANIFEST_PATH}
+    - flatpak-builder --keep-build-dirs --user --disable-rofiles-fuse flatpak_app --repo=repo --ccache ${BRANCH:+--default-branch=$BRANCH} ${MANIFEST_PATH}
     - flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID} ${BRANCH}
   cache:
     paths:
@@ -46,41 +110,31 @@ flatpak:
   artifacts:
     name: "Flatpak artifacts"
     expose_as: "Get Flatpak bundle here"
-    when: "always"
+    when: always
     paths:
       - "${BUNDLE}"
-      - ".flatpak-builder/build/${FLATPAK_MODULE}/evolution-config.h"
-      - ".flatpak-builder/build/${FLATPAK_MODULE}/CMakeFiles/CMakeError.log"
-      - ".flatpak-builder/build/${FLATPAK_MODULE}/CMakeFiles/CMakeOutput.log"
-      - ".flatpak-builder/build/${FLATPAK_MODULE}/help/"
-      - ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-mail-composer/html/"
-      - ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-mail-engine/html/"
-      - ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-mail-formatter/html/"
-      - ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-shell/html/"
-      - ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-util/html/"
     expire_in: 14 days
 
 pages:
-  image: registry.fedoraproject.org/fedora:40
+  image: registry.gitlab.gnome.org/gnome/evolution/fedora:v1
   stage: pages
   dependencies:
-    - flatpak
+    - fedora
   interruptible: false
   variables:
     FLATPAK_MODULE: "evolution"
   script:
     - |
-      dnf install -qy yelp-tools gcc glib2-devel
       export PUBDIR=$(pwd)/public/help
       export DOCSDIR=$(pwd)/public/docs
       LANGLINKS=" "
       mkdir -p $PUBDIR
       mkdir -p $DOCSDIR
-      for d in ".flatpak-builder/build/${FLATPAK_MODULE}/help/"*
+      for d in "_prefix/help/"*
       do
         if [ -d "$d" ] && [ $(basename $d) != "CMakeFiles" ]; then
           lang=$(basename $d);
-          cd $d
+          cd $d/evolution/
           echo "Generating help for $lang"
           if [ $lang == "C" ]; then
             yelp-build html -o $PUBDIR .
@@ -97,11 +151,11 @@ pages:
       echo "Go to Evolution <a href='https://gitlab.gnome.org/GNOME/evolution/-/wikis'>Wiki pages</a> or the <a href='help/'>user documentation</a> (${LANGLINKS})<br><br>Developer documentation is <a href='docs/'>here</a>">$(pwd)/public/index.html
       mkdir $(pwd)/public/YahooOAuth2
       echo "Wait a bit, please...<br><br>The page URL contains an authorization code, which can be copied into the credentials prompt dialog.">$(pwd)/public/YahooOAuth2/index.html
-      mv ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-mail-composer/html" $DOCSDIR/evolution-mail-composer
-      mv ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-mail-engine/html" $DOCSDIR/evolution-mail-engine
-      mv ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-mail-formatter/html" $DOCSDIR/evolution-mail-formatter
-      mv ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-shell/html" $DOCSDIR/evolution-shell
-      mv ".flatpak-builder/build/${FLATPAK_MODULE}/docs/reference/evolution-util/html" $DOCSDIR/evolution-util
+      mv "_build/docs/reference/evolution-mail-composer/html" $DOCSDIR/evolution-mail-composer
+      mv "_build/docs/reference/evolution-mail-engine/html" $DOCSDIR/evolution-mail-engine
+      mv "_build/docs/reference/evolution-mail-formatter/html" $DOCSDIR/evolution-mail-formatter
+      mv "_build/docs/reference/evolution-shell/html" $DOCSDIR/evolution-shell
+      mv "_build/docs/reference/evolution-util/html" $DOCSDIR/evolution-util
       echo "<h4>Developer documentation for Evolution libraries</h4><a href='evolution-mail-composer'>evolution-mail-composer</a><br><a href='evolution-mail-engine'>evolution-mail-engine</a><br><a href='evolution-mail-formatter'>evolution-mail-formatter</a><br><a href='evolution-shell'>evolution-shell</a><br><a href='evolution-util'>evolution-util</a><br>" >$DOCSDIR/index.html
   artifacts:
     paths:
@@ -113,7 +167,7 @@ tarball:
   stage: tarball
   image: "quay.io/gnome_infrastructure/gnome-runtime-images:gnome-master"
   dependencies:
-    - flatpak
+    - fedora
   allow_failure: false
   script:
     - git config --global --add safe.directory `pwd`

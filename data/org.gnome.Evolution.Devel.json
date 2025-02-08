@@ -449,7 +449,6 @@
 			},
 			"config-opts": [
 				"-DOVERRIDE_APPLICATION_ID=org.gnome.Evolution.Devel",
-				"-DENABLE_MAINTAINER_MODE=ON",
 				"-DENABLE_AUTOAR=OFF",
 				"-DENABLE_CONTACT_MAPS=OFF",
 				"-DENABLE_GNOME_DESKTOP=OFF",
