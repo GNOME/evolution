@@ -7,7 +7,9 @@ RUN dnf -y install \
 	gcc \
 	gcc-c++ \
 	gettext \
+	gi-docgen \
 	git \
+	glibc-langpack-en \
 	gperf \
 	gtk-doc \
 	highlight \
