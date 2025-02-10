@@ -1449,9 +1449,9 @@ test_selection (TestFixture *fixture)
 	test_selection_select_in_iframe (fixture, "frm1", "plain", "rgb");
 
 	g_assert_cmpint (e_web_view_has_selection (E_WEB_VIEW (fixture->web_view)) ? 1 : 0, ==, 1);
-	test_selection_verify (fixture, "unformatted text\n\n", NULL);
+	test_selection_verify (fixture, "unformatted text\n", NULL);
 	test_selection_verify (fixture, NULL, "<div id=\"plain\">unformatted text</div><br><div id=\"rgb\"></div>");
-	test_selection_verify (fixture, "unformatted text\n\n", "<div id=\"plain\">unformatted text</div><br><div id=\"rgb\"></div>");
+	test_selection_verify (fixture, "unformatted text\n", "<div id=\"plain\">unformatted text</div><br><div id=\"rgb\"></div>");
 
 	test_selection_select_in_iframe (fixture, "frm1", "rgb", "styled");
 
