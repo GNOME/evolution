@@ -42,6 +42,7 @@ struct _EToDoPanePrivate {
 	gboolean show_completed_tasks;
 	gboolean show_no_duedate_tasks;
 	gboolean use_24hour_format;
+	gboolean time_in_smaller_font;
 
 	EClientCache *client_cache;
 	ESourceRegistryWatcher *watcher;
@@ -71,7 +72,8 @@ enum {
 	PROP_SHOW_COMPLETED_TASKS,
 	PROP_SHOW_NO_DUEDATE_TASKS,
 	PROP_USE_24HOUR_FORMAT,
-	PROP_SHOW_N_DAYS
+	PROP_SHOW_N_DAYS,
+	PROP_TIME_IN_SMALLER_FONT
 };
 
 static void e_to_do_pane_cal_data_model_subscriber_init (ECalDataModelSubscriberInterface *iface);
@@ -531,9 +533,27 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 			to_do_pane->priv->use_24hour_format, &itt);
 
 		if (time_str) {
-			*out_summary = g_markup_printf_escaped ("<span size=\"xx-small\">%s</span> %s%s%s%s",
-				time_str, comp_summary, location ? " (" : "",
-				location ? location : "", location ? ")" : "");
+			if (to_do_pane->priv->time_in_smaller_font) {
+				if (gtk_widget_get_direction (GTK_WIDGET (to_do_pane)) == GTK_TEXT_DIR_RTL) {
+					*out_summary = g_markup_printf_escaped ("%s%s%s%s <span size=\"xx-small\">%s</span>",
+						location ? ")" : "", location ? location : "", location ? " (" : "",
+						comp_summary, time_str);
+				} else {
+					*out_summary = g_markup_printf_escaped ("<span size=\"xx-small\">%s</span> %s%s%s%s",
+						time_str, comp_summary, location ? " (" : "",
+						location ? location : "", location ? ")" : "");
+				}
+			} else {
+				if (gtk_widget_get_direction (GTK_WIDGET (to_do_pane)) == GTK_TEXT_DIR_RTL) {
+					*out_summary = g_markup_printf_escaped ("%s%s%s%s %s",
+						location ? ")" : "", location ? location : "", location ? " (" : "",
+						comp_summary, time_str);
+				} else {
+					*out_summary = g_markup_printf_escaped ("%s %s%s%s%s",
+						time_str, comp_summary, location ? " (" : "",
+						location ? location : "", location ? ")" : "");
+				}
+			}
 		}
 
 		g_free (time_str);
@@ -1378,6 +1398,9 @@ etdp_update_all (EToDoPane *to_do_pane)
 	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
 
 	to_do_pane->priv->nearest_due = (time_t) -1;
+
+	if (!to_do_pane->priv->tree_store)
+		return;
 
 	model = GTK_TREE_MODEL (to_do_pane->priv->tree_store);
 
@@ -2519,6 +2542,12 @@ e_to_do_pane_set_property (GObject *object,
 				E_TO_DO_PANE (object),
 				g_value_get_uint (value));
 			return;
+
+		case PROP_TIME_IN_SMALLER_FONT:
+			e_to_do_pane_set_time_in_smaller_font (
+				E_TO_DO_PANE (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -2577,6 +2606,13 @@ e_to_do_pane_get_property (GObject *object,
 			g_value_set_uint (
 				value,
 				e_to_do_pane_get_show_n_days (
+				E_TO_DO_PANE (object)));
+			return;
+
+		case PROP_TIME_IN_SMALLER_FONT:
+			g_value_set_boolean (
+				value,
+				e_to_do_pane_get_time_in_smaller_font (
 				E_TO_DO_PANE (object)));
 			return;
 	}
@@ -2987,6 +3023,18 @@ e_to_do_pane_class_init (EToDoPaneClass *klass)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TIME_IN_SMALLER_FONT,
+		g_param_spec_boolean (
+			"time-in-smaller-font",
+			"Time In Smaller Font",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -3386,4 +3434,45 @@ e_to_do_pane_set_show_n_days (EToDoPane *to_do_pane,
 	}
 
 	g_object_notify (G_OBJECT (to_do_pane), "show-n-days");
+}
+
+/**
+ * e_to_do_pane_get_time_in_smaller_font:
+ * @to_do_pane: an #EToDoPane
+ *
+ * Returns: Whether the time should be shown in smaller font.
+ *
+ * Since: 3.56
+ **/
+gboolean
+e_to_do_pane_get_time_in_smaller_font (EToDoPane *to_do_pane)
+{
+	g_return_val_if_fail (E_IS_TO_DO_PANE (to_do_pane), FALSE);
+
+	return to_do_pane->priv->time_in_smaller_font;
+}
+
+/**
+ * e_to_do_pane_set_time_in_smaller_font:
+ * @to_do_pane: an #EToDoPane
+ * @time_in_smaller_font: a value to set
+ *
+ * Sets whether the time should be shown in a smaller font.
+ *
+ * Since: 3.56
+ **/
+void
+e_to_do_pane_set_time_in_smaller_font (EToDoPane *to_do_pane,
+				       gboolean time_in_smaller_font)
+{
+	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
+
+	if ((to_do_pane->priv->time_in_smaller_font ? 1 : 0) == (time_in_smaller_font ? 1 : 0))
+		return;
+
+	to_do_pane->priv->time_in_smaller_font = time_in_smaller_font;
+
+	etdp_update_all (to_do_pane);
+
+	g_object_notify (G_OBJECT (to_do_pane), "time-in-smaller-font");
 }

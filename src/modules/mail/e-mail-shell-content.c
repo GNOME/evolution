@@ -231,6 +231,11 @@ mail_shell_content_constructed (GObject *object)
 		self->priv->to_do_pane, "show-n-days",
 		G_SETTINGS_BIND_DEFAULT);
 
+	g_settings_bind (
+		settings, "to-do-bar-time-in-smaller-font",
+		self->priv->to_do_pane, "time-in-smaller-font",
+		G_SETTINGS_BIND_DEFAULT);
+
 	g_object_unref (settings);
 }
 

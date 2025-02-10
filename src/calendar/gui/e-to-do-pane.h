@@ -92,6 +92,11 @@ void		e_to_do_pane_set_use_24hour_format
 guint		e_to_do_pane_get_show_n_days	(EToDoPane *to_do_pane);
 void		e_to_do_pane_set_show_n_days	(EToDoPane *to_do_pane,
 						 guint show_n_days);
+gboolean	e_to_do_pane_get_time_in_smaller_font
+						(EToDoPane *to_do_pane);
+void		e_to_do_pane_set_time_in_smaller_font
+						(EToDoPane *to_do_pane,
+						 gboolean time_in_smaller_font);
 
 G_END_DECLS
 

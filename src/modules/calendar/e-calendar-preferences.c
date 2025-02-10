@@ -1184,6 +1184,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "to_do_bar_time_in_smaller_font");
+	g_settings_bind (
+		mail_settings, "to-do-bar-time-in-smaller-font",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	object = gtk_builder_get_object (prefs->priv->builder, "tdbndaysadjustment");
 	gtk_adjustment_set_lower (GTK_ADJUSTMENT (object), E_TO_DO_PANE_MIN_SHOW_N_DAYS);
 	gtk_adjustment_set_upper (GTK_ADJUSTMENT (object), E_TO_DO_PANE_MAX_SHOW_N_DAYS);
