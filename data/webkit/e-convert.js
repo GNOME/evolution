@@ -1151,6 +1151,10 @@ EvoConvert.ToPlainText = function(element, normalDivWidth, link_to_text)
 			document.head.removeChild(element);
 	}
 
+	// to not add empty lines at the end of the text on re-editing
+	if (str.endsWith("\n\n"))
+		str = str.substr(0, str.length - 1);
+
 	// remove EvoConvert.NOWRAP_CHAR_START and EvoConvert.NOWRAP_CHAR_END from the result
 	return str.replace(/\x01/g, "").replace(/\x02/g, "");
 }

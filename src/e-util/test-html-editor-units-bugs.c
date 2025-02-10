@@ -542,7 +542,7 @@ test_bug_771044 (TestFixture *fixture)
 		"<div>789 abc</div>"
 		"<div><br></div>"
 		HTML_SUFFIX,
-		"789 abc\n\n"))
+		"789 abc\n"))
 		g_test_fail ();
 }
 
@@ -774,8 +774,7 @@ test_bug_773164 (TestFixture *fixture)
 		"\n"
 		"This is a longer paragraph 3\n"
 		"\n"
-		"This is paragraph 2\n"
-		"\n"))
+		"This is paragraph 2\n"))
 		g_test_fail ();
 }
 
@@ -1179,7 +1178,7 @@ test_bug_780088 (TestFixture *fixture)
 		"on" UNICODE_NBSP "https://example.sub" UNICODE_NBSP "domain.org/page I'd recommend to XX YY\n"
 		"<https://example.subdomain.org/p/user/> , click fjwvne on the left,\n"
 		"click skjd sjewncj on the right, and set wqje wjfdn Xs to something\n"
-		"like wqjfnm www.example.com/~user wjfdncj or such.\n\n"))
+		"like wqjfnm www.example.com/~user wjfdncj or such.\n"))
 		g_test_fail ();
 }
 
@@ -1375,7 +1374,7 @@ test_bug_750636 (TestFixture *fixture)
 		"https://www.gnome.org/12345678901234567890 after text\n"
 		"prefix text\n"
 		"https://www.gnome.org/1234567890123456789012345678901234567890123456789012345678901234567890\n"
-		" next line text\n\n"))
+		" next line text\n"))
 		g_test_fail ();
 }
 
@@ -2075,8 +2074,7 @@ test_issue_1214 (TestFixture *fixture)
 		" * b\n"
 		"ee\n"
 		"c\n"
-		"d\n"
-		"\n")) {
+		"d\n")) {
 		g_test_fail ();
 		return;
 	}
@@ -2105,8 +2103,7 @@ test_issue_1214 (TestFixture *fixture)
 		" * b\n"
 		"ee\n"
 		"c\n"
-		"d\n"
-		"\n")) {
+		"d\n")) {
 		g_test_fail ();
 		return;
 	}
@@ -2534,7 +2531,6 @@ test_issue_1159 (TestFixture *fixture)
 		HTML_SUFFIX,
 		"Credits:\n"
 		"> a\n"
-		"\n"
 		"\n"))
 		g_test_fail ();
 }
@@ -2685,8 +2681,10 @@ test_issue_1439 (TestFixture *fixture)
 		HTML_SUFFIX,
 		" * l1\n"
 		" * l2\n"
-		" * The example com site\n"
-		" * l4\n"))
+		" * The example com [1] site\n"
+		" * l4\n"
+		"\n"
+		"[1] example com http://www.example.com/\n"))
 		g_test_fail ();
 }
 

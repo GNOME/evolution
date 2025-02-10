@@ -199,8 +199,7 @@ test_justify_selection (TestFixture *fixture)
 		HTML_SUFFIX,
 		"                                center\n"
 		"                                                                  right\n"
-		"left\n"
-		"\n"))
+		"left\n"))
 		g_test_fail ();
 }
 
@@ -222,8 +221,7 @@ test_justify_typed (TestFixture *fixture)
 		HTML_SUFFIX,
 		"                                center\n"
 		"                                                                  right\n"
-		"left\n"
-		"\n"))
+		"left\n"))
 		g_test_fail ();
 }
 
@@ -255,8 +253,7 @@ test_indent_selection (TestFixture *fixture)
 		"level 0\n"
 		"   level 1\n"
 		"      level 2\n"
-		"   level 1\n"
-		"\n"))
+		"   level 1\n"))
 		g_test_fail ();
 }
 
@@ -283,8 +280,7 @@ test_indent_typed (TestFixture *fixture)
 		"level 0\n"
 		"   level 1\n"
 		"      level 2\n"
-		"   level 1\n"
-		"\n"))
+		"   level 1\n"))
 		g_test_fail ();
 }
 
@@ -3636,7 +3632,7 @@ test_h_rule_insert (TestFixture *fixture)
 		"action:insert-rule\n"
 		"seq:^\n", /* Escape key press to close the dialog */
 		HTML_PREFIX "<div>text</div><hr align=\"center\">" HTML_SUFFIX,
-		"text\n\n"))
+		"text\n"))
 		g_test_fail ();
 }
 
@@ -5634,8 +5630,7 @@ test_cite_editing_outlook_html (TestFixture *fixture)
 		"> * Item 2\n"
 		"> * Item 3\n"
 		"> zzz\n"
-		"> " UNICODE_NBSP "\n"
-		"\n";
+		"> " UNICODE_NBSP "\n";
 
 	test_utils_insert_content (fixture,
 		"<div>www</div>"
@@ -5687,8 +5682,7 @@ test_cite_editing_outlook_html (TestFixture *fixture)
 		"> * Item 2\n"
 		"> * Item 3\n"
 		"> zzz\n"
-		"> " UNICODE_NBSP "\n"
-		"\n";
+		"> " UNICODE_NBSP "\n";
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:Chcrn\n"
@@ -5732,8 +5726,7 @@ test_cite_editing_outlook_html (TestFixture *fixture)
 		"> * Item 2\n"
 		"> * Item 3\n"
 		"> zzz\n"
-		"> " UNICODE_NBSP "\n"
-		"\n";
+		"> " UNICODE_NBSP "\n";
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:drn\n"
@@ -5779,8 +5772,7 @@ test_cite_editing_outlook_html (TestFixture *fixture)
 		"> * Cm 2\n"
 		"> * Item 3\n"
 		"> zzz\n"
-		"> " UNICODE_NBSP "\n"
-		"\n";
+		"> " UNICODE_NBSP "\n";
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ddddrrrn\n"
@@ -5828,8 +5820,7 @@ test_cite_editing_outlook_html (TestFixture *fixture)
 		"> * DCm 2\n"
 		"> * Item 3\n"
 		"> zzz\n"
-		"> " UNICODE_NBSP "\n"
-		"\n";
+		"> " UNICODE_NBSP "\n";
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:hn\n"
@@ -5883,8 +5874,7 @@ test_cite_editing_outlook_html (TestFixture *fixture)
 		"> * DCm 2\n"
 		"> * Item 3\n"
 		"> zzz\n"
-		"> " UNICODE_NBSP "\n"
-		"\n";
+		"> " UNICODE_NBSP "\n";
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:un\n"
@@ -5947,8 +5937,7 @@ test_cite_editing_outlook_html (TestFixture *fixture)
 		"> zz\n"
 		"F\n"
 		"> z\n"
-		"> " UNICODE_NBSP "\n"
-		"\n";
+		"> " UNICODE_NBSP "\n";
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:dddrrn\n"
@@ -6070,8 +6059,7 @@ test_cite_editing_outlook_plain (TestFixture *fixture)
 		"> " UNICODE_NBSP "* Item 2\n"
 		"> " UNICODE_NBSP "* Item 3\n"
 		"> zzz\n"
-		"> " UNICODE_NBSP "\n"
-		"\n";
+		"> " UNICODE_NBSP "\n";
 
 	test_utils_insert_content (fixture,
 		"<div>www</div>"
@@ -6119,8 +6107,7 @@ test_cite_editing_outlook_plain (TestFixture *fixture)
 		"> " UNICODE_NBSP "* Item 2\n"
 		"> " UNICODE_NBSP "* Item 3\n"
 		"> zzz\n"
-		"> " UNICODE_NBSP "\n"
-		"\n";
+		"> " UNICODE_NBSP "\n";
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:Chcrn\n"
@@ -6157,8 +6144,7 @@ test_cite_editing_outlook_plain (TestFixture *fixture)
 		"> " UNICODE_NBSP "* Item 2\n"
 		"> " UNICODE_NBSP "* Item 3\n"
 		"> zzz\n"
-		"> " UNICODE_NBSP "\n"
-		"\n";
+		"> " UNICODE_NBSP "\n";
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:drn\n"
@@ -6201,8 +6187,7 @@ test_cite_editing_outlook_plain (TestFixture *fixture)
 		"> m 2\n"
 		"> " UNICODE_NBSP "* Item 3\n"
 		"> zzz\n"
-		"> " UNICODE_NBSP "\n"
-		"\n";
+		"> " UNICODE_NBSP "\n";
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ddddrrrrrrn\n"
@@ -6251,8 +6236,7 @@ test_cite_editing_outlook_plain (TestFixture *fixture)
 		"> zz\n"
 		"D\n"
 		"> z\n"
-		"> " UNICODE_NBSP "\n"
-		"\n";
+		"> " UNICODE_NBSP "\n";
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:dddrrn\n"
@@ -6704,7 +6688,7 @@ test_undo_style (TestFixture *fixture)
 		"undo:drop\n" /* drop the save 2 */
 		"undo:undo:2\n",
 		HTML_PREFIX "<div>The first paragraph text</div><div><br></div>" HTML_SUFFIX,
-		"The first paragraph text\n\n"))
+		"The first paragraph text\n"))
 		g_test_fail ();
 }
 
@@ -6777,7 +6761,7 @@ test_undo_justify (TestFixture *fixture)
 		"undo:undo:2\n",
 
 		HTML_PREFIX "<div>The first paragraph text</div><div><br></div>" HTML_SUFFIX,
-		"The first paragraph text\n\n"))
+		"The first paragraph text\n"))
 		g_test_fail ();
 }
 
@@ -6866,7 +6850,7 @@ test_undo_indent (TestFixture *fixture)
 		"undo:undo:18\n",
 
 		HTML_PREFIX "<div>The first paragraph text</div><div><br></div>" HTML_SUFFIX,
-		"The first paragraph text\n\n"))
+		"The first paragraph text\n"))
 		g_test_fail ();
 }
 
@@ -6888,7 +6872,7 @@ test_undo_link_paste_html (TestFixture *fixture)
 		"undo:redo:4\n"
 		"undo:test\n",
 		HTML_PREFIX "<div>URL:</div><div><a href=\"http://www.gnome.org\">http://www.gnome.org</a></div><div><br></div>" HTML_SUFFIX,
-		"URL:\nhttp://www.gnome.org\n\n"))
+		"URL:\nhttp://www.gnome.org\n"))
 		g_test_fail ();
 }
 
@@ -6912,7 +6896,7 @@ test_undo_link_paste_plain (TestFixture *fixture)
 		HTML_PREFIX "<div style=\"width: 71ch;\">URL:</div>"
 		"<div style=\"width: 71ch;\"><a href=\"http://www.gnome.org\">http://www.gnome.org</a></div>"
 		"<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX,
-		"URL:\nhttp://www.gnome.org\n\n"))
+		"URL:\nhttp://www.gnome.org\n"))
 		g_test_fail ();
 }
 
