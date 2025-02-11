@@ -68,6 +68,11 @@ gboolean	itip_attendee_is_user		(ESourceRegistry *registry,
 gchar *		itip_get_comp_attendee		(ESourceRegistry *registry,
 						 ECalComponent *comp,
 						 ECalClient *cal_client);
+ECalComponentAttendee *
+		itip_dup_comp_attendee		(ESourceRegistry *registry,
+						 ECalComponent *comp,
+						 ECalClient *cal_client,
+						 gboolean *out_is_sent_by);
 gboolean	itip_send_comp_sync		(ESourceRegistry *registry,
 						 ICalPropertyMethod method,
 						 ECalComponent *send_comp,

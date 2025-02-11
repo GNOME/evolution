@@ -508,10 +508,11 @@ itip_attendee_is_user (ESourceRegistry *registry,
 	return FALSE;
 }
 
-gchar *
-itip_get_comp_attendee (ESourceRegistry *registry,
-                        ECalComponent *comp,
-                        ECalClient *cal_client)
+ECalComponentAttendee *
+itip_dup_comp_attendee (ESourceRegistry *registry,
+			ECalComponent *comp,
+			ECalClient *cal_client,
+			gboolean *out_is_sent_by)
 {
 	ESource *source;
 	GSList *attendees;
@@ -519,6 +520,9 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 	GList *list, *link;
 	const gchar *extension_name;
 	gchar *address = NULL;
+
+	if (out_is_sent_by)
+		*out_is_sent_by = FALSE;
 
 	attendees = e_cal_component_get_attendees (comp);
 
@@ -532,25 +536,26 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 		attendee = get_attendee (attendees, address, NULL);
 
 		if (attendee) {
-			gchar *user_email;
+			attendees = g_slist_remove (attendees, attendee);
 
-			user_email = g_strdup (e_cal_util_get_attendee_email (attendee));
 			g_slist_free_full (attendees, e_cal_component_attendee_free);
 			g_free (address);
 
-			return user_email;
+			return attendee;
 		}
 
 		attendee = get_attendee_if_attendee_sentby_is_user (attendees, address, NULL);
 
 		if (attendee != NULL) {
-			gchar *user_email;
+			if (out_is_sent_by)
+				*out_is_sent_by = TRUE;
 
-			user_email = g_strdup (e_cal_util_strip_mailto (e_cal_component_attendee_get_sentby (attendee)));
+			attendees = g_slist_remove (attendees, attendee);
+
 			g_slist_free_full (attendees, e_cal_component_attendee_free);
 			g_free (address);
 
-			return user_email;
+			return attendee;
 		}
 	}
 
@@ -575,9 +580,8 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 
 		attendee = get_attendee (attendees, address, aliases);
 		if (attendee != NULL) {
-			gchar *user_email;
+			attendees = g_slist_remove (attendees, attendee);
 
-			user_email = g_strdup (e_cal_util_get_attendee_email (attendee));
 			g_slist_free_full (attendees, e_cal_component_attendee_free);
 
 			if (aliases)
@@ -586,7 +590,7 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 
 			g_list_free_full (list, g_object_unref);
 
-			return user_email;
+			return attendee;
 		}
 
 		/* If the account was not found in the attendees list, then
@@ -594,9 +598,11 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 		 * find the account. */
 		attendee = get_attendee_if_attendee_sentby_is_user (attendees, address, aliases);
 		if (attendee) {
-			gchar *user_email;
+			if (out_is_sent_by)
+				*out_is_sent_by = TRUE;
 
-			user_email = g_strdup (e_cal_util_strip_mailto (e_cal_component_attendee_get_sentby (attendee)));
+			attendees = g_slist_remove (attendees, attendee);
+
 			g_slist_free_full (attendees, e_cal_component_attendee_free);
 
 			if (aliases)
@@ -605,7 +611,7 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 
 			g_list_free_full (list, g_object_unref);
 
-			return user_email;
+			return attendee;
 		}
 
 		if (aliases)
@@ -614,16 +620,39 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 	}
 
 	g_list_free_full (list, g_object_unref);
-
-	/* We could not find the attendee in the component, so just give
-	 * the default account address if the email address is not set in
-	 * the backend. */
-	/* FIXME do we have a better way ? */
-	e_cal_util_get_default_name_and_address (registry, NULL, &address);
-
 	g_slist_free_full (attendees, e_cal_component_attendee_free);
 
-	if (address == NULL)
+	return NULL;
+}
+
+gchar *
+itip_get_comp_attendee (ESourceRegistry *registry,
+                        ECalComponent *comp,
+                        ECalClient *cal_client)
+{
+	ECalComponentAttendee *attendee;
+	gboolean is_sent_by = FALSE;
+	gchar *address = NULL;
+
+	attendee = itip_dup_comp_attendee (registry, comp, cal_client, &is_sent_by);
+	if (attendee) {
+		if (is_sent_by)
+			address = g_strdup (e_cal_util_strip_mailto (e_cal_component_attendee_get_sentby (attendee)));
+		else
+			address = g_strdup (e_cal_util_get_attendee_email (attendee));
+
+		e_cal_component_attendee_free (attendee);
+	}
+
+	if (!address) {
+		/* We could not find the attendee in the component, so just give
+		 * the default account address if the email address is not set in
+		 * the backend. */
+		/* FIXME do we have a better way ? */
+		e_cal_util_get_default_name_and_address (registry, NULL, &address);
+	}
+
+	if (!address)
 		address = g_strdup ("");
 
 	return address;

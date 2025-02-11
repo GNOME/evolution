@@ -4395,6 +4395,87 @@ itip_view_can_show_rsvp (ItipView *view)
 		view->priv->has_organizer;
 }
 
+static ICalParameterPartstat
+itip_view_get_user_partstat_from_comp (ItipView *view,
+				       ICalComponent *icomp,
+				       ECalComponent *in_ecomp,
+				       ICalComponent *mail_icomp,
+				       ICalTime *mail_rid,
+				       gboolean mail_rid_valid)
+{
+	ICalParameterPartstat partstat = I_CAL_PARTSTAT_NONE;
+	ICalTime *rid;
+	gboolean rid_valid;
+
+	if (!icomp ||
+	    g_strcmp0 (i_cal_component_get_uid (icomp), i_cal_component_get_uid (mail_icomp)) != 0)
+		return partstat;
+
+	rid = i_cal_component_get_recurrenceid (icomp);
+	rid_valid = rid && i_cal_time_is_valid_time (rid) && !i_cal_time_is_null_time (rid);
+
+	if ((!rid_valid && !mail_rid_valid) || (rid_valid && mail_rid_valid &&
+	    i_cal_time_compare (rid, mail_rid) == 0)) {
+		ECalComponent *comp;
+
+		if (in_ecomp)
+			comp = g_object_ref (in_ecomp);
+		else
+			comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
+
+		if (comp) {
+			ECalComponentAttendee *attendee;
+
+			attendee = itip_dup_comp_attendee (view->priv->registry, comp, view->priv->current_client, NULL);
+			if (attendee) {
+				partstat = e_cal_component_attendee_get_partstat (attendee);
+				g_clear_pointer (&attendee, e_cal_component_attendee_free);
+			}
+
+			g_object_unref (comp);
+		}
+	}
+
+	g_clear_object (&rid);
+
+	return partstat;
+}
+
+static ICalParameterPartstat
+itip_view_get_user_partstat (ItipView *view,
+			     GSList *icomps)
+{
+	ICalParameterPartstat partstat = I_CAL_PARTSTAT_NONE;
+	ICalComponent *mail_icomp = e_cal_component_get_icalcomponent (view->priv->comp);
+	ECalComponent *comp;
+	GSList *link;
+	ICalTime *mail_rid;
+	gboolean mail_rid_valid;
+
+	if (!view->priv->current_client)
+		return partstat;
+
+	mail_rid = i_cal_component_get_recurrenceid (mail_icomp);
+	mail_rid_valid = mail_rid && i_cal_time_is_valid_time (mail_rid) && !i_cal_time_is_null_time (mail_rid);
+
+	comp = g_hash_table_lookup (view->priv->real_comps, e_source_get_uid (e_client_get_source (E_CLIENT (view->priv->current_client))));
+	if (comp) {
+		ICalComponent *icomp = e_cal_component_get_icalcomponent (comp);
+
+		partstat = itip_view_get_user_partstat_from_comp (view, icomp, comp, mail_icomp, mail_rid, mail_rid_valid);
+	}
+
+	for (link = icomps; link && partstat == I_CAL_PARTSTAT_NONE; link = g_slist_next (link)) {
+		ICalComponent *icomp = link->data;
+
+		partstat = itip_view_get_user_partstat_from_comp (view, icomp, NULL, mail_icomp, mail_rid, mail_rid_valid);
+	}
+
+	g_clear_object (&mail_rid);
+
+	return partstat;
+}
+
 static void
 find_cal_update_ui (FormatItipFindData *fd,
                     ECalClient *cal_client)
@@ -4490,10 +4571,13 @@ find_cal_update_ui (FormatItipFindData *fd,
 	/* search for a master object if the detached object doesn't exist in the calendar */
 	if (view->priv->current_client && view->priv->current_client == cal_client) {
 		const gchar *extension_name;
+		ICalParameterPartstat user_partstat;
 
 		itip_view_set_show_keep_alarm_check (view, fd->keep_alarm_check);
 
 		itip_view_update_import_bare_options (view);
+
+		user_partstat = itip_view_get_user_partstat (view, g_hash_table_lookup (fd->conflicts, cal_client));
 
 		/* Provide extra info, since its not in the component */
 		/* FIXME Check sequence number of meeting? */
@@ -4512,9 +4596,34 @@ find_cal_update_ui (FormatItipFindData *fd,
 		switch (e_cal_client_get_source_type (cal_client)) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 		default:
-			itip_view_add_lower_info_item_printf (
-				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Found the appointment in the calendar “%s”"), source_display_name);
+			switch (user_partstat) {
+			case I_CAL_PARTSTAT_ACCEPTED:
+				itip_view_add_lower_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+					_("Found the appointment in the calendar “%s” as accepted"), source_display_name);
+				break;
+				break;
+			case I_CAL_PARTSTAT_DECLINED:
+				itip_view_add_lower_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+					_("Found the appointment in the calendar “%s” as declined"), source_display_name);
+				break;
+			case I_CAL_PARTSTAT_TENTATIVE:
+				itip_view_add_lower_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+					_("Found the appointment in the calendar “%s” as tentatively accepted"), source_display_name);
+				break;
+			case I_CAL_PARTSTAT_DELEGATED:
+				itip_view_add_lower_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+					_("Found the appointment in the calendar “%s” as delegated"), source_display_name);
+				break;
+			default:
+				itip_view_add_lower_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+					_("Found the appointment in the calendar “%s”"), source_display_name);
+				break;
+			}
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			itip_view_add_lower_info_item_printf (
