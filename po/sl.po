@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-02-10 18:17+0000\n"
-"PO-Revision-Date: 2025-02-10 22:06+0100\n"
+"POT-Creation-Date: 2025-02-11 13:59+0000\n"
+"PO-Revision-Date: 2025-02-11 21:40+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : "
 "0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -7227,13 +7227,13 @@ msgstr "Preklicano"
 
 #: ../src/calendar/gui/comp-util.c:1946 ../src/calendar/gui/e-meeting-list-view.c:196
 #: ../src/calendar/gui/e-meeting-store.c:175 ../src/calendar/gui/e-meeting-store.c:198
-#: ../src/modules/itip-formatter/itip-view.c:7228
+#: ../src/modules/itip-formatter/itip-view.c:7337
 msgid "Accepted"
 msgstr "Sprejeto"
 
 #: ../src/calendar/gui/comp-util.c:1947 ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:177 ../src/calendar/gui/e-meeting-store.c:200
-#: ../src/modules/itip-formatter/itip-view.c:7234
+#: ../src/modules/itip-formatter/itip-view.c:7343
 msgid "Declined"
 msgstr "Odklonjeno"
 
@@ -7245,7 +7245,7 @@ msgstr "Začasno"
 
 #: ../src/calendar/gui/comp-util.c:1949 ../src/calendar/gui/e-meeting-list-view.c:199
 #: ../src/calendar/gui/e-meeting-store.c:181 ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:7237
+#: ../src/modules/itip-formatter/itip-view.c:7346
 msgid "Delegated"
 msgstr "Pooblaščeno zastopanje"
 
@@ -7962,7 +7962,7 @@ msgstr "Vrsta"
 #: ../src/calendar/gui/e-meeting-list-view.c:185 ../src/calendar/gui/e-meeting-store.c:131
 #: ../src/calendar/gui/e-meeting-store.c:166 ../src/calendar/gui/e-meeting-store.c:211
 #: ../src/calendar/gui/print.c:1298 ../src/calendar/gui/print.c:1315 ../src/e-util/e-charset.c:49
-#: ../src/modules/itip-formatter/itip-view.c:4108 ../src/modules/itip-formatter/itip-view.c:7240
+#: ../src/modules/itip-formatter/itip-view.c:4108 ../src/modules/itip-formatter/itip-view.c:7349
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Neznano"
@@ -9928,32 +9928,32 @@ msgstr[1] "%u dogodek"
 msgstr[2] "%u dogodka"
 msgstr[3] "%u dogodki"
 
-#: ../src/calendar/gui/itip-utils.c:845 ../src/calendar/gui/itip-utils.c:917
-#: ../src/calendar/gui/itip-utils.c:1056
+#: ../src/calendar/gui/itip-utils.c:874 ../src/calendar/gui/itip-utils.c:946
+#: ../src/calendar/gui/itip-utils.c:1085
 msgid "An organizer must be set."
 msgstr "Organizator mora biti nastavljen."
 
-#: ../src/calendar/gui/itip-utils.c:905
+#: ../src/calendar/gui/itip-utils.c:934
 msgid "At least one attendee is necessary"
 msgstr "Zahtevan je vsaj en udeleženec"
 
-#: ../src/calendar/gui/itip-utils.c:1156 ../src/calendar/gui/itip-utils.c:1337
+#: ../src/calendar/gui/itip-utils.c:1185 ../src/calendar/gui/itip-utils.c:1366
 msgid "Event information"
 msgstr "Podatki o dogodku"
 
-#: ../src/calendar/gui/itip-utils.c:1159 ../src/calendar/gui/itip-utils.c:1340
+#: ../src/calendar/gui/itip-utils.c:1188 ../src/calendar/gui/itip-utils.c:1369
 msgid "Task information"
 msgstr "Podatki o nalogi"
 
-#: ../src/calendar/gui/itip-utils.c:1162 ../src/calendar/gui/itip-utils.c:1343
+#: ../src/calendar/gui/itip-utils.c:1191 ../src/calendar/gui/itip-utils.c:1372
 msgid "Memo information"
 msgstr "Podatki o opomnikih"
 
-#: ../src/calendar/gui/itip-utils.c:1165 ../src/calendar/gui/itip-utils.c:1361
+#: ../src/calendar/gui/itip-utils.c:1194 ../src/calendar/gui/itip-utils.c:1390
 msgid "Free/Busy information"
 msgstr "Podatki o zasedenosti"
 
-#: ../src/calendar/gui/itip-utils.c:1168
+#: ../src/calendar/gui/itip-utils.c:1197
 msgid "Calendar information"
 msgstr "Podatki o koledarju"
 
@@ -9961,7 +9961,7 @@ msgstr "Podatki o koledarju"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1208
+#: ../src/calendar/gui/itip-utils.c:1237
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "Sprejeto"
@@ -9970,7 +9970,7 @@ msgstr "Sprejeto"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1215
+#: ../src/calendar/gui/itip-utils.c:1244
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "Začasno sprejeto"
@@ -9982,7 +9982,7 @@ msgstr "Začasno sprejeto"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1222 ../src/calendar/gui/itip-utils.c:1270
+#: ../src/calendar/gui/itip-utils.c:1251 ../src/calendar/gui/itip-utils.c:1299
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "Odklonjeno"
@@ -9991,7 +9991,7 @@ msgstr "Odklonjeno"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1229
+#: ../src/calendar/gui/itip-utils.c:1258
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "Pooblaščeno zastopanje"
@@ -9999,7 +9999,7 @@ msgstr "Pooblaščeno zastopanje"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1242
+#: ../src/calendar/gui/itip-utils.c:1271
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "Posodobljeno"
@@ -10007,7 +10007,7 @@ msgstr "Posodobljeno"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1249
+#: ../src/calendar/gui/itip-utils.c:1278
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "Prekliči"
@@ -10015,7 +10015,7 @@ msgstr "Prekliči"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1256
+#: ../src/calendar/gui/itip-utils.c:1285
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "Osveži"
@@ -10023,7 +10023,7 @@ msgstr "Osveži"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1263
+#: ../src/calendar/gui/itip-utils.c:1292
 msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "Nasprotni-predlog"
@@ -10032,47 +10032,47 @@ msgstr "Nasprotni-predlog"
 #. where the first "%s" is prefix, like "Accepted" or "Re",
 #. and the second "%s" is the meeting summary. The full
 #. subject line would be: "Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1285
+#: ../src/calendar/gui/itip-utils.c:1314
 #, c-format
 msgctxt "Meeting"
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: ../src/calendar/gui/itip-utils.c:1358
+#: ../src/calendar/gui/itip-utils.c:1387
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Podatki o zasedenosti (%s do %s)"
 
-#: ../src/calendar/gui/itip-utils.c:1366
+#: ../src/calendar/gui/itip-utils.c:1395
 msgid "iCalendar information"
 msgstr "Podrobnosti iCalendar"
 
-#: ../src/calendar/gui/itip-utils.c:1395
+#: ../src/calendar/gui/itip-utils.c:1424
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr "Ni mogoče rezervirati vira. Nov dogodek je v sporu z drugimi dogodki."
 
-#: ../src/calendar/gui/itip-utils.c:1400
+#: ../src/calendar/gui/itip-utils.c:1429
 msgid "Unable to book a resource, error: "
 msgstr "Ni mogoče shraniti vira. Prišlo je do napake:"
 
-#: ../src/calendar/gui/itip-utils.c:1594
+#: ../src/calendar/gui/itip-utils.c:1623
 msgid "You must be an attendee of the event."
 msgstr "Biti morate udeleženec dogodka."
 
-#: ../src/calendar/gui/itip-utils.c:2482
+#: ../src/calendar/gui/itip-utils.c:2511
 msgid "Sending an event"
 msgstr "Poteka pošiljanje dogodka"
 
-#: ../src/calendar/gui/itip-utils.c:2486
+#: ../src/calendar/gui/itip-utils.c:2515
 msgid "Sending a memo"
 msgstr "Poteka pošiljanje opomnika"
 
-#: ../src/calendar/gui/itip-utils.c:2490
+#: ../src/calendar/gui/itip-utils.c:2519
 msgid "Sending a task"
 msgstr "Poteka pošiljanje naloge"
 
-#: ../src/calendar/gui/itip-utils.c:2691
+#: ../src/calendar/gui/itip-utils.c:2720
 msgid "Original Appointment"
 msgstr "Prvotni sestanek"
 
@@ -25506,7 +25506,7 @@ msgid "Im_port as Event"
 msgstr "_Uvozi kot dogodek"
 
 #: ../src/modules/itip-formatter/itip-view.c:2120 ../src/modules/itip-formatter/itip-view.c:2336
-#: ../src/modules/itip-formatter/itip-view.c:7554
+#: ../src/modules/itip-formatter/itip-view.c:7663
 msgid "Due date:"
 msgstr "Datum zapadlosti:"
 
@@ -25557,27 +25557,27 @@ msgstr "_Opomniki:"
 msgid "Sa_ve"
 msgstr "Sh_rani"
 
-#: ../src/modules/itip-formatter/itip-view.c:4184 ../src/modules/itip-formatter/itip-view.c:5990
+#: ../src/modules/itip-formatter/itip-view.c:4184 ../src/modules/itip-formatter/itip-view.c:6099
 msgid "Attendee status updated"
 msgstr "Stanje udeleženca je posodobljeno"
 
-#: ../src/modules/itip-formatter/itip-view.c:4435
+#: ../src/modules/itip-formatter/itip-view.c:4516
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "Sestanek »%s« v koledarju »%s« je v sporu s tem srečanjem"
 
-#: ../src/modules/itip-formatter/itip-view.c:4442
+#: ../src/modules/itip-formatter/itip-view.c:4523
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "Naloga »%s« na seznamu nalog »%s« je v sporu s to nalogo"
 
-#: ../src/modules/itip-formatter/itip-view.c:4449
+#: ../src/modules/itip-formatter/itip-view.c:4530
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "Opomnik »%s« v seznamu opomnikov »%s« je v sporu s tem opomnikom"
 
 # M! Oblika?
-#: ../src/modules/itip-formatter/itip-view.c:4462
+#: ../src/modules/itip-formatter/itip-view.c:4543
 #, c-format
 msgid "The calendar “%s” contains an appointment which conflicts with this meeting"
 msgid_plural "The calendar “%s” contains %d appointments which conflict with this meeting"
@@ -25587,7 +25587,7 @@ msgstr[2] "V koledarju »%s« sta %d sestanka, ki sta v sporu s tem srečanjem"
 msgstr[3] "V koledarju »%s« so %d sestanki, ki so v sporu s tem srečanjem"
 
 # M! Oblika?
-#: ../src/modules/itip-formatter/itip-view.c:4471
+#: ../src/modules/itip-formatter/itip-view.c:4552
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural "The task list “%s” contains %d tasks which conflict with this task"
@@ -25597,7 +25597,7 @@ msgstr[2] "Seznam nalog »%s« vsebuje %d nalogi, ki sta v sporu z izbrano nalog
 msgstr[3] "Seznam nalog »%s« vsebuje %d naloge, ki so v sporu z izbrano nalogo."
 
 # M! Oblika?
-#: ../src/modules/itip-formatter/itip-view.c:4480
+#: ../src/modules/itip-formatter/itip-view.c:4561
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural "The memo list “%s” contains %d memos which conflict with this memo"
@@ -25606,241 +25606,261 @@ msgstr[1] "Seznam opomnikov »%s« vsebuje %d opomnik, ki je v sporu z izbranim 
 msgstr[2] "Seznam opomnikov »%s« vsebuje %d opomnika, ki sta v sporu z izbranim opomnikom."
 msgstr[3] "Seznam opomnikov »%s« vsebuje %d opomnike, ki so v sporu z izbranim opomnikom."
 
-#: ../src/modules/itip-formatter/itip-view.c:4517
+#: ../src/modules/itip-formatter/itip-view.c:4603
+#, c-format
+msgid "Found the appointment in the calendar “%s” as accepted"
+msgstr "V koledarju »%s« je najden sestanek kot potrjen"
+
+#: ../src/modules/itip-formatter/itip-view.c:4609
+#, c-format
+msgid "Found the appointment in the calendar “%s” as declined"
+msgstr "V koledarju »%s« je najden sestanek kot zavrnjen"
+
+#: ../src/modules/itip-formatter/itip-view.c:4614
+#, c-format
+msgid "Found the appointment in the calendar “%s” as tentatively accepted"
+msgstr "V koledarju »%s« je najden sestanek kot začasno potrjen"
+
+#: ../src/modules/itip-formatter/itip-view.c:4619
+#, c-format
+msgid "Found the appointment in the calendar “%s” as delegated"
+msgstr "V koledarju »%s« je najden sestanek kot pooblaščeno zastopan"
+
+#: ../src/modules/itip-formatter/itip-view.c:4624
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "V koledarju »%s« je najden sestanek"
 
-#: ../src/modules/itip-formatter/itip-view.c:4522
+#: ../src/modules/itip-formatter/itip-view.c:4631
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "Najdena je naloga v seznamu nalog »%s«"
 
-#: ../src/modules/itip-formatter/itip-view.c:4527
+#: ../src/modules/itip-formatter/itip-view.c:4636
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "Najden je opomnik v seznamu opomnikov »%s«"
 
-#: ../src/modules/itip-formatter/itip-view.c:4538
+#: ../src/modules/itip-formatter/itip-view.c:4647
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "Povabilo na srečanje je zastarelo. Na voljo je posodobitev."
 
-#: ../src/modules/itip-formatter/itip-view.c:4660
+#: ../src/modules/itip-formatter/itip-view.c:4769
 msgid "Unable to find any calendars"
 msgstr "Ni mogoče najti nobenega koledarja"
 
-#: ../src/modules/itip-formatter/itip-view.c:4668
+#: ../src/modules/itip-formatter/itip-view.c:4777
 msgid "Unable to find this meeting in any calendar"
 msgstr "Srečanja ni mogoče najti v nobenem koledarju"
 
-#: ../src/modules/itip-formatter/itip-view.c:4673
+#: ../src/modules/itip-formatter/itip-view.c:4782
 msgid "Unable to find this task in any task list"
 msgstr "Naloge ni mogoče najti v nobenem seznamu nalog"
 
-#: ../src/modules/itip-formatter/itip-view.c:4678
+#: ../src/modules/itip-formatter/itip-view.c:4787
 msgid "Unable to find this memo in any memo list"
 msgstr "Opomnika ni mogoče najti v nobenem seznamu opomnikov"
 
-#: ../src/modules/itip-formatter/itip-view.c:4992
+#: ../src/modules/itip-formatter/itip-view.c:5101
 msgid "Searching for an existing version of this appointment"
 msgstr "Iskanje obstoječe različice tega sestanka"
 
-#: ../src/modules/itip-formatter/itip-view.c:4996
+#: ../src/modules/itip-formatter/itip-view.c:5105
 msgid "Searching for an existing version of this task"
 msgstr "Iskanje obstoječe različice te naloge"
 
-#: ../src/modules/itip-formatter/itip-view.c:5000
+#: ../src/modules/itip-formatter/itip-view.c:5109
 msgid "Searching for an existing version of this memo"
 msgstr "Iskanje obstoječe različice tega opomnika"
 
-#: ../src/modules/itip-formatter/itip-view.c:5060
+#: ../src/modules/itip-formatter/itip-view.c:5169
 msgid "Opening the calendar. Please wait…"
 msgstr "Poteka odpiranje koledarja …"
 
-#: ../src/modules/itip-formatter/itip-view.c:5422
+#: ../src/modules/itip-formatter/itip-view.c:5531
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "Ni mogoče poslati predmeta v koledar »%s«. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5430
+#: ../src/modules/itip-formatter/itip-view.c:5539
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "Ni mogoče poslati predmeta v seznam nalog »%s«. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5438
+#: ../src/modules/itip-formatter/itip-view.c:5547
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "Ni mogoče poslati predmeta v seznam opomnikov »%s«. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5459
+#: ../src/modules/itip-formatter/itip-view.c:5568
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Poslano v koledar »%s« kot sprejeto"
 
-#: ../src/modules/itip-formatter/itip-view.c:5464
+#: ../src/modules/itip-formatter/itip-view.c:5573
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Poslano v seznam nalog »%s« kot sprejeto"
 
-#: ../src/modules/itip-formatter/itip-view.c:5469
+#: ../src/modules/itip-formatter/itip-view.c:5578
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Poslano v seznam opomnikov »%s« kot sprejeto"
 
-#: ../src/modules/itip-formatter/itip-view.c:5479
+#: ../src/modules/itip-formatter/itip-view.c:5588
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Poslano v koledar »%s« kot začasno"
 
-#: ../src/modules/itip-formatter/itip-view.c:5484
+#: ../src/modules/itip-formatter/itip-view.c:5593
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Poslano v seznam nalog »%s« kot začasno"
 
-#: ../src/modules/itip-formatter/itip-view.c:5489
+#: ../src/modules/itip-formatter/itip-view.c:5598
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Poslano v seznam opomnikov »%s« kot začasno"
 
-#: ../src/modules/itip-formatter/itip-view.c:5499
+#: ../src/modules/itip-formatter/itip-view.c:5608
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Poslano v koledar »%s« kot odklonjeno"
 
-#: ../src/modules/itip-formatter/itip-view.c:5504
+#: ../src/modules/itip-formatter/itip-view.c:5613
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Poslano v seznam nalog »%s« kot odklonjeno"
 
-#: ../src/modules/itip-formatter/itip-view.c:5509
+#: ../src/modules/itip-formatter/itip-view.c:5618
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Poslano v seznam opomnikov »%s« kot odklonjeno"
 
-#: ../src/modules/itip-formatter/itip-view.c:5519
+#: ../src/modules/itip-formatter/itip-view.c:5628
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Poslano v koledar »%s« kot preklicano"
 
-#: ../src/modules/itip-formatter/itip-view.c:5524
+#: ../src/modules/itip-formatter/itip-view.c:5633
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "Poslano v seznam nalog »%s« kot preklicano"
 
-#: ../src/modules/itip-formatter/itip-view.c:5529
+#: ../src/modules/itip-formatter/itip-view.c:5638
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "Poslano v seznam opomnikov »%s« kot preklicano"
 
-#: ../src/modules/itip-formatter/itip-view.c:5540
+#: ../src/modules/itip-formatter/itip-view.c:5649
 #, c-format
 msgid "Imported to calendar “%s”"
 msgstr "Podatki so uvoženi v koledar »%s«"
 
-#: ../src/modules/itip-formatter/itip-view.c:5545
+#: ../src/modules/itip-formatter/itip-view.c:5654
 #, c-format
 msgid "Imported to task list “%s”"
 msgstr "Podatki so uvoženi v seznam nalog »%s«"
 
-#: ../src/modules/itip-formatter/itip-view.c:5550
+#: ../src/modules/itip-formatter/itip-view.c:5659
 #, c-format
 msgid "Imported to memo list “%s”"
 msgstr "Podatki so uvoženi v seznam opomnikov »%s«"
 
-#: ../src/modules/itip-formatter/itip-view.c:5569
+#: ../src/modules/itip-formatter/itip-view.c:5678
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Poteka shranjevanje sprememb v koledar …"
 
-#: ../src/modules/itip-formatter/itip-view.c:5572
+#: ../src/modules/itip-formatter/itip-view.c:5681
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Poteka shranjevanje sprememb v seznam nalog …"
 
-#: ../src/modules/itip-formatter/itip-view.c:5575
+#: ../src/modules/itip-formatter/itip-view.c:5684
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Poteka shranjevanje sprememb v seznam opomnikov …"
 
-#: ../src/modules/itip-formatter/itip-view.c:5714
+#: ../src/modules/itip-formatter/itip-view.c:5823
 msgid "Unable to parse item"
 msgstr "Ni mogoče razčleniti predmeta"
 
-#: ../src/modules/itip-formatter/itip-view.c:5914
+#: ../src/modules/itip-formatter/itip-view.c:6023
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organizator je odstranil pooblaščenca %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:5931
+#: ../src/modules/itip-formatter/itip-view.c:6040
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Pooblaščencu je bilo poslano obvestilo o preklicu"
 
-#: ../src/modules/itip-formatter/itip-view.c:5935
+#: ../src/modules/itip-formatter/itip-view.c:6044
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Pooblaščencu ni mogoče poslati obvestila o preklicu"
 
-#: ../src/modules/itip-formatter/itip-view.c:5981
+#: ../src/modules/itip-formatter/itip-view.c:6090
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Ni mogoče posodobiti udeleženca. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:6015
+#: ../src/modules/itip-formatter/itip-view.c:6124
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Srečanje ni veljavno in ga ni mogoče posodobiti"
 
-#: ../src/modules/itip-formatter/itip-view.c:6100
+#: ../src/modules/itip-formatter/itip-view.c:6209
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Stanja udeleženca ni mogoče posodobiti zaradi neveljavnega stanja"
 
-#: ../src/modules/itip-formatter/itip-view.c:6176 ../src/modules/itip-formatter/itip-view.c:6214
+#: ../src/modules/itip-formatter/itip-view.c:6285 ../src/modules/itip-formatter/itip-view.c:6323
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Stanja udeleženca ni mogoče posodobiti, ker predmet ne obstaja več"
 
-#: ../src/modules/itip-formatter/itip-view.c:6275
+#: ../src/modules/itip-formatter/itip-view.c:6384
 msgid "Meeting information sent"
 msgstr "Podatki o srečanju so bili uspešno poslani"
 
-#: ../src/modules/itip-formatter/itip-view.c:6280
+#: ../src/modules/itip-formatter/itip-view.c:6389
 msgid "Task information sent"
 msgstr "Podatki o nalogi so bili uspešno poslani"
 
-#: ../src/modules/itip-formatter/itip-view.c:6285
+#: ../src/modules/itip-formatter/itip-view.c:6394
 msgid "Memo information sent"
 msgstr "Podatki o opomniku so bili uspešno poslani"
 
-#: ../src/modules/itip-formatter/itip-view.c:6296
+#: ../src/modules/itip-formatter/itip-view.c:6405
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Ni mogoče poslati podrobnosti srečanja, saj srečanje še ni ustvarjeno"
 
-#: ../src/modules/itip-formatter/itip-view.c:6301
+#: ../src/modules/itip-formatter/itip-view.c:6410
 msgid "Unable to send task information, the task does not exist"
 msgstr "Podrobnosti naloge ni mogoče poslati, saj ne obstaja"
 
-#: ../src/modules/itip-formatter/itip-view.c:6306
+#: ../src/modules/itip-formatter/itip-view.c:6415
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Ni mogoče poslati opomnika, saj ta še ni ustvarjen"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6351
+#: ../src/modules/itip-formatter/itip-view.c:6460
 msgid "calendar.ics"
 msgstr "koledar.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:6356
+#: ../src/modules/itip-formatter/itip-view.c:6465
 msgid "Save Calendar"
 msgstr "Shrani koledar"
 
-#: ../src/modules/itip-formatter/itip-view.c:6404 ../src/modules/itip-formatter/itip-view.c:6417
+#: ../src/modules/itip-formatter/itip-view.c:6513 ../src/modules/itip-formatter/itip-view.c:6526
 msgid "The calendar attached is not valid"
 msgstr "Priložen koledar ni veljaven"
 
-#: ../src/modules/itip-formatter/itip-view.c:6405 ../src/modules/itip-formatter/itip-view.c:6418
+#: ../src/modules/itip-formatter/itip-view.c:6514 ../src/modules/itip-formatter/itip-view.c:6527
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr "Sporočilo trdi, da vsebuje koledar, vendar ni v veljavni obliki iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:6500 ../src/modules/itip-formatter/itip-view.c:6584
-#: ../src/modules/itip-formatter/itip-view.c:6688
+#: ../src/modules/itip-formatter/itip-view.c:6609 ../src/modules/itip-formatter/itip-view.c:6693
+#: ../src/modules/itip-formatter/itip-view.c:6797
 msgid "The item in the calendar is not valid"
 msgstr "Predmet v koledarju ni veljaven"
 
-#: ../src/modules/itip-formatter/itip-view.c:6501 ../src/modules/itip-formatter/itip-view.c:6585
-#: ../src/modules/itip-formatter/itip-view.c:6689
+#: ../src/modules/itip-formatter/itip-view.c:6610 ../src/modules/itip-formatter/itip-view.c:6694
+#: ../src/modules/itip-formatter/itip-view.c:6798
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, tasks or free/busy "
 "information"
@@ -25848,20 +25868,20 @@ msgstr ""
 "Sporočilo vsebuje koledar, vendar koledar ne vsebuje nobenih dogodkov, nalog ali podatkov o "
 "zasedenosti"
 
-#: ../src/modules/itip-formatter/itip-view.c:6594
+#: ../src/modules/itip-formatter/itip-view.c:6703
 msgid "The calendar attached contains multiple items"
 msgstr "Priložen koledar vsebuje več predmetov"
 
-#: ../src/modules/itip-formatter/itip-view.c:6595
+#: ../src/modules/itip-formatter/itip-view.c:6704
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr "Za obdelavo vseh predmetov morate shraniti datoteko in uvoziti koledar"
 
-#: ../src/modules/itip-formatter/itip-view.c:7179
+#: ../src/modules/itip-formatter/itip-view.c:7288
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Brez"
 
-#: ../src/modules/itip-formatter/itip-view.c:7231
+#: ../src/modules/itip-formatter/itip-view.c:7340
 msgid "Tentatively Accepted"
 msgstr "Začasno sprejeto"
 
