@@ -85,7 +85,7 @@ struct _MessageListPrivate {
 
 	/* For message list regeneration. */
 	GMutex regen_lock;
-	RegenData *regen_data;
+	GTask *regen_task;
 	guint regen_idle_id;
 
 	gboolean thaw_needs_regen;
@@ -572,8 +572,8 @@ message_list_ref_regen_data (MessageList *message_list)
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 
-	if (message_list->priv->regen_data != NULL)
-		regen_data = regen_data_ref (message_list->priv->regen_data);
+	if (message_list->priv->regen_task != NULL)
+		regen_data = regen_data_ref (g_task_get_task_data (message_list->priv->regen_task));
 
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
@@ -3477,7 +3477,7 @@ message_list_dispose (GObject *object)
 	g_mutex_lock (&message_list->priv->regen_lock);
 
 	/* This can happen when the regen_idle_id is removed before it's invoked */
-	g_clear_pointer (&message_list->priv->regen_data, regen_data_unref);
+	g_clear_object (&message_list->priv->regen_task);
 
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
@@ -6605,9 +6605,8 @@ message_list_regen_done_cb (GObject *source_object,
 	/* Withdraw our RegenData from the private struct, if it hasn't
 	 * already been replaced.  We have exclusive access to it now. */
 	g_mutex_lock (&message_list->priv->regen_lock);
-	if (message_list->priv->regen_data == regen_data) {
-		regen_data_unref (message_list->priv->regen_data);
-		message_list->priv->regen_data = NULL;
+	if (message_list->priv->regen_task == G_TASK (result)) {
+		g_clear_object (&message_list->priv->regen_task);
 		e_tree_set_info_message (E_TREE (message_list), NULL);
 	}
 	g_mutex_unlock (&message_list->priv->regen_lock);
@@ -7043,13 +7042,10 @@ mail_regen_cancel (MessageList *message_list)
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 
-	if (message_list->priv->regen_data != NULL)
-		regen_data = regen_data_ref (message_list->priv->regen_data);
+	if (message_list->priv->regen_task != NULL)
+		regen_data = regen_data_ref (g_task_get_task_data (message_list->priv->regen_task));
 
-	if (message_list->priv->regen_idle_id > 0) {
-		g_source_remove (message_list->priv->regen_idle_id);
-		message_list->priv->regen_idle_id = 0;
-	}
+	g_clear_handle_id (&message_list->priv->regen_idle_id, g_source_remove);
 
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
@@ -7068,7 +7064,7 @@ mail_regen_list (MessageList *message_list,
 	GTask *task;
 	GCancellable *cancellable;
 	RegenData *new_regen_data;
-	RegenData *old_regen_data;
+	RegenData *old_regen_data = NULL;
 	gchar *tmp_search_copy = NULL;
 
 	if (!search) {
@@ -7102,7 +7098,8 @@ mail_regen_list (MessageList *message_list,
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 
-	old_regen_data = message_list->priv->regen_data;
+	if (message_list->priv->regen_task)
+		old_regen_data = g_task_get_task_data (message_list->priv->regen_task);
 
 	/* If a regen is scheduled but not yet started, just
 	 * apply the argument values without cancelling it. */
@@ -7161,7 +7158,7 @@ mail_regen_list (MessageList *message_list,
 	task = g_task_new (message_list, cancellable, message_list_regen_done_cb, NULL);
 	g_task_set_source_tag (task, mail_regen_list);
 	g_task_set_task_data (task,
-		regen_data_ref (new_regen_data),
+		g_steal_pointer (&new_regen_data),
 		(GDestroyNotify) regen_data_unref);
 
 	/* Set the RegenData immediately, but start the actual regen
@@ -7169,7 +7166,7 @@ mail_regen_list (MessageList *message_list,
 	 * the remainder of this main loop iteration to make further
 	 * MessageList changes without triggering additional regens. */
 
-	message_list->priv->regen_data = regen_data_ref (new_regen_data);
+	message_list->priv->regen_task = g_object_ref (task);
 
 	message_list->priv->regen_idle_id =
 		g_idle_add_full (
@@ -7177,8 +7174,6 @@ mail_regen_list (MessageList *message_list,
 			message_list_regen_idle_cb,
 			g_steal_pointer (&task),
 			(GDestroyNotify) g_object_unref);
-
-	regen_data_unref (new_regen_data);
 
 	g_object_unref (cancellable);
 
