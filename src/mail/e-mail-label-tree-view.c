@@ -26,7 +26,7 @@
 #include "e-mail-label-list-store.h"
 
 struct _EMailLabelTreeViewPrivate {
-	gint placeholder;
+	GtkCssProvider *css_provider;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMailLabelTreeView, e_mail_label_tree_view, GTK_TYPE_TREE_VIEW)
@@ -64,8 +64,22 @@ mail_label_tree_view_render_text (GtkTreeViewColumn *column,
 }
 
 static void
+e_mail_label_tree_view_finalize (GObject *object)
+{
+	EMailLabelTreeView *self = E_MAIL_LABEL_TREE_VIEW (object);
+
+	g_clear_object (&self->priv->css_provider);
+
+	G_OBJECT_CLASS (e_mail_label_tree_view_parent_class)->finalize (object);
+}
+
+static void
 e_mail_label_tree_view_class_init (EMailLabelTreeViewClass *class)
 {
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = e_mail_label_tree_view_finalize;
 }
 
 static void
@@ -95,6 +109,12 @@ e_mail_label_tree_view_init (EMailLabelTreeView *tree_view)
 	gtk_tree_view_column_set_cell_data_func (
 		column, renderer, (GtkTreeCellDataFunc)
 		mail_label_tree_view_render_text, tree_view, NULL);
+
+	tree_view->priv->css_provider = gtk_css_provider_new ();
+	gtk_css_provider_load_from_data (tree_view->priv->css_provider, "* { -gtk-icon-style:regular; }", -1, NULL);
+	gtk_style_context_add_provider (gtk_widget_get_style_context (GTK_WIDGET (tree_view)),
+		GTK_STYLE_PROVIDER (tree_view->priv->css_provider),
+		GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 }
 
 GtkWidget *
