@@ -2119,9 +2119,8 @@ shell_view_constructed (GObject *object)
 		G_CALLBACK (e_shell_view_update_actions_in_idle), shell_view);
 	shell_view->priv->preferences_hide_handler_id = handler_id;
 
-	/* it's okay to connect the signal on one of them only,
-	   because they are in a group */
-	action = e_ui_manager_get_action (shell_view->priv->ui_manager, "switcher-style-icons");
+	/* use the first action in the group, to not have the value reset later */
+	action = e_ui_manager_get_action (shell_view->priv->ui_manager, "switcher-style-both");
 	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 	g_settings_bind_with_mapping (settings, "buttons-style",
 		action, "state",
