@@ -27,6 +27,16 @@ fedora:
     - mkdir $DEPS
     - pushd po/ >/dev/null && export TXT=`intltool-update -m 2>&1` && popd >/dev/null
     - if [ ! -z "$TXT" ]; then echo -e "\\033[1;31m" 1>&2; echo "$TXT" 1>&2; echo -e "\\033[0m" 1>&2; exit 1; fi
+    - export HELP_ANY_MISSING=0 &&
+      pushd help/C >/dev/null &&
+      for fl in `ls *.page`; do
+        if [ `cat ../CMakeLists.txt | grep -c $fl` = "0" ]; then
+          echo -e "\\033[1;31mHelp page '$fl' not part of the help/CMakeLists.txt\\033[0m" 1>&2;
+          export HELP_ANY_MISSING=1;
+        fi;
+      done &&
+      popd >/dev/null &&
+      if [ "$HELP_ANY_MISSING" != "0" ]; then exit 1; fi
     - export LD_LIBRARY_PATH="$PREFIX/lib:$PREFIX/lib64"
     - export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig:$PREFIX/lib64/pkgconfig:$PREFIX/share/pkgconfig"
     - export GSETTINGS_SCHEMA_DIR="$PREFIX/share/glib-2.0/schemas"
@@ -34,7 +44,7 @@ fedora:
     - git clone --depth=1 --branch $BASE_BRANCH https://gitlab.gnome.org/GNOME/evolution-data-server.git
     - cd $DEPS/evolution-data-server
     - mkdir _build && cd _build
-    - cmake -G "Ninja" \
+    - cmake -G "Ninja"
             -DCMAKE_BUILD_TYPE=Release
             -DCMAKE_INSTALL_PREFIX=$PREFIX
             -DENABLE_GOA=ON
@@ -52,7 +62,7 @@ fedora:
     - ninja install
     - cd $SOURCE
     - mkdir _build && cd _build
-    - cmake -G "Ninja" \
+    - cmake -G "Ninja"
             -DCMAKE_BUILD_TYPE=Release
             -DCMAKE_INSTALL_PREFIX=$PREFIX
             -DENABLE_GTK_DOC=ON

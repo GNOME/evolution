@@ -57,6 +57,7 @@ set(HELP_FILES
 	calendar-webdav.page
 	contacts-add-automatically.page
 	contacts-autocompletion.page
+	contacts-carddav.page
 	contacts-google.page
 	contacts-ldap.page
 	contacts-libreoffice.page
@@ -89,6 +90,7 @@ set(HELP_FILES
 	import-single-files.page
 	import-supported-file-formats.page
 	index.page
+	intro-account-types.page
 	intro-first-run.page
 	intro-keyboard-shortcuts.page
 	intro-main-window.page
