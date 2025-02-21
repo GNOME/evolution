@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2025-01-11 00:25+0000\n"
-"PO-Revision-Date: 2025-01-11 11:57+0200\n"
+"POT-Creation-Date: 2025-02-19 08:52+0000\n"
+"PO-Revision-Date: 2025-02-21 21:15+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -273,9 +273,9 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:43 C/calendar-google.page:40 C/calendar-local.page:34
 #: C/calendar-weather.page:36 C/calendar-webdav.page:35
-#: C/contacts-google.page:35 C/contacts-ldap.page:48 C/contacts-local.page:34
-#: C/contacts-using-contact-lists.page:48 C/tasks-caldav.page:30
-#: C/tasks-local.page:26 C/tasks-webdav.page:28
+#: C/contacts-carddav.page:32 C/contacts-google.page:35 C/contacts-ldap.page:48
+#: C/contacts-local.page:34 C/contacts-using-contact-lists.page:48
+#: C/tasks-caldav.page:30 C/tasks-local.page:26 C/tasks-webdav.page:28
 msgid "Enter a name that you prefer."
 msgstr "Введіть бажану для вас назву."
 
@@ -288,16 +288,16 @@ msgstr "Якщо хочете, виберіть бажаний колір."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:49 C/calendar-webdav.page:45
-#: C/mail-composer-html-link.page:28 C/tasks-caldav.page:32
-#: C/tasks-webdav.page:31
+#: C/contacts-carddav.page:35 C/mail-composer-html-link.page:28
+#: C/tasks-caldav.page:32 C/tasks-webdav.page:31
 msgid "Enter the address in the <gui>URL</gui> field."
 msgstr "Введіть адресу у поле <gui>URL</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:52 C/calendar-weather.page:49
-#: C/calendar-webdav.page:48 C/contacts-google.page:45
-#: C/mail-sending-options-smtp.page:38 C/tasks-caldav.page:33
-#: C/tasks-webdav.page:32
+#: C/calendar-webdav.page:48 C/contacts-carddav.page:38
+#: C/contacts-google.page:45 C/mail-sending-options-smtp.page:38
+#: C/tasks-caldav.page:33 C/tasks-webdav.page:32
 msgid ""
 "Choose <gui>Use a secure connection</gui> if you want to connect securely."
 msgstr ""
@@ -332,10 +332,10 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:64 C/calendar-google.page:55 C/calendar-local.page:46
 #: C/calendar-meetings-delegating.page:41 C/calendar-weather.page:56
-#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:114
-#: C/contacts-local.page:37 C/contacts-usage-add-contact.page:43
-#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
-#: C/mail-attachments-sending.page:32
+#: C/calendar-webdav.page:55 C/contacts-carddav.page:45
+#: C/contacts-google.page:49 C/contacts-ldap.page:114 C/contacts-local.page:37
+#: C/contacts-usage-add-contact.page:43 C/contacts-usage-edit-contact.page:34
+#: C/contacts-using-contact-lists.page:69 C/mail-attachments-sending.page:32
 #: C/mail-composer-custom-header-lines.page:47
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
@@ -354,8 +354,9 @@ msgid ""
 msgstr "Календар буде додано до списку календарів в <app>Evolution</app>."
 
 #. (itstool) path: section/title
+#. (itstool) path: item/p
 #: C/calendar-caldav.page:71 C/contacts-using-several-addressbooks.page:33
-#: C/tasks-caldav.page:46
+#: C/intro-account-types.page:35 C/tasks-caldav.page:46
 msgid "Collection accounts"
 msgstr "Облікові записи збірок"
 
@@ -1879,8 +1880,8 @@ msgid "Select the type <gui>On the Web</gui>."
 msgstr "Виберіть тип <gui>У інтернеті</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-webdav.page:52 C/mail-sending-options-smtp.page:35
-#: C/tasks-webdav.page:33
+#: C/calendar-webdav.page:52 C/contacts-carddav.page:42
+#: C/mail-sending-options-smtp.page:35 C/tasks-webdav.page:33
 msgid "Enter your username."
 msgstr "Введіть ваше ім'я користувача."
 
@@ -2031,6 +2032,78 @@ msgstr ""
 "або <gui>Прих.копія:</gui>, щоб отримати писок адрес електронної пошти у "
 "ваших записах контактів. Вибирайте адреси і натискайте кнопки зі стрілками, "
 "щоб пересунути їх до відповідних стовпчиків адрес."
+
+#. (itstool) path: info/desc
+#: C/contacts-carddav.page:12
+#| msgid "Using an online CalDAV calendar."
+msgid "Using an online CardDAV address book."
+msgstr "Використання адресної книги CardDAV з інтернету."
+
+#. (itstool) path: page/title
+#: C/contacts-carddav.page:15
+#| msgid "Using a Google address book"
+msgid "Using a CardDAV address book"
+msgstr "Використання адресної книги CardDAV з інтернету"
+
+#. (itstool) path: page/p
+#: C/contacts-carddav.page:17
+#| msgid ""
+#| "To add such an address book to <app>Evolution</app>, perform the "
+#| "following steps:"
+msgid "To add such an address book, perform the following steps:"
+msgstr "Щоб додати таку адресну книгу, виконайте такі дії:"
+
+#. (itstool) path: item/p
+#: C/contacts-carddav.page:21
+#| msgid ""
+#| "Click <guiseq><gui>File</gui><gui>New</gui> <gui>Address Book</gui></"
+#| "guiseq>."
+msgid ""
+"Click <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></guiseq>."
+msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Створити</gui> <gui>Адресна "
+"книга</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/contacts-carddav.page:25
+#| msgid "Select the type <gui>CalDAV</gui>."
+msgid "Select the type <gui>CardDAV</gui>."
+msgstr "Виберіть тип <gui>CardDAV</gui>."
+
+#. (itstool) path: item/p
+#: C/contacts-carddav.page:28
+#| msgid ""
+#| "To discover the calendars, announced by the server, enter the server "
+#| "address as <gui>URL</gui> and optionally <gui>User</gui>, then click on "
+#| "<gui style=\"button\">Find Calendars</gui>. Select a calendar and "
+#| "<gui>User mail</gui>. This prefills the fields <gui>Name</gui>, "
+#| "<gui>Color</gui>, <gui>URL</gui> and (see below) <gui>Email</gui>. The "
+#| "step is optional, and you can overwrite all the discovered settings."
+msgid ""
+"To discover the address books, announced by the server, enter the server "
+"address as <gui>URL</gui> and optionally <gui>User</gui>, then click on <gui "
+"style=\"button\">Find Address Books</gui>. Select the address book. This "
+"prefills the fields <gui>Name</gui> and <gui>URL</gui>. The step is "
+"optional, and you can overwrite all the discovered settings."
+msgstr ""
+"Щоб виявити адресні книги, оголошені сервером, введіть адресу сервера у полі "
+"<gui>URL</gui> і, якщо треба, <gui>Користувач</gui>, а потім натисніть <gui "
+"style=\"button\">Знайти адресні книги</gui>. Виберіть адресну книгу. У"
+" результаті буде попередньо заповнено поля <gui>Назва</"
+"gui>, <gui>URL</gui>. Цей крок необов’язковий, і ви можете перезаписати всі"
+" виявлені налаштування."
+
+#. (itstool) path: page/p
+#: C/contacts-carddav.page:49
+#| msgid ""
+#| "The address book will be added to the list of address books in "
+#| "<app>Evolution</app>."
+msgid ""
+"The address book will be added to the list of address books in "
+"<app>Evolution</app>, <app>GNOME Contacts</app>."
+msgstr ""
+"До списку адресних книг <app>Evolution</app> і <app>Контактах GNOME</app>"
+" буде додано нову адресну книгу."
 
 #. (itstool) path: info/desc
 #: C/contacts-google.page:18
@@ -2855,11 +2928,11 @@ msgid ""
 "in <guiseq><gui>View</gui><gui>Layout</gui><gui>Customize…</gui></guiseq>. "
 "The toolbars which can be customized offer a context menu option to do so."
 msgstr ""
-"У <app>Evolution</app> можливе налаштовування меню, панелей інструментів та"
-" клавіатурних скорочень за допомогою пункту <guiseq><gui>Перегляд</gui><gui"
-">Компонування</gui><gui>Налаштувати…</gui></guiseq>. На панелях"
-" інструментів, які можна налаштувати, передбачено пункт контекстного меню"
-" для налаштовування."
+"У <app>Evolution</app> можливе налаштовування меню, панелей інструментів та "
+"клавіатурних скорочень за допомогою пункту <guiseq><gui>Перегляд</"
+"gui><gui>Компонування</gui><gui>Налаштувати…</gui></guiseq>. На панелях "
+"інструментів, які можна налаштувати, передбачено пункт контекстного меню для "
+"налаштовування."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:26
@@ -2868,10 +2941,10 @@ msgid ""
 "reorder the items in the toolbars. Use either the buttons beside the layout "
 "tree or drag and drop the items."
 msgstr ""
-"За допомогою діалогового вікна <gui>Налаштувати інтерфейс користувача</gui>"
-" можна додавати, вилучати і перевпорядковувати пункти на панелях"
-" інструментів. Або скористайтеся кнопками з боків ієрархії компонування, або"
-" перетягніть пункти і скиньте їх у потрібні місця."
+"За допомогою діалогового вікна <gui>Налаштувати інтерфейс користувача</gui> "
+"можна додавати, вилучати і перевпорядковувати пункти на панелях "
+"інструментів. Або скористайтеся кнопками з боків ієрархії компонування, або "
+"перетягніть пункти і скиньте їх у потрібні місця."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:28
@@ -2879,9 +2952,9 @@ msgid ""
 "Beside the <gui>Layout</gui> customization, it's possible to change also "
 "<gui>Shortcuts</gui> for the actions. One action can have multiple shortcuts."
 msgstr ""
-"Окрім налаштовування <gui>Компонування</gui>, можна змінювати <gui"
-">Скорочення</gui> для дій. Для однієї дії можна визначити декілька"
-" клавіатурних скорочень."
+"Окрім налаштовування <gui>Компонування</gui>, можна змінювати "
+"<gui>Скорочення</gui> для дій. Для однієї дії можна визначити декілька "
+"клавіатурних скорочень."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:30
@@ -2889,8 +2962,8 @@ msgid ""
 "The changes in the dialog are saved when it's closed and the user interface "
 "is updated accordingly."
 msgstr ""
-"Зміни у діалоговому вікні буде збережено під час його закриття, а інтерфейс"
-" користувача буде оновлено відповідним чином."
+"Зміни у діалоговому вікні буде збережено під час його закриття, а інтерфейс "
+"користувача буде оновлено відповідним чином."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -4144,6 +4217,182 @@ msgid "Further reading"
 msgstr "Інформація для подальшого ознайомлення"
 
 #. (itstool) path: info/desc
+#: C/intro-account-types.page:8
+msgid "Read what data can be managed."
+msgstr "Ознайомлення з тим, якими даними можна керувати."
+
+#. (itstool) path: page/title
+#: C/intro-account-types.page:21
+msgid "What account types are supported"
+msgstr "Підтримку яких типів облікових записів передбачено"
+
+#. (itstool) path: page/p
+#: C/intro-account-types.page:23
+#| msgid "<app>Evolution</app> supports using multiple time zones."
+msgid "<app>Evolution</app> supports these types of accounts:"
+msgstr ""
+"У <app>Evolution</app> передбачено підтримку таких типів облікових записів:"
+
+#. (itstool) path: item/p
+#: C/intro-account-types.page:26
+msgid ""
+"Email access — <link xref=\"intro-first-run#receiving\">receiving</link> and "
+"<link xref=\"intro-first-run#sending\">sending</link>"
+msgstr ""
+"Доступ до електронної пошти — <link xref=\"intro-first-run#receiving\""
+">отримання</link> і <link xref=\"intro-first-run#sending\">надсилання</link>"
+
+#. (itstool) path: item/p
+#: C/intro-account-types.page:29
+msgid "<link xref=\"contacts-using-several-addressbooks\">Contacts</link>"
+msgstr "<link xref=\"contacts-using-several-addressbooks\">Контакти</link>"
+
+#. (itstool) path: item/p
+#: C/intro-account-types.page:32
+msgid ""
+"<link xref=\"calendar-using-several-calendars\">Calendars</link>, <link "
+"xref=\"tasks-using-several-tasklists\">Tasks and Memos</link>"
+msgstr ""
+"<link xref=\"calendar-using-several-calendars\">Календарі</link>, <link "
+"xref=\"tasks-using-several-tasklists\">завдання і примітки</link>"
+
+#. (itstool) path: item/p
+#. (itstool) path: section/title
+#: C/intro-account-types.page:38 C/intro-account-types.page:48
+msgid "RSS feeds"
+msgstr "RSS-стрічки"
+
+#. (itstool) path: section/title
+#: C/intro-account-types.page:43
+#| msgid "Collection accounts"
+msgid "Collection Account"
+msgstr "Обліковий запис збірки"
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:44
+msgid ""
+"This account type can for a single user name bind several data sources "
+"together - Email (like IMAP, POP3, SMTP), Contacts (like CardDAV, LDAP), "
+"Calendars (like CalDAV), Task Lists, Memo Lists. Some of these, like CalDAV "
+"or CardDAV accounts, can add all the address books, calendars, task lists or "
+"memo lists from the server and keep them in sync with the content advertised "
+"by the server."
+msgstr ""
+"Цей тип облікового запису може за одним користувачем пов’язати разом кілька"
+" джерел даних – електронну пошту (наприклад, IMAP, POP3, SMTP), контакти"
+" (як-от CardDAV, LDAP), календарі (як-от CalDAV), списки завдань, списки"
+" приміток. Для деяких з них, наприклад облікових записів CalDAV або CardDAV,"
+" можна додавати всі адресні книги, календарі, списки завдань або списки"
+" нотаток із сервера та підтримувати їх у синхронізації з даними, про які"
+" оголошує сервер."
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:45
+msgid ""
+"To setup this account type, select <guiseq><gui>File</gui><gui>New</"
+"gui><gui>Collection account</gui></guiseq>. To discover only sources, not "
+"requiring authentication, leave <gui>Email Address or User name</gui> empty "
+"and fill <guiseq><gui>Advanced options</gui><gui>Server</gui></guiseq>."
+msgstr ""
+"Щоб налаштувати цей тип облікового запису, виберіть <guiseq><gui>Файл</gui><"
+"gui>Створити</gui><gui>Обліковий запис збірки</gui></guiseq>. Щоб знайти"
+" лише джерела, які не потребують автентифікації, залиште <gui>електронну"
+" адресу або ім’я користувача</gui> порожніми та заповніть сторінку <guiseq><"
+"gui>Додаткові параметри</gui><gui>Сервер</gui></guiseq>."
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:49
+#| msgid ""
+#| "Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
+#| "gui></guiseq>."
+msgid ""
+"To configure an RSS feed select <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>News and Blogs</gui></guiseq>."
+msgstr ""
+"Щоб налаштувати стрічку RSS, виберіть пункт меню <guiseq><gui>Зміни</gui><"
+"gui>Параметри</gui><gui>Новини і блоги</gui></guiseq>."
+
+#. (itstool) path: section/title
+#: C/intro-account-types.page:52
+#| msgid "The <app>Evolution</app> main window"
+msgid "The Evolution Accounts window"
+msgstr "Вікно облікових записів Evolution"
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:53
+msgid ""
+"An overview of all configured <gui>Evolution Accounts</gui> is available "
+"under <guiseq><gui>Edit</gui><gui>Accounts</gui></guiseq>."
+msgstr ""
+"Огляд усіх налаштованих <gui>Облікових записів Evolution</gui> можна"
+" отримати за допомогою пункту меню <guiseq><gui>Зміни</gui><gui>Облікові"
+" записи</gui></guiseq>."
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:54
+msgid ""
+"Each Collection account shows there its own Mail Accounts, Address Books, "
+"Calendars, Memo Lists and Task Lists, as announced by the server. Unfolding "
+"each type allows to enable or disable the local synchronization for that "
+"source."
+msgstr ""
+"Кожен обліковий запис збірки показує власні облікові записи електронної"
+" пошти, адресні книги, календарі, списки нотаток і списки завдань, як про"
+" них повідомляє сервер. Розгортання кожного типу надає змогу увімкнути або"
+" вимкнути локальну синхронізацію для відповідного джерела."
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:55
+msgid ""
+"For enabled Collection accounts with CalDAV and CardDAV sources the <gui "
+"style=\"button\">Refresh</gui> button fetches the list of remote sources "
+"locally and requests from the server the color and name of the WebDAV "
+"collections. If they were modified remotely, but not locally, the local name "
+"and color are synchronized from the server. The list of the sources is "
+"refreshed implicitly daily."
+msgstr ""
+"Для увімкнених облікових записів збірки з джерелами CalDAV і CardDAV кнопка"
+" <gui style=\"button\">Оновити</gui> отримує список віддалених джерел"
+" локально та запитує у сервера про колір і назву колекцій WebDAV. Якщо вони"
+" були змінені віддалено, але не локально, локальна назва та колір"
+" синхронізуються з сервера. Список джерел оновлюється неявно щодня."
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:56
+msgid ""
+"When a WebDAV-based account is selected, the <gui>Browse</gui> button "
+"displays the WebDAV editor."
+msgstr ""
+"Якщо вибрано обліковий запис на основі WebDAV, натискання кнопки <gui"
+">Вибрати</gui> призводить до відкриття вікна редактора WebDAV."
+
+#. (itstool) path: section/title
+#: C/intro-account-types.page:59
+msgid "The WebDAV Editor"
+msgstr "Редактор WebDAV"
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:60
+msgid ""
+"WebDAV is the common protocol for CalDAV, CardDAV, Notes. A WebDAV "
+"collection is a directory, which can contain events, contacts, other "
+"collections. The WebDAV editor shows the collections, announced by the "
+"server, and allows editing some of their properties on the server. It allows "
+"creating new address books, calendars and general collections. Servers might "
+"enforce restrictions, like prohibiting the creation of a calendar beneath "
+"another calendar or preventing changing some properties. A single WebDAV "
+"calendar can store events, tasks, memos."
+msgstr ""
+"WebDAV — це загальний протокол для CalDAV, CardDAV, Notes. Збірка WebDAV –"
+" це каталог, який може містити записи подій, контактів та інші збірки."
+" Редактор WebDAV показує збірки, про які оголошено сервером, і надає змогу"
+" редагувати деякі їхні властивості на сервері. Надає змогу створювати нові"
+" адресні книги, календарі та загальні збірки. Сервери можуть накладати"
+" обмеження, як-от забороняти створення календаря під іншим календарем або"
+" забороняти змінювати деякі властивості. Єдиний календар WebDAV може"
+" зберігати записи подій, завдань, примітки."
+
+#. (itstool) path: info/desc
 #: C/intro-first-run.page:8
 msgid "Set up email accounts, import data, or restore from a backup."
 msgstr ""
@@ -5200,10 +5449,10 @@ msgid ""
 "gui><gui>Customize…</gui></guiseq>. See the <link xref=\"customize-ui-"
 "items\">Customizing user interface</link> section for more information."
 msgstr ""
-"Клавіатурні скорочення можна змінити за допомогою пункту меню <guiseq><gui"
-">Перегляд</gui><gui>Компонування</gui><gui>Налаштувати…</gui></guiseq>. Див."
-" розділ <link xref=\"customize-ui-items\">Налаштовування інтерфейсу"
-" користувача</link>, щоб дізнатися більше."
+"Клавіатурні скорочення можна змінити за допомогою пункту меню "
+"<guiseq><gui>Перегляд</gui><gui>Компонування</gui><gui>Налаштувати…</gui></"
+"guiseq>. Див. розділ <link xref=\"customize-ui-items\">Налаштовування "
+"інтерфейсу користувача</link>, щоб дізнатися більше."
 
 #. (itstool) path: info/desc
 #: C/intro-main-window.page:5
