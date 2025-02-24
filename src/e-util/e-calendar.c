@@ -657,53 +657,6 @@ e_calendar_set_minimum_size (ECalendar *cal,
 	gtk_widget_queue_resize (GTK_WIDGET (cal));
 }
 
-void
-e_calendar_set_maximum_size (ECalendar *cal,
-                             gint rows,
-                             gint cols)
-{
-	g_return_if_fail (E_IS_CALENDAR (cal));
-
-	cal->priv->max_rows = rows;
-	cal->priv->max_cols = cols;
-
-	gnome_canvas_item_set (
-		GNOME_CANVAS_ITEM (cal->priv->calitem),
-		"maximum_rows", rows,
-		"maximum_columns", cols,
-		NULL);
-
-	gtk_widget_queue_resize (GTK_WIDGET (cal));
-}
-
-/* Returns the border size on each side of the month displays. */
-void
-e_calendar_get_border_size (ECalendar *cal,
-                            gint *top,
-                            gint *bottom,
-                            gint *left,
-                            gint *right)
-{
-	GtkStyleContext *style_context;
-
-	g_return_if_fail (E_IS_CALENDAR (cal));
-
-	style_context = gtk_widget_get_style_context (GTK_WIDGET (cal));
-
-	if (style_context) {
-		GtkBorder padding;
-
-		gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
-
-		*top    = padding.top;
-		*bottom = padding.top;
-		*left   = padding.left;
-		*right  = padding.left;
-	} else {
-		*top = *bottom = *left = *right = 0;
-	}
-}
-
 static void
 e_calendar_on_prev_pressed (ECalendar *cal)
 {
@@ -960,36 +913,4 @@ e_calendar_focus (GtkWidget *widget,
 		gtk_widget_grab_focus (widget);
 	}
 	return TRUE;
-}
-
-void
-e_calendar_set_focusable (ECalendar *cal,
-                          gboolean focusable)
-{
-	GtkWidget *widget;
-	GtkWidget *prev_widget, *next_widget;
-	GtkWidget *toplevel;
-
-	g_return_if_fail (E_IS_CALENDAR (cal));
-
-	widget = GTK_WIDGET (cal);
-	prev_widget = GNOME_CANVAS_WIDGET (cal->priv->prev_item)->widget;
-	next_widget = GNOME_CANVAS_WIDGET (cal->priv->next_item)->widget;
-
-	if (focusable) {
-		gtk_widget_set_can_focus (widget, TRUE);
-		gtk_widget_set_can_focus (prev_widget, TRUE);
-		gtk_widget_set_can_focus (next_widget, TRUE);
-	}
-	else {
-		if (gtk_widget_has_focus (GTK_WIDGET (cal)) ||
-		    e_calendar_button_has_focus (cal)) {
-			toplevel = gtk_widget_get_toplevel (widget);
-			if (toplevel)
-				gtk_widget_grab_focus (toplevel);
-		}
-		gtk_widget_set_can_focus (widget, FALSE);
-		gtk_widget_set_can_focus (prev_widget, FALSE);
-		gtk_widget_set_can_focus (next_widget, FALSE);
-	}
 }

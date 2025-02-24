@@ -79,16 +79,6 @@ ECalendarItem *	e_calendar_get_item		(ECalendar *cal);
 void		e_calendar_set_minimum_size	(ECalendar *cal,
 						 gint rows,
 						 gint cols);
-void		e_calendar_set_maximum_size	(ECalendar *cal,
-						 gint rows,
-						 gint cols);
-void		e_calendar_get_border_size	(ECalendar *cal,
-						 gint *top,
-						 gint *bottom,
-						 gint *left,
-						 gint *right);
-void		e_calendar_set_focusable	(ECalendar *cal,
-						 gboolean focusable);
 
 G_END_DECLS
 
