@@ -763,7 +763,7 @@ e_ui_manager_accel_activated_cb (GtkAccelGroup *accel_group,
 				param_type = g_action_get_parameter_type (action);
 				if (!param_type) {
 					g_action_activate (action, NULL);
-				} else if (param_type == G_VARIANT_TYPE_BOOLEAN) {
+				} else if (g_variant_type_equal (param_type, G_VARIANT_TYPE_BOOLEAN)) {
 					GVariant *current_value = g_action_get_state (action);
 					GVariant *new_value;
 
