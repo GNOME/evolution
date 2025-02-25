@@ -4763,9 +4763,11 @@ e_util_ignore_accel_for_focused (GtkWidget *focused)
 			guint keyval = 0;
 			gboolean can_process;
 
-			/* multi-key presses are always allowed */
+			/* multi-key presses are always allowed;
+			   the GDK_SHIFT_MASK can be used to type numbers and such,
+			   thus do not add it to the list of the modifiers */
 			can_process = gdk_event_get_state (event, &modifs) &&
-				(modifs & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0;
+				(modifs & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0;
 
 			if (!can_process && gdk_event_get_keyval (event, &keyval)) {
 				/* function keys are allowed (they are used as shortcuts in the mail view) */
