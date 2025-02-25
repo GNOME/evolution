@@ -86,7 +86,7 @@ struct _MessageListPrivate {
 	/* For message list regeneration. */
 	GMutex regen_lock;
 	RegenData *regen_data;
-	guint regen_idle_id;
+	GSource *regen_idle_source;
 
 	gboolean thaw_needs_regen;
 
@@ -3476,7 +3476,7 @@ message_list_dispose (GObject *object)
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 
-	/* This can happen when the regen_idle_id is removed before it's invoked */
+	/* This can happen when the regen_idle_source is removed before it's invoked */
 	g_clear_pointer (&message_list->priv->regen_data, regen_data_unref);
 
 	g_mutex_unlock (&message_list->priv->regen_lock);
@@ -7026,7 +7026,7 @@ message_list_regen_idle_cb (gpointer user_data)
 		regen_data->expand_state = e_tree_table_adapter_save_expanded_state_xml (adapter);
 	}
 
-	message_list->priv->regen_idle_id = 0;
+	g_clear_pointer (&message_list->priv->regen_idle_source, g_source_unref);
 
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
@@ -7046,9 +7046,9 @@ mail_regen_cancel (MessageList *message_list)
 	if (message_list->priv->regen_data != NULL)
 		regen_data = regen_data_ref (message_list->priv->regen_data);
 
-	if (message_list->priv->regen_idle_id > 0) {
-		g_source_remove (message_list->priv->regen_idle_id);
-		message_list->priv->regen_idle_id = 0;
+	if (message_list->priv->regen_idle_source) {
+		g_source_destroy (message_list->priv->regen_idle_source);
+		g_clear_pointer (&message_list->priv->regen_idle_source, g_source_unref);
 	}
 
 	g_mutex_unlock (&message_list->priv->regen_lock);
@@ -7106,7 +7106,7 @@ mail_regen_list (MessageList *message_list,
 
 	/* If a regen is scheduled but not yet started, just
 	 * apply the argument values without cancelling it. */
-	if (message_list->priv->regen_idle_id > 0) {
+	if (message_list->priv->regen_idle_source) {
 		g_return_if_fail (old_regen_data != NULL);
 
 		if (g_strcmp0 (search, old_regen_data->search) != 0) {
@@ -7170,17 +7170,15 @@ mail_regen_list (MessageList *message_list,
 	 * MessageList changes without triggering additional regens. */
 
 	message_list->priv->regen_data = regen_data_ref (new_regen_data);
-
-	message_list->priv->regen_idle_id =
-		g_idle_add_full (
-			G_PRIORITY_DEFAULT_IDLE,
-			message_list_regen_idle_cb,
-			g_steal_pointer (&task),
-			(GDestroyNotify) g_object_unref);
+	message_list->priv->regen_idle_source = g_idle_source_new ();
+	g_task_attach_source (task,
+		message_list->priv->regen_idle_source,
+		message_list_regen_idle_cb);
 
 	regen_data_unref (new_regen_data);
 
 	g_object_unref (cancellable);
+	g_object_unref (task);
 
 exit:
 	g_mutex_unlock (&message_list->priv->regen_lock);
