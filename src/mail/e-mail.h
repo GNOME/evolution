@@ -21,7 +21,6 @@
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-browser.h>
 #include <mail/e-mail-display.h>
-#include <mail/e-mail-folder-pane.h>
 #include <mail/e-mail-label-dialog.h>
 #include <mail/e-mail-label-list-store.h>
 #include <mail/e-mail-label-manager.h>
