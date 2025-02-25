@@ -28,7 +28,6 @@
 #include "e-table-group-leaf.h"
 #include "e-table-group.h"
 #include "e-table.h"
-#include "gal-a11y-e-table-factory.h"
 #include "gal-a11y-e-table-item.h"
 #include "gal-a11y-util.h"
 

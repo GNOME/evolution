@@ -26,7 +26,6 @@
 #include "e-table-item.h"
 #include "e-tree.h"
 #include "gal-a11y-e-table-item.h"
-#include "gal-a11y-e-tree-factory.h"
 #include "gal-a11y-util.h"
 
 struct _GalA11yETreePrivate {

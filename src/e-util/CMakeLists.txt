@@ -299,13 +299,11 @@ set(SOURCES
 	gal-a11y-e-table-click-to-add-factory.c
 	gal-a11y-e-table-click-to-add.c
 	gal-a11y-e-table-column-header.c
-	gal-a11y-e-table-factory.c
 	gal-a11y-e-table-item-factory.c
 	gal-a11y-e-table-item.c
 	gal-a11y-e-table.c
 	gal-a11y-e-text-factory.c
 	gal-a11y-e-text.c
-	gal-a11y-e-tree-factory.c
 	gal-a11y-e-tree.c
 	gal-a11y-util.c
 	gal-view-collection.c
@@ -583,13 +581,11 @@ set(HEADERS
 	gal-a11y-e-table-click-to-add-factory.h
 	gal-a11y-e-table-click-to-add.h
 	gal-a11y-e-table-column-header.h
-	gal-a11y-e-table-factory.h
 	gal-a11y-e-table-item-factory.h
 	gal-a11y-e-table-item.h
 	gal-a11y-e-table.h
 	gal-a11y-e-text-factory.h
 	gal-a11y-e-text.h
-	gal-a11y-e-tree-factory.h
 	gal-a11y-e-tree.h
 	gal-a11y-factory.h
 	gal-a11y-util.h
