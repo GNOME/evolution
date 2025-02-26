@@ -565,21 +565,6 @@ regen_data_unref (RegenData *regen_data)
 	}
 }
 
-static RegenData *
-message_list_ref_regen_data (MessageList *message_list)
-{
-	RegenData *regen_data = NULL;
-
-	g_mutex_lock (&message_list->priv->regen_lock);
-
-	if (message_list->priv->regen_data != NULL)
-		regen_data = regen_data_ref (message_list->priv->regen_data);
-
-	g_mutex_unlock (&message_list->priv->regen_lock);
-
-	return regen_data;
-}
-
 static void
 message_list_tree_model_freeze (MessageList *message_list)
 {
@@ -1170,7 +1155,7 @@ message_list_select_uid (MessageList *message_list,
 	MessageListPrivate *priv;
 	GHashTable *uid_nodemap;
 	GNode *node = NULL;
-	RegenData *regen_data = NULL;
+	RegenData *regen_data;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
@@ -1184,7 +1169,8 @@ message_list_select_uid (MessageList *message_list,
 	if (uid != NULL)
 		node = g_hash_table_lookup (uid_nodemap, uid);
 
-	regen_data = message_list_ref_regen_data (message_list);
+	g_mutex_lock (&message_list->priv->regen_lock);
+	regen_data = message_list->priv->regen_data;
 
 	/* If we're busy or waiting to regenerate the message list, cache
 	 * the UID so we can try again when we're done.  Otherwise if the
@@ -1201,8 +1187,6 @@ message_list_select_uid (MessageList *message_list,
 		regen_data->select_use_fallback = with_fallback;
 		g_mutex_unlock (&regen_data->select_lock);
 
-		regen_data_unref (regen_data);
-
 	} else if (with_fallback) {
 		if (node == NULL && priv->oldest_unread_uid != NULL)
 			node = g_hash_table_lookup (
@@ -1211,6 +1195,8 @@ message_list_select_uid (MessageList *message_list,
 			node = g_hash_table_lookup (
 				uid_nodemap, priv->newest_read_uid);
 	}
+
+	g_mutex_unlock (&message_list->priv->regen_lock);
 
 	if (node) {
 		ETree *tree;
@@ -1333,11 +1319,12 @@ message_list_select_prev_thread (MessageList *message_list)
 void
 message_list_select_all (MessageList *message_list)
 {
-	RegenData *regen_data = NULL;
+	RegenData *regen_data;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-	regen_data = message_list_ref_regen_data (message_list);
+	g_mutex_lock (&message_list->priv->regen_lock);
+	regen_data = message_list->priv->regen_data;
 
 	if (regen_data != NULL && regen_data->group_by_threads) {
 		regen_data->select_all = TRUE;
@@ -1350,8 +1337,7 @@ message_list_select_all (MessageList *message_list)
 		e_selection_model_select_all (selection_model);
 	}
 
-	if (regen_data != NULL)
-		regen_data_unref (regen_data);
+	g_mutex_unlock (&message_list->priv->regen_lock);
 }
 
 typedef struct thread_select_info {
@@ -5142,7 +5128,7 @@ message_list_folder_changed (CamelFolder *folder,
 			     MessageList *message_list)
 {
 	CamelFolderChangeInfo *altered_changes = NULL;
-	RegenData *regen_data;
+	gboolean has_regen_data;
 	gboolean need_list_regen = TRUE;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
@@ -5152,11 +5138,13 @@ message_list_folder_changed (CamelFolder *folder,
 	if (message_list->priv->destroyed)
 		return;
 
-	regen_data = message_list_ref_regen_data (message_list);
+	g_mutex_lock (&message_list->priv->regen_lock);
+	has_regen_data = message_list->priv->regen_data != NULL;
+	g_mutex_unlock (&message_list->priv->regen_lock);
 
 	d (
-		printf ("%s: regen_data:%p changes:%p added:%d removed:%d changed:%d recent:%d for '%s'\n",
-		G_STRFUNC, regen_data, changes,
+		printf ("%s: has_regen_data:%s changes:%p added:%d removed:%d changed:%d recent:%d for '%s'\n",
+		G_STRFUNC, has_regen_data ? "yes": "no", changes,
 		changes ? changes->uid_added->len : -1,
 		changes ? changes->uid_removed->len : -1,
 		changes ? changes->uid_changed->len : -1,
@@ -5164,7 +5152,7 @@ message_list_folder_changed (CamelFolder *folder,
 		camel_folder_get_full_name (folder)));
 
 	/* Skip the quick update when the message list is being regenerated */
-	if (changes && !regen_data) {
+	if (changes && !has_regen_data) {
 		ETreeModel *tree_model;
 		gboolean hide_junk;
 		gboolean hide_deleted;
@@ -5225,9 +5213,6 @@ message_list_folder_changed (CamelFolder *folder,
 
 	if (altered_changes != NULL)
 		camel_folder_change_info_free (altered_changes);
-
-	if (regen_data)
-		regen_data_unref (regen_data);
 }
 
 typedef struct _FolderChangedData {
@@ -6151,23 +6136,22 @@ void
 message_list_set_search (MessageList *message_list,
                          const gchar *search)
 {
-	RegenData *current_regen_data;
+	gboolean has_regen_data;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-	current_regen_data = message_list_ref_regen_data (message_list);
+	g_mutex_lock (&message_list->priv->regen_lock);
+	has_regen_data = message_list->priv->regen_data != NULL;
+	g_mutex_unlock (&message_list->priv->regen_lock);
 
-	if (!current_regen_data && (search == NULL || search[0] == '\0'))
+	if (!has_regen_data && (search == NULL || search[0] == '\0'))
 		if (message_list->search == NULL || message_list->search[0] == '\0')
 			return;
 
-	if (!current_regen_data && search != NULL && message_list->search != NULL &&
+	if (!has_regen_data && search != NULL && message_list->search != NULL &&
 	    strcmp (search, message_list->search) == 0) {
 		return;
 	}
-
-	if (current_regen_data)
-		regen_data_unref (current_regen_data);
 
 	if (message_list->frozen == 0)
 		mail_regen_list (message_list, search ? search : "", NULL);
@@ -7072,7 +7056,9 @@ mail_regen_list (MessageList *message_list,
 	gchar *tmp_search_copy = NULL;
 
 	if (!search) {
-		old_regen_data = message_list_ref_regen_data (message_list);
+		g_mutex_lock (&message_list->priv->regen_lock);
+
+		old_regen_data = message_list->priv->regen_data;
 
 		if (old_regen_data && old_regen_data->folder == message_list->priv->folder) {
 			tmp_search_copy = g_strdup (old_regen_data->search);
@@ -7082,8 +7068,7 @@ mail_regen_list (MessageList *message_list,
 			search = tmp_search_copy;
 		}
 
-		if (old_regen_data)
-			regen_data_unref (old_regen_data);
+		g_mutex_unlock (&message_list->priv->regen_lock);
 	} else if (search && !*search) {
 		search = NULL;
 	}
@@ -7169,13 +7154,11 @@ mail_regen_list (MessageList *message_list,
 	 * the remainder of this main loop iteration to make further
 	 * MessageList changes without triggering additional regens. */
 
-	message_list->priv->regen_data = regen_data_ref (new_regen_data);
+	message_list->priv->regen_data = g_steal_pointer (&new_regen_data);
 	message_list->priv->regen_idle_source = g_idle_source_new ();
 	g_task_attach_source (task,
 		message_list->priv->regen_idle_source,
 		message_list_regen_idle_cb);
-
-	regen_data_unref (new_regen_data);
 
 	g_object_unref (cancellable);
 	g_object_unref (task);
