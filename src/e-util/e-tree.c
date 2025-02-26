@@ -3210,7 +3210,7 @@ e_tree_class_init (ETreeClass *class)
 			"expander_size",
 			"Expander Size",
 			"Size of the expander arrow",
-			0, G_MAXINT, 10,
+			0, G_MAXINT, 12,
 			G_PARAM_READABLE));
 
 	gtk_widget_class_install_style_property (

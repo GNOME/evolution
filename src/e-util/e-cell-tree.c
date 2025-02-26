@@ -251,7 +251,7 @@ draw_expander (ECellTreeView *ectv,
 			break;
 	}
 
-	if (expander_style == GTK_EXPANDER_EXPANDED) {
+	if (expander_style != GTK_EXPANDER_EXPANDED) {
 		flags |= GTK_STATE_FLAG_CHECKED;
 	}
 
