@@ -7019,12 +7019,12 @@ message_list_regen_idle_cb (gpointer user_data)
 static void
 mail_regen_cancel (MessageList *message_list)
 {
-	RegenData *regen_data = NULL;
+	EActivity *activity = NULL;
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 
 	if (message_list->priv->regen_data != NULL)
-		regen_data = regen_data_ref (message_list->priv->regen_data);
+		activity = g_object_ref (message_list->priv->regen_data->activity);
 
 	if (message_list->priv->regen_idle_source) {
 		g_source_destroy (message_list->priv->regen_idle_source);
@@ -7034,9 +7034,9 @@ mail_regen_cancel (MessageList *message_list)
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
 	/* Cancel outside the lock, since this will emit a signal. */
-	if (regen_data != NULL) {
-		e_activity_cancel (regen_data->activity);
-		regen_data_unref (regen_data);
+	if (activity != NULL) {
+		e_activity_cancel (activity);
+		g_object_unref (activity);
 	}
 }
 
