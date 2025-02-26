@@ -148,7 +148,6 @@ struct _RegenData {
 	volatile gint ref_count;
 
 	EActivity *activity;
-	MessageList *message_list;
 	ETableSortInfo *sort_info;
 	ETableHeader *full_header;
 
@@ -483,7 +482,6 @@ regen_data_new (MessageList *message_list,
 	regen_data = g_slice_new0 (RegenData);
 	regen_data->ref_count = 1;
 	regen_data->activity = g_object_ref (activity);
-	regen_data->message_list = g_object_ref (message_list);
 	regen_data->folder = message_list_ref_folder (message_list);
 	regen_data->last_row = -1;
 
@@ -530,7 +528,6 @@ regen_data_unref (RegenData *regen_data)
 	if (g_atomic_int_dec_and_test (&regen_data->ref_count)) {
 
 		g_clear_object (&regen_data->activity);
-		g_clear_object (&regen_data->message_list);
 		g_clear_object (&regen_data->sort_info);
 		g_clear_object (&regen_data->full_header);
 
@@ -6967,8 +6964,7 @@ message_list_regen_idle_cb (gpointer user_data)
 
 	task = G_TASK (user_data);
 	regen_data = g_task_get_task_data (task);
-
-	message_list = regen_data->message_list;
+	message_list = g_task_get_source_object (task);
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 
