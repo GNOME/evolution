@@ -85,8 +85,8 @@ struct _MessageListPrivate {
 
 	/* For message list regeneration. */
 	GMutex regen_lock;
-	RegenData *regen_data;
-	guint regen_idle_id;
+	GTask *regen_task;
+	GSource *regen_idle_source;
 
 	gboolean thaw_needs_regen;
 
@@ -145,10 +145,7 @@ struct _ExtendedGNode {
 };
 
 struct _RegenData {
-	volatile gint ref_count;
-
 	EActivity *activity;
-	MessageList *message_list;
 	ETableSortInfo *sort_info;
 	ETableHeader *full_header;
 
@@ -481,9 +478,7 @@ regen_data_new (MessageList *message_list,
 	e_activity_set_text (activity, _("Generating message list"));
 
 	regen_data = g_slice_new0 (RegenData);
-	regen_data->ref_count = 1;
 	regen_data->activity = g_object_ref (activity);
-	regen_data->message_list = g_object_ref (message_list);
 	regen_data->folder = message_list_ref_folder (message_list);
 	regen_data->last_row = -1;
 
@@ -510,74 +505,37 @@ regen_data_new (MessageList *message_list,
 	return regen_data;
 }
 
-static RegenData *
-regen_data_ref (RegenData *regen_data)
-{
-	g_return_val_if_fail (regen_data != NULL, NULL);
-	g_return_val_if_fail (regen_data->ref_count > 0, NULL);
-
-	g_atomic_int_inc (&regen_data->ref_count);
-
-	return regen_data;
-}
-
 static void
-regen_data_unref (RegenData *regen_data)
+regen_data_free (RegenData *regen_data)
 {
 	g_return_if_fail (regen_data != NULL);
-	g_return_if_fail (regen_data->ref_count > 0);
 
-	if (g_atomic_int_dec_and_test (&regen_data->ref_count)) {
+	g_clear_object (&regen_data->activity);
+	g_clear_object (&regen_data->sort_info);
+	g_clear_object (&regen_data->full_header);
 
-		g_clear_object (&regen_data->activity);
-		g_clear_object (&regen_data->message_list);
-		g_clear_object (&regen_data->sort_info);
-		g_clear_object (&regen_data->full_header);
+	g_clear_pointer (&regen_data->search, g_free);
+	g_clear_pointer (&regen_data->thread_tree, camel_folder_thread_messages_unref);
 
-		g_free (regen_data->search);
+	if (regen_data->summary != NULL) {
+		guint ii, length;
 
-		if (regen_data->thread_tree != NULL)
-			camel_folder_thread_messages_unref (
-				regen_data->thread_tree);
+		length = regen_data->summary->len;
 
-		if (regen_data->summary != NULL) {
-			guint ii, length;
+		for (ii = 0; ii < length; ii++)
+			g_clear_object (&regen_data->summary->pdata[ii]);
 
-			length = regen_data->summary->len;
-
-			for (ii = 0; ii < length; ii++)
-				g_clear_object (&regen_data->summary->pdata[ii]);
-
-			g_ptr_array_free (regen_data->summary, TRUE);
-		}
-
-		if (regen_data->removed_uids)
-			g_hash_table_destroy (regen_data->removed_uids);
-		g_clear_object (&regen_data->folder);
-
-		if (regen_data->expand_state != NULL)
-			xmlFreeDoc (regen_data->expand_state);
-
-		g_mutex_clear (&regen_data->select_lock);
-		g_free (regen_data->select_uid);
-
-		g_slice_free (RegenData, regen_data);
+		g_clear_pointer (&regen_data->summary, g_ptr_array_unref);
 	}
-}
 
-static RegenData *
-message_list_ref_regen_data (MessageList *message_list)
-{
-	RegenData *regen_data = NULL;
+	g_clear_pointer (&regen_data->removed_uids, g_hash_table_unref);
+	g_clear_object (&regen_data->folder);
+	g_clear_pointer (&regen_data->expand_state, xmlFreeDoc);
+	g_mutex_clear (&regen_data->select_lock);
+	g_clear_pointer (&regen_data->select_uid, g_free);
+	g_free (regen_data->select_uid);
 
-	g_mutex_lock (&message_list->priv->regen_lock);
-
-	if (message_list->priv->regen_data != NULL)
-		regen_data = regen_data_ref (message_list->priv->regen_data);
-
-	g_mutex_unlock (&message_list->priv->regen_lock);
-
-	return regen_data;
+	g_slice_free (RegenData, regen_data);
 }
 
 static void
@@ -1170,7 +1128,6 @@ message_list_select_uid (MessageList *message_list,
 	MessageListPrivate *priv;
 	GHashTable *uid_nodemap;
 	GNode *node = NULL;
-	RegenData *regen_data = NULL;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
@@ -1184,7 +1141,7 @@ message_list_select_uid (MessageList *message_list,
 	if (uid != NULL)
 		node = g_hash_table_lookup (uid_nodemap, uid);
 
-	regen_data = message_list_ref_regen_data (message_list);
+	g_mutex_lock (&message_list->priv->regen_lock);
 
 	/* If we're busy or waiting to regenerate the message list, cache
 	 * the UID so we can try again when we're done.  Otherwise if the
@@ -1194,14 +1151,13 @@ message_list_select_uid (MessageList *message_list,
 	 * 1) Oldest unread message in the list, by date received.
 	 * 2) Newest read message in the list, by date received.
 	 */
-	if (regen_data != NULL) {
+	if (message_list->priv->regen_task) {
+		RegenData *regen_data = g_task_get_task_data (message_list->priv->regen_task);
 		g_mutex_lock (&regen_data->select_lock);
 		g_free (regen_data->select_uid);
 		regen_data->select_uid = g_strdup (uid);
 		regen_data->select_use_fallback = with_fallback;
 		g_mutex_unlock (&regen_data->select_lock);
-
-		regen_data_unref (regen_data);
 
 	} else if (with_fallback) {
 		if (node == NULL && priv->oldest_unread_uid != NULL)
@@ -1211,6 +1167,8 @@ message_list_select_uid (MessageList *message_list,
 			node = g_hash_table_lookup (
 				uid_nodemap, priv->newest_read_uid);
 	}
+
+	g_mutex_unlock (&message_list->priv->regen_lock);
 
 	if (node) {
 		ETree *tree;
@@ -1337,7 +1295,9 @@ message_list_select_all (MessageList *message_list)
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-	regen_data = message_list_ref_regen_data (message_list);
+	g_mutex_lock (&message_list->priv->regen_lock);
+	if (message_list->priv->regen_task)
+		regen_data = g_task_get_task_data (message_list->priv->regen_task);
 
 	if (regen_data != NULL && regen_data->group_by_threads) {
 		regen_data->select_all = TRUE;
@@ -1350,8 +1310,7 @@ message_list_select_all (MessageList *message_list)
 		e_selection_model_select_all (selection_model);
 	}
 
-	if (regen_data != NULL)
-		regen_data_unref (regen_data);
+	g_mutex_unlock (&message_list->priv->regen_lock);
 }
 
 typedef struct thread_select_info {
@@ -3476,8 +3435,8 @@ message_list_dispose (GObject *object)
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 
-	/* This can happen when the regen_idle_id is removed before it's invoked */
-	g_clear_pointer (&message_list->priv->regen_data, regen_data_unref);
+	/* This can happen when the regen_idle_source is removed before it's invoked */
+	g_clear_object (&message_list->priv->regen_task);
 
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
@@ -5142,7 +5101,7 @@ message_list_folder_changed (CamelFolder *folder,
 			     MessageList *message_list)
 {
 	CamelFolderChangeInfo *altered_changes = NULL;
-	RegenData *regen_data;
+	gboolean has_regen_task;
 	gboolean need_list_regen = TRUE;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
@@ -5152,11 +5111,13 @@ message_list_folder_changed (CamelFolder *folder,
 	if (message_list->priv->destroyed)
 		return;
 
-	regen_data = message_list_ref_regen_data (message_list);
+	g_mutex_lock (&message_list->priv->regen_lock);
+	has_regen_task = message_list->priv->regen_task != NULL;
+	g_mutex_unlock (&message_list->priv->regen_lock);
 
 	d (
-		printf ("%s: regen_data:%p changes:%p added:%d removed:%d changed:%d recent:%d for '%s'\n",
-		G_STRFUNC, regen_data, changes,
+		printf ("%s: has_regen_task:%s changes:%p added:%d removed:%d changed:%d recent:%d for '%s'\n",
+		G_STRFUNC, has_regen_task ? "yes": "no", changes,
 		changes ? changes->uid_added->len : -1,
 		changes ? changes->uid_removed->len : -1,
 		changes ? changes->uid_changed->len : -1,
@@ -5164,7 +5125,7 @@ message_list_folder_changed (CamelFolder *folder,
 		camel_folder_get_full_name (folder)));
 
 	/* Skip the quick update when the message list is being regenerated */
-	if (changes && !regen_data) {
+	if (changes && !has_regen_task) {
 		ETreeModel *tree_model;
 		gboolean hide_junk;
 		gboolean hide_deleted;
@@ -5225,9 +5186,6 @@ message_list_folder_changed (CamelFolder *folder,
 
 	if (altered_changes != NULL)
 		camel_folder_change_info_free (altered_changes);
-
-	if (regen_data)
-		regen_data_unref (regen_data);
 }
 
 typedef struct _FolderChangedData {
@@ -6151,23 +6109,22 @@ void
 message_list_set_search (MessageList *message_list,
                          const gchar *search)
 {
-	RegenData *current_regen_data;
+	gboolean has_regen_task;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-	current_regen_data = message_list_ref_regen_data (message_list);
+	g_mutex_lock (&message_list->priv->regen_lock);
+	has_regen_task = message_list->priv->regen_task != NULL;
+	g_mutex_unlock (&message_list->priv->regen_lock);
 
-	if (!current_regen_data && (search == NULL || search[0] == '\0'))
+	if (!has_regen_task && (search == NULL || search[0] == '\0'))
 		if (message_list->search == NULL || message_list->search[0] == '\0')
 			return;
 
-	if (!current_regen_data && search != NULL && message_list->search != NULL &&
+	if (!has_regen_task && search != NULL && message_list->search != NULL &&
 	    strcmp (search, message_list->search) == 0) {
 		return;
 	}
-
-	if (current_regen_data)
-		regen_data_unref (current_regen_data);
 
 	if (message_list->frozen == 0)
 		mail_regen_list (message_list, search ? search : "", NULL);
@@ -6605,9 +6562,8 @@ message_list_regen_done_cb (GObject *source_object,
 	/* Withdraw our RegenData from the private struct, if it hasn't
 	 * already been replaced.  We have exclusive access to it now. */
 	g_mutex_lock (&message_list->priv->regen_lock);
-	if (message_list->priv->regen_data == regen_data) {
-		regen_data_unref (message_list->priv->regen_data);
-		message_list->priv->regen_data = NULL;
+	if (message_list->priv->regen_task == G_TASK (result)) {
+		g_clear_object (&message_list->priv->regen_task);
 		e_tree_set_info_message (E_TREE (message_list), NULL);
 	}
 	g_mutex_unlock (&message_list->priv->regen_lock);
@@ -6983,8 +6939,7 @@ message_list_regen_idle_cb (gpointer user_data)
 
 	task = G_TASK (user_data);
 	regen_data = g_task_get_task_data (task);
-
-	message_list = regen_data->message_list;
+	message_list = g_task_get_source_object (task);
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 
@@ -7026,7 +6981,7 @@ message_list_regen_idle_cb (gpointer user_data)
 		regen_data->expand_state = e_tree_table_adapter_save_expanded_state_xml (adapter);
 	}
 
-	message_list->priv->regen_idle_id = 0;
+	g_clear_pointer (&message_list->priv->regen_idle_source, g_source_unref);
 
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
@@ -7039,25 +6994,31 @@ message_list_regen_idle_cb (gpointer user_data)
 static void
 mail_regen_cancel (MessageList *message_list)
 {
-	RegenData *regen_data = NULL;
+	GCancellable *cancellable = NULL;
+	GTask *regen_task = NULL;
+	gboolean idle_deleted = FALSE;
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 
-	if (message_list->priv->regen_data != NULL)
-		regen_data = regen_data_ref (message_list->priv->regen_data);
+	if (g_set_object (&regen_task, message_list->priv->regen_task))
+		cancellable = g_task_get_cancellable (regen_task);
 
-	if (message_list->priv->regen_idle_id > 0) {
-		g_source_remove (message_list->priv->regen_idle_id);
-		message_list->priv->regen_idle_id = 0;
+	if (message_list->priv->regen_idle_source) {
+		g_source_destroy (message_list->priv->regen_idle_source);
+		g_clear_pointer (&message_list->priv->regen_idle_source, g_source_unref);
+		idle_deleted = TRUE;
 	}
 
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
 	/* Cancel outside the lock, since this will emit a signal. */
-	if (regen_data != NULL) {
-		e_activity_cancel (regen_data->activity);
-		regen_data_unref (regen_data);
-	}
+	if (cancellable != NULL)
+		g_cancellable_cancel (cancellable);
+
+	if (idle_deleted && regen_task)
+		g_task_return_error_if_cancelled (regen_task);
+
+	g_clear_object (&regen_task);
 }
 
 static void
@@ -7068,11 +7029,15 @@ mail_regen_list (MessageList *message_list,
 	GTask *task;
 	GCancellable *cancellable;
 	RegenData *new_regen_data;
-	RegenData *old_regen_data;
+	GTask *old_regen_task = NULL;
+	RegenData *old_regen_data = NULL;
 	gchar *tmp_search_copy = NULL;
 
 	if (!search) {
-		old_regen_data = message_list_ref_regen_data (message_list);
+		g_mutex_lock (&message_list->priv->regen_lock);
+
+		if (message_list->priv->regen_task)
+			old_regen_data = g_task_get_task_data (message_list->priv->regen_task);
 
 		if (old_regen_data && old_regen_data->folder == message_list->priv->folder) {
 			tmp_search_copy = g_strdup (old_regen_data->search);
@@ -7082,8 +7047,8 @@ mail_regen_list (MessageList *message_list,
 			search = tmp_search_copy;
 		}
 
-		if (old_regen_data)
-			regen_data_unref (old_regen_data);
+		old_regen_data = NULL;
+		g_mutex_unlock (&message_list->priv->regen_lock);
 	} else if (search && !*search) {
 		search = NULL;
 	}
@@ -7102,11 +7067,13 @@ mail_regen_list (MessageList *message_list,
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 
-	old_regen_data = message_list->priv->regen_data;
+	old_regen_task = g_steal_pointer (&message_list->priv->regen_task);
+	if (old_regen_task)
+		old_regen_data = g_task_get_task_data (old_regen_task);
 
 	/* If a regen is scheduled but not yet started, just
 	 * apply the argument values without cancelling it. */
-	if (message_list->priv->regen_idle_id > 0) {
+	if (message_list->priv->regen_idle_source) {
 		g_return_if_fail (old_regen_data != NULL);
 
 		if (g_strcmp0 (search, old_regen_data->search) != 0) {
@@ -7134,6 +7101,7 @@ mail_regen_list (MessageList *message_list,
 
 		/* Avoid cancelling on the way out. */
 		old_regen_data = NULL;
+		message_list->priv->regen_task = g_steal_pointer (&old_regen_task);
 
 		goto exit;
 	}
@@ -7160,25 +7128,18 @@ mail_regen_list (MessageList *message_list,
 
 	task = g_task_new (message_list, cancellable, message_list_regen_done_cb, NULL);
 	g_task_set_source_tag (task, mail_regen_list);
-	g_task_set_task_data (task,
-		regen_data_ref (new_regen_data),
-		(GDestroyNotify) regen_data_unref);
+	g_task_set_task_data (task, new_regen_data, (GDestroyNotify) regen_data_free);
 
-	/* Set the RegenData immediately, but start the actual regen
+	message_list->priv->regen_idle_source = g_idle_source_new ();
+	g_task_attach_source (task,
+		message_list->priv->regen_idle_source,
+		message_list_regen_idle_cb);
+
+	/* Set the regen_task immediately, but start the actual regen
 	 * operation from an idle callback.  That way the caller has
 	 * the remainder of this main loop iteration to make further
 	 * MessageList changes without triggering additional regens. */
-
-	message_list->priv->regen_data = regen_data_ref (new_regen_data);
-
-	message_list->priv->regen_idle_id =
-		g_idle_add_full (
-			G_PRIORITY_DEFAULT_IDLE,
-			message_list_regen_idle_cb,
-			g_steal_pointer (&task),
-			(GDestroyNotify) g_object_unref);
-
-	regen_data_unref (new_regen_data);
+	message_list->priv->regen_task = g_steal_pointer (&task);
 
 	g_object_unref (cancellable);
 
@@ -7186,9 +7147,9 @@ exit:
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
 	/* Cancel outside the lock, since this will emit a signal. */
-	if (old_regen_data != NULL) {
+	if (old_regen_task != NULL) {
 		e_activity_cancel (old_regen_data->activity);
-		regen_data_unref (old_regen_data);
+		g_clear_object (&old_regen_task);
 	}
 
 	g_free (tmp_search_copy);
