@@ -145,8 +145,6 @@ struct _ExtendedGNode {
 };
 
 struct _RegenData {
-	volatile gint ref_count;
-
 	EActivity *activity;
 	ETableSortInfo *sort_info;
 	ETableHeader *full_header;
@@ -480,7 +478,6 @@ regen_data_new (MessageList *message_list,
 	e_activity_set_text (activity, _("Generating message list"));
 
 	regen_data = g_slice_new0 (RegenData);
-	regen_data->ref_count = 1;
 	regen_data->activity = g_object_ref (activity);
 	regen_data->folder = message_list_ref_folder (message_list);
 	regen_data->last_row = -1;
@@ -509,46 +506,36 @@ regen_data_new (MessageList *message_list,
 }
 
 static void
-regen_data_unref (RegenData *regen_data)
+regen_data_free (RegenData *regen_data)
 {
 	g_return_if_fail (regen_data != NULL);
-	g_return_if_fail (regen_data->ref_count > 0);
 
-	if (g_atomic_int_dec_and_test (&regen_data->ref_count)) {
+	g_clear_object (&regen_data->activity);
+	g_clear_object (&regen_data->sort_info);
+	g_clear_object (&regen_data->full_header);
 
-		g_clear_object (&regen_data->activity);
-		g_clear_object (&regen_data->sort_info);
-		g_clear_object (&regen_data->full_header);
+	g_clear_pointer (&regen_data->search, g_free);
+	g_clear_pointer (&regen_data->thread_tree, camel_folder_thread_messages_unref);
 
-		g_free (regen_data->search);
+	if (regen_data->summary != NULL) {
+		guint ii, length;
 
-		if (regen_data->thread_tree != NULL)
-			camel_folder_thread_messages_unref (
-				regen_data->thread_tree);
+		length = regen_data->summary->len;
 
-		if (regen_data->summary != NULL) {
-			guint ii, length;
+		for (ii = 0; ii < length; ii++)
+			g_clear_object (&regen_data->summary->pdata[ii]);
 
-			length = regen_data->summary->len;
-
-			for (ii = 0; ii < length; ii++)
-				g_clear_object (&regen_data->summary->pdata[ii]);
-
-			g_ptr_array_free (regen_data->summary, TRUE);
-		}
-
-		if (regen_data->removed_uids)
-			g_hash_table_destroy (regen_data->removed_uids);
-		g_clear_object (&regen_data->folder);
-
-		if (regen_data->expand_state != NULL)
-			xmlFreeDoc (regen_data->expand_state);
-
-		g_mutex_clear (&regen_data->select_lock);
-		g_free (regen_data->select_uid);
-
-		g_slice_free (RegenData, regen_data);
+		g_clear_pointer (&regen_data->summary, g_ptr_array_unref);
 	}
+
+	g_clear_pointer (&regen_data->removed_uids, g_hash_table_unref);
+	g_clear_object (&regen_data->folder);
+	g_clear_pointer (&regen_data->expand_state, xmlFreeDoc);
+	g_mutex_clear (&regen_data->select_lock);
+	g_clear_pointer (&regen_data->select_uid, g_free);
+	g_free (regen_data->select_uid);
+
+	g_slice_free (RegenData, regen_data);
 }
 
 static void
@@ -7141,7 +7128,7 @@ mail_regen_list (MessageList *message_list,
 
 	task = g_task_new (message_list, cancellable, message_list_regen_done_cb, NULL);
 	g_task_set_source_tag (task, mail_regen_list);
-	g_task_set_task_data (task, new_regen_data, (GDestroyNotify) regen_data_unref);
+	g_task_set_task_data (task, new_regen_data, (GDestroyNotify) regen_data_free);
 
 	message_list->priv->regen_idle_source = g_idle_source_new ();
 	g_task_attach_source (task,
