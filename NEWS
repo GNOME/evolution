@@ -1,3 +1,33 @@
+Evolution 3.55.3 2025-02-28
+---------------------------
+
+Bug Fixes:
+	I#2970 - EImportAssistant: Keep the preview widget expanded (Corentin Noël)
+	I#2971 - Add option to use bigger text for time in the "To Do" pane
+	I#2973 - itip-formatter: State status of found appointment in email
+	I#2975 - MessageList: Use GTask instead of RegenData to keep track of current task (Corentin Noël)
+	I#2984 - EMailLabelTreeView: Label colors not shown with symbolic icons
+	I#2986 - Switcher appearance resets to "Icons and Text" after restart
+	I#2992 - Entering number in search bar colours selected message
+	I#2993 - Composer: Middle-click paste misplaced with changed font scaling
+	I#2996 - ETree: Expander triangle is reversed
+	M!179 - Use GdkDisplay instead of GdkScreen when possible (Corentin Noël)
+	M!188 - EUIManager: Do not do direct comparison with GVariantType (Corentin Noël)
+	M!189 - e-util: Remove GalA11yETableFactory and GalA11yETreeFactory (Corentin Noël)
+
+Miscellaneous:
+	EWebKitEditor: Correct GObject property type on read
+	text-highlight: Update 'highlight' arguments
+	Composer: Do not add extra empty lines at the end of the plain text
+	help: Add missing help files into the build script
+
+Translations:
+	Ekaterine Papava (ka)
+	Jiri Eischmann (cs)
+	Martin (sl)
+	Vincent Chatelain (fr)
+	Yuri Chornoivan (uk)
+
 Evolution 3.55.2 2025-01-31
 ---------------------------
 
