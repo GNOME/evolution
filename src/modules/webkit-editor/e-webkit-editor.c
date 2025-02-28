@@ -2300,10 +2300,23 @@ webkit_editor_move_caret_on_coordinates (EContentEditor *editor,
 					 gboolean cancel_if_not_collapsed)
 {
 	EWebKitEditor *wk_editor;
+	GtkSettings *gtk_settings;
+	gint font_dpi = -1;
 
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
+	gtk_settings = gtk_settings_get_default ();
+	if (gtk_settings)
+		g_object_get (gtk_settings, "gtk-xft-dpi", &font_dpi, NULL);
+
+	if (font_dpi > 0) {
+		gdouble factor = font_dpi / (1024.0 * 96.0);
+		if (factor > 1e-7) {
+			xx = (gint) (xx / factor);
+			yy = (gint) (yy / factor);
+		}
+	}
 
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
 		"EvoEditor.MoveSelectionToPoint(%d, %d, %x);",
