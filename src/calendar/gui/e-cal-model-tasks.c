@@ -337,6 +337,7 @@ get_due_status (ECalModelTasks *model,
 		} else {
 			ECalModelTasksDueStatus res;
 			ICalParameter *param;
+			ICalTimezone *local_zone;
 
 			param = i_cal_property_get_first_parameter (prop, I_CAL_TZID_PARAMETER);
 
@@ -353,20 +354,22 @@ get_due_status (ECalModelTasks *model,
 
 			g_object_unref (prop);
 
+			local_zone = e_cal_model_get_timezone (E_CAL_MODEL (model));
+
 			if (!zone) {
 				if (i_cal_time_is_utc (due_tt))
 					zone = i_cal_timezone_get_utc_timezone ();
 				else
-					zone = e_cal_model_get_timezone (E_CAL_MODEL (model));
+					zone = local_zone;
 			}
 
-			now_tt = i_cal_time_new_current_with_zone (zone);
-			i_cal_time_set_timezone (now_tt, zone);
+			now_tt = i_cal_time_new_current_with_zone (local_zone);
+			i_cal_time_set_timezone (now_tt, local_zone);
 			i_cal_time_set_timezone (due_tt, zone);
 
 			if (i_cal_time_compare (due_tt, now_tt) <= 0)
 				res = E_CAL_MODEL_TASKS_DUE_OVERDUE;
-			else if (i_cal_time_compare_date_only_tz (due_tt, now_tt, zone) == 0)
+			else if (i_cal_time_compare_date_only_tz (due_tt, now_tt, local_zone) == 0)
 				res = E_CAL_MODEL_TASKS_DUE_TODAY;
 			else
 				res = E_CAL_MODEL_TASKS_DUE_FUTURE;
