@@ -712,6 +712,7 @@ cal_shell_view_constructed (GObject *object)
 	e_ui_customizer_register (customizer, "calendar-event-popup", _("Event Context Menu"));
 	e_ui_customizer_register (customizer, "calendar-memopad-popup", _("Memo Context Menu"));
 	e_ui_customizer_register (customizer, "calendar-taskpad-popup", _("Task Context Menu"));
+	/* Translators: It refers to a context menu shown when there is no event below the cursor nor selected; the opposite is the "Event Context Menu" text */
 	e_ui_customizer_register (customizer, "calendar-empty-popup", _("No Event Context Menu"));
 }
 
