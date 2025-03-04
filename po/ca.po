@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2024-04-09 16:49+0000\n"
-"PO-Revision-Date: 2024-05-19 23:31+0100\n"
+"PO-Revision-Date: 2025-03-04 23:31+0100\n"
 "Last-Translator: Bàrbara Vidal <barbara@barbara.cat>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
 "Language: ca\n"
@@ -371,7 +371,7 @@ msgstr "Hora d'acabament de la jornada laboral"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:16
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
 msgstr ""
-"A quina hora acaba el dia laboral, en format vint-i-quatre hores, entre 0 i "
+"A quina hora acaba la jornada laboral, en format vint-i-quatre hores, entre 0 i "
 "23"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:17
@@ -389,7 +389,7 @@ msgstr "Hora d'inici de la jornada laboral"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:20
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
 msgstr ""
-"A quina hora comença el dia laboral, en format vint-i-quatre hores, entre 0 "
+"A quina hora comença la jornada laboral, en format vint-i-quatre hores, entre 0 "
 "i 23."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:21
@@ -434,7 +434,7 @@ msgid ""
 "-1 to use day-start-hour and day-start-minute"
 msgstr ""
 "L'hora de la jornada laboral acaba, en format 24 hores HHMM, 0000 fins a "
-"2359, o -1 per a usar hora-acaba-dia i minut-acaba-dia"
+"2359, o -1 per a usar hora-comença-dia i minut-acaba-dia"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
 msgid "Workday end time for Tuesday"
@@ -513,7 +513,7 @@ msgid ""
 "zones” list"
 msgstr ""
 "Nombre màxim de fusos horaris utilitzats recentment per a recordar en una "
-"llista «day_second_zones»"
+"llista «day-second-zones»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
 msgid "Default reminder value"
@@ -1318,7 +1318,7 @@ msgstr "Comprova si l'Evolution és el gestor de correu per defecte en iniciar."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:3
 msgid "Default charset in which to compose messages"
-msgstr "Joc de caràcters per defecte amb què es visualitzaran els missatges"
+msgstr "Joc de caràcters per defecte amb què es redactaran els missatges"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
 msgid "Default charset in which to compose messages. Uses UTF-8, if not set."
@@ -6347,7 +6347,7 @@ msgstr "Esteu segur que voleu suprimir aquestes llistes de contactes?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1827
 msgid "Are you sure you want to delete this contact list?"
-msgstr "Esteu segur que voleu suprimir aquestes llistes de contactes?"
+msgstr "Esteu segur que voleu suprimir aquesta llista de contactes?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1831
 #, c-format
@@ -6470,7 +6470,7 @@ msgstr "Fax particular"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "ISDN Phone"
-msgstr "Telèfon de l'XDSI"
+msgstr "Telèfon XDSI"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "Mobile Phone"
