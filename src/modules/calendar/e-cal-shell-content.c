@@ -48,6 +48,7 @@ struct _ECalShellContentPrivate {
 	GtkWidget *task_table;
 	ECalModel *task_model;
 	ECalDataModel *task_data_model;
+	gulong task_table_update_id;
 
 	GtkWidget *memo_table;
 	ECalModel *memo_model;
@@ -1479,6 +1480,19 @@ cal_shell_content_setup_foreign_sources (EShellWindow *shell_window,
 	e_cal_base_shell_sidebar_ensure_sources_open (E_CAL_BASE_SHELL_SIDEBAR (foreign_sidebar));
 }
 
+static gboolean
+cal_shell_content_update_tasks_table_cb (gpointer user_data)
+{
+	ECalShellContent *self = user_data;
+
+	if (self->priv->task_table)
+		e_task_table_process_completed_tasks (E_TASK_TABLE (self->priv->task_table), FALSE);
+	if (self->priv->task_model)
+		e_cal_model_tasks_update_due_tasks (E_CAL_MODEL_TASKS (self->priv->task_model));
+
+	return G_SOURCE_CONTINUE;
+}
+
 static void
 cal_shell_content_view_created (ECalBaseShellContent *cal_base_shell_content)
 {
@@ -1758,6 +1772,11 @@ cal_shell_content_dispose (GObject *object)
 	ECalShellContent *cal_shell_content = E_CAL_SHELL_CONTENT (object);
 	gint ii;
 
+	if (cal_shell_content->priv->task_table_update_id) {
+		g_source_remove (cal_shell_content->priv->task_table_update_id);
+		cal_shell_content->priv->task_table_update_id = 0;
+	}
+
 	if (cal_shell_content->priv->task_data_model) {
 		e_cal_data_model_set_disposing (cal_shell_content->priv->task_data_model, TRUE);
 		e_cal_data_model_unsubscribe (cal_shell_content->priv->task_data_model,
@@ -1986,6 +2005,11 @@ cal_shell_content_constructed (GObject *object)
 		shell_view, "notify::view-id",
 		G_CALLBACK (cal_shell_content_notify_view_id_cb),
 		cal_shell_content);
+
+	cal_shell_content->priv->task_table_update_id = e_named_timeout_add_seconds_full (
+		G_PRIORITY_LOW, 60,
+		cal_shell_content_update_tasks_table_cb,
+		cal_shell_content, NULL);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 

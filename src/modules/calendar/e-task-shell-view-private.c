@@ -411,8 +411,8 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	/* Call this when everything is ready, like actions in
 	 * action groups and such. */
 	task_shell_view_update_timeout_cb (task_shell_view);
-	priv->update_timeout = e_named_timeout_add_full (
-		G_PRIORITY_LOW, 60000,
+	priv->update_timeout = e_named_timeout_add_seconds_full (
+		G_PRIORITY_LOW, 60,
 		task_shell_view_update_timeout_cb,
 		task_shell_view, NULL);
 
