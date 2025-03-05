@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2024-04-09 16:49+0000\n"
-"PO-Revision-Date: 2025-03-04 23:31+0100\n"
+"PO-Revision-Date: 2025-03-05 23:31+0100\n"
 "Last-Translator: Bàrbara Vidal <barbara@barbara.cat>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
 "Language: ca\n"
@@ -3608,7 +3608,7 @@ msgid ""
 "Whether insert Face picture to outgoing messages by default. The picture "
 "should be set before checking this, otherwise nothing happens."
 msgstr ""
-"Si per defecte s'ha d'inserir una imatge de cara als missatges que s'enviïn. "
+"Si per defecte s'ha d'inserir una imatge de la cara als missatges que s'enviïn. "
 "La imatge s'haurà d'establir abans de seleccionar aquesta opció, atès que en "
 "cas contrari no s'utilitzarà."
 
@@ -26825,7 +26825,7 @@ msgstr "S'ha trobat l'anotació a la llista d'anotacions «%s»"
 
 #: ../src/modules/itip-formatter/itip-view.c:4456
 msgid "This meeting invitation is obsolete. It had been updated."
-msgstr "La invitació a la reunió és obsoleta. Hauria d'estar actualitzada."
+msgstr "Aquesta invitació a la reunió és obsoleta. S'ha actualitzat."
 
 #: ../src/modules/itip-formatter/itip-view.c:4578
 msgid "Unable to find any calendars"
@@ -27721,7 +27721,7 @@ msgstr "Mostra la barra de tasques pendents amb cites i tasques"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1996
 msgid "_Unmatched Folder Enabled"
-msgstr "Habilita la carpeta de _sense coincidència"
+msgstr "Carpeta _sense coincidència habilitada"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1998
 msgid "Toggles whether Unmatched search folder is enabled"
@@ -28998,7 +28998,7 @@ msgstr ""
 
 #: ../src/plugins/face/face.c:295
 msgid "Select a Face Picture"
-msgstr "Seleccioneu un fitxer de cara"
+msgstr "Seleccioneu una imatge de la cara"
 
 #: ../src/plugins/face/face.c:389
 msgid "_Insert Face picture by default"
@@ -29006,7 +29006,7 @@ msgstr "_Afegeix una foto de la cara per defecte"
 
 #: ../src/plugins/face/face.c:402
 msgid "Load new _Face picture"
-msgstr "Carrega una nova imatge de _cara"
+msgstr "Carrega una nova imatge de la _cara"
 
 #: ../src/plugins/face/face.c:446
 msgid "Change Face Image"
@@ -29934,7 +29934,7 @@ msgstr "S'està preparant per a treballar en línia…"
 
 #: ../src/shell/e-shell.c:491
 msgid "Preparing to quit"
-msgstr "S'està preparant la sortida"
+msgstr "S'està preparant per a sortir"
 
 #: ../src/shell/e-shell.c:497
 msgid "Preparing to quit…"
@@ -30569,7 +30569,7 @@ msgstr "Ha fallat acabar la pregunta de confiança per a «{0}»"
 
 #: ../src/shell/shell.error.xml.h:26
 msgid "SSL certificate for “{0}” is not trusted."
-msgstr "El certificat SSL per a «{0}» té confiança."
+msgstr "El certificat SSL per a «{0}» no és de confiança."
 
 #: ../src/shell/shell.error.xml.h:27
 msgid "Reason: {1}"
