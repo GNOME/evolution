@@ -3027,7 +3027,8 @@ em_utils_forward_attachment (EMsgComposer *composer,
 
 	e_msg_composer_set_is_reply_or_forward (composer, TRUE);
 
-	set_up_new_composer (composer, NULL, folder, NULL, NULL, FALSE);
+	set_up_new_composer (composer, NULL, folder, NULL,
+		uids && uids->len > 0 ? g_ptr_array_index (uids, 0) : NULL, FALSE);
 
 	if (orig_subject) {
 		gchar *subject;
