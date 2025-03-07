@@ -2603,7 +2603,7 @@ e_week_view_set_multi_week_view (EWeekView *week_view,
 			page_increment = 1;
 			page_size = 5;
 		} else {
-			page_increment = 4;
+			page_increment = week_view->priv->weeks_shown;
 			page_size = 5;
 		}
 	} else {
@@ -2682,7 +2682,7 @@ e_week_view_set_weeks_shown (EWeekView *week_view,
 			page_increment = 1;
 			page_size = 5;
 		} else {
-			page_increment = 4;
+			page_increment = weeks_shown;
 			page_size = 5;
 		}
 
