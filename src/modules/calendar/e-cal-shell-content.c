@@ -280,6 +280,7 @@ e_cal_shell_content_change_view (ECalShellContent *cal_shell_content,
 		EWeekView *month_view;
 
 		month_view = E_WEEK_VIEW (cal_shell_content->priv->views[E_CAL_VIEW_KIND_MONTH]);
+		e_week_view_set_first_day_shown (month_view, view_start);
 		e_week_view_set_weeks_shown (month_view, selected_days / 7);
 	}
 

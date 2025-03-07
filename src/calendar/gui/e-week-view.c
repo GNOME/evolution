@@ -230,10 +230,19 @@ week_view_process_component (EWeekView *week_view,
 {
 	ECalComponent *comp = NULL;
 	AddEventData add_event_data;
+	gint num_days;
 
 	/* If we don't have a valid date set yet, just return. */
 	if (!g_date_valid (&week_view->priv->first_day_shown))
 		return;
+
+	num_days = e_week_view_get_weeks_shown (week_view) * 7;
+	/* skip if out of current time range */
+	if (comp_data->instance_start >= week_view->day_starts[num_days] ||
+	    ((comp_data->instance_end != comp_data->instance_start || comp_data->instance_end < week_view->day_starts[0]) &&
+	    comp_data->instance_end < week_view->day_starts[0])) {
+		return;
+	}
 
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 	if (!comp) {
@@ -2434,7 +2443,7 @@ e_week_view_get_first_day_shown (EWeekView *week_view,
  * nearest week. */
 void
 e_week_view_set_first_day_shown (EWeekView *week_view,
-                                 GDate *date)
+                                 const GDate *date)
 {
 	GDate base_date;
 	GDateWeekday weekday;

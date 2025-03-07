@@ -351,7 +351,7 @@ void		e_week_view_set_days_left_to_right
 void		e_week_view_get_first_day_shown	(EWeekView *week_view,
 						 GDate *date);
 void		e_week_view_set_first_day_shown	(EWeekView *week_view,
-						 GDate *date);
+						 const GDate *date);
 
 /* The first day of the week we display. */
 GDateWeekday	e_week_view_get_display_start_day
