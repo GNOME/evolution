@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help\n"
 "POT-Creation-Date: 2022-04-12 17:51+0000\n"
-"PO-Revision-Date: 2023-10-12 20:15+0200\n"
+"PO-Revision-Date: 2025-03-08 20:15+0200\n"
 "Last-Translator: Jordi Mas i Hernàndez <jmas@softcatala.org>\n"
-"Language-Team: Catalan (https://www.transifex.com/softcatala/teams/62837/"
+"Language-Team: Catalan <info@softcatala.org>\n"
 "ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -4001,7 +4001,7 @@ msgstr "Gestió del correu electrònic"
 #. (itstool) path: section/title
 #: C/index.page:37
 msgid "Advanced Mail Management"
-msgstr "Gestió avançada del correu electrònic"
+msgstr "Gestió avançada del correu"
 
 #. (itstool) path: section/title
 #: C/index.page:42
@@ -4021,7 +4021,7 @@ msgstr "Gestió del calendari"
 #. (itstool) path: section/title
 #: C/index.page:51
 msgid "Advanced Calendar Management"
-msgstr "Gestió avançada del correu electrònic"
+msgstr "Gestió avançada del calendari"
 
 #. (itstool) path: section/title
 #: C/index.page:56
@@ -4901,7 +4901,7 @@ msgstr "Respon al remitent."
 #: C/intro-keyboard-shortcuts.page:217 C/intro-keyboard-shortcuts.page:317
 #: C/mail-composer-reply.page:45
 msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:220
@@ -5864,7 +5864,7 @@ msgstr "Redacció de missatges (comptes IMAP + )"
 #: C/mail-account-manage-usenet-news.page:66
 msgctxt "link:trail"
 msgid "Composing"
-msgstr "S'està creant la composició"
+msgstr "Composició"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:68
@@ -8483,8 +8483,8 @@ msgid ""
 "button aligns your text to the left, the center button centers text, and the "
 "right button aligns the text to the right."
 msgstr ""
-"Ubicat al costat de les Capçaleres i llistes desplegable, els tres paràgrafs "
-"d'icones deuen ser familiars per als usuaris de la majoria de programari de "
+"Ubicat al costat de les Capçaleres i llistes desplegable, les tres icones "
+"de paràgraf deuen ser familiars per als usuaris de la majoria de programari de "
 "processament de textos. El botó de més a l'esquerra alinea el text a "
 "l'esquerra, el centre centra el text del centre i el botó dret alinea el "
 "text a la dreta."
@@ -8791,7 +8791,7 @@ msgid ""
 "gui><gui>Composer Preferences</gui><gui>Send Account</gui></guiseq>."
 msgstr ""
 "Aquesta configuració està disponible a <guiseq><gui>Edita</"
-"gui><gui>Preferències</gui><gui>Edita Preferències</gui><gui>Compte "
+"gui><gui>Preferències</gui><gui>Preferències de l'editor</gui><gui>Compte "
 "d'enviament</gui></guiseq>."
 
 #. (itstool) path: info/desc
@@ -9245,7 +9245,7 @@ msgstr "Codificacions de caràcters"
 #. (itstool) path: section/title
 #: C/mail-displaying-character-encodings.page:24
 msgid "Received mail"
-msgstr "Rebre missatges"
+msgstr "Correu rebut"
 
 #. (itstool) path: section/p
 #: C/mail-displaying-character-encodings.page:26
@@ -10873,7 +10873,7 @@ msgid ""
 "or by pressing <keyseq><key>Shift</key><key>Ctrl</key><key>G</key></keyseq>."
 msgstr ""
 "També podeu fer-ho seleccionant els missatges i fent clic a "
-"<guiseq><gui>Misstage</gui><gui>Marca com a </gui><gui>Seguiment…</gui></"
+"<guiseq><gui>Missatge</gui><gui>Marca com a </gui><gui>Seguiment…</gui></"
 "guiseq> o prement <keyseq><key>Maj</key><key>Ctrl</key><key>G</key></keyseq>."
 
 #. (itstool) path: page/p
@@ -11712,8 +11712,8 @@ msgid ""
 "\"https://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox "
 "Resynchronization</link>."
 msgstr ""
-"Seleccioneu <gui>Utilitza la resincronització ràpida si el servidor l'admet</"
-"gui> si el servidor IMAP admet <link href=\"https://tools.ietf.org/html/"
+"Seleccioneu <gui>Utilitza la resincronització ràpida</gui> si el servidor l'admet "
+"si el servidor IMAP admet <link href=\"https://tools.ietf.org/html/"
 "rfc5162\">extensions IMAP4 per a la resincronització ràpida de bústies</"
 "link>."
 
@@ -11970,7 +11970,7 @@ msgstr "Convertir correus electrònics a fitxers PDF."
 #. (itstool) path: page/title
 #: C/mail-save-as-pdf.page:20
 msgid "Save messages as PDF"
-msgstr "Desar un missatge com a PDF"
+msgstr "Desar missatges com a PDF"
 
 #. (itstool) path: page/p
 #: C/mail-save-as-pdf.page:22
@@ -12668,7 +12668,7 @@ msgstr "Opció"
 #. (itstool) path: td/p
 #: C/mail-searching.page:101
 msgid "matches with contains"
-msgstr "coincidències amb conté"
+msgstr "coincidències amb el contingut"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:102
@@ -13255,7 +13255,7 @@ msgid ""
 "You can change the sort order of folders under <guiseq><gui>Folder</"
 "gui><gui>Edit Sort Order…</gui></guiseq>."
 msgstr ""
-"Podeu canviar l'ordre d'ordenació de carpetes a <guiseq><gui>FolderEdit</"
+"Podeu canviar l'ordre d'ordenació de carpetes a <guiseq><gui>Carpeta</"
 "gui> <gui>Edita l'ordre d'ordenació...</gui></guiseq>."
 
 #. (itstool) path: info/desc
@@ -14261,7 +14261,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/memos-usage-add-memo.page:5
 msgid "Adding a memo to your memo list."
-msgstr "Afegir una nota a la llista de notes."
+msgstr "Afegir una nota a la llista d'anotacions."
 
 #. (itstool) path: page/title
 #: C/memos-usage-add-memo.page:23
@@ -14281,7 +14281,7 @@ msgstr ""
 #: C/memos-usage-add-memo.page:27
 msgid "Select a memo list in the <gui>List</gui> dropdown list."
 msgstr ""
-"Seleccioneu una llista de notes de la llista desplegable de <gui>Llista</"
+"Seleccioneu una llista d'anotacions de la llista desplegable de <gui>Llista</"
 "gui>."
 
 #. (itstool) path: item/p
@@ -14384,7 +14384,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/memos-usage-delete-memo.page:5
 msgid "Deleting a memo from your memo list."
-msgstr "Eliminar una nota de la seva llista de notes."
+msgstr "Eliminar una nota de la seva llista d'anotacions."
 
 #. (itstool) path: page/title
 #: C/memos-usage-delete-memo.page:20
@@ -14399,7 +14399,7 @@ msgid ""
 "in the tool bar, or click <guiseq><gui>Edit</gui><gui>Delete Memo</gui></"
 "guiseq>."
 msgstr ""
-"Si voleu suprimir una nota a la llista de notes, feu clic amb el botó dret a "
+"Si voleu suprimir una nota a la llista d'anotacions, feu clic amb el botó dret a "
 "la nota i seleccioneu <gui>Suprimeix</gui>, o feu clic a la nota i feu clic "
 "a <gui>Suprimeix</gui> a la barra d'eines, o feu clic a <guiseq><gui>Edita</"
 "gui><gui>Suprimeix l'anotació</gui></guiseq>."
@@ -14407,7 +14407,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/memos-usage-edit-memo.page:5
 msgid "Editing a memo in your memo list."
-msgstr "Editar una nota, a la llista de notes."
+msgstr "Editar una nota, a la llista d'anotacions."
 
 #. (itstool) path: page/title
 #: C/memos-usage-edit-memo.page:20
@@ -14418,7 +14418,7 @@ msgstr "Editar una nota"
 #: C/memos-usage-edit-memo.page:22
 msgid "If you want to change a memo that already exists in your memo lists,"
 msgstr ""
-"Si voleu canviar una nota que ja existeix a les vostres llistes de notes,"
+"Si voleu canviar una nota que ja existeix a les vostres llistes d'anotacions,"
 
 #. (itstool) path: item/p
 #: C/memos-usage-edit-memo.page:25
@@ -14826,12 +14826,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/tasks-caldav.page:5
 msgid "Using an online CalDAV task list or memo list."
-msgstr "Utilitzeu una llista de tasques CalDAV o una llista de notes en línia."
+msgstr "Utilitzeu una llista de tasques CalDAV o una llista d'anotacions en línia."
 
 #. (itstool) path: page/title
 #: C/tasks-caldav.page:20
 msgid "Using a CalDAV task or memo list"
-msgstr "Utilitzar una llista de tasques o memòria CalDAV"
+msgstr "Utilitzar una llista de tasques o d'anotacions del CalDAV"
 
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:22 C/tasks-webdav.page:24
@@ -14839,7 +14839,7 @@ msgid ""
 "To add such a task list or memo list to <app>Evolution</app>, perform the "
 "following steps:"
 msgstr ""
-"Per a afegir una llista de tasques o llista de notes com a <app>Evolution</"
+"Per a afegir una llista de tasques o llista d'anotacions com a <app>Evolution</"
 "app>, seguiu els següents passos:"
 
 #. (itstool) path: item/p
@@ -14849,7 +14849,7 @@ msgid ""
 "<guiseq><gui>File</gui><gui>New</gui><gui>Memo List</gui></guiseq>."
 msgstr ""
 "Feu clic a <guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Llista de tasques</"
-"gui></guiseq> o <guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Llista notes</"
+"gui></guiseq> o <guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Llista d'anotacions</"
 "gui></guiseq>."
 
 #. (itstool) path: item/p
@@ -14929,12 +14929,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/tasks-local.page:5
 msgid "Adding another local task or memo list."
-msgstr "Afegir una altra tasca local o llista notes."
+msgstr "Afegir una altra tasca local o llista d'anotacions."
 
 #. (itstool) path: page/title
 #: C/tasks-local.page:20
 msgid "Adding another local task or memo list"
-msgstr "Afegir una altra tasca local o llista notes"
+msgstr "Afegir una altra tasca local o llista d'anotacions"
 
 #. (itstool) path: page/p
 #: C/tasks-local.page:22
@@ -14948,7 +14948,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/tasks-organizing.page:5
 msgid "On task and memo lists, searching, and categories."
-msgstr "En llistes de tasques i notes, cerca, i categories."
+msgstr "En llistes de tasques id'anotacions, cerca, i categories."
 
 #. (itstool) path: page/title
 #: C/tasks-organizing.page:21
@@ -15158,12 +15158,12 @@ msgstr "Afegir, editar i suprimir tasques"
 #. (itstool) path: info/desc
 #: C/tasks-using-several-tasklists.page:5
 msgid "Adding and using more than one task list or memo list."
-msgstr "Afegir i fer servir més d'una llista de tasques o de notes."
+msgstr "Afegir i fer servir més d'una llista de tasques o d'anotacions."
 
 #. (itstool) path: page/title
 #: C/tasks-using-several-tasklists.page:20
 msgid "Using several task lists or memo lists"
-msgstr "Ús de diverses llistes de tasques o de notes"
+msgstr "Ús de diverses llistes de tasques o d'anotacions"
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:22
@@ -15174,7 +15174,7 @@ msgid ""
 "these lists, and you can select or deselect any of the boxes next to them to "
 "show and hide the corresponding tasks or memos in your view."
 msgstr ""
-"Podeu tenir diverses llistes de tasques o notes i decidir quina es mostra. "
+"Podeu tenir diverses llistes de tasques o d'anotacions i decidir quina es mostra. "
 "Per exemple, podeu tenir tasques pel treball, tasques per a la llar, i "
 "tasques pel club de cant del qual formeu part. La barra lateral mostra les "
 "llistes, i es poden mostrar o ocultar les corresponents tasques o notes "
@@ -15184,7 +15184,7 @@ msgstr ""
 #: C/tasks-using-several-tasklists.page:24
 msgid "Tasks and memos from each task or memo list appear as different colors."
 msgstr ""
-"Les tasques i les notes de cada tasca o llista de notes apareixen amb colors "
+"Les tasques i les notes de cada tasca o llista d'anotacions apareixen amb colors "
 "diferents."
 
 #. (itstool) path: page/p
