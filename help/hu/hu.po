@@ -1,25 +1,25 @@
 # Hungarian translation for evolution_help.
-# Copyright (C) 2011, 2012, 2013, 2017, 2018, 2019, 2021, 2022, 2023, 2024 Free Software Foundation, Inc.
+# Copyright (C) 2011, 2012, 2013, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution help.
 #
 # Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
 # Nagy Zoltán <dzodzie at gmail dot com>, 2011.
 # Balázs Meskó <mesko.balazs at fsf dot hu>, 2018.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2019, 2021, 2022, 2023, 2024.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2019, 2021, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2024-07-08 11:55+0000\n"
-"PO-Revision-Date: 2024-08-06 18:18+0200\n"
+"POT-Creation-Date: 2025-03-03 10:35+0000\n"
+"PO-Revision-Date: 2025-03-09 00:32+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -30,7 +30,7 @@ msgstr ""
 "Kelemen Gábor <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2015, 2017, "
 "2018.\n"
 "Nagy Zoltán <dzodzie at gmail dot com>, 2011.\n"
-"Úr Balázs <ur.balazs at fsf dot hu>, 2014, 2019, 2021, 2022, 2023."
+"Úr Balázs <ur.balazs at fsf dot hu>, 2014, 2019, 2021, 2022, 2023, 2024, 2025."
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -232,7 +232,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-caldav.page:23
 msgid "Using an online CalDAV calendar."
-msgstr "Online CalDAV naptár használata."
+msgstr "Internetes CalDAV naptár használata."
 
 #. (itstool) path: page/title
 #: C/calendar-caldav.page:26
@@ -257,46 +257,56 @@ msgstr ""
 "menüpontot."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:36
+#: C/calendar-caldav.page:36 C/tasks-caldav.page:25
 msgid "Select the type <gui>CalDAV</gui>."
 msgstr "Válassza a <gui>CalDAV</gui> típust."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:39 C/calendar-google.page:40 C/calendar-local.page:34
+#: C/calendar-caldav.page:39
+msgid ""
+"To discover the calendars, announced by the server, enter the server address "
+"as <gui>URL</gui> and optionally <gui>User</gui>, then click on <gui "
+"style=\"button\">Find Calendars</gui>. Select a calendar and <gui>User mail</"
+"gui>. This prefills the fields <gui>Name</gui>, <gui>Color</gui>, <gui>URL</"
+"gui> and (see below) <gui>Email</gui>. The step is optional, and you can "
+"overwrite all the discovered settings."
+msgstr ""
+"A kiszolgáló által bejelentett naptárak felderítéséhez adja meg a kiszolgáló"
+" címét <gui>URL</gui>-ként, és választhatóan a <gui>Felhasználót</gui>, majd"
+" kattintson a <gui style=\"button\">Naptárak keresése</gui> gombra. Válasszon"
+" egy naptárat és <gui>Felhasználói e-mail-címet</gui>. Ez előre kitölti a <"
+"gui>Név</gui>, <gui>Szín</gui>, <gui>URL</gui> és (lásd alább) <gui>E-mail<"
+"/gui> mezőket. Ez a lépés nem kötelező, és felülírhatja az összes felfedezett"
+" beállítást."
+
+#. (itstool) path: item/p
+#: C/calendar-caldav.page:43 C/calendar-google.page:40 C/calendar-local.page:34
 #: C/calendar-weather.page:36 C/calendar-webdav.page:35
-#: C/contacts-google.page:35 C/contacts-ldap.page:48 C/contacts-local.page:34
-#: C/contacts-using-contact-lists.page:48 C/tasks-caldav.page:26
-#: C/tasks-local.page:26 C/tasks-webdav.page:28
+#: C/contacts-carddav.page:32 C/contacts-google.page:35 C/contacts-ldap.page:48
+#: C/contacts-local.page:34 C/contacts-using-contact-lists.page:48
+#: C/tasks-caldav.page:30 C/tasks-local.page:26 C/tasks-webdav.page:28
 msgid "Enter a name that you prefer."
 msgstr "Írjon be egy nevet."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:42 C/calendar-google.page:43 C/calendar-local.page:37
-#: C/calendar-weather.page:39 C/calendar-webdav.page:38 C/tasks-caldav.page:27
+#: C/calendar-caldav.page:46 C/calendar-google.page:43 C/calendar-local.page:37
+#: C/calendar-weather.page:39 C/calendar-webdav.page:38 C/tasks-caldav.page:31
 #: C/tasks-local.page:27 C/tasks-webdav.page:29
 msgid "Optionally choose a color that you prefer."
 msgstr "Kiválaszthat egy Ön által kedvelt színt is."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:45 C/calendar-google.page:46
-#: C/calendar-weather.page:42 C/calendar-webdav.page:41
-#: C/contacts-google.page:38
-msgid ""
-"Choose if you want to be able to view the content also when being offline."
-msgstr "Válassza ki, hogy kapcsolat nélkül is szeretné-e látni a tartalmat."
-
-#. (itstool) path: item/p
 #: C/calendar-caldav.page:49 C/calendar-webdav.page:45
-#: C/mail-composer-html-link.page:28 C/tasks-caldav.page:29
-#: C/tasks-webdav.page:31
+#: C/contacts-carddav.page:35 C/mail-composer-html-link.page:28
+#: C/tasks-caldav.page:32 C/tasks-webdav.page:31
 msgid "Enter the address in the <gui>URL</gui> field."
 msgstr "Adja meg a címet az <gui>URL</gui> mezőben."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:52 C/calendar-weather.page:49
-#: C/calendar-webdav.page:48 C/contacts-google.page:45
-#: C/mail-sending-options-smtp.page:38 C/tasks-caldav.page:30
-#: C/tasks-webdav.page:32
+#: C/calendar-webdav.page:48 C/contacts-carddav.page:38
+#: C/contacts-google.page:45 C/mail-sending-options-smtp.page:38
+#: C/tasks-caldav.page:33 C/tasks-webdav.page:32
 msgid ""
 "Choose <gui>Use a secure connection</gui> if you want to connect securely."
 msgstr ""
@@ -304,33 +314,73 @@ msgstr ""
 "amennyiben biztonságosan szeretne kapcsolódni."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:56 C/tasks-caldav.page:31
-msgid "Enter your username and your email address."
-msgstr "Írja be a felhasználói nevét és az e-mail-címét."
+#: C/calendar-caldav.page:56
+msgid ""
+"Enter your username and email address. When a meeting is created in the "
+"calendar, this email address is prefilled as Organizer."
+msgstr ""
+"Adja meg felhasználónevét és e-mail-címét. Ha találkozót hoz létre a"
+" naptárban, akkor ez az e-mail-cím előre kitöltésre kerül szervezőként."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:59 C/calendar-google.page:55 C/calendar-local.page:46
+#: C/calendar-caldav.page:59
+msgid ""
+"When a meeting is created, modified or deleted, a notification can be sent "
+"to the other parties of the meeting. If <gui>Server handles meeting "
+"invitations</gui> is selected, <app>Evolution</app> uploads the meeting and "
+"assumes that the server informs other parties. When the option is not "
+"selected, <app>Evolution</app> sends an email."
+msgstr ""
+"Ha találkozót hoznak létre, módosítanak vagy törölnek, akkor értesítést lehet"
+" küldeni a találkozó többi résztvevőjének. Ha az <gui>A kiszolgáló kezeli a"
+" találkozómeghívásokat</gui> ki van választva, akkor az <app>Evolution</app>"
+" feltölti a találkozót, és feltételezi, hogy a kiszolgáló értesíti a többi"
+" résztvevőt. Ha a lehetőség nincs kiválasztva, akkor az <app>Evolution</app>"
+" küld e-mailt."
+
+#. (itstool) path: item/p
+#: C/calendar-caldav.page:64 C/calendar-google.page:55 C/calendar-local.page:46
 #: C/calendar-meetings-delegating.page:41 C/calendar-weather.page:56
-#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:58
-#: C/contacts-local.page:37 C/contacts-usage-add-contact.page:43
-#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
-#: C/mail-attachments-sending.page:32
+#: C/calendar-webdav.page:55 C/contacts-carddav.page:45
+#: C/contacts-google.page:49 C/contacts-ldap.page:114 C/contacts-local.page:37
+#: C/contacts-usage-add-contact.page:43 C/contacts-usage-edit-contact.page:34
+#: C/contacts-using-contact-lists.page:69 C/mail-attachments-sending.page:32
 #: C/mail-composer-custom-header-lines.page:47
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
 #: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
 #: C/mail-filters.page:71 C/mail-search-folders-add.page:47
-#: C/tasks-caldav.page:32 C/tasks-local.page:28 C/tasks-webdav.page:34
+#: C/tasks-caldav.page:40 C/tasks-local.page:28 C/tasks-webdav.page:34
 #: C/using-categories.page:51 C/using-categories.page:53
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Nyomja meg az <gui style=\"button\">OK</gui> gombot."
 
 #. (itstool) path: page/p
-#: C/calendar-caldav.page:63 C/calendar-google.page:59 C/calendar-local.page:50
+#: C/calendar-caldav.page:68 C/calendar-google.page:59 C/calendar-local.page:50
 #: C/calendar-weather.page:60 C/calendar-webdav.page:59
 msgid ""
 "The calendar will be added to the list of calendars in <app>Evolution</app>."
 msgstr "A naptár hozzáadásra kerül az <app>Evolution</app> naptárlistájához."
+
+#. (itstool) path: section/title
+#. (itstool) path: item/p
+#: C/calendar-caldav.page:71 C/contacts-using-several-addressbooks.page:33
+#: C/intro-account-types.page:35 C/tasks-caldav.page:46
+#| msgid "Common Account Types"
+msgid "Collection accounts"
+msgstr "Gyűjteményfiókok"
+
+#. (itstool) path: section/p
+#: C/calendar-caldav.page:72 C/tasks-caldav.page:47
+msgid ""
+"Different types of mail, address books, calendars, task and memo lists, "
+"belonging to the same user, can be added in one step by utilizing a <link "
+"xref=\"intro-account-types#collection-account\">Collection account</link>."
+msgstr ""
+"A különböző típusú levelek, címjegyzékek, naptárak, feladatok és"
+" feljegyzéslisták, amelyek ugyanahhoz a felhasználóhoz tartoznak, egy"
+" lépésben hozzáadhatók egy <link xref=\"intro-account-types#collection-account"
+"\">gyűjteményfiók</link> használatával."
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
@@ -432,7 +482,7 @@ msgstr ""
 "használatával előre ellenőrizheti, hogy mások elérhetők-e. Az időbeosztás "
 "szolgáltatás rendszerint az olyan dedikált csoportmunka-kiszolgálók egyik "
 "funkciója, mint a Microsoft Exchange és a Novell GroupWise. Ugyanakkor "
-"online is közzéteheti időbeosztását, és hozzáférhet máshol közzétett "
+"az interneten is közzéteheti időbeosztását, és hozzáférhet máshol közzétett "
 "időbeosztásokhoz is. Ha nem minden közreműködő jelentet meg időbeosztás-"
 "információkat, akkor a napirendjének másokkal való egyeztetéséhez "
 "használhatja a <link xref=\"calendar-meetings-sending-"
@@ -523,7 +573,7 @@ msgstr ""
 "beírta ezt a webcímet a névjegykártyájukra."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:90 C/calendar-publishing.page:40
+#: C/calendar-free-busy.page:90 C/calendar-publishing.page:42
 msgid ""
 "You can publish Calendar and Free/Busy information to a WebDAV server, FTP "
 "server, a remote machine through SSH or to any other web server with HTTP "
@@ -583,7 +633,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-google.page:24
 msgid "Using the online calendar of your Google account."
-msgstr "Google fiók online naptárának használata."
+msgstr "Google-fiók internetes naptárának használata."
 
 #. (itstool) path: page/title
 #: C/calendar-google.page:27
@@ -594,6 +644,13 @@ msgstr "Google naptár használata"
 #: C/calendar-google.page:37 C/contacts-google.page:32
 msgid "Select the type <gui>Google</gui>."
 msgstr "Válassza a <gui>Google</gui> típust."
+
+#. (itstool) path: item/p
+#: C/calendar-google.page:46 C/calendar-weather.page:42
+#: C/calendar-webdav.page:41 C/contacts-google.page:38
+msgid ""
+"Choose if you want to be able to view the content also when being offline."
+msgstr "Válassza ki, hogy kapcsolat nélkül is szeretné-e látni a tartalmat."
 
 #. (itstool) path: item/p
 #: C/calendar-google.page:49 C/contacts-google.page:42
@@ -899,9 +956,13 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:52
+#| msgid ""
+#| "You can also select an arbitrary range of days in the small calendar in "
+#| "the side bar. To do this, select the days that you want to view in your "
+#| "calendar."
 msgid ""
 "You can also select an arbitrary range of days in the small calendar in the "
-"side bar. To do this, select the days that you want to view in your calendar."
+"sidebar. To do this, select the days that you want to view in your calendar."
 msgstr ""
 "Továbbá tetszőleges naptartományt is kiválaszthat a kis naptárban az "
 "oldalsávon. Ehhez válassza ki a naptárában megjelenítendő napokat."
@@ -1159,7 +1220,7 @@ msgid ""
 "If you have multiple email accounts, select the one to use by selecting an "
 "item in the <gui>Organizer</gui> field."
 msgstr ""
-"Ha több e-mail fiókja van, akkor a <gui>Szervező</gui> mezőben válassza ki a "
+"Ha több e-mail-fiókja van, akkor a <gui>Szervező</gui> mezőben válassza ki a "
 "használni kívántat."
 
 #. (itstool) path: item/p
@@ -1306,36 +1367,63 @@ msgstr "Naptárközzététel"
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:30
+#| msgid ""
+#| "In order to make one of your calendars available to the public, you can "
+#| "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
+#| "Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
+#| "guiseq>."
 msgid ""
-"In order to make one of your calendars available to the public, you can "
-"define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
-"Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
-"guiseq>."
+"In order to make one of your calendars available to the public, enable the "
+"Calendar Publishing plugin from <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui> <gui>Plugins</gui></guiseq> and restart <app>Evolution</app> to "
+"activate it."
 msgstr ""
-"Egyes naptárainak közzétételéhez megadhatja a webkiszolgálóra feltöltendő "
-"naptárakat a <guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui> "
-"<gui>Naptár és feladatok</gui> <gui>Naptárközzététel</gui> <gui>Helyek</"
-"gui><gui style=\"button\">Hozzáadás</gui></guiseq> alatt."
+"Ahhoz, hogy az egyik naptárát nyilvánosan elérhetővé tegye, engedélyezze a"
+" Naptárközzététel bővítményt a <guiseq><gui>Szerkesztés</gui><gui"
+">Beállítások</gui><gui>Bővítmények</gui></guiseq> lapról, majd indítsa újra"
+" az <app>Evolution</app> programot a bekapcsolásához."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:37
+#: C/calendar-publishing.page:33
+#| msgid ""
+#| "In order to make one of your calendars available to the public, you can "
+#| "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
+#| "Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
+#| "guiseq>."
+msgid ""
+"You can define calendars to be uploaded to a web server under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> "
+"<gui>Publishing Information</gui> <gui>Locations</gui><gui "
+"style=\"button\">Add</gui></guiseq>."
+msgstr ""
+"Megadhatja a webkiszolgálóra feltöltendő naptárakat a <guiseq><gui"
+">Szerkesztés</gui><gui>Beállítások</gui> <gui>Naptár és feladatok</gui> <gui"
+">Közzétételi információk</gui> <gui>Helyek</gui><gui style=\"button\""
+">Hozzáadás</gui></guiseq> alatt."
+
+#. (itstool) path: page/p
+#: C/calendar-publishing.page:39
 msgid ""
 "You can specify the online location, the frequency of publishing, which "
 "calendar(s) to publish, and authentication information for uploading."
 msgstr ""
-"Megadhatja az online helyet, a közzététel gyakoriságát, a közzétenni kívánt "
-"naptárakat és a feltöltéshez használandó hitelesítési információkat."
+"Megadhatja az interneten lévő helyet, a közzététel gyakoriságát, a közzétenni"
+" kívánt naptárakat és a feltöltéshez használandó hitelesítési információkat."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:44
+#: C/calendar-publishing.page:46
+#| msgid ""
+#| "To immediately publish calendar information, click <guiseq><gui>Actions</"
+#| "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
-"gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
+"gui><gui>Publish Calendar Information</gui></guiseq> in the calendar window."
 msgstr ""
 "A naptár-információk azonnali közzétételéhez válassza a "
 "<guiseq><gui>Műveletek</gui><gui>Naptár-információk közzététele</gui></"
-"guiseq> menüpontot a naptár nézetben."
+"guiseq> menüpontot a naptár ablakban."
 
 #. (itstool) path: info/desc
 #: C/calendar-recurrence.page:23
@@ -1690,10 +1778,18 @@ msgstr "Több naptár használata"
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:30
+#| msgid ""
+#| "You can have multiple calendars and overlay them one over the other. For "
+#| "example, you might have a schedule of events for work, one for home, and "
+#| "one for your favorite sports team. The side bar lists those calendars, "
+#| "and you can select or deselect the boxes next to them to show and hide "
+#| "the appointments in your calendar view. By hiding and showing different "
+#| "sets of appointments, you can be sure to avoid conflicts, while keeping a "
+#| "minimum of clutter in your view."
 msgid ""
 "You can have multiple calendars and overlay them one over the other. For "
 "example, you might have a schedule of events for work, one for home, and one "
-"for your favorite sports team. The side bar lists those calendars, and you "
+"for your favorite sports team. The sidebar lists those calendars, and you "
 "can select or deselect the boxes next to them to show and hide the "
 "appointments in your calendar view. By hiding and showing different sets of "
 "appointments, you can be sure to avoid conflicts, while keeping a minimum of "
@@ -1710,7 +1806,8 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:38
-msgid "Appointments for each calendar appear in different color."
+#| msgid "Appointments for each calendar appear in different color."
+msgid "Appointments for each calendar appear in a different color."
 msgstr "Az egyes naptárak bejegyzései eltérő színnel jelennek meg."
 
 #. (itstool) path: page/p
@@ -1731,9 +1828,20 @@ msgid ""
 "events."
 msgstr ""
 "Az <link href=\"http://icalshare.com\">icalshare.com weboldal</link> például "
-"rengeteg megosztott online naptárat tartalmaz, beleértve a nemzeti és "
+"rengeteg megosztott internetes naptárat tartalmaz, beleértve a nemzeti és "
 "vallásos ünnepeket, a hold fázisait, sporteseményeket, valamint helyi és "
 "regionális eseményeket."
+
+#. (itstool) path: page/p
+#: C/calendar-using-several-calendars.page:47
+msgid ""
+"New events and meetings are created in the selected calendar in the Calendar "
+"window. If no calendar is selected, new events are created in the default "
+"calendar."
+msgstr ""
+"Az új események és találkozók a Naptár ablakban kiválasztott naptárban jönnek"
+" létre. Ha nincs naptár kiválasztva, akkor az új események az alapértelmezett"
+" naptárban jönnek létre."
 
 #. (itstool) path: info/desc
 #: C/calendar-weather.page:17
@@ -1767,22 +1875,24 @@ msgstr "Válassza ki a hőmérséklet mértékegységét."
 
 #. (itstool) path: info/desc
 #: C/calendar-webdav.page:16
-msgid "Using an online Webcal/WebDAV calendar."
-msgstr "Online Webcal/WebDAV naptár használata."
+#| msgid "Using an online Webcal/WebDAV calendar."
+msgid "Using an online Webcal/HTTP calendar."
+msgstr "Interneten lévő Webcal/HTTP naptár használata."
 
 #. (itstool) path: page/title
 #: C/calendar-webdav.page:19
-msgid "Using a WebDAV calendar"
-msgstr "WebDAV naptár használata"
+#| msgid "Using a WebDAV calendar"
+msgid "Using a Webcal calendar"
+msgstr "Webcal naptár használata"
 
 #. (itstool) path: item/p
-#: C/calendar-webdav.page:32 C/tasks-caldav.page:25 C/tasks-webdav.page:27
+#: C/calendar-webdav.page:32 C/tasks-webdav.page:27
 msgid "Select the type <gui>On the Web</gui>."
 msgstr "Válassza az <gui>A weben</gui> típust."
 
 #. (itstool) path: item/p
-#: C/calendar-webdav.page:52 C/mail-sending-options-smtp.page:35
-#: C/tasks-webdav.page:33
+#: C/calendar-webdav.page:52 C/contacts-carddav.page:42
+#: C/mail-sending-options-smtp.page:35 C/tasks-webdav.page:33
 msgid "Enter your username."
 msgstr "Adja meg felhasználónevét."
 
@@ -1932,13 +2042,79 @@ msgstr ""
 "nyílgombokra a megfelelő címoszlopokba való mozgatásukhoz."
 
 #. (itstool) path: info/desc
+#: C/contacts-carddav.page:12
+#| msgid "Using an online CalDAV calendar."
+msgid "Using an online CardDAV address book."
+msgstr "Interneten lévő CardDAV címjegyzék használata."
+
+#. (itstool) path: page/title
+#: C/contacts-carddav.page:15
+#| msgid "Adding an LDAP address book"
+msgid "Using a CardDAV address book"
+msgstr "CardDAV címjegyzék használata"
+
+#. (itstool) path: page/p
+#: C/contacts-carddav.page:17
+#| msgid ""
+#| "To add such an address book to <app>Evolution</app>, perform the "
+#| "following steps:"
+msgid "To add such an address book, perform the following steps:"
+msgstr "Egy ilyen címjegyzék hozzáadásához végezze el a következő lépéseket:"
+
+#. (itstool) path: item/p
+#: C/contacts-carddav.page:21
+#| msgid ""
+#| "Click <guiseq><gui>File</gui><gui>New</gui> <gui>Address Book</gui></"
+#| "guiseq>."
+msgid ""
+"Click <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></guiseq>."
+msgstr ""
+"Válassza a <guiseq><gui>Fájl</gui><gui>Új</gui><gui>Címjegyzék</gui></"
+"guiseq> menüpontot."
+
+#. (itstool) path: item/p
+#: C/contacts-carddav.page:25
+#| msgid "Select the type <gui>CalDAV</gui>."
+msgid "Select the type <gui>CardDAV</gui>."
+msgstr "Válassza a <gui>CardDAV</gui> típust."
+
+#. (itstool) path: item/p
+#: C/contacts-carddav.page:28
+msgid ""
+"To discover the address books, announced by the server, enter the server "
+"address as <gui>URL</gui> and optionally <gui>User</gui>, then click on <gui "
+"style=\"button\">Find Address Books</gui>. Select the address book. This "
+"prefills the fields <gui>Name</gui> and <gui>URL</gui>. The step is "
+"optional, and you can overwrite all the discovered settings."
+msgstr ""
+"A kiszolgáló által bejelentett címjegyzékek felderítéséhez adja meg a"
+" kiszolgáló címét <gui>URL</gui>-ként, és választhatóan a <gui>Felhasználót<"
+"/gui>, majd kattintson a <gui style=\"button\">Címjegyzékek keresése</gui>"
+" gombra. Válassza ki a címjegyzéket. Ez előre kitölti a <gui>Név</gui> és <"
+"gui>URL</gui> mezőket Ez a lépés nem kötelező, és felülírhatja az összes"
+" felfedezett beállítást."
+
+#. (itstool) path: page/p
+#: C/contacts-carddav.page:49
+#| msgid ""
+#| "The address book will be added to the list of address books in "
+#| "<app>Evolution</app>."
+msgid ""
+"The address book will be added to the list of address books in "
+"<app>Evolution</app>, <app>GNOME Contacts</app>."
+msgstr ""
+"A címjegyzék hozzáadásra kerül az <app>Evolution</app> és a <app>GNOME"
+" Partnerek</app> címjegyzéklistájához."
+
+#. (itstool) path: info/desc
 #: C/contacts-google.page:18
 msgid "Use the online address book of your Google account."
-msgstr "Google fiók online címtárának használata."
+msgstr "Google-fiók internetes címtárának használata."
 
 #. (itstool) path: page/title
 #: C/contacts-google.page:21
-msgid "Using a Google addressbook"
+#| msgid "Using a Google addressbook"
+msgid "Using a Google address book"
 msgstr "Google címjegyzék használata"
 
 #. (itstool) path: page/p
@@ -1997,14 +2173,21 @@ msgstr "LDAP-címjegyzék felvétele"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:44
-msgid ""
-"In the <gui>General</gui> tab, select the type <gui>On LDAP Servers</gui>."
+#| msgid ""
+#| "In the <gui>General</gui> tab, select the type <gui>On LDAP Servers</gui>."
+msgid "In the <gui>Type</gui> field, select <gui>On LDAP Servers</gui>."
 msgstr ""
-"Az <gui>Általános</gui> lapon válassza az <gui>LDAP-kiszolgálókon</gui> "
-"lehetőséget."
+"A <gui>Típus</gui> mezőben válassza az <gui>LDAP-kiszolgálókon</gui>"
+" lehetőséget."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:51
+#| msgid "Click the <gui>Configuration</gui> tab."
+msgid "In the <gui>Connecting to LDAP</gui> tab:"
+msgstr "A <gui>Kapcsolódás LDAP-hoz</gui> lapon:"
+
+#. (itstool) path: item/p
+#: C/contacts-ldap.page:54
 msgid ""
 "Enter the address of the server, the port number (the default number is 389) "
 "and whether you want to connect securely."
@@ -2013,17 +2196,19 @@ msgstr ""
 "biztonságosan szeretne-e csatlakozni."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:55
+#: C/contacts-ldap.page:58
 msgid "Define the login method and your username."
 msgstr "Adja meg a bejelentkezési módszert és a felhasználónevét."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:61
-msgid "In the <gui>Details</gui> tab you can define the following settings:"
-msgstr "A <gui>Részletek</gui> lapon a következő beállításokat adhatja meg:"
+#: C/contacts-ldap.page:63
+#| msgid "In the <gui>Details</gui> tab you can define the following settings:"
+msgid "In the <gui>Using LDAP</gui> tab you define the following settings:"
+msgstr ""
+"Az <gui>LDAP használata</gui> lapon a következő beállításokat adhatja meg:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:65
+#: C/contacts-ldap.page:67
 msgid ""
 "Search Base: The search base is the starting point for a directory search. "
 "Contact your system administrator for information about the correct settings."
@@ -2033,28 +2218,28 @@ msgstr ""
 "kapcsolatos információkért."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:70
+#: C/contacts-ldap.page:72
 msgid "Search Scope: The search scope is the breadth of a given search."
 msgstr "Keresés hatóköre: a keresés hatóköre az adott keresés szélessége."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:71
+#: C/contacts-ldap.page:73
 msgid "The following options are available:"
 msgstr "A következő beállítások érhetők el:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:74
+#: C/contacts-ldap.page:76
 msgid "One Level: Searches one entry below the Search Base."
 msgstr "Egy szint: a keresés kiindulópontja alatt egy bejegyzéssel keres."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:77
+#: C/contacts-ldap.page:79
 msgid "Subtree: Searches the Search Base and all entries below it."
 msgstr ""
 "Részfa: a keresés kiindulópontján és minden alatta lévő bejegyzésben keres."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:82
+#: C/contacts-ldap.page:84
 msgid ""
 "Search Filter: The search filter can be set here for all the LDAP queries. "
 "For example:"
@@ -2063,18 +2248,18 @@ msgstr ""
 "Például:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:86
+#: C/contacts-ldap.page:88
 msgid "<code>ObjectClass=*</code>: Lists all the objects from the server."
 msgstr ""
 "<code>ObjectClass=*</code>: felsorolja az összes objektumot a kiszolgálóról."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:90
+#: C/contacts-ldap.page:92
 msgid "<code>ObjectClass=User</code>: Lists only the users."
 msgstr "<code>ObjectClass=User</code>: csak a felhasználókat sorolja fel."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:93
+#: C/contacts-ldap.page:95
 msgid ""
 "<code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: "
 "Retrieves the User and Contact List objects."
@@ -2083,7 +2268,7 @@ msgstr ""
 "a felhasználó és a címlista objektumokat."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:97
+#: C/contacts-ldap.page:99
 msgid ""
 "<code>(&amp;(mail=*)(ObjectClass=*))</code>: Lists the objects associated "
 "with the email addresses."
@@ -2092,40 +2277,39 @@ msgstr ""
 "társított objektumokat."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:103
-msgid ""
-"Timeout (minutes): The maximum time <app>Evolution</app> attempts to "
-"download data from the server before giving up."
-msgstr ""
-"Időkorlát: az <app>Evolution</app> legfeljebb ennyi ideig próbál adatokat "
-"letölteni a kiszolgálóról, mielőtt feladná."
-
-#. (itstool) path: item/p
-#: C/contacts-ldap.page:107
+#: C/contacts-ldap.page:105
+#| msgid ""
+#| "Download Limit: The maximum number of results for a given search. Most "
+#| "servers refuse to send more than 500 contacts, but you can set the number "
+#| "lower if you want to shorten downloads for very broad searches."
 msgid ""
 "Download Limit: The maximum number of results for a given search. Most "
 "servers refuse to send more than 500 contacts, but you can set the number "
-"lower if you want to shorten downloads for very broad searches."
+"lower if you want to shorten downloads for very broad searches. This option "
+"is ignored, if <gui>Copy book content locally for offline operation</gui> is "
+"checked."
 msgstr ""
-"Letöltési korlát: adott keresésből visszakapott találatok maximális száma. A "
-"legtöbb kiszolgáló nem küld vissza 500-nál több névjegyet, de beállíthat "
-"alacsonyabb számot a letöltési idő csökkentéséhez a szélesebb keresések "
-"esetén."
+"Letöltési korlát: adott keresésből visszakapott találatok legnagyobb száma. A"
+" legtöbb kiszolgáló nem küld vissza 500-nál több névjegyet, de beállíthat"
+" alacsonyabb számot a letöltési idő csökkentéséhez a szélesebb keresések"
+" esetén. Ez a beállítás figyelmen kívül lesz hagyva, ha az <gui>A címjegyzék"
+" tartalmáról helyi másolat készítése kapcsolat nélküli munkához</gui> be van"
+" jelölve."
 
 #. (itstool) path: note/p
-#: C/contacts-ldap.page:117
+#: C/contacts-ldap.page:119
 msgid "If you are unsure about some settings, ask your system administrator."
 msgstr ""
 "Ha bizonytalan egyes beállításokkal kapcsolatban, akkor kérdezze meg "
 "rendszergazdáját."
 
 #. (itstool) path: section/title
-#: C/contacts-ldap.page:124
+#: C/contacts-ldap.page:126
 msgid "Differences to local address books"
 msgstr "Eltérések a helyi címjegyzékekhez képest"
 
 #. (itstool) path: section/p
-#: C/contacts-ldap.page:126
+#: C/contacts-ldap.page:128
 msgid ""
 "LDAP address books work like local address books on your computer, with the "
 "following exceptions:"
@@ -2134,7 +2318,7 @@ msgstr ""
 "címjegyzékek, a következő eltérésekkel:"
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:131
+#: C/contacts-ldap.page:133
 msgid ""
 "Network folders are only available when you are connected to the network. If "
 "you use a laptop or have a modem connection, you might want to copy or cache "
@@ -2147,7 +2331,7 @@ msgstr ""
 "címjegyzékbe húzásával és ejtésével érheti el."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:137
+#: C/contacts-ldap.page:139
 msgid ""
 "You can also mark the network folder for offline usage. To mark the folder, "
 "right-click the folder, click <gui>Properties</gui> and select <gui>Copy "
@@ -2159,7 +2343,7 @@ msgstr ""
 "helyi másolat készítése kapcsolat nélküli munkához</gui> jelölőnégyzetet."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:142
+#: C/contacts-ldap.page:144
 msgid ""
 "To prevent excess network traffic, <app>Evolution</app> does not normally "
 "load data from the LDAP server upon opening."
@@ -2168,7 +2352,7 @@ msgstr ""
 "általában nem tölti be az adatokat az LDAP-kiszolgálóról a megnyitáskor."
 
 #. (itstool) path: item/p
-#: C/contacts-ldap.page:146
+#: C/contacts-ldap.page:148
 msgid ""
 "Depending on your server settings, you might not be able to edit all the "
 "fields in a contact stored on an LDAP server. Some servers prohibit some or "
@@ -2229,7 +2413,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:38
-msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
+#| msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
+msgid "Choose an address book and click <gui style=\"button\">Define</gui>."
 msgstr ""
 "Válassza ki a címjegyzéket, és nyomja meg a <gui style=\"button\">Megadás</"
 "gui> gombot."
@@ -2277,9 +2462,13 @@ msgstr "Névjegyek rendezése, rendszerezése és csoportosítása"
 
 #. (itstool) path: page/p
 #: C/contacts-organizing.page:23
+#| msgid ""
+#| "There are several ways how to organize your contacts. You can use several "
+#| "addressbooks and categories, and for conveniently sending messages to a "
+#| "group of people contact lists are available."
 msgid ""
 "There are several ways how to organize your contacts. You can use several "
-"addressbooks and categories, and for conveniently sending messages to a "
+"address books and categories, and for conveniently sending messages to a "
 "group of people contact lists are available."
 msgstr ""
 "A névjegyeket számos módon rendszerezheti. Használhat több címjegyzéket és "
@@ -2601,9 +2790,14 @@ msgstr "Címjegyzékek hozzáadása és létrehozása"
 
 #. (itstool) path: page/p
 #: C/contacts-using-several-addressbooks.page:23
+#| msgid ""
+#| "You can have multiple address books. For example, you might have one "
+#| "address book for work related contacts and one for private contacts. The "
+#| "side bar lists those address books, and you can select which address book "
+#| "is shown."
 msgid ""
 "You can have multiple address books. For example, you might have one address "
-"book for work related contacts and one for private contacts. The side bar "
+"book for work related contacts and one for private contacts. The sidebar "
 "lists those address books, and you can select which address book is shown."
 msgstr ""
 "Több címjegyzéket is használhat. Az egyikben tárolhatja például a munkájával "
@@ -2619,6 +2813,29 @@ msgid ""
 msgstr ""
 "Nem csak a számítógépén, az interneten (például: Google) vagy a helyi "
 "hálózaton (például: LDAP) lévő címjegyzékeket is használhat."
+
+#. (itstool) path: page/p
+#: C/contacts-using-several-addressbooks.page:30
+msgid ""
+"New contacts are created in the selected address book in the Contacts "
+"window. If no address book is selected, new contacts are created in the "
+"default address book."
+msgstr ""
+"Az új névjegyek a Névjegyek ablakban kiválasztott címjegyzékben jönnek létre."
+" Ha nincs címjegyzék kiválasztva, akkor az új névjegyek az alapértelmezett"
+" címjegyzékben jönnek létre."
+
+#. (itstool) path: section/p
+#: C/contacts-using-several-addressbooks.page:34
+msgid ""
+"Different types of mail, address books, calendars, task and memo lists, "
+"belonging to the same user, can be added in one step, by utilizing a <link "
+"xref=\"intro-account-types#collection-account\">Collection account</link>."
+msgstr ""
+"A különböző típusú levelek, címjegyzékek, naptárak, feladatok és"
+" feljegyzéslisták, amelyek ugyanahhoz a felhasználóhoz tartoznak, egy"
+" lépésben hozzáadhatók egy <link xref=\"intro-account-types#collection-account"
+"\">gyűjteményfiók</link> használatával."
 
 #. (itstool) path: info/desc
 #: C/credits.page:5
@@ -2715,95 +2932,52 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/customize-ui-items.page:21
-msgid "Customizing tool bar and menu items"
-msgstr "Eszköztár és menüpontok testreszabása"
-
-#. (itstool) path: note/p
-#: C/customize-ui-items.page:24
-msgid ""
-"These steps are for tech savvy users. These steps are not suitable for "
-"average users."
-msgstr "Ezek a lépések kizárólag a tapasztalt felhasználóknak szólnak."
+msgid "Customizing user interface"
+msgstr "A felhasználói felület személyre szabása"
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:27
+#: C/customize-ui-items.page:23
 msgid ""
-"<app>Evolution</app> offers no graphical interface to customize its tool "
-"bars or items in menus."
+"<app>Evolution</app> allows to customize its menus, tool bars and shortcuts "
+"in <guiseq><gui>View</gui><gui>Layout</gui><gui>Customize…</gui></guiseq>. "
+"The toolbars which can be customized offer a context menu option to do so."
 msgstr ""
-"Az <app>Evolution</app> nem biztosít grafikus felületet az eszköztárai vagy "
-"menüelemei testreszabásához."
+"Az <app>Evolution</app> lehetővé teszi a menük, eszköztárak és"
+" gyorsbillentyűk személyre szabását a <guiseq><gui>Nézet</gui><gui"
+">Elrendezés</gui><gui>Személyre szabás…</gui></guiseq> menüpontban. A"
+" személyre szabható eszköztárak a helyi menüben lévő menüpontot is kínálnak"
+" ehhez."
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:29
+#: C/customize-ui-items.page:26
 msgid ""
-"Advanced users can experiment by exploring and editing the corresponding "
-"system-wide file(s) under <file>$PREFIX/share/evolution/ui/</file>."
+"The <gui>Customize User Interface</gui> dialog allows to add, remove and "
+"reorder the items in the toolbars. Use either the buttons beside the layout "
+"tree or drag and drop the items."
 msgstr ""
-"A tapasztalt felhasználók kísérletezhetnek a megfelelő rendszerszintű fájlok "
-"felfedezésével és módosításával a <file>$PREFIX/share/evolution/ui/</file> "
-"alatt."
+"A <gui>Felhasználói felület személyre szabása</gui> párbeszédablak lehetővé"
+" teszi az eszköztáron lévő elemek hozzáadását, eltávolítását és átrendezését."
+" Használja az elrendezési fa melletti gombokat, vagy fogja meg és húzza az"
+" elemeket."
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:31
+#: C/customize-ui-items.page:28
 msgid ""
-"Copy those files with the file ending <file>.ui</file> which you would like "
-"to modify to your personal configuration folder <file>$HOME/.config/"
-"evolution/ui/</file>. Modify the files in your personal configuration folder "
-"so the next <app>Evolution</app> software update will not overwrite your "
-"changes."
+"Beside the <gui>Layout</gui> customization, it's possible to change also "
+"<gui>Shortcuts</gui> for the actions. One action can have multiple shortcuts."
 msgstr ""
-"Másolja a módosítani kívánt <file>.ui</file> kiterjesztésű fájlokat a "
-"személyes <file>$HOME/.config/evolution/ui/</file> beállítókönyvtárába. Az "
-"átmásolt fájlokat módosítsa, hogy az <app>Evolution</app> következő "
-"frissítése már ne írhassa felül ezeket."
+"Az <gui>Elrendezés</gui> személyre szabása mellett a műveletek <gui"
+">Gyorsbillentyűit</gui> is meg lehet változtatni. Egy műveletnek több"
+" gyorsbillentyűje is lehet."
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:34
+#: C/customize-ui-items.page:30
 msgid ""
-"Changing the order of tool bar/menu items in some <file>.ui</file> files may "
-"not affect their displayed order in <app>Evolution</app>. As a workaround, "
-"the attribute <code>position='top'</code> can be added to some elements (e."
-"g. <code>toolitem</code> and non-empty <code>placeholder</code> elements), "
-"which will place them before other items in the group and cause them to be "
-"displayed according to their order in the <file>.ui</file> file. This "
-"attribute may need to be added to all items in a group to achieve the "
-"overall desired item order."
+"The changes in the dialog are saved when it's closed and the user interface "
+"is updated accordingly."
 msgstr ""
-"Az eszköztár vagy menüpontok sorrendjének megváltoztatása egyes <file>.ui</"
-"file> fájlokban nem befolyásolja az <app>Evolution</app> alkalmazásban "
-"megjelenített sorrendjüket. Kerülőmegoldásként hozzáadható a "
-"<code>position='top'</code> attribútum néhány elemhez (például a "
-"<code>toolitem</code> elemhez és a nem üres <code>placeholder</code> "
-"elemekhez), ami a többi elem elé helyezi azokat a csoportban, és az <file>."
-"ui</file> fájlban szereplő sorrendjük szerint jeleníti meg azokat. Ezt az "
-"attribútumot esetleg az összes elemhez hozzá kell adni a csoportban a teljes "
-"kívánt elemsorrend eléréséhez."
-
-#. (itstool) path: page/p
-#: C/customize-ui-items.page:36
-msgid ""
-"The modified files will be used if the <code>evolution-ui-version</code> "
-"attribute of the root <code>ui</code> element matches the version of the "
-"default files provided by <app>Evolution</app>."
-msgstr ""
-"A módosított fájlok akkor lesznek felhasználva, ha a gyökér <code>ui</code> "
-"elem <code>evolution-ui-version</code> attribútuma megegyezik az "
-"<app>Evolution</app> által biztosított alapértelmezett fájlokéval."
-
-#. (itstool) path: page/p
-#: C/customize-ui-items.page:38
-msgid ""
-"To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
-"while <app>Evolution</app> is not running. Commented lines start with a "
-"<code>;</code> character and will be ignored. Not all shortcuts can be "
-"changed though."
-msgstr ""
-"A gyorsbillentyűk megváltoztatásához szerkessze a <file>~/.config/evolution/"
-"accels</file> fájlt, miközben az <app>Evolution</app> nem fut. A "
-"megjegyzésre állított sorok <code>;</code> karakterrel kezdődnek, és "
-"figyelmen kívül lesznek hagyva. Habár nem minden gyorsbillentyűt lehet "
-"megváltoztatni."
+"A párbeszédablakban elvégzett változtatások a bezáráskor kerülnek mentésre,"
+" és a felhasználói felület ennek megfelelően frissül."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -4043,6 +4217,182 @@ msgid "Further reading"
 msgstr "További olvasnivaló"
 
 #. (itstool) path: info/desc
+#: C/intro-account-types.page:8
+msgid "Read what data can be managed."
+msgstr "Olvassa el, milyen adatokat lehet kezelni."
+
+#. (itstool) path: page/title
+#: C/intro-account-types.page:21
+msgid "What account types are supported"
+msgstr "Milyen fióktípusok támogatottak"
+
+#. (itstool) path: page/p
+#: C/intro-account-types.page:23
+#| msgid "<app>Evolution</app> supports using multiple time zones."
+msgid "<app>Evolution</app> supports these types of accounts:"
+msgstr "Az <app>Evolution</app> az ilyen típusú fiókokat támogatja:"
+
+#. (itstool) path: item/p
+#: C/intro-account-types.page:26
+msgid ""
+"Email access — <link xref=\"intro-first-run#receiving\">receiving</link> and "
+"<link xref=\"intro-first-run#sending\">sending</link>"
+msgstr ""
+"E-mail hozzáférés – <link xref=\"intro-first-run#receiving\">fogadás</link>"
+" és <link xref=\"intro-first-run#sending\">küldés</link>"
+
+#. (itstool) path: item/p
+#: C/intro-account-types.page:29
+msgid "<link xref=\"contacts-using-several-addressbooks\">Contacts</link>"
+msgstr "<link xref=\"contacts-using-several-addressbooks\">Névjegyek</link>"
+
+#. (itstool) path: item/p
+#: C/intro-account-types.page:32
+msgid ""
+"<link xref=\"calendar-using-several-calendars\">Calendars</link>, <link "
+"xref=\"tasks-using-several-tasklists\">Tasks and Memos</link>"
+msgstr ""
+"<link xref=\"calendar-using-several-calendars\">Naptárak</link>, <link"
+" xref=\"tasks-using-several-tasklists\">feladatok és feljegyzések</link>"
+
+#. (itstool) path: item/p
+#. (itstool) path: section/title
+#: C/intro-account-types.page:38 C/intro-account-types.page:48
+msgid "RSS feeds"
+msgstr "RSS-hírforrások"
+
+#. (itstool) path: section/title
+#: C/intro-account-types.page:43
+#| msgid "Common Account Types"
+msgid "Collection Account"
+msgstr "Gyűjteményfiók"
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:44
+msgid ""
+"This account type can for a single user name bind several data sources "
+"together - Email (like IMAP, POP3, SMTP), Contacts (like CardDAV, LDAP), "
+"Calendars (like CalDAV), Task Lists, Memo Lists. Some of these, like CalDAV "
+"or CardDAV accounts, can add all the address books, calendars, task lists or "
+"memo lists from the server and keep them in sync with the content advertised "
+"by the server."
+msgstr ""
+"Ez a fióktípus egyetlen felhasználónévhez több adatforrást is képes"
+" hozzákapcsolni: e-mail (például IMAP, POP3, SMTP), névjegyek (például"
+" CardDAV, LDAP), naptárak (például CalDAV), feladatlisták, feljegyzéslisták."
+" Ezek közül néhány, mint a CalDAV vagy CardDAV fiókok, képes hozzáadni az"
+" összes címjegyzéket, naptárat, feladatlistát vagy feljegyzéslistát a"
+" kiszolgálóról, és szinkronban tartani azokat a kiszolgáló által hirdetett"
+" tartalommal."
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:45
+msgid ""
+"To setup this account type, select <guiseq><gui>File</gui><gui>New</"
+"gui><gui>Collection account</gui></guiseq>. To discover only sources, not "
+"requiring authentication, leave <gui>Email Address or User name</gui> empty "
+"and fill <guiseq><gui>Advanced options</gui><gui>Server</gui></guiseq>."
+msgstr ""
+"Az ilyen fióktípus beállításához válassza a <guiseq><gui>Fájl</gui><gui>Új<"
+"/gui><gui>Gyűjteményfiók</gui></guiseq> menüpontot. Csak a hitelesítést nem"
+" igénylő források felfedezéséhez hagyja üresen az <gui>E-mail-cím vagy"
+" felhasználónév</gui> mezőt, és töltse ki a <guiseq><gui>Speciális"
+" beállítások</gui><gui>Kiszolgáló</gui></guiseq> mezőt."
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:49
+#| msgid ""
+#| "Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
+#| "gui></guiseq>."
+msgid ""
+"To configure an RSS feed select <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>News and Blogs</gui></guiseq>."
+msgstr ""
+"RSS-hírforrás beállításához válassza a <guiseq><gui>Szerkesztés</gui><gui"
+">Beállítások</gui><gui>Hírek és blogok</gui></guiseq> lehetőséget."
+
+#. (itstool) path: section/title
+#: C/intro-account-types.page:52
+#| msgid "The <app>Evolution</app> main window"
+msgid "The Evolution Accounts window"
+msgstr "Az Evolution Fiókok ablaka"
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:53
+msgid ""
+"An overview of all configured <gui>Evolution Accounts</gui> is available "
+"under <guiseq><gui>Edit</gui><gui>Accounts</gui></guiseq>."
+msgstr ""
+"Az összes beállított <gui>Evolution fiók</gui> áttekintése a <guiseq><gui"
+">Szerkesztés</gui><gui>Fiókok</gui></guiseq> alatt érhető el."
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:54
+msgid ""
+"Each Collection account shows there its own Mail Accounts, Address Books, "
+"Calendars, Memo Lists and Task Lists, as announced by the server. Unfolding "
+"each type allows to enable or disable the local synchronization for that "
+"source."
+msgstr ""
+"Minden gyűjteményfiók úgy jeleníti meg a saját levelezési fiókjait,"
+" címjegyzékeit, naptárjait, feljegyzéslistáit és feladatlistáit, ahogyan azt"
+" a kiszolgáló bejelentette. Az egyes típusok kibontása lehetővé teszi az"
+" adott forrás helyi szinkronizálásának engedélyezését vagy letiltását."
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:55
+msgid ""
+"For enabled Collection accounts with CalDAV and CardDAV sources the <gui "
+"style=\"button\">Refresh</gui> button fetches the list of remote sources "
+"locally and requests from the server the color and name of the WebDAV "
+"collections. If they were modified remotely, but not locally, the local name "
+"and color are synchronized from the server. The list of the sources is "
+"refreshed implicitly daily."
+msgstr ""
+"A CalDAV és CardDAV forrással rendelkező, engedélyezett gyűjteményfiókoknál a"
+" <gui style=\"button\">Frissítés</gui> gomb helyileg kérdezi le a távoli"
+" források listáját, és lekérdezi a kiszolgálóról a WebDAV-gyűjtemények színét"
+" és nevét. Ha távolról módosítva lettek, de helyben nem, akkor a helyi név és"
+" szín szinkronizálva lesz a kiszolgálóról. A források listája implicit módon"
+" naponta frissül."
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:56
+msgid ""
+"When a WebDAV-based account is selected, the <gui>Browse</gui> button "
+"displays the WebDAV editor."
+msgstr ""
+"Ha WebDAV-alapú fiók van kiválasztva, akkor a <gui>Tallózás</gui> gomb"
+" megjeleníti a WebDAV-szerkesztőt."
+
+#. (itstool) path: section/title
+#: C/intro-account-types.page:59
+msgid "The WebDAV Editor"
+msgstr "A WebDAV-szerkesztő"
+
+#. (itstool) path: section/p
+#: C/intro-account-types.page:60
+msgid ""
+"WebDAV is the common protocol for CalDAV, CardDAV, Notes. A WebDAV "
+"collection is a directory, which can contain events, contacts, other "
+"collections. The WebDAV editor shows the collections, announced by the "
+"server, and allows editing some of their properties on the server. It allows "
+"creating new address books, calendars and general collections. Servers might "
+"enforce restrictions, like prohibiting the creation of a calendar beneath "
+"another calendar or preventing changing some properties. A single WebDAV "
+"calendar can store events, tasks, memos."
+msgstr ""
+"A WebDAV a CalDAV, CardDAV és jegyzetek közös protokollja. A"
+" WebDAV-gyűjtemény egy olyan könyvtár, amely tartalmazhat eseményeket,"
+" névjegyeket és egyéb gyűjteményeket. A WebDAV-szerkesztő megjeleníti a"
+" kiszolgáló által bejelentett gyűjteményeket, és lehetővé teszi néhány"
+" tulajdonságuk szerkesztését a kiszolgálón. Lehetővé teszi új címjegyzékek,"
+" naptárak és általános gyűjtemények létrehozását. A kiszolgálók"
+" korlátozásokat alkalmazhatnak, például megtiltva egy naptár létrehozását egy"
+" másik naptár alatt, vagy megakadályozva néhány tulajdonság megváltoztatását."
+" Egy önálló WebDAV-naptár tárolhat eseményeket, feladatokat és feljegyzéseket."
+
+#. (itstool) path: info/desc
 #: C/intro-first-run.page:8
 msgid "Set up email accounts, import data, or restore from a backup."
 msgstr ""
@@ -4301,13 +4651,18 @@ msgstr "Ehhez telepítve kell lennie az <sys>evolution-ews</sys> csomagnak."
 #. (itstool) path: when/p
 #. (itstool) path: note/p
 #: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:31
+#| msgid ""
+#| "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
+#| "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</"
+#| "link>"
 msgid ""
-"<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
-"Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
+"<link action=\"install:evolution-ews\" href=\"https://gitlab.gnome.org/GNOME/"
+"evolution/-/wikis/home#get-the-source-code\" style=\"button\">Install "
+"evolution-ews</link>"
 msgstr ""
-"<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
-"Evolution#Get_the_Source_Code\" style=\"button\">Az evolution-ews "
-"telepítése</link>"
+"<link action=\"install:evolution-ews\" href=\"https://gitlab.gnome.org/GNOME/e"
+"volution/-/wikis/home#get-the-source-code\" style=\"button\">Az evolution-ews"
+" telepítése</link>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -4347,14 +4702,18 @@ msgstr "Ehhez telepítve kell lennie az <sys>evolution-mapi</sys> csomagnak."
 #. (itstool) path: when/p
 #. (itstool) path: note/p
 #: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:41
+#| msgid ""
+#| "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/"
+#| "Apps/Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-"
+#| "mapi</link>"
 msgid ""
-"<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
-"Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
-"link>"
+"<link action=\"install:evolution-mapi\" href=\"https://gitlab.gnome.org/"
+"GNOME/evolution/-/wikis/home#get-the-source-code\" style=\"button\">Install "
+"evolution-mapi</link>"
 msgstr ""
-"<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
-"Evolution#Get_the_Source_Code\" style=\"button\">Az evolution-mapi "
-"telepítése</link>"
+"<link action=\"install:evolution-mapi\" href=\"https://gitlab.gnome.org/GNOME/"
+"evolution/-/wikis/home#get-the-source-code\" style=\"button\">Az"
+" evolution-mapi telepítése</link>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -5077,21 +5436,14 @@ msgstr "Gyorsbillentyűk megváltoztatása"
 #. (itstool) path: note/p
 #: C/intro-keyboard-shortcuts.page:345
 msgid ""
-"Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
-"config/evolution/accels</file>."
+"Keyboard shortcuts can be changed in <guiseq><gui>View</gui><gui>Layout</"
+"gui><gui>Customize…</gui></guiseq>. See the <link xref=\"customize-ui-"
+"items\">Customizing user interface</link> section for more information."
 msgstr ""
-"A tapasztalt felhasználók személyre szabhatják a gyorsbillentyűket a "
-"<file>$HOME/.config/evolution/accels</file> fájl szerkesztésével."
-
-#. (itstool) path: note/p
-#: C/intro-keyboard-shortcuts.page:345
-msgid ""
-"See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
-"evolution-in-gnome/\">this blog post</link> for more information."
-msgstr ""
-"További információkért nézze meg <link href=\"https://major.io/2015/11/27/"
-"custom-keyboard-shortcuts-for-evolution-in-gnome/\">ezt a blogbejegyzést</"
-"link>."
+"A gyorsbillentyűk a <guiseq><gui>Nézet</gui><gui>Elrendezés</gui><gui"
+">Személyre szabás…</gui></guiseq> menüpontban változtathatók meg. További"
+" információkért nézze meg a <link xref=\"customize-ui-items\">Felhasználói"
+" felület személyre szabása</link> szakaszt."
 
 #. (itstool) path: info/desc
 #: C/intro-main-window.page:5
@@ -5239,25 +5591,32 @@ msgstr "Váltógombok"
 #: C/intro-main-window.page:79
 #| msgid ""
 #| "The switcher at the bottom of the side bar lets you switch between the "
-#| "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks."
+#| "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks. "
+#| "The appearance of the Switcher, including whether the buttons should be "
+#| "shown at all, can be changed in the menu <guiseq><gui>View</"
+#| "gui><gui>Switcher Appearance</gui></guiseq>."
 msgid ""
-"The switcher at the bottom of the side bar lets you switch between the "
+"The switcher at the bottom of the sidebar lets you switch between the "
 "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks. The "
 "appearance of the Switcher, including whether the buttons should be shown at "
 "all, can be changed in the menu <guiseq><gui>View</gui><gui>Switcher "
 "Appearance</gui></guiseq>."
 msgstr ""
-"Az oldalsáv alján lévő váltógombok segítségével átválthat az <app>Evolution<"
-"/app> eszközei között: Levelek, Névjegyek, Naptárak, Feljegyzések és"
-" Feladatok. A váltógombok megjelenése, beleértve azt is, hogy a gombok"
-" egyáltalán megjelenjenek-e, a <guiseq><gui>Nézet</gui><gui>Váltógombok"
-" megjelenése</gui></guiseq> menüben változtatható meg."
+"Az oldalsáv alján lévő váltógombok segítségével átválthat az <app>Evolution</"
+"app> eszközei között: Levelek, Névjegyek, Naptárak, Feljegyzések és "
+"Feladatok. A váltógombok megjelenése, beleértve azt is, hogy a gombok "
+"egyáltalán megjelenjenek-e, a <guiseq><gui>Nézet</gui><gui>Váltógombok "
+"megjelenése</gui></guiseq> menüben változtatható meg."
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:80
+#| msgid ""
+#| "You can disable the folder list and the switcher side bar by toggling "
+#| "<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> "
+#| "or pressing <key>F9</key>."
 msgid ""
-"You can disable the folder list and the switcher side bar by toggling "
-"<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> or "
+"You can disable the folder list and the switcher sidebar by toggling "
+"<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Sidebar</gui></guiseq> or "
 "pressing <key>F9</key>."
 msgstr ""
 "A <guiseq><gui>Nézet</gui><gui>Elrendezés</gui><gui>Oldalsáv megjelenítése</"
@@ -5469,7 +5828,7 @@ msgid ""
 "gnome-help/stable/accounts\">refer to the GNOME Desktop Help</link> for more "
 "information. After doing so, the Gmail account will be listed in Evolution."
 msgstr ""
-"Ajánlott, hogy a Gmailt online fiókként vegye fel a GNOME-ban. További "
+"Ajánlott, hogy a Gmailt internetes fiókként vegye fel a GNOME-ban. További "
 "információkért <link xref=\"help:gnome-help/accounts\" href=\"https://help."
 "gnome.org/users/gnome-help/stable/accounts\">tekintse meg a GNOME asztali "
 "környezet súgóját</link>. Ha így tesz, akkor a Gmail fiók felsorolásra kerül "
@@ -5496,7 +5855,7 @@ msgid ""
 "href=\"https://www.google.com/settings/security/lesssecureapps\">access for "
 "less secure apps in your Gmail account settings</link>."
 msgstr ""
-"Az online fiók GNOME-ban történő beállításának alternatívája, hogy "
+"Az internetes fiók GNOME-ban történő beállításának alternatívája, hogy "
 "engedélyezi a <link href=\"https://www.google.com/settings/security/"
 "lesssecureapps\">kevésbé biztonságos alkalmazások elérését a Gmail "
 "fiókbeállításokban</link>."
@@ -6172,14 +6531,18 @@ msgstr "Webes Exchange-szolgáltatások fiók beállításai"
 
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:28
+#| msgid ""
+#| "See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
+#| "OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
+#| "authentication."
 msgid ""
-"See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
-"OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
+"See also the <link href=\"https://gitlab.gnome.org/GNOME/evolution/-/wikis/"
+"EWS-OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
 "authentication."
 msgstr ""
-"Nézze meg az <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
-"OAuth2\">OAuth2 hitelesítés beállításával és hibaelhárításával kapcsolatos "
-"dokumentációt</link> is."
+"Nézze meg az <link href=\"https://gitlab.gnome.org/GNOME/evolution/-/wikis/EWS"
+"-OAuth2\">OAuth2 hitelesítés beállításával és hibaelhárításával kapcsolatos"
+" dokumentációt</link> is."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
@@ -7501,16 +7864,21 @@ msgstr ""
 #. might want to indicate in your translation text that the link is in
 #. English.
 #: C/mail-composer-from-field-override.page:24
+#| msgid ""
+#| "This functionality can be useful for <link href=\"https://en.wikipedia."
+#| "org/wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> "
+#| "and <link href=\"https://en.wikipedia.org/wiki/"
+#| "Email_address#Address_tags\">sub-addressing</link>."
 msgid ""
 "This functionality can be useful for <link href=\"https://en.wikipedia.org/"
 "wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> and "
-"<link href=\"https://en.wikipedia.org/wiki/Email_address#Address_tags\">sub-"
-"addressing</link>."
+"<link href=\"https://en.wikipedia.org/wiki/Email_address#Sub-"
+"addressing\">sub-addressing</link>."
 msgstr ""
-"Ez a funkció a <link href=\"https://en.wikipedia.org/wiki/"
-"Qmail#Innovations\">qmail gyűjtő postafiókjaihoz</link> és <link "
-"href=\"https://en.wikipedia.org/wiki/"
-"Email_address#Address_tags\">részcímzés</link> használatakor."
+"Ez a funkció a <link href=\"https://en.wikipedia.org/wiki/Qmail#Innovations\""
+">qmail gyűjtő postafiókjaihoz</link> és <link"
+" href=\"https://en.wikipedia.org/wiki/Email_address#Sub-addressing\""
+">részcímzés</link> használatakor."
 
 #. (itstool) path: note/p
 #. Translators: If no Wikipedia article exists for your language and you
@@ -14717,24 +15085,20 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:27
-#| msgid ""
-#| "If you can provide good practices or more information on this topic feel "
-#| "free to file a bug report in <link href=\"https://gitlab.gnome.org/GNOME/"
-#| "evolution/issues/new\">GNOME's bug tracking system</link>."
 msgid ""
 "If you can provide good practices or more information on this topic feel "
 "free to file a bug report in <link href=\"https://gitlab.gnome.org/GNOME/"
 "evolution/-/issues/\">GNOME's bug tracking system</link>."
 msgstr ""
-"Ha ezzel a témakörrel kapcsolatban ismer bevált módszereket vagy további"
-" információkat, nyugodtan küldjön be egy hibajelentést a <link"
-" href=\"https://gitlab.gnome.org/GNOME/evolution/-/issues/\">GNOME hibakövető"
-" rendszerébe</link> (angolul)."
+"Ha ezzel a témakörrel kapcsolatban ismer bevált módszereket vagy további "
+"információkat, nyugodtan küldjön be egy hibajelentést a <link href=\"https://"
+"gitlab.gnome.org/GNOME/evolution/-/issues/\">GNOME hibakövető rendszerébe</"
+"link> (angolul)."
 
 #. (itstool) path: info/desc
 #: C/tasks-caldav.page:5
 msgid "Using an online CalDAV task list or memo list."
-msgstr "Online CalDAV feladatlista vagy feljegyzéslista használata."
+msgstr "Interneten lévő CalDAV feladatlista vagy feljegyzéslista használata."
 
 #. (itstool) path: page/title
 #: C/tasks-caldav.page:20
@@ -14761,12 +15125,54 @@ msgstr ""
 "gui></guiseq> menüpontot."
 
 #. (itstool) path: item/p
-#: C/tasks-caldav.page:28 C/tasks-webdav.page:30
-msgid "Choose if you want to be able to view the content also while offline."
-msgstr "Válassza ki, hogy kapcsolat nélkül is szeretné-e látni a tartalmat."
+#: C/tasks-caldav.page:27
+msgid ""
+"To discover the task lists or memo lists, announced by the server, enter the "
+"server address as <gui>URL</gui> and optionally <gui>User</gui>, then click "
+"on <gui style=\"button\">Find Task Lists</gui>/<gui style=\"button\">Find "
+"Memo Lists</gui>. Select a task or memo list and <gui>User mail</gui>. This "
+"prefills the fields <gui>Name</gui>, <gui>Color</gui>, <gui>URL</gui> and "
+"(see below) <gui>Email</gui>. The step is optional, and you can overwrite "
+"all the discovered settings."
+msgstr ""
+"A kiszolgáló által bejelentett feladatlisták vagy feljegyzéslisták"
+" felderítéséhez adja meg a kiszolgáló címét <gui>URL</gui>-ként, és"
+" választhatóan a <gui>Felhasználót</gui>, majd kattintson a <gui"
+" style=\"button\">Feladatlisták keresése</gui> vagy <gui style=\"button\""
+">Feljegyzéslisták keresése</gui> gombra. Válasszon egy feladatlistát vagy"
+" feljegyzéslistát és <gui>Felhasználói e-mail-címet</gui>. Ez előre kitölti a"
+" <gui>Név</gui>, <gui>Szín</gui>, <gui>URL</gui> és (lásd alább) <gui>E-mail<"
+"/gui> mezőket. Ez a lépés nem kötelező, és felülírhatja az összes felfedezett"
+" beállítást."
+
+#. (itstool) path: item/p
+#: C/tasks-caldav.page:34
+msgid ""
+"Enter your username and email address. When an assigned task is created in "
+"the task list, this email address is prefilled as Organizer."
+msgstr ""
+"Adja meg felhasználónevét és e-mail-címét. Ha hozzárendelt feladatot hoz"
+" létre a feladatlistában, akkor ez az e-mail-cím előre kitöltésre kerül"
+" szervezőként."
+
+#. (itstool) path: item/p
+#: C/tasks-caldav.page:36
+msgid ""
+"When an assigned task is created, modified or deleted, a notification can be "
+"sent to the other parties. If <gui>Server handles meeting invitations</gui> "
+"is selected, <app>Evolution</app> uploads the task and assumes that the "
+"server informs other parties. When the option is not selected, "
+"<app>Evolution</app> sends an email."
+msgstr ""
+"Ha hozzárendelt feladatot hoznak létre, módosítanak vagy törölnek, akkor"
+" értesítést lehet küldeni a többi résztvevőnek. Ha az <gui>A kiszolgáló"
+" kezeli a találkozómeghívásokat</gui> ki van választva, akkor az <app"
+">Evolution</app> feltölti a feladatot, és feltételezi, hogy a kiszolgáló"
+" értesíti a többi résztvevőt. Ha a lehetőség nincs kiválasztva, akkor az <app"
+">Evolution</app> küld e-mailt."
 
 #. (itstool) path: page/p
-#: C/tasks-caldav.page:35 C/tasks-local.page:31
+#: C/tasks-caldav.page:43 C/tasks-local.page:31
 msgid ""
 "The task list will be added to the list of task lists in <app>Evolution</"
 "app>."
@@ -15075,10 +15481,17 @@ msgstr "Több feladat- vagy feljegyzéslista használata"
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:22
+#| msgid ""
+#| "You can have multiple task or memo lists and choose which of your lists "
+#| "get displayed. For example, you might have tasks for work, tasks for "
+#| "home, and tasks for the singing club of which you are a member. The side "
+#| "bar shows these lists, and you can select or deselect any of the boxes "
+#| "next to them to show and hide the corresponding tasks or memos in your "
+#| "view."
 msgid ""
 "You can have multiple task or memo lists and choose which of your lists get "
 "displayed. For example, you might have tasks for work, tasks for home, and "
-"tasks for the singing club of which you are a member. The side bar shows "
+"tasks for the singing club of which you are a member. The sidebar shows "
 "these lists, and you can select or deselect any of the boxes next to them to "
 "show and hide the corresponding tasks or memos in your view."
 msgstr ""
@@ -15090,10 +15503,13 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:24
-msgid "Tasks and memos from each task or memo list appear as different colors."
+#| msgid ""
+#| "Tasks and memos from each task or memo list appear as different colors."
+msgid ""
+"Tasks and memos from each task or memo list appear in a different color."
 msgstr ""
-"Az egyes feladat- vagy feljegyzéslisták feladatai vagy feljegyzései eltérő "
-"színekkel jelennek meg."
+"Az egyes feladat- vagy feljegyzéslisták feladatai vagy feljegyzései eltérő"
+" színnel jelennek meg."
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:26
@@ -15102,20 +15518,38 @@ msgid ""
 "internet."
 msgstr "Nem csak a számítógépén, az interneten lévő listákat is használhat."
 
+#. (itstool) path: page/p
+#: C/tasks-using-several-tasklists.page:27
+msgid ""
+"New tasks are created in the selected task list in the Tasks window. If no "
+"list is selected, new tasks are created in the default task list. Likewise "
+"for memos."
+msgstr ""
+"Az új feladatok a Feladatok ablakban kiválasztott feladatlistában jönnek"
+" létre. Ha nincs lista kiválasztva, akkor az új feladatok az alapértelmezett"
+" feladatlistában jönnek létre. Hasonlóképpen a feljegyzések esetén is."
+
 #. (itstool) path: info/desc
 #: C/tasks-webdav.page:5
-msgid "Using an online WebDAV task list or memo list."
-msgstr "Online WebDAV feladatlista vagy feljegyzéslista használata."
+#| msgid "Using an online CalDAV task list or memo list."
+msgid "Using an online HTTP task list or memo list."
+msgstr "Interneten lévő CalDAV feladatlista vagy feljegyzéslista használata."
 
 #. (itstool) path: page/title
 #: C/tasks-webdav.page:20
-msgid "Using a WebDAV task or memo list"
-msgstr "WebDav feladat- vagy feljegyzéslista használata"
+#| msgid "Using a CalDAV task or memo list"
+msgid "Using a HTTP task or memo list"
+msgstr "HTTP feladat- vagy feljegyzéslista használata"
 
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:22
 msgid "Lists of this type are read-only."
 msgstr "Az ilyen listák csak olvashatók."
+
+#. (itstool) path: item/p
+#: C/tasks-webdav.page:30
+msgid "Choose if you want to be able to view the content also while offline."
+msgstr "Válassza ki, hogy kapcsolat nélkül is szeretné-e látni a tartalmat."
 
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:37
@@ -15739,4 +16173,3 @@ msgstr "Szerkessze a címet vagy a keresési feltételeket az ablakban."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Kattintson az <_:gui-1/> gombra."
-
