@@ -2288,6 +2288,8 @@ e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
 		ii++;
 	}
 
+	g_clear_pointer (&radio_group, g_ptr_array_unref);
+
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
