@@ -120,7 +120,7 @@
   </toolbar>
   <menu id='mail-folder-popup' is-popup='true'>
     <placeholder id='mail-folder-popup-actions'/>
-    <item action='mail-folder-mark-all-as-read'/>
+    <item action='mail-popup-folder-mark-all-as-read'/>
     <separator/>
     <item action='mail-folder-new-full'/>
     <item action='mail-folder-copy'/>
