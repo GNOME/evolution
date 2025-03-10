@@ -1057,6 +1057,14 @@ em_utils_selection_set_urilist (GdkDragContext *context,
 				folder, uids->pdata[0], NULL);
 		}
 		e_util_make_safe_filename (basename);
+
+		/* Add .mbox extension to the filename */
+		if (!g_str_has_suffix (basename, ".mbox")) {
+			gchar *tmp = basename;
+			basename = g_strconcat (basename, ".mbox", NULL);
+			g_free (tmp);
+		}
+
 		filename = g_build_filename (tmpdir, basename, NULL);
 		g_free (basename);
 
