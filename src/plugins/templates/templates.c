@@ -91,8 +91,8 @@ gint		e_plugin_lib_enable		(EPlugin *plugin,
 #define TEMPLATES_DATA_KEY "templates::data"
 
 typedef struct _TemplatesData {
+	GWeakRef mail_reader_weakref;
 	EMailTemplatesStore *templates_store;
-	EMailReader *mail_reader;
 	GMenu *reply_template_menu;
 	gulong changed_handler_id;
 	guint update_menu_id;
@@ -117,7 +117,7 @@ templates_data_free (gpointer ptr)
 		}
 
 		g_clear_object (&td->templates_store);
-		g_clear_object (&td->mail_reader);
+		g_weak_ref_clear (&td->mail_reader_weakref);
 		g_clear_object (&td->reply_template_menu);
 		g_free (td);
 	}
@@ -999,12 +999,20 @@ templates_composer_realize_cb (EMsgComposer *composer,
 static void
 templates_update_menu (TemplatesData *td)
 {
+	EMailReader *mail_reader;
+
 	g_return_if_fail (td != NULL);
 
 	td->changed = FALSE;
 
-	e_mail_templates_store_update_menu (td->templates_store, td->reply_template_menu, e_mail_reader_get_ui_manager (td->mail_reader),
-		action_reply_with_template_cb, td->mail_reader);
+	mail_reader = g_weak_ref_get (&td->mail_reader_weakref);
+
+	if (mail_reader) {
+		e_mail_templates_store_update_menu (td->templates_store, td->reply_template_menu, e_mail_reader_get_ui_manager (mail_reader),
+			action_reply_with_template_cb, mail_reader);
+
+		g_clear_object (&mail_reader);
+	}
 }
 
 static void
@@ -1181,7 +1189,7 @@ init_actions_for_mail_backend (EMailBackend *mail_backend,
 
 	td = g_new0 (TemplatesData, 1);
 	td->templates_store = e_mail_templates_store_ref_default (e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session)));
-	td->mail_reader = g_object_ref (mail_reader);
+	g_weak_ref_init (&td->mail_reader_weakref, mail_reader);
 	td->reply_template_menu = g_menu_new ();
 	td->changed_handler_id = g_signal_connect (td->templates_store, "changed", G_CALLBACK (templates_store_changed_cb), td);
 	td->changed = TRUE;
