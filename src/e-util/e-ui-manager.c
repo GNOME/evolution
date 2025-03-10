@@ -2437,6 +2437,17 @@ e_ui_manager_update_item_from_action (EUIManager *self,
 	action_name_full = g_strconcat (e_ui_action_get_map_name (action), ".", value, NULL);
 
 	if (G_IS_MENU_ITEM (item)) {
+		static gint with_icons = -1;
+
+		/* this is remembered per application run, also because it's not
+		   that easy to rebuild the menu once it's created */
+		if (with_icons == -1) {
+			GtkSettings *settings = gtk_settings_get_default ();
+			gboolean gtk_menu_images = TRUE;
+			g_object_get (settings, "gtk-menu-images", &gtk_menu_images, NULL);
+			with_icons = gtk_menu_images ? 1 : 0;
+		}
+
 		g_menu_item_set_action_and_target_value (item, action_name_full, param_type && target ? target : NULL);
 
 		g_signal_handlers_disconnect_matched (action, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
@@ -2449,16 +2460,18 @@ e_ui_manager_update_item_from_action (EUIManager *self,
 		e_ui_manager_synchro_menu_item_attribute (self, action, "label", item);
 		e_ui_manager_synchro_menu_item_attribute (self, action, "accel", item);
 
-		value = e_ui_action_get_icon_name (action);
-		if (value) {
-			if (g_str_has_prefix (value, "gicon::")) {
-				GIcon *icon;
+		if (with_icons) {
+			value = e_ui_action_get_icon_name (action);
+			if (value) {
+				if (g_str_has_prefix (value, "gicon::")) {
+					GIcon *icon;
 
-				icon = e_ui_manager_get_gicon (self, value + 7);
-				if (icon)
-					g_menu_item_set_icon (item, icon);
-			} else {
-				g_menu_item_set_attribute (item, "icon", "s", value);
+					icon = e_ui_manager_get_gicon (self, value + 7);
+					if (icon)
+						g_menu_item_set_icon (item, icon);
+				} else {
+					g_menu_item_set_attribute (item, "icon", "s", value);
+				}
 			}
 		}
 	} else if (GTK_IS_TOOL_BUTTON (item)) {
