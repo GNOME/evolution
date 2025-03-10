@@ -1938,7 +1938,6 @@ shell_view_dispose (GObject *object)
 	g_clear_object (&self->priv->searchbar);
 	g_clear_object (&self->priv->search_rule);
 	g_clear_object (&self->priv->preferences_window);
-	g_clear_object (&self->priv->ui_manager);
 	g_clear_object (&self->priv->new_menu);
 	g_clear_object (&self->priv->gal_view_list_menu);
 	g_clear_object (&self->priv->saved_searches_menu);
@@ -1955,6 +1954,7 @@ shell_view_finalize (GObject *object)
 
 	g_key_file_free (self->priv->state_key_file);
 
+	g_clear_object (&self->priv->ui_manager);
 	g_free (self->priv->title);
 	g_free (self->priv->view_id);
 
