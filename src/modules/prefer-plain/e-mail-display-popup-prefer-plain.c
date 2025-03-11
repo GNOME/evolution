@@ -222,7 +222,7 @@ create_group (EMailDisplayPopupExtension *extension)
 		g_clear_object (&mail_reader);
 	}
 
-	return group;
+	return group ? g_object_ref (group) : NULL;
 }
 
 static void
