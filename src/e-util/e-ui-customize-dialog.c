@@ -16,6 +16,9 @@
 
 #include "e-ui-customize-dialog.h"
 
+#define WEIGHT_NORMAL 400
+#define WEIGHT_BOLD 800
+
 /**
  * SECTION: e-ui-customize-dialog
  * @include: e-util/e-util.h
@@ -89,6 +92,7 @@ enum {
 	COL_LAYOUT_ELEM_OBJ = 0,
 	COL_LAYOUT_LABEL_STR,
 	COL_LAYOUT_CAN_DRAG_BOOL,
+	COL_LAYOUT_WEIGHT_INT,
 	N_COL_LAYOUT
 };
 
@@ -1383,6 +1387,7 @@ customize_layout_add_actions (EUICustomizeDialog *self,
 					COL_LAYOUT_ELEM_OBJ, elem,
 					COL_LAYOUT_LABEL_STR, label,
 					COL_LAYOUT_CAN_DRAG_BOOL, TRUE,
+					COL_LAYOUT_WEIGHT_INT, WEIGHT_NORMAL,
 					-1);
 
 				if (position != -1)
@@ -1510,8 +1515,10 @@ e_ui_customize_dialog_layout_add_separator_activated_cb (GtkButton *button,
 	gtk_tree_store_insert (tree_store, &store_iter, parent, position);
 	gtk_tree_store_set (tree_store, &store_iter,
 		COL_LAYOUT_ELEM_OBJ, elem,
-		COL_LAYOUT_LABEL_STR, _("< separator >"),
+		/* Translators: a "textual form" of a menu or toolbar separator, usually drawn as a line between the items  */
+		COL_LAYOUT_LABEL_STR, _("Separator"),
 		COL_LAYOUT_CAN_DRAG_BOOL, TRUE,
+		COL_LAYOUT_WEIGHT_INT, WEIGHT_BOLD,
 		-1);
 
 	e_ui_element_free (elem);
@@ -1887,17 +1894,20 @@ customize_layout_move_iter_to (GtkTreeView *tree_view,
 	gchar *label = NULL;
 	gboolean can_drag = FALSE;
 	gboolean moved_to_next;
+	gint weight = WEIGHT_NORMAL;
 
 	gtk_tree_model_get (model, src_iter,
 		COL_LAYOUT_ELEM_OBJ, &elem,
 		COL_LAYOUT_LABEL_STR, &label,
 		COL_LAYOUT_CAN_DRAG_BOOL, &can_drag,
+		COL_LAYOUT_WEIGHT_INT, &weight,
 		-1);
 
 	gtk_tree_store_set (tree_store, des_iter,
 		COL_LAYOUT_ELEM_OBJ, elem,
 		COL_LAYOUT_LABEL_STR, label,
 		COL_LAYOUT_CAN_DRAG_BOOL, can_drag,
+		COL_LAYOUT_WEIGHT_INT, weight,
 		-1);
 
 	e_ui_element_free (elem);
@@ -2628,7 +2638,8 @@ e_ui_customize_dialog_constructed (GObject *object)
 	tree_store = gtk_tree_store_new (N_COL_LAYOUT,
 		E_TYPE_UI_ELEMENT,	/* COL_LAYOUT_ELEM_OBJ */
 		G_TYPE_STRING,		/* COL_LAYOUT_LABEL_STR */
-		G_TYPE_BOOLEAN);	/* COL_LAYOUT_CAN_DRAG_BOOL */
+		G_TYPE_BOOLEAN,		/* COL_LAYOUT_CAN_DRAG_BOOL */
+		G_TYPE_INT);		/* COL_LAYOUT_WEIGHT_INT */
 
 	widget = gtk_tree_view_new_with_model (GTK_TREE_MODEL (tree_store));
 	g_object_set (widget,
@@ -2659,6 +2670,7 @@ e_ui_customize_dialog_constructed (GObject *object)
 	g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_add_attribute (column, renderer, "text", COL_LAYOUT_LABEL_STR);
+	gtk_tree_view_column_add_attribute (column, renderer, "weight", COL_LAYOUT_WEIGHT_INT);
 
 	gtk_tree_view_append_column (self->layout_tree_view, column);
 
@@ -3022,6 +3034,7 @@ add_element_children (GtkTreeStore *tree_store,
 		gchar *label = NULL;
 		const gchar *const_label = NULL, *action_name;
 		gboolean can_drag = TRUE;
+		gint weight = WEIGHT_NORMAL;
 
 		switch (e_ui_element_get_kind (child)) {
 		case E_UI_ELEMENT_KIND_ROOT:
@@ -3051,17 +3064,20 @@ add_element_children (GtkTreeStore *tree_store,
 			add_element_children (tree_store, manager, child, parent);
 			continue;
 		case E_UI_ELEMENT_KIND_SEPARATOR:
-			const_label = _("< separator >");
+			const_label = _("Separator");
+			weight = WEIGHT_BOLD;
 			break;
 		case E_UI_ELEMENT_KIND_START:
-			/* Translators: for RTL locales it should be "< right side >" */
-			const_label = _("< left side >");
+			/* Translators: which side a header bar items are placed to; for RTL locales it should be "Right side" */
+			const_label = _("Left side");
 			can_drag = FALSE;
+			weight = WEIGHT_BOLD;
 			break;
 		case E_UI_ELEMENT_KIND_END:
-			/* Translators: for RTL locales it should be "< left side >" */
-			const_label = _("< right side >");
+			/* Translators: which side a header bar items are placed to; for RTL locales it should be "Left side" */
+			const_label = _("Right side");
 			can_drag = FALSE;
+			weight = WEIGHT_BOLD;
 			break;
 		case E_UI_ELEMENT_KIND_ITEM:
 			action_name = e_ui_element_item_get_action (child);
@@ -3085,6 +3101,7 @@ add_element_children (GtkTreeStore *tree_store,
 			COL_LAYOUT_ELEM_OBJ, child,
 			COL_LAYOUT_LABEL_STR, label ? label : const_label,
 			COL_LAYOUT_CAN_DRAG_BOOL, can_drag,
+			COL_LAYOUT_WEIGHT_INT, weight,
 			-1);
 
 		g_free (label);
