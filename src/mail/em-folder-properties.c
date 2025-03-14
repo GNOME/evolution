@@ -571,8 +571,8 @@ emfp_get_folder_item (EConfig *ec,
 				total_str = g_strdup_printf ("%" G_GUINT64_FORMAT, info->total);
 			}
 
-			/* Translators: the string is related to a quota usage, constructing a text like "50% (500 KB of 1 MB lefts)" */
-			text = g_strdup_printf (_("%d%% (%s of %s lefts)"), procs, lefts_str, total_str);
+			/* Translators: the string is related to a quota usage, constructing a text like "75% (250 KB of 1 MB left)"; the ngettext() is on the amount of the 'left' */
+			text = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "%d%% (%s of %s left)", "%d%% (%s of %s left)", lefts), procs, lefts_str, total_str);
 
 			g_free (lefts_str);
 			g_free (total_str);
