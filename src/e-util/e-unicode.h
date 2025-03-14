@@ -57,8 +57,6 @@ gchar *		e_utf8_ensure_valid		 (const gchar *string);
 /* NB! This return newly allocated string, not const as gtk+ one */
 gint		e_unichar_to_utf8		(gint c,
 						 gchar *outbuf);
-gchar *		e_unicode_get_utf8		(const gchar *text,
-						 gunichar *out);
 gchar *		e_xml_get_translated_utf8_string_prop_by_name
 						(const xmlNode *parent,
 						 const xmlChar *prop_name);

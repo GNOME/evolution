@@ -34,6 +34,7 @@
 #include <libxml/xmlmemory.h>
 
 #include <camel/camel.h>
+#include <libedataserver/libedataserver.h>
 
 #include <glib/gi18n.h>
 #include "e-unicode.h"
@@ -146,7 +147,7 @@ e_utf8_to_iconv_string_sized (iconv_t ic,
 		len = 0;
 
 		while ((u) && (u - string < bytes)) {
-			u = e_unicode_get_utf8 (u, &uc);
+			u = e_util_unicode_get_utf8 (u, &uc);
 			new[len++] = uc & 0xff;
 		}
 		new[len] = '\0';
@@ -310,14 +311,6 @@ e_unichar_to_utf8 (gint c,
     }
 
   return len;
-}
-
-gchar *
-e_unicode_get_utf8 (const gchar *text,
-                    gunichar *out)
-{
-	*out = g_utf8_get_char (text);
-	return (*out == (gunichar) - 1) ? NULL : g_utf8_next_char (text);
 }
 
 gchar *
