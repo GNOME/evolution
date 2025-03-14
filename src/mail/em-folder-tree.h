@@ -149,6 +149,11 @@ void		em_folder_tree_set_selectable_widget
 void		em_folder_tree_select_store_when_added
 						(EMFolderTree *folder_tree,
 						 const gchar *store_uid);
+const gchar *	em_folder_tree_get_new_message_text_color
+						(EMFolderTree *self);
+void		em_folder_tree_set_new_message_text_color
+						(EMFolderTree *self,
+						 const gchar *color_text);
 
 G_END_DECLS
 

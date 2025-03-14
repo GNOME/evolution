@@ -102,6 +102,9 @@ struct _EMFolderTreePrivate {
 
 	/* Signal handler IDs */
 	gulong selection_changed_handler_id;
+
+	gchar *new_message_text_color;
+	GdkRGBA new_message_text_color_rgba;
 };
 
 struct _AsyncContext {
@@ -118,7 +121,8 @@ enum {
 	PROP_MODEL,
 	PROP_PASTE_TARGET_LIST,
 	PROP_SESSION,
-	PROP_SHOW_UNREAD_COUNT
+	PROP_SHOW_UNREAD_COUNT,
+	PROP_NEW_MESSAGE_TEXT_COLOR
 };
 
 enum {
@@ -824,8 +828,10 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 	CamelService *service;
 	PangoWeight weight;
 	gboolean is_store, bold, subdirs_unread = FALSE;
+	gboolean is_expanded = TRUE, is_draft = FALSE;
 	gboolean editable;
-	guint unread;
+	guint unread, unread_last_sel;
+	guint32 folder_flags = 0;
 	gchar *name;
 
 	gtk_tree_model_get (
@@ -833,24 +839,32 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 		COL_STRING_DISPLAY_NAME, &name,
 		COL_OBJECT_CAMEL_STORE, &service,
 		COL_BOOL_IS_STORE, &is_store,
-		COL_UINT_UNREAD, &unread, -1);
+		COL_UINT_UNREAD, &unread,
+		COL_UINT_UNREAD_LAST_SEL, &unread_last_sel,
+		COL_UINT_FLAGS, &folder_flags,
+		COL_BOOL_IS_DRAFT, &is_draft,
+		-1);
 
 	g_object_get (renderer, "editable", &editable, NULL);
 
 	bold = is_store || unread;
 
 	if (gtk_tree_model_iter_has_child (model, iter)) {
-		gboolean expanded = TRUE;
+		g_object_get (renderer, "is-expanded", &is_expanded, NULL);
 
-		g_object_get (renderer, "is-expanded", &expanded, NULL);
-
-		if (!bold || !expanded)
+		if (!bold || !is_expanded)
 			subdirs_unread = subdirs_contain_unread (model, iter);
 	}
 
 	bold = !editable && (bold || subdirs_unread);
 	weight = bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL;
 	g_object_set (renderer, "weight", weight, NULL);
+
+	if (self->priv->new_message_text_color && unread > unread_last_sel && !is_draft &&
+	    (folder_flags & CAMEL_FOLDER_VIRTUAL) == 0 &&
+	    (!is_store || !is_expanded) &&
+	    (is_store || (folder_flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_OUTBOX))
+		g_object_set (renderer, "foreground-rgba", &self->priv->new_message_text_color_rgba, NULL);
 
 	if (is_store) {
 		const gchar *display_name;
@@ -1225,6 +1239,12 @@ folder_tree_set_property (GObject *object,
 				EM_FOLDER_TREE (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_NEW_MESSAGE_TEXT_COLOR:
+			em_folder_tree_set_new_message_text_color (
+				EM_FOLDER_TREE (object),
+				g_value_get_string (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1276,6 +1296,13 @@ folder_tree_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				em_folder_tree_get_show_unread_count (
+				EM_FOLDER_TREE (object)));
+			return;
+
+		case PROP_NEW_MESSAGE_TEXT_COLOR:
+			g_value_set_string (
+				value,
+				em_folder_tree_get_new_message_text_color (
 				EM_FOLDER_TREE (object)));
 			return;
 	}
@@ -1342,6 +1369,7 @@ folder_tree_finalize (GObject *object)
 		g_hash_table_destroy (self->priv->select_uris_table);
 
 	g_free (self->priv->select_store_uid_when_added);
+	g_free (self->priv->new_message_text_color);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_tree_parent_class)->finalize (object);
@@ -1556,6 +1584,24 @@ folder_tree_popup_menu (GtkWidget *widget)
 }
 
 static void
+folder_tree_style_updated (GtkWidget *widget)
+{
+	EMFolderTree *self = EM_FOLDER_TREE (widget);
+
+	if (self->priv->new_message_text_color && g_str_has_prefix (self->priv->new_message_text_color, "@theme_")) {
+		GdkRGBA rgba;
+
+		if (gtk_style_context_lookup_color (gtk_widget_get_style_context (widget),
+			self->priv->new_message_text_color + 1, &rgba)) {
+			self->priv->new_message_text_color_rgba = rgba;
+		}
+	}
+
+	/* Chain up to parent's method. */
+	GTK_WIDGET_CLASS (em_folder_tree_parent_class)->style_updated (widget);
+}
+
+static void
 folder_tree_row_activated (GtkTreeView *tree_view,
                            GtkTreePath *path,
                            GtkTreeViewColumn *column)
@@ -1691,6 +1737,7 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 	widget_class->button_press_event = folder_tree_button_press_event;
 	widget_class->key_press_event = folder_tree_key_press_event;
 	widget_class->popup_menu = folder_tree_popup_menu;
+	widget_class->style_updated = folder_tree_style_updated;
 
 	tree_view_class = GTK_TREE_VIEW_CLASS (class);
 	tree_view_class->row_activated = folder_tree_row_activated;
@@ -1755,6 +1802,17 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 			NULL,
 			NULL,
 			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_NEW_MESSAGE_TEXT_COLOR,
+		g_param_spec_string (
+			"new-message-text-color",
+			NULL,
+			NULL,
+			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -1830,6 +1888,11 @@ em_folder_tree_init (EMFolderTree *folder_tree)
 	g_settings_bind (
 		settings, "show-folder-tree-unread-count",
 		folder_tree, "show-unread-count",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "new-message-folder-text-color",
+		folder_tree, "new-message-text-color",
 		G_SETTINGS_BIND_GET);
 
 	g_object_unref (settings);
@@ -3965,4 +4028,43 @@ em_folder_tree_set_show_unread_count (EMFolderTree *folder_tree,
 
 	if (gtk_widget_get_realized (GTK_WIDGET (folder_tree)))
 		gtk_widget_queue_draw (GTK_WIDGET (folder_tree));
+}
+
+const gchar *
+em_folder_tree_get_new_message_text_color (EMFolderTree *self)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (self), NULL);
+
+	return self->priv->new_message_text_color;
+}
+
+void
+em_folder_tree_set_new_message_text_color (EMFolderTree *self,
+					   const gchar *color_text)
+{
+	g_return_if_fail (EM_IS_FOLDER_TREE (self));
+
+	if (color_text && !*color_text)
+		color_text = NULL;
+
+	if (g_strcmp0 (self->priv->new_message_text_color, color_text) == 0)
+		return;
+
+	g_clear_pointer (&self->priv->new_message_text_color, g_free);
+
+	if (color_text != NULL) {
+		if (g_str_has_prefix (color_text, "@theme_")) {
+			if (gtk_style_context_lookup_color (gtk_widget_get_style_context (GTK_WIDGET (self)), color_text + 1,
+				&self->priv->new_message_text_color_rgba)) {
+				self->priv->new_message_text_color = g_strdup (color_text);
+			}
+		} else if (gdk_rgba_parse (&self->priv->new_message_text_color_rgba, color_text)) {
+			self->priv->new_message_text_color = g_strdup (color_text);
+		}
+	}
+
+	g_object_notify (G_OBJECT (self), "new-message-text-color");
+
+	if (gtk_widget_get_realized (GTK_WIDGET (self)))
+		gtk_widget_queue_draw (GTK_WIDGET (self));
 }

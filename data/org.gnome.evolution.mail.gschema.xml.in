@@ -1005,6 +1005,11 @@
       <_summary>Attach multiple messages as separate files</_summary>
       <_description>When attaching multiple messages at once, attach them as separate files (when set to 'true'), instead of a single mbox file.</_description>
     </key>
+    <key name="new-message-folder-text-color" type="s">
+      <default>'#0f6eff'</default>
+      <_summary>Set folder text color when it received a new message</_summary>
+      <_description>Some `@theme_` colors are supported, otherwise a color name like `orange` or color reference like `#07509c` or `rgb(215,150,0)` can be used. Not setting a color will, or using an invalid form, will not change the folder name text color.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 
