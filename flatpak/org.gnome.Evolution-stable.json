@@ -1,13 +1,13 @@
 {
 	"app-id": "org.gnome.Evolution",
 	"runtime": "org.gnome.Platform",
-	"runtime-version": "46",
+	"runtime-version": "47",
 	"sdk": "org.gnome.Sdk",
 	"command": "evolution",
 	"rename-icon": "evolution",
 	"copy-icon": true,
-	"branch": "gnome-47",
-	"desktop-file-name-suffix": " (3.54)",
+	"branch": "gnome-48",
+	"desktop-file-name-suffix": " (3.56)",
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
 		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
@@ -432,7 +432,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
-					"branch": "gnome-47"
+					"branch": "gnome-48"
 				}
 			],
 			"post-install": [
@@ -488,7 +488,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution.git",
-					"branch": "gnome-47"
+					"branch": "gnome-48"
 				},
 				{
 					"type": "shell",
@@ -578,7 +578,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
-					"branch": "gnome-47"
+					"branch": "gnome-48"
 				}
 			],
 			"post-install": [

@@ -1,3 +1,32 @@
+Evolution 3.56.0 2025-03-14
+---------------------------
+
+Bug Fixes:
+	I#2947 - Workaround shown menu icons when should not be
+	I#2989 - Crash on quit of the app
+	I#2991 - mail: Add .mbox extension to dragged email files (Ahmed Fatthi)
+	I#2998 - Tasks: Compare DUE date in local time zone, not the property's zone
+	I#3001 - ECalShellView: Add a translator comment for an ambiguous string
+	I#3002 - Forwarding from Unified Inbox picks wrong From account
+	I#3003 - Task bar in Calendar view is not sufficiently updated
+	I#3004 - Month View: Sometimes not fully populated
+	I#3006 - Mark Folder as read works not longer on subfolders
+
+Miscellaneous:
+	EWeekView: Scroll by shown weeks when scrolling by month
+	templates: Fix a circular dependency between structures
+	e-mail-shell-view-actions: Fix a memory leak
+	prefer-plain: Fix a ref/unref imbalance on an EUIActionGroup object
+
+Translations:
+	Anders Jonsson (sv)
+	Álvaro Burns (pt_BR)
+	Balázs Úr (hu)
+	Jean-Marc Tissières (fr)
+	Jordi Mas (ca)
+	Piotr Drąg (pl)
+	Sabri Ünal (tr)
+
 Evolution 3.55.3 2025-02-28
 ---------------------------
 

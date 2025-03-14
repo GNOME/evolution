@@ -4,4 +4,4 @@
 	Get a clone of git repository and list changes with 'git log' there,
 	   $ git clone https://gitlab.gnome.org/GNOME/evolution.git
 	or browse changes online at
-	   https://gitlab.gnome.org/GNOME/evolution/commits/master
+	   https://gitlab.gnome.org/GNOME/evolution/commits/gnome-48
