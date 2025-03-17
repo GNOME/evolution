@@ -445,29 +445,17 @@ ethi_remove_drop_marker (ETableHeaderItem *ethi)
 static GtkWidget *
 make_shaped_window_from_svg (const gchar *image_name)
 {
-	GdkPixbuf *pixbuf;
 	GtkWidget *win, *pix;
-	GError *error = NULL;
 	gchar *resource_path;
-
-	resource_path = g_strconcat ("/org.gnome.Evolution/", image_name, NULL);
-	pixbuf = gdk_pixbuf_new_from_resource (resource_path, &error);
-	if (!pixbuf)
-		g_warning ("%s: Failed to load '%s': %s", G_STRFUNC, resource_path, error ? error->message : "Unknown error");
-	g_clear_error (&error);
-	g_clear_pointer (&resource_path, g_free);
 
 	win = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_type_hint (GTK_WINDOW (win), GDK_WINDOW_TYPE_HINT_NOTIFICATION);
 	gtk_window_set_resizable (GTK_WINDOW (win), FALSE);
 
-	gtk_widget_set_size_request (win, gdk_pixbuf_get_width (pixbuf), gdk_pixbuf_get_height (pixbuf));
-
-	pix = gtk_image_new_from_pixbuf (pixbuf);
-	gtk_widget_realize (win);
+	resource_path = g_strconcat ("/org.gnome.Evolution/", image_name, NULL);
+	pix = gtk_image_new_from_resource (resource_path);
+	g_clear_pointer (&resource_path, g_free);
 	gtk_container_add (GTK_CONTAINER (win), pix);
-
-	g_object_unref (pixbuf);
 
 	return win;
 }
