@@ -5581,19 +5581,3 @@ em_composer_utils_update_security (EMsgComposer *composer,
 		}
 	}
 }
-
-void
-em_composer_utils_update_security_from_part_list (EMsgComposer *composer,
-						  EMailPartList *part_list)
-{
-	EMailPartValidityFlags validity_pgp_sum = 0;
-	EMailPartValidityFlags validity_smime_sum = 0;
-
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	if (!part_list)
-		return;
-
-	e_mail_part_list_sum_validity (part_list, &validity_pgp_sum, &validity_smime_sum);
-	em_composer_utils_update_security (composer, validity_pgp_sum, validity_smime_sum);
-}

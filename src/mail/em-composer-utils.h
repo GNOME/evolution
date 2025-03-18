@@ -140,9 +140,6 @@ void		em_composer_utils_update_security
 						(EMsgComposer *composer,
 						 EMailPartValidityFlags validity_pgp_sum,
 						 EMailPartValidityFlags validity_smime_sum);
-void		em_composer_utils_update_security_from_part_list
-						(EMsgComposer *composer,
-						 EMailPartList *part_list);
 
 G_END_DECLS
 
