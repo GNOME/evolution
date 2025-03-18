@@ -41,7 +41,6 @@ gboolean em_utils_ask_open_many (GtkWindow *parent, gint how_many);
 void		em_utils_edit_filters		(EMailSession *session,
 						 EAlertSink *alert_sink,
 						 GtkWindow *parent_window);
-void em_filename_make_safe (gchar *string);
 void em_utils_edit_vfolders (GtkWidget *parent);
 
 void em_utils_flag_for_followup (EMailReader *reader, CamelFolder *folder, GPtrArray *uids);
@@ -51,7 +50,6 @@ void em_utils_flag_for_followup_completed (GtkWindow *parent, CamelFolder *folde
 /* This stuff that follows probably doesn't belong here, then again, the stuff above probably belongs elsewhere */
 
 void em_utils_selection_set_mailbox (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
-void em_utils_selection_get_mailbox (GtkSelectionData *data, CamelFolder *folder);
 void em_utils_selection_get_message (GtkSelectionData *data, CamelFolder *folder);
 void em_utils_selection_set_uidlist (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_uidlist (GtkSelectionData *data, EMailSession *session, CamelFolder *dest, gint move, GCancellable *cancellable, GError **error);
@@ -73,14 +71,6 @@ void	em_utils_selection_uidlist_foreach_sync	(GtkSelectionData *selection_data,
 						 GError **error);
 
 /* FIXME: should this have an override charset? */
-gchar *		em_utils_message_to_html	(CamelSession *session,
-						 CamelMimeMessage *msg,
-						 const gchar *credits,
-						 guint32 flags,
-						 struct _EMailPartList *part_list,
-						 const gchar *prepend,
-						 const gchar *append,
-						 EMailPartValidityFlags *validity_found);
 gchar *		em_utils_message_to_html_ex	(CamelSession *session,
 						 CamelMimeMessage *message,
 						 const gchar *credits,
@@ -93,9 +83,6 @@ gchar *		em_utils_message_to_html_ex	(CamelSession *session,
 
 void		em_utils_empty_trash		(GtkWidget *parent,
 						 EMailSession *session);
-
-/* Unescapes &amp; back to a real & in URIs */
-gchar *em_utils_url_unescape_amp (const gchar *url);
 
 void emu_restore_folder_tree_state (EMFolderTree *folder_tree);
 

@@ -187,40 +187,6 @@ em_utils_edit_filters (EMailSession *session,
 	gtk_widget_show (GTK_WIDGET (filter_editor));
 }
 
-/*
- * Picked this from e-d-s/libedataserver/e-data.
- * But it allows more characters to occur in filenames, especially
- * when saving attachment.
- */
-void
-em_filename_make_safe (gchar *string)
-{
-	gchar *p, *ts;
-	gunichar c;
-#ifdef G_OS_WIN32
-	const gchar *unsafe_chars = "/\":*?<>|\\#";
-#else
-	const gchar *unsafe_chars = "/#";
-#endif
-
-	g_return_if_fail (string != NULL);
-	p = string;
-
-	while (p && *p) {
-		c = g_utf8_get_char (p);
-		ts = p;
-		p = g_utf8_next_char (p);
-		/* I wonder what this code is supposed to actually
-		 * achieve, and whether it does that as currently
-		 * written?
-		 */
-		if (!g_unichar_isprint (c) || (c < 0xff && strchr (unsafe_chars, c&0xff))) {
-			while (ts < p)
-				*ts++ = '_';
-		}
-	}
-}
-
 /* ********************************************************************** */
 /* Flag-for-Followup... */
 
@@ -625,38 +591,6 @@ em_utils_selection_set_mailbox (GtkSelectionData *data,
 			data, target, 8,
 			byte_array->data, byte_array->len);
 
-	g_object_unref (stream);
-}
-
-/**
- * em_utils_selection_get_mailbox:
- * @selection_data: selection data
- * @folder:
- *
- * Receive a mailbox selection/dnd
- * Warning: Could be BIG!
- * Warning: This could block the ui for an extended period.
- * FIXME: Exceptions?
- **/
-void
-em_utils_selection_get_mailbox (GtkSelectionData *selection_data,
-                                CamelFolder *folder)
-{
-	CamelStream *stream;
-	const guchar *data;
-	gint length;
-
-	data = gtk_selection_data_get_data (selection_data);
-	length = gtk_selection_data_get_length (selection_data);
-
-	if (data == NULL || length == -1)
-		return;
-
-	/* TODO: a stream mem with read-only access to existing data? */
-	/* NB: Although copying would let us run this async ... which it should */
-	stream = (CamelStream *)
-		camel_stream_mem_new_with_buffer ((gchar *) data, length);
-	em_utils_read_messages_from_stream (folder, stream);
 	g_object_unref (stream);
 }
 
@@ -1267,39 +1201,6 @@ is_only_text_part_in_this_level (GList *parts,
 }
 
 /**
- * em_utils_message_to_html:
- * @session: a #CamelSession
- * @message: a #CamelMimeMessage
- * @credits: (nullable): credits attribution string when quoting, or %NULL
- * @flags: the %EMFormatQuote flags
- * @part_list: (nullable): an #EMailPartList
- * @prepend: (nulalble): text to prepend, or %NULL
- * @append: (nullable): text to append, or %NULL
- * @validity_found: (nullable): if not %NULL, then here will be set what validities
- *         had been found during message conversion. Value is a bit OR
- *         of EM_FORMAT_VALIDITY_FOUND_* constants.
- *
- * Convert a message to html, quoting if the @credits attribution
- * string is given.
- *
- * Return value: The html version as a NULL terminated string.
- *
- * See: em_utils_message_to_html_ex
- **/
-gchar *
-em_utils_message_to_html (CamelSession *session,
-                          CamelMimeMessage *message,
-                          const gchar *credits,
-                          guint32 flags,
-                          EMailPartList *part_list,
-                          const gchar *prepend,
-                          const gchar *append,
-                          EMailPartValidityFlags *validity_found)
-{
-	return em_utils_message_to_html_ex (session, message, credits, flags, part_list, prepend, append, validity_found, NULL);
-}
-
-/**
  * em_utils_message_to_html_ex:
  * @session: a #CamelSession
  * @message: a #CamelMimeMessage
@@ -1509,37 +1410,6 @@ em_utils_empty_trash (GtkWidget *parent,
 }
 
 /* ********************************************************************** */
-
-gchar *
-em_utils_url_unescape_amp (const gchar *url)
-{
-	gchar *buff;
-	gint i, j, amps;
-
-	if (!url)
-		return NULL;
-
-	amps = 0;
-	for (i = 0; url[i]; i++) {
-		if (url[i] == '&' && strncmp (url + i, "&amp;", 5) == 0)
-			amps++;
-	}
-
-	buff = g_strdup (url);
-
-	if (!amps)
-		return buff;
-
-	for (i = 0, j = 0; url[i]; i++, j++) {
-		buff[j] = url[i];
-
-		if (url[i] == '&' && strncmp (url + i, "&amp;", 5) == 0)
-			i += 4;
-	}
-	buff[j] = 0;
-
-	return buff;
-}
 
 void
 emu_restore_folder_tree_state (EMFolderTree *folder_tree)
