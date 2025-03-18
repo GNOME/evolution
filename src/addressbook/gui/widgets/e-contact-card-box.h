@@ -132,10 +132,6 @@ void		e_contact_card_box_scroll_to_index
 						(EContactCardBox *self,
 						 guint item_index,
 						 gboolean can_in_middle);
-gboolean	e_contact_card_box_get_index_at	(EContactCardBox *self,
-						 gint xx,
-						 gint yy,
-						 guint *out_item_index);
 gboolean	e_contact_card_box_get_selected	(EContactCardBox *self,
 						 guint item_index);
 void		e_contact_card_box_set_selected	(EContactCardBox *self,

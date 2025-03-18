@@ -709,34 +709,6 @@ e_contact_card_container_get_item_place (EContactCardContainer *self,
 	}
 }
 
-static GtkWidget *
-e_contact_card_container_get_at (EContactCardContainer *self,
-				 gint xx,
-				 gint yy,
-				 guint *out_index)
-{
-	guint ii;
-
-	for (ii = 0; ii < self->cards->len; ii++) {
-		GtkWidget *adept = g_ptr_array_index (self->cards, ii);
-		GtkAllocation allocation;
-
-		if (!adept || !gtk_widget_get_visible (adept))
-			continue;
-
-		gtk_widget_get_allocation (adept, &allocation);
-
-		if (xx >= allocation.x && xx < allocation.x + allocation.width &&
-		    yy >= allocation.y && yy < allocation.y + allocation.height) {
-			if (out_index)
-				*out_index = ii + self->items_range_start;
-			return adept;
-		}
-	}
-
-	return NULL;
-}
-
 static gboolean
 e_contact_card_container_focus (GtkWidget *widget,
 				GtkDirectionType direction)
@@ -1978,17 +1950,6 @@ e_contact_card_box_scroll_to_index (EContactCardBox *self,
 		gtk_adjustment_set_value (adjustment, value);
 		e_contact_card_container_update (self->priv->container);
 	}
-}
-
-gboolean
-e_contact_card_box_get_index_at (EContactCardBox *self,
-				 gint xx,
-				 gint yy,
-				 guint *out_item_index)
-{
-	g_return_val_if_fail (E_IS_CONTACT_CARD_BOX (self), FALSE);
-
-	return e_contact_card_container_get_at (self->priv->container, xx, yy, out_item_index) != NULL;
 }
 
 gboolean
