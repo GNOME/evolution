@@ -156,8 +156,6 @@ GDateWeekday	e_weekday_get_next		(GDateWeekday weekday);
 GDateWeekday	e_weekday_get_prev		(GDateWeekday weekday);
 GDateWeekday	e_weekday_add_days		(GDateWeekday weekday,
 						 guint n_days);
-GDateWeekday	e_weekday_subtract_days		(GDateWeekday weekday,
-						 guint n_days);
 guint		e_weekday_get_days_between	(GDateWeekday weekday1,
 						 GDateWeekday weekday2);
 gint		e_weekday_to_tm_wday		(GDateWeekday weekday);
@@ -206,16 +204,6 @@ gboolean	e_binding_transform_string_to_color
 						 const GValue *source_value,
 						 GValue *target_value,
 						 gpointer not_used);
-gboolean	e_binding_transform_source_to_uid
-						(GBinding *binding,
-						 const GValue *source_value,
-						 GValue *target_value,
-						 ESourceRegistry *registry);
-gboolean	e_binding_transform_uid_to_source
-						(GBinding *binding,
-						 const GValue *source_value,
-						 GValue *target_value,
-						 ESourceRegistry *registry);
 
 gboolean	e_binding_transform_text_non_null
 						(GBinding *binding,

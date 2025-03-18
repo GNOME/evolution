@@ -1835,31 +1835,6 @@ e_weekday_add_days (GDateWeekday weekday,
 }
 
 /**
- * e_weekday_subtract_days:
- * @weekday: a #GDateWeekday
- * @n_days: number of days to subtract
- *
- * Decrements @weekday by @n_days.
- *
- * Returns: a #GDateWeekday
- **/
-GDateWeekday
-e_weekday_subtract_days (GDateWeekday weekday,
-                         guint n_days)
-{
-	g_return_val_if_fail (
-		g_date_valid_weekday (weekday),
-		G_DATE_BAD_WEEKDAY);
-
-	n_days %= 7;  /* Weekdays repeat every 7 days. */
-
-	while (n_days-- > 0)
-		weekday = e_weekday_get_prev (weekday);
-
-	return weekday;
-}
-
-/**
  * e_weekday_get_days_between:
  * @weekday1: a #GDateWeekday
  * @weekday2: a #GDateWeekday
@@ -2376,79 +2351,6 @@ e_binding_transform_string_to_color (GBinding *binding,
 	}
 
 	return FALSE;
-}
-
-/**
- * e_binding_transform_source_to_uid:
- * @binding: a #GBinding
- * @source_value: a #GValue of type #E_TYPE_SOURCE
- * @target_value: a #GValue of type #G_TYPE_STRING
- * @registry: an #ESourceRegistry
- *
- * Transforms an #ESource object to its UID string.
- *
- * Returns: %TRUE if @source_value was an #ESource object
- **/
-gboolean
-e_binding_transform_source_to_uid (GBinding *binding,
-                                   const GValue *source_value,
-                                   GValue *target_value,
-                                   ESourceRegistry *registry)
-{
-	ESource *source;
-	const gchar *string;
-	gboolean success = FALSE;
-
-	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
-
-	source = g_value_get_object (source_value);
-	if (E_IS_SOURCE (source)) {
-		string = e_source_get_uid (source);
-		g_value_set_string (target_value, string);
-		success = TRUE;
-	}
-
-	return success;
-}
-
-/**
- * e_binding_transform_uid_to_source:
- * @binding: a #GBinding
- * @source_value: a #GValue of type #G_TYPE_STRING
- * @target_value: a #GValue of type #E_TYPE_SOURCe
- * @registry: an #ESourceRegistry
- *
- * Transforms an #ESource UID string to the corresponding #ESource object
- * in @registry.
- *
- * Returns: %TRUE if @registry had an #ESource object with a matching
- *          UID string
- **/
-gboolean
-e_binding_transform_uid_to_source (GBinding *binding,
-                                   const GValue *source_value,
-                                   GValue *target_value,
-                                   ESourceRegistry *registry)
-{
-	ESource *source;
-	const gchar *string;
-	gboolean success = FALSE;
-
-	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
-
-	string = g_value_get_string (source_value);
-	if (string == NULL || *string == '\0')
-		return FALSE;
-
-	source = e_source_registry_ref_source (registry, string);
-	if (source != NULL) {
-		g_value_take_object (target_value, source);
-		success = TRUE;
-	}
-
-	return success;
 }
 
 /**
