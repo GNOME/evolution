@@ -510,19 +510,6 @@ eab_book_and_contact_array_to_string (EBookClient *book_client,
 	return eab_add_book_to_string (book_client, str);
 }
 
-gchar *
-eab_book_and_contact_list_to_string (EBookClient *book_client,
-                                     const GSList *contacts)
-{
-	gchar *str;
-
-	str = eab_contact_list_to_string (contacts);
-	if (!str)
-		str = g_strdup ("");
-
-	return eab_add_book_to_string (book_client, str);
-}
-
 /* bad place for this i know. */
 gint
 e_utf8_casefold_collate_len (const gchar *str1,

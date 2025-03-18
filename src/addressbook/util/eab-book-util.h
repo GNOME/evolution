@@ -66,9 +66,6 @@ gboolean	eab_source_and_contact_list_from_string
 						 const gchar *str,
 						 ESource **out_source,
 						 GSList **out_contacts);
-gchar *		eab_book_and_contact_list_to_string
-						(EBookClient *book_client,
-						 const GSList *contacts);
 gchar *		eab_book_and_contact_array_to_string
 						(EBookClient *book_client,
 						 const GPtrArray *contacts);
