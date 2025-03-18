@@ -44,9 +44,6 @@ gchar *		e_utf8_from_iconv_string_sized	(iconv_t ic,
 gchar *		e_utf8_to_iconv_string_sized	(iconv_t ic,
 						 const gchar *string,
 						 gint bytes);
-gchar *		e_utf8_to_charset_string_sized	(const gchar *charset,
-						 const gchar *string,
-						 gint bytes);
 gchar *		e_utf8_from_locale_string_sized	(const gchar *string,
 						 gint bytes);
 gchar *		e_utf8_ensure_valid		 (const gchar *string);
