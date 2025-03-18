@@ -153,10 +153,6 @@ const gchar *	e_composer_header_table_get_subject
 void		e_composer_header_table_set_subject
 						(EComposerHeaderTable *table,
 						 const gchar *subject);
-void		e_composer_header_table_set_header_visible
-						(EComposerHeaderTable *table,
-						 EComposerHeaderType type,
-						 gboolean visible);
 ESource *	e_composer_header_table_ref_source
 						(EComposerHeaderTable *table,
 						 const gchar *uid);
