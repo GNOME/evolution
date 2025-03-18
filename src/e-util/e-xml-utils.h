@@ -32,17 +32,6 @@
 
 G_BEGIN_DECLS
 
-/* lang set to NULL means use the current locale. */
-xmlNode *e_xml_get_child_by_name_by_lang             (const xmlNode *parent,
-                                                      const xmlChar *child_name,
-                                                      const gchar   *lang);
-/* lang_list set to NULL means use the current locale. */
-xmlNode *e_xml_get_child_by_name_by_lang_list        (const xmlNode *parent,
-                                                      const gchar   *name,
-                                                      const GList   *lang_list);
-xmlNode *e_xml_get_child_by_name_no_lang             (const xmlNode *parent,
-                                                      const gchar   *name);
-
 gint     e_xml_get_integer_prop_by_name              (const xmlNode *parent,
                                                       const xmlChar *prop_name);
 gint     e_xml_get_integer_prop_by_name_with_default (const xmlNode *parent,
@@ -87,9 +76,6 @@ gchar    *e_xml_get_string_prop_by_name_with_default (const xmlNode *parent,
 void      e_xml_set_string_prop_by_name              (xmlNode       *parent,
                                                       const xmlChar *prop_name,
                                                       const gchar   *value);
-
-gchar    *e_xml_get_translated_string_prop_by_name   (const xmlNode *parent,
-                                                      const xmlChar *prop_name);
 
 G_END_DECLS
 
