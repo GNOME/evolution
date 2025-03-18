@@ -157,54 +157,6 @@ itip_get_user_identities (ESourceRegistry *registry)
 }
 
 /**
- * itip_get_fallback_identity:
- * @registry: an #ESourceRegistry
- *
- * Returns a name + address string taken from the default mail identity,
- * but only if the corresponding account is enabled.  If the account is
- * disabled, the function returns %NULL.  This is meant to be used as a
- * fallback identity for organizers.  Free the returned string with
- * g_free().
- *
- * Returns: a fallback mail identity, or %NULL
- **/
-gchar *
-itip_get_fallback_identity (ESourceRegistry *registry)
-{
-	ESource *source;
-	ESourceMailIdentity *mail_identity;
-	const gchar *extension_name;
-	const gchar *address;
-	const gchar *name;
-	gchar *identity = NULL;
-
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
-
-	source = e_source_registry_ref_default_mail_identity (registry);
-
-	if (source == NULL)
-		return NULL;
-
-	if (!e_source_registry_check_enabled (registry, source)) {
-		g_object_unref (source);
-		return NULL;
-	}
-
-	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
-	mail_identity = e_source_get_extension (source, extension_name);
-
-	name = e_source_mail_identity_get_name (mail_identity);
-	address = e_source_mail_identity_get_address (mail_identity);
-
-	if (address)
-		identity = camel_internet_address_format_address (name, address);
-
-	g_object_unref (source);
-
-	return identity;
-}
-
-/**
  * itip_address_is_user:
  * @registry: an #ESourceRegistry
  * @address: an email address
@@ -2758,36 +2710,6 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 	g_clear_object (&top_level);
 
 	return retval;
-}
-
-gboolean
-itip_publish_begin (ECalComponent *pub_comp,
-                    ECalClient *cal_client,
-                    gboolean cloned,
-                    ECalComponent **clone)
-{
-	ICalComponent *icomp = NULL, *icomp_clone = NULL;
-	ICalProperty *prop;
-
-	if (e_cal_component_get_vtype (pub_comp) == E_CAL_COMPONENT_FREEBUSY) {
-
-		if (!cloned) {
-			*clone = e_cal_component_clone (pub_comp);
-		} else {
-			icomp = e_cal_component_get_icalcomponent (pub_comp);
-			icomp_clone = e_cal_component_get_icalcomponent (*clone);
-			for (prop = i_cal_component_get_first_property (icomp, I_CAL_FREEBUSY_PROPERTY);
-			     prop;
-			     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_FREEBUSY_PROPERTY)) {
-				ICalProperty *p;
-
-				p = i_cal_property_clone (prop);
-				i_cal_component_take_property (icomp_clone, p);
-			}
-		}
-	}
-
-	return TRUE;
 }
 
 static gboolean

@@ -48,7 +48,6 @@ struct CalMimeAttach {
 
 void		itip_cal_mime_attach_free	(gpointer ptr); /* struct CalMimeAttach * */
 gchar **	itip_get_user_identities	(ESourceRegistry *registry);
-gchar *		itip_get_fallback_identity	(ESourceRegistry *registry);
 gboolean	itip_address_is_user		(ESourceRegistry *registry,
 						 const gchar *address);
 gboolean	itip_organizer_is_user		(ESourceRegistry *registry,
@@ -105,10 +104,6 @@ void		itip_send_component		(ESourceRegistry *registry,
 						 gpointer user_data);
 gboolean	itip_send_component_finish	(GAsyncResult *result,
 						 GError **error);
-gboolean	itip_publish_begin		(ECalComponent *pub_comp,
-						 ECalClient *cal_client,
-						 gboolean cloned,
-						 ECalComponent **clone);
 gboolean	reply_to_calendar_comp		(ESourceRegistry *registry,
 						 ICalPropertyMethod method,
 						 ECalComponent *send_comp,
