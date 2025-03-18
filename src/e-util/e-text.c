@@ -2474,7 +2474,6 @@ _get_position (EText *text,
 		obj_num = e_text_model_get_object_at_offset (
 			text->model, text->selection_start);
 		if (obj_num != -1) {
-			e_text_model_activate_nth_object (text->model, obj_num);
 			new_pos = text->selection_start;
 			break;
 		}

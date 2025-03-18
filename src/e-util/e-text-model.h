@@ -68,9 +68,6 @@ struct _ETextModelClass {
 	void		(*reposition)		(ETextModel *model,
 						 ETextModelReposFn fn,
 						 gpointer repos_fn_data);
-	void		(*object_activated)	(ETextModel *model,
-						 gint obj_num);
-	void		(*cancel_completion)	(ETextModel *model);
 
 	/* Virtual methods */
 
@@ -104,7 +101,6 @@ struct _ETextModelClass {
 GType		e_text_model_get_type		(void) G_GNUC_CONST;
 ETextModel *	e_text_model_new		(void);
 void		e_text_model_changed		(ETextModel *model);
-void		e_text_model_cancel_completion	(ETextModel *model);
 void		e_text_model_reposition		(ETextModel *model,
 						 ETextModelReposFn fn,
 						 gpointer repos_data);
@@ -121,10 +117,6 @@ void		e_text_model_insert_length	(ETextModel *model,
 						 gint position,
 						 const gchar *text,
 						 gint length);
-void		e_text_model_prepend		(ETextModel *model,
-						 const gchar *text);
-void		e_text_model_append		(ETextModel *model,
-						 const gchar *text);
 void		e_text_model_delete		(ETextModel *model,
 						 gint position,
 						 gint length);
@@ -132,8 +124,6 @@ gint		e_text_model_object_count	(ETextModel *model);
 const gchar *	e_text_model_get_nth_object	(ETextModel *model,
 						 gint n,
 						 gint *len);
-gchar *		e_text_model_strdup_nth_object	(ETextModel *model,
-						 gint n);
 void		e_text_model_get_nth_object_bounds
 						(ETextModel *model,
 						 gint n,
@@ -142,12 +132,6 @@ void		e_text_model_get_nth_object_bounds
 gint		e_text_model_get_object_at_offset
 						(ETextModel *model,
 						 gint offset);
-gint		e_text_model_get_object_at_pointer
-						(ETextModel *model,
-						 const gchar *c);
-void		e_text_model_activate_nth_object
-						(ETextModel *model,
-						 gint n);
 
 G_END_DECLS
 

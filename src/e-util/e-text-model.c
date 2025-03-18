@@ -36,8 +36,6 @@
 enum {
 	E_TEXT_MODEL_CHANGED,
 	E_TEXT_MODEL_REPOSITION,
-	E_TEXT_MODEL_OBJECT_ACTIVATED,
-	E_TEXT_MODEL_CANCEL_COMPLETION,
 	E_TEXT_MODEL_LAST_SIGNAL
 };
 
@@ -107,29 +105,9 @@ e_text_model_class_init (ETextModelClass *class)
 		G_TYPE_POINTER,
 		G_TYPE_POINTER);
 
-	signals[E_TEXT_MODEL_OBJECT_ACTIVATED] = g_signal_new (
-		"object_activated",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETextModelClass, object_activated),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__INT,
-		G_TYPE_NONE, 1,
-		G_TYPE_INT);
-
-	signals[E_TEXT_MODEL_CANCEL_COMPLETION] = g_signal_new (
-		"cancel_completion",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETextModelClass, cancel_completion),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-
 	/* No default signal handlers. */
 	class->changed = NULL;
 	class->reposition = NULL;
-	class->object_activated = NULL;
 
 	class->validate_pos = e_text_model_real_validate_position;
 
@@ -309,14 +287,6 @@ e_text_model_changed (ETextModel *model)
 }
 
 void
-e_text_model_cancel_completion (ETextModel *model)
-{
-	g_return_if_fail (E_IS_TEXT_MODEL (model));
-
-	g_signal_emit (model, signals[E_TEXT_MODEL_CANCEL_COMPLETION], 0);
-}
-
-void
 e_text_model_reposition (ETextModel *model,
                          ETextModelReposFn fn,
                          gpointer repos_data)
@@ -447,30 +417,6 @@ e_text_model_insert_length (ETextModel *model,
 }
 
 void
-e_text_model_prepend (ETextModel *model,
-                      const gchar *text)
-{
-	g_return_if_fail (E_IS_TEXT_MODEL (model));
-
-	if (text == NULL)
-		return;
-
-	e_text_model_insert (model, 0, text);
-}
-
-void
-e_text_model_append (ETextModel *model,
-                     const gchar *text)
-{
-	g_return_if_fail (E_IS_TEXT_MODEL (model));
-
-	if (text == NULL)
-		return;
-
-	e_text_model_insert (model, e_text_model_get_text_length (model), text);
-}
-
-void
 e_text_model_delete (ETextModel *model,
                      gint position,
                      gint length)
@@ -532,27 +478,6 @@ e_text_model_get_nth_object (ETextModel *model,
 	return class->get_nth_obj (model, n, len);
 }
 
-gchar *
-e_text_model_strdup_nth_object (ETextModel *model,
-                                gint n)
-{
-	const gchar *obj;
-	gint len = 0;
-
-	g_return_val_if_fail (E_IS_TEXT_MODEL (model), NULL);
-
-	obj = e_text_model_get_nth_object (model, n, &len);
-
-	if (obj) {
-		gint byte_len;
-		byte_len = g_utf8_offset_to_pointer (obj, len) - obj;
-		return g_strndup (obj, byte_len);
-	}
-	else {
-		return NULL;
-	}
-}
-
 void
 e_text_model_get_nth_object_bounds (ETextModel *model,
                                     gint n,
@@ -609,29 +534,6 @@ e_text_model_get_object_at_offset (ETextModel *model,
 	}
 
 	return -1;
-}
-
-gint
-e_text_model_get_object_at_pointer (ETextModel *model,
-                                    const gchar *s)
-{
-	g_return_val_if_fail (E_IS_TEXT_MODEL (model), -1);
-	g_return_val_if_fail (s != NULL, -1);
-
-	return e_text_model_get_object_at_offset (
-		model, s - e_text_model_get_text (model));
-}
-
-void
-e_text_model_activate_nth_object (ETextModel *model,
-                                  gint n)
-{
-	g_return_if_fail (model != NULL);
-	g_return_if_fail (E_IS_TEXT_MODEL (model));
-	g_return_if_fail (n >= 0);
-	g_return_if_fail (n < e_text_model_object_count (model));
-
-	g_signal_emit (model, signals[E_TEXT_MODEL_OBJECT_ACTIVATED], 0, n);
 }
 
 ETextModel *
