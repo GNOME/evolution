@@ -330,59 +330,6 @@ gal_a11y_e_cell_add_action (GalA11yECell *cell,
 	return TRUE;
 }
 
-gboolean
-gal_a11y_e_cell_remove_action (GalA11yECell *cell,
-                               gint action_index)
-{
-	GList *list_node;
-	gpointer data;
-
-	g_return_val_if_fail (GAL_A11Y_IS_E_CELL (cell), FALSE);
-	list_node = g_list_nth (cell->action_list, action_index);
-	if (!list_node)
-		return FALSE;
-
-	data = list_node->data;
-	g_return_val_if_fail (data != NULL, FALSE);
-
-	cell->action_list = g_list_remove (cell->action_list, data);
-	_gal_a11y_e_cell_destroy_action_info (data, NULL);
-
-	return TRUE;
-}
-
-gboolean
-gal_a11y_e_cell_remove_action_by_name (GalA11yECell *cell,
-                                       const gchar *action_name)
-{
-	GList *list_node;
-	gpointer data;
-
-	g_return_val_if_fail (GAL_A11Y_IS_E_CELL (cell), FALSE);
-
-	for (list_node = cell->action_list; list_node; list_node = list_node->next) {
-		if (!g_ascii_strcasecmp (((ActionInfo *)(list_node->data))->name, action_name)) {
-			break;
-		}
-	}
-
-	if (!list_node) {
-		g_warn_if_reached ();
-		return FALSE;
-	}
-
-	data = list_node->data;
-	if (!data) {
-		g_warn_if_reached ();
-		return FALSE;
-	}
-
-	cell->action_list = g_list_remove (cell->action_list, data);
-	_gal_a11y_e_cell_destroy_action_info (data, NULL);
-
-	return TRUE;
-}
-
 static gint
 gal_a11y_e_cell_action_get_n_actions (AtkAction *action)
 {
