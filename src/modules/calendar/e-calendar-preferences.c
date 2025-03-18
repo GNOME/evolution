@@ -706,7 +706,7 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 	gtk_box_pack_start (GTK_BOX (page), frame, TRUE, TRUE, 24);
 
 	frame_label = gtk_label_new ("");
-	str = g_strdup_printf ("<span weight=\"bold\">%s</span>", _("Conflict Search"));
+	str = g_strdup_printf ("<span weight=\"bold\">%s</span>", _("Search for Meetings"));
 	gtk_label_set_markup (GTK_LABEL (frame_label), str);
 	g_free (str);
 	gtk_label_set_xalign (GTK_LABEL (frame_label), 0);
@@ -721,7 +721,7 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, TRUE, TRUE, 0);
 
 	/* Source selector */
-	label = gtk_label_new (_("Select the calendars to search for meeting conflicts"));
+	label = gtk_label_new (_("Select the calendars to search for the meetings and the conflicts"));
 	gtk_label_set_xalign (GTK_LABEL (label), 0);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), label, FALSE, FALSE, 0);
 
@@ -737,7 +737,7 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 	gtk_box_pack_start (GTK_BOX (inner_vbox), scrolledwin, TRUE, TRUE, 0);
 
 	ess = e_conflict_search_selector_new (registry);
-	atk_object_set_name (gtk_widget_get_accessible (ess), _("Conflict Search"));
+	atk_object_set_name (gtk_widget_get_accessible (ess), _("Search for Meetings"));
 	gtk_container_add (GTK_CONTAINER (scrolledwin), ess);
 
 	gtk_widget_show_all (page);

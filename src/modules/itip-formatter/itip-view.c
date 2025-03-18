@@ -1822,6 +1822,8 @@ itip_view_class_init (ItipViewClass *class)
 		g_cclosure_marshal_VOID__INT,
 		G_TYPE_NONE, 1,
 		G_TYPE_INT);
+
+	g_type_ensure (E_TYPE_SOURCE_CONFLICT_SEARCH);
 }
 
 EClientCache *
@@ -4989,8 +4991,6 @@ find_cal_opened_cb (GObject *source_object,
 	EClient *client;
 	ESource *source;
 	ECalClient *cal_client;
-	gboolean search_for_conflicts = FALSE;
-	const gchar *extension_name;
 	GError *error = NULL;
 
 	client = e_client_cache_get_client_finish (
@@ -5028,16 +5028,6 @@ find_cal_opened_cb (GObject *source_object,
 
 	source = e_client_get_source (client);
 
-	extension_name = E_SOURCE_EXTENSION_CONFLICT_SEARCH;
-	if (e_source_has_extension (source, extension_name)) {
-		ESourceConflictSearch *extension;
-
-		extension = e_source_get_extension (source, extension_name);
-		search_for_conflicts =
-			(view->priv->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) &&
-			e_source_conflict_search_get_include_me (extension);
-	}
-
 	/* Do not process read-only calendars */
 	if (e_client_is_readonly (E_CLIENT (cal_client))) {
 		itip_view_remember_readonly_source (view, e_source_get_uid (source));
@@ -5046,26 +5036,9 @@ find_cal_opened_cb (GObject *source_object,
 		return;
 	}
 
- 	/* Check for conflicts */
- 	/* If the query fails, we'll just ignore it */
- 	/* FIXME What happens for recurring conflicts? */
-	if (search_for_conflicts) {
-		e_cal_client_get_object_list (
-			cal_client, fd->sexp,
-			fd->cancellable,
-			get_object_list_ready_cb, fd);
-		return;
-	}
+	e_cal_client_get_object_list (cal_client, fd->sexp,
+		fd->cancellable, get_object_list_ready_cb, fd);
 
-	if (!view->priv->current_client) {
-		e_cal_client_get_object (
-			cal_client, fd->uid, fd->rid,
-			fd->cancellable,
-			get_object_with_rid_ready_cb, fd);
-		return;
-	}
-
-	decrease_find_data (fd);
 	g_clear_object (&cal_client);
 }
 
@@ -5083,13 +5056,11 @@ find_server (ItipView *view,
 	FormatItipFindData *fd = NULL;
 	const gchar *uid;
 	gchar *rid = NULL;
-	CamelStore *parent_store;
-	ESource *current_source = NULL;
 	GList *list, *link;
-	GList *conflict_list = NULL;
+	GList *search_sources = NULL;
 	const gchar *searching_text = NULL;
+	const gchar *not_searching_text = NULL;
 	const gchar *extension_name;
-	const gchar *store_uid;
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
 	g_return_if_fail (view->priv->folder != NULL);
@@ -5098,14 +5069,17 @@ find_server (ItipView *view,
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 			extension_name = E_SOURCE_EXTENSION_CALENDAR;
 			searching_text = _("Searching for an existing version of this appointment");
+			not_searching_text = _("Cannot search for existing event, no calendar selected for search");
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
 			searching_text = _("Searching for an existing version of this task");
+			not_searching_text = _("Cannot search for existing task, no task list found");
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
 			searching_text = _("Searching for an existing version of this memo");
+			not_searching_text = _("Cannot search for existing memo, no memo list found");
 			break;
 		default:
 			g_return_if_reached ();
@@ -5119,61 +5093,34 @@ find_server (ItipView *view,
 	uid = e_cal_component_get_uid (comp);
 	rid = e_cal_component_get_recurid_as_string (comp);
 
-	/* XXX Not sure what this was trying to do,
-	 *     but it propbably doesn't work anymore.
-	 *     Some comments would have been helpful. */
-	parent_store = camel_folder_get_parent_store (view->priv->folder);
-
-	store_uid = camel_service_get_uid (CAMEL_SERVICE (parent_store));
-
 	itip_view_set_buttons_sensitive (view, FALSE);
 
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ESource *source = E_SOURCE (link->data);
-		gboolean search_for_conflicts = FALSE;
-		const gchar *source_uid;
-
-		extension_name = E_SOURCE_EXTENSION_CONFLICT_SEARCH;
-		if (e_source_has_extension (source, extension_name)) {
+	if (g_strcmp0 (extension_name, E_SOURCE_EXTENSION_CALENDAR) == 0) {
+		for (link = list; link != NULL; link = g_list_next (link)) {
+			ESource *source = E_SOURCE (link->data);
 			ESourceConflictSearch *extension;
 
-			extension =
-				e_source_get_extension (source, extension_name);
-			search_for_conflicts =
-				e_source_conflict_search_get_include_me (extension);
+			extension = e_source_get_extension (source, E_SOURCE_EXTENSION_CONFLICT_SEARCH);
+
+			if (e_source_conflict_search_get_include_me (extension))
+				search_sources = g_list_prepend (search_sources, g_object_ref (source));
 		}
-
-		if (search_for_conflicts)
-			conflict_list = g_list_prepend (
-				conflict_list, g_object_ref (source));
-
-		if (current_source != NULL)
-			continue;
-
-		source_uid = e_source_get_uid (source);
-		if (g_strcmp0 (source_uid, store_uid) == 0) {
-			current_source = source;
-			conflict_list = g_list_prepend (
-				conflict_list, g_object_ref (source));
-
-			continue;
-		}
+	} else {
+		search_sources = list;
+		list = NULL;
 	}
 
-	if (current_source) {
-		link = conflict_list;
-
-		view->priv->progress_info_id = itip_view_add_lower_info_item (
-			view, ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
-			_("Opening the calendar. Please wait…"));
-	} else {
-		link = list;
+	if (search_sources) {
 		view->priv->progress_info_id = itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
 			searching_text);
+	} else {
+		view->priv->progress_info_id = itip_view_add_lower_info_item (
+			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+			not_searching_text);
 	}
 
-	for (; link != NULL; link = g_list_next (link)) {
+	for (link = search_sources; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 
 		if (e_util_guess_source_is_readonly (source))
@@ -5219,8 +5166,8 @@ find_server (ItipView *view,
 			find_cal_opened_cb, fd);
 	}
 
-	g_list_free_full (conflict_list, (GDestroyNotify) g_object_unref);
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+	g_list_free_full (search_sources, g_object_unref);
+	g_list_free_full (list, g_object_unref);
 
 	g_free (rid);
 }
