@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2025-03-18 10:24+0000\n"
-"PO-Revision-Date: 2025-03-18 16:07+0200\n"
+"PO-Revision-Date: 2025-03-19 09:23+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2561,7 +2561,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Prompt when replying privately to list messages"
-msgstr "Запитувати, коли відповідається особисто на список повідомлень"
+msgstr "Запитувати, коли надсилаємо відповідь особисто на список повідомлень"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid ""
@@ -13836,7 +13836,7 @@ msgstr "Вказівник на невідомі зовнішні дані (ти
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:74
 #: ../src/em-format/e-mail-parser-multipart-signed.c:109
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "Не вдалося розібрати MIME-повідомлення. Показазуємо як код."
+msgstr "Не вдалося розібрати MIME-повідомлення. Показуємо як код."
 
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:89
 msgid "Unsupported encryption type for multipart/encrypted"
@@ -21339,7 +21339,7 @@ msgstr "— завершено"
 #: ../src/mail/filtertypes.xml.in.h:46 ../src/mail/searchtypes.xml.in.h:48
 #: ../src/mail/vfoldertypes.xml.in.h:49
 msgid "is not Completed"
-msgstr "— незавершено"
+msgstr "— не завершено"
 
 #: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
 #: ../src/mail/vfoldertypes.xml.in.h:50
