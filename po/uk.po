@@ -7,13 +7,13 @@
 # wanderlust <wanderlust@ukr.net>, 2009.
 # Daniel Korostil <ted.korostiled@gmail.com>, 2013, 2014, 2016.
 # Andriy Bandura <andriykopanytsia@gmail.com>, 2014.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023, 2024.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2024-09-04 15:41+0000\n"
-"PO-Revision-Date: 2024-09-04 20:09+0300\n"
+"POT-Creation-Date: 2025-03-12 13:09+0000\n"
+"PO-Revision-Date: 2025-03-19 09:26+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2563,7 +2563,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Prompt when replying privately to list messages"
-msgstr "Запитувати, коли відповідається особисто на список повідомлень"
+msgstr "Запитувати, коли надсилаємо відповідь особисто на список повідомлень"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid ""
@@ -4278,7 +4278,7 @@ msgid "_File"
 msgstr "_Файл"
 
 #: ../data/ui/evolution-mail-viewer.ui.h:4
-#: ../src/calendar/gui/e-to-do-pane.c:2382
+#: ../src/calendar/gui/e-to-do-pane.c:2392
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1572
 msgid "_Open…"
 msgstr "_Відкрити…"
@@ -5934,12 +5934,12 @@ msgid "_Top"
 msgstr "_Верх"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/e-source-selector.c:3918 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-source-selector.c:3919 ../src/e-util/filter.ui.h:30
 msgid "_Up"
 msgstr "В_гору"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
-#: ../src/e-util/e-source-selector.c:3919 ../src/e-util/filter.ui.h:31
+#: ../src/e-util/e-source-selector.c:3920 ../src/e-util/filter.ui.h:31
 msgid "_Down"
 msgstr "У_низ"
 
@@ -7105,7 +7105,6 @@ msgstr ""
 "зустріч скасовано."
 
 #: ../src/calendar/calendar.error.xml.h:11
-#| msgid "_Delete and Sent Notice"
 msgid "_Delete and Send Notice"
 msgstr "Вилучити і _надіслати сповіщення"
 
@@ -8881,15 +8880,15 @@ msgstr "Зміна примітки"
 msgid "Modifying a task"
 msgstr "Зміна завдання"
 
-#: ../src/calendar/gui/e-cal-ops.c:429 ../src/calendar/gui/e-to-do-pane.c:2172
+#: ../src/calendar/gui/e-cal-ops.c:429 ../src/calendar/gui/e-to-do-pane.c:2182
 msgid "Removing an event"
 msgstr "Вилучення події"
 
-#: ../src/calendar/gui/e-cal-ops.c:433 ../src/calendar/gui/e-to-do-pane.c:2176
+#: ../src/calendar/gui/e-cal-ops.c:433 ../src/calendar/gui/e-to-do-pane.c:2186
 msgid "Removing a memo"
 msgstr "Вилучення примітки"
 
-#: ../src/calendar/gui/e-cal-ops.c:437 ../src/calendar/gui/e-to-do-pane.c:2180
+#: ../src/calendar/gui/e-cal-ops.c:437 ../src/calendar/gui/e-to-do-pane.c:2190
 msgid "Removing a task"
 msgstr "Вилучення завдання"
 
@@ -10674,7 +10673,7 @@ msgid "Time: %s %s"
 msgstr "Час: %s %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1649 ../src/e-util/e-cell-date-edit.c:338
+#: ../src/calendar/gui/e-to-do-pane.c:1659 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:237
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:2036
 #: ../src/modules/itip-formatter/itip-view.c:272
@@ -10682,65 +10681,65 @@ msgid "Today"
 msgstr "Сьогодні"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1651
+#: ../src/calendar/gui/e-to-do-pane.c:1661
 #: ../src/e-util/e-datetime-format.c:248
 #: ../src/modules/itip-formatter/itip-view.c:300
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1661
+#: ../src/calendar/gui/e-to-do-pane.c:1671
 msgid "Tasks without Due date"
 msgstr "Завдання без терміну виконання"
 
 #. It doesn't matter which data-model is picked, because it's used
 #. only for thread creation and manipulation, not for its content.
-#: ../src/calendar/gui/e-to-do-pane.c:2307
+#: ../src/calendar/gui/e-to-do-pane.c:2317
 msgid "Marking a task as complete"
 msgstr "Позначаємо завдання як виконане"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2345
+#: ../src/calendar/gui/e-to-do-pane.c:2355
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
 msgid "New _Appointment…"
 msgstr "Створити з_устріч…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2353
+#: ../src/calendar/gui/e-to-do-pane.c:2363
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1495
 msgid "New _Meeting…"
 msgstr "С_творити зібрання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2361
+#: ../src/calendar/gui/e-to-do-pane.c:2371
 msgid "New _Task…"
 msgstr "Створити за_вдання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2369
+#: ../src/calendar/gui/e-to-do-pane.c:2379
 msgid "_New Assigned Task…"
 msgstr "С_творити пов'язане завдання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2392
+#: ../src/calendar/gui/e-to-do-pane.c:2402
 msgid "Mark Task as _Complete"
 msgstr "Поз_начити завдання як виконане"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2406
+#: ../src/calendar/gui/e-to-do-pane.c:2416
 msgid "_Delete This Instance…"
 msgstr "Ви_лучити цей екземпляр…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2415
+#: ../src/calendar/gui/e-to-do-pane.c:2425
 msgid "Delete This and F_uture Occurrences…"
 msgstr "Вилучити цей і _майбутні екземпляри…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2424
+#: ../src/calendar/gui/e-to-do-pane.c:2434
 msgid "D_elete All Instances…"
 msgstr "Ви_лучити усі екземпляри…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2432
+#: ../src/calendar/gui/e-to-do-pane.c:2442
 msgid "_Delete…"
 msgstr "В_илучити…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2450
+#: ../src/calendar/gui/e-to-do-pane.c:2460
 msgid "_Show Tasks without Due date"
 msgstr "_Показувати завдання без терміну виконання"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2729
+#: ../src/calendar/gui/e-to-do-pane.c:2739
 msgid "To Do"
 msgstr "Зробити"
 
@@ -13204,20 +13203,20 @@ msgstr "Не вдалося отримати вміст чернетки"
 msgid "Failed to retrieve HTML processed content"
 msgstr "Не вдалося отримати оброблені дані HTML"
 
-#: ../src/composer/e-msg-composer.c:2093 ../src/composer/e-msg-composer.c:2832
+#: ../src/composer/e-msg-composer.c:2093 ../src/composer/e-msg-composer.c:2809
 msgid "Compose Message"
 msgstr "Нове повідомлення"
 
-#: ../src/composer/e-msg-composer.c:5070
+#: ../src/composer/e-msg-composer.c:5047
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Читаємо текстові дані…"
 
-#: ../src/composer/e-msg-composer.c:5138
+#: ../src/composer/e-msg-composer.c:5115
 msgid "Send _without encryption"
 msgstr "Надіслати _без шифрування"
 
-#: ../src/composer/e-msg-composer.c:5926
+#: ../src/composer/e-msg-composer.c:5903
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Переглянути долучення перед надсиланням."
@@ -13225,7 +13224,7 @@ msgstr[1] "Переглянути долучення перед надсилан
 msgstr[2] "Переглянути долучення перед надсиланням."
 msgstr[3] "Переглянути долучення перед надсиланням."
 
-#: ../src/composer/e-msg-composer.c:5931
+#: ../src/composer/e-msg-composer.c:5908
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -13246,7 +13245,7 @@ msgstr[3] ""
 "Зовнішньою програмою додано одне долучення. Перш ніж надсилати повідомлення, "
 "переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 
-#: ../src/composer/e-msg-composer.c:6057
+#: ../src/composer/e-msg-composer.c:6034
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редактор містить не текстовий вміст, який неможливо редагувати."
 
@@ -13804,20 +13803,20 @@ msgstr ""
 msgid "View Certificate"
 msgstr "Переглянути сертифікат"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:278
+#: ../src/em-format/e-mail-formatter-secure-button.c:279
 msgid "Import Certificate"
 msgstr "Імпортувати сертифікат"
 
 #. image
-#: ../src/em-format/e-mail-formatter-secure-button.c:321
+#: ../src/em-format/e-mail-formatter-secure-button.c:322
 msgid "Details"
 msgstr "Подробиці"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:413
+#: ../src/em-format/e-mail-formatter-secure-button.c:414
 msgid "Digital Signature"
 msgstr "Цифровий підпис"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:419
+#: ../src/em-format/e-mail-formatter-secure-button.c:420
 msgid "Signer:"
 msgid_plural "Signers:"
 msgstr[0] "Власники підпису:"
@@ -13825,11 +13824,11 @@ msgstr[1] "Власники підпису:"
 msgstr[2] "Власники підпису:"
 msgstr[3] "Власник підпису:"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:430
+#: ../src/em-format/e-mail-formatter-secure-button.c:431
 msgid "Encryption"
 msgstr "Шифрування"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:435
+#: ../src/em-format/e-mail-formatter-secure-button.c:436
 msgid "Encrypted by:"
 msgstr "Зашифровано:"
 
@@ -13969,7 +13968,7 @@ msgstr "Вказівник на невідомі зовнішні дані (ти
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:74
 #: ../src/em-format/e-mail-parser-multipart-signed.c:109
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "Не вдалося розібрати MIME-повідомлення. Показазуємо як код."
+msgstr "Не вдалося розібрати MIME-повідомлення. Показуємо як код."
 
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:89
 msgid "Unsupported encryption type for multipart/encrypted"
@@ -17374,28 +17373,28 @@ msgstr "Користувач:"
 msgid "Connection timeout (in seconds)"
 msgstr "Час очікування на з'єднання (у секундах)"
 
-#: ../src/e-util/e-source-selector.c:3613
+#: ../src/e-util/e-source-selector.c:3614
 msgid "Show"
 msgstr "Показати"
 
-#: ../src/e-util/e-source-selector.c:3619
+#: ../src/e-util/e-source-selector.c:3620
 msgid "Group name"
 msgstr "Назва групи"
 
-#: ../src/e-util/e-source-selector.c:3823 ../src/mail/e-mail-display.c:781
+#: ../src/e-util/e-source-selector.c:3824 ../src/mail/e-mail-display.c:781
 msgid "_Hide"
 msgstr "С_ховати"
 
-#: ../src/e-util/e-source-selector.c:3823
-#: ../src/e-util/e-source-selector.c:3921
+#: ../src/e-util/e-source-selector.c:3824
+#: ../src/e-util/e-source-selector.c:3922
 msgid "_Show"
 msgstr "_Показати"
 
-#: ../src/e-util/e-source-selector.c:3875
+#: ../src/e-util/e-source-selector.c:3876
 msgid "Manage Groups"
 msgstr "Організувати групи"
 
-#: ../src/e-util/e-source-selector.c:3887
+#: ../src/e-util/e-source-selector.c:3888
 msgid "Available Groups:"
 msgstr "Доступні групи:"
 
@@ -21374,7 +21373,7 @@ msgstr "— завершено"
 #: ../src/mail/filtertypes.xml.in.h:46 ../src/mail/searchtypes.xml.in.h:48
 #: ../src/mail/vfoldertypes.xml.in.h:49
 msgid "is not Completed"
-msgstr "— незавершено"
+msgstr "— не завершено"
 
 #: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
 #: ../src/mail/vfoldertypes.xml.in.h:50
