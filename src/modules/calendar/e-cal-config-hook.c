@@ -29,7 +29,6 @@ static const EConfigHookTargetMask no_masks[] = {
 };
 
 static const EConfigHookTargetMap targets[] = {
-	{ "source", EC_CONFIG_TARGET_SOURCE, no_masks },
 	{ "prefs", EC_CONFIG_TARGET_PREFS, no_masks },
 	{ NULL }
 };

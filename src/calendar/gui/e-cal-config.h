@@ -62,19 +62,10 @@ struct _ECalConfigClass {
 };
 
 enum _e_cal_config_target_t {
-	EC_CONFIG_TARGET_SOURCE,
 	EC_CONFIG_TARGET_PREFS
 };
 
-typedef struct _ECalConfigTargetSource ECalConfigTargetSource;
 typedef struct _ECalConfigTargetPrefs ECalConfigTargetPrefs;
-
-struct _ECalConfigTargetSource {
-	EConfigTarget target;
-
-	ESource *source;
-        ECalClientSourceType source_type;
-};
 
 struct _ECalConfigTargetPrefs {
 	EConfigTarget target;
@@ -86,9 +77,6 @@ typedef struct _EConfigItem ECalConfigItem;
 
 GType		e_cal_config_get_type (void);
 ECalConfig *	e_cal_config_new		(const gchar *menuid);
-ECalConfigTargetSource *
-		e_cal_config_target_new_source	(ECalConfig *ecp,
-						 ESource *source);
 ECalConfigTargetPrefs *
 		e_cal_config_target_new_prefs	(ECalConfig *ecp);
 

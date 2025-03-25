@@ -39,26 +39,12 @@ ecp_target_free (EConfig *ec,
 
 	if (ec->target == t) {
 		switch (t->type) {
-		case EC_CONFIG_TARGET_SOURCE: {
-			ECalConfigTargetSource *s = (ECalConfigTargetSource *) t;
-
-			if (p->source_changed_id) {
-				g_signal_handler_disconnect (
-					s->source, p->source_changed_id);
-				p->source_changed_id = 0;
-			}
-			break; }
 		case EC_CONFIG_TARGET_PREFS: {
 			break; }
 		}
 	}
 
 	switch (t->type) {
-	case EC_CONFIG_TARGET_SOURCE: {
-		ECalConfigTargetSource *s = (ECalConfigTargetSource *) t;
-		if (s->source)
-			g_object_unref (s->source);
-		break; }
 	case EC_CONFIG_TARGET_PREFS: {
 		ECalConfigTargetPrefs *s = (ECalConfigTargetPrefs *) t;
 		if (s->settings)
@@ -86,13 +72,6 @@ ecp_set_target (EConfig *ec,
 
 	if (t) {
 		switch (t->type) {
-		case EC_CONFIG_TARGET_SOURCE: {
-			ECalConfigTargetSource *s = (ECalConfigTargetSource *) t;
-
-			self->priv->source_changed_id = g_signal_connect (
-				s->source, "changed",
-				G_CALLBACK (ecp_source_changed), ec);
-			break; }
 		case EC_CONFIG_TARGET_PREFS: {
 			/* ECalConfigTargetPrefs *s = (ECalConfigTargetPrefs *)t; */
 			break; }
@@ -122,20 +101,6 @@ e_cal_config_new (const gchar *menuid)
 	ECalConfig *ecp = g_object_new (e_cal_config_get_type (), NULL);
 	e_config_construct (&ecp->config, menuid);
 	return ecp;
-}
-
-ECalConfigTargetSource *
-e_cal_config_target_new_source (ECalConfig *ecp,
-                                ESource *source)
-{
-	ECalConfigTargetSource *t;
-
-	t = e_config_target_new (
-		&ecp->config, EC_CONFIG_TARGET_SOURCE, sizeof (*t));
-
-	t->source = g_object_ref (source);
-
-	return t;
 }
 
 ECalConfigTargetPrefs *
