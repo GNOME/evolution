@@ -27,8 +27,6 @@ set(sources
 	e-cal-base-shell-view.h
 	e-cal-config-hook.c
 	e-cal-config-hook.h
-	e-cal-event-hook.c
-	e-cal-event-hook.h
 	e-cal-shell-backend.c
 	e-cal-shell-backend.h
 	e-cal-shell-content.c

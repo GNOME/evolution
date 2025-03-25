@@ -35,7 +35,6 @@ set(SOURCES
 	e-cal-data-model.c
 	e-cal-data-model-subscriber.c
 	e-cal-dialogs.c
-	e-cal-event.c
 	e-cal-list-view.c
 	e-cal-model.c
 	e-cal-model-calendar.c
@@ -112,7 +111,6 @@ set(HEADERS
 	e-cal-data-model.h
 	e-cal-data-model-subscriber.h
 	e-cal-dialogs.h
-	e-cal-event.h
 	e-cal-list-view.h
 	e-cal-model-calendar.h
 	e-cal-model.h
