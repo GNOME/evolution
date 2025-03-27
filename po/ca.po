@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2025-03-07 09:02+0000\n"
-"PO-Revision-Date: 2025-03-10 20:48+0100\n"
+"PO-Revision-Date: 2025-03-27 20:48+0100\n"
 "Last-Translator: Bàrbara Vidal <barbara@barbara.cat>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
 "Language: ca\n"
@@ -13162,7 +13162,7 @@ msgstr "No s'ha pogut recuperar el contingut de l'esborrany"
 
 #: ../src/composer/e-msg-composer.c:1780
 msgid "Failed to retrieve HTML processed content"
-msgstr "No s'han pogut recuperar el contingut processat en HTML:"
+msgstr "No s'han pogut recuperar el contingut processat en HTML"
 
 #: ../src/composer/e-msg-composer.c:2092 ../src/composer/e-msg-composer.c:2806
 msgid "Compose Message"
@@ -17756,7 +17756,7 @@ msgstr "< right side >"
 
 #: ../src/e-util/e-ui-customize-dialog.c:3498
 msgid "Failed to save changes."
-msgstr "S'ha produït un error en desar els canvis"
+msgstr "S'ha produït un error en desar els canvis."
 
 #: ../src/e-util/e-ui-customizer.c:434
 msgid "Headerbar"
