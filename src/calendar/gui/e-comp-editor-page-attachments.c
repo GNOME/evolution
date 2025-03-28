@@ -823,6 +823,7 @@ ecep_attachments_constructed (GObject *object)
 	ECompEditorPageAttachments *page_attachments;
 	ECompEditor *comp_editor;
 	EUIAction *action;
+	EUIManager *ui_manager;
 	GSettings *settings;
 	GtkSizeGroup *size_group;
 	GtkWidget *container;
@@ -884,6 +885,10 @@ ecep_attachments_constructed (GObject *object)
 		NULL);
 	gtk_widget_show (widget);
 
+	/* needed to be able to execute the actions from the attachment view */
+	ui_manager = e_attachment_view_get_ui_manager (E_ATTACHMENT_VIEW (widget));
+	e_ui_manager_add_action_groups_to_widget (ui_manager, GTK_WIDGET (page_attachments));
+
 	container = page_attachments->priv->notebook;
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
@@ -930,8 +935,8 @@ ecep_attachments_constructed (GObject *object)
 	 * one of the two attachment views.  Doesn't matter which. */
 	widget = gtk_button_new ();
 	action = e_attachment_view_get_action (E_ATTACHMENT_VIEW (page_attachments->priv->icon_view), "add-uri");
-	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
 	e_ui_action_util_assign_to_widget (action, widget);
+	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new_from_icon_name (e_ui_action_get_icon_name (action), GTK_ICON_SIZE_BUTTON));
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -941,8 +946,8 @@ ecep_attachments_constructed (GObject *object)
 	 * one of the two attachment views.  Doesn't matter which. */
 	widget = gtk_button_new ();
 	action = e_attachment_view_get_action (E_ATTACHMENT_VIEW (page_attachments->priv->icon_view), "add");
-	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
 	e_ui_action_util_assign_to_widget (action, widget);
+	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new_from_icon_name (e_ui_action_get_icon_name (action), GTK_ICON_SIZE_BUTTON));
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
