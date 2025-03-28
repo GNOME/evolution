@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-03-19 07:36+0000\n"
-"PO-Revision-Date: 2025-03-19 22:04+0100\n"
+"POT-Creation-Date: 2025-03-28 08:03+0000\n"
+"PO-Revision-Date: 2025-03-28 16:54+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -1036,7 +1036,7 @@ msgstr "Skrajšaj čas dogodkov v minutah"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
 msgid ""
-"By how many minutes to shorted new event time. Whether event end or start is changed is "
+"By how many minutes to shorten new event time. Whether event end or start is changed is "
 "determined by \"shorten-time-end\" setting"
 msgstr ""
 "Za koliko minut skrajšati čas novega dogodka. Ali se spremeni začetek ali konec dogodka, je "
@@ -4402,8 +4402,8 @@ msgstr "Stik s tem naslovom že obstaja. Ali želite vseeno dodati novo vizitko 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1521 ../src/e-util/e-accounts-window.c:1578
 #: ../src/e-util/e-html-editor-link-popover.c:126 ../src/e-util/e-html-editor-link-popover.c:298
 #: ../src/e-util/e-mail-signature-manager.c:309 ../src/e-util/e-name-selector-dialog.c:995
-#: ../src/e-util/e-ui-customize-dialog.c:1091 ../src/e-util/e-ui-customize-dialog.c:1213
-#: ../src/e-util/e-ui-customize-dialog.c:2423 ../src/e-util/filter.ui.h:25
+#: ../src/e-util/e-ui-customize-dialog.c:1090 ../src/e-util/e-ui-customize-dialog.c:1212
+#: ../src/e-util/e-ui-customize-dialog.c:2418 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-account-manager.c:709 ../src/mail/e-mail-label-manager.c:367
 #: ../src/mail/em-folder-properties.c:1375 ../src/mail/em-vfolder-editor-rule.c:395
 #: ../src/mail/em-vfolder-editor-rule.c:944 ../src/mail/mail-config.ui.h:69
@@ -4914,7 +4914,7 @@ msgstr "Dodaj _X.509"
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1537 ../src/e-util/e-attachment-view.c:1163
 #: ../src/e-util/e-filter-rule.c:405 ../src/e-util/e-html-editor-link-popover.c:310
 #: ../src/e-util/e-mail-signature-manager.c:349 ../src/e-util/e-name-selector-dialog.c:999
-#: ../src/e-util/e-ui-customize-dialog.c:1206 ../src/e-util/e-ui-customize-dialog.c:2710
+#: ../src/e-util/e-ui-customize-dialog.c:1205 ../src/e-util/e-ui-customize-dialog.c:2704
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:28
 #: ../src/mail/e-mail-config-identity-page.c:866 ../src/mail/e-mail-label-manager.c:385
 #: ../src/mail/em-filter-rule.c:677 ../src/mail/em-folder-properties.c:1381
@@ -5268,24 +5268,24 @@ msgid "Insert email addresses from Address Book"
 msgstr "Vstavi elektronski naslov iz imenika"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
-#: ../src/e-util/e-ui-customize-dialog.c:2716 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-ui-customize-dialog.c:2710 ../src/e-util/filter.ui.h:29
 msgid "_Top"
 msgstr "Na _vrh"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/e-source-selector.c:3918 ../src/e-util/e-ui-customize-dialog.c:2722
+#: ../src/e-util/e-source-selector.c:3918 ../src/e-util/e-ui-customize-dialog.c:2716
 #: ../src/e-util/filter.ui.h:30
 msgid "_Up"
 msgstr "_Gor"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
-#: ../src/e-util/e-source-selector.c:3919 ../src/e-util/e-ui-customize-dialog.c:2728
+#: ../src/e-util/e-source-selector.c:3919 ../src/e-util/e-ui-customize-dialog.c:2722
 #: ../src/e-util/filter.ui.h:31
 msgid "_Down"
 msgstr "_Dol"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
-#: ../src/e-util/e-ui-customize-dialog.c:2734 ../src/e-util/filter.ui.h:32
+#: ../src/e-util/e-ui-customize-dialog.c:2728 ../src/e-util/filter.ui.h:32
 msgid "_Bottom"
 msgstr "Na _dno"
 
@@ -6175,7 +6175,7 @@ msgstr "_Oddalji"
 
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:432
-#: ../src/e-util/e-html-editor-find-dialog.c:235 ../src/shell/e-shell-view.c:1056
+#: ../src/e-util/e-html-editor-find-dialog.c:235 ../src/shell/e-shell-view.c:1057
 msgid "_Find"
 msgstr "_Najdi"
 
@@ -8283,7 +8283,7 @@ msgstr "Čas začetka ni veljaven čas"
 #: ../src/e-util/e-misc-utils.c:3442 ../src/e-util/e-misc-utils.c:3450
 #: ../src/e-util/e-misc-utils.c:3458 ../src/e-util/e-misc-utils.c:3493
 #: ../src/e-util/e-misc-utils.c:3506 ../src/e-util/e-misc-utils.c:3520
-#: ../src/e-util/e-ui-customize-dialog.c:3516 ../src/mail/e-mail-autoconfig.c:1096
+#: ../src/e-util/e-ui-customize-dialog.c:3504 ../src/mail/e-mail-autoconfig.c:1096
 #: ../src/mail/e-mail-display.c:3122 ../src/mail/e-mail-notes.c:930
 #: ../src/mail/e-mail-reader.c:3841 ../src/mail/e-mail-reader-utils.c:815
 #: ../src/mail/e-mail-viewer.c:564 ../src/mail/e-mail-viewer.c:1561
@@ -8498,12 +8498,12 @@ msgstr "_Priloge"
 msgid "Show attachments"
 msgstr "Pokaži priloge"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:952 ../src/e-util/e-attachment-bar.c:894
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:957 ../src/e-util/e-attachment-bar.c:894
 #: ../src/e-util/e-attachment-paned.c:671
 msgid "Icon View"
 msgstr "Ikonski pogled"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:954 ../src/e-util/e-attachment-bar.c:896
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:959 ../src/e-util/e-attachment-bar.c:896
 #: ../src/e-util/e-attachment-paned.c:673
 msgid "List View"
 msgstr "Seznamski pogled"
@@ -8607,7 +8607,7 @@ msgstr "Udeleže_nci …"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2449
 #: ../src/calendar/gui/e-comp-editor.c:2334 ../src/e-util/e-accounts-window.c:1760
 #: ../src/e-util/e-html-editor-actions.c:1322 ../src/e-util/e-mail-signature-manager.c:339
-#: ../src/e-util/e-ui-customize-dialog.c:1200 ../src/e-util/e-webdav-browser.c:2886
+#: ../src/e-util/e-ui-customize-dialog.c:1199 ../src/e-util/e-webdav-browser.c:2886
 #: ../src/e-util/filter.ui.h:26 ../src/mail/e-mail-account-manager.c:718
 #: ../src/mail/e-mail-browser.c:619 ../src/mail/e-mail-label-manager.c:376
 #: ../src/mail/e-mail-viewer.c:1930 ../src/mail/em-folder-properties.c:1378
@@ -9288,7 +9288,7 @@ msgstr "Poteka shranjevanje sprememb …"
 #: ../src/e-util/e-accounts-window.c:1793 ../src/e-util/e-html-editor-dialog.c:181
 #: ../src/e-util/e-mail-signature-editor.c:528 ../src/e-util/e-name-selector-dialog.c:532
 #: ../src/e-util/e-preferences-window.c:323 ../src/e-util/e-table-field-chooser-dialog.c:197
-#: ../src/e-util/e-ui-customize-dialog.c:2496 ../src/mail/e-mail-browser.c:576
+#: ../src/e-util/e-ui-customize-dialog.c:2491 ../src/mail/e-mail-browser.c:576
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:755 ../src/mail/e-mail-notes.c:1149
 #: ../src/mail/e-mail-viewer.c:1741 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1503 ../src/mail/em-subscription-editor.c:1734
@@ -9410,7 +9410,7 @@ msgstr "_Vstavi"
 #: ../src/calendar/gui/e-comp-editor.c:2362 ../src/composer/e-composer-actions.c:432
 #: ../src/e-util/e-mail-signature-editor.c:541 ../src/e-util/e-ui-customizer.c:440
 #: ../src/mail/e-mail-browser.c:621 ../src/mail/e-mail-notes.c:1162
-#: ../src/mail/e-mail-viewer.c:1936 ../src/shell/e-shell-view.c:1163
+#: ../src/mail/e-mail-viewer.c:1936 ../src/shell/e-shell-view.c:1164
 msgid "Menu"
 msgstr "Meni"
 
@@ -13185,7 +13185,7 @@ msgstr "%s"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% končano)"
 
-#: ../src/e-util/e-activity-proxy.c:339 ../src/e-util/e-ui-customize-dialog.c:982
+#: ../src/e-util/e-activity-proxy.c:339 ../src/e-util/e-ui-customize-dialog.c:981
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1828
 msgid "Cancel"
 msgstr "Prekliči"
@@ -16545,7 +16545,7 @@ msgstr "Najboljše _prileganje"
 msgid "Format Column_s…"
 msgstr "_Oblikuj _stolpce …"
 
-#: ../src/e-util/e-table-header-item.c:1659 ../src/shell/e-shell-view.c:1132
+#: ../src/e-util/e-table-header-item.c:1659 ../src/shell/e-shell-view.c:1133
 msgid "Custo_mize Current View…"
 msgstr "_Prilagodi trenutni pogled …"
 
@@ -16590,7 +16590,7 @@ msgstr "_Izbor"
 msgid "Timezone drop-down combination box"
 msgstr "Spustni meni časovnih pasov"
 
-#: ../src/e-util/e-ui-customize-dialog.c:588
+#: ../src/e-util/e-ui-customize-dialog.c:587
 msgid "_Unset from other action"
 msgid_plural "_Unset from other actions"
 msgstr[0] "_Odvzami z drugih dogodkov"
@@ -16598,7 +16598,7 @@ msgstr[1] "_Odvzami z drugega dogodka"
 msgstr[2] "_Odvzami z drugih dogodkov"
 msgstr[3] "_Odvzami z drugih dogodkov"
 
-#: ../src/e-util/e-ui-customize-dialog.c:640
+#: ../src/e-util/e-ui-customize-dialog.c:639
 #, c-format
 msgid "Shortcut is used by other %u action"
 msgid_plural "Shortcut is used by other %u actions"
@@ -16607,88 +16607,88 @@ msgstr[1] "Bližnjico uporablja drugo %u dejanje"
 msgstr[2] "Bližnjico uporabljata drugi %u dejanji"
 msgstr[3] "Bližnjico uporabljajo druga %u dejanja"
 
-#: ../src/e-util/e-ui-customize-dialog.c:649
+#: ../src/e-util/e-ui-customize-dialog.c:648
 #, c-format
 msgid "Shortcut is used by action “%s”"
 msgstr "Bližnjico uporablja dejanje »%s«"
 
-#: ../src/e-util/e-ui-customize-dialog.c:953
+#: ../src/e-util/e-ui-customize-dialog.c:952
 msgid "Press the keys to be used as a shortcut."
 msgstr "Pritisnite tipke, ki jih želite uporabiti kot bližnjico."
 
-#: ../src/e-util/e-ui-customize-dialog.c:975
+#: ../src/e-util/e-ui-customize-dialog.c:974
 msgid "Save"
 msgstr "Shrani"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1087
+#: ../src/e-util/e-ui-customize-dialog.c:1086
 msgid "No shortcut set"
 msgstr "Tipkovna bližnjica ni nastavljena"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1319
+#: ../src/e-util/e-ui-customize-dialog.c:1318
 msgid "No action selected"
 msgstr "Izbrano ni nobeno dejanje"
 
 #. Translators: a "textual form" of a menu or toolbar separator, usually drawn as a line between the items
-#: ../src/e-util/e-ui-customize-dialog.c:1519 ../src/e-util/e-ui-customize-dialog.c:3067
+#: ../src/e-util/e-ui-customize-dialog.c:1514 ../src/e-util/e-ui-customize-dialog.c:3061
 msgid "Separator"
 msgstr "Ločilo"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1546
+#: ../src/e-util/e-ui-customize-dialog.c:1541
 msgid "Selected _Action"
 msgstr "Izbrano _dejanje"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1546
+#: ../src/e-util/e-ui-customize-dialog.c:1541
 msgid "Selected _Actions"
 msgstr "Izbrana _dejanja"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1551
+#: ../src/e-util/e-ui-customize-dialog.c:1546
 msgid "_Separator"
 msgstr "_Ločilo"
 
 #. Translators: this is like "Part of the user interface"
-#: ../src/e-util/e-ui-customize-dialog.c:2516
+#: ../src/e-util/e-ui-customize-dialog.c:2511
 msgid "_Part:"
 msgstr "_Del:"
 
-#: ../src/e-util/e-ui-customize-dialog.c:2553
+#: ../src/e-util/e-ui-customize-dialog.c:2548
 msgid "Available _Actions"
 msgstr "_Razpoložljiva dejanja"
 
-#: ../src/e-util/e-ui-customize-dialog.c:2622
+#: ../src/e-util/e-ui-customize-dialog.c:2616
 msgid "_Layout"
 msgstr "_Postavitev"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/e-util/e-ui-customize-dialog.c:2740 ../src/e-util/e-ui-customize-dialog.c:2789
+#: ../src/e-util/e-ui-customize-dialog.c:2734 ../src/e-util/e-ui-customize-dialog.c:2783
 #: ../src/mail/e-mail-reader.c:2849 ../src/mail/e-mail-viewer.c:1638
 #: ../src/mail/em-composer-utils.c:4613
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_Privzeto"
 
-#: ../src/e-util/e-ui-customize-dialog.c:2754
+#: ../src/e-util/e-ui-customize-dialog.c:2748
 msgid "_Shortcuts"
 msgstr "_Tipkovne bližnjice"
 
-#: ../src/e-util/e-ui-customize-dialog.c:2757
+#: ../src/e-util/e-ui-customize-dialog.c:2751
 msgid "Add or remove shortcuts for the selected action."
 msgstr "Dodajte ali odstranite bližnjice za izbrano dejanje."
 
-#: ../src/e-util/e-ui-customize-dialog.c:2920
+#: ../src/e-util/e-ui-customize-dialog.c:2914
 msgid "Customize User Interface"
 msgstr "Prilagodi uporabniški vmesnik"
 
 #. Translators: which side a header bar items are placed to; for RTL locales it should be "Right side"
-#: ../src/e-util/e-ui-customize-dialog.c:3072
+#: ../src/e-util/e-ui-customize-dialog.c:3066
 msgid "Left side"
 msgstr "Leva stran"
 
 #. Translators: which side a header bar items are placed to; for RTL locales it should be "Left side"
-#: ../src/e-util/e-ui-customize-dialog.c:3078
+#: ../src/e-util/e-ui-customize-dialog.c:3072
 msgid "Right side"
 msgstr "Desna stran"
 
-#: ../src/e-util/e-ui-customize-dialog.c:3515
+#: ../src/e-util/e-ui-customize-dialog.c:3503
 msgid "Failed to save changes."
 msgstr "Shranjevanje sprememb je spodletelo"
 
@@ -18050,7 +18050,7 @@ msgid "Select"
 msgstr "Izberi"
 
 #: ../src/mail/e-mail-config-security-page.c:766 ../src/mail/e-mail-config-security-page.c:864
-#: ../src/shell/e-shell-view.c:1042
+#: ../src/shell/e-shell-view.c:1043
 msgid "_Clear"
 msgstr "Po_čisti"
 
@@ -22518,7 +22518,7 @@ msgid "Show M_enu Bar"
 msgstr "Pokaži _menijsko vrstico"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:523
-#: ../src/shell/e-shell-view.c:1108
+#: ../src/shell/e-shell-view.c:1109
 msgid "Show _Tool Bar"
 msgstr "Pokaži orodno vrs_tico"
 
@@ -28820,178 +28820,178 @@ msgstr "Shranjevanje stanja uporabniškega vmesnika"
 msgid "Execute these search parameters"
 msgstr "Izvedi te parametre iskanja"
 
-#: ../src/shell/e-shell-view.c:1035
+#: ../src/shell/e-shell-view.c:1036
 msgid "_Advanced Search…"
 msgstr "_Napredno iskanje …"
 
-#: ../src/shell/e-shell-view.c:1037
+#: ../src/shell/e-shell-view.c:1038
 msgid "Construct a more advanced search"
 msgstr "Sestavljanje naprednejšega iskanja"
 
-#: ../src/shell/e-shell-view.c:1044
+#: ../src/shell/e-shell-view.c:1045
 msgid "Clear the current search parameters"
 msgstr "Počisti trenutne parametre iskanja"
 
-#: ../src/shell/e-shell-view.c:1049
+#: ../src/shell/e-shell-view.c:1050
 msgid "_Edit Saved Searches…"
 msgstr "_Uredi shranjena iskanja …"
 
-#: ../src/shell/e-shell-view.c:1051
+#: ../src/shell/e-shell-view.c:1052
 msgid "Manage your saved searches"
 msgstr "Upravljanje s shranjenimi iskanji"
 
-#: ../src/shell/e-shell-view.c:1058
+#: ../src/shell/e-shell-view.c:1059
 msgid "Click here to change the search type"
 msgstr "Kliknite tukaj za zamenjavo vrste iskanja"
 
-#: ../src/shell/e-shell-view.c:1063
+#: ../src/shell/e-shell-view.c:1064
 msgid "_Find Now"
 msgstr "_Najdi zdaj"
 
-#: ../src/shell/e-shell-view.c:1065
+#: ../src/shell/e-shell-view.c:1066
 msgid "Execute the current search parameters"
 msgstr "Izvedi trenutna parametre iskanja"
 
-#: ../src/shell/e-shell-view.c:1070
+#: ../src/shell/e-shell-view.c:1071
 msgid "_Save Search…"
 msgstr "_Shrani iskanje …"
 
-#: ../src/shell/e-shell-view.c:1072
+#: ../src/shell/e-shell-view.c:1073
 msgid "Save the current search parameters"
 msgstr "Shrani trenutne parametre iskanja"
 
-#: ../src/shell/e-shell-view.c:1080
+#: ../src/shell/e-shell-view.c:1081
 msgid "Show _Menu Bar"
 msgstr "Pokaži menijsko _vrstico"
 
-#: ../src/shell/e-shell-view.c:1082
+#: ../src/shell/e-shell-view.c:1083
 msgid "Show the menu bar"
 msgstr "Pokaži menijsko vrstico"
 
-#: ../src/shell/e-shell-view.c:1087
+#: ../src/shell/e-shell-view.c:1088
 msgid "Show Side_bar"
 msgstr "Pokaži s_transko vrstico"
 
-#: ../src/shell/e-shell-view.c:1089
+#: ../src/shell/e-shell-view.c:1090
 msgid "Show the sidebar"
 msgstr "Pokaže stransko vrstico"
 
-#: ../src/shell/e-shell-view.c:1094
+#: ../src/shell/e-shell-view.c:1095
 msgid "Show _Buttons"
 msgstr "Pokaži _gumbe"
 
-#: ../src/shell/e-shell-view.c:1096
+#: ../src/shell/e-shell-view.c:1097
 msgid "Show the switcher buttons"
 msgstr "Pokaže preklopne gumbe"
 
-#: ../src/shell/e-shell-view.c:1101
+#: ../src/shell/e-shell-view.c:1102
 msgid "Show _Status Bar"
 msgstr "Pokaži vrstico _stanja"
 
-#: ../src/shell/e-shell-view.c:1103
+#: ../src/shell/e-shell-view.c:1104
 msgid "Show the status bar"
 msgstr "Pokaže vrstico stanja"
 
-#: ../src/shell/e-shell-view.c:1110
+#: ../src/shell/e-shell-view.c:1111
 msgid "Show the tool bar"
 msgstr "Pokaže orodno vrstico"
 
-#: ../src/shell/e-shell-view.c:1118
+#: ../src/shell/e-shell-view.c:1119
 msgid "Delete Current View"
 msgstr "Izbriši trenutni pogled"
 
-#: ../src/shell/e-shell-view.c:1125
+#: ../src/shell/e-shell-view.c:1126
 msgid "Save Custom View…"
 msgstr "Shrani pogled po meri …"
 
-#: ../src/shell/e-shell-view.c:1127
+#: ../src/shell/e-shell-view.c:1128
 msgid "Save current custom view"
 msgstr "Shrani trenutni pogled po meri"
 
-#: ../src/shell/e-shell-view.c:1139
+#: ../src/shell/e-shell-view.c:1140
 msgid "Custom View"
 msgstr "Pogled po meri"
 
-#: ../src/shell/e-shell-view.c:1141
+#: ../src/shell/e-shell-view.c:1142
 msgid "Current view is a customized view"
 msgstr "Trenutni pogled je prilagojen"
 
-#: ../src/shell/e-shell-view.c:1146 ../src/shell/e-shell-window-actions.c:744
+#: ../src/shell/e-shell-view.c:1147 ../src/shell/e-shell-window-actions.c:744
 msgid "_New"
 msgstr "_Novo"
 
-#: ../src/shell/e-shell-view.c:1153
+#: ../src/shell/e-shell-view.c:1154
 msgid "Customi_ze…"
 msgstr "Prila_godi ..."
 
-#: ../src/shell/e-shell-view.c:1155
+#: ../src/shell/e-shell-view.c:1156
 msgid "Customize user interface, like toolbar content and shortcuts"
 msgstr "Prilagodite uporabniški vmesnik, npr. vsebino orodne vrstice in bližnjice"
 
 #. ** Menus **
-#: ../src/shell/e-shell-view.c:1160
+#: ../src/shell/e-shell-view.c:1161
 msgid "C_urrent View"
 msgstr "Tren_utni pogled"
 
-#: ../src/shell/e-shell-view.c:1161
+#: ../src/shell/e-shell-view.c:1162
 msgid "Saved searches"
 msgstr "Shranjena iskanja"
 
-#: ../src/shell/e-shell-view.c:1162
+#: ../src/shell/e-shell-view.c:1163
 msgid "List of available views"
 msgstr "Seznam razpoložljivih pogledov"
 
-#: ../src/shell/e-shell-view.c:1164
+#: ../src/shell/e-shell-view.c:1165
 msgid "List of saved searches"
 msgstr "Seznam shranjenih iskanj"
 
-#: ../src/shell/e-shell-view.c:1165
+#: ../src/shell/e-shell-view.c:1166
 msgid "List of views"
 msgstr "Seznam pogledov"
 
-#: ../src/shell/e-shell-view.c:1172
+#: ../src/shell/e-shell-view.c:1173
 msgid "_Icons Only"
 msgstr "Le _ikone"
 
-#: ../src/shell/e-shell-view.c:1174
+#: ../src/shell/e-shell-view.c:1175
 msgid "Display window buttons with icons only"
 msgstr "Pokaže gumbe okna le z ikonami"
 
-#: ../src/shell/e-shell-view.c:1179
+#: ../src/shell/e-shell-view.c:1180
 msgid "_Text Only"
 msgstr "_Le besedilo"
 
-#: ../src/shell/e-shell-view.c:1181
+#: ../src/shell/e-shell-view.c:1182
 msgid "Display window buttons with text only"
 msgstr "Pokaže gumbe okna le z besedilom"
 
-#: ../src/shell/e-shell-view.c:1186
+#: ../src/shell/e-shell-view.c:1187
 msgid "Icons _and Text"
 msgstr "I_kone in besedilo"
 
-#: ../src/shell/e-shell-view.c:1188
+#: ../src/shell/e-shell-view.c:1189
 msgid "Display window buttons with icons and text"
 msgstr "Pokaže gumbe okna z ikonami in besedilom"
 
-#: ../src/shell/e-shell-view.c:1193
+#: ../src/shell/e-shell-view.c:1194
 msgid "Tool_bar Style"
 msgstr "Slog orodne _vrstice"
 
-#: ../src/shell/e-shell-view.c:1195
+#: ../src/shell/e-shell-view.c:1196
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Pokaži gumbe okna z uporabo nastavitev orodnih vrstic namizja"
 
-#: ../src/shell/e-shell-view.c:1411 ../src/shell/e-shell-view.c:1446
+#: ../src/shell/e-shell-view.c:1412 ../src/shell/e-shell-view.c:1447
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "Novo"
 
-#: ../src/shell/e-shell-view.c:1527
+#: ../src/shell/e-shell-view.c:1537
 #, c-format
 msgid "Select view: %s"
 msgstr "Izbor pogleda: %s"
 
-#: ../src/shell/e-shell-view.c:1540
+#: ../src/shell/e-shell-view.c:1551
 #, c-format
 msgid "Delete view: %s"
 msgstr "Izbriši pogled: %s"
