@@ -871,6 +871,7 @@ e_memo_shell_view_update_search_filter (EMemoShellView *memo_shell_view)
 
 	for (ii = 0; ii < G_N_ELEMENTS (memo_filter_entries); ii++) {
 		action = e_ui_action_group_get_action (action_group, memo_filter_entries[ii].name);
+		e_ui_action_set_usable_for_kinds (action, 0);
 		e_ui_action_set_radio_group (action, radio_group);
 	}
 	/* Build the category actions. */
@@ -886,6 +887,7 @@ e_memo_shell_view_update_search_filter (EMemoShellView *memo_shell_view)
 		action = e_ui_action_new (e_ui_action_group_get_name (action_group), action_name, NULL);
 		e_ui_action_set_label (action, category_name);
 		e_ui_action_set_state (action, g_variant_new_int32 (ii));
+		e_ui_action_set_usable_for_kinds (action, 0);
 		e_ui_action_set_radio_group (action, radio_group);
 
 		/* Convert the category icon file to a themed icon name. */
