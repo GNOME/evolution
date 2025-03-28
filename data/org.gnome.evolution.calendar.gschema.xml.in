@@ -512,7 +512,7 @@
     <key name="shorten-time" type="i">
       <default>5</default>
       <_summary>Shorten event time by minutes</_summary>
-      <_description>By how many minutes to shorted new event time. Whether event end or start is changed is determined by "shorten-time-end" setting</_description>
+      <_description>By how many minutes to shorten new event time. Whether event end or start is changed is determined by "shorten-time-end" setting</_description>
     </key>
     <key name="shorten-time-end" type="b">
       <default>true</default>
