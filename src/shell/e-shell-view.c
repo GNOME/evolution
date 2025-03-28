@@ -714,6 +714,7 @@ shell_view_update_search_menu (EShellView *self)
 		action = e_ui_action_new (e_ui_action_group_get_name (action_group), action_name, NULL);
 		e_ui_action_set_label (action, label_numbered ? label_numbered : label);
 		e_ui_action_set_tooltip (action, _("Execute these search parameters"));
+		e_ui_action_set_usable_for_kinds (action, 0);
 
 		e_ui_action_group_add (action_group, action);
 
@@ -1469,6 +1470,15 @@ shell_view_ui_manager_create_item_cb (EUIManager *manager,
 }
 
 static void
+shell_view_ui_manager_changed_cb (EUIManager *ui_manager,
+				  gpointer user_data)
+{
+	EShellView *self = user_data;
+
+	shell_view_populate_new_menu (self);
+}
+
+static void
 shell_view_update_view_menu (EShellView *self)
 {
 	EShellViewClass *shell_view_class;
@@ -1530,6 +1540,7 @@ shell_view_update_view_menu (EShellView *self)
 			G_VARIANT_TYPE_STRING, g_variant_new_string (item->id));
 		e_ui_action_set_label (action, title);
 		e_ui_action_set_tooltip (action, tooltip);
+		e_ui_action_set_usable_for_kinds (action, 0);
 		if (item->built_in && item->accelerator)
 			e_ui_action_set_accel (action, item->accelerator);
 		e_ui_action_set_radio_group (action, radio_group);
@@ -2708,6 +2719,8 @@ e_shell_view_init (EShellView *shell_view,
 
 	g_signal_connect (shell_view->priv->ui_manager, "create-item",
 		G_CALLBACK (shell_view_ui_manager_create_item_cb), shell_view);
+	g_signal_connect (shell_view->priv->ui_manager, "changed",
+		G_CALLBACK (shell_view_ui_manager_changed_cb), shell_view);
 }
 
 GType

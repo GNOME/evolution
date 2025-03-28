@@ -2256,6 +2256,7 @@ e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
 
 	for (ii = 0; ii < G_N_ELEMENTS (mail_filter_entries); ii++) {
 		action = e_ui_action_group_get_action (action_group, mail_filter_entries[ii].name);
+		e_ui_action_set_usable_for_kinds (action, 0);
 		e_ui_action_set_radio_group (action, radio_group);
 	}
 
@@ -2276,6 +2277,7 @@ e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
 		e_ui_action_set_label (action, label);
 		e_ui_action_set_icon_name (action, icon_name);
 		e_ui_action_set_state (action, g_variant_new_int32 (ii));
+		e_ui_action_set_usable_for_kinds (action, 0);
 		e_ui_action_set_radio_group (action, radio_group);
 
 		e_ui_action_group_add (action_group, action);
