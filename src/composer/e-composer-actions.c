@@ -295,8 +295,15 @@ action_send_cb (EUIAction *action,
 		gpointer user_data)
 {
 	EMsgComposer *composer = user_data;
+	EUIManager *ui_manager;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	ui_manager = e_html_editor_get_ui_manager (e_msg_composer_get_editor (composer));
+
+	if (e_ui_manager_get_in_accel_activation (ui_manager) &&
+	    !e_util_prompt_user (GTK_WINDOW (composer), "org.gnome.evolution.mail", "prompt-on-accel-send", "mail-composer:prompt-accel-send", NULL))
+		return;
 
 	e_msg_composer_send (composer);
 }
@@ -323,23 +330,6 @@ composer_actions_toolbar_option_notify_active_cb (EUIAction *action,
 	if (!e_ui_action_get_visible (action) &&
 	    e_ui_action_get_active (action))
 		e_ui_action_set_visible (action, TRUE);
-}
-
-static gboolean
-composer_actions_accel_activate_cb (GtkAccelGroup *accel_group,
-				    GObject *acceleratable,
-				    guint keyval,
-				    GdkModifierType modifier,
-				    gpointer user_data)
-{
-	EMsgComposer *composer = user_data;
-
-	if ((keyval == GDK_KEY_Return || keyval == GDK_KEY_KP_Enter) && (modifier & GDK_MODIFIER_MASK) == GDK_CONTROL_MASK &&
-	    !e_util_prompt_user (GTK_WINDOW (composer), "org.gnome.evolution.mail",
-		"prompt-on-accel-send", "mail-composer:prompt-accel-send", NULL)) {
-		return TRUE;
-	}
-	return FALSE;
 }
 
 static gboolean
@@ -637,7 +627,6 @@ e_composer_actions_init (EMsgComposer *composer)
 		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state }
 	};
 
-	GtkAccelGroup *accel_group;
 	EUIManager *ui_manager;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
@@ -761,8 +750,4 @@ e_composer_actions_init (EMsgComposer *composer)
 
 	e_ui_action_set_visible (ACTION (SMIME_ENCRYPT), visible);
 	e_ui_action_set_visible (ACTION (SMIME_SIGN), visible);
-
-	accel_group = e_ui_manager_get_accel_group (ui_manager);
-	g_signal_connect (accel_group, "accel-activate",
-		G_CALLBACK (composer_actions_accel_activate_cb), composer);
 }

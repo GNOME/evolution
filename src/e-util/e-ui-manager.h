@@ -34,6 +34,8 @@ void		e_ui_manager_freeze		(EUIManager *self);
 void		e_ui_manager_thaw		(EUIManager *self);
 gboolean	e_ui_manager_is_frozen		(EUIManager *self);
 void		e_ui_manager_changed		(EUIManager *self);
+gboolean	e_ui_manager_get_in_accel_activation
+						(EUIManager *self);
 void		e_ui_manager_add_actions	(EUIManager *self,
 						 const gchar *group_name,
 						 const gchar *translation_domain,

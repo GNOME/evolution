@@ -62,6 +62,8 @@ struct _EUIManager {
 
 	guint frozen;
 	gboolean changed_while_frozen;
+
+	guint in_accel_activation;
 };
 
 enum {
@@ -188,13 +190,6 @@ e_ui_manager_disconnect_accel_cb (EUIManager *self,
 				  EUIAction *action,
 				  const gchar *accel,
 				  gpointer user_data);
-
-static gboolean
-e_ui_manager_accel_activated_cb (GtkAccelGroup *accel_group,
-				 GObject *acceleratable,
-				 guint key,
-				 GdkModifierType mods,
-				 gpointer user_data);
 
 static void
 e_ui_manager_customizer_accels_changed_cb (EUICustomizer *customizer,
@@ -714,6 +709,48 @@ e_ui_manager_changed (EUIManager *self)
 	g_signal_emit (self, signals[SIGNAL_CHANGED], 0, NULL);
 }
 
+/*
+ * e_ui_manager_set_in_accel_activation:
+ * @self: an #EUIManager
+ * @value: a value to set
+ *
+ * Sets a flag that the @self activates an action as part of the accelerator
+ * activation, thus by a key press. It can be called multiple times, but
+ * each call with %TRUE requires a counter part call with %FALSE.
+ *
+ * Since: 3.56.1
+ */
+static void
+e_ui_manager_set_in_accel_activation (EUIManager *self,
+				      gboolean value)
+{
+	if (value) {
+		self->in_accel_activation++;
+	} else {
+		g_return_if_fail (self->in_accel_activation > 0);
+		self->in_accel_activation--;
+	}
+}
+
+/**
+ * e_ui_manager_get_in_accel_activation:
+ * @self: an #EUIManager
+ *
+ * Gets whether the @self is currently in an accelerator activation
+ * process, thus whether an action is activated due to a key press.
+ *
+ * Returns: %TRUE when processing accelerator, %FALSE otherwise
+ *
+ * Since: 3.56.1
+ **/
+gboolean
+e_ui_manager_get_in_accel_activation (EUIManager *self)
+{
+	g_return_val_if_fail (E_IS_UI_MANAGER (self), FALSE);
+
+	return self->in_accel_activation > 0;
+}
+
 static gboolean
 e_ui_manager_can_process_accel (EUIManager *self,
 				EUIAction *action)
@@ -760,6 +797,8 @@ e_ui_manager_accel_activated_cb (GtkAccelGroup *accel_group,
 			if (e_ui_manager_can_process_accel (self, E_UI_ACTION (action))) {
 				const GVariantType *param_type;
 
+				e_ui_manager_set_in_accel_activation (self, TRUE);
+
 				param_type = g_action_get_parameter_type (action);
 				if (!param_type) {
 					g_action_activate (action, NULL);
@@ -782,6 +821,7 @@ e_ui_manager_accel_activated_cb (GtkAccelGroup *accel_group,
 					g_clear_pointer (&target, g_variant_unref);
 				}
 
+				e_ui_manager_set_in_accel_activation (self, FALSE);
 				handled = TRUE;
 				break;
 			}
