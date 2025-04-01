@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-03-19 21:06+0000\n"
-"PO-Revision-Date: 2025-03-19 20:03-0300\n"
+"POT-Creation-Date: 2025-03-31 09:10+0000\n"
+"PO-Revision-Date: 2025-03-30 08:44-0300\n"
 "Last-Translator: Álvaro Burns <>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 47.1\n"
+"X-Generator: Gtranslator 48.0\n"
 "X-DamnedLies-Scope: partial\n"
 "X-Project-Style: gnome\n"
 "X-DL-Team: pt_BR\n"
@@ -1146,11 +1146,11 @@ msgstr "Reduza o tempo do evento em minutos"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
 msgid ""
-"By how many minutes to shorted new event time. Whether event end or start is "
+"By how many minutes to shorten new event time. Whether event end or start is "
 "changed is determined by \"shorten-time-end\" setting"
 msgstr ""
-"Por quantos minutos a se encurtar o novo tempo do evento. Se a alteração de "
-"quando o evento termina ou começa é determinada pela configuração de "
+"Por quantos minutos vai se encurtar o novo tempo do evento. Se a alteração "
+"de quando o evento termina ou começa é determinada pela configuração de "
 "\"encurtar-tempo-final\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
@@ -3107,7 +3107,7 @@ msgid "Visually wrap long lines in composer"
 msgstr "Quebrar visualmente linhas longas no redator"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
-#: ../src/composer/e-composer-actions.c:636
+#: ../src/composer/e-composer-actions.c:626
 msgid ""
 "Whether to visually wrap long lines of text to avoid horizontal scrolling"
 msgstr ""
@@ -4863,9 +4863,9 @@ msgstr ""
 #: ../src/e-util/e-html-editor-link-popover.c:298
 #: ../src/e-util/e-mail-signature-manager.c:309
 #: ../src/e-util/e-name-selector-dialog.c:995
-#: ../src/e-util/e-ui-customize-dialog.c:1091
-#: ../src/e-util/e-ui-customize-dialog.c:1213
-#: ../src/e-util/e-ui-customize-dialog.c:2423 ../src/e-util/filter.ui.h:25
+#: ../src/e-util/e-ui-customize-dialog.c:1090
+#: ../src/e-util/e-ui-customize-dialog.c:1212
+#: ../src/e-util/e-ui-customize-dialog.c:2418 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-account-manager.c:709
 #: ../src/mail/e-mail-label-manager.c:367
 #: ../src/mail/em-folder-properties.c:1375
@@ -5133,7 +5133,7 @@ msgstr "Opções"
 #: ../src/calendar/calendar.error.xml.h:56
 #: ../src/calendar/gui/e-comp-editor.c:2386
 #: ../src/composer/e-composer-actions.c:259
-#: ../src/composer/e-composer-actions.c:409
+#: ../src/composer/e-composer-actions.c:399
 #: ../src/e-util/e-attachment-store.c:837
 #: ../src/e-util/e-attachment-store.c:844
 #: ../src/e-util/e-mail-signature-script-dialog.c:344
@@ -5416,8 +5416,8 @@ msgstr "Adicionar _X.509"
 #: ../src/e-util/e-html-editor-link-popover.c:310
 #: ../src/e-util/e-mail-signature-manager.c:349
 #: ../src/e-util/e-name-selector-dialog.c:999
-#: ../src/e-util/e-ui-customize-dialog.c:1206
-#: ../src/e-util/e-ui-customize-dialog.c:2710
+#: ../src/e-util/e-ui-customize-dialog.c:1205
+#: ../src/e-util/e-ui-customize-dialog.c:2704
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:28
 #: ../src/mail/e-mail-config-identity-page.c:866
 #: ../src/mail/e-mail-label-manager.c:385 ../src/mail/em-filter-rule.c:677
@@ -5782,24 +5782,24 @@ msgid "Insert email addresses from Address Book"
 msgstr "Inserir endereço e-mail do catálogo de endereços"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
-#: ../src/e-util/e-ui-customize-dialog.c:2716 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-ui-customize-dialog.c:2710 ../src/e-util/filter.ui.h:29
 msgid "_Top"
 msgstr "_Superior"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
 #: ../src/e-util/e-source-selector.c:3918
-#: ../src/e-util/e-ui-customize-dialog.c:2722 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-ui-customize-dialog.c:2716 ../src/e-util/filter.ui.h:30
 msgid "_Up"
 msgstr "_Acima"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
 #: ../src/e-util/e-source-selector.c:3919
-#: ../src/e-util/e-ui-customize-dialog.c:2728 ../src/e-util/filter.ui.h:31
+#: ../src/e-util/e-ui-customize-dialog.c:2722 ../src/e-util/filter.ui.h:31
 msgid "_Down"
 msgstr "A_baixo"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
-#: ../src/e-util/e-ui-customize-dialog.c:2734 ../src/e-util/filter.ui.h:32
+#: ../src/e-util/e-ui-customize-dialog.c:2728 ../src/e-util/filter.ui.h:32
 msgid "_Bottom"
 msgstr "I_nferior"
 
@@ -6707,7 +6707,7 @@ msgstr "_Reduzir"
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:432
 #: ../src/e-util/e-html-editor-find-dialog.c:235
-#: ../src/shell/e-shell-view.c:1056
+#: ../src/shell/e-shell-view.c:1057
 msgid "_Find"
 msgstr "_Localizar"
 
@@ -8956,7 +8956,7 @@ msgstr "A hora de início não é uma hora válida"
 #: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:3442
 #: ../src/e-util/e-misc-utils.c:3450 ../src/e-util/e-misc-utils.c:3458
 #: ../src/e-util/e-misc-utils.c:3493 ../src/e-util/e-misc-utils.c:3506
-#: ../src/e-util/e-misc-utils.c:3520 ../src/e-util/e-ui-customize-dialog.c:3516
+#: ../src/e-util/e-misc-utils.c:3520 ../src/e-util/e-ui-customize-dialog.c:3504
 #: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3122
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3841
 #: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
@@ -9177,12 +9177,12 @@ msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, pl
 msgstr "O anexo “%s” não possui uma URI válida, por favor remova-o da lista"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:773
-#: ../src/composer/e-composer-actions.c:381
+#: ../src/composer/e-composer-actions.c:371
 msgid "_Attachment…"
 msgstr "_Anexos…"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:775
-#: ../src/composer/e-composer-actions.c:383
+#: ../src/composer/e-composer-actions.c:373
 #: ../src/e-util/e-attachment-view.c:1137
 msgid "Attach a file"
 msgstr "Anexar um arquivo"
@@ -9195,12 +9195,12 @@ msgstr "_Anexos"
 msgid "Show attachments"
 msgstr "Mostra anexos"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:952
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:957
 #: ../src/e-util/e-attachment-bar.c:894 ../src/e-util/e-attachment-paned.c:671
 msgid "Icon View"
 msgstr "Visualização de ícones"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:954
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:959
 #: ../src/e-util/e-attachment-bar.c:896 ../src/e-util/e-attachment-paned.c:673
 msgid "List View"
 msgstr "Visualização de listas"
@@ -9314,7 +9314,7 @@ msgstr "Participa_ntes…"
 #: ../src/e-util/e-accounts-window.c:1760
 #: ../src/e-util/e-html-editor-actions.c:1322
 #: ../src/e-util/e-mail-signature-manager.c:339
-#: ../src/e-util/e-ui-customize-dialog.c:1200
+#: ../src/e-util/e-ui-customize-dialog.c:1199
 #: ../src/e-util/e-webdav-browser.c:2886 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:718 ../src/mail/e-mail-browser.c:619
 #: ../src/mail/e-mail-label-manager.c:376 ../src/mail/e-mail-viewer.c:1930
@@ -10007,14 +10007,14 @@ msgstr "Salvando alterações…"
 
 #. == Button box ==
 #: ../src/calendar/gui/e-comp-editor.c:2234
-#: ../src/composer/e-composer-actions.c:388
+#: ../src/composer/e-composer-actions.c:378
 #: ../src/e-util/e-accounts-window.c:1793
 #: ../src/e-util/e-html-editor-dialog.c:181
 #: ../src/e-util/e-mail-signature-editor.c:528
 #: ../src/e-util/e-name-selector-dialog.c:532
 #: ../src/e-util/e-preferences-window.c:323
 #: ../src/e-util/e-table-field-chooser-dialog.c:197
-#: ../src/e-util/e-ui-customize-dialog.c:2496 ../src/mail/e-mail-browser.c:576
+#: ../src/e-util/e-ui-customize-dialog.c:2491 ../src/mail/e-mail-browser.c:576
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:755
 #: ../src/mail/e-mail-notes.c:1149 ../src/mail/e-mail-viewer.c:1741
 #: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1503
@@ -10092,7 +10092,7 @@ msgid "Paste the clipboard"
 msgstr "Cola o conteúdo da área de transferência"
 
 #: ../src/calendar/gui/e-comp-editor.c:2283
-#: ../src/composer/e-composer-actions.c:449 ../src/mail/e-mail-reader.c:3317
+#: ../src/composer/e-composer-actions.c:439 ../src/mail/e-mail-reader.c:3317
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1607
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1621
 msgid "_Print…"
@@ -10142,11 +10142,11 @@ msgid "_Insert"
 msgstr "_Inserir"
 
 #: ../src/calendar/gui/e-comp-editor.c:2362
-#: ../src/composer/e-composer-actions.c:432
+#: ../src/composer/e-composer-actions.c:422
 #: ../src/e-util/e-mail-signature-editor.c:541
 #: ../src/e-util/e-ui-customizer.c:440 ../src/mail/e-mail-browser.c:621
 #: ../src/mail/e-mail-notes.c:1162 ../src/mail/e-mail-viewer.c:1936
-#: ../src/shell/e-shell-view.c:1163
+#: ../src/shell/e-shell-view.c:1164
 msgid "Menu"
 msgstr "Menu"
 
@@ -12787,182 +12787,182 @@ msgstr "Pacífico/Yap"
 msgid "Save as…"
 msgstr "Salvar como…"
 
-#: ../src/composer/e-composer-actions.c:390
+#: ../src/composer/e-composer-actions.c:380
 msgid "Close the current file"
 msgstr "Fecha o arquivo atual"
 
-#: ../src/composer/e-composer-actions.c:395
+#: ../src/composer/e-composer-actions.c:385
 msgid "New _Message"
 msgstr "Nova _mensagem"
 
-#: ../src/composer/e-composer-actions.c:397
+#: ../src/composer/e-composer-actions.c:387
 msgid "Open New Message window"
 msgstr "Abrir nova janela de mensagem"
 
-#: ../src/composer/e-composer-actions.c:402
+#: ../src/composer/e-composer-actions.c:392
 #: ../src/shell/e-shell-window-actions.c:688
 msgid "_Preferences"
 msgstr "_Preferências"
 
-#: ../src/composer/e-composer-actions.c:404
+#: ../src/composer/e-composer-actions.c:394
 #: ../src/shell/e-shell-window-actions.c:690
 msgid "Configure Evolution"
 msgstr "Configurar Evolution"
 
-#: ../src/composer/e-composer-actions.c:411
+#: ../src/composer/e-composer-actions.c:401
 msgid "Save the current file"
 msgstr "Salvar o arquivo atual"
 
-#: ../src/composer/e-composer-actions.c:416
+#: ../src/composer/e-composer-actions.c:406
 msgid "Save _As…"
 msgstr "Salvar co_mo…"
 
-#: ../src/composer/e-composer-actions.c:418
+#: ../src/composer/e-composer-actions.c:408
 msgid "Save the current file with a different name"
 msgstr "Salvar o arquivo atual com um nome diferente"
 
-#: ../src/composer/e-composer-actions.c:425
+#: ../src/composer/e-composer-actions.c:415
 msgid "Character _Encoding"
 msgstr "Codificação de caract_eres"
 
-#: ../src/composer/e-composer-actions.c:439
+#: ../src/composer/e-composer-actions.c:429
 msgid "Option_s"
 msgstr "Opçõe_s"
 
-#: ../src/composer/e-composer-actions.c:456
+#: ../src/composer/e-composer-actions.c:446
 msgid "Print Pre_view"
 msgstr "_Visualizar impressão"
 
-#: ../src/composer/e-composer-actions.c:463
+#: ../src/composer/e-composer-actions.c:453
 msgid "Save as _Draft"
 msgstr "Salvar como _rascunho"
 
-#: ../src/composer/e-composer-actions.c:465
+#: ../src/composer/e-composer-actions.c:455
 msgid "Save as draft"
 msgstr "Salvar como rascunho"
 
-#: ../src/composer/e-composer-actions.c:470
+#: ../src/composer/e-composer-actions.c:460
 msgid "S_end"
 msgstr "_Enviar"
 
-#: ../src/composer/e-composer-actions.c:472
+#: ../src/composer/e-composer-actions.c:462
 msgid "Send this message"
 msgstr "Enviar esta mensagem"
 
-#: ../src/composer/e-composer-actions.c:480
+#: ../src/composer/e-composer-actions.c:470
 msgid "_Main toolbar"
 msgstr "Barra de ferra_mentas principal"
 
-#: ../src/composer/e-composer-actions.c:482
+#: ../src/composer/e-composer-actions.c:472
 msgid "Main toolbar"
 msgstr "Barra de ferramentas principal"
 
-#: ../src/composer/e-composer-actions.c:487
+#: ../src/composer/e-composer-actions.c:477
 msgid "Edit _toolbar"
 msgstr "Editar barra de ferramen_tas"
 
-#: ../src/composer/e-composer-actions.c:489
+#: ../src/composer/e-composer-actions.c:479
 msgid "Edit toolbar"
 msgstr "Editar barra de ferramentas"
 
-#: ../src/composer/e-composer-actions.c:494
-#: ../src/composer/e-composer-actions.c:550
+#: ../src/composer/e-composer-actions.c:484
+#: ../src/composer/e-composer-actions.c:540
 msgid "PGP _Encrypt"
 msgstr "C_riptografar com PGP"
 
-#: ../src/composer/e-composer-actions.c:496
-#: ../src/composer/e-composer-actions.c:552
+#: ../src/composer/e-composer-actions.c:486
+#: ../src/composer/e-composer-actions.c:542
 msgid "Encrypt this message with PGP"
 msgstr "Criptografar esta mensagem com PGP"
 
-#: ../src/composer/e-composer-actions.c:501
-#: ../src/composer/e-composer-actions.c:557
+#: ../src/composer/e-composer-actions.c:491
+#: ../src/composer/e-composer-actions.c:547
 msgid "PGP _Sign"
 msgstr "A_ssinar com PGP"
 
-#: ../src/composer/e-composer-actions.c:503
-#: ../src/composer/e-composer-actions.c:559
+#: ../src/composer/e-composer-actions.c:493
+#: ../src/composer/e-composer-actions.c:549
 msgid "Sign this message with your PGP key"
 msgstr "Assinar esta mensagem com a sua chave PGP"
 
-#: ../src/composer/e-composer-actions.c:508
+#: ../src/composer/e-composer-actions.c:498
 msgid "_Picture Gallery"
 msgstr "Galeria de _imagem"
 
-#: ../src/composer/e-composer-actions.c:510
+#: ../src/composer/e-composer-actions.c:500
 msgid "Show a collection of pictures that you can drag to your message"
 msgstr ""
 "Exibir uma coleção de imagens que você pode arrastar para a sua mensagem"
 
-#: ../src/composer/e-composer-actions.c:515
-#: ../src/composer/e-composer-actions.c:564
+#: ../src/composer/e-composer-actions.c:505
+#: ../src/composer/e-composer-actions.c:554
 msgid "_Prioritize Message"
 msgstr "_Priorizar mensagem"
 
-#: ../src/composer/e-composer-actions.c:517
-#: ../src/composer/e-composer-actions.c:566
+#: ../src/composer/e-composer-actions.c:507
+#: ../src/composer/e-composer-actions.c:556
 msgid "Set the message priority to high"
 msgstr "Mudar a prioridade da mensagem para alta"
 
-#: ../src/composer/e-composer-actions.c:522
-#: ../src/composer/e-composer-actions.c:571
+#: ../src/composer/e-composer-actions.c:512
+#: ../src/composer/e-composer-actions.c:561
 msgid "Re_quest Read Receipt"
 msgstr "_Solicitar recibo de leitura"
 
-#: ../src/composer/e-composer-actions.c:524
-#: ../src/composer/e-composer-actions.c:573
+#: ../src/composer/e-composer-actions.c:514
+#: ../src/composer/e-composer-actions.c:563
 msgid "Get delivery notification when your message is read"
 msgstr "Receber notificação de entrega quando sua mensagem for lida"
 
-#: ../src/composer/e-composer-actions.c:529
+#: ../src/composer/e-composer-actions.c:519
 msgid "Request _Delivery Status Notification"
 msgstr "Requisitar _estado da notificação de entrega"
 
-#: ../src/composer/e-composer-actions.c:531
+#: ../src/composer/e-composer-actions.c:521
 msgid "Get delivery status notification for the message"
 msgstr "Receber estado da notificação de entrega para sua mensagem"
 
-#: ../src/composer/e-composer-actions.c:536
-#: ../src/composer/e-composer-actions.c:578
+#: ../src/composer/e-composer-actions.c:526
+#: ../src/composer/e-composer-actions.c:568
 msgid "S/MIME En_crypt"
 msgstr "_Criptografar com S/MIME"
 
-#: ../src/composer/e-composer-actions.c:538
-#: ../src/composer/e-composer-actions.c:580
+#: ../src/composer/e-composer-actions.c:528
+#: ../src/composer/e-composer-actions.c:570
 msgid "Encrypt this message with S/MIME"
 msgstr "Criptografar esta mensagem com S/MIME"
 
-#: ../src/composer/e-composer-actions.c:543
-#: ../src/composer/e-composer-actions.c:585
+#: ../src/composer/e-composer-actions.c:533
+#: ../src/composer/e-composer-actions.c:575
 msgid "S/MIME Sig_n"
 msgstr "Assi_nar S/MIME"
 
-#: ../src/composer/e-composer-actions.c:545
-#: ../src/composer/e-composer-actions.c:587
+#: ../src/composer/e-composer-actions.c:535
+#: ../src/composer/e-composer-actions.c:577
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Assinar esta mensagem com o seu certificado de assinatura S/MIME"
 
-#: ../src/composer/e-composer-actions.c:592
+#: ../src/composer/e-composer-actions.c:582
 msgid "_Bcc Field"
 msgstr "Campo Cc_o"
 
-#: ../src/composer/e-composer-actions.c:594
+#: ../src/composer/e-composer-actions.c:584
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Alterna entre exibir ou não o campo Cco"
 
-#: ../src/composer/e-composer-actions.c:599
+#: ../src/composer/e-composer-actions.c:589
 msgid "_Cc Field"
 msgstr "Campo _CC"
 
-#: ../src/composer/e-composer-actions.c:601
+#: ../src/composer/e-composer-actions.c:591
 msgid "Toggles whether the CC field is displayed"
 msgstr "Alterna entre exibir ou não o campo CC"
 
-#: ../src/composer/e-composer-actions.c:606
+#: ../src/composer/e-composer-actions.c:596
 msgid "_From Override Field"
 msgstr "Substituição do campo “_De”"
 
-#: ../src/composer/e-composer-actions.c:608
+#: ../src/composer/e-composer-actions.c:598
 msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
@@ -12970,31 +12970,31 @@ msgstr ""
 "Alterna entre exibir ou não a substituição do campo “De” para alterar nome "
 "ou endereço de e-mail"
 
-#: ../src/composer/e-composer-actions.c:613
+#: ../src/composer/e-composer-actions.c:603
 msgid "Mail-Follow_up-To Field"
 msgstr "Campo de acompanhamento"
 
-#: ../src/composer/e-composer-actions.c:615
+#: ../src/composer/e-composer-actions.c:605
 msgid "Toggles whether the Mail-Followup-To field is displayed"
 msgstr "Alterna entre exibir ou não o campo acompanhar"
 
-#: ../src/composer/e-composer-actions.c:620
+#: ../src/composer/e-composer-actions.c:610
 msgid "Mail-R_eply-To Field"
 msgstr "Campo _Responder para"
 
-#: ../src/composer/e-composer-actions.c:622
+#: ../src/composer/e-composer-actions.c:612
 msgid "Toggles whether the Mail-Reply-To field is displayed"
 msgstr "Alterna entre exibir ou não o campo “Responder para”"
 
-#: ../src/composer/e-composer-actions.c:627
+#: ../src/composer/e-composer-actions.c:617
 msgid "_Reply-To Field"
 msgstr "Campo “_Responder para”"
 
-#: ../src/composer/e-composer-actions.c:629
+#: ../src/composer/e-composer-actions.c:619
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Alterna entre exibir ou não o campo “Responder para”"
 
-#: ../src/composer/e-composer-actions.c:634
+#: ../src/composer/e-composer-actions.c:624
 msgid "Visually _Wrap Long Lines"
 msgstr "_Quebrar visualmente linhas linhas"
 
@@ -14052,7 +14052,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% concluído)"
 
 #: ../src/e-util/e-activity-proxy.c:339
-#: ../src/e-util/e-ui-customize-dialog.c:982
+#: ../src/e-util/e-ui-customize-dialog.c:981
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1828
 msgid "Cancel"
 msgstr "Cancelar"
@@ -17503,7 +17503,7 @@ msgstr "M_elhor ajuste"
 msgid "Format Column_s…"
 msgstr "Formatar coluna_s…"
 
-#: ../src/e-util/e-table-header-item.c:1659 ../src/shell/e-shell-view.c:1132
+#: ../src/e-util/e-table-header-item.c:1659 ../src/shell/e-shell-view.c:1133
 msgid "Custo_mize Current View…"
 msgstr "Personali_zar visão atual…"
 
@@ -17550,104 +17550,104 @@ msgstr "_Seleção"
 msgid "Timezone drop-down combination box"
 msgstr "Caixa desdobrável de seleção de fuso horário"
 
-#: ../src/e-util/e-ui-customize-dialog.c:588
+#: ../src/e-util/e-ui-customize-dialog.c:587
 msgid "_Unset from other action"
 msgid_plural "_Unset from other actions"
 msgstr[0] "_Não definido por outra ação"
 msgstr[1] "_Não definido por outras ações"
 
-#: ../src/e-util/e-ui-customize-dialog.c:640
+#: ../src/e-util/e-ui-customize-dialog.c:639
 #, c-format
 msgid "Shortcut is used by other %u action"
 msgid_plural "Shortcut is used by other %u actions"
 msgstr[0] "Atalho de teclado já é usado por outra %u ação"
 msgstr[1] "Atalho de teclado já é usado por outras %u ações"
 
-#: ../src/e-util/e-ui-customize-dialog.c:649
+#: ../src/e-util/e-ui-customize-dialog.c:648
 #, c-format
 msgid "Shortcut is used by action “%s”"
 msgstr "Atalho de teclado é usado por ação “%s”"
 
-#: ../src/e-util/e-ui-customize-dialog.c:953
+#: ../src/e-util/e-ui-customize-dialog.c:952
 msgid "Press the keys to be used as a shortcut."
 msgstr "Clique nas teclas para serem usadas como atalho."
 
-#: ../src/e-util/e-ui-customize-dialog.c:975
+#: ../src/e-util/e-ui-customize-dialog.c:974
 msgid "Save"
 msgstr "Salvar"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1087
+#: ../src/e-util/e-ui-customize-dialog.c:1086
 msgid "No shortcut set"
 msgstr "Nenhum atalho de teclado definido"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1319
+#: ../src/e-util/e-ui-customize-dialog.c:1318
 msgid "No action selected"
 msgstr "Nenhuma ação selecionada"
 
 #. Translators: a "textual form" of a menu or toolbar separator, usually drawn as a line between the items
-#: ../src/e-util/e-ui-customize-dialog.c:1519
-#: ../src/e-util/e-ui-customize-dialog.c:3067
+#: ../src/e-util/e-ui-customize-dialog.c:1514
+#: ../src/e-util/e-ui-customize-dialog.c:3061
 msgid "Separator"
 msgstr "Separador"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1546
+#: ../src/e-util/e-ui-customize-dialog.c:1541
 msgid "Selected _Action"
 msgstr "_Ação selecionada"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1546
+#: ../src/e-util/e-ui-customize-dialog.c:1541
 msgid "Selected _Actions"
 msgstr "_Ações selecionadas"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1551
+#: ../src/e-util/e-ui-customize-dialog.c:1546
 msgid "_Separator"
 msgstr "_Separador"
 
 #. Translators: this is like "Part of the user interface"
-#: ../src/e-util/e-ui-customize-dialog.c:2516
+#: ../src/e-util/e-ui-customize-dialog.c:2511
 msgid "_Part:"
 msgstr "_Parte:"
 
-#: ../src/e-util/e-ui-customize-dialog.c:2553
+#: ../src/e-util/e-ui-customize-dialog.c:2548
 msgid "Available _Actions"
 msgstr "Ações _disponíveis"
 
-#: ../src/e-util/e-ui-customize-dialog.c:2622
+#: ../src/e-util/e-ui-customize-dialog.c:2616
 msgid "_Layout"
 msgstr "_Disposição"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/e-util/e-ui-customize-dialog.c:2740
-#: ../src/e-util/e-ui-customize-dialog.c:2789 ../src/mail/e-mail-reader.c:2849
+#: ../src/e-util/e-ui-customize-dialog.c:2734
+#: ../src/e-util/e-ui-customize-dialog.c:2783 ../src/mail/e-mail-reader.c:2849
 #: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4613
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_Padrão"
 
-#: ../src/e-util/e-ui-customize-dialog.c:2754
+#: ../src/e-util/e-ui-customize-dialog.c:2748
 msgid "_Shortcuts"
 msgstr "_Atalhos de teclado"
 
-#: ../src/e-util/e-ui-customize-dialog.c:2757
+#: ../src/e-util/e-ui-customize-dialog.c:2751
 msgid "Add or remove shortcuts for the selected action."
 msgstr "Adiciona ou remove atalhos de teclado para a ação selecionada."
 
 # http://library.gnome.org/users/evolution/stable/apx-gloss.html
 # Correio | Contatos | Agendas | Tarefas | Memorandos
-#: ../src/e-util/e-ui-customize-dialog.c:2920
+#: ../src/e-util/e-ui-customize-dialog.c:2914
 msgid "Customize User Interface"
 msgstr "Personalize a interface do usuário"
 
 #. Translators: which side a header bar items are placed to; for RTL locales it should be "Right side"
-#: ../src/e-util/e-ui-customize-dialog.c:3072
+#: ../src/e-util/e-ui-customize-dialog.c:3066
 msgid "Left side"
 msgstr "Esquerda"
 
 #. Translators: which side a header bar items are placed to; for RTL locales it should be "Left side"
-#: ../src/e-util/e-ui-customize-dialog.c:3078
+#: ../src/e-util/e-ui-customize-dialog.c:3072
 msgid "Right side"
 msgstr "Direita"
 
-#: ../src/e-util/e-ui-customize-dialog.c:3515
+#: ../src/e-util/e-ui-customize-dialog.c:3503
 msgid "Failed to save changes."
 msgstr "Falha ao salvar as alterações."
 
@@ -19061,7 +19061,7 @@ msgstr "Selecionar"
 
 #: ../src/mail/e-mail-config-security-page.c:766
 #: ../src/mail/e-mail-config-security-page.c:864
-#: ../src/shell/e-shell-view.c:1042
+#: ../src/shell/e-shell-view.c:1043
 msgid "_Clear"
 msgstr "Lim_par"
 
@@ -23653,7 +23653,7 @@ msgid "Show M_enu Bar"
 msgstr "Mostrar Barra de M_enu"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:523
-#: ../src/shell/e-shell-view.c:1108
+#: ../src/shell/e-shell-view.c:1109
 msgid "Show _Tool Bar"
 msgstr "Mostrar barra de _ferramentas"
 
@@ -30094,182 +30094,182 @@ msgstr "Salvando estado da interface do usuário"
 msgid "Execute these search parameters"
 msgstr "Executar estes parâmetros de pesquisa"
 
-#: ../src/shell/e-shell-view.c:1035
+#: ../src/shell/e-shell-view.c:1036
 msgid "_Advanced Search…"
 msgstr "Pesquisa _avançada…"
 
-#: ../src/shell/e-shell-view.c:1037
+#: ../src/shell/e-shell-view.c:1038
 msgid "Construct a more advanced search"
 msgstr "Construir uma pesquisa mais avançada"
 
-#: ../src/shell/e-shell-view.c:1044
+#: ../src/shell/e-shell-view.c:1045
 msgid "Clear the current search parameters"
 msgstr "Limpar os parâmetros atuais de pesquisa"
 
-#: ../src/shell/e-shell-view.c:1049
+#: ../src/shell/e-shell-view.c:1050
 msgid "_Edit Saved Searches…"
 msgstr "_Editar pesquisas salvas…"
 
-#: ../src/shell/e-shell-view.c:1051
+#: ../src/shell/e-shell-view.c:1052
 msgid "Manage your saved searches"
 msgstr "Gerenciar suas pesquisas salvas"
 
-#: ../src/shell/e-shell-view.c:1058
+#: ../src/shell/e-shell-view.c:1059
 msgid "Click here to change the search type"
 msgstr "Clique aqui para alterar o tipo de pesquisa"
 
-#: ../src/shell/e-shell-view.c:1063
+#: ../src/shell/e-shell-view.c:1064
 msgid "_Find Now"
 msgstr "_Localizar agora"
 
-#: ../src/shell/e-shell-view.c:1065
+#: ../src/shell/e-shell-view.c:1066
 msgid "Execute the current search parameters"
 msgstr "Executar os parâmetros atuais de pesquisa"
 
-#: ../src/shell/e-shell-view.c:1070
+#: ../src/shell/e-shell-view.c:1071
 msgid "_Save Search…"
 msgstr "_Salvar pesquisa…"
 
-#: ../src/shell/e-shell-view.c:1072
+#: ../src/shell/e-shell-view.c:1073
 msgid "Save the current search parameters"
 msgstr "Salvar os parâmetros atuais de pesquisa"
 
-#: ../src/shell/e-shell-view.c:1080
+#: ../src/shell/e-shell-view.c:1081
 msgid "Show _Menu Bar"
 msgstr "Mostrar barra de _menu"
 
-#: ../src/shell/e-shell-view.c:1082
+#: ../src/shell/e-shell-view.c:1083
 msgid "Show the menu bar"
 msgstr "Mostra a barra de menu"
 
-#: ../src/shell/e-shell-view.c:1087
+#: ../src/shell/e-shell-view.c:1088
 msgid "Show Side_bar"
 msgstr "Mostrar _barra lateral"
 
-#: ../src/shell/e-shell-view.c:1089
+#: ../src/shell/e-shell-view.c:1090
 msgid "Show the sidebar"
 msgstr "Mostra a barra lateral"
 
-#: ../src/shell/e-shell-view.c:1094
+#: ../src/shell/e-shell-view.c:1095
 msgid "Show _Buttons"
 msgstr "Mostrar _botões"
 
-#: ../src/shell/e-shell-view.c:1096
+#: ../src/shell/e-shell-view.c:1097
 msgid "Show the switcher buttons"
 msgstr "Mostra os botões de alternância"
 
-#: ../src/shell/e-shell-view.c:1101
+#: ../src/shell/e-shell-view.c:1102
 msgid "Show _Status Bar"
 msgstr "Mostrar barra de e_stado"
 
-#: ../src/shell/e-shell-view.c:1103
+#: ../src/shell/e-shell-view.c:1104
 msgid "Show the status bar"
 msgstr "Mostra a barra de estados"
 
-#: ../src/shell/e-shell-view.c:1110
+#: ../src/shell/e-shell-view.c:1111
 msgid "Show the tool bar"
 msgstr "Mostra a barra de ferramentas"
 
-#: ../src/shell/e-shell-view.c:1118
+#: ../src/shell/e-shell-view.c:1119
 msgid "Delete Current View"
 msgstr "Excluir a visão atual"
 
-#: ../src/shell/e-shell-view.c:1125
+#: ../src/shell/e-shell-view.c:1126
 msgid "Save Custom View…"
 msgstr "Salvar visão personalizada…"
 
-#: ../src/shell/e-shell-view.c:1127
+#: ../src/shell/e-shell-view.c:1128
 msgid "Save current custom view"
 msgstr "Salva a visão personalizada atual"
 
-#: ../src/shell/e-shell-view.c:1139
+#: ../src/shell/e-shell-view.c:1140
 msgid "Custom View"
 msgstr "Visão personalizada"
 
-#: ../src/shell/e-shell-view.c:1141
+#: ../src/shell/e-shell-view.c:1142
 msgid "Current view is a customized view"
 msgstr "Visão atual é personalizada"
 
-#: ../src/shell/e-shell-view.c:1146 ../src/shell/e-shell-window-actions.c:744
+#: ../src/shell/e-shell-view.c:1147 ../src/shell/e-shell-window-actions.c:744
 msgid "_New"
 msgstr "_Novo"
 
-#: ../src/shell/e-shell-view.c:1153
+#: ../src/shell/e-shell-view.c:1154
 msgid "Customi_ze…"
 msgstr "Personali_ze…"
 
-#: ../src/shell/e-shell-view.c:1155
+#: ../src/shell/e-shell-view.c:1156
 msgid "Customize user interface, like toolbar content and shortcuts"
 msgstr ""
 "Personalize interface do usuário, como conteúdo da barra de ferramentas e "
 "atalhos"
 
 #. ** Menus **
-#: ../src/shell/e-shell-view.c:1160
+#: ../src/shell/e-shell-view.c:1161
 msgid "C_urrent View"
 msgstr "Visão a_tual"
 
-#: ../src/shell/e-shell-view.c:1161
+#: ../src/shell/e-shell-view.c:1162
 msgid "Saved searches"
 msgstr "Pesquisas salvas"
 
-#: ../src/shell/e-shell-view.c:1162
+#: ../src/shell/e-shell-view.c:1163
 msgid "List of available views"
 msgstr "Lista de vistas disponíveis"
 
-#: ../src/shell/e-shell-view.c:1164
+#: ../src/shell/e-shell-view.c:1165
 msgid "List of saved searches"
 msgstr "Lista de pesquisas salvas"
 
-#: ../src/shell/e-shell-view.c:1165
+#: ../src/shell/e-shell-view.c:1166
 msgid "List of views"
 msgstr "Lista de vistas"
 
-#: ../src/shell/e-shell-view.c:1172
+#: ../src/shell/e-shell-view.c:1173
 msgid "_Icons Only"
 msgstr "_Somente ícones"
 
-#: ../src/shell/e-shell-view.c:1174
+#: ../src/shell/e-shell-view.c:1175
 msgid "Display window buttons with icons only"
 msgstr "Exibe os botões de janela usando ícones"
 
-#: ../src/shell/e-shell-view.c:1179
+#: ../src/shell/e-shell-view.c:1180
 msgid "_Text Only"
 msgstr "Somente _texto"
 
-#: ../src/shell/e-shell-view.c:1181
+#: ../src/shell/e-shell-view.c:1182
 msgid "Display window buttons with text only"
 msgstr "Exibe os botões de janela usando texto"
 
-#: ../src/shell/e-shell-view.c:1186
+#: ../src/shell/e-shell-view.c:1187
 msgid "Icons _and Text"
 msgstr "Ícones _e texto"
 
-#: ../src/shell/e-shell-view.c:1188
+#: ../src/shell/e-shell-view.c:1189
 msgid "Display window buttons with icons and text"
 msgstr "Exibe os botões de janela usando ícones e texto"
 
-#: ../src/shell/e-shell-view.c:1193
+#: ../src/shell/e-shell-view.c:1194
 msgid "Tool_bar Style"
 msgstr "Estilo da _barra de ferramentas"
 
-#: ../src/shell/e-shell-view.c:1195
+#: ../src/shell/e-shell-view.c:1196
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Exibe os botões de janela usando as configurações de barra de ferramentas do "
 "ambiente de trabalho"
 
-#: ../src/shell/e-shell-view.c:1411 ../src/shell/e-shell-view.c:1446
+#: ../src/shell/e-shell-view.c:1412 ../src/shell/e-shell-view.c:1447
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "Novo"
 
-#: ../src/shell/e-shell-view.c:1527
+#: ../src/shell/e-shell-view.c:1537
 #, c-format
 msgid "Select view: %s"
 msgstr "Selecionar visão: %s"
 
-#: ../src/shell/e-shell-view.c:1540
+#: ../src/shell/e-shell-view.c:1551
 #, c-format
 msgid "Delete view: %s"
 msgstr "Excluir visão: %s"
