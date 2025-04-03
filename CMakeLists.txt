@@ -597,8 +597,11 @@ endif((NOT (mozilla_nspr STREQUAL "")) AND (NOT (mozilla_nss STREQUAL "")))
 # Libnotify
 # ******************************
 
-pkg_check_modules(LIBNOTIFY libnotify>=${libnotify_minimum_version})
-set(HAVE_LIBNOTIFY ${LIBNOTIFY_FOUND})
+add_printable_option(ENABLE_LIBNOTIFY "Enable libnotify usage" ON)
+if(ENABLE_LIBNOTIFY)
+	pkg_check_modules_for_option(ENABLE_LIBNOTIFY "libnotify usage" LIBNOTIFY libnotify>=${libnotify_minimum_version})
+	set(HAVE_LIBNOTIFY ON)
+endif(ENABLE_LIBNOTIFY)
 
 # ******************************
 # Libunity
