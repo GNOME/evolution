@@ -1229,7 +1229,9 @@ mail_folder_strip_message_level (CamelMimePart *in_part,
 {
 	CamelDataWrapper *content;
 	CamelMultipart *multipart;
+	CamelMultipart *new_multipart = NULL;
 	gboolean modified = FALSE;
+	gboolean is_signed;
 	guint ii, n_parts;
 
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (in_part), FALSE);
@@ -1246,6 +1248,24 @@ mail_folder_strip_message_level (CamelMimePart *in_part,
 	multipart = CAMEL_MULTIPART (content);
 	n_parts = camel_multipart_get_number (multipart);
 
+	is_signed = CAMEL_IS_MULTIPART_SIGNED (multipart);
+
+	if (is_signed) {
+		CamelDataWrapper *in_datawrapper, *new_datawrapper;
+
+		in_datawrapper = CAMEL_DATA_WRAPPER (multipart);
+
+		new_multipart = camel_multipart_new ();
+		new_datawrapper = CAMEL_DATA_WRAPPER (new_multipart);
+
+		camel_multipart_set_boundary (new_multipart, camel_multipart_get_boundary (multipart));
+		camel_multipart_set_preface (new_multipart, camel_multipart_get_preface (multipart));
+		camel_multipart_set_postface (new_multipart, camel_multipart_get_postface (multipart));
+
+		camel_data_wrapper_set_encoding	(new_datawrapper, camel_data_wrapper_get_encoding (in_datawrapper));
+		camel_data_wrapper_set_mime_type_field (new_datawrapper, camel_data_wrapper_get_mime_type_field (in_datawrapper));
+	}
+
 	/* Replace MIME parts with "attachment" or "inline" dispositions
 	 * with a small "text/plain" part saying the file was removed. */
 	for (ii = 0; ii < n_parts && !g_cancellable_is_cancelled (cancellable); ii++) {
@@ -1256,9 +1276,9 @@ mail_folder_strip_message_level (CamelMimePart *in_part,
 		mime_part = camel_multipart_get_part (multipart, ii);
 		disposition = camel_mime_part_get_disposition (mime_part);
 
-		is_attachment =
+		is_attachment = (!is_signed || ii != 1) && (
 			(g_strcmp0 (disposition, "attachment") == 0) ||
-			(g_strcmp0 (disposition, "inline") == 0);
+			(g_strcmp0 (disposition, "inline") == 0));
 
 		if (is_attachment) {
 			const gchar *filename;
@@ -1291,7 +1311,15 @@ mail_folder_strip_message_level (CamelMimePart *in_part,
 		} else {
 			modified = mail_folder_strip_message_level (mime_part, cancellable) || modified;
 		}
+
+		if (new_multipart)
+			camel_multipart_add_part (new_multipart, mime_part);
 	}
+
+	if (new_multipart && modified)
+		camel_medium_set_content (CAMEL_MEDIUM (in_part), CAMEL_DATA_WRAPPER (new_multipart));
+
+	g_clear_object (&new_multipart);
 
 	return modified;
 }
