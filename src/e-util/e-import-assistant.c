@@ -386,7 +386,7 @@ import_assistant_destination_page_init (EImportAssistant *import_assistant)
 static GtkWidget *
 import_assistant_type_page_init (EImportAssistant *import_assistant)
 {
-	GtkRadioButton *radio_button;
+	GtkRadioButton *radio_button = NULL;
 	GtkWidget *page;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -407,17 +407,17 @@ import_assistant_type_page_init (EImportAssistant *import_assistant)
 	gtk_widget_show (widget);
 
 	widget = gtk_radio_button_new_with_mnemonic (
-		NULL, _("Import data and settings from _older programs"));
+		NULL, _("Import a _single file"));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	import_assistant->priv->type_page.intelligent = widget;
+	import_assistant->priv->type_page.file = widget;
 	gtk_widget_show (widget);
 
 	radio_button = GTK_RADIO_BUTTON (widget);
 
 	widget = gtk_radio_button_new_with_mnemonic_from_widget (
-		radio_button, _("Import a _single file"));
+		radio_button, _("Import data and settings from _older programs"));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	import_assistant->priv->type_page.file = widget;
+	import_assistant->priv->type_page.intelligent = widget;
 	gtk_widget_show (widget);
 
 	return page;
