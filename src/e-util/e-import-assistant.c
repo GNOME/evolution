@@ -1372,14 +1372,14 @@ import_assistant_construct (EImportAssistant *import_assistant)
 
 		/* Start page */
 		page = g_object_new (GTK_TYPE_LABEL,
-			"line-wrap", TRUE,
+			"wrap", TRUE,
 			"width-chars", 20,
 			"xalign", 0.0,
 			"margin-start", 12,
 			"margin-end", 12,
 			"margin-top", 12,
 			"margin-bottom", 12,
-			"text", _(
+			"label", _(
 				"Welcome to the Evolution Import Assistant.\n"
 				"With this assistant you will be guided through the "
 				"process of importing external files into Evolution."),
