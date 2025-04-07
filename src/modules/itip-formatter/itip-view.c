@@ -4935,8 +4935,8 @@ get_object_list_ready_cb (GObject *source_object,
 	GSList *objects = NULL;
 	GError *error = NULL;
 
-	e_cal_client_get_object_list_finish (
-		cal_client, result, &objects, &error);
+	if (result)
+		e_cal_client_get_object_list_finish (cal_client, result, &objects, &error);
 
 	if (g_cancellable_is_cancelled (fd->cancellable)) {
 		g_clear_error (&error);
@@ -5036,8 +5036,13 @@ find_cal_opened_cb (GObject *source_object,
 		return;
 	}
 
-	e_cal_client_get_object_list (cal_client, fd->sexp,
-		fd->cancellable, get_object_list_ready_cb, fd);
+	/* components without start and end times do not have expression set */
+	if (fd->sexp) {
+		e_cal_client_get_object_list (cal_client, fd->sexp,
+			fd->cancellable, get_object_list_ready_cb, fd);
+	} else {
+		get_object_list_ready_cb (G_OBJECT (cal_client), NULL, fd);
+	}
 
 	g_clear_object (&cal_client);
 }
