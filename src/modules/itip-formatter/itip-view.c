@@ -6634,6 +6634,7 @@ extract_itip_data (ItipView *view,
 		break;
 	case I_CAL_VTODO_COMPONENT:
 		view->priv->type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
+		view->priv->has_organizer = e_cal_util_component_has_property (view->priv->ical_comp, I_CAL_ORGANIZER_PROPERTY);
 		break;
 	case I_CAL_VJOURNAL_COMPONENT:
 		view->priv->type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
@@ -7102,7 +7103,8 @@ itip_view_init_view (ItipView *view)
                                  */
 				itip_view_set_mode (
 					view,
-					view->priv->has_organizer ?
+					(view->priv->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS &&
+					view->priv->has_organizer) ?
 					ITIP_VIEW_MODE_REQUEST :
 					ITIP_VIEW_MODE_PUBLISH);
 				break;
