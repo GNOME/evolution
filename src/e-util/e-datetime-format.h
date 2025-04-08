@@ -38,6 +38,17 @@ typedef enum {
 	DTFormatKindShortDate
 } DTFormatKind;
 
+typedef void (* EDatetimeFormatChangedFunc)	(const gchar *component,
+						 const gchar *part,
+						 DTFormatKind kind,
+						 gpointer user_data);
+void		e_datetime_format_add_change_listener
+						(EDatetimeFormatChangedFunc func,
+						 gpointer user_data);
+void		e_datetime_format_remove_change_listener
+						(EDatetimeFormatChangedFunc func,
+						 gpointer user_data);
+
 gchar *		e_datetime_format_dup_config_filename
 						(void);
 void		e_datetime_format_free_memory	(void);

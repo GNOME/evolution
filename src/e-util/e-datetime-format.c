@@ -53,7 +53,73 @@ e_datetime_format_dup_config_filename (void)
 	return g_build_filename (e_get_user_data_dir (), "datetime-formats.ini", NULL);
 }
 
+typedef struct _ChangeListerData {
+	EDatetimeFormatChangedFunc func;
+	gpointer user_data;
+} ChangeListerData;
+
 static GHashTable *key2fmt = NULL;
+static GPtrArray *change_listeners = NULL; /* ChangeListerData */
+
+/**
+ * e_datetime_format_add_change_listener:
+ * @func: (closure user_data) (scope forever): a change callback
+ * @user_data: user data for the @func
+ *
+ * Adds a change listener, which calls @func with @user_data.
+ * Remote it with e_datetime_format_remove_change_listener(),
+ * when no longer needed.
+ *
+ * Since: 3.58
+ **/
+void
+e_datetime_format_add_change_listener (EDatetimeFormatChangedFunc func,
+				       gpointer user_data)
+{
+	ChangeListerData *data;
+
+	if (!change_listeners)
+		change_listeners = g_ptr_array_new_with_free_func (g_free);
+
+	data = g_new0 (ChangeListerData, 1);
+	data->func = func;
+	data->user_data = user_data;
+
+	g_ptr_array_add (change_listeners, data);
+}
+
+/**
+ * e_datetime_format_remove_change_listener:
+ * @func: (closure user_data) (scope call): a change callback
+ * @user_data: user data for the @func
+ *
+ * Removes a listener previously added by e_datetime_format_add_change_listener().
+ * It does nothing when no such listener exists. Both the @func and the @user_data
+ * are compared when looking for the match.
+ *
+ * Since: 3.58
+ **/
+void
+e_datetime_format_remove_change_listener (EDatetimeFormatChangedFunc func,
+					  gpointer user_data)
+{
+	guint ii;
+
+	if (!change_listeners)
+		return;
+
+	for (ii = 0; ii < change_listeners->len; ii++) {
+		ChangeListerData *data = g_ptr_array_index (change_listeners, ii);
+
+		if (data->func == func && data->user_data == user_data) {
+			g_ptr_array_remove_index (change_listeners, ii);
+
+			if (change_listeners->len == 0)
+				g_clear_pointer (&change_listeners, g_ptr_array_unref);
+			break;
+		}
+	}
+}
 
 /**
  * e_datetime_format_free_memory:
@@ -63,19 +129,24 @@ static GHashTable *key2fmt = NULL;
  * called from the same thread as the other date/time format functions, which
  * is usually the main/GUI thread.
  *
+ * It also frees information about all the change listeners, if there were any.
+ *
  * Since: 3.50
  **/
 void
 e_datetime_format_free_memory (void)
 {
 	g_clear_pointer (&key2fmt, g_hash_table_destroy);
+	g_clear_pointer (&change_listeners, g_ptr_array_unref);
 }
 
 static GKeyFile *setup_keyfile = NULL; /* used on the combo */
 static gint setup_keyfile_instances = 0;
 
 static void
-save_keyfile (GKeyFile *keyfile)
+save_keyfile (GKeyFile *keyfile,
+	      const gchar *key,
+	      DTFormatKind kind)
 {
 	gchar *contents;
 	gchar *filename;
@@ -96,6 +167,24 @@ save_keyfile (GKeyFile *keyfile)
 
 	g_free (contents);
 	g_free (filename);
+
+	if (change_listeners) {
+		const gchar *component, *part;
+		gchar **split;
+		guint ii;
+
+		split = key ? g_strsplit (key, "-", -1) : NULL;
+		component = split ? split[0] : NULL;
+		part = split && split[0] && split[1] && split[2] ? split[1] : NULL;
+
+		for (ii = 0; ii < change_listeners->len; ii++) {
+			ChangeListerData *data = g_ptr_array_index (change_listeners, ii);
+
+			data->func (component, part, kind, data->user_data);
+		}
+
+		g_strfreev (split);
+	}
 }
 
 static void
@@ -558,7 +647,7 @@ format_combo_changed_cb (GtkWidget *combo,
 
 	/* save on every change only because 'unref_setup_keyfile' is never called :(
 	 * how about in kill - bonobo? */
-	save_keyfile (keyfile);
+	save_keyfile (keyfile, key, kind);
 }
 
 static gchar *
@@ -599,7 +688,7 @@ unref_setup_keyfile (gpointer ptr)
 	/* this is never called */
 	setup_keyfile_instances--;
 	if (setup_keyfile_instances == 0) {
-		save_keyfile (setup_keyfile);
+		save_keyfile (setup_keyfile, NULL, 0);
 		g_key_file_free (setup_keyfile);
 		setup_keyfile = NULL;
 	}

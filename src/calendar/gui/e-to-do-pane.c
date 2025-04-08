@@ -2453,7 +2453,7 @@ etdp_popup_menu_cb (GtkWidget *widget,
 }
 
 static void
-etcp_notify_visible_cb (EToDoPane *to_do_pane,
+etdp_notify_visible_cb (EToDoPane *to_do_pane,
 			GParamSpec *param,
 			gpointer user_data)
 {
@@ -2481,6 +2481,23 @@ etcp_notify_visible_cb (EToDoPane *to_do_pane,
 			e_cal_data_model_remove_client (to_do_pane->priv->tasks_data_model, e_source_get_uid (source));
 		}
 		g_list_free_full (clients, g_object_unref);
+	}
+}
+
+static void
+etdp_datetime_format_changed_cb (const gchar *component,
+				 const gchar *part,
+				 DTFormatKind kind,
+				 gpointer user_data)
+{
+	EToDoPane *to_do_pane = user_data;
+
+	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
+
+	if ((kind == DTFormatKindDate || kind == DTFormatKindDateTime) &&
+	    g_strcmp0 (component, "calendar") == 0 &&
+	    g_strcmp0 (part, "table") == 0) {
+		etdp_update_all (to_do_pane);
 	}
 }
 
@@ -2843,10 +2860,12 @@ e_to_do_pane_constructed (GObject *object)
 	g_clear_object (&sort_model);
 
 	g_signal_connect (to_do_pane, "notify::visible",
-		G_CALLBACK (etcp_notify_visible_cb), NULL);
+		G_CALLBACK (etdp_notify_visible_cb), NULL);
 
 	if (gtk_widget_get_visible (GTK_WIDGET (to_do_pane)))
 		e_source_registry_watcher_reclaim (to_do_pane->priv->watcher);
+
+	e_datetime_format_add_change_listener (etdp_datetime_format_changed_cb, to_do_pane);
 }
 
 static void
@@ -2854,6 +2873,8 @@ e_to_do_pane_dispose (GObject *object)
 {
 	EToDoPane *to_do_pane = E_TO_DO_PANE (object);
 	guint ii;
+
+	e_datetime_format_remove_change_listener (etdp_datetime_format_changed_cb, to_do_pane);
 
 	if (to_do_pane->priv->cancellable) {
 		g_cancellable_cancel (to_do_pane->priv->cancellable);
