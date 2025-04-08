@@ -1031,7 +1031,8 @@ Evo.mailDisplayUpdateMagicSpacebarState = function()
 	var new_state = 0;
 
 	if (document && document.defaultView && document.documentElement && document.documentElement.scrollHeight) {
-		if (document.defaultView.scrollY + document.defaultView.innerHeight < document.documentElement.scrollHeight)
+		// add gap of 7 pixels, which are not needed to be scrolled to the very bottom of the page
+		if (document.defaultView.scrollY + document.defaultView.innerHeight + 7 < document.documentElement.scrollHeight)
 			new_state |= (1 << 0); /* E_MAGIC_SPACEBAR_CAN_GO_BOTTOM */
 
 		if (document.defaultView.scrollY > 0)
