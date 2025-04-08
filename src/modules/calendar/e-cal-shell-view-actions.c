@@ -1044,6 +1044,7 @@ action_event_edit_as_new_cb (EUIAction *action,
 	ECalendarViewSelectionData *sel_data;
 	GSList *selected;
 	ICalComponent *clone;
+	guint32 flags = E_COMP_EDITOR_FLAG_IS_NEW;
 	gchar *uid;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
@@ -1065,9 +1066,56 @@ action_event_edit_as_new_cb (EUIAction *action,
 	i_cal_component_set_uid (clone, uid);
 	g_free (uid);
 
-	e_calendar_view_open_event_with_flags (
-		calendar_view, sel_data->client, clone,
-		E_COMP_EDITOR_FLAG_IS_NEW);
+	if (e_cal_util_component_has_organizer (clone)) {
+		ESourceRegistry *registry;
+		ICalProperty *org_prop;
+
+		registry = e_shell_get_registry (e_shell_window_get_shell (e_shell_view_get_shell_window (E_SHELL_VIEW (cal_shell_view))));
+
+		org_prop = i_cal_component_get_first_property (clone, I_CAL_ORGANIZER_PROPERTY);
+		if (org_prop) {
+			const gchar *org_email = e_cal_util_get_property_email (org_prop);
+
+			if (!org_email || !itip_address_is_user (registry, org_email)) {
+				if (org_email && *org_email) {
+					ICalProperty *attendee_prop;
+					gboolean is_attendee = FALSE;
+
+					for (attendee_prop = i_cal_component_get_first_property (clone, I_CAL_ATTENDEE_PROPERTY);
+					     attendee_prop && !is_attendee;
+					     g_object_unref (attendee_prop), attendee_prop = i_cal_component_get_next_property (clone, I_CAL_ATTENDEE_PROPERTY)) {
+						const gchar *attendee_email = e_cal_util_get_property_email (attendee_prop);
+
+						is_attendee = e_cal_util_email_addresses_equal (org_email, attendee_email);
+					}
+
+					g_clear_object (&attendee_prop);
+
+					if (!is_attendee) {
+						ICalParameter *param;
+
+						attendee_prop = i_cal_property_new_attendee (i_cal_property_get_organizer (org_prop));
+
+						for (param = i_cal_property_get_first_parameter (org_prop, I_CAL_ANY_PARAMETER);
+						     param;
+						     param = i_cal_property_get_next_parameter (org_prop, I_CAL_ANY_PARAMETER)) {
+							i_cal_property_take_parameter (attendee_prop, param);
+						}
+
+						i_cal_component_take_property (clone, attendee_prop);
+					}
+				}
+			}
+
+			i_cal_component_remove_property (clone, org_prop);
+
+			g_clear_object (&org_prop);
+
+			flags |= E_COMP_EDITOR_FLAG_WITH_ATTENDEES;
+		}
+	}
+
+	e_calendar_view_open_event_with_flags (calendar_view, sel_data->client, clone, flags);
 
 	g_clear_object (&clone);
 	g_slist_free_full (selected, e_calendar_view_selection_data_free);
