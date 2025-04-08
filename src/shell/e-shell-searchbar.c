@@ -56,6 +56,9 @@ struct _EShellSearchbarPrivate {
 	GtkWidget *search_entry;
 	GtkWidget *scope_combo_box;
 
+	/* Event Controllers (owned) */
+	GtkEventController *key_controller;
+
 	/* State Key File */
 	gchar *state_group;
 
@@ -420,19 +423,21 @@ shell_searchbar_entry_icon_release_cb (EShellSearchbar *searchbar,
 }
 
 static gboolean
-shell_searchbar_entry_key_press_cb (EShellSearchbar *searchbar,
-                                    GdkEventKey *key_event,
-                                    GtkWindow *entry)
+shell_searchbar_entry_key_pressed_cb (EShellSearchbar *searchbar,
+                                      guint keyval,
+                                      G_GNUC_UNUSED guint keycode,
+                                      GdkModifierType state,
+                                      G_GNUC_UNUSED GtkEventControllerKey *event_controller)
 {
 	EShellView *shell_view;
 	EUIAction *action;
 	guint mask;
 
 	mask = gtk_accelerator_get_default_mod_mask ();
-	if ((key_event->state & mask) != GDK_MOD1_MASK)
+	if ((state & mask) != GDK_MOD1_MASK)
 		return FALSE;
 
-	if (key_event->keyval != GDK_KEY_Down)
+	if (keyval != GDK_KEY_Down)
 		return FALSE;
 
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
@@ -480,20 +485,18 @@ shell_searchbar_option_notify_state_cb (EUIAction *action,
 }
 
 static gboolean
-shell_searchbar_entry_focus_in_cb (GtkWidget *entry,
-                                   GdkEvent *event,
-                                   EShellSearchbar *searchbar)
+shell_searchbar_entry_focus_in_cb (EShellSearchbar *searchbar,
+                                   G_GNUC_UNUSED GtkEventController *event_controller)
 {
 	/* to not change background when user changes search entry content */
-	gtk_widget_set_name (entry, "searchbar_searchentry");
+	gtk_widget_set_name (searchbar->priv->search_entry, "searchbar_searchentry");
 
 	return FALSE;
 }
 
 static gboolean
-shell_searchbar_entry_focus_out_cb (GtkWidget *entry,
-                                    GdkEvent *event,
-                                    EShellSearchbar *searchbar)
+shell_searchbar_entry_focus_out_cb (EShellSearchbar *searchbar,
+                                    G_GNUC_UNUSED GtkEventController *event_controller)
 {
 	if (e_util_strcmp0 (searchbar->priv->active_search_text, gtk_entry_get_text (GTK_ENTRY (searchbar->priv->search_entry))) != 0) {
 		gtk_entry_set_text (GTK_ENTRY (searchbar->priv->search_entry), searchbar->priv->active_search_text ?
@@ -655,6 +658,7 @@ shell_searchbar_dispose (GObject *object)
 	}
 
 	g_clear_object (&self->priv->css_provider);
+	g_clear_object (&self->priv->key_controller);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_searchbar_parent_class)->dispose (object);
@@ -936,6 +940,8 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	searchbar->priv->search_entry = widget;
 	gtk_widget_show (widget);
 
+	searchbar->priv->key_controller = gtk_event_controller_key_new (widget);
+
 	g_signal_connect_swapped (
 		widget, "activate",
 		G_CALLBACK (shell_searchbar_entry_activate_cb),
@@ -962,17 +968,17 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 		searchbar);
 
 	g_signal_connect_swapped (
-		widget, "key-press-event",
-		G_CALLBACK (shell_searchbar_entry_key_press_cb),
+		searchbar->priv->key_controller, "key-pressed",
+		G_CALLBACK (shell_searchbar_entry_key_pressed_cb),
 		searchbar);
 
-	g_signal_connect (
-		widget, "focus-in-event",
+	g_signal_connect_swapped (
+		searchbar->priv->key_controller, "focus-in",
 		G_CALLBACK (shell_searchbar_entry_focus_in_cb),
 		searchbar);
 
-	g_signal_connect (
-		widget, "focus-out-event",
+	g_signal_connect_swapped (
+		searchbar->priv->key_controller, "focus-out",
 		G_CALLBACK (shell_searchbar_entry_focus_out_cb),
 		searchbar);
 
