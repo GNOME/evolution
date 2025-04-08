@@ -367,6 +367,36 @@ e_preferences_window_get_shell (EPreferencesWindow *window)
 	return window->priv->shell;
 }
 
+static gboolean
+e_preferences_window_has_page (EPreferencesWindow *window,
+                               const gchar *page_name,
+                               const gchar *caption,
+                               const gchar *help_target,
+                               EPreferencesWindowCreatePageFn create_fn,
+                               gint sort_order)
+{
+	GList *children, *list;
+	gboolean exists = FALSE;
+
+	children = gtk_container_get_children (GTK_CONTAINER (window->priv->listbox));
+	for (list = children; list != NULL; list = list->next) {
+		EPreferencesWindowRow *row = list->data;
+
+		if (g_strcmp0 (row->page_name, page_name) == 0 &&
+		    g_strcmp0 (row->caption, caption) == 0 &&
+		    g_strcmp0 (row->help_target, help_target) == 0 &&
+		    row->create_fn == create_fn &&
+		    row->sort_order == sort_order) {
+			exists = TRUE;
+			break;
+		}
+	}
+
+	g_list_free (children);
+
+	return exists;
+}
+
 void
 e_preferences_window_add_page (EPreferencesWindow *window,
                                const gchar *page_name,
@@ -383,6 +413,10 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 	g_return_if_fail (page_name != NULL);
 	g_return_if_fail (icon_name != NULL);
 	g_return_if_fail (caption != NULL);
+
+	/* avoid duplicates */
+	if (e_preferences_window_has_page (window, page_name, caption, help_target, create_fn, sort_order))
+		return;
 
 	row = e_preferences_window_row_new (page_name, icon_name, caption, help_target, create_fn, sort_order);
 	gtk_widget_show_all (row);
