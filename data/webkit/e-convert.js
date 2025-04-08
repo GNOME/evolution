@@ -785,8 +785,11 @@ EvoConvert.extractElemText = function(elem, normalDivWidth, quoteLevel, context)
 	if (!elem)
 		return "";
 
-	if (!elem.childNodes.length)
-		return elem.innerText;
+	if (!elem.childNodes.length) {
+		if (elem.innerText)
+			return elem.innerText;
+		return "";
+	}
 
 	var str = "", ii;
 
@@ -1147,8 +1150,11 @@ EvoConvert.ToPlainText = function(element, normalDivWidth, link_to_text)
 			}
 		}
 	} finally {
-		if (disconnectFromHead)
-			document.head.removeChild(element);
+		try {
+			if (disconnectFromHead)
+				document.head.removeChild(element);
+		} catch (err) {
+		}
 	}
 
 	// to not add empty lines at the end of the text on re-editing
