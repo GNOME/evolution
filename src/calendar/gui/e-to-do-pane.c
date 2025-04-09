@@ -1385,7 +1385,7 @@ e_to_do_pane_submit_thread_job (GObject *responder,
 }
 
 static void
-etdp_update_all (EToDoPane *to_do_pane)
+etdp_update_comps (EToDoPane *to_do_pane)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter, next;
@@ -1557,6 +1557,107 @@ etdp_update_colors (EToDoPane *to_do_pane,
 }
 
 static void
+etdp_update_day_labels (EToDoPane *to_do_pane)
+{
+	ICalTime *itt;
+	ICalTimezone *zone;
+	guint ii;
+
+	zone = e_cal_data_model_get_timezone (to_do_pane->priv->events_data_model);
+	itt = i_cal_time_new_current_with_zone (zone);
+	i_cal_time_set_timezone (itt, zone);
+
+	for (ii = 0; ii < to_do_pane->priv->roots->len; ii++) {
+		GtkTreeRowReference *rowref;
+		GtkTreePath *path;
+		GtkTreeIter iter;
+
+		rowref = g_ptr_array_index (to_do_pane->priv->roots, ii);
+
+		if (!gtk_tree_row_reference_valid (rowref)) {
+			if (ii == to_do_pane->priv->roots->len - 1) {
+				GtkTreeModel *model;
+				gchar *sort_key;
+
+				if (!to_do_pane->priv->show_no_duedate_tasks)
+					continue;
+
+				sort_key = g_strdup_printf ("A%05u", ii);
+
+				gtk_tree_store_append (to_do_pane->priv->tree_store, &iter, NULL);
+				gtk_tree_store_set (to_do_pane->priv->tree_store, &iter,
+					COLUMN_SORTKEY, sort_key,
+					COLUMN_HAS_ICON_NAME, FALSE,
+					-1);
+
+				g_free (sort_key);
+
+				model = GTK_TREE_MODEL (to_do_pane->priv->tree_store);
+				path = gtk_tree_model_get_path (model, &iter);
+
+				gtk_tree_row_reference_free (rowref);
+				rowref = gtk_tree_row_reference_new (model, path);
+				to_do_pane->priv->roots->pdata[ii] = rowref;
+				g_warn_if_fail (rowref != NULL);
+
+				gtk_tree_path_free (path);
+			} else {
+				continue;
+			}
+		}
+
+		path = gtk_tree_row_reference_get_path (rowref);
+
+		if (gtk_tree_model_get_iter (gtk_tree_row_reference_get_model (rowref), &iter, path)) {
+			struct tm tm;
+			gchar *markup;
+			guint date_mark;
+
+			tm = e_cal_util_icaltime_to_tm (itt);
+
+			i_cal_time_adjust (itt, 1, 0, 0, 0);
+
+			date_mark = etdp_create_date_mark (itt);
+
+			if (ii == 0) {
+				markup = g_markup_printf_escaped ("<b>%s</b>", _("Today"));
+			} else if (ii == 1) {
+				markup = g_markup_printf_escaped ("<b>%s</b>", _("Tomorrow"));
+			} else if (ii == to_do_pane->priv->roots->len - 1) {
+				if (!to_do_pane->priv->show_no_duedate_tasks) {
+					gtk_tree_store_remove (to_do_pane->priv->tree_store, &iter);
+					gtk_tree_row_reference_free (rowref);
+					to_do_pane->priv->roots->pdata[ii] = NULL;
+					gtk_tree_path_free (path);
+					break;
+				}
+
+				markup = g_markup_printf_escaped ("<b>%s</b>", _("Tasks without Due date"));
+			} else {
+				gchar *date;
+
+				date = e_datetime_format_format_tm ("calendar", "table", DTFormatKindDate, &tm);
+				markup = g_markup_printf_escaped ("<span font_features='tnum=1'><b>%s</b></span>", date);
+				g_free (date);
+			}
+
+			gtk_tree_store_set (to_do_pane->priv->tree_store, &iter,
+				COLUMN_SUMMARY, markup,
+				COLUMN_DATE_MARK, date_mark,
+				-1);
+
+			g_free (markup);
+		} else {
+			i_cal_time_adjust (itt, 1, 0, 0, 0);
+		}
+
+		gtk_tree_path_free (path);
+	}
+
+	g_clear_object (&itt);
+}
+
+static void
 etdp_check_time_changed (EToDoPane *to_do_pane,
 			 gboolean force_update)
 {
@@ -1575,7 +1676,6 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 		gchar *tasks_filter;
 		time_t tt_begin, tt_end;
 		gchar *iso_begin_all, *iso_begin, *iso_end;
-		guint ii;
 
 		to_do_pane->priv->last_today = new_today;
 
@@ -1630,92 +1730,7 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 		}
 
 		/* Re-label the roots */
-		for (ii = 0; ii < to_do_pane->priv->roots->len; ii++) {
-			GtkTreeRowReference *rowref;
-			GtkTreePath *path;
-			GtkTreeIter iter;
-
-			rowref = g_ptr_array_index (to_do_pane->priv->roots, ii);
-
-			if (!gtk_tree_row_reference_valid (rowref)) {
-				if (ii == to_do_pane->priv->roots->len - 1) {
-					GtkTreeModel *model;
-					gchar *sort_key;
-
-					if (!to_do_pane->priv->show_no_duedate_tasks)
-						continue;
-
-					sort_key = g_strdup_printf ("A%05u", ii);
-
-					gtk_tree_store_append (to_do_pane->priv->tree_store, &iter, NULL);
-					gtk_tree_store_set (to_do_pane->priv->tree_store, &iter,
-						COLUMN_SORTKEY, sort_key,
-						COLUMN_HAS_ICON_NAME, FALSE,
-						-1);
-
-					g_free (sort_key);
-
-					model = GTK_TREE_MODEL (to_do_pane->priv->tree_store);
-					path = gtk_tree_model_get_path (model, &iter);
-
-					gtk_tree_row_reference_free (rowref);
-					rowref = gtk_tree_row_reference_new (model, path);
-					to_do_pane->priv->roots->pdata[ii] = rowref;
-					g_warn_if_fail (rowref != NULL);
-
-					gtk_tree_path_free (path);
-				} else {
-					continue;
-				}
-			}
-
-			path = gtk_tree_row_reference_get_path (rowref);
-
-			if (gtk_tree_model_get_iter (gtk_tree_row_reference_get_model (rowref), &iter, path)) {
-				struct tm tm;
-				gchar *markup;
-				guint date_mark;
-
-				tm = e_cal_util_icaltime_to_tm (itt);
-
-				i_cal_time_adjust (itt, 1, 0, 0, 0);
-
-				date_mark = etdp_create_date_mark (itt);
-
-				if (ii == 0) {
-					markup = g_markup_printf_escaped ("<b>%s</b>", _("Today"));
-				} else if (ii == 1) {
-					markup = g_markup_printf_escaped ("<b>%s</b>", _("Tomorrow"));
-				} else if (ii == to_do_pane->priv->roots->len - 1) {
-					if (!to_do_pane->priv->show_no_duedate_tasks) {
-						gtk_tree_store_remove (to_do_pane->priv->tree_store, &iter);
-						gtk_tree_row_reference_free (rowref);
-						to_do_pane->priv->roots->pdata[ii] = NULL;
-						gtk_tree_path_free (path);
-						break;
-					}
-
-					markup = g_markup_printf_escaped ("<b>%s</b>", _("Tasks without Due date"));
-				} else {
-					gchar *date;
-
-					date = e_datetime_format_format_tm ("calendar", "table", DTFormatKindDate, &tm);
-					markup = g_markup_printf_escaped ("<span font_features='tnum=1'><b>%s</b></span>", date);
-					g_free (date);
-				}
-
-				gtk_tree_store_set (to_do_pane->priv->tree_store, &iter,
-					COLUMN_SUMMARY, markup,
-					COLUMN_DATE_MARK, date_mark,
-					-1);
-
-				g_free (markup);
-			} else {
-				i_cal_time_adjust (itt, 1, 0, 0, 0);
-			}
-
-			gtk_tree_path_free (path);
-		}
+		etdp_update_day_labels (to_do_pane);
 
 		/* Update data-model-s */
 		e_cal_data_model_subscribe (to_do_pane->priv->events_data_model,
@@ -1731,7 +1746,7 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 		g_free (iso_begin);
 		g_free (iso_end);
 
-		etdp_update_all (to_do_pane);
+		etdp_update_comps (to_do_pane);
 	} else {
 		time_t now_tt = i_cal_time_as_timet_with_zone (itt, zone);
 
@@ -2497,7 +2512,8 @@ etdp_datetime_format_changed_cb (const gchar *component,
 	if ((kind == DTFormatKindDate || kind == DTFormatKindDateTime) &&
 	    g_strcmp0 (component, "calendar") == 0 &&
 	    g_strcmp0 (part, "table") == 0) {
-		etdp_update_all (to_do_pane);
+		etdp_update_day_labels (to_do_pane);
+		etdp_update_comps (to_do_pane);
 	}
 }
 
@@ -3313,7 +3329,7 @@ e_to_do_pane_set_use_24hour_format (EToDoPane *to_do_pane,
 
 	to_do_pane->priv->use_24hour_format = use_24hour_format;
 
-	etdp_update_all (to_do_pane);
+	etdp_update_comps (to_do_pane);
 
 	g_object_notify (G_OBJECT (to_do_pane), "use-24hour-format");
 }
@@ -3493,7 +3509,7 @@ e_to_do_pane_set_time_in_smaller_font (EToDoPane *to_do_pane,
 
 	to_do_pane->priv->time_in_smaller_font = time_in_smaller_font;
 
-	etdp_update_all (to_do_pane);
+	etdp_update_comps (to_do_pane);
 
 	g_object_notify (G_OBJECT (to_do_pane), "time-in-smaller-font");
 }
