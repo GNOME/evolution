@@ -285,7 +285,7 @@ cal_source_config_init_candidate (ESourceConfig *config,
 
 	e_binding_bind_property_full (
 		extension, "color",
-		self->priv->color_button, "color",
+		self->priv->color_button, "rgba",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE,
 		e_binding_transform_string_to_color,
