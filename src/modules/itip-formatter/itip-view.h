@@ -122,7 +122,8 @@ void		itip_view_set_web_view		(ItipView *view,
 EWebView *	itip_view_ref_web_view		(ItipView *view);
 void		itip_view_write			(gpointer itip_part,
 						 EMailFormatter *formatter,
-						 GString *buffer);
+						 GString *buffer,
+						 gboolean show_day_agenda);
 void		itip_view_write_for_printing	(ItipView *view,
 						 GString *buffer);
 EClientCache *	itip_view_get_client_cache	(ItipView *view);

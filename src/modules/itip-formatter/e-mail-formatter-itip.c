@@ -112,6 +112,9 @@ emfe_itip_format (EMailFormatterExtension *extension,
 		itip_view_write_for_printing (itip_view, buffer);
 
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
+		GSettings *settings;
+		gboolean show_day_agenda;
+
 		if (use_alternative_html) {
 			if (itip_part->alternative_html) {
 				g_output_stream_write_all (stream,
@@ -125,7 +128,25 @@ emfe_itip_format (EMailFormatterExtension *extension,
 
 		buffer = g_string_sized_new (2048);
 
-		itip_view_write (itip_part, formatter, buffer);
+		settings = e_util_ref_settings ("org.gnome.evolution.plugin.itip");
+		show_day_agenda = g_settings_get_boolean (settings, "show-day-agenda");
+		g_clear_object (&settings);
+
+		if (show_day_agenda && itip_part->vcalendar) {
+			ICalComponent *vcalendar;
+			ICalComponent *icomp;
+
+			vcalendar = i_cal_component_new_from_string (itip_part->vcalendar);
+			/* only events can show the day agenda, hide it otherwise */
+			icomp = vcalendar ? i_cal_component_get_first_component (vcalendar, I_CAL_VEVENT_COMPONENT) : NULL;
+
+			show_day_agenda = icomp != NULL;
+
+			g_clear_object (&icomp);
+			g_clear_object (&vcalendar);
+		}
+
+		itip_view_write (itip_part, formatter, buffer, show_day_agenda);
 	} else {
 		CamelFolder *folder, *old_folder;
 		CamelMimeMessage *message, *old_message;

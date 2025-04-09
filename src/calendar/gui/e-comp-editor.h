@@ -147,6 +147,11 @@ void		e_comp_editor_get_time_parts	(ECompEditor *comp_editor,
 void		e_comp_editor_add_page		(ECompEditor *comp_editor,
 						 const gchar *label,
 						 ECompEditorPage *page);
+void		e_comp_editor_add_encapsulated_page
+						(ECompEditor *comp_editor,
+						 const gchar *label,
+						 ECompEditorPage *page,
+						 GtkWidget *container);
 ECompEditorPage *
 		e_comp_editor_get_page		(ECompEditor *comp_editor,
 						 GType page_type);

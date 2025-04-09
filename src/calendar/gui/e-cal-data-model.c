@@ -1153,6 +1153,7 @@ cal_data_model_expand_recurrences_thread (ECalDataModel *data_model,
 	ECalClient *client = user_data;
 	GSList *to_expand_recurrences, *link;
 	GSList *expanded_recurrences = NULL;
+	GCancellable *cancellable;
 	time_t range_start, range_end;
 	ViewData *view_data;
 
@@ -1186,9 +1187,11 @@ cal_data_model_expand_recurrences_thread (ECalDataModel *data_model,
 	to_expand_recurrences = view_data->to_expand_recurrences;
 	view_data->to_expand_recurrences = NULL;
 
+	cancellable = view_data->cancellable ? g_object_ref (view_data->cancellable) : NULL;
+
 	view_data_unlock (view_data);
 
-	for (link = to_expand_recurrences; link && view_data->is_used; link = g_slist_next (link)) {
+	for (link = to_expand_recurrences; link && view_data->is_used && !g_cancellable_is_cancelled (cancellable); link = g_slist_next (link)) {
 		ICalComponent *icomp = link->data;
 		GenerateInstancesData gid;
 
@@ -1200,7 +1203,7 @@ cal_data_model_expand_recurrences_thread (ECalDataModel *data_model,
 		gid.zone = g_object_ref (data_model->priv->zone);
 		gid.skip_cancelled = data_model->priv->skip_cancelled;
 
-		e_cal_client_generate_instances_for_object_sync (client, icomp, range_start, range_end, NULL,
+		e_cal_client_generate_instances_for_object_sync (client, icomp, range_start, range_end, cancellable,
 			cal_data_model_instance_generated, &gid);
 
 		g_clear_object (&gid.zone);
@@ -1224,6 +1227,7 @@ cal_data_model_expand_recurrences_thread (ECalDataModel *data_model,
 	view_data_unlock (view_data);
 	view_data_unref (view_data);
 	g_object_unref (client);
+	g_clear_object (&cancellable);
 }
 
 static void

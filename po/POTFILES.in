@@ -68,7 +68,9 @@ src/calendar/gui/e-alarm-list.c
 src/calendar/gui/ea-week-view.c
 src/calendar/gui/ea-week-view-main-item.c
 src/calendar/gui/e-bulk-edit-tasks.c
+src/calendar/gui/e-cal-component-widget.c
 src/calendar/gui/e-cal-data-model.c
+src/calendar/gui/e-cal-day-column.c
 src/calendar/gui/e-cal-dialogs.c
 src/calendar/gui/e-calendar-view.c
 src/calendar/gui/e-cal-list-view.c
@@ -77,6 +79,7 @@ src/calendar/gui/e-cal-model.c
 src/calendar/gui/e-cal-model-calendar.c
 src/calendar/gui/e-cal-model-tasks.c
 src/calendar/gui/e-cal-ops.c
+src/calendar/gui/e-cal-range-model.c
 src/calendar/gui/e-cell-date-edit-text.c
 src/calendar/gui/e-comp-editor-event.c
 src/calendar/gui/e-comp-editor-memo.c

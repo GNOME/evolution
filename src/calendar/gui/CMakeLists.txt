@@ -31,9 +31,11 @@ set(SOURCES
 	e-alarm-list.c
 	e-bulk-edit-tasks.c
 	e-cal-component-preview.c
+	e-cal-component-widget.c
 	e-cal-config.c
 	e-cal-data-model.c
 	e-cal-data-model-subscriber.c
+	e-cal-day-column.c
 	e-cal-dialogs.c
 	e-cal-event.c
 	e-cal-list-view.c
@@ -42,6 +44,7 @@ set(SOURCES
 	e-cal-model-memos.c
 	e-cal-model-tasks.c
 	e-cal-ops.c
+	e-cal-range-model.c
 	e-calendar-view.c
 	e-cell-date-edit-text.c
 	e-cell-estimated-duration.c
@@ -108,9 +111,11 @@ set(HEADERS
 	e-alarm-list.h
 	e-bulk-edit-tasks.h
 	e-cal-component-preview.h
+	e-cal-component-widget.h
 	e-cal-config.h
 	e-cal-data-model.h
 	e-cal-data-model-subscriber.h
+	e-cal-day-column.h
 	e-cal-dialogs.h
 	e-cal-event.h
 	e-cal-list-view.h
@@ -119,6 +124,7 @@ set(HEADERS
 	e-cal-model-memos.h
 	e-cal-model-tasks.h
 	e-cal-ops.h
+	e-cal-range-model.h
 	e-calendar-view.h
 	e-cell-date-edit-text.h
 	e-cell-estimated-duration.h

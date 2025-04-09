@@ -2043,6 +2043,9 @@ cal_comp_util_describe (ECalComponent *comp,
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), NULL);
 	g_return_val_if_fail (E_IS_CAL_CLIENT (client), NULL);
 
+	if (!default_zone)
+		default_zone = e_cal_client_get_default_timezone (client);
+
 	timestr[0] = 0;
 	markup = g_string_sized_new (256);
 	icalcomp = e_cal_component_get_icalcomponent (comp);
@@ -3413,4 +3416,137 @@ cal_comp_util_remove_component (GtkWindow *parent_window,
 
 		g_free (rid);
 	}
+}
+
+/*
+ * cal_comp_util_dup_color_for_component:
+ * @client:  an #ECalClient the @icomp belongs to
+ * @icomp: an #ICalComponent
+ * @inout_color_spec: (inout): memory location where to set the color to
+ *
+ * Updates the @inout_color_spec with the color for the @icomp from the @client.
+ *
+ * Returns: whether the color in the @inout_color_spec changed
+ *
+ * Since: 3.58
+ */
+gboolean
+cal_comp_util_set_color_for_component (ECalClient *client,
+				       ICalComponent *icomp,
+				       gchar **inout_color_spec)
+{
+	static struct _AssignedColorData {
+		const gchar *color;
+		GPtrArray *uids;
+	} assigned_colors[] = {
+		/* From the HIG https://developer.gnome.org/hig/reference/palette.html , as of 2023-09-29 */
+		{ "#62a0ea", NULL }, /* Blue 2 */
+		{ "#1c71d8", NULL }, /* Blue 4 */
+		{ "#57e389", NULL }, /* Green 2 */
+		{ "#2ec27e", NULL }, /* Green 4 */
+		{ "#f8e45c", NULL }, /* Yellow 2 */
+		{ "#f5c211", NULL }, /* Yellow 4 */
+		{ "#ffbe6f", NULL }, /* Orange 1 */
+		{ "#ff7800", NULL }, /* Orange 3 */
+		{ "#ed333b", NULL }, /* Red 2 */
+		{ "#c01c28", NULL }, /* Red 4 */
+		{ "#c061cb", NULL }, /* Purple 2 */
+		{ "#813d9c", NULL }  /* Purple 4 */
+	};
+
+	ESource *source;
+	ESourceSelectable *extension;
+	const gchar *color_spec;
+	const gchar *extension_name;
+	const gchar *uid;
+	gint ii, first_empty = -1;
+	ICalProperty *prop;
+	gboolean changed;
+
+	g_return_val_if_fail (E_IS_CAL_CLIENT (client), FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (icomp), FALSE);
+	g_return_val_if_fail (inout_color_spec != NULL, FALSE);
+
+	#define set_value(_value) G_STMT_START { \
+		changed = g_strcmp0 (*inout_color_spec, _value) != 0; \
+		if (changed) { \
+			g_free (*inout_color_spec); \
+			*inout_color_spec = g_strdup (_value); \
+		} \
+	} G_STMT_END
+
+	prop = i_cal_component_get_first_property (icomp, I_CAL_COLOR_PROPERTY);
+	if (prop) {
+		GdkRGBA rgba;
+
+		color_spec = i_cal_property_get_color (prop);
+		if (color_spec && gdk_rgba_parse (&rgba, color_spec)) {
+			set_value (color_spec);
+
+			g_object_unref (prop);
+
+			return changed;
+		}
+
+		g_object_unref (prop);
+	}
+
+	switch (e_cal_client_get_source_type (client)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			extension_name = E_SOURCE_EXTENSION_CALENDAR;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+			break;
+		default:
+			g_return_val_if_reached (FALSE);
+	}
+
+	source = e_client_get_source (E_CLIENT (client));
+	extension = e_source_get_extension (source, extension_name);
+	color_spec = e_source_selectable_get_color (extension);
+
+	if (color_spec != NULL) {
+		set_value (color_spec);
+		return changed;
+	}
+
+	uid = e_source_get_uid (source);
+
+	for (ii = 0; ii < G_N_ELEMENTS (assigned_colors); ii++) {
+		guint jj;
+
+		if (!assigned_colors[ii].uids) {
+			if (first_empty == -1)
+				first_empty = ii;
+			continue;
+		}
+
+		for (jj = 0; jj < assigned_colors[ii].uids->len; jj++) {
+			const gchar *saved_uid = g_ptr_array_index (assigned_colors[ii].uids, jj);
+
+			if (g_strcmp0 (saved_uid, uid) == 0) {
+				set_value (assigned_colors[ii].color);
+				return changed;
+			}
+		}
+	}
+
+	if (first_empty == -1)
+		first_empty = g_random_int_range (0, G_N_ELEMENTS (assigned_colors));
+
+	/* return the first unused color */
+	if (!assigned_colors[first_empty].uids)
+		assigned_colors[first_empty].uids = g_ptr_array_new_with_free_func (g_free);
+
+	g_ptr_array_add (assigned_colors[first_empty].uids, g_strdup (uid));
+
+	set_value (assigned_colors[first_empty].color);
+
+	#undef set_value
+
+	return changed;
 }

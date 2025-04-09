@@ -684,6 +684,13 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 		check, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	check = gtk_check_button_new_with_mnemonic (_("Sh_ow day agenda at meeting start time"));
+	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
+
+	g_settings_bind (settings, "show-day-agenda",
+		check, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	check = gtk_check_button_new_with_mnemonic (_("_Always attach components in mail messages"));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
 

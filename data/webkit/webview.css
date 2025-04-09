@@ -200,7 +200,6 @@ th.rtl {
 
 .itip.content {
   float: left;
-  max-width: 90%;
 }
 
 .itip.description {
@@ -215,6 +214,10 @@ th.rtl {
 
 .itip th {
   vertical-align: middle;
+}
+
+table#table_buttons {
+  min-width: 400px;
 }
 
 #table_row_summary td {
@@ -234,4 +237,69 @@ th.rtl {
 
 #text_row_buttons td {
   text-align: center;
+}
+
+iframe#itip-agenda-iframe {
+  height: 400px;
+  min-width: 150px;
+  border: none;
+  margin: 0px 8px 0px 8px;
+}
+
+table.itip-agenda {
+  border: 0px;
+  border-bottom: 1px solid currentcolor;
+  border-spacing: 0;
+  font-size: 14px;
+  padding: 0px 4px 0px 4px;
+}
+
+table.itip-agenda td {
+  border-top: 1px solid currentcolor;
+  height: 30px;
+  vertical-align: top;
+}
+
+table.itip-agenda td:first-child {
+  text-align:right;
+}
+
+table.itip-agenda td:nth-child(2) {
+  text-align:center;
+}
+
+table.itip-agenda td sup {
+  font-size:60%;
+}
+
+table.itip-agenda td:last-child {
+  width:100%;
+}
+
+div.itip a, table.itip a {
+  word-break: break-all;
+}
+
+div.itip-day-event {
+  position: absolute;
+  perspective: 0px;
+  padding: 3px;
+}
+
+div.itip-target {
+  opacity: 0.3;
+  background: orange;
+  border: solid 1px gray;
+}
+
+div.itip-event-freetime {
+  background: #11ee11;
+}
+
+div.itip-event-clash {
+  background: #ee1111;
+}
+
+div.itip-day-event-transparent {
+  opacity: 0.6;
 }

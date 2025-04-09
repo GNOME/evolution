@@ -787,7 +787,8 @@ Evo.mailDisplayUpdateIFramesHeightRecursive = function(doc)
 		Evo.mailDisplayUpdateIFramesHeightRecursive(iframes[ii].contentDocument);
 	}
 
-	if (!doc.scrollingElement || !doc.defaultView || !doc.defaultView.frameElement)
+	if (!doc.scrollingElement || !doc.defaultView || !doc.defaultView.frameElement ||
+	    doc.defaultView.frameElement.hasAttribute("evo-skip-iframe-auto-height"))
 		return;
 
 	if (doc.defaultView.frameElement.height == doc.scrollingElement.scrollHeight)
@@ -815,6 +816,7 @@ Evo.mailDisplayUpdateIFramesHeightCB = function(timeStamp)
 		document.defaultView.scrollTo(scrollx, scrolly);
 
 	Evo.mailDisplayResizeContentToPreviewWidth();
+	EvoItip.resizeAgendaFramesRecursive(document);
 	Evo.mailDisplayUpdateMagicSpacebarState();
 }
 
@@ -900,6 +902,12 @@ Evo.mailDisplayResizeContentToPreviewWidthCB = function(timeStamp)
 			if (!iframe || !iframe.contentDocument)
 				return false;
 
+			/* itip-view's alternative HTML iframe is managed by other means */
+			if (iframe.parentElement.id.indexOf("itip-view-alternative-html") >= 0)
+				return false;
+			if (iframe.id.endsWith(".itip"))
+				return false;
+
 			/* We can force the width on every message that was not formatted
 			 * by text-highlight module. */
 			if (iframe.id.indexOf("text-highlight") < 0)
@@ -915,6 +923,11 @@ Evo.mailDisplayResizeContentToPreviewWidthCB = function(timeStamp)
 				return;
 
 			var ii, iframes, local_width = width;
+
+			ii = doc.getElementById("itip-agenda-column");
+			if (ii && ii.clientWidth < local_width) {
+				local_width -= ii.clientWidth;
+			}
 
 			iframes = doc.getElementsByTagName("iframe");
 
@@ -1017,7 +1030,7 @@ Evo.mailDisplayResizeContentToPreviewWidthCB = function(timeStamp)
 
 	traversar.set_iframe_and_body_width(document, width, width, 0);
 
-	if (document.documentElement.clientWidth - 20 > width)
+	if (!Evo.isItip && document.documentElement.clientWidth - 20 > width)
 		window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
 }
 
@@ -1240,7 +1253,7 @@ Evo.mailDisplaySetIFrameHeightForDocument = function(doc, minHeight)
 
 	var iframe = doc.defaultView.frameElement;
 
-	if (!iframe)
+	if (!iframe || iframe.hasAttribute("evo-skip-iframe-auto-height"))
 		return;
 
 	var value = minHeight;
@@ -1922,4 +1935,106 @@ EvoItip.FlipAlternativeHTMLPart = function(iframe_id, element_value, img_id, spa
 		elem.setAttribute("othertext", tmp);
 	}
 	window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
+}
+
+EvoItip.UpdateAgenda = function(iframe_id, html, width, scrollToTime)
+{
+	var agendaIframe = Evo.FindElement(iframe_id, "itip-agenda-iframe");
+
+	if (!agendaIframe)
+		return;
+
+	Evo.isItip = true;
+	agendaIframe.style.width = (width + 40) + "px";
+
+	var innerDoc = agendaIframe.contentDocument;
+
+	if (!innerDoc.body.firstElementChild) {
+		var tmpHtml = agendaIframe.getAttribute("itip-agenda-html");
+		agendaIframe.removeAttribute("itip-agenda-html");
+		innerDoc.body.innerHTML = tmpHtml;
+
+		var link = innerDoc.createElement("LINK");
+		link.setAttribute("type", "text/css");
+		link.setAttribute("rel", "stylesheet");
+		link.setAttribute("href", "evo-file://$EVOLUTION_WEBKITDATADIR/webview.css");
+		innerDoc.head.appendChild(link);
+	}
+
+	innerDoc.body.style.width = width + "px";
+
+	var compInfoDiv = Evo.FindElement(iframe_id, "itip-comp-info-div");
+	if (compInfoDiv) {
+		if (compInfoDiv.scrollHeight == agendaIframe.scrollHeight && agendaIframe.scrollHeight > 400)
+			agendaIframe.style.height = "400px";
+		if (compInfoDiv.scrollHeight > 400)
+			agendaIframe.style.height = compInfoDiv.scrollHeight + "px";
+	}
+
+	var elem, agendaDiv = innerDoc.getElementById("itip-agenda-div");
+	if (agendaDiv) {
+		agendaDiv.innerHTML = html;
+
+		elem = innerDoc.getElementById("itip-agenda-column");
+		if (elem)
+			elem.style.width = width + "px";
+		elem = innerDoc.getElementById("itip-agenda-div");
+		if (elem)
+			elem.style.width = width + "px";
+		elem = innerDoc.getElementById("itip-agenda");
+		if (elem)
+			elem.style.width = width + "px";
+
+		if (scrollToTime > 0 && innerDoc.scrollingElement)
+			innerDoc.scrollingElement.scrollTo(0, scrollToTime > 60 ? (scrollToTime - 60) : 0);
+	}
+
+	window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
+}
+
+EvoItip.resizeAgendaFramesRecursive = function(doc)
+{
+	if (!doc)
+		return;
+
+	var ii, iframes;
+
+	iframes = doc.getElementsByTagName("iframe");
+
+	/* Update from bottom to top */
+	for (ii = 0; ii < iframes.length; ii++) {
+		EvoItip.resizeAgendaFramesRecursive(iframes[ii].contentDocument);
+	}
+
+	if (!doc.scrollingElement || !doc.defaultView || !doc.defaultView.frameElement)
+		return;
+
+	var agendaIframe = doc.getElementById("itip-agenda-iframe");
+
+	if (!agendaIframe)
+		return;
+
+	var compInfoDiv = doc.getElementById("itip-comp-info-div");
+
+	if (!compInfoDiv)
+		return;
+
+	if (compInfoDiv.scrollHeight == agendaIframe.scrollHeight && agendaIframe.scrollHeight > 400)
+		agendaIframe.style.height = "400px";
+	if (compInfoDiv.scrollHeight > 400)
+		agendaIframe.style.height = compInfoDiv.scrollHeight + "px";
+
+	if (agendaIframe.ownerDocument.scrollingElement && agendaIframe.ownerDocument.defaultView && agendaIframe.ownerDocument.defaultView.frameElement) {
+		var parentFrame = agendaIframe.ownerDocument.defaultView.frameElement;
+		var scrollTop = document.scrollingElement.scrollTop;
+
+		parentFrame.style.width = "400px";
+		parentFrame.style.width = (agendaIframe.ownerDocument.scrollingElement.scrollWidth + 5) + "px";
+		parentFrame.style.height = parentFrame.ownerDocument.documentElement.clientHeight + "px";
+
+		if (doc.scrollingElement.scrollHeight > parentFrame.clientHeight)
+			parentFrame.style.height = doc.scrollingElement.scrollHeight + "px";
+
+		document.scrollingElement.scrollTop = scrollTop;
+	}
 }

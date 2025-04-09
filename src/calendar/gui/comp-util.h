@@ -243,5 +243,9 @@ void		cal_comp_util_remove_component	(GtkWindow *parent_window, /* for question 
 						 ECalComponent *comp,
 						 ECalObjModType mod,
 						 gboolean confirm_event_delete); /* meetings are always asked */
+gboolean	cal_comp_util_set_color_for_component
+						(ECalClient *client,
+						 ICalComponent *icomp,
+						 gchar **inout_color_spec);
 
 #endif

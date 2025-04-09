@@ -346,14 +346,12 @@ save_data_free (SaveData *sd)
 				g_signal_emit (sd->comp_editor, signals[EDITOR_CLOSED], 0, TRUE, NULL);
 				gtk_widget_destroy (GTK_WIDGET (sd->comp_editor));
 			} else {
+				e_comp_editor_set_flags (sd->comp_editor, e_comp_editor_get_flags (sd->comp_editor) & (~E_COMP_EDITOR_FLAG_IS_NEW));
 				e_comp_editor_set_component (sd->comp_editor, sd->component);
-
 				e_comp_editor_fill_widgets (sd->comp_editor, sd->component);
 
 				g_clear_object (&sd->comp_editor->priv->source_client);
 				sd->comp_editor->priv->source_client = g_object_ref (sd->target_client);
-
-				e_comp_editor_set_flags (sd->comp_editor, e_comp_editor_get_flags (sd->comp_editor) & (~E_COMP_EDITOR_FLAG_IS_NEW));
 
 				e_comp_editor_sensitize_widgets (sd->comp_editor);
 				e_comp_editor_set_changed (sd->comp_editor, FALSE);
@@ -3375,17 +3373,19 @@ e_comp_editor_get_time_parts (ECompEditor *comp_editor,
 		*out_dtend_part = comp_editor->priv->dtend_part;
 }
 
-/* This consumes the @page. */
+/* This consumes the @page and the @container. */
 void
-e_comp_editor_add_page (ECompEditor *comp_editor,
-			const gchar *label,
-			ECompEditorPage *page)
+e_comp_editor_add_encapsulated_page (ECompEditor *comp_editor,
+				     const gchar *label,
+				     ECompEditorPage *page,
+				     GtkWidget *container)
 {
 	ECompEditor *pages_comp_editor;
 
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 	g_return_if_fail (label != NULL);
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE (page));
+	g_return_if_fail (GTK_IS_WIDGET (container));
 
 	pages_comp_editor = e_comp_editor_page_ref_editor (page);
 	if (pages_comp_editor != comp_editor) {
@@ -3398,7 +3398,7 @@ e_comp_editor_add_page (ECompEditor *comp_editor,
 
 	/* One reference uses the GtkNotebook, the other the pages GSList */
 	gtk_notebook_append_page (comp_editor->priv->content,
-		GTK_WIDGET (page),
+		container,
 		gtk_label_new_with_mnemonic (label));
 
 	comp_editor->priv->pages = g_slist_append (comp_editor->priv->pages, g_object_ref (page));
@@ -3421,6 +3421,19 @@ e_comp_editor_add_page (ECompEditor *comp_editor,
 			e_comp_editor_page_general_set_show_attendees (page_general, TRUE);
 		}
 	}
+}
+
+/* This consumes the @page. */
+void
+e_comp_editor_add_page (ECompEditor *comp_editor,
+			const gchar *label,
+			ECompEditorPage *page)
+{
+	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
+	g_return_if_fail (label != NULL);
+	g_return_if_fail (E_IS_COMP_EDITOR_PAGE (page));
+
+	e_comp_editor_add_encapsulated_page (comp_editor, label, page, GTK_WIDGET (page));
 }
 
 /* The returned pointer is owned by the @comp_editor; returns the first instance,
@@ -3486,6 +3499,32 @@ e_comp_editor_select_page (ECompEditor *comp_editor,
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE (page));
 
 	page_num = gtk_notebook_page_num (comp_editor->priv->content, GTK_WIDGET (page));
+	if (page_num == -1) {
+		/* maybe the page is encapsulated in a container, try the page children */
+		gint ii, n_pages;
+
+		n_pages = gtk_notebook_get_n_pages (comp_editor->priv->content);
+		for (ii = 0; ii < n_pages && page_num == -1; ii++) {
+			GtkWidget *nth_page = gtk_notebook_get_nth_page (comp_editor->priv->content, ii);
+			GList *children, *link;
+
+			if (!nth_page || E_IS_COMP_EDITOR_PAGE (nth_page) || !GTK_IS_CONTAINER (nth_page))
+				continue;
+
+			children = gtk_container_get_children (GTK_CONTAINER (nth_page));
+			for (link = children; link; link = g_list_next (link)) {
+				GtkWidget *child = link->data;
+
+				if (!E_IS_COMP_EDITOR_PAGE (child) && E_COMP_EDITOR_PAGE (child) == page) {
+					page_num = ii;
+					break;
+				}
+			}
+
+			g_list_free (children);
+		}
+	}
+
 	g_return_if_fail (page_num != -1);
 
 	gtk_notebook_set_current_page (comp_editor->priv->content, page_num);

@@ -20,5 +20,10 @@
       <_summary>Whether to attach components in mail messages</_summary>
       <_description>Attach components in mail messages like meeting invitations or responses, instead of saving them as a body alternative</_description>
     </key>
+    <key name="show-day-agenda" type="b">
+      <default>true</default>
+      <_summary>Show a day agenda for the start time of the invitation</_summary>
+      <_description>Show a day agenda, events for the day, when the event in the invitation mail starts</_description>
+    </key>
   </schema>
 </schemalist>

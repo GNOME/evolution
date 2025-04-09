@@ -20,10 +20,12 @@
 #include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
 
-#include <e-util/e-util.h>
+#include "e-util/e-util.h"
+#include "shell/e-shell.h"
 
 #include "calendar-config.h"
 #include "comp-util.h"
+#include "e-cal-day-column.h"
 #include "e-comp-editor.h"
 #include "e-comp-editor-page.h"
 #include "e-comp-editor-page-attachments.h"
@@ -45,9 +47,20 @@ struct _ECompEditorEventPrivate {
 	ECompEditorPropertyPart *transparency;
 	ECompEditorPropertyPart *description;
 	GtkWidget *all_day_check;
+	ECalDayColumn *day_column;
+	GtkAdjustment *day_column_vadjustment; /* owned */
 
 	gpointer in_the_past_alert;
 	gpointer insensitive_info_alert;
+
+	GdkRGBA bg_rgba_freetime;
+	GdkRGBA bg_rgba_clash;
+	gboolean day_column_needs_update;
+
+	/* to not layout items inside size-allocate signal */
+	guint day_column_layout_id;
+	gint day_column_scrolled_last_width;
+	gint day_column_scrolled_last_height;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorEvent, e_comp_editor_event, E_TYPE_COMP_EDITOR)
@@ -395,6 +408,8 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 		g_clear_object (&dtend);
 }
 
+static void ece_event_update_day_agenda (ECompEditor *comp_editor);
+
 static void
 ece_event_fill_widgets (ECompEditor *comp_editor,
 			ICalComponent *component)
@@ -508,6 +523,8 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 	g_clear_object (&dtstart);
 	g_clear_object (&dtend);
 	g_clear_object (&prop);
+
+	ece_event_update_day_agenda (comp_editor);
 }
 
 static gboolean
@@ -736,6 +753,211 @@ ece_event_classification_radio_set_state_cb (EUIAction *action,
 	e_comp_editor_set_changed (self, TRUE);
 }
 
+static gboolean
+e_comp_editor_event_source_filter_cb (ESource *source,
+				      gpointer user_data)
+{
+	gpointer extension;
+
+	if (!e_source_has_extension (source, E_SOURCE_EXTENSION_CALENDAR))
+		return FALSE;
+
+	extension = e_source_get_extension (source, E_SOURCE_EXTENSION_CALENDAR);
+	if (!E_IS_SOURCE_SELECTABLE (extension))
+		return FALSE;
+
+	return e_source_selectable_get_selected (extension);
+}
+
+static void
+ece_event_update_day_agenda (ECompEditor *comp_editor)
+{
+	ECompEditorEvent *self;
+	ECompEditorPropertyPartDatetime *dtstart;
+	ECompEditorPropertyPart *dtstart_part = NULL, *dtend_part = NULL;
+	ECalClient *source_client;
+	ICalTime *start_itt;
+	ICalTimezone *zone;
+	const gchar *uid;
+	time_t range_start;
+	gint second = 0;
+	gint hl_hour_start = 0, hl_minute_start = 0;
+	gint hl_hour_end, hl_minute_end;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (comp_editor));
+
+	self = E_COMP_EDITOR_EVENT (comp_editor);
+
+	if (!gtk_widget_get_visible (GTK_WIDGET (self->priv->day_column))) {
+		self->priv->day_column_needs_update = TRUE;
+		e_cal_day_column_set_range (self->priv->day_column, 0, 0);
+		return;
+	}
+
+	self->priv->day_column_needs_update = FALSE;
+
+	e_comp_editor_get_time_parts (comp_editor, &dtstart_part, &dtend_part);
+
+	if (!dtstart_part)
+		return;
+
+	dtstart = E_COMP_EDITOR_PROPERTY_PART_DATETIME (dtstart_part);
+	start_itt = e_comp_editor_property_part_datetime_get_value (dtstart);
+
+	if (!start_itt)
+		return;
+
+	if (i_cal_time_is_date (start_itt)) {
+		i_cal_time_set_is_date (start_itt, FALSE);
+		hl_hour_start = 0;
+		hl_minute_start = 0;
+	} else {
+		i_cal_time_get_time (start_itt, &hl_hour_start, &hl_minute_start, &second);
+	}
+	i_cal_time_set_time (start_itt, 0, 0, 0);
+
+	zone = e_cal_day_column_get_timezone (self->priv->day_column);
+	range_start = i_cal_time_as_timet_with_zone (start_itt, zone);
+
+	hl_hour_end = hl_hour_start;
+	hl_minute_end = hl_minute_start;
+
+	if (dtend_part) {
+		ECompEditorPropertyPartDatetime *dtend;
+		ICalTime *end_itt;
+
+		dtend = E_COMP_EDITOR_PROPERTY_PART_DATETIME (dtend_part);
+		end_itt = e_comp_editor_property_part_datetime_get_value (dtend);
+
+		if (end_itt) {
+			if (i_cal_time_is_date (end_itt) || i_cal_time_compare_date_only_tz (start_itt, end_itt, zone) != 0) {
+				hl_hour_end = 23;
+				hl_minute_end = 60;
+			} else {
+				i_cal_time_get_time (end_itt, &hl_hour_end, &hl_minute_end, &second);
+			}
+
+			g_clear_object (&end_itt);
+		}
+	}
+
+	g_clear_object (&start_itt);
+
+	e_cal_day_column_set_range (self->priv->day_column, range_start, range_start + (24 * 60 * 60));
+
+	if (!(e_comp_editor_get_flags (comp_editor) & E_COMP_EDITOR_FLAG_IS_NEW)) {
+		ICalComponent *icomp;
+
+		icomp = e_comp_editor_get_component (comp_editor);
+		uid = icomp ? i_cal_component_get_uid (icomp) : NULL;
+		source_client = e_comp_editor_get_source_client (comp_editor);
+	} else {
+		uid = NULL;
+		source_client = NULL;
+	}
+
+	e_cal_day_column_highlight_time	(self->priv->day_column,
+		source_client, uid,
+		hl_hour_start, hl_minute_start, hl_hour_end, hl_minute_end,
+		&self->priv->bg_rgba_freetime, &self->priv->bg_rgba_clash);
+
+	if (self->priv->day_column_vadjustment) {
+		gint scroll_to_hour = hl_hour_start, yy;
+
+		if (scroll_to_hour > 1)
+			scroll_to_hour--;
+
+		yy = e_cal_day_column_time_to_y (self->priv->day_column, scroll_to_hour, 0);
+		gtk_adjustment_set_value (self->priv->day_column_vadjustment, yy);
+	}
+}
+
+static void
+e_comp_editor_event_unmap (GtkWidget *widget)
+{
+	ECompEditor *comp_editor = E_COMP_EDITOR (widget);
+	GSettings *settings;
+	gint width = 10, height = 10;
+
+	gtk_window_get_size (GTK_WINDOW (comp_editor), &width, &height);
+
+	/* the comp_editor can have the settings already freed, thus get the new one */
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+	g_settings_set_int (settings, "editor-event-window-width", width);
+	g_clear_object (&settings);
+
+	GTK_WIDGET_CLASS (e_comp_editor_event_parent_class)->unmap (widget);
+}
+
+static void
+e_comp_editor_event_day_column_timezone_notify_cb (GObject *object,
+						   GParamSpec *param,
+						   gpointer user_data)
+{
+	ECompEditorEvent *self = user_data;
+
+	if (gtk_widget_get_visible (GTK_WIDGET (object)))
+		ece_event_update_day_agenda (E_COMP_EDITOR (self));
+	else
+		self->priv->day_column_needs_update = TRUE;
+}
+
+static void
+e_comp_editor_event_day_column_visible_notify_cb (GObject *object,
+						  GParamSpec *param,
+						  gpointer user_data)
+{
+	ECompEditorEvent *self = user_data;
+
+	if (self->priv->day_column_needs_update && gtk_widget_get_visible (GTK_WIDGET (object)))
+		ece_event_update_day_agenda (E_COMP_EDITOR (self));
+}
+
+static gboolean
+e_comp_editor_event_day_column_layout_idle_cb (gpointer user_data)
+{
+	ECompEditorEvent *self = user_data;
+
+	self->priv->day_column_layout_id = 0;
+
+	if (self->priv->day_column_vadjustment && gtk_widget_get_visible (GTK_WIDGET (self))) {
+		GtkWidget *vscrollbar;
+		GtkWidget *scolled_window;
+		gint prefer_width;
+
+		scolled_window = gtk_widget_get_ancestor (GTK_WIDGET (self->priv->day_column), GTK_TYPE_SCROLLED_WINDOW);
+
+		if (scolled_window) {
+			prefer_width = gtk_widget_get_allocated_width (scolled_window) - 15;
+
+			vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (scolled_window));
+			if (vscrollbar && gtk_widget_get_visible (vscrollbar))
+				prefer_width -= gtk_widget_get_allocated_width (vscrollbar);
+
+			e_cal_day_column_layout_for_width (self->priv->day_column, prefer_width);
+		}
+	}
+
+	return G_SOURCE_REMOVE;
+}
+
+static void
+e_comp_editor_event_day_column_scrolled_size_allocate_cb (GtkWidget *widget,
+							  GdkRectangle *rectangle,
+							  gpointer user_data)
+{
+	ECompEditorEvent *self = user_data;
+
+	if ((rectangle->width != self->priv->day_column_scrolled_last_width ||
+	    rectangle->height != self->priv->day_column_scrolled_last_height) &&
+	    self->priv->day_column_vadjustment && gtk_widget_get_visible (widget) &&
+	    !self->priv->day_column_layout_id) {
+		self->priv->day_column_scrolled_last_width = rectangle->width;
+		self->priv->day_column_scrolled_last_height = rectangle->height;
+		self->priv->day_column_layout_id = g_idle_add (e_comp_editor_event_day_column_layout_idle_cb, self);
+	}
+}
+
 static void
 ece_event_setup_ui (ECompEditorEvent *event_editor)
 {
@@ -746,6 +968,7 @@ ece_event_setup_ui (ECompEditorEvent *event_editor)
 		      "<placeholder id='parts'>"
 			"<item action='view-timezone' text_only='true'/>"
 			"<item action='view-categories' text_only='true'/>"
+			"<item action='view-day-agenda' text_only='true'/>"
 		      "</placeholder>"
 		    "</submenu>"
 		    "<submenu action='options-menu'>"
@@ -788,6 +1011,13 @@ ece_event_setup_ui (ECompEditorEvent *event_editor)
 		  NULL,
 		  N_("Toggles whether the time zone is displayed"),
 		  NULL, NULL, "false", (EUIActionFunc) e_ui_action_set_state },
+
+		{ "view-day-agenda",
+		  NULL,
+		  N_("_Day Agenda"),
+		  NULL,
+		  N_("Toggles whether the day agenda is displayed"),
+		  NULL, NULL, "true", (EUIActionFunc) e_ui_action_set_state },
 
 		{ "all-day-event",
 		  "stock_new-24h-appointment",
@@ -877,6 +1107,21 @@ ece_event_setup_ui (ECompEditorEvent *event_editor)
 		action, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	action = e_comp_editor_get_action (comp_editor, "view-day-agenda");
+	e_binding_bind_property (
+		action, "active",
+		event_editor->priv->day_column, "visible",
+		G_BINDING_DEFAULT);
+	g_settings_bind (
+		settings, "editor-event-show-day-agenda",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_settings_bind (
+		settings, "time-divisions",
+		event_editor->priv->day_column, "time-division-minutes",
+		G_SETTINGS_BIND_DEFAULT);
+
 	action = e_comp_editor_get_action (comp_editor, "all-day-event");
 	e_binding_bind_property (
 		event_editor->priv->all_day_check, "active",
@@ -889,6 +1134,11 @@ ece_event_setup_ui (ECompEditorEvent *event_editor)
 		widget, "active",
 		action, "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+
+	g_settings_bind (
+		settings, "use-24hour-format",
+		event_editor->priv->day_column, "use-24hour-format",
+		G_SETTINGS_BIND_GET | G_SETTINGS_BIND_NO_SENSITIVITY);
 }
 
 static void
@@ -903,7 +1153,8 @@ e_comp_editor_event_constructed (GObject *object)
 	EMeetingStore *meeting_store;
 	ENameSelector *name_selector;
 	EUIManager *ui_manager;
-	GtkWidget *widget;
+	GtkWidget *widget, *paned, *scrolled_window, *timezone_entry;
+	GSettings *settings;
 
 	G_OBJECT_CLASS (e_comp_editor_event_parent_class)->constructed (object);
 
@@ -998,6 +1249,8 @@ e_comp_editor_event_constructed (GObject *object)
 	g_signal_connect_swapped (event_editor->priv->dtend, "lookup-timezone",
 		G_CALLBACK (e_comp_editor_lookup_timezone), event_editor);
 
+	timezone_entry = widget;
+
 	e_comp_editor_set_time_parts (comp_editor, event_editor->priv->dtstart, event_editor->priv->dtend);
 
 	widget = e_comp_editor_property_part_get_edit_widget (event_editor->priv->dtstart);
@@ -1017,7 +1270,57 @@ e_comp_editor_event_constructed (GObject *object)
 	e_signal_connect_notify_swapped (event_editor->priv->all_day_check, "notify::active",
 		G_CALLBACK (ece_event_all_day_toggled_cb), event_editor);
 
-	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "General"), page);
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (scrolled_window,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"can-focus", FALSE,
+		"shadow-type", GTK_SHADOW_NONE,
+		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"propagate-natural-width", FALSE,
+		"propagate-natural-height", FALSE,
+		"min-content-width", 128,
+		NULL);
+
+	event_editor->priv->day_column = e_cal_day_column_new (e_shell_get_client_cache (e_shell_get_default ()), E_ALERT_SINK (event_editor),
+		e_comp_editor_event_source_filter_cb, NULL);
+	widget = GTK_WIDGET (event_editor->priv->day_column);
+	g_object_set (widget,
+		"visible", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"can-focus", FALSE,
+		"show-time", TRUE,
+		NULL);
+	e_binding_bind_property (timezone_entry, "timezone",
+		widget, "timezone",
+		G_BINDING_SYNC_CREATE);
+	e_signal_connect_notify_object (widget, "notify::timezone",
+		G_CALLBACK (e_comp_editor_event_day_column_timezone_notify_cb), event_editor, 0);
+
+	gtk_container_add (GTK_CONTAINER (scrolled_window), widget);
+
+	e_binding_bind_property (widget, "visible",
+		scrolled_window, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	event_editor->priv->day_column_vadjustment = g_object_ref (gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window)));
+
+	g_signal_connect (scrolled_window, "size-allocate",
+		G_CALLBACK (e_comp_editor_event_day_column_scrolled_size_allocate_cb), event_editor);
+
+	paned = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_widget_set_visible (paned, TRUE);
+	gtk_paned_pack1 (GTK_PANED (paned), GTK_WIDGET (page), TRUE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (paned), scrolled_window, FALSE, FALSE);
+
+	e_comp_editor_add_encapsulated_page (comp_editor, C_("ECompEditorPage", "General"), page, paned);
 
 	page = e_comp_editor_page_reminders_new (comp_editor);
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "Reminders"), page);
@@ -1049,25 +1352,74 @@ e_comp_editor_event_constructed (GObject *object)
 	g_signal_connect (comp_editor, "notify::target-client",
 		G_CALLBACK (ece_event_notify_target_client_cb), NULL);
 
+	g_signal_connect (comp_editor, "times-changed",
+		G_CALLBACK (ece_event_update_day_agenda), NULL);
+
+	settings = e_comp_editor_get_settings (comp_editor);
+	if (settings) {
+		gint width = 10, height = 10;
+
+		gtk_window_get_size (GTK_WINDOW (event_editor), &width, &height);
+
+		if (g_settings_get_int (settings, "editor-event-window-width") > width) {
+			width = g_settings_get_int (settings, "editor-event-window-width");
+			gtk_window_resize (GTK_WINDOW (event_editor), width, height);
+		}
+
+		g_settings_bind (
+			settings, "editor-event-day-agenda-paned-position",
+			paned, "position",
+			G_SETTINGS_BIND_DEFAULT);
+	}
+
 	e_extensible_load_extensions (E_EXTENSIBLE (comp_editor));
 
 	e_ui_manager_thaw (ui_manager);
+
+	e_signal_connect_notify_object (event_editor->priv->day_column, "notify::visible",
+		G_CALLBACK (e_comp_editor_event_day_column_visible_notify_cb), event_editor, 0);
+}
+
+static void
+e_comp_editor_event_dispose (GObject *object)
+{
+	ECompEditorEvent *self = E_COMP_EDITOR_EVENT (object);
+
+	g_clear_object (&self->priv->day_column_vadjustment);
+
+	if (self->priv->day_column_layout_id) {
+		g_source_remove (self->priv->day_column_layout_id);
+		self->priv->day_column_layout_id = 0;
+	}
+
+	G_OBJECT_CLASS (e_comp_editor_event_parent_class)->dispose (object);
 }
 
 static void
 e_comp_editor_event_init (ECompEditorEvent *event_editor)
 {
 	event_editor->priv = e_comp_editor_event_get_instance_private (event_editor);
+
+	g_warn_if_fail (gdk_rgba_parse (&event_editor->priv->bg_rgba_freetime, "#11ee11"));
+	g_warn_if_fail (gdk_rgba_parse (&event_editor->priv->bg_rgba_clash, "#ee1111"));
+
+	event_editor->priv->bg_rgba_freetime.alpha = 0.3;
+	event_editor->priv->bg_rgba_clash.alpha = event_editor->priv->bg_rgba_freetime.alpha;
 }
 
 static void
 e_comp_editor_event_class_init (ECompEditorEventClass *klass)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 	ECompEditorClass *comp_editor_class;
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->constructed = e_comp_editor_event_constructed;
+	object_class->dispose = e_comp_editor_event_dispose;
+
+	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class->unmap = e_comp_editor_event_unmap;
 
 	comp_editor_class = E_COMP_EDITOR_CLASS (klass);
 	comp_editor_class->help_section = "calendar-usage-add-appointment";

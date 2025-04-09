@@ -115,11 +115,6 @@ struct _ECalModelPrivate {
 	gboolean confirm_delete;
 };
 
-typedef struct {
-	const gchar *color;
-	GList *uids;
-} AssignedColorData;
-
 static const gchar *cal_model_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
 
 enum {
@@ -1172,93 +1167,11 @@ static const gchar *
 cal_model_get_color_for_component (ECalModel *model,
                                    ECalModelComponent *comp_data)
 {
-	ESource *source;
-	ESourceSelectable *extension;
-	const gchar *color_spec;
-	const gchar *extension_name;
-	const gchar *uid;
-	gint i, first_empty = 0;
-	ICalProperty *prop;
-
-	static AssignedColorData assigned_colors[] = {
-		/* From the HIG https://developer.gnome.org/hig/reference/palette.html , as of 2023-09-29 */
-		{ "#62a0ea", NULL }, /* Blue 2 */
-		{ "#1c71d8", NULL }, /* Blue 4 */
-		{ "#57e389", NULL }, /* Green 2 */
-		{ "#2ec27e", NULL }, /* Green 4 */
-		{ "#f8e45c", NULL }, /* Yellow 2 */
-		{ "#f5c211", NULL }, /* Yellow 4 */
-		{ "#ffbe6f", NULL }, /* Orange 1 */
-		{ "#ff7800", NULL }, /* Orange 3 */
-		{ "#ed333b", NULL }, /* Red 2 */
-		{ "#c01c28", NULL }, /* Red 4 */
-		{ "#c061cb", NULL }, /* Purple 2 */
-		{ "#813d9c", NULL }  /* Purple 4 */
-	};
-
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
-	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_COLOR_PROPERTY);
-	if (prop) {
-		GdkRGBA rgba;
+	cal_comp_util_set_color_for_component (comp_data->client, comp_data->icalcomp, &comp_data->color);
 
-		color_spec = i_cal_property_get_color (prop);
-		if (color_spec && gdk_rgba_parse (&rgba, color_spec)) {
-			g_free (comp_data->color);
-			comp_data->color = g_strdup (color_spec);
-
-			g_object_unref (prop);
-
-			return comp_data->color;
-		}
-
-		g_object_unref (prop);
-	}
-
-	switch (e_cal_client_get_source_type (comp_data->client)) {
-		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-			extension_name = E_SOURCE_EXTENSION_CALENDAR;
-			break;
-		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
-			break;
-		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
-			break;
-		default:
-			g_return_val_if_reached (NULL);
-	}
-
-	source = e_client_get_source (E_CLIENT (comp_data->client));
-	extension = e_source_get_extension (source, extension_name);
-	color_spec = e_source_selectable_get_color (extension);
-
-	if (color_spec != NULL) {
-		g_free (comp_data->color);
-		comp_data->color = g_strdup (color_spec);
-		return comp_data->color;
-	}
-
-	uid = e_source_get_uid (source);
-
-	for (i = 0; i < G_N_ELEMENTS (assigned_colors); i++) {
-		GList *l;
-
-		if (assigned_colors[i].uids == NULL) {
-			first_empty = i;
-			continue;
-		}
-
-		for (l = assigned_colors[i].uids; l != NULL; l = l->next)
-			if (g_strcmp0 (l->data, uid) == 0)
-				return assigned_colors[i].color;
-	}
-
-	/* return the first unused color */
-	assigned_colors[first_empty].uids = g_list_append (
-		assigned_colors[first_empty].uids, g_strdup (uid));
-
-	return assigned_colors[first_empty].color;
+	return comp_data->color;
 }
 
 static gint

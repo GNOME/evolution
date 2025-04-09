@@ -534,6 +534,21 @@
       <_summary>Value to preselect when sending an event with attendees with reminders set.</_summary>
       <_description>This remembers the last value of "Send my reminders with this event" option and uses it the next time.</_description>
     </key>
+    <key name="editor-event-show-day-agenda" type="b">
+      <default>true</default>
+      <_summary>Show the day agenda in the event editor.</_summary>
+      <_description>Whether the event editor shows the day agenda.</_description>
+    </key>
+    <key name="editor-event-day-agenda-paned-position" type="i">
+      <default>0</default>
+      <_summary>Position of the paned splitting the editor data and the day agenda</_summary>
+      <_description>It influences the width of the day agenda.</_description>
+    </key>
+    <key name="editor-event-window-width" type="i">
+      <default>0</default>
+      <_summary>Width of the event editor window</_summary>
+      <_description>The editor will be opened with this width.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 
