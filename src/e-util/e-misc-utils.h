@@ -194,12 +194,12 @@ EClient *	e_util_open_client_sync		(struct _EAlertSinkThreadJobData *job_data,
 						 GError **error);
 
 /* Useful GBinding transform functions */
-gboolean	e_binding_transform_color_to_string
+gboolean	e_binding_transform_rgba_to_string
 						(GBinding *binding,
 						 const GValue *source_value,
 						 GValue *target_value,
 						 gpointer not_used);
-gboolean	e_binding_transform_string_to_color
+gboolean	e_binding_transform_string_to_rgba
 						(GBinding *binding,
 						 const GValue *source_value,
 						 GValue *target_value,

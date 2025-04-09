@@ -288,8 +288,8 @@ cal_source_config_init_candidate (ESourceConfig *config,
 		self->priv->color_button, "rgba",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE,
-		e_binding_transform_string_to_color,
-		e_binding_transform_color_to_string,
+		e_binding_transform_string_to_rgba,
+		e_binding_transform_rgba_to_string,
 		NULL, (GDestroyNotify) NULL);
 
 	if (self->priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS &&

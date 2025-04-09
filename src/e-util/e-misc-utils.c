@@ -2290,7 +2290,7 @@ e_util_open_client_sync (EAlertSinkThreadJobData *job_data,
 }
 
 /**
- * e_binding_transform_color_to_string:
+ * e_binding_transform_rgba_to_string:
  * @binding: a #GBinding
  * @source_value: a #GValue of type #GDK_TYPE_RGBA
  * @target_value: a #GValue of type #G_TYPE_STRING
@@ -2301,10 +2301,10 @@ e_util_open_client_sync (EAlertSinkThreadJobData *job_data,
  * Returns: %TRUE always
  **/
 gboolean
-e_binding_transform_color_to_string (GBinding *binding,
-                                     const GValue *source_value,
-                                     GValue *target_value,
-                                     gpointer not_used)
+e_binding_transform_rgba_to_string (GBinding *binding,
+                                    const GValue *source_value,
+                                    GValue *target_value,
+                                    gpointer not_used)
 {
 	const GdkRGBA *color;
 	gchar *string;
@@ -2323,7 +2323,7 @@ e_binding_transform_color_to_string (GBinding *binding,
 }
 
 /**
- * e_binding_transform_string_to_color:
+ * e_binding_transform_string_to_rgba:
  * @binding: a #GBinding
  * @source_value: a #GValue of type #G_TYPE_STRING
  * @target_value: a #GValue of type #GDK_TYPE_RGBA
@@ -2334,10 +2334,10 @@ e_binding_transform_color_to_string (GBinding *binding,
  * Returns: %TRUE if color string specification was valid
  **/
 gboolean
-e_binding_transform_string_to_color (GBinding *binding,
-                                     const GValue *source_value,
-                                     GValue *target_value,
-                                     gpointer not_used)
+e_binding_transform_string_to_rgba (GBinding *binding,
+                                    const GValue *source_value,
+                                    GValue *target_value,
+                                    gpointer not_used)
 {
 	GdkRGBA color;
 	const gchar *string;
