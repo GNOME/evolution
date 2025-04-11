@@ -1,3 +1,14 @@
+Evolution 3.56.1 2025-04-11
+---------------------------
+
+Bug Fixes:
+	I#2911 - Mail: Magic Spacebar sometimes doesn't switch mail
+	I#2987 - Remove Attachments fails with signed messages
+	I#3019 - ECompEditor: Buttons to add attachments do nothing
+	I#3022 - "New->..." actions missing in UI customization dialog
+	I#3026 - Composer: Prompt for "send with shortcut" doesn't work
+	I#3039 - e-convert.js: Exception on convert to plain text
+
 Evolution 3.56.0 2025-03-14
 ---------------------------
 
