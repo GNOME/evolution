@@ -2546,7 +2546,7 @@ attachment_load_from_mime_part_thread (GTask *task,
 	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 	/* this actually downloads the part and makes it available later */
 	bytes_written = camel_data_wrapper_calculate_decoded_size_sync (dw, attachment->priv->cancellable, NULL);
-	g_file_info_set_size (file_info, bytes_written);
+	g_file_info_set_size (file_info, bytes_written != ((gsize) -1) ? bytes_written : 0);
 
 	attachment_load_finish_common (attachment, mime_part, file_info);
 

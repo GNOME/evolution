@@ -587,6 +587,7 @@ mail_send_message (struct _send_queue_msg *m,
 	CamelNameValueArray *xev_headers = NULL;
 	CamelMimeMessage *message;
 	gint i;
+	gsize msg_size;
 	guint jj, len;
 	GError *local_error = NULL;
 	gboolean did_connect = FALSE;
@@ -691,7 +692,9 @@ mail_send_message (struct _send_queue_msg *m,
 
 	/* Now check for posting, failures are ignored */
 	info = camel_message_info_new_from_headers (NULL, camel_medium_get_headers (CAMEL_MEDIUM (message)));
-	camel_message_info_set_size (info, camel_data_wrapper_calculate_size_sync (CAMEL_DATA_WRAPPER (message), cancellable, NULL));
+	msg_size = camel_data_wrapper_calculate_size_sync (CAMEL_DATA_WRAPPER (message), cancellable, NULL);
+	if (msg_size != ((gsize) -1))
+		camel_message_info_set_size (info, msg_size);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN |
 		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
 
