@@ -95,7 +95,7 @@ empe_mp_alternative_parse (EMailParserExtension *extension,
 		data_wrapper = camel_medium_get_content (CAMEL_MEDIUM (mpart));
 		content_size = camel_data_wrapper_calculate_decoded_size_sync (data_wrapper, cancellable, NULL);
 
-		if (content_size == 0)
+		if (content_size == 0 || content_size == ((gsize) -1))
 			continue;
 
 		type = camel_mime_part_get_content_type (mpart);

@@ -221,7 +221,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			part_size = camel_data_wrapper_calculate_decoded_size_sync (CAMEL_DATA_WRAPPER (mime_part), cancellable, NULL);
 			part_too_large = part_size > 1024 * size_limit;
 
-			if (part_too_large) {
+			if (part_too_large && part_size != ((gsize) -1)) {
 				EAttachment *attachment;
 
 				e_mail_part_attachment_set_expandable (empa, FALSE);

@@ -808,6 +808,7 @@ e_mail_session_send_to (EMailSession *session,
 	CamelNameValueArray *xev_headers;
 	const gchar *resent_from;
 	gboolean request_dsn;
+	gsize msg_size;
 	guint ii, len;
 	GError *error = NULL;
 
@@ -892,7 +893,9 @@ e_mail_session_send_to (EMailSession *session,
 
 	info = camel_message_info_new_from_headers (NULL, camel_medium_get_headers (CAMEL_MEDIUM (message)));
 
-	camel_message_info_set_size (info, camel_data_wrapper_calculate_size_sync (CAMEL_DATA_WRAPPER (message), cancellable, NULL));
+	msg_size = camel_data_wrapper_calculate_size_sync (CAMEL_DATA_WRAPPER (message), cancellable, NULL);
+	if (msg_size != ((gsize) -1))
+		camel_message_info_set_size (info, msg_size);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN |
 		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
 
