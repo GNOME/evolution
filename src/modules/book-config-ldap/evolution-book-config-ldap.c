@@ -268,8 +268,6 @@ typedef struct _SearchBaseData {
 	GtkWidget *dialog;
 	GCancellable *cancellable;
 	ESource *source;
-	gchar **root_dse;
-	GError *error;
 } SearchBaseData;
 
 static void
@@ -283,36 +281,35 @@ search_base_data_free (gpointer ptr)
 		g_clear_object (&sbd->search_base_combo);
 		g_clear_object (&sbd->cancellable);
 		g_clear_object (&sbd->source);
-		g_clear_error (&sbd->error);
-		g_strfreev (sbd->root_dse);
 		g_slice_free (SearchBaseData, sbd);
 	}
 }
 
 static void
-book_config_ldap_search_base_thread (ESimpleAsyncResult *result,
-				     gpointer source_object,
-				     GCancellable *cancellable)
+book_config_ldap_search_base_thread (GTask        *task,
+                                     GObject      *source_object,
+                                     gpointer      task_data,
+                                     GCancellable *cancellable)
 {
 	ESourceAuthentication *auth_extension;
 	ESourceLDAP *ldap_extension;
-	SearchBaseData *sbd;
-
-	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
-
-	sbd = e_simple_async_result_get_user_data (result);
+	SearchBaseData *sbd = task_data;
+	GError *error = NULL;
+	gchar **root_dse;
 
 	g_return_if_fail (sbd != NULL);
 
 	auth_extension = e_source_get_extension (sbd->source, E_SOURCE_EXTENSION_AUTHENTICATION);
 	ldap_extension = e_source_get_extension (sbd->source, E_SOURCE_EXTENSION_LDAP_BACKEND);
 
-	if (!e_util_query_ldap_root_dse_sync (
+	if (e_util_query_ldap_root_dse_sync (
 		e_source_authentication_get_host (auth_extension),
 		e_source_authentication_get_port (auth_extension),
 		e_source_ldap_get_security (ldap_extension),
-		&sbd->root_dse, cancellable, &sbd->error)) {
-		sbd->root_dse = NULL;
+		&root_dse, cancellable, &error)) {
+		g_task_return_pointer (task, g_steal_pointer (&root_dse), (GDestroyNotify) g_strfreev);
+	} else {
+		g_task_return_error (task, g_steal_pointer (&error));
 	}
 }
 
@@ -322,53 +319,54 @@ book_config_ldap_search_base_done (GObject *source_object,
 				   gpointer user_data)
 {
 	SearchBaseData *sbd = user_data;
-	gboolean was_cancelled = FALSE;
+	gchar **root_dse;
+	GError *error = NULL;
 
 	g_return_if_fail (E_IS_SOURCE_CONFIG_BACKEND (source_object));
-	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
+	g_return_if_fail (g_task_is_valid (result, source_object));
 
-	sbd = e_simple_async_result_get_user_data (E_SIMPLE_ASYNC_RESULT (result));
+	sbd = g_task_get_task_data (G_TASK (result));
 	g_return_if_fail (sbd != NULL);
 
-	if (!g_cancellable_is_cancelled (sbd->cancellable)) {
-		g_clear_pointer (&sbd->dialog, gtk_widget_destroy);
-	} else {
-		was_cancelled = TRUE;
-	}
+	g_clear_pointer (&sbd->dialog, gtk_widget_destroy);
 
-	if (!was_cancelled) {
-		if (sbd->error) {
+	root_dse = g_task_propagate_pointer (G_TASK (result), &error);
+	if (error) {
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			const gchar *alert_id;
 
-			if (g_error_matches (sbd->error, G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT))
+			if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT))
 				alert_id = "addressbook:ldap-init";
-			else if (g_error_matches (sbd->error, G_IO_ERROR, G_IO_ERROR_FAILED))
+			else if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_FAILED))
 				alert_id = "addressbook:ldap-search-base";
 			else
 				alert_id = "addressbook:ldap-communicate";
 
-			e_alert_run_dialog_for_args (sbd->parent, alert_id, sbd->error->message, NULL);
-		} else if (sbd->root_dse) {
-			GtkComboBox *combo_box;
-			GtkListStore *store;
-			gint ii;
-
-			store = gtk_list_store_new (1, G_TYPE_STRING);
-
-			for (ii = 0; sbd->root_dse[ii]; ii++) {
-				GtkTreeIter iter;
-
-				gtk_list_store_append (store, &iter);
-				gtk_list_store_set (store, &iter, 0, sbd->root_dse[ii], -1);
-			}
-
-			combo_box = GTK_COMBO_BOX (sbd->search_base_combo);
-			gtk_combo_box_set_model (combo_box, GTK_TREE_MODEL (store));
-			gtk_combo_box_set_active (combo_box, 0);
-
-			g_clear_object (&store);
+			e_alert_run_dialog_for_args (sbd->parent, alert_id, error->message, NULL);
 		}
+	} else {
+		GtkComboBox *combo_box;
+		GtkListStore *store;
+		gint ii;
+
+		store = gtk_list_store_new (1, G_TYPE_STRING);
+
+		for (ii = 0; root_dse[ii]; ii++) {
+			GtkTreeIter iter;
+
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (store, &iter, 0, root_dse[ii], -1);
+		}
+
+		combo_box = GTK_COMBO_BOX (sbd->search_base_combo);
+		gtk_combo_box_set_model (combo_box, GTK_TREE_MODEL (store));
+		gtk_combo_box_set_active (combo_box, 0);
+
+		g_clear_object (&store);
 	}
+
+	g_clear_pointer (&root_dse, g_strfreev);
+	g_clear_error (&error);
 }
 
 static void
@@ -376,15 +374,11 @@ search_base_data_response_cb (GtkWidget *dialog,
 			      gint response_id,
 			      gpointer user_data)
 {
-	SearchBaseData *sbd = user_data;
+	GCancellable *cancellable = user_data;
 
-	g_return_if_fail (sbd != NULL);
-	g_return_if_fail (sbd->dialog == dialog);
+	g_return_if_fail (cancellable != NULL);
 
-	sbd->dialog = NULL;
-
-	g_cancellable_cancel (sbd->cancellable);
-	gtk_widget_destroy (dialog);
+	g_cancellable_cancel (cancellable);
 }
 
 static void
@@ -393,7 +387,7 @@ book_config_ldap_search_base_button_clicked_cb (GtkButton *button,
 {
 	GtkWidget *dialog, *label, *content, *spinner, *box;
 	GtkWindow *parent;
-	ESimpleAsyncResult *result;
+	GTask *task;
 	Context *context;
 	SearchBaseData *sbd;
 	const gchar *uid;
@@ -434,17 +428,15 @@ book_config_ldap_search_base_button_clicked_cb (GtkButton *button,
 	sbd->cancellable = g_cancellable_new ();
 	sbd->source = g_object_ref (closure->scratch_source);
 
-	result = e_simple_async_result_new (G_OBJECT (closure->backend),
-		book_config_ldap_search_base_done, NULL, book_config_ldap_search_base_done);
+	task = g_task_new (closure->backend, sbd->cancellable, book_config_ldap_search_base_done, NULL);
+	g_task_set_source_tag (task, book_config_ldap_search_base_button_clicked_cb);
+	g_task_set_task_data (task, sbd, search_base_data_free);
 
-	e_simple_async_result_set_user_data (result, sbd, search_base_data_free);
+	g_signal_connect (dialog, "response", G_CALLBACK (search_base_data_response_cb), sbd->cancellable);
 
-	g_signal_connect (dialog, "response", G_CALLBACK (search_base_data_response_cb), sbd);
+	g_task_run_in_thread (task, (GTaskThreadFunc) book_config_ldap_search_base_thread);
 
-	e_simple_async_result_run_in_thread (result, G_PRIORITY_DEFAULT,
-		book_config_ldap_search_base_thread, sbd->cancellable);
-
-	g_object_unref (result);
+	g_object_unref (task);
 
 	gtk_dialog_run (GTK_DIALOG (dialog));
 }
