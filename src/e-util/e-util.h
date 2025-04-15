@@ -197,7 +197,6 @@
 #include <e-util/e-selection-model-simple.h>
 #include <e-util/e-selection-model.h>
 #include <e-util/e-selection.h>
-#include <e-util/e-simple-async-result.h>
 #include <e-util/e-sorter-array.h>
 #include <e-util/e-sorter.h>
 #include <e-util/e-source-combo-box.h>

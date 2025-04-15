@@ -316,7 +316,6 @@
     <xi:include href="xml/e-selection-model-array.xml"/>
     <xi:include href="xml/e-selection-model-simple.xml"/>
     <xi:include href="xml/e-selection-model.xml"/>
-    <xi:include href="xml/e-simple-async-result.xml"/>
     <xi:include href="xml/e-sorter-array.xml"/>
     <xi:include href="xml/e-sorter.xml"/>
     <xi:include href="xml/e-spell-entry.xml"/>
