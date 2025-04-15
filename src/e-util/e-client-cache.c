@@ -38,7 +38,6 @@
 #include <libebook/libebook.h>
 #include <libebackend/libebackend.h>
 
-#include "e-simple-async-result.h"
 #include "e-client-cache.h"
 
 typedef struct _ClientData ClientData;
@@ -597,17 +596,16 @@ client_cache_process_results (ClientData *client_data,
 	g_mutex_unlock (&client_data->lock);
 
 	while (!g_queue_is_empty (&queue)) {
-		ESimpleAsyncResult *simple;
+		GTask *task;
 
-		simple = g_queue_pop_head (&queue);
+		task = g_queue_pop_head (&queue);
 		if (client != NULL)
-			e_simple_async_result_set_op_pointer (
-				simple, g_object_ref (client),
+			g_task_return_pointer (task,
+				g_object_ref (client),
 				(GDestroyNotify) g_object_unref);
 		if (error != NULL)
-			e_simple_async_result_take_error (simple, g_error_copy (error));
-		e_simple_async_result_complete_idle (simple);
-		g_object_unref (simple);
+			g_task_return_error (task, g_error_copy (error));
+		g_object_unref (task);
 	}
 }
 
@@ -624,13 +622,9 @@ client_cache_book_connect_cb (GObject *source_object,
 
 	client_cache_process_results (client_data, client, error);
 
-	if (client != NULL)
-		g_object_unref (client);
-
-	if (error != NULL)
-		g_error_free (error);
-
-	client_data_unref (client_data);
+	g_clear_object (&client);
+	g_clear_error (&error);
+	g_clear_pointer (&client_data, client_data_unref);
 }
 
 static void
@@ -646,13 +640,9 @@ client_cache_cal_connect_cb (GObject *source_object,
 
 	client_cache_process_results (client_data, client, error);
 
-	if (client != NULL)
-		g_object_unref (client);
-
-	if (error != NULL)
-		g_error_free (error);
-
-	client_data_unref (client_data);
+	g_clear_object (&client);
+	g_clear_error (&error);
+	g_clear_pointer (&client_data, client_data_unref);
 }
 
 static void
@@ -1241,7 +1231,7 @@ e_client_cache_get_client (EClientCache *client_cache,
                            GAsyncReadyCallback callback,
                            gpointer user_data)
 {
-	ESimpleAsyncResult *simple;
+	GTask *task;
 	ClientData *client_data;
 	EClient *client = NULL;
 	gboolean connect_in_progress = FALSE;
@@ -1250,23 +1240,21 @@ e_client_cache_get_client (EClientCache *client_cache,
 	g_return_if_fail (E_IS_SOURCE (source));
 	g_return_if_fail (extension_name != NULL);
 
-	simple = e_simple_async_result_new (
-		G_OBJECT (client_cache), callback,
-		user_data, e_client_cache_get_client);
-
-	e_simple_async_result_set_check_cancellable (simple, cancellable);
-
 	client_data = client_ht_lookup (client_cache, source, extension_name);
 
 	if (client_data == NULL) {
-		e_simple_async_result_take_error (
-			simple, g_error_new (G_IO_ERROR,
+		g_task_report_new_error (
+			client_cache, callback, user_data,
+			e_client_cache_get_client,
+			G_IO_ERROR,
 			G_IO_ERROR_INVALID_ARGUMENT,
 			_("Cannot create a client object from "
-			"extension name “%s”"), extension_name));
-		e_simple_async_result_complete_idle (simple);
-		goto exit;
+			"extension name “%s”"), extension_name);
+		return;
 	}
+
+	task = g_task_new (client_cache, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_client_cache_get_client);
 
 	g_mutex_lock (&client_data->lock);
 
@@ -1275,16 +1263,14 @@ e_client_cache_get_client (EClientCache *client_cache,
 	} else {
 		GQueue *connecting = &client_data->connecting;
 		connect_in_progress = !g_queue_is_empty (connecting);
-		g_queue_push_tail (connecting, g_object_ref (simple));
+		g_queue_push_tail (connecting, g_object_ref (task));
 	}
 
 	g_mutex_unlock (&client_data->lock);
 
 	/* If a cached EClient already exists, we're done. */
 	if (client != NULL) {
-		e_simple_async_result_set_op_pointer (
-			simple, client, (GDestroyNotify) g_object_unref);
-		e_simple_async_result_complete_idle (simple);
+		g_task_return_pointer (task, client, (GDestroyNotify) g_object_unref);
 		goto exit;
 	}
 
@@ -1301,7 +1287,7 @@ e_client_cache_get_client (EClientCache *client_cache,
 		e_book_client_connect (
 			source, wait_for_connected_seconds, cancellable,
 			client_cache_book_connect_cb,
-			client_data_ref (client_data));
+			g_steal_pointer (&client_data));
 		goto exit;
 	}
 
@@ -1309,7 +1295,7 @@ e_client_cache_get_client (EClientCache *client_cache,
 		e_cal_client_connect (
 			source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, wait_for_connected_seconds,
 			cancellable, client_cache_cal_connect_cb,
-			client_data_ref (client_data));
+			g_steal_pointer (&client_data));
 		goto exit;
 	}
 
@@ -1317,7 +1303,7 @@ e_client_cache_get_client (EClientCache *client_cache,
 		e_cal_client_connect (
 			source, E_CAL_CLIENT_SOURCE_TYPE_MEMOS, wait_for_connected_seconds,
 			cancellable, client_cache_cal_connect_cb,
-			client_data_ref (client_data));
+			g_steal_pointer (&client_data));
 		goto exit;
 	}
 
@@ -1325,16 +1311,15 @@ e_client_cache_get_client (EClientCache *client_cache,
 		e_cal_client_connect (
 			source, E_CAL_CLIENT_SOURCE_TYPE_TASKS, wait_for_connected_seconds,
 			cancellable, client_cache_cal_connect_cb,
-			client_data_ref (client_data));
+			g_steal_pointer (&client_data));
 		goto exit;
 	}
 
 	g_warn_if_reached ();  /* Should never happen. */
 
 exit:
-	if (client_data)
-		client_data_unref (client_data);
-	g_object_unref (simple);
+	g_clear_pointer (&client_data, client_data_unref);
+	g_clear_object (&task);
 }
 
 /**
@@ -1356,23 +1341,10 @@ e_client_cache_get_client_finish (EClientCache *client_cache,
                                   GAsyncResult *result,
                                   GError **error)
 {
-	ESimpleAsyncResult *simple;
-	EClient *client;
+	g_return_val_if_fail (g_task_is_valid (result, client_cache), NULL);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_client_cache_get_client), NULL);
 
-	g_return_val_if_fail (
-		e_simple_async_result_is_valid (
-		result, G_OBJECT (client_cache),
-		e_client_cache_get_client), NULL);
-
-	simple = E_SIMPLE_ASYNC_RESULT (result);
-
-	if (e_simple_async_result_propagate_error (simple, error))
-		return NULL;
-
-	client = e_simple_async_result_get_op_pointer (simple);
-	g_return_val_if_fail (client != NULL, NULL);
-
-	return g_object_ref (client);
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 /**
