@@ -33,7 +33,6 @@
 
 #include "e-config-lookup-result.h"
 #include "e-config-lookup-worker.h"
-#include "e-simple-async-result.h"
 #include "e-util-enumtypes.h"
 
 #include "e-config-lookup.h"
@@ -45,8 +44,7 @@ struct _EConfigLookupPrivate {
 	GSList *workers; /* EConfigLookupWorker * */
 	GSList *results; /* EConfigLookupResult * */
 
-	ESimpleAsyncResult *run_result;
-	GCancellable *run_cancellable;
+	GTask *task;
 	GSList *worker_cancellables; /* CamelOperation * */
 
 	GThreadPool *pool;
@@ -159,7 +157,7 @@ config_lookup_thread (gpointer data,
 {
 	ThreadData *td = data;
 	EConfigLookup *config_lookup = user_data;
-	ESimpleAsyncResult *run_result = NULL;
+	GTask *task = NULL;
 	guint32 emit_flags;
 	ENamedParameters *restart_params = NULL;
 	GError *error = NULL;
@@ -187,16 +185,14 @@ config_lookup_thread (gpointer data,
 	config_lookup_schedule_emit_idle (config_lookup, emit_flags, td->worker, NULL, restart_params, error);
 
 	if ((emit_flags & EMIT_BUSY) != 0) {
-		run_result = config_lookup->priv->run_result;
-		config_lookup->priv->run_result = NULL;
-
-		g_clear_object (&config_lookup->priv->run_cancellable);
+		task = g_steal_pointer (&config_lookup->priv->task);
 	}
 
 	g_mutex_unlock (&config_lookup->priv->property_lock);
 
-	if (run_result) {
-		e_simple_async_result_complete_idle_take (run_result);
+	if (task) {
+		g_task_return_boolean (task, TRUE);
+		g_clear_object (&task);
 	}
 
 	e_named_parameters_free (restart_params);
@@ -282,8 +278,6 @@ config_lookup_dispose (GObject *object)
 	}
 
 	g_mutex_lock (&config_lookup->priv->property_lock);
-
-	g_clear_object (&config_lookup->priv->run_cancellable);
 
 	g_slist_free_full (config_lookup->priv->workers, g_object_unref);
 	config_lookup->priv->workers = NULL;
@@ -561,13 +555,14 @@ void
 e_config_lookup_cancel_all (EConfigLookup *config_lookup)
 {
 	GSList *cancellables;
-	GCancellable *run_cancellable;
+	GCancellable *run_cancellable = NULL;
 
 	g_return_if_fail (E_IS_CONFIG_LOOKUP (config_lookup));
 
 	g_mutex_lock (&config_lookup->priv->property_lock);
 	cancellables = g_slist_copy_deep (config_lookup->priv->worker_cancellables, (GCopyFunc) g_object_ref, NULL);
-	run_cancellable = config_lookup->priv->run_cancellable ? g_object_ref (config_lookup->priv->run_cancellable) : NULL;
+	if (config_lookup->priv->task)
+		g_set_object (&run_cancellable, g_task_get_cancellable (config_lookup->priv->task));
 	g_mutex_unlock (&config_lookup->priv->property_lock);
 
 	g_slist_foreach (cancellables, (GFunc) g_cancellable_cancel, NULL);
@@ -575,7 +570,7 @@ e_config_lookup_cancel_all (EConfigLookup *config_lookup)
 
 	if (run_cancellable) {
 		g_cancellable_cancel (run_cancellable);
-		g_object_unref (run_cancellable);
+		g_clear_object (&run_cancellable);
 	}
 }
 
@@ -704,7 +699,7 @@ e_config_lookup_run (EConfigLookup *config_lookup,
 
 	g_mutex_lock (&config_lookup->priv->property_lock);
 
-	if (config_lookup->priv->run_result) {
+	if (config_lookup->priv->task) {
 		g_mutex_unlock (&config_lookup->priv->property_lock);
 
 		if (callback)
@@ -720,8 +715,10 @@ e_config_lookup_run (EConfigLookup *config_lookup,
 	else
 		cancellable = g_cancellable_new ();
 
-	config_lookup->priv->run_result = e_simple_async_result_new (G_OBJECT (config_lookup), callback, user_data, e_config_lookup_run);
-	config_lookup->priv->run_cancellable = cancellable;
+	config_lookup->priv->task = g_task_new (config_lookup, cancellable, callback, user_data);
+	g_task_set_source_tag (config_lookup->priv->task, e_config_lookup_run);
+
+	g_object_unref (cancellable);
 
 	workers = g_slist_copy_deep (config_lookup->priv->workers, (GCopyFunc) g_object_ref, NULL);
 
@@ -736,19 +733,17 @@ e_config_lookup_run (EConfigLookup *config_lookup,
 
 		g_slist_free_full (workers, g_object_unref);
 	} else {
-		ESimpleAsyncResult *run_result;
+		GTask *task;
 
 		g_mutex_lock (&config_lookup->priv->property_lock);
 
-		run_result = config_lookup->priv->run_result;
-		config_lookup->priv->run_result = NULL;
-
-		g_clear_object (&config_lookup->priv->run_cancellable);
+		task = g_steal_pointer (&config_lookup->priv->task);
 
 		g_mutex_unlock (&config_lookup->priv->property_lock);
 
-		if (run_result) {
-			e_simple_async_result_complete_idle_take (run_result);
+		if (task) {
+			g_task_return_boolean (task, TRUE);
+			g_clear_object (&task);
 		}
 	}
 }
@@ -769,8 +764,10 @@ e_config_lookup_run_finish (EConfigLookup *config_lookup,
 			    GAsyncResult *result)
 {
 	g_return_if_fail (E_IS_CONFIG_LOOKUP (config_lookup));
-	g_return_if_fail (G_IS_ASYNC_RESULT (result));
+	g_return_if_fail (g_task_is_valid (result, config_lookup));
 	g_return_if_fail (g_async_result_is_tagged (result, e_config_lookup_run));
+
+	g_task_propagate_boolean (G_TASK (result), NULL);
 }
 
 /**
@@ -809,8 +806,8 @@ e_config_lookup_run_worker (EConfigLookup *config_lookup,
 
 	if (cancellable)
 		td->cancellable = camel_operation_new_proxy (cancellable);
-	else if (config_lookup->priv->run_cancellable)
-		td->cancellable = camel_operation_new_proxy (config_lookup->priv->run_cancellable);
+	if (config_lookup->priv->task && g_task_get_cancellable (config_lookup->priv->task))
+		td->cancellable = camel_operation_new_proxy (g_task_get_cancellable (config_lookup->priv->task));
 	else
 		td->cancellable = camel_operation_new ();
 
