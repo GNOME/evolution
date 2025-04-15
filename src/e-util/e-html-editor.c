@@ -36,7 +36,6 @@
 #include "e-content-editor.h"
 #include "e-markdown-editor.h"
 #include "e-misc-utils.h"
-#include "e-simple-async-result.h"
 #include "e-util-enumtypes.h"
 #include "e-ui-customize-dialog.h"
 
@@ -1647,12 +1646,12 @@ static void
 e_html_editor_content_editor_initialized (EContentEditor *content_editor,
 					  gpointer user_data)
 {
-	ESimpleAsyncResult *async_result = user_data;
+	GTask *task = user_data;
 	EHTMLEditor *html_editor;
 
-	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (async_result));
+	g_return_if_fail (G_IS_TASK (task));
 
-	html_editor = e_simple_async_result_get_user_data (async_result);
+	html_editor = g_task_get_task_data (task);
 	g_return_if_fail (E_IS_HTML_EDITOR (html_editor));
 	g_return_if_fail (content_editor == e_html_editor_get_content_editor (html_editor));
 
@@ -1671,9 +1670,9 @@ e_html_editor_content_editor_initialized (EContentEditor *content_editor,
 		"changed", FALSE,
 		NULL);
 
-	e_simple_async_result_complete (async_result);
+	g_task_return_pointer (task, g_object_ref (html_editor), g_object_unref);
 
-	g_object_unref (async_result);
+	g_object_unref (task);
 }
 
 /**
@@ -1692,16 +1691,18 @@ e_html_editor_new (GAsyncReadyCallback callback,
 {
 	EHTMLEditor *html_editor;
 	EContentEditor *content_editor;
-	ESimpleAsyncResult *async_result;
+	GTask *task;
 
 	g_return_if_fail (callback != NULL);
 
 	html_editor = g_object_new (E_TYPE_HTML_EDITOR, NULL);
-	async_result = e_simple_async_result_new (NULL, callback, user_data, e_html_editor_new);
-	e_simple_async_result_set_user_data (async_result, html_editor, g_object_unref);
+
+	task = g_task_new (NULL, NULL, callback, user_data);
+	g_task_set_source_tag (task, e_html_editor_new);
+	g_task_set_task_data (task, g_object_ref_sink (html_editor), g_object_unref);
 
 	content_editor = e_html_editor_get_content_editor (html_editor);
-	e_content_editor_initialize (content_editor, e_html_editor_content_editor_initialized, async_result);
+	e_content_editor_initialize (content_editor, e_html_editor_content_editor_initialized, task);
 }
 
 /**
@@ -1711,7 +1712,7 @@ e_html_editor_new (GAsyncReadyCallback callback,
  *
  * Finishes the call of e_html_editor_new().
  *
- * Returns: (transfer-full): A newly created #EHTMLEditor.
+ * Returns: A newly created #EHTMLEditor.
  *
  * Since: 3.22
  **/
@@ -1719,14 +1720,16 @@ GtkWidget *
 e_html_editor_new_finish (GAsyncResult *result,
 			  GError **error)
 {
-	ESimpleAsyncResult *eresult;
+	GtkWidget *html_editor;
 
-	g_return_val_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result), NULL);
 	g_return_val_if_fail (g_async_result_is_tagged (result, e_html_editor_new), NULL);
+	g_return_val_if_fail (G_IS_TASK (result), NULL);
 
-	eresult = E_SIMPLE_ASYNC_RESULT (result);
+	html_editor = g_task_propagate_pointer (G_TASK (result), error);
+	if (html_editor)
+		g_object_force_floating (G_OBJECT (html_editor));
 
-	return e_simple_async_result_steal_user_data (eresult);
+	return html_editor;
 }
 
 /**
@@ -2467,18 +2470,18 @@ e_html_editor_pack_above (EHTMLEditor *editor,
 
 typedef struct _SaveContentData {
 	GOutputStream *stream;
-	GCancellable *cancellable;
+	EContentEditorGetContentFlags flag;
 } SaveContentData;
 
 static SaveContentData *
 save_content_data_new (GOutputStream *stream,
-		       GCancellable *cancellable)
+		       EContentEditorGetContentFlags flag)
 {
 	SaveContentData *scd;
 
 	scd = g_slice_new (SaveContentData);
 	scd->stream = stream;
-	scd->cancellable = cancellable ? g_object_ref (cancellable) : NULL;
+	scd->flag = flag;
 
 	return scd;
 }
@@ -2490,7 +2493,6 @@ save_content_data_free (gpointer ptr)
 
 	if (scd) {
 		g_clear_object (&scd->stream);
-		g_clear_object (&scd->cancellable);
 		g_slice_free (SaveContentData, scd);
 	}
 }
@@ -2500,41 +2502,41 @@ e_html_editor_save_content_ready_cb (GObject *source_object,
 				     GAsyncResult *result,
 				     gpointer user_data)
 {
-	ESimpleAsyncResult *simple = user_data;
+	GTask *task = user_data;
 	EContentEditorContentHash *content_hash;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_CONTENT_EDITOR (source_object));
-	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (simple));
+	g_return_if_fail (G_TASK (task));
 
 	content_hash = e_content_editor_get_content_finish (E_CONTENT_EDITOR (source_object), result, &error);
 
 	if (content_hash) {
+		SaveContentData *scd;
 		const gchar *content;
 
-		content = e_content_editor_util_get_content_data (content_hash, GPOINTER_TO_UINT (e_simple_async_result_get_op_pointer (simple)));
+		scd = g_task_get_task_data (task);
+		content = e_content_editor_util_get_content_data (content_hash, scd->flag);
 
 		if (!content) {
 			g_set_error_literal (&error, G_IO_ERROR, G_IO_ERROR_FAILED, _("Failed to obtain content of editor"));
 		} else {
-			SaveContentData *scd;
 			gsize written;
 
-			scd = e_simple_async_result_get_user_data (simple);
-
-			g_output_stream_write_all (scd->stream, content, strlen (content), &written, scd->cancellable, &error);
+			g_output_stream_write_all (scd->stream, content, strlen (content), &written, g_task_get_cancellable (task), &error);
 		}
 
 		e_content_editor_util_free_content_hash (content_hash);
 
 		if (error)
-			e_simple_async_result_take_error (simple, error);
+			g_task_return_error (task, g_steal_pointer (&error));
+		else
+			g_task_return_boolean (task, TRUE);
 	} else {
-		e_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
 	}
 
-	e_simple_async_result_complete (simple);
-	g_object_unref (simple);
+	g_object_unref (task);
 }
 
 /**
@@ -2563,22 +2565,18 @@ e_html_editor_save (EHTMLEditor *editor,
 		    gpointer user_data)
 {
 	EContentEditor *cnt_editor;
-	ESimpleAsyncResult *simple;
+	GTask *task;
 	EContentEditorGetContentFlags flag;
 	SaveContentData *scd;
 	GFile *file;
 	GFileOutputStream *stream;
 	GError *local_error = NULL;
 
-	simple = e_simple_async_result_new (G_OBJECT (editor), callback, user_data, e_html_editor_save);
-
 	file = g_file_new_for_path (filename);
 	stream = g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &local_error);
 	if (local_error || !stream) {
-		e_simple_async_result_take_error (simple, local_error);
-		e_simple_async_result_complete_idle (simple);
-
-		g_object_unref (simple);
+		g_task_report_error (editor,  callback, user_data,
+			e_html_editor_save, g_steal_pointer (&local_error));
 		g_object_unref (file);
 
 		return;
@@ -2586,14 +2584,15 @@ e_html_editor_save (EHTMLEditor *editor,
 
 	flag = as_html ? E_CONTENT_EDITOR_GET_TO_SEND_HTML : E_CONTENT_EDITOR_GET_TO_SEND_PLAIN;
 
-	scd = save_content_data_new (G_OUTPUT_STREAM (stream), cancellable);
+	scd = save_content_data_new (G_OUTPUT_STREAM (stream), flag);
 
-	e_simple_async_result_set_user_data (simple, scd, save_content_data_free);
-	e_simple_async_result_set_op_pointer (simple, GUINT_TO_POINTER (flag), NULL);
+	task = g_task_new (editor, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_html_editor_save);
+	g_task_set_task_data (task, scd, save_content_data_free);
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_content_editor_get_content (cnt_editor, flag, NULL, cancellable, e_html_editor_save_content_ready_cb, simple);
+	e_content_editor_get_content (cnt_editor, flag, NULL, cancellable, e_html_editor_save_content_ready_cb, task);
 
 	g_object_unref (file);
 }
@@ -2615,9 +2614,10 @@ e_html_editor_save_finish (EHTMLEditor *editor,
 			   GAsyncResult *result,
 			   GError **error)
 {
-	g_return_val_if_fail (e_simple_async_result_is_valid (result, G_OBJECT (editor), e_html_editor_save), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_html_editor_save), FALSE);
+	g_return_val_if_fail (g_task_is_valid (result, editor), FALSE);
 
-	return !e_simple_async_result_propagate_error (E_SIMPLE_ASYNC_RESULT (result), error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 /**
