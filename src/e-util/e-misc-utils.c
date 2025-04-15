@@ -63,7 +63,6 @@
 #include "e-client-cache.h"
 #include "e-filter-option.h"
 #include "e-mktemp.h"
-#include "e-simple-async-result.h"
 #include "e-spell-checker.h"
 #include "e-util-private.h"
 #include "e-xml-utils.h"
@@ -3921,7 +3920,6 @@ e_misc_util_free_global_memory (void)
 
 	e_util_cleanup_settings ();
 	e_spell_checker_free_global_memory ();
-	e_simple_async_result_free_global_memory ();
 }
 
 /**
