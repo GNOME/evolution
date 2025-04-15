@@ -30,8 +30,6 @@ struct _EContactPhotoSourcePrivate {
 struct _AsyncContext {
 	EBookClient *client;
 	gchar *query_string;
-	GInputStream *stream;
-	GCancellable *cancellable;
 	gint priority;
 };
 
@@ -53,9 +51,7 @@ static void
 async_context_free (AsyncContext *async_context)
 {
 	g_clear_object (&async_context->client);
-	g_free (async_context->query_string);
-	g_clear_object (&async_context->stream);
-	g_clear_object (&async_context->cancellable);
+	g_clear_pointer (&async_context->query_string, g_free);
 
 	g_slice_free (AsyncContext, async_context);
 }
@@ -78,16 +74,15 @@ contact_photo_source_extract_photo (EContact *contact,
 }
 
 static void
-contact_photo_source_get_photo_thread (ESimpleAsyncResult *simple,
-                                       gpointer source_object,
-                                       GCancellable *cancellable)
+contact_photo_source_get_photo_thread (GTask *task,
+				       gpointer source_object,
+				       gpointer task_data,
+				       GCancellable *cancellable)
 {
-	AsyncContext *async_context;
+	AsyncContext *async_context = task_data;
 	GSList *slist = NULL;
 	GSList *slink;
 	GError *error = NULL;
-
-	async_context = e_simple_async_result_get_op_pointer (simple);
 
 	e_book_client_get_contacts_sync (
 		async_context->client,
@@ -96,7 +91,7 @@ contact_photo_source_get_photo_thread (ESimpleAsyncResult *simple,
 
 	if (error != NULL) {
 		g_warn_if_fail (slist == NULL);
-		e_simple_async_result_take_error (simple, error);
+		g_task_return_error (task, g_steal_pointer (&error));
 		return;
 	}
 
@@ -142,10 +137,13 @@ contact_photo_source_get_photo_thread (ESimpleAsyncResult *simple,
 
 		/* Stop on the first input stream. */
 		if (stream != NULL) {
-			async_context->stream = g_object_ref (stream);
-			g_object_unref (stream);
+			g_task_return_pointer (task, g_steal_pointer (&stream), g_object_unref);
 			break;
 		}
+	}
+
+	if (!g_task_get_completed (task)) {
+		g_task_return_pointer (task, NULL, NULL);
 	}
 
 	g_slist_free_full (slist, (GDestroyNotify) g_object_unref);
@@ -156,13 +154,13 @@ contact_photo_source_get_client_cb (GObject *source_object,
                                     GAsyncResult *result,
                                     gpointer user_data)
 {
-	ESimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *async_context;
 	EClient *client;
 	GError *error = NULL;
 
-	simple = E_SIMPLE_ASYNC_RESULT (user_data);
-	async_context = e_simple_async_result_get_op_pointer (simple);
+	task = G_TASK (user_data);
+	async_context = g_task_get_task_data (task);
 
 	client = e_client_cache_get_client_finish (
 		E_CLIENT_CACHE (source_object), result, &error);
@@ -177,18 +175,16 @@ contact_photo_source_get_client_cb (GObject *source_object,
 
 		/* The rest of the operation we can run from a
 		 * worker thread to keep the logic flow simple. */
-		e_simple_async_result_run_in_thread (
-			simple, G_PRIORITY_LOW,
-			contact_photo_source_get_photo_thread, async_context->cancellable);
+		g_task_set_priority (task, G_PRIORITY_LOW);
+		g_task_run_in_thread (task, contact_photo_source_get_photo_thread);
 
 		g_object_unref (client);
 
 	} else {
-		e_simple_async_result_take_error (simple, error);
-		e_simple_async_result_complete_idle (simple);
+		g_task_return_error (task, g_steal_pointer (&error));
 	}
 
-	g_object_unref (simple);
+	g_clear_object (&task);
 }
 
 static void
@@ -278,7 +274,7 @@ contact_photo_source_get_photo (EPhotoSource *photo_source,
                                 GAsyncReadyCallback callback,
                                 gpointer user_data)
 {
-	ESimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *async_context;
 	EClientCache *client_cache;
 	ESourceRegistry *registry;
@@ -288,22 +284,14 @@ contact_photo_source_get_photo (EPhotoSource *photo_source,
 	book_query = e_book_query_field_test (
 		E_CONTACT_EMAIL, E_BOOK_QUERY_IS, email_address);
 
-	async_context = g_slice_new0 (AsyncContext);
+	async_context = g_new0 (AsyncContext, 1);
 	async_context->query_string = e_book_query_to_string (book_query);
 
-	if (G_IS_CANCELLABLE (cancellable))
-		async_context->cancellable = g_object_ref (cancellable);
+	g_clear_pointer (&book_query, e_book_query_unref);
 
-	e_book_query_unref (book_query);
-
-	simple = e_simple_async_result_new (
-		G_OBJECT (photo_source), callback,
-		user_data, contact_photo_source_get_photo);
-
-	e_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	e_simple_async_result_set_op_pointer (
-		simple, async_context, (GDestroyNotify) async_context_free);
+	task = g_task_new (photo_source, cancellable, callback, user_data);
+	g_task_set_source_tag (task, contact_photo_source_get_photo);
+	g_task_set_task_data (task, g_steal_pointer (&async_context), (GDestroyNotify) async_context_free);
 
 	client_cache = e_contact_photo_source_ref_client_cache (
 		E_CONTACT_PHOTO_SOURCE (photo_source));
@@ -321,17 +309,17 @@ contact_photo_source_get_photo (EPhotoSource *photo_source,
 			E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
 			cancellable,
 			contact_photo_source_get_client_cb,
-			g_object_ref (simple));
+			g_steal_pointer (&task));
 	} else {
 		/* Return no result if the source is disabled. */
-		e_simple_async_result_complete_idle (simple);
+		g_task_return_pointer (task, NULL, NULL);
 	}
 
-	g_object_unref (client_cache);
-	g_object_unref (registry);
-	g_object_unref (source);
+	g_clear_object (&client_cache);
+	g_clear_object (&registry);
+	g_clear_object (&source);
 
-	g_object_unref (simple);
+	g_clear_object (&task);
 }
 
 static gboolean
@@ -341,27 +329,24 @@ contact_photo_source_get_photo_finish (EPhotoSource *photo_source,
                                        gint *out_priority,
                                        GError **error)
 {
-	ESimpleAsyncResult *simple;
+	GTask *task;
 	AsyncContext *async_context;
+	GError *local_error = NULL;
 
-	g_return_val_if_fail (
-		e_simple_async_result_is_valid (
-		result, G_OBJECT (photo_source),
-		contact_photo_source_get_photo), FALSE);
+	g_return_val_if_fail (E_IS_PHOTO_SOURCE (photo_source), FALSE);
+	g_return_val_if_fail (g_task_is_valid (result, photo_source), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, contact_photo_source_get_photo), FALSE);
 
-	simple = E_SIMPLE_ASYNC_RESULT (result);
-	async_context = e_simple_async_result_get_op_pointer (simple);
-
-	if (e_simple_async_result_propagate_error (simple, error))
+	task = G_TASK (result);
+	async_context = g_task_get_task_data (task);
+	*out_stream = g_task_propagate_pointer (task, &local_error);
+	if (local_error) {
+		g_propagate_error (error, g_steal_pointer (&local_error));
 		return FALSE;
-
-	if (async_context->stream != NULL) {
-		*out_stream = g_object_ref (async_context->stream);
-		if (out_priority != NULL)
-			*out_priority = async_context->priority;
-	} else {
-		*out_stream = NULL;
 	}
+
+	if (out_priority != NULL)
+		*out_priority = async_context->priority;
 
 	return TRUE;
 }
