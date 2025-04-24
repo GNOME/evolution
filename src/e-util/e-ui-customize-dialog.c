@@ -80,7 +80,8 @@ enum {
 };
 
 enum {
-	COL_ACTIONS_NAME_STR = 0,
+	COL_ACTIONS_ELEM_OBJ = 0,
+	COL_ACTIONS_NAME_STR,
 	COL_ACTIONS_LABEL_STR,
 	COL_ACTIONS_TOOLTIP_STR,
 	COL_ACTIONS_MARKUP_STR,
@@ -1370,17 +1371,20 @@ customize_layout_add_actions (EUICustomizeDialog *self,
 		GtkTreeIter action_iter;
 
 		if (gtk_tree_model_get_iter (actions_model, &action_iter, path)) {
+			EUIElement *elem = NULL;
 			gchar *label = NULL;
 
 			gtk_tree_model_get (actions_model, &action_iter,
+				COL_ACTIONS_ELEM_OBJ, &elem,
 				COL_ACTIONS_LABEL_STR, &label,
 				-1);
 
-			if (label) {
+			if (elem) {
 				GtkTreeIter store_iter;
 
 				gtk_tree_store_insert (tree_store, &store_iter, parent, position);
 				gtk_tree_store_set (tree_store, &store_iter,
+					COL_LAYOUT_ELEM_OBJ, elem,
 					COL_LAYOUT_LABEL_STR, label,
 					COL_LAYOUT_CAN_DRAG_BOOL, TRUE,
 					COL_LAYOUT_WEIGHT_INT, WEIGHT_NORMAL,
@@ -1392,6 +1396,7 @@ customize_layout_add_actions (EUICustomizeDialog *self,
 				changed = TRUE;
 			}
 
+			e_ui_element_free (elem);
 			g_free (label);
 		}
 	}
@@ -2560,6 +2565,7 @@ e_ui_customize_dialog_constructed (GObject *object)
 	gtk_box_pack_start (box1, scrolled_window, TRUE, TRUE, 0);
 
 	list_store = gtk_list_store_new (N_COL_ACTIONS,
+		E_TYPE_UI_ELEMENT,	/* COL_ACTIONS_ELEM_OBJ */
 		G_TYPE_STRING,		/* COL_ACTIONS_NAME_STR */
 		G_TYPE_STRING,		/* COL_ACTIONS_LABEL_STR */
 		G_TYPE_STRING,		/* COL_ACTIONS_TOOLTIP_STR */
@@ -3214,11 +3220,19 @@ part_combo_changed_cb (GtkComboBox *combo,
 
 		for (ii = 0; ii < all_actions->len; ii++) {
 			EUIAction *action = g_ptr_array_index (all_actions, ii);
+			EUIElement *elem;
 			gchar *label;
 			gchar *markup;
 			const gchar *name, *tooltip;
+			gboolean is_new_elem = FALSE;
 
 			name = g_action_get_name (G_ACTION (action));
+			elem = g_hash_table_lookup (elements, name);
+			if (!elem) {
+				elem = e_ui_element_new_for_action (action);
+				is_new_elem = TRUE;
+			}
+
 			label = e_str_without_underscores (e_ui_action_get_label (action));
 			tooltip = e_ui_action_get_tooltip (action);
 			if (!tooltip)
@@ -3227,6 +3241,7 @@ part_combo_changed_cb (GtkComboBox *combo,
 
 			gtk_list_store_append (list_store, &iter);
 			gtk_list_store_set (list_store, &iter,
+				COL_ACTIONS_ELEM_OBJ, elem,
 				COL_ACTIONS_NAME_STR, name,
 				COL_ACTIONS_MARKUP_STR, markup,
 				COL_ACTIONS_LABEL_STR, label,
@@ -3237,6 +3252,9 @@ part_combo_changed_cb (GtkComboBox *combo,
 
 			g_free (label);
 			g_free (markup);
+
+			if (is_new_elem)
+				e_ui_element_free (elem);
 		}
 
 		gtk_tree_view_set_model (self->actions_tree_view, GTK_TREE_MODEL (list_store));
