@@ -9,6 +9,7 @@
 #include <libedataserver/libedataserver.h>
 
 #include "e-misc-utils.h"
+#include "e-ui-action.h"
 #include "e-util-enums.h"
 
 #include "e-ui-parser.h"
@@ -268,6 +269,29 @@ EUIElement *
 e_ui_element_new_separator (void)
 {
 	return e_ui_element_new (E_UI_ELEMENT_KIND_SEPARATOR, NULL);
+}
+
+/**
+ * e_ui_element_new_for_action:
+ * @action: an #EUIAction
+ *
+ * Creates a new #EUIElement referencing the @action.
+ *
+ * Returns: (transfer full): a new #EUIElement referencing the @action
+ *
+ * Since: 3.56.2
+ **/
+EUIElement *
+e_ui_element_new_for_action (EUIAction *action)
+{
+	EUIElement *elem;
+
+	g_return_val_if_fail (E_IS_UI_ACTION (action), NULL);
+
+	elem = e_ui_element_new (E_UI_ELEMENT_KIND_ITEM, NULL);
+	elem->data.item.action = e_util_strdup_strip (g_action_get_name (G_ACTION (action)));
+
+	return elem;
 }
 
 /**

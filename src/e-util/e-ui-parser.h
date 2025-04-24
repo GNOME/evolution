@@ -12,6 +12,7 @@
 
 #include <gtk/gtk.h>
 
+#include <e-util/e-ui-action.h>
 #include <e-util/e-util-enums.h>
 
 G_BEGIN_DECLS
@@ -27,6 +28,7 @@ GType		e_ui_element_get_type		(void) G_GNUC_CONST;
 EUIElement *	e_ui_element_copy		(const EUIElement *src);
 void		e_ui_element_free		(EUIElement *self);
 EUIElement *	e_ui_element_new_separator	(void);
+EUIElement *	e_ui_element_new_for_action	(EUIAction *action);
 void		e_ui_element_add_child		(EUIElement *self,
 						 EUIElement *child);
 gboolean	e_ui_element_remove_child	(EUIElement *self,
