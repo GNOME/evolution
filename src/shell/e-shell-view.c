@@ -1364,6 +1364,105 @@ shell_view_switcher_style_cb (EUIAction *action,
 	}
 }
 
+static EUIAction *
+shell_view_get_new_menu_first_action (GMenuModel *new_menu,
+				      EUIManager *manager)
+{
+	EUIAction *action = NULL;
+	gint ii, n_items;
+
+	if (!new_menu)
+		return NULL;
+
+	n_items = g_menu_model_get_n_items (new_menu);
+
+	for (ii = 0; ii < n_items && !action; ii++) {
+		GVariant *value;
+
+		value = g_menu_model_get_item_attribute_value (new_menu, ii, G_MENU_ATTRIBUTE_ACTION, G_VARIANT_TYPE_STRING);
+		if (value) {
+			const gchar *action_full_name = g_variant_get_string (value, NULL);
+
+			if (action_full_name) {
+				action = e_ui_manager_get_action (manager, action_full_name);
+
+				if (!action) {
+					const gchar *dot = strchr (action_full_name, '.');
+
+					if (dot)
+						action = e_ui_manager_get_action (manager, dot + 1);
+				}
+			}
+		}
+
+		g_clear_pointer (&value, g_variant_unref);
+
+		if (!action) {
+			GMenuLinkIter *iter;
+
+			iter = g_menu_model_iterate_item_links (new_menu, ii);
+			if (iter) {
+				GMenuModel *submenu = NULL;
+
+				while (!action && g_menu_link_iter_get_next (iter, NULL, &submenu)) {
+					if (submenu)
+						action = shell_view_get_new_menu_first_action (submenu, manager);
+
+					g_clear_object (&submenu);
+				}
+
+				g_clear_object (&iter);
+			}
+		}
+	}
+
+	return action;
+}
+
+static void
+shell_view_update_toolbar_new_menu_fallback_action_cb (GMenuModel *new_menu,
+						       gint position,
+						       gint removed,
+						       gint added,
+						       gpointer user_data)
+{
+	EMenuToolButton *tool_button = user_data;
+	EUIManager *ui_manager = NULL;
+	EUIAction *action;
+
+	g_object_get (tool_button, "ui-manager", &ui_manager, NULL);
+
+	if (!ui_manager)
+		return;
+
+	action = shell_view_get_new_menu_first_action (new_menu, ui_manager);
+	e_menu_tool_button_set_fallback_action (tool_button, action);
+
+	g_clear_object (&ui_manager);
+}
+
+static void
+shell_view_update_headerbar_new_menu_action_cb (GMenuModel *new_menu,
+						gint position,
+						gint removed,
+						gint added,
+						gpointer user_data)
+{
+	EHeaderBarButton *header_bar_button = user_data;
+	EUIManager *ui_manager = NULL;
+	EUIAction *action;
+
+	g_object_get (header_bar_button, "ui-manager", &ui_manager, NULL);
+
+	if (!ui_manager)
+		return;
+
+	action = shell_view_get_new_menu_first_action (new_menu, ui_manager);
+	g_object_set (header_bar_button, "action", action, NULL);
+
+	g_clear_object (&ui_manager);
+}
+
 static gboolean
 shell_view_ui_manager_create_item_cb (EUIManager *manager,
 				      EUIElement *elem,
@@ -1405,11 +1504,15 @@ shell_view_ui_manager_create_item_cb (EUIManager *manager,
 
 		if (is_action ("EShellView::new-menu")) {
 			EShellBackend *shell_backend;
+			EUIAction *fallback_action;
 			GtkToolItem *tool_item;
 			GtkWidget *menu;
 
+			fallback_action = shell_view_get_new_menu_first_action (G_MENU_MODEL (self->priv->new_menu), manager);
+
 			menu = gtk_menu_new_from_model (G_MENU_MODEL (self->priv->new_menu));
 			tool_item = e_menu_tool_button_new (C_("toolbar-button", "New"), manager);
+			e_menu_tool_button_set_fallback_action (E_MENU_TOOL_BUTTON (tool_item), fallback_action);
 			gtk_tool_item_set_is_important (tool_item, TRUE);
 			gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tool_item), menu);
 			gtk_widget_set_visible (GTK_WIDGET (tool_item), TRUE);
@@ -1419,6 +1522,9 @@ shell_view_ui_manager_create_item_cb (EUIManager *manager,
 			e_binding_bind_property (shell_backend, "prefer-new-item",
 				tool_item, "prefer-item",
 				G_BINDING_SYNC_CREATE);
+
+			g_signal_connect_object (self->priv->new_menu, "items-changed",
+				G_CALLBACK (shell_view_update_toolbar_new_menu_fallback_action_cb), tool_item, 0);
 
 			*out_item = G_OBJECT (tool_item);
 		} else {
@@ -1442,9 +1548,12 @@ shell_view_ui_manager_create_item_cb (EUIManager *manager,
 			GtkWidget *button;
 			GtkWidget *menu;
 			EShellBackend *shell_backend;
+			EUIAction *fallback_action;
+
+			fallback_action = shell_view_get_new_menu_first_action (G_MENU_MODEL (self->priv->new_menu), manager);
 
 			menu = gtk_menu_new_from_model (G_MENU_MODEL (self->priv->new_menu));
-			button = e_header_bar_button_new (C_("toolbar-button", "New"), NULL, manager);
+			button = e_header_bar_button_new (C_("toolbar-button", "New"), fallback_action, manager);
 			e_header_bar_button_take_menu (E_HEADER_BAR_BUTTON (button), menu);
 			gtk_widget_set_visible (GTK_WIDGET (button), TRUE);
 
@@ -1453,6 +1562,9 @@ shell_view_ui_manager_create_item_cb (EUIManager *manager,
 			e_binding_bind_property (shell_backend, "prefer-new-item",
 				button, "prefer-item",
 				G_BINDING_SYNC_CREATE);
+
+			g_signal_connect_object (self->priv->new_menu, "items-changed",
+				G_CALLBACK (shell_view_update_headerbar_new_menu_action_cb), button, 0);
 
 			*out_item = G_OBJECT (button);
 		} else if (is_action ("EShellView::menu-button")) {
