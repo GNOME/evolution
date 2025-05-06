@@ -31,6 +31,7 @@
 
 #include <gtk/gtk.h>
 
+#include <e-util/e-ui-action.h>
 #include <e-util/e-ui-manager.h>
 
 /* Standard GObject macros */
@@ -75,6 +76,11 @@ const gchar *	e_menu_tool_button_get_prefer_item
 void		e_menu_tool_button_set_prefer_item
 						(EMenuToolButton *button,
 						 const gchar *prefer_item);
+EUIAction *	e_menu_tool_button_get_fallback_action
+						(EMenuToolButton *button);
+void		e_menu_tool_button_set_fallback_action
+						(EMenuToolButton *button,
+						 EUIAction *action);
 
 G_END_DECLS
 

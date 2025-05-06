@@ -95,9 +95,8 @@ header_bar_button_update_button (EHeaderBarButton *header_bar_button)
 {
 	EUIAction *action;
 
-	if (header_bar_button->priv->action == NULL)
-		action = header_bar_button_get_prefer_action (header_bar_button);
-	else
+	action = header_bar_button_get_prefer_action (header_bar_button);
+	if (!action)
 		action = header_bar_button->priv->action;
 
 	if (action != NULL) {
@@ -243,6 +242,7 @@ header_bar_button_set_property (GObject *object,
 		case PROP_ACTION:
 			g_clear_object (&header_bar_button->priv->action);
 			header_bar_button->priv->action = g_value_dup_object (value);
+			header_bar_button_update_button (header_bar_button);
 			return;
 		case PROP_UI_MANAGER:
 			g_clear_object (&header_bar_button->priv->ui_manager);
@@ -361,7 +361,7 @@ e_header_bar_button_class_init (EHeaderBarButtonClass *class)
 			"Action",
 			"Button action",
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,

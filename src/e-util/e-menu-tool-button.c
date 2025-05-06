@@ -27,13 +27,15 @@
 
 struct _EMenuToolButtonPrivate {
 	gchar *prefer_item;
+	EUIAction *fallback_action;
 	EUIManager *ui_manager;
 };
 
 enum {
 	PROP_0,
 	PROP_PREFER_ITEM,
-	PROP_UI_MANAGER
+	PROP_UI_MANAGER,
+	PROP_FALLBACK_ACTION
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMenuToolButton, e_menu_tool_button, GTK_TYPE_MENU_TOOL_BUTTON)
@@ -55,7 +57,8 @@ menu_tool_button_update_button (EMenuToolButton *self)
 	gchar *label;
 
 	action = menu_tool_button_get_prefer_item_action (self);
-
+	if (!action)
+		action = self->priv->fallback_action;
 	if (!action)
 		return;
 
@@ -86,6 +89,12 @@ menu_tool_button_set_property (GObject *object,
 			g_clear_object (&E_MENU_TOOL_BUTTON (object)->priv->ui_manager);
 			E_MENU_TOOL_BUTTON (object)->priv->ui_manager = g_value_dup_object (value);
 			return;
+
+		case PROP_FALLBACK_ACTION:
+			e_menu_tool_button_set_fallback_action (
+				E_MENU_TOOL_BUTTON (object),
+				g_value_get_object (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -107,6 +116,10 @@ menu_tool_button_get_property (GObject *object,
 		case PROP_UI_MANAGER:
 			g_value_set_object (value, E_MENU_TOOL_BUTTON (object)->priv->ui_manager);
 			return;
+
+		case PROP_FALLBACK_ACTION:
+			g_value_set_object (value, e_menu_tool_button_get_fallback_action (E_MENU_TOOL_BUTTON (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -117,6 +130,7 @@ menu_tool_button_finalize (GObject *object)
 {
 	EMenuToolButton *self = E_MENU_TOOL_BUTTON (object);
 
+	g_clear_object (&self->priv->fallback_action);
 	g_clear_object (&self->priv->ui_manager);
 	g_free (self->priv->prefer_item);
 
@@ -153,6 +167,16 @@ e_menu_tool_button_class_init (EMenuToolButtonClass *class)
 			NULL,
 			E_TYPE_UI_MANAGER,
 			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FALLBACK_ACTION,
+		g_param_spec_object (
+			"fallback-action",
+			NULL,
+			NULL,
+			E_TYPE_UI_ACTION,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -200,4 +224,29 @@ e_menu_tool_button_set_prefer_item (EMenuToolButton *button,
 	menu_tool_button_update_button (button);
 
 	g_object_notify (G_OBJECT (button), "prefer-item");
+}
+
+EUIAction *
+e_menu_tool_button_get_fallback_action (EMenuToolButton *button)
+{
+	g_return_val_if_fail (E_IS_MENU_TOOL_BUTTON (button), NULL);
+
+	return button->priv->fallback_action;
+}
+
+void
+e_menu_tool_button_set_fallback_action (EMenuToolButton *button,
+					EUIAction *action)
+{
+	g_return_if_fail (E_IS_MENU_TOOL_BUTTON (button));
+
+	if (button->priv->fallback_action == action)
+		return;
+
+	g_clear_object (&button->priv->fallback_action);
+	button->priv->fallback_action = action ? g_object_ref (action) : NULL;
+
+	menu_tool_button_update_button (button);
+
+	g_object_notify (G_OBJECT (button), "fallback-action");
 }
