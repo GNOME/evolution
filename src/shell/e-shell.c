@@ -88,6 +88,7 @@ struct _EShellPrivate {
 	guint quit_cancelled : 1;
 	guint ready_to_quit : 1;
 	guint safe_mode : 1;
+	guint activate_created_window : 1;
 };
 
 enum {
@@ -176,7 +177,10 @@ shell_action_new_window_cb (GSimpleAction *action,
                             EShell *shell)
 {
 	GtkApplication *application;
+	gboolean activate_created_window = shell->priv->activate_created_window;
 	const gchar *view_name;
+
+	shell->priv->activate_created_window = FALSE;
 
 	application = GTK_APPLICATION (shell);
 
@@ -199,10 +203,19 @@ shell_action_new_window_cb (GSimpleAction *action,
 
 				active_view = e_shell_window_get_active_view (
 					E_SHELL_WINDOW (window));
-				if (g_strcmp0 (active_view, view_name) == 0) {
+				if (activate_created_window || g_strcmp0 (active_view, view_name) == 0) {
+					if (!get_current) {
+						view_name = e_shell_get_canonical_name (shell, view_name);
+						if (view_name)
+							e_shell_window_set_active_view (E_SHELL_WINDOW (window), view_name);
+					}
+
 					gtk_window_present (window);
 					return;
 				} else if (get_current && active_view) {
+					if (activate_created_window)
+						return;
+
 					view_name = active_view;
 					break;
 				}
@@ -215,12 +228,17 @@ shell_action_new_window_cb (GSimpleAction *action,
 
 		window = e_shell_get_active_window (shell);
 
-		if (E_IS_SHELL_WINDOW (window))
+		if (E_IS_SHELL_WINDOW (window)) {
+			if (activate_created_window)
+				return;
 			view_name = e_shell_window_get_active_view (E_SHELL_WINDOW (window));
+		}
 	}
 
-	/* No suitable EShellWindow found, so create one. */
-	e_shell_create_shell_window (shell, view_name);
+	if (!activate_created_window) {
+		/* No suitable EShellWindow found, so create one. */
+		e_shell_create_shell_window (shell, view_name);
+	}
 }
 
 static void
@@ -1906,6 +1924,8 @@ shell_activate (GApplication *application)
 		e_shell_event (shell, "ready-to-start", NULL);
 	}
 
+	shell->priv->activate_created_window = FALSE;
+
 	if (!shell->priv->started)
 		return;
 
@@ -1922,6 +1942,8 @@ shell_activate (GApplication *application)
 
 		list = g_list_next (list);
 	}
+
+	shell->priv->activate_created_window = TRUE;
 
 	/* No EShellWindow found, so create one. */
 	e_shell_create_shell_window (E_SHELL (application), NULL);
