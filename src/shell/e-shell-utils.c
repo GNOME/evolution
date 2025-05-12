@@ -312,7 +312,7 @@ e_shell_utils_run_help_about (EShell *shell)
 {
 	#define EVOLUTION_COPYRIGHT \
 		"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others\n" \
-		"Copyright \xC2\xA9 2008 - 2019 The Evolution Team"
+		"Copyright \xC2\xA9 Since 2008 The Evolution Team"
 
 	/* Authors and Documenters
 	 *
