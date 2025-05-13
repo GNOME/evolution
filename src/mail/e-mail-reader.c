@@ -1211,6 +1211,7 @@ action_mail_message_edit_cb (EUIAction *action,
 	CamelFolder *folder;
 	GPtrArray *uids;
 	gboolean replace;
+	gboolean keep_signature;
 
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
@@ -1221,7 +1222,10 @@ action_mail_message_edit_cb (EUIAction *action,
 
 	folder = e_mail_reader_ref_folder (reader);
 	replace = em_utils_folder_is_drafts (registry, folder);
-	e_mail_reader_edit_messages (reader, folder, uids, replace, replace);
+	keep_signature = replace ||
+		em_utils_folder_is_sent (registry, folder) ||
+		em_utils_folder_is_outbox (registry, folder);
+	e_mail_reader_edit_messages (reader, folder, uids, replace, keep_signature);
 	g_clear_object (&folder);
 
 	g_ptr_array_unref (uids);
