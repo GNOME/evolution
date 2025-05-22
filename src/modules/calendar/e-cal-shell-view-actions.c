@@ -1375,7 +1375,7 @@ action_calendar_show_tag_vpane_cb (EUIAction *action,
 
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
 
-	e_cal_shell_content_set_show_tag_vpane (cal_shell_view->priv->cal_shell_content, e_ui_action_get_active (action));
+	e_cal_shell_content_set_show_tag_vpane (cal_shell_view->priv->cal_shell_content, !e_ui_action_get_active (action));
 }
 
 void
