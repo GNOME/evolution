@@ -774,6 +774,11 @@ cal_base_shell_sidebar_constructed (GObject *object)
 		cal_base_shell_sidebar->priv->date_navigator = E_CALENDAR (widget);
 		gtk_widget_show (widget);
 
+		e_binding_bind_property (
+			widget, "visible",
+			container, "visible",
+			G_BINDING_SYNC_CREATE);
+
 		gnome_canvas_item_set (
 			GNOME_CANVAS_ITEM (e_calendar_get_item (cal_base_shell_sidebar->priv->date_navigator)),
 			"move-selection-when-moving", FALSE,
