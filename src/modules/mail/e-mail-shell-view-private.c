@@ -54,6 +54,7 @@ mail_shell_view_got_folder_cb (CamelStore *store,
 {
 	EAlertSink *alert_sink;
 	CamelFolder *folder;
+	GtkWidget *message_list;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
@@ -76,7 +77,15 @@ mail_shell_view_got_folder_cb (CamelStore *store,
 		return;
 	}
 
+	message_list = e_mail_reader_get_message_list (context->reader);
+	message_list_freeze (MESSAGE_LIST (message_list));
+
 	e_mail_reader_set_folder (context->reader, folder);
+	e_mail_shell_view_restore_state (E_MAIL_SHELL_VIEW (context->shell_view));
+	e_shell_view_execute_search (context->shell_view);
+
+	message_list_thaw (MESSAGE_LIST (message_list));
+
 	e_shell_view_update_actions_in_idle (context->shell_view);
 
 	g_object_unref (folder);
@@ -583,11 +592,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		reader, "folder-loaded",
-		G_CALLBACK (e_mail_shell_view_restore_state),
-		mail_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
 		label_store, "changed",
 		G_CALLBACK (e_mail_shell_view_update_search_filter),
 		mail_shell_view, G_CONNECT_SWAPPED);
@@ -819,8 +823,12 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	/* Avoid loading search state unnecessarily. */
 	if ((!tmp && IS_MESSAGE_LIST (message_list) && MESSAGE_LIST (message_list)->just_set_folder) ||
 	    g_strcmp0 (new_state_group, old_state_group) != 0) {
+		e_shell_view_block_execute_search (E_SHELL_VIEW (mail_shell_view));
+
 		e_shell_searchbar_set_state_group (searchbar, new_state_group);
 		e_shell_searchbar_load_state (searchbar);
+
+		e_shell_view_unblock_execute_search (E_SHELL_VIEW (mail_shell_view));
 	}
 
 	g_free (tmp);

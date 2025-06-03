@@ -1429,13 +1429,14 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 
 	/* Execute the search when we have time. */
 
-	g_object_ref (shell_view);
 	searchbar->priv->state_dirty = FALSE;
 
-	/* Prioritize ahead of GTK+ redraws. */
-	g_idle_add_full (
-		G_PRIORITY_HIGH_IDLE,
-		idle_execute_search, shell_view, NULL);
+	if (!e_shell_view_is_execute_search_blocked (shell_view)) {
+		/* Prioritize ahead of GTK+ redraws. */
+		g_idle_add_full (
+			G_PRIORITY_HIGH_IDLE,
+			idle_execute_search, g_object_ref (shell_view), NULL);
+	}
 }
 
 void
