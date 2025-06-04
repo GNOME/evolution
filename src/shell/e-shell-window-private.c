@@ -116,7 +116,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 		provider = gtk_css_provider_new ();
 
-		if (!gtk_css_provider_load_from_data (provider, "#evo-titlebar-box { padding:0px; margin:0px; border:0px; }", -1, &local_error))
+		if (!gtk_css_provider_load_from_data (provider, "#evo-titlebar-box { padding:0px; margin:0px; border:0px; min-height:0px; }", -1, &local_error))
 			g_critical ("%s: Failed to load CSS data: %s", G_STRFUNC, local_error ? local_error->message : "Unknown error");
 
 		g_clear_error (&local_error);
