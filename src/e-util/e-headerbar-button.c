@@ -242,7 +242,8 @@ header_bar_button_set_property (GObject *object,
 		case PROP_ACTION:
 			g_clear_object (&header_bar_button->priv->action);
 			header_bar_button->priv->action = g_value_dup_object (value);
-			header_bar_button_update_button (header_bar_button);
+			if (header_bar_button->priv->labeled_button)
+				header_bar_button_update_button (header_bar_button);
 			return;
 		case PROP_UI_MANAGER:
 			g_clear_object (&header_bar_button->priv->ui_manager);
@@ -361,7 +362,7 @@ e_header_bar_button_class_init (EHeaderBarButtonClass *class)
 			"Action",
 			"Button action",
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
