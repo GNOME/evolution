@@ -1779,7 +1779,7 @@ mail_viewer_init_ui_manager (EMailViewer *self)
 		   find_activated_cb, NULL, NULL, NULL },
 
 		{ "load-images",
-		   "image-x-generic",
+		   "insert-image",
 		   N_("_Load Images"),
 		   "<Control>i",
 		   NULL,

@@ -3114,7 +3114,7 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 		  action_mail_label_none_cb, NULL, NULL, NULL },
 
 		{ "mail-load-images",
-		  "image-x-generic",
+		  "insert-image",
 		  N_("_Load Images"),
 		  "<Control>i",
 		  N_("Force images in HTML mail to be loaded"),

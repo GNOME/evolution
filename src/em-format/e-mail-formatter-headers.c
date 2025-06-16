@@ -145,7 +145,7 @@ format_short_headers (EMailFormatter *formatter,
 
 	g_string_append (buffer, "<td align=\"right\" valign=\"top\">");
 	g_string_append_printf (buffer,
-		"<img src=\"gtk-stock://image-x-generic/?size=%d\" width=\"%dpx\" height=\"%dpx\""
+		"<img src=\"gtk-stock://insert-image/?size=%d\" width=\"%dpx\" height=\"%dpx\""
 		" id=\"__evo-remote-content-img-small\" class=\"__evo-remote-content-img\" title=\"%s\" style=\"cursor:pointer;\" hidden/>",
 		GTK_ICON_SIZE_MENU, icon_width, icon_height,
 		_("Remote content download had been blocked for this message."));
@@ -515,7 +515,7 @@ format_full_headers (EMailFormatter *formatter,
 
 	g_string_append (buffer, "<td align=\"right\" valign=\"top\">");
 	g_string_append_printf (buffer,
-		"<img src=\"gtk-stock://image-x-generic/?size=%d\" width=\"%dpx\" height=\"%dpx\""
+		"<img src=\"gtk-stock://insert-image/?size=%d\" width=\"%dpx\" height=\"%dpx\""
 		" id=\"__evo-remote-content-img-large\" class=\"__evo-remote-content-img\" title=\"%s\" style=\"cursor:pointer;\" hidden/>",
 		GTK_ICON_SIZE_LARGE_TOOLBAR, icon_width, icon_height,
 		_("Remote content download had been blocked for this message."));
