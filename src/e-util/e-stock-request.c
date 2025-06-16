@@ -25,6 +25,7 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include "e-icon-factory.h"
 #include "e-misc-utils.h"
 #include "e-stock-request.h"
 
@@ -76,9 +77,11 @@ process_stock_request_idle_cb (gpointer user_data)
 	GHashTable *query = NULL;
 	GtkStyleContext *context;
 	GtkWidgetPath *path;
-	GtkIconSet *icon_set;
+	GtkIconSet *icon_set = NULL;
 	gssize size = GTK_ICON_SIZE_BUTTON;
 	gboolean dark_color_scheme = FALSE;
+	const gchar *icon_name;
+	gchar *icon_name_symbolic = NULL;
 	gchar *buffer = NULL, *mime_type = NULL;
 	gsize buff_len = 0;
 	GError *local_error = NULL;
@@ -121,7 +124,14 @@ process_stock_request_idle_cb (gpointer user_data)
 	gtk_style_context_set_path (context, path);
 	gtk_widget_path_free (path);
 
-	icon_set = gtk_style_context_lookup_icon_set (context, g_uri_get_host (guri));
+	icon_name = g_uri_get_host (guri);
+	if (e_icon_factory_get_prefer_symbolic_icons () && !g_str_has_suffix (icon_name, "-symbolic"))
+		icon_name_symbolic = g_strconcat (icon_name, "-symbolic", NULL);
+
+	if (icon_name_symbolic)
+		icon_set = gtk_style_context_lookup_icon_set (context, icon_name_symbolic);
+	if (!icon_set)
+		icon_set = gtk_style_context_lookup_icon_set (context, icon_name);
 	if (icon_set != NULL) {
 		GdkPixbuf *pixbuf;
 
@@ -135,7 +145,7 @@ process_stock_request_idle_cb (gpointer user_data)
 	/* Fallback to icon theme */
 	} else {
 		GtkIconTheme *icon_theme;
-		GtkIconInfo *icon_info;
+		GtkIconInfo *icon_info = NULL;
 		const gchar *filename;
 		gint icon_width, icon_height, scale_factor;
 
@@ -153,9 +163,10 @@ process_stock_request_idle_cb (gpointer user_data)
 
 		icon_theme = gtk_icon_theme_get_default ();
 
-		icon_info = gtk_icon_theme_lookup_icon (
-			icon_theme, g_uri_get_host (guri), size,
-			GTK_ICON_LOOKUP_USE_BUILTIN);
+		if (icon_name_symbolic)
+			icon_info = gtk_icon_theme_lookup_icon (icon_theme, icon_name_symbolic, size, GTK_ICON_LOOKUP_USE_BUILTIN);
+		if (!icon_info)
+			icon_info = gtk_icon_theme_lookup_icon (icon_theme, icon_name, size, GTK_ICON_LOOKUP_USE_BUILTIN);
 
 		/* Some icons can be missing in the theme */
 		if (icon_info) {
@@ -180,7 +191,7 @@ process_stock_request_idle_cb (gpointer user_data)
 			}
 
 			g_object_unref (icon_info);
-		} else if (g_strcmp0 (g_uri_get_host (guri), "x-evolution-arrow-down") == 0) {
+		} else if (g_strcmp0 (icon_name, "x-evolution-arrow-down") == 0) {
 			GdkPixbuf *pixbuf;
 			GdkRGBA rgba;
 			guchar *data;
@@ -215,7 +226,7 @@ process_stock_request_idle_cb (gpointer user_data)
 
 			cairo_surface_destroy (surface);
 			g_free (data);
-		} else if (g_strcmp0 (g_uri_get_host (guri), "x-evolution-pan-down") == 0) {
+		} else if (g_strcmp0 (icon_name, "x-evolution-pan-down") == 0) {
 			#define PAN_SCHEME_LIGHT "#2e3436"
 			#define PAN_SCHEME_DARK "#d1cbc9"
 			#define PAN_PATH_DOWN "M 3.4393771,1.4543954 H 0.7935438 l 1.3229166,1.3229167 z"
@@ -237,7 +248,7 @@ process_stock_request_idle_cb (gpointer user_data)
 			mime_type = g_strdup ("image/svg+xml");
 			buff_len = strlen (svg);
 			buffer = g_strdup (svg);
-		} else if (g_strcmp0 (g_uri_get_host (guri), "x-evolution-pan-end") == 0) {
+		} else if (g_strcmp0 (icon_name, "x-evolution-pan-end") == 0) {
 			const gchar *svg;
 
 			if (dark_color_scheme) {
@@ -290,6 +301,7 @@ process_stock_request_idle_cb (gpointer user_data)
 
 	g_uri_unref (guri);
 	g_object_unref (context);
+	g_free (icon_name_symbolic);
 
 	e_flag_set (sid->flag);
 
