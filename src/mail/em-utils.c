@@ -1667,9 +1667,10 @@ em_utils_get_archive_folder_uri_from_folder (CamelFolder *folder,
 			gint ii;
 
 			for (ii = 0; ii < uids->len; ii++) {
-				orig_folder = camel_vee_folder_get_vee_uid_folder (vee_folder, uids->pdata[ii]);
+				orig_folder = camel_vee_folder_dup_vee_uid_folder (vee_folder, uids->pdata[ii]);
 				if (orig_folder) {
 					if (store && camel_folder_get_parent_store (orig_folder) != store) {
+						g_clear_object (&orig_folder);
 						/* Do not know which archive folder to use when there are
 						   selected messages from multiple accounts/stores. */
 						store = NULL;
@@ -1677,12 +1678,15 @@ em_utils_get_archive_folder_uri_from_folder (CamelFolder *folder,
 					}
 
 					store = camel_folder_get_parent_store (orig_folder);
+					g_clear_object (&orig_folder);
 				}
 			}
 		} else {
-			orig_folder = camel_vee_folder_get_vee_uid_folder (CAMEL_VEE_FOLDER (folder), uids->pdata[0]);
-			if (orig_folder)
+			orig_folder = camel_vee_folder_dup_vee_uid_folder (CAMEL_VEE_FOLDER (folder), uids->pdata[0]);
+			if (orig_folder) {
 				store = camel_folder_get_parent_store (orig_folder);
+				g_clear_object (&orig_folder);
+			}
 		}
 
 		if (store && orig_folder) {
@@ -1750,8 +1754,8 @@ em_utils_process_autoarchive_sync (EMailBackend *mail_backend,
 	gchar *aa_custom_target_folder_uri = NULL;
 	GDateTime *now_time, *use_time;
 	gchar *search_sexp;
-	GPtrArray *uids;
-	gboolean success = TRUE;
+	GPtrArray *uids = NULL;
+	gboolean success;
 
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (mail_backend), FALSE);
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
@@ -1795,11 +1799,9 @@ em_utils_process_autoarchive_sync (EMailBackend *mail_backend,
 		"(not (system-flag \"deleted\")) "
 		"(< (get-sent-date) %" G_GINT64_FORMAT ")"
 		"))", g_date_time_to_unix (use_time));
-	uids = camel_folder_search_by_expression (folder, search_sexp, cancellable, error);
+	success = camel_folder_search_sync (folder, search_sexp, &uids, cancellable, error);
 
-	if (!uids) {
-		success = FALSE;
-	} else if (uids->len > 0) {
+	if (success && uids && uids->len > 0) {
 		gint ii;
 
 		if (aa_config == E_AUTO_ARCHIVE_CONFIG_MOVE_TO_ARCHIVE ||
@@ -1857,7 +1859,7 @@ em_utils_process_autoarchive_sync (EMailBackend *mail_backend,
 	}
 
 	if (uids)
-		camel_folder_search_free (folder, uids);
+		g_ptr_array_unref (uids);
 
 	g_free (search_sexp);
 	g_free (aa_custom_target_folder_uri);

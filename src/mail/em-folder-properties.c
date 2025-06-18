@@ -1539,7 +1539,7 @@ emfp_dialog_run (AsyncContext *context)
 	gtk_widget_destroy (dialog);
 }
 
-static gint
+static gboolean
 emfp_gather_unique_labels_cb (gpointer user_data,
 			      gint ncol,
 			      gchar **colvalues,
@@ -1547,7 +1547,7 @@ emfp_gather_unique_labels_cb (gpointer user_data,
 {
 	GHashTable *hash = user_data;
 
-	g_return_val_if_fail (hash != NULL, -1);
+	g_return_val_if_fail (hash != NULL, FALSE);
 
 	if (ncol == 1 && colvalues[0] && *colvalues[0]) {
 		gchar **strv;
@@ -1569,7 +1569,7 @@ emfp_gather_unique_labels_cb (gpointer user_data,
 		g_strfreev (strv);
 	}
 
-	return 0;
+	return TRUE;
 }
 
 /* Use g_slist_free_full (labels, g_free); to free the returned pointer */
@@ -1580,8 +1580,9 @@ emfp_gather_folder_available_labels_sync (CamelFolder *folder)
 	GHashTable *hash;
 	GHashTableIter iter;
 	CamelStore *store;
-	CamelDB *db;
-	gchar *query, *sqlized_foldername;
+	CamelStoreDB *sdb;
+	gchar *query;
+	guint32 folder_id;
 	gint ii;
 	gpointer key;
 	GError *local_error = NULL;
@@ -1599,15 +1600,15 @@ emfp_gather_folder_available_labels_sync (CamelFolder *folder)
 	if (!store)
 		return NULL;
 
-	db = camel_store_get_db (store);
-	if (!db)
+	sdb = camel_store_get_db (store);
+	if (!sdb)
 		return NULL;
 
-	sqlized_foldername = camel_db_sqlize_string (camel_folder_get_full_name (folder));
+	folder_id = camel_store_db_get_folder_id (sdb, camel_folder_get_full_name (folder));
 	hash = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
 
-	query = g_strdup_printf ("SELECT DISTINCT labels FROM %s WHERE labels NOT LIKE ''", sqlized_foldername);
-	camel_db_select (db, query, emfp_gather_unique_labels_cb, hash, &local_error);
+	query = g_strdup_printf ("SELECT DISTINCT labels FROM messages WHERE folder_id=%u AND labels NOT LIKE ''", folder_id);
+	camel_db_exec_select (CAMEL_DB (sdb), query, emfp_gather_unique_labels_cb, hash, &local_error);
 
 	if (local_error) {
 		g_debug ("%s: Failed to execute '%s': %s\n", G_STRFUNC, query, local_error->message);
@@ -1615,7 +1616,6 @@ emfp_gather_folder_available_labels_sync (CamelFolder *folder)
 	}
 
 	g_free (query);
-	camel_db_free_sqlized_string (sqlized_foldername);
 
 	for (ii = 0; skip_labels[ii]; ii++) {
 		g_hash_table_remove (hash, skip_labels[ii]);
@@ -1710,21 +1710,18 @@ em_folder_properties_show (CamelStore *store,
 	uid = camel_service_get_uid (service);
 	session = camel_service_ref_session (service);
 
-	/* Show the Edit Rule dialog for Search Folders, but not "Unmatched".
-	 * "Unmatched" is a special Search Folder which can't be modified. */
+	/* Show the Edit Rule dialog for Search Folders. */
 	if (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0) {
-		if (g_strcmp0 (folder_name, CAMEL_UNMATCHED_NAME) != 0) {
-			gchar *folder_uri;
+		gchar *folder_uri;
 
-			folder_uri = e_mail_folder_uri_build (
-				store, folder_name);
-			vfolder_edit_rule (
-				E_MAIL_SESSION (session),
-				folder_uri, alert_sink);
-			g_free (folder_uri);
+		folder_uri = e_mail_folder_uri_build (
+			store, folder_name);
+		vfolder_edit_rule (
+			E_MAIL_SESSION (session),
+			folder_uri, alert_sink);
+		g_free (folder_uri);
 
-			goto exit;
-		}
+		goto exit;
 	}
 
 	/* Open the folder asynchronously. */

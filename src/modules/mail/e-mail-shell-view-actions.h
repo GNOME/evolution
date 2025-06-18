@@ -216,8 +216,6 @@
 	E_SHELL_VIEW_ACTION ((view), "mail-to-do-bar")
 #define E_SHELL_VIEW_ACTION_MAIL_UNDELETE(view) \
 	E_SHELL_VIEW_ACTION ((view), "mail-undelete")
-#define E_SHELL_VIEW_ACTION_MAIL_VFOLDER_UNMATCHED_ENABLE(view) \
-	E_SHELL_VIEW_ACTION ((view), "mail-vfolder-unmatched-enable")
 #define E_SHELL_VIEW_ACTION_MAIL_VIEW_CLASSIC(view) \
 	E_SHELL_VIEW_ACTION ((view), "mail-view-classic")
 #define E_SHELL_VIEW_ACTION_MAIL_VIEW_VERTICAL(view) \

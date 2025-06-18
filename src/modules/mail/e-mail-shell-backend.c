@@ -1130,7 +1130,6 @@ mail_shell_backend_constructed (GObject *object)
 	EMailSession *mail_session;
 	CamelService *vstore;
 	GtkWidget *preferences_window;
-	GSettings *settings;
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -1203,15 +1202,6 @@ mail_shell_backend_constructed (GObject *object)
 	vstore = camel_session_ref_service (
 		CAMEL_SESSION (mail_session), E_MAIL_SESSION_VFOLDER_UID);
 	g_return_if_fail (vstore != NULL);
-
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-
-	g_settings_bind (
-		settings, "enable-unmatched",
-		vstore, "unmatched-enabled",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_object_unref (settings);
 
 	g_object_unref (vstore);
 }

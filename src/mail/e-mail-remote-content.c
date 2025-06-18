@@ -117,7 +117,7 @@ e_mail_remote_content_add (EMailRemoteContent *content,
 		return;
 
 	stmt = sqlite3_mprintf ("INSERT OR IGNORE INTO %Q ('value') VALUES (lower(%Q))", table, value);
-	camel_db_command (content->priv->db, stmt, &error);
+	camel_db_exec_statement (content->priv->db, stmt, &error);
 	sqlite3_free (stmt);
 
 	if (error) {
@@ -161,7 +161,7 @@ e_mail_remote_content_remove (EMailRemoteContent *content,
 		return;
 
 	stmt = sqlite3_mprintf ("DELETE FROM %Q WHERE value=lower(%Q)", table, value);
-	camel_db_command (content->priv->db, stmt, &error);
+	camel_db_exec_statement (content->priv->db, stmt, &error);
 	sqlite3_free (stmt);
 
 	if (error) {
@@ -179,7 +179,7 @@ typedef struct _CheckFoundData {
 	guint *recent_last;
 } CheckFoundData;
 
-static gint
+static gboolean
 e_mail_remote_content_check_found_cb (gpointer data,
 				      gint ncol,
 				      gchar **colvalues,
@@ -198,7 +198,7 @@ e_mail_remote_content_check_found_cb (gpointer data,
 		}
 	}
 
-	return 0;
+	return TRUE;
 }
 
 static gboolean
@@ -275,7 +275,7 @@ e_mail_remote_content_has (EMailRemoteContent *content,
 		g_string_prepend (stmt, tmp);
 		sqlite3_free (tmp);
 
-		camel_db_select (content->priv->db, stmt->str, e_mail_remote_content_check_found_cb, &cfd, NULL);
+		camel_db_exec_select (content->priv->db, stmt->str, e_mail_remote_content_check_found_cb, &cfd, NULL);
 
 		found = cfd.found;
 		added_generic = cfd.added_generic;
@@ -289,7 +289,7 @@ e_mail_remote_content_has (EMailRemoteContent *content,
 	return found;
 }
 
-static gint
+static gboolean
 e_mail_remote_content_get_values_cb (gpointer data,
 				     gint ncol,
 				     gchar **colvalues,
@@ -300,7 +300,7 @@ e_mail_remote_content_get_values_cb (gpointer data,
 	if (values_hash && colvalues && colvalues[0])
 		g_hash_table_insert (values_hash, g_strdup (colvalues[0]), NULL);
 
-	return 0;
+	return TRUE;
 }
 
 static GSList *
@@ -338,7 +338,7 @@ e_mail_remote_content_get (EMailRemoteContent *content,
 		gchar *stmt;
 
 		stmt = sqlite3_mprintf ("SELECT value FROM %Q ORDER BY value", table);
-		camel_db_select (content->priv->db, stmt, e_mail_remote_content_get_values_cb, values_hash, NULL);
+		camel_db_exec_select (content->priv->db, stmt, e_mail_remote_content_get_values_cb, values_hash, NULL);
 		sqlite3_free (stmt);
 	}
 
@@ -356,7 +356,7 @@ e_mail_remote_content_get (EMailRemoteContent *content,
 	return g_slist_reverse (values);
 }
 
-static gint
+static gboolean
 e_mail_remote_content_get_version_cb (gpointer data,
 				      gint ncol,
 				      gchar **colvalues,
@@ -367,7 +367,7 @@ e_mail_remote_content_get_version_cb (gpointer data,
 	if (pversion && ncol == 1 && colvalues && colvalues[0])
 		*pversion = (gint) g_ascii_strtoll (colvalues[0], NULL, 10);
 
-	return 0;
+	return TRUE;
 }
 
 static void
@@ -390,7 +390,7 @@ e_mail_remote_content_set_config_filename (EMailRemoteContent *content,
 	if (content->priv->db) {
 		#define ctb(stmt) G_STMT_START { \
 			if (content->priv->db) { \
-				camel_db_command (content->priv->db, stmt, &error); \
+				camel_db_exec_statement (content->priv->db, stmt, &error); \
 				if (error) { \
 					g_warning ("%s: Failed to execute '%s' on '%s': %s", \
 						G_STRFUNC, stmt, config_filename, error->message); \
@@ -410,18 +410,18 @@ e_mail_remote_content_set_config_filename (EMailRemoteContent *content,
 		gint version = -1;
 		gchar *stmt;
 
-		camel_db_select (content->priv->db, "SELECT 'current' FROM 'version'", e_mail_remote_content_get_version_cb, &version, NULL);
+		camel_db_exec_select (content->priv->db, "SELECT 'current' FROM 'version'", e_mail_remote_content_get_version_cb, &version, NULL);
 
 		if (version != -1 && version < CURRENT_VERSION) {
 			/* Here will be added migration code, if needed in the future */
 		}
 
 		stmt = sqlite3_mprintf ("DELETE FROM %Q", "version");
-		camel_db_command (content->priv->db, stmt, NULL);
+		camel_db_exec_statement (content->priv->db, stmt, NULL);
 		sqlite3_free (stmt);
 
 		stmt = sqlite3_mprintf ("INSERT INTO %Q ('current') VALUES (%d);", "version", CURRENT_VERSION);
-		camel_db_command (content->priv->db, stmt, NULL);
+		camel_db_exec_statement (content->priv->db, stmt, NULL);
 		sqlite3_free (stmt);
 	}
 }

@@ -515,7 +515,7 @@ regen_data_free (RegenData *regen_data)
 	g_clear_object (&regen_data->full_header);
 
 	g_clear_pointer (&regen_data->search, g_free);
-	g_clear_pointer (&regen_data->thread_tree, camel_folder_thread_messages_unref);
+	g_clear_object (&regen_data->thread_tree);
 
 	if (regen_data->summary != NULL) {
 		guint ii, length;
@@ -4892,7 +4892,7 @@ build_tree (MessageList *message_list,
 	build_subtree (
 		message_list,
 		message_list->priv->tree_model_root,
-		thread ? thread->tree : NULL,
+		thread ? camel_folder_thread_get_tree (thread) : NULL,
 		thread_flat,
 		thread_latest,
 		&row);
@@ -4926,16 +4926,15 @@ build_subtree (MessageList *message_list,
 	GNode *node;
 
 	while (c) {
+		CamelMessageInfo *nfo = camel_folder_thread_node_get_item (c);
 		/* phantom nodes no longer allowed */
-		if (!c->message) {
+		if (!nfo) {
 			g_warning ("c->message shouldn't be NULL\n");
-			c = c->next;
+			c = camel_folder_thread_node_get_next (c);
 			continue;
 		}
 
-		node = ml_uid_nodemap_insert (
-			message_list,
-			(CamelMessageInfo *) c->message, parent, -1);
+		node = ml_uid_nodemap_insert (message_list, nfo, parent, -1);
 
 		if (thread_latest && thread_flat && parent && node && parent->data && node->data) {
 			CamelMessageInfo *parent_nfo, *node_nfo;
@@ -4950,10 +4949,11 @@ build_subtree (MessageList *message_list,
 			}
 		}
 
-		if (c->child) {
-			build_subtree (message_list, (c->parent && thread_flat) ? parent : node, c->child, thread_flat, thread_latest, row);
+		if (camel_folder_thread_node_get_child (c)) {
+			build_subtree (message_list, (camel_folder_thread_node_get_parent (c) && thread_flat) ? parent : node,
+				camel_folder_thread_node_get_child (c), thread_flat, thread_latest, row);
 		}
-		c = c->next;
+		c = camel_folder_thread_node_get_next (c);
 	}
 }
 
@@ -4983,7 +4983,7 @@ build_flat (MessageList *message_list,
 
 	clear_tree (message_list, FALSE);
 
-	for (i = 0; i < summary->len; i++) {
+	for (i = 0; summary && i < summary->len; i++) {
 		CamelMessageInfo *info = summary->pdata[i];
 
 		ml_uid_nodemap_insert (message_list, info, NULL, -1);
@@ -6204,7 +6204,7 @@ message_list_regen_thread (GTask *task,
 {
 	MessageList *message_list;
 	RegenData *regen_data;
-	GPtrArray *uids, *searchuids = NULL;
+	GPtrArray *uids = NULL, *searchuids = NULL;
 	CamelMessageInfo *info;
 	CamelFolder *folder;
 	GNode *cursor;
@@ -6290,13 +6290,13 @@ message_list_regen_thread (GTask *task,
 	/* Execute the search. */
 
 	if (expr->len == 0) {
-		uids = camel_folder_get_uids (folder);
+		uids = camel_folder_dup_uids (folder);
 		dd (g_print ("%s: got %d uids in folder %p (%s : %s)\n", G_STRFUNC, uids ? uids->len : -1, folder,
 			camel_service_get_display_name (CAMEL_SERVICE (camel_folder_get_parent_store (folder))),
 			camel_folder_get_full_name (folder)));
 	} else {
-		uids = camel_folder_search_by_expression (
-			folder, expr->str, cancellable, &local_error);
+		if (!camel_folder_search_sync (folder, expr->str, &uids, cancellable, &local_error))
+			uids = NULL;
 
 		dd (g_print ("%s: got %d uids in folder %p (%s : %s) for expression:---%s---\n", G_STRFUNC,
 			uids ? uids->len : -1, folder,
@@ -6349,7 +6349,7 @@ message_list_regen_thread (GTask *task,
 		/* Always build a new thread_tree, to avoid race condition
 		   when accessing it here and in the build_tree() call
 		   from multiple threads. */
-		thread_tree = camel_folder_thread_messages_new (folder, uids, regen_data->thread_subject);
+		thread_tree = camel_folder_thread_new (folder, uids, regen_data->thread_subject ? CAMEL_FOLDER_THREAD_FLAG_SUBJECT : CAMEL_FOLDER_THREAD_FLAG_NONE);
 
 		/* We will build the ETreeModel content from this
 		 * CamelFolderThread during regen post-processing.
@@ -6362,7 +6362,7 @@ message_list_regen_thread (GTask *task,
 	} else {
 		guint ii;
 
-		regen_data->summary = g_ptr_array_new ();
+		regen_data->summary = g_ptr_array_sized_new (uids->len);
 
 		camel_folder_summary_prepare_fetch_all (camel_folder_get_folder_summary (folder), NULL);
 
@@ -6380,9 +6380,9 @@ exit_successfully:
 	g_task_return_boolean (task, TRUE);
 exit:
 	if (searchuids != NULL)
-		camel_folder_search_free (folder, searchuids);
+		g_ptr_array_unref (searchuids);
 	else if (uids != NULL)
-		camel_folder_free_uids (folder, uids);
+		g_ptr_array_unref (uids);
 
 	g_object_unref (folder);
 	g_clear_error (&local_error);

@@ -134,7 +134,6 @@
     <item action='mail-account-refresh'/>
     <item action='mail-manage-subscriptions'/>
     <item action='mail-account-disable'/>
-    <item action='mail-vfolder-unmatched-enable'/>
     <separator/>
     <item action='mail-folder-unsubscribe'/>
     <separator/>

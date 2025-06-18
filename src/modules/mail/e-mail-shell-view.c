@@ -48,7 +48,7 @@ static const gchar *SEARCH_RESULTS_STATE =
 "</ETableState>";
 
 static void
-add_folders_from_store (GList **folders,
+add_folders_from_store (GPtrArray *folders,
                         CamelStore *store,
                         GCancellable *cancellable,
                         GError **error)
@@ -77,7 +77,7 @@ add_folders_from_store (GList **folders,
 				if (CAMEL_IS_VEE_FOLDER (fldr)) {
 					g_object_unref (fldr);
 				} else {
-					*folders = g_list_prepend (*folders, fldr);
+					g_ptr_array_add (folders, fldr);
 				}
 			}
 		}
@@ -124,26 +124,27 @@ search_results_exec (SearchResultsMsg *msg,
                      GCancellable *cancellable,
                      GError **error)
 {
-	GList *folders = NULL, *link;
+	GPtrArray *folders;
+	GList *link;
 
-	for (link = msg->stores_list; link != NULL; link = link->next) {
+	folders = g_ptr_array_new_with_free_func (g_object_unref);
+
+	for (link = msg->stores_list; link; link = g_list_next (link)) {
 		CamelStore *store = CAMEL_STORE (link->data);
 
 		if (g_cancellable_is_cancelled (cancellable))
 			break;
 
-		add_folders_from_store (&folders, store, cancellable, error);
+		add_folders_from_store (folders, store, cancellable, error);
 	}
 
 	if (!g_cancellable_is_cancelled (cancellable)) {
 		CamelVeeFolder *vfolder = CAMEL_VEE_FOLDER (msg->folder);
 
-		folders = g_list_reverse (folders);
-
-		camel_vee_folder_set_folders (vfolder, folders, cancellable);
+		camel_vee_folder_set_folders_sync (vfolder, folders, CAMEL_VEE_FOLDER_OP_FLAG_NONE, cancellable, error);
 	}
 
-	g_list_free_full (folders, g_object_unref);
+	g_ptr_array_unref (folders);
 }
 
 static void
@@ -213,7 +214,7 @@ search_results_with_subfolders_exec (SearchResultsWithSubfoldersMsg *msg,
 				     GCancellable *cancellable,
 				     GError **error)
 {
-	GList *folders = NULL;
+	GPtrArray *folders;
 	CamelStore *root_store;
 	CamelFolderInfo *fi;
 	const CamelFolderInfo *cur;
@@ -223,6 +224,7 @@ search_results_with_subfolders_exec (SearchResultsWithSubfoldersMsg *msg,
 	if (!root_store)
 		return;
 
+	folders = g_ptr_array_new_with_free_func (g_object_unref);
 	root_folder_name = camel_folder_get_full_name (msg->root_folder);
 
 	fi = camel_store_get_folder_info_sync (root_store, root_folder_name,
@@ -235,7 +237,7 @@ search_results_with_subfolders_exec (SearchResultsWithSubfoldersMsg *msg,
 
 			folder = camel_store_get_folder_sync (root_store, cur->full_name, 0, cancellable, NULL);
 			if (folder)
-				folders = g_list_prepend (folders, folder);
+				g_ptr_array_add (folders, folder);
 		}
 
 		/* move to the next fi */
@@ -258,12 +260,10 @@ search_results_with_subfolders_exec (SearchResultsWithSubfoldersMsg *msg,
 	if (!g_cancellable_is_cancelled (cancellable)) {
 		CamelVeeFolder *vfolder = CAMEL_VEE_FOLDER (msg->vfolder);
 
-		folders = g_list_reverse (folders);
-
-		camel_vee_folder_set_folders (vfolder, folders, cancellable);
+		camel_vee_folder_set_folders_sync (vfolder, folders, CAMEL_VEE_FOLDER_OP_FLAG_NONE, cancellable, error);
 	}
 
-	g_list_free_full (folders, g_object_unref);
+	g_ptr_array_unref (folders);
 }
 
 static void
@@ -1344,7 +1344,7 @@ filter:
 			g_clear_object (&self->priv->search_account_cancel);
 		}
 
-		camel_vee_folder_set_expression (search_folder, query);
+		camel_vee_folder_set_expression_sync (search_folder, query, CAMEL_VEE_FOLDER_OP_FLAG_SKIP_REBUILD, NULL, NULL);
 
 		goto current_folder_and_subfolders_setup;
 	}
@@ -1363,7 +1363,7 @@ filter:
 
 	g_object_unref (service);
 
-	camel_vee_folder_set_expression (search_folder, query);
+	camel_vee_folder_set_expression_sync (search_folder, query, CAMEL_VEE_FOLDER_OP_FLAG_SKIP_REBUILD, NULL, NULL);
 
  current_folder_and_subfolders_setup:
 
@@ -1430,7 +1430,7 @@ all_accounts:
 			g_clear_object (&self->priv->search_account_cancel);
 		}
 
-		camel_vee_folder_set_expression (search_folder, query);
+		camel_vee_folder_set_expression_sync (search_folder, query, CAMEL_VEE_FOLDER_OP_FLAG_SKIP_REBUILD, NULL, NULL);
 
 		goto all_accounts_setup;
 	}
@@ -1450,7 +1450,7 @@ all_accounts:
 
 	g_object_unref (service);
 
-	camel_vee_folder_set_expression (search_folder, query);
+	camel_vee_folder_set_expression_sync (search_folder, query, CAMEL_VEE_FOLDER_OP_FLAG_SKIP_REBUILD, NULL, NULL);
 
 all_accounts_setup:
 
@@ -1505,7 +1505,7 @@ current_account:
 			g_clear_object (&self->priv->search_account_cancel);
 		}
 
-		camel_vee_folder_set_expression (search_folder, query);
+		camel_vee_folder_set_expression_sync (search_folder, query, CAMEL_VEE_FOLDER_OP_FLAG_SKIP_REBUILD, NULL, NULL);
 
 		goto current_accout_setup;
 	}
@@ -1525,7 +1525,7 @@ current_account:
 
 	g_object_unref (service);
 
-	camel_vee_folder_set_expression (search_folder, query);
+	camel_vee_folder_set_expression_sync (search_folder, query, CAMEL_VEE_FOLDER_OP_FLAG_SKIP_REBUILD, NULL, NULL);
 
 current_accout_setup:
 
@@ -1558,9 +1558,6 @@ current_accout_setup:
 		CAMEL_FOLDER (search_folder));
 
 execute:
-
-	if (folder && CAMEL_IS_VEE_FOLDER (folder))
-		camel_vee_folder_propagate_skipped_changes (CAMEL_VEE_FOLDER (folder));
 
 	/* Finally, execute the search. */
 
@@ -1842,10 +1839,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	action = ACTION (MAIL_TOOLS_SUBSCRIPTIONS);
 	sensitive = any_store_is_subscribable;
 	e_ui_action_set_sensitive (action, sensitive);
-
-	/* folder_is_store + folder_is_virtual == "Search Folders" */
-	action = ACTION (MAIL_VFOLDER_UNMATCHED_ENABLE);
-	e_ui_action_set_visible (action, folder_is_store && folder_is_virtual);
 }
 
 static gboolean

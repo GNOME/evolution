@@ -2226,10 +2226,10 @@ tree_drag_data_get (GtkWidget *widget,
 		if ((folder = camel_store_get_folder_sync (
 			store, folder_name, 0, NULL, NULL))) {
 
-			GPtrArray *uids = camel_folder_get_uids (folder);
+			GPtrArray *uids = camel_folder_dup_uids (folder);
 
 			em_utils_selection_set_urilist (context, selection, folder, uids);
-			camel_folder_free_uids (folder, uids);
+			g_ptr_array_unref (uids);
 			g_object_unref (folder);
 		}
 		break;
@@ -2696,11 +2696,6 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 
 	/* Check for special destinations */
 
-	/* Don't allow copying/moving into the UNMATCHED vfolder. */
-	if (dst_is_vfolder)
-		if (g_strcmp0 (dst_full_name, CAMEL_UNMATCHED_NAME) == 0)
-			goto done;
-
 	/* Don't allow copying/moving into a vTrash folder. */
 	if (g_strcmp0 (dst_full_name, CAMEL_VTRASH_NAME) == 0)
 		goto done;
@@ -2793,11 +2788,6 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 
 			goto done;
 		}
-
-		/* Don't allow copying/moving the UNMATCHED vfolder. */
-		if (src_is_vfolder)
-			if (g_strcmp0 (src_full_name, CAMEL_UNMATCHED_NAME) == 0)
-				goto done;
 
 		/* Don't allow copying/moving any vTrash folder. */
 		if (g_strcmp0 (src_full_name, CAMEL_VTRASH_NAME) == 0)

@@ -1293,7 +1293,7 @@ delete_junk_sync (CamelStore *store,
 	if (folder == NULL)
 		return FALSE;
 
-	uids = camel_folder_get_uids (folder);
+	uids = camel_folder_dup_uids (folder);
 	flags = mask = CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN;
 
 	camel_folder_freeze (folder);
@@ -1305,7 +1305,7 @@ delete_junk_sync (CamelStore *store,
 
 	camel_folder_thaw (folder);
 
-	camel_folder_free_uids (folder, uids);
+	g_ptr_array_unref (uids);
 	g_object_unref (folder);
 
 	return TRUE;

@@ -221,7 +221,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 	session = camel_service_ref_session (CAMEL_SERVICE (parent_store));
 	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
 
-	uids = camel_folder_get_uids (folder);
+	uids = camel_folder_dup_uids (folder);
 
 	if (uids == NULL)
 		goto exit;
@@ -272,7 +272,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 		g_object_unref (message);
 	}
 
-	camel_folder_free_uids (folder, uids);
+	g_ptr_array_unref (uids);
 	uids = NULL;
 
 	if (g_hash_table_size (expunging_uids) == 0) {
@@ -333,7 +333,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 			break;
 		}
 
-		uids = camel_folder_get_uids (inbox_folder);
+		uids = camel_folder_dup_uids (inbox_folder);
 
 		if (uids == NULL) {
 			g_object_unref (service);
@@ -351,7 +351,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 			}
 		}
 
-		camel_folder_free_uids (inbox_folder, uids);
+		g_ptr_array_unref (uids);
 
 		if (any_found)
 			success = camel_folder_synchronize_sync (
@@ -1028,13 +1028,13 @@ mail_folder_remove_recursive (CamelStore *store,
 
 			camel_folder_freeze (folder);
 
-			uids = camel_folder_get_uids (folder);
+			uids = camel_folder_dup_uids (folder);
 
 			for (ii = 0; ii < uids->len; ii++)
 				camel_folder_delete_message (
 					folder, uids->pdata[ii]);
 
-			camel_folder_free_uids (folder, uids);
+			g_ptr_array_unref (uids);
 
 			success = camel_folder_synchronize_sync (
 				folder, TRUE, cancellable, error);

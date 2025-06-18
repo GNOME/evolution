@@ -455,13 +455,6 @@ folder_tree_model_sort (GtkTreeModel *model,
 			folder_tree_model->priv->account_store,
 			service_a, service_b);
 
-	} else if (g_strcmp0 (store_uid, E_MAIL_SESSION_VFOLDER_UID) == 0) {
-		/* UNMATCHED is always last. */
-		if (g_strcmp0 (aname, _("UNMATCHED")) == 0)
-			rv = 1;
-		else if (g_strcmp0 (bname, _("UNMATCHED")) == 0)
-			rv = -1;
-
 	} else {
 		/* Inbox is always first. */
 		if ((flags_a & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)

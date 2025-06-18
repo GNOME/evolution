@@ -983,12 +983,11 @@ folder_cache_check_ignore_thread (CamelFolder *folder,
 	}
 
 	if (expr) {
-		GPtrArray *uids;
+		GPtrArray *uids = NULL;
 
 		g_string_append (expr, "))");
 
-		uids = camel_folder_search_by_expression (folder, expr->str, cancellable, error);
-		if (uids) {
+		if (camel_folder_search_sync (folder, expr->str, &uids, cancellable, error) && uids) {
 			for (ii = 0; ii < uids->len; ii++) {
 				const gchar *refruid = uids->pdata[ii];
 				CamelMessageInfo *refrinfo;
@@ -1038,7 +1037,7 @@ folder_cache_check_ignore_thread (CamelFolder *folder,
 				g_clear_object (&refrinfo);
 			}
 
-			camel_folder_search_free (folder, uids);
+			g_ptr_array_unref (uids);
 		}
 
 		g_string_free (expr, TRUE);

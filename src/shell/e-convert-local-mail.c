@@ -88,10 +88,10 @@ copy_folder (CamelStore *mail_store,
 		return;
 	}
 
-	uids = camel_folder_get_uids (fromfolder);
+	uids = camel_folder_dup_uids (fromfolder);
 	camel_folder_transfer_messages_to_sync (
 		fromfolder, uids, tofolder, FALSE, NULL, NULL, NULL);
-	camel_folder_free_uids (fromfolder, uids);
+	g_ptr_array_unref (uids);
 
 	g_object_unref (fromfolder);
 	g_object_unref (tofolder);

@@ -660,11 +660,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	e_mail_shell_view_mail_view_notify_cb (G_OBJECT (action), NULL, mail_shell_view);
 
 	g_settings_bind (
-		settings, "enable-unmatched",
-		ACTION (MAIL_VFOLDER_UNMATCHED_ENABLE), "active",
-		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
-
-	g_settings_bind (
 		settings, "show-attachment-bar",
 		ACTION (MAIL_ATTACHMENT_BAR), "active",
 		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);

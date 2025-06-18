@@ -34,7 +34,7 @@ struct _EMailPropertiesPrivate {
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMailProperties, e_mail_properties, G_TYPE_OBJECT)
 
-static gint
+static gboolean
 e_mail_properties_get_value_cb (gpointer data,
 				gint ncol,
 				gchar **colvalues,
@@ -43,12 +43,12 @@ e_mail_properties_get_value_cb (gpointer data,
 	gchar **value = data;
 
 	if (value && colvalues && colvalues[0]) {
-		g_return_val_if_fail (*value == NULL, 0);
+		g_return_val_if_fail (*value == NULL, FALSE);
 
 		*value = g_strdup (colvalues[0]);
 	}
 
-	return 0;
+	return TRUE;
 }
 
 static gchar *
@@ -67,7 +67,7 @@ e_mail_properties_get (EMailProperties *properties,
 	g_return_val_if_fail (properties->priv->db != NULL, NULL);
 
 	stmt = sqlite3_mprintf ("SELECT value FROM %Q WHERE id=%Q AND key=%Q", table, id, key);
-	camel_db_select (properties->priv->db, stmt, e_mail_properties_get_value_cb, &value, NULL);
+	camel_db_exec_select (properties->priv->db, stmt, e_mail_properties_get_value_cb, &value, NULL);
 	sqlite3_free (stmt);
 
 	return value;
@@ -95,7 +95,7 @@ e_mail_properties_add (EMailProperties *properties,
 		stmt = sqlite3_mprintf ("UPDATE %Q SET id=%Q,key=%Q,value=%Q WHERE id=%Q AND key=%Q", table, id, key, value, id, key);
 	else
 		stmt = sqlite3_mprintf ("INSERT INTO %Q (id,key,value) VALUES (%Q,%Q,%Q)", table, id, key, value, id, key);
-	camel_db_command (properties->priv->db, stmt, &error);
+	camel_db_exec_statement (properties->priv->db, stmt, &error);
 	sqlite3_free (stmt);
 	g_free (stored);
 
@@ -121,7 +121,7 @@ e_mail_properties_remove (EMailProperties *properties,
 	g_return_if_fail (properties->priv->db != NULL);
 
 	stmt = sqlite3_mprintf ("DELETE FROM %Q WHERE id=%Q AND key=%Q", table, id, key);
-	camel_db_command (properties->priv->db, stmt, &error);
+	camel_db_exec_statement (properties->priv->db, stmt, &error);
 	sqlite3_free (stmt);
 
 	if (error) {
@@ -130,7 +130,7 @@ e_mail_properties_remove (EMailProperties *properties,
 	}
 }
 
-static gint
+static gboolean
 e_mail_properties_get_version_cb (gpointer data,
 				  gint ncol,
 				  gchar **colvalues,
@@ -141,7 +141,7 @@ e_mail_properties_get_version_cb (gpointer data,
 	if (pversion && ncol == 1 && colvalues && colvalues[0])
 		*pversion = (gint) g_ascii_strtoll (colvalues[0], NULL, 10);
 
-	return 0;
+	return TRUE;
 }
 
 static void
@@ -164,7 +164,7 @@ e_mail_properties_set_config_filename (EMailProperties *properties,
 	if (properties->priv->db) {
 		#define ctb(stmt) G_STMT_START { \
 			if (properties->priv->db) { \
-				camel_db_command (properties->priv->db, stmt, &error); \
+				camel_db_exec_statement (properties->priv->db, stmt, &error); \
 				if (error) { \
 					g_warning ("%s: Failed to execute '%s' on '%s': %s", \
 						G_STRFUNC, stmt, config_filename, error->message); \
@@ -184,7 +184,7 @@ e_mail_properties_set_config_filename (EMailProperties *properties,
 		gint version = -1;
 		gchar *stmt;
 
-		camel_db_select (properties->priv->db, "SELECT 'current' FROM 'version'", e_mail_properties_get_version_cb, &version, NULL);
+		camel_db_exec_select (properties->priv->db, "SELECT 'current' FROM 'version'", e_mail_properties_get_version_cb, &version, NULL);
 
 		if (version != -1 && version < CURRENT_VERSION) {
 			/* Here will be added migration code, if needed in the future */
@@ -192,11 +192,11 @@ e_mail_properties_set_config_filename (EMailProperties *properties,
 
 		if (version < CURRENT_VERSION) {
 			stmt = sqlite3_mprintf ("DELETE FROM %Q", "version");
-			camel_db_command (properties->priv->db, stmt, NULL);
+			camel_db_exec_statement (properties->priv->db, stmt, NULL);
 			sqlite3_free (stmt);
 
 			stmt = sqlite3_mprintf ("INSERT INTO %Q (current) VALUES (%d);", "version", CURRENT_VERSION);
-			camel_db_command (properties->priv->db, stmt, NULL);
+			camel_db_exec_statement (properties->priv->db, stmt, NULL);
 			sqlite3_free (stmt);
 		}
 	}

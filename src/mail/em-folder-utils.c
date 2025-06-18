@@ -255,12 +255,12 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 						g_free (full_display_name);
 					}
 
-					uids = camel_folder_get_uids (fromfolder);
+					uids = camel_folder_dup_uids (fromfolder);
 					success = camel_folder_transfer_messages_to_sync (
 						fromfolder, uids, tofolder,
 						m->delete, NULL,
 						local_cancellable, error);
-					camel_folder_free_uids (fromfolder, uids);
+					g_ptr_array_unref (uids);
 
 					if (n_folders > 1)
 						camel_operation_pop_message (cancellable);

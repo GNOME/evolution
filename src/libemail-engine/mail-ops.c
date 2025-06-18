@@ -114,7 +114,7 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m,
 	if (m->source_uids)
 		uids = m->source_uids;
 	else
-		folder_uids = uids = camel_folder_get_uids (folder);
+		folder_uids = uids = camel_folder_dup_uids (folder);
 
 	success = camel_filter_driver_filter_folder (
 		m->driver, folder, m->cache, uids, m->delete,
@@ -122,7 +122,7 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m,
 	camel_filter_driver_flush (m->driver, &local_error);
 
 	if (folder_uids)
-		camel_folder_free_uids (folder, folder_uids);
+		g_ptr_array_unref (folder_uids);
 
 	/* sync our source folder */
 	if (!m->cache && !local_error)
@@ -337,19 +337,19 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		}
 
 		if (!local_error && !g_cancellable_is_cancelled (cancellable)) {
-			folder_uids = camel_folder_get_uids (folder);
-			cache_uids = camel_uid_cache_get_new_uids (cache, folder_uids);
+			folder_uids = camel_folder_dup_uids (folder);
+			cache_uids = camel_uid_cache_dup_new_uids (cache, folder_uids);
 
 			if (cache_uids) {
 				gboolean success;
 
 				/* need to copy this, sigh */
-				fm->source_uids = uids = g_ptr_array_new ();
+				fm->source_uids = uids = g_ptr_array_new_with_free_func ((GDestroyNotify) camel_pstring_free);
 				g_ptr_array_set_size (uids, cache_uids->len);
 
 				/* Reverse it so that we fetch the latest as first, while fetching POP  */
 				for (i = 0; i < cache_uids->len; i++) {
-					uids->pdata[cache_uids->len - i - 1] = g_strdup (cache_uids->pdata[i]);
+					uids->pdata[cache_uids->len - i - 1] = (gpointer) camel_pstring_strdup (cache_uids->pdata[i]);
 				}
 
 				fm->cache = cache;
@@ -364,7 +364,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 					GPtrArray *uncached_uids;
 					GHashTable *uncached_hash;
 
-					uncached_uids = camel_folder_get_uncached_uids (folder, cache_uids, NULL);
+					uncached_uids = camel_folder_dup_uncached_uids (folder, cache_uids, NULL);
 					uncached_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
 					for (i = 0; uncached_uids && i < uncached_uids->len; i++) {
@@ -380,13 +380,13 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 					}
 
 					g_hash_table_destroy (uncached_hash);
-					camel_folder_free_uids (folder, uncached_uids);
+					g_ptr_array_unref (uncached_uids);
 				}
 
 				/* save the cache of uids that we've just downloaded */
 				camel_uid_cache_save (cache);
 
-				camel_uid_cache_free_uids (cache_uids);
+				g_ptr_array_unref (cache_uids);
 			}
 
 			if (delete_fetched && !local_error) {
@@ -405,7 +405,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 					folder, delete_fetched, NULL, NULL);
 			}
 
-			camel_folder_free_uids (folder, folder_uids);
+			g_ptr_array_unref (folder_uids);
 		}
 
 		camel_uid_cache_destroy (cache);
@@ -991,7 +991,7 @@ send_queue_exec (struct _send_queue_msg *m,
 		e_mail_session_get_local_folder (
 		m->session, E_MAIL_LOCAL_FOLDER_SENT);
 
-	if (!(uids = camel_folder_get_uids (m->queue)))
+	if (!(uids = camel_folder_dup_uids (m->queue)))
 		return;
 
 	send_uids = g_ptr_array_sized_new (uids->len);
@@ -1022,7 +1022,7 @@ send_queue_exec (struct _send_queue_msg *m,
 		maybe_schedule_next_flush (m->session, nearest_next_flush);
 
 		/* nothing to send */
-		camel_folder_free_uids (m->queue, uids);
+		g_ptr_array_unref (uids);
 		g_ptr_array_free (send_uids, TRUE);
 		return;
 	}
@@ -1108,7 +1108,7 @@ send_queue_exec (struct _send_queue_msg *m,
 
 	g_clear_object (&m->driver);
 
-	camel_folder_free_uids (m->queue, uids);
+	g_ptr_array_unref (uids);
 	g_ptr_array_free (send_uids, TRUE);
 
 	/* FIXME Not passing a GCancellable or GError here. */
@@ -1382,7 +1382,7 @@ sync_folder_exec (struct _sync_folder_msg *m,
 				guint32 mask;
 				guint ii;
 
-				uids = camel_folder_get_uids (folder);
+				uids = camel_folder_dup_uids (folder);
 				flags = mask = CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN;
 
 				camel_folder_freeze (folder);
@@ -1393,7 +1393,7 @@ sync_folder_exec (struct _sync_folder_msg *m,
 				}
 
 				camel_folder_thaw (folder);
-				camel_folder_free_uids (folder, uids);
+				g_ptr_array_unref (uids);
 
 				g_object_unref (folder);
 

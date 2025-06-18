@@ -155,10 +155,13 @@ vfolder_setup_exec (struct _setup_msg *m,
                     GCancellable *cancellable,
                     GError **error)
 {
-	GList *l, *list = NULL;
+	GList *l;
+	GPtrArray *folders;
 	CamelFolder *folder;
 
-	camel_vee_folder_set_expression ((CamelVeeFolder *) m->folder, m->query);
+	camel_vee_folder_set_expression_sync ((CamelVeeFolder *) m->folder, m->query, CAMEL_VEE_FOLDER_OP_FLAG_SKIP_REBUILD, cancellable, NULL);
+
+	folders = g_ptr_array_new_with_free_func (g_object_unref);
 
 	for (l = m->sources_uri;
 	     l && !vfolder_shutdown && !g_cancellable_is_cancelled (cancellable);
@@ -181,21 +184,21 @@ vfolder_setup_exec (struct _setup_msg *m,
 				folder = e_mail_session_uri_to_folder_sync (
 					m->session, fi_uri, 0, cancellable, NULL);
 				if (folder != NULL)
-					list = g_list_append (list, folder);
+					g_ptr_array_add (folders, folder);
 			}
 
 			g_list_free_full (uris, g_free);
 		} else {
 			folder = e_mail_session_uri_to_folder_sync (m->session, l->data, 0, cancellable, NULL);
 			if (folder != NULL)
-				list = g_list_append (list, folder);
+				g_ptr_array_add (folders, folder);
 		}
 	}
 
 	if (!vfolder_shutdown && !g_cancellable_is_cancelled (cancellable))
-		camel_vee_folder_set_folders ((CamelVeeFolder *) m->folder, list, cancellable);
+		camel_vee_folder_set_folders_sync ((CamelVeeFolder *) m->folder, folders, CAMEL_VEE_FOLDER_OP_FLAG_NONE, cancellable, error);
 
-	g_list_free_full (list, g_object_unref);
+	g_ptr_array_unref (folders);
 }
 
 static void
@@ -259,14 +262,15 @@ vfolder_add_remove_one (GList *vfolders,
 
 	for (iter = vfolders; iter && !vfolder_shutdown; iter = iter->next) {
 		CamelVeeFolder *vfolder = CAMEL_VEE_FOLDER (iter->data);
+		CamelVeeFolderOpFlags op_flags = iter->next ? CAMEL_VEE_FOLDER_OP_FLAG_SKIP_REBUILD : CAMEL_VEE_FOLDER_OP_FLAG_NONE;
 
 		if (!vfolder)
 			continue;
 
 		if (remove)
-			camel_vee_folder_remove_folder (vfolder, folder, cancellable);
+			camel_vee_folder_remove_folder_sync (vfolder, folder, op_flags, cancellable, NULL);
 		else
-			camel_vee_folder_add_folder (vfolder, folder, cancellable);
+			camel_vee_folder_add_folder_sync (vfolder, folder, op_flags, cancellable, NULL);
 	}
 }
 
@@ -993,10 +997,6 @@ store_folder_deleted_cb (CamelStore *store,
 	gchar *user;
 
 	d (printf ("Folder deleted: %s\n", info->name));
-
-	/* Unmatched folder doesn't have any rule */
-	if (g_strcmp0 (CAMEL_UNMATCHED_NAME, info->full_name) == 0)
-		return;
 
 	/* Warning not thread safe, but might be enough */
 	G_LOCK (vfolder);

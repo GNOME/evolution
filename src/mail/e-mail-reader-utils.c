@@ -585,7 +585,7 @@ mail_reader_empty_junk_thread (EAlertSinkThreadJobData *job_data,
 	if (summary)
 		camel_folder_summary_prepare_fetch_all (summary, NULL);
 
-	uids = camel_folder_get_uids (folder);
+	uids = camel_folder_dup_uids (folder);
 	if (uids) {
 		for (ii = 0; ii < uids->len; ii++) {
 			CamelMessageInfo *nfo;
@@ -600,7 +600,7 @@ mail_reader_empty_junk_thread (EAlertSinkThreadJobData *job_data,
 		if (uids->len > 0)
 			camel_folder_synchronize_sync (folder, FALSE, cancellable, error);
 
-		camel_folder_free_uids (folder, uids);
+		g_ptr_array_unref (uids);
 	}
 
 	camel_folder_thaw (folder);
@@ -1197,8 +1197,7 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 				if (expr) {
 					g_string_append (expr, "))");
 
-					uids = camel_folder_search_by_expression (folder, expr->str, cancellable, &local_error);
-					if (uids) {
+					if (camel_folder_search_sync (folder, expr->str, &uids, cancellable, &local_error) && uids) {
 						for (ii = 0; ii < uids->len; ii++) {
 							const gchar *refruid = uids->pdata[ii];
 
@@ -1206,7 +1205,7 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 								to_check = g_slist_prepend (to_check, (gpointer) camel_pstring_strdup (refruid));
 						}
 
-						camel_folder_search_free (folder, uids);
+						g_clear_pointer (&uids, g_ptr_array_unref);
 					}
 
 					g_string_free (expr, TRUE);
@@ -1226,8 +1225,7 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 
 		/* Search for children */
 		sexp = g_strdup_printf ("(match-all (= \"references\" \"%lu %lu\"))", (gulong) msgid.id.part.hi, (gulong) msgid.id.part.lo);
-		uids = camel_folder_search_by_expression (folder, sexp, cancellable, &local_error);
-		if (uids) {
+		if (camel_folder_search_sync (folder, sexp, &uids, cancellable, &local_error) && uids) {
 			for (ii = 0; ii < uids->len; ii++) {
 				const gchar *refruid = uids->pdata[ii];
 
@@ -1264,7 +1262,7 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 				}
 			}
 
-			camel_folder_search_free (folder, uids);
+			g_clear_pointer (&uids, g_ptr_array_unref);
 		}
 		g_free (sexp);
 
@@ -3424,20 +3422,6 @@ mail_reader_create_vfolder_cb (GObject *source_object,
 	session = e_mail_backend_get_session (backend);
 
 	use_folder = async_context->folder;
-	if (CAMEL_IS_VEE_FOLDER (use_folder)) {
-		CamelStore *parent_store;
-		CamelVeeFolder *vfolder;
-
-		parent_store = camel_folder_get_parent_store (use_folder);
-		vfolder = CAMEL_VEE_FOLDER (use_folder);
-
-		if (CAMEL_IS_VEE_STORE (parent_store) &&
-		    vfolder == camel_vee_store_get_unmatched_folder (CAMEL_VEE_STORE (parent_store))) {
-			/* use source folder instead of the Unmatched folder */
-			use_folder = camel_vee_folder_get_vee_uid_folder (
-				vfolder, async_context->message_uid);
-		}
-	}
 
 	vfolder_gui_add_from_message (
 		session, message,

@@ -456,11 +456,6 @@
       <_summary>Show junk messages in the message-list</_summary>
       <_description>Show junk messages (with a red strike-through) in the message-list.</_description>
     </key>
-    <key name="enable-unmatched" type="b">
-      <default>true</default>
-      <_summary>Enable Unmatched search folder</_summary>
-      <_description>Enable Unmatched search folder within Search Folders. It does nothing if Search Folders are disabled.</_description>
-    </key>
     <key name="safe-list" type="b">
       <default>false</default>
       <_summary>Hides the per-folder preview and removes the selection</_summary>
@@ -1042,6 +1037,11 @@
       <default>true</default>
       <_summary>Prompt before send when attachment changed on the disk</_summary>
       <_description>Ask whether can send a message with attachments which changed on the disk since they had been attached to the message.</_description>
+    </key>
+    <key name="enable-unmatched" type="b">
+      <default>true</default>
+      <summary>Unused since 3.58, it enabled/disabled a special search folder</summary>
+      <description>Unused since 3.58</description>
     </key>
 
   </schema>

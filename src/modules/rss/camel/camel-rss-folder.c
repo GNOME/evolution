@@ -34,74 +34,6 @@ enum {
 
 G_DEFINE_TYPE_WITH_PRIVATE (CamelRssFolder, camel_rss_folder, CAMEL_TYPE_FOLDER)
 
-static GPtrArray *
-rss_folder_search_by_expression (CamelFolder *folder,
-				 const gchar *expression,
-				 GCancellable *cancellable,
-				 GError **error)
-{
-	CamelFolderSearch *search;
-	GPtrArray *matches;
-
-	search = camel_folder_search_new ();
-	camel_folder_search_set_folder (search, folder);
-
-	matches = camel_folder_search_search (search, expression, NULL, cancellable, error);
-
-	g_clear_object (&search);
-
-	return matches;
-}
-
-static guint32
-rss_folder_count_by_expression (CamelFolder *folder,
-				const gchar *expression,
-				GCancellable *cancellable,
-				GError **error)
-{
-	CamelFolderSearch *search;
-	guint32 count;
-
-	search = camel_folder_search_new ();
-	camel_folder_search_set_folder (search, folder);
-
-	count = camel_folder_search_count (search, expression, cancellable, error);
-
-	g_clear_object (&search);
-
-	return count;
-}
-
-static GPtrArray *
-rss_folder_search_by_uids (CamelFolder *folder,
-			   const gchar *expression,
-			   GPtrArray *uids,
-			   GCancellable *cancellable,
-			   GError **error)
-{
-	CamelFolderSearch *search;
-	GPtrArray *matches;
-
-	if (uids->len == 0)
-		return g_ptr_array_new ();
-
-	search = camel_folder_search_new ();
-	camel_folder_search_set_folder (search, folder);
-
-	matches = camel_folder_search_search (search, expression, uids, cancellable, error);
-
-	g_clear_object (&search);
-
-	return matches;
-}
-
-static void
-rss_folder_search_free (CamelFolder *folder,
-			GPtrArray *result)
-{
-	camel_folder_search_free_result (NULL, result);
-}
-
 static gchar *
 rss_get_filename (CamelFolder *folder,
 		  const gchar *uid,
@@ -145,7 +77,7 @@ rss_folder_expunge_sync (CamelFolder *folder,
 	CamelRssFolder *rss_folder;
 	CamelStore *store;
 	GPtrArray *known_uids;
-	GList *to_remove = NULL;
+	GPtrArray *to_remove = NULL;
 	guint ii;
 
 	summary = camel_folder_get_folder_summary (folder);
@@ -155,7 +87,7 @@ rss_folder_expunge_sync (CamelFolder *folder,
 		return TRUE;
 
 	camel_folder_summary_prepare_fetch_all (summary, NULL);
-	known_uids = camel_folder_summary_get_array (summary);
+	known_uids = camel_folder_summary_dup_uids (summary);
 
 	if (known_uids == NULL)
 		return TRUE;
@@ -176,7 +108,9 @@ rss_folder_expunge_sync (CamelFolder *folder,
 			camel_data_cache_remove (cache, rss_folder->priv->id, uid, NULL);
 
 			camel_folder_change_info_remove_uid (changes, uid);
-			to_remove = g_list_prepend (to_remove, (gpointer) camel_pstring_strdup (uid));
+			if (!to_remove)
+				to_remove = g_ptr_array_new ();
+			g_ptr_array_add (to_remove, (gpointer) uid);
 		}
 	}
 
@@ -185,11 +119,11 @@ rss_folder_expunge_sync (CamelFolder *folder,
 		camel_folder_summary_save (summary, NULL);
 		camel_folder_changed (folder, changes);
 
-		g_list_free_full (to_remove, (GDestroyNotify) camel_pstring_free);
+		g_clear_pointer (&to_remove, g_ptr_array_unref);
 	}
 
 	camel_folder_change_info_free (changes);
-	camel_folder_summary_free_array (known_uids);
+	g_ptr_array_unref (known_uids);
 
 	return TRUE;
 }
@@ -519,7 +453,7 @@ rss_folder_synchronize_sync (CamelFolder *folder,
 	}
 
 	summary = camel_folder_get_folder_summary (folder);
-	changed = camel_folder_summary_get_changed (summary);
+	changed = camel_folder_summary_dup_changed (summary);
 
 	if (changed) {
 		g_ptr_array_foreach (changed, (GFunc) rss_unset_flagged_flag, summary);
@@ -704,10 +638,6 @@ camel_rss_folder_class_init (CamelRssFolderClass *class)
 	object_class->finalize = rss_folder_finalize;
 
 	folder_class = CAMEL_FOLDER_CLASS (class);
-	folder_class->search_by_expression = rss_folder_search_by_expression;
-	folder_class->count_by_expression = rss_folder_count_by_expression;
-	folder_class->search_by_uids = rss_folder_search_by_uids;
-	folder_class->search_free = rss_folder_search_free;
 	folder_class->get_filename = rss_get_filename;
 	folder_class->append_message_sync = rss_folder_append_message_sync;
 	folder_class->expunge_sync = rss_folder_expunge_sync;

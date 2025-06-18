@@ -616,7 +616,7 @@ mark_all_read_thread (GTask *task,
 
 		camel_folder_freeze (folder);
 
-		uids = camel_folder_get_uids (folder);
+		uids = camel_folder_dup_uids (folder);
 
 		for (ii = 0; ii < uids->len; ii++)
 			camel_folder_set_message_flags (
@@ -629,7 +629,7 @@ mark_all_read_thread (GTask *task,
 		/* Save changes to the server immediately. */
 		camel_folder_synchronize_sync (folder, FALSE, cancellable, &error);
 
-		camel_folder_free_uids (folder, uids);
+		g_ptr_array_unref (uids);
 		g_object_unref (folder);
 	}
 
@@ -1931,14 +1931,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		  N_("Show To _Do Bar"),
 		  NULL,
 		  N_("Show To Do bar with appointments and tasks"),
-		  NULL, NULL, "true", NULL }, /* Handled by property bindings */
-
-		{ "mail-vfolder-unmatched-enable",
-		  NULL,
-		  N_("_Unmatched Folder Enabled"),
-		  NULL,
-		  N_("Toggles whether Unmatched search folder is enabled"),
-		  NULL, NULL, "true", NULL }
+		  NULL, NULL, "true", NULL } /* Handled by property bindings */
 	};
 
 	static const EUIActionEnumEntry mail_view_entries[] = {

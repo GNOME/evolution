@@ -1842,13 +1842,14 @@ set_up_new_composer (EMsgComposer *composer,
 
 				todo = g_slist_remove (todo, vfolder);
 				if (!g_hash_table_contains (done_folders, vfolder)) {
-					GList *folders, *llink;
+					GPtrArray *subfolders;
+					guint ii;
 
 					g_hash_table_insert (done_folders, vfolder, NULL);
 
-					folders = camel_vee_folder_ref_folders (vfolder);
-					for (llink = folders; llink; llink = g_list_next (llink)) {
-						CamelFolder *subfolder = llink->data;
+					subfolders = camel_vee_folder_dup_folders (vfolder);
+					for (ii = 0; subfolders && ii < subfolders->len; ii++) {
+						CamelFolder *subfolder = g_ptr_array_index (subfolders, ii);
 
 						if (!g_hash_table_contains (done_folders, subfolder)) {
 							if (CAMEL_IS_VEE_FOLDER (subfolder)) {
@@ -1871,7 +1872,7 @@ set_up_new_composer (EMsgComposer *composer,
 						}
 					}
 
-					g_list_free_full (folders, g_object_unref);
+					g_clear_pointer (&subfolders, g_ptr_array_unref);
 				}
 
 				g_object_unref (vfolder);

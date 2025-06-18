@@ -447,7 +447,7 @@ tmpl_folder_data_update_sync (TmplFolderData *tfd,
 		camel_folder_summary_prepare_fetch_all (camel_folder_get_folder_summary (tfd->folder), NULL);
 
 	if (!added_uids && !changed_uids) {
-		all_uids = camel_folder_summary_get_array (camel_folder_get_folder_summary (tfd->folder));
+		all_uids = camel_folder_summary_dup_uids (camel_folder_get_folder_summary (tfd->folder));
 		added_uids = all_uids;
 	}
 
@@ -484,7 +484,7 @@ tmpl_folder_data_update_sync (TmplFolderData *tfd,
 		tmpl_folder_data_sort (tfd);
 
 	if (all_uids)
-		camel_folder_summary_free_array (all_uids);
+		g_ptr_array_unref (all_uids);
 
 	tmpl_folder_data_unlock (tfd);
 
