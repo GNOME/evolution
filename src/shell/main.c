@@ -51,6 +51,7 @@
 #include <clutter-gtk/clutter-gtk.h>
 #endif
 
+#include "e-shell-migrate.h"
 #include "e-shell.h"
 
 #ifdef G_OS_WIN32
@@ -359,6 +360,12 @@ main (gint argc,
 		 *           upgrading from Evolution 2.30 or older. */
 		e_migrate_base_dirs (shell);
 		e_convert_local_mail (shell);
+
+		/* The CamelStoreDB migrates on open automatically, which means when
+		   the EMailBackend is constructed, which does not provide UI feedback,
+		   but the migration can take time, thus abuse it and open each folders.db
+		   file before the EMailBackend creates the CamelStore-s */
+		e_shell_maybe_migrate_mail_folders_db (shell);
 
 		/* Clutter is not developed anymore. Unfortunately, when its options are parsed,
 		   it can cause a crash when the instance is a remote app, not the main app.

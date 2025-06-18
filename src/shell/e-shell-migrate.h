@@ -29,6 +29,7 @@
 G_BEGIN_DECLS
 
 gboolean	e_shell_migrate_attempt			(EShell *shell);
+void		e_shell_maybe_migrate_mail_folders_db	(EShell *shell);
 GQuark		e_shell_migrate_error_quark		(void);
 
 G_END_DECLS
