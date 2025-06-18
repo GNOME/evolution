@@ -77,6 +77,9 @@ struct _EAttachmentPrivate {
 	guint save_self      : 1;
 	guint save_extracted : 1;
 
+	guint is_constructed : 1;
+	GPtrArray *pending_prop_changes; /* GUINT_TO_POINTER (property_index) */
+
 	CamelCipherValidityEncrypt encrypted;
 	CamelCipherValiditySign signed_;
 
@@ -105,7 +108,8 @@ enum {
 	PROP_INITIALLY_SHOWN,
 	PROP_SIGNED,
 	PROP_MAY_RELOAD,
-	PROP_IS_POSSIBLE
+	PROP_IS_POSSIBLE,
+	LAST_PROPERTY
 };
 
 enum {
@@ -117,8 +121,111 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL];
+static GParamSpec *properties[LAST_PROPERTY] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EAttachment, e_attachment, G_TYPE_OBJECT)
+
+static void
+e_attachment_flush_pending_prop_changes (EAttachment *self,
+					 GPtrArray *pending_prop_changes,
+					 guint with_prop_index)
+{
+	GObject *obj = G_OBJECT (self);
+
+	g_object_freeze_notify (obj);
+
+	if (pending_prop_changes) {
+		guint ii;
+
+		for (ii = 0; ii < pending_prop_changes->len; ii++) {
+			guint property_index = GPOINTER_TO_UINT (g_ptr_array_index (pending_prop_changes, ii));
+
+			g_object_notify_by_pspec (obj, properties[property_index]);
+
+			if (property_index == with_prop_index)
+				with_prop_index = 0;
+		}
+	}
+
+	if (with_prop_index)
+		g_object_notify_by_pspec (obj, properties[with_prop_index]);
+
+	g_object_thaw_notify (obj);
+}
+
+static gboolean
+e_attachment_notify_property_change_idle_cb (gpointer user_data)
+{
+	GWeakRef *self_weakref = user_data;
+	EAttachment *self;
+
+	self = g_weak_ref_get (self_weakref);
+	if (self) {
+		GPtrArray *pending_prop_changes;
+
+		g_mutex_lock (&self->priv->property_lock);
+		pending_prop_changes = g_steal_pointer (&self->priv->pending_prop_changes);
+		g_mutex_unlock (&self->priv->property_lock);
+
+		if (pending_prop_changes)
+			e_attachment_flush_pending_prop_changes (self, pending_prop_changes, 0);
+
+		g_clear_pointer (&pending_prop_changes, g_ptr_array_unref);
+		g_object_unref (self);
+	}
+
+	e_weak_ref_free (self_weakref);
+
+	return G_SOURCE_REMOVE;
+}
+
+static void
+e_attachment_notify_property_change (EAttachment *self,
+				     guint property_index)
+{
+	/* ignore changes in "construct" properties; nobody is listening anyway */
+	if (!self->priv->is_constructed)
+		return;
+
+	if (e_util_is_main_thread (g_thread_self ())) {
+		GPtrArray *pending_prop_changes;
+
+		g_mutex_lock (&self->priv->property_lock);
+		pending_prop_changes = g_steal_pointer (&self->priv->pending_prop_changes);
+		g_mutex_unlock (&self->priv->property_lock);
+
+		e_attachment_flush_pending_prop_changes (self, pending_prop_changes, property_index);
+
+		g_clear_pointer (&pending_prop_changes, g_ptr_array_unref);
+	} else {
+		gboolean schedule;
+
+		g_mutex_lock (&self->priv->property_lock);
+
+		schedule = !self->priv->pending_prop_changes;
+
+		if (self->priv->pending_prop_changes) {
+			gpointer prop_ptr = GUINT_TO_POINTER (property_index);
+			guint ii;
+
+			for (ii = 0; ii < self->priv->pending_prop_changes->len; ii++) {
+				if (g_ptr_array_index (self->priv->pending_prop_changes, ii) == prop_ptr)
+					break;
+			}
+
+			if (ii >= self->priv->pending_prop_changes->len)
+				g_ptr_array_add (self->priv->pending_prop_changes, prop_ptr);
+		} else {
+			self->priv->pending_prop_changes = g_ptr_array_new ();
+			g_ptr_array_add (self->priv->pending_prop_changes, GUINT_TO_POINTER (property_index));
+		}
+
+		g_mutex_unlock (&self->priv->property_lock);
+
+		if (schedule)
+			g_idle_add (e_attachment_notify_property_change_idle_cb, e_weak_ref_new (self));
+	}
+}
 
 static gboolean
 create_system_thumbnail (EAttachment *attachment,
@@ -457,7 +564,7 @@ attachment_update_icon_column_idle_cb (gpointer weak_ref)
 	if (attachment->priv->icon != NULL)
 		g_object_unref (attachment->priv->icon);
 	attachment->priv->icon = icon;
-	g_object_notify (G_OBJECT (attachment), "icon");
+	e_attachment_notify_property_change (attachment, PROP_ICON);
 
 	g_clear_object (&file_info);
 
@@ -543,8 +650,8 @@ attachment_set_loading (EAttachment *attachment,
 	attachment->priv->last_percent_notify = 0;
 
 	g_object_freeze_notify (G_OBJECT (attachment));
-	g_object_notify (G_OBJECT (attachment), "percent");
-	g_object_notify (G_OBJECT (attachment), "loading");
+	e_attachment_notify_property_change (attachment, PROP_PERCENT);
+	e_attachment_notify_property_change (attachment, PROP_LOADING);
 	g_object_thaw_notify (G_OBJECT (attachment));
 }
 
@@ -811,6 +918,17 @@ attachment_get_property (GObject *object,
 }
 
 static void
+attachment_constructed (GObject *object)
+{
+	EAttachment *self = E_ATTACHMENT (object);
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_attachment_parent_class)->constructed (object);
+
+	self->priv->is_constructed = TRUE;
+}
+
+static void
 attachment_dispose (GObject *object)
 {
 	EAttachment *self = E_ATTACHMENT (object);
@@ -844,6 +962,8 @@ attachment_finalize (GObject *object)
 	if (self->priv->update_file_info_columns_idle_id > 0)
 		g_source_remove (self->priv->update_file_info_columns_idle_id);
 
+	g_clear_pointer (&self->priv->pending_prop_changes, g_ptr_array_unref);
+
 	g_mutex_clear (&self->priv->property_lock);
 	g_mutex_clear (&self->priv->idle_lock);
 
@@ -856,189 +976,145 @@ attachment_finalize (GObject *object)
 static void
 e_attachment_class_init (EAttachmentClass *class)
 {
+	GParamFlags common_flags = G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_EXPLICIT_NOTIFY;
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = attachment_set_property;
 	object_class->get_property = attachment_get_property;
+	object_class->constructed = attachment_constructed;
 	object_class->dispose = attachment_dispose;
 	object_class->finalize = attachment_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CAN_SHOW,
-		g_param_spec_boolean (
-			"can-show",
-			"Can Show",
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+	properties[PROP_CAN_SHOW] = g_param_spec_boolean (
+		"can-show",
+		"Can Show",
+		NULL,
+		FALSE,
+		G_PARAM_READWRITE |
+		G_PARAM_CONSTRUCT | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DISPOSITION,
-		g_param_spec_string (
-			"disposition",
-			"Disposition",
-			NULL,
-			"attachment",
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+	properties[PROP_DISPOSITION] = g_param_spec_string (
+		"disposition",
+		"Disposition",
+		NULL,
+		"attachment",
+		G_PARAM_READWRITE |
+		G_PARAM_CONSTRUCT | common_flags);
 
 	/* FIXME Define a GEnumClass for this. */
-	g_object_class_install_property (
-		object_class,
-		PROP_ENCRYPTED,
-		g_param_spec_int (
-			"encrypted",
-			"Encrypted",
-			NULL,
-			CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE,
-			CAMEL_CIPHER_VALIDITY_ENCRYPT_STRONG,
-			CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+	properties[PROP_ENCRYPTED] = g_param_spec_int (
+		"encrypted",
+		"Encrypted",
+		NULL,
+		CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE,
+		CAMEL_CIPHER_VALIDITY_ENCRYPT_STRONG,
+		CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE,
+		G_PARAM_READWRITE |
+		G_PARAM_CONSTRUCT | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FILE,
-		g_param_spec_object (
-			"file",
-			"File",
-			NULL,
-			G_TYPE_FILE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+	properties[PROP_FILE] = g_param_spec_object (
+		"file",
+		"File",
+		NULL,
+		G_TYPE_FILE,
+		G_PARAM_READWRITE |
+		G_PARAM_CONSTRUCT | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FILE_INFO,
-		g_param_spec_object (
-			"file-info",
-			"File Info",
-			NULL,
-			G_TYPE_FILE_INFO,
-			G_PARAM_READABLE));
+	properties[PROP_FILE_INFO] = g_param_spec_object (
+		"file-info",
+		"File Info",
+		NULL,
+		G_TYPE_FILE_INFO,
+		G_PARAM_READABLE | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ICON,
-		g_param_spec_object (
-			"icon",
-			"Icon",
-			NULL,
-			G_TYPE_ICON,
-			G_PARAM_READABLE));
+	properties[PROP_ICON] = g_param_spec_object (
+		"icon",
+		"Icon",
+		NULL,
+		G_TYPE_ICON,
+		G_PARAM_READABLE | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LOADING,
-		g_param_spec_boolean (
-			"loading",
-			"Loading",
-			NULL,
-			FALSE,
-			G_PARAM_READABLE));
+	properties[PROP_LOADING] = g_param_spec_boolean (
+		"loading",
+		"Loading",
+		NULL,
+		FALSE,
+		G_PARAM_READABLE | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MIME_PART,
-		g_param_spec_object (
-			"mime-part",
-			"MIME Part",
-			NULL,
-			CAMEL_TYPE_MIME_PART,
-			G_PARAM_READWRITE));
+	properties[PROP_MIME_PART] = g_param_spec_object (
+		"mime-part",
+		"MIME Part",
+		NULL,
+		CAMEL_TYPE_MIME_PART,
+		G_PARAM_READWRITE | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PERCENT,
-		g_param_spec_int (
-			"percent",
-			"Percent",
-			NULL,
-			0,
-			100,
-			0,
-			G_PARAM_READABLE));
+	properties[PROP_PERCENT] = g_param_spec_int (
+		"percent",
+		"Percent",
+		NULL,
+		0,
+		100,
+		0,
+		G_PARAM_READABLE | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SAVE_SELF,
-		g_param_spec_boolean (
-			"save-self",
-			"Save self",
-			NULL,
-			TRUE,
-			G_PARAM_READWRITE));
+	properties[PROP_SAVE_SELF] = g_param_spec_boolean (
+		"save-self",
+		"Save self",
+		NULL,
+		TRUE,
+		G_PARAM_READWRITE | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SAVE_EXTRACTED,
-		g_param_spec_boolean (
-			"save-extracted",
-			"Save extracted",
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
+	properties[PROP_SAVE_EXTRACTED] = g_param_spec_boolean (
+		"save-extracted",
+		"Save extracted",
+		NULL,
+		FALSE,
+		G_PARAM_READWRITE | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SAVING,
-		g_param_spec_boolean (
-			"saving",
-			"Saving",
-			NULL,
-			FALSE,
-			G_PARAM_READABLE));
+	properties[PROP_SAVING] = g_param_spec_boolean (
+		"saving",
+		"Saving",
+		NULL,
+		FALSE,
+		G_PARAM_READABLE | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_INITIALLY_SHOWN,
-		g_param_spec_boolean (
-			"initially-shown",
-			"Initially Shown",
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+	properties[PROP_INITIALLY_SHOWN] = g_param_spec_boolean (
+		"initially-shown",
+		"Initially Shown",
+		NULL,
+		FALSE,
+		G_PARAM_READWRITE |
+		G_PARAM_CONSTRUCT | common_flags);
 
 	/* FIXME Define a GEnumClass for this. */
-	g_object_class_install_property (
-		object_class,
-		PROP_SIGNED,
-		g_param_spec_int (
-			"signed",
-			"Signed",
-			NULL,
-			CAMEL_CIPHER_VALIDITY_SIGN_NONE,
-			CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY,
-			CAMEL_CIPHER_VALIDITY_SIGN_NONE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+	properties[PROP_SIGNED] = g_param_spec_int (
+		"signed",
+		"Signed",
+		NULL,
+		CAMEL_CIPHER_VALIDITY_SIGN_NONE,
+		CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY,
+		CAMEL_CIPHER_VALIDITY_SIGN_NONE,
+		G_PARAM_READWRITE |
+		G_PARAM_CONSTRUCT | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAY_RELOAD,
-		g_param_spec_boolean (
-			"may-reload",
-			"May Reload",
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+	properties[PROP_MAY_RELOAD] = g_param_spec_boolean (
+		"may-reload",
+		"May Reload",
+		NULL,
+		FALSE,
+		G_PARAM_READWRITE |
+		G_PARAM_CONSTRUCT | common_flags);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_POSSIBLE,
-		g_param_spec_boolean (
-			"is-possible",
-			"Is Possible",
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+	properties[PROP_IS_POSSIBLE] = g_param_spec_boolean (
+		"is-possible",
+		"Is Possible",
+		NULL,
+		FALSE,
+		G_PARAM_READWRITE |
+		G_PARAM_CONSTRUCT | common_flags);
+
+	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
 
 	signals[UPDATE_FILE_INFO] = g_signal_new (
 		"update-file-info",
@@ -1367,7 +1443,7 @@ e_attachment_set_can_show (EAttachment *attachment,
 
 	attachment->priv->can_show = can_show;
 
-	g_object_notify (G_OBJECT (attachment), "can-show");
+	e_attachment_notify_property_change (attachment, PROP_CAN_SHOW);
 }
 
 const gchar *
@@ -1409,7 +1485,7 @@ e_attachment_set_disposition (EAttachment *attachment,
 
 	g_mutex_unlock (&attachment->priv->property_lock);
 
-	g_object_notify (G_OBJECT (attachment), "disposition");
+	e_attachment_notify_property_change (attachment, PROP_DISPOSITION);
 }
 
 GFile *
@@ -1447,7 +1523,7 @@ e_attachment_set_file (EAttachment *attachment,
 
 	g_mutex_unlock (&attachment->priv->property_lock);
 
-	g_object_notify (G_OBJECT (attachment), "file");
+	e_attachment_notify_property_change (attachment, PROP_FILE);
 }
 
 GFileInfo *
@@ -1495,7 +1571,7 @@ e_attachment_set_file_info (EAttachment *attachment,
 
 	g_mutex_unlock (&attachment->priv->property_lock);
 
-	g_object_notify (G_OBJECT (attachment), "file-info");
+	e_attachment_notify_property_change (attachment, PROP_FILE_INFO);
 }
 
 /**
@@ -1592,7 +1668,7 @@ e_attachment_set_mime_part (EAttachment *attachment,
 
 	g_mutex_unlock (&attachment->priv->property_lock);
 
-	g_object_notify (G_OBJECT (attachment), "mime-part");
+	e_attachment_notify_property_change (attachment, PROP_MIME_PART);
 }
 
 gint
@@ -1627,7 +1703,7 @@ e_attachment_set_initially_shown (EAttachment *attachment,
 
 	attachment->priv->initially_shown = initially_shown;
 
-	g_object_notify (G_OBJECT (attachment), "initially-shown");
+	e_attachment_notify_property_change (attachment, PROP_INITIALLY_SHOWN);
 }
 
 gboolean
@@ -1682,7 +1758,7 @@ e_attachment_set_encrypted (EAttachment *attachment,
 
 	attachment->priv->encrypted = encrypted;
 
-	g_object_notify (G_OBJECT (attachment), "encrypted");
+	e_attachment_notify_property_change (attachment, PROP_ENCRYPTED);
 }
 
 CamelCipherValiditySign
@@ -1703,7 +1779,7 @@ e_attachment_set_signed (EAttachment *attachment,
 
 	attachment->priv->signed_ = signed_;
 
-	g_object_notify (G_OBJECT (attachment), "signed");
+	e_attachment_notify_property_change (attachment, PROP_SIGNED);
 }
 
 gchar *
@@ -1985,7 +2061,7 @@ e_attachment_set_may_reload (EAttachment *attachment,
 
 	attachment->priv->may_reload = may_reload;
 
-	g_object_notify (G_OBJECT (attachment), "may-reload");
+	e_attachment_notify_property_change (attachment, PROP_MAY_RELOAD);
 
 	attachment_update_icon_column (attachment);
 }
@@ -2011,7 +2087,7 @@ e_attachment_set_is_possible (EAttachment *attachment,
 
 	attachment->priv->is_possible = is_possible;
 
-	g_object_notify (G_OBJECT (attachment), "is-possible");
+	e_attachment_notify_property_change (attachment, PROP_IS_POSSIBLE);
 }
 
 gboolean
