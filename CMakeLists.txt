@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.15)
 cmake_policy(VERSION 3.15)
 
 project(evolution
-	VERSION 3.56.2
+	VERSION 3.56.3
 	LANGUAGES C)
 set(PROJECT_BUGREPORT "https://gitlab.gnome.org/GNOME/evolution/issues/")
 set(PROJECT_URL "https://gitlab.gnome.org/GNOME/evolution/-/wikis/home")
