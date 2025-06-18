@@ -617,13 +617,13 @@ mail_shell_backend_search_mid (EMailShellBackend *mail_shell_backend,
 			e_shell_view_block_execute_search (shell_view);
 
 			action = ACTION (MAIL_FILTER_ALL_MESSAGES);
-			g_action_activate (G_ACTION (action), NULL);
+			e_ui_action_set_active (action, TRUE);
 
 			action = ACTION (MAIL_SEARCH_FREE_FORM_EXPR);
-			g_action_activate (G_ACTION (action), NULL);
+			e_ui_action_set_active (action, TRUE);
 
 			action = ACTION (MAIL_SCOPE_ALL_ACCOUNTS);
-			g_action_activate (G_ACTION (action), NULL);
+			e_ui_action_set_active (action, TRUE);
 
 			e_shell_view_set_search_rule (shell_view, NULL);
 			e_shell_searchbar_set_search_text (shell_searchbar, expr->str);

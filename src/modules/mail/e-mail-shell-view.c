@@ -969,7 +969,7 @@ mail_shell_view_custom_search (EShellView *shell_view,
 		if (search_action && search_text) {
 			e_shell_view_block_execute_search (shell_view);
 			e_shell_view_set_search_rule (shell_view, NULL);
-			g_action_activate (G_ACTION (search_action), NULL);
+			e_ui_action_set_active (search_action, TRUE);
 			e_shell_searchbar_set_search_text (searchbar, search_text);
 			e_shell_view_unblock_execute_search (shell_view);
 			e_shell_view_execute_search (shell_view);
