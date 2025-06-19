@@ -49,6 +49,8 @@ struct _EMailIdentityComboBoxPrivate {
 	guint refresh_idle_id;
 
 	gint refreshing;
+	gint max_natural_width;
+	gint last_natural_width;
 };
 
 enum {
@@ -124,6 +126,25 @@ mail_identity_combo_box_activate_default (EMailIdentityComboBox *combo_box)
 		const gchar *uid = e_source_get_uid (source);
 		gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), uid);
 		g_object_unref (source);
+	}
+}
+
+static void
+mail_identity_combo_box_get_preferred_width (GtkWidget *widget,
+					     gint *minimum_width,
+					     gint *natural_width)
+{
+	EMailIdentityComboBox *self = E_MAIL_IDENTITY_COMBO_BOX (widget);
+
+	GTK_WIDGET_CLASS (e_mail_identity_combo_box_parent_class)->get_preferred_width (widget, minimum_width, natural_width);
+
+	self->priv->last_natural_width = *natural_width;
+
+	if (self->priv->max_natural_width > 0) {
+		if (*natural_width > self->priv->max_natural_width)
+			*natural_width = self->priv->max_natural_width;
+		if (*minimum_width > *natural_width)
+			*minimum_width = *natural_width;
 	}
 }
 
@@ -276,6 +297,9 @@ mail_identity_combo_box_constructed (GObject *object)
 	g_object_unref (list_store);
 
 	cell_renderer = gtk_cell_renderer_text_new ();
+	g_object_set (cell_renderer,
+		"ellipsize", PANGO_ELLIPSIZE_END,
+		NULL);
 	gtk_cell_layout_pack_start (cell_layout, cell_renderer, TRUE);
 	gtk_cell_layout_add_attribute (
 		cell_layout, cell_renderer, "text", E_MAIL_IDENTITY_COMBO_BOX_COLUMN_DISPLAY_NAME);
@@ -287,12 +311,16 @@ static void
 e_mail_identity_combo_box_class_init (EMailIdentityComboBoxClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_identity_combo_box_set_property;
 	object_class->get_property = mail_identity_combo_box_get_property;
 	object_class->dispose = mail_identity_combo_box_dispose;
 	object_class->constructed = mail_identity_combo_box_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->get_preferred_width = mail_identity_combo_box_get_preferred_width;
 
 	g_object_class_install_property (
 		object_class,
@@ -333,6 +361,7 @@ static void
 e_mail_identity_combo_box_init (EMailIdentityComboBox *combo_box)
 {
 	combo_box->priv = e_mail_identity_combo_box_get_instance_private (combo_box);
+	combo_box->priv->max_natural_width = 100;
 }
 
 /**
@@ -984,4 +1013,32 @@ e_mail_identity_combo_box_get_refreshing (EMailIdentityComboBox *combo_box)
 	g_return_val_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box), FALSE);
 
 	return combo_box->priv->refreshing != 0;
+}
+
+gint
+e_mail_identity_combo_box_get_max_natural_width (EMailIdentityComboBox *self)
+{
+	g_return_val_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (self), -1);
+
+	return self->priv->max_natural_width;
+}
+
+void
+e_mail_identity_combo_box_set_max_natural_width (EMailIdentityComboBox *self,
+						 gint value)
+{
+	g_return_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (self));
+
+	if (self->priv->max_natural_width != value) {
+		self->priv->max_natural_width = value;
+		gtk_widget_queue_resize (GTK_WIDGET (self));
+	}
+}
+
+gint
+e_mail_identity_combo_box_get_last_natural_width (EMailIdentityComboBox *self)
+{
+	g_return_val_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (self), -1);
+
+	return self->priv->last_natural_width;
 }

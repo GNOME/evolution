@@ -46,6 +46,9 @@ struct _EComposerHeaderTablePrivate {
 	EClientCache *client_cache;
 
 	gchar *previous_from_uid;
+
+	guint size_allocated_idle_id;
+	gint last_allocated_width;
 };
 
 enum {
@@ -616,6 +619,63 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 	g_free (address);
 }
 
+static gboolean
+composer_header_table_size_allocated_idle_cb (gpointer user_data)
+{
+	EComposerHeaderTable *self = user_data;
+
+	if (self->priv->size_allocated_idle_id) {
+		GtkWidget *from_combo_box;
+		GtkWidget *signature_combo_box;
+
+		self->priv->size_allocated_idle_id = 0;
+		self->priv->last_allocated_width = gtk_widget_get_allocated_width (GTK_WIDGET (self));
+
+		from_combo_box = self->priv->headers[E_COMPOSER_HEADER_FROM] ? self->priv->headers[E_COMPOSER_HEADER_FROM]->input_widget : NULL;
+		signature_combo_box = self->priv->signature_combo_box;
+
+		if (from_combo_box && gtk_widget_is_visible (from_combo_box) && signature_combo_box && gtk_widget_is_visible (signature_combo_box)) {
+			EMailIdentityComboBox *from_combo = E_MAIL_IDENTITY_COMBO_BOX (from_combo_box);
+			EMailSignatureComboBox *signature_combo = E_MAIL_SIGNATURE_COMBO_BOX (signature_combo_box);
+			GtkAllocation from_alloc = { 0, }, signature_alloc = { 0, };
+			gint left_space, from_natural, signature_natural, signature_to_set;
+
+			gtk_widget_get_allocation (from_combo_box, &from_alloc);
+			gtk_widget_get_allocation (signature_combo_box, &signature_alloc);
+
+			left_space = from_alloc.width + signature_alloc.width;
+			from_natural = e_mail_identity_combo_box_get_last_natural_width (from_combo);
+			signature_natural = e_mail_signature_combo_box_get_last_natural_width (signature_combo);
+
+			if (from_natural + signature_natural <= left_space)
+				signature_to_set = 0;
+			else
+				signature_to_set = left_space / 3; /* to prefer From over Signature */
+
+			e_mail_signature_combo_box_set_max_natural_width (signature_combo, signature_to_set);
+		} else {
+			if (from_combo_box)
+				e_mail_identity_combo_box_set_max_natural_width (E_MAIL_IDENTITY_COMBO_BOX (from_combo_box), 0);
+			if (signature_combo_box)
+				e_mail_signature_combo_box_set_max_natural_width (E_MAIL_SIGNATURE_COMBO_BOX (signature_combo_box), 0);
+		}
+	}
+
+	return G_SOURCE_REMOVE;
+}
+
+static void
+composer_header_table_size_allocate (GtkWidget *widget,
+				     GtkAllocation *allocation)
+{
+	EComposerHeaderTable *self = E_COMPOSER_HEADER_TABLE (widget);
+
+	GTK_WIDGET_CLASS (e_composer_header_table_parent_class)->size_allocate (widget, allocation);
+
+	if (allocation->width != self->priv->last_allocated_width && !self->priv->size_allocated_idle_id)
+		self->priv->size_allocated_idle_id = g_idle_add_full (G_PRIORITY_HIGH_IDLE + 50, composer_header_table_size_allocated_idle_cb, self, NULL);
+}
+
 static void
 composer_header_table_set_client_cache (EComposerHeaderTable *table,
                                         EClientCache *client_cache)
@@ -822,6 +882,11 @@ composer_header_table_dispose (GObject *object)
 	EComposerHeaderTable *self = E_COMPOSER_HEADER_TABLE (object);
 	gint ii;
 
+	if (self->priv->size_allocated_idle_id) {
+		g_source_remove (self->priv->size_allocated_idle_id);
+		self->priv->size_allocated_idle_id = 0;
+	}
+
 	for (ii = 0; ii < G_N_ELEMENTS (self->priv->headers); ii++) {
 		g_clear_object (&self->priv->headers[ii]);
 	}
@@ -985,12 +1050,16 @@ static void
 e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = composer_header_table_set_property;
 	object_class->get_property = composer_header_table_get_property;
 	object_class->dispose = composer_header_table_dispose;
 	object_class->constructed = composer_header_table_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->size_allocate = composer_header_table_size_allocate;
 
 	/**
 	 * EComposerHeaderTable:client-cache:

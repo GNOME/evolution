@@ -91,6 +91,13 @@ void		e_mail_signature_combo_box_set_identity
 					 const gchar *identity_uid,
 					 const gchar *identity_name,
 					 const gchar *identity_address);
+gint		e_mail_signature_combo_box_get_max_natural_width
+					(EMailSignatureComboBox *self);
+void		e_mail_signature_combo_box_set_max_natural_width
+					(EMailSignatureComboBox *self,
+					 gint value);
+gint		e_mail_signature_combo_box_get_last_natural_width
+					(EMailSignatureComboBox *self);
 void		e_mail_signature_combo_box_load_selected
 					(EMailSignatureComboBox *combo_box,
 					 gint io_priority,

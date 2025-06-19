@@ -109,6 +109,13 @@ gboolean	e_mail_identity_combo_box_set_active_uid
 					 const gchar *alias_address);
 gboolean	e_mail_identity_combo_box_get_refreshing
 					(EMailIdentityComboBox *combo_box);
+gint		e_mail_identity_combo_box_get_max_natural_width
+					(EMailIdentityComboBox *self);
+void		e_mail_identity_combo_box_set_max_natural_width
+					(EMailIdentityComboBox *self,
+					 gint value);
+gint		e_mail_identity_combo_box_get_last_natural_width
+					(EMailIdentityComboBox *self);
 
 G_END_DECLS
 
