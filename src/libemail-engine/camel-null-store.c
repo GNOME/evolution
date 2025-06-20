@@ -25,24 +25,21 @@ G_DEFINE_TYPE (CamelNullStore, camel_null_store, CAMEL_TYPE_STORE)
 G_DEFINE_TYPE (CamelNullTransport, camel_null_transport, CAMEL_TYPE_TRANSPORT)
 
 static CamelProvider null_provider = {
-	/*     protocol: */ "none",
-	/*         name: */ N_("None"),
-	/*  description: */ NULL,
-	/*       domain: */ "mail",
-
+	.protocol = "none",
+	.name = N_("None"),
+	.description = NULL,
+	.domain = "mail",
 	/* XXX This provider is not really a "source", the
 	 *     flag just gets it shown in the account editor. */
-	(CamelProviderFlags) CAMEL_PROVIDER_IS_SOURCE,
-
-	(CamelProviderURLFlags) 0,
-	(CamelProviderConfEntry *) NULL,
-	(CamelProviderPortEntry *) NULL,
-	(CamelProviderAutoDetectFunc) NULL,
-	/* object_types: */ { 0, 0 },  /* see below */
-	/*    authtypes: */ NULL,
-	(GHashFunc) camel_url_hash,
-	(GEqualFunc) camel_url_equal,
-	GETTEXT_PACKAGE
+	.flags = CAMEL_PROVIDER_IS_SOURCE,
+	.url_flags = 0,
+	.extra_conf = NULL,
+	.port_entries = NULL,
+	.object_types = { 0, 0 },  /* see below */
+	.authtypes = NULL,
+	.url_hash = (GHashFunc) camel_url_hash,
+	.url_equal = (GEqualFunc) camel_url_equal,
+	.translation_domain = GETTEXT_PACKAGE
 };
 
 static void

@@ -12,22 +12,14 @@
 #include "camel-rss-store.h"
 
 static CamelProvider rss_provider = {
-	"rss",
-	N_("News and Blogs"),
-
-	N_("This is a provider for reading RSS news and blogs."),
-
-	"rss",
-
-	CAMEL_PROVIDER_IS_LOCAL | CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
-
-	CAMEL_URL_NEED_HOST,
-
-	NULL, /* conf_entries */
-
-	NULL, /* port_entries */
-
-	/* ... */
+	.protocol = "rss",
+	.name = N_("News and Blogs"),
+	.description = N_("This is a provider for reading RSS news and blogs."),
+	.domain = "mail",
+	.flags = CAMEL_PROVIDER_IS_LOCAL | CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
+	.url_flags = CAMEL_URL_NEED_HOST,
+	.extra_conf = NULL,
+	.port_entries = NULL,
 };
 
 static void
