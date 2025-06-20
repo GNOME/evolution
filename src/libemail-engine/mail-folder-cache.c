@@ -58,6 +58,7 @@ typedef struct _UpdateClosure UpdateClosure;
 
 struct _MailFolderCachePrivate {
 	GMainContext *main_context;
+	CamelWeakRefGroup *weak_ref_group;
 
 	/* Store to storeinfo table, active stores */
 	GHashTable *store_info_ht;
@@ -142,7 +143,7 @@ struct _AsyncContext {
 };
 
 struct _UpdateClosure {
-	GWeakRef cache;
+	CamelWeakRefGroup *cache_weak_ref_group;
 
 	CamelStore *store;
 
@@ -476,7 +477,7 @@ update_closure_new (MailFolderCache *cache,
 	UpdateClosure *closure;
 
 	closure = g_slice_new0 (UpdateClosure);
-	g_weak_ref_set (&closure->cache, cache);
+	closure->cache_weak_ref_group = camel_weak_ref_group_ref (cache->priv->weak_ref_group);
 	closure->store = g_object_ref (store);
 
 	return closure;
@@ -485,7 +486,7 @@ update_closure_new (MailFolderCache *cache,
 static void
 update_closure_free (UpdateClosure *closure)
 {
-	g_weak_ref_set (&closure->cache, NULL);
+	camel_weak_ref_group_unref (closure->cache_weak_ref_group);
 
 	g_clear_object (&closure->store);
 
@@ -704,7 +705,7 @@ mail_folder_cache_update_idle_cb (gpointer user_data)
 	/* Sanity checks. */
 	g_return_val_if_fail (closure->full_name != NULL, FALSE);
 
-	cache = g_weak_ref_get (&closure->cache);
+	cache = camel_weak_ref_group_get (closure->cache_weak_ref_group);
 
 	if (cache != NULL) {
 		if (closure->signal_id == signals[FOLDER_DELETED]) {
@@ -802,7 +803,7 @@ mail_folder_cache_submit_update (UpdateClosure *closure)
 
 	g_return_if_fail (closure != NULL);
 
-	cache = g_weak_ref_get (&closure->cache);
+	cache = camel_weak_ref_group_get (closure->cache_weak_ref_group);
 	g_return_if_fail (cache != NULL);
 
 	main_context = mail_folder_cache_ref_main_context (cache);
@@ -1527,6 +1528,7 @@ mail_folder_cache_finalize (GObject *object)
 	MailFolderCache *self = MAIL_FOLDER_CACHE (object);
 
 	g_main_context_unref (self->priv->main_context);
+	camel_weak_ref_group_unref (self->priv->weak_ref_group);
 
 	g_hash_table_destroy (self->priv->store_info_ht);
 	g_hash_table_destroy (self->priv->local_folder_uris);
@@ -1830,6 +1832,7 @@ mail_folder_cache_init (MailFolderCache *cache)
 
 	cache->priv = mail_folder_cache_get_instance_private (cache);
 	cache->priv->main_context = g_main_context_ref_thread_default ();
+	cache->priv->weak_ref_group = camel_weak_ref_group_new ();
 
 	cache->priv->store_info_ht = store_info_ht;
 	g_mutex_init (&cache->priv->store_info_ht_lock);
@@ -1841,6 +1844,8 @@ mail_folder_cache_init (MailFolderCache *cache)
 	   slow e_mail_folder_uri_equal() */
 	cache->priv->local_folder_uris = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	cache->priv->remote_folder_uris = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	camel_weak_ref_group_set (cache->priv->weak_ref_group, cache);
 }
 
 MailFolderCache *
