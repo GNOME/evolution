@@ -916,7 +916,7 @@ build_dialog (GtkWindow *parent,
 	 * outgoing account or unsent mails. */
 	if (allow_send && outbox && CAMEL_IS_TRANSPORT (transport)
 	 && (camel_folder_get_message_count (outbox) -
-		camel_folder_get_deleted_message_count (outbox)) != 0) {
+		camel_folder_summary_get_deleted_count (camel_folder_get_folder_summary (outbox))) != 0) {
 
 		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 		if (info == NULL) {

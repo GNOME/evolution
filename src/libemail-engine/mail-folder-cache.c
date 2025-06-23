@@ -874,11 +874,14 @@ update_1folder (MailFolderCache *cache,
 	folder = g_weak_ref_get (&folder_info->folder);
 
 	if (folder != NULL) {
+		CamelFolderSummary *summary;
 		gboolean folder_is_sent;
 		gboolean folder_is_drafts;
 		gboolean folder_is_outbox;
 		gboolean folder_is_vtrash;
 		gboolean special_case;
+
+		summary = camel_folder_get_folder_summary (folder);
 
 		folder_is_sent = em_utils_folder_is_sent (registry, folder);
 		folder_is_drafts = em_utils_folder_is_drafts (registry, folder);
@@ -896,11 +899,11 @@ update_1folder (MailFolderCache *cache,
 			if (folder_is_drafts || folder_is_outbox) {
 				guint32 junked = 0;
 
-				deleted = camel_folder_get_deleted_message_count (folder);
+				deleted = camel_folder_summary_get_deleted_count (summary);
 				if (deleted > 0)
 					unread -= deleted;
 
-				junked = camel_folder_summary_get_junk_count (camel_folder_get_folder_summary (folder));
+				junked = camel_folder_summary_get_junk_count (summary);
 				if (junked > 0)
 					unread -= junked;
 			}
@@ -909,7 +912,7 @@ update_1folder (MailFolderCache *cache,
 			if (info)
 				unread = info->unread;
 			else
-				unread = camel_folder_get_unread_message_count (folder);
+				unread = camel_folder_summary_get_unread_count (summary);
 		}
 
 		g_object_unref (folder);

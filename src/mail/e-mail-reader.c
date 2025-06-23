@@ -936,8 +936,15 @@ action_mail_label_new_cb (EUIAction *action,
 			folder = e_mail_reader_ref_folder (reader);
 
 			for (ii = 0; ii < uids->len; ii++) {
-				camel_folder_set_message_user_flag (
-					folder, uids->pdata[ii], label_tag, TRUE);
+				CamelMessageInfo *nfo;
+
+				nfo = camel_folder_get_message_info (folder, uids->pdata[ii]);
+				if (!nfo)
+					continue;
+
+				camel_message_info_set_user_flag (nfo, label_tag, TRUE);
+
+				g_clear_object (&nfo);
 			}
 
 			g_clear_object (&folder);
@@ -985,10 +992,14 @@ action_mail_label_none_cb (EUIAction *action,
 		tag = e_mail_label_list_store_get_tag (label_store, &iter);
 
 		for (ii = 0; ii < uids->len; ii++) {
-			camel_folder_set_message_user_flag (
-				folder, uids->pdata[ii], tag, FALSE);
-			camel_folder_set_message_user_tag (
-				folder, uids->pdata[ii], "label", NULL);
+			CamelMessageInfo *nfo;
+
+			nfo = camel_folder_get_message_info (folder, uids->pdata[ii]);
+			if (nfo) {
+				camel_message_info_set_user_flag (nfo, tag, FALSE);
+				camel_message_info_set_user_tag (nfo, "label", NULL);
+				g_clear_object (&nfo);
+			}
 		}
 
 		g_free (tag);
@@ -4629,15 +4640,20 @@ action_mail_label_cb (EUIAction *action,
 
 	camel_folder_freeze (folder);
 	for (ii = 0; ii < uids->len; ii++) {
-		if (e_ui_action_get_active (action))
-			camel_folder_set_message_user_flag (
-				folder, uids->pdata[ii], tag, TRUE);
-		else {
-			camel_folder_set_message_user_flag (
-				folder, uids->pdata[ii], tag, FALSE);
-			camel_folder_set_message_user_tag (
-				folder, uids->pdata[ii], "label", NULL);
+		CamelMessageInfo *nfo;
+
+		nfo = camel_folder_get_message_info (folder, uids->pdata[ii]);
+		if (!nfo)
+			continue;
+
+		if (e_ui_action_get_active (action)) {
+			camel_message_info_set_user_flag (nfo, tag, TRUE);
+		} else {
+			camel_message_info_set_user_flag (nfo, tag, FALSE);
+			camel_message_info_set_user_tag (nfo, "label", NULL);
 		}
+
+		g_clear_object (&nfo);
 	}
 	camel_folder_thaw (folder);
 
@@ -4910,13 +4926,20 @@ mail_label_change_more_store_changes (MoreLabelsData *mld,
 
 		for (jj = 0; jj < mld->uids->len; jj++) {
 			const gchar *uid = g_ptr_array_index (mld->uids, jj);
+			CamelMessageInfo *nfo;
+
+			nfo = camel_folder_get_message_info (mld->folder, uid);
+			if (!nfo)
+				continue;
 
 			if (unset_all || !gtk_toggle_button_get_active (checkbox)) {
-				camel_folder_set_message_user_flag (mld->folder, uid, tag, FALSE);
-				camel_folder_set_message_user_tag (mld->folder, uid, "label", NULL);
+				camel_message_info_set_user_flag (nfo, tag, FALSE);
+				camel_message_info_set_user_tag (nfo, "label", NULL);
 			} else {
-				camel_folder_set_message_user_flag (mld->folder, uid, tag, TRUE);
+				camel_message_info_set_user_flag (nfo, tag, TRUE);
 			}
+
+			g_clear_object (&nfo);
 		}
 	}
 

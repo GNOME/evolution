@@ -1498,7 +1498,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 			gint deleted;
 
 			total = camel_folder_get_message_count (folder);
-			deleted = camel_folder_get_deleted_message_count (folder);
+			deleted = camel_folder_summary_get_deleted_count (camel_folder_get_folder_summary (folder));
 
 			if (total > 0 && deleted != -1)
 				total -= deleted;

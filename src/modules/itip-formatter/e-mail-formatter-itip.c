@@ -160,12 +160,13 @@ emfe_itip_format (EMailFormatterExtension *extension,
 
 		/* mark message as containing calendar, thus it will show the
 		 * icon in message list now on */
-		if (message_uid != NULL && folder != NULL &&
-			!camel_folder_get_message_user_flag (
-				folder, message_uid, "$has_cal")) {
+		if (message_uid != NULL && folder != NULL) {
+			CamelMessageInfo *nfo = camel_folder_get_message_info (folder, message_uid);
 
-			camel_folder_set_message_user_flag (
-				folder, message_uid, "$has_cal", TRUE);
+			if (nfo && !camel_message_info_get_user_flag (nfo, "$has_cal"))
+				camel_message_info_set_user_flag (nfo, "$has_cal", TRUE);
+
+			g_clear_object (&nfo);
 		}
 
 		old_folder = itip_part->folder;
