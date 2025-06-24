@@ -98,6 +98,7 @@ struct _EMailDisplayPrivate {
 	GHashTable *temporary_allow_remote_content; /* complete uri or site  */
 
 	guint32 magic_spacebar_state; /* bit-or of EMagicSpacebarFlags */
+	gboolean loaded;
 };
 
 enum {
@@ -159,6 +160,22 @@ open_with_data_free (gpointer ptr)
 }
 
 static void
+mail_display_update_remote_content_buttons (EMailDisplay *self)
+{
+	if (e_mail_display_has_skipped_remote_content_sites (self)) {
+		EWebView *web_view = E_WEB_VIEW (self);
+
+		e_web_view_jsc_set_element_hidden (WEBKIT_WEB_VIEW (web_view),
+			"", "__evo-remote-content-img-small", FALSE,
+			e_web_view_get_cancellable (web_view));
+
+		e_web_view_jsc_set_element_hidden (WEBKIT_WEB_VIEW (web_view),
+			"", "__evo-remote-content-img-large", FALSE,
+			e_web_view_get_cancellable (web_view));
+	}
+}
+
+static void
 e_mail_display_claim_skipped_uri (EMailDisplay *mail_display,
 				  const gchar *uri)
 {
@@ -178,13 +195,20 @@ e_mail_display_claim_skipped_uri (EMailDisplay *mail_display,
 
 	site = g_uri_get_host (guri);
 	if (site && *site) {
+		gboolean update_buttons = FALSE;
+
 		g_mutex_lock (&mail_display->priv->remote_content_lock);
 
 		if (!g_hash_table_contains (mail_display->priv->skipped_remote_content_sites, site)) {
 			g_hash_table_insert (mail_display->priv->skipped_remote_content_sites, g_strdup (site), NULL);
+
+			update_buttons = mail_display->priv->loaded && g_hash_table_size (mail_display->priv->skipped_remote_content_sites) == 1;
 		}
 
 		g_mutex_unlock (&mail_display->priv->remote_content_lock);
+
+		if (update_buttons)
+			mail_display_update_remote_content_buttons (mail_display);
 	}
 
 	g_uri_unref (guri);
@@ -1331,6 +1355,10 @@ mail_display_load_changed_cb (WebKitWebView *wk_web_view,
 		e_attachment_store_remove_all (display->priv->attachment_store);
 		e_attachment_bar_clear_possible_attachments (E_ATTACHMENT_BAR (display->priv->attachment_view));
 		g_hash_table_remove_all (display->priv->cid_attachments);
+		display->priv->loaded = FALSE;
+	} else if (load_event == WEBKIT_LOAD_FINISHED) {
+		display->priv->loaded = TRUE;
+		mail_display_update_remote_content_buttons (display);
 	}
 }
 
@@ -1450,15 +1478,7 @@ mail_display_content_loaded_cb (EWebView *web_view,
 		}
 	}
 
-	if (e_mail_display_has_skipped_remote_content_sites (mail_display)) {
-		e_web_view_jsc_set_element_hidden (WEBKIT_WEB_VIEW (web_view),
-			"", "__evo-remote-content-img-small", FALSE,
-			e_web_view_get_cancellable (web_view));
-
-		e_web_view_jsc_set_element_hidden (WEBKIT_WEB_VIEW (web_view),
-			"", "__evo-remote-content-img-large", FALSE,
-			e_web_view_get_cancellable (web_view));
-	}
+	mail_display_update_remote_content_buttons (mail_display);
 
 	/* Re-grab the focus, which is needed for the caret mode to show the cursor */
 	if (e_web_view_get_caret_mode (web_view) &&
