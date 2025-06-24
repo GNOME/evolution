@@ -2942,9 +2942,17 @@ msg_composer_constructed (GObject *object)
 	targets = gtk_target_table_new_from_list (target_list, &n_targets);
 
 	target_list = gtk_drag_dest_get_target_list (GTK_WIDGET (cnt_editor));
+	if (target_list) {
+		gtk_target_list_add_table (target_list, drag_dest_targets, G_N_ELEMENTS (drag_dest_targets));
+		gtk_target_list_add_table (target_list, targets, n_targets);
+	} else {
+		gtk_drag_dest_set (GTK_WIDGET (cnt_editor), 0, NULL, 0, GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
 
-	gtk_target_list_add_table (target_list, drag_dest_targets, G_N_ELEMENTS (drag_dest_targets));
-	gtk_target_list_add_table (target_list, targets, n_targets);
+		target_list = gtk_target_list_new (drag_dest_targets, G_N_ELEMENTS (drag_dest_targets));
+		gtk_target_list_add_table (target_list, targets, n_targets);
+		gtk_drag_dest_set_target_list (GTK_WIDGET (cnt_editor), target_list);
+		gtk_target_list_unref (target_list);
+	}
 
 	gtk_target_table_free (targets, n_targets);
 
