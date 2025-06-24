@@ -457,7 +457,6 @@ rss_folder_synchronize_sync (CamelFolder *folder,
 
 	if (changed) {
 		g_ptr_array_foreach (changed, (GFunc) rss_unset_flagged_flag, summary);
-		g_ptr_array_foreach (changed, (GFunc) camel_pstring_free, NULL);
 		camel_folder_summary_touch (summary);
 		g_ptr_array_free (changed, TRUE);
 	}
