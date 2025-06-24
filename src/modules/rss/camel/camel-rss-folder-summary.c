@@ -248,10 +248,11 @@ camel_rss_folder_summary_add_or_update_feed_sync (CamelRssFolderSummary *self,
 		if (content_type != CAMEL_RSS_CONTENT_TYPE_PLAIN_TEXT) {
 			gchar *tmp;
 
-			if (feed->link)
-				tmp = g_markup_printf_escaped ("<h4><a href=\"%s\">%s</a></h4><div><br></div>", feed->link, feed->title);
-			else
+			if (feed->link) {
+				tmp = g_markup_printf_escaped ("<base href=\"%s\"><h4><a href=\"%s\">%s</a></h4><div><br></div>", feed->link, feed->link, feed->title);
+			} else {
 				tmp = g_markup_printf_escaped ("<h4>%s</h4><div><br></div>", feed->title);
+			}
 			g_string_append (body, tmp);
 			g_free (tmp);
 		}

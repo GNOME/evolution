@@ -240,6 +240,12 @@ e_rss_read_item (xmlNodePtr item,
 			g_clear_pointer (&feed->id, g_free);
 			feed->id = g_strdup ((const gchar *) value);
 		} else if (g_strcmp0 ((const gchar *) node->name, "content") == 0) {
+			if (node->ns && node->ns->href &&
+			    g_ascii_strcasecmp ((const gchar *) node->ns->href, "http://www.w3.org/2005/Atom") != 0) {
+				/* the <content> element is valid in the Atom namespace  */
+				continue;
+			}
+
 			value = xmlNodeGetContent (node);
 			g_clear_pointer (&feed->body, g_free);
 			feed->body = g_strdup ((const gchar *) value);
