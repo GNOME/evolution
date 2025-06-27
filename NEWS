@@ -1,3 +1,81 @@
+Evolution 3.57.1 2025-06-27
+---------------------------
+
+Bug Fixes:
+	I#1441 - itip-formatter: Limit "meeting existence" lookup scope
+	I#2911 - Mail: Magic Spacebar sometimes doesn't switch mail
+	I#2950 - itip-formatter: Preview calendars' content around the event time
+	I#2953 - Change folder color when new messages are added
+	I#2987 - Remove Attachments fails with signed messages
+	I#2999 - Change some strings in EUICustomizeDialog
+	I#3000 - Typo in quota string
+	I#3019 - ECompEditor: Buttons to add attachments do nothing
+	I#3022 - "New->..." actions missing in UI customization dialog
+	I#3023 - Fix a typo in gsettings key description
+	I#3026 - Composer: Prompt for "send with shortcut" doesn't work
+	I#3030 - Calendar: Change organizer in 'Edit as New'
+	I#3037 - ToDoPane: Listen for changes in date/time format
+	I#3039 - e-convert.js: Exception on convert to plain text
+	I#3041 - For shared tasks the iTIP formatter does not show the organizer
+	I#3042 - Check return value of CamelDataWrapper calculate size functions
+	I#3045 - Cannot add actions in 'Customize User Interface' dialog
+	I#3046 - Some images do not display within RSS/ATOM feed articles
+	I#3052 - Ensure "New" button action in Calendar view
+	I#3056 - Copyright years outdated in "About"
+	I#3059 - Open a new window: Two windows open instead of one
+	I#3061 - Mail: Do not strip signature for Edit as New in Sent folder
+	I#3071 - EShellWindow: Unset minimum height for evo-titlebar-box
+	I#3072 - EHeaderbarButton: Toggle action not using toggle button
+	I#3073 - Compose: Can't resized to half screen when From address is too long
+	I#3075 - EAttachment: Notify about property changes only in the main thread
+	I#3079 - Mail: Incorrect calls to change search options
+	I#3080 - Crash on composer open (WebKitGTK without DRAG_SUPPORT)
+	M!182 - Replace deprecated webkit function (Corentin Noël)
+	M!183 - Replace GdkColor with GdkRGBA (Corentin Noël)
+	M!184 - Replace padding properties with margin (Corentin Noël)
+	M!187 - ECalendar: Remove unused methods (Corentin Noël)
+	M!190 - mail: Remove EMailFolderPane (Corentin Noël)
+	M!192 - ETableHeaderItem: Use GtkImage from resource directly (Corentin Noël)
+	M!193 - Remove unused functions (Corentin Noël)
+
+Miscellaneous:
+	e-unicode: Replace e_unicode_get_utf8() with the same function from libedataserver
+	build: Make libnotify dependency more prominent
+	EImportAssistant: Correct typos in GLabel property names
+	EImportAssistant: Default to import single file
+	itip-formatter: Skip search for conflicts when not start nor end time is set
+	EPreferencesWindow: Check for duplicate pages
+	ToDoPane: Update day labels on date/time format change
+	ECalSourceConfig: Cannot change calendar color
+	Misc: Rename string<->color helper binding functions
+	Calendar: Cannot show/hide Tasks and Memos pane
+	Calendar: Year and List views: Hide mini-calendar container
+	Mail: Avoid message list double regeneration on folder change
+	EStockRequest: Use symbolic icons if preferred and available
+	Mail: Use insert-image for "Load Images" and remote content icon in the WebView
+	Adapt to Camel API changes
+	shell: Add migration progress for new folders.db format
+	Reference CamelProvider struct members by name in initialization
+	mail-folder-cache: Use CamelWeakRefGroup for updates
+	Adapt to more libcamel API changes
+	rss: Remove extra camel_pstring_free() call
+	EWebView: Do not set `media-playback-allows-inline` WebKitSetting property
+	EMailDisplay: Update "Load Remote Content" preview button also after the mail is loaded
+
+Translations:
+	Álvaro Burns (pt_BR)
+	Asier Saratsua Garmendia (eu)
+	Balázs Meskó (hu)
+	Boyuan Yang (zh_CN)
+	Daniel Rusek (cs)
+	Ekaterine Papava (ka)
+	Emin Tufan Çetin (tr)
+	Jordi Mas i Hernandez (ca)
+	Martin (sl)
+	Mathis Joussemet (fr)
+	Yuri Chornoivan (uk)
+	純 小山田 (ja)
+
 Evolution 3.56.0 2025-03-14
 ---------------------------
 
