@@ -23,13 +23,11 @@ struct _CamelRssFolderPrivate {
 	gchar *id;
 };
 
-/* The custom property ID is a CamelArg artifact.
- * It still identifies the property in state files. */
 enum {
 	PROP_0,
-	PROP_APPLY_FILTERS = 0x2501,
-	PROP_COMPLETE_ARTICLES = 0x2502,
-	PROP_FEED_ENCLOSURES = 0x2503
+	PROP_APPLY_FILTERS,
+	PROP_COMPLETE_ARTICLES,
+	PROP_FEED_ENCLOSURES
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (CamelRssFolder, camel_rss_folder, CAMEL_TYPE_FOLDER)
@@ -646,6 +644,10 @@ camel_rss_folder_class_init (CamelRssFolderClass *class)
 	folder_class->synchronize_sync = rss_folder_synchronize_sync;
 	folder_class->changed = rss_folder_changed;
 
+	camel_folder_class_map_legacy_property (folder_class, "apply-filters", 0x2501);
+	camel_folder_class_map_legacy_property (folder_class, "complete-articles", 0x2502);
+	camel_folder_class_map_legacy_property (folder_class, "feed-enclosures", 0x2503);
+
 	g_object_class_install_property (
 		object_class,
 		PROP_APPLY_FILTERS,
@@ -657,7 +659,7 @@ camel_rss_folder_class_init (CamelRssFolderClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_EXPLICIT_NOTIFY |
 			G_PARAM_STATIC_STRINGS |
-			CAMEL_PARAM_PERSISTENT));
+			CAMEL_FOLDER_PARAM_PERSISTENT));
 
 	g_object_class_install_property (
 		object_class,
@@ -670,7 +672,7 @@ camel_rss_folder_class_init (CamelRssFolderClass *class)
 			CAMEL_THREE_STATE_INCONSISTENT,
 			G_PARAM_READWRITE |
 			G_PARAM_EXPLICIT_NOTIFY |
-			CAMEL_PARAM_PERSISTENT));
+			CAMEL_FOLDER_PARAM_PERSISTENT));
 
 	g_object_class_install_property (
 		object_class,
@@ -683,7 +685,7 @@ camel_rss_folder_class_init (CamelRssFolderClass *class)
 			CAMEL_THREE_STATE_INCONSISTENT,
 			G_PARAM_READWRITE |
 			G_PARAM_EXPLICIT_NOTIFY |
-			CAMEL_PARAM_PERSISTENT));
+			CAMEL_FOLDER_PARAM_PERSISTENT));
 }
 
 static void
@@ -744,9 +746,8 @@ camel_rss_folder_new (CamelStore *parent,
 
 	storage_path = g_build_filename (user_data_dir, id, NULL);
 	root = g_strdup_printf ("%s.cmeta", storage_path);
-	camel_object_set_state_filename (CAMEL_OBJECT (self), root);
-	camel_object_state_read (CAMEL_OBJECT (self));
-	g_free (root);
+	camel_folder_take_state_filename (folder, g_steal_pointer (&root));
+	camel_folder_load_state (folder);
 	g_free (storage_path);
 
 	folder_summary = camel_rss_folder_summary_new (folder);

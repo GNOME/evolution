@@ -291,7 +291,7 @@ e_rss_properties_got_folder_to_save_cb (GObject *source_object,
 			"feed-enclosures", fo->feed_enclosures,
 			NULL);
 
-		camel_object_state_write (CAMEL_OBJECT (folder));
+		camel_folder_save_state (folder);
 		g_object_unref (folder);
 	} else {
 		g_warning ("%s: Failed to get folder: %s", G_STRFUNC, error ? error->message : "Unknown error");

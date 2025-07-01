@@ -605,7 +605,7 @@ emfp_get_folder_item (EConfig *ec,
 	for (ii = 0; ii < n_properties; ii++) {
 		const gchar *blurb;
 
-		if ((properties[ii]->flags & CAMEL_PARAM_PERSISTENT) == 0)
+		if ((properties[ii]->flags & CAMEL_FOLDER_PARAM_PERSISTENT) == 0)
 			continue;
 
 		if (!can_apply_filters &&
@@ -1532,7 +1532,7 @@ emfp_dialog_run (AsyncContext *context)
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		e_config_commit ((EConfig *) ec);
-		camel_object_state_write (CAMEL_OBJECT (context->folder));
+		camel_folder_save_state (context->folder);
 	} else
 		e_config_abort ((EConfig *) ec);
 
