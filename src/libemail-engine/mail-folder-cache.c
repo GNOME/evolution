@@ -979,9 +979,9 @@ folder_cache_check_ignore_thread (CamelFolder *folder,
 			continue;
 
 		if (!expr)
-			expr = g_string_new ("(match-all (or ");
+			expr = g_string_new ("(or ");
 
-		g_string_append_printf (expr, "(= \"msgid\" \"%lu %lu\")",
+		g_string_append_printf (expr, "(header-matches \"x-camel-msgid\" \"%lu %lu\")",
 			(gulong) msgid.id.part.hi,
 			(gulong) msgid.id.part.lo);
 	}
