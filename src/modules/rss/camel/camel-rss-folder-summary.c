@@ -222,7 +222,23 @@ camel_rss_folder_summary_add_or_update_feed_sync (CamelRssFolderSummary *self,
 	if (complete_article && g_bytes_get_size (complete_article) > 0) {
 		camel_data_wrapper_set_encoding (body_wrapper, CAMEL_TRANSFER_ENCODING_8BIT);
 		camel_data_wrapper_set_mime_type (body_wrapper, "text/html; charset=utf-8");
-		success = camel_data_wrapper_construct_from_data_sync (body_wrapper, g_bytes_get_data (complete_article, NULL), g_bytes_get_size (complete_article), cancellable, error);
+		if (feed->link) {
+			GByteArray *bytes;
+			gchar *tmp;
+
+			/* in case the complete article uses relative paths, not full URI-s */
+			tmp = g_markup_printf_escaped ("<base href=\"%s\">", feed->link);
+			bytes = g_byte_array_sized_new (strlen (tmp) + g_bytes_get_size (complete_article) + 1);
+			g_byte_array_append (bytes, (const guint8 *) tmp, strlen (tmp));
+			g_byte_array_append (bytes, g_bytes_get_data (complete_article, NULL), g_bytes_get_size (complete_article));
+
+			success = camel_data_wrapper_construct_from_data_sync (body_wrapper, bytes->data, bytes->len, cancellable, error);
+
+			g_free (tmp);
+			g_byte_array_unref (bytes);
+		} else {
+			success = camel_data_wrapper_construct_from_data_sync (body_wrapper, g_bytes_get_data (complete_article, NULL), g_bytes_get_size (complete_article), cancellable, error);
+		}
 	} else {
 		GString *body;
 		const gchar *ct;
