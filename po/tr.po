@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-04-10 19:24+0000\n"
-"PO-Revision-Date: 2025-04-12 08:00+0300\n"
+"POT-Creation-Date: 2025-07-08 07:45+0000\n"
+"PO-Revision-Date: 2025-07-13 08:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -2145,22 +2145,10 @@ msgstr ""
 "İleti listesinde gereksiz iletileri (üzeri kırmızı çizgili olarak) göster."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
-msgid "Enable Unmatched search folder"
-msgstr "Eşleşmeyenler arama klasörünü etkinleştir"
-
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
-msgid ""
-"Enable Unmatched search folder within Search Folders. It does nothing if "
-"Search Folders are disabled."
-msgstr ""
-"Arama Klasörleri içindeki Eşleşmeyenler arama klasörünü etkinleştir. Arama "
-"Klasörleri kapalıysa hiçbir şey yapmaz."
-
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Hides the per-folder preview and removes the selection"
 msgstr "Klasör başına ön izlemeyi gizler ve seçimi kaldırır"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid ""
 "This key is read only once and reset to “false” after read. This unselects "
 "the mail in the list and removes the preview for that folder."
@@ -2169,31 +2157,31 @@ msgstr ""
 "sıfırlanır. Bu listede postanın seçimini kaldırır ve klasör için ön izlemeyi "
 "kaldırır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Height of the message-list pane"
 msgstr "İleti-listesi bölmesinin boyu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Height of the message-list pane."
 msgstr "İleti-listesi bölmesinin boyu."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid "Whether message headers are collapsed in the user interface"
 msgstr "İleti başlıkları kullanıcı arayüzünden toplu dursun mu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid "Width of the message-list pane"
 msgstr "İleti-listesi bölmesinin genişliği"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid "Width of the message-list pane."
 msgstr "İleti-listesi bölmesinin genişliği."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Layout style"
 msgstr "Yerleşim biçimi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. “0” (Classic View) places the preview pane below the "
@@ -2205,35 +2193,35 @@ msgstr ""
 "listesinin altına yerleştirir. “1” (Dikey Görünüm) ön izleme bölmesini ileti "
 "litesinin yanına yerleştirir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Variable width font"
 msgstr "Değişken genişlikli yazı tipi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid "The variable width font for mail display."
 msgstr "Posta görünümü için değişken genişlikli yazı tipi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Terminal font"
 msgstr "Uçbirim yazı tipi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "The terminal font for mail display."
 msgstr "Posta görünümü için uçbirim yazı tipi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Use custom fonts"
 msgstr "Özel yazı tipleri kullan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Use custom fonts for displaying mail."
 msgstr "Posta gösterilirken özel yazı tipleri kullan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Compress display of addresses in TO/CC/BCC"
 msgstr "Kime/İlgi/Saklı İlgi alanlarındaki adresleri sıkıştır"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
@@ -2241,11 +2229,11 @@ msgstr ""
 "Kime/İlgi/Saklı İlgi alanlarındaki adresleri address_count içide belirtilen "
 "sayıdaki adresin gösterileceği biçimde sıkıştır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Kime/İlgi/Saklı İlgi içerisinde gösterilecek adreslerin sayısı"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a “...” is shown."
@@ -2253,12 +2241,12 @@ msgstr ""
 "Bu öntanımlı ileti listesi görünümünde gösterilecek olan adreslerin sayısını "
 "belirtir, bu sayıdan sonrakiler “...” olarak gösterilir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid ""
 "Show mails in headers part of the message preview when name is available"
 msgstr "Ad olduğunda ileti ön izlemenin başlık bölümünde postaları göster"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid ""
 "When set to false, the mail addresses which contain both the name and the "
 "email parts in headers like To/Cc/Bcc will be shown only with the name part, "
@@ -2268,11 +2256,11 @@ msgstr ""
 "bölümleri olan posta adresleri yalnızca ad bölümleriyle gösterilecek; e-"
 "posta aslen değil, adıyla tıklanabilir olarak gösterilecek."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Thread the message-list based on Subject"
 msgstr "İleti listesini Konu tabanlı olarak dallandır"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -2280,11 +2268,11 @@ msgstr ""
 "Eğer iletiler In-Reply-To ya da References başlığı içermiyorlarsa, "
 "dallandırmada konuların kullanılması."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Default value for thread expand state"
 msgstr "Dal açıklık durumu için öntanımlı değer"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -2292,11 +2280,11 @@ msgstr ""
 "Bu ayar ileti dallarının öntanımlı olarak açık mı toplu mu duracağını "
 "belirtir. Evolutionʼın yeniden başlatılması gerekmektedir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Whether sort threads based on latest message in that thread"
 msgstr "Dalların daldaki en son iletiye göre sıralanması"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message’s date. Evolution requires a "
@@ -2305,11 +2293,11 @@ msgstr ""
 "Bu ayar dalların iletinin tarihi yerine son iletinin son dala göre "
 "sıralanmasını belirler. Evolution’un yeniden başlatılması gerekmektedir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Whether sort thread children always ascending"
 msgstr "Dal çocuklarının her zaman artan biçimde sıralanıp sıralanmayacağı"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
@@ -2317,11 +2305,11 @@ msgstr ""
 "Bu ayar dalların çocuklarının dal kök düzeyiyle aynı sıralamayı kullanmak "
 "yerine her zaman artan biçimde sıralanıp sıralanmayacağını belirler."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid "Whether to compress thread level"
 msgstr "Konuşma düzeyinin sıkıştırılması"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid ""
 "Set to true to compress thread levels for flat conversations, to make the "
 "level not so deep."
@@ -2329,11 +2317,11 @@ msgstr ""
 "Düz konuşmaların konuşma düzeylerini sıkıştırmak için doğru olarak belirle, "
 "düzeyi çok derin yapma."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Whether to generate flat threads"
 msgstr "Düz dalların oluşturulma durumu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid ""
 "Set to true to generate flat threads. That is, the thread will have only one "
 "level, with no sublevels."
@@ -2341,11 +2329,11 @@ msgstr ""
 "Düz dallar oluşturmak için true olarak ayarlayın. Yani, dalın alt düzeyleri "
 "olmadan yalnızca tek düzeyi olacaktır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "Hesapları klasör ağacında alfabetik olarak sırala"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -2356,30 +2344,30 @@ msgstr ""
 "Etkinleştirildiğinde, Bu Bilgisayarda ve Arama dizinlerinde hariç alfabetik "
 "sıralanırlar, diğer durumda kullanıcının verdiği bir sırayla sıralanırlar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid "Log filter actions"
 msgstr "Süzme eylemlerini günlükle"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid "Log filter actions to the specified log file."
 msgstr "Belirtilen günlük dosyasına süzme eylemlerini günlükle."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Logfile to log filter actions"
 msgstr "Süzme eylemlerinin yazılacağı günlük dosyası"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid ""
 "If not set, or being “stdout”, then the logging is done to stdout, instead "
 "to a file."
 msgstr ""
 "Ayarlanmamışsa, veya “stdout”sa günlük yazımı dosyadansa stdout’a yapılır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid "Flush Outbox after filtering"
 msgstr "Süzüldükten sonra Giden Kutusunu temizle"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any “Forward to” filter action and approximately "
@@ -2389,15 +2377,15 @@ msgstr ""
 "temizliği yalnızca herhangi bir “İlet” süzme olayı olursa ve son çalışmanın "
 "yaklaşık bir dakika sonrasında olacaktır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Default forward style"
 msgstr "Öntanımlı yönlendirme biçemi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid "Default reply style"
 msgstr "Öntanımlı yanıt biçemi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid ""
 "Forward and reply attribution language tag, like en_US. Empty string means "
 "to use the same language as the user interface."
@@ -2405,64 +2393,64 @@ msgstr ""
 "İlet ve yanıtla öznitelik dil etiketi, en_US gibi. Boş dizge kullanıcı "
 "arayüzüyle aynı dili kullan anlamına gelir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr "Tuş hızlandırıcı kullanırken gönderimde sor (Ctrl+Enter)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
 msgstr "Kullanıcı tuş hızlandırıcı ile gönderim yaparken doğrulama için sor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Prompt on empty subject"
 msgstr "Boş konu için sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Kullanıcı Konu olmadan ileti göndermeye çalıştığında sor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid "Prompt when emptying the trash"
 msgstr "Çöp boşaltılırken sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "Klasör boşaltılmaya çalışıldığında kullanıcıya sor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Prompt when user expunges"
 msgstr "Kullanıcı temizlediğinde sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Klasör temizlenmeye çalışıldığında kullanıcıya sor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "Prompt when user calls Empty Junk"
 msgstr "Kullanıcı Gereksiz Temizleme çağırdığında sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr "Gereksiz klasörünü temizlemeye çalıştığında kullanıcıya sor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid "Prompt when user marks message as Junk"
 msgstr "Kullanıcı, iletiyi Gereksiz olarak imlediğinde sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid "Prompt the user when he or she tries to mark a message as Junk."
 msgstr "Kullanıcı, iletiyi Gereksiz olarak imlemeye çalıştığında sor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
 "Gönderilen, kaydedilmiş posta adreslerinde yoksa postayı göndermeden önce "
 "kullanıcıya sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
@@ -2470,20 +2458,20 @@ msgstr ""
 "E-posta adresleri olarak girilmemiş alıcılara ileti yollamak istediğinizde "
 "yeniden karşınıza çıkan soru pencerelerini kapatır/etkinleştirir"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "Prompt when user only fills Bcc"
 msgstr "Kullanıcı yalnızca Gizli Bilgi doldurduğunda sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Kullanıcı Alıcı ya da Bilgi kullanmadan ileti göndermeye çalıştığında sor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Kullanıcı istenmeyen HTML göndermeye çalıştığında sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -2491,11 +2479,11 @@ msgstr ""
 "Kullanıcı HTML posta almak istemeyen alıcılara HTML posta göndermeye "
 "çalıştığında sor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "Kullanıcı 10 ya da daha çok iletiyi aynı anda açmaya çalıştığında sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -2503,20 +2491,20 @@ msgstr ""
 "Eğer kullanıcı 10 ya da daha çok iletiyi bir kez açmayı denerse, kullanıcıya "
 "bunu gerçekten yapmak isteyip istemediğini sor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid "Prompt while marking multiple messages"
 msgstr "Çoklu ileti imlerken uyar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr ""
 "Birden çok iletiyi imlerken, çıkan soru penceresini etkinleştir ya da kapat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid "Prompt when deleting messages in search folder"
 msgstr "Arama klasöründen iletiler silinirken sorulması"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
@@ -2526,13 +2514,13 @@ msgstr ""
 "sonuçlarından silmediği ama kalıcı olarak sildiğini uyaran soruları kapatır/"
 "etkinleştirir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid "Asks whether to copy a folder by drag-and-drop in the folder tree"
 msgstr ""
 "Klasör ağacındaki klasörün sürükle ve bırak ile kopyalanıp "
 "kopyalanmayacağını sorar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid ""
 "Possible values are: “never” — do not allow copy with drag-and-drop of "
 "folders in folder tree, “always” — allow copy with drag-and-drop of folders "
@@ -2543,12 +2531,12 @@ msgstr ""
 "sürükle ve bırak ile kopyalar, veya “ask” (sor) - (veya herhangi başka "
 "değer) kullanıcıya sorar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid "Asks whether to move a folder by drag-and-drop in the folder tree"
 msgstr ""
 "Klasörün klasör ağacında sürükle ve bırak ile taşınıp taşınmayacağını sorar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid ""
 "Possible values are: “never” — do not allow move with drag-and-drop of "
 "folders in folder tree, “always” — allow move with drag-and-drop of folders "
@@ -2559,11 +2547,11 @@ msgstr ""
 "bıraka sormadan izin ver, veya “ask” (sor) - (ya da başka herhangi bir "
 "değer) kullanıcıya sor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "Prompt when replying privately to list messages"
 msgstr "Liste iletilerine gizli olarak yanıtlarken kullanıcıya sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
@@ -2571,11 +2559,11 @@ msgstr ""
 "E-posta listesinden gelen iletiye özel yanıt yazdığınızda sizi uyarmak için "
 "çıkan yinelenen ekranları kapatır/açar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "E-posta listesi özel yanıtları kendine yönlendirirse sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
@@ -2585,11 +2573,11 @@ msgstr ""
 "çıkan yinelenen ekranları kapatır/açar, ama liste bir Yanıtla: başlığı "
 "ayarladığından iletiniz listeye yönlendirilir"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid "Prompt when replying to many recipients"
 msgstr "Birden çok alıcıyı yanıtlarken beni uyar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
@@ -2597,7 +2585,7 @@ msgstr ""
 "Yanıtı birçok kişiye gönderirken gösterilen yineleyen uyarı ekranlarını "
 "kapatır/açar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid ""
 "Prompt when switching composer format and the content needs to lose its "
 "formatting"
@@ -2605,7 +2593,7 @@ msgstr ""
 "Düzenleyici biçimi değiştirildiğinde ve içeriğin biçimini yitirmesi "
 "gerektiğinde sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
@@ -2614,11 +2602,11 @@ msgstr ""
 "gerektiğinde yeniden karşınıza çıkan soru pencerelerini kapatır/"
 "etkinleştirir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid "Prompt when sending to many To and CC recipients"
 msgstr "Çok fazla Alıcı ve Bilgi alıcısına gönderildiğinde sor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "“composer-many-to-cc-recips-num” defines the threshold."
@@ -2627,11 +2615,11 @@ msgstr ""
 "pencerelerini kapatır/etkinleştirir. “composer-many-to-cc-recips-num” eşiği "
 "tanımlar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid "List of addresses, or even parts of addresses, which accept HTML"
 msgstr "HTML kabul eden adreslerin ve adres parçalarının listesi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid ""
 "It's a complementary option for “prompt-on-unwanted-html”, containing list "
 "of addresses, which accept HTML messages."
@@ -2639,7 +2627,7 @@ msgstr ""
 "HTML iletileri kabul eden adreslerin listesi, “prompt-on-unwanted-html” için "
 "tamamlayıcı bir seçenektir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
@@ -2647,44 +2635,44 @@ msgstr ""
 "Görüntülenen iletiyi yanıtlarken ya da ileti iletilirken ileti tarayıcısının "
 "kendiliğinden kapanması için plan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid "Empty Trash folders on exit"
 msgstr "Çöp klasörlerini çıkışta boşalt"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Tüm Çöp klasörlerini Evolutionʼdan çıkarken boşalt."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Çıkışta çöpün boşaltılması için asgari gün"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr ""
 "Çıkışta çöpün boşaltılması için asgari geçmesi gereken zaman, gün olarak."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
 msgid "Last time Empty Trash was run"
 msgstr "En son Çöp Boşaltma işlemi yapıldığı zaman"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "Çöp Boşaltma işleminin en son ne zaman yapıldığı, gün olarak, 1 Ocak "
 "1970ʼden beri (Tarih başlangıcı)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr ""
 "Hatanın durum çubuğunda gösterileceği zamanın saniye cinsinden miktarı."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid "Level beyond which the message should be logged."
 msgstr "İletinin günlüklenmesi için düzey."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
 msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
@@ -2692,11 +2680,11 @@ msgstr ""
 "Bu üç geçerli değere sahiptir. Hatalar için “0”. Uyarılar için “1”. Hata "
 "ayıklama iletileri için “2”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid "Show original “Date” header value."
 msgstr "Özgün “Tarih” başlığı değerini göster."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone "
 "differs). Otherwise always show “Date” header value in a user preferred "
@@ -2706,11 +2694,11 @@ msgstr ""
 "durumda “Tarih” başlığını her zaman kullanıcının yeğlediği biçimde ve yerel "
 "saat dilimiyle göster."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "List of Labels and their associated colors"
 msgstr "Etiketlerin Listesi ve onların ilişkilendirilen renkleri"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -2718,48 +2706,48 @@ msgstr ""
 "Evolutionʼun posta bileşeninin bildiği etiketlerin listesi. Liste renklerin "
 "HTML hex kodlamasını kullandığı ad:renk dizgelerini içerir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
 msgid "Check incoming mail being junk"
 msgstr "Gelen postaların gereksiz olup olmadığını denetle"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid "Run junk test on incoming mail."
 msgstr "Gelen postalarda gereksiz sınaması çalıştır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
 msgid "Empty Junk folders on exit"
 msgstr "Gereksiz klasörlerini çıkışta boşalt"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr "Evolutionʼdan çıkarken Gereksiz klasörlerini boşalt."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Çıkışta çöpün boşaltılma aralığı için asgari gün"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
 "Çıkışta çöpün boşaltılma aralığı için asgari geçmesi gereken zaman, gün "
 "olarak."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
 msgid "Last time Empty Junk was run"
 msgstr "Önemsizleri Boşaltʼın son çalıştığı zaman"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "Önemsiz iletilerin Boşaltıldığı son tarih, gün olarak 1 Ocak 1970ʼden beri "
 "(Tarih başlangıcı)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
 msgid "The default plugin for Junk hook"
 msgstr "Gereksiz bağı için öntanımlı eklentisi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won’t fall back "
@@ -2769,11 +2757,11 @@ msgstr ""
 "öntanımlı listelenen eklenti kapalı ise, diğer geçerli eklentileri yedek "
 "olarak kullanmaz."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "Gönderen e-postasının adres defterinde aranmasına karar verir"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
@@ -2785,7 +2773,7 @@ msgstr ""
 "içinde arar. Eğer uzaktaki adres defterleri (LDAP gibi) kendiliğinden "
 "tamamlama için imlenmişse yavaş olabilir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
@@ -2793,7 +2781,7 @@ msgstr ""
 "Gereksiz süzmesi için yalnızca yerel adres defterindeki adreslere "
 "bakılmasını belirler"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
@@ -2803,11 +2791,11 @@ msgstr ""
 "gönderilen postaları gereksiz süzmesinde dışta tutmak için yerel adres "
 "defterine bakılmasını belirtmede kullanılır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
 msgid "Determines whether to use custom headers to check for junk"
 msgstr "Gereksiz denetimi için özel başlıkların kullanılmasını belirler"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
@@ -2817,11 +2805,11 @@ msgstr ""
 "seçenek etkin ise ve başlıklara değinilmişse, gereksiz denetim hızını "
 "arttıracaktır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
 msgid "Custom headers to use while checking for junk."
 msgstr "Gereksiz denetimi yapılırken kullanılacak özel başlıklar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
@@ -2829,39 +2817,39 @@ msgstr ""
 "Gereksiz denetimi yapılırken kullanılacak özel başlıklar. Liste ögeleri "
 "“başlıkadı=değer” biçiminde dizgelerdir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
 msgid "UID string of the default account."
 msgstr "Öntanımlı hesabın UID satırı."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
 msgid "Save directory"
 msgstr "Kayıt dizini"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
 msgid "Directory for saving mail component files."
 msgstr "Posta bileşeni dosyalarını kaydetmek için dizin."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
 msgid "Save format"
 msgstr "Kayıt biçimi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
 msgid "Last used format when saving messages to file."
 msgstr "İletileri dosyaya kaydederken son kullanılan biçim."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
 msgid "Composer load/attach directory"
 msgstr "Düzenleyici yükleme/ek dizini"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
 msgid "Directory for loading/attaching files to composer."
 msgstr "Düzenleyiciye dosyaları yükleme/ekleme için dizin."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 msgid "Check for new messages on start"
 msgstr "Açılışta yeni iletileri denetle"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
@@ -2869,11 +2857,11 @@ msgstr ""
 "Evolution başlatıldığında yeni iletilerin denetlenip denetlenmeyeceği. Giden "
 "kutusundaki iletileri gönderme işlemini de içerir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
 msgid "Check for new messages in all active accounts"
 msgstr "Tüm etkin hesaplardaki yeni iletileri denetle"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account “Check for new messages every X minutes” option when Evolution is "
@@ -2884,11 +2872,11 @@ msgstr ""
 "denetlenmeyeceği. Bu seçenek yalnızca “send_recv_on_start” seçeneği ile "
 "birlikte kullanılır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
 msgid "Server synchronization interval"
 msgstr "Sunucu eşzamanlandırma aralığı"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
@@ -2896,11 +2884,11 @@ msgstr ""
 "Uzaktaki posta sunucusu ile yerel değişikliklerin hangi sıklıkta "
 "eşzamanlandırılacağını denetler. Aralık en az 30 saniye olmalıdır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
 msgid "Allow expunge in virtual folders"
 msgstr "Sanal dizinlerde temizlemeye izin ver"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder→Expunge will "
 "be callable in virtual folders, while the expunge itself will be done in all "
@@ -2912,12 +2900,12 @@ msgstr ""
 "tüm silinmiş iletilerde yapılır, yalnızca sanal dizine ait silinmiş "
 "iletilerde değil."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
 #: ../src/mail/mail-config.ui.h:10
 msgid "Inherit theme colors in HTML format"
 msgstr "Tema renklerini HTML biçiminde miras al"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
 msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
@@ -2925,11 +2913,11 @@ msgstr ""
 "Etkinse arkaplan, metin ve bağlantı için tema renkleri sonuç HTML biçimli "
 "iletide gönderilir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
 msgid "An Archive folder for On This Computer folders."
 msgstr "Bu Bilgisayarda klasörleri için Arşiv dizini."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
@@ -2937,88 +2925,88 @@ msgstr ""
 "Bu Bilgisayarda dizinindeyken İletiler|Arşivler... özelliği için "
 "kullanılacak Arşiv dizini."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
 msgid "Whether the To Do bar is visible in the main window"
 msgstr "Yapılacaklar çubuğunun ana pencerede görünmesi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
 msgid "Stores whether the To Do bar is visible in the main window."
 msgstr "Yapılacaklar çubuğunun ana pencerede görünüp görünmeyeceğini tutar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
 msgid "Width of the To Do bar in the main window"
 msgstr "Yapılacaklar çubuğunun ana penceredeki genişliği"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
 msgid "Holds the width of the To Do bar for the main window."
 msgstr "Ana pencere için Yapılacaklar çubuğunun genişliğini tutar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid "Whether the To Do bar is visible in a sub-window"
 msgstr "Yapılacaklar çubuğunun alt pencerede görünmesi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
 msgid "Stores whether the To Do bar is visible in a sub-window."
 msgstr "Yapılacaklar çubuğunun alt pencerelerde görünüp görünmemesini tutar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
 msgid "Width of the To Do bar in a sub-window"
 msgstr "Yapılacaklar çubuğunun alt pencerede genişliği"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
 msgid "Holds the width of the To Do bar for a sub-window."
 msgstr "Yapılacaklar çubuğunun alt pencereler için genişliğini tutar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
 msgid "Whether the To Do bar should show also completed tasks"
 msgstr ""
 "Yapılacaklar çubuğunun ayrıca tamamlanan görevleri gösterip göstermeyeceği"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
 msgid "Stores whether the To Do bar should show also completed tasks."
 msgstr ""
 "Yapılacaklar çubuğunun tamamlanmış görevleri de gösterip göstermemesi "
 "gerektiğini saklar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
 msgid "Whether the To Do bar should show also tasks without Due date"
 msgstr ""
 "Yapılacaklar çubuğunun Tamamlanma tarihi olmayan görevleri de gösterip "
 "göstermeyeceği"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
 msgid "Stores whether the To Do bar should show also tasks without Due date."
 msgstr ""
 "Yapılacaklar çubuğunun Tamamlanma tarihi olmayan görevleri de gösterip "
 "göstermemesi gerektiğini saklar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
 msgid "How many days to show in the To Do bar"
 msgstr "Yapılacaklar çubuğunda kaç gün gösterileceği"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
 msgid "Values out of range are clamped to the boundary."
 msgstr "Aralığın dışındaki değerler sınıra indirgenir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
 msgid "Use smaller font for time in the To Do bar"
 msgstr "Yapılacaklar çubuğundaki zaman için daha küçük yazı tipi kullan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
 msgid "Show start up wizard"
 msgstr "Başlangıç sihirbazını göster"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 msgid "Whether show start up wizard when there is no mail account configured."
 msgstr ""
 "Yapılandırılmış posta hesabı olmadığında başlangıç sihirbazının gösterilip "
 "gösterilmeyeceği."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid "Whether go to the previous message after message deletion"
 msgstr "İleti siliminin ardından önceki iletiye gidilip gidilmeyeceği"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
 msgid ""
 "If set to true, goes to the previous message when the selected is deleted; "
 "or to the next message, when it’s set to false."
@@ -3026,11 +3014,11 @@ msgstr ""
 "Eğer doğru olarak belirlenirse seçilen silindiğinde önceki iletiye gider, "
 "yanlış olarak belirlenirse sonraki iletiye gider."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
 msgid "Show Subject above Sender in Messages column"
 msgstr "İletiler sütununda Konuyu Göndericinin üstünde göster"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list. Change of this "
@@ -3041,11 +3029,11 @@ msgstr ""
 "gösterilir. Bu seçeneğin değiştirilmesi için Evolutionʼın yeniden "
 "başlatılması gerekir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
 msgid "Visually wrap long lines in composer"
 msgstr "Düzenleyicideki uzun satırları görsel olarak sar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
 #: ../src/composer/e-composer-actions.c:626
 msgid ""
 "Whether to visually wrap long lines of text to avoid horizontal scrolling"
@@ -3053,19 +3041,19 @@ msgstr ""
 "Yatay kaydırmayı önlemek için uzun metin satırlarının görsel olarak sarılıp "
 "sarılmayacağı"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
 msgid "Alternative reply style"
 msgstr "Alternatif yanıt biçemi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
 msgid "Composer mode to use."
 msgstr "Kullanılacak düzenleyici kipi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
 msgid "Put the cursor at the bottom of alternative replies"
 msgstr "İmleçi alternatif yanıtların en altına yerleştir"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
 msgid ""
 "This determines whether the cursor is placed at the top of the message or "
 "the bottom when using Alternative Reply."
@@ -3073,11 +3061,11 @@ msgstr ""
 "Bu, Alternatif Yanıt kullanılırken imlecin iletinin başında mı yoksa sonunda "
 "mı gösterileceğini saptar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
 msgid "Put the signature at the top of the message"
 msgstr "İmzayı iletinin üstüne koy"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:319
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
 msgid ""
 "This determines whether the signature is placed at the top of the message or "
 "the bottom when using Alternative Reply."
@@ -3085,19 +3073,19 @@ msgstr ""
 "Bu, Alternatif Yanıt kullanılırken imzanın iletinin üstüne mi yoksa altına "
 "mı konacağını saptar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
 msgid "Apply chosen template when using Alternative Reply"
 msgstr "Alternatif Yanıt kullanırken seçilen şablonu uygula"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:321
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:319
 msgid "Last chosen template’s folder URI for Alternative Reply"
 msgstr "Alternatif Yanıt için son seçilen şablonun klasör URI’si"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:322
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
 msgid "Last chosen template’s message UID for Alternative Reply"
 msgstr "Alternatif Yanıt için son seçilen şablon ileti UIDʼi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:323
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:321
 msgid ""
 "Whether preserve original message subject when applying template for "
 "Alternative Reply"
@@ -3105,7 +3093,7 @@ msgstr ""
 "Alternatif Yanıt için şablon uygulanırken özgün ileti konusunun korunup "
 "korunmayacağı"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:324
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:322
 msgid ""
 "Whether set “body” in mailto: URI as Preformatted paragraph style. If set to "
 "“false”, then Normal paragraph style will be used."
@@ -3113,7 +3101,7 @@ msgstr ""
 "mailto: URIʼsindeki “body”nin Önbiçimlenmiş paragraf biçimi olarak "
 "belirlenmesi. Eğer “false” ise Olağan paragraf biçimi kullanılacak."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:323
 msgid ""
 "Close the message browser window when the selected message is deleted or "
 "marked as Junk."
@@ -3121,7 +3109,7 @@ msgstr ""
 "Seçili ileti silindiğinde veya Gereksiz olarak imlendiğinde ileti tarama "
 "penceresini kapat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:324
 msgid ""
 "Collapse archive folders in Move/Copy message to Folder and Go to Folder "
 "selectors."
@@ -3129,7 +3117,7 @@ msgstr ""
 "“İletiyi Klasöre Taşı/Kopyala” ve “Klasöre Git” seçicilerinde arşiv "
 "klasörlerini kapat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:327
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
 msgid ""
 "Where to lookup recipient S/MIME certificates or PGP keys when encrypting "
 "messages."
@@ -3137,7 +3125,7 @@ msgstr ""
 "İletiler şifrelenirken alıcı S/MIME sertifikalarına veya PGP anahtarlarına "
 "nerede bakılacağı."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
 msgid ""
 "The “off” value completely disables certificate lookup; the “autocompleted” "
 "value provides certificates only for auto-completed contacts; the “books” "
@@ -3150,12 +3138,12 @@ msgstr ""
 "kendiliğinden tamamlanmış bağlantılardan sertifikaları kullanır ve "
 "defterlerde kendiliğinden tamamlama için imlenmişleri arar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:327
 msgid "Whether Send/Receive should also download of messages for offline."
 msgstr ""
 "Gönder/Alʼın aynı zamanda iletileri çevrim dışı için indirip indirmeyeceği."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:330
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
 msgid ""
 "If enabled, whenever Send/Receive is run it also runs synchronization of "
 "messages for offline use. The option is disabled by default."
@@ -3163,11 +3151,11 @@ msgstr ""
 "Eğer etkinse, her Gönder/Al yapıldığında ayrıca çevrim dışı kullanım için "
 "iletiler eşzamanlanacaktır. Bu seçenek öntanımlı olarak devre dışıdır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
 msgid "Whether display delivery notification parts inline."
 msgstr "Teslim bildirim parçalarının satır içinde gösterilmesi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:330
 msgid ""
 "If enabled, the message/delivery-status and message/disposition-notification "
 "parts are shown automatically inline."
@@ -3175,11 +3163,11 @@ msgstr ""
 "Etkinse, ileti/teslim-durumu ve ileti/tanzim-bildirim parçaları "
 "kendiliğinden satır içinde gösterilir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
 msgid "Whether unset colors provided in HTML mails."
 msgstr "HTML postalarda sağlanan renklerin kurulup kurulmaması."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
 msgid ""
 "If enabled, unset colors in HTML messages, forcing use of desktop theme "
 "colors instead."
@@ -3187,7 +3175,7 @@ msgstr ""
 "Etkinleştirilirse, HTML iletilerdeki renkler kurulmayacak, bunun yerine "
 "masaüstü tema renklerinin kullanımı zorlanacak."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
 msgid ""
 "Whether to preserve expand state of the folders when calling Copy/Move to "
 "Folder."
@@ -3195,7 +3183,7 @@ msgstr ""
 "Klasöre Kopyala/Taşı çağrılırken, klasörlerin genişletme durumlarının "
 "korunması."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
 msgid ""
 "If enabled, the Copy/Move to Folder dialog will preserve the expand state of "
 "the folders in the dialog, otherwise all the folders will be expanded."
@@ -3203,20 +3191,20 @@ msgstr ""
 "Eğer etkinse, Klasöre Kopyala/Taşı iletişim penceresi klasörlerin genişletme "
 "durumunu koruyacak; değilse, tüm klasörler genişletilecek."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:337
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
 msgid "Whether to print attachments."
 msgstr "Ekler yazdırılsın mı."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:338
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
 msgid ""
 "If enabled, and possible, attachment content is printed with the message."
 msgstr "Etkinse ve oluyorsa, ek içeriği iletiyle birlikte yazdırılır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:339
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:337
 msgid "Size limit for text attachments to show"
 msgstr "Gösterilecek metin ekleri için boyut sınırı"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:340
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:338
 msgid ""
 "Defines the size in KB, the limit to show text attachments in the message "
 "preview. Anything above this limit will not be possible to show inline."
@@ -3224,15 +3212,15 @@ msgstr ""
 "İleti ön izlemesinde gösterilecek metin eklerinin sınırını KB türünde "
 "tanımlar. Bu sınırı geçenler satır içinde gösterilmeyecek."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:341
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:339
 msgid "Show Preview Toolbar"
 msgstr "Ön İzleme Araç Çubuğunu Göster"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:342
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:340
 msgid "Show toolbar above preview panel in the Mail view."
 msgstr "Posta görünümünde ön izleme panelinin üzerinde araç çubuğunu göster."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:343
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:341
 msgid ""
 "Whether the markdown composer should sanitize input text also for the "
 "'Markdown as Plain text' mode"
@@ -3240,7 +3228,7 @@ msgstr ""
 "Markdown oluşturucunun girdi metnini 'Düz Metin Olarak Markdown' kipi için "
 "de temizleme durumu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:344
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:342
 msgid ""
 "Disabling the sanitization allows to use the Markdown editor as a very "
 "simple text editor without mangling the input text."
@@ -3249,19 +3237,19 @@ msgstr ""
 "düzenleyicisinin çok basit bir metin düzenleyici olarak kullanılmasını "
 "sağlar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:345
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:343
 msgid "Show unread count in folder tree"
 msgstr "Klasör ağacında okunmamış sayısını göster"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:346
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:344
 msgid "Show unread count beside the folder name in the folder tree."
 msgstr "Klasör ağacında klasörler adının yanında okunmamış sayısını göster."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:347
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:345
 msgid "Show insecure parts by default"
 msgstr "Güvensiz bölümleri öntanımlı olarak göster"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:348
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:346
 msgid ""
 "Set whether not signed/encrypted parts beside signed/encrypted parts should "
 "be shown after mail open. The default is to hide these possibly insecure "
@@ -3271,11 +3259,11 @@ msgstr ""
 "bölümlerin gösterilme durumunu ayarla. Öntanımlı değer, olası güvensiz "
 "bölümleri gizlemektir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:349
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:347
 msgid "How to convert links from HTML to plain text"
 msgstr "Bağlantılar HTMLʼden düz metine nasıl değiştirilsin"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:350
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:348
 msgid ""
 "Possible values: 'none' - do not store href in the plain text; 'inline' - "
 "show href beside the text link, like: \"label &lt;href&gt;\"; 'reference' - "
@@ -3290,7 +3278,7 @@ msgstr ""
 "(etiketsiz atıf) - href’i metnin sonuna etiketsiz atıf olarak göster, "
 "örneğin: \"etiket [1] ...... [1] href\""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:349
 msgid ""
 "Whether click on a header in the message list can change sort order by the "
 "clicked column."
@@ -3298,11 +3286,11 @@ msgstr ""
 "İleti listesindeki başlığa tıklanması, tıklanan sütuna göre sıralama "
 "düzenini değiştirebilir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:350
 msgid "Attach multiple messages as separate files"
 msgstr "Birden çok iletiyi ayrı dosyalar olarak ekle"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:351
 msgid ""
 "When attaching multiple messages at once, attach them as separate files "
 "(when set to 'true'), instead of a single mbox file."
@@ -3310,11 +3298,11 @@ msgstr ""
 "Birden çok ileti eklerken, bunları tek mbox dosyası yerine ayrı dosyalar "
 "olarak ekle ('true' ayarlandığında)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
 msgid "Set folder text color when it received a new message"
 msgstr "Klasör yeni ileti aldığındaki metin rengini seç"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:355
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
 msgid ""
 "Some `@theme_` colors are supported, otherwise a color name like `orange` or "
 "color reference like `#07509c` or `rgb(215,150,0)` can be used. Not setting "
@@ -3326,11 +3314,11 @@ msgstr ""
 "belirlememek ya da geçersiz biçimde belirlemek, klasör adı metni renginin "
 "değişmemesiyle sonuçlanır."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:356
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
 msgid "(Deprecated) Default forward style"
 msgstr "(Kullanılması önerilmiyor) Öntanımlı yönlendirme biçemi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:357
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:355
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -3338,11 +3326,11 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “forward-style-name” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:358
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:356
 msgid "(Deprecated) Default reply style"
 msgstr "(Kullanılması önerilmiyor) Öntanımlı yanıtlama biçemi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:359
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:357
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -3350,13 +3338,13 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “reply-style-name” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:360
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:358
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
 "(Kullanımı önerilmiyor) Özel başlıklar ve onların etkin olup olmadıklarının "
 "listesi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:361
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:359
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -3364,13 +3352,13 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “show-headers” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:362
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:360
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 "(Kullanımı önerilmiyor) HTML iletileri için resimlerin HTTP üzerinden "
 "yüklenmesi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:363
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:361
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -3378,7 +3366,7 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “image-loading-policy” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:364
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:362
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -3386,7 +3374,7 @@ msgstr ""
 "(Terk edilmiş) Kullanıcı penceredeki iletiyi yanıtlarken ya da iletiyi "
 "iletirken ileti penceresinin kapatılıp kapatılmayacağını sorar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:365
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:363
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3394,11 +3382,11 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “browser-close-on-reply-policy” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:366
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:364
 msgid "Prompt before send when attachment changed on the disk"
 msgstr "Ek, diskte değiştirildiğinde göndermeden önce uyarı ver."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:367
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:365
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
@@ -3795,7 +3783,7 @@ msgstr ""
 "Eklenen dizinler autoar ile sıkıştırılırken kullanılan sıkıştırma süzgeci."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/e-shell.c:2024
+#: ../src/shell/e-shell.c:2046
 msgid "Start in offline mode"
 msgstr "Çevrim dışı kipte başla"
 
@@ -4123,11 +4111,14 @@ msgstr ""
 "tık→Şöyle Biçimlendir→.... kullanarak, yalnızca ileti bölümünün yeniden "
 "biçimlendirilmesini gerektirir."
 
+#. to not have "minimize" button
+#. to not have "minimize" button
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1133
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
-#: ../src/shell/e-shell-window.c:353 ../src/shell/e-shell-window-private.c:47
+#: ../src/shell/e-shell-migrate.c:413 ../src/shell/e-shell-window.c:353
+#: ../src/shell/e-shell-window-private.c:47
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -4216,7 +4207,7 @@ msgstr "İleti Yaz"
 #: ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:249
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1970
+#: ../src/modules/mail/e-mail-shell-view.c:1963
 #: ../src/smime/gui/certificate-manager.c:1608
 msgid "Mail"
 msgstr "Posta"
@@ -4784,9 +4775,9 @@ msgstr ""
 #: ../src/e-util/e-html-editor-link-popover.c:298
 #: ../src/e-util/e-mail-signature-manager.c:309
 #: ../src/e-util/e-name-selector-dialog.c:995
-#: ../src/e-util/e-ui-customize-dialog.c:1090
-#: ../src/e-util/e-ui-customize-dialog.c:1212
-#: ../src/e-util/e-ui-customize-dialog.c:2418 ../src/e-util/filter.ui.h:25
+#: ../src/e-util/e-ui-customize-dialog.c:1091
+#: ../src/e-util/e-ui-customize-dialog.c:1213
+#: ../src/e-util/e-ui-customize-dialog.c:2423 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-account-manager.c:709
 #: ../src/mail/e-mail-label-manager.c:367
 #: ../src/mail/em-folder-properties.c:1375
@@ -4957,11 +4948,11 @@ msgstr ""
 #: ../src/e-util/e-source-selector-dialog.c:323
 #: ../src/e-util/e-table-config.c:458 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4086
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4085
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:304 ../src/mail/e-mail-label-dialog.c:180
-#: ../src/mail/e-mail-reader.c:5099 ../src/mail/e-mail-tag-editor.c:155
-#: ../src/mail/e-mail-viewer.c:590 ../src/mail/em-composer-utils.c:4533
+#: ../src/mail/e-mail-reader.c:5126 ../src/mail/e-mail-tag-editor.c:155
+#: ../src/mail/e-mail-viewer.c:590 ../src/mail/em-composer-utils.c:4534
 #: ../src/mail/em-folder-selector.c:619 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:881
 #: ../src/mail/mail-send-recv.c:962 ../src/mail/mail-vfolder-ui.c:151
@@ -5052,7 +5043,7 @@ msgstr "Seçenekler"
 #: ../src/e-util/e-attachment-store.c:837
 #: ../src/e-util/e-attachment-store.c:844
 #: ../src/e-util/e-mail-signature-script-dialog.c:344
-#: ../src/e-util/e-webdav-browser.c:2669 ../src/e-util/e-web-view.c:4086
+#: ../src/e-util/e-webdav-browser.c:2669 ../src/e-util/e-web-view.c:4085
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:919
 #: ../src/shell/e-shell-content.c:611 ../src/shell/e-shell-utils.c:133
@@ -5331,8 +5322,8 @@ msgstr "_X.509 Ekle"
 #: ../src/e-util/e-html-editor-link-popover.c:310
 #: ../src/e-util/e-mail-signature-manager.c:349
 #: ../src/e-util/e-name-selector-dialog.c:999
-#: ../src/e-util/e-ui-customize-dialog.c:1205
-#: ../src/e-util/e-ui-customize-dialog.c:2704
+#: ../src/e-util/e-ui-customize-dialog.c:1206
+#: ../src/e-util/e-ui-customize-dialog.c:2710
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:28
 #: ../src/mail/e-mail-config-identity-page.c:866
 #: ../src/mail/e-mail-label-manager.c:385 ../src/mail/em-filter-rule.c:677
@@ -5555,7 +5546,7 @@ msgstr "Yinele"
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418
 #: ../src/shell/e-shell-content.c:612 ../src/shell/e-shell-content.c:718
-#: ../src/shell/main.c:110 ../src/smime/gui/certificate-manager.c:1274
+#: ../src/shell/main.c:111 ../src/smime/gui/certificate-manager.c:1274
 #: ../src/smime/gui/e-cert-selector.c:229 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "_Tamam"
@@ -5696,24 +5687,24 @@ msgid "Insert email addresses from Address Book"
 msgstr "Adres defterinden e-posta adreslerini ekle"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
-#: ../src/e-util/e-ui-customize-dialog.c:2710 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-ui-customize-dialog.c:2716 ../src/e-util/filter.ui.h:29
 msgid "_Top"
 msgstr "_Üst"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
 #: ../src/e-util/e-source-selector.c:3918
-#: ../src/e-util/e-ui-customize-dialog.c:2716 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-ui-customize-dialog.c:2722 ../src/e-util/filter.ui.h:30
 msgid "_Up"
 msgstr "_Yukarı"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
 #: ../src/e-util/e-source-selector.c:3919
-#: ../src/e-util/e-ui-customize-dialog.c:2722 ../src/e-util/filter.ui.h:31
+#: ../src/e-util/e-ui-customize-dialog.c:2728 ../src/e-util/filter.ui.h:31
 msgid "_Down"
 msgstr "_Aşağı"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
-#: ../src/e-util/e-ui-customize-dialog.c:2728 ../src/e-util/filter.ui.h:32
+#: ../src/e-util/e-ui-customize-dialog.c:2734 ../src/e-util/filter.ui.h:32
 msgid "_Bottom"
 msgstr "_Alt"
 
@@ -6607,7 +6598,7 @@ msgstr "_Yakınlaştır"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:402
-#: ../src/mail/e-mail-reader.c:3436 ../src/mail/e-mail-viewer.c:1818
+#: ../src/mail/e-mail-reader.c:3451 ../src/mail/e-mail-viewer.c:1818
 msgid "Zoom _Out"
 msgstr "_Uzaklaştır"
 
@@ -7893,13 +7884,13 @@ msgstr "Tamamlanan: %s"
 
 #: ../src/calendar/gui/comp-util.c:2416 ../src/calendar/gui/e-to-do-pane.c:641
 #: ../src/e-util/e-misc-utils.c:4196 ../src/e-util/e-text.c:564
-#: ../src/e-util/e-web-view.c:4272
+#: ../src/e-util/e-web-view.c:4271
 msgid "…"
 msgstr "…"
 
 #. Translators: Default attachment filename.
-#: ../src/calendar/gui/comp-util.c:2620 ../src/e-util/e-attachment.c:2497
-#: ../src/e-util/e-attachment.c:3062 ../src/e-util/e-attachment.c:3620
+#: ../src/calendar/gui/comp-util.c:2620 ../src/e-util/e-attachment.c:2573
+#: ../src/e-util/e-attachment.c:3138 ../src/e-util/e-attachment.c:3696
 #: ../src/e-util/e-attachment-store.c:903
 msgid "attachment.dat"
 msgstr "ek.dat"
@@ -8792,19 +8783,19 @@ msgstr[0] "%d görev kopyalanıyor"
 #: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:3442
 #: ../src/e-util/e-misc-utils.c:3450 ../src/e-util/e-misc-utils.c:3458
 #: ../src/e-util/e-misc-utils.c:3493 ../src/e-util/e-misc-utils.c:3506
-#: ../src/e-util/e-misc-utils.c:3520 ../src/e-util/e-ui-customize-dialog.c:3504
-#: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3122
-#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3841
+#: ../src/e-util/e-misc-utils.c:3520 ../src/e-util/e-ui-customize-dialog.c:3522
+#: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3142
+#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3856
 #: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
 #: ../src/mail/e-mail-viewer.c:1561 ../src/mail/e-mail-viewer.c:2508
-#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4308
-#: ../src/mail/em-composer-utils.c:4331 ../src/mail/mail-send-recv.c:604
+#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4309
+#: ../src/mail/em-composer-utils.c:4332 ../src/mail/mail-send-recv.c:604
 #: ../src/mail/mail-send-recv.c:1500
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:171
 #: ../src/modules/mail/e-mail-attachment-handler.c:557
 #: ../src/plugins/face/face.c:175
-#: ../src/plugins/mail-to-task/mail-to-task.c:998 ../src/shell/e-shell.c:1260
-#: ../src/shell/e-shell.c:1285 ../src/smime/gui/certificate-manager.c:349
+#: ../src/plugins/mail-to-task/mail-to-task.c:998 ../src/shell/e-shell.c:1278
+#: ../src/shell/e-shell.c:1303 ../src/smime/gui/certificate-manager.c:349
 #: ../src/smime/lib/e-cert-db.c:108
 #, c-format
 msgid "Unknown error"
@@ -9036,13 +9027,13 @@ msgid_plural "Attachments"
 msgstr[0] "Ek"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:242
-#: ../src/e-util/e-attachment.c:2671
+#: ../src/e-util/e-attachment.c:2747
 #, c-format
 msgid "Could not load “%s”"
 msgstr "“%s” yüklenemedi"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:244
-#: ../src/e-util/e-attachment.c:2674
+#: ../src/e-util/e-attachment.c:2750
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Eklenti yüklenemedi"
@@ -9196,7 +9187,7 @@ msgstr "Katılı_mcılar…"
 #: ../src/e-util/e-accounts-window.c:1760
 #: ../src/e-util/e-html-editor-actions.c:1322
 #: ../src/e-util/e-mail-signature-manager.c:339
-#: ../src/e-util/e-ui-customize-dialog.c:1199
+#: ../src/e-util/e-ui-customize-dialog.c:1200
 #: ../src/e-util/e-webdav-browser.c:2886 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:718 ../src/mail/e-mail-browser.c:619
 #: ../src/mail/e-mail-label-manager.c:376 ../src/mail/e-mail-viewer.c:1930
@@ -9891,7 +9882,7 @@ msgstr "Değişiklikler kaydediliyor…"
 #: ../src/e-util/e-name-selector-dialog.c:532
 #: ../src/e-util/e-preferences-window.c:323
 #: ../src/e-util/e-table-field-chooser-dialog.c:197
-#: ../src/e-util/e-ui-customize-dialog.c:2491 ../src/mail/e-mail-browser.c:576
+#: ../src/e-util/e-ui-customize-dialog.c:2496 ../src/mail/e-mail-browser.c:576
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:755
 #: ../src/mail/e-mail-notes.c:1149 ../src/mail/e-mail-viewer.c:1741
 #: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1503
@@ -9969,13 +9960,13 @@ msgid "Paste the clipboard"
 msgstr "Panodan yapıştır"
 
 #: ../src/calendar/gui/e-comp-editor.c:2281
-#: ../src/composer/e-composer-actions.c:439 ../src/mail/e-mail-reader.c:3317
+#: ../src/composer/e-composer-actions.c:439 ../src/mail/e-mail-reader.c:3332
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1607
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1621
 msgid "_Print…"
 msgstr "_Yazdır…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2288 ../src/mail/e-mail-reader.c:3324
+#: ../src/calendar/gui/e-comp-editor.c:2288 ../src/mail/e-mail-reader.c:3339
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1614
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1820
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:767
@@ -12900,43 +12891,43 @@ msgid ""
 msgstr ""
 "İletinin alıcılar listesinde görünmeden kopyalarını alacak adresleri girin"
 
-#: ../src/composer/e-composer-header-table.c:867
+#: ../src/composer/e-composer-header-table.c:932
 msgid "Fr_om:"
 msgstr "_Gönderen:"
 
-#: ../src/composer/e-composer-header-table.c:874
+#: ../src/composer/e-composer-header-table.c:939
 msgid "_Reply-To:"
 msgstr "_Yanıtla:"
 
-#: ../src/composer/e-composer-header-table.c:878
+#: ../src/composer/e-composer-header-table.c:943
 msgid "Mail-Followu_p-To:"
 msgstr "Posta _Takip:"
 
-#: ../src/composer/e-composer-header-table.c:882
+#: ../src/composer/e-composer-header-table.c:947
 msgid "Mail-Repl_y-To:"
 msgstr "Posta _Yanıtla:"
 
-#: ../src/composer/e-composer-header-table.c:887
+#: ../src/composer/e-composer-header-table.c:952
 msgid "_To:"
 msgstr "_Alıcı:"
 
-#: ../src/composer/e-composer-header-table.c:893
+#: ../src/composer/e-composer-header-table.c:958
 msgid "_Cc:"
 msgstr "_Bilgi:"
 
-#: ../src/composer/e-composer-header-table.c:899
+#: ../src/composer/e-composer-header-table.c:964
 msgid "_Bcc:"
 msgstr "_Saklı Bilgi:"
 
-#: ../src/composer/e-composer-header-table.c:904
+#: ../src/composer/e-composer-header-table.c:969
 msgid "_Post To:"
 msgstr "_Gönderilecek Yer:"
 
-#: ../src/composer/e-composer-header-table.c:908
+#: ../src/composer/e-composer-header-table.c:973
 msgid "S_ubject:"
 msgstr "_Konu:"
 
-#: ../src/composer/e-composer-header-table.c:918
+#: ../src/composer/e-composer-header-table.c:983
 #: ../src/mail/e-mail-config-identity-page.c:733
 msgid "Si_gnature:"
 msgstr "_İmza:"
@@ -12982,21 +12973,21 @@ msgstr "HTML işlenmiş içerik alınamadı"
 msgid "Compose Message"
 msgstr "İleti Yaz"
 
-#: ../src/composer/e-msg-composer.c:5017
+#: ../src/composer/e-msg-composer.c:5025
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:366
 msgid "Reading text content…"
 msgstr "Metin içeriği okunuyor…"
 
-#: ../src/composer/e-msg-composer.c:5083
+#: ../src/composer/e-msg-composer.c:5091
 msgid "Send _without encryption"
 msgstr "Şifrelemeden _gönder"
 
-#: ../src/composer/e-msg-composer.c:5871
+#: ../src/composer/e-msg-composer.c:5879
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Ek(ler)i göndermeden gözden geçir."
 
-#: ../src/composer/e-msg-composer.c:5876
+#: ../src/composer/e-msg-composer.c:5884
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -13008,7 +12999,7 @@ msgstr[0] ""
 "%d ek dış uygulamaca eklendi. İletiyi göndermeden önce hassas bilgi "
 "barındırmadığından emin olun."
 
-#: ../src/composer/e-msg-composer.c:6002
+#: ../src/composer/e-msg-composer.c:6010
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Düzenleyicide metin olmayan ve düzenlenemeyen ileti gövdesi bulunmaktadır."
@@ -13785,7 +13776,7 @@ msgstr "evolution takvim ögesi"
 
 #: ../src/e-util/e-accounts-window.c:554 ../src/e-util/e-accounts-window.c:671
 #: ../src/e-util/e-accounts-window.c:909
-#: ../src/modules/mail/e-mail-shell-backend.c:1170
+#: ../src/modules/mail/e-mail-shell-backend.c:1169
 msgid "Mail Accounts"
 msgstr "Posta Hesapları"
 
@@ -13909,7 +13900,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%%%d tamamlandı)"
 
 #: ../src/e-util/e-activity-proxy.c:339
-#: ../src/e-util/e-ui-customize-dialog.c:981
+#: ../src/e-util/e-ui-customize-dialog.c:982
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1828
 msgid "Cancel"
 msgstr "İptal"
@@ -13946,43 +13937,43 @@ msgstr "Eklerdeki Satır İçi Parçaları _Gizle"
 #. * message when, for example, attaching it to a composer. When the
 #. * message to be attached has also filled Subject, then this text is
 #. * of form "Attached message - Subject", otherwise it's left as is.
-#: ../src/e-util/e-attachment.c:1192
+#: ../src/e-util/e-attachment.c:1268
 msgid "Attached message"
 msgstr "Ekli ileti"
 
-#: ../src/e-util/e-attachment.c:2307 ../src/e-util/e-attachment.c:3245
-#: ../src/mail/em-utils.c:2200
+#: ../src/e-util/e-attachment.c:2383 ../src/e-util/e-attachment.c:3321
+#: ../src/mail/em-utils.c:2202
 msgid "Operation was cancelled"
 msgstr "İşlem iptal edildi"
 
-#: ../src/e-util/e-attachment.c:2576 ../src/e-util/e-attachment.c:3685
+#: ../src/e-util/e-attachment.c:2652 ../src/e-util/e-attachment.c:3761
 msgid "A load operation is already in progress"
 msgstr "Yükleme işlemi zaten sürüyor"
 
-#: ../src/e-util/e-attachment.c:2585 ../src/e-util/e-attachment.c:3694
+#: ../src/e-util/e-attachment.c:2661 ../src/e-util/e-attachment.c:3770
 msgid "A save operation is already in progress"
 msgstr "Kayıt işlemi zaten sürüyor"
 
-#: ../src/e-util/e-attachment.c:2907
+#: ../src/e-util/e-attachment.c:2983
 #, c-format
 msgid "Could not open “%s”"
 msgstr "“%s” açılamadı"
 
-#: ../src/e-util/e-attachment.c:2910
+#: ../src/e-util/e-attachment.c:2986
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Ek dosyası açılamadı"
 
-#: ../src/e-util/e-attachment.c:3704
+#: ../src/e-util/e-attachment.c:3780
 msgid "Attachment contents not loaded"
 msgstr "Ek içeriği yüklenmedi"
 
-#: ../src/e-util/e-attachment.c:3792
+#: ../src/e-util/e-attachment.c:3868
 #, c-format
 msgid "Could not save “%s”"
 msgstr "“%s” kaydedilemedi"
 
-#: ../src/e-util/e-attachment.c:3795
+#: ../src/e-util/e-attachment.c:3871
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Ek dosya kaydedilemedi"
@@ -14078,16 +14069,16 @@ msgstr "Yalnızca çıkarılan dosyaları _kaydet"
 msgid "Save extracted files and the original _archive"
 msgstr "Çıkarılan dosyaları ve asıl _arşivi kaydet"
 
-#: ../src/e-util/e-attachment-view.c:942 ../src/mail/e-mail-display.c:2274
+#: ../src/e-util/e-attachment-view.c:942 ../src/mail/e-mail-display.c:2294
 #, c-format
 msgid "Open With “%s”"
 msgstr "“%s” İle Aç"
 
-#: ../src/e-util/e-attachment-view.c:944 ../src/mail/e-mail-display.c:2276
+#: ../src/e-util/e-attachment-view.c:944 ../src/mail/e-mail-display.c:2296
 msgid "Open With Default Application"
 msgstr "Öntanımlı Uygulamayla Aç"
 
-#: ../src/e-util/e-attachment-view.c:1095 ../src/mail/e-mail-display.c:2299
+#: ../src/e-util/e-attachment-view.c:1095 ../src/mail/e-mail-display.c:2319
 msgid "Open With Other Application…"
 msgstr "Başka Uygulamayla Aç…"
 
@@ -14106,7 +14097,7 @@ msgstr "Far_klı Kaydet"
 msgid "Save _As"
 msgstr "Farklı K_aydet"
 
-#: ../src/e-util/e-attachment-view.c:1125 ../src/mail/e-mail-display.c:2095
+#: ../src/e-util/e-attachment-view.c:1125 ../src/mail/e-mail-display.c:2115
 msgid "Open with…"
 msgstr "Birlikte Aç…"
 
@@ -15026,12 +15017,10 @@ msgstr "Aşağıdaki koşullara uygun ögeleri bul"
 
 #. Translators: "None" for not including threads;
 #. * part of "Include threads: None"
-#. protocol:
-#. name:
 #: ../src/e-util/e-filter-rule.c:1130
 #: ../src/e-util/e-html-editor-page-dialog.c:58
-#: ../src/e-util/e-mail-identity-combo-box.c:785
-#: ../src/e-util/e-mail-signature-combo-box.c:406
+#: ../src/e-util/e-mail-identity-combo-box.c:814
+#: ../src/e-util/e-mail-signature-combo-box.c:435
 #: ../src/libemail-engine/camel-null-store.c:29
 #: ../src/mail/e-mail-autoconfig.c:834
 #: ../src/mail/e-mail-config-summary-page.c:134
@@ -16375,7 +16364,7 @@ msgstr "saat"
 msgid "days"
 msgstr "gün"
 
-#: ../src/e-util/e-mail-signature-combo-box.c:415
+#: ../src/e-util/e-mail-signature-combo-box.c:444
 msgid "Autogenerated"
 msgstr "Kendiliğinden oluşturulmuş"
 
@@ -16960,7 +16949,7 @@ msgstr "Göster"
 msgid "Group name"
 msgstr "Küme adı"
 
-#: ../src/e-util/e-source-selector.c:3823 ../src/mail/e-mail-display.c:1884
+#: ../src/e-util/e-source-selector.c:3823 ../src/mail/e-mail-display.c:1904
 msgid "_Hide"
 msgstr "_Gizle"
 
@@ -17366,100 +17355,100 @@ msgstr "_Seçim"
 msgid "Timezone drop-down combination box"
 msgstr "Zaman dilimi açılan kombinasyon kutusu"
 
-#: ../src/e-util/e-ui-customize-dialog.c:587
+#: ../src/e-util/e-ui-customize-dialog.c:588
 msgid "_Unset from other action"
 msgid_plural "_Unset from other actions"
 msgstr[0] "_Diğer eylemlerden kaldır"
 
-#: ../src/e-util/e-ui-customize-dialog.c:639
+#: ../src/e-util/e-ui-customize-dialog.c:640
 #, c-format
 msgid "Shortcut is used by other %u action"
 msgid_plural "Shortcut is used by other %u actions"
 msgstr[0] "Kısayol diğer %u eylem tarafından kullanılıyor"
 
-#: ../src/e-util/e-ui-customize-dialog.c:648
+#: ../src/e-util/e-ui-customize-dialog.c:649
 #, c-format
 msgid "Shortcut is used by action “%s”"
 msgstr "Kısayol “%s” eylemi tarafından kullanılıyor"
 
-#: ../src/e-util/e-ui-customize-dialog.c:952
+#: ../src/e-util/e-ui-customize-dialog.c:953
 msgid "Press the keys to be used as a shortcut."
 msgstr "Kısayol olarak kullanılacak tuşlara basın."
 
-#: ../src/e-util/e-ui-customize-dialog.c:974
+#: ../src/e-util/e-ui-customize-dialog.c:975
 msgid "Save"
 msgstr "Kaydet"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1086
+#: ../src/e-util/e-ui-customize-dialog.c:1087
 msgid "No shortcut set"
 msgstr "Kısayol ayarlanmamış"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1318
+#: ../src/e-util/e-ui-customize-dialog.c:1319
 msgid "No action selected"
 msgstr "Eylem seçilmedi"
 
 #. Translators: a "textual form" of a menu or toolbar separator, usually drawn as a line between the items
-#: ../src/e-util/e-ui-customize-dialog.c:1514
-#: ../src/e-util/e-ui-customize-dialog.c:3061
+#: ../src/e-util/e-ui-customize-dialog.c:1519
+#: ../src/e-util/e-ui-customize-dialog.c:3067
 msgid "Separator"
 msgstr "Ayırıcı"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1541
+#: ../src/e-util/e-ui-customize-dialog.c:1546
 msgid "Selected _Action"
 msgstr "Seçilen _Eylem"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1541
+#: ../src/e-util/e-ui-customize-dialog.c:1546
 msgid "Selected _Actions"
 msgstr "Seçilen _Eylemler"
 
-#: ../src/e-util/e-ui-customize-dialog.c:1546
+#: ../src/e-util/e-ui-customize-dialog.c:1551
 msgid "_Separator"
 msgstr "_Ayırıcı"
 
 #. Translators: this is like "Part of the user interface"
-#: ../src/e-util/e-ui-customize-dialog.c:2511
+#: ../src/e-util/e-ui-customize-dialog.c:2516
 msgid "_Part:"
 msgstr "_Parça:"
 
-#: ../src/e-util/e-ui-customize-dialog.c:2548
+#: ../src/e-util/e-ui-customize-dialog.c:2553
 msgid "Available _Actions"
 msgstr "Kullanılabilir _Eylemler"
 
-#: ../src/e-util/e-ui-customize-dialog.c:2616
+#: ../src/e-util/e-ui-customize-dialog.c:2622
 msgid "_Layout"
 msgstr "_Yerleşim"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/e-util/e-ui-customize-dialog.c:2734
-#: ../src/e-util/e-ui-customize-dialog.c:2783 ../src/mail/e-mail-reader.c:2849
-#: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4613
+#: ../src/e-util/e-ui-customize-dialog.c:2740
+#: ../src/e-util/e-ui-customize-dialog.c:2789 ../src/mail/e-mail-reader.c:2864
+#: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4614
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_Öntanımlı"
 
-#: ../src/e-util/e-ui-customize-dialog.c:2748
+#: ../src/e-util/e-ui-customize-dialog.c:2754
 msgid "_Shortcuts"
 msgstr "_Kısayollar"
 
-#: ../src/e-util/e-ui-customize-dialog.c:2751
+#: ../src/e-util/e-ui-customize-dialog.c:2757
 msgid "Add or remove shortcuts for the selected action."
 msgstr "Seçilen eylem için kısayol ekle ya da kaldır."
 
-#: ../src/e-util/e-ui-customize-dialog.c:2914
+#: ../src/e-util/e-ui-customize-dialog.c:2920
 msgid "Customize User Interface"
 msgstr "Kullanıcı Arayüzünü Özelleştir"
 
 #. Translators: which side a header bar items are placed to; for RTL locales it should be "Right side"
-#: ../src/e-util/e-ui-customize-dialog.c:3066
+#: ../src/e-util/e-ui-customize-dialog.c:3072
 msgid "Left side"
 msgstr "Sol bölüm"
 
 #. Translators: which side a header bar items are placed to; for RTL locales it should be "Left side"
-#: ../src/e-util/e-ui-customize-dialog.c:3072
+#: ../src/e-util/e-ui-customize-dialog.c:3078
 msgid "Right side"
 msgstr "Sağ bölüm"
 
-#: ../src/e-util/e-ui-customize-dialog.c:3503
+#: ../src/e-util/e-ui-customize-dialog.c:3521
 msgid "Failed to save changes."
 msgstr "Değişiklikler kaydedilemedi."
 
@@ -17515,8 +17504,8 @@ msgid "Scheduling Outbox"
 msgstr "Giden Kutusun Zamanlama"
 
 #: ../src/e-util/e-webdav-browser.c:612 ../src/mail/e-mail-viewer.c:1551
-#: ../src/mail/e-mail-viewer.c:2543 ../src/mail/em-folder-tree-model.c:1618
-#: ../src/mail/em-folder-tree-model.c:2006
+#: ../src/mail/e-mail-viewer.c:2543 ../src/mail/em-folder-tree-model.c:1611
+#: ../src/mail/em-folder-tree-model.c:1999
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:892
 msgid "Loading…"
 msgstr "Yükleniyor…"
@@ -17672,12 +17661,12 @@ msgid "Save the image to a file"
 msgstr "Görüntüyü dosyaya kaydet"
 
 #: ../src/e-util/e-web-view.c:1670 ../src/mail/e-mail-browser.c:611
-#: ../src/mail/e-mail-reader.c:3394
+#: ../src/mail/e-mail-reader.c:3409
 msgid "Search _Web…"
 msgstr "_Webʼde Ara…"
 
 #: ../src/e-util/e-web-view.c:1672 ../src/mail/e-mail-browser.c:613
-#: ../src/mail/e-mail-reader.c:3396
+#: ../src/mail/e-mail-reader.c:3411
 msgid "Search the Web with the selected text"
 msgstr "Seçilen metinle Web’de arama yapın"
 
@@ -17693,20 +17682,20 @@ msgstr "_Yazdır"
 msgid "Save _as…"
 msgstr "F_arklı Kaydet…"
 
-#: ../src/e-util/e-web-view.c:3896
+#: ../src/e-util/e-web-view.c:3895
 msgid "Copying image to clipboard"
 msgstr "Resim panoya kopyalanıyor"
 
-#: ../src/e-util/e-web-view.c:4084
+#: ../src/e-util/e-web-view.c:4083
 msgid "Save Image"
 msgstr "Görüntüyü Kaydet"
 
-#: ../src/e-util/e-web-view.c:4121
+#: ../src/e-util/e-web-view.c:4120
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Resim “%s” konumuna kaydediliyor"
 
-#: ../src/e-util/e-web-view.c:4276
+#: ../src/e-util/e-web-view.c:4275
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "URI “%s” alınamıyor, nasıl indirileceği bilinmiyor."
@@ -18019,45 +18008,45 @@ msgstr "Geçersiz klasör URI “%s”"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:113
 #: ../src/mail/em-folder-properties.c:1489
-#: ../src/mail/em-folder-tree-model.c:1531
-#: ../src/mail/em-folder-tree-model.c:1561
+#: ../src/mail/em-folder-tree-model.c:1524
+#: ../src/mail/em-folder-tree-model.c:1554
 #: ../src/mail/importers/kmail-libs.c:138
-#: ../src/modules/mail/e-mail-shell-view-private.c:1017
-#: ../src/modules/mail/e-mail-shell-view-private.c:1028
+#: ../src/modules/mail/e-mail-shell-view-private.c:1020
+#: ../src/modules/mail/e-mail-shell-view-private.c:1031
 msgid "Inbox"
 msgstr "Gelenler"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:114
-#: ../src/mail/em-folder-tree-model.c:1525
-#: ../src/mail/em-folder-tree-model.c:1565
+#: ../src/mail/em-folder-tree-model.c:1518
+#: ../src/mail/em-folder-tree-model.c:1558
 #: ../src/mail/importers/kmail-libs.c:144
-#: ../src/modules/mail/e-mail-shell-view-private.c:1015
+#: ../src/modules/mail/e-mail-shell-view-private.c:1018
 msgid "Drafts"
 msgstr "Taslaklar"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:115
-#: ../src/mail/em-folder-tree-model.c:1537
+#: ../src/mail/em-folder-tree-model.c:1530
 #: ../src/mail/importers/kmail-libs.c:140
-#: ../src/modules/mail/e-mail-shell-view-private.c:1019
+#: ../src/modules/mail/e-mail-shell-view-private.c:1022
 msgid "Outbox"
 msgstr "Giden Kutusu"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:116
-#: ../src/mail/em-folder-tree-model.c:1542
-#: ../src/mail/em-folder-tree-model.c:1564
+#: ../src/mail/em-folder-tree-model.c:1535
+#: ../src/mail/em-folder-tree-model.c:1557
 #: ../src/mail/importers/kmail-libs.c:142
-#: ../src/modules/mail/e-mail-shell-view-private.c:1021
+#: ../src/modules/mail/e-mail-shell-view-private.c:1024
 msgid "Sent"
 msgstr "Gönderilenler"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:117
-#: ../src/mail/em-folder-tree-model.c:1527
+#: ../src/mail/em-folder-tree-model.c:1520
 #: ../src/mail/importers/kmail-libs.c:146
-#: ../src/modules/mail/e-mail-shell-view-private.c:1023
+#: ../src/modules/mail/e-mail-shell-view-private.c:1026
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
 msgstr "Şablonlar"
@@ -18104,26 +18093,26 @@ msgid "No mail transport service available"
 msgstr "Hiçbir e-posta aktarım hizmeti uygun değil"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:605
-#: ../src/libemail-engine/mail-ops.c:712
+#: ../src/libemail-engine/mail-ops.c:715
 #, c-format
 msgid "Posting message to “%s”"
 msgstr "İleti “%s”e gönderiliyor"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:644
-#: ../src/libemail-engine/mail-ops.c:751
+#: ../src/libemail-engine/mail-ops.c:754
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Giden süzgeçleri uygulanamadı: %s"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:677
 #: ../src/libemail-engine/e-mail-session-utils.c:712
-#: ../src/libemail-engine/mail-ops.c:779 ../src/libemail-engine/mail-ops.c:814
+#: ../src/libemail-engine/mail-ops.c:782 ../src/libemail-engine/mail-ops.c:817
 #, c-format
 msgid "Storing sent message to “%s”"
 msgstr "Gönderilen iletiler “%s”e kaydediliyor"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:701
-#: ../src/libemail-engine/mail-ops.c:803
+#: ../src/libemail-engine/mail-ops.c:806
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -18133,15 +18122,15 @@ msgstr ""
 "Onun yerine yerel “Gönderilen” klasörüne ekleniyor."
 
 #: ../src/libemail-engine/e-mail-session-utils.c:731
-#: ../src/libemail-engine/mail-ops.c:831
+#: ../src/libemail-engine/mail-ops.c:834
 #, c-format
 msgid "Failed to append to local “Sent” folder: %s"
 msgstr "Yerel “Gönderilen” klasörüne eklenemedi: %s"
 
 #. This gets popped in async_context_free().
-#: ../src/libemail-engine/e-mail-session-utils.c:930
-#: ../src/libemail-engine/mail-ops.c:1027
-#: ../src/libemail-engine/mail-ops.c:1139 ../src/mail/mail-send-recv.c:673
+#: ../src/libemail-engine/e-mail-session-utils.c:933
+#: ../src/libemail-engine/mail-ops.c:1030
+#: ../src/libemail-engine/mail-ops.c:1142 ../src/mail/mail-send-recv.c:673
 msgid "Sending message"
 msgstr "İleti gönderimi"
 
@@ -18184,7 +18173,7 @@ msgstr ""
 msgid "Fetching mail from “%s”"
 msgstr "E-posta şuradan alınıyor “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:745
+#: ../src/libemail-engine/mail-ops.c:748
 #, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set "
@@ -18197,7 +18186,7 @@ msgstr ""
 "süzgeçlerinizi denetleyin.\n"
 "Asıl hata şuydu: %s"
 
-#: ../src/libemail-engine/mail-ops.c:1038
+#: ../src/libemail-engine/mail-ops.c:1041
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "%d / %d iletisi gönderiliyor"
@@ -18205,51 +18194,51 @@ msgstr "%d / %d iletisi gönderiliyor"
 #. Translators: The string is distinguished by total
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
-#: ../src/libemail-engine/mail-ops.c:1096
+#: ../src/libemail-engine/mail-ops.c:1099
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "%d / %d ileti gönderilemedi"
 
-#: ../src/libemail-engine/mail-ops.c:1102
+#: ../src/libemail-engine/mail-ops.c:1105
 msgid "Cancelled."
 msgstr "İptal Edilmiş."
 
-#: ../src/libemail-engine/mail-ops.c:1104
+#: ../src/libemail-engine/mail-ops.c:1107
 msgid "Complete."
 msgstr "Tamamlandı."
 
-#: ../src/libemail-engine/mail-ops.c:1225
+#: ../src/libemail-engine/mail-ops.c:1228
 #, c-format
 msgid "Moving messages to “%s”"
 msgstr "İletiler “%s” konumuna taşınıyor"
 
-#: ../src/libemail-engine/mail-ops.c:1226
+#: ../src/libemail-engine/mail-ops.c:1229
 #, c-format
 msgid "Copying messages to “%s”"
 msgstr "İletiler “%s” konumuna kopyalanıyor"
 
-#: ../src/libemail-engine/mail-ops.c:1345
+#: ../src/libemail-engine/mail-ops.c:1348
 #, c-format
 msgid "Storing folder “%s”"
 msgstr "“%s” klasörü saklanıyor"
 
-#: ../src/libemail-engine/mail-ops.c:1473
+#: ../src/libemail-engine/mail-ops.c:1476
 #, c-format
 msgid "Expunging and storing account “%s”"
 msgstr "“%s” hesabı temizleniyor ve saklanıyor"
 
-#: ../src/libemail-engine/mail-ops.c:1474
+#: ../src/libemail-engine/mail-ops.c:1477
 #, c-format
 msgid "Storing account “%s”"
 msgstr "“%s” hesabı saklanıyor"
 
-#: ../src/libemail-engine/mail-ops.c:1549
+#: ../src/libemail-engine/mail-ops.c:1552
 #, c-format
 msgid "Emptying trash in “%s”"
 msgstr "“%s” içindeki çöpler boşaltılıyor"
 
-#: ../src/libemail-engine/mail-ops.c:1648
+#: ../src/libemail-engine/mail-ops.c:1651
 #, c-format
 msgid "Processing folder changes in “%s”"
 msgstr "“%s” içindeki dizin değişiklikleri işleniyor"
@@ -18290,7 +18279,7 @@ msgstr "Yönlendirilmiş ileti"
 msgid "Setting up Search Folder: %s"
 msgstr "Arama Klasörü ayarlanıyor: %s"
 
-#: ../src/libemail-engine/mail-vfolder.c:303
+#: ../src/libemail-engine/mail-vfolder.c:307
 #, c-format
 msgid "Updating Search Folders for “%s : %s”"
 msgstr "“%s : %s” için Arama Klasörleri güncelleniyor"
@@ -18300,7 +18289,7 @@ msgstr "“%s : %s” için Arama Klasörleri güncelleniyor"
 #. * removed folder. For more than one search folder is
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
-#: ../src/libemail-engine/mail-vfolder.c:667
+#: ../src/libemail-engine/mail-vfolder.c:671
 #, c-format
 msgid ""
 "The Search Folder “%s” has been modified to account for the deleted folder\n"
@@ -18466,7 +18455,7 @@ msgid "Do Not Quote"
 msgstr "Alıntı Yapma"
 
 #: ../src/mail/e-mail-config-composing-page.c:158
-#: ../src/mail/em-composer-utils.c:4465
+#: ../src/mail/em-composer-utils.c:4466
 msgid "Use global setting"
 msgstr "Genel ayarı kullan"
 
@@ -18498,12 +18487,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Yanıtla ve İlet öznitelik metni için dil"
 
 #: ../src/mail/e-mail-config-composing-page.c:525
-#: ../src/mail/em-composer-utils.c:4632 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4633 ../src/mail/mail-config.ui.h:24
 msgid "Start _typing at the bottom"
 msgstr "_Yazmaya aşağıdan başla"
 
 #: ../src/mail/e-mail-config-composing-page.c:532
-#: ../src/mail/em-composer-utils.c:4636 ../src/mail/mail-config.ui.h:25
+#: ../src/mail/em-composer-utils.c:4637 ../src/mail/mail-config.ui.h:25
 msgid "_Keep signature above the original message"
 msgstr "Yanıtlarken imzayı özgün iletinin üzerinde _tut"
 
@@ -18964,70 +18953,70 @@ msgstr "Hoş Geldiniz"
 msgid "Account Editor"
 msgstr "Hesap Düzenleyici"
 
-#: ../src/mail/e-mail-display.c:1891
+#: ../src/mail/e-mail-display.c:1911
 msgid "Hid_e All"
 msgstr "T_ümünü Gizle"
 
-#: ../src/mail/e-mail-display.c:1898
+#: ../src/mail/e-mail-display.c:1918
 msgid "_View Inline"
 msgstr "_Metin İçi Görüntüle"
 
-#: ../src/mail/e-mail-display.c:1905
+#: ../src/mail/e-mail-display.c:1925
 msgid "Vie_w All Inline"
 msgstr "Tümünü Satır arası _Görüntüle"
 
-#: ../src/mail/e-mail-display.c:1912
+#: ../src/mail/e-mail-display.c:1932
 msgid "_Zoom to 100%"
 msgstr "%100 _Yakınlaştır"
 
-#: ../src/mail/e-mail-display.c:1914
+#: ../src/mail/e-mail-display.c:1934
 msgid "Zoom the image to its natural size"
 msgstr "Resmi asıl boyutunda göster"
 
-#: ../src/mail/e-mail-display.c:1919
+#: ../src/mail/e-mail-display.c:1939
 msgid "_Zoom to window"
 msgstr "_Pencereye sığdır"
 
-#: ../src/mail/e-mail-display.c:1921
+#: ../src/mail/e-mail-display.c:1941
 msgid "Zoom large images to not be wider than the window width"
 msgstr ""
 "Büyük resimleri pencere genişliğini aşmayacak biçimde yakınlaştır/uzaklaştır"
 
-#: ../src/mail/e-mail-display.c:2048
+#: ../src/mail/e-mail-display.c:2068
 msgid "Load this image"
 msgstr "Bu resmi yükle"
 
-#: ../src/mail/e-mail-display.c:2058
+#: ../src/mail/e-mail-display.c:2078
 msgid "_Add to Address Book…"
 msgstr "Adres Defterine _Ekle…"
 
-#: ../src/mail/e-mail-display.c:2065
+#: ../src/mail/e-mail-display.c:2085
 msgid "_To This Address"
 msgstr "_Bu Adrese"
 
-#: ../src/mail/e-mail-display.c:2072
+#: ../src/mail/e-mail-display.c:2092
 msgid "_From This Address"
 msgstr "_Bu Adresten"
 
-#: ../src/mail/e-mail-display.c:2079
+#: ../src/mail/e-mail-display.c:2099
 msgid "Send _Reply To…"
 msgstr "_Yanıt Gönder…"
 
-#: ../src/mail/e-mail-display.c:2081
+#: ../src/mail/e-mail-display.c:2101
 msgid "Send a reply message to this address"
 msgstr "Bu adrese yanıt iletisi gönder"
 
-#: ../src/mail/e-mail-display.c:2088
+#: ../src/mail/e-mail-display.c:2108
 msgid "Create Search _Folder"
 msgstr "_Arama Klasörü Oluştur"
 
-#: ../src/mail/e-mail-display.c:2364
+#: ../src/mail/e-mail-display.c:2384
 #: ../src/mail/e-mail-remote-content-popover.c:250
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "%sʼden gelen uzaktaki içeriğe izin ver"
 
-#: ../src/mail/e-mail-display.c:2376
+#: ../src/mail/e-mail-display.c:2396
 #, c-format
 msgid "Load remote content from %s"
 msgstr "%sʼden gelen uzaktaki içeriği yükle"
@@ -19234,699 +19223,699 @@ msgstr "Sayfa: %d / %d"
 msgid "Deleting message note…"
 msgstr "İleti notu siliniyor…"
 
-#: ../src/mail/e-mail-reader.c:1056
+#: ../src/mail/e-mail-reader.c:1067
 #, c-format
 msgid "Are you sure you want to mark %d message as Junk?"
 msgid_plural "Are you sure you want to mark %d messages as Junk?"
 msgstr[0] "%d iletiyi Gereksiz olarak imlemek istediğinize emin misiniz?"
 
-#: ../src/mail/e-mail-reader.c:1064
+#: ../src/mail/e-mail-reader.c:1075
 msgid "The message will be shown in the Junk folder."
 msgid_plural "The messages will be shown in the Junk folder."
 msgstr[0] "İleti(ler), Gereksiz klasöründe görünecektir."
 
-#: ../src/mail/e-mail-reader.c:1791 ../src/mail/e-mail-reader.c:2222
-#: ../src/mail/e-mail-reader.c:2264
+#: ../src/mail/e-mail-reader.c:1806 ../src/mail/e-mail-reader.c:2237
+#: ../src/mail/e-mail-reader.c:2279
 msgid "_Do not ask me again."
 msgstr "_Bana yeniden sorma."
 
-#: ../src/mail/e-mail-reader.c:2270
+#: ../src/mail/e-mail-reader.c:2285
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "E-posta listelerindeki Yanıt-Adresi:ʼni her z_aman gözardı et."
 
-#: ../src/mail/e-mail-reader.c:2498
+#: ../src/mail/e-mail-reader.c:2513
 msgid "Failed to retrieve message:"
 msgstr "İleti alınamadı:"
 
-#: ../src/mail/e-mail-reader.c:2559 ../src/mail/e-mail-reader.c:4161
+#: ../src/mail/e-mail-reader.c:2574 ../src/mail/e-mail-reader.c:4176
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "“%s” iletisi alınıyor"
 
-#: ../src/mail/e-mail-reader.c:2902 ../src/mail/e-mail-viewer.c:1846
+#: ../src/mail/e-mail-reader.c:2917 ../src/mail/e-mail-viewer.c:1846
 msgid "A_dd Sender to Address Book"
 msgstr "Gö_ndereni Adres Defterine Ekle"
 
-#: ../src/mail/e-mail-reader.c:2904
+#: ../src/mail/e-mail-reader.c:2919
 msgid "Add sender to address book"
 msgstr "Göndereni adres defterine ekle"
 
-#: ../src/mail/e-mail-reader.c:2909
+#: ../src/mail/e-mail-reader.c:2924
 msgid "_Archive"
 msgstr "_Arşivle"
 
-#: ../src/mail/e-mail-reader.c:2911
+#: ../src/mail/e-mail-reader.c:2926
 msgid "Move selected messages to the Archive folder for the account"
 msgstr "Seçili iletileri hesabın Arşiv dizinine taşı"
 
-#: ../src/mail/e-mail-reader.c:2916
+#: ../src/mail/e-mail-reader.c:2931
 msgid "Check for _Junk"
 msgstr "_Gereksiz için Denetle"
 
-#: ../src/mail/e-mail-reader.c:2918
+#: ../src/mail/e-mail-reader.c:2933
 msgid "Filter the selected messages for junk status"
 msgstr "Seçili iletileri gereksiz olarak süz"
 
-#: ../src/mail/e-mail-reader.c:2923
+#: ../src/mail/e-mail-reader.c:2938
 msgid "Assign C_olor…"
 msgstr "_Renk Belirle…"
 
-#: ../src/mail/e-mail-reader.c:2925
+#: ../src/mail/e-mail-reader.c:2940
 msgid "Assign color for the selected messages"
 msgstr "Seçilen iletiler için renk belirle"
 
-#: ../src/mail/e-mail-reader.c:2930
+#: ../src/mail/e-mail-reader.c:2945
 msgid "Unse_t Color"
 msgstr "Rengi _Kaldır"
 
-#: ../src/mail/e-mail-reader.c:2932
+#: ../src/mail/e-mail-reader.c:2947
 msgid "Unset color for the selected messages"
 msgstr "Seçilen iletiler için rengi kaldır"
 
-#: ../src/mail/e-mail-reader.c:2937
+#: ../src/mail/e-mail-reader.c:2952
 msgid "_Copy to Folder…"
 msgstr "Klasöre _Kopyala…"
 
-#: ../src/mail/e-mail-reader.c:2939
+#: ../src/mail/e-mail-reader.c:2954
 msgid "Copy selected messages to another folder"
 msgstr "Seçili iletileri başka klasöre kopyala"
 
-#: ../src/mail/e-mail-reader.c:2944
+#: ../src/mail/e-mail-reader.c:2959
 msgid "_Delete Message"
 msgstr "İletiyi _Sil"
 
-#: ../src/mail/e-mail-reader.c:2946
+#: ../src/mail/e-mail-reader.c:2961
 msgid "Mark the selected messages for deletion"
 msgstr "Seçili iletileri silmek için imle"
 
-#: ../src/mail/e-mail-reader.c:2951
+#: ../src/mail/e-mail-reader.c:2966
 msgid "_Add note…"
 msgstr "Not _Ekle…"
 
-#: ../src/mail/e-mail-reader.c:2953
+#: ../src/mail/e-mail-reader.c:2968
 msgid "Add a note for the selected message"
 msgstr "Seçili iletiye not ekle"
 
 # Menü ögesi olduğu için başlık düzeni tercih edildi.
-#: ../src/mail/e-mail-reader.c:2958
+#: ../src/mail/e-mail-reader.c:2973
 msgid "Delete no_te"
 msgstr "No_tu Sil"
 
-#: ../src/mail/e-mail-reader.c:2960
+#: ../src/mail/e-mail-reader.c:2975
 msgid "Delete the note for the selected message"
 msgstr "Seçili iletideki notu sil"
 
 # Menü ögesi olduğu için başlık düzeni tercih edildi.
-#: ../src/mail/e-mail-reader.c:2965
+#: ../src/mail/e-mail-reader.c:2980
 msgid "_Edit note…"
 msgstr "Notu Düz_enle…"
 
-#: ../src/mail/e-mail-reader.c:2967
+#: ../src/mail/e-mail-reader.c:2982
 msgid "Edit a note for the selected message"
 msgstr "Seçili iletideki notu düzenle"
 
-#: ../src/mail/e-mail-reader.c:2972
+#: ../src/mail/e-mail-reader.c:2987
 msgid "Create a Filter Rule for Mailing _List…"
 msgstr "E-Posta _Listelesine Göre Süzgeç Oluştur…"
 
-#: ../src/mail/e-mail-reader.c:2974
+#: ../src/mail/e-mail-reader.c:2989
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Bu posta listesine göre iletileri süzmek için kural oluştur"
 
-#: ../src/mail/e-mail-reader.c:2979
+#: ../src/mail/e-mail-reader.c:2994
 msgid "Create a Filter Rule for _Recipients…"
 msgstr "_Alıcılara Göre Süzgeç Oluştur…"
 
-#: ../src/mail/e-mail-reader.c:2981
+#: ../src/mail/e-mail-reader.c:2996
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Bu alıcılara göre iletileri süzmek için kural oluştur"
 
-#: ../src/mail/e-mail-reader.c:2986
+#: ../src/mail/e-mail-reader.c:3001
 msgid "Create a Filter Rule for Se_nder…"
 msgstr "_Gönderene Göre Süzgeç Oluştur…"
 
-#: ../src/mail/e-mail-reader.c:2988
+#: ../src/mail/e-mail-reader.c:3003
 msgid "Create a rule to filter messages from this sender"
 msgstr "Bu gönderene göre iletileri süzmek için kural oluştur"
 
-#: ../src/mail/e-mail-reader.c:2993
+#: ../src/mail/e-mail-reader.c:3008
 msgid "Create a Filter Rule for _Subject…"
 msgstr "_Konuya Göre Süzgeç Oluştur…"
 
-#: ../src/mail/e-mail-reader.c:2995
+#: ../src/mail/e-mail-reader.c:3010
 msgid "Create a rule to filter messages with this subject"
 msgstr "Bu konuyla iletileri süzmek için kural oluştur"
 
-#: ../src/mail/e-mail-reader.c:3000
+#: ../src/mail/e-mail-reader.c:3015
 msgid "A_pply Filters"
 msgstr "_Süzgeçleri Uygula"
 
-#: ../src/mail/e-mail-reader.c:3002
+#: ../src/mail/e-mail-reader.c:3017
 msgid "Apply filter rules to the selected messages"
 msgstr "Seçilen iletilere süzgeç kurallarını uygula"
 
-#: ../src/mail/e-mail-reader.c:3007 ../src/mail/e-mail-viewer.c:1776
+#: ../src/mail/e-mail-reader.c:3022 ../src/mail/e-mail-viewer.c:1776
 msgid "_Find in Message…"
 msgstr "İleti İçinde _Bul…"
 
-#: ../src/mail/e-mail-reader.c:3009
+#: ../src/mail/e-mail-reader.c:3024
 msgid "Search for text in the body of the displayed message"
 msgstr "Görüntülenen ileti içinde metin ara"
 
-#: ../src/mail/e-mail-reader.c:3014
+#: ../src/mail/e-mail-reader.c:3029
 msgid "_Clear Flag"
 msgstr "İmleri _Temizle"
 
-#: ../src/mail/e-mail-reader.c:3016
+#: ../src/mail/e-mail-reader.c:3031
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Seçili iletilerden takip bayrağını kaldır"
 
-#: ../src/mail/e-mail-reader.c:3021
+#: ../src/mail/e-mail-reader.c:3036
 msgid "_Flag Completed"
 msgstr "_Tamamlandı Olarak İmle"
 
-#: ../src/mail/e-mail-reader.c:3023
+#: ../src/mail/e-mail-reader.c:3038
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Seçili iletilerdeki takip bayrağını bitti olarak imle"
 
-#: ../src/mail/e-mail-reader.c:3028
+#: ../src/mail/e-mail-reader.c:3043
 msgid "Follow _Up…"
 msgstr "Takip _Et…"
 
-#: ../src/mail/e-mail-reader.c:3030 ../src/mail/e-mail-reader.c:3037
+#: ../src/mail/e-mail-reader.c:3045 ../src/mail/e-mail-reader.c:3052
 msgid "Flag the selected messages for follow-up"
 msgstr "Seçili iletileri takip için imle"
 
-#: ../src/mail/e-mail-reader.c:3035
+#: ../src/mail/e-mail-reader.c:3050
 msgid "Mark for Follo_w Up…"
 msgstr "T_akip İçin İmle…"
 
-#: ../src/mail/e-mail-reader.c:3042 ../src/mail/e-mail-reader.c:3467
+#: ../src/mail/e-mail-reader.c:3057 ../src/mail/e-mail-reader.c:3482
 #: ../src/mail/e-mail-viewer.c:1895
 #: ../src/modules/mail/e-mail-attachment-handler.c:910
 msgid "_Forward"
 msgstr "_Yönlendir"
 
-#: ../src/mail/e-mail-reader.c:3044
+#: ../src/mail/e-mail-reader.c:3059
 #: ../src/modules/mail/e-mail-attachment-handler.c:912
 msgid "Forward the selected message to someone"
 msgstr "Seçilen iletiyi birisine yönlendir"
 
-#: ../src/mail/e-mail-reader.c:3049 ../src/mail/e-mail-viewer.c:1902
+#: ../src/mail/e-mail-reader.c:3064 ../src/mail/e-mail-viewer.c:1902
 #: ../src/modules/mail/e-mail-attachment-handler.c:959
 msgid "_Attached"
 msgstr "_Eklenmiş"
 
-#: ../src/mail/e-mail-reader.c:3051 ../src/mail/e-mail-reader.c:3058
+#: ../src/mail/e-mail-reader.c:3066 ../src/mail/e-mail-reader.c:3073
 #: ../src/modules/mail/e-mail-attachment-handler.c:961
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Seçilen iletiyi birisine ek olarak yönlendir"
 
-#: ../src/mail/e-mail-reader.c:3056
+#: ../src/mail/e-mail-reader.c:3071
 msgid "Forward As _Attached"
 msgstr "_Eklenti Olarak İlet"
 
-#: ../src/mail/e-mail-reader.c:3063 ../src/mail/e-mail-viewer.c:1909
+#: ../src/mail/e-mail-reader.c:3078 ../src/mail/e-mail-viewer.c:1909
 #: ../src/modules/mail/e-mail-attachment-handler.c:966
 msgid "_Inline"
 msgstr "_Metin İçinde"
 
-#: ../src/mail/e-mail-reader.c:3065 ../src/mail/e-mail-reader.c:3072
+#: ../src/mail/e-mail-reader.c:3080 ../src/mail/e-mail-reader.c:3087
 #: ../src/modules/mail/e-mail-attachment-handler.c:968
 msgid "Forward the selected message in the body of a new message"
 msgstr "Seçilen iletiyi başka iletinin içeriğinde yönlendir"
 
-#: ../src/mail/e-mail-reader.c:3070
+#: ../src/mail/e-mail-reader.c:3085
 msgid "Forward As _Inline"
 msgstr "Satır_içi Olarak İlet"
 
-#: ../src/mail/e-mail-reader.c:3077 ../src/mail/e-mail-viewer.c:1916
+#: ../src/mail/e-mail-reader.c:3092 ../src/mail/e-mail-viewer.c:1916
 #: ../src/modules/mail/e-mail-attachment-handler.c:973
 msgid "_Quoted"
 msgstr "_Alıntı"
 
-#: ../src/mail/e-mail-reader.c:3079 ../src/mail/e-mail-reader.c:3086
+#: ../src/mail/e-mail-reader.c:3094 ../src/mail/e-mail-reader.c:3101
 #: ../src/modules/mail/e-mail-attachment-handler.c:975
 msgid "Forward the selected message quoted like a reply"
 msgstr "Seçilen iletiyi yanıttaki alıntıymış gibi yönlendir"
 
-#: ../src/mail/e-mail-reader.c:3084
+#: ../src/mail/e-mail-reader.c:3099
 msgid "Forward As _Quoted"
 msgstr "Alıntı Olarak _İlet"
 
-#: ../src/mail/e-mail-reader.c:3091
+#: ../src/mail/e-mail-reader.c:3106
 msgid "Change _More Labels…"
 msgstr "_Daha Çok Etiketi Değiştir…"
 
-#: ../src/mail/e-mail-reader.c:3098
+#: ../src/mail/e-mail-reader.c:3113
 msgid "_New Label"
 msgstr "_Yeni Etiket"
 
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/mail/e-mail-reader.c:3107
+#: ../src/mail/e-mail-reader.c:3122
 msgid "N_one"
 msgstr "_Hiçbiri"
 
-#: ../src/mail/e-mail-reader.c:3114 ../src/mail/e-mail-viewer.c:1783
+#: ../src/mail/e-mail-reader.c:3129 ../src/mail/e-mail-viewer.c:1783
 msgid "_Load Images"
 msgstr "Resimleri _Yükle"
 
-#: ../src/mail/e-mail-reader.c:3116
+#: ../src/mail/e-mail-reader.c:3131
 msgid "Force images in HTML mail to be loaded"
 msgstr "HTML iletinin içindeki resimlerin yüklenmesine izin ver"
 
-#: ../src/mail/e-mail-reader.c:3121
+#: ../src/mail/e-mail-reader.c:3136
 msgid "_Ignore Subthread"
 msgstr "Alt Diziyi _Yok Say"
 
-#: ../src/mail/e-mail-reader.c:3123
+#: ../src/mail/e-mail-reader.c:3138
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "Alt dizilerdeki yeni e-postaları kendiliğinden okundu olarak imle"
 
-#: ../src/mail/e-mail-reader.c:3128
+#: ../src/mail/e-mail-reader.c:3143
 msgid "_Ignore Thread"
 msgstr "_Diziyi Yok Say"
 
-#: ../src/mail/e-mail-reader.c:3130
+#: ../src/mail/e-mail-reader.c:3145
 msgid "Mark new mails in this thread as read automatically"
 msgstr "Bu dizideki yeni e-postaları kendiliğinden okundu olarak imle"
 
-#: ../src/mail/e-mail-reader.c:3135
+#: ../src/mail/e-mail-reader.c:3150
 msgid "_Important"
 msgstr "Ön_emli"
 
-#: ../src/mail/e-mail-reader.c:3137 ../src/mail/e-mail-reader.c:3144
+#: ../src/mail/e-mail-reader.c:3152 ../src/mail/e-mail-reader.c:3159
 msgid "Mark the selected messages as important"
 msgstr "Seçili iletileri önemli olarak imle"
 
-#: ../src/mail/e-mail-reader.c:3142
+#: ../src/mail/e-mail-reader.c:3157
 msgid "Mark as _Important"
 msgstr "Ö_nemli Olarak İmle"
 
-#: ../src/mail/e-mail-reader.c:3149
+#: ../src/mail/e-mail-reader.c:3164
 msgid "_Junk"
 msgstr "_Gereksiz"
 
-#: ../src/mail/e-mail-reader.c:3151 ../src/mail/e-mail-reader.c:3158
+#: ../src/mail/e-mail-reader.c:3166 ../src/mail/e-mail-reader.c:3173
 msgid "Mark the selected messages as junk"
 msgstr "Seçili iletileri gereksiz olarak imle"
 
-#: ../src/mail/e-mail-reader.c:3156
+#: ../src/mail/e-mail-reader.c:3171
 msgid "Mark as _Junk"
 msgstr "_Gereksiz Olarak İmle"
 
-#: ../src/mail/e-mail-reader.c:3163
+#: ../src/mail/e-mail-reader.c:3178
 msgid "_Not Junk"
 msgstr "Gereksiz _Değil"
 
-#: ../src/mail/e-mail-reader.c:3165 ../src/mail/e-mail-reader.c:3172
+#: ../src/mail/e-mail-reader.c:3180 ../src/mail/e-mail-reader.c:3187
 msgid "Mark the selected messages as not being junk"
 msgstr "Seçili iletileri gereksiz değil olarak imle"
 
-#: ../src/mail/e-mail-reader.c:3170
+#: ../src/mail/e-mail-reader.c:3185
 msgid "Mark as _Not Junk"
 msgstr "_Gereksiz İmini Temizle"
 
-#: ../src/mail/e-mail-reader.c:3177
+#: ../src/mail/e-mail-reader.c:3192
 msgid "_Read"
 msgstr "_Oku"
 
-#: ../src/mail/e-mail-reader.c:3179 ../src/mail/e-mail-reader.c:3186
+#: ../src/mail/e-mail-reader.c:3194 ../src/mail/e-mail-reader.c:3201
 msgid "Mark the selected messages as having been read"
 msgstr "Seçili iletileri okunmuş olarak imle"
 
-#: ../src/mail/e-mail-reader.c:3184
+#: ../src/mail/e-mail-reader.c:3199
 msgid "Mar_k as Read"
 msgstr "_Okunmuş Olarak İmle"
 
-#: ../src/mail/e-mail-reader.c:3191
+#: ../src/mail/e-mail-reader.c:3206
 msgid "Do not _Ignore Subthread"
 msgstr "Alt diziyi _Göz ardı etme"
 
-#: ../src/mail/e-mail-reader.c:3193
+#: ../src/mail/e-mail-reader.c:3208
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr "Alt dizideki yeni e-postaları okundu olarak kendiliğinden imleme"
 
-#: ../src/mail/e-mail-reader.c:3198
+#: ../src/mail/e-mail-reader.c:3213
 msgid "Do not _Ignore Thread"
 msgstr "Diziyi _Yok Sayma"
 
-#: ../src/mail/e-mail-reader.c:3200
+#: ../src/mail/e-mail-reader.c:3215
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr "Bu dizideki e-postaları okundu olarak kendiliğinden imleme"
 
-#: ../src/mail/e-mail-reader.c:3205
+#: ../src/mail/e-mail-reader.c:3220
 msgid "Uni_mportant"
 msgstr "Ö_nemsiz"
 
-#: ../src/mail/e-mail-reader.c:3207 ../src/mail/e-mail-reader.c:3214
+#: ../src/mail/e-mail-reader.c:3222 ../src/mail/e-mail-reader.c:3229
 msgid "Mark the selected messages as unimportant"
 msgstr "Seçili iletileri önemsiz olarak imle"
 
-#: ../src/mail/e-mail-reader.c:3212
+#: ../src/mail/e-mail-reader.c:3227
 msgid "Mark as Uni_mportant"
 msgstr "Önemsiz _Olarak İmle"
 
-#: ../src/mail/e-mail-reader.c:3219
+#: ../src/mail/e-mail-reader.c:3234
 msgid "_Unread"
 msgstr "_Okunmadı"
 
-#: ../src/mail/e-mail-reader.c:3221 ../src/mail/e-mail-reader.c:3228
+#: ../src/mail/e-mail-reader.c:3236 ../src/mail/e-mail-reader.c:3243
 msgid "Mark the selected messages as not having been read"
 msgstr "Seçili iletileri okunmamış olarak imle"
 
-#: ../src/mail/e-mail-reader.c:3226
+#: ../src/mail/e-mail-reader.c:3241
 msgid "Mark as _Unread"
 msgstr "Oku_nmamış Olarak İmle"
 
-#: ../src/mail/e-mail-reader.c:3233
+#: ../src/mail/e-mail-reader.c:3248
 #: ../src/modules/mail/e-mail-attachment-handler.c:938
 msgid "_Edit as New Message…"
 msgstr "Yeni İleti Olarak _Düzenle…"
 
-#: ../src/mail/e-mail-reader.c:3235
+#: ../src/mail/e-mail-reader.c:3250
 #: ../src/modules/mail/e-mail-attachment-handler.c:940
 msgid "Open the selected messages in the composer for editing"
 msgstr "Seçilen iletileri düzenleyicide düzenlemek için aç"
 
-#: ../src/mail/e-mail-reader.c:3240
+#: ../src/mail/e-mail-reader.c:3255
 msgid "Compose _New Message"
 msgstr "_Yeni İleti Düzenle"
 
-#: ../src/mail/e-mail-reader.c:3242
+#: ../src/mail/e-mail-reader.c:3257
 msgid "Open a window for composing a mail message"
 msgstr "Yeni ileti düzenlemek için pencere aç"
 
-#: ../src/mail/e-mail-reader.c:3247
+#: ../src/mail/e-mail-reader.c:3262
 msgid "_Open in New Window"
 msgstr "_Yeni Pencerede Aç"
 
-#: ../src/mail/e-mail-reader.c:3249
+#: ../src/mail/e-mail-reader.c:3264
 msgid "Open the selected messages in a new window"
 msgstr "Seçilen iletileri yeni pencerede aç"
 
-#: ../src/mail/e-mail-reader.c:3254
+#: ../src/mail/e-mail-reader.c:3269
 msgid "_Move to Folder…"
 msgstr "Klasöre _Taşı…"
 
-#: ../src/mail/e-mail-reader.c:3256
+#: ../src/mail/e-mail-reader.c:3271
 msgid "Move selected messages to another folder"
 msgstr "Seçili iletileri başka klasöre taşı"
 
-#: ../src/mail/e-mail-reader.c:3261
+#: ../src/mail/e-mail-reader.c:3276
 msgid "_Next Message"
 msgstr "_Sonraki İleti"
 
-#: ../src/mail/e-mail-reader.c:3263
+#: ../src/mail/e-mail-reader.c:3278
 msgid "Display the next message"
 msgstr "Sonraki iletiyi göster"
 
-#: ../src/mail/e-mail-reader.c:3268
+#: ../src/mail/e-mail-reader.c:3283
 msgid "Next _Important Message"
 msgstr "_Sonraki Önemli İleti"
 
-#: ../src/mail/e-mail-reader.c:3270
+#: ../src/mail/e-mail-reader.c:3285
 msgid "Display the next important message"
 msgstr "Sonraki önemli iletiyi göster"
 
-#: ../src/mail/e-mail-reader.c:3275
+#: ../src/mail/e-mail-reader.c:3290
 msgid "Next _Thread"
 msgstr "S_onraki Konum"
 
-#: ../src/mail/e-mail-reader.c:3277
+#: ../src/mail/e-mail-reader.c:3292
 msgid "Display the next thread"
 msgstr "Sonraki dalı göster"
 
-#: ../src/mail/e-mail-reader.c:3282
+#: ../src/mail/e-mail-reader.c:3297
 msgid "Next _Unread Message"
 msgstr "Sonraki O_kunmamış İleti"
 
-#: ../src/mail/e-mail-reader.c:3284
+#: ../src/mail/e-mail-reader.c:3299
 msgid "Display the next unread message"
 msgstr "Sonraki okunmamış iletiyi göster"
 
-#: ../src/mail/e-mail-reader.c:3289
+#: ../src/mail/e-mail-reader.c:3304
 msgid "_Previous Message"
 msgstr "Ö_nceki İleti"
 
-#: ../src/mail/e-mail-reader.c:3291
+#: ../src/mail/e-mail-reader.c:3306
 msgid "Display the previous message"
 msgstr "Önceki iletiyi göster"
 
-#: ../src/mail/e-mail-reader.c:3296
+#: ../src/mail/e-mail-reader.c:3311
 msgid "Pr_evious Important Message"
 msgstr "Ö_nceki Önemli İleti"
 
-#: ../src/mail/e-mail-reader.c:3298
+#: ../src/mail/e-mail-reader.c:3313
 msgid "Display the previous important message"
 msgstr "Önceki önemli iletiyi göster"
 
-#: ../src/mail/e-mail-reader.c:3303
+#: ../src/mail/e-mail-reader.c:3318
 msgid "Previous T_hread"
 msgstr "Önceki İş Par_çacığı"
 
-#: ../src/mail/e-mail-reader.c:3305
+#: ../src/mail/e-mail-reader.c:3320
 msgid "Display the previous thread"
 msgstr "Önceki iş parçacığını göster"
 
-#: ../src/mail/e-mail-reader.c:3310
+#: ../src/mail/e-mail-reader.c:3325
 msgid "P_revious Unread Message"
 msgstr "Ö_nceki Okunmamış İleti"
 
-#: ../src/mail/e-mail-reader.c:3312
+#: ../src/mail/e-mail-reader.c:3327
 msgid "Display the previous unread message"
 msgstr "Önceki okunmamış iletiyi göster"
 
-#: ../src/mail/e-mail-reader.c:3319
+#: ../src/mail/e-mail-reader.c:3334
 msgid "Print this message"
 msgstr "Bu iletiyi yazdır"
 
-#: ../src/mail/e-mail-reader.c:3326
+#: ../src/mail/e-mail-reader.c:3341
 msgid "Preview the message to be printed"
 msgstr "Yazdırılacak olan iletiyi ön izle"
 
-#: ../src/mail/e-mail-reader.c:3331 ../src/mail/e-mail-viewer.c:1923
+#: ../src/mail/e-mail-reader.c:3346 ../src/mail/e-mail-viewer.c:1923
 #: ../src/modules/mail/e-mail-attachment-handler.c:980
 msgid "Re_direct"
 msgstr "_Yeniden Yönlendir"
 
-#: ../src/mail/e-mail-reader.c:3333
+#: ../src/mail/e-mail-reader.c:3348
 #: ../src/modules/mail/e-mail-attachment-handler.c:982
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Seçilen iletiyi birisine yeniden yönlendir"
 
-#: ../src/mail/e-mail-reader.c:3338
+#: ../src/mail/e-mail-reader.c:3353
 msgid "Remo_ve Attachments"
 msgstr "Eklentileri _Kaldır"
 
-#: ../src/mail/e-mail-reader.c:3340
+#: ../src/mail/e-mail-reader.c:3355
 msgid "Remove attachments"
 msgstr "Eklentileri kaldır"
 
-#: ../src/mail/e-mail-reader.c:3345
+#: ../src/mail/e-mail-reader.c:3360
 msgid "Remove Du_plicate Messages"
 msgstr "_Yinelenen İletileri Kaldır"
 
-#: ../src/mail/e-mail-reader.c:3347
+#: ../src/mail/e-mail-reader.c:3362
 msgid "Checks selected messages for duplicates"
 msgstr "Seçili iletilerin yinelenenlerini arar"
 
-#: ../src/mail/e-mail-reader.c:3352 ../src/mail/e-mail-viewer.c:1881
-#: ../src/mail/em-composer-utils.c:4591 ../src/mail/mail.error.xml.h:28
+#: ../src/mail/e-mail-reader.c:3367 ../src/mail/e-mail-viewer.c:1881
+#: ../src/mail/em-composer-utils.c:4592 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1668
 #: ../src/modules/mail/e-mail-attachment-handler.c:917
 msgid "Reply to _All"
 msgstr "_Tümüne Yanıtla"
 
-#: ../src/mail/e-mail-reader.c:3354
+#: ../src/mail/e-mail-reader.c:3369
 #: ../src/modules/mail/e-mail-attachment-handler.c:919
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Seçilen iletinin alıcısına yanıt düzenle"
 
-#: ../src/mail/e-mail-reader.c:3359 ../src/mail/e-mail-viewer.c:1888
+#: ../src/mail/e-mail-reader.c:3374 ../src/mail/e-mail-viewer.c:1888
 msgid "Al_ternative Reply…"
 msgstr "Al_ternatif Yanıt…"
 
-#: ../src/mail/e-mail-reader.c:3361
+#: ../src/mail/e-mail-reader.c:3376
 msgid "Choose reply options for the selected message"
 msgstr "Seçilen iletiye yanıt seçeneklerini seç"
 
-#: ../src/mail/e-mail-reader.c:3366 ../src/mail/e-mail-reader.c:3460
-#: ../src/mail/e-mail-reader.c:3466
+#: ../src/mail/e-mail-reader.c:3381 ../src/mail/e-mail-reader.c:3475
+#: ../src/mail/e-mail-reader.c:3481
 msgid "_Group Reply"
 msgstr "_Kümeye Yanıtla"
 
-#: ../src/mail/e-mail-reader.c:3368
+#: ../src/mail/e-mail-reader.c:3383
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "E-posta listesine, ya da tüm alıcılara yanıtla"
 
-#: ../src/mail/e-mail-reader.c:3373 ../src/mail/e-mail-viewer.c:1874
-#: ../src/mail/em-composer-utils.c:4586 ../src/mail/mail.error.xml.h:26
+#: ../src/mail/e-mail-reader.c:3388 ../src/mail/e-mail-viewer.c:1874
+#: ../src/mail/em-composer-utils.c:4587 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:924
 msgid "Reply to _List"
 msgstr "_Listeye Yanıtla"
 
-#: ../src/mail/e-mail-reader.c:3375
+#: ../src/mail/e-mail-reader.c:3390
 #: ../src/modules/mail/e-mail-attachment-handler.c:926
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Seçili iletideki posta listesine yanıt düzenle"
 
-#: ../src/mail/e-mail-reader.c:3380 ../src/mail/e-mail-viewer.c:1867
+#: ../src/mail/e-mail-reader.c:3395 ../src/mail/e-mail-viewer.c:1867
 #: ../src/modules/mail/e-mail-attachment-handler.c:931
 msgid "_Reply to Sender"
 msgstr "_Gönderene Yanıtla"
 
-#: ../src/mail/e-mail-reader.c:3382
+#: ../src/mail/e-mail-reader.c:3397
 #: ../src/modules/mail/e-mail-attachment-handler.c:933
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Seçilen iletinin göndericisine yanıt düzenle"
 
-#: ../src/mail/e-mail-reader.c:3387
+#: ../src/mail/e-mail-reader.c:3402
 msgid "_Save to File…"
 msgstr "Dosyaya _Kaydet…"
 
-#: ../src/mail/e-mail-reader.c:3389
+#: ../src/mail/e-mail-reader.c:3404
 msgid "Save selected messages as an mbox file"
 msgstr "Seçilen iletileri mbox dosyası olarak kaydet"
 
-#: ../src/mail/e-mail-reader.c:3401
+#: ../src/mail/e-mail-reader.c:3416
 msgid "_Message Source"
 msgstr "İleti _Kaynağı"
 
-#: ../src/mail/e-mail-reader.c:3403
+#: ../src/mail/e-mail-reader.c:3418
 msgid "Show the raw email source of the message"
 msgstr "İletinin ham e-posta kaynağını göster"
 
-#: ../src/mail/e-mail-reader.c:3415
+#: ../src/mail/e-mail-reader.c:3430
 msgid "_Undelete Message"
 msgstr "İletiyi _Silme"
 
-#: ../src/mail/e-mail-reader.c:3417
+#: ../src/mail/e-mail-reader.c:3432
 msgid "Undelete the selected messages"
 msgstr "Seçilen iletileri geri sil"
 
-#: ../src/mail/e-mail-reader.c:3422 ../src/mail/e-mail-viewer.c:1825
+#: ../src/mail/e-mail-reader.c:3437 ../src/mail/e-mail-viewer.c:1825
 msgid "_Normal Size"
 msgstr "_Olağan Boyut"
 
-#: ../src/mail/e-mail-reader.c:3424
+#: ../src/mail/e-mail-reader.c:3439
 msgid "Reset the text to its original size"
 msgstr "Metni asıl boyuna sıfırla"
 
-#: ../src/mail/e-mail-reader.c:3429 ../src/mail/e-mail-viewer.c:1811
+#: ../src/mail/e-mail-reader.c:3444 ../src/mail/e-mail-viewer.c:1811
 msgid "_Zoom In"
 msgstr "_Yakınlaştır"
 
-#: ../src/mail/e-mail-reader.c:3431
+#: ../src/mail/e-mail-reader.c:3446
 msgid "Increase the text size"
 msgstr "Metin boyunu büyült"
 
-#: ../src/mail/e-mail-reader.c:3438
+#: ../src/mail/e-mail-reader.c:3453
 msgid "Decrease the text size"
 msgstr "Metin boyunu küçült"
 
-#: ../src/mail/e-mail-reader.c:3443 ../src/mail/e-mail-viewer.c:1804
+#: ../src/mail/e-mail-reader.c:3458 ../src/mail/e-mail-viewer.c:1804
 msgid "_Caret Mode"
 msgstr "İmleç _Kipi"
 
-#: ../src/mail/e-mail-reader.c:3445
+#: ../src/mail/e-mail-reader.c:3460
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Görüntülenen iletiler içinde içinde yanıp sönen imleci göster"
 
-#: ../src/mail/e-mail-reader.c:3450 ../src/mail/e-mail-viewer.c:1790
+#: ../src/mail/e-mail-reader.c:3465 ../src/mail/e-mail-viewer.c:1790
 msgid "All Message _Headers"
 msgstr "Tüm İleti _Başlıkları"
 
-#: ../src/mail/e-mail-reader.c:3452
+#: ../src/mail/e-mail-reader.c:3467
 msgid "Show messages with all email headers"
 msgstr "İletileri tüm e-posta başlıklarıyla göster"
 
 #. ** Menus **
-#: ../src/mail/e-mail-reader.c:3457
+#: ../src/mail/e-mail-reader.c:3472
 msgid "Cre_ate"
 msgstr "_Oluştur"
 
-#: ../src/mail/e-mail-reader.c:3458 ../src/mail/e-mail-viewer.c:1935
+#: ../src/mail/e-mail-reader.c:3473 ../src/mail/e-mail-viewer.c:1935
 #: ../src/modules/mail/e-mail-attachment-handler.c:952
 msgid "F_orward As"
 msgstr "Farklı _İlet"
 
-#: ../src/mail/e-mail-reader.c:3459
+#: ../src/mail/e-mail-reader.c:3474
 msgid "_Label"
 msgstr "_Etiket"
 
-#: ../src/mail/e-mail-reader.c:3461
+#: ../src/mail/e-mail-reader.c:3476
 msgid "_Go To"
 msgstr "_Git"
 
-#: ../src/mail/e-mail-reader.c:3462
+#: ../src/mail/e-mail-reader.c:3477
 msgid "Mar_k As"
 msgstr "İm_le"
 
-#: ../src/mail/e-mail-reader.c:3463 ../src/mail/e-mail-viewer.c:1934
+#: ../src/mail/e-mail-reader.c:3478 ../src/mail/e-mail-viewer.c:1934
 msgid "_Message"
 msgstr "İl_eti"
 
-#: ../src/mail/e-mail-reader.c:3464 ../src/mail/e-mail-viewer.c:1932
+#: ../src/mail/e-mail-reader.c:3479 ../src/mail/e-mail-viewer.c:1932
 msgid "_Zoom"
 msgstr "_Yakınlaştır"
 
-#: ../src/mail/e-mail-reader.c:3465 ../src/mail/e-mail-viewer.c:1832
+#: ../src/mail/e-mail-reader.c:3480 ../src/mail/e-mail-viewer.c:1832
 #: ../src/mail/e-mail-viewer.c:1933
 msgid "Ch_aracter Encoding"
 msgstr "_Karakter Kodlaması"
 
-#: ../src/mail/e-mail-reader.c:3468
+#: ../src/mail/e-mail-reader.c:3483
 msgid "List of Labels"
 msgstr "Etiket Listesi"
 
-#: ../src/mail/e-mail-reader.c:3475
+#: ../src/mail/e-mail-reader.c:3490
 msgid "Create a Search Folder from Mailing _List…"
 msgstr "Posta _Listesinden Arama Klasörü Oluştur…"
 
-#: ../src/mail/e-mail-reader.c:3477
+#: ../src/mail/e-mail-reader.c:3492
 msgid "Create a search folder for this mailing list"
 msgstr "Bu posta listesi için arama klasörü oluştur"
 
-#: ../src/mail/e-mail-reader.c:3482
+#: ../src/mail/e-mail-reader.c:3497
 msgid "Create a Search Folder from Recipien_ts…"
 msgstr "_Alıcılardan Arama Klasörü Oluştur…"
 
-#: ../src/mail/e-mail-reader.c:3484
+#: ../src/mail/e-mail-reader.c:3499
 msgid "Create a search folder for these recipients"
 msgstr "Bu alıcılar için arama klasörü oluştur"
 
-#: ../src/mail/e-mail-reader.c:3489
+#: ../src/mail/e-mail-reader.c:3504
 msgid "Create a Search Folder from Sen_der…"
 msgstr "_Gönderene Göre Arama Klasörü Oluştur…"
 
-#: ../src/mail/e-mail-reader.c:3491
+#: ../src/mail/e-mail-reader.c:3506
 msgid "Create a search folder for this sender"
 msgstr "Bu gönderen için arama klasörü oluştur"
 
-#: ../src/mail/e-mail-reader.c:3496
+#: ../src/mail/e-mail-reader.c:3511
 msgid "Create a Search Folder from S_ubject…"
 msgstr "_Konudan Arama Klasörü Oluştur…"
 
-#: ../src/mail/e-mail-reader.c:3498
+#: ../src/mail/e-mail-reader.c:3513
 msgid "Create a search folder for this subject"
 msgstr "Bu konu için arama klasörü oluştur"
 
-#: ../src/mail/e-mail-reader.c:4167
+#: ../src/mail/e-mail-reader.c:4182
 msgid "Retrieving message"
 msgstr "İleti alınıyor"
 
-#: ../src/mail/e-mail-reader.c:5079
+#: ../src/mail/e-mail-reader.c:5106
 msgid "Modify labels for selected message"
 msgid_plural "Modify labels for selected messages"
 msgstr[0] "Seçili iletilerdeki etiketleri düzenle"
 
-#: ../src/mail/e-mail-reader.c:5087
+#: ../src/mail/e-mail-reader.c:5114
 msgid "Set _Selected"
 msgstr "Seçildi _Ayarla"
 
-#: ../src/mail/e-mail-reader.c:5093
+#: ../src/mail/e-mail-reader.c:5120
 msgid "Set _None"
 msgstr "_Yok Ayarla"
 
@@ -19944,29 +19933,29 @@ msgstr "Gereksiz klasörü “%s”teki iletiler siliniyor…"
 msgid "Refreshing folder “%s”"
 msgstr "“%s” klasörü yenileniyor"
 
-#: ../src/mail/e-mail-reader-utils.c:1344
+#: ../src/mail/e-mail-reader-utils.c:1204
 msgid "Marking thread to be ignored"
 msgstr "Dizi yok sayıldı imleniyor"
 
-#: ../src/mail/e-mail-reader-utils.c:1348
+#: ../src/mail/e-mail-reader-utils.c:1208
 msgid "Unmarking thread from being ignored"
 msgstr "Dizinin yok sayma imi kaldırılıyor"
 
-#: ../src/mail/e-mail-reader-utils.c:1352
+#: ../src/mail/e-mail-reader-utils.c:1212
 msgid "Marking subthread to be ignored"
 msgstr "Alt dizi yok sayıldı imleniyor"
 
-#: ../src/mail/e-mail-reader-utils.c:1356
+#: ../src/mail/e-mail-reader-utils.c:1216
 msgid "Unmarking subthread from being ignored"
 msgstr "Alt diziden yok sayma imi kaldırılıyor"
 
-#: ../src/mail/e-mail-reader-utils.c:1604
+#: ../src/mail/e-mail-reader-utils.c:1464
 msgid "Printing"
 msgstr "Yazdırma"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../src/mail/e-mail-reader-utils.c:1836
+#: ../src/mail/e-mail-reader-utils.c:1696
 #, c-format
 msgid ""
 "Folder “%s” contains %u duplicate message. Are you sure you want to delete "
@@ -19977,7 +19966,7 @@ msgid_plural ""
 msgstr[0] ""
 "“%s” klasöründe %u yinelenen ileti var. Silmek istediğinize emin misiniz?"
 
-#: ../src/mail/e-mail-reader-utils.c:3124
+#: ../src/mail/e-mail-reader-utils.c:2984
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "İletileri Kaydet"
@@ -19987,12 +19976,12 @@ msgstr[0] "İletileri Kaydet"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3145
+#: ../src/mail/e-mail-reader-utils.c:3005
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "İletiler"
 
-#: ../src/mail/e-mail-reader-utils.c:3581
+#: ../src/mail/e-mail-reader-utils.c:3427
 msgid "Parsing message"
 msgstr "İleti ayrıştırılıyor"
 
@@ -20242,7 +20231,7 @@ msgstr "Eklerin yüklenmesi bekleniyor…"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2344
+#: ../src/mail/em-composer-utils.c:2345
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -20250,87 +20239,87 @@ msgstr ""
 "${AbbrevWeekdayName}, ${Year}-${Month}-${Day} tarihinde ${24Hour}:${Minute} "
 "${TimeZone} saatinde, ${Sender} yazdı:"
 
-#: ../src/mail/em-composer-utils.c:2350
+#: ../src/mail/em-composer-utils.c:2351
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Yönlendirilmiş İleti --------"
 
-#: ../src/mail/em-composer-utils.c:2355
+#: ../src/mail/em-composer-utils.c:2356
 msgid "-----Original Message-----"
 msgstr "-------- Özgün İleti --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:3238
+#: ../src/mail/em-composer-utils.c:3239
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Ynt: %s"
 
-#: ../src/mail/em-composer-utils.c:3893
+#: ../src/mail/em-composer-utils.c:3894
 msgid "an unknown sender"
 msgstr "bilinmeyen gönderici"
 
-#: ../src/mail/em-composer-utils.c:4531
+#: ../src/mail/em-composer-utils.c:4532
 msgid "Alternative Reply"
 msgstr "Alternatif Yanıt"
 
-#: ../src/mail/em-composer-utils.c:4534
+#: ../src/mail/em-composer-utils.c:4535
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1661
 msgid "_Reply"
 msgstr "_Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4552
+#: ../src/mail/em-composer-utils.c:4553
 msgid "Recipients:"
 msgstr "Alıcılar:"
 
-#: ../src/mail/em-composer-utils.c:4581
+#: ../src/mail/em-composer-utils.c:4582
 msgid "Reply to _Sender"
 msgstr "_Gönderene Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4604
+#: ../src/mail/em-composer-utils.c:4605
 msgid "Reply style:"
 msgstr "Yanıtlama biçemi:"
 
-#: ../src/mail/em-composer-utils.c:4617
+#: ../src/mail/em-composer-utils.c:4618
 msgid "Attach_ment"
 msgstr "_Ek"
 
-#: ../src/mail/em-composer-utils.c:4621
+#: ../src/mail/em-composer-utils.c:4622
 msgid "Inline (_Outlook style)"
 msgstr "Satır Arası (_Outlook biçimi)"
 
-#: ../src/mail/em-composer-utils.c:4625
+#: ../src/mail/em-composer-utils.c:4626
 msgid "_Quote"
 msgstr "_Alıntı"
 
-#: ../src/mail/em-composer-utils.c:4629
+#: ../src/mail/em-composer-utils.c:4630
 msgid "Do _Not Quote"
 msgstr "Alıntı Yap_ma"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4650
+#: ../src/mail/em-composer-utils.c:4651
 msgid "_Format message in"
 msgstr "İletiyi şununla _biçimle"
 
-#: ../src/mail/em-composer-utils.c:4670
+#: ../src/mail/em-composer-utils.c:4671
 msgid "Apply t_emplate"
 msgstr "Şabl_on uygula"
 
-#: ../src/mail/em-composer-utils.c:4683
+#: ../src/mail/em-composer-utils.c:4684
 msgid "Preserve original message S_ubject"
 msgstr "Özgün ileti Kon_usunu koru"
 
-#: ../src/mail/em-composer-utils.c:4749
+#: ../src/mail/em-composer-utils.c:4750
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] "%d alıcı"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:5258
+#: ../src/mail/em-composer-utils.c:5259
 msgid "Posting destination"
 msgstr "Gönderme konumu"
 
-#: ../src/mail/em-composer-utils.c:5263
+#: ../src/mail/em-composer-utils.c:5264
 msgid "Choose folders to post the message to."
 msgstr "İletinin gönderileceği klasörleri seç."
 
@@ -20532,7 +20521,7 @@ msgstr "Etiketler"
 msgid "Folder Properties"
 msgstr "Klasör Özellikleri"
 
-#: ../src/mail/em-folder-properties.c:1739
+#: ../src/mail/em-folder-properties.c:1736
 msgid "Gathering folder properties"
 msgstr "Klasör özellikleri toplanıyor"
 
@@ -20605,19 +20594,13 @@ msgstr "İletiler %s klasörüne kopyalanıyor"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "İleti(ler) üst düzey konuma taşınamıyor"
 
-#. UNMATCHED is always last.
-#: ../src/mail/em-folder-tree-model.c:460
-#: ../src/mail/em-folder-tree-model.c:462
-msgid "UNMATCHED"
-msgstr "EŞLEŞMEMİŞ"
-
-#: ../src/mail/em-folder-tree-model.c:1562
+#: ../src/mail/em-folder-tree-model.c:1555
 #: ../src/mail/importers/kmail-libs.c:148
-#: ../src/modules/mail/e-mail-shell-view-private.c:1025
+#: ../src/modules/mail/e-mail-shell-view-private.c:1028
 msgid "Trash"
 msgstr "Çöp"
 
-#: ../src/mail/em-folder-tree-model.c:1563 ../src/mail/filtertypes.xml.in.h:41
+#: ../src/mail/em-folder-tree-model.c:1556 ../src/mail/filtertypes.xml.in.h:41
 #: ../src/mail/mail-config.ui.h:153 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Gereksiz"
@@ -20642,12 +20625,12 @@ msgstr "“%s” klasörü taşınıyor (%d/%d)"
 msgid "Copying folder “%s” (%d/%d)"
 msgstr "“%s” klasörü kopyalanıyor (%d/%d)"
 
-#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2394
+#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2396
 #: ../src/mail/mail.error.xml.h:153
 msgid "_Move"
 msgstr "_Taşı"
 
-#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2394
+#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2396
 msgid "C_opy"
 msgstr "_Kopyala"
 
@@ -20686,16 +20669,16 @@ msgid "Unsubscribe From _All"
 msgstr "Tüm Aboneliklerden _Çık"
 
 #: ../src/mail/em-subscription-editor.c:1320
-#: ../src/modules/mail/e-mail-shell-view-private.c:918
-#: ../src/modules/mail/e-mail-shell-view-private.c:950
-#: ../src/modules/mail/e-mail-shell-view-private.c:994
+#: ../src/modules/mail/e-mail-shell-view-private.c:921
+#: ../src/modules/mail/e-mail-shell-view-private.c:953
+#: ../src/modules/mail/e-mail-shell-view-private.c:997
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d okunmamış, "
 
 #: ../src/mail/em-subscription-editor.c:1324
-#: ../src/modules/mail/e-mail-shell-view-private.c:1004
+#: ../src/modules/mail/e-mail-shell-view-private.c:1007
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -20790,64 +20773,64 @@ msgctxt "reply-attribution"
 msgid ":"
 msgstr ":"
 
-#: ../src/mail/em-utils.c:1845
+#: ../src/mail/em-utils.c:1847
 msgid "Deleting old messages"
 msgstr "Eski iletiler siliniyor"
 
-#: ../src/mail/em-utils.c:2034
+#: ../src/mail/em-utils.c:2036
 msgctxt "trust"
 msgid "_Unknown"
 msgstr "_Bilinmiyor"
 
-#: ../src/mail/em-utils.c:2035
+#: ../src/mail/em-utils.c:2037
 msgctxt "trust"
 msgid "_Never trust"
 msgstr "_Asla güvenme"
 
-#: ../src/mail/em-utils.c:2036
+#: ../src/mail/em-utils.c:2038
 msgctxt "trust"
 msgid "Trust _marginally"
 msgstr "_Aşırı güven"
 
-#: ../src/mail/em-utils.c:2037
+#: ../src/mail/em-utils.c:2039
 msgctxt "trust"
 msgid "Trust _fully"
 msgstr "_Tümüyle güven"
 
-#: ../src/mail/em-utils.c:2038
+#: ../src/mail/em-utils.c:2040
 msgctxt "trust"
 msgid "Trust _ultimately"
 msgstr "_Sınırsız güven"
 
-#: ../src/mail/em-utils.c:2077
+#: ../src/mail/em-utils.c:2079
 #, c-format
 msgid "Key ID: %s"
 msgstr "Anahtar Kimliği: %s"
 
-#: ../src/mail/em-utils.c:2088
+#: ../src/mail/em-utils.c:2090
 #, c-format
 msgid "Fingerprint: %s"
 msgstr "Parmak İzi: %s"
 
-#: ../src/mail/em-utils.c:2104
+#: ../src/mail/em-utils.c:2106
 #, c-format
 msgid "Created: %s"
 msgstr "Oluşturuldu: %s"
 
-#: ../src/mail/em-utils.c:2136
+#: ../src/mail/em-utils.c:2138
 #, c-format
 msgid "User ID: %s"
 msgstr "Kullanıcı Kimliği: %s"
 
-#: ../src/mail/em-utils.c:2157
+#: ../src/mail/em-utils.c:2159
 msgid "Set trust level for the key:"
 msgstr "Anahtar için güven düzeyini ayarla:"
 
-#: ../src/mail/em-utils.c:2390 ../src/mail/filtertypes.xml.in.h:72
+#: ../src/mail/em-utils.c:2392 ../src/mail/filtertypes.xml.in.h:72
 msgid "Move to Folder"
 msgstr "Klasöre Taşı"
 
-#: ../src/mail/em-utils.c:2390 ../src/mail/filtertypes.xml.in.h:73
+#: ../src/mail/em-utils.c:2392 ../src/mail/filtertypes.xml.in.h:73
 msgid "Copy to Folder"
 msgstr "Klasöre Kopyala"
 
@@ -22456,7 +22439,7 @@ msgstr ""
 
 #: ../src/mail/mail.error.xml.h:112
 msgid "Problem migrating old mail folder “{0}”."
-msgstr "Eski posta klasörü “{0}” aktarırken sorun oluştu."
+msgstr "Eski posta klasörü “{0}” geçirilirken sorun oluştu."
 
 #: ../src/mail/mail.error.xml.h:113
 msgid ""
@@ -22506,7 +22489,7 @@ msgstr "_Evolutionʼdan Çık"
 
 #: ../src/mail/mail.error.xml.h:124
 msgid "_Migrate Now"
-msgstr "_Şimdi Geçir"
+msgstr "Şimdi _Geçir"
 
 #: ../src/mail/mail.error.xml.h:125
 msgid "Unable to read license file."
@@ -23215,32 +23198,32 @@ msgid "Subject or Addresses contains"
 msgstr "Konu ya da Adres içerir"
 
 #: ../src/mail/searchtypes.xml.in.h:64
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1993
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1986
 msgid "Recipients contain"
 msgstr "Alıcılar içerir"
 
 #: ../src/mail/searchtypes.xml.in.h:65
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1986
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1979
 msgid "Message contains"
 msgstr "İleti içerir"
 
 #: ../src/mail/searchtypes.xml.in.h:66
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2007
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2000
 msgid "Subject contains"
 msgstr "Konu içerir"
 
 #: ../src/mail/searchtypes.xml.in.h:67
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2000
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1993
 msgid "Sender contains"
 msgstr "Gönderen içerir"
 
 #: ../src/mail/searchtypes.xml.in.h:68
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1972
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1965
 msgid "Body contains"
 msgstr "Metni içerir"
 
 #: ../src/mail/searchtypes.xml.in.h:69
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1979
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1972
 msgid "Free form expression"
 msgstr "Serbest biçim ifadesi"
 
@@ -23687,7 +23670,7 @@ msgstr "Haritaları bağlantı ön izleme penceresinde göster"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1765
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:712
 #: ../src/modules/calendar/e-task-shell-view-actions.c:900
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1948
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1941
 msgid "_Classic View"
 msgstr "_Klasik Görünüm"
 
@@ -23699,7 +23682,7 @@ msgstr "Bağlantı ön izlemesini bağlantı listesinin altında göster"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1772
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:719
 #: ../src/modules/calendar/e-task-shell-view-actions.c:907
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1955
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1948
 msgid "_Vertical View"
 msgstr "_Dikey Görünüm"
 
@@ -23711,7 +23694,7 @@ msgstr "Bağlantı ön izlemesini bağlantı listesinin yanında göster"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1782
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:729
 #: ../src/modules/calendar/e-task-shell-view-actions.c:917
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1965
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1958
 #: ../src/shell/e-shell-content.c:608
 msgid "Advanced Search"
 msgstr "Gelişmiş Arama"
@@ -24214,7 +24197,7 @@ msgstr "LDAP kullarak"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:787
 #: ../src/modules/mail/e-mail-shell-view.c:119
-#: ../src/modules/mail/e-mail-shell-view.c:208
+#: ../src/modules/mail/e-mail-shell-view.c:209
 msgid "Searching"
 msgstr "Aranıyor"
 
@@ -25936,11 +25919,11 @@ msgstr "Sürdürmek için parola gerekir."
 msgid "Look up for a CalDAV/CardDAV server"
 msgstr "CalDAV/CardDAV sunucusuna bak"
 
-#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:226
+#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:227
 msgid "ITIP"
 msgstr "ITIP"
 
-#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:227
+#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:228
 msgid "Display part as an invitation"
 msgstr "Bölümü davetiye olarak göster"
 
@@ -27091,38 +27074,38 @@ msgstr "Her Zaman Çevrim İçi"
 msgid "_Limit operations in Power Saver mode"
 msgstr "Güç Tutumu kipinde işlemleri _kısıtla"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1179
+#: ../src/modules/mail/e-mail-shell-backend.c:1178
 msgid "Mail Preferences"
 msgstr "Posta Tercihleri"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1188
+#: ../src/modules/mail/e-mail-shell-backend.c:1187
 msgid "Composer Preferences"
 msgstr "Düzenleyici Tercihleri"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1197
+#: ../src/modules/mail/e-mail-shell-backend.c:1196
 msgid "Network Preferences"
 msgstr "Ağ Tercihleri"
 
 #. Translators: The first item in the list, to be able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1554
+#: ../src/modules/mail/e-mail-shell-backend.c:1544
 msgctxt "label"
 msgid "None"
 msgstr "Hiçbiri"
 
 #. Translators: The first item in the list, to be able to set rule: [Unset Label] [All]
-#: ../src/modules/mail/e-mail-shell-backend.c:1557
+#: ../src/modules/mail/e-mail-shell-backend.c:1547
 msgctxt "label"
 msgid "All"
 msgstr "Tümü"
 
 #. Translators: Meaning "any configured addressbook included in autocompletion" in the filter dialog
-#: ../src/modules/mail/e-mail-shell-backend.c:1845
+#: ../src/modules/mail/e-mail-shell-backend.c:1835
 msgctxt "addrbook"
 msgid "Included in Autocompletion"
 msgstr "Kendiliğinden Tamamlamada İçerilen"
 
 #. Translators: Meaning "any configured addressbook" in the filter dialog
-#: ../src/modules/mail/e-mail-shell-backend.c:1851
+#: ../src/modules/mail/e-mail-shell-backend.c:1841
 msgctxt "addrbook"
 msgid "Any"
 msgstr "Herhangi"
@@ -27426,79 +27409,71 @@ msgstr "_Yapılacaklar Çubuğunu Göster"
 msgid "Show To Do bar with appointments and tasks"
 msgstr "Randevular ve görevlerle birlikte Yapılacaklar çubuğunu göster"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1938
-msgid "_Unmatched Folder Enabled"
-msgstr "_Eşleşmeyen Klasörler Etkin"
-
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1940
-msgid "Toggles whether Unmatched search folder is enabled"
-msgstr "Eşleşmeyenler arama klasörünün etkin olup olmadığı ayarı"
-
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1950
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1943
 msgid "Show message preview below the message list"
 msgstr "İleti ön izlemesini ileti listesinin altında göster"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1957
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1950
 msgid "Show message preview alongside the message list"
 msgstr "İleti ön izlemesini ileti listesinin yanında göster"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2014
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2007
 msgid "Subject or Addresses contain"
 msgstr "Konu ya da Adres içerir"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2024
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2017
 msgid "All Accounts"
 msgstr "Tüm Hesaplar"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2031
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2024
 msgid "Current Account"
 msgstr "Şimdiki Hesap"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2038
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2031
 msgid "Current Folder"
 msgstr "Şimdiki Klasör"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2045
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2038
 msgid "Current Folder and Subfolders"
 msgstr "Geçerli Klasör ve Alt Klasörler"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2151
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2144
 msgid "All Messages"
 msgstr "Tüm İletiler"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2158
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2151
 msgid "Important Messages"
 msgstr "Önemli İletiler"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2165
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2158
 msgid "Last 5 Days’ Messages"
 msgstr "Son 5 Günün İletileri"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2172
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2165
 msgid "Messages Not Junk"
 msgstr "Gereksiz Olmayan İletiler"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2179
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2172
 msgid "Messages with Attachments"
 msgstr "Ek İçeren İletiler"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2186
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2179
 msgid "Messages with Notes"
 msgstr "Not İçeren İletiler"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2193
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2186
 msgid "No Label"
 msgstr "Etiket Yok"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2200
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2193
 msgid "Read Messages"
 msgstr "Okunmuş İletiler"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2207
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2200
 msgid "Unread Messages"
 msgstr "Okunmamış İletiler"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2214
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2207
 msgid "Message Thread"
 msgstr "İleti Dizisi"
 
@@ -27530,45 +27505,45 @@ msgstr "Tüm Hesapları Ara"
 msgid "Account Search"
 msgstr "Hesap Arama"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:911
+#: ../src/modules/mail/e-mail-shell-view-private.c:914
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d seçili, "
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:926
-#: ../src/modules/mail/e-mail-shell-view-private.c:943
+#: ../src/modules/mail/e-mail-shell-view-private.c:929
+#: ../src/modules/mail/e-mail-shell-view-private.c:946
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d silinmiş"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:957
-#: ../src/modules/mail/e-mail-shell-view-private.c:963
+#: ../src/modules/mail/e-mail-shell-view-private.c:960
+#: ../src/modules/mail/e-mail-shell-view-private.c:966
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d gereksiz"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:970
+#: ../src/modules/mail/e-mail-shell-view-private.c:973
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d taslak"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:976
+#: ../src/modules/mail/e-mail-shell-view-private.c:979
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d gönderilmemiş"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:982
+#: ../src/modules/mail/e-mail-shell-view-private.c:985
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d gönderilmiş"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:999
+#: ../src/modules/mail/e-mail-shell-view-private.c:1002
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
@@ -27837,46 +27812,46 @@ msgstr ""
 "sağlar. Seçenekleri değiştirmek için Posta Tercihleri bölümü → HTML "
 "İletileri sekmesi → Düz Metin Kipi grubuna geçin."
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:132
+#: ../src/modules/rss/camel/camel-rss-folder.c:62
 #, c-format
 msgid "Cannot add message into News and Blogs folder"
 msgstr "İleti, Haberler ve Bloglar klasörüne eklenemiyor"
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:224
+#: ../src/modules/rss/camel/camel-rss-folder.c:156
 msgid "Message is not available"
 msgstr "İleti kullanılabilir değil"
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:279
+#: ../src/modules/rss/camel/camel-rss-folder.c:211
 #, c-format
 msgid "Invalid Feed URL “%s”."
 msgstr "Geçersiz Besleme URL’si: “%s”."
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:319
+#: ../src/modules/rss/camel/camel-rss-folder.c:251
 #, c-format
 msgid "Failed to download feeds, error code %d (%s)"
 msgstr "Beslemeler indirilemedi, hata kodu %d (%s)"
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:469
+#: ../src/modules/rss/camel/camel-rss-folder.c:401
 #, c-format
 msgid "Invalid Feed URL."
 msgstr "Geçersiz Besleme URL’si."
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:726
+#: ../src/modules/rss/camel/camel-rss-folder.c:657
 msgid "Apply message _filters to this folder"
 msgstr "İleti _süzgeçlerini bu klasöre uygula"
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:739
+#: ../src/modules/rss/camel/camel-rss-folder.c:670
 #: ../src/modules/rss/evolution/e-rss-preferences.c:911
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1638
 msgid "_Download complete articles"
 msgstr "Makalelerin tümünü _indir"
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:752
+#: ../src/modules/rss/camel/camel-rss-folder.c:683
 #: ../src/modules/rss/evolution/e-rss-preferences.c:915
 msgid "Download feed _enclosures"
 msgstr "Besleme _eklerini indir"
 
-#: ../src/modules/rss/camel/camel-rss-folder-summary.c:273
+#: ../src/modules/rss/camel/camel-rss-folder-summary.c:290
 msgid "Enclosures:"
 msgstr "Ekler:"
 
@@ -27887,7 +27862,7 @@ msgstr "Ekler:"
 msgid "News and Blogs"
 msgstr "Haberler ve Bloglar"
 
-#: ../src/modules/rss/camel/camel-rss-provider.c:18
+#: ../src/modules/rss/camel/camel-rss-provider.c:17
 msgid "This is a provider for reading RSS news and blogs."
 msgstr "Bu, RSS haberleri ve blogları okuma sağlayıcısıdır."
 
@@ -27904,7 +27879,7 @@ msgstr "'%s' klasörü bulunamadı"
 msgid "Cannot create a folder in a News and Blogs store."
 msgstr "Haberler ve Bloglar deposunda klasör oluşturulamaz."
 
-#: ../src/modules/rss/e-rss-parser.c:302
+#: ../src/modules/rss/e-rss-parser.c:308
 msgid "Unknown author"
 msgstr "Bilinmeyen yazar"
 
@@ -29562,33 +29537,33 @@ msgstr "Şablon Olarak Kaydet"
 msgid "Repl_y with Template"
 msgstr "Şablonla _Yanıtla"
 
-#: ../src/shell/e-shell.c:397
+#: ../src/shell/e-shell.c:415
 msgid "Preparing to go offline…"
 msgstr "Çevrim dışı olmaya hazırlanılıyor…"
 
-#: ../src/shell/e-shell.c:426
+#: ../src/shell/e-shell.c:444
 msgid "Preparing to go online…"
 msgstr "Çevrim içi olmaya hazırlanılıyor…"
 
-#: ../src/shell/e-shell.c:525
+#: ../src/shell/e-shell.c:543
 msgid "Preparing to quit"
 msgstr "Çıkış için hazırlanılıyor"
 
-#: ../src/shell/e-shell.c:531
+#: ../src/shell/e-shell.c:549
 msgid "Preparing to quit…"
 msgstr "Çıkışa hazırlanılıyor…"
 
-#: ../src/shell/e-shell.c:1113
+#: ../src/shell/e-shell.c:1131
 msgid "Open _Settings"
 msgstr "_Ayarları Aç"
 
-#: ../src/shell/e-shell.c:1322
+#: ../src/shell/e-shell.c:1340
 msgid "Credentials are required to connect to the destination host."
 msgstr "Hedef makineye bağlantı için kimlik bilgileri gerekiyor."
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/e-shell.c:2018
+#: ../src/shell/e-shell.c:2040
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
@@ -29596,49 +29571,49 @@ msgstr ""
 "Evolutionʼu belirtilen bileşen ile başlat. Uygun seçenekler “mail”, "
 "“calendar”, “contacts”, “tasks”, ve “memos“"
 
-#: ../src/shell/e-shell.c:2022
+#: ../src/shell/e-shell.c:2044
 msgid "Apply the given geometry to the main window"
 msgstr "Verilen geometriyi ana pencereye uygula"
 
-#: ../src/shell/e-shell.c:2026
+#: ../src/shell/e-shell.c:2048
 msgid "Start in online mode"
 msgstr "Çevrim içi kipte başla"
 
-#: ../src/shell/e-shell.c:2028
+#: ../src/shell/e-shell.c:2050
 msgid "Ignore network availability"
 msgstr "Ağ uygunluğunu göz ardı et"
 
-#: ../src/shell/e-shell.c:2031
+#: ../src/shell/e-shell.c:2053
 msgid ""
 "Forcibly shut down Evolution and background Evolution-Data-Server processes"
 msgstr ""
 "Evolution ve arka plandaki Evolution-Data-Server süreçlerini kapanmaya zorla"
 
-#: ../src/shell/e-shell.c:2034
+#: ../src/shell/e-shell.c:2056
 msgid "Disable loading of any plugins."
 msgstr "Hiçbir eklenti yüklenmesine izin verme."
 
-#: ../src/shell/e-shell.c:2036
+#: ../src/shell/e-shell.c:2058
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Posta, Bağlantılar ve Görevler ön izleme bölmelerini kapat."
 
-#: ../src/shell/e-shell.c:2040
+#: ../src/shell/e-shell.c:2062
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr ""
 "Argümanların geri kalanı olarak verilen dosya adları ya da URIʼleri içe "
 "aktar."
 
-#: ../src/shell/e-shell.c:2042
+#: ../src/shell/e-shell.c:2064
 msgid "View URIs or filenames given as rest of arguments."
 msgstr ""
 "Argümanların geri kalanı olarak verilen URIʼleri ya da dosya adlarını "
 "görüntüle."
 
-#: ../src/shell/e-shell.c:2044
+#: ../src/shell/e-shell.c:2066
 msgid "Request a running Evolution process to quit"
 msgstr "Çalışan Evolution sürecinden çıkmasını iste"
 
-#: ../src/shell/e-shell.c:2154
+#: ../src/shell/e-shell.c:2176
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -29647,7 +29622,7 @@ msgstr ""
 "%s: --online ve --offline aynı anda kullanılamaz.\n"
 "  Daha çok bilgi için “%s --help” çalıştırın.\n"
 
-#: ../src/shell/e-shell.c:2160
+#: ../src/shell/e-shell.c:2182
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -29663,6 +29638,20 @@ msgstr "Aramalar"
 #: ../src/shell/e-shell-content.c:715
 msgid "Save Search"
 msgstr "Aramayı Kaydet"
+
+#. Translators: the first '%s' is replaced with a file name, the second '%s' with the actual error message
+#: ../src/shell/e-shell-migrate.c:370
+#, c-format
+msgid "File '%s' failed: %s"
+msgstr "'%s' dosyası başarısız: %s"
+
+#: ../src/shell/e-shell-migrate.c:423
+msgid "Migrating mail folders, please wait…"
+msgstr "Posta klasörleri geçiriliyor, lütfen bekleyin…"
+
+#: ../src/shell/e-shell-migrate.c:529
+msgid "Some of the mail accounts failed to migrate."
+msgstr "Kimi posta hesapları geçirilemedi."
 
 #. Translators: The "Show:" label precedes a combo box that
 #. * allows the user to filter the current view.  Examples of
@@ -29874,17 +29863,17 @@ msgstr "_Araç Çubuğu Biçemi"
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Masaüstü araç çubuğu ayarlarını kullanarak pencere düğmelerini göster"
 
-#: ../src/shell/e-shell-view.c:1412 ../src/shell/e-shell-view.c:1447
+#: ../src/shell/e-shell-view.c:1514 ../src/shell/e-shell-view.c:1556
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "Yeni"
 
-#: ../src/shell/e-shell-view.c:1537
+#: ../src/shell/e-shell-view.c:1649
 #, c-format
 msgid "Select view: %s"
 msgstr "Görünümü seç: %s"
 
-#: ../src/shell/e-shell-view.c:1551
+#: ../src/shell/e-shell-view.c:1663
 #, c-format
 msgid "Delete view: %s"
 msgstr "Görünümü sil: %s"
@@ -30047,7 +30036,7 @@ msgid "%s — Evolution"
 msgstr "%s — Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../src/shell/main.c:125
+#: ../src/shell/main.c:126
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -30084,17 +30073,17 @@ msgstr ""
 "Umarız yoğun çalışmalarımız sonucundan memnun kalırsınız. Biz sizin\n"
 "katkılarınızı da memnuniyetle beklediğimizi belirtiriz!\n"
 
-#: ../src/shell/main.c:151
+#: ../src/shell/main.c:152
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr "Teşekkürler. Evolution Takımı\n"
 
-#: ../src/shell/main.c:157
+#: ../src/shell/main.c:158
 msgid "Do not tell me again"
 msgstr "Bana yeniden söyleme"
 
-#: ../src/shell/main.c:243
+#: ../src/shell/main.c:244
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
@@ -30719,6 +30708,25 @@ msgstr "Deponun diske yazılması başarısız, hata_kodu: %i"
 #: ../src/smime/lib/e-pkcs12.c:470
 msgid "Imported Certificate"
 msgstr "Aktarılmış Sertifika"
+
+#~ msgid "Enable Unmatched search folder"
+#~ msgstr "Eşleşmeyenler arama klasörünü etkinleştir"
+
+#~ msgid ""
+#~ "Enable Unmatched search folder within Search Folders. It does nothing if "
+#~ "Search Folders are disabled."
+#~ msgstr ""
+#~ "Arama Klasörleri içindeki Eşleşmeyenler arama klasörünü etkinleştir. "
+#~ "Arama Klasörleri kapalıysa hiçbir şey yapmaz."
+
+#~ msgid "UNMATCHED"
+#~ msgstr "EŞLEŞMEMİŞ"
+
+#~ msgid "_Unmatched Folder Enabled"
+#~ msgstr "_Eşleşmeyen Klasörler Etkin"
+
+#~ msgid "Toggles whether Unmatched search folder is enabled"
+#~ msgstr "Eşleşmeyenler arama klasörünün etkin olup olmadığı ayarı"
 
 #~ msgid "< separator >"
 #~ msgstr "< ayırıcı >"
