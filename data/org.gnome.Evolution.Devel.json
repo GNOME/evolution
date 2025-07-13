@@ -477,8 +477,8 @@
 					"commands": [
 						"cp config.h.in config.h.in.orig",
 						"cat config.h.in.orig | sed -e \"s|\\@VERSION_SUBSTRING\\@| \\(flatpak git$(git log --pretty=format:%h --max-count=1)\\)|\" >config.h.in",
-						"cp data/org.gnome.Evolution.appdata.xml.in.in data/org.gnome.Evolution.appdata.xml.in.in.orig",
-						"cat data/org.gnome.Evolution.appdata.xml.in.in.orig | sed -e \"s|\\@APPDATA_RELEASES\\@|APPDATA_RELEASES|\" >data/org.gnome.Evolution.appdata.xml.in.in"
+						"cp data/org.gnome.Evolution.metainfo.xml.in.in data/org.gnome.Evolution.metainfo.xml.in.in.orig",
+						"cat data/org.gnome.Evolution.metainfo.xml.in.in.orig | sed -e \"s|\\@APPDATA_RELEASES\\@|APPDATA_RELEASES|\" >data/org.gnome.Evolution.metainfo.xml.in.in"
 					]
 				}
 			],

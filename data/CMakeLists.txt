@@ -44,12 +44,12 @@ if("${APPDATA_RELEASES}" STREQUAL "")
 	set(APPDATA_RELEASES "    <release version=\"${APPDATA_RELEASE_VERSION}\" date=\"${APPDATA_RELEASE_BUILD_DATE}\" type=\"${APPDATA_RELEASE_TYPE}\"/>\n")
 endif("${APPDATA_RELEASES}" STREQUAL "")
 
-configure_file(org.gnome.Evolution.appdata.xml.in.in
-	org.gnome.Evolution.appdata.xml.in
+configure_file(org.gnome.Evolution.metainfo.xml.in.in
+	org.gnome.Evolution.metainfo.xml.in
 	@ONLY
 )
 
-add_appdata_file(${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.appdata.xml.in org.gnome.Evolution.appdata.xml)
+add_appdata_file(${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.metainfo.xml.in org.gnome.Evolution.metainfo.xml)
 
 set(SCHEMAS
 	org.gnome.evolution.gschema.xml

@@ -496,15 +496,15 @@
 					"commands": [
 						"cp config.h.in config.h.in.orig",
 						"cat config.h.in.orig | sed -e \"s|\\@VERSION_SUBSTRING\\@| \\(flatpak git$(git log --pretty=format:%h --max-count=1)\\)|\" >config.h.in",
-						"cp data/org.gnome.Evolution.appdata.xml.in.in data/org.gnome.Evolution.appdata.xml.in.in.orig",
-						"cat data/org.gnome.Evolution.appdata.xml.in.in.orig | sed -e \"s|\\@APPDATA_RELEASES\\@|APPDATA_RELEASES|\" >data/org.gnome.Evolution.appdata.xml.in.in"
+						"cp data/org.gnome.Evolution.metainfo.xml.in.in data/org.gnome.Evolution.metainfo.xml.in.in.orig",
+						"cat data/org.gnome.Evolution.metainfo.xml.in.in.orig | sed -e \"s|\\@APPDATA_RELEASES\\@|APPDATA_RELEASES|\" >data/org.gnome.Evolution.metainfo.xml.in.in"
 					]
 				}
 			],
 			"post-install": [
 				"cp NEWS /app/share/NEWS.evo",
 				"cp news-to-appdata.c /app/share/",
-				"mv /app/share/metainfo/org.gnome.Evolution.appdata.xml /app/share/"
+				"mv /app/share/metainfo/org.gnome.Evolution.metainfo.xml /app/share/"
 			]
 		},
 
@@ -603,16 +603,16 @@
 						"fi",
 						"VER=${VER%.*}",
 						"APPDATA_RELEASES=`./news-to-appdata \"\" ${TYPE} ${VER} /app/share/NEWS.evo ${VER} /app/share/NEWS.eds ${VER} /app/share/NEWS.ews`",
-						"APPDATA=`cat /app/share/org.gnome.Evolution.appdata.xml`",
+						"APPDATA=`cat /app/share/org.gnome.Evolution.metainfo.xml`",
 						"if [ \"${APPDATA_RELEASES}\" = \"\" ]; then",
 						"    APPDATA_RELEASES=\"<release version=\\\"$(pkg-config --modversion evolution-shell-3.0)\\\" date=\\\"$(date +%Y-%m-%d)\\\" type=\\\"${TYPE}\\\"/>\"",
 						"fi",
-						"echo \"${APPDATA%APPDATA_RELEASES*}${APPDATA_RELEASES}${APPDATA#*APPDATA_RELEASES}\">/app/share/metainfo/org.gnome.Evolution.appdata.xml",
+						"echo \"${APPDATA%APPDATA_RELEASES*}${APPDATA_RELEASES}${APPDATA#*APPDATA_RELEASES}\">/app/share/metainfo/org.gnome.Evolution.metainfo.xml",
 						"rm /app/share/NEWS.eds",
 						"rm /app/share/NEWS.evo",
 						"rm /app/share/NEWS.ews",
 						"rm /app/share/news-to-appdata.c",
-						"rm /app/share/org.gnome.Evolution.appdata.xml"
+						"rm /app/share/org.gnome.Evolution.metainfo.xml"
 					],
 					"dest-filename": "update-appdata.sh"
 				}
