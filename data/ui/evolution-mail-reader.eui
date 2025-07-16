@@ -54,6 +54,8 @@
           <item action='mail-previous-unread'/>
           <item action='mail-previous-important'/>
           <item action='mail-previous-thread'/>
+          <separator/>
+          <item action='mail-goto-containing-folder'/>
         </submenu>
         <item action='mail-reply-sender'/>
         <item action='mail-reply-list'/>

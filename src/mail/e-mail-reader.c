@@ -865,6 +865,83 @@ action_mail_forward_quoted_cb (EUIAction *action,
 }
 
 static void
+action_mail_goto_containing_folder_cb (EUIAction *action,
+				       GVariant *parameter,
+				       gpointer user_data)
+{
+	EMailReader *reader = user_data;
+	CamelFolder *folder;
+	GPtrArray *uids;
+	const gchar *message_uid;
+
+	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL && uids->len == 1);
+	message_uid = g_ptr_array_index (uids, 0);
+	folder = e_mail_reader_ref_folder (reader);
+
+	if (CAMEL_IS_VEE_FOLDER (folder)) {
+		CamelMessageInfo *mi;
+
+		mi = camel_folder_get_message_info (folder, message_uid);
+		if (mi) {
+			CamelFolder *real_folder;
+			gchar *real_uid = NULL;
+
+			real_folder = camel_vee_folder_get_location (CAMEL_VEE_FOLDER (folder), (const CamelVeeMessageInfo *) mi, &real_uid);
+
+			if (real_folder) {
+				GtkWindow *window;
+				MessageList *ml;
+
+				ml = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+
+				message_list_freeze (ml);
+				e_mail_reader_set_folder (reader, real_folder);
+				e_mail_reader_set_message (reader, real_uid);
+				message_list_thaw (ml);
+
+				window = e_mail_reader_get_window (reader);
+				if (E_IS_SHELL_WINDOW (window)) {
+					EShellWindow *shell_window = E_SHELL_WINDOW (window);
+					EShellView *shell_view;
+
+					shell_view = e_shell_window_get_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
+					if (shell_view) {
+						EShellSidebar *shell_sidebar;
+
+						shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+						if (shell_sidebar) {
+							EMFolderTree *folder_tree = NULL;
+
+							g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+
+							if (folder_tree) {
+								gchar *furi = e_mail_folder_uri_from_folder (real_folder);
+
+								if (furi) {
+									em_folder_tree_set_selected (folder_tree, furi, FALSE);
+									g_free (furi);
+								}
+
+								g_clear_object (&folder_tree);
+							}
+						}
+					}
+				}
+			}
+
+			g_free (real_uid);
+			g_clear_object (&mi);
+		}
+	} else {
+		g_warn_if_reached ();
+	}
+
+	g_ptr_array_unref (uids);
+	g_clear_object (&folder);
+}
+
+static void
 action_mail_label_change_more_cb (EUIAction *action,
 				  GVariant *parameter,
 				  gpointer user_data);
@@ -3101,6 +3178,13 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 		  N_("Forward the selected message quoted like a reply"),
 		  action_mail_forward_quoted_cb, NULL, NULL, NULL },
 
+		{ "mail-goto-containing-folder",
+		  NULL,
+		  N_("_Containing Folder"),
+		  "<Control><Alt>o",
+		  N_("Go to the folder the message originates from"),
+		  action_mail_goto_containing_folder_cb, NULL, NULL, NULL },
+
 		{ "mail-label-change-more",
 		  NULL,
 		  N_("Change _More Labels…"),
@@ -5162,7 +5246,9 @@ mail_reader_update_actions (EMailReader *reader,
 {
 	EUIAction *action;
 	gboolean sensitive;
+	gboolean visible;
 	EMailDisplay *mail_display;
+	CamelFolder *folder;
 
 	/* Be descriptive. */
 	gboolean any_messages_selected;
@@ -5505,6 +5591,20 @@ mail_reader_update_actions (EMailReader *reader,
 	sensitive = any_messages_selected;
 	action = e_mail_reader_get_action (reader, "mail-save-as");
 	e_ui_action_set_sensitive (action, sensitive);
+
+	folder = e_mail_reader_ref_folder (reader);
+	visible = CAMEL_IS_VEE_FOLDER (folder);
+	if (visible) {
+		GtkWindow *window = e_mail_reader_get_window (reader);
+		/* to be able to switch also the selected folder in the folder tree */
+		visible = E_IS_SHELL_WINDOW (window);
+	}
+	sensitive = single_message_selected && visible;
+	action = e_mail_reader_get_action (reader, "mail-goto-containing-folder");
+	e_ui_action_set_sensitive (action, sensitive);
+	/* hide when cannot be used at all, like in the real folders */
+	e_ui_action_set_visible (action, visible);
+	g_clear_object (&folder);
 
 	sensitive = single_message_selected;
 	action = e_mail_reader_get_action (reader, "mail-show-source");
