@@ -370,8 +370,21 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		g_object_unref (settings);
 
 		if (!theme || !*theme) {
+			const GdkRGBA *rgba;
+			gdouble brightness;
+			gboolean is_dark_theme;
+
 			g_free (theme);
-			theme = g_strdup ("bclear");
+
+			rgba = e_mail_formatter_get_color (formatter, E_MAIL_FORMATTER_COLOR_TEXT);
+			brightness =
+				(0.2109 * 255.0 * rgba->red) +
+				(0.5870 * 255.0 * rgba->green) +
+				(0.1021 * 255.0 * rgba->blue);
+
+			is_dark_theme = brightness > 140;
+
+			theme = g_strdup (is_dark_theme ? "kellys" : "bclear");
 		}
 
 		argv[1] = font_family;
