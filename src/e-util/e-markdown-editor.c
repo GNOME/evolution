@@ -1919,21 +1919,9 @@ e_markdown_editor_preview_set_fonts (EWebView *web_view,
 static gboolean
 e_markdown_editor_is_dark_theme (EMarkdownEditor *self)
 {
-	GtkStyleContext *style_context;
-	GdkRGBA rgba;
-	gdouble brightness;
-
 	g_return_val_if_fail (self->priv->action_toolbar != NULL, FALSE);
 
-	style_context = gtk_widget_get_style_context (GTK_WIDGET (self->priv->action_toolbar));
-	gtk_style_context_get_color (style_context, gtk_style_context_get_state (style_context), &rgba);
-
-	brightness =
-		(0.2109 * 255.0 * rgba.red) +
-		(0.5870 * 255.0 * rgba.green) +
-		(0.1021 * 255.0 * rgba.blue);
-
-	return brightness > 140;
+	return e_util_is_dark_theme (GTK_WIDGET (self->priv->action_toolbar));
 }
 
 struct _toolbar_items {

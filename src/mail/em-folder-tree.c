@@ -1583,19 +1583,35 @@ folder_tree_popup_menu (GtkWidget *widget)
 	return TRUE;
 }
 
+static gboolean
+folder_tree_update_new_message_text_color (EMFolderTree *self,
+					   const gchar *color_text)
+{
+	if (g_str_has_prefix (color_text, "@theme_")) {
+		if (gtk_style_context_lookup_color (gtk_widget_get_style_context (GTK_WIDGET (self)), color_text + 1,
+			&self->priv->new_message_text_color_rgba)) {
+			return TRUE;
+		}
+	} else if (g_ascii_strcasecmp (color_text, "auto") == 0) {
+		if (e_util_is_dark_theme (GTK_WIDGET (self)))
+			g_warn_if_fail (gdk_rgba_parse (&self->priv->new_message_text_color_rgba, "#4082d9"));
+		else
+			g_warn_if_fail (gdk_rgba_parse (&self->priv->new_message_text_color_rgba, "#0f6eff"));
+		return TRUE;
+	} else if (gdk_rgba_parse (&self->priv->new_message_text_color_rgba, color_text)) {
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 folder_tree_style_updated (GtkWidget *widget)
 {
 	EMFolderTree *self = EM_FOLDER_TREE (widget);
 
-	if (self->priv->new_message_text_color && g_str_has_prefix (self->priv->new_message_text_color, "@theme_")) {
-		GdkRGBA rgba;
-
-		if (gtk_style_context_lookup_color (gtk_widget_get_style_context (widget),
-			self->priv->new_message_text_color + 1, &rgba)) {
-			self->priv->new_message_text_color_rgba = rgba;
-		}
-	}
+	if (self->priv->new_message_text_color)
+		folder_tree_update_new_message_text_color (self, self->priv->new_message_text_color);
 
 	/* Chain up to parent's method. */
 	GTK_WIDGET_CLASS (em_folder_tree_parent_class)->style_updated (widget);
@@ -4043,14 +4059,8 @@ em_folder_tree_set_new_message_text_color (EMFolderTree *self,
 	g_clear_pointer (&self->priv->new_message_text_color, g_free);
 
 	if (color_text != NULL) {
-		if (g_str_has_prefix (color_text, "@theme_")) {
-			if (gtk_style_context_lookup_color (gtk_widget_get_style_context (GTK_WIDGET (self)), color_text + 1,
-				&self->priv->new_message_text_color_rgba)) {
-				self->priv->new_message_text_color = g_strdup (color_text);
-			}
-		} else if (gdk_rgba_parse (&self->priv->new_message_text_color_rgba, color_text)) {
+		if (folder_tree_update_new_message_text_color (self, color_text))
 			self->priv->new_message_text_color = g_strdup (color_text);
-		}
 	}
 
 	g_object_notify (G_OBJECT (self), "new-message-text-color");

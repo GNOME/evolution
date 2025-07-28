@@ -319,6 +319,7 @@ void		e_util_call_malloc_trim_limited	(void);
 void		e_util_connect_menu_detach_after_deactivate
 						(GtkMenu *menu);
 gboolean	e_util_ignore_accel_for_focused	(GtkWidget *focused);
+gboolean	e_util_is_dark_theme		(GtkWidget *widget);
 
 G_END_DECLS
 

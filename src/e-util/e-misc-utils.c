@@ -4606,3 +4606,34 @@ e_util_ignore_accel_for_focused (GtkWidget *focused)
 
 	return FALSE;
 }
+
+/**
+ * e_util_is_dark_theme:
+ * @widget: a #GtkWidget
+ *
+ * Check whether the current color theme is a dark theme.
+ * It's determined from the @widget's style context.
+ *
+ * Returns: whether the current color theme is the dark theme
+ *
+ * Since: 3.58
+ **/
+gboolean
+e_util_is_dark_theme (GtkWidget *widget)
+{
+	GtkStyleContext *style_context;
+	GdkRGBA rgba;
+	gdouble brightness;
+
+	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
+
+	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_get_color (style_context, gtk_style_context_get_state (style_context), &rgba);
+
+	brightness =
+		(0.2109 * 255.0 * rgba.red) +
+		(0.5870 * 255.0 * rgba.green) +
+		(0.1021 * 255.0 * rgba.blue);
+
+	return brightness > 140;
+}
