@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-07-16 16:25+0000\n"
-"PO-Revision-Date: 2025-07-16 22:05+0200\n"
+"POT-Creation-Date: 2025-07-28 15:53+0000\n"
+"PO-Revision-Date: 2025-07-29 10:57+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : "
 "0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -3036,12 +3036,14 @@ msgstr "Nastavi barvo besedila mape, ko prejme novo sporočilo"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
 msgid ""
 "Some `@theme_` colors are supported, otherwise a color name like `orange` or color reference "
-"like `#07509c` or `rgb(215,150,0)` can be used. Not setting a color will, or using an invalid "
-"form, will not change the folder name text color."
+"like `#07509c` or `rgb(215,150,0)` can be used. Not setting a color, or using an invalid form, "
+"will not change the folder name text color. A value 'auto' will pick a suitable blue color for "
+"the current color theme."
 msgstr ""
 "Podprte so nekatere barve »@theme_«, sicer lahko uporabite barvno ime, kot je `orange` "
 "(»oranžna«), ali barvni sklic, kot je »#07509c« ali »rgb(215,150,0)«. Če barve ne nastavite "
-"ali uporabite neveljaven obrazec, barva besedila imena mape ne bo spremenjena."
+"ali uporabite neveljaven obrazec, barva besedila imena mape ne bo spremenjena. Vrednost ‘auto’ "
+"izbere primerno modro barvo za trenutno barvno temo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
 msgid "(Deprecated) Default forward style"
@@ -3829,7 +3831,7 @@ msgstr "Stiki"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
-#: ../src/e-util/e-collection-account-wizard.c:871 ../src/e-util/e-webdav-browser.c:541
+#: ../src/e-util/e-collection-account-wizard.c:873 ../src/e-util/e-webdav-browser.c:541
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:211
 #: ../src/modules/calendar/e-cal-shell-view.c:732
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
@@ -4566,9 +4568,9 @@ msgstr "Stik »{0}« v imeniku »{1}« že obstaja. ALi želite raje dodati kopi
 #: ../src/e-util/e-attachment-store.c:837 ../src/e-util/e-attachment-store.c:843
 #: ../src/e-util/e-attachment-view.c:1088 ../src/e-util/e-categories-dialog.c:75
 #: ../src/e-util/e-category-editor.c:162 ../src/e-util/e-category-editor.c:246
-#: ../src/e-util/e-charset-combo-box.c:84 ../src/e-util/e-collection-account-wizard.c:239
-#: ../src/e-util/e-collection-account-wizard.c:1942
-#: ../src/e-util/e-collection-account-wizard.c:2189 ../src/e-util/e-color-chooser-widget.c:118
+#: ../src/e-util/e-charset-combo-box.c:84 ../src/e-util/e-collection-account-wizard.c:238
+#: ../src/e-util/e-collection-account-wizard.c:1952
+#: ../src/e-util/e-collection-account-wizard.c:2199 ../src/e-util/e-color-chooser-widget.c:118
 #: ../src/e-util/e-filter-datespec.c:292 ../src/e-util/e-html-editor-actions.c:493
 #: ../src/e-util/e-html-editor-actions.c:539 ../src/e-util/e-html-editor-actions.c:652
 #: ../src/e-util/e-image-chooser-dialog.c:168 ../src/e-util/e-mail-signature-script-dialog.c:340
@@ -4588,7 +4590,7 @@ msgstr "Stik »{0}« v imeniku »{1}« že obstaja. ALi želite raje dodati kopi
 #: ../src/mail/mail-vfolder-ui.c:272
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:276
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1310
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:411
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:405
 #: ../src/modules/calendar/e-cal-attachment-handler.c:268
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1151
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -4672,7 +4674,7 @@ msgstr "Možnosti"
 msgid "_Save"
 msgstr "_Shrani"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15 ../src/e-util/e-misc-utils.c:3109
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15 ../src/e-util/e-misc-utils.c:3108
 msgid "Image"
 msgstr "Slika"
 
@@ -5446,7 +5448,7 @@ msgstr "Pošlji novo _sporočilo za …"
 msgid "Send a mail message to this address"
 msgstr "Pošlji poštno sporočilo na ta naslov"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:355 ../src/e-util/e-misc-utils.c:4113
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:355 ../src/e-util/e-misc-utils.c:4111
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kliknite za pošiljanje pošte osebi %s"
@@ -5612,7 +5614,7 @@ msgid "Blog"
 msgstr "Blog"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
-#: ../src/e-util/e-mail-signature-editor.c:654
+#: ../src/e-util/e-mail-signature-editor.c:653
 msgid "Unnamed"
 msgstr "Neimenovan"
 
@@ -7094,7 +7096,7 @@ msgstr "Povzetek"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:4 ../src/calendar/gui/e-cal-list-view.etspec.h:4
 #: ../src/calendar/gui/memotypes.xml.in.h:4 ../src/calendar/gui/tasktypes.xml.in.h:4
-#: ../src/e-util/e-attachment-tree-view.c:151 ../src/e-util/e-collection-account-wizard.c:2040
+#: ../src/e-util/e-attachment-tree-view.c:151 ../src/e-util/e-collection-account-wizard.c:2050
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -7373,7 +7375,7 @@ msgid "Completed: %s"
 msgstr "Končano: %s"
 
 #: ../src/calendar/gui/comp-util.c:2416 ../src/calendar/gui/e-to-do-pane.c:641
-#: ../src/e-util/e-misc-utils.c:4196 ../src/e-util/e-text.c:564 ../src/e-util/e-web-view.c:4271
+#: ../src/e-util/e-misc-utils.c:4194 ../src/e-util/e-text.c:564 ../src/e-util/e-web-view.c:4271
 msgid "…"
 msgstr "…"
 
@@ -7993,7 +7995,7 @@ msgstr "Izvorna koda"
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:11 ../src/calendar/gui/e-meeting-list-view.c:638
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4 ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3 ../src/e-util/e-accounts-window.c:1458
-#: ../src/e-util/e-attachment-tree-view.c:209 ../src/e-util/e-collection-account-wizard.c:2081
+#: ../src/e-util/e-attachment-tree-view.c:209 ../src/e-util/e-collection-account-wizard.c:2091
 #: ../src/e-util/e-webdav-browser.c:2560 ../src/mail/e-mail-account-tree-view.c:151
 msgid "Type"
 msgstr "Vrsta"
@@ -8263,9 +8265,9 @@ msgstr[3] "Poteka kopiranje %d nalog"
 #: ../src/calendar/gui/e-comp-editor.c:362 ../src/composer/e-composer-actions.c:189
 #: ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-markdown-utils.c:188
 #: ../src/e-util/e-markdown-utils.c:198 ../src/e-util/e-markdown-utils.c:208
-#: ../src/e-util/e-misc-utils.c:3442 ../src/e-util/e-misc-utils.c:3450
-#: ../src/e-util/e-misc-utils.c:3458 ../src/e-util/e-misc-utils.c:3493
-#: ../src/e-util/e-misc-utils.c:3506 ../src/e-util/e-misc-utils.c:3520
+#: ../src/e-util/e-misc-utils.c:3441 ../src/e-util/e-misc-utils.c:3449
+#: ../src/e-util/e-misc-utils.c:3457 ../src/e-util/e-misc-utils.c:3492
+#: ../src/e-util/e-misc-utils.c:3505 ../src/e-util/e-misc-utils.c:3519
 #: ../src/e-util/e-ui-customize-dialog.c:3522 ../src/mail/e-mail-autoconfig.c:1096
 #: ../src/mail/e-mail-display.c:3142 ../src/mail/e-mail-notes.c:930
 #: ../src/mail/e-mail-reader.c:3940 ../src/mail/e-mail-reader-utils.c:815
@@ -9321,7 +9323,7 @@ msgstr "Poteka shranjevanje sprememb …"
 #. == Button box ==
 #: ../src/calendar/gui/e-comp-editor.c:2232 ../src/composer/e-composer-actions.c:378
 #: ../src/e-util/e-accounts-window.c:1793 ../src/e-util/e-html-editor-dialog.c:181
-#: ../src/e-util/e-mail-signature-editor.c:528 ../src/e-util/e-name-selector-dialog.c:532
+#: ../src/e-util/e-mail-signature-editor.c:527 ../src/e-util/e-name-selector-dialog.c:532
 #: ../src/e-util/e-preferences-window.c:323 ../src/e-util/e-table-field-chooser-dialog.c:197
 #: ../src/e-util/e-ui-customize-dialog.c:2496 ../src/mail/e-mail-browser.c:576
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:755 ../src/mail/e-mail-notes.c:1149
@@ -9432,7 +9434,7 @@ msgstr "_Razvrstitev"
 #. ** Menus **
 #. menus
 #: ../src/calendar/gui/e-comp-editor.c:2339 ../src/e-util/e-html-editor-actions.c:1329
-#: ../src/e-util/e-mail-signature-editor.c:540 ../src/mail/e-mail-browser.c:618
+#: ../src/e-util/e-mail-signature-editor.c:539 ../src/mail/e-mail-browser.c:618
 #: ../src/mail/e-mail-notes.c:1161 ../src/mail/e-mail-viewer.c:1929
 #: ../src/shell/e-shell-window-actions.c:752
 msgid "_File"
@@ -9443,7 +9445,7 @@ msgid "_Insert"
 msgstr "_Vstavi"
 
 #: ../src/calendar/gui/e-comp-editor.c:2360 ../src/composer/e-composer-actions.c:422
-#: ../src/e-util/e-mail-signature-editor.c:541 ../src/e-util/e-ui-customizer.c:440
+#: ../src/e-util/e-mail-signature-editor.c:540 ../src/e-util/e-ui-customizer.c:440
 #: ../src/mail/e-mail-browser.c:621 ../src/mail/e-mail-notes.c:1162
 #: ../src/mail/e-mail-viewer.c:1936 ../src/shell/e-shell-view.c:1164
 msgid "Menu"
@@ -9464,7 +9466,7 @@ msgstr "Po_gled"
 msgid "Save current changes"
 msgstr "Shrani trenutne spremembe"
 
-#: ../src/calendar/gui/e-comp-editor.c:2391 ../src/e-util/e-mail-signature-editor.c:537
+#: ../src/calendar/gui/e-comp-editor.c:2391 ../src/e-util/e-mail-signature-editor.c:536
 #: ../src/mail/e-mail-notes.c:1158
 msgid "Save and Close"
 msgstr "Shrani in zapri"
@@ -9649,7 +9651,7 @@ msgstr ""
 msgid "Failure reason: %s"
 msgstr "Vzrok napake: %s"
 
-#: ../src/calendar/gui/e-meeting-store.c:2020 ../src/e-util/e-collection-account-wizard.c:505
+#: ../src/calendar/gui/e-meeting-store.c:2020 ../src/e-util/e-collection-account-wizard.c:504
 #: ../src/plugins/publish-calendar/publish-calendar.c:339 ../src/smime/gui/component.c:61
 msgid "Enter password"
 msgstr "Vnesite geslo"
@@ -12245,7 +12247,7 @@ msgstr "Preklopi prikaz polja Odgovori na"
 msgid "Visually _Wrap Long Lines"
 msgstr "_Prelomi dolge vrstice"
 
-#: ../src/composer/e-composer-from-header.c:108 ../src/e-util/e-collection-account-wizard.c:2113
+#: ../src/composer/e-composer-from-header.c:108 ../src/e-util/e-collection-account-wizard.c:2123
 #: ../src/e-util/e-html-editor-link-popover.c:260
 #: ../src/e-util/e-mail-signature-script-dialog.c:382 ../src/e-util/e-webdav-browser.c:2588
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -12349,16 +12351,16 @@ msgstr "Pridobivanje vsebine, obdelane v HTML-ju, ni uspelo"
 msgid "Compose Message"
 msgstr "Sestavi sporočilo"
 
-#: ../src/composer/e-msg-composer.c:5025
+#: ../src/composer/e-msg-composer.c:5028
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:366
 msgid "Reading text content…"
 msgstr "Poteka branje vsebine …"
 
-#: ../src/composer/e-msg-composer.c:5091
+#: ../src/composer/e-msg-composer.c:5094
 msgid "Send _without encryption"
 msgstr "Pošlji brez _šifriranja"
 
-#: ../src/composer/e-msg-composer.c:5879
+#: ../src/composer/e-msg-composer.c:5882
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Odstrani priloge pred pošiljanjem."
@@ -12366,7 +12368,7 @@ msgstr[1] "Odstrani prilogo pred pošiljanjem."
 msgstr[2] "Odstrani prilogi pred pošiljanjem."
 msgstr[3] "Odstrani priloge pred pošiljanjem."
 
-#: ../src/composer/e-msg-composer.c:5884
+#: ../src/composer/e-msg-composer.c:5887
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not contain any "
@@ -12387,7 +12389,7 @@ msgstr[3] ""
 "Dodane so bile %d priloge. Preden sporočilo pošljete, se prepričajte, da niso vključeni nobeni "
 "občutljivi podatki."
 
-#: ../src/composer/e-msg-composer.c:6010
+#: ../src/composer/e-msg-composer.c:6013
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Sestavljalnik vsebuje ne-besedilno telo sporočila, ki ga ni mogoče urejati."
 
@@ -12523,7 +12525,7 @@ msgstr "Javljena napaka je »{0}«."
 msgid "_Save to Outbox"
 msgstr "_Shrani v mapo odhodne pošte"
 
-#: ../src/composer/mail-composer.error.xml.h:34 ../src/e-util/e-collection-account-wizard.c:726
+#: ../src/composer/mail-composer.error.xml.h:34 ../src/e-util/e-collection-account-wizard.c:728
 msgid "_Try Again"
 msgstr "_Poskusi znova"
 
@@ -13713,7 +13715,7 @@ msgstr "Vnesite nabor znakov, ki naj se uporablja"
 msgid "Other…"
 msgstr "Drugi …"
 
-#: ../src/e-util/e-client-cache.c:1134 ../src/e-util/e-client-cache.c:1265
+#: ../src/e-util/e-client-cache.c:1124 ../src/e-util/e-client-cache.c:1251
 #, c-format
 msgid "Cannot create a client object from extension name “%s”"
 msgstr "Iz imena »%s« ni mogoče ustvariti predmeta odjemalca"
@@ -13738,46 +13740,46 @@ msgctxt "Status"
 msgid "Failed to connect"
 msgstr "Povezovanje je spodletelo"
 
-#: ../src/e-util/e-collection-account-wizard.c:106
+#: ../src/e-util/e-collection-account-wizard.c:105
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:82
 msgid "_Finish"
 msgstr "_Končaj"
 
-#: ../src/e-util/e-collection-account-wizard.c:109
+#: ../src/e-util/e-collection-account-wizard.c:108
 msgid "_Look Up"
 msgstr "_Poišči:"
 
-#: ../src/e-util/e-collection-account-wizard.c:111
-#: ../src/e-util/e-collection-account-wizard.c:279 ../src/e-util/e-search-bar.c:672
+#: ../src/e-util/e-collection-account-wizard.c:110
+#: ../src/e-util/e-collection-account-wizard.c:278 ../src/e-util/e-search-bar.c:672
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:84
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:243
 msgid "_Next"
 msgstr "_Naprej"
 
-#: ../src/e-util/e-collection-account-wizard.c:183
+#: ../src/e-util/e-collection-account-wizard.c:182
 msgid "New Collection Account"
 msgstr "Nov zbirni račun"
 
-#: ../src/e-util/e-collection-account-wizard.c:259 ../src/e-util/e-search-bar.c:660
+#: ../src/e-util/e-collection-account-wizard.c:258 ../src/e-util/e-search-bar.c:660
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:77
 msgid "_Previous"
 msgstr "_Predhodni"
 
-#: ../src/e-util/e-collection-account-wizard.c:451
+#: ../src/e-util/e-collection-account-wizard.c:450
 msgid "Looking up details, please wait…"
 msgstr "Poteka iskanje podrobnosti …"
 
 #. Translators: The %s is replaced with a clickable text "Enter password", thus it'll be "Requires password to continue. Enter password." at the end.
-#: ../src/e-util/e-collection-account-wizard.c:515
+#: ../src/e-util/e-collection-account-wizard.c:514
 #, c-format
 msgid "Requires password to continue. %s."
 msgstr "Pred nadaljevanjem je treba vpisati geslo. %s"
 
-#: ../src/e-util/e-collection-account-wizard.c:529
+#: ../src/e-util/e-collection-account-wizard.c:528
 msgid "View certificate"
 msgstr "Poglej potrdilo"
 
-#: ../src/e-util/e-collection-account-wizard.c:570
+#: ../src/e-util/e-collection-account-wizard.c:572
 msgid ""
 "Found no candidates. It can also mean that the server doesn’t provide any information about "
 "its configuration using the selected lookup methods. Enter the account manually instead or "
@@ -13787,7 +13789,7 @@ msgstr ""
 "prek izbranih načinov poizvedbe. Račun je lahko vpisan tudi ročno ali pa je treba prilagoditi "
 "nastavitve."
 
-#: ../src/e-util/e-collection-account-wizard.c:572
+#: ../src/e-util/e-collection-account-wizard.c:574
 #, c-format
 msgid "Found one candidate"
 msgid_plural "Found %d candidates"
@@ -13796,9 +13798,9 @@ msgstr[1] "Najden je %d kandidat."
 msgstr[2] "Najdena sta %d kandidata."
 msgstr[3] "Najdeni so %d kandidati."
 
-#: ../src/e-util/e-collection-account-wizard.c:671
+#: ../src/e-util/e-collection-account-wizard.c:673
 #: ../src/modules/book-config-google/evolution-book-config-google.c:102
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1041
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1033
 #: ../src/modules/cal-config-google/e-cal-config-google.c:185
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:117
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:445
@@ -13810,84 +13812,84 @@ msgstr ""
 "Uporabniško ime vključuje črke, ki lahko onemogočijo prijavo. Prepričajte se, da strežnik "
 "podpira tovrstni kodni nabor."
 
-#: ../src/e-util/e-collection-account-wizard.c:692
+#: ../src/e-util/e-collection-account-wizard.c:694
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:29
 msgid "_Username:"
 msgstr "_Uporabniško ime:"
 
-#: ../src/e-util/e-collection-account-wizard.c:707
+#: ../src/e-util/e-collection-account-wizard.c:709
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
 #: ../src/smime/gui/certificate-manager.c:753
 msgid "_Password:"
 msgstr "_Geslo:"
 
-#: ../src/e-util/e-collection-account-wizard.c:720
+#: ../src/e-util/e-collection-account-wizard.c:722
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:31
 msgid "_Remember password"
 msgstr "Za_pomni si geslo"
 
-#: ../src/e-util/e-collection-account-wizard.c:867 ../src/e-util/e-webdav-browser.c:554
+#: ../src/e-util/e-collection-account-wizard.c:869 ../src/e-util/e-webdav-browser.c:554
 msgid "Collection"
 msgstr "Zbirka"
 
-#: ../src/e-util/e-collection-account-wizard.c:868
+#: ../src/e-util/e-collection-account-wizard.c:870
 msgid "Mail Receive"
 msgstr "Prejemanje pošte"
 
-#: ../src/e-util/e-collection-account-wizard.c:869
+#: ../src/e-util/e-collection-account-wizard.c:871
 msgid "Mail Send"
 msgstr "Pošiljanje pošte"
 
-#: ../src/e-util/e-collection-account-wizard.c:870 ../src/e-util/e-name-selector-dialog.c:431
+#: ../src/e-util/e-collection-account-wizard.c:872 ../src/e-util/e-name-selector-dialog.c:431
 #: ../src/mail/importers/pine-importer.c:430
 msgid "Address Book"
 msgstr "Imenik"
 
-#: ../src/e-util/e-collection-account-wizard.c:872
+#: ../src/e-util/e-collection-account-wizard.c:874
 msgid "Memo List"
 msgstr "Seznam opomnikov"
 
-#: ../src/e-util/e-collection-account-wizard.c:873
+#: ../src/e-util/e-collection-account-wizard.c:875
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:71
 msgid "Task List"
 msgstr "Seznam nalog"
 
-#: ../src/e-util/e-collection-account-wizard.c:1217
+#: ../src/e-util/e-collection-account-wizard.c:1220
 msgid "Looking up LDAP server’s search base…"
 msgstr "Poteka pregledovanje iskalne zbirke strežnika LDAP …"
 
-#: ../src/e-util/e-collection-account-wizard.c:1370
+#: ../src/e-util/e-collection-account-wizard.c:1374
 msgid "Failed to store password: "
 msgstr "Shranjevanje gesla je spodletelo: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1380
+#: ../src/e-util/e-collection-account-wizard.c:1385
 msgid "Failed to create sources: "
 msgstr "Ustvarjanje virov je spodletelo: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1550
+#: ../src/e-util/e-collection-account-wizard.c:1560
 msgid "Saving account settings, please wait…"
 msgstr "Poteka shranjevanje nastavitev računa. Počakajte …"
 
-#: ../src/e-util/e-collection-account-wizard.c:1713
+#: ../src/e-util/e-collection-account-wizard.c:1723
 msgid "User details"
 msgstr "Podrobnosti uporabnika"
 
-#: ../src/e-util/e-collection-account-wizard.c:1726
+#: ../src/e-util/e-collection-account-wizard.c:1736
 msgid "_Email Address or User name:"
 msgstr "_Elektronski naslov ali uporabniško ime:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1754
+#: ../src/e-util/e-collection-account-wizard.c:1764
 msgid "_Advanced Options"
 msgstr "_Napredne možnosti"
 
-#: ../src/e-util/e-collection-account-wizard.c:1759
+#: ../src/e-util/e-collection-account-wizard.c:1769
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:166
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Strežnik:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1778
+#: ../src/e-util/e-collection-account-wizard.c:1788
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in addition to the "
 "domain of the e-mail address."
@@ -13895,11 +13897,11 @@ msgstr ""
 "S podpičjem » ; « ločen seznam strežnikov, kjer naj program išče informacije ob običajnem "
 "določilu domene, podane v naslovu elektronske pošte."
 
-#: ../src/e-util/e-collection-account-wizard.c:1980
+#: ../src/e-util/e-collection-account-wizard.c:1990
 msgid "Select which parts should be configured:"
 msgstr "Izbor delov za nastavitev:"
 
-#: ../src/e-util/e-collection-account-wizard.c:2104 ../src/mail/e-mail-config-identity-page.c:531
+#: ../src/e-util/e-collection-account-wizard.c:2114 ../src/mail/e-mail-config-identity-page.c:531
 #: ../src/mail/e-mail-config-summary-page.c:303
 msgid "Account Information"
 msgstr "Podrobnosti računa"
@@ -13908,13 +13910,13 @@ msgstr "Podrobnosti računa"
 msgid "Choose custom color"
 msgstr "Izbor barve po meri"
 
-#: ../src/e-util/e-color-combo.c:454 ../src/e-util/e-html-editor.c:126
+#: ../src/e-util/e-color-combo.c:454 ../src/e-util/e-html-editor.c:125
 #: ../src/mail/e-mail-account-tree-view.c:128 ../src/mail/e-mail-config-security-page.c:538
 #: ../src/mail/e-mail-config-security-page.c:788 ../src/mail/mail-config.ui.h:85
 msgid "Default"
 msgstr "Privzeto"
 
-#: ../src/e-util/e-config-lookup.c:817
+#: ../src/e-util/e-config-lookup.c:814
 msgid "Running…"
 msgstr "Poteka zaganjanje …"
 
@@ -14371,7 +14373,7 @@ msgstr "Iskanje predmetov, ki ustrezajo navedenim pogojem"
 #: ../src/e-util/e-mail-identity-combo-box.c:814 ../src/e-util/e-mail-signature-combo-box.c:435
 #: ../src/libemail-engine/camel-null-store.c:29 ../src/mail/e-mail-autoconfig.c:834
 #: ../src/mail/e-mail-config-summary-page.c:134
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:673
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:665
 msgid "None"
 msgstr "Ne združuj"
 
@@ -14547,33 +14549,33 @@ msgid "All spell check languages"
 msgstr "Vsi jeziki za preverjanje črkovanja"
 
 #: ../src/e-util/e-html-editor-actions.c:1394 ../src/e-util/e-html-editor-actions.c:1396
-#: ../src/e-util/e-html-editor-actions.c:2651 ../src/e-util/e-html-editor.c:1137
-#: ../src/e-util/e-html-editor.c:2233
+#: ../src/e-util/e-html-editor-actions.c:2651 ../src/e-util/e-html-editor.c:1136
+#: ../src/e-util/e-html-editor.c:2236
 msgid "Editing Mode"
 msgstr "Način urejanja"
 
 #: ../src/e-util/e-html-editor-actions.c:1401 ../src/e-util/e-html-editor-actions.c:1403
-#: ../src/e-util/e-html-editor.c:1141
+#: ../src/e-util/e-html-editor.c:1140
 msgid "Paragraph Style"
 msgstr "Slog odstavka"
 
 #: ../src/e-util/e-html-editor-actions.c:1408 ../src/e-util/e-html-editor-actions.c:1410
-#: ../src/e-util/e-html-editor.c:1149
+#: ../src/e-util/e-html-editor.c:1148
 msgid "Font Name"
 msgstr "Ime pisave"
 
 #: ../src/e-util/e-html-editor-actions.c:1415 ../src/e-util/e-html-editor-actions.c:1417
-#: ../src/e-util/e-html-editor.c:1157
+#: ../src/e-util/e-html-editor.c:1156
 msgid "Font Size"
 msgstr "Velikost pisave"
 
 #: ../src/e-util/e-html-editor-actions.c:1422 ../src/e-util/e-html-editor-actions.c:1424
-#: ../src/e-util/e-html-editor.c:1160
+#: ../src/e-util/e-html-editor.c:1159
 msgid "Font Color"
 msgstr "Barva pisava"
 
 #: ../src/e-util/e-html-editor-actions.c:1429 ../src/e-util/e-html-editor-actions.c:1431
-#: ../src/e-util/e-html-editor.c:1172
+#: ../src/e-util/e-html-editor.c:1171
 msgid "Background Color"
 msgstr "Barva ozadja"
 
@@ -14590,7 +14592,7 @@ msgid "E_moji"
 msgstr "_Izrazne ikone"
 
 #: ../src/e-util/e-html-editor-actions.c:1448 ../src/e-util/e-html-editor-actions.c:1462
-#: ../src/e-util/e-markdown-editor.c:1958
+#: ../src/e-util/e-markdown-editor.c:1946
 msgid "Insert Emoji"
 msgstr "Vstavi izrazno ikono"
 
@@ -15059,23 +15061,23 @@ msgstr "Več predlogov"
 msgid "%s Dictionary"
 msgstr "Slovar %s"
 
-#: ../src/e-util/e-html-editor.c:1335
+#: ../src/e-util/e-html-editor.c:1334
 msgid "Context Menu"
 msgstr "Kontekstni meni"
 
-#: ../src/e-util/e-html-editor.c:1343 ../src/mail/e-mail-browser.c:801
+#: ../src/e-util/e-html-editor.c:1342 ../src/mail/e-mail-browser.c:801
 msgid "Main Toolbar"
 msgstr "Glavna orodna vrstica"
 
-#: ../src/e-util/e-html-editor.c:1355
+#: ../src/e-util/e-html-editor.c:1354
 msgid "Edit Toolbar"
 msgstr "Orodna vrstica urejanja"
 
-#: ../src/e-util/e-html-editor.c:1364
+#: ../src/e-util/e-html-editor.c:1363
 msgid "HTML Toolbar"
 msgstr "Orodna vrstica HTML"
 
-#: ../src/e-util/e-html-editor.c:2518
+#: ../src/e-util/e-html-editor.c:2522
 msgid "Failed to obtain content of editor"
 msgstr "Pridobivanje vsebine urejevalnika je spodletelo"
 
@@ -15657,19 +15659,19 @@ msgstr "dni"
 msgid "Autogenerated"
 msgstr "Samodejno ustvarjeno"
 
-#: ../src/e-util/e-mail-signature-editor.c:530 ../src/mail/e-mail-notes.c:1151
+#: ../src/e-util/e-mail-signature-editor.c:529 ../src/mail/e-mail-notes.c:1151
 msgid "Close"
 msgstr "Zapri"
 
-#: ../src/e-util/e-mail-signature-editor.c:535 ../src/mail/e-mail-notes.c:1156
+#: ../src/e-util/e-mail-signature-editor.c:534 ../src/mail/e-mail-notes.c:1156
 msgid "_Save and Close"
 msgstr "_Shrani in zapri"
 
-#: ../src/e-util/e-mail-signature-editor.c:602 ../src/e-util/e-mail-signature-editor.c:606
+#: ../src/e-util/e-mail-signature-editor.c:601 ../src/e-util/e-mail-signature-editor.c:605
 msgid "Edit Signature"
 msgstr "Uredi podpis"
 
-#: ../src/e-util/e-mail-signature-editor.c:628
+#: ../src/e-util/e-mail-signature-editor.c:627
 msgid "_Signature Name:"
 msgstr "_Ime podpisa:"
 
@@ -15720,12 +15722,12 @@ msgstr ""
 "lahko časovni pas izberejo iz spodnjega spustnega polja."
 
 #: ../src/e-util/e-markdown-editor.c:1855 ../src/e-util/e-markdown-editor.c:1869
-#: ../src/e-util/e-markdown-editor.c:2450
+#: ../src/e-util/e-markdown-editor.c:2438
 msgid "_Write"
 msgstr "_Zapiši"
 
 #. ** Menus **
-#: ../src/e-util/e-markdown-editor.c:1871 ../src/e-util/e-markdown-editor.c:2492
+#: ../src/e-util/e-markdown-editor.c:1871 ../src/e-util/e-markdown-editor.c:2480
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1487
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1711
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:705
@@ -15734,43 +15736,43 @@ msgstr "_Zapiši"
 msgid "_Preview"
 msgstr "_Predogled"
 
-#: ../src/e-util/e-markdown-editor.c:1950
+#: ../src/e-util/e-markdown-editor.c:1938
 msgid "Add bold text"
 msgstr "Dodaj krepko besedilo"
 
-#: ../src/e-util/e-markdown-editor.c:1951
+#: ../src/e-util/e-markdown-editor.c:1939
 msgid "Add italic text"
 msgstr "Dodaj ležeče besedilo"
 
-#: ../src/e-util/e-markdown-editor.c:1952
+#: ../src/e-util/e-markdown-editor.c:1940
 msgid "Insert a quote"
 msgstr "Vstavi navedek"
 
-#: ../src/e-util/e-markdown-editor.c:1953
+#: ../src/e-util/e-markdown-editor.c:1941
 msgid "Insert code"
 msgstr "Vstavi kodo"
 
-#: ../src/e-util/e-markdown-editor.c:1954
+#: ../src/e-util/e-markdown-editor.c:1942
 msgid "Add a link"
 msgstr "Dodaj povezavo"
 
-#: ../src/e-util/e-markdown-editor.c:1955
+#: ../src/e-util/e-markdown-editor.c:1943
 msgid "Add a bullet list"
 msgstr "Dodaj vrstični seznam"
 
-#: ../src/e-util/e-markdown-editor.c:1956
+#: ../src/e-util/e-markdown-editor.c:1944
 msgid "Add a numbered list"
 msgstr "Dodaj številčni seznam"
 
-#: ../src/e-util/e-markdown-editor.c:1957
+#: ../src/e-util/e-markdown-editor.c:1945
 msgid "Add a header"
 msgstr "Dodaj glavo"
 
-#: ../src/e-util/e-markdown-editor.c:1960
+#: ../src/e-util/e-markdown-editor.c:1948
 msgid "Open online common mark documentation"
 msgstr "Odpri spletno dokumentacijo"
 
-#: ../src/e-util/e-markdown-editor.c:1962
+#: ../src/e-util/e-markdown-editor.c:1950
 msgid "Show preview beside text"
 msgstr "Pokaži predogled ob besedilu"
 
@@ -15794,39 +15796,39 @@ msgstr "Zaganjanje ukaza »%s« iz ukazne vrstice je spodletelo: %s"
 msgid "Failed to parse command line “%s”: %s"
 msgstr "Razčlenjevanje ukazne vrstice »%s« je spodletelo: %s"
 
-#: ../src/e-util/e-misc-utils.c:253
+#: ../src/e-util/e-misc-utils.c:252
 msgid "Could not open the link."
 msgstr "Ni mogoče odpreti povezave."
 
-#: ../src/e-util/e-misc-utils.c:371
+#: ../src/e-util/e-misc-utils.c:370
 msgid "Could not display help for Evolution."
 msgstr "Ni mogoče prikazati pomoči."
 
-#: ../src/e-util/e-misc-utils.c:2180
+#: ../src/e-util/e-misc-utils.c:2179
 #, c-format
 msgid "Opening calendar “%s”"
 msgstr "Poteka odpiranje koledarja »%s«"
 
-#: ../src/e-util/e-misc-utils.c:2183
+#: ../src/e-util/e-misc-utils.c:2182
 #, c-format
 msgid "Opening memo list “%s”"
 msgstr "Poteka odpiranje seznama opomnikov »%s«"
 
-#: ../src/e-util/e-misc-utils.c:2186
+#: ../src/e-util/e-misc-utils.c:2185
 #, c-format
 msgid "Opening task list “%s”"
 msgstr "Poteka odpiranje seznama nalog »%s«"
 
-#: ../src/e-util/e-misc-utils.c:2189
+#: ../src/e-util/e-misc-utils.c:2188
 #, c-format
 msgid "Opening address book “%s”"
 msgstr "Poteka odpiranje imenika »%s«"
 
-#: ../src/e-util/e-misc-utils.c:2946 ../src/modules/mailto-handler/evolution-mailto-handler.c:146
+#: ../src/e-util/e-misc-utils.c:2945 ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_Ne pokaži več tega sporočila"
 
-#: ../src/e-util/e-misc-utils.c:3429
+#: ../src/e-util/e-misc-utils.c:3428
 msgid ""
 "This address book server might be unreachable or the server name may be misspelled or your "
 "network connection could be down."
@@ -15834,27 +15836,27 @@ msgstr ""
 "Strežnik imenika morda ni dosegljiv, morda je ime strežnika napačno črkovano ali pa je "
 "povezava z omrežjem prekinjena."
 
-#: ../src/e-util/e-misc-utils.c:3441
+#: ../src/e-util/e-misc-utils.c:3440
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Nastavljanje različice protokola na LDAPv3 je spodletelo (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3449 ../src/e-util/e-misc-utils.c:3457
+#: ../src/e-util/e-misc-utils.c:3448 ../src/e-util/e-misc-utils.c:3456
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "Nastavljanje možnosti preteka časa je spodletelo (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3492
+#: ../src/e-util/e-misc-utils.c:3491
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Uporaba STARTTLS (%d) je spodletelo: %s"
 
-#: ../src/e-util/e-misc-utils.c:3505
+#: ../src/e-util/e-misc-utils.c:3504
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Overitev na strežniku LDAP (%d) je spodletela: %s"
 
-#: ../src/e-util/e-misc-utils.c:3519
+#: ../src/e-util/e-misc-utils.c:3518
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support this functionality "
@@ -15867,7 +15869,7 @@ msgstr ""
 "\n"
 "Napaka (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3530
+#: ../src/e-util/e-misc-utils.c:3529
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support this functionality "
 "or it may be misconfigured. Ask your administrator for supported search bases."
@@ -15875,12 +15877,12 @@ msgstr ""
 "Strežnik LDAP morda uporablja starejšo različico LDAP, ki ne podpira te zmožnosti ali pa je "
 "napačno nastavljen. Za podprto iskalno zbirko se obrnite na sistemskega skrbnika."
 
-#: ../src/e-util/e-misc-utils.c:3563
+#: ../src/e-util/e-misc-utils.c:3562
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Program ni kodno pretvorjen s podporo za LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:3888
+#: ../src/e-util/e-misc-utils.c:3887
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -15888,31 +15890,31 @@ msgstr "Neznan nabor (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:3897
+#: ../src/e-util/e-misc-utils.c:3896
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4118
+#: ../src/e-util/e-misc-utils.c:4116
 #, c-format
 msgid "Click to call %s"
 msgstr "Kliknite za klicanje %s"
 
-#: ../src/e-util/e-misc-utils.c:4120
+#: ../src/e-util/e-misc-utils.c:4118
 msgid "Click to hide/unhide addresses"
 msgstr "Kliknite za skritje/prikaz naslovov"
 
-#: ../src/e-util/e-misc-utils.c:4133
+#: ../src/e-util/e-misc-utils.c:4131
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Skoči na %s del sporočila"
 
-#: ../src/e-util/e-misc-utils.c:4135
+#: ../src/e-util/e-misc-utils.c:4133
 msgid "Go to the beginning of the message"
 msgstr "Skoči na začetek del sporočila"
 
-#: ../src/e-util/e-misc-utils.c:4141
+#: ../src/e-util/e-misc-utils.c:4139
 #, c-format
 msgid "Click to open %s"
 msgstr "Kliknite za odpiranje %s"
@@ -18148,12 +18150,12 @@ msgid "Server Type:"
 msgstr "Vrsta strežnika:"
 
 #: ../src/mail/e-mail-config-summary-page.c:432
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:650
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:642
 msgid "Server:"
 msgstr "Strežnik:"
 
 #: ../src/mail/e-mail-config-summary-page.c:453
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:762
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:754
 msgid "Username:"
 msgstr "Uporabniško ime:"
 
@@ -19841,31 +19843,31 @@ msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1904
+#: ../src/mail/em-folder-tree.c:1920
 msgid "Mail Folder Tree"
 msgstr "Drevesna razporeditev poštnih map"
 
-#: ../src/mail/em-folder-tree.c:2454
+#: ../src/mail/em-folder-tree.c:2470
 #, c-format
 msgid "Moving folder %s"
 msgstr "Premikanje mape %s"
 
-#: ../src/mail/em-folder-tree.c:2457
+#: ../src/mail/em-folder-tree.c:2473
 #, c-format
 msgid "Copying folder %s"
 msgstr "Kopiranje mape %s"
 
-#: ../src/mail/em-folder-tree.c:2464 ../src/mail/message-list.c:2658
+#: ../src/mail/em-folder-tree.c:2480 ../src/mail/message-list.c:2658
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Premikanje sporočil v mapo %s"
 
-#: ../src/mail/em-folder-tree.c:2468 ../src/mail/message-list.c:2660
+#: ../src/mail/em-folder-tree.c:2484 ../src/mail/message-list.c:2660
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopiranje sporočil v mapo %s"
 
-#: ../src/mail/em-folder-tree.c:2487
+#: ../src/mail/em-folder-tree.c:2503
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Sporočil(a) ni mogoče spustiti v vrhnjo shrambo"
@@ -23294,7 +23296,7 @@ msgid "Address Book:"
 msgstr "Imenik:"
 
 #: ../src/modules/book-config-google/evolution-book-config-google.c:103
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1042
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1034
 #: ../src/modules/cal-config-google/e-cal-config-google.c:186
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:118
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:446
@@ -23302,123 +23304,123 @@ msgstr "Imenik:"
 msgid "User name cannot be empty"
 msgstr "Uporabniško ime ne sme biti prazno"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:420
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:414
 msgid "Looking up server search bases, please wait…"
 msgstr "Poteka preiskovanje iskalniške zbirke strežnika. Počakajte …"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:496
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:488
 msgid "Standard LDAP Port"
 msgstr "Standardna vrata LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:502
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:676
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:494
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:668
 msgid "LDAP over SSL/TLS (deprecated)"
 msgstr "LDAP prek SSL (opuščeno)"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:508
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:500
 msgid "Microsoft Global Catalog"
 msgstr "Katalog Microsoft Global"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:514
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:506
 msgid "Microsoft Global Catalog over SSL/TLS"
 msgstr "Katalog Microsoft Global prek SSL/TLS"
 
 #. Page 1
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:618
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:610
 msgid "Connecting to LDAP"
 msgstr "Povezovanje z LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:635
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:627
 msgid "Server Information"
 msgstr "Podrobnosti o strežniku"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:656
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:648
 msgid "Port:"
 msgstr "Vrata:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:664
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:656
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:247
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:195
 msgid "Port number is not valid"
 msgstr "Številka vrata ni veljavna"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:679
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:671
 msgid "StartTLS (recommended)"
 msgstr "StartTLS (priporočeno)"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:681
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:673
 msgid "Encryption:"
 msgstr "Šifriranje:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:705
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:697
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:324
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:260
 msgid "Authentication"
 msgstr "Overitev"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:731
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:723
 msgid "Anonymous"
 msgstr "Brezimno"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:732
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:724
 msgid "Username can be left empty"
 msgstr "Uporabniško ime je lahko izpuščeno"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:738
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:730
 msgid "Using email address"
 msgstr "Z uporabo elektronskega naslova"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:739
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:731
 msgid "requires anonymous access to your LDAP server"
 msgstr "zahteva brezimni dostop do strežnika LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:745
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:737
 msgid "Using distinguished name (DN)"
 msgstr "Z uporabo razločnega imena (DN)"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:746
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:738
 msgid "for example: uid=user,dc=example,dc=com"
 msgstr "na primer: uid=user,dc=example,dc=com"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:754
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:746
 msgid "Method:"
 msgstr "Način:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:758
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:750
 msgid "This is the method Evolution will use to authenticate you."
 msgstr "Način, s katerim program overi istovetnost."
 
 #. Page 2
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:770
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:762
 msgid "Using LDAP"
 msgstr "Uporaba LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:787
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:779
 #: ../src/modules/mail/e-mail-shell-view.c:119 ../src/modules/mail/e-mail-shell-view.c:209
 msgid "Searching"
 msgstr "Iskanje"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:803
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:795
 msgid "Search Base:"
 msgstr "Osnova iskanja:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:807
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:799
 msgid "Find Possible Search Bases"
 msgstr "Najdi mogoče iskalne zbirke"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:829
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:821
 msgid "One Level"
 msgstr "Ena raven"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:831
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:823
 msgid "Subtree"
 msgstr "Poddrevo"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:833
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:825
 msgid "Search Scope:"
 msgstr "Obseg iskanja:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:838
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:830
 msgid ""
 "The search scope defines how deep you would like the search to extend down the directory "
 "tree.  A search scope of “Subtree” will include all entries below your search base.  A search "
@@ -23428,27 +23430,27 @@ msgstr ""
 "»podmapah« vključi vsa sporočila, ki so znotraj iskalne osnove, med tem ko obseg »Ene ravni« "
 "poišče le vnose, ki so eno raven pod iskalno osnovo."
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:847
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:839
 msgid "Search Filter:"
 msgstr "Filter iskanja:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:859
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:851
 msgid "Downloading"
 msgstr "Prejemanje"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:874
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:866
 msgid "Limit:"
 msgstr "Omejitev:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:885
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:877
 msgid "contacts"
 msgstr "stiki"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:890
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:882
 msgid "Browse until limit is reached"
 msgstr "Brskajte dokler ne dosežete omejitve"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1025
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1017
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:425
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:454
 msgid "Server address cannot be empty"
@@ -27307,11 +27309,11 @@ msgstr "_Oblikuj kot …"
 msgid "_Other languages"
 msgstr "_Drugi jeziki"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:503
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:516
 msgid "Text Highlight"
 msgstr "Poudarjanje besedila"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:504
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:517
 msgid "Syntax highlighting of mail parts"
 msgstr "Poudari skladnjo delov sporočila"
 
