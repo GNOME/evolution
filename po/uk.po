@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-07-16 16:25+0000\n"
-"PO-Revision-Date: 2025-07-17 09:30+0300\n"
+"POT-Creation-Date: 2025-07-29 10:30+0000\n"
+"PO-Revision-Date: 2025-07-30 21:42+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -642,7 +642,8 @@ msgid "Marcus Bains Line Color — Time bar"
 msgstr "Колір лінії Маркуса Байнса – поле часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
-msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
+msgid ""
+"Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
 "Колір для лінії Маркуса Байнса у розкладі (для типового значення залиште "
 "порожнім)"
@@ -958,7 +959,8 @@ msgid "Twenty four hour time format"
 msgstr "24-годинний формат часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
-msgid "Whether to show times in twenty four hour format instead of using am/pm"
+msgid ""
+"Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Чи показувати час у 24-ох годинному форматі замість am/pm"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
@@ -1059,7 +1061,8 @@ msgstr "Показувати попередній перегляд у перег
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
 msgid "If “true”, show the preview pane in the Year View"
-msgstr "Якщо зазначено, показує панель попереднього перегляду у перегляді року"
+msgstr ""
+"Якщо зазначено, показує панель попереднього перегляду у перегляді року"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
 msgid "Year view horizontal pane position"
@@ -1227,9 +1230,9 @@ msgstr "Попередня версія Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:2
 msgid ""
-"The most recently used version of Evolution, expressed as “major.minor."
-"micro”. This is used for data and settings migration from older to newer "
-"versions."
+"The most recently used version of Evolution, expressed as "
+"“major.minor.micro”. This is used for data and settings migration from older "
+"to newer versions."
 msgstr ""
 "Остання використана версія Evolution у форматі «основна.другорядна.мала». Це "
 "значення потрібне для перенесення даних і параметрів зі старішої до новішої "
@@ -1535,7 +1538,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 msgid "Show “Mail-Followup-To” field when sending a mail message"
-msgstr "Показувати поле «Адреса переспрямовування» при надсиланні повідомлення"
+msgstr ""
+"Показувати поле «Адреса переспрямовування» при надсиланні повідомлення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
 msgid ""
@@ -2158,7 +2162,8 @@ msgstr "Показувати спам (з червоною перекресле�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Hides the per-folder preview and removes the selection"
-msgstr "Сховати попередній перегляд для кожного каталогу та вилучити виділення"
+msgstr ""
+"Сховати попередній перегляд для кожного каталогу та вилучити виділення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid ""
@@ -2439,7 +2444,8 @@ msgstr "Спонукати під час очищення смітника"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Prompt the user when he or she tries to empty the trash."
-msgstr "Спонукати користувача, коли він або вона намагається очистити смітник."
+msgstr ""
+"Спонукати користувача, коли він або вона намагається очистити смітник."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Prompt when user expunges"
@@ -2469,7 +2475,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "Prompt before sending to recipients not entered as mail addresses"
-msgstr "Запитувати перед надсиланням до одержувачів, адреси до яких не введено"
+msgstr ""
+"Запитувати перед надсиланням до одержувачів, адреси до яких не введено"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
@@ -3301,9 +3308,9 @@ msgid ""
 "of the text without label, like: \"label [1] ...... [1] href\""
 msgstr ""
 "Можливі значення: «none» — не зберігати href у форматі звичайного тексту; "
-"«inline» — показувати href за текстовим посиланням, ось так: «мітка &lt;"
-"href&gt;»; «reference» — показувати href як посилання наприкінці тексту, ось "
-"так: «мітка [1] ...... [1] мітка href»; «reference-without-label» — "
+"«inline» — показувати href за текстовим посиланням, ось так: «мітка "
+"&lt;href&gt;»; «reference» — показувати href як посилання наприкінці тексту, "
+"ось так: «мітка [1] ...... [1] мітка href»; «reference-without-label» — "
 "показувати href як посилання наприкінці тексту без мітки, ось так: «мітка "
 "[1] ...... [1] href»"
 
@@ -3333,17 +3340,24 @@ msgstr ""
 "Встановлення кольору тексту теки, якщо до неї отримано нове повідомлення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
+#| msgid ""
+#| "Some `@theme_` colors are supported, otherwise a color name like `orange` "
+#| "or color reference like `#07509c` or `rgb(215,150,0)` can be used. Not "
+#| "setting a color will, or using an invalid form, will not change the "
+#| "folder name text color."
 msgid ""
 "Some `@theme_` colors are supported, otherwise a color name like `orange` or "
 "color reference like `#07509c` or `rgb(215,150,0)` can be used. Not setting "
-"a color will, or using an invalid form, will not change the folder name text "
-"color."
+"a color, or using an invalid form, will not change the folder name text "
+"color. A value 'auto' will pick a suitable blue color for the current color "
+"theme."
 msgstr ""
 "Передбачено підтримку частину кольорів `@theme_`. Для інших кольорів можна "
 "скористатися назвою кольору, наприклад «orange», або посиланням на колір, "
 "наприклад «#07509c» або «rgb(215,150,0)». Якщо колір не встановлено або "
 "встановлено колір у некоректній формі, колір тексту назви теки змінено не "
-"буде."
+"буде. Якщо значенням є «auto», відповідний синій колір буде автоматично"
+" вибрано за поточною схемою кольорів."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
 msgid "(Deprecated) Default forward style"
@@ -3429,8 +3443,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
 msgstr ""
-"['долучення','вкладення','долучено','долучив','долучила','долучило','вкладено'"
-",'вклав','вклали','долучили','вклала','вклали']"
+"['долучення','вкладення','долучено','долучив','долучила','долучило','вкладено"
+"','вклав','вклали','долучили','вклала','вклали']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -3833,7 +3847,8 @@ msgid "Start in offline mode"
 msgstr "Запуск у автономному режимі"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
-msgid "Whether Evolution will start up in offline mode instead of online mode."
+msgid ""
+"Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
 "Якщо встановлено, Evolution буде запускатись у автономному режимі замість "
 "мережного режиму."
@@ -4225,7 +4240,7 @@ msgstr "Контакти"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
-#: ../src/e-util/e-collection-account-wizard.c:871
+#: ../src/e-util/e-collection-account-wizard.c:873
 #: ../src/e-util/e-webdav-browser.c:541
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:211
 #: ../src/modules/calendar/e-cal-shell-view.c:732
@@ -4995,9 +5010,9 @@ msgstr ""
 #: ../src/e-util/e-attachment-view.c:1088
 #: ../src/e-util/e-categories-dialog.c:75 ../src/e-util/e-category-editor.c:162
 #: ../src/e-util/e-category-editor.c:246 ../src/e-util/e-charset-combo-box.c:84
-#: ../src/e-util/e-collection-account-wizard.c:239
-#: ../src/e-util/e-collection-account-wizard.c:1942
-#: ../src/e-util/e-collection-account-wizard.c:2189
+#: ../src/e-util/e-collection-account-wizard.c:238
+#: ../src/e-util/e-collection-account-wizard.c:1952
+#: ../src/e-util/e-collection-account-wizard.c:2199
 #: ../src/e-util/e-color-chooser-widget.c:118
 #: ../src/e-util/e-filter-datespec.c:292
 #: ../src/e-util/e-html-editor-actions.c:493
@@ -5023,7 +5038,7 @@ msgstr ""
 #: ../src/mail/mail-vfolder-ui.c:272
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:276
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1310
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:411
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:405
 #: ../src/modules/calendar/e-cal-attachment-handler.c:268
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1151
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -5117,7 +5132,7 @@ msgid "_Save"
 msgstr "З_берегти"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/e-util/e-misc-utils.c:3109
+#: ../src/e-util/e-misc-utils.c:3108
 msgid "Image"
 msgstr "Зображення"
 
@@ -5923,7 +5938,7 @@ msgid "Send a mail message to this address"
 msgstr "Перетворити виділене повідомлення на завдання"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:355
-#: ../src/e-util/e-misc-utils.c:4113
+#: ../src/e-util/e-misc-utils.c:4111
 #, c-format
 msgid "Click to mail %s"
 msgstr "Клацніть, щоб надіслати лист %s"
@@ -6090,7 +6105,7 @@ msgid "Blog"
 msgstr "Блог"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
-#: ../src/e-util/e-mail-signature-editor.c:654
+#: ../src/e-util/e-mail-signature-editor.c:653
 msgid "Unnamed"
 msgstr "Без назви"
 
@@ -7051,7 +7066,8 @@ msgid "Are you sure you want to delete these {0} tasks?"
 msgstr "Вилучити завдання ці {0} завдання?"
 
 #: ../src/calendar/calendar.error.xml.h:34
-msgid "All information on these tasks will be deleted and can not be restored."
+msgid ""
+"All information on these tasks will be deleted and can not be restored."
 msgstr "Усі відомості про ці завдання будуть остаточно вилучено."
 
 #: ../src/calendar/calendar.error.xml.h:35
@@ -7059,7 +7075,8 @@ msgid "Are you sure you want to delete these {0} memos?"
 msgstr "Вилучити завдання ці {0} примітки?"
 
 #: ../src/calendar/calendar.error.xml.h:36
-msgid "All information in these memos will be deleted and can not be restored."
+msgid ""
+"All information in these memos will be deleted and can not be restored."
 msgstr "Усі відомості про ці примітки будуть остаточно вилучено."
 
 #: ../src/calendar/calendar.error.xml.h:37
@@ -7631,7 +7648,7 @@ msgstr "Зведення"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:151
-#: ../src/e-util/e-collection-account-wizard.c:2040
+#: ../src/e-util/e-collection-account-wizard.c:2050
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -7949,7 +7966,7 @@ msgid "Completed: %s"
 msgstr "Завершено: %s"
 
 #: ../src/calendar/gui/comp-util.c:2416 ../src/calendar/gui/e-to-do-pane.c:641
-#: ../src/e-util/e-misc-utils.c:4196 ../src/e-util/e-text.c:564
+#: ../src/e-util/e-misc-utils.c:4194 ../src/e-util/e-text.c:564
 #: ../src/e-util/e-web-view.c:4271
 msgid "…"
 msgstr "…"
@@ -8608,7 +8625,7 @@ msgstr "Джерело"
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1458
 #: ../src/e-util/e-attachment-tree-view.c:209
-#: ../src/e-util/e-collection-account-wizard.c:2081
+#: ../src/e-util/e-collection-account-wizard.c:2091
 #: ../src/e-util/e-webdav-browser.c:2560
 #: ../src/mail/e-mail-account-tree-view.c:151
 msgid "Type"
@@ -8890,10 +8907,10 @@ msgstr[3] "Копіювання %d завдання"
 #: ../src/composer/e-composer-actions.c:189
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-markdown-utils.c:188 ../src/e-util/e-markdown-utils.c:198
-#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:3442
-#: ../src/e-util/e-misc-utils.c:3450 ../src/e-util/e-misc-utils.c:3458
-#: ../src/e-util/e-misc-utils.c:3493 ../src/e-util/e-misc-utils.c:3506
-#: ../src/e-util/e-misc-utils.c:3520 ../src/e-util/e-ui-customize-dialog.c:3522
+#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:3441
+#: ../src/e-util/e-misc-utils.c:3449 ../src/e-util/e-misc-utils.c:3457
+#: ../src/e-util/e-misc-utils.c:3492 ../src/e-util/e-misc-utils.c:3505
+#: ../src/e-util/e-misc-utils.c:3519 ../src/e-util/e-ui-customize-dialog.c:3522
 #: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3142
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3940
 #: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
@@ -9169,7 +9186,8 @@ msgstr "Не вдалося знайти долучення «%s», вилучі
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:572
 #, c-format
-msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
+msgid ""
+"Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "Долучення «%s» має недійсний URI, вилучіть його зі списку"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:773
@@ -10006,7 +10024,7 @@ msgstr "Збереження змін…"
 #: ../src/composer/e-composer-actions.c:378
 #: ../src/e-util/e-accounts-window.c:1793
 #: ../src/e-util/e-html-editor-dialog.c:181
-#: ../src/e-util/e-mail-signature-editor.c:528
+#: ../src/e-util/e-mail-signature-editor.c:527
 #: ../src/e-util/e-name-selector-dialog.c:532
 #: ../src/e-util/e-preferences-window.c:323
 #: ../src/e-util/e-table-field-chooser-dialog.c:197
@@ -10126,7 +10144,7 @@ msgstr "Класи_фікація"
 #. menus
 #: ../src/calendar/gui/e-comp-editor.c:2339
 #: ../src/e-util/e-html-editor-actions.c:1329
-#: ../src/e-util/e-mail-signature-editor.c:540 ../src/mail/e-mail-browser.c:618
+#: ../src/e-util/e-mail-signature-editor.c:539 ../src/mail/e-mail-browser.c:618
 #: ../src/mail/e-mail-notes.c:1161 ../src/mail/e-mail-viewer.c:1929
 #: ../src/shell/e-shell-window-actions.c:752
 msgid "_File"
@@ -10139,7 +10157,7 @@ msgstr "Вс_тавка"
 
 #: ../src/calendar/gui/e-comp-editor.c:2360
 #: ../src/composer/e-composer-actions.c:422
-#: ../src/e-util/e-mail-signature-editor.c:541
+#: ../src/e-util/e-mail-signature-editor.c:540
 #: ../src/e-util/e-ui-customizer.c:440 ../src/mail/e-mail-browser.c:621
 #: ../src/mail/e-mail-notes.c:1162 ../src/mail/e-mail-viewer.c:1936
 #: ../src/shell/e-shell-view.c:1164
@@ -10162,7 +10180,7 @@ msgid "Save current changes"
 msgstr "Зберегти поточні зміни"
 
 #: ../src/calendar/gui/e-comp-editor.c:2391
-#: ../src/e-util/e-mail-signature-editor.c:537 ../src/mail/e-mail-notes.c:1158
+#: ../src/e-util/e-mail-signature-editor.c:536 ../src/mail/e-mail-notes.c:1158
 msgid "Save and Close"
 msgstr "Зберегти і закрити"
 
@@ -10363,7 +10381,7 @@ msgid "Failure reason: %s"
 msgstr "Причина помилки: %s"
 
 #: ../src/calendar/gui/e-meeting-store.c:2020
-#: ../src/e-util/e-collection-account-wizard.c:505
+#: ../src/e-util/e-collection-account-wizard.c:504
 #: ../src/plugins/publish-calendar/publish-calendar.c:339
 #: ../src/smime/gui/component.c:61
 msgid "Enter password"
@@ -10827,7 +10845,8 @@ msgstr "Інформація iCalendar"
 #: ../src/calendar/gui/itip-utils.c:1376
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
-msgstr "Не вдалося зарезервувати ресурс, нова подія конфліктує з якоюсь іншою."
+msgstr ""
+"Не вдалося зарезервувати ресурс, нова подія конфліктує з якоюсь іншою."
 
 #: ../src/calendar/gui/itip-utils.c:1381
 msgid "Unable to book a resource, error: "
@@ -12908,7 +12927,8 @@ msgstr "_Запитати підтвердження про прочитання
 #: ../src/composer/e-composer-actions.c:514
 #: ../src/composer/e-composer-actions.c:563
 msgid "Get delivery notification when your message is read"
-msgstr "Встановіть, щоб отримати сповіщення про прочитання вашого повідомлення"
+msgstr ""
+"Встановіть, щоб отримати сповіщення про прочитання вашого повідомлення"
 
 #: ../src/composer/e-composer-actions.c:519
 msgid "Request _Delivery Status Notification"
@@ -12993,7 +13013,7 @@ msgid "Visually _Wrap Long Lines"
 msgstr "Візуально _переносити довгі рядки"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:2113
+#: ../src/e-util/e-collection-account-wizard.c:2123
 #: ../src/e-util/e-html-editor-link-popover.c:260
 #: ../src/e-util/e-mail-signature-script-dialog.c:382
 #: ../src/e-util/e-webdav-browser.c:2588
@@ -13103,16 +13123,16 @@ msgstr "Не вдалося отримати оброблені дані HTML"
 msgid "Compose Message"
 msgstr "Нове повідомлення"
 
-#: ../src/composer/e-msg-composer.c:5025
+#: ../src/composer/e-msg-composer.c:5028
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:366
 msgid "Reading text content…"
 msgstr "Читаємо текстові дані…"
 
-#: ../src/composer/e-msg-composer.c:5091
+#: ../src/composer/e-msg-composer.c:5094
 msgid "Send _without encryption"
 msgstr "Надіслати _без шифрування"
 
-#: ../src/composer/e-msg-composer.c:5879
+#: ../src/composer/e-msg-composer.c:5882
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Переглянути долучення перед надсиланням."
@@ -13120,7 +13140,7 @@ msgstr[1] "Переглянути долучення перед надсилан
 msgstr[2] "Переглянути долучення перед надсиланням."
 msgstr[3] "Переглянути долучення перед надсиланням."
 
-#: ../src/composer/e-msg-composer.c:5884
+#: ../src/composer/e-msg-composer.c:5887
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -13141,7 +13161,7 @@ msgstr[3] ""
 "Зовнішньою програмою додано одне долучення. Перш ніж надсилати повідомлення, "
 "переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 
-#: ../src/composer/e-msg-composer.c:6010
+#: ../src/composer/e-msg-composer.c:6013
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редактор містить не текстовий вміст, який неможливо редагувати."
 
@@ -13295,7 +13315,7 @@ msgid "_Save to Outbox"
 msgstr "З_берегти у вихідні"
 
 #: ../src/composer/mail-composer.error.xml.h:34
-#: ../src/e-util/e-collection-account-wizard.c:726
+#: ../src/e-util/e-collection-account-wizard.c:728
 msgid "_Try Again"
 msgstr "_Спробувати знову"
 
@@ -14555,7 +14575,7 @@ msgstr "Введіть бажаний набір символів"
 msgid "Other…"
 msgstr "Інше…"
 
-#: ../src/e-util/e-client-cache.c:1134 ../src/e-util/e-client-cache.c:1265
+#: ../src/e-util/e-client-cache.c:1124 ../src/e-util/e-client-cache.c:1251
 #, c-format
 msgid "Cannot create a client object from extension name “%s”"
 msgstr "Неможливо створити клієнтський об'єкт з назвою розширення «%s»"
@@ -14580,48 +14600,48 @@ msgctxt "Status"
 msgid "Failed to connect"
 msgstr "Не вдалося з'єднатися"
 
-#: ../src/e-util/e-collection-account-wizard.c:106
+#: ../src/e-util/e-collection-account-wizard.c:105
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:82
 msgid "_Finish"
 msgstr "_Завершити"
 
-#: ../src/e-util/e-collection-account-wizard.c:109
+#: ../src/e-util/e-collection-account-wizard.c:108
 msgid "_Look Up"
 msgstr "_Шукати"
 
-#: ../src/e-util/e-collection-account-wizard.c:111
-#: ../src/e-util/e-collection-account-wizard.c:279
+#: ../src/e-util/e-collection-account-wizard.c:110
+#: ../src/e-util/e-collection-account-wizard.c:278
 #: ../src/e-util/e-search-bar.c:672
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:84
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:243
 msgid "_Next"
 msgstr "Н_аступне"
 
-#: ../src/e-util/e-collection-account-wizard.c:183
+#: ../src/e-util/e-collection-account-wizard.c:182
 msgid "New Collection Account"
 msgstr "Новий обліковий запис-збірка"
 
-#: ../src/e-util/e-collection-account-wizard.c:259
+#: ../src/e-util/e-collection-account-wizard.c:258
 #: ../src/e-util/e-search-bar.c:660
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:77
 msgid "_Previous"
 msgstr "П_опереднє"
 
-#: ../src/e-util/e-collection-account-wizard.c:451
+#: ../src/e-util/e-collection-account-wizard.c:450
 msgid "Looking up details, please wait…"
 msgstr "Пошук подробиць, зачекайте…"
 
 #. Translators: The %s is replaced with a clickable text "Enter password", thus it'll be "Requires password to continue. Enter password." at the end.
-#: ../src/e-util/e-collection-account-wizard.c:515
+#: ../src/e-util/e-collection-account-wizard.c:514
 #, c-format
 msgid "Requires password to continue. %s."
 msgstr "Для продовження необхідний пароль. %s."
 
-#: ../src/e-util/e-collection-account-wizard.c:529
+#: ../src/e-util/e-collection-account-wizard.c:528
 msgid "View certificate"
 msgstr "Переглянути сертифікат"
 
-#: ../src/e-util/e-collection-account-wizard.c:570
+#: ../src/e-util/e-collection-account-wizard.c:572
 msgid ""
 "Found no candidates. It can also mean that the server doesn’t provide any "
 "information about its configuration using the selected lookup methods. Enter "
@@ -14631,7 +14651,7 @@ msgstr ""
 "будь-якої інформації про конфігурацію, якщо використано вибрані методи "
 "пошуку. Введіть обліковий запис вручну або змініть налаштування вище."
 
-#: ../src/e-util/e-collection-account-wizard.c:572
+#: ../src/e-util/e-collection-account-wizard.c:574
 #, c-format
 msgid "Found one candidate"
 msgid_plural "Found %d candidates"
@@ -14640,9 +14660,9 @@ msgstr[1] "Знайдено %d кандидатів"
 msgstr[2] "Знайдено %d кандидатів"
 msgstr[3] "Знайдено одного кандидата"
 
-#: ../src/e-util/e-collection-account-wizard.c:671
+#: ../src/e-util/e-collection-account-wizard.c:673
 #: ../src/modules/book-config-google/evolution-book-config-google.c:102
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1041
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1033
 #: ../src/modules/cal-config-google/e-cal-config-google.c:185
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:117
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:445
@@ -14654,86 +14674,86 @@ msgstr ""
 "У імені користувача містяться символи, які можуть завадити входу до системи. "
 "Переконайтеся, що сервер приймає такі записи імені користувача."
 
-#: ../src/e-util/e-collection-account-wizard.c:692
+#: ../src/e-util/e-collection-account-wizard.c:694
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:29
 msgid "_Username:"
 msgstr "_Назва запису:"
 
-#: ../src/e-util/e-collection-account-wizard.c:707
+#: ../src/e-util/e-collection-account-wizard.c:709
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
 #: ../src/smime/gui/certificate-manager.c:753
 msgid "_Password:"
 msgstr "_Пароль:"
 
-#: ../src/e-util/e-collection-account-wizard.c:720
+#: ../src/e-util/e-collection-account-wizard.c:722
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:31
 msgid "_Remember password"
 msgstr "_Запам'ятати пароль"
 
-#: ../src/e-util/e-collection-account-wizard.c:867
+#: ../src/e-util/e-collection-account-wizard.c:869
 #: ../src/e-util/e-webdav-browser.c:554
 msgid "Collection"
 msgstr "Колекція"
 
-#: ../src/e-util/e-collection-account-wizard.c:868
+#: ../src/e-util/e-collection-account-wizard.c:870
 msgid "Mail Receive"
 msgstr "Отримання пошти"
 
-#: ../src/e-util/e-collection-account-wizard.c:869
+#: ../src/e-util/e-collection-account-wizard.c:871
 msgid "Mail Send"
 msgstr "Надсилання пошти"
 
-#: ../src/e-util/e-collection-account-wizard.c:870
+#: ../src/e-util/e-collection-account-wizard.c:872
 #: ../src/e-util/e-name-selector-dialog.c:431
 #: ../src/mail/importers/pine-importer.c:430
 msgid "Address Book"
 msgstr "Адресна книга"
 
-#: ../src/e-util/e-collection-account-wizard.c:872
+#: ../src/e-util/e-collection-account-wizard.c:874
 msgid "Memo List"
 msgstr "Список приміток"
 
-#: ../src/e-util/e-collection-account-wizard.c:873
+#: ../src/e-util/e-collection-account-wizard.c:875
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:71
 msgid "Task List"
 msgstr "Список завдань"
 
-#: ../src/e-util/e-collection-account-wizard.c:1217
+#: ../src/e-util/e-collection-account-wizard.c:1220
 msgid "Looking up LDAP server’s search base…"
 msgstr "Пошук у базі сервера LDAP…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1370
+#: ../src/e-util/e-collection-account-wizard.c:1374
 msgid "Failed to store password: "
 msgstr "Не вдалося зберегти пароль: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1380
+#: ../src/e-util/e-collection-account-wizard.c:1385
 msgid "Failed to create sources: "
 msgstr "Не вдалося створити джерела: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1550
+#: ../src/e-util/e-collection-account-wizard.c:1560
 msgid "Saving account settings, please wait…"
 msgstr "Збереження параметрів облікового запису, зачекайте…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1713
+#: ../src/e-util/e-collection-account-wizard.c:1723
 msgid "User details"
 msgstr "Подробиці користувача"
 
-#: ../src/e-util/e-collection-account-wizard.c:1726
+#: ../src/e-util/e-collection-account-wizard.c:1736
 msgid "_Email Address or User name:"
 msgstr "_Електронна адреса чи ім'я користувача:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1754
+#: ../src/e-util/e-collection-account-wizard.c:1764
 msgid "_Advanced Options"
 msgstr "_Додаткові параметри"
 
-#: ../src/e-util/e-collection-account-wizard.c:1759
+#: ../src/e-util/e-collection-account-wizard.c:1769
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:166
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Сервер:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1778
+#: ../src/e-util/e-collection-account-wizard.c:1788
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
@@ -14741,11 +14761,11 @@ msgstr ""
 "Список через крапку з комою серверів для пошуку відомостей, додаткових щодо "
 "домену електронної адреси."
 
-#: ../src/e-util/e-collection-account-wizard.c:1980
+#: ../src/e-util/e-collection-account-wizard.c:1990
 msgid "Select which parts should be configured:"
 msgstr "Виберіть, які частини потрібно налаштувати:"
 
-#: ../src/e-util/e-collection-account-wizard.c:2104
+#: ../src/e-util/e-collection-account-wizard.c:2114
 #: ../src/mail/e-mail-config-identity-page.c:531
 #: ../src/mail/e-mail-config-summary-page.c:303
 msgid "Account Information"
@@ -14755,7 +14775,7 @@ msgstr "Інформація про обліковий запис"
 msgid "Choose custom color"
 msgstr "Вибрати нетиповий колір"
 
-#: ../src/e-util/e-color-combo.c:454 ../src/e-util/e-html-editor.c:126
+#: ../src/e-util/e-color-combo.c:454 ../src/e-util/e-html-editor.c:125
 #: ../src/mail/e-mail-account-tree-view.c:128
 #: ../src/mail/e-mail-config-security-page.c:538
 #: ../src/mail/e-mail-config-security-page.c:788
@@ -14763,7 +14783,7 @@ msgstr "Вибрати нетиповий колір"
 msgid "Default"
 msgstr "Типовий"
 
-#: ../src/e-util/e-config-lookup.c:817
+#: ../src/e-util/e-config-lookup.c:814
 msgid "Running…"
 msgstr "Виконуємо…"
 
@@ -15224,7 +15244,7 @@ msgstr "Знайти елементи, що відповідають вказа�
 #: ../src/libemail-engine/camel-null-store.c:29
 #: ../src/mail/e-mail-autoconfig.c:834
 #: ../src/mail/e-mail-config-summary-page.c:134
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:673
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:665
 msgid "None"
 msgstr "Немає"
 
@@ -15406,37 +15426,37 @@ msgstr "Усі мови перевірки правопису"
 #: ../src/e-util/e-html-editor-actions.c:1394
 #: ../src/e-util/e-html-editor-actions.c:1396
 #: ../src/e-util/e-html-editor-actions.c:2651
-#: ../src/e-util/e-html-editor.c:1137 ../src/e-util/e-html-editor.c:2233
+#: ../src/e-util/e-html-editor.c:1136 ../src/e-util/e-html-editor.c:2236
 msgid "Editing Mode"
 msgstr "Режим редагування"
 
 #: ../src/e-util/e-html-editor-actions.c:1401
 #: ../src/e-util/e-html-editor-actions.c:1403
-#: ../src/e-util/e-html-editor.c:1141
+#: ../src/e-util/e-html-editor.c:1140
 msgid "Paragraph Style"
 msgstr "Стиль параграфа"
 
 #: ../src/e-util/e-html-editor-actions.c:1408
 #: ../src/e-util/e-html-editor-actions.c:1410
-#: ../src/e-util/e-html-editor.c:1149
+#: ../src/e-util/e-html-editor.c:1148
 msgid "Font Name"
 msgstr "Назва шрифту"
 
 #: ../src/e-util/e-html-editor-actions.c:1415
 #: ../src/e-util/e-html-editor-actions.c:1417
-#: ../src/e-util/e-html-editor.c:1157
+#: ../src/e-util/e-html-editor.c:1156
 msgid "Font Size"
 msgstr "Розмір шрифту"
 
 #: ../src/e-util/e-html-editor-actions.c:1422
 #: ../src/e-util/e-html-editor-actions.c:1424
-#: ../src/e-util/e-html-editor.c:1160
+#: ../src/e-util/e-html-editor.c:1159
 msgid "Font Color"
 msgstr "Колір шрифту"
 
 #: ../src/e-util/e-html-editor-actions.c:1429
 #: ../src/e-util/e-html-editor-actions.c:1431
-#: ../src/e-util/e-html-editor.c:1172
+#: ../src/e-util/e-html-editor.c:1171
 msgid "Background Color"
 msgstr "Колір тла"
 
@@ -15454,7 +15474,7 @@ msgstr "_Емодзі"
 
 #: ../src/e-util/e-html-editor-actions.c:1448
 #: ../src/e-util/e-html-editor-actions.c:1462
-#: ../src/e-util/e-markdown-editor.c:1958
+#: ../src/e-util/e-markdown-editor.c:1946
 msgid "Insert Emoji"
 msgstr "Вставити емодзі"
 
@@ -15937,23 +15957,23 @@ msgstr "Більше пропозицій"
 msgid "%s Dictionary"
 msgstr "Словника %s"
 
-#: ../src/e-util/e-html-editor.c:1335
+#: ../src/e-util/e-html-editor.c:1334
 msgid "Context Menu"
 msgstr "Контекстне меню"
 
-#: ../src/e-util/e-html-editor.c:1343 ../src/mail/e-mail-browser.c:801
+#: ../src/e-util/e-html-editor.c:1342 ../src/mail/e-mail-browser.c:801
 msgid "Main Toolbar"
 msgstr "Головна панель"
 
-#: ../src/e-util/e-html-editor.c:1355
+#: ../src/e-util/e-html-editor.c:1354
 msgid "Edit Toolbar"
 msgstr "Змінити панель інструментів"
 
-#: ../src/e-util/e-html-editor.c:1364
+#: ../src/e-util/e-html-editor.c:1363
 msgid "HTML Toolbar"
 msgstr "Панель HTML"
 
-#: ../src/e-util/e-html-editor.c:2518
+#: ../src/e-util/e-html-editor.c:2522
 msgid "Failed to obtain content of editor"
 msgstr "Не вдалося отримати дані редактора"
 
@@ -16569,20 +16589,20 @@ msgstr "діб"
 msgid "Autogenerated"
 msgstr "Генерується автоматично"
 
-#: ../src/e-util/e-mail-signature-editor.c:530 ../src/mail/e-mail-notes.c:1151
+#: ../src/e-util/e-mail-signature-editor.c:529 ../src/mail/e-mail-notes.c:1151
 msgid "Close"
 msgstr "Закрити"
 
-#: ../src/e-util/e-mail-signature-editor.c:535 ../src/mail/e-mail-notes.c:1156
+#: ../src/e-util/e-mail-signature-editor.c:534 ../src/mail/e-mail-notes.c:1156
 msgid "_Save and Close"
 msgstr "З_берегти та закрити"
 
-#: ../src/e-util/e-mail-signature-editor.c:602
-#: ../src/e-util/e-mail-signature-editor.c:606
+#: ../src/e-util/e-mail-signature-editor.c:601
+#: ../src/e-util/e-mail-signature-editor.c:605
 msgid "Edit Signature"
 msgstr "Редагувати підпис"
 
-#: ../src/e-util/e-mail-signature-editor.c:628
+#: ../src/e-util/e-mail-signature-editor.c:627
 msgid "_Signature Name:"
 msgstr "_Ім'я підпису:"
 
@@ -16634,13 +16654,13 @@ msgstr ""
 
 #: ../src/e-util/e-markdown-editor.c:1855
 #: ../src/e-util/e-markdown-editor.c:1869
-#: ../src/e-util/e-markdown-editor.c:2450
+#: ../src/e-util/e-markdown-editor.c:2438
 msgid "_Write"
 msgstr "З_апис"
 
 #. ** Menus **
 #: ../src/e-util/e-markdown-editor.c:1871
-#: ../src/e-util/e-markdown-editor.c:2492
+#: ../src/e-util/e-markdown-editor.c:2480
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1487
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1711
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:705
@@ -16649,43 +16669,43 @@ msgstr "З_апис"
 msgid "_Preview"
 msgstr "_Попередній перегляд"
 
-#: ../src/e-util/e-markdown-editor.c:1950
+#: ../src/e-util/e-markdown-editor.c:1938
 msgid "Add bold text"
 msgstr "Додати текст напівжирним"
 
-#: ../src/e-util/e-markdown-editor.c:1951
+#: ../src/e-util/e-markdown-editor.c:1939
 msgid "Add italic text"
 msgstr "Додати текст курсивом"
 
-#: ../src/e-util/e-markdown-editor.c:1952
+#: ../src/e-util/e-markdown-editor.c:1940
 msgid "Insert a quote"
 msgstr "Вставити цитату"
 
-#: ../src/e-util/e-markdown-editor.c:1953
+#: ../src/e-util/e-markdown-editor.c:1941
 msgid "Insert code"
 msgstr "Вставити код"
 
-#: ../src/e-util/e-markdown-editor.c:1954
+#: ../src/e-util/e-markdown-editor.c:1942
 msgid "Add a link"
 msgstr "Додати посилання"
 
-#: ../src/e-util/e-markdown-editor.c:1955
+#: ../src/e-util/e-markdown-editor.c:1943
 msgid "Add a bullet list"
 msgstr "Додати список з пунктами"
 
-#: ../src/e-util/e-markdown-editor.c:1956
+#: ../src/e-util/e-markdown-editor.c:1944
 msgid "Add a numbered list"
 msgstr "Додати нумерований список"
 
-#: ../src/e-util/e-markdown-editor.c:1957
+#: ../src/e-util/e-markdown-editor.c:1945
 msgid "Add a header"
 msgstr "Додати заголовок"
 
-#: ../src/e-util/e-markdown-editor.c:1960
+#: ../src/e-util/e-markdown-editor.c:1948
 msgid "Open online common mark documentation"
 msgstr "Відкрити документацію щодо типової розмітки в інтернеті"
 
-#: ../src/e-util/e-markdown-editor.c:1962
+#: ../src/e-util/e-markdown-editor.c:1950
 msgid "Show preview beside text"
 msgstr "Показувати панель перегляду поруч із текстом"
 
@@ -16709,40 +16729,40 @@ msgstr "Не вдалося запустити процес з рядка ком
 msgid "Failed to parse command line “%s”: %s"
 msgstr "Не вдалося обробити рядок команди «%s»: %s"
 
-#: ../src/e-util/e-misc-utils.c:253
+#: ../src/e-util/e-misc-utils.c:252
 msgid "Could not open the link."
 msgstr "Не вдалося відкрити посилання."
 
-#: ../src/e-util/e-misc-utils.c:371
+#: ../src/e-util/e-misc-utils.c:370
 msgid "Could not display help for Evolution."
 msgstr "Не вдалося показати довідку Evolution."
 
-#: ../src/e-util/e-misc-utils.c:2180
+#: ../src/e-util/e-misc-utils.c:2179
 #, c-format
 msgid "Opening calendar “%s”"
 msgstr "Відкриття календаря «%s»"
 
-#: ../src/e-util/e-misc-utils.c:2183
+#: ../src/e-util/e-misc-utils.c:2182
 #, c-format
 msgid "Opening memo list “%s”"
 msgstr "Відкриття списку приміток «%s»"
 
-#: ../src/e-util/e-misc-utils.c:2186
+#: ../src/e-util/e-misc-utils.c:2185
 #, c-format
 msgid "Opening task list “%s”"
 msgstr "Відкриття списку завдань «%s»"
 
-#: ../src/e-util/e-misc-utils.c:2189
+#: ../src/e-util/e-misc-utils.c:2188
 #, c-format
 msgid "Opening address book “%s”"
 msgstr "Відкриття адресної книги «%s»"
 
-#: ../src/e-util/e-misc-utils.c:2946
+#: ../src/e-util/e-misc-utils.c:2945
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_Не показувати це повідомлення знову."
 
-#: ../src/e-util/e-misc-utils.c:3429
+#: ../src/e-util/e-misc-utils.c:3428
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -16750,27 +16770,27 @@ msgstr ""
 "Можливо, цей сервер адресної книги недосяжний, або неправильно вказана назва "
 "сервера, або ж мережне з'єднання вимкнено."
 
-#: ../src/e-util/e-misc-utils.c:3441
+#: ../src/e-util/e-misc-utils.c:3440
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Не вдалося встановити версію протоколу LDAPv3 (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3449 ../src/e-util/e-misc-utils.c:3457
+#: ../src/e-util/e-misc-utils.c:3448 ../src/e-util/e-misc-utils.c:3456
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "Не вдалося встановити параметр часу очікування на з'єднання (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3492
+#: ../src/e-util/e-misc-utils.c:3491
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Не вдалося скористатися STARTTLS (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3505
+#: ../src/e-util/e-misc-utils.c:3504
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Не вдалося пройти розпізнавання на сервері LDAP (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3519
+#: ../src/e-util/e-misc-utils.c:3518
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -16786,7 +16806,7 @@ msgstr ""
 "\n"
 "Подробиці помилки (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3530
+#: ../src/e-util/e-misc-utils.c:3529
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -16796,12 +16816,12 @@ msgstr ""
 "цю функціональність, або він може бути неправильно налаштований. Спитайте у "
 "вашого системного адміністратора які бази пошуку підтримуються."
 
-#: ../src/e-util/e-misc-utils.c:3563
+#: ../src/e-util/e-misc-utils.c:3562
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution було зібрано без підтримки LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:3888
+#: ../src/e-util/e-misc-utils.c:3887
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -16809,31 +16829,31 @@ msgstr "Невідома (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:3897
+#: ../src/e-util/e-misc-utils.c:3896
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4118
+#: ../src/e-util/e-misc-utils.c:4116
 #, c-format
 msgid "Click to call %s"
 msgstr "Клацніть, щоб подзвонити %s"
 
-#: ../src/e-util/e-misc-utils.c:4120
+#: ../src/e-util/e-misc-utils.c:4118
 msgid "Click to hide/unhide addresses"
 msgstr "Клацніть, щоб показати/сховати адреси "
 
-#: ../src/e-util/e-misc-utils.c:4133
+#: ../src/e-util/e-misc-utils.c:4131
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Перейти до розділу %s повідомлення"
 
-#: ../src/e-util/e-misc-utils.c:4135
+#: ../src/e-util/e-misc-utils.c:4133
 msgid "Go to the beginning of the message"
 msgstr "Перейти до початку повідомлення"
 
-#: ../src/e-util/e-misc-utils.c:4141
+#: ../src/e-util/e-misc-utils.c:4139
 #, c-format
 msgid "Click to open %s"
 msgstr "Клацніть, щоб відкрити %s"
@@ -17247,7 +17267,8 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:13
 msgid "The calendar backend servicing “{0}” has quit unexpectedly."
-msgstr "Модуль календаря для обслуговування «{0}» несподівано припинив роботу."
+msgstr ""
+"Модуль календаря для обслуговування «{0}» несподівано припинив роботу."
 
 #: ../src/e-util/e-system.error.xml.h:14
 msgid ""
@@ -17272,7 +17293,8 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:18
 msgid "Some of your tasks may not be available until Evolution is restarted."
-msgstr "Деякі з ваших завдань можуть бути недоступні до перезапуску Evolution."
+msgstr ""
+"Деякі з ваших завдань можуть бути недоступні до перезапуску Evolution."
 
 #: ../src/e-util/e-system.error.xml.h:19
 msgid "The address book backend servicing “{0}” encountered an error."
@@ -17816,7 +17838,8 @@ msgstr "П_орядок:"
 
 #: ../src/e-util/e-webdav-browser.c:2625
 msgid "Use -1 to not set the sort order"
-msgstr "Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
+msgstr ""
+"Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
 
 #: ../src/e-util/e-webdav-browser.c:2631
 msgid "For Components:"
@@ -18290,7 +18313,8 @@ msgstr "Пересилання листа скасовано, бо не вказ
 
 #: ../src/libemail-engine/e-mail-session.c:1744
 #, c-format
-msgid "No identity found to use, forwarding of the message has been cancelled."
+msgid ""
+"No identity found to use, forwarding of the message has been cancelled."
 msgstr "Пересилання листа скасовано, бо не знайдено тотожності."
 
 #: ../src/libemail-engine/e-mail-session.c:1947
@@ -18549,7 +18573,8 @@ msgstr "Відкрити _мережеві облікові записи"
 #: ../src/mail/e-mail-account-manager.c:137
 #: ../src/mail/e-mail-account-manager.c:225
 msgid "This account was created through the Online Accounts service."
-msgstr "Цей обліковий запис створено через службу мережевих облікових записів."
+msgstr ""
+"Цей обліковий запис створено через службу мережевих облікових записів."
 
 #: ../src/mail/e-mail-account-manager.c:680
 msgid "_Reset Order"
@@ -19156,12 +19181,12 @@ msgid "Server Type:"
 msgstr "Тип сервера: "
 
 #: ../src/mail/e-mail-config-summary-page.c:432
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:650
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:642
 msgid "Server:"
 msgstr "Сервер:"
 
 #: ../src/mail/e-mail-config-summary-page.c:453
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:762
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:754
 msgid "Username:"
 msgstr "Ім'я користувача:"
 
@@ -19223,7 +19248,8 @@ msgstr "_Масштабувати до вікна"
 
 #: ../src/mail/e-mail-display.c:1941
 msgid "Zoom large images to not be wider than the window width"
-msgstr "Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
+msgstr ""
+"Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
 
 #: ../src/mail/e-mail-display.c:2068
 msgid "Load this image"
@@ -19713,12 +19739,10 @@ msgid "Forward As _Quoted"
 msgstr "Переслати як _цитоване"
 
 #: ../src/mail/e-mail-reader.c:3183
-#| msgid "_Destination folder:"
 msgid "_Containing Folder"
 msgstr "_Тека зберігання"
 
 #: ../src/mail/e-mail-reader.c:3185
-#| msgid "Choose folders to post the message to."
 msgid "Go to the folder the message originates from"
 msgstr "Перейти до теки, звідки походить повідомлення"
 
@@ -20542,11 +20566,11 @@ msgstr "Очікуємо на завантаження долучень…"
 #. * see mail/em-composer-utils.c:attribvars array.
 #: ../src/mail/em-composer-utils.c:2345
 msgid ""
-"On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
-"${TimeZone}, ${Sender} wrote:"
+"On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} $"
+"{TimeZone}, ${Sender} wrote:"
 msgstr ""
-"У ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} у ${24Hour}:${Minute} "
-"${TimeZone}, ${Sender} пише:"
+"У ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} у ${24Hour}:${Minute} $"
+"{TimeZone}, ${Sender} пише:"
 
 #: ../src/mail/em-composer-utils.c:2351
 msgid "-------- Forwarded Message --------"
@@ -20886,31 +20910,31 @@ msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1904
+#: ../src/mail/em-folder-tree.c:1920
 msgid "Mail Folder Tree"
 msgstr "Дерево поштових тек"
 
-#: ../src/mail/em-folder-tree.c:2454
+#: ../src/mail/em-folder-tree.c:2470
 #, c-format
 msgid "Moving folder %s"
 msgstr "Переміщення теки %s"
 
-#: ../src/mail/em-folder-tree.c:2457
+#: ../src/mail/em-folder-tree.c:2473
 #, c-format
 msgid "Copying folder %s"
 msgstr "Відкривання теки %s"
 
-#: ../src/mail/em-folder-tree.c:2464 ../src/mail/message-list.c:2658
+#: ../src/mail/em-folder-tree.c:2480 ../src/mail/message-list.c:2658
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Переміщення повідомлень у теку %s"
 
-#: ../src/mail/em-folder-tree.c:2468 ../src/mail/message-list.c:2660
+#: ../src/mail/em-folder-tree.c:2484 ../src/mail/message-list.c:2660
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копіювання повідомлень у теку %s"
 
-#: ../src/mail/em-folder-tree.c:2487
+#: ../src/mail/em-folder-tree.c:2503
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Не вдалося скинути повідомлення у сховище верхнього рівня"
@@ -22048,7 +22072,8 @@ msgstr "_Показувати рухомі зображення"
 
 #: ../src/mail/mail-config.ui.h:123
 msgid "Unset colors provided in HTML mails in message previe_w"
-msgstr "Скидати кольори з повідомлень у HTML на панелі поп_ереднього перегляду"
+msgstr ""
+"Скидати кольори з повідомлень у HTML на панелі поп_ереднього перегляду"
 
 #: ../src/mail/mail-config.ui.h:124
 msgid "Loading Remote Content"
@@ -22983,7 +23008,8 @@ msgstr ""
 "Включіть обліковий запис або використовуйте для надсилання інший запис."
 
 #: ../src/mail/mail.error.xml.h:159
-msgid "This message cannot be sent because there is no mail account configured"
+msgid ""
+"This message cannot be sent because there is no mail account configured"
 msgstr ""
 "Це повідомлення не може бути надіслане, оскільки не налаштовано облікового "
 "запису пошти"
@@ -24446,7 +24472,7 @@ msgid "Address Book:"
 msgstr "Адресна книга:"
 
 #: ../src/modules/book-config-google/evolution-book-config-google.c:103
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1042
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1034
 #: ../src/modules/cal-config-google/e-cal-config-google.c:186
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:118
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:446
@@ -24454,124 +24480,124 @@ msgstr "Адресна книга:"
 msgid "User name cannot be empty"
 msgstr "Обов'язково вкажіть користувача"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:420
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:414
 msgid "Looking up server search bases, please wait…"
 msgstr "Пошук серед баз сервера, зачекайте…"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:496
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:488
 msgid "Standard LDAP Port"
 msgstr "Стандартний порт LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:502
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:676
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:494
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:668
 msgid "LDAP over SSL/TLS (deprecated)"
 msgstr "LDAP над SSL/TLS  (застаріло)"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:508
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:500
 msgid "Microsoft Global Catalog"
 msgstr "Microsoft Global Catalog"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:514
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:506
 msgid "Microsoft Global Catalog over SSL/TLS"
 msgstr "Microsoft Global Catalog над SSL/TLS"
 
 #. Page 1
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:618
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:610
 msgid "Connecting to LDAP"
 msgstr "З'єднання з LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:635
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:627
 msgid "Server Information"
 msgstr "Інформація про сервер"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:656
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:648
 msgid "Port:"
 msgstr "_Порт:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:664
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:656
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:247
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:195
 msgid "Port number is not valid"
 msgstr "Неправильний номер порту"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:679
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:671
 msgid "StartTLS (recommended)"
 msgstr "StartTLS (рекомендовано)"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:681
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:673
 msgid "Encryption:"
 msgstr "Шифрування:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:705
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:697
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:324
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:260
 msgid "Authentication"
 msgstr "Автентифікація"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:731
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:723
 msgid "Anonymous"
 msgstr "Анонімно"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:732
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:724
 msgid "Username can be left empty"
 msgstr "Ім'я користувача можна залишити порожнім"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:738
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:730
 msgid "Using email address"
 msgstr "За електронною адресою"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:739
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:731
 msgid "requires anonymous access to your LDAP server"
 msgstr "вимагає анонімного доступу до вашого сервера LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:745
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:737
 msgid "Using distinguished name (DN)"
 msgstr "Використовуючи відокремлене ім'я (DN)"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:746
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:738
 msgid "for example: uid=user,dc=example,dc=com"
 msgstr "приклад: uid=користувач,dc=приклад,dc=com"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:754
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:746
 msgid "Method:"
 msgstr "Спосіб:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:758
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:750
 msgid "This is the method Evolution will use to authenticate you."
 msgstr "Це метод вашої автентифікації, що буде використовуватись в Evolution."
 
 #. Page 2
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:770
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:762
 msgid "Using LDAP"
 msgstr "Використання LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:787
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:779
 #: ../src/modules/mail/e-mail-shell-view.c:119
 #: ../src/modules/mail/e-mail-shell-view.c:209
 msgid "Searching"
 msgstr "Пошук"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:803
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:795
 msgid "Search Base:"
 msgstr "База пошуку:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:807
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:799
 msgid "Find Possible Search Bases"
 msgstr "Знайти можливі бази пошуку"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:829
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:821
 msgid "One Level"
 msgstr "Один рівень"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:831
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:823
 msgid "Subtree"
 msgstr "Піддерево"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:833
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:825
 msgid "Search Scope:"
 msgstr "Діапазон пошуку:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:838
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:830
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of “Subtree” will include all entries "
@@ -24583,27 +24609,27 @@ msgstr ""
 "пошуковою базою. Обсяг пошуку «Один рівень» включатиме лише записи на одному "
 "рівні під вашою пошуковою базою."
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:847
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:839
 msgid "Search Filter:"
 msgstr "Фільтр пошуку:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:859
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:851
 msgid "Downloading"
 msgstr "Завантаження"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:874
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:866
 msgid "Limit:"
 msgstr "Обмеження:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:885
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:877
 msgid "contacts"
 msgstr "контакти"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:890
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:882
 msgid "Browse until limit is reached"
 msgstr "Переглядати, поки не буде досягнуто обмеження"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1025
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1017
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:425
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:454
 msgid "Server address cannot be empty"
@@ -26821,7 +26847,8 @@ msgid ""
 msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr[0] "Календар «%s» містить %d зустріч, яка конфліктує з цим зібранням"
-msgstr[1] "Календар «%s» містить %d зустрічі, які конфліктують з цим зібранням"
+msgstr[1] ""
+"Календар «%s» містить %d зустрічі, які конфліктують з цим зібранням"
 msgstr[2] ""
 "Календар «%s» містить %d зустрічей, які конфліктують з цим зібранням"
 msgstr[3] "Календар «%s» містить зустріч, яка конфліктує з цим зібранням"
@@ -27067,7 +27094,8 @@ msgstr "Засідання неправильне і його неможливо
 
 #: ../src/modules/itip-formatter/itip-view.c:6362
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr "Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
+msgstr ""
+"Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
 
 #: ../src/modules/itip-formatter/itip-view.c:6438
 #: ../src/modules/itip-formatter/itip-view.c:6476
@@ -27146,7 +27174,8 @@ msgstr "Долучений календар містить декілька об
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr "Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
+msgstr ""
+"Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
 
 #: ../src/modules/itip-formatter/itip-view.c:7611
 msgctxt "cal-itip"
@@ -27167,7 +27196,8 @@ msgid "This meeting has been delegated"
 msgstr "Цю зустріч було направлено"
 
 #: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-msgid "“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
+msgid ""
+"“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
 msgstr "«{0}» доручено провести нараду. Ви бажаєте додати представника «{1}»?"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:289
@@ -27519,7 +27549,8 @@ msgstr "Вимкнути цей обліковий запис"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1619
 msgid "Permanently remove all the deleted messages from all folders"
-msgstr "Остаточно знищити з усіх тек всі повідомлення, що позначені вилученими"
+msgstr ""
+"Остаточно знищити з усіх тек всі повідомлення, що позначені вилученими"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1624
 msgid "Empty _Junk"
@@ -27576,7 +27607,8 @@ msgstr "Вик_реслити"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1682
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "Остаточно вилучити всі повідомлення, позначені як вилучені з цієї теки"
+msgstr ""
+"Остаточно вилучити всі повідомлення, позначені як вилучені з цієї теки"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1687
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1786
@@ -28543,11 +28575,11 @@ msgstr "_Форматувати як…"
 msgid "_Other languages"
 msgstr "_Інші мови"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:503
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:516
 msgid "Text Highlight"
 msgstr "Підсвічування тексту"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:504
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:517
 msgid "Syntax highlighting of mail parts"
 msgstr "Підсвічування синтаксису поштової частини"
 
@@ -29912,9 +29944,9 @@ msgstr ""
 #: ../src/plugins/sender-validation/sender-validation.c:653
 msgid ""
 "Set which account should be used for certain recipient patterns.\n"
-"For example, setting recipient as “@company.org” for account “me@company."
-"org” will warn when a recipient containing “@company.org” is not used with "
-"the “me@company.org” account."
+"For example, setting recipient as “@company.org” for account "
+"“me@company.org” will warn when a recipient containing “@company.org” is not "
+"used with the “me@company.org” account."
 msgstr ""
 "Встановити, який обліковий запис слід використовувати для певних взірців "
 "отримувачів.\n"
@@ -30517,8 +30549,8 @@ msgstr ""
 "Якщо вам потрібна стабільна версія Evolution, рекомендується вилучити\n"
 "цю версію, та натомість встановити версію %s.\n"
 "\n"
-"Якщо ви знайшли помилку в програмі, сповістіть про неї на https://gitlab."
-"gnome.org/GNOME/evolution/issues/\n"
+"Якщо ви знайшли помилку в програмі, сповістіть про неї на https://"
+"gitlab.gnome.org/GNOME/evolution/issues/\n"
 "Цей продукт розповсюджується без будь-якої гарантії. Його\n"
 "не призначено для осіб, у яких трапляються напади руйнівної люті.\n"
 "\n"
@@ -31028,7 +31060,8 @@ msgstr "Виберіть сертифікат"
 
 #: ../src/smime/gui/smime-ui.ui.h:1
 msgid "You have certificates from these organizations that identify you:"
-msgstr "Ви маєте сертифікати від наступних організацій, що вас ідентифікували:"
+msgstr ""
+"Ви маєте сертифікати від наступних організацій, що вас ідентифікували:"
 
 #: ../src/smime/gui/smime-ui.ui.h:2
 msgid "Certificates Table"
