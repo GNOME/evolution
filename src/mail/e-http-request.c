@@ -171,12 +171,8 @@ e_http_request_process_sync (EContentRequest *request,
 	if (!evo_uri)
 		evo_uri = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
 
-	if (camel_debug_start ("emformat:requests")) {
-		printf (
-			"%s: looking for '%s'\n",
-			G_STRFUNC, evo_uri ? evo_uri : "[null]");
-		camel_debug_end ();
-	}
+	if (camel_debug ("emformat:requests"))
+		printf ("%s: Looking for '%s'\n", G_STRFUNC, evo_uri ? evo_uri : "[null]");
 
 	/* Remove the "evo-" prefix from scheme */
 	uri_len = (evo_uri != NULL) ? strlen (evo_uri) : 0;
@@ -205,8 +201,11 @@ e_http_request_process_sync (EContentRequest *request,
 	 * We were previously using the URI as a filename but the URI is
 	 * sometimes too long for a filename. */
 	uri_md5 = e_http_request_util_compute_uri_checksum (use_uri);
-	if (!uri_md5)
+	if (!uri_md5) {
+		if (camel_debug ("emformat:requests"))
+			printf ("%s: Failed to get hash of URI '%s'\n", G_STRFUNC, use_uri);
 		goto cleanup;
+	}
 
 	/* Open Evolution's cache */
 	user_cache_dir = e_get_user_cache_dir ();
@@ -247,10 +246,10 @@ e_http_request_process_sync (EContentRequest *request,
 			if (info) {
 				*out_mime_type = g_strdup (g_file_info_get_content_type (info));
 
-				d (
-					printf ("'%s' found in cache (%d bytes, %s)\n",
-					use_uri, (gint) *out_stream_length,
-					*out_mime_type));
+				if (camel_debug ("emformat:requests")) {
+					printf ("%s: URI '%s' found in cache (%d bytes, %s)\n",
+						G_STRFUNC, use_uri, (gint) *out_stream_length, *out_mime_type);
+				}
 			}
 
 			g_clear_object (&info);
@@ -271,8 +270,11 @@ e_http_request_process_sync (EContentRequest *request,
 	/* If the item is not cached and Evolution is offline
 	 * then quit regardless of any image loading policy. */
 	shell = e_shell_get_default ();
-	if (!e_shell_get_online (shell))
+	if (!e_shell_get_online (shell)) {
+		if (camel_debug ("emformat:requests"))
+			printf ("%s: Shell not online, not downloading URI '%s'\n", G_STRFUNC, use_uri);
 		goto cleanup;
+	}
 
 	if (WEBKIT_IS_WEB_VIEW (requester))
 		disable_remote_content = g_strcmp0 (webkit_web_view_get_uri (WEBKIT_WEB_VIEW (requester)), "evo://disable-remote-content") == 0;
@@ -321,6 +323,8 @@ e_http_request_process_sync (EContentRequest *request,
 				E_MAIL_UI_SESSION (session),
 				addr, FALSE, cancellable,
 				&known_address, error)) {
+				if (camel_debug ("emformat:requests"))
+					printf ("%s: Failed to check whether sender is a known address, not downloading URI '%s'\n", G_STRFUNC, use_uri);
 				g_object_unref (part_list);
 				g_free (decoded_uri);
 				goto cleanup;
@@ -343,12 +347,16 @@ e_http_request_process_sync (EContentRequest *request,
 		GInputStream *input_stream;
 		gulong cancelled_id = 0;
 
-		if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		if (g_cancellable_set_error_if_cancelled (cancellable, error)) {
+			if (camel_debug ("emformat:requests"))
+				printf ("%s: Request cancelled, not downloading URI '%s'\n", G_STRFUNC, use_uri);
 			goto cleanup;
+		}
 
 		message = soup_message_new (SOUP_METHOD_GET, use_uri);
 		if (!message) {
-			g_debug ("%s: Skipping invalid URI '%s'", G_STRFUNC, use_uri);
+			if (camel_debug ("emformat:requests"))
+				printf ("%s: URI '%s' is invalid, not downloading it\n", G_STRFUNC, use_uri);
 			goto cleanup;
 		}
 
@@ -375,7 +383,15 @@ e_http_request_process_sync (EContentRequest *request,
 			g_cancellable_disconnect (cancellable, cancelled_id);
 
 		if (!input_stream || !SOUP_STATUS_IS_SUCCESSFUL (soup_message_get_status (message))) {
-			g_debug ("Failed to request %s (code %d)", use_uri, soup_message_get_status (message));
+			if (camel_debug ("emformat:requests")) {
+				const gchar *reason = soup_message_get_reason_phrase (message);
+
+				if (reason && !*reason)
+					reason = NULL;
+
+				printf ("%s: Failed to download URI '%s', code: %u%s%s%s\n", G_STRFUNC, use_uri, soup_message_get_status (message),
+					reason ? " (" : "", reason ? reason : "", reason ? ")" : "");
+			}
 			g_clear_object (&input_stream);
 			g_object_unref (message);
 			g_object_unref (temp_session);
@@ -449,12 +465,10 @@ e_http_request_process_sync (EContentRequest *request,
 		g_object_unref (message);
 		g_object_unref (temp_session);
 
-		d (printf ("Received image from %s\n"
-			"Content-Type: %s\n"
-			"Content-Length: %d bytes\n"
-			"URI MD5: %s:\n",
-			use_uri, *out_mime_type ? *out_mime_type : "[null]",
-			(gint) *out_stream_length, uri_md5));
+		if (camel_debug ("emformat:requests")) {
+			printf ("%s: Received data from '%s' Content-Type: %s Content-Length: %d bytes URI MD5: %s:\n",
+				G_STRFUNC, use_uri, *out_mime_type ? *out_mime_type : "[null]", (gint) *out_stream_length, uri_md5);
+		}
 	}
 
  cleanup:
