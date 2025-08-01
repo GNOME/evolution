@@ -1,3 +1,27 @@
+Evolution 3.57.2 2025-08-01
+---------------------------
+
+Bug Fixes:
+	I#3088 - Mail Folders in Dark Blue Colour have low Contrast in Dark Mode
+	I#3094 - text-highlight: Use dark style for dark theme
+	I#3099 - Mail: Add "Go to Containing Folder" action in search folders
+	M!196 - Use GTask instead of ESimpleAsyncResult (Corentin Noël)
+	M!198 - data: Rename appdata to metainfo (AsciiWolf)
+	M!198 - data: Change component type to "desktop-application" (AsciiWolf)
+
+Miscellaneous:
+	Adapt to libcamel API changes
+	Mail: 'Ignore thread' does not find thread messages
+	rss: Set base URI also for complete articles
+	EHTTPRequest: Add more debug prints
+
+Translations:
+	Álvaro Burns (pt_BR)
+	Ekaterine Papava (ka)
+	Emin Tufan Çetin (tr)
+	Martin (sl)
+	Yuri Chornoivan (uk)
+
 Evolution 3.57.1 2025-06-27
 ---------------------------
 
