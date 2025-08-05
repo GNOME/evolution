@@ -1143,6 +1143,83 @@ action_undo_cb (EUIAction *action,
 	}
 }
 
+
+static void
+action_zoom_100_cb (EUIAction *action,
+		    GVariant *parameter,
+		    gpointer user_data)
+{
+	EHTMLEditor *editor = user_data;
+	EContentEditor *cnt_editor;
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_set_zoom_level (cnt_editor, 1.0);
+}
+
+void
+e_html_editor_zoom_in (EHTMLEditor *editor,
+		       EContentEditor *cnt_editor)
+{
+	gdouble level;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (E_IS_CONTENT_EDITOR (cnt_editor));
+
+	level = e_content_editor_get_zoom_level (cnt_editor);
+
+	if (level <= 0.0)
+		return;
+
+	level += 0.1;
+	if (level < 4.9999)
+		e_content_editor_set_zoom_level (cnt_editor, level);
+}
+
+void
+e_html_editor_zoom_out (EHTMLEditor *editor,
+			EContentEditor *cnt_editor)
+{
+	gdouble level;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (E_IS_CONTENT_EDITOR (cnt_editor));
+
+	level = e_content_editor_get_zoom_level (cnt_editor);
+
+	if (level <= 0.0)
+		return;
+
+	level -= 0.1;
+	if (level > 0.7999)
+		e_content_editor_set_zoom_level (cnt_editor, level);
+}
+
+static void
+action_zoom_in_cb (EUIAction *action,
+		   GVariant *parameter,
+		   gpointer user_data)
+{
+	EHTMLEditor *editor = user_data;
+	EContentEditor *cnt_editor;
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	e_html_editor_zoom_in (editor, cnt_editor);
+}
+
+static void
+action_zoom_out_cb (EUIAction *action,
+		    GVariant *parameter,
+		    gpointer user_data)
+{
+	EHTMLEditor *editor = user_data;
+	EContentEditor *cnt_editor;
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	e_html_editor_zoom_out (editor, cnt_editor);
+}
+
 static void
 action_unindent_cb (EUIAction *action,
 		    GVariant *parameter,
@@ -1315,6 +1392,27 @@ static const EUIActionEntry core_entries[] = {
 	  N_("Undo the last action"),
 	  action_undo_cb, NULL, NULL, NULL },
 
+	{ "zoom-100",
+	  "zoom-original",
+	  N_("_Normal Size"),
+	  "<Alt><Control>0",
+	  N_("Reset the text to its original size"),
+	  action_zoom_100_cb, NULL, NULL, NULL },
+
+	{ "zoom-in",
+	  "zoom-in",
+	  N_("_Zoom In"),
+	  "<Control>plus",
+	  N_("Increase the text size"),
+	  action_zoom_in_cb, NULL, NULL, NULL },
+
+	{ "zoom-out",
+	  "zoom-out",
+	  N_("Zoom _Out"),
+	  "<Control>minus",
+	  N_("Decrease the text size"),
+	  action_zoom_out_cb, NULL, NULL, NULL },
+
 	/* Menus */
 
 	{ "edit-menu",
@@ -1372,6 +1470,8 @@ static const EUIActionEntry core_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL, NULL, NULL, NULL },
+
+	{ "zoom-menu", NULL, N_("_Zoom"), NULL, NULL, NULL, NULL, NULL, NULL },
 
 	/* fake actions, related to dynamic items */
 

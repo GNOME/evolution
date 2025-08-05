@@ -435,9 +435,11 @@ struct _EContentEditorInterface {
 	const gchar *	(*get_hover_uri)		(EContentEditor *editor);
 	void		(*get_caret_client_rect)	(EContentEditor *editor,
 							 GdkRectangle *out_rect);
-
+	gdouble		(*get_zoom_level)		(EContentEditor *editor);
+	void		(*set_zoom_level)		(EContentEditor *editor,
+							 gdouble level);
 	/* padding for future expansion */
-	gpointer reserved[15];
+	gpointer reserved[13];
 };
 
 /* Properties */
@@ -1002,6 +1004,9 @@ const gchar *	e_content_editor_get_hover_uri	(EContentEditor *editor);
 void		e_content_editor_get_caret_client_rect
 						(EContentEditor *editor,
 						 GdkRectangle *out_rect);
+gdouble		e_content_editor_get_zoom_level	(EContentEditor *editor);
+void		e_content_editor_set_zoom_level	(EContentEditor *editor,
+						 gdouble level);
 
 /* Signal helpers */
 

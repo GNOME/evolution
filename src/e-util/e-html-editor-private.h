@@ -141,6 +141,10 @@ gboolean	e_html_editor_has_editor_for_mode
 						 EContentEditorMode mode);
 void		e_html_editor_emit_after_mode_changed
 						(EHTMLEditor *self);
+void		e_html_editor_zoom_in		(EHTMLEditor *editor,
+						 EContentEditor *cnt_editor);
+void		e_html_editor_zoom_out		(EHTMLEditor *editor,
+						 EContentEditor *cnt_editor);
 
 G_END_DECLS
 

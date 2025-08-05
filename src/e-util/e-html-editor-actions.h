@@ -175,5 +175,13 @@
 	E_HTML_EDITOR_ACTION ((editor), "unindent")
 #define E_HTML_EDITOR_ACTION_WRAP_LINES(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "wrap-lines")
+#define E_HTML_EDITOR_ACTION_ZOOM_MENU(composer) \
+	E_HTML_EDITOR_ACTION ((composer), "zoom-menu")
+#define E_HTML_EDITOR_ACTION_ZOOM_IN(composer) \
+	E_HTML_EDITOR_ACTION ((composer), "zoom-in")
+#define E_HTML_EDITOR_ACTION_ZOOM_OUT(composer) \
+	E_HTML_EDITOR_ACTION ((composer), "zoom-out")
+#define E_HTML_EDITOR_ACTION_ZOOM_100(composer) \
+	E_HTML_EDITOR_ACTION ((composer), "zoom-100")
 
 #endif /* E_HTML_EDITOR_ACTIONS_H */

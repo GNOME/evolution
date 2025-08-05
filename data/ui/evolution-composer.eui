@@ -49,6 +49,12 @@
         <item action='toolbar-show-edit'/>
         <separator/>
         <item action='visually-wrap-long-lines'/>
+        <separator/>
+        <submenu action='zoom-menu'>
+          <item action='zoom-in'/>
+          <item action='zoom-out'/>
+          <item action='zoom-100'/>
+        </submenu>
       </submenu>
     </placeholder>
     <submenu action='insert-menu'>

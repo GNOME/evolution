@@ -1805,6 +1805,49 @@ e_html_editor_content_editor_notify_mode_cb (GObject *object,
 	}
 }
 
+static gboolean
+html_editor_scroll_event_cb (GtkWidget *widget,
+			     GdkEventScroll *event,
+			     gpointer user_data)
+{
+	EHTMLEditor *editor = user_data;
+
+	if ((event->state & GDK_CONTROL_MASK) != 0) {
+		GdkScrollDirection direction = event->direction;
+
+		if (direction == GDK_SCROLL_SMOOTH) {
+			static gdouble total_delta_y = 0.0;
+
+			total_delta_y += event->delta_y;
+
+			if (total_delta_y >= 1.0) {
+				total_delta_y = 0.0;
+				direction = GDK_SCROLL_DOWN;
+			} else if (total_delta_y <= -1.0) {
+				total_delta_y = 0.0;
+				direction = GDK_SCROLL_UP;
+			} else if (event->delta_y >= 1e-9 || event->delta_y <= -1e-9) {
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		}
+
+		switch (direction) {
+			case GDK_SCROLL_UP:
+				e_html_editor_zoom_in (editor, E_CONTENT_EDITOR (widget));
+				return TRUE;
+			case GDK_SCROLL_DOWN:
+				e_html_editor_zoom_out (editor, E_CONTENT_EDITOR (widget));
+				return TRUE;
+			default:
+				break;
+		}
+	}
+
+	return FALSE;
+}
+
 static EContentEditor *
 e_html_editor_get_content_editor_for_mode (EHTMLEditor *editor,
 					   EContentEditorMode mode)
@@ -1951,6 +1994,10 @@ e_html_editor_get_content_editor_for_mode (EHTMLEditor *editor,
 		g_signal_connect (
 			cnt_editor, "context-menu-requested",
 			G_CALLBACK (html_editor_context_menu_requested_cb), editor);
+
+		g_signal_connect (
+			cnt_editor, "scroll-event",
+			G_CALLBACK (html_editor_scroll_event_cb), editor);
 
 		g_hash_table_insert (editor->priv->content_editors_for_mode, GINT_TO_POINTER (mode), cnt_editor);
 	}
@@ -2180,6 +2227,7 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 		if (editor_changed) {
 			EContentEditorInterface *iface;
 			gboolean is_focused = FALSE;
+			gboolean zoom_supported;
 
 			if (editor->priv->use_content_editor) {
 				ModeChangeData *mcd;
@@ -2264,6 +2312,12 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 				e_content_editor_set_spell_check_enabled (cnt_editor,
 					e_content_editor_get_spell_check_enabled (editor->priv->use_content_editor));
 			}
+
+			zoom_supported = iface && iface->get_zoom_level && iface->set_zoom_level;
+			action_set_visible_and_sensitive (ACTION (ZOOM_MENU), zoom_supported);
+			action_set_visible_and_sensitive (ACTION (ZOOM_100), zoom_supported);
+			action_set_visible_and_sensitive (ACTION (ZOOM_IN), zoom_supported);
+			action_set_visible_and_sensitive (ACTION (ZOOM_OUT), zoom_supported);
 		}
 
 		editor->priv->mode = mode;

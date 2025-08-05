@@ -3893,6 +3893,37 @@ e_content_editor_get_caret_client_rect (EContentEditor *editor,
 		iface->get_caret_client_rect (editor, out_rect);
 }
 
+gdouble
+e_content_editor_get_zoom_level (EContentEditor *editor)
+{
+	EContentEditorInterface *iface;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), -1.0);
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_val_if_fail (iface != NULL, -1.0);
+
+	if (iface->get_zoom_level)
+		return iface->get_zoom_level (editor);
+
+	return -1.0;
+}
+
+void
+e_content_editor_set_zoom_level (EContentEditor *editor,
+				 gdouble level)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+
+	if (iface->set_zoom_level)
+		iface->set_zoom_level (editor, level);
+}
+
 void
 e_content_editor_emit_load_finished (EContentEditor *editor)
 {

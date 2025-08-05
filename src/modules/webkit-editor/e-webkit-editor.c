@@ -5810,6 +5810,19 @@ webkit_editor_key_press_event (GtkWidget *widget,
 	       GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->key_press_event (widget, event);
 }
 
+static gdouble
+webkit_editor_get_zoom_level (EContentEditor *editor)
+{
+	return webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (editor));
+}
+
+static void
+webkit_editor_set_zoom_level (EContentEditor *editor,
+			      gdouble level)
+{
+	webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (editor), level);
+}
+
 static void
 e_webkit_editor_class_init (EWebKitEditorClass *class)
 {
@@ -6237,6 +6250,8 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->delete_image = webkit_editor_delete_image;
 	iface->get_hover_uri = webkit_editor_get_hover_uri;
 	iface->get_caret_client_rect = webkit_editor_get_caret_client_rect;
+	iface->get_zoom_level = webkit_editor_get_zoom_level;
+	iface->set_zoom_level = webkit_editor_set_zoom_level;
 }
 
 static void
