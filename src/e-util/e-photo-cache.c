@@ -34,6 +34,7 @@
 
 #include <e-util/e-data-capture.h>
 
+#include "e-simple-async-result.h"
 #include "e-photo-cache.h"
 
 /* How long (in seconds) to hold out for a hit from the highest
@@ -81,7 +82,7 @@ struct _AsyncContext {
 struct _AsyncSubtask {
 	volatile gint ref_count;
 	EPhotoSource *photo_source;
-	GTask *task;
+	ESimpleAsyncResult *simple;
 	GCancellable *cancellable;
 	GInputStream *stream;
 	gint priority;
@@ -113,14 +114,14 @@ G_DEFINE_TYPE_WITH_CODE (EPhotoCache, e_photo_cache, G_TYPE_OBJECT,
 
 static AsyncSubtask *
 async_subtask_new (EPhotoSource *photo_source,
-                   GTask *task)
+                   ESimpleAsyncResult *simple)
 {
 	AsyncSubtask *async_subtask;
 
 	async_subtask = g_slice_new0 (AsyncSubtask);
 	async_subtask->ref_count = 1;
 	async_subtask->photo_source = g_object_ref (photo_source);
-	async_subtask->task = g_object_ref (task);
+	async_subtask->simple = g_object_ref (simple);
 	async_subtask->cancellable = g_cancellable_new ();
 	async_subtask->priority = G_PRIORITY_DEFAULT;
 
@@ -163,7 +164,7 @@ async_subtask_unref (AsyncSubtask *async_subtask)
 		}
 
 		g_clear_object (&async_subtask->photo_source);
-		g_clear_object (&async_subtask->task);
+		g_clear_object (&async_subtask->simple);
 		g_clear_object (&async_subtask->cancellable);
 		g_clear_object (&async_subtask->stream);
 
@@ -208,13 +209,13 @@ async_subtask_compare (gconstpointer a,
 static void
 async_subtask_complete (AsyncSubtask *async_subtask)
 {
-	GTask *task;
+	ESimpleAsyncResult *simple;
 	AsyncContext *async_context;
 	gboolean cancel_subtasks = FALSE;
 	gdouble seconds_elapsed;
 
-	task = async_subtask->task;
-	async_context = g_task_get_task_data (task);
+	simple = async_subtask->simple;
+	async_context = e_simple_async_result_get_op_pointer (simple);
 
 	g_mutex_lock (&async_context->lock);
 
@@ -258,19 +259,22 @@ async_subtask_complete (AsyncSubtask *async_subtask)
 
 	if (async_subtask != NULL) {
 		if (async_subtask->stream != NULL) {
-			GInputStream *stream =
+			async_context->stream =
 				g_converter_input_stream_new (
 					async_subtask->stream,
 					async_context->data_capture);
-			g_task_return_pointer (task, g_steal_pointer (&stream), g_object_unref);
 		}
 
 		if (async_subtask->error != NULL) {
-			g_task_return_error (task, g_steal_pointer (&async_subtask->error));
+			e_simple_async_result_take_error (
+				simple, async_subtask->error);
+			async_subtask->error = NULL;
 		}
 
 		async_subtask_unref (async_subtask);
 	}
+
+	e_simple_async_result_complete_idle (simple);
 
 exit:
 	g_mutex_unlock (&async_context->lock);
@@ -357,7 +361,7 @@ async_context_cancel_subtasks (AsyncContext *async_context)
 	list = g_hash_table_get_keys (async_context->subtasks);
 
 	/* XXX Cancel subtasks from idle callbacks to make sure we don't
-	 *     finalize the GTask during a "cancelled" signal
+	 *     finalize the ESimpleAsyncResult during a "cancelled" signal
 	 *     emission from the main task's GCancellable.  That will make
 	 *     g_cancellable_disconnect() in async_context_free() deadlock. */
 	for (link = list; link != NULL; link = g_list_next (link)) {
@@ -1083,7 +1087,7 @@ e_photo_cache_get_photo (EPhotoCache *photo_cache,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
-	GTask *task;
+	ESimpleAsyncResult *simple;
 	AsyncContext *async_context;
 	EDataCapture *data_capture;
 	GInputStream *stream = NULL;
@@ -1102,24 +1106,30 @@ e_photo_cache_get_photo (EPhotoCache *photo_cache,
 		data_capture_closure_new (photo_cache, email_address),
 		(GClosureNotify) data_capture_closure_free, 0);
 
-	task = g_task_new (photo_cache, cancellable, callback, user_data);
-	g_task_set_source_tag (task, e_photo_cache_get_photo);
+	async_context = async_context_new (data_capture, cancellable);
+
+	simple = e_simple_async_result_new (
+		G_OBJECT (photo_cache), callback,
+		user_data, e_photo_cache_get_photo);
+
+	e_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	e_simple_async_result_set_op_pointer (
+		simple, async_context, (GDestroyNotify) async_context_free);
 
 	/* Check if we have this email address already cached. */
 	if (photo_ht_lookup (photo_cache, email_address, &stream)) {
-		g_task_return_pointer (task, g_steal_pointer (&stream), g_object_unref);
+		async_context->stream = stream;  /* takes ownership */
+		e_simple_async_result_complete_idle (simple);
 		goto exit;
 	}
 
 	list = e_photo_cache_list_photo_sources (photo_cache);
 
 	if (list == NULL) {
-		g_task_return_pointer (task, NULL, NULL);
+		e_simple_async_result_complete_idle (simple);
 		goto exit;
 	}
-
-	async_context = async_context_new (data_capture, cancellable);
-	g_task_set_task_data (task, async_context, (GDestroyNotify) async_context_free);
 
 	g_mutex_lock (&async_context->lock);
 
@@ -1129,7 +1139,7 @@ e_photo_cache_get_photo (EPhotoCache *photo_cache,
 		AsyncSubtask *async_subtask;
 
 		photo_source = E_PHOTO_SOURCE (link->data);
-		async_subtask = async_subtask_new (photo_source, task);
+		async_subtask = async_subtask_new (photo_source, simple);
 
 		g_hash_table_add (
 			async_context->subtasks,
@@ -1153,7 +1163,7 @@ e_photo_cache_get_photo (EPhotoCache *photo_cache,
 		async_context_cancel_subtasks (async_context);
 
 exit:
-	g_object_unref (task);
+	g_object_unref (simple);
 	g_object_unref (data_capture);
 }
 
@@ -1182,17 +1192,27 @@ e_photo_cache_get_photo_finish (EPhotoCache *photo_cache,
                                 GInputStream **out_stream,
                                 GError **error)
 {
-	GInputStream *stream;
+	ESimpleAsyncResult *simple;
+	AsyncContext *async_context;
 
-	g_return_val_if_fail (g_async_result_is_tagged (result, e_photo_cache_get_photo), FALSE);
-	g_return_val_if_fail (g_task_is_valid (result, photo_cache), FALSE);
+	g_return_val_if_fail (
+		e_simple_async_result_is_valid (
+		result, G_OBJECT (photo_cache),
+		e_photo_cache_get_photo), FALSE);
 
-	stream = g_task_propagate_pointer (G_TASK (result), error);
+	simple = E_SIMPLE_ASYNC_RESULT (result);
+	async_context = e_simple_async_result_get_op_pointer (simple);
+
+	if (e_simple_async_result_propagate_error (simple, error))
+		return FALSE;
+
 	if (out_stream != NULL) {
-		*out_stream = g_steal_pointer (&stream);
+		if (async_context->stream != NULL)
+			*out_stream = g_object_ref (async_context->stream);
+		else
+			*out_stream = NULL;
 	}
 
-	g_clear_object (&stream);
-	return !g_task_had_error (G_TASK (result));
+	return TRUE;
 }
 

@@ -24,6 +24,7 @@
 #include "e-alert-sink.h"
 #include "e-alert-bar.h"
 #include "e-misc-utils.h"
+#include "e-simple-async-result.h"
 
 #include "e-mail-signature-editor.h"
 
@@ -757,15 +758,15 @@ mail_signature_editor_html_editor_created_cb (GObject *source_object,
 {
 	GtkWidget *html_editor;
 	EMailSignatureEditor *signature_editor;
-	GTask *task = user_data;
+	ESimpleAsyncResult *eresult = user_data;
 	CreateEditorData *ced;
 	GDBusObject *dbus_object;
 	ESource *source;
 	GError *error = NULL;
 
-	g_return_if_fail (G_IS_TASK (task));
+	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (eresult));
 
-	ced = g_task_get_task_data (task);
+	ced = e_simple_async_result_get_user_data (eresult);
 	g_return_if_fail (ced != NULL);
 
 	html_editor = e_html_editor_new_finish (async_result, &error);
@@ -780,9 +781,13 @@ mail_signature_editor_html_editor_created_cb (GObject *source_object,
 		"editor", html_editor,
 		NULL);
 
-	g_task_return_pointer (task, g_object_ref_sink (signature_editor), g_object_unref);
+	g_object_ref (signature_editor);
 
-	g_clear_object (&task);
+	e_simple_async_result_set_op_pointer (eresult, signature_editor, NULL);
+
+	e_simple_async_result_complete (eresult);
+
+	g_object_unref (eresult);
 
 	source = e_mail_signature_editor_get_source (signature_editor);
 
@@ -816,7 +821,7 @@ e_mail_signature_editor_new (ESourceRegistry *registry,
 			     GAsyncReadyCallback callback,
 			     gpointer user_data)
 {
-	GTask *task;
+	ESimpleAsyncResult *eresult;
 	CreateEditorData *ced;
 
 	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
@@ -828,21 +833,24 @@ e_mail_signature_editor_new (ESourceRegistry *registry,
 	ced->registry = g_object_ref (registry);
 	ced->source = source ? g_object_ref (source) : NULL;
 
-	task = g_task_new (NULL, NULL, callback, user_data);
-	g_task_set_source_tag (task, e_mail_signature_editor_new);
-	g_task_set_task_data (task, g_steal_pointer (&ced), (GDestroyNotify) create_editor_data_free);
+	eresult = e_simple_async_result_new (NULL, callback, user_data, e_mail_signature_editor_new);
+	e_simple_async_result_set_user_data (eresult, ced, create_editor_data_free);
 
-	e_html_editor_new (mail_signature_editor_html_editor_created_cb, task);
+	e_html_editor_new (mail_signature_editor_html_editor_created_cb, eresult);
 }
 
 GtkWidget *
 e_mail_signature_editor_new_finish (GAsyncResult *result,
 				    GError **error)
 {
-	g_return_val_if_fail (G_IS_TASK (result), NULL);
+	ESimpleAsyncResult *eresult;
+
+	g_return_val_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result), NULL);
 	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_signature_editor_new), NULL);
 
-	return g_task_propagate_pointer (G_TASK (result), error);
+	eresult = E_SIMPLE_ASYNC_RESULT (result);
+
+	return e_simple_async_result_get_op_pointer (eresult);
 }
 
 EHTMLEditor *

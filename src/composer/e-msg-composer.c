@@ -3309,21 +3309,21 @@ e_msg_composer_editor_created_cb (GObject *source_object,
 				  gpointer user_data)
 {
 	GtkWidget *editor;
-	GTask *task = user_data;
+	ESimpleAsyncResult *eresult = user_data;
 	GError *error = NULL;
 
-	g_return_if_fail (G_IS_TASK (task));
+	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (eresult));
 
 	editor = e_html_editor_new_finish (result, &error);
 	if (error) {
 		g_warning ("%s: Failed to create HTML editor: %s", G_STRFUNC, error->message);
 		g_clear_error (&error);
-		g_task_return_pointer (task, NULL, NULL);
 	} else {
-		g_task_return_pointer (task, g_object_ref_sink (editor), g_object_unref);
+		e_simple_async_result_set_op_pointer (eresult, editor, NULL);
+		e_simple_async_result_complete (eresult);
 	}
 
-	g_object_unref (task);
+	g_object_unref (eresult);
 }
 
 /**
@@ -3342,16 +3342,15 @@ e_msg_composer_new (EShell *shell,
 		    GAsyncReadyCallback callback,
 		    gpointer user_data)
 {
-	GTask *task;
+	ESimpleAsyncResult *eresult;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (callback != NULL);
 
-	task = g_task_new (NULL, NULL, callback, user_data);
-	g_task_set_source_tag (task, e_msg_composer_new);
-	g_task_set_task_data (task, g_object_ref (shell), g_object_unref);
+	eresult = e_simple_async_result_new (NULL, callback, user_data, e_msg_composer_new);
+	e_simple_async_result_set_user_data (eresult, g_object_ref (shell), g_object_unref);
 
-	e_html_editor_new (e_msg_composer_editor_created_cb, task);
+	e_html_editor_new (e_msg_composer_editor_created_cb, eresult);
 }
 
 /**
@@ -3367,23 +3366,21 @@ EMsgComposer *
 e_msg_composer_new_finish (GAsyncResult *result,
 			   GError **error)
 {
-	GTask *task;
+	ESimpleAsyncResult *eresult;
 	EHTMLEditor *html_editor;
-	EMsgComposer *composer;
 
-	g_return_val_if_fail (G_IS_TASK (result), NULL);
+	g_return_val_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result), NULL);
 	g_return_val_if_fail (g_async_result_is_tagged (result, e_msg_composer_new), NULL);
 
-	task = G_TASK (result);
-	html_editor = g_task_propagate_pointer (task, error);
+	eresult = E_SIMPLE_ASYNC_RESULT (result);
+
+	html_editor = e_simple_async_result_get_op_pointer (eresult);
 	g_return_val_if_fail (E_IS_HTML_EDITOR (html_editor), NULL);
 
-	composer = g_object_new (E_TYPE_MSG_COMPOSER,
-		"shell", g_task_get_task_data (task),
+	return g_object_new (E_TYPE_MSG_COMPOSER,
+		"shell", e_simple_async_result_get_user_data (eresult),
 		"editor", html_editor,
 		NULL);
-	g_clear_object (&html_editor);
-	return composer;
 }
 
 /**

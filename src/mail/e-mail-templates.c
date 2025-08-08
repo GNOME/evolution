@@ -681,6 +681,7 @@ typedef struct _AsyncContext {
 	CamelFolder *templates_folder;
 	gchar *source_message_uid;
 	gchar *templates_message_uid;
+	CamelMimeMessage *result_message;
 } AsyncContext;
 
 static void
@@ -692,6 +693,7 @@ async_context_free (gpointer ptr)
 		g_clear_object (&context->source_message);
 		g_clear_object (&context->source_folder);
 		g_clear_object (&context->templates_folder);
+		g_clear_object (&context->result_message);
 		g_free (context->source_message_uid);
 		g_free (context->templates_message_uid);
 		g_slice_free (AsyncContext, context);
@@ -699,28 +701,23 @@ async_context_free (gpointer ptr)
 }
 
 static void
-e_mail_templates_apply_thread (GTask *task,
+e_mail_templates_apply_thread (ESimpleAsyncResult *simple,
 			       gpointer source_object,
-			       gpointer task_data,
 			       GCancellable *cancellable)
 {
-	AsyncContext *context = task_data;
-	CamelMimeMessage *result_message;
+	AsyncContext *context;
 	GError *local_error = NULL;
 
+	context = e_simple_async_result_get_op_pointer (simple);
 	g_return_if_fail (context != NULL);
 
-	result_message = e_mail_templates_apply_sync (
+	context->result_message = e_mail_templates_apply_sync (
 		context->source_message, context->source_folder, context->source_message_uid,
 		context->templates_folder, context->templates_message_uid,
 		cancellable, &local_error);
 
 	if (local_error)
-		g_task_return_error (task, g_steal_pointer (&local_error));
-	else
-		g_task_return_pointer (task, g_steal_pointer (&result_message), g_object_unref);
-
-	g_clear_object (&result_message);
+		e_simple_async_result_take_error (simple, local_error);
 }
 
 void
@@ -733,7 +730,7 @@ e_mail_templates_apply (CamelMimeMessage *source_message,
 			GAsyncReadyCallback callback,
 			gpointer user_data)
 {
-	GTask *task;
+	ESimpleAsyncResult *simple;
 	AsyncContext *context;
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (source_message));
@@ -747,14 +744,16 @@ e_mail_templates_apply (CamelMimeMessage *source_message,
 	context->source_message_uid = g_strdup (source_message_uid);
 	context->templates_folder = g_object_ref (templates_folder);
 	context->templates_message_uid = g_strdup (templates_message_uid);
+	context->result_message = NULL;
 
-	task = g_task_new (source_message, cancellable, callback, user_data);
-	g_task_set_source_tag (task, e_mail_templates_apply);
-	g_task_set_task_data (task, g_steal_pointer (&context), (GDestroyNotify) async_context_free);
+	simple = e_simple_async_result_new (G_OBJECT (source_message), callback,
+		user_data, e_mail_templates_apply);
 
-	g_task_run_in_thread (task, e_mail_templates_apply_thread);
+	e_simple_async_result_set_op_pointer (simple, context, (GDestroyNotify) async_context_free);
 
-	g_object_unref (task);
+	e_simple_async_result_run_in_thread (simple, G_PRIORITY_DEFAULT, e_mail_templates_apply_thread, cancellable);
+
+	g_object_unref (simple);
 }
 
 CamelMimeMessage *
@@ -762,9 +761,16 @@ e_mail_templates_apply_finish (GObject *source_object,
 			       GAsyncResult *result,
 			       GError **error)
 {
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (source_object), NULL);
-	g_return_val_if_fail (g_task_is_valid (result, source_object), NULL);
-	g_return_val_if_fail (g_async_result_is_tagged (result, e_mail_templates_apply), NULL);
+	ESimpleAsyncResult *simple;
+	AsyncContext *context;
 
-	return g_task_propagate_pointer (G_TASK (result), error);
+	g_return_val_if_fail (e_simple_async_result_is_valid (result, source_object, e_mail_templates_apply), NULL);
+
+	simple = E_SIMPLE_ASYNC_RESULT (result);
+	context = e_simple_async_result_get_op_pointer (simple);
+
+	if (e_simple_async_result_propagate_error (simple, error))
+		return NULL;
+
+	return context->result_message ? g_object_ref (context->result_message) : NULL;
 }

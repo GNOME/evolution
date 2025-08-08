@@ -36,6 +36,7 @@
 #include "e-dialog-widgets.h"
 #include "e-misc-utils.h"
 #include "e-spinner.h"
+#include "e-simple-async-result.h"
 
 #include "e-collection-account-wizard.h"
 
@@ -48,7 +49,7 @@ struct _ECollectionAccountWizardPrivate {
 	GHashTable *store_passwords; /* gchar *source-uid ~> gchar *password */
 	GHashTable *workers; /* EConfigLookupWorker * ~> WorkerData * */
 	guint running_workers;
-	GTask *running_task;
+	ESimpleAsyncResult *running_result;
 	gboolean changed;
 
 	ESource *sources[E_CONFIG_LOOKUP_RESULT_LAST_KIND + 1];
@@ -559,10 +560,7 @@ collection_account_wizard_worker_finished_cb (EConfigLookup *config_lookup,
 			gtk_widget_set_sensitive (wd2->enabled_check, TRUE);
 		}
 
-		if (wizard->priv->running_task) {
-			g_task_return_boolean (wizard->priv->running_task, TRUE);
-			g_clear_object (&wizard->priv->running_task);
-		}
+		g_clear_pointer (&wizard->priv->running_result, e_simple_async_result_complete_idle_take);
 
 		g_object_notify (G_OBJECT (wizard), "can-run");
 
@@ -1183,9 +1181,8 @@ collection_account_wizard_host_is_google_server (const gchar *host)
 }
 
 static void
-collection_account_wizard_write_changes_thread (GTask *task,
+collection_account_wizard_write_changes_thread (ESimpleAsyncResult *result,
 						gpointer source_object,
-						gpointer task_data,
 						GCancellable *cancellable)
 {
 	ECollectionAccountWizard *wizard = source_object;
@@ -1248,7 +1245,8 @@ collection_account_wizard_write_changes_thread (GTask *task,
 			g_clear_error (&local_error);
 		}
 
-		if (g_task_return_error_if_cancelled (task)) {
+		if (g_cancellable_set_error_if_cancelled (cancellable, &local_error)) {
+			e_simple_async_result_set_user_data (result, local_error, (GDestroyNotify) g_error_free);
 			return;
 		}
 	}
@@ -1369,26 +1367,21 @@ collection_account_wizard_write_changes_thread (GTask *task,
 				}
 
 				if (source && !e_source_store_password_sync (source, password, TRUE, cancellable, &local_error)) {
-					g_task_return_prefixed_error (task,
-						g_steal_pointer (&local_error),
-						"%s", _("Failed to store password: "));
-					goto exit_failure;
+					g_prefix_error (&local_error, "%s", _("Failed to store password: "));
+					e_simple_async_result_set_user_data (result, local_error, (GDestroyNotify) g_error_free);
+					break;
 				}
 			}
 		}
 	}
 
-	if (!g_task_had_error (task) && /* No error from password save */
+	if (!e_simple_async_result_get_user_data (result) && /* No error from password save */
 	    !e_source_registry_create_sources_sync (wizard->priv->registry, sources, cancellable, &local_error) && local_error) {
-		g_task_return_prefixed_error (task,
-			g_steal_pointer (&local_error),
-			"%s", _("Failed to create sources: "));
-		goto exit_failure;
+		g_prefix_error (&local_error, "%s", _("Failed to create sources: "));
+		e_simple_async_result_set_user_data (result, local_error, (GDestroyNotify) g_error_free);
 	}
 
-	g_task_return_boolean (task, TRUE);
-exit_failure:
-	g_clear_pointer (&sources, g_list_free);
+	g_list_free (sources);
 }
 
 static void
@@ -1397,16 +1390,15 @@ collection_account_wizard_write_changes_done (GObject *source_object,
 					      gpointer user_data)
 {
 	ECollectionAccountWizard *wizard;
-	GError *error = NULL;
+	const GError *error;
 	gboolean is_cancelled = FALSE;
 
 	g_return_if_fail (E_IS_COLLECTION_ACCOUNT_WIZARD (source_object));
-	g_return_if_fail (g_async_result_is_tagged (result, collection_account_wizard_write_changes_done));
-	g_return_if_fail (g_task_is_valid (result, source_object));
 
 	wizard = E_COLLECTION_ACCOUNT_WIZARD (source_object);
 
-	if (!g_task_propagate_boolean (G_TASK (result), &error)) {
+	error = e_simple_async_result_get_user_data (E_SIMPLE_ASYNC_RESULT (result));
+	if (error) {
 		is_cancelled = g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED);
 
 		if (is_cancelled && !wizard->priv->finish_label)
@@ -1435,8 +1427,6 @@ collection_account_wizard_write_changes_done (GObject *source_object,
 
 		g_signal_emit (wizard, signals[DONE], 0, e_source_get_uid (source));
 	}
-
-	g_clear_error (&error);
 }
 
 static void
@@ -1444,7 +1434,7 @@ collection_account_wizard_save_sources (ECollectionAccountWizard *wizard)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	GTask *task;
+	ESimpleAsyncResult *simple_result;
 	ESource *source;
 	const gchar *display_name;
 	const gchar *user;
@@ -1571,14 +1561,14 @@ collection_account_wizard_save_sources (ECollectionAccountWizard *wizard)
 	g_signal_connect (wizard->priv->finish_cancellable, "status",
 		G_CALLBACK (collection_account_wizard_update_status_cb), wizard->priv->finish_label);
 
-	task = g_task_new (wizard, wizard->priv->finish_cancellable,
-		collection_account_wizard_write_changes_done, NULL);
-	g_task_set_source_tag (task, collection_account_wizard_write_changes_done);
-	g_task_set_priority (task, G_PRIORITY_HIGH_IDLE);
+	simple_result = e_simple_async_result_new (G_OBJECT (wizard),
+		collection_account_wizard_write_changes_done, NULL,
+		collection_account_wizard_write_changes_done);
 
-	g_task_run_in_thread (task, collection_account_wizard_write_changes_thread);
+	e_simple_async_result_run_in_thread (simple_result, G_PRIORITY_HIGH_IDLE,
+		collection_account_wizard_write_changes_thread, wizard->priv->finish_cancellable);
 
-	g_object_unref (task);
+	g_object_unref (simple_result);
 
 	g_object_notify (G_OBJECT (wizard), "can-run");
 }
@@ -2229,10 +2219,7 @@ collection_account_wizard_dispose (GObject *object)
 	g_clear_object (&wizard->priv->finish_cancellable);
 	g_clear_pointer (&wizard->priv->workers, g_hash_table_destroy);
 	g_clear_pointer (&wizard->priv->store_passwords, g_hash_table_destroy);
-	if (wizard->priv->running_task) {
-		g_task_return_boolean (wizard->priv->running_task, TRUE);
-		g_clear_object (&wizard->priv->running_task);
-	}
+	g_clear_pointer (&wizard->priv->running_result, e_simple_async_result_complete_idle_take);
 
 	wizard->priv->email_entry = NULL;
 	wizard->priv->advanced_expander = NULL;
@@ -2443,7 +2430,7 @@ e_collection_account_wizard_get_can_run (ECollectionAccountWizard *wizard)
 	g_return_val_if_fail (E_IS_COLLECTION_ACCOUNT_WIZARD (wizard), FALSE);
 
 	if (wizard->priv->running_workers ||
-	    wizard->priv->running_task ||
+	    wizard->priv->running_result ||
 	    wizard->priv->finish_cancellable)
 		return FALSE;
 
@@ -2753,8 +2740,7 @@ e_collection_account_wizard_run (ECollectionAccountWizard *wizard,
 
 	e_config_lookup_clear_results (wizard->priv->config_lookup);
 
-	wizard->priv->running_task = g_task_new (wizard, NULL, callback, user_data);
-	g_task_set_source_tag (wizard->priv->running_task, e_collection_account_wizard_run);
+	wizard->priv->running_result = e_simple_async_result_new (G_OBJECT (wizard), callback, user_data, e_collection_account_wizard_run);
 
 	g_hash_table_iter_init (&iter, wizard->priv->workers);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
@@ -2779,8 +2765,8 @@ e_collection_account_wizard_run (ECollectionAccountWizard *wizard,
 	}
 
 	if (!any_worker) {
-		g_task_return_boolean (wizard->priv->running_task, TRUE);
-		g_clear_object (&wizard->priv->running_task);
+		e_simple_async_result_complete_idle_take (wizard->priv->running_result);
+		wizard->priv->running_result = NULL;
 	}
 }
 
@@ -2800,10 +2786,8 @@ e_collection_account_wizard_run_finish (ECollectionAccountWizard *wizard,
 					GAsyncResult *result)
 {
 	g_return_if_fail (E_IS_COLLECTION_ACCOUNT_WIZARD (wizard));
-	g_return_if_fail (g_task_is_valid (result, wizard));
+	g_return_if_fail (G_IS_ASYNC_RESULT (result));
 	g_return_if_fail (g_async_result_is_tagged (result, e_collection_account_wizard_run));
-
-	g_task_propagate_boolean (G_TASK (result), NULL);
 }
 
 /**

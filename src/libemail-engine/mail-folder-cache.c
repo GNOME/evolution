@@ -459,6 +459,17 @@ store_info_steal_folder_info (StoreInfo *store_info,
 	return folder_info;
 }
 
+static void
+async_context_free (AsyncContext *async_context)
+{
+	if (async_context->info != NULL)
+		camel_folder_info_free (async_context->info);
+
+	store_info_unref (async_context->store_info);
+
+	g_slice_free (AsyncContext, async_context);
+}
+
 static UpdateClosure *
 update_closure_new (MailFolderCache *cache,
                     CamelStore *store)
@@ -2071,19 +2082,22 @@ mail_folder_cache_first_update (MailFolderCache *cache,
 
 /* Helper for mail_folder_cache_note_store() */
 static void
-mail_folder_cache_note_store_thread (GTask *task,
-				     gpointer source_object,
-				     gpointer task_data,
-				     GCancellable *cancellable)
+mail_folder_cache_note_store_thread (ESimpleAsyncResult *simple,
+                                     gpointer source_object,
+                                     GCancellable *cancellable)
 {
-	MailFolderCache *cache = source_object;
+	MailFolderCache *cache;
 	CamelService *service;
 	CamelSession *session;
-	CamelFolderInfo *info = NULL;
-	StoreInfo *store_info = task_data;
-	GQueue tasks_queue = G_QUEUE_INIT;
+	StoreInfo *store_info;
+	GQueue result_queue = G_QUEUE_INIT;
+	AsyncContext *async_context;
 	gboolean success = FALSE;
 	GError *local_error = NULL;
+
+	cache = MAIL_FOLDER_CACHE (source_object);
+	async_context = e_simple_async_result_get_op_pointer (simple);
+	store_info = async_context->store_info;
 
 	service = CAMEL_SERVICE (store_info->store);
 	session = camel_service_ref_session (service);
@@ -2116,10 +2130,8 @@ mail_folder_cache_note_store_thread (GTask *task,
 	}
 
 	/* No folder hierarchy means we're done. */
-	if (!store_has_folder_hierarchy (store_info->store)) {
-		success = TRUE;
+	if (!store_has_folder_hierarchy (store_info->store))
 		goto exit;
-	}
 
 	/* XXX This can return NULL without setting a GError if no
 	 *     folders match the search criteria or the store does
@@ -2130,7 +2142,7 @@ mail_folder_cache_note_store_thread (GTask *task,
 	 *     "out" parameter so it's easier to distinguish errors
 	 *     from empty results.
 	 */
-	info = camel_store_get_folder_info_sync (
+	async_context->info = camel_store_get_folder_info_sync (
 		store_info->store, NULL,
 		CAMEL_STORE_FOLDER_INFO_FAST |
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
@@ -2138,11 +2150,12 @@ mail_folder_cache_note_store_thread (GTask *task,
 		cancellable, &local_error);
 
 	if (local_error != NULL) {
-		g_warn_if_fail (info == NULL);
+		g_warn_if_fail (async_context->info == NULL);
+		e_simple_async_result_take_error (simple, local_error);
 		goto exit;
 	}
 
-	create_folders (cache, info, store_info);
+	create_folders (cache, async_context->info, store_info);
 
 	/* Do some extra work for the first update. */
 	g_mutex_lock (&store_info->lock);
@@ -2162,28 +2175,24 @@ exit:
 	if (store_info->first_update != E_FIRST_UPDATE_DONE)
 		store_info->first_update = success ? E_FIRST_UPDATE_DONE : E_FIRST_UPDATE_FAILED;
 
-	e_queue_transfer (&store_info->folderinfo_updates, &tasks_queue);
+	e_queue_transfer (&store_info->folderinfo_updates, &result_queue);
 	g_mutex_unlock (&store_info->lock);
 
-	while (!g_queue_is_empty (&tasks_queue)) {
-		GTask *queued_task;
+	while (!g_queue_is_empty (&result_queue)) {
+		ESimpleAsyncResult *queued_result;
 
-		queued_task = g_queue_pop_head (&tasks_queue);
+		queued_result = g_queue_pop_head (&result_queue);
 
-		if (success) {
-			g_task_return_pointer (queued_task,
-				info ? camel_folder_info_clone (info) : NULL,
-				info ? (GDestroyNotify) camel_folder_info_free : NULL);
-		} else {
-			g_task_return_error (queued_task, g_error_copy (local_error));
-		}
-
-		g_clear_object (&queued_task);
+		/* Skip the ESimpleAsyncResult passed into this function.
+		 * e_simple_async_result_run_in_thread() will complete it
+		 * for us, and we don't want to complete it twice. */
+		if (queued_result != simple)
+			e_simple_async_result_complete_idle_take (queued_result);
+		else
+			g_clear_object (&queued_result);
 	}
 
-	g_clear_error (&local_error);
-	g_clear_pointer (&info, camel_folder_info_free);
-	g_clear_object (&session);
+	g_object_unref (session);
 }
 
 /**
@@ -2201,7 +2210,8 @@ mail_folder_cache_note_store (MailFolderCache *cache,
                               gpointer user_data)
 {
 	StoreInfo *store_info;
-	GTask *task;
+	ESimpleAsyncResult *simple;
+	AsyncContext *async_context;
 
 	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -2210,9 +2220,15 @@ mail_folder_cache_note_store (MailFolderCache *cache,
 	if (store_info == NULL)
 		store_info = mail_folder_cache_new_store_info (cache, store);
 
-	task = g_task_new (cache, cancellable, callback, user_data);
-	g_task_set_source_tag (task, mail_folder_cache_note_store);
-	g_task_set_task_data (task, store_info_ref (store_info), (GDestroyNotify) store_info_unref);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->store_info = store_info_ref (store_info);
+
+	simple = e_simple_async_result_new (
+		G_OBJECT (cache), callback, user_data,
+		mail_folder_cache_note_store);
+
+	e_simple_async_result_set_op_pointer (
+		simple, async_context, (GDestroyNotify) async_context_free);
 
 	g_mutex_lock (&store_info->lock);
 
@@ -2221,17 +2237,20 @@ mail_folder_cache_note_store (MailFolderCache *cache,
 
 	g_queue_push_tail (
 		&store_info->folderinfo_updates,
-		g_object_ref (task));
+		g_object_ref (simple));
 
 	/* Queue length > 1 means there's already an operation for
 	 * this store in progress so we'll just pick up the result
 	 * when it finishes. */
 	if (g_queue_get_length (&store_info->folderinfo_updates) == 1)
-		g_task_run_in_thread (task, mail_folder_cache_note_store_thread);
+		e_simple_async_result_run_in_thread (
+			simple, G_PRIORITY_DEFAULT,
+			mail_folder_cache_note_store_thread,
+			cancellable);
 
 	g_mutex_unlock (&store_info->lock);
 
-	g_object_unref (task);
+	g_object_unref (simple);
 
 	store_info_unref (store_info);
 }
@@ -2242,18 +2261,29 @@ mail_folder_cache_note_store_finish (MailFolderCache *cache,
                                      CamelFolderInfo **out_info,
                                      GError **error)
 {
-	CamelFolderInfo *info;
+	ESimpleAsyncResult *simple;
+	AsyncContext *async_context;
 
-	g_return_val_if_fail (g_async_result_is_tagged (result, mail_folder_cache_note_store), FALSE);
-	g_return_val_if_fail (MAIL_IS_FOLDER_CACHE (cache), FALSE);
-	g_return_val_if_fail (g_task_is_valid (result, cache), FALSE);
+	g_return_val_if_fail (
+		e_simple_async_result_is_valid (
+		result, G_OBJECT (cache),
+		mail_folder_cache_note_store), FALSE);
 
-	info = g_task_propagate_pointer (G_TASK (result), error);
-	if (out_info != NULL)
-		*out_info = g_steal_pointer (&info);
+	simple = E_SIMPLE_ASYNC_RESULT (result);
+	async_context = e_simple_async_result_get_op_pointer (simple);
 
-	g_clear_pointer (&info, camel_folder_info_free);
-	return !g_task_had_error (G_TASK (result));
+	if (e_simple_async_result_propagate_error (simple, error))
+		return FALSE;
+
+	if (out_info != NULL) {
+		if (async_context->info != NULL)
+			*out_info = camel_folder_info_clone (
+				async_context->info);
+		else
+			*out_info = NULL;
+	}
+
+	return TRUE;
 }
 
 /**

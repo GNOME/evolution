@@ -34,6 +34,13 @@ enum {
 	PROP_ENABLED
 };
 
+typedef struct _AsyncContext AsyncContext;
+
+struct _AsyncContext {
+	gchar *email_address;
+	GInputStream *stream;
+};
+
 /* Forward Declarations */
 static void	e_gravatar_photo_source_interface_init
 					(EPhotoSourceInterface *iface);
@@ -43,12 +50,20 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (EGravatarPhotoSource, e_gravatar_photo_source, G
 	G_IMPLEMENT_INTERFACE_DYNAMIC (E_TYPE_PHOTO_SOURCE, e_gravatar_photo_source_interface_init))
 
 static void
-gravatar_photo_source_get_photo_thread (GTask *task,
-					gpointer source_object,
-					gpointer task_data,
-					GCancellable *cancellable)
+async_context_free (AsyncContext *async_context)
 {
-	const gchar *email_address = task_data;
+	g_free (async_context->email_address);
+	g_clear_object (&async_context->stream);
+
+	g_slice_free (AsyncContext, async_context);
+}
+
+static void
+gravatar_photo_source_get_photo_thread (ESimpleAsyncResult *simple,
+                                        gpointer source_object,
+                                        GCancellable *cancellable)
+{
+	AsyncContext *async_context;
 	SoupMessage *message;
 	SoupSession *session;
 	GInputStream *stream = NULL;
@@ -61,10 +76,12 @@ gravatar_photo_source_get_photo_thread (GTask *task,
 	if (!e_gravatar_photo_source_get_enabled (E_GRAVATAR_PHOTO_SOURCE (source_object)))
 		return;
 
-	hash = e_gravatar_get_hash (email_address);
+	async_context = e_simple_async_result_get_op_pointer (simple);
+
+	hash = e_gravatar_get_hash (async_context->email_address);
 	uri = g_strdup_printf ("%s%s?d=404", AVATAR_BASE_URI, hash);
 
-	g_debug ("Requesting avatar for %s", email_address);
+	g_debug ("Requesting avatar for %s", async_context->email_address);
 	g_debug ("%s", uri);
 
 	session = soup_session_new ();
@@ -85,18 +102,16 @@ gravatar_photo_source_get_photo_thread (GTask *task,
 	 *     to make sure the we're not getting an error message. */
 	if (stream != NULL) {
 		if (SOUP_STATUS_IS_SUCCESSFUL (soup_message_get_status (message))) {
-			g_task_return_pointer (task, g_steal_pointer (&stream), g_object_unref);
+			async_context->stream = g_object_ref (stream);
 
 		} else if (soup_message_get_status (message) != SOUP_STATUS_NOT_FOUND) {
 			local_error = g_error_new_literal (
 				E_SOUP_SESSION_ERROR,
 				soup_message_get_status (message),
 				soup_message_get_reason_phrase (message));
-		} else {
-			g_task_return_pointer (task, NULL, NULL);
 		}
 
-		g_clear_object (&stream);
+		g_object_unref (stream);
 	}
 
 	if (local_error != NULL) {
@@ -104,7 +119,7 @@ gravatar_photo_source_get_photo_thread (GTask *task,
 
 		domain = g_quark_to_string (local_error->domain);
 		g_debug ("Error: %s (%s)", local_error->message, domain);
-		g_task_return_error (task, g_steal_pointer (&local_error));
+		e_simple_async_result_take_error (simple, local_error);
 	}
 
 	g_debug ("Request complete");
@@ -123,16 +138,26 @@ gravatar_photo_source_get_photo (EPhotoSource *photo_source,
                                  GAsyncReadyCallback callback,
                                  gpointer user_data)
 {
-	GTask *task;
+	ESimpleAsyncResult *simple;
+	AsyncContext *async_context;
 
-	task = g_task_new (photo_source, cancellable, callback, user_data);
-	g_task_set_source_tag (task, gravatar_photo_source_get_photo);
-	g_task_set_priority (task, G_PRIORITY_LOW);
-	g_task_set_task_data (task, g_strdup (email_address), g_free);
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->email_address = g_strdup (email_address);
 
-	g_task_run_in_thread (task, gravatar_photo_source_get_photo_thread);
+	simple = e_simple_async_result_new (
+		G_OBJECT (photo_source), callback,
+		user_data, gravatar_photo_source_get_photo);
 
-	g_object_unref (task);
+	e_simple_async_result_set_check_cancellable (simple, cancellable);
+
+	e_simple_async_result_set_op_pointer (
+		simple, async_context, (GDestroyNotify) async_context_free);
+
+	e_simple_async_result_run_in_thread (
+		simple, G_PRIORITY_LOW,
+		gravatar_photo_source_get_photo_thread, cancellable);
+
+	g_object_unref (simple);
 }
 
 static gboolean
@@ -142,20 +167,27 @@ gravatar_photo_source_get_photo_finish (EPhotoSource *photo_source,
                                         gint *out_priority,
                                         GError **error)
 {
-	GError *local_error = NULL;
+	ESimpleAsyncResult *simple;
+	AsyncContext *async_context;
 
-	g_return_val_if_fail (E_IS_PHOTO_SOURCE (photo_source), FALSE);
-	g_return_val_if_fail (g_task_is_valid (result, photo_source), FALSE);
-	g_return_val_if_fail (g_async_result_is_tagged (result, gravatar_photo_source_get_photo), FALSE);
+	g_return_val_if_fail (
+		e_simple_async_result_is_valid (
+		result, G_OBJECT (photo_source),
+		gravatar_photo_source_get_photo), FALSE);
 
-	*out_stream = g_task_propagate_pointer (G_TASK (result), &local_error);
-	if (local_error) {
-		g_propagate_error (error, g_steal_pointer (&local_error));
+	simple = E_SIMPLE_ASYNC_RESULT (result);
+	async_context = e_simple_async_result_get_op_pointer (simple);
+
+	if (e_simple_async_result_propagate_error (simple, error))
 		return FALSE;
-	}
 
-	if (out_priority != NULL)
-		*out_priority = G_PRIORITY_DEFAULT;
+	if (async_context->stream != NULL) {
+		*out_stream = g_object_ref (async_context->stream);
+		if (out_priority != NULL)
+			*out_priority = G_PRIORITY_DEFAULT;
+	} else {
+		*out_stream = NULL;
+	}
 
 	return TRUE;
 }

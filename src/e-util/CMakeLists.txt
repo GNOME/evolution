@@ -208,6 +208,7 @@ set(SOURCES
 	e-selection-model-simple.c
 	e-selection-model.c
 	e-selection.c
+	e-simple-async-result.c
 	e-sorter-array.c
 	e-sorter.c
 	e-source-combo-box.c
@@ -486,6 +487,7 @@ set(HEADERS
 	e-selection-model-simple.h
 	e-selection-model.h
 	e-selection.h
+	e-simple-async-result.h
 	e-sorter-array.h
 	e-sorter.h
 	e-source-combo-box.h
