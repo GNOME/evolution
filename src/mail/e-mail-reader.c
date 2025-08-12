@@ -2527,17 +2527,13 @@ action_mail_search_folder_from_subject_cb (EUIAction *action,
 }
 
 static void
-action_mail_show_all_headers_cb (EUIAction *action,
-				 GVariant *parameter,
-				 gpointer user_data)
+e_mail_reader_update_display_mode (EMailReader *self)
 {
-	EMailReader *reader = user_data;
 	EMailDisplay *display;
 	EMailFormatterMode mode;
+	EUIAction *action;
 
-	e_ui_action_set_state (action, parameter);
-
-	display = e_mail_reader_get_mail_display (reader);
+	display = e_mail_reader_get_mail_display (self);
 
 	/* Ignore action when viewing message source. */
 	mode = e_mail_display_get_mode (display);
@@ -2545,6 +2541,8 @@ action_mail_show_all_headers_cb (EUIAction *action,
 		return;
 	if (mode == E_MAIL_FORMATTER_MODE_RAW)
 		return;
+
+	action = e_mail_reader_get_action (self, "mail-show-all-headers");
 
 	if (e_ui_action_get_active (action))
 		mode = E_MAIL_FORMATTER_MODE_ALL_HEADERS;
@@ -3549,7 +3547,7 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 		  N_("All Message _Headers"),
 		  NULL,
 		  N_("Show messages with all email headers"),
-		  NULL, NULL, "false", action_mail_show_all_headers_cb },
+		  NULL, NULL, "false", NULL },
 
 		/*** Menus ***/
 
@@ -3729,7 +3727,12 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 	    e_mail_display_get_mode (display) == E_MAIL_FORMATTER_MODE_RAW) {
 		e_ui_action_set_sensitive (action, FALSE);
 		e_ui_action_set_visible (action, FALSE);
+	} else {
+		e_mail_reader_update_display_mode (self);
 	}
+
+	g_signal_connect_object (action, "notify::active",
+		G_CALLBACK (e_mail_reader_update_display_mode), self, G_CONNECT_SWAPPED);
 
 	g_object_unref (settings);
 
