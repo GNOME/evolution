@@ -15,22 +15,23 @@
 # Stepan Kashuba <ihaterabbids@gmail.com>, 2017.
 # SPDX-FileCopyrightText: 2021, 2025 Olesya Gerasimenko <translation-team@basealt.ru>
 # Павел Куликов (Pavel Koulikov) <koulikov403@gmail.com>, 2023.
+# Vyacheslav Gurin <slavkaplay6@gmail.com>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-07-03 13:52+0000\n"
-"PO-Revision-Date: 2025-07-11 15:51+0300\n"
-"Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
+"POT-Creation-Date: 2025-08-11 14:09+0000\n"
+"PO-Revision-Date: 2025-08-12 12:47+0800\n"
+"Last-Translator: Vyacheslav Gurin <slavkaplay6@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
-"X-Generator: Lokalize 23.08.5\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -244,7 +245,7 @@ msgstr ""
 msgid "Whether to prefer local application over opening map in a browser"
 msgstr ""
 "Определяет, отдавать ли предпочтение локальному картографическому приложению "
-"(вместо отображения в веб-браузере)."
+"(вместо отображения в веб-браузере)"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
 msgid ""
@@ -592,8 +593,8 @@ msgstr "Скрывать единицы задач"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
 msgid "Units for determining when to hide tasks, “minutes”, “hours” or “days”"
 msgstr ""
-"Значения, определяющие, когда скрывать задачи: «minutes» (минуты), «hours» "
-"(часы) или «days» (дни)"
+"Значения, определяющие, когда скрывать задачи: «minutes» (минуты), "
+"«hours» (часы) или «days» (дни)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
 msgid "Hide task value"
@@ -1058,8 +1059,7 @@ msgstr "Задаваемое пользователем время напоми�
 msgid ""
 "Whether to use markdown editor for the description in the component editor."
 msgstr ""
-"Использовать ли редактор Markdown для описания в редакторе "
-"компонентов."
+"Использовать ли редактор Markdown для описания в редакторе компонентов."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
 msgid "Show week day names in the Year View"
@@ -1126,9 +1126,6 @@ msgid "Shorten event time by minutes"
 msgstr "Сократить время события на несколько минут"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
-#| msgid ""
-#| "By how many minutes to shorted new event time. Whether event end or start "
-#| "is changed is determined by \"shorten-time-end\" setting"
 msgid ""
 "By how many minutes to shorten new event time. Whether event end or start is "
 "changed is determined by \"shorten-time-end\" setting"
@@ -1165,9 +1162,6 @@ msgid "Allow drag-and-drop of events in the Calendar."
 msgstr "Разрешить перетаскивание событий в календарь."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
-#| msgid ""
-#| "Show week numbers in Day View, Work Week View, Year view and Date "
-#| "Navigator"
 msgid ""
 "This influences the Day view, the Work Week view, the Week view and the "
 "Month view."
@@ -1177,31 +1171,26 @@ msgstr "Влияет на обзор дня, рабочей недели, нед
 msgid ""
 "Value to preselect when sending an event with attendees with reminders set."
 msgstr ""
-"Значение для предварительного выбора при отправке события с участниками и"
-" установленными напоминаниями."
+"Значение для предварительного выбора при отправке события с участниками и "
+"установленными напоминаниями."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
 msgid ""
 "This remembers the last value of \"Send my reminders with this event\" "
 "option and uses it the next time."
 msgstr ""
-"Запоминает последнее значение параметра «Отправить мои напоминания вместе с"
-" событием» и использует его в следующий раз."
+"Запоминает последнее значение параметра «Отправить мои напоминания вместе с "
+"событием» и использует его в следующий раз."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
-#| msgid "Show timezone field in the event/meeting editor"
 msgid "Show the day agenda in the event editor."
 msgstr "Показывать повестку дня в редакторе событий."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
-#| msgid "Whether the markdown editor show have live preview"
 msgid "Whether the event editor shows the day agenda."
 msgstr "Следует ли показывать повестку дня в редакторе событий."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:186
-#| msgid ""
-#| "Position of the vertical pane, between the calendar lists and the date "
-#| "navigator calendar"
 msgid "Position of the paned splitting the editor data and the day agenda"
 msgstr "Положение разделителя данных редактора и повестки дня"
 
@@ -1210,7 +1199,6 @@ msgid "It influences the width of the day agenda."
 msgstr "Влияет на ширину повестки дня."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:188
-#| msgid "Width of the To Do bar in the main window"
 msgid "Width of the event editor window"
 msgstr "Ширина окна редактора событий"
 
@@ -1340,11 +1328,11 @@ msgid ""
 msgstr ""
 "Если имя не соответствует ни одному известному редактору, то используется "
 "встроенный редактор WebKit. Режим необязателен, в этом случае редактор "
-"используется для всех поддерживаемых им режимов. Режимы: «plain», "
-"«html», «markdown-plain», «markdown-html» и «markdown». Примеры "
-"значений: «webkit» (чтобы использовать WebKit для plain и html), «plain:"
-"first-editor,html:second-editor» (чтобы использовать «first-editor» для "
-"«plain» и «second-editor» для «html»)"
+"используется для всех поддерживаемых им режимов. Режимы: «plain», «html», "
+"«markdown-plain», «markdown-html» и «markdown». Примеры значений: "
+"«webkit» (чтобы использовать WebKit для plain и html), «plain:first-editor,"
+"html:second-editor» (чтобы использовать «first-editor» для «plain» и «second-"
+"editor» для «html»)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
 msgid "Path where picture gallery should search for its content"
@@ -1679,17 +1667,17 @@ msgstr ""
 msgid ""
 "How long to delay Outbox flush when sending messages through Outbox folder"
 msgstr ""
-"Как долго задерживать очистку папки «Исходящие» при отправке сообщений "
-"через папку «Исходящие»"
+"Как долго задерживать очистку папки «Исходящие» при отправке сообщений через "
+"папку «Исходящие»"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
 msgid ""
 "A delay, in minutes, to wait for the Outbox folder flush. Less than 0 means "
 "never flush, 0 means immediately, the rest is the delay interval in minutes."
 msgstr ""
-"Задержка в минутах для ожидания очистки папки «Исходящие». Меньше 0 "
-"означает никогда не очищать, 0 означает немедленно, остальное — интервал "
-"задержки в минутах."
+"Задержка в минутах для ожидания очистки папки «Исходящие». Меньше 0 означает "
+"никогда не очищать, 0 означает немедленно, остальное — интервал задержки в "
+"минутах."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid "Include signature in new messages only"
@@ -1988,9 +1976,6 @@ msgid "Enable or disable type ahead search feature"
 msgstr "Включить или отключить функцию поиска при вводе"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
-#| msgid ""
-#| "Enable the side bar search feature to allow interactive searching of "
-#| "folder names."
 msgid ""
 "Enable the sidebar search feature to allow interactive searching of folder "
 "names."
@@ -2399,10 +2384,10 @@ msgid ""
 "given by a user"
 msgstr ""
 "Устанавливает порядок сортировки учётных записей в дереве папок, "
-"используемом в представлении «Почта». Если установлено в значение "
-"«истина», учётные записи будут сортироваться в алфавитном порядке, за "
-"исключением папки «На этом компьютере» и папок поиска, в противном случае "
-"порядок сортировки устанавливается пользователем"
+"используемом в представлении «Почта». Если установлено в значение «истина», "
+"учётные записи будут сортироваться в алфавитном порядке, за исключением "
+"папки «На этом компьютере» и папок поиска, в противном случае порядок "
+"сортировки устанавливается пользователем"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid "Log filter actions"
@@ -2587,18 +2572,12 @@ msgstr ""
 "поиска."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
-#| msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgid "Asks whether to copy a folder by drag-and-drop in the folder tree"
 msgstr ""
 "Спрашивает разрешение на копирование папки с помощью перетаскивания в дереве "
 "папок"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
-#| msgid ""
-#| "Possible values are: “never” — do not allow copy with drag &amp; drop of "
-#| "folders in folder tree, “always” — allow copy with drag &amp; drop of "
-#| "folders in folder tree without asking, or “ask” — (or any other value) "
-#| "will ask user."
 msgid ""
 "Possible values are: “never” — do not allow copy with drag-and-drop of "
 "folders in folder tree, “always” — allow copy with drag-and-drop of folders "
@@ -2610,18 +2589,12 @@ msgstr ""
 "спрашивать у пользователя."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
-#| msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgid "Asks whether to move a folder by drag-and-drop in the folder tree"
 msgstr ""
 "Спрашивает разрешение на перемещение папки с помощью перетаскивания в дереве "
 "папок"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
-#| msgid ""
-#| "Possible values are: “never” — do not allow move with drag &amp; drop of "
-#| "folders in folder tree, “always” — allow move with drag &amp; drop of "
-#| "folders in folder tree without asking, or “ask” — (or any other value) "
-#| "will ask user."
 msgid ""
 "Possible values are: “never” — do not allow move with drag-and-drop of "
 "folders in folder tree, “always” — allow move with drag-and-drop of folders "
@@ -3064,7 +3037,6 @@ msgid "Values out of range are clamped to the boundary."
 msgstr "Значения, выходящие за пределы диапазона, прижимаются к границе."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
-#| msgid "How many days to show in the To Do bar"
 msgid "Use smaller font for time in the To Do bar"
 msgstr "Использовать мелкий шрифт для времени на панели дел"
 
@@ -3368,7 +3340,6 @@ msgstr ""
 "приводить  изменению порядка сортировки."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:350
-#| msgid "Save selected messages as an mbox file"
 msgid "Attach multiple messages as separate files"
 msgstr "Вкладывать несколько сообщений как отдельные файлы"
 
@@ -3377,13 +3348,11 @@ msgid ""
 "When attaching multiple messages at once, attach them as separate files "
 "(when set to 'true'), instead of a single mbox file."
 msgstr ""
-"Когда выполняется вложение сразу нескольких сообщений, вкладывать их как"
-" отдельные файлы (если параметр установлен в значение «true»), а не один файл"
-" mbox."
+"Когда выполняется вложение сразу нескольких сообщений, вкладывать их как "
+"отдельные файлы (если параметр установлен в значение «true»), а не один файл "
+"mbox."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
-#| msgid "You have received %d new message."
-#| msgid_plural "You have received %d new messages."
 msgid "Set folder text color when it received a new message"
 msgstr "Установить цвет названия папки после получения нового сообщения"
 
@@ -3391,13 +3360,14 @@ msgstr "Установить цвет названия папки после п�
 msgid ""
 "Some `@theme_` colors are supported, otherwise a color name like `orange` or "
 "color reference like `#07509c` or `rgb(215,150,0)` can be used. Not setting "
-"a color will, or using an invalid form, will not change the folder name text "
-"color."
+"a color, or using an invalid form, will not change the folder name text "
+"color. A value 'auto' will pick a suitable blue color for the current color "
+"theme."
 msgstr ""
-"Предусмотрена поддержка части цветов «@theme_». Для других цветов можно"
-" воспользоваться названиями, например «orange», или ссылками, например"
-" «#07509c» или «rgb(215,150,0)». Если цвет не указан или указан в"
-" некорректной форме, то цвет текста имени папки не будет изменён."
+"Предусмотрена поддержка части цветов «@theme_». Для других цветов можно "
+"воспользоваться названиями, например «orange», или ссылками, например "
+"«#07509c» или «rgb(215,150,0)». Если цвет не указан или указан в "
+"некорректной форме, то цвет текста имени папки не будет изменён."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
 msgid "(Deprecated) Default forward style"
@@ -3666,8 +3636,8 @@ msgid ""
 "Show a day agenda, events for the day, when the event in the invitation mail "
 "starts"
 msgstr ""
-"Показывать повестку дня, события для дня, когда начинается событие в письме с"
-" приглашением"
+"Показывать повестку дня, события для дня, когда начинается событие в письме "
+"с приглашением"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -3816,11 +3786,9 @@ msgid ""
 "be part of the address only and the sender is a full email address, which "
 "should match the From address precisely."
 msgstr ""
-"Список имеет формат «получатель&lt;tab&gt;отправитель», где «получатель»"
-" может быть "
-"только частью адреса, а «отправитель» — полный адрес электронной почты,"
-" который "
-"должен точно соответствовать адресу «От»."
+"Список имеет формат «получатель&lt;tab&gt;отправитель», где «получатель» "
+"может быть только частью адреса, а «отправитель» — полный адрес электронной "
+"почты, который должен точно соответствовать адресу «От»."
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:4
 msgid "List of assignments for an account, which recipients it accepts"
@@ -4087,7 +4055,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:48
 msgid "Whether to use icon-only buttons in the header bar"
 msgstr ""
-"Использовать ли в заголовке панели только кнопки со значками, без надписей "
+"Использовать ли в заголовке панели только кнопки со значками, без надписей"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:49
 msgid ""
@@ -4142,22 +4110,22 @@ msgid ""
 "very often, even as the user types, thus make sure it'll not be slow, "
 "because it can block the application."
 msgstr ""
-"Если не является пустым, может содержать команду, которая будет"
-" использоваться для преобразования Markdown в HTML. В команде могут"
-" находиться дополнительные аргументы, но не переменные оболочки и подобные"
-" переменные. Ожидается, что команда будет выполнять чтение Markdown из"
-" стандартного канала входа (stdin) и записывать данные HTML в стандартный"
-" канал выхода (stdout). Эта команда может вызываться очень часто, даже когда"
-" пользователь вводит текст, поэтому она должна быть быстрой, чтобы не"
-" блокировать работу программы."
+"Если не является пустым, может содержать команду, которая будет "
+"использоваться для преобразования Markdown в HTML. В команде могут "
+"находиться дополнительные аргументы, но не переменные оболочки и подобные "
+"переменные. Ожидается, что команда будет выполнять чтение Markdown из "
+"стандартного канала входа (stdin) и записывать данные HTML в стандартный "
+"канал выхода (stdout). Эта команда может вызываться очень часто, даже когда "
+"пользователь вводит текст, поэтому она должна быть быстрой, чтобы не "
+"блокировать работу программы."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:56
 msgid ""
 "Additional argument to use with markdown-to-html-command when want to get "
 "source position in the output HTML"
 msgstr ""
-"Дополнительный аргумент для использования в команде преобразования Markdown в"
-" HTML, когда в выходном HTML требуется получить исходную позицию "
+"Дополнительный аргумент для использования в команде преобразования Markdown "
+"в HTML, когда в выходном HTML требуется получить исходную позицию"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:57
 msgid ""
@@ -4166,10 +4134,10 @@ msgid ""
 "command command line to include them. It can be empty when not supported by "
 "that command."
 msgstr ""
-"Редактор Markdown может запрашивать исходную позицию как дополнительные"
-" атрибуты «data-sourcepos». В таком случае этот аргумент будет добавлен в"
-" команду преобразования Markdown в HTML с целью включения этих атрибутов."
-" Может быть пустым, если поддержка таких атрибутов в команде не предусмотрена."
+"Редактор Markdown может запрашивать исходную позицию как дополнительные "
+"атрибуты «data-sourcepos». В таком случае этот аргумент будет добавлен в "
+"команду преобразования Markdown в HTML с целью включения этих атрибутов. "
+"Может быть пустым, если поддержка таких атрибутов в команде не предусмотрена."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -4228,74 +4196,14 @@ msgstr ""
 
 #. to not have "minimize" button
 #. to not have "minimize" button
-#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1133
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-migrate.c:413 ../src/shell/e-shell-window.c:353
 #: ../src/shell/e-shell-window-private.c:47
 msgid "Evolution"
 msgstr "Evolution"
-
-#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:2
-#: ../data/org.gnome.Evolution.desktop.in.in.h:4
-msgid "Manage your email, contacts and schedule"
-msgstr "Управление электронной почтой, контактами и расписанием"
-
-#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:3
-msgid ""
-"Evolution is a personal information management application that provides "
-"integrated mail, calendaring and address book functionality."
-msgstr ""
-"Evolution — приложение для управления персональной информацией, которое "
-"включает в себя почту, календарь и адресную книгу."
-
-#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:4
-msgid ""
-"Evolution supports a wide range of industry standard data formats and "
-"network protocols for information exchange, with an emphasis on standards "
-"compliance and security. Evolution can also integrate smoothly with "
-"Microsoft Exchange by way of the “Exchange Web Services” (EWS) extension."
-msgstr ""
-"Evolution поддерживает широкий спектр промышленных стандартов форматов "
-"данных и сетевых протоколов для обмена информации, с упором на совместимость "
-"со стандартами и конфиденциальность. Evolution поддерживает интеграцию с "
-"Microsoft Exchange посредством расширения Exchange Web Services (EWS)."
-
-#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:5
-msgid "Mail – Classic View"
-msgstr "Почта – Классический вид"
-
-#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:6
-msgid "Mail – Vertical View"
-msgstr "Почта – Вертикальный вид"
-
-#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:7
-msgid "Mail Composer"
-msgstr "Редактор почты"
-
-#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:8
-#: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
-#: ../src/e-util/e-collection-account-wizard.c:871
-#: ../src/e-util/e-webdav-browser.c:541
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:211
-#: ../src/modules/calendar/e-cal-shell-view.c:732
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
-msgid "Calendar"
-msgstr "Календарь"
-
-#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:9
-#: ../data/org.gnome.Evolution.desktop.in.in.h:8
-#: ../src/e-util/e-name-selector-dialog.c:434
-#: ../src/modules/addressbook/e-book-shell-backend.c:274
-#: ../src/modules/addressbook/e-book-shell-view.c:459
-msgid "Contacts"
-msgstr "Контакты"
-
-#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:10
-msgid "The Evolution Team"
-msgstr "Команда Evolution"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:2
 #: ../src/shell/e-shell-utils.c:361
@@ -4305,6 +4213,11 @@ msgstr "Пакет для групповой работы"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:3
 msgid "Evolution Mail and Calendar"
 msgstr "Электронная почта и календарь Evolution"
+
+#: ../data/org.gnome.Evolution.desktop.in.in.h:4
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:2
+msgid "Manage your email, contacts and schedule"
+msgstr "Управление электронной почтой, контактами и расписанием"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:5
 msgid "email;calendar;contact;addressbook;task;"
@@ -4317,6 +4230,25 @@ msgstr "Создать окно"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:7
 msgid "Compose a Message"
 msgstr "Новое сообщение"
+
+#: ../data/org.gnome.Evolution.desktop.in.in.h:8
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:9
+#: ../src/e-util/e-name-selector-dialog.c:434
+#: ../src/modules/addressbook/e-book-shell-backend.c:274
+#: ../src/modules/addressbook/e-book-shell-view.c:459
+msgid "Contacts"
+msgstr "Контакты"
+
+#: ../data/org.gnome.Evolution.desktop.in.in.h:9
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
+#: ../src/e-util/e-collection-account-wizard.c:871
+#: ../src/e-util/e-webdav-browser.c:541
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:211
+#: ../src/modules/calendar/e-cal-shell-view.c:732
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
+msgid "Calendar"
+msgstr "Календарь"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:10
 #: ../src/mail/importers/elm-importer.c:330
@@ -4348,6 +4280,42 @@ msgstr "Заметки"
 #: ../src/modules/calendar/e-task-shell-view.c:555
 msgid "Tasks"
 msgstr "Задачи"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:3
+msgid ""
+"Evolution is a personal information management application that provides "
+"integrated mail, calendaring and address book functionality."
+msgstr ""
+"Evolution — приложение для управления персональной информацией, которое "
+"включает в себя почту, календарь и адресную книгу."
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:4
+msgid ""
+"Evolution supports a wide range of industry standard data formats and "
+"network protocols for information exchange, with an emphasis on standards "
+"compliance and security. Evolution can also integrate smoothly with "
+"Microsoft Exchange by way of the “Exchange Web Services” (EWS) extension."
+msgstr ""
+"Evolution поддерживает широкий спектр промышленных стандартов форматов "
+"данных и сетевых протоколов для обмена информации, с упором на совместимость "
+"со стандартами и конфиденциальность. Evolution поддерживает интеграцию с "
+"Microsoft Exchange посредством расширения Exchange Web Services (EWS)."
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:5
+msgid "Mail – Classic View"
+msgstr "Почта – Классический вид"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:6
+msgid "Mail – Vertical View"
+msgstr "Почта – Вертикальный вид"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:7
+msgid "Mail Composer"
+msgstr "Редактор почты"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:10
+msgid "The Evolution Team"
+msgstr "Команда Evolution"
 
 #: ../data/ui/evolution-shortcuts.ui.h:1
 msgctxt "shortcut window"
@@ -4954,9 +4922,6 @@ msgstr "Не удалось добавить новый контакт"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:43
-#| msgid ""
-#| "“{0}” is a read-only address book and cannot be modified. Please select a "
-#| "different address book from the side bar in the Contacts view."
 msgid ""
 "“{0}” is a read-only address book and cannot be modified. Please select a "
 "different address book from the sidebar in the Contacts view."
@@ -5067,7 +5032,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4085
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:304 ../src/mail/e-mail-label-dialog.c:180
-#: ../src/mail/e-mail-reader.c:5126 ../src/mail/e-mail-tag-editor.c:155
+#: ../src/mail/e-mail-reader.c:5210 ../src/mail/e-mail-tag-editor.c:155
 #: ../src/mail/e-mail-viewer.c:590 ../src/mail/em-composer-utils.c:4534
 #: ../src/mail/em-folder-selector.c:619 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:881
@@ -5618,7 +5583,7 @@ msgstr "_Справка"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5236
 #: ../src/calendar/gui/e-comp-editor.c:2309
-#: ../src/e-util/e-html-editor-actions.c:1313
+#: ../src/e-util/e-html-editor-actions.c:1390
 msgid "_Undo"
 msgstr "_Отменить"
 
@@ -5630,7 +5595,7 @@ msgstr "Отменить"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5243
 #: ../src/calendar/gui/e-comp-editor.c:2316
-#: ../src/e-util/e-html-editor-actions.c:1299
+#: ../src/e-util/e-html-editor-actions.c:1376
 msgid "_Redo"
 msgstr "_Вернуть"
 
@@ -5697,15 +5662,15 @@ msgstr "Не удалось проанализировать данные vCard"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Mr."
-msgstr "Г-н"
+msgstr "Г-н."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:2
 msgid "Mrs."
-msgstr "Г-жа"
+msgstr "Г-жа."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:3
 msgid "Ms."
-msgstr "Г-жа"
+msgstr "Г-жа."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:4
 msgid "Miss"
@@ -6668,7 +6633,7 @@ msgstr[2] "Изменить %u контактов"
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:917
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:615
 msgid "Select values to be modified."
-msgstr "Выберите значения которые необходимо изменить"
+msgstr "Выберите значения которые необходимо изменить."
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1096
 msgid "_Title:"
@@ -6727,7 +6692,8 @@ msgstr "У_величить"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:402
-#: ../src/mail/e-mail-reader.c:3451 ../src/mail/e-mail-viewer.c:1818
+#: ../src/e-util/e-html-editor-actions.c:1411 ../src/mail/e-mail-reader.c:3535
+#: ../src/mail/e-mail-viewer.c:1818
 msgid "Zoom _Out"
 msgstr "У_меньшить"
 
@@ -6970,40 +6936,32 @@ msgid ""
 msgstr "Все сведения об этом собрании будут безвозвратно удалены."
 
 #: ../src/calendar/calendar.error.xml.h:10
-#| msgid ""
-#| "If you do not send a cancellation notice, the other participants may not "
-#| "know the meeting is canceled."
 msgid ""
 "All information on this meeting will be deleted and can not be restored. If "
 "you do not send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
-"Все сведения об этом собрании будут безвозвратно удалены. Если вы не"
-" отправите уведомление об отмене, другие участники могут не узнать об отмене"
-" собрания."
+"Все сведения об этом собрании будут безвозвратно удалены. Если вы не "
+"отправите уведомление об отмене, другие участники могут не узнать об отмене "
+"собрания."
 
 #: ../src/calendar/calendar.error.xml.h:11
-#| msgid "_Send Notice"
 msgid "_Delete and Send Notice"
 msgstr "_Удалить и отправить уведомление"
 
 #: ../src/calendar/calendar.error.xml.h:12
-#| msgid "Send _without Key"
 msgid "Delete _without Notice"
 msgstr "Удалить _без уведомления"
 
 #: ../src/calendar/calendar.error.xml.h:13
-#| msgid ""
-#| "If you do not send a deletion notice, the organizer may not know the "
-#| "meeting has been deleted."
 msgid ""
 "All information on this meeting will be deleted and can not be restored. If "
 "you do not send a deletion notice, the organizer may not know the meeting "
 "has been deleted."
 msgstr ""
-"Все сведения об этом собрании будут безвозвратно удалены. Если вы не"
-" отправите уведомление об удалении, то организатор может не узнать, что"
-" собрание было удалено."
+"Все сведения об этом собрании будут безвозвратно удалены. Если вы не "
+"отправите уведомление об удалении, то организатор может не узнать, что "
+"собрание было удалено."
 
 #: ../src/calendar/calendar.error.xml.h:14
 msgid "Are you sure you want to delete the meeting titled “{0}”?"
@@ -8375,8 +8333,6 @@ msgid "Creating view for memo list “%s”"
 msgstr "Открывается список заметок «%s»"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:181
-#| msgid "Deleting a memo"
-#| msgid_plural "Deleting %d memos"
 msgid "Deletion _reason:"
 msgstr "Причина _удаления:"
 
@@ -8938,7 +8894,7 @@ msgstr[2] "Копирование %d задач"
 #: ../src/e-util/e-misc-utils.c:3493 ../src/e-util/e-misc-utils.c:3506
 #: ../src/e-util/e-misc-utils.c:3520 ../src/e-util/e-ui-customize-dialog.c:3522
 #: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3142
-#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3856
+#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3940
 #: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
 #: ../src/mail/e-mail-viewer.c:1561 ../src/mail/e-mail-viewer.c:2508
 #: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4309
@@ -9032,12 +8988,10 @@ msgid "Toggles whether the time zone is displayed"
 msgstr "Переключает отображение часового пояса"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:1017
-#| msgid "Day _ends:"
 msgid "_Day Agenda"
 msgstr "_Повестка дня"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:1019
-#| msgid "Toggles whether the CC field is displayed"
 msgid "Toggles whether the day agenda is displayed"
 msgstr "Переключает отображение повестки дня"
 
@@ -9356,7 +9310,7 @@ msgstr "_Участники…"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2449
 #: ../src/calendar/gui/e-comp-editor.c:2332
 #: ../src/e-util/e-accounts-window.c:1760
-#: ../src/e-util/e-html-editor-actions.c:1322
+#: ../src/e-util/e-html-editor-actions.c:1420
 #: ../src/e-util/e-mail-signature-manager.c:339
 #: ../src/e-util/e-ui-customize-dialog.c:1200
 #: ../src/e-util/e-webdav-browser.c:2886 ../src/e-util/filter.ui.h:26
@@ -10073,7 +10027,7 @@ msgstr "Закрыть текущее окно"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2239
-#: ../src/e-util/e-html-editor-actions.c:1278 ../src/e-util/e-text.c:2031
+#: ../src/e-util/e-html-editor-actions.c:1355 ../src/e-util/e-text.c:2031
 #: ../src/e-util/e-web-view.c:1663 ../src/mail/e-mail-browser.c:583
 #: ../src/mail/e-mail-viewer.c:1755 ../src/mail/mail.error.xml.h:147
 #: ../src/shell/e-shell-window-actions.c:639
@@ -10088,7 +10042,6 @@ msgid "Copy the selection"
 msgstr "Копировать выделение"
 
 #: ../src/calendar/gui/e-comp-editor.c:2246 ../src/e-util/e-ui-customizer.c:653
-#| msgid "_Custom binary:"
 msgid "_Customize Toolbar…"
 msgstr "_Настроить панель инструментов…"
 
@@ -10098,7 +10051,7 @@ msgstr "Настроить действия на панели инструмен
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2253
-#: ../src/e-util/e-html-editor-actions.c:1285 ../src/e-util/e-text.c:2017
+#: ../src/e-util/e-html-editor-actions.c:1362 ../src/e-util/e-text.c:2017
 #: ../src/mail/e-mail-browser.c:590 ../src/shell/e-shell-window-actions.c:646
 msgid "Cu_t"
 msgstr "В_ырезать"
@@ -10122,7 +10075,7 @@ msgstr "Показать справку"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2274
-#: ../src/e-util/e-html-editor-actions.c:1292 ../src/e-util/e-text.c:2043
+#: ../src/e-util/e-html-editor-actions.c:1369 ../src/e-util/e-text.c:2043
 #: ../src/mail/e-mail-browser.c:597 ../src/mail/e-mail-viewer.c:1762
 #: ../src/shell/e-shell-window-actions.c:674
 msgid "_Paste"
@@ -10136,13 +10089,13 @@ msgid "Paste the clipboard"
 msgstr "Вставить из буфера обмена"
 
 #: ../src/calendar/gui/e-comp-editor.c:2281
-#: ../src/composer/e-composer-actions.c:439 ../src/mail/e-mail-reader.c:3332
+#: ../src/composer/e-composer-actions.c:439 ../src/mail/e-mail-reader.c:3416
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1607
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1621
 msgid "_Print…"
 msgstr "_Печать…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2288 ../src/mail/e-mail-reader.c:3339
+#: ../src/calendar/gui/e-comp-editor.c:2288 ../src/mail/e-mail-reader.c:3423
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1614
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1820
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:767
@@ -10151,7 +10104,7 @@ msgid "Pre_view…"
 msgstr "Предварительный _просмотр…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2295
-#: ../src/e-util/e-html-editor-actions.c:1306 ../src/e-util/e-web-view.c:1687
+#: ../src/e-util/e-html-editor-actions.c:1383 ../src/e-util/e-web-view.c:1687
 #: ../src/mail/e-mail-browser.c:604 ../src/shell/e-shell-window-actions.c:702
 msgid "Select _All"
 msgstr "Выделить _всё"
@@ -10173,7 +10126,7 @@ msgstr "_Классификация"
 #. ** Menus **
 #. menus
 #: ../src/calendar/gui/e-comp-editor.c:2339
-#: ../src/e-util/e-html-editor-actions.c:1329
+#: ../src/e-util/e-html-editor-actions.c:1427
 #: ../src/e-util/e-mail-signature-editor.c:540 ../src/mail/e-mail-browser.c:618
 #: ../src/mail/e-mail-notes.c:1161 ../src/mail/e-mail-viewer.c:1929
 #: ../src/shell/e-shell-window-actions.c:752
@@ -10181,7 +10134,7 @@ msgid "_File"
 msgstr "_Файл"
 
 #: ../src/calendar/gui/e-comp-editor.c:2353
-#: ../src/e-util/e-html-editor-actions.c:1350
+#: ../src/e-util/e-html-editor-actions.c:1448
 msgid "_Insert"
 msgstr "_Вставка"
 
@@ -10199,7 +10152,7 @@ msgid "_Options"
 msgstr "_Параметры"
 
 #: ../src/calendar/gui/e-comp-editor.c:2374
-#: ../src/e-util/e-html-editor-actions.c:1371 ../src/mail/e-mail-browser.c:620
+#: ../src/e-util/e-html-editor-actions.c:1469 ../src/mail/e-mail-browser.c:620
 #: ../src/mail/e-mail-viewer.c:1931 ../src/shell/e-shell-window-actions.c:757
 #: ../src/smime/gui/certificate-manager.c:1588 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -10641,14 +10594,12 @@ msgstr "Выбор часового пояса"
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
 #: ../src/calendar/gui/e-to-do-pane.c:508
 #, c-format
-#| msgid "Time: %s %s"
 msgid "Time: %s (%s)"
 msgstr "Время: %s (%s)"
 
 #. Translators: It will display "Time: StartDateAndTime"
 #: ../src/calendar/gui/e-to-do-pane.c:511
 #, c-format
-#| msgid "Time: %s %s"
 msgid "Time: %s"
 msgstr "Время: %s"
 
@@ -14122,12 +14073,10 @@ msgid "Failed to create a thread: "
 msgstr "Не удалось создать поток: "
 
 #: ../src/e-util/e-attachment-bar.c:730
-#| msgid "Show attachments"
 msgid "_Show Inline Parts in Attachments"
 msgstr "_Показать встроенные части во вложениях"
 
 #: ../src/e-util/e-attachment-bar.c:737
-#| msgid "Message has no attachments"
 msgid "_Hide Inline Parts in Attachments"
 msgstr "_Скрыть встроенные части во вложениях"
 
@@ -14298,7 +14247,6 @@ msgid "Save _As"
 msgstr "Сохранить _как"
 
 #: ../src/e-util/e-attachment-view.c:1125 ../src/mail/e-mail-display.c:2115
-#| msgid "_Open…"
 msgid "Open with…"
 msgstr "Открыть с помощью…"
 
@@ -15388,609 +15336,629 @@ msgstr "Вставить текстовый файл"
 msgid "Text file"
 msgstr "Текстовый файл"
 
-#: ../src/e-util/e-html-editor-actions.c:1280
+#: ../src/e-util/e-html-editor-actions.c:1357
 msgid "Copy selected text to the clipboard"
 msgstr "Копировать выделенный текст в буфер обмена"
 
-#: ../src/e-util/e-html-editor-actions.c:1287
+#: ../src/e-util/e-html-editor-actions.c:1364
 msgid "Cut selected text to the clipboard"
 msgstr "Вырезать выделенный текст в буфер обмена"
 
-#: ../src/e-util/e-html-editor-actions.c:1294
+#: ../src/e-util/e-html-editor-actions.c:1371
 msgid "Paste text from the clipboard"
 msgstr "Вставить текст из буфера обмена"
 
-#: ../src/e-util/e-html-editor-actions.c:1301
+#: ../src/e-util/e-html-editor-actions.c:1378
 msgid "Redo the last undone action"
 msgstr "Вернуть последнее отменённое действие"
 
-#: ../src/e-util/e-html-editor-actions.c:1315
+#: ../src/e-util/e-html-editor-actions.c:1392
 msgid "Undo the last action"
 msgstr "Отменить последнее действие"
 
-#: ../src/e-util/e-html-editor-actions.c:1336
+#: ../src/e-util/e-html-editor-actions.c:1397 ../src/mail/e-mail-reader.c:3521
+#: ../src/mail/e-mail-viewer.c:1825
+msgid "_Normal Size"
+msgstr "_Обычный размер"
+
+#: ../src/e-util/e-html-editor-actions.c:1399 ../src/mail/e-mail-reader.c:3523
+msgid "Reset the text to its original size"
+msgstr "Установить размер текста в исходный"
+
+#: ../src/e-util/e-html-editor-actions.c:1404 ../src/mail/e-mail-reader.c:3528
+#: ../src/mail/e-mail-viewer.c:1811
+msgid "_Zoom In"
+msgstr "У_величить"
+
+#: ../src/e-util/e-html-editor-actions.c:1406 ../src/mail/e-mail-reader.c:3530
+msgid "Increase the text size"
+msgstr "Увеличить размер текста"
+
+#: ../src/e-util/e-html-editor-actions.c:1413 ../src/mail/e-mail-reader.c:3537
+msgid "Decrease the text size"
+msgstr "Уменьшить размер текста"
+
+#: ../src/e-util/e-html-editor-actions.c:1434
 msgid "For_mat"
 msgstr "Фор_мат"
 
-#: ../src/e-util/e-html-editor-actions.c:1343
+#: ../src/e-util/e-html-editor-actions.c:1441
 msgid "_Paragraph Style"
 msgstr "Ст_иль абзаца"
 
-#: ../src/e-util/e-html-editor-actions.c:1357
+#: ../src/e-util/e-html-editor-actions.c:1455
 #: ../src/e-util/e-html-editor-image-dialog.c:669
 msgid "_Alignment"
 msgstr "_Выравнивание"
 
-#: ../src/e-util/e-html-editor-actions.c:1364
+#: ../src/e-util/e-html-editor-actions.c:1462
 msgid "Current _Languages"
 msgstr "Текущие _языки"
 
-#: ../src/e-util/e-html-editor-actions.c:1380
-#| msgid "Spell checking languages"
+#: ../src/e-util/e-html-editor-actions.c:1474 ../src/mail/e-mail-reader.c:3563
+#: ../src/mail/e-mail-viewer.c:1932
+msgid "_Zoom"
+msgstr "_Масштаб"
+
+#: ../src/e-util/e-html-editor-actions.c:1480
 msgid "Recent spell check languages"
 msgstr "Недавние языки проверки орфографии"
 
-#: ../src/e-util/e-html-editor-actions.c:1387
-#| msgid "Spell checking languages"
+#: ../src/e-util/e-html-editor-actions.c:1487
 msgid "All spell check languages"
 msgstr "Все языки проверки орфографии"
 
-#: ../src/e-util/e-html-editor-actions.c:1394
-#: ../src/e-util/e-html-editor-actions.c:1396
-#: ../src/e-util/e-html-editor-actions.c:2651
-#: ../src/e-util/e-html-editor.c:1137 ../src/e-util/e-html-editor.c:2233
+#: ../src/e-util/e-html-editor-actions.c:1494
+#: ../src/e-util/e-html-editor-actions.c:1496
+#: ../src/e-util/e-html-editor-actions.c:2751
+#: ../src/e-util/e-html-editor.c:1137 ../src/e-util/e-html-editor.c:2281
 msgid "Editing Mode"
 msgstr "Режим редактирования"
 
-#: ../src/e-util/e-html-editor-actions.c:1401
-#: ../src/e-util/e-html-editor-actions.c:1403
+#: ../src/e-util/e-html-editor-actions.c:1501
+#: ../src/e-util/e-html-editor-actions.c:1503
 #: ../src/e-util/e-html-editor.c:1141
 msgid "Paragraph Style"
 msgstr "Стиль абзаца"
 
-#: ../src/e-util/e-html-editor-actions.c:1408
-#: ../src/e-util/e-html-editor-actions.c:1410
+#: ../src/e-util/e-html-editor-actions.c:1508
+#: ../src/e-util/e-html-editor-actions.c:1510
 #: ../src/e-util/e-html-editor.c:1149
 msgid "Font Name"
 msgstr "Наименование шрифта"
 
-#: ../src/e-util/e-html-editor-actions.c:1415
-#: ../src/e-util/e-html-editor-actions.c:1417
+#: ../src/e-util/e-html-editor-actions.c:1515
+#: ../src/e-util/e-html-editor-actions.c:1517
 #: ../src/e-util/e-html-editor.c:1157
 msgid "Font Size"
 msgstr "Размер шрифта"
 
-#: ../src/e-util/e-html-editor-actions.c:1422
-#: ../src/e-util/e-html-editor-actions.c:1424
+#: ../src/e-util/e-html-editor-actions.c:1522
+#: ../src/e-util/e-html-editor-actions.c:1524
 #: ../src/e-util/e-html-editor.c:1160
 msgid "Font Color"
 msgstr "Цвет шрифта"
 
-#: ../src/e-util/e-html-editor-actions.c:1429
-#: ../src/e-util/e-html-editor-actions.c:1431
+#: ../src/e-util/e-html-editor-actions.c:1529
+#: ../src/e-util/e-html-editor-actions.c:1531
 #: ../src/e-util/e-html-editor.c:1172
 msgid "Background Color"
 msgstr "Цвет фона"
 
-#: ../src/e-util/e-html-editor-actions.c:1439
+#: ../src/e-util/e-html-editor-actions.c:1539
 msgid "_Increase Indent"
 msgstr "У_величить отступ"
 
-#: ../src/e-util/e-html-editor-actions.c:1441
+#: ../src/e-util/e-html-editor-actions.c:1541
 msgid "Increase Indent"
 msgstr "Увеличить отступ"
 
-#: ../src/e-util/e-html-editor-actions.c:1446
+#: ../src/e-util/e-html-editor-actions.c:1546
 msgid "E_moji"
 msgstr "_Эмодзи"
 
-#: ../src/e-util/e-html-editor-actions.c:1448
-#: ../src/e-util/e-html-editor-actions.c:1462
-#: ../src/e-util/e-markdown-editor.c:1958
+#: ../src/e-util/e-html-editor-actions.c:1548
+#: ../src/e-util/e-html-editor-actions.c:1562
+#: ../src/e-util/e-markdown-editor.c:1946
 msgid "Insert Emoji"
 msgstr "Вставить Эмодзи"
 
-#: ../src/e-util/e-html-editor-actions.c:1453
+#: ../src/e-util/e-html-editor-actions.c:1553
 msgid "_Emoticon"
 msgstr "_Эмотикон"
 
-#: ../src/e-util/e-html-editor-actions.c:1455
+#: ../src/e-util/e-html-editor-actions.c:1555
 msgid "Insert Emoticon"
 msgstr "Вставить смайлик"
 
-#: ../src/e-util/e-html-editor-actions.c:1460
+#: ../src/e-util/e-html-editor-actions.c:1560
 msgid "Insert E_moji"
 msgstr "Вставить _Эмодзи"
 
-#: ../src/e-util/e-html-editor-actions.c:1467
+#: ../src/e-util/e-html-editor-actions.c:1567
 msgid "_HTML File…"
 msgstr "Файл _HTML…"
 
-#: ../src/e-util/e-html-editor-actions.c:1474
+#: ../src/e-util/e-html-editor-actions.c:1574
 msgid "Te_xt File…"
 msgstr "Те_кстовый файл…"
 
-#: ../src/e-util/e-html-editor-actions.c:1481
+#: ../src/e-util/e-html-editor-actions.c:1581
 msgid "Paste _Quotation"
 msgstr "Вставить _цитату"
 
-#: ../src/e-util/e-html-editor-actions.c:1488
+#: ../src/e-util/e-html-editor-actions.c:1588
 msgid "_Find…"
 msgstr "_Найти…"
 
-#: ../src/e-util/e-html-editor-actions.c:1490
+#: ../src/e-util/e-html-editor-actions.c:1590
 msgid "Search for text"
 msgstr "Найти текст"
 
-#: ../src/e-util/e-html-editor-actions.c:1495
+#: ../src/e-util/e-html-editor-actions.c:1595
 msgid "Find A_gain"
 msgstr "Найти _снова"
 
-#: ../src/e-util/e-html-editor-actions.c:1502
+#: ../src/e-util/e-html-editor-actions.c:1602
 msgid "Re_place…"
 msgstr "За_менить…"
 
-#: ../src/e-util/e-html-editor-actions.c:1504
+#: ../src/e-util/e-html-editor-actions.c:1604
 msgid "Search for and replace text"
 msgstr "Найти и заменить текст"
 
-#: ../src/e-util/e-html-editor-actions.c:1509
+#: ../src/e-util/e-html-editor-actions.c:1609
 msgid "Check _Spelling…"
 msgstr "Проверить _правописание…"
 
-#: ../src/e-util/e-html-editor-actions.c:1516
+#: ../src/e-util/e-html-editor-actions.c:1616
 msgid "_Decrease Indent"
 msgstr "У_меньшить отступ"
 
-#: ../src/e-util/e-html-editor-actions.c:1518
+#: ../src/e-util/e-html-editor-actions.c:1618
 msgid "Decrease Indent"
 msgstr "Уменьшить отступ"
 
-#: ../src/e-util/e-html-editor-actions.c:1523
+#: ../src/e-util/e-html-editor-actions.c:1623
 msgid "_Wrap Lines"
 msgstr "Пе_реносить строки"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1533
+#: ../src/e-util/e-html-editor-actions.c:1633
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:101
 msgid "_Center"
 msgstr "По _центру"
 
-#: ../src/e-util/e-html-editor-actions.c:1535
+#: ../src/e-util/e-html-editor-actions.c:1635
 msgid "Center Alignment"
 msgstr "Выравнивать по центру"
 
 #. Justified
-#: ../src/e-util/e-html-editor-actions.c:1540
+#: ../src/e-util/e-html-editor-actions.c:1640
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:115
 msgid "_Justified"
 msgstr "Вы_ровненный"
 
-#: ../src/e-util/e-html-editor-actions.c:1542
+#: ../src/e-util/e-html-editor-actions.c:1642
 msgid "Align Justified"
 msgstr "Выравнивание по обоим краям"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1547
+#: ../src/e-util/e-html-editor-actions.c:1647
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:94
 msgid "_Left"
 msgstr "С_лева"
 
-#: ../src/e-util/e-html-editor-actions.c:1549
+#: ../src/e-util/e-html-editor-actions.c:1649
 msgid "Left Alignment"
 msgstr "Выравнивать по левому краю"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1554
+#: ../src/e-util/e-html-editor-actions.c:1654
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:108
 msgid "_Right"
 msgstr "С_права"
 
-#: ../src/e-util/e-html-editor-actions.c:1556
+#: ../src/e-util/e-html-editor-actions.c:1656
 msgid "Right Alignment"
 msgstr "Выравнивать по правому краю"
 
-#: ../src/e-util/e-html-editor-actions.c:1564
+#: ../src/e-util/e-html-editor-actions.c:1664
 #: ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1566
+#: ../src/e-util/e-html-editor-actions.c:1666
 msgid "HTML editing mode"
 msgstr "Режим редактирования HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1571
+#: ../src/e-util/e-html-editor-actions.c:1671
 msgid "Plain _Text"
 msgstr "_Простой текст"
 
-#: ../src/e-util/e-html-editor-actions.c:1573
+#: ../src/e-util/e-html-editor-actions.c:1673
 msgid "Plain text editing mode"
 msgstr "Режим редактирования текста"
 
-#: ../src/e-util/e-html-editor-actions.c:1578
+#: ../src/e-util/e-html-editor-actions.c:1678
 #: ../src/modules/text-highlight/languages.c:96
 msgid "_Markdown"
 msgstr "_Markdown"
 
-#: ../src/e-util/e-html-editor-actions.c:1580
+#: ../src/e-util/e-html-editor-actions.c:1680
 msgid "Markdown editing mode"
 msgstr "Режим редактирования Markdown"
 
-#: ../src/e-util/e-html-editor-actions.c:1585
+#: ../src/e-util/e-html-editor-actions.c:1685
 msgid "Ma_rkdown as Plain Text"
 msgstr "Ma_rkdown как обычный текст"
 
-#: ../src/e-util/e-html-editor-actions.c:1587
+#: ../src/e-util/e-html-editor-actions.c:1687
 msgid "Markdown editing mode, exported as Plain Text"
 msgstr "Режим редактирования Markdown, экспорт в виде обычного текста"
 
-#: ../src/e-util/e-html-editor-actions.c:1592
+#: ../src/e-util/e-html-editor-actions.c:1692
 msgid "Mar_kdown as HTML"
 msgstr "Mar_kdown как HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1594
+#: ../src/e-util/e-html-editor-actions.c:1694
 msgid "Markdown editing mode, exported as HTML"
 msgstr "Режим редактирования Markdown с экспортом в HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1602
+#: ../src/e-util/e-html-editor-actions.c:1702
 msgid "_Normal"
 msgstr "Нормальный"
 
-#: ../src/e-util/e-html-editor-actions.c:1609
+#: ../src/e-util/e-html-editor-actions.c:1709
 msgid "Heading _1"
 msgstr "Заголовок _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1616
+#: ../src/e-util/e-html-editor-actions.c:1716
 msgid "Heading _2"
 msgstr "Заголовок _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1623
+#: ../src/e-util/e-html-editor-actions.c:1723
 msgid "Heading _3"
 msgstr "Заголовок _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1630
+#: ../src/e-util/e-html-editor-actions.c:1730
 msgid "Heading _4"
 msgstr "Заголовок _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1637
+#: ../src/e-util/e-html-editor-actions.c:1737
 msgid "Heading _5"
 msgstr "Заголовок _5"
 
-#: ../src/e-util/e-html-editor-actions.c:1644
+#: ../src/e-util/e-html-editor-actions.c:1744
 msgid "Heading _6"
 msgstr "Заголовок _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1651
+#: ../src/e-util/e-html-editor-actions.c:1751
 msgid "_Preformatted"
 msgstr "_Выровненный"
 
-#: ../src/e-util/e-html-editor-actions.c:1658
+#: ../src/e-util/e-html-editor-actions.c:1758
 msgid "A_ddress"
 msgstr "А_дрес"
 
-#: ../src/e-util/e-html-editor-actions.c:1665
+#: ../src/e-util/e-html-editor-actions.c:1765
 msgid "_Bulleted List"
 msgstr "_Маркированный список"
 
-#: ../src/e-util/e-html-editor-actions.c:1672
+#: ../src/e-util/e-html-editor-actions.c:1772
 msgid "_Roman Numeral List"
 msgstr "Нуме_рованный список (римские цифры)"
 
-#: ../src/e-util/e-html-editor-actions.c:1679
+#: ../src/e-util/e-html-editor-actions.c:1779
 msgid "Numbered _List"
 msgstr "Нумерованный _список"
 
-#: ../src/e-util/e-html-editor-actions.c:1686
+#: ../src/e-util/e-html-editor-actions.c:1786
 msgid "_Alphabetical List"
 msgstr "_Алфавитный список"
 
-#: ../src/e-util/e-html-editor-actions.c:1702
-#: ../src/e-util/e-html-editor-actions.c:1740
+#: ../src/e-util/e-html-editor-actions.c:1802
+#: ../src/e-util/e-html-editor-actions.c:1840
 msgid "_Image…"
 msgstr "_Изображение…"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1705
+#: ../src/e-util/e-html-editor-actions.c:1805
 msgid "Insert Image"
 msgstr "Вставить изображение"
 
-#: ../src/e-util/e-html-editor-actions.c:1710
-#: ../src/e-util/e-html-editor-actions.c:1747
+#: ../src/e-util/e-html-editor-actions.c:1810
+#: ../src/e-util/e-html-editor-actions.c:1847
 msgid "_Link…"
 msgstr "_Ссылка…"
 
-#: ../src/e-util/e-html-editor-actions.c:1712
+#: ../src/e-util/e-html-editor-actions.c:1812
 msgid "Insert Link"
 msgstr "Вставить ссылку"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1718
-#: ../src/e-util/e-html-editor-actions.c:1762
+#: ../src/e-util/e-html-editor-actions.c:1818
+#: ../src/e-util/e-html-editor-actions.c:1862
 msgid "_Rule…"
 msgstr "_Разделитель…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1721
+#: ../src/e-util/e-html-editor-actions.c:1821
 msgid "Insert Rule"
 msgstr "Вставить горизонтальную линию"
 
-#: ../src/e-util/e-html-editor-actions.c:1726
-#: ../src/e-util/e-html-editor-actions.c:1769
+#: ../src/e-util/e-html-editor-actions.c:1826
+#: ../src/e-util/e-html-editor-actions.c:1869
 msgid "_Table…"
 msgstr "_Таблица…"
 
-#: ../src/e-util/e-html-editor-actions.c:1728
+#: ../src/e-util/e-html-editor-actions.c:1828
 msgid "Insert Table"
 msgstr "Вставить таблицу"
 
-#: ../src/e-util/e-html-editor-actions.c:1733
+#: ../src/e-util/e-html-editor-actions.c:1833
 msgid "_Cell…"
 msgstr "_Ячейка…"
 
-#: ../src/e-util/e-html-editor-actions.c:1754
+#: ../src/e-util/e-html-editor-actions.c:1854
 msgid "Pa_ge…"
 msgstr "_Страница…"
 
-#: ../src/e-util/e-html-editor-actions.c:1778
+#: ../src/e-util/e-html-editor-actions.c:1878
 msgid "Font _Size"
 msgstr "Размер _шрифта"
 
-#: ../src/e-util/e-html-editor-actions.c:1785
+#: ../src/e-util/e-html-editor-actions.c:1885
 msgid "_Font Style"
 msgstr "Стиль шриф_та"
 
-#: ../src/e-util/e-html-editor-actions.c:1792
+#: ../src/e-util/e-html-editor-actions.c:1892
 msgid "Paste As _Text"
 msgstr "Вставить как _текст"
 
-#: ../src/e-util/e-html-editor-actions.c:1803
+#: ../src/e-util/e-html-editor-actions.c:1903
 #: ../src/e-util/e-html-editor-text-dialog.c:192
 msgid "_Bold"
 msgstr "_Жирный"
 
-#: ../src/e-util/e-html-editor-actions.c:1805
+#: ../src/e-util/e-html-editor-actions.c:1905
 msgid "Bold"
 msgstr "Жирный"
 
-#: ../src/e-util/e-html-editor-actions.c:1810
+#: ../src/e-util/e-html-editor-actions.c:1910
 #: ../src/e-util/e-html-editor-text-dialog.c:203
 msgid "_Italic"
 msgstr "_Курсив"
 
-#: ../src/e-util/e-html-editor-actions.c:1812
+#: ../src/e-util/e-html-editor-actions.c:1912
 msgid "Italic"
 msgstr "Курсив"
 
-#: ../src/e-util/e-html-editor-actions.c:1817
+#: ../src/e-util/e-html-editor-actions.c:1917
 #: ../src/e-util/e-html-editor-text-dialog.c:224
 msgid "_Strikethrough"
 msgstr "_Зачёркнутый"
 
-#: ../src/e-util/e-html-editor-actions.c:1819
+#: ../src/e-util/e-html-editor-actions.c:1919
 msgid "Strikethrough"
 msgstr "Зачеркнуть"
 
-#: ../src/e-util/e-html-editor-actions.c:1824
+#: ../src/e-util/e-html-editor-actions.c:1924
 msgid "Subs_cript"
 msgstr "По_дстрочный индекс"
 
-#: ../src/e-util/e-html-editor-actions.c:1826
+#: ../src/e-util/e-html-editor-actions.c:1926
 msgid "Subscript"
 msgstr "Подстрочный индекс"
 
-#: ../src/e-util/e-html-editor-actions.c:1831
+#: ../src/e-util/e-html-editor-actions.c:1931
 msgid "Su_perscript"
 msgstr "_Надстрочный индекс"
 
-#: ../src/e-util/e-html-editor-actions.c:1833
+#: ../src/e-util/e-html-editor-actions.c:1933
 msgid "Superscript"
 msgstr "Надстрочный индекс"
 
-#: ../src/e-util/e-html-editor-actions.c:1838
+#: ../src/e-util/e-html-editor-actions.c:1938
 #: ../src/e-util/e-html-editor-text-dialog.c:214
 msgid "_Underline"
 msgstr "По_дчёркивание"
 
-#: ../src/e-util/e-html-editor-actions.c:1840
+#: ../src/e-util/e-html-editor-actions.c:1940
 msgid "Underline"
 msgstr "Подчеркнуть"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1849
+#: ../src/e-util/e-html-editor-actions.c:1949
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1857
+#: ../src/e-util/e-html-editor-actions.c:1957
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1865
+#: ../src/e-util/e-html-editor-actions.c:1965
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1873
+#: ../src/e-util/e-html-editor-actions.c:1973
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1881
+#: ../src/e-util/e-html-editor-actions.c:1981
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1889
+#: ../src/e-util/e-html-editor-actions.c:1989
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1897
+#: ../src/e-util/e-html-editor-actions.c:1997
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:1916
+#: ../src/e-util/e-html-editor-actions.c:2016
 msgid "Copy _Link Location"
 msgstr "Копировать _ссылку"
 
-#: ../src/e-util/e-html-editor-actions.c:1918 ../src/e-util/e-web-view.c:1604
+#: ../src/e-util/e-html-editor-actions.c:2018 ../src/e-util/e-web-view.c:1604
 msgid "Copy the link to the clipboard"
 msgstr "Копировать ссылку в буфер обмена"
 
-#: ../src/e-util/e-html-editor-actions.c:1923 ../src/e-util/e-web-view.c:1612
+#: ../src/e-util/e-html-editor-actions.c:2023 ../src/e-util/e-web-view.c:1612
 msgid "_Open Link in Browser"
 msgstr "_Открыть ссылку в веб-браузере"
 
-#: ../src/e-util/e-html-editor-actions.c:1925 ../src/e-util/e-web-view.c:1614
+#: ../src/e-util/e-html-editor-actions.c:2025 ../src/e-util/e-web-view.c:1614
 msgid "Open the link in a web browser"
 msgstr "Открыть ссылку в браузере"
 
-#: ../src/e-util/e-html-editor-actions.c:1930
+#: ../src/e-util/e-html-editor-actions.c:2030
 msgid "Cell Contents"
 msgstr "Содержимое ячейки"
 
-#: ../src/e-util/e-html-editor-actions.c:1937
+#: ../src/e-util/e-html-editor-actions.c:2037
 msgid "Column"
 msgstr "Столбец"
 
-#: ../src/e-util/e-html-editor-actions.c:1944
+#: ../src/e-util/e-html-editor-actions.c:2044
 msgid "Row"
 msgstr "Строка"
 
-#: ../src/e-util/e-html-editor-actions.c:1951
+#: ../src/e-util/e-html-editor-actions.c:2051
 msgid "Table"
 msgstr "Таблица"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:1961
+#: ../src/e-util/e-html-editor-actions.c:2061
 msgid "Table Delete"
 msgstr "Удаление таблицы"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:1969
+#: ../src/e-util/e-html-editor-actions.c:2069
 msgid "Table Insert"
 msgstr "Вставка таблицы"
 
-#: ../src/e-util/e-html-editor-actions.c:1976
+#: ../src/e-util/e-html-editor-actions.c:2076
 msgid "Properties"
 msgstr "Свойства"
 
-#: ../src/e-util/e-html-editor-actions.c:1994
+#: ../src/e-util/e-html-editor-actions.c:2094
 msgid "Delete Rule"
 msgstr "Удалить разделитель"
 
-#: ../src/e-util/e-html-editor-actions.c:2001
+#: ../src/e-util/e-html-editor-actions.c:2101
 msgid "Delete Image"
 msgstr "Удалить изображение"
 
-#: ../src/e-util/e-html-editor-actions.c:2008
+#: ../src/e-util/e-html-editor-actions.c:2108
 msgid "Column After"
 msgstr "Столбец после"
 
-#: ../src/e-util/e-html-editor-actions.c:2015
+#: ../src/e-util/e-html-editor-actions.c:2115
 msgid "Column Before"
 msgstr "Столбец перед"
 
-#: ../src/e-util/e-html-editor-actions.c:2022
+#: ../src/e-util/e-html-editor-actions.c:2122
 msgid "Insert _Link"
 msgstr "Вставить _ссылку"
 
-#: ../src/e-util/e-html-editor-actions.c:2029
+#: ../src/e-util/e-html-editor-actions.c:2129
 msgid "Row Above"
 msgstr "Строка выше"
 
-#: ../src/e-util/e-html-editor-actions.c:2036
+#: ../src/e-util/e-html-editor-actions.c:2136
 msgid "Row Below"
 msgstr "Строка ниже"
 
-#: ../src/e-util/e-html-editor-actions.c:2043
+#: ../src/e-util/e-html-editor-actions.c:2143
 msgid "Cell…"
 msgstr "Ячейка…"
 
-#: ../src/e-util/e-html-editor-actions.c:2050
+#: ../src/e-util/e-html-editor-actions.c:2150
 msgid "Image…"
 msgstr "Изображение…"
 
-#: ../src/e-util/e-html-editor-actions.c:2057
+#: ../src/e-util/e-html-editor-actions.c:2157
 msgid "Link…"
 msgstr "Ссылка…"
 
-#: ../src/e-util/e-html-editor-actions.c:2064
+#: ../src/e-util/e-html-editor-actions.c:2164
 msgid "Page…"
 msgstr "Страница…"
 
-#: ../src/e-util/e-html-editor-actions.c:2071
+#: ../src/e-util/e-html-editor-actions.c:2171
 msgid "Paragraph…"
 msgstr "Абзац…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2079
+#: ../src/e-util/e-html-editor-actions.c:2179
 msgid "Rule…"
 msgstr "Разделитель…"
 
-#: ../src/e-util/e-html-editor-actions.c:2086
+#: ../src/e-util/e-html-editor-actions.c:2186
 msgid "Table…"
 msgstr "Таблица…"
 
-#: ../src/e-util/e-html-editor-actions.c:2093
+#: ../src/e-util/e-html-editor-actions.c:2193
 msgid "Text…"
 msgstr "Текст…"
 
-#: ../src/e-util/e-html-editor-actions.c:2100
+#: ../src/e-util/e-html-editor-actions.c:2200
 msgid "Remove Link"
 msgstr "Удалить ссылку"
 
-#: ../src/e-util/e-html-editor-actions.c:2117
+#: ../src/e-util/e-html-editor-actions.c:2217
 msgid "Add Word to Dictionary"
 msgstr "Добавить слово в словарь"
 
-#: ../src/e-util/e-html-editor-actions.c:2124
+#: ../src/e-util/e-html-editor-actions.c:2224
 msgid "Ignore Misspelled Word"
 msgstr "Пропустить слово с ошибкой"
 
-#: ../src/e-util/e-html-editor-actions.c:2131
+#: ../src/e-util/e-html-editor-actions.c:2231
 msgid "Add Word To"
 msgstr "Добавить слово в"
 
-#: ../src/e-util/e-html-editor-actions.c:2140
-#| msgid "Spelling Suggestions"
+#: ../src/e-util/e-html-editor-actions.c:2240
 msgid "Spell check suggestions"
 msgstr "Предложения проверки орфографии"
 
-#: ../src/e-util/e-html-editor-actions.c:2147
+#: ../src/e-util/e-html-editor-actions.c:2247
 msgid "More Suggestions"
 msgstr "Другие варианты"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:2414
+#: ../src/e-util/e-html-editor-actions.c:2514
 #, c-format
 msgid "%s Dictionary"
 msgstr "Словарь %s"
 
 #: ../src/e-util/e-html-editor.c:1335
-#| msgid "Content"
 msgid "Context Menu"
 msgstr "Контекстное меню"
 
 #: ../src/e-util/e-html-editor.c:1343 ../src/mail/e-mail-browser.c:801
-#| msgid "Main toolbar"
 msgid "Main Toolbar"
 msgstr "Главная панель инструментов"
 
 #: ../src/e-util/e-html-editor.c:1355
-#| msgid "Edit toolbar"
 msgid "Edit Toolbar"
 msgstr "Панель инструментов редактирования"
 
 #: ../src/e-util/e-html-editor.c:1364
-#| msgid "Main toolbar"
 msgid "HTML Toolbar"
 msgstr "Панель инструментов HTML"
 
-#: ../src/e-util/e-html-editor.c:2518
+#: ../src/e-util/e-html-editor.c:2572
 msgid "Failed to obtain content of editor"
 msgstr "Не удалось получить содержимое редактора"
 
@@ -16669,13 +16637,13 @@ msgstr ""
 
 #: ../src/e-util/e-markdown-editor.c:1855
 #: ../src/e-util/e-markdown-editor.c:1869
-#: ../src/e-util/e-markdown-editor.c:2450
+#: ../src/e-util/e-markdown-editor.c:2438
 msgid "_Write"
 msgstr "_Записать"
 
 #. ** Menus **
 #: ../src/e-util/e-markdown-editor.c:1871
-#: ../src/e-util/e-markdown-editor.c:2492
+#: ../src/e-util/e-markdown-editor.c:2480
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1487
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1711
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:705
@@ -16684,43 +16652,43 @@ msgstr "_Записать"
 msgid "_Preview"
 msgstr "_Предварительный просмотр"
 
-#: ../src/e-util/e-markdown-editor.c:1950
+#: ../src/e-util/e-markdown-editor.c:1938
 msgid "Add bold text"
 msgstr "Добавить полужирный текст"
 
-#: ../src/e-util/e-markdown-editor.c:1951
+#: ../src/e-util/e-markdown-editor.c:1939
 msgid "Add italic text"
 msgstr "Добавить курсивный текст"
 
-#: ../src/e-util/e-markdown-editor.c:1952
+#: ../src/e-util/e-markdown-editor.c:1940
 msgid "Insert a quote"
 msgstr "Вставить цитату"
 
-#: ../src/e-util/e-markdown-editor.c:1953
+#: ../src/e-util/e-markdown-editor.c:1941
 msgid "Insert code"
 msgstr "Вставить код"
 
-#: ../src/e-util/e-markdown-editor.c:1954
+#: ../src/e-util/e-markdown-editor.c:1942
 msgid "Add a link"
 msgstr "Добавить ссылку"
 
-#: ../src/e-util/e-markdown-editor.c:1955
+#: ../src/e-util/e-markdown-editor.c:1943
 msgid "Add a bullet list"
 msgstr "Добавить маркированный список"
 
-#: ../src/e-util/e-markdown-editor.c:1956
+#: ../src/e-util/e-markdown-editor.c:1944
 msgid "Add a numbered list"
 msgstr "Добавить нумерованный список"
 
-#: ../src/e-util/e-markdown-editor.c:1957
+#: ../src/e-util/e-markdown-editor.c:1945
 msgid "Add a header"
 msgstr "Добавить заголовок"
 
-#: ../src/e-util/e-markdown-editor.c:1960
+#: ../src/e-util/e-markdown-editor.c:1948
 msgid "Open online common mark documentation"
 msgstr "Открыть онлайн документацию по общей метке"
 
-#: ../src/e-util/e-markdown-editor.c:1962
+#: ../src/e-util/e-markdown-editor.c:1950
 msgid "Show preview beside text"
 msgstr "Показывать предпросмотр рядом с текстом"
 
@@ -16731,19 +16699,16 @@ msgstr "Команда «%s» завершилась с ошибкой: %s"
 
 #: ../src/e-util/e-markdown-utils.c:188
 #, c-format
-#| msgid "Failed to launch command “%s”:"
 msgid "Failed to read data from command “%s”: %s"
 msgstr "Не удалось выполнить чтение данных из команды «%s»: %s"
 
 #: ../src/e-util/e-markdown-utils.c:198
 #, c-format
-#| msgid "Failed to launch command “%s”:"
 msgid "Failed to run process from command line “%s”: %s"
 msgstr "Не удалось запустить процесс из командной строки «%s»: %s"
 
 #: ../src/e-util/e-markdown-utils.c:208
 #, c-format
-#| msgid "Failed to launch command “%s”:"
 msgid "Failed to parse command line “%s”: %s"
 msgstr "Не удалось разобрать командную строку «%s»: %s"
 
@@ -17098,12 +17063,10 @@ msgstr "Изменить правило"
 #. the text itself is provided by the user.
 #: ../src/e-util/e-rule-editor.c:336
 #, c-format
-#| msgid "Copying folder %s"
 msgid "Copy of %s"
 msgstr "Копия %s"
 
 #: ../src/e-util/e-search-bar.c:78
-#| msgid "No match found"
 msgid "No matches"
 msgstr "Совпадений не найдено"
 
@@ -17607,7 +17570,6 @@ msgid "Timezone drop-down combination box"
 msgstr "Выпадающий список с часовыми поясами"
 
 #: ../src/e-util/e-ui-customize-dialog.c:588
-#| msgid "_Use the same fonts as other applications"
 msgid "_Unset from other action"
 msgid_plural "_Unset from other actions"
 msgstr[0] "_Отменить привязку к другим действиям"
@@ -17624,7 +17586,6 @@ msgstr[2] "Комбинация клавиш используется други
 
 #: ../src/e-util/e-ui-customize-dialog.c:649
 #, c-format
-#| msgid "Storing account “%s”"
 msgid "Shortcut is used by action “%s”"
 msgstr "Комбинация клавиш используется действием «%s»"
 
@@ -17637,13 +17598,10 @@ msgid "Save"
 msgstr "Сохранить"
 
 #: ../src/e-util/e-ui-customize-dialog.c:1087
-#| msgctxt "shortcut window"
-#| msgid "Keyboard Shortcuts"
 msgid "No shortcut set"
 msgstr "Комбинация клавиш не задана"
 
 #: ../src/e-util/e-ui-customize-dialog.c:1319
-#| msgid "No folder selected."
 msgid "No action selected"
 msgstr "Действие не выбрано"
 
@@ -17654,12 +17612,10 @@ msgid "Separator"
 msgstr "Разделитель"
 
 #: ../src/e-util/e-ui-customize-dialog.c:1546
-#| msgid "Needs Action"
 msgid "Selected _Action"
 msgstr "Выбранное _действие"
 
 #: ../src/e-util/e-ui-customize-dialog.c:1546
-#| msgid "Needs Action"
 msgid "Selected _Actions"
 msgstr "Выбранные _действия"
 
@@ -17673,62 +17629,52 @@ msgid "_Part:"
 msgstr "_Часть:"
 
 #: ../src/e-util/e-ui-customize-dialog.c:2553
-#| msgid "Available Groups:"
 msgid "Available _Actions"
 msgstr "Доступные _действия"
 
 #: ../src/e-util/e-ui-customize-dialog.c:2622
-#| msgid "Layout"
 msgid "_Layout"
 msgstr "_Оформление"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
 #: ../src/e-util/e-ui-customize-dialog.c:2740
-#: ../src/e-util/e-ui-customize-dialog.c:2789 ../src/mail/e-mail-reader.c:2864
+#: ../src/e-util/e-ui-customize-dialog.c:2789 ../src/mail/e-mail-reader.c:2941
 #: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4614
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "По _умолчанию"
 
 #: ../src/e-util/e-ui-customize-dialog.c:2754
-#| msgid "_Keyboard Shortcuts"
 msgid "_Shortcuts"
 msgstr "Комбинации _клавиш"
 
 #: ../src/e-util/e-ui-customize-dialog.c:2757
-#| msgid "Add a note for the selected message"
 msgid "Add or remove shortcuts for the selected action."
 msgstr "Добавить или удалить комбинации клавиш для выбранного действия."
 
 #: ../src/e-util/e-ui-customize-dialog.c:2920
-#| msgid "Same as user interface"
 msgid "Customize User Interface"
 msgstr "Настройка интерфейса пользователя"
 
 #. Translators: which side a header bar items are placed to; for RTL locales it should be "Right side"
 #: ../src/e-util/e-ui-customize-dialog.c:3072
-#| msgid "Left"
 msgid "Left side"
 msgstr "Слева"
 
 #. Translators: which side a header bar items are placed to; for RTL locales it should be "Left side"
 #: ../src/e-util/e-ui-customize-dialog.c:3078
-#| msgid "Right"
 msgid "Right side"
 msgstr "Справа"
 
 #: ../src/e-util/e-ui-customize-dialog.c:3521
-#| msgid "Failed to save changes"
 msgid "Failed to save changes."
 msgstr "Не удалось сохранить изменения."
 
 #: ../src/e-util/e-ui-customizer.c:434
-#| msgid "Header"
 msgid "Headerbar"
 msgstr "Строка заголовка"
 
 #: ../src/e-util/e-ui-customizer.c:437
-#| msgid "Tool_bar Style"
 msgid "Toolbar"
 msgstr "Панель инструментов"
 
@@ -17764,7 +17710,6 @@ msgid "Events"
 msgstr "События"
 
 #: ../src/e-util/e-webdav-browser.c:539
-#| msgid "Server handles meeting invitations"
 msgid "Calendar handling meeting invitations"
 msgstr "Календарь обрабатывает приглашения на встречи"
 
@@ -17902,22 +17847,18 @@ msgid "_Copy Link Location"
 msgstr "_Копировать ссылку"
 
 #: ../src/e-util/e-web-view.c:1622
-#| msgid "_Copy Email Address"
 msgid "_Copy Name and Email Address"
 msgstr "_Копировать имя и адрес эл. почты"
 
 #: ../src/e-util/e-web-view.c:1624
-#| msgid "Copy the email address to the clipboard"
 msgid "Copy the email address with the name to the clipboard"
 msgstr "Копировать адрес эл. почты вместе с именем в буфер обмена"
 
 #: ../src/e-util/e-web-view.c:1629
-#| msgid "_Copy Email Address"
 msgid "Copy Only Email Add_ress"
 msgstr "_Копировать только адрес эл. почты"
 
 #: ../src/e-util/e-web-view.c:1631
-#| msgid "Copy the email address to the clipboard"
 msgid "Copy only the email address without the name to the clipboard"
 msgstr "Копировать только адрес эл. почты без имени в буфер обмена"
 
@@ -17938,12 +17879,12 @@ msgid "Save the image to a file"
 msgstr "Сохранить изображение в файл"
 
 #: ../src/e-util/e-web-view.c:1670 ../src/mail/e-mail-browser.c:611
-#: ../src/mail/e-mail-reader.c:3409
+#: ../src/mail/e-mail-reader.c:3493
 msgid "Search _Web…"
 msgstr "Поиск в _Интернете…"
 
 #: ../src/e-util/e-web-view.c:1672 ../src/mail/e-mail-browser.c:613
-#: ../src/mail/e-mail-reader.c:3411
+#: ../src/mail/e-mail-reader.c:3495
 msgid "Search the Web with the selected text"
 msgstr "Поиск в Интернете по выбранному тексту"
 
@@ -17952,12 +17893,10 @@ msgid "Select all text and images"
 msgstr "Выделить весь текст и изображения"
 
 #: ../src/e-util/e-web-view.c:1697 ../src/mail/e-mail-viewer.c:1734
-#| msgid "Print"
 msgid "_Print"
 msgstr "_Печать"
 
 #: ../src/e-util/e-web-view.c:1707
-#| msgid "Save as…"
 msgid "Save _as…"
 msgstr "Сохранить _как…"
 
@@ -18142,7 +18081,6 @@ msgid "Rule Name"
 msgstr "Название правила"
 
 #: ../src/e-util/filter.ui.h:27
-#| msgid "Skip duplicates"
 msgid "Du_plicate"
 msgstr "Ду_блировать"
 
@@ -18910,11 +18848,10 @@ msgid "Restore _Not-Junk to Folder:"
 msgstr "Переместить _не являющиеся спамом сообщения в папку:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:873
-#| msgid "Choose a folder for junk messages."
 msgid "Choose a folder to restore not-junk messages from the Junk folder to."
 msgstr ""
-"Выберите папку, в которую будут перемещаться не являющиеся спамом сообщения"
-" из папки «Спам»."
+"Выберите папку, в которую будут перемещаться не являющиеся спамом сообщения "
+"из папки «Спам»."
 
 #: ../src/mail/e-mail-config-defaults-page.c:1006
 msgid "Defaults"
@@ -19288,7 +19225,6 @@ msgstr ""
 "ширины окна"
 
 #: ../src/mail/e-mail-display.c:2068
-#| msgid "Send this message"
 msgid "Load this image"
 msgstr "Загрузить это изображение"
 
@@ -19324,7 +19260,6 @@ msgstr "Разрешить удалённое (не локальное) соде
 
 #: ../src/mail/e-mail-display.c:2396
 #, c-format
-#| msgid "Allow remote content from %s"
 msgid "Load remote content from %s"
 msgstr "Загрузить удалённое (не локальное) содержимое от %s"
 
@@ -19443,7 +19378,7 @@ msgstr "Д_ела"
 msgid "_Later"
 msgstr "_Позже"
 
-#: ../src/mail/e-mail-label-manager.c:152 ../src/mail/e-mail-reader.c:895
+#: ../src/mail/e-mail-label-manager.c:152 ../src/mail/e-mail-reader.c:972
 #: ../src/mail/em-folder-properties.c:1169
 msgid "Add Label"
 msgstr "Добавить метку"
@@ -19530,7 +19465,7 @@ msgstr "Страница %d из %d"
 msgid "Deleting message note…"
 msgstr "Удаление примечания…"
 
-#: ../src/mail/e-mail-reader.c:1067
+#: ../src/mail/e-mail-reader.c:1144
 #, c-format
 msgid "Are you sure you want to mark %d message as Junk?"
 msgid_plural "Are you sure you want to mark %d messages as Junk?"
@@ -19538,703 +19473,684 @@ msgstr[0] "Вы уверены, что хотите пометить %d сооб
 msgstr[1] "Вы уверены, что хотите пометить %d сообщения как спам?"
 msgstr[2] "Вы уверены, что хотите пометить %d сообщений как спам?"
 
-#: ../src/mail/e-mail-reader.c:1075
+#: ../src/mail/e-mail-reader.c:1152
 msgid "The message will be shown in the Junk folder."
 msgid_plural "The messages will be shown in the Junk folder."
 msgstr[0] "Сообщение будет отображаться в папке Спам."
 msgstr[1] "Сообщения будут отображаться в папке Спам."
 msgstr[2] "Сообщения будут отображаться в папке Спам."
 
-#: ../src/mail/e-mail-reader.c:1806 ../src/mail/e-mail-reader.c:2237
-#: ../src/mail/e-mail-reader.c:2279
+#: ../src/mail/e-mail-reader.c:1883 ../src/mail/e-mail-reader.c:2314
+#: ../src/mail/e-mail-reader.c:2356
 msgid "_Do not ask me again."
 msgstr "_Не спрашивать в следующий раз."
 
-#: ../src/mail/e-mail-reader.c:2285
+#: ../src/mail/e-mail-reader.c:2362
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "_Всегда игнорировать обратный адрес для списков рассылки."
 
-#: ../src/mail/e-mail-reader.c:2513
+#: ../src/mail/e-mail-reader.c:2590
 msgid "Failed to retrieve message:"
 msgstr "Не удалось получить сообщения:"
 
-#: ../src/mail/e-mail-reader.c:2574 ../src/mail/e-mail-reader.c:4176
+#: ../src/mail/e-mail-reader.c:2651 ../src/mail/e-mail-reader.c:4260
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "Получение сообщения «%s»"
 
-#: ../src/mail/e-mail-reader.c:2917 ../src/mail/e-mail-viewer.c:1846
+#: ../src/mail/e-mail-reader.c:2994 ../src/mail/e-mail-viewer.c:1846
 msgid "A_dd Sender to Address Book"
 msgstr "_Добавить отправителя в адресную книгу"
 
-#: ../src/mail/e-mail-reader.c:2919
+#: ../src/mail/e-mail-reader.c:2996
 msgid "Add sender to address book"
 msgstr "Добавить отправителя в адресную книгу"
 
-#: ../src/mail/e-mail-reader.c:2924
+#: ../src/mail/e-mail-reader.c:3001
 msgid "_Archive"
 msgstr "_Архивировать"
 
-#: ../src/mail/e-mail-reader.c:2926
+#: ../src/mail/e-mail-reader.c:3003
 msgid "Move selected messages to the Archive folder for the account"
 msgstr ""
 "Переместить указанные сообщения учётной записи в соответствующую архивную "
 "папку"
 
-#: ../src/mail/e-mail-reader.c:2931
+#: ../src/mail/e-mail-reader.c:3008
 msgid "Check for _Junk"
 msgstr "Проверить на _спам"
 
-#: ../src/mail/e-mail-reader.c:2933
+#: ../src/mail/e-mail-reader.c:3010
 msgid "Filter the selected messages for junk status"
 msgstr "Фильтровать выбранные сообщения по состоянию «спам»"
 
-#: ../src/mail/e-mail-reader.c:2938
+#: ../src/mail/e-mail-reader.c:3015
 msgid "Assign C_olor…"
 msgstr "Назначить _цвет…"
 
-#: ../src/mail/e-mail-reader.c:2940
+#: ../src/mail/e-mail-reader.c:3017
 msgid "Assign color for the selected messages"
 msgstr "Добавить цвет для выбранных сообщений"
 
-#: ../src/mail/e-mail-reader.c:2945
+#: ../src/mail/e-mail-reader.c:3022
 msgid "Unse_t Color"
 msgstr "Сбросить цвет"
 
-#: ../src/mail/e-mail-reader.c:2947
+#: ../src/mail/e-mail-reader.c:3024
 msgid "Unset color for the selected messages"
 msgstr "Сбросить цвет для выбранных сообщений"
 
-#: ../src/mail/e-mail-reader.c:2952
+#: ../src/mail/e-mail-reader.c:3029
 msgid "_Copy to Folder…"
 msgstr "_Копировать в папку…"
 
-#: ../src/mail/e-mail-reader.c:2954
+#: ../src/mail/e-mail-reader.c:3031
 msgid "Copy selected messages to another folder"
 msgstr "Копировать выбранные сообщения в другую папку"
 
-#: ../src/mail/e-mail-reader.c:2959
+#: ../src/mail/e-mail-reader.c:3036
 msgid "_Delete Message"
 msgstr "_Удалить сообщение"
 
-#: ../src/mail/e-mail-reader.c:2961
+#: ../src/mail/e-mail-reader.c:3038
 msgid "Mark the selected messages for deletion"
 msgstr "Пометить выбранные сообщения для удаления"
 
-#: ../src/mail/e-mail-reader.c:2966
+#: ../src/mail/e-mail-reader.c:3043
 msgid "_Add note…"
 msgstr "_Добавить заметку…"
 
-#: ../src/mail/e-mail-reader.c:2968
+#: ../src/mail/e-mail-reader.c:3045
 msgid "Add a note for the selected message"
 msgstr "Добавить примечание для выбранного сообщения"
 
-#: ../src/mail/e-mail-reader.c:2973
+#: ../src/mail/e-mail-reader.c:3050
 msgid "Delete no_te"
 msgstr "Удалить за_метку"
 
-#: ../src/mail/e-mail-reader.c:2975
+#: ../src/mail/e-mail-reader.c:3052
 msgid "Delete the note for the selected message"
 msgstr "Удалить заметки для выбранных сообщений"
 
-#: ../src/mail/e-mail-reader.c:2980
+#: ../src/mail/e-mail-reader.c:3057
 msgid "_Edit note…"
 msgstr "_Редактировать заметку…"
 
-#: ../src/mail/e-mail-reader.c:2982
+#: ../src/mail/e-mail-reader.c:3059
 msgid "Edit a note for the selected message"
 msgstr "Редактировать заметку для выделенного сообщения"
 
-#: ../src/mail/e-mail-reader.c:2987
+#: ../src/mail/e-mail-reader.c:3064
 msgid "Create a Filter Rule for Mailing _List…"
 msgstr "Создать фильтр для _списка рассылки…"
 
-#: ../src/mail/e-mail-reader.c:2989
+#: ../src/mail/e-mail-reader.c:3066
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Создать правило для фильтрации сообщений в этот список рассылки"
 
-#: ../src/mail/e-mail-reader.c:2994
+#: ../src/mail/e-mail-reader.c:3071
 msgid "Create a Filter Rule for _Recipients…"
 msgstr "Создать фильтр для _получателей…"
 
-#: ../src/mail/e-mail-reader.c:2996
+#: ../src/mail/e-mail-reader.c:3073
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Создать правило для фильтрации сообщений к этим получателям"
 
-#: ../src/mail/e-mail-reader.c:3001
+#: ../src/mail/e-mail-reader.c:3078
 msgid "Create a Filter Rule for Se_nder…"
 msgstr "Создать фильтр для _отправителя…"
 
-#: ../src/mail/e-mail-reader.c:3003
+#: ../src/mail/e-mail-reader.c:3080
 msgid "Create a rule to filter messages from this sender"
 msgstr "Создать правило для фильтрации сообщений от этого отправителя"
 
-#: ../src/mail/e-mail-reader.c:3008
+#: ../src/mail/e-mail-reader.c:3085
 msgid "Create a Filter Rule for _Subject…"
 msgstr "Создать фильтр для _темы…"
 
-#: ../src/mail/e-mail-reader.c:3010
+#: ../src/mail/e-mail-reader.c:3087
 msgid "Create a rule to filter messages with this subject"
 msgstr "Создать правило для фильтрации сообщений с этой темой"
 
-#: ../src/mail/e-mail-reader.c:3015
+#: ../src/mail/e-mail-reader.c:3092
 msgid "A_pply Filters"
 msgstr "Применить _фильтры"
 
-#: ../src/mail/e-mail-reader.c:3017
+#: ../src/mail/e-mail-reader.c:3094
 msgid "Apply filter rules to the selected messages"
 msgstr "Применить фильтры к выбранным сообщениям"
 
-#: ../src/mail/e-mail-reader.c:3022 ../src/mail/e-mail-viewer.c:1776
+#: ../src/mail/e-mail-reader.c:3099 ../src/mail/e-mail-viewer.c:1776
 msgid "_Find in Message…"
 msgstr "_Найти в сообщении…"
 
-#: ../src/mail/e-mail-reader.c:3024
+#: ../src/mail/e-mail-reader.c:3101
 msgid "Search for text in the body of the displayed message"
 msgstr "Поиск в тексте отображаемого сообщения"
 
-#: ../src/mail/e-mail-reader.c:3029
+#: ../src/mail/e-mail-reader.c:3106
 msgid "_Clear Flag"
 msgstr "О_чистить отметку"
 
-#: ../src/mail/e-mail-reader.c:3031
+#: ../src/mail/e-mail-reader.c:3108
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Снять метку «к исполнению» с выбранных сообщений"
 
-#: ../src/mail/e-mail-reader.c:3036
+#: ../src/mail/e-mail-reader.c:3113
 msgid "_Flag Completed"
 msgstr "_Метка «Завершено»"
 
-#: ../src/mail/e-mail-reader.c:3038
+#: ../src/mail/e-mail-reader.c:3115
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr ""
 "Установить метку «к исполнению» в значение «завершено» для выделенных "
 "сообщений"
 
-#: ../src/mail/e-mail-reader.c:3043
+#: ../src/mail/e-mail-reader.c:3120
 msgid "Follow _Up…"
 msgstr "К _исполнению…"
 
-#: ../src/mail/e-mail-reader.c:3045 ../src/mail/e-mail-reader.c:3052
+#: ../src/mail/e-mail-reader.c:3122 ../src/mail/e-mail-reader.c:3129
 msgid "Flag the selected messages for follow-up"
 msgstr "Отметить выделенные сообщения к исполнению"
 
-#: ../src/mail/e-mail-reader.c:3050
+#: ../src/mail/e-mail-reader.c:3127
 msgid "Mark for Follo_w Up…"
 msgstr "Пометить к _исполнению…"
 
-#: ../src/mail/e-mail-reader.c:3057 ../src/mail/e-mail-reader.c:3482
+#: ../src/mail/e-mail-reader.c:3134 ../src/mail/e-mail-reader.c:3566
 #: ../src/mail/e-mail-viewer.c:1895
 #: ../src/modules/mail/e-mail-attachment-handler.c:910
 msgid "_Forward"
 msgstr "Пе_реслать"
 
-#: ../src/mail/e-mail-reader.c:3059
+#: ../src/mail/e-mail-reader.c:3136
 #: ../src/modules/mail/e-mail-attachment-handler.c:912
 msgid "Forward the selected message to someone"
 msgstr "Перенаправить выбранное сообщение кому-либо"
 
-#: ../src/mail/e-mail-reader.c:3064 ../src/mail/e-mail-viewer.c:1902
+#: ../src/mail/e-mail-reader.c:3141 ../src/mail/e-mail-viewer.c:1902
 #: ../src/modules/mail/e-mail-attachment-handler.c:959
 msgid "_Attached"
 msgstr "_Вложение"
 
-#: ../src/mail/e-mail-reader.c:3066 ../src/mail/e-mail-reader.c:3073
+#: ../src/mail/e-mail-reader.c:3143 ../src/mail/e-mail-reader.c:3150
 #: ../src/modules/mail/e-mail-attachment-handler.c:961
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Перенаправить выбранное сообщение кому-либо как вложение"
 
-#: ../src/mail/e-mail-reader.c:3071
+#: ../src/mail/e-mail-reader.c:3148
 msgid "Forward As _Attached"
 msgstr "Перенаправить как _вложенное"
 
-#: ../src/mail/e-mail-reader.c:3078 ../src/mail/e-mail-viewer.c:1909
+#: ../src/mail/e-mail-reader.c:3155 ../src/mail/e-mail-viewer.c:1909
 #: ../src/modules/mail/e-mail-attachment-handler.c:966
 msgid "_Inline"
 msgstr "В_строенное"
 
-#: ../src/mail/e-mail-reader.c:3080 ../src/mail/e-mail-reader.c:3087
+#: ../src/mail/e-mail-reader.c:3157 ../src/mail/e-mail-reader.c:3164
 #: ../src/modules/mail/e-mail-attachment-handler.c:968
 msgid "Forward the selected message in the body of a new message"
 msgstr "Перенаправить выбранное сообщение в теле нового сообщения"
 
-#: ../src/mail/e-mail-reader.c:3085
+#: ../src/mail/e-mail-reader.c:3162
 msgid "Forward As _Inline"
 msgstr "Перенаправить как вс_троенное"
 
-#: ../src/mail/e-mail-reader.c:3092 ../src/mail/e-mail-viewer.c:1916
+#: ../src/mail/e-mail-reader.c:3169 ../src/mail/e-mail-viewer.c:1916
 #: ../src/modules/mail/e-mail-attachment-handler.c:973
 msgid "_Quoted"
 msgstr "_Цитирование"
 
-#: ../src/mail/e-mail-reader.c:3094 ../src/mail/e-mail-reader.c:3101
+#: ../src/mail/e-mail-reader.c:3171 ../src/mail/e-mail-reader.c:3178
 #: ../src/modules/mail/e-mail-attachment-handler.c:975
 msgid "Forward the selected message quoted like a reply"
 msgstr "Перенаправить выбранное сообщение процитированным как при ответе"
 
-#: ../src/mail/e-mail-reader.c:3099
+#: ../src/mail/e-mail-reader.c:3176
 msgid "Forward As _Quoted"
 msgstr "Перенаправить как _цитируемое"
 
-#: ../src/mail/e-mail-reader.c:3106
+# Этот вариант наиболее точно и кратко передает смысл. Он понятен пользователям и часто используется в интерфейсах для обозначения папки-источника
+#: ../src/mail/e-mail-reader.c:3183
+msgid "_Containing Folder"
+msgstr "_Исходная папка"
+
+#: ../src/mail/e-mail-reader.c:3185
+msgid "Go to the folder the message originates from"
+msgstr "Перейти в исходную папку сообщения"
+
+#: ../src/mail/e-mail-reader.c:3190
 msgid "Change _More Labels…"
 msgstr "Изменить _больше меток…"
 
-#: ../src/mail/e-mail-reader.c:3113
+#: ../src/mail/e-mail-reader.c:3197
 msgid "_New Label"
 msgstr "_Новая метка"
 
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/mail/e-mail-reader.c:3122
+#: ../src/mail/e-mail-reader.c:3206
 msgid "N_one"
 msgstr "_Нет"
 
-#: ../src/mail/e-mail-reader.c:3129 ../src/mail/e-mail-viewer.c:1783
+#: ../src/mail/e-mail-reader.c:3213 ../src/mail/e-mail-viewer.c:1783
 msgid "_Load Images"
 msgstr "_Загрузить изображения"
 
-#: ../src/mail/e-mail-reader.c:3131
+#: ../src/mail/e-mail-reader.c:3215
 msgid "Force images in HTML mail to be loaded"
 msgstr "Включить загрузку картинок в почте в формате HTML"
 
-#: ../src/mail/e-mail-reader.c:3136
+#: ../src/mail/e-mail-reader.c:3220
 msgid "_Ignore Subthread"
 msgstr "_Игнорировать подветку"
 
-#: ../src/mail/e-mail-reader.c:3138
+#: ../src/mail/e-mail-reader.c:3222
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "Помечать новые сообщения в этой подветке как прочитанные автоматически"
 
-#: ../src/mail/e-mail-reader.c:3143
+#: ../src/mail/e-mail-reader.c:3227
 msgid "_Ignore Thread"
 msgstr "_Игнорировать ветку"
 
-#: ../src/mail/e-mail-reader.c:3145
+#: ../src/mail/e-mail-reader.c:3229
 msgid "Mark new mails in this thread as read automatically"
 msgstr "Помечать новые сообщения в этой ветке как прочитанные автоматически"
 
-#: ../src/mail/e-mail-reader.c:3150
+#: ../src/mail/e-mail-reader.c:3234
 msgid "_Important"
 msgstr "_Важное"
 
-#: ../src/mail/e-mail-reader.c:3152 ../src/mail/e-mail-reader.c:3159
+#: ../src/mail/e-mail-reader.c:3236 ../src/mail/e-mail-reader.c:3243
 msgid "Mark the selected messages as important"
 msgstr "Отметить выделенные сообщения как важные"
 
-#: ../src/mail/e-mail-reader.c:3157
+#: ../src/mail/e-mail-reader.c:3241
 msgid "Mark as _Important"
 msgstr "Пометить как _важное"
 
-#: ../src/mail/e-mail-reader.c:3164
+#: ../src/mail/e-mail-reader.c:3248
 msgid "_Junk"
 msgstr "_Спам"
 
-#: ../src/mail/e-mail-reader.c:3166 ../src/mail/e-mail-reader.c:3173
+#: ../src/mail/e-mail-reader.c:3250 ../src/mail/e-mail-reader.c:3257
 msgid "Mark the selected messages as junk"
 msgstr "Отметить выделенные сообщения как спам"
 
-#: ../src/mail/e-mail-reader.c:3171
+#: ../src/mail/e-mail-reader.c:3255
 msgid "Mark as _Junk"
 msgstr "Пометить как _спам"
 
-#: ../src/mail/e-mail-reader.c:3178
+#: ../src/mail/e-mail-reader.c:3262
 msgid "_Not Junk"
 msgstr "_Не спам"
 
-#: ../src/mail/e-mail-reader.c:3180 ../src/mail/e-mail-reader.c:3187
+#: ../src/mail/e-mail-reader.c:3264 ../src/mail/e-mail-reader.c:3271
 msgid "Mark the selected messages as not being junk"
 msgstr "Отметить выделенные сообщения как не спам"
 
-#: ../src/mail/e-mail-reader.c:3185
+#: ../src/mail/e-mail-reader.c:3269
 msgid "Mark as _Not Junk"
 msgstr "Пометить как _не спам"
 
-#: ../src/mail/e-mail-reader.c:3192
+#: ../src/mail/e-mail-reader.c:3276
 msgid "_Read"
 msgstr "_Прочитанное"
 
-#: ../src/mail/e-mail-reader.c:3194 ../src/mail/e-mail-reader.c:3201
+#: ../src/mail/e-mail-reader.c:3278 ../src/mail/e-mail-reader.c:3285
 msgid "Mark the selected messages as having been read"
 msgstr "Отметить выделенные сообщения как прочитанные"
 
-#: ../src/mail/e-mail-reader.c:3199
+#: ../src/mail/e-mail-reader.c:3283
 msgid "Mar_k as Read"
 msgstr "По_метить как прочитанные"
 
-#: ../src/mail/e-mail-reader.c:3206
+#: ../src/mail/e-mail-reader.c:3290
 msgid "Do not _Ignore Subthread"
 msgstr "Не _игнорировать подветку"
 
-#: ../src/mail/e-mail-reader.c:3208
+#: ../src/mail/e-mail-reader.c:3292
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr "Не помечать новые сообщения в подветке как прочитанные автоматически"
 
-#: ../src/mail/e-mail-reader.c:3213
+#: ../src/mail/e-mail-reader.c:3297
 msgid "Do not _Ignore Thread"
 msgstr "Не _игнорировать ветку"
 
-#: ../src/mail/e-mail-reader.c:3215
+#: ../src/mail/e-mail-reader.c:3299
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr "Не помечать новые сообщения в этой ветке как прочитанные автоматически"
 
-#: ../src/mail/e-mail-reader.c:3220
+#: ../src/mail/e-mail-reader.c:3304
 msgid "Uni_mportant"
 msgstr "_Неважное"
 
-#: ../src/mail/e-mail-reader.c:3222 ../src/mail/e-mail-reader.c:3229
+#: ../src/mail/e-mail-reader.c:3306 ../src/mail/e-mail-reader.c:3313
 msgid "Mark the selected messages as unimportant"
 msgstr "Отметить выделенные сообщения как неважные"
 
-#: ../src/mail/e-mail-reader.c:3227
+#: ../src/mail/e-mail-reader.c:3311
 msgid "Mark as Uni_mportant"
 msgstr "Пометить как нева_жное"
 
-#: ../src/mail/e-mail-reader.c:3234
+#: ../src/mail/e-mail-reader.c:3318
 msgid "_Unread"
 msgstr "_Непрочитанное"
 
-#: ../src/mail/e-mail-reader.c:3236 ../src/mail/e-mail-reader.c:3243
+#: ../src/mail/e-mail-reader.c:3320 ../src/mail/e-mail-reader.c:3327
 msgid "Mark the selected messages as not having been read"
 msgstr "Отметить выделенные сообщения как ещё не прочитанные"
 
-#: ../src/mail/e-mail-reader.c:3241
+#: ../src/mail/e-mail-reader.c:3325
 msgid "Mark as _Unread"
 msgstr "Пометить как _непрочитанные"
 
-#: ../src/mail/e-mail-reader.c:3248
+#: ../src/mail/e-mail-reader.c:3332
 #: ../src/modules/mail/e-mail-attachment-handler.c:938
 msgid "_Edit as New Message…"
 msgstr "_Редактировать как новое сообщение…"
 
-#: ../src/mail/e-mail-reader.c:3250
+#: ../src/mail/e-mail-reader.c:3334
 #: ../src/modules/mail/e-mail-attachment-handler.c:940
 msgid "Open the selected messages in the composer for editing"
 msgstr "Открыть выделенные сообщения в редакторе для изменения"
 
-#: ../src/mail/e-mail-reader.c:3255
+#: ../src/mail/e-mail-reader.c:3339
 msgid "Compose _New Message"
 msgstr "Созд_ать новое сообщение"
 
-#: ../src/mail/e-mail-reader.c:3257
+#: ../src/mail/e-mail-reader.c:3341
 msgid "Open a window for composing a mail message"
 msgstr "Открыть окно для создания почтового сообщения"
 
-#: ../src/mail/e-mail-reader.c:3262
+#: ../src/mail/e-mail-reader.c:3346
 msgid "_Open in New Window"
 msgstr "_Открыть в новом окне"
 
-#: ../src/mail/e-mail-reader.c:3264
+#: ../src/mail/e-mail-reader.c:3348
 msgid "Open the selected messages in a new window"
 msgstr "Отправить выделенные сообщения в новом окне"
 
-#: ../src/mail/e-mail-reader.c:3269
+#: ../src/mail/e-mail-reader.c:3353
 msgid "_Move to Folder…"
 msgstr "_Переместить в папку…"
 
-#: ../src/mail/e-mail-reader.c:3271
+#: ../src/mail/e-mail-reader.c:3355
 msgid "Move selected messages to another folder"
 msgstr "Переместить выделенные сообщения в другую папку"
 
-#: ../src/mail/e-mail-reader.c:3276
+#: ../src/mail/e-mail-reader.c:3360
 msgid "_Next Message"
 msgstr "_Следующему сообщению"
 
-#: ../src/mail/e-mail-reader.c:3278
+#: ../src/mail/e-mail-reader.c:3362
 msgid "Display the next message"
 msgstr "Показать следующее сообщение"
 
-#: ../src/mail/e-mail-reader.c:3283
+#: ../src/mail/e-mail-reader.c:3367
 msgid "Next _Important Message"
 msgstr "Следующему _важному сообщению"
 
-#: ../src/mail/e-mail-reader.c:3285
+#: ../src/mail/e-mail-reader.c:3369
 msgid "Display the next important message"
 msgstr "Показать следующее важное сообщение"
 
-#: ../src/mail/e-mail-reader.c:3290
+#: ../src/mail/e-mail-reader.c:3374
 msgid "Next _Thread"
 msgstr "_Следующему обсуждению"
 
-#: ../src/mail/e-mail-reader.c:3292
+#: ../src/mail/e-mail-reader.c:3376
 msgid "Display the next thread"
 msgstr "Показать следующее обсуждение"
 
-#: ../src/mail/e-mail-reader.c:3297
+#: ../src/mail/e-mail-reader.c:3381
 msgid "Next _Unread Message"
 msgstr "Следующему _непрочитанному сообщению"
 
-#: ../src/mail/e-mail-reader.c:3299
+#: ../src/mail/e-mail-reader.c:3383
 msgid "Display the next unread message"
 msgstr "Показать следующее непрочитанное сообщение"
 
-#: ../src/mail/e-mail-reader.c:3304
+#: ../src/mail/e-mail-reader.c:3388
 msgid "_Previous Message"
 msgstr "Предыдущему _сообщению"
 
-#: ../src/mail/e-mail-reader.c:3306
+#: ../src/mail/e-mail-reader.c:3390
 msgid "Display the previous message"
 msgstr "Показать предыдущее сообщение"
 
-#: ../src/mail/e-mail-reader.c:3311
+#: ../src/mail/e-mail-reader.c:3395
 msgid "Pr_evious Important Message"
 msgstr "Предыдущему _важному сообщению"
 
-#: ../src/mail/e-mail-reader.c:3313
+#: ../src/mail/e-mail-reader.c:3397
 msgid "Display the previous important message"
 msgstr "Показать предыдущее важное сообщение"
 
-#: ../src/mail/e-mail-reader.c:3318
+#: ../src/mail/e-mail-reader.c:3402
 msgid "Previous T_hread"
 msgstr "Предыдущему _обсуждению"
 
-#: ../src/mail/e-mail-reader.c:3320
+#: ../src/mail/e-mail-reader.c:3404
 msgid "Display the previous thread"
 msgstr "Показать предыдущее обсуждение"
 
-#: ../src/mail/e-mail-reader.c:3325
+#: ../src/mail/e-mail-reader.c:3409
 msgid "P_revious Unread Message"
 msgstr "Предыдущему _непрочитанному сообщению"
 
-#: ../src/mail/e-mail-reader.c:3327
+#: ../src/mail/e-mail-reader.c:3411
 msgid "Display the previous unread message"
 msgstr "Показать предыдущее непрочитанное сообщение"
 
-#: ../src/mail/e-mail-reader.c:3334
+#: ../src/mail/e-mail-reader.c:3418
 msgid "Print this message"
 msgstr "Вывести на печать это сообщение"
 
-#: ../src/mail/e-mail-reader.c:3341
+#: ../src/mail/e-mail-reader.c:3425
 msgid "Preview the message to be printed"
 msgstr "Посмотреть вид сообщения на печати"
 
-#: ../src/mail/e-mail-reader.c:3346 ../src/mail/e-mail-viewer.c:1923
+#: ../src/mail/e-mail-reader.c:3430 ../src/mail/e-mail-viewer.c:1923
 #: ../src/modules/mail/e-mail-attachment-handler.c:980
 msgid "Re_direct"
 msgstr "Пе_ренаправить"
 
-#: ../src/mail/e-mail-reader.c:3348
+#: ../src/mail/e-mail-reader.c:3432
 #: ../src/modules/mail/e-mail-attachment-handler.c:982
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Переслать выбранное сообщение кому-либо от своего имени"
 
-#: ../src/mail/e-mail-reader.c:3353
+#: ../src/mail/e-mail-reader.c:3437
 msgid "Remo_ve Attachments"
 msgstr "Удалить _вложения"
 
-#: ../src/mail/e-mail-reader.c:3355
+#: ../src/mail/e-mail-reader.c:3439
 msgid "Remove attachments"
 msgstr "Удалить вложения"
 
-#: ../src/mail/e-mail-reader.c:3360
+#: ../src/mail/e-mail-reader.c:3444
 msgid "Remove Du_plicate Messages"
 msgstr "Удалить _дублируемые сообщения"
 
-#: ../src/mail/e-mail-reader.c:3362
+#: ../src/mail/e-mail-reader.c:3446
 msgid "Checks selected messages for duplicates"
 msgstr "Проверить выделенные сообщения на наличие дубликатов"
 
-#: ../src/mail/e-mail-reader.c:3367 ../src/mail/e-mail-viewer.c:1881
+#: ../src/mail/e-mail-reader.c:3451 ../src/mail/e-mail-viewer.c:1881
 #: ../src/mail/em-composer-utils.c:4592 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1668
 #: ../src/modules/mail/e-mail-attachment-handler.c:917
 msgid "Reply to _All"
 msgstr "Ответить _всем"
 
-#: ../src/mail/e-mail-reader.c:3369
+#: ../src/mail/e-mail-reader.c:3453
 #: ../src/modules/mail/e-mail-attachment-handler.c:919
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Ответить всем получателям выделенного сообщения"
 
-#: ../src/mail/e-mail-reader.c:3374 ../src/mail/e-mail-viewer.c:1888
+#: ../src/mail/e-mail-reader.c:3458 ../src/mail/e-mail-viewer.c:1888
 msgid "Al_ternative Reply…"
 msgstr "Аль_тернативный ответ…"
 
-#: ../src/mail/e-mail-reader.c:3376
+#: ../src/mail/e-mail-reader.c:3460
 msgid "Choose reply options for the selected message"
 msgstr "Выберите параметры ответа для выбранного сообщения"
 
-#: ../src/mail/e-mail-reader.c:3381 ../src/mail/e-mail-reader.c:3475
-#: ../src/mail/e-mail-reader.c:3481
+#: ../src/mail/e-mail-reader.c:3465 ../src/mail/e-mail-reader.c:3559
+#: ../src/mail/e-mail-reader.c:3565
 msgid "_Group Reply"
 msgstr "_Ответить всем"
 
-#: ../src/mail/e-mail-reader.c:3383
+#: ../src/mail/e-mail-reader.c:3467
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Ответить в список рассылки или всем получателям"
 
-#: ../src/mail/e-mail-reader.c:3388 ../src/mail/e-mail-viewer.c:1874
+#: ../src/mail/e-mail-reader.c:3472 ../src/mail/e-mail-viewer.c:1874
 #: ../src/mail/em-composer-utils.c:4587 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:924
 msgid "Reply to _List"
 msgstr "Ответить в _список"
 
-#: ../src/mail/e-mail-reader.c:3390
+#: ../src/mail/e-mail-reader.c:3474
 #: ../src/modules/mail/e-mail-attachment-handler.c:926
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Ответить в список рассылки этого сообщения"
 
-#: ../src/mail/e-mail-reader.c:3395 ../src/mail/e-mail-viewer.c:1867
+#: ../src/mail/e-mail-reader.c:3479 ../src/mail/e-mail-viewer.c:1867
 #: ../src/modules/mail/e-mail-attachment-handler.c:931
 msgid "_Reply to Sender"
 msgstr "О_тветить отправителю"
 
-#: ../src/mail/e-mail-reader.c:3397
+#: ../src/mail/e-mail-reader.c:3481
 #: ../src/modules/mail/e-mail-attachment-handler.c:933
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Ответить отправителю этого сообщения"
 
-#: ../src/mail/e-mail-reader.c:3402
+#: ../src/mail/e-mail-reader.c:3486
 msgid "_Save to File…"
 msgstr "_Сохранить в файл…"
 
-#: ../src/mail/e-mail-reader.c:3404
+#: ../src/mail/e-mail-reader.c:3488
 msgid "Save selected messages as an mbox file"
 msgstr "Сохранить выделенные сообщения как файл mbox"
 
-#: ../src/mail/e-mail-reader.c:3416
+#: ../src/mail/e-mail-reader.c:3500
 msgid "_Message Source"
 msgstr "_Исходный текст сообщения"
 
-#: ../src/mail/e-mail-reader.c:3418
+#: ../src/mail/e-mail-reader.c:3502
 msgid "Show the raw email source of the message"
 msgstr "Показать исходный текст сообщения"
 
-#: ../src/mail/e-mail-reader.c:3430
+#: ../src/mail/e-mail-reader.c:3514
 msgid "_Undelete Message"
 msgstr "В_осстановить сообщение"
 
-#: ../src/mail/e-mail-reader.c:3432
+#: ../src/mail/e-mail-reader.c:3516
 msgid "Undelete the selected messages"
 msgstr "Восстановить выделенные сообщения"
 
-#: ../src/mail/e-mail-reader.c:3437 ../src/mail/e-mail-viewer.c:1825
-msgid "_Normal Size"
-msgstr "_Обычный размер"
-
-#: ../src/mail/e-mail-reader.c:3439
-msgid "Reset the text to its original size"
-msgstr "Установить размер текста в исходный"
-
-#: ../src/mail/e-mail-reader.c:3444 ../src/mail/e-mail-viewer.c:1811
-msgid "_Zoom In"
-msgstr "У_величить"
-
-#: ../src/mail/e-mail-reader.c:3446
-msgid "Increase the text size"
-msgstr "Увеличить размер текста"
-
-#: ../src/mail/e-mail-reader.c:3453
-msgid "Decrease the text size"
-msgstr "Уменьшить размер текста"
-
-#: ../src/mail/e-mail-reader.c:3458 ../src/mail/e-mail-viewer.c:1804
+#: ../src/mail/e-mail-reader.c:3542 ../src/mail/e-mail-viewer.c:1804
 msgid "_Caret Mode"
 msgstr "Режим _каретки"
 
-#: ../src/mail/e-mail-reader.c:3460
+#: ../src/mail/e-mail-reader.c:3544
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Показывать мигающий курсор в теле отображаемых сообщений"
 
-#: ../src/mail/e-mail-reader.c:3465 ../src/mail/e-mail-viewer.c:1790
+#: ../src/mail/e-mail-reader.c:3549 ../src/mail/e-mail-viewer.c:1790
 msgid "All Message _Headers"
 msgstr "Все _заголовки сообщения"
 
-#: ../src/mail/e-mail-reader.c:3467
+#: ../src/mail/e-mail-reader.c:3551
 msgid "Show messages with all email headers"
 msgstr "Отображать сообщения со всеми заголовками"
 
 #. ** Menus **
-#: ../src/mail/e-mail-reader.c:3472
+#: ../src/mail/e-mail-reader.c:3556
 msgid "Cre_ate"
 msgstr "Соз_дать"
 
-#: ../src/mail/e-mail-reader.c:3473 ../src/mail/e-mail-viewer.c:1935
+#: ../src/mail/e-mail-reader.c:3557 ../src/mail/e-mail-viewer.c:1935
 #: ../src/modules/mail/e-mail-attachment-handler.c:952
 msgid "F_orward As"
 msgstr "_Перенаправить как"
 
-#: ../src/mail/e-mail-reader.c:3474
+#: ../src/mail/e-mail-reader.c:3558
 msgid "_Label"
 msgstr "_Метка"
 
-#: ../src/mail/e-mail-reader.c:3476
+#: ../src/mail/e-mail-reader.c:3560
 msgid "_Go To"
 msgstr "Пе_рейти к"
 
-#: ../src/mail/e-mail-reader.c:3477
+#: ../src/mail/e-mail-reader.c:3561
 msgid "Mar_k As"
 msgstr "По_метить как"
 
-#: ../src/mail/e-mail-reader.c:3478 ../src/mail/e-mail-viewer.c:1934
+#: ../src/mail/e-mail-reader.c:3562 ../src/mail/e-mail-viewer.c:1934
 msgid "_Message"
 msgstr "Сооб_щение"
 
-#: ../src/mail/e-mail-reader.c:3479 ../src/mail/e-mail-viewer.c:1932
-msgid "_Zoom"
-msgstr "_Масштаб"
-
-#: ../src/mail/e-mail-reader.c:3480 ../src/mail/e-mail-viewer.c:1832
+#: ../src/mail/e-mail-reader.c:3564 ../src/mail/e-mail-viewer.c:1832
 #: ../src/mail/e-mail-viewer.c:1933
 msgid "Ch_aracter Encoding"
 msgstr "Ко_дировка символов"
 
-#: ../src/mail/e-mail-reader.c:3483
-#| msgid "List of disabled plugins"
+#: ../src/mail/e-mail-reader.c:3567
 msgid "List of Labels"
 msgstr "Список меток"
 
-#: ../src/mail/e-mail-reader.c:3490
+#: ../src/mail/e-mail-reader.c:3574
 msgid "Create a Search Folder from Mailing _List…"
 msgstr "Создать папку поиска из списка _рассылки…"
 
-#: ../src/mail/e-mail-reader.c:3492
+#: ../src/mail/e-mail-reader.c:3576
 msgid "Create a search folder for this mailing list"
 msgstr "Создать папку поиска для этого списка рассылки"
 
-#: ../src/mail/e-mail-reader.c:3497
+#: ../src/mail/e-mail-reader.c:3581
 msgid "Create a Search Folder from Recipien_ts…"
 msgstr "Создать папку поиска из _получателей…"
 
-#: ../src/mail/e-mail-reader.c:3499
+#: ../src/mail/e-mail-reader.c:3583
 msgid "Create a search folder for these recipients"
 msgstr "Создать папку поиска для этих получателей"
 
-#: ../src/mail/e-mail-reader.c:3504
+#: ../src/mail/e-mail-reader.c:3588
 msgid "Create a Search Folder from Sen_der…"
 msgstr "Создать папку поиска из _отправителей…"
 
-#: ../src/mail/e-mail-reader.c:3506
+#: ../src/mail/e-mail-reader.c:3590
 msgid "Create a search folder for this sender"
 msgstr "Создать папку поиска для этого отправителя"
 
-#: ../src/mail/e-mail-reader.c:3511
+#: ../src/mail/e-mail-reader.c:3595
 msgid "Create a Search Folder from S_ubject…"
 msgstr "Создать папку поиска из _темы…"
 
-#: ../src/mail/e-mail-reader.c:3513
+#: ../src/mail/e-mail-reader.c:3597
 msgid "Create a search folder for this subject"
 msgstr "Создать папку поиска для этой темы"
 
-#: ../src/mail/e-mail-reader.c:4182
+#: ../src/mail/e-mail-reader.c:4266
 msgid "Retrieving message"
 msgstr "Загрузка сообщения"
 
-#: ../src/mail/e-mail-reader.c:5106
-#| msgid "Edit a note for the selected message"
+#: ../src/mail/e-mail-reader.c:5190
 msgid "Modify labels for selected message"
 msgid_plural "Modify labels for selected messages"
 msgstr[0] "Изменить метки для выделенных сообщений"
 msgstr[1] "Изменить метки для выделенных сообщений"
 msgstr[2] "Изменить метки для выделенных сообщений"
 
-#: ../src/mail/e-mail-reader.c:5114
-#| msgid "Save Selected"
+#: ../src/mail/e-mail-reader.c:5198
 msgid "Set _Selected"
 msgstr "_Установить выбранные"
 
-#: ../src/mail/e-mail-reader.c:5120
-#| msgid "_None"
+#: ../src/mail/e-mail-reader.c:5204
 msgid "Set _None"
 msgstr "_Отменить все"
 
@@ -20374,17 +20290,14 @@ msgstr "Сбой при проверке подлинности %s"
 
 #: ../src/mail/e-mail-viewer.c:182
 #, c-format
-#| msgid "Failed to open calendar “{0}”"
 msgid "Failed to open file “%s”: %s"
 msgstr "Не удалось открыть файл «%s»: %s"
 
 #: ../src/mail/e-mail-viewer.c:198
-#| msgid "Failed to insert text file."
 msgid "Failed to seek to offset in file"
 msgstr "Не удалось выполнить позиционирование на смещение в файле"
 
 #: ../src/mail/e-mail-viewer.c:218
-#| msgid "Go to Folder"
 msgid "Import to Folder"
 msgstr "Импорт в папку"
 
@@ -20395,13 +20308,11 @@ msgid "_Import"
 msgstr "_Импортировать"
 
 #: ../src/mail/e-mail-viewer.c:270
-#| msgid "Could not create message."
 msgid "Could not import any message"
 msgstr "Не удалось импортировать ни одно сообщение"
 
 #: ../src/mail/e-mail-viewer.c:274
 #, c-format
-#| msgid "Important Messages"
 msgid "Imported one message."
 msgid_plural "Imported %u messages."
 msgstr[0] "Импортировано %u сообщение."
@@ -20409,24 +20320,19 @@ msgstr[1] "Импортировано %u сообщения."
 msgstr[2] "Импортировано %u сообщений."
 
 #: ../src/mail/e-mail-viewer.c:503
-#| msgid "Failed to retrieve message:"
 msgid "Failed to import message"
 msgstr "Не удалось импортировать сообщение"
 
 #: ../src/mail/e-mail-viewer.c:564
 #, c-format
-#| msgid "Failed to retrieve message:"
 msgid "Failed to print message: %s"
 msgstr "Не удалось выполнить печать сообщения: %s"
 
 #: ../src/mail/e-mail-viewer.c:588
-#| msgid "Open Message Filters"
 msgid "Open Message File"
 msgstr "Открытие файла сообщения"
 
 #: ../src/mail/e-mail-viewer.c:601
-#| msgctxt "shortcut window"
-#| msgid "Mail Message"
 msgid "Mail Messages"
 msgstr "Почтовые сообщения"
 
@@ -20439,53 +20345,42 @@ msgstr "Все файлы (*)"
 #. Intentionally the "Mail Viewer" first, because it's more important than the message subject
 #: ../src/mail/e-mail-viewer.c:1390
 #, c-format
-#| msgid "Meeting — %s"
 msgid "Mail Viewer — %s"
 msgstr "Просмотр почты — %s"
 
 #: ../src/mail/e-mail-viewer.c:1553
-#| msgid "Failed to send a message"
-#| msgid_plural "Failed to send %d of %d messages"
 msgid "Failed to load message"
 msgstr "Не удалось загрузить сообщение"
 
 #: ../src/mail/e-mail-viewer.c:1706 ../src/mail/e-mail-viewer.c:1713
-#| msgid "I_mport…"
 msgid "_Import…"
 msgstr "_Импорт…"
 
 #: ../src/mail/e-mail-viewer.c:1720
-#| msgid "I_mport…"
 msgid "_Import All…"
 msgstr "_Импортировать все…"
 
 #: ../src/mail/e-mail-viewer.c:1748
-#| msgid "C_ut %s"
 msgid "C_ut"
 msgstr "_Вырезать"
 
 #: ../src/mail/e-mail-viewer.c:1769
-#| msgid "Select All"
 msgid "_Select All"
 msgstr "_Выделить всё"
 
 #: ../src/mail/e-mail-viewer.c:1797
-#| msgid "_Message Source"
 msgid "Message _Source"
 msgstr "_Исходный текст сообщения"
 
 #: ../src/mail/e-mail-viewer.c:1839
-#| msgid "_Edit as New Message…"
 msgid "_Edit as New Message"
 msgstr "_Редактировать как новое сообщение"
 
 #: ../src/mail/e-mail-viewer.c:1853
-#| msgid "_Next Message"
 msgid "Go to _Next Message"
 msgstr "Перейти к _следующему сообщению"
 
 #: ../src/mail/e-mail-viewer.c:1860
-#| msgid "_Previous Message"
 msgid "Go to _Previous Message"
 msgstr "Перейти к _предыдущему сообщению"
 
@@ -20505,17 +20400,14 @@ msgstr "От"
 
 #: ../src/mail/e-mail-viewer.c:2536
 #, c-format
-#| msgid "Folder “{0}” doesn’t contain any duplicate message."
 msgid "File “%s” does not contain MIME message"
 msgstr "Файл «%s» не содержит сообщение MIME"
 
 #: ../src/mail/e-mail-viewer.c:2553
-#| msgid "Loading…"
 msgid "Reading file…"
 msgstr "Чтение файла…"
 
 #: ../src/mail/e-mail-viewer.c:2555
-#| msgid "Failed to read file content: "
 msgid "Failed to read file content"
 msgstr "Не удалось прочитать содержимое файла"
 
@@ -20950,31 +20842,31 @@ msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1904
+#: ../src/mail/em-folder-tree.c:1920
 msgid "Mail Folder Tree"
 msgstr "Дерево почтовых папок"
 
-#: ../src/mail/em-folder-tree.c:2454
+#: ../src/mail/em-folder-tree.c:2470
 #, c-format
 msgid "Moving folder %s"
 msgstr "Перемещение папки %s"
 
-#: ../src/mail/em-folder-tree.c:2457
+#: ../src/mail/em-folder-tree.c:2473
 #, c-format
 msgid "Copying folder %s"
 msgstr "Копирование папки %s"
 
-#: ../src/mail/em-folder-tree.c:2464 ../src/mail/message-list.c:2658
+#: ../src/mail/em-folder-tree.c:2480 ../src/mail/message-list.c:2658
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Перемещение сообщений в папку %s"
 
-#: ../src/mail/em-folder-tree.c:2468 ../src/mail/message-list.c:2660
+#: ../src/mail/em-folder-tree.c:2484 ../src/mail/message-list.c:2660
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копирование сообщений в папку %s"
 
-#: ../src/mail/em-folder-tree.c:2487
+#: ../src/mail/em-folder-tree.c:2503
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Нельзя перетащить сообщение в хранилище верхнего уровня"
@@ -21234,7 +21126,6 @@ msgid "Add Folder"
 msgstr "Добавить папку"
 
 #: ../src/mail/em-vfolder-editor-rule.c:754
-#| msgid "Appearance"
 msgid "Customize Appearance"
 msgstr "Настроить внешний вид"
 
@@ -22263,13 +22154,11 @@ msgstr "при _удалении сообщений из папки поиска
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:166
-#| msgid "Copy _folder by Drag & Drop in folder tree"
 msgid "Copy _folder by drag-and-drop in folder tree"
 msgstr "при _копировании папок перетаскиванием в дереве папок"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:168
-#| msgid "_Move folder by Drag & Drop in folder tree"
 msgid "_Move folder by drag-and-drop in folder tree"
 msgstr "при _перемещении папок перетаскиванием в дереве папок"
 
@@ -23613,7 +23502,6 @@ msgid "Body Preview"
 msgstr "Просмотр содержимого"
 
 #: ../src/mail/message-list.etspec.h:28
-#| msgid "For Components:"
 msgid "Correspondents"
 msgstr "Корреспонденты"
 
@@ -23923,7 +23811,6 @@ msgstr "_Управление группами адресной книги…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
-#| msgid "Manage Calendar groups order and visibility"
 msgid "Manage addres book groups order and visibility"
 msgstr "Управление порядком и отображением групп адресной книги"
 
@@ -24179,12 +24066,10 @@ msgid "Unmatched"
 msgstr "Прочее"
 
 #: ../src/modules/addressbook/e-book-shell-view.c:96
-#| msgid "Addressbook Contact"
 msgid "Address Book Context Menu"
 msgstr "Контекстное меню адресной книги"
 
 #: ../src/modules/addressbook/e-book-shell-view.c:97
-#| msgid "Contact List Members"
 msgid "Contact Context Menu"
 msgstr "Контекстное меню контакта"
 
@@ -24244,7 +24129,6 @@ msgstr "Восстановление из резервной копии"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:352
 #, c-format
-#| msgid "Folder '%s' not found"
 msgid "Program '%s' not found"
 msgstr "Программа «%s» не найдена"
 
@@ -24408,12 +24292,10 @@ msgid "File “{0}” is not a valid Evolution backup file."
 msgstr "Файл «{0}» не является верным файлом резервной копии Evolution."
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
-#| msgid "_Restore from a backup file:"
 msgid "Cannot restore from backup file"
 msgstr "Не удалось восстановить из файла резервной копии"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:4
-#| msgid "Cannot create Temporary File"
 msgid "Cannot create backup file"
 msgstr "Не удалось создать файл резервной копии"
 
@@ -24964,13 +24846,11 @@ msgstr "_Всегда прикреплять компоненты в почто�
 
 #: ../src/modules/calendar/e-calendar-preferences.c:716
 #: ../src/modules/calendar/e-calendar-preferences.c:747
-#| msgid "Search for text"
 msgid "Search for Meetings"
 msgstr "Поиск собраний"
 
 #. Source selector
 #: ../src/modules/calendar/e-calendar-preferences.c:731
-#| msgid "Select the calendars to search for meeting conflicts"
 msgid "Select the calendars to search for the meetings and the conflicts"
 msgstr "Выберите календари для поиска собраний и конфликтов"
 
@@ -25415,7 +25295,6 @@ msgid "_Copy…"
 msgstr "_Копировать…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1395
-#| msgid "D_elete Calendar"
 msgid "D_elete Calendar…"
 msgstr "_Удалить календарь…"
 
@@ -25526,7 +25405,6 @@ msgid "_Delegate Meeting…"
 msgstr "_Поручить собрание…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1542
-#| msgid "Delete This _Occurrence"
 msgid "Delete This _Occurrence…"
 msgstr "_Удалить это вхождение…"
 
@@ -25539,7 +25417,6 @@ msgid "Delete this and any future occurrences"
 msgstr "Удалите это и все последующие повторы"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1556
-#| msgid "Delete All Occ_urrences"
 msgid "Delete All Occ_urrences…"
 msgstr "_Удалить все вхождения…"
 
@@ -25657,7 +25534,6 @@ msgid "Quit"
 msgstr "Закрыть"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1696
-#| msgid "Show Event _Preview"
 msgid "Event _Preview"
 msgstr "_Предварительный просмотр события"
 
@@ -25795,7 +25671,6 @@ msgid "Show events with no category set"
 msgstr "Показывать события без учёта категории"
 
 #: ../src/modules/calendar/e-cal-shell-view.c:711
-#| msgid "Calendar Properties"
 msgid "Calendar Context Menu"
 msgstr "Контекстное меню календаря"
 
@@ -25975,7 +25850,6 @@ msgid "Print Memos"
 msgstr "Вывести на печать заметки"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:579
-#| msgid "_Delete Memo"
 msgid "_Delete Memo…"
 msgstr "_Удалить заметку…"
 
@@ -25988,7 +25862,6 @@ msgid "Search for text in the displayed memo"
 msgstr "Поиск текста в отображаемой заметке"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:607
-#| msgid "D_elete Memo List"
 msgid "D_elete Memo List…"
 msgstr "_Удалить список заметок…"
 
@@ -26068,7 +25941,6 @@ msgid "Delete Memo"
 msgstr "Удалить заметку"
 
 #: ../src/modules/calendar/e-memo-shell-view.c:344
-#| msgid "Memo List Properties"
 msgid "Memo List Context Menu"
 msgstr "Контекстное меню списка заметок"
 
@@ -26131,7 +26003,6 @@ msgid "Edit selected tasks in a bulk"
 msgstr "Редактировать выбранные задачи"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745
-#| msgid "_Delete Task"
 msgid "_Delete Task…"
 msgstr "_Удалить задачу…"
 
@@ -26144,7 +26015,6 @@ msgid "Search for text in the displayed task"
 msgstr "Поиск текста в отображаемой задаче"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:773
-#| msgid "D_elete Task List"
 msgid "D_elete Task List…"
 msgstr "_Удалить список задач…"
 
@@ -26279,7 +26149,6 @@ msgid "Delete Task"
 msgstr "Удалить задачу"
 
 #: ../src/modules/calendar/e-task-shell-view.c:537
-#| msgid "Task List Properties"
 msgid "Task List Context Menu"
 msgstr "Контекстное меню списка задач"
 
@@ -26800,8 +26669,8 @@ msgstr "Время завершения:"
 #: ../src/modules/itip-formatter/itip-view.c:1409
 msgid "Imported event will have removed the organizer and all the attendees."
 msgstr ""
-"При импорте события будет удалена информация об организаторе и всех"
-" участниках."
+"При импорте события будет удалена информация об организаторе и всех "
+"участниках."
 
 #: ../src/modules/itip-formatter/itip-view.c:1457
 msgid "Ope_n Calendar"
@@ -26845,7 +26714,6 @@ msgid "Im_port"
 msgstr "Им_портировать"
 
 #: ../src/modules/itip-formatter/itip-view.c:1492
-#| msgid "Importing an event"
 msgid "Im_port as Event"
 msgstr "_Импортировать как событие"
 
@@ -26961,25 +26829,21 @@ msgstr[2] ""
 
 #: ../src/modules/itip-formatter/itip-view.c:4793
 #, c-format
-#| msgid "Found the appointment in the calendar “%s”"
 msgid "Found the appointment in the calendar “%s” as accepted"
 msgstr "Найдена встреча в календаре «%s» (заявка принята)"
 
 #: ../src/modules/itip-formatter/itip-view.c:4799
 #, c-format
-#| msgid "Found the appointment in the calendar “%s”"
 msgid "Found the appointment in the calendar “%s” as declined"
 msgstr "Найдена встреча в календаре «%s» (заявка отклонена)"
 
 #: ../src/modules/itip-formatter/itip-view.c:4804
 #, c-format
-#| msgid "Found the appointment in the calendar “%s”"
 msgid "Found the appointment in the calendar “%s” as tentatively accepted"
 msgstr "Найдена встреча в календаре «%s» (заявка условно принята)"
 
 #: ../src/modules/itip-formatter/itip-view.c:4809
 #, c-format
-#| msgid "Found the appointment in the calendar “%s”"
 msgid "Found the appointment in the calendar “%s” as delegated"
 msgstr "Найдена встреча в календаре «%s» (заявка делегирована)"
 
@@ -27025,8 +26889,8 @@ msgstr "Поиск существующей версии этой встречи
 #: ../src/modules/itip-formatter/itip-view.c:5276
 msgid "Cannot search for existing event, no calendar selected for search"
 msgstr ""
-"Невозможно выполнить поиск существующего события, не выбран календарь для"
-" поиска"
+"Невозможно выполнить поиск существующего события, не выбран календарь для "
+"поиска"
 
 #: ../src/modules/itip-formatter/itip-view.c:5280
 msgid "Searching for an existing version of this task"
@@ -27467,13 +27331,10 @@ msgid "Add Ca_lendar and Tasks to this account"
 msgstr "Добавить календарь и задачи к этой учётной записи"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:427
-#| msgid "Saving %d message"
-#| msgid_plural "Saving %d messages"
 msgid "Saving message…"
 msgstr "Сохранение сообщения…"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:429
-#| msgid "Failed to save messages to disk."
 msgid "Failed to save message to folder."
 msgstr "Не удалось сохранить сообщение в папку."
 
@@ -27486,12 +27347,10 @@ msgstr[1] "%d вложенных сообщения"
 msgstr[2] "%d вложенных сообщений"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:945
-#| msgid "Saving message to folder “%s”"
 msgid "Save Message to _Folder…"
 msgstr "Сохранить сообщение в _папку…"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:947
-#| msgid "Save s_ent messages into the Sent folder"
 msgid "Save the message attachment to a chosen folder"
 msgstr "Сохранить вложение из сообщения в выбранную папку"
 
@@ -27990,7 +27849,6 @@ msgid "Message Thread"
 msgstr "Ветка сообщения"
 
 #: ../src/modules/mail/e-mail-shell-view.c:666
-#| msgid "Show Preview Toolbar"
 msgid "Preview Toolbar"
 msgstr "Панель инструментов предварительного просмотра"
 
@@ -27999,12 +27857,10 @@ msgid "Preview Context Menu"
 msgstr "Контекстное меню предварительного просмотра"
 
 #: ../src/modules/mail/e-mail-shell-view.c:668
-#| msgid "Folder Sort Order"
 msgid "Folder Context Menu"
 msgstr "Контекстное меню папки"
 
 #: ../src/modules/mail/e-mail-shell-view.c:669
-#| msgid "Message Note"
 msgid "Message Context Menu"
 msgstr "Контекстное меню сообщения"
 
@@ -28345,9 +28201,9 @@ msgid ""
 "modify the options switch to the Mail Preferences section → HTML Messages "
 "tab → Plain Text Mode group."
 msgstr ""
-"Позволяет просматривать почтовые сообщения как обычный текст, даже если они"
-" содержат HTML. Чтобы изменить параметры, перейдите в раздел «Настройки"
-" почты», затем на вкладку «Сообщения HTML» и к группе «Режим обычного текста»."
+"Позволяет просматривать почтовые сообщения как обычный текст, даже если они "
+"содержат HTML. Чтобы изменить параметры, перейдите в раздел «Настройки "
+"почты», затем на вкладку «Сообщения HTML» и к группе «Режим обычного текста»."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:62
 #, c-format
@@ -28388,7 +28244,7 @@ msgstr "_Загрузить полные версии статей"
 msgid "Download feed _enclosures"
 msgstr "Загрузить _вложения канала"
 
-#: ../src/modules/rss/camel/camel-rss-folder-summary.c:274
+#: ../src/modules/rss/camel/camel-rss-folder-summary.c:290
 msgid "Enclosures:"
 msgstr "Вложения:"
 
@@ -28668,11 +28524,11 @@ msgstr "_Форматировать как…"
 msgid "_Other languages"
 msgstr "_Другие языки"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:503
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:516
 msgid "Text Highlight"
 msgstr "Подсветка текста"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:504
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:517
 msgid "Syntax highlighting of mail parts"
 msgstr "Синтаксическая подсветка письма"
 
@@ -28923,7 +28779,6 @@ msgstr "Не удалось получить содержимое сообщен
 
 #: ../src/modules/webkit-editor/e-webkit-editor.c:5640
 #, c-format
-#| msgid "Go to the section %s of the message"
 msgid "Ctrl-click to go to the section “%s” of the message"
 msgstr "Нажмите Ctrl и щёлкните мышью, чтобы перейти к разделу «%s» сообщения"
 
@@ -30045,9 +29900,9 @@ msgstr ""
 "Установите, какая учётная запись должна использоваться для определённых "
 "шаблонов получателей.\n"
 "Например, если установить получателя как «@company.org» для учётной записи "
-"«me@company.org», то будет показано предупреждение, когда получатель,"
-" содержащий «@company."
-"org», не используется с учётной записью «me@company.org»."
+"«me@company.org», то будет показано предупреждение, когда получатель, "
+"содержащий «@company.org», не используется с учётной записью «me@company."
+"org»."
 
 #: ../src/plugins/sender-validation/sender-validation.c:711
 msgid "Recipient Contains"
@@ -30068,8 +29923,8 @@ msgstr ""
 "определённой учётной записи.\n"
 "Например, если установить учётную запись «me@company.org» для получателей "
 "«@company.org», то при отправке с учётной записью «me@company.org» будет "
-"выдаваться предупреждение, если ни один из получателей не содержит "
-"«@company.org»."
+"выдаваться предупреждение, если ни один из получателей не содержит «@company."
+"org»."
 
 #: ../src/plugins/sender-validation/sender-validation.c:831
 msgid "Allow Recipients Which Contain"
@@ -30141,9 +29996,9 @@ msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
 msgstr ""
-"Запустить Evolution в определённом режиме. Доступные параметры: «mail» "
-"(почта), «calendar» (календарь), «contacts» (контакты), «tasks» (задачи) и "
-"«memos» (заметки)"
+"Запустить Evolution в определённом режиме. Доступные параметры: "
+"«mail» (почта), «calendar» (календарь), «contacts» (контакты), "
+"«tasks» (задачи) и «memos» (заметки)"
 
 #: ../src/shell/e-shell.c:2044
 msgid "Apply the given geometry to the main window"
@@ -30177,7 +30032,6 @@ msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Импортировать URI или имена файлов, указанные в качестве аргументов."
 
 #: ../src/shell/e-shell.c:2064
-#| msgid "Import URIs or filenames given as rest of arguments."
 msgid "View URIs or filenames given as rest of arguments."
 msgstr "Просмотреть URI или имена файлов, указанные в качестве аргументов."
 
@@ -30218,7 +30072,6 @@ msgid "File '%s' failed: %s"
 msgstr "Ошибка файла «%s»: %s"
 
 #: ../src/shell/e-shell-migrate.c:423
-#| msgid "Saving changes, please wait…"
 msgid "Migrating mail folders, please wait…"
 msgstr "Перенос почтовых папок, подождите…"
 
@@ -30265,7 +30118,8 @@ msgstr ""
 "Igor Afanasenko <garrmad@gmail.com>, 2019\n"
 "Alexey Rubtsov <rushills@gmail.com>, 2020-2021\n"
 "Aleksandr Melman <alexmelman88@gmail.com>, 2022-2023\n"
-"Olesya Gerasimenko <goa@altlinux.org>, 2025"
+"Olesya Gerasimenko <goa@altlinux.org>, 2025\n"
+"Vyacheslav Gurin <slavkaplay6@gmail.com>, 2025"
 
 #: ../src/shell/e-shell-utils.c:363
 msgid "Website"
@@ -30328,12 +30182,10 @@ msgid "Show the menu bar"
 msgstr "Показывать строку меню"
 
 #: ../src/shell/e-shell-view.c:1088
-#| msgid "Show Side _Bar"
 msgid "Show Side_bar"
 msgstr "Показывать _боковую панель"
 
 #: ../src/shell/e-shell-view.c:1090
-#| msgid "Show the side bar"
 msgid "Show the sidebar"
 msgstr "Показывать боковую панель"
 
@@ -30382,15 +30234,14 @@ msgid "_New"
 msgstr "_Создать"
 
 #: ../src/shell/e-shell-view.c:1154
-#| msgid "Save Custom View…"
 msgid "Customi_ze…"
 msgstr "_Настроить…"
 
 #: ../src/shell/e-shell-view.c:1156
 msgid "Customize user interface, like toolbar content and shortcuts"
 msgstr ""
-"Настроить интерфейс пользователя (например, содержимое панели инструментов и"
-" комбинации клавиш)"
+"Настроить интерфейс пользователя (например, содержимое панели инструментов и "
+"комбинации клавиш)"
 
 #. ** Menus **
 #: ../src/shell/e-shell-view.c:1161
@@ -30398,22 +30249,18 @@ msgid "C_urrent View"
 msgstr "_Текущий вид"
 
 #: ../src/shell/e-shell-view.c:1162
-#| msgid "_Saved Searches"
 msgid "Saved searches"
 msgstr "Сохранённые поиски"
 
 #: ../src/shell/e-shell-view.c:1163
-#| msgid "List of disabled plugins"
 msgid "List of available views"
 msgstr "Список доступных представлений"
 
 #: ../src/shell/e-shell-view.c:1165
-#| msgid "Manage your saved searches"
 msgid "List of saved searches"
 msgstr "Список сохранённых поисков"
 
 #: ../src/shell/e-shell-view.c:1166
-#| msgid "List View"
 msgid "List of views"
 msgstr "Список представлений"
 
@@ -31738,4 +31585,3 @@ msgstr "Импортированный сертификат"
 
 #~ msgid "By how many minutes to shorted new event end time"
 #~ msgstr "На сколько минут сократить время окончания нового события"
-
