@@ -7,7 +7,7 @@
 # Aleix Badia i Bosch <abadia@ica.es>, 2004.
 # Xavier Conde Rueda <xavi.conde@gmail.com>, 2004-2007.
 # Francesc Dorca <f.dorca@filnet.es>, 2004.
-# Jordi Mas i Hernàndez <jmas@softcatala.org>, 2004-2007, 2020-2023
+# Jordi Mas i Hernàndez <jmas@softcatala.org>, 2004-2007, 2020-2025
 # Enric Balletbò i Serra <eballetbo@km103.com>, 2004.
 # David Planella Molas <david.planella@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012.
 # Jordi Serratosa <jordis@softcatala.cat>, 2012, 2017.
@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2025-03-07 09:02+0000\n"
-"PO-Revision-Date: 2025-03-27 20:48+0100\n"
+"PO-Revision-Date: 2025-08-13 20:48+0100\n"
 "Last-Translator: Bàrbara Vidal <barbara@barbara.cat>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
 "Language: ca\n"
@@ -46,7 +46,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:3
 msgid "Autocomplete length"
-msgstr "Longitud abans de l'autocompleció"
+msgstr "Longitud de l'autocompleció"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:4
 msgid ""
@@ -536,7 +536,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
 msgid "Show categories field in the event/meeting/task editor"
 msgstr ""
-"Mostra el camp de categories a l'editor d'esdeveniments/tasques/reunions"
+"Mostra el camp de categories a l'editor d'esdeveniments/reunions"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 msgid "Whether to show categories field in the event/meeting editor"
@@ -1096,7 +1096,7 @@ msgstr "Crea esdeveniments, anotacions i tasques com a _privats per defecte"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid "Draw events as flat, not shaded."
-msgstr "Marca els esdeveniments com a plans, sense ombrejar."
+msgstr "Dibuixa els esdeveniments com a plans, sense ombrejar."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
 msgid ""
@@ -2165,15 +2165,15 @@ msgstr "Permet cercar també una fotografia del remitent a libravatar.org."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid "Mark as Seen after specified timeout"
-msgstr "Marca com a vist després del temps d'espera"
+msgstr "Marca com a llegit després del temps d'espera"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid "Mark as Seen after specified timeout."
-msgstr "Marca com a vist després del temps d'espera."
+msgstr "Marca com a llegit després del temps d'espera."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid "Mark as Seen always after specified timeout"
-msgstr "Marca com a vist sempre després del temps d'espera"
+msgstr "Marca com a llegit sempre després del temps d'espera"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid ""
@@ -2389,7 +2389,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Whether sort threads based on latest message in that thread"
-msgstr "Si s'han d'ordenar els fils basant-se en el seu l'últim missatge"
+msgstr "Si s'han d'ordenar els fils basant-se en el seu últim missatge"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid ""
@@ -2652,7 +2652,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "Asks whether to move a folder by drag-and-drop in the folder tree"
 msgstr ""
-"Demana si es vol copiar una carpeta en arrossegar i deixar anar en l'arbre "
+"Demana si es vol moure a una carpeta en arrossegar i deixar anar en l'arbre "
 "de carpetes"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
@@ -2752,7 +2752,7 @@ msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
 msgstr ""
-"Política de tancament automàticament de la finestra de navegació del "
+"Política de tancament automàtic de la finestra de navegació del "
 "missatge quan es reenvia o es respon el missatge visualitzat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
@@ -3909,7 +3909,7 @@ msgstr "Filtre de compressió usat per autoar"
 msgid ""
 "Compression filter used when compressing attached directories with autoar."
 msgstr ""
-"Format de compressió usat quan es comprimeixen directoris adjunts amb autoar."
+"Filtre de compressió usat quan es comprimeixen directoris adjunts amb autoar."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
 #: ../src/shell/e-shell.c:2024
@@ -5121,7 +5121,7 @@ msgstr "_Cancel·la"
 
 #: ../src/addressbook/addressbook.error.xml.h:56
 msgid "_Add Copy"
-msgstr "_Afegir Còpia"
+msgstr "_Afegir còpia"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:1
 msgid "Show Telephone"
@@ -5567,7 +5567,7 @@ msgstr "El fitxer que heu triat no és un fitxer local."
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3271
 #, c-format
 msgid "Failed to load certificate: %s"
-msgstr "Ha fallat la importació del certificat: %s"
+msgstr "Ha fallat la càrrega del certificat: %s"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3345
 msgctxt "cert-kind"
@@ -6775,7 +6775,7 @@ msgstr "S'està important…"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:978
 msgid "Can’t open .csv file"
-msgstr "No es pot obrir el fitxer .cvs"
+msgstr "No es pot obrir el fitxer .csv"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:1151
 msgid "Outlook Contacts CSV or Tab (.csv, .tab)"
@@ -7309,7 +7309,7 @@ msgstr "Esteu segur que voleu suprimir la llista de tasques «{0}»?"
 
 #: ../src/calendar/calendar.error.xml.h:69
 msgid "This task list will be removed permanently."
-msgstr "Aquesta llista d'anotacions se suprimirà permanentment."
+msgstr "Aquesta llista de tasques se suprimirà permanentment."
 
 #: ../src/calendar/calendar.error.xml.h:70
 msgid "Are you sure you want to delete memo list “{0}”?"
@@ -7402,7 +7402,7 @@ msgid ""
 "“{0}” is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
 msgstr ""
-"«{0}» és un calendari on podeu escriure. Seleccioneu un calendari diferent "
+"«{0}» és un calendari de només lectura i no es pot modificar. Seleccioneu un calendari diferent "
 "que pugui acceptar cites."
 
 #: ../src/calendar/calendar.error.xml.h:90
@@ -7780,7 +7780,7 @@ msgstr "Organitzador"
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:2
 #: ../src/calendar/gui/tasktypes.xml.in.h:6
 msgid "Attendee"
-msgstr "Assistents"
+msgstr "Assistent"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:14
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:5
@@ -9571,7 +9571,7 @@ msgstr "Aq_uest component és periòdic"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2082
 msgid "Recurrence exception date is invalid"
-msgstr "La data de periodicitat no és vàlida"
+msgstr "La data d'excepció de la repetició no és vàlida"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2138
 msgid "End time of the recurrence is before the start"
@@ -17080,7 +17080,7 @@ msgstr "Canvia a les preferències avançades de servidor intermediari"
 #: ../src/e-util/e-proxy-preferences.c:503
 msgid "Apply custom proxy settings to these accounts:"
 msgstr ""
-"Aplica els paràmetres de servidor intermediari personalitzar als comptes "
+"Aplica els paràmetres de servidor intermediari personalitzats als comptes "
 "següents:"
 
 #: ../src/e-util/e-proxy-preferences.c:538
@@ -23404,22 +23404,16 @@ msgid "_Sort"
 msgstr "Ordena"
 
 #: ../src/mail/mail.error.xml.h:230
-#, fuzzy
-#| msgid "_Don’t lose formatting"
 msgid "_Don’t Sort"
-msgstr "No en per_dis el format"
+msgstr "_No ordenis"
 
 #: ../src/mail/mail.error.xml.h:231
-#, fuzzy
-#| msgid "_Always copy"
 msgid "_Always Sort"
-msgstr "Copia se_mpre"
+msgstr "Ordena se_mpre"
 
 #: ../src/mail/mail.error.xml.h:232
-#, fuzzy
-#| msgid "N_ever copy"
 msgid "N_ever Sort"
-msgstr "No copiïs ma_i"
+msgstr "No ordenis ma_i"
 
 #: ../src/mail/mail.error.xml.h:233
 #, fuzzy
