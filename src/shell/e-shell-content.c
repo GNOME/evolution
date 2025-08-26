@@ -641,7 +641,7 @@ run:
 
 	if (response == GTK_RESPONSE_APPLY) {
 		if (!e_rule_context_find_rule (context, rule->name, rule->source))
-			e_rule_context_add_rule (context, rule);
+			e_rule_context_add_rule (context, g_object_ref (rule));
 		e_rule_context_save (context, user_filename);
 		goto run;
 	}
