@@ -1347,7 +1347,7 @@ send_receive_menu_service_removed_cb (EMailAccountStore *account_store,
 	EUIActionGroup *action_group;
 	gint index;
 
-	action_group = e_ui_manager_get_action_group (data->ui_manager, "mail");
+	action_group = e_ui_manager_get_action_group (data->ui_manager, "mail-send-receive");
 	if (action_group) {
 		gchar *action_name;
 
