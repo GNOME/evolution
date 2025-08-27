@@ -606,7 +606,6 @@ create_children (EDateEdit *dedit)
 	atk_object_set_description (a11y, _("Text entry to input date"));
 	atk_object_set_name (a11y, _("Date"));
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_entry, FALSE, TRUE, 0);
-	gtk_widget_set_size_request (priv->date_entry, 100, -1);
 
 	g_signal_connect (
 		priv->date_entry, "key_press_event",
@@ -679,7 +678,6 @@ create_children (EDateEdit *dedit)
 	}
 
 	gtk_box_pack_start (GTK_BOX (dedit), priv->time_combo, FALSE, TRUE, 0);
-	gtk_widget_set_size_request (priv->time_combo, 110, -1);
 	rebuild_time_popup (dedit);
 	a11y = gtk_widget_get_accessible (priv->time_combo);
 	atk_object_set_description (a11y, _("Drop-down combination box to select time"));
@@ -1799,11 +1797,13 @@ rebuild_time_popup (EDateEdit *dedit)
 	GtkTreeModel *model;
 	GtkListStore *list_store;
 	GtkTreeIter iter;
+	GtkWidget *entry;
 	gchar buffer[40];
 	gboolean use_24_hour_format;
 	struct tm tmp_tm = { 0 };
 	gint hour, min;
 	guint ii, index, step, offset, wrap_width;
+	glong max_len;
 	GPtrArray *values;
 
 	priv = dedit->priv;
@@ -1877,18 +1877,28 @@ rebuild_time_popup (EDateEdit *dedit)
 	wrap_width = gtk_combo_box_get_wrap_width (GTK_COMBO_BOX (priv->time_combo));
 	index = 0;
 	offset = 0;
+	max_len = 0;
 
 	for (ii = 0; ii < values->len; ii++) {
+		const gchar *text = g_ptr_array_index (values, (index + offset) % values->len);
+
 		gtk_list_store_append (list_store, &iter);
-		gtk_list_store_set (list_store, &iter, 0, g_ptr_array_index (values, (index + offset) % values->len), -1);
+		gtk_list_store_set (list_store, &iter, 0, text, -1);
 
 		index = (index + step) % values->len;
 
 		if (wrap_width > 1 && ((ii + 1) % wrap_width) == 0)
 			offset++;
+
+		max_len = MAX (max_len, g_utf8_strlen (text, -1));
 	}
 
 	g_ptr_array_free (values, TRUE);
+
+	entry = gtk_bin_get_child (GTK_BIN (priv->time_combo));
+	g_warn_if_fail (GTK_IS_ENTRY (entry));
+	if (GTK_IS_ENTRY (entry))
+		gtk_entry_set_width_chars (GTK_ENTRY (entry), max_len + 1);
 }
 
 static gboolean
@@ -2207,7 +2217,9 @@ e_date_edit_update_date_entry (EDateEdit *dedit)
 	if (priv->date_set_to_none || !priv->date_is_valid) {
 		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), C_("date", "None"));
 	} else {
+		GtkEntry *entry;
 		gchar *format = NULL;
+		glong char_len;
 		time_t tt;
 
 		if (!dedit->priv->date_format) {
@@ -2229,7 +2241,14 @@ e_date_edit_update_date_entry (EDateEdit *dedit)
 
 		e_utf8_strftime (buffer, sizeof (buffer), dedit->priv->date_format ? dedit->priv->date_format : format, &tmp_tm);
 		g_free (format);
-		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), buffer);
+
+		entry = GTK_ENTRY (priv->date_entry);
+
+		gtk_entry_set_text (entry, buffer);
+
+		char_len = g_utf8_strlen (buffer, -1) + 1;
+		if (gtk_entry_get_width_chars (entry) < char_len)
+			gtk_entry_set_width_chars (entry, char_len);
 	}
 
 	add_relation (dedit, priv->date_entry);
