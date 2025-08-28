@@ -25,7 +25,7 @@
 
   <ETableColumn model_col="12" _title="Due By" expansion="0.2" minimum_width="32" resizable="true" cell="render_date" compare="pointer-integer64"/>
 
-  <ETableColumn model_col="13" _title="Location" expansion="0.2" minimum_width="32" resizable="true" cell="render_text" compare="collate"/>
+  <ETableColumn model_col="13" _title="Location" expansion="0.2" minimum_width="32" resizable="true" cell="render_location" compare="collate"/>
 
   <ETableColumn model_col="14"  _title="Sender" expansion="1.0" minimum_width="32" resizable="true" cell="render_text" compare="address_compare" search="string" priority="10"/>
   <ETableColumn model_col="15"  _title="Recipients" expansion="1.0" minimum_width="32" resizable="true" cell="render_text" compare="address_compare" search="string" priority="10"/>

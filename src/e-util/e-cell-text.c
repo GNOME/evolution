@@ -87,7 +87,8 @@ enum {
 	PROP_EDITABLE,
 	PROP_BG_COLOR_COLUMN,
 	PROP_USE_TABULAR_NUMBERS,
-	PROP_IS_MARKUP
+	PROP_IS_MARKUP,
+	PROP_ELLIPSIZE_MODE
 };
 
 enum {
@@ -106,7 +107,11 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static GdkAtom clipboard_atom = GDK_NONE;
 
-G_DEFINE_TYPE (ECellText, e_cell_text, E_TYPE_CELL)
+typedef struct _ECellTextPrivate {
+	PangoEllipsizeMode ellipsize_mode;
+} ECellTextPrivate;
+
+G_DEFINE_TYPE_WITH_PRIVATE (ECellText, e_cell_text, E_TYPE_CELL)
 
 #define UTF8_ATOM  gdk_atom_intern ("UTF8_STRING", FALSE)
 
@@ -595,6 +600,7 @@ build_layout (ECellTextView *text_view,
 {
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
+	ECellTextPrivate *priv = e_cell_text_get_instance_private (ect);
 	PangoLayout *layout;
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (((GnomeCanvasItem *) ecell_view->e_table_item_view)->canvas), ect->is_markup ? NULL : text);
@@ -656,7 +662,7 @@ build_layout (ECellTextView *text_view,
 	pango_layout_set_width (layout, width * PANGO_SCALE);
 	pango_layout_set_wrap (layout, PANGO_WRAP_WORD_CHAR);
 
-	pango_layout_set_ellipsize (layout, PANGO_ELLIPSIZE_END);
+	pango_layout_set_ellipsize (layout, priv->ellipsize_mode);
 	pango_layout_set_height (layout, 0);
 
 	switch (ect->justify) {
@@ -1675,6 +1681,10 @@ ect_set_property (GObject *object,
 		text->is_markup = g_value_get_boolean (value);
 		break;
 
+	case PROP_ELLIPSIZE_MODE:
+		e_cell_text_set_ellipsize_mode (text, g_value_get_enum (value));
+		break;
+
 	default:
 		return;
 	}
@@ -1730,6 +1740,10 @@ ect_get_property (GObject *object,
 
 	case PROP_IS_MARKUP:
 		g_value_set_boolean (value, text->is_markup);
+		break;
+
+	case PROP_ELLIPSIZE_MODE:
+		g_value_set_enum (value, e_cell_text_get_ellipsize_mode (text));
 		break;
 
 	default:
@@ -1903,6 +1917,15 @@ e_cell_text_class_init (ECellTextClass *class)
 			FALSE,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_ELLIPSIZE_MODE,
+		g_param_spec_enum (
+			"ellipsize-mode", NULL, NULL,
+			PANGO_TYPE_ELLIPSIZE_MODE,
+			PANGO_ELLIPSIZE_END,
+			G_PARAM_READWRITE));
+
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 
@@ -2066,6 +2089,10 @@ e_cell_text_delete_surrounding_cb (GtkIMContext *context,
 static void
 e_cell_text_init (ECellText *ect)
 {
+	ECellTextPrivate *priv = e_cell_text_get_instance_private (ect);
+
+	priv->ellipsize_mode = PANGO_ELLIPSIZE_END;
+
 	ect->ellipsis = g_strdup (ellipsis_default);
 	ect->use_ellipsis = use_ellipsis_default;
 	ect->strikeout_column = -1;
@@ -3023,4 +3050,29 @@ e_cell_text_get_text_by_view (ECellView *cell_view,
 
 	return ret;
 
+}
+
+PangoEllipsizeMode
+e_cell_text_get_ellipsize_mode (ECellText *self)
+{
+	ECellTextPrivate *priv;
+
+	g_return_val_if_fail (E_IS_CELL_TEXT (self), PANGO_ELLIPSIZE_NONE);
+
+	priv = e_cell_text_get_instance_private (self);
+
+	return priv->ellipsize_mode;
+}
+
+void
+e_cell_text_set_ellipsize_mode (ECellText *self,
+				PangoEllipsizeMode mode)
+{
+	ECellTextPrivate *priv;
+
+	g_return_if_fail (E_IS_CELL_TEXT (self));
+
+	priv = e_cell_text_get_instance_private (self);
+
+	priv->ellipsize_mode = mode;
 }

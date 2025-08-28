@@ -2388,6 +2388,17 @@ message_list_create_extras (GSettings *mail_settings)
 	e_table_extras_add_cell (extras, "render_date", cell);
 	g_object_unref (cell);
 
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	g_object_set (
+		cell,
+		"bold_column", COL_UNREAD,
+		"italic-column", COL_ITALIC,
+		"color_column", COL_COLOUR,
+		"ellipsize-mode", PANGO_ELLIPSIZE_MIDDLE,
+		NULL);
+	e_table_extras_add_cell (extras, "render_location", cell);
+	g_object_unref (cell);
+
 	/* text cell */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (

@@ -196,6 +196,11 @@ gchar *		e_cell_text_get_text_by_view	(ECellView *cell_view,
 						 gint col,
 						 gint row);
 
+PangoEllipsizeMode
+		e_cell_text_get_ellipsize_mode	(ECellText *self);
+void		e_cell_text_set_ellipsize_mode	(ECellText *self,
+						 PangoEllipsizeMode mode);
+
 G_END_DECLS
 
 #endif /* E_CELL_TEXT_H */
