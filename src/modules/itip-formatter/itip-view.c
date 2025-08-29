@@ -3079,12 +3079,13 @@ itip_plain_text_to_html (const gchar *plain)
 }
 
 static gchar *
-itip_view_format_attendee_plaintext (ICalProperty *prop)
+itip_view_format_attendee_html (ICalProperty *prop,
+				gboolean show_mails)
 {
 	const gchar *email;
 	const gchar *cn = NULL;
 	ICalParameter *cnparam;
-	GString *str = NULL;
+	gchar *html = NULL;
 
 	if (!prop)
 		return NULL;
@@ -3098,26 +3099,32 @@ itip_view_format_attendee_plaintext (ICalProperty *prop)
 	}
 
 	if ((email && *email) || (cn && *cn)) {
-		str = g_string_new ("");
+		if (cn && *cn && email && g_strcmp0 (email, cn) == 0)
+			email = NULL;
 
-		if (cn && *cn) {
-			g_string_append (str, cn);
+		if (show_mails || !cn || !*cn || !email || !*email) {
+			GString *str = g_string_new ("");
 
-			if (g_strcmp0 (email, cn) == 0)
-				email = NULL;
-		}
-
-		if (email && *email) {
 			if (cn && *cn)
-				g_string_append_printf (str, " <%s>", email);
-			else
-				g_string_append (str, email);
+				g_string_append (str, cn);
+
+			if (email && *email) {
+				if (cn && *cn)
+					g_string_append_printf (str, " <%s>", email);
+				else
+					g_string_append (str, email);
+			}
+
+			html = itip_plain_text_to_html (str->str);
+			g_string_free (str, TRUE);
+		} else {
+			html = g_markup_printf_escaped ("<a href=\"mailto:%s\">%s</a>", email, cn);
 		}
 	}
 
 	g_clear_object (&cnparam);
 
-	return str ? g_string_free (str, FALSE) : NULL;
+	return html;
 }
 
 static void
@@ -3129,6 +3136,7 @@ itip_view_extract_attendee_info (ItipView *view)
 	const gchar *top_comment;
 	GString *new_comment = NULL;
 	GString *attendees = NULL;
+	gboolean show_mails = mail_config_get_show_mails_in_preview ();
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
@@ -3154,7 +3162,7 @@ itip_view_extract_attendee_info (ItipView *view)
 		gchar *prop_value;
 		gchar *attendee_str;
 
-		attendee_str = itip_view_format_attendee_plaintext (prop);
+		attendee_str = itip_view_format_attendee_html (prop, show_mails);
 
 		if (!attendee_str)
 			continue;
@@ -3244,11 +3252,7 @@ itip_view_extract_attendee_info (ItipView *view)
 	}
 
 	if (attendees) {
-		gchar *html;
-
-		html = itip_plain_text_to_html (attendees->str);
-		itip_view_set_attendees (view, html);
-		g_free (html);
+		itip_view_set_attendees (view, attendees->str);
 
 		g_string_free (attendees, TRUE);
 	}
