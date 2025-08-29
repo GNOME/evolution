@@ -2355,6 +2355,22 @@ mail_reader_reply_to_message_composer_created_cb (GObject *source_object,
 	create_composer_data_free (ccd);
 }
 
+static gboolean
+extract_parts_with_content_id_cb (CamelMimeMessage *message,
+				  CamelMimePart *part,
+				  CamelMimePart *parent_part,
+				  gpointer user_data)
+{
+	GPtrArray *cid_parts = user_data;
+	const gchar *cid;
+
+	cid = camel_mime_part_get_content_id (part);
+	if (cid && *cid)
+		g_ptr_array_add (cid_parts, g_object_ref (part));
+
+	return TRUE;
+}
+
 static CamelMimeMessage *
 e_mail_reader_utils_selection_as_message (CamelMimeMessage *src_message,
 					  const gchar *selection,
@@ -2362,6 +2378,7 @@ e_mail_reader_utils_selection_as_message (CamelMimeMessage *src_message,
 {
 	const CamelNameValueArray *headers;
 	CamelMimeMessage *new_message;
+	CamelMultipart *multipart_body = NULL;
 	guint ii, len;
 	gint length;
 
@@ -2395,15 +2412,49 @@ e_mail_reader_utils_selection_as_message (CamelMimeMessage *src_message,
 		CAMEL_MEDIUM (new_message),
 		"X-Evolution-Content-Source", "selection");
 
-	camel_mime_part_set_encoding (
-		CAMEL_MIME_PART (new_message),
-		CAMEL_TRANSFER_ENCODING_8BIT);
 
-	camel_mime_part_set_content (
-		CAMEL_MIME_PART (new_message),
-		selection,
-		length,
-		selection_is_html ? "text/html; charset=utf-8" : "text/plain; charset=utf-8");
+	if (src_message && selection_is_html) {
+		/* the HTML can contain embedded images, thus take them too; they are not
+		   necessarily all of them, but parsing the HTML to know which they are
+		   is more trouble than just adding all parts with Content-ID header */
+		GPtrArray *cid_parts; /* CamelMimePart * */
+
+		cid_parts = g_ptr_array_new_with_free_func (g_object_unref);
+		camel_mime_message_foreach_part (src_message, extract_parts_with_content_id_cb, cid_parts);
+
+		if (cid_parts->len > 0) {
+			CamelMimePart *part;
+
+			multipart_body = camel_multipart_new ();
+			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart_body), "multipart/related");
+			camel_multipart_set_boundary (multipart_body, NULL);
+
+			part = camel_mime_part_new ();
+			camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_8BIT);
+			camel_mime_part_set_content (part, selection, length,
+				selection_is_html ? "text/html; charset=utf-8" : "text/plain; charset=utf-8");
+			camel_multipart_add_part (multipart_body, part);
+			g_clear_object (&part);
+
+			for (ii = 0; ii < cid_parts->len; ii++) {
+				part = g_ptr_array_index (cid_parts, ii);
+
+				camel_multipart_add_part (multipart_body, part);
+			}
+
+			camel_medium_set_content (CAMEL_MEDIUM (new_message), CAMEL_DATA_WRAPPER (multipart_body));
+		}
+
+		g_ptr_array_unref (cid_parts);
+	}
+
+	if (!multipart_body) {
+		camel_mime_part_set_encoding (CAMEL_MIME_PART (new_message), CAMEL_TRANSFER_ENCODING_8BIT);
+		camel_mime_part_set_content (CAMEL_MIME_PART (new_message), selection, length,
+			selection_is_html ? "text/html; charset=utf-8" : "text/plain; charset=utf-8");
+	}
+
+	g_clear_object (&multipart_body);
 
 	return new_message;
 }
