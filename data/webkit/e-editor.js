@@ -4409,7 +4409,7 @@ EvoEditor.LinkGetProperties = function()
 	var res = null, anchor = EvoEditor.getParentElement("A", null, false);
 
 	if (anchor) {
-		res = [];
+		res = {};
 		res["href"] = anchor.hasAttribute("href") ? anchor.getAttribute("href") : "";
 		res["text"] = anchor.innerText;
 		res["name"] = anchor.name;
@@ -4419,7 +4419,7 @@ EvoEditor.LinkGetProperties = function()
 		range = document.getSelection().getRangeAt(0);
 
 		if (range) {
-			res = [];
+			res = {};
 			res["text"] = range.toString();
 		}
 	}
@@ -5513,7 +5513,7 @@ EvoEditor.InsertSignature = function(content, isHTML, canRepositionCaret, uid, f
 		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_GROUP, "InsertSignature");
 	}
 
-	var res = [];
+	var res = {};
 
 	res["fromMessage"] = fromMessage;
 	res["checkChanged"] = checkChanged;
@@ -6722,7 +6722,7 @@ EvoEditor.onContextMenu = function(event)
 	if (document.getSelection().isCollapsed)
 		nodeFlags |= EvoEditor.E_CONTENT_EDITOR_NODE_IS_TEXT_COLLAPSED;
 
-	res = [];
+	res = {};
 
 	res["nodeFlags"] = nodeFlags;
 	res["caretWord"] = EvoEditor.GetCaretWord();
@@ -6743,7 +6743,7 @@ document.onselectionchange = function() {
 	EvoEditor.maybeUpdateFormattingState(EvoEditor.forceFormatStateUpdate ? EvoEditor.FORCE_YES : EvoEditor.FORCE_MAYBE);
 	EvoEditor.forceFormatStateUpdate = false;
 
-	var sel = document.getSelection(), args = [];
+	var sel = document.getSelection(), args = {};
 
 	args["isCollapsed"] = sel.isCollapsed;
 

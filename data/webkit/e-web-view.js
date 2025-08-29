@@ -399,7 +399,7 @@ Evo.elementClicked = function(elem)
 		dom_window = parent_dom_window;
 	}
 
-	var res = [];
+	var res = {};
 
 	res["iframe-id"] = parent_iframe_id;
 	res["elem-id"] = elem.id;
@@ -617,7 +617,7 @@ Evo.GetElementFromPoint = function(xx, yy)
 	if (!elem)
 		return null;
 
-	var res = [], iframe;
+	var res = {}, iframe;
 
 	iframe = elem.ownerDocument.defaultView.frameElement;
 
