@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2025-03-07 09:02+0000\n"
-"PO-Revision-Date: 2025-08-13 20:48+0100\n"
+"PO-Revision-Date: 2025-08-29 20:48+0100\n"
 "Last-Translator: Bàrbara Vidal <barbara@barbara.cat>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
 "Language: ca\n"
@@ -15393,7 +15393,7 @@ msgstr "Fitxers d'imatge"
 
 #: ../src/e-util/e-html-editor-actions.c:650
 msgid "Insert text file"
-msgstr "Insereix un fitxer del text"
+msgstr "Insereix un fitxer de text"
 
 #: ../src/e-util/e-html-editor-actions.c:655
 msgid "Text file"
@@ -16512,7 +16512,7 @@ msgstr "Importador de les dades i la configuració de pr_ogrames vells"
 
 #: ../src/e-util/e-import-assistant.c:418
 msgid "Import a _single file"
-msgstr "Impo_rtador de fitxers individuals"
+msgstr "Impo_rta un fitxer individual"
 
 #: ../src/e-util/e-import-assistant.c:440
 #: ../src/modules/startup-wizard/e-mail-config-import-page.c:188
@@ -17311,7 +17311,7 @@ msgid ""
 "Some of your appointments may not be available until Evolution is restarted."
 msgstr ""
 "Fins que no torneu a iniciar l'Evolution potser no estaran disponibles "
-"algunes de les vostres anotacions."
+"algunes de les vostres cites."
 
 #: ../src/e-util/e-system.error.xml.h:15
 msgid "The memo list backend servicing “{0}” has quit unexpectedly."
@@ -22817,7 +22817,7 @@ msgstr ""
 msgid ""
 "Are you sure you want to disable this account and delete all its proxies?"
 msgstr ""
-"Esteu segur que voleu suprimir aquest compte i tots els seus apoderats?"
+"Esteu segur que voleu inhabilitar aquest compte i tots els seus apoderats?"
 
 #: ../src/mail/mail.error.xml.h:95
 msgid "If you proceed, all proxy accounts will be deleted permanently."
@@ -24444,7 +24444,7 @@ msgstr "Restauració de l'Evolution"
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1283
 #, c-format
 msgid "Restoring from the file %s"
-msgstr "S'està restaurant la còpia de seguretat de la carpeta %s"
+msgstr "S'està restaurant la còpia de seguretat del fitxer %s"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1351
 msgid "Backing up Evolution Data"
@@ -27575,7 +27575,7 @@ msgstr "S'està desant el missatge…"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:429
 msgid "Failed to save message to folder."
-msgstr "No s'ha pogut desat el missatge a la carpeta."
+msgstr "No s'ha pogut desar el missatge a la carpeta."
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:774
 #, c-format
