@@ -531,7 +531,7 @@ test_jsc_object_properties (TestFixture *fixture)
 	str = e_web_view_jsc_printf_script (
 		"test_obj_props = function()\n"
 		"{\n"
-		"	var arrobj = [];\n"
+		"	var arrobj = {};\n"
 		"	arrobj[\"btrue\"] = true;\n"
 		"	arrobj[\"bfalse\"] = false;\n"
 		"	arrobj[\"i2\"] = 2;\n"
