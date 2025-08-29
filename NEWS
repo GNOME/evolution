@@ -1,3 +1,28 @@
+Evolution 3.57.3 2025-08-29
+---------------------------
+
+Bug Fixes:
+	I#3016 - Zoom email editor
+	I#3082 - MessageList: Ellipsize column 'Location' in the middle
+	I#3120 - EDateEdit: Allocate entry width based on shown characters
+	I#3123 - Crash after saving advanced search
+	I#3124 - JavaScript: Correct dictionary objects creation (WebKitGTK 2.49.4)
+
+Miscellaneous:
+	EMailReader: Changes in "show-all-headers" not properly propagated
+	Mail: Correct action group name in send_receive_menu_service_removed_cb()
+	Revert "M!196 - Remove ESimpleAsyncResult completely"
+
+Translations:
+	Anders Jonsson (sv)
+	Asier Saratsua Garmendia (eu)
+	Jordi Mas (ca)
+	Juliano de Souza Camargo (pt_BR)
+	Olesya Gerasimenko (ru)
+	Piotr Drąg (pl)
+	Quentin PAGÈS (oc)
+	Vyacheslav Gurin (ru)
+
 Evolution 3.57.2 2025-08-01
 ---------------------------
 
