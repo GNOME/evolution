@@ -319,8 +319,9 @@ Evo.AddRuleIntoStyleSheet = function(iframe_id, style_sheet_id, selector, style)
 		style_sheet_id : style_sheet_id,
 		selector : selector,
 		style : style,
+		is_unicode_bidi : style.indexOf("unicode-bidi:") >= 0,
 		exec : function(doc, iframe_id, level) {
-			if (doc && doc.head) {
+			if (doc && doc.head && (!this.is_unicode_bidi || iframe_id.indexOf(".text_html") < 0)) {
 				Evo.addRuleIntoStyleSheetDocument(doc, this.style_sheet_id, this.selector, this.style);
 			}
 
