@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2025-03-07 09:02+0000\n"
-"PO-Revision-Date: 2025-08-29 20:48+0100\n"
+"PO-Revision-Date: 2025-09-11 20:48+0100\n"
 "Last-Translator: Bàrbara Vidal <barbara@barbara.cat>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
 "Language: ca\n"
@@ -19154,7 +19154,7 @@ msgstr "Envia la clau _pública pròpia als correus sortints"
 
 #: ../src/mail/e-mail-config-security-page.c:676
 msgid "Advertise encryption is pre_ferred"
-msgstr "Anuncia que es pre_fereix l'encriptatge"
+msgstr "Anuncia que es pre_fereix el xifratge"
 
 #: ../src/mail/e-mail-config-security-page.c:694
 msgid "A_sk before sending mails with own public key"
