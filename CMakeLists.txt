@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.15)
 cmake_policy(VERSION 3.15)
 
 project(evolution
-	VERSION 3.58.0
+	VERSION 3.59.1
 	LANGUAGES C)
 set(PROJECT_BUGREPORT "https://gitlab.gnome.org/GNOME/evolution/issues/")
 set(PROJECT_URL "https://gitlab.gnome.org/GNOME/evolution/-/wikis/home")
@@ -12,7 +12,7 @@ set(PROJECT_URL "https://gitlab.gnome.org/GNOME/evolution/-/wikis/home")
 # Base Version: This is for API/version tracking for things like
 # D-Bus server files. This should always be the major/minor of
 # the stable version or stable version to be.
-set(BASE_VERSION 3.58)
+set(BASE_VERSION 3.60)
 
 # Used for pkg-config files
 set(INTERFACE_VERSION 3.0)

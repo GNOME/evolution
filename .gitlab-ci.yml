@@ -19,7 +19,7 @@ fedora:
   image: registry.gitlab.gnome.org/gnome/evolution/fedora:v1
   stage: build
   script:
-    - export BASE_BRANCH=gnome-49
+    - export BASE_BRANCH=master
     - export SOURCE=$PWD
     - export PREFIX=$HOME/_prefix
     - export DEPS=$PWD/_deps

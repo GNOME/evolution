@@ -448,7 +448,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
-					"branch": "gnome-49"
+					"branch": "master"
 				}
 			]
 		},
@@ -482,7 +482,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution.git",
-					"branch": "gnome-49"
+					"branch": "master"
 				},
 				{
 					"type": "shell",
