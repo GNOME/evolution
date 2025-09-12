@@ -1,3 +1,21 @@
+Evolution 3.58.0 2025-09-12
+---------------------------
+
+Bug Fixes:
+	I#2972 - Partially quoting HTML email drops embedded pictures
+	I#2982 - itip-formatter: Show attendee mail according to user preference
+	I#3127 - EWebView: Set "unicode-bidi" style only in Evolution's iframe-s
+
+Miscellaneous:
+	test-web-view-jsc: Correct JavaScript dictionary object creation (WebKitGTK 2.49.4)
+
+Translations:
+	Balázs Úr (hu)
+	Daniel Rusek (cs)
+	Jordi Mas (ca)
+	Leônidas Araújo (pt_BR)
+	Quentin PAGÈS (oc)
+
 Evolution 3.57.3 2025-08-29
 ---------------------------
 

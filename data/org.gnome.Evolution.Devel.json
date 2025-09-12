@@ -241,6 +241,18 @@
 		},
 
 		{
+			"name": "gweather-locations",
+			"buildsystem": "meson",
+			"sources": [
+				{
+					"type": "git",
+					"url": "https://gitlab.gnome.org/GNOME/gweather-locations.git",
+					"branch": "main"
+				}
+			]
+		},
+
+		{
 			"name": "libgweather4",
 			"buildsystem": "meson",
 			"config-opts": [
@@ -293,40 +305,6 @@
 					"commands": [
 						"AUTOMAKE=\"/bin/true\" autoreconf -vfi"
 					]
-				}
-			]
-		},
-
-		{
-			"name": "evolution-data-server",
-			"buildsystem": "cmake-ninja",
-			"cleanup": [
-				"/etc/xdg",
-				"/share/GConf"
-			],
-			"config-opts": [
-				"-DDBUS_SERVICES_PREFIX=org.gnome.Evolution.Devel",
-				"-DEXTENSIONS_DIR=/app/evolution/extensions",
-				"-DENABLE_FILE_LOCKING=fcntl",
-				"-DENABLE_DOT_LOCKING=OFF",
-				"-DENABLE_GTK=ON",
-				"-DENABLE_GTK4=OFF",
-				"-DENABLE_GOA=ON",
-				"-DENABLE_EXAMPLES=OFF",
-				"-DENABLE_INTROSPECTION=OFF",
-				"-DENABLE_VALA_BINDINGS=OFF",
-				"-DENABLE_INSTALLED_TESTS=OFF",
-				"-DENABLE_GTK_DOC=OFF",
-				"-DWITH_LIBDB=OFF",
-				"-DWITH_PRIVATE_DOCS=OFF",
-				"-DWITH_PHONENUMBER=OFF",
-				"-DWITH_SYSTEMDUSERUNITDIR=OFF"
-			],
-			"sources": [
-				{
-					"type": "git",
-					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
-					"branch": "master"
 				}
 			]
 		},
@@ -442,6 +420,40 @@
 		},
 
 		{
+			"name": "evolution-data-server",
+			"buildsystem": "cmake-ninja",
+			"cleanup": [
+				"/etc/xdg",
+				"/share/GConf"
+			],
+			"config-opts": [
+				"-DDBUS_SERVICES_PREFIX=org.gnome.Evolution.Devel",
+				"-DEXTENSIONS_DIR=/app/evolution/extensions",
+				"-DENABLE_FILE_LOCKING=fcntl",
+				"-DENABLE_DOT_LOCKING=OFF",
+				"-DENABLE_GTK=ON",
+				"-DENABLE_GTK4=OFF",
+				"-DENABLE_GOA=ON",
+				"-DENABLE_EXAMPLES=OFF",
+				"-DENABLE_INTROSPECTION=OFF",
+				"-DENABLE_VALA_BINDINGS=OFF",
+				"-DENABLE_INSTALLED_TESTS=OFF",
+				"-DENABLE_GTK_DOC=OFF",
+				"-DWITH_LIBDB=OFF",
+				"-DWITH_PRIVATE_DOCS=OFF",
+				"-DWITH_PHONENUMBER=OFF",
+				"-DWITH_SYSTEMDUSERUNITDIR=OFF"
+			],
+			"sources": [
+				{
+					"type": "git",
+					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
+					"branch": "gnome-49"
+				}
+			]
+		},
+
+		{
 			"name": "evolution",
 			"buildsystem": "cmake-ninja",
 			"build-options" : {
@@ -470,7 +482,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution.git",
-					"branch": "master"
+					"branch": "gnome-49"
 				},
 				{
 					"type": "shell",

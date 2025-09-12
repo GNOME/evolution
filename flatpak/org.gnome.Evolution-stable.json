@@ -1,13 +1,13 @@
 {
 	"app-id": "org.gnome.Evolution",
 	"runtime": "org.gnome.Platform",
-	"runtime-version": "47",
+	"runtime-version": "48",
 	"sdk": "org.gnome.Sdk",
 	"command": "evolution",
 	"rename-icon": "evolution",
 	"copy-icon": true,
-	"branch": "gnome-48",
-	"desktop-file-name-suffix": " (3.56)",
+	"branch": "gnome-49",
+	"desktop-file-name-suffix": " (3.58)",
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
 		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
@@ -255,6 +255,18 @@
 		},
 
 		{
+			"name": "gweather-locations",
+			"buildsystem": "meson",
+			"sources": [
+				{
+					"type": "git",
+					"url": "https://gitlab.gnome.org/GNOME/gweather-locations.git",
+					"branch": "main"
+				}
+			]
+		},
+
+		{
 			"name": "libgweather4",
 			"buildsystem": "meson",
 			"config-opts": [
@@ -404,6 +416,24 @@
 		},
 
 		{
+			"name": "cmark",
+			"buildsystem": "cmake-ninja",
+			"builddir": true,
+			"cleanup": [
+				"/bin",
+				"/lib/cmake",
+				"/share"
+			],
+			"sources": [
+				{
+					"type": "archive",
+					"url": "https://github.com/commonmark/cmark/archive/refs/tags/0.31.0.tar.gz",
+					"sha256": "bbcb8f8c03b5af33fcfcf11a74e9499f20a9043200b8552f78a6e8ba76e04d11"
+				}
+			]
+		},
+
+		{
 			"name": "evolution-data-server",
 			"buildsystem": "cmake-ninja",
 			"cleanup": [
@@ -432,30 +462,12 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
-					"branch": "gnome-48"
+					"branch": "gnome-49"
 				}
 			],
 			"post-install": [
 				"install -d /app/evolution/extensions",
 				"cp NEWS /app/share/NEWS.eds"
-			]
-		},
-
-		{
-			"name": "cmark",
-			"buildsystem": "cmake-ninja",
-			"builddir": true,
-			"cleanup": [
-				"/bin",
-				"/lib/cmake",
-				"/share"
-			],
-			"sources": [
-				{
-					"type": "archive",
-					"url": "https://github.com/commonmark/cmark/archive/refs/tags/0.31.0.tar.gz",
-					"sha256": "bbcb8f8c03b5af33fcfcf11a74e9499f20a9043200b8552f78a6e8ba76e04d11"
-				}
 			]
 		},
 
@@ -488,7 +500,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution.git",
-					"branch": "gnome-48"
+					"branch": "gnome-49"
 				},
 				{
 					"type": "shell",
@@ -578,7 +590,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
-					"branch": "gnome-48"
+					"branch": "gnome-49"
 				}
 			],
 			"post-install": [
