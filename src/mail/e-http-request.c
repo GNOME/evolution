@@ -363,7 +363,7 @@ e_http_request_process_sync (EContentRequest *request,
 		proxy_source = e_source_registry_ref_builtin_proxy (e_shell_get_registry (shell));
 
 		temp_session = soup_session_new_with_options (
-			"timeout", 90,
+			"timeout", 15,
 			"proxy-resolver", proxy_source,
 			NULL);
 

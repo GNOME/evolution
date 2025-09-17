@@ -215,7 +215,7 @@ rss_folder_refresh_info_sync (CamelFolder *folder,
 		}
 
 		soup_session = soup_session_new_with_options (
-			"timeout", 30,
+			"timeout", 15,
 			"user-agent", "Evolution/" VERSION,
 			NULL);
 

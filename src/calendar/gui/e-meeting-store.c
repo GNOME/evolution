@@ -2088,7 +2088,7 @@ download_with_libsoup (const gchar *uri,
 	g_object_set_data_full (G_OBJECT (msg), "orig-uri", g_strdup (uri), g_free);
 
 	session = soup_session_new ();
-	g_object_set (session, "timeout", 60, NULL);
+	g_object_set (session, "timeout", 15, NULL);
 	g_signal_connect (
 		msg, "authenticate",
 		G_CALLBACK (soup_authenticate), NULL);
