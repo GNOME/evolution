@@ -160,10 +160,7 @@ filter_source_element_xml_decode (EFilterElement *fe,
                                   xmlNodePtr node)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *) fe;
-	EMailSession *session;
 	gchar *active_id = NULL;
-
-	session = em_filter_source_element_get_session (fs);
 
 	node = node->children;
 	while (node != NULL) {
@@ -178,34 +175,12 @@ filter_source_element_xml_decode (EFilterElement *fe,
 			break;
 		}
 
-		/* For backward-compatibility: We used to store
-		 * sources by their URI string, which can change. */
 		if (strcmp ((gchar *) node->name, "uri") == 0) {
-			CamelService *service = NULL;
 			xmlChar *content;
-			CamelURL *url;
 
 			content = xmlNodeGetContent (node);
-			url = camel_url_new ((gchar *) content, NULL);
+			g_warning ("Do not know how to get a service by a URI (%s), edit the rule and select the source again, please", (const gchar *) content);
 			xmlFree (content);
-
-			if (url != NULL) {
-				service = camel_session_ref_service_by_url (
-					CAMEL_SESSION (session),
-					url, CAMEL_PROVIDER_STORE);
-				camel_url_free (url);
-			}
-
-			if (service != NULL) {
-				const gchar *uid;
-
-				uid = camel_service_get_uid (service);
-				active_id = g_strdup (uid);
-
-				g_object_unref (service);
-			}
-
-			break;
 		}
 
 		node = node->next;

@@ -1411,11 +1411,6 @@ mail_session_add_service (CamelSession *session,
 			source, "display-name",
 			service, "display-name",
 			G_BINDING_SYNC_CREATE);
-
-		/* Migrate files for this service from its old
-		 * URL-based directory to a UID-based directory
-		 * if necessary. */
-		camel_service_migrate_files (service);
 	}
 
 	return service;

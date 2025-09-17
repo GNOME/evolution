@@ -276,22 +276,16 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	delete_fetched = !keep;
 
 	if (em_utils_is_local_delivery_mbox_file (service)) {
-		CamelURL *url;
 		gchar *path;
-		gchar *url_string;
 
 		path = mail_tool_do_movemail (m->store, error);
-
-		url = camel_service_new_camel_url (service);
-		url_string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-		camel_url_free (url);
 
 		if (path && (!error || !*error)) {
 			camel_folder_freeze (fm->destination);
 			camel_filter_driver_set_default_folder (
 				fm->driver, fm->destination);
 			camel_filter_driver_filter_mbox (
-				fm->driver, path, url_string,
+				fm->driver, path, camel_service_get_uid (service),
 				cancellable, error);
 			camel_folder_thaw (fm->destination);
 
@@ -300,8 +294,6 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 		}
 
 		g_free (path);
-		g_free (url_string);
-
 	} else {
 		uid = camel_service_get_uid (service);
 		if (m->provider_lock)

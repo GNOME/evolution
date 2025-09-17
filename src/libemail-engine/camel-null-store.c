@@ -37,8 +37,6 @@ static CamelProvider null_provider = {
 	.port_entries = NULL,
 	.object_types = { 0, 0 },  /* see below */
 	.authtypes = NULL,
-	.url_hash = (GHashFunc) camel_url_hash,
-	.url_equal = (GEqualFunc) camel_url_equal,
 	.translation_domain = GETTEXT_PACKAGE
 };
 
