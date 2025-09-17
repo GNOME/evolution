@@ -225,7 +225,6 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 	ECalClientSourceType source_type;
 	GtkWidget *widget;
 	Context *context;
-	const gchar *extension_name;
 	const gchar *label;
 	const gchar *uid;
 
@@ -239,6 +238,8 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 		G_OBJECT (backend), uid, context,
 		(GDestroyNotify) cal_config_caldav_context_free);
 
+	extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
+
 	if (collection_source) {
 		widget = gtk_label_new ("");
 		g_object_set (G_OBJECT (widget),
@@ -248,8 +249,6 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 			NULL);
 		e_source_config_insert_widget (config, scratch_source, _("URL:"), widget);
 		gtk_widget_show (widget);
-
-		extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
 
 		e_binding_bind_property_full (
 			extension, "uri",
@@ -324,8 +323,39 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 	e_source_config_add_refresh_on_metered_network (config, scratch_source);
 	e_source_config_add_timeout_interval_for_webdav (config, scratch_source);
 
-	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
-	extension = e_source_get_extension (scratch_source, extension_name);
+	if (source_type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
+		GtkWidget *container;
+		const gchar *tooltip;
+
+		widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+		gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
+		gtk_widget_set_halign (widget, GTK_ALIGN_START);
+		e_source_config_insert_widget (config, scratch_source, NULL, widget);
+		gtk_widget_show (widget);
+
+		tooltip = source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ?
+			_("Number of days which events will be synchronized in the past. Zero means all events.") :
+			_("Number of days which tasks will be synchronized in the past. Zero means all tasks.");
+		container = widget;
+
+		widget = gtk_label_new (source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? _("Past event time limit (in days)") : _("Past task time limit (in days)"));
+		gtk_widget_set_tooltip_text (widget, tooltip);
+		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+		gtk_widget_show (widget);
+
+		widget = gtk_spin_button_new_with_range (0, G_MAXUINT, 1);
+		gtk_widget_set_tooltip_text (widget, tooltip);
+		gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (widget), TRUE);
+		gtk_spin_button_set_update_policy (GTK_SPIN_BUTTON (widget), GTK_UPDATE_IF_VALID);
+		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+		gtk_widget_show (widget);
+
+		e_binding_bind_property (
+			extension, "limit-download-days",
+			widget, "value",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+	}
 
 	if (context->auto_schedule_toggle) {
 		e_binding_bind_property (
