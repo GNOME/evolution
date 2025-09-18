@@ -294,21 +294,24 @@ static void
 webview_mailto_copy (EWebView *web_view,
 		     gboolean only_email_address)
 {
-	CamelURL *curl;
 	CamelInternetAddress *inet_addr;
 	GtkClipboard *clipboard;
 	const gchar *uri, *name = NULL, *email = NULL;
-	gchar *text;
+	gchar *text, *path = NULL;
 
 	uri = e_web_view_get_selected_uri (web_view);
 	g_return_if_fail (uri != NULL);
 
 	/* This should work because we checked it in update_actions(). */
-	curl = camel_url_new (uri, NULL);
-	g_return_if_fail (curl != NULL);
+	g_uri_split (uri, G_URI_FLAGS_NONE, NULL, NULL, NULL,
+		     NULL, &path, NULL, NULL, NULL);
 
 	inet_addr = camel_internet_address_new ();
-	camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
+	if (path != NULL) {
+		camel_address_decode (CAMEL_ADDRESS (inet_addr), path);
+		g_clear_pointer (&path, g_free);
+	}
+
 	if (only_email_address &&
 	    camel_internet_address_get (inet_addr, 0, &name, &email) &&
 	    email && *email) {
@@ -320,7 +323,6 @@ webview_mailto_copy (EWebView *web_view,
 	}
 
 	g_object_unref (inet_addr);
-	camel_url_free (curl);
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
 	gtk_clipboard_set_text (clipboard, text, -1);
@@ -2111,11 +2113,7 @@ web_view_update_actions (EWebView *web_view)
 
 	/* Parse the URI early so we know if the actions will work. */
 	if (uri != NULL) {
-		CamelURL *curl;
-
-		curl = camel_url_new (uri, NULL);
-		uri_is_valid = (curl != NULL);
-		camel_url_free (curl);
+		uri_is_valid = g_uri_is_valid (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 
 		scheme_is_http =
 			(g_ascii_strncasecmp (uri, "http:", 5) == 0) ||
@@ -2139,15 +2137,15 @@ web_view_update_actions (EWebView *web_view)
 	e_ui_action_group_set_visible (action_group, visible);
 
 	if (visible) {
-		CamelURL *curl;
+		gchar *path = NULL;
 
-		curl = camel_url_new (uri, NULL);
-		if (curl) {
+		if (g_uri_split (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL, NULL, NULL,
+				 NULL, &path, NULL, NULL, NULL) && path != NULL) {
 			CamelInternetAddress *inet_addr;
 			const gchar *name = NULL, *email = NULL;
 
 			inet_addr = camel_internet_address_new ();
-			camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
+			camel_address_decode (CAMEL_ADDRESS (inet_addr), path);
 
 			action = e_ui_action_group_get_action (action_group, "mailto-copy-raw");
 			e_ui_action_set_visible (action,
@@ -2155,7 +2153,7 @@ web_view_update_actions (EWebView *web_view)
 				name && *name && email && *email);
 
 			g_object_unref (inet_addr);
-			camel_url_free (curl);
+			g_clear_pointer (&path, g_free);
 		}
 	}
 
