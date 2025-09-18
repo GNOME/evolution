@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-09-17 18:57+0000\n"
-"PO-Revision-Date: 2025-09-17 21:03+0200\n"
+"POT-Creation-Date: 2025-09-18 09:12+0000\n"
+"PO-Revision-Date: 2025-09-18 15:22+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -23285,7 +23285,7 @@ msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Izogibajte se IfMatch (zahtevano na Apache < 2.2.8)"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:291
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:423
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:424
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:172
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:369
 msgid "URL is not a valid http:// nor https:// URL"
@@ -23496,22 +23496,21 @@ msgstr "Elektronski naslov:"
 msgid "Server handles meeting invitations"
 msgstr "Vabila za sestanke obravnava strežnik"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:337
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:338
 msgid "Number of days which events will be synchronized in the past. Zero means all events."
 msgstr "Število dni, ko bodo dogodki sinhronizirani v preteklosti. Nič pomeni vse dogodke."
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:338
-msgid "Number of days which tasks will be synchronized in the past. Zero means all tasks."
-msgstr ""
-"Število dni, v katerih bodo opravila sinhronizirana v preteklosti. Nič pomeni vse naloge."
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:339
+msgid "Number of days which memos will be synchronized in the past. Zero means all memos."
+msgstr "Število dni, ko bodo opomniki sinhronizirani v preteklosti. Nič pomeni vse opomnike."
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:341
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:342
 msgid "Past event time limit (in days)"
 msgstr "Časovna omejitev preteklih dogodkov (v dnevih)"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:341
-msgid "Past task time limit (in days)"
-msgstr "Časovna omejitev preteklih opravil (v dnevih)"
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:342
+msgid "Past memo time limit (in days)"
+msgstr "Časovna omejitev preteklih opomnikov (v dnevih)"
 
 #: ../src/modules/cal-config-contacts/evolution-cal-config-contacts.c:64
 msgid "Choose which address books to use."
