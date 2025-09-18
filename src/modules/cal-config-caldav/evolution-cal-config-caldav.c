@@ -323,7 +323,8 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 	e_source_config_add_refresh_on_metered_network (config, scratch_source);
 	e_source_config_add_timeout_interval_for_webdav (config, scratch_source);
 
-	if (source_type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
+	if (source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ||
+	    source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
 		GtkWidget *container;
 		const gchar *tooltip;
 
@@ -335,10 +336,10 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 
 		tooltip = source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ?
 			_("Number of days which events will be synchronized in the past. Zero means all events.") :
-			_("Number of days which tasks will be synchronized in the past. Zero means all tasks.");
+			_("Number of days which memos will be synchronized in the past. Zero means all memos.");
 		container = widget;
 
-		widget = gtk_label_new (source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? _("Past event time limit (in days)") : _("Past task time limit (in days)"));
+		widget = gtk_label_new (source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ? _("Past event time limit (in days)") : _("Past memo time limit (in days)"));
 		gtk_widget_set_tooltip_text (widget, tooltip);
 		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 		gtk_widget_show (widget);
