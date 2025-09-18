@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-08-05 08:13+0000\n"
-"PO-Revision-Date: 2025-08-05 08:52-0300\n"
+"POT-Creation-Date: 2025-09-18 13:24+0000\n"
+"PO-Revision-Date: 2025-09-18 12:12-0300\n"
 "Last-Translator: Juliano de Souza Camargo <julianosc@pm.me>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 48.0\n"
+"X-Generator: Gtranslator 49.0\n"
 "X-DamnedLies-Scope: partial\n"
 "X-Project-Style: gnome\n"
 "X-DL-Team: pt_BR\n"
@@ -1258,13 +1258,13 @@ msgstr "Versão anterior do Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:2
 msgid ""
-"The most recently used version of Evolution, expressed as “major.minor."
-"micro”. This is used for data and settings migration from older to newer "
-"versions."
+"The most recently used version of Evolution, expressed as "
+"“major.minor.micro”. This is used for data and settings migration from older "
+"to newer versions."
 msgstr ""
-"A versão mais recentemente usada do Evolution, expressada como “maior.menor."
-"micro”. Isso é usado para migração de dados e configurações de versões mais "
-"antigas para mais novas."
+"A versão mais recentemente usada do Evolution, expressada como "
+"“maior.menor.micro”. Isso é usado para migração de dados e configurações de "
+"versões mais antigas para mais novas."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
 msgid "List of disabled plugins"
@@ -4270,7 +4270,7 @@ msgstr "Contatos"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
-#: ../src/e-util/e-collection-account-wizard.c:873
+#: ../src/e-util/e-collection-account-wizard.c:871
 #: ../src/e-util/e-webdav-browser.c:541
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:211
 #: ../src/modules/calendar/e-cal-shell-view.c:732
@@ -5052,9 +5052,9 @@ msgstr ""
 #: ../src/e-util/e-attachment-view.c:1088
 #: ../src/e-util/e-categories-dialog.c:75 ../src/e-util/e-category-editor.c:162
 #: ../src/e-util/e-category-editor.c:246 ../src/e-util/e-charset-combo-box.c:84
-#: ../src/e-util/e-collection-account-wizard.c:238
-#: ../src/e-util/e-collection-account-wizard.c:1952
-#: ../src/e-util/e-collection-account-wizard.c:2199
+#: ../src/e-util/e-collection-account-wizard.c:239
+#: ../src/e-util/e-collection-account-wizard.c:1942
+#: ../src/e-util/e-collection-account-wizard.c:2189
 #: ../src/e-util/e-color-chooser-widget.c:118
 #: ../src/e-util/e-filter-datespec.c:292
 #: ../src/e-util/e-html-editor-actions.c:493
@@ -5072,15 +5072,15 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4085
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:304 ../src/mail/e-mail-label-dialog.c:180
-#: ../src/mail/e-mail-reader.c:5210 ../src/mail/e-mail-tag-editor.c:155
-#: ../src/mail/e-mail-viewer.c:590 ../src/mail/em-composer-utils.c:4534
+#: ../src/mail/e-mail-reader.c:5213 ../src/mail/e-mail-tag-editor.c:155
+#: ../src/mail/e-mail-viewer.c:590 ../src/mail/em-composer-utils.c:4519
 #: ../src/mail/em-folder-selector.c:619 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:881
 #: ../src/mail/mail-send-recv.c:962 ../src/mail/mail-vfolder-ui.c:151
 #: ../src/mail/mail-vfolder-ui.c:272
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:276
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1310
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:405
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:411
 #: ../src/modules/calendar/e-cal-attachment-handler.c:268
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1151
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -5174,7 +5174,7 @@ msgid "_Save"
 msgstr "_Salvar"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/e-util/e-misc-utils.c:3108
+#: ../src/e-util/e-misc-utils.c:3109
 msgid "Image"
 msgstr "Imagem"
 
@@ -5981,7 +5981,7 @@ msgid "Send a mail message to this address"
 msgstr "Envia uma mensagem para estes endereços"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:355
-#: ../src/e-util/e-misc-utils.c:4111
+#: ../src/e-util/e-misc-utils.c:4113
 #, c-format
 msgid "Click to mail %s"
 msgstr "Clique para enviar correio para %s"
@@ -6148,7 +6148,7 @@ msgid "Blog"
 msgstr "Blog"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
-#: ../src/e-util/e-mail-signature-editor.c:653
+#: ../src/e-util/e-mail-signature-editor.c:654
 msgid "Unnamed"
 msgstr "Sem nome"
 
@@ -6727,7 +6727,7 @@ msgstr "_Ampliar"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:402
-#: ../src/e-util/e-html-editor-actions.c:1411 ../src/mail/e-mail-reader.c:3535
+#: ../src/e-util/e-html-editor-actions.c:1411 ../src/mail/e-mail-reader.c:3533
 #: ../src/mail/e-mail-viewer.c:1818
 msgid "Zoom _Out"
 msgstr "_Reduzir"
@@ -7703,7 +7703,7 @@ msgstr "Resumo"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:151
-#: ../src/e-util/e-collection-account-wizard.c:2050
+#: ../src/e-util/e-collection-account-wizard.c:2040
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -7829,7 +7829,7 @@ msgstr "A descrição contém"
 
 #: ../src/calendar/gui/comp-util.c:1602 ../src/calendar/gui/comp-util.c:3083
 #: ../src/calendar/importers/icalendar-importer.c:1543
-#: ../src/modules/itip-formatter/itip-view.c:3182
+#: ../src/modules/itip-formatter/itip-view.c:3190
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -7895,7 +7895,7 @@ msgstr "Cancelado"
 #: ../src/calendar/gui/e-meeting-list-view.c:196
 #: ../src/calendar/gui/e-meeting-store.c:175
 #: ../src/calendar/gui/e-meeting-store.c:198
-#: ../src/modules/itip-formatter/itip-view.c:7660
+#: ../src/modules/itip-formatter/itip-view.c:7664
 msgid "Accepted"
 msgstr "Aceito"
 
@@ -7903,7 +7903,7 @@ msgstr "Aceito"
 #: ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:177
 #: ../src/calendar/gui/e-meeting-store.c:200
-#: ../src/modules/itip-formatter/itip-view.c:7666
+#: ../src/modules/itip-formatter/itip-view.c:7670
 msgid "Declined"
 msgstr "Recusado"
 
@@ -7919,7 +7919,7 @@ msgstr "Preliminar"
 #: ../src/calendar/gui/e-meeting-list-view.c:199
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:7669
+#: ../src/modules/itip-formatter/itip-view.c:7673
 msgid "Delegated"
 msgstr "Representado"
 
@@ -8019,7 +8019,7 @@ msgid "Completed: %s"
 msgstr "Concluída: %s"
 
 #: ../src/calendar/gui/comp-util.c:2416 ../src/calendar/gui/e-to-do-pane.c:641
-#: ../src/e-util/e-misc-utils.c:4194 ../src/e-util/e-text.c:564
+#: ../src/e-util/e-misc-utils.c:4196 ../src/e-util/e-text.c:564
 #: ../src/e-util/e-web-view.c:4271
 msgid "…"
 msgstr "…"
@@ -8676,7 +8676,7 @@ msgstr "Origem"
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1458
 #: ../src/e-util/e-attachment-tree-view.c:209
-#: ../src/e-util/e-collection-account-wizard.c:2091
+#: ../src/e-util/e-collection-account-wizard.c:2081
 #: ../src/e-util/e-webdav-browser.c:2560
 #: ../src/mail/e-mail-account-tree-view.c:151
 msgid "Type"
@@ -8689,8 +8689,8 @@ msgstr "Tipo"
 #: ../src/calendar/gui/e-meeting-store.c:166
 #: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1298
 #: ../src/calendar/gui/print.c:1315 ../src/e-util/e-charset.c:49
-#: ../src/modules/itip-formatter/itip-view.c:4298
-#: ../src/modules/itip-formatter/itip-view.c:7672
+#: ../src/modules/itip-formatter/itip-view.c:4302
+#: ../src/modules/itip-formatter/itip-view.c:7676
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Desconhecido"
@@ -8934,16 +8934,16 @@ msgstr[1] "Copiando %d tarefas"
 #: ../src/composer/e-composer-actions.c:189
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-markdown-utils.c:188 ../src/e-util/e-markdown-utils.c:198
-#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:3441
-#: ../src/e-util/e-misc-utils.c:3449 ../src/e-util/e-misc-utils.c:3457
-#: ../src/e-util/e-misc-utils.c:3492 ../src/e-util/e-misc-utils.c:3505
-#: ../src/e-util/e-misc-utils.c:3519 ../src/e-util/e-ui-customize-dialog.c:3522
+#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:3442
+#: ../src/e-util/e-misc-utils.c:3450 ../src/e-util/e-misc-utils.c:3458
+#: ../src/e-util/e-misc-utils.c:3493 ../src/e-util/e-misc-utils.c:3506
+#: ../src/e-util/e-misc-utils.c:3520 ../src/e-util/e-ui-customize-dialog.c:3522
 #: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3142
-#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3940
+#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3943
 #: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
 #: ../src/mail/e-mail-viewer.c:1561 ../src/mail/e-mail-viewer.c:2508
-#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4309
-#: ../src/mail/em-composer-utils.c:4332 ../src/mail/mail-send-recv.c:604
+#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4294
+#: ../src/mail/em-composer-utils.c:4317 ../src/mail/mail-send-recv.c:604
 #: ../src/mail/mail-send-recv.c:1500
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:171
 #: ../src/modules/mail/e-mail-attachment-handler.c:557
@@ -10052,7 +10052,7 @@ msgstr "Salvando alterações…"
 #: ../src/composer/e-composer-actions.c:378
 #: ../src/e-util/e-accounts-window.c:1793
 #: ../src/e-util/e-html-editor-dialog.c:181
-#: ../src/e-util/e-mail-signature-editor.c:527
+#: ../src/e-util/e-mail-signature-editor.c:528
 #: ../src/e-util/e-name-selector-dialog.c:532
 #: ../src/e-util/e-preferences-window.c:323
 #: ../src/e-util/e-table-field-chooser-dialog.c:197
@@ -10134,13 +10134,13 @@ msgid "Paste the clipboard"
 msgstr "Cola o conteúdo da área de transferência"
 
 #: ../src/calendar/gui/e-comp-editor.c:2281
-#: ../src/composer/e-composer-actions.c:439 ../src/mail/e-mail-reader.c:3416
+#: ../src/composer/e-composer-actions.c:439 ../src/mail/e-mail-reader.c:3414
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1607
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1621
 msgid "_Print…"
 msgstr "Im_primir…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2288 ../src/mail/e-mail-reader.c:3423
+#: ../src/calendar/gui/e-comp-editor.c:2288 ../src/mail/e-mail-reader.c:3421
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1614
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1820
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:767
@@ -10172,7 +10172,7 @@ msgstr "C_lassificação"
 #. menus
 #: ../src/calendar/gui/e-comp-editor.c:2339
 #: ../src/e-util/e-html-editor-actions.c:1427
-#: ../src/e-util/e-mail-signature-editor.c:539 ../src/mail/e-mail-browser.c:618
+#: ../src/e-util/e-mail-signature-editor.c:540 ../src/mail/e-mail-browser.c:618
 #: ../src/mail/e-mail-notes.c:1161 ../src/mail/e-mail-viewer.c:1929
 #: ../src/shell/e-shell-window-actions.c:752
 msgid "_File"
@@ -10185,7 +10185,7 @@ msgstr "_Inserir"
 
 #: ../src/calendar/gui/e-comp-editor.c:2360
 #: ../src/composer/e-composer-actions.c:422
-#: ../src/e-util/e-mail-signature-editor.c:540
+#: ../src/e-util/e-mail-signature-editor.c:541
 #: ../src/e-util/e-ui-customizer.c:440 ../src/mail/e-mail-browser.c:621
 #: ../src/mail/e-mail-notes.c:1162 ../src/mail/e-mail-viewer.c:1936
 #: ../src/shell/e-shell-view.c:1164
@@ -10208,7 +10208,7 @@ msgid "Save current changes"
 msgstr "Salva as alterações atuais"
 
 #: ../src/calendar/gui/e-comp-editor.c:2391
-#: ../src/e-util/e-mail-signature-editor.c:536 ../src/mail/e-mail-notes.c:1158
+#: ../src/e-util/e-mail-signature-editor.c:537 ../src/mail/e-mail-notes.c:1158
 msgid "Save and Close"
 msgstr "Salvar e fechar"
 
@@ -10410,7 +10410,7 @@ msgid "Failure reason: %s"
 msgstr "Razão da falha: %s"
 
 #: ../src/calendar/gui/e-meeting-store.c:2020
-#: ../src/e-util/e-collection-account-wizard.c:504
+#: ../src/e-util/e-collection-account-wizard.c:505
 #: ../src/plugins/publish-calendar/publish-calendar.c:339
 #: ../src/smime/gui/component.c:61
 msgid "Enter password"
@@ -13041,7 +13041,7 @@ msgid "Visually _Wrap Long Lines"
 msgstr "_Quebrar visualmente linhas linhas"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:2123
+#: ../src/e-util/e-collection-account-wizard.c:2113
 #: ../src/e-util/e-html-editor-link-popover.c:260
 #: ../src/e-util/e-mail-signature-script-dialog.c:382
 #: ../src/e-util/e-webdav-browser.c:2588
@@ -13151,22 +13151,22 @@ msgstr "Falha ao recuperar o conteúdo processado de HTML"
 msgid "Compose Message"
 msgstr "Redigir mensagem"
 
-#: ../src/composer/e-msg-composer.c:5028
+#: ../src/composer/e-msg-composer.c:5025
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:366
 msgid "Reading text content…"
 msgstr "Lendo conteúdo de texto…"
 
-#: ../src/composer/e-msg-composer.c:5094
+#: ../src/composer/e-msg-composer.c:5091
 msgid "Send _without encryption"
 msgstr "Enviar _sem criptografia"
 
-#: ../src/composer/e-msg-composer.c:5882
+#: ../src/composer/e-msg-composer.c:5879
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Revisar anexo antes de enviar."
 msgstr[1] "Revisar anexos antes de enviar."
 
-#: ../src/composer/e-msg-composer.c:5887
+#: ../src/composer/e-msg-composer.c:5884
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -13181,7 +13181,7 @@ msgstr[1] ""
 "%d anexos foram adicionados por uma aplicação externa. Certifique-se de que "
 "não contenha informações confidenciais antes de enviar a mensagem."
 
-#: ../src/composer/e-msg-composer.c:6013
+#: ../src/composer/e-msg-composer.c:6010
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "O redator contém um corpo de mensagem não texto, o qual não pode ser editado."
@@ -13337,7 +13337,7 @@ msgid "_Save to Outbox"
 msgstr "_Salvar para caixa de saída"
 
 #: ../src/composer/mail-composer.error.xml.h:34
-#: ../src/e-util/e-collection-account-wizard.c:728
+#: ../src/e-util/e-collection-account-wizard.c:726
 msgid "_Try Again"
 msgstr "_Tentar novamente"
 
@@ -13929,7 +13929,7 @@ msgid "Reply-To"
 msgstr "Responder para"
 
 #: ../src/em-format/e-mail-part-headers.c:45 ../src/e-util/e-dateedit.c:607
-#: ../src/e-util/e-dateedit.c:630 ../src/mail/message-list.etspec.h:7
+#: ../src/e-util/e-dateedit.c:629 ../src/mail/message-list.etspec.h:7
 #: ../src/modules/mail/em-mailer-prefs.c:77
 msgid "Date"
 msgstr "Data"
@@ -14599,7 +14599,7 @@ msgstr "Digite o conjunto de caracteres a ser usado"
 msgid "Other…"
 msgstr "Outro…"
 
-#: ../src/e-util/e-client-cache.c:1124 ../src/e-util/e-client-cache.c:1251
+#: ../src/e-util/e-client-cache.c:1134 ../src/e-util/e-client-cache.c:1265
 #, c-format
 msgid "Cannot create a client object from extension name “%s”"
 msgstr ""
@@ -14625,48 +14625,48 @@ msgctxt "Status"
 msgid "Failed to connect"
 msgstr "Falha ao conectar"
 
-#: ../src/e-util/e-collection-account-wizard.c:105
+#: ../src/e-util/e-collection-account-wizard.c:106
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:82
 msgid "_Finish"
 msgstr "_Finalizar"
 
-#: ../src/e-util/e-collection-account-wizard.c:108
+#: ../src/e-util/e-collection-account-wizard.c:109
 msgid "_Look Up"
 msgstr "_Procurar"
 
-#: ../src/e-util/e-collection-account-wizard.c:110
-#: ../src/e-util/e-collection-account-wizard.c:278
+#: ../src/e-util/e-collection-account-wizard.c:111
+#: ../src/e-util/e-collection-account-wizard.c:279
 #: ../src/e-util/e-search-bar.c:672
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:84
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:243
 msgid "_Next"
 msgstr "Próxi_ma"
 
-#: ../src/e-util/e-collection-account-wizard.c:182
+#: ../src/e-util/e-collection-account-wizard.c:183
 msgid "New Collection Account"
 msgstr "Nova coleção de contas"
 
-#: ../src/e-util/e-collection-account-wizard.c:258
+#: ../src/e-util/e-collection-account-wizard.c:259
 #: ../src/e-util/e-search-bar.c:660
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:77
 msgid "_Previous"
 msgstr "Anterio_r"
 
-#: ../src/e-util/e-collection-account-wizard.c:450
+#: ../src/e-util/e-collection-account-wizard.c:451
 msgid "Looking up details, please wait…"
 msgstr "Procurando detalhes, por favor aguarde…"
 
 #. Translators: The %s is replaced with a clickable text "Enter password", thus it'll be "Requires password to continue. Enter password." at the end.
-#: ../src/e-util/e-collection-account-wizard.c:514
+#: ../src/e-util/e-collection-account-wizard.c:515
 #, c-format
 msgid "Requires password to continue. %s."
 msgstr "Requer senha para continuar. %s."
 
-#: ../src/e-util/e-collection-account-wizard.c:528
+#: ../src/e-util/e-collection-account-wizard.c:529
 msgid "View certificate"
 msgstr "Ver certificado"
 
-#: ../src/e-util/e-collection-account-wizard.c:572
+#: ../src/e-util/e-collection-account-wizard.c:570
 msgid ""
 "Found no candidates. It can also mean that the server doesn’t provide any "
 "information about its configuration using the selected lookup methods. Enter "
@@ -14677,16 +14677,16 @@ msgstr ""
 "pesquisa selecionados. Digite a conta manualmente ou mude as configurações "
 "acima."
 
-#: ../src/e-util/e-collection-account-wizard.c:574
+#: ../src/e-util/e-collection-account-wizard.c:572
 #, c-format
 msgid "Found one candidate"
 msgid_plural "Found %d candidates"
 msgstr[0] "Encontrado um candidato"
 msgstr[1] "Encontrado %d candidatos"
 
-#: ../src/e-util/e-collection-account-wizard.c:673
+#: ../src/e-util/e-collection-account-wizard.c:671
 #: ../src/modules/book-config-google/evolution-book-config-google.c:102
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1033
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1041
 #: ../src/modules/cal-config-google/e-cal-config-google.c:185
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:117
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:445
@@ -14698,86 +14698,86 @@ msgstr ""
 "O nome de usuário contém letras que podem impedir a autenticação. Certifique-"
 "se que o servidor aceita nome de usuário escrito assim."
 
-#: ../src/e-util/e-collection-account-wizard.c:694
+#: ../src/e-util/e-collection-account-wizard.c:692
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:29
 msgid "_Username:"
 msgstr "Nome do _usuário:"
 
-#: ../src/e-util/e-collection-account-wizard.c:709
+#: ../src/e-util/e-collection-account-wizard.c:707
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
 #: ../src/smime/gui/certificate-manager.c:753
 msgid "_Password:"
 msgstr "S_enha:"
 
-#: ../src/e-util/e-collection-account-wizard.c:722
+#: ../src/e-util/e-collection-account-wizard.c:720
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:31
 msgid "_Remember password"
 msgstr "_Lembrar senha"
 
-#: ../src/e-util/e-collection-account-wizard.c:869
+#: ../src/e-util/e-collection-account-wizard.c:867
 #: ../src/e-util/e-webdav-browser.c:554
 msgid "Collection"
 msgstr "Coleção"
 
-#: ../src/e-util/e-collection-account-wizard.c:870
+#: ../src/e-util/e-collection-account-wizard.c:868
 msgid "Mail Receive"
 msgstr "Recebimento de e-mail"
 
-#: ../src/e-util/e-collection-account-wizard.c:871
+#: ../src/e-util/e-collection-account-wizard.c:869
 msgid "Mail Send"
 msgstr "Envio de e-mail"
 
-#: ../src/e-util/e-collection-account-wizard.c:872
+#: ../src/e-util/e-collection-account-wizard.c:870
 #: ../src/e-util/e-name-selector-dialog.c:431
 #: ../src/mail/importers/pine-importer.c:430
 msgid "Address Book"
 msgstr "Catálogo de endereços"
 
-#: ../src/e-util/e-collection-account-wizard.c:874
+#: ../src/e-util/e-collection-account-wizard.c:872
 msgid "Memo List"
 msgstr "Lista de memorandos"
 
-#: ../src/e-util/e-collection-account-wizard.c:875
+#: ../src/e-util/e-collection-account-wizard.c:873
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:71
 msgid "Task List"
 msgstr "Lista de tarefas"
 
-#: ../src/e-util/e-collection-account-wizard.c:1220
+#: ../src/e-util/e-collection-account-wizard.c:1217
 msgid "Looking up LDAP server’s search base…"
 msgstr "Procurando na base de pesquisa do servidor LDAP…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1374
+#: ../src/e-util/e-collection-account-wizard.c:1370
 msgid "Failed to store password: "
 msgstr "Falha ao armazenar a senha: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1385
+#: ../src/e-util/e-collection-account-wizard.c:1380
 msgid "Failed to create sources: "
 msgstr "Falha ao criar os fontes: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1560
+#: ../src/e-util/e-collection-account-wizard.c:1550
 msgid "Saving account settings, please wait…"
 msgstr "Salvando configurações da conta, por favor aguarde…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1723
+#: ../src/e-util/e-collection-account-wizard.c:1713
 msgid "User details"
 msgstr "Detalhes do usuário"
 
-#: ../src/e-util/e-collection-account-wizard.c:1736
+#: ../src/e-util/e-collection-account-wizard.c:1726
 msgid "_Email Address or User name:"
 msgstr "Endereço de _e-mail ou nome de usuário:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1764
+#: ../src/e-util/e-collection-account-wizard.c:1754
 msgid "_Advanced Options"
 msgstr "Opções _avançadas"
 
-#: ../src/e-util/e-collection-account-wizard.c:1769
+#: ../src/e-util/e-collection-account-wizard.c:1759
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:166
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Servidor:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1788
+#: ../src/e-util/e-collection-account-wizard.c:1778
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
@@ -14785,11 +14785,11 @@ msgstr ""
 "Lista separada por ponto e vírgula (“;”) de servidores para procurar por "
 "informações, além do domínio do endereço de e-mail."
 
-#: ../src/e-util/e-collection-account-wizard.c:1990
+#: ../src/e-util/e-collection-account-wizard.c:1980
 msgid "Select which parts should be configured:"
 msgstr "Selecione quais partes devem ser configuradas:"
 
-#: ../src/e-util/e-collection-account-wizard.c:2114
+#: ../src/e-util/e-collection-account-wizard.c:2104
 #: ../src/mail/e-mail-config-identity-page.c:531
 #: ../src/mail/e-mail-config-summary-page.c:303
 msgid "Account Information"
@@ -14799,7 +14799,7 @@ msgstr "Informações da conta"
 msgid "Choose custom color"
 msgstr "Escolher cor personalizada"
 
-#: ../src/e-util/e-color-combo.c:454 ../src/e-util/e-html-editor.c:125
+#: ../src/e-util/e-color-combo.c:454 ../src/e-util/e-html-editor.c:126
 #: ../src/mail/e-mail-account-tree-view.c:128
 #: ../src/mail/e-mail-config-security-page.c:538
 #: ../src/mail/e-mail-config-security-page.c:788
@@ -14807,7 +14807,7 @@ msgstr "Escolher cor personalizada"
 msgid "Default"
 msgstr "Padrão"
 
-#: ../src/e-util/e-config-lookup.c:814
+#: ../src/e-util/e-config-lookup.c:817
 msgid "Running…"
 msgstr "Executando…"
 
@@ -14819,45 +14819,45 @@ msgstr "Data e hora"
 msgid "Text entry to input date"
 msgstr "Entrada de texto para digitar data"
 
-#: ../src/e-util/e-dateedit.c:629
+#: ../src/e-util/e-dateedit.c:628
 msgid "Click this button to show a calendar"
 msgstr "Clique neste botão para mostrar uma agenda"
 
-#: ../src/e-util/e-dateedit.c:685
+#: ../src/e-util/e-dateedit.c:683
 msgid "Drop-down combination box to select time"
 msgstr "Caixa desdobrável de seleção para selecionar o horário"
 
-#: ../src/e-util/e-dateedit.c:686
+#: ../src/e-util/e-dateedit.c:684
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
 msgstr "Hora"
 
-#: ../src/e-util/e-dateedit.c:763
+#: ../src/e-util/e-dateedit.c:761
 msgid "No_w"
 msgstr "_Agora"
 
-#: ../src/e-util/e-dateedit.c:770
+#: ../src/e-util/e-dateedit.c:768
 msgid "_Today"
 msgstr "_Hoje"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
-#: ../src/e-util/e-dateedit.c:779 ../src/mail/em-folder-selector.c:620
+#: ../src/e-util/e-dateedit.c:777 ../src/mail/em-folder-selector.c:620
 msgid "_None"
 msgstr "_Nenhum"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
-#: ../src/e-util/e-dateedit.c:1955 ../src/e-util/e-dateedit.c:2208
+#: ../src/e-util/e-dateedit.c:1965 ../src/e-util/e-dateedit.c:2218
 msgctxt "date"
 msgid "None"
 msgstr "Nenhum"
 
-#: ../src/e-util/e-dateedit.c:2091 ../src/e-util/e-dateedit.c:2566
+#: ../src/e-util/e-dateedit.c:2101 ../src/e-util/e-dateedit.c:2585
 msgid "Invalid Date Value"
 msgstr "Data inválida"
 
-#: ../src/e-util/e-dateedit.c:2131 ../src/e-util/e-dateedit.c:2623
+#: ../src/e-util/e-dateedit.c:2141 ../src/e-util/e-dateedit.c:2642
 msgid "Invalid Time Value"
 msgstr "Hora inválida"
 
@@ -15240,7 +15240,7 @@ msgstr "Localizar itens que atendam aos seguintes critérios"
 #: ../src/libemail-engine/camel-null-store.c:29
 #: ../src/mail/e-mail-autoconfig.c:834
 #: ../src/mail/e-mail-config-summary-page.c:134
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:665
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:673
 msgid "None"
 msgstr "Nenhuma"
 
@@ -15394,25 +15394,25 @@ msgstr "Refazer a última ação desfeita"
 msgid "Undo the last action"
 msgstr "Desfazer a última ação"
 
-#: ../src/e-util/e-html-editor-actions.c:1397 ../src/mail/e-mail-reader.c:3521
+#: ../src/e-util/e-html-editor-actions.c:1397 ../src/mail/e-mail-reader.c:3519
 #: ../src/mail/e-mail-viewer.c:1825
 msgid "_Normal Size"
 msgstr "Tamanho _normal"
 
-#: ../src/e-util/e-html-editor-actions.c:1399 ../src/mail/e-mail-reader.c:3523
+#: ../src/e-util/e-html-editor-actions.c:1399 ../src/mail/e-mail-reader.c:3521
 msgid "Reset the text to its original size"
 msgstr "Restaura o tamanho original do texto"
 
-#: ../src/e-util/e-html-editor-actions.c:1404 ../src/mail/e-mail-reader.c:3528
+#: ../src/e-util/e-html-editor-actions.c:1404 ../src/mail/e-mail-reader.c:3526
 #: ../src/mail/e-mail-viewer.c:1811
 msgid "_Zoom In"
 msgstr "_Ampliar"
 
-#: ../src/e-util/e-html-editor-actions.c:1406 ../src/mail/e-mail-reader.c:3530
+#: ../src/e-util/e-html-editor-actions.c:1406 ../src/mail/e-mail-reader.c:3528
 msgid "Increase the text size"
 msgstr "Aumenta o tamanho do texto"
 
-#: ../src/e-util/e-html-editor-actions.c:1413 ../src/mail/e-mail-reader.c:3537
+#: ../src/e-util/e-html-editor-actions.c:1413 ../src/mail/e-mail-reader.c:3535
 msgid "Decrease the text size"
 msgstr "Diminui o tamanho do texto"
 
@@ -15433,7 +15433,7 @@ msgstr "A_linhamento"
 msgid "Current _Languages"
 msgstr "Idi_omas atuais"
 
-#: ../src/e-util/e-html-editor-actions.c:1474 ../src/mail/e-mail-reader.c:3563
+#: ../src/e-util/e-html-editor-actions.c:1474 ../src/mail/e-mail-reader.c:3561
 #: ../src/mail/e-mail-viewer.c:1932
 msgid "_Zoom"
 msgstr "_Zoom"
@@ -15449,37 +15449,37 @@ msgstr "Todos os idiomas de verificação ortográfica"
 #: ../src/e-util/e-html-editor-actions.c:1494
 #: ../src/e-util/e-html-editor-actions.c:1496
 #: ../src/e-util/e-html-editor-actions.c:2751
-#: ../src/e-util/e-html-editor.c:1136 ../src/e-util/e-html-editor.c:2284
+#: ../src/e-util/e-html-editor.c:1137 ../src/e-util/e-html-editor.c:2281
 msgid "Editing Mode"
 msgstr "Modo de edição"
 
 #: ../src/e-util/e-html-editor-actions.c:1501
 #: ../src/e-util/e-html-editor-actions.c:1503
-#: ../src/e-util/e-html-editor.c:1140
+#: ../src/e-util/e-html-editor.c:1141
 msgid "Paragraph Style"
 msgstr "Estilo do parágrafo"
 
 #: ../src/e-util/e-html-editor-actions.c:1508
 #: ../src/e-util/e-html-editor-actions.c:1510
-#: ../src/e-util/e-html-editor.c:1148
+#: ../src/e-util/e-html-editor.c:1149
 msgid "Font Name"
 msgstr "Nome da fonte"
 
 #: ../src/e-util/e-html-editor-actions.c:1515
 #: ../src/e-util/e-html-editor-actions.c:1517
-#: ../src/e-util/e-html-editor.c:1156
+#: ../src/e-util/e-html-editor.c:1157
 msgid "Font Size"
 msgstr "Tamanho da fonte"
 
 #: ../src/e-util/e-html-editor-actions.c:1522
 #: ../src/e-util/e-html-editor-actions.c:1524
-#: ../src/e-util/e-html-editor.c:1159
+#: ../src/e-util/e-html-editor.c:1160
 msgid "Font Color"
 msgstr "Cor da fonte"
 
 #: ../src/e-util/e-html-editor-actions.c:1529
 #: ../src/e-util/e-html-editor-actions.c:1531
-#: ../src/e-util/e-html-editor.c:1171
+#: ../src/e-util/e-html-editor.c:1172
 msgid "Background Color"
 msgstr "Cor de fundo"
 
@@ -15980,23 +15980,23 @@ msgstr "Mais sugestões"
 msgid "%s Dictionary"
 msgstr "Dicionário “%s”"
 
-#: ../src/e-util/e-html-editor.c:1334
+#: ../src/e-util/e-html-editor.c:1335
 msgid "Context Menu"
 msgstr "Menu de contexto"
 
-#: ../src/e-util/e-html-editor.c:1342 ../src/mail/e-mail-browser.c:801
+#: ../src/e-util/e-html-editor.c:1343 ../src/mail/e-mail-browser.c:801
 msgid "Main Toolbar"
 msgstr "Barra de ferramentas principal"
 
-#: ../src/e-util/e-html-editor.c:1354
+#: ../src/e-util/e-html-editor.c:1355
 msgid "Edit Toolbar"
 msgstr "Editar barra de ferramentas"
 
-#: ../src/e-util/e-html-editor.c:1363
+#: ../src/e-util/e-html-editor.c:1364
 msgid "HTML Toolbar"
 msgstr "Barra de ferramentas HTML"
 
-#: ../src/e-util/e-html-editor.c:2576
+#: ../src/e-util/e-html-editor.c:2572
 msgid "Failed to obtain content of editor"
 msgstr "Falha ao obter o conteúdo do editor"
 
@@ -16612,20 +16612,20 @@ msgstr "dias"
 msgid "Autogenerated"
 msgstr "Gerado automaticamente"
 
-#: ../src/e-util/e-mail-signature-editor.c:529 ../src/mail/e-mail-notes.c:1151
+#: ../src/e-util/e-mail-signature-editor.c:530 ../src/mail/e-mail-notes.c:1151
 msgid "Close"
 msgstr "Fechar"
 
-#: ../src/e-util/e-mail-signature-editor.c:534 ../src/mail/e-mail-notes.c:1156
+#: ../src/e-util/e-mail-signature-editor.c:535 ../src/mail/e-mail-notes.c:1156
 msgid "_Save and Close"
 msgstr "_Salvar e fechar"
 
-#: ../src/e-util/e-mail-signature-editor.c:601
-#: ../src/e-util/e-mail-signature-editor.c:605
+#: ../src/e-util/e-mail-signature-editor.c:602
+#: ../src/e-util/e-mail-signature-editor.c:606
 msgid "Edit Signature"
 msgstr "Edita assinatura"
 
-#: ../src/e-util/e-mail-signature-editor.c:627
+#: ../src/e-util/e-mail-signature-editor.c:628
 msgid "_Signature Name:"
 msgstr "Nome da a_ssinatura:"
 
@@ -16753,40 +16753,40 @@ msgstr "Falha ao rodar processo pela linha de comando “%s”: %s"
 msgid "Failed to parse command line “%s”: %s"
 msgstr "Falha ao processar linha de comando “%s”: %s"
 
-#: ../src/e-util/e-misc-utils.c:252
+#: ../src/e-util/e-misc-utils.c:253
 msgid "Could not open the link."
 msgstr "Não foi possível abrir o link."
 
-#: ../src/e-util/e-misc-utils.c:370
+#: ../src/e-util/e-misc-utils.c:371
 msgid "Could not display help for Evolution."
 msgstr "Não foi possível exibir a ajuda do Evolution."
 
-#: ../src/e-util/e-misc-utils.c:2179
+#: ../src/e-util/e-misc-utils.c:2180
 #, c-format
 msgid "Opening calendar “%s”"
 msgstr "Abrindo agenda “%s”"
 
-#: ../src/e-util/e-misc-utils.c:2182
+#: ../src/e-util/e-misc-utils.c:2183
 #, c-format
 msgid "Opening memo list “%s”"
 msgstr "Abrindo lista de memorandos “%s”"
 
-#: ../src/e-util/e-misc-utils.c:2185
+#: ../src/e-util/e-misc-utils.c:2186
 #, c-format
 msgid "Opening task list “%s”"
 msgstr "Abrindo lista de tarefas “%s”"
 
-#: ../src/e-util/e-misc-utils.c:2188
+#: ../src/e-util/e-misc-utils.c:2189
 #, c-format
 msgid "Opening address book “%s”"
 msgstr "Abrindo catálogo de endereços “%s”"
 
-#: ../src/e-util/e-misc-utils.c:2945
+#: ../src/e-util/e-misc-utils.c:2946
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "Não mostrar esta mensagem no_vamente"
 
-#: ../src/e-util/e-misc-utils.c:3428
+#: ../src/e-util/e-misc-utils.c:3429
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -16794,27 +16794,27 @@ msgstr ""
 "Este servidor de catálogo de endereços pode ser inalcançável, seu nome pode "
 "estar errado ou a sua conexão de rede pode ter caído."
 
-#: ../src/e-util/e-misc-utils.c:3440
+#: ../src/e-util/e-misc-utils.c:3441
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Falha ao definir a versão do protocolo para LDAPv3 (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3448 ../src/e-util/e-misc-utils.c:3456
+#: ../src/e-util/e-misc-utils.c:3449 ../src/e-util/e-misc-utils.c:3457
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "Falha ao definir a opção de tempo limite de conexão (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3491
+#: ../src/e-util/e-misc-utils.c:3492
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Não foi possível usar STARTTLS (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3504
+#: ../src/e-util/e-misc-utils.c:3505
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Falha ao autenticar-se com o servidor LDAP (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3518
+#: ../src/e-util/e-misc-utils.c:3519
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -16829,7 +16829,7 @@ msgstr ""
 "\n"
 "Erro detalhado (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:3529
+#: ../src/e-util/e-misc-utils.c:3530
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -16839,12 +16839,12 @@ msgstr ""
 "suporta esta funcionalidade ou ele pode estar mal configurado. Pergunte ao "
 "seu administrador quais são as bases de pesquisa com suporte."
 
-#: ../src/e-util/e-misc-utils.c:3562
+#: ../src/e-util/e-misc-utils.c:3563
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "O evolution não foi compilado com suporte a LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:3887
+#: ../src/e-util/e-misc-utils.c:3888
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -16852,31 +16852,31 @@ msgstr "Desconhecido (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:3896
+#: ../src/e-util/e-misc-utils.c:3897
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4116
+#: ../src/e-util/e-misc-utils.c:4118
 #, c-format
 msgid "Click to call %s"
 msgstr "Clique para chamar %s"
 
-#: ../src/e-util/e-misc-utils.c:4118
+#: ../src/e-util/e-misc-utils.c:4120
 msgid "Click to hide/unhide addresses"
 msgstr "Clique para ocultar/mostrar endereços"
 
-#: ../src/e-util/e-misc-utils.c:4131
+#: ../src/e-util/e-misc-utils.c:4133
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Ir para a seção %s da mensagem"
 
-#: ../src/e-util/e-misc-utils.c:4133
+#: ../src/e-util/e-misc-utils.c:4135
 msgid "Go to the beginning of the message"
 msgstr "Ir para o início da mensagem"
 
-#: ../src/e-util/e-misc-utils.c:4139
+#: ../src/e-util/e-misc-utils.c:4141
 #, c-format
 msgid "Click to open %s"
 msgstr "Clique para abrir %s"
@@ -17684,8 +17684,8 @@ msgstr "_Disposição"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
 #: ../src/e-util/e-ui-customize-dialog.c:2740
-#: ../src/e-util/e-ui-customize-dialog.c:2789 ../src/mail/e-mail-reader.c:2941
-#: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4614
+#: ../src/e-util/e-ui-customize-dialog.c:2789 ../src/mail/e-mail-reader.c:2939
+#: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4599
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_Padrão"
@@ -17930,12 +17930,12 @@ msgid "Save the image to a file"
 msgstr "Salvar a imagem em um arquivo"
 
 #: ../src/e-util/e-web-view.c:1670 ../src/mail/e-mail-browser.c:611
-#: ../src/mail/e-mail-reader.c:3493
+#: ../src/mail/e-mail-reader.c:3491
 msgid "Search _Web…"
 msgstr "Pesquisas na _web…"
 
 #: ../src/e-util/e-web-view.c:1672 ../src/mail/e-mail-browser.c:613
-#: ../src/mail/e-mail-reader.c:3495
+#: ../src/mail/e-mail-reader.c:3493
 msgid "Search the Web with the selected text"
 msgstr "Pesquisa na web com o texto selecionado"
 
@@ -18271,7 +18271,7 @@ msgid_plural "Saving %d messages"
 msgstr[0] "Salvando %d mensagem"
 msgstr[1] "Salvando %d mensagens"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:2000
+#: ../src/libemail-engine/e-mail-folder-utils.c:1958
 #, c-format
 msgid "Invalid folder URI “%s”"
 msgstr "URI da pasta inválida “%s”"
@@ -18322,12 +18322,12 @@ msgstr "Enviadas"
 msgid "Templates"
 msgstr "Modelos"
 
-#: ../src/libemail-engine/e-mail-session.c:1492
+#: ../src/libemail-engine/e-mail-session.c:1487
 #, c-format
 msgid "User cancelled operation"
 msgstr "O usuário cancelou a operação"
 
-#: ../src/libemail-engine/e-mail-session.c:1724
+#: ../src/libemail-engine/e-mail-session.c:1719
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
@@ -18336,28 +18336,28 @@ msgstr ""
 "Nenhum e-mail de destino foi fornecido, o encaminhamento da mensagem foi "
 "cancelado."
 
-#: ../src/libemail-engine/e-mail-session.c:1744
+#: ../src/libemail-engine/e-mail-session.c:1739
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "Não foi encontrada nenhuma conta válida para uso, o encaminhamento da "
 "mensagem foi cancelado."
 
-#: ../src/libemail-engine/e-mail-session.c:1947
+#: ../src/libemail-engine/e-mail-session.c:1942
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr "Fonte correspondente para serviço com UID “%s” não encontrado"
 
-#: ../src/libemail-engine/e-mail-session.c:2067
+#: ../src/libemail-engine/e-mail-session.c:2062
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr ""
 "Procurando certificados S/MIME do destinatário nos catálogos de endereços…"
 
-#: ../src/libemail-engine/e-mail-session.c:2069
+#: ../src/libemail-engine/e-mail-session.c:2064
 msgid "Looking up recipient PGP keys in address books…"
 msgstr "Procurando chaves PGP do destinatário nos catálogos de endereços…"
 
-#: ../src/libemail-engine/e-mail-session.c:3062
+#: ../src/libemail-engine/e-mail-session.c:3057
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "Esperando por “%s”"
@@ -18367,26 +18367,26 @@ msgid "No mail transport service available"
 msgstr "Nenhum serviço de transporte de correio disponível"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:605
-#: ../src/libemail-engine/mail-ops.c:715
+#: ../src/libemail-engine/mail-ops.c:707
 #, c-format
 msgid "Posting message to “%s”"
 msgstr "Postando mensagem para “%s”"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:644
-#: ../src/libemail-engine/mail-ops.c:754
+#: ../src/libemail-engine/mail-ops.c:746
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Falha ao aplicar filtros de saída: %s"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:677
 #: ../src/libemail-engine/e-mail-session-utils.c:712
-#: ../src/libemail-engine/mail-ops.c:782 ../src/libemail-engine/mail-ops.c:817
+#: ../src/libemail-engine/mail-ops.c:774 ../src/libemail-engine/mail-ops.c:809
 #, c-format
 msgid "Storing sent message to “%s”"
 msgstr "Armazenando mensagem enviada para “%s”"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:701
-#: ../src/libemail-engine/mail-ops.c:806
+#: ../src/libemail-engine/mail-ops.c:798
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -18396,15 +18396,15 @@ msgstr ""
 "Acrescentando à pasta local “Enviadas” no lugar."
 
 #: ../src/libemail-engine/e-mail-session-utils.c:731
-#: ../src/libemail-engine/mail-ops.c:834
+#: ../src/libemail-engine/mail-ops.c:826
 #, c-format
 msgid "Failed to append to local “Sent” folder: %s"
 msgstr "Falha ao acrescentar à pasta local “Enviadas”: %s"
 
 #. This gets popped in async_context_free().
 #: ../src/libemail-engine/e-mail-session-utils.c:933
-#: ../src/libemail-engine/mail-ops.c:1030
-#: ../src/libemail-engine/mail-ops.c:1142 ../src/mail/mail-send-recv.c:673
+#: ../src/libemail-engine/mail-ops.c:1022
+#: ../src/libemail-engine/mail-ops.c:1134 ../src/mail/mail-send-recv.c:673
 msgid "Sending message"
 msgstr "Enviando mensagem"
 
@@ -18447,7 +18447,7 @@ msgstr ""
 msgid "Fetching mail from “%s”"
 msgstr "Obtendo correio de “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:748
+#: ../src/libemail-engine/mail-ops.c:740
 #, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set "
@@ -18460,7 +18460,7 @@ msgstr ""
 "em Editar→Filtros de mensagens.\n"
 "O erro original foi: %s"
 
-#: ../src/libemail-engine/mail-ops.c:1041
+#: ../src/libemail-engine/mail-ops.c:1033
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando mensagem %d de %d"
@@ -18468,52 +18468,52 @@ msgstr "Enviando mensagem %d de %d"
 #. Translators: The string is distinguished by total
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
-#: ../src/libemail-engine/mail-ops.c:1099
+#: ../src/libemail-engine/mail-ops.c:1091
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "Falha ao enviar uma mensagem"
 msgstr[1] "Falha ao enviar %d de %d mensagens"
 
-#: ../src/libemail-engine/mail-ops.c:1105
+#: ../src/libemail-engine/mail-ops.c:1097
 msgid "Cancelled."
 msgstr "Cancelado."
 
-#: ../src/libemail-engine/mail-ops.c:1107
+#: ../src/libemail-engine/mail-ops.c:1099
 msgid "Complete."
 msgstr "Concluída."
 
-#: ../src/libemail-engine/mail-ops.c:1228
+#: ../src/libemail-engine/mail-ops.c:1220
 #, c-format
 msgid "Moving messages to “%s”"
 msgstr "Movendo mensagens para “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:1229
+#: ../src/libemail-engine/mail-ops.c:1221
 #, c-format
 msgid "Copying messages to “%s”"
 msgstr "Copiando mensagens para “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:1348
+#: ../src/libemail-engine/mail-ops.c:1340
 #, c-format
 msgid "Storing folder “%s”"
 msgstr "Armazenando pasta “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:1476
+#: ../src/libemail-engine/mail-ops.c:1468
 #, c-format
 msgid "Expunging and storing account “%s”"
 msgstr "Excluindo permanentemente e armazenando conta “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:1477
+#: ../src/libemail-engine/mail-ops.c:1469
 #, c-format
 msgid "Storing account “%s”"
 msgstr "Armazenando a conta “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:1552
+#: ../src/libemail-engine/mail-ops.c:1544
 #, c-format
 msgid "Emptying trash in “%s”"
 msgstr "Esvaziando a lixeira em “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:1651
+#: ../src/libemail-engine/mail-ops.c:1643
 #, c-format
 msgid "Processing folder changes in “%s”"
 msgstr "Processando as mudanças na pasta “%s”"
@@ -18733,7 +18733,7 @@ msgid "Do Not Quote"
 msgstr "Não faça citação"
 
 #: ../src/mail/e-mail-config-composing-page.c:158
-#: ../src/mail/em-composer-utils.c:4466
+#: ../src/mail/em-composer-utils.c:4451
 msgid "Use global setting"
 msgstr "Usar configuração global"
 
@@ -18765,12 +18765,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Idioma para texto de atribuição de resposta e encaminhamento"
 
 #: ../src/mail/e-mail-config-composing-page.c:525
-#: ../src/mail/em-composer-utils.c:4633 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4618 ../src/mail/mail-config.ui.h:24
 msgid "Start _typing at the bottom"
 msgstr "Iniciar digi_tando embaixo"
 
 #: ../src/mail/e-mail-config-composing-page.c:532
-#: ../src/mail/em-composer-utils.c:4637 ../src/mail/mail-config.ui.h:25
+#: ../src/mail/em-composer-utils.c:4622 ../src/mail/mail-config.ui.h:25
 msgid "_Keep signature above the original message"
 msgstr "_Manter assinatura sobre a mensagem original"
 
@@ -19195,12 +19195,12 @@ msgid "Server Type:"
 msgstr "Tipo do servidor:"
 
 #: ../src/mail/e-mail-config-summary-page.c:432
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:642
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:650
 msgid "Server:"
 msgstr "Servidor:"
 
 #: ../src/mail/e-mail-config-summary-page.c:453
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:754
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:762
 msgid "Username:"
 msgstr "Nome do usuário:"
 
@@ -19529,665 +19529,665 @@ msgid "_Always ignore Reply-To: for mailing lists."
 msgstr ""
 "_Sempre ignorar cabeçalhos de “Responder para:” em listas de discussão."
 
-#: ../src/mail/e-mail-reader.c:2590
+#: ../src/mail/e-mail-reader.c:2588
 msgid "Failed to retrieve message:"
 msgstr "Falha ao recuperar as mensagem:"
 
-#: ../src/mail/e-mail-reader.c:2651 ../src/mail/e-mail-reader.c:4260
+#: ../src/mail/e-mail-reader.c:2649 ../src/mail/e-mail-reader.c:4263
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "Recuperando mensagem “%s”"
 
-#: ../src/mail/e-mail-reader.c:2994 ../src/mail/e-mail-viewer.c:1846
+#: ../src/mail/e-mail-reader.c:2992 ../src/mail/e-mail-viewer.c:1846
 msgid "A_dd Sender to Address Book"
 msgstr "A_dicionar remetente ao catálogo de endereços"
 
-#: ../src/mail/e-mail-reader.c:2996
+#: ../src/mail/e-mail-reader.c:2994
 msgid "Add sender to address book"
 msgstr "Adiciona o remetente ao catálogo de endereços"
 
-#: ../src/mail/e-mail-reader.c:3001
+#: ../src/mail/e-mail-reader.c:2999
 msgid "_Archive"
 msgstr "_Arquivo"
 
-#: ../src/mail/e-mail-reader.c:3003
+#: ../src/mail/e-mail-reader.c:3001
 msgid "Move selected messages to the Archive folder for the account"
 msgstr "Arquivar as mensagens selecionadas"
 
-#: ../src/mail/e-mail-reader.c:3008
+#: ../src/mail/e-mail-reader.c:3006
 msgid "Check for _Junk"
 msgstr "Verificar por _spam"
 
-#: ../src/mail/e-mail-reader.c:3010
+#: ../src/mail/e-mail-reader.c:3008
 msgid "Filter the selected messages for junk status"
 msgstr "Filtra as mensagens selecionadas pelo estado de spam"
 
-#: ../src/mail/e-mail-reader.c:3015
+#: ../src/mail/e-mail-reader.c:3013
 msgid "Assign C_olor…"
 msgstr "Atribuir c_or…"
 
-#: ../src/mail/e-mail-reader.c:3017
+#: ../src/mail/e-mail-reader.c:3015
 msgid "Assign color for the selected messages"
 msgstr "Atribui cor para as mensagens selecionadas"
 
-#: ../src/mail/e-mail-reader.c:3022
+#: ../src/mail/e-mail-reader.c:3020
 msgid "Unse_t Color"
 msgstr "_Desconfigurar cor"
 
-#: ../src/mail/e-mail-reader.c:3024
+#: ../src/mail/e-mail-reader.c:3022
 msgid "Unset color for the selected messages"
 msgstr "Desfaz atribuição de cor para as mensagens selecionadas"
 
-#: ../src/mail/e-mail-reader.c:3029
+#: ../src/mail/e-mail-reader.c:3027
 msgid "_Copy to Folder…"
 msgstr "_Copiar para pasta…"
 
-#: ../src/mail/e-mail-reader.c:3031
+#: ../src/mail/e-mail-reader.c:3029
 msgid "Copy selected messages to another folder"
 msgstr "Copia as mensagens selecionadas para outra pasta"
 
-#: ../src/mail/e-mail-reader.c:3036
+#: ../src/mail/e-mail-reader.c:3034
 msgid "_Delete Message"
 msgstr "E_xcluir mensagem"
 
-#: ../src/mail/e-mail-reader.c:3038
+#: ../src/mail/e-mail-reader.c:3036
 msgid "Mark the selected messages for deletion"
 msgstr "Marca as mensagens selecionadas para exclusão"
 
-#: ../src/mail/e-mail-reader.c:3043
+#: ../src/mail/e-mail-reader.c:3041
 msgid "_Add note…"
 msgstr "_Adicionar nota…"
 
-#: ../src/mail/e-mail-reader.c:3045
+#: ../src/mail/e-mail-reader.c:3043
 msgid "Add a note for the selected message"
 msgstr "Adiciona uma nota para a mensagem selecionada"
 
-#: ../src/mail/e-mail-reader.c:3050
+#: ../src/mail/e-mail-reader.c:3048
 msgid "Delete no_te"
 msgstr "Excluir no_ta"
 
-#: ../src/mail/e-mail-reader.c:3052
+#: ../src/mail/e-mail-reader.c:3050
 msgid "Delete the note for the selected message"
 msgstr "Exclui a nota da mensagem selecionada"
 
-#: ../src/mail/e-mail-reader.c:3057
+#: ../src/mail/e-mail-reader.c:3055
 msgid "_Edit note…"
 msgstr "_Editar nota…"
 
-#: ../src/mail/e-mail-reader.c:3059
+#: ../src/mail/e-mail-reader.c:3057
 msgid "Edit a note for the selected message"
 msgstr "Edita uma nota para a mensagem selecionada"
 
-#: ../src/mail/e-mail-reader.c:3064
+#: ../src/mail/e-mail-reader.c:3062
 msgid "Create a Filter Rule for Mailing _List…"
 msgstr "Criar uma regra de filtro por _lista de discussão…"
 
-#: ../src/mail/e-mail-reader.c:3066
+#: ../src/mail/e-mail-reader.c:3064
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Cria uma regra para filtrar mensagens para esta lista de discussão"
 
-#: ../src/mail/e-mail-reader.c:3071
+#: ../src/mail/e-mail-reader.c:3069
 msgid "Create a Filter Rule for _Recipients…"
 msgstr "Criar uma regra de filtro por _destinatários…"
 
-#: ../src/mail/e-mail-reader.c:3073
+#: ../src/mail/e-mail-reader.c:3071
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Cria uma regra para filtrar mensagens para estes destinatários"
 
-#: ../src/mail/e-mail-reader.c:3078
+#: ../src/mail/e-mail-reader.c:3076
 msgid "Create a Filter Rule for Se_nder…"
 msgstr "Criar uma regra de filtro por _remetente…"
 
-#: ../src/mail/e-mail-reader.c:3080
+#: ../src/mail/e-mail-reader.c:3078
 msgid "Create a rule to filter messages from this sender"
 msgstr "Cria uma regra para filtrar mensagens deste remetente"
 
-#: ../src/mail/e-mail-reader.c:3085
+#: ../src/mail/e-mail-reader.c:3083
 msgid "Create a Filter Rule for _Subject…"
 msgstr "Criar uma regra de filtro por _assunto…"
 
-#: ../src/mail/e-mail-reader.c:3087
+#: ../src/mail/e-mail-reader.c:3085
 msgid "Create a rule to filter messages with this subject"
 msgstr "Cria uma regra para filtrar mensagens com este assunto"
 
-#: ../src/mail/e-mail-reader.c:3092
+#: ../src/mail/e-mail-reader.c:3090
 msgid "A_pply Filters"
 msgstr "A_plicar filtros"
 
-#: ../src/mail/e-mail-reader.c:3094
+#: ../src/mail/e-mail-reader.c:3092
 msgid "Apply filter rules to the selected messages"
 msgstr "Aplica as regras de filtro às mensagens selecionadas"
 
-#: ../src/mail/e-mail-reader.c:3099 ../src/mail/e-mail-viewer.c:1776
+#: ../src/mail/e-mail-reader.c:3097 ../src/mail/e-mail-viewer.c:1776
 msgid "_Find in Message…"
 msgstr "_Localizar na mensagem…"
 
-#: ../src/mail/e-mail-reader.c:3101
+#: ../src/mail/e-mail-reader.c:3099
 msgid "Search for text in the body of the displayed message"
 msgstr "Pesquisa texto no corpo da mensagem exibida"
 
-#: ../src/mail/e-mail-reader.c:3106
+#: ../src/mail/e-mail-reader.c:3104
 msgid "_Clear Flag"
 msgstr "Lim_par marca"
 
-#: ../src/mail/e-mail-reader.c:3108
+#: ../src/mail/e-mail-reader.c:3106
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Remove o sinalizador de acompanhamento das mensagens selecionadas"
 
-#: ../src/mail/e-mail-reader.c:3113
+#: ../src/mail/e-mail-reader.c:3111
 msgid "_Flag Completed"
 msgstr "Marcar como concl_uída"
 
-#: ../src/mail/e-mail-reader.c:3115
+#: ../src/mail/e-mail-reader.c:3113
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Define o sinalizador de acompanhamento nas mensagens selecionadas"
 
-#: ../src/mail/e-mail-reader.c:3120
+#: ../src/mail/e-mail-reader.c:3118
 msgid "Follow _Up…"
 msgstr "Ac_ompanhar…"
 
-#: ../src/mail/e-mail-reader.c:3122 ../src/mail/e-mail-reader.c:3129
+#: ../src/mail/e-mail-reader.c:3120 ../src/mail/e-mail-reader.c:3127
 msgid "Flag the selected messages for follow-up"
 msgstr "Sinaliza as mensagens selecionadas para acompanhamento"
 
-#: ../src/mail/e-mail-reader.c:3127
+#: ../src/mail/e-mail-reader.c:3125
 msgid "Mark for Follo_w Up…"
 msgstr "Marcar como _lembrete…"
 
-#: ../src/mail/e-mail-reader.c:3134 ../src/mail/e-mail-reader.c:3566
+#: ../src/mail/e-mail-reader.c:3132 ../src/mail/e-mail-reader.c:3564
 #: ../src/mail/e-mail-viewer.c:1895
 #: ../src/modules/mail/e-mail-attachment-handler.c:910
 msgid "_Forward"
 msgstr "E_ncaminhar"
 
-#: ../src/mail/e-mail-reader.c:3136
+#: ../src/mail/e-mail-reader.c:3134
 #: ../src/modules/mail/e-mail-attachment-handler.c:912
 msgid "Forward the selected message to someone"
 msgstr "Encaminha a mensagem selecionada a alguém"
 
-#: ../src/mail/e-mail-reader.c:3141 ../src/mail/e-mail-viewer.c:1902
+#: ../src/mail/e-mail-reader.c:3139 ../src/mail/e-mail-viewer.c:1902
 #: ../src/modules/mail/e-mail-attachment-handler.c:959
 msgid "_Attached"
 msgstr "_Anexada"
 
-#: ../src/mail/e-mail-reader.c:3143 ../src/mail/e-mail-reader.c:3150
+#: ../src/mail/e-mail-reader.c:3141 ../src/mail/e-mail-reader.c:3148
 #: ../src/modules/mail/e-mail-attachment-handler.c:961
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Encaminha a mensagem selecionada a alguém como um anexo"
 
-#: ../src/mail/e-mail-reader.c:3148
+#: ../src/mail/e-mail-reader.c:3146
 msgid "Forward As _Attached"
 msgstr "Encaminhar como _anexada"
 
-#: ../src/mail/e-mail-reader.c:3155 ../src/mail/e-mail-viewer.c:1909
+#: ../src/mail/e-mail-reader.c:3153 ../src/mail/e-mail-viewer.c:1909
 #: ../src/modules/mail/e-mail-attachment-handler.c:966
 msgid "_Inline"
 msgstr "_Embutida"
 
-#: ../src/mail/e-mail-reader.c:3157 ../src/mail/e-mail-reader.c:3164
+#: ../src/mail/e-mail-reader.c:3155 ../src/mail/e-mail-reader.c:3162
 #: ../src/modules/mail/e-mail-attachment-handler.c:968
 msgid "Forward the selected message in the body of a new message"
 msgstr "Encaminha a mensagem selecionada no corpo da nova mensagem"
 
-#: ../src/mail/e-mail-reader.c:3162
+#: ../src/mail/e-mail-reader.c:3160
 msgid "Forward As _Inline"
 msgstr "Encaminhar como _inline"
 
-#: ../src/mail/e-mail-reader.c:3169 ../src/mail/e-mail-viewer.c:1916
+#: ../src/mail/e-mail-reader.c:3167 ../src/mail/e-mail-viewer.c:1916
 #: ../src/modules/mail/e-mail-attachment-handler.c:973
 msgid "_Quoted"
 msgstr "_Citada"
 
-#: ../src/mail/e-mail-reader.c:3171 ../src/mail/e-mail-reader.c:3178
+#: ../src/mail/e-mail-reader.c:3169 ../src/mail/e-mail-reader.c:3176
 #: ../src/modules/mail/e-mail-attachment-handler.c:975
 msgid "Forward the selected message quoted like a reply"
 msgstr "Encaminha a mensagem selecionada citada como uma resposta"
 
-#: ../src/mail/e-mail-reader.c:3176
+#: ../src/mail/e-mail-reader.c:3174
 msgid "Forward As _Quoted"
 msgstr "Encaminhar como _citada"
 
-#: ../src/mail/e-mail-reader.c:3183
+#: ../src/mail/e-mail-reader.c:3181
 msgid "_Containing Folder"
 msgstr "_Contendo pasta"
 
-#: ../src/mail/e-mail-reader.c:3185
+#: ../src/mail/e-mail-reader.c:3183
 msgid "Go to the folder the message originates from"
 msgstr "Vá para a pasta de onde a mensagem se origina"
 
-#: ../src/mail/e-mail-reader.c:3190
+#: ../src/mail/e-mail-reader.c:3188
 msgid "Change _More Labels…"
 msgstr "Mudar _mais etiquetas…"
 
-#: ../src/mail/e-mail-reader.c:3197
+#: ../src/mail/e-mail-reader.c:3195
 msgid "_New Label"
 msgstr "_Novo rótulo"
 
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/mail/e-mail-reader.c:3206
+#: ../src/mail/e-mail-reader.c:3204
 msgid "N_one"
 msgstr "N_enhum"
 
-#: ../src/mail/e-mail-reader.c:3213 ../src/mail/e-mail-viewer.c:1783
+#: ../src/mail/e-mail-reader.c:3211 ../src/mail/e-mail-viewer.c:1783
 msgid "_Load Images"
 msgstr "Carregar _imagens"
 
-#: ../src/mail/e-mail-reader.c:3215
+#: ../src/mail/e-mail-reader.c:3213
 msgid "Force images in HTML mail to be loaded"
 msgstr "Força as imagens em correio HTML a serem carregadas"
 
-#: ../src/mail/e-mail-reader.c:3220
+#: ../src/mail/e-mail-reader.c:3218
 msgid "_Ignore Subthread"
 msgstr "_Ignorar sub-discussão"
 
-#: ../src/mail/e-mail-reader.c:3222
+#: ../src/mail/e-mail-reader.c:3220
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "Marcar novos e-mails em uma sub-discussão como lidos automaticamente"
 
-#: ../src/mail/e-mail-reader.c:3227
+#: ../src/mail/e-mail-reader.c:3225
 msgid "_Ignore Thread"
 msgstr "_Ignorar discussão"
 
-#: ../src/mail/e-mail-reader.c:3229
+#: ../src/mail/e-mail-reader.c:3227
 msgid "Mark new mails in this thread as read automatically"
 msgstr "Marcar novos e-mails nesta discussão como lidos automaticamente"
 
-#: ../src/mail/e-mail-reader.c:3234
+#: ../src/mail/e-mail-reader.c:3232
 msgid "_Important"
 msgstr "_Importante"
 
-#: ../src/mail/e-mail-reader.c:3236 ../src/mail/e-mail-reader.c:3243
+#: ../src/mail/e-mail-reader.c:3234 ../src/mail/e-mail-reader.c:3241
 msgid "Mark the selected messages as important"
 msgstr "Marca as mensagens selecionadas como importantes"
 
-#: ../src/mail/e-mail-reader.c:3241
+#: ../src/mail/e-mail-reader.c:3239
 msgid "Mark as _Important"
 msgstr "Marcar como _importante"
 
-#: ../src/mail/e-mail-reader.c:3248
+#: ../src/mail/e-mail-reader.c:3246
 msgid "_Junk"
 msgstr "_Spam"
 
-#: ../src/mail/e-mail-reader.c:3250 ../src/mail/e-mail-reader.c:3257
+#: ../src/mail/e-mail-reader.c:3248 ../src/mail/e-mail-reader.c:3255
 msgid "Mark the selected messages as junk"
 msgstr "Marca as mensagens selecionadas como spam"
 
-#: ../src/mail/e-mail-reader.c:3255
+#: ../src/mail/e-mail-reader.c:3253
 msgid "Mark as _Junk"
 msgstr "Marcar como _spam"
 
-#: ../src/mail/e-mail-reader.c:3262
+#: ../src/mail/e-mail-reader.c:3260
 msgid "_Not Junk"
 msgstr "_Não é spam"
 
-#: ../src/mail/e-mail-reader.c:3264 ../src/mail/e-mail-reader.c:3271
+#: ../src/mail/e-mail-reader.c:3262 ../src/mail/e-mail-reader.c:3269
 msgid "Mark the selected messages as not being junk"
 msgstr "Marca as mensagens selecionadas como não sendo spam"
 
-#: ../src/mail/e-mail-reader.c:3269
+#: ../src/mail/e-mail-reader.c:3267
 msgid "Mark as _Not Junk"
 msgstr "Marcar como _não spam"
 
-#: ../src/mail/e-mail-reader.c:3276
+#: ../src/mail/e-mail-reader.c:3274
 msgid "_Read"
 msgstr "_Lida"
 
-#: ../src/mail/e-mail-reader.c:3278 ../src/mail/e-mail-reader.c:3285
+#: ../src/mail/e-mail-reader.c:3276 ../src/mail/e-mail-reader.c:3283
 msgid "Mark the selected messages as having been read"
 msgstr "Marca as mensagens selecionadas como lidas"
 
-#: ../src/mail/e-mail-reader.c:3283
+#: ../src/mail/e-mail-reader.c:3281
 msgid "Mar_k as Read"
 msgstr "Marcar como li_da"
 
-#: ../src/mail/e-mail-reader.c:3290
+#: ../src/mail/e-mail-reader.c:3288
 msgid "Do not _Ignore Subthread"
 msgstr "Não _ignorar subdiscussão"
 
-#: ../src/mail/e-mail-reader.c:3292
+#: ../src/mail/e-mail-reader.c:3290
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr ""
 "Não marcar novos e-mails em uma sub-discussão como lidos automaticamente"
 
-#: ../src/mail/e-mail-reader.c:3297
+#: ../src/mail/e-mail-reader.c:3295
 msgid "Do not _Ignore Thread"
 msgstr "Não _ignorar discussão"
 
-#: ../src/mail/e-mail-reader.c:3299
+#: ../src/mail/e-mail-reader.c:3297
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr "Não marcar novos e-mails nesta discussão como lidos automaticamente"
 
-#: ../src/mail/e-mail-reader.c:3304
+#: ../src/mail/e-mail-reader.c:3302
 msgid "Uni_mportant"
 msgstr "Não i_mportante"
 
-#: ../src/mail/e-mail-reader.c:3306 ../src/mail/e-mail-reader.c:3313
+#: ../src/mail/e-mail-reader.c:3304 ../src/mail/e-mail-reader.c:3311
 msgid "Mark the selected messages as unimportant"
 msgstr "Marca as mensagens selecionadas como sem importância"
 
-#: ../src/mail/e-mail-reader.c:3311
+#: ../src/mail/e-mail-reader.c:3309
 msgid "Mark as Uni_mportant"
 msgstr "Marcar como sem _importância"
 
-#: ../src/mail/e-mail-reader.c:3318
+#: ../src/mail/e-mail-reader.c:3316
 msgid "_Unread"
 msgstr "_Não lida"
 
-#: ../src/mail/e-mail-reader.c:3320 ../src/mail/e-mail-reader.c:3327
+#: ../src/mail/e-mail-reader.c:3318 ../src/mail/e-mail-reader.c:3325
 msgid "Mark the selected messages as not having been read"
 msgstr "Marca as mensagens selecionadas como não lidas"
 
-#: ../src/mail/e-mail-reader.c:3325
+#: ../src/mail/e-mail-reader.c:3323
 msgid "Mark as _Unread"
 msgstr "Marcar como _não lida"
 
-#: ../src/mail/e-mail-reader.c:3332
+#: ../src/mail/e-mail-reader.c:3330
 #: ../src/modules/mail/e-mail-attachment-handler.c:938
 msgid "_Edit as New Message…"
 msgstr "_Editar como nova mensagem…"
 
-#: ../src/mail/e-mail-reader.c:3334
+#: ../src/mail/e-mail-reader.c:3332
 #: ../src/modules/mail/e-mail-attachment-handler.c:940
 msgid "Open the selected messages in the composer for editing"
 msgstr "Abre as mensagens selecionadas no redator para edição"
 
-#: ../src/mail/e-mail-reader.c:3339
+#: ../src/mail/e-mail-reader.c:3337
 msgid "Compose _New Message"
 msgstr "Redigir _nova mensagem"
 
-#: ../src/mail/e-mail-reader.c:3341
+#: ../src/mail/e-mail-reader.c:3339
 msgid "Open a window for composing a mail message"
 msgstr "Abre uma janela para redigir uma mensagem"
 
-#: ../src/mail/e-mail-reader.c:3346
+#: ../src/mail/e-mail-reader.c:3344
 msgid "_Open in New Window"
 msgstr "Abrir em n_ova janela"
 
-#: ../src/mail/e-mail-reader.c:3348
+#: ../src/mail/e-mail-reader.c:3346
 msgid "Open the selected messages in a new window"
 msgstr "Abre a mensagem selecionada em uma nova janela"
 
-#: ../src/mail/e-mail-reader.c:3353
+#: ../src/mail/e-mail-reader.c:3351
 msgid "_Move to Folder…"
 msgstr "_Mover para a pasta…"
 
-#: ../src/mail/e-mail-reader.c:3355
+#: ../src/mail/e-mail-reader.c:3353
 msgid "Move selected messages to another folder"
 msgstr "Mover as mensagens selecionadas para outra pasta"
 
-#: ../src/mail/e-mail-reader.c:3360
+#: ../src/mail/e-mail-reader.c:3358
 msgid "_Next Message"
 msgstr "_Próxima mensagem"
 
-#: ../src/mail/e-mail-reader.c:3362
+#: ../src/mail/e-mail-reader.c:3360
 msgid "Display the next message"
 msgstr "Exibe a próxima mensagem"
 
-#: ../src/mail/e-mail-reader.c:3367
+#: ../src/mail/e-mail-reader.c:3365
 msgid "Next _Important Message"
 msgstr "Próxima mensagem _importante"
 
-#: ../src/mail/e-mail-reader.c:3369
+#: ../src/mail/e-mail-reader.c:3367
 msgid "Display the next important message"
 msgstr "Exibe a próxima mensagem importante"
 
-#: ../src/mail/e-mail-reader.c:3374
+#: ../src/mail/e-mail-reader.c:3372
 msgid "Next _Thread"
 msgstr "Próxima disc_ussão"
 
-#: ../src/mail/e-mail-reader.c:3376
+#: ../src/mail/e-mail-reader.c:3374
 msgid "Display the next thread"
 msgstr "Exibe a próxima discussão"
 
-#: ../src/mail/e-mail-reader.c:3381
+#: ../src/mail/e-mail-reader.c:3379
 msgid "Next _Unread Message"
 msgstr "Próxima mensagem _não lida"
 
-#: ../src/mail/e-mail-reader.c:3383
+#: ../src/mail/e-mail-reader.c:3381
 msgid "Display the next unread message"
 msgstr "Exibe a próxima mensagem não lida"
 
-#: ../src/mail/e-mail-reader.c:3388
+#: ../src/mail/e-mail-reader.c:3386
 msgid "_Previous Message"
 msgstr "_Mensagem anterior"
 
-#: ../src/mail/e-mail-reader.c:3390
+#: ../src/mail/e-mail-reader.c:3388
 msgid "Display the previous message"
 msgstr "Exibe a mensagem anterior"
 
-#: ../src/mail/e-mail-reader.c:3395
+#: ../src/mail/e-mail-reader.c:3393
 msgid "Pr_evious Important Message"
 msgstr "Mensagem im_portante anterior"
 
-#: ../src/mail/e-mail-reader.c:3397
+#: ../src/mail/e-mail-reader.c:3395
 msgid "Display the previous important message"
 msgstr "Exibe a mensagem importante anterior"
 
-#: ../src/mail/e-mail-reader.c:3402
+#: ../src/mail/e-mail-reader.c:3400
 msgid "Previous T_hread"
 msgstr "Discussão an_terior"
 
-#: ../src/mail/e-mail-reader.c:3404
+#: ../src/mail/e-mail-reader.c:3402
 msgid "Display the previous thread"
 msgstr "Exibe a discussão anterior"
 
-#: ../src/mail/e-mail-reader.c:3409
+#: ../src/mail/e-mail-reader.c:3407
 msgid "P_revious Unread Message"
 msgstr "Mensagem não lida an_terior"
 
-#: ../src/mail/e-mail-reader.c:3411
+#: ../src/mail/e-mail-reader.c:3409
 msgid "Display the previous unread message"
 msgstr "Exibe a mensagem não lida anterior"
 
-#: ../src/mail/e-mail-reader.c:3418
+#: ../src/mail/e-mail-reader.c:3416
 msgid "Print this message"
 msgstr "Imprime esta mensagem"
 
-#: ../src/mail/e-mail-reader.c:3425
+#: ../src/mail/e-mail-reader.c:3423
 msgid "Preview the message to be printed"
 msgstr "Visualiza a mensagem a ser impressa"
 
-#: ../src/mail/e-mail-reader.c:3430 ../src/mail/e-mail-viewer.c:1923
+#: ../src/mail/e-mail-reader.c:3428 ../src/mail/e-mail-viewer.c:1923
 #: ../src/modules/mail/e-mail-attachment-handler.c:980
 msgid "Re_direct"
 msgstr "_Redirecionada"
 
-#: ../src/mail/e-mail-reader.c:3432
+#: ../src/mail/e-mail-reader.c:3430
 #: ../src/modules/mail/e-mail-attachment-handler.c:982
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Redireciona (bounce) a mensagem selecionada para alguém"
 
-#: ../src/mail/e-mail-reader.c:3437
+#: ../src/mail/e-mail-reader.c:3435
 msgid "Remo_ve Attachments"
 msgstr "Remo_ver anexos"
 
-#: ../src/mail/e-mail-reader.c:3439
+#: ../src/mail/e-mail-reader.c:3437
 msgid "Remove attachments"
 msgstr "Remove os anexos"
 
-#: ../src/mail/e-mail-reader.c:3444
+#: ../src/mail/e-mail-reader.c:3442
 msgid "Remove Du_plicate Messages"
 msgstr "Remove as mensagens du_plicadas"
 
-#: ../src/mail/e-mail-reader.c:3446
+#: ../src/mail/e-mail-reader.c:3444
 msgid "Checks selected messages for duplicates"
 msgstr "Marca as mensagens selecionadas para duplicação"
 
-#: ../src/mail/e-mail-reader.c:3451 ../src/mail/e-mail-viewer.c:1881
-#: ../src/mail/em-composer-utils.c:4592 ../src/mail/mail.error.xml.h:28
+#: ../src/mail/e-mail-reader.c:3449 ../src/mail/e-mail-viewer.c:1881
+#: ../src/mail/em-composer-utils.c:4577 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1668
 #: ../src/modules/mail/e-mail-attachment-handler.c:917
 msgid "Reply to _All"
 msgstr "Responder a _todos"
 
-#: ../src/mail/e-mail-reader.c:3453
+#: ../src/mail/e-mail-reader.c:3451
 #: ../src/modules/mail/e-mail-attachment-handler.c:919
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr ""
 "Redige uma resposta para todos os destinatários da mensagem selecionada"
 
-#: ../src/mail/e-mail-reader.c:3458 ../src/mail/e-mail-viewer.c:1888
+#: ../src/mail/e-mail-reader.c:3456 ../src/mail/e-mail-viewer.c:1888
 msgid "Al_ternative Reply…"
 msgstr "Resposta alter_nativa…"
 
-#: ../src/mail/e-mail-reader.c:3460
+#: ../src/mail/e-mail-reader.c:3458
 msgid "Choose reply options for the selected message"
 msgstr "Escolha opções de resposta para a mensagem selecionada"
 
-#: ../src/mail/e-mail-reader.c:3465 ../src/mail/e-mail-reader.c:3559
-#: ../src/mail/e-mail-reader.c:3565
+#: ../src/mail/e-mail-reader.c:3463 ../src/mail/e-mail-reader.c:3557
+#: ../src/mail/e-mail-reader.c:3563
 msgid "_Group Reply"
 msgstr "_Responder ao grupo"
 
-#: ../src/mail/e-mail-reader.c:3467
+#: ../src/mail/e-mail-reader.c:3465
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Redige uma resposta à lista de discussão, ou a todos os destinatários"
 
-#: ../src/mail/e-mail-reader.c:3472 ../src/mail/e-mail-viewer.c:1874
-#: ../src/mail/em-composer-utils.c:4587 ../src/mail/mail.error.xml.h:26
+#: ../src/mail/e-mail-reader.c:3470 ../src/mail/e-mail-viewer.c:1874
+#: ../src/mail/em-composer-utils.c:4572 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:924
 msgid "Reply to _List"
 msgstr "Responder à _lista"
 
-#: ../src/mail/e-mail-reader.c:3474
+#: ../src/mail/e-mail-reader.c:3472
 #: ../src/modules/mail/e-mail-attachment-handler.c:926
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Redige uma resposta à lista de discussão da mensagem selecionada"
 
-#: ../src/mail/e-mail-reader.c:3479 ../src/mail/e-mail-viewer.c:1867
+#: ../src/mail/e-mail-reader.c:3477 ../src/mail/e-mail-viewer.c:1867
 #: ../src/modules/mail/e-mail-attachment-handler.c:931
 msgid "_Reply to Sender"
 msgstr "Responder ao _remetente"
 
-#: ../src/mail/e-mail-reader.c:3481
+#: ../src/mail/e-mail-reader.c:3479
 #: ../src/modules/mail/e-mail-attachment-handler.c:933
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Redige uma resposta ao remetente da mensagem selecionada"
 
-#: ../src/mail/e-mail-reader.c:3486
+#: ../src/mail/e-mail-reader.c:3484
 msgid "_Save to File…"
 msgstr "_Salvar para arquivo…"
 
-#: ../src/mail/e-mail-reader.c:3488
+#: ../src/mail/e-mail-reader.c:3486
 msgid "Save selected messages as an mbox file"
 msgstr "Salva a mensagem selecionada como um arquivo mbox"
 
-#: ../src/mail/e-mail-reader.c:3500
+#: ../src/mail/e-mail-reader.c:3498
 msgid "_Message Source"
 msgstr "_Código-fonte da mensagem"
 
-#: ../src/mail/e-mail-reader.c:3502
+#: ../src/mail/e-mail-reader.c:3500
 msgid "Show the raw email source of the message"
 msgstr "Mostra o código-fonte bruto da mensagem"
 
-#: ../src/mail/e-mail-reader.c:3514
+#: ../src/mail/e-mail-reader.c:3512
 msgid "_Undelete Message"
 msgstr "_Desfazer exclusão da mensagem"
 
-#: ../src/mail/e-mail-reader.c:3516
+#: ../src/mail/e-mail-reader.c:3514
 msgid "Undelete the selected messages"
 msgstr "Desfaz a exclusão das mensagens selecionadas"
 
-#: ../src/mail/e-mail-reader.c:3542 ../src/mail/e-mail-viewer.c:1804
+#: ../src/mail/e-mail-reader.c:3540 ../src/mail/e-mail-viewer.c:1804
 msgid "_Caret Mode"
 msgstr "Modo _cursor"
 
-#: ../src/mail/e-mail-reader.c:3544
+#: ../src/mail/e-mail-reader.c:3542
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Mostra um cursor intermitente no corpo das mensagens exibidas"
 
-#: ../src/mail/e-mail-reader.c:3549 ../src/mail/e-mail-viewer.c:1790
+#: ../src/mail/e-mail-reader.c:3547 ../src/mail/e-mail-viewer.c:1790
 msgid "All Message _Headers"
 msgstr "Todos os ca_beçalhos de mensagem"
 
-#: ../src/mail/e-mail-reader.c:3551
+#: ../src/mail/e-mail-reader.c:3549
 msgid "Show messages with all email headers"
 msgstr "Mostra a mensagem com todos os cabeçalhos de e-mail"
 
 #. ** Menus **
-#: ../src/mail/e-mail-reader.c:3556
+#: ../src/mail/e-mail-reader.c:3554
 msgid "Cre_ate"
 msgstr "Cri_ar"
 
-#: ../src/mail/e-mail-reader.c:3557 ../src/mail/e-mail-viewer.c:1935
+#: ../src/mail/e-mail-reader.c:3555 ../src/mail/e-mail-viewer.c:1935
 #: ../src/modules/mail/e-mail-attachment-handler.c:952
 msgid "F_orward As"
 msgstr "E_ncaminhar como"
 
 # Qualquer tecla de acesso vai colidir com outro item de menu
-#: ../src/mail/e-mail-reader.c:3558
+#: ../src/mail/e-mail-reader.c:3556
 msgid "_Label"
 msgstr "_Rótulo"
 
-#: ../src/mail/e-mail-reader.c:3560
+#: ../src/mail/e-mail-reader.c:3558
 msgid "_Go To"
 msgstr "_Ir para"
 
-#: ../src/mail/e-mail-reader.c:3561
+#: ../src/mail/e-mail-reader.c:3559
 msgid "Mar_k As"
 msgstr "M_arcar como"
 
-#: ../src/mail/e-mail-reader.c:3562 ../src/mail/e-mail-viewer.c:1934
+#: ../src/mail/e-mail-reader.c:3560 ../src/mail/e-mail-viewer.c:1934
 msgid "_Message"
 msgstr "_Mensagem"
 
-#: ../src/mail/e-mail-reader.c:3564 ../src/mail/e-mail-viewer.c:1832
+#: ../src/mail/e-mail-reader.c:3562 ../src/mail/e-mail-viewer.c:1832
 #: ../src/mail/e-mail-viewer.c:1933
 msgid "Ch_aracter Encoding"
 msgstr "C_odificação de caracteres"
 
-#: ../src/mail/e-mail-reader.c:3567
+#: ../src/mail/e-mail-reader.c:3565
 msgid "List of Labels"
 msgstr "Lista de rótulos"
 
-#: ../src/mail/e-mail-reader.c:3574
+#: ../src/mail/e-mail-reader.c:3572
 msgid "Create a Search Folder from Mailing _List…"
 msgstr "Criar uma pasta de pesquisa a partir de _lista de discussão…"
 
-#: ../src/mail/e-mail-reader.c:3576
+#: ../src/mail/e-mail-reader.c:3574
 msgid "Create a search folder for this mailing list"
 msgstr "Cria uma pasta de pesquisa para esta lista de discussão"
 
-#: ../src/mail/e-mail-reader.c:3581
+#: ../src/mail/e-mail-reader.c:3579
 msgid "Create a Search Folder from Recipien_ts…"
 msgstr "Criar uma pasta de pesquisa a partir de des_tinatários…"
 
-#: ../src/mail/e-mail-reader.c:3583
+#: ../src/mail/e-mail-reader.c:3581
 msgid "Create a search folder for these recipients"
 msgstr "Cria uma pasta de pesquisa para estes destinatários"
 
-#: ../src/mail/e-mail-reader.c:3588
+#: ../src/mail/e-mail-reader.c:3586
 msgid "Create a Search Folder from Sen_der…"
 msgstr "Criar uma pasta _de pesquisa a partir de remetente…"
 
-#: ../src/mail/e-mail-reader.c:3590
+#: ../src/mail/e-mail-reader.c:3588
 msgid "Create a search folder for this sender"
 msgstr "Cria uma pasta de pesquisa para este remetente"
 
-#: ../src/mail/e-mail-reader.c:3595
+#: ../src/mail/e-mail-reader.c:3593
 msgid "Create a Search Folder from S_ubject…"
 msgstr "Criar uma pasta de pesquisa a partir de ass_unto…"
 
-#: ../src/mail/e-mail-reader.c:3597
+#: ../src/mail/e-mail-reader.c:3595
 msgid "Create a search folder for this subject"
 msgstr "Cria uma pasta de pesquisa para este assunto"
 
-#: ../src/mail/e-mail-reader.c:4266
+#: ../src/mail/e-mail-reader.c:4269
 msgid "Retrieving message"
 msgstr "Buscando mensagem"
 
-#: ../src/mail/e-mail-reader.c:5190
+#: ../src/mail/e-mail-reader.c:5193
 msgid "Modify labels for selected message"
 msgid_plural "Modify labels for selected messages"
 msgstr[0] "Edita rótulos para mensagem selecionada"
 msgstr[1] "Edita rótulos para mensagens selecionadas"
 
-#: ../src/mail/e-mail-reader.c:5198
+#: ../src/mail/e-mail-reader.c:5201
 msgid "Set _Selected"
 msgstr "Definir _selecionado"
 
-#: ../src/mail/e-mail-reader.c:5204
+#: ../src/mail/e-mail-reader.c:5207
 msgid "Set _None"
 msgstr "Definir _nenhum"
 
@@ -20242,7 +20242,7 @@ msgstr[1] ""
 "Pasta “%s” contém %u mensagens duplicadas. Você tem certeza que deseja apagá-"
 "las?"
 
-#: ../src/mail/e-mail-reader-utils.c:2984
+#: ../src/mail/e-mail-reader-utils.c:3035
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Salvar mensagem"
@@ -20253,13 +20253,13 @@ msgstr[1] "Salvar mensagens"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3005
+#: ../src/mail/e-mail-reader-utils.c:3056
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Mensagem"
 msgstr[1] "Mensagens"
 
-#: ../src/mail/e-mail-reader-utils.c:3427
+#: ../src/mail/e-mail-reader-utils.c:3478
 msgid "Parsing message"
 msgstr "Analisando mensagem"
 
@@ -20526,11 +20526,11 @@ msgstr "Aguardando os anexos carregarem…"
 #. * see mail/em-composer-utils.c:attribvars array.
 #: ../src/mail/em-composer-utils.c:2345
 msgid ""
-"On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
-"${TimeZone}, ${Sender} wrote:"
+"On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} $"
+"{TimeZone}, ${Sender} wrote:"
 msgstr ""
-"Em ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} às ${24Hour}:${Minute} "
-"${TimeZone}, ${Sender} escreveu:"
+"Em ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} às ${24Hour}:${Minute} $"
+"{TimeZone}, ${Sender} escreveu:"
 
 #: ../src/mail/em-composer-utils.c:2351
 msgid "-------- Forwarded Message --------"
@@ -20547,61 +20547,61 @@ msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Re: %s"
 
-#: ../src/mail/em-composer-utils.c:3894
+#: ../src/mail/em-composer-utils.c:3879
 msgid "an unknown sender"
 msgstr "um remetente desconhecido"
 
-#: ../src/mail/em-composer-utils.c:4532
+#: ../src/mail/em-composer-utils.c:4517
 msgid "Alternative Reply"
 msgstr "Resposta alternativa"
 
-#: ../src/mail/em-composer-utils.c:4535
+#: ../src/mail/em-composer-utils.c:4520
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1661
 msgid "_Reply"
 msgstr "_Responder"
 
-#: ../src/mail/em-composer-utils.c:4553
+#: ../src/mail/em-composer-utils.c:4538
 msgid "Recipients:"
 msgstr "Destinatários:"
 
-#: ../src/mail/em-composer-utils.c:4582
+#: ../src/mail/em-composer-utils.c:4567
 msgid "Reply to _Sender"
 msgstr "Responder ao _remetente"
 
-#: ../src/mail/em-composer-utils.c:4605
+#: ../src/mail/em-composer-utils.c:4590
 msgid "Reply style:"
 msgstr "Estilo de resposta:"
 
-#: ../src/mail/em-composer-utils.c:4618
+#: ../src/mail/em-composer-utils.c:4603
 msgid "Attach_ment"
 msgstr "Ane_xo"
 
-#: ../src/mail/em-composer-utils.c:4622
+#: ../src/mail/em-composer-utils.c:4607
 msgid "Inline (_Outlook style)"
 msgstr "Embutido (estilo _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4626
+#: ../src/mail/em-composer-utils.c:4611
 msgid "_Quote"
 msgstr "_Citar"
 
-#: ../src/mail/em-composer-utils.c:4630
+#: ../src/mail/em-composer-utils.c:4615
 msgid "Do _Not Quote"
 msgstr "_Não fazer citação"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4651
+#: ../src/mail/em-composer-utils.c:4636
 msgid "_Format message in"
 msgstr "_Formatar mensagem em"
 
-#: ../src/mail/em-composer-utils.c:4671
+#: ../src/mail/em-composer-utils.c:4656
 msgid "Apply t_emplate"
 msgstr "Aplicar mod_elo"
 
-#: ../src/mail/em-composer-utils.c:4684
+#: ../src/mail/em-composer-utils.c:4669
 msgid "Preserve original message S_ubject"
 msgstr "Preservar ass_unto da mensagem original"
 
-#: ../src/mail/em-composer-utils.c:4750
+#: ../src/mail/em-composer-utils.c:4735
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -20609,11 +20609,11 @@ msgstr[0] "um destinatário"
 msgstr[1] "%d destinatários"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:5259
+#: ../src/mail/em-composer-utils.c:5244
 msgid "Posting destination"
 msgstr "Publicando destino"
 
-#: ../src/mail/em-composer-utils.c:5264
+#: ../src/mail/em-composer-utils.c:5249
 msgid "Choose folders to post the message to."
 msgstr "Escolha as pastas onde publicar a mensagem."
 
@@ -20878,12 +20878,12 @@ msgstr "Movendo pasta %s"
 msgid "Copying folder %s"
 msgstr "Copiando pasta %s"
 
-#: ../src/mail/em-folder-tree.c:2480 ../src/mail/message-list.c:2658
+#: ../src/mail/em-folder-tree.c:2480 ../src/mail/message-list.c:2669
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Movendo mensagens para pasta %s"
 
-#: ../src/mail/em-folder-tree.c:2484 ../src/mail/message-list.c:2660
+#: ../src/mail/em-folder-tree.c:2484 ../src/mail/message-list.c:2671
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando mensagens para pasta %s"
@@ -23443,36 +23443,36 @@ msgstr "%d de %b, %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%d de %b de %Y"
 
-#: ../src/mail/message-list.c:3103 ../src/mail/message-list.etspec.h:24
+#: ../src/mail/message-list.c:3114 ../src/mail/message-list.etspec.h:24
 msgid "User Header 1"
 msgstr "Cabeçalho de usuário 1"
 
-#: ../src/mail/message-list.c:3104 ../src/mail/message-list.etspec.h:25
+#: ../src/mail/message-list.c:3115 ../src/mail/message-list.etspec.h:25
 msgid "User Header 2"
 msgstr "Cabeçalho de usuário 2"
 
-#: ../src/mail/message-list.c:3105 ../src/mail/message-list.etspec.h:26
+#: ../src/mail/message-list.c:3116 ../src/mail/message-list.etspec.h:26
 msgid "User Header 3"
 msgstr "Cabeçalho de usuário 3"
 
-#: ../src/mail/message-list.c:3548
+#: ../src/mail/message-list.c:3559
 msgid "Select all visible messages"
 msgstr "Seleciona todas as mensagens visíveis"
 
-#: ../src/mail/message-list.c:4391 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4402 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Mensagens"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5782
+#: ../src/mail/message-list.c:5793
 msgid "Follow-up"
 msgstr "Lembrete"
 
-#: ../src/mail/message-list.c:6527 ../src/mail/message-list.c:6964
+#: ../src/mail/message-list.c:6538 ../src/mail/message-list.c:6975
 msgid "Generating message list…"
 msgstr "Gerando lista de mensagens…"
 
-#: ../src/mail/message-list.c:6530
+#: ../src/mail/message-list.c:6541
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -23484,7 +23484,7 @@ msgstr ""
 "acima ou executando uma nova pesquisa, seja limpando-o com Pesquisar→Limpar, "
 "seja alterando a consulta acima."
 
-#: ../src/mail/message-list.c:6537
+#: ../src/mail/message-list.c:6548
 msgid "There are no messages in this folder."
 msgstr "Não há mensagens nesta pasta."
 
@@ -24415,8 +24415,8 @@ msgstr "Escolha um catálogo de endereços"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:199
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:212
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:249
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:270
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:250
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:269
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:81
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:102
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:238
@@ -24435,7 +24435,7 @@ msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Evitar IfMatch (necessário no apache < 2.2.8)"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:291
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:393
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:424
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:172
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:369
 msgid "URL is not a valid http:// nor https:// URL"
@@ -24450,7 +24450,7 @@ msgid "Address Book:"
 msgstr "Catálogo de endereços:"
 
 #: ../src/modules/book-config-google/evolution-book-config-google.c:103
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1034
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1042
 #: ../src/modules/cal-config-google/e-cal-config-google.c:186
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:118
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:446
@@ -24458,124 +24458,124 @@ msgstr "Catálogo de endereços:"
 msgid "User name cannot be empty"
 msgstr "Nome de usuário não pode ser deixado vazio"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:414
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:420
 msgid "Looking up server search bases, please wait…"
 msgstr "Procurando bases de pesquisa do servidor. Por favor, aguarde…"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:488
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:496
 msgid "Standard LDAP Port"
 msgstr "Porta LDAP padrão"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:494
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:668
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:502
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:676
 msgid "LDAP over SSL/TLS (deprecated)"
 msgstr "LDAP sobre SSL/TLS (obsoleto)"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:500
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:508
 msgid "Microsoft Global Catalog"
 msgstr "Catálogo global da Microsoft"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:506
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:514
 msgid "Microsoft Global Catalog over SSL/TLS"
 msgstr "Catálogo global da Microsoft sobre SSL/TLS"
 
 #. Page 1
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:610
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:618
 msgid "Connecting to LDAP"
 msgstr "Conectando ao LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:627
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:635
 msgid "Server Information"
 msgstr "Informações do servidor"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:648
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:656
 msgid "Port:"
 msgstr "Porta:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:656
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:664
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:247
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:195
 msgid "Port number is not valid"
 msgstr "O número da porta não é válido"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:671
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:679
 msgid "StartTLS (recommended)"
 msgstr "StartTLS (recomendado)"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:673
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:681
 msgid "Encryption:"
 msgstr "Criptografia:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:697
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:705
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:324
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:260
 msgid "Authentication"
 msgstr "Autenticação"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:723
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:731
 msgid "Anonymous"
 msgstr "Anônimo"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:724
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:732
 msgid "Username can be left empty"
 msgstr "Nome de usuário não pode estar vazio"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:730
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:738
 msgid "Using email address"
 msgstr "Usando endereço de e-mail"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:731
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:739
 msgid "requires anonymous access to your LDAP server"
 msgstr "requer acesso anônimo ao seu servidor LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:737
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:745
 msgid "Using distinguished name (DN)"
 msgstr "Usando nome distinto (DN)"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:738
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:746
 msgid "for example: uid=user,dc=example,dc=com"
 msgstr "por exemplo: uid=usuario,dc=exemplo,dc=com"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:746
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:754
 msgid "Method:"
 msgstr "Método:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:750
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:758
 msgid "This is the method Evolution will use to authenticate you."
 msgstr "Esse é o método que o Evolution vai usar para autenticar você."
 
 #. Page 2
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:762
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:770
 msgid "Using LDAP"
 msgstr "Usando LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:779
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:787
 #: ../src/modules/mail/e-mail-shell-view.c:119
 #: ../src/modules/mail/e-mail-shell-view.c:209
 msgid "Searching"
 msgstr "Pesquisando"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:795
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:803
 msgid "Search Base:"
 msgstr "Base de pesquisa:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:799
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:807
 msgid "Find Possible Search Bases"
 msgstr "Localizar bases de pesquisa possíveis"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:821
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:829
 msgid "One Level"
 msgstr "Um nível"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:823
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:831
 msgid "Subtree"
 msgstr "Subárvore"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:825
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:833
 msgid "Search Scope:"
 msgstr "Escopo da pesquisa:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:830
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:838
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of “Subtree” will include all entries "
@@ -24588,27 +24588,27 @@ msgstr ""
 "de pesquisa de “um nível” incluirá apenas as entradas que estão um nível "
 "abaixo da sua base."
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:839
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:847
 msgid "Search Filter:"
 msgstr "Filtro de pesquisa:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:851
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:859
 msgid "Downloading"
 msgstr "Baixando"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:866
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:874
 msgid "Limit:"
 msgstr "Limite:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:877
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:885
 msgid "contacts"
 msgstr "contatos"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:882
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:890
 msgid "Browse until limit is reached"
 msgstr "Navegar até alcançar o limite"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1017
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1025
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:425
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:454
 msgid "Server address cannot be empty"
@@ -24629,26 +24629,50 @@ msgstr "Escolha uma lista de memorandos"
 msgid "Choose a Task List"
 msgstr "Escolha uma lista de tarefas"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:285
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:284
 msgid "Find Calendars"
 msgstr "Localizar agendas"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:288
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:287
 msgid "Find Memo Lists"
 msgstr "Localizar listas de memorandos"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:291
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:290
 msgid "Find Task Lists"
 msgstr "Localizar listas de tarefas"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:310
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:309
 #: ../src/modules/cal-config-local/evolution-cal-config-local.c:254
 msgid "Email:"
 msgstr "E-mail:"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:316
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:315
 msgid "Server handles meeting invitations"
 msgstr "Gerenciamento de convites de reuniões pelo servidor"
+
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:338
+msgid ""
+"Number of days which events will be synchronized in the past. Zero means all "
+"events."
+msgstr ""
+"Número de dias em que eventos serão sincronizados no passado. Zero significa "
+"todos os eventos."
+
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:339
+msgid ""
+"Number of days which memos will be synchronized in the past. Zero means all "
+"memos."
+msgstr ""
+"Número de dias em que memorandos serão sincronizados no passado. Zero "
+"significa todos os memorandos."
+
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:342
+msgid "Past event time limit (in days)"
+msgstr "Limite de tempo do evento passado (em dias)"
+
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:342
+msgid "Past memo time limit (in days)"
+msgstr "Limite de tempo do memorando passado (em dias)"
 
 #: ../src/modules/cal-config-contacts/evolution-cal-config-contacts.c:64
 msgid "Choose which address books to use."
@@ -26750,7 +26774,7 @@ msgstr "I_mportar como evento"
 
 #: ../src/modules/itip-formatter/itip-view.c:2291
 #: ../src/modules/itip-formatter/itip-view.c:2524
-#: ../src/modules/itip-formatter/itip-view.c:7996
+#: ../src/modules/itip-formatter/itip-view.c:8000
 msgid "Due date:"
 msgstr "Data de conclusão:"
 
@@ -26797,34 +26821,34 @@ msgstr "_Tarefas:"
 msgid "_Memos:"
 msgstr "_Memorandos:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3846
+#: ../src/modules/itip-formatter/itip-view.c:3850
 msgid "Sa_ve"
 msgstr "Sal_var"
 
-#: ../src/modules/itip-formatter/itip-view.c:4374
-#: ../src/modules/itip-formatter/itip-view.c:6252
+#: ../src/modules/itip-formatter/itip-view.c:4378
+#: ../src/modules/itip-formatter/itip-view.c:6256
 msgid "Attendee status updated"
 msgstr "Status do participante atualizado"
 
-#: ../src/modules/itip-formatter/itip-view.c:4706
+#: ../src/modules/itip-formatter/itip-view.c:4710
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "Um compromisso “%s” na agenda “%s” está em conflito com esta reunião"
 
-#: ../src/modules/itip-formatter/itip-view.c:4713
+#: ../src/modules/itip-formatter/itip-view.c:4717
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr ""
 "Uma tarefa “%s” na lista de tarefas “%s” está em conflito com esta tarefa"
 
-#: ../src/modules/itip-formatter/itip-view.c:4720
+#: ../src/modules/itip-formatter/itip-view.c:4724
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr ""
 "Um memorando “%s” na lista de memorandos “%s” está em conflito com este "
 "memorando"
 
-#: ../src/modules/itip-formatter/itip-view.c:4733
+#: ../src/modules/itip-formatter/itip-view.c:4737
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -26833,7 +26857,7 @@ msgid_plural ""
 msgstr[0] "A agenda “%s” contém um compromisso que conflita com esta reunião"
 msgstr[1] "A agenda “%s” contém %d compromissos que conflitam com esta reunião"
 
-#: ../src/modules/itip-formatter/itip-view.c:4742
+#: ../src/modules/itip-formatter/itip-view.c:4746
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
@@ -26843,7 +26867,7 @@ msgstr[0] ""
 msgstr[1] ""
 "A lista de tarefas “%s” contém %d tarefas que conflitam com esta tarefa"
 
-#: ../src/modules/itip-formatter/itip-view.c:4751
+#: ../src/modules/itip-formatter/itip-view.c:4755
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
@@ -26855,291 +26879,291 @@ msgstr[1] ""
 "A lista de memorandos “%s” contém %d memorandos que conflitam com este "
 "memorando"
 
-#: ../src/modules/itip-formatter/itip-view.c:4793
+#: ../src/modules/itip-formatter/itip-view.c:4797
 #, c-format
 msgid "Found the appointment in the calendar “%s” as accepted"
 msgstr "Localizado o compromisso no calendário “%s” como aceito"
 
-#: ../src/modules/itip-formatter/itip-view.c:4799
+#: ../src/modules/itip-formatter/itip-view.c:4803
 #, c-format
 msgid "Found the appointment in the calendar “%s” as declined"
 msgstr "Localizado o compromisso no calendário “%s” como declinado"
 
-#: ../src/modules/itip-formatter/itip-view.c:4804
+#: ../src/modules/itip-formatter/itip-view.c:4808
 #, c-format
 msgid "Found the appointment in the calendar “%s” as tentatively accepted"
 msgstr ""
 "Localizado o compromisso no calendário “%s” como aceito provisoriamente"
 
-#: ../src/modules/itip-formatter/itip-view.c:4809
+#: ../src/modules/itip-formatter/itip-view.c:4813
 #, c-format
 msgid "Found the appointment in the calendar “%s” as delegated"
 msgstr "Localizado o compromisso no calendário “%s” como delegado"
 
-#: ../src/modules/itip-formatter/itip-view.c:4814
+#: ../src/modules/itip-formatter/itip-view.c:4818
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Localizado o compromisso na agenda “%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:4821
+#: ../src/modules/itip-formatter/itip-view.c:4825
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "Localizada a tarefa na lista de tarefas “%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:4826
+#: ../src/modules/itip-formatter/itip-view.c:4830
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "Localizado o memorando na lista de memorandos “%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:4837
+#: ../src/modules/itip-formatter/itip-view.c:4841
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "Essa convite para reunião está obsoleto. Ela foi atualizada."
 
-#: ../src/modules/itip-formatter/itip-view.c:4959
+#: ../src/modules/itip-formatter/itip-view.c:4963
 msgid "Unable to find any calendars"
 msgstr "Não é possível localizar nenhuma agenda"
 
-#: ../src/modules/itip-formatter/itip-view.c:4967
+#: ../src/modules/itip-formatter/itip-view.c:4971
 msgid "Unable to find this meeting in any calendar"
 msgstr "Não é possível encontrar esta reunião em nenhuma agenda"
 
-#: ../src/modules/itip-formatter/itip-view.c:4972
+#: ../src/modules/itip-formatter/itip-view.c:4976
 msgid "Unable to find this task in any task list"
 msgstr "Não é possível localizar esta tarefa em nenhuma lista de tarefas"
 
-#: ../src/modules/itip-formatter/itip-view.c:4977
+#: ../src/modules/itip-formatter/itip-view.c:4981
 msgid "Unable to find this memo in any memo list"
 msgstr ""
 "Não foi possível localizar este memorando em nenhuma lista de memorandos"
 
-#: ../src/modules/itip-formatter/itip-view.c:5275
+#: ../src/modules/itip-formatter/itip-view.c:5279
 msgid "Searching for an existing version of this appointment"
 msgstr "Pesquisando por uma versão existente deste compromisso"
 
-#: ../src/modules/itip-formatter/itip-view.c:5276
+#: ../src/modules/itip-formatter/itip-view.c:5280
 msgid "Cannot search for existing event, no calendar selected for search"
 msgstr ""
 "Não é possível pesquisar evento existente, nenhuma agenda selecionada para "
 "pesquisa"
 
-#: ../src/modules/itip-formatter/itip-view.c:5280
+#: ../src/modules/itip-formatter/itip-view.c:5284
 msgid "Searching for an existing version of this task"
 msgstr "Pesquisando por uma versão existente desta tarefa"
 
-#: ../src/modules/itip-formatter/itip-view.c:5281
+#: ../src/modules/itip-formatter/itip-view.c:5285
 msgid "Cannot search for existing task, no task list found"
 msgstr ""
 "Não é possível pesquisar por tarefa existente, nenhuma lista de tarefas "
 "encontrada"
 
-#: ../src/modules/itip-formatter/itip-view.c:5285
+#: ../src/modules/itip-formatter/itip-view.c:5289
 msgid "Searching for an existing version of this memo"
 msgstr "Pesquisando por uma versão existente deste memorando"
 
-#: ../src/modules/itip-formatter/itip-view.c:5286
+#: ../src/modules/itip-formatter/itip-view.c:5290
 msgid "Cannot search for existing memo, no memo list found"
 msgstr ""
 "Não é possível pesquisar por memorando existente, nenhuma lista de "
 "memorandos encontrada"
 
-#: ../src/modules/itip-formatter/itip-view.c:5684
+#: ../src/modules/itip-formatter/itip-view.c:5688
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "Não foi possível enviar item para a agenda “%s”. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5692
+#: ../src/modules/itip-formatter/itip-view.c:5696
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "Não foi possível enviar item para a lista de tarefas “%s”. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5700
+#: ../src/modules/itip-formatter/itip-view.c:5704
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "Não foi possível enviar item para a lista de memorandos “%s”. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5721
+#: ../src/modules/itip-formatter/itip-view.c:5725
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Enviado para a agenda “%s” como aceito"
 
-#: ../src/modules/itip-formatter/itip-view.c:5726
+#: ../src/modules/itip-formatter/itip-view.c:5730
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Enviado para a lista de tarefas “%s” como aceito"
 
-#: ../src/modules/itip-formatter/itip-view.c:5731
+#: ../src/modules/itip-formatter/itip-view.c:5735
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Enviado para a lista de memorandos “%s” como aceito"
 
-#: ../src/modules/itip-formatter/itip-view.c:5741
+#: ../src/modules/itip-formatter/itip-view.c:5745
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Enviado para a agenda “%s” como tentativa"
 
-#: ../src/modules/itip-formatter/itip-view.c:5746
+#: ../src/modules/itip-formatter/itip-view.c:5750
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Enviado para a lista de tarefas “%s” como tentativa"
 
-#: ../src/modules/itip-formatter/itip-view.c:5751
+#: ../src/modules/itip-formatter/itip-view.c:5755
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Enviado para a lista de memorandos “%s” como tentativa"
 
-#: ../src/modules/itip-formatter/itip-view.c:5761
+#: ../src/modules/itip-formatter/itip-view.c:5765
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Enviado para a agenda “%s” como recusado"
 
-#: ../src/modules/itip-formatter/itip-view.c:5766
+#: ../src/modules/itip-formatter/itip-view.c:5770
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Enviado para a lista de tarefas “%s” como recusado"
 
-#: ../src/modules/itip-formatter/itip-view.c:5771
+#: ../src/modules/itip-formatter/itip-view.c:5775
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Enviado para a lista de memorandos “%s” como recusado"
 
-#: ../src/modules/itip-formatter/itip-view.c:5781
+#: ../src/modules/itip-formatter/itip-view.c:5785
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Enviado para a agenda “%s” como cancelado"
 
-#: ../src/modules/itip-formatter/itip-view.c:5786
+#: ../src/modules/itip-formatter/itip-view.c:5790
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "Enviado para a lista de tarefas “%s” como cancelado"
 
-#: ../src/modules/itip-formatter/itip-view.c:5791
+#: ../src/modules/itip-formatter/itip-view.c:5795
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "Enviado para a lista de memorandos “%s” como cancelado"
 
-#: ../src/modules/itip-formatter/itip-view.c:5802
+#: ../src/modules/itip-formatter/itip-view.c:5806
 #, c-format
 msgid "Imported to calendar “%s”"
 msgstr "Importado para o calendário “%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:5807
+#: ../src/modules/itip-formatter/itip-view.c:5811
 #, c-format
 msgid "Imported to task list “%s”"
 msgstr "Importado para a lista de tarefas “%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:5812
+#: ../src/modules/itip-formatter/itip-view.c:5816
 #, c-format
 msgid "Imported to memo list “%s”"
 msgstr "Importado para a lista de notas “%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:5831
+#: ../src/modules/itip-formatter/itip-view.c:5835
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Salvando as alterações à agenda. Por favor, aguarde…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5834
+#: ../src/modules/itip-formatter/itip-view.c:5838
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Salvando as alterações à lista de tarefas. Por favor, aguarde…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5837
+#: ../src/modules/itip-formatter/itip-view.c:5841
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Salvando as alterações à lista de memorandos. Por favor, aguarde…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5976
+#: ../src/modules/itip-formatter/itip-view.c:5980
 msgid "Unable to parse item"
 msgstr "Não foi possível analisar item"
 
-#: ../src/modules/itip-formatter/itip-view.c:6176
+#: ../src/modules/itip-formatter/itip-view.c:6180
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "O organizador removeu o representante %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:6193
+#: ../src/modules/itip-formatter/itip-view.c:6197
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Enviada uma notificação de cancelamento para o representante"
 
-#: ../src/modules/itip-formatter/itip-view.c:6197
+#: ../src/modules/itip-formatter/itip-view.c:6201
 msgid "Could not send the cancellation notice to the delegate"
 msgstr ""
 "Não foi possível enviar a notificação de cancelamento para o representante"
 
-#: ../src/modules/itip-formatter/itip-view.c:6243
+#: ../src/modules/itip-formatter/itip-view.c:6247
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Não é possível atualizar participante. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:6277
+#: ../src/modules/itip-formatter/itip-view.c:6281
 msgid "The meeting is invalid and cannot be updated"
 msgstr "A reunião é inválida e não pode ser atualizada"
 
-#: ../src/modules/itip-formatter/itip-view.c:6362
+#: ../src/modules/itip-formatter/itip-view.c:6366
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Não foi possível atualizar o status do participante porque o estado é "
 "inválido"
 
-#: ../src/modules/itip-formatter/itip-view.c:6438
-#: ../src/modules/itip-formatter/itip-view.c:6476
+#: ../src/modules/itip-formatter/itip-view.c:6442
+#: ../src/modules/itip-formatter/itip-view.c:6480
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Não foi possível atualizar o status do participante porque o item não existe "
 "mais"
 
-#: ../src/modules/itip-formatter/itip-view.c:6537
+#: ../src/modules/itip-formatter/itip-view.c:6541
 msgid "Meeting information sent"
 msgstr "Informações de reunião enviadas"
 
-#: ../src/modules/itip-formatter/itip-view.c:6542
+#: ../src/modules/itip-formatter/itip-view.c:6546
 msgid "Task information sent"
 msgstr "Informações de tarefa enviadas"
 
-#: ../src/modules/itip-formatter/itip-view.c:6547
+#: ../src/modules/itip-formatter/itip-view.c:6551
 msgid "Memo information sent"
 msgstr "Informações do memorando enviadas"
 
-#: ../src/modules/itip-formatter/itip-view.c:6558
+#: ../src/modules/itip-formatter/itip-view.c:6562
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Não pode enviar a informação de reunião, essa reunião não existe"
 
-#: ../src/modules/itip-formatter/itip-view.c:6563
+#: ../src/modules/itip-formatter/itip-view.c:6567
 msgid "Unable to send task information, the task does not exist"
 msgstr "Não foi possível enviar a informação de tarefa, a tarefa não existe"
 
-#: ../src/modules/itip-formatter/itip-view.c:6568
+#: ../src/modules/itip-formatter/itip-view.c:6572
 msgid "Unable to send memo information, the memo does not exist"
 msgstr ""
 "Não foi possível enviar a informação do memorando, esse memorando não existe"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6613
+#: ../src/modules/itip-formatter/itip-view.c:6617
 msgid "calendar.ics"
 msgstr "calendário.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:6618
+#: ../src/modules/itip-formatter/itip-view.c:6622
 msgid "Save Calendar"
 msgstr "Salvar agenda"
 
-#: ../src/modules/itip-formatter/itip-view.c:6666
-#: ../src/modules/itip-formatter/itip-view.c:6679
+#: ../src/modules/itip-formatter/itip-view.c:6670
+#: ../src/modules/itip-formatter/itip-view.c:6683
 msgid "The calendar attached is not valid"
 msgstr "A agenda anexada não é válida"
 
-#: ../src/modules/itip-formatter/itip-view.c:6667
-#: ../src/modules/itip-formatter/itip-view.c:6680
+#: ../src/modules/itip-formatter/itip-view.c:6671
+#: ../src/modules/itip-formatter/itip-view.c:6684
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr ""
 "A mensagem diz conter uma agenda, mas a agenda não é um iCalendar válido."
 
-#: ../src/modules/itip-formatter/itip-view.c:6762
-#: ../src/modules/itip-formatter/itip-view.c:6847
-#: ../src/modules/itip-formatter/itip-view.c:6951
+#: ../src/modules/itip-formatter/itip-view.c:6766
+#: ../src/modules/itip-formatter/itip-view.c:6851
+#: ../src/modules/itip-formatter/itip-view.c:6955
 msgid "The item in the calendar is not valid"
 msgstr "O item na agenda não é válido"
 
-#: ../src/modules/itip-formatter/itip-view.c:6763
-#: ../src/modules/itip-formatter/itip-view.c:6848
-#: ../src/modules/itip-formatter/itip-view.c:6952
+#: ../src/modules/itip-formatter/itip-view.c:6767
+#: ../src/modules/itip-formatter/itip-view.c:6852
+#: ../src/modules/itip-formatter/itip-view.c:6956
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -27147,11 +27171,11 @@ msgstr ""
 "A mensagem contém uma agenda, mas a agenda não contém eventos, tarefas ou "
 "informações de disponibilidade"
 
-#: ../src/modules/itip-formatter/itip-view.c:6857
+#: ../src/modules/itip-formatter/itip-view.c:6861
 msgid "The calendar attached contains multiple items"
 msgstr "A agenda anexa contém múltiplos itens"
 
-#: ../src/modules/itip-formatter/itip-view.c:6858
+#: ../src/modules/itip-formatter/itip-view.c:6862
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -27159,12 +27183,12 @@ msgstr ""
 "Para processar todos estes itens, o arquivo deve ser salvo e a agenda "
 "importada"
 
-#: ../src/modules/itip-formatter/itip-view.c:7611
+#: ../src/modules/itip-formatter/itip-view.c:7615
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Nenhum"
 
-#: ../src/modules/itip-formatter/itip-view.c:7663
+#: ../src/modules/itip-formatter/itip-view.c:7667
 msgid "Tentatively Accepted"
 msgstr "Aceito preliminarmente"
 
@@ -29906,9 +29930,9 @@ msgstr ""
 #: ../src/plugins/sender-validation/sender-validation.c:653
 msgid ""
 "Set which account should be used for certain recipient patterns.\n"
-"For example, setting recipient as “@company.org” for account “me@company."
-"org” will warn when a recipient containing “@company.org” is not used with "
-"the “me@company.org” account."
+"For example, setting recipient as “@company.org” for account "
+"“me@company.org” will warn when a recipient containing “@company.org” is not "
+"used with the “me@company.org” account."
 msgstr ""
 "Defina qual conta deve ser usada para determinados padrões de destinatário.\n"
 "Por exemplo, definir o destinatário como “@company.org” para a conta "
@@ -29932,9 +29956,9 @@ msgid ""
 msgstr ""
 "Defina quais padrões de destinatário podem ser usados para determinada "
 "conta.\n"
-"Por exemplo, definir a conta “eu@empresa.org” para destinatários “@empresa."
-"org” avisará quando algum dos destinatários não contiver “@empresa.org” ao "
-"enviar com a conta “eu@empresa.org”."
+"Por exemplo, definir a conta “eu@empresa.org” para destinatários "
+"“@empresa.org” avisará quando algum dos destinatários não contiver "
+"“@empresa.org” ao enviar com a conta “eu@empresa.org”."
 
 #: ../src/plugins/sender-validation/sender-validation.c:831
 msgid "Allow Recipients Which Contain"
