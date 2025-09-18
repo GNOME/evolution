@@ -1108,7 +1108,6 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
                                 CamelFolder *folder)
 {
 	CamelStream *stream;
-	CamelURL *url;
 	gint fd, i, res = 0;
 	gchar **uris;
 
@@ -1117,18 +1116,19 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 	uris = gtk_selection_data_get_uris (selection_data);
 
 	for (i = 0; res == 0 && uris[i]; i++) {
+		gchar *scheme = NULL, *path = NULL;
 		g_strstrip (uris[i]);
 		if (uris[i][0] == '#')
 			continue;
 
-		url = camel_url_new (uris[i], NULL);
-		if (url == NULL)
+		if (!g_uri_split (uris[i], SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, &scheme,
+				  NULL, NULL, NULL, &path, NULL, NULL, NULL))
 			continue;
 
 		/* 'fd', if set, is freed within the 'stream' */
 		/* coverity[overwrite_var] */
-		if (strcmp (url->protocol, "file") == 0
-		    && (fd = g_open (url->path, O_RDONLY | O_BINARY, 0)) != -1) {
+		if (g_strcmp0 (scheme, "file") == 0
+		    && (fd = g_open (path, O_RDONLY | O_BINARY, 0)) != -1) {
 			stream = camel_stream_fs_new_with_fd (fd);
 			if (stream) {
 				res = em_utils_read_messages_from_stream (folder, stream);
@@ -1136,7 +1136,9 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 			} else
 				close (fd);
 		}
-		camel_url_free (url);
+
+		g_free (scheme);
+		g_free (path);
 	}
 
 	g_strfreev (uris);

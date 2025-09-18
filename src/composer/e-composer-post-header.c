@@ -246,7 +246,6 @@ e_composer_post_header_get_folders (EComposerPostHeader *header)
 
 	for (iter = folders; iter != NULL; iter = iter->next) {
 		/* Convert relative folder names to absolute. */
-		/* XXX Should use CamelURL for this. */
 		if (strstr (iter->data, ":/") == NULL) {
 			gchar *abs_url;
 

@@ -234,10 +234,9 @@ action_add_to_address_book_cb (EUIAction *action,
 	CamelInternetAddress *cia;
 	EPhotoCache *photo_cache;
 	EWebView *web_view;
-	CamelURL *curl;
 	const gchar *uri;
 	const gchar *address_only = NULL;
-	gchar *email;
+	gchar *email, *path = NULL;
 
 	/* This action is defined in EMailDisplay. */
 
@@ -252,16 +251,19 @@ action_add_to_address_book_cb (EUIAction *action,
 	uri = e_web_view_get_selected_uri (web_view);
 	g_return_if_fail (uri != NULL);
 
-	curl = camel_url_new (uri, NULL);
-	g_return_if_fail (curl != NULL);
+	if (g_uri_split (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL, NULL, NULL,
+			 NULL, &path, NULL, NULL, NULL) && path && *path) {
+		cia = camel_internet_address_new ();
+		if (camel_address_decode (CAMEL_ADDRESS (cia), path) < 0) {
+			g_clear_object (&cia);
+			g_clear_pointer (&path, g_free);
+			return;
+		}
 
-	if (curl->path == NULL || *curl->path == '\0')
-		goto exit;
-
-	cia = camel_internet_address_new ();
-	if (camel_address_decode (CAMEL_ADDRESS (cia), curl->path) < 0) {
-		g_object_unref (cia);
-		goto exit;
+		g_clear_pointer (&path, g_free);
+	} else {
+		g_clear_pointer (&path, g_free);
+		return;
 	}
 
 	/* XXX EBookShellBackend should be listening for this
@@ -279,9 +281,6 @@ action_add_to_address_book_cb (EUIAction *action,
 		e_photo_cache_remove_photo (photo_cache, address_only);
 
 	g_object_unref (cia);
-
-exit:
-	camel_url_free (curl);
 }
 
 static void
@@ -2785,7 +2784,7 @@ action_search_folder_recipient_cb (EUIAction *action,
 	EMailBackend *backend;
 	EMailSession *session;
 	EWebView *web_view;
-	CamelURL *curl;
+	gchar *path = NULL;
 	const gchar *uri;
 
 	/* This action is defined in EMailDisplay. */
@@ -2795,20 +2794,18 @@ action_search_folder_recipient_cb (EUIAction *action,
 	uri = e_web_view_get_selected_uri (web_view);
 	g_return_if_fail (uri != NULL);
 
-	curl = camel_url_new (uri, NULL);
-	g_return_if_fail (curl != NULL);
-
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
 
-	if (curl->path != NULL && *curl->path != '\0') {
+	if (g_uri_split (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL, NULL, NULL,
+			 NULL, &path, NULL, NULL, NULL) && path && *path) {
 		CamelFolder *folder;
 		CamelInternetAddress *inet_addr;
 
 		folder = e_mail_reader_ref_folder (reader);
 
 		inet_addr = camel_internet_address_new ();
-		camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
+		camel_address_decode (CAMEL_ADDRESS (inet_addr), path);
 		vfolder_gui_add_from_address (
 			session, inet_addr, AUTO_TO, folder);
 		g_object_unref (inet_addr);
@@ -2816,7 +2813,7 @@ action_search_folder_recipient_cb (EUIAction *action,
 		g_clear_object (&folder);
 	}
 
-	camel_url_free (curl);
+	g_clear_pointer (&path, g_free);
 }
 
 static void
@@ -2828,7 +2825,7 @@ action_search_folder_sender_cb (EUIAction *action,
 	EMailBackend *backend;
 	EMailSession *session;
 	EWebView *web_view;
-	CamelURL *curl;
+	gchar *path = NULL;
 	const gchar *uri;
 
 	/* This action is defined in EMailDisplay. */
@@ -2838,20 +2835,18 @@ action_search_folder_sender_cb (EUIAction *action,
 	uri = e_web_view_get_selected_uri (web_view);
 	g_return_if_fail (uri != NULL);
 
-	curl = camel_url_new (uri, NULL);
-	g_return_if_fail (curl != NULL);
-
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
 
-	if (curl->path != NULL && *curl->path != '\0') {
+	if (g_uri_split (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL, NULL, NULL,
+			 NULL, &path, NULL, NULL, NULL) && path && *path) {
 		CamelFolder *folder;
 		CamelInternetAddress *inet_addr;
 
 		folder = e_mail_reader_ref_folder (reader);
 
 		inet_addr = camel_internet_address_new ();
-		camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
+		camel_address_decode (CAMEL_ADDRESS (inet_addr), path);
 		vfolder_gui_add_from_address (
 			session, inet_addr, AUTO_FROM, folder);
 		g_object_unref (inet_addr);
@@ -2859,7 +2854,7 @@ action_search_folder_sender_cb (EUIAction *action,
 		g_clear_object (&folder);
 	}
 
-	camel_url_free (curl);
+	g_clear_pointer (&path, g_free);
 }
 
 static void

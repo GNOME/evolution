@@ -60,13 +60,7 @@ empe_text_html_parse (EMailParserExtension *extension,
 	location = camel_mime_part_get_content_location (part);
 	if (location != NULL) {
 		if (strchr (location, ':') == NULL && base != NULL) {
-			CamelURL *uri;
-			CamelURL *base_url = camel_url_new (base, NULL);
-
-			uri = camel_url_new_with_base (base_url, location);
-			cid = camel_url_to_string (uri, 0);
-			camel_url_free (uri);
-			camel_url_free (base_url);
+			cid = g_uri_resolve_relative (base, location, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 		} else {
 			cid = g_strdup (location);
 		}

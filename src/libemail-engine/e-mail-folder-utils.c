@@ -1865,36 +1865,33 @@ e_mail_folder_uri_parse (CamelSession *session,
                          gchar **out_folder_name,
                          GError **error)
 {
-	CamelURL *url;
 	CamelService *service = NULL;
-	gchar *folder_name = NULL;
+	gchar *folder_name = NULL, *scheme = NULL, *host = NULL, *user = NULL, *path = NULL;
 	gboolean success = FALSE;
 
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), FALSE);
 	g_return_val_if_fail (folder_uri != NULL, FALSE);
 
-	url = camel_url_new (folder_uri, error);
-	if (url == NULL)
+	if (!g_uri_split (folder_uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED,
+			  &scheme, &user, &host, NULL, &path, NULL, NULL, error)) {
 		return FALSE;
+	}
 
 	/* Current URI Format: 'folder://' STORE_UID '/' FOLDER_PATH */
-	if (g_strcmp0 (url->protocol, "folder") == 0) {
-
-		if (url->host != NULL) {
+	if (g_strcmp0 (scheme, "folder") == 0) {
+		if (host != NULL) {
 			gchar *uid;
-
-			if (url->user == NULL || *url->user == '\0')
-				uid = g_strdup (url->host);
+			if (user == NULL || *user == '\0')
+				uid = g_strdup (host);
 			else
-				uid = g_strconcat (
-					url->user, "@", url->host, NULL);
+				uid = g_strconcat (user, "@", host, NULL);
 
 			service = camel_session_ref_service (session, uid);
 			g_free (uid);
 		}
 
-		if (url->path != NULL && *url->path == '/')
-			folder_name = camel_url_decode_path (url->path + 1);
+		if (path != NULL && *path == '/')
+			folder_name = g_uri_unescape_string (path + 1, NULL);
 
 	/* This style was used to reference accounts by UID before
 	 * CamelServices themselves had UIDs.  Some examples are:
@@ -1912,33 +1909,32 @@ e_mail_folder_uri_parse (CamelSession *session,
 	 *       the STORE_UIDs for the special cases are 'local'
 	 *       and 'vfolder'.
 	 */
-	} else if (g_strcmp0 (url->protocol, "email") == 0) {
+	} else if (g_strcmp0 (scheme, "email") == 0) {
 		gchar *uid = NULL;
 
 		/* Handle the special cases. */
-		if (g_strcmp0 (url->host, "local") == 0) {
-			if (g_strcmp0 (url->user, "local") == 0)
-				uid = g_strdup ("local");
-			if (g_strcmp0 (url->user, "vfolder") == 0)
-				uid = g_strdup ("vfolder");
+		if (g_strcmp0 (host, "local") == 0) {
+			if (g_strcmp0 (user, "local") == 0)
+				uid = g_steal_pointer (&user);
+			else if (g_strcmp0 (user, "vfolder") == 0)
+				uid = g_steal_pointer (&user);
 		}
 
 		/* Handle the general case. */
-		if (uid == NULL && url->host != NULL) {
-			if (url->user == NULL)
-				uid = g_strdup (url->host);
+		if (uid == NULL && host != NULL) {
+			if (user == NULL)
+				uid = g_steal_pointer (&host);
 			else
-				uid = g_strdup_printf (
-					"%s@%s", url->user, url->host);
+				uid = g_strconcat (user, "@", host, NULL);
 		}
 
 		if (uid != NULL) {
 			service = camel_session_ref_service (session, uid);
-			g_free (uid);
+			g_clear_pointer (&uid, g_free);
 		}
 
-		if (url->path != NULL && *url->path == '/')
-			folder_name = camel_url_decode_path (url->path + 1);
+		if (path != NULL && *path == '/')
+			folder_name = g_uri_unescape_string (path + 1, NULL);
 	}
 
 	if (CAMEL_IS_STORE (service) && folder_name != NULL) {
@@ -1946,8 +1942,7 @@ e_mail_folder_uri_parse (CamelSession *session,
 			*out_store = CAMEL_STORE (g_object_ref (service));
 
 		if (out_folder_name != NULL) {
-			*out_folder_name = folder_name;
-			folder_name = NULL;
+			*out_folder_name = g_steal_pointer (&folder_name);
 		}
 
 		success = TRUE;
@@ -1959,12 +1954,12 @@ e_mail_folder_uri_parse (CamelSession *session,
 			folder_uri);
 	}
 
-	if (service != NULL)
-		g_object_unref (service);
-
-	g_free (folder_name);
-
-	camel_url_free (url);
+	g_clear_object (&service);
+	g_clear_pointer (&folder_name, g_free);
+	g_clear_pointer (&scheme, g_free);
+	g_clear_pointer (&host, g_free);
+	g_clear_pointer (&user, g_free);
+	g_clear_pointer (&path, g_free);
 
 	return success;
 }

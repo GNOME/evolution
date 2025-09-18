@@ -4101,14 +4101,15 @@ gchar *
 e_util_get_uri_tooltip (const gchar *uri)
 {
 	CamelInternetAddress *address;
-	CamelURL *curl;
+	GUri *guri = NULL;
 	const gchar *format = NULL;
 	GString *message = NULL;
-	gchar *who;
+	gchar *who = NULL;
 
 	if (!uri || !*uri)
 		goto exit;
 
+	guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 	if (g_str_has_prefix (uri, "mailto:"))
 		format = _("Click to mail %s");
 	else if (g_str_has_prefix (uri, "callto:") ||
@@ -4120,9 +4121,7 @@ e_util_get_uri_tooltip (const gchar *uri)
 		message = g_string_new (_("Click to hide/unhide addresses"));
 	else if (g_str_has_prefix (uri, "mail:")) {
 		const gchar *fragment;
-		GUri *guri;
 
-		guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 		if (!guri)
 			goto exit;
 
@@ -4133,8 +4132,6 @@ e_util_get_uri_tooltip (const gchar *uri)
 			g_string_append_printf (message, _("Go to the section %s of the message"), fragment);
 		else
 			g_string_append (message, _("Go to the beginning of the message"));
-
-		g_uri_unref (guri);
 	} else {
 		message = g_string_new (NULL);
 
@@ -4144,18 +4141,17 @@ e_util_get_uri_tooltip (const gchar *uri)
 	if (!format)
 		goto exit;
 
-	/* XXX Use something other than Camel here.  Surely
-	 *     there's other APIs around that can do this. */
-	curl = camel_url_new (uri, NULL);
 	address = camel_internet_address_new ();
-	camel_address_decode (CAMEL_ADDRESS (address), curl->path);
-	camel_internet_address_sanitize_ascii_domain (address);
-	who = camel_address_format (CAMEL_ADDRESS (address));
+	if (guri != NULL) {
+		camel_address_decode (CAMEL_ADDRESS (address), g_uri_get_path (guri));
+		camel_internet_address_sanitize_ascii_domain (address);
+		who = camel_address_format (CAMEL_ADDRESS (address));
+	}
 
-	if (!who && g_str_has_prefix (uri, "mailto:") && curl->query && *curl->query) {
+	if (!who && g_str_has_prefix (uri, "mailto:") && g_uri_get_query (guri)) {
 		GHashTable *query;
 
-		query = soup_form_decode (curl->query);
+		query = soup_form_decode (g_uri_get_query (guri));
 		if (query) {
 			const gchar *to = g_hash_table_lookup (query, "to");
 			if (to && *to) {
@@ -4168,7 +4164,6 @@ e_util_get_uri_tooltip (const gchar *uri)
 	}
 
 	g_object_unref (address);
-	camel_url_free (curl);
 
 	if (!who) {
 		who = g_strdup (strchr (uri, ':') + 1);
@@ -4182,6 +4177,7 @@ e_util_get_uri_tooltip (const gchar *uri)
 	g_free (who);
 
  exit:
+	g_clear_pointer (&guri, g_uri_unref);
 
 	if (!message)
 		return NULL;
