@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-09-01 12:05+0000\n"
-"PO-Revision-Date: 2025-09-01 23:54+0300\n"
+"POT-Creation-Date: 2025-09-18 15:17+0000\n"
+"PO-Revision-Date: 2025-09-18 19:32+0300\n"
 "Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -4955,7 +4955,7 @@ msgstr ""
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:304 ../src/mail/e-mail-label-dialog.c:180
 #: ../src/mail/e-mail-reader.c:5213 ../src/mail/e-mail-tag-editor.c:155
-#: ../src/mail/e-mail-viewer.c:590 ../src/mail/em-composer-utils.c:4534
+#: ../src/mail/e-mail-viewer.c:590 ../src/mail/em-composer-utils.c:4519
 #: ../src/mail/em-folder-selector.c:619 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:881
 #: ../src/mail/mail-send-recv.c:962 ../src/mail/mail-vfolder-ui.c:151
@@ -8792,8 +8792,8 @@ msgstr[0] "%d görev kopyalanıyor"
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3943
 #: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
 #: ../src/mail/e-mail-viewer.c:1561 ../src/mail/e-mail-viewer.c:2508
-#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4309
-#: ../src/mail/em-composer-utils.c:4332 ../src/mail/mail-send-recv.c:604
+#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4294
+#: ../src/mail/em-composer-utils.c:4317 ../src/mail/mail-send-recv.c:604
 #: ../src/mail/mail-send-recv.c:1500
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:171
 #: ../src/modules/mail/e-mail-attachment-handler.c:557
@@ -17452,7 +17452,7 @@ msgstr "_Yerleşim"
 #. Translators: This is for "Toolbar Icon Size: Default"
 #: ../src/e-util/e-ui-customize-dialog.c:2740
 #: ../src/e-util/e-ui-customize-dialog.c:2789 ../src/mail/e-mail-reader.c:2939
-#: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4614
+#: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4599
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "_Öntanımlı"
@@ -18031,7 +18031,7 @@ msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "%d ileti kaydediliyor"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:2000
+#: ../src/libemail-engine/e-mail-folder-utils.c:1958
 #, c-format
 msgid "Invalid folder URI “%s”"
 msgstr "Geçersiz klasör URI “%s”"
@@ -18082,12 +18082,12 @@ msgstr "Gönderilenler"
 msgid "Templates"
 msgstr "Şablonlar"
 
-#: ../src/libemail-engine/e-mail-session.c:1492
+#: ../src/libemail-engine/e-mail-session.c:1487
 #, c-format
 msgid "User cancelled operation"
 msgstr "Kullanıcı işlemi iptal etti"
 
-#: ../src/libemail-engine/e-mail-session.c:1724
+#: ../src/libemail-engine/e-mail-session.c:1719
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
@@ -18095,26 +18095,26 @@ msgid ""
 msgstr ""
 "Hiçbir hedef adres belirtilmedi, iletinin yönlendirilmesi iptal edildi."
 
-#: ../src/libemail-engine/e-mail-session.c:1744
+#: ../src/libemail-engine/e-mail-session.c:1739
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "Kullanacak hiçbir hesap bulunamadı, iletinin yönlendirilmesi iptal edildi."
 
-#: ../src/libemail-engine/e-mail-session.c:1947
+#: ../src/libemail-engine/e-mail-session.c:1942
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr "“%s” UID’ine sahip hizmete ait kaynak bulunamadı"
 
-#: ../src/libemail-engine/e-mail-session.c:2067
+#: ../src/libemail-engine/e-mail-session.c:2062
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr "Adres defterlerinde alıcı S/MIME sertifikalarına bakılıyor…"
 
-#: ../src/libemail-engine/e-mail-session.c:2069
+#: ../src/libemail-engine/e-mail-session.c:2064
 msgid "Looking up recipient PGP keys in address books…"
 msgstr "Adres defterlerinde alıcı PGP anahtarlarına bakılıyor…"
 
-#: ../src/libemail-engine/e-mail-session.c:3062
+#: ../src/libemail-engine/e-mail-session.c:3057
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "“%s” bekleniyor"
@@ -18124,26 +18124,26 @@ msgid "No mail transport service available"
 msgstr "Hiçbir e-posta aktarım hizmeti uygun değil"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:605
-#: ../src/libemail-engine/mail-ops.c:715
+#: ../src/libemail-engine/mail-ops.c:707
 #, c-format
 msgid "Posting message to “%s”"
 msgstr "İleti “%s”e gönderiliyor"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:644
-#: ../src/libemail-engine/mail-ops.c:754
+#: ../src/libemail-engine/mail-ops.c:746
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Giden süzgeçleri uygulanamadı: %s"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:677
 #: ../src/libemail-engine/e-mail-session-utils.c:712
-#: ../src/libemail-engine/mail-ops.c:782 ../src/libemail-engine/mail-ops.c:817
+#: ../src/libemail-engine/mail-ops.c:774 ../src/libemail-engine/mail-ops.c:809
 #, c-format
 msgid "Storing sent message to “%s”"
 msgstr "Gönderilen iletiler “%s”e kaydediliyor"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:701
-#: ../src/libemail-engine/mail-ops.c:806
+#: ../src/libemail-engine/mail-ops.c:798
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -18153,15 +18153,15 @@ msgstr ""
 "Onun yerine yerel “Gönderilen” klasörüne ekleniyor."
 
 #: ../src/libemail-engine/e-mail-session-utils.c:731
-#: ../src/libemail-engine/mail-ops.c:834
+#: ../src/libemail-engine/mail-ops.c:826
 #, c-format
 msgid "Failed to append to local “Sent” folder: %s"
 msgstr "Yerel “Gönderilen” klasörüne eklenemedi: %s"
 
 #. This gets popped in async_context_free().
 #: ../src/libemail-engine/e-mail-session-utils.c:933
-#: ../src/libemail-engine/mail-ops.c:1030
-#: ../src/libemail-engine/mail-ops.c:1142 ../src/mail/mail-send-recv.c:673
+#: ../src/libemail-engine/mail-ops.c:1022
+#: ../src/libemail-engine/mail-ops.c:1134 ../src/mail/mail-send-recv.c:673
 msgid "Sending message"
 msgstr "İleti gönderimi"
 
@@ -18204,7 +18204,7 @@ msgstr ""
 msgid "Fetching mail from “%s”"
 msgstr "E-posta şuradan alınıyor “%s”"
 
-#: ../src/libemail-engine/mail-ops.c:748
+#: ../src/libemail-engine/mail-ops.c:740
 #, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set "
@@ -18217,7 +18217,7 @@ msgstr ""
 "süzgeçlerinizi denetleyin.\n"
 "Asıl hata şuydu: %s"
 
-#: ../src/libemail-engine/mail-ops.c:1041
+#: ../src/libemail-engine/mail-ops.c:1033
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "%d / %d iletisi gönderiliyor"
@@ -18225,51 +18225,51 @@ msgstr "%d / %d iletisi gönderiliyor"
 #. Translators: The string is distinguished by total
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
-#: ../src/libemail-engine/mail-ops.c:1099
+#: ../src/libemail-engine/mail-ops.c:1091
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "%d / %d ileti gönderilemedi"
 
-#: ../src/libemail-engine/mail-ops.c:1105
+#: ../src/libemail-engine/mail-ops.c:1097
 msgid "Cancelled."
 msgstr "İptal Edilmiş."
 
-#: ../src/libemail-engine/mail-ops.c:1107
+#: ../src/libemail-engine/mail-ops.c:1099
 msgid "Complete."
 msgstr "Tamamlandı."
 
-#: ../src/libemail-engine/mail-ops.c:1228
+#: ../src/libemail-engine/mail-ops.c:1220
 #, c-format
 msgid "Moving messages to “%s”"
 msgstr "İletiler “%s” konumuna taşınıyor"
 
-#: ../src/libemail-engine/mail-ops.c:1229
+#: ../src/libemail-engine/mail-ops.c:1221
 #, c-format
 msgid "Copying messages to “%s”"
 msgstr "İletiler “%s” konumuna kopyalanıyor"
 
-#: ../src/libemail-engine/mail-ops.c:1348
+#: ../src/libemail-engine/mail-ops.c:1340
 #, c-format
 msgid "Storing folder “%s”"
 msgstr "“%s” klasörü saklanıyor"
 
-#: ../src/libemail-engine/mail-ops.c:1476
+#: ../src/libemail-engine/mail-ops.c:1468
 #, c-format
 msgid "Expunging and storing account “%s”"
 msgstr "“%s” hesabı temizleniyor ve saklanıyor"
 
-#: ../src/libemail-engine/mail-ops.c:1477
+#: ../src/libemail-engine/mail-ops.c:1469
 #, c-format
 msgid "Storing account “%s”"
 msgstr "“%s” hesabı saklanıyor"
 
-#: ../src/libemail-engine/mail-ops.c:1552
+#: ../src/libemail-engine/mail-ops.c:1544
 #, c-format
 msgid "Emptying trash in “%s”"
 msgstr "“%s” içindeki çöpler boşaltılıyor"
 
-#: ../src/libemail-engine/mail-ops.c:1651
+#: ../src/libemail-engine/mail-ops.c:1643
 #, c-format
 msgid "Processing folder changes in “%s”"
 msgstr "“%s” içindeki dizin değişiklikleri işleniyor"
@@ -18486,7 +18486,7 @@ msgid "Do Not Quote"
 msgstr "Alıntı Yapma"
 
 #: ../src/mail/e-mail-config-composing-page.c:158
-#: ../src/mail/em-composer-utils.c:4466
+#: ../src/mail/em-composer-utils.c:4451
 msgid "Use global setting"
 msgstr "Genel ayarı kullan"
 
@@ -18518,12 +18518,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Yanıtla ve İlet öznitelik metni için dil"
 
 #: ../src/mail/e-mail-config-composing-page.c:525
-#: ../src/mail/em-composer-utils.c:4633 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4618 ../src/mail/mail-config.ui.h:24
 msgid "Start _typing at the bottom"
 msgstr "_Yazmaya aşağıdan başla"
 
 #: ../src/mail/e-mail-config-composing-page.c:532
-#: ../src/mail/em-composer-utils.c:4637 ../src/mail/mail-config.ui.h:25
+#: ../src/mail/em-composer-utils.c:4622 ../src/mail/mail-config.ui.h:25
 msgid "_Keep signature above the original message"
 msgstr "Yanıtlarken imzayı özgün iletinin üzerinde _tut"
 
@@ -19761,7 +19761,7 @@ msgid "Checks selected messages for duplicates"
 msgstr "Seçili iletilerin yinelenenlerini arar"
 
 #: ../src/mail/e-mail-reader.c:3449 ../src/mail/e-mail-viewer.c:1881
-#: ../src/mail/em-composer-utils.c:4592 ../src/mail/mail.error.xml.h:28
+#: ../src/mail/em-composer-utils.c:4577 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1668
 #: ../src/modules/mail/e-mail-attachment-handler.c:917
 msgid "Reply to _All"
@@ -19790,7 +19790,7 @@ msgid "Reply to the mailing list, or to all recipients"
 msgstr "E-posta listesine, ya da tüm alıcılara yanıtla"
 
 #: ../src/mail/e-mail-reader.c:3470 ../src/mail/e-mail-viewer.c:1874
-#: ../src/mail/em-composer-utils.c:4587 ../src/mail/mail.error.xml.h:26
+#: ../src/mail/em-composer-utils.c:4572 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:924
 msgid "Reply to _List"
 msgstr "_Listeye Yanıtla"
@@ -20269,72 +20269,72 @@ msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Ynt: %s"
 
-#: ../src/mail/em-composer-utils.c:3894
+#: ../src/mail/em-composer-utils.c:3879
 msgid "an unknown sender"
 msgstr "bilinmeyen gönderici"
 
-#: ../src/mail/em-composer-utils.c:4532
+#: ../src/mail/em-composer-utils.c:4517
 msgid "Alternative Reply"
 msgstr "Alternatif Yanıt"
 
-#: ../src/mail/em-composer-utils.c:4535
+#: ../src/mail/em-composer-utils.c:4520
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1661
 msgid "_Reply"
 msgstr "_Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4553
+#: ../src/mail/em-composer-utils.c:4538
 msgid "Recipients:"
 msgstr "Alıcılar:"
 
-#: ../src/mail/em-composer-utils.c:4582
+#: ../src/mail/em-composer-utils.c:4567
 msgid "Reply to _Sender"
 msgstr "_Gönderene Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4605
+#: ../src/mail/em-composer-utils.c:4590
 msgid "Reply style:"
 msgstr "Yanıtlama biçemi:"
 
-#: ../src/mail/em-composer-utils.c:4618
+#: ../src/mail/em-composer-utils.c:4603
 msgid "Attach_ment"
 msgstr "_Ek"
 
-#: ../src/mail/em-composer-utils.c:4622
+#: ../src/mail/em-composer-utils.c:4607
 msgid "Inline (_Outlook style)"
 msgstr "Satır Arası (_Outlook biçimi)"
 
-#: ../src/mail/em-composer-utils.c:4626
+#: ../src/mail/em-composer-utils.c:4611
 msgid "_Quote"
 msgstr "_Alıntı"
 
-#: ../src/mail/em-composer-utils.c:4630
+#: ../src/mail/em-composer-utils.c:4615
 msgid "Do _Not Quote"
 msgstr "Alıntı Yap_ma"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4651
+#: ../src/mail/em-composer-utils.c:4636
 msgid "_Format message in"
 msgstr "İletiyi şununla _biçimle"
 
-#: ../src/mail/em-composer-utils.c:4671
+#: ../src/mail/em-composer-utils.c:4656
 msgid "Apply t_emplate"
 msgstr "Şabl_on uygula"
 
-#: ../src/mail/em-composer-utils.c:4684
+#: ../src/mail/em-composer-utils.c:4669
 msgid "Preserve original message S_ubject"
 msgstr "Özgün ileti Kon_usunu koru"
 
-#: ../src/mail/em-composer-utils.c:4750
+#: ../src/mail/em-composer-utils.c:4735
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] "%d alıcı"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:5259
+#: ../src/mail/em-composer-utils.c:5244
 msgid "Posting destination"
 msgstr "Gönderme konumu"
 
-#: ../src/mail/em-composer-utils.c:5264
+#: ../src/mail/em-composer-utils.c:5249
 msgid "Choose folders to post the message to."
 msgstr "İletinin gönderileceği klasörleri seç."
 
@@ -24076,8 +24076,8 @@ msgstr "Adres Defteri Seç"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:199
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:212
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:249
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:270
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:250
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:269
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:81
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:102
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:238
@@ -24096,7 +24096,7 @@ msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "IfMatch Kullanma (Apache < 2.2.8 gerek duyar)"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:291
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:393
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:424
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:172
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:369
 msgid "URL is not a valid http:// nor https:// URL"
@@ -24289,26 +24289,50 @@ msgstr "Not Listesi Seç"
 msgid "Choose a Task List"
 msgstr "Görev Listesi Seç"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:285
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:284
 msgid "Find Calendars"
 msgstr "Takvimleri Bul"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:288
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:287
 msgid "Find Memo Lists"
 msgstr "Not Listeleri Bul"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:291
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:290
 msgid "Find Task Lists"
 msgstr "Görev Listeleri Bul"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:310
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:309
 #: ../src/modules/cal-config-local/evolution-cal-config-local.c:254
 msgid "Email:"
 msgstr "E-posta:"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:316
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:315
 msgid "Server handles meeting invitations"
 msgstr "Toplantı davetlerini sunucu denetler"
+
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:338
+msgid ""
+"Number of days which events will be synchronized in the past. Zero means all "
+"events."
+msgstr ""
+"Geçmişte olayların eşzamanlanacağı gün sayısı. Sıfır, tüm olaylar anlamına "
+"gelir."
+
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:339
+msgid ""
+"Number of days which memos will be synchronized in the past. Zero means all "
+"memos."
+msgstr ""
+"Geçmişteki notların eşzamanlanacağı gün sayısı. Sıfır, tüm notlar anlamına "
+"gelir."
+
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:342
+msgid "Past event time limit (in days)"
+msgstr "Geçmiş etkinlik zaman sınırı (gün olarak)"
+
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:342
+msgid "Past memo time limit (in days)"
+msgstr "Geçmiş not zaman sınırı (gün olarak)"
 
 #: ../src/modules/cal-config-contacts/evolution-cal-config-contacts.c:64
 msgid "Choose which address books to use."
@@ -30723,31 +30747,3 @@ msgstr "Deponun diske yazılması başarısız, hata_kodu: %i"
 #: ../src/smime/lib/e-pkcs12.c:470
 msgid "Imported Certificate"
 msgstr "Aktarılmış Sertifika"
-
-#~ msgid "Enable Unmatched search folder"
-#~ msgstr "Eşleşmeyenler arama klasörünü etkinleştir"
-
-#~ msgid ""
-#~ "Enable Unmatched search folder within Search Folders. It does nothing if "
-#~ "Search Folders are disabled."
-#~ msgstr ""
-#~ "Arama Klasörleri içindeki Eşleşmeyenler arama klasörünü etkinleştir. "
-#~ "Arama Klasörleri kapalıysa hiçbir şey yapmaz."
-
-#~ msgid "UNMATCHED"
-#~ msgstr "EŞLEŞMEMİŞ"
-
-#~ msgid "_Unmatched Folder Enabled"
-#~ msgstr "_Eşleşmeyen Klasörler Etkin"
-
-#~ msgid "Toggles whether Unmatched search folder is enabled"
-#~ msgstr "Eşleşmeyenler arama klasörünün etkin olup olmadığı ayarı"
-
-#~ msgid "< separator >"
-#~ msgstr "< ayırıcı >"
-
-#~ msgid "Conflict Search"
-#~ msgstr "Çakışma Araması"
-
-#~ msgid "Opening the calendar. Please wait…"
-#~ msgstr "Takvim açılıyor. Lütfen bekleyin…"
