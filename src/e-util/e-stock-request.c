@@ -117,9 +117,6 @@ process_stock_request_idle_cb (gpointer user_data)
 		g_hash_table_destroy (query);
 	}
 
-	if (!dark_color_scheme && GTK_IS_WIDGET (sid->requester))
-		dark_color_scheme = e_util_is_dark_theme (GTK_WIDGET (sid->requester));
-
 	/* Try style context first */
 	context = gtk_style_context_new ();
 	path = gtk_widget_path_new ();
