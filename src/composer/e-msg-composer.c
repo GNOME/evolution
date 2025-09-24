@@ -357,11 +357,33 @@ emcu_part_as_text (EMsgComposer *composer,
 
 	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
 	if (dw) {
-		CamelStream *mem = camel_stream_mem_new ();
+		CamelStream *mem = camel_stream_mem_new (), *stream = g_object_ref (mem);
+		CamelContentType *ct;
 		GByteArray *bytes;
 
-		camel_data_wrapper_decode_to_stream_sync (dw, mem, cancellable, NULL);
-		camel_stream_close (mem, cancellable, NULL);
+		ct = camel_mime_part_get_content_type (part);
+		if (ct) {
+			const gchar *charset = camel_content_type_param (ct, "charset");
+			if (charset && *charset) {
+				CamelMimeFilter *filter = camel_mime_filter_charset_new (charset, "UTF-8");
+				if (filter) {
+					CamelStream *filtered = camel_stream_filter_new (stream);
+
+					if (filtered) {
+						camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered), filter);
+						g_object_unref (stream);
+						stream = filtered;
+					}
+
+					g_object_unref (filter);
+				}
+			}
+		}
+
+		camel_data_wrapper_decode_to_stream_sync (dw, stream, cancellable, NULL);
+		camel_stream_close (stream, cancellable, NULL);
+		if (stream != mem)
+			camel_stream_close (mem, cancellable, NULL);
 
 		bytes = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem));
 		if (bytes && bytes->len) {
@@ -372,6 +394,7 @@ emcu_part_as_text (EMsgComposer *composer,
 			length = 0;
 		}
 
+		g_object_unref (stream);
 		g_object_unref (mem);
 	} else {
 		text = g_strdup ("");
