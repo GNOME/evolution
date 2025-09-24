@@ -122,6 +122,8 @@ empe_app_smime_parse (EMailParserExtension *extension,
 
 		g_string_append (part_id, ".encrypted-smime");
 
+		e_mail_parser_utils_check_protected_headers (parser, opart, cancellable);
+
 		ct = camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (opart));
 
 		if (!ct || camel_content_type_is (ct, "text", "plain")) {

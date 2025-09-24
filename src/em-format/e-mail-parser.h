@@ -123,6 +123,11 @@ EMailExtensionRegistry *
 		e_mail_parser_get_extension_registry
 						(EMailParser *parser);
 
+void		e_mail_parser_utils_check_protected_headers
+						(EMailParser *parser,
+						 CamelMimePart *decrypted_part,
+						 GCancellable *cancellable);
+
 G_END_DECLS
 
 #endif /* E_MAIL_PARSER_H_ */

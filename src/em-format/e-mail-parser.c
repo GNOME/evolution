@@ -1049,3 +1049,65 @@ e_mail_parser_get_extension_registry (EMailParser *parser)
 
 	return E_MAIL_EXTENSION_REGISTRY (parser_class->extension_registry);
 }
+
+void
+e_mail_parser_utils_check_protected_headers (EMailParser *parser,
+					     CamelMimePart *decrypted_part,
+					     GCancellable *cancellable)
+{
+	CamelContentType *ct;
+	const gchar *subject;
+
+	g_return_if_fail (E_IS_MAIL_PARSER (parser));
+	g_return_if_fail (CAMEL_IS_MIME_PART (decrypted_part));
+
+	ct = camel_mime_part_get_content_type (decrypted_part);
+	if (!ct || !camel_content_type_param (ct, "protected-headers"))
+		return;
+
+	/* The part contains some of the original headers */
+	subject = camel_medium_get_header (CAMEL_MEDIUM (decrypted_part), "Subject");
+	if (subject) {
+		EMailPartList *part_list;
+		gchar *tmp = NULL;
+
+		if (strchr (subject, '\n')) {
+			tmp = camel_header_unfold (subject);
+			subject = tmp;
+		}
+
+		part_list = e_mail_parser_ref_part_list_for_operation (parser, cancellable);
+		if (part_list) {
+			CamelMimeMessage *message;
+			CamelFolder *folder;
+			const gchar *message_uid;
+
+			message = e_mail_part_list_get_message (part_list);
+			if (message)
+				camel_mime_message_set_subject (message, subject);
+
+			folder = e_mail_part_list_get_folder (part_list);
+			message_uid = e_mail_part_list_get_message_uid (part_list);
+
+			if (CAMEL_IS_FOLDER (folder) && message_uid) {
+				CamelMessageInfo *info;
+
+				info = camel_folder_get_message_info (folder, message_uid);
+				if (info) {
+					gchar *decoded;
+
+					decoded = camel_header_decode_string (subject, NULL);
+
+					camel_message_info_set_subject (info, decoded ? decoded : subject);
+
+					g_clear_object (&info);
+					g_free (decoded);
+				}
+			}
+
+			g_object_unref (part_list);
+		}
+
+		g_free (tmp);
+	}
+}

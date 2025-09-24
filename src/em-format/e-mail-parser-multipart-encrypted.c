@@ -121,6 +121,8 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append (part_id, ".encrypted-pgp");
 
+	e_mail_parser_utils_check_protected_headers (parser, opart, cancellable);
+
 	g_warn_if_fail (e_mail_parser_parse_part (
 		parser, opart, part_id, cancellable, &work_queue));
 
