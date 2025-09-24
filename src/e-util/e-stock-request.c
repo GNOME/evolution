@@ -73,6 +73,7 @@ static gboolean
 process_stock_request_idle_cb (gpointer user_data)
 {
 	StockIdleData *sid = user_data;
+	GdkRGBA theme_fg = { 0, };
 	GUri *guri;
 	GHashTable *query = NULL;
 	GtkStyleContext *context;
@@ -124,6 +125,9 @@ process_stock_request_idle_cb (gpointer user_data)
 	gtk_style_context_set_path (context, path);
 	gtk_widget_path_free (path);
 
+	if (!gtk_style_context_lookup_color (context, "theme_fg_color", &theme_fg))
+		gdk_rgba_parse (&theme_fg, E_UTILS_DEFAULT_THEME_FG_COLOR);
+
 	icon_name = g_uri_get_host (guri);
 	if (e_icon_factory_get_prefer_symbolic_icons () && !g_str_has_suffix (icon_name, "-symbolic"))
 		icon_name_symbolic = g_strconcat (icon_name, "-symbolic", NULL);
@@ -146,7 +150,6 @@ process_stock_request_idle_cb (gpointer user_data)
 	} else {
 		GtkIconTheme *icon_theme;
 		GtkIconInfo *icon_info = NULL;
-		const gchar *filename;
 		gint icon_width, icon_height, scale_factor;
 
 		scale_factor = e_stock_request_get_scale_factor (E_STOCK_REQUEST (sid->request));
@@ -170,24 +173,19 @@ process_stock_request_idle_cb (gpointer user_data)
 
 		/* Some icons can be missing in the theme */
 		if (icon_info) {
-			filename = gtk_icon_info_get_filename (icon_info);
-			if (filename != NULL) {
-				if (!g_file_get_contents (
-					filename, &buffer, &buff_len, &local_error)) {
-					buffer = NULL;
-					buff_len = 0;
-				}
-				mime_type = g_content_type_guess (filename, NULL, 0, NULL);
-			} else {
-				GdkPixbuf *pixbuf;
+			GdkPixbuf *pixbuf = NULL;
 
-				pixbuf = gtk_icon_info_get_builtin_pixbuf (icon_info);
-				if (pixbuf != NULL) {
-					gdk_pixbuf_save_to_buffer (
-						pixbuf, &buffer, &buff_len,
-						"png", &local_error, NULL);
-					g_object_unref (pixbuf);
-				}
+			if (icon_name_symbolic || g_str_has_suffix (icon_name, "-symbolic"))
+				pixbuf = gtk_icon_info_load_symbolic (icon_info, &theme_fg, NULL, NULL, NULL, NULL, NULL);
+
+			if (!pixbuf)
+				pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
+
+			if (pixbuf) {
+				gdk_pixbuf_save_to_buffer (
+					pixbuf, &buffer, &buff_len,
+					"png", &local_error, NULL);
+				g_object_unref (pixbuf);
 			}
 
 			g_object_unref (icon_info);
