@@ -201,7 +201,7 @@
     <separator/>
     <item action='delete-selection'/>
   </menu>
-  <menu id='calendar-search-options'>
+  <menu id='search-options'>
     <item action='calendar-search-advanced-hidden' group='search-options'/>
     <item action='calendar-search-summary-contains' group='search-options'/>
     <item action='calendar-search-description-contains' group='search-options'/>
