@@ -1973,7 +1973,9 @@ shell_window_added (GtkApplication *application,
 	GTK_APPLICATION_CLASS (e_shell_parent_class)->
 		window_added (application, window);
 
-	g_signal_connect (
+	/* Register a callback to properly quit when the window is closed, but
+	 * run it last so other handlers also have a chance to run beforehand. */
+	g_signal_connect_after (
 		window, "delete-event",
 		G_CALLBACK (shell_window_delete_event_cb), application);
 
