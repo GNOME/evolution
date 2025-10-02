@@ -1323,14 +1323,14 @@ e_book_shell_view_actions_init (EBookShellView *self)
 		  NULL,
 		  N_("_Manage Address Book groups…"),
 		  NULL,
-		  N_("Manage addres book groups order and visibility"),
+		  N_("Manage address book groups order and visibility"),
 		  action_address_book_manage_groups_cb, NULL, NULL, NULL },
 
 		{ "address-book-manage-groups-popup",
 		  NULL,
 		  N_("_Manage groups…"),
 		  NULL,
-		  N_("Manage addres book groups order and visibility"),
+		  N_("Manage address book groups order and visibility"),
 		  action_address_book_manage_groups_cb, NULL, NULL, NULL },
 
 		{ "address-book-move",
