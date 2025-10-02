@@ -375,7 +375,7 @@ book_view_objects_added_cb (EBookClientView *client_view,
 		if (contact) {
 			gchar *vcard;
 
-			vcard = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
+			vcard = e_vcard_to_string (E_VCARD (contact));
 			g_print ("%s\n    -----------------------------\n", vcard);
 			g_free (vcard);
 		} else {
@@ -400,7 +400,7 @@ book_view_objects_modified_cb (EBookClientView *client_view,
 		if (contact) {
 			gchar *vcard;
 
-			vcard = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
+			vcard = e_vcard_to_string (E_VCARD (contact));
 			g_print ("%s\n    -----------------------------\n", vcard);
 			g_free (vcard);
 		} else {

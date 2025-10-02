@@ -200,16 +200,15 @@ addressbook_append_row (ETableModel *etm,
 	EContact *contact;
 	gint col;
 
-	contact = e_contact_new ();
+	client_cache = e_addressbook_model_get_client_cache (priv->model);
+	book_client = e_addressbook_model_get_client (priv->model);
+
+	contact = eab_new_contact_for_book (book_client);
 
 	for (col = 1; col < E_CONTACT_LAST_SIMPLE_STRING; col++) {
 		gconstpointer val = e_table_model_value_at (source, col, row);
 		e_contact_set (contact, col, (gpointer) val);
 	}
-
-	client_cache =
-		e_addressbook_model_get_client_cache (priv->model);
-	book_client = e_addressbook_model_get_client (priv->model);
 
 	registry = e_client_cache_ref_registry (client_cache);
 

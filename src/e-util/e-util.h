@@ -212,6 +212,7 @@
 #include <e-util/e-spell-dictionary.h>
 #include <e-util/e-spell-entry.h>
 #include <e-util/e-spell-text-view.h>
+#include <e-util/e-split-date-edit.h>
 #include <e-util/e-spinner.h>
 #include <e-util/e-stock-request.h>
 #include <e-util/e-table-click-to-add.h>

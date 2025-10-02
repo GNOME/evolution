@@ -261,6 +261,7 @@ src/e-util/e-source-selector.c
 src/e-util/e-source-selector-dialog.c
 src/e-util/e-spell-dictionary.c
 src/e-util/e-spell-entry.c
+src/e-util/e-split-date-edit.c
 src/e-util/e-system.error.xml
 src/e-util/e-table.c
 src/e-util/e-table-click-to-add.c

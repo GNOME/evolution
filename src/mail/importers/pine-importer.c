@@ -131,11 +131,10 @@ import_contact (EBookClient *book_client,
 
 				attr = e_vcard_attribute_new (NULL, EVC_EMAIL);
 				e_destination_export_to_vcard_attribute (d, attr);
-				list = g_list_append (list, attr);
+				list = g_list_prepend (list, attr);
 				g_object_unref (d);
 			}
-			e_contact_set_attributes (card, E_CONTACT_EMAIL, list);
-			g_list_foreach (list, (GFunc) e_vcard_attribute_free, NULL);
+			e_vcard_append_attributes_take (E_VCARD (card), g_list_reverse (list));
 			g_list_free (list);
 			g_strfreev (addrs);
 			e_contact_set (card, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));

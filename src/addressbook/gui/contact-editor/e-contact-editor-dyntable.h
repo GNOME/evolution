@@ -45,6 +45,7 @@ G_BEGIN_DECLS
 typedef enum {
 	DYNTABLE_STORE_COLUMN_SORTORDER,
 	DYNTABLE_STORE_COLUMN_SELECTED_ITEM,
+	DYNTABLE_STORE_COLUMN_SELECTED_TEXT, /* set only if the dyntable has combo with entry */
 	DYNTABLE_STORE_COLUMN_ENTRY_STRING,
 	DYNTABLE_STORE_COLUMN_NUM_COLUMNS
 } EContactEditorDynTableStoreColumns;
@@ -112,6 +113,11 @@ void		e_contact_editor_dyntable_set_num_columns (EContactEditorDynTable *dyntabl
     		                                           gboolean justified);
 void		e_contact_editor_dyntable_set_max_entries (EContactEditorDynTable *dyntable,
     		                                           guint max);
+void		e_contact_editor_dyntable_set_combo_with_entry
+							(EContactEditorDynTable *self,
+							 gboolean value);
+gboolean	e_contact_editor_dyntable_get_combo_with_entry
+							(EContactEditorDynTable *self);
 
 GtkListStore* 	e_contact_editor_dyntable_get_combo_store (EContactEditorDynTable* dyntable);
 void		e_contact_editor_dyntable_set_combo_defaults (EContactEditorDynTable* dyntable,

@@ -540,7 +540,7 @@ e_book_shell_view_open_list_editor_with_prefill_contacts (EShellView *shell_view
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	new_contact = e_contact_new ();
+	new_contact = eab_new_contact_for_book (destination_book);
 
 	if (contacts) {
 		EVCard *vcard = E_VCARD (new_contact);

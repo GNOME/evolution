@@ -53,6 +53,14 @@
       </object>
     </child>
     <child>
+      <object class="GtkCheckMenuItem" id="menuitem-config-dates">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Show Dates</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
       <object class="GtkCheckMenuItem" id="menuitem-config-misc">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -1028,6 +1036,34 @@
                                   </packing>
                                 </child>
                                 <child>
+                                  <object class="GtkLabel" id="label-orgdir">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Or_g. Directory:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">entry-orgdir</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="top_attach">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="entry-orgdir">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hexpand">True</property>
+                                    <accessibility>
+                                      <relation type="labelled-by" target="label-orgdir"/>
+                                    </accessibility>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">3</property>
+                                    <property name="top_attach">3</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <object class="GtkLabel" id="label-manager">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
@@ -1103,7 +1139,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkExpander" id="expander-personal-misc">
+                          <object class="GtkExpander" id="expander-personal-dates">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <child>
@@ -1114,30 +1150,30 @@
                                 <property name="column_spacing">6</property>
                                 <property name="row_spacing">6</property>
                                 <child>
-                                  <object class="GtkLabel" id="label-spouse">
+                                  <object class="GtkLabel" id="label-anniversary">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">_Spouse:</property>
+                                    <property name="label" translatable="yes">_Anniversary:</property>
                                     <property name="use_underline">True</property>
-                                    <property name="mnemonic_widget">entry-spouse</property>
-                                    <property name="xalign">0</property>
+                                    <property name="mnemonic_widget">dateedit-anniversary</property>
+                                    <property name="xalign">1</property>
                                   </object>
                                   <packing>
-                                    <property name="left_attach">2</property>
+                                    <property name="left_attach">0</property>
                                     <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry-spouse">
+                                  <object class="ESplitDateEdit" type-func="e_split_date_edit_get_type" id="dateedit-anniversary">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="hexpand">True</property>
-                                    <accessibility>
-                                      <relation type="labelled-by" target="label-spouse"/>
-                                    </accessibility>
+                                    <child internal-child="accessible">
+                                      <object class="AtkObject" id="dateedit-anniversary-atkobject">
+                                        <property name="AtkObject::accessible-name" translatable="yes">Anniversary</property>
+                                      </object>
+                                    </child>
                                   </object>
                                   <packing>
-                                    <property name="left_attach">3</property>
+                                    <property name="left_attach">1</property>
                                     <property name="top_attach">0</property>
                                   </packing>
                                 </child>
@@ -1156,44 +1192,8 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="label-anniversary">
+                                  <object class="ESplitDateEdit" type-func="e_split_date_edit_get_type" id="dateedit-birthday">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">_Anniversary:</property>
-                                    <property name="use_underline">True</property>
-                                    <property name="mnemonic_widget">dateedit-anniversary</property>
-                                    <property name="xalign">1</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left_attach">0</property>
-                                    <property name="top_attach">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="EDateEdit" type-func="e_date_edit_get_type" id="dateedit-anniversary">
-                                    <property name="visible">True</property>
-                                    <property name="allow_no_date_set">True</property>
-                                    <property name="show_time">False</property>
-                                    <property name="twodigit_year_can_future">False</property>
-                                    <property name="set_none">True</property>
-                                    <child internal-child="accessible">
-                                      <object class="AtkObject" id="dateedit-anniversary-atkobject">
-                                        <property name="AtkObject::accessible-name" translatable="yes">Anniversary</property>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="top_attach">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="EDateEdit" type-func="e_date_edit_get_type" id="dateedit-birthday">
-                                    <property name="visible">True</property>
-                                    <property name="allow_no_date_set">True</property>
-                                    <property name="show_time">False</property>
-                                    <property name="twodigit_year_can_future">False</property>
-                                    <property name="set_none">True</property>
                                     <child internal-child="accessible">
                                       <object class="AtkObject" id="dateedit-birthday-atkobject">
                                         <property name="AtkObject::accessible-name" translatable="yes">Birthday</property>
@@ -1205,10 +1205,287 @@
                                     <property name="top_attach">1</property>
                                   </packing>
                                 </child>
+                                <child>
+                                  <object class="GtkLabel" id="label-birthplace">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Bi_rth place:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">entry-birthplace</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="entry-birthplace">
+                                    <property name="visible">True</property>
+                                    <property name="width-chars">40</property>
+                                    <child internal-child="accessible">
+                                      <object class="AtkObject" id="entry-birthplace-atkobject">
+                                        <property name="AtkObject::accessible-name" translatable="yes">Birth place</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">3</property>
+                                    <property name="top_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label-deathday">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">_Death:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">dateedit-deathday</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="ESplitDateEdit" type-func="e_split_date_edit_get_type" id="dateedit-deathday">
+                                    <property name="visible">True</property>
+                                    <child internal-child="accessible">
+                                      <object class="AtkObject" id="dateedit-deathday-atkobject">
+                                        <property name="AtkObject::accessible-name" translatable="yes">Death</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="top_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label-deathplace">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Death p_lace:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">entry-deathplace</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="top_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="entry-deathplace">
+                                    <property name="visible">True</property>
+                                    <property name="width-chars">40</property>
+                                    <child internal-child="accessible">
+                                      <object class="AtkObject" id="entry-deathplace-atkobject">
+                                        <property name="AtkObject::accessible-name" translatable="yes">Death place</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">3</property>
+                                    <property name="top_attach">2</property>
+                                  </packing>
+                                </child>
                               </object>
                             </child>
                             <child type="label">
-                              <object class="GtkLabel" id="label421">
+                              <object class="GtkLabel" id="dates-label421">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Dates</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkExpander" id="expander-personal-misc">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <child>
+                              <object class="GtkGrid">
+                                <property name="visible">True</property>
+                                <property name="halign">start</property>
+                                <property name="can_focus">False</property>
+                                <property name="margin">12</property>
+                                <property name="column_spacing">6</property>
+                                <property name="row_spacing">6</property>
+                                <child>
+                                  <object class="GtkLabel" id="label-spouse">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">_Spouse:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">entry-spouse</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="entry-spouse">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hexpand">False</property>
+                                    <property name="width-chars">40</property>
+                                    <accessibility>
+                                      <relation type="labelled-by" target="label-spouse"/>
+                                    </accessibility>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="top_attach">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label-gender">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">_Gender:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">combo-gender</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="top_attach">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="box-gender">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">fill</property>
+                                    <property name="orientation">horizontal</property>
+                                    <child>
+                                      <object class="GtkComboBoxText" id="combo-gender">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkEntry" id="entry-gender">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="halign">fill</property>
+                                        <property name="hexpand">True</property>
+                                        <property name="width-chars">20</property>
+                                        <accessibility>
+                                          <relation type="labelled-by" target="label-gender"/>
+                                        </accessibility>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">3</property>
+                                    <property name="top_attach">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label-expertise">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Ex_pertise:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">entry-expertise</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="entry-expertise">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hexpand">False</property>
+                                    <property name="width-chars">40</property>
+                                    <accessibility>
+                                      <relation type="labelled-by" target="label-expertise"/>
+                                    </accessibility>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="top_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label-interest">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">_Interest:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">entry-interest</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="entry-interest">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hexpand">False</property>
+                                    <property name="width-chars">40</property>
+                                    <accessibility>
+                                      <relation type="labelled-by" target="label-interest"/>
+                                    </accessibility>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">3</property>
+                                    <property name="top_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label-hobby">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">_Hobby:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">entry-hobby</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="entry-hobby">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hexpand">False</property>
+                                    <property name="width-chars">40</property>
+                                    <accessibility>
+                                      <relation type="labelled-by" target="label-hobby"/>
+                                    </accessibility>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="top_attach">2</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label">
+                              <object class="GtkLabel" id="misc-label421">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Miscellaneous</property>
@@ -1219,9 +1496,9 @@
                             </child>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
+                            <property name="expand">False</property>
                             <property name="fill">True</property>
-                            <property name="position">2</property>
+                            <property name="position">3</property>
                           </packing>
                         </child>
                       </object>

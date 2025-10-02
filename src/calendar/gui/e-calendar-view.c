@@ -1775,7 +1775,8 @@ e_calendar_view_dup_component_summary (ICalComponent *icomp)
 	summary = prop ? i_cal_property_get_summary (prop) : NULL;
 
 	if (icomp_contains_category (icomp, _("Birthday")) ||
-	    icomp_contains_category (icomp, _("Anniversary"))) {
+	    icomp_contains_category (icomp, _("Anniversary")) ||
+	    icomp_contains_category (icomp, _("Deathday"))) {
 		gchar *since_year_str;
 
 		since_year_str = e_cal_util_component_dup_x_property (icomp, "X-EVOLUTION-SINCE-YEAR");

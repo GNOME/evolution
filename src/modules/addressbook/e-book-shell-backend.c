@@ -35,6 +35,7 @@
 #include "addressbook/gui/contact-editor/e-contact-quick-add.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
 #include "addressbook/importers/evolution-addressbook-importers.h"
+#include "addressbook/util/eab-book-util.h"
 
 #include "autocompletion-config.h"
 
@@ -84,6 +85,7 @@ book_shell_backend_new_contact_cb (GObject *source_object,
                                    gpointer user_data)
 {
 	EShellWindow *shell_window = user_data;
+	EBookClient *book_client;
 	EClient *client;
 	EContact *contact;
 	EABEditor *editor;
@@ -104,10 +106,10 @@ book_shell_backend_new_contact_cb (GObject *source_object,
 		goto exit;
 	}
 
-	contact = e_contact_new ();
+	book_client = E_BOOK_CLIENT (client);
+	contact = eab_new_contact_for_book (book_client);
 
-	editor = e_contact_editor_new (
-		e_shell_window_get_shell (shell_window), E_BOOK_CLIENT (client), contact, TRUE, TRUE);
+	editor = e_contact_editor_new (e_shell_window_get_shell (shell_window), book_client, contact, TRUE, TRUE);
 	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));
 
 	eab_editor_show (editor);

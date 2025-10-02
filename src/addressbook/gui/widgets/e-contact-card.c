@@ -499,7 +499,7 @@ e_contact_card_update (EContactCard *self)
 			if (is_email) {
 				GList *emails, *link;
 
-				emails = e_contact_get_attributes (self->priv->contact, E_CONTACT_EMAIL);
+				emails = e_vcard_get_attributes_by_name (E_VCARD (self->priv->contact), EVC_EMAIL);
 
 				for (link = emails; link && row < N_ROWS && used_rows < N_ROWS; link = g_list_next (link)) {
 					EVCardAttribute *attr = link->data;
@@ -559,7 +559,7 @@ e_contact_card_update (EContactCard *self)
 					g_free (value_tmp);
 				}
 
-				g_list_free_full (emails, (GDestroyNotify) e_vcard_attribute_free);
+				g_list_free (emails);
 			} else {
 				gchar *value;
 

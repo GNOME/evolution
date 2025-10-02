@@ -444,15 +444,14 @@ resolve_list_card (LDIFImporter *gci,
 
 			g_object_unref (dest);
 
-			email_attrs = g_list_append (email_attrs, attr);
+			email_attrs = g_list_prepend (email_attrs, attr);
 		}
 	}
-	e_contact_set_attributes (contact, E_CONTACT_EMAIL, email_attrs);
 
-	g_list_foreach (email, (GFunc) g_free, NULL);
-	g_list_free (email);
-	g_list_foreach (email_attrs, (GFunc) e_vcard_attribute_free, NULL);
-	g_list_free (email_attrs);
+	e_vcard_remove_attributes (E_VCARD (contact), NULL, EVC_EMAIL);
+	e_vcard_append_attributes_take (E_VCARD (contact), g_list_reverse (email_attrs));
+
+	g_list_free_full (email, g_free);
 }
 
 static void

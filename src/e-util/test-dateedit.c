@@ -27,6 +27,7 @@
 
 #include <gtk/gtk.h>
 #include "e-dateedit.h"
+#include "e-split-date-edit.h"
 #include "e-misc-utils.h"
 
 static void delete_event_cb		(GtkWidget	*widget,
@@ -45,20 +46,81 @@ static void on_time_changed		(EDateEdit	*dedit,
 					 gchar		*name);
 #endif
 
+static void
+on_split_changed (ESplitDateEdit *split_date,
+		  gpointer user_data)
+{
+	GtkLabel *label = user_data;
+	guint year = 0, month = 0, day = 0;
+	gchar buff[128];
+	static gint change_counter = 0;
+
+	e_split_date_edit_get_ymd (split_date, &year, &month, &day);
+	change_counter++;
+
+	g_warn_if_fail (g_snprintf (buff, sizeof (buff) - 1, "change[%u] year:%u month:%u day:%u", change_counter, year, month, day));
+	gtk_label_set_text (label, buff);
+}
+
+static void
+on_split_set_format_clicked (GtkButton *button,
+			     gpointer user_data)
+{
+	ESplitDateEdit *split_date = user_data;
+	GtkEntry *entry;
+
+	entry = g_object_get_data (G_OBJECT (split_date), "format-entry");
+	e_split_date_edit_set_format (split_date, gtk_entry_get_text (entry));
+}
+
+static void
+on_split_set_date_clicked (GtkButton *button,
+			   gpointer user_data)
+{
+	ESplitDateEdit *split_date = user_data;
+	GtkEntry *entry;
+	const gchar *text;
+	guint year, month, day;
+
+	entry = g_object_get_data (G_OBJECT (button), "year-entry");
+	text = gtk_entry_get_text (entry);
+	if (text)
+		year = g_ascii_strtoull (text, NULL, 10);
+	else
+		year = 0;
+
+	entry = g_object_get_data (G_OBJECT (button), "month-entry");
+	text = gtk_entry_get_text (entry);
+	if (text)
+		month = g_ascii_strtoull (text, NULL, 10);
+	else
+		month = 0;
+
+	entry = g_object_get_data (G_OBJECT (button), "day-entry");
+	text = gtk_entry_get_text (entry);
+	if (text)
+		day = g_ascii_strtoull (text, NULL, 10);
+	else
+		day = 0;
+
+	e_split_date_edit_set_ymd (split_date, year, month, day);
+}
+
 gint
 main (gint argc,
       gchar **argv)
 {
 	GtkWidget *window;
 	EDateEdit *dedit;
-	GtkWidget *grid, *button;
+	ESplitDateEdit *split_date;
+	GtkWidget *button, *widget;
+	GtkGrid *grid;
+	GtkBox *box;
 
 	gtk_init (&argc, &argv);
 
-	puts ("here");
-
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title (GTK_WINDOW (window), "EDateEdit Test");
+	gtk_window_set_title (GTK_WINDOW (window), "EDateEdit/ESPlitDateEdit Test");
 	gtk_window_set_default_size (GTK_WINDOW (window), 300, 200);
 	gtk_window_set_resizable (GTK_WINDOW (window), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (window), 8);
@@ -67,19 +129,15 @@ main (gint argc,
 		window, "delete_event",
 		G_CALLBACK (delete_event_cb), window);
 
-	grid = gtk_grid_new ();
-	gtk_grid_set_row_spacing (GTK_GRID (grid), 4);
-	gtk_grid_set_column_spacing (GTK_GRID (grid), 4);
-	gtk_widget_show (grid);
+	grid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_row_spacing (grid, 4);
+	gtk_grid_set_column_spacing (grid, 4);
 
-	gtk_container_add (GTK_CONTAINER (window), grid);
+	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (grid));
 
 	/* EDateEdit 1. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
-	gtk_grid_attach (
-		GTK_GRID (grid), GTK_WIDGET (dedit),
-		0, 0, 1, 1);
-	gtk_widget_show (GTK_WIDGET (dedit));
+	gtk_grid_attach (grid, GTK_WIDGET (dedit), 0, 0, 1, 1);
 
 #if 0
 	g_signal_connect (
@@ -95,20 +153,14 @@ main (gint argc,
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
-	gtk_grid_attach (
-		GTK_GRID (grid), button,
-		1, 0, 1, 1);
-	gtk_widget_show (button);
+	gtk_grid_attach (grid, button, 1, 0, 1, 1);
 	g_signal_connect (
 		button, "clicked",
 		G_CALLBACK (on_get_date_clicked), dedit);
 
 	/* EDateEdit 2. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
-	gtk_grid_attach (
-		GTK_GRID (grid), (GtkWidget *) dedit,
-		0, 1, 1, 1);
-	gtk_widget_show ((GtkWidget *) (dedit));
+	gtk_grid_attach (grid, (GtkWidget *) dedit, 0, 1, 1, 1);
 	e_date_edit_set_week_start_day (dedit, 1);
 	e_date_edit_set_show_week_numbers (dedit, TRUE);
 	e_date_edit_set_use_24_hour_format (dedit, FALSE);
@@ -129,20 +181,14 @@ main (gint argc,
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
-	gtk_grid_attach (
-		GTK_GRID (grid), button,
-		1, 1, 1, 1);
-	gtk_widget_show (button);
+	gtk_grid_attach (grid, button, 1, 1, 1, 1);
 	g_signal_connect (
 		button, "clicked",
 		G_CALLBACK (on_get_date_clicked), dedit);
 
 	/* EDateEdit 3. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
-	gtk_grid_attach (
-		GTK_GRID (grid), (GtkWidget *) dedit,
-		0, 2, 1, 1);
-	gtk_widget_show ((GtkWidget *) (dedit));
+	gtk_grid_attach (grid, (GtkWidget *) dedit, 0, 2, 1, 1);
 	e_date_edit_set_week_start_day (dedit, 1);
 	e_date_edit_set_show_week_numbers (dedit, TRUE);
 	e_date_edit_set_use_24_hour_format (dedit, FALSE);
@@ -163,22 +209,86 @@ main (gint argc,
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
-	gtk_grid_attach (
-		GTK_GRID (grid), button,
-		1, 2, 1, 1);
-	gtk_widget_show (button);
+	gtk_grid_attach (grid, button, 1, 2, 1, 1);
 	g_signal_connect (
 		button, "clicked",
 		G_CALLBACK (on_get_date_clicked), dedit);
 
 	button = gtk_button_new_with_label ("Toggle 24-hour");
-	gtk_grid_attach (
-		GTK_GRID (grid), button,
-		2, 2, 1, 1);
-	gtk_widget_show (button);
+	gtk_grid_attach (grid, button, 2, 2, 1, 1);
 	g_signal_connect (
 		button, "clicked",
 		G_CALLBACK (on_toggle_24_hour_clicked), dedit);
+
+	widget = gtk_label_new ("Split Date Edit:");
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	gtk_grid_attach (grid, widget, 0, 3, 3, 1);
+
+	widget = e_split_date_edit_new ();
+	split_date = E_SPLIT_DATE_EDIT (widget);
+	gtk_grid_attach (grid, widget, 0, 4, 1, 1);
+
+	widget = gtk_label_new ("");
+	gtk_grid_attach (grid, widget, 1, 4, 2, 1);
+
+	g_signal_connect (split_date, "changed", G_CALLBACK (on_split_changed), widget);
+
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	gtk_grid_attach (grid, widget, 0, 5, 3, 1);
+	box = GTK_BOX (widget);
+
+	widget = gtk_label_new ("Format:");
+	gtk_widget_set_halign (widget, GTK_ALIGN_END);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+
+	widget = gtk_entry_new ();
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (widget), e_split_date_edit_get_format (split_date));
+
+	g_object_set_data (G_OBJECT (split_date), "format-entry", widget);
+
+	widget = gtk_button_new_with_label ("Set format");
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (on_split_set_format_clicked), split_date);
+
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	gtk_grid_attach (grid, widget, 0, 6, 3, 1);
+	box = GTK_BOX (widget);
+
+	widget = gtk_button_new_with_label ("Set date");
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (on_split_set_date_clicked), split_date);
+	button = widget;
+
+	widget = gtk_label_new ("Year:");
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+
+	widget = gtk_entry_new ();
+	gtk_entry_set_width_chars (GTK_ENTRY (widget), 5);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+	g_object_set_data (G_OBJECT (button), "year-entry", widget);
+
+	widget = gtk_label_new ("Month:");
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+
+	widget = gtk_entry_new ();
+	gtk_entry_set_width_chars (GTK_ENTRY (widget), 3);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+	g_object_set_data (G_OBJECT (button), "month-entry", widget);
+
+	widget = gtk_label_new ("Day:");
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+
+	widget = gtk_entry_new ();
+	gtk_entry_set_width_chars (GTK_ENTRY (widget), 3);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+	g_object_set_data (G_OBJECT (button), "day-entry", widget);
+
+	gtk_box_pack_start (box, button, FALSE, FALSE, 0);
+
+	gtk_widget_show_all (GTK_WIDGET (grid));
 
 	gtk_widget_show (window);
 

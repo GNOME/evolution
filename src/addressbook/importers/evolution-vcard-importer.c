@@ -85,7 +85,7 @@ vcard_import_contact (VCardImporter *gci,
 	}
 
 	/* Deal with our XML EDestination stuff in EMAIL attributes, if there is any. */
-	attrs = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
+	attrs = e_vcard_get_attributes_by_name (E_VCARD (contact), EVC_EMAIL);
 	for (attr = attrs; attr; attr = attr->next) {
 		EVCardAttribute *a = attr->data;
 		GList *v = e_vcard_attribute_get_values (a);
@@ -97,11 +97,10 @@ vcard_import_contact (VCardImporter *gci,
 				e_destination_export_to_vcard_attribute (dest, a);
 
 				g_object_unref (dest);
-
 			}
 		}
 	}
-	e_contact_set_attributes (contact, E_CONTACT_EMAIL, attrs);
+	g_list_free (attrs);
 
 	/* Deal with TEL attributes that don't conform to what we need.
 	 *
@@ -567,16 +566,7 @@ preview_contact (EWebViewPreview *preview,
 
 		-1,
 
-		E_CONTACT_IM_AIM,
-		E_CONTACT_IM_GROUPWISE,
-		E_CONTACT_IM_JABBER,
-		E_CONTACT_IM_YAHOO,
-		E_CONTACT_IM_MSN,
-		E_CONTACT_IM_ICQ,
-		E_CONTACT_IM_GADUGADU,
-		E_CONTACT_IM_SKYPE,
-		E_CONTACT_IM_TWITTER,
-		E_CONTACT_IM_MATRIX,
+		E_CONTACT_IMPP,
 
 		-1,
 
@@ -658,24 +648,14 @@ preview_contact (EWebViewPreview *preview,
 
 				e_contact_address_free (addr);
 			}
-		} else if (field == E_CONTACT_IM_AIM ||
-			   field == E_CONTACT_IM_GROUPWISE ||
-			   field == E_CONTACT_IM_JABBER ||
-			   field == E_CONTACT_IM_YAHOO ||
-			   field == E_CONTACT_IM_MSN ||
-			   field == E_CONTACT_IM_ICQ ||
-			   field == E_CONTACT_IM_GADUGADU ||
-			   field == E_CONTACT_IM_SKYPE ||
-			   field == E_CONTACT_IM_TWITTER ||
-			   field == E_CONTACT_IM_MATRIX ||
-			   field == E_CONTACT_EMAIL) {
+		} else if (field == E_CONTACT_EMAIL) {
 			GList *attrs, *a;
 			gboolean have = FALSE;
 			const gchar *pretty_name;
 
 			pretty_name = e_contact_pretty_name (field);
 
-			attrs = e_contact_get_attributes (contact, field);
+			attrs = e_vcard_get_attributes_by_name (E_VCARD (contact), EVC_EMAIL);
 			for (a = attrs; a; a = a->next) {
 				EVCardAttribute *attr = a->data;
 				GList *value;
@@ -698,11 +678,30 @@ preview_contact (EWebViewPreview *preview,
 
 					value = value->next;
 				}
-
-				e_vcard_attribute_free (attr);
 			}
 
 			g_list_free (attrs);
+
+		} else if (field == E_CONTACT_IMPP) {
+			GList *values, *link;
+			gboolean have = FALSE;
+			const gchar *pretty_name;
+
+			pretty_name = e_contact_pretty_name (field);
+
+			values = e_contact_get (contact, E_CONTACT_IMPP);
+			for (link = values; link; link = g_list_next (link)) {
+				const gchar *value = link->data;
+
+				if (!value || !*value)
+					continue;
+
+				e_web_view_preview_add_section (preview, have ? NULL : pretty_name, value);
+				have = TRUE;
+				had_value = TRUE;
+			}
+
+			g_list_free_full (values, g_free);
 
 		} else if (field == E_CONTACT_CATEGORIES) {
 			const gchar *pretty_name;

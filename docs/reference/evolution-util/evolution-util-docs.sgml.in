@@ -322,6 +322,7 @@
     <xi:include href="xml/e-spell-entry.xml"/>
     <xi:include href="xml/e-spell-text-view.xml"/>
     <xi:include href="xml/e-spinner.xml"/>
+    <xi:include href="xml/e-split-date-edit.xml"/>
     <xi:include href="xml/e-text-event-processor-types.xml"/>
     <xi:include href="xml/e-text-model-repos.xml"/>
     <xi:include href="xml/e-timezone-dialog.xml"/>
@@ -336,6 +337,10 @@
   <index id="api-index-full">
     <title>Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3-60">
+    <title>Index of new symbols in 3.60</title>
+    <xi:include href="xml/api-index-3.60.xml"><xi:fallback /></xi:include>
   </index>
   <index id="api-index-3-58">
     <title>Index of new symbols in 3.58</title>

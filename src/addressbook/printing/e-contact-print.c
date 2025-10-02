@@ -343,19 +343,19 @@ e_contact_get_contact_height (EContact *contact,
 			e_contact_pretty_name (field), value);
 
 		if (field == E_CONTACT_FIRST_EMAIL_ID) {
-			GList *emails = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
+			GList *emails = e_vcard_get_attributes_by_name (E_VCARD (contact), EVC_EMAIL);
 			guint n = g_list_length (emails);
 			cntct_height += n * e_contact_text_height (
 						ctxt->context,
 						ctxt->style->body_font,
 						ctxt->column_width,
 						text);
-			g_list_free_full (emails, (GDestroyNotify) e_vcard_attribute_free);
+			g_list_free (emails);
 		} else if (field > E_CONTACT_FIRST_EMAIL_ID &&
 			   field <= E_CONTACT_LAST_EMAIL_ID) {
 			/* ignore */
 		} else if (field == E_CONTACT_FIRST_PHONE_ID) {
-			GList *phones = e_contact_get_attributes (contact, E_CONTACT_TEL);
+			GList *phones = e_vcard_get_attributes_by_name (E_VCARD (contact), EVC_TEL);
 			guint n = g_list_length (phones);
 			cntct_height += n * e_contact_text_height (
 						ctxt->context,
@@ -431,7 +431,7 @@ print_emails (EContact *contact,
 	gint i;
 	GList *emails, *l;
 
-	emails = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
+	emails = e_vcard_get_attributes_by_name (E_VCARD (contact), EVC_EMAIL);
 
 	for (i = 1, l = emails; l; l = g_list_next (l), i++) {
 		EVCardAttribute *attr = l->data;
@@ -449,7 +449,7 @@ print_emails (EContact *contact,
 		g_free (formatted_email);
 	}
 
-	g_list_free_full (emails, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free (emails);
 }
 
 static void
@@ -458,7 +458,7 @@ print_phones (EContact *contact,
 {
 	GList *phones, *l;
 
-	phones = e_contact_get_attributes (contact, E_CONTACT_TEL);
+	phones = e_vcard_get_attributes_by_name (E_VCARD (contact), EVC_TEL);
 
 	for (l = phones; l; l = g_list_next (l)) {
 		EVCardAttribute *attr = l->data;
@@ -472,7 +472,7 @@ print_phones (EContact *contact,
 		g_free (phone);
 	}
 
-	g_list_free_full (phones, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free (phones);
 }
 
 static void

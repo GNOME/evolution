@@ -44,6 +44,9 @@ void		eab_phone_index_to_type 	(gint index,
 const EABTypeLabel *eab_get_im_type_labels	(gint *n_elements);
 gint		eab_get_im_type_index 		(EVCardAttribute *attr);
 const gchar * 	eab_get_im_label_text		(EVCardAttribute *attr);
+const gchar *	eab_get_impp_label_text		(const gchar *impp_value,
+						 EContactField *out_equiv_field,
+						 guint *out_scheme_len);
 
 const EABTypeLabel *eab_get_email_type_labels 	(gint *n_elements);
 const gchar *	eab_get_email_label_text 	(EVCardAttribute *attr);
@@ -80,6 +83,8 @@ gboolean	eab_parse_qp_email		(const gchar *string,
 						 gchar **name,
 						 gchar **email);
 gchar *		eab_parse_qp_email_to_html	(const gchar *string);
+
+EContact *	eab_new_contact_for_book	(EBookClient *book_client);
 
 G_END_DECLS
 

@@ -224,6 +224,7 @@ set(SOURCES
 	e-spell-entry.c
 	e-spell-text-view.c
 	e-spinner.c
+	e-split-date-edit.c
 	e-stock-request.c
 	e-supported-locales-private.h
 	e-table-click-to-add.c
@@ -503,6 +504,7 @@ set(HEADERS
 	e-spell-entry.h
 	e-spell-text-view.h
 	e-spinner.h
+	e-split-date-edit.h
 	e-stock-request.h
 	e-table-click-to-add.h
 	e-table-col-dnd.h

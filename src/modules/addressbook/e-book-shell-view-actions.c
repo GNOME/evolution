@@ -983,7 +983,7 @@ action_contact_new_cb (EUIAction *action,
 	book = e_addressbook_view_get_client (view);
 	g_return_if_fail (book != NULL);
 
-	contact = e_contact_new ();
+	contact = eab_new_contact_for_book (book);
 	editor = e_contact_editor_new (shell, book, contact, TRUE, TRUE);
 	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));
 	eab_editor_show (editor);

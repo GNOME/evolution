@@ -100,6 +100,11 @@
       <_summary>Show job information</_summary>
       <_description>Whether to show job information in the editor</_description>
     </key>
+    <key type="b" name="editor-show-personal-dates">
+      <default>true</default>
+      <_summary>Show dates</_summary>
+      <_description>Whether to show Dates section in the editor</_description>
+    </key>
     <key type="b" name="editor-show-personal-misc">
       <default>true</default>
       <_summary>Show Miscellaneous information</_summary>

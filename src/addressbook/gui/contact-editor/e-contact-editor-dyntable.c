@@ -48,6 +48,8 @@ struct _EContactEditorDynTablePrivate {
 
 	/* number of elements in the array */
 	size_t		combo_defaults_n;
+
+	gboolean combo_with_entry;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EContactEditorDynTable, e_contact_editor_dyntable, GTK_TYPE_GRID)
@@ -213,7 +215,12 @@ combo_box_create (EContactEditorDynTable *dyntable)
 	GtkListStore *store;
 	GtkCellRenderer *cell;
 
-	w = gtk_combo_box_new ();
+	if (dyntable->priv->combo_with_entry) {
+		w = gtk_combo_box_new_with_entry ();
+		gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX (w), DYNTABLE_COMBO_COLUMN_TEXT);
+	} else {
+		w = gtk_combo_box_new ();
+	}
 	combo = GTK_COMBO_BOX (w);
 	store = dyntable->priv->combo_store;
 
@@ -278,8 +285,11 @@ add_empty_entry (EContactEditorDynTable *dyntable)
 	gtk_grid_attach (grid, entry, col + 1, row, 1, 1);
 	gtk_widget_show (entry);
 
-	g_signal_connect_swapped(box, "changed",
-	                         G_CALLBACK (gtk_widget_grab_focus), entry);
+	if (!dyntable->priv->combo_with_entry) {
+		g_signal_connect_swapped (box, "changed",
+			G_CALLBACK (gtk_widget_grab_focus), entry);
+	}
+
 	g_signal_connect_swapped(box, "changed",
 	                         G_CALLBACK (emit_changed), dyntable);
 	g_signal_connect_swapped(entry, "changed",
@@ -471,6 +481,23 @@ e_contact_editor_dyntable_set_show_max (EContactEditorDynTable *dyntable,
 	adjust_visibility_of_widgets (dyntable);
 }
 
+void
+e_contact_editor_dyntable_set_combo_with_entry (EContactEditorDynTable *self,
+						gboolean value)
+{
+	g_return_if_fail (E_IS_CONTACT_EDITOR_DYNTABLE (self));
+
+	self->priv->combo_with_entry = value;
+}
+
+gboolean
+e_contact_editor_dyntable_get_combo_with_entry (EContactEditorDynTable *self)
+{
+	g_return_val_if_fail (E_IS_CONTACT_EDITOR_DYNTABLE (self), FALSE);
+
+	return self->priv->combo_with_entry;
+}
+
 /* use data_store to fill data into widgets */
 void
 e_contact_editor_dyntable_fill_in_data (EContactEditorDynTable *dyntable)
@@ -490,11 +517,13 @@ e_contact_editor_dyntable_fill_in_data (EContactEditorDynTable *dyntable)
 	valid = gtk_tree_model_get_iter_first (store, &iter);
 	while (valid) {
 		gchar *str_data = NULL;
+		gchar *sel_text = NULL;
 		gint int_data;
 
 		gtk_tree_model_get (store, &iter,
 				DYNTABLE_STORE_COLUMN_ENTRY_STRING, &str_data,
 				DYNTABLE_STORE_COLUMN_SELECTED_ITEM, &int_data,
+				DYNTABLE_STORE_COLUMN_SELECTED_TEXT, &sel_text,
 				-1);
 
 		if (pos >= dyntable->priv->curr_entries)
@@ -503,10 +532,18 @@ e_contact_editor_dyntable_fill_in_data (EContactEditorDynTable *dyntable)
 		position_to_grid (dyntable, pos++, &col, &row);
 		w = gtk_grid_get_child_at (grid, col, row);
 		set_combo_box_active (dyntable, GTK_COMBO_BOX(w), int_data);
+		if (int_data < 0 && sel_text) {
+			GtkWidget *child;
+
+			child = gtk_bin_get_child (GTK_BIN (w));
+			if (GTK_IS_ENTRY (child))
+				gtk_entry_set_text (GTK_ENTRY (child), sel_text);
+		}
 		w = gtk_grid_get_child_at (grid, col + 1, row);
 		class->widget_fill (dyntable, w, str_data);
 
 		g_free (str_data);
+		g_free (sel_text);
 
 		valid = gtk_tree_model_iter_next (store, &iter);
 
@@ -549,12 +586,20 @@ e_contact_editor_dyntable_extract_data (EContactEditorDynTable *dyntable)
 		if (!class->widget_is_empty (dyntable, w)) {
 			GtkTreeIter iter;
 			gchar *dup;
+			const gchar *combo_entry_text = NULL;
 			gint combo_item;
 			const gchar *data;
 
 			data = class->widget_extract (dyntable, w);
 			w = gtk_grid_get_child_at (grid, col, row);
 			combo_item = gtk_combo_box_get_active (GTK_COMBO_BOX(w));
+			if (dyntable->priv->combo_with_entry && combo_item < 0) {
+				GtkWidget *child;
+
+				child = gtk_bin_get_child (GTK_BIN (w));
+				if (GTK_IS_ENTRY (child))
+					combo_entry_text = gtk_entry_get_text (GTK_ENTRY (child));
+			}
 
 			dup = g_strdup (data);
 			g_strstrip(dup);
@@ -563,6 +608,7 @@ e_contact_editor_dyntable_extract_data (EContactEditorDynTable *dyntable)
 			gtk_list_store_set (data_store, &iter,
 			                    DYNTABLE_STORE_COLUMN_SORTORDER, pos,
 			                    DYNTABLE_STORE_COLUMN_SELECTED_ITEM, combo_item,
+					    DYNTABLE_STORE_COLUMN_SELECTED_TEXT, combo_entry_text,
 			                    DYNTABLE_STORE_COLUMN_ENTRY_STRING, dup,
 			                    -1);
 
@@ -685,7 +731,7 @@ e_contact_editor_dyntable_init (EContactEditorDynTable *dyntable)
 	dyntable->priv->combo_store = gtk_list_store_new (DYNTABLE_COBMO_COLUMN_NUM_COLUMNS,
 			G_TYPE_STRING, G_TYPE_BOOLEAN);
 	dyntable->priv->data_store = gtk_list_store_new (DYNTABLE_STORE_COLUMN_NUM_COLUMNS,
-			G_TYPE_UINT, G_TYPE_INT, G_TYPE_STRING);
+			G_TYPE_UINT, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING);
 	gtk_tree_sortable_set_sort_column_id (
 			GTK_TREE_SORTABLE (dyntable->priv->data_store),
 			DYNTABLE_STORE_COLUMN_SORTORDER,

@@ -355,6 +355,56 @@ accum_attribute (GString *buffer,
 }
 
 static void
+accum_gender (GString *buffer,
+	      EContact *contact,
+	      const gchar *html_label)
+{
+	EContactGender *gender;
+	const gchar *sex = NULL;
+
+	gender = e_contact_get (contact, E_CONTACT_GENDER);
+	if (!gender)
+		return;
+
+	switch (gender->sex) {
+	case E_CONTACT_GENDER_SEX_UNKNOWN:
+		sex = C_("gender-sex", "Unknown");
+		break;
+	case E_CONTACT_GENDER_SEX_NOT_SET:
+		break;
+	case E_CONTACT_GENDER_SEX_MALE:
+		sex = C_("gender-sex", "Male");
+		break;
+	case E_CONTACT_GENDER_SEX_FEMALE:
+		sex = C_("gender-sex", "Female");
+		break;
+	case E_CONTACT_GENDER_SEX_OTHER:
+		sex = C_("gender-sex", "Other");
+		break;
+	case E_CONTACT_GENDER_SEX_NOT_APPLICABLE:
+		sex = C_("gender-sex", "Not Applicable");
+		break;
+	}
+
+	if (gender->identity)
+		g_strstrip (gender->identity);
+
+	if (gender->identity && *gender->identity && sex) {
+		gchar *str;
+
+		/* Translators: this is a gender sex with identity, in this order, making things
+		   like "Other, something" or "Male, something", where the "something" is a user-entered text */
+		str = g_strdup_printf (C_("gender", "%s, %s"), sex, gender->identity);
+		render_table_row (buffer, html_label, str, NULL, 0);
+		g_free (str);
+	} else if (sex) {
+		render_table_row (buffer, html_label, sex, NULL, 0);
+	}
+
+	e_contact_gender_free (gender);
+}
+
+static void
 accum_time_attribute (GString *buffer,
                       EContact *contact,
                       const gchar *html_label,
@@ -363,18 +413,57 @@ accum_time_attribute (GString *buffer,
                       guint html_flags)
 {
 	EContactDate *date;
-	GDate *gdate = NULL;
-	gchar sdate[100];
 
 	date = e_contact_get (contact, field);
 	if (date) {
-		gdate = g_date_new_dmy (
-			date->day,
-			date->month,
-			date->year);
-		g_date_strftime (sdate, 100, "%x", gdate);
-		g_date_free (gdate);
-		render_table_row (buffer, html_label, sdate, icon, html_flags);
+		guint year = date->year, month = date->month, day = date->day;
+		const gchar *format = NULL;
+
+		if (date->day > 0 && date->month > 0 && date->year > 0) {
+			format = "%x";
+		} else if (date->year != 0 || date->month != 0 || date->day != 0) {
+			if (date->year == 0) {
+				year = 2024;
+				if (date->month == 0) {
+					month = 1;
+					/* Translators: strftime format for partial date, when only the day is filled; it will be shown as a number */
+					format = C_("partial-date", "%d");
+				} else if (date->day == 0) {
+					day = 1;
+					/* Translators: strftime format for partial date, when only the month is filled; it will be shown as a month name; month number is "%m" */
+					format = C_("partial-date", "%B");
+				} else {
+					/* Translators: strftime format for partial date, when only the day and the month are filled; it will be shown as a month name followed by a day number; month number is "%m" */
+					format = C_("partial-date", "%B %d");
+				}
+			} else if (date->month == 0) {
+				month = 1;
+				if (date->day == 0) {
+					day = 1;
+					/* Translators: strftime format for partial date, when only the year is filled; it will be shown as a number */
+					format = C_("partial-date", "%Y");
+				} else {
+					/* Translators: strftime format for partial date, when only the day and the year are filled; it comes from "%m/%d/%Y", where the "%m" is the month, which is not set */
+					format = C_("partial-date", "--/%d/%Y");
+				}
+			} else /* if (date->day == 0) */ {
+				day = 1;
+				/* Translators: strftime format for partial date, when only the month and the year are filled; the month will be shown as a month name; month number is "%m" */
+				format = C_("partial-date", "%B %Y");
+			}
+		}
+
+		if (format != NULL) {
+			gchar sdate[256] = { 0, };
+			GDate *gdate;
+
+			gdate = g_date_new_dmy (day, month, year);
+			g_date_strftime (sdate, sizeof (sdate) - 1, format, gdate);
+			g_date_free (gdate);
+
+			render_table_row (buffer, html_label, sdate, icon, html_flags);
+		}
+
 		e_contact_date_free (date);
 	}
 }
@@ -422,6 +511,9 @@ accum_attribute_multival (GString *buffer,
 		if ((html_flags & E_TEXT_TO_HTML_CONVERT_URLS) != 0)
 			html_flags = 0;
 
+		if (!html_label)
+			html_label = e_contact_pretty_name (field);
+
 		render_table_row (buffer, html_label, val->str, icon, html_flags);
 	}
 
@@ -448,7 +540,7 @@ accum_sip (GString *buffer,
 	GString *val = g_string_new ("");
 	gchar *tmp;
 
-	sip_attr_list = e_contact_get_attributes (contact, E_CONTACT_SIP);
+	sip_attr_list = e_vcard_get_attributes_by_name (E_VCARD (contact), EVC_X_SIP);
 	for (l = sip_attr_list; l; l = g_list_next (l)) {
 		EVCardAttribute *attr = l->data;
 		gchar *sip;
@@ -505,7 +597,7 @@ accum_sip (GString *buffer,
 	}
 
 	g_string_free (val, TRUE);
-	g_list_free_full (sip_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free (sip_attr_list);
 }
 
 static const gchar *
@@ -798,7 +890,7 @@ accum_tel (GString *buffer,
 	GList *tel_attr_list, *l;
 	gchar *tmp;
 
-	tel_attr_list = e_contact_get_attributes (contact, E_CONTACT_TEL);
+	tel_attr_list = e_vcard_get_attributes_by_name (E_VCARD (contact), EVC_TEL);
 	for (l = tel_attr_list; l; l = g_list_next (l)) {
 		EVCardAttribute *attr = l->data;
 		guint html_flags = phone_flags;
@@ -851,7 +943,7 @@ accum_tel (GString *buffer,
 		g_free (tel);
 	}
 
-	g_list_free_full (tel_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free (tel_attr_list);
 }
 
 static void
@@ -860,7 +952,7 @@ render_contact_column (EABContactFormatter *formatter,
                        GString *buffer)
 {
 	GString *accum, *email;
-	GList *email_list, *l, *email_attr_list, *al;
+	GList *email_attr_list, *al;
 	gint email_num = 0;
 	const gchar *nl;
 	guint32 phone_flags = 0, sip_flags = 0;
@@ -880,15 +972,18 @@ render_contact_column (EABContactFormatter *formatter,
 	email = g_string_new ("");
 	nl = "";
 
-	email_list = e_contact_get (contact, E_CONTACT_EMAIL);
-	email_attr_list = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
+	email_attr_list = e_vcard_get_attributes_by_name (E_VCARD (contact), EVC_EMAIL);
 
-	for (l = email_list, al = email_attr_list; l && al; l = l->next, al = al->next) {
+	for (al = email_attr_list; al; al = g_list_next (al)) {
 		gchar *name = NULL, *mail = NULL;
 		const gchar *attr_str = get_email_location ((EVCardAttribute *) al->data);
+		const gchar *value = e_vcard_attribute_get_nth_value (al->data, 0);
 
-		if (!eab_parse_qp_email (l->data, &name, &mail))
-			mail = e_text_to_html (l->data, 0);
+		if (!value)
+			continue;
+
+		if (!eab_parse_qp_email (value, &name, &mail))
+			mail = e_text_to_html (value, 0);
 
 		g_string_append_printf (
 			email,
@@ -909,9 +1004,6 @@ render_contact_column (EABContactFormatter *formatter,
 		g_free (name);
 		g_free (mail);
 	}
-	g_list_foreach (email_list, (GFunc) g_free, NULL);
-	g_list_foreach (email_attr_list, (GFunc) e_vcard_attribute_free, NULL);
-	g_list_free (email_list);
 	g_list_free (email_attr_list);
 
 	accum = g_string_new ("");
@@ -924,6 +1016,7 @@ render_contact_column (EABContactFormatter *formatter,
 
 	accum_attribute (accum, contact, _("Nickname"), E_CONTACT_NICKNAME, NULL, 0);
 	accum_attribute (accum, contact, _("Categories"), E_CONTACT_CATEGORIES, NULL, 0);
+	accum_gender	(accum, contact, e_contact_pretty_name (E_CONTACT_GENDER));
 	accum_attribute_multival (accum, contact, _("AIM"), E_CONTACT_IM_AIM, AIM_ICON, 0);
 	accum_attribute_multival (accum, contact, _("GroupWise"), E_CONTACT_IM_GROUPWISE, GROUPWISE_ICON, 0);
 	accum_attribute_multival (accum, contact, _("ICQ"), E_CONTACT_IM_ICQ, ICQ_ICON, 0);
@@ -934,6 +1027,9 @@ render_contact_column (EABContactFormatter *formatter,
 	accum_attribute_multival (accum, contact, _("Skype"), E_CONTACT_IM_SKYPE, SKYPE_ICON, 0);
 	accum_attribute_multival (accum, contact, _("Twitter"), E_CONTACT_IM_TWITTER, TWITTER_ICON, 0);
 	accum_attribute_multival (accum, contact, _("Matrix"), E_CONTACT_IM_MATRIX, MATRIX_ICON, 0);
+	accum_attribute_multival (accum, contact, NULL, E_CONTACT_EXPERTISE, NULL, 0);
+	accum_attribute_multival (accum, contact, NULL, E_CONTACT_HOBBY, NULL, 0);
+	accum_attribute_multival (accum, contact, NULL, E_CONTACT_INTEREST, NULL, 0);
 
 	if (accum->len)
 		g_string_append_printf (
@@ -998,6 +1094,7 @@ render_work_column (EABContactFormatter *formatter,
 	accum_attribute (accum, contact, _("Company"), E_CONTACT_ORG, NULL, 0);
 	accum_attribute (accum, contact, _("Department"), E_CONTACT_ORG_UNIT, NULL, 0);
 	accum_attribute (accum, contact, _("Office"), E_CONTACT_OFFICE, NULL, 0);
+	accum_attribute_multival (accum, contact, NULL, E_CONTACT_ORG_DIRECTORY, NULL, 0);
 	accum_attribute (accum, contact, _("Profession"), E_CONTACT_ROLE, NULL, 0);
 	accum_attribute (accum, contact, _("Position"), E_CONTACT_TITLE, NULL, 0);
 	accum_attribute (accum, contact, _("Manager"), E_CONTACT_MANAGER, NULL, 0);
@@ -1048,8 +1145,11 @@ render_personal_column (EABContactFormatter *formatter,
 	accum_tel       (accum, contact, EAB_CONTACT_FORMATTER_TEL_TYPE_HOME, NULL, phone_flags);
 	accum_sip       (accum, contact, EAB_CONTACT_FORMATTER_SIP_TYPE_HOME, NULL, sip_flags);
 	accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_HOME, E_CONTACT_ADDRESS_LABEL_HOME);
-	accum_time_attribute (accum, contact, _("Birthday"), E_CONTACT_BIRTH_DATE, NULL, 0);
 	accum_time_attribute (accum, contact, _("Anniversary"), E_CONTACT_ANNIVERSARY, NULL, 0);
+	accum_time_attribute (accum, contact, _("Birthday"), E_CONTACT_BIRTH_DATE, NULL, 0);
+	accum_attribute (accum, contact, _("Birth Place"), E_CONTACT_BIRTHPLACE, NULL, 0);
+	accum_time_attribute (accum, contact, _("Death"), E_CONTACT_DEATHDATE, NULL, 0);
+	accum_attribute (accum, contact, _("Death Place"), E_CONTACT_DEATHPLACE, NULL, 0);
 	accum_attribute (accum, contact, _("Spouse"), E_CONTACT_SPOUSE, NULL, 0);
 	if (formatter->priv->render_maps)
 		accum_address_map (accum, contact, E_CONTACT_ADDRESS_HOME);

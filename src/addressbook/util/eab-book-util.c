@@ -194,9 +194,26 @@ eab_get_im_type_index (EVCardAttribute *attr)
 		field = e_contact_field_id_from_vcard (name);
 		if (field == eab_im_service[ii].field_id)
 			return ii;
+		if (g_ascii_strcasecmp (name, EVC_IMPP) == 0 ||
+		    g_ascii_strcasecmp (name, EVC_X_EVOLUTION_IMPP) == 0) {
+			GList *values;
+
+			values = e_vcard_attribute_get_values (attr);
+			if (values && values->data) {
+				field = e_contact_impp_scheme_to_field (values->data, NULL);
+				if (field == eab_im_service[ii].field_id)
+					return ii;
+			}
+		}
 	}
 	return -1;
 }
+
+/* Translators: if an IM address type is not one of the predefined types,
+   this generic label is used instead of one of the predefined labels.
+   IM=Instant Messaging
+ */
+#define FALLBACK_IM_LABEL C_("addressbook-label", "IM")
 
 const gchar *
 eab_get_im_label_text (EVCardAttribute *attr)
@@ -207,15 +224,38 @@ eab_get_im_label_text (EVCardAttribute *attr)
 	if (index >= 0) {
 		result = _(eab_im_service [index].text);
 	} else {
-		/* To Translators:
-		 * if an IM address type is not one of the predefined types,
-		 * this generic label is used instead of one of the predefined labels.
-		 * IM=Instant Messaging
-		 */
-		result = C_("addressbook-label", "IM");
+		result = FALLBACK_IM_LABEL;
 	}
 
 	return result;
+}
+
+const gchar *
+eab_get_impp_label_text (const gchar *impp_value,
+			 EContactField *out_equiv_field,
+			 guint *out_scheme_len)
+{
+	EContactField field_id;
+	guint ii;
+
+	if (impp_value) {
+		field_id = e_contact_impp_scheme_to_field (impp_value, out_scheme_len);
+
+		if (out_equiv_field)
+			*out_equiv_field = field_id;
+
+		if (field_id != E_CONTACT_FIELD_LAST) {
+			for (ii = 0; ii < G_N_ELEMENTS (eab_im_service); ii++) {
+				if (eab_im_service[ii].field_id == field_id)
+					return _(eab_im_service[ii].text);
+			}
+		}
+	}
+
+	if (out_equiv_field)
+		*out_equiv_field = E_CONTACT_FIELD_LAST;
+
+	return FALLBACK_IM_LABEL;
 }
 
 const EABTypeLabel*
@@ -386,7 +426,7 @@ eab_add_contact_to_string (GString *str,
 	gchar *vcard_str;
 
 	e_contact_inline_local_photos (contact, NULL);
-	vcard_str = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
+	vcard_str = e_vcard_to_string (E_VCARD (contact));
 
 	if (str->len)
 		g_string_append (str, "\r\n\r\n");
@@ -602,4 +642,22 @@ eab_parse_qp_email_to_html (const gchar *string)
 	g_free (mail);
 
 	return value;
+}
+
+EContact *
+eab_new_contact_for_book (EBookClient *book_client)
+{
+	EContact *contact;
+
+	contact = e_contact_new ();
+
+	if (book_client) {
+		EVCardVersion version;
+
+		version = e_book_client_get_prefer_vcard_version (book_client);
+		if (version != E_VCARD_VERSION_UNKNOWN)
+			e_vcard_add_attribute_with_value (E_VCARD (contact), e_vcard_attribute_new (NULL, EVC_VERSION), e_vcard_version_to_string (version));
+	}
+
+	return contact;
 }

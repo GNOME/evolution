@@ -1877,6 +1877,22 @@ e_contact_list_editor_get_contact (EContactListEditor *editor)
 	if (contact == NULL)
 		return NULL;
 
+	if (editor->priv->book_client) {
+		EVCardVersion prefer_version;
+
+		prefer_version = e_book_client_get_prefer_vcard_version (editor->priv->book_client);
+		if (prefer_version != E_VCARD_VERSION_UNKNOWN) {
+			EContact *converted;
+
+			converted = e_contact_convert (contact, prefer_version);
+			if (converted) {
+				g_clear_object (&editor->priv->contact);
+				editor->priv->contact = converted;
+				contact = editor->priv->contact;
+			}
+		}
+	}
+
 	text = gtk_entry_get_text (GTK_ENTRY (WIDGET (LIST_NAME_ENTRY)));
 	if (text != NULL && *text != '\0') {
 		e_contact_set (contact, E_CONTACT_FILE_AS, text);
