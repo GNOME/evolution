@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-09-18 09:12+0000\n"
-"PO-Revision-Date: 2025-09-18 15:22+0200\n"
+"POT-Creation-Date: 2025-10-02 18:41+0000\n"
+"PO-Revision-Date: 2025-10-02 23:23+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -3478,7 +3478,7 @@ msgstr "Filter stiskanja za program autoar"
 msgid "Compression filter used when compressing attached directories with autoar."
 msgstr "Filter stiskanja, ki je v uporabi za stiskanje vsebine map s programom autoar."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11 ../src/shell/e-shell.c:2046
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11 ../src/shell/e-shell.c:2048
 msgid "Start in offline mode"
 msgstr "Začni v načinu brez povezave"
 
@@ -12322,46 +12322,46 @@ msgstr "Kliknite tukaj za imenik"
 msgid "Click here to select folders to post to"
 msgstr "Kliknite tukaj za izbiro map za objavljanje"
 
-#: ../src/composer/e-msg-composer.c:1189
+#: ../src/composer/e-msg-composer.c:1212
 #, c-format
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Odhodnega sporočila ni mogoče podpisati: za ta račun ni nastavljeno nobeno potrdilo za "
 "podpisovanje"
 
-#: ../src/composer/e-msg-composer.c:1198
+#: ../src/composer/e-msg-composer.c:1221
 #, c-format
 msgid "Cannot encrypt outgoing message: No encryption certificate set for this account"
 msgstr ""
 "Odhodnega sporočila ni mogoče šifrirati: za ta račun ni nastavljeno nobeno potrdilo za "
 "šifriranje"
 
-#: ../src/composer/e-msg-composer.c:1643
+#: ../src/composer/e-msg-composer.c:1666
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Pridobivanje obdelane vsebine besedila/navadno je spodletelo"
 
-#: ../src/composer/e-msg-composer.c:1767
+#: ../src/composer/e-msg-composer.c:1790
 msgid "Failed to retrieve draft content"
 msgstr "Pridobivanje vsebine osnutka ni uspelo"
 
-#: ../src/composer/e-msg-composer.c:1780
+#: ../src/composer/e-msg-composer.c:1803
 msgid "Failed to retrieve HTML processed content"
 msgstr "Pridobivanje vsebine, obdelane v HTML-ju, ni uspelo"
 
-#: ../src/composer/e-msg-composer.c:2092 ../src/composer/e-msg-composer.c:2806
+#: ../src/composer/e-msg-composer.c:2115 ../src/composer/e-msg-composer.c:2829
 msgid "Compose Message"
 msgstr "Sestavi sporočilo"
 
-#: ../src/composer/e-msg-composer.c:5025
+#: ../src/composer/e-msg-composer.c:5048
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:366
 msgid "Reading text content…"
 msgstr "Poteka branje vsebine …"
 
-#: ../src/composer/e-msg-composer.c:5091
+#: ../src/composer/e-msg-composer.c:5114
 msgid "Send _without encryption"
 msgstr "Pošlji brez _šifriranja"
 
-#: ../src/composer/e-msg-composer.c:5879
+#: ../src/composer/e-msg-composer.c:5902
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Odstrani priloge pred pošiljanjem."
@@ -12369,7 +12369,7 @@ msgstr[1] "Odstrani prilogo pred pošiljanjem."
 msgstr[2] "Odstrani prilogi pred pošiljanjem."
 msgstr[3] "Odstrani priloge pred pošiljanjem."
 
-#: ../src/composer/e-msg-composer.c:5884
+#: ../src/composer/e-msg-composer.c:5907
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not contain any "
@@ -12390,7 +12390,7 @@ msgstr[3] ""
 "Dodane so bile %d priloge. Preden sporočilo pošljete, se prepričajte, da niso vključeni nobeni "
 "občutljivi podatki."
 
-#: ../src/composer/e-msg-composer.c:6010
+#: ../src/composer/e-msg-composer.c:6033
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Sestavljalnik vsebuje ne-besedilno telo sporočila, ki ga ni mogoče urejati."
 
@@ -22705,7 +22705,7 @@ msgstr "_Upravljanje skupin imenikov …"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
-msgid "Manage addres book groups order and visibility"
+msgid "Manage address book groups order and visibility"
 msgstr "Upravljanje razvrstitve in vidnosti skupin adresarjev"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1331
@@ -28754,7 +28754,7 @@ msgstr "Za povezavo s ciljnim gostiteljem so zahtevana posebna poverila."
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/e-shell.c:2040
+#: ../src/shell/e-shell.c:2042
 msgid ""
 "Start Evolution showing the specified component. Available options are “mail”, “calendar”, "
 "“contacts”, “tasks”, and “memos”"
@@ -28762,43 +28762,43 @@ msgstr ""
 "Zaženi program s privzetim pogledom. Na voljo so pogledi »pošta«, »koledar«, »stiki«, »naloge« "
 "in »opomniki«"
 
-#: ../src/shell/e-shell.c:2044
+#: ../src/shell/e-shell.c:2046
 msgid "Apply the given geometry to the main window"
 msgstr "Uveljavi podane nastavitve velikosti na glavnem oknu"
 
-#: ../src/shell/e-shell.c:2048
+#: ../src/shell/e-shell.c:2050
 msgid "Start in online mode"
 msgstr "Začni v povezanemu načinu"
 
-#: ../src/shell/e-shell.c:2050
+#: ../src/shell/e-shell.c:2052
 msgid "Ignore network availability"
 msgstr "Prezri razpoložljivost omrežja"
 
-#: ../src/shell/e-shell.c:2053
+#: ../src/shell/e-shell.c:2055
 msgid "Forcibly shut down Evolution and background Evolution-Data-Server processes"
 msgstr "Prisilno zaustavite procese Evolution in Evolution-Data-Server v ozadju"
 
-#: ../src/shell/e-shell.c:2056
+#: ../src/shell/e-shell.c:2058
 msgid "Disable loading of any plugins."
 msgstr "Onemogoči nalaganje vseh vstavkov."
 
-#: ../src/shell/e-shell.c:2058
+#: ../src/shell/e-shell.c:2060
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Onemogoči pladenj predogleda za pošto, stike in naloge."
 
-#: ../src/shell/e-shell.c:2062
+#: ../src/shell/e-shell.c:2064
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Uvozi naslove URI ali imena datotek podana kot argumenti."
 
-#: ../src/shell/e-shell.c:2064
+#: ../src/shell/e-shell.c:2066
 msgid "View URIs or filenames given as rest of arguments."
 msgstr "Oglejte si URI-je ali imena datotek, ki so navedena kot preostali argumenti."
 
-#: ../src/shell/e-shell.c:2066
+#: ../src/shell/e-shell.c:2068
 msgid "Request a running Evolution process to quit"
 msgstr "Zahteva po končanju programa Evolution"
 
-#: ../src/shell/e-shell.c:2176
+#: ../src/shell/e-shell.c:2178
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -28807,7 +28807,7 @@ msgstr ""
 "%s: možnosti --online in --offline ni mogoče uporabiti sočasno.\n"
 " Za več podrobnosti zaženite ukaz »%s --help«.\n"
 
-#: ../src/shell/e-shell.c:2182
+#: ../src/shell/e-shell.c:2184
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
