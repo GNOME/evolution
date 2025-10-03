@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-09-18 13:24+0000\n"
+"POT-Creation-Date: 2025-10-02 21:25+0000\n"
 "PO-Revision-Date: 2025-09-18 12:12-0300\n"
 "Last-Translator: Juliano de Souza Camargo <julianosc@pm.me>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
@@ -3893,7 +3893,7 @@ msgstr ""
 "Filtro de compressão usado ao comprimir diretórios anexados com autoar."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/e-shell.c:2046
+#: ../src/shell/e-shell.c:2048
 msgid "Start in offline mode"
 msgstr "Iniciar no modo desconectado"
 
@@ -13118,7 +13118,7 @@ msgstr "Clique aqui para abrir o catálogo de endereços"
 msgid "Click here to select folders to post to"
 msgstr "Clique aqui para selecionar as pastas onde publicar"
 
-#: ../src/composer/e-msg-composer.c:1189
+#: ../src/composer/e-msg-composer.c:1212
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -13126,7 +13126,7 @@ msgstr ""
 "Não foi possível assinar a mensagem a ser enviada: Não existe certificado de "
 "assinatura configurado para esta conta"
 
-#: ../src/composer/e-msg-composer.c:1198
+#: ../src/composer/e-msg-composer.c:1221
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -13135,38 +13135,38 @@ msgstr ""
 "Não foi possível criptografar a mensagem a ser enviada: Não existe "
 "certificado de criptografia configurado para esta conta"
 
-#: ../src/composer/e-msg-composer.c:1643
+#: ../src/composer/e-msg-composer.c:1666
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Falha ao recuperar conteúdo processado de texto/simples"
 
-#: ../src/composer/e-msg-composer.c:1767
+#: ../src/composer/e-msg-composer.c:1790
 msgid "Failed to retrieve draft content"
 msgstr "Falha ao recuperar o conteúdo de rascunho"
 
-#: ../src/composer/e-msg-composer.c:1780
+#: ../src/composer/e-msg-composer.c:1803
 msgid "Failed to retrieve HTML processed content"
 msgstr "Falha ao recuperar o conteúdo processado de HTML"
 
-#: ../src/composer/e-msg-composer.c:2092 ../src/composer/e-msg-composer.c:2806
+#: ../src/composer/e-msg-composer.c:2115 ../src/composer/e-msg-composer.c:2829
 msgid "Compose Message"
 msgstr "Redigir mensagem"
 
-#: ../src/composer/e-msg-composer.c:5025
+#: ../src/composer/e-msg-composer.c:5048
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:366
 msgid "Reading text content…"
 msgstr "Lendo conteúdo de texto…"
 
-#: ../src/composer/e-msg-composer.c:5091
+#: ../src/composer/e-msg-composer.c:5114
 msgid "Send _without encryption"
 msgstr "Enviar _sem criptografia"
 
-#: ../src/composer/e-msg-composer.c:5879
+#: ../src/composer/e-msg-composer.c:5902
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Revisar anexo antes de enviar."
 msgstr[1] "Revisar anexos antes de enviar."
 
-#: ../src/composer/e-msg-composer.c:5884
+#: ../src/composer/e-msg-composer.c:5907
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -13181,7 +13181,7 @@ msgstr[1] ""
 "%d anexos foram adicionados por uma aplicação externa. Certifique-se de que "
 "não contenha informações confidenciais antes de enviar a mensagem."
 
-#: ../src/composer/e-msg-composer.c:6010
+#: ../src/composer/e-msg-composer.c:6033
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "O redator contém um corpo de mensagem não texto, o qual não pode ser editado."
@@ -23843,7 +23843,7 @@ msgstr "_Gerenciar grupos de catálogo de endereços…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
-msgid "Manage addres book groups order and visibility"
+msgid "Manage address book groups order and visibility"
 msgstr "Gerencia ordem e visibilidade de grupos de agenda"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1331
@@ -30025,7 +30025,7 @@ msgstr "Credenciais são necessárias para conectar à máquina de destino."
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/e-shell.c:2040
+#: ../src/shell/e-shell.c:2042
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
@@ -30033,47 +30033,47 @@ msgstr ""
 "Iniciar o Evolution mostrando o componente especificado. Opções disponíveis "
 "são: “mail”, “calendar”, “contacts”, “tasks” e “memos”"
 
-#: ../src/shell/e-shell.c:2044
+#: ../src/shell/e-shell.c:2046
 msgid "Apply the given geometry to the main window"
 msgstr "Aplica a geometria fornecida para a janela principal"
 
-#: ../src/shell/e-shell.c:2048
+#: ../src/shell/e-shell.c:2050
 msgid "Start in online mode"
 msgstr "Inicia no modo conectado"
 
-#: ../src/shell/e-shell.c:2050
+#: ../src/shell/e-shell.c:2052
 msgid "Ignore network availability"
 msgstr "Ignorar disponibilidade de rede"
 
-#: ../src/shell/e-shell.c:2053
+#: ../src/shell/e-shell.c:2055
 msgid ""
 "Forcibly shut down Evolution and background Evolution-Data-Server processes"
 msgstr ""
 "Fechar forçadamente o Evolution e o processo de segundo plano Evolution-Data-"
 "Server"
 
-#: ../src/shell/e-shell.c:2056
+#: ../src/shell/e-shell.c:2058
 msgid "Disable loading of any plugins."
 msgstr "Desabilita o carregamento de qualquer plug-ins."
 
-#: ../src/shell/e-shell.c:2058
+#: ../src/shell/e-shell.c:2060
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Desabilita o painel de visualização do Correio, Contatos e Tarefas."
 
-#: ../src/shell/e-shell.c:2062
+#: ../src/shell/e-shell.c:2064
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr ""
 "Importa URIs ou nomes de arquivos fornecidos como argumentos faltantes."
 
-#: ../src/shell/e-shell.c:2064
+#: ../src/shell/e-shell.c:2066
 msgid "View URIs or filenames given as rest of arguments."
 msgstr "Ver URIs ou nomes de arquivos fornecidos como argumentos faltantes."
 
-#: ../src/shell/e-shell.c:2066
+#: ../src/shell/e-shell.c:2068
 msgid "Request a running Evolution process to quit"
 msgstr "Requisitar que o processo do Evolution seja fechado"
 
-#: ../src/shell/e-shell.c:2176
+#: ../src/shell/e-shell.c:2178
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -30082,7 +30082,7 @@ msgstr ""
 "%s: --online e --offline não podem ser usados juntos.\n"
 "  Utilize “%s --help” para mais informações.\n"
 
-#: ../src/shell/e-shell.c:2182
+#: ../src/shell/e-shell.c:2184
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
