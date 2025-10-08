@@ -125,10 +125,16 @@ message_parsed_cb (GObject *source_object,
 	if (message_uid) {
 		CamelObjectBag *parts_registry;
 		EMailPartList *reserved_parts_list;
+		gpointer existing;
 		gchar *mail_uri;
 
 		mail_uri = e_mail_part_build_uri (folder, message_uid, NULL, NULL);
 		parts_registry = e_mail_part_list_get_registry ();
+
+		/* picking the same file twice generates a runtime warning */
+		existing = camel_object_bag_peek (parts_registry, mail_uri);
+		if (existing)
+			camel_object_bag_remove (parts_registry, existing);
 
 		reserved_parts_list = camel_object_bag_reserve (parts_registry, mail_uri);
 		g_clear_object (&reserved_parts_list);
