@@ -1,3 +1,22 @@
+Evolution 3.58.1 2025-10-10
+---------------------------
+
+Bug Fixes:
+	I#3144 - Subject not decrypted in GPG encrypted mail
+	I#3148 - EWebView: Draw symbolic icons with theme foreground color
+	I#3150 - Missing "search type" drop-down menu on Calendar window
+	M!200 - shell: Connect the shell window delete-event handler using _after (gkatev)
+
+Miscellaneous:
+	Composer: Broken letters with reopened message in other than UTF-8 charset
+	data: Round down icon height of evolution-symbolic.svg
+
+Translations:
+	Aurimas Černius (lt)
+	Bruce Cowan (en_GB)
+	James Kerrane (es)
+	Jordi Mas (ca)
+
 Evolution 3.58.0 2025-09-12
 ---------------------------
 
