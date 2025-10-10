@@ -22876,7 +22876,7 @@ msgstr "Detectar aut_omáticamente"
 #. Translators: This is for "Toolbar Icon Size: Small"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:372
 msgid "Sm_all"
-msgstr "Peq_queña"
+msgstr "Pe_queña"
 
 #. Translators: This is for "Icons Look: Prefer symbolic"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:383
