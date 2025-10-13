@@ -253,12 +253,12 @@ e_show_uri (GtkWindow *parent,
 		_("Could not open the link."));
 
 	gtk_message_dialog_format_secondary_text (
-		GTK_MESSAGE_DIALOG (dialog), "%s", error->message);
+		GTK_MESSAGE_DIALOG (dialog), "%s", error ? error->message : _("Unknown error"));
 
 	gtk_dialog_run (GTK_DIALOG (dialog));
 
 	gtk_widget_destroy (dialog);
-	g_error_free (error);
+	g_clear_error (&error);
 }
 
 static gboolean
