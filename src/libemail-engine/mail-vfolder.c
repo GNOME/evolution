@@ -1082,7 +1082,6 @@ store_folder_renamed_cb (CamelStore *store,
 		G_UNLOCK (vfolder);
 	} else {
 		G_UNLOCK (vfolder);
-		g_warning ("couldn't find a vfolder rule in our table? %s", info->full_name);
 	}
 }
 
