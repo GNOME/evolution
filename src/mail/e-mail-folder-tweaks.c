@@ -393,3 +393,58 @@ e_mail_folder_tweaks_remove_sort_order_for_folders (EMailFolderTweaks *tweaks,
 
 	g_strfreev (groups);
 }
+
+void
+e_mail_folder_tweaks_folder_renamed (EMailFolderTweaks *tweaks,
+				     const gchar *old_folder_uri,
+				     const gchar *new_folder_uri)
+{
+	gchar **keys;
+
+	g_return_if_fail (E_IS_MAIL_FOLDER_TWEAKS (tweaks));
+	g_return_if_fail (old_folder_uri != NULL);
+	g_return_if_fail (new_folder_uri != NULL);
+
+	if (g_strcmp0 (old_folder_uri, new_folder_uri) == 0)
+		return;
+
+	if (!g_key_file_has_group (tweaks->priv->config, old_folder_uri))
+		return;
+
+	keys = g_key_file_get_keys (tweaks->priv->config, old_folder_uri, NULL, NULL);
+	if (keys) {
+		guint ii;
+
+		for (ii = 0; keys[ii]; ii++) {
+			gchar *value;
+
+			value = mail_folder_tweaks_dup_string (tweaks, old_folder_uri, keys[ii]);
+			mail_folder_tweaks_set_string (tweaks, new_folder_uri, keys[ii], value);
+
+			g_free (value);
+		}
+
+		g_strfreev (keys);
+	}
+
+	if (g_key_file_remove_group (tweaks->priv->config, old_folder_uri, NULL)) {
+		mail_folder_tweaks_schedule_save (tweaks);
+
+		g_signal_emit (tweaks, signals[CHANGED], 0, old_folder_uri, NULL);
+		g_signal_emit (tweaks, signals[CHANGED], 0, new_folder_uri, NULL);
+	}
+}
+
+void
+e_mail_folder_tweaks_folder_deleted (EMailFolderTweaks *tweaks,
+				     const gchar *folder_uri)
+{
+	g_return_if_fail (E_IS_MAIL_FOLDER_TWEAKS (tweaks));
+	g_return_if_fail (folder_uri != NULL);
+
+	if (g_key_file_remove_group (tweaks->priv->config, folder_uri, NULL)) {
+		mail_folder_tweaks_schedule_save (tweaks);
+
+		g_signal_emit (tweaks, signals[CHANGED], 0, folder_uri, NULL);
+	}
+}

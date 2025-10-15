@@ -23,23 +23,24 @@
 
 #include "evolution-config.h"
 
-#include "e-mail-backend.h"
-
 #include <errno.h>
 #include <string.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n-lib.h>
 
-#include <shell/e-shell.h>
+#include "shell/e-shell.h"
 
-#include <mail/e-mail-migrate.h>
-#include <mail/e-mail-ui-session.h>
-#include <mail/em-event.h>
-#include <mail/em-folder-tree-model.h>
-#include <mail/em-utils.h>
-#include <mail/mail-autofilter.h>
-#include <mail/mail-send-recv.h>
-#include <mail/mail-vfolder-ui.h>
+#include "e-mail-folder-tweaks.h"
+#include "e-mail-migrate.h"
+#include "e-mail-ui-session.h"
+#include "em-event.h"
+#include "em-folder-tree-model.h"
+#include "em-utils.h"
+#include "mail-autofilter.h"
+#include "mail-send-recv.h"
+#include "mail-vfolder-ui.h"
+
+#include "e-mail-backend.h"
 
 #define QUIT_POLL_INTERVAL 1  /* seconds */
 
@@ -582,6 +583,7 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 	CamelStoreClass *class;
 	ESourceRegistry *registry;
 	EShellBackend *shell_backend;
+	EMailFolderTweaks *tweaks;
 	EMailSession *session;
 	EAlertSink *alert_sink;
 	GList *list, *link;
@@ -678,6 +680,10 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
+	tweaks = e_mail_folder_tweaks_new ();
+	e_mail_folder_tweaks_folder_deleted (tweaks, uri);
+	g_clear_object (&tweaks);
+
 	g_free (uri);
 
 	/* This does something completely different.
@@ -696,6 +702,7 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 	CamelStoreClass *class;
 	ESourceRegistry *registry;
 	EShellBackend *shell_backend;
+	EMailFolderTweaks *tweaks;
 	GList *list, *link;
 	const gchar *extension_name;
 	gchar *old_uri;
@@ -810,6 +817,10 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 		g_free (oldname);
 		g_free (newname);
 	}
+
+	tweaks = e_mail_folder_tweaks_new ();
+	e_mail_folder_tweaks_folder_renamed (tweaks, old_uri, new_uri);
+	g_clear_object (&tweaks);
 
 	g_free (old_uri);
 	g_free (new_uri);

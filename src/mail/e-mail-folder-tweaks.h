@@ -90,6 +90,13 @@ void		e_mail_folder_tweaks_set_sort_order
 void		e_mail_folder_tweaks_remove_sort_order_for_folders
 						(EMailFolderTweaks *tweaks,
 						 const gchar *top_folder_uri);
+void		e_mail_folder_tweaks_folder_renamed
+						(EMailFolderTweaks *tweaks,
+						 const gchar *old_folder_uri,
+						 const gchar *new_folder_uri);
+void		e_mail_folder_tweaks_folder_deleted
+						(EMailFolderTweaks *tweaks,
+						 const gchar *folder_uri);
 
 G_END_DECLS
 
