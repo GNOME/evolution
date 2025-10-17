@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-10-17 09:06+0000\n"
-"PO-Revision-Date: 2025-10-17 15:03+0200\n"
+"POT-Creation-Date: 2025-10-17 13:05+0000\n"
+"PO-Revision-Date: 2025-10-17 20:53+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -4869,15 +4869,13 @@ msgid "Birth place"
 msgstr "Rojstni kraj"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
-#, fuzzy
 msgid "_Death:"
-msgstr "_Dan smrti:"
+msgstr "_Datum smrti:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:56
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1151
-#, fuzzy
 msgid "Death"
-msgstr "Dan smrti"
+msgstr "Datum smrti"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:57
 msgid "Death p_lace:"
@@ -4901,12 +4899,10 @@ msgid "_Gender:"
 msgstr "_Spol:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
-#, fuzzy
 msgid "Ex_pertise:"
-msgstr "_Znanja:"
+msgstr "_Stroka:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
-#, fuzzy
 msgid "_Interest:"
 msgstr "_Interesi:"
 
