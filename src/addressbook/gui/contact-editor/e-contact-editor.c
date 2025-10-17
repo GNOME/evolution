@@ -954,11 +954,9 @@ extract_email (EContactEditor *editor)
 				type);
 		}
 
-		e_vcard_attribute_add_value (attr, address);
+		e_vcard_attribute_add_value_take (attr, g_steal_pointer (&address));
 
 		attr_list = g_list_prepend (attr_list, attr);
-
-		g_free (address);
 
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
@@ -1131,11 +1129,9 @@ extract_phone (EContactEditor *editor)
 					attr, e_vcard_attribute_param_new (EVC_TYPE), type_2);
 		}
 
-		e_vcard_attribute_add_value (attr, phone);
+		e_vcard_attribute_add_value_take (attr, g_steal_pointer (&phone));
 
 		tel_attr_list = g_list_prepend (tel_attr_list, attr);
-
-		g_free (phone);
 
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
@@ -1347,11 +1343,9 @@ extract_sip (EContactEditor *editor)
 				attr, e_vcard_attribute_param_new (EVC_TYPE), type_1);
 		}
 
-		e_vcard_attribute_add_value (attr, sip);
+		e_vcard_attribute_add_value_take (attr, g_steal_pointer (&sip));
 
 		sip_attr_list = g_list_prepend (sip_attr_list, attr);
-
-		g_free (sip);
 
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
