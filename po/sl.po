@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-10-02 18:41+0000\n"
-"PO-Revision-Date: 2025-10-02 23:23+0200\n"
+"POT-Creation-Date: 2025-10-17 09:06+0000\n"
+"PO-Revision-Date: 2025-10-17 15:03+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -178,34 +178,42 @@ msgid "Whether to show job information in the editor"
 msgstr "Ali naj bodo v urejevalniku prikazani podatki o službi"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:37
+msgid "Show dates"
+msgstr "Pokaži datume"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:38
+msgid "Whether to show Dates section in the editor"
+msgstr "Ali naj se v urejevalniku prikaže razdelek Datumi"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:39
 msgid "Show Miscellaneous information"
 msgstr "Pokaži druge podrobnosti"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:38
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:40
 msgid "Whether to show Miscellaneous information in the editor"
 msgstr "Ali naj bodo v urejevalniku prikazani podatki Razno"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:39
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:41
 msgid "Show notes-tab"
 msgstr "Pokaži zavihek opomb"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:40
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:42
 msgid "Whether to show notes in the editor"
 msgstr "Ali naj se v urejevalniku prikažejo opombe"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:41
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:43
 msgid "Show Certificates tab"
 msgstr "Pokaži zavihek potrdil"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:42
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:44
 msgid "Whether to show Certificates tab in the editor"
 msgstr "Ali naj bo v urejevalniku pokazan tudi zavihek potrdil"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:43
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:45
 msgid "Where to open contact locations"
 msgstr "Kje naj se odpre mesto stika"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:44
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
 msgid ""
 "Currently supported values are “openstreetmap” and “google”; if unknown set, uses "
 "“openstreetmap”"
@@ -213,11 +221,11 @@ msgstr ""
 "Trenutno so podprte možnosti »openstreetmap« in »google«. Če nabor ni znan, je uporabljena "
 "možnost »openstreetmap«."
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:45
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:47
 msgid "Whether to prefer local application over opening map in a browser"
 msgstr "Ali imate raje krajevni program kot odpiranje zemljevida v brskalniku"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:48
 msgid ""
 "Open a contact location in a local application handling 'map:' URI, if available, instead of "
 "using a web browser"
@@ -225,11 +233,11 @@ msgstr ""
 "Odprite mesto stika v krajevnem programu, ki obdeluje URI »map:«, če je na voljo, namesto "
 "spletnega brskalnika"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:47
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:49
 msgid "Preview Personal before Work information"
 msgstr "Pokaži osebne podatke pred delovnimi"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:48
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:50
 msgid "Show the Personal information before the Work information in the contact preview"
 msgstr "Pokaži osebne podatke pred delovnimi podatki v predogledu stika"
 
@@ -3823,14 +3831,14 @@ msgstr "Sestavi sporočilo"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:8
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:9 ../src/e-util/e-name-selector-dialog.c:434
-#: ../src/modules/addressbook/e-book-shell-backend.c:274
+#: ../src/modules/addressbook/e-book-shell-backend.c:276
 #: ../src/modules/addressbook/e-book-shell-view.c:459
 msgid "Contacts"
 msgstr "Stiki"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1103
 #: ../src/e-util/e-collection-account-wizard.c:871 ../src/e-util/e-webdav-browser.c:541
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:211
 #: ../src/modules/calendar/e-cal-shell-view.c:732
@@ -3839,7 +3847,7 @@ msgid "Calendar"
 msgstr "Koledar"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:10 ../src/mail/importers/elm-importer.c:330
-#: ../src/mail/importers/kmail-importer.c:249 ../src/mail/importers/pine-importer.c:423
+#: ../src/mail/importers/kmail-importer.c:249 ../src/mail/importers/pine-importer.c:422
 #: ../src/modules/mail/e-mail-shell-view.c:1963 ../src/smime/gui/certificate-manager.c:1608
 msgid "Mail"
 msgstr "Pošta"
@@ -4423,7 +4431,7 @@ msgstr "Stik s tem naslovom že obstaja. Ali želite vseeno dodati novo vizitko 
 
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:889
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1521 ../src/e-util/e-accounts-window.c:1578
 #: ../src/e-util/e-html-editor-link-popover.c:126 ../src/e-util/e-html-editor-link-popover.c:298
 #: ../src/e-util/e-mail-signature-manager.c:309 ../src/e-util/e-name-selector-dialog.c:995
@@ -4548,17 +4556,17 @@ msgstr "Stik »{0}« v imeniku »{1}« že obstaja. ALi želite raje dodati kopi
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
 #: ../src/addressbook/addressbook.error.xml.h:55
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3243
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3517
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4351
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3405
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3679
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4536
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:467
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:561
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:806
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:616
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:884
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1857
 #: ../src/calendar/calendar.error.xml.h:190 ../src/calendar/gui/e-cal-dialogs.c:936
@@ -4630,39 +4638,43 @@ msgid "Show Job section"
 msgstr "Pokaži službene podatke"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:6
+msgid "Show Dates"
+msgstr "Pokaži datume"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:7
 msgid "Show Miscellaneous"
 msgstr "Pokaži razne možnosti"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:7
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:8
 msgid "Show Home Mailing Address"
 msgstr "Pokaži domači naslov"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:8
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:9
 msgid "Show Work Mailing Address"
 msgstr "Službeni poštni naslov"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:9
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:10
 msgid "Show Other Mailing Address"
 msgstr "Pokaži drug poštni naslov"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:10
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
 msgid "Show Notes"
 msgstr "Pokaži opombe"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
 msgid "Show Certificates"
 msgstr "Pokaži potrdila"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2482
 #: ../src/em-format/e-mail-formatter-attachment.c:327 ../src/mail/mail-config.ui.h:43
 msgid "Options"
 msgstr "Možnosti"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3517
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3679
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:887
 #: ../src/calendar/calendar.error.xml.h:56 ../src/calendar/gui/e-comp-editor.c:2384
 #: ../src/composer/e-composer-actions.c:259 ../src/composer/e-composer-actions.c:399
 #: ../src/e-util/e-attachment-store.c:837 ../src/e-util/e-attachment-store.c:844
@@ -4674,182 +4686,236 @@ msgstr "Možnosti"
 msgid "_Save"
 msgstr "_Shrani"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15 ../src/e-util/e-misc-utils.c:3109
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16 ../src/e-util/e-misc-utils.c:3109
 msgid "Image"
 msgstr "Slika"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17
 msgid "Nic_kname:"
 msgstr "_Vzdevek:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:18
 msgid "_File under:"
 msgstr "_Zavedi pod:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:18
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:19
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
 msgid "_Where:"
 msgstr "_Kje:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:19
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:20
 msgid "Ca_tegories..."
 msgstr "Ka_tegorije …"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:20
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
 msgid "Full _Name..."
 msgstr "_Polno ime …"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:22
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:8
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:920
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1347
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1447
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "Elektronska pošta"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:22
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
 msgid "_Wants to receive HTML mail"
 msgstr "Želi prejemati oblikovana sporočila (_HTML)"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:24
 msgid "Telephone"
 msgstr "Telefon"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:24
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:25
 msgid "SIP Address"
 msgstr "Naslov SIP"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:25
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:26
 msgid "Instant Messaging"
 msgstr "Hipno sporočanje"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:26
-#: ../src/addressbook/importers/evolution-vcard-importer.c:828
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:27
+#: ../src/addressbook/importers/evolution-vcard-importer.c:827
 msgid "Contact"
 msgstr "Stik"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:27
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1062
 msgid "_Home Page:"
 msgstr "_Osebna stran:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1070
 #: ../src/calendar/gui/e-comp-editor-event.c:1169 ../src/modules/itip-formatter/itip-view.c:2755
 msgid "_Calendar:"
 msgstr "_Koledar:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1074
 msgid "_Free/Busy:"
 msgstr "_Zasedenost:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:31
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1078
 msgid "_Video Chat:"
 msgstr "_Video klepet:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:31
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:32
 msgid "Home Page:"
 msgstr "Osebna stran:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:32
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:33
 #: ../src/modules/cal-config-google/e-cal-config-google.c:94
 msgid "Calendar:"
 msgstr "Koledar:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:33
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:34
 msgid "Free/Busy:"
 msgstr "Zasedenost:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:34
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:35
 msgid "Video Chat:"
 msgstr "Video klepet:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:35
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:36
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1066
 msgid "_Blog:"
 msgstr "_Blog:"
 
 #. Translators: an accessibility name
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:37
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:38
 msgid "Blog:"
 msgstr "Blog:"
 
 #. tab title
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:38
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:39
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:526
 msgid "Web Addresses"
 msgstr "Spletni naslovi"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:39
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:40
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1091
 msgid "_Profession:"
 msgstr "_Poklic:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:40
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:41
 msgctxt "Job"
 msgid "_Title:"
 msgstr "_Delovno mesto:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:41
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:42
 msgid "_Company:"
 msgstr "Po_djetje:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:42
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:43
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1105
 msgid "_Department:"
 msgstr "O_ddelek:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:43
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:44
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1109
 msgid "_Office:"
 msgstr "Pi_sarna:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:44
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
+#, fuzzy
+msgid "Or_g. Directory:"
+msgstr "Imenik _org.:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:46
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1082
 msgid "_Manager:"
 msgstr "_Nadzorni:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:47
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1087
 msgid "_Assistant:"
 msgstr "_Pomočnik:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:46
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:48
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:532
 msgid "Job"
 msgstr "Posel"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:47
-#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1113
-msgid "_Spouse:"
-msgstr "_Partner/ka:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:48
-msgid "_Birthday:"
-msgstr "_Rojstni dan:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:49
 msgid "_Anniversary:"
 msgstr "Ob_letnica:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1148
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:1778
 msgid "Anniversary"
 msgstr "Obletnica"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
+msgid "_Birthday:"
+msgstr "_Rojstni dan:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1149
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:1777
 msgid "Birthday"
 msgstr "Rojstni dan"
 
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
+msgid "Bi_rth place:"
+msgstr "_Kraj rojstva:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
+msgid "Birth place"
+msgstr "Rojstni kraj"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
+#, fuzzy
+msgid "_Death:"
+msgstr "_Dan smrti:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:56
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1151
+#, fuzzy
+msgid "Death"
+msgstr "Dan smrti"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:57
+msgid "Death p_lace:"
+msgstr "_Kraj smrti:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
+msgid "Death place"
+msgstr "Kraj smrti"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
+msgid "Dates"
+msgstr "Datumi"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:60
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1113
+msgid "_Spouse:"
+msgstr "_Partner/ka:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
+msgid "_Gender:"
+msgstr "_Spol:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
+#, fuzzy
+msgid "Ex_pertise:"
+msgstr "_Znanja:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
+#, fuzzy
+msgid "_Interest:"
+msgstr "_Interesi:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
+msgid "_Hobby:"
+msgstr "_Hobi:"
+
 #. Other options
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:65
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:540
 #: ../src/mail/e-mail-config-defaults-page.c:899
 #: ../src/modules/addressbook/autocompletion-config.c:122
@@ -4857,84 +4923,84 @@ msgstr "Rojstni dan"
 msgid "Miscellaneous"
 msgstr "Razno"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:66
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:525
 msgid "Personal Information"
 msgstr "Osebni podatki"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:825
 msgid "_City:"
 msgstr "_Mesto:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:68
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:826
 msgid "_Zip/Postal Code:"
 msgstr "_Poštna številka:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:56
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:827
 msgid "_State/Province:"
 msgstr "_Regija/Provinca:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:57
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:70
 msgid "_Country:"
 msgstr "Držav_a:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:71
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:828
 msgid "_PO Box:"
 msgstr "_Poštni predal:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:72
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:776
 #: ../src/composer/e-composer-from-header.c:117
 msgid "_Address:"
 msgstr "_Naslov:"
 
 #. tab title
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:60
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:73
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:81
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:544
 #: ../src/addressbook/gui/widgets/e-contact-map.c:411
 msgid "Home"
 msgstr "Domači"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:74
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:80
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1020
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1117
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:546
 #: ../src/addressbook/gui/widgets/e-contact-map.c:424
 msgid "Work"
 msgstr "Delovno mesto"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:75
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1086
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1186
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:548 ../src/calendar/gui/comp-util.c:1951
 msgid "Other"
 msgstr "Drugi"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:76
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:543
 msgid "Mailing Address"
 msgstr "Poštni naslovi"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:77
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
 msgid "Notes"
 msgstr "Opombe"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:65
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:78
 msgid "Add _PGP"
 msgstr "Dodaj _PGP"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:66
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:79
 msgid "Add _X.509"
 msgstr "Dodaj _X.509"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:80
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1537 ../src/e-util/e-attachment-view.c:1163
 #: ../src/e-util/e-filter-rule.c:405 ../src/e-util/e-html-editor-link-popover.c:310
@@ -4955,71 +5021,101 @@ msgstr "Dodaj _X.509"
 msgid "_Remove"
 msgstr "_Odstrani"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:68
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:81
 msgid "Load P_GP"
 msgstr "Naloži P_GP"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:82
 msgid "_Load X.509"
 msgstr "_Naloži X.509"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:70
-#: ../src/modules/addressbook/e-book-shell-backend.c:285
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:83
+#: ../src/modules/addressbook/e-book-shell-backend.c:287
 msgid "Certificates"
 msgstr "Potrdila"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:274
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:254
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:497
 msgid "Error adding contact"
 msgstr "Napaka med dodajanjem stika"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:294
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:274
 msgid "Error modifying contact"
 msgstr "Napaka med spreminjanjem stika"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:314
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:294
 msgid "Error removing contact"
 msgstr "Napaka med odstranjevanjem stika"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:694
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:716
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3081
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5056
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:674
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:696
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3023
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5270
 msgid "Contact Editor"
 msgstr "Urejevalnik stikov"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:710
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3075
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:690
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3017
 #, c-format
 msgid "Contact Editor — %s"
 msgstr "Urejevalnik stikov – %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3210
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2901
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:376
+msgctxt "gender-sex"
+msgid "Male"
+msgstr "Moški"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2902
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:379
+msgctxt "gender-sex"
+msgid "Female"
+msgstr "Ženska"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2903
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:382
+msgctxt "gender-sex"
+msgid "Other"
+msgstr "Drugo"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2904
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:371
+msgctxt "gender-sex"
+msgid "Unknown"
+msgstr "Neznano"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2905
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:385
+msgctxt "gender-sex"
+msgid "Not Applicable"
+msgstr "Ni primerno"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3372
 msgid "X.509 certificates"
 msgstr "Potrdila X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3215
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3377
 msgid "PGP keys"
 msgstr "Ključi PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3221
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3383
 #: ../src/e-util/e-html-editor-actions.c:548 ../src/e-util/e-image-chooser-dialog.c:182
 #: ../src/e-util/e-mail-signature-script-dialog.c:442 ../src/smime/gui/certificate-manager.c:663
 #: ../src/smime/gui/certificate-manager.c:948
 msgid "All files"
 msgstr "Vse datoteke"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3403
 msgid "Open PGP key"
 msgstr "Ključ OpenPGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3403
 msgid "Open X.509 certificate"
 msgstr "Potrdilo Open X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3243
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4352
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3405
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4537
 #: ../src/e-util/e-attachment-store.c:658 ../src/e-util/e-category-editor.c:170
 #: ../src/e-util/e-html-editor-actions.c:493 ../src/e-util/e-html-editor-actions.c:539
 #: ../src/e-util/e-html-editor-actions.c:652 ../src/e-util/e-image-chooser-dialog.c:171
@@ -5028,49 +5124,49 @@ msgstr "Potrdilo Open X.509"
 msgid "_Open"
 msgstr "_Odpri"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3258
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3420
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3692
 msgid "Chosen file is not a local file."
 msgstr "Izbrana datoteka ni krajevna datoteka."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3271
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3433
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "Nalaganje potrdila je spodletelo: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3345
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3507
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3345
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3507
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3515
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3677
 msgid "Save PGP key"
 msgstr "Shrani ključ PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3515
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3677
 msgid "Save X.509 certificate"
 msgstr "Shrani potrdilo X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3542
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3704
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "Shranjevanje potrdila je spodletelo: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4348
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4527
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4533
 msgid "Please select an image for this contact"
 msgstr "Izberite sliko za ta stik"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4353
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4538
 msgid "_No image"
 msgstr "_Brez slike"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4717
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4904
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -5078,55 +5174,51 @@ msgstr ""
 "Podatki o stiku niso veljavni:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4723
-#, c-format
-msgid "“%s” has an invalid format"
-msgstr "»%s« ima neveljaven zapis"
-
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4731
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4918
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "»%s« mora biti datum v preteklosti"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4739
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4941
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4952
 #, c-format
-msgid "%s“%s” has an invalid format"
-msgstr "%s'%s' ima neveljaven zapis"
+msgid "“%s” cannot be a partial date"
+msgstr "»%s« ne more biti delni datum"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4752
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4766
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4967
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4982
 #, c-format
-msgid "%s“%s” is empty"
-msgstr "%s'%s' je prazen"
+msgid "“%s” is empty"
+msgstr "»%s« je prazno"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4781
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4995
 msgid "Invalid contact."
 msgstr "Neveljaven stik."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5095
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5309
 #: ../src/calendar/gui/e-comp-editor.c:2267 ../src/calendar/gui/e-comp-editor.c:2346
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../src/shell/e-shell-window-actions.c:753
 msgid "_Help"
 msgstr "Pomo_č"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5236
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5451
 #: ../src/calendar/gui/e-comp-editor.c:2309 ../src/e-util/e-html-editor-actions.c:1390
 msgid "_Undo"
 msgstr "_Razveljavi"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5238
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5453
 #: ../src/calendar/gui/e-comp-editor.c:2311 ../src/e-util/e-focus-tracker.c:167
 #: ../src/e-util/e-focus-tracker.c:170
 msgid "Undo"
 msgstr "Razveljavi"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5243
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5458
 #: ../src/calendar/gui/e-comp-editor.c:2316 ../src/e-util/e-html-editor-actions.c:1376
 msgid "_Redo"
 msgstr "_Ponovno uveljavi"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5245
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5460
 #: ../src/calendar/gui/e-comp-editor.c:2318 ../src/e-util/e-focus-tracker.c:183
 #: ../src/e-util/e-focus-tracker.c:186
 msgid "Redo"
@@ -5381,7 +5473,7 @@ msgid "ends with"
 msgstr "se konča z"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:779
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:871
 msgid "Phone"
 msgstr "Telefon"
 
@@ -5462,25 +5554,70 @@ msgstr "Kliknite za odpiranje zemljevida za %s"
 msgid "Open map"
 msgstr "Odpri zemljevid"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:446
+#. Translators: this is a gender sex with identity, in this order, making things
+#. like "Other, something" or "Male, something", where the "something" is a user-entered text
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:397
+#, c-format
+msgctxt "gender"
+msgid "%s, %s"
+msgstr "%s, %s"
+
+#. Translators: strftime format for partial date, when only the day is filled; it will be shown as a number
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:430
+#, c-format
+msgctxt "partial-date"
+msgid "%d"
+msgstr "%d"
+
+#. Translators: strftime format for partial date, when only the month is filled; it will be shown as a month name; month number is "%m"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:434
+msgctxt "partial-date"
+msgid "%B"
+msgstr "%B"
+
+#. Translators: strftime format for partial date, when only the day and the month are filled; it will be shown as a month name followed by a day number; month number is "%m"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:437
+msgctxt "partial-date"
+msgid "%B %d"
+msgstr "%d. %B"
+
+#. Translators: strftime format for partial date, when only the year is filled; it will be shown as a number
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:444
+msgctxt "partial-date"
+msgid "%Y"
+msgstr "%Y"
+
+#. Translators: strftime format for partial date, when only the day and the year are filled; it comes from "%m/%d/%Y", where the "%m" is the month, which is not set
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:447
+msgctxt "partial-date"
+msgid "--/%d/%Y"
+msgstr "%d. --. %Y"
+
+#. Translators: strftime format for partial date, when only the month and the year are filled; the month will be shown as a month name; month number is "%m"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:452
+msgctxt "partial-date"
+msgid "%B %Y"
+msgstr "%B %Y"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:538
 msgid "SIP"
 msgstr "SIP"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:683
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:775
 msgid "List Members:"
 msgstr "Člani seznama:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:777
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:869
 msgid "Fax"
 msgstr "Faks"
 
 # M!
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1017
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Vzdevek"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1018
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:522
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:6 ../src/calendar/gui/e-memo-table.etspec.h:4
@@ -5488,155 +5625,163 @@ msgstr "Vzdevek"
 msgid "Categories"
 msgstr "Kategorije"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1020
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1021
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1022
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1023
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1024
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1025
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1026
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1027
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1028
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:936
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1029
 msgid "Matrix"
 msgstr "Matrix"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1094
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Podjetje"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1095
 msgid "Department"
 msgstr "Oddelek"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1096
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Pisarna"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1098
 msgid "Profession"
 msgstr "Poklic"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1099
 msgid "Position"
 msgstr "Položaj"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1100
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Upravljalnik"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1101
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Pomočnik"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1102
 msgid "Video Chat"
 msgstr "Video klepet"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1007
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1104
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Zasedenost"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1010
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1076
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1107
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1147
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1176
 msgid "Address"
 msgstr "Naslov"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1046
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1143
 msgid "Home Page"
 msgstr "Domača stran"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1144
 msgid "Web Log"
 msgstr "Spletni dnevnik"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1150
+msgid "Birth Place"
+msgstr "Rojstni kraj"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1152
+msgid "Death Place"
+msgstr "Kraj smrti"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1153
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Partner(ka)"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1063
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1163
 msgid "Personal"
 msgstr "Osebno"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1108
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1208
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Opomba"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1309
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1409
 msgid "List Members"
 msgstr "Člani seznama"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1332
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1432
 msgid "Job Title"
 msgstr "Službeni naziv"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1373
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1473
 msgid "Home page"
 msgstr "Domača stran"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1383
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1483
 msgid "Blog"
 msgstr "Blog"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:244
 #: ../src/e-util/e-mail-signature-editor.c:654
 msgid "Unnamed"
 msgstr "Neimenovan"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:350
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:333
 #: ../src/calendar/gui/tasktypes.xml.in.h:15 ../src/mail/mail-send-recv.c:1150
 msgid "Cancelled"
 msgstr "Preklicano"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:540
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:595
 msgid "Merge Contact"
 msgstr "Združi stik"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:562
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:812
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:617
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:890
 msgid "_Merge"
 msgstr "_Združi"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:801
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:879
 msgid "Duplicate Contact Detected"
 msgstr "Zaznan je bil podvojen stik"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:859
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:937
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
@@ -5644,7 +5789,7 @@ msgstr ""
 "Ime ali naslov elektronske pošte stika že obstaja\n"
 "v tej mapi. Ali želite spremembe vseeno shraniti?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:862
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:940
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -5652,19 +5797,19 @@ msgstr ""
 "Ime ali naslov elektronske pošte tega stika že obstaja\n"
 "v tej mapi. Ali želite podatke vseeno dodati?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:877
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:955
 msgid "Changed Contact:"
 msgstr "Spremenjeni stik:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:879
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:957
 msgid "New Contact:"
 msgstr "Nov stik:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:918
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:996
 msgid "Conflicting Contact:"
 msgstr "Sporni stik:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:920
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:998
 msgid "Old Contact:"
 msgstr "Star stik: "
 
@@ -5788,7 +5933,7 @@ msgstr "Napaka med dobivanju pogleda imenika"
 msgid "Search Interrupted"
 msgstr "Iskanje je prekinjeno"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-table-adapter.c:310
+#: ../src/addressbook/gui/widgets/e-addressbook-table-adapter.c:309
 msgid "Error modifying card"
 msgstr "Napaka med spreminjanjem vizitke"
 
@@ -6206,8 +6351,8 @@ msgid "_Find"
 msgstr "_Najdi"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:796
-#: ../src/addressbook/importers/evolution-ldif-importer.c:547
-#: ../src/addressbook/importers/evolution-vcard-importer.c:237
+#: ../src/addressbook/importers/evolution-ldif-importer.c:546
+#: ../src/addressbook/importers/evolution-vcard-importer.c:236
 #: ../src/calendar/importers/icalendar-importer.c:575
 #: ../src/calendar/importers/icalendar-importer.c:1058
 #: ../src/calendar/importers/icalendar-importer.c:1098 ../src/mail/e-mail-viewer.c:501
@@ -6242,23 +6387,23 @@ msgstr "Stiki Evolution CSV ali Tab (.csv, .tab)"
 msgid "Evolution Contacts CSV and Tab Importer"
 msgstr "Uvoznik stikov Evolution CSV in Tab"
 
-#: ../src/addressbook/importers/evolution-ldif-importer.c:717
+#: ../src/addressbook/importers/evolution-ldif-importer.c:716
 msgid "Can’t open .ldif file"
 msgstr "Ni mogoče odpreti datoteke .ldif"
 
-#: ../src/addressbook/importers/evolution-ldif-importer.c:819
+#: ../src/addressbook/importers/evolution-ldif-importer.c:818
 msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "Zapis za izmenjavo podatkov LDAP (.ldif)"
 
-#: ../src/addressbook/importers/evolution-ldif-importer.c:820
+#: ../src/addressbook/importers/evolution-ldif-importer.c:819
 msgid "Evolution LDIF importer"
 msgstr "Uvoznik Evolution LDIF"
 
-#: ../src/addressbook/importers/evolution-vcard-importer.c:489
+#: ../src/addressbook/importers/evolution-vcard-importer.c:488
 msgid "vCard (.vcf, .gcrd)"
 msgstr "vCard (.vcf, .gcrd)"
 
-#: ../src/addressbook/importers/evolution-vcard-importer.c:490
+#: ../src/addressbook/importers/evolution-vcard-importer.c:489
 msgid "Evolution vCard Importer"
 msgstr "Uvoznik vCard Evolution"
 
@@ -6373,12 +6518,11 @@ msgctxt "addressbook-label"
 msgid "SIP"
 msgstr "SIP"
 
-#. To Translators:
-#. * if an IM address type is not one of the predefined types,
-#. * this generic label is used instead of one of the predefined labels.
-#. * IM=Instant Messaging
+#. Translators: if an IM address type is not one of the predefined types,
+#. this generic label is used instead of one of the predefined labels.
+#. IM=Instant Messaging
 #.
-#: ../src/addressbook/util/eab-book-util.c:215
+#: ../src/addressbook/util/eab-book-util.c:216
 msgctxt "addressbook-label"
 msgid "IM"
 msgstr "IM"
@@ -6387,7 +6531,7 @@ msgstr "IM"
 #. * if a phone number type is not one of the predefined types,
 #. * this generic label is used instead of one of the predefined labels.
 #.
-#: ../src/addressbook/util/eab-book-util.c:270
+#: ../src/addressbook/util/eab-book-util.c:310
 msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefon"
@@ -7944,11 +8088,15 @@ msgstr "%a, %d. %b."
 msgid "%a %d %b %Y"
 msgstr "%a %d.%b.%Y"
 
+#: ../src/calendar/gui/e-calendar-view.c:1779
+msgid "Deathday"
+msgstr "Dan smrti"
+
 #. Translators: the '%s' stands for a component summary, the '%d' for the years.
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1797
+#: ../src/calendar/gui/e-calendar-view.c:1798
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -8266,16 +8414,17 @@ msgstr[3] "Poteka kopiranje %d nalog"
 #: ../src/calendar/gui/e-comp-editor.c:362 ../src/composer/e-composer-actions.c:189
 #: ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-markdown-utils.c:188
 #: ../src/e-util/e-markdown-utils.c:198 ../src/e-util/e-markdown-utils.c:208
-#: ../src/e-util/e-misc-utils.c:3442 ../src/e-util/e-misc-utils.c:3450
-#: ../src/e-util/e-misc-utils.c:3458 ../src/e-util/e-misc-utils.c:3493
-#: ../src/e-util/e-misc-utils.c:3506 ../src/e-util/e-misc-utils.c:3520
-#: ../src/e-util/e-ui-customize-dialog.c:3522 ../src/mail/e-mail-autoconfig.c:1096
-#: ../src/mail/e-mail-display.c:3142 ../src/mail/e-mail-notes.c:930
-#: ../src/mail/e-mail-reader.c:3943 ../src/mail/e-mail-reader-utils.c:815
-#: ../src/mail/e-mail-viewer.c:564 ../src/mail/e-mail-viewer.c:1561
-#: ../src/mail/e-mail-viewer.c:2508 ../src/mail/e-mail-viewer.c:2521
-#: ../src/mail/em-composer-utils.c:4294 ../src/mail/em-composer-utils.c:4317
-#: ../src/mail/mail-send-recv.c:604 ../src/mail/mail-send-recv.c:1500
+#: ../src/e-util/e-misc-utils.c:256 ../src/e-util/e-misc-utils.c:3442
+#: ../src/e-util/e-misc-utils.c:3450 ../src/e-util/e-misc-utils.c:3458
+#: ../src/e-util/e-misc-utils.c:3493 ../src/e-util/e-misc-utils.c:3506
+#: ../src/e-util/e-misc-utils.c:3520 ../src/e-util/e-ui-customize-dialog.c:3522
+#: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3142
+#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3943
+#: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
+#: ../src/mail/e-mail-viewer.c:1561 ../src/mail/e-mail-viewer.c:2508
+#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4294
+#: ../src/mail/em-composer-utils.c:4317 ../src/mail/mail-send-recv.c:604
+#: ../src/mail/mail-send-recv.c:1500
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:171
 #: ../src/modules/mail/e-mail-attachment-handler.c:557 ../src/plugins/face/face.c:175
 #: ../src/plugins/mail-to-task/mail-to-task.c:998 ../src/shell/e-shell.c:1278
@@ -13106,7 +13255,7 @@ msgid "evolution calendar item"
 msgstr "predmet koledarja evolution"
 
 #: ../src/e-util/e-accounts-window.c:554 ../src/e-util/e-accounts-window.c:671
-#: ../src/e-util/e-accounts-window.c:909 ../src/modules/mail/e-mail-shell-backend.c:1169
+#: ../src/e-util/e-accounts-window.c:909 ../src/modules/mail/e-mail-shell-backend.c:1175
 msgid "Mail Accounts"
 msgstr "Poštni računi"
 
@@ -13842,7 +13991,7 @@ msgid "Mail Send"
 msgstr "Pošiljanje pošte"
 
 #: ../src/e-util/e-collection-account-wizard.c:870 ../src/e-util/e-name-selector-dialog.c:431
-#: ../src/mail/importers/pine-importer.c:430
+#: ../src/mail/importers/pine-importer.c:429
 msgid "Address Book"
 msgstr "Imenik"
 
@@ -13945,13 +14094,14 @@ msgstr "Čas"
 msgid "No_w"
 msgstr "Zda_j"
 
-#: ../src/e-util/e-dateedit.c:768
+#: ../src/e-util/e-dateedit.c:768 ../src/e-util/e-split-date-edit.c:405
 msgid "_Today"
 msgstr "_Danes"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
-#: ../src/e-util/e-dateedit.c:777 ../src/mail/em-folder-selector.c:620
+#: ../src/e-util/e-dateedit.c:777 ../src/e-util/e-split-date-edit.c:412
+#: ../src/mail/em-folder-selector.c:620
 msgid "_None"
 msgstr "_Brez"
 
@@ -16300,6 +16450,18 @@ msgstr "Prezri vse"
 msgid "Spelling Suggestions"
 msgstr "Predlogi črkovanja"
 
+#: ../src/e-util/e-split-date-edit.c:300 ../src/e-util/e-split-date-edit.c:504
+msgid "Not set"
+msgstr "Ni nastavljeno"
+
+#: ../src/e-util/e-split-date-edit.c:471 ../src/modules/calendar/e-cal-shell-view-actions.c:1755
+msgid "Year"
+msgstr "Leto"
+
+#: ../src/e-util/e-split-date-edit.c:497
+msgid "Click to select date"
+msgstr "Kliknite za izbor datuma"
+
 #: ../src/e-util/e-system.error.xml.h:1
 msgid "A file named “{0}” already exists. Do you want to replace it?"
 msgstr "Datoteka z imenom »{0}« že obstaja. Ali jo želite zamenjati?"
@@ -17425,7 +17587,7 @@ msgstr "Pošiljanje sporočila"
 msgid "Disconnecting from “%s”"
 msgstr "Prekinjanje povezave s strežnikom »%s«"
 
-#: ../src/libemail-engine/e-mail-store-utils.c:231 ../src/mail/e-mail-backend.c:1051
+#: ../src/libemail-engine/e-mail-store-utils.c:231 ../src/mail/e-mail-backend.c:1062
 #, c-format
 msgid "Reconnecting to “%s”"
 msgstr "Ponovno povezovanje s strežnikom »%s«"
@@ -18018,7 +18180,7 @@ msgstr "Uporabi e-poštni naslov pošiljatelja"
 #: ../src/mail/mail-config.ui.h:37 ../src/modules/addressbook/autocompletion-config.c:109
 #: ../src/modules/calendar/e-calendar-preferences.c:646
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:56
-#: ../src/modules/mail/e-mail-shell-backend.c:1044
+#: ../src/modules/mail/e-mail-shell-backend.c:1050
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1628
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
@@ -20554,15 +20716,15 @@ msgstr "Uvažanje »%s«"
 msgid "Scanning %s"
 msgstr "Preiskovanje %s"
 
-#: ../src/mail/importers/pine-importer.c:248
+#: ../src/mail/importers/pine-importer.c:247
 msgid "Importing Pine data"
 msgstr "Uvažanje podatkov Pine"
 
-#: ../src/mail/importers/pine-importer.c:478
+#: ../src/mail/importers/pine-importer.c:477
 msgid "Evolution Pine importer"
 msgstr "Uvoznik Pine Evolution"
 
-#: ../src/mail/importers/pine-importer.c:479
+#: ../src/mail/importers/pine-importer.c:478
 msgid "Import mail from Pine."
 msgstr "Uvozi pošto iz Pina."
 
@@ -22455,8 +22617,8 @@ msgid "C_alendar"
 msgstr "_Koledar"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:486
-#: ../src/modules/addressbook/e-book-shell-backend.c:256
-#: ../src/modules/addressbook/e-book-shell-backend.c:471
+#: ../src/modules/addressbook/e-book-shell-backend.c:258
+#: ../src/modules/addressbook/e-book-shell-backend.c:473
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:151
 msgid "New Address Book"
 msgstr "Nov imenik"
@@ -22641,32 +22803,32 @@ msgstr "Podatki o stiku"
 msgid "Contact information for %s"
 msgstr "Podatki o stiku za %s"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:551
+#: ../src/modules/addressbook/e-book-shell-backend.c:553
 msgctxt "New"
 msgid "_Contact"
 msgstr "_Stik"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:553
+#: ../src/modules/addressbook/e-book-shell-backend.c:555
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1452
 msgid "Create a new contact"
 msgstr "Ustvari nov stik"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:558
+#: ../src/modules/addressbook/e-book-shell-backend.c:560
 msgctxt "New"
 msgid "Contact _List"
 msgstr "Seznam _stikov"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:560
+#: ../src/modules/addressbook/e-book-shell-backend.c:562
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1459
 msgid "Create a new contact list"
 msgstr "Ustvari nov seznam stikov"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:567
+#: ../src/modules/addressbook/e-book-shell-backend.c:569
 msgctxt "New"
 msgid "Address _Book"
 msgstr "_Imenik"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:569
+#: ../src/modules/addressbook/e-book-shell-backend.c:571
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1347
 msgid "Create a new address book"
 msgstr "Ustvari nov imenik"
@@ -24482,10 +24644,6 @@ msgstr "Pokaži en teden"
 msgid "Show one work week"
 msgstr "Pokaži en delovni teden"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1755
-msgid "Year"
-msgstr "Leto"
-
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1757
 msgid "Show as year"
 msgstr "Pokaži kot leto"
@@ -26202,114 +26360,114 @@ msgstr "Uvozi ključ OpenP_GP …"
 msgid "Import Pretty Good Privacy (OpenPGP) key"
 msgstr "Uvozi ključ OpenPGP (precej dobra zasebnost)"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:747
+#: ../src/modules/mail/e-mail-shell-backend.c:753
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "_Poštno sporočilo"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:749
+#: ../src/modules/mail/e-mail-shell-backend.c:755
 msgid "Compose a new mail message"
 msgstr "Sestavi novo poštno sporočilo"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:756
+#: ../src/modules/mail/e-mail-shell-backend.c:762
 msgctxt "New"
 msgid "Mail Acco_unt"
 msgstr "Poštni _račun"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:758
+#: ../src/modules/mail/e-mail-shell-backend.c:764
 msgid "Create a new mail account"
 msgstr "Ustvari nov poštni račun"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:763
+#: ../src/modules/mail/e-mail-shell-backend.c:769
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "Poštna _mapa"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:765
+#: ../src/modules/mail/e-mail-shell-backend.c:771
 msgid "Create a new mail folder"
 msgstr "Ustvari novo poštno mapo"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:1023
+#: ../src/modules/mail/e-mail-shell-backend.c:1029
 msgctxt "NetworkMonitor"
 msgid "base"
 msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:1026
+#: ../src/modules/mail/e-mail-shell-backend.c:1032
 msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr "netlink"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:1029
+#: ../src/modules/mail/e-mail-shell-backend.c:1035
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
 msgstr "networkmanager"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1060
+#: ../src/modules/mail/e-mail-shell-backend.c:1066
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
 msgstr "Način preverjanja stanja _povezanosti:"
 
 #. Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation
-#: ../src/modules/mail/e-mail-shell-backend.c:1071
+#: ../src/modules/mail/e-mail-shell-backend.c:1077
 #, c-format
 msgctxt "NetworkMonitor"
 msgid "Default (%s)"
 msgstr "Privzeto (%s)"
 
 #. Always as the first
-#: ../src/modules/mail/e-mail-shell-backend.c:1075
+#: ../src/modules/mail/e-mail-shell-backend.c:1081
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Privzeto"
 
 #. Always as the last
-#: ../src/modules/mail/e-mail-shell-backend.c:1092
+#: ../src/modules/mail/e-mail-shell-backend.c:1098
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Vedno povezano"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1107
+#: ../src/modules/mail/e-mail-shell-backend.c:1113
 msgid "_Limit operations in Power Saver mode"
 msgstr "_Omeji opravila med nastavitvami varčevanja"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1178
+#: ../src/modules/mail/e-mail-shell-backend.c:1184
 msgid "Mail Preferences"
 msgstr "Možnosti pošte"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1187
+#: ../src/modules/mail/e-mail-shell-backend.c:1193
 msgid "Composer Preferences"
 msgstr "Možnosti sestavljalnika"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1196
+#: ../src/modules/mail/e-mail-shell-backend.c:1202
 msgid "Network Preferences"
 msgstr "Možnosti omrežja"
 
 #. Translators: The first item in the list, to be able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1544
+#: ../src/modules/mail/e-mail-shell-backend.c:1550
 msgctxt "label"
 msgid "None"
 msgstr "Brez"
 
 #. Translators: The first item in the list, to be able to set rule: [Unset Label] [All]
-#: ../src/modules/mail/e-mail-shell-backend.c:1547
+#: ../src/modules/mail/e-mail-shell-backend.c:1553
 msgctxt "label"
 msgid "All"
 msgstr "Vse"
 
 #. Translators: Meaning "any configured addressbook included in autocompletion" in the filter dialog
-#: ../src/modules/mail/e-mail-shell-backend.c:1835
+#: ../src/modules/mail/e-mail-shell-backend.c:1841
 msgctxt "addrbook"
 msgid "Included in Autocompletion"
 msgstr "Vključeno v samodejno dopolnjevanje"
 
 #. Translators: Meaning "any configured addressbook" in the filter dialog
-#: ../src/modules/mail/e-mail-shell-backend.c:1841
+#: ../src/modules/mail/e-mail-shell-backend.c:1847
 msgctxt "addrbook"
 msgid "Any"
 msgstr "Katerokoli"
