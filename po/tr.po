@@ -18,16 +18,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-09-18 15:17+0000\n"
-"PO-Revision-Date: 2025-09-18 19:32+0300\n"
-"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
+"POT-Creation-Date: 2025-10-17 18:54+0000\n"
+"PO-Revision-Date: 2025-10-18 18:53+0300\n"
+"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -196,34 +196,42 @@ msgid "Whether to show job information in the editor"
 msgstr "Düzenleyicide iş bilgisinin gösterilip gösterilmeyeceği"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:37
+msgid "Show dates"
+msgstr "Tarihleri göster"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:38
+msgid "Whether to show Dates section in the editor"
+msgstr "Düzenleyicide Tarihler bölümünü gösterilme durumu"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:39
 msgid "Show Miscellaneous information"
 msgstr "Çeşitli bilgileri göster"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:38
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:40
 msgid "Whether to show Miscellaneous information in the editor"
 msgstr "Düzenleyicide Çeşitli bilgilerin gösterilip gösterilmeyeceği"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:39
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:41
 msgid "Show notes-tab"
 msgstr "Notlar sekmesini göster"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:40
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:42
 msgid "Whether to show notes in the editor"
 msgstr "Düzenleyicide notların gösterilip gösterilmeyeceği"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:41
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:43
 msgid "Show Certificates tab"
 msgstr "Sertifikalar sekmesini göster"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:42
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:44
 msgid "Whether to show Certificates tab in the editor"
 msgstr "Düzenleyicide Sertifikalar sekmesinin gösterilip gösterilmeyeceği"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:43
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:45
 msgid "Where to open contact locations"
 msgstr "Bağlantı konumlarının nereye açılacağı"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:44
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
 msgid ""
 "Currently supported values are “openstreetmap” and “google”; if unknown set, "
 "uses “openstreetmap”"
@@ -231,11 +239,11 @@ msgstr ""
 "Hâlihazırda desteklenen değerler “openstreetmap” ve “google”; bilinmeyen "
 "ayarlıysa, “openstreetmap” kullanılır"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:45
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:47
 msgid "Whether to prefer local application over opening map in a browser"
 msgstr "Haritayı tarayıcıda açmak yerine yerel uygulamanın yeğlenmesi"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:48
 msgid ""
 "Open a contact location in a local application handling 'map:' URI, if "
 "available, instead of using a web browser"
@@ -243,11 +251,11 @@ msgstr ""
 "Bağlantı konumunu, eğer varsa 'map:' URI’sini ele alan yerel uygulamada ya "
 "da web tarayıcıda açılması"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:47
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:49
 msgid "Preview Personal before Work information"
 msgstr "Kişiseli, İş bilgisinden önce ön izle"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:48
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:50
 msgid ""
 "Show the Personal information before the Work information in the contact "
 "preview"
@@ -3786,7 +3794,7 @@ msgstr ""
 "Eklenen dizinler autoar ile sıkıştırılırken kullanılan sıkıştırma süzgeci."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/e-shell.c:2046
+#: ../src/shell/e-shell.c:2048
 msgid "Start in offline mode"
 msgstr "Çevrim dışı kipte başla"
 
@@ -4154,14 +4162,14 @@ msgstr "İleti Yaz"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:8
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:9
 #: ../src/e-util/e-name-selector-dialog.c:434
-#: ../src/modules/addressbook/e-book-shell-backend.c:274
+#: ../src/modules/addressbook/e-book-shell-backend.c:276
 #: ../src/modules/addressbook/e-book-shell-view.c:459
 msgid "Contacts"
 msgstr "Bağlantılar"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1103
 #: ../src/e-util/e-collection-account-wizard.c:871
 #: ../src/e-util/e-webdav-browser.c:541
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:211
@@ -4173,7 +4181,7 @@ msgstr "Takvim"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:10
 #: ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:249
-#: ../src/mail/importers/pine-importer.c:423
+#: ../src/mail/importers/pine-importer.c:422
 #: ../src/modules/mail/e-mail-shell-view.c:1963
 #: ../src/smime/gui/certificate-manager.c:1608
 msgid "Mail"
@@ -4771,7 +4779,7 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:889
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1521
 #: ../src/e-util/e-accounts-window.c:1578
 #: ../src/e-util/e-html-editor-link-popover.c:126
@@ -4910,17 +4918,17 @@ msgstr ""
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
 #: ../src/addressbook/addressbook.error.xml.h:55
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3243
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3517
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4351
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3405
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3679
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4536
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:467
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:561
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:806
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:616
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:884
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1857
 #: ../src/calendar/calendar.error.xml.h:190
@@ -5005,40 +5013,44 @@ msgid "Show Job section"
 msgstr "İş bölümünü göster"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:6
+msgid "Show Dates"
+msgstr "Tarihleri Göster"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:7
 msgid "Show Miscellaneous"
 msgstr "Çeşitli Alanını Göster"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:7
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:8
 msgid "Show Home Mailing Address"
 msgstr "Ev Posta Adresini Göster"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:8
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:9
 msgid "Show Work Mailing Address"
 msgstr "İş Posta Adresini Göster"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:9
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:10
 msgid "Show Other Mailing Address"
 msgstr "Diğer Posta Adresini Göster"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:10
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
 msgid "Show Notes"
 msgstr "Notları Göster"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
 msgid "Show Certificates"
 msgstr "Sertifikaları Göster"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2482
 #: ../src/em-format/e-mail-formatter-attachment.c:327
 #: ../src/mail/mail-config.ui.h:43
 msgid "Options"
 msgstr "Seçenekler"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3517
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3679
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:887
 #: ../src/calendar/calendar.error.xml.h:56
 #: ../src/calendar/gui/e-comp-editor.c:2384
 #: ../src/composer/e-composer-actions.c:259
@@ -5055,184 +5067,233 @@ msgstr "Seçenekler"
 msgid "_Save"
 msgstr "_Kaydet"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
 #: ../src/e-util/e-misc-utils.c:3109
 msgid "Image"
 msgstr "Resim"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17
 msgid "Nic_kname:"
 msgstr "_Takma Ad:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:18
 msgid "_File under:"
 msgstr "_Altında dosyala:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:18
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:19
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
 msgid "_Where:"
 msgstr "_Konumu:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:19
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:20
 msgid "Ca_tegories..."
 msgstr "_Kategoriler..."
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:20
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
 msgid "Full _Name..."
 msgstr "_Tam Ad..."
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:22
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:8
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:920
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1347
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1447
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "E-posta"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:22
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
 msgid "_Wants to receive HTML mail"
 msgstr "_HTML postalar almak istiyor"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:24
 msgid "Telephone"
 msgstr "Telefon"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:24
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:25
 msgid "SIP Address"
 msgstr "SIP Adresi"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:25
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:26
 msgid "Instant Messaging"
 msgstr "Anlık Mesajlaşma"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:26
-#: ../src/addressbook/importers/evolution-vcard-importer.c:828
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:27
+#: ../src/addressbook/importers/evolution-vcard-importer.c:827
 msgid "Contact"
 msgstr "Bağlantı"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:27
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1062
 msgid "_Home Page:"
 msgstr "_Ev Sayfası:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1070
 #: ../src/calendar/gui/e-comp-editor-event.c:1169
 #: ../src/modules/itip-formatter/itip-view.c:2755
 msgid "_Calendar:"
 msgstr "_Takvim:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1074
 msgid "_Free/Busy:"
-msgstr "_Müsait/Meşgul:"
+msgstr "_Uygun/Meşgul:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:31
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1078
 msgid "_Video Chat:"
 msgstr "_Görüntülü Sohbet:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:31
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:32
 msgid "Home Page:"
 msgstr "Ev Sayfası:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:32
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:33
 #: ../src/modules/cal-config-google/e-cal-config-google.c:94
 msgid "Calendar:"
 msgstr "Takvim:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:33
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:34
 msgid "Free/Busy:"
 msgstr "Müsait/Meşgul:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:34
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:35
 msgid "Video Chat:"
 msgstr "Görüntülü Sohbet:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:35
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:36
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1066
 msgid "_Blog:"
 msgstr "_Blog:"
 
 #. Translators: an accessibility name
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:37
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:38
 msgid "Blog:"
 msgstr "Blog:"
 
 #. tab title
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:38
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:39
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:526
 msgid "Web Addresses"
 msgstr "Web Adresleri"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:39
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:40
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1091
 msgid "_Profession:"
 msgstr "_Uzmanlık Alanı:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:40
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:41
 msgctxt "Job"
 msgid "_Title:"
-msgstr "_Ünvanı:"
+msgstr "_Unvan:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:41
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:42
 msgid "_Company:"
 msgstr "Şir_ket:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:42
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:43
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1105
 msgid "_Department:"
 msgstr "_Bölüm:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:43
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:44
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1109
 msgid "_Office:"
 msgstr "_Ofis:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:44
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
+msgid "Or_g. Directory:"
+msgstr "Kurumsal Dizin:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:46
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1082
 msgid "_Manager:"
 msgstr "_Yönetici:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:47
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1087
 msgid "_Assistant:"
 msgstr "_Yardımcı:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:46
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:48
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:532
 msgid "Job"
 msgstr "İş"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:47
-#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1113
-msgid "_Spouse:"
-msgstr "_Eş:"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:48
-msgid "_Birthday:"
-msgstr "_Doğum Günü:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:49
 msgid "_Anniversary:"
 msgstr "_Yıldönümü:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1148
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:1778
 msgid "Anniversary"
 msgstr "Yıldönümü"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
+msgid "_Birthday:"
+msgstr "_Doğum Günü:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1149
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:1777
 msgid "Birthday"
 msgstr "Doğum Günü"
 
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
+msgid "Bi_rth place:"
+msgstr "D_oğum yeri:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
+msgid "Birth place"
+msgstr "Doğum yeri"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
+msgid "_Death:"
+msgstr "Ölü_m::"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:56
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1151
+msgid "Death"
+msgstr "Ölüm"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:57
+msgid "Death p_lace:"
+msgstr "Ölüm _yeri:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
+msgid "Death place"
+msgstr "Ölüm yeri"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
+msgid "Dates"
+msgstr "Tarihler"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:60
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1113
+msgid "_Spouse:"
+msgstr "_Eş:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
+msgid "_Gender:"
+msgstr "_Cinsiyet:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
+msgid "Ex_pertise:"
+msgstr "_Uzmanlık:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
+msgid "_Interest:"
+msgstr "İl_gi:"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
+msgid "_Hobby:"
+msgstr "_Hobi:"
+
 #. Other options
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:65
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:540
 #: ../src/mail/e-mail-config-defaults-page.c:899
 #: ../src/modules/addressbook/autocompletion-config.c:122
@@ -5240,85 +5301,85 @@ msgstr "Doğum Günü"
 msgid "Miscellaneous"
 msgstr "Çeşitli"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:66
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:525
 msgid "Personal Information"
 msgstr "Kişisel Bilgi"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:825
 msgid "_City:"
 msgstr "_Şehir:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:68
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:826
 msgid "_Zip/Postal Code:"
 msgstr "_Posta Kodu:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:56
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:827
 msgid "_State/Province:"
 msgstr "_Eyalet/Bölge:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:57
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:70
 msgid "_Country:"
 msgstr "_Ülke:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:71
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:828
 msgid "_PO Box:"
 msgstr "_Posta Kutusu:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:72
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:776
 #: ../src/composer/e-composer-from-header.c:117
 msgid "_Address:"
 msgstr "_Adres:"
 
 #. tab title
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:60
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:73
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:81
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:544
 #: ../src/addressbook/gui/widgets/e-contact-map.c:411
 msgid "Home"
 msgstr "Ev"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:74
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:80
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1020
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1117
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:546
 #: ../src/addressbook/gui/widgets/e-contact-map.c:424
 msgid "Work"
 msgstr "İş"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:75
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1086
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1186
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:548
 #: ../src/calendar/gui/comp-util.c:1951
 msgid "Other"
 msgstr "Diğer"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:76
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:543
 msgid "Mailing Address"
 msgstr "E-posta Adresi"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:77
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
 msgid "Notes"
 msgstr "Notlar"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:65
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:78
 msgid "Add _PGP"
 msgstr "_PGP Ekle"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:66
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:79
 msgid "Add _X.509"
 msgstr "_X.509 Ekle"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:80
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1537
 #: ../src/e-util/e-attachment-view.c:1163 ../src/e-util/e-filter-rule.c:405
@@ -5343,54 +5404,84 @@ msgstr "_X.509 Ekle"
 msgid "_Remove"
 msgstr "_Kaldır"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:68
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:81
 msgid "Load P_GP"
 msgstr "P_GP Yükle"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:82
 msgid "_Load X.509"
 msgstr "X.509 _Yükle"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:70
-#: ../src/modules/addressbook/e-book-shell-backend.c:285
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:83
+#: ../src/modules/addressbook/e-book-shell-backend.c:287
 msgid "Certificates"
 msgstr "Sertifikalar"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:274
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:254
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:497
 msgid "Error adding contact"
 msgstr "Bağlantı eklenirken hata oluştu"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:294
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:274
 msgid "Error modifying contact"
 msgstr "Bağlantı düzenlenirken hata oluştu"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:314
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:294
 msgid "Error removing contact"
 msgstr "Bağlantıyı silerken hata oluştu"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:694
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:716
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3081
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5056
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:674
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:696
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3023
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5270
 msgid "Contact Editor"
 msgstr "Bağlantı Düzenleyici"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:710
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3075
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:690
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3017
 #, c-format
 msgid "Contact Editor — %s"
 msgstr "Bağlantı Düzenleyici — %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3210
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2901
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:376
+msgctxt "gender-sex"
+msgid "Male"
+msgstr "Erkek"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2902
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:379
+msgctxt "gender-sex"
+msgid "Female"
+msgstr "Kadın"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2903
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:382
+msgctxt "gender-sex"
+msgid "Other"
+msgstr "Diğer"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2904
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:371
+msgctxt "gender-sex"
+msgid "Unknown"
+msgstr "Bilinmiyor"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2905
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:385
+msgctxt "gender-sex"
+msgid "Not Applicable"
+msgstr "Uygulanamaz"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3372
 msgid "X.509 certificates"
 msgstr "X.509 Sertifikaları"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3215
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3377
 msgid "PGP keys"
 msgstr "PGP anahtarları"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3221
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3383
 #: ../src/e-util/e-html-editor-actions.c:548
 #: ../src/e-util/e-image-chooser-dialog.c:182
 #: ../src/e-util/e-mail-signature-script-dialog.c:442
@@ -5399,17 +5490,17 @@ msgstr "PGP anahtarları"
 msgid "All files"
 msgstr "Tüm dosyalar"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3403
 msgid "Open PGP key"
 msgstr "PGP anahtarını aç"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3403
 msgid "Open X.509 certificate"
 msgstr "X.509 sertifikasını aç"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3243
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4352
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3405
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4537
 #: ../src/e-util/e-attachment-store.c:658 ../src/e-util/e-category-editor.c:170
 #: ../src/e-util/e-html-editor-actions.c:493
 #: ../src/e-util/e-html-editor-actions.c:539
@@ -5420,49 +5511,49 @@ msgstr "X.509 sertifikasını aç"
 msgid "_Open"
 msgstr "_Aç"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3258
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3420
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3692
 msgid "Chosen file is not a local file."
 msgstr "Seçilen dosya, yerel dosya değil."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3271
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3433
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "Sertifika yüklenemedi: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3345
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3507
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3345
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3507
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3515
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3677
 msgid "Save PGP key"
 msgstr "PGP anahtarını kaydet"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3515
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3677
 msgid "Save X.509 certificate"
 msgstr "X.509 sertifikasını kaydet"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3542
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3704
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "Sertifika kaydedilemedi: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4348
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4527
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4533
 msgid "Please select an image for this contact"
 msgstr "Lütfen bu bağlantı için resim seçin"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4353
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4538
 msgid "_No image"
 msgstr "_Resim yok"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4717
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4904
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -5470,32 +5561,28 @@ msgstr ""
 "Bağlantı verisi geçersiz:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4723
-#, c-format
-msgid "“%s” has an invalid format"
-msgstr "“%s” geçersiz biçime sahip"
-
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4731
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4918
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "“%s” gelecekteki tarih olamaz"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4739
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4941
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4952
 #, c-format
-msgid "%s“%s” has an invalid format"
-msgstr "%s“%s” geçersiz biçime sahip"
+msgid "“%s” cannot be a partial date"
+msgstr "“%s” kısmi tarih olamaz"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4752
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4766
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4967
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4982
 #, c-format
-msgid "%s“%s” is empty"
-msgstr "%s“%s” boş"
+msgid "“%s” is empty"
+msgstr "“%s” boş"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4781
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4995
 msgid "Invalid contact."
 msgstr "Geçersiz bağlantı."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5095
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5309
 #: ../src/calendar/gui/e-comp-editor.c:2267
 #: ../src/calendar/gui/e-comp-editor.c:2346
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
@@ -5503,25 +5590,25 @@ msgstr "Geçersiz bağlantı."
 msgid "_Help"
 msgstr "_Yardım"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5236
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5451
 #: ../src/calendar/gui/e-comp-editor.c:2309
 #: ../src/e-util/e-html-editor-actions.c:1390
 msgid "_Undo"
 msgstr "_Geri Al"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5238
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5453
 #: ../src/calendar/gui/e-comp-editor.c:2311 ../src/e-util/e-focus-tracker.c:167
 #: ../src/e-util/e-focus-tracker.c:170
 msgid "Undo"
 msgstr "Geri Al"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5243
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5458
 #: ../src/calendar/gui/e-comp-editor.c:2316
 #: ../src/e-util/e-html-editor-actions.c:1376
 msgid "_Redo"
 msgstr "_Yinele"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5245
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5460
 #: ../src/calendar/gui/e-comp-editor.c:2318 ../src/e-util/e-focus-tracker.c:183
 #: ../src/e-util/e-focus-tracker.c:186
 msgid "Redo"
@@ -5786,7 +5873,7 @@ msgid "ends with"
 msgstr "biter"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:779
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:871
 msgid "Phone"
 msgstr "Telefon"
 
@@ -5876,24 +5963,69 @@ msgstr "%s için haritayı aç"
 msgid "Open map"
 msgstr "Harita aç"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:446
+#. Translators: this is a gender sex with identity, in this order, making things
+#. like "Other, something" or "Male, something", where the "something" is a user-entered text
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:397
+#, c-format
+msgctxt "gender"
+msgid "%s, %s"
+msgstr "%s, %s"
+
+#. Translators: strftime format for partial date, when only the day is filled; it will be shown as a number
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:430
+#, c-format
+msgctxt "partial-date"
+msgid "%d"
+msgstr "%d"
+
+#. Translators: strftime format for partial date, when only the month is filled; it will be shown as a month name; month number is "%m"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:434
+msgctxt "partial-date"
+msgid "%B"
+msgstr "%B"
+
+#. Translators: strftime format for partial date, when only the day and the month are filled; it will be shown as a month name followed by a day number; month number is "%m"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:437
+msgctxt "partial-date"
+msgid "%B %d"
+msgstr "%B %d"
+
+#. Translators: strftime format for partial date, when only the year is filled; it will be shown as a number
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:444
+msgctxt "partial-date"
+msgid "%Y"
+msgstr "%Y"
+
+#. Translators: strftime format for partial date, when only the day and the year are filled; it comes from "%m/%d/%Y", where the "%m" is the month, which is not set
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:447
+msgctxt "partial-date"
+msgid "--/%d/%Y"
+msgstr "--/%d/%Y"
+
+#. Translators: strftime format for partial date, when only the month and the year are filled; the month will be shown as a month name; month number is "%m"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:452
+msgctxt "partial-date"
+msgid "%B %Y"
+msgstr "%B %Y"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:538
 msgid "SIP"
 msgstr "SIP"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:683
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:775
 msgid "List Members:"
 msgstr "Liste Üyeleri:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:777
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:869
 msgid "Fax"
 msgstr "Faks"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1017
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Takma ad"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1018
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:522
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:6
@@ -5903,155 +6035,163 @@ msgstr "Takma ad"
 msgid "Categories"
 msgstr "Kategoriler"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1020
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1021
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1022
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1023
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1024
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1025
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1026
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1027
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1028
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:936
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1029
 msgid "Matrix"
 msgstr "Matrix"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1094
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Şirket"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1095
 msgid "Department"
 msgstr "Bölüm"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1096
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Ofis"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1098
 msgid "Profession"
 msgstr "Uzmanlık Alanı"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1099
 msgid "Position"
 msgstr "Konum"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1100
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Yönetici"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1101
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Yardımcı"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1102
 msgid "Video Chat"
 msgstr "Görüntülü Sohbet"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1007
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1104
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Müsait/Meşgul"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1010
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1076
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1107
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1147
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1176
 msgid "Address"
 msgstr "Adres"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1046
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1143
 msgid "Home Page"
 msgstr "Başlangıç Sayfası"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1144
 msgid "Web Log"
 msgstr "Web Günlüğü"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1150
+msgid "Birth Place"
+msgstr "Doğum Yeri"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1152
+msgid "Death Place"
+msgstr "Ölüm Yeri"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1153
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Eş"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1063
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1163
 msgid "Personal"
 msgstr "Kişisel"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1108
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1208
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Not"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1309
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1409
 msgid "List Members"
 msgstr "Liste Üyeleri"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1332
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1432
 msgid "Job Title"
 msgstr "İş Ünvanı"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1373
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1473
 msgid "Home page"
 msgstr "Ev sayfası"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1383
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1483
 msgid "Blog"
 msgstr "Blog"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:244
 #: ../src/e-util/e-mail-signature-editor.c:654
 msgid "Unnamed"
 msgstr "Adsız"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:350
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:333
 #: ../src/calendar/gui/tasktypes.xml.in.h:15 ../src/mail/mail-send-recv.c:1150
 msgid "Cancelled"
 msgstr "İptal Edilmiş"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:540
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:595
 msgid "Merge Contact"
 msgstr "Bağlantı Birleştir"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:562
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:812
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:617
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:890
 msgid "_Merge"
 msgstr "_Birleştir"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:801
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:879
 msgid "Duplicate Contact Detected"
 msgstr "Yinelenen Bağlantı Bulundu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:859
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:937
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
@@ -6059,7 +6199,7 @@ msgstr ""
 "Bu klasörde bu bağlantının adı ya da e-posta adresi zaten var.\n"
 "Değişiklikleri yine de kaydetmek istiyor musunuz?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:862
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:940
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -6067,19 +6207,19 @@ msgstr ""
 "Bağlantının adı ya da e-posta adresi zaten bu klasörde\n"
 "var. Yine de eklemek istiyor musunuz?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:877
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:955
 msgid "Changed Contact:"
 msgstr "Değiştirilen Bağlantı:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:879
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:957
 msgid "New Contact:"
 msgstr "Yeni Bağlantı:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:918
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:996
 msgid "Conflicting Contact:"
 msgstr "Çakışan Bağlantı:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:920
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:998
 msgid "Old Contact:"
 msgstr "Eski Bağlantı:"
 
@@ -6205,7 +6345,7 @@ msgstr "Kitap görünümü alınırken hata"
 msgid "Search Interrupted"
 msgstr "Arama Kesintiye Uğradı"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-table-adapter.c:310
+#: ../src/addressbook/gui/widgets/e-addressbook-table-adapter.c:309
 msgid "Error modifying card"
 msgstr "Kartlar düzenlenirken hata oluştu"
 
@@ -6614,8 +6754,8 @@ msgid "_Find"
 msgstr "_Bul"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:796
-#: ../src/addressbook/importers/evolution-ldif-importer.c:547
-#: ../src/addressbook/importers/evolution-vcard-importer.c:237
+#: ../src/addressbook/importers/evolution-ldif-importer.c:546
+#: ../src/addressbook/importers/evolution-vcard-importer.c:236
 #: ../src/calendar/importers/icalendar-importer.c:575
 #: ../src/calendar/importers/icalendar-importer.c:1058
 #: ../src/calendar/importers/icalendar-importer.c:1098
@@ -6651,23 +6791,23 @@ msgstr "Evolution Bağlantıları CSV ya da Tab (.csv, .tab)"
 msgid "Evolution Contacts CSV and Tab Importer"
 msgstr "Evolution Bağlantıları CSV ve Tab İçe Aktarıcı"
 
-#: ../src/addressbook/importers/evolution-ldif-importer.c:717
+#: ../src/addressbook/importers/evolution-ldif-importer.c:716
 msgid "Can’t open .ldif file"
 msgstr ".ldif dosyası açılamıyor"
 
-#: ../src/addressbook/importers/evolution-ldif-importer.c:819
+#: ../src/addressbook/importers/evolution-ldif-importer.c:818
 msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "LDAP Veri Değişim Biçimi (.ldif)"
 
-#: ../src/addressbook/importers/evolution-ldif-importer.c:820
+#: ../src/addressbook/importers/evolution-ldif-importer.c:819
 msgid "Evolution LDIF importer"
 msgstr "Evolution LDIF içe aktarıcı"
 
-#: ../src/addressbook/importers/evolution-vcard-importer.c:489
+#: ../src/addressbook/importers/evolution-vcard-importer.c:488
 msgid "vCard (.vcf, .gcrd)"
 msgstr "vCard (.vcf, .gcrd)"
 
-#: ../src/addressbook/importers/evolution-vcard-importer.c:490
+#: ../src/addressbook/importers/evolution-vcard-importer.c:489
 msgid "Evolution vCard Importer"
 msgstr "Evolution vCard İçe Aktarıcı"
 
@@ -6782,12 +6922,11 @@ msgctxt "addressbook-label"
 msgid "SIP"
 msgstr "SIP"
 
-#. To Translators:
-#. * if an IM address type is not one of the predefined types,
-#. * this generic label is used instead of one of the predefined labels.
-#. * IM=Instant Messaging
+#. Translators: if an IM address type is not one of the predefined types,
+#. this generic label is used instead of one of the predefined labels.
+#. IM=Instant Messaging
 #.
-#: ../src/addressbook/util/eab-book-util.c:215
+#: ../src/addressbook/util/eab-book-util.c:216
 msgctxt "addressbook-label"
 msgid "IM"
 msgstr "IM"
@@ -6796,7 +6935,7 @@ msgstr "IM"
 #. * if a phone number type is not one of the predefined types,
 #. * this generic label is used instead of one of the predefined labels.
 #.
-#: ../src/addressbook/util/eab-book-util.c:270
+#: ../src/addressbook/util/eab-book-util.c:310
 msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefon"
@@ -8479,11 +8618,15 @@ msgstr "%d %b %a"
 msgid "%a %d %b %Y"
 msgstr "%d %b %Y %a"
 
+#: ../src/calendar/gui/e-calendar-view.c:1779
+msgid "Deathday"
+msgstr "Ölüm Günü"
+
 #. Translators: the '%s' stands for a component summary, the '%d' for the years.
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1797
+#: ../src/calendar/gui/e-calendar-view.c:1798
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -8600,7 +8743,7 @@ msgstr "Hayır"
 #: ../src/calendar/gui/e-cal-model-calendar.c:90
 #: ../src/calendar/gui/e-task-table.c:521
 msgid "Free"
-msgstr "Müsait"
+msgstr "Uygun"
 
 #: ../src/calendar/gui/e-cal-model-calendar.c:93
 #: ../src/calendar/gui/e-meeting-time-sel.c:528
@@ -8784,10 +8927,11 @@ msgstr[0] "%d görev kopyalanıyor"
 #: ../src/composer/e-composer-actions.c:189
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-markdown-utils.c:188 ../src/e-util/e-markdown-utils.c:198
-#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:3442
-#: ../src/e-util/e-misc-utils.c:3450 ../src/e-util/e-misc-utils.c:3458
-#: ../src/e-util/e-misc-utils.c:3493 ../src/e-util/e-misc-utils.c:3506
-#: ../src/e-util/e-misc-utils.c:3520 ../src/e-util/e-ui-customize-dialog.c:3522
+#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:256
+#: ../src/e-util/e-misc-utils.c:3442 ../src/e-util/e-misc-utils.c:3450
+#: ../src/e-util/e-misc-utils.c:3458 ../src/e-util/e-misc-utils.c:3493
+#: ../src/e-util/e-misc-utils.c:3506 ../src/e-util/e-misc-utils.c:3520
+#: ../src/e-util/e-ui-customize-dialog.c:3522
 #: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3142
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3943
 #: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
@@ -9666,7 +9810,7 @@ msgstr "_Zamanla"
 
 #: ../src/calendar/gui/e-comp-editor-page-schedule.c:510
 msgid "Query free / busy information for the attendees"
-msgstr "Katılımcılar için müsait/meşgul bilgisini sorgula"
+msgstr "Katılımcılar için uygun/meşgul bilgisini sorgula"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:93
 msgctxt "ECompEditor"
@@ -9676,11 +9820,11 @@ msgstr "_Özet:"
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:360
 #: ../src/e-util/e-url-entry.c:179
 msgid "Click here to open the URL"
-msgstr "URLʼyi açmak için buraya tıklayın"
+msgstr "URLʼyi açmak için buraya tıkla"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:362
 msgid "Click here to open map"
-msgstr "Haritayı açmak için buraya tıklayın"
+msgstr "Haritayı açmak için buraya tıkla"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:429
 msgctxt "ECompEditor"
@@ -10231,7 +10375,7 @@ msgstr "İşlemde"
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr ""
-"%s sunucusunda %s kullanıcısı olarak serbest/meşgül bilgilerine erişmek için "
+"%s sunucusunda %s kullanıcısı olarak uygun/meşgul bilgisine erişmek için "
 "parola giriniz"
 
 #: ../src/calendar/gui/e-meeting-store.c:2015
@@ -12944,7 +13088,7 @@ msgstr "Adres defteri için buraya tıklayın"
 msgid "Click here to select folders to post to"
 msgstr "Gönderilecek klasörleri seçmek için buraya tıklayın"
 
-#: ../src/composer/e-msg-composer.c:1189
+#: ../src/composer/e-msg-composer.c:1212
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -12952,7 +13096,7 @@ msgstr ""
 "Gönderilecek iletiler imzalanamıyor: Bu hesap için imzalama sertifikası "
 "belirtilmemiş"
 
-#: ../src/composer/e-msg-composer.c:1198
+#: ../src/composer/e-msg-composer.c:1221
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -12961,37 +13105,37 @@ msgstr ""
 "Gönderilecek iletiler şifrelenemiyor: Bu hesap için imzalama sertifikası "
 "belirtilmemiş"
 
-#: ../src/composer/e-msg-composer.c:1643
+#: ../src/composer/e-msg-composer.c:1666
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Metin/düz işlenmiş içerik alınamadı"
 
-#: ../src/composer/e-msg-composer.c:1767
+#: ../src/composer/e-msg-composer.c:1790
 msgid "Failed to retrieve draft content"
 msgstr "Taslak içeriği alınamadı"
 
-#: ../src/composer/e-msg-composer.c:1780
+#: ../src/composer/e-msg-composer.c:1803
 msgid "Failed to retrieve HTML processed content"
 msgstr "HTML işlenmiş içerik alınamadı"
 
-#: ../src/composer/e-msg-composer.c:2092 ../src/composer/e-msg-composer.c:2806
+#: ../src/composer/e-msg-composer.c:2115 ../src/composer/e-msg-composer.c:2829
 msgid "Compose Message"
 msgstr "İleti Yaz"
 
-#: ../src/composer/e-msg-composer.c:5025
+#: ../src/composer/e-msg-composer.c:5048
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:366
 msgid "Reading text content…"
 msgstr "Metin içeriği okunuyor…"
 
-#: ../src/composer/e-msg-composer.c:5091
+#: ../src/composer/e-msg-composer.c:5114
 msgid "Send _without encryption"
 msgstr "Şifrelemeden _gönder"
 
-#: ../src/composer/e-msg-composer.c:5879
+#: ../src/composer/e-msg-composer.c:5902
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Ek(ler)i göndermeden gözden geçir."
 
-#: ../src/composer/e-msg-composer.c:5884
+#: ../src/composer/e-msg-composer.c:5907
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -13003,7 +13147,7 @@ msgstr[0] ""
 "%d ek dış uygulamaca eklendi. İletiyi göndermeden önce hassas bilgi "
 "barındırmadığından emin olun."
 
-#: ../src/composer/e-msg-composer.c:6010
+#: ../src/composer/e-msg-composer.c:6033
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Düzenleyicide metin olmayan ve düzenlenemeyen ileti gövdesi bulunmaktadır."
@@ -13780,7 +13924,7 @@ msgstr "evolution takvim ögesi"
 
 #: ../src/e-util/e-accounts-window.c:554 ../src/e-util/e-accounts-window.c:671
 #: ../src/e-util/e-accounts-window.c:909
-#: ../src/modules/mail/e-mail-shell-backend.c:1169
+#: ../src/modules/mail/e-mail-shell-backend.c:1175
 msgid "Mail Accounts"
 msgstr "Posta Hesapları"
 
@@ -14530,7 +14674,7 @@ msgstr "Posta Gönder"
 
 #: ../src/e-util/e-collection-account-wizard.c:870
 #: ../src/e-util/e-name-selector-dialog.c:431
-#: ../src/mail/importers/pine-importer.c:430
+#: ../src/mail/importers/pine-importer.c:429
 msgid "Address Book"
 msgstr "Adres Defteri"
 
@@ -14637,13 +14781,14 @@ msgstr "Zaman"
 msgid "No_w"
 msgstr "Ş_imdi"
 
-#: ../src/e-util/e-dateedit.c:768
+#: ../src/e-util/e-dateedit.c:768 ../src/e-util/e-split-date-edit.c:405
 msgid "_Today"
 msgstr "_Bugün"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
-#: ../src/e-util/e-dateedit.c:777 ../src/mail/em-folder-selector.c:620
+#: ../src/e-util/e-dateedit.c:777 ../src/e-util/e-split-date-edit.c:412
+#: ../src/mail/em-folder-selector.c:620
 msgid "_None"
 msgstr "_Yok"
 
@@ -17025,6 +17170,19 @@ msgstr "Tümünü Yok Say"
 msgid "Spelling Suggestions"
 msgstr "İmla Önerileri"
 
+#: ../src/e-util/e-split-date-edit.c:300 ../src/e-util/e-split-date-edit.c:504
+msgid "Not set"
+msgstr "Ayarlanmadı"
+
+#: ../src/e-util/e-split-date-edit.c:471
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1755
+msgid "Year"
+msgstr "Yıl"
+
+#: ../src/e-util/e-split-date-edit.c:497
+msgid "Click to select date"
+msgstr "Tarih seçmek için tıkla"
+
 #: ../src/e-util/e-system.error.xml.h:1
 msgid "A file named “{0}” already exists. Do you want to replace it?"
 msgstr "“{0}” adlı dosya zaten var. Yerine koymak ister misiniz?"
@@ -18171,7 +18329,7 @@ msgid "Disconnecting from “%s”"
 msgstr "“%s” bağlantısı kesiliyor"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:231
-#: ../src/mail/e-mail-backend.c:1051
+#: ../src/mail/e-mail-backend.c:1062
 #, c-format
 msgid "Reconnecting to “%s”"
 msgstr "“%s”e yeniden bağlanılıyor"
@@ -18777,7 +18935,7 @@ msgstr "Gönderen e-posta adresini kullan"
 #: ../src/modules/addressbook/autocompletion-config.c:109
 #: ../src/modules/calendar/e-calendar-preferences.c:646
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:56
-#: ../src/modules/mail/e-mail-shell-backend.c:1044
+#: ../src/modules/mail/e-mail-shell-backend.c:1050
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1628
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
@@ -21289,15 +21447,15 @@ msgstr "“%s” içe aktarılıyor"
 msgid "Scanning %s"
 msgstr "%s taranıyor"
 
-#: ../src/mail/importers/pine-importer.c:248
+#: ../src/mail/importers/pine-importer.c:247
 msgid "Importing Pine data"
 msgstr "Pine verilerini aktarılıyor"
 
-#: ../src/mail/importers/pine-importer.c:478
+#: ../src/mail/importers/pine-importer.c:477
 msgid "Evolution Pine importer"
 msgstr "Evolution Pine aktarıcı"
 
-#: ../src/mail/importers/pine-importer.c:479
+#: ../src/mail/importers/pine-importer.c:478
 msgid "Import mail from Pine."
 msgstr "Pineʼdan posta aktar."
 
@@ -23260,8 +23418,8 @@ msgid "C_alendar"
 msgstr "T_akvim"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:486
-#: ../src/modules/addressbook/e-book-shell-backend.c:256
-#: ../src/modules/addressbook/e-book-shell-backend.c:471
+#: ../src/modules/addressbook/e-book-shell-backend.c:258
+#: ../src/modules/addressbook/e-book-shell-backend.c:473
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:151
 msgid "New Address Book"
 msgstr "Yeni Adres Defteri"
@@ -23446,32 +23604,32 @@ msgstr "Bağlantı bilgileri"
 msgid "Contact information for %s"
 msgstr "%s için bağlantı bilgileri"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:551
+#: ../src/modules/addressbook/e-book-shell-backend.c:553
 msgctxt "New"
 msgid "_Contact"
 msgstr "_Bağlantı"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:553
+#: ../src/modules/addressbook/e-book-shell-backend.c:555
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1452
 msgid "Create a new contact"
 msgstr "Yeni bağlantı oluştur"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:558
+#: ../src/modules/addressbook/e-book-shell-backend.c:560
 msgctxt "New"
 msgid "Contact _List"
 msgstr "Bağlantı _Listesi"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:560
+#: ../src/modules/addressbook/e-book-shell-backend.c:562
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1459
 msgid "Create a new contact list"
 msgstr "Yeni bağlantı listesi oluştur"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:567
+#: ../src/modules/addressbook/e-book-shell-backend.c:569
 msgctxt "New"
 msgid "Address _Book"
 msgstr "Adres _Defteri"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:569
+#: ../src/modules/addressbook/e-book-shell-backend.c:571
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1347
 msgid "Create a new address book"
 msgstr "Yeni adres defteri oluştur"
@@ -23510,7 +23668,7 @@ msgstr "Adres Defteri Kümelerini _Yönet…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
-msgid "Manage addres book groups order and visibility"
+msgid "Manage address book groups order and visibility"
 msgstr "Adres defteri kümelerinin düzenini ve görünürlüğünü yönet"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1331
@@ -25310,10 +25468,6 @@ msgstr "Bir hafta göster"
 msgid "Show one work week"
 msgstr "Bir çalışma haftası göster"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1755
-msgid "Year"
-msgstr "Yıl"
-
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1757
 msgid "Show as year"
 msgstr "Yıl olarak göster"
@@ -27037,114 +27191,114 @@ msgstr "OpenP_GP anahtarını içe aktar…"
 msgid "Import Pretty Good Privacy (OpenPGP) key"
 msgstr "Oldukça İyi Gizlilik (OpenPGP) anahtarını içe aktar"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:747
+#: ../src/modules/mail/e-mail-shell-backend.c:753
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "_Posta İletisi"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:749
+#: ../src/modules/mail/e-mail-shell-backend.c:755
 msgid "Compose a new mail message"
 msgstr "Yeni posta iletisi hazırla"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:756
+#: ../src/modules/mail/e-mail-shell-backend.c:762
 msgctxt "New"
 msgid "Mail Acco_unt"
 msgstr "Posta _Hesabı"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:758
+#: ../src/modules/mail/e-mail-shell-backend.c:764
 msgid "Create a new mail account"
 msgstr "Yeni e-posta hesabı oluştur"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:763
+#: ../src/modules/mail/e-mail-shell-backend.c:769
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "Posta _Klasörü"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:765
+#: ../src/modules/mail/e-mail-shell-backend.c:771
 msgid "Create a new mail folder"
 msgstr "Yeni posta klasörü oluştur"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:1023
+#: ../src/modules/mail/e-mail-shell-backend.c:1029
 msgctxt "NetworkMonitor"
 msgid "base"
 msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:1026
+#: ../src/modules/mail/e-mail-shell-backend.c:1032
 msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr "netlink"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:1029
+#: ../src/modules/mail/e-mail-shell-backend.c:1035
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
 msgstr "networkmanager"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1060
+#: ../src/modules/mail/e-mail-shell-backend.c:1066
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
 msgstr "_Çevrim içi durumu saptama yöntemi:"
 
 #. Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation
-#: ../src/modules/mail/e-mail-shell-backend.c:1071
+#: ../src/modules/mail/e-mail-shell-backend.c:1077
 #, c-format
 msgctxt "NetworkMonitor"
 msgid "Default (%s)"
 msgstr "Öntanımlı (%s)"
 
 #. Always as the first
-#: ../src/modules/mail/e-mail-shell-backend.c:1075
+#: ../src/modules/mail/e-mail-shell-backend.c:1081
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Öntanımlı"
 
 #. Always as the last
-#: ../src/modules/mail/e-mail-shell-backend.c:1092
+#: ../src/modules/mail/e-mail-shell-backend.c:1098
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Her Zaman Çevrim İçi"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1107
+#: ../src/modules/mail/e-mail-shell-backend.c:1113
 msgid "_Limit operations in Power Saver mode"
 msgstr "Güç Tutumu kipinde işlemleri _kısıtla"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1178
+#: ../src/modules/mail/e-mail-shell-backend.c:1184
 msgid "Mail Preferences"
 msgstr "Posta Tercihleri"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1187
+#: ../src/modules/mail/e-mail-shell-backend.c:1193
 msgid "Composer Preferences"
 msgstr "Düzenleyici Tercihleri"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1196
+#: ../src/modules/mail/e-mail-shell-backend.c:1202
 msgid "Network Preferences"
 msgstr "Ağ Tercihleri"
 
 #. Translators: The first item in the list, to be able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1544
+#: ../src/modules/mail/e-mail-shell-backend.c:1550
 msgctxt "label"
 msgid "None"
 msgstr "Hiçbiri"
 
 #. Translators: The first item in the list, to be able to set rule: [Unset Label] [All]
-#: ../src/modules/mail/e-mail-shell-backend.c:1547
+#: ../src/modules/mail/e-mail-shell-backend.c:1553
 msgctxt "label"
 msgid "All"
 msgstr "Tümü"
 
 #. Translators: Meaning "any configured addressbook included in autocompletion" in the filter dialog
-#: ../src/modules/mail/e-mail-shell-backend.c:1835
+#: ../src/modules/mail/e-mail-shell-backend.c:1841
 msgctxt "addrbook"
 msgid "Included in Autocompletion"
 msgstr "Kendiliğinden Tamamlamada İçerilen"
 
 #. Translators: Meaning "any configured addressbook" in the filter dialog
-#: ../src/modules/mail/e-mail-shell-backend.c:1841
+#: ../src/modules/mail/e-mail-shell-backend.c:1847
 msgctxt "addrbook"
 msgid "Any"
 msgstr "Herhangi"
@@ -29602,7 +29756,7 @@ msgstr "Hedef makineye bağlantı için kimlik bilgileri gerekiyor."
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/e-shell.c:2040
+#: ../src/shell/e-shell.c:2042
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
@@ -29610,49 +29764,49 @@ msgstr ""
 "Evolutionʼu belirtilen bileşen ile başlat. Uygun seçenekler “mail”, "
 "“calendar”, “contacts”, “tasks”, ve “memos“"
 
-#: ../src/shell/e-shell.c:2044
+#: ../src/shell/e-shell.c:2046
 msgid "Apply the given geometry to the main window"
 msgstr "Verilen geometriyi ana pencereye uygula"
 
-#: ../src/shell/e-shell.c:2048
+#: ../src/shell/e-shell.c:2050
 msgid "Start in online mode"
 msgstr "Çevrim içi kipte başla"
 
-#: ../src/shell/e-shell.c:2050
+#: ../src/shell/e-shell.c:2052
 msgid "Ignore network availability"
 msgstr "Ağ uygunluğunu göz ardı et"
 
-#: ../src/shell/e-shell.c:2053
+#: ../src/shell/e-shell.c:2055
 msgid ""
 "Forcibly shut down Evolution and background Evolution-Data-Server processes"
 msgstr ""
 "Evolution ve arka plandaki Evolution-Data-Server süreçlerini kapanmaya zorla"
 
-#: ../src/shell/e-shell.c:2056
+#: ../src/shell/e-shell.c:2058
 msgid "Disable loading of any plugins."
 msgstr "Hiçbir eklenti yüklenmesine izin verme."
 
-#: ../src/shell/e-shell.c:2058
+#: ../src/shell/e-shell.c:2060
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Posta, Bağlantılar ve Görevler ön izleme bölmelerini kapat."
 
-#: ../src/shell/e-shell.c:2062
+#: ../src/shell/e-shell.c:2064
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr ""
 "Argümanların geri kalanı olarak verilen dosya adları ya da URIʼleri içe "
 "aktar."
 
-#: ../src/shell/e-shell.c:2064
+#: ../src/shell/e-shell.c:2066
 msgid "View URIs or filenames given as rest of arguments."
 msgstr ""
 "Argümanların geri kalanı olarak verilen URIʼleri ya da dosya adlarını "
 "görüntüle."
 
-#: ../src/shell/e-shell.c:2066
+#: ../src/shell/e-shell.c:2068
 msgid "Request a running Evolution process to quit"
 msgstr "Çalışan Evolution sürecinden çıkmasını iste"
 
-#: ../src/shell/e-shell.c:2176
+#: ../src/shell/e-shell.c:2178
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -29661,7 +29815,7 @@ msgstr ""
 "%s: --online ve --offline aynı anda kullanılamaz.\n"
 "  Daha çok bilgi için “%s --help” çalıştırın.\n"
 
-#: ../src/shell/e-shell.c:2182
+#: ../src/shell/e-shell.c:2184
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -30747,3 +30901,11 @@ msgstr "Deponun diske yazılması başarısız, hata_kodu: %i"
 #: ../src/smime/lib/e-pkcs12.c:470
 msgid "Imported Certificate"
 msgstr "Aktarılmış Sertifika"
+
+#, c-format
+#~ msgid "“%s” has an invalid format"
+#~ msgstr "“%s” geçersiz biçime sahip"
+
+#, c-format
+#~ msgid "%s“%s” has an invalid format"
+#~ msgstr "%s“%s” geçersiz biçime sahip"
