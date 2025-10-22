@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-10-17 13:05+0000\n"
-"PO-Revision-Date: 2025-10-17 20:53+0200\n"
+"POT-Creation-Date: 2025-10-20 20:44+0000\n"
+"PO-Revision-Date: 2025-10-22 17:54+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -4819,7 +4819,6 @@ msgid "_Office:"
 msgstr "Pi_sarna:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
-#, fuzzy
 msgid "Or_g. Directory:"
 msgstr "Imenik _org.:"
 
