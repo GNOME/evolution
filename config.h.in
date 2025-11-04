@@ -122,3 +122,6 @@
 
 /* Define if libical-glib has i_cal_recurrence_get_by() */
 #cmakedefine HAVE_I_CAL_RECURRENCE_GET_BY 1
+
+/* Defined if gsettings-desktop-schemas contains GDesktopWeekday enum */
+#cmakedefine HAVE_G_DESKTOP_WEEKDAY 1

@@ -290,6 +290,21 @@ pkg_check_modules(SQLITE3 REQUIRED sqlite3>=${sqlite_minimum_version})
 pkg_check_variable(EDS_SOURCES_DBUS_SERVICE_NAME evolution-data-server-1.2 sourcesdbusservicename)
 pkg_check_variable(E_DATA_SERVER_ICONDIR evolution-data-server-1.2 icondir)
 
+set(CMAKE_REQUIRED_DEFINITIONS ${GNOME_PLATFORM_CFLAGS})
+set(CMAKE_REQUIRED_INCLUDES ${GNOME_PLATFORM_INCLUDE_DIRS})
+set(CMAKE_REQUIRED_LIBRARIES ${GNOME_PLATFORM_LDFLAGS})
+
+CHECK_C_SOURCE_COMPILES("#include <gdesktop-enums.h>
+			int main(void) {
+				GDesktopWeekday wd = G_DESKTOP_WEEKDAY_DEFAULT;
+				wd = G_DESKTOP_WEEKDAY_MONDAY;
+				return 0;
+			}" HAVE_G_DESKTOP_WEEKDAY)
+
+unset(CMAKE_REQUIRED_DEFINITIONS)
+unset(CMAKE_REQUIRED_INCLUDES)
+unset(CMAKE_REQUIRED_LIBRARIES)
+
 # ******************************
 # Enchant - support both, but better to use the same as the dependencies (gspell, webkitgtk+,...)
 # ******************************

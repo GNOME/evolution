@@ -428,6 +428,11 @@
       <default>'monday'</default>
       <_summary>First day of the week</_summary>
     </key>
+    <key name="use-system-week-start-day" type="b">
+      <default>true</default>
+      <_summary>Use system week start day</_summary>
+      <_description>Use the GNOME system setting for week start day, instead of the Evolution own setting</_description>
+    </key>
     <key name="work-day-monday" type="b">
       <default>true</default>
       <_summary>Monday is a work day</_summary>

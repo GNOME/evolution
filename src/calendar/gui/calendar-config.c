@@ -30,6 +30,10 @@
 #include <string.h>
 #include <gio/gio.h>
 
+#ifdef HAVE_G_DESKTOP_WEEKDAY
+#include <gdesktop-enums.h>
+#endif
+
 #include <shell/e-shell.h>
 
 #include "calendar-config-keys.h"
@@ -483,11 +487,281 @@ calendar_config_get_prefer_meeting (void)
 	return prefer_meeting;
 }
 
+/* helper object to catch up on both desktop and Evolution GSettings changes of the week-start-day option */
+#define E_TYPE_CALENDAR_CONFIG_WEEK_START_DAY e_calendar_config_week_start_day_get_type ()
+G_DECLARE_FINAL_TYPE (ECalendarConfigWeekStartDay, e_calendar_config_week_start_day, E, CALENDAR_CONFIG_WEEK_START_DAY, GObject)
+struct _ECalendarConfigWeekStartDay {
+	GObject parent;
+
+	GSettings *calendar_settings;
+	gulong calendar_settings_handler_id;
+	gulong calendar_settings_system_handler_id;
+
+	#ifdef HAVE_G_DESKTOP_WEEKDAY
+	GSettings *desktop_settings;
+	gulong desktop_settings_handler_id;
+	#endif /* HAVE_G_DESKTOP_WEEKDAY */
+
+	GDateWeekday current_value;
+};
+
+G_DEFINE_TYPE (ECalendarConfigWeekStartDay, e_calendar_config_week_start_day, G_TYPE_OBJECT)
+
+enum {
+	PROP_0,
+	PROP_WEEK_START_DAY,
+	N_PROPS
+};
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
+
+#ifdef HAVE_G_DESKTOP_WEEKDAY
+static gboolean
+calendar_config_desktop_weekday_to_glib (GDesktopWeekday desktop_weekday,
+					 GDateWeekday *out_glib_weekday)
+{
+	gboolean valid = TRUE;
+
+	switch (desktop_weekday) {
+	case G_DESKTOP_WEEKDAY_MONDAY:
+		*out_glib_weekday = G_DATE_MONDAY;
+		break;
+	case G_DESKTOP_WEEKDAY_TUESDAY:
+		*out_glib_weekday = G_DATE_TUESDAY;
+		break;
+	case G_DESKTOP_WEEKDAY_WEDNESDAY:
+		*out_glib_weekday = G_DATE_WEDNESDAY;
+		break;
+	case G_DESKTOP_WEEKDAY_THURSDAY:
+		*out_glib_weekday = G_DATE_THURSDAY;
+		break;
+	case G_DESKTOP_WEEKDAY_FRIDAY:
+		*out_glib_weekday = G_DATE_FRIDAY;
+		break;
+	case G_DESKTOP_WEEKDAY_SATURDAY:
+		*out_glib_weekday = G_DATE_SATURDAY;
+		break;
+	case G_DESKTOP_WEEKDAY_SUNDAY:
+		*out_glib_weekday = G_DATE_SUNDAY;
+		break;
+	default:
+		valid = FALSE;
+		break;
+	}
+
+	return valid;
+}
+#endif /* HAVE_G_DESKTOP_WEEKDAY */
+
+static void
+e_calendar_config_week_start_day_settings_changed_cb (GSettings *settings,
+						      const gchar *key,
+						      gpointer user_data)
+{
+	ECalendarConfigWeekStartDay *self = user_data;
+	GDateWeekday new_value = G_DATE_BAD_WEEKDAY;
+
+	#ifdef HAVE_G_DESKTOP_WEEKDAY
+	if (self->desktop_settings && g_settings_get_boolean (self->calendar_settings, "use-system-week-start-day")) {
+		GDesktopWeekday desktop_weekday;
+
+		desktop_weekday = g_settings_get_enum (self->desktop_settings, "week-start-day");
+		if (!calendar_config_desktop_weekday_to_glib (desktop_weekday, &new_value))
+			new_value = G_DATE_BAD_WEEKDAY;
+	}
+	#endif /* HAVE_G_DESKTOP_WEEKDAY */
+
+	if (new_value == G_DATE_BAD_WEEKDAY)
+		new_value = g_settings_get_enum (self->calendar_settings, "week-start-day-name");
+
+	if (new_value != self->current_value) {
+		self->current_value = new_value;
+		g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_WEEK_START_DAY]);
+	}
+}
+
+static void
+e_calendar_config_week_start_day_get_property (GObject *object,
+					       guint property_id,
+					       GValue *value,
+					       GParamSpec *pspec)
+{
+	ECalendarConfigWeekStartDay *self = E_CALENDAR_CONFIG_WEEK_START_DAY (object);
+
+	switch (property_id) {
+	case PROP_WEEK_START_DAY:
+		g_value_set_enum (value, self->current_value);
+		return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static GObject *week_start_day_singleton = NULL;
+G_LOCK_DEFINE_STATIC (week_start_day_singleton);
+
+static void
+week_start_day_singleton_weak_ref_cb (gpointer user_data,
+				      GObject *object)
+{
+	G_LOCK (week_start_day_singleton);
+
+	g_warn_if_fail (object == week_start_day_singleton);
+	week_start_day_singleton = NULL;
+
+	G_UNLOCK (week_start_day_singleton);
+}
+
+static GObject *
+e_calendar_config_week_start_day_constructor (GType type,
+					      guint n_construct_params,
+					      GObjectConstructParam *construct_params)
+{
+	GObject *object;
+
+	G_LOCK (week_start_day_singleton);
+
+	if (week_start_day_singleton) {
+		object = g_object_ref (week_start_day_singleton);
+	} else {
+		object = G_OBJECT_CLASS (e_calendar_config_week_start_day_parent_class)->constructor (type, n_construct_params, construct_params);
+
+		if (object)
+			g_object_weak_ref (object, week_start_day_singleton_weak_ref_cb, NULL);
+
+		week_start_day_singleton = object;
+	}
+
+	G_UNLOCK (week_start_day_singleton);
+
+	return object;
+}
+
+static void
+e_calendar_config_week_start_day_constructed (GObject *object)
+{
+	ECalendarConfigWeekStartDay *self = E_CALENDAR_CONFIG_WEEK_START_DAY (object);
+
+	G_OBJECT_CLASS (e_calendar_config_week_start_day_parent_class)->constructed (object);
+
+	self->calendar_settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+	self->calendar_settings_handler_id = g_signal_connect (self->calendar_settings, "changed::week-start-day-name",
+		G_CALLBACK (e_calendar_config_week_start_day_settings_changed_cb), self);
+	self->calendar_settings_system_handler_id = g_signal_connect (self->calendar_settings, "changed::use-system-week-start-day",
+		G_CALLBACK (e_calendar_config_week_start_day_settings_changed_cb), self);
+	self->current_value = g_settings_get_enum (self->calendar_settings, "week-start-day-name");
+
+	#ifdef HAVE_G_DESKTOP_WEEKDAY
+	if (e_util_is_running_gnome ()) {
+		GDesktopWeekday desktop_weekday;
+
+		self->desktop_settings = e_util_ref_settings ("org.gnome.desktop.calendar");
+		self->desktop_settings_handler_id = g_signal_connect (self->desktop_settings, "changed::week-start-day",
+			G_CALLBACK (e_calendar_config_week_start_day_settings_changed_cb), self);
+
+		desktop_weekday = g_settings_get_enum (self->desktop_settings, "week-start-day");
+		if (desktop_weekday != G_DESKTOP_WEEKDAY_DEFAULT &&
+		    g_settings_get_boolean (self->calendar_settings, "use-system-week-start-day")) {
+			GDateWeekday glib_weekday = G_DATE_BAD_WEEKDAY;
+
+			if (calendar_config_desktop_weekday_to_glib (desktop_weekday, &glib_weekday))
+				self->current_value = glib_weekday;
+		}
+	}
+	#endif /* HAVE_G_DESKTOP_WEEKDAY */
+}
+
+static void
+e_calendar_config_week_start_day_finalize (GObject *object)
+{
+	ECalendarConfigWeekStartDay *self = E_CALENDAR_CONFIG_WEEK_START_DAY (object);
+
+	if (self->calendar_settings_handler_id)
+		g_signal_handler_disconnect (self->calendar_settings, self->calendar_settings_handler_id);
+	if (self->calendar_settings_system_handler_id)
+		g_signal_handler_disconnect (self->calendar_settings, self->calendar_settings_system_handler_id);
+	g_clear_object (&self->calendar_settings);
+
+	#ifdef HAVE_G_DESKTOP_WEEKDAY
+	if (self->desktop_settings_handler_id)
+		g_signal_handler_disconnect (self->desktop_settings, self->desktop_settings_handler_id);
+	g_clear_object (&self->desktop_settings);
+	#endif /* HAVE_G_DESKTOP_WEEKDAY */
+
+	G_OBJECT_CLASS (e_calendar_config_week_start_day_parent_class)->finalize (object);
+}
+
+static void
+e_calendar_config_week_start_day_class_init (ECalendarConfigWeekStartDayClass *klass)
+{
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->get_property = e_calendar_config_week_start_day_get_property;
+	object_class->constructor = e_calendar_config_week_start_day_constructor;
+	object_class->constructed = e_calendar_config_week_start_day_constructed;
+	object_class->finalize = e_calendar_config_week_start_day_finalize;
+
+	properties[PROP_WEEK_START_DAY] =
+		g_param_spec_enum (
+			"week-start-day", NULL, NULL,
+			E_TYPE_DATE_WEEKDAY,
+			G_DATE_MONDAY,
+			G_PARAM_READABLE |
+			G_PARAM_EXPLICIT_NOTIFY |
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
+}
+
+static void
+e_calendar_config_week_start_day_init (ECalendarConfigWeekStartDay *self)
+{
+}
+
+void
+calendar_config_connect_week_start_day_setting_get (gpointer object,
+						    const gchar *property_name)
+{
+	ECalendarConfigWeekStartDay *week_start_day_object;
+
+	week_start_day_object = g_object_new (E_TYPE_CALENDAR_CONFIG_WEEK_START_DAY, NULL);
+
+	e_binding_bind_property (week_start_day_object, "week-start-day",
+		object, property_name,
+		G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
+
+	g_object_set_data_full (object, "calendar-config-week-start-day-object", week_start_day_object, g_object_unref);
+}
+
 GDateWeekday
 calendar_config_get_week_start_day (void)
 {
 	GSettings *settings;
 	GDateWeekday res;
+
+	#ifdef HAVE_G_DESKTOP_WEEKDAY
+	if (e_util_is_running_gnome ()) {
+		GDesktopWeekday weekday;
+
+		settings = e_util_ref_settings ("org.gnome.desktop.calendar");
+		weekday = g_settings_get_enum (settings, "week-start-day");
+		g_clear_object (&settings);
+
+		res = G_DATE_BAD_WEEKDAY;
+
+		if (calendar_config_desktop_weekday_to_glib (weekday, &res)) {
+			gboolean can_use;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+			can_use = g_settings_get_boolean (settings, "use-system-week-start-day");
+			g_object_unref (settings);
+
+			if (can_use)
+				return res;
+		}
+	}
+	#endif /* HAVE_G_DESKTOP_WEEKDAY */
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 

@@ -435,6 +435,7 @@
                 <property name="row_spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label12">
+                    <property name="valign">fill</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes" comments="A weekday like &quot;Monday&quot; follows">Wee_k starts on:</property>
@@ -625,18 +626,46 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkComboBoxText" id="week_start_day">
+                  <object class="GtkBox" id="week_start_day_info_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <items>
-                      <item id="monday" translatable="yes">Monday</item>
-                      <item id="tuesday" translatable="yes">Tuesday</item>
-                      <item id="wednesday" translatable="yes">Wednesday</item>
-                      <item id="thursday" translatable="yes">Thursday</item>
-                      <item id="friday" translatable="yes">Friday</item>
-                      <item id="saturday" translatable="yes">Saturday</item>
-                      <item id="sunday" translatable="yes">Sunday</item>
-                    </items>
+                    <property name="spacing">4</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkCheckButton" id="use-system-week-start-day">
+                        <property name="label">Use system setti_ng</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBoxText" id="week_start_day">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <items>
+                          <item id="monday" translatable="yes">Monday</item>
+                          <item id="tuesday" translatable="yes">Tuesday</item>
+                          <item id="wednesday" translatable="yes">Wednesday</item>
+                          <item id="thursday" translatable="yes">Thursday</item>
+                          <item id="friday" translatable="yes">Friday</item>
+                          <item id="saturday" translatable="yes">Saturday</item>
+                          <item id="sunday" translatable="yes">Sunday</item>
+                        </items>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>

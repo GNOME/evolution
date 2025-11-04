@@ -84,6 +84,9 @@ gboolean calendar_config_get_month_start_with_current_week (void);
 
 gboolean calendar_config_get_prefer_meeting (void);
 
+void		calendar_config_connect_week_start_day_setting_get
+								(gpointer object,
+								 const gchar *property_name);
 GDateWeekday	calendar_config_get_week_start_day		(void);
 gint		calendar_config_get_default_reminder_interval	(void);
 EDurationType	calendar_config_get_default_reminder_units	(void);

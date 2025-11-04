@@ -28,6 +28,10 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#ifdef HAVE_G_DESKTOP_WEEKDAY
+#include <gdesktop-enums.h>
+#endif
+
 #include "calendar/gui/e-cal-config.h"
 #include "calendar/gui/e-timezone-entry.h"
 #include "calendar/gui/e-to-do-pane.h"
@@ -750,6 +754,72 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 	gtk_widget_show_all (page);
 }
 
+#ifdef HAVE_G_DESKTOP_WEEKDAY
+static void
+e_cal_prefs_system_week_start_day_changed_cb (GSettings *no_settings,
+					      const gchar *key,
+					      gpointer user_data)
+{
+	ECalendarPreferences *prefs = user_data;
+	GtkWidget *widget;
+	GSettings *calendar_settings;
+	GSettings *desktop_settings;
+	GDesktopWeekday weekday;
+	const gchar *weekday_name = NULL;
+	gchar *text;
+
+	calendar_settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+	desktop_settings = e_util_ref_settings ("org.gnome.desktop.calendar");
+
+	weekday = g_settings_get_enum (desktop_settings, "week-start-day");
+
+	widget = e_builder_get_widget (prefs->priv->builder, "week_start_day");
+	gtk_widget_set_sensitive (widget, weekday == G_DESKTOP_WEEKDAY_DEFAULT ||
+		!g_settings_get_boolean (calendar_settings, "use-system-week-start-day"));
+
+	switch (weekday) {
+	case G_DESKTOP_WEEKDAY_MONDAY:
+		weekday_name = _("Monday");
+		break;
+	case G_DESKTOP_WEEKDAY_TUESDAY:
+		weekday_name = _("Tuesday");
+		break;
+	case G_DESKTOP_WEEKDAY_WEDNESDAY:
+		weekday_name = _("Wednesday");
+		break;
+	case G_DESKTOP_WEEKDAY_THURSDAY:
+		weekday_name = _("Thursday");
+		break;
+	case G_DESKTOP_WEEKDAY_FRIDAY:
+		weekday_name = _("Friday");
+		break;
+	case G_DESKTOP_WEEKDAY_SATURDAY:
+		weekday_name = _("Saturday");
+		break;
+	case G_DESKTOP_WEEKDAY_SUNDAY:
+		weekday_name = _("Sunday");
+		break;
+	default:
+		weekday_name = _("Unknown");
+		break;
+	}
+
+	text = g_strdup_printf (_("Use system setti_ng (%s)"), weekday_name);
+
+	widget = e_builder_get_widget (prefs->priv->builder, "use-system-week-start-day");
+	gtk_widget_set_visible (widget, weekday != G_DESKTOP_WEEKDAY_DEFAULT);
+	gtk_button_set_label (GTK_BUTTON (widget), text);
+
+	g_free (text);
+
+	widget = e_builder_get_widget (prefs->priv->builder, "label12");
+	gtk_widget_set_valign (widget, weekday == G_DESKTOP_WEEKDAY_DEFAULT ? GTK_ALIGN_BASELINE : GTK_ALIGN_START);
+
+	g_clear_object (&desktop_settings);
+	g_clear_object (&calendar_settings);
+}
+#endif
+
 static void
 calendar_preferences_construct (ECalendarPreferences *prefs,
                                 EShell *shell)
@@ -867,10 +937,38 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	#ifdef HAVE_G_DESKTOP_WEEKDAY
+	if (e_util_is_running_gnome ()) {
+		GSettings *desktop_settings;
+
+		desktop_settings = e_util_ref_settings ("org.gnome.desktop.calendar");
+		g_signal_connect_object (desktop_settings, "changed::week-start-day",
+			G_CALLBACK (e_cal_prefs_system_week_start_day_changed_cb), prefs, 0);
+		g_clear_object (&desktop_settings);
+
+		g_signal_connect_object (settings, "changed::use-system-week-start-day",
+			G_CALLBACK (e_cal_prefs_system_week_start_day_changed_cb), prefs, 0);
+
+		e_cal_prefs_system_week_start_day_changed_cb (NULL, NULL, prefs);
+	} else {
+		widget = e_builder_get_widget (prefs->priv->builder, "use-system-week-start-day");
+		gtk_widget_set_visible (widget, FALSE);
+	}
+	#else
+	widget = e_builder_get_widget (prefs->priv->builder, "use-system-week-start-day");
+	gtk_widget_set_visible (widget, FALSE);
+	#endif /* HAVE_G_DESKTOP_WEEKDAY */
+
 	widget = e_builder_get_widget (prefs->priv->builder, "week_start_day");
 	g_settings_bind (
 		settings, "week-start-day-name",
 		widget, "active-id",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	widget = e_builder_get_widget (prefs->priv->builder, "use-system-week-start-day");
+	g_settings_bind (
+		settings, "use-system-week-start-day",
+		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->priv->builder, "start_of_day");

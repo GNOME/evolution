@@ -19,6 +19,7 @@
 
 #include "e-settings-cal-model.h"
 
+#include "calendar/gui/calendar-config.h"
 #include <calendar/gui/e-cal-model.h>
 #include <calendar/gui/e-cal-model-tasks.h>
 
@@ -110,10 +111,7 @@ settings_cal_model_constructed (GObject *object)
 		extensible, "use-default-reminder",
 		G_SETTINGS_BIND_GET);
 
-	g_settings_bind (
-		settings, "week-start-day-name",
-		extensible, "week-start-day",
-		G_SETTINGS_BIND_GET);
+	calendar_config_connect_week_start_day_setting_get (extensible, "week-start-day");
 
 	g_settings_bind (
 		settings, "work-day-monday",

@@ -19,6 +19,7 @@
 
 #include "e-settings-date-edit.h"
 
+#include "calendar/gui/calendar-config.h"
 #include <e-util/e-util.h>
 
 struct _ESettingsDateEditPrivate {
@@ -50,10 +51,7 @@ settings_date_edit_constructed (GObject *object)
 		extensible, "use-24-hour-format",
 		G_SETTINGS_BIND_GET);
 
-	g_settings_bind (
-		settings, "week-start-day-name",
-		extensible, "week-start-day",
-		G_SETTINGS_BIND_GET);
+	calendar_config_connect_week_start_day_setting_get (extensible, "week-start-day");
 
 	g_object_unref (settings);
 

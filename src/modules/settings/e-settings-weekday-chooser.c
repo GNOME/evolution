@@ -21,6 +21,7 @@
 
 #include "e-settings-weekday-chooser.h"
 
+#include "calendar/gui/calendar-config.h"
 #include <calendar/gui/e-weekday-chooser.h>
 
 struct _ESettingsWeekdayChooserPrivate {
@@ -35,19 +36,11 @@ settings_weekday_chooser_constructed (GObject *object)
 {
 	EExtension *extension;
 	EExtensible *extensible;
-	GSettings *settings;
 
 	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
 
-	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-
-	g_settings_bind (
-		settings, "week-start-day-name",
-		extensible, "week-start-day",
-		G_SETTINGS_BIND_GET);
-
-	g_object_unref (settings);
+	calendar_config_connect_week_start_day_setting_get (extensible, "week-start-day");
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_weekday_chooser_parent_class)->constructed (object);
