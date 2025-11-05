@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-10-17 18:54+0000\n"
-"PO-Revision-Date: 2025-10-18 18:53+0300\n"
+"POT-Creation-Date: 2025-11-05 14:51+0000\n"
+"PO-Revision-Date: 2025-11-05 08:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -993,42 +993,54 @@ msgid "First day of the week"
 msgstr "Haftanın ilk günü"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
+msgid "Use system week start day"
+msgstr "Sistem hafta başlangıç gününü kullan"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+msgid ""
+"Use the GNOME system setting for week start day, instead of the Evolution "
+"own setting"
+msgstr ""
+"Hafta başlangıç günü için Evolution’un kendi ayarı yerine GNOME sistem "
+"ayarını kullan"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid "Monday is a work day"
 msgstr "Pazartesi çalışma günü"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "Tuesday is a work day"
 msgstr "Salı çalışma günüdür"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
 msgid "Wednesday is a work day"
 msgstr "Çarşamba çalışma günüdür"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Thursday is a work day"
 msgstr "Perşembe çalışma günüdür"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "Friday is a work day"
 msgstr "Cuma çalışma günüdür"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
 msgid "Saturday is a work day"
 msgstr "Cumartesi bir iş günüdür"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid "Sunday is a work day"
 msgstr "Pazar bir iş günüdür"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
 msgid "Create events, memos and tasks as Private by default"
 msgstr "Olay, not ve görevleri öntanımlı olarak gizli oluştur"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
 msgid "Draw events as flat, not shaded."
 msgstr "Olayları gölgeli değil düz çiz."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
 msgid ""
 "Whether to order days in the Week View from left to right, rather than from "
 "top to bottom."
@@ -1036,7 +1048,7 @@ msgstr ""
 "Hafta Görünümündeki günlerin, yukarıdan aşağı yerine soldan sağa sırala "
 "sıralanıp sıralanmayacağı."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
 msgid ""
 "Allow direct edit of event Summary when clicking on it in the Day, Work "
 "Week, Week or Month view."
@@ -1044,34 +1056,34 @@ msgstr ""
 "Olay özetine Gün, Çalışma Haftası, Hafta veya Ay görünümünde tıklandığında "
 "doğrudan düzenlemeye izin ver."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
 msgid "User-defined reminder times, in minutes"
 msgstr "Dakika cinsinden, kullanıcı tanımlı anımsatma süreleri"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:164
 msgid ""
 "Whether to use markdown editor for the description in the component editor."
 msgstr ""
 "Bileşen düzenleyicideki açıklama için markdown düzenleyicinin kullanılması."
 
 # week day names için gün adları çevirisi kullanıldı
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
 msgid "Show week day names in the Year View"
 msgstr "Yıl Görünümünde gün adlarını göster"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
 msgid "Show the preview pane in the Year View"
 msgstr "Yıl Görünümünde ön izleme bölmesini göster"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
 msgid "If “true”, show the preview pane in the Year View"
 msgstr "“true” seçilmişse ön izleme bölmesini Yıl Görünümünde göster"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
 msgid "Year view horizontal pane position"
 msgstr "Yıl görünümündeki yatay bölmenin konumu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
 msgid ""
 "Position of the horizontal pane, between the year calendar and the list of "
 "events for the selected day in the year view, in pixels"
@@ -1079,11 +1091,11 @@ msgstr ""
 "Yatay bölmenin, yıl takvimi ve yıl görünümünde seçilen gün için olaylar "
 "listesi arasındaki konumu, piksel olarak"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
 msgid "Layout style for the Year View"
 msgstr "Yıl Görünümü için yerleşim biçemi"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:171
 msgid ""
 "The layout style determines where to place the preview pane. “0” (Horizontal "
 "View) places the preview pane below the calendar. “1” (Vertical View) places "
@@ -1093,27 +1105,27 @@ msgstr ""
 "(Yatay Görünüm) ön izleme bölmesini takvimin altına yerleştirir. “1” (Dikey "
 "Görünüm) ön izleme bölmesini takvimin yanına yerleştirir"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
 msgid "Year view horizontal preview position"
 msgstr "Yıl görünümü yatay ön izleme konumu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
 msgid "Position of the horizontal event preview for the year view, in pixels"
 msgstr "Dikey olay ön izlemesinin yıl görünümündeki konumu, piksel olarak"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
 msgid "Year view vertical preview position"
 msgstr "Yıl görünümü dikey ön izleme konumu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
 msgid "Position of the vertical event preview for the year view, in pixels"
 msgstr "Yatay olay ön izlemesinin yıl görünümündeki konumu, piksel olarak"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
 msgid "Shorten event time by minutes"
 msgstr "Olayı dakika olarak kısalt"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
 msgid ""
 "By how many minutes to shorten new event time. Whether event end or start is "
 "changed is determined by \"shorten-time-end\" setting"
@@ -1121,22 +1133,22 @@ msgstr ""
 "Yeni olay saatinin kaç dakika kısaltılacağı. Olayın bitişinin veya "
 "başlangıcının değişmesi \"shorten-time-end\" ayarıyla belirlenir"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
 msgid "Whether to shorten event end time"
 msgstr "Olay bitiş saatinin kısaltılması"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:179
 msgid ""
 "A pair option for \"shorten-time\" setting, to change the end time or the "
 "start time"
 msgstr ""
 "Bitiş veya başlangıç saatini değiştirmek için \"shorten-time\" çift seçeneği"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
 msgid "Background color for the 'today' day"
 msgstr "'Bugün' günü için arka plan rengi"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
 msgid ""
 "Leave empty to use a yellow color derived from the current theme, otherwise "
 "use the color of form `#RRGGBB`"
@@ -1144,11 +1156,11 @@ msgstr ""
 "Geçerli gövdeden türetilen sarı rengi kullanmak için boş bırakın, yoksa "
 "`#RRGGBB` biçimindeki rengi kullanın."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
 msgid "Allow drag-and-drop of events in the Calendar."
 msgstr "Takvimde olayların sürüklenip bırakılmasına izin ver."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
 msgid ""
 "This influences the Day view, the Work Week view, the Week view and the "
 "Month view."
@@ -1156,13 +1168,13 @@ msgstr ""
 "Bu Gün görünümünü, Çalışma Haftası görünümünü, Hafta görünümünü ve Ay "
 "görünümünü etkiler."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
 msgid ""
 "Value to preselect when sending an event with attendees with reminders set."
 msgstr ""
 "Katılımcılı olayı ayarlı anımsatıcılarla gönderirken önceden seçilecek değer."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
 msgid ""
 "This remembers the last value of \"Send my reminders with this event\" "
 "option and uses it the next time."
@@ -1170,35 +1182,35 @@ msgstr ""
 "Bu, \"SAnımsatmalarımı bu olayla birlikte gönder\" seçeneğinin son değerini "
 "anımsar ve bir sonrakinde kullanır."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:186
 msgid "Show the day agenda in the event editor."
 msgstr "Olay düzenleyicide gün ajandasını göster"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:187
 msgid "Whether the event editor shows the day agenda."
 msgstr "Olay düzenleyicinin gün ajandasını gösterip göstermeyeceği."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:188
 msgid "Position of the paned splitting the editor data and the day agenda"
 msgstr "Düzenleyici veri ve gün ajandası arası dikey bölmenin konumu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:189
 msgid "It influences the width of the day agenda."
 msgstr "Gün ajandasının genişliğini etkiler."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:190
 msgid "Width of the event editor window"
 msgstr "Olay düzenleyici penceresinin genişliği"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:191
 msgid "The editor will be opened with this width."
 msgstr "Düzenleyici bu genişlikte açılacak."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:192
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(Kullanılmıyor) Haftanın ilk günü, Pazarʼdan (0) Cumartesiʼye (6) dek"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:193
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
@@ -1206,11 +1218,11 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde terk edilmiştir ve artık kullanılmamalıdır. Yerine "
 "“week-start-day-name” kullanın."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:194
 msgid "(Deprecated) Work days"
 msgstr "(Kullanımı önerilmiyor) İş günleri"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:195
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the “work-"
@@ -8694,6 +8706,7 @@ msgstr "Tür"
 #: ../src/calendar/gui/e-meeting-store.c:166
 #: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1298
 #: ../src/calendar/gui/print.c:1315 ../src/e-util/e-charset.c:49
+#: ../src/modules/calendar/e-calendar-preferences.c:803
 #: ../src/modules/itip-formatter/itip-view.c:4302
 #: ../src/modules/itip-formatter/itip-view.c:7676
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
@@ -10226,8 +10239,8 @@ msgstr "İkinci saat dilimini göster"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../src/calendar/gui/e-day-view-time-item.c:848
-#: ../src/modules/calendar/e-calendar-preferences.c:333
-#: ../src/modules/calendar/e-calendar-preferences.c:385
+#: ../src/modules/calendar/e-calendar-preferences.c:337
+#: ../src/modules/calendar/e-calendar-preferences.c:389
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:11
 msgctxt "cal-second-zone"
 msgid "None"
@@ -10235,7 +10248,7 @@ msgstr "Hiç"
 
 #: ../src/calendar/gui/e-day-view-time-item.c:882
 #: ../src/calendar/gui/e-timezone-entry.c:494
-#: ../src/modules/calendar/e-calendar-preferences.c:416
+#: ../src/modules/calendar/e-calendar-preferences.c:420
 msgid "Select…"
 msgstr "Seç…"
 
@@ -15430,7 +15443,7 @@ msgstr "E_moji"
 
 #: ../src/e-util/e-html-editor-actions.c:1548
 #: ../src/e-util/e-html-editor-actions.c:1562
-#: ../src/e-util/e-markdown-editor.c:1946
+#: ../src/e-util/e-markdown-editor.c:1956
 msgid "Insert Emoji"
 msgstr "Emoji Ekle"
 
@@ -16608,15 +16621,15 @@ msgstr ""
 "kullanıcıları bunun yerine aşağıdaki aşağı açılan çoklu kutudan saat "
 "dilimini seçebilirler."
 
-#: ../src/e-util/e-markdown-editor.c:1855
-#: ../src/e-util/e-markdown-editor.c:1869
-#: ../src/e-util/e-markdown-editor.c:2438
+#: ../src/e-util/e-markdown-editor.c:1865
+#: ../src/e-util/e-markdown-editor.c:1879
+#: ../src/e-util/e-markdown-editor.c:2448
 msgid "_Write"
 msgstr "_Yaz"
 
 #. ** Menus **
-#: ../src/e-util/e-markdown-editor.c:1871
-#: ../src/e-util/e-markdown-editor.c:2480
+#: ../src/e-util/e-markdown-editor.c:1881
+#: ../src/e-util/e-markdown-editor.c:2490
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1487
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1711
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:705
@@ -16625,43 +16638,43 @@ msgstr "_Yaz"
 msgid "_Preview"
 msgstr "Ö_n İzle"
 
-#: ../src/e-util/e-markdown-editor.c:1938
+#: ../src/e-util/e-markdown-editor.c:1948
 msgid "Add bold text"
 msgstr "Kalın metin ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1939
+#: ../src/e-util/e-markdown-editor.c:1949
 msgid "Add italic text"
 msgstr "Eğik metin ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1940
+#: ../src/e-util/e-markdown-editor.c:1950
 msgid "Insert a quote"
 msgstr "Alıntı ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1941
+#: ../src/e-util/e-markdown-editor.c:1951
 msgid "Insert code"
 msgstr "Kod ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1942
+#: ../src/e-util/e-markdown-editor.c:1952
 msgid "Add a link"
 msgstr "Bağlantı ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1943
+#: ../src/e-util/e-markdown-editor.c:1953
 msgid "Add a bullet list"
 msgstr "Maddeli liste ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1944
+#: ../src/e-util/e-markdown-editor.c:1954
 msgid "Add a numbered list"
 msgstr "Numaralı liste ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1945
+#: ../src/e-util/e-markdown-editor.c:1955
 msgid "Add a header"
 msgstr "Başlık ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1948
+#: ../src/e-util/e-markdown-editor.c:1958
 msgid "Open online common mark documentation"
 msgstr "Çevrim içi ortak im belgelendirmesini aç"
 
-#: ../src/e-util/e-markdown-editor.c:1950
+#: ../src/e-util/e-markdown-editor.c:1960
 msgid "Show preview beside text"
 msgstr "Metnin yanında ön izleme göster"
 
@@ -18933,7 +18946,7 @@ msgstr "Gönderen e-posta adresini kullan"
 #: ../src/mail/e-mail-config-security-page.c:451
 #: ../src/mail/em-folder-properties.c:1412 ../src/mail/mail-config.ui.h:37
 #: ../src/modules/addressbook/autocompletion-config.c:109
-#: ../src/modules/calendar/e-calendar-preferences.c:646
+#: ../src/modules/calendar/e-calendar-preferences.c:650
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:56
 #: ../src/modules/mail/e-mail-shell-backend.c:1050
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1628
@@ -24677,62 +24690,102 @@ msgid "Task List Selector"
 msgstr "Görev Listesi Seçici"
 
 #. Translators: The '%s' is replaced with the time zone name, like "America/New York" or "UTC"
-#: ../src/modules/calendar/e-calendar-preferences.c:516
+#: ../src/modules/calendar/e-calendar-preferences.c:520
 #, c-format
 msgid "Use s_ystem time zone (%s)"
 msgstr "S_istem saat dilimini kullan (%s)"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:545
+#: ../src/modules/calendar/e-calendar-preferences.c:549
 msgid "Selected Calendars for Notifications of Reminders"
 msgstr "Hatırlatıcı Bildirimleri İçin Seçilen Takvimler"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:552
+#: ../src/modules/calendar/e-calendar-preferences.c:556
 msgid "Selected Task Lists for Notifications of Reminders"
 msgstr "Hatırlatıcı Bildirimleri İçin Seçilen Görev Listeleri"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:637
+#: ../src/modules/calendar/e-calendar-preferences.c:641
 msgid "Meeting Invitations"
 msgstr "Toplantı Davetiyeleri"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:663
+#: ../src/modules/calendar/e-calendar-preferences.c:667
 msgid "_Delete message after acting"
 msgstr "_Bakıldıktan sonra iletiyi sil"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:670
+#: ../src/modules/calendar/e-calendar-preferences.c:674
 msgid "Delete _meeting from calendar on Decline"
 msgstr "Reddedildiğinde _toplantıyı takvimden sil"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:673
+#: ../src/modules/calendar/e-calendar-preferences.c:677
 msgid "_Preserve existing reminder by default"
 msgstr "Var olan hatırlatıcıyı öntanımlı olarak _koru"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:680
+#: ../src/modules/calendar/e-calendar-preferences.c:684
 msgid "_Show invitation description provided by the sender"
 msgstr "Gönderence sağlanan davet açıklamasını _göster"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:687
+#: ../src/modules/calendar/e-calendar-preferences.c:691
 msgid "Sh_ow day agenda at meeting start time"
 msgstr "Toplantı başlangıç saatinde gün ajandasını _göster"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:694
+#: ../src/modules/calendar/e-calendar-preferences.c:698
 msgid "_Always attach components in mail messages"
 msgstr "_Posta iletilerine her zaman bileşenleri ekle"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:716
-#: ../src/modules/calendar/e-calendar-preferences.c:747
+#: ../src/modules/calendar/e-calendar-preferences.c:720
+#: ../src/modules/calendar/e-calendar-preferences.c:751
 msgid "Search for Meetings"
 msgstr "Toplantı Ara"
 
 #. Source selector
-#: ../src/modules/calendar/e-calendar-preferences.c:731
+#: ../src/modules/calendar/e-calendar-preferences.c:735
 msgid "Select the calendars to search for the meetings and the conflicts"
 msgstr "Toplantı ve çakışmaların aranacağı takvimleri seç"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1259
+#: ../src/modules/calendar/e-calendar-preferences.c:782
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:30
+msgid "Monday"
+msgstr "Pazartesi"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:785
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:33
+msgid "Tuesday"
+msgstr "Salı"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:788
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:36
+msgid "Wednesday"
+msgstr "Çarşamba"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:791
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:39
+msgid "Thursday"
+msgstr "Perşembe"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:794
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:42
+msgid "Friday"
+msgstr "Cuma"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:797
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:45
+msgid "Saturday"
+msgstr "Cumartesi"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:800
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:48
+msgid "Sunday"
+msgstr "Pazar"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:807
+#, c-format
+msgid "Use system setti_ng (%s)"
+msgstr "Sistem ayarı_nı kullan (%s)"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:1357
 msgid "Ti_me and date:"
 msgstr "Za_man ve tarih:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1260
+#: ../src/modules/calendar/e-calendar-preferences.c:1358
 msgid "_Date only:"
 msgstr "_Yalnızca tarih:"
 
@@ -24828,63 +24881,35 @@ msgstr "_Gün başı:"
 msgid "_Mon"
 msgstr "P_zt"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:30
-msgid "Monday"
-msgstr "Pazartesi"
-
 #. Tuesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:32
 msgid "_Tue"
 msgstr "_Sal"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:33
-msgid "Tuesday"
-msgstr "Salı"
 
 #. Wednesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:35
 msgid "_Wed"
 msgstr "Ç_ar"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:36
-msgid "Wednesday"
-msgstr "Çarşamba"
-
 #. Thursday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:38
 msgid "T_hu"
 msgstr "P_er"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:39
-msgid "Thursday"
-msgstr "Perşembe"
 
 #. Friday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:41
 msgid "_Fri"
 msgstr "_Cum"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:42
-msgid "Friday"
-msgstr "Cuma"
-
 #. Saturday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:44
 msgid "_Sat"
 msgstr "_Cmt"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:45
-msgid "Saturday"
-msgstr "Cumartesi"
-
 #. Sunday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:47
 msgid "S_un"
 msgstr "_Paz"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:48
-msgid "Sunday"
-msgstr "Pazar"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:49
 msgid "Day _ends:"
