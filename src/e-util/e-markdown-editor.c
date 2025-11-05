@@ -1538,24 +1538,34 @@ e_markdown_editor_serialize_x_evolution_markdown_cb (GtkTextBuffer *register_buf
 
 	sig_start_mark = gtk_text_buffer_get_mark (buffer, EVO_SIGNATURE_START_MARK);
 	sig_end_mark = gtk_text_buffer_get_mark (buffer, EVO_SIGNATURE_END_MARK);
-	gtk_text_buffer_get_iter_at_mark (buffer, &sig_start, sig_start_mark);
-	gtk_text_buffer_get_iter_at_mark (buffer, &sig_end, sig_end_mark);
+
 	gtk_text_buffer_get_bounds (buffer, &start, &end);
 
 	content = g_string_new ("");
 
-	str = gtk_text_buffer_get_text (buffer, &start, &sig_start, FALSE);
-	if (str) {
-		g_string_append (content, str);
-		g_free (str);
-	}
+	if (self->priv->signature_html_code && sig_start_mark && sig_end_mark) {
+		gtk_text_buffer_get_iter_at_mark (buffer, &sig_start, sig_start_mark);
+		gtk_text_buffer_get_iter_at_mark (buffer, &sig_end, sig_end_mark);
 
-	g_string_append (content, self->priv->signature_html_code);
+		str = gtk_text_buffer_get_text (buffer, &start, &sig_start, FALSE);
+		if (str) {
+			g_string_append (content, str);
+			g_free (str);
+		}
 
-	str = gtk_text_buffer_get_text (buffer, &sig_end, &end, FALSE);
-	if (str) {
-		g_string_append (content, str);
-		g_free (str);
+		g_string_append (content, self->priv->signature_html_code);
+
+		str = gtk_text_buffer_get_text (buffer, &sig_end, &end, FALSE);
+		if (str) {
+			g_string_append (content, str);
+			g_free (str);
+		}
+	} else {
+		str = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+		if (str) {
+			g_string_append (content, str);
+			g_free (str);
+		}
 	}
 
 	if (out_length)
