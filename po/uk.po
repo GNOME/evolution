@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-10-17 08:14+0000\n"
-"PO-Revision-Date: 2025-10-17 12:05+0300\n"
+"POT-Creation-Date: 2025-11-04 17:50+0000\n"
+"PO-Revision-Date: 2025-11-05 08:41+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -195,12 +195,10 @@ msgid "Whether to show job information in the editor"
 msgstr "Чи показувати інформацію про роботу у редакторі"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:37
-#| msgid "Show Notes"
 msgid "Show dates"
 msgstr "Показ дат"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:38
-#| msgid "Whether to show notes in the editor"
 msgid "Whether to show Dates section in the editor"
 msgstr "Визначає, чи слід показувати розділ дат у редакторі"
 
@@ -1002,48 +1000,60 @@ msgid "First day of the week"
 msgstr "Перший день тижня"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
+msgid "Use system week start day"
+msgstr "Використовувати початок тижня системи"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+msgid ""
+"Use the GNOME system setting for week start day, instead of the Evolution "
+"own setting"
+msgstr ""
+"Використати параметри системи GNOME для першого дня тижня, замість"
+" внутрішніх параметрів Evolution"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid "Monday is a work day"
 msgstr "Понеділок — робочий день"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "Tuesday is a work day"
 msgstr "Вівторок — робочий день"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
 msgid "Wednesday is a work day"
 msgstr "Середа — робочий день"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Thursday is a work day"
 msgstr "Четвер — робочий день"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "Friday is a work day"
 msgstr "П'ятниця — робочий день"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
 msgid "Saturday is a work day"
 msgstr "Субота — робочий день"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid "Sunday is a work day"
 msgstr "Неділя — робочий день"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
 msgid "Create events, memos and tasks as Private by default"
 msgstr "Створювати події, примітки і завдання як Особисті"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
 msgid "Draw events as flat, not shaded."
 msgstr "Показувати події пласкими, не затіненими."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
 msgid ""
 "Whether to order days in the Week View from left to right, rather than from "
 "top to bottom."
 msgstr "Чи впорядковувати дні у огляді тижня зліва направо, а не зверху вниз."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
 msgid ""
 "Allow direct edit of event Summary when clicking on it in the Day, Work "
 "Week, Week or Month view."
@@ -1051,34 +1061,34 @@ msgstr ""
 "Дозволити пряме редагування звіту про події при клацанні на ньому в режимі "
 "перегляду «День», «Робочий тиждень», «Тиждень або місяць»."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
 msgid "User-defined reminder times, in minutes"
 msgstr "Визначені користувачем проміжки між нагадуваннями, у хвилинах"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:164
 msgid ""
 "Whether to use markdown editor for the description in the component editor."
 msgstr ""
 "Чи слід використовувати редактор розмітки для опису у редакторі компонентів."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
 msgid "Show week day names in the Year View"
 msgstr "Показувати назви днів тижня у перегляді року"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
 msgid "Show the preview pane in the Year View"
 msgstr "Показувати попередній перегляд у перегляді  року"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
 msgid "If “true”, show the preview pane in the Year View"
 msgstr ""
 "Якщо зазначено, показує панель попереднього перегляду у перегляді року"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
 msgid "Year view horizontal pane position"
 msgstr "Позиція горизонтальної панелі при огляді року"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
 msgid ""
 "Position of the horizontal pane, between the year calendar and the list of "
 "events for the selected day in the year view, in pixels"
@@ -1086,11 +1096,11 @@ msgstr ""
 "Положення горизонтальної панелі між річним календарем навігатора та списком "
 "подій для позначеного дня у перегляді року, у точках"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
 msgid "Layout style for the Year View"
 msgstr "Стиль компонування для перегляду року"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:171
 msgid ""
 "The layout style determines where to place the preview pane. “0” (Horizontal "
 "View) places the preview pane below the calendar. “1” (Vertical View) places "
@@ -1101,31 +1111,31 @@ msgstr ""
 "перегляду під календарем. «1» (вертикальний перегляд) розташовує панель "
 "поруч із календарем."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
 msgid "Year view horizontal preview position"
 msgstr "Позиція горизонтального попереднього перегляду у перегляді року"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
 msgid "Position of the horizontal event preview for the year view, in pixels"
 msgstr ""
 "Позиція горизонтальної панелі попереднього перегляду у перегляді року, в "
 "точках"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
 msgid "Year view vertical preview position"
 msgstr "Позиція вертикального попереднього перегляду при огляді року"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
 msgid "Position of the vertical event preview for the year view, in pixels"
 msgstr ""
 "Позиція вертикальної панелі попереднього перегляду подій для перегляду року, "
 "у точках"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
 msgid "Shorten event time by minutes"
 msgstr "Скоротити тривалість події на вказану кількість хвилин"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
 msgid ""
 "By how many minutes to shorten new event time. Whether event end or start is "
 "changed is determined by \"shorten-time-end\" setting"
@@ -1133,11 +1143,11 @@ msgstr ""
 "На скільки хвилин слід скоротити тривалість нової події. Те, буде змінено "
 "час завершення чи початку, визначається параметром «shorten-time-end»"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
 msgid "Whether to shorten event end time"
 msgstr "Чи слід зменшувати час завершення події"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:179
 msgid ""
 "A pair option for \"shorten-time\" setting, to change the end time or the "
 "start time"
@@ -1145,11 +1155,11 @@ msgstr ""
 "Парний параметр до параметра «shorten-time», призначено для зміни часу "
 "завершення або часу початку"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
 msgid "Background color for the 'today' day"
 msgstr "Колір тла для дня «Сьогодні»"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
 msgid ""
 "Leave empty to use a yellow color derived from the current theme, otherwise "
 "use the color of form `#RRGGBB`"
@@ -1157,11 +1167,11 @@ msgstr ""
 "Залиште порожнім, якщо слід скористатися жовтим кольором на основі поточної "
 "теми. Якщо хочете вказати колір, скористайтеся форматом «#ЧЧЗЗСС»"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
 msgid "Allow drag-and-drop of events in the Calendar."
 msgstr "Дозволити перетягування зі скиданням для записів подій у календарі."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
 msgid ""
 "This influences the Day view, the Work Week view, the Week view and the "
 "Month view."
@@ -1169,14 +1179,14 @@ msgstr ""
 "Це вплине на режим перегляду «День», режим перегляду «Робочий тиждень», "
 "режим перегляду «Тиждень» і режим перегляду «Місяць»."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
 msgid ""
 "Value to preselect when sending an event with attendees with reminders set."
 msgstr ""
 "Значення, яке слід попередньо вибрати при надсиланні повідомлення про подію "
 "з учасниками і увімкненими нагадуваннями."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
 msgid ""
 "This remembers the last value of \"Send my reminders with this event\" "
 "option and uses it the next time."
@@ -1184,35 +1194,35 @@ msgstr ""
 "Запам'ятовує останнє значення параметр «Надіслати мої нагадування з цією "
 "подією» і використовує його наступного разу."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:186
 msgid "Show the day agenda in the event editor."
 msgstr "Показати порядок денний у редакторі події."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:187
 msgid "Whether the event editor shows the day agenda."
 msgstr "Визначає, чи слід показувати у редакторі події порядок денний"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:188
 msgid "Position of the paned splitting the editor data and the day agenda"
 msgstr "Розташування роздільника між даними редактора і порядком денним"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:189
 msgid "It influences the width of the day agenda."
 msgstr "Впливає на ширину порядку денного дня."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:190
 msgid "Width of the event editor window"
 msgstr "Ширина вікна редактора події"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:191
 msgid "The editor will be opened with this width."
 msgstr "Редактор буде відкрито з цією шириною."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:192
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(Застаріло) Перший день тижня, від неділі (0) до суботи (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:193
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
@@ -1220,11 +1230,11 @@ msgstr ""
 "Цей ключ застарілий з версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «week-start-day-name» натомість."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:194
 msgid "(Deprecated) Work days"
 msgstr "(Застаріло) Робочі дні"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:195
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the “work-"
@@ -5086,7 +5096,6 @@ msgid "Show Job section"
 msgstr "Показувати розділ робота"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:6
-#| msgid "Show Notes"
 msgid "Show Dates"
 msgstr "Показувати дати"
 
@@ -5276,7 +5285,6 @@ msgid "_Office:"
 msgstr "_Офіс:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
-#| msgid "Mail _Directory:"
 msgid "Or_g. Directory:"
 msgstr "_Каталог орг.:"
 
@@ -5318,17 +5326,14 @@ msgid "Birthday"
 msgstr "День народження"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
-#| msgid "R_eplace:"
 msgid "Bi_rth place:"
 msgstr "_Місце смерті:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
-#| msgid "Birthday"
 msgid "Birth place"
 msgstr "Місце народження"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
-#| msgid "Path:"
 msgid "_Death:"
 msgstr "С_мерть:"
 
@@ -5338,17 +5343,14 @@ msgid "Death"
 msgstr "Смерть"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:57
-#| msgid "R_eplace:"
 msgid "Death p_lace:"
 msgstr "М_ісце смерті:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
-#| msgid "Replace"
 msgid "Death place"
 msgstr "Місце смерті"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
-#| msgid "Date"
 msgid "Dates"
 msgstr "Дати"
 
@@ -5358,12 +5360,10 @@ msgid "_Spouse:"
 msgstr "_Дружина/чол:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
-#| msgid "_General"
 msgid "_Gender:"
 msgstr "С_тать:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
-#| msgid "_Properties"
 msgid "Ex_pertise:"
 msgstr "_Компетентність:"
 
@@ -5540,21 +5540,18 @@ msgstr "Жінка"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2903
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:382
-#| msgid "Other"
 msgctxt "gender-sex"
 msgid "Other"
 msgstr "Інша"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2904
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:371
-#| msgid "Unknown"
 msgctxt "gender-sex"
 msgid "Unknown"
 msgstr "Невідома"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2905
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:385
-#| msgid "Do _Not Disable"
 msgctxt "gender-sex"
 msgid "Not Applicable"
 msgstr "Незастосовне"
@@ -5655,14 +5652,12 @@ msgstr "«%s» не може бути датою у майбутньому"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4941
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4952
 #, c-format
-#| msgid "“%s” cannot be a future date"
 msgid "“%s” cannot be a partial date"
 msgstr "«%s» не може бути частковим записом дати"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4967
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4982
 #, c-format
-#| msgid "%s“%s” is empty"
 msgid "“%s” is empty"
 msgstr "«%s» порожнє"
 
@@ -6055,7 +6050,6 @@ msgstr "Відкрити карту"
 #. like "Other, something" or "Male, something", where the "something" is a user-entered text
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:397
 #, c-format
-#| msgid "%s, %s"
 msgctxt "gender"
 msgid "%s, %s"
 msgstr "%s, %s"
@@ -6063,31 +6057,24 @@ msgstr "%s, %s"
 #. Translators: strftime format for partial date, when only the day is filled; it will be shown as a number
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:430
 #, c-format
-#| msgid "%d%%"
 msgctxt "partial-date"
 msgid "%d"
 msgstr "%d"
 
 #. Translators: strftime format for partial date, when only the month is filled; it will be shown as a month name; month number is "%m"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:434
-#| msgctxt "CalItem"
-#| msgid "%B"
 msgctxt "partial-date"
 msgid "%B"
 msgstr "%B"
 
 #. Translators: strftime format for partial date, when only the day and the month are filled; it will be shown as a month name followed by a day number; month number is "%m"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:437
-#| msgctxt "CalItem"
-#| msgid "%B %Y"
 msgctxt "partial-date"
 msgid "%B %d"
 msgstr "%B %d"
 
 #. Translators: strftime format for partial date, when only the year is filled; it will be shown as a number
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:444
-#| msgctxt "CalItem"
-#| msgid "%Y"
 msgctxt "partial-date"
 msgid "%Y"
 msgstr "%Y"
@@ -6100,8 +6087,6 @@ msgstr "--, %d, %Y"
 
 #. Translators: strftime format for partial date, when only the month and the year are filled; the month will be shown as a month name; month number is "%m"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:452
-#| msgctxt "CalItem"
-#| msgid "%B %Y"
 msgctxt "partial-date"
 msgid "%B %Y"
 msgstr "%B %Y"
@@ -6229,7 +6214,6 @@ msgid "Web Log"
 msgstr "Веб-журнал"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1150
-#| msgid "Birthday"
 msgid "Birth Place"
 msgstr "Місце народження"
 
@@ -8727,7 +8711,6 @@ msgid "%a %d %b %Y"
 msgstr "%a, %d %b %Y"
 
 #: ../src/calendar/gui/e-calendar-view.c:1779
-#| msgid "Birthday"
 msgid "Deathday"
 msgstr "День смерті"
 
@@ -8806,6 +8789,7 @@ msgstr "Тип"
 #: ../src/calendar/gui/e-meeting-store.c:166
 #: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1298
 #: ../src/calendar/gui/print.c:1315 ../src/e-util/e-charset.c:49
+#: ../src/modules/calendar/e-calendar-preferences.c:803
 #: ../src/modules/itip-formatter/itip-view.c:4302
 #: ../src/modules/itip-formatter/itip-view.c:7676
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
@@ -10393,8 +10377,8 @@ msgstr "Показувати додатковий часовий пояс"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../src/calendar/gui/e-day-view-time-item.c:848
-#: ../src/modules/calendar/e-calendar-preferences.c:333
-#: ../src/modules/calendar/e-calendar-preferences.c:385
+#: ../src/modules/calendar/e-calendar-preferences.c:337
+#: ../src/modules/calendar/e-calendar-preferences.c:389
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:11
 msgctxt "cal-second-zone"
 msgid "None"
@@ -10402,7 +10386,7 @@ msgstr "Немає"
 
 #: ../src/calendar/gui/e-day-view-time-item.c:882
 #: ../src/calendar/gui/e-timezone-entry.c:494
-#: ../src/modules/calendar/e-calendar-preferences.c:416
+#: ../src/modules/calendar/e-calendar-preferences.c:420
 msgid "Select…"
 msgstr "Вибрати…"
 
@@ -17419,7 +17403,6 @@ msgid "Spelling Suggestions"
 msgstr "Поради з правопису"
 
 #: ../src/e-util/e-split-date-edit.c:300 ../src/e-util/e-split-date-edit.c:504
-#| msgid "Not sorted"
 msgid "Not set"
 msgstr "Не встановлено"
 
@@ -17429,7 +17412,6 @@ msgid "Year"
 msgstr "Рік"
 
 #: ../src/e-util/e-split-date-edit.c:497
-#| msgid "<click here to select a date>"
 msgid "Click to select date"
 msgstr "Натисніть, щоб вибрати дату"
 
@@ -19222,7 +19204,7 @@ msgstr "Використати адресу відправника"
 #: ../src/mail/e-mail-config-security-page.c:451
 #: ../src/mail/em-folder-properties.c:1412 ../src/mail/mail-config.ui.h:37
 #: ../src/modules/addressbook/autocompletion-config.c:109
-#: ../src/modules/calendar/e-calendar-preferences.c:646
+#: ../src/modules/calendar/e-calendar-preferences.c:650
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:56
 #: ../src/modules/mail/e-mail-shell-backend.c:1050
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1628
@@ -25067,62 +25049,103 @@ msgid "Task List Selector"
 msgstr "Вибір списку задач"
 
 #. Translators: The '%s' is replaced with the time zone name, like "America/New York" or "UTC"
-#: ../src/modules/calendar/e-calendar-preferences.c:516
+#: ../src/modules/calendar/e-calendar-preferences.c:520
 #, c-format
 msgid "Use s_ystem time zone (%s)"
 msgstr "Використовувати _системний часовий пояс (%s)"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:545
+#: ../src/modules/calendar/e-calendar-preferences.c:549
 msgid "Selected Calendars for Notifications of Reminders"
 msgstr "Вибрані календарі для сповіщень про нагадування"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:552
+#: ../src/modules/calendar/e-calendar-preferences.c:556
 msgid "Selected Task Lists for Notifications of Reminders"
 msgstr "Вибрані списки завдань для сповіщень про нагадування"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:637
+#: ../src/modules/calendar/e-calendar-preferences.c:641
 msgid "Meeting Invitations"
 msgstr "Запрошення на зібрання"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:663
+#: ../src/modules/calendar/e-calendar-preferences.c:667
 msgid "_Delete message after acting"
 msgstr "В_илучити повідомлення після дії"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:670
+#: ../src/modules/calendar/e-calendar-preferences.c:674
 msgid "Delete _meeting from calendar on Decline"
 msgstr "Вилучити з_устріч з календаря при відхиленні"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:673
+#: ../src/modules/calendar/e-calendar-preferences.c:677
 msgid "_Preserve existing reminder by default"
 msgstr "Типово з_берігати наявне нагадування"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:680
+#: ../src/modules/calendar/e-calendar-preferences.c:684
 msgid "_Show invitation description provided by the sender"
 msgstr "_Показувати опис запрошення, який надано відправником"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:687
+#: ../src/modules/calendar/e-calendar-preferences.c:691
 msgid "Sh_ow day agenda at meeting start time"
 msgstr "По_казати порядок денний на момент початку наради"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:694
+#: ../src/modules/calendar/e-calendar-preferences.c:698
 msgid "_Always attach components in mail messages"
 msgstr "З_авжди долучати компоненти до поштових повідомлень"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:716
-#: ../src/modules/calendar/e-calendar-preferences.c:747
+#: ../src/modules/calendar/e-calendar-preferences.c:720
+#: ../src/modules/calendar/e-calendar-preferences.c:751
 msgid "Search for Meetings"
 msgstr "Знайти зустрічі"
 
 #. Source selector
-#: ../src/modules/calendar/e-calendar-preferences.c:731
+#: ../src/modules/calendar/e-calendar-preferences.c:735
 msgid "Select the calendars to search for the meetings and the conflicts"
 msgstr "Виберіть календарі для пошуку записів зустрічей та конфліктів"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1259
+#: ../src/modules/calendar/e-calendar-preferences.c:782
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:30
+msgid "Monday"
+msgstr "Понеділок"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:785
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:33
+msgid "Tuesday"
+msgstr "Вівторок"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:788
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:36
+msgid "Wednesday"
+msgstr "Середа"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:791
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:39
+msgid "Thursday"
+msgstr "Четвер"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:794
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:42
+msgid "Friday"
+msgstr "П'ятниця"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:797
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:45
+msgid "Saturday"
+msgstr "Субота"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:800
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:48
+msgid "Sunday"
+msgstr "Неділя"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:807
+#, c-format
+#| msgid "Use s_ystem time zone (%s)"
+msgid "Use system setti_ng (%s)"
+msgstr "Використовувати _параметри системи (%s)"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:1357
 msgid "Ti_me and date:"
 msgstr "Дата й _час:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1260
+#: ../src/modules/calendar/e-calendar-preferences.c:1358
 msgid "_Date only:"
 msgstr "Лише _дата:"
 
@@ -25218,63 +25241,35 @@ msgstr "_День починається:"
 msgid "_Mon"
 msgstr "_Пнд"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:30
-msgid "Monday"
-msgstr "Понеділок"
-
 #. Tuesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:32
 msgid "_Tue"
 msgstr "_Втр"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:33
-msgid "Tuesday"
-msgstr "Вівторок"
 
 #. Wednesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:35
 msgid "_Wed"
 msgstr "_Срд"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:36
-msgid "Wednesday"
-msgstr "Середа"
-
 #. Thursday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:38
 msgid "T_hu"
 msgstr "_Чтв"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:39
-msgid "Thursday"
-msgstr "Четвер"
 
 #. Friday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:41
 msgid "_Fri"
 msgstr "_Птн"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:42
-msgid "Friday"
-msgstr "П'ятниця"
-
 #. Saturday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:44
 msgid "_Sat"
 msgstr "С_бт"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:45
-msgid "Saturday"
-msgstr "Субота"
-
 #. Sunday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:47
 msgid "S_un"
 msgstr "_Ндл"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:48
-msgid "Sunday"
-msgstr "Неділя"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:49
 msgid "Day _ends:"
