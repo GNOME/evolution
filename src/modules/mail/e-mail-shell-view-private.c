@@ -472,6 +472,40 @@ e_mail_shell_view_private_init (EMailShellView *mail_shell_view)
 	mail_shell_view->priv->send_receive_menu = g_menu_new ();
 }
 
+static void
+mail_shell_view_folder_renamed_cb (MailFolderCache *folder_cache,
+				   CamelStore *store,
+				   const gchar *old_folder_name,
+				   const gchar *new_folder_name,
+				   gpointer user_data)
+{
+	EMailShellView *mail_shell_view = user_data;
+	EMailView *mail_view;
+	CamelFolder *folder;
+	MessageList *message_list;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
+
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_view->priv->mail_shell_content);
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (E_MAIL_READER (mail_view)));
+	folder = message_list_ref_folder (message_list);
+
+	if (folder) {
+		if (new_folder_name && camel_folder_get_parent_store (folder) == store &&
+		    g_strcmp0 (new_folder_name, camel_folder_get_full_name (folder)) == 0) {
+			/* to read folder settings from the previous folder name */
+			e_mail_reader_set_folder (E_MAIL_READER (mail_view), NULL);
+			e_mail_shell_view_restore_state (mail_shell_view);
+
+			e_mail_reader_set_folder (E_MAIL_READER (mail_view), folder);
+			mail_shell_view_match_folder_tree_and_message_list_folder (mail_shell_view);
+			e_mail_shell_view_restore_state (mail_shell_view);
+		}
+
+		g_object_unref (folder);
+	}
+}
+
 void
 e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 {
@@ -501,6 +535,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EMailReader *reader;
 	EMailView *mail_view;
 	EMailDisplay *display;
+	MailFolderCache *folder_cache;
 	const gchar *source;
 	gint ii = 0;
 
@@ -520,6 +555,10 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	session = e_mail_backend_get_session (backend);
 	label_store = e_mail_ui_session_get_label_store (
 		E_MAIL_UI_SESSION (session));
+
+	folder_cache = e_mail_session_get_folder_cache (session);
+	g_signal_connect_object (folder_cache, "folder-renamed",
+		G_CALLBACK (mail_shell_view_folder_renamed_cb), mail_shell_view, G_CONNECT_AFTER);
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->mail_shell_backend = E_MAIL_SHELL_BACKEND (g_object_ref (shell_backend));
@@ -1503,20 +1542,6 @@ e_mail_shell_view_fill_send_receive_menu (EMailShellView *self)
 	e_ui_manager_thaw (ui_manager);
 }
 
-static void
-mail_shell_view_folder_renamed_cb (EMFolderTree *folder_tree,
-				   gboolean is_cancelled,
-				   EMailShellView *mail_shell_view)
-{
-	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
-	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
-
-	mail_shell_view_match_folder_tree_and_message_list_folder (mail_shell_view);
-
-	g_signal_handlers_disconnect_by_func (folder_tree,
-		mail_shell_view_folder_renamed_cb, mail_shell_view);
-}
-
 void
 e_mail_shell_view_rename_folder (EMailShellView *mail_shell_view)
 {
@@ -1531,7 +1556,4 @@ e_mail_shell_view_rename_folder (EMailShellView *mail_shell_view)
 	em_folder_tree_edit_selected (folder_tree);
 
 	mail_shell_view->priv->ignore_folder_popup_selection_done = TRUE;
-
-	g_signal_connect_object (folder_tree, "folder-renamed",
-		G_CALLBACK (mail_shell_view_folder_renamed_cb), mail_shell_view, 0);
 }

@@ -74,29 +74,6 @@ mail_shell_backend_get_config_dir (EShellBackend *backend)
 	return mail_session_get_config_dir ();
 }
 
-static gchar *
-mail_backend_uri_to_evname (const gchar *uri,
-                            const gchar *prefix)
-{
-	const gchar *data_dir;
-	gchar *basename;
-	gchar *filename;
-	gchar *safe;
-
-	/* Converts a folder URI to a GalView filename. */
-
-	data_dir = mail_session_get_data_dir ();
-
-	safe = g_strdup (uri);
-	e_util_make_safe_filename (safe);
-	basename = g_strdup_printf ("%s%s.xml", prefix, safe);
-	filename = g_build_filename (data_dir, basename, NULL);
-	g_free (basename);
-	g_free (safe);
-
-	return filename;
-}
-
 static gboolean
 mail_backend_any_store_requires_downsync (EMailAccountStore *account_store)
 {
@@ -574,6 +551,162 @@ mail_backend_quit_requested_cb (EShell *shell,
 }
 
 static void
+mail_backend_rename_folder_cache_file (const gchar *prefix,
+				       const gchar *old_uri,
+				       const gchar *new_uri)
+{
+	gchar *old_filename;
+
+	old_filename = mail_config_folder_uri_to_cachename (old_uri, prefix);
+
+	if (g_file_test (old_filename, G_FILE_TEST_IS_REGULAR)) {
+		if (new_uri) {
+			gchar *new_filename;
+
+			new_filename = mail_config_folder_uri_to_cachename (new_uri, prefix);
+
+			if (g_rename (old_filename, new_filename) != 0) {
+				gint errn = errno;
+
+				g_warning ("%s: Failed to rename '%s' to '%s': %s", G_STRFUNC, old_filename, new_filename, g_strerror (errn));
+			}
+
+			g_free (new_filename);
+		} else {
+			if (g_unlink (old_filename) != 0) {
+				gint errn = errno;
+
+				g_warning ("%s: Failed to unlink '%s': %s", G_STRFUNC, old_filename, g_strerror (errn));
+			}
+		}
+	}
+
+	g_free (old_filename);
+}
+
+static void
+mail_backend_rename_folder_view_file (const gchar *user_directory,
+				      const gchar *prefix,
+				      const gchar *old_view_id,
+				      const gchar *new_view_id)
+{
+	gchar *old_filename;
+	gchar *filename;
+
+	filename = g_strdup_printf ("%s%s.xml", prefix, old_view_id);
+	old_filename = g_build_filename (user_directory, filename, NULL);
+	g_free (filename);
+
+	if (g_file_test (old_filename, G_FILE_TEST_IS_REGULAR)) {
+		if (new_view_id) {
+			gchar *new_filename;
+
+			filename = g_strdup_printf ("%s%s.xml", prefix, new_view_id);
+			new_filename = g_build_filename (user_directory, filename, NULL);
+			g_free (filename);
+
+			if (g_rename (old_filename, new_filename) != 0) {
+				gint errn = errno;
+
+				g_warning ("%s: Failed to rename '%s' to '%s': %s", G_STRFUNC, old_filename, new_filename, g_strerror (errn));
+			}
+
+			g_free (new_filename);
+		} else {
+			if (g_unlink (old_filename) != 0) {
+				gint errn = errno;
+
+				g_warning ("%s: Failed to unlink '%s': %s", G_STRFUNC, old_filename, g_strerror (errn));
+			}
+		}
+	}
+
+	g_free (old_filename);
+}
+
+static void
+mail_backend_rename_folder_state (EShell *shell,
+				  const gchar *old_uri,
+				  const gchar *new_uri)
+{
+	EShellView *shell_view = NULL;
+	GList *link;
+	gchar *old_view_id, *new_view_id;
+
+	for (link = gtk_application_get_windows (GTK_APPLICATION (shell)); link && !shell_view; link = g_list_next (link)) {
+		GtkWindow *window = link->data;
+
+		/* it does not matter from which window the Mail view is taken */
+		if (E_IS_SHELL_WINDOW (window))
+			shell_view = e_shell_window_peek_shell_view (E_SHELL_WINDOW (window), "mail");
+	}
+
+	if (shell_view) {
+		EShellViewClass *shell_view_class;
+		GKeyFile *key_file;
+		gchar *old_group;
+
+		key_file = e_shell_view_get_state_key_file (shell_view);
+
+		old_group = g_strdup_printf ("Folder %s", old_uri);
+
+		if (g_key_file_has_group (key_file, old_group)) {
+			if (new_uri) {
+				gchar *new_group;
+				gchar **keys;
+				guint ii;
+
+				new_group = g_strdup_printf ("Folder %s", new_uri);
+
+				g_key_file_remove_group (key_file, new_group, NULL);
+
+				keys = g_key_file_get_keys (key_file, old_group, NULL, NULL);
+
+				for (ii = 0; keys && keys[ii]; ii++) {
+					gchar *value;
+
+					value = g_key_file_get_string (key_file, old_group, keys[ii], NULL);
+					if (value)
+						g_key_file_set_string (key_file, new_group, keys[ii], value);
+
+					g_free (value);
+				}
+
+				g_strfreev (keys);
+				g_free (new_group);
+			}
+
+			g_key_file_remove_group (key_file, old_group, NULL);
+
+			e_shell_view_set_state_dirty (shell_view);
+		}
+
+		g_free (old_group);
+
+		shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+		if (shell_view_class && shell_view_class->view_collection) {
+			const gchar *user_directory;
+
+			user_directory = gal_view_collection_get_user_directory (shell_view_class->view_collection);
+
+			old_view_id = mail_config_folder_uri_to_view_id (old_uri);
+			new_view_id = new_uri ? mail_config_folder_uri_to_view_id (new_uri) : NULL;
+
+			mail_backend_rename_folder_view_file (user_directory, "custom_view-", old_view_id, new_view_id);
+			mail_backend_rename_folder_view_file (user_directory, "current_view-", old_view_id, new_view_id);
+			mail_backend_rename_folder_view_file (user_directory, "custom_wide_view-", old_view_id, new_view_id);
+			mail_backend_rename_folder_view_file (user_directory, "current_wide_view-", old_view_id, new_view_id);
+
+			g_free (old_view_id);
+			g_free (new_view_id);
+		}
+	}
+
+	mail_backend_rename_folder_cache_file ("et-expanded-", old_uri, new_uri);
+	mail_backend_rename_folder_cache_file ("et-header-", old_uri, new_uri);
+}
+
+static void
 mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
                                 CamelStore *store,
                                 const gchar *folder_name,
@@ -615,6 +748,8 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 		session, E_MAIL_LOCAL_FOLDER_SENT);
 
 	uri = e_mail_folder_uri_build (store, folder_name);
+
+	mail_backend_rename_folder_state (shell, uri, NULL);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
 	list = e_source_registry_list_sources (registry, extension_name);
@@ -707,12 +842,6 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 	const gchar *extension_name;
 	gchar *old_uri;
 	gchar *new_uri;
-	gint ii;
-
-	const gchar *cachenames[] = {
-		"views/current_view-",
-		"views/custom_view-"
-	};
 
 	/* Check whether the renamed folder was a designated Drafts or
 	 * Sent folder for any mail account, and if so update the setting
@@ -727,6 +856,8 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 
 	old_uri = e_mail_folder_uri_build (store, old_folder_name);
 	new_uri = e_mail_folder_uri_build (store, new_folder_name);
+
+	mail_backend_rename_folder_state (shell, old_uri, new_uri);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
 	list = e_source_registry_list_sources (registry, extension_name);
@@ -795,28 +926,6 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
-
-	/* Rename GalView files. */
-
-	for (ii = 0; ii < G_N_ELEMENTS (cachenames); ii++) {
-		gchar *oldname;
-		gchar *newname;
-
-		oldname = mail_backend_uri_to_evname (old_uri, cachenames[ii]);
-		newname = mail_backend_uri_to_evname (new_uri, cachenames[ii]);
-
-		/* Ignore errors; doesn't matter. */
-		if (g_rename (oldname, newname) == -1 && errno != ENOENT) {
-			g_warning (
-				"%s: Failed to rename '%s' to '%s': %s",
-				G_STRFUNC,
-				oldname, newname,
-				g_strerror (errno));
-		}
-
-		g_free (oldname);
-		g_free (newname);
-	}
 
 	tweaks = e_mail_folder_tweaks_new ();
 	e_mail_folder_tweaks_folder_renamed (tweaks, old_uri, new_uri);

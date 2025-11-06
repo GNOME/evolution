@@ -42,6 +42,11 @@ gboolean	mail_config_get_show_mails_in_preview
 /* static utility functions */
 gchar *		mail_config_folder_to_cachename	(CamelFolder *folder,
 						 const gchar *prefix);
+gchar *		mail_config_folder_uri_to_cachename
+						(const gchar *folder_uri,
+						 const gchar *prefix);
+gchar *		mail_config_folder_uri_to_view_id
+						(const gchar *folder_uri);
 gint		mail_config_get_sync_timeout	(void);
 
 void		mail_config_reload_junk_headers	(EMailSession *session);

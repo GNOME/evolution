@@ -194,7 +194,20 @@ gchar *
 mail_config_folder_to_cachename (CamelFolder *folder,
                                  const gchar *prefix)
 {
-	gchar *folder_uri, *basename, *filename;
+	gchar *folder_uri, *filename;
+
+	folder_uri = e_mail_folder_uri_from_folder (folder);
+	filename = mail_config_folder_uri_to_cachename (folder_uri, prefix);
+	g_free (folder_uri);
+
+	return filename;
+}
+
+gchar *
+mail_config_folder_uri_to_cachename (const gchar *folder_uri,
+				     const gchar *prefix)
+{
+	gchar *folder_uri_copy, *basename, *filename;
 	const gchar *config_dir;
 
 	config_dir = mail_session_get_config_dir ();
@@ -206,14 +219,41 @@ mail_config_folder_to_cachename (CamelFolder *folder,
 	}
 	g_free (basename);
 
-	folder_uri = e_mail_folder_uri_from_folder (folder);
-	e_util_make_safe_filename (folder_uri);
-	basename = g_strdup_printf ("%s%s", prefix, folder_uri);
+	folder_uri_copy = g_strdup (folder_uri);
+	e_util_make_safe_filename (folder_uri_copy);
+	basename = g_strdup_printf ("%s%s", prefix, folder_uri_copy);
 	filename = g_build_filename (config_dir, "folders", basename, NULL);
 	g_free (basename);
-	g_free (folder_uri);
+	g_free (folder_uri_copy);
 
 	return filename;
+}
+
+gchar *
+mail_config_folder_uri_to_view_id (const gchar *in_folder_uri)
+{
+	GChecksum *checksum;
+	gchar *res, *folder_uri;
+
+	g_return_val_if_fail (in_folder_uri != NULL, NULL);
+
+	folder_uri = g_strdup (in_folder_uri);
+
+	/* to be able to migrate previously saved views */
+	e_util_make_safe_filename (folder_uri);
+
+	/* use MD5 checksum of the folder URI, to not depend on its length */
+	checksum = g_checksum_new (G_CHECKSUM_MD5);
+	g_checksum_update (checksum, (const guchar *) folder_uri, -1);
+
+	res = g_strdup (g_checksum_get_string (checksum));
+
+	g_checksum_free (checksum);
+	g_free (folder_uri);
+
+	e_util_make_safe_filename (res);
+
+	return res;
 }
 
 void
