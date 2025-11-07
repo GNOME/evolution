@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-10-17 06:36+0000\n"
-"PO-Revision-Date: 2025-10-17 10:12+0200\n"
+"POT-Creation-Date: 2025-11-06 17:43+0000\n"
+"PO-Revision-Date: 2025-11-07 15:36+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -899,201 +899,211 @@ msgid "First day of the week"
 msgstr "კვირის პირველი დღე"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
+msgid "Use system week start day"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+msgid ""
+"Use the GNOME system setting for week start day, instead of the Evolution "
+"own setting"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid "Monday is a work day"
 msgstr "ორშაბათი სამუშაო დღეა"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "Tuesday is a work day"
 msgstr "სამშაბათი სამუშაო დღეა"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
 msgid "Wednesday is a work day"
 msgstr "ოთხშაბათი სამუშაო დღეა"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Thursday is a work day"
 msgstr "ხუთშაბათი სამუშაო დღეა"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "Friday is a work day"
 msgstr "პარასკევი სამუშაო დრეა"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
 msgid "Saturday is a work day"
 msgstr "შაბათი სამუშაო დღეა"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid "Sunday is a work day"
 msgstr "კვირა სამუშაო დღეა"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
 msgid "Create events, memos and tasks as Private by default"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
 msgid "Draw events as flat, not shaded."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
 msgid ""
 "Whether to order days in the Week View from left to right, rather than from "
 "top to bottom."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
 msgid ""
 "Allow direct edit of event Summary when clicking on it in the Day, Work "
 "Week, Week or Month view."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
 msgid "User-defined reminder times, in minutes"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:164
 msgid ""
 "Whether to use markdown editor for the description in the component editor."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
 msgid "Show week day names in the Year View"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
 msgid "Show the preview pane in the Year View"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
 msgid "If “true”, show the preview pane in the Year View"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
 msgid "Year view horizontal pane position"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
 msgid ""
 "Position of the horizontal pane, between the year calendar and the list of "
 "events for the selected day in the year view, in pixels"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
 msgid "Layout style for the Year View"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:171
 msgid ""
 "The layout style determines where to place the preview pane. “0” (Horizontal "
 "View) places the preview pane below the calendar. “1” (Vertical View) places "
 "the preview pane next to the calendar."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
 msgid "Year view horizontal preview position"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
 msgid "Position of the horizontal event preview for the year view, in pixels"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
 msgid "Year view vertical preview position"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
 msgid "Position of the vertical event preview for the year view, in pixels"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
 msgid "Shorten event time by minutes"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
 msgid ""
 "By how many minutes to shorten new event time. Whether event end or start is "
 "changed is determined by \"shorten-time-end\" setting"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
 msgid "Whether to shorten event end time"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:179
 msgid ""
 "A pair option for \"shorten-time\" setting, to change the end time or the "
 "start time"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
 msgid "Background color for the 'today' day"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
 msgid ""
 "Leave empty to use a yellow color derived from the current theme, otherwise "
 "use the color of form `#RRGGBB`"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
 msgid "Allow drag-and-drop of events in the Calendar."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
 msgid ""
 "This influences the Day view, the Work Week view, the Week view and the "
 "Month view."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
 msgid ""
 "Value to preselect when sending an event with attendees with reminders set."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
 msgid ""
 "This remembers the last value of \"Send my reminders with this event\" "
 "option and uses it the next time."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:186
 msgid "Show the day agenda in the event editor."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:187
 msgid "Whether the event editor shows the day agenda."
 msgstr "აჩვენებს თუ არა მოვლენების რედაქტორი დღის წესრიგს."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:188
 msgid "Position of the paned splitting the editor data and the day agenda"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:189
 msgid "It influences the width of the day agenda."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:190
 msgid "Width of the event editor window"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:191
 msgid "The editor will be opened with this width."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:192
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:193
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:194
 msgid "(Deprecated) Work days"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:195
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the “work-"
@@ -5373,7 +5383,6 @@ msgstr "რუკის გახსნა"
 #. like "Other, something" or "Male, something", where the "something" is a user-entered text
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:397
 #, c-format
-#| msgid "%s, %s"
 msgctxt "gender"
 msgid "%s, %s"
 msgstr "%s, %s"
@@ -5381,31 +5390,24 @@ msgstr "%s, %s"
 #. Translators: strftime format for partial date, when only the day is filled; it will be shown as a number
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:430
 #, c-format
-#| msgid "%d%%"
 msgctxt "partial-date"
 msgid "%d"
 msgstr "%d"
 
 #. Translators: strftime format for partial date, when only the month is filled; it will be shown as a month name; month number is "%m"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:434
-#| msgctxt "CalItem"
-#| msgid "%B"
 msgctxt "partial-date"
 msgid "%B"
 msgstr "%B"
 
 #. Translators: strftime format for partial date, when only the day and the month are filled; it will be shown as a month name followed by a day number; month number is "%m"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:437
-#| msgctxt "CalItem"
-#| msgid "%B %Y"
 msgctxt "partial-date"
 msgid "%B %d"
 msgstr "%B %d"
 
 #. Translators: strftime format for partial date, when only the year is filled; it will be shown as a number
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:444
-#| msgctxt "CalItem"
-#| msgid "%Y"
 msgctxt "partial-date"
 msgid "%Y"
 msgstr "%Y"
@@ -5418,8 +5420,6 @@ msgstr ""
 
 #. Translators: strftime format for partial date, when only the month and the year are filled; the month will be shown as a month name; month number is "%m"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:452
-#| msgctxt "CalItem"
-#| msgid "%B %Y"
 msgctxt "partial-date"
 msgid "%B %Y"
 msgstr "%B %Y"
@@ -8001,6 +8001,7 @@ msgstr "ტიპი"
 #: ../src/calendar/gui/e-meeting-store.c:166
 #: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1298
 #: ../src/calendar/gui/print.c:1315 ../src/e-util/e-charset.c:49
+#: ../src/modules/calendar/e-calendar-preferences.c:803
 #: ../src/modules/itip-formatter/itip-view.c:4302
 #: ../src/modules/itip-formatter/itip-view.c:7676
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
@@ -9517,8 +9518,8 @@ msgstr ""
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../src/calendar/gui/e-day-view-time-item.c:848
-#: ../src/modules/calendar/e-calendar-preferences.c:333
-#: ../src/modules/calendar/e-calendar-preferences.c:385
+#: ../src/modules/calendar/e-calendar-preferences.c:337
+#: ../src/modules/calendar/e-calendar-preferences.c:389
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:11
 msgctxt "cal-second-zone"
 msgid "None"
@@ -9526,7 +9527,7 @@ msgstr "არცერთი"
 
 #: ../src/calendar/gui/e-day-view-time-item.c:882
 #: ../src/calendar/gui/e-timezone-entry.c:494
-#: ../src/modules/calendar/e-calendar-preferences.c:416
+#: ../src/modules/calendar/e-calendar-preferences.c:420
 msgid "Select…"
 msgstr "აირჩიეთ…"
 
@@ -14644,7 +14645,7 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-actions.c:1548
 #: ../src/e-util/e-html-editor-actions.c:1562
-#: ../src/e-util/e-markdown-editor.c:1946
+#: ../src/e-util/e-markdown-editor.c:1956
 msgid "Insert Emoji"
 msgstr "ემოჯის ჩასმა"
 
@@ -15806,15 +15807,15 @@ msgid ""
 "should instead select the timezone from the drop-down combination box below."
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1855
-#: ../src/e-util/e-markdown-editor.c:1869
-#: ../src/e-util/e-markdown-editor.c:2438
+#: ../src/e-util/e-markdown-editor.c:1865
+#: ../src/e-util/e-markdown-editor.c:1879
+#: ../src/e-util/e-markdown-editor.c:2448
 msgid "_Write"
 msgstr "_ჩაწერა"
 
 #. ** Menus **
-#: ../src/e-util/e-markdown-editor.c:1871
-#: ../src/e-util/e-markdown-editor.c:2480
+#: ../src/e-util/e-markdown-editor.c:1881
+#: ../src/e-util/e-markdown-editor.c:2490
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1487
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1711
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:705
@@ -15823,43 +15824,43 @@ msgstr "_ჩაწერა"
 msgid "_Preview"
 msgstr "_მინიატურა"
 
-#: ../src/e-util/e-markdown-editor.c:1938
+#: ../src/e-util/e-markdown-editor.c:1948
 msgid "Add bold text"
 msgstr "დაამატე მუქი ტექსტი"
 
-#: ../src/e-util/e-markdown-editor.c:1939
+#: ../src/e-util/e-markdown-editor.c:1949
 msgid "Add italic text"
 msgstr "კურსივი ტექსტის დამატება"
 
-#: ../src/e-util/e-markdown-editor.c:1940
+#: ../src/e-util/e-markdown-editor.c:1950
 msgid "Insert a quote"
 msgstr "ციტატის ჩასმა"
 
-#: ../src/e-util/e-markdown-editor.c:1941
+#: ../src/e-util/e-markdown-editor.c:1951
 msgid "Insert code"
 msgstr "Ჩაწერეთ კოდი"
 
-#: ../src/e-util/e-markdown-editor.c:1942
+#: ../src/e-util/e-markdown-editor.c:1952
 msgid "Add a link"
 msgstr "ბმულის დამატება"
 
-#: ../src/e-util/e-markdown-editor.c:1943
+#: ../src/e-util/e-markdown-editor.c:1953
 msgid "Add a bullet list"
 msgstr "დაამატე დაუნომრავი სია"
 
-#: ../src/e-util/e-markdown-editor.c:1944
+#: ../src/e-util/e-markdown-editor.c:1954
 msgid "Add a numbered list"
 msgstr "დაამატე დანომრილი სია"
 
-#: ../src/e-util/e-markdown-editor.c:1945
+#: ../src/e-util/e-markdown-editor.c:1955
 msgid "Add a header"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1948
+#: ../src/e-util/e-markdown-editor.c:1958
 msgid "Open online common mark documentation"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1950
+#: ../src/e-util/e-markdown-editor.c:1960
 msgid "Show preview beside text"
 msgstr "ტექსტის ხატულის გვერდით ჩვენება"
 
@@ -17360,8 +17361,8 @@ msgstr ""
 #: ../src/mail/em-folder-tree-model.c:1524
 #: ../src/mail/em-folder-tree-model.c:1554
 #: ../src/mail/importers/kmail-libs.c:138
-#: ../src/modules/mail/e-mail-shell-view-private.c:1020
-#: ../src/modules/mail/e-mail-shell-view-private.c:1031
+#: ../src/modules/mail/e-mail-shell-view-private.c:1059
+#: ../src/modules/mail/e-mail-shell-view-private.c:1070
 msgid "Inbox"
 msgstr "საფოსტო ყუთი"
 
@@ -17370,7 +17371,7 @@ msgstr "საფოსტო ყუთი"
 #: ../src/mail/em-folder-tree-model.c:1518
 #: ../src/mail/em-folder-tree-model.c:1558
 #: ../src/mail/importers/kmail-libs.c:144
-#: ../src/modules/mail/e-mail-shell-view-private.c:1018
+#: ../src/modules/mail/e-mail-shell-view-private.c:1057
 msgid "Drafts"
 msgstr "მონახაზები"
 
@@ -17378,7 +17379,7 @@ msgstr "მონახაზები"
 #: ../src/libemail-engine/e-mail-session.c:115
 #: ../src/mail/em-folder-tree-model.c:1530
 #: ../src/mail/importers/kmail-libs.c:140
-#: ../src/modules/mail/e-mail-shell-view-private.c:1022
+#: ../src/modules/mail/e-mail-shell-view-private.c:1061
 msgid "Outbox"
 msgstr "გამავლები"
 
@@ -17387,7 +17388,7 @@ msgstr "გამავლები"
 #: ../src/mail/em-folder-tree-model.c:1535
 #: ../src/mail/em-folder-tree-model.c:1557
 #: ../src/mail/importers/kmail-libs.c:142
-#: ../src/modules/mail/e-mail-shell-view-private.c:1024
+#: ../src/modules/mail/e-mail-shell-view-private.c:1063
 msgid "Sent"
 msgstr "გაგზავნილია"
 
@@ -17395,7 +17396,7 @@ msgstr "გაგზავნილია"
 #: ../src/libemail-engine/e-mail-session.c:117
 #: ../src/mail/em-folder-tree-model.c:1520
 #: ../src/mail/importers/kmail-libs.c:146
-#: ../src/modules/mail/e-mail-shell-view-private.c:1026
+#: ../src/modules/mail/e-mail-shell-view-private.c:1065
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
 msgstr "შაბლონები"
@@ -17485,7 +17486,7 @@ msgid "Disconnecting from “%s”"
 msgstr ""
 
 #: ../src/libemail-engine/e-mail-store-utils.c:231
-#: ../src/mail/e-mail-backend.c:1062
+#: ../src/mail/e-mail-backend.c:1171
 #, c-format
 msgid "Reconnecting to “%s”"
 msgstr ""
@@ -18066,7 +18067,7 @@ msgstr ""
 #: ../src/mail/e-mail-config-security-page.c:451
 #: ../src/mail/em-folder-properties.c:1412 ../src/mail/mail-config.ui.h:37
 #: ../src/modules/addressbook/autocompletion-config.c:109
-#: ../src/modules/calendar/e-calendar-preferences.c:646
+#: ../src/modules/calendar/e-calendar-preferences.c:650
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:56
 #: ../src/modules/mail/e-mail-shell-backend.c:1050
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1628
@@ -19879,7 +19880,7 @@ msgstr ""
 
 #: ../src/mail/em-folder-tree-model.c:1555
 #: ../src/mail/importers/kmail-libs.c:148
-#: ../src/modules/mail/e-mail-shell-view-private.c:1028
+#: ../src/modules/mail/e-mail-shell-view-private.c:1067
 msgid "Trash"
 msgstr "ნაგავი"
 
@@ -19952,16 +19953,16 @@ msgid "Unsubscribe From _All"
 msgstr ""
 
 #: ../src/mail/em-subscription-editor.c:1320
-#: ../src/modules/mail/e-mail-shell-view-private.c:921
-#: ../src/modules/mail/e-mail-shell-view-private.c:953
-#: ../src/modules/mail/e-mail-shell-view-private.c:997
+#: ../src/modules/mail/e-mail-shell-view-private.c:960
+#: ../src/modules/mail/e-mail-shell-view-private.c:992
+#: ../src/modules/mail/e-mail-shell-view-private.c:1036
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] ""
 
 #: ../src/mail/em-subscription-editor.c:1324
-#: ../src/modules/mail/e-mail-shell-view-private.c:1007
+#: ../src/modules/mail/e-mail-shell-view-private.c:1046
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -23631,62 +23632,102 @@ msgid "Task List Selector"
 msgstr ""
 
 #. Translators: The '%s' is replaced with the time zone name, like "America/New York" or "UTC"
-#: ../src/modules/calendar/e-calendar-preferences.c:516
+#: ../src/modules/calendar/e-calendar-preferences.c:520
 #, c-format
 msgid "Use s_ystem time zone (%s)"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:545
+#: ../src/modules/calendar/e-calendar-preferences.c:549
 msgid "Selected Calendars for Notifications of Reminders"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:552
+#: ../src/modules/calendar/e-calendar-preferences.c:556
 msgid "Selected Task Lists for Notifications of Reminders"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:637
+#: ../src/modules/calendar/e-calendar-preferences.c:641
 msgid "Meeting Invitations"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:663
+#: ../src/modules/calendar/e-calendar-preferences.c:667
 msgid "_Delete message after acting"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:670
+#: ../src/modules/calendar/e-calendar-preferences.c:674
 msgid "Delete _meeting from calendar on Decline"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:673
+#: ../src/modules/calendar/e-calendar-preferences.c:677
 msgid "_Preserve existing reminder by default"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:680
+#: ../src/modules/calendar/e-calendar-preferences.c:684
 msgid "_Show invitation description provided by the sender"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:687
+#: ../src/modules/calendar/e-calendar-preferences.c:691
 msgid "Sh_ow day agenda at meeting start time"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:694
+#: ../src/modules/calendar/e-calendar-preferences.c:698
 msgid "_Always attach components in mail messages"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:716
-#: ../src/modules/calendar/e-calendar-preferences.c:747
+#: ../src/modules/calendar/e-calendar-preferences.c:720
+#: ../src/modules/calendar/e-calendar-preferences.c:751
 msgid "Search for Meetings"
 msgstr "შეხვედრების ძებნა"
 
 #. Source selector
-#: ../src/modules/calendar/e-calendar-preferences.c:731
+#: ../src/modules/calendar/e-calendar-preferences.c:735
 msgid "Select the calendars to search for the meetings and the conflicts"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1259
+#: ../src/modules/calendar/e-calendar-preferences.c:782
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:30
+msgid "Monday"
+msgstr "ორშაბათი"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:785
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:33
+msgid "Tuesday"
+msgstr "სამშაბათი"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:788
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:36
+msgid "Wednesday"
+msgstr "ოთხშაბათი"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:791
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:39
+msgid "Thursday"
+msgstr "ხუთშაბათი"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:794
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:42
+msgid "Friday"
+msgstr "პარასკევი"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:797
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:45
+msgid "Saturday"
+msgstr "შაბათი"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:800
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:48
+msgid "Sunday"
+msgstr "კვირა"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:807
+#, c-format
+msgid "Use system setti_ng (%s)"
+msgstr "სისტემის _პარამეტრის გამოყენება (%s)"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:1357
 msgid "Ti_me and date:"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1260
+#: ../src/modules/calendar/e-calendar-preferences.c:1358
 msgid "_Date only:"
 msgstr ""
 
@@ -23782,63 +23823,35 @@ msgstr ""
 msgid "_Mon"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:30
-msgid "Monday"
-msgstr "ორშაბათი"
-
 #. Tuesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:32
 msgid "_Tue"
 msgstr ""
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:33
-msgid "Tuesday"
-msgstr "სამშაბათი"
 
 #. Wednesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:35
 msgid "_Wed"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:36
-msgid "Wednesday"
-msgstr "ოთხშაბათი"
-
 #. Thursday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:38
 msgid "T_hu"
 msgstr ""
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:39
-msgid "Thursday"
-msgstr "ხუთშაბათი"
 
 #. Friday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:41
 msgid "_Fri"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:42
-msgid "Friday"
-msgstr "პარასკევი"
-
 #. Saturday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:44
 msgid "_Sat"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:45
-msgid "Saturday"
-msgstr "შაბათი"
-
 #. Sunday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:47
 msgid "S_un"
 msgstr ""
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:48
-msgid "Sunday"
-msgstr "კვირა"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:49
 msgid "Day _ends:"
@@ -26628,45 +26641,45 @@ msgstr ""
 msgid "Account Search"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:914
+#: ../src/modules/mail/e-mail-shell-view-private.c:953
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:929
-#: ../src/modules/mail/e-mail-shell-view-private.c:946
+#: ../src/modules/mail/e-mail-shell-view-private.c:968
+#: ../src/modules/mail/e-mail-shell-view-private.c:985
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:960
-#: ../src/modules/mail/e-mail-shell-view-private.c:966
+#: ../src/modules/mail/e-mail-shell-view-private.c:999
+#: ../src/modules/mail/e-mail-shell-view-private.c:1005
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:973
+#: ../src/modules/mail/e-mail-shell-view-private.c:1012
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:979
+#: ../src/modules/mail/e-mail-shell-view-private.c:1018
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:985
+#: ../src/modules/mail/e-mail-shell-view-private.c:1024
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1002
+#: ../src/modules/mail/e-mail-shell-view-private.c:1041
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
