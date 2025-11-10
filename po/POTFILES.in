@@ -171,6 +171,7 @@ src/e-util/e-attachment-popover.c
 src/e-util/e-attachment-store.c
 src/e-util/e-attachment-tree-view.c
 src/e-util/e-attachment-view.c
+src/e-util/e-autoar-gtk-chooser.c
 src/e-util/e-book-source-config.c
 src/e-util/e-calendar.c
 src/e-util/e-calendar-item.c

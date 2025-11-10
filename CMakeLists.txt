@@ -355,7 +355,6 @@ add_printable_option(ENABLE_AUTOAR "Enable archives support in attachments" ON)
 if(ENABLE_AUTOAR)
 	pkg_check_modules_for_option(ENABLE_AUTOAR "archives support in attachments" AUTOAR
 		gnome-autoar-0>=${gnome_autoar_minimum_version}
-		gnome-autoar-gtk-0>=${gnome_autoar_minimum_version}
 	)
 	set(HAVE_AUTOAR ON)
 endif(ENABLE_AUTOAR)
