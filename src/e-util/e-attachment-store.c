@@ -25,7 +25,7 @@
 
 #ifdef HAVE_AUTOAR
 #include <gnome-autoar/gnome-autoar.h>
-#include <gnome-autoar/autoar-gtk.h>
+#include "e-autoar-gtk-chooser.h"
 #endif
 
 #include "e-attachment-bar.h"
@@ -708,7 +708,7 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 
 		option_format_label = gtk_label_new (
 			_("Archive selected directories using this format:"));
-		option_format_combo = autoar_gtk_chooser_simple_new (
+		option_format_combo = e_autoar_gtk_chooser_simple_new (
 			format,
 			filter);
 		gtk_box_pack_start (option_format_box, option_format_label, FALSE, FALSE, 0);
@@ -741,7 +741,7 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 
 #ifdef HAVE_AUTOAR
 	if (dialog) {
-		autoar_gtk_chooser_simple_get (option_format_combo, &format, &filter);
+		e_autoar_gtk_chooser_simple_get (option_format_combo, &format, &filter);
 
 		if (!e_enum_to_string (AUTOAR_TYPE_FORMAT, format)) {
 			format = AUTOAR_FORMAT_ZIP;

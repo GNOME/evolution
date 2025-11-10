@@ -58,6 +58,8 @@ set(SOURCES
 	e-attachment-view.c
 	e-attachment.c
 	e-auth-combo-box.c
+	e-autoar-gtk-chooser.c
+	e-autoar-gtk-chooser.h
 	e-autocomplete-selector.c
 	e-bit-array.c
 	e-book-source-config.c
