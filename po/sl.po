@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-11-06 15:04+0000\n"
-"PO-Revision-Date: 2025-11-06 18:42+0100\n"
+"POT-Creation-Date: 2025-11-12 14:31+0000\n"
+"PO-Revision-Date: 2025-11-13 09:01+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -17724,22 +17724,26 @@ msgstr "Posredovano sporočilo – %s"
 msgid "Forwarded message"
 msgstr "Posredovano sporočilo"
 
-#: ../src/libemail-engine/mail-vfolder.c:149
+#: ../src/libemail-engine/mail-vfolder.c:152
 #, c-format
 msgid "Setting up Search Folder: %s"
 msgstr "Nastavljanje iskalne mape: %s"
 
-#: ../src/libemail-engine/mail-vfolder.c:307
+#: ../src/libemail-engine/mail-vfolder.c:409
+msgid "Updating Search Folders"
+msgstr "Posodabljanje iskalnih map"
+
+#: ../src/libemail-engine/mail-vfolder.c:469
 #, c-format
-msgid "Updating Search Folders for “%s : %s”"
-msgstr "Posodabljanje iskalne mape za »%s : %s«"
+msgid "Updating Search Folder “%s”"
+msgstr "Posodabljanje iskalne mape »%s«"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
 #. * removed folder. For more than one search folder is
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
-#: ../src/libemail-engine/mail-vfolder.c:671
+#: ../src/libemail-engine/mail-vfolder.c:775
 #, c-format
 msgid ""
 "The Search Folder “%s” has been modified to account for the deleted folder\n"
