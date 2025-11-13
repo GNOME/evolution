@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-11-12 14:31+0000\n"
-"PO-Revision-Date: 2025-11-13 09:01+0100\n"
+"POT-Creation-Date: 2025-11-13 15:09+0000\n"
+"PO-Revision-Date: 2025-11-13 18:14+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -7535,7 +7535,7 @@ msgstr "…"
 msgid "attachment.dat"
 msgstr "priloga.dat"
 
-#: ../src/calendar/gui/comp-util.c:2737 ../src/e-util/e-filter-rule.c:1034
+#: ../src/calendar/gui/comp-util.c:2737 ../src/e-util/e-filter-rule.c:1042
 #: ../src/mail/e-mail-config-page.c:115
 msgid "Untitled"
 msgstr "Neimenovano"
@@ -14503,29 +14503,29 @@ msgstr "Izberite čas za primerjavo"
 msgid "Choose a File"
 msgstr "Izbor datoteke"
 
-#: ../src/e-util/e-filter-rule.c:1027
+#: ../src/e-util/e-filter-rule.c:1035
 msgid "R_ule name:"
 msgstr "Ime _pravila:"
 
-#: ../src/e-util/e-filter-rule.c:1085
+#: ../src/e-util/e-filter-rule.c:1093
 msgid "all the following conditions"
 msgstr "vse navedene pogoje"
 
-#: ../src/e-util/e-filter-rule.c:1086
+#: ../src/e-util/e-filter-rule.c:1094
 msgid "any of the following conditions"
 msgstr "katerikoli naveden pogoj"
 
-#: ../src/e-util/e-filter-rule.c:1092
+#: ../src/e-util/e-filter-rule.c:1100
 msgid "_Find items which match:"
 msgstr "_Upoštevaj:"
 
-#: ../src/e-util/e-filter-rule.c:1115
+#: ../src/e-util/e-filter-rule.c:1123
 msgid "Find items that meet the following conditions"
 msgstr "Iskanje predmetov, ki ustrezajo navedenim pogojem"
 
 #. Translators: "None" for not including threads;
 #. * part of "Include threads: None"
-#: ../src/e-util/e-filter-rule.c:1130 ../src/e-util/e-html-editor-page-dialog.c:58
+#: ../src/e-util/e-filter-rule.c:1138 ../src/e-util/e-html-editor-page-dialog.c:58
 #: ../src/e-util/e-mail-identity-combo-box.c:814 ../src/e-util/e-mail-signature-combo-box.c:435
 #: ../src/libemail-engine/camel-null-store.c:29 ../src/mail/e-mail-autoconfig.c:834
 #: ../src/mail/e-mail-config-summary-page.c:134
@@ -14533,36 +14533,40 @@ msgstr "Iskanje predmetov, ki ustrezajo navedenim pogojem"
 msgid "None"
 msgstr "Ne združuj"
 
-#: ../src/e-util/e-filter-rule.c:1131
+#: ../src/e-util/e-filter-rule.c:1139
 msgid "All related"
 msgstr "Vse povezano"
 
-#: ../src/e-util/e-filter-rule.c:1132
+#: ../src/e-util/e-filter-rule.c:1140
+msgid "Unmatched in All related"
+msgstr "Brez zadetkov v vseh povezanih"
+
+#: ../src/e-util/e-filter-rule.c:1141
 msgid "Replies"
 msgstr "Odgovore na sporočila"
 
-#: ../src/e-util/e-filter-rule.c:1133
+#: ../src/e-util/e-filter-rule.c:1142
 msgid "Replies and parents"
 msgstr "Odgovore in nadrejena sporočila"
 
-#: ../src/e-util/e-filter-rule.c:1134
+#: ../src/e-util/e-filter-rule.c:1143
 msgid "No reply or parent"
 msgstr "Le zadetke (brez odgovorov in nadrejenih)"
 
-#: ../src/e-util/e-filter-rule.c:1137
+#: ../src/e-util/e-filter-rule.c:1146
 msgid "I_nclude threads:"
 msgstr "Združuj:"
 
-#: ../src/e-util/e-filter-rule.c:1214
+#: ../src/e-util/e-filter-rule.c:1223
 msgid "A_dd Condition"
 msgstr "Dodaj _pogoj"
 
-#: ../src/e-util/e-filter-rule.c:1552 ../src/e-util/filter.ui.h:1
+#: ../src/e-util/e-filter-rule.c:1561 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:995 ../src/mail/em-utils.c:168
 msgid "Incoming"
 msgstr "·Prejeto·"
 
-#: ../src/e-util/e-filter-rule.c:1552 ../src/mail/em-filter-rule.c:996 ../src/mail/em-utils.c:169
+#: ../src/e-util/e-filter-rule.c:1561 ../src/mail/em-filter-rule.c:996 ../src/mail/em-utils.c:169
 msgid "Outgoing"
 msgstr "Odhodna"
 
