@@ -712,6 +712,9 @@ filter_rule_xml_encode (EFilterRule *rule)
 	case E_FILTER_THREAD_SINGLE:
 		xmlSetProp (node, (xmlChar *)"threading", (xmlChar *)"single");
 		break;
+	case E_FILTER_THREAD_NOT_ALL:
+		xmlSetProp (node, (xmlChar *)"threading", (xmlChar *)"not_all");
+		break;
 	}
 
 	if (rule->source) {
@@ -781,6 +784,8 @@ filter_rule_xml_decode (EFilterRule *rule,
 			rule->threading = E_FILTER_THREAD_REPLIES_PARENTS;
 		else if (!strcmp (grouping, "single"))
 			rule->threading = E_FILTER_THREAD_SINGLE;
+		else if (!strcmp (grouping, "not_all"))
+			rule->threading = E_FILTER_THREAD_NOT_ALL;
 		xmlFree (grouping);
 	}
 
@@ -854,6 +859,9 @@ filter_rule_build_code_for_parts (EFilterRule *rule,
 		break;
 	case E_FILTER_THREAD_SINGLE:
 		g_string_append_printf (out, " (match-threads \"%ssingle\" ", thread_no_subject);
+		break;
+	case E_FILTER_THREAD_NOT_ALL:
+		g_string_append_printf (out, " (match-threads \"%snot_all\" ", thread_no_subject);
 		break;
 	}
 
@@ -1129,6 +1137,7 @@ filter_rule_get_widget (EFilterRule *rule,
 			 * part of "Include threads: None" */
 			N_("None"),
 			N_("All related"),
+			N_("Unmatched in All related"),
 			N_("Replies"),
 			N_("Replies and parents"),
 			N_("No reply or parent")
@@ -1137,7 +1146,7 @@ filter_rule_get_widget (EFilterRule *rule,
 		label = gtk_label_new_with_mnemonic (_("I_nclude threads:"));
 		combobox = gtk_combo_box_text_new ();
 
-		for (i = 0; i < 5; i++) {
+		for (i = 0; i < G_N_ELEMENTS (thread_types); i++) {
 			gtk_combo_box_text_append_text (
 				GTK_COMBO_BOX_TEXT (combobox),
 				_(thread_types[i]));

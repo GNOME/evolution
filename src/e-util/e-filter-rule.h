@@ -65,6 +65,7 @@ enum _filter_grouping_t {
 enum _filter_threading_t {
 	E_FILTER_THREAD_NONE,	/* don't add any thread matching */
 	E_FILTER_THREAD_ALL,	/* add all possible threads */
+	E_FILTER_THREAD_NOT_ALL,/* unmatched in all threads */
 	E_FILTER_THREAD_REPLIES,	/* add only replies */
 	E_FILTER_THREAD_REPLIES_PARENTS,	/* replies plus parents */
 	E_FILTER_THREAD_SINGLE	/* messages with no replies or parents */
