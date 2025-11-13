@@ -65,6 +65,7 @@ fedora:
     - cmake -G "Ninja"
             -DCMAKE_BUILD_TYPE=Release
             -DCMAKE_INSTALL_PREFIX=$PREFIX
+            -DENABLE_AUTOAR=ON
             -DENABLE_GTK_DOC=ON
             -DENABLE_CONTACT_MAPS=OFF
             -DENABLE_INSTALLED_TESTS=ON
