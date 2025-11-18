@@ -215,7 +215,8 @@ shell_force_shutdown (void)
 }
 
 static EShell *
-create_default_shell (void)
+create_default_shell (gint *pargc,
+		      gchar ***pargv)
 {
 	EShell *shell;
 	GApplicationFlags flags;
@@ -239,11 +240,13 @@ create_default_shell (void)
 
 	/* Failure to register is fatal. */
 	if (error != NULL) {
-		e_notice (
-			NULL, GTK_MESSAGE_ERROR,
-			_("Cannot start Evolution.  Another Evolution "
-			"instance may be unresponsive. System error: %s"),
+		gchar *msg = g_strdup_printf (
+			_("Cannot start Evolution.  Another Evolution instance may be unresponsive. System error: %s"),
 			error->message);
+		g_warning ("%s", msg);
+		if (gtk_init_check (pargc, pargv))
+			e_notice (NULL, GTK_MESSAGE_ERROR, "%s", msg);
+		g_free (msg);
 		g_clear_error (&error);
 	}
 
@@ -305,7 +308,7 @@ main (gint argc,
 	e_util_init_main_thread (NULL);
 	e_xml_initialize_in_main ();
 
-	shell = create_default_shell ();
+	shell = create_default_shell (&argc, &argv);
 	if (!shell)
 		return 1;
 
