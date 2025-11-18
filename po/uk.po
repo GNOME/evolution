@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-11-13 12:33+0000\n"
-"PO-Revision-Date: 2025-11-13 15:28+0200\n"
+"POT-Creation-Date: 2025-11-18 15:29+0000\n"
+"PO-Revision-Date: 2025-11-18 22:45+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -14223,6 +14223,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% виконано)"
 
 #: ../src/e-util/e-activity-proxy.c:339
+#: ../src/e-util/e-autoar-gtk-chooser.c:195
 #: ../src/e-util/e-ui-customize-dialog.c:982
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1828
 msgid "Cancel"
@@ -14460,6 +14461,31 @@ msgstr "П_ерезавантажити"
 msgid "Reload attachment content"
 msgstr "Перезавантажити вміст долучення"
 
+#: ../src/e-util/e-autoar-gtk-chooser.c:192
+#| msgid "Choose a folder to archive messages to."
+msgid "Choose an archive format"
+msgstr "Виберіть формат архіву"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:196
+#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:184
+msgid "OK"
+msgstr "Гаразд"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:294
+#| msgid "Other…"
+msgid "Other format…"
+msgstr "Інший формат…"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:469
+#| msgid "Format:"
+msgid "Format"
+msgstr "Формат"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:505
+#| msgid "_Filter Rules"
+msgid "Filter"
+msgstr "Фільтр"
+
 #: ../src/e-util/e-book-source-config.c:80
 msgid "Mark as default address book"
 msgstr "Зазначити як типову адресну книгу"
@@ -14624,10 +14650,6 @@ msgstr "зараз"
 msgctxt "table-date"
 msgid "None"
 msgstr "Немає"
-
-#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:184
-msgid "OK"
-msgstr "Гаразд"
 
 #: ../src/e-util/e-cell-date-edit.c:908
 #, c-format
@@ -15407,7 +15429,6 @@ msgid "All related"
 msgstr "Усе пов'язане"
 
 #: ../src/e-util/e-filter-rule.c:1140
-#| msgid "All related"
 msgid "Unmatched in All related"
 msgstr "Невідповідне для «Усе пов'язане»"
 
@@ -18730,13 +18751,11 @@ msgid "Setting up Search Folder: %s"
 msgstr "Налаштовування віртуальної теки: %s"
 
 #: ../src/libemail-engine/mail-vfolder.c:409
-#| msgid "Edit Search Folder"
 msgid "Updating Search Folders"
 msgstr "Оновлення тек пошуку"
 
 #: ../src/libemail-engine/mail-vfolder.c:469
 #, c-format
-#| msgid "Updating Search Folders for “%s : %s”"
 msgid "Updating Search Folder “%s”"
 msgstr "Оновлення теки пошуку «%s»"
 
