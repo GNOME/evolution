@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-11-13 15:09+0000\n"
-"PO-Revision-Date: 2025-11-13 18:14+0100\n"
+"POT-Creation-Date: 2025-11-18 09:33+0000\n"
+"PO-Revision-Date: 2025-11-18 10:40+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -13377,8 +13377,8 @@ msgstr "%s"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% končano)"
 
-#: ../src/e-util/e-activity-proxy.c:339 ../src/e-util/e-ui-customize-dialog.c:982
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1828
+#: ../src/e-util/e-activity-proxy.c:339 ../src/e-util/e-autoar-gtk-chooser.c:195
+#: ../src/e-util/e-ui-customize-dialog.c:982 ../src/modules/mail/e-mail-shell-view-actions.c:1828
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -13605,6 +13605,27 @@ msgstr "Ponovno na_loži"
 msgid "Reload attachment content"
 msgstr "Ponovno naloži vsebino priponke"
 
+#: ../src/e-util/e-autoar-gtk-chooser.c:192
+msgid "Choose an archive format"
+msgstr "Izberite vrsto zapisa za arhiviranje"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:196 ../src/e-util/e-cell-date-edit.c:356
+#: ../src/mail/e-mail-label-dialog.c:184
+msgid "OK"
+msgstr "V redu"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:294
+msgid "Other format…"
+msgstr "Druga vrsta zapisa ..."
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:469
+msgid "Format"
+msgstr "Zapis"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:505
+msgid "Filter"
+msgstr "Filter"
+
 #: ../src/e-util/e-book-source-config.c:80
 msgid "Mark as default address book"
 msgstr "Označi kot privzet imenik"
@@ -13767,10 +13788,6 @@ msgstr "Zdaj"
 msgctxt "table-date"
 msgid "None"
 msgstr "Brez"
-
-#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:184
-msgid "OK"
-msgstr "V redu"
 
 #: ../src/e-util/e-cell-date-edit.c:908
 #, c-format
