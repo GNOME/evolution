@@ -1,3 +1,19 @@
+Evolution 3.58.2 2025-11-21
+---------------------------
+
+Bug Fixes:
+	I#3164 - mail-vfolder: Correct and speed up setup and update of search folders
+	I#3172 - Crash when copying multiple lines from “Markdown as HTML” composer
+
+Miscellaneous:
+	shell: Fix a crash on start when app initialization fails
+
+Translations:
+	Aefgh Threenine (th)
+	Christian Kirbach (de)
+	Kjartan Maraas (nb)
+	Sabri Ünal (tr)
+
 Evolution 3.58.1 2025-10-10
 ---------------------------
 
