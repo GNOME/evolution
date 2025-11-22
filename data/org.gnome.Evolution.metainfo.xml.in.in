@@ -19,6 +19,35 @@
       the “Exchange Web Services” (EWS) extension.
     </_p>
   </description>
+  <keywords>
+    <_keyword>PIM</_keyword>
+    <_keyword>calendars</_keyword>
+    <_keyword>calendaring</_keyword>
+    <_keyword>events</_keyword>
+    <_keyword>meetings</_keyword>
+    <_keyword>appointments</_keyword>
+    <_keyword>scheduling</_keyword>
+    <_keyword>planning</_keyword>
+    <_keyword>agenda</_keyword>
+    <_keyword>reminders</_keyword>
+    <_keyword>alarms</_keyword>
+    <_keyword>email</_keyword>
+    <_keyword>email client</_keyword>
+    <_keyword>tasks</_keyword>
+    <_keyword>todos</_keyword>
+    <_keyword>memos</_keyword>
+    <_keyword>contacts</_keyword>
+    <_keyword>addressbook</_keyword>
+    <keyword>iCalendar</keyword>
+    <keyword>ics</keyword>
+    <keyword>CalDAV</keyword>
+    <keyword>WebDAV</keyword>
+    <keyword>POP3</keyword>
+    <keyword>IMAP</keyword>
+    <keyword>CardDAV</keyword>
+    <keyword>Usenet</keyword>
+    <keyword>Google</keyword>
+  </keywords>
   <url type="homepage">https://gitlab.gnome.org/GNOME/evolution/-/wikis/home</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/evolution/-/issues/</url>
   <url type="donation">https://www.gnome.org/donate/</url>
