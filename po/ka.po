@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-11-13 17:15+0000\n"
-"PO-Revision-Date: 2025-11-14 03:57+0100\n"
+"POT-Creation-Date: 2025-11-22 20:15+0000\n"
+"PO-Revision-Date: 2025-11-22 21:29+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -13271,6 +13271,7 @@ msgid "%s (%d%% complete)"
 msgstr ""
 
 #: ../src/e-util/e-activity-proxy.c:339
+#: ../src/e-util/e-autoar-gtk-chooser.c:195
 #: ../src/e-util/e-ui-customize-dialog.c:982
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1828
 msgid "Cancel"
@@ -13502,6 +13503,27 @@ msgstr "თავიდან ჩა_ტვირთვა"
 msgid "Reload attachment content"
 msgstr ""
 
+#: ../src/e-util/e-autoar-gtk-chooser.c:192
+msgid "Choose an archive format"
+msgstr "აირჩიეთ არქივის ფორმატი"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:196
+#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:184
+msgid "OK"
+msgstr "დიახ"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:294
+msgid "Other format…"
+msgstr "სხვა ფორმატი…"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:469
+msgid "Format"
+msgstr "ფორმატი"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:505
+msgid "Filter"
+msgstr "ფილტრი"
+
 #: ../src/e-util/e-book-source-config.c:80
 msgid "Mark as default address book"
 msgstr ""
@@ -13666,10 +13688,6 @@ msgstr "ახლა"
 msgctxt "table-date"
 msgid "None"
 msgstr "არცერთი"
-
-#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:184
-msgid "OK"
-msgstr "დიახ"
 
 #: ../src/e-util/e-cell-date-edit.c:908
 #, c-format
