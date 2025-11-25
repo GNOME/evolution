@@ -22,7 +22,7 @@
 
 <p>As a first hint, error messages will be either displayed in the statusbar or between the tool bar and the search bar.</p>
 
-<p>To further track down a problem, some debug options are listed on the <link href="https://wiki.gnome.org/Apps/Evolution/Debugging"><app>Evolution</app> project website</link>.</p>
+<p>To further track down a problem, some debug options are listed on the <link href="https://gitlab.gnome.org/GNOME/evolution/-/wikis/Debugging"><app>Evolution</app> project website</link>.</p>
 
 <p>To contact the <app>Evolution</app> community for help, please see <link xref="problems-getting-help">How to get help</link>.</p>
 
