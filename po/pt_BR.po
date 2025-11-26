@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-11-05 11:01+0000\n"
-"PO-Revision-Date: 2025-11-05 11:48-0300\n"
+"POT-Creation-Date: 2025-11-25 12:49+0000\n"
+"PO-Revision-Date: 2025-11-26 11:59-0300\n"
 "Last-Translator: Juliano de Souza Camargo <julianosc@pm.me>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao/>\n"
 "Language: pt_BR\n"
@@ -8182,7 +8182,7 @@ msgstr "…"
 msgid "attachment.dat"
 msgstr "anexo.dat"
 
-#: ../src/calendar/gui/comp-util.c:2737 ../src/e-util/e-filter-rule.c:1034
+#: ../src/calendar/gui/comp-util.c:2737 ../src/e-util/e-filter-rule.c:1042
 #: ../src/mail/e-mail-config-page.c:115
 msgid "Untitled"
 msgstr "Sem título"
@@ -14251,6 +14251,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% concluído)"
 
 #: ../src/e-util/e-activity-proxy.c:339
+#: ../src/e-util/e-autoar-gtk-chooser.c:195
 #: ../src/e-util/e-ui-customize-dialog.c:982
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1828
 msgid "Cancel"
@@ -14484,6 +14485,27 @@ msgstr "Re_carregar"
 msgid "Reload attachment content"
 msgstr "Recarregar conteúdo do anexo"
 
+#: ../src/e-util/e-autoar-gtk-chooser.c:192
+msgid "Choose an archive format"
+msgstr "Escolha um formato de arquivo"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:196
+#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:184
+msgid "OK"
+msgstr "OK"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:294
+msgid "Other format…"
+msgstr "Outro formato…"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:469
+msgid "Format"
+msgstr "Formato"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:505
+msgid "Filter"
+msgstr "Filtro"
+
 #: ../src/e-util/e-book-source-config.c:80
 msgid "Mark as default address book"
 msgstr "Marcar como catálogo de endereços padrão"
@@ -14652,10 +14674,6 @@ msgstr "Agora"
 msgctxt "table-date"
 msgid "None"
 msgstr "Nenhum"
-
-#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:184
-msgid "OK"
-msgstr "OK"
 
 #: ../src/e-util/e-cell-date-edit.c:908
 #, c-format
@@ -15369,29 +15387,29 @@ msgstr "Selecionar um momento para comparar com"
 msgid "Choose a File"
 msgstr "Escolher um arquivo"
 
-#: ../src/e-util/e-filter-rule.c:1027
+#: ../src/e-util/e-filter-rule.c:1035
 msgid "R_ule name:"
 msgstr "_Nome da regra:"
 
-#: ../src/e-util/e-filter-rule.c:1085
+#: ../src/e-util/e-filter-rule.c:1093
 msgid "all the following conditions"
 msgstr "todos os critérios a seguir"
 
-#: ../src/e-util/e-filter-rule.c:1086
+#: ../src/e-util/e-filter-rule.c:1094
 msgid "any of the following conditions"
 msgstr "qualquer um dos critérios a seguir"
 
-#: ../src/e-util/e-filter-rule.c:1092
+#: ../src/e-util/e-filter-rule.c:1100
 msgid "_Find items which match:"
 msgstr "_Localizar itens correspondentes a:"
 
-#: ../src/e-util/e-filter-rule.c:1115
+#: ../src/e-util/e-filter-rule.c:1123
 msgid "Find items that meet the following conditions"
 msgstr "Localizar itens que atendam aos seguintes critérios"
 
 #. Translators: "None" for not including threads;
 #. * part of "Include threads: None"
-#: ../src/e-util/e-filter-rule.c:1130
+#: ../src/e-util/e-filter-rule.c:1138
 #: ../src/e-util/e-html-editor-page-dialog.c:58
 #: ../src/e-util/e-mail-identity-combo-box.c:814
 #: ../src/e-util/e-mail-signature-combo-box.c:435
@@ -15402,36 +15420,40 @@ msgstr "Localizar itens que atendam aos seguintes critérios"
 msgid "None"
 msgstr "Nenhuma"
 
-#: ../src/e-util/e-filter-rule.c:1131
+#: ../src/e-util/e-filter-rule.c:1139
 msgid "All related"
 msgstr "Tudo relacionado"
 
-#: ../src/e-util/e-filter-rule.c:1132
+#: ../src/e-util/e-filter-rule.c:1140
+msgid "Unmatched in All related"
+msgstr "Não combinadas em tudo relacionado"
+
+#: ../src/e-util/e-filter-rule.c:1141
 msgid "Replies"
 msgstr "Respostas"
 
-#: ../src/e-util/e-filter-rule.c:1133
+#: ../src/e-util/e-filter-rule.c:1142
 msgid "Replies and parents"
 msgstr "Respostas e anteriores"
 
-#: ../src/e-util/e-filter-rule.c:1134
+#: ../src/e-util/e-filter-rule.c:1143
 msgid "No reply or parent"
 msgstr "Nenhuma réplica ou parente"
 
-#: ../src/e-util/e-filter-rule.c:1137
+#: ../src/e-util/e-filter-rule.c:1146
 msgid "I_nclude threads:"
 msgstr "I_ncluir discussões:"
 
-#: ../src/e-util/e-filter-rule.c:1214
+#: ../src/e-util/e-filter-rule.c:1223
 msgid "A_dd Condition"
 msgstr "A_dicionar critério"
 
-#: ../src/e-util/e-filter-rule.c:1552 ../src/e-util/filter.ui.h:1
+#: ../src/e-util/e-filter-rule.c:1561 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:995 ../src/mail/em-utils.c:168
 msgid "Incoming"
 msgstr "Recebidas"
 
-#: ../src/e-util/e-filter-rule.c:1552 ../src/mail/em-filter-rule.c:996
+#: ../src/e-util/e-filter-rule.c:1561 ../src/mail/em-filter-rule.c:996
 #: ../src/mail/em-utils.c:169
 msgid "Outgoing"
 msgstr "Enviadas"
@@ -18453,8 +18475,8 @@ msgstr "URI da pasta inválida “%s”"
 #: ../src/mail/em-folder-tree-model.c:1524
 #: ../src/mail/em-folder-tree-model.c:1554
 #: ../src/mail/importers/kmail-libs.c:138
-#: ../src/modules/mail/e-mail-shell-view-private.c:1020
-#: ../src/modules/mail/e-mail-shell-view-private.c:1031
+#: ../src/modules/mail/e-mail-shell-view-private.c:1059
+#: ../src/modules/mail/e-mail-shell-view-private.c:1070
 msgid "Inbox"
 msgstr "Entrada"
 
@@ -18463,7 +18485,7 @@ msgstr "Entrada"
 #: ../src/mail/em-folder-tree-model.c:1518
 #: ../src/mail/em-folder-tree-model.c:1558
 #: ../src/mail/importers/kmail-libs.c:144
-#: ../src/modules/mail/e-mail-shell-view-private.c:1018
+#: ../src/modules/mail/e-mail-shell-view-private.c:1057
 msgid "Drafts"
 msgstr "Rascunhos"
 
@@ -18471,7 +18493,7 @@ msgstr "Rascunhos"
 #: ../src/libemail-engine/e-mail-session.c:115
 #: ../src/mail/em-folder-tree-model.c:1530
 #: ../src/mail/importers/kmail-libs.c:140
-#: ../src/modules/mail/e-mail-shell-view-private.c:1022
+#: ../src/modules/mail/e-mail-shell-view-private.c:1061
 msgid "Outbox"
 msgstr "Saída"
 
@@ -18480,7 +18502,7 @@ msgstr "Saída"
 #: ../src/mail/em-folder-tree-model.c:1535
 #: ../src/mail/em-folder-tree-model.c:1557
 #: ../src/mail/importers/kmail-libs.c:142
-#: ../src/modules/mail/e-mail-shell-view-private.c:1024
+#: ../src/modules/mail/e-mail-shell-view-private.c:1063
 msgid "Sent"
 msgstr "Enviadas"
 
@@ -18488,7 +18510,7 @@ msgstr "Enviadas"
 #: ../src/libemail-engine/e-mail-session.c:117
 #: ../src/mail/em-folder-tree-model.c:1520
 #: ../src/mail/importers/kmail-libs.c:146
-#: ../src/modules/mail/e-mail-shell-view-private.c:1026
+#: ../src/modules/mail/e-mail-shell-view-private.c:1065
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
 msgstr "Modelos"
@@ -18585,7 +18607,7 @@ msgid "Disconnecting from “%s”"
 msgstr "Desconectando de “%s”"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:231
-#: ../src/mail/e-mail-backend.c:1062
+#: ../src/mail/e-mail-backend.c:1171
 #, c-format
 msgid "Reconnecting to “%s”"
 msgstr "Reconectando a “%s”"
@@ -18720,22 +18742,26 @@ msgstr "Mensagem encaminhada — %s"
 msgid "Forwarded message"
 msgstr "Mensagem encaminhada"
 
-#: ../src/libemail-engine/mail-vfolder.c:149
+#: ../src/libemail-engine/mail-vfolder.c:152
 #, c-format
 msgid "Setting up Search Folder: %s"
 msgstr "Preparando pasta de pesquisa: %s"
 
-#: ../src/libemail-engine/mail-vfolder.c:307
+#: ../src/libemail-engine/mail-vfolder.c:409
+msgid "Updating Search Folders"
+msgstr "Atualizando pastas de pesquisa"
+
+#: ../src/libemail-engine/mail-vfolder.c:469
 #, c-format
-msgid "Updating Search Folders for “%s : %s”"
-msgstr "Atualizando pastas de pesquisa para “%s : %s”"
+msgid "Updating Search Folder “%s”"
+msgstr "Atualizando pastas de pesquisa “%s”"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
 #. * removed folder. For more than one search folder is
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
-#: ../src/libemail-engine/mail-vfolder.c:671
+#: ../src/libemail-engine/mail-vfolder.c:775
 #, c-format
 msgid ""
 "The Search Folder “%s” has been modified to account for the deleted folder\n"
@@ -21066,7 +21092,7 @@ msgstr "Não foi possível depositar mensagem(ns) no repositório topo"
 
 #: ../src/mail/em-folder-tree-model.c:1555
 #: ../src/mail/importers/kmail-libs.c:148
-#: ../src/modules/mail/e-mail-shell-view-private.c:1028
+#: ../src/modules/mail/e-mail-shell-view-private.c:1067
 msgid "Trash"
 msgstr "Lixeira"
 
@@ -21139,9 +21165,9 @@ msgid "Unsubscribe From _All"
 msgstr "Desinscrever-se de tod_as"
 
 #: ../src/mail/em-subscription-editor.c:1320
-#: ../src/modules/mail/e-mail-shell-view-private.c:921
-#: ../src/modules/mail/e-mail-shell-view-private.c:953
-#: ../src/modules/mail/e-mail-shell-view-private.c:997
+#: ../src/modules/mail/e-mail-shell-view-private.c:960
+#: ../src/modules/mail/e-mail-shell-view-private.c:992
+#: ../src/modules/mail/e-mail-shell-view-private.c:1036
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
@@ -21149,7 +21175,7 @@ msgstr[0] "%d não lida, "
 msgstr[1] "%d não lidas, "
 
 #: ../src/mail/em-subscription-editor.c:1324
-#: ../src/modules/mail/e-mail-shell-view-private.c:1007
+#: ../src/modules/mail/e-mail-shell-view-private.c:1046
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -28108,51 +28134,51 @@ msgstr "Pesquisa em todas as contas"
 msgid "Account Search"
 msgstr "Pesquisa na conta"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:914
+#: ../src/modules/mail/e-mail-shell-view-private.c:953
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d selecionada, "
 msgstr[1] "%d selecionadas, "
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:929
-#: ../src/modules/mail/e-mail-shell-view-private.c:946
+#: ../src/modules/mail/e-mail-shell-view-private.c:968
+#: ../src/modules/mail/e-mail-shell-view-private.c:985
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d excluída"
 msgstr[1] "%d excluídas"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:960
-#: ../src/modules/mail/e-mail-shell-view-private.c:966
+#: ../src/modules/mail/e-mail-shell-view-private.c:999
+#: ../src/modules/mail/e-mail-shell-view-private.c:1005
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d spam"
 msgstr[1] "%d spams"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:973
+#: ../src/modules/mail/e-mail-shell-view-private.c:1012
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d rascunho"
 msgstr[1] "%d rascunhos"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:979
+#: ../src/modules/mail/e-mail-shell-view-private.c:1018
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d não enviada"
 msgstr[1] "%d não enviadas"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:985
+#: ../src/modules/mail/e-mail-shell-view-private.c:1024
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d enviada"
 msgstr[1] "%d enviadas"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1002
+#: ../src/modules/mail/e-mail-shell-view-private.c:1041
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
