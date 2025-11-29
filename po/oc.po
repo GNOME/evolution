@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-09-10 12:55+0000\n"
-"PO-Revision-Date: 2025-09-10 18:48+0200\n"
+"POT-Creation-Date: 2025-11-28 19:01+0000\n"
+"PO-Revision-Date: 2025-11-29 21:10+0100\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: Tot En Òc\n"
 "Language: oc\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 "X-Launchpad-Export-Date: 2016-04-06 17:28+0000\n"
 "X-Project-Style: gnome\n"
 "X-DamnedLies-Scope: partial\n"
@@ -222,63 +222,75 @@ msgstr "Indica se cal afichar d'informacions de trabalh dins l'editor"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:37
 #, fuzzy
+#| msgid "Show Notes"
+msgid "Show dates"
+msgstr "Afichar las nòtas"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:38
+#, fuzzy
+#| msgid "Whether to show notes in the editor"
+msgid "Whether to show Dates section in the editor"
+msgstr "Indica se cal afichar las nòtas dins l'editor"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:39
+#, fuzzy
 #| msgid "Show Miscellaneous"
 msgid "Show Miscellaneous information"
 msgstr "Afichar los divèrses"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:38
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:40
 msgid "Whether to show Miscellaneous information in the editor"
 msgstr "Indica se cal afichar d'informacions divèrsas dins l'editor"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:39
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:41
 #, fuzzy
 #| msgid "Show Notes"
 msgid "Show notes-tab"
 msgstr "Afichar las nòtas"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:40
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:42
 msgid "Whether to show notes in the editor"
 msgstr "Indica se cal afichar las nòtas dins l'editor"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:41
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:43
 #, fuzzy
 #| msgid "Show Certificates"
 msgid "Show Certificates tab"
 msgstr "Afichar los certificats"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:42
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:44
 msgid "Whether to show Certificates tab in the editor"
 msgstr "Indica se cal afichar l'onglet Certificats dins l'editor"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:43
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:45
 #, fuzzy
 #| msgid "Create a new contact list"
 msgid "Where to open contact locations"
 msgstr "Crèa una novèla lista de contactes"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:44
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
 msgid ""
 "Currently supported values are “openstreetmap” and “google”; if unknown set, "
 "uses “openstreetmap”"
 msgstr ""
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:45
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:47
 msgid "Whether to prefer local application over opening map in a browser"
 msgstr ""
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:48
 msgid ""
 "Open a contact location in a local application handling 'map:' URI, if "
 "available, instead of using a web browser"
 msgstr ""
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:47
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:49
 #, fuzzy
 #| msgid "Personal Information"
 msgid "Preview Personal before Work information"
 msgstr "Informacions personalas"
 
-#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:48
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:50
 msgid ""
 "Show the Personal information before the Work information in the contact "
 "preview"
@@ -1140,81 +1152,91 @@ msgid "First day of the week"
 msgstr "Primièr jorn de la setmana"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
+msgid "Use system week start day"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+msgid ""
+"Use the GNOME system setting for week start day, instead of the Evolution "
+"own setting"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid "Monday is a work day"
 msgstr "Diluns es un jorn dobrant"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "Tuesday is a work day"
 msgstr "Dimars es un jorn dobrant"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
 msgid "Wednesday is a work day"
 msgstr "Dimècres es un jorn dobrant"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Thursday is a work day"
 msgstr "Dijòus es un jorn dobrant"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "Friday is a work day"
 msgstr "Divendres es un jorn dobrant"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
 msgid "Saturday is a work day"
 msgstr "Dissabte es un jorn dobrant"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid "Sunday is a work day"
 msgstr "Dimenge es un jorn dobrant"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
 msgid "Create events, memos and tasks as Private by default"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
 msgid "Draw events as flat, not shaded."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
 msgid ""
 "Whether to order days in the Week View from left to right, rather than from "
 "top to bottom."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
 msgid ""
 "Allow direct edit of event Summary when clicking on it in the Day, Work "
 "Week, Week or Month view."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
 #, fuzzy
 #| msgid "Default reminder snooze interval, in minutes"
 msgid "User-defined reminder times, in minutes"
 msgstr "Valor per defaut de l'interval del repòrt de rapèls, en minutes"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:164
 #, fuzzy
 #| msgid "Whether to show job information in the editor"
 msgid ""
 "Whether to use markdown editor for the description in the component editor."
 msgstr "Indica se cal afichar d'informacions de trabalh dins l'editor"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
 #, fuzzy
 #| msgid "Whether to hide completed tasks in the tasks view"
 msgid "Show week day names in the Year View"
 msgstr ""
 "Indica se cal amagar los prètzfaits acabats dins la vista dels prètzfaits"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
 #, fuzzy
 #| msgid "Show task preview alongside the task list"
 msgid "Show the preview pane in the Year View"
 msgstr ""
 "Aficha l'apercebut dels prètzfaits al costat de la lista dels prètzfaits"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
 #, fuzzy
 #| msgid "If \"true\", show the memo preview pane in the main window"
 msgid "If “true”, show the preview pane in the Year View"
@@ -1222,13 +1244,13 @@ msgstr ""
 "Se « verai », lo panèl d'apercebut dels memos es afichat dins la fenèstra "
 "principala"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
 #, fuzzy
 #| msgid "Month view horizontal pane position"
 msgid "Year view horizontal pane position"
 msgstr "Posicion del panèl orizontal dins la vista mesadièra"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
 #, fuzzy
 #| msgid ""
 #| "Position of the horizontal pane, between the date navigator calendar and "
@@ -1240,11 +1262,11 @@ msgstr ""
 "Posicion del panèl orizontal fòra vista mesadièra, entre lo calendièr "
 "navigador de datas e la lista dels prètzfaits, en pixèls"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
 msgid "Layout style for the Year View"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:171
 #, fuzzy
 #| msgid ""
 #| "The layout style determines where to place the preview pane in relation "
@@ -1261,13 +1283,13 @@ msgstr ""
 "d'apercebut jos la lista dels prètzfaits. « 1 » (vista verticala) plaça lo "
 "panèl d'apercebut a costat de la lista dels prètzfaits"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
 #, fuzzy
 #| msgid "Month view horizontal pane position"
 msgid "Year view horizontal preview position"
 msgstr "Posicion del panèl orizontal dins la vista mesadièra"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
 #, fuzzy
 #| msgid ""
 #| "Position of the horizontal pane, between the view and the date navigator "
@@ -1277,58 +1299,58 @@ msgstr ""
 "Posicion del panèl orizontal en vista mesadièra, entre la vista, lo "
 "calendièr navigador de datas e la lista dels prètzfaits, en pixèls"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
 #, fuzzy
 #| msgid "Month view vertical pane position"
 msgid "Year view vertical preview position"
 msgstr "Posicion del panèl vertical dins la vista mesadièra"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
 #, fuzzy
 #| msgid "Position of the task preview pane when oriented vertically"
 msgid "Position of the vertical event preview for the year view, in pixels"
 msgstr ""
 "Posicion del panèl d'apercebut dels prètzfaits per una orientacion verticala"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
 #, fuzzy
 #| msgid "Send after 5 minutes"
 msgid "Shorten event time by minutes"
 msgstr "Mandar aprèp 5 minutas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
 msgid ""
 "By how many minutes to shorten new event time. Whether event end or start is "
 "changed is determined by \"shorten-time-end\" setting"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
 #, fuzzy
 #| msgid "Whether to show the preview pane."
 msgid "Whether to shorten event end time"
 msgstr "Indica se cal afichar lo panèl d'apercebut."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:179
 msgid ""
 "A pair option for \"shorten-time\" setting, to change the end time or the "
 "start time"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
 msgid "Background color for the 'today' day"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
 msgid ""
 "Leave empty to use a yellow color derived from the current theme, otherwise "
 "use the color of form `#RRGGBB`"
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
 msgid "Allow drag-and-drop of events in the Calendar."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
 #, fuzzy
 #| msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgid ""
@@ -1338,30 +1360,30 @@ msgstr ""
 "Afichar los numèros de setmana dins la vista quotidiana, la vista de setmana "
 "de trabalh e lo navigador de datas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
 msgid ""
 "Value to preselect when sending an event with attendees with reminders set."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
 msgid ""
 "This remembers the last value of \"Send my reminders with this event\" "
 "option and uses it the next time."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:186
 #, fuzzy
 #| msgid "Show timezone field in the event/meeting editor"
 msgid "Show the day agenda in the event editor."
 msgstr "Afichar lo camp fus orari dins l'editor d'eveniment/reünion"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:187
 #, fuzzy
 #| msgid "Whether to show maps in preview pane"
 msgid "Whether the event editor shows the day agenda."
 msgstr "Indica se cal afichar las mapas dins lo panèl d'apercebut"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:188
 #, fuzzy
 #| msgid ""
 #| "Position of the vertical pane, between the calendar lists and the date "
@@ -1371,11 +1393,11 @@ msgstr ""
 "Posicion del panèl vertical, entre las listas d'agendas e lo calendièr "
 "navigador de datas"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:189
 msgid "It influences the width of the day agenda."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:190
 #, fuzzy
 #| msgid "If \"true\", show the memo preview pane in the main window"
 msgid "Width of the event editor window"
@@ -1383,15 +1405,15 @@ msgstr ""
 "Se « verai », lo panèl d'apercebut dels memos es afichat dins la fenèstra "
 "principala"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:191
 msgid "The editor will be opened with this width."
 msgstr ""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:192
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(Obsolèt) primièr jorn de la setmana, de dimenge (0) a dissabte (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:193
 #, fuzzy
 #| msgid ""
 #| "This key was deprecated in version 3.10 and should no longer be used. Use "
@@ -1403,11 +1425,11 @@ msgstr ""
 "Aquesta clau es estada abandonada dins la version 3.10 e deu pas mai èsser "
 "utilizada. Utilizar « week-start-day-name » a la plaça."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:194
 msgid "(Deprecated) Work days"
 msgstr "(Obsolète) jorns ouvrables"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:195
 #, fuzzy
 #| msgid ""
 #| "Days on which the start and end of work hours should be indicated. (This "
@@ -4383,7 +4405,7 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/e-shell.c:2046
+#: ../src/shell/e-shell.c:2048
 msgid "Start in offline mode"
 msgstr "Aviar en mòde fòra linha"
 
@@ -4734,14 +4756,14 @@ msgstr "Redaccion d'un messatge"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:8
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:9
 #: ../src/e-util/e-name-selector-dialog.c:434
-#: ../src/modules/addressbook/e-book-shell-backend.c:274
+#: ../src/modules/addressbook/e-book-shell-backend.c:276
 #: ../src/modules/addressbook/e-book-shell-view.c:459
 msgid "Contacts"
 msgstr "Contactes"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1103
 #: ../src/e-util/e-collection-account-wizard.c:871
 #: ../src/e-util/e-webdav-browser.c:541
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:211
@@ -4753,7 +4775,7 @@ msgstr "Calendièr"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:10
 #: ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:249
-#: ../src/mail/importers/pine-importer.c:423
+#: ../src/mail/importers/pine-importer.c:422
 #: ../src/modules/mail/e-mail-shell-view.c:1963
 #: ../src/smime/gui/certificate-manager.c:1608
 msgid "Mail"
@@ -5501,7 +5523,7 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:889
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1521
 #: ../src/e-util/e-accounts-window.c:1578
 #: ../src/e-util/e-html-editor-link-popover.c:126
@@ -5667,17 +5689,17 @@ msgstr ""
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
 #: ../src/addressbook/addressbook.error.xml.h:55
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3243
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3517
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4351
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3405
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3679
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4536
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:467
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:561
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:806
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:616
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:884
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1857
 #: ../src/calendar/calendar.error.xml.h:190
@@ -5712,7 +5734,7 @@ msgstr ""
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:304 ../src/mail/e-mail-label-dialog.c:180
 #: ../src/mail/e-mail-reader.c:5213 ../src/mail/e-mail-tag-editor.c:155
-#: ../src/mail/e-mail-viewer.c:590 ../src/mail/em-composer-utils.c:4534
+#: ../src/mail/e-mail-viewer.c:590 ../src/mail/em-composer-utils.c:4519
 #: ../src/mail/em-folder-selector.c:619 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:881
 #: ../src/mail/mail-send-recv.c:962 ../src/mail/mail-vfolder-ui.c:151
@@ -5764,40 +5786,46 @@ msgid "Show Job section"
 msgstr "Afichar la seccion trabalh"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:6
+#, fuzzy
+#| msgid "Show Notes"
+msgid "Show Dates"
+msgstr "Afichar las nòtas"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:7
 msgid "Show Miscellaneous"
 msgstr "Afichar los divèrses"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:7
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:8
 msgid "Show Home Mailing Address"
 msgstr "Afichar l'adreça postala del domicili"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:8
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:9
 msgid "Show Work Mailing Address"
 msgstr "Afichar l'adreça postala del trabalh"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:9
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:10
 msgid "Show Other Mailing Address"
 msgstr "Afichar una autra adreça postala"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:10
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
 msgid "Show Notes"
 msgstr "Afichar las nòtas"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
 msgid "Show Certificates"
 msgstr "Afichar los certificats"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2482
 #: ../src/em-format/e-mail-formatter-attachment.c:327
 #: ../src/mail/mail-config.ui.h:43
 msgid "Options"
 msgstr "Opcions"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3517
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3679
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:887
 #: ../src/calendar/calendar.error.xml.h:56
 #: ../src/calendar/gui/e-comp-editor.c:2384
 #: ../src/composer/e-composer-actions.c:259
@@ -5814,185 +5842,250 @@ msgstr "Opcions"
 msgid "_Save"
 msgstr "Enregi_strar"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
 #: ../src/e-util/e-misc-utils.c:3109
 msgid "Image"
 msgstr "Imatge"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17
 msgid "Nic_kname:"
 msgstr "Es_cais :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:18
 msgid "_File under:"
 msgstr "_Classificar jos :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:18
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:19
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
 msgid "_Where:"
 msgstr "_Ont :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:19
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:20
 msgid "Ca_tegories..."
 msgstr "Ca_tegorias..."
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:20
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
 msgid "Full _Name..."
 msgstr "_Nom complet..."
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:22
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:8
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:920
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1347
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1447
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "Adreça de corrièr electronic"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:22
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
 msgid "_Wants to receive HTML mail"
 msgstr "_Preferís recebre los corrièrs electronics en HTML"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:24
 msgid "Telephone"
 msgstr "Telefòn"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:24
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:25
 msgid "SIP Address"
 msgstr "Adreça SIP"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:25
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:26
 msgid "Instant Messaging"
 msgstr "Messatjariá instantanèa"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:26
-#: ../src/addressbook/importers/evolution-vcard-importer.c:828
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:27
+#: ../src/addressbook/importers/evolution-vcard-importer.c:827
 msgid "Contact"
 msgstr "Contacte"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:27
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1062
 msgid "_Home Page:"
 msgstr "_Site internet :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1070
 #: ../src/calendar/gui/e-comp-editor-event.c:1169
 #: ../src/modules/itip-formatter/itip-view.c:2755
 msgid "_Calendar:"
 msgstr "_Calendièr :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1074
 msgid "_Free/Busy:"
 msgstr "_Liure/Ocupat :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:31
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1078
 msgid "_Video Chat:"
 msgstr "_Videoconferéncia :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:31
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:32
 msgid "Home Page:"
 msgstr "Site Web personal :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:32
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:33
 #: ../src/modules/cal-config-google/e-cal-config-google.c:94
 msgid "Calendar:"
 msgstr "Calendièr :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:33
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:34
 msgid "Free/Busy:"
 msgstr "Liure / Ocupat :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:34
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:35
 msgid "Video Chat:"
 msgstr "Videoconferéncia :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:35
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:36
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1066
 msgid "_Blog:"
 msgstr "_Blog :"
 
 #. Translators: an accessibility name
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:37
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:38
 msgid "Blog:"
 msgstr "Blog :"
 
 #. tab title
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:38
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:39
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:526
 msgid "Web Addresses"
 msgstr "Sites Web"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:39
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:40
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1091
 msgid "_Profession:"
 msgstr "_Profession :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:40
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:41
 msgctxt "Job"
 msgid "_Title:"
 msgstr "_Títol :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:41
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:42
 msgid "_Company:"
 msgstr "_Societat :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:42
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:43
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1105
 msgid "_Department:"
 msgstr "_Departament :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:43
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:44
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1109
 msgid "_Office:"
 msgstr "_Burèu :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:44
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
+#, fuzzy
+#| msgid "Mail _Directory:"
+msgid "Or_g. Directory:"
+msgstr "Repertòri _del corrièr electronic :"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:46
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1082
 msgid "_Manager:"
 msgstr "D_irector :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:47
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1087
 msgid "_Assistant:"
 msgstr "_Adjunt :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:46
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:48
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:532
 msgid "Job"
 msgstr "Pòst"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:47
-#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1113
-msgid "_Spouse:"
-msgstr "_Conjunt(a) :"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:48
-msgid "_Birthday:"
-msgstr "Data de _naissença :"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:49
 msgid "_Anniversary:"
 msgstr "_Anniversari :"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1148
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:1778
 msgid "Anniversary"
 msgstr "Anniversari"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
+msgid "_Birthday:"
+msgstr "Data de _naissença :"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1149
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:1777
 msgid "Birthday"
 msgstr "Anniversari"
 
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
+#, fuzzy
+#| msgid "R_eplace:"
+msgid "Bi_rth place:"
+msgstr "R_emplaçar :"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
+#, fuzzy
+#| msgid "Birthday"
+msgid "Birth place"
+msgstr "Anniversari"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
+msgid "_Death:"
+msgstr ""
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:56
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1151
+msgid "Death"
+msgstr ""
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:57
+#, fuzzy
+#| msgid "R_eplace:"
+msgid "Death p_lace:"
+msgstr "R_emplaçar :"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
+#, fuzzy
+#| msgid "Replace"
+msgid "Death place"
+msgstr "Remplaçar"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
+#, fuzzy
+#| msgid "Date"
+msgid "Dates"
+msgstr "Data"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:60
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1113
+msgid "_Spouse:"
+msgstr "_Conjunt(a) :"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
+#, fuzzy
+#| msgid "General"
+msgid "_Gender:"
+msgstr "General"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
+#, fuzzy
+#| msgid "_Properties"
+msgid "Ex_pertise:"
+msgstr "_Proprietats"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
+msgid "_Interest:"
+msgstr ""
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
+msgid "_Hobby:"
+msgstr ""
+
 #
 #. Other options
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:65
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:540
 #: ../src/mail/e-mail-config-defaults-page.c:899
 #: ../src/modules/addressbook/autocompletion-config.c:122
@@ -6000,85 +6093,85 @@ msgstr "Anniversari"
 msgid "Miscellaneous"
 msgstr "Divèrs"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:66
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:525
 msgid "Personal Information"
 msgstr "Informacions personalas"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:825
 msgid "_City:"
 msgstr "_Vila :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:68
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:826
 msgid "_Zip/Postal Code:"
 msgstr "_Còdi postal :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:56
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:827
 msgid "_State/Province:"
 msgstr "_Estat/província :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:57
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:70
 msgid "_Country:"
 msgstr "_País :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:71
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:828
 msgid "_PO Box:"
 msgstr "_Bóstia postala :"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:72
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:776
 #: ../src/composer/e-composer-from-header.c:117
 msgid "_Address:"
 msgstr "_Adreça :"
 
 #. tab title
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:60
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:73
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:81
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:544
 #: ../src/addressbook/gui/widgets/e-contact-map.c:411
 msgid "Home"
 msgstr "Domicili"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:74
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:80
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1020
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1117
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:546
 #: ../src/addressbook/gui/widgets/e-contact-map.c:424
 msgid "Work"
 msgstr "Burèu"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:75
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1086
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1186
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:548
 #: ../src/calendar/gui/comp-util.c:1951
 msgid "Other"
 msgstr "Autre"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:76
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:543
 msgid "Mailing Address"
 msgstr "Adreça postala"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:77
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
 msgid "Notes"
 msgstr "Nòtas"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:65
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:78
 msgid "Add _PGP"
 msgstr "Apondre _PGP"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:66
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:79
 msgid "Add _X.509"
 msgstr "Apondre _X.509"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:80
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1537
 #: ../src/e-util/e-attachment-view.c:1163 ../src/e-util/e-filter-rule.c:405
@@ -6103,55 +6196,91 @@ msgstr "Apondre _X.509"
 msgid "_Remove"
 msgstr "_Levar"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:68
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:81
 msgid "Load P_GP"
 msgstr "Cargar P_GP"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:82
 msgid "_Load X.509"
 msgstr "_Cargar X.509"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:70
-#: ../src/modules/addressbook/e-book-shell-backend.c:285
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:83
+#: ../src/modules/addressbook/e-book-shell-backend.c:287
 msgid "Certificates"
 msgstr "Certificats"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:274
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:254
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:497
 msgid "Error adding contact"
 msgstr "Error al moment de l'apondon del contacte"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:294
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:274
 msgid "Error modifying contact"
 msgstr "Error al moment de la modificacion del contacte"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:314
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:294
 msgid "Error removing contact"
 msgstr "Error al moment de la supression del contacte"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:694
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:716
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3081
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5056
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:674
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:696
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3023
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5270
 msgid "Contact Editor"
 msgstr "Editor de contactes"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:710
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3075
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:690
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3017
 #, fuzzy, c-format
 #| msgid "Contact Editor - %s"
 msgid "Contact Editor — %s"
 msgstr "Editor de contactes - %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3210
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2901
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:376
+msgctxt "gender-sex"
+msgid "Male"
+msgstr ""
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2902
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:379
+msgctxt "gender-sex"
+msgid "Female"
+msgstr ""
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2903
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:382
+#, fuzzy
+#| msgid "Other"
+msgctxt "gender-sex"
+msgid "Other"
+msgstr "Autre"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2904
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:371
+#, fuzzy
+#| msgid "Unknown"
+msgctxt "gender-sex"
+msgid "Unknown"
+msgstr "Desconegut"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2905
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:385
+#, fuzzy
+#| msgid "Do _Not Disable"
+msgctxt "gender-sex"
+msgid "Not Applicable"
+msgstr "Desactivar -pas"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3372
 msgid "X.509 certificates"
 msgstr "Certificats x.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3215
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3377
 msgid "PGP keys"
 msgstr "Claus PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3221
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3383
 #: ../src/e-util/e-html-editor-actions.c:548
 #: ../src/e-util/e-image-chooser-dialog.c:182
 #: ../src/e-util/e-mail-signature-script-dialog.c:442
@@ -6160,17 +6289,17 @@ msgstr "Claus PGP"
 msgid "All files"
 msgstr "Totes los fichièrs"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3403
 msgid "Open PGP key"
 msgstr "Dobrir la clau PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3403
 msgid "Open X.509 certificate"
 msgstr "Dobrir lo certificat X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3243
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4352
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3405
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4537
 #: ../src/e-util/e-attachment-store.c:658 ../src/e-util/e-category-editor.c:170
 #: ../src/e-util/e-html-editor-actions.c:493
 #: ../src/e-util/e-html-editor-actions.c:539
@@ -6181,53 +6310,53 @@ msgstr "Dobrir lo certificat X.509"
 msgid "_Open"
 msgstr "_Dobrir"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3258
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3420
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3692
 msgid "Chosen file is not a local file."
 msgstr "Lo fichièr seleccionat es pas un fichièr local."
 
 # pluriel o singulier ?
 # pluriel o singulier ?
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3271
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3433
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "Impossible de cargar lo certificat : %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3345
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3507
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3345
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3507
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3515
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3677
 msgid "Save PGP key"
 msgstr "Enregistrar la clau PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3515
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3677
 msgid "Save X.509 certificate"
 msgstr "Enregistrar lo certificat X.509"
 
 # pluriel o singulier ?
 # pluriel o singulier ?
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3542
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3704
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "Impossible d'importar lo certificat : %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4348
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4527
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4533
 msgid "Please select an image for this contact"
 msgstr "Seleccionatz un imatge per aqueste contacte"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4353
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4538
 msgid "_No image"
 msgstr "_Pas cap d'imatge"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4717
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4904
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -6235,35 +6364,31 @@ msgstr ""
 "La donada sul contacte es pas valida :\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4723
-#, fuzzy, c-format
-#| msgid "'%s' has an invalid format"
-msgid "“%s” has an invalid format"
-msgstr "« %s » a pas un format valid"
-
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4731
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4918
 #, fuzzy, c-format
 #| msgid "'%s' cannot be a future date"
 msgid "“%s” cannot be a future date"
 msgstr "« %s » pòt pas èsser una data dins lo futur"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4739
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4941
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4952
 #, fuzzy, c-format
-#| msgid "%s'%s' has an invalid format"
-msgid "%s“%s” has an invalid format"
-msgstr "%s « %s » a pas un format valid"
+#| msgid "'%s' cannot be a future date"
+msgid "“%s” cannot be a partial date"
+msgstr "« %s » pòt pas èsser una data dins lo futur"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4752
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4766
-#, c-format
-msgid "%s“%s” is empty"
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4967
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4982
+#, fuzzy, c-format
+#| msgid "%s“%s” is empty"
+msgid "“%s” is empty"
 msgstr "%s « %s » es void"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4781
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4995
 msgid "Invalid contact."
 msgstr "Contacte invalid."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5095
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5309
 #: ../src/calendar/gui/e-comp-editor.c:2267
 #: ../src/calendar/gui/e-comp-editor.c:2346
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
@@ -6271,25 +6396,25 @@ msgstr "Contacte invalid."
 msgid "_Help"
 msgstr "A_juda"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5236
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5451
 #: ../src/calendar/gui/e-comp-editor.c:2309
 #: ../src/e-util/e-html-editor-actions.c:1390
 msgid "_Undo"
 msgstr "A_nullar"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5238
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5453
 #: ../src/calendar/gui/e-comp-editor.c:2311 ../src/e-util/e-focus-tracker.c:167
 #: ../src/e-util/e-focus-tracker.c:170
 msgid "Undo"
 msgstr "Anullar"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5243
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5458
 #: ../src/calendar/gui/e-comp-editor.c:2316
 #: ../src/e-util/e-html-editor-actions.c:1376
 msgid "_Redo"
 msgstr "_Restablir"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5245
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5460
 #: ../src/calendar/gui/e-comp-editor.c:2318 ../src/e-util/e-focus-tracker.c:183
 #: ../src/e-util/e-focus-tracker.c:186
 msgid "Redo"
@@ -6562,7 +6687,7 @@ msgid "ends with"
 msgstr "finís per"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:779
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:871
 msgid "Phone"
 msgstr "Telefòn"
 
@@ -6662,24 +6787,84 @@ msgstr "Clicatz per dobrir %s"
 msgid "Open map"
 msgstr "Dobrir la mapa"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:446
+#. Translators: this is a gender sex with identity, in this order, making things
+#. like "Other, something" or "Male, something", where the "something" is a user-entered text
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:397
+#, c-format
+msgctxt "gender"
+msgid "%s, %s"
+msgstr ""
+
+#. Translators: strftime format for partial date, when only the day is filled; it will be shown as a number
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:430
+#, fuzzy, c-format
+#| msgid "%d%%"
+msgctxt "partial-date"
+msgid "%d"
+msgstr "%d %%"
+
+#. Translators: strftime format for partial date, when only the month is filled; it will be shown as a month name; month number is "%m"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:434
+#, fuzzy
+#| msgctxt "CalItem"
+#| msgid "%B"
+msgctxt "partial-date"
+msgid "%B"
+msgstr "%OB"
+
+#. Translators: strftime format for partial date, when only the day and the month are filled; it will be shown as a month name followed by a day number; month number is "%m"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:437
+#, fuzzy
+#| msgctxt "CalItem"
+#| msgid "%B %Y"
+msgctxt "partial-date"
+msgid "%B %d"
+msgstr "%B %Y"
+
+#. Translators: strftime format for partial date, when only the year is filled; it will be shown as a number
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:444
+#, fuzzy
+#| msgctxt "CalItem"
+#| msgid "%Y"
+msgctxt "partial-date"
+msgid "%Y"
+msgstr "%Y"
+
+#. Translators: strftime format for partial date, when only the day and the year are filled; it comes from "%m/%d/%Y", where the "%m" is the month, which is not set
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:447
+#, fuzzy
+#| msgid "%d/%m/%Y"
+msgctxt "partial-date"
+msgid "--/%d/%Y"
+msgstr "%d/%m/%Y"
+
+#. Translators: strftime format for partial date, when only the month and the year are filled; the month will be shown as a month name; month number is "%m"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:452
+#, fuzzy
+#| msgctxt "CalItem"
+#| msgid "%B %Y"
+msgctxt "partial-date"
+msgid "%B %Y"
+msgstr "%B %Y"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:538
 msgid "SIP"
 msgstr "SIP"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:683
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:775
 msgid "List Members:"
 msgstr "Membres de la lista :"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:777
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:869
 msgid "Fax"
 msgstr "Fax"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1017
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Escais"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1018
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:522
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:6
@@ -6689,156 +6874,166 @@ msgstr "Escais"
 msgid "Categories"
 msgstr "Categorias"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1020
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1021
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1022
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1023
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1024
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1025
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1026
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1027
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1028
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:936
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1029
 msgid "Matrix"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1094
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Societat"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1095
 msgid "Department"
 msgstr "Departament"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1096
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Burèu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1098
 msgid "Profession"
 msgstr "Profession"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1099
 msgid "Position"
 msgstr "Pòste"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1100
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Director"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1101
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Assistent"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1102
 msgid "Video Chat"
 msgstr "Videoconferéncia"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1007
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1104
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Liure/ocupat"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1010
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1076
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1107
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1147
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1176
 msgid "Address"
 msgstr "Adreça"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1046
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1143
 msgid "Home Page"
 msgstr "Pagina d'acuèlh"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1144
 msgid "Web Log"
 msgstr "Jornal en linha"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1150
+#, fuzzy
+#| msgid "Birthday"
+msgid "Birth Place"
+msgstr "Anniversari"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1152
+msgid "Death Place"
+msgstr ""
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1153
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Conjunt(a)"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1063
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1163
 msgid "Personal"
 msgstr "Personal"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1108
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1208
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Nòta"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1309
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1409
 msgid "List Members"
 msgstr "Membres de la lista"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1332
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1432
 msgid "Job Title"
 msgstr "Intitulat del prètzfait"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1373
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1473
 msgid "Home page"
 msgstr "Pagina Web personala"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1383
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1483
 msgid "Blog"
 msgstr "Blog"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:244
 #: ../src/e-util/e-mail-signature-editor.c:654
 msgid "Unnamed"
 msgstr "Sens nom"
 
 #
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:350
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:333
 #: ../src/calendar/gui/tasktypes.xml.in.h:15 ../src/mail/mail-send-recv.c:1150
 msgid "Cancelled"
 msgstr "Anullat"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:540
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:595
 msgid "Merge Contact"
 msgstr "Fusionar lo contacte"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:562
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:812
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:617
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:890
 msgid "_Merge"
 msgstr "_Fusionar"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:801
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:879
 msgid "Duplicate Contact Detected"
 msgstr "Contacte en doble detectat"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:859
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:937
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
@@ -6846,7 +7041,7 @@ msgstr ""
 "Lo nom o l'adreça electronica d'aqueste contacte existís ja\n"
 "dins aqueste dorsièr. Volètz enregistrar las modificacions malgrat tot ?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:862
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:940
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -6854,19 +7049,19 @@ msgstr ""
 "Lo nom o l'adreça electronica d'aqueste contacte existís ja\n"
 "dins aqueste dorsièr. Lo volètz apondre malgrat tot ?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:877
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:955
 msgid "Changed Contact:"
 msgstr "Contacte modificat :"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:879
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:957
 msgid "New Contact:"
 msgstr "Contacte novèl :"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:918
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:996
 msgid "Conflicting Contact:"
 msgstr "Contacte en conflicte :"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:920
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:998
 msgid "Old Contact:"
 msgstr "Ancian contacte :"
 
@@ -6997,7 +7192,7 @@ msgstr "Error d'obtencion de l'afichatge del quasernet"
 msgid "Search Interrupted"
 msgstr "Recèrca interrompuda"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-table-adapter.c:310
+#: ../src/addressbook/gui/widgets/e-addressbook-table-adapter.c:309
 msgid "Error modifying card"
 msgstr "Error al moment de la modificacion de la carta"
 
@@ -7509,8 +7704,8 @@ msgid "_Find"
 msgstr "_Recercar"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:796
-#: ../src/addressbook/importers/evolution-ldif-importer.c:547
-#: ../src/addressbook/importers/evolution-vcard-importer.c:237
+#: ../src/addressbook/importers/evolution-ldif-importer.c:546
+#: ../src/addressbook/importers/evolution-vcard-importer.c:236
 #: ../src/calendar/importers/icalendar-importer.c:575
 #: ../src/calendar/importers/icalendar-importer.c:1058
 #: ../src/calendar/importers/icalendar-importer.c:1098
@@ -7546,23 +7741,23 @@ msgstr "Contactes Evolution CSV o Tab (.csv, .tab)"
 msgid "Evolution Contacts CSV and Tab Importer"
 msgstr "Importador de contactes Evolution CSV e Tab"
 
-#: ../src/addressbook/importers/evolution-ldif-importer.c:717
+#: ../src/addressbook/importers/evolution-ldif-importer.c:716
 msgid "Can’t open .ldif file"
 msgstr "Impossible de dobrir lo fichièr .ldif"
 
-#: ../src/addressbook/importers/evolution-ldif-importer.c:819
+#: ../src/addressbook/importers/evolution-ldif-importer.c:818
 msgid "LDAP Data Interchange Format (.ldif)"
 msgstr "LDAP Data Interchange Format (.ldif)"
 
-#: ../src/addressbook/importers/evolution-ldif-importer.c:820
+#: ../src/addressbook/importers/evolution-ldif-importer.c:819
 msgid "Evolution LDIF importer"
 msgstr "Assistent d'importacion LDIF d'Evolution"
 
-#: ../src/addressbook/importers/evolution-vcard-importer.c:489
+#: ../src/addressbook/importers/evolution-vcard-importer.c:488
 msgid "vCard (.vcf, .gcrd)"
 msgstr "vCard (.vcf, .gcrd)"
 
-#: ../src/addressbook/importers/evolution-vcard-importer.c:490
+#: ../src/addressbook/importers/evolution-vcard-importer.c:489
 msgid "Evolution vCard Importer"
 msgstr "Assistent d'importacion vCard d'Evolution"
 
@@ -7677,12 +7872,11 @@ msgctxt "addressbook-label"
 msgid "SIP"
 msgstr "SIP"
 
-#. To Translators:
-#. * if an IM address type is not one of the predefined types,
-#. * this generic label is used instead of one of the predefined labels.
-#. * IM=Instant Messaging
+#. Translators: if an IM address type is not one of the predefined types,
+#. this generic label is used instead of one of the predefined labels.
+#. IM=Instant Messaging
 #.
-#: ../src/addressbook/util/eab-book-util.c:215
+#: ../src/addressbook/util/eab-book-util.c:216
 msgctxt "addressbook-label"
 msgid "IM"
 msgstr "Messatjariá instantanèa"
@@ -7691,7 +7885,7 @@ msgstr "Messatjariá instantanèa"
 #. * if a phone number type is not one of the predefined types,
 #. * this generic label is used instead of one of the predefined labels.
 #.
-#: ../src/addressbook/util/eab-book-util.c:270
+#: ../src/addressbook/util/eab-book-util.c:310
 msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefòn"
@@ -8988,7 +9182,7 @@ msgstr ""
 msgid "attachment.dat"
 msgstr "pèçajunta.dat"
 
-#: ../src/calendar/gui/comp-util.c:2737 ../src/e-util/e-filter-rule.c:1034
+#: ../src/calendar/gui/comp-util.c:2737 ../src/e-util/e-filter-rule.c:1042
 #: ../src/mail/e-mail-config-page.c:115
 msgid "Untitled"
 msgstr "Sens títol"
@@ -9596,11 +9790,17 @@ msgstr "%a %d %B"
 msgid "%a %d %b %Y"
 msgstr "%a %d %B de %Y"
 
+#: ../src/calendar/gui/e-calendar-view.c:1779
+#, fuzzy
+#| msgid "Birthday"
+msgid "Deathday"
+msgstr "Anniversari"
+
 #. Translators: the '%s' stands for a component summary, the '%d' for the years.
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1797
+#: ../src/calendar/gui/e-calendar-view.c:1798
 #, fuzzy, c-format
 #| msgctxt "language"
 #| msgid "%s (%s)"
@@ -9671,6 +9871,7 @@ msgstr "Tipe"
 #: ../src/calendar/gui/e-meeting-store.c:166
 #: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1298
 #: ../src/calendar/gui/print.c:1315 ../src/e-util/e-charset.c:49
+#: ../src/modules/calendar/e-calendar-preferences.c:803
 #: ../src/modules/itip-formatter/itip-view.c:4302
 #: ../src/modules/itip-formatter/itip-view.c:7676
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
@@ -9923,16 +10124,17 @@ msgstr[1] "Còpia de %d prètzfaits"
 #: ../src/composer/e-composer-actions.c:189
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-markdown-utils.c:188 ../src/e-util/e-markdown-utils.c:198
-#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:3442
-#: ../src/e-util/e-misc-utils.c:3450 ../src/e-util/e-misc-utils.c:3458
-#: ../src/e-util/e-misc-utils.c:3493 ../src/e-util/e-misc-utils.c:3506
-#: ../src/e-util/e-misc-utils.c:3520 ../src/e-util/e-ui-customize-dialog.c:3522
+#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:256
+#: ../src/e-util/e-misc-utils.c:3442 ../src/e-util/e-misc-utils.c:3450
+#: ../src/e-util/e-misc-utils.c:3458 ../src/e-util/e-misc-utils.c:3493
+#: ../src/e-util/e-misc-utils.c:3506 ../src/e-util/e-misc-utils.c:3520
+#: ../src/e-util/e-ui-customize-dialog.c:3522
 #: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3142
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3943
 #: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
 #: ../src/mail/e-mail-viewer.c:1561 ../src/mail/e-mail-viewer.c:2508
-#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4309
-#: ../src/mail/em-composer-utils.c:4332 ../src/mail/mail-send-recv.c:604
+#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4294
+#: ../src/mail/em-composer-utils.c:4317 ../src/mail/mail-send-recv.c:604
 #: ../src/mail/mail-send-recv.c:1500
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:171
 #: ../src/modules/mail/e-mail-attachment-handler.c:557
@@ -11272,8 +11474,8 @@ msgstr "Afichar lo segond fus orari"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../src/calendar/gui/e-day-view-time-item.c:848
-#: ../src/modules/calendar/e-calendar-preferences.c:333
-#: ../src/modules/calendar/e-calendar-preferences.c:385
+#: ../src/modules/calendar/e-calendar-preferences.c:337
+#: ../src/modules/calendar/e-calendar-preferences.c:389
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:11
 msgctxt "cal-second-zone"
 msgid "None"
@@ -11281,7 +11483,7 @@ msgstr "Pas cap"
 
 #: ../src/calendar/gui/e-day-view-time-item.c:882
 #: ../src/calendar/gui/e-timezone-entry.c:494
-#: ../src/modules/calendar/e-calendar-preferences.c:416
+#: ../src/modules/calendar/e-calendar-preferences.c:420
 #, fuzzy
 #| msgid "Select"
 msgid "Select…"
@@ -14211,7 +14413,7 @@ msgstr "Clicatz aicí pel quasernet d'adreças"
 msgid "Click here to select folders to post to"
 msgstr "Clicatz aicí per seleccionar los dorsièrs de destinacion"
 
-#: ../src/composer/e-msg-composer.c:1189
+#: ../src/composer/e-msg-composer.c:1212
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -14219,7 +14421,7 @@ msgstr ""
 "Impossible de signar lo messatge sortent : cap de certificat de signatura "
 "pas definit per aqueste compte"
 
-#: ../src/composer/e-msg-composer.c:1198
+#: ../src/composer/e-msg-composer.c:1221
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -14228,40 +14430,40 @@ msgstr ""
 "Impossible de chifrar lo messatge sortent : cap de certificat de signatura "
 "pas definit per aqueste compte"
 
-#: ../src/composer/e-msg-composer.c:1643
+#: ../src/composer/e-msg-composer.c:1666
 #, fuzzy
 #| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Fracàs al moment de la recuperacion del messatge :"
 
-#: ../src/composer/e-msg-composer.c:1767
+#: ../src/composer/e-msg-composer.c:1790
 #, fuzzy
 #| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve draft content"
 msgstr "Fracàs al moment de la recuperacion del messatge :"
 
-#: ../src/composer/e-msg-composer.c:1780
+#: ../src/composer/e-msg-composer.c:1803
 #, fuzzy
 #| msgid "Failed to retrieve message:"
 msgid "Failed to retrieve HTML processed content"
 msgstr "Fracàs al moment de la recuperacion del messatge :"
 
-#: ../src/composer/e-msg-composer.c:2092 ../src/composer/e-msg-composer.c:2806
+#: ../src/composer/e-msg-composer.c:2115 ../src/composer/e-msg-composer.c:2829
 msgid "Compose Message"
 msgstr "Redaccion d'un messatge"
 
-#: ../src/composer/e-msg-composer.c:5025
+#: ../src/composer/e-msg-composer.c:5048
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:366
 msgid "Reading text content…"
 msgstr "Lectura del contengut del tèxt…"
 
-#: ../src/composer/e-msg-composer.c:5091
+#: ../src/composer/e-msg-composer.c:5114
 #, fuzzy
 #| msgid "No encryption"
 msgid "Send _without encryption"
 msgstr "Pas de chiframent"
 
-#: ../src/composer/e-msg-composer.c:5879
+#: ../src/composer/e-msg-composer.c:5902
 #, fuzzy
 #| msgid "Remove attachments"
 msgid "Review attachment before sending."
@@ -14269,7 +14471,7 @@ msgid_plural "Review attachments before sending."
 msgstr[0] "Suprimís las pèças juntas"
 msgstr[1] "Suprimís las pèças juntas"
 
-#: ../src/composer/e-msg-composer.c:5884
+#: ../src/composer/e-msg-composer.c:5907
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -14280,7 +14482,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/composer/e-msg-composer.c:6010
+#: ../src/composer/e-msg-composer.c:6033
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "L'editor conten un còs de message non textual que pòt pas èsser editat."
@@ -15143,7 +15345,7 @@ msgstr "element de calendièr d'Evolution"
 
 #: ../src/e-util/e-accounts-window.c:554 ../src/e-util/e-accounts-window.c:671
 #: ../src/e-util/e-accounts-window.c:909
-#: ../src/modules/mail/e-mail-shell-backend.c:1169
+#: ../src/modules/mail/e-mail-shell-backend.c:1175
 msgid "Mail Accounts"
 msgstr "Comptes de messatjariá"
 
@@ -15286,6 +15488,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% efectuat)"
 
 #: ../src/e-util/e-activity-proxy.c:339
+#: ../src/e-util/e-autoar-gtk-chooser.c:195
 #: ../src/e-util/e-ui-customize-dialog.c:982
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1828
 msgid "Cancel"
@@ -15546,6 +15749,35 @@ msgstr ""
 msgid "Reload attachment content"
 msgstr "Lectura del contengut del tèxt…"
 
+#: ../src/e-util/e-autoar-gtk-chooser.c:192
+#, fuzzy
+#| msgid "Choose a folder to archive messages to."
+msgid "Choose an archive format"
+msgstr "Causida d'un dorsièr per i enregistrar los messatges."
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:196
+#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:184
+msgid "OK"
+msgstr "D'acòrdi"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:294
+#, fuzzy
+#| msgid "Other…"
+msgid "Other format…"
+msgstr "Autre…"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:469
+#, fuzzy
+#| msgid "Format:"
+msgid "Format"
+msgstr "Format :"
+
+#: ../src/e-util/e-autoar-gtk-chooser.c:505
+#, fuzzy
+#| msgid "_Filter Rules"
+msgid "Filter"
+msgstr "Règlas de _filtratge"
+
 #: ../src/e-util/e-book-source-config.c:80
 msgid "Mark as default address book"
 msgstr "Marcar coma quasernet d'adreças per defaut"
@@ -15725,10 +15957,6 @@ msgstr "Ara"
 msgctxt "table-date"
 msgid "None"
 msgstr "Pas cap"
-
-#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:184
-msgid "OK"
-msgstr "D'acòrdi"
 
 #: ../src/e-util/e-cell-date-edit.c:908
 #, c-format
@@ -15966,7 +16194,7 @@ msgstr "Logicial de messatjariá"
 
 #: ../src/e-util/e-collection-account-wizard.c:870
 #: ../src/e-util/e-name-selector-dialog.c:431
-#: ../src/mail/importers/pine-importer.c:430
+#: ../src/mail/importers/pine-importer.c:429
 msgid "Address Book"
 msgstr "Quasernet d'adreças"
 
@@ -16086,13 +16314,14 @@ msgstr "Ora"
 msgid "No_w"
 msgstr "Ar_a"
 
-#: ../src/e-util/e-dateedit.c:768
+#: ../src/e-util/e-dateedit.c:768 ../src/e-util/e-split-date-edit.c:405
 msgid "_Today"
 msgstr "_Uèi"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
-#: ../src/e-util/e-dateedit.c:777 ../src/mail/em-folder-selector.c:620
+#: ../src/e-util/e-dateedit.c:777 ../src/e-util/e-split-date-edit.c:412
+#: ../src/mail/em-folder-selector.c:620
 msgid "_None"
 msgstr "_Pas cap"
 
@@ -16464,29 +16693,29 @@ msgstr "Seleccionatz una ora per la comparason"
 msgid "Choose a File"
 msgstr "Causir un fichièr"
 
-#: ../src/e-util/e-filter-rule.c:1027
+#: ../src/e-util/e-filter-rule.c:1035
 msgid "R_ule name:"
 msgstr "Nom de la _règla :"
 
-#: ../src/e-util/e-filter-rule.c:1085
+#: ../src/e-util/e-filter-rule.c:1093
 msgid "all the following conditions"
 msgstr "totas las condicions seguentas"
 
-#: ../src/e-util/e-filter-rule.c:1086
+#: ../src/e-util/e-filter-rule.c:1094
 msgid "any of the following conditions"
 msgstr "una de las condicions seguentas"
 
-#: ../src/e-util/e-filter-rule.c:1092
+#: ../src/e-util/e-filter-rule.c:1100
 msgid "_Find items which match:"
 msgstr "_Recercar los elements que correspondon a :"
 
-#: ../src/e-util/e-filter-rule.c:1115
+#: ../src/e-util/e-filter-rule.c:1123
 msgid "Find items that meet the following conditions"
 msgstr "Recercar los elements qu'emplenon las condicions seguentas"
 
 #. Translators: "None" for not including threads;
 #. * part of "Include threads: None"
-#: ../src/e-util/e-filter-rule.c:1130
+#: ../src/e-util/e-filter-rule.c:1138
 #: ../src/e-util/e-html-editor-page-dialog.c:58
 #: ../src/e-util/e-mail-identity-combo-box.c:814
 #: ../src/e-util/e-mail-signature-combo-box.c:435
@@ -16497,36 +16726,42 @@ msgstr "Recercar los elements qu'emplenon las condicions seguentas"
 msgid "None"
 msgstr "Pas cap"
 
-#: ../src/e-util/e-filter-rule.c:1131
+#: ../src/e-util/e-filter-rule.c:1139
 msgid "All related"
 msgstr "Totes los que son relatius"
 
-#: ../src/e-util/e-filter-rule.c:1132
+#: ../src/e-util/e-filter-rule.c:1140
+#, fuzzy
+#| msgid "All related"
+msgid "Unmatched in All related"
+msgstr "Totes los que son relatius"
+
+#: ../src/e-util/e-filter-rule.c:1141
 msgid "Replies"
 msgstr "Responsas"
 
-#: ../src/e-util/e-filter-rule.c:1133
+#: ../src/e-util/e-filter-rule.c:1142
 msgid "Replies and parents"
 msgstr "Responsas e parents"
 
-#: ../src/e-util/e-filter-rule.c:1134
+#: ../src/e-util/e-filter-rule.c:1143
 msgid "No reply or parent"
 msgstr "Pas de responsa o parent"
 
-#: ../src/e-util/e-filter-rule.c:1137
+#: ../src/e-util/e-filter-rule.c:1146
 msgid "I_nclude threads:"
 msgstr "I_nclure los fials de discussion :"
 
-#: ../src/e-util/e-filter-rule.c:1214
+#: ../src/e-util/e-filter-rule.c:1223
 msgid "A_dd Condition"
 msgstr "Apondre una condi_cion"
 
-#: ../src/e-util/e-filter-rule.c:1552 ../src/e-util/filter.ui.h:1
+#: ../src/e-util/e-filter-rule.c:1561 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:995 ../src/mail/em-utils.c:168
 msgid "Incoming"
 msgstr "Entrant"
 
-#: ../src/e-util/e-filter-rule.c:1552 ../src/mail/em-filter-rule.c:996
+#: ../src/e-util/e-filter-rule.c:1561 ../src/mail/em-filter-rule.c:996
 #: ../src/mail/em-utils.c:169
 msgid "Outgoing"
 msgstr "Sortent"
@@ -16755,7 +16990,7 @@ msgstr "E_moji"
 
 #: ../src/e-util/e-html-editor-actions.c:1548
 #: ../src/e-util/e-html-editor-actions.c:1562
-#: ../src/e-util/e-markdown-editor.c:1946
+#: ../src/e-util/e-markdown-editor.c:1956
 msgid "Insert Emoji"
 msgstr "Inserir un Emoji"
 
@@ -17986,17 +18221,17 @@ msgstr ""
 "clavièr devon seleccionar lo fus orari gràcias a la zòna de lista "
 "desenrotlanta situada en bas."
 
-#: ../src/e-util/e-markdown-editor.c:1855
-#: ../src/e-util/e-markdown-editor.c:1869
-#: ../src/e-util/e-markdown-editor.c:2438
+#: ../src/e-util/e-markdown-editor.c:1865
+#: ../src/e-util/e-markdown-editor.c:1879
+#: ../src/e-util/e-markdown-editor.c:2448
 #, fuzzy
 #| msgid "_Overwrite"
 msgid "_Write"
 msgstr "Esp_otir"
 
 #. ** Menus **
-#: ../src/e-util/e-markdown-editor.c:1871
-#: ../src/e-util/e-markdown-editor.c:2480
+#: ../src/e-util/e-markdown-editor.c:1881
+#: ../src/e-util/e-markdown-editor.c:2490
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1487
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1711
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:705
@@ -18005,59 +18240,59 @@ msgstr "Esp_otir"
 msgid "_Preview"
 msgstr "_Apercebut"
 
-#: ../src/e-util/e-markdown-editor.c:1938
+#: ../src/e-util/e-markdown-editor.c:1948
 #, fuzzy
 #| msgid "Add Folder"
 msgid "Add bold text"
 msgstr "Apondre un dorsièr"
 
-#: ../src/e-util/e-markdown-editor.c:1939
+#: ../src/e-util/e-markdown-editor.c:1949
 #, fuzzy
 #| msgid "Edit Label"
 msgid "Add italic text"
 msgstr "Modificar l'etiqueta"
 
-#: ../src/e-util/e-markdown-editor.c:1940
+#: ../src/e-util/e-markdown-editor.c:1950
 #, fuzzy
 #| msgid "Insert Rule"
 msgid "Insert a quote"
 msgstr "Inserís un filet"
 
-#: ../src/e-util/e-markdown-editor.c:1941
+#: ../src/e-util/e-markdown-editor.c:1951
 #, fuzzy
 #| msgid "Insert Rule"
 msgid "Insert code"
 msgstr "Inserís un filet"
 
-#: ../src/e-util/e-markdown-editor.c:1942
+#: ../src/e-util/e-markdown-editor.c:1952
 #, fuzzy
 #| msgid "Add a Column"
 msgid "Add a link"
 msgstr "Apondre una colomna"
 
-#: ../src/e-util/e-markdown-editor.c:1943
+#: ../src/e-util/e-markdown-editor.c:1953
 #, fuzzy
 #| msgid "Add Label"
 msgid "Add a bullet list"
 msgstr "Apondre una etiqueta"
 
-#: ../src/e-util/e-markdown-editor.c:1944
+#: ../src/e-util/e-markdown-editor.c:1954
 #, fuzzy
 #| msgid "Numbered _List"
 msgid "Add a numbered list"
 msgstr "Lista _numerotada"
 
-#: ../src/e-util/e-markdown-editor.c:1945
+#: ../src/e-util/e-markdown-editor.c:1955
 #, fuzzy
 #| msgid "Any header"
 msgid "Add a header"
 msgstr "Quin entèsta que siá"
 
-#: ../src/e-util/e-markdown-editor.c:1948
+#: ../src/e-util/e-markdown-editor.c:1958
 msgid "Open online common mark documentation"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1950
+#: ../src/e-util/e-markdown-editor.c:1960
 #, fuzzy
 #| msgid "Show preview pane"
 msgid "Show preview beside text"
@@ -18598,6 +18833,23 @@ msgstr "Ignorar tot"
 msgid "Spelling Suggestions"
 msgstr "Suggestions de correccion ortografica"
 
+#: ../src/e-util/e-split-date-edit.c:300 ../src/e-util/e-split-date-edit.c:504
+#, fuzzy
+#| msgid "is not set"
+msgid "Not set"
+msgstr "es pas definit"
+
+#: ../src/e-util/e-split-date-edit.c:471
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1755
+msgid "Year"
+msgstr ""
+
+#: ../src/e-util/e-split-date-edit.c:497
+#, fuzzy
+#| msgid "<click here to select a date>"
+msgid "Click to select date"
+msgstr "<clicatz aicí per seleccionar una data>"
+
 #: ../src/e-util/e-system.error.xml.h:1
 #, fuzzy
 #| msgid "A file named \"{0}\" already exists. Do you want to replace it?"
@@ -19103,7 +19355,7 @@ msgstr "_Mesa en pagina"
 #. Translators: This is for "Toolbar Icon Size: Default"
 #: ../src/e-util/e-ui-customize-dialog.c:2740
 #: ../src/e-util/e-ui-customize-dialog.c:2789 ../src/mail/e-mail-reader.c:2939
-#: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4614
+#: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4599
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
 msgid "_Default"
 msgstr "Per _defaut"
@@ -19796,7 +20048,7 @@ msgid_plural "Saving %d messages"
 msgstr[0] "Enregistrament de %d messatge"
 msgstr[1] "Enregistrament de %d messatges"
 
-#: ../src/libemail-engine/e-mail-folder-utils.c:2000
+#: ../src/libemail-engine/e-mail-folder-utils.c:1958
 #, fuzzy, c-format
 #| msgid "Invalid folder URI '%s'"
 msgid "Invalid folder URI “%s”"
@@ -19808,8 +20060,8 @@ msgstr "URI de dorsièr invalida « %s »"
 #: ../src/mail/em-folder-tree-model.c:1524
 #: ../src/mail/em-folder-tree-model.c:1554
 #: ../src/mail/importers/kmail-libs.c:138
-#: ../src/modules/mail/e-mail-shell-view-private.c:1020
-#: ../src/modules/mail/e-mail-shell-view-private.c:1031
+#: ../src/modules/mail/e-mail-shell-view-private.c:1059
+#: ../src/modules/mail/e-mail-shell-view-private.c:1070
 msgid "Inbox"
 msgstr "Bóstia de recepcion"
 
@@ -19818,7 +20070,7 @@ msgstr "Bóstia de recepcion"
 #: ../src/mail/em-folder-tree-model.c:1518
 #: ../src/mail/em-folder-tree-model.c:1558
 #: ../src/mail/importers/kmail-libs.c:144
-#: ../src/modules/mail/e-mail-shell-view-private.c:1018
+#: ../src/modules/mail/e-mail-shell-view-private.c:1057
 msgid "Drafts"
 msgstr "Borrolhons"
 
@@ -19826,7 +20078,7 @@ msgstr "Borrolhons"
 #: ../src/libemail-engine/e-mail-session.c:115
 #: ../src/mail/em-folder-tree-model.c:1530
 #: ../src/mail/importers/kmail-libs.c:140
-#: ../src/modules/mail/e-mail-shell-view-private.c:1022
+#: ../src/modules/mail/e-mail-shell-view-private.c:1061
 msgid "Outbox"
 msgstr "Bóstia de mandadís"
 
@@ -19835,7 +20087,7 @@ msgstr "Bóstia de mandadís"
 #: ../src/mail/em-folder-tree-model.c:1535
 #: ../src/mail/em-folder-tree-model.c:1557
 #: ../src/mail/importers/kmail-libs.c:142
-#: ../src/modules/mail/e-mail-shell-view-private.c:1024
+#: ../src/modules/mail/e-mail-shell-view-private.c:1063
 msgid "Sent"
 msgstr "Mandats"
 
@@ -19843,17 +20095,17 @@ msgstr "Mandats"
 #: ../src/libemail-engine/e-mail-session.c:117
 #: ../src/mail/em-folder-tree-model.c:1520
 #: ../src/mail/importers/kmail-libs.c:146
-#: ../src/modules/mail/e-mail-shell-view-private.c:1026
+#: ../src/modules/mail/e-mail-shell-view-private.c:1065
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
 msgstr "Modèls"
 
-#: ../src/libemail-engine/e-mail-session.c:1492
+#: ../src/libemail-engine/e-mail-session.c:1487
 #, c-format
 msgid "User cancelled operation"
 msgstr "L'utilizaire a anullat l'operacion"
 
-#: ../src/libemail-engine/e-mail-session.c:1724
+#: ../src/libemail-engine/e-mail-session.c:1719
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
@@ -19862,28 +20114,28 @@ msgstr ""
 "Pas cap d'adreça de destinacion provesida, lo transferiment del messatge es "
 "estat anullat."
 
-#: ../src/libemail-engine/e-mail-session.c:1744
+#: ../src/libemail-engine/e-mail-session.c:1739
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "Cap de compte d'utilizar es pas estat trobat, lo transferiment del messatge "
 "es estat anullat."
 
-#: ../src/libemail-engine/e-mail-session.c:1947
+#: ../src/libemail-engine/e-mail-session.c:1942
 #, fuzzy, c-format
 #| msgid "Source with UID '%s' not found"
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr "Impossible de trobar una font amb l'UID « %s »"
 
-#: ../src/libemail-engine/e-mail-session.c:2067
+#: ../src/libemail-engine/e-mail-session.c:2062
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-session.c:2069
+#: ../src/libemail-engine/e-mail-session.c:2064
 msgid "Looking up recipient PGP keys in address books…"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-session.c:3062
+#: ../src/libemail-engine/e-mail-session.c:3057
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "En espèra de « %s »"
@@ -19893,28 +20145,28 @@ msgid "No mail transport service available"
 msgstr "Cap d'acaminament de corrièr electronic pas disponible"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:605
-#: ../src/libemail-engine/mail-ops.c:715
+#: ../src/libemail-engine/mail-ops.c:707
 #, fuzzy, c-format
 #| msgid "Posting message to '%s'"
 msgid "Posting message to “%s”"
 msgstr "Mandadís d'un messatge a « %s »"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:644
-#: ../src/libemail-engine/mail-ops.c:754
+#: ../src/libemail-engine/mail-ops.c:746
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "L'aplicacion dels filtres de sortida a fracassat : %s"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:677
 #: ../src/libemail-engine/e-mail-session-utils.c:712
-#: ../src/libemail-engine/mail-ops.c:782 ../src/libemail-engine/mail-ops.c:817
+#: ../src/libemail-engine/mail-ops.c:774 ../src/libemail-engine/mail-ops.c:809
 #, fuzzy, c-format
 #| msgid "Storing sent message to '%s'"
 msgid "Storing sent message to “%s”"
 msgstr "Enregistrament del messatge mandat dins « %s »"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:701
-#: ../src/libemail-engine/mail-ops.c:806
+#: ../src/libemail-engine/mail-ops.c:798
 #, fuzzy, c-format
 #| msgid ""
 #| "Failed to append to %s: %s\n"
@@ -19927,7 +20179,7 @@ msgstr ""
 "Apondut al dorsièr local « Mandats » a la plaça."
 
 #: ../src/libemail-engine/e-mail-session-utils.c:731
-#: ../src/libemail-engine/mail-ops.c:834
+#: ../src/libemail-engine/mail-ops.c:826
 #, fuzzy, c-format
 #| msgid "Failed to append to local 'Sent' folder: %s"
 msgid "Failed to append to local “Sent” folder: %s"
@@ -19935,8 +20187,8 @@ msgstr "L'apondon al dorsièr local « Mandats » a fracassat : %s"
 
 #. This gets popped in async_context_free().
 #: ../src/libemail-engine/e-mail-session-utils.c:933
-#: ../src/libemail-engine/mail-ops.c:1030
-#: ../src/libemail-engine/mail-ops.c:1142 ../src/mail/mail-send-recv.c:673
+#: ../src/libemail-engine/mail-ops.c:1022
+#: ../src/libemail-engine/mail-ops.c:1134 ../src/mail/mail-send-recv.c:673
 msgid "Sending message"
 msgstr "Mandadís del messatge"
 
@@ -19947,7 +20199,7 @@ msgid "Disconnecting from “%s”"
 msgstr "Desconnexion de « %s »"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:231
-#: ../src/mail/e-mail-backend.c:1051
+#: ../src/mail/e-mail-backend.c:1171
 #, fuzzy, c-format
 #| msgid "Reconnecting to '%s'"
 msgid "Reconnecting to “%s”"
@@ -19988,7 +20240,7 @@ msgstr ""
 msgid "Fetching mail from “%s”"
 msgstr "Recuperacion del corrièr electronic de « %s »"
 
-#: ../src/libemail-engine/mail-ops.c:748
+#: ../src/libemail-engine/mail-ops.c:740
 #, fuzzy, c-format
 #| msgid ""
 #| "Failed to apply outgoing filters. One reason can be that folder location "
@@ -20006,7 +20258,7 @@ msgstr ""
 "valid. Verificatz vòstres filtres dins Edicion->Filtres de messatges.\n"
 "L'error iniciala èra : %s"
 
-#: ../src/libemail-engine/mail-ops.c:1041
+#: ../src/libemail-engine/mail-ops.c:1033
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Mandadís del messatge %d sus %d"
@@ -20014,7 +20266,7 @@ msgstr "Mandadís del messatge %d sus %d"
 #. Translators: The string is distinguished by total
 #. * count of messages to be sent.  Failed messages is
 #. * always more than zero.
-#: ../src/libemail-engine/mail-ops.c:1099
+#: ../src/libemail-engine/mail-ops.c:1091
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
@@ -20022,51 +20274,51 @@ msgstr[0] "Fracàs al moment del mandadís del messatge"
 msgstr[1] "Fracàs al moment del mandadís de %d messages sus %d"
 
 #
-#: ../src/libemail-engine/mail-ops.c:1105
+#: ../src/libemail-engine/mail-ops.c:1097
 msgid "Cancelled."
 msgstr "Anullat."
 
-#: ../src/libemail-engine/mail-ops.c:1107
+#: ../src/libemail-engine/mail-ops.c:1099
 msgid "Complete."
 msgstr "Acabat."
 
-#: ../src/libemail-engine/mail-ops.c:1228
+#: ../src/libemail-engine/mail-ops.c:1220
 #, fuzzy, c-format
 #| msgid "Moving messages to '%s'"
 msgid "Moving messages to “%s”"
 msgstr "Desplaçament dels messatges cap a « %s »"
 
-#: ../src/libemail-engine/mail-ops.c:1229
+#: ../src/libemail-engine/mail-ops.c:1221
 #, fuzzy, c-format
 #| msgid "Copying messages to '%s'"
 msgid "Copying messages to “%s”"
 msgstr "Còpia dels messatges cap a « %s »"
 
-#: ../src/libemail-engine/mail-ops.c:1348
+#: ../src/libemail-engine/mail-ops.c:1340
 #, fuzzy, c-format
 #| msgid "Storing folder '%s'"
 msgid "Storing folder “%s”"
 msgstr "Emmagazinatge del dorsièr « %s »"
 
-#: ../src/libemail-engine/mail-ops.c:1476
+#: ../src/libemail-engine/mail-ops.c:1468
 #, fuzzy, c-format
 #| msgid "Expunging and storing account '%s'"
 msgid "Expunging and storing account “%s”"
 msgstr "Netejatge e emmagazinatge del compte « %s »"
 
-#: ../src/libemail-engine/mail-ops.c:1477
+#: ../src/libemail-engine/mail-ops.c:1469
 #, fuzzy, c-format
 #| msgid "Storing account '%s'"
 msgid "Storing account “%s”"
 msgstr "Emmagazinatge del compte « %s »"
 
-#: ../src/libemail-engine/mail-ops.c:1552
+#: ../src/libemail-engine/mail-ops.c:1544
 #, fuzzy, c-format
 #| msgid "Emptying trash in '%s'"
 msgid "Emptying trash in “%s”"
 msgstr "Voidatge de l'escobilhièr dins « %s »"
 
-#: ../src/libemail-engine/mail-ops.c:1651
+#: ../src/libemail-engine/mail-ops.c:1643
 #, fuzzy, c-format
 #| msgid "Processing folder changes in '%s'"
 msgid "Processing folder changes in “%s”"
@@ -20106,15 +20358,21 @@ msgstr "Messatge transferit - %s"
 msgid "Forwarded message"
 msgstr "Messatge transferit"
 
-#: ../src/libemail-engine/mail-vfolder.c:149
+#: ../src/libemail-engine/mail-vfolder.c:152
 #, c-format
 msgid "Setting up Search Folder: %s"
 msgstr "Mesa en plaça del dorsièr de recèrca : %s"
 
-#: ../src/libemail-engine/mail-vfolder.c:307
+#: ../src/libemail-engine/mail-vfolder.c:409
+#, fuzzy
+#| msgid "Edit Search Folder"
+msgid "Updating Search Folders"
+msgstr "Editar un dorsièr de recèrca"
+
+#: ../src/libemail-engine/mail-vfolder.c:469
 #, fuzzy, c-format
 #| msgid "Updating Search Folders for '%s' - %s"
-msgid "Updating Search Folders for “%s : %s”"
+msgid "Updating Search Folder “%s”"
 msgstr "Mesa a jorn dels dorsièrs de recèrca per « %s » - %s"
 
 #. Translators: The first %s is name of the affected
@@ -20122,7 +20380,7 @@ msgstr "Mesa a jorn dels dorsièrs de recèrca per « %s » - %s"
 #. * removed folder. For more than one search folder is
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
-#: ../src/libemail-engine/mail-vfolder.c:671
+#: ../src/libemail-engine/mail-vfolder.c:775
 #, fuzzy, c-format
 #| msgid ""
 #| "The Search Folder \"%s\" has been modified to account for the deleted "
@@ -20306,7 +20564,7 @@ msgid "Do Not Quote"
 msgstr "Citar pas"
 
 #: ../src/mail/e-mail-config-composing-page.c:158
-#: ../src/mail/em-composer-utils.c:4466
+#: ../src/mail/em-composer-utils.c:4451
 #, fuzzy
 #| msgctxt "ReplyForward"
 #| msgid "Use global setting"
@@ -20341,14 +20599,14 @@ msgid "Language for Reply and Forward attribution text"
 msgstr ""
 
 #: ../src/mail/e-mail-config-composing-page.c:525
-#: ../src/mail/em-composer-utils.c:4633 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4618 ../src/mail/mail-config.ui.h:24
 #, fuzzy
 #| msgid "Start _typing at the bottom on replying"
 msgid "Start _typing at the bottom"
 msgstr "_Començar la redaccion en bas al moment de las responsas"
 
 #: ../src/mail/e-mail-config-composing-page.c:532
-#: ../src/mail/em-composer-utils.c:4637 ../src/mail/mail-config.ui.h:25
+#: ../src/mail/em-composer-utils.c:4622 ../src/mail/mail-config.ui.h:25
 #, fuzzy
 #| msgid "_Keep signature above the original message on replying"
 msgid "_Keep signature above the original message"
@@ -20642,9 +20900,9 @@ msgstr "En utilizant l'adreça electronica"
 #: ../src/mail/e-mail-config-security-page.c:451
 #: ../src/mail/em-folder-properties.c:1412 ../src/mail/mail-config.ui.h:37
 #: ../src/modules/addressbook/autocompletion-config.c:109
-#: ../src/modules/calendar/e-calendar-preferences.c:646
+#: ../src/modules/calendar/e-calendar-preferences.c:650
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:56
-#: ../src/modules/mail/e-mail-shell-backend.c:1044
+#: ../src/modules/mail/e-mail-shell-backend.c:1050
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1628
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
@@ -21721,7 +21979,7 @@ msgid "Checks selected messages for duplicates"
 msgstr "Verifica la preséncia de doblon demest los messatges seleccionats"
 
 #: ../src/mail/e-mail-reader.c:3449 ../src/mail/e-mail-viewer.c:1881
-#: ../src/mail/em-composer-utils.c:4592 ../src/mail/mail.error.xml.h:28
+#: ../src/mail/em-composer-utils.c:4577 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1668
 #: ../src/modules/mail/e-mail-attachment-handler.c:917
 msgid "Reply to _All"
@@ -21752,7 +22010,7 @@ msgid "Reply to the mailing list, or to all recipients"
 msgstr "Respond a la lista de difusion o a totes los destinataris"
 
 #: ../src/mail/e-mail-reader.c:3470 ../src/mail/e-mail-viewer.c:1874
-#: ../src/mail/em-composer-utils.c:4587 ../src/mail/mail.error.xml.h:26
+#: ../src/mail/em-composer-utils.c:4572 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:924
 msgid "Reply to _List"
 msgstr "Respondre a la _lista"
@@ -22320,79 +22578,79 @@ msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Re : %s"
 
-#: ../src/mail/em-composer-utils.c:3894
+#: ../src/mail/em-composer-utils.c:3879
 msgid "an unknown sender"
 msgstr "un expeditor desconegut"
 
-#: ../src/mail/em-composer-utils.c:4532
+#: ../src/mail/em-composer-utils.c:4517
 msgid "Alternative Reply"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4535
+#: ../src/mail/em-composer-utils.c:4520
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1661
 msgid "_Reply"
 msgstr "_Respondre"
 
-#: ../src/mail/em-composer-utils.c:4553
+#: ../src/mail/em-composer-utils.c:4538
 #, fuzzy
 #| msgid "Recipients"
 msgid "Recipients:"
 msgstr "Destinataris"
 
-#: ../src/mail/em-composer-utils.c:4582
+#: ../src/mail/em-composer-utils.c:4567
 #, fuzzy
 #| msgid "_Reply to Sender"
 msgid "Reply to _Sender"
 msgstr "_Respondre a l'expeditor"
 
-#: ../src/mail/em-composer-utils.c:4605
+#: ../src/mail/em-composer-utils.c:4590
 #, fuzzy
 #| msgid "_Reply style:"
 msgid "Reply style:"
 msgstr "Estil de _responsa  :"
 
-#: ../src/mail/em-composer-utils.c:4618
+#: ../src/mail/em-composer-utils.c:4603
 #, fuzzy
 #| msgid "Attachment"
 #| msgid_plural "Attachments"
 msgid "Attach_ment"
 msgstr "Pèça junta"
 
-#: ../src/mail/em-composer-utils.c:4622
+#: ../src/mail/em-composer-utils.c:4607
 #, fuzzy
 #| msgctxt "ReplyForward"
 #| msgid "Inline (Outlook style)"
 msgid "Inline (_Outlook style)"
 msgstr "Dins lo còs (estil Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4626
+#: ../src/mail/em-composer-utils.c:4611
 msgid "_Quote"
 msgstr "_Citar"
 
-#: ../src/mail/em-composer-utils.c:4630
+#: ../src/mail/em-composer-utils.c:4615
 msgid "Do _Not Quote"
 msgstr "Citar _pas"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4651
+#: ../src/mail/em-composer-utils.c:4636
 #, fuzzy
 #| msgid "For_mat messages in HTML"
 msgid "_Format message in"
 msgstr "For_matar los messatges en HTML"
 
-#: ../src/mail/em-composer-utils.c:4671
+#: ../src/mail/em-composer-utils.c:4656
 #, fuzzy
 #| msgid "_Template:"
 msgid "Apply t_emplate"
 msgstr "_Modèl :"
 
-#: ../src/mail/em-composer-utils.c:4684
+#: ../src/mail/em-composer-utils.c:4669
 #, fuzzy
 #| msgid "Original message"
 msgid "Preserve original message S_ubject"
 msgstr "Messatge inicial"
 
-#: ../src/mail/em-composer-utils.c:4750
+#: ../src/mail/em-composer-utils.c:4735
 #, fuzzy, c-format
 #| msgid "Sender or Recipients"
 msgid "one recipient"
@@ -22401,11 +22659,11 @@ msgstr[0] "Expeditor o destinataris"
 msgstr[1] "Expeditor o destinataris"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:5259
+#: ../src/mail/em-composer-utils.c:5244
 msgid "Posting destination"
 msgstr "Destinacion de mandadís"
 
-#: ../src/mail/em-composer-utils.c:5264
+#: ../src/mail/em-composer-utils.c:5249
 msgid "Choose folders to post the message to."
 msgstr "Causissètz los dorsièrs als quals cal mandar aqueste messatge."
 
@@ -22735,7 +22993,7 @@ msgstr ""
 
 #: ../src/mail/em-folder-tree-model.c:1555
 #: ../src/mail/importers/kmail-libs.c:148
-#: ../src/modules/mail/e-mail-shell-view-private.c:1028
+#: ../src/modules/mail/e-mail-shell-view-private.c:1067
 msgid "Trash"
 msgstr "Escobilhièr"
 
@@ -22812,9 +23070,9 @@ msgid "Unsubscribe From _All"
 msgstr "Se desabonar de _tot"
 
 #: ../src/mail/em-subscription-editor.c:1320
-#: ../src/modules/mail/e-mail-shell-view-private.c:921
-#: ../src/modules/mail/e-mail-shell-view-private.c:953
-#: ../src/modules/mail/e-mail-shell-view-private.c:997
+#: ../src/modules/mail/e-mail-shell-view-private.c:960
+#: ../src/modules/mail/e-mail-shell-view-private.c:992
+#: ../src/modules/mail/e-mail-shell-view-private.c:1036
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
@@ -22822,7 +23080,7 @@ msgstr[0] "%d pas legit, "
 msgstr[1] "%d pas legits, "
 
 #: ../src/mail/em-subscription-editor.c:1324
-#: ../src/modules/mail/e-mail-shell-view-private.c:1007
+#: ../src/modules/mail/e-mail-shell-view-private.c:1046
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -23450,15 +23708,15 @@ msgstr "Importacion de « %s »"
 msgid "Scanning %s"
 msgstr "Examèn de %s"
 
-#: ../src/mail/importers/pine-importer.c:248
+#: ../src/mail/importers/pine-importer.c:247
 msgid "Importing Pine data"
 msgstr "Importacion de las donadas de Pine"
 
-#: ../src/mail/importers/pine-importer.c:478
+#: ../src/mail/importers/pine-importer.c:477
 msgid "Evolution Pine importer"
 msgstr "Assistent d'importacion Pine d'Evolution"
 
-#: ../src/mail/importers/pine-importer.c:479
+#: ../src/mail/importers/pine-importer.c:478
 msgid "Import mail from Pine."
 msgstr "Importacion de las bóstias de letras de Pine."
 
@@ -25733,8 +25991,8 @@ msgid "C_alendar"
 msgstr "C_alendièr"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:486
-#: ../src/modules/addressbook/e-book-shell-backend.c:256
-#: ../src/modules/addressbook/e-book-shell-backend.c:471
+#: ../src/modules/addressbook/e-book-shell-backend.c:258
+#: ../src/modules/addressbook/e-book-shell-backend.c:473
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:151
 msgid "New Address Book"
 msgstr "Novèl quasernet d'adreças"
@@ -25931,32 +26189,32 @@ msgstr "Entresenhas sul contacte"
 msgid "Contact information for %s"
 msgstr "Informacions sul contacte %s"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:551
+#: ../src/modules/addressbook/e-book-shell-backend.c:553
 msgctxt "New"
 msgid "_Contact"
 msgstr "_Contacte"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:553
+#: ../src/modules/addressbook/e-book-shell-backend.c:555
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1452
 msgid "Create a new contact"
 msgstr "Crèa un contacte novèl"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:558
+#: ../src/modules/addressbook/e-book-shell-backend.c:560
 msgctxt "New"
 msgid "Contact _List"
 msgstr "_Lista de contactes"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:560
+#: ../src/modules/addressbook/e-book-shell-backend.c:562
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1459
 msgid "Create a new contact list"
 msgstr "Crèa una novèla lista de contactes"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:567
+#: ../src/modules/addressbook/e-book-shell-backend.c:569
 msgctxt "New"
 msgid "Address _Book"
 msgstr "Quasernet d'_adreças"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:569
+#: ../src/modules/addressbook/e-book-shell-backend.c:571
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1347
 msgid "Create a new address book"
 msgstr "Crèa un novèl quasernet d'adreças"
@@ -26003,7 +26261,7 @@ msgstr "_Apondre dins lo quasernet d'adreças..."
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 #, fuzzy
 #| msgid "_Manage Address Book groups..."
-msgid "Manage addres book groups order and visibility"
+msgid "Manage address book groups order and visibility"
 msgstr "_Apondre dins lo quasernet d'adreças..."
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1331
@@ -26637,8 +26895,8 @@ msgstr "Novèl quasernet d'adreças"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:199
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:212
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:249
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:270
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:250
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:269
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:81
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:102
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:238
@@ -26659,7 +26917,7 @@ msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Evitar IfMatch (requesit per Apache < 2.2.8)"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:291
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:393
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:424
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:172
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:369
 msgid "URL is not a valid http:// nor https:// URL"
@@ -26864,26 +27122,46 @@ msgstr "Causissètz una lista de memos"
 msgid "Choose a Task List"
 msgstr "Causissètz una lista de prètzfaits"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:285
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:284
 msgid "Find Calendars"
 msgstr "Recercar los agendas"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:288
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:287
 msgid "Find Memo Lists"
 msgstr "Recercar las listas de memos"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:291
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:290
 msgid "Find Task Lists"
 msgstr "Recercar las listas de prètzfaits"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:310
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:309
 #: ../src/modules/cal-config-local/evolution-cal-config-local.c:254
 msgid "Email:"
 msgstr "Adreça electronica :"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:316
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:315
 msgid "Server handles meeting invitations"
 msgstr "Lo servidor gerís los convits a las reünions"
+
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:338
+msgid ""
+"Number of days which events will be synchronized in the past. Zero means all "
+"events."
+msgstr ""
+
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:339
+msgid ""
+"Number of days which memos will be synchronized in the past. Zero means all "
+"memos."
+msgstr ""
+
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:342
+msgid "Past event time limit (in days)"
+msgstr ""
+
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:342
+msgid "Past memo time limit (in days)"
+msgstr ""
 
 #: ../src/modules/cal-config-contacts/evolution-cal-config-contacts.c:64
 msgid "Choose which address books to use."
@@ -27079,71 +27357,112 @@ msgid "Task List Selector"
 msgstr "Selector de lista de prètzfaits"
 
 #. Translators: The '%s' is replaced with the time zone name, like "America/New York" or "UTC"
-#: ../src/modules/calendar/e-calendar-preferences.c:516
+#: ../src/modules/calendar/e-calendar-preferences.c:520
 #, fuzzy, c-format
 #| msgid "Use s_ystem time zone"
 msgid "Use s_ystem time zone (%s)"
 msgstr "Utilizar lo fus orari del s_istèma"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:545
+#: ../src/modules/calendar/e-calendar-preferences.c:549
 #, fuzzy
 #| msgid "Select the calendars for reminder notification"
 msgid "Selected Calendars for Notifications of Reminders"
 msgstr "Seleccionatz los agendas per las notificacions de rapèl"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:552
+#: ../src/modules/calendar/e-calendar-preferences.c:556
 msgid "Selected Task Lists for Notifications of Reminders"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:637
+#: ../src/modules/calendar/e-calendar-preferences.c:641
 msgid "Meeting Invitations"
 msgstr "Convits a una reünion"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:663
+#: ../src/modules/calendar/e-calendar-preferences.c:667
 msgid "_Delete message after acting"
 msgstr "_Suprimir lo messatge aprèp intervencion"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:670
+#: ../src/modules/calendar/e-calendar-preferences.c:674
 msgid "Delete _meeting from calendar on Decline"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:673
+#: ../src/modules/calendar/e-calendar-preferences.c:677
 #, fuzzy
 #| msgid "_Preserve my reminder"
 msgid "_Preserve existing reminder by default"
 msgstr "_Conservar mos rapèls"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:680
+#: ../src/modules/calendar/e-calendar-preferences.c:684
 msgid "_Show invitation description provided by the sender"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:687
+#: ../src/modules/calendar/e-calendar-preferences.c:691
 msgid "Sh_ow day agenda at meeting start time"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:694
+#: ../src/modules/calendar/e-calendar-preferences.c:698
 msgid "_Always attach components in mail messages"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:716
-#: ../src/modules/calendar/e-calendar-preferences.c:747
+#: ../src/modules/calendar/e-calendar-preferences.c:720
+#: ../src/modules/calendar/e-calendar-preferences.c:751
 #, fuzzy
 #| msgid "Search for text"
 msgid "Search for Meetings"
 msgstr "Recèrca de tèxte"
 
 #. Source selector
-#: ../src/modules/calendar/e-calendar-preferences.c:731
+#: ../src/modules/calendar/e-calendar-preferences.c:735
 #, fuzzy
 #| msgid "Select the calendars to search for meeting conflicts"
 msgid "Select the calendars to search for the meetings and the conflicts"
 msgstr "Seleccionatz los agendas ont cercar los conflictes de reünions"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1259
+#: ../src/modules/calendar/e-calendar-preferences.c:782
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:30
+msgid "Monday"
+msgstr "Diluns"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:785
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:33
+msgid "Tuesday"
+msgstr "Dimars"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:788
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:36
+msgid "Wednesday"
+msgstr "Dimècres"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:791
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:39
+msgid "Thursday"
+msgstr "Dijòus"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:794
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:42
+msgid "Friday"
+msgstr "Divendres"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:797
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:45
+msgid "Saturday"
+msgstr "Dissabte"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:800
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:48
+msgid "Sunday"
+msgstr "Dimenge"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:807
+#, fuzzy, c-format
+#| msgid "Use s_ystem time zone"
+msgid "Use system setti_ng (%s)"
+msgstr "Utilizar lo fus orari del s_istèma"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:1357
 msgid "Ti_me and date:"
 msgstr "Data e _ora :"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1260
+#: ../src/modules/calendar/e-calendar-preferences.c:1358
 msgid "_Date only:"
 msgstr "_Data unicament :"
 
@@ -27239,63 +27558,35 @@ msgstr "Lo _jornada comença a :"
 msgid "_Mon"
 msgstr "_Dil"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:30
-msgid "Monday"
-msgstr "Diluns"
-
 #. Tuesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:32
 msgid "_Tue"
 msgstr "Dm_a"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:33
-msgid "Tuesday"
-msgstr "Dimars"
 
 #. Wednesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:35
 msgid "_Wed"
 msgstr "Dm_e"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:36
-msgid "Wednesday"
-msgstr "Dimècres"
-
 #. Thursday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:38
 msgid "T_hu"
 msgstr "D_ij"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:39
-msgid "Thursday"
-msgstr "Dijòus"
 
 #. Friday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:41
 msgid "_Fri"
 msgstr "Di_v"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:42
-msgid "Friday"
-msgstr "Divendres"
-
 #. Saturday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:44
 msgid "_Sat"
 msgstr "Di_s"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:45
-msgid "Saturday"
-msgstr "Dissabte"
-
 #. Sunday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:47
 msgid "S_un"
 msgstr "_Dim"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:48
-msgid "Sunday"
-msgstr "Dimenge"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:49
 msgid "Day _ends:"
@@ -27963,10 +28254,6 @@ msgstr "Aficha una setmana"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1750
 msgid "Show one work week"
 msgstr "Aficha una setmana de trabalh"
-
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1755
-msgid "Year"
-msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1757
 #, fuzzy
@@ -29901,61 +30188,61 @@ msgstr "Dobrir la clau PGP"
 msgid "Import Pretty Good Privacy (OpenPGP) key"
 msgstr "Pretty Good Privacy (OpenPGP)"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:747
+#: ../src/modules/mail/e-mail-shell-backend.c:753
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "Messatge _electronic"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:749
+#: ../src/modules/mail/e-mail-shell-backend.c:755
 msgid "Compose a new mail message"
 msgstr "Redigor un novèl corrièr electronic"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:756
+#: ../src/modules/mail/e-mail-shell-backend.c:762
 msgctxt "New"
 msgid "Mail Acco_unt"
 msgstr "Comp_tes de messatjariá"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:758
+#: ../src/modules/mail/e-mail-shell-backend.c:764
 msgid "Create a new mail account"
 msgstr "Crèa un novèl compte pel corrièr electronic"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:763
+#: ../src/modules/mail/e-mail-shell-backend.c:769
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "_Dorsièr de corrièr electronic"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:765
+#: ../src/modules/mail/e-mail-shell-backend.c:771
 msgid "Create a new mail folder"
 msgstr "Crèa un novèl dorsièr pel corrièr electronic"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:1023
+#: ../src/modules/mail/e-mail-shell-backend.c:1029
 msgctxt "NetworkMonitor"
 msgid "base"
 msgstr ""
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:1026
+#: ../src/modules/mail/e-mail-shell-backend.c:1032
 msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr ""
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:1029
+#: ../src/modules/mail/e-mail-shell-backend.c:1035
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1060
+#: ../src/modules/mail/e-mail-shell-backend.c:1066
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
 msgstr ""
 
 #. Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation
-#: ../src/modules/mail/e-mail-shell-backend.c:1071
+#: ../src/modules/mail/e-mail-shell-backend.c:1077
 #, fuzzy, c-format
 #| msgid "Defaults"
 msgctxt "NetworkMonitor"
@@ -29963,49 +30250,49 @@ msgid "Default (%s)"
 msgstr "Valors per defaut"
 
 #. Always as the first
-#: ../src/modules/mail/e-mail-shell-backend.c:1075
+#: ../src/modules/mail/e-mail-shell-backend.c:1081
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Per defaut"
 
 #. Always as the last
-#: ../src/modules/mail/e-mail-shell-backend.c:1092
+#: ../src/modules/mail/e-mail-shell-backend.c:1098
 #, fuzzy
 #| msgid "_Always move"
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Desplaçar _totjorn"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1107
+#: ../src/modules/mail/e-mail-shell-backend.c:1113
 msgid "_Limit operations in Power Saver mode"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1178
+#: ../src/modules/mail/e-mail-shell-backend.c:1184
 msgid "Mail Preferences"
 msgstr "Preferéncias del corrièr electronic"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1187
+#: ../src/modules/mail/e-mail-shell-backend.c:1193
 msgid "Composer Preferences"
 msgstr "Preferéncias de l'editor"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1196
+#: ../src/modules/mail/e-mail-shell-backend.c:1202
 msgid "Network Preferences"
 msgstr "Preferéncias ret"
 
 #. Translators: The first item in the list, to be able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1544
+#: ../src/modules/mail/e-mail-shell-backend.c:1550
 msgctxt "label"
 msgid "None"
 msgstr "Pas cap"
 
 #. Translators: The first item in the list, to be able to set rule: [Unset Label] [All]
-#: ../src/modules/mail/e-mail-shell-backend.c:1547
+#: ../src/modules/mail/e-mail-shell-backend.c:1553
 msgctxt "label"
 msgid "All"
 msgstr ""
 
 #. Translators: Meaning "any configured addressbook included in autocompletion" in the filter dialog
-#: ../src/modules/mail/e-mail-shell-backend.c:1835
+#: ../src/modules/mail/e-mail-shell-backend.c:1841
 #, fuzzy
 #| msgid "Autocompletion"
 msgctxt "addrbook"
@@ -30013,7 +30300,7 @@ msgid "Included in Autocompletion"
 msgstr "Complecion automatica"
 
 #. Translators: Meaning "any configured addressbook" in the filter dialog
-#: ../src/modules/mail/e-mail-shell-backend.c:1841
+#: ../src/modules/mail/e-mail-shell-backend.c:1847
 #, fuzzy
 #| msgid "A_ngry"
 msgctxt "addrbook"
@@ -30453,51 +30740,51 @@ msgstr "Recercar dins totes los comptes"
 msgid "Account Search"
 msgstr "Recercar dins un compte"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:914
+#: ../src/modules/mail/e-mail-shell-view-private.c:953
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d seleccionat, "
 msgstr[1] "%d seleccionats, "
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:929
-#: ../src/modules/mail/e-mail-shell-view-private.c:946
+#: ../src/modules/mail/e-mail-shell-view-private.c:968
+#: ../src/modules/mail/e-mail-shell-view-private.c:985
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d suprimit"
 msgstr[1] "%d suprimits"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:960
-#: ../src/modules/mail/e-mail-shell-view-private.c:966
+#: ../src/modules/mail/e-mail-shell-view-private.c:999
+#: ../src/modules/mail/e-mail-shell-view-private.c:1005
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d corrièr indesirable"
 msgstr[1] "%d corrièrs indesirables"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:973
+#: ../src/modules/mail/e-mail-shell-view-private.c:1012
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d borrolhon"
 msgstr[1] "%d borrolhons"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:979
+#: ../src/modules/mail/e-mail-shell-view-private.c:1018
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d pas mandat"
 msgstr[1] "%d pas mandats"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:985
+#: ../src/modules/mail/e-mail-shell-view-private.c:1024
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d mandat"
 msgstr[1] "%d mandats"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1002
+#: ../src/modules/mail/e-mail-shell-view-private.c:1041
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
@@ -30689,10 +30976,8 @@ msgid "Plugin"
 msgstr "Empeuton"
 
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:527
-#, fuzzy
-#| msgid "_Plugins"
 msgid "Plugins"
-msgstr "Em_peutons"
+msgstr "Empeutons"
 
 #: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:168
 msgid "Display plain text version"
@@ -31018,7 +31303,7 @@ msgstr ""
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1693
 msgid "KB"
-msgstr "Ko"
+msgstr "ko"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1699
 msgid "Feeds"
@@ -31029,10 +31314,8 @@ msgid "Content"
 msgstr "Contengut"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1828
-#, fuzzy
-#| msgid "I_mport"
 msgid "E_xport"
-msgstr "I_mportar"
+msgstr "E_xportar"
 
 #: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:189
 msgid "Re_load feed articles"
@@ -31145,10 +31428,8 @@ msgstr "Cargament dels comptes…"
 
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:191
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:196
-#, fuzzy
-#| msgid "_Format as..."
 msgid "_Format as…"
-msgstr "_Formatar coma..."
+msgstr "_Formatar coma…"
 
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:414
 msgid "_Other languages"
@@ -32587,10 +32868,8 @@ msgid "Recipient Contains"
 msgstr "Los destinataris contenon"
 
 #: ../src/plugins/sender-validation/sender-validation.c:721
-#, fuzzy
-#| msgid "Account Editor"
 msgid "Account to Use"
-msgstr "Editor de comptes"
+msgstr "Compte d’utilizar"
 
 #: ../src/plugins/sender-validation/sender-validation.c:765
 msgid ""
@@ -32628,10 +32907,8 @@ msgid "Saving message template"
 msgstr "Enregistrament del messatge dins la bóstia de mandadís."
 
 #: ../src/plugins/templates/templates.c:1060
-#, fuzzy
-#| msgid "Save as _Template"
 msgid "Save _Template"
-msgstr "Enregistrar coma _modèl"
+msgstr "Enregistrar lo _modèl"
 
 #: ../src/plugins/templates/templates.c:1062
 #, fuzzy
@@ -32688,7 +32965,7 @@ msgstr ""
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/e-shell.c:2040
+#: ../src/shell/e-shell.c:2042
 #, fuzzy
 #| msgid ""
 #| "Start Evolution showing the specified component. Available options are "
@@ -32700,49 +32977,49 @@ msgstr ""
 "Avia Evolution en afichant lo component indicat. Las opcions disponiblas son "
 "« mail », « calendar », « contacts », « tasks » e « memos »"
 
-#: ../src/shell/e-shell.c:2044
+#: ../src/shell/e-shell.c:2046
 msgid "Apply the given geometry to the main window"
 msgstr "Aplica la geometria indicada a la fenèstra principala"
 
-#: ../src/shell/e-shell.c:2048
+#: ../src/shell/e-shell.c:2050
 msgid "Start in online mode"
 msgstr "S'avia en mòde connectat"
 
-#: ../src/shell/e-shell.c:2050
+#: ../src/shell/e-shell.c:2052
 msgid "Ignore network availability"
 msgstr "Ignòra la disponibilité de la ret"
 
-#: ../src/shell/e-shell.c:2053
+#: ../src/shell/e-shell.c:2055
 msgid ""
 "Forcibly shut down Evolution and background Evolution-Data-Server processes"
 msgstr ""
 
-#: ../src/shell/e-shell.c:2056
+#: ../src/shell/e-shell.c:2058
 msgid "Disable loading of any plugins."
 msgstr "Desactiva lo cargament dels empeutons."
 
-#: ../src/shell/e-shell.c:2058
+#: ../src/shell/e-shell.c:2060
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr ""
 "Desactiva l'apercebut dels corrièrs electronics, contactes e prètzfaits."
 
-#: ../src/shell/e-shell.c:2062
+#: ../src/shell/e-shell.c:2064
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr ""
 "Impòrta las URI o noms de fichièr indicats dins la seguida dels paramètres."
 
-#: ../src/shell/e-shell.c:2064
+#: ../src/shell/e-shell.c:2066
 #, fuzzy
 #| msgid "Import URIs or filenames given as rest of arguments."
 msgid "View URIs or filenames given as rest of arguments."
 msgstr ""
 "Impòrta las URI o noms de fichièr indicats dins la seguida dels paramètres."
 
-#: ../src/shell/e-shell.c:2066
+#: ../src/shell/e-shell.c:2068
 msgid "Request a running Evolution process to quit"
 msgstr "Demanda a un processus d'Evolution en cors d'execucion de quitar"
 
-#: ../src/shell/e-shell.c:2176
+#: ../src/shell/e-shell.c:2178
 #, fuzzy, c-format
 #| msgid ""
 #| "%s: --online and --offline cannot be used together.\n"
@@ -32754,7 +33031,7 @@ msgstr ""
 "%s : --online e --offline pòdon pas èsser utilizats \n"
 "ensemble. Aviatz « %s --help » per mai d'informacions.\n"
 
-#: ../src/shell/e-shell.c:2182
+#: ../src/shell/e-shell.c:2184
 #, fuzzy, c-format
 #| msgid ""
 #| "%s: --force-online and --offline cannot be used together.\n"
@@ -32848,10 +33125,8 @@ msgid "Execute these search parameters"
 msgstr "Executar aquestes paramètres de recèrca"
 
 #: ../src/shell/e-shell-view.c:1036
-#, fuzzy
-#| msgid "Advanced Search"
 msgid "_Advanced Search…"
-msgstr "Recèrca avançada"
+msgstr "_Recèrca avançada…"
 
 #: ../src/shell/e-shell-view.c:1038
 msgid "Construct a more advanced search"
@@ -32884,10 +33159,8 @@ msgid "Execute the current search parameters"
 msgstr "Aplica los paramètres de recèrca actuals"
 
 #: ../src/shell/e-shell-view.c:1071
-#, fuzzy
-#| msgid "Save Search"
 msgid "_Save Search…"
-msgstr "Enregistrar la recèrca"
+msgstr "_Enregistrar la recèrca…"
 
 #: ../src/shell/e-shell-view.c:1073
 msgid "Save the current search parameters"
@@ -33563,10 +33836,8 @@ msgstr "Expira"
 #: ../src/smime/gui/certificate-manager.c:79
 #: ../src/smime/gui/certificate-manager.c:100
 #: ../src/smime/gui/certificate-manager.c:119
-#, fuzzy
-#| msgid "SHA1 Fingerprint"
 msgid "SHA256 Fingerprint"
-msgstr "Emprenta numerica SHA1"
+msgstr "Emprenta numerica SHA256"
 
 #: ../src/smime/gui/certificate-manager.c:80
 #: ../src/smime/gui/certificate-manager.c:101
@@ -33612,10 +33883,8 @@ msgstr "Nom del _fichièr :"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
 #: ../src/smime/gui/certificate-manager.c:728
-#, fuzzy
-#| msgid "Please select a file..."
 msgid "Please select a file…"
-msgstr "Seleccionatz un fichièr..."
+msgstr "Seleccionatz un fichièr…"
 
 #: ../src/smime/gui/certificate-manager.c:742
 msgid "_Include certificate chain in the backup"
@@ -33812,16 +34081,14 @@ msgstr ""
 "levat se quicòm indica lo contrari aicí"
 
 #: ../src/smime/gui/component.c:53
-#, fuzzy, c-format
-#| msgid "Enter the password for '%s', token '%s'"
+#, c-format
 msgid "Enter the password for “%s”, token “%s”"
-msgstr "Sasissètz lo senhal per « %s », geton « %s »"
+msgstr "Picatz lo senhal per « %s », geton « %s »"
 
 #: ../src/smime/gui/component.c:55
-#, fuzzy, c-format
-#| msgid "Enter the password for '%s'"
+#, c-format
 msgid "Enter the password for “%s”"
-msgstr "Sasissètz lo senhal per « %s »"
+msgstr "Picatz lo senhal per « %s »"
 
 #. we're setting the password initially
 #: ../src/smime/gui/component.c:83
@@ -33977,6 +34244,16 @@ msgstr "Impossible d'escriure l'emmagazinatge sul disc, còdi d'error : %i"
 #: ../src/smime/lib/e-pkcs12.c:470
 msgid "Imported Certificate"
 msgstr "Certificats importats"
+
+#, fuzzy, c-format
+#~| msgid "'%s' has an invalid format"
+#~ msgid "“%s” has an invalid format"
+#~ msgstr "« %s » a pas un format valid"
+
+#, fuzzy, c-format
+#~| msgid "%s'%s' has an invalid format"
+#~ msgid "%s“%s” has an invalid format"
+#~ msgstr "%s « %s » a pas un format valid"
 
 #~ msgid "Enable Unmatched search folder"
 #~ msgstr "Activar los dorsièrs de recèrca sens correspondéncia"
@@ -35047,9 +35324,6 @@ msgstr "Certificats importats"
 #~ msgid "_Save Search..."
 #~ msgstr "Enre_gistrar la recèrca..."
 
-#~ msgid "%d/%m/%Y"
-#~ msgstr "%d/%m/%Y"
-
 #~ msgid "Canceled"
 #~ msgstr "Anullada"
 
@@ -35283,9 +35557,6 @@ msgstr "Certificats importats"
 
 #~ msgid "Completed On"
 #~ msgstr "Acabat lo"
-
-#~ msgid "is not set"
-#~ msgstr "es pas definit"
 
 #~ msgid "is set"
 #~ msgstr "es definit"
