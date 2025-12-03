@@ -33,6 +33,10 @@ typedef struct _EAppearanceSettingsClass EAppearanceSettingsClass;
 
 struct _EAppearanceSettings {
 	EExtension parent;
+
+	guint watch_handle;
+	GCancellable *cancellable;
+	GDBusProxy *proxy;
 };
 
 struct _EAppearanceSettingsClass {
@@ -582,6 +586,141 @@ e_appearance_settings_page_new (EPreferencesWindow *window)
 }
 
 static void
+on_color_scheme_read (GObject *source_object,
+		      GAsyncResult *res,
+		      gpointer user_data)
+{
+	EAppearanceSettings *extension;
+	GVariant *result_variant;
+	GError *error = NULL;
+
+	extension = E_APPEARANCE_SETTINGS (user_data);
+	result_variant = g_dbus_proxy_call_finish (G_DBUS_PROXY (source_object), res, &error);
+	if (result_variant) {
+		GVariant *result_variant_boxed = NULL;
+		GVariant *color_scheme_variant = NULL;
+		guint32 color_scheme;
+		GtkSettings *settings;
+
+		g_variant_get (result_variant, "(v)", &result_variant_boxed);
+		color_scheme_variant = g_variant_get_variant (result_variant_boxed);
+		color_scheme = g_variant_get_uint32 (color_scheme_variant);
+		settings = gtk_settings_get_default ();
+		g_object_set (
+			G_OBJECT (settings),
+			"gtk-application-prefer-dark-theme",
+			color_scheme == 1,
+			NULL);
+		g_clear_pointer (&color_scheme_variant, g_variant_unref);
+		g_clear_pointer (&result_variant_boxed, g_variant_unref);
+		g_clear_pointer (&result_variant, g_variant_unref);
+	}
+
+	g_clear_object (&extension->cancellable);
+	g_clear_error (&error);
+}
+
+static void
+on_desktop_portal_setting_changed (GDBusProxy *self,
+                                   gchar *sender_name,
+                                   gchar *signal_name,
+                                   GVariant *parameters,
+                                   gpointer user_data)
+{
+	const gchar *namespace = NULL;
+	const gchar *key = NULL;
+	GVariant *color_scheme_variant = NULL;
+
+	g_variant_get (parameters, "(&s&sv)", &namespace, &key, &color_scheme_variant);
+	if (!g_strcmp0 (namespace, "org.freedesktop.appearance") &&
+	    !g_strcmp0 (key, "color-scheme")) {
+		guint32 color_scheme;
+		GtkSettings *settings;
+
+		color_scheme = g_variant_get_uint32 (color_scheme_variant);
+		settings = gtk_settings_get_default ();
+		g_object_set (
+			G_OBJECT (settings),
+			"gtk-application-prefer-dark-theme",
+			color_scheme == 1,
+			NULL);
+	}
+	g_clear_pointer (&color_scheme_variant, g_variant_unref);
+}
+
+static void
+on_desktop_portal_proxy_created (GObject *source_object,
+				 GAsyncResult *res,
+				 gpointer user_data)
+{
+	EAppearanceSettings *extension;
+	GError *error = NULL;
+
+	extension = E_APPEARANCE_SETTINGS (user_data);
+	extension->proxy = g_dbus_proxy_new_finish (res, &error);
+	if (extension->proxy) {
+		g_signal_connect_swapped (
+			extension->proxy,
+			"g-signal::SettingChanged",
+			G_CALLBACK (on_desktop_portal_setting_changed),
+			user_data);
+		g_dbus_proxy_call (
+			extension->proxy,
+			"Read",
+			g_variant_new (
+				"(ss)",
+				"org.freedesktop.appearance",
+				"color-scheme"),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			extension->cancellable,
+			on_color_scheme_read,
+			user_data);
+	} else {
+		g_clear_object (&extension->cancellable);
+	}
+
+	g_clear_error (&error);
+}
+
+static void
+on_desktop_portal_appeared_cb (GDBusConnection *connection,
+			       const gchar *name,
+			       const gchar *name_owner,
+			       gpointer user_data)
+{
+	EAppearanceSettings *extension;
+
+	extension = E_APPEARANCE_SETTINGS (user_data);
+	g_cancellable_cancel (extension->cancellable);
+	g_clear_object (&extension->cancellable);
+	extension->cancellable = g_cancellable_new ();
+	g_dbus_proxy_new (
+		connection,
+		G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES,
+		NULL,
+		name_owner,
+		"/org/freedesktop/portal/desktop",
+		"org.freedesktop.portal.Settings",
+		extension->cancellable,
+		on_desktop_portal_proxy_created,
+		extension);
+}
+
+static void
+on_desktop_portal_vanished_cb (GDBusConnection *connection,
+			       const gchar *name,
+			       gpointer user_data)
+{
+	EAppearanceSettings *extension;
+
+	extension = E_APPEARANCE_SETTINGS (user_data);
+	g_cancellable_cancel (extension->cancellable);
+	g_clear_object (&extension->cancellable);
+	g_clear_object (&extension->proxy);
+}
+
+static void
 appearance_settings_constructed (GObject *object)
 {
 	EExtensible *extensible;
@@ -606,8 +745,32 @@ appearance_settings_constructed (GObject *object)
 		e_appearance_settings_page_new,
 		950);
 
+	extension->watch_handle = g_bus_watch_name (
+		G_BUS_TYPE_SESSION,
+		"org.freedesktop.portal.Desktop",
+		G_BUS_NAME_WATCHER_FLAGS_NONE,
+		on_desktop_portal_appeared_cb,
+		on_desktop_portal_vanished_cb,
+		extension,
+		NULL);
+
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_appearance_settings_parent_class)->constructed (object);
+}
+
+static void
+appearance_settings_dispose (GObject *object)
+{
+	EAppearanceSettings *extension;
+
+	extension = E_APPEARANCE_SETTINGS (object);
+	g_clear_handle_id (&extension->watch_handle, g_bus_unwatch_name);
+	g_cancellable_cancel (extension->cancellable);
+	g_clear_object (&extension->cancellable);
+	g_clear_object (&extension->proxy);
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_appearance_settings_parent_class)->dispose (object);
 }
 
 static void
@@ -618,6 +781,7 @@ e_appearance_settings_class_init (EAppearanceSettingsClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = appearance_settings_constructed;
+	object_class->dispose = appearance_settings_dispose;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_SHELL_WINDOW;
