@@ -468,7 +468,7 @@
 			],
 			"post-install": [
 				"install -d /app/evolution/extensions",
-				"cp $SRCDIR/NEWS /app/share/NEWS.eds"
+				"cp NEWS /app/share/NEWS.eds"
 			]
 		},
 
@@ -514,8 +514,8 @@
 				}
 			],
 			"post-install": [
-				"cp $SRCDIR/NEWS /app/share/NEWS.evo",
-				"cp $SRCDIR/news-to-appdata.c /app/share/",
+				"cp NEWS /app/share/NEWS.evo",
+				"cp news-to-appdata.c /app/share/",
 				"mv /app/share/metainfo/org.gnome.Evolution.metainfo.xml /app/share/"
 			]
 		},
@@ -595,7 +595,7 @@
 				}
 			],
 			"post-install": [
-				"cp $SRCDIR/NEWS /app/share/NEWS.ews"
+				"cp NEWS /app/share/NEWS.ews"
 			]
 		},
 
