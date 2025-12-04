@@ -10,7 +10,8 @@
 	"desktop-file-name-suffix": " (3.58)",
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
-		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
+		"cxxflags": "-O2 -g -Wno-deprecated-declarations",
+		"env": { "ACLOCAL_PATH": "/usr/share/gettext/m4/" }
 	},
 	"cleanup": [
 		"*.la",

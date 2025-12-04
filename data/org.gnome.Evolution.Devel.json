@@ -9,6 +9,9 @@
 	"branch": "master",
 	"desktop-file-name-suffix": " (Nightly)",
 	"tags": [ "devel" ],
+	"build-options" : {
+		"env": { "ACLOCAL_PATH": "/usr/share/gettext/m4/" }
+	},
 	"cleanup": [
 		"*.la",
 		"*.a"
