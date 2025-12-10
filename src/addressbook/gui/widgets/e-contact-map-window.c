@@ -35,6 +35,10 @@
 struct _EContactMapWindowPrivate {
 	EContactMap *map;
 
+	EBookClient *book_client;
+	EBookClientView *view;
+	GCancellable *cancellable;
+
 	GtkWidget *zoom_in_btn;
 	GtkWidget *zoom_out_btn;
 
@@ -79,33 +83,80 @@ contact_map_marker_button_release_event_cb (ClutterActor *actor,
 }
 
 static void
-contact_map_window_get_contacts_cb (GObject *source_object,
-                                    GAsyncResult *result,
-                                    gpointer user_data)
+contact_map_window_view_objects_added_cb (EBookClientView *view,
+					  GSList *contacts,
+					  gpointer user_data)
 {
-	EContactMapWindow *window;
-	GSList *list = NULL, *link;
-	GError *local_error = NULL;
+	EContactMapWindow *window = user_data;
+	GSList *link;
 
-	window = E_CONTACT_MAP_WINDOW (user_data);
+	for (link = contacts; link; link = g_slist_next (link)) {
+		EContact *contact = link->data;
 
-	e_book_client_get_contacts_finish (
-		E_BOOK_CLIENT (source_object),
-		result, &list, &local_error);
-
-	if (local_error != NULL) {
-		g_warning (
-			"%s: Failed to get contacts: %s",
-			G_STRFUNC, local_error->message);
-		g_error_free (local_error);
-	}
-
-	for (link = list; link != NULL; link = g_slist_next (link)) {
-		EContact *contact = E_CONTACT (link->data);
 		e_contact_map_add_contact (window->priv->map, contact);
 	}
+}
 
-	g_slist_free_full (list, (GDestroyNotify) g_object_unref);
+static void
+contact_map_window_view_objects_modified_cb (EBookClientView *view,
+					     GSList *contacts,
+					     gpointer user_data)
+{
+	EContactMapWindow *window = user_data;
+	GSList *link;
+
+	for (link = contacts; link; link = g_slist_next (link)) {
+		EContact *contact = link->data;
+
+		e_contact_map_remove_contact (window->priv->map, e_contact_get_const (contact, E_CONTACT_UID));
+		e_contact_map_add_contact (window->priv->map, contact);
+	}
+}
+
+static void
+contact_map_window_view_objects_removed_cb (EBookClientView *view,
+					    GSList *uids,
+					    gpointer user_data)
+{
+	EContactMapWindow *window = user_data;
+	GSList *link;
+
+	for (link = uids; link; link = g_slist_next (link)) {
+		const gchar *uid = link->data;
+
+		e_contact_map_remove_contact (window->priv->map, uid);
+	}
+}
+
+static void
+contact_map_window_got_view_cb (GObject *source_object,
+				GAsyncResult *result,
+				gpointer user_data)
+{
+	EContactMapWindow *window;
+	EBookClientView *view = NULL;
+	GError *local_error = NULL;
+
+	if (!e_book_client_get_view_finish (E_BOOK_CLIENT (source_object), result, &view, &local_error) || !view) {
+		if (local_error && !g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+			g_warning ("%s: Failed open view: %s", G_STRFUNC, local_error->message);
+		g_clear_error (&local_error);
+		return;
+	}
+
+	window = E_CONTACT_MAP_WINDOW (user_data);
+	window->priv->view = view;
+
+	g_clear_object (&window->priv->cancellable);
+
+	g_signal_connect (window->priv->view, "objects-added",
+		G_CALLBACK (contact_map_window_view_objects_added_cb), window);
+	g_signal_connect (window->priv->view, "objects-modified",
+		G_CALLBACK (contact_map_window_view_objects_modified_cb), window);
+	g_signal_connect (window->priv->view, "objects-removed",
+		G_CALLBACK (contact_map_window_view_objects_removed_cb), window);
+
+	e_book_client_view_start (window->priv->view, NULL);
 }
 
 static void
@@ -298,7 +349,15 @@ contact_map_window_dispose (GObject *object)
 		self->priv->map = NULL;
 	}
 
+	g_cancellable_cancel (self->priv->cancellable);
+	g_clear_object (&self->priv->cancellable);
+
+	if (self->priv->view)
+		e_book_client_view_stop (self->priv->view, NULL);
+
 	g_clear_object (&self->priv->completion_model);
+	g_clear_object (&self->priv->book_client);
+	g_clear_object (&self->priv->view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_contact_map_window_parent_class)->dispose (object);
@@ -475,14 +534,18 @@ e_contact_map_window_load_addressbook (EContactMapWindow *map,
 
 	g_return_if_fail (E_IS_CONTACT_MAP_WINDOW (map));
 	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
+	g_return_if_fail (map->priv->book_client == NULL);
+	g_return_if_fail (map->priv->cancellable == NULL);
 
 	book_query = e_book_query_field_exists (E_CONTACT_ADDRESS);
 	query_string = e_book_query_to_string (book_query);
 	e_book_query_unref (book_query);
 
-	e_book_client_get_contacts (
-		book_client, query_string, NULL,
-		contact_map_window_get_contacts_cb, map);
+	map->priv->book_client = g_object_ref (book_client);
+	map->priv->cancellable = g_cancellable_new ();
+
+	e_book_client_get_view (book_client, query_string, map->priv->cancellable,
+		contact_map_window_got_view_cb, map);
 
 	g_free (query_string);
 }

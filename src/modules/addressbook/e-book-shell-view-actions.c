@@ -414,28 +414,6 @@ action_address_book_refresh_backend_cb (EUIAction *action,
 }
 
 #ifdef ENABLE_CONTACT_MAPS
-static void
-contact_editor_contact_modified_cb (EABEditor *editor,
-                                    const GError *error,
-                                    EContact *contact,
-                                    gpointer user_data)
-{
-	EContactMapWindow *window = user_data;
-	EContactMap *map;
-	const gchar *contact_uid;
-
-	if (error != NULL) {
-		g_warning ("Error modifying contact: %s", error->message);
-		return;
-	}
-
-	map = e_contact_map_window_get_map (window);
-
-	contact_uid = e_contact_get_const (contact, E_CONTACT_UID);
-
-	e_contact_map_remove_contact (map, contact_uid);
-	e_contact_map_add_contact (map, contact);
-}
 
 static void
 map_window_show_contact_editor_cb (EContactMapWindow *window,
@@ -496,10 +474,6 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 	editor = e_contact_editor_new (
 		shell, E_BOOK_CLIENT (client), contact, FALSE, TRUE);
 	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (window));
-
-	g_signal_connect (
-		editor, "contact-modified",
-		G_CALLBACK (contact_editor_contact_modified_cb), window);
 
 	eab_editor_show (editor);
 	g_object_unref (client);
