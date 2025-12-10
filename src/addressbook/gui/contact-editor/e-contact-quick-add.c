@@ -41,9 +41,6 @@ struct _QuickAdd {
 	EClientCache *client_cache;
 	ESource *source;
 
-	EContactQuickAddCallback cb;
-	gpointer closure;
-
 	GtkWidget *dialog;
 	GtkWidget *name_entry;
 	GtkWidget *email_entry;
@@ -148,8 +145,6 @@ merge_cb (GObject *source_object,
 			error->message,
 			NULL);
 
-		if (qa->cb)
-			qa->cb (NULL, qa->closure);
 		g_error_free (error);
 		quick_add_unref (qa);
 		return;
@@ -175,9 +170,6 @@ merge_cb (GObject *source_object,
 			NULL);
 	}
 
-	if (qa->cb)
-		qa->cb (qa->contact, qa->closure);
-
 	g_object_unref (client);
 
 	quick_add_unref (qa);
@@ -197,41 +189,6 @@ quick_add_merge_contact (QuickAdd *qa)
 		qa->client_cache, qa->source,
 		E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
 		qa->cancellable, merge_cb, qa);
-}
-
-/* Raise a contact editor with all fields editable,
- * and hook up all signals accordingly. */
-
-static void
-contact_added_cb (EContactEditor *ce,
-                  const GError *error,
-                  EContact *contact,
-                  gpointer closure)
-{
-	QuickAdd *qa;
-
-	qa = g_object_get_data (G_OBJECT (ce), "quick_add");
-
-	if (qa) {
-		if (qa->cb)
-			qa->cb (qa->contact, qa->closure);
-
-		/* We don't need to unref qa because we set_data_full below */
-		g_object_set_data (G_OBJECT (ce), "quick_add", NULL);
-	}
-}
-
-static void
-editor_closed_cb (GtkWidget *w,
-                  gpointer closure)
-{
-	QuickAdd *qa;
-
-	qa = g_object_get_data (G_OBJECT (w), "quick_add");
-
-	if (qa)
-		/* We don't need to unref qa because we set_data_full below */
-		g_object_set_data (G_OBJECT (w), "quick_add", NULL);
 }
 
 static void
@@ -271,22 +228,6 @@ ce_have_contact (EBookClient *book_client,
 		 * enabled when we bring up the dialog. */
 		g_object_set (
 			contact_editor, "changed", contact != NULL, NULL);
-
-		/* We pass this via object data, so that we don't get a
-		 * dangling pointer referenced if both the "contact_added"
-		 * and "editor_closed" get emitted.  (Which, based on a
-		 * backtrace in bugzilla, I think can happen and cause a
-		 * crash. */
-		g_object_set_data_full (
-			G_OBJECT (contact_editor), "quick_add", qa,
-			(GDestroyNotify) quick_add_unref);
-
-		g_signal_connect (
-			contact_editor, "contact_added",
-			G_CALLBACK (contact_added_cb), NULL);
-		g_signal_connect (
-			contact_editor, "editor_closed",
-			G_CALLBACK (editor_closed_cb), NULL);
 
 		g_object_unref (book_client);
 	}
@@ -565,9 +506,7 @@ build_quick_add_dialog (QuickAdd *qa)
 void
 e_contact_quick_add (EClientCache *client_cache,
                      const gchar *in_name,
-                     const gchar *email,
-                     EContactQuickAddCallback cb,
-                     gpointer closure)
+                     const gchar *email)
 {
 	QuickAdd *qa;
 	GtkWidget *dialog;
@@ -577,11 +516,8 @@ e_contact_quick_add (EClientCache *client_cache,
 	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
 
 	/* We need to have *something* to work with. */
-	if (in_name == NULL && email == NULL) {
-		if (cb)
-			cb (NULL, closure);
+	if (in_name == NULL && email == NULL)
 		return;
-	}
 
 	if (in_name) {
 		name = g_strdup (in_name);
@@ -598,8 +534,6 @@ e_contact_quick_add (EClientCache *client_cache,
 	}
 
 	qa = quick_add_new (client_cache);
-	qa->cb = cb;
-	qa->closure = closure;
 	if (name)
 		quick_add_set_name (qa, name);
 	if (email)
@@ -613,9 +547,7 @@ e_contact_quick_add (EClientCache *client_cache,
 
 void
 e_contact_quick_add_free_form (EClientCache *client_cache,
-                               const gchar *text,
-                               EContactQuickAddCallback cb,
-                               gpointer closure)
+                               const gchar *text)
 {
 	gchar *name = NULL, *email = NULL;
 	const gchar *last_at, *s;
@@ -623,10 +555,8 @@ e_contact_quick_add_free_form (EClientCache *client_cache,
 
 	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
 
-	if (text == NULL) {
-		e_contact_quick_add (client_cache, NULL, NULL, cb, closure);
+	if (text == NULL)
 		return;
-	}
 
 	/* Look for things that look like e-mail addresses embedded in text */
 	in_quote = FALSE;
@@ -688,7 +618,7 @@ e_contact_quick_add_free_form (EClientCache *client_cache,
 			g_strstrip (email);
 	}
 
-	e_contact_quick_add (client_cache, name, email, cb, closure);
+	e_contact_quick_add (client_cache, name, email);
 
 	g_free (name);
 	g_free (email);
@@ -696,9 +626,7 @@ e_contact_quick_add_free_form (EClientCache *client_cache,
 
 void
 e_contact_quick_add_email (EClientCache *client_cache,
-                           const gchar *email,
-                           EContactQuickAddCallback cb,
-                           gpointer closure)
+                           const gchar *email)
 {
 	gchar *name = NULL;
 	gchar *addr = NULL;
@@ -718,7 +646,7 @@ e_contact_quick_add_email (EClientCache *client_cache,
 		addr = g_strdup (email);
 	}
 
-	e_contact_quick_add (client_cache, name, addr, cb, closure);
+	e_contact_quick_add (client_cache, name, addr);
 
 	g_free (name);
 	g_free (addr);
@@ -726,9 +654,7 @@ e_contact_quick_add_email (EClientCache *client_cache,
 
 void
 e_contact_quick_add_vcard (EClientCache *client_cache,
-                           const gchar *vcard,
-                           EContactQuickAddCallback cb,
-                           gpointer closure)
+                           const gchar *vcard)
 {
 	QuickAdd *qa;
 	GtkWidget *dialog;
@@ -737,15 +663,10 @@ e_contact_quick_add_vcard (EClientCache *client_cache,
 	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
 
 	/* We need to have *something* to work with. */
-	if (vcard == NULL) {
-		if (cb)
-			cb (NULL, closure);
+	if (vcard == NULL)
 		return;
-	}
 
 	qa = quick_add_new (client_cache);
-	qa->cb = cb;
-	qa->closure = closure;
 	quick_add_set_vcard (qa, vcard);
 
 	contact = e_contact_new_from_vcard (qa->vcard);
@@ -778,8 +699,6 @@ e_contact_quick_add_vcard (EClientCache *client_cache,
 			_("Failed to parse vCard data"),
 			qa->vcard,
 			NULL);
-		if (cb)
-			cb (NULL, closure);
 
 		quick_add_unref (qa);
 		return;

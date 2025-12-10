@@ -303,7 +303,7 @@ book_shell_backend_quick_add_email_cb (EShell *shell,
 	 *     of to integrate this feature with other shell modules. */
 
 	client_cache = e_shell_get_client_cache (shell);
-	e_contact_quick_add_email (client_cache, email, NULL, NULL);
+	e_contact_quick_add_email (client_cache, email);
 }
 
 static void
@@ -316,7 +316,7 @@ book_shell_backend_quick_add_vcard_cb (EShell *shell,
 	 *     of to integrate this feature with other shell modules. */
 
 	client_cache = e_shell_get_client_cache (shell);
-	e_contact_quick_add_vcard (client_cache, vcard, NULL, NULL);
+	e_contact_quick_add_vcard (client_cache, vcard);
 }
 
 static gboolean
