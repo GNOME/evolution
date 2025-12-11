@@ -405,6 +405,37 @@ accum_gender (GString *buffer,
 }
 
 static void
+accum_geo (GString *buffer,
+	   EContact *contact,
+	   const gchar *html_label)
+{
+	EContactGeo *geo;
+	gchar buff[128];
+	gchar *html;
+	guint ii;
+
+	geo = e_contact_get (contact, E_CONTACT_GEO);
+	if (!geo)
+		return;
+
+	g_warn_if_fail (g_snprintf (buff, sizeof (buff), "%.6f/%.6f", geo->latitude, geo->longitude) < sizeof (buff));
+
+	for (ii = 0; buff[ii]; ii++) {
+		if (buff[ii] == ',')
+			buff[ii] = '.';
+		else if (buff[ii] == '/')
+			buff[ii] = ',';
+	}
+
+	html = g_markup_printf_escaped ("<a href='open-map:%s'>%s</a>", buff, buff);
+
+	render_table_row (buffer, html_label, html, NULL, 0);
+
+	g_free (html);
+	e_contact_geo_free (geo);
+}
+
+static void
 accum_time_attribute (GString *buffer,
                       EContact *contact,
                       const gchar *html_label,
@@ -1030,6 +1061,8 @@ render_contact_column (EABContactFormatter *formatter,
 	accum_attribute_multival (accum, contact, NULL, E_CONTACT_EXPERTISE, NULL, 0);
 	accum_attribute_multival (accum, contact, NULL, E_CONTACT_HOBBY, NULL, 0);
 	accum_attribute_multival (accum, contact, NULL, E_CONTACT_INTEREST, NULL, 0);
+	accum_geo	(accum, contact, _("GEO Location"));
+	accum_attribute (accum, contact, _("Time zone"), E_CONTACT_TZ, NULL, 0);
 
 	if (accum->len)
 		g_string_append_printf (
