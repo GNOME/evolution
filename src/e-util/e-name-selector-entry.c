@@ -3007,21 +3007,21 @@ popup_activate_contact (ENameSelectorEntry *name_selector_entry,
 		return;
 
 	if (e_destination_is_evolution_list (destination)) {
-		GtkWidget *contact_list_editor;
+		GObject *contact_list_editor;
 
 		if (!name_selector_entry->priv->contact_list_editor_func)
 			return;
 
 		contact_list_editor = (*name_selector_entry->priv->contact_list_editor_func) (book_client, contact, FALSE, TRUE);
-		g_object_weak_ref (G_OBJECT (contact_list_editor), editor_freed_cb, g_object_ref (name_selector_entry));
+		g_object_weak_ref (contact_list_editor, editor_freed_cb, g_object_ref (name_selector_entry));
 	} else {
-		GtkWidget *contact_editor;
+		GObject *contact_editor;
 
 		if (!name_selector_entry->priv->contact_editor_func)
 			return;
 
 		contact_editor = (*name_selector_entry->priv->contact_editor_func) (book_client, contact, FALSE, TRUE);
-		g_object_weak_ref (G_OBJECT (contact_editor), editor_freed_cb, g_object_ref (name_selector_entry));
+		g_object_weak_ref (contact_editor, editor_freed_cb, g_object_ref (name_selector_entry));
 	}
 }
 

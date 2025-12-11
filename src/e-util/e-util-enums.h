@@ -767,6 +767,34 @@ typedef enum _EUIParserExportFlags {  /*< flags >*/
 	E_UI_PARSER_EXPORT_FLAG_INDENT	= 1 << 0
 } EUIParserExportFlags;
 
+/**
+ * EMessagePopoverFlags:
+ * @E_MESSAGE_POPOVER_FLAG_NONE: no flags
+ * @E_MESSAGE_POPOVER_FLAG_INFO: an informational message
+ * @E_MESSAGE_POPOVER_FLAG_WARNING: a warning message
+ * @E_MESSAGE_POPOVER_FLAG_ERROR: an error message
+ * @E_MESSAGE_POPOVER_FLAG_HIGHLIGHT_POPOVER: highlight popover itself with a border color
+ *    corresponding to the message type
+ * @E_MESSAGE_POPOVER_FLAG_HIGHLIGHT_WIDGET: highlight relative-to widget with a border color
+ *    corresponding to the message type
+ *
+ * Flags to influence the look of an #EMessagePopover.
+ *
+ * Only one of @E_MESSAGE_POPOVER_FLAG_INFO, @E_MESSAGE_POPOVER_FLAG_WARNING and
+ * @E_MESSAGE_POPOVER_FLAG_ERROR should be set, otherwise the first one, in this
+ * order, is used.
+ *
+ * Since: 3.60
+ **/
+typedef enum _EMessagePopoverFlags { /*< flags >*/
+	E_MESSAGE_POPOVER_FLAG_NONE		= 0,
+	E_MESSAGE_POPOVER_FLAG_INFO		= (1 << 0),
+	E_MESSAGE_POPOVER_FLAG_WARNING		= (1 << 1),
+	E_MESSAGE_POPOVER_FLAG_ERROR		= (1 << 2),
+	E_MESSAGE_POPOVER_FLAG_HIGHLIGHT_POPOVER = (1 << 3),
+	E_MESSAGE_POPOVER_FLAG_HIGHLIGHT_WIDGET	= (1 << 4)
+} EMessagePopoverFlags;
+
 G_END_DECLS
 
 #endif /* E_UTIL_ENUMS_H */

@@ -18,6 +18,7 @@ add_dependencies(eabutil
 
 target_compile_definitions(eabutil PRIVATE
 	-DG_LOG_DOMAIN=\"eabutil\"
+	-DEVOLUTION_PRIVDATADIR=\"${privdatadir}\"
 )
 
 target_compile_options(eabutil PUBLIC

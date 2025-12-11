@@ -157,7 +157,7 @@ merge_cb (GObject *source_object,
 
 		eab_merging_book_add_contact (
 			registry, E_BOOK_CLIENT (client),
-			qa->contact, NULL, NULL, FALSE);
+			qa->contact, NULL, NULL, NULL, FALSE);
 
 		g_object_unref (registry);
 	} else {
@@ -211,7 +211,7 @@ ce_have_contact (EBookClient *book_client,
 		quick_add_unref (qa);
 	} else {
 		EShell *shell;
-		EABEditor *contact_editor;
+		GObject *editor;
 
 		if (contact) {
 			/* use found contact */
@@ -221,13 +221,12 @@ ce_have_contact (EBookClient *book_client,
 		}
 
 		shell = e_shell_get_default ();
-		contact_editor = e_contact_editor_new (
-			shell, book_client, qa->contact, TRUE, TRUE /* XXX */);
+		editor = e_contact_editor_util_show_for_contact (e_shell_get_active_window (shell),
+			shell, book_client, qa->contact, TRUE, TRUE);
 
 		/* Mark it as changed so the Save buttons are
 		 * enabled when we bring up the dialog. */
-		g_object_set (
-			contact_editor, "changed", contact != NULL, NULL);
+		g_object_set (editor, "changed", contact != NULL, NULL);
 
 		g_object_unref (book_client);
 	}
@@ -274,7 +273,7 @@ ce_have_book (GObject *source_object,
 
 	eab_merging_book_find_contact (
 		registry, E_BOOK_CLIENT (client),
-		qa->contact, ce_have_contact, qa);
+		qa->contact, NULL, ce_have_contact, qa);
 
 	g_object_unref (registry);
 }

@@ -174,6 +174,7 @@ set(SOURCES
 	e-marshal.c
 	e-menu-bar.c
 	e-menu-tool-button.c
+	e-message-popover.c
 	e-misc-utils.c
 	e-mktemp.c
 	e-month-widget.c
@@ -454,6 +455,7 @@ set(HEADERS
 	e-markdown-utils.h
 	e-menu-bar.h
 	e-menu-tool-button.h
+	e-message-popover.h
 	e-misc-utils.h
 	e-mktemp.h
 	e-month-widget.h

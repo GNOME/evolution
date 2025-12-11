@@ -75,5 +75,8 @@ gboolean	e_image_chooser_set_image_data	(EImageChooser *chooser,
 gboolean	e_image_chooser_get_image_data	(EImageChooser *chooser,
 						 gchar **data,
 						 gsize *data_length);
+void		e_image_chooser_unset_image	(EImageChooser *chooser);
+gboolean	e_image_chooser_has_image	(EImageChooser *chooser);
+guint		e_image_chooser_get_pixel_size	(EImageChooser *chooser);
 
 #endif /* E_IMAGE_CHOOSER_H */

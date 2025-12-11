@@ -45,6 +45,7 @@ typedef void	(*EABMergingContactAsyncCallback)
 gboolean	eab_merging_book_add_contact	(ESourceRegistry *registry,
 						 EBookClient *book_client,
 						 EContact *contact,
+						 GCancellable *cancellable,
 						 EABMergingIdAsyncCallback cb,
 						 gpointer closure,
 						 gboolean can_add_copy);
@@ -52,12 +53,14 @@ gboolean	eab_merging_book_add_contact	(ESourceRegistry *registry,
 gboolean	eab_merging_book_modify_contact	(ESourceRegistry *registry,
 						 EBookClient *book_client,
 						 EContact *contact,
+						 GCancellable *cancellable,
 						 EABMergingAsyncCallback cb,
 						 gpointer closure);
 
 gboolean	eab_merging_book_find_contact	(ESourceRegistry *registry,
 						 EBookClient *book_client,
 						 EContact *contact,
+						 GCancellable *cancellable,
 						 EABMergingContactAsyncCallback cb,
 						 gpointer closure);
 

@@ -158,6 +158,7 @@ addressbook_selector_merge_next_cb (EBookClient *book_client,
 			merge_context->registry,
 			merge_context->target_client,
 			merge_context->current_contact,
+			NULL,
 			addressbook_selector_merge_next_cb, merge_context, FALSE);
 
 	} else if (merge_context->pending_removals == 0) {
@@ -486,6 +487,7 @@ target_client_connect_cb (GObject *source_object,
 		merge_context->registry,
 		merge_context->target_client,
 		merge_context->current_contact,
+		NULL,
 		addressbook_selector_merge_next_cb, merge_context, FALSE);
 }
 

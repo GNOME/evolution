@@ -88,7 +88,6 @@ book_shell_backend_new_contact_cb (GObject *source_object,
 	EBookClient *book_client;
 	EClient *client;
 	EContact *contact;
-	EABEditor *editor;
 	GError *error = NULL;
 
 	client = e_client_cache_get_client_finish (
@@ -109,10 +108,7 @@ book_shell_backend_new_contact_cb (GObject *source_object,
 	book_client = E_BOOK_CLIENT (client);
 	contact = eab_new_contact_for_book (book_client);
 
-	editor = e_contact_editor_new (e_shell_window_get_shell (shell_window), book_client, contact, TRUE, TRUE);
-	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));
-
-	eab_editor_show (editor);
+	e_contact_editor_util_show_for_contact (GTK_WINDOW (shell_window), e_shell_window_get_shell (shell_window), book_client, contact, TRUE, TRUE);
 
 	g_object_unref (contact);
 	g_object_unref (client);

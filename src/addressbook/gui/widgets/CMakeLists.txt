@@ -74,7 +74,6 @@ target_compile_definitions(eabwidgets PRIVATE
 	-DG_LOG_DOMAIN=\"eabwidgets\"
 	-DEVOLUTION_ETSPECDIR=\"${etspecdir}\"
 	-DEVOLUTION_IMAGESDIR=\"${imagesdir}\"
-	-DEVOLUTION_PRIVDATADIR=\"${privdatadir}\"
 )
 
 target_compile_options(eabwidgets PUBLIC

@@ -50,14 +50,13 @@ contact_editor_fudge_new (EBookClient *book_client,
                           gboolean is_new,
                           gboolean editable)
 {
-	EABEditor *editor;
+	GObject *editor;
 	EShell *shell = e_shell_get_default ();
 
 	/* XXX Putting this function signature in libedataserverui
 	 *     was a terrible idea.  Now we're stuck with it. */
 
-	editor = e_contact_editor_new (shell, book_client, contact, is_new, editable);
-	eab_editor_show (editor);
+	editor = e_contact_editor_util_show_for_contact (NULL, shell, book_client, contact, is_new, editable);
 
 	return editor;
 }

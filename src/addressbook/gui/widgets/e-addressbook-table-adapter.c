@@ -213,7 +213,7 @@ addressbook_append_row (ETableModel *etm,
 	registry = e_client_cache_ref_registry (client_cache);
 
 	eab_merging_book_add_contact (
-		registry, book_client, contact, NULL, NULL, FALSE);
+		registry, book_client, contact, NULL, NULL, NULL, FALSE);
 
 	g_object_unref (registry);
 
@@ -357,7 +357,7 @@ addressbook_set_value_at (ETableModel *etc,
 		e_contact_set (contact, col, (gpointer) val);
 		eab_merging_book_modify_contact (
 			registry, book_client,
-			contact, contact_modified_cb, etc);
+			contact, NULL, contact_modified_cb, etc);
 
 		g_object_unref (registry);
 

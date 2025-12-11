@@ -53,9 +53,6 @@ ESource *	eab_select_source		(ESourceRegistry *registry,
 						 const gchar *message,
 						 const gchar *select_uid,
 						 GtkWindow *parent);
-
-gchar *		eab_format_address		(EContact *contact,
-						 EContactField address_type);
 gboolean	eab_fullname_matches_nickname	(EContact *contact);
 
 G_END_DECLS

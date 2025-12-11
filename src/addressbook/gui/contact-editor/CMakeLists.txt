@@ -5,6 +5,7 @@ install(FILES	contact-editor.ui
 
 set(DEPENDENCIES
 	eabwidgets
+	evcardeditor
 	evolution-shell
 	evolution-util
 )

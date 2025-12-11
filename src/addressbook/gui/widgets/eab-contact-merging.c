@@ -57,6 +57,7 @@ typedef struct {
 	EBookClient *book_client;
 	/*contact is the new contact which the user has tried to add to the addressbook*/
 	EContact *contact;
+	GCancellable *cancellable;
 	/*match is the duplicate contact already existing in the addressbook*/
 	EContact *match;
 	GList *avoid;
@@ -165,6 +166,7 @@ free_lookup (EContactMergingLookup *lookup)
 	g_object_unref (lookup->registry);
 	g_object_unref (lookup->book_client);
 	g_object_unref (lookup->contact);
+	g_clear_object (&lookup->cancellable);
 	g_list_free (lookup->avoid);
 	if (lookup->match)
 		g_object_unref (lookup->match);
@@ -297,7 +299,7 @@ add_contact_ready_cb (GObject *source_object,
 			e_contact_set (lookup->contact, E_CONTACT_UID, new_uid);
 			g_free (new_uid);
 
-			e_book_client_add_contact (lookup->book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, NULL, add_contact_ready_cb, lookup);
+			e_book_client_add_contact (lookup->book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, lookup->cancellable, add_contact_ready_cb, lookup);
 		} else {
 			g_clear_error (&error);
 			final_id_cb (book_client, error, uid, lookup);
@@ -317,11 +319,11 @@ doit (EContactMergingLookup *lookup,
 {
 	if (lookup->op == E_CONTACT_MERGING_ADD) {
 		if (force_modify)
-			e_book_client_modify_contact (lookup->book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, NULL, modify_contact_ready_cb, lookup);
+			e_book_client_modify_contact (lookup->book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, lookup->cancellable, modify_contact_ready_cb, lookup);
 		else
-			e_book_client_add_contact (lookup->book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, NULL, add_contact_ready_cb, lookup);
+			e_book_client_add_contact (lookup->book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, lookup->cancellable, add_contact_ready_cb, lookup);
 	} else if (lookup->op == E_CONTACT_MERGING_COMMIT)
-		e_book_client_modify_contact (lookup->book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, NULL, modify_contact_ready_cb, lookup);
+		e_book_client_modify_contact (lookup->book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, lookup->cancellable, modify_contact_ready_cb, lookup);
 }
 
 static void
@@ -413,7 +415,7 @@ remove_contact_ready_cb (GObject *source_object,
 	}
 
 	e_book_client_add_contact (
-		book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, NULL,
+		book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, lookup->cancellable,
 		add_contact_ready_cb, lookup);
 }
 
@@ -764,7 +766,7 @@ mergeit (EContactMergingLookup *lookup,
 		lookup->contact = g_object_ref (lookup->match);
 		e_book_client_remove_contact (
 			lookup->book_client,
-			lookup->match, E_BOOK_OPERATION_FLAG_NONE, NULL,
+			lookup->match, E_BOOK_OPERATION_FLAG_NONE, lookup->cancellable,
 			remove_contact_ready_cb, lookup);
 		value = 1;
 		break;
@@ -1122,6 +1124,7 @@ gboolean
 eab_merging_book_add_contact (ESourceRegistry *registry,
                               EBookClient *book_client,
                               EContact *contact,
+			      GCancellable *cancellable,
                               EABMergingIdAsyncCallback cb,
                               gpointer closure,
 			      gboolean can_add_copy)
@@ -1136,6 +1139,7 @@ eab_merging_book_add_contact (ESourceRegistry *registry,
 	lookup->registry = g_object_ref (registry);
 	lookup->book_client = g_object_ref (book_client);
 	lookup->contact = g_object_ref (contact);
+	lookup->cancellable = cancellable ? g_object_ref (cancellable) : NULL;
 	lookup->id_cb = cb;
 	lookup->closure = closure;
 	lookup->avoid = NULL;
@@ -1151,6 +1155,7 @@ gboolean
 eab_merging_book_modify_contact (ESourceRegistry *registry,
                                  EBookClient *book_client,
                                  EContact *contact,
+				 GCancellable *cancellable,
                                  EABMergingAsyncCallback cb,
                                  gpointer closure)
 {
@@ -1164,6 +1169,7 @@ eab_merging_book_modify_contact (ESourceRegistry *registry,
 	lookup->registry = g_object_ref (registry);
 	lookup->book_client = g_object_ref (book_client);
 	lookup->contact = g_object_ref (contact);
+	lookup->cancellable = cancellable ? g_object_ref (cancellable) : NULL;
 	lookup->cb = cb;
 	lookup->closure = closure;
 	lookup->avoid = g_list_append (NULL, contact);
@@ -1178,6 +1184,7 @@ gboolean
 eab_merging_book_find_contact (ESourceRegistry *registry,
                                EBookClient *book_client,
                                EContact *contact,
+			       GCancellable *cancellable,
                                EABMergingContactAsyncCallback cb,
                                gpointer closure)
 {
@@ -1189,6 +1196,7 @@ eab_merging_book_find_contact (ESourceRegistry *registry,
 	lookup->registry = g_object_ref (registry);
 	lookup->book_client = g_object_ref (book_client);
 	lookup->contact = g_object_ref (contact);
+	lookup->cancellable = cancellable ? g_object_ref (cancellable) : NULL;
 	lookup->c_cb = cb;
 	lookup->closure = closure;
 	lookup->avoid = g_list_append (NULL, contact);

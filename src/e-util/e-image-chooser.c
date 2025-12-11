@@ -30,21 +30,24 @@
 #include "e-icon-factory.h"
 
 struct _EImageChooserPrivate {
-	GtkWidget *frame;
 	GtkWidget *image;
 
 	gchar *image_buf;
 	gint image_buf_size;
-	gint image_width;
-	gint image_height;
 
 	/* Default Image */
 	gchar *icon_name;
+
+	gboolean has_image;
+	guint pixel_size;
 };
 
 enum {
 	PROP_0,
-	PROP_ICON_NAME
+	PROP_ICON_NAME,
+	PROP_HAS_IMAGE,
+	PROP_PIXEL_SIZE,
+	N_PROPS
 };
 
 enum {
@@ -52,6 +55,7 @@ enum {
 	LAST_SIGNAL
 };
 
+static GParamSpec *properties[N_PROPS] = { NULL, };
 static guint signals[LAST_SIGNAL];
 
 #define URI_LIST_TYPE "text/uri-list"
@@ -85,37 +89,42 @@ set_image_from_data (EImageChooser *chooser,
 	new_height = gdk_pixbuf_get_height (pixbuf);
 	new_width = gdk_pixbuf_get_width (pixbuf);
 
-	if (chooser->priv->image_height == 0 ||
-	    chooser->priv->image_width == 0) {
+	if (chooser->priv->pixel_size == 0) {
+		gint width, height = 64;
+
+		gtk_icon_size_lookup (GTK_ICON_SIZE_DIALOG, &width, &height);
+
+		chooser->priv->pixel_size = height;
+	}
+
+	if (chooser->priv->pixel_size == new_height &&
+	    chooser->priv->pixel_size == new_width) {
 		scale = 1.0;
-	} else if (chooser->priv->image_height < new_height
-		 || chooser->priv->image_width < new_width) {
+	} else if (chooser->priv->pixel_size < new_height ||
+		   chooser->priv->pixel_size < new_width) {
 		/* we need to scale down */
 		if (new_height > new_width)
-			scale = (gfloat) chooser->priv->image_height / new_height;
+			scale = (gfloat) chooser->priv->pixel_size / new_height;
 		else
-			scale = (gfloat) chooser->priv->image_width / new_width;
+			scale = (gfloat) chooser->priv->pixel_size / new_width;
 	} else {
 		/* we need to scale up */
 		if (new_height > new_width)
-			scale = (gfloat) new_height / chooser->priv->image_height;
+			scale = (gfloat) new_height / chooser->priv->pixel_size;
 		else
-			scale = (gfloat) new_width / chooser->priv->image_width;
+			scale = (gfloat) new_width / chooser->priv->pixel_size;
 	}
 
 	if (scale == 1.0) {
-		gtk_image_set_from_pixbuf (
-			GTK_IMAGE (chooser->priv->image), pixbuf);
-		chooser->priv->image_width = new_width;
-		chooser->priv->image_height = new_height;
+		gtk_image_set_from_pixbuf (GTK_IMAGE (chooser->priv->image), pixbuf);
 	} else {
 		GdkPixbuf *scaled;
 		GdkPixbuf *composite;
 
 		new_width *= scale;
 		new_height *= scale;
-		new_width = MIN (new_width, chooser->priv->image_width);
-		new_height = MIN (new_height, chooser->priv->image_height);
+		new_width = MIN (new_width, chooser->priv->pixel_size);
+		new_height = MIN (new_height, chooser->priv->pixel_size);
 
 		scaled = gdk_pixbuf_scale_simple (
 			pixbuf, new_width, new_height,
@@ -124,16 +133,16 @@ set_image_from_data (EImageChooser *chooser,
 		composite = gdk_pixbuf_new (
 			GDK_COLORSPACE_RGB, TRUE,
 			gdk_pixbuf_get_bits_per_sample (pixbuf),
-			chooser->priv->image_width,
-			chooser->priv->image_height);
+			chooser->priv->pixel_size,
+			chooser->priv->pixel_size);
 
 		gdk_pixbuf_fill (composite, 0x00000000);
 
 		gdk_pixbuf_copy_area (
 			scaled, 0, 0, new_width, new_height,
 			composite,
-			chooser->priv->image_width / 2 - new_width / 2,
-			chooser->priv->image_height / 2 - new_height / 2);
+			chooser->priv->pixel_size / 2 - new_width / 2,
+			chooser->priv->pixel_size / 2 - new_height / 2);
 
 		gtk_image_set_from_pixbuf (
 			GTK_IMAGE (chooser->priv->image), composite);
@@ -161,10 +170,8 @@ image_drag_motion_cb (GtkWidget *widget,
                       guint time,
                       EImageChooser *chooser)
 {
-	GtkFrame *frame;
 	GList *targets, *p;
 
-	frame = GTK_FRAME (chooser->priv->frame);
 	targets = gdk_drag_context_list_targets (context);
 
 	for (p = targets; p != NULL; p = p->next) {
@@ -174,14 +181,11 @@ image_drag_motion_cb (GtkWidget *widget,
 		if (!strcmp (possible_type, URI_LIST_TYPE)) {
 			g_free (possible_type);
 			gdk_drag_status (context, GDK_ACTION_COPY, time);
-			gtk_frame_set_shadow_type (frame, GTK_SHADOW_IN);
 			return TRUE;
 		}
 
 		g_free (possible_type);
 	}
-
-	gtk_frame_set_shadow_type (frame, GTK_SHADOW_NONE);
 
 	return FALSE;
 }
@@ -192,10 +196,6 @@ image_drag_leave_cb (GtkWidget *widget,
                      guint time,
                      EImageChooser *chooser)
 {
-	GtkFrame *frame;
-
-	frame = GTK_FRAME (chooser->priv->frame);
-	gtk_frame_set_shadow_type (frame, GTK_SHADOW_NONE);
 }
 
 static gboolean
@@ -206,16 +206,12 @@ image_drag_drop_cb (GtkWidget *widget,
                     guint time,
                     EImageChooser *chooser)
 {
-	GtkFrame *frame;
 	GList *targets, *p;
 
-	frame = GTK_FRAME (chooser->priv->frame);
 	targets = gdk_drag_context_list_targets (context);
 
-	if (targets == NULL) {
-		gtk_frame_set_shadow_type (frame, GTK_SHADOW_NONE);
+	if (targets == NULL)
 		return FALSE;
-	}
 
 	for (p = targets; p != NULL; p = p->next) {
 		gchar *possible_type;
@@ -226,14 +222,11 @@ image_drag_drop_cb (GtkWidget *widget,
 			gtk_drag_get_data (
 				widget, context,
 				GDK_POINTER_TO_ATOM (p->data), time);
-			gtk_frame_set_shadow_type (frame, GTK_SHADOW_NONE);
 			return TRUE;
 		}
 
 		g_free (possible_type);
 	}
-
-	gtk_frame_set_shadow_type (frame, GTK_SHADOW_NONE);
 
 	return FALSE;
 }
@@ -307,17 +300,20 @@ image_chooser_set_icon_name (EImageChooser *chooser,
 	GtkIconTheme *icon_theme;
 	GtkIconInfo *icon_info;
 	const gchar *filename;
-	gint width, height;
 
-	g_return_if_fail (chooser->priv->icon_name == NULL);
-
-	chooser->priv->icon_name = g_strdup (icon_name);
+	if (g_strcmp0 (chooser->priv->icon_name, icon_name) != 0) {
+		g_free (chooser->priv->icon_name);
+		chooser->priv->icon_name = g_strdup (icon_name);
+	}
 
 	icon_theme = gtk_icon_theme_get_default ();
-	gtk_icon_size_lookup (GTK_ICON_SIZE_DIALOG, &width, &height);
+	if (chooser->priv->pixel_size == 0) {
+		gint width, height;
+		gtk_icon_size_lookup (GTK_ICON_SIZE_DIALOG, &width, &height);
+		chooser->priv->pixel_size = height;
+	}
 
-	icon_info = gtk_icon_theme_lookup_icon (
-		icon_theme, icon_name, height, 0);
+	icon_info = gtk_icon_theme_lookup_icon (icon_theme, icon_name, chooser->priv->pixel_size, 0);
 	g_return_if_fail (icon_info != NULL);
 
 	filename = gtk_icon_info_get_filename (icon_info);
@@ -337,6 +333,9 @@ image_chooser_set_property (GObject *object,
 				E_IMAGE_CHOOSER (object),
 				g_value_get_string (value));
 			return;
+		case PROP_PIXEL_SIZE:
+			E_IMAGE_CHOOSER (object)->priv->pixel_size = g_value_get_uint (value);
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -355,6 +354,14 @@ image_chooser_get_property (GObject *object,
 				e_image_chooser_get_icon_name (
 				E_IMAGE_CHOOSER (object)));
 			return;
+		case PROP_HAS_IMAGE:
+			g_value_set_boolean (value,
+				e_image_chooser_has_image (E_IMAGE_CHOOSER (object)));
+			return;
+		case PROP_PIXEL_SIZE:
+			g_value_set_uint (value,
+				e_image_chooser_get_pixel_size (E_IMAGE_CHOOSER (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -365,7 +372,6 @@ image_chooser_dispose (GObject *object)
 {
 	EImageChooser *self = E_IMAGE_CHOOSER (object);
 
-	g_clear_object (&self->priv->frame);
 	g_clear_object (&self->priv->image);
 
 	/* Chain up to parent's dispose() method. */
@@ -395,16 +401,21 @@ e_image_chooser_class_init (EImageChooserClass *class)
 	object_class->dispose = image_chooser_dispose;
 	object_class->finalize = image_chooser_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ICON_NAME,
-		g_param_spec_string (
-			"icon-name",
-			"Icon Name",
-			NULL,
-			"avatar-default",
+	properties[PROP_ICON_NAME] = g_param_spec_string ("icon-name", NULL, NULL, "avatar-default",
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS);
+
+	properties[PROP_HAS_IMAGE] = g_param_spec_boolean ("has-image", NULL, NULL, FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS |
+			G_PARAM_EXPLICIT_NOTIFY);
+
+	properties[PROP_PIXEL_SIZE] = g_param_spec_uint ("pixel-size", NULL, NULL, 0, G_MAXUINT, 48,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY);
+
+	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
@@ -421,25 +432,21 @@ e_image_chooser_init (EImageChooser *chooser)
 {
 	GtkWidget *container;
 	GtkWidget *widget;
+	gint width, height;
 
 	chooser->priv = e_image_chooser_get_instance_private (chooser);
+
+	gtk_icon_size_lookup (GTK_ICON_SIZE_DIALOG, &width, &height);
+	chooser->priv->pixel_size = height;
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (chooser), GTK_ORIENTATION_VERTICAL);
 
 	container = GTK_WIDGET (chooser);
 
-	widget = gtk_frame_new ("");
-	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	chooser->priv->frame = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
 	widget = gtk_image_new ();
-	gtk_widget_set_halign (widget, GTK_ALIGN_START);
-	gtk_widget_set_valign (widget, GTK_ALIGN_START);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_set_halign (widget, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	chooser->priv->image = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -494,6 +501,11 @@ e_image_chooser_set_from_file (EImageChooser *chooser,
 	if (!set_image_from_data (chooser, data, data_length))
 		g_free (data);
 
+	if (!chooser->priv->has_image) {
+		chooser->priv->has_image = TRUE;
+		g_object_notify_by_pspec (G_OBJECT (chooser), properties[PROP_HAS_IMAGE]);
+	}
+
 	return TRUE;
 }
 
@@ -532,5 +544,39 @@ e_image_chooser_set_image_data (EImageChooser *chooser,
 		return FALSE;
 	}
 
+	if (!chooser->priv->has_image) {
+		chooser->priv->has_image = TRUE;
+		g_object_notify_by_pspec (G_OBJECT (chooser), properties[PROP_HAS_IMAGE]);
+	}
+
 	return TRUE;
+}
+
+void
+e_image_chooser_unset_image (EImageChooser *chooser)
+{
+	g_return_if_fail (E_IS_IMAGE_CHOOSER (chooser));
+
+	image_chooser_set_icon_name (chooser, chooser->priv->icon_name);
+
+	if (chooser->priv->has_image) {
+		chooser->priv->has_image = FALSE;
+		g_object_notify_by_pspec (G_OBJECT (chooser), properties[PROP_HAS_IMAGE]);
+	}
+}
+
+gboolean
+e_image_chooser_has_image (EImageChooser *chooser)
+{
+	g_return_val_if_fail (E_IS_IMAGE_CHOOSER (chooser), FALSE);
+
+	return chooser->priv->has_image;
+}
+
+guint
+e_image_chooser_get_pixel_size (EImageChooser *chooser)
+{
+	g_return_val_if_fail (E_IS_IMAGE_CHOOSER (chooser), 0);
+
+	return chooser->priv->pixel_size;
 }

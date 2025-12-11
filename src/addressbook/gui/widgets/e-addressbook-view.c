@@ -1107,7 +1107,7 @@ addressbook_view_paste_clipboard (ESelectable *selectable)
 		EContact *contact = iter->data;
 
 		eab_merging_book_add_contact (
-			registry, book_client, contact, NULL, NULL, TRUE);
+			registry, book_client, contact, NULL, NULL, NULL, TRUE);
 	}
 
 	g_object_unref (registry);

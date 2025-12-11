@@ -430,7 +430,6 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 	EClient *client;
 	EClientCache *client_cache;
 	EContact *contact;
-	EABEditor *editor;
 	GError *error = NULL;
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
@@ -471,11 +470,8 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 		return;
 	}
 
-	editor = e_contact_editor_new (
-		shell, E_BOOK_CLIENT (client), contact, FALSE, TRUE);
-	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (window));
+	e_contact_editor_util_show_for_contact (GTK_WINDOW (window), shell, E_BOOK_CLIENT (client), contact, FALSE, TRUE);
 
-	eab_editor_show (editor);
 	g_object_unref (client);
 }
 #endif
@@ -943,7 +939,6 @@ action_contact_new_cb (EUIAction *action,
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	EContact *contact;
-	EABEditor *editor;
 	EBookClient *book;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
@@ -958,9 +953,9 @@ action_contact_new_cb (EUIAction *action,
 	g_return_if_fail (book != NULL);
 
 	contact = eab_new_contact_for_book (book);
-	editor = e_contact_editor_new (shell, book, contact, TRUE, TRUE);
-	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));
-	eab_editor_show (editor);
+
+	e_contact_editor_util_show_for_contact (GTK_WINDOW (shell_window), shell, book, contact, TRUE, TRUE);
+
 	g_object_unref (contact);
 }
 

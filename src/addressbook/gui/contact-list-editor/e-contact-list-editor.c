@@ -1217,7 +1217,7 @@ contact_editor_fudge_new (EBookClient *book_client,
                           gboolean is_new,
                           gboolean editable)
 {
-	EABEditor *editor;
+	GObject *editor;
 	EShell *shell = e_shell_get_default ();
 	GtkWindow *parent;
 
@@ -1225,10 +1225,7 @@ contact_editor_fudge_new (EBookClient *book_client,
 	 *     was a terrible idea.  Now we're stuck with it. */
 
 	parent = e_shell_get_active_window (shell);
-	editor = e_contact_editor_new (shell, book_client, contact, is_new, editable);
-	if (parent)
-		gtk_window_set_transient_for (eab_editor_get_window (editor), parent);
-	eab_editor_show (editor);
+	editor = e_contact_editor_util_show_for_contact (parent, shell, book_client, contact, is_new, editable);
 
 	return editor;
 }
@@ -1569,11 +1566,11 @@ contact_list_editor_save_contact (EABEditor *eab_editor,
 
 	if (priv->is_new_list)
 		eab_merging_book_add_contact (
-			registry, priv->book_client, contact,
+			registry, priv->book_client, contact, NULL,
 			contact_list_editor_list_added_cb, ecs, FALSE);
 	else
 		eab_merging_book_modify_contact (
-			registry, priv->book_client, contact,
+			registry, priv->book_client, contact, NULL,
 			contact_list_editor_list_modified_cb, ecs);
 
 	priv->changed = FALSE;

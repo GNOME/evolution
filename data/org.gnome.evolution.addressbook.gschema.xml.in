@@ -135,5 +135,11 @@
       <_summary>Preview Personal before Work information</_summary>
       <_description>Show the Personal information before the Work information in the contact preview</_description>
     </key>
+    <key type="b" name="use-old-contact-editor">
+      <default>false</default>
+      <_summary>Whether to use an old contact editor</_summary>
+      <_description>The option can let choose whether an old or a new contact editor will be used in the application</_description>
+    </key>
+    <child name="vcard-editor-window" schema="org.gnome.evolution.window"/>
   </schema>
 </schemalist>

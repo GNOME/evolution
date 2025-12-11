@@ -37,6 +37,11 @@ src/addressbook/gui/contact-editor/e-contact-quick-add.c
 [type: gettext/glade]src/addressbook/gui/contact-editor/fullname.ui
 [type: gettext/glade]src/addressbook/gui/contact-list-editor/contact-list-editor.ui
 src/addressbook/gui/contact-list-editor/e-contact-list-editor.c
+src/addressbook/gui/vcard-editor/e-vcard-editor.c
+src/addressbook/gui/vcard-editor/e-vcard-editor-address.c
+src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c
+src/addressbook/gui/vcard-editor/e-vcard-editor-item.c
+src/addressbook/gui/vcard-editor/e-vcard-editor-section.c
 src/addressbook/gui/widgets/addresstypes.xml
 src/addressbook/gui/widgets/ea-addressbook-view.c
 src/addressbook/gui/widgets/eab-contact-display.c

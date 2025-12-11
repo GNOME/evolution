@@ -95,7 +95,6 @@ open_contact (EBookShellView *book_shell_view,
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EABEditor *editor;
 	EBookClient *book;
 	gboolean editable;
 
@@ -106,16 +105,17 @@ open_contact (EBookShellView *book_shell_view,
 	book = e_addressbook_view_get_client (view);
 	editable = e_addressbook_view_get_editable (view);
 
-	if (e_contact_get (contact, E_CONTACT_IS_LIST))
+	if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
+		EABEditor *editor;
+
 		editor = e_contact_list_editor_new (
 			shell, book, contact, is_new_contact, editable);
-	else
-		editor = e_contact_editor_new (
-			shell, book, contact, is_new_contact, editable);
+		gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));
 
-	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));
-
-	eab_editor_show (editor);
+		eab_editor_show (editor);
+	} else {
+		e_contact_editor_util_show_for_contact (GTK_WINDOW (shell_window), shell, book, contact, is_new_contact, editable);
+	}
 }
 
 static void

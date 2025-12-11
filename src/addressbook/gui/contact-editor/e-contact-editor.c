@@ -40,6 +40,7 @@
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
+#include "addressbook/gui/vcard-editor/e-vcard-editor.h"
 #include "addressbook/util/eab-book-util.h"
 
 #include "eab-contact-merging.h"
@@ -2243,66 +2244,20 @@ fill_in_address (EContactEditor *editor)
 		fill_in_address_record (editor, i);
 }
 
-static gchar *
-append_to_address_label (gchar *address_label,
-                         const gchar *part,
-                         gboolean newline)
-{
-	gchar *new_address_label;
-
-	if (STRING_IS_EMPTY (part))
-		return address_label;
-
-	if (address_label)
-		new_address_label = g_strjoin (
-			newline ? "\n" : ", ",
-			address_label, part, NULL);
-	else
-		new_address_label = g_strdup (part);
-
-	g_free (address_label);
-	return new_address_label;
-}
-
 static void
 set_address_label (EContact *contact,
                    EContactField label_field,
                    EContactField address_field,
                    EContactAddress *address)
 {
-	gchar *address_label = NULL;
-	gboolean format_address;
-	GSettings *settings;
+	gchar *address_label;
 
 	if (!address) {
 		e_contact_set (contact, label_field, NULL);
 		return;
 	}
 
-	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
-	format_address = g_settings_get_boolean (settings, "address-formatting");
-	g_object_unref (settings);
-
-	if (format_address)
-		address_label = eab_format_address (contact, address_field);
-
-	if (!format_address || !address_label) {
-		address_label = append_to_address_label (
-			address_label, address->street, TRUE);
-		address_label = append_to_address_label (
-			address_label, address->ext, TRUE);
-		address_label = append_to_address_label (
-			address_label, address->locality, TRUE);
-		address_label = append_to_address_label (
-			address_label, address->region, FALSE);
-		address_label = append_to_address_label (
-			address_label, address->code, TRUE);
-		address_label = append_to_address_label (
-			address_label, address->po, TRUE);
-		address_label = append_to_address_label (
-			address_label, address->country, TRUE);
-	}
-
+	address_label = eab_format_address_label (address, address_field, e_contact_get_const (contact, E_CONTACT_ORG));
 	e_contact_set (contact, label_field, address_label);
 	g_free (address_label);
 }
@@ -4682,16 +4637,16 @@ real_save_contact (EContactEditor *ce,
 		/* Two-step move; add to target, then remove from source */
 		eab_merging_book_add_contact (
 			registry, ce->priv->target_client,
-			ce->priv->contact, contact_added_cb, ecs, FALSE);
+			ce->priv->contact, NULL, contact_added_cb, ecs, FALSE);
 	} else {
 		if (ce->priv->is_new_contact)
 			eab_merging_book_add_contact (
 				registry, ce->priv->target_client,
-				ce->priv->contact, contact_added_cb, ecs, FALSE);
+				ce->priv->contact, NULL, contact_added_cb, ecs, FALSE);
 		else if (ce->priv->check_merge)
 			eab_merging_book_modify_contact (
 				registry, ce->priv->target_client,
-				ce->priv->contact, contact_modified_cb, ecs);
+				ce->priv->contact, NULL, contact_modified_cb, ecs);
 		else
 			e_book_client_modify_contact (
 				ce->priv->target_client, ce->priv->contact, E_BOOK_OPERATION_FLAG_NONE, NULL,
@@ -5880,4 +5835,72 @@ e_contact_editor_show (EABEditor *editor)
 {
 	EContactEditor *ce = E_CONTACT_EDITOR (editor);
 	gtk_widget_show (ce->priv->app);
+}
+
+GObject *
+e_contact_editor_util_show_for_contact (GtkWindow *parent,
+					EShell *shell,
+					EBookClient *book_client,
+					EContact *contact,
+					gboolean is_new_contact,
+					gboolean editable)
+{
+	GSettings *settings;
+	GObject *result;
+	gboolean use_old;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_val_if_fail (E_IS_BOOK_CLIENT (book_client), NULL);
+	g_return_val_if_fail (E_IS_CONTACT (contact), NULL);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
+	use_old = g_settings_get_boolean (settings, "use-old-contact-editor");
+	g_clear_object (&settings);
+
+	if (use_old) {
+		EABEditor *editor;
+
+		editor = e_contact_editor_new (shell, book_client, contact, is_new_contact, editable);
+		if (parent)
+			gtk_window_set_transient_for (eab_editor_get_window (editor), parent);
+
+		eab_editor_show (editor);
+
+		result = G_OBJECT (editor);
+	} else {
+		EVCardEditor *editor = NULL;
+		EVCardEditorFlags flags = E_VCARD_EDITOR_FLAG_NONE;
+
+		if (is_new_contact) {
+			flags |= E_VCARD_EDITOR_FLAG_IS_NEW;
+		} else {
+			GList *windows, *link;
+
+			windows = gtk_application_get_windows (GTK_APPLICATION (shell));
+
+			for (link = windows; link; link = g_list_next (link)) {
+				GtkWindow *window = link->data;
+
+				if (E_IS_VCARD_EDITOR (window)) {
+					EVCardEditor *existing = E_VCARD_EDITOR (window);
+
+					if (e_vcard_editor_get_source_client (existing) == book_client &&
+					    g_strcmp0 (e_contact_get_const (e_vcard_editor_get_contact (existing), E_CONTACT_UID),
+						       e_contact_get_const (contact, E_CONTACT_UID)) == 0) {
+						editor = existing;
+						break;
+					}
+				}
+			}
+		}
+
+		if (!editor)
+			editor = e_vcard_editor_new (parent, shell, book_client, contact, flags);
+
+		gtk_window_present (GTK_WINDOW (editor));
+
+		result = G_OBJECT (editor);
+	}
+
+	return result;
 }

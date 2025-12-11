@@ -157,6 +157,7 @@
 #include <e-util/e-markdown-utils.h>
 #include <e-util/e-menu-bar.h>
 #include <e-util/e-menu-tool-button.h>
+#include <e-util/e-message-popover.h>
 #include <e-util/e-misc-utils.h>
 #include <e-util/e-mktemp.h>
 #include <e-util/e-month-widget.h>

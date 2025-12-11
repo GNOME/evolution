@@ -8,7 +8,7 @@
 #include <glib/gi18n-lib.h>
 #include <libebook/libebook.h>
 
-#include "addressbook/gui/widgets/eab-gui-util.h"
+#include "addressbook/util/eab-book-util.h"
 #include "e-util/e-util.h"
 
 #include "e-bulk-edit-contacts.h"

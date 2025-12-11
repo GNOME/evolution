@@ -85,6 +85,11 @@ gboolean	eab_parse_qp_email		(const gchar *string,
 gchar *		eab_parse_qp_email_to_html	(const gchar *string);
 
 EContact *	eab_new_contact_for_book	(EBookClient *book_client);
+gchar *		eab_format_address		(EContact *contact,
+						 EContactField address_type);
+gchar *		eab_format_address_label	(const EContactAddress *addr,
+						 EContactField address_type,
+						 const gchar *organization);
 
 G_END_DECLS
 

@@ -65,6 +65,14 @@ EABEditor	*e_contact_editor_new		(EShell *shell,
 						 gboolean is_new_contact,
 						 gboolean editable);
 
+GObject *	e_contact_editor_util_show_for_contact
+						(GtkWindow *parent,
+						 EShell *shell,
+						 EBookClient *book_client,
+						 EContact *contact,
+						 gboolean is_new_contact,
+						 gboolean editable);
+
 G_END_DECLS
 
 #endif /* __E_CONTACT_EDITOR_H__ */
