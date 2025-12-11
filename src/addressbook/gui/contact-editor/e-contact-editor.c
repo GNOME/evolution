@@ -4788,7 +4788,7 @@ e_contact_editor_close (EABEditor *editor)
 	if (ce->priv->app != NULL) {
 		gtk_widget_destroy (ce->priv->app);
 		ce->priv->app = NULL;
-		eab_editor_closed (editor);
+		eab_editor_emit_closed (editor);
 	}
 }
 

@@ -85,7 +85,6 @@ gboolean	e_contact_list_editor_get_editable
 void		e_contact_list_editor_set_editable
 						(EContactListEditor *editor,
 						 gboolean editable);
-gboolean	e_contact_list_editor_request_close_all (void);
 
 G_END_DECLS
 

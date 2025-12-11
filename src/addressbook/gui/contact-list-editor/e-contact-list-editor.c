@@ -1511,7 +1511,7 @@ static void
 contact_list_editor_close (EABEditor *editor)
 {
 	gtk_widget_destroy (WIDGET (DIALOG));
-	eab_editor_closed (editor);
+	eab_editor_emit_closed (editor);
 }
 
 static void

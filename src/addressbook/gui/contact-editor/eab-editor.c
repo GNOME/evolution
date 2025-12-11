@@ -42,7 +42,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static GSList *all_editors;
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (EABEditor, eab_editor, G_TYPE_OBJECT)
@@ -130,15 +129,6 @@ eab_editor_dispose (GObject *object)
 }
 
 static void
-eab_editor_finalize (GObject *object)
-{
-	all_editors = g_slist_remove (all_editors, object);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (eab_editor_parent_class)->finalize (object);
-}
-
-static void
 eab_editor_class_init (EABEditorClass *class)
 {
 	GObjectClass *object_class;
@@ -147,7 +137,6 @@ eab_editor_class_init (EABEditorClass *class)
 	object_class->set_property = eab_editor_set_property;
 	object_class->get_property = eab_editor_get_property;
 	object_class->dispose = eab_editor_dispose;
-	object_class->finalize = eab_editor_finalize;
 
 	g_object_class_install_property (
 		object_class,
@@ -174,8 +163,6 @@ static void
 eab_editor_init (EABEditor *editor)
 {
 	editor->priv = eab_editor_get_instance_private (editor);
-
-	all_editors = g_slist_prepend (all_editors, editor);
 }
 
 EShell *
@@ -184,12 +171,6 @@ eab_editor_get_shell (EABEditor *editor)
 	g_return_val_if_fail (EAB_IS_EDITOR (editor), NULL);
 
 	return E_SHELL (editor->priv->shell);
-}
-
-GSList *
-eab_editor_get_all_editors (void)
-{
-	return all_editors;
 }
 
 void
@@ -321,7 +302,7 @@ eab_editor_prompt_to_save_changes (EABEditor *editor,
 }
 
 void
-eab_editor_closed (EABEditor *editor)
+eab_editor_emit_closed (EABEditor *editor)
 {
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 

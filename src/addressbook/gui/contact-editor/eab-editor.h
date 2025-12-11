@@ -75,7 +75,6 @@ struct _EABEditorClass {
 
 GType		eab_editor_get_type		(void);
 EShell *	eab_editor_get_shell		(EABEditor *editor);
-GSList *	eab_editor_get_all_editors	(void);
 
 /* virtual functions */
 void		eab_editor_show			(EABEditor *editor);
@@ -94,8 +93,7 @@ gboolean	eab_editor_prompt_to_save_changes
 						(EABEditor *editor,
 						 GtkWindow *window);
 
-/* these four generate EABEditor signals */
-void		eab_editor_closed		(EABEditor *editor);
+void		eab_editor_emit_closed		(EABEditor *editor);
 
 G_END_DECLS
 
