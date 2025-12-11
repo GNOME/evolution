@@ -4112,6 +4112,8 @@ contact_editor_get_client_cb (GObject *source_object,
 
 				g_error_free (error);
 			} else {
+				g_clear_object (&editor->priv->cancellable);
+
 				/* FIXME Write a private contact_editor_set_target_client(). */
 				g_object_set (editor, "target_client", client, NULL);
 			}
@@ -5476,8 +5478,9 @@ supported_fields_cb (GObject *source_object,
                      GAsyncResult *result,
                      gpointer user_data)
 {
+	GWeakRef *weak_ref = user_data;
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
-	EContactEditor *ce = user_data;
+	EContactEditor *ce;
 	gchar *prop_value = NULL;
 	GSList *fields;
 	gboolean success;
@@ -5490,16 +5493,23 @@ supported_fields_cb (GObject *source_object,
 		prop_value = NULL;
 
 	if (error != NULL) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_clear_error (&error);
+			g_free (prop_value);
+			e_weak_ref_free (weak_ref);
+			return;
+		}
 		g_warning (
 			"%s: Failed to get supported fields: %s",
 			G_STRFUNC, error->message);
-		g_error_free (error);
+		g_clear_error (&error);
 	}
 
-	if (!g_slist_find (eab_editor_get_all_editors (), ce)) {
-		g_warning (
-			"supported_fields_cb called for book that's still "
-			"around, but contact editor that's been destroyed.");
+	ce = g_weak_ref_get (weak_ref);
+
+	e_weak_ref_free (weak_ref);
+
+	if (!ce) {
 		g_free (prop_value);
 		return;
 	}
@@ -5514,6 +5524,8 @@ supported_fields_cb (GObject *source_object,
 	eab_editor_show (EAB_EDITOR (ce));
 
 	sensitize_all (ce);
+
+	g_clear_object (&ce);
 }
 
 static void
@@ -5521,8 +5533,9 @@ required_fields_cb (GObject *source_object,
                     GAsyncResult *result,
                     gpointer user_data)
 {
+	GWeakRef *weak_ref = user_data;
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
-	EContactEditor *ce = user_data;
+	EContactEditor *ce;
 	gchar *prop_value = NULL;
 	GSList *fields;
 	gboolean success;
@@ -5535,16 +5548,23 @@ required_fields_cb (GObject *source_object,
 		prop_value = NULL;
 
 	if (error != NULL) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_clear_error (&error);
+			g_free (prop_value);
+			e_weak_ref_free (weak_ref);
+			return;
+		}
 		g_warning (
-			"%s: Failed to get supported fields: %s",
+			"%s: Failed to get required fields: %s",
 			G_STRFUNC, error->message);
 		g_error_free (error);
 	}
 
-	if (!g_slist_find (eab_editor_get_all_editors (), ce)) {
-		g_warning (
-			"supported_fields_cb called for book that's still "
-			"around, but contact editor that's been destroyed.");
+	ce = g_weak_ref_get (weak_ref);
+
+	e_weak_ref_free (weak_ref);
+
+	if (!ce) {
 		g_free (prop_value);
 		return;
 	}
@@ -5555,6 +5575,8 @@ required_fields_cb (GObject *source_object,
 
 	g_slist_free_full (fields, (GDestroyNotify) g_free);
 	g_free (prop_value);
+
+	g_clear_object (&ce);
 }
 
 EABEditor *
@@ -5635,6 +5657,10 @@ e_contact_editor_set_property (GObject *object,
 			editor->priv->target_client = editor->priv->source_client;
 			g_object_ref (editor->priv->target_client);
 
+			g_cancellable_cancel (editor->priv->cancellable);
+			g_clear_object (&editor->priv->cancellable);
+			editor->priv->cancellable = g_cancellable_new ();
+
 			editor->priv->target_editable_id = e_signal_connect_notify (
 				editor->priv->target_client, "notify::readonly",
 				G_CALLBACK (notify_readonly_cb), editor);
@@ -5642,12 +5668,12 @@ e_contact_editor_set_property (GObject *object,
 			e_client_get_backend_property (
 				E_CLIENT (editor->priv->target_client),
 				E_BOOK_BACKEND_PROPERTY_SUPPORTED_FIELDS,
-				NULL, supported_fields_cb, editor);
+				editor->priv->cancellable, supported_fields_cb, e_weak_ref_new (editor));
 
 			e_client_get_backend_property (
 				E_CLIENT (editor->priv->target_client),
 				E_BOOK_BACKEND_PROPERTY_REQUIRED_FIELDS,
-				NULL, required_fields_cb, editor);
+				editor->priv->cancellable, required_fields_cb, e_weak_ref_new (editor));
 		}
 
 		writable = !e_client_is_readonly (E_CLIENT (editor->priv->target_client));
@@ -5686,15 +5712,19 @@ e_contact_editor_set_property (GObject *object,
 			editor->priv->target_client, "notify::readonly",
 			G_CALLBACK (notify_readonly_cb), editor);
 
+		g_cancellable_cancel (editor->priv->cancellable);
+		g_clear_object (&editor->priv->cancellable);
+		editor->priv->cancellable = g_cancellable_new ();
+
 		e_client_get_backend_property (
 			E_CLIENT (editor->priv->target_client),
 			E_BOOK_BACKEND_PROPERTY_SUPPORTED_FIELDS,
-			NULL, supported_fields_cb, editor);
+			editor->priv->cancellable, supported_fields_cb, e_weak_ref_new (editor));
 
 		e_client_get_backend_property (
 			E_CLIENT (editor->priv->target_client),
 			E_BOOK_BACKEND_PROPERTY_REQUIRED_FIELDS,
-			NULL, required_fields_cb, editor);
+			editor->priv->cancellable, required_fields_cb, e_weak_ref_new (editor));
 
 		if (!editor->priv->is_new_contact)
 			editor->priv->changed = TRUE;
