@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2025-12-11 14:50+0000\n"
-"PO-Revision-Date: 2025-12-11 17:44+0100\n"
+"PO-Revision-Date: 2025-12-11 18:06+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -3189,7 +3189,7 @@ msgstr "Ali naj bodo stiki samodejno dodani v uporabnikov imenik."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
 msgid "Whether to set “File under” field as “First Last”"
-msgstr "Ali naj bo zapis polja »Datoteke stika« v obliki»Ime Priimek«"
+msgstr "Ali naj bo zapis polja »Zavedi pod« v obliki »Ime Priimek«"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid "Set File under as “First Last”, instead of “Last, First”."
@@ -5516,7 +5516,6 @@ msgid "Other"
 msgstr "Drugo"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1116
-#, fuzzy
 msgid "_Geo:"
 msgstr "_Geo:"
 
@@ -5581,18 +5580,15 @@ msgid "Identity"
 msgstr "Istovetnost"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2972
-#, fuzzy
-#| msgid "Identity"
 msgid "Identity Details"
-msgstr "Istovetnost"
+msgstr "Podrobnosti o identiteti"
 
 #. can be enabled if/when the editor will cover also the groups/lists
 #. gtk_combo_box_text_append (text_combo, "group", _("Group"));
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2973
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3500
-#, fuzzy
 msgid "Organization"
-msgstr "Ustanova"
+msgstr "Organizacija"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2976
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:9
@@ -5624,10 +5620,8 @@ msgid "Life Events"
 msgstr "Življenjski dogodki"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2996
-#, fuzzy
-#| msgid "Identity"
 msgid "_Identity"
-msgstr "Istovetnost"
+msgstr "_Istovetnost"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2997
 msgid "Name _Prefix"
@@ -5650,10 +5644,8 @@ msgid "Name Suffi_x"
 msgstr "P_ripona imena"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3004
-#, fuzzy
-#| msgid "Identity"
 msgid "Identity _Details"
-msgstr "Istovetnost"
+msgstr "Po_drobnosti o identiteti"
 
 # M!
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3006
@@ -5673,19 +5665,16 @@ msgid "Ex_pertise"
 msgstr "Stro_ka"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3010
-#, fuzzy
 msgid "Inte_rest"
 msgstr "_Interesi"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3011
-#, fuzzy
 msgid "Ho_bby"
 msgstr "Ho_bi"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3014
-#, fuzzy
 msgid "_Organization"
-msgstr "_Ustanova"
+msgstr "_Organizacija"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3015
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4007
@@ -5702,14 +5691,12 @@ msgid "_Office"
 msgstr "Pi_sarna"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3018
-#, fuzzy
 msgid "Or_g. Directory"
 msgstr "Imenik _org."
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3021
-#, fuzzy
 msgid "_Job"
-msgstr "_Delo"
+msgstr "_Delovno mesto"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3022
 msgid "_Title"
@@ -5720,10 +5707,8 @@ msgid "_Profession"
 msgstr "_Poklic"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3024
-#, fuzzy
-#| msgid "_Manager:"
 msgid "_Manager"
-msgstr "_Nadzorni:"
+msgstr "_Vodja"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3025
 msgid "_Assistant"
@@ -5742,10 +5727,8 @@ msgid "_SIP"
 msgstr "_SIP"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3031
-#, fuzzy
-#| msgid "Instant Messaging"
 msgid "Inst_ant Messaging"
-msgstr "Hipno sporočanje"
+msgstr "_Hipno sporočanje"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3032
 msgid "_Mailing Address"
@@ -5756,12 +5739,10 @@ msgid "_Web Address"
 msgstr "Sp_letni naslov"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3042
-#, fuzzy
 msgid "_Location"
 msgstr "_Mesto"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3043
-#, fuzzy
 msgid "_Geo"
 msgstr "_Geo"
 
@@ -5859,7 +5840,7 @@ msgid "Unknown error"
 msgstr "Neznana napaka"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4425
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to receive list of supported fields: %s"
 msgstr "Ni uspelo prejeti seznama podprtih polj: %s"
 
@@ -5882,20 +5863,16 @@ msgid "Saving changes, please wait…"
 msgstr "Poteka shranjevanje sprememb, počakajte …"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4905
-#, fuzzy
-#| msgid "Full Name"
 msgid "Full _Name"
-msgstr "Polno ime"
+msgstr "Polno _ime"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:5338
-#, fuzzy
 msgid "“Full Name” cannot be empty"
-msgstr "»Polje imena« ne more biti prazno"
+msgstr "»Polno ime« ne more biti prazno"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:5355
-#, fuzzy
 msgid "“File under” cannot be empty"
-msgstr "»Uporabniško ime« ne sme biti prazno"
+msgstr "»Zavedi pod« ne sme biti prazno"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:142
 msgid "St_reet:"
@@ -28304,7 +28281,7 @@ msgstr "_Ustvari vnose v imeniku pri odgovarjanju na sporočila"
 #. File Under setting
 #: ../src/plugins/bbdb/bbdb.c:741
 msgid "Set File _under as “First Last”, instead of “Last, First”"
-msgstr "Zapis stika naj sledi _obliki »Ime Priimek« in ne »Priimek, Ime«"
+msgstr "Zavedi pod naj sledi _obliki »Ime Priimek« in ne »Priimek, Ime«"
 
 #: ../src/plugins/bbdb/bbdb.c:752
 msgid "Select Address book for Automatic Contacts"
