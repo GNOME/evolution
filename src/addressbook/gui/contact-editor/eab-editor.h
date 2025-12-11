@@ -70,9 +70,6 @@ struct _EABEditorClass {
 	GtkWindow * (* get_window) (EABEditor *editor);
 
 	/* signals */
-	void (* contact_added)    (EABEditor *editor, const GError *error, EContact *contact);
-	void (* contact_modified) (EABEditor *editor, const GError *error, EContact *contact);
-	void (* contact_deleted)  (EABEditor *editor, const GError *error, EContact *contact);
 	void (* editor_closed)    (EABEditor *editor);
 };
 
@@ -89,21 +86,15 @@ void		eab_editor_save_contact		(EABEditor *editor,
 gboolean	eab_editor_is_valid		(EABEditor *editor);
 gboolean	eab_editor_is_changed		(EABEditor *editor);
 GtkWindow *	eab_editor_get_window		(EABEditor *editor);
+void		eab_editor_maybe_report_error	(EABEditor *editor,
+						 const gchar *message,
+						 const GError *error);
 
 gboolean	eab_editor_prompt_to_save_changes
 						(EABEditor *editor,
 						 GtkWindow *window);
 
 /* these four generate EABEditor signals */
-void		eab_editor_contact_added	(EABEditor *editor,
-						 const GError *error,
-						 EContact *contact);
-void		eab_editor_contact_modified	(EABEditor *editor,
-						 const GError *error,
-						 EContact *contact);
-void		eab_editor_contact_deleted	(EABEditor *editor,
-						 const GError *error,
-						 EContact *contact);
 void		eab_editor_closed		(EABEditor *editor);
 
 G_END_DECLS

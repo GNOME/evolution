@@ -385,8 +385,7 @@ contact_list_editor_list_added_cb (EBookClient *book_client,
 
 	e_contact_set (priv->contact, E_CONTACT_UID, (gchar *) id);
 
-	eab_editor_contact_added (
-		EAB_EDITOR (editor), error, priv->contact);
+	eab_editor_maybe_report_error (EAB_EDITOR (editor), _("Error adding list"), error);
 
 	if (!error) {
 		priv->is_new_list = FALSE;
@@ -413,8 +412,7 @@ contact_list_editor_list_modified_cb (EBookClient *book_client,
 	gtk_widget_set_sensitive (WIDGET (DIALOG), TRUE);
 	priv->in_async_call = FALSE;
 
-	eab_editor_contact_modified (
-		EAB_EDITOR (editor), error, priv->contact);
+	eab_editor_maybe_report_error (EAB_EDITOR (editor), _("Error modifying list"), error);
 
 	if (!error) {
 		if (should_close)
@@ -1226,8 +1224,8 @@ contact_editor_fudge_new (EBookClient *book_client,
 	/* XXX Putting this function signature in libedataserverui
 	 *     was a terrible idea.  Now we're stuck with it. */
 
-	editor = e_contact_editor_new (shell, book_client, contact, is_new, editable);
 	parent = e_shell_get_active_window (shell);
+	editor = e_contact_editor_new (shell, book_client, contact, is_new, editable);
 	if (parent)
 		gtk_window_set_transient_for (eab_editor_get_window (editor), parent);
 	eab_editor_show (editor);
@@ -1248,8 +1246,8 @@ contact_list_editor_fudge_new (EBookClient *book_client,
 	/* XXX Putting this function signature in libedataserverui
 	 *     was a terrible idea.  Now we're stuck with it. */
 
-	editor = e_contact_list_editor_new (shell, book_client, contact, is_new, editable);
 	parent = e_shell_get_active_window (shell);
+	editor = e_contact_list_editor_new (shell, book_client, contact, is_new, editable);
 	if (parent)
 		gtk_window_set_transient_for (eab_editor_get_window (editor), parent);
 	eab_editor_show (editor);
@@ -1609,66 +1607,6 @@ contact_list_editor_get_window (EABEditor *editor)
 }
 
 static void
-contact_list_editor_contact_added (EABEditor *editor,
-                                   const GError *error,
-                                   EContact *contact)
-{
-	GtkWindow *window;
-	const gchar *message;
-
-	if (error == NULL)
-		return;
-
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		return;
-
-	window = eab_editor_get_window (editor);
-	message = _("Error adding list");
-
-	eab_error_dialog (NULL, window, message, error);
-}
-
-static void
-contact_list_editor_contact_modified (EABEditor *editor,
-                                      const GError *error,
-                                      EContact *contact)
-{
-	GtkWindow *window;
-	const gchar *message;
-
-	if (error == NULL)
-		return;
-
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		return;
-
-	window = eab_editor_get_window (editor);
-	message = _("Error modifying list");
-
-	eab_error_dialog (NULL, window, message, error);
-}
-
-static void
-contact_list_editor_contact_deleted (EABEditor *editor,
-                                     const GError *error,
-                                     EContact *contact)
-{
-	GtkWindow *window;
-	const gchar *message;
-
-	if (error == NULL)
-		return;
-
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		return;
-
-	window = eab_editor_get_window (editor);
-	message = _("Error removing list");
-
-	eab_error_dialog (NULL, window, message, error);
-}
-
-static void
 contact_list_editor_closed (EABEditor *editor)
 {
 	g_object_unref (editor);
@@ -1696,9 +1634,6 @@ e_contact_list_editor_class_init (EContactListEditorClass *class)
 	editor_class->is_valid = contact_list_editor_is_valid;
 	editor_class->is_changed = contact_list_editor_is_changed;
 	editor_class->get_window = contact_list_editor_get_window;
-	editor_class->contact_added = contact_list_editor_contact_added;
-	editor_class->contact_modified = contact_list_editor_contact_modified;
-	editor_class->contact_deleted = contact_list_editor_contact_deleted;
 	editor_class->editor_closed = contact_list_editor_closed;
 
 	g_object_class_install_property (

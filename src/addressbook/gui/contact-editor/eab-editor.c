@@ -38,9 +38,6 @@ enum {
 };
 
 enum {
-	CONTACT_ADDED,
-	CONTACT_MODIFIED,
-	CONTACT_DELETED,
 	EDITOR_CLOSED,
 	LAST_SIGNAL
 };
@@ -162,39 +159,6 @@ eab_editor_class_init (EABEditorClass *class)
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
-
-	signals[CONTACT_ADDED] = g_signal_new (
-		"contact_added",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_FIRST,
-		G_STRUCT_OFFSET (EABEditorClass, contact_added),
-		NULL, NULL,
-		e_marshal_VOID__POINTER_OBJECT,
-		G_TYPE_NONE, 2,
-		G_TYPE_POINTER,
-		G_TYPE_OBJECT);
-
-	signals[CONTACT_MODIFIED] = g_signal_new (
-		"contact_modified",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_FIRST,
-		G_STRUCT_OFFSET (EABEditorClass, contact_modified),
-		NULL, NULL,
-		e_marshal_VOID__POINTER_OBJECT,
-		G_TYPE_NONE, 2,
-		G_TYPE_POINTER,
-		G_TYPE_OBJECT);
-
-	signals[CONTACT_DELETED] = g_signal_new (
-		"contact_deleted",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_FIRST,
-		G_STRUCT_OFFSET (EABEditorClass, contact_deleted),
-		NULL, NULL,
-		e_marshal_VOID__POINTER_OBJECT,
-		G_TYPE_NONE, 2,
-		G_TYPE_POINTER,
-		G_TYPE_OBJECT);
 
 	signals[EDITOR_CLOSED] = g_signal_new (
 		"editor_closed",
@@ -357,42 +321,26 @@ eab_editor_prompt_to_save_changes (EABEditor *editor,
 }
 
 void
-eab_editor_contact_added (EABEditor *editor,
-                          const GError *error,
-                          EContact *contact)
-{
-	g_return_if_fail (EAB_IS_EDITOR (editor));
-	g_return_if_fail (E_IS_CONTACT (contact));
-
-	g_signal_emit (editor, signals[CONTACT_ADDED], 0, error, contact);
-}
-
-void
-eab_editor_contact_modified (EABEditor *editor,
-                             const GError *error,
-                             EContact *contact)
-{
-	g_return_if_fail (EAB_IS_EDITOR (editor));
-	g_return_if_fail (E_IS_CONTACT (contact));
-
-	g_signal_emit (editor, signals[CONTACT_MODIFIED], 0, error, contact);
-}
-
-void
-eab_editor_contact_deleted (EABEditor *editor,
-                            const GError *error,
-                            EContact *contact)
-{
-	g_return_if_fail (EAB_IS_EDITOR (editor));
-	g_return_if_fail (E_IS_CONTACT (contact));
-
-	g_signal_emit (editor, signals[CONTACT_DELETED], 0, error, contact);
-}
-
-void
 eab_editor_closed (EABEditor *editor)
 {
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 
 	g_signal_emit (editor, signals[EDITOR_CLOSED], 0);
+}
+
+void
+eab_editor_maybe_report_error (EABEditor *editor,
+			       const gchar *message,
+			       const GError *error)
+{
+	GtkWindow *window;
+
+	g_return_if_fail (EAB_IS_EDITOR (editor));
+
+	if (!error || g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		return;
+
+	window = eab_editor_get_window (editor);
+
+	eab_error_dialog (NULL, window, message, error);
 }

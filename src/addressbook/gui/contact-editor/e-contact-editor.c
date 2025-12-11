@@ -237,66 +237,6 @@ connect_closure_free (ConnectClosure *connect_closure)
 }
 
 static void
-e_contact_editor_contact_added (EABEditor *editor,
-                                const GError *error,
-                                EContact *contact)
-{
-	GtkWindow *window;
-	const gchar *message;
-
-	if (error == NULL)
-		return;
-
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		return;
-
-	window = eab_editor_get_window (editor);
-	message = _("Error adding contact");
-
-	eab_error_dialog (NULL, window, message, error);
-}
-
-static void
-e_contact_editor_contact_modified (EABEditor *editor,
-                                   const GError *error,
-                                   EContact *contact)
-{
-	GtkWindow *window;
-	const gchar *message;
-
-	if (error == NULL)
-		return;
-
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		return;
-
-	window = eab_editor_get_window (editor);
-	message = _("Error modifying contact");
-
-	eab_error_dialog (NULL, window, message, error);
-}
-
-static void
-e_contact_editor_contact_deleted (EABEditor *editor,
-                                  const GError *error,
-                                  EContact *contact)
-{
-	GtkWindow *window;
-	const gchar *message;
-
-	if (error == NULL)
-		return;
-
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		return;
-
-	window = eab_editor_get_window (editor);
-	message = _("Error removing contact");
-
-	eab_error_dialog (NULL, window, message, error);
-}
-
-static void
 e_contact_editor_closed (EABEditor *editor)
 {
 	g_object_unref (editor);
@@ -320,9 +260,6 @@ e_contact_editor_class_init (EContactEditorClass *class)
 	editor_class->save_contact = e_contact_editor_save_contact;
 	editor_class->is_changed = e_contact_editor_is_changed;
 	editor_class->get_window = e_contact_editor_get_window;
-	editor_class->contact_added = e_contact_editor_contact_added;
-	editor_class->contact_modified = e_contact_editor_contact_modified;
-	editor_class->contact_deleted = e_contact_editor_contact_deleted;
 	editor_class->editor_closed = e_contact_editor_closed;
 
 	g_object_class_install_property (
@@ -4617,7 +4554,7 @@ contact_removed_cb (GObject *source_object,
 
 	e_contact_set (ce->priv->contact, E_CONTACT_UID, ecs->new_id);
 
-	eab_editor_contact_deleted (EAB_EDITOR (ce), error, ce->priv->contact);
+	eab_editor_maybe_report_error (EAB_EDITOR (ce), _("Error removing contact"), error);
 
 	ce->priv->is_new_contact = FALSE;
 
@@ -4661,7 +4598,7 @@ contact_added_cb (EBookClient *book_client,
 
 	e_contact_set (ce->priv->contact, E_CONTACT_UID, id);
 
-	eab_editor_contact_added (EAB_EDITOR (ce), error, ce->priv->contact);
+	eab_editor_maybe_report_error (EAB_EDITOR (ce), _("Error adding contact"), error);
 
 	if (!error) {
 		ce->priv->is_new_contact = FALSE;
@@ -4689,7 +4626,7 @@ contact_modified_cb (EBookClient *book_client,
 	gtk_widget_set_sensitive (ce->priv->app, TRUE);
 	ce->priv->in_async_call = FALSE;
 
-	eab_editor_contact_modified (EAB_EDITOR (ce), error, ce->priv->contact);
+	eab_editor_maybe_report_error (EAB_EDITOR (ce), _("Error modifying contact"), error);
 
 	if (!error) {
 		if (should_close) {
