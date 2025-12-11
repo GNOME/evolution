@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-12-11 14:50+0000\n"
-"PO-Revision-Date: 2025-12-11 18:06+0100\n"
+"POT-Creation-Date: 2025-12-11 18:47+0000\n"
+"PO-Revision-Date: 2025-12-11 20:34+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -3849,14 +3849,14 @@ msgid "Compose a Message"
 msgstr "Sestavi sporočilo"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:8
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:9 ../src/e-util/e-name-selector-dialog.c:434
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:27 ../src/e-util/e-name-selector-dialog.c:434
 #: ../src/modules/addressbook/e-book-shell-backend.c:272
 #: ../src/modules/addressbook/e-book-shell-view.c:459
 msgid "Contacts"
 msgstr "Stiki"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:26
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1136
 #: ../src/e-util/e-collection-account-wizard.c:871 ../src/e-util/e-webdav-browser.c:541
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:211
@@ -3911,18 +3911,91 @@ msgstr ""
 "»Exchange Web Services»."
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:5
+msgid "PIM"
+msgstr "PIM"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:6
+msgid "calendars"
+msgstr "koledarji"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:7
+msgid "calendaring"
+msgstr "koledar"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
+msgid "events"
+msgstr "dogodki"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:9
+msgid "meetings"
+msgstr "srečanja"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:10
+msgid "appointments"
+msgstr "sestanki"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:11
+msgid "scheduling"
+msgstr "načrtovanje"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:12
+msgid "planning"
+msgstr "načrtovanje"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:13
+msgid "agenda"
+msgstr "dnevni red"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:14
+msgid "reminders"
+msgstr "opomniki"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:15
+msgid "alarms"
+msgstr "Alarmi"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:16
+msgid "email"
+msgstr "e-naslovi"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:17
+msgid "email client"
+msgstr "odjemalec e-pošte"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:18
+msgid "tasks"
+msgstr "naloge"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:19
+msgid "todos"
+msgstr "opravila"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:20
+msgid "memos"
+msgstr "opomniki"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:21
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:885
+msgid "contacts"
+msgstr "stiki"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:22
+msgid "addressbook"
+msgstr "Imenik"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:23
 msgid "Mail – Classic View"
 msgstr "Pošta – Običajni pogled"
 
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:6
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:24
 msgid "Mail – Vertical View"
 msgstr "Pošta – Navpični pogled"
 
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:7
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:25
 msgid "Mail Composer"
 msgstr "Sestavljalnik sporočil"
 
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:10
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:28
 msgid "The Evolution Team"
 msgstr "Skupina Evolution"
 
@@ -24075,10 +24148,6 @@ msgstr "Prejemanje"
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:874
 msgid "Limit:"
 msgstr "Omejitev:"
-
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:885
-msgid "contacts"
-msgstr "stiki"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:890
 msgid "Browse until limit is reached"
