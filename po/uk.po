@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2025-12-11 19:35+0000\n"
-"PO-Revision-Date: 2025-12-13 20:59+0200\n"
+"PO-Revision-Date: 2025-12-13 22:24+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4320,74 +4320,62 @@ msgstr ""
 "«Exchange Web Services» (EWS)."
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:5
-#, fuzzy
 #| msgctxt "addressbook-label"
 #| msgid "IM"
 msgid "PIM"
 msgstr "PIM"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:6
-#, fuzzy
 #| msgid "Calendars"
 msgid "calendars"
-msgstr "Календарі"
+msgstr "календарі"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:7
-#, fuzzy
 #| msgid "calendar.ics"
 msgid "calendaring"
-msgstr "календар.ics"
+msgstr "ведення календаря"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
-#, fuzzy
 #| msgid "event"
 msgid "events"
-msgstr "Події"
+msgstr "події"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:9
-#, fuzzy
 #| msgctxt "iCalImp"
 #| msgid "Meeting"
 msgid "meetings"
-msgstr "Зібрання"
+msgstr "зібрання"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:10
-#, fuzzy
 #| msgid "A_ppointments"
 msgid "appointments"
-msgstr "%d зустрічей"
+msgstr "зустрічі"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:11
-#, fuzzy
 #| msgid "Scheduling Inbox"
 msgid "scheduling"
-msgstr "Планування"
+msgstr "додавання до розкладу"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:12
-#, fuzzy
 #| msgid "Scanning %s"
 msgid "planning"
-msgstr "Сканування %s"
+msgstr "планування"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:13
-#, fuzzy
 #| msgid "magenta"
 msgid "agenda"
-msgstr "Порядок денний"
+msgstr "порядок денний"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:14
-#, fuzzy
 #| msgid "Reminders"
 msgid "reminders"
-msgstr "Нагадування"
+msgstr "нагадування"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:15
-#, fuzzy
 msgid "alarms"
-msgstr "Нагадування"
+msgstr "будильники"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:16
-#, fuzzy
 #| msgid "Email"
 msgid "email"
 msgstr "ел. пошта"
@@ -4403,15 +4391,13 @@ msgid "tasks"
 msgstr "tasks"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:19
-#, fuzzy
 msgid "todos"
-msgstr "Завдання"
+msgstr "завдання"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:20
-#, fuzzy
 #| msgid "memo"
 msgid "memos"
-msgstr "%d приміток"
+msgstr "примітки"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:21
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:885
@@ -4419,10 +4405,9 @@ msgid "contacts"
 msgstr "контакти"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:22
-#, fuzzy
 #| msgid "Address book"
 msgid "addressbook"
-msgstr "Адресна книга"
+msgstr "адресна книга"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:23
 msgid "Mail – Classic View"
@@ -6065,30 +6050,27 @@ msgid "_Members"
 msgstr "_Учасники"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:359
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to save changes"
 msgid "Failed to save changes: %s"
-msgstr "Не вдалося зберегти зміни"
+msgstr "Не вдалося зберегти зміни: %s"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:372
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:118
-#, fuzzy
 #| msgid "Work"
 msgctxt "addressbook-label"
 msgid "Work"
-msgstr "Робота"
+msgstr "Робоча"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:373
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:119
-#, fuzzy
 #| msgid "Home"
 msgctxt "addressbook-label"
 msgid "Home"
-msgstr "Домашній SIP"
+msgstr "Домашня"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:374
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:120
-#, fuzzy
 #| msgid "Other"
 msgctxt "addressbook-label"
 msgid "Other"
@@ -6109,10 +6091,9 @@ msgid "Longitude"
 msgstr "Довгота"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1150
-#, fuzzy
 #| msgid "Open map"
 msgid "Open in map"
-msgstr "Відкрити карту"
+msgstr "Відкрити на карті"
 
 #. Put the "UTC" entry at the top of the combo's list.
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1351
@@ -6132,10 +6113,9 @@ msgstr "_Часовий пояс:"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2384
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3035
-#, fuzzy
 #| msgid "_Blog:"
 msgid "_Blog"
-msgstr "_Блог:"
+msgstr "_Блог"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2385
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3036
@@ -6145,21 +6125,18 @@ msgstr "_Календар"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2386
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3037
-#, fuzzy
 #| msgid "_Free/Busy:"
 msgid "_Free/Busy"
-msgstr "За_йнятий/вільний:"
+msgstr "За_йнятий/вільний"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2387
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3038
-#, fuzzy
 #| msgid "_Video Chat:"
 msgid "_Video Chat"
-msgstr "Відео_чат:"
+msgstr "Відео_чат"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2388
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3039
-#, fuzzy
 #| msgid "_URL:"
 msgid "_URL"
 msgstr "_Адреса"
@@ -6171,7 +6148,6 @@ msgid "Identity"
 msgstr "Особисті дані"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2972
-#, fuzzy
 #| msgid "Identity"
 msgid "Identity Details"
 msgstr "Особисті дані"
@@ -6180,7 +6156,6 @@ msgstr "Особисті дані"
 #. gtk_combo_box_text_append (text_combo, "group", _("Group"));
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2973
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3500
-#, fuzzy
 #| msgid "Or_ganization:"
 msgid "Organization"
 msgstr "Організація"
@@ -6197,10 +6172,9 @@ msgid "SIP"
 msgstr "SIP"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2979
-#, fuzzy
 #| msgid "Web Addresses"
 msgid "Web Address"
-msgstr "Адреса сайту"
+msgstr "Вебадреса"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2981
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3501
@@ -6215,10 +6189,9 @@ msgid "Location"
 msgstr "Адреса"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2982
-#, fuzzy
 #| msgid "Events"
 msgid "Life Events"
-msgstr "Події"
+msgstr "Життєві події"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2996
 #| msgid "Identity"
@@ -6235,28 +6208,24 @@ msgid "_First Name"
 msgstr "_Ім'я"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2999
-#, fuzzy
 #| msgid "_Middle:"
 msgid "_Middle Name"
-msgstr "По _батькові:"
+msgstr "По _батькові"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3000
-#, fuzzy
 #| msgid "_Username:"
 msgid "S_urname"
-msgstr "_Назва запису:"
+msgstr "_Прізвище"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3001
-#, fuzzy
 #| msgid "_Suffix:"
 msgid "Name Suffi_x"
-msgstr "С_уфікс:"
+msgstr "С_уфікс імені"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3004
-#, fuzzy
 #| msgid "Identity"
 msgid "Identity _Details"
-msgstr "Особисті дані"
+msgstr "Подробиці п_рофіль"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3006
 #| msgid "Nickname"
@@ -6264,80 +6233,69 @@ msgid "_Nickname"
 msgstr "Прі_звисько"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3007
-#, fuzzy
 #| msgid "_Gender:"
 msgid "_Gender"
-msgstr "С_тать:"
+msgstr "С_тать"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3008
-#, fuzzy
 #| msgid "Spouse"
 msgid "Sp_ouse"
-msgstr "Дружина"
+msgstr "Д_ружина"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3009
-#, fuzzy
 #| msgid "Ex_pertise:"
 msgid "Ex_pertise"
-msgstr "_Компетентність:"
+msgstr "_Компетентність"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3010
-#, fuzzy
 #| msgid "_Interest:"
 msgid "Inte_rest"
-msgstr "З_ацікавлення:"
+msgstr "З_ацікавлення"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3011
 msgid "Ho_bby"
 msgstr "За_хоплення"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3014
-#, fuzzy
 #| msgid "Or_ganization:"
 msgid "_Organization"
-msgstr "_Організація:"
+msgstr "_Організація"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3015
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4007
-#, fuzzy
 #| msgid "_Company:"
 msgid "_Company"
-msgstr "_Компанія:"
+msgstr "_Компанія"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3016
-#, fuzzy
 #| msgid "_Department:"
 msgid "_Department"
-msgstr "В_ідділ:"
+msgstr "В_ідділ"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3017
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4008
-#, fuzzy
 #| msgid "_Office:"
 msgid "_Office"
-msgstr "_Офіс:"
+msgstr "_Офіс"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3018
-#, fuzzy
 #| msgid "Or_g. Directory:"
 msgid "Or_g. Directory"
-msgstr "_Каталог орг.:"
+msgstr "_Каталог орг."
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3021
 msgid "_Job"
 msgstr "_Робота"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3022
-#, fuzzy
 #| msgid "_Title:"
 msgid "_Title"
-msgstr "_Заголовок"
+msgstr "_Титул"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3023
-#, fuzzy
 #| msgid "_Profession:"
 msgid "_Profession"
-msgstr "_Фах:"
+msgstr "_Фах"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3024
 #| msgid "_Manager:"
@@ -6345,19 +6303,16 @@ msgid "_Manager"
 msgstr "_Керівник"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3025
-#, fuzzy
 #| msgid "_Assistant:"
 msgid "_Assistant"
-msgstr "_Помічник:"
+msgstr "_Помічник"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3028
-#, fuzzy
 #| msgid "Email"
 msgid "_Email"
 msgstr "_Електронна пошта"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3029
-#, fuzzy
 #| msgid "Phone"
 msgid "_Phone"
 msgstr "Телефон"
@@ -6367,22 +6322,19 @@ msgid "_SIP"
 msgstr "_SIP"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3031
-#, fuzzy
 #| msgid "Instant Messaging"
 msgid "Inst_ant Messaging"
-msgstr "Миттєві повідомлення"
+msgstr "_Миттєві повідомлення"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3032
-#, fuzzy
 #| msgid "Mailing Address"
 msgid "_Mailing Address"
-msgstr "_Поштова адреса:"
+msgstr "_Поштова адреса"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3034
-#, fuzzy
 #| msgid "Web Addresses"
 msgid "_Web Address"
-msgstr "_Вебадреса:"
+msgstr "_Вебадреса"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3042
 #| msgctxt "ECompEditor"
@@ -6395,16 +6347,14 @@ msgid "_Geo"
 msgstr "_Координати"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3044
-#, fuzzy
 #| msgid "Timezone"
 msgid "_Time zone"
-msgstr "Часовий пояс"
+msgstr "_Часовий пояс"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3047
-#, fuzzy
 #| msgid "_Events"
 msgid "Li_fe Events"
-msgstr "_Події"
+msgstr "_Життєві події"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3048
 #| msgid "_Anniversary:"
@@ -6543,10 +6493,9 @@ msgid "“Full Name” cannot be empty"
 msgstr "«Ім'я повністю» не може бути порожнім"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:5355
-#, fuzzy
 #| msgid "User name cannot be empty"
 msgid "“File under” cannot be empty"
-msgstr "Обов'язково вкажіть користувача"
+msgstr "Поле «Підшити як» не може бути порожнім"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:142
 msgid "St_reet:"
@@ -6646,10 +6595,9 @@ msgid "Save to File"
 msgstr "Зберегти до файла"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:781
-#, fuzzy
 #| msgid "Failed to load certificate: %s"
 msgid "Failed to load certificate:"
-msgstr "Не вдалося завантажити сертифікат"
+msgstr "Не вдалося завантажити сертифікат:"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../src/em-format/e-mail-formatter-print.c:50
@@ -6900,10 +6848,9 @@ msgid "Matrix"
 msgstr "Matrix"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1064
-#, fuzzy
 #| msgid "GEO Location:"
 msgid "GEO Location"
-msgstr "Геопозиціювання:"
+msgstr "Геопозиціювання"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1065
 #| msgid "Timezone"
