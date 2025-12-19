@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-10-10 17:40+0000\n"
-"PO-Revision-Date: 2025-10-25 00:11+0200\n"
+"POT-Creation-Date: 2025-12-10 12:48+0000\n"
+"PO-Revision-Date: 2025-12-19 23:34+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -45,7 +45,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -2021,10 +2021,6 @@ msgid "Enable or disable type ahead search feature"
 msgstr "Schnellsuche an- oder abschalten"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
-#, fuzzy
-#| msgid ""
-#| "Enable the side bar search feature to allow interactive searching of folder "
-#| "names."
 msgid ""
 "Enable the sidebar search feature to allow interactive searching of folder names."
 msgstr ""
@@ -2613,19 +2609,12 @@ msgstr ""
 "Suchergebnissen entfernt."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
-#, fuzzy
-#| msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgid "Asks whether to copy a folder by drag-and-drop in the folder tree"
 msgstr ""
 "Anfragen, ob ein Ordner durch Ziehen und Ablegen in den Ordnerbaum kopiert werden "
 "soll"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
-#, fuzzy
-#| msgid ""
-#| "Possible values are: “never” — do not allow copy with drag &amp; drop of "
-#| "folders in folder tree, “always” — allow copy with drag &amp; drop of folders "
-#| "in folder tree without asking, or “ask” — (or any other value) will ask user."
 msgid ""
 "Possible values are: “never” — do not allow copy with drag-and-drop of folders in "
 "folder tree, “always” — allow copy with drag-and-drop of folders in folder tree "
@@ -2637,19 +2626,12 @@ msgstr ""
 "andere Wert) führt dazu, dass der Benutzer stets gefragt wird."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
-#, fuzzy
-#| msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgid "Asks whether to move a folder by drag-and-drop in the folder tree"
 msgstr ""
 "Anfragen, ob ein Ordner durch Ziehen und Ablegen in den Ordnerbaum verschoben "
 "werden soll"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
-#, fuzzy
-#| msgid ""
-#| "Possible values are: “never” — do not allow move with drag &amp; drop of "
-#| "folders in folder tree, “always” — allow move with drag &amp; drop of folders "
-#| "in folder tree without asking, or “ask” — (or any other value) will ask user."
 msgid ""
 "Possible values are: “never” — do not allow move with drag-and-drop of folders in "
 "folder tree, “always” — allow move with drag-and-drop of folders in folder tree "
@@ -3102,10 +3084,8 @@ msgstr ""
 "Werte außerhalb des erlaubten Bereichs werden an die Bereichsgrenzen gebunden."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
-#, fuzzy
-#| msgid "How many days to show in the To Do bar"
 msgid "Use smaller font for time in the To Do bar"
-msgstr "Legt fest, wie viele Tage in der To-Do-Leiste angezeigt werden sollen"
+msgstr "Kleinere Schrift für die Uhrzeit in der To-Do-Leiste verwenden"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
 msgid "Show start up wizard"
@@ -4979,16 +4959,12 @@ msgstr "Neuer Kontakt kann nicht hinzugefügt werden"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:43
-#, fuzzy
-#| msgid ""
-#| "“{0}” is a read-only address book and cannot be modified. Please select a "
-#| "different address book from the side bar in the Contacts view."
 msgid ""
 "“{0}” is a read-only address book and cannot be modified. Please select a "
 "different address book from the sidebar in the Contacts view."
 msgstr ""
-"»{0}« ist ein schreibgeschütztes Adressbuch. Wechseln Sie zur Kontakte-Ansicht und "
-"wählen Sie ein anderes Adressbuch aus."
+"»{0}« ist ein schreibgeschütztes Adressbuch und kann nicht verändert werden. Bitte "
+"wählen Sie ein anderes Adressbuch in der Seitenleiste in der Kontaktansicht."
 
 #: ../src/addressbook/addressbook.error.xml.h:44
 msgid "Cannot save a contact, address book is still opening"
@@ -8999,16 +8975,12 @@ msgid "Toggles whether the time zone is displayed"
 msgstr "Zeitzone anzeigen/verbergen"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:1017
-#, fuzzy
-#| msgid "Day _ends:"
 msgid "_Day Agenda"
-msgstr "Tag _endet:"
+msgstr "_Tagesagenda"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:1019
-#, fuzzy
-#| msgid "Toggles whether the CC field is displayed"
 msgid "Toggles whether the day agenda is displayed"
-msgstr "Kopie-Feld anzeigen/verbergen"
+msgstr "Die Tagesagenda anzeigen/verbergen"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:1024
 msgid "All _Day Event"
@@ -10045,14 +10017,12 @@ msgid "Copy the selection"
 msgstr "Die Auswahl kopieren"
 
 #: ../src/calendar/gui/e-comp-editor.c:2246 ../src/e-util/e-ui-customizer.c:653
-#, fuzzy
-#| msgid "_Custom binary:"
 msgid "_Customize Toolbar…"
-msgstr "_Benutzerdefinierte Binärdatei:"
+msgstr "Werkzeugleiste _anpassen …"
 
 #: ../src/calendar/gui/e-comp-editor.c:2248
 msgid "Customize actions in the toolbar"
-msgstr ""
+msgstr "Aktionen in der Werkzeugleiste anpassen"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2253
@@ -10589,17 +10559,15 @@ msgstr "Zeitzone auswählen"
 
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
 #: ../src/calendar/gui/e-to-do-pane.c:508
-#, fuzzy, c-format
-#| msgid "Time: %s %s"
+#, c-format
 msgid "Time: %s (%s)"
-msgstr "Zeit: %s %s"
+msgstr "Zeit: %s (%s)"
 
 #. Translators: It will display "Time: StartDateAndTime"
 #: ../src/calendar/gui/e-to-do-pane.c:511
-#, fuzzy, c-format
-#| msgid "Time: %s %s"
+#, c-format
 msgid "Time: %s"
-msgstr "Zeit: %s %s"
+msgstr "Zeit: %s"
 
 #. strftime format of a weekday and a date.
 #: ../src/calendar/gui/e-to-do-pane.c:1623 ../src/e-util/e-cell-date-edit.c:338
@@ -14221,10 +14189,8 @@ msgid "Save _As"
 msgstr "Speichern _unter"
 
 #: ../src/e-util/e-attachment-view.c:1125 ../src/mail/e-mail-display.c:2115
-#, fuzzy
-#| msgid "_Open…"
 msgid "Open with…"
-msgstr "Ö_ffnen …"
+msgstr "Öffnen mit …"
 
 #: ../src/e-util/e-attachment-view.c:1135
 msgid "A_dd Attachment…"
@@ -15364,16 +15330,12 @@ msgid "_Zoom"
 msgstr "Ansicht ver_größern"
 
 #: ../src/e-util/e-html-editor-actions.c:1480
-#, fuzzy
-#| msgid "Spell checking languages"
 msgid "Recent spell check languages"
-msgstr "Sprachen für Rechtschreibprüfung"
+msgstr "Zuletzt verwendete Sprachen für Rechtschreibprüfung"
 
 #: ../src/e-util/e-html-editor-actions.c:1487
-#, fuzzy
-#| msgid "Spell checking languages"
 msgid "All spell check languages"
-msgstr "Sprachen für Rechtschreibprüfung"
+msgstr "Alle Sprachen für die Rechtschreibprüfung"
 
 #: ../src/e-util/e-html-editor-actions.c:1494
 #: ../src/e-util/e-html-editor-actions.c:1496
@@ -15420,7 +15382,7 @@ msgid "E_moji"
 msgstr "E_moji"
 
 #: ../src/e-util/e-html-editor-actions.c:1548
-#: ../src/e-util/e-html-editor-actions.c:1562 ../src/e-util/e-markdown-editor.c:1946
+#: ../src/e-util/e-html-editor-actions.c:1562 ../src/e-util/e-markdown-editor.c:1956
 msgid "Insert Emoji"
 msgstr "Emoji einfügen"
 
@@ -15907,28 +15869,20 @@ msgid "%s Dictionary"
 msgstr "%s-Wörterbuch"
 
 #: ../src/e-util/e-html-editor.c:1335
-#, fuzzy
-#| msgid "Content"
 msgid "Context Menu"
-msgstr "Inhalt"
+msgstr "Kontextmenü"
 
 #: ../src/e-util/e-html-editor.c:1343 ../src/mail/e-mail-browser.c:801
-#, fuzzy
-#| msgid "Main toolbar"
 msgid "Main Toolbar"
 msgstr "Hauptwerkzeugleiste"
 
 #: ../src/e-util/e-html-editor.c:1355
-#, fuzzy
-#| msgid "Edit toolbar"
 msgid "Edit Toolbar"
-msgstr "Bearbeitungswerkzeugleiste"
+msgstr "Werkzeugleiste bearbeiten"
 
 #: ../src/e-util/e-html-editor.c:1364
-#, fuzzy
-#| msgid "Main toolbar"
 msgid "HTML Toolbar"
-msgstr "Hauptwerkzeugleiste"
+msgstr "HTML-Werkzeugleiste"
 
 #: ../src/e-util/e-html-editor.c:2572
 msgid "Failed to obtain content of editor"
@@ -16177,7 +16131,7 @@ msgstr "Bildeigenschaften"
 
 #: ../src/e-util/e-html-editor-link-popover.c:124
 msgid "Upd_ate"
-msgstr ""
+msgstr "_Aktualisieren"
 
 #: ../src/e-util/e-html-editor-link-popover.c:195
 msgid "Link Properties"
@@ -16602,13 +16556,13 @@ msgstr ""
 "Mausbasiertes interaktives Kartenobjekt zur Auswahl der Zeitzone. Tastaturbenutzer "
 "sollten die Zeitzone stattdessen mit der Auswahlliste im unteren Bereich festlegen."
 
-#: ../src/e-util/e-markdown-editor.c:1855 ../src/e-util/e-markdown-editor.c:1869
-#: ../src/e-util/e-markdown-editor.c:2438
+#: ../src/e-util/e-markdown-editor.c:1865 ../src/e-util/e-markdown-editor.c:1879
+#: ../src/e-util/e-markdown-editor.c:2448
 msgid "_Write"
 msgstr "_Schreiben"
 
 #. ** Menus **
-#: ../src/e-util/e-markdown-editor.c:1871 ../src/e-util/e-markdown-editor.c:2480
+#: ../src/e-util/e-markdown-editor.c:1881 ../src/e-util/e-markdown-editor.c:2490
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1487
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1711
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:705
@@ -16617,44 +16571,44 @@ msgstr "_Schreiben"
 msgid "_Preview"
 msgstr "_Vorschau"
 
-#: ../src/e-util/e-markdown-editor.c:1938
+#: ../src/e-util/e-markdown-editor.c:1948
 msgid "Add bold text"
 msgstr "Fett gedruckten Text hinzufügen"
 
-#: ../src/e-util/e-markdown-editor.c:1939
+#: ../src/e-util/e-markdown-editor.c:1949
 msgid "Add italic text"
 msgstr "Kursiven Text hinzufügen"
 
-#: ../src/e-util/e-markdown-editor.c:1940
+#: ../src/e-util/e-markdown-editor.c:1950
 msgid "Insert a quote"
 msgstr "Ein Zitat einfügen"
 
-#: ../src/e-util/e-markdown-editor.c:1941
+#: ../src/e-util/e-markdown-editor.c:1951
 msgid "Insert code"
 msgstr "Code einfügen"
 
-#: ../src/e-util/e-markdown-editor.c:1942
+#: ../src/e-util/e-markdown-editor.c:1952
 msgid "Add a link"
 msgstr "Einen Verweis hinzufügen"
 
-#: ../src/e-util/e-markdown-editor.c:1943
+#: ../src/e-util/e-markdown-editor.c:1953
 msgid "Add a bullet list"
 msgstr "Eine ungeordnete Liste hinzufügen"
 
-#: ../src/e-util/e-markdown-editor.c:1944
+#: ../src/e-util/e-markdown-editor.c:1954
 msgid "Add a numbered list"
 msgstr "Eine nummerierte Liste hinzufügen"
 
-#: ../src/e-util/e-markdown-editor.c:1945
+#: ../src/e-util/e-markdown-editor.c:1955
 msgid "Add a header"
 msgstr "Eine Kopfzeile hinzufügen"
 
 # Link zu https://commonmark.org/help/
-#: ../src/e-util/e-markdown-editor.c:1948
+#: ../src/e-util/e-markdown-editor.c:1958
 msgid "Open online common mark documentation"
 msgstr "Online-Dokumentation zu Markdown öffnen"
 
-#: ../src/e-util/e-markdown-editor.c:1950
+#: ../src/e-util/e-markdown-editor.c:1960
 msgid "Show preview beside text"
 msgstr "Vorschau neben Text anzeigen"
 
@@ -17038,18 +16992,16 @@ msgid "Copy of %s"
 msgstr "Kopie von %s"
 
 #: ../src/e-util/e-search-bar.c:78
-#, fuzzy
-#| msgid "No match found"
 msgid "No matches"
-msgstr "Keine Übereinstimmung gefunden"
+msgstr "Keine Treffer gefunden"
 
 #. Translators: The '%u' is the actual number of the matches found
 #: ../src/e-util/e-search-bar.c:83
 #, c-format
 msgid "%u match"
 msgid_plural "%u matches"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%u Treffer"
+msgstr[1] "%u Treffer"
 
 #: ../src/e-util/e-search-bar.c:615
 msgid "Close the find bar"
@@ -17551,76 +17503,60 @@ msgstr[1] "Dieselben Schriften wie andere Anwendungen _verwenden"
 #, c-format
 msgid "Shortcut is used by other %u action"
 msgid_plural "Shortcut is used by other %u actions"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Der Schnellzugriff wird von %u anderer Aktion verwendet"
+msgstr[1] "Der Schnellzugriff wird von %u anderen Aktionen verwendet"
 
 #: ../src/e-util/e-ui-customize-dialog.c:649
-#, fuzzy, c-format
-#| msgid "Storing account “%s”"
+#, c-format
 msgid "Shortcut is used by action “%s”"
-msgstr "Konto »%s« wird gespeichert"
+msgstr "Das Tastenkürzel wird von der Aktion »%s« verwendet"
 
 #: ../src/e-util/e-ui-customize-dialog.c:953
 msgid "Press the keys to be used as a shortcut."
-msgstr ""
+msgstr "Drücken Sie die Tastenkombination, die als Schnellzugriff verwenden sollen."
 
 #: ../src/e-util/e-ui-customize-dialog.c:975
 msgid "Save"
 msgstr "Speichern"
 
 #: ../src/e-util/e-ui-customize-dialog.c:1087
-#, fuzzy
-#| msgctxt "shortcut window"
-#| msgid "Keyboard Shortcuts"
 msgid "No shortcut set"
-msgstr "Tastaturkürzel"
+msgstr "Kein Schnellzugriff festgelegt"
 
 #: ../src/e-util/e-ui-customize-dialog.c:1319
-#, fuzzy
-#| msgid "No folder selected."
 msgid "No action selected"
-msgstr "Kein Ordner gewählt."
+msgstr "Kein Aktion gewählt"
 
 #. Translators: a "textual form" of a menu or toolbar separator, usually drawn as a line between the items
 #: ../src/e-util/e-ui-customize-dialog.c:1519
 #: ../src/e-util/e-ui-customize-dialog.c:3067
 msgid "Separator"
-msgstr ""
+msgstr "Trennlinie"
 
 #: ../src/e-util/e-ui-customize-dialog.c:1546
-#, fuzzy
-#| msgid "Needs Action"
 msgid "Selected _Action"
-msgstr "Erfordert Maßnahme"
+msgstr "Ausgewählte _Aktion"
 
 #: ../src/e-util/e-ui-customize-dialog.c:1546
-#, fuzzy
-#| msgid "Needs Action"
 msgid "Selected _Actions"
-msgstr "Erfordert Maßnahme"
+msgstr "Ausgewählte _Aktionen"
 
 #: ../src/e-util/e-ui-customize-dialog.c:1551
 msgid "_Separator"
-msgstr ""
+msgstr "_Trennzeichen"
 
 #. Translators: this is like "Part of the user interface"
 #: ../src/e-util/e-ui-customize-dialog.c:2516
-#, fuzzy
-#| msgid "Start: "
 msgid "_Part:"
-msgstr "Anfang: "
+msgstr "_Teil:"
 
 #: ../src/e-util/e-ui-customize-dialog.c:2553
-#, fuzzy
-#| msgid "Available Groups:"
 msgid "Available _Actions"
-msgstr "Verfügbare Gruppen:"
+msgstr "Verfügbare _Aktionen:"
 
 #: ../src/e-util/e-ui-customize-dialog.c:2622
-#, fuzzy
-#| msgid "Layout"
 msgid "_Layout"
-msgstr "Anordnung"
+msgstr "_Anordnung"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
 #: ../src/e-util/e-ui-customize-dialog.c:2740
@@ -17631,42 +17567,30 @@ msgid "_Default"
 msgstr "_Vorgabe"
 
 #: ../src/e-util/e-ui-customize-dialog.c:2754
-#, fuzzy
-#| msgid "_Keyboard Shortcuts"
 msgid "_Shortcuts"
-msgstr "_Tastenkürzel"
+msgstr "_Schnellzugriffe"
 
 #: ../src/e-util/e-ui-customize-dialog.c:2757
-#, fuzzy
-#| msgid "Add a note for the selected message"
 msgid "Add or remove shortcuts for the selected action."
-msgstr "Der gewählten Nachricht eine Notiz hinzufügen"
+msgstr "Schnellzugriffe für die gewählte Aktion hinzufügen oder entfernen"
 
 #: ../src/e-util/e-ui-customize-dialog.c:2920
-#, fuzzy
-#| msgid "Customize Appearance"
 msgid "Customize User Interface"
-msgstr "Erscheinungsbild anpassen"
+msgstr "Die Benutzeroberfläche anpassen"
 
 #. Translators: which side a header bar items are placed to; for RTL locales it should be "Right side"
 #: ../src/e-util/e-ui-customize-dialog.c:3072
-#, fuzzy
-#| msgid "Left"
 msgid "Left side"
-msgstr "Links"
+msgstr "Linke Seite"
 
 #. Translators: which side a header bar items are placed to; for RTL locales it should be "Left side"
 #: ../src/e-util/e-ui-customize-dialog.c:3078
-#, fuzzy
-#| msgid "Right"
 msgid "Right side"
-msgstr "Rechts"
+msgstr "Rechte Seite"
 
 #: ../src/e-util/e-ui-customize-dialog.c:3521
-#, fuzzy
-#| msgid "Failed to save changes"
 msgid "Failed to save changes."
-msgstr "Speichern der Änderungen fehlgeschlagen"
+msgstr "Speichern der Änderungen fehlgeschlagen."
 
 #: ../src/e-util/e-ui-customizer.c:434
 #, fuzzy
@@ -17675,10 +17599,8 @@ msgid "Headerbar"
 msgstr "Kopfzeile"
 
 #: ../src/e-util/e-ui-customizer.c:437
-#, fuzzy
-#| msgid "Tool_bar Style"
 msgid "Toolbar"
-msgstr "_Werkzeugleistenstil"
+msgstr "Werkzeugleiste"
 
 #: ../src/e-util/e-url-entry.c:216
 msgid "Enter a URL here"
@@ -17712,10 +17634,8 @@ msgid "Events"
 msgstr "Termine"
 
 #: ../src/e-util/e-webdav-browser.c:539
-#, fuzzy
-#| msgid "Server handles meeting invitations"
 msgid "Calendar handling meeting invitations"
-msgstr "Server unterstützt Einladungen zu Besprechungen"
+msgstr "Kalender für Besprechungseinladungen"
 
 #: ../src/e-util/e-webdav-browser.c:544
 msgid "Scheduling Inbox"
@@ -17904,10 +17824,8 @@ msgid "_Print"
 msgstr "_Drucken"
 
 #: ../src/e-util/e-web-view.c:1707
-#, fuzzy
-#| msgid "Save as…"
 msgid "Save _as…"
-msgstr "Speichern unter …"
+msgstr "Speichern _unter …"
 
 #: ../src/e-util/e-web-view.c:3895
 msgid "Copying image to clipboard"
@@ -18501,12 +18419,12 @@ msgstr "Weitergeleitete Nachricht — %s"
 msgid "Forwarded message"
 msgstr "Weitergeleitete Nachricht"
 
-#: ../src/libemail-engine/mail-vfolder.c:149
+#: ../src/libemail-engine/mail-vfolder.c:152
 #, c-format
 msgid "Setting up Search Folder: %s"
 msgstr "Suchordner wird eingerichtet: %s"
 
-#: ../src/libemail-engine/mail-vfolder.c:307
+#: ../src/libemail-engine/mail-vfolder.c:472
 #, c-format
 msgid "Updating Search Folders for “%s : %s”"
 msgstr "Suchordner für »%s : %s« werden aktualisiert"
@@ -18516,7 +18434,7 @@ msgstr "Suchordner für »%s : %s« werden aktualisiert"
 #. * removed folder. For more than one search folder is
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
-#: ../src/libemail-engine/mail-vfolder.c:671
+#: ../src/libemail-engine/mail-vfolder.c:780
 #, c-format
 msgid ""
 "The Search Folder “%s” has been modified to account for the deleted folder\n"
@@ -19700,16 +19618,12 @@ msgid "Forward As _Quoted"
 msgstr "_Zitiert weiterleiten"
 
 #: ../src/mail/e-mail-reader.c:3181
-#, fuzzy
-#| msgid "_Destination folder:"
 msgid "_Containing Folder"
-msgstr "Zielor_dner:"
+msgstr "_Beinhaltenden Ordner"
 
 #: ../src/mail/e-mail-reader.c:3183
-#, fuzzy
-#| msgid "Choose folders to post the message to."
 msgid "Go to the folder the message originates from"
-msgstr "Wählen Sie Ordner, in denen die Nachricht abgelegt werden soll."
+msgstr "Den Ordner öffnen, aus dem die Nachricht stammt"
 
 #: ../src/mail/e-mail-reader.c:3188
 msgid "Change _More Labels…"
@@ -20093,10 +20007,8 @@ msgid "Ch_aracter Encoding"
 msgstr "Zeichenko_dierung"
 
 #: ../src/mail/e-mail-reader.c:3565
-#, fuzzy
-#| msgid "List of disabled plugins"
 msgid "List of Labels"
-msgstr "Liste der deaktivierten Erweiterungen"
+msgstr "Liste der Beschriftungen"
 
 #: ../src/mail/e-mail-reader.c:3572
 msgid "Create a Search Folder from Mailing _List…"
@@ -23787,10 +23699,8 @@ msgstr "Adressbuchgruppen _verwalten …"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
-#, fuzzy
-#| msgid "Manage Calendar groups order and visibility"
 msgid "Manage addres book groups order and visibility"
-msgstr "Kalendergruppen und deren Sichtbarkeit verwalten"
+msgstr "Adressbuchgruppen und deren Sichtbarkeit verwalten"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1331
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1437
@@ -24043,16 +23953,12 @@ msgid "Unmatched"
 msgstr "Nicht einsortiert"
 
 #: ../src/modules/addressbook/e-book-shell-view.c:96
-#, fuzzy
-#| msgid "Addressbook Contact"
 msgid "Address Book Context Menu"
-msgstr "Adressbuchkontakt"
+msgstr "Adressbuchkontextmenü"
 
 #: ../src/modules/addressbook/e-book-shell-view.c:97
-#, fuzzy
-#| msgid "Contact List Members"
 msgid "Contact Context Menu"
-msgstr "Kontaktlistenmitglieder"
+msgstr "Kontextmenü des Kontaktes"
 
 #: ../src/modules/addressbook/e-book-shell-view.c:387
 msgid "_Forward Contacts"
@@ -25104,7 +25010,7 @@ msgstr "Aufgaben ohne Fälligkeits_datum anzeigen"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:79
 msgid "Use smaller _font for time"
-msgstr ""
+msgstr "Kleinere Schrift für die Uhrzeit verwenden"
 
 #. Translators: This constructs: Show [spinner] days
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:81
@@ -25282,10 +25188,8 @@ msgid "_Copy…"
 msgstr "_Kopieren …"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1395
-#, fuzzy
-#| msgid "D_elete Calendar"
 msgid "D_elete Calendar…"
-msgstr "Kalender _löschen"
+msgstr "Kalender _löschen …"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1397
 msgid "Delete the selected calendar"
@@ -25394,10 +25298,8 @@ msgid "_Delegate Meeting…"
 msgstr "Besprechung dele_gieren …"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1542
-#, fuzzy
-#| msgid "Delete This _Occurrence"
 msgid "Delete This _Occurrence…"
-msgstr "Diese _Wiederholung löschen"
+msgstr "Diese _Wiederholung löschen …"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1544
 msgid "Delete this occurrence"
@@ -25408,10 +25310,8 @@ msgid "Delete this and any future occurrences"
 msgstr "Dieses und alle zukünftigen Vorkommen löschen"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1556
-#, fuzzy
-#| msgid "Delete All Occ_urrences"
 msgid "Delete All Occ_urrences…"
-msgstr "Alle Wie_derholungen löschen"
+msgstr "Alle Wie_derholungen löschen …"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
 msgid "Delete all occurrences"
@@ -25527,10 +25427,8 @@ msgid "Quit"
 msgstr "Beenden"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1696
-#, fuzzy
-#| msgid "Show Event _Preview"
 msgid "Event _Preview"
-msgstr "Termin_vorschau anzeigen"
+msgstr "Termin_vorschau"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1698
 msgid "Show event preview pane"
@@ -25550,7 +25448,7 @@ msgstr "_UAwg senden"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1713
 msgid "Navigation buttons"
-msgstr ""
+msgstr "Navigationsknöpfe"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1720
 msgid "Day"
@@ -25666,29 +25564,27 @@ msgid "Show events with no category set"
 msgstr "Termine ohne Kategorie anzeigen"
 
 #: ../src/modules/calendar/e-cal-shell-view.c:711
-#, fuzzy
-#| msgid "Calendar Properties"
 msgid "Calendar Context Menu"
-msgstr "Kalendereigenschaften"
+msgstr "Kontextmenü des Kalenders"
 
 #: ../src/modules/calendar/e-cal-shell-view.c:712
 msgid "Event Context Menu"
-msgstr ""
+msgstr "Kontextmenü des Termins"
 
 #: ../src/modules/calendar/e-cal-shell-view.c:713
 #: ../src/modules/calendar/e-memo-shell-view.c:343
 msgid "Memo Context Menu"
-msgstr ""
+msgstr "Kontextmenü der Notiz"
 
 #: ../src/modules/calendar/e-cal-shell-view.c:714
 #: ../src/modules/calendar/e-task-shell-view.c:536
 msgid "Task Context Menu"
-msgstr ""
+msgstr "Kontextmenü der Aufgabe"
 
 #. Translators: It refers to a context menu shown when there is no event below the cursor nor selected; the opposite is the "Event Context Menu" text
 #: ../src/modules/calendar/e-cal-shell-view.c:716
 msgid "No Event Context Menu"
-msgstr ""
+msgstr "Kein Kontextmenü des Termins"
 
 #. Translators: Default filename part saving a memo to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
@@ -25845,10 +25741,8 @@ msgid "Print Memos"
 msgstr "Notizen drucken"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:579
-#, fuzzy
-#| msgid "_Delete Memo"
 msgid "_Delete Memo…"
-msgstr "Notiz _löschen"
+msgstr "Notiz _löschen …"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:586
 msgid "_Find in Memo…"
@@ -25859,10 +25753,8 @@ msgid "Search for text in the displayed memo"
 msgstr "In der angezeigten Notiz einen Text suchen"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:607
-#, fuzzy
-#| msgid "D_elete Memo List"
 msgid "D_elete Memo List…"
-msgstr "Notizlist_e löschen"
+msgstr "Notizlist_e löschen …"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:609
 msgid "Delete the selected memo list"
@@ -25938,10 +25830,8 @@ msgid "Delete Memo"
 msgstr "Notiz löschen"
 
 #: ../src/modules/calendar/e-memo-shell-view.c:344
-#, fuzzy
-#| msgid "Memo List Properties"
 msgid "Memo List Context Menu"
-msgstr "Notizlisteneigenschaften"
+msgstr "Kontextmenü der Notizliste"
 
 #: ../src/modules/calendar/e-memo-shell-view-private.c:440
 #, c-format
@@ -26000,10 +25890,8 @@ msgid "Edit selected tasks in a bulk"
 msgstr "Die gewählten Aufgaben en Masse bearbeiten"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745
-#, fuzzy
-#| msgid "_Delete Task"
 msgid "_Delete Task…"
-msgstr "Aufgabe _löschen"
+msgstr "Aufgabe _löschen …"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:752
 msgid "_Find in Task…"
@@ -26014,10 +25902,8 @@ msgid "Search for text in the displayed task"
 msgstr "In der angezeigten Aufgabe nach Text suchen"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:773
-#, fuzzy
-#| msgid "D_elete Task List"
 msgid "D_elete Task List…"
-msgstr "Aufgabenlist_e löschen"
+msgstr "Aufgabenlist_e löschen …"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:775
 msgid "Delete the selected task list"
@@ -26149,10 +26035,8 @@ msgid "Delete Task"
 msgstr "Aufgabe löschen"
 
 #: ../src/modules/calendar/e-task-shell-view.c:537
-#, fuzzy
-#| msgid "Task List Properties"
 msgid "Task List Context Menu"
-msgstr "Aufgabenlisteneigenschaften"
+msgstr "Kontextmenü der Aufgabenliste"
 
 #: ../src/modules/calendar/e-task-shell-view-private.c:649
 #, c-format
@@ -26713,10 +26597,8 @@ msgid "Im_port"
 msgstr "I_mportieren"
 
 #: ../src/modules/itip-formatter/itip-view.c:1492
-#, fuzzy
-#| msgid "Importing an event"
 msgid "Im_port as Event"
-msgstr "Termin wird importiert"
+msgstr "Als Termin _importiert"
 
 #: ../src/modules/itip-formatter/itip-view.c:2291
 #: ../src/modules/itip-formatter/itip-view.c:2524
@@ -26818,28 +26700,24 @@ msgstr[0] "Die Notizliste »%s« enthält eine Notiz, die mit dieser Notiz kolli
 msgstr[1] "Die Notizliste »%s« enthält %d Notizen, die mit dieser Notiz kollidieren"
 
 #: ../src/modules/itip-formatter/itip-view.c:4797
-#, fuzzy, c-format
-#| msgid "Found the appointment in the calendar “%s”"
+#, c-format
 msgid "Found the appointment in the calendar “%s” as accepted"
-msgstr "Der Termin wurde im Kalender »%s« gefunden"
+msgstr "Der Termin wurde im Kalender »%s« als angenommen gefunden"
 
 #: ../src/modules/itip-formatter/itip-view.c:4803
-#, fuzzy, c-format
-#| msgid "Found the appointment in the calendar “%s”"
+#, c-format
 msgid "Found the appointment in the calendar “%s” as declined"
-msgstr "Der Termin wurde im Kalender »%s« gefunden"
+msgstr "Der Termin wurde im Kalender »%s« als abgelehnt gefunden"
 
 #: ../src/modules/itip-formatter/itip-view.c:4808
-#, fuzzy, c-format
-#| msgid "Found the appointment in the calendar “%s”"
+#, c-format
 msgid "Found the appointment in the calendar “%s” as tentatively accepted"
-msgstr "Der Termin wurde im Kalender »%s« gefunden"
+msgstr "1Der Termin wurde im Kalender »%s« gefunden"
 
 #: ../src/modules/itip-formatter/itip-view.c:4813
-#, fuzzy, c-format
-#| msgid "Found the appointment in the calendar “%s”"
+#, c-format
 msgid "Found the appointment in the calendar “%s” as delegated"
-msgstr "Der Termin wurde im Kalender »%s« gefunden"
+msgstr "Der Termin wurde im Kalender »%s« delegiert gefunden"
 
 #: ../src/modules/itip-formatter/itip-view.c:4818
 #, c-format
@@ -27325,17 +27203,12 @@ msgid "Add Ca_lendar and Tasks to this account"
 msgstr "Ka_lender und Aufgabenlisten zu diesem Konto hinzufügen"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:427
-#, fuzzy
-#| msgid "Saving %d message"
-#| msgid_plural "Saving %d messages"
 msgid "Saving message…"
-msgstr "%d Nachricht wird gespeichert"
+msgstr "1%d Nachricht wird gespeichert"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:429
-#, fuzzy
-#| msgid "Failed to save messages to disk."
 msgid "Failed to save message to folder."
-msgstr "Nachrichten konnten nicht auf Festplatte gespeichert werden."
+msgstr "Nachricht konnten nicht in den Ordner gespeichert werden."
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:774
 #, c-format
@@ -27345,16 +27218,12 @@ msgstr[0] "%d beigelegte Nachricht"
 msgstr[1] "%d beigelegte Nachrichten"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:945
-#, fuzzy
-#| msgid "Saving message to folder “%s”"
 msgid "Save Message to _Folder…"
-msgstr "Nachricht wird in Ordner »%s« gespeichert"
+msgstr "Nachricht in _Ordner »%s« speichern …"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:947
-#, fuzzy
-#| msgid "Save s_ent messages into the Sent folder"
 msgid "Save the message attachment to a chosen folder"
-msgstr "Verschickte Nachrichten im »Verschickt«-Ordner speichern"
+msgstr "Den Nachrichtenanhang in den gewählten Ordner speichern"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:990
 msgid "Import OpenP_GP key…"
@@ -27852,26 +27721,20 @@ msgid "Message Thread"
 msgstr "Nachrichten-Konversation"
 
 #: ../src/modules/mail/e-mail-shell-view.c:666
-#, fuzzy
-#| msgid "Show Preview Toolbar"
 msgid "Preview Toolbar"
-msgstr "Vorschauwerkzeugleiste anzeigen"
+msgstr "Vorschauwerkzeugleiste"
 
 #: ../src/modules/mail/e-mail-shell-view.c:667
 msgid "Preview Context Menu"
-msgstr ""
+msgstr "1"
 
 #: ../src/modules/mail/e-mail-shell-view.c:668
-#, fuzzy
-#| msgid "Folder Sort Order"
 msgid "Folder Context Menu"
-msgstr "Sortierreihenfolge des Ordners"
+msgstr "Kontextmenü des Ordners"
 
 #: ../src/modules/mail/e-mail-shell-view.c:669
-#, fuzzy
-#| msgid "Message Note"
 msgid "Message Context Menu"
-msgstr "Nachrichtennotiz"
+msgstr "Nachrichten-Kontextmenü"
 
 #: ../src/modules/mail/e-mail-shell-view.c:1360
 msgid "Current Folder and Subfolders Search"
@@ -30179,16 +30042,12 @@ msgid "Show the menu bar"
 msgstr "Die Menüleiste anzeigen"
 
 #: ../src/shell/e-shell-view.c:1088
-#, fuzzy
-#| msgid "Show Side _Bar"
 msgid "Show Side_bar"
 msgstr "Sei_tenleiste anzeigen"
 
 #: ../src/shell/e-shell-view.c:1090
-#, fuzzy
-#| msgid "Show the side bar"
 msgid "Show the sidebar"
-msgstr "Seitenleiste anzeigen"
+msgstr "Die Seitenleiste anzeigen"
 
 #: ../src/shell/e-shell-view.c:1095
 msgid "Show _Buttons"
