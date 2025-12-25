@@ -1562,6 +1562,56 @@ folder_tree_key_press_event (GtkWidget *widget,
 		return TRUE;
 	}
 
+	/* Handle Left arrow to collapse folders */
+	if (event && event->type == GDK_KEY_PRESS &&
+	    event->keyval == GDK_KEY_Left) {
+		GtkTreePath *path = NULL;
+		GtkTreeIter iter;
+		GtkTreeView *tv = GTK_TREE_VIEW (widget);
+		
+		gtk_tree_view_get_cursor(tv, &path, NULL);
+		
+		if (path) {
+			GtkTreeModel *model = gtk_tree_view_get_model(tv);
+			
+			if (gtk_tree_model_get_iter(model, &iter, path)) {
+				if (gtk_tree_model_iter_has_child(model, &iter)) {
+					if (gtk_tree_view_row_expanded(tv, path)) {
+						gtk_tree_view_collapse_row(tv, path);
+						gtk_tree_path_free(path);
+						return TRUE;  /* Don't move cursor */
+					}
+				}
+			}
+			gtk_tree_path_free(path);
+		}
+	}
+
+	/* Handle Right arrow to expand folders */
+	if (event && event->type == GDK_KEY_PRESS &&
+	    event->keyval == GDK_KEY_Right) {
+		GtkTreePath *path = NULL;
+		GtkTreeIter iter;
+		GtkTreeView *tv = GTK_TREE_VIEW (widget);
+		
+		gtk_tree_view_get_cursor(tv, &path, NULL);
+		
+		if (path) {
+			GtkTreeModel *model = gtk_tree_view_get_model(tv);
+			
+			if (gtk_tree_model_get_iter(model, &iter, path)) {
+				if (gtk_tree_model_iter_has_child(model, &iter)) {
+					if (!gtk_tree_view_row_expanded(tv, path)) {
+						gtk_tree_view_expand_row(tv, path, FALSE);
+						gtk_tree_path_free(path);
+						return TRUE;  /* Don't move cursor */
+					}
+				}
+			}
+			gtk_tree_path_free(path);
+		}
+	}
+		
 	self = EM_FOLDER_TREE (widget);
 	tree_view = GTK_TREE_VIEW (widget);
 	selection = gtk_tree_view_get_selection (tree_view);
