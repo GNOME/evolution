@@ -1,3 +1,67 @@
+Evolution 3.59.1 2026-01-02
+---------------------------
+
+Bug Fixes:
+	I#3144 - Subject not decrypted in GPG encrypted mail
+	I#3148 - EWebView: Draw symbolic icons with theme foreground color
+	I#3150 - Missing "search type" drop-down menu on Calendar window
+	I#3162 - Custom icon and text color for Search Folders lost on renaming
+	I#3164 - mail-vfolder: Correct and speed up setup and update of search folders
+	I#3169 - Renaming a mail folder resets its "Current View"
+	I#3172 - Crash when copying multiple lines from “Markdown as HTML” composer
+	I#3178 - Vendor autoar-gtk-chooser.c from gnome-autoar (Corentin Noël)
+	M!200 - shell: Connect the shell window delete-event handler using _after (gkatev)
+	M!201 - Fix an 'addres' typo (Bruce Cowan)
+	M!205 - metainfo: Add keywords to improve discoverability (Jean-François Fortin Tam)
+	M!206 - appearance-settings: Use the Settings portal to use the dark style (Corentin Noël)
+	eds-I#8 - Adapt to libebook API changes and added vCard 4.0 support
+	eds-I#554 - CalDAV: Provide a date limit for information sync
+	eds-I#614 - CamelSearchFolder: Add "not_all" "match-threads" kind
+
+Miscellaneous:
+	help: Replace some dead GNOME wiki URIs with GitLab URIs (Andre Klapper)
+	Lower default connection timeout to 15 seconds
+	Adapt to libcamel API removals
+	shell: Make "Close Immediately" question button "destructive"
+	cal-config-caldav: Correct when showing limit-download-days option
+	Composer: Broken letters with reopened message in other than UTF-8 charset
+	data: Round down icon height of evolution-symbolic.svg
+	EStockRequest: Remove leftover code
+	Mail: Import preview panel can generate runtime warning
+	e-util: Check for non-NULL GError in e_show_uri()
+	mail-vfolder: Remove unneeded runtime warning
+	EContactEditor: Prefer vCard "take" functions
+	Calendar: Allow to use GNOME system setting for "week start day"
+	shell: Fix a crash on start when app initialization fails
+	flatpak: Add gettext ACLOCAL workaround
+	e-contact-quick-add: Remove unused code
+	EContactMapWindow: Use book view to get contacts and their changes
+	EABEditor: Remove unneeded signals
+	EContactEditor: Change how required and supported fields are read
+	EABEditor: Remove unused functions and rename eab_editor_closed()
+	Contacts: Add a new vCard editor
+	EABContactFormatter: Show "GEO Location" and "Time zone" attributes
+
+Translations:
+	Aefgh Threenine (th)
+	Anders Jonsson (sv)
+	Asier Saratsua Garmendia (eu)
+	Aurimas Černius (lt)
+	Вячеслав Гурин (ru)
+	Bruce Cowan (en_GB)
+	Cheng-Chia Tseng (zh_TW)
+	Daniel Rusek (cs)
+	Ekaterine Papava (ka)
+	Emin Tufan Çetin (tr)
+	James Kerrane (es)
+	Jordi Mas (ca)
+	Juliano de Souza Camargo (pt_BR)
+	Martin (sl)
+	Quentin PAGÈS (oc)
+	Sabri Ünal (tr)
+	twlvnn kraftwerk (bg)
+	Yuri Chornoivan (uk)
+
 Evolution 3.58.0 2025-09-12
 ---------------------------
 
