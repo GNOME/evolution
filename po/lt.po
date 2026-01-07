@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-11-23 11:17+0000\n"
-"PO-Revision-Date: 2025-11-23 20:03+0200\n"
+"POT-Creation-Date: 2026-01-02 09:11+0000\n"
+"PO-Revision-Date: 2026-01-07 15:06+0200\n"
 "Last-Translator: Aurimas Černius <aurimas.cernius@mailo.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -256,6 +256,18 @@ msgid ""
 "preview"
 msgstr ""
 "Rodyti asmeninę informaciją prieš darbo informaciją kontakto peržiūroje"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:51
+msgid "Whether to use an old contact editor"
+msgstr "Ar naudoti seną kontaktų redaktorių"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:52
+msgid ""
+"The option can let choose whether an old or a new contact editor will be "
+"used in the application"
+msgstr ""
+"Parametras, leidžiantis pasirinkti tarp naujo ir seno kontaktų redaktoriaus "
+"naudojimo programoje"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:1
 msgid "Convert mail messages to Unicode"
@@ -4135,16 +4147,16 @@ msgid "Compose a Message"
 msgstr "Rašyti laišką"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:8
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:9
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:27
 #: ../src/e-util/e-name-selector-dialog.c:434
-#: ../src/modules/addressbook/e-book-shell-backend.c:276
+#: ../src/modules/addressbook/e-book-shell-backend.c:272
 #: ../src/modules/addressbook/e-book-shell-view.c:459
 msgid "Contacts"
 msgstr "Kontaktai"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1103
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:26
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1136
 #: ../src/e-util/e-collection-account-wizard.c:871
 #: ../src/e-util/e-webdav-browser.c:541
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:211
@@ -4205,18 +4217,91 @@ msgstr ""
 "Exchange naudojant „Exchange Web Services“ plėtinį."
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:5
+msgid "PIM"
+msgstr "PIM"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:6
+msgid "calendars"
+msgstr "kalendoriai"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:7
+msgid "calendaring"
+msgstr "kalendoriai"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
+msgid "events"
+msgstr "įvykiai"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:9
+msgid "meetings"
+msgstr "susitikimai"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:10
+msgid "appointments"
+msgstr "paskyrimai"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:11
+msgid "scheduling"
+msgstr "tvarkaraščiai"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:12
+msgid "planning"
+msgstr "planavimas"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:13
+msgid "agenda"
+msgstr "darbotvarkė"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:14
+msgid "reminders"
+msgstr "priminimai"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:15
+msgid "alarms"
+msgstr "žadintuvai"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:16
+msgid "email"
+msgstr "el. paštas"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:17
+msgid "email client"
+msgstr "el. pašto klientas"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:18
+msgid "tasks"
+msgstr "užduotys"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:19
+msgid "todos"
+msgstr "darbai"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:20
+msgid "memos"
+msgstr "rašteliai"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:21
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:885
+msgid "contacts"
+msgstr "kontaktai"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:22
+msgid "addressbook"
+msgstr "adresų knyga"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:23
 msgid "Mail – Classic View"
 msgstr "Paštas - klasikinis rodinys"
 
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:6
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:24
 msgid "Mail – Vertical View"
 msgstr "Paštas - vertikalus rodinys"
 
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:7
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:25
 msgid "Mail Composer"
 msgstr "Laiškai redaktorius"
 
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:10
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:28
 msgid "The Evolution Team"
 msgstr "Evolution komanda"
 
@@ -4754,7 +4839,7 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:889
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:891
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1521
 #: ../src/e-util/e-accounts-window.c:1578
 #: ../src/e-util/e-html-editor-link-popover.c:126
@@ -4893,17 +4978,22 @@ msgstr ""
 #. no flags
 #: ../src/addressbook/addressbook.error.xml.h:55
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3405
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3679
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4530
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4536
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3297
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3571
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4424
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4430
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:467
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:407
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:616
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:884
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:316
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3173
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4605
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4670
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:370
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:743
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:618
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:886
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:285
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1857
 #: ../src/calendar/calendar.error.xml.h:190
 #: ../src/calendar/gui/e-cal-dialogs.c:936
@@ -5022,9 +5112,12 @@ msgid "Options"
 msgstr "Parametrai"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3679
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3571
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:887
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4583
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4612
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:370
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:889
 #: ../src/calendar/calendar.error.xml.h:56
 #: ../src/calendar/gui/e-comp-editor.c:2384
 #: ../src/composer/e-composer-actions.c:259
@@ -5051,6 +5144,7 @@ msgid "Nic_kname:"
 msgstr "_Slapyvardis:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:18
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3682
 msgid "_File under:"
 msgstr "Į_rašyti į:"
 
@@ -5068,14 +5162,16 @@ msgid "Full _Name..."
 msgstr "Vis_as vardas..."
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:22
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2975
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:8
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1447
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1043
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1480
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "El. paštas"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4833
 msgid "_Wants to receive HTML mail"
 msgstr "_Nori gauti HTML laiškus"
 
@@ -5088,6 +5184,7 @@ msgid "SIP Address"
 msgstr "SIP adresas"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:26
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2978
 msgid "Instant Messaging"
 msgstr "Tikralaikiai pokalbiai"
 
@@ -5190,6 +5287,7 @@ msgid "_Assistant:"
 msgstr "_Asistentas:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:48
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2974
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:532
 msgid "Job"
 msgstr "Darbas"
@@ -5199,7 +5297,7 @@ msgid "_Anniversary:"
 msgstr "_Jubiliejus:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1148
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1181
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:1778
 msgid "Anniversary"
@@ -5210,7 +5308,7 @@ msgid "_Birthday:"
 msgstr "_Gimtadienis:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1149
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1182
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:1777
 msgid "Birthday"
@@ -5229,7 +5327,7 @@ msgid "_Death:"
 msgstr "_Mirtis:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:56
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1151
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1184
 msgid "Death"
 msgstr "Mirtis"
 
@@ -5256,11 +5354,11 @@ msgstr "_Giminė:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
 msgid "Ex_pertise:"
-msgstr "_Patirtis"
+msgstr "_Patirtis:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
 msgid "_Interest:"
-msgstr "_Pomėgiai"
+msgstr "_Pomėgiai:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
 msgid "_Hobby:"
@@ -5281,11 +5379,13 @@ msgid "Personal Information"
 msgstr "Asmeninė informacija"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:180
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:825
 msgid "_City:"
 msgstr "_Miestas:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:68
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:195
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:826
 msgid "_Zip/Postal Code:"
 msgstr "_Zip/Pašto kodas:"
@@ -5300,6 +5400,7 @@ msgid "_Country:"
 msgstr "_Valstybė:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:71
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:165
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:828
 msgid "_PO Box:"
 msgstr "_Pašto dėžutė:"
@@ -5320,7 +5421,7 @@ msgstr "Namų"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:74
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:80
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1117
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1150
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:546
 #: ../src/addressbook/gui/widgets/e-contact-map.c:424
 msgid "Work"
@@ -5328,18 +5429,20 @@ msgstr "Darbinis"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:75
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1186
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1219
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:548
 #: ../src/calendar/gui/comp-util.c:1951
 msgid "Other"
 msgstr "Kitas"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:76
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2980
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:543
 msgid "Mailing Address"
 msgstr "Pašto adresas"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:77
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2984
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
 msgid "Notes"
@@ -5387,75 +5490,77 @@ msgid "_Load X.509"
 msgstr "Į_kelti X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:83
-#: ../src/modules/addressbook/e-book-shell-backend.c:287
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2983
+#: ../src/modules/addressbook/e-book-shell-backend.c:283
 msgid "Certificates"
 msgstr "Liudijimai"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:254
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:497
-msgid "Error adding contact"
-msgstr "Klaida įtraukiant kontaktą"
-
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:274
-msgid "Error modifying contact"
-msgstr "Klaida keičiant kontaktą"
-
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:294
-msgid "Error removing contact"
-msgstr "Klaida šalinant kontaktą"
-
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:674
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:696
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3023
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5270
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:612
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:634
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2915
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5164
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3625
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:5126
 msgid "Contact Editor"
 msgstr "Kontaktų redaktorius"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:690
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3017
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:628
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2909
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3621
 #, c-format
 msgid "Contact Editor — %s"
 msgstr "Kontaktų rengyklė — %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2901
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2793
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1948
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:376
 msgctxt "gender-sex"
 msgid "Male"
 msgstr "Vyras"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2902
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2794
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1949
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:379
 msgctxt "gender-sex"
 msgid "Female"
 msgstr "Moteris"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2903
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2795
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1950
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:382
 msgctxt "gender-sex"
 msgid "Other"
 msgstr "Kita"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2904
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2796
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1951
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:371
 msgctxt "gender-sex"
 msgid "Unknown"
 msgstr "Nežinoma"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2905
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2797
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1952
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:385
 msgctxt "gender-sex"
 msgid "Not Applicable"
 msgstr "Netaikoma"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3372
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3264
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:383
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:752
 msgid "X.509 certificates"
 msgstr "X.509 liudijimai"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3377
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3269
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:378
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:759
 msgid "PGP keys"
 msgstr "PGP raktai"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3383
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:389
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:765
 #: ../src/e-util/e-html-editor-actions.c:548
 #: ../src/e-util/e-image-chooser-dialog.c:182
 #: ../src/e-util/e-mail-signature-script-dialog.c:442
@@ -5464,17 +5569,21 @@ msgstr "PGP raktai"
 msgid "All files"
 msgstr "Visi failai"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3403
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3295
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:740
 msgid "Open PGP key"
 msgstr "Atverti PGP raktą"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3403
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3295
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:740
 msgid "Open X.509 certificate"
 msgstr "Atverti X.509 liudijimą"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3405
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4530
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4537
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3297
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4424
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4431
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3173
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:743
 #: ../src/e-util/e-attachment-store.c:658 ../src/e-util/e-category-editor.c:170
 #: ../src/e-util/e-html-editor-actions.c:493
 #: ../src/e-util/e-html-editor-actions.c:539
@@ -5485,49 +5594,68 @@ msgstr "Atverti X.509 liudijimą"
 msgid "_Open"
 msgstr "_Atverti"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3420
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3692
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3312
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3584
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:399
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:776
 msgid "Chosen file is not a local file."
 msgstr "Pasirinktas failas nėra vietinis."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3433
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3325
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "Nepavyko įkelti liudijimo: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3507
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3399
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3507
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3399
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3677
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3569
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:367
 msgid "Save PGP key"
 msgstr "Įrašyti PGP raktą"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3677
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3569
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:367
 msgid "Save X.509 certificate"
 msgstr "Įrašyti X.509 liudijimą"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3704
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3596
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:431
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "Nepavyko įrašyti liudijimo: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4527
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4533
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4421
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4427
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3170
 msgid "Please select an image for this contact"
 msgstr "Prašau parinkti šiam kontaktui paveikslėlį"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4538
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4432
 msgid "_No image"
 msgstr "_Nėra paveikslėlio"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4904
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4514
+msgid "Error removing contact"
+msgstr "Klaida šalinant kontaktą"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4558
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:466
+msgid "Error adding contact"
+msgstr "Klaida įtraukiant kontaktą"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4586
+msgid "Error modifying contact"
+msgstr "Klaida keičiant kontaktą"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4798
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -5535,28 +5663,31 @@ msgstr ""
 "Kontakto duomenys netinkami:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4918
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4812
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:850
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "„%s“ negali būti ateities data"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4941
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4952
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4835
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4846
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:868
 #, c-format
 msgid "“%s” cannot be a partial date"
 msgstr "„%s“ negali būti dalinė data"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4967
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4982
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4861
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4876
 #, c-format
 msgid "“%s” is empty"
 msgstr "„%s“ yra tuščia"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4995
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4889
 msgid "Invalid contact."
 msgstr "Netinkamas kontaktas."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5309
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5203
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4621
 #: ../src/calendar/gui/e-comp-editor.c:2267
 #: ../src/calendar/gui/e-comp-editor.c:2346
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
@@ -5564,34 +5695,34 @@ msgstr "Netinkamas kontaktas."
 msgid "_Help"
 msgstr "_Žinynas"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5451
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5345
 #: ../src/calendar/gui/e-comp-editor.c:2309
 #: ../src/e-util/e-html-editor-actions.c:1390
 msgid "_Undo"
 msgstr "_Atšaukti"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5453
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5347
 #: ../src/calendar/gui/e-comp-editor.c:2311 ../src/e-util/e-focus-tracker.c:167
 #: ../src/e-util/e-focus-tracker.c:170
 msgid "Undo"
 msgstr "Atšaukti"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5458
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5352
 #: ../src/calendar/gui/e-comp-editor.c:2316
 #: ../src/e-util/e-html-editor-actions.c:1376
 msgid "_Redo"
 msgstr "Paka_rtoti"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5460
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5354
 #: ../src/calendar/gui/e-comp-editor.c:2318 ../src/e-util/e-focus-tracker.c:183
 #: ../src/e-util/e-focus-tracker.c:186
 msgid "Redo"
 msgstr "Pakartoti"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:213
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:468
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:408
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:13
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:317
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:286
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:306
 #: ../src/e-util/e-categories-dialog.c:76 ../src/e-util/e-category-editor.c:247
 #: ../src/e-util/e-charset-combo-box.c:85
@@ -5615,75 +5746,86 @@ msgstr "Pakartoti"
 msgid "_OK"
 msgstr "_Gerai"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:251
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:208
 msgid "Failed to find contact"
 msgstr "Nepavyko rasti kontakto"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:463
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:403
 msgid "Contact Quick-Add"
 msgstr "Kontakto greitas pridėjimas"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:466
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:406
 msgid "_Edit Full"
 msgstr "_Keisti pilną"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:524
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:464
 msgid "_Full name"
 msgstr "_Visas vardas"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:535
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:475
 msgid "E_mail"
 msgstr "E_l. paštas"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:546
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:486
 msgid "_Select Address Book"
 msgstr "_Pasirinkti adresų knygą"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:778
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:698
 msgid "Failed to parse vCard data"
 msgstr "Nepavyko perskaityti vCard duomenų"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1741
 msgid "Mr."
 msgstr "Mr."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:2
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1741
 msgid "Mrs."
 msgstr "Mrs."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:3
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1741
 msgid "Ms."
 msgstr "Ms."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:4
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1741
 msgid "Miss"
 msgstr "Miss"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:5
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1741
 msgid "Dr."
 msgstr "Dr."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:6
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1742
 msgid "Sr."
 msgstr "Sr."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:7
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1742
 msgid "Jr."
 msgstr "Jr."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:8
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1742
 msgid "I"
 msgstr "I"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:9
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1742
 msgid "II"
 msgstr "II"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:10
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1742
 msgid "III"
 msgstr "III"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:11
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1742
 msgid "Esq."
 msgstr "Esq."
 
@@ -5714,7 +5856,7 @@ msgid "_Suffix:"
 msgstr "_Galūnė:"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:817
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:815
 msgid "Contact List Editor"
 msgstr "Kontaktų sąrašo redaktorius"
 
@@ -5773,25 +5915,503 @@ msgstr "Že_myn"
 msgid "_Bottom"
 msgstr "_Apačion"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:942
-msgid "Contact List Members"
-msgstr "Susisiekti su sąrašo nariais"
-
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1486
-msgid "_Members"
-msgstr "_Nariai"
-
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1626
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:388
 msgid "Error adding list"
 msgstr "Klaida pridedant sąrašą"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1646
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:415
 msgid "Error modifying list"
 msgstr "Klaida modifikuojant sąrašą"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1666
-msgid "Error removing list"
-msgstr "Klaida pašalinant sąrašą"
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:940
+msgid "Contact List Members"
+msgstr "Susisiekti su sąrašo nariais"
+
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1481
+msgid "_Members"
+msgstr "_Nariai"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:359
+#, c-format
+msgid "Failed to save changes: %s"
+msgstr "Nepavyko įrašyti pakeitimų: %s"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:372
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:118
+msgctxt "addressbook-label"
+msgid "Work"
+msgstr "Darbinis"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:373
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:119
+msgctxt "addressbook-label"
+msgid "Home"
+msgstr "Namų"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:374
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:120
+msgctxt "addressbook-label"
+msgid "Other"
+msgstr "Kitas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1116
+msgid "_Geo:"
+msgstr "_Geo:"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1124
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1125
+msgid "Latitude"
+msgstr "Platuma"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1136
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1137
+msgid "Longitude"
+msgstr "Ilguma"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1150
+msgid "Open in map"
+msgstr "Atverti žemėlapyje"
+
+#. Put the "UTC" entry at the top of the combo's list.
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1351
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1353
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1449
+#: ../src/calendar/gui/e-timezone-entry.c:407
+#: ../src/e-util/e-timezone-dialog.c:262 ../src/e-util/e-timezone-dialog.c:502
+#: ../src/e-util/e-timezone-dialog.c:506 ../src/e-util/e-timezone-dialog.c:510
+#: ../src/e-util/e-timezone-dialog.c:997
+msgid "UTC"
+msgstr "UTC"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1397
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:13
+msgid "Time _zone:"
+msgstr "Laiko _juosta:"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2384
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3035
+msgid "_Blog"
+msgstr "_Tinklaraštis"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2385
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3036
+#: ../src/e-util/e-accounts-window.c:1500
+msgid "_Calendar"
+msgstr "_Kalendorius"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2386
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3037
+msgid "_Free/Busy"
+msgstr "_Užimtumas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2387
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3038
+msgid "_Video Chat"
+msgstr "_Vaizdo pokalbis"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2388
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3039
+msgid "_URL"
+msgstr "_URL"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2971
+#: ../src/e-util/evolution-source-viewer.c:723
+#: ../src/mail/e-mail-config-identity-page.c:1223
+msgid "Identity"
+msgstr "Tapatybė"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2972
+msgid "Identity Details"
+msgstr "Tapatybė informacija"
+
+#. can be enabled if/when the editor will cover also the groups/lists
+#. gtk_combo_box_text_append (text_combo, "group", _("Group"));
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2973
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3500
+msgid "Organization"
+msgstr "Organizacija"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2976
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:9
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:902
+msgid "Phone"
+msgstr "Telefonas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2977
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:569
+msgid "SIP"
+msgstr "SIP"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2979
+msgid "Web Address"
+msgstr "Tinklalapio adresas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2981
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3501
+#: ../src/calendar/gui/caltypes.xml.in.h:14
+#: ../src/calendar/gui/e-cal-list-view.etspec.h:5
+#: ../src/calendar/gui/e-task-table.etspec.h:13
+#: ../src/mail/message-list.etspec.h:14
+#: ../src/plugins/publish-calendar/publish-calendar.c:859
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:23
+#: ../src/plugins/save-calendar/csv-format.c:376
+msgid "Location"
+msgstr "Vieta"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2982
+msgid "Life Events"
+msgstr "Gyvenimo įvykiai"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2996
+msgid "_Identity"
+msgstr "_Tapatybė"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2997
+msgid "Name _Prefix"
+msgstr "Vardo _priešdėlis"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2998
+msgid "_First Name"
+msgstr "Pirmasis _vardas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2999
+msgid "_Middle Name"
+msgstr "_Vidurinis vardas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3000
+msgid "S_urname"
+msgstr "_Pavardė"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3001
+msgid "Name Suffi_x"
+msgstr "Vardo galūnė"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3004
+msgid "Identity _Details"
+msgstr "Tapatybės _informacija"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3006
+msgid "_Nickname"
+msgstr "_Slapyvardis"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3007
+msgid "_Gender"
+msgstr "_Giminė"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3008
+msgid "Sp_ouse"
+msgstr "Sutu_oktinis"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3009
+msgid "Ex_pertise"
+msgstr "_Patirtis"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3010
+msgid "Inte_rest"
+msgstr "Po_mėgiai"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3011
+msgid "Ho_bby"
+msgstr "Ho_bis"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3014
+msgid "_Organization"
+msgstr "_Organizacija"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3015
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4007
+msgid "_Company"
+msgstr "_Kompanija"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3016
+msgid "_Department"
+msgstr "_Padalinys"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3017
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4008
+msgid "_Office"
+msgstr "_Biuras"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3018
+msgid "Or_g. Directory"
+msgstr "Or_g. aplankas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3021
+msgid "_Job"
+msgstr "_Darbas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3022
+msgid "_Title"
+msgstr "_Pavadinimas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3023
+msgid "_Profession"
+msgstr "_Profesija"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3024
+msgid "_Manager"
+msgstr "_Vadybininkas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3025
+msgid "_Assistant"
+msgstr "_Asistentas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3028
+msgid "_Email"
+msgstr "_El. paštas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3029
+msgid "_Phone"
+msgstr "_Telefonas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3030
+msgid "_SIP"
+msgstr "_SIP"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3031
+msgid "Inst_ant Messaging"
+msgstr "Tikr_alaikiai pokalbiai"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3032
+msgid "_Mailing Address"
+msgstr "_Pašto adresas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3034
+msgid "_Web Address"
+msgstr "_Tinklalapiai"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3042
+msgid "_Location"
+msgstr "_Vieta"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3043
+msgid "_Geo"
+msgstr "_Geo"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3044
+msgid "_Time zone"
+msgstr "_Laiko juosta"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3047
+msgid "Li_fe Events"
+msgstr "_Gyvenimo įvykiai"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3048
+msgid "_Anniversary"
+msgstr "_Jubiliejus"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3049
+msgid "_Birthday"
+msgstr "_Gimtadienis"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3050
+msgid "_Date of death"
+msgstr "_Mirties data"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3052
+msgid "Birth _place"
+msgstr "Gimimo _vieta"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3053
+msgid "Death _place"
+msgstr "Mirties _vieta"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3056
+msgid "_X.509 certificate"
+msgstr "X.509 liudijimas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3057
+msgid "P_GP key"
+msgstr "P_GP raktas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3058
+msgid "_Notes"
+msgstr "_Pastabos"
+
+#. to have a gap between the trash icon and the item on the right
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3362
+msgid "Remove image"
+msgstr "Pašalinti paveikslėlį"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3497
+#: ../src/calendar/gui/e-meeting-list-view.c:167
+#: ../src/calendar/gui/e-meeting-store.c:106
+#: ../src/calendar/gui/e-meeting-store.c:123
+#: ../src/calendar/gui/e-meeting-store.c:1064 ../src/calendar/gui/print.c:1294
+msgid "Individual"
+msgstr "Asmuo"
+
+#. Translators: it is a contact kind, like "individual", "group", "organization", "location" and "custom"
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3504
+msgctxt "Contact"
+msgid "_Kind:"
+msgstr "_Tipas:"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3597
+msgid "Address _book:"
+msgstr "Adresų _knyga:"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3787
+msgid "Ca_tegories…"
+msgstr "Ka_tegorijos…"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4082
+#: ../src/calendar/gui/e-cal-range-model.c:208
+#: ../src/calendar/gui/e-comp-editor-event.c:571
+#: ../src/calendar/gui/e-comp-editor-event.c:587
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:247
+#: ../src/calendar/gui/e-comp-editor.c:362
+#: ../src/composer/e-composer-actions.c:189
+#: ../src/em-format/e-mail-part-secure-button.c:97
+#: ../src/e-util/e-markdown-utils.c:188 ../src/e-util/e-markdown-utils.c:198
+#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:256
+#: ../src/e-util/e-misc-utils.c:3442 ../src/e-util/e-misc-utils.c:3450
+#: ../src/e-util/e-misc-utils.c:3458 ../src/e-util/e-misc-utils.c:3493
+#: ../src/e-util/e-misc-utils.c:3506 ../src/e-util/e-misc-utils.c:3520
+#: ../src/e-util/e-ui-customize-dialog.c:3522
+#: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3142
+#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3943
+#: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
+#: ../src/mail/e-mail-viewer.c:1561 ../src/mail/e-mail-viewer.c:2508
+#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4294
+#: ../src/mail/em-composer-utils.c:4317 ../src/mail/mail-send-recv.c:604
+#: ../src/mail/mail-send-recv.c:1500
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:171
+#: ../src/modules/mail/e-mail-attachment-handler.c:557
+#: ../src/plugins/face/face.c:175
+#: ../src/plugins/mail-to-task/mail-to-task.c:998 ../src/shell/e-shell.c:1278
+#: ../src/shell/e-shell.c:1303 ../src/smime/gui/certificate-manager.c:349
+#: ../src/smime/lib/e-cert-db.c:108
+#, c-format
+msgid "Unknown error"
+msgstr "Nežinoma klaida"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4425
+#, c-format
+msgid "Failed to receive list of supported fields: %s"
+msgstr "Nepavyko gauti nepalaikomų laukų sąrašo: %s"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4571
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:624
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-section.c:148
+#: ../src/mail/mail-config.ui.h:129
+msgid "Add"
+msgstr "Pridėti"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4594
+#: ../src/e-util/e-preferences-window.c:297
+msgid "Help"
+msgstr "Žinynas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4679
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:658
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:245
+msgid "Saving changes, please wait…"
+msgstr "Įrašomi pakeitimai, palaukite…"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4905
+msgid "Full _Name"
+msgstr "Visas _vardas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:5338
+msgid "“Full Name” cannot be empty"
+msgstr "„Pilnas vardas“ negali būti tuščias"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:5355
+msgid "“File under” cannot be empty"
+msgstr "„Užpildyti“ negali būti tuščias"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:142
+msgid "St_reet:"
+msgstr "_Gatvė:"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:210
+msgid "Stat_e/Province:"
+msgstr "_Valstija/provincija:"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:225
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:830
+msgid "Co_untry:"
+msgstr "_Valstybė:"
+
+#. Translators: the '%s' is replaced with the certificate info, like its common name, email or subject name
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:88
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:119
+#, c-format
+msgid "X.509 Certificate (%s)"
+msgstr "X.509 liudijimas (%s)"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:150
+msgid "Certificate not set"
+msgstr "Liudijimas nenustatytas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:165
+msgid "PGP key"
+msgstr "PGP raktas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:168
+msgid "X.509 certificate"
+msgstr "X.509 liudijimas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:171
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:176
+msgid "Certificate"
+msgstr "Liudijimas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:207
+#: ../src/mail/em-utils.c:2079
+#, c-format
+msgid "Key ID: %s"
+msgstr "Rakto ID: %s"
+
+#. Translators: the '%s' is replaced with a user ID, which is usually a user email, or the key ID
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:220
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:281
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:283
+#, c-format
+msgid "PGP key (%s)"
+msgstr "PGP raktas (%s)"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:244
+#: ../src/mail/em-utils.c:2138
+#, c-format
+msgid "User ID: %s"
+msgstr "Naudotojo ID: %s"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:253
+#: ../src/mail/em-utils.c:2090
+#, c-format
+msgid "Fingerprint: %s"
+msgstr "Piršto atspaudas: %s"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:262
+#: ../src/mail/em-utils.c:2106
+#, c-format
+msgid "Created: %s"
+msgstr "Sukurta: %s"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:290
+msgid "No information found for the PGP key"
+msgstr "Nerasta informacijos apie PGP raktą"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:310
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:833
+msgid "Unrecognized certificate"
+msgstr "Neatpažintas liudijimas"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:594
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-item.c:198
+#: ../src/mail/mail-config.ui.h:130
+msgid "Remove"
+msgstr "Pašalinti"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:609
+msgid "Save to File"
+msgstr "Įrašyti į failą"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:781
+msgid "Failed to load certificate:"
+msgstr "Nepavyko įkelti liudijimo:"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../src/em-format/e-mail-formatter-print.c:50
@@ -5847,11 +6467,6 @@ msgstr "prasideda su"
 msgid "ends with"
 msgstr "baigiasi"
 
-#: ../src/addressbook/gui/widgets/addresstypes.xml.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:871
-msgid "Phone"
-msgstr "Telefonas"
-
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:10
 #: ../src/calendar/gui/caltypes.xml.in.h:15
 #: ../src/calendar/gui/memotypes.xml.in.h:13
@@ -5870,22 +6485,22 @@ msgid "Expression"
 msgstr "Išraiška"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:12
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1573
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1542
 msgid "Name contains"
 msgstr "Varde yra"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:13
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1552
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1521
 msgid "Email begins with"
 msgstr "El. paštas prasideda"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:14
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1559
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1528
 msgid "Email contains"
 msgstr "El. laiške yra"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:15
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1566
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1535
 msgid "Phone contains"
 msgstr "Telefone yra"
 
@@ -5893,7 +6508,7 @@ msgstr "Telefone yra"
 #: ../src/calendar/gui/caltypes.xml.in.h:27
 #: ../src/calendar/gui/memotypes.xml.in.h:20
 #: ../src/calendar/gui/tasktypes.xml.in.h:39
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1545
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1514
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1789
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:736
 #: ../src/modules/calendar/e-task-shell-view-actions.c:924
@@ -5947,60 +6562,56 @@ msgid "%s, %s"
 msgstr "%s, %s"
 
 #. Translators: strftime format for partial date, when only the day is filled; it will be shown as a number
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:430
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:461
 #, c-format
 msgctxt "partial-date"
 msgid "%d"
 msgstr "%d"
 
 #. Translators: strftime format for partial date, when only the month is filled; it will be shown as a month name; month number is "%m"
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:434
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:465
 msgctxt "partial-date"
 msgid "%B"
 msgstr "%B"
 
 #. Translators: strftime format for partial date, when only the day and the month are filled; it will be shown as a month name followed by a day number; month number is "%m"
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:437
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:468
 msgctxt "partial-date"
 msgid "%B %d"
 msgstr "%B %d"
 
 #. Translators: strftime format for partial date, when only the year is filled; it will be shown as a number
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:444
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:475
 msgctxt "partial-date"
 msgid "%Y"
 msgstr "%Y"
 
 #. Translators: strftime format for partial date, when only the day and the year are filled; it comes from "%m/%d/%Y", where the "%m" is the month, which is not set
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:447
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:478
 msgctxt "partial-date"
 msgid "--/%d/%Y"
 msgstr "%Y -- %d"
 
 #. Translators: strftime format for partial date, when only the month and the year are filled; the month will be shown as a month name; month number is "%m"
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:452
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:483
 msgctxt "partial-date"
 msgid "%B %Y"
 msgstr "%Y %B"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:538
-msgid "SIP"
-msgstr "SIP"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:775
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:806
 msgid "List Members:"
 msgstr "Sąrašo nariai:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:869
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:900
 msgid "Fax"
 msgstr "Faksas"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1017
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Pravardė"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1018
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:522
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:6
@@ -6010,163 +6621,171 @@ msgstr "Pravardė"
 msgid "Categories"
 msgstr "Kategorijos"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1020
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1021
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1022
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1023
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1054
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1024
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1055
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1025
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1056
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1026
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1057
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1027
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1058
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1028
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1059
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1029
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1060
 msgid "Matrix"
 msgstr "Matrica"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1094
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1064
+msgid "GEO Location"
+msgstr "GEO vieta"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1065
+msgid "Time zone"
+msgstr "Laiko juosta"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1127
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Kompanija"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1095
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1128
 msgid "Department"
 msgstr "Padalinys"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1096
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1129
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Ofisas"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1098
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1131
 msgid "Profession"
 msgstr "Profesija"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1099
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1132
 msgid "Position"
 msgstr "Postas"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1100
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1133
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Vadybininkas"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1101
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1134
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Asistento"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1102
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1135
 msgid "Video Chat"
 msgstr "Vaizdo pokalbis"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1104
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1137
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Užimtumas"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1107
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1147
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1176
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1140
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1180
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1209
 msgid "Address"
 msgstr "Adresas"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1143
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1176
 msgid "Home Page"
 msgstr "Namų tinklalapis"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1144
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1177
 msgid "Web Log"
 msgstr "Tinklaraštis"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1150
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1183
 msgid "Birth Place"
 msgstr "Gimimo vieta"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1152
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1185
 msgid "Death Place"
 msgstr "Gimimo vieta"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1153
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1186
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Sutuoktinis"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1163
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1196
 msgid "Personal"
 msgstr "Asmeninis"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1208
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1241
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Pastaba"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1409
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1442
 msgid "List Members"
 msgstr "Parodyti sąrašą"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1432
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1465
 msgid "Job Title"
 msgstr "Pareigos"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1473
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1506
 msgid "Home page"
 msgstr "Namų puslapis"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1483
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1516
 msgid "Blog"
 msgstr "Žurnalas"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:244
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:246
 #: ../src/e-util/e-mail-signature-editor.c:654
 msgid "Unnamed"
 msgstr "Bevardis"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:333
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:335
 #: ../src/calendar/gui/tasktypes.xml.in.h:15 ../src/mail/mail-send-recv.c:1150
 msgid "Cancelled"
 msgstr "Atšaukta"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:595
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:597
 msgid "Merge Contact"
 msgstr "Sujungti kontaktus"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:617
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:890
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:619
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:892
 msgid "_Merge"
 msgstr "_Sujungti"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:879
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:881
 msgid "Duplicate Contact Detected"
 msgstr "Rastas pasikartojantis kontaktas"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:937
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:939
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
@@ -6174,7 +6793,7 @@ msgstr ""
 "Šio adresato vardas arba el. paštas jau yra šiame aplanke.\n"
 "Ar vis tiek norite išsaugoti pakeitimus?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:940
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:942
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -6182,23 +6801,23 @@ msgstr ""
 "Šio kontakto el. pašto adresas arba vardas jau yra šiame\n"
 "aplanke.  Ar vis tiek norėtumėte jį pridėti?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:955
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:957
 msgid "Changed Contact:"
 msgstr "Pakeistas kontaktas:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:957
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:959
 msgid "New Contact:"
 msgstr "Naujas kontaktas:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:996
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:998
 msgid "Conflicting Contact:"
 msgstr "Konfliktuojantis kontaktas:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:998
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:1000
 msgid "Old Contact:"
 msgstr "Senas kontaktas:"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:119
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:88
 msgid ""
 "This address book cannot be opened. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
@@ -6209,7 +6828,7 @@ msgstr ""
 "prisijungę prie tinklo, įkelkite šią adresų knygą, kad būtų atsiųstas jos "
 "turinys."
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:138
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:107
 #, c-format
 msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
@@ -6218,7 +6837,7 @@ msgstr ""
 "Nepavyko atverti šios adresų knygos. Patikrinkite, ar kelias %s egzistuoja "
 "ir ar turite jos prieigos teises."
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:151
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:120
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
@@ -6227,7 +6846,7 @@ msgstr ""
 "naudoti LDAP su Evolution, jums teks įdiegti Evolution paketą su LDAP "
 "palaikymu."
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:160
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:129
 msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
@@ -6235,11 +6854,11 @@ msgstr ""
 "Nepavyko atverti šios adresų knygos. Tai reiškia, kad įvedėte neteisingą URI "
 "arba nurodytasis serveris yra nepasiekiamas."
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:170
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:139
 msgid "Detailed error message:"
 msgstr "Išsamus klaidos pranešimas:"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:209
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:178
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -6251,7 +6870,7 @@ msgstr ""
 "savo paiešką arba padidinkite šios adresų knygos rezultatų ribą\n"
 "aplanko serverio nuostatose."
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:216
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:185
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "configured for this address book.  Please make your search\n"
@@ -6264,50 +6883,50 @@ msgstr ""
 "nuostatose."
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:224
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:193
 #, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
 msgstr "Šios adresų knygos posistemei nepavyko apdoroti šios užklausos. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:229
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:198
 #, c-format
 msgid "The backend for this address book refused to perform this query. %s"
 msgstr "Šios adresų knygos posistemė atsisakė atlikti šią užklausą. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:235
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:241
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:204
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:210
 #, c-format
 msgid "This query did not complete successfully. %s"
 msgstr "Ši užklausa nebuvo atlikta. %s"
 
 #. This is a filename. Translators take note.
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:263
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:232
 msgid "card.vcf"
 msgstr "kortele.vcf"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:314
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:283
 msgid "Select Address Book"
 msgstr "Pasirinkti adresų knygą"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:392
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:361
 msgid "list"
 msgstr "sąrašas"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:581
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:550
 msgid "Move contact to"
 msgstr "Perkelti kontaktą į"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:583
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:552
 msgid "Copy contact to"
 msgstr "Nukopijuoti kontaktą į"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:586
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:555
 msgid "Move contacts to"
 msgstr "Perkelti kontaktus į"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:588
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:557
 msgid "Copy contacts to"
 msgstr "Nukopijuoti kontaktus į"
 
@@ -6348,7 +6967,7 @@ msgid "Paste contacts from the clipboard"
 msgstr "Įdėti kontaktus iš atmintinės"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1002
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1424
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1393
 msgid "Delete selected contacts"
 msgstr "Ištrinti pažymėtus kontaktus"
 
@@ -6397,7 +7016,7 @@ msgstr "Ar tikrai norite ištrinti šį kontaktą (%s)?"
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2893
 #: ../src/mail/e-mail-account-manager.c:727
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1317
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1286
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1666
 #: ../src/shell/e-shell-window-actions.c:653
 #: ../src/smime/gui/certificate-manager.c:1598 ../src/smime/gui/smime-ui.ui.h:8
@@ -6639,20 +7258,11 @@ msgstr "Kito adreso valstija/provincija"
 msgid "Other Address Country"
 msgstr "Kito adreso šalis"
 
-#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:658
-#: ../src/calendar/gui/e-bulk-edit-tasks.c:245
-msgid "Saving changes, please wait…"
-msgstr "Įrašomi pakeitimai, palaukite…"
-
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:660
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:247
 #: ../src/e-util/e-webdav-browser.c:1958
 msgid "Failed to save changes"
 msgstr "Nepavyko įrašyti pakeitimų"
-
-#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:830
-msgid "Co_untry:"
-msgstr "_Valstybė:"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:912
 #, c-format
@@ -6713,24 +7323,24 @@ msgstr "Ieškokite kontakto."
 msgid "There are no items to show in this view."
 msgstr "Šiame vaizde nėra nieko, ką būtų galima parodyti."
 
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:359
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:418
 msgid "Contacts Map"
 msgstr "Adresatų žemėlapis"
 
 #. Zoom-in button
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:394
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:453
 msgid "Zoom _In"
 msgstr "_Pritraukti"
 
 #. Zoom-out button
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:402
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:461
 #: ../src/e-util/e-html-editor-actions.c:1411 ../src/mail/e-mail-reader.c:3533
 #: ../src/mail/e-mail-viewer.c:1818
 msgid "Zoom _Out"
 msgstr "_Atitraukti"
 
 #. Search button
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:432
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:491
 #: ../src/e-util/e-html-editor-find-dialog.c:235
 #: ../src/shell/e-shell-view.c:1057
 msgid "_Find"
@@ -6801,87 +7411,87 @@ msgstr "Evolution vCard importavimas"
 msgid "Page %d"
 msgstr "%d puslapis"
 
-#: ../src/addressbook/util/eab-book-util.c:34
+#: ../src/addressbook/util/eab-book-util.c:66
 msgctxt "addressbook-label"
 msgid "Work Email"
 msgstr "Darbo el. paštas"
 
-#: ../src/addressbook/util/eab-book-util.c:35
+#: ../src/addressbook/util/eab-book-util.c:67
 msgctxt "addressbook-label"
 msgid "Home Email"
 msgstr "Namų el. paštas"
 
-#: ../src/addressbook/util/eab-book-util.c:36
+#: ../src/addressbook/util/eab-book-util.c:68
 msgctxt "addressbook-label"
 msgid "Other Email"
 msgstr "Kitas el. paštas"
 
-#: ../src/addressbook/util/eab-book-util.c:42
+#: ../src/addressbook/util/eab-book-util.c:74
 msgctxt "addressbook-label"
 msgid "Work SIP"
 msgstr "Darbinis SIP"
 
-#: ../src/addressbook/util/eab-book-util.c:43
+#: ../src/addressbook/util/eab-book-util.c:75
 msgctxt "addressbook-label"
 msgid "Home SIP"
 msgstr "Namų SIP"
 
-#: ../src/addressbook/util/eab-book-util.c:44
+#: ../src/addressbook/util/eab-book-util.c:76
 msgctxt "addressbook-label"
 msgid "Other SIP"
 msgstr "Kitas SIP"
 
-#: ../src/addressbook/util/eab-book-util.c:72
+#: ../src/addressbook/util/eab-book-util.c:104
 msgctxt "addressbook-label"
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/util/eab-book-util.c:73
+#: ../src/addressbook/util/eab-book-util.c:105
 msgctxt "addressbook-label"
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/util/eab-book-util.c:74
+#: ../src/addressbook/util/eab-book-util.c:106
 msgctxt "addressbook-label"
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/util/eab-book-util.c:75
+#: ../src/addressbook/util/eab-book-util.c:107
 msgctxt "addressbook-label"
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/util/eab-book-util.c:76
+#: ../src/addressbook/util/eab-book-util.c:108
 msgctxt "addressbook-label"
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/util/eab-book-util.c:77
+#: ../src/addressbook/util/eab-book-util.c:109
 msgctxt "addressbook-label"
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/util/eab-book-util.c:78
+#: ../src/addressbook/util/eab-book-util.c:110
 msgctxt "addressbook-label"
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/util/eab-book-util.c:79
+#: ../src/addressbook/util/eab-book-util.c:111
 msgctxt "addressbook-label"
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/util/eab-book-util.c:80
+#: ../src/addressbook/util/eab-book-util.c:112
 msgctxt "addressbook-label"
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/util/eab-book-util.c:81
+#: ../src/addressbook/util/eab-book-util.c:113
 msgctxt "addressbook-label"
 msgid "Google Talk"
 msgstr "Google savybės"
 
-#: ../src/addressbook/util/eab-book-util.c:82
+#: ../src/addressbook/util/eab-book-util.c:114
 msgctxt "addressbook-label"
 msgid "Matrix"
 msgstr "Matrica"
@@ -6890,7 +7500,7 @@ msgstr "Matrica"
 #. * if an email address type is not one of the predefined types,
 #. * this generic label is used instead of one of the predefined labels.
 #.
-#: ../src/addressbook/util/eab-book-util.c:125
+#: ../src/addressbook/util/eab-book-util.c:157
 msgctxt "addressbook-label"
 msgid "Email"
 msgstr "El. paštas"
@@ -6900,7 +7510,7 @@ msgstr "El. paštas"
 #. * this generic label is used instead of one of the predefined labels.
 #. * SIP=Session Initiation Protocol, used for voice over IP
 #.
-#: ../src/addressbook/util/eab-book-util.c:172
+#: ../src/addressbook/util/eab-book-util.c:204
 msgctxt "addressbook-label"
 msgid "SIP"
 msgstr "SIP"
@@ -6909,7 +7519,7 @@ msgstr "SIP"
 #. this generic label is used instead of one of the predefined labels.
 #. IM=Instant Messaging
 #.
-#: ../src/addressbook/util/eab-book-util.c:216
+#: ../src/addressbook/util/eab-book-util.c:248
 msgctxt "addressbook-label"
 msgid "IM"
 msgstr "TP"
@@ -6918,7 +7528,7 @@ msgstr "TP"
 #. * if a phone number type is not one of the predefined types,
 #. * this generic label is used instead of one of the predefined labels.
 #.
-#: ../src/addressbook/util/eab-book-util.c:310
+#: ../src/addressbook/util/eab-book-util.c:342
 msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefonas"
@@ -7731,16 +8341,6 @@ msgstr "Organizatorius"
 #: ../src/calendar/gui/tasktypes.xml.in.h:6
 msgid "Attendee"
 msgstr "Dalyvis"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:14
-#: ../src/calendar/gui/e-cal-list-view.etspec.h:5
-#: ../src/calendar/gui/e-task-table.etspec.h:13
-#: ../src/mail/message-list.etspec.h:14
-#: ../src/plugins/publish-calendar/publish-calendar.c:859
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:23
-#: ../src/plugins/save-calendar/csv-format.c:376
-msgid "Location"
-msgstr "Vieta"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:16
 #: ../src/calendar/gui/memotypes.xml.in.h:14
@@ -8917,36 +9517,6 @@ msgstr[0] "Kopijuojama %d užduotis"
 msgstr[1] "Kopijuojamos %d užduotys"
 msgstr[2] "Kopijuojama %d užduočių"
 
-#: ../src/calendar/gui/e-cal-range-model.c:208
-#: ../src/calendar/gui/e-comp-editor-event.c:571
-#: ../src/calendar/gui/e-comp-editor-event.c:587
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:247
-#: ../src/calendar/gui/e-comp-editor.c:362
-#: ../src/composer/e-composer-actions.c:189
-#: ../src/em-format/e-mail-part-secure-button.c:97
-#: ../src/e-util/e-markdown-utils.c:188 ../src/e-util/e-markdown-utils.c:198
-#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:256
-#: ../src/e-util/e-misc-utils.c:3442 ../src/e-util/e-misc-utils.c:3450
-#: ../src/e-util/e-misc-utils.c:3458 ../src/e-util/e-misc-utils.c:3493
-#: ../src/e-util/e-misc-utils.c:3506 ../src/e-util/e-misc-utils.c:3520
-#: ../src/e-util/e-ui-customize-dialog.c:3522
-#: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3142
-#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3943
-#: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
-#: ../src/mail/e-mail-viewer.c:1561 ../src/mail/e-mail-viewer.c:2508
-#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4294
-#: ../src/mail/em-composer-utils.c:4317 ../src/mail/mail-send-recv.c:604
-#: ../src/mail/mail-send-recv.c:1500
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:171
-#: ../src/modules/mail/e-mail-attachment-handler.c:557
-#: ../src/plugins/face/face.c:175
-#: ../src/plugins/mail-to-task/mail-to-task.c:998 ../src/shell/e-shell.c:1278
-#: ../src/shell/e-shell.c:1303 ../src/smime/gui/certificate-manager.c:349
-#: ../src/smime/lib/e-cert-db.c:108
-#, c-format
-msgid "Unknown error"
-msgstr "Nežinoma klaida"
-
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../src/calendar/gui/e-cell-date-edit-text.c:170
 msgid "%a %m/%d/%Y %H:%M:%S"
@@ -10120,13 +10690,13 @@ msgstr "Įdėti iš krepšio"
 
 #: ../src/calendar/gui/e-comp-editor.c:2281
 #: ../src/composer/e-composer-actions.c:439 ../src/mail/e-mail-reader.c:3414
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1607
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1621
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1576
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1590
 msgid "_Print…"
 msgstr "S_pausdinti…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2288 ../src/mail/e-mail-reader.c:3421
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1614
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1583
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1820
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:767
 #: ../src/modules/calendar/e-task-shell-view-actions.c:955
@@ -10304,13 +10874,6 @@ msgstr "Pirmininkaujantys asmenys"
 #: ../src/calendar/gui/e-meeting-list-view.c:151
 msgid "Attendees"
 msgstr "Dalyviai"
-
-#: ../src/calendar/gui/e-meeting-list-view.c:167
-#: ../src/calendar/gui/e-meeting-store.c:106
-#: ../src/calendar/gui/e-meeting-store.c:123
-#: ../src/calendar/gui/e-meeting-store.c:1064 ../src/calendar/gui/print.c:1294
-msgid "Individual"
-msgstr "Asmuo"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:168
 #: ../src/calendar/gui/e-meeting-store.c:108
@@ -10608,14 +11171,6 @@ msgstr "Planuojama trukmė"
 msgctxt "timezone"
 msgid "None"
 msgstr "Nėra"
-
-#. Put the "UTC" entry at the top of the combo's list.
-#: ../src/calendar/gui/e-timezone-entry.c:407
-#: ../src/e-util/e-timezone-dialog.c:262 ../src/e-util/e-timezone-dialog.c:502
-#: ../src/e-util/e-timezone-dialog.c:506 ../src/e-util/e-timezone-dialog.c:510
-#: ../src/e-util/e-timezone-dialog.c:997
-msgid "UTC"
-msgstr "UTC"
 
 #: ../src/calendar/gui/e-timezone-entry.c:505
 msgid "Select Timezone"
@@ -13094,7 +13649,7 @@ msgstr "_Tema:"
 msgid "Si_gnature:"
 msgstr "Pa_rašas:"
 
-#: ../src/composer/e-composer-name-header.c:223
+#: ../src/composer/e-composer-name-header.c:222
 msgid "Click here for the address book"
 msgstr "Spustelėkite norėdami atverti adresų knygą"
 
@@ -14004,10 +14559,6 @@ msgstr "_Pašto paskyra"
 msgid "Address _Book"
 msgstr "Adresų _knyga"
 
-#: ../src/e-util/e-accounts-window.c:1500
-msgid "_Calendar"
-msgstr "_Kalendorius"
-
 #: ../src/e-util/e-accounts-window.c:1501
 msgid "M_emo List"
 msgstr "_Raštelių sąrašas"
@@ -14294,7 +14845,7 @@ msgid "Attach a URI"
 msgstr "Prisegti URI"
 
 #: ../src/e-util/e-attachment-view.c:1149
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1359
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1328
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1451
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:635
 #: ../src/modules/calendar/e-task-shell-view-actions.c:801
@@ -16702,7 +17253,7 @@ msgstr "_Rašyti"
 #. ** Menus **
 #: ../src/e-util/e-markdown-editor.c:1881
 #: ../src/e-util/e-markdown-editor.c:2490
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1487
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1456
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1711
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:705
 #: ../src/modules/calendar/e-task-shell-view-actions.c:893
@@ -16916,7 +17467,7 @@ msgstr "_Paieška:"
 
 #: ../src/e-util/e-name-selector-dialog.c:347
 #: ../src/e-util/e-name-selector-dialog.c:1288
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1720
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1689
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1895
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:835
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1030
@@ -16937,25 +17488,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Pasirinkti kontaktus iš adresų knygos"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3266
+#: ../src/e-util/e-name-selector-entry.c:3260
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "Iš_plėsti %s viduje"
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3282
+#: ../src/e-util/e-name-selector-entry.c:3276
 #, c-format
 msgid "Cop_y %s"
 msgstr "_Kopijuoti %s"
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3293
+#: ../src/e-util/e-name-selector-entry.c:3287
 #, c-format
 msgid "C_ut %s"
 msgstr "Išk_irpti %s"
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3311
+#: ../src/e-util/e-name-selector-entry.c:3305
 #, c-format
 msgid "_Edit %s"
 msgstr "_Keisti %s"
@@ -17006,10 +17557,6 @@ msgstr "P_risiminti šį slaptažodį"
 #: ../src/e-util/e-passwords.c:599
 msgid "_Remember this password for the remainder of this session"
 msgstr "Įsi_minti šį slaptažodį visam likusiam seansui"
-
-#: ../src/e-util/e-preferences-window.c:297
-msgid "Help"
-msgstr "Žinynas"
 
 #: ../src/e-util/e-preferences-window.c:339
 msgid "Evolution Preferences"
@@ -17711,7 +18258,7 @@ msgstr "_Išdėstymas"
 #: ../src/e-util/e-ui-customize-dialog.c:2740
 #: ../src/e-util/e-ui-customize-dialog.c:2789 ../src/mail/e-mail-reader.c:2939
 #: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4599
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:369
 msgid "_Default"
 msgstr "_Numatytasis"
 
@@ -17765,11 +18312,6 @@ msgstr "Rodomas vardas"
 #: ../src/e-util/evolution-source-viewer.c:671
 msgid "Flags"
 msgstr "Žymės"
-
-#: ../src/e-util/evolution-source-viewer.c:723
-#: ../src/mail/e-mail-config-identity-page.c:1223
-msgid "Identity"
-msgstr "Tapatybė"
 
 #: ../src/e-util/e-webdav-browser.c:514 ../src/mail/filtertypes.xml.in.h:68
 #: ../src/mail/searchtypes.xml.in.h:59 ../src/mail/vfoldertypes.xml.in.h:61
@@ -20832,7 +21374,7 @@ msgid "Label"
 msgstr "Etiketė"
 
 #: ../src/mail/em-folder-properties.c:1415
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:604
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:743
 msgid "Appearance"
 msgstr "Išvaizda"
 
@@ -21071,7 +21613,7 @@ msgid "Stop the current operation"
 msgstr "Sustabdyti dabartinę operaciją"
 
 #: ../src/mail/em-subscription-editor.c:1956
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1401
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1370
 msgid "_Stop"
 msgstr "_Stabdyti"
 
@@ -21136,26 +21678,6 @@ msgstr "_Pasitikėti"
 msgctxt "trust"
 msgid "Trust _ultimately"
 msgstr "_Visiškai pasitikėti"
-
-#: ../src/mail/em-utils.c:2079
-#, c-format
-msgid "Key ID: %s"
-msgstr "Rakto ID: %s"
-
-#: ../src/mail/em-utils.c:2090
-#, c-format
-msgid "Fingerprint: %s"
-msgstr "Piršto atspaudas: %s"
-
-#: ../src/mail/em-utils.c:2106
-#, c-format
-msgid "Created: %s"
-msgstr "Sukurta: %s"
-
-#: ../src/mail/em-utils.c:2138
-#, c-format
-msgid "User ID: %s"
-msgstr "Naudotojo ID: %s"
 
 #: ../src/mail/em-utils.c:2159
 msgid "Set trust level for the key:"
@@ -22072,14 +22594,6 @@ msgstr "Vis_ada įkelti nuotolinį turinį iš interneto"
 #: ../src/mail/mail-config.ui.h:128
 msgid "Notify about _missing remote content in the message preview"
 msgstr "Pranešti apie _trūkstamą nutolusį turinį laiško peržiūroje"
-
-#: ../src/mail/mail-config.ui.h:129
-msgid "Add"
-msgstr "Pridėti"
-
-#: ../src/mail/mail-config.ui.h:130
-msgid "Remove"
-msgstr "Pašalinti"
 
 #: ../src/mail/mail-config.ui.h:131
 msgid "Allow for sites:"
@@ -23592,8 +24106,8 @@ msgid "C_alendar"
 msgstr "K_alendorius"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:486
-#: ../src/modules/addressbook/e-book-shell-backend.c:258
-#: ../src/modules/addressbook/e-book-shell-backend.c:473
+#: ../src/modules/addressbook/e-book-shell-backend.c:254
+#: ../src/modules/addressbook/e-book-shell-backend.c:469
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:151
 msgid "New Address Book"
 msgstr "Nauja adresų knyga"
@@ -23636,80 +24150,80 @@ msgstr ""
 "Naršyti WebDAV (CalDAV arba CardDAV) serverį bei ten kurti, keisti ar trinti "
 "adresų knygas, kalendorius, raštelių sąrašus arba užduočių sąrašus"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:257
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:261
 msgid "Title Bar Mode"
 msgstr "Pavadinimo juostos veiksena"
 
 #. Translators: This is the GNOME project name; you probably do not want to translate it, apart of changing the mnemonic
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:268
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:272
 msgid "_GNOME"
 msgstr "_GNOME"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:294
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:298
 msgid "Use buttons with _icons only"
 msgstr "Naudoti mygtukus tik su p_iktogramomis"
 
 #. Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:313
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:317
 msgid "_Standard"
 msgstr "Į_prastinė"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:341
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:345
 msgid "Toolbar Icon Size"
 msgstr "Įrankinės piktogramų dydis"
 
 #. Translators: this is in a sense of "Look & Feel of the icons"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:352
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:356
 msgid "Icons Look"
 msgstr "Piktogramų išvaizda"
 
 #. Translators: This is for "Icons Look: Autodetect"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:377
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:381
 msgid "Aut_odetect"
 msgstr "_Automatinė"
 
 #. Translators: This is for "Toolbar Icon Size: Small"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:390
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:394
 msgid "Sm_all"
 msgstr "M_ažas"
 
 #. Translators: This is for "Icons Look: Prefer symbolic"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:401
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:405
 msgid "_Prefer symbolic"
 msgstr "_Pageidauti simbolinės"
 
 #. Translators: This is for "Toolbar Icon Size: Large"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:413
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:417
 msgid "_Large"
 msgstr "Dide_lis"
 
 #. Translators: This is for "Icons Look: Prefer regular"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:424
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:428
 msgid "Prefer _regular"
 msgstr "Pageidauti įp_rastinės"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:499
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:503
 msgid "Layout"
 msgstr "Išdėstymas"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:510
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:514
 msgid "Show M_enu Bar"
 msgstr "Rodyti m_eniu juostą"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:523
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:527
 #: ../src/shell/e-shell-view.c:1109
 msgid "Show _Tool Bar"
 msgstr "Rodyti į_rankinę"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:536
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:540
 msgid "Show Side _Bar"
 msgstr "Rodyti šoninį _skydelį"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:549
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:553
 msgid "Show Stat_us Bar"
 msgstr "Rodyti _būsenos juostą"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:562
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:566
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:312
 msgid "Note: Some changes will not take effect until restart"
 msgstr ""
@@ -23780,130 +24294,130 @@ msgstr "Kontakto informacija"
 msgid "Contact information for %s"
 msgstr "%s kontakto informacija"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:553
+#: ../src/modules/addressbook/e-book-shell-backend.c:549
 msgctxt "New"
 msgid "_Contact"
 msgstr "_Kontaktas"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:555
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1452
+#: ../src/modules/addressbook/e-book-shell-backend.c:551
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1421
 msgid "Create a new contact"
 msgstr "Sukurti naują kontaktą"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:560
+#: ../src/modules/addressbook/e-book-shell-backend.c:556
 msgctxt "New"
 msgid "Contact _List"
 msgstr "Kontaktų _sąrašas"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:562
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1459
+#: ../src/modules/addressbook/e-book-shell-backend.c:558
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1428
 msgid "Create a new contact list"
 msgstr "Sukurti naują kontaktų sąrašą"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:569
+#: ../src/modules/addressbook/e-book-shell-backend.c:565
 msgctxt "New"
 msgid "Address _Book"
 msgstr "Adresų _knyga"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:571
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1347
+#: ../src/modules/addressbook/e-book-shell-backend.c:567
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1316
 msgid "Create a new address book"
 msgstr "Sukurti naują adresų knygą"
 
 #. Translators: This is a save dialog title
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:633
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1079
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:603
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1048
 msgid "Save as vCard"
 msgstr "Įrašyti kaip vCard"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:706
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:676
 #: ../src/modules/addressbook/e-book-shell-view.c:678
 msgid "Retrieving selected contacts…"
 msgstr "Gaunami pažymėtus kontaktus…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1303
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1272
 msgid "Co_py All Contacts To…"
 msgstr "Ko_pijuoti visus kontaktus į…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1305
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1274
 msgid "Copy the contacts of the selected address book to another"
 msgstr "Kopijuoti pažymėtoje adresų knygelėje esančius kontaktus į kitą"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1310
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1279
 msgid "D_elete Address Book"
 msgstr "Išt_rinti adresų knygelę"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1312
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1281
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1288
 msgid "Delete the selected address book"
 msgstr "Ištrinti pažymėtą adresų knygelę"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1324
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1293
 msgid "_Manage Address Book groups…"
 msgstr "_Tvarkyti adresų knybos grupes…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1295
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1302
 msgid "Manage address book groups order and visibility"
 msgstr "Tvarkyti adresų knygos grupių tvarką ir matomumą"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1331
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1300
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1437
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:621
 #: ../src/modules/calendar/e-task-shell-view-actions.c:787
 msgid "_Manage groups…"
 msgstr "_Tvarkyti grupes…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1338
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1307
 msgid "Mo_ve All Contacts To…"
 msgstr "Perkelti _visus kontaktus į…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1340
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1309
 msgid "Move the contacts of the selected address book to another"
 msgstr "Perkelti pažymėtoje adresų knygoje esančius kontaktus į kitą"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1345
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1314
 msgid "_New Address Book"
 msgstr "_Nauja adresų knyga"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1352
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1321
 msgid "Address _Book Properties"
 msgstr "Adresų _knygos savybės"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1354
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1361
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1323
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1330
 msgid "Show properties of the selected address book"
 msgstr "Rodyti pasirinktos adresų knygelės savybes"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1366
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1335
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1465
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:642
 #: ../src/modules/calendar/e-task-shell-view-actions.c:808
 msgid "Re_fresh"
 msgstr "_Atnaujinti"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1368
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1337
 msgid "Refresh the selected address book"
 msgstr "Atnaujinti pasirinktą adresų knygelę"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1373
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1342
 msgid "Re_fresh list of account address books"
 msgstr "At_naujinti paskyros adresų knygų sąrašą"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1380
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1349
 msgid "Address Book _Map"
 msgstr "Adresų knygos _žemėlapis"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1382
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1389
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1351
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
 msgid "Show map with all contacts from selected address book"
 msgstr "Rodyti žemėlapį su visais adresatais iš pasirinktos adresų knygos"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1387
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1356
 msgid "Address Book Map"
 msgstr "Adresų knygos žemėlapis"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1394
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1363
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1479
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:656
 #: ../src/modules/calendar/e-task-shell-view-actions.c:822
@@ -23911,111 +24425,111 @@ msgstr "Adresų knygos žemėlapis"
 msgid "_Rename…"
 msgstr "Pe_rvadinti…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1396
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1365
 msgid "Rename the selected address book"
 msgstr "Pervadinti pasirinktą adresų knygelę"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1403
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1372
 msgid "Stop loading"
 msgstr "Sustabdyti įkėlimą"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1408
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1377
 #: ../src/modules/calendar/e-task-shell-view-actions.c:738
 msgid "_Bulk Edit…"
 msgstr "_Daugybinis keitimas…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1410
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1379
 msgid "Edit selected contacts in a bulk"
 msgstr "Keiskite pažymėtus kontaktus daugybiškai"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1415
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1384
 msgid "_Copy Contact To…"
 msgstr "_Kopijuoti kontaktą į…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1417
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1386
 msgid "Copy selected contacts to another address book"
 msgstr "Kopijuoti pasirinktus kontaktus į kitą adresų knygelę"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1422
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1391
 msgid "_Delete Contact"
 msgstr "Išt_rinti kontaktą"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1429
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1398
 msgid "_Find in Contact…"
 msgstr "_Ieškoti kontakte…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1431
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1400
 msgid "Search for text in the displayed contact"
 msgstr "Ieškoti teksto rodomame kontakte"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1436
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1405
 msgid "_Forward Contact…"
 msgstr "_Persiųsti kontaktą…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1438
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1407
 msgid "Send selected contacts to another person"
 msgstr "Siųsti pažymėtus kontaktus kitam žmogui"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1443
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1412
 msgid "_Move Contact To…"
 msgstr "_Perkelti kontaktą į…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1445
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1414
 msgid "Move selected contacts to another address book"
 msgstr "Perkelti pasirinktus kontaktus į kitą adresų knygelę"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1450
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1419
 msgid "_New Contact…"
 msgstr "_Naujas kontaktas…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1457
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1426
 msgid "New Contact _List…"
 msgstr "Naujas kontaktų _sąrašas…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1464
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1433
 msgid "_Open Contact"
 msgstr "_Atverti kontaktą"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1466
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1435
 msgid "View the current contact"
 msgstr "Rodyti esamą kontaktą"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1471
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1440
 msgid "_Send Message to Contact…"
 msgstr "_Siųsti laišką kontaktui…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1473
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1442
 msgid "Send a message to the selected contacts"
 msgstr "Siųsti laišką nurodytiems kontaktams"
 
 #. ** Menus **
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1480
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1449
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1710
 #: ../src/modules/calendar/e-task-shell-view-actions.c:892
 msgid "_Actions"
 msgstr "_Veiksmai"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1494
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1463
 msgid "_Sort Cards By"
 msgstr "_Rikiuoti korteles pagal"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1504
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1473
 msgid "Contact _Preview"
 msgstr "Kontaktų _peržiūra"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1506
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1475
 msgid "Show contact preview window"
 msgstr "Rodyti kontaktų peržiūros langą"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1511
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1480
 msgid "Show _Maps"
 msgstr "Rodyti _žemėlapius"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1513
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1482
 msgid "Show maps in contact preview window"
 msgstr "Rodyti žemėlapius adresatų peržiūros lange"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1521
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1490
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1765
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:712
 #: ../src/modules/calendar/e-task-shell-view-actions.c:900
@@ -24023,11 +24537,11 @@ msgstr "Rodyti žemėlapius adresatų peržiūros lange"
 msgid "_Classic View"
 msgstr "_Klasikinis rodinys"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1523
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1492
 msgid "Show contact preview below the contact list"
 msgstr "Rodyti kontakto peržiūrą po kontaktų sąrašu"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1528
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1497
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1772
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:719
 #: ../src/modules/calendar/e-task-shell-view-actions.c:907
@@ -24035,11 +24549,11 @@ msgstr "Rodyti kontakto peržiūrą po kontaktų sąrašu"
 msgid "_Vertical View"
 msgstr "_Vertikalus rodinys"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1530
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1499
 msgid "Show contact preview alongside the contact list"
 msgstr "Rodyti kontaktų peržiūrą šalia kontaktų sąrašo"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1538
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1507
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1782
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:729
 #: ../src/modules/calendar/e-task-shell-view-actions.c:917
@@ -24048,50 +24562,50 @@ msgstr "Rodyti kontaktų peržiūrą šalia kontaktų sąrašo"
 msgid "Advanced Search"
 msgstr "Sudėtingesnė paieška"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1583
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1552
 msgid "_File Under"
 msgstr "Į_rašyti į"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1590
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1559
 msgid "_Given Name"
 msgstr "_Duotas Vardas"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1597
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1566
 msgid "Family _Name"
 msgstr "_Pavardė"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1609
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1578
 msgid "Print all shown contacts"
 msgstr "Spausdinti visus parodytus kontaktus"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1616
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1585
 msgid "Preview the contacts to be printed"
 msgstr "Peržiūrėti spausdintinus kontaktus"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1623
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1592
 msgid "Print selected contacts"
 msgstr "Spausdinti pažymėtus kontaktus"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1631
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1600
 msgid "S_ave Address Book as vCard"
 msgstr "Išs_augoti adresų knygelę kaip vCard"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1633
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1641
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1602
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1610
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "Įrašyti pažymėtoje adresų knygelėje esančius kontaktus kaip VCard"
 
 #. Translators: This is an action label
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1639
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1647
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1608
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1616
 msgid "_Save as vCard…"
 msgstr "Į_rašyti kaip vCard…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1649
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1618
 msgid "Save selected contacts as a vCard"
 msgstr "Įrašyti pažymėtus kontaktus kaip vCard"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1727
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1696
 msgid "Unmatched"
 msgstr "Neatitinkantys"
 
@@ -24596,10 +25110,6 @@ msgstr "Atsiuntimas"
 msgid "Limit:"
 msgstr "Riba:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:885
-msgid "contacts"
-msgstr "kontaktai"
-
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:890
 msgid "Browse until limit is reached"
 msgstr "Naršyti šią knygą iki bus pasiekta riba"
@@ -24992,10 +25502,6 @@ msgstr "Antr_oji juosta:"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:12
 msgid "(Shown in a Day View)"
 msgstr "(Rodoma dienos rodinyje)"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:13
-msgid "Time _zone:"
-msgstr "Laiko _juosta:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:14
 msgid "Time format:"
@@ -31168,6 +31674,9 @@ msgstr "Nepavyko įrašyti saugyklos į diską, err_code: %i"
 msgid "Imported Certificate"
 msgstr "Importuotas liudijimas"
 
+#~ msgid "Error removing list"
+#~ msgstr "Klaida pašalinant sąrašą"
+
 #, c-format
 #~ msgid "“%s” has an invalid format"
 #~ msgstr "„%s“ yra netinkamo formato"
@@ -31474,9 +31983,6 @@ msgstr "Importuotas liudijimas"
 
 #~ msgid "gray"
 #~ msgstr "pilka"
-
-#~ msgid "magenta"
-#~ msgstr "violetinė"
 
 #~ msgid "bright orange"
 #~ msgstr "šviesiai oranžinė"
@@ -32015,9 +32521,6 @@ msgstr "Importuotas liudijimas"
 #~ msgid "Start time"
 #~ msgstr "Pradžios laikas"
 
-#~ msgid "Appointments"
-#~ msgstr "Paskyrimai"
-
 #~ msgid "Dismiss _All"
 #~ msgstr "Atsisakyti _visų"
 
@@ -32047,9 +32550,6 @@ msgstr "Importuotas liudijimas"
 #~ msgstr[0] "Turite %d perspėjimą"
 #~ msgstr[1] "Turite %d perspėjimus"
 #~ msgstr[2] "Turite %d perspėjimų"
-
-#~ msgid "Warning"
-#~ msgstr "Įspėjimas"
 
 #~ msgid "_Yes"
 #~ msgstr "_Taip"
@@ -32462,9 +32962,6 @@ msgstr "Importuotas liudijimas"
 #~ msgid "Insert advanced send options"
 #~ msgstr "Įterpti sudėtingesnes siuntimo parinktis"
 
-#~ msgid "_Free/Busy"
-#~ msgstr "_Užimtumas"
-
 #~ msgid "Print this event"
 #~ msgstr "Spausdinti šį įvykį"
 
@@ -32546,9 +33043,6 @@ msgstr "Importuotas liudijimas"
 
 #~ msgid "Due date is wrong"
 #~ msgstr "Termino data klaidinga"
-
-#~ msgid "Time zone:"
-#~ msgstr "Laiko juosta:"
 
 #~ msgid "%s at the start of the appointment"
 #~ msgstr "%s paskyrimui prasidėjus"
