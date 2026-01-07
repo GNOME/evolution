@@ -1432,6 +1432,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	gboolean folder_is_drafts = FALSE;
 	gboolean folder_is_outbox = FALSE;
 	gboolean folder_is_sent = FALSE;
+	gchar *valid_display_name = NULL;
 	gchar *uri;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), FALSE);
@@ -1568,6 +1569,11 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		}
 	}
 
+	if (!g_utf8_validate (display_name, -1, NULL)) {
+		valid_display_name = e_util_utf8_make_valid (display_name);
+		display_name = valid_display_name;
+	}
+
 	gtk_tree_store_set (
 		tree_store, iter,
 		COL_STRING_DISPLAY_NAME, display_name,
@@ -1585,6 +1591,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 
 	em_folder_tree_model_update_row_tweaks (model, iter);
 
+	g_clear_pointer (&valid_display_name, g_free);
 	g_free (uri);
 	uri = NULL;
 
@@ -1944,6 +1951,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	CamelProvider *provider;
 	StoreInfo *si;
 	const gchar *display_name;
+	gchar *valid_display_name = NULL;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -1971,6 +1979,11 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		store_info_unref (si);
 	}
 
+	if (!g_utf8_validate (display_name, -1, NULL)) {
+		valid_display_name = e_util_utf8_make_valid (display_name);
+		display_name = valid_display_name;
+	}
+
 	/* Add the store to the tree. */
 	gtk_tree_store_append (tree_store, &iter, NULL);
 	gtk_tree_store_set (
@@ -1981,6 +1994,8 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		COL_BOOL_LOAD_SUBDIRS, TRUE,
 		COL_BOOL_IS_STORE, TRUE,
 		-1);
+
+	g_clear_pointer (&valid_display_name, g_free);
 
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
 	reference = gtk_tree_row_reference_new (GTK_TREE_MODEL (model), path);
