@@ -5,13 +5,13 @@
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2005, 2006, 2008, 2009, 2010.
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2011, 2013, 2014, 2015, 2016, 2017.
 # Asier Saratsua Garmendia <asiersarasua@ni.eus>, 2019, 2020, 2021, 2022, 2023, 2024.
-# Asier Saratsua Garmendia <asiersarasua@ni.eus>, 2025.
+# Asier Saratsua Garmendia <asiersarasua@ni.eus>, 2025, 2026.
 #
 msgid ""
 msgstr "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-11-29 20:11+0000\n"
-"PO-Revision-Date: 2025-12-02 10:00+0100\n"
+"POT-Creation-Date: 2026-01-10 12:54+0000\n"
+"PO-Revision-Date: 2026-01-11 10:00+0100\n"
 "Last-Translator: Asier Saratsua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -177,12 +177,10 @@ msgid "Whether to show job information in the editor"
 msgstr "Laneko informazioa editorean erakutsiko den ala ez."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:37
-#| msgid "Show Notes"
 msgid "Show dates"
 msgstr "Erakutsi datak"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:38
-#| msgid "Whether to show notes in the editor"
 msgid "Whether to show Dates section in the editor"
 msgstr "Datak editorean erakutsiko diren ala ez."
 
@@ -239,6 +237,16 @@ msgid ""
 "Show the Personal information before the Work information in the contact "
 "preview"
 msgstr "Kontaktuaren aurrebistan, erakutsi informazio pertsonala laneko informazioaren aurretik"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:51
+msgid "Whether to use an old contact editor"
+msgstr "Kontaktuen editore zaharra erabiliko den ala ez"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:52
+msgid ""
+"The option can let choose whether an old or a new contact editor will be "
+"used in the application"
+msgstr "Aukera honen bidez, aplikazioan kontaktuen editore zaharra edo berria erabiliko den aukeratu daiteke"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:1
 msgid "Convert mail messages to Unicode"
@@ -3605,16 +3613,16 @@ msgid "Compose a Message"
 msgstr "Prestatu mezua"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:8
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:9
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:27
 #: ../src/e-util/e-name-selector-dialog.c:434
-#: ../src/modules/addressbook/e-book-shell-backend.c:276
+#: ../src/modules/addressbook/e-book-shell-backend.c:272
 #: ../src/modules/addressbook/e-book-shell-view.c:459
 msgid "Contacts"
 msgstr "Kontaktuak"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1103
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:26
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1136
 #: ../src/e-util/e-collection-account-wizard.c:871
 #: ../src/e-util/e-webdav-browser.c:541
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:211
@@ -3669,18 +3677,91 @@ msgid ""
 msgstr "Evolution-ek industriaren datu-formatuen eta sareko protokoloen barruti handia onartzen du informazioa trukatzeko, eta bereziki estandarrak eta segurtasuna betetzen du. Evolution-ek Microsoft Exchange-rekin ere bateratzen da “Exchange Web Services” (EWS) hedapenaren bidez."
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:5
+msgid "PIM"
+msgstr "PIMa"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:6
+msgid "calendars"
+msgstr "egutegiak"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:7
+msgid "calendaring"
+msgstr "egutegiak"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
+msgid "events"
+msgstr "gertaerak"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:9
+msgid "meetings"
+msgstr "bilerak"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:10
+msgid "appointments"
+msgstr "hitzorduak"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:11
+msgid "scheduling"
+msgstr "planifikazioa"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:12
+msgid "planning"
+msgstr "plangintza"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:13
+msgid "agenda"
+msgstr "agenda"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:14
+msgid "reminders"
+msgstr "oroigarriak"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:15
+msgid "alarms"
+msgstr "alarmak"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:16
+msgid "email"
+msgstr "posta elektronikoa"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:17
+msgid "email client"
+msgstr "posta elektronikoko bezeroa"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:18
+msgid "tasks"
+msgstr "zereginak"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:19
+msgid "todos"
+msgstr "egitekoak"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:20
+msgid "memos"
+msgstr "zirkularrak"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:21
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:885
+msgid "contacts"
+msgstr "kontaktuak"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:22
+msgid "addressbook"
+msgstr "helbide-liburua"
+
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:23
 msgid "Mail – Classic View"
 msgstr "Posta - Ikuspegi klasikoa"
 
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:6
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:24
 msgid "Mail – Vertical View"
 msgstr "Posta - Ikuspegi bertikala"
 
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:7
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:25
 msgid "Mail Composer"
 msgstr "Posta-konposatzailea"
 
-#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:10
+#: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:28
 msgid "The Evolution Team"
 msgstr "Evolution taldea"
 
@@ -4210,7 +4291,7 @@ msgstr "Kontaktu honen helbide elektronikoa lehendik ere badago. Helbide berdine
 
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:889
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:891
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1521
 #: ../src/e-util/e-accounts-window.c:1578
 #: ../src/e-util/e-html-editor-link-popover.c:126
@@ -4337,17 +4418,22 @@ msgstr "“{0}” kontaktua badago lehendik “{1}” helbide-liburuan. Kopia ba
 #. no flags
 #: ../src/addressbook/addressbook.error.xml.h:55
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3405
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3679
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4530
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4536
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3297
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3571
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4424
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4430
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:467
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:407
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:616
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:884
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:316
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3173
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4605
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4670
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:370
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:743
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:618
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:886
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:285
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1857
 #: ../src/calendar/calendar.error.xml.h:190
 #: ../src/calendar/gui/e-cal-dialogs.c:936
@@ -4431,7 +4517,6 @@ msgid "Show Job section"
 msgstr "Erakutsi Lana atala"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:6
-#| msgid "Show Notes"
 msgid "Show Dates"
 msgstr "Erakutsi datak"
 
@@ -4467,9 +4552,12 @@ msgid "Options"
 msgstr "Aukerak"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3679
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3571
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:887
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4583
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4612
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:370
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:889
 #: ../src/calendar/calendar.error.xml.h:56
 #: ../src/calendar/gui/e-comp-editor.c:2384
 #: ../src/composer/e-composer-actions.c:259
@@ -4496,6 +4584,7 @@ msgid "Nic_kname:"
 msgstr "_Goitizena:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:18
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3682
 msgid "_File under:"
 msgstr "_Artxibatu honela:"
 
@@ -4513,14 +4602,16 @@ msgid "Full _Name..."
 msgstr "_Izen-abizenak…"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:22
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2975
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:8
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1447
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1043
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1480
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "Posta elektronikoa"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4833
 msgid "_Wants to receive HTML mail"
 msgstr "Mezuak HT_ML formatuan jaso nahi ditu"
 
@@ -4533,6 +4624,7 @@ msgid "SIP Address"
 msgstr "SIP helbidea"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:26
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2978
 msgid "Instant Messaging"
 msgstr "Berehalako mezularitza"
 
@@ -4621,7 +4713,6 @@ msgid "_Office:"
 msgstr "_Bulegoa:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
-#| msgid "Mail _Directory:"
 msgid "Or_g. Directory:"
 msgstr "E_rakunde-direktorioa:"
 
@@ -4636,6 +4727,7 @@ msgid "_Assistant:"
 msgstr "_Laguntzailea"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:48
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2974
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:532
 msgid "Job"
 msgstr "Lana"
@@ -4645,7 +4737,7 @@ msgid "_Anniversary:"
 msgstr "_Urteurrena:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1148
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1181
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:1778
 msgid "Anniversary"
@@ -4656,44 +4748,38 @@ msgid "_Birthday:"
 msgstr "U_rtebetetzea:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1149
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1182
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:1777
 msgid "Birthday"
 msgstr "Urtebetetzea"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
-#| msgid "R_eplace:"
 msgid "Bi_rth place:"
 msgstr "Jai_otze-lekua:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
-#| msgid "Birthday"
 msgid "Birth place"
 msgstr "Jaiotze-lekua"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
-#| msgid "Path:"
 msgid "_Death:"
 msgstr "_Heriotza:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:56
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1151
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1184
 msgid "Death"
 msgstr "Heriotza"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:57
-#| msgid "R_eplace:"
 msgid "Death p_lace:"
 msgstr "H_eriotza-lekua:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
-#| msgid "Replace"
 msgid "Death place"
 msgstr "Heriotza-lekua"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
-#| msgid "Date"
 msgid "Dates"
 msgstr "Datak"
 
@@ -4703,12 +4789,10 @@ msgid "_Spouse:"
 msgstr "_Ezkontidea:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
-#| msgid "_General"
 msgid "_Gender:"
 msgstr "_Generoa:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
-#| msgid "_Properties"
 msgid "Ex_pertise:"
 msgstr "E_zagutza:"
 
@@ -4735,11 +4819,13 @@ msgid "Personal Information"
 msgstr "Datu pertsonalak"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:180
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:825
 msgid "_City:"
 msgstr "_Herria:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:68
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:195
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:826
 msgid "_Zip/Postal Code:"
 msgstr "Pos_ta-kodea:"
@@ -4754,6 +4840,7 @@ msgid "_Country:"
 msgstr "Es_tatua:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:71
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:165
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:828
 msgid "_PO Box:"
 msgstr "_Posta-kutxa:"
@@ -4774,7 +4861,7 @@ msgstr "Karpeta nagusia"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:74
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:80
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1117
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1150
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:546
 #: ../src/addressbook/gui/widgets/e-contact-map.c:424
 msgid "Work"
@@ -4782,18 +4869,20 @@ msgstr "Lanekoa"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:75
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1186
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1219
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:548
 #: ../src/calendar/gui/comp-util.c:1951
 msgid "Other"
 msgstr "Bestelakoa"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:76
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2980
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:543
 msgid "Mailing Address"
 msgstr "Posta-helbidea"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:77
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2984
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
 msgid "Notes"
@@ -4841,78 +4930,77 @@ msgid "_Load X.509"
 msgstr "_Kargatu X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:83
-#: ../src/modules/addressbook/e-book-shell-backend.c:287
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2983
+#: ../src/modules/addressbook/e-book-shell-backend.c:283
 msgid "Certificates"
 msgstr "Ziurtagiriak"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:254
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:497
-msgid "Error adding contact"
-msgstr "Errorea kontaktua gehitzean"
-
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:274
-msgid "Error modifying contact"
-msgstr "Errorea kontaktua aldatzean"
-
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:294
-msgid "Error removing contact"
-msgstr "Errorea kontaktua kentzean"
-
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:674
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:696
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3023
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5270
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:612
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:634
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2915
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5164
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3625
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:5126
 msgid "Contact Editor"
 msgstr "Kontaktu-editorea"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:690
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3017
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:628
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2909
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3621
 #, c-format
 msgid "Contact Editor — %s"
 msgstr "Kontaktu-editorea — %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2901
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2793
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1948
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:376
 msgctxt "gender-sex"
 msgid "Male"
 msgstr "Gizona"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2902
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2794
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1949
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:379
 msgctxt "gender-sex"
 msgid "Female"
 msgstr "Emakumea"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2903
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2795
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1950
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:382
-#| msgid "Other"
 msgctxt "gender-sex"
 msgid "Other"
 msgstr "Bestelakoa"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2904
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2796
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1951
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:371
-#| msgid "Unknown"
 msgctxt "gender-sex"
 msgid "Unknown"
 msgstr "Ezezaguna"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2905
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2797
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1952
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:385
-#| msgid "Do _Not Disable"
 msgctxt "gender-sex"
 msgid "Not Applicable"
 msgstr "Ez aplikagarria"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3372
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3264
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:383
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:752
 msgid "X.509 certificates"
 msgstr "X.509 ziurtagiriak"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3377
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3269
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:378
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:759
 msgid "PGP keys"
 msgstr "PGP gakoak"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3383
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:389
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:765
 #: ../src/e-util/e-html-editor-actions.c:548
 #: ../src/e-util/e-image-chooser-dialog.c:182
 #: ../src/e-util/e-mail-signature-script-dialog.c:442
@@ -4921,17 +5009,21 @@ msgstr "PGP gakoak"
 msgid "All files"
 msgstr "Fitxategi denak"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3403
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3295
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:740
 msgid "Open PGP key"
 msgstr "Ireki PGP gakoa"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3403
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3295
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:740
 msgid "Open X.509 certificate"
 msgstr "Ireki X.509 ziurtagiria"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3405
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4530
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4537
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3297
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4424
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4431
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3173
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:743
 #: ../src/e-util/e-attachment-store.c:658 ../src/e-util/e-category-editor.c:170
 #: ../src/e-util/e-html-editor-actions.c:493
 #: ../src/e-util/e-html-editor-actions.c:539
@@ -4942,79 +5034,99 @@ msgstr "Ireki X.509 ziurtagiria"
 msgid "_Open"
 msgstr "_Ireki"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3420
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3692
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3312
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3584
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:399
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:776
 msgid "Chosen file is not a local file."
 msgstr "Aukeratu lokalekoa ez den fitxategia."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3433
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3325
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "Huts egin du ziurtagiria kargatzean: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3507
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3399
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3507
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3399
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3677
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3569
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:367
 msgid "Save PGP key"
 msgstr "Gorde PGP gakoa"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3677
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3569
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:367
 msgid "Save X.509 certificate"
 msgstr "Gorde X.509 ziurtagiria"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3704
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3596
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:431
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "Huts egin du ziurtagiria gordetzean: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4527
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4533
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4421
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4427
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3170
 msgid "Please select an image for this contact"
 msgstr "Hautatu irudi bat kontaktu honentzat"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4538
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4432
 msgid "_No image"
 msgstr "Irudirik _ez"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4904
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4514
+msgid "Error removing contact"
+msgstr "Errorea kontaktua kentzean"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4558
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:466
+msgid "Error adding contact"
+msgstr "Errorea kontaktua gehitzean"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4586
+msgid "Error modifying contact"
+msgstr "Errorea kontaktua aldatzean"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4798
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr "Kontaktu-data ez da baliozkoa:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4918
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4812
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:850
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "“%s” ezin da etorkizuneko data izan"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4941
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4952
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4835
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4846
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:868
 #, c-format
-#| msgid "“%s” cannot be a future date"
 msgid "“%s” cannot be a partial date"
 msgstr "“%s” ezin da data partziala izan"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4967
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4982
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4861
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4876
 #, c-format
-#| msgid "%s“%s” is empty"
 msgid "“%s” is empty"
 msgstr "“%s” hutsik dago"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4995
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4889
 msgid "Invalid contact."
 msgstr "Kontaktua ez da baliozkoa."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5309
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5203
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4621
 #: ../src/calendar/gui/e-comp-editor.c:2267
 #: ../src/calendar/gui/e-comp-editor.c:2346
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
@@ -5022,34 +5134,34 @@ msgstr "Kontaktua ez da baliozkoa."
 msgid "_Help"
 msgstr "_Laguntza"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5451
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5345
 #: ../src/calendar/gui/e-comp-editor.c:2309
 #: ../src/e-util/e-html-editor-actions.c:1390
 msgid "_Undo"
 msgstr "_Desegin"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5453
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5347
 #: ../src/calendar/gui/e-comp-editor.c:2311 ../src/e-util/e-focus-tracker.c:167
 #: ../src/e-util/e-focus-tracker.c:170
 msgid "Undo"
 msgstr "Desegin"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5458
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5352
 #: ../src/calendar/gui/e-comp-editor.c:2316
 #: ../src/e-util/e-html-editor-actions.c:1376
 msgid "_Redo"
 msgstr "_Berregin"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5460
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5354
 #: ../src/calendar/gui/e-comp-editor.c:2318 ../src/e-util/e-focus-tracker.c:183
 #: ../src/e-util/e-focus-tracker.c:186
 msgid "Redo"
 msgstr "Berregin"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:213
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:468
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:408
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:13
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:317
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:286
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:306
 #: ../src/e-util/e-categories-dialog.c:76 ../src/e-util/e-category-editor.c:247
 #: ../src/e-util/e-charset-combo-box.c:85
@@ -5073,75 +5185,86 @@ msgstr "Berregin"
 msgid "_OK"
 msgstr "_Ados"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:251
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:208
 msgid "Failed to find contact"
 msgstr "Huts egin du kontaktua aurkitzeak"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:463
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:403
 msgid "Contact Quick-Add"
 msgstr "Gehitu kontaktua azkar"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:466
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:406
 msgid "_Edit Full"
 msgstr "_Editatu osoa"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:524
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:464
 msgid "_Full name"
 msgstr "_Izen-abizenak"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:535
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:475
 msgid "E_mail"
 msgstr "_Helb. el"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:546
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:486
 msgid "_Select Address Book"
 msgstr "_Hautatu helbide-liburua"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:778
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:698
 msgid "Failed to parse vCard data"
 msgstr "Huts egin du vCard datuak aztertzean"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1741
 msgid "Mr."
 msgstr "Jauna"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:2
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1741
 msgid "Mrs."
 msgstr "Andrea"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:3
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1741
 msgid "Ms."
 msgstr "Andereño"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:4
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1741
 msgid "Miss"
 msgstr "Andereño"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:5
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1741
 msgid "Dr."
 msgstr "Dr."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:6
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1742
 msgid "Sr."
 msgstr "Jauna"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:7
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1742
 msgid "Jr."
 msgstr "Semea"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:8
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1742
 msgid "I"
 msgstr "I"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:9
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1742
 msgid "II"
 msgstr "II"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:10
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1742
 msgid "III"
 msgstr "III"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:11
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1742
 msgid "Esq."
 msgstr "Jauna"
 
@@ -5172,7 +5295,7 @@ msgid "_Suffix:"
 msgstr "_Atzizkia:"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:817
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:815
 msgid "Contact List Editor"
 msgstr "Kontaktu-zerrendaren editorea"
 
@@ -5230,25 +5353,503 @@ msgstr "_Behera"
 msgid "_Bottom"
 msgstr "_Behean"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:942
-msgid "Contact List Members"
-msgstr "Kontaktu-zerrendako kideak"
-
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1486
-msgid "_Members"
-msgstr "_Kideak"
-
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1626
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:388
 msgid "Error adding list"
 msgstr "Errorea zerrenda gehitzean"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1646
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:415
 msgid "Error modifying list"
 msgstr "Errorea zerrenda aldatzean"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1666
-msgid "Error removing list"
-msgstr "Errorea zerrenda kentzean"
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:940
+msgid "Contact List Members"
+msgstr "Kontaktu-zerrendako kideak"
+
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1481
+msgid "_Members"
+msgstr "_Kideak"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:359
+#, c-format
+msgid "Failed to save changes: %s"
+msgstr "Aldaketak gordetzeak huts egin du: %s"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:372
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:118
+msgctxt "addressbook-label"
+msgid "Work"
+msgstr "Lanekoa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:373
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:119
+msgctxt "addressbook-label"
+msgid "Home"
+msgstr "Etxekoa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:374
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:120
+msgctxt "addressbook-label"
+msgid "Other"
+msgstr "Bestelakoa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1116
+msgid "_Geo:"
+msgstr "_Geo:"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1124
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1125
+msgid "Latitude"
+msgstr "Latitudea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1136
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1137
+msgid "Longitude"
+msgstr "Longitudea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1150
+msgid "Open in map"
+msgstr "Ireki mapan"
+
+#. Put the "UTC" entry at the top of the combo's list.
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1351
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1353
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1449
+#: ../src/calendar/gui/e-timezone-entry.c:407
+#: ../src/e-util/e-timezone-dialog.c:262 ../src/e-util/e-timezone-dialog.c:502
+#: ../src/e-util/e-timezone-dialog.c:506 ../src/e-util/e-timezone-dialog.c:510
+#: ../src/e-util/e-timezone-dialog.c:997
+msgid "UTC"
+msgstr "UTC"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1397
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:13
+msgid "Time _zone:"
+msgstr "_Ordu-zona:"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2384
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3035
+msgid "_Blog"
+msgstr "_Bloga"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2385
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3036
+#: ../src/e-util/e-accounts-window.c:1500
+msgid "_Calendar"
+msgstr "_Egutegia"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2386
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3037
+msgid "_Free/Busy"
+msgstr "_Libre/Lanpetuta"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2387
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3038
+msgid "_Video Chat"
+msgstr "_Bideo-berriketa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2388
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3039
+msgid "_URL"
+msgstr "_URLa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2971
+#: ../src/e-util/evolution-source-viewer.c:723
+#: ../src/mail/e-mail-config-identity-page.c:1223
+msgid "Identity"
+msgstr "Identitatea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2972
+msgid "Identity Details"
+msgstr "Identitate-xehetasunak"
+
+#. can be enabled if/when the editor will cover also the groups/lists
+#. gtk_combo_box_text_append (text_combo, "group", _("Group"));
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2973
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3500
+msgid "Organization"
+msgstr "Erakundea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2976
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:9
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:902
+msgid "Phone"
+msgstr "Telefonoa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2977
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:569
+msgid "SIP"
+msgstr "SIP"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2979
+msgid "Web Address"
+msgstr "Web-helbidea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2981
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3501
+#: ../src/calendar/gui/caltypes.xml.in.h:14
+#: ../src/calendar/gui/e-cal-list-view.etspec.h:5
+#: ../src/calendar/gui/e-task-table.etspec.h:13
+#: ../src/mail/message-list.etspec.h:14
+#: ../src/plugins/publish-calendar/publish-calendar.c:859
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:23
+#: ../src/plugins/save-calendar/csv-format.c:376
+msgid "Location"
+msgstr "Kokalekua"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2982
+msgid "Life Events"
+msgstr "Bizitzako gertaerak"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2996
+msgid "_Identity"
+msgstr "_Identitatea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2997
+msgid "Name _Prefix"
+msgstr "Izenaren a_urrizkia"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2998
+msgid "_First Name"
+msgstr "_Lehen izena"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2999
+msgid "_Middle Name"
+msgstr "_Bigarren izena"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3000
+msgid "S_urname"
+msgstr "Abi_zena"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3001
+msgid "Name Suffi_x"
+msgstr "Izenaren a_tzizkia"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3004
+msgid "Identity _Details"
+msgstr "Identitate-_xehetasunak"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3006
+msgid "_Nickname"
+msgstr "_Ezizena"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3007
+msgid "_Gender"
+msgstr "_Generoa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3008
+msgid "Sp_ouse"
+msgstr "B_ikotekidea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3009
+msgid "Ex_pertise"
+msgstr "E_zagutza"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3010
+msgid "Inte_rest"
+msgstr "I_nteresa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3011
+msgid "Ho_bby"
+msgstr "Za_letasuna"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3014
+msgid "_Organization"
+msgstr "E_rakundea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3015
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4007
+msgid "_Company"
+msgstr "En_presa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3016
+msgid "_Department"
+msgstr "_Saila"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3017
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4008
+msgid "_Office"
+msgstr "B_ulegoa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3018
+msgid "Or_g. Directory"
+msgstr "Or_g. direktorioa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3021
+msgid "_Job"
+msgstr "_Lana"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3022
+msgid "_Title"
+msgstr "_Titulua"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3023
+msgid "_Profession"
+msgstr "La_nbidea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3024
+msgid "_Manager"
+msgstr "_Kudeatzailea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3025
+msgid "_Assistant"
+msgstr "_Laguntzailea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3028
+msgid "_Email"
+msgstr "Posta e_lektronikoa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3029
+msgid "_Phone"
+msgstr "_Telefonoa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3030
+msgid "_SIP"
+msgstr "_SIPa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3031
+msgid "Inst_ant Messaging"
+msgstr "Bere_halako mezularitza"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3032
+msgid "_Mailing Address"
+msgstr "P_osta-helbidea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3034
+msgid "_Web Address"
+msgstr "_Web-helbidea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3042
+msgid "_Location"
+msgstr "_Kokalekua"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3043
+msgid "_Geo"
+msgstr "_Geo"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3044
+msgid "_Time zone"
+msgstr "_Ordu-zona"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3047
+msgid "Li_fe Events"
+msgstr "B_izitzako gertaerak"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3048
+msgid "_Anniversary"
+msgstr "_Urteurrena"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3049
+msgid "_Birthday"
+msgstr "U_rtebetetzea"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3050
+msgid "_Date of death"
+msgstr "_Heriotza-eguna"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3052
+msgid "Birth _place"
+msgstr "_Jaiotze-lekua"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3053
+msgid "Death _place"
+msgstr "H_eriotza-lekua"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3056
+msgid "_X.509 certificate"
+msgstr "_X.509 ziurtagiria"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3057
+msgid "P_GP key"
+msgstr "P_GP gakoa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3058
+msgid "_Notes"
+msgstr "_Oharrak"
+
+#. to have a gap between the trash icon and the item on the right
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3362
+msgid "Remove image"
+msgstr "Kendu irudia"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3497
+#: ../src/calendar/gui/e-meeting-list-view.c:167
+#: ../src/calendar/gui/e-meeting-store.c:106
+#: ../src/calendar/gui/e-meeting-store.c:123
+#: ../src/calendar/gui/e-meeting-store.c:1064 ../src/calendar/gui/print.c:1294
+msgid "Individual"
+msgstr "Indibiduala"
+
+#. Translators: it is a contact kind, like "individual", "group", "organization", "location" and "custom"
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3504
+msgctxt "Contact"
+msgid "_Kind:"
+msgstr "_Mota"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3597
+msgid "Address _book:"
+msgstr "_Helbide-liburua:"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3787
+msgid "Ca_tegories…"
+msgstr "Ka_tegoriak…"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4082
+#: ../src/calendar/gui/e-cal-range-model.c:208
+#: ../src/calendar/gui/e-comp-editor-event.c:571
+#: ../src/calendar/gui/e-comp-editor-event.c:587
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:247
+#: ../src/calendar/gui/e-comp-editor.c:362
+#: ../src/composer/e-composer-actions.c:189
+#: ../src/em-format/e-mail-part-secure-button.c:97
+#: ../src/e-util/e-markdown-utils.c:188 ../src/e-util/e-markdown-utils.c:198
+#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:256
+#: ../src/e-util/e-misc-utils.c:3442 ../src/e-util/e-misc-utils.c:3450
+#: ../src/e-util/e-misc-utils.c:3458 ../src/e-util/e-misc-utils.c:3493
+#: ../src/e-util/e-misc-utils.c:3506 ../src/e-util/e-misc-utils.c:3520
+#: ../src/e-util/e-ui-customize-dialog.c:3522
+#: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3142
+#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3943
+#: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
+#: ../src/mail/e-mail-viewer.c:1561 ../src/mail/e-mail-viewer.c:2508
+#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4294
+#: ../src/mail/em-composer-utils.c:4317 ../src/mail/mail-send-recv.c:604
+#: ../src/mail/mail-send-recv.c:1500
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:171
+#: ../src/modules/mail/e-mail-attachment-handler.c:557
+#: ../src/plugins/face/face.c:175
+#: ../src/plugins/mail-to-task/mail-to-task.c:998 ../src/shell/e-shell.c:1278
+#: ../src/shell/e-shell.c:1303 ../src/smime/gui/certificate-manager.c:349
+#: ../src/smime/lib/e-cert-db.c:108
+#, c-format
+msgid "Unknown error"
+msgstr "Errore ezezaguna"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4425
+#, c-format
+msgid "Failed to receive list of supported fields: %s"
+msgstr "Huts egin du onartutako eremuen zerrenda jasotzeak: %s"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4571
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:624
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-section.c:148
+#: ../src/mail/mail-config.ui.h:129
+msgid "Add"
+msgstr "Gehitu"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4594
+#: ../src/e-util/e-preferences-window.c:297
+msgid "Help"
+msgstr "Laguntza"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4679
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:658
+#: ../src/calendar/gui/e-bulk-edit-tasks.c:245
+msgid "Saving changes, please wait…"
+msgstr "Aldaketak gordetzen, itxaron…"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4905
+msgid "Full _Name"
+msgstr "Izen _osoa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:5338
+msgid "“Full Name” cannot be empty"
+msgstr "\"Izen osoa\" eremuak ezin du hutsik egon"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:5355
+msgid "“File under” cannot be empty"
+msgstr "\"Artxibatu honela\" eremuak ezin du hutsik egon"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:142
+msgid "St_reet:"
+msgstr "_Kalea:"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:210
+msgid "Stat_e/Province:"
+msgstr "E_statua/Probintzia:"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:225
+#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:830
+msgid "Co_untry:"
+msgstr "_Estatua:"
+
+#. Translators: the '%s' is replaced with the certificate info, like its common name, email or subject name
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:88
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:119
+#, c-format
+msgid "X.509 Certificate (%s)"
+msgstr "X.509 ziurtagiria (%s)"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:150
+msgid "Certificate not set"
+msgstr "Ziurtagiria ez da ezarri"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:165
+msgid "PGP key"
+msgstr "PGP gakoa"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:168
+msgid "X.509 certificate"
+msgstr "X.509 ziurtagiria"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:171
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:176
+msgid "Certificate"
+msgstr "Ziurtagiria"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:207
+#: ../src/mail/em-utils.c:2079
+#, c-format
+msgid "Key ID: %s"
+msgstr "Gakoaren IDa: %s"
+
+#. Translators: the '%s' is replaced with a user ID, which is usually a user email, or the key ID
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:220
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:281
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:283
+#, c-format
+msgid "PGP key (%s)"
+msgstr "PGP gakoa (%s)"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:244
+#: ../src/mail/em-utils.c:2138
+#, c-format
+msgid "User ID: %s"
+msgstr "Erabiltzailearen IDa: %s"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:253
+#: ../src/mail/em-utils.c:2090
+#, c-format
+msgid "Fingerprint: %s"
+msgstr "Hatz-marka: %s"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:262
+#: ../src/mail/em-utils.c:2106
+#, c-format
+msgid "Created: %s"
+msgstr "Sortze-data: %s"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:290
+msgid "No information found for the PGP key"
+msgstr "Ez da informaziorik aurkitu PGP gakoan"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:310
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:833
+msgid "Unrecognized certificate"
+msgstr "Ezaguna ez den ziurtagiria"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:594
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-item.c:198
+#: ../src/mail/mail-config.ui.h:130
+msgid "Remove"
+msgstr "Kendu"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:609
+msgid "Save to File"
+msgstr "Gorde fitxategian"
+
+#: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:781
+msgid "Failed to load certificate:"
+msgstr "Huts egin du ziurtagiria kargatzeak:"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../src/em-format/e-mail-formatter-print.c:50
@@ -5304,11 +5905,6 @@ msgstr "honela hasten da"
 msgid "ends with"
 msgstr "honela amaitzen da"
 
-#: ../src/addressbook/gui/widgets/addresstypes.xml.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:871
-msgid "Phone"
-msgstr "Telefonoa"
-
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:10
 #: ../src/calendar/gui/caltypes.xml.in.h:15
 #: ../src/calendar/gui/memotypes.xml.in.h:13
@@ -5327,22 +5923,22 @@ msgid "Expression"
 msgstr "Adierazpena"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:12
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1573
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1542
 msgid "Name contains"
 msgstr "_Izenak hau dauka:"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:13
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1552
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1521
 msgid "Email begins with"
 msgstr "Helbidea honela hasten da:"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:14
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1559
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1528
 msgid "Email contains"
 msgstr "Helbideak hau dauka"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:15
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1566
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1535
 msgid "Phone contains"
 msgstr "Telefonoak hau dauka"
 
@@ -5350,7 +5946,7 @@ msgstr "Telefonoak hau dauka"
 #: ../src/calendar/gui/caltypes.xml.in.h:27
 #: ../src/calendar/gui/memotypes.xml.in.h:20
 #: ../src/calendar/gui/tasktypes.xml.in.h:39
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1545
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1514
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1789
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:736
 #: ../src/modules/calendar/e-task-shell-view-actions.c:924
@@ -5399,75 +5995,61 @@ msgstr "Ireki mapa"
 #. like "Other, something" or "Male, something", where the "something" is a user-entered text
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:397
 #, c-format
-#| msgid "%s, %s"
 msgctxt "gender"
 msgid "%s, %s"
 msgstr "%s, %s"
 
 #. Translators: strftime format for partial date, when only the day is filled; it will be shown as a number
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:430
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:461
 #, c-format
-#| msgid "%d%%"
 msgctxt "partial-date"
 msgid "%d"
 msgstr "%d"
 
 #. Translators: strftime format for partial date, when only the month is filled; it will be shown as a month name; month number is "%m"
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:434
-#| msgctxt "CalItem"
-#| msgid "%B"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:465
 msgctxt "partial-date"
 msgid "%B"
 msgstr "%B"
 
 #. Translators: strftime format for partial date, when only the day and the month are filled; it will be shown as a month name followed by a day number; month number is "%m"
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:437
-#| msgctxt "CalItem"
-#| msgid "%B %Y"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:468
 msgctxt "partial-date"
 msgid "%B %d"
 msgstr "%B %d"
 
 #. Translators: strftime format for partial date, when only the year is filled; it will be shown as a number
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:444
-#| msgctxt "CalItem"
-#| msgid "%Y"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:475
 msgctxt "partial-date"
 msgid "%Y"
 msgstr "%Y"
 
 #. Translators: strftime format for partial date, when only the day and the year are filled; it comes from "%m/%d/%Y", where the "%m" is the month, which is not set
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:447
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:478
 msgctxt "partial-date"
 msgid "--/%d/%Y"
 msgstr "--/%d/%Y"
 
 #. Translators: strftime format for partial date, when only the month and the year are filled; the month will be shown as a month name; month number is "%m"
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:452
-#| msgctxt "CalItem"
-#| msgid "%B %Y"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:483
 msgctxt "partial-date"
 msgid "%B %Y"
 msgstr "%Y %B"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:538
-msgid "SIP"
-msgstr "SIP"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:775
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:806
 msgid "List Members:"
 msgstr "Zerrendako kideak:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:869
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:900
 msgid "Fax"
 msgstr "Faxa"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1017
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Goitizena"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1018
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:522
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:6
@@ -5477,224 +6059,231 @@ msgstr "Goitizena"
 msgid "Categories"
 msgstr "Kategoriak"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1020
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1021
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1022
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1023
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1054
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1024
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1055
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1025
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1056
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1026
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1057
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1027
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1058
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1028
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1059
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1029
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1060
 msgid "Matrix"
 msgstr "Matrix"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1094
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1064
+msgid "GEO Location"
+msgstr "GEO kokalekua"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1065
+msgid "Time zone"
+msgstr "Ordu-zona"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1127
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Enpresa"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1095
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1128
 msgid "Department"
 msgstr "Saila"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1096
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1129
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Bulegoa"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1098
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1131
 msgid "Profession"
 msgstr "Lanbidea"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1099
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1132
 msgid "Position"
 msgstr "Kokalekua"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1100
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1133
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Zuzendaria"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1101
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1134
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Laguntzailea"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1102
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1135
 msgid "Video Chat"
 msgstr "Bideo-berriketa"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1104
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1137
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Libre/Lanpetuta"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1107
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1147
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1176
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1140
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1180
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1209
 msgid "Address"
 msgstr "Helbidea"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1143
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1176
 msgid "Home Page"
 msgstr "Etxeko orria"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1144
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1177
 msgid "Web Log"
 msgstr "Web egunkaria"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1150
-#| msgid "Birthday"
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1183
 msgid "Birth Place"
 msgstr "Jaiotze-lekua"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1152
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1185
 msgid "Death Place"
 msgstr "Heriotza-lekua"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1153
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1186
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Ezkontidea"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1163
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1196
 msgid "Personal"
 msgstr "Pertsonala"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1208
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1241
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Oharra"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1409
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1442
 msgid "List Members"
 msgstr "Zerrendako kideak"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1432
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1465
 msgid "Job Title"
 msgstr "Lanpostua"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1473
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1506
 msgid "Home page"
 msgstr "Hasierako orria"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1483
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1516
 msgid "Blog"
 msgstr "Blog-a"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:244
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:246
 #: ../src/e-util/e-mail-signature-editor.c:654
 msgid "Unnamed"
 msgstr "Izengabea"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:333
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:335
 #: ../src/calendar/gui/tasktypes.xml.in.h:15 ../src/mail/mail-send-recv.c:1150
 msgid "Cancelled"
 msgstr "Bertan behera utzita"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:595
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:597
 msgid "Merge Contact"
 msgstr "Batu kontaktua"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:617
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:890
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:619
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:892
 msgid "_Merge"
 msgstr "_Batu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:879
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:881
 msgid "Duplicate Contact Detected"
 msgstr "Kontaktu errepikatua aurkitu da"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:937
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:939
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
 msgstr "Kontaktu honen izena edo helbide elektronikoa lehendik ere\n"
 "badago karpeta honetan. Hala ere gehitu nahi duzu?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:940
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:942
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
 msgstr "Kontaktu honen izena edo helbide elektronikoa lehendik ere\n"
 "badago karpeta honetan. Hala ere gehitu nahi duzu?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:955
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:957
 msgid "Changed Contact:"
 msgstr "Aldatutako kontaktua:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:957
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:959
 msgid "New Contact:"
 msgstr "Kontaktu berria:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:996
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:998
 msgid "Conflicting Contact:"
 msgstr "Gatazka sortu duen kontaktua:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:998
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:1000
 msgid "Old Contact:"
 msgstr "Kontaktu zaharra:"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:119
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:88
 msgid ""
 "This address book cannot be opened. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the address book once in online mode to download its contents."
 msgstr "Ezin izan da helbide-liburu hori ireki. Baliteke helbide-liburua lineaz kanpo lan egiteko markatuta ez egotea, edo lineaz kanpo erabiltzeko oraindik deskargatuta ez izatea. Kargatu behin helbide-liburua linean konektatuta zaudenean bere edukia deskargatzeko."
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:138
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:107
 #, c-format
 msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
 "and that permissions are set to access it."
 msgstr "Ezin izan da helbide-liburu hori ireki.  Egiaztatu %s bide-izena ondo dagoela eta atzitzeko baimenak ezarrita dituzula."
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:151
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:120
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
 msgstr "Evolution-en bertsio honek ez dauka konpilatuta LDAP euskarria.  LDAP erabili nahi baduzu LDAP gaituta duen Evolution-en paketea instalatu behar duzu."
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:160
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:129
 msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
 msgstr "Ezin izan da helbide-liburu hori ireki.  Horrek esan nahi du okerreko URIa idatzi duzula, edo zerbitzaria ezin dela atzitu."
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:170
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:139
 msgid "Detailed error message:"
 msgstr "Errorearen xehetasunak:"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:209
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:178
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -5707,7 +6296,7 @@ msgstr "Kontsulta honetan txartel gehiago datoz bat, konfigurazioaren\n"
 "gehieneko kopurua, helbide-liburu honen direktorio-zerbitzariaren\n"
 "hobespenetan."
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:216
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:185
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "configured for this address book.  Please make your search\n"
@@ -5719,50 +6308,50 @@ msgstr "Kontsulta egiteko denborak zerbitzariaren muga edo helbide-liburuan\n"
 "direktorio-zerbitzariaren hobespenetan."
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:224
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:193
 #, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
 msgstr "Helbide-liburuaren moduluak ezin izan du kontsulta analizatu. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:229
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:198
 #, c-format
 msgid "The backend for this address book refused to perform this query. %s"
 msgstr "Helbide-liburuaren moduluak kontsulta ezetsi du. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:235
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:241
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:204
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:210
 #, c-format
 msgid "This query did not complete successfully. %s"
 msgstr "Kontsulta ez da behar bezala egin. %s"
 
 #. This is a filename. Translators take note.
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:263
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:232
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:314
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:283
 msgid "Select Address Book"
 msgstr "Hautatu helbide-liburua"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:392
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:361
 msgid "list"
 msgstr "zerrenda"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:581
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:550
 msgid "Move contact to"
 msgstr "Eraman kontaktua hona"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:583
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:552
 msgid "Copy contact to"
 msgstr "Kopiatu kontaktua hemen"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:586
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:555
 msgid "Move contacts to"
 msgstr "Eraman kontaktuak hona"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:588
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:557
 msgid "Copy contacts to"
 msgstr "Kopiatu kontaktuak hemen"
 
@@ -5802,7 +6391,7 @@ msgid "Paste contacts from the clipboard"
 msgstr "Itsatsi kontaktuak arbeletik"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1002
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1424
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1393
 msgid "Delete selected contacts"
 msgstr "Ezabatu hautatutako kontaktuak"
 
@@ -5851,7 +6440,7 @@ msgstr "Ziur zaude kontaktu hau (%s) ezabatu nahi duzula?"
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2893
 #: ../src/mail/e-mail-account-manager.c:727
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1317
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1286
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1666
 #: ../src/shell/e-shell-window-actions.c:653
 #: ../src/smime/gui/certificate-manager.c:1598 ../src/smime/gui/smime-ui.ui.h:8
@@ -6088,20 +6677,11 @@ msgstr "Beste helbidearen komunitatea/probintzia"
 msgid "Other Address Country"
 msgstr "Beste helbidearen herrialdea"
 
-#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:658
-#: ../src/calendar/gui/e-bulk-edit-tasks.c:245
-msgid "Saving changes, please wait…"
-msgstr "Aldaketak gordetzen, itxaron…"
-
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:660
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:247
 #: ../src/e-util/e-webdav-browser.c:1958
 msgid "Failed to save changes"
 msgstr "Huts egin du aldaketak gordetzean"
-
-#: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:830
-msgid "Co_untry:"
-msgstr "_Estatua:"
 
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:912
 #, c-format
@@ -6159,24 +6739,24 @@ msgstr "Bilatu kontaktua."
 msgid "There are no items to show in this view."
 msgstr "Ez dago ikuspegi honetan erakusteko elementurik."
 
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:359
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:418
 msgid "Contacts Map"
 msgstr "Kontaktuen mapa"
 
 #. Zoom-in button
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:394
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:453
 msgid "Zoom _In"
 msgstr "_Handiagotu"
 
 #. Zoom-out button
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:402
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:461
 #: ../src/e-util/e-html-editor-actions.c:1411 ../src/mail/e-mail-reader.c:3533
 #: ../src/mail/e-mail-viewer.c:1818
 msgid "Zoom _Out"
 msgstr "_Txikiagotu"
 
 #. Search button
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:432
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:491
 #: ../src/e-util/e-html-editor-find-dialog.c:235
 #: ../src/shell/e-shell-view.c:1057
 msgid "_Find"
@@ -6247,87 +6827,87 @@ msgstr "Evolution-en vCard inportatzailea"
 msgid "Page %d"
 msgstr "%d. orria"
 
-#: ../src/addressbook/util/eab-book-util.c:34
+#: ../src/addressbook/util/eab-book-util.c:66
 msgctxt "addressbook-label"
 msgid "Work Email"
 msgstr "Laneko helb. el."
 
-#: ../src/addressbook/util/eab-book-util.c:35
+#: ../src/addressbook/util/eab-book-util.c:67
 msgctxt "addressbook-label"
 msgid "Home Email"
 msgstr "Etxeko helb. el."
 
-#: ../src/addressbook/util/eab-book-util.c:36
+#: ../src/addressbook/util/eab-book-util.c:68
 msgctxt "addressbook-label"
 msgid "Other Email"
 msgstr "Beste helb. el."
 
-#: ../src/addressbook/util/eab-book-util.c:42
+#: ../src/addressbook/util/eab-book-util.c:74
 msgctxt "addressbook-label"
 msgid "Work SIP"
 msgstr "Laneko SIP"
 
-#: ../src/addressbook/util/eab-book-util.c:43
+#: ../src/addressbook/util/eab-book-util.c:75
 msgctxt "addressbook-label"
 msgid "Home SIP"
 msgstr "Etxeko SIP"
 
-#: ../src/addressbook/util/eab-book-util.c:44
+#: ../src/addressbook/util/eab-book-util.c:76
 msgctxt "addressbook-label"
 msgid "Other SIP"
 msgstr "Beste SIP"
 
-#: ../src/addressbook/util/eab-book-util.c:72
+#: ../src/addressbook/util/eab-book-util.c:104
 msgctxt "addressbook-label"
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/util/eab-book-util.c:73
+#: ../src/addressbook/util/eab-book-util.c:105
 msgctxt "addressbook-label"
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/util/eab-book-util.c:74
+#: ../src/addressbook/util/eab-book-util.c:106
 msgctxt "addressbook-label"
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/util/eab-book-util.c:75
+#: ../src/addressbook/util/eab-book-util.c:107
 msgctxt "addressbook-label"
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/util/eab-book-util.c:76
+#: ../src/addressbook/util/eab-book-util.c:108
 msgctxt "addressbook-label"
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/util/eab-book-util.c:77
+#: ../src/addressbook/util/eab-book-util.c:109
 msgctxt "addressbook-label"
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/util/eab-book-util.c:78
+#: ../src/addressbook/util/eab-book-util.c:110
 msgctxt "addressbook-label"
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/util/eab-book-util.c:79
+#: ../src/addressbook/util/eab-book-util.c:111
 msgctxt "addressbook-label"
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/util/eab-book-util.c:80
+#: ../src/addressbook/util/eab-book-util.c:112
 msgctxt "addressbook-label"
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/util/eab-book-util.c:81
+#: ../src/addressbook/util/eab-book-util.c:113
 msgctxt "addressbook-label"
 msgid "Google Talk"
 msgstr "Google Talk"
 
-#: ../src/addressbook/util/eab-book-util.c:82
+#: ../src/addressbook/util/eab-book-util.c:114
 msgctxt "addressbook-label"
 msgid "Matrix"
 msgstr "Matrix"
@@ -6336,7 +6916,7 @@ msgstr "Matrix"
 #. * if an email address type is not one of the predefined types,
 #. * this generic label is used instead of one of the predefined labels.
 #.
-#: ../src/addressbook/util/eab-book-util.c:125
+#: ../src/addressbook/util/eab-book-util.c:157
 msgctxt "addressbook-label"
 msgid "Email"
 msgstr "Posta elektronikoa"
@@ -6346,7 +6926,7 @@ msgstr "Posta elektronikoa"
 #. * this generic label is used instead of one of the predefined labels.
 #. * SIP=Session Initiation Protocol, used for voice over IP
 #.
-#: ../src/addressbook/util/eab-book-util.c:172
+#: ../src/addressbook/util/eab-book-util.c:204
 msgctxt "addressbook-label"
 msgid "SIP"
 msgstr "SIP"
@@ -6355,7 +6935,7 @@ msgstr "SIP"
 #. this generic label is used instead of one of the predefined labels.
 #. IM=Instant Messaging
 #.
-#: ../src/addressbook/util/eab-book-util.c:216
+#: ../src/addressbook/util/eab-book-util.c:248
 msgctxt "addressbook-label"
 msgid "IM"
 msgstr "BM"
@@ -6364,7 +6944,7 @@ msgstr "BM"
 #. * if a phone number type is not one of the predefined types,
 #. * this generic label is used instead of one of the predefined labels.
 #.
-#: ../src/addressbook/util/eab-book-util.c:310
+#: ../src/addressbook/util/eab-book-util.c:342
 msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefonoa"
@@ -7119,16 +7699,6 @@ msgstr "Antolatzailea"
 #: ../src/calendar/gui/tasktypes.xml.in.h:6
 msgid "Attendee"
 msgstr "Partaidea"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:14
-#: ../src/calendar/gui/e-cal-list-view.etspec.h:5
-#: ../src/calendar/gui/e-task-table.etspec.h:13
-#: ../src/mail/message-list.etspec.h:14
-#: ../src/plugins/publish-calendar/publish-calendar.c:859
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:23
-#: ../src/plugins/save-calendar/csv-format.c:376
-msgid "Location"
-msgstr "Kokalekua"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:16
 #: ../src/calendar/gui/memotypes.xml.in.h:14
@@ -7975,7 +8545,6 @@ msgid "%a %d %b %Y"
 msgstr "%a, %Y %b %d"
 
 #: ../src/calendar/gui/e-calendar-view.c:1779
-#| msgid "Birthday"
 msgid "Deathday"
 msgstr "Heriotza-eguna"
 
@@ -8288,36 +8857,6 @@ msgid "Copying a task"
 msgid_plural "Copying %d tasks"
 msgstr[0] "Zeregin bat kopiatzen"
 msgstr[1] "%d zeregin kopiatzen"
-
-#: ../src/calendar/gui/e-cal-range-model.c:208
-#: ../src/calendar/gui/e-comp-editor-event.c:571
-#: ../src/calendar/gui/e-comp-editor-event.c:587
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:247
-#: ../src/calendar/gui/e-comp-editor.c:362
-#: ../src/composer/e-composer-actions.c:189
-#: ../src/em-format/e-mail-part-secure-button.c:97
-#: ../src/e-util/e-markdown-utils.c:188 ../src/e-util/e-markdown-utils.c:198
-#: ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:256
-#: ../src/e-util/e-misc-utils.c:3442 ../src/e-util/e-misc-utils.c:3450
-#: ../src/e-util/e-misc-utils.c:3458 ../src/e-util/e-misc-utils.c:3493
-#: ../src/e-util/e-misc-utils.c:3506 ../src/e-util/e-misc-utils.c:3520
-#: ../src/e-util/e-ui-customize-dialog.c:3522
-#: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3142
-#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3943
-#: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
-#: ../src/mail/e-mail-viewer.c:1561 ../src/mail/e-mail-viewer.c:2508
-#: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4294
-#: ../src/mail/em-composer-utils.c:4317 ../src/mail/mail-send-recv.c:604
-#: ../src/mail/mail-send-recv.c:1500
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:171
-#: ../src/modules/mail/e-mail-attachment-handler.c:557
-#: ../src/plugins/face/face.c:175
-#: ../src/plugins/mail-to-task/mail-to-task.c:998 ../src/shell/e-shell.c:1278
-#: ../src/shell/e-shell.c:1303 ../src/smime/gui/certificate-manager.c:349
-#: ../src/smime/lib/e-cert-db.c:108
-#, c-format
-msgid "Unknown error"
-msgstr "Errore ezezaguna"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../src/calendar/gui/e-cell-date-edit-text.c:170
@@ -9469,13 +10008,13 @@ msgstr "Arbelaren edukia itsasten du"
 
 #: ../src/calendar/gui/e-comp-editor.c:2281
 #: ../src/composer/e-composer-actions.c:439 ../src/mail/e-mail-reader.c:3414
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1607
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1621
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1576
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1590
 msgid "_Print…"
 msgstr "_Inprimatu…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2288 ../src/mail/e-mail-reader.c:3421
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1614
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1583
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1820
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:767
 #: ../src/modules/calendar/e-task-shell-view-actions.c:955
@@ -9653,13 +10192,6 @@ msgstr "Mahaiburuak"
 #: ../src/calendar/gui/e-meeting-list-view.c:151
 msgid "Attendees"
 msgstr "Partaideak"
-
-#: ../src/calendar/gui/e-meeting-list-view.c:167
-#: ../src/calendar/gui/e-meeting-store.c:106
-#: ../src/calendar/gui/e-meeting-store.c:123
-#: ../src/calendar/gui/e-meeting-store.c:1064 ../src/calendar/gui/print.c:1294
-msgid "Individual"
-msgstr "Indibiduala"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:168
 #: ../src/calendar/gui/e-meeting-store.c:108
@@ -9954,14 +10486,6 @@ msgstr "Kalkulatutako iraupena"
 msgctxt "timezone"
 msgid "None"
 msgstr "Bat ere ez"
-
-#. Put the "UTC" entry at the top of the combo's list.
-#: ../src/calendar/gui/e-timezone-entry.c:407
-#: ../src/e-util/e-timezone-dialog.c:262 ../src/e-util/e-timezone-dialog.c:502
-#: ../src/e-util/e-timezone-dialog.c:506 ../src/e-util/e-timezone-dialog.c:510
-#: ../src/e-util/e-timezone-dialog.c:997
-msgid "UTC"
-msgstr "UTC"
 
 #: ../src/calendar/gui/e-timezone-entry.c:505
 msgid "Select Timezone"
@@ -12435,7 +12959,7 @@ msgstr "_Gaia:"
 msgid "Si_gnature:"
 msgstr "Si_nadura:"
 
-#: ../src/composer/e-composer-name-header.c:223
+#: ../src/composer/e-composer-name-header.c:222
 msgid "Click here for the address book"
 msgstr "Egin klik hemen helbide-liburura joateko"
 
@@ -13275,10 +13799,6 @@ msgstr "_Posta-kontua"
 msgid "Address _Book"
 msgstr "_Helbide-liburua"
 
-#: ../src/e-util/e-accounts-window.c:1500
-msgid "_Calendar"
-msgstr "_Egutegia"
-
 #: ../src/e-util/e-accounts-window.c:1501
 msgid "M_emo List"
 msgstr "_Zirkularren zerrenda"
@@ -13563,7 +14083,7 @@ msgid "Attach a URI"
 msgstr "Erantsi URIa"
 
 #: ../src/e-util/e-attachment-view.c:1149
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1359
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1328
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1451
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:635
 #: ../src/modules/calendar/e-task-shell-view-actions.c:801
@@ -13581,7 +14101,6 @@ msgid "Reload attachment content"
 msgstr "Birkargatu eranskinen edukia"
 
 #: ../src/e-util/e-autoar-gtk-chooser.c:192
-#| msgid "Choose a folder to archive messages to."
 msgid "Choose an archive format"
 msgstr "Aukeratu artxibo-formatu bat"
 
@@ -13591,17 +14110,14 @@ msgid "OK"
 msgstr "Ados"
 
 #: ../src/e-util/e-autoar-gtk-chooser.c:294
-#| msgid "Other…"
 msgid "Other format…"
 msgstr "Beste formatu bat…"
 
 #: ../src/e-util/e-autoar-gtk-chooser.c:469
-#| msgid "Format:"
 msgid "Format"
 msgstr "Formatua"
 
 #: ../src/e-util/e-autoar-gtk-chooser.c:505
-#| msgid "_Filter Rules"
 msgid "Filter"
 msgstr "Iragazkia"
 
@@ -14511,7 +15027,6 @@ msgid "All related"
 msgstr "Erlazionatutako guztiak"
 
 #: ../src/e-util/e-filter-rule.c:1140
-#| msgid "All related"
 msgid "Unmatched in All related"
 msgstr "Ez dator bat erlazionatutako guztietan"
 
@@ -15939,7 +16454,7 @@ msgstr "_Idatzi"
 #. ** Menus **
 #: ../src/e-util/e-markdown-editor.c:1881
 #: ../src/e-util/e-markdown-editor.c:2490
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1487
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1456
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1711
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:705
 #: ../src/modules/calendar/e-task-shell-view-actions.c:893
@@ -16145,7 +16660,7 @@ msgstr "_Bilatu:"
 
 #: ../src/e-util/e-name-selector-dialog.c:347
 #: ../src/e-util/e-name-selector-dialog.c:1288
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1720
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1689
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1895
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:835
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1030
@@ -16166,25 +16681,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Hautatu kontaktuak helbide-liburutik"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3266
+#: ../src/e-util/e-name-selector-entry.c:3260
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "_Zabaldu %s barnean"
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3282
+#: ../src/e-util/e-name-selector-entry.c:3276
 #, c-format
 msgid "Cop_y %s"
 msgstr "_Kopiatu %s"
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3293
+#: ../src/e-util/e-name-selector-entry.c:3287
 #, c-format
 msgid "C_ut %s"
 msgstr "E_baki %s"
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3311
+#: ../src/e-util/e-name-selector-entry.c:3305
 #, c-format
 msgid "_Edit %s"
 msgstr "E_ditatu %s"
@@ -16229,10 +16744,6 @@ msgstr "_Gogoratu pasahitza"
 #: ../src/e-util/e-passwords.c:599
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Gogoratu pasahitza saio honen oroigarriarentzako"
-
-#: ../src/e-util/e-preferences-window.c:297
-msgid "Help"
-msgstr "Laguntza"
 
 #: ../src/e-util/e-preferences-window.c:339
 msgid "Evolution Preferences"
@@ -16480,7 +16991,6 @@ msgid "Spelling Suggestions"
 msgstr "Zuzenketa ortografikoaren iradokizunak"
 
 #: ../src/e-util/e-split-date-edit.c:300 ../src/e-util/e-split-date-edit.c:504
-#| msgid "Not sorted"
 msgid "Not set"
 msgstr "Ezarri gabea"
 
@@ -16490,7 +17000,6 @@ msgid "Year"
 msgstr "Urtea"
 
 #: ../src/e-util/e-split-date-edit.c:497
-#| msgid "<click here to select a date>"
 msgid "Click to select date"
 msgstr "Egin klik data hautatzeko"
 
@@ -16912,7 +17421,7 @@ msgstr "_Diseinua"
 #: ../src/e-util/e-ui-customize-dialog.c:2740
 #: ../src/e-util/e-ui-customize-dialog.c:2789 ../src/mail/e-mail-reader.c:2939
 #: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4599
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:365
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:369
 msgid "_Default"
 msgstr "_Lehenetsia"
 
@@ -16967,11 +17476,6 @@ msgstr "Bistaratze-izena"
 msgid "Flags"
 msgstr "Banderak"
 
-#: ../src/e-util/evolution-source-viewer.c:723
-#: ../src/mail/e-mail-config-identity-page.c:1223
-msgid "Identity"
-msgstr "Identitatea"
-
 #: ../src/e-util/e-webdav-browser.c:514 ../src/mail/filtertypes.xml.in.h:68
 #: ../src/mail/searchtypes.xml.in.h:59 ../src/mail/vfoldertypes.xml.in.h:61
 msgid "Address book"
@@ -16994,8 +17498,8 @@ msgid "Scheduling Outbox"
 msgstr "Antolaketaren irteerako ontzia"
 
 #: ../src/e-util/e-webdav-browser.c:612 ../src/mail/e-mail-viewer.c:1551
-#: ../src/mail/e-mail-viewer.c:2543 ../src/mail/em-folder-tree-model.c:1611
-#: ../src/mail/em-folder-tree-model.c:1999
+#: ../src/mail/e-mail-viewer.c:2543 ../src/mail/em-folder-tree-model.c:1618
+#: ../src/mail/em-folder-tree-model.c:2014
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:892
 msgid "Loading…"
 msgstr "Kargatzen…"
@@ -17497,8 +18001,8 @@ msgstr "Karpetaren ”%s” URIa baliogabea"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:113
 #: ../src/mail/em-folder-properties.c:1489
-#: ../src/mail/em-folder-tree-model.c:1524
-#: ../src/mail/em-folder-tree-model.c:1554
+#: ../src/mail/em-folder-tree-model.c:1525
+#: ../src/mail/em-folder-tree-model.c:1555
 #: ../src/mail/importers/kmail-libs.c:138
 #: ../src/modules/mail/e-mail-shell-view-private.c:1059
 #: ../src/modules/mail/e-mail-shell-view-private.c:1070
@@ -17507,8 +18011,8 @@ msgstr "Sarrerako ontzia"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:114
-#: ../src/mail/em-folder-tree-model.c:1518
-#: ../src/mail/em-folder-tree-model.c:1558
+#: ../src/mail/em-folder-tree-model.c:1519
+#: ../src/mail/em-folder-tree-model.c:1559
 #: ../src/mail/importers/kmail-libs.c:144
 #: ../src/modules/mail/e-mail-shell-view-private.c:1057
 msgid "Drafts"
@@ -17516,7 +18020,7 @@ msgstr "Zirriborroa"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:115
-#: ../src/mail/em-folder-tree-model.c:1530
+#: ../src/mail/em-folder-tree-model.c:1531
 #: ../src/mail/importers/kmail-libs.c:140
 #: ../src/modules/mail/e-mail-shell-view-private.c:1061
 msgid "Outbox"
@@ -17524,8 +18028,8 @@ msgstr "Irteerako ontzia"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:116
-#: ../src/mail/em-folder-tree-model.c:1535
-#: ../src/mail/em-folder-tree-model.c:1557
+#: ../src/mail/em-folder-tree-model.c:1536
+#: ../src/mail/em-folder-tree-model.c:1558
 #: ../src/mail/importers/kmail-libs.c:142
 #: ../src/modules/mail/e-mail-shell-view-private.c:1063
 msgid "Sent"
@@ -17533,7 +18037,7 @@ msgstr "Bidalitakoak"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:117
-#: ../src/mail/em-folder-tree-model.c:1520
+#: ../src/mail/em-folder-tree-model.c:1521
 #: ../src/mail/importers/kmail-libs.c:146
 #: ../src/modules/mail/e-mail-shell-view-private.c:1065
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
@@ -17761,13 +18265,11 @@ msgid "Setting up Search Folder: %s"
 msgstr "Bilaketa-karpeta konfiguratzen: %s"
 
 #: ../src/libemail-engine/mail-vfolder.c:409
-#| msgid "Edit Search Folder"
 msgid "Updating Search Folders"
 msgstr "Bilaketa-karpetak eguneratzen"
 
 #: ../src/libemail-engine/mail-vfolder.c:469
 #, c-format
-#| msgid "Updating Search Folders for “%s : %s”"
 msgid "Updating Search Folder “%s”"
 msgstr "“%s” bilaketa-karpeta eguneratzen"
 
@@ -19963,7 +20465,7 @@ msgid "Label"
 msgstr "Etiketa"
 
 #: ../src/mail/em-folder-properties.c:1415
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:604
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:743
 msgid "Appearance"
 msgstr "Itxura"
 
@@ -20054,13 +20556,13 @@ msgstr "Mezuak %s karpetan kopiatzen"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Ezin da mezurik ekarri maila goreneko biltegira"
 
-#: ../src/mail/em-folder-tree-model.c:1555
+#: ../src/mail/em-folder-tree-model.c:1556
 #: ../src/mail/importers/kmail-libs.c:148
 #: ../src/modules/mail/e-mail-shell-view-private.c:1067
 msgid "Trash"
 msgstr "Zakarrontzia"
 
-#: ../src/mail/em-folder-tree-model.c:1556 ../src/mail/filtertypes.xml.in.h:41
+#: ../src/mail/em-folder-tree-model.c:1557 ../src/mail/filtertypes.xml.in.h:41
 #: ../src/mail/mail-config.ui.h:153 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Baztergarriak"
@@ -20200,7 +20702,7 @@ msgid "Stop the current operation"
 msgstr "Gelditu uneko eragiketa"
 
 #: ../src/mail/em-subscription-editor.c:1956
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1401
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1370
 msgid "_Stop"
 msgstr "_Gelditu"
 
@@ -20264,26 +20766,6 @@ msgstr "Fidatu _osorik"
 msgctxt "trust"
 msgid "Trust _ultimately"
 msgstr "Fidatu _erabat"
-
-#: ../src/mail/em-utils.c:2079
-#, c-format
-msgid "Key ID: %s"
-msgstr "Gakoaren IDa: %s"
-
-#: ../src/mail/em-utils.c:2090
-#, c-format
-msgid "Fingerprint: %s"
-msgstr "Hatz-marka: %s"
-
-#: ../src/mail/em-utils.c:2106
-#, c-format
-msgid "Created: %s"
-msgstr "Sortze-data: %s"
-
-#: ../src/mail/em-utils.c:2138
-#, c-format
-msgid "User ID: %s"
-msgstr "Erabiltzailearen IDa: %s"
 
 #: ../src/mail/em-utils.c:2159
 msgid "Set trust level for the key:"
@@ -21178,14 +21660,6 @@ msgstr "_Beti kargatu urruneko edukia Internetetik"
 #: ../src/mail/mail-config.ui.h:128
 msgid "Notify about _missing remote content in the message preview"
 msgstr "Jakinarazi urruneko edukia _falta izateari buruz mezuaren aurrebistan"
-
-#: ../src/mail/mail-config.ui.h:129
-msgid "Add"
-msgstr "Gehitu"
-
-#: ../src/mail/mail-config.ui.h:130
-msgid "Remove"
-msgstr "Kendu"
 
 #: ../src/mail/mail-config.ui.h:131
 msgid "Allow for sites:"
@@ -22598,8 +23072,8 @@ msgid "C_alendar"
 msgstr "_Egutegia"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:486
-#: ../src/modules/addressbook/e-book-shell-backend.c:258
-#: ../src/modules/addressbook/e-book-shell-backend.c:473
+#: ../src/modules/addressbook/e-book-shell-backend.c:254
+#: ../src/modules/addressbook/e-book-shell-backend.c:469
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:151
 msgid "New Address Book"
 msgstr "Helbide-liburu berria"
@@ -22640,80 +23114,80 @@ msgid ""
 "address books, calendars, memo lists or task lists there"
 msgstr "Arakatu WebDAV (CalDAV edo CardDAV) zerbitzari bat eta sortu, editatu edo ezabatu helbide-liburuak, egutegiak, zirkularren edo zereginen zerrendak hemen"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:257
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:261
 msgid "Title Bar Mode"
 msgstr "Titulu-barraren modua"
 
 #. Translators: This is the GNOME project name; you probably do not want to translate it, apart of changing the mnemonic
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:268
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:272
 msgid "_GNOME"
 msgstr "_GNOME"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:294
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:298
 msgid "Use buttons with _icons only"
 msgstr "Erabili _ikonoak soilik dituzten botoiak"
 
 #. Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:313
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:317
 msgid "_Standard"
 msgstr "E_standarra"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:341
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:345
 msgid "Toolbar Icon Size"
 msgstr "Tresna-barrako ikonoen tamaina"
 
 #. Translators: this is in a sense of "Look & Feel of the icons"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:352
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:356
 msgid "Icons Look"
 msgstr "Ikonoen itxura"
 
 #. Translators: This is for "Icons Look: Autodetect"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:377
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:381
 msgid "Aut_odetect"
 msgstr "Automatikoki _detektatu"
 
 #. Translators: This is for "Toolbar Icon Size: Small"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:390
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:394
 msgid "Sm_all"
 msgstr "T_xikia"
 
 #. Translators: This is for "Icons Look: Prefer symbolic"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:401
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:405
 msgid "_Prefer symbolic"
 msgstr "Hobetsi _sinbolikoa"
 
 #. Translators: This is for "Toolbar Icon Size: Large"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:413
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:417
 msgid "_Large"
 msgstr "_Handia"
 
 #. Translators: This is for "Icons Look: Prefer regular"
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:424
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:428
 msgid "Prefer _regular"
 msgstr "Hobetsi a_rrunta"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:499
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:503
 msgid "Layout"
 msgstr "Diseinua"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:510
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:514
 msgid "Show M_enu Bar"
 msgstr "Erakutsi _menu-barra"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:523
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:527
 #: ../src/shell/e-shell-view.c:1109
 msgid "Show _Tool Bar"
 msgstr "Erakutsi _tresna-barra"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:536
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:540
 msgid "Show Side _Bar"
 msgstr "Erakutsi albo-_barra"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:549
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:553
 msgid "Show Stat_us Bar"
 msgstr "Erakutsi _egoera-barra"
 
-#: ../src/modules/appearance-settings/evolution-appearance-settings.c:562
+#: ../src/modules/appearance-settings/evolution-appearance-settings.c:566
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:312
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Oharra: aldaketa batzuk ez dira aplikatuko berrabiatu arte"
@@ -22782,131 +23256,130 @@ msgstr "Kontaktuaren informazioa"
 msgid "Contact information for %s"
 msgstr "%s kontaktuaren informazioa"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:553
+#: ../src/modules/addressbook/e-book-shell-backend.c:549
 msgctxt "New"
 msgid "_Contact"
 msgstr "_Kontaktua"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:555
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1452
+#: ../src/modules/addressbook/e-book-shell-backend.c:551
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1421
 msgid "Create a new contact"
 msgstr "Sortu kontaktu berria"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:560
+#: ../src/modules/addressbook/e-book-shell-backend.c:556
 msgctxt "New"
 msgid "Contact _List"
 msgstr "Kontaktuen _zerrenda"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:562
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1459
+#: ../src/modules/addressbook/e-book-shell-backend.c:558
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1428
 msgid "Create a new contact list"
 msgstr "Sortu kontaktu-zerrenda berria"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:569
+#: ../src/modules/addressbook/e-book-shell-backend.c:565
 msgctxt "New"
 msgid "Address _Book"
 msgstr "_Helbide-liburua"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:571
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1347
+#: ../src/modules/addressbook/e-book-shell-backend.c:567
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1316
 msgid "Create a new address book"
 msgstr "Sortu helbide-liburu berria"
 
 #. Translators: This is a save dialog title
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:633
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1079
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:603
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1048
 msgid "Save as vCard"
 msgstr "Gorde vCard gisa"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:706
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:676
 #: ../src/modules/addressbook/e-book-shell-view.c:678
 msgid "Retrieving selected contacts…"
 msgstr "Hautatutako kontaktuak atzitzen…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1303
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1272
 msgid "Co_py All Contacts To…"
 msgstr "_Kopiatu kontaktu guztiak hemen…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1305
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1274
 msgid "Copy the contacts of the selected address book to another"
 msgstr "Kopiatu hautatutako helbide-liburuko kontaktuak beste batean"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1310
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1279
 msgid "D_elete Address Book"
 msgstr "E_zabatu helbide-liburua"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1312
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1281
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1288
 msgid "Delete the selected address book"
 msgstr "Ezabatu hautatutako helbide-liburua"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1324
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1293
 msgid "_Manage Address Book groups…"
 msgstr "_Kudeatu helbide-liburuko taldeak…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
-#| msgid "Manage addres book groups order and visibility"
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1295
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1302
 msgid "Manage address book groups order and visibility"
 msgstr "Kudeatu helbide-liburuko taldeen ordena eta ikusgaitasuna"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1331
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1300
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1437
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:621
 #: ../src/modules/calendar/e-task-shell-view-actions.c:787
 msgid "_Manage groups…"
 msgstr "Kudeatu _taldeak…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1338
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1307
 msgid "Mo_ve All Contacts To…"
 msgstr "E_raman kontaktu guztiak hona…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1340
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1309
 msgid "Move the contacts of the selected address book to another"
 msgstr "Eraman hautatutako helbide-liburuko kontaktuak beste batera"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1345
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1314
 msgid "_New Address Book"
 msgstr "Helbide-liburu _berria"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1352
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1321
 msgid "Address _Book Properties"
 msgstr "Helbide-_liburuaren propietateak"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1354
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1361
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1323
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1330
 msgid "Show properties of the selected address book"
 msgstr "Erakutsi hautatutako helbide-liburuaren propietateak"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1366
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1335
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1465
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:642
 #: ../src/modules/calendar/e-task-shell-view-actions.c:808
 msgid "Re_fresh"
 msgstr "_Freskatu"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1368
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1337
 msgid "Refresh the selected address book"
 msgstr "Freskatu hautatutako helbide-liburua"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1373
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1342
 msgid "Re_fresh list of account address books"
 msgstr "_Freskatu kontuen helbide-liburuen zerrenda"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1380
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1349
 msgid "Address Book _Map"
 msgstr "Helbide-liburuen _mapa"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1382
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1389
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1351
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
 msgid "Show map with all contacts from selected address book"
 msgstr "Erakutsi hautatutako helbide-liburuetako mapa kontaktuekin"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1387
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1356
 msgid "Address Book Map"
 msgstr "Helbide-liburuen mapa"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1394
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1363
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1479
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:656
 #: ../src/modules/calendar/e-task-shell-view-actions.c:822
@@ -22914,111 +23387,111 @@ msgstr "Helbide-liburuen mapa"
 msgid "_Rename…"
 msgstr "Be_rrizendatu…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1396
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1365
 msgid "Rename the selected address book"
 msgstr "Aldatu hautatutako helbide-liburuaren izena"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1403
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1372
 msgid "Stop loading"
 msgstr "Gelditu kargatzea"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1408
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1377
 #: ../src/modules/calendar/e-task-shell-view-actions.c:738
 msgid "_Bulk Edit…"
 msgstr "Editatu _sortaka…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1410
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1379
 msgid "Edit selected contacts in a bulk"
 msgstr "Editatu hautatutako kontaktuak denak aldi berean"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1415
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1384
 msgid "_Copy Contact To…"
 msgstr "_Kopiatu kontaktua hemen…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1417
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1386
 msgid "Copy selected contacts to another address book"
 msgstr "Kopiatu hautatutako kontaktuak beste helbide-liburu batean"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1422
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1391
 msgid "_Delete Contact"
 msgstr "_Ezabatu kontaktua"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1429
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1398
 msgid "_Find in Contact…"
 msgstr "_Bilatu kontaktuan…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1431
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1400
 msgid "Search for text in the displayed contact"
 msgstr "Bilatu testua bistaratutako kontaktuan"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1436
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1405
 msgid "_Forward Contact…"
 msgstr "_Birbidali kontaktua…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1438
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1407
 msgid "Send selected contacts to another person"
 msgstr "Bidali hautatutako kontaktuak beste norbaiti"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1443
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1412
 msgid "_Move Contact To…"
 msgstr "E_raman kontaktua hona…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1445
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1414
 msgid "Move selected contacts to another address book"
 msgstr "Eraman hautatutako kontaktuak beste helbide-liburu batera"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1450
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1419
 msgid "_New Contact…"
 msgstr "Ko_ntaktu berria…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1457
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1426
 msgid "New Contact _List…"
 msgstr "Kontaktuen _zerrenda berria…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1464
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1433
 msgid "_Open Contact"
 msgstr "_Ireki kontaktua"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1466
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1435
 msgid "View the current contact"
 msgstr "Ikusi uneko kontaktua"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1471
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1440
 msgid "_Send Message to Contact…"
 msgstr "Bidali _mezua kontaktuari…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1473
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1442
 msgid "Send a message to the selected contacts"
 msgstr "Bidali mezua hautatutako kontaktuei"
 
 #. ** Menus **
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1480
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1449
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1710
 #: ../src/modules/calendar/e-task-shell-view-actions.c:892
 msgid "_Actions"
 msgstr "_Ekintzak"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1494
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1463
 msgid "_Sort Cards By"
 msgstr "_Ordenatu txartelak honen arabera"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1504
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1473
 msgid "Contact _Preview"
 msgstr "Kontaktuen _aurrebista"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1506
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1475
 msgid "Show contact preview window"
 msgstr "Erakutsi kontaktu-aurrebistaren leihoa"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1511
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1480
 msgid "Show _Maps"
 msgstr "Erakutsi _mapak"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1513
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1482
 msgid "Show maps in contact preview window"
 msgstr "Erakutsi mapak kontaktu-aurrebistaren leihoan"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1521
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1490
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1765
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:712
 #: ../src/modules/calendar/e-task-shell-view-actions.c:900
@@ -23026,11 +23499,11 @@ msgstr "Erakutsi mapak kontaktu-aurrebistaren leihoan"
 msgid "_Classic View"
 msgstr "_Ikuspegi klasikoa"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1523
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1492
 msgid "Show contact preview below the contact list"
 msgstr "Erakutsi kontaktuaren aurrebista kontaktuen zerrendaren azpian"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1528
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1497
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1772
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:719
 #: ../src/modules/calendar/e-task-shell-view-actions.c:907
@@ -23038,11 +23511,11 @@ msgstr "Erakutsi kontaktuaren aurrebista kontaktuen zerrendaren azpian"
 msgid "_Vertical View"
 msgstr "Ikuspegi _bertikala"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1530
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1499
 msgid "Show contact preview alongside the contact list"
 msgstr "Erakutsi kontaktuen aurrebista kontaktuen zerrendaren alboan"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1538
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1507
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1782
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:729
 #: ../src/modules/calendar/e-task-shell-view-actions.c:917
@@ -23051,50 +23524,50 @@ msgstr "Erakutsi kontaktuen aurrebista kontaktuen zerrendaren alboan"
 msgid "Advanced Search"
 msgstr "Bilaketa aurreratua"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1583
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1552
 msgid "_File Under"
 msgstr "_Artxibatu honela"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1590
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1559
 msgid "_Given Name"
 msgstr "_Izena"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1597
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1566
 msgid "Family _Name"
 msgstr "A_bizena"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1609
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1578
 msgid "Print all shown contacts"
 msgstr "Inprimatu erakutsitako kontaktu guztiak"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1616
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1585
 msgid "Preview the contacts to be printed"
 msgstr "Aurreikusi inprimatuko diren kontaktuak"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1623
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1592
 msgid "Print selected contacts"
 msgstr "Inprimatu hautatutako kontaktuak"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1631
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1600
 msgid "S_ave Address Book as vCard"
 msgstr "_Gorde helbide-liburua vCard gisa"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1633
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1641
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1602
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1610
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "Gorde hautatutako helbide-liburuko kontaktuak vCard gisa"
 
 #. Translators: This is an action label
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1639
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1647
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1608
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1616
 msgid "_Save as vCard…"
 msgstr "_Gorde vCard gisa…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1649
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1618
 msgid "Save selected contacts as a vCard"
 msgstr "Gorde hautatutako kontaktuak vCard gisa"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1727
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1696
 msgid "Unmatched"
 msgstr "Sailkatu gabeak"
 
@@ -23584,10 +24057,6 @@ msgstr "Deskargatzen"
 msgid "Limit:"
 msgstr "Muga:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:885
-msgid "contacts"
-msgstr "kontaktuak"
-
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:890
 msgid "Browse until limit is reached"
 msgstr "Arakatu muga gainditu arte"
@@ -23926,7 +24395,6 @@ msgstr "Igandea"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:807
 #, c-format
-#| msgid "Use s_ystem time zone (%s)"
 msgid "Use system setti_ng (%s)"
 msgstr "Erabili s_istemaren ezarpena (%s)"
 
@@ -23977,10 +24445,6 @@ msgstr "_Bigarren zona:"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:12
 msgid "(Shown in a Day View)"
 msgstr "(Erakutsi eguneko ikuspegian)"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:13
-msgid "Time _zone:"
-msgstr "_Ordu-zona:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:14
 msgid "Time format:"
@@ -29967,6 +30431,9 @@ msgstr "Ezin da biltegia diskoan idatzi. Errore-kodea: %i"
 msgid "Imported Certificate"
 msgstr "Inportatutako ziurtagiria"
 
+#~ msgid "Error removing list"
+#~ msgstr "Errorea zerrenda kentzean"
+
 #, c-format
 #~ msgid "“%s” has an invalid format"
 #~ msgstr "“%s” baliogabeko formatua du"
@@ -30266,9 +30733,6 @@ msgstr "Inportatutako ziurtagiria"
 
 #~ msgid "gray"
 #~ msgstr "grisa"
-
-#~ msgid "magenta"
-#~ msgstr "magenta"
 
 #~ msgid "bright orange"
 #~ msgstr "laranja disdiratsua"
