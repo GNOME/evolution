@@ -60,15 +60,19 @@ empe_app_smime_parse (EMailParserExtension *extension,
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
 	CamelContentType *ct;
+	const gchar *smime_type_param;
+	gboolean as_attachment;
 	gboolean is_guessed;
 	GError *local_error = NULL;
 
 	ct = camel_mime_part_get_content_type (part);
+	smime_type_param = camel_content_type_param (ct, "smime-type");
+	as_attachment = !smime_type_param || !*smime_type_param || g_ascii_strcasecmp (smime_type_param, "certs-only") == 0;
 
 	/* When it's a guessed type, then rather not interpret it as a signed/encrypted message */
 	is_guessed = g_strcmp0 (camel_content_type_param (ct, E_MAIL_PART_X_EVOLUTION_GUESSED), "1") == 0;
 
-	if (is_guessed ||
+	if (as_attachment || is_guessed ||
 	    camel_content_type_is (ct, "application", "pkcs7-signature") ||
 	    camel_content_type_is (ct, "application", "xpkcs7signature") ||
 	    camel_content_type_is (ct, "application", "xpkcs7-signature") ||
