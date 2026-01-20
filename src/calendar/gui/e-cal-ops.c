@@ -37,6 +37,10 @@
 
 #include "e-cal-ops.h"
 
+#if !ICAL_CHECK_VERSION(3, 99, 99)
+#define ICalPropertyClassenum ICalProperty_Class
+#endif
+
 static void
 cal_ops_manage_send_component (ECalDataModel *data_model,
 			       ECalClient *client,
@@ -231,7 +235,7 @@ e_cal_ops_create_component (ECalModel *model,
 
 	prop = i_cal_component_get_first_property (bod->icomp, I_CAL_CLASS_PROPERTY);
 	if (!prop || i_cal_property_get_class (prop) == I_CAL_CLASS_NONE) {
-		ICalProperty_Class ical_class = I_CAL_CLASS_PUBLIC;
+		ICalPropertyClassenum ical_class = I_CAL_CLASS_PUBLIC;
 		GSettings *settings;
 
 		settings = e_util_ref_settings ("org.gnome.evolution.calendar");

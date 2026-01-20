@@ -55,6 +55,10 @@
 #define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
 #endif
 
+#if !ICAL_CHECK_VERSION(3, 99, 99)
+#define i_cal_duration_new_from_seconds i_cal_duration_new_from_int
+#endif
+
 typedef struct _PstImporter PstImporter;
 
 gint pst_init (pst_file *pst, gchar *filename);
@@ -1892,7 +1896,7 @@ fill_calcomponent (PstImporter *m,
 			ECalComponentAlarmTrigger *trigger = NULL;
 			ICalDuration *duration;
 
-			duration = i_cal_duration_new_from_int (- (a->alarm_minutes) * 60);
+			duration = i_cal_duration_new_from_seconds (- (a->alarm_minutes) * 60);
 			trigger = e_cal_component_alarm_trigger_new_relative (E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, duration);
 			e_cal_component_alarm_take_trigger (alarm, trigger);
 			g_object_unref (duration);

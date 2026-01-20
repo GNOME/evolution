@@ -48,6 +48,10 @@
 /* Items below the "Custom" value, which is the separator, "add predefined" and "remove predefined" */
 #define N_BOTTOM_ITEMS			3
 
+#if !ICAL_CHECK_VERSION(3, 99, 99)
+#define i_cal_duration_as_seconds i_cal_duration_as_int
+#endif
+
 enum {
 	CUSTOM_ALARM_VALUE		= -2,
 	ADD_PREDEFINED_TIME_VALUE	= -3,
@@ -472,7 +476,7 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 		e_dialog_combo_box_set (page_reminders->priv->relative_time_combo, AFTER, relative_map);
 
 	if (duration) {
-		duration_minutes = i_cal_duration_as_int (duration) / 60;
+		duration_minutes = i_cal_duration_as_seconds (duration) / 60;
 
 		if (duration_minutes < 0)
 			duration_minutes *= -1;
@@ -1287,13 +1291,13 @@ ecep_reminders_is_custom_alarm (ECompEditorPageReminders *page_reminders,
 		return TRUE;
 
 	duration = e_cal_component_alarm_trigger_get_duration (trigger);
-	if (!duration || (!i_cal_duration_is_neg (duration) && i_cal_duration_as_int (duration) != 0))
+	if (!duration || (!i_cal_duration_is_neg (duration) && i_cal_duration_as_seconds (duration) != 0))
 		return TRUE;
 
 	if (i_cal_duration_get_seconds (duration) != 0)
 		return TRUE;
 
-	value = i_cal_duration_as_int (duration) / 60;
+	value = i_cal_duration_as_seconds (duration) / 60;
 
 	if (value < 0)
 		value *= -1;

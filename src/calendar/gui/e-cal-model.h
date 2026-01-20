@@ -384,13 +384,22 @@ void		e_cal_model_set_default_time_func
 						 ECalModelDefaultTimeFunc func,
 						 gpointer user_data);
 
+#if ICAL_CHECK_VERSION(3, 99, 99)
+typedef ICalProperty * (* ECalModelTimeNewFuncType) (const ICalTime *v);
+typedef ICalTime * (* ECalModelTimeGetFuncType) (const ICalProperty *prop);
+typedef void (* ECalModelTimeSetFuncType) (ICalProperty *prop, const ICalTime *v);
+#else
+typedef ICalProperty * (* ECalModelTimeNewFuncType) (ICalTime *v);
+typedef ICalTime * (* ECalModelTimeGetFuncType) (ICalProperty *prop);
+typedef void (* ECalModelTimeSetFuncType) (ICalProperty *prop, ICalTime *v);
+#endif
+
 void		e_cal_model_update_comp_time	(ECalModel *model,
 						 ECalModelComponent *comp_data,
 						 gconstpointer time_value,
 						 ICalPropertyKind kind,
-						 void (*set_func) (ICalProperty *prop,
-								   ICalTime *v),
-						 ICalProperty * (*new_func) (ICalTime *v));
+						 ECalModelTimeSetFuncType set_func,
+						 ECalModelTimeNewFuncType new_func);
 
 void		e_cal_model_emit_object_created	(ECalModel *model,
 						 ECalClient *where);
@@ -418,7 +427,7 @@ ECellDateEditValue *
 						(ECalModel *model,
 						 ECalModelComponent *comp_data,
 						 ICalPropertyKind kind,
-						 ICalTime * (*get_time_func) (ICalProperty *prop));
+						 ECalModelTimeGetFuncType get_time_func);
 void		e_cal_model_until_sanitize_text_value
 						(gchar *value,
 						 gint value_length);

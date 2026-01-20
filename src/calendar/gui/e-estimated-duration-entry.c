@@ -10,6 +10,11 @@
 
 #include "e-estimated-duration-entry.h"
 
+#if !ICAL_CHECK_VERSION(3, 99, 99)
+#define i_cal_duration_as_seconds i_cal_duration_as_int
+#define i_cal_duration_new_from_seconds i_cal_duration_new_from_int
+#endif
+
 struct _EEstimatedDurationEntryPrivate {
 	ICalDuration *value;
 
@@ -54,7 +59,7 @@ estimated_duration_entry_update_entry (EEstimatedDurationEntry *self)
 	value = e_estimated_duration_entry_get_value (self);
 
 	if (value != NULL) {
-		gint64 seconds = i_cal_duration_as_int (value);
+		gint64 seconds = i_cal_duration_as_seconds (value);
 
 		if (seconds > 0)
 			tmp = e_cal_util_seconds_to_string (seconds);
@@ -133,7 +138,7 @@ estimated_duration_set_button_clicked_cb (GtkButton *button,
 
 	gtk_widget_hide (self->priv->popover);
 
-	duration = i_cal_duration_new_from_int (60 * new_minutes);
+	duration = i_cal_duration_new_from_seconds (60 * new_minutes);
 	e_estimated_duration_entry_set_value (self, duration);
 	g_clear_object (&duration);
 }
@@ -300,7 +305,7 @@ estimated_duration_entry_button_clicked_cb (EEstimatedDurationEntry *self)
 			G_CALLBACK (estimated_duration_update_sensitize_cb), self);
 	}
 
-	value = self->priv->value ? i_cal_duration_as_int (self->priv->value) : 0;
+	value = self->priv->value ? i_cal_duration_as_seconds (self->priv->value) : 0;
 
 	/* seconds are ignored */
 	value = value / 60;
@@ -501,18 +506,18 @@ e_estimated_duration_entry_set_value (EEstimatedDurationEntry *self,
 {
 	g_return_if_fail (E_IS_ESTIMATED_DURATION_ENTRY (self));
 
-	if (value && !i_cal_duration_as_int ((ICalDuration *) value))
+	if (value && !i_cal_duration_as_seconds ((ICalDuration *) value))
 		value = NULL;
 
 	if (self->priv->value == value)
 		return;
 
-	if (self->priv->value && value && i_cal_duration_as_int (self->priv->value) == i_cal_duration_as_int ((ICalDuration *) value))
+	if (self->priv->value && value && i_cal_duration_as_seconds (self->priv->value) == i_cal_duration_as_seconds ((ICalDuration *) value))
 		return;
 
 	g_clear_object (&self->priv->value);
 	if (value)
-		self->priv->value = i_cal_duration_new_from_int (i_cal_duration_as_int ((ICalDuration *) value));
+		self->priv->value = i_cal_duration_new_from_seconds (i_cal_duration_as_seconds ((ICalDuration *) value));
 
 	estimated_duration_entry_update_entry (self);
 	estimated_duration_entry_add_relation (self);

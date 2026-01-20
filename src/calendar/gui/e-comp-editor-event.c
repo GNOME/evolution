@@ -38,6 +38,10 @@
 
 #include "e-comp-editor-event.h"
 
+#if !ICAL_CHECK_VERSION(3, 99, 99)
+#define ICalPropertyClassenum ICalProperty_Class
+#endif
+
 struct _ECompEditorEventPrivate {
 	ECompEditorPage *page_general;
 	ECompEditorPropertyPart *dtstart;
@@ -546,7 +550,7 @@ ece_event_fill_component (ECompEditor *comp_editor,
 	ECompEditorEvent *event_editor;
 	ICalProperty *dtstart_prop, *dtend_prop;
 	ICalProperty *prop;
-	ICalProperty_Class class_value;
+	ICalPropertyClassenum class_value;
 	gboolean date_valid, time_valid;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);

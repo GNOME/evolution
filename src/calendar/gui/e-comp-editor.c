@@ -196,14 +196,37 @@ ece_set_attendees_for_delegation (ECalComponent *comp,
 		const gchar *delfrom = NULL;
 
 		again = FALSE;
+
+		if (e_cal_util_email_addresses_equal (attendee, address))
+			continue;
+
 		param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDFROM_PARAMETER);
+
+		#if ICAL_CHECK_VERSION(3, 99, 99)
+		if (param) {
+			gsize n_items, ii;
+			gboolean found = FALSE;
+
+			n_items = i_cal_parameter_get_delegatedfrom_size (param);
+
+			for (ii = 0; ii < n_items && !found; ii++) {
+				delfrom = i_cal_parameter_get_delegatedfrom_nth (param, ii);
+				found = delfrom && *delfrom && e_cal_util_email_addresses_equal (delfrom, address);
+			}
+
+			if (!found) {
+				i_cal_component_remove_property (icomp, prop);
+				again = TRUE;
+			}
+		}
+		#else
 		if (param)
 			delfrom = i_cal_parameter_get_delegatedfrom (param);
-		if (!(e_cal_util_email_addresses_equal (attendee, address) ||
-		     ((delfrom && *delfrom) && e_cal_util_email_addresses_equal (delfrom, address)))) {
+		if (!(delfrom && *delfrom && e_cal_util_email_addresses_equal (delfrom, address))) {
 			i_cal_component_remove_property (icomp, prop);
 			again = TRUE;
 		}
+		#endif
 
 		g_clear_object (&param);
 	}

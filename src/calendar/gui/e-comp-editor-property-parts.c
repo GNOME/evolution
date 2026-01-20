@@ -1863,18 +1863,25 @@ e_comp_editor_property_part_completed_ensure_date_time (ICalTime *pvalue)
 }
 
 static ICalProperty *
-e_comp_editor_property_part_completed_new_func_wrapper (ICalTime *value)
+e_comp_editor_property_part_completed_new_func_wrapper (
+#if ICAL_CHECK_VERSION(3, 99, 99)
+							const
+#endif
+							ICalTime *value)
 {
-	e_comp_editor_property_part_completed_ensure_date_time (value);
+	e_comp_editor_property_part_completed_ensure_date_time ((ICalTime *) value);
 
 	return i_cal_property_new_completed (value);
 }
 
 static void
 e_comp_editor_property_part_completed_set_func_wrapper (ICalProperty *prop,
+#if ICAL_CHECK_VERSION(3, 99, 99)
+							const
+#endif
 							ICalTime *value)
 {
-	e_comp_editor_property_part_completed_ensure_date_time (value);
+	e_comp_editor_property_part_completed_ensure_date_time ((ICalTime *) value);
 
 	i_cal_property_set_completed (prop, value);
 }

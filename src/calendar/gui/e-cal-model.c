@@ -39,6 +39,10 @@
 
 #include "e-cal-model.h"
 
+#if !ICAL_CHECK_VERSION(3, 99, 99)
+#define ICalPropertyClassenum ICalProperty_Class
+#endif
+
 struct _ECalModelComponentPrivate {
 	GString *categories_str;
 	gint icon_index;
@@ -271,7 +275,7 @@ static gchar *
 get_classification (ECalModelComponent *comp_data)
 {
 	ICalProperty *prop;
-	ICalProperty_Class class_prop;
+	ICalPropertyClassenum class_prop;
 
 	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_CLASS_PROPERTY);
 
@@ -344,7 +348,7 @@ static ECellDateEditValue *
 get_datetime_from_utc (ECalModel *model,
                        ECalModelComponent *comp_data,
                        ICalPropertyKind propkind,
-                       ICalTime * (*get_value) (ICalProperty *prop),
+                       ECalModelTimeGetFuncType get_value,
 		       ECellDateEditValue **buffer)
 {
 	g_return_val_if_fail (buffer != NULL, NULL);
@@ -450,7 +454,7 @@ set_classification (ECalModelComponent *comp_data,
 			g_clear_object (&prop);
 		}
 	} else {
-		ICalProperty_Class ical_class;
+		ICalPropertyClassenum ical_class;
 
 		if (!g_ascii_strcasecmp (value, "PUBLIC"))
 			ical_class = I_CAL_CLASS_PUBLIC;
@@ -1339,7 +1343,7 @@ cal_model_create_component_from_values_thread (EAlertSinkThreadJobData *job_data
 
 		prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_CLASS_PROPERTY);
 		if (!prop || i_cal_property_get_class (prop) == I_CAL_CLASS_NONE) {
-			ICalProperty_Class ical_class = I_CAL_CLASS_PUBLIC;
+			ICalPropertyClassenum ical_class = I_CAL_CLASS_PUBLIC;
 			GSettings *settings;
 
 			settings = e_util_ref_settings ("org.gnome.evolution.calendar");
@@ -2552,9 +2556,8 @@ e_cal_model_update_comp_time (ECalModel *model,
                               ECalModelComponent *comp_data,
                               gconstpointer time_value,
                               ICalPropertyKind kind,
-                              void (*set_func) (ICalProperty *prop,
-                                                ICalTime *v),
-                              ICalProperty * (*new_func) (ICalTime *v))
+                              ECalModelTimeSetFuncType set_func,
+                              ECalModelTimeNewFuncType new_func)
 {
 	ECellDateEditValue *dv = (ECellDateEditValue *) time_value;
 	ICalProperty *prop;
@@ -4189,7 +4192,7 @@ ECellDateEditValue *
 e_cal_model_util_get_datetime_value (ECalModel *model,
 				     ECalModelComponent *comp_data,
 				     ICalPropertyKind kind,
-				     ICalTime * (*get_time_func) (ICalProperty *prop))
+				     ECalModelTimeGetFuncType get_time_func)
 {
 	ECellDateEditValue *value;
 	ICalProperty *prop;

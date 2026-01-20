@@ -926,30 +926,51 @@ cal_shell_content_icomp_is_delegated (ICalComponent *icomp,
 	gchar *delto = NULL;
 	gboolean is_delegated = FALSE;
 
-	prop = cal_shell_content_get_attendee_prop (icomp, user_email);
-
-	if (prop) {
-		param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDTO_PARAMETER);
-		if (param) {
-			delto = g_strdup (e_cal_util_strip_mailto (i_cal_parameter_get_delegatedto (param)));
-			g_object_unref (param);
-		}
-
-		g_object_unref (prop);
-	} else
+	if (!user_email)
 		return FALSE;
 
+	prop = cal_shell_content_get_attendee_prop (icomp, user_email);
+	if (!prop)
+		return FALSE;
+
+	param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDTO_PARAMETER);
+
+	#if ICAL_CHECK_VERSION(3, 99, 99)
+	if (param) {
+		ICalProperty *delto_prop = NULL;
+		gsize n_items, ii;
+
+		n_items = i_cal_parameter_get_delegatedto_size (param);
+
+		for (ii = 0; ii< n_items; ii++) {
+			delto = g_strdup (e_cal_util_strip_mailto (i_cal_parameter_get_delegatedto_nth (param, ii)));
+			delto_prop = cal_shell_content_get_attendee_prop (icomp, delto);
+			if (delto_prop)
+				break;
+			else
+				g_clear_pointer (&delto, g_free);
+		}
+
+		g_object_unref (param);
+		g_object_unref (prop);
+		prop = delto_prop;
+	} else {
+		g_clear_object (&prop);
+	}
+	#else
+	if (param) {
+		delto = g_strdup (e_cal_util_strip_mailto (i_cal_parameter_get_delegatedto (param)));
+		g_object_unref (param);
+	}
+
+	g_object_unref (prop);
+
 	prop = cal_shell_content_get_attendee_prop (icomp, delto);
+	#endif
 
 	if (prop) {
 		gchar *delfrom = NULL;
 		ICalParameterPartstat partstat = I_CAL_PARTSTAT_NONE;
-
-		param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDFROM_PARAMETER);
-		if (param) {
-			delfrom = g_strdup (e_cal_util_strip_mailto (i_cal_parameter_get_delegatedfrom (param)));
-			g_object_unref (param);
-		}
 
 		param = i_cal_property_get_first_parameter (prop, I_CAL_PARTSTAT_PARAMETER);
 		if (param) {
@@ -957,9 +978,38 @@ cal_shell_content_icomp_is_delegated (ICalComponent *icomp,
 			g_object_unref (param);
 		}
 
-		is_delegated = delfrom && user_email &&
-			partstat != I_CAL_PARTSTAT_DECLINED &&
-			g_ascii_strcasecmp (delfrom, user_email) == 0;
+		if (partstat == I_CAL_PARTSTAT_DECLINED) {
+			g_object_unref (prop);
+			g_free (delto);
+			return FALSE;
+		}
+
+		param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDFROM_PARAMETER);
+		#if ICAL_CHECK_VERSION(3, 99, 99)
+		if (param) {
+			gsize n_items, ii;
+
+			n_items = i_cal_parameter_get_delegatedfrom_size (param);
+
+			for (ii = 0; ii< n_items; ii++) {
+				delfrom = g_strdup (e_cal_util_strip_mailto (i_cal_parameter_get_delegatedfrom_nth (param, ii)));
+				is_delegated = delfrom && g_ascii_strcasecmp (delfrom, user_email) == 0;
+				g_clear_pointer (&delfrom, g_free);
+
+				if (is_delegated)
+					break;
+			}
+
+			g_object_unref (param);
+		}
+		#else
+		if (param) {
+			delfrom = g_strdup (e_cal_util_strip_mailto (i_cal_parameter_get_delegatedfrom (param)));
+			g_object_unref (param);
+		}
+
+		is_delegated = delfrom && g_ascii_strcasecmp (delfrom, user_email) == 0;
+		#endif
 
 		g_object_unref (prop);
 		g_free (delfrom);

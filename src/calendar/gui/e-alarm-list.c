@@ -29,6 +29,10 @@
 #include "calendar-config.h"
 #include "e-alarm-list.h"
 
+#if !ICAL_CHECK_VERSION(3, 99, 99)
+#define i_cal_duration_as_seconds i_cal_duration_as_int
+#endif
+
 #define G_LIST(x)                    ((GList *) x)
 #define E_ALARM_LIST_IS_SORTED(list) (E_ALARM_LIST (list)->sort_column_id != -2)
 #define IS_VALID_ITER(dt_list, iter) (iter!= NULL && iter->user_data != NULL && \
@@ -359,7 +363,7 @@ get_alarm_duration_string (ICalDuration *duration)
 {
 	gint seconds = 0;
 
-	seconds = i_cal_duration_as_int (duration);
+	seconds = i_cal_duration_as_seconds (duration);
 
 	if (!seconds)
 		return NULL;

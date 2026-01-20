@@ -47,6 +47,10 @@
 
 #include "itip-view-elements-defines.h"
 
+#if !ICAL_CHECK_VERSION(3, 99, 99)
+#define i_cal_duration_as_seconds i_cal_duration_as_int
+#endif
+
 #define d(x)
 
 #define MEETING_ICON "stock_people"
@@ -6883,12 +6887,36 @@ extract_itip_data (ItipView *view,
 			prop = find_attendee_if_sentby (view->priv->ical_comp, my_address);
 		if (prop) {
 			ICalParameter *param;
-			const gchar *delfrom;
 
 			if ((param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDFROM_PARAMETER))) {
+				#if ICAL_CHECK_VERSION(3, 99, 99)
+				GString *delfrom = NULL;
+				gsize n_items, ii;
+
+				n_items = i_cal_parameter_get_delegatedfrom_size (param);
+
+				for (ii = 0; ii< n_items; ii++) {
+					const gchar *value = e_cal_util_strip_mailto (i_cal_parameter_get_delegatedfrom_nth (param, ii));
+
+					if (!value || !*value)
+						continue;
+
+					if (delfrom) {
+						g_string_append_c (delfrom, ',');
+						g_string_append (delfrom, value);
+					} else {
+						delfrom = g_string_new (value);
+					}
+				}
+
+				view->priv->delegator_address = delfrom ? g_string_free (delfrom, FALSE) : NULL;
+				#else
+				const gchar *delfrom;
+
 				delfrom = i_cal_parameter_get_delegatedfrom (param);
 
 				view->priv->delegator_address = g_strdup (e_cal_util_strip_mailto (delfrom));
+				#endif
 
 				g_object_unref (param);
 			}
@@ -8045,7 +8073,7 @@ itip_view_init_view (ItipView *view)
 		if (duration) {
 			gint seconds;
 
-			seconds = i_cal_duration_as_int (duration);
+			seconds = i_cal_duration_as_seconds (duration);
 			if (seconds > 0) {
 				view->priv->estimated_duration = e_cal_util_seconds_to_string (seconds);
 				set_area_text (view, TABLE_ROW_ESTIMATED_DURATION, view->priv->estimated_duration, FALSE);

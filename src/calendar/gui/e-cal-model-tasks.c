@@ -32,6 +32,10 @@
 #include "e-cal-model-tasks.h"
 #include "e-cell-date-edit-text.h"
 
+#if !ICAL_CHECK_VERSION(3, 99, 99)
+#define i_cal_duration_as_seconds i_cal_duration_as_int
+#endif
+
 struct _ECalModelTasksPrivate {
 	gboolean highlight_due_today;
 	gchar *color_due_today;
@@ -644,7 +648,7 @@ get_estimated_duration (ECalModelComponent *comp_data)
 		gint duration_int;
 
 		duration = i_cal_property_get_estimatedduration (prop);
-		duration_int = duration ? i_cal_duration_as_int (duration) : 0;
+		duration_int = duration ? i_cal_duration_as_seconds (duration) : 0;
 
 		if (duration_int > 0) {
 			gint64 *pvalue;

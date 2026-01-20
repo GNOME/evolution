@@ -221,7 +221,11 @@ struct _ECompEditorPropertyPartStringClass {
 	ICalProperty *	(* i_cal_new_func)	(const gchar *value);
 	void		(* i_cal_set_func)	(ICalProperty *prop,
 						 const gchar *value);
+	#if ICAL_CHECK_VERSION(3, 99, 99)
+	const gchar *	(* i_cal_get_func)	(const ICalProperty *prop);
+	#else
 	const gchar *	(* i_cal_get_func)	(ICalProperty *prop);
+	#endif
 
 	GtkWidget *	(* get_real_edit_widget)(ECompEditorPropertyPartString *part_string);
 };
@@ -255,10 +259,17 @@ struct _ECompEditorPropertyPartDatetimeClass {
 
 	/* ICal property kind and its manipulation functions */
 	ICalPropertyKind prop_kind;
+	#if ICAL_CHECK_VERSION(3, 99, 99)
+	ICalProperty *	(* i_cal_new_func)	(const ICalTime *value);
+	void		(* i_cal_set_func)	(ICalProperty *prop,
+						 const ICalTime *value);
+	ICalTime *	(* i_cal_get_func)	(const ICalProperty *prop);
+	#else
 	ICalProperty *	(* i_cal_new_func)	(ICalTime *value);
 	void		(* i_cal_set_func)	(ICalProperty *prop,
 						 ICalTime *value);
 	ICalTime *	(* i_cal_get_func)	(ICalProperty *prop);
+	#endif
 };
 
 GType		e_comp_editor_property_part_datetime_get_type	(void) G_GNUC_CONST;
@@ -303,7 +314,11 @@ struct _ECompEditorPropertyPartSpinClass {
 	ICalProperty *	(* i_cal_new_func)	(gint value);
 	void		(* i_cal_set_func)	(ICalProperty *prop,
 						 gint value);
+	#if ICAL_CHECK_VERSION(3, 99, 99)
+	gint		(* i_cal_get_func)	(const ICalProperty *prop);
+	#else
 	gint		(* i_cal_get_func)	(ICalProperty *prop);
+	#endif
 };
 
 GType		e_comp_editor_property_part_spin_get_type	(void) G_GNUC_CONST;
@@ -374,7 +389,11 @@ typedef struct _ECompEditorPropertyPartPickerMap {
 typedef ICalProperty *	(* ECompEditorPropertyPartPickerMapICalNewFunc)	(gint value);
 typedef void		(* ECompEditorPropertyPartPickerMapICalSetFunc)	(ICalProperty *prop,
 									 gint value);
+#if ICAL_CHECK_VERSION(3, 99, 99)
+typedef gint		(* ECompEditorPropertyPartPickerMapICalGetFunc)	(const ICalProperty *prop);
+#else
 typedef gint		(* ECompEditorPropertyPartPickerMapICalGetFunc)	(ICalProperty *prop);
+#endif
 
 struct _ECompEditorPropertyPartPickerWithMap {
 	ECompEditorPropertyPartPicker parent;

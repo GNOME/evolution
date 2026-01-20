@@ -45,6 +45,10 @@
 #include "e-week-view-layout.h"
 #include "e-task-table.h"
 
+#if !ICAL_CHECK_VERSION(3, 99, 99)
+#define i_cal_duration_as_seconds i_cal_duration_as_int
+#endif
+
 typedef struct PrintCompItem PrintCompItem;
 typedef struct PrintCalItem PrintCalItem;
 
@@ -3702,7 +3706,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			if (duration) {
 				gint seconds;
 
-				seconds = i_cal_duration_as_int (duration);
+				seconds = i_cal_duration_as_seconds (duration);
 				if (seconds > 0) {
 					gchar *tmp = e_cal_util_seconds_to_string (seconds);
 					gchar *estimated_duration = g_strdup_printf (_("Estimated duration: %s"), tmp);
