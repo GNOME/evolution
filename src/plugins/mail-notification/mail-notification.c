@@ -478,6 +478,69 @@ notify_default_action_cb (NotifyNotification *notification,
 	remove_notification ();
 }
 
+static void
+uri_to_folder_cb (GObject *source_object,
+		  GAsyncResult *result,
+		  gpointer user_data)
+{
+	NotifyDefaultActionData *data = user_data;
+	EMailSession *session = E_MAIL_SESSION (source_object);
+	CamelFolder *folder;
+	GError *error = NULL;
+
+	folder = e_mail_session_uri_to_folder_finish (session, result, &error);
+
+	if (!folder) {
+		if (error) {
+			g_warning ("Failed to get folder: %s", error->message);
+			g_clear_error (&error);
+		}
+		notify_default_action_free_cb (data);
+	        return;
+	}
+
+	camel_folder_set_message_flags (folder, data->msg_uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+
+	g_object_unref (folder);
+
+	notify_default_action_free_cb (data);
+}
+
+static void
+notify_mark_as_read_action_cb (NotifyNotification *notification,
+                               gchar *action,
+                               gpointer user_data)
+{
+	NotifyDefaultActionData *data = user_data;
+	NotifyDefaultActionData *async_data;
+	EShell *shell;
+	EShellBackend *backend;
+	EMailBackend *mail_backend;
+	EMailSession *session;
+
+	if (!data || !data->folder_uri || !data->msg_uid)
+		return;
+
+	shell = e_shell_get_default ();
+	backend = e_shell_get_backend_by_name (shell, "mail");
+	if (!backend)
+		return;
+
+	mail_backend = E_MAIL_BACKEND (backend);
+	session = e_mail_backend_get_session (mail_backend);
+	async_data = notify_default_action_data_new (data->folder_uri, data->msg_uid);
+	e_mail_session_uri_to_folder (
+		session,
+		async_data->folder_uri,
+		0,
+		G_PRIORITY_DEFAULT,
+		NULL,
+		uri_to_folder_cb,
+		async_data);
+
+	remove_notification ();
+}
+
 /* Check if actions are supported by the notification daemon.
  * This is really only for Ubuntu's Notify OSD, which does not
  * support actions.  Pretty much all other implementations do. */
@@ -616,6 +679,18 @@ new_notify_status (EMEventTargetFolder *t)
 			data,
 			notify_default_action_free_cb);
 
+		if (t->msg_uid && t->folder_name && status_count == 1) {
+			NotifyDefaultActionData *mark_data;
+
+			mark_data = notify_default_action_data_new (t->folder_name, t->msg_uid);
+			notify_notification_add_action (
+				notify,
+				"mark-read",
+				_("Mark as read"),
+				notify_mark_as_read_action_cb,
+				mark_data,
+				notify_default_action_free_cb);
+		}
 		g_free (label);
 	}
 
