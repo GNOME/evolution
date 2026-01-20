@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-12-11 18:47+0000\n"
-"PO-Revision-Date: 2025-12-11 20:34+0100\n"
+"POT-Creation-Date: 2026-01-20 07:33+0000\n"
+"PO-Revision-Date: 2026-01-20 09:12+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : "
 "0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 3.8\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -645,8 +645,8 @@ msgstr "Slog razporeditve opomnikov"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
 msgid ""
-"The layout style determines where to place the preview pane in relation to the memo list. "
-"“0” (Classic View) places the preview pane below the memo list. “1” (Vertical View) places the "
+"The layout style determines where to place the preview pane in relation to the memo list. “0” "
+"(Classic View) places the preview pane below the memo list. “1” (Vertical View) places the "
 "preview pane next to the memo list"
 msgstr ""
 "Slog razporeditve določa, kje sta postavljena pladenj predogleda in seznam opomnikov. Vrednost "
@@ -846,8 +846,8 @@ msgstr "Slog razporeditve nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 msgid ""
-"The layout style determines where to place the preview pane in relation to the task list. "
-"“0” (Classic View) places the preview pane below the task list. “1” (Vertical View) places the "
+"The layout style determines where to place the preview pane in relation to the task list. “0” "
+"(Classic View) places the preview pane below the task list. “1” (Vertical View) places the "
 "preview pane next to the task list"
 msgstr ""
 "Slog razporeditve določa kje sta postavljena pladenj predogleda in seznam nalog. Vrednost »0« "
@@ -1170,9 +1170,9 @@ msgid ""
 "The most recently used version of Evolution, expressed as “major.minor.micro”. This is used "
 "for data and settings migration from older to newer versions."
 msgstr ""
-"Najbolj nedavno uporabljena različica programa Evolution, izražena kot »glavna veja.podveja."
-"objava«. Podatek se uporablja pri selitvi podatkov in nastavitev iz starejših na novejše "
-"različice."
+"Najbolj nedavno uporabljena različica programa Evolution, izražena kot »glavna "
+"veja.podveja.objava«. Podatek se uporablja pri selitvi podatkov in nastavitev iz starejših na "
+"novejše različice."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
 msgid "List of disabled plugins"
@@ -13705,7 +13705,7 @@ msgstr "Skrij dele, ki niso zavarovani"
 msgid "Error parsing MBOX part: %s"
 msgstr "Napaka med razčlenjevanjem dela MBOX: %s"
 
-#: ../src/em-format/e-mail-parser-application-smime.c:113
+#: ../src/em-format/e-mail-parser-application-smime.c:117
 #, c-format
 msgid "Could not parse S/MIME message: %s"
 msgstr "Ni mogoče razčleniti sporočila S/MIME: %s"
@@ -13838,13 +13838,13 @@ msgstr "Seznam nalog"
 #: ../src/e-util/e-accounts-window.c:1414 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:77 ../src/modules/mail/em-composer-prefs.c:1733
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
-#: ../src/plugins/mail-notification/mail-notification.c:1194
+#: ../src/plugins/mail-notification/mail-notification.c:1269
 #: ../src/plugins/publish-calendar/publish-calendar.c:852
 msgid "Enabled"
 msgstr "Omogočeno"
 
 #: ../src/e-util/e-accounts-window.c:1430 ../src/mail/e-mail-account-tree-view.c:101
-#: ../src/plugins/mail-notification/mail-notification.c:1210
+#: ../src/plugins/mail-notification/mail-notification.c:1285
 msgid "Account Name"
 msgstr "Ime računa"
 
@@ -17533,8 +17533,8 @@ msgid "Scheduling Outbox"
 msgstr "Načrtovanje odhodne pošte"
 
 #: ../src/e-util/e-webdav-browser.c:612 ../src/mail/e-mail-viewer.c:1551
-#: ../src/mail/e-mail-viewer.c:2543 ../src/mail/em-folder-tree-model.c:1611
-#: ../src/mail/em-folder-tree-model.c:1999
+#: ../src/mail/e-mail-viewer.c:2543 ../src/mail/em-folder-tree-model.c:1618
+#: ../src/mail/em-folder-tree-model.c:2014
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:892
 msgid "Loading…"
 msgstr "Poteka nalaganje …"
@@ -18040,34 +18040,34 @@ msgstr "Neveljaven naslov URI mape »%s«"
 
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:113 ../src/mail/em-folder-properties.c:1489
-#: ../src/mail/em-folder-tree-model.c:1524 ../src/mail/em-folder-tree-model.c:1554
+#: ../src/mail/em-folder-tree-model.c:1525 ../src/mail/em-folder-tree-model.c:1555
 #: ../src/mail/importers/kmail-libs.c:138 ../src/modules/mail/e-mail-shell-view-private.c:1059
 #: ../src/modules/mail/e-mail-shell-view-private.c:1070
 msgid "Inbox"
 msgstr "Prejeto"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../src/libemail-engine/e-mail-session.c:114 ../src/mail/em-folder-tree-model.c:1518
-#: ../src/mail/em-folder-tree-model.c:1558 ../src/mail/importers/kmail-libs.c:144
+#: ../src/libemail-engine/e-mail-session.c:114 ../src/mail/em-folder-tree-model.c:1519
+#: ../src/mail/em-folder-tree-model.c:1559 ../src/mail/importers/kmail-libs.c:144
 #: ../src/modules/mail/e-mail-shell-view-private.c:1057
 msgid "Drafts"
 msgstr "Osnutki"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../src/libemail-engine/e-mail-session.c:115 ../src/mail/em-folder-tree-model.c:1530
+#: ../src/libemail-engine/e-mail-session.c:115 ../src/mail/em-folder-tree-model.c:1531
 #: ../src/mail/importers/kmail-libs.c:140 ../src/modules/mail/e-mail-shell-view-private.c:1061
 msgid "Outbox"
 msgstr "Odhodni predal"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../src/libemail-engine/e-mail-session.c:116 ../src/mail/em-folder-tree-model.c:1535
-#: ../src/mail/em-folder-tree-model.c:1557 ../src/mail/importers/kmail-libs.c:142
+#: ../src/libemail-engine/e-mail-session.c:116 ../src/mail/em-folder-tree-model.c:1536
+#: ../src/mail/em-folder-tree-model.c:1558 ../src/mail/importers/kmail-libs.c:142
 #: ../src/modules/mail/e-mail-shell-view-private.c:1063
 msgid "Sent"
 msgstr "Poslano"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../src/libemail-engine/e-mail-session.c:117 ../src/mail/em-folder-tree-model.c:1520
+#: ../src/libemail-engine/e-mail-session.c:117 ../src/mail/em-folder-tree-model.c:1521
 #: ../src/mail/importers/kmail-libs.c:146 ../src/modules/mail/e-mail-shell-view-private.c:1065
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
@@ -20241,8 +20241,8 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} "
 "wrote:"
 msgstr ""
-"Dne ${Day}.${Month}.${Year} (${AbbrevWeekdayName}) ob ${24Hour}:${Minute} ${TimeZone} je "
-"${Sender} napisal(a):"
+"Dne ${Day}.${Month}.${Year} (${AbbrevWeekdayName}) ob ${24Hour}:${Minute} ${TimeZone} je $"
+"{Sender} napisal(a):"
 
 #: ../src/mail/em-composer-utils.c:2351
 msgid "-------- Forwarded Message --------"
@@ -20607,12 +20607,12 @@ msgstr "Kopiranje sporočil v mapo %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Sporočil(a) ni mogoče spustiti v vrhnjo shrambo"
 
-#: ../src/mail/em-folder-tree-model.c:1555 ../src/mail/importers/kmail-libs.c:148
+#: ../src/mail/em-folder-tree-model.c:1556 ../src/mail/importers/kmail-libs.c:148
 #: ../src/modules/mail/e-mail-shell-view-private.c:1067
 msgid "Trash"
 msgstr "Smeti"
 
-#: ../src/mail/em-folder-tree-model.c:1556 ../src/mail/filtertypes.xml.in.h:41
+#: ../src/mail/em-folder-tree-model.c:1557 ../src/mail/filtertypes.xml.in.h:41
 #: ../src/mail/mail-config.ui.h:153 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Vsiljena pošta"
@@ -26786,7 +26786,7 @@ msgstr "Vrstilna mapa poštnega predala mbox ne more biti prazna"
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:57
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:148
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:194
-#: ../src/plugins/mail-notification/mail-notification.c:1290
+#: ../src/plugins/mail-notification/mail-notification.c:1365
 msgid "Configuration"
 msgstr "Nastavitve"
 
@@ -28749,7 +28749,7 @@ msgstr ""
 "Glava: {0}"
 
 #. Translators: '%d' is the count of mails received.
-#: ../src/plugins/mail-notification/mail-notification.c:523
+#: ../src/plugins/mail-notification/mail-notification.c:586
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
@@ -28760,28 +28760,28 @@ msgstr[3] "Prejeli ste %d nova sporočila."
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../src/plugins/mail-notification/mail-notification.c:532
+#: ../src/plugins/mail-notification/mail-notification.c:595
 #, c-format
 msgid "From: %s"
 msgstr "Od: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../src/plugins/mail-notification/mail-notification.c:540
+#: ../src/plugins/mail-notification/mail-notification.c:603
 #, c-format
 msgid "Subject: %s"
 msgstr "Zadeva: %s"
 
 #. Translators: The '%s' is replaced by the folder name, where a new
 #. * mail message arrived. Example: "Folder: On This Computer : Inbox"
-#: ../src/plugins/mail-notification/mail-notification.c:548
+#: ../src/plugins/mail-notification/mail-notification.c:611
 #, c-format
 msgid "Folder: %s"
 msgstr "Mapa: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
-#: ../src/plugins/mail-notification/mail-notification.c:559
+#: ../src/plugins/mail-notification/mail-notification.c:622
 #, c-format
 msgid "(and %d more)"
 msgid_plural "(and %d more)"
@@ -28790,55 +28790,59 @@ msgstr[1] "(in %d drugo)"
 msgstr[2] "(in %d drugi)"
 msgstr[3] "(in %d druga)"
 
-#: ../src/plugins/mail-notification/mail-notification.c:569
+#: ../src/plugins/mail-notification/mail-notification.c:632
 msgid "New email in Evolution"
 msgstr "Nova pošta v programu Evolution"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../src/plugins/mail-notification/mail-notification.c:610
+#: ../src/plugins/mail-notification/mail-notification.c:673
 #, c-format
 msgid "Show %s"
 msgstr "Pokaži %s"
 
-#: ../src/plugins/mail-notification/mail-notification.c:867
+#: ../src/plugins/mail-notification/mail-notification.c:689
+msgid "Mark as read"
+msgstr "Označi kot prebrano"
+
+#: ../src/plugins/mail-notification/mail-notification.c:942
 msgid "_Play sound when a new message arrives"
 msgstr "Ob prejemu novih sporočil _predvajaj zvok"
 
-#: ../src/plugins/mail-notification/mail-notification.c:893
+#: ../src/plugins/mail-notification/mail-notification.c:968
 msgid "_Beep"
 msgstr "_Pisk"
 
-#: ../src/plugins/mail-notification/mail-notification.c:906
+#: ../src/plugins/mail-notification/mail-notification.c:981
 msgid "Use sound _theme"
 msgstr "Uporabi _zvočno temo"
 
-#: ../src/plugins/mail-notification/mail-notification.c:925
+#: ../src/plugins/mail-notification/mail-notification.c:1000
 msgid "Play _file:"
 msgstr "Predvajaj _datoteko:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:934
+#: ../src/plugins/mail-notification/mail-notification.c:1009
 msgid "Select sound file"
 msgstr "Izbor zvočne datoteke"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1084
+#: ../src/plugins/mail-notification/mail-notification.c:1159
 msgid "Select _accounts for which enable notifications:"
 msgstr "Izbor _računov, za katere bodo prikazana obvestila:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1246
+#: ../src/plugins/mail-notification/mail-notification.c:1321
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
 msgstr "Obvestilo o novi pošti"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1260
+#: ../src/plugins/mail-notification/mail-notification.c:1335
 msgid "Notify new messages for _Inbox only"
 msgstr "Pokaži obvestilo le za nova sporočila v mapi _prihajajočih sporočil"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1276
+#: ../src/plugins/mail-notification/mail-notification.c:1351
 msgid "Show _notification when a new message arrives"
 msgstr "Ob prejemu novih sporočil pokaži obvestilo"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1294
+#: ../src/plugins/mail-notification/mail-notification.c:1369
 msgid "Accounts"
 msgstr "Računi"
 
