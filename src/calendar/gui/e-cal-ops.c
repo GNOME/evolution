@@ -1586,6 +1586,12 @@ cal_ops_new_component_editor_thread (EAlertSinkThreadJobData *job_data,
 			ncd->extension_name, cancellable, &local_error);
 	}
 
+	if (ncd->client && ncd->is_new_component && ncd->default_source && e_client_is_readonly (E_CLIENT (ncd->client))) {
+		g_clear_object (&ncd->client);
+		g_free (ncd->for_client_uid);
+		ncd->for_client_uid = NULL;
+	}
+
 	if (!ncd->default_source && !ncd->client && !ncd->for_client_uid) {
 		const gchar *message;
 
