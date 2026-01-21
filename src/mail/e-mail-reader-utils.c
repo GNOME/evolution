@@ -2362,11 +2362,21 @@ extract_parts_with_content_id_cb (CamelMimeMessage *message,
 				  gpointer user_data)
 {
 	GPtrArray *cid_parts = user_data;
+	CamelContentType *ct;
 	const gchar *cid;
 
 	cid = camel_mime_part_get_content_id (part);
-	if (cid && *cid)
+	if (!cid || !*cid)
+		return TRUE;
+
+	ct = camel_mime_part_get_content_type (part);
+
+	/* these may be added to the result text body in error, but they should not be
+	   referenced by the HTML code, thus just skip them */
+	if (!camel_content_type_is (ct, "text", "plain") &&
+	    !camel_content_type_is (ct, "text", "html")) {
 		g_ptr_array_add (cid_parts, g_object_ref (part));
+	}
 
 	return TRUE;
 }
