@@ -169,6 +169,8 @@
     <item action='mail-edit-note'/>
     <item action='mail-delete-note'/>
     <separator/>
+    <item action='mail-copy-message-link'/>
+    <separator/>
     <item action='mail-mark-ignore-thread-whole'/>
     <item action='mail-mark-ignore-thread-sub'/>
     <item action='mail-mark-unignore-thread-whole'/>

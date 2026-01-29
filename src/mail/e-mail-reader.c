@@ -458,6 +458,104 @@ mail_reader_replace_vee_folder_with_real (CamelFolder **inout_folder,
 }
 
 static void
+mail_reader_copy_message_link (CamelMimeMessage *message)
+{
+	GtkClipboard *clipboard;
+	gchar *uri;
+
+	if (!message)
+		return;
+
+	uri = g_strconcat ("mid:", camel_mime_message_get_message_id (message), NULL);
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+
+	gtk_clipboard_set_text (clipboard, uri, -1);
+
+	g_free (uri);
+}
+
+static void
+mail_reader_got_message_copy_link_cb (GObject *source_object,
+				      GAsyncResult *result,
+				      gpointer user_data)
+{
+	CamelFolder *folder = CAMEL_FOLDER (source_object);
+	EActivity *activity = user_data;
+	EAlertSink *alert_sink;
+	CamelMimeMessage *message;
+	GError *local_error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	message = camel_folder_get_message_finish (folder, result, &local_error);
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_warn_if_fail (message == NULL);
+		g_error_free (local_error);
+		g_object_unref (activity);
+		return;
+
+	} else if (local_error != NULL) {
+		g_warn_if_fail (message == NULL);
+		e_alert_submit (alert_sink, "mail:no-retrieve-message",
+			local_error->message, NULL);
+		g_object_unref (activity);
+		g_error_free (local_error);
+		return;
+	}
+
+	g_warn_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	mail_reader_copy_message_link (message);
+
+	g_clear_object (&message);
+	g_object_unref (activity);
+}
+
+static void
+action_mail_copy_message_link_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
+{
+	EMailReader *reader = user_data;
+	EActivity *activity;
+	EMailDisplay *mail_display;
+	EMailPartList *part_list;
+	CamelMimeMessage *message;
+	GCancellable *cancellable;
+	GtkWidget *message_list;
+	CamelFolder *folder;
+	const gchar *message_uid;
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+	part_list = mail_display ? e_mail_display_get_part_list (mail_display) : NULL;
+	message = part_list ? e_mail_part_list_get_message (part_list) : NULL;
+
+	message_list = e_mail_reader_get_message_list (reader);
+	message_uid = MESSAGE_LIST (message_list)->cursor_uid;
+	g_return_if_fail (message_uid != NULL);
+
+	folder = e_mail_reader_ref_folder (reader);
+
+	if (message && e_mail_part_list_get_folder (part_list) == folder &&
+	    g_strcmp0 (e_mail_part_list_get_message_uid (part_list), message_uid) == 0) {
+		mail_reader_copy_message_link (message);
+		g_clear_object (&folder);
+		return;
+	}
+
+	/* Open the message asynchronously. */
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	camel_folder_get_message (folder, message_uid, G_PRIORITY_DEFAULT,
+		cancellable, mail_reader_got_message_copy_link_cb, activity);
+
+	g_clear_object (&folder);
+}
+
+static void
 action_mail_edit_note_cb (EUIAction *action,
 			  GVariant *parameter,
 			  gpointer user_data)
@@ -3043,6 +3141,13 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 		  N_("Add a note for the selected message"),
 		  action_mail_edit_note_cb, NULL, NULL, NULL },
 
+		{ "mail-copy-message-link",
+		  NULL,
+		  N_("Copy Message _Link"),
+		  NULL,
+		  N_("Copy mid: link for the selected message"),
+		  action_mail_copy_message_link_cb, NULL, NULL, NULL },
+
 		{ "mail-delete-note",
 		  NULL,
 		  N_("Delete no_te"),
@@ -5368,6 +5473,11 @@ mail_reader_update_actions (EMailReader *reader,
 	sensitive = single_message_selected;
 	action = e_mail_reader_get_action (reader, "mail-create-menu");
 	e_ui_action_set_sensitive (action, sensitive);
+
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, "mail-copy-message-link");
+	e_ui_action_set_sensitive (action, sensitive);
+	e_ui_action_set_visible (action, sensitive);
 
 	/* If a single message is selected, let the user hit delete to
 	 * advance the cursor even if the message is already deleted. */

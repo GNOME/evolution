@@ -115,6 +115,8 @@
         <item action='mail-edit-note'/>
         <item action='mail-delete-note'/>
         <separator/>
+        <item action='mail-copy-message-link'/>
+        <separator/>
         <submenu action='mail-create-menu'>
           <placeholder id='mail-conversion-actions'/>
           <separator/>
@@ -204,6 +206,8 @@
     <item action='mail-copy'/>
     <item action='mail-move'/>
     <item action='mail-archive'/>
+    <separator/>
+    <item action='mail-copy-message-link'/>
     <separator/>
     <placeholder id='mail-preview-popup-actions'/>
   </menu>
