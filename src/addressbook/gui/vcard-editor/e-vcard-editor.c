@@ -791,7 +791,7 @@ eve_check_exists_simple (EVCardEditor *editor,
 		gchar *value;
 
 		value = e_contact_get (contact, field_id);
-		exists = value != NULL;
+		exists = value != NULL && *value != '\0';
 		g_free (value);
 	}
 
