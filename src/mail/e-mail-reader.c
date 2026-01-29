@@ -4540,16 +4540,7 @@ mail_reader_set_message (EMailReader *reader,
 }
 
 static void
-mail_reader_folder_loaded (EMailReader *reader)
-{
-	guint32 state;
-
-	state = e_mail_reader_check_state (reader);
-	e_mail_reader_update_actions (reader, state);
-}
-
-static void
-mail_reader_message_list_suggest_update_actions_cb (EMailReader *reader)
+mail_reader_emit_udpate_actions (EMailReader *reader)
 {
 	guint32 state;
 
@@ -4586,6 +4577,8 @@ set_mail_display_part_list (GObject *object,
 	/* Remove the reference added when parts list was
 	 * created, so that only owners are EMailDisplays. */
 	g_object_unref (part_list);
+
+	mail_reader_emit_udpate_actions (reader);
 }
 
 static void
@@ -4618,6 +4611,8 @@ mail_reader_set_display_formatter_for_message (EMailReader *reader,
 		e_mail_display_set_part_list (display, parts);
 		e_mail_display_load (display, NULL);
 		g_object_unref (parts);
+
+		mail_reader_emit_udpate_actions (reader);
 	}
 }
 
@@ -5655,7 +5650,7 @@ e_mail_reader_default_init (EMailReaderInterface *iface)
 	iface->set_folder = mail_reader_set_folder;
 	iface->set_message = mail_reader_set_message;
 	iface->open_selected_mail = e_mail_reader_open_selected;
-	iface->folder_loaded = mail_reader_folder_loaded;
+	iface->folder_loaded = mail_reader_emit_udpate_actions;
 	iface->message_loaded = mail_reader_message_loaded;
 	iface->message_seen = mail_reader_message_seen;
 	iface->show_search_bar = mail_reader_show_search_bar;
@@ -5839,7 +5834,7 @@ e_mail_reader_init (EMailReader *reader)
 
 	g_signal_connect_swapped (
 		message_list, "update-actions",
-		G_CALLBACK (mail_reader_message_list_suggest_update_actions_cb), reader);
+		G_CALLBACK (mail_reader_emit_udpate_actions), reader);
 
 	/* re-schedule mark-as-seen,... */
 	g_signal_connect_swapped (
