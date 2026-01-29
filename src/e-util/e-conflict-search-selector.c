@@ -15,9 +15,11 @@
  *
  */
 
+#include "evolution-config.h"
+
 #include "e-conflict-search-selector.h"
 
-#include "e-source-conflict-search.h"
+#include <libedataserver/libedataserver.h>
 
 G_DEFINE_TYPE (
 	EConflictSearchSelector,

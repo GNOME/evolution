@@ -210,7 +210,6 @@
     <xi:include href="xml/e-cal-source-config.xml"/>
     <xi:include href="xml/e-source-config-backend.xml"/>
     <xi:include href="xml/e-source-config-dialog.xml"/>
-    <xi:include href="xml/e-source-conflict-search.xml"/>
     <xi:include href="xml/e-source-selector.xml"/>
     <xi:include href="xml/e-alarm-selector.xml"/>
     <xi:include href="xml/e-autocomplete-selector.xml"/>

@@ -218,7 +218,6 @@ set(SOURCES
 	e-source-config-backend.c
 	e-source-config-dialog.c
 	e-source-config.c
-	e-source-conflict-search.c
 	e-source-selector-dialog.c
 	e-source-selector.c
 	e-source-util.c
@@ -499,7 +498,6 @@ set(HEADERS
 	e-source-config-backend.h
 	e-source-config-dialog.h
 	e-source-config.h
-	e-source-conflict-search.h
 	e-source-selector-dialog.h
 	e-source-selector.h
 	e-source-util.h
