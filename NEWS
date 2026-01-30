@@ -1,3 +1,30 @@
+Evolution 3.59.2 2026-01-30
+---------------------------
+
+Bug Fixes:
+	I#519 - Hides .p7m attachments
+	I#3189 - e-cal-ops: Fallback to default list if selected list is read-only (Adithya)
+	I#3201 - Add “Mark as read” action to new mail-notifications (shivam)
+	I#3219 - Mail: Crash with invalid UTF-8 folder name
+	I#3227 - Mail: Reply with selected text can preserve also original body
+	I#3233 - Mail: Add "Copy Message Link" action
+	eds-I#617 - Calendar: Prepare to support build with libical 4.x
+
+Miscellaneous:
+	EMailReader: Update actions also after message is parsed
+	Remove ESourceConflictSearch (moved to evolution-data-server)
+	e-vcard-editor: Skip stored empty values
+	Calendar: Component preview panel does not modify DATE value of DTEND
+
+Translations:
+	Asier Saratsua Garmendia (eu)
+	Aurimas Aurimas Černius (lt)
+	Александр Вахрамеев (ru)
+	Ekaterine Papava (ka)
+	Juliano de Souza Camargo (pt_BR)
+	Martin (sl)
+	Yuri Chornoivan (uk)
+
 Evolution 3.59.1 2026-01-02
 ---------------------------
 
