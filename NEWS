@@ -1,3 +1,17 @@
+Evolution 3.58.3 2026-01-30
+---------------------------
+
+Bug Fixes:
+	I#519 - Hides .p7m attachments
+	I#3219 - Mail: Crash with invalid UTF-8 folder name
+	I#3227 - Mail: Reply with selected text can preserve also original body
+
+Miscellaneous:
+	flatpak: Add gettext ACLOCAL workaround
+
+Translations:
+	Christian Kirbach (de)
+
 Evolution 3.58.2 2025-11-21
 ---------------------------
 
