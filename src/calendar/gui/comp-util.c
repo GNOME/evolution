@@ -2835,6 +2835,9 @@ cal_comp_util_write_to_html (GString *html_buffer,
 	/* write end date */
 	dt = e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT ? e_cal_component_get_dtend (comp) : NULL;
 	if (dt && e_cal_component_datetime_get_value (dt)) {
+		if (i_cal_time_is_date (e_cal_component_datetime_get_value (dt)))
+			i_cal_time_adjust (e_cal_component_datetime_get_value (dt), -1, 0, 0, 0);
+
 		str = timet_to_str_with_zone (dt, client, default_zone);
 		cal_comp_util_write_to_html_add_table_line (html_buffer, _("End Date:"), str);
 		g_free (str);

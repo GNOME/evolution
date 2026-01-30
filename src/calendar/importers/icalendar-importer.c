@@ -1407,6 +1407,9 @@ preview_comp (EWebViewPreview *preview,
 
 		dt = e_cal_component_get_dtend (comp);
 		if (dt && e_cal_component_datetime_get_value (dt)) {
+			if (i_cal_time_is_date (e_cal_component_datetime_get_value (dt)))
+				i_cal_time_adjust (e_cal_component_datetime_get_value (dt), -1, 0, 0, 0);
+
 			tmp = format_dt (dt, timezones, users_zone);
 
 			if (tmp)
