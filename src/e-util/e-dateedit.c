@@ -117,6 +117,7 @@ struct _EDateEditPrivate {
 	gboolean allow_no_date_set;
 	gboolean shorten_time_end;
 	gint shorten_time_minutes;
+	guint initial_time_popup_rebuild_tag; /* tag of a GSource to postponed initial time popup rebuild */
 };
 
 enum {
@@ -171,7 +172,7 @@ static gint on_date_popup_button_press		(GtkWidget	*widget,
 static void on_date_popup_date_selected		(ECalendarItem	*calitem,
 						 EDateEdit	*dedit);
 static void hide_date_popup			(EDateEdit	*dedit);
-static void rebuild_time_popup			(EDateEdit	*dedit);
+static void rebuild_time_popup			(EDateEdit      *dedit);
 static gboolean field_set_to_none		(const gchar	*text);
 static gboolean e_date_edit_parse_date		(EDateEdit	*dedit,
 						 const gchar	*date_text,
@@ -358,6 +359,11 @@ date_edit_dispose (GObject *object)
 
 	dedit = E_DATE_EDIT (object);
 
+	if (dedit->priv->initial_time_popup_rebuild_tag) {
+		g_source_remove (dedit->priv->initial_time_popup_rebuild_tag);
+		dedit->priv->initial_time_popup_rebuild_tag = 0;
+	}
+
 	e_date_edit_set_get_time_callback (dedit, NULL, NULL, NULL);
 
 	g_clear_pointer (&dedit->priv->cal_popup, gtk_widget_destroy);
@@ -512,6 +518,31 @@ e_date_edit_class_init (EDateEditClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+}
+
+static gboolean
+date_time_edit_rebuild_time_popup_cb (gpointer user_data)
+{
+	EDateEdit *self = user_data;
+
+	self->priv->initial_time_popup_rebuild_tag = 0;
+	rebuild_time_popup (self);
+
+	return G_SOURCE_REMOVE;
+}
+
+static void
+maybe_rebuild_time_popup (EDateEdit *self)
+{
+	if (self->priv->initial_time_popup_rebuild_tag != 0)
+		return;
+
+	if (gtk_widget_get_mapped (GTK_WIDGET (self))) {
+		rebuild_time_popup (self);
+	} else {
+		self->priv->initial_time_popup_rebuild_tag =
+			g_timeout_add (10, date_time_edit_rebuild_time_popup_cb, self);
+	}
 }
 
 static void
@@ -678,7 +709,7 @@ create_children (EDateEdit *dedit)
 	}
 
 	gtk_box_pack_start (GTK_BOX (dedit), priv->time_combo, FALSE, TRUE, 0);
-	rebuild_time_popup (dedit);
+	maybe_rebuild_time_popup (dedit);
 	a11y = gtk_widget_get_accessible (priv->time_combo);
 	atk_object_set_description (a11y, _("Drop-down combination box to select time"));
 	atk_object_set_name (a11y, _("Time"));
@@ -1358,7 +1389,7 @@ e_date_edit_set_use_24_hour_format (EDateEdit *dedit,
 
 	dedit->priv->use_24_hour_format = use_24_hour_format;
 
-	rebuild_time_popup (dedit);
+	maybe_rebuild_time_popup (dedit);
 
 	e_date_edit_update_time_entry (dedit);
 
@@ -1432,7 +1463,7 @@ e_date_edit_set_time_popup_range (EDateEdit *dedit,
 	priv->lower_hour = lower_hour;
 	priv->upper_hour = upper_hour;
 
-	rebuild_time_popup (dedit);
+	maybe_rebuild_time_popup (dedit);
 
 	/* Setting the combo list items seems to mess up the time entry, so
 	 * we set it again. We have to reset it to its last valid time. */
@@ -1798,17 +1829,27 @@ rebuild_time_popup (EDateEdit *dedit)
 	GtkListStore *list_store;
 	GtkTreeIter iter;
 	GtkWidget *entry;
+	GtkComboBox *time_combo;
 	gchar buffer[40];
 	gboolean use_24_hour_format;
 	struct tm tmp_tm = { 0 };
 	gint hour, min;
 	guint ii, index, step, offset, wrap_width;
 	glong max_len;
+	gint item_index;
+	const gchar *entry_text;
 	GPtrArray *values;
 
 	priv = dedit->priv;
 
-	model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->time_combo));
+	entry = gtk_bin_get_child (GTK_BIN (priv->time_combo));
+	g_warn_if_fail (GTK_IS_ENTRY (entry));
+
+	time_combo = GTK_COMBO_BOX (priv->time_combo);
+	entry_text = GTK_IS_ENTRY (entry) ? gtk_entry_get_text (GTK_ENTRY (entry)) : NULL;
+	item_index = gtk_combo_box_get_active (time_combo);
+
+	model = gtk_combo_box_get_model (time_combo);
 	list_store = GTK_LIST_STORE (model);
 	gtk_list_store_clear (list_store);
 
@@ -1865,22 +1906,25 @@ rebuild_time_popup (EDateEdit *dedit)
 
 	for (step = 6; step > 1; step--) {
 		if ((values->len % step) == 0 && values->len / step >= step - 1) {
-			gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (priv->time_combo), step);
+			gtk_combo_box_set_wrap_width (time_combo, step);
 			step = values->len / step;
 			break;
 		}
 	}
 
 	if (step == 1)
-		gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (priv->time_combo), step);
+		gtk_combo_box_set_wrap_width (time_combo, step);
 
-	wrap_width = gtk_combo_box_get_wrap_width (GTK_COMBO_BOX (priv->time_combo));
+	wrap_width = gtk_combo_box_get_wrap_width (time_combo);
 	index = 0;
 	offset = 0;
 	max_len = 0;
 
 	for (ii = 0; ii < values->len; ii++) {
 		const gchar *text = g_ptr_array_index (values, (index + offset) % values->len);
+
+		if (item_index == -1 && g_strcmp0 (text, entry_text) == 0)
+			item_index = gtk_tree_model_iter_n_children (model, NULL);
 
 		gtk_list_store_append (list_store, &iter);
 		gtk_list_store_set (list_store, &iter, 0, text, -1);
@@ -1895,10 +1939,11 @@ rebuild_time_popup (EDateEdit *dedit)
 
 	g_ptr_array_free (values, TRUE);
 
-	entry = gtk_bin_get_child (GTK_BIN (priv->time_combo));
-	g_warn_if_fail (GTK_IS_ENTRY (entry));
 	if (GTK_IS_ENTRY (entry))
 		gtk_entry_set_width_chars (GTK_ENTRY (entry), max_len + 1);
+
+	if (item_index != -1)
+		gtk_combo_box_set_active (time_combo, item_index);
 }
 
 static gboolean
@@ -2726,7 +2771,7 @@ e_date_edit_set_shorten_time (EDateEdit *self,
 
 	if (self->priv->shorten_time_minutes != minutes && minutes >= 0 && minutes < 30) {
 		self->priv->shorten_time_minutes = minutes;
-		rebuild_time_popup (self);
+		maybe_rebuild_time_popup (self);
 
 		g_object_notify (G_OBJECT (self), "shorten-time");
 	}
@@ -2750,7 +2795,7 @@ e_date_edit_set_shorten_time_end (EDateEdit *self,
 		self->priv->shorten_time_end = shorten_time_end;
 
 		if (self->priv->shorten_time_minutes > 0)
-			rebuild_time_popup (self);
+			maybe_rebuild_time_popup (self);
 
 		g_object_notify (G_OBJECT (self), "shorten-time-end");
 	}
