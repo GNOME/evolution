@@ -161,32 +161,22 @@ e_month_widget_update (EMonthWidget *self)
 	GDate *date, tmp_date;
 	GtkWidget *widget;
 	gchar buffer[128];
-	guint week_of_year, week_of_last_year = 0;
 	guint ii, jj, month_day, max_month_days;
 
 	if (!digit_format)
 		digit_format = get_digit_format ();
 
 	date = g_date_new_dmy (1, self->priv->month, self->priv->year);
-
-	if (self->priv->week_start_day == G_DATE_SUNDAY) {
-		week_of_year = g_date_get_sunday_week_of_year (date);
-		if (!week_of_year)
-			week_of_last_year = g_date_get_sunday_weeks_in_year (self->priv->year - 1);
-	} else {
-		week_of_year = g_date_get_monday_week_of_year (date);
-		if (!week_of_year)
-			week_of_last_year = g_date_get_monday_weeks_in_year (self->priv->year - 1);
-	}
+	tmp_date = *date;
 
 	/* Update week numbers */
 	for (ii = 0; ii < MAX_WEEKS; ii++) {
-		g_snprintf (buffer, sizeof (buffer), digit_format, !week_of_year ? week_of_last_year : week_of_year);
+		g_snprintf (buffer, sizeof (buffer), digit_format, g_date_get_iso8601_week_of_year (&tmp_date));
 
 		widget = gtk_grid_get_child_at (self->priv->grid, 0, ii + 1);
 		gtk_label_set_text (GTK_LABEL (widget), buffer);
 
-		week_of_year++;
+		g_date_add_days (&tmp_date, 7);
 	}
 
 	/* Update day names */
