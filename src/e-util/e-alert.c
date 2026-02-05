@@ -301,7 +301,7 @@ e_alert_load (const gchar *path)
 				}
 			}
 
-			g_hash_table_insert (table->alerts, (gpointer) e->id, e);
+			g_hash_table_replace (table->alerts, (gpointer) e->id, e);
 		}
 	}
 

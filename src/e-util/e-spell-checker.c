@@ -214,7 +214,7 @@ copy_enchant_dicts (gpointer planguage_tag,
 		dictionary = e_spell_dictionary_new_bare (checker, planguage_tag);
 		code = e_spell_dictionary_get_code (dictionary);
 
-		g_hash_table_insert (
+		g_hash_table_replace (
 			checker->priv->dictionaries_cache,
 			(gpointer) code, dictionary);
 	}

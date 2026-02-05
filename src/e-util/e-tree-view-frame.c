@@ -1118,7 +1118,7 @@ e_tree_view_frame_insert_toolbar_action (ETreeViewFrame *tree_view_frame,
 
 	gtk_toolbar_insert (toolbar, GTK_TOOL_ITEM (tool_item), position);
 
-	g_hash_table_insert (tree_view_frame->priv->actions_ht, (gpointer) g_action_get_name (G_ACTION (action)), g_object_ref (action));
+	g_hash_table_replace (tree_view_frame->priv->actions_ht, (gpointer) g_action_get_name (G_ACTION (action)), g_object_ref (action));
 
 	g_signal_connect (
 		tool_item, "clicked",

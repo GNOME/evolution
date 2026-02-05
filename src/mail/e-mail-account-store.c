@@ -421,7 +421,7 @@ mail_account_store_update_index (EMailAccountStore *store,
 			service, "notify", G_CALLBACK (
 			mail_account_store_service_notify_cb), store);
 
-		g_hash_table_insert (hash_table, item->service, item);
+		g_hash_table_replace (hash_table, item->service, item);
 	}
 
 	/* Update the row reference so the IndexItem will survive
@@ -1508,7 +1508,7 @@ mail_account_store_ensure_all_services_in_queue (GQueue *current_order,
 		if (!service)
 			continue;
 
-		g_hash_table_insert (known_services, (gpointer) camel_service_get_uid (service), service);
+		g_hash_table_replace (known_services, (gpointer) camel_service_get_uid (service), service);
 	}
 
 	use_order = g_queue_new ();

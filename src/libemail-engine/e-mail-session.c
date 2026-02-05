@@ -1331,7 +1331,7 @@ mail_session_constructed (GObject *object)
 
 		/* No need to reference the EMailJunkFilter since
 		 * EMailSession owns the reference to it already. */
-		g_hash_table_insert (
+		g_hash_table_replace (
 			session->priv->junk_filters,
 			(gpointer) class->filter_name,
 			junk_filter);

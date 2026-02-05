@@ -1673,7 +1673,7 @@ ical_get_preview (ICalComponent *icomp)
 		if (!i_cal_timezone_set_component (zone, i_cal_component_clone (subcomp)) || !i_cal_timezone_get_tzid (zone)) {
 			g_object_unref (zone);
 		} else {
-			g_hash_table_insert (timezones, (gchar *) i_cal_timezone_get_tzid (zone), zone);
+			g_hash_table_replace (timezones, (gchar *) i_cal_timezone_get_tzid (zone), zone);
 		}
 	}
 

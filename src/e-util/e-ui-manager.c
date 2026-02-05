@@ -1340,7 +1340,7 @@ e_ui_manager_claim_new_action_group (EUIManager *self,
 
 	name = e_ui_action_group_get_name (action_group);
 
-	g_hash_table_insert (self->action_groups, (gpointer) name, action_group);
+	g_hash_table_replace (self->action_groups, (gpointer) name, action_group);
 
 	actions = e_ui_action_group_list_actions (action_group);
 	for (ii = 0; ii < actions->len; ii++) {

@@ -3334,7 +3334,7 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 		u->key = g_strdup (expand_key);
 
 		if (!expand_only) {
-			g_hash_table_insert (
+			g_hash_table_replace (
 				priv->select_uris_table, u->key, u);
 			priv->select_uris =
 				g_slist_append (priv->select_uris, u);

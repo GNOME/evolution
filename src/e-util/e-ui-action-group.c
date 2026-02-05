@@ -375,7 +375,7 @@ e_ui_action_group_add (EUIActionGroup *self,
 	if (!e_ui_action_get_label (action))
 		g_warning ("%s: Action '%s' does not have set label", G_STRFUNC, name);
 
-	g_hash_table_insert (self->items, (gpointer) name, g_object_ref (action));
+	g_hash_table_replace (self->items, (gpointer) name, g_object_ref (action));
 	g_action_map_add_action (G_ACTION_MAP (self), G_ACTION (action));
 	e_ui_action_set_action_group (action, self);
 

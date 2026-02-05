@@ -165,7 +165,7 @@ e_cal_range_model_client_opened_cb (GObject *source_object,
 		data_model = ecrm_get_data_model_for_source (cod->self, source, NULL);
 
 		if (data_model) {
-			g_hash_table_insert (cod->self->active_clients, (gpointer) e_source_get_uid (e_client_get_source (client)), g_object_ref (client));
+			g_hash_table_replace (cod->self->active_clients, (gpointer) e_source_get_uid (e_client_get_source (client)), g_object_ref (client));
 
 			/* only add it when the range is set */
 			if (cod->self->start != cod->self->end)
@@ -252,7 +252,7 @@ e_cal_range_model_source_appeared (ESourceRegistryWatcher *watcher,
 	client = e_client_cache_ref_cached_client (client_cache, source, extension_name);
 	if (client) {
 		if (E_IS_CAL_CLIENT (client)) {
-			g_hash_table_insert (self->active_clients, (gpointer) e_source_get_uid (e_client_get_source (client)), g_object_ref (client));
+			g_hash_table_replace (self->active_clients, (gpointer) e_source_get_uid (e_client_get_source (client)), g_object_ref (client));
 
 			/* only add it when the range is set */
 			if (self->start != self->end)

@@ -1197,7 +1197,7 @@ webdav_browser_search_user_home_thread (EAlertSinkThreadJobData *job_data,
 			path = g_uri_to_string_partial (guri, G_URI_HIDE_USERINFO | G_URI_HIDE_PASSWORD);
 			if (path) {
 				shd.home_hrefs = g_slist_prepend (shd.home_hrefs, g_strdup (path));
-				g_hash_table_insert (shd.covered_home_hrefs, path, NULL);
+				g_hash_table_replace (shd.covered_home_hrefs, path, NULL);
 			}
 
 			path = g_strdup (g_uri_get_path (guri));
@@ -1342,7 +1342,7 @@ webdav_browser_search_user_home_thread (EAlertSinkThreadJobData *job_data,
 		} else {
 			/* Ignore errors here as well */
 			webdav_browser_gather_href_resources_sync (webdav_browser, session, home_href, TRUE, TRUE, cancellable, NULL);
-			g_hash_table_insert (shd.covered_home_hrefs, home_href, NULL);
+			g_hash_table_replace (shd.covered_home_hrefs, home_href, NULL);
 		}
 	}
 

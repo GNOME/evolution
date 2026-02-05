@@ -1264,7 +1264,7 @@ receive_get_folder (CamelFilterDriver *d,
 		oldinfo = g_malloc0 (sizeof (*oldinfo));
 		oldinfo->folder = folder;
 		oldinfo->uri = g_strdup (uri);
-		g_hash_table_insert (info->data->folders, oldinfo->uri, oldinfo);
+		g_hash_table_replace (info->data->folders, oldinfo->uri, oldinfo);
 	}
 
 	g_object_ref (folder);

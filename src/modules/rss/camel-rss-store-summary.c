@@ -357,7 +357,7 @@ camel_rss_store_summary_add (CamelRssStoreSummary *self,
 	feed->content_type = content_type;
 	feed->index = g_hash_table_size (self->priv->feeds) + 1;
 
-	g_hash_table_insert (self->priv->feeds, id, feed);
+	g_hash_table_replace (self->priv->feeds, id, feed);
 
 	camel_rss_store_summary_unlock (self);
 	camel_rss_store_summary_schedule_feed_changed (self, id);

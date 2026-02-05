@@ -373,9 +373,9 @@ rule_context_revert (ERuleContext *context,
 		if (rest_data == NULL) {
 			rest_data = g_malloc0 (sizeof (*rest_data));
 			rest_data->rules = g_hash_table_new (g_str_hash, g_str_equal);
-			g_hash_table_insert (source_hash, frule->source, rest_data);
+			g_hash_table_replace (source_hash, frule->source, rest_data);
 		}
-		g_hash_table_insert (rest_data->rules, frule->name, frule);
+		g_hash_table_replace (rest_data->rules, frule->name, frule);
 	}
 
 	/* make what we have, match what we load */

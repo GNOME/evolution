@@ -368,7 +368,7 @@ create_gnode (ETreeTableAdapter *etta,
 	node->expandable_set = 1;
 	node->num_visible_children = 0;
 	gnode = g_node_new (node);
-	g_hash_table_insert (etta->priv->nodes, path, gnode);
+	g_hash_table_replace (etta->priv->nodes, path, gnode);
 	return gnode;
 }
 

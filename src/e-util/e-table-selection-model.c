@@ -47,9 +47,9 @@ save_to_hash (gint model_row,
               gpointer closure)
 {
 	ETableSelectionModel *etsm = closure;
-	const gchar *key = e_table_model_get_save_id (etsm->model, model_row);
+	gchar *key = e_table_model_get_save_id (etsm->model, model_row);
 
-	g_hash_table_insert (etsm->hash, (gpointer) key, (gpointer) key);
+	g_hash_table_insert (etsm->hash, key, key);
 }
 
 static void

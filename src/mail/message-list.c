@@ -1639,7 +1639,7 @@ add_label_if_known (struct LabelsData *ld,
 	GtkTreeIter label_defn;
 
 	if (e_mail_label_list_store_lookup (ld->store, tag, &label_defn)) {
-		g_hash_table_insert (
+		g_hash_table_replace (
 			ld->labels_tag2iter,
 			/* Should be the same as the "tag" arg */
 			e_mail_label_list_store_get_tag (ld->store, &label_defn),
@@ -4832,7 +4832,7 @@ ml_uid_nodemap_insert (MessageList *message_list,
 	date = camel_message_info_get_date_received (info);
 
 	g_object_ref (info);
-	g_hash_table_insert (message_list->uid_nodemap, (gpointer) uid, node);
+	g_hash_table_replace (message_list->uid_nodemap, (gpointer) uid, node);
 
 	/* Track the latest seen and unseen messages shown, used in
 	 * fallback heuristics for automatic message selection. */

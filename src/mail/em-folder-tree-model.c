@@ -379,7 +379,7 @@ folder_tree_model_store_index_insert (EMFolderTreeModel *model,
 
 	g_mutex_lock (&model->priv->store_index_lock);
 
-	g_hash_table_insert (
+	g_hash_table_replace (
 		model->priv->store_index,
 		si->store, store_info_ref (si));
 

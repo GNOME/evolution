@@ -1104,7 +1104,7 @@ e_source_viewer_build_display_tree (ESourceViewer *viewer)
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 		gpointer key = (gpointer) e_source_get_uid (source);
-		g_hash_table_insert (index, key, g_node_new (source));
+		g_hash_table_replace (index, key, g_node_new (source));
 	}
 	g_list_free (list);
 
