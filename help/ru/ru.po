@@ -7,22 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution help trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-18 15:34+0000\n"
-"PO-Revision-Date: 2025-07-11 16:55+0300\n"
-"Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
+"POT-Creation-Date: 2026-02-03 04:15+0000\n"
+"PO-Revision-Date: 2026-02-03 15:05+0300\n"
+"Last-Translator: Fraxinus Acer\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 23.08.5\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.8\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Олеся Герасименко <goa@altlinux.org>, 2021, 2025"
+msgstr ""
+"Олеся Герасименко <goa@altlinux.org>, 2021, 2025\n"
+"Fraxinus Acer 2026"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -93,8 +95,8 @@ msgstr ""
 "приложение <app>Evolution</app>, а разработчики средств фильтрации "
 "могутизменить реализацию. Если используется Bogofilter, следуетсоздать "
 "резервную копию скрытой папки <file>~/.bogofilter/</file>. Если используется "
-"SpamAssassin, следует создать резервную копию скрытой папки <file>~/."
-"spamassassin/</file>."
+"SpamAssassin, следует создать резервную копию скрытой папки "
+"<file>~/.spamassassin/</file>."
 
 #. (itstool) path: section/title
 #: C/backup-restore.page:58 C/intro-first-run.page:45
@@ -163,9 +165,10 @@ msgid ""
 "xref=\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/"
 "users/gnome-help/stable/shell-notifications\"> the GNOME Desktop Help</link>."
 msgstr ""
-"Дополнительные сведения о показе напоминаний доступны в <link xref=\"help:"
-"gnome-help/shell-notifications\" href=\"https://help.gnome.org/users/gnome-"
-"help/stable/shell-notifications\">справке по рабочей среде GNOME</link>."
+"Дополнительные сведения о показе напоминаний доступны в <link "
+"xref=\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/"
+"users/gnome-help/stable/shell-notifications\">справке по рабочей среде "
+"GNOME</link>."
 
 #. (itstool) path: section/title
 #: C/calendar-alarms-and-reminders.page:50
@@ -263,15 +266,13 @@ msgid ""
 "gui> and (see below) <gui>Email</gui>. The step is optional, and you can "
 "overwrite all the discovered settings."
 msgstr ""
-"Чтобы найти объявленные сервером календари, введите адрес сервера как <gui"
-">URL</gui> и (необязательно) укажите <gui>Пользователя</gui>, затем нажмите"
-" кнопку <gui "
-"style=\"button\">Найти календари</gui>. Выберите календарь и <gui>Почту"
-" пользователя</"
-"gui>. После этого окажутся заполненными поля <gui>Имя</gui>, <gui>Цвет</gui>,"
-" <gui>URL</"
-"gui> и (смотрите ниже) <gui>Эл. почта</gui>. Этот шаг является"
-" необязательным, все найденные параметры можно перезаписать."
+"Чтобы найти объявленные сервером календари, введите адрес сервера как "
+"<gui>URL</gui> и (необязательно) укажите <gui>Пользователя</gui>, затем "
+"нажмите кнопку <gui style=\"button\">Найти календари</gui>. Выберите "
+"календарь и <gui>Почту пользователя</gui>. После этого окажутся заполненными "
+"поля <gui>Имя</gui>, <gui>Цвет</gui>, <gui>URL</gui> и (смотрите ниже) "
+"<gui>Эл. почта</gui>. Этот шаг является необязательным, все найденные "
+"параметры можно перезаписать."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:43 C/calendar-google.page:40 C/calendar-local.page:34
@@ -313,8 +314,8 @@ msgid ""
 "Enter your username and email address. When a meeting is created in the "
 "calendar, this email address is prefilled as Organizer."
 msgstr ""
-"Укажите ваши имя пользователя и адрес электронной почты. Когда в календаре"
-" создаётся собрание, этот адрес появляется в поле «Организатор»."
+"Укажите ваши имя пользователя и адрес электронной почты. Когда в календаре "
+"создаётся собрание, этот адрес появляется в поле «Организатор»."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:59
@@ -325,11 +326,11 @@ msgid ""
 "assumes that the server informs other parties. When the option is not "
 "selected, <app>Evolution</app> sends an email."
 msgstr ""
-"При создании, изменении или удалении собрания можно отправить уведомление"
-" другим его участникам. Если флажок <gui>Сервер обрабатывает приглашения на"
-" встречи</gui> установлен, <app>Evolution</app> отправляет на сервер данные"
-" собрания и предполагает, что сервер оповестит других участников. Если этот"
-" флажок не установлен, <app>Evolution</app> отправит письмо."
+"При создании, изменении или удалении собрания можно отправить уведомление "
+"другим его участникам. Если флажок <gui>Сервер обрабатывает приглашения на "
+"встречи</gui> установлен, <app>Evolution</app> отправляет на сервер данные "
+"собрания и предполагает, что сервер оповестит других участников. Если этот "
+"флажок не установлен, <app>Evolution</app> отправит письмо."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:64 C/calendar-google.page:55 C/calendar-local.page:46
@@ -359,7 +360,6 @@ msgstr "Календарь будет добавлен в список кале�
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:71 C/contacts-using-several-addressbooks.page:33
 #: C/intro-account-types.page:35 C/tasks-caldav.page:46
-#| msgid "Common Account Types"
 msgid "Collection accounts"
 msgstr "Учётные записи коллекции"
 
@@ -370,11 +370,10 @@ msgid ""
 "belonging to the same user, can be added in one step by utilizing a <link "
 "xref=\"intro-account-types#collection-account\">Collection account</link>."
 msgstr ""
-"Различные письма, адресные книги, календари, списки задач и заметок,"
-" принадлежащие одному и тому же пользователю, можно добавить за один шаг с"
-" помощью <link "
-"xref=\"intro-account-types#collection-account\">Учётной записи коллекции<"
-"/link>."
+"Различные письма, адресные книги, календари, списки задач и заметок, "
+"принадлежащие одному и тому же пользователю, можно добавить за один шаг с "
+"помощью <link xref=\"intro-account-types#collection-account\">Учётной записи "
+"коллекции</link>."
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
@@ -736,7 +735,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:60
 msgid "Show week numbers:"
-msgstr "Показывать номера недель"
+msgstr "Показывать номера недель:"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:61
@@ -954,10 +953,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:52
-#| msgid ""
-#| "You can also select an arbitrary range of days in the small calendar in "
-#| "the side bar. To do this, select the days that you want to view in your "
-#| "calendar."
 msgid ""
 "You can also select an arbitrary range of days in the small calendar in the "
 "sidebar. To do this, select the days that you want to view in your calendar."
@@ -1371,42 +1366,29 @@ msgstr "Публикация календарей"
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:30
-#| msgid ""
-#| "In order to make one of your calendars available to the public, you can "
-#| "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
-#| "Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
-#| "guiseq>."
 msgid ""
 "In order to make one of your calendars available to the public, enable the "
 "Calendar Publishing plugin from <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui> <gui>Plugins</gui></guiseq> and restart <app>Evolution</app> to "
 "activate it."
 msgstr ""
-"Чтобы сделать какой-либо из календарей общедоступным, включите модуль"
-" «Публикация календарей» в разделе меню <guiseq><gui>Правка</gui><gui"
-">Параметры</gui> "
-"<gui>Модули</gui></guiseq> и перезапустите <app>Evolution</app> для его"
-" активации."
+"Чтобы сделать какой-либо из календарей общедоступным, включите модуль "
+"«Публикация календарей» в разделе меню <guiseq><gui>Правка</"
+"gui><gui>Параметры</gui> <gui>Модули</gui></guiseq> и перезапустите "
+"<app>Evolution</app> для его активации."
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:33
-#| msgid ""
-#| "In order to make one of your calendars available to the public, you can "
-#| "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
-#| "Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
-#| "guiseq>."
 msgid ""
 "You can define calendars to be uploaded to a web server under "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> "
 "<gui>Publishing Information</gui> <gui>Locations</gui><gui "
 "style=\"button\">Add</gui></guiseq>."
 msgstr ""
-"Указать календари для отправки на веб-сервер можно здесь: <guiseq><gui"
-">Правка</gui><gui>Параметры</gui> "
-"<gui>Календарь и задачи</gui> <gui>Информация о публикации</gui> "
-"<gui>Адреса</gui><gui style=\"button\">Добавить</gui></guiseq>."
+"Указать календари для отправки на веб-сервер можно здесь: "
+"<guiseq><gui>Правка</gui><gui>Параметры</gui> <gui>Календарь и задачи</gui> "
+"<gui>Информация о публикации</gui> <gui>Адреса</gui><gui "
+"style=\"button\">Добавить</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:39
@@ -1419,16 +1401,13 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:46
-#| msgid ""
-#| "To immediately publish calendar information, click <guiseq><gui>Actions</"
-#| "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar window."
 msgstr ""
-"Чтобы немедленно опубликовать информацию календаря, выберите в окне календаря"
-" пункт меню <guiseq><gui>Действия</gui><gui>Опубликовать "
-"сведения календаря</gui></guiseq>."
+"Чтобы немедленно опубликовать информацию календаря, выберите в окне "
+"календаря пункт меню <guiseq><gui>Действия</gui><gui>Опубликовать сведения "
+"календаря</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/calendar-recurrence.page:23
@@ -1784,14 +1763,6 @@ msgstr "Использование нескольких календарей"
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:30
-#| msgid ""
-#| "You can have multiple calendars and overlay them one over the other. For "
-#| "example, you might have a schedule of events for work, one for home, and "
-#| "one for your favorite sports team. The side bar lists those calendars, "
-#| "and you can select or deselect the boxes next to them to show and hide "
-#| "the appointments in your calendar view. By hiding and showing different "
-#| "sets of appointments, you can be sure to avoid conflicts, while keeping a "
-#| "minimum of clutter in your view."
 msgid ""
 "You can have multiple calendars and overlay them one over the other. For "
 "example, you might have a schedule of events for work, one for home, and one "
@@ -1811,7 +1782,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:38
-#| msgid "Appointments for each calendar appear in different color."
 msgid "Appointments for each calendar appear in a different color."
 msgstr "Встречи из разных календарей будут показаны разными цветами."
 
@@ -1844,8 +1814,8 @@ msgid ""
 "window. If no calendar is selected, new events are created in the default "
 "calendar."
 msgstr ""
-"Новые события и собрания создаются в выбранном календаре в окне «Календарь»."
-" Если календарь не выбран, новые события создаются в календаре по умолчанию."
+"Новые события и собрания создаются в выбранном календаре в окне «Календарь». "
+"Если календарь не выбран, новые события создаются в календаре по умолчанию."
 
 #. (itstool) path: info/desc
 #: C/calendar-weather.page:17
@@ -1879,13 +1849,11 @@ msgstr "Выберите единицы измерения температур�
 
 #. (itstool) path: info/desc
 #: C/calendar-webdav.page:16
-#| msgid "Using an online Webcal/WebDAV calendar."
 msgid "Using an online Webcal/HTTP calendar."
 msgstr "Использование сетевого календаря Webcal/HTTP."
 
 #. (itstool) path: page/title
 #: C/calendar-webdav.page:19
-#| msgid "Using a WebDAV calendar"
 msgid "Using a Webcal calendar"
 msgstr "Использование календаря Webcal"
 
@@ -2048,29 +2016,21 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/contacts-carddav.page:12
-#| msgid "Using an online CalDAV calendar."
 msgid "Using an online CardDAV address book."
 msgstr "Использование адресной книги CardDAV."
 
 #. (itstool) path: page/title
 #: C/contacts-carddav.page:15
-#| msgid "Adding an LDAP address book"
 msgid "Using a CardDAV address book"
 msgstr "Использование адресной книги CardDAV"
 
 #. (itstool) path: page/p
 #: C/contacts-carddav.page:17
-#| msgid ""
-#| "To add such an address book to <app>Evolution</app>, perform the "
-#| "following steps:"
 msgid "To add such an address book, perform the following steps:"
 msgstr "Чтобы добавить такую адресную книгу, выполните следующие действия:"
 
 #. (itstool) path: item/p
 #: C/contacts-carddav.page:21
-#| msgid ""
-#| "Click <guiseq><gui>File</gui><gui>New</gui> <gui>Address Book</gui></"
-#| "guiseq>."
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></guiseq>."
 msgstr ""
@@ -2079,7 +2039,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-carddav.page:25
-#| msgid "Select the type <gui>CalDAV</gui>."
 msgid "Select the type <gui>CardDAV</gui>."
 msgstr "Выберите тип <gui>CardDAV</gui>."
 
@@ -2092,24 +2051,21 @@ msgid ""
 "prefills the fields <gui>Name</gui> and <gui>URL</gui>. The step is "
 "optional, and you can overwrite all the discovered settings."
 msgstr ""
-"Чтобы найти объявленные сервером адресные книги, введите адрес сервера как <"
-"gui>URL</gui> и (необязательно) укажите <gui>Пользователя</gui>, затем"
-" нажмите кнопку <gui "
-"style=\"button\">Найти адресные книги</gui>. Выберите адресную книгу. После"
-" этого окажутся заполненными поля <gui>Имя</gui> и <gui>URL</gui>. Этот шаг"
-" является необязательным, все найденные параметры можно перезаписать."
+"Чтобы найти объявленные сервером адресные книги, введите адрес сервера как "
+"<gui>URL</gui> и (необязательно) укажите <gui>Пользователя</gui>, затем "
+"нажмите кнопку <gui style=\"button\">Найти адресные книги</gui>. Выберите "
+"адресную книгу. После этого окажутся заполненными поля <gui>Имя</gui> и "
+"<gui>URL</gui>. Этот шаг является необязательным, все найденные параметры "
+"можно перезаписать."
 
 #. (itstool) path: page/p
 #: C/contacts-carddav.page:49
-#| msgid ""
-#| "The address book will be added to the list of address books in "
-#| "<app>Evolution</app>."
 msgid ""
 "The address book will be added to the list of address books in "
 "<app>Evolution</app>, <app>GNOME Contacts</app>."
 msgstr ""
-"Адресная книга будет добавлена в список адресных книг <app>Evolution</app>, <"
-"app>Контакты GNOME</app>."
+"Адресная книга будет добавлена в список адресных книг <app>Evolution</app>, "
+"<app>Контакты GNOME</app>."
 
 #. (itstool) path: info/desc
 #: C/contacts-google.page:18
@@ -2118,7 +2074,6 @@ msgstr "Использование сетевой адресной книги у
 
 #. (itstool) path: page/title
 #: C/contacts-google.page:21
-#| msgid "Using a Google addressbook"
 msgid "Using a Google address book"
 msgstr "Использование адресной книги Google"
 
@@ -2178,14 +2133,11 @@ msgstr "Добавление адресной книги LDAP"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:44
-#| msgid ""
-#| "In the <gui>General</gui> tab, select the type <gui>On LDAP Servers</gui>."
 msgid "In the <gui>Type</gui> field, select <gui>On LDAP Servers</gui>."
 msgstr "В поле <gui>Тип</gui> выберите <gui>На серверах LDAP</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:51
-#| msgid "Click the <gui>Configuration</gui> tab."
 msgid "In the <gui>Connecting to LDAP</gui> tab:"
 msgstr "На вкладке <gui>Подключение к LDAP</gui>:"
 
@@ -2205,7 +2157,6 @@ msgstr "Задайте способ входа и своё имя пользов
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:63
-#| msgid "In the <gui>Details</gui> tab you can define the following settings:"
 msgid "In the <gui>Using LDAP</gui> tab you define the following settings:"
 msgstr "На вкладке <gui>Использование LDAP</gui> задаются следующие параметры:"
 
@@ -2282,10 +2233,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:105
-#| msgid ""
-#| "Download Limit: The maximum number of results for a given search. Most "
-#| "servers refuse to send more than 500 contacts, but you can set the number "
-#| "lower if you want to shorten downloads for very broad searches."
 msgid ""
 "Download Limit: The maximum number of results for a given search. Most "
 "servers refuse to send more than 500 contacts, but you can set the number "
@@ -2295,9 +2242,9 @@ msgid ""
 msgstr ""
 "Ограничение: максимальное количество результатов для данного поиска. "
 "Большинство серверов отказываются отправлять больше 500 контактов, но можно "
-"установить меньшее число для сокращения загрузки при очень широком поиске."
-" Этот параметр игнорируется, если установлен флажок <gui>Скопировать книгу"
-" локально для автономной работы</gui>."
+"установить меньшее число для сокращения загрузки при очень широком поиске. "
+"Этот параметр игнорируется, если установлен флажок <gui>Скопировать книгу "
+"локально для автономной работы</gui>."
 
 #. (itstool) path: note/p
 #: C/contacts-ldap.page:119
@@ -2415,7 +2362,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:38
-#| msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
 msgid "Choose an address book and click <gui style=\"button\">Define</gui>."
 msgstr ""
 "Выберите адресную книгу и нажмите кнопку <gui style=\"button\">Задать</gui>."
@@ -2463,10 +2409,6 @@ msgstr "Упорядочивание, организация и группиро
 
 #. (itstool) path: page/p
 #: C/contacts-organizing.page:23
-#| msgid ""
-#| "There are several ways how to organize your contacts. You can use several "
-#| "addressbooks and categories, and for conveniently sending messages to a "
-#| "group of people contact lists are available."
 msgid ""
 "There are several ways how to organize your contacts. You can use several "
 "address books and categories, and for conveniently sending messages to a "
@@ -2797,11 +2739,6 @@ msgstr "Добавление и создание адресных книг"
 
 #. (itstool) path: page/p
 #: C/contacts-using-several-addressbooks.page:23
-#| msgid ""
-#| "You can have multiple address books. For example, you might have one "
-#| "address book for work related contacts and one for private contacts. The "
-#| "side bar lists those address books, and you can select which address book "
-#| "is shown."
 msgid ""
 "You can have multiple address books. For example, you might have one address "
 "book for work related contacts and one for private contacts. The sidebar "
@@ -2829,9 +2766,9 @@ msgid ""
 "window. If no address book is selected, new contacts are created in the "
 "default address book."
 msgstr ""
-"Новые контакты создаются в выбранной адресной книге в окне «Контакты». Если"
-" адресная книга не выбрана, новые контакты создаются в адресной книге по"
-" умолчанию."
+"Новые контакты создаются в выбранной адресной книге в окне «Контакты». Если "
+"адресная книга не выбрана, новые контакты создаются в адресной книге по "
+"умолчанию."
 
 #. (itstool) path: section/p
 #: C/contacts-using-several-addressbooks.page:34
@@ -2840,11 +2777,10 @@ msgid ""
 "belonging to the same user, can be added in one step, by utilizing a <link "
 "xref=\"intro-account-types#collection-account\">Collection account</link>."
 msgstr ""
-"Различные письма, адресные книги, календари, списки задач и заметок,"
-" принадлежащие одному и тому же пользователю, можно добавить за один шаг с"
-" помощью <link "
-"xref=\"intro-account-types#collection-account\">Учётной записи коллекции<"
-"/link>."
+"Различные письма, адресные книги, календари, списки задач и заметок, "
+"принадлежащие одному и тому же пользователю, можно добавить за один шаг с "
+"помощью <link xref=\"intro-account-types#collection-account\">Учётной записи "
+"коллекции</link>."
 
 #. (itstool) path: info/desc
 #: C/credits.page:5
@@ -2948,11 +2884,10 @@ msgid ""
 "in <guiseq><gui>View</gui><gui>Layout</gui><gui>Customize…</gui></guiseq>. "
 "The toolbars which can be customized offer a context menu option to do so."
 msgstr ""
-"<app>Evolution</app> позволяет настраивать меню, панели инструментов, а также"
-" комбинации клавиш (<guiseq><gui>Вид</gui><gui>Оформление</gui><gui"
-">Настроить…</gui></guiseq>). "
-"У поддерживающих настройку панелей инструментов есть соответствующая опция в"
-" контекстном меню."
+"<app>Evolution</app> позволяет настраивать меню, панели инструментов, а "
+"также комбинации клавиш (<guiseq><gui>Вид</gui><gui>Оформление</"
+"gui><gui>Настроить…</gui></guiseq>). У поддерживающих настройку панелей "
+"инструментов есть соответствующая опция в контекстном меню."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:26
@@ -2961,10 +2896,10 @@ msgid ""
 "reorder the items in the toolbars. Use either the buttons beside the layout "
 "tree or drag and drop the items."
 msgstr ""
-"С помощью диалогового окна <gui>Настройка интерфейса пользователя</gui> можно"
-" добавлять, удалять и переупорядочивать элементы на панелях инструментов"
-" (либо используйте кнопки рядом с деревом макета, либо перетаскивайте"
-" элементы)."
+"С помощью диалогового окна <gui>Настройка интерфейса пользователя</gui> "
+"можно добавлять, удалять и переупорядочивать элементы на панелях "
+"инструментов (либо используйте кнопки рядом с деревом макета, либо "
+"перетаскивайте элементы)."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:28
@@ -2972,9 +2907,9 @@ msgid ""
 "Beside the <gui>Layout</gui> customization, it's possible to change also "
 "<gui>Shortcuts</gui> for the actions. One action can have multiple shortcuts."
 msgstr ""
-"Предусмотрена не только настройка <gui>Оформления</gui>, также можно изменить"
-" и <gui>Комбинации клавиш</gui> для действий. С одним действием могут быть"
-" связаны несколько комбинаций клавиш."
+"Предусмотрена не только настройка <gui>Оформления</gui>, также можно "
+"изменить и <gui>Комбинации клавиш</gui> для действий. С одним действием "
+"могут быть связаны несколько комбинаций клавиш."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:30
@@ -2982,8 +2917,8 @@ msgid ""
 "The changes in the dialog are saved when it's closed and the user interface "
 "is updated accordingly."
 msgstr ""
-"Когда диалоговое окно закрывается, внесённые в нём изменения сохраняются и"
-" интерфейс пользователя обновляется соответствующим образом."
+"Когда диалоговое окно закрывается, внесённые в нём изменения сохраняются и "
+"интерфейс пользователя обновляется соответствующим образом."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -3058,10 +2993,10 @@ msgstr "<file>$HOME/.config/dconf</file>"
 #: C/data-storage.page:44
 msgid ""
 "This location also includes settings of other applications. To output only "
-"Evolution related data on the screen, the <link href=\"https://developer."
-"gnome.org/dconf/\"><app>Dconf</app></link> commands <cmd>dconf dump /org/"
-"gnome/evolution/</cmd> and <cmd>dconf dump /org/gnome/evolution-data-server/"
-"</cmd> can be used."
+"Evolution related data on the screen, the <link href=\"https://"
+"developer.gnome.org/dconf/\"><app>Dconf</app></link> commands <cmd>dconf "
+"dump /org/gnome/evolution/</cmd> and <cmd>dconf dump /org/gnome/evolution-"
+"data-server/</cmd> can be used."
 msgstr ""
 "В этом расположении также находятся настройки других приложений. Чтобы "
 "просмотреть только данные, относящиеся к Evolution, воспользуйтесь командами "
@@ -3122,10 +3057,10 @@ msgid ""
 msgstr ""
 "Определите название файла <cmd>.desktop</cmd> предпочитаемого браузера. В "
 "зависимости от браузера и дистрибутива, файл может называться, например, "
-"<cmd>epiphany.desktop</cmd>, <cmd>firefox.desktop</cmd>, <cmd>google-chrome."
-"desktop</cmd>, <cmd>konqbrowser.desktop</cmd> или <cmd>opera-browser."
-"desktop</cmd>. Если возникли сомнения, можно выполнить поиск среди файлов "
-"<cmd>.desktop</cmd> в папке <cmd>/usr/share/applications/</cmd>."
+"<cmd>epiphany.desktop</cmd>, <cmd>firefox.desktop</cmd>, <cmd>google-"
+"chrome.desktop</cmd>, <cmd>konqbrowser.desktop</cmd> или <cmd>opera-"
+"browser.desktop</cmd>. Если возникли сомнения, можно выполнить поиск среди "
+"файлов <cmd>.desktop</cmd> в папке <cmd>/usr/share/applications/</cmd>."
 
 #. (itstool) path: item/p
 #: C/default-browser.page:40 C/default-browser.page:46
@@ -3227,8 +3162,8 @@ msgstr "Расширенные параметры"
 #: C/default-browser.page:89
 msgid ""
 "If you have a technical background you can also tweak these settings by "
-"defining scheme-handlers in <file>$HOME/.local/share/applications/mimeapps."
-"list</file>."
+"defining scheme-handlers in <file>$HOME/.local/share/applications/"
+"mimeapps.list</file>."
 msgstr ""
 "Если у вас есть соответствующие технические знания, эти параметры также "
 "можно настроить путём определения обработчиков схем в <file>$HOME/.local/"
@@ -3490,12 +3425,13 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:28
 msgid ""
-"You cannot print an email to a printer. This is a <link href=\"https://bugs."
-"webkit.org/show_bug.cgi?id=192748\">limitation of the underlying WebKitGTK "
-"library</link>."
+"You cannot print an email to a printer. This is a <link href=\"https://"
+"bugs.webkit.org/show_bug.cgi?id=192748\">limitation of the underlying "
+"WebKitGTK library</link>."
 msgstr ""
-"Невозможно отправить письмо на печать. Это <link href=\"https://bugs.webkit."
-"org/show_bug.cgi?id=192748\">ограничение базовой библиотеки WebKitGTK</link>."
+"Невозможно отправить письмо на печать. Это <link href=\"https://"
+"bugs.webkit.org/show_bug.cgi?id=192748\">ограничение базовой библиотеки "
+"WebKitGTK</link>."
 
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:31
@@ -3609,8 +3545,8 @@ msgstr ""
 #: C/import-apps-mozilla.page:34
 msgid ""
 "If you would like to import <app>Thunderbird/Lightning</app> calendar data, "
-"you may be able to export your <app>Thunderbird</app> events as an <file>."
-"ical</file>/<file>.ics</file> file first, and import these files into "
+"you may be able to export your <app>Thunderbird</app> events as an "
+"<file>.ical</file>/<file>.ics</file> file first, and import these files into "
 "<app>Evolution</app>. This is required as <app>Thunderbird</app> stores its "
 "calendar data in a non-standard database format."
 msgstr ""
@@ -4230,7 +4166,6 @@ msgstr "Поддерживаемые типы учётных записей"
 
 #. (itstool) path: page/p
 #: C/intro-account-types.page:23
-#| msgid "<app>Evolution</app> supports using multiple time zones."
 msgid "<app>Evolution</app> supports these types of accounts:"
 msgstr "<app>Evolution</app> поддерживает следующие типы учётных записей:"
 
@@ -4240,9 +4175,9 @@ msgid ""
 "Email access — <link xref=\"intro-first-run#receiving\">receiving</link> and "
 "<link xref=\"intro-first-run#sending\">sending</link>"
 msgstr ""
-"Доступ к электронной почте — <link xref=\"intro-first-run#receiving\""
-">получение</link> и "
-"<link xref=\"intro-first-run#sending\">отправка</link>"
+"Доступ к электронной почте — <link xref=\"intro-first-"
+"run#receiving\">получение</link> и <link xref=\"intro-first-"
+"run#sending\">отправка</link>"
 
 #. (itstool) path: item/p
 #: C/intro-account-types.page:29
@@ -4266,7 +4201,6 @@ msgstr "RSS-каналы"
 
 #. (itstool) path: section/title
 #: C/intro-account-types.page:43
-#| msgid "Common Account Types"
 msgid "Collection Account"
 msgstr "Учётная запись коллекции"
 
@@ -4280,13 +4214,13 @@ msgid ""
 "memo lists from the server and keep them in sync with the content advertised "
 "by the server."
 msgstr ""
-"С помощью учётной записи этого типа можно связать вместе несколько источников"
-" данных для одного пользователя: почту (например, IMAP, POP3, SMTP), контакты"
-" (например, CardDAV, LDAP), календари (например, CalDAV), списки задач,"
-" списки заметок. Некоторые из них (например, учётные записи CalDAV "
-"или CardDAV) позволяют добавить все адресные книги, календари, списки задач"
-" или списки заметок с сервера и поддерживать их актуальность путём"
-" синхронизации с содержимым, которое объявляется сервером."
+"С помощью учётной записи этого типа можно связать вместе несколько "
+"источников данных для одного пользователя: почту (например, IMAP, POP3, "
+"SMTP), контакты (например, CardDAV, LDAP), календари (например, CalDAV), "
+"списки задач, списки заметок. Некоторые из них (например, учётные записи "
+"CalDAV или CardDAV) позволяют добавить все адресные книги, календари, списки "
+"задач или списки заметок с сервера и поддерживать их актуальность путём "
+"синхронизации с содержимым, которое объявляется сервером."
 
 #. (itstool) path: section/p
 #: C/intro-account-types.page:45
@@ -4296,29 +4230,24 @@ msgid ""
 "requiring authentication, leave <gui>Email Address or User name</gui> empty "
 "and fill <guiseq><gui>Advanced options</gui><gui>Server</gui></guiseq>."
 msgstr ""
-"Чтобы настроить учётную запись этого типа, выберите пункт меню <guiseq><gui"
-">Файл</gui><gui>Создать</"
-"gui><gui>Учётная запись коллекции</gui></guiseq>. Чтобы использовать только"
-" те источники, где не требуется аутентификация, оставьте поле <gui>Адрес эл."
-" почты или имя пользователя</gui> пустым и заполните поле <guiseq><gui"
-">Расширенные параметры</gui><gui>Сервер</gui></guiseq>."
+"Чтобы настроить учётную запись этого типа, выберите пункт меню "
+"<guiseq><gui>Файл</gui><gui>Создать</gui><gui>Учётная запись коллекции</"
+"gui></guiseq>. Чтобы использовать только те источники, где не требуется "
+"аутентификация, оставьте поле <gui>Адрес эл. почты или имя пользователя</"
+"gui> пустым и заполните поле <guiseq><gui>Расширенные параметры</"
+"gui><gui>Сервер</gui></guiseq>."
 
 #. (itstool) path: section/p
 #: C/intro-account-types.page:49
-#| msgid ""
-#| "Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
-#| "gui></guiseq>."
 msgid ""
 "To configure an RSS feed select <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>News and Blogs</gui></guiseq>."
 msgstr ""
-"Чтобы настроить RSS-канал, выберите пункт меню <guiseq><gui>Правка</gui><gui"
-">Параметры</"
-"gui><gui>Новости и блоги</gui></guiseq>."
+"Чтобы настроить RSS-канал, выберите пункт меню <guiseq><gui>Правка</"
+"gui><gui>Параметры</gui><gui>Новости и блоги</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/intro-account-types.page:52
-#| msgid "The <app>Evolution</app> main window"
 msgid "The Evolution Accounts window"
 msgstr "Окно «Учётные записи Evolution»"
 
@@ -4328,8 +4257,8 @@ msgid ""
 "An overview of all configured <gui>Evolution Accounts</gui> is available "
 "under <guiseq><gui>Edit</gui><gui>Accounts</gui></guiseq>."
 msgstr ""
-"Список всех настроенных <gui>Учётных записей Evolution</gui> доступен в"
-" разделе меню <guiseq><gui>Правка</gui><gui>Учётные записи</gui></guiseq>."
+"Список всех настроенных <gui>Учётных записей Evolution</gui> доступен в "
+"разделе меню <guiseq><gui>Правка</gui><gui>Учётные записи</gui></guiseq>."
 
 #. (itstool) path: section/p
 #: C/intro-account-types.page:54
@@ -4339,10 +4268,10 @@ msgid ""
 "each type allows to enable or disable the local synchronization for that "
 "source."
 msgstr ""
-"Здесь каждая учётная запись коллекции отображает свои почтовые учётные"
-" записи, адресные книги, календари, списки заметок и списки задач,"
-" объявленные сервером. Если развернуть какой-либо тип, будет можно включить"
-" или отключить локальную синхронизацию для соответствующего источника."
+"Здесь каждая учётная запись коллекции отображает свои почтовые учётные "
+"записи, адресные книги, календари, списки заметок и списки задач, "
+"объявленные сервером. Если развернуть какой-либо тип, будет можно включить "
+"или отключить локальную синхронизацию для соответствующего источника."
 
 #. (itstool) path: section/p
 #: C/intro-account-types.page:55
@@ -4354,13 +4283,12 @@ msgid ""
 "and color are synchronized from the server. The list of the sources is "
 "refreshed implicitly daily."
 msgstr ""
-"Для включённых учётных записей коллекции с источниками CalDAV и CardDAV"
-" нажатие кнопки <gui "
-"style=\"button\">Обновить</gui> позволяет локально получить список сетевых"
-" источников и запросить у сервера цвет и имя коллекций WebDAV. Если они были"
-" изменены, но не локально, то локальные имя и цвет синхронизируются с"
-" сервером. Список источников обновляется раз в день (без вывода каких-либо"
-" уведомлений об этом)."
+"Для включённых учётных записей коллекции с источниками CalDAV и CardDAV "
+"нажатие кнопки <gui style=\"button\">Обновить</gui> позволяет локально "
+"получить список сетевых источников и запросить у сервера цвет и имя "
+"коллекций WebDAV. Если они были изменены, но не локально, то локальные имя и "
+"цвет синхронизируются с сервером. Список источников обновляется раз в день "
+"(без вывода каких-либо уведомлений об этом)."
 
 #. (itstool) path: section/p
 #: C/intro-account-types.page:56
@@ -4368,8 +4296,8 @@ msgid ""
 "When a WebDAV-based account is selected, the <gui>Browse</gui> button "
 "displays the WebDAV editor."
 msgstr ""
-"Когда выбрана учётная запись на основе WebDAV, при нажатии кнопки <gui>Обзор<"
-"/gui> будет показан редактор WebDAV."
+"Когда выбрана учётная запись на основе WebDAV, при нажатии кнопки "
+"<gui>Обзор</gui> будет показан редактор WebDAV."
 
 #. (itstool) path: section/title
 #: C/intro-account-types.page:59
@@ -4389,13 +4317,13 @@ msgid ""
 "calendar can store events, tasks, memos."
 msgstr ""
 "WebDAV — общий протокол для CalDAV, CardDAV, Notes. Коллекция WebDAV "
-"представляет собой каталог, который может содержать события, контакты, другие"
-" коллекции. Редактор WebDAV отображает объявленные сервером коллекции и"
-" позволяет редактировать некоторые из их свойств на сервере. С его помощью"
-" можно создавать новые адресные книги, календари и общие коллекции. На"
-" серверах могут применяться ограничения (например, запрет на создание"
-" календаря, подчинённого другому календарю, или запрет на изменение некоторых"
-" свойств). В едином календаре WebDAV можно хранить события, задачи, заметки."
+"представляет собой каталог, который может содержать события, контакты, "
+"другие коллекции. Редактор WebDAV отображает объявленные сервером коллекции "
+"и позволяет редактировать некоторые из их свойств на сервере. С его помощью "
+"можно создавать новые адресные книги, календари и общие коллекции. На "
+"серверах могут применяться ограничения (например, запрет на создание "
+"календаря, подчинённого другому календарю, или запрет на изменение некоторых "
+"свойств). В едином календаре WebDAV можно хранить события, задачи, заметки."
 
 #. (itstool) path: info/desc
 #: C/intro-first-run.page:8
@@ -4657,19 +4585,14 @@ msgstr "Требуется установка пакета <sys>evolution-ews</s
 #. (itstool) path: when/p
 #. (itstool) path: note/p
 #: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:31
-#| msgid ""
-#| "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
-#| "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</"
-#| "link>"
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://gitlab.gnome.org/GNOME/"
 "evolution/-/wikis/home#get-the-source-code\" style=\"button\">Install "
 "evolution-ews</link>"
 msgstr ""
 "<link action=\"install:evolution-ews\" href=\"https://gitlab.gnome.org/GNOME/"
-"evolution/-/wikis/home#get-the-source-code\" style=\"button\">Установить"
-" evolution-ews</"
-"link>"
+"evolution/-/wikis/home#get-the-source-code\" style=\"button\">Установить "
+"evolution-ews</link>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -4710,19 +4633,14 @@ msgstr "Требуется установка пакета <sys>evolution-mapi</
 #. (itstool) path: when/p
 #. (itstool) path: note/p
 #: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:41
-#| msgid ""
-#| "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/"
-#| "Apps/Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-"
-#| "mapi</link>"
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://gitlab.gnome.org/"
 "GNOME/evolution/-/wikis/home#get-the-source-code\" style=\"button\">Install "
 "evolution-mapi</link>"
 msgstr ""
 "<link action=\"install:evolution-mapi\" href=\"https://gitlab.gnome.org/"
-"GNOME/evolution/-/wikis/home#get-the-source-code\" style=\"button\""
-">Установить evolution-mapi</"
-"link>"
+"GNOME/evolution/-/wikis/home#get-the-source-code\" "
+"style=\"button\">Установить evolution-mapi</link>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -5456,10 +5374,10 @@ msgid ""
 "gui><gui>Customize…</gui></guiseq>. See the <link xref=\"customize-ui-"
 "items\">Customizing user interface</link> section for more information."
 msgstr ""
-"Комбинации клавиш можно изменить в разделе настройки <guiseq><gui>Вид</gui><"
-"gui>Оформление</gui><gui>Настроить…</gui></guiseq>. Дополнительные сведения"
-" доступны в разделе <link xref=\"customize-ui-items\">Настройка интерфейса"
-" пользователя</link>."
+"Комбинации клавиш можно изменить в разделе настройки <guiseq><gui>Вид</"
+"gui><gui>Оформление</gui><gui>Настроить…</gui></guiseq>. Дополнительные "
+"сведения доступны в разделе <link xref=\"customize-ui-items\">Настройка "
+"интерфейса пользователя</link>."
 
 #. (itstool) path: info/desc
 #: C/intro-main-window.page:5
@@ -5606,9 +5524,6 @@ msgstr "Переключатель"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:79
-#| msgid ""
-#| "The switcher at the bottom of the side bar lets you switch between the "
-#| "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks."
 msgid ""
 "The switcher at the bottom of the sidebar lets you switch between the "
 "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks. The "
@@ -5618,24 +5533,20 @@ msgid ""
 msgstr ""
 "Переключатель, расположенный в нижней части боковой панели, позволяет "
 "переключаться между инструментами <app>Evolution</app>: почтой, контактами, "
-"календарями, заметками и задачами. Внешний вид этого переключателя (в том"
-" числе то, должны ли вообще отображаться кнопки) можно изменить в разделе"
-" меню <guiseq><gui>Вид</gui><gui>Вид переключателя</gui></guiseq>."
+"календарями, заметками и задачами. Внешний вид этого переключателя (в том "
+"числе то, должны ли вообще отображаться кнопки) можно изменить в разделе "
+"меню <guiseq><gui>Вид</gui><gui>Вид переключателя</gui></guiseq>."
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:80
-#| msgid ""
-#| "You can disable the folder list and the switcher side bar by toggling "
-#| "<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> "
-#| "or pressing <key>F9</key>."
 msgid ""
 "You can disable the folder list and the switcher sidebar by toggling "
 "<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Sidebar</gui></guiseq> or "
 "pressing <key>F9</key>."
 msgstr ""
-"Чтобы отключить список папок и боковую панель переключателя, снимите флажок <"
-"guiseq><gui>Вид</gui><gui>Оформление</gui><gui>Показывать боковую панель</gui"
-"></guiseq> или нажмите клавишу <key>F9</key>."
+"Чтобы отключить список папок и боковую панель переключателя, снимите флажок "
+"<guiseq><gui>Вид</gui><gui>Оформление</gui><gui>Показывать боковую панель</"
+"gui></guiseq> или нажмите клавишу <key>F9</key>."
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:83
@@ -6553,10 +6464,6 @@ msgstr "Параметры учётной записи Exchange Web Services"
 
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:28
-#| msgid ""
-#| "See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
-#| "OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
-#| "authentication."
 msgid ""
 "See also the <link href=\"https://gitlab.gnome.org/GNOME/evolution/-/wikis/"
 "EWS-OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
@@ -6727,9 +6634,9 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/mail-account-manage-microsoft-exchange.page:48
 msgid ""
-"For topics not covered here please refer to the <link href=\"https://help."
-"gnome.org/users/evolution/2.32/usage-exchange.html\">old <app>Evolution</"
-"app> manual</link>."
+"For topics not covered here please refer to the <link href=\"https://"
+"help.gnome.org/users/evolution/2.32/usage-exchange.html\">old "
+"<app>Evolution</app> manual</link>."
 msgstr ""
 "С темами, которые не были затронуты в настоящем руководстве, можно "
 "ознакомиться в <link href=\"https://help.gnome.org/users/evolution/2.32/"
@@ -7451,7 +7358,7 @@ msgid ""
 "mail."
 msgstr ""
 "Невозможно изменить исходную запись цитирования, которая добавляется в "
-"ответах на сообщения. "
+"ответах на сообщения."
 
 #. (itstool) path: page/title
 #: C/mail-composer-change-quotation-string.page:24
@@ -7506,11 +7413,11 @@ msgstr ""
 #. Translators: Do NOT translate the variable names inside the ${brackets}!
 #: C/mail-composer-change-quotation-string.page:43
 msgid ""
-"The default string in English is: <code>\"On ${AbbrevWeekdayName}, ${Year}-"
-"${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
+"The default string in English is: <code>\"On ${AbbrevWeekdayName}, ${Year}-$"
+"{Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
 msgstr ""
-"Строка по умолчанию на русском языке: <code>В ${AbbrevWeekdayName}, ${Day}/"
-"${Month}/${Year} в ${24Hour}:${Minute} ${TimeZone}, ${Sender} пишет:</code>"
+"Строка по умолчанию на русском языке: <code>В ${AbbrevWeekdayName}, ${Day}/$"
+"{Month}/${Year} в ${24Hour}:${Minute} ${TimeZone}, ${Sender} пишет:</code>"
 
 #. (itstool) path: page/p
 #: C/mail-composer-change-quotation-string.page:47
@@ -7906,21 +7813,15 @@ msgstr ""
 #. might want to indicate in your translation text that the link is in
 #. English.
 #: C/mail-composer-from-field-override.page:24
-#| msgid ""
-#| "This functionality can be useful for <link href=\"https://en.wikipedia."
-#| "org/wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> "
-#| "and <link href=\"https://en.wikipedia.org/wiki/"
-#| "Email_address#Address_tags\">sub-addressing</link>."
 msgid ""
 "This functionality can be useful for <link href=\"https://en.wikipedia.org/"
 "wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> and "
 "<link href=\"https://en.wikipedia.org/wiki/Email_address#Sub-"
 "addressing\">sub-addressing</link>."
 msgstr ""
-"Эта возможность полезна, когда требуется использовать <link"
-" href=\"https://en.wikipedia.org/"
-"wiki/Qmail#Innovations\">почтовые адреса с шаблонами qmail</link> и "
-"<link href=\"https://en.wikipedia.org/wiki/Email_address#Sub-"
+"Эта возможность полезна, когда требуется использовать <link href=\"https://"
+"en.wikipedia.org/wiki/Qmail#Innovations\">почтовые адреса с шаблонами qmail</"
+"link> и <link href=\"https://en.wikipedia.org/wiki/Email_address#Sub-"
 "addressing\">субадресацию</link>."
 
 #. (itstool) path: note/p
@@ -10027,22 +9928,22 @@ msgstr "Создание ключа GPG"
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-create-key.page:24
 msgid ""
-"Before you can get or send GPG encrypted mail, you need to <link xref=\"help:"
-"seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/"
-"pgp-create\">generate your public and private keys with GPG</link>. After "
-"doing so and <link xref=\"mail-encryption-gpg-set-up\">setting up "
-"<app>Evolution</app> to use the key</link>, you need to <link xref=\"help:"
-"seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahorse/stable/"
-"pgp-publish\">share your public key with your friends to allow them sending "
-"you encrypted messages</link>."
+"Before you can get or send GPG encrypted mail, you need to <link "
+"xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/"
+"seahorse/stable/pgp-create\">generate your public and private keys with GPG</"
+"link>. After doing so and <link xref=\"mail-encryption-gpg-set-up\">setting "
+"up <app>Evolution</app> to use the key</link>, you need to <link "
+"xref=\"help:seahorse/pgp-publish\" href=\"https://help.gnome.org/users/"
+"seahorse/stable/pgp-publish\">share your public key with your friends to "
+"allow them sending you encrypted messages</link>."
 msgstr ""
 "Перед получением или отправкой почты, зашифрованной с помощью GPG, вам "
-"необходимо <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome."
-"org/users/seahorse/stable/pgp-create\">сгенерировать открытый и закрытый "
-"ключи GPG</link>. После этого и <link xref=\"mail-encryption-gpg-set-"
-"up\">настройки <app>Evolution</app> на использование ключа</link> "
-"потребуется <link xref=\"help:seahorse/pgp-publish\" href=\"https://help."
-"gnome.org/users/seahorse/stable/pgp-publish\">поделиться своим открытым "
+"необходимо <link xref=\"help:seahorse/pgp-create\" href=\"https://"
+"help.gnome.org/users/seahorse/stable/pgp-create\">сгенерировать открытый и "
+"закрытый ключи GPG</link>. После этого и <link xref=\"mail-encryption-gpg-"
+"set-up\">настройки <app>Evolution</app> на использование ключа</link> "
+"потребуется <link xref=\"help:seahorse/pgp-publish\" href=\"https://"
+"help.gnome.org/users/seahorse/stable/pgp-publish\">поделиться своим открытым "
 "ключом с друзьями, чтобы дать им возможность отправлять вам зашифрованные "
 "сообщения</link>."
 
@@ -11575,16 +11476,16 @@ msgstr "Перемещённые письма продолжают отобра�
 #. (itstool) path: page/p
 #: C/mail-moving-emails.page:26
 msgid ""
-"If your IMAP mail server does not yet support <link href=\"https://tools."
-"ietf.org/html/rfc6851\">IMAP's \"move\" feature</link> which was introduced "
-"in January 2013, <app>Evolution</app> \"moves\" messages by copying and "
-"deleting emails. Deleting means \"marking messages for deletion\" so all the "
-"original messages are retained until you expunge the emails marked for "
-"deletion."
+"If your IMAP mail server does not yet support <link href=\"https://"
+"tools.ietf.org/html/rfc6851\">IMAP's \"move\" feature</link> which was "
+"introduced in January 2013, <app>Evolution</app> \"moves\" messages by "
+"copying and deleting emails. Deleting means \"marking messages for "
+"deletion\" so all the original messages are retained until you expunge the "
+"emails marked for deletion."
 msgstr ""
-"Если ваш почтовый сервер IMAP ещё не поддерживает <link href=\"https://tools."
-"ietf.org/html/rfc6851\">функцию «перемещения» IMAP</link>, которая была "
-"внедрена в январе 2013 года, <app>Evolution</app> будет «перемещать» "
+"Если ваш почтовый сервер IMAP ещё не поддерживает <link href=\"https://"
+"tools.ietf.org/html/rfc6851\">функцию «перемещения» IMAP</link>, которая "
+"была внедрена в январе 2013 года, <app>Evolution</app> будет «перемещать» "
 "сообщения путём копирования и удаления писем. Удаление подразумевает "
 "«пометку сообщений для удаления», поэтому все исходные сообщения будут "
 "сохраняться до момента уничтожения писем, отмеченных для удаления."
@@ -11800,9 +11701,9 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:38
 msgid ""
-"See <link xref=\"help:gnome-help/shell-notifications\" href=\"https://help."
-"gnome.org/users/gnome-help/stable/shell-notifications\">the GNOME Desktop "
-"Help</link> for more information."
+"See <link xref=\"help:gnome-help/shell-notifications\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/shell-notifications\">the GNOME "
+"Desktop Help</link> for more information."
 msgstr ""
 "Дополнительные сведения доступны в <link xref=\"help:gnome-help/shell-"
 "notifications\" href=\"https://help.gnome.org/users/gnome-help/stable/shell-"
@@ -12192,8 +12093,8 @@ msgstr ""
 #: C/mail-receiving-options-pop.page:52
 msgid ""
 "The option <gui>Disable support for all POP3 extensions</gui> is only useful "
-"when accessing old or misconfigured mail servers. <link href=\"https://tools."
-"ietf.org/html/rfc2449\">POP3 extensions</link> provide enhanced "
+"when accessing old or misconfigured mail servers. <link href=\"https://"
+"tools.ietf.org/html/rfc2449\">POP3 extensions</link> provide enhanced "
 "functionality, however only some servers support them. In case of problems "
 "with receiving mail, enabling this setting might help."
 msgstr ""
@@ -12744,8 +12645,8 @@ msgid ""
 "The syntax of the tags is <code>&lt;tag&gt;[-&lt;options&gt;]:value</code>. "
 "The tags are:"
 msgstr ""
-"Теги указываются в следующем виде: <code>&lt;tag&gt;[-&lt;options&gt;]:"
-"value</code>. Теги:"
+"Теги указываются в следующем виде: <code>&lt;tag&gt;[-"
+"&lt;options&gt;]:value</code>. Теги:"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:68
@@ -12935,8 +12836,8 @@ msgid ""
 "<code>0</code>) an attachment. Similar to <code>flag:attachment</code> tag."
 msgstr ""
 "сообщение содержит (если значением не является одно следующих: <code>no</"
-"code>, <code>false</code>, <code>0</code>) вложение. Аналог тега <code>flag:"
-"attachment</code>."
+"code>, <code>false</code>, <code>0</code>) вложение. Аналог тега "
+"<code>flag:attachment</code>."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:95
@@ -13045,10 +12946,10 @@ msgstr ""
 msgid ""
 "which allows to create specialized expressions. The default (the most outer) "
 "conjunction is <code>and</code>. To change it to <code>or</code> enclose the "
-"whole filter into <code>or:(....)</code>. For example: <code>f:Bugzilla t:"
-"John</code> filters all messages which contains <code>Bugzilla</code> in the "
-"From and <code>John</code> in the To, while <code>or:(f:Bugzilla t:John)</"
-"code> filters messages from Bugzilla or addressed to John."
+"whole filter into <code>or:(....)</code>. For example: <code>f:Bugzilla "
+"t:John</code> filters all messages which contains <code>Bugzilla</code> in "
+"the From and <code>John</code> in the To, while <code>or:(f:Bugzilla "
+"t:John)</code> filters messages from Bugzilla or addressed to John."
 msgstr ""
 "что позволяет создавать специализированные выражения. Союзом по умолчанию "
 "является <code>and</code> («и»). Чтобы изменить его на <code>or</code> "
@@ -13321,9 +13222,9 @@ msgid ""
 "supports the <link href=\"https://tools.ietf.org/search/rfc5465\">IMAP "
 "NOTIFY</link> extension."
 msgstr ""
-"<app>Evolution</app> поддерживает использование <link href=\"https://en."
-"wikipedia.org/wiki/IMAP_IDLE\">IMAP IDLE</link> для текущей выбранной папки "
-"и частично поддерживает расширение <link href=\"https://tools.ietf.org/"
+"<app>Evolution</app> поддерживает использование <link href=\"https://"
+"en.wikipedia.org/wiki/IMAP_IDLE\">IMAP IDLE</link> для текущей выбранной "
+"папки и частично поддерживает расширение <link href=\"https://tools.ietf.org/"
 "search/rfc5465\">IMAP NOTIFY</link>."
 
 #. (itstool) path: info/desc
@@ -14802,10 +14703,10 @@ msgid ""
 "If the problem persists and you are sure you have not clicked the icon, but "
 "you can still reach the network from other apps on your system (browsers, "
 "FTP, SSH, ping etc.) it may be that your network connection is not properly "
-"configured. For more information please take a look at the <link xref=\"help:"
-"gnome-help/net-problem\" href=\"https://help.gnome.org/users/gnome-help/"
-"stable/net-problem\">Desktop help</link> or seek help from your distribution "
-"support forums, mailing lists etc."
+"configured. For more information please take a look at the <link "
+"xref=\"help:gnome-help/net-problem\" href=\"https://help.gnome.org/users/"
+"gnome-help/stable/net-problem\">Desktop help</link> or seek help from your "
+"distribution support forums, mailing lists etc."
 msgstr ""
 "Если проблема не решилась и вы уверены, что не нажимали значок, но можете "
 "подключиться к сети из других приложений в системе (браузеров, FTP, SSH, "
@@ -14860,12 +14761,12 @@ msgstr ""
 #: C/problems-debug-how-to.page:25
 msgid ""
 "To further track down a problem, some debug options are listed on the <link "
-"href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\"><app>Evolution</"
-"app> project website</link>."
+"href=\"https://gitlab.gnome.org/GNOME/evolution/-/wikis/"
+"Debugging\"><app>Evolution</app> project website</link>."
 msgstr ""
 "Для дальнейшего отслеживания проблемы можно воспользоваться функциями "
-"отладки, перечисленными на <link href=\"https://wiki.gnome.org/Apps/"
-"Evolution/Debugging\">веб-сайте проекта <app>Evolution</app></link>."
+"отладки, перечисленными на <link href=\"https://gitlab.gnome.org/GNOME/"
+"evolution/-/wikis/Debugging\">веб-сайте проекта <app>Evolution</app></link>."
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:27
@@ -14928,19 +14829,19 @@ msgid ""
 "if you want to request a feature, you can file a report in the <link "
 "href=\"https://gitlab.gnome.org/GNOME/evolution/issues/\">GNOME bug tracking "
 "system</link>. Note that this requires registration first. Please try to "
-"avoid filing duplicates and check the <link href=\"https://wiki.gnome.org/"
-"Community/GettingInTouch/BugReportingGuidelines\">bug writing guidelines</"
-"link> first."
+"avoid filing duplicates and check the <link href=\"https://"
+"handbook.gnome.org/issues/reporting.html\">bug writing guidelines</link> "
+"first."
 msgstr ""
 "Если вам не требуется помощь с настройкой, но вы уверены, что обнаружили "
-"ошибку или неверное поведение программы <app>Evolution</app>, или хотите "
+"ошибку или неверное поведение приложения <app>Evolution</app>, или хотите "
 "запросить новую функцию, вы можете отправить отчёт в <link href=\"https://"
 "gitlab.gnome.org/GNOME/evolution/issues/\">систему отслеживания ошибок "
 "GNOME</link>. Обратите внимание, что для этого потребуется "
 "зарегистрироваться. Пожалуйста, попытайтесь избежать создания отчётов-"
-"дубликатов и сначала ознакомьтесь с <link href=\"https://wiki.gnome.org/"
-"Community/GettingInTouch/BugReportingGuidelines\">рекомендациями по "
-"написанию отчётов об ошибках</link>."
+"дубликатов и сначала ознакомьтесь с <link href=\"https://handbook.gnome.org/"
+"issues/reporting.html\">рекомендациями по написанию отчётов об ошибках</"
+"link>."
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
@@ -14948,17 +14849,13 @@ msgid ""
 "Also note that GNOME distributions sometimes introduce their own changes in "
 "<app>Evolution</app> that are not included in GNOME <app>Evolution</app>. "
 "This is hard to recognize for users but if you are aware of it please file a "
-"bug report in <link href=\"https://wiki.gnome.org/Bugsquad/TriageGuide/"
-"NonGnome#Bug_trackers_for_distributions\">the bug tracker of your GNOME "
-"distribution</link> instead."
+"bug report in the bug tracker of your distribution instead."
 msgstr ""
 "Также обратите внимание, что дистрибутивы GNOME иногда внедряют свои "
 "собственные изменения в <app>Evolution</app>, которые не входят в программу "
-"<app>Evolution</app> в GNOME. Пользователям сложно в этом разобраться, но "
-"если вы уверены, что причина в дополнительных изменениях, пожалуйста, "
-"создайте отчёт об ошибке в <link href=\"https://wiki.gnome.org/Bugsquad/"
-"TriageGuide/NonGnome#Bug_trackers_for_distributions\">системе отслеживания "
-"ошибок вашего дистрибутива GNOME</link>."
+"<app>Evolution</app> в GNOME. Пользователям трудно это распознать, но если "
+"вы знаете об этом, пожалуйста, отправьте отчет об ошибке в систему "
+"отслеживания ошибок вашего дистрибутива."
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:25
@@ -14968,8 +14865,8 @@ msgid ""
 "information such as the <app>Evolution</app> version (under "
 "<guiseq><gui>Help</gui><gui>About</gui></guiseq>), your distribution, and "
 "exact steps to reproduce the problem, click by click. See the <link "
-"href=\"https://wiki.gnome.org/Community/GettingInTouch/"
-"BugReportingGuidelines\">Bug Writing Guidelines</link> for more information."
+"href=\"https://handbook.gnome.org/issues/reporting.html\">Bug Writing "
+"Guidelines</link> for more information."
 msgstr ""
 "При подаче отчётов об ошибках рекомендуется включать точную информацию, "
 "поскольку благодаря ей другим пользователям будет проще воспроизвести и "
@@ -14977,8 +14874,8 @@ msgstr ""
 "<app>Evolution</app> (воспользуйтесь пунктом меню <guiseq><gui>Справка</"
 "gui><gui>О приложении</gui></guiseq>), ваш дистрибутив и точные действия для "
 "воспроизведения проблемы, шаг за шагом. Дополнительные сведения доступны в "
-"разделе <link href=\"https://wiki.gnome.org/Community/GettingInTouch/"
-"BugReportingGuidelines\">рекомендаций по написанию отчётов об ошибках</link>."
+"разделе <link href=\"https://handbook.gnome.org/issues/"
+"reporting.html\">рекомендаций по написанию отчётов об ошибках</link>."
 
 #. (itstool) path: info/desc
 #: C/searching-items.page:5
@@ -15123,10 +15020,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:27
-#| msgid ""
-#| "If you can provide good practices or more information on this topic feel "
-#| "free to file a bug report in <link href=\"https://gitlab.gnome.org/GNOME/"
-#| "evolution/issues/new\">GNOME's bug tracking system</link>."
 msgid ""
 "If you can provide good practices or more information on this topic feel "
 "free to file a bug report in <link href=\"https://gitlab.gnome.org/GNOME/"
@@ -15134,9 +15027,8 @@ msgid ""
 msgstr ""
 "Если вы можете сообщить о надёжных способах добиться нужного результата или "
 "поделиться дополнительными сведениями по этой теме, не сомневайтесь и "
-"отправьте отчёт об ошибке с помощью <link"
-" href=\"https://gitlab.gnome.org/GNOME/"
-"evolution/-/issues/\">системы отслеживания ошибок GNOME</link>."
+"отправьте отчёт об ошибке с помощью <link href=\"https://gitlab.gnome.org/"
+"GNOME/evolution/-/issues/\">системы отслеживания ошибок GNOME</link>."
 
 #. (itstool) path: info/desc
 #: C/tasks-caldav.page:5
@@ -15178,14 +15070,14 @@ msgid ""
 "(see below) <gui>Email</gui>. The step is optional, and you can overwrite "
 "all the discovered settings."
 msgstr ""
-"Чтобы найти объявленные сервером списки задач или списки заметок, введите"
-" адрес сервера как <gui>URL</gui> и (необязательно) укажите <gui"
-">Пользователя</gui>, затем нажмите кнопку <gui style=\"button\">Найти списки"
-" задач</gui>/<gui style=\"button\">Найти списки заметок</gui>. Выберите"
-" список задач или список заметок и <gui>Почту пользователя</gui>. После этого"
-" окажутся заполненными поля <gui>Имя</gui>, <gui>Цвет</gui>, <gui>URL</gui> и"
-" (смотрите ниже) <gui>Эл. почта</gui>. Этот шаг является необязательным, все"
-" найденные параметры можно перезаписать."
+"Чтобы найти объявленные сервером списки задач или списки заметок, введите "
+"адрес сервера как <gui>URL</gui> и (необязательно) укажите "
+"<gui>Пользователя</gui>, затем нажмите кнопку <gui style=\"button\">Найти "
+"списки задач</gui>/<gui style=\"button\">Найти списки заметок</gui>. "
+"Выберите список задач или список заметок и <gui>Почту пользователя</gui>. "
+"После этого окажутся заполненными поля <gui>Имя</gui>, <gui>Цвет</gui>, "
+"<gui>URL</gui> и (смотрите ниже) <gui>Эл. почта</gui>. Этот шаг является "
+"необязательным, все найденные параметры можно перезаписать."
 
 #. (itstool) path: item/p
 #: C/tasks-caldav.page:34
@@ -15193,8 +15085,9 @@ msgid ""
 "Enter your username and email address. When an assigned task is created in "
 "the task list, this email address is prefilled as Organizer."
 msgstr ""
-"Укажите ваши имя пользователя и адрес электронной почты. Когда в списке задач"
-" создаётся назначенная задача, этот адрес появляется в поле «Организатор»."
+"Укажите ваши имя пользователя и адрес электронной почты. Когда в списке "
+"задач создаётся назначенная задача, этот адрес появляется в поле "
+"«Организатор»."
 
 #. (itstool) path: item/p
 #: C/tasks-caldav.page:36
@@ -15205,11 +15098,11 @@ msgid ""
 "server informs other parties. When the option is not selected, "
 "<app>Evolution</app> sends an email."
 msgstr ""
-"При создании, изменении или удалении назначенной задачи можно отправить"
-" уведомление другим её участникам. Если флажок <gui>Сервер обрабатывает"
-" приглашения на встречи</gui> установлен, <app>Evolution</app> отправляет на"
-" сервер данные задачи и предполагает, что сервер оповестит других участников."
-" Если этот флажок не установлен, <app>Evolution</app> отправит письмо."
+"При создании, изменении или удалении назначенной задачи можно отправить "
+"уведомление другим её участникам. Если флажок <gui>Сервер обрабатывает "
+"приглашения на встречи</gui> установлен, <app>Evolution</app> отправляет на "
+"сервер данные задачи и предполагает, что сервер оповестит других участников. "
+"Если этот флажок не установлен, <app>Evolution</app> отправит письмо."
 
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:43 C/tasks-local.page:31
@@ -15516,13 +15409,6 @@ msgstr "Использование нескольких списков зада�
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:22
-#| msgid ""
-#| "You can have multiple task or memo lists and choose which of your lists "
-#| "get displayed. For example, you might have tasks for work, tasks for "
-#| "home, and tasks for the singing club of which you are a member. The side "
-#| "bar shows these lists, and you can select or deselect any of the boxes "
-#| "next to them to show and hide the corresponding tasks or memos in your "
-#| "view."
 msgid ""
 "You can have multiple task or memo lists and choose which of your lists get "
 "displayed. For example, you might have tasks for work, tasks for home, and "
@@ -15538,13 +15424,11 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:24
-#| msgid ""
-#| "Tasks and memos from each task or memo list appear as different colors."
 msgid ""
 "Tasks and memos from each task or memo list appear in a different color."
 msgstr ""
-"Задачи и заметки из разных списков задач и заметок будут показаны "
-"разными цветами."
+"Задачи и заметки из разных списков задач и заметок будут показаны разными "
+"цветами."
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:26
@@ -15562,19 +15446,17 @@ msgid ""
 "list is selected, new tasks are created in the default task list. Likewise "
 "for memos."
 msgstr ""
-"Новые задачи создаются в выбранном списке задач в окне «Задачи». Если список"
-" не выбран, новые задачи создаются в списке задач по умолчанию. Такой же"
-" подход применяется и к заметкам."
+"Новые задачи создаются в выбранном списке задач в окне «Задачи». Если список "
+"не выбран, новые задачи создаются в списке задач по умолчанию. Такой же "
+"подход применяется и к заметкам."
 
 #. (itstool) path: info/desc
 #: C/tasks-webdav.page:5
-#| msgid "Using an online CalDAV task list or memo list."
 msgid "Using an online HTTP task list or memo list."
 msgstr "Использование сетевого списка задач или списка заметок HTTP."
 
 #. (itstool) path: page/title
 #: C/tasks-webdav.page:20
-#| msgid "Using a CalDAV task or memo list"
 msgid "Using a HTTP task or memo list"
 msgstr "Использование списка задач или заметок HTTP"
 
@@ -15817,9 +15699,10 @@ msgid ""
 "If a message uses a header more than once, <_:app-1/> pays attention only to "
 "the first instance, even if the message defines the header differently the "
 "second time. For example, if a message declares the Resent-From: header as "
-"\"engineering@example.com\" and then restates it as \"marketing@example."
-"com\", <_:app-2/> filters as though the second declaration did not occur. To "
-"filter on messages that use headers multiple times, use a regular expression."
+"\"engineering@example.com\" and then restates it as "
+"\"marketing@example.com\", <_:app-2/> filters as though the second "
+"declaration did not occur. To filter on messages that use headers multiple "
+"times, use a regular expression."
 msgstr ""
 "Если сообщение использует заголовок больше одного раза, <_:app-1/> уделяет "
 "внимание только первому вхождению, даже если сообщение определяет заголовок "
@@ -16129,14 +16012,14 @@ msgstr "Q"
 #. (itstool) path: section/p
 #: C/xinclude-searching.xml:15
 msgid ""
-"To clear your search view and get back to the default view, click the <_:"
-"gui-1/> icon in the search string field, or choose <_:guiseq-2/> from the "
+"To clear your search view and get back to the default view, click the "
+"<_:gui-1/> icon in the search string field, or choose <_:guiseq-2/> from the "
 "menubar. You can also press <_:keyseq-3/> to clear the search."
 msgstr ""
 "Чтобы очистить поле поиска и вернуться к стандартному представлению, нажмите "
-"значок <_:gui-1/> в поле строки поиска или выберите в строке меню <_:"
-"guiseq-2/>. Для очистки поля поиска также можно воспользоваться комбинацией "
-"клавиш <_:keyseq-3/>."
+"значок <_:gui-1/> в поле строки поиска или выберите в строке меню "
+"<_:guiseq-2/>. Для очистки поля поиска также можно воспользоваться "
+"комбинацией клавиш <_:keyseq-3/>."
 
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:19
@@ -16171,8 +16054,8 @@ msgid ""
 "from the <_:gui-4/> menu."
 msgstr ""
 "Чтобы сохранить результаты поиска, либо нажмите <_:gui-1/> вместо <_:gui-2/> "
-"в диалоге поиска, либо (если результаты поиска уже отображаются) выберите <_:"
-"guiseq-3/>. После этого поиск будет напрямую доступен из меню <_:gui-4/>."
+"в диалоге поиска, либо (если результаты поиска уже отображаются) выберите "
+"<_:guiseq-3/>. После этого поиск будет напрямую доступен из меню <_:gui-4/>."
 
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:25
@@ -16303,8 +16186,8 @@ msgstr "Нажмите <_:gui-1/>."
 #~ "могут быть изменены."
 
 #~ msgid ""
-#~ "Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
-#~ "config/evolution/accels</file>."
+#~ "Advanced users can customize keyboard shortcuts by editing "
+#~ "<file>$HOME/.config/evolution/accels</file>."
 #~ msgstr ""
 #~ "Опытные пользователи могут настроить комбинации клавиш путём "
 #~ "редактирования файла <file>$HOME/.config/evolution/accels</file>."
@@ -16313,8 +16196,8 @@ msgstr "Нажмите <_:gui-1/>."
 #~ "See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-"
 #~ "for-evolution-in-gnome/\">this blog post</link> for more information."
 #~ msgstr ""
-#~ "Дополнительные сведения доступны в <link href=\"https://major."
-#~ "io/2015/11/27/custom-keyboard-shortcuts-for-evolution-in-gnome/\">этой "
+#~ "Дополнительные сведения доступны в <link href=\"https://major.io/"
+#~ "2015/11/27/custom-keyboard-shortcuts-for-evolution-in-gnome/\">этой "
 #~ "записи блога</link>."
 
 #~ msgid ""
@@ -16344,4 +16227,3 @@ msgstr "Нажмите <_:gui-1/>."
 
 #~ msgid "Using a WebDAV task or memo list"
 #~ msgstr "Использование списка задач или заметок WebDAV"
-
