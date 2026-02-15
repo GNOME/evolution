@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2025-03-07 09:02+0000\n"
-"PO-Revision-Date: 2025-09-11 20:48+0100\n"
+"PO-Revision-Date: 2026-02-15 20:48+0100\n"
 "Last-Translator: Bàrbara Vidal <barbara@barbara.cat>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
 "Language: ca\n"
@@ -5331,7 +5331,7 @@ msgstr "_Oficina:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:44
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1082
 msgid "_Manager:"
-msgstr "Ad_ministrador:"
+msgstr "_Gerent:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1087
@@ -5540,11 +5540,11 @@ msgstr "Tots els fitxers"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
 msgid "Open PGP key"
-msgstr "Clau Open PGP"
+msgstr "Obre clau PGP"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
 msgid "Open X.509 certificate"
-msgstr "Certificat Open X.509"
+msgstr "Obre certificat X.509"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3243
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
@@ -5783,11 +5783,11 @@ msgstr "_Títol:"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:17
 msgid "_Middle:"
-msgstr "_Mig:"
+msgstr "_Segon nom:"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:18
 msgid "_Last:"
-msgstr "Ú_ltim:"
+msgstr "_Cognoms:"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:19
 msgid "_Suffix:"
@@ -6106,7 +6106,7 @@ msgstr "Professió"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
 msgid "Position"
-msgstr "Posició"
+msgstr "Càrrec"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
@@ -14487,7 +14487,7 @@ msgstr "_Icona de la categoria"
 
 #: ../src/e-util/e-category-editor.c:227
 msgid "_Unset icon"
-msgstr "_Desassigna l'emoticona"
+msgstr "_Desassigna la icona"
 
 #: ../src/e-util/e-category-editor.c:249
 msgid "Category Properties"
@@ -15651,27 +15651,27 @@ msgstr "_Normal"
 
 #: ../src/e-util/e-html-editor-actions.c:1609
 msgid "Heading _1"
-msgstr "Capçalera_1"
+msgstr "Capçalera _1"
 
 #: ../src/e-util/e-html-editor-actions.c:1616
 msgid "Heading _2"
-msgstr "Capçalera_2"
+msgstr "Capçalera _2"
 
 #: ../src/e-util/e-html-editor-actions.c:1623
 msgid "Heading _3"
-msgstr "Capçalera_3"
+msgstr "Capçalera _3"
 
 #: ../src/e-util/e-html-editor-actions.c:1630
 msgid "Heading _4"
-msgstr "Capçalera_4"
+msgstr "Capçalera _4"
 
 #: ../src/e-util/e-html-editor-actions.c:1637
 msgid "Heading _5"
-msgstr "Capçalera_5"
+msgstr "Capçalera _5"
 
 #: ../src/e-util/e-html-editor-actions.c:1644
 msgid "Heading _6"
-msgstr "Capçalera_6"
+msgstr "Capçalera _6"
 
 #: ../src/e-util/e-html-editor-actions.c:1651
 msgid "_Preformatted"
@@ -15961,7 +15961,7 @@ msgstr "Afegeix una paraula al diccionari"
 
 #: ../src/e-util/e-html-editor-actions.c:2124
 msgid "Ignore Misspelled Word"
-msgstr "Ignora les paraules incorrectes"
+msgstr "Ignora la paraula incorrecta"
 
 #: ../src/e-util/e-html-editor-actions.c:2131
 msgid "Add Word To"
@@ -15985,7 +15985,7 @@ msgstr "Diccionari %s"
 
 #: ../src/e-util/e-html-editor.c:1335
 msgid "Context Menu"
-msgstr "Contingut"
+msgstr "Menú contextual"
 
 #: ../src/e-util/e-html-editor.c:1343 ../src/mail/e-mail-browser.c:801
 msgid "Main Toolbar"
@@ -16756,7 +16756,7 @@ msgstr "No s'ha pogut executar el procés des de la línia d'ordres «%s»: %s"
 #: ../src/e-util/e-markdown-utils.c:208
 #, c-format
 msgid "Failed to parse command line “%s”: %s"
-msgstr "No s'ha pogut recuperar la línia d'ordres «%s»: %s"
+msgstr "No s'ha pogut analitzar la línia d'ordres «%s»: %s"
 
 #: ../src/e-util/e-misc-utils.c:253
 msgid "Could not open the link."
@@ -19586,7 +19586,7 @@ msgstr "_Ignora sempre «Reply-To:» (respon a) a les llistes de correu."
 
 #: ../src/mail/e-mail-reader.c:2498
 msgid "Failed to retrieve message:"
-msgstr "No s'han pogut recuperar el missatge:"
+msgstr "No s'ha pogut recuperar el missatge:"
 
 #: ../src/mail/e-mail-reader.c:2559 ../src/mail/e-mail-reader.c:4161
 #, c-format
@@ -20750,7 +20750,7 @@ msgstr "Compte per defecte"
 #: ../src/mail/em-filter-rule.c:889
 msgctxt "mail-filter-rule"
 msgid "Any"
-msgstr "Any"
+msgstr "Qualsevol"
 
 #: ../src/mail/em-filter-rule.c:990
 msgid "Rul_e type:"
@@ -21771,7 +21771,7 @@ msgstr "_Usa caràcters Unicode per a les emoticones"
 
 #: ../src/mail/mail-config.ui.h:13
 msgid "Always request rea_d receipt"
-msgstr "Envia sempre una confirmació de _lectura"
+msgstr "Sol·licita sempre una confirmació de _lectura"
 
 #: ../src/mail/mail-config.ui.h:14
 msgid "Always request Deli_very Status Notification"
@@ -22730,8 +22730,7 @@ msgstr "Esteu segur que voleu suprimir la carpeta «{0}»?"
 msgid ""
 "If you delete the folder, all of its contents will be deleted permanently."
 msgstr ""
-"Si suprimiu la carpeta, tots els continguts i els de les seves subcarpetes "
-"se suprimiran permanentment."
+"Si suprimiu la carpeta, tots els continguts se suprimiran permanentment."
 
 #: ../src/mail/mail.error.xml.h:76
 msgid "These messages are not copies."
@@ -24435,7 +24434,7 @@ msgstr "Còpia de seguretat de l'Evolution"
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1278
 #, c-format
 msgid "Backing up to the file %s"
-msgstr "S'està fent una còpia de seguretat a la carpeta %s"
+msgstr "S'està fent la còpia de seguretat al fitxer %s"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1282
 msgid "Evolution Restore"
