@@ -51,6 +51,15 @@ get_dtend (ECalModelCalendar *model,
 	if (!comp_data->dtend) {
 		comp_data->dtend = e_cal_model_util_get_datetime_value (E_CAL_MODEL (model), comp_data,
 			I_CAL_DTEND_PROPERTY, i_cal_property_get_dtend);
+
+		if (comp_data->dtend) {
+			ICalTime *tt;
+
+			tt = e_cell_date_edit_value_get_time (comp_data->dtend);
+
+			if (tt && i_cal_time_is_date (tt))
+				i_cal_time_adjust (tt, -1, 0, 0, 0);
+		}
 	}
 
 	return e_cell_date_edit_value_copy (comp_data->dtend);
