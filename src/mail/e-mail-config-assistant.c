@@ -802,7 +802,8 @@ mail_config_assistant_constructed (GObject *object)
 		ESource *scratch_source;
 		const gchar *backend_name;
 
-		if (provider->object_types[CAMEL_PROVIDER_STORE] == 0)
+		if (provider->object_types[CAMEL_PROVIDER_STORE] == 0 ||
+		    g_strcmp0 (provider->protocol, "rss") == 0)
 			continue;
 
 		/* ESource uses "backend_name" and CamelProvider
