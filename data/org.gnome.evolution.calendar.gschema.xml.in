@@ -541,7 +541,7 @@
     </key>
     <key name="editor-event-day-agenda-paned-position" type="i">
       <default>0</default>
-      <_summary>Position of the paned splitting the editor data and the day agenda</_summary>
+      <_summary>Position of the pane splitting the editor data and the day agenda</_summary>
       <_description>It influences the width of the day agenda.</_description>
     </key>
     <key name="editor-event-window-width" type="i">
