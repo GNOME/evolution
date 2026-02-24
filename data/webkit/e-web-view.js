@@ -1167,6 +1167,26 @@ Evo.mailDisplayVCardModeButtonClicked = function(elem)
 	}
 }
 
+Evo.unsetHTMLColorsInCssRule = function(rule)
+{
+	if (rule.cssRules) {
+		var ii, isz = rule.cssRules.length;
+
+		for (ii = 0; ii < isz; ii++) {
+			Evo.unsetHTMLColorsInCssRule(rule.cssRules[ii]);
+		}
+	}
+
+	if (!rule || !rule.style || !rule.selectorText || rule.selectorText.startsWith(".-e-web-view-") || rule.selectorText.startsWith(".-e-mail-formatter-"))
+		return;
+
+	if (rule.style.color)
+		rule.style.removeProperty("color");
+
+	if (rule.style.backgroundColor)
+		rule.style.removeProperty("background-color");
+}
+
 Evo.unsetHTMLColors = function(doc)
 {
 	var ii, isz = doc.styleSheets.length;
@@ -1191,14 +1211,7 @@ Evo.unsetHTMLColors = function(doc)
 		for (jj = 0; jj < jsz; jj++) {
 			var rule = sheet.cssRules[jj];
 
-			if (!rule.style || !rule.selectorText || rule.selectorText.startsWith(".-e-web-view-") || rule.selectorText.startsWith(".-e-mail-formatter-"))
-				continue;
-
-			if (rule.style.color)
-				rule.style.removeProperty("color");
-
-			if (rule.style.backgroundColor)
-				rule.style.removeProperty("background-color");
+			Evo.unsetHTMLColorsInCssRule(rule);
 		}
 	}
 
