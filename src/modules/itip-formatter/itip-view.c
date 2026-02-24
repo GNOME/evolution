@@ -5358,15 +5358,19 @@ find_server (ItipView *view,
 			rid = NULL;
 
 			if (view->priv->start_time && view->priv->end_time) {
+				ICalTimezone *zone;
+
 				start = isodate_from_time_t (view->priv->start_time);
 				end = isodate_from_time_t (view->priv->end_time);
+				zone = calendar_config_get_icaltimezone ();
 
 				fd->sexp = g_strdup_printf (
 					"(and (occur-in-time-range? "
 					"(make-time \"%s\") "
-					"(make-time \"%s\")) "
+					"(make-time \"%s\") \"%s\") "
 					"(not (uid? \"%s\")))",
 					start, end,
+					zone && i_cal_timezone_get_location (zone) ? i_cal_timezone_get_location (zone) : "",
 					i_cal_component_get_uid (view->priv->ical_comp));
 			}
 
@@ -7920,7 +7924,7 @@ itip_view_init_view (ItipView *view)
 		start_tm = e_cal_util_icaltime_to_tm_with_zone (itt, from_zone, to_zone);
 
 		i_cal_time_set_timezone (itt, from_zone);
-		range_start = time_day_begin (i_cal_time_as_timet_with_zone (itt, to_zone));
+		range_start = time_day_begin_with_zone (i_cal_time_as_timet_with_zone (itt, to_zone), to_zone);
 		start_minutes = (start_tm.tm_hour * 60) + start_tm.tm_min;
 
 		itip_view_set_start (view, &start_tm, i_cal_time_is_date (itt));
