@@ -1169,6 +1169,9 @@ Evo.mailDisplayVCardModeButtonClicked = function(elem)
 
 Evo.unsetHTMLColorsInCssRule = function(rule)
 {
+	if (!rule)
+		return;
+
 	if (rule.cssRules) {
 		var ii, isz = rule.cssRules.length;
 
@@ -1177,7 +1180,7 @@ Evo.unsetHTMLColorsInCssRule = function(rule)
 		}
 	}
 
-	if (!rule || !rule.style || !rule.selectorText || rule.selectorText.startsWith(".-e-web-view-") || rule.selectorText.startsWith(".-e-mail-formatter-"))
+	if (!rule.style || !rule.selectorText || rule.selectorText.startsWith(".-e-web-view-") || rule.selectorText.startsWith(".-e-mail-formatter-"))
 		return;
 
 	if (rule.style.color)
