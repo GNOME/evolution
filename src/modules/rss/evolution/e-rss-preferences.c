@@ -563,7 +563,7 @@ e_rss_preferences_fetch_clicked_cb (GtkWidget *button,
 	}
 
 	session = soup_session_new_with_options (
-		"timeout", 15,
+		"timeout", 30,
 		"user-agent", "Evolution/" VERSION,
 		NULL);
 
