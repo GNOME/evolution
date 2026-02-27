@@ -1,3 +1,28 @@
+Evolution 3.59.3 2026-02-27
+---------------------------
+
+Bug Fixes:
+	I#3238 - Calendar: Year view shows incorrect week number
+	I#3250 - One day events show misleding End Date in List view
+	I#3254 - Mail: Handle media CSS rules properly in "unset HTML colors"
+
+Miscellaneous:
+	EDateEdit: Postpone fill of time combo until the widget is mapped
+	Use GHashTable's `replace()` instead of `insert()` on some places
+	mail-config-assistant: Skip "rss" Camel provider
+	itip-formatter: Correct time range for the "day agenda" column
+	Increase default connection timeout to 30 seconds
+	Check for libicalvcal pkgconfig file (for libical 4.x)
+
+Translations:
+	Alan Mortensen (da)
+	Anders Jonsson (sv)
+	Александр Вахрамеев (ru)
+	Jordi Mas (ca)
+	Juliano de Souza Camargo (pt_BR)
+	twlvnn kraftwerk (bg)
+	Yuri Chornoivan (uk)
+
 Evolution 3.59.2 2026-01-30
 ---------------------------
 
