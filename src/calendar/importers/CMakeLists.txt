@@ -24,6 +24,7 @@ target_compile_definitions(evolution-calendar-importers PRIVATE
 target_compile_options(evolution-calendar-importers PUBLIC
 	${EVOLUTION_DATA_SERVER_CFLAGS}
 	${GNOME_PLATFORM_CFLAGS}
+	${LIBICALVCAL_CFLAGS}
 )
 
 target_include_directories(evolution-calendar-importers PUBLIC
@@ -35,12 +36,14 @@ target_include_directories(evolution-calendar-importers PUBLIC
 	${CMAKE_SOURCE_DIR}/src/calendar
 	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
 	${GNOME_PLATFORM_INCLUDE_DIRS}
+	${LIBICALVCAL_INCLUDE_DIRS}
 )
 
 target_link_libraries(evolution-calendar-importers
 	${DEPENDENCIES}
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
+	${LIBICALVCAL_LDFLAGS}
 )
 
 install(TARGETS evolution-calendar-importers

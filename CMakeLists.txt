@@ -791,6 +791,16 @@ unset(CMAKE_REQUIRED_DEFINITIONS)
 unset(CMAKE_REQUIRED_INCLUDES)
 unset(CMAKE_REQUIRED_LIBRARIES)
 
+# libical 4.x split the libical.pc file into more files
+pkg_check_at_least_version(HAVE_LIBICALVCAL libicalvcal 3.99)
+if(HAVE_LIBICALVCAL)
+	pkg_check_modules(LIBICALVCAL REQUIRED libicalvcal)
+else(HAVE_LIBICALVCAL)
+	set(LIBICALVCAL_CFLAGS)
+	set(LIBICALVCAL_INCLUDE_DIRS)
+	set(LIBICALVCAL_LDFLAGS)
+endif(HAVE_LIBICALVCAL)
+
 # ******************************
 # news-to-appdata
 # ******************************
