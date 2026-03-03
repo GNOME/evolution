@@ -44,6 +44,9 @@ struct _EActivityProxyPrivate {
 	 * EActivity object alive for a short duration so the user
 	 * gets some visual feedback that cancellation worked. */
 	guint timeout_id;
+
+	/* ensures the update runs in the main thread */
+	GSource *idle_proxy_update_source;
 };
 
 enum {
@@ -116,7 +119,7 @@ activity_proxy_feedback (EActivityProxy *proxy)
 }
 
 static void
-activity_proxy_update (EActivityProxy *proxy)
+activity_proxy_update_in_main (EActivityProxy *proxy)
 {
 	EActivity *activity;
 	EActivityState state;
@@ -125,6 +128,8 @@ activity_proxy_update (EActivityProxy *proxy)
 	gboolean sensitive;
 	gboolean visible;
 	gchar *description;
+
+	g_return_if_fail (e_util_is_main_thread (g_thread_self ()));
 
 	activity = e_activity_proxy_get_activity (proxy);
 
@@ -185,6 +190,42 @@ activity_proxy_update (EActivityProxy *proxy)
 	gtk_widget_set_visible (GTK_WIDGET (proxy), visible);
 
 	g_free (description);
+}
+
+static gboolean
+activity_proxy_update_idle_cb (gpointer user_data)
+{
+	EActivityProxy *self = user_data;
+
+	if (g_source_is_destroyed (g_main_current_source ()))
+		return G_SOURCE_REMOVE;
+
+	g_return_val_if_fail (E_IS_ACTIVITY_PROXY (self), FALSE);
+
+	if (self->priv->idle_proxy_update_source) {
+		g_clear_pointer (&self->priv->idle_proxy_update_source, g_source_unref);
+		activity_proxy_update_in_main (self);
+	}
+
+	return G_SOURCE_REMOVE;
+}
+
+static void
+activity_proxy_update (EActivityProxy *self)
+{
+	if (e_util_is_main_thread (g_thread_self ())) {
+		if (self->priv->idle_proxy_update_source) {
+			g_source_destroy (self->priv->idle_proxy_update_source);
+			g_clear_pointer (&self->priv->idle_proxy_update_source, g_source_unref);
+		}
+
+		activity_proxy_update_in_main (self);
+	} else if (!self->priv->idle_proxy_update_source) {
+		self->priv->idle_proxy_update_source = g_idle_source_new ();
+		g_source_set_name (self->priv->idle_proxy_update_source, G_STRFUNC);
+		g_source_set_callback (self->priv->idle_proxy_update_source, activity_proxy_update_idle_cb, self, NULL);
+		g_source_attach (self->priv->idle_proxy_update_source, NULL);
+	}
 }
 
 static void
@@ -252,6 +293,11 @@ activity_proxy_dispose (GObject *object)
 	if (self->priv->timeout_id > 0) {
 		g_source_remove (self->priv->timeout_id);
 		self->priv->timeout_id = 0;
+	}
+
+	if (self->priv->idle_proxy_update_source) {
+		g_source_destroy (self->priv->idle_proxy_update_source);
+		g_clear_pointer (&self->priv->idle_proxy_update_source, g_source_unref);
 	}
 
 	if (self->priv->activity != NULL) {

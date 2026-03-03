@@ -115,6 +115,16 @@ shell_backend_debug_list_activities (EShellBackend *shell_backend)
 	}
 }
 
+static gboolean
+shell_backend_notify_busy_idle_cb (gpointer user_data)
+{
+	EShellBackend *shell_backend = user_data;
+
+	g_object_notify (G_OBJECT (shell_backend), "busy");
+
+	return G_SOURCE_REMOVE;
+}
+
 static void
 shell_backend_activity_finalized_cb (EShellBackend *shell_backend,
                                      EActivity *finalized_activity)
@@ -122,10 +132,21 @@ shell_backend_activity_finalized_cb (EShellBackend *shell_backend,
 	g_queue_remove (shell_backend->priv->activities, finalized_activity);
 
 	/* Only emit "notify::busy" when switching from busy to idle. */
-	if (g_queue_is_empty (shell_backend->priv->activities))
-		g_object_notify (G_OBJECT (shell_backend), "busy");
+	if (g_queue_is_empty (shell_backend->priv->activities)) {
+		if (e_util_is_main_thread (g_thread_self ())) {
+			g_object_notify (G_OBJECT (shell_backend), "busy");
+			g_object_unref (shell_backend);
+		} else {
+			GSource *idle_source = g_idle_source_new ();
 
-	g_object_unref (shell_backend);
+			g_source_set_name (idle_source, "e_shell_backend_notify_busy_idle");
+			g_source_set_callback (idle_source, shell_backend_notify_busy_idle_cb, shell_backend, g_object_unref);
+			g_source_attach (idle_source, NULL);
+			g_source_unref (idle_source);
+		}
+	} else {
+		g_object_unref (shell_backend);
+	}
 }
 
 static void
