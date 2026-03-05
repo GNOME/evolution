@@ -2676,6 +2676,63 @@ itip_view_set_mode (ItipView *view,
         /* Always visible */
 	show_button (view, BUTTON_OPEN_CALENDAR);
 
+	/* Exchange servers allow to "hide attendee list", then try to guess
+	   the recipient and set it as the attendee */
+	if (mode == ITIP_VIEW_MODE_REQUEST && view->priv->message &&
+	    !e_cal_util_component_has_property (view->priv->ical_comp, I_CAL_ATTENDEE_PROPERTY) &&
+	    e_cal_util_component_has_property (view->priv->ical_comp, I_CAL_ORGANIZER_PROPERTY)) {
+		ESource *identity_source = NULL;
+		gchar *name = NULL, *address = NULL;
+
+		if (view->priv->folder) {
+			identity_source = em_utils_ref_mail_identity_for_store (view->priv->registry,
+				camel_folder_get_parent_store (view->priv->folder));
+		}
+
+		if (!identity_source) {
+			identity_source = em_utils_guess_mail_identity_with_recipients (view->priv->registry,
+				view->priv->message, view->priv->folder, view->priv->message_uid, &name, &address);
+		}
+
+		if (identity_source && (!address || !*address)) {
+			ESourceMailIdentity *identity;
+
+			g_free (name);
+			g_free (address);
+
+			identity = e_source_get_extension (identity_source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
+			name = e_source_mail_identity_dup_name (identity);
+			address = e_source_mail_identity_dup_address (identity);
+		}
+
+		if (identity_source && address && *address) {
+			ICalProperty *prop;
+			ICalParameter *param;
+			gchar *with_mailto;
+
+			with_mailto = g_strconcat ("mailto:", address, NULL);
+			prop = i_cal_property_new_attendee (with_mailto);
+
+			if (name && *name) {
+				param = i_cal_parameter_new_cn (name);
+				i_cal_property_take_parameter (prop, param);
+			}
+
+			param = i_cal_parameter_new_partstat (I_CAL_PARTSTAT_NEEDSACTION);
+			i_cal_property_take_parameter (prop, param);
+
+			i_cal_component_take_property (view->priv->ical_comp, prop);
+
+			itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING, _("The attendee was guessed, because the organizer did not provide any."));
+
+			g_free (with_mailto);
+		}
+
+		g_clear_object (&identity_source);
+		g_free (address);
+		g_free (name);
+	}
+
 	switch (mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
 		if (e_cal_util_component_has_property (view->priv->ical_comp, I_CAL_ATTENDEE_PROPERTY)) {
