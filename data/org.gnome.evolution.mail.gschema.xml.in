@@ -340,7 +340,7 @@
     <key name="drag-and-drop-save-file-format" type="s">
       <default>'mbox'</default>
       <_summary>Save file format for drag-and-drop operation</_summary>
-      <_description>Can be either “mbox” or “pdf”.</_description>
+      <_description>Can be either “mbox”, “eml” or “pdf”. The “eml” can switch to the “mbox” when there is more than one message selected.</_description>
     </key>
     <key name="show-animated-images" type="b">
       <default>false</default>
