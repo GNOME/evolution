@@ -1863,10 +1863,10 @@ webkit_editor_style_updated (EWebKitEditor *wk_editor,
 	css = g_string_sized_new (160);
 	script = g_string_sized_new (256);
 
-	webkit_editor_set_page_color_attribute (cnt_editor, script, "x-evo-bgcolor", &bgcolor);
-	webkit_editor_set_page_color_attribute (cnt_editor, script, "x-evo-text", &fgcolor);
-	webkit_editor_set_page_color_attribute (cnt_editor, script, "x-evo-link", &link_color);
-	webkit_editor_set_page_color_attribute (cnt_editor, script, "x-evo-vlink", &vlink_color);
+	webkit_editor_page_set_background_color (cnt_editor, inherit_theme_colors ? &bgcolor : NULL);
+	webkit_editor_page_set_text_color (cnt_editor, inherit_theme_colors ? &fgcolor : NULL);
+	webkit_editor_page_set_link_color (cnt_editor, inherit_theme_colors ? &link_color : NULL);
+	webkit_editor_page_set_visited_link_color (cnt_editor, inherit_theme_colors ? &vlink_color : NULL);
 
 	webkit_editor_add_color_style (css, "html", "background-color", &bgcolor);
 	webkit_editor_add_color_style (css, "html", "color", &fgcolor);

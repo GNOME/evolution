@@ -92,7 +92,6 @@ var EvoEditor = {
 	storedSelection : null,
 	propertiesSelection : null, // dedicated to Properties dialogs
 	contextMenuNode : null, // the last target node for context menu
-	inheritThemeColors : false,
 	checkInheritFontsOnChange : false,
 	forceFormatStateUpdate : false,
 	formattingState : {
@@ -2761,22 +2760,12 @@ EvoEditor.SetFontName = function(name)
 
 EvoEditor.convertHtmlToSend = function(default_css_style)
 {
-	var html, bgcolor, text, link, vlink;
-	var unsetBgcolor = false, unsetText = false, unsetLink = false, unsetVlink = false;
-	var themeCss, inheritThemeColors = EvoEditor.inheritThemeColors;
+	var html;
+	var themeCss;
 	var ii, styles, styleNode = null, topSignatureSpacers, signatureWrappers, signatures, signatureIds, elems;
 	var defaultCssStyleElem = null;
 
 	themeCss = EvoEditor.UpdateThemeStyleSheet(null);
-	bgcolor = document.documentElement.getAttribute("x-evo-bgcolor");
-	text = document.documentElement.getAttribute("x-evo-text");
-	link = document.documentElement.getAttribute("x-evo-link");
-	vlink = document.documentElement.getAttribute("x-evo-vlink");
-
-	document.documentElement.removeAttribute("x-evo-bgcolor");
-	document.documentElement.removeAttribute("x-evo-text");
-	document.documentElement.removeAttribute("x-evo-link");
-	document.documentElement.removeAttribute("x-evo-vlink");
 
 	if (default_css_style) {
 		defaultCssStyleElem = document.createElement("STYLE");
@@ -2800,28 +2789,6 @@ EvoEditor.convertHtmlToSend = function(default_css_style)
 		signatureIds[signatures.length - ii - 1] = signatures[ii].id;
 		signatures[ii].removeAttribute("class");
 		signatures[ii].removeAttribute("id");
-	}
-
-	if (inheritThemeColors) {
-		if (bgcolor && !document.body.getAttribute("bgcolor")) {
-			document.body.setAttribute("bgcolor", bgcolor);
-			unsetBgcolor = true;
-		}
-
-		if (text && !document.body.getAttribute("text")) {
-			document.body.setAttribute("text", text);
-			unsetText = true;
-		}
-
-		if (link && !document.body.getAttribute("link")) {
-			document.body.setAttribute("link", link);
-			unsetLink = true;
-		}
-
-		if (vlink && !document.body.getAttribute("vlink")) {
-			document.body.setAttribute("vlink", vlink);
-			unsetVlink = true;
-		}
 	}
 
 	styles = document.head.getElementsByTagName("style");
@@ -2859,29 +2826,6 @@ EvoEditor.convertHtmlToSend = function(default_css_style)
 
 	if (defaultCssStyleElem)
 		document.head.removeChild(defaultCssStyleElem);
-
-	if (bgcolor)
-		document.documentElement.setAttribute("x-evo-bgcolor", bgcolor);
-	if (text)
-		document.documentElement.setAttribute("x-evo-text", text);
-	if (link)
-		document.documentElement.setAttribute("x-evo-link", link);
-	if (vlink)
-		document.documentElement.setAttribute("x-evo-vlink", vlink);
-
-	if (inheritThemeColors) {
-		if (unsetBgcolor)
-			document.body.removeAttribute("bgcolor");
-
-		if (unsetText)
-			document.body.removeAttribute("text");
-
-		if (unsetLink)
-			document.body.removeAttribute("link");
-
-		if (unsetVlink)
-			document.body.removeAttribute("vlink");
-	}
 
 	for (ii = topSignatureSpacers.length - 1; ii >= 0; ii--) {
 		var elem = topSignatureSpacers[ii];
