@@ -39,6 +39,7 @@
       <separator/>
       <item action='accounts'/>
       <placeholder id='administrative-actions'/>
+      <item action='customize-ui'/>
       <item action='preferences'/>
     </submenu>
     <submenu action='view-menu'>

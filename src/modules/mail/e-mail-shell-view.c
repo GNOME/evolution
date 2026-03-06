@@ -1928,8 +1928,8 @@ mail_shell_view_init_ui_data (EShellView *shell_view)
 }
 
 static void
-mail_shell_view_add_ui_customizers (EShellView *shell_view,
-				    EUICustomizeDialog *dialog)
+mail_shell_view_get_ui_customizers (EShellView *shell_view,
+				    GPtrArray *inout_customizers)
 {
 	EMailShellView *self;
 	EMailReader *reader;
@@ -1943,7 +1943,7 @@ mail_shell_view_add_ui_customizers (EShellView *shell_view,
 	mail_display = e_mail_reader_get_mail_display (reader);
 	ui_manager = e_web_view_get_ui_manager (E_WEB_VIEW (mail_display));
 
-	e_ui_customize_dialog_add_customizer (dialog, e_ui_manager_get_customizer (ui_manager));
+	g_ptr_array_add (inout_customizers, g_object_ref (e_ui_manager_get_customizer (ui_manager)));
 }
 
 static void
@@ -1972,7 +1972,7 @@ e_mail_shell_view_class_init (EMailShellViewClass *class)
 	shell_view_class->execute_search = mail_shell_view_execute_search;
 	shell_view_class->update_actions = mail_shell_view_update_actions;
 	shell_view_class->init_ui_data = mail_shell_view_init_ui_data;
-	shell_view_class->add_ui_customizers = mail_shell_view_add_ui_customizers;
+	shell_view_class->get_ui_customizers = mail_shell_view_get_ui_customizers;
 
 	/* Ensure the GalView types we need are registered. */
 	g_type_ensure (GAL_TYPE_VIEW_ETABLE);

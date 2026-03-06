@@ -1151,7 +1151,7 @@ shell_view_init_ui_data (EShellView *self)
 
 		{ "customize-ui",
 		  NULL,
-		  N_("Customi_ze…"),
+		  N_("Customi_ze User Interface…"),
 		  NULL,
 		  N_("Customize user interface, like toolbar content and shortcuts"),
 		  action_shell_view_customize_toolbar_cb, NULL, NULL, NULL },
@@ -1745,26 +1745,49 @@ void
 e_shell_view_run_ui_customize_dialog (EShellView *self,
 				      const gchar *id)
 {
-	EShellViewClass *klass;
 	EShellWindow *shell_window;
 	EUICustomizeDialog *dialog;
+	GPtrArray *customizers;
+	guint ii;
 
 	g_return_if_fail (E_IS_SHELL_VIEW (self));
-
-	klass = E_SHELL_VIEW_GET_CLASS (self);
-	g_return_if_fail (klass != NULL);
 
 	shell_window = e_shell_view_get_shell_window (self);
 	dialog = e_ui_customize_dialog_new (shell_window ? GTK_WINDOW (shell_window) : NULL);
 
-	e_ui_customize_dialog_add_customizer (dialog, e_ui_manager_get_customizer (self->priv->ui_manager));
+	customizers = e_shell_view_dup_ui_customizers (self);
 
-	if (klass->add_ui_customizers)
-		klass->add_ui_customizers (self, dialog);
+	for (ii = 0; customizers && ii < customizers->len; ii++) {
+		EUICustomizer *customizer = g_ptr_array_index (customizers, ii);
+
+		e_ui_customize_dialog_add_customizer (dialog, customizer);
+	}
+
+	g_clear_pointer (&customizers, g_ptr_array_unref);
 
 	e_ui_customize_dialog_run (dialog, id);
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+GPtrArray * /* (transfer container) (element-type EUICustomizer) */
+e_shell_view_dup_ui_customizers (EShellView *self)
+{
+	GPtrArray *customizers;
+	EShellViewClass *klass;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (self), NULL);
+
+	klass = E_SHELL_VIEW_GET_CLASS (self);
+	g_return_val_if_fail (klass != NULL, NULL);
+
+	customizers = g_ptr_array_new_with_free_func (g_object_unref);
+	g_ptr_array_add (customizers, g_object_ref (e_ui_manager_get_customizer (self->priv->ui_manager)));
+
+	if (klass->get_ui_customizers)
+		klass->get_ui_customizers (self, customizers);
+
+	return customizers;
 }
 
 static void
