@@ -9,6 +9,5 @@ install(FILES	e-comp-editor.eui
 		evolution-memos.eui
 		evolution-shell.eui
 		evolution-tasks.eui
-		evolution-shortcuts.ui
 	DESTINATION ${uidir}
 )
