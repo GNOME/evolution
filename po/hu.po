@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-03-07 09:58+0000\n"
+"POT-Creation-Date: 2026-03-09 11:52+0000\n"
 "PO-Revision-Date: 2026-03-08 14:13+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
@@ -194,12 +194,10 @@ msgid "Whether to show job information in the editor"
 msgstr "Megjelenjenek-e a munkainformációk a szerkesztőben"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:37
-#| msgid "Show Notes"
 msgid "Show dates"
 msgstr "Dátumok megjelenítése"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:38
-#| msgid "Whether to show notes in the editor"
 msgid "Whether to show Dates section in the editor"
 msgstr "Megjelenjen-e a dátumok választása a szerkesztőben"
 
@@ -266,7 +264,6 @@ msgstr ""
 "névjegy előnézetében"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:51
-#| msgid "Whether to show notes in the editor"
 msgid "Whether to use an old contact editor"
 msgstr "Használjon-e régi névjegyszerkesztőt"
 
@@ -4311,54 +4308,42 @@ msgstr ""
 "dzsel, az „Exchange Web Services” (EWS) kiterjesztés révén."
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:5
-#| msgctxt "addressbook-label"
-#| msgid "IM"
 msgid "PIM"
 msgstr "PIM"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:6
-#| msgid "Calendars"
 msgid "calendars"
 msgstr "naptárak"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:7
-#| msgid "calendar.ics"
 msgid "calendaring"
 msgstr "naptárkezelés"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:8
-#| msgid "event"
 msgid "events"
 msgstr "események"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:9
-#| msgctxt "iCalImp"
-#| msgid "Meeting"
 msgid "meetings"
 msgstr "találkozók"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:10
-#| msgid "A_ppointments"
 msgid "appointments"
 msgstr "értekezletek"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:11
-#| msgid "Scheduling Inbox"
 msgid "scheduling"
 msgstr "ütemezés"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:12
-#| msgid "Scanning %s"
 msgid "planning"
 msgstr "tervezés"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:13
-#| msgid "Calendar"
 msgid "agenda"
 msgstr "napirend"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:14
-#| msgid "Reminders"
 msgid "reminders"
 msgstr "emlékeztetők"
 
@@ -4367,17 +4352,14 @@ msgid "alarms"
 msgstr "riasztások"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:16
-#| msgid "Email"
 msgid "email"
 msgstr "e-mail"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:17
-#| msgid "No e-mail action"
 msgid "email client"
 msgstr "levelezőprogram"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:18
-#| msgid "task"
 msgid "tasks"
 msgstr "feladatok"
 
@@ -4386,7 +4368,6 @@ msgid "todos"
 msgstr "teendők"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:20
-#| msgid "memo"
 msgid "memos"
 msgstr "feljegyzések"
 
@@ -4396,7 +4377,6 @@ msgid "contacts"
 msgstr "névjegyek"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:22
-#| msgid "Address book"
 msgid "addressbook"
 msgstr "címjegyzék"
 
@@ -5189,7 +5169,6 @@ msgid "Show Job section"
 msgstr "Feladat szakasz megjelenítése"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:6
-#| msgid "Show Notes"
 msgid "Show Dates"
 msgstr "Dátumok megjelenítése"
 
@@ -5386,7 +5365,6 @@ msgid "_Office:"
 msgstr "_Hivatal:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
-#| msgid "Mail _Directory:"
 msgid "Or_g. Directory:"
 msgstr "_Szervezeti könyvtár:"
 
@@ -5429,17 +5407,14 @@ msgid "Birthday"
 msgstr "Születésnap"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
-#| msgid "R_eplace:"
 msgid "Bi_rth place:"
 msgstr "_Születési hely:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
-#| msgid "Birthday"
 msgid "Birth place"
 msgstr "Születési hely"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:55
-#| msgid "Path:"
 msgid "_Death:"
 msgstr "_Elhalálozás:"
 
@@ -5449,17 +5424,14 @@ msgid "Death"
 msgstr "Elhalálozás"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:57
-#| msgid "R_eplace:"
 msgid "Death p_lace:"
 msgstr "_Haláleset helye:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
-#| msgid "Replace"
 msgid "Death place"
 msgstr "Haláleset helye"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
-#| msgid "Date"
 msgid "Dates"
 msgstr "Dátumok"
 
@@ -5469,12 +5441,10 @@ msgid "_Spouse:"
 msgstr "Házastá_rs:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
-#| msgid "_General"
 msgid "_Gender:"
 msgstr "_Nem:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
-#| msgid "_Properties"
 msgid "Ex_pertise:"
 msgstr "Sza_kértelem:"
 
@@ -5650,7 +5620,6 @@ msgstr "Nő"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2795
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1950
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:382
-#| msgid "Other"
 msgctxt "gender-sex"
 msgid "Other"
 msgstr "Egyéb"
@@ -5658,7 +5627,6 @@ msgstr "Egyéb"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2796
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1951
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:371
-#| msgid "Unknown"
 msgctxt "gender-sex"
 msgid "Unknown"
 msgstr "Ismeretlen"
@@ -5666,7 +5634,6 @@ msgstr "Ismeretlen"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:2797
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1952
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:385
-#| msgid "Do _Not Disable"
 msgctxt "gender-sex"
 msgid "Not Applicable"
 msgstr "Nem alkalmazható"
@@ -5798,14 +5765,12 @@ msgstr "„%s” nem lehet jövőbeli dátum"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4846
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:868
 #, c-format
-#| msgid "“%s” cannot be a future date"
 msgid "“%s” cannot be a partial date"
 msgstr "„%s” nem lehet részleges dátum"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4861
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4876
 #, c-format
-#| msgid "%s“%s” is empty"
 msgid "“%s” is empty"
 msgstr "„%s” üres"
 
@@ -6060,27 +6025,23 @@ msgstr "_Tagok"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:359
 #, c-format
-#| msgid "Failed to save changes"
 msgid "Failed to save changes: %s"
 msgstr "Nem sikerült menteni a változtatásokat: %s"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:372
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:118
-#| msgid "Work"
 msgctxt "addressbook-label"
 msgid "Work"
 msgstr "Munkahelyi"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:373
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:119
-#| msgid "Home"
 msgctxt "addressbook-label"
 msgid "Home"
 msgstr "Otthoni"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:374
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:120
-#| msgid "Other"
 msgctxt "addressbook-label"
 msgid "Other"
 msgstr "Egyéb"
@@ -6100,7 +6061,6 @@ msgid "Longitude"
 msgstr "Hosszúság"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:1150
-#| msgid "Open map"
 msgid "Open in map"
 msgstr "Megnyitás a térképen"
 
@@ -6122,7 +6082,6 @@ msgstr "Idő_zóna:"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2384
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3035
-#| msgid "_Blog:"
 msgid "_Blog"
 msgstr "_Blog"
 
@@ -6134,19 +6093,16 @@ msgstr "_Naptár"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2386
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3037
-#| msgid "_Free/Busy:"
 msgid "_Free/Busy"
 msgstr "I_dőbeosztás"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2387
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3038
-#| msgid "_Video Chat:"
 msgid "_Video Chat"
 msgstr "_Videokonferencia"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2388
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3039
-#| msgid "_URL:"
 msgid "_URL"
 msgstr "_URL"
 
@@ -6157,7 +6113,6 @@ msgid "Identity"
 msgstr "Személyazonosság"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2972
-#| msgid "Identity"
 msgid "Identity Details"
 msgstr "Személyazonosság részletei"
 
@@ -6165,7 +6120,6 @@ msgstr "Személyazonosság részletei"
 #. gtk_combo_box_text_append (text_combo, "group", _("Group"));
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2973
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3500
-#| msgid "Or_ganization:"
 msgid "Organization"
 msgstr "Szervezet"
 
@@ -6181,7 +6135,6 @@ msgid "SIP"
 msgstr "SIP"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2979
-#| msgid "Web Addresses"
 msgid "Web Address"
 msgstr "Webcím"
 
@@ -6198,12 +6151,10 @@ msgid "Location"
 msgstr "Hely"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2982
-#| msgid "Events"
 msgid "Life Events"
 msgstr "Életesemények"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2996
-#| msgid "Identity"
 msgid "_Identity"
 msgstr "_Személyazonosság"
 
@@ -6212,47 +6163,38 @@ msgid "Name _Prefix"
 msgstr "Név _előtag"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2998
-#| msgid "_Font Name:"
 msgid "_First Name"
 msgstr "_Utónév"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2999
-#| msgid "_Middle:"
 msgid "_Middle Name"
 msgstr "_Középső név"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3000
-#| msgid "_Username:"
 msgid "S_urname"
 msgstr "_Családnév"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3001
-#| msgid "_Suffix:"
 msgid "Name Suffi_x"
 msgstr "Név _utótag"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3004
-#| msgid "Identity"
 msgid "Identity _Details"
 msgstr "Személyazonosság _részletei"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3006
-#| msgid "Nickname"
 msgid "_Nickname"
 msgstr "_Becenév"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3007
-#| msgid "_General"
 msgid "_Gender"
 msgstr "_Nem"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3008
-#| msgid "Spouse"
 msgid "Sp_ouse"
 msgstr "_Házastárs"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3009
-#| msgid "_Properties"
 msgid "Ex_pertise"
 msgstr "Sza_kértelem"
 
@@ -6265,29 +6207,24 @@ msgid "Ho_bby"
 msgstr "Ho_bbi"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3014
-#| msgid "Or_ganization:"
 msgid "_Organization"
 msgstr "_Szervezet"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3015
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4007
-#| msgid "_Company:"
 msgid "_Company"
 msgstr "_Cég"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3016
-#| msgid "_Department:"
 msgid "_Department"
 msgstr "_Részleg"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3017
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4008
-#| msgid "_Office:"
 msgid "_Office"
 msgstr "_Iroda"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3018
-#| msgid "Mail _Directory:"
 msgid "Or_g. Directory"
 msgstr "_Szervezeti könyvtár"
 
@@ -6296,32 +6233,26 @@ msgid "_Job"
 msgstr "_Munkakör"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3022
-#| msgid "_Title:"
 msgid "_Title"
 msgstr "_Megszólítás"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3023
-#| msgid "_Profession:"
 msgid "_Profession"
 msgstr "F_oglalkozás"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3024
-#| msgid "_Manager:"
 msgid "_Manager"
 msgstr "_Igazgató"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3025
-#| msgid "_Assistant:"
 msgid "_Assistant"
 msgstr "_Asszisztens"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3028
-#| msgid "Email"
 msgid "_Email"
 msgstr "_E-mail"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3029
-#| msgid "Phone"
 msgid "_Phone"
 msgstr "_Telefon"
 
@@ -6330,23 +6261,18 @@ msgid "_SIP"
 msgstr "_SIP"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3031
-#| msgid "Instant Messaging"
 msgid "Inst_ant Messaging"
 msgstr "_Azonnali üzenetek"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3032
-#| msgid "Mailing Address"
 msgid "_Mailing Address"
 msgstr "_Levelezőcím"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3034
-#| msgid "Web Addresses"
 msgid "_Web Address"
 msgstr "_Webcím"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3042
-#| msgctxt "ECompEditor"
-#| msgid "_Location:"
 msgid "_Location"
 msgstr "He_ly"
 
@@ -6355,58 +6281,47 @@ msgid "_Geo"
 msgstr "_Földrajzi hely"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3044
-#| msgid "Timezone"
 msgid "_Time zone"
 msgstr "_Időzóna"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3047
-#| msgid "_Events"
 msgid "Li_fe Events"
 msgstr "Élet_események"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3048
-#| msgid "_Anniversary:"
 msgid "_Anniversary"
 msgstr "É_vforduló"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3049
-#| msgid "_Birthday:"
 msgid "_Birthday"
 msgstr "S_zületésnap"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3050
-#| msgid "Date sent"
 msgid "_Date of death"
 msgstr "Haláleset _dátuma"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3052
-#| msgid "Birthday"
 msgid "Birth _place"
 msgstr "Születési _hely"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3053
-#| msgid "Replace"
 msgid "Death _place"
 msgstr "Haláleset _helye"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3056
-#| msgid "X.509 certificates"
 msgid "_X.509 certificate"
 msgstr "_X.509-tanúsítvány"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3057
-#| msgid "PGP keys"
 msgid "P_GP key"
 msgstr "P_GP-kulcs"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3058
-#| msgid "Notes"
 msgid "_Notes"
 msgstr "_Jegyzetek"
 
 #. to have a gap between the trash icon and the item on the right
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3362
-#| msgid "_Remove image"
 msgid "Remove image"
 msgstr "Kép eltávolítása"
 
@@ -6425,13 +6340,10 @@ msgid "_Kind:"
 msgstr "_Fajta:"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3597
-#| msgid "Address B_ook:"
 msgid "Address _book:"
 msgstr "_Címjegyzék:"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3787
-#| msgctxt "ECompEditor"
-#| msgid "_Categories…"
 msgid "Ca_tegories…"
 msgstr "Ka_tegóriák…"
 
@@ -6468,7 +6380,6 @@ msgstr "Ismeretlen hiba"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4425
 #, c-format
-#| msgid "Failed to refresh list of account address books"
 msgid "Failed to receive list of supported fields: %s"
 msgstr "Nem sikerült megkapni a támogatott mezők listáját: %s"
 
@@ -6491,17 +6402,14 @@ msgid "Saving changes, please wait…"
 msgstr "Változtatások mentése, kis türelmet…"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4905
-#| msgid "Full Name"
 msgid "Full _Name"
 msgstr "Teljes _név"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:5338
-#| msgid "Name cannot be empty"
 msgid "“Full Name” cannot be empty"
 msgstr "A „teljes név” nem lehet üres"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:5355
-#| msgid "User name cannot be empty"
 msgid "“File under” cannot be empty"
 msgstr "A „mentés mint” nem lehet üres"
 
@@ -6510,7 +6418,6 @@ msgid "St_reet:"
 msgstr "Ut_ca:"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-address.c:210
-#| msgid "_State/Province:"
 msgid "Stat_e/Province:"
 msgstr "Á_llam/megye:"
 
@@ -6523,28 +6430,23 @@ msgstr "_Ország:"
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:88
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:119
 #, c-format
-#| msgid "X.509 certificates"
 msgid "X.509 Certificate (%s)"
 msgstr "X.509-tanúsítvány (%s)"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:150
-#| msgid "Certificates"
 msgid "Certificate not set"
 msgstr "Tanúsítvány nincs beállítva"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:165
-#| msgid "PGP keys"
 msgid "PGP key"
 msgstr "PGP-kulcs"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:168
-#| msgid "X.509 certificates"
 msgid "X.509 certificate"
 msgstr "X.509-tanúsítvány"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:171
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:176
-#| msgid "Certificates"
 msgid "Certificate"
 msgstr "Tanúsítvány"
 
@@ -6559,7 +6461,6 @@ msgstr "Kulcsazonosító: %s"
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:281
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:283
 #, c-format
-#| msgid "PGP keys"
 msgid "PGP key (%s)"
 msgstr "PGP-kulcs (%s)"
 
@@ -6587,7 +6488,6 @@ msgstr "Nem található információ a PGP-kulcshoz"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:310
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:833
-#| msgid "View certificate"
 msgid "Unrecognized certificate"
 msgstr "Felismerhetetlen tanúsítvány"
 
@@ -6598,12 +6498,10 @@ msgid "Remove"
 msgstr "Eltávolítás"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:609
-#| msgid "_Save to File…"
 msgid "Save to File"
 msgstr "Mentés fájlba"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:781
-#| msgid "Failed to load certificate: %s"
 msgid "Failed to load certificate:"
 msgstr "Nem sikerült betölteni a tanúsítványt:"
 
@@ -6751,7 +6649,6 @@ msgstr "Térkép megnyitása"
 #. like "Other, something" or "Male, something", where the "something" is a user-entered text
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:397
 #, c-format
-#| msgid "%s, %s"
 msgctxt "gender"
 msgid "%s, %s"
 msgstr "%s, %s"
@@ -6759,31 +6656,24 @@ msgstr "%s, %s"
 #. Translators: strftime format for partial date, when only the day is filled; it will be shown as a number
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:461
 #, c-format
-#| msgid "%d%%"
 msgctxt "partial-date"
 msgid "%d"
 msgstr "%d"
 
 #. Translators: strftime format for partial date, when only the month is filled; it will be shown as a month name; month number is "%m"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:465
-#| msgctxt "CalItem"
-#| msgid "%B"
 msgctxt "partial-date"
 msgid "%B"
 msgstr "%B"
 
 #. Translators: strftime format for partial date, when only the day and the month are filled; it will be shown as a month name followed by a day number; month number is "%m"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:468
-#| msgctxt "CalItem"
-#| msgid "%B %Y"
 msgctxt "partial-date"
 msgid "%B %d"
 msgstr "%B %d."
 
 #. Translators: strftime format for partial date, when only the year is filled; it will be shown as a number
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:475
-#| msgctxt "CalItem"
-#| msgid "%Y"
 msgctxt "partial-date"
 msgid "%Y"
 msgstr "%Y"
@@ -6796,8 +6686,6 @@ msgstr "%Y. -- %d."
 
 #. Translators: strftime format for partial date, when only the month and the year are filled; the month will be shown as a month name; month number is "%m"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:483
-#| msgctxt "CalItem"
-#| msgid "%B %Y"
 msgctxt "partial-date"
 msgid "%B %Y"
 msgstr "%Y. %B"
@@ -6866,12 +6754,10 @@ msgid "Matrix"
 msgstr "Matrix"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1064
-#| msgid "GEO Location:"
 msgid "GEO Location"
 msgstr "Földrajzi hely"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1065
-#| msgid "Timezone"
 msgid "Time zone"
 msgstr "Időzóna"
 
@@ -6931,7 +6817,6 @@ msgid "Web Log"
 msgstr "Webnapló"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1183
-#| msgid "Birthday"
 msgid "Birth Place"
 msgstr "Születési hely"
 
@@ -9399,7 +9284,6 @@ msgid "%a %d %b %Y"
 msgstr "%Y. %b. %-d. %a."
 
 #: ../src/calendar/gui/e-calendar-view.c:1788
-#| msgid "Birthday"
 msgid "Deathday"
 msgstr "Haláleset napja"
 
@@ -15051,7 +14935,6 @@ msgid "Reload attachment content"
 msgstr "Melléklet tartalmának újratöltése"
 
 #: ../src/e-util/e-autoar-gtk-chooser.c:192
-#| msgid "Choose a folder to archive messages to."
 msgid "Choose an archive format"
 msgstr "Archiválási formátum kiválasztása"
 
@@ -15061,17 +14944,14 @@ msgid "OK"
 msgstr "OK"
 
 #: ../src/e-util/e-autoar-gtk-chooser.c:294
-#| msgid "Other…"
 msgid "Other format…"
 msgstr "Egyéb formátum…"
 
 #: ../src/e-util/e-autoar-gtk-chooser.c:469
-#| msgid "Format:"
 msgid "Format"
 msgstr "Formátum"
 
 #: ../src/e-util/e-autoar-gtk-chooser.c:505
-#| msgid "_Filter Rules"
 msgid "Filter"
 msgstr "Szűrő"
 
@@ -15990,13 +15870,11 @@ msgstr "Nincs"
 
 #: ../src/e-util/e-filter-rule.c:1139
 msgid "All related"
-msgstr "Minden kapcsolódó"
+msgstr "Összes kapcsolódó"
 
 #: ../src/e-util/e-filter-rule.c:1140
-#, fuzzy
-#| msgid "All related"
 msgid "Unmatched in All related"
-msgstr "minden kapcsolódóban"
+msgstr "Nem egyezők az összes kapcsolódóból"
 
 #: ../src/e-util/e-filter-rule.c:1141
 msgid "Replies"
@@ -17989,7 +17867,6 @@ msgid "Spelling Suggestions"
 msgstr "Javaslatok"
 
 #: ../src/e-util/e-split-date-edit.c:300 ../src/e-util/e-split-date-edit.c:504
-#| msgid "Not sorted"
 msgid "Not set"
 msgstr "Nincs beállítva"
 
@@ -17999,7 +17876,6 @@ msgid "Year"
 msgstr "Év"
 
 #: ../src/e-util/e-split-date-edit.c:497
-#| msgid "<click here to select a date>"
 msgid "Click to select date"
 msgstr "Kattintson a dátum kiválasztásához"
 
@@ -19309,13 +19185,11 @@ msgid "Setting up Search Folder: %s"
 msgstr "Keresőmappa beállítása: %s"
 
 #: ../src/libemail-engine/mail-vfolder.c:409
-#| msgid "Edit Search Folder"
 msgid "Updating Search Folders"
 msgstr "Keresőmappák frissítése"
 
 #: ../src/libemail-engine/mail-vfolder.c:469
 #, c-format
-#| msgid "Updating Search Folders for “%s : %s”"
 msgid "Updating Search Folder “%s”"
 msgstr "A(z) „%s” keresőmappa frissítése"
 
@@ -20367,12 +20241,10 @@ msgid "Add a note for the selected message"
 msgstr "Új feljegyzés létrehozása a kijelölt üzenethez"
 
 #: ../src/mail/e-mail-reader.c:3146
-#| msgid "Compose Message"
 msgid "Copy Message _Link"
 msgstr "Üzenet _hivatkozásának másolása"
 
 #: ../src/mail/e-mail-reader.c:3148
-#| msgid "Choose reply options for the selected message"
 msgid "Copy mid: link for the selected message"
 msgstr "Üzenetazonosító másolása: hivatkozás a kiválasztott üzenetre"
 
@@ -24562,7 +24434,6 @@ msgstr "Címjegyzékcsoportok _kezelése…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1295
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1302
-#| msgid "Manage addres book groups order and visibility"
 msgid "Manage address book groups order and visibility"
 msgstr "Címjegyzékcsoportok sorrendjének és láthatóságának kezelése"
 
@@ -25660,7 +25531,6 @@ msgstr "vasárnap"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:807
 #, c-format
-#| msgid "Use s_ystem time zone (%s)"
 msgid "Use system setti_ng (%s)"
 msgstr "_Rendszerbeállítás használata (%s)"
 
@@ -30065,7 +29935,6 @@ msgid "Show %s"
 msgstr "%s megjelenítése"
 
 #: ../src/plugins/mail-notification/mail-notification.c:689
-#| msgid "Mark as _Unread"
 msgid "Mark as read"
 msgstr "Megjelölés olvasottként"
 
