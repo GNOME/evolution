@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-01-02 09:11+0000\n"
-"PO-Revision-Date: 2026-01-07 15:06+0200\n"
+"POT-Creation-Date: 2026-03-10 13:17+0000\n"
+"PO-Revision-Date: 2026-03-11 17:00+0200\n"
 "Last-Translator: Aurimas Černius <aurimas.cernius@mailo.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -4176,7 +4176,7 @@ msgstr "Paštas"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
 #: ../src/calendar/gui/e-memo-table.c:434 ../src/e-util/e-webdav-browser.c:527
-#: ../src/modules/calendar/e-cal-shell-content.c:1961
+#: ../src/modules/calendar/e-cal-shell-content.c:2011
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:216
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:233
 #: ../src/modules/calendar/e-memo-shell-view.c:360
@@ -4184,12 +4184,12 @@ msgid "Memos"
 msgstr "Rašteliai"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:616 ../src/calendar/gui/print.c:2478
+#: ../src/calendar/gui/e-task-table.c:616 ../src/calendar/gui/print.c:2482
 #: ../src/calendar/importers/icalendar-importer.c:74
 #: ../src/calendar/importers/icalendar-importer.c:1196
 #: ../src/e-util/e-webdav-browser.c:528
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:84
-#: ../src/modules/calendar/e-cal-shell-content.c:1921
+#: ../src/modules/calendar/e-cal-shell-content.c:1971
 #: ../src/modules/calendar/e-task-shell-view-actions.c:267
 #: ../src/modules/calendar/e-task-shell-view-actions.c:284
 #: ../src/modules/calendar/e-task-shell-view.c:555
@@ -4680,7 +4680,7 @@ msgid "_Memos"
 msgstr "_Rašteliai"
 
 #: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2645
-#: ../src/plugins/pst-import/pst-importer.c:570
+#: ../src/plugins/pst-import/pst-importer.c:574
 msgid "_Tasks"
 msgstr "_Užduotys"
 
@@ -4959,7 +4959,7 @@ msgid "Do _Not Unset"
 msgstr "_Neatsisakyti"
 
 #: ../src/addressbook/addressbook.error.xml.h:52
-#: ../src/calendar/gui/e-estimated-duration-entry.c:260
+#: ../src/calendar/gui/e-estimated-duration-entry.c:265
 msgid "_Unset"
 msgstr "_Atstatyti"
 
@@ -5026,7 +5026,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4085
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:304 ../src/mail/e-mail-label-dialog.c:180
-#: ../src/mail/e-mail-reader.c:5213 ../src/mail/e-mail-tag-editor.c:155
+#: ../src/mail/e-mail-reader.c:5313 ../src/mail/e-mail-tag-editor.c:155
 #: ../src/mail/e-mail-viewer.c:590 ../src/mail/em-composer-utils.c:4519
 #: ../src/mail/em-folder-selector.c:619 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:881
@@ -5105,7 +5105,7 @@ msgid "Show Certificates"
 msgstr "Rodyti liudijimus"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2482
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2486
 #: ../src/em-format/e-mail-formatter-attachment.c:327
 #: ../src/mail/mail-config.ui.h:43
 msgid "Options"
@@ -5119,7 +5119,7 @@ msgstr "Parametrai"
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:370
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:889
 #: ../src/calendar/calendar.error.xml.h:56
-#: ../src/calendar/gui/e-comp-editor.c:2384
+#: ../src/calendar/gui/e-comp-editor.c:2407
 #: ../src/composer/e-composer-actions.c:259
 #: ../src/composer/e-composer-actions.c:399
 #: ../src/e-util/e-attachment-store.c:837
@@ -5200,8 +5200,8 @@ msgstr "_Namų tinklalapis:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1070
-#: ../src/calendar/gui/e-comp-editor-event.c:1169
-#: ../src/modules/itip-formatter/itip-view.c:2755
+#: ../src/calendar/gui/e-comp-editor-event.c:1173
+#: ../src/modules/itip-formatter/itip-view.c:2759
 msgid "_Calendar:"
 msgstr "_Kalendorius:"
 
@@ -5299,7 +5299,7 @@ msgstr "_Jubiliejus:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1181
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1778
+#: ../src/calendar/gui/e-calendar-view.c:1787
 msgid "Anniversary"
 msgstr "Jubiliejus"
 
@@ -5310,7 +5310,7 @@ msgstr "_Gimtadienis:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1182
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1777
+#: ../src/calendar/gui/e-calendar-view.c:1786
 msgid "Birthday"
 msgstr "Gimtadienis"
 
@@ -5431,7 +5431,7 @@ msgstr "Darbinis"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1219
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:548
-#: ../src/calendar/gui/comp-util.c:1951
+#: ../src/calendar/gui/comp-util.c:1955
 msgid "Other"
 msgstr "Kitas"
 
@@ -5688,33 +5688,33 @@ msgstr "Netinkamas kontaktas."
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5203
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4621
-#: ../src/calendar/gui/e-comp-editor.c:2267
-#: ../src/calendar/gui/e-comp-editor.c:2346
+#: ../src/calendar/gui/e-comp-editor.c:2290
+#: ../src/calendar/gui/e-comp-editor.c:2369
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../src/shell/e-shell-window-actions.c:753
 msgid "_Help"
 msgstr "_Žinynas"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5345
-#: ../src/calendar/gui/e-comp-editor.c:2309
+#: ../src/calendar/gui/e-comp-editor.c:2332
 #: ../src/e-util/e-html-editor-actions.c:1390
 msgid "_Undo"
 msgstr "_Atšaukti"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5347
-#: ../src/calendar/gui/e-comp-editor.c:2311 ../src/e-util/e-focus-tracker.c:167
+#: ../src/calendar/gui/e-comp-editor.c:2334 ../src/e-util/e-focus-tracker.c:167
 #: ../src/e-util/e-focus-tracker.c:170
 msgid "Undo"
 msgstr "Atšaukti"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5352
-#: ../src/calendar/gui/e-comp-editor.c:2316
+#: ../src/calendar/gui/e-comp-editor.c:2339
 #: ../src/e-util/e-html-editor-actions.c:1376
 msgid "_Redo"
 msgstr "Paka_rtoti"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5354
-#: ../src/calendar/gui/e-comp-editor.c:2318 ../src/e-util/e-focus-tracker.c:183
+#: ../src/calendar/gui/e-comp-editor.c:2341 ../src/e-util/e-focus-tracker.c:183
 #: ../src/e-util/e-focus-tracker.c:186
 msgid "Redo"
 msgstr "Pakartoti"
@@ -6237,7 +6237,7 @@ msgstr "Pašalinti paveikslėlį"
 #: ../src/calendar/gui/e-meeting-list-view.c:167
 #: ../src/calendar/gui/e-meeting-store.c:106
 #: ../src/calendar/gui/e-meeting-store.c:123
-#: ../src/calendar/gui/e-meeting-store.c:1064 ../src/calendar/gui/print.c:1294
+#: ../src/calendar/gui/e-meeting-store.c:1064 ../src/calendar/gui/print.c:1298
 msgid "Individual"
 msgstr "Asmuo"
 
@@ -6257,10 +6257,10 @@ msgstr "Ka_tegorijos…"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4082
 #: ../src/calendar/gui/e-cal-range-model.c:208
-#: ../src/calendar/gui/e-comp-editor-event.c:571
-#: ../src/calendar/gui/e-comp-editor-event.c:587
+#: ../src/calendar/gui/e-comp-editor-event.c:575
+#: ../src/calendar/gui/e-comp-editor-event.c:591
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:247
-#: ../src/calendar/gui/e-comp-editor.c:362
+#: ../src/calendar/gui/e-comp-editor.c:385
 #: ../src/composer/e-composer-actions.c:189
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-markdown-utils.c:188 ../src/e-util/e-markdown-utils.c:198
@@ -6270,7 +6270,7 @@ msgstr "Ka_tegorijos…"
 #: ../src/e-util/e-misc-utils.c:3506 ../src/e-util/e-misc-utils.c:3520
 #: ../src/e-util/e-ui-customize-dialog.c:3522
 #: ../src/mail/e-mail-autoconfig.c:1096 ../src/mail/e-mail-display.c:3142
-#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:3943
+#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader.c:4048
 #: ../src/mail/e-mail-reader-utils.c:815 ../src/mail/e-mail-viewer.c:564
 #: ../src/mail/e-mail-viewer.c:1561 ../src/mail/e-mail-viewer.c:2508
 #: ../src/mail/e-mail-viewer.c:2521 ../src/mail/em-composer-utils.c:4294
@@ -7011,7 +7011,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Ar tikrai norite ištrinti šį kontaktą (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1858
-#: ../src/calendar/gui/e-comp-editor.c:2260
+#: ../src/calendar/gui/e-comp-editor.c:2283
 #: ../src/e-util/e-accounts-window.c:1768
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2893
@@ -7334,7 +7334,7 @@ msgstr "_Pritraukti"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:461
-#: ../src/e-util/e-html-editor-actions.c:1411 ../src/mail/e-mail-reader.c:3533
+#: ../src/e-util/e-html-editor-actions.c:1411 ../src/mail/e-mail-reader.c:3638
 #: ../src/mail/e-mail-viewer.c:1818
 msgid "Zoom _Out"
 msgstr "_Atitraukti"
@@ -8306,24 +8306,24 @@ msgstr "Klasifikacija"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:9
 #: ../src/calendar/gui/e-cal-list-view.c:286
-#: ../src/calendar/gui/e-cal-model.c:279 ../src/calendar/gui/e-cal-model.c:287
+#: ../src/calendar/gui/e-cal-model.c:283 ../src/calendar/gui/e-cal-model.c:291
 #: ../src/calendar/gui/e-task-table.c:436
 #: ../src/calendar/gui/memotypes.xml.in.h:10
 msgid "Public"
 msgstr "Viešas"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
-#: ../src/calendar/gui/comp-util.c:2953
+#: ../src/calendar/gui/comp-util.c:2960
 #: ../src/calendar/gui/e-cal-list-view.c:287
-#: ../src/calendar/gui/e-cal-model.c:289 ../src/calendar/gui/e-task-table.c:437
+#: ../src/calendar/gui/e-cal-model.c:293 ../src/calendar/gui/e-task-table.c:437
 #: ../src/calendar/gui/memotypes.xml.in.h:11
 msgid "Private"
 msgstr "Asmeniškas"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
-#: ../src/calendar/gui/comp-util.c:2956
+#: ../src/calendar/gui/comp-util.c:2963
 #: ../src/calendar/gui/e-cal-list-view.c:288
-#: ../src/calendar/gui/e-cal-model.c:291 ../src/calendar/gui/e-task-table.c:438
+#: ../src/calendar/gui/e-cal-model.c:295 ../src/calendar/gui/e-task-table.c:438
 #: ../src/calendar/gui/memotypes.xml.in.h:12
 #: ../src/e-util/e-html-editor-page-dialog.c:112
 msgid "Confidential"
@@ -8401,9 +8401,9 @@ msgstr "Santraukoje yra"
 msgid "Description Contains"
 msgstr "Aprašyme yra"
 
-#: ../src/calendar/gui/comp-util.c:1602 ../src/calendar/gui/comp-util.c:3083
-#: ../src/calendar/importers/icalendar-importer.c:1543
-#: ../src/modules/itip-formatter/itip-view.c:3190
+#: ../src/calendar/gui/comp-util.c:1606 ../src/calendar/gui/comp-util.c:3090
+#: ../src/calendar/importers/icalendar-importer.c:1546
+#: ../src/modules/itip-formatter/itip-view.c:3194
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -8411,78 +8411,78 @@ msgstr[0] "su %d svečiu"
 msgstr[1] "su %d svečiais"
 msgstr[2] "su %d svečių"
 
-#: ../src/calendar/gui/comp-util.c:1661
+#: ../src/calendar/gui/comp-util.c:1665
 #, c-format
 msgid "Comments: %s"
 msgstr "Komentarai: %s"
 
-#: ../src/calendar/gui/comp-util.c:1675 ../src/calendar/gui/comp-util.c:1678
+#: ../src/calendar/gui/comp-util.c:1679 ../src/calendar/gui/comp-util.c:1682
 msgctxt "iCalendarStatus"
 msgid "None"
 msgstr "Nėra"
 
-#: ../src/calendar/gui/comp-util.c:1676
+#: ../src/calendar/gui/comp-util.c:1680
 msgctxt "iCalendarStatus"
 msgid "Tentative"
 msgstr "Negalutinis"
 
-#: ../src/calendar/gui/comp-util.c:1677
+#: ../src/calendar/gui/comp-util.c:1681
 msgctxt "iCalendarStatus"
 msgid "Confirmed"
 msgstr "Patvirtintas"
 
-#: ../src/calendar/gui/comp-util.c:1679
+#: ../src/calendar/gui/comp-util.c:1683
 msgctxt "iCalendarStatus"
 msgid "Draft"
 msgstr "Juodraštis"
 
-#: ../src/calendar/gui/comp-util.c:1680
+#: ../src/calendar/gui/comp-util.c:1684
 msgctxt "iCalendarStatus"
 msgid "Final"
 msgstr "Galutinis"
 
-#: ../src/calendar/gui/comp-util.c:1681
+#: ../src/calendar/gui/comp-util.c:1685
 msgctxt "iCalendarStatus"
 msgid "Not Started"
 msgstr "Nepradėta"
 
-#: ../src/calendar/gui/comp-util.c:1682
+#: ../src/calendar/gui/comp-util.c:1686
 msgctxt "iCalendarStatus"
 msgid "Needs Action"
 msgstr "Reikalauja veiksmo"
 
-#: ../src/calendar/gui/comp-util.c:1683
+#: ../src/calendar/gui/comp-util.c:1687
 msgctxt "iCalendarStatus"
 msgid "In Progress"
 msgstr "Vykdoma"
 
-#: ../src/calendar/gui/comp-util.c:1684
+#: ../src/calendar/gui/comp-util.c:1688
 msgctxt "iCalendarStatus"
 msgid "Completed"
 msgstr "Užbaigta"
 
-#: ../src/calendar/gui/comp-util.c:1685
+#: ../src/calendar/gui/comp-util.c:1689
 msgctxt "iCalendarStatus"
 msgid "Cancelled"
 msgstr "Atšaukta"
 
-#: ../src/calendar/gui/comp-util.c:1946
+#: ../src/calendar/gui/comp-util.c:1950
 #: ../src/calendar/gui/e-meeting-list-view.c:196
 #: ../src/calendar/gui/e-meeting-store.c:175
 #: ../src/calendar/gui/e-meeting-store.c:198
-#: ../src/modules/itip-formatter/itip-view.c:7664
+#: ../src/modules/itip-formatter/itip-view.c:7696
 msgid "Accepted"
 msgstr "Priimtas"
 
-#: ../src/calendar/gui/comp-util.c:1947
+#: ../src/calendar/gui/comp-util.c:1951
 #: ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:177
 #: ../src/calendar/gui/e-meeting-store.c:200
-#: ../src/modules/itip-formatter/itip-view.c:7670
+#: ../src/modules/itip-formatter/itip-view.c:7702
 msgid "Declined"
 msgstr "Atmestas"
 
-#: ../src/calendar/gui/comp-util.c:1948
+#: ../src/calendar/gui/comp-util.c:1952
 #: ../src/calendar/gui/e-meeting-list-view.c:198
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
@@ -8490,21 +8490,21 @@ msgstr "Atmestas"
 msgid "Tentative"
 msgstr "Negalutinis"
 
-#: ../src/calendar/gui/comp-util.c:1949
+#: ../src/calendar/gui/comp-util.c:1953
 #: ../src/calendar/gui/e-meeting-list-view.c:199
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:7673
+#: ../src/modules/itip-formatter/itip-view.c:7705
 msgid "Delegated"
 msgstr "Pavestas"
 
-#: ../src/calendar/gui/comp-util.c:1950
+#: ../src/calendar/gui/comp-util.c:1954
 msgid "Needs action"
 msgstr "Reikalauja veiksmo"
 
 #. Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../src/calendar/gui/comp-util.c:2015
+#: ../src/calendar/gui/comp-util.c:2019
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:10
 #: ../src/calendar/gui/e-meeting-list-view.c:681
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
@@ -8517,191 +8517,191 @@ msgid "Status"
 msgstr "Būsena"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2080
+#: ../src/calendar/gui/comp-util.c:2084
 #: ../src/calendar/gui/e-cal-day-column.c:943
 #: ../src/calendar/gui/e-day-view.c:2335 ../src/calendar/gui/e-to-do-pane.c:270
-#: ../src/calendar/gui/e-week-view.c:1966 ../src/calendar/gui/print.c:1109
-#: ../src/calendar/gui/print.c:1128 ../src/calendar/gui/print.c:2699
-#: ../src/calendar/gui/print.c:2719
-#: ../src/modules/itip-formatter/itip-view.c:1253
+#: ../src/calendar/gui/e-week-view.c:1966 ../src/calendar/gui/print.c:1113
+#: ../src/calendar/gui/print.c:1132 ../src/calendar/gui/print.c:2703
+#: ../src/calendar/gui/print.c:2723
+#: ../src/modules/itip-formatter/itip-view.c:1257
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2084
+#: ../src/calendar/gui/comp-util.c:2088
 #: ../src/calendar/gui/e-cal-day-column.c:944
 #: ../src/calendar/gui/e-day-view.c:2338 ../src/calendar/gui/e-to-do-pane.c:274
-#: ../src/calendar/gui/e-week-view.c:1969 ../src/calendar/gui/print.c:1114
-#: ../src/calendar/gui/print.c:1130 ../src/calendar/gui/print.c:2704
-#: ../src/calendar/gui/print.c:2721
-#: ../src/modules/itip-formatter/itip-view.c:1253
+#: ../src/calendar/gui/e-week-view.c:1969 ../src/calendar/gui/print.c:1118
+#: ../src/calendar/gui/print.c:1134 ../src/calendar/gui/print.c:2708
+#: ../src/calendar/gui/print.c:2725
+#: ../src/modules/itip-formatter/itip-view.c:1257
 msgid "pm"
 msgstr "pm"
 
-#: ../src/calendar/gui/comp-util.c:2113 ../src/calendar/gui/comp-util.c:2117
-#: ../src/calendar/gui/comp-util.c:2231
+#: ../src/calendar/gui/comp-util.c:2117 ../src/calendar/gui/comp-util.c:2121
+#: ../src/calendar/gui/comp-util.c:2235
 #: ../src/calendar/gui/e-cal-component-widget.c:595
-#: ../src/calendar/gui/e-comp-editor.c:1333
+#: ../src/calendar/gui/e-comp-editor.c:1356
 msgid "No Summary"
 msgstr "Nėra santraukos"
 
 #. Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../src/calendar/gui/comp-util.c:2242
+#: ../src/calendar/gui/comp-util.c:2246
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Organizatorius: %s <%s>"
 
 #. Translators: It will display "Organizer: NameOfTheUser"
-#: ../src/calendar/gui/comp-util.c:2245
+#: ../src/calendar/gui/comp-util.c:2249
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organizatorius: %s"
 
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
-#: ../src/calendar/gui/comp-util.c:2260
+#: ../src/calendar/gui/comp-util.c:2264
 #: ../src/calendar/gui/e-meeting-time-sel.c:2575
-#: ../src/calendar/gui/e-to-do-pane.c:403 ../src/calendar/gui/print.c:3649
+#: ../src/calendar/gui/e-to-do-pane.c:403 ../src/calendar/gui/print.c:3653
 #, c-format
 msgid "Location: %s"
 msgstr "Vieta: %s"
 
 #. Translators: It will display "Start: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../src/calendar/gui/comp-util.c:2315
+#: ../src/calendar/gui/comp-util.c:2319
 #, c-format
 msgid "Start: %s (%s)"
 msgstr "Pradžia: %s (%s)"
 
 #. Translators: It will display "Start: ActualStartDateAndTime"
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2319 ../src/calendar/gui/e-to-do-pane.c:433
+#: ../src/calendar/gui/comp-util.c:2323 ../src/calendar/gui/e-to-do-pane.c:433
 #, c-format
 msgid "Start: %s"
 msgstr "Pradžia: %s"
 
 #. Translators: It's for a task due date, it will display "Due: DateAndTime"
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2354 ../src/calendar/gui/e-to-do-pane.c:455
+#: ../src/calendar/gui/comp-util.c:2358 ../src/calendar/gui/e-to-do-pane.c:455
 #, c-format
 msgid "Due: %s"
 msgstr "Terminas: %s"
 
 #. Translators: It's for a task completed date, it will display "Completed: DateAndTime"
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/comp-util.c:2379 ../src/calendar/gui/e-to-do-pane.c:469
+#: ../src/calendar/gui/comp-util.c:2383 ../src/calendar/gui/e-to-do-pane.c:469
 #, c-format
 msgid "Completed: %s"
 msgstr "Užbaigta: %s"
 
-#: ../src/calendar/gui/comp-util.c:2416 ../src/calendar/gui/e-to-do-pane.c:641
+#: ../src/calendar/gui/comp-util.c:2420 ../src/calendar/gui/e-to-do-pane.c:641
 #: ../src/e-util/e-misc-utils.c:4196 ../src/e-util/e-text.c:564
 #: ../src/e-util/e-web-view.c:4271
 msgid "…"
 msgstr "…"
 
 #. Translators: Default attachment filename.
-#: ../src/calendar/gui/comp-util.c:2620 ../src/e-util/e-attachment.c:2573
+#: ../src/calendar/gui/comp-util.c:2624 ../src/e-util/e-attachment.c:2573
 #: ../src/e-util/e-attachment.c:3138 ../src/e-util/e-attachment.c:3696
 #: ../src/e-util/e-attachment-store.c:903
 msgid "attachment.dat"
 msgstr "priedas.dat"
 
-#: ../src/calendar/gui/comp-util.c:2737 ../src/e-util/e-filter-rule.c:1042
+#: ../src/calendar/gui/comp-util.c:2741 ../src/e-util/e-filter-rule.c:1042
 #: ../src/mail/e-mail-config-page.c:115
 msgid "Untitled"
 msgstr "Bevardė"
 
-#: ../src/calendar/gui/comp-util.c:2750
+#: ../src/calendar/gui/comp-util.c:2754
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:258
-#: ../src/modules/itip-formatter/itip-view.c:2285
-#: ../src/modules/itip-formatter/itip-view.c:2506
+#: ../src/modules/itip-formatter/itip-view.c:2289
+#: ../src/modules/itip-formatter/itip-view.c:2510
 msgid "Location:"
 msgstr "Vieta:"
 
-#: ../src/calendar/gui/comp-util.c:2783
-#: ../src/modules/itip-formatter/itip-view.c:2286
-#: ../src/modules/itip-formatter/itip-view.c:2509
+#: ../src/calendar/gui/comp-util.c:2787
+#: ../src/modules/itip-formatter/itip-view.c:2290
+#: ../src/modules/itip-formatter/itip-view.c:2513
 msgid "GEO Location:"
 msgstr "GEO vieta:"
 
-#: ../src/calendar/gui/comp-util.c:2808
-#: ../src/modules/itip-formatter/itip-view.c:2294
-#: ../src/modules/itip-formatter/itip-view.c:2432
-#: ../src/modules/itip-formatter/itip-view.c:2533
+#: ../src/calendar/gui/comp-util.c:2812
+#: ../src/modules/itip-formatter/itip-view.c:2298
+#: ../src/modules/itip-formatter/itip-view.c:2436
+#: ../src/modules/itip-formatter/itip-view.c:2537
 msgid "Comment:"
 msgstr "Komentaras:"
 
-#: ../src/calendar/gui/comp-util.c:2826
+#: ../src/calendar/gui/comp-util.c:2830
 msgid "Start Date:"
 msgstr "Pradžios data:"
 
-#: ../src/calendar/gui/comp-util.c:2835
+#: ../src/calendar/gui/comp-util.c:2842
 msgid "End Date:"
 msgstr "Pabaigos data:"
 
-#: ../src/calendar/gui/comp-util.c:2847
-#: ../src/modules/itip-formatter/itip-view.c:2290
-#: ../src/modules/itip-formatter/itip-view.c:2521
+#: ../src/calendar/gui/comp-util.c:2854
+#: ../src/modules/itip-formatter/itip-view.c:2294
+#: ../src/modules/itip-formatter/itip-view.c:2525
 msgid "Recurs:"
 msgstr "Pasikartoja:"
 
-#: ../src/calendar/gui/comp-util.c:2856
+#: ../src/calendar/gui/comp-util.c:2863
 msgid "Due Date:"
 msgstr "Terminas:"
 
-#: ../src/calendar/gui/comp-util.c:2873
-#: ../src/modules/itip-formatter/itip-view.c:2292
-#: ../src/modules/itip-formatter/itip-view.c:2527
+#: ../src/calendar/gui/comp-util.c:2880
+#: ../src/modules/itip-formatter/itip-view.c:2296
+#: ../src/modules/itip-formatter/itip-view.c:2531
 msgid "Estimated duration:"
 msgstr "Planuojama trukmė:"
 
-#: ../src/calendar/gui/comp-util.c:2889
-#: ../src/modules/itip-formatter/itip-view.c:2293
-#: ../src/modules/itip-formatter/itip-view.c:2530
+#: ../src/calendar/gui/comp-util.c:2896
+#: ../src/modules/itip-formatter/itip-view.c:2297
+#: ../src/modules/itip-formatter/itip-view.c:2534
 msgid "Status:"
 msgstr "Būsena:"
 
-#: ../src/calendar/gui/comp-util.c:2897
-#: ../src/modules/itip-formatter/itip-view.c:2295
-#: ../src/modules/itip-formatter/itip-view.c:2536
+#: ../src/calendar/gui/comp-util.c:2904
+#: ../src/modules/itip-formatter/itip-view.c:2299
+#: ../src/modules/itip-formatter/itip-view.c:2540
 msgid "Categories:"
 msgstr "Kategorijos:"
 
-#: ../src/calendar/gui/comp-util.c:2940 ../src/calendar/gui/e-task-table.c:462
+#: ../src/calendar/gui/comp-util.c:2947 ../src/calendar/gui/e-task-table.c:462
 #: ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/mail/message-list.c:327
 msgid "High"
 msgstr "Aukštas"
 
-#: ../src/calendar/gui/comp-util.c:2942 ../src/calendar/gui/e-cal-model.c:1791
+#: ../src/calendar/gui/comp-util.c:2949 ../src/calendar/gui/e-cal-model.c:1795
 #: ../src/calendar/gui/e-task-table.c:463
 #: ../src/calendar/gui/tasktypes.xml.in.h:21 ../src/mail/message-list.c:326
 msgid "Normal"
 msgstr "Normalus"
 
-#: ../src/calendar/gui/comp-util.c:2944 ../src/calendar/gui/e-task-table.c:464
+#: ../src/calendar/gui/comp-util.c:2951 ../src/calendar/gui/e-task-table.c:464
 #: ../src/calendar/gui/tasktypes.xml.in.h:22 ../src/mail/message-list.c:325
 msgid "Low"
 msgstr "Žemas"
 
-#: ../src/calendar/gui/comp-util.c:2946
+#: ../src/calendar/gui/comp-util.c:2953
 msgid "Priority:"
 msgstr "Prioritetas:"
 
-#: ../src/calendar/gui/comp-util.c:2964
+#: ../src/calendar/gui/comp-util.c:2971
 msgid "Classification:"
 msgstr "Klasifikacija:"
 
-#: ../src/calendar/gui/comp-util.c:2977
+#: ../src/calendar/gui/comp-util.c:2984
 msgid "Organizer:"
 msgstr "Organizatorius:"
 
-#: ../src/calendar/gui/comp-util.c:3019
-#: ../src/modules/itip-formatter/itip-view.c:2296
-#: ../src/modules/itip-formatter/itip-view.c:2539
+#: ../src/calendar/gui/comp-util.c:3026
+#: ../src/modules/itip-formatter/itip-view.c:2300
+#: ../src/modules/itip-formatter/itip-view.c:2543
 msgid "Attendees:"
 msgstr "Dalyviai:"
 
-#: ../src/calendar/gui/comp-util.c:3143
+#: ../src/calendar/gui/comp-util.c:3150
 msgid "Web Page:"
 msgstr "Tinklalapis:"
 
@@ -8808,41 +8808,41 @@ msgid "Click here, you can find more events."
 msgstr "Spustelėkite norėdami rasti daugiau įvykių."
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-alarm-list.c:387
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2317
+#: ../src/calendar/gui/e-alarm-list.c:391
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2321
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "Groti garsą"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-alarm-list.c:391
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2315
+#: ../src/calendar/gui/e-alarm-list.c:395
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2319
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "Parodyti perspėjimą"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-alarm-list.c:395
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2321
+#: ../src/calendar/gui/e-alarm-list.c:399
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2325
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "Siųsti laišką"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-alarm-list.c:399
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2319
+#: ../src/calendar/gui/e-alarm-list.c:403
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2323
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "Paleisti programą"
 
-#: ../src/calendar/gui/e-alarm-list.c:405
+#: ../src/calendar/gui/e-alarm-list.c:409
 msgctxt "cal-reminders"
 msgid "Unknown action to be performed"
 msgstr "Nežinomas veiksmas, kurį reikia atlikti"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
-#: ../src/calendar/gui/e-alarm-list.c:421
+#: ../src/calendar/gui/e-alarm-list.c:425
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s %s before the start"
@@ -8850,7 +8850,7 @@ msgstr "%s %s prieš pradžią"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
-#: ../src/calendar/gui/e-alarm-list.c:427
+#: ../src/calendar/gui/e-alarm-list.c:431
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s %s after the start"
@@ -8858,7 +8858,7 @@ msgstr "%s %s po pradžios"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
-#: ../src/calendar/gui/e-alarm-list.c:434
+#: ../src/calendar/gui/e-alarm-list.c:438
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s at the start"
@@ -8866,7 +8866,7 @@ msgstr "%s pradžioje"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
-#: ../src/calendar/gui/e-alarm-list.c:447
+#: ../src/calendar/gui/e-alarm-list.c:451
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s %s before the end"
@@ -8874,7 +8874,7 @@ msgstr "%s %s prieš pabaigą"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
-#: ../src/calendar/gui/e-alarm-list.c:453
+#: ../src/calendar/gui/e-alarm-list.c:457
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s %s after the end"
@@ -8882,7 +8882,7 @@ msgstr "%s %s po pabaigos"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
-#: ../src/calendar/gui/e-alarm-list.c:460
+#: ../src/calendar/gui/e-alarm-list.c:464
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s at the end"
@@ -8890,7 +8890,7 @@ msgstr "%s pabaigoje"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
-#: ../src/calendar/gui/e-alarm-list.c:484
+#: ../src/calendar/gui/e-alarm-list.c:488
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s at %s"
@@ -8898,7 +8898,7 @@ msgstr "%s yra %s"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound". "Trigger types" are absolute or relative dates
-#: ../src/calendar/gui/e-alarm-list.c:492
+#: ../src/calendar/gui/e-alarm-list.c:496
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s for an unknown trigger type"
@@ -8942,7 +8942,7 @@ msgid "Sta_rt date:"
 msgstr "P_radžios data:"
 
 #: ../src/calendar/gui/e-bulk-edit-tasks.c:704
-#: ../src/calendar/gui/e-comp-editor-event.c:1003
+#: ../src/calendar/gui/e-comp-editor-event.c:1007
 #: ../src/calendar/gui/e-comp-editor-memo.c:258
 #: ../src/calendar/gui/e-comp-editor-task.c:807
 msgid "_Categories"
@@ -8971,7 +8971,7 @@ msgstr "Trynimo p_riežastis:"
 msgid "Cancellation _reason:"
 msgstr "Atšaukimo p_riežastis:"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:463 ../src/calendar/gui/e-cal-ops.c:2013
+#: ../src/calendar/gui/e-cal-dialogs.c:463 ../src/calendar/gui/e-cal-ops.c:2023
 msgid "Destination is read only"
 msgstr "Paskirties vieta yra tik skaitoma"
 
@@ -9101,54 +9101,54 @@ msgstr "Siųsti mano perspėjimus su šiuo įvykiu"
 msgid "Notify new attendees _only"
 msgstr "Pranešti tik naujiems _dalyviams"
 
-#: ../src/calendar/gui/e-calendar-view.c:329
+#: ../src/calendar/gui/e-calendar-view.c:334
 msgid "Cut selected events to the clipboard"
 msgstr "Iškirpti pažymėtus įvykius į atmintinę"
 
-#: ../src/calendar/gui/e-calendar-view.c:335
+#: ../src/calendar/gui/e-calendar-view.c:340
 msgid "Copy selected events to the clipboard"
 msgstr "Kopijuoti pasirinktus įvykius į atmintinę"
 
-#: ../src/calendar/gui/e-calendar-view.c:341
+#: ../src/calendar/gui/e-calendar-view.c:346
 msgid "Paste events from the clipboard"
 msgstr "Įdėti įvykius iš atmintinės"
 
-#: ../src/calendar/gui/e-calendar-view.c:347
+#: ../src/calendar/gui/e-calendar-view.c:352
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1537
 msgid "Delete selected events"
 msgstr "Ištrinti pažymėtus įvykius"
 
-#: ../src/calendar/gui/e-calendar-view.c:853
+#: ../src/calendar/gui/e-calendar-view.c:862
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "Įdėtame tekste nėra tinkamų iCalendar duomenų"
 
-#: ../src/calendar/gui/e-calendar-view.c:864
-#: ../src/calendar/gui/e-cal-ops.c:1590
+#: ../src/calendar/gui/e-calendar-view.c:873
+#: ../src/calendar/gui/e-cal-ops.c:1600
 msgid "Default calendar not found"
 msgstr "Nerastas numatytasis kalendorius"
 
-#: ../src/calendar/gui/e-calendar-view.c:869
-#: ../src/calendar/gui/e-cal-ops.c:1593
+#: ../src/calendar/gui/e-calendar-view.c:878
+#: ../src/calendar/gui/e-cal-ops.c:1603
 msgid "Default memo list not found"
 msgstr "Nerastas numatytasis raštelių sąrašas"
 
-#: ../src/calendar/gui/e-calendar-view.c:874
-#: ../src/calendar/gui/e-cal-ops.c:1596
+#: ../src/calendar/gui/e-calendar-view.c:883
+#: ../src/calendar/gui/e-cal-ops.c:1606
 msgid "Default task list not found"
 msgstr "Nerastas numatytasis užduočių sąrašas"
 
-#: ../src/calendar/gui/e-calendar-view.c:981
+#: ../src/calendar/gui/e-calendar-view.c:990
 msgid "No suitable component found"
 msgstr "Nerastas tinkamas komponentas"
 
-#: ../src/calendar/gui/e-calendar-view.c:1046
+#: ../src/calendar/gui/e-calendar-view.c:1055
 msgid "Pasting iCalendar data"
 msgstr "Įdedami iCalendar duomenys"
 
-#: ../src/calendar/gui/e-calendar-view.c:1103
-#: ../src/calendar/gui/e-calendar-view.c:1107
-#: ../src/calendar/gui/e-calendar-view.c:1110
-#: ../src/calendar/gui/e-calendar-view.c:1111
+#: ../src/calendar/gui/e-calendar-view.c:1112
+#: ../src/calendar/gui/e-calendar-view.c:1116
+#: ../src/calendar/gui/e-calendar-view.c:1119
+#: ../src/calendar/gui/e-calendar-view.c:1120
 msgid "%d %b %Y"
 msgstr "%Y m. %b %d d"
 
@@ -9157,7 +9157,7 @@ msgstr "%Y m. %b %d d"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1106
+#: ../src/calendar/gui/e-calendar-view.c:1115
 #: ../src/calendar/gui/e-day-view.c:3276
 #: ../src/calendar/gui/e-day-view-top-item.c:844
 #: ../src/calendar/gui/e-week-view-main-item.c:225
@@ -9165,7 +9165,7 @@ msgstr "%Y m. %b %d d"
 msgid "%d %b"
 msgstr "%b %d d"
 
-#: ../src/calendar/gui/e-calendar-view.c:1117
+#: ../src/calendar/gui/e-calendar-view.c:1126
 msgid "%A %d %b %Y"
 msgstr "%A, %Y m. %b %d d"
 
@@ -9175,7 +9175,7 @@ msgstr "%A, %Y m. %b %d d"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1120
+#: ../src/calendar/gui/e-calendar-view.c:1129
 #: ../src/calendar/gui/e-day-view.c:3259
 #: ../src/calendar/gui/e-day-view-top-item.c:839
 #: ../src/calendar/gui/e-week-view-main-item.c:210
@@ -9183,13 +9183,13 @@ msgstr "%A, %Y m. %b %d d"
 msgid "%a %d %b"
 msgstr "%a, %b %d d"
 
-#: ../src/calendar/gui/e-calendar-view.c:1121
-#: ../src/calendar/gui/e-calendar-view.c:1123
-#: ../src/calendar/gui/e-calendar-view.c:1124
+#: ../src/calendar/gui/e-calendar-view.c:1130
+#: ../src/calendar/gui/e-calendar-view.c:1132
+#: ../src/calendar/gui/e-calendar-view.c:1133
 msgid "%a %d %b %Y"
 msgstr "%a, %Y m. %b %d d"
 
-#: ../src/calendar/gui/e-calendar-view.c:1779
+#: ../src/calendar/gui/e-calendar-view.c:1788
 msgid "Deathday"
 msgstr "Mirties diena"
 
@@ -9197,7 +9197,7 @@ msgstr "Mirties diena"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1798
+#: ../src/calendar/gui/e-calendar-view.c:1807
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -9260,72 +9260,72 @@ msgstr "Šaltinis"
 msgid "Type"
 msgstr "Tipas"
 
-#: ../src/calendar/gui/e-cal-model.c:293
+#: ../src/calendar/gui/e-cal-model.c:297
 #: ../src/calendar/gui/e-meeting-list-view.c:171
 #: ../src/calendar/gui/e-meeting-list-view.c:185
 #: ../src/calendar/gui/e-meeting-store.c:131
 #: ../src/calendar/gui/e-meeting-store.c:166
-#: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1298
-#: ../src/calendar/gui/print.c:1315 ../src/e-util/e-charset.c:49
+#: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1302
+#: ../src/calendar/gui/print.c:1319 ../src/e-util/e-charset.c:49
 #: ../src/modules/calendar/e-calendar-preferences.c:803
-#: ../src/modules/itip-formatter/itip-view.c:4302
-#: ../src/modules/itip-formatter/itip-view.c:7676
+#: ../src/modules/itip-formatter/itip-view.c:4306
+#: ../src/modules/itip-formatter/itip-view.c:7708
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Nežinomas"
 
-#: ../src/calendar/gui/e-cal-model.c:1277 ../src/calendar/gui/e-cal-ops.c:636
-#: ../src/calendar/gui/e-cal-ops.c:1275
+#: ../src/calendar/gui/e-cal-model.c:1281 ../src/calendar/gui/e-cal-ops.c:640
+#: ../src/calendar/gui/e-cal-ops.c:1279
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:385
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Nerastas šaltinis su UID „%s“"
 
-#: ../src/calendar/gui/e-cal-model.c:1388 ../src/calendar/gui/e-cal-ops.c:202
-#: ../src/calendar/gui/e-cal-ops.c:1392
+#: ../src/calendar/gui/e-cal-model.c:1392 ../src/calendar/gui/e-cal-ops.c:206
+#: ../src/calendar/gui/e-cal-ops.c:1396
 msgid "Creating an event"
 msgstr "Sukuriamas įvykis"
 
-#: ../src/calendar/gui/e-cal-model.c:1392 ../src/calendar/gui/e-cal-ops.c:206
-#: ../src/calendar/gui/e-cal-ops.c:1396
+#: ../src/calendar/gui/e-cal-model.c:1396 ../src/calendar/gui/e-cal-ops.c:210
+#: ../src/calendar/gui/e-cal-ops.c:1400
 msgid "Creating a memo"
 msgstr "Sukuriamas raštelis"
 
-#: ../src/calendar/gui/e-cal-model.c:1396 ../src/calendar/gui/e-cal-ops.c:210
-#: ../src/calendar/gui/e-cal-ops.c:1400
+#: ../src/calendar/gui/e-cal-model.c:1400 ../src/calendar/gui/e-cal-ops.c:214
+#: ../src/calendar/gui/e-cal-ops.c:1404
 msgid "Creating a task"
 msgstr "Sukuriama užduotis"
 
-#: ../src/calendar/gui/e-cal-model.c:1793
+#: ../src/calendar/gui/e-cal-model.c:1797
 msgid "Recurring"
 msgstr "Pasikartojantis"
 
-#: ../src/calendar/gui/e-cal-model.c:1795
+#: ../src/calendar/gui/e-cal-model.c:1799
 msgid "Assigned"
 msgstr "Priskirtas"
 
-#: ../src/calendar/gui/e-cal-model.c:1798
-#: ../src/calendar/gui/e-cal-model-tasks.c:1153
+#: ../src/calendar/gui/e-cal-model.c:1802
+#: ../src/calendar/gui/e-cal-model-tasks.c:1157
 msgid "Yes"
 msgstr "Taip"
 
-#: ../src/calendar/gui/e-cal-model.c:1798
-#: ../src/calendar/gui/e-cal-model-tasks.c:1153
+#: ../src/calendar/gui/e-cal-model.c:1802
+#: ../src/calendar/gui/e-cal-model-tasks.c:1157
 msgid "No"
 msgstr "Ne"
 
-#: ../src/calendar/gui/e-cal-model-calendar.c:90
+#: ../src/calendar/gui/e-cal-model-calendar.c:99
 #: ../src/calendar/gui/e-task-table.c:521
 msgid "Free"
 msgstr "Laisvas"
 
-#: ../src/calendar/gui/e-cal-model-calendar.c:93
+#: ../src/calendar/gui/e-cal-model-calendar.c:102
 #: ../src/calendar/gui/e-meeting-time-sel.c:528
 #: ../src/calendar/gui/e-task-table.c:522
 msgid "Busy"
 msgstr "Užimtas"
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:461
+#: ../src/calendar/gui/e-cal-model-tasks.c:465
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -9335,35 +9335,35 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:558
+#: ../src/calendar/gui/e-cal-model-tasks.c:562
 msgid "In Progress"
 msgstr "Vykdoma"
 
-#: ../src/calendar/gui/e-cal-ops.c:324
+#: ../src/calendar/gui/e-cal-ops.c:328
 msgid "Modifying an event"
 msgstr "Keičiamas įvykis"
 
-#: ../src/calendar/gui/e-cal-ops.c:328
+#: ../src/calendar/gui/e-cal-ops.c:332
 msgid "Modifying a memo"
 msgstr "Keičiamas raštelis"
 
-#: ../src/calendar/gui/e-cal-ops.c:332
+#: ../src/calendar/gui/e-cal-ops.c:336
 msgid "Modifying a task"
 msgstr "Keičiama užduotis"
 
-#: ../src/calendar/gui/e-cal-ops.c:433
+#: ../src/calendar/gui/e-cal-ops.c:437
 msgid "Removing an event"
 msgstr "Šalinamas įvykis"
 
-#: ../src/calendar/gui/e-cal-ops.c:437
+#: ../src/calendar/gui/e-cal-ops.c:441
 msgid "Removing a memo"
 msgstr "Šalinamas raštelis"
 
-#: ../src/calendar/gui/e-cal-ops.c:441
+#: ../src/calendar/gui/e-cal-ops.c:445
 msgid "Removing a task"
 msgstr "Šalinama užduotis"
 
-#: ../src/calendar/gui/e-cal-ops.c:529
+#: ../src/calendar/gui/e-cal-ops.c:533
 #, c-format
 msgid "Deleting an event"
 msgid_plural "Deleting %d events"
@@ -9371,7 +9371,7 @@ msgstr[0] "Trinamas %d įvykis"
 msgstr[1] "Trinami %d įvykiai"
 msgstr[2] "Trinama %d įvykių"
 
-#: ../src/calendar/gui/e-cal-ops.c:533
+#: ../src/calendar/gui/e-cal-ops.c:537
 #, c-format
 msgid "Deleting a memo"
 msgid_plural "Deleting %d memos"
@@ -9379,7 +9379,7 @@ msgstr[0] "Trinamas %d raštelis"
 msgstr[1] "Trinami %d rašteliai"
 msgstr[2] "Trinama %d raštelių"
 
-#: ../src/calendar/gui/e-cal-ops.c:537
+#: ../src/calendar/gui/e-cal-ops.c:541
 #, c-format
 msgid "Deleting a task"
 msgid_plural "Deleting %d tasks"
@@ -9387,7 +9387,7 @@ msgstr[0] "Trinama %d užduotis"
 msgstr[1] "Trinamos %d užduotys"
 msgstr[2] "Trinama %d užduočių"
 
-#: ../src/calendar/gui/e-cal-ops.c:748
+#: ../src/calendar/gui/e-cal-ops.c:752
 #, c-format
 msgid "Pasting an event"
 msgid_plural "Pasting %d events"
@@ -9395,7 +9395,7 @@ msgstr[0] "Įdedamas %d įvykis"
 msgstr[1] "Įdedami %d įvykiai"
 msgstr[2] "Įdedama %d įvykių"
 
-#: ../src/calendar/gui/e-cal-ops.c:763
+#: ../src/calendar/gui/e-cal-ops.c:767
 #, c-format
 msgid "Pasting a memo"
 msgid_plural "Pasting %d memos"
@@ -9403,7 +9403,7 @@ msgstr[0] "Įdedamas %d raštelis"
 msgstr[1] "Įdedami %d rašteliai"
 msgstr[2] "Įdedama %d raštelių"
 
-#: ../src/calendar/gui/e-cal-ops.c:778
+#: ../src/calendar/gui/e-cal-ops.c:782
 #, c-format
 msgid "Pasting a task"
 msgid_plural "Pasting %d tasks"
@@ -9411,65 +9411,65 @@ msgstr[0] "Įdedama %d užduotis"
 msgstr[1] "Įdedamos %d užduotys"
 msgstr[2] "Įdedama %d užduočių"
 
-#: ../src/calendar/gui/e-cal-ops.c:878
+#: ../src/calendar/gui/e-cal-ops.c:882
 msgid "Updating an event"
 msgstr "Atnaujinamas įvykis"
 
-#: ../src/calendar/gui/e-cal-ops.c:882
+#: ../src/calendar/gui/e-cal-ops.c:886
 msgid "Updating a memo"
 msgstr "Atnaujinamas raštelis"
 
-#: ../src/calendar/gui/e-cal-ops.c:886
+#: ../src/calendar/gui/e-cal-ops.c:890
 msgid "Updating a task"
 msgstr "Atnaujinama užduotis"
 
-#: ../src/calendar/gui/e-cal-ops.c:999
+#: ../src/calendar/gui/e-cal-ops.c:1003
 #, c-format
 msgid "Getting events to purge in the calendar “%s”"
 msgstr "Gaunami trinami įvykiai kalendoriuje „%s“"
 
-#: ../src/calendar/gui/e-cal-ops.c:1003
+#: ../src/calendar/gui/e-cal-ops.c:1007
 #, c-format
 msgid "Getting memos to purge in the memo list “%s”"
 msgstr "Gaunami trinami rašteliai raštelių sąraše „%s“"
 
-#: ../src/calendar/gui/e-cal-ops.c:1007
+#: ../src/calendar/gui/e-cal-ops.c:1011
 #, c-format
 msgid "Getting tasks to purge in the task list “%s”"
 msgstr "Gaunamos trinamos užduotys užduočių sąraše „%s“"
 
-#: ../src/calendar/gui/e-cal-ops.c:1033
+#: ../src/calendar/gui/e-cal-ops.c:1037
 #, c-format
 msgid "Purging events in the calendar “%s”"
 msgstr "Trinami įvykiai kalendoriuje „%s“"
 
-#: ../src/calendar/gui/e-cal-ops.c:1037
+#: ../src/calendar/gui/e-cal-ops.c:1041
 #, c-format
 msgid "Purging memos in the memo list “%s”"
 msgstr "Trinami rašteliai raštelių sąraše „%s“"
 
-#: ../src/calendar/gui/e-cal-ops.c:1041
+#: ../src/calendar/gui/e-cal-ops.c:1045
 #, c-format
 msgid "Purging tasks in the task list “%s”"
 msgstr "Trinamos užduotys užduočių sąraše „%s“"
 
-#: ../src/calendar/gui/e-cal-ops.c:1134
+#: ../src/calendar/gui/e-cal-ops.c:1138
 msgid "Purging events"
 msgstr "Trinami įvykiai"
 
-#: ../src/calendar/gui/e-cal-ops.c:1138
+#: ../src/calendar/gui/e-cal-ops.c:1142
 msgid "Purging memos"
 msgstr "Trinami rašteliai"
 
-#: ../src/calendar/gui/e-cal-ops.c:1142
+#: ../src/calendar/gui/e-cal-ops.c:1146
 msgid "Purging tasks"
 msgstr "Trinamos užduotys"
 
-#: ../src/calendar/gui/e-cal-ops.c:1244
+#: ../src/calendar/gui/e-cal-ops.c:1248
 msgid "Expunging completed tasks"
 msgstr "Slepiamos užbaigtos užduotys"
 
-#: ../src/calendar/gui/e-cal-ops.c:2104
+#: ../src/calendar/gui/e-cal-ops.c:2114
 #, c-format
 msgid "Moving an event"
 msgid_plural "Moving %d events"
@@ -9477,7 +9477,7 @@ msgstr[0] "Perkeliamas %d įvykis"
 msgstr[1] "Perkeliami %d įvykiai"
 msgstr[2] "Perkeliama %d įvykių"
 
-#: ../src/calendar/gui/e-cal-ops.c:2105
+#: ../src/calendar/gui/e-cal-ops.c:2115
 #, c-format
 msgid "Copying an event"
 msgid_plural "Copying %d events"
@@ -9485,7 +9485,7 @@ msgstr[0] "Kopijuojamas %d įvykis"
 msgstr[1] "Kopijuojami %d įvykiai"
 msgstr[2] "Kopijuojama %d įvykių"
 
-#: ../src/calendar/gui/e-cal-ops.c:2111
+#: ../src/calendar/gui/e-cal-ops.c:2121
 #, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
@@ -9493,7 +9493,7 @@ msgstr[0] "Perkeliamas %d raštelis"
 msgstr[1] "Perkeliami %d rašteliai"
 msgstr[2] "Perkeliama %d raštelių"
 
-#: ../src/calendar/gui/e-cal-ops.c:2112
+#: ../src/calendar/gui/e-cal-ops.c:2122
 #, c-format
 msgid "Copying a memo"
 msgid_plural "Copying %d memos"
@@ -9501,7 +9501,7 @@ msgstr[0] "Kopijuojamas %d raštelis"
 msgstr[1] "Kopijuojami %d rašteliai"
 msgstr[2] "Kopijuojama %d raštelių"
 
-#: ../src/calendar/gui/e-cal-ops.c:2118
+#: ../src/calendar/gui/e-cal-ops.c:2128
 #, c-format
 msgid "Moving a task"
 msgid_plural "Moving %d tasks"
@@ -9509,7 +9509,7 @@ msgstr[0] "Perkeliama %d užduotis"
 msgstr[1] "Perkeliamos %d užduotys"
 msgstr[2] "Perkeliama %d užduočių"
 
-#: ../src/calendar/gui/e-cal-ops.c:2119
+#: ../src/calendar/gui/e-cal-ops.c:2129
 #, c-format
 msgid "Copying a task"
 msgid_plural "Copying %d tasks"
@@ -9536,161 +9536,161 @@ msgstr ""
 "Data turi būti įvesta formatu: \n"
 "%s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:106
+#: ../src/calendar/gui/e-comp-editor-event.c:110
 msgid "Event’s time is in the past"
 msgstr "Įvykio laikas yra praeityje"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:225
+#: ../src/calendar/gui/e-comp-editor-event.c:229
 msgid ""
 "Event cannot be edited, because the selected calendar could not be opened"
 msgstr ""
 "Negalima taisyti įvykio, kadangi nepavyko atverti pasirinkto kalendoriaus"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:227
+#: ../src/calendar/gui/e-comp-editor-event.c:231
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
 "Negalima taisyti įvykio, kadangi pasirinktasis kalendorius yra tik skaitomas"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:229
+#: ../src/calendar/gui/e-comp-editor-event.c:233
 msgid ""
 "Changes made to the event will not be sent to the attendees, because you are "
 "not the organizer"
 msgstr ""
 "Įvykio pakeitimus nebus siunčiami dalyviams, kadangi nesate organizatorius"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:565
+#: ../src/calendar/gui/e-comp-editor-event.c:569
 #: ../src/calendar/gui/e-comp-editor-task.c:619
 msgid "Start date is not a valid date"
 msgstr "Klaidinga pradžios data"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:567
+#: ../src/calendar/gui/e-comp-editor-event.c:571
 msgid "Start time is not a valid time"
 msgstr "Klaidingas pradžios laikas"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:581
+#: ../src/calendar/gui/e-comp-editor-event.c:585
 msgid "End date is not a valid date"
 msgstr "Klaidinga pabaigos data"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:583
+#: ../src/calendar/gui/e-comp-editor-event.c:587
 msgid "End time is not a valid time"
 msgstr "Klaidingas pabaigos laikas"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1005
+#: ../src/calendar/gui/e-comp-editor-event.c:1009
 #: ../src/calendar/gui/e-comp-editor-memo.c:260
 #: ../src/calendar/gui/e-comp-editor-task.c:809
 msgid "Toggles whether to display categories"
 msgstr "Perjungia kategorijų matomumą"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1010
+#: ../src/calendar/gui/e-comp-editor-event.c:1014
 #: ../src/calendar/gui/e-comp-editor-task.c:814
 msgid "Time _Zone"
 msgstr "Laiko j_uosta"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1012
+#: ../src/calendar/gui/e-comp-editor-event.c:1016
 #: ../src/calendar/gui/e-comp-editor-task.c:816
 msgid "Toggles whether the time zone is displayed"
 msgstr "Perjungia laiko juostos matomumą"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1017
+#: ../src/calendar/gui/e-comp-editor-event.c:1021
 msgid "_Day Agenda"
 msgstr "_Dienos tvarkaraštis"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1019
+#: ../src/calendar/gui/e-comp-editor-event.c:1023
 msgid "Toggles whether the day agenda is displayed"
 msgstr "Nurodo, ar rodomas dienos tvarkaraštis"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1024
+#: ../src/calendar/gui/e-comp-editor-event.c:1028
 msgid "All _Day Event"
 msgstr "Visos _dienos įvykis"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1026
+#: ../src/calendar/gui/e-comp-editor-event.c:1030
 msgid "Toggles whether to have All Day Event"
 msgstr "Perjungia visos dienos įvykio matomumą"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1031
+#: ../src/calendar/gui/e-comp-editor-event.c:1035
 msgid "Show Time as _Busy"
 msgstr "Rodyti laiką kaip _užimtą"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1033
+#: ../src/calendar/gui/e-comp-editor-event.c:1037
 msgid "Toggles whether to show time as busy"
 msgstr "Perjungia laiko užimtumo būseną"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1038
+#: ../src/calendar/gui/e-comp-editor-event.c:1042
 msgid "Pu_blic"
 msgstr "_Viešas"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1040
+#: ../src/calendar/gui/e-comp-editor-event.c:1044
 msgid "Classify as public"
 msgstr "Klasifikuoti kaip viešą"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1045
+#: ../src/calendar/gui/e-comp-editor-event.c:1049
 msgid "_Private"
 msgstr "_Asmeniškas"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1047
+#: ../src/calendar/gui/e-comp-editor-event.c:1051
 msgid "Classify as private"
 msgstr "Klasifikuoti kaip privatų"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1052
+#: ../src/calendar/gui/e-comp-editor-event.c:1056
 msgid "_Confidential"
 msgstr "_Konfidencialus"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1054
+#: ../src/calendar/gui/e-comp-editor-event.c:1058
 msgid "Classify as confidential"
 msgstr "Klasifikuoti kaip konfidencialų"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1183
+#: ../src/calendar/gui/e-comp-editor-event.c:1187
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "_Pradžios laikas:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1188
+#: ../src/calendar/gui/e-comp-editor-event.c:1192
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "P_abaigos laikas:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1198
+#: ../src/calendar/gui/e-comp-editor-event.c:1202
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "Visos _dienos įvykis"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1323
+#: ../src/calendar/gui/e-comp-editor-event.c:1327
 #: ../src/calendar/gui/e-comp-editor-memo.c:349
 #: ../src/calendar/gui/e-comp-editor-task.c:980
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Esmė"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1326
+#: ../src/calendar/gui/e-comp-editor-event.c:1330
 #: ../src/calendar/gui/e-comp-editor-task.c:1003
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Priminimai"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1329
+#: ../src/calendar/gui/e-comp-editor-event.c:1333
 #: ../src/calendar/gui/e-comp-editor-task.c:1007
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Pasikartojimas"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1332
+#: ../src/calendar/gui/e-comp-editor-event.c:1336
 #: ../src/calendar/gui/e-comp-editor-memo.c:352
 #: ../src/calendar/gui/e-comp-editor-task.c:1011
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "Priedai"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1340
+#: ../src/calendar/gui/e-comp-editor-event.c:1344
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "Tvarkaraštis"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1426
+#: ../src/calendar/gui/e-comp-editor-event.c:1430
 #, c-format
 msgid "Meeting — %s"
 msgstr "Susitikimas — %s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1427
+#: ../src/calendar/gui/e-comp-editor-event.c:1431
 #, c-format
 msgid "Appointment — %s"
 msgstr "Paskyrimas — %s"
@@ -9909,7 +9909,7 @@ msgstr "D_alyviai…"
 #. ** Menus **
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1529
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2449
-#: ../src/calendar/gui/e-comp-editor.c:2332
+#: ../src/calendar/gui/e-comp-editor.c:2355
 #: ../src/e-util/e-accounts-window.c:1760
 #: ../src/e-util/e-html-editor-actions.c:1420
 #: ../src/e-util/e-mail-signature-manager.c:339
@@ -10186,14 +10186,14 @@ msgid "Exceptions"
 msgstr "Išimtys"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2441
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2271
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2275
 #: ../src/mail/e-mail-config-identity-page.c:848
 #: ../src/mail/mail-config.ui.h:75
 msgid "A_dd"
 msgstr "Pri_dėti"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2457
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2279
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2283
 #: ../src/mail/mail-config.ui.h:76
 msgid "Re_move"
 msgstr "_Pašalinti"
@@ -10206,16 +10206,16 @@ msgstr "Peržiūra"
 msgid "Send To"
 msgstr "Siųsti"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1708
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1712
 msgid "_Reminders"
 msgstr "_Priminimai"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1710
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1714
 msgid "Set or unset reminders"
 msgstr "Įjunkite arba išjunkite priminus"
 
 #. Translators: "None" for "No reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1810
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1814
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Nėra"
@@ -10223,162 +10223,162 @@ msgstr "Nėra"
 #. Translators: This constructs predefined reminder's description, for example "15 minutes before",
 #. "1 hour before", "1 day before", but, if user has set, also more complicated strings like
 #. "2 days 13 hours 1 minute before".
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1820
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1824
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s before"
 msgstr "prieš %s"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1825
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1829
 msgctxt "cal-reminders"
 msgid "at the start"
 msgstr "pradžioje"
 
 #. Translators: "Custom" for "Custom reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1833
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1837
 msgctxt "cal-reminders"
 msgid "Custom"
 msgstr "Pasirinktinis"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1835
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1839
 msgid "Add predefined time…"
 msgstr "Pridėti pasirinktinį laiką…"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1838
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1842
 msgid "Remove predefined times"
 msgstr "Pašalinti pasirinktinius laikus"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1982
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1986
 msgid "Set a custom predefined time to"
 msgstr "Nustatyti pasirinktinį laiką"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1995
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1999
 msgctxt "cal-reminders"
 msgid "da_ys"
 msgstr "_dienos"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2011
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2015
 msgctxt "cal-reminders"
 msgid "_hours"
 msgstr "_valandos"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2027
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2031
 msgctxt "cal-reminders"
 msgid "_minutes"
 msgstr "_minutės"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2033
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2037
 msgid "_Add time"
 msgstr "_Pridėti laiką"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2129
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2133
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:85
 msgid "Reminders"
 msgstr "Priminimai"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2154
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2158
 msgid "_Reminder"
 msgstr "_Priminimas"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2352
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2356
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "minutę (es)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2354
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2358
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "valandą (as)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2356
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2360
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "dieną (as)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2373
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2377
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "prieš"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2375
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2379
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "po"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2391
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2395
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "pradžia"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2393
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2397
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "pabaiga"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2412
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2416
 msgid "Re_peat the reminder"
 msgstr "_Kartoti priminimą"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2437
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2441
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "papildomai kiekvieną"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2474
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2478
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "minučių"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2476
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2480
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "valandų"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2478
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2482
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "dienų"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2515
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2673
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2519
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2677
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "Pasirinktinė ži_nutė"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2560
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2564
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "Pasirinktinis perspėjimo _garsas"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2571
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2575
 msgid "Select a sound file"
 msgstr "Pasirinkite garso failą"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2599
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2603
 msgid "_Program:"
 msgstr "_Programa:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2624
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2628
 msgid "_Arguments:"
 msgstr "_Argumentai:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2656
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2660
 msgid "_Send To:"
 msgstr "_Siųsti:"
 
@@ -10441,84 +10441,84 @@ msgctxt "ECompEditor"
 msgid "D_ue date:"
 msgstr "_Terminas:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1906
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1913
 msgctxt "ECompEditor"
 msgid "Date _completed:"
 msgstr "Užbaigimo _data:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1922
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1929
 msgctxt "ECompEditor"
 msgid "Public"
 msgstr "Viešas"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1923
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1930
 msgctxt "ECompEditor"
 msgid "Private"
 msgstr "Asmeninis"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1924
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1931
 msgctxt "ECompEditor"
 msgid "Confidential"
 msgstr "Konfidencialus"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1940
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1947
 msgctxt "ECompEditor"
 msgid "C_lassification:"
 msgstr "K_lasifikacija:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2003
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2010
 msgctxt "ECompEditor"
 msgid "_Status:"
 msgstr "_Būsena:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2033
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2040
 msgctxt "ECompEditor"
 msgid "Undefined"
 msgstr "Nenurodyta"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2034
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2041
 msgctxt "ECompEditor"
 msgid "High"
 msgstr "Aukštas"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2035
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2042
 msgctxt "ECompEditor"
 msgid "Normal"
 msgstr "Normalus"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2036
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2043
 msgctxt "ECompEditor"
 msgid "Low"
 msgstr "Žemas"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2045
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2052
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
 msgstr "P_rioritetas:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2099
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2106
 msgctxt "ECompEditor"
 msgid "Percent complete:"
 msgstr "Įvykdyta dalis _procentais:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2180
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2187
 msgctxt "ECompEditor"
 msgid "Time _zone:"
 msgstr "Laiko _juosta:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2276
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2283
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Rodyti laiką kaip _užimtą"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2697
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2704
 #: ../src/e-util/e-webdav-browser.c:2609
 msgctxt "ECompEditor"
 msgid "None"
 msgstr "Nėra"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2858
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2865
 msgid "Esti_mated duration:"
 msgstr "Planuojama truk_mė:"
 
@@ -10588,22 +10588,22 @@ msgstr "Priskirta užduotis — %s"
 msgid "Task — %s"
 msgstr "Užduotis — %s"
 
-#: ../src/calendar/gui/e-comp-editor.c:279
+#: ../src/calendar/gui/e-comp-editor.c:302
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:197
 msgid "attachment"
 msgstr "priedas"
 
-#: ../src/calendar/gui/e-comp-editor.c:635
+#: ../src/calendar/gui/e-comp-editor.c:658
 msgid "Sending notifications to attendees…"
 msgstr "Siųsti pranešimus dalyviams…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1062
+#: ../src/calendar/gui/e-comp-editor.c:1085
 #: ../src/e-util/e-webdav-browser.c:1957
 msgid "Saving changes…"
 msgstr "Įrašomi pakeitimai…"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2232
+#: ../src/calendar/gui/e-comp-editor.c:2255
 #: ../src/composer/e-composer-actions.c:378
 #: ../src/e-util/e-accounts-window.c:1793
 #: ../src/e-util/e-html-editor-dialog.c:181
@@ -10621,12 +10621,12 @@ msgstr "Įrašomi pakeitimai…"
 msgid "_Close"
 msgstr "_Užverti"
 
-#: ../src/calendar/gui/e-comp-editor.c:2234
+#: ../src/calendar/gui/e-comp-editor.c:2257
 msgid "Close the current window"
 msgstr "Užverti esamą langą"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2239
+#: ../src/calendar/gui/e-comp-editor.c:2262
 #: ../src/e-util/e-html-editor-actions.c:1355 ../src/e-util/e-text.c:2031
 #: ../src/e-util/e-web-view.c:1663 ../src/mail/e-mail-browser.c:583
 #: ../src/mail/e-mail-viewer.c:1755 ../src/mail/mail.error.xml.h:147
@@ -10634,68 +10634,68 @@ msgstr "Užverti esamą langą"
 msgid "_Copy"
 msgstr "_Kopijuoti"
 
-#: ../src/calendar/gui/e-comp-editor.c:2241 ../src/e-util/e-focus-tracker.c:223
+#: ../src/calendar/gui/e-comp-editor.c:2264 ../src/e-util/e-focus-tracker.c:223
 #: ../src/e-util/e-focus-tracker.c:279 ../src/e-util/e-focus-tracker.c:332
 #: ../src/e-util/e-web-view.c:1665 ../src/e-util/e-web-view.c:2321
 #: ../src/mail/e-mail-browser.c:585 ../src/shell/e-shell-window-actions.c:641
 msgid "Copy the selection"
 msgstr "Kopijuoti pažymėjimą"
 
-#: ../src/calendar/gui/e-comp-editor.c:2246 ../src/e-util/e-ui-customizer.c:653
+#: ../src/calendar/gui/e-comp-editor.c:2269 ../src/e-util/e-ui-customizer.c:653
 msgid "_Customize Toolbar…"
 msgstr "_Keisti įrankinę…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2248
+#: ../src/calendar/gui/e-comp-editor.c:2271
 msgid "Customize actions in the toolbar"
 msgstr "Keisti įrankinės veiksmus"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2253
+#: ../src/calendar/gui/e-comp-editor.c:2276
 #: ../src/e-util/e-html-editor-actions.c:1362 ../src/e-util/e-text.c:2017
 #: ../src/mail/e-mail-browser.c:590 ../src/shell/e-shell-window-actions.c:646
 msgid "Cu_t"
 msgstr "Iškirp_ti"
 
-#: ../src/calendar/gui/e-comp-editor.c:2255 ../src/e-util/e-focus-tracker.c:216
+#: ../src/calendar/gui/e-comp-editor.c:2278 ../src/e-util/e-focus-tracker.c:216
 #: ../src/e-util/e-focus-tracker.c:272 ../src/e-util/e-focus-tracker.c:326
 #: ../src/e-util/e-web-view.c:2330 ../src/mail/e-mail-browser.c:592
 #: ../src/shell/e-shell-window-actions.c:648
 msgid "Cut the selection"
 msgstr "Iškirpti pažymėjimą"
 
-#: ../src/calendar/gui/e-comp-editor.c:2262 ../src/e-util/e-focus-tracker.c:237
+#: ../src/calendar/gui/e-comp-editor.c:2285 ../src/e-util/e-focus-tracker.c:237
 #: ../src/e-util/e-focus-tracker.c:293
 #: ../src/shell/e-shell-window-actions.c:655
 msgid "Delete the selection"
 msgstr "Ištrinti pažymėjimą"
 
-#: ../src/calendar/gui/e-comp-editor.c:2269
+#: ../src/calendar/gui/e-comp-editor.c:2292
 msgid "View help"
 msgstr "Rodyti pagalbą"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2274
+#: ../src/calendar/gui/e-comp-editor.c:2297
 #: ../src/e-util/e-html-editor-actions.c:1369 ../src/e-util/e-text.c:2043
 #: ../src/mail/e-mail-browser.c:597 ../src/mail/e-mail-viewer.c:1762
 #: ../src/shell/e-shell-window-actions.c:674
 msgid "_Paste"
 msgstr "Į_dėti"
 
-#: ../src/calendar/gui/e-comp-editor.c:2276 ../src/e-util/e-focus-tracker.c:230
+#: ../src/calendar/gui/e-comp-editor.c:2299 ../src/e-util/e-focus-tracker.c:230
 #: ../src/e-util/e-focus-tracker.c:286 ../src/e-util/e-focus-tracker.c:338
 #: ../src/e-util/e-web-view.c:2339 ../src/mail/e-mail-browser.c:599
 #: ../src/shell/e-shell-window-actions.c:676
 msgid "Paste the clipboard"
 msgstr "Įdėti iš krepšio"
 
-#: ../src/calendar/gui/e-comp-editor.c:2281
-#: ../src/composer/e-composer-actions.c:439 ../src/mail/e-mail-reader.c:3414
+#: ../src/calendar/gui/e-comp-editor.c:2304
+#: ../src/composer/e-composer-actions.c:439 ../src/mail/e-mail-reader.c:3519
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1576
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1590
 msgid "_Print…"
 msgstr "S_pausdinti…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2288 ../src/mail/e-mail-reader.c:3421
+#: ../src/calendar/gui/e-comp-editor.c:2311 ../src/mail/e-mail-reader.c:3526
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1583
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1820
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:767
@@ -10703,29 +10703,29 @@ msgstr "S_pausdinti…"
 msgid "Pre_view…"
 msgstr "Peržiūra…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2295
+#: ../src/calendar/gui/e-comp-editor.c:2318
 #: ../src/e-util/e-html-editor-actions.c:1383 ../src/e-util/e-web-view.c:1687
 #: ../src/mail/e-mail-browser.c:604 ../src/shell/e-shell-window-actions.c:702
 msgid "Select _All"
 msgstr "Pažymėti _visus"
 
-#: ../src/calendar/gui/e-comp-editor.c:2297 ../src/e-util/e-focus-tracker.c:244
+#: ../src/calendar/gui/e-comp-editor.c:2320 ../src/e-util/e-focus-tracker.c:244
 #: ../src/e-util/e-focus-tracker.c:300 ../src/mail/e-mail-browser.c:606
 #: ../src/shell/e-shell-window-actions.c:704
 msgid "Select all text"
 msgstr "Pažymėti visą tekstą"
 
-#: ../src/calendar/gui/e-comp-editor.c:2302
+#: ../src/calendar/gui/e-comp-editor.c:2325
 msgid "Show _toolbar"
 msgstr "Rody_ti įrankinę"
 
-#: ../src/calendar/gui/e-comp-editor.c:2325
+#: ../src/calendar/gui/e-comp-editor.c:2348
 msgid "_Classification"
 msgstr "_Klasifikacija"
 
 #. ** Menus **
 #. menus
-#: ../src/calendar/gui/e-comp-editor.c:2339
+#: ../src/calendar/gui/e-comp-editor.c:2362
 #: ../src/e-util/e-html-editor-actions.c:1427
 #: ../src/e-util/e-mail-signature-editor.c:540 ../src/mail/e-mail-browser.c:618
 #: ../src/mail/e-mail-notes.c:1161 ../src/mail/e-mail-viewer.c:1929
@@ -10733,12 +10733,12 @@ msgstr "_Klasifikacija"
 msgid "_File"
 msgstr "_Failas"
 
-#: ../src/calendar/gui/e-comp-editor.c:2353
+#: ../src/calendar/gui/e-comp-editor.c:2376
 #: ../src/e-util/e-html-editor-actions.c:1448
 msgid "_Insert"
 msgstr "Įt_erpti"
 
-#: ../src/calendar/gui/e-comp-editor.c:2360
+#: ../src/calendar/gui/e-comp-editor.c:2383
 #: ../src/composer/e-composer-actions.c:422
 #: ../src/e-util/e-mail-signature-editor.c:541
 #: ../src/e-util/e-ui-customizer.c:440 ../src/mail/e-mail-browser.c:621
@@ -10747,27 +10747,27 @@ msgstr "Įt_erpti"
 msgid "Menu"
 msgstr "Meniu"
 
-#: ../src/calendar/gui/e-comp-editor.c:2367
+#: ../src/calendar/gui/e-comp-editor.c:2390
 msgid "_Options"
 msgstr "_Parametrai"
 
-#: ../src/calendar/gui/e-comp-editor.c:2374
+#: ../src/calendar/gui/e-comp-editor.c:2397
 #: ../src/e-util/e-html-editor-actions.c:1469 ../src/mail/e-mail-browser.c:620
 #: ../src/mail/e-mail-viewer.c:1931 ../src/shell/e-shell-window-actions.c:757
 #: ../src/smime/gui/certificate-manager.c:1588 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "R_odymas"
 
-#: ../src/calendar/gui/e-comp-editor.c:2386
+#: ../src/calendar/gui/e-comp-editor.c:2409
 msgid "Save current changes"
 msgstr "Įrašyti dabartinius pakeitimus"
 
-#: ../src/calendar/gui/e-comp-editor.c:2391
+#: ../src/calendar/gui/e-comp-editor.c:2414
 #: ../src/e-util/e-mail-signature-editor.c:537 ../src/mail/e-mail-notes.c:1158
 msgid "Save and Close"
 msgstr "Įrašyti ir užverti"
 
-#: ../src/calendar/gui/e-comp-editor.c:2393
+#: ../src/calendar/gui/e-comp-editor.c:2416
 msgid "Save current changes and close editor"
 msgstr "Įrašyti dabartinius pakeitimus ir užverti redaktorių"
 
@@ -10780,7 +10780,7 @@ msgstr "Įrašyti dabartinius pakeitimus ir užverti redaktorių"
 #: ../src/calendar/gui/e-day-view.c:3241
 #: ../src/calendar/gui/e-day-view-top-item.c:834
 #: ../src/calendar/gui/e-week-view-main-item.c:200
-#: ../src/calendar/gui/print.c:2149
+#: ../src/calendar/gui/print.c:2153
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -10820,38 +10820,38 @@ msgstr "Nėra"
 msgid "Select…"
 msgstr "Pasirinkti…"
 
-#: ../src/calendar/gui/e-estimated-duration-entry.c:63
+#: ../src/calendar/gui/e-estimated-duration-entry.c:68
 msgctxt "estimated-duration"
 msgid "None"
 msgstr "Nėra"
 
-#: ../src/calendar/gui/e-estimated-duration-entry.c:201
+#: ../src/calendar/gui/e-estimated-duration-entry.c:206
 msgid "Set an estimated duration for"
 msgstr "Nustatyti planuojamą trukmę"
 
 #. Translators: this is part of: "Set an estimated duration for [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-estimated-duration-entry.c:214
+#: ../src/calendar/gui/e-estimated-duration-entry.c:219
 msgctxt "estimated-duration"
 msgid "_days"
 msgstr "_dienos"
 
 #. Translators: this is part of: "Set an estimated duration for [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-estimated-duration-entry.c:230
+#: ../src/calendar/gui/e-estimated-duration-entry.c:235
 msgctxt "estimated-duration"
 msgid "_hours"
 msgstr "_valandos"
 
 #. Translators: this is part of: "Set an estimated duration for [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-estimated-duration-entry.c:246
+#: ../src/calendar/gui/e-estimated-duration-entry.c:251
 msgctxt "estimated-duration"
 msgid "_minutes"
 msgstr "_minutės"
 
-#: ../src/calendar/gui/e-estimated-duration-entry.c:267
+#: ../src/calendar/gui/e-estimated-duration-entry.c:272
 msgid "_Set"
 msgstr "Nu_statyti"
 
-#: ../src/calendar/gui/e-estimated-duration-entry.c:472
+#: ../src/calendar/gui/e-estimated-duration-entry.c:477
 msgid "Chan_ge…"
 msgstr "_Keisti…"
 
@@ -10877,45 +10877,45 @@ msgstr "Dalyviai"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:168
 #: ../src/calendar/gui/e-meeting-store.c:108
-#: ../src/calendar/gui/e-meeting-store.c:125 ../src/calendar/gui/print.c:1295
+#: ../src/calendar/gui/e-meeting-store.c:125 ../src/calendar/gui/print.c:1299
 #: ../src/e-util/e-table-config.ui.h:1
 msgid "Group"
 msgstr "Grupė"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:169
 #: ../src/calendar/gui/e-meeting-store.c:110
-#: ../src/calendar/gui/e-meeting-store.c:127 ../src/calendar/gui/print.c:1296
+#: ../src/calendar/gui/e-meeting-store.c:127 ../src/calendar/gui/print.c:1300
 msgid "Resource"
 msgstr "Išteklius"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:170
 #: ../src/calendar/gui/e-meeting-store.c:112
-#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1297
+#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1301
 msgid "Room"
 msgstr "Kambarys"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:181
 #: ../src/calendar/gui/e-meeting-store.c:141
-#: ../src/calendar/gui/e-meeting-store.c:158 ../src/calendar/gui/print.c:1311
+#: ../src/calendar/gui/e-meeting-store.c:158 ../src/calendar/gui/print.c:1315
 msgid "Chair"
 msgstr "Pirmininkas"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:182
 #: ../src/calendar/gui/e-meeting-store.c:143
 #: ../src/calendar/gui/e-meeting-store.c:160
-#: ../src/calendar/gui/e-meeting-store.c:1065 ../src/calendar/gui/print.c:1312
+#: ../src/calendar/gui/e-meeting-store.c:1065 ../src/calendar/gui/print.c:1316
 msgid "Required Participant"
 msgstr "Būtinas dalyvis"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:183
 #: ../src/calendar/gui/e-meeting-store.c:145
-#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1313
+#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1317
 msgid "Optional Participant"
 msgstr "Nebūtinas dalyvis"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:184
 #: ../src/calendar/gui/e-meeting-store.c:147
-#: ../src/calendar/gui/e-meeting-store.c:164 ../src/calendar/gui/print.c:1314
+#: ../src/calendar/gui/e-meeting-store.c:164 ../src/calendar/gui/print.c:1318
 msgid "Non-Participant"
 msgstr "Ne dalyvis"
 
@@ -11038,7 +11038,7 @@ msgstr ""
 "Vieta: %s"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2573
-#: ../src/calendar/gui/print.c:3638
+#: ../src/calendar/gui/print.c:3642
 #, c-format
 msgid "Summary: %s"
 msgstr "Apžvalga: %s"
@@ -11191,14 +11191,14 @@ msgstr "Laikas: %s"
 #. strftime format of a weekday and a date.
 #: ../src/calendar/gui/e-to-do-pane.c:1623 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:326
-#: ../src/modules/itip-formatter/itip-view.c:358
+#: ../src/modules/itip-formatter/itip-view.c:362
 msgid "Today"
 msgstr "Dabar"
 
 #. strftime format of a weekday and a date.
 #: ../src/calendar/gui/e-to-do-pane.c:1625
 #: ../src/e-util/e-datetime-format.c:337
-#: ../src/modules/itip-formatter/itip-view.c:386
+#: ../src/modules/itip-formatter/itip-view.c:390
 msgid "Tomorrow"
 msgstr "Rytoj"
 
@@ -11278,7 +11278,7 @@ msgstr "%s (%s)"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-week-view-main-item.c:218
-#: ../src/calendar/gui/print.c:2128
+#: ../src/calendar/gui/print.c:2132
 msgid "%d %B"
 msgstr "%B %d"
 
@@ -11444,119 +11444,119 @@ msgstr "Pradinis paskyrimą"
 #. Translators: These are workday abbreviations,
 #. * e.g. Su=Sunday and Th=thursday
 #. G_DATE_MONDAY
-#: ../src/calendar/gui/print.c:763
+#: ../src/calendar/gui/print.c:767
 msgid "Mo"
 msgstr "Pr"
 
 #. G_DATE_TUESDAY
-#: ../src/calendar/gui/print.c:764
+#: ../src/calendar/gui/print.c:768
 msgid "Tu"
 msgstr "An"
 
 #. G_DATE_WEDNESDAY
-#: ../src/calendar/gui/print.c:765
+#: ../src/calendar/gui/print.c:769
 msgid "We"
 msgstr "Tr"
 
 #. G_DATE_THURSDAY
-#: ../src/calendar/gui/print.c:766
+#: ../src/calendar/gui/print.c:770
 msgid "Th"
 msgstr "Kt"
 
 #. G_DATE_FRIDAY
-#: ../src/calendar/gui/print.c:767
+#: ../src/calendar/gui/print.c:771
 msgid "Fr"
 msgstr "Pn"
 
 #. G_DATE_SATURDAY
-#: ../src/calendar/gui/print.c:768
+#: ../src/calendar/gui/print.c:772
 msgid "Sa"
 msgstr "Št"
 
 #. G_DATE_SUNDAY
-#: ../src/calendar/gui/print.c:769
+#: ../src/calendar/gui/print.c:773
 msgid "Su"
 msgstr "Sk"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../src/calendar/gui/print.c:3454
+#: ../src/calendar/gui/print.c:3458
 msgid " to "
 msgstr " iki "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../src/calendar/gui/print.c:3464
+#: ../src/calendar/gui/print.c:3468
 msgid " (Completed "
 msgstr " (Užbaigta "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../src/calendar/gui/print.c:3470
+#: ../src/calendar/gui/print.c:3474
 msgid "Completed "
 msgstr "Užbaigta "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../src/calendar/gui/print.c:3480
+#: ../src/calendar/gui/print.c:3484
 msgid " (Due "
 msgstr " (Iki "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../src/calendar/gui/print.c:3487
+#: ../src/calendar/gui/print.c:3491
 msgid "Due "
 msgstr "Iki "
 
-#: ../src/calendar/gui/print.c:3608
+#: ../src/calendar/gui/print.c:3612
 msgid "Appointment"
 msgstr "Paskyrimas"
 
-#: ../src/calendar/gui/print.c:3610
+#: ../src/calendar/gui/print.c:3614
 msgid "Task"
 msgstr "Užduotis"
 
-#: ../src/calendar/gui/print.c:3612
+#: ../src/calendar/gui/print.c:3616
 msgid "Memo"
 msgstr "Raštelis"
 
-#: ../src/calendar/gui/print.c:3669
+#: ../src/calendar/gui/print.c:3673
 msgid "Attendees: "
 msgstr "Dalyviai: "
 
-#: ../src/calendar/gui/print.c:3708
+#: ../src/calendar/gui/print.c:3712
 #, c-format
 msgid "Estimated duration: %s"
 msgstr "Planuojama trukmė: %s"
 
-#: ../src/calendar/gui/print.c:3729
+#: ../src/calendar/gui/print.c:3733
 #, c-format
 msgid "Status: %s"
 msgstr "Būklė: %s"
 
-#: ../src/calendar/gui/print.c:3745
+#: ../src/calendar/gui/print.c:3749
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioritetas: %s"
 
-#: ../src/calendar/gui/print.c:3760
+#: ../src/calendar/gui/print.c:3764
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Įvykdymo Procentas: %i"
 
-#: ../src/calendar/gui/print.c:3775
+#: ../src/calendar/gui/print.c:3779
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../src/calendar/gui/print.c:3791
+#: ../src/calendar/gui/print.c:3795
 #, c-format
 msgid "Categories: %s"
 msgstr "Kategorijos: %s"
 
-#: ../src/calendar/gui/print.c:3803
+#: ../src/calendar/gui/print.c:3807
 msgid "Contacts: "
 msgstr "Kontaktai: "
 
@@ -11674,25 +11674,25 @@ msgid "Evolution Calendar intelligent importer"
 msgstr "Evolution kalendoriaus importavimo priemonė"
 
 #: ../src/calendar/importers/icalendar-importer.c:1323
-#: ../src/calendar/importers/icalendar-importer.c:1712
+#: ../src/calendar/importers/icalendar-importer.c:1715
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Susitikimas"
 
 #: ../src/calendar/importers/icalendar-importer.c:1323
-#: ../src/calendar/importers/icalendar-importer.c:1712
+#: ../src/calendar/importers/icalendar-importer.c:1715
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Įvykis"
 
 #: ../src/calendar/importers/icalendar-importer.c:1326
-#: ../src/calendar/importers/icalendar-importer.c:1713
+#: ../src/calendar/importers/icalendar-importer.c:1716
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Užduotis"
 
 #: ../src/calendar/importers/icalendar-importer.c:1329
-#: ../src/calendar/importers/icalendar-importer.c:1714
+#: ../src/calendar/importers/icalendar-importer.c:1717
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Raštelis"
@@ -11745,7 +11745,7 @@ msgstr "Klasifikacija"
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
 #: ../src/calendar/importers/icalendar-importer.c:1378
-#: ../src/calendar/importers/icalendar-importer.c:1757
+#: ../src/calendar/importers/icalendar-importer.c:1760
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Santrauka"
@@ -11759,7 +11759,7 @@ msgstr "Vieta"
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
 #: ../src/calendar/importers/icalendar-importer.c:1393
-#: ../src/calendar/importers/icalendar-importer.c:1752
+#: ../src/calendar/importers/icalendar-importer.c:1755
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Pradžia"
@@ -11771,50 +11771,50 @@ msgid "Due"
 msgstr "Terminas"
 
 #. Translators: Appointment's end time
-#: ../src/calendar/importers/icalendar-importer.c:1414
+#: ../src/calendar/importers/icalendar-importer.c:1417
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Pabaiga"
 
 #. Translators: Appointment's categories
-#: ../src/calendar/importers/icalendar-importer.c:1423
+#: ../src/calendar/importers/icalendar-importer.c:1426
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Kategorijos"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../src/calendar/importers/icalendar-importer.c:1448
+#: ../src/calendar/importers/icalendar-importer.c:1451
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Užbaigta"
 
 #. Translators: Appointment's URL
-#: ../src/calendar/importers/icalendar-importer.c:1455
+#: ../src/calendar/importers/icalendar-importer.c:1458
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../src/calendar/importers/icalendar-importer.c:1473
 #: ../src/calendar/importers/icalendar-importer.c:1476
+#: ../src/calendar/importers/icalendar-importer.c:1479
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Organizatorius"
 
 #. Translators: Appointment's attendees
-#: ../src/calendar/importers/icalendar-importer.c:1559
+#: ../src/calendar/importers/icalendar-importer.c:1562
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Dalyviai"
 
-#: ../src/calendar/importers/icalendar-importer.c:1578
-#: ../src/calendar/importers/icalendar-importer.c:1586
+#: ../src/calendar/importers/icalendar-importer.c:1581
+#: ../src/calendar/importers/icalendar-importer.c:1589
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Aprašymas"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../src/calendar/importers/icalendar-importer.c:1747
+#: ../src/calendar/importers/icalendar-importer.c:1750
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Tipas"
@@ -14396,7 +14396,7 @@ msgstr "Slėpti neapsaugotas dalis"
 msgid "Error parsing MBOX part: %s"
 msgstr "Klaida skaitant MBOX dalį: %s"
 
-#: ../src/em-format/e-mail-parser-application-smime.c:113
+#: ../src/em-format/e-mail-parser-application-smime.c:117
 #, c-format
 msgid "Could not parse S/MIME message: %s"
 msgstr "Nepavyko perskaityti S/MIME laiško: %s"
@@ -14464,8 +14464,8 @@ msgstr "Nepalaikomas parašo formatas"
 msgid "Reply-To"
 msgstr "Atgalinis adresas"
 
-#: ../src/em-format/e-mail-part-headers.c:45 ../src/e-util/e-dateedit.c:607
-#: ../src/e-util/e-dateedit.c:629 ../src/mail/message-list.etspec.h:7
+#: ../src/em-format/e-mail-part-headers.c:45 ../src/e-util/e-dateedit.c:638
+#: ../src/e-util/e-dateedit.c:660 ../src/mail/message-list.etspec.h:7
 #: ../src/modules/mail/em-mailer-prefs.c:77
 msgid "Date"
 msgstr "Data"
@@ -14536,14 +14536,14 @@ msgstr "Užduočių sąrašai"
 #: ../src/mail/e-mail-account-tree-view.c:77
 #: ../src/modules/mail/em-composer-prefs.c:1733
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
-#: ../src/plugins/mail-notification/mail-notification.c:1194
+#: ../src/plugins/mail-notification/mail-notification.c:1269
 #: ../src/plugins/publish-calendar/publish-calendar.c:852
 msgid "Enabled"
 msgstr "Įjungta"
 
 #: ../src/e-util/e-accounts-window.c:1430
 #: ../src/mail/e-mail-account-tree-view.c:101
-#: ../src/plugins/mail-notification/mail-notification.c:1210
+#: ../src/plugins/mail-notification/mail-notification.c:1285
 msgid "Account Name"
 msgstr "Paskyros pavadinimas"
 
@@ -14625,7 +14625,7 @@ msgstr "%s"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% užbaigta)"
 
-#: ../src/e-util/e-activity-proxy.c:339
+#: ../src/e-util/e-activity-proxy.c:385
 #: ../src/e-util/e-autoar-gtk-chooser.c:195
 #: ../src/e-util/e-ui-customize-dialog.c:982
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1828
@@ -15361,54 +15361,54 @@ msgstr "Numatytasis"
 msgid "Running…"
 msgstr "Vykdoma…"
 
-#: ../src/e-util/e-dateedit.c:572
+#: ../src/e-util/e-dateedit.c:603
 msgid "Date and Time"
 msgstr "Data ir laikas"
 
-#: ../src/e-util/e-dateedit.c:606
+#: ../src/e-util/e-dateedit.c:637
 msgid "Text entry to input date"
 msgstr "Teksto įvesties vieta įrašyti datai"
 
-#: ../src/e-util/e-dateedit.c:628
+#: ../src/e-util/e-dateedit.c:659
 msgid "Click this button to show a calendar"
 msgstr "Spustelėkite norėdami pamatyti kalendorių"
 
-#: ../src/e-util/e-dateedit.c:683
+#: ../src/e-util/e-dateedit.c:714
 msgid "Drop-down combination box to select time"
 msgstr "Išskleidžiamas langas pasirinkti laikui"
 
-#: ../src/e-util/e-dateedit.c:684
+#: ../src/e-util/e-dateedit.c:715
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
 msgstr "Laikas"
 
-#: ../src/e-util/e-dateedit.c:761
+#: ../src/e-util/e-dateedit.c:792
 msgid "No_w"
 msgstr "_Dabar"
 
-#: ../src/e-util/e-dateedit.c:768 ../src/e-util/e-split-date-edit.c:405
+#: ../src/e-util/e-dateedit.c:799 ../src/e-util/e-split-date-edit.c:405
 msgid "_Today"
 msgstr "Š_iandien"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
-#: ../src/e-util/e-dateedit.c:777 ../src/e-util/e-split-date-edit.c:412
+#: ../src/e-util/e-dateedit.c:808 ../src/e-util/e-split-date-edit.c:412
 #: ../src/mail/em-folder-selector.c:620
 msgid "_None"
 msgstr "_Jokias"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
-#: ../src/e-util/e-dateedit.c:1965 ../src/e-util/e-dateedit.c:2218
+#: ../src/e-util/e-dateedit.c:2010 ../src/e-util/e-dateedit.c:2263
 msgctxt "date"
 msgid "None"
 msgstr "Nėra"
 
-#: ../src/e-util/e-dateedit.c:2101 ../src/e-util/e-dateedit.c:2585
+#: ../src/e-util/e-dateedit.c:2146 ../src/e-util/e-dateedit.c:2630
 msgid "Invalid Date Value"
 msgstr "Netinkama datos reikšmė"
 
-#: ../src/e-util/e-dateedit.c:2141 ../src/e-util/e-dateedit.c:2642
+#: ../src/e-util/e-dateedit.c:2186 ../src/e-util/e-dateedit.c:2687
 msgid "Invalid Time Value"
 msgstr "Netinkama laiko reikšmė"
 
@@ -15963,25 +15963,25 @@ msgstr "Pakartoti paskutinį atšauktą veiksmą"
 msgid "Undo the last action"
 msgstr "Atšaukti paskutinį veiksmą"
 
-#: ../src/e-util/e-html-editor-actions.c:1397 ../src/mail/e-mail-reader.c:3519
+#: ../src/e-util/e-html-editor-actions.c:1397 ../src/mail/e-mail-reader.c:3624
 #: ../src/mail/e-mail-viewer.c:1825
 msgid "_Normal Size"
 msgstr "_Normalus dydis"
 
-#: ../src/e-util/e-html-editor-actions.c:1399 ../src/mail/e-mail-reader.c:3521
+#: ../src/e-util/e-html-editor-actions.c:1399 ../src/mail/e-mail-reader.c:3626
 msgid "Reset the text to its original size"
 msgstr "Atstatyti teksto originalų dydį"
 
-#: ../src/e-util/e-html-editor-actions.c:1404 ../src/mail/e-mail-reader.c:3526
+#: ../src/e-util/e-html-editor-actions.c:1404 ../src/mail/e-mail-reader.c:3631
 #: ../src/mail/e-mail-viewer.c:1811
 msgid "_Zoom In"
 msgstr "_Pritraukti"
 
-#: ../src/e-util/e-html-editor-actions.c:1406 ../src/mail/e-mail-reader.c:3528
+#: ../src/e-util/e-html-editor-actions.c:1406 ../src/mail/e-mail-reader.c:3633
 msgid "Increase the text size"
 msgstr "Padidinti teksto dydį"
 
-#: ../src/e-util/e-html-editor-actions.c:1413 ../src/mail/e-mail-reader.c:3535
+#: ../src/e-util/e-html-editor-actions.c:1413 ../src/mail/e-mail-reader.c:3640
 msgid "Decrease the text size"
 msgstr "Sumažinti teksto dydį"
 
@@ -16002,7 +16002,7 @@ msgstr "_Lygiuotė"
 msgid "Current _Languages"
 msgstr "Dabartinės _kalbos"
 
-#: ../src/e-util/e-html-editor-actions.c:1474 ../src/mail/e-mail-reader.c:3561
+#: ../src/e-util/e-html-editor-actions.c:1474 ../src/mail/e-mail-reader.c:3666
 #: ../src/mail/e-mail-viewer.c:1932
 msgid "_Zoom"
 msgstr "_Mastelis"
@@ -18256,7 +18256,7 @@ msgstr "_Išdėstymas"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
 #: ../src/e-util/e-ui-customize-dialog.c:2740
-#: ../src/e-util/e-ui-customize-dialog.c:2789 ../src/mail/e-mail-reader.c:2939
+#: ../src/e-util/e-ui-customize-dialog.c:2789 ../src/mail/e-mail-reader.c:3037
 #: ../src/mail/e-mail-viewer.c:1638 ../src/mail/em-composer-utils.c:4599
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:369
 msgid "_Default"
@@ -18335,8 +18335,8 @@ msgid "Scheduling Outbox"
 msgstr "Planuojamas siunčiamas"
 
 #: ../src/e-util/e-webdav-browser.c:612 ../src/mail/e-mail-viewer.c:1551
-#: ../src/mail/e-mail-viewer.c:2543 ../src/mail/em-folder-tree-model.c:1611
-#: ../src/mail/em-folder-tree-model.c:1999
+#: ../src/mail/e-mail-viewer.c:2543 ../src/mail/em-folder-tree-model.c:1618
+#: ../src/mail/em-folder-tree-model.c:2014
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:892
 msgid "Loading…"
 msgstr "Įkeliama…"
@@ -18492,12 +18492,12 @@ msgid "Save the image to a file"
 msgstr "Įrašyti paveikslėlį į failą"
 
 #: ../src/e-util/e-web-view.c:1670 ../src/mail/e-mail-browser.c:611
-#: ../src/mail/e-mail-reader.c:3491
+#: ../src/mail/e-mail-reader.c:3596
 msgid "Search _Web…"
 msgstr "Ieškoti _internete…"
 
 #: ../src/e-util/e-web-view.c:1672 ../src/mail/e-mail-browser.c:613
-#: ../src/mail/e-mail-reader.c:3493
+#: ../src/mail/e-mail-reader.c:3598
 msgid "Search the Web with the selected text"
 msgstr "Ieškoti pažymėto teksto internete"
 
@@ -18843,8 +18843,8 @@ msgstr "Netinkamas aplanko URI „%s“"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:113
 #: ../src/mail/em-folder-properties.c:1489
-#: ../src/mail/em-folder-tree-model.c:1524
-#: ../src/mail/em-folder-tree-model.c:1554
+#: ../src/mail/em-folder-tree-model.c:1525
+#: ../src/mail/em-folder-tree-model.c:1555
 #: ../src/mail/importers/kmail-libs.c:138
 #: ../src/modules/mail/e-mail-shell-view-private.c:1059
 #: ../src/modules/mail/e-mail-shell-view-private.c:1070
@@ -18853,8 +18853,8 @@ msgstr "Gautieji"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:114
-#: ../src/mail/em-folder-tree-model.c:1518
-#: ../src/mail/em-folder-tree-model.c:1558
+#: ../src/mail/em-folder-tree-model.c:1519
+#: ../src/mail/em-folder-tree-model.c:1559
 #: ../src/mail/importers/kmail-libs.c:144
 #: ../src/modules/mail/e-mail-shell-view-private.c:1057
 msgid "Drafts"
@@ -18862,7 +18862,7 @@ msgstr "Juodraščiai"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:115
-#: ../src/mail/em-folder-tree-model.c:1530
+#: ../src/mail/em-folder-tree-model.c:1531
 #: ../src/mail/importers/kmail-libs.c:140
 #: ../src/modules/mail/e-mail-shell-view-private.c:1061
 msgid "Outbox"
@@ -18870,8 +18870,8 @@ msgstr "Paruošti siųsti"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:116
-#: ../src/mail/em-folder-tree-model.c:1535
-#: ../src/mail/em-folder-tree-model.c:1557
+#: ../src/mail/em-folder-tree-model.c:1536
+#: ../src/mail/em-folder-tree-model.c:1558
 #: ../src/mail/importers/kmail-libs.c:142
 #: ../src/modules/mail/e-mail-shell-view-private.c:1063
 msgid "Sent"
@@ -18879,7 +18879,7 @@ msgstr "Išsiųstieji"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:117
-#: ../src/mail/em-folder-tree-model.c:1520
+#: ../src/mail/em-folder-tree-model.c:1521
 #: ../src/mail/importers/kmail-libs.c:146
 #: ../src/modules/mail/e-mail-shell-view-private.c:1065
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
@@ -19261,7 +19261,7 @@ msgstr "_Praleisti paiešką"
 msgid "Evolution Account Assistant"
 msgstr "Evolution paskyrų vediklis"
 
-#: ../src/mail/e-mail-config-assistant.c:1009
+#: ../src/mail/e-mail-config-assistant.c:1010
 msgid "_Revise Details"
 msgstr "Pe_ržiūrėti detales"
 
@@ -19981,7 +19981,7 @@ msgstr "_Reikia atlikti"
 msgid "_Later"
 msgstr "_Vėliau"
 
-#: ../src/mail/e-mail-label-manager.c:152 ../src/mail/e-mail-reader.c:972
+#: ../src/mail/e-mail-label-manager.c:152 ../src/mail/e-mail-reader.c:1070
 #: ../src/mail/em-folder-properties.c:1169
 msgid "Add Label"
 msgstr "Pridėti žymę"
@@ -20065,11 +20065,11 @@ msgstr "Antraštės"
 msgid "Page %d of %d"
 msgstr "Puslapis %d iš %d"
 
-#: ../src/mail/e-mail-reader.c:553
+#: ../src/mail/e-mail-reader.c:651
 msgid "Deleting message note…"
 msgstr "Trinama laiško žinutė…"
 
-#: ../src/mail/e-mail-reader.c:1144
+#: ../src/mail/e-mail-reader.c:1242
 #, c-format
 msgid "Are you sure you want to mark %d message as Junk?"
 msgid_plural "Are you sure you want to mark %d messages as Junk?"
@@ -20077,679 +20077,687 @@ msgstr[0] "Ar tikrai norite pažymėti kaip šlamštą %d laišką?"
 msgstr[1] "Ar tikrai norite pažymėti kaip šlamštą %d laiškus?"
 msgstr[2] "Ar tikrai norite pažymėti kaip šlamštą %d laiškų?"
 
-#: ../src/mail/e-mail-reader.c:1152
+#: ../src/mail/e-mail-reader.c:1250
 msgid "The message will be shown in the Junk folder."
 msgid_plural "The messages will be shown in the Junk folder."
 msgstr[0] "Laiškai bus rodomi šlamšto aplanke."
 msgstr[1] "Laiškai bus rodomi šlamšto aplanke."
 msgstr[2] "Laiškai bus rodomi šlamšto aplanke."
 
-#: ../src/mail/e-mail-reader.c:1883 ../src/mail/e-mail-reader.c:2314
-#: ../src/mail/e-mail-reader.c:2356
+#: ../src/mail/e-mail-reader.c:1981 ../src/mail/e-mail-reader.c:2412
+#: ../src/mail/e-mail-reader.c:2454
 msgid "_Do not ask me again."
 msgstr "_Daugiau nebeklausti."
 
-#: ../src/mail/e-mail-reader.c:2362
+#: ../src/mail/e-mail-reader.c:2460
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "_Nepaisyti atgalinio adreso laukelio rašant į pašto konferencijas."
 
-#: ../src/mail/e-mail-reader.c:2588
+#: ../src/mail/e-mail-reader.c:2686
 msgid "Failed to retrieve message:"
 msgstr "Nepavyko gauti laiško:"
 
-#: ../src/mail/e-mail-reader.c:2649 ../src/mail/e-mail-reader.c:4263
+#: ../src/mail/e-mail-reader.c:2747 ../src/mail/e-mail-reader.c:4368
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "Atsiunčiamas laiškas „%s“"
 
-#: ../src/mail/e-mail-reader.c:2992 ../src/mail/e-mail-viewer.c:1846
+#: ../src/mail/e-mail-reader.c:3090 ../src/mail/e-mail-viewer.c:1846
 msgid "A_dd Sender to Address Book"
 msgstr "Į_traukti siuntėją į adresų knygą"
 
-#: ../src/mail/e-mail-reader.c:2994
+#: ../src/mail/e-mail-reader.c:3092
 msgid "Add sender to address book"
 msgstr "Įtraukti siuntėją į adresų knygą"
 
-#: ../src/mail/e-mail-reader.c:2999
+#: ../src/mail/e-mail-reader.c:3097
 msgid "_Archive"
 msgstr "_Archyvuoti"
 
-#: ../src/mail/e-mail-reader.c:3001
+#: ../src/mail/e-mail-reader.c:3099
 msgid "Move selected messages to the Archive folder for the account"
 msgstr "Perkelti pažymėtus laiškus į paskyros archyvo aplanką"
 
-#: ../src/mail/e-mail-reader.c:3006
+#: ../src/mail/e-mail-reader.c:3104
 msgid "Check for _Junk"
 msgstr "Filtruoti bru_kalą"
 
-#: ../src/mail/e-mail-reader.c:3008
+#: ../src/mail/e-mail-reader.c:3106
 msgid "Filter the selected messages for junk status"
 msgstr "Filtruoti pažymėtas žinutes norint nustatyti brukalo statusą"
 
-#: ../src/mail/e-mail-reader.c:3013
+#: ../src/mail/e-mail-reader.c:3111
 msgid "Assign C_olor…"
 msgstr "Priskirti _spalvą…"
 
-#: ../src/mail/e-mail-reader.c:3015
+#: ../src/mail/e-mail-reader.c:3113
 msgid "Assign color for the selected messages"
 msgstr "Priskirti spalvą pasirinktiems laiškams"
 
-#: ../src/mail/e-mail-reader.c:3020
+#: ../src/mail/e-mail-reader.c:3118
 msgid "Unse_t Color"
 msgstr "A_tstatyti spalvą"
 
-#: ../src/mail/e-mail-reader.c:3022
+#: ../src/mail/e-mail-reader.c:3120
 msgid "Unset color for the selected messages"
 msgstr "Atstatyti spalvą pažymėtiems laiškams"
 
-#: ../src/mail/e-mail-reader.c:3027
+#: ../src/mail/e-mail-reader.c:3125
 msgid "_Copy to Folder…"
 msgstr "_Kopijuoti į aplanką…"
 
-#: ../src/mail/e-mail-reader.c:3029
+#: ../src/mail/e-mail-reader.c:3127
 msgid "Copy selected messages to another folder"
 msgstr "Kopijuoti pažymėtus laiškus į kitą aplanką"
 
-#: ../src/mail/e-mail-reader.c:3034
+#: ../src/mail/e-mail-reader.c:3132
 msgid "_Delete Message"
 msgstr "_Ištrinti laišką"
 
-#: ../src/mail/e-mail-reader.c:3036
+#: ../src/mail/e-mail-reader.c:3134
 msgid "Mark the selected messages for deletion"
 msgstr "Pasirinktus laiškus pažymėti ištrynimui"
 
-#: ../src/mail/e-mail-reader.c:3041
+#: ../src/mail/e-mail-reader.c:3139
 msgid "_Add note…"
 msgstr "_Prisegti žinutę…"
 
-#: ../src/mail/e-mail-reader.c:3043
+#: ../src/mail/e-mail-reader.c:3141
 msgid "Add a note for the selected message"
 msgstr "Pridėti žinutę pasirinktam laiškui"
 
-#: ../src/mail/e-mail-reader.c:3048
+#: ../src/mail/e-mail-reader.c:3146
+msgid "Copy Message _Link"
+msgstr "Kopijuoto laiško _saitą"
+
+#: ../src/mail/e-mail-reader.c:3148
+msgid "Copy mid: link for the selected message"
+msgstr "Vid. kopijavimas: saitas į pažymėtą laišką"
+
+#: ../src/mail/e-mail-reader.c:3153
 msgid "Delete no_te"
 msgstr "Iš_trinti žinutę"
 
-#: ../src/mail/e-mail-reader.c:3050
+#: ../src/mail/e-mail-reader.c:3155
 msgid "Delete the note for the selected message"
 msgstr "Ištrinti žinutę pasirinktam laiškui"
 
-#: ../src/mail/e-mail-reader.c:3055
+#: ../src/mail/e-mail-reader.c:3160
 msgid "_Edit note…"
 msgstr "_Keisti žinutę…"
 
-#: ../src/mail/e-mail-reader.c:3057
+#: ../src/mail/e-mail-reader.c:3162
 msgid "Edit a note for the selected message"
 msgstr "Keisti žinutę pasirinktam laiškui"
 
-#: ../src/mail/e-mail-reader.c:3062
+#: ../src/mail/e-mail-reader.c:3167
 msgid "Create a Filter Rule for Mailing _List…"
 msgstr "Sukurti filtravimo taisyklę pašto _grupei…"
 
-#: ../src/mail/e-mail-reader.c:3064
+#: ../src/mail/e-mail-reader.c:3169
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Sukurti taisyklę filtruoti laiškams šiai konferencijai"
 
-#: ../src/mail/e-mail-reader.c:3069
+#: ../src/mail/e-mail-reader.c:3174
 msgid "Create a Filter Rule for _Recipients…"
 msgstr "Sukurti filtravimo taisyklę ga_vėjams…"
 
-#: ../src/mail/e-mail-reader.c:3071
+#: ../src/mail/e-mail-reader.c:3176
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Sukurti taisyklę filtruoti laiškams šiems gavėjams"
 
-#: ../src/mail/e-mail-reader.c:3076
+#: ../src/mail/e-mail-reader.c:3181
 msgid "Create a Filter Rule for Se_nder…"
 msgstr "Sukurti filtravimo taisyklę pašto _siuntėjams…"
 
-#: ../src/mail/e-mail-reader.c:3078
+#: ../src/mail/e-mail-reader.c:3183
 msgid "Create a rule to filter messages from this sender"
 msgstr "Sukurti taisyklę filtruoti laiškams nuo šio siuntėjo"
 
-#: ../src/mail/e-mail-reader.c:3083
+#: ../src/mail/e-mail-reader.c:3188
 msgid "Create a Filter Rule for _Subject…"
 msgstr "Sukurti filtravimo taisyklę pašto _temą…"
 
-#: ../src/mail/e-mail-reader.c:3085
+#: ../src/mail/e-mail-reader.c:3190
 msgid "Create a rule to filter messages with this subject"
 msgstr "Sukurti taisyklę filtruoti laiškams su šia tema"
 
-#: ../src/mail/e-mail-reader.c:3090
+#: ../src/mail/e-mail-reader.c:3195
 msgid "A_pply Filters"
 msgstr "_Pritaikyti filtrus"
 
-#: ../src/mail/e-mail-reader.c:3092
+#: ../src/mail/e-mail-reader.c:3197
 msgid "Apply filter rules to the selected messages"
 msgstr "Pritaikyti filtrų taisykles pažymėtiems laiškams"
 
-#: ../src/mail/e-mail-reader.c:3097 ../src/mail/e-mail-viewer.c:1776
+#: ../src/mail/e-mail-reader.c:3202 ../src/mail/e-mail-viewer.c:1776
 msgid "_Find in Message…"
 msgstr "_Rasti laiške…"
 
-#: ../src/mail/e-mail-reader.c:3099
+#: ../src/mail/e-mail-reader.c:3204
 msgid "Search for text in the body of the displayed message"
 msgstr "Ieškoti eilutės rodomo laiško tekste"
 
-#: ../src/mail/e-mail-reader.c:3104
+#: ../src/mail/e-mail-reader.c:3209
 msgid "_Clear Flag"
 msgstr "_Pašalinti žymę"
 
-#: ../src/mail/e-mail-reader.c:3106
+#: ../src/mail/e-mail-reader.c:3211
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Pašalinti nuo pasirinktų laiškų žymę „tęsiniui“"
 
-#: ../src/mail/e-mail-reader.c:3111
+#: ../src/mail/e-mail-reader.c:3216
 msgid "_Flag Completed"
 msgstr "Pažymėti bai_gtu"
 
-#: ../src/mail/e-mail-reader.c:3113
+#: ../src/mail/e-mail-reader.c:3218
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Pažymėti pasirinktus laiškus tęsiniui kaip baigtus"
 
-#: ../src/mail/e-mail-reader.c:3118
+#: ../src/mail/e-mail-reader.c:3223
 msgid "Follow _Up…"
 msgstr "_Tęsinys…"
 
-#: ../src/mail/e-mail-reader.c:3120 ../src/mail/e-mail-reader.c:3127
+#: ../src/mail/e-mail-reader.c:3225 ../src/mail/e-mail-reader.c:3232
 msgid "Flag the selected messages for follow-up"
 msgstr "Pažymėti pasirinktus laiškus tęsiniui"
 
-#: ../src/mail/e-mail-reader.c:3125
+#: ../src/mail/e-mail-reader.c:3230
 msgid "Mark for Follo_w Up…"
 msgstr "Pažymėti _tęsiniui…"
 
-#: ../src/mail/e-mail-reader.c:3132 ../src/mail/e-mail-reader.c:3564
+#: ../src/mail/e-mail-reader.c:3237 ../src/mail/e-mail-reader.c:3669
 #: ../src/mail/e-mail-viewer.c:1895
 #: ../src/modules/mail/e-mail-attachment-handler.c:910
 msgid "_Forward"
 msgstr "P_ersiųsti"
 
-#: ../src/mail/e-mail-reader.c:3134
+#: ../src/mail/e-mail-reader.c:3239
 #: ../src/modules/mail/e-mail-attachment-handler.c:912
 msgid "Forward the selected message to someone"
 msgstr "Persiųsti pasirinktą laišką kažkam"
 
-#: ../src/mail/e-mail-reader.c:3139 ../src/mail/e-mail-viewer.c:1902
+#: ../src/mail/e-mail-reader.c:3244 ../src/mail/e-mail-viewer.c:1902
 #: ../src/modules/mail/e-mail-attachment-handler.c:959
 msgid "_Attached"
 msgstr "_Prisegta"
 
-#: ../src/mail/e-mail-reader.c:3141 ../src/mail/e-mail-reader.c:3148
+#: ../src/mail/e-mail-reader.c:3246 ../src/mail/e-mail-reader.c:3253
 #: ../src/modules/mail/e-mail-attachment-handler.c:961
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Persiųsti pasirinktą laišką prisegtą kaip priedas"
 
-#: ../src/mail/e-mail-reader.c:3146
+#: ../src/mail/e-mail-reader.c:3251
 msgid "Forward As _Attached"
 msgstr "_Persiųsti kaip prisegtą"
 
-#: ../src/mail/e-mail-reader.c:3153 ../src/mail/e-mail-viewer.c:1909
+#: ../src/mail/e-mail-reader.c:3258 ../src/mail/e-mail-viewer.c:1909
 #: ../src/modules/mail/e-mail-attachment-handler.c:966
 msgid "_Inline"
 msgstr "_Viduje"
 
-#: ../src/mail/e-mail-reader.c:3155 ../src/mail/e-mail-reader.c:3162
+#: ../src/mail/e-mail-reader.c:3260 ../src/mail/e-mail-reader.c:3267
 #: ../src/modules/mail/e-mail-attachment-handler.c:968
 msgid "Forward the selected message in the body of a new message"
 msgstr "Persiųsti pasirinktą laišką naujo laiško tekste"
 
-#: ../src/mail/e-mail-reader.c:3160
+#: ../src/mail/e-mail-reader.c:3265
 msgid "Forward As _Inline"
 msgstr "Persiųsti kaip į_terptą"
 
-#: ../src/mail/e-mail-reader.c:3167 ../src/mail/e-mail-viewer.c:1916
+#: ../src/mail/e-mail-reader.c:3272 ../src/mail/e-mail-viewer.c:1916
 #: ../src/modules/mail/e-mail-attachment-handler.c:973
 msgid "_Quoted"
 msgstr "_Cituojant"
 
-#: ../src/mail/e-mail-reader.c:3169 ../src/mail/e-mail-reader.c:3176
+#: ../src/mail/e-mail-reader.c:3274 ../src/mail/e-mail-reader.c:3281
 #: ../src/modules/mail/e-mail-attachment-handler.c:975
 msgid "Forward the selected message quoted like a reply"
 msgstr "Persiųsti pasirinktą laišką cituojamą kaip atsakymas"
 
-#: ../src/mail/e-mail-reader.c:3174
+#: ../src/mail/e-mail-reader.c:3279
 msgid "Forward As _Quoted"
 msgstr "Persiųsti kaip _cituojamą"
 
-#: ../src/mail/e-mail-reader.c:3181
+#: ../src/mail/e-mail-reader.c:3286
 msgid "_Containing Folder"
 msgstr "_Turintis aplankas"
 
-#: ../src/mail/e-mail-reader.c:3183
+#: ../src/mail/e-mail-reader.c:3288
 msgid "Go to the folder the message originates from"
 msgstr "Eiti į aplanką, kuriame yra laiškas"
 
-#: ../src/mail/e-mail-reader.c:3188
+#: ../src/mail/e-mail-reader.c:3293
 msgid "Change _More Labels…"
 msgstr "_Keisti daugiau užrašų…"
 
-#: ../src/mail/e-mail-reader.c:3195
+#: ../src/mail/e-mail-reader.c:3300
 msgid "_New Label"
 msgstr "_Nauja etiketė"
 
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/mail/e-mail-reader.c:3204
+#: ../src/mail/e-mail-reader.c:3309
 msgid "N_one"
 msgstr "_Nėra"
 
-#: ../src/mail/e-mail-reader.c:3211 ../src/mail/e-mail-viewer.c:1783
+#: ../src/mail/e-mail-reader.c:3316 ../src/mail/e-mail-viewer.c:1783
 msgid "_Load Images"
 msgstr "Į_kelti paveikslėlius"
 
-#: ../src/mail/e-mail-reader.c:3213
+#: ../src/mail/e-mail-reader.c:3318
 msgid "Force images in HTML mail to be loaded"
 msgstr "Priverstinai įkelti HTML laiškuose esančius paveiksliukus"
 
-#: ../src/mail/e-mail-reader.c:3218
+#: ../src/mail/e-mail-reader.c:3323
 msgid "_Ignore Subthread"
 msgstr "_Nepaisyti po-gijos"
 
-#: ../src/mail/e-mail-reader.c:3220
+#: ../src/mail/e-mail-reader.c:3325
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "Automatiškai po-gijos laiškus žymėti perskaitytais"
 
-#: ../src/mail/e-mail-reader.c:3225
+#: ../src/mail/e-mail-reader.c:3330
 msgid "_Ignore Thread"
 msgstr "_Nepaisyti gijos"
 
-#: ../src/mail/e-mail-reader.c:3227
+#: ../src/mail/e-mail-reader.c:3332
 msgid "Mark new mails in this thread as read automatically"
 msgstr "Automatiškai žymėti naujus laiškus gijoje perskaitytais"
 
-#: ../src/mail/e-mail-reader.c:3232
+#: ../src/mail/e-mail-reader.c:3337
 msgid "_Important"
 msgstr "_Svarbus"
 
-#: ../src/mail/e-mail-reader.c:3234 ../src/mail/e-mail-reader.c:3241
+#: ../src/mail/e-mail-reader.c:3339 ../src/mail/e-mail-reader.c:3346
 msgid "Mark the selected messages as important"
 msgstr "Pažymėti pasirinktus laiškus kaip svarbius"
 
-#: ../src/mail/e-mail-reader.c:3239
+#: ../src/mail/e-mail-reader.c:3344
 msgid "Mark as _Important"
 msgstr "Pažymėti svarb_iu"
 
-#: ../src/mail/e-mail-reader.c:3246
+#: ../src/mail/e-mail-reader.c:3351
 msgid "_Junk"
 msgstr "Šl_amštas"
 
-#: ../src/mail/e-mail-reader.c:3248 ../src/mail/e-mail-reader.c:3255
+#: ../src/mail/e-mail-reader.c:3353 ../src/mail/e-mail-reader.c:3360
 msgid "Mark the selected messages as junk"
 msgstr "Pažymėti pasirinktus laiškus kaip brukalą"
 
-#: ../src/mail/e-mail-reader.c:3253
+#: ../src/mail/e-mail-reader.c:3358
 msgid "Mark as _Junk"
 msgstr "Pažymėti kaip b_rukalą"
 
-#: ../src/mail/e-mail-reader.c:3260
+#: ../src/mail/e-mail-reader.c:3365
 msgid "_Not Junk"
 msgstr "_Ne brukalas"
 
-#: ../src/mail/e-mail-reader.c:3262 ../src/mail/e-mail-reader.c:3269
+#: ../src/mail/e-mail-reader.c:3367 ../src/mail/e-mail-reader.c:3374
 msgid "Mark the selected messages as not being junk"
 msgstr "Pažymėti pasirinktus laiškus kaip ne brukalą"
 
-#: ../src/mail/e-mail-reader.c:3267
+#: ../src/mail/e-mail-reader.c:3372
 msgid "Mark as _Not Junk"
 msgstr "Pažymėti kaip _ne brukalą"
 
-#: ../src/mail/e-mail-reader.c:3274
+#: ../src/mail/e-mail-reader.c:3379
 msgid "_Read"
 msgstr "_Skaityti"
 
-#: ../src/mail/e-mail-reader.c:3276 ../src/mail/e-mail-reader.c:3283
+#: ../src/mail/e-mail-reader.c:3381 ../src/mail/e-mail-reader.c:3388
 msgid "Mark the selected messages as having been read"
 msgstr "Pažymėti pasirinktus laiškus kaip perskaitytus"
 
-#: ../src/mail/e-mail-reader.c:3281
+#: ../src/mail/e-mail-reader.c:3386
 msgid "Mar_k as Read"
 msgstr "Pažymėti s_kaitytu"
 
-#: ../src/mail/e-mail-reader.c:3288
+#: ../src/mail/e-mail-reader.c:3393
 msgid "Do not _Ignore Subthread"
 msgstr "Ne_ignuoruoti po-gijos"
 
-#: ../src/mail/e-mail-reader.c:3290
+#: ../src/mail/e-mail-reader.c:3395
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr "Automatiškai nežymėti naujų laiškų po-gijoje perskaitytais"
 
-#: ../src/mail/e-mail-reader.c:3295
+#: ../src/mail/e-mail-reader.c:3400
 msgid "Do not _Ignore Thread"
 msgstr "Ne_ignoruoti gijos"
 
-#: ../src/mail/e-mail-reader.c:3297
+#: ../src/mail/e-mail-reader.c:3402
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr "Automatiškai nežymėti naujų laiškų gijoje perskaitytais"
 
-#: ../src/mail/e-mail-reader.c:3302
+#: ../src/mail/e-mail-reader.c:3407
 msgid "Uni_mportant"
 msgstr "_Nesvarbus"
 
-#: ../src/mail/e-mail-reader.c:3304 ../src/mail/e-mail-reader.c:3311
+#: ../src/mail/e-mail-reader.c:3409 ../src/mail/e-mail-reader.c:3416
 msgid "Mark the selected messages as unimportant"
 msgstr "Pažymėti pasirinktus laiškus kaip nesvarbius"
 
-#: ../src/mail/e-mail-reader.c:3309
+#: ../src/mail/e-mail-reader.c:3414
 msgid "Mark as Uni_mportant"
 msgstr "Pažymėti kaip nes_varbų"
 
-#: ../src/mail/e-mail-reader.c:3316
+#: ../src/mail/e-mail-reader.c:3421
 msgid "_Unread"
 msgstr "_Neskaitytas"
 
-#: ../src/mail/e-mail-reader.c:3318 ../src/mail/e-mail-reader.c:3325
+#: ../src/mail/e-mail-reader.c:3423 ../src/mail/e-mail-reader.c:3430
 msgid "Mark the selected messages as not having been read"
 msgstr "Pažymėti pasirinktus laiškus kaip neskaitytus"
 
-#: ../src/mail/e-mail-reader.c:3323
+#: ../src/mail/e-mail-reader.c:3428
 msgid "Mark as _Unread"
 msgstr "Pažymėti nes_kaitytu"
 
-#: ../src/mail/e-mail-reader.c:3330
+#: ../src/mail/e-mail-reader.c:3435
 #: ../src/modules/mail/e-mail-attachment-handler.c:938
 msgid "_Edit as New Message…"
 msgstr "_Redaguoti kaip naują laišką…"
 
-#: ../src/mail/e-mail-reader.c:3332
+#: ../src/mail/e-mail-reader.c:3437
 #: ../src/modules/mail/e-mail-attachment-handler.c:940
 msgid "Open the selected messages in the composer for editing"
 msgstr "Atverti pasirinktus laiškus redaktoriuje redagavimui"
 
-#: ../src/mail/e-mail-reader.c:3337
+#: ../src/mail/e-mail-reader.c:3442
 msgid "Compose _New Message"
 msgstr "Sukurti _naują laišką"
 
-#: ../src/mail/e-mail-reader.c:3339
+#: ../src/mail/e-mail-reader.c:3444
 msgid "Open a window for composing a mail message"
 msgstr "Atverti langą rašyti naujam laiškui"
 
-#: ../src/mail/e-mail-reader.c:3344
+#: ../src/mail/e-mail-reader.c:3449
 msgid "_Open in New Window"
 msgstr "_Atverti naujame lange"
 
-#: ../src/mail/e-mail-reader.c:3346
+#: ../src/mail/e-mail-reader.c:3451
 msgid "Open the selected messages in a new window"
 msgstr "Atverti pasirinktus laiškus naujame lange"
 
-#: ../src/mail/e-mail-reader.c:3351
+#: ../src/mail/e-mail-reader.c:3456
 msgid "_Move to Folder…"
 msgstr "_Perkelti į aplanką…"
 
-#: ../src/mail/e-mail-reader.c:3353
+#: ../src/mail/e-mail-reader.c:3458
 msgid "Move selected messages to another folder"
 msgstr "Perkelti pažymėtus laiškus į kitą aplanką"
 
-#: ../src/mail/e-mail-reader.c:3358
+#: ../src/mail/e-mail-reader.c:3463
 msgid "_Next Message"
 msgstr "_Kitas laiškas"
 
-#: ../src/mail/e-mail-reader.c:3360
+#: ../src/mail/e-mail-reader.c:3465
 msgid "Display the next message"
 msgstr "Parodyti kitą laišką"
 
-#: ../src/mail/e-mail-reader.c:3365
+#: ../src/mail/e-mail-reader.c:3470
 msgid "Next _Important Message"
 msgstr "K_itas svarbus laiškas"
 
-#: ../src/mail/e-mail-reader.c:3367
+#: ../src/mail/e-mail-reader.c:3472
 msgid "Display the next important message"
 msgstr "Parodyti kitą svarbų laišką"
 
-#: ../src/mail/e-mail-reader.c:3372
+#: ../src/mail/e-mail-reader.c:3477
 msgid "Next _Thread"
 msgstr "Kita _gija"
 
-#: ../src/mail/e-mail-reader.c:3374
+#: ../src/mail/e-mail-reader.c:3479
 msgid "Display the next thread"
 msgstr "Parodyti kitą giją"
 
-#: ../src/mail/e-mail-reader.c:3379
+#: ../src/mail/e-mail-reader.c:3484
 msgid "Next _Unread Message"
 msgstr "Kitas _neskaitytas laiškas"
 
-#: ../src/mail/e-mail-reader.c:3381
+#: ../src/mail/e-mail-reader.c:3486
 msgid "Display the next unread message"
 msgstr "Parodyti kitą neskaitytą laišką"
 
-#: ../src/mail/e-mail-reader.c:3386
+#: ../src/mail/e-mail-reader.c:3491
 msgid "_Previous Message"
 msgstr "_Ankstesnis laiškas"
 
-#: ../src/mail/e-mail-reader.c:3388
+#: ../src/mail/e-mail-reader.c:3493
 msgid "Display the previous message"
 msgstr "Parodyti ankstesnį laišką"
 
-#: ../src/mail/e-mail-reader.c:3393
+#: ../src/mail/e-mail-reader.c:3498
 msgid "Pr_evious Important Message"
 msgstr "Ankst_esnis svarbus laiškas"
 
-#: ../src/mail/e-mail-reader.c:3395
+#: ../src/mail/e-mail-reader.c:3500
 msgid "Display the previous important message"
 msgstr "Parodyti ankstesnį svarbų laišką"
 
-#: ../src/mail/e-mail-reader.c:3400
+#: ../src/mail/e-mail-reader.c:3505
 msgid "Previous T_hread"
 msgstr "_Ankstesnė gija"
 
-#: ../src/mail/e-mail-reader.c:3402
+#: ../src/mail/e-mail-reader.c:3507
 msgid "Display the previous thread"
 msgstr "Parodyti ankstesnę giją"
 
-#: ../src/mail/e-mail-reader.c:3407
+#: ../src/mail/e-mail-reader.c:3512
 msgid "P_revious Unread Message"
 msgstr "_Ankstesnis neskaitytas laiškas"
 
-#: ../src/mail/e-mail-reader.c:3409
+#: ../src/mail/e-mail-reader.c:3514
 msgid "Display the previous unread message"
 msgstr "Parodyti praeitą neskaitytą laišką"
 
-#: ../src/mail/e-mail-reader.c:3416
+#: ../src/mail/e-mail-reader.c:3521
 msgid "Print this message"
 msgstr "Spausdinti šį laišką"
 
-#: ../src/mail/e-mail-reader.c:3423
+#: ../src/mail/e-mail-reader.c:3528
 msgid "Preview the message to be printed"
 msgstr "Peržiūrėti spausdintiną laišką"
 
-#: ../src/mail/e-mail-reader.c:3428 ../src/mail/e-mail-viewer.c:1923
+#: ../src/mail/e-mail-reader.c:3533 ../src/mail/e-mail-viewer.c:1923
 #: ../src/modules/mail/e-mail-attachment-handler.c:980
 msgid "Re_direct"
 msgstr "Nu_kreipti"
 
-#: ../src/mail/e-mail-reader.c:3430
+#: ../src/mail/e-mail-reader.c:3535
 #: ../src/modules/mail/e-mail-attachment-handler.c:982
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Nukreipti (permesti) pasirinktą laišką kam nors kitam"
 
-#: ../src/mail/e-mail-reader.c:3435
+#: ../src/mail/e-mail-reader.c:3540
 msgid "Remo_ve Attachments"
 msgstr "_Pašalinti priedus"
 
-#: ../src/mail/e-mail-reader.c:3437
+#: ../src/mail/e-mail-reader.c:3542
 msgid "Remove attachments"
 msgstr "Pašalinti priedus"
 
-#: ../src/mail/e-mail-reader.c:3442
+#: ../src/mail/e-mail-reader.c:3547
 msgid "Remove Du_plicate Messages"
 msgstr "Pašalinti _dubliuotus laiškus"
 
-#: ../src/mail/e-mail-reader.c:3444
+#: ../src/mail/e-mail-reader.c:3549
 msgid "Checks selected messages for duplicates"
 msgstr "Patikrina, ar tarp pažymėtų laiškų nėra dublikatų"
 
-#: ../src/mail/e-mail-reader.c:3449 ../src/mail/e-mail-viewer.c:1881
+#: ../src/mail/e-mail-reader.c:3554 ../src/mail/e-mail-viewer.c:1881
 #: ../src/mail/em-composer-utils.c:4577 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1668
 #: ../src/modules/mail/e-mail-attachment-handler.c:917
 msgid "Reply to _All"
 msgstr "Atsakyti _visiems"
 
-#: ../src/mail/e-mail-reader.c:3451
+#: ../src/mail/e-mail-reader.c:3556
 #: ../src/modules/mail/e-mail-attachment-handler.c:919
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Rašyti atsakymą visiems pasirinkto laiško gavėjams"
 
-#: ../src/mail/e-mail-reader.c:3456 ../src/mail/e-mail-viewer.c:1888
+#: ../src/mail/e-mail-reader.c:3561 ../src/mail/e-mail-viewer.c:1888
 msgid "Al_ternative Reply…"
 msgstr "Al_ternatyvus atsakymas…"
 
-#: ../src/mail/e-mail-reader.c:3458
+#: ../src/mail/e-mail-reader.c:3563
 msgid "Choose reply options for the selected message"
 msgstr "Pasirinkite atsakymo parametrus pažymėtiems laiškams"
 
-#: ../src/mail/e-mail-reader.c:3463 ../src/mail/e-mail-reader.c:3557
-#: ../src/mail/e-mail-reader.c:3563
+#: ../src/mail/e-mail-reader.c:3568 ../src/mail/e-mail-reader.c:3662
+#: ../src/mail/e-mail-reader.c:3668
 msgid "_Group Reply"
 msgstr "_Grupinis atsakymas"
 
-#: ../src/mail/e-mail-reader.c:3465
+#: ../src/mail/e-mail-reader.c:3570
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Atsakyti į pašto konferenciją arba visiems gavėjams"
 
-#: ../src/mail/e-mail-reader.c:3470 ../src/mail/e-mail-viewer.c:1874
+#: ../src/mail/e-mail-reader.c:3575 ../src/mail/e-mail-viewer.c:1874
 #: ../src/mail/em-composer-utils.c:4572 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:924
 msgid "Reply to _List"
 msgstr "Atsakyti į _konferenciją"
 
-#: ../src/mail/e-mail-reader.c:3472
+#: ../src/mail/e-mail-reader.c:3577
 #: ../src/modules/mail/e-mail-attachment-handler.c:926
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Sukurti atsakymą pasirinkto laiško konferencijai"
 
-#: ../src/mail/e-mail-reader.c:3477 ../src/mail/e-mail-viewer.c:1867
+#: ../src/mail/e-mail-reader.c:3582 ../src/mail/e-mail-viewer.c:1867
 #: ../src/modules/mail/e-mail-attachment-handler.c:931
 msgid "_Reply to Sender"
 msgstr "_Atsakyti siuntėjui"
 
-#: ../src/mail/e-mail-reader.c:3479
+#: ../src/mail/e-mail-reader.c:3584
 #: ../src/modules/mail/e-mail-attachment-handler.c:933
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Sukurti atsakymą pasirinkto laiško siuntėjui"
 
-#: ../src/mail/e-mail-reader.c:3484
+#: ../src/mail/e-mail-reader.c:3589
 msgid "_Save to File…"
 msgstr "Į_rašyti į failą…"
 
-#: ../src/mail/e-mail-reader.c:3486
+#: ../src/mail/e-mail-reader.c:3591
 msgid "Save selected messages as an mbox file"
 msgstr "Įrašyti pasirinktus laiškus kaip mbox failą"
 
-#: ../src/mail/e-mail-reader.c:3498
+#: ../src/mail/e-mail-reader.c:3603
 msgid "_Message Source"
 msgstr "_Laiško pradinis kodas"
 
-#: ../src/mail/e-mail-reader.c:3500
+#: ../src/mail/e-mail-reader.c:3605
 msgid "Show the raw email source of the message"
 msgstr "Rodyti neapdorotą laiško šaltinį"
 
-#: ../src/mail/e-mail-reader.c:3512
+#: ../src/mail/e-mail-reader.c:3617
 msgid "_Undelete Message"
 msgstr "_Grąžinti laišką"
 
-#: ../src/mail/e-mail-reader.c:3514
+#: ../src/mail/e-mail-reader.c:3619
 msgid "Undelete the selected messages"
 msgstr "Sugrąžinti pažymėtus laiškus"
 
-#: ../src/mail/e-mail-reader.c:3540 ../src/mail/e-mail-viewer.c:1804
+#: ../src/mail/e-mail-reader.c:3645 ../src/mail/e-mail-viewer.c:1804
 msgid "_Caret Mode"
 msgstr "Ž_ymiklio veiksena"
 
-#: ../src/mail/e-mail-reader.c:3542
+#: ../src/mail/e-mail-reader.c:3647
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Rodyti mirksintį žymeklį išvedamų laiškų tekste"
 
-#: ../src/mail/e-mail-reader.c:3547 ../src/mail/e-mail-viewer.c:1790
+#: ../src/mail/e-mail-reader.c:3652 ../src/mail/e-mail-viewer.c:1790
 msgid "All Message _Headers"
 msgstr "Visos laiško _antraštės"
 
-#: ../src/mail/e-mail-reader.c:3549
+#: ../src/mail/e-mail-reader.c:3654
 msgid "Show messages with all email headers"
 msgstr "Rodyti laiškus su visomis pašto antraštėmis"
 
 #. ** Menus **
-#: ../src/mail/e-mail-reader.c:3554
+#: ../src/mail/e-mail-reader.c:3659
 msgid "Cre_ate"
 msgstr "Suku_rti"
 
-#: ../src/mail/e-mail-reader.c:3555 ../src/mail/e-mail-viewer.c:1935
+#: ../src/mail/e-mail-reader.c:3660 ../src/mail/e-mail-viewer.c:1935
 #: ../src/modules/mail/e-mail-attachment-handler.c:952
 msgid "F_orward As"
 msgstr "P_ersiųsti kaip"
 
-#: ../src/mail/e-mail-reader.c:3556
+#: ../src/mail/e-mail-reader.c:3661
 msgid "_Label"
 msgstr "_Etiketė"
 
-#: ../src/mail/e-mail-reader.c:3558
+#: ../src/mail/e-mail-reader.c:3663
 msgid "_Go To"
 msgstr "_Eiti į"
 
-#: ../src/mail/e-mail-reader.c:3559
+#: ../src/mail/e-mail-reader.c:3664
 msgid "Mar_k As"
 msgstr "Pažymėti _kaip"
 
-#: ../src/mail/e-mail-reader.c:3560 ../src/mail/e-mail-viewer.c:1934
+#: ../src/mail/e-mail-reader.c:3665 ../src/mail/e-mail-viewer.c:1934
 msgid "_Message"
 msgstr "_Laiškas"
 
-#: ../src/mail/e-mail-reader.c:3562 ../src/mail/e-mail-viewer.c:1832
+#: ../src/mail/e-mail-reader.c:3667 ../src/mail/e-mail-viewer.c:1832
 #: ../src/mail/e-mail-viewer.c:1933
 msgid "Ch_aracter Encoding"
 msgstr "_Simbolių koduotė"
 
-#: ../src/mail/e-mail-reader.c:3565
+#: ../src/mail/e-mail-reader.c:3670
 msgid "List of Labels"
 msgstr "Užrašų sąrašas"
 
-#: ../src/mail/e-mail-reader.c:3572
+#: ../src/mail/e-mail-reader.c:3677
 msgid "Create a Search Folder from Mailing _List…"
 msgstr "Sukurti paieškos aplanką pašto _grupei…"
 
-#: ../src/mail/e-mail-reader.c:3574
+#: ../src/mail/e-mail-reader.c:3679
 msgid "Create a search folder for this mailing list"
 msgstr "Sukurti paieškos aplanką šiai konferencijai"
 
-#: ../src/mail/e-mail-reader.c:3579
+#: ../src/mail/e-mail-reader.c:3684
 msgid "Create a Search Folder from Recipien_ts…"
 msgstr "Sukurti paieškos aplanką pašto ga_vėjams…"
 
-#: ../src/mail/e-mail-reader.c:3581
+#: ../src/mail/e-mail-reader.c:3686
 msgid "Create a search folder for these recipients"
 msgstr "Sukurti paieškos aplanką šiems gavėjams"
 
-#: ../src/mail/e-mail-reader.c:3586
+#: ../src/mail/e-mail-reader.c:3691
 msgid "Create a Search Folder from Sen_der…"
 msgstr "Sukurti paieškos aplanką pašto _siuntėjui…"
 
-#: ../src/mail/e-mail-reader.c:3588
+#: ../src/mail/e-mail-reader.c:3693
 msgid "Create a search folder for this sender"
 msgstr "Sukurti paieškos aplanką šiam siuntėjui"
 
-#: ../src/mail/e-mail-reader.c:3593
+#: ../src/mail/e-mail-reader.c:3698
 msgid "Create a Search Folder from S_ubject…"
 msgstr "Sukurti paieškos aplanką pašto _temai…"
 
-#: ../src/mail/e-mail-reader.c:3595
+#: ../src/mail/e-mail-reader.c:3700
 msgid "Create a search folder for this subject"
 msgstr "Sukurti paieškos aplanką šiai temai"
 
-#: ../src/mail/e-mail-reader.c:4269
+#: ../src/mail/e-mail-reader.c:4374
 msgid "Retrieving message"
 msgstr "Parsiunčiamas laiškas"
 
-#: ../src/mail/e-mail-reader.c:5193
+#: ../src/mail/e-mail-reader.c:5293
 msgid "Modify labels for selected message"
 msgid_plural "Modify labels for selected messages"
 msgstr[0] "Keisti užrašus pasirinktam laiškui"
 msgstr[1] "Keisti užrašus pasirinktiems laiškams"
 msgstr[2] "Keisti užrašus pasirinktiems laiškams"
 
-#: ../src/mail/e-mail-reader.c:5201
+#: ../src/mail/e-mail-reader.c:5301
 msgid "Set _Selected"
 msgstr "Nu_statyti pažymėtą"
 
-#: ../src/mail/e-mail-reader.c:5207
+#: ../src/mail/e-mail-reader.c:5307
 msgid "Set _None"
 msgstr "Nustatyti _jokį"
 
@@ -20804,7 +20812,7 @@ msgstr[1] ""
 msgstr[2] ""
 "Aplanke „%s“ yra %u dubliuotų laiškų. Ar tikrai norite juos ištrinti?"
 
-#: ../src/mail/e-mail-reader-utils.c:3035
+#: ../src/mail/e-mail-reader-utils.c:3045
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Įrašyti laišką"
@@ -20816,14 +20824,14 @@ msgstr[2] "Įrašyti laiškus"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3056
+#: ../src/mail/e-mail-reader-utils.c:3066
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Laiškas"
 msgstr[1] "Laiškai"
 msgstr[2] "Laiškai"
 
-#: ../src/mail/e-mail-reader-utils.c:3478
+#: ../src/mail/e-mail-reader-utils.c:3488
 msgid "Parsing message"
 msgstr "Skaitomas laiškas"
 
@@ -21465,13 +21473,13 @@ msgstr "Laiškai kopijuojami į aplanką %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Nepavyko perkelti žinutės(čių) į aukščiausią aukštą"
 
-#: ../src/mail/em-folder-tree-model.c:1555
+#: ../src/mail/em-folder-tree-model.c:1556
 #: ../src/mail/importers/kmail-libs.c:148
 #: ../src/modules/mail/e-mail-shell-view-private.c:1067
 msgid "Trash"
 msgstr "Šiukšlinė"
 
-#: ../src/mail/em-folder-tree-model.c:1556 ../src/mail/filtertypes.xml.in.h:41
+#: ../src/mail/em-folder-tree-model.c:1557 ../src/mail/filtertypes.xml.in.h:41
 #: ../src/mail/mail-config.ui.h:153 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Brukalas"
@@ -22071,14 +22079,14 @@ msgstr "_Paskirties aplankas:"
 #: ../src/mail/importers/evolution-mbox-importer.c:141
 #: ../src/mail/importers/kmail-importer.c:212
 #: ../src/plugins/dbx-import/dbx-importer.c:247
-#: ../src/plugins/pst-import/pst-importer.c:536
+#: ../src/plugins/pst-import/pst-importer.c:540
 msgid "Select folder"
 msgstr "Pasirinkite aplanką"
 
 #: ../src/mail/importers/evolution-mbox-importer.c:142
 #: ../src/mail/importers/kmail-importer.c:213
 #: ../src/plugins/dbx-import/dbx-importer.c:248
-#: ../src/plugins/pst-import/pst-importer.c:537
+#: ../src/plugins/pst-import/pst-importer.c:541
 msgid "Select folder to import into"
 msgstr "Pasirinkite aplanką, į kurį importuosite"
 
@@ -22123,7 +22131,7 @@ msgstr "Importuoti paštą bei kontaktus iš KMail"
 #: ../src/mail/importers/mail-importer.c:183
 #: ../src/mail/importers/mail-importer.c:322
 #: ../src/plugins/dbx-import/dbx-importer.c:611
-#: ../src/plugins/pst-import/pst-importer.c:755
+#: ../src/plugins/pst-import/pst-importer.c:759
 #, c-format
 msgid "Importing “%s”"
 msgstr "Importuojama „%s“"
@@ -23936,7 +23944,7 @@ msgstr "Generuojamas laiškų sąrašas"
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
 #: ../src/mail/message-list.c:2204
-#: ../src/modules/itip-formatter/itip-view.c:372
+#: ../src/modules/itip-formatter/itip-view.c:376
 msgid "Today %l:%M %p"
 msgstr "Šiandien %l:%M"
 
@@ -24097,7 +24105,7 @@ msgid "Use for"
 msgstr "Kam naudoti"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:317
-#: ../src/plugins/pst-import/pst-importer.c:521
+#: ../src/plugins/pst-import/pst-importer.c:525
 msgid "_Mail"
 msgstr "_Paštas"
 
@@ -24932,8 +24940,8 @@ msgstr "Pasirinkite adresų knyga"
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:102
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:238
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:259
-#: ../src/modules/itip-formatter/itip-view.c:2287
-#: ../src/modules/itip-formatter/itip-view.c:2512
+#: ../src/modules/itip-formatter/itip-view.c:2291
+#: ../src/modules/itip-formatter/itip-view.c:2516
 msgid "URL:"
 msgstr "URL:"
 
@@ -26040,7 +26048,7 @@ msgid "Accept meeting request for selected instance only"
 msgstr "Sutikti su susirinkimu tik pažymėtam atvejui"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1605
-#: ../src/modules/itip-formatter/itip-view.c:1463
+#: ../src/modules/itip-formatter/itip-view.c:1467
 msgid "_Decline"
 msgstr "_Atmesti"
 
@@ -26826,529 +26834,529 @@ msgstr "Rodyti dalį kaip kvietimą"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:363
+#: ../src/modules/itip-formatter/itip-view.c:367
 msgid "Today %H:%M"
 msgstr "Šiandien %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:367
+#: ../src/modules/itip-formatter/itip-view.c:371
 msgid "Today %H:%M:%S"
 msgstr "Šiandien %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:376
+#: ../src/modules/itip-formatter/itip-view.c:380
 msgid "Today %l:%M:%S %p"
 msgstr "Šiandien %l:%M:%S"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:391
+#: ../src/modules/itip-formatter/itip-view.c:395
 msgid "Tomorrow %H:%M"
 msgstr "Rytoj %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:395
+#: ../src/modules/itip-formatter/itip-view.c:399
 msgid "Tomorrow %H:%M:%S"
 msgstr "Rytoj %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:400
+#: ../src/modules/itip-formatter/itip-view.c:404
 msgid "Tomorrow %l:%M %p"
 msgstr "Rytoj %l:%M"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:404
+#: ../src/modules/itip-formatter/itip-view.c:408
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "Rytoj %l:%M:%S"
 
 #. strftime format of a weekday.
-#: ../src/modules/itip-formatter/itip-view.c:423
+#: ../src/modules/itip-formatter/itip-view.c:427
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:428
+#: ../src/modules/itip-formatter/itip-view.c:432
 msgid "%A %H:%M"
 msgstr "%A, %H:%M"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:432
+#: ../src/modules/itip-formatter/itip-view.c:436
 msgid "%A %H:%M:%S"
 msgstr "%A, %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:437
+#: ../src/modules/itip-formatter/itip-view.c:441
 msgid "%A %l:%M %p"
 msgstr "%A, %l:%M"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:441
+#: ../src/modules/itip-formatter/itip-view.c:445
 msgid "%A %l:%M:%S %p"
 msgstr "%A, %l:%M:%S"
 
 #. strftime format of a weekday and a date
 #. * without a year.
-#: ../src/modules/itip-formatter/itip-view.c:452
+#: ../src/modules/itip-formatter/itip-view.c:456
 msgid "%A, %B %e"
 msgstr "%A, %B %e d"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:458
+#: ../src/modules/itip-formatter/itip-view.c:462
 msgid "%A, %B %e %H:%M"
 msgstr "%A, %B %e d., %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:462
+#: ../src/modules/itip-formatter/itip-view.c:466
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%A, %B %e d,m %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:467
+#: ../src/modules/itip-formatter/itip-view.c:471
 msgid "%A, %B %e %l:%M %p"
 msgstr "%A, %B %e d., %l:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:471
+#: ../src/modules/itip-formatter/itip-view.c:475
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%A, %B %e d., %l:%M:%S"
 
 #. strftime format of a weekday and a date.
-#: ../src/modules/itip-formatter/itip-view.c:479
+#: ../src/modules/itip-formatter/itip-view.c:483
 msgid "%A, %B %e, %Y"
 msgstr "%A, %Y m. %B %e d"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:484
+#: ../src/modules/itip-formatter/itip-view.c:488
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%A, %Y m. %B %e d., %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:488
+#: ../src/modules/itip-formatter/itip-view.c:492
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%A, %Y m. %B %e d., %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:493
+#: ../src/modules/itip-formatter/itip-view.c:497
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%A, %Y m. %B %e d., %l:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:497
+#: ../src/modules/itip-formatter/itip-view.c:501
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %Y m. %B %e d., %l:%M:%S"
 
 #. Translators: The first '%s' is replaced with an abbreviated date/time of an appointment start or end, like "Tomorrow" or "Tomorrow 10:30";
 #. the second '%s' is replaced with the actual date, to know what the 'Tomorrow' means. What the date looks like depends on the user settings.
 #. Example: 'Tomorrow 10:30 (20.2.2020)'
-#: ../src/modules/itip-formatter/itip-view.c:524
+#: ../src/modules/itip-formatter/itip-view.c:528
 #, c-format
 msgctxt "cal-itip"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/modules/itip-formatter/itip-view.c:562
-#: ../src/modules/itip-formatter/itip-view.c:563
-#: ../src/modules/itip-formatter/itip-view.c:656
-#: ../src/modules/itip-formatter/itip-view.c:657
-#: ../src/modules/itip-formatter/itip-view.c:750
+#: ../src/modules/itip-formatter/itip-view.c:566
+#: ../src/modules/itip-formatter/itip-view.c:567
+#: ../src/modules/itip-formatter/itip-view.c:660
+#: ../src/modules/itip-formatter/itip-view.c:661
+#: ../src/modules/itip-formatter/itip-view.c:754
 msgid "An unknown person"
 msgstr "Nežinomas asmuo"
 
-#: ../src/modules/itip-formatter/itip-view.c:567
-#: ../src/modules/itip-formatter/itip-view.c:661
-#: ../src/modules/itip-formatter/itip-view.c:754
+#: ../src/modules/itip-formatter/itip-view.c:571
+#: ../src/modules/itip-formatter/itip-view.c:665
+#: ../src/modules/itip-formatter/itip-view.c:758
 #, c-format
 msgid "Please respond on behalf of %s"
 msgstr "Prašome atsakyti %s vardu"
 
-#: ../src/modules/itip-formatter/itip-view.c:569
-#: ../src/modules/itip-formatter/itip-view.c:663
-#: ../src/modules/itip-formatter/itip-view.c:756
+#: ../src/modules/itip-formatter/itip-view.c:573
+#: ../src/modules/itip-formatter/itip-view.c:667
+#: ../src/modules/itip-formatter/itip-view.c:760
 #, c-format
 msgid "Received on behalf of %s"
 msgstr "Gauta %s vardu"
 
-#: ../src/modules/itip-formatter/itip-view.c:575
+#: ../src/modules/itip-formatter/itip-view.c:579
 #, c-format
 msgid "%s through %s has published the following meeting information:"
 msgstr "%s per %s paskelbė šią susitikimo informaciją:"
 
-#: ../src/modules/itip-formatter/itip-view.c:577
+#: ../src/modules/itip-formatter/itip-view.c:581
 #, c-format
 msgid "%s has published the following meeting information:"
 msgstr "%s paskelbė šią susitikimo informaciją:"
 
-#: ../src/modules/itip-formatter/itip-view.c:579
+#: ../src/modules/itip-formatter/itip-view.c:583
 msgid "The following meeting information has been published:"
 msgstr "Ši susitikimo informacija buvo paskelbta:"
 
-#: ../src/modules/itip-formatter/itip-view.c:585
+#: ../src/modules/itip-formatter/itip-view.c:589
 #, c-format
 msgid "%s has delegated the following meeting to you:"
 msgstr "%s jums pavedė šį susitikimą:"
 
-#: ../src/modules/itip-formatter/itip-view.c:588
+#: ../src/modules/itip-formatter/itip-view.c:592
 #, c-format
 msgid "%s through %s requests your presence at the following meeting:"
 msgstr "%s per %s pageidauja, kad dalyvautumėte šiame susitikime:"
 
-#: ../src/modules/itip-formatter/itip-view.c:590
+#: ../src/modules/itip-formatter/itip-view.c:594
 #, c-format
 msgid "%s requests your presence at the following meeting:"
 msgstr "%s pageidauja, kad dalyvautumėte šiame susitikime:"
 
-#: ../src/modules/itip-formatter/itip-view.c:596
+#: ../src/modules/itip-formatter/itip-view.c:600
 #, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "%s per %s nori papildyti esamą susitikimą:"
 
-#: ../src/modules/itip-formatter/itip-view.c:598
+#: ../src/modules/itip-formatter/itip-view.c:602
 #, c-format
 msgid "%s wishes to add to an existing meeting:"
 msgstr "%s nori papildyti esamą susitikimą:"
 
-#: ../src/modules/itip-formatter/itip-view.c:602
+#: ../src/modules/itip-formatter/itip-view.c:606
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr "%s per %s nori gauti naujausią informaciją apie šį susitikimą:"
 
-#: ../src/modules/itip-formatter/itip-view.c:604
+#: ../src/modules/itip-formatter/itip-view.c:608
 #, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr "%s nori gauti naujausią informaciją apie šį susitikimą:"
 
-#: ../src/modules/itip-formatter/itip-view.c:608
+#: ../src/modules/itip-formatter/itip-view.c:612
 #, c-format
 msgid "%s through %s has sent back the following meeting response:"
 msgstr "%s per %s atsiuntė šį atsakymą apie susitikimą:"
 
-#: ../src/modules/itip-formatter/itip-view.c:610
+#: ../src/modules/itip-formatter/itip-view.c:614
 #, c-format
 msgid "%s has sent back the following meeting response:"
 msgstr "%s atsiuntė šį atsakymą apie susitikimą:"
 
-#: ../src/modules/itip-formatter/itip-view.c:614
+#: ../src/modules/itip-formatter/itip-view.c:618
 #, c-format
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "%s per %s atšaukė šį susitikimą:"
 
-#: ../src/modules/itip-formatter/itip-view.c:616
+#: ../src/modules/itip-formatter/itip-view.c:620
 #, c-format
 msgid "%s has cancelled the following meeting:"
 msgstr "%s atšaukė šį susitikimą:"
 
-#: ../src/modules/itip-formatter/itip-view.c:620
+#: ../src/modules/itip-formatter/itip-view.c:624
 #, c-format
 msgid "%s through %s has proposed the following meeting changes."
 msgstr "%s per %s pasiūlė šiuos susitikimo pakeitimus."
 
-#: ../src/modules/itip-formatter/itip-view.c:622
+#: ../src/modules/itip-formatter/itip-view.c:626
 #, c-format
 msgid "%s has proposed the following meeting changes:"
 msgstr "%s pasiūlė šiuos susitikimo pakeitimus:"
 
-#: ../src/modules/itip-formatter/itip-view.c:626
+#: ../src/modules/itip-formatter/itip-view.c:630
 #, c-format
 msgid "%s through %s has declined the following meeting changes:"
 msgstr "%s per %s atmetė šiuos susitikimo pakeitimus:"
 
-#: ../src/modules/itip-formatter/itip-view.c:628
+#: ../src/modules/itip-formatter/itip-view.c:632
 #, c-format
 msgid "%s has declined the following meeting changes:"
 msgstr "%s atmetė šiuos susitikimo pakeitimus:"
 
-#: ../src/modules/itip-formatter/itip-view.c:669
+#: ../src/modules/itip-formatter/itip-view.c:673
 #, c-format
 msgid "%s through %s has published the following task:"
 msgstr "%s per %s paskelbė šią užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:671
+#: ../src/modules/itip-formatter/itip-view.c:675
 #, c-format
 msgid "%s has published the following task:"
 msgstr "%s paskelbė šią užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:673
+#: ../src/modules/itip-formatter/itip-view.c:677
 msgid "The following task has been published:"
 msgstr "Ši užduotis buvo paskelbta:"
 
-#: ../src/modules/itip-formatter/itip-view.c:679
+#: ../src/modules/itip-formatter/itip-view.c:683
 #, c-format
 msgid "%s requests the assignment of %s to the following task:"
 msgstr "%s prašo priskirti naudotojui %s šią užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:682
+#: ../src/modules/itip-formatter/itip-view.c:686
 #, c-format
 msgid "%s through %s has assigned you a task:"
 msgstr "%s per %s priskyrė jums užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:684
+#: ../src/modules/itip-formatter/itip-view.c:688
 #, c-format
 msgid "%s has assigned you a task:"
 msgstr "%s priskyrė jums užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:690
+#: ../src/modules/itip-formatter/itip-view.c:694
 #, c-format
 msgid "%s through %s wishes to add to an existing task:"
 msgstr "%s per %s nori papildyti esamą užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:692
+#: ../src/modules/itip-formatter/itip-view.c:696
 #, c-format
 msgid "%s wishes to add to an existing task:"
 msgstr "%s nori papildyti esamą užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:696
+#: ../src/modules/itip-formatter/itip-view.c:700
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "assigned task:"
 msgstr "%s per %s nori gauti naujausią informaciją apie šią priskirtą užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:698
+#: ../src/modules/itip-formatter/itip-view.c:702
 #, c-format
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
 msgstr "%s nori gauti naujausią informaciją apie šią priskirtą užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:702
+#: ../src/modules/itip-formatter/itip-view.c:706
 #, c-format
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr "%s per %s atsiuntė šį atsakymą apie priskirtą užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:704
+#: ../src/modules/itip-formatter/itip-view.c:708
 #, c-format
 msgid "%s has sent back the following assigned task response:"
 msgstr "%s atsiuntė šį atsakymą apie priskirtą užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:708
+#: ../src/modules/itip-formatter/itip-view.c:712
 #, c-format
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "%s per %s atšaukė šią priskirtą užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:710
+#: ../src/modules/itip-formatter/itip-view.c:714
 #, c-format
 msgid "%s has cancelled the following assigned task:"
 msgstr "%s atšaukė šią priskirtą užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:714
+#: ../src/modules/itip-formatter/itip-view.c:718
 #, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr "%s per %s pasiūlė šiuos užduoties priskyrimo pakeitimus:"
 
-#: ../src/modules/itip-formatter/itip-view.c:716
+#: ../src/modules/itip-formatter/itip-view.c:720
 #, c-format
 msgid "%s has proposed the following task assignment changes:"
 msgstr "%s pasiūlė šiuos užduoties priskyrimo pakeitimus:"
 
-#: ../src/modules/itip-formatter/itip-view.c:720
+#: ../src/modules/itip-formatter/itip-view.c:724
 #, c-format
 msgid "%s through %s has declined the following assigned task:"
 msgstr "%s per %s atmetė šią priskirtą užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:722
+#: ../src/modules/itip-formatter/itip-view.c:726
 #, c-format
 msgid "%s has declined the following assigned task:"
 msgstr "%s atmetė šią priskirtą užduotį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:762
+#: ../src/modules/itip-formatter/itip-view.c:766
 #, c-format
 msgid "%s through %s has published the following memo:"
 msgstr "%s per %s paskelbė šį raštelį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:764
+#: ../src/modules/itip-formatter/itip-view.c:768
 #, c-format
 msgid "%s has published the following memo:"
 msgstr "%s paskelbė šį raštelį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:766
+#: ../src/modules/itip-formatter/itip-view.c:770
 msgid "The following memo has been published:"
 msgstr "Šis raštelis buvo paskelbtas:"
 
-#: ../src/modules/itip-formatter/itip-view.c:772
+#: ../src/modules/itip-formatter/itip-view.c:776
 #, c-format
 msgid "%s through %s wishes to add to an existing memo:"
 msgstr "%s per %s nori papildyti esamą raštelį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:774
+#: ../src/modules/itip-formatter/itip-view.c:778
 #, c-format
 msgid "%s wishes to add to an existing memo:"
 msgstr "%s nori papildyti esamą raštelį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:778
+#: ../src/modules/itip-formatter/itip-view.c:782
 #, c-format
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "%s per %s atšaukė šį viešinamą raštelį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:780
+#: ../src/modules/itip-formatter/itip-view.c:784
 #, c-format
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s atšaukė šį viešinamą raštelį:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1024
+#: ../src/modules/itip-formatter/itip-view.c:1028
 msgid "All day:"
 msgstr "Visą dieną:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1030
+#: ../src/modules/itip-formatter/itip-view.c:1034
 msgid "Start day:"
 msgstr "Pradžios data:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1030
-#: ../src/modules/itip-formatter/itip-view.c:2288
+#: ../src/modules/itip-formatter/itip-view.c:1034
+#: ../src/modules/itip-formatter/itip-view.c:2292
 msgid "Start time:"
 msgstr "Pradžios laikas:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1039
+#: ../src/modules/itip-formatter/itip-view.c:1043
 msgid "End day:"
 msgstr "Pabaigos data:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1039
-#: ../src/modules/itip-formatter/itip-view.c:2289
+#: ../src/modules/itip-formatter/itip-view.c:1043
+#: ../src/modules/itip-formatter/itip-view.c:2293
 msgid "End time:"
 msgstr "Pabaigos laikas:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1409
+#: ../src/modules/itip-formatter/itip-view.c:1413
 msgid "Imported event will have removed the organizer and all the attendees."
 msgstr "Importuotas įvykis turės pašalintą organizatorių bei visus dalyvius."
 
-#: ../src/modules/itip-formatter/itip-view.c:1457
+#: ../src/modules/itip-formatter/itip-view.c:1461
 msgid "Ope_n Calendar"
 msgstr "_Atverti kalendorių"
 
-#: ../src/modules/itip-formatter/itip-view.c:1460
+#: ../src/modules/itip-formatter/itip-view.c:1464
 msgid "_Decline all"
 msgstr "_Atmesti visus"
 
-#: ../src/modules/itip-formatter/itip-view.c:1466
+#: ../src/modules/itip-formatter/itip-view.c:1470
 msgid "_Tentative all"
 msgstr "_Laikinai priimti visus"
 
-#: ../src/modules/itip-formatter/itip-view.c:1469
+#: ../src/modules/itip-formatter/itip-view.c:1473
 msgid "_Tentative"
 msgstr "_Laikinai priimti"
 
-#: ../src/modules/itip-formatter/itip-view.c:1472
+#: ../src/modules/itip-formatter/itip-view.c:1476
 msgid "Acce_pt all"
 msgstr "Pr_iimti visus"
 
-#: ../src/modules/itip-formatter/itip-view.c:1475
+#: ../src/modules/itip-formatter/itip-view.c:1479
 msgid "Acce_pt"
 msgstr "Prii_mti"
 
-#: ../src/modules/itip-formatter/itip-view.c:1478
+#: ../src/modules/itip-formatter/itip-view.c:1482
 msgid "Send _Information"
 msgstr "Siųsti _informaciją"
 
-#: ../src/modules/itip-formatter/itip-view.c:1481
+#: ../src/modules/itip-formatter/itip-view.c:1485
 msgid "_Update Attendee Status"
 msgstr "_Atnaujinti dalyvių būseną"
 
-#: ../src/modules/itip-formatter/itip-view.c:1484
+#: ../src/modules/itip-formatter/itip-view.c:1488
 #: ../src/smime/gui/certificate-manager.c:1603
 msgid "_Update"
 msgstr "_Atnaujinti"
 
-#: ../src/modules/itip-formatter/itip-view.c:1487
+#: ../src/modules/itip-formatter/itip-view.c:1491
 msgid "Im_port"
 msgstr "I_mportuoti"
 
-#: ../src/modules/itip-formatter/itip-view.c:1492
+#: ../src/modules/itip-formatter/itip-view.c:1496
 msgid "Im_port as Event"
 msgstr "Im_portuoti kaip įvykį"
 
-#: ../src/modules/itip-formatter/itip-view.c:2291
-#: ../src/modules/itip-formatter/itip-view.c:2524
-#: ../src/modules/itip-formatter/itip-view.c:8000
+#: ../src/modules/itip-formatter/itip-view.c:2295
+#: ../src/modules/itip-formatter/itip-view.c:2528
+#: ../src/modules/itip-formatter/itip-view.c:8032
 msgid "Due date:"
 msgstr "Terminas:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2326
+#: ../src/modules/itip-formatter/itip-view.c:2330
 msgid "Show description provided by the sender"
 msgstr "Rodyti siuntėjo pateiktą aprašymą"
 
-#: ../src/modules/itip-formatter/itip-view.c:2327
+#: ../src/modules/itip-formatter/itip-view.c:2331
 msgid "Hide description provided by the sender"
 msgstr "Slėpti siuntėjo pateiktą aprašymą"
 
 #. RSVP area
-#: ../src/modules/itip-formatter/itip-view.c:2420
+#: ../src/modules/itip-formatter/itip-view.c:2424
 msgid "Send reply to organizer"
 msgstr "Siųsti atsakymą organizatoriui"
 
 #. Updates
-#: ../src/modules/itip-formatter/itip-view.c:2435
+#: ../src/modules/itip-formatter/itip-view.c:2439
 msgid "Send _updates to attendees"
 msgstr "Siųsti atna_ujinimus dalyviams"
 
 #. The recurrence check button
-#: ../src/modules/itip-formatter/itip-view.c:2438
+#: ../src/modules/itip-formatter/itip-view.c:2442
 msgid "_Apply to all instances"
 msgstr "Pritaikyti visiems _atvejams"
 
-#: ../src/modules/itip-formatter/itip-view.c:2439
+#: ../src/modules/itip-formatter/itip-view.c:2443
 msgid "Show time as _free"
 msgstr "Rodyti laiką kaip _laisvą"
 
-#: ../src/modules/itip-formatter/itip-view.c:2440
+#: ../src/modules/itip-formatter/itip-view.c:2444
 msgid "_Preserve my reminder"
 msgstr "_Išsaugoti mano priminimą"
 
-#: ../src/modules/itip-formatter/itip-view.c:2441
+#: ../src/modules/itip-formatter/itip-view.c:2445
 msgid "_Inherit reminder"
 msgstr "_Perimti priminimą"
 
-#: ../src/modules/itip-formatter/itip-view.c:2758
+#: ../src/modules/itip-formatter/itip-view.c:2762
 msgid "_Tasks:"
 msgstr "_Užduotys:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2761
+#: ../src/modules/itip-formatter/itip-view.c:2765
 msgid "_Memos:"
 msgstr "_Rašteliai:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3850
+#: ../src/modules/itip-formatter/itip-view.c:3854
 msgid "Sa_ve"
 msgstr "Į_rašyti"
 
-#: ../src/modules/itip-formatter/itip-view.c:4378
-#: ../src/modules/itip-formatter/itip-view.c:6256
+#: ../src/modules/itip-formatter/itip-view.c:4382
+#: ../src/modules/itip-formatter/itip-view.c:6264
 msgid "Attendee status updated"
 msgstr "Dalyvio būsena atnaujinta"
 
-#: ../src/modules/itip-formatter/itip-view.c:4710
+#: ../src/modules/itip-formatter/itip-view.c:4714
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "Paskyrimas „%s“ kalendoriuje „%s“ konfliktuoja su šiuo susitikimu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4717
+#: ../src/modules/itip-formatter/itip-view.c:4721
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "Užduoti „%s“ sąraše „%s“ konfliktuoja su šia užduotimi"
 
-#: ../src/modules/itip-formatter/itip-view.c:4724
+#: ../src/modules/itip-formatter/itip-view.c:4728
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "Raštelis „%s“ sąraše „%s“ konfliktuoja su šiuo rašteliu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4737
+#: ../src/modules/itip-formatter/itip-view.c:4741
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -27361,7 +27369,7 @@ msgstr[1] ""
 msgstr[2] ""
 "Kalendoriuje „%s“ yra %d paskyrimų, kurie konfliktuoja su šiuo susitikimu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4746
+#: ../src/modules/itip-formatter/itip-view.c:4750
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
@@ -27373,7 +27381,7 @@ msgstr[1] ""
 msgstr[2] ""
 "Užduočių sąraše „%s“ yra %d užduočių, kurios konfliktuoja su šia užduotimi"
 
-#: ../src/modules/itip-formatter/itip-view.c:4755
+#: ../src/modules/itip-formatter/itip-view.c:4759
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
@@ -27385,265 +27393,265 @@ msgstr[1] ""
 msgstr[2] ""
 "Raštelių sąraše „%s“ yra %d raštelių, kurie konfliktuoja su šiuo rašteliu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4797
+#: ../src/modules/itip-formatter/itip-view.c:4801
 #, c-format
 msgid "Found the appointment in the calendar “%s” as accepted"
 msgstr "Paskyrimas rastas kalendoriuje „%s“ kaip priimtas"
 
-#: ../src/modules/itip-formatter/itip-view.c:4803
+#: ../src/modules/itip-formatter/itip-view.c:4807
 #, c-format
 msgid "Found the appointment in the calendar “%s” as declined"
 msgstr "Paskyrimas rastas kalendoriuje „%s“ kaip atmestas"
 
-#: ../src/modules/itip-formatter/itip-view.c:4808
+#: ../src/modules/itip-formatter/itip-view.c:4812
 #, c-format
 msgid "Found the appointment in the calendar “%s” as tentatively accepted"
 msgstr "Paskyrimas rastas kalendoriuje „%s“ kaip pageidaujamai priimtas"
 
-#: ../src/modules/itip-formatter/itip-view.c:4813
+#: ../src/modules/itip-formatter/itip-view.c:4817
 #, c-format
 msgid "Found the appointment in the calendar “%s” as delegated"
 msgstr "Paskyrimas rastas kalendoriuje „%s“ kaip perduotas"
 
-#: ../src/modules/itip-formatter/itip-view.c:4818
+#: ../src/modules/itip-formatter/itip-view.c:4822
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Paskyrimas rastas kalendoriuje „%s“"
 
-#: ../src/modules/itip-formatter/itip-view.c:4825
+#: ../src/modules/itip-formatter/itip-view.c:4829
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "Rasta užduoti užduočių sąraše „%s“"
 
-#: ../src/modules/itip-formatter/itip-view.c:4830
+#: ../src/modules/itip-formatter/itip-view.c:4834
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "Rastas raštelis raštelių sąraše „%s“"
 
-#: ../src/modules/itip-formatter/itip-view.c:4841
+#: ../src/modules/itip-formatter/itip-view.c:4845
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "Susitikimas yra pasenęs. Jis buvo atnaujintas."
 
-#: ../src/modules/itip-formatter/itip-view.c:4963
+#: ../src/modules/itip-formatter/itip-view.c:4967
 msgid "Unable to find any calendars"
 msgstr "Nepavyko rasti jokių kalendorių"
 
-#: ../src/modules/itip-formatter/itip-view.c:4971
+#: ../src/modules/itip-formatter/itip-view.c:4975
 msgid "Unable to find this meeting in any calendar"
 msgstr "Nepavyko rasti šio susitikimo jokiame kalendoriuje"
 
-#: ../src/modules/itip-formatter/itip-view.c:4976
+#: ../src/modules/itip-formatter/itip-view.c:4980
 msgid "Unable to find this task in any task list"
 msgstr "Nepavyko rasti šios užduoties jokiame užduočių sąraše"
 
-#: ../src/modules/itip-formatter/itip-view.c:4981
+#: ../src/modules/itip-formatter/itip-view.c:4985
 msgid "Unable to find this memo in any memo list"
 msgstr "Nepavyko rasti šio raštelio jokiame raštelių sąraše"
 
-#: ../src/modules/itip-formatter/itip-view.c:5279
+#: ../src/modules/itip-formatter/itip-view.c:5283
 msgid "Searching for an existing version of this appointment"
 msgstr "Ieškoma egzistuojančios šio paskyrimo versijos"
 
-#: ../src/modules/itip-formatter/itip-view.c:5280
+#: ../src/modules/itip-formatter/itip-view.c:5284
 msgid "Cannot search for existing event, no calendar selected for search"
 msgstr "Negalima ieškoti esamo įvykio, nepasirinktas ieškomas kalendorius"
 
-#: ../src/modules/itip-formatter/itip-view.c:5284
+#: ../src/modules/itip-formatter/itip-view.c:5288
 msgid "Searching for an existing version of this task"
 msgstr "Ieškoma egzistuojančios šios užduoties versijos"
 
-#: ../src/modules/itip-formatter/itip-view.c:5285
+#: ../src/modules/itip-formatter/itip-view.c:5289
 msgid "Cannot search for existing task, no task list found"
 msgstr ""
 "Negalima ieškoti esamos užduoties, nepasirinktas ieškomas užduočių sąrašas"
 
-#: ../src/modules/itip-formatter/itip-view.c:5289
+#: ../src/modules/itip-formatter/itip-view.c:5293
 msgid "Searching for an existing version of this memo"
 msgstr "Ieškoma egzistuojančios šio raštelio versijos"
 
-#: ../src/modules/itip-formatter/itip-view.c:5290
+#: ../src/modules/itip-formatter/itip-view.c:5294
 msgid "Cannot search for existing memo, no memo list found"
 msgstr ""
 "Negalima ieškoti esamo raštelio, nepasirinktas ieškomas raštelių sąrašas"
 
-#: ../src/modules/itip-formatter/itip-view.c:5688
+#: ../src/modules/itip-formatter/itip-view.c:5696
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "Nepavyko nusiųsti elemento į kalendorių „%s“.  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5696
+#: ../src/modules/itip-formatter/itip-view.c:5704
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "Nepavyko nusiųsti elemento į užduočių sąrašą „%s“.  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5704
+#: ../src/modules/itip-formatter/itip-view.c:5712
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "Nepavyko nusiųsti elemento į raštelių sąrašą „%s“.  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5725
+#: ../src/modules/itip-formatter/itip-view.c:5733
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Išsiųstas į kalendorių „%s“ kaip priimtas"
 
-#: ../src/modules/itip-formatter/itip-view.c:5730
+#: ../src/modules/itip-formatter/itip-view.c:5738
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Išsiųstas į užduočių sąrašą „%s“ kaip priimtas"
 
-#: ../src/modules/itip-formatter/itip-view.c:5735
+#: ../src/modules/itip-formatter/itip-view.c:5743
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Išsiųstas į raštelių sąrašą „%s“ kaip priimtas"
 
-#: ../src/modules/itip-formatter/itip-view.c:5745
+#: ../src/modules/itip-formatter/itip-view.c:5753
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Išsiųstas į kalendorių „%s“ kaip bandomasis"
 
-#: ../src/modules/itip-formatter/itip-view.c:5750
+#: ../src/modules/itip-formatter/itip-view.c:5758
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Išsiųstas į užduočių sąrašą „%s“ kaip bandomasis"
 
-#: ../src/modules/itip-formatter/itip-view.c:5755
+#: ../src/modules/itip-formatter/itip-view.c:5763
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Išsiųstas į raštelių sąrašą „%s“ kaip bandomasis"
 
-#: ../src/modules/itip-formatter/itip-view.c:5765
+#: ../src/modules/itip-formatter/itip-view.c:5773
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Išsiųstas į kalendorių „%s“ kaip atmestas"
 
-#: ../src/modules/itip-formatter/itip-view.c:5770
+#: ../src/modules/itip-formatter/itip-view.c:5778
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Išsiųstas į užduočių sąrašą „%s“ kaip atmestas"
 
-#: ../src/modules/itip-formatter/itip-view.c:5775
+#: ../src/modules/itip-formatter/itip-view.c:5783
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Išsiųstas į raštelių sąrašą „%s“ kaip atmestas"
 
-#: ../src/modules/itip-formatter/itip-view.c:5785
+#: ../src/modules/itip-formatter/itip-view.c:5793
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Išsiųstas į kalendorių „%s“ kaip atšauktas"
 
-#: ../src/modules/itip-formatter/itip-view.c:5790
+#: ../src/modules/itip-formatter/itip-view.c:5798
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "Išsiųstas į užduočių sąrašą „%s“ kaip atšauktas"
 
-#: ../src/modules/itip-formatter/itip-view.c:5795
+#: ../src/modules/itip-formatter/itip-view.c:5803
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "Išsiųstas į raštelių sąrašą „%s“ kaip atšauktas"
 
-#: ../src/modules/itip-formatter/itip-view.c:5806
+#: ../src/modules/itip-formatter/itip-view.c:5814
 #, c-format
 msgid "Imported to calendar “%s”"
 msgstr "Importuoti į kalendorių „%s“"
 
-#: ../src/modules/itip-formatter/itip-view.c:5811
+#: ../src/modules/itip-formatter/itip-view.c:5819
 #, c-format
 msgid "Imported to task list “%s”"
 msgstr "Importuoti į užduočių sąrašą „%s“"
 
-#: ../src/modules/itip-formatter/itip-view.c:5816
+#: ../src/modules/itip-formatter/itip-view.c:5824
 #, c-format
 msgid "Imported to memo list “%s”"
 msgstr "Importuoti į raštelių sąrašą „%s“"
 
-#: ../src/modules/itip-formatter/itip-view.c:5835
+#: ../src/modules/itip-formatter/itip-view.c:5843
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Saugomi kalendoriaus pakeitimai. Luktelėkite…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5838
+#: ../src/modules/itip-formatter/itip-view.c:5846
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Saugomi kalendoriaus pakeitimai. Luktelėkite…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5841
+#: ../src/modules/itip-formatter/itip-view.c:5849
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Saugomi kalendoriaus pakeitimai. Luktelėkite…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5980
+#: ../src/modules/itip-formatter/itip-view.c:5988
 msgid "Unable to parse item"
 msgstr "Nepavyko apdoroti elemento"
 
-#: ../src/modules/itip-formatter/itip-view.c:6180
+#: ../src/modules/itip-formatter/itip-view.c:6188
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organizatorius pašalino atstovą %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:6197
+#: ../src/modules/itip-formatter/itip-view.c:6205
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Atstovui išsiųstas pranešimas apie atšaukimą"
 
-#: ../src/modules/itip-formatter/itip-view.c:6201
+#: ../src/modules/itip-formatter/itip-view.c:6209
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Nepavyko išsiųsti pranešimo apie atšaukimą atstovui"
 
-#: ../src/modules/itip-formatter/itip-view.c:6247
+#: ../src/modules/itip-formatter/itip-view.c:6255
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Nepavyko atnaujinti dalyvio. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:6281
+#: ../src/modules/itip-formatter/itip-view.c:6289
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Susitikimas yra netinkamas ir negali būti atnaujintas"
 
-#: ../src/modules/itip-formatter/itip-view.c:6366
+#: ../src/modules/itip-formatter/itip-view.c:6374
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Nepavyko atnaujinti dalyvio būsenos, nes būsena yra neteisinga"
 
-#: ../src/modules/itip-formatter/itip-view.c:6442
-#: ../src/modules/itip-formatter/itip-view.c:6480
+#: ../src/modules/itip-formatter/itip-view.c:6450
+#: ../src/modules/itip-formatter/itip-view.c:6488
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Dalyvio būsena negali būti atnaujinta, nes pasirinko elemento nebėra"
 
-#: ../src/modules/itip-formatter/itip-view.c:6541
+#: ../src/modules/itip-formatter/itip-view.c:6549
 msgid "Meeting information sent"
 msgstr "Susitikimo informacija išsiųsta"
 
-#: ../src/modules/itip-formatter/itip-view.c:6546
+#: ../src/modules/itip-formatter/itip-view.c:6554
 msgid "Task information sent"
 msgstr "Užduoties informacija išsiųsta"
 
-#: ../src/modules/itip-formatter/itip-view.c:6551
+#: ../src/modules/itip-formatter/itip-view.c:6559
 msgid "Memo information sent"
 msgstr "Raštelio informacija išsiųsta"
 
-#: ../src/modules/itip-formatter/itip-view.c:6562
+#: ../src/modules/itip-formatter/itip-view.c:6570
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr ""
 "Nepavyko išsiųsti susitikimo informacijos, nes susitikimas neegzistuoja"
 
-#: ../src/modules/itip-formatter/itip-view.c:6567
+#: ../src/modules/itip-formatter/itip-view.c:6575
 msgid "Unable to send task information, the task does not exist"
 msgstr "Nepavyko išsiųsti užduoties informacijos, nes užduotis neegzistuoja"
 
-#: ../src/modules/itip-formatter/itip-view.c:6572
+#: ../src/modules/itip-formatter/itip-view.c:6580
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Nepavyko išsiųsti raštelio informacijos, nes raštelis neegzistuoja"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6617
+#: ../src/modules/itip-formatter/itip-view.c:6625
 msgid "calendar.ics"
 msgstr "kalendorius.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:6622
+#: ../src/modules/itip-formatter/itip-view.c:6630
 msgid "Save Calendar"
 msgstr "Įrašyti kalendorių"
 
-#: ../src/modules/itip-formatter/itip-view.c:6670
-#: ../src/modules/itip-formatter/itip-view.c:6683
+#: ../src/modules/itip-formatter/itip-view.c:6678
+#: ../src/modules/itip-formatter/itip-view.c:6691
 msgid "The calendar attached is not valid"
 msgstr "Prisegtas kalendorius yra netinkamas"
 
-#: ../src/modules/itip-formatter/itip-view.c:6671
-#: ../src/modules/itip-formatter/itip-view.c:6684
+#: ../src/modules/itip-formatter/itip-view.c:6679
+#: ../src/modules/itip-formatter/itip-view.c:6692
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -27651,15 +27659,15 @@ msgstr ""
 "Laiške nurodoma, kad jame yra kalendorius, bet kalendorius nėra tinkamas "
 "iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:6766
-#: ../src/modules/itip-formatter/itip-view.c:6851
-#: ../src/modules/itip-formatter/itip-view.c:6955
+#: ../src/modules/itip-formatter/itip-view.c:6774
+#: ../src/modules/itip-formatter/itip-view.c:6859
+#: ../src/modules/itip-formatter/itip-view.c:6987
 msgid "The item in the calendar is not valid"
 msgstr "Elementas kalendoriuje yra netinkamas"
 
-#: ../src/modules/itip-formatter/itip-view.c:6767
-#: ../src/modules/itip-formatter/itip-view.c:6852
-#: ../src/modules/itip-formatter/itip-view.c:6956
+#: ../src/modules/itip-formatter/itip-view.c:6775
+#: ../src/modules/itip-formatter/itip-view.c:6860
+#: ../src/modules/itip-formatter/itip-view.c:6988
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -27667,11 +27675,11 @@ msgstr ""
 "Šiame laiške yra kalendorius, bet kalendoriuje nėra jokių įvykių, užduočių "
 "ar užimtumo informacijos"
 
-#: ../src/modules/itip-formatter/itip-view.c:6861
+#: ../src/modules/itip-formatter/itip-view.c:6869
 msgid "The calendar attached contains multiple items"
 msgstr "Prisegtame kalendoriuje yra keletas elementų"
 
-#: ../src/modules/itip-formatter/itip-view.c:6862
+#: ../src/modules/itip-formatter/itip-view.c:6870
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -27679,12 +27687,12 @@ msgstr ""
 "Norint apdoroti visus šiuos elementus, failas turėtų būti išsaugotas ir "
 "kalendorius importuotas"
 
-#: ../src/modules/itip-formatter/itip-view.c:7615
+#: ../src/modules/itip-formatter/itip-view.c:7647
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Nėra"
 
-#: ../src/modules/itip-formatter/itip-view.c:7667
+#: ../src/modules/itip-formatter/itip-view.c:7699
 msgid "Tentatively Accepted"
 msgstr "Preliminariai priimtas"
 
@@ -27799,7 +27807,7 @@ msgstr "Mbox siuntimo aplankas negali būti tuščias"
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:57
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:148
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:194
-#: ../src/plugins/mail-notification/mail-notification.c:1290
+#: ../src/plugins/mail-notification/mail-notification.c:1365
 msgid "Configuration"
 msgstr "Konfigūracija"
 
@@ -29797,7 +29805,7 @@ msgstr ""
 "Antraštė: {0}"
 
 #. Translators: '%d' is the count of mails received.
-#: ../src/plugins/mail-notification/mail-notification.c:523
+#: ../src/plugins/mail-notification/mail-notification.c:586
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
@@ -29807,28 +29815,28 @@ msgstr[2] "Gavote %d naujų laiškų."
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../src/plugins/mail-notification/mail-notification.c:532
+#: ../src/plugins/mail-notification/mail-notification.c:595
 #, c-format
 msgid "From: %s"
 msgstr "Nuo: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../src/plugins/mail-notification/mail-notification.c:540
+#: ../src/plugins/mail-notification/mail-notification.c:603
 #, c-format
 msgid "Subject: %s"
 msgstr "Tema: %s"
 
 #. Translators: The '%s' is replaced by the folder name, where a new
 #. * mail message arrived. Example: "Folder: On This Computer : Inbox"
-#: ../src/plugins/mail-notification/mail-notification.c:548
+#: ../src/plugins/mail-notification/mail-notification.c:611
 #, c-format
 msgid "Folder: %s"
 msgstr "Aplankas: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
-#: ../src/plugins/mail-notification/mail-notification.c:559
+#: ../src/plugins/mail-notification/mail-notification.c:622
 #, c-format
 msgid "(and %d more)"
 msgid_plural "(and %d more)"
@@ -29836,55 +29844,59 @@ msgstr[0] "(ir dar %d)"
 msgstr[1] "(ir dar %d)"
 msgstr[2] "(ir dar %d)"
 
-#: ../src/plugins/mail-notification/mail-notification.c:569
+#: ../src/plugins/mail-notification/mail-notification.c:632
 msgid "New email in Evolution"
 msgstr "Naujas Evolution el. paštas"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../src/plugins/mail-notification/mail-notification.c:610
+#: ../src/plugins/mail-notification/mail-notification.c:673
 #, c-format
 msgid "Show %s"
 msgstr "Rodyti %s"
 
-#: ../src/plugins/mail-notification/mail-notification.c:867
+#: ../src/plugins/mail-notification/mail-notification.c:689
+msgid "Mark as read"
+msgstr "Pažymėti skaitytu"
+
+#: ../src/plugins/mail-notification/mail-notification.c:942
 msgid "_Play sound when a new message arrives"
 msgstr "_Gavus naujų laiškų, sugroti garsą"
 
-#: ../src/plugins/mail-notification/mail-notification.c:893
+#: ../src/plugins/mail-notification/mail-notification.c:968
 msgid "_Beep"
 msgstr "_Pyptelėti"
 
-#: ../src/plugins/mail-notification/mail-notification.c:906
+#: ../src/plugins/mail-notification/mail-notification.c:981
 msgid "Use sound _theme"
 msgstr "Naudoti garsų _temą"
 
-#: ../src/plugins/mail-notification/mail-notification.c:925
+#: ../src/plugins/mail-notification/mail-notification.c:1000
 msgid "Play _file:"
 msgstr "Groti _garso failą:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:934
+#: ../src/plugins/mail-notification/mail-notification.c:1009
 msgid "Select sound file"
 msgstr "Pasirinkite garso failą"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1084
+#: ../src/plugins/mail-notification/mail-notification.c:1159
 msgid "Select _accounts for which enable notifications:"
 msgstr "Pasirinkite paskyras, kurioms įjungti priminimus:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1246
+#: ../src/plugins/mail-notification/mail-notification.c:1321
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
 msgstr "Pranešimas apie paštą"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1260
+#: ../src/plugins/mail-notification/mail-notification.c:1335
 msgid "Notify new messages for _Inbox only"
 msgstr "Pranešti tik gavus naujų laiškų _Gautų laiškų aplanke"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1276
+#: ../src/plugins/mail-notification/mail-notification.c:1351
 msgid "Show _notification when a new message arrives"
 msgstr "Rodyti _perspėjimą kai ateina naujas pranešimas"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1294
+#: ../src/plugins/mail-notification/mail-notification.c:1369
 msgid "Accounts"
 msgstr "Paskyros"
 
@@ -30105,23 +30117,23 @@ msgstr "Importuoti Outlook laiškus iš PST failo"
 msgid "Outlook personal folders (.pst)"
 msgstr "Outlook asmeniniai aplankai (.pst)"
 
-#: ../src/plugins/pst-import/pst-importer.c:550
+#: ../src/plugins/pst-import/pst-importer.c:554
 msgid "Destination folder:"
 msgstr "Paskirties aplankas:"
 
-#: ../src/plugins/pst-import/pst-importer.c:560
+#: ../src/plugins/pst-import/pst-importer.c:564
 msgid "_Address Book"
 msgstr "_Adresų knyga"
 
-#: ../src/plugins/pst-import/pst-importer.c:565
+#: ../src/plugins/pst-import/pst-importer.c:569
 msgid "A_ppointments"
 msgstr "_Paskyrimai"
 
-#: ../src/plugins/pst-import/pst-importer.c:575
+#: ../src/plugins/pst-import/pst-importer.c:579
 msgid "_Journal entries"
 msgstr "_Žurnalo įrašai"
 
-#: ../src/plugins/pst-import/pst-importer.c:692
+#: ../src/plugins/pst-import/pst-importer.c:696
 msgid "Importing Outlook data"
 msgstr "Importuojami Outlook duomenys"
 
