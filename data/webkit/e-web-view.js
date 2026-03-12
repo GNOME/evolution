@@ -1201,20 +1201,24 @@ Evo.unsetHTMLColors = function(doc)
 	}
 
 	for (ii = 0; ii < isz; ii++) {
-		var sheet = doc.styleSheets[ii];
+		try {
+			var sheet = doc.styleSheets[ii];
 
-		if (!sheet.cssRules ||
-		    sheet.id == "-e-web-view-style-sheet" ||
-		    sheet.id == "-e-mail-formatter-style-sheet") {
-			continue;
-		}
+			if (!sheet.cssRules ||
+			    sheet.id == "-e-web-view-style-sheet" ||
+			    sheet.id == "-e-mail-formatter-style-sheet") {
+				continue;
+			}
 
-		var jj, jsz = sheet.cssRules.length;
+			var jj, jsz = sheet.cssRules.length;
 
-		for (jj = 0; jj < jsz; jj++) {
-			var rule = sheet.cssRules[jj];
+			for (jj = 0; jj < jsz; jj++) {
+				var rule = sheet.cssRules[jj];
 
-			Evo.unsetHTMLColorsInCssRule(rule);
+				Evo.unsetHTMLColorsInCssRule(rule);
+			}
+		} catch (err) {
+			// these can be "SecurityError: Not allowed to access cross-origin stylesheet", just ignore them
 		}
 	}
 
