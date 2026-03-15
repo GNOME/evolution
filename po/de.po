@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2025-12-10 12:48+0000\n"
-"PO-Revision-Date: 2025-12-19 23:34+0100\n"
+"POT-Creation-Date: 2026-02-10 12:58+0000\n"
+"PO-Revision-Date: 2026-02-22 21:48+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1155,10 +1155,6 @@ msgid "Shorten event time by minutes"
 msgstr "Die Dauer des Termins um Minuten verkürzen"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
-#, fuzzy
-#| msgid ""
-#| "By how many minutes to shorted new event time. Whether event end or start is "
-#| "changed is determined by \"shorten-time-end\" setting"
 msgid ""
 "By how many minutes to shorten new event time. Whether event end or start is "
 "changed is determined by \"shorten-time-end\" setting"
@@ -1191,10 +1187,8 @@ msgstr ""
 "aktuellen Farbthema verwendet"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
-#, fuzzy
-#| msgid "Allow drag and drop of events in the Calendar."
 msgid "Allow drag-and-drop of events in the Calendar."
-msgstr "Ziehen und Ablegen von Terminen im Kalender zulassen"
+msgstr "Ziehen und Ablegen von Terminen im Kalender zulassen."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
 msgid ""
@@ -1218,37 +1212,24 @@ msgstr ""
 "zusammen mit diesem Termin verschicken« und verwendet ihn beim nächsten Mal."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:184
-#, fuzzy
-#| msgid "Show timezone field in the event/meeting editor"
 msgid "Show the day agenda in the event editor."
-msgstr "Zeitzonenfeld im Termin-/Besprechungseditor anzeigen"
+msgstr "Die Tagesagenda im Termineditor anzeigen."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:185
-#, fuzzy
-#| msgid "Whether the markdown editor show have live preview"
 msgid "Whether the event editor shows the day agenda."
-msgstr ""
-"Legt fest, ob die Markdown-Editor-Ansicht eine aktuelle Vorschau anzeigen soll"
+msgstr "Legt fest, ob die Tagesagenda im Termineditor anzeigt wird."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:186
-#, fuzzy
-#| msgid ""
-#| "Position of the vertical pane, between the calendar lists and the date "
-#| "navigator calendar"
 msgid "Position of the paned splitting the editor data and the day agenda"
-msgstr ""
-"Die Position der vertikalen Leiste zwischen der Kalenderliste und dem "
-"Datumsauswahl-Kalender"
+msgstr "Die Position des vertikalen Teilfensters zwischen Editor und der Tagesagenda"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:187
 msgid "It influences the width of the day agenda."
 msgstr "Es beeinflusst die Breite der Tagesagenda."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:188
-#, fuzzy
-#| msgid "Width of the To Do bar in the main window"
 msgid "Width of the event editor window"
-msgstr "Breite der To-Do-Leiste im Hauptfenster"
+msgstr "Breite des Ereigniseditor-Fensters"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:189
 msgid "The editor will be opened with this width."
@@ -3397,11 +3378,8 @@ msgstr ""
 "Dateien angehängt (wenn auf »true« gesetzt), statt als eine einzige mbox-Datei."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:352
-#, fuzzy
-#| msgid "You have received %d new message."
-#| msgid_plural "You have received %d new messages."
 msgid "Set folder text color when it received a new message"
-msgstr "Sie haben %d neue Nachricht."
+msgstr "Die Textfarbe des Ordners bei Erhalt einer neuen Nachricht festlegen."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:353
 msgid ""
@@ -3410,6 +3388,11 @@ msgid ""
 "using an invalid form, will not change the folder name text color. A value 'auto' "
 "will pick a suitable blue color for the current color theme."
 msgstr ""
+"Einige Themenfarben werden unterstützt. Darüber hinaus können Farbnamen wie "
+"»orange« oder Farbwerte wie »#07509c« oder »rgb(215,150,0)« verwendet werden. "
+"Keine oder ein falsche Farbdefinition führt zu keiner Farbänderung des "
+"Ordnernamens. Der Wert »auto« wählt eine passende blaue Farbe des aktuellen "
+"Farbthemas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:354
 msgid "(Deprecated) Default forward style"
@@ -3667,12 +3650,14 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:9
 msgid "Show a day agenda for the start time of the invitation"
-msgstr ""
+msgstr "Die Tagesagenda für die Startzeit der Einladung anzeigen."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:10
 msgid ""
 "Show a day agenda, events for the day, when the event in the invitation mail starts"
 msgstr ""
+"Die Tagesagenda und Tagesereignisse anzeigen, wenn das Ereignis in der Einladungs-"
+"E-Mail beginnt"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -13756,7 +13741,7 @@ msgstr "Ungesicherte Teile verbergen"
 msgid "Error parsing MBOX part: %s"
 msgstr "Fehler beim Einlesen des MBOX-Teils: %s"
 
-#: ../src/em-format/e-mail-parser-application-smime.c:113
+#: ../src/em-format/e-mail-parser-application-smime.c:117
 #, c-format
 msgid "Could not parse S/MIME message: %s"
 msgstr "S/MIME-Nachricht konnte nicht analysiert werden: %s"
@@ -14014,16 +13999,12 @@ msgid "Failed to create a thread: "
 msgstr "Konversation konnte nicht angelegt werden: "
 
 #: ../src/e-util/e-attachment-bar.c:730
-#, fuzzy
-#| msgid "Show attachments"
 msgid "_Show Inline Parts in Attachments"
-msgstr "Anlagen anzeigen"
+msgstr "Inline-Teile in Anhängen an_zeigen"
 
 #: ../src/e-util/e-attachment-bar.c:737
-#, fuzzy
-#| msgid "Message has no attachments"
 msgid "_Hide Inline Parts in Attachments"
-msgstr "Nachricht besitzt keine Anlagen"
+msgstr "Inline-Teile in Anhängen _verbergen"
 
 #. To Translators: This text is set as a description of an attached
 #. * message when, for example, attaching it to a composer. When the
@@ -15851,8 +15832,6 @@ msgid "Add Word To"
 msgstr "Wort hinzufügen zu"
 
 #: ../src/e-util/e-html-editor-actions.c:2240
-#, fuzzy
-#| msgid "Spelling Suggestions"
 msgid "Spell check suggestions"
 msgstr "Rechtschreibvorschläge"
 
@@ -17492,12 +17471,10 @@ msgid "Timezone drop-down combination box"
 msgstr "Auswahlliste für die Zeitzone"
 
 #: ../src/e-util/e-ui-customize-dialog.c:588
-#, fuzzy
-#| msgid "_Use the same fonts as other applications"
 msgid "_Unset from other action"
 msgid_plural "_Unset from other actions"
-msgstr[0] "Dieselben Schriften wie andere Anwendungen _verwenden"
-msgstr[1] "Dieselben Schriften wie andere Anwendungen _verwenden"
+msgstr[0] "Von anderer Aktion _lösen"
+msgstr[1] "Von anderen Aktionen _lösen"
 
 #: ../src/e-util/e-ui-customize-dialog.c:640
 #, c-format
@@ -17552,7 +17529,7 @@ msgstr "_Teil:"
 
 #: ../src/e-util/e-ui-customize-dialog.c:2553
 msgid "Available _Actions"
-msgstr "Verfügbare _Aktionen:"
+msgstr "Verfügbare _Aktionen"
 
 #: ../src/e-util/e-ui-customize-dialog.c:2622
 msgid "_Layout"
@@ -17572,7 +17549,7 @@ msgstr "_Schnellzugriffe"
 
 #: ../src/e-util/e-ui-customize-dialog.c:2757
 msgid "Add or remove shortcuts for the selected action."
-msgstr "Schnellzugriffe für die gewählte Aktion hinzufügen oder entfernen"
+msgstr "Schnellzugriffe für die gewählte Aktion hinzufügen oder entfernen."
 
 #: ../src/e-util/e-ui-customize-dialog.c:2920
 msgid "Customize User Interface"
@@ -17593,8 +17570,6 @@ msgid "Failed to save changes."
 msgstr "Speichern der Änderungen fehlgeschlagen."
 
 #: ../src/e-util/e-ui-customizer.c:434
-#, fuzzy
-#| msgid "Header"
 msgid "Headerbar"
 msgstr "Kopfzeile"
 
@@ -17646,8 +17621,8 @@ msgid "Scheduling Outbox"
 msgstr "Nachrichtenausgang planen"
 
 #: ../src/e-util/e-webdav-browser.c:612 ../src/mail/e-mail-viewer.c:1551
-#: ../src/mail/e-mail-viewer.c:2543 ../src/mail/em-folder-tree-model.c:1611
-#: ../src/mail/em-folder-tree-model.c:1999
+#: ../src/mail/e-mail-viewer.c:2543 ../src/mail/em-folder-tree-model.c:1618
+#: ../src/mail/em-folder-tree-model.c:2014
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:892
 msgid "Loading…"
 msgstr "Wird geladen …"
@@ -18158,8 +18133,8 @@ msgstr "Ungültiger Ordneradresse »%s«"
 
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:113
-#: ../src/mail/em-folder-properties.c:1489 ../src/mail/em-folder-tree-model.c:1524
-#: ../src/mail/em-folder-tree-model.c:1554 ../src/mail/importers/kmail-libs.c:138
+#: ../src/mail/em-folder-properties.c:1489 ../src/mail/em-folder-tree-model.c:1525
+#: ../src/mail/em-folder-tree-model.c:1555 ../src/mail/importers/kmail-libs.c:138
 #: ../src/modules/mail/e-mail-shell-view-private.c:1020
 #: ../src/modules/mail/e-mail-shell-view-private.c:1031
 msgid "Inbox"
@@ -18167,7 +18142,7 @@ msgstr "Eingang"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:114
-#: ../src/mail/em-folder-tree-model.c:1518 ../src/mail/em-folder-tree-model.c:1558
+#: ../src/mail/em-folder-tree-model.c:1519 ../src/mail/em-folder-tree-model.c:1559
 #: ../src/mail/importers/kmail-libs.c:144
 #: ../src/modules/mail/e-mail-shell-view-private.c:1018
 msgid "Drafts"
@@ -18175,14 +18150,14 @@ msgstr "Entwürfe"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:115
-#: ../src/mail/em-folder-tree-model.c:1530 ../src/mail/importers/kmail-libs.c:140
+#: ../src/mail/em-folder-tree-model.c:1531 ../src/mail/importers/kmail-libs.c:140
 #: ../src/modules/mail/e-mail-shell-view-private.c:1022
 msgid "Outbox"
 msgstr "Ausgang"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:116
-#: ../src/mail/em-folder-tree-model.c:1535 ../src/mail/em-folder-tree-model.c:1557
+#: ../src/mail/em-folder-tree-model.c:1536 ../src/mail/em-folder-tree-model.c:1558
 #: ../src/mail/importers/kmail-libs.c:142
 #: ../src/modules/mail/e-mail-shell-view-private.c:1024
 msgid "Sent"
@@ -18190,7 +18165,7 @@ msgstr "Verschickt"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:117
-#: ../src/mail/em-folder-tree-model.c:1520 ../src/mail/importers/kmail-libs.c:146
+#: ../src/mail/em-folder-tree-model.c:1521 ../src/mail/importers/kmail-libs.c:146
 #: ../src/modules/mail/e-mail-shell-view-private.c:1026
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
@@ -20108,7 +20083,7 @@ msgstr[1] ""
 "Der Ordner »%s« enthält %u doppelte Nachrichten. Sollen diese wirklich gelöscht "
 "werden?"
 
-#: ../src/mail/e-mail-reader-utils.c:3035
+#: ../src/mail/e-mail-reader-utils.c:3045
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Nachricht speichern"
@@ -20119,13 +20094,13 @@ msgstr[1] "Nachrichten speichern"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3056
+#: ../src/mail/e-mail-reader-utils.c:3066
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Nachricht"
 msgstr[1] "Nachrichten"
 
-#: ../src/mail/e-mail-reader-utils.c:3478
+#: ../src/mail/e-mail-reader-utils.c:3488
 msgid "Parsing message"
 msgstr "Nachricht wird verarbeitet"
 
@@ -20593,8 +20568,8 @@ msgstr "Speicherverbrauch"
 #, c-format
 msgid "%d%% (%s of %s left)"
 msgid_plural "%d%% (%s of %s left)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d%% (%s von %s verbleibend)"
+msgstr[1] "%d%% (%s von %s verbleibend)"
 
 #. Translators: Label of a combo with a list of configured accounts where a user can
 #. choose which account to use as the sender when composing a message in this folder
@@ -20751,12 +20726,12 @@ msgstr "Nachrichten werden in den Ordner %s kopiert"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Sie können Nachrichten nicht im Speicher auf der obersten Ebene abgelegen"
 
-#: ../src/mail/em-folder-tree-model.c:1555 ../src/mail/importers/kmail-libs.c:148
+#: ../src/mail/em-folder-tree-model.c:1556 ../src/mail/importers/kmail-libs.c:148
 #: ../src/modules/mail/e-mail-shell-view-private.c:1028
 msgid "Trash"
 msgstr "Papierkorb"
 
-#: ../src/mail/em-folder-tree-model.c:1556 ../src/mail/filtertypes.xml.in.h:41
+#: ../src/mail/em-folder-tree-model.c:1557 ../src/mail/filtertypes.xml.in.h:41
 #: ../src/mail/mail-config.ui.h:153 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Unerwünscht"
@@ -22019,15 +21994,11 @@ msgstr "Löschen von Nachrichten im _Suchordner"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:166
-#, fuzzy
-#| msgid "Copy _folder by Drag & Drop in folder tree"
 msgid "Copy _folder by drag-and-drop in folder tree"
 msgstr "_Ordner durch Ziehen-und-Ablegen in den Ordnerbaum kopieren"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:168
-#, fuzzy
-#| msgid "_Move folder by Drag & Drop in folder tree"
 msgid "_Move folder by drag-and-drop in folder tree"
 msgstr "Ordner durch Ziehen-und-Ablegen in den Ordnerbaum _verschieben"
 
@@ -23385,11 +23356,10 @@ msgstr "E-Mail der Empfänger"
 msgid "Body Preview"
 msgstr "Nachrichtenvorschau"
 
+# dynamisch: Absender oder Emfpänger
 #: ../src/mail/message-list.etspec.h:28
-#, fuzzy
-#| msgid "For Components:"
 msgid "Correspondents"
-msgstr "Für Komponenten:"
+msgstr "Beteiligte"
 
 #: ../src/mail/searchtypes.xml.in.h:23 ../src/mail/vfoldertypes.xml.in.h:23
 msgid "Any header"
@@ -24728,7 +24698,7 @@ msgstr "Vom Absender gelieferte Einladungsbeschreibung _anzeigen"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:687
 msgid "Sh_ow day agenda at meeting start time"
-msgstr ""
+msgstr "Die Tagesagenda zur Startzeit der Besprechung anzeigen"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:694
 msgid "_Always attach components in mail messages"
@@ -24736,17 +24706,14 @@ msgstr "Komponenten _immer als Anlage zu E-Mail-Nachrichten hinzufügen"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:716
 #: ../src/modules/calendar/e-calendar-preferences.c:747
-#, fuzzy
-#| msgid "Search for text"
 msgid "Search for Meetings"
-msgstr "Nach Text suchen"
+msgstr "Nach Besprechungen suchen"
 
 #. Source selector
 #: ../src/modules/calendar/e-calendar-preferences.c:731
-#, fuzzy
-#| msgid "Select the calendars to search for meeting conflicts"
 msgid "Select the calendars to search for the meetings and the conflicts"
-msgstr "Kalender zur Suche nach Besprechungskonflikten auswählen"
+msgstr ""
+"Wählen Sie den Kalender zur Suche nach Besprechungen und Konflikten auswählen"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:1259
 msgid "Ti_me and date:"
@@ -24923,8 +24890,6 @@ msgid "Allo_w direct edit of event Summary"
 msgstr "_Direktes Bearbeiten der Ereigniszusammenfassung erlauben"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:55
-#, fuzzy
-#| msgid "Allow dra_g and drop of events"
 msgid "Allow dra_g-and-drop of events"
 msgstr "_Ziehen und Ablegen von Terminen erlauben"
 
@@ -26554,6 +26519,7 @@ msgstr "Endzeit:"
 #: ../src/modules/itip-formatter/itip-view.c:1409
 msgid "Imported event will have removed the organizer and all the attendees."
 msgstr ""
+"Beim importierten Termin werden der Organisator und alle Teilnehmer entfernt."
 
 #: ../src/modules/itip-formatter/itip-view.c:1457
 msgid "Ope_n Calendar"
@@ -26761,6 +26727,8 @@ msgstr "Eine bestehende Version dieses Termins wird gesucht"
 #: ../src/modules/itip-formatter/itip-view.c:5280
 msgid "Cannot search for existing event, no calendar selected for search"
 msgstr ""
+"Suchen nach bestehendem Ereignis nicht möglich. Es ist kein Kalender zur Suche "
+"ausgewählt"
 
 #: ../src/modules/itip-formatter/itip-view.c:5284
 msgid "Searching for an existing version of this task"
@@ -26769,6 +26737,8 @@ msgstr "Eine bestehende Version dieser Aufgabe wird gesucht"
 #: ../src/modules/itip-formatter/itip-view.c:5285
 msgid "Cannot search for existing task, no task list found"
 msgstr ""
+"Suchen nach bestehender Aufgabe nicht möglich. Es wurde keine Aufgabenliste "
+"gefunden"
 
 #: ../src/modules/itip-formatter/itip-view.c:5289
 msgid "Searching for an existing version of this memo"
@@ -26777,6 +26747,7 @@ msgstr "Eine bestehende Version dieser Notiz wird gesucht"
 #: ../src/modules/itip-formatter/itip-view.c:5290
 msgid "Cannot search for existing memo, no memo list found"
 msgstr ""
+"Suchen nach bestehender Notiz nicht möglich. Es wurde keine Notizenliste gefunden"
 
 #: ../src/modules/itip-formatter/itip-view.c:5688
 #, c-format
@@ -27204,7 +27175,7 @@ msgstr "Ka_lender und Aufgabenlisten zu diesem Konto hinzufügen"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:427
 msgid "Saving message…"
-msgstr "1%d Nachricht wird gespeichert"
+msgstr "Nachricht wird gespeichert …"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:429
 msgid "Failed to save message to folder."
@@ -28063,6 +28034,9 @@ msgid ""
 "the options switch to the Mail Preferences section → HTML Messages tab → Plain "
 "Text Mode group."
 msgstr ""
+"Ermöglicht das Anzeigen von E-Mails als reinen Text, selbst wenn diese HTML "
+"enthalten. Um die Einstellungen zu ändern, wechseln Sie in den E-Mail-"
+"Einstellungen zum Reiter »HTML-Nachrichten« zur Gruppe »Nur-Text-Modus«."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:62
 #, c-format
