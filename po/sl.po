@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-03-20 09:21+0000\n"
-"PO-Revision-Date: 2026-03-20 10:35+0100\n"
+"POT-Creation-Date: 2026-03-20 09:47+0000\n"
+"PO-Revision-Date: 2026-03-20 12:11+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -4003,311 +4003,6 @@ msgstr "Sestavljalnik sporočil"
 msgid "The Evolution Team"
 msgstr "Skupina Evolution"
 
-#: ../data/ui/evolution-shortcuts.ui.h:1
-msgctxt "shortcut window"
-msgid "Keyboard Shortcuts"
-msgstr "Tipkovne bližnjice"
-
-#: ../data/ui/evolution-shortcuts.ui.h:2
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Splošno"
-
-#: ../data/ui/evolution-shortcuts.ui.h:3
-msgctxt "shortcut window"
-msgid "Select Mail component"
-msgstr "Izbor predmetov pošte"
-
-#: ../data/ui/evolution-shortcuts.ui.h:4
-msgctxt "shortcut window"
-msgid "Select Contacts component"
-msgstr "Izbor predmetov stikov"
-
-#: ../data/ui/evolution-shortcuts.ui.h:5
-msgctxt "shortcut window"
-msgid "Select Calendar component"
-msgstr "Izbor predmetov koledarja"
-
-#: ../data/ui/evolution-shortcuts.ui.h:6
-msgctxt "shortcut window"
-msgid "Select Tasks component"
-msgstr "Izbor predmetov nalog"
-
-#: ../data/ui/evolution-shortcuts.ui.h:7
-msgctxt "shortcut window"
-msgid "Select Memos component"
-msgstr "Izbor predmetov opomnikov"
-
-#: ../data/ui/evolution-shortcuts.ui.h:8
-msgctxt "shortcut window"
-msgid "Create a new item in current component"
-msgstr "Ustvari nov predmet v trenutnem oknu sestavljalnika"
-
-#: ../data/ui/evolution-shortcuts.ui.h:9
-msgctxt "shortcut window"
-msgid "Cycle focus between panes"
-msgstr "Preklopi žarišče med pladnji."
-
-#: ../data/ui/evolution-shortcuts.ui.h:10
-msgctxt "shortcut window"
-msgid "Open the Evolution user guide"
-msgstr "Odpre uporabniško pomoč programa"
-
-#: ../data/ui/evolution-shortcuts.ui.h:11
-msgctxt "shortcut window"
-msgid "Focus search bar"
-msgstr "Pozornost na iskalno vrstico"
-
-#: ../data/ui/evolution-shortcuts.ui.h:12
-msgctxt "shortcut window"
-msgid "Clear search bar"
-msgstr "Počisti iskalni vrstico"
-
-#: ../data/ui/evolution-shortcuts.ui.h:13
-msgctxt "shortcut window"
-msgid "Move mails or contacts to folder"
-msgstr "Premakne stike in sporočila v mapo"
-
-#: ../data/ui/evolution-shortcuts.ui.h:14
-msgctxt "shortcut window"
-msgid "Copy mails or contacts to folder"
-msgstr "Kopira sporočila in stike v mapo"
-
-#: ../data/ui/evolution-shortcuts.ui.h:15
-msgctxt "shortcut window"
-msgid "Preferences"
-msgstr "Možnosti"
-
-#: ../data/ui/evolution-shortcuts.ui.h:16
-msgctxt "shortcut window"
-msgid "Open new window"
-msgstr "Odpre novo okno"
-
-#: ../data/ui/evolution-shortcuts.ui.h:17
-msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Zapre okno"
-
-#: ../data/ui/evolution-shortcuts.ui.h:18
-msgctxt "shortcut window"
-msgid "Quit Evolution"
-msgstr "Konča program Evolution"
-
-#: ../data/ui/evolution-shortcuts.ui.h:19
-msgctxt "shortcut window"
-msgid "Mail"
-msgstr "Elektronska pošta"
-
-#: ../data/ui/evolution-shortcuts.ui.h:20
-msgctxt "shortcut window"
-msgid "Create a new message"
-msgstr "Ustvari novo sporočilo"
-
-#: ../data/ui/evolution-shortcuts.ui.h:21
-msgctxt "shortcut window"
-msgid "Send and receive messages"
-msgstr "Pošlje in prejme sporočila"
-
-#: ../data/ui/evolution-shortcuts.ui.h:22
-msgctxt "shortcut window"
-msgid "Apply filters to selection"
-msgstr "Uveljavi filtre na izboru sporočil"
-
-#: ../data/ui/evolution-shortcuts.ui.h:23
-msgctxt "shortcut window"
-msgid "Open selection in new window"
-msgstr "Odpre izbor v novem oknu"
-
-#: ../data/ui/evolution-shortcuts.ui.h:24
-msgctxt "shortcut window"
-msgid "Go to folder"
-msgstr "Skoči na mapo"
-
-#: ../data/ui/evolution-shortcuts.ui.h:25
-msgctxt "shortcut window"
-msgid "Jump to the next unread message"
-msgstr "Pokaže naslednje neprebrano sporočilo"
-
-#: ../data/ui/evolution-shortcuts.ui.h:26
-msgctxt "shortcut window"
-msgid "Jump to the previous unread message"
-msgstr "Pokaže predhodno neprebrano sporočilo"
-
-#: ../data/ui/evolution-shortcuts.ui.h:27
-msgctxt "shortcut window"
-msgid "Scroll up"
-msgstr "Zdrsne navzgor"
-
-#: ../data/ui/evolution-shortcuts.ui.h:28
-msgctxt "shortcut window"
-msgid "Scroll down"
-msgstr "Zdrsne navzdol"
-
-#: ../data/ui/evolution-shortcuts.ui.h:29
-msgctxt "shortcut window"
-msgid "Mail Message"
-msgstr "Poštno sporočilo"
-
-#: ../data/ui/evolution-shortcuts.ui.h:30
-msgctxt "shortcut window"
-msgid "Copy selected messages to folder"
-msgstr "Kopira izbrana sporočila v mapo"
-
-#: ../data/ui/evolution-shortcuts.ui.h:31
-msgctxt "shortcut window"
-msgid "Move selected messages to folder"
-msgstr "Premakni izbrana sporočila v mapo"
-
-#: ../data/ui/evolution-shortcuts.ui.h:32
-msgctxt "shortcut window"
-msgid "Archive selected messages"
-msgstr "Arhiviraj izbrana sporočila"
-
-#: ../data/ui/evolution-shortcuts.ui.h:33
-msgctxt "shortcut window"
-msgid "Mark selected messages as read"
-msgstr "Označi izbrana sporočila kot prebrana"
-
-#: ../data/ui/evolution-shortcuts.ui.h:34
-msgctxt "shortcut window"
-msgid "Mark selected messages as unread"
-msgstr "Izbrana sporočila označi kot neprebrana"
-
-#: ../data/ui/evolution-shortcuts.ui.h:35
-msgctxt "shortcut window"
-msgid "Mark selected messages as junk"
-msgstr "Izbrana sporočila označi kot vsiljena"
-
-#: ../data/ui/evolution-shortcuts.ui.h:36
-msgctxt "shortcut window"
-msgid "Mark selected messages as not junk"
-msgstr "Izbrana sporočila označi kot ne vsiljena"
-
-#: ../data/ui/evolution-shortcuts.ui.h:37
-msgctxt "shortcut window"
-msgid "Flag selected messages for follow-up"
-msgstr "Z zastavico označi izbrana sporočila za navezavo"
-
-#: ../data/ui/evolution-shortcuts.ui.h:38
-msgctxt "shortcut window"
-msgid "Forward selected messages"
-msgstr "Posreduje izbrana sporočila"
-
-#: ../data/ui/evolution-shortcuts.ui.h:39
-msgctxt "shortcut window"
-msgid "Reply to sender"
-msgstr "Začne odgovor pošiljatelju"
-
-#: ../data/ui/evolution-shortcuts.ui.h:40
-msgctxt "shortcut window"
-msgid "Reply to list"
-msgstr "Začne odgovor seznamu prejemnikov"
-
-#: ../data/ui/evolution-shortcuts.ui.h:41
-msgctxt "shortcut window"
-msgid "Reply to all recipients"
-msgstr "Začne odgovor vsem prejemnikom"
-
-#: ../data/ui/evolution-shortcuts.ui.h:42
-msgctxt "shortcut window"
-msgid "Alternative reply"
-msgstr "Alternativni odgovor"
-
-#: ../data/ui/evolution-shortcuts.ui.h:43
-msgctxt "shortcut window"
-msgid "Delete mail"
-msgstr "Brisanje pošte"
-
-#: ../data/ui/evolution-shortcuts.ui.h:44
-msgctxt "shortcut window"
-msgid "Undelete mail"
-msgstr "Preklic brisanja pošte"
-
-#: ../data/ui/evolution-shortcuts.ui.h:45
-msgctxt "shortcut window"
-msgid "Calendar"
-msgstr "Koledar"
-
-#: ../data/ui/evolution-shortcuts.ui.h:46
-msgctxt "shortcut window"
-msgid "Create a new appointment"
-msgstr "Ustvari nov sestanek"
-
-#: ../data/ui/evolution-shortcuts.ui.h:47
-msgctxt "shortcut window"
-msgid "Create a new meeting"
-msgstr "Ustvari novo srečanje"
-
-#: ../data/ui/evolution-shortcuts.ui.h:48
-msgctxt "shortcut window"
-msgid "Create a new task"
-msgstr "Ustvari novo nalogo"
-
-#: ../data/ui/evolution-shortcuts.ui.h:49
-msgctxt "shortcut window"
-msgid "Create a new memo"
-msgstr "Ustvari nov opomnik"
-
-#: ../data/ui/evolution-shortcuts.ui.h:50
-msgctxt "shortcut window"
-msgid "Go to today"
-msgstr "Skoči na današnji dan"
-
-#: ../data/ui/evolution-shortcuts.ui.h:51
-msgctxt "shortcut window"
-msgid "Go to date"
-msgstr "Skoči na datum"
-
-#: ../data/ui/evolution-shortcuts.ui.h:52
-msgctxt "shortcut window"
-msgid "Day View"
-msgstr "Dnevni pogled"
-
-#: ../data/ui/evolution-shortcuts.ui.h:53
-msgctxt "shortcut window"
-msgid "Work Week View"
-msgstr "Pogled delovnega tedna"
-
-#: ../data/ui/evolution-shortcuts.ui.h:54
-msgctxt "shortcut window"
-msgid "Week View"
-msgstr "Tedenski pogled"
-
-#: ../data/ui/evolution-shortcuts.ui.h:55
-msgctxt "shortcut window"
-msgid "Month View"
-msgstr "Mesečni pogled"
-
-#: ../data/ui/evolution-shortcuts.ui.h:56
-msgctxt "shortcut window"
-msgid "List View"
-msgstr "Seznamski pogled"
-
-#: ../data/ui/evolution-shortcuts.ui.h:57
-msgctxt "shortcut window"
-msgid "Delete event"
-msgstr "Izbriši dogodek"
-
-#: ../data/ui/evolution-shortcuts.ui.h:58
-msgctxt "shortcut window"
-msgid "Contacts"
-msgstr "Stiki"
-
-#: ../data/ui/evolution-shortcuts.ui.h:59
-msgctxt "shortcut window"
-msgid "Create a new contact"
-msgstr "Ustvari nov stik"
-
-#: ../data/ui/evolution-shortcuts.ui.h:60
-msgctxt "shortcut window"
-msgid "Create a new contact list"
-msgstr "Ustvari nov seznam stikov"
-
-#: ../data/ui/evolution-shortcuts.ui.h:61
-msgctxt "shortcut window"
-msgid "Delete contact"
-msgstr "Izbriši stik"
-
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
 msgstr "_Vizitke"
@@ -5334,7 +5029,7 @@ msgstr "Neveljaven stik."
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4621
 #: ../src/calendar/gui/e-comp-editor.c:2290 ../src/calendar/gui/e-comp-editor.c:2369
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:753
+#: ../src/shell/e-shell-window-actions.c:963
 msgid "_Help"
 msgstr "Pomo_č"
 
@@ -6626,7 +6321,7 @@ msgstr "Ali ste prepričani, da želite izbrisati stik (%s)?"
 #: ../src/e-util/evolution-source-viewer.c:800 ../src/e-util/e-webdav-browser.c:2893
 #: ../src/mail/e-mail-account-manager.c:727
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1286
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1666 ../src/shell/e-shell-window-actions.c:653
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1666 ../src/shell/e-shell-window-actions.c:863
 #: ../src/smime/gui/certificate-manager.c:1598 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Izbriši"
@@ -9377,7 +9072,7 @@ msgstr "Udeleže_nci …"
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../src/plugins/sender-validation/sender-validation.c:694
 #: ../src/plugins/sender-validation/sender-validation.c:805
-#: ../src/plugins/templates/templates.c:488 ../src/shell/e-shell-window-actions.c:751
+#: ../src/plugins/templates/templates.c:488 ../src/shell/e-shell-window-actions.c:961
 #: ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "_Uredi"
@@ -10052,7 +9747,7 @@ msgstr "Poteka shranjevanje sprememb …"
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:755 ../src/mail/e-mail-notes.c:1149
 #: ../src/mail/e-mail-viewer.c:1741 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1503 ../src/mail/em-subscription-editor.c:1734
-#: ../src/shell/e-shell-window-actions.c:618 ../src/smime/gui/certificate-manager.c:2124
+#: ../src/shell/e-shell-window-actions.c:828 ../src/smime/gui/certificate-manager.c:2124
 msgid "_Close"
 msgstr "_Zapri"
 
@@ -10064,14 +9759,14 @@ msgstr "Zapri trenutno okno"
 #: ../src/calendar/gui/e-comp-editor.c:2262 ../src/e-util/e-html-editor-actions.c:1355
 #: ../src/e-util/e-text.c:2031 ../src/e-util/e-web-view.c:1663 ../src/mail/e-mail-browser.c:583
 #: ../src/mail/e-mail-viewer.c:1755 ../src/mail/mail.error.xml.h:147
-#: ../src/shell/e-shell-window-actions.c:639
+#: ../src/shell/e-shell-window-actions.c:849
 msgid "_Copy"
 msgstr "_Kopiraj"
 
 #: ../src/calendar/gui/e-comp-editor.c:2264 ../src/e-util/e-focus-tracker.c:223
 #: ../src/e-util/e-focus-tracker.c:279 ../src/e-util/e-focus-tracker.c:332
 #: ../src/e-util/e-web-view.c:1665 ../src/e-util/e-web-view.c:2321
-#: ../src/mail/e-mail-browser.c:585 ../src/shell/e-shell-window-actions.c:641
+#: ../src/mail/e-mail-browser.c:585 ../src/shell/e-shell-window-actions.c:851
 msgid "Copy the selection"
 msgstr "Kopira izbor"
 
@@ -10086,19 +9781,19 @@ msgstr "Prilagajajte dejanja v orodni vrstici"
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2276 ../src/e-util/e-html-editor-actions.c:1362
 #: ../src/e-util/e-text.c:2017 ../src/mail/e-mail-browser.c:590
-#: ../src/shell/e-shell-window-actions.c:646
+#: ../src/shell/e-shell-window-actions.c:856
 msgid "Cu_t"
 msgstr "_Izreži"
 
 #: ../src/calendar/gui/e-comp-editor.c:2278 ../src/e-util/e-focus-tracker.c:216
 #: ../src/e-util/e-focus-tracker.c:272 ../src/e-util/e-focus-tracker.c:326
 #: ../src/e-util/e-web-view.c:2330 ../src/mail/e-mail-browser.c:592
-#: ../src/shell/e-shell-window-actions.c:648
+#: ../src/shell/e-shell-window-actions.c:858
 msgid "Cut the selection"
 msgstr "Izreže izbor"
 
 #: ../src/calendar/gui/e-comp-editor.c:2285 ../src/e-util/e-focus-tracker.c:237
-#: ../src/e-util/e-focus-tracker.c:293 ../src/shell/e-shell-window-actions.c:655
+#: ../src/e-util/e-focus-tracker.c:293 ../src/shell/e-shell-window-actions.c:865
 msgid "Delete the selection"
 msgstr "Izbriše izbor"
 
@@ -10109,14 +9804,14 @@ msgstr "Poglejte pomoč"
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2297 ../src/e-util/e-html-editor-actions.c:1369
 #: ../src/e-util/e-text.c:2043 ../src/mail/e-mail-browser.c:597 ../src/mail/e-mail-viewer.c:1762
-#: ../src/shell/e-shell-window-actions.c:674
+#: ../src/shell/e-shell-window-actions.c:884
 msgid "_Paste"
 msgstr "_Prilepi"
 
 #: ../src/calendar/gui/e-comp-editor.c:2299 ../src/e-util/e-focus-tracker.c:230
 #: ../src/e-util/e-focus-tracker.c:286 ../src/e-util/e-focus-tracker.c:338
 #: ../src/e-util/e-web-view.c:2339 ../src/mail/e-mail-browser.c:599
-#: ../src/shell/e-shell-window-actions.c:676
+#: ../src/shell/e-shell-window-actions.c:886
 msgid "Paste the clipboard"
 msgstr "Prilepi iz odložišča"
 
@@ -10136,13 +9831,13 @@ msgstr "_Predogled …"
 
 #: ../src/calendar/gui/e-comp-editor.c:2318 ../src/e-util/e-html-editor-actions.c:1383
 #: ../src/e-util/e-web-view.c:1687 ../src/mail/e-mail-browser.c:604
-#: ../src/shell/e-shell-window-actions.c:702
+#: ../src/shell/e-shell-window-actions.c:912
 msgid "Select _All"
 msgstr "Izberi _vse"
 
 #: ../src/calendar/gui/e-comp-editor.c:2320 ../src/e-util/e-focus-tracker.c:244
 #: ../src/e-util/e-focus-tracker.c:300 ../src/mail/e-mail-browser.c:606
-#: ../src/shell/e-shell-window-actions.c:704
+#: ../src/shell/e-shell-window-actions.c:914
 msgid "Select all text"
 msgstr "Izberi vse besedilo"
 
@@ -10159,7 +9854,7 @@ msgstr "_Razvrstitev"
 #: ../src/calendar/gui/e-comp-editor.c:2362 ../src/e-util/e-html-editor-actions.c:1427
 #: ../src/e-util/e-mail-signature-editor.c:540 ../src/mail/e-mail-browser.c:618
 #: ../src/mail/e-mail-notes.c:1161 ../src/mail/e-mail-viewer.c:1929
-#: ../src/shell/e-shell-window-actions.c:752
+#: ../src/shell/e-shell-window-actions.c:962
 msgid "_File"
 msgstr "_Datoteka"
 
@@ -10180,7 +9875,7 @@ msgstr "M_ožnosti"
 
 #: ../src/calendar/gui/e-comp-editor.c:2397 ../src/e-util/e-html-editor-actions.c:1469
 #: ../src/mail/e-mail-browser.c:620 ../src/mail/e-mail-viewer.c:1931
-#: ../src/shell/e-shell-window-actions.c:757 ../src/smime/gui/certificate-manager.c:1588
+#: ../src/shell/e-shell-window-actions.c:967 ../src/smime/gui/certificate-manager.c:1588
 #: ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "Po_gled"
@@ -12777,11 +12472,11 @@ msgstr "Novo _sporočilo"
 msgid "Open New Message window"
 msgstr "Odpre okno novega sporočila"
 
-#: ../src/composer/e-composer-actions.c:392 ../src/shell/e-shell-window-actions.c:688
+#: ../src/composer/e-composer-actions.c:392 ../src/shell/e-shell-window-actions.c:898
 msgid "_Preferences"
 msgstr "_Možnosti"
 
-#: ../src/composer/e-composer-actions.c:394 ../src/shell/e-shell-window-actions.c:690
+#: ../src/composer/e-composer-actions.c:394 ../src/shell/e-shell-window-actions.c:900
 msgid "Configure Evolution"
 msgstr "Nastavitve programa Evolution"
 
@@ -18413,8 +18108,8 @@ msgstr "Strežnik SMTP"
 msgid "(No Subject)"
 msgstr "(brez zadeve)"
 
-#: ../src/mail/e-mail-browser.c:578 ../src/shell/e-shell-window-actions.c:613
-#: ../src/shell/e-shell-window-actions.c:620 ../src/shell/e-shell-window-actions.c:627
+#: ../src/mail/e-mail-browser.c:578 ../src/shell/e-shell-window-actions.c:823
+#: ../src/shell/e-shell-window-actions.c:830 ../src/shell/e-shell-window-actions.c:837
 msgid "Close this window"
 msgstr "Zapri okno"
 
@@ -29707,13 +29402,13 @@ msgstr "Pogled po meri"
 msgid "Current view is a customized view"
 msgstr "Trenutni pogled je prilagojen"
 
-#: ../src/shell/e-shell-view.c:1147 ../src/shell/e-shell-window-actions.c:744
+#: ../src/shell/e-shell-view.c:1147 ../src/shell/e-shell-window-actions.c:954
 msgid "_New"
 msgstr "_Novo"
 
 #: ../src/shell/e-shell-view.c:1154
-msgid "Customi_ze…"
-msgstr "Prila_godi ..."
+msgid "Customi_ze User Interface…"
+msgstr "Prilagodi _uporabniški vmesnik …"
 
 #: ../src/shell/e-shell-view.c:1156
 msgid "Customize user interface, like toolbar content and shortcuts"
@@ -29787,151 +29482,465 @@ msgstr "Izbor pogleda: %s"
 msgid "Delete view: %s"
 msgstr "Izbriši pogled: %s"
 
-#: ../src/shell/e-shell-window-actions.c:241
+#: ../src/shell/e-shell-window-actions.c:129
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Splošno"
+
+#: ../src/shell/e-shell-window-actions.c:130
+msgctxt "shortcut window"
+msgid "Select Mail component"
+msgstr "Izbor predmetov pošte"
+
+#: ../src/shell/e-shell-window-actions.c:131
+msgctxt "shortcut window"
+msgid "Select Contacts component"
+msgstr "Izbor predmetov stikov"
+
+#: ../src/shell/e-shell-window-actions.c:132
+msgctxt "shortcut window"
+msgid "Select Calendar component"
+msgstr "Izbor predmetov koledarja"
+
+#: ../src/shell/e-shell-window-actions.c:133
+msgctxt "shortcut window"
+msgid "Select Tasks component"
+msgstr "Izbor predmetov nalog"
+
+#: ../src/shell/e-shell-window-actions.c:134
+msgctxt "shortcut window"
+msgid "Select Memos component"
+msgstr "Izbor predmetov opomnikov"
+
+#: ../src/shell/e-shell-window-actions.c:135
+msgctxt "shortcut window"
+msgid "Create a new item in current component"
+msgstr "Ustvari nov predmet v trenutnem oknu sestavljalnika"
+
+#: ../src/shell/e-shell-window-actions.c:136
+msgctxt "shortcut window"
+msgid "Cycle focus between panes"
+msgstr "Preklopi žarišče med pladnji."
+
+#: ../src/shell/e-shell-window-actions.c:137
+msgctxt "shortcut window"
+msgid "Open the Evolution user guide"
+msgstr "Odpre uporabniško pomoč programa"
+
+#: ../src/shell/e-shell-window-actions.c:138
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Tipkovne bližnjice"
+
+#: ../src/shell/e-shell-window-actions.c:139
+msgctxt "shortcut window"
+msgid "Focus search bar"
+msgstr "Pozornost na iskalno vrstico"
+
+#: ../src/shell/e-shell-window-actions.c:140
+msgctxt "shortcut window"
+msgid "Clear search bar"
+msgstr "Počisti iskalni vrstico"
+
+#: ../src/shell/e-shell-window-actions.c:141
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Možnosti"
+
+#: ../src/shell/e-shell-window-actions.c:142
+msgctxt "shortcut window"
+msgid "Open new window"
+msgstr "Odpre novo okno"
+
+#: ../src/shell/e-shell-window-actions.c:143
+msgctxt "shortcut window"
+msgid "Close window"
+msgstr "Zapre okno"
+
+#: ../src/shell/e-shell-window-actions.c:144
+msgctxt "shortcut window"
+msgid "Quit Evolution"
+msgstr "Konča program Evolution"
+
+#: ../src/shell/e-shell-window-actions.c:146
+msgctxt "shortcut window"
+msgid "Mail"
+msgstr "Elektronska pošta"
+
+#: ../src/shell/e-shell-window-actions.c:147
+msgctxt "shortcut window"
+msgid "Create a new message"
+msgstr "Ustvari novo sporočilo"
+
+#: ../src/shell/e-shell-window-actions.c:148
+msgctxt "shortcut window"
+msgid "Send and receive messages"
+msgstr "Pošlje in prejme sporočila"
+
+#: ../src/shell/e-shell-window-actions.c:149
+msgctxt "shortcut window"
+msgid "Apply filters to selection"
+msgstr "Uveljavi filtre na izboru sporočil"
+
+#: ../src/shell/e-shell-window-actions.c:150
+msgctxt "shortcut window"
+msgid "Open selection in new window"
+msgstr "Odpre izbor v novem oknu"
+
+#: ../src/shell/e-shell-window-actions.c:151
+msgctxt "shortcut window"
+msgid "Go to folder"
+msgstr "Skoči na mapo"
+
+#: ../src/shell/e-shell-window-actions.c:152
+msgctxt "shortcut window"
+msgid "Move mails to folder"
+msgstr "Premakne sporočila v mapo"
+
+#: ../src/shell/e-shell-window-actions.c:153
+msgctxt "shortcut window"
+msgid "Copy mails to folder"
+msgstr "Kopira sporočila v mapo"
+
+#: ../src/shell/e-shell-window-actions.c:154
+msgctxt "shortcut window"
+msgid "Jump to the next unread message"
+msgstr "Pokaže naslednje neprebrano sporočilo"
+
+#: ../src/shell/e-shell-window-actions.c:155
+msgctxt "shortcut window"
+msgid "Jump to the previous unread message"
+msgstr "Pokaže predhodno neprebrano sporočilo"
+
+#: ../src/shell/e-shell-window-actions.c:156
+msgctxt "shortcut window"
+msgid "Scroll up"
+msgstr "Zdrsne navzgor"
+
+#: ../src/shell/e-shell-window-actions.c:157
+msgctxt "shortcut window"
+msgid "Scroll down"
+msgstr "Zdrsne navzdol"
+
+#: ../src/shell/e-shell-window-actions.c:159
+msgctxt "shortcut window"
+msgid "Mail Message"
+msgstr "Poštno sporočilo"
+
+#: ../src/shell/e-shell-window-actions.c:160
+msgctxt "shortcut window"
+msgid "Mark selected messages as read"
+msgstr "Označi izbrana sporočila kot prebrana"
+
+#: ../src/shell/e-shell-window-actions.c:161
+msgctxt "shortcut window"
+msgid "Mark selected messages as unread"
+msgstr "Izbrana sporočila označi kot neprebrana"
+
+#: ../src/shell/e-shell-window-actions.c:162
+msgctxt "shortcut window"
+msgid "Mark selected messages as junk"
+msgstr "Izbrana sporočila označi kot vsiljena"
+
+#: ../src/shell/e-shell-window-actions.c:163
+msgctxt "shortcut window"
+msgid "Mark selected messages as not junk"
+msgstr "Izbrana sporočila označi kot ne vsiljena"
+
+#: ../src/shell/e-shell-window-actions.c:164
+msgctxt "shortcut window"
+msgid "Flag selected messages for follow-up"
+msgstr "Z zastavico označi izbrana sporočila za navezavo"
+
+#: ../src/shell/e-shell-window-actions.c:165
+msgctxt "shortcut window"
+msgid "Forward selected messages"
+msgstr "Posreduje izbrana sporočila"
+
+#: ../src/shell/e-shell-window-actions.c:166
+msgctxt "shortcut window"
+msgid "Reply to sender"
+msgstr "Začne odgovor pošiljatelju"
+
+#: ../src/shell/e-shell-window-actions.c:167
+msgctxt "shortcut window"
+msgid "Reply to list"
+msgstr "Začne odgovor seznamu prejemnikov"
+
+#: ../src/shell/e-shell-window-actions.c:168
+msgctxt "shortcut window"
+msgid "Reply to all recipients"
+msgstr "Začne odgovor vsem prejemnikom"
+
+#: ../src/shell/e-shell-window-actions.c:169
+msgctxt "shortcut window"
+msgid "Alternative reply"
+msgstr "Alternativni odgovor"
+
+#: ../src/shell/e-shell-window-actions.c:170
+msgctxt "shortcut window"
+msgid "Archive selected messages"
+msgstr "Arhiviraj izbrana sporočila"
+
+#: ../src/shell/e-shell-window-actions.c:171
+msgctxt "shortcut window"
+msgid "Delete message"
+msgstr "Izbriši sporočilo"
+
+#: ../src/shell/e-shell-window-actions.c:172
+msgctxt "shortcut window"
+msgid "Undelete message"
+msgstr "Povrni izbrisano sporočilo"
+
+#: ../src/shell/e-shell-window-actions.c:174
+msgctxt "shortcut window"
+msgid "Calendar"
+msgstr "Koledar"
+
+#: ../src/shell/e-shell-window-actions.c:175
+msgctxt "shortcut window"
+msgid "Create a new appointment"
+msgstr "Ustvari nov sestanek"
+
+#: ../src/shell/e-shell-window-actions.c:176
+msgctxt "shortcut window"
+msgid "Create a new meeting"
+msgstr "Ustvari novo srečanje"
+
+#: ../src/shell/e-shell-window-actions.c:177
+msgctxt "shortcut window"
+msgid "Create a new task"
+msgstr "Ustvari novo nalogo"
+
+#: ../src/shell/e-shell-window-actions.c:178
+msgctxt "shortcut window"
+msgid "Create a new memo"
+msgstr "Ustvari nov opomnik"
+
+#: ../src/shell/e-shell-window-actions.c:179
+msgctxt "shortcut window"
+msgid "Go to today"
+msgstr "Skoči na današnji dan"
+
+#: ../src/shell/e-shell-window-actions.c:180
+msgctxt "shortcut window"
+msgid "Go to date"
+msgstr "Skoči na datum"
+
+#: ../src/shell/e-shell-window-actions.c:181
+msgctxt "shortcut window"
+msgid "Day View"
+msgstr "Dnevni pogled"
+
+#: ../src/shell/e-shell-window-actions.c:182
+msgctxt "shortcut window"
+msgid "Work Week View"
+msgstr "Pogled delovnega tedna"
+
+#: ../src/shell/e-shell-window-actions.c:183
+msgctxt "shortcut window"
+msgid "Week View"
+msgstr "Tedenski pogled"
+
+#: ../src/shell/e-shell-window-actions.c:184
+msgctxt "shortcut window"
+msgid "Month View"
+msgstr "Mesečni pogled"
+
+#: ../src/shell/e-shell-window-actions.c:185
+msgctxt "shortcut window"
+msgid "Year View"
+msgstr "Letni pogled"
+
+#: ../src/shell/e-shell-window-actions.c:186
+msgctxt "shortcut window"
+msgid "List View"
+msgstr "Seznamski pogled"
+
+#: ../src/shell/e-shell-window-actions.c:187
+msgctxt "shortcut window"
+msgid "Delete event"
+msgstr "Izbriši dogodek"
+
+#: ../src/shell/e-shell-window-actions.c:189
+msgctxt "shortcut window"
+msgid "Contacts"
+msgstr "Stiki"
+
+#: ../src/shell/e-shell-window-actions.c:190
+msgctxt "shortcut window"
+msgid "Create a new contact"
+msgstr "Ustvari nov stik"
+
+#: ../src/shell/e-shell-window-actions.c:191
+msgctxt "shortcut window"
+msgid "Create a new contact list"
+msgstr "Ustvari nov seznam stikov"
+
+#: ../src/shell/e-shell-window-actions.c:192
+msgctxt "shortcut window"
+msgid "Move contacts to address book"
+msgstr "Premakni stike v imenik"
+
+#: ../src/shell/e-shell-window-actions.c:193
+msgctxt "shortcut window"
+msgid "Copy contacts to address book"
+msgstr "Kopiraj stike v imenik"
+
+#: ../src/shell/e-shell-window-actions.c:194
+msgctxt "shortcut window"
+msgid "Delete contact"
+msgstr "Izbriši stik"
+
+#: ../src/shell/e-shell-window-actions.c:234
+msgid "Keyboard Shortcuts"
+msgstr "Tipkovne bližnjice"
+
+#: ../src/shell/e-shell-window-actions.c:451
 msgid "Categories Editor"
 msgstr "Urejevalnik kategorij"
 
-#: ../src/shell/e-shell-window-actions.c:368
+#: ../src/shell/e-shell-window-actions.c:578
 msgid "Bug Buddy is not installed."
 msgstr "Program Bug Buddy ni nameščen."
 
-#: ../src/shell/e-shell-window-actions.c:369
+#: ../src/shell/e-shell-window-actions.c:579
 msgid "Bug Buddy could not be run."
 msgstr "Programa Bug buddy ni mogoče zagnati."
 
-#: ../src/shell/e-shell-window-actions.c:587
+#: ../src/shell/e-shell-window-actions.c:797
 msgid "Collect_ion Account"
 msgstr "_Zbirni račun"
 
-#: ../src/shell/e-shell-window-actions.c:589
+#: ../src/shell/e-shell-window-actions.c:799
 msgid "Create a new collection account"
 msgstr "Ustvari nov zbirni račun"
 
-#: ../src/shell/e-shell-window-actions.c:597
+#: ../src/shell/e-shell-window-actions.c:807
 msgid "_About"
 msgstr "_O programu"
 
-#: ../src/shell/e-shell-window-actions.c:599
+#: ../src/shell/e-shell-window-actions.c:809
 msgid "Show information about Evolution"
 msgstr "Pokaži podatke o programu Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:604
+#: ../src/shell/e-shell-window-actions.c:814
 msgid "_Accounts"
 msgstr "_Računi"
 
-#: ../src/shell/e-shell-window-actions.c:606
+#: ../src/shell/e-shell-window-actions.c:816
 msgid "Configure Evolution Accounts"
 msgstr "Nastavitve računov Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:611 ../src/shell/e-shell-window-actions.c:625
+#: ../src/shell/e-shell-window-actions.c:821 ../src/shell/e-shell-window-actions.c:835
 msgid "_Close Window"
 msgstr "_Zapri okno"
 
-#: ../src/shell/e-shell-window-actions.c:632
+#: ../src/shell/e-shell-window-actions.c:842
 msgid "_Contents"
 msgstr "_Vsebina"
 
-#: ../src/shell/e-shell-window-actions.c:634
+#: ../src/shell/e-shell-window-actions.c:844
 msgid "Open the Evolution User Guide"
 msgstr "Odpre uporabniško pomoč programa"
 
-#: ../src/shell/e-shell-window-actions.c:660
+#: ../src/shell/e-shell-window-actions.c:870
 msgid "I_mport…"
 msgstr "_Uvozi …"
 
-#: ../src/shell/e-shell-window-actions.c:662
+#: ../src/shell/e-shell-window-actions.c:872
 msgid "Import data from other programs"
 msgstr "Uvozi podatke iz drugih programov"
 
-#: ../src/shell/e-shell-window-actions.c:667
+#: ../src/shell/e-shell-window-actions.c:877
 msgid "New _Window"
 msgstr "Novo _okno"
 
-#: ../src/shell/e-shell-window-actions.c:669
+#: ../src/shell/e-shell-window-actions.c:879
 msgid "Create a new window displaying this view"
 msgstr "Ustvari novo okno s prikazom tega pogleda"
 
-#: ../src/shell/e-shell-window-actions.c:681
+#: ../src/shell/e-shell-window-actions.c:891
 msgid "Available Cate_gories"
 msgstr "Razpoložljive _kategorije"
 
-#: ../src/shell/e-shell-window-actions.c:683
+#: ../src/shell/e-shell-window-actions.c:893
 msgid "Manage available categories"
 msgstr "Upravljanje z razpoložljivimi kategorijami"
 
-#: ../src/shell/e-shell-window-actions.c:695
+#: ../src/shell/e-shell-window-actions.c:905
 msgid "_Quit"
 msgstr "_Končaj"
 
-#: ../src/shell/e-shell-window-actions.c:697
+#: ../src/shell/e-shell-window-actions.c:907
 msgid "Exit the program"
 msgstr "Izhod iz programa"
 
-#: ../src/shell/e-shell-window-actions.c:709
+#: ../src/shell/e-shell-window-actions.c:919
 msgid "_Keyboard Shortcuts"
 msgstr "_Tipkovne bližnjice"
 
-#: ../src/shell/e-shell-window-actions.c:711
+#: ../src/shell/e-shell-window-actions.c:921
 msgid "Show keyboard shortcuts"
 msgstr "Pokaži tipkovne bližnjice‫"
 
-#: ../src/shell/e-shell-window-actions.c:716
+#: ../src/shell/e-shell-window-actions.c:926
 msgid "Show _WebKit GPU information"
 msgstr "Pokaži podatke _WebKit GPU"
 
-#: ../src/shell/e-shell-window-actions.c:718
+#: ../src/shell/e-shell-window-actions.c:928
 msgid "Show WebKit GPU information page in the preview panel"
 msgstr "Pokaži podrobnosti strani GPU WebKit v oknu predogleda"
 
-#: ../src/shell/e-shell-window-actions.c:723
+#: ../src/shell/e-shell-window-actions.c:933
 msgid "Submit _Bug Report…"
 msgstr "Pošlji _poročilo o hrošču …"
 
-#: ../src/shell/e-shell-window-actions.c:725
+#: ../src/shell/e-shell-window-actions.c:935
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Pošlji poročilo o hrošču z uporabo progama Bug buddy"
 
-#: ../src/shell/e-shell-window-actions.c:730
+#: ../src/shell/e-shell-window-actions.c:940
 msgid "_Work Offline"
 msgstr "_Delo brez povezave"
 
-#: ../src/shell/e-shell-window-actions.c:732
+#: ../src/shell/e-shell-window-actions.c:942
 msgid "Put Evolution into offline mode"
 msgstr "Nadaljuje v načinu brez povezave"
 
-#: ../src/shell/e-shell-window-actions.c:737
+#: ../src/shell/e-shell-window-actions.c:947
 msgid "_Work Online"
 msgstr "_Delo s povezavo"
 
-#: ../src/shell/e-shell-window-actions.c:739
+#: ../src/shell/e-shell-window-actions.c:949
 msgid "Put Evolution into online mode"
 msgstr "Nadaljuje v povezanem načinu"
 
-#: ../src/shell/e-shell-window-actions.c:754
+#: ../src/shell/e-shell-window-actions.c:964
 msgid "Lay_out"
 msgstr "Razp_oreditev"
 
-#: ../src/shell/e-shell-window-actions.c:755
+#: ../src/shell/e-shell-window-actions.c:965
 msgid "_Search"
 msgstr "I_skanje"
 
-#: ../src/shell/e-shell-window-actions.c:756
+#: ../src/shell/e-shell-window-actions.c:966
 msgid "_Switcher Appearance"
 msgstr "Videz _preklopnika"
 
-#: ../src/shell/e-shell-window-actions.c:758
+#: ../src/shell/e-shell-window-actions.c:968
 msgid "_Window"
 msgstr "_Okno"
 
-#: ../src/shell/e-shell-window-actions.c:766
+#: ../src/shell/e-shell-window-actions.c:976
 msgid "Page Set_up…"
 msgstr "Nastavitev _strani …"
 
-#: ../src/shell/e-shell-window-actions.c:768
+#: ../src/shell/e-shell-window-actions.c:978
 msgid "Change the page settings for your current printer"
 msgstr "Spremeni nastavitve strani pred tiskanjem"
 
-#: ../src/shell/e-shell-window-actions.c:956 ../src/shell/e-shell-window-actions.c:1048
+#: ../src/shell/e-shell-window-actions.c:1166 ../src/shell/e-shell-window-actions.c:1258
 #, c-format
 msgid "Switch to %s"
 msgstr "Preklopi na %s"
