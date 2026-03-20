@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-03-20 11:12+0000\n"
-"PO-Revision-Date: 2026-03-21 01:16+0300\n"
+"POT-Creation-Date: 2026-03-20 22:15+0000\n"
+"PO-Revision-Date: 2026-03-21 01:31+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -25279,19 +25279,19 @@ msgstr "_Tamamlanma tarihi olmayan Görevleri göster"
 msgid "Use smaller _font for time"
 msgstr "Zaman için daha küçük _yazı tipi kullan"
 
-# Çevirme!
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: This constructs: Show [spinner] days
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:81
 msgctxt "to-do-bar-n-days"
 msgid "Show"
 msgstr "Şunca gün gör:"
 
-# Çevirme
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: This constructs: Show [spinner] days
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:83
 msgctxt "to-do-bar-n-days"
 msgid "da_ys"
-msgstr " "
+msgstr " "
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:86
 msgid "Display Reminders window with _notifications"
